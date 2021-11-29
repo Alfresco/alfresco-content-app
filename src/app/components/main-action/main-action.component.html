@@ -1,5 +1,6 @@
 <ng-container *ngIf="(mainAction$ | async) as action">
     <ng-container [ngSwitch]="action.type">
+<<<<<<< HEAD
         <button
             *ngSwitchCase="actionTypes.button"
             mat-stroked-button
@@ -10,6 +11,29 @@
         >
             {{action.title | translate}}
         </button>
+=======
+        <ng-container *ngSwitchCase="actionTypes.button">
+            <button
+                *ngIf="expanded"
+                mat-stroked-button
+                (click)="runAction(action.actions.click)"
+                class="app-main-action-button"
+                data-automation-id="app-main-action-button"
+            >
+                {{action.title | translate}}
+            </button>
+
+            <button
+                *ngIf="expanded === false"
+                mat-icon-button
+                (click)="runAction(action.actions.click)"
+                data-automation-id="app-main-action-icon"
+                title="{{ action.title| translate }}"
+            >
+                <mat-icon class="main-action-menu-icon">{{action.icon}}</mat-icon>
+            </button>
+        </ng-container>
+>>>>>>> 7d7f9980 ([AAE-6309] Fix for displaying main action on collapsed sidenav)
     </ng-container>
 </ng-container>
 
