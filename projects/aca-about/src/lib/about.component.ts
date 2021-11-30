@@ -40,5 +40,4 @@ export class AboutComponent {
     this.dev = !devMode;
     this.pkg = pkg;
   }
-
 }
