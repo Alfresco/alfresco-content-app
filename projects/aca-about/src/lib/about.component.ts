@@ -23,75 +23,21 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ExtensionRef } from '@alfresco/adf-extensions';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { RepositoryInfo } from '@alfresco/js-api';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { AppExtensionService, ContentApiService } from '@alfresco/aca-shared';
-import { dependencies, version, name, commit } from 'package.json';
+import { Component, Inject } from '@angular/core';
+import { DEV_MODE_TOKEN } from './dev-mode.tokens';
+import pkg from 'package.json';
 
 @Component({
-  selector: 'app-about',
+  selector: 'app-about-page',
   templateUrl: './about.component.html',
-  styleUrls: ['./about.component.scss'],
-  encapsulation: ViewEncapsulation.None,
-  host: { class: 'app-about' }
+  styleUrls: ['./about.component.scss']
 })
-export class AboutComponent implements OnInit {
-  repository: RepositoryInfo;
-  extensions$: Observable<ExtensionRef[]>;
-  dependencyEntries: Array<{ name: string; version: string }>;
-  statusEntries: Array<{ property: string; value: string }>;
-  licenseEntries: Array<{ property: string; value: string }>;
-  adfRepoUrl = 'https://github.com/Alfresco/alfresco-ng2-components/commits';
-  appRepoUrl = !!commit ? `https://github.com/Alfresco/${name}/commits/${commit}` : null;
-  adfVersion = '';
-  appVersion = version;
+export class AboutComponent {
+  pkg: any;
+  dev = false;
 
-  constructor(private contentApi: ContentApiService, appExtensions: AppExtensionService) {
-    this.extensions$ = appExtensions.references$;
-  }
-
-  ngOnInit() {
-    this.dependencyEntries = Object.keys(dependencies).map((key) => {
-      if (key === '@alfresco/adf-core') {
-        this.adfVersion = dependencies[key].split('-')[0];
-        const adfCurrentCommit = dependencies[key].split('-')[1] || '';
-
-        if (adfCurrentCommit) {
-          this.adfRepoUrl = this.adfRepoUrl.concat('/', adfCurrentCommit);
-        } else {
-          this.adfRepoUrl = null;
-        }
-      }
-      return {
-        name: key,
-        version: dependencies[key]
-      };
-    });
-
-    this.contentApi
-      .getRepositoryInformation()
-      .pipe(map((node) => node.entry.repository))
-      .subscribe((repository) => {
-        this.repository = repository;
-
-        this.statusEntries = Object.keys(repository.status).map((key) => {
-          return {
-            property: key,
-            value: repository.status[key]
-          };
-        });
-
-        if (repository.license) {
-          this.licenseEntries = Object.keys(repository.license).map((key) => {
-            return {
-              property: key,
-              value: repository.license[key]
-            };
-          });
-        }
-      });
+  constructor(@Inject(DEV_MODE_TOKEN) devMode) {
+    this.dev = !devMode;
+    this.pkg = pkg;
   }
 }

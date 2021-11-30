@@ -30,6 +30,6 @@ import { AcaSettingsModule } from '@alfresco/aca-settings';
 import { environment } from '../environments/environment';
 
 @NgModule({
-  imports: [AosExtensionModule, ...(environment.devTools ? [AcaAboutModule, AcaSettingsModule] : [])]
+  imports: [AosExtensionModule, ...(environment.devTools ? [AcaSettingsModule] : []), AcaAboutModule.forRoot(environment.production)]
 })
 export class AppExtensionsModule {}

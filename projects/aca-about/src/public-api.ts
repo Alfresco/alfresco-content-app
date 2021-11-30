@@ -23,10 +23,5 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './lib/extension-list/extension-list.component';
-export * from './lib/license-list/license-list.component';
-export * from './lib/module-list/module-list.component';
-export * from './lib/package-list/package-list.component';
-export * from './lib/status-list/status-list.component';
 export * from './lib/about.component';
 export * from './lib/aca-about.module';
