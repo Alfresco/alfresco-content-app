@@ -5,6 +5,7 @@
                 *ngIf="expanded"
                 mat-stroked-button
                 (click)="runAction(action.actions.click)"
+                [disabled]="action.disabled"
                 class="app-main-action-button"
                 data-automation-id="app-main-action-button"
             >
@@ -15,6 +16,7 @@
                 *ngIf="expanded === false"
                 mat-icon-button
                 (click)="runAction(action.actions.click)"
+                [disabled]="action.disabled"
                 data-automation-id="app-main-action-icon"
                 title="{{ action.title| translate }}"
             >

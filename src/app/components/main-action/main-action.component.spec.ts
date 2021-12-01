@@ -88,6 +88,22 @@ describe('MainActionComponent', () => {
 
       expect(runExtensionActionSpy).toHaveBeenCalledWith(ACTION_CLICK);
     });
+
+    it('should not call button if main action is disabled', () => {
+      const disabledMainActionRef = getContentActionRef();
+      disabledMainActionRef.disabled = true;
+
+      spyOn(appExtensionService, 'getMainAction').and.returnValue(of(disabledMainActionRef));
+      const runAction = spyOn(mainActionComponent, 'runAction');
+
+      mainActionComponent.ngOnInit();
+      fixture.detectChanges();
+
+      const button = fixture.debugElement.nativeElement.querySelector(buttonQuery);
+      button.click();
+
+      expect(runAction).not.toHaveBeenCalled();
+    });
   });
 
   describe('component is displayed as icon', () => {
@@ -121,21 +137,21 @@ describe('MainActionComponent', () => {
 
       expect(runExtensionActionSpy).toHaveBeenCalledWith(ACTION_CLICK);
     });
-  });
 
-  it('should not call button if main action is disabled', () => {
-    const disabledMainActionRef = getContentActionRef();
-    disabledMainActionRef.disabled = true;
+    it('should not call icon if main action is disabled', () => {
+      const disabledMainActionRef = getContentActionRef();
+      disabledMainActionRef.disabled = true;
 
-    spyOn(appExtensionService, 'getMainAction').and.returnValue(of(disabledMainActionRef));
-    const runAction = spyOn(mainActionComponent, 'runAction');
+      spyOn(appExtensionService, 'getMainAction').and.returnValue(of(disabledMainActionRef));
+      const runAction = spyOn(mainActionComponent, 'runAction');
 
-    mainActionComponent.ngOnInit();
-    fixture.detectChanges();
+      mainActionComponent.ngOnInit();
+      fixture.detectChanges();
 
-    const button = fixture.debugElement.nativeElement.querySelector(`#${disabledMainActionRef.id}`);
-    button.click();
+      const button = fixture.debugElement.nativeElement.querySelector(iconQuery);
+      button.click();
 
-    expect(runAction).not.toHaveBeenCalled();
+      expect(runAction).not.toHaveBeenCalled();
+    });
   });
 });
