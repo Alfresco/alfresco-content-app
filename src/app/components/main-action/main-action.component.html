@@ -4,6 +4,7 @@
             <button
                 *ngIf="expanded"
                 mat-stroked-button
+                [id]="action.id"
                 (click)="runAction(action.actions.click)"
                 [disabled]="action.disabled"
                 class="app-main-action-button"
@@ -15,6 +16,7 @@
             <button
                 *ngIf="expanded === false"
                 mat-icon-button
+                [id]="action.id"
                 (click)="runAction(action.actions.click)"
                 [disabled]="action.disabled"
                 data-automation-id="app-main-action-icon"
