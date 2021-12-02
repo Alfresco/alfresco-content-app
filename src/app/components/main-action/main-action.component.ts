@@ -25,7 +25,7 @@
 
 import { AppExtensionService } from '@alfresco/aca-shared';
 import { ContentActionRef, ContentActionType } from '@alfresco/adf-extensions';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -35,6 +35,8 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./main-action.component.scss']
 })
 export class MainActionComponent implements OnInit, OnDestroy {
+  @Input() expanded: boolean;
+
   mainAction$: Observable<ContentActionRef>;
 
   actionTypes = ContentActionType;

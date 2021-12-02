@@ -28,9 +28,10 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { TranslateModule } from '@ngx-translate/core';
 import { MainActionComponent } from './main-action.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
-  imports: [CommonModule, MatButtonModule, TranslateModule.forChild()],
+  imports: [CommonModule, MatButtonModule, MatIconModule, TranslateModule.forChild()],
   exports: [MainActionComponent],
   declarations: [MainActionComponent]
 })

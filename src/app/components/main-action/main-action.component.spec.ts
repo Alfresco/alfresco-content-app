@@ -36,6 +36,9 @@ import { TranslateModule } from '@ngx-translate/core';
 
 describe('MainActionComponent', () => {
   let mainActionComponent: MainActionComponent;
+  const buttonQuery = '[data-automation-id="app-main-action-button"]';
+  const iconQuery = '[data-automation-id="app-main-action-icon"]';
+
   let fixture: ComponentFixture<MainActionComponent>;
   let appExtensionService: AppExtensionServiceMock;
 
@@ -52,47 +55,103 @@ describe('MainActionComponent', () => {
 
     fixture = TestBed.createComponent(MainActionComponent);
     mainActionComponent = fixture.componentInstance;
-
-    fixture.detectChanges();
   });
 
-  it('should display button if main action is configured', () => {
-    const button = fixture.debugElement.nativeElement.querySelector('.app-main-action-button');
-    expect(button).toBeTruthy();
-    expect(button.textContent.trim()).toBe(ACTION_TITLE);
+  describe('component is in expanded mode', () => {
+    beforeEach(async () => {
+      mainActionComponent.expanded = true;
+      fixture.detectChanges();
+    });
+
+    it('should display button if main action is configured', () => {
+      const buttonMainAction = fixture.debugElement.nativeElement.querySelector(buttonQuery);
+      const iconMainAction = fixture.debugElement.nativeElement.querySelector(iconQuery);
+
+      expect(iconMainAction).toBeFalsy();
+      expect(buttonMainAction.textContent.trim()).toBe(ACTION_TITLE);
+    });
+
+    it('should not display button if main action is not configured', () => {
+      spyOn(appExtensionService, 'getMainAction').and.returnValue(of(undefined));
+      mainActionComponent.ngOnInit();
+      fixture.detectChanges();
+
+      const button = fixture.debugElement.nativeElement.querySelector(buttonQuery);
+      expect(button).toBeFalsy();
+    });
+
+    it('should call extension action', () => {
+      const runExtensionActionSpy = spyOn(appExtensionService, 'runActionById');
+
+      const button = fixture.debugElement.nativeElement.querySelector(buttonQuery);
+      button.click();
+
+      expect(runExtensionActionSpy).toHaveBeenCalledWith(ACTION_CLICK);
+    });
+
+    it('should not call button if main action is disabled', () => {
+      const disabledMainActionRef = getContentActionRef();
+      disabledMainActionRef.disabled = true;
+
+      spyOn(appExtensionService, 'getMainAction').and.returnValue(of(disabledMainActionRef));
+      const runAction = spyOn(mainActionComponent, 'runAction');
+
+      mainActionComponent.ngOnInit();
+      fixture.detectChanges();
+
+      const button = fixture.debugElement.nativeElement.querySelector(buttonQuery);
+      button.click();
+
+      expect(runAction).not.toHaveBeenCalled();
+    });
   });
 
-  it('should not display button if main action is not configured', () => {
-    spyOn(appExtensionService, 'getMainAction').and.returnValue(of(undefined));
-    mainActionComponent.ngOnInit();
-    fixture.detectChanges();
+  describe('component is displayed as icon', () => {
+    beforeEach(async () => {
+      mainActionComponent.expanded = false;
+      fixture.detectChanges();
+    });
 
-    const button = fixture.debugElement.nativeElement.querySelector('.app-main-action-button');
-    expect(button).toBeFalsy();
-  });
+    it('should display icon if main action is configured', () => {
+      const buttonMainAction = fixture.debugElement.nativeElement.querySelector(buttonQuery);
+      const iconMainAction = fixture.debugElement.nativeElement.querySelector(iconQuery);
 
-  it('should call extension action', () => {
-    const runExtensionActionSpy = spyOn(appExtensionService, 'runActionById');
+      expect(buttonMainAction).toBeFalsy();
+      expect(iconMainAction).toBeTruthy();
+    });
 
-    const button = fixture.debugElement.nativeElement.querySelector('button');
-    button.click();
+    it('should not display icon if main action is not configured', () => {
+      spyOn(appExtensionService, 'getMainAction').and.returnValue(of(undefined));
+      mainActionComponent.ngOnInit();
+      fixture.detectChanges();
 
-    expect(runExtensionActionSpy).toHaveBeenCalledWith(ACTION_CLICK);
-  });
+      const mainAction = fixture.debugElement.nativeElement.querySelector(iconQuery);
+      expect(mainAction).toBeFalsy();
+    });
 
-  it('should not call button if main action is disabled', () => {
-    const disabledMainActionRef = getContentActionRef();
-    disabledMainActionRef.disabled = true;
+    it('should call extension action', () => {
+      const runExtensionActionSpy = spyOn(appExtensionService, 'runActionById');
 
-    spyOn(appExtensionService, 'getMainAction').and.returnValue(of(disabledMainActionRef));
-    const runAction = spyOn(mainActionComponent, 'runAction');
+      const mainAction = fixture.debugElement.nativeElement.querySelector(iconQuery);
+      mainAction.click();
 
-    mainActionComponent.ngOnInit();
-    fixture.detectChanges();
+      expect(runExtensionActionSpy).toHaveBeenCalledWith(ACTION_CLICK);
+    });
 
-    const button = fixture.debugElement.nativeElement.querySelector(`#${disabledMainActionRef.id}`);
-    button.click();
+    it('should not call icon if main action is disabled', () => {
+      const disabledMainActionRef = getContentActionRef();
+      disabledMainActionRef.disabled = true;
 
-    expect(runAction).not.toHaveBeenCalled();
+      spyOn(appExtensionService, 'getMainAction').and.returnValue(of(disabledMainActionRef));
+      const runAction = spyOn(mainActionComponent, 'runAction');
+
+      mainActionComponent.ngOnInit();
+      fixture.detectChanges();
+
+      const button = fixture.debugElement.nativeElement.querySelector(iconQuery);
+      button.click();
+
+      expect(runAction).not.toHaveBeenCalled();
+    });
   });
 });
