@@ -2,6 +2,11 @@
   "standalone": {
     "projectRoot": ".."
   },
+  "deploy": {
+    "releaseVersion": "",
+    "tagAliases": [],
+    "tagVersionSuffix": ""
+  },
   "scripts": {
     "prebuild": [
       {
