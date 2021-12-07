@@ -21,7 +21,7 @@
               "brace-expansion",
               "d"
             ],
-            "outputPath": "dist/app",
+            "outputPath": "dist/content-ce",
             "index": "src/index.html",
             "main": "src/main.ts",
             "tsConfig": "src/tsconfig.app.json",
