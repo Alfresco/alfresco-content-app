@@ -45,7 +45,6 @@ env:
     - ADMIN_PASSWORD=$ADMIN_PASSWORD_REMOTE
     - CONTENT_CE_DIST_PATH="./dist/content-ce"
     # APP CONFIG DEFAULTS
-    - APP_CONFIG_ECM_HOST={protocol}//{hostname}{:port}
     - APP_CONFIG_PROVIDER=ECM
     - APP_CONFIG_AUTH_TYPE=BASIC
     - APP_CONFIG_OAUTH2_HOST=http://localhost:4200/auth/realms/alfresco
