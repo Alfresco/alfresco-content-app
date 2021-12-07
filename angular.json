@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "app": {
+    "content-ce": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -179,20 +179,20 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "app:build",
+            "browserTarget": "content-ce:build",
             "port": 4200,
             "host": "0.0.0.0",
             "proxyConfig": "src/proxy.conf.js"
           },
           "configurations": {
             "production": {
-              "browserTarget": "app:build:production"
+              "browserTarget": "content-ce:build:production"
             },
             "e2e": {
-              "browserTarget": "app:build:e2e"
+              "browserTarget": "content-ce:build:e2e"
             },
             "release": {
-                "browserTarget": "app:build:release"
+              "browserTarget": "content-ce:build:release"
             }
           }
         },
@@ -200,7 +200,7 @@
           "builder": "@angular-custom-builders/lite-serve:dist-serve",
           "options": {
             "publicHost": "http://localhost:4200",
-            "browserTarget": "app:build"
+            "browserTarget": "content-ce:build"
           },
           "configurations": {
             "standalone": {
@@ -211,7 +211,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "app:build"
+            "browserTarget": "content-ce:build"
           }
         },
         "test": {
@@ -292,11 +292,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "./protractor.conf.js",
-            "devServerTarget": "app:serve"
+            "devServerTarget": "content-ce:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "app:serve:production"
+              "devServerTarget": "content-ce:serve:production"
             }
           }
         },
@@ -305,7 +305,7 @@
           "options": {
             "protractorConfig": "protractor.conf.js",
             "webdriverUpdate": false,
-            "devServerTarget": "app:lite-serve",
+            "devServerTarget": "content-ce:lite-serve",
             "invertGrep": true
           }
         },
@@ -490,7 +490,7 @@
       }
     }
   },
-  "defaultProject": "app",
+  "defaultProject": "content-ce",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "aca",
