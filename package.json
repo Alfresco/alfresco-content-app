@@ -11,18 +11,18 @@
     "prestart": "mkdir -p ./src/.tmp && npm run assemble-app-config && npm run validate-app-config",
     "start": "ng serve",
     "start:prod": "npm run validate-app-config && node --max-old-space-size=8192 node_modules/@angular/cli/bin/ng serve --prod --open",
-    "build.app": "node --max-old-space-size=8192 node_modules/@angular/cli/bin/ng build app",
+    "build.app": "node --max-old-space-size=8192 node_modules/@angular/cli/bin/ng build content-ce",
     "prebuild": "mkdir -p ./src/.tmp && cp ./src/app.config.json.tpl ./src/.tmp/app.config.json",
     "build": "ng build",
     "build.release": "npm run build.app -- --configuration=production,release",
     "test": "ng test",
-    "test:ci": "ng test adf-office-services-ext --watch=false && ng test app --code-coverage --watch=false",
+    "test:ci": "ng test adf-office-services-ext && ng test content-ce --code-coverage",
     "lint": "ng lint && npm run spellcheck && npm run e2e.typecheck",
     "update-webdriver": "./scripts/update-webdriver.sh",
     "e2e.typecheck": "tsc -p ./e2e/tsconfig.e2e.typecheck.json",
     "e2e": "npm run update-webdriver && protractor $SUITE",
     "spellcheck": "cspell '{src,e2e,projects}/**/*.ts'",
-    "inspect.bundle": "ng build app --prod --stats-json && npx webpack-bundle-analyzer dist/app/stats.json"
+    "inspect.bundle": "ng build content-ce --prod --stats-json && npx webpack-bundle-analyzer dist/content-ce/stats.json"
   },
   "private": true,
   "dependencies": {

@@ -70,24 +70,24 @@ jobs:
 
     - stage: Quality and Unit tests
       name: 'Unit tests: aos'
-      script: npm ci && ng test adf-office-services-ext --watch=false
+      script: npm ci && ng test adf-office-services-ext
       cache: false
 
     - stage: Quality and Unit tests
       name: 'Unit tests: aca-shared'
-      script: npm ci && ng test aca-shared --watch=false
+      script: npm ci && ng test aca-shared
       cache: false
 
     - stage: Quality and Unit tests
       name: 'Unit tests: aca-settings'
-      script: npm ci && ng test aca-settings --watch=false
+      script: npm ci && ng test aca-settings
       cache: false
 
     - stage: Quality and Unit tests
       name: 'Unit tests: ACA'
       script:
         - npm ci
-        - ng test app --watch=false
+        - ng test content-ce
       cache: false
 
     - stage: e2e
@@ -204,14 +204,14 @@ jobs:
 
     - stage: Publish Docker Registry
       name: Publish Docker Registry
-      script: ./scripts/travis/deploy/publish.sh "app" "$DOCKER_REPOSITORY_DOMAIN" "$QUAY_USERNAME" "$QUAY_PASSWORD"
+      script: ./scripts/travis/deploy/publish.sh "content-ce" "$DOCKER_REPOSITORY_DOMAIN" "$QUAY_USERNAME" "$QUAY_PASSWORD"
 
     - stage: Release Tag and Publish to Dockerhub
       name: Release Tag
       script: ./scripts/travis/release/git-tag.sh
 
     - name: Publish to Dockerhub
-      script: ./scripts/travis/deploy/publish.sh "app" "$DOCKER_HUB_REPOSITORY_DOMAIN" "$DOCKER_HUB_USERNAME" "$DOCKER_HUB_PASSWORD"
+      script: ./scripts/travis/deploy/publish.sh "content-ce" "$DOCKER_HUB_REPOSITORY_DOMAIN" "$DOCKER_HUB_USERNAME" "$DOCKER_HUB_PASSWORD"
 
     - stage: Trigger DW
       script: ./scripts/trigger-travis.sh --pro --branch $TRAVIS_BRANCH Alfresco alfresco-digital-workspace-app $TRAVIS_ACCESS_TOKEN
