@@ -44,6 +44,16 @@ env:
     - ADMIN_EMAIL=$ADMIN_EMAIL_REMOTE
     - ADMIN_PASSWORD=$ADMIN_PASSWORD_REMOTE
     - CONTENT_CE_DIST_PATH="./dist/content-ce"
+    # APP CONFIG DEFAULTS
+    - APP_CONFIG_PROVIDER=ECM
+    - APP_CONFIG_AUTH_TYPE=BASIC
+    - APP_CONFIG_OAUTH2_HOST=http://localhost:4200/auth/realms/alfresco
+    - APP_CONFIG_OAUTH2_CLIENTID=alfresco
+    - APP_CONFIG_OAUTH2_IMPLICIT_FLOW=true
+    - APP_CONFIG_OAUTH2_SILENT_LOGIN=true
+    - APP_CONFIG_OAUTH2_REDIRECT_LOGOUT=/
+    - APP_CONFIG_OAUTH2_REDIRECT_LOGIN=/
+    - APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI="{protocol}//{hostname}{:port}/assets/silent-refresh.html"
 
 jobs:
   include:
@@ -54,7 +64,7 @@ jobs:
     - stage: Quality and Unit tests
       name: 'Build (without animation)'
       before_script: npx @alfresco/adf-cli update-commit-sha --pointer "HEAD" --pathPackage "$(pwd)"
-      script: npm ci && npm run build.e2e
+      script: npm ci && npm run build -- --prod --configuration=e2e
       after_success: ./scripts/ci/utils/artifact-to-s3.sh -a $CONTENT_CE_DIST_PATH -o "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" || travis_terminate 1
       cache: false
 

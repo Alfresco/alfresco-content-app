@@ -3,6 +3,8 @@
 # compiled output
 /dist
 /tmp
+/.tmp
+/src/.tmp
 /out-tsc
 
 # dependencies

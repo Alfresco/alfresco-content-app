@@ -11,7 +11,7 @@
   ],
   "rules": {
     "prettier": true,
-    "adf-license-banner": [true, "**/*.ts", "./license-header.txt"],
+    "adf-license-banner": [true, "**/*.ts", "./license-header-aca.txt"],
     "ban": [
       true,
       "eval",
