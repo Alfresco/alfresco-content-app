@@ -71,7 +71,7 @@ module.exports = function(config) {
         ]
       }
     },
-    singleRun: false,
+    singleRun: true,
 
     captureTimeout: 180000,
     browserDisconnectTimeout: 180000,

@@ -70,24 +70,24 @@ jobs:
 
     - stage: Quality and Unit tests
       name: 'Unit tests: aos'
-      script: npm ci && ng test adf-office-services-ext --watch=false
+      script: npm ci && ng test adf-office-services-ext
       cache: false
 
     - stage: Quality and Unit tests
       name: 'Unit tests: aca-shared'
-      script: npm ci && ng test aca-shared --watch=false
+      script: npm ci && ng test aca-shared
       cache: false
 
     - stage: Quality and Unit tests
       name: 'Unit tests: aca-settings'
-      script: npm ci && ng test aca-settings --watch=false
+      script: npm ci && ng test aca-setting
       cache: false
 
     - stage: Quality and Unit tests
       name: 'Unit tests: ACA'
       script:
         - npm ci
-        - npm run test --watch=false
+        - npm run test
       cache: false
 
     - stage: e2e

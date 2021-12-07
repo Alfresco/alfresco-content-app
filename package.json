@@ -16,7 +16,7 @@
     "build": "ng build",
     "build.release": "npm run build.app -- --configuration=production,release",
     "test": "ng test",
-    "test:ci": "ng test adf-office-services-ext --watch=false && ng test content-ce --code-coverage --watch=false",
+    "test:ci": "ng test adf-office-services-ext && ng test content-ce --code-coverage",
     "lint": "ng lint && npm run spellcheck && npm run e2e.typecheck",
     "update-webdriver": "./scripts/update-webdriver.sh",
     "e2e.typecheck": "tsc -p ./e2e/tsconfig.e2e.typecheck.json",
