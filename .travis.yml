@@ -87,7 +87,7 @@ jobs:
       name: 'Unit tests: ACA'
       script:
         - npm ci
-        - npm run test
+        - ng test content-ce
       cache: false
 
     - stage: e2e
