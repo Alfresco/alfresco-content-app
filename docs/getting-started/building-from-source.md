@@ -29,11 +29,20 @@ The application runs at port `4200` by default, and should automatically open in
 
 ## Setting up environment variables
 
-You might need to set some environment variables to be able to run the local dev server. In the project's root folder, create a `.env` file (this is gitignored) with the following data:
+We need to set some environment variable to be able to run the local dev server. In the project root folder, create an `.env` file (this is gitignored) with the following data:
 
 ```bash
-API_CONTENT_HOST="http://your-url-here"
-```
+# App config settings
+APP_CONFIG_ECM_HOST="<url>"
+APP_CONFIG_OAUTH2_HOST="<url>"
+APP_CONFIG_PROVIDER="BPM"
+APP_CONFIG_AUTH_TYPE="BASIC"
+APP_CONFIG_OAUTH2_CLIENTID="clientid"
+APP_CONFIG_OAUTH2_IMPLICIT_FLOW=true
+APP_CONFIG_OAUTH2_SILENT_LOGIN=true
+APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI="{protocol}//{hostname}{:port}/assets/silent-refresh.html"
+APP_CONFIG_OAUTH2_REDIRECT_LOGIN=/
+APP_CONFIG_OAUTH2_REDIRECT_LOGOUT=/
 
 ## Proxy settings
 

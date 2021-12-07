@@ -14,7 +14,6 @@
     "build.app": "node --max-old-space-size=8192 node_modules/@angular/cli/bin/ng build app",
     "prebuild": "mkdir -p ./src/.tmp && cp ./src/app.config.json.tpl ./src/.tmp/app.config.json",
     "build": "ng build",
-    "build.e2e": "npm run build.app -- --prod --configuration=e2e",
     "build.release": "npm run build.app -- --configuration=production,release",
     "test": "ng test",
     "test:ci": "ng test adf-office-services-ext --watch=false && ng test app --code-coverage --watch=false",
