@@ -39,7 +39,11 @@
               },
               "src/assets",
               "src/favicon-96x96.png",
-              "src/app.config.json",
+              {
+                "input": "src/.tmp",
+                "output": "/",
+                "glob": "app.config.json"
+              },
               {
                 "glob": "**/*",
                 "input": "node_modules/@alfresco/adf-core/prebuilt-themes",
@@ -236,7 +240,11 @@
             "assets": [
               "src/assets",
               "src/favicon-96x96.png",
-              "src/app.config.json",
+              {
+                "input": "src/.tmp",
+                "output": "/",
+                "glob": "app.config.json"
+              },
               {
                 "glob": "**/*",
                 "input": "node_modules/@alfresco/adf-core/prebuilt-themes",
