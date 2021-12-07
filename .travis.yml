@@ -80,7 +80,7 @@ jobs:
 
     - stage: Quality and Unit tests
       name: 'Unit tests: aca-settings'
-      script: npm ci && ng test aca-setting
+      script: npm ci && ng test aca-settings
       cache: false
 
     - stage: Quality and Unit tests
