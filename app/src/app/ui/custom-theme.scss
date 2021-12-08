@@ -4,8 +4,76 @@
 
 @include mat-core();
 
-$custom-theme-primary: mat-palette($aca-primary-blue, A100);
-$custom-theme-accent: mat-palette($aca-accent-green, A200);
+
+// Based on https://codepen.io/xdesro/pen/WJBwyv
+@function tetrad($color) {
+  $hue: hue($color);
+  $saturation: saturation($color);
+  $lightness: lightness($color);
+  $tetrad: [hsl($hue, $saturation, $lightness),hsl($hue + 90 % 360, $saturation, $lightness),hsl($hue + 180 % 360, $saturation, $lightness),hsl($hue + 270 % 360, $saturation, $lightness)];
+
+  @return $hue;
+}
+
+@function multiply ($fore, $back) {
+  $red: red($back) * red($fore) / 255;
+  $green: green($back) * green($fore) / 255;
+  $blue: blue($back) * blue($fore) / 255;
+  @return rgb($red, $green, $blue);
+}
+
+@function makeColorPalette($color) {
+  $light: #fff;
+  $dark: multiply($color, $color);
+  $tetrad: tetrad($color);
+
+  $palette: (
+    50: mix($light, $color, 88%),
+    100: mix($light, $color, 70%),
+    200: mix($light, $color, 50%),
+    300: mix($light, $color, 30%),
+    400: mix($light, $color, 15%),
+    500: mix($light, $color, 0%),
+    600: mix($dark, $color, 13%),
+    700: mix($dark, $color, 30%),
+    800: mix($dark, $color, 46%),
+    900: mix($dark, $color, 75%),
+    A100: lighten(saturate(mix($dark, $color, 15%), 80%), 45.6%),
+    A200: lighten(saturate(mix($dark, $color, 15%), 80%), 35.6%),
+    A400: lighten(saturate(mix($dark, $color, 15%), 100%), 25.6%),
+    A700: lighten(saturate(mix($dark, $color, 15%), 100%), 20.5%),
+    contrast: (
+      50: $dark-primary-text, // text colors need to be calculated
+      100: $dark-primary-text,
+      200: $dark-primary-text,
+      300: $dark-primary-text,
+      400: $dark-primary-text,
+      500: $light-primary-text,
+      600: $light-primary-text,
+      700: $light-primary-text,
+      800: $light-primary-text,
+      900: $light-primary-text,
+      A100: $dark-primary-text,
+      A200: $light-primary-text,
+      A400: $light-primary-text,
+      A700: $light-primary-text,
+    )
+  );
+
+  @return $palette;
+}
+
+$custom-primary-color: #13602d; // Custom colors from modeling app
+$custom-accent-color: #3a0e0e;
+
+$custom-primary-color-palette: makeColorPalette($custom-primary-color);
+$custom-accent-color-palette: makeColorPalette($custom-accent-color);
+
+$custom-theme-primary: mat-palette($custom-primary-color-palette, A100);
+$custom-theme-accent: mat-palette($custom-accent-color-palette, A700);
+// $custom-theme-primary: mat-palette($aca-primary-blue, A100);
+// $custom-theme-accent: mat-palette($aca-accent-green, A200);
+
 $custom-theme-warn: mat-palette($aca-warn, A100);
 $custom-theme: mat-light-theme($custom-theme-primary, $custom-theme-accent, $custom-theme-warn);
 $foreground: map-get($custom-theme, foreground);
