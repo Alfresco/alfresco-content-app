@@ -1,0 +1,18 @@
+{
+  "extends": "../../../tsconfig.adf.json",
+  "compilerOptions": {
+      "outDir": "../out-tsc/spec",
+      "module": "commonjs"
+  },
+  "files": [
+      "src/test.ts",
+      "src/polyfills.ts"
+  ],
+  "include": [
+      "**/*.spec.ts",
+      "**/*.d.ts"
+  ],
+  "angularCompilerOptions": {
+      "skipTemplateCodegen": false
+  }
+}

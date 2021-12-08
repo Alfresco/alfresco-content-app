@@ -1,0 +1,13 @@
+{
+  "extends": "../../../tsconfig.adf.json",
+  "compilerOptions": {
+      "outDir": "../out-tsc/content-ce",
+  },
+"files": [
+  "src/main.ts",
+  "src/polyfills.ts"
+],
+"include": [
+  "apps/content-ce/src/**/*.d.ts"
+]
+}

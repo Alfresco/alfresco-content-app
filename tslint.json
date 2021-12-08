@@ -1,8 +1,8 @@
 {
   "rulesDirectory": [
-    "node_modules/codelyzer",
-    "node_modules/rxjs-tslint",
-    "node_modules/adf-tslint-rules"
+    "codelyzer",
+    "rxjs-tslint",
+    "adf-tslint-rules"
   ],
   "extends": [
     "tslint-plugin-prettier",
