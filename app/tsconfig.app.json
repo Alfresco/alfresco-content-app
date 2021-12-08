@@ -1,7 +1,7 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "outDir": "../out-tsc/modeling-ce",
+    "outDir": "../out-tsc/content-ce",
     "types": []
   },
   "files": ["src/main.ts", "src/polyfills.ts"],
