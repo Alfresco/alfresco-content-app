@@ -4,31 +4,27 @@
   "newProjectRoot": "projects",
   "projects": {
     "content-ce": {
-      "root": "",
-      "sourceRoot": "src",
+      "root": "app",
+      "sourceRoot": "app/src",
       "projectType": "application",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "aot": true,
-            "allowedCommonJsDependencies": [
-              "minimatch",
-              "minimatch-browser",
-              "moment-es6",
-              "superagent",
-              "event-emitter",
-              "brace-expansion",
-              "d"
-            ],
             "outputPath": "dist/content-ce",
-            "index": "src/index.html",
-            "main": "src/main.ts",
-            "tsConfig": "src/tsconfig.app.json",
-            "polyfills": "src/polyfills.ts",
+            "index": "app/src/index.html",
+            "main": "app/src/main.ts",
+            "tsConfig": "app/tsconfig.app.json",
+            "polyfills": "app/src/polyfills.ts",
+            "allowedCommonJsDependencies": [
+              "moment-es6",
+              "minimatch",
+              "zen-observable"
+            ],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "src/app/ui"
+                "app/src/app/ui"
               ]
             },
             "assets": [
@@ -37,10 +33,10 @@
                 "input": ".",
                 "output": "/"
               },
-              "src/assets",
-              "src/favicon-96x96.png",
+              "app/src/assets",
+              "app/src/favicon-96x96.png",
               {
-                "input": "src/.tmp",
+                "input": "app/.tmp",
                 "output": "/",
                 "glob": "app.config.json"
               },
@@ -96,10 +92,10 @@
               }
             ],
             "styles": [
-              "src/assets/fonts/material-icons/material-icons.css",
-              "src/assets/fonts/muli/muli.css",
+              "app/src/assets/fonts/material-icons/material-icons.css",
+              "app/src/assets/fonts/muli/muli.css",
               "node_modules/cropperjs/dist/cropper.min.css",
-              "src/styles.scss"
+              "app/src/styles.scss"
             ],
             "scripts": [
               "node_modules/pdfjs-dist/build/pdf.js",
@@ -120,8 +116,8 @@
               "buildOptimizer": true,
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "replace": "app/src/environments/environment.ts",
+                  "with": "app/src/environments/environment.prod.ts"
                 }
               ],
               "budgets": [
@@ -146,8 +142,8 @@
             "release": {
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.release.ts"
+                  "replace": "app/src/environments/environment.ts",
+                  "with": "app/src/environments/environment.release.ts"
                 }
               ]
             },
@@ -169,8 +165,8 @@
               "buildOptimizer": true,
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.e2e.ts"
+                  "replace": "app/src/environments/environment.ts",
+                  "with": "app/src/environments/environment.e2e.ts"
                 }
               ]
             }
@@ -181,8 +177,9 @@
           "options": {
             "browserTarget": "content-ce:build",
             "port": 4200,
-            "host": "0.0.0.0",
-            "proxyConfig": "src/proxy.conf.js"
+            "disableHostCheck": true,
+            "open": true,
+            "proxyConfig": "app/proxy.conf.js"
           },
           "configurations": {
             "production": {
@@ -217,31 +214,31 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "src/test.ts",
+            "main": "app/src/test.ts",
             "karmaConfig": "./karma.conf.js",
             "sourceMap": true,
-            "polyfills": "src/polyfills.ts",
+            "polyfills": "app/src/polyfills.ts",
             "stylePreprocessorOptions": {
               "includePaths": [
-                "src/app/ui"
+                "app/src/app/ui"
               ]
             },
-            "tsConfig": "src/tsconfig.spec.json",
+            "tsConfig": "app/tsconfig.spec.json",
             "scripts": [
               "node_modules/pdfjs-dist/build/pdf.js",
               "node_modules/pdfjs-dist/web/pdf_viewer.js",
               "node_modules/moment/min/moment.min.js"
             ],
             "styles": [
-              "src/assets/fonts/material-icons/material-icons.css",
-              "src/assets/fonts/muli/muli.css",
-              "src/styles.scss"
+              "app/src/assets/fonts/material-icons/material-icons.css",
+              "app/src/assets/fonts/muli/muli.css",
+              "app/src/styles.scss"
             ],
             "assets": [
-              "src/assets",
-              "src/favicon-96x96.png",
+              "app/src/assets",
+              "app/src/favicon-96x96.png",
               {
-                "input": "src/.tmp",
+                "input": "app/.tmp",
                 "output": "/",
                 "glob": "app.config.json"
               },
@@ -272,8 +269,8 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "src/tsconfig.app.json",
-              "src/tsconfig.spec.json"
+              "app/tsconfig.app.json",
+              "app/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**",

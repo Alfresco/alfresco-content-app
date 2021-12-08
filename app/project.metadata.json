@@ -1,0 +1,33 @@
+{
+  "standalone": {
+    "projectRoot": ".."
+  },
+  "deploy": {
+    "releaseVersion": "",
+    "tagAliases": [],
+    "tagVersionSuffix": ""
+  },
+  "scripts": {
+    "prebuild": [
+      {
+        "command": "./scripts/local/check-for-extra-node-modules"
+      },
+      {
+        "command": "mkdir",
+        "args": [
+          "-p",
+          "$THIS_PROJECT_ROOT_PATH/.tmp"
+        ]
+      },
+      {
+        "command": "cp",
+        "args": [
+          "$THIS_PROJECT_SOURCE_ROOT_PATH/app.config.json.tpl",
+          "$THIS_PROJECT_ROOT_PATH/.tmp/app.config.json"
+        ]
+      }
+    ],
+    "postinstall": [
+    ]
+  }
+}

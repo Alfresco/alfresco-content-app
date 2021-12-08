@@ -1,9 +1,9 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "outDir": "../out-tsc/app",
+    "outDir": "../out-tsc/modeling-ce",
     "types": []
   },
-  "files": ["main.ts", "polyfills.ts"],
+  "files": ["src/main.ts", "src/polyfills.ts"],
   "include": ["src/**/*.d.ts"]
 }
