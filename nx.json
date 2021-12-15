@@ -1,0 +1,35 @@
+{
+  "npmScope": "content-app",
+  "implicitDependencies": {
+    "angular.json": "*",
+    "package.json": "*",
+    "tsconfig.json": "*",
+    "tslint.json": "*",
+    "nx.json": "*",
+    "travis.yml": "*"
+  },
+  "projects": {
+    "content-ce": {
+      "tags": [
+        "scope:content-ce",
+        "type:app",
+        "category:content-ce"
+      ]
+    },
+    "adf-office-services-ext": {
+      "tags": ["scope:adf-office-services-ext", "type:lib", "category:content-ce"]
+    },
+    "aca-shared": {
+      "tags": ["scope:aca-shared", "type:lib", "category:content-ce"]
+    },
+    "aca-testing-shared": {
+      "tags": ["scope:aca-testing-shared", "type:lib", "category:content-ce"]
+    },
+    "aca-about": {
+      "tags": ["scope:aca-about", "type:lib", "category:content-ce"]
+    },
+    "aca-settings": {
+      "tags": ["scope:aca-settings", "type:lib", "category:content-ce"]
+    }
+  }
+}
