@@ -30,14 +30,8 @@ install: echo "no install"
 stages:
   - name: Quality and Unit tests
     if: type = cron || type = pull_request
-  - name: Publish Docker Registry
-    if: type = push
-  - name: Release Tag and Publish to Dockerhub
-    if: branch = master AND type = push
   - name: e2e
     if: type = cron || type = pull_request
-  - name: Trigger DW
-    if: branch = develop AND type = cron
 
 env:
   global:
@@ -202,20 +196,6 @@ jobs:
       after_script:
         - ./scripts/ci/job_hooks/after_e2e.sh
 
-    - stage: Publish Docker Registry
-      name: Publish Docker Registry
-      script: ./scripts/travis/deploy/publish.sh "content-ce" "$DOCKER_REPOSITORY_DOMAIN" "$QUAY_USERNAME" "$QUAY_PASSWORD"
-
-    - stage: Release Tag and Publish to Dockerhub
-      name: Release Tag
-      script: ./scripts/travis/release/git-tag.sh
-
-    - name: Publish to Dockerhub
-      script: ./scripts/travis/deploy/publish.sh "content-ce" "$DOCKER_HUB_REPOSITORY_DOMAIN" "$DOCKER_HUB_USERNAME" "$DOCKER_HUB_PASSWORD"
-
-    - stage: Trigger DW
-      script: ./scripts/trigger-travis.sh --pro --branch $TRAVIS_BRANCH Alfresco alfresco-digital-workspace-app $TRAVIS_ACCESS_TOKEN
-
 notifications:
   slack:
     on_pull_requests: false
@@ -227,4 +207,3 @@ notifications:
       - 'Repo `%{repository_slug}` *%{result}* build (<%{build_url}|#%{build_number}>) for commit (<%{compare_url}|%{commit}>) on branch `%{branch}`.'
       - 'Author: %{author} Execution time: *%{duration}*'
       - 'Message: %{message}'
-
