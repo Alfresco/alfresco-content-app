@@ -26,7 +26,11 @@
 import { RuleContext } from '@alfresco/adf-extensions';
 import { getFileExtension, supportedExtensions } from './utils';
 
-export function canOpenWithOffice(context: RuleContext): boolean {
+export interface AcaRuleContext extends RuleContext {
+  aosPlugin: boolean;
+}
+
+export function canOpenWithOffice(context: AcaRuleContext): boolean {
 
   if(!context.aosPlugin){
     return false;
