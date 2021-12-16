@@ -31,7 +31,6 @@ export interface AcaRuleContext extends RuleContext {
 }
 
 export function canOpenWithOffice(context: AcaRuleContext): boolean {
-
   if (!context.aosPlugin) {
     return false;
   }

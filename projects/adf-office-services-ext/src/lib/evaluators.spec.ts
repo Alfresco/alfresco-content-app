@@ -327,6 +327,5 @@ describe('evaluators', () => {
       };
       expect(canOpenWithOffice(context)).toBeFalsy();
     });
-
   });
 });
