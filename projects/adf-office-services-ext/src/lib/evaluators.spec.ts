@@ -29,6 +29,7 @@ describe('evaluators', () => {
   describe('canOpenWithOffice', () => {
     it('should return [false] if using SSO', () => {
       const context: any = {
+        aosPlugin: true,
         auth: {
           isOauth() {
             return true;
@@ -41,6 +42,7 @@ describe('evaluators', () => {
 
     it('should return [false] if no selection present', () => {
       const context: any = {
+        aosPlugin: true,
         selection: null
       };
 
@@ -49,6 +51,7 @@ describe('evaluators', () => {
 
     it('should return [false] if no file selected', () => {
       const context: any = {
+        aosPlugin: true,
         selection: {
           file: null
         }
@@ -59,6 +62,7 @@ describe('evaluators', () => {
 
     it('should return [false] if selected file has no entry', () => {
       const context: any = {
+        aosPlugin: true,
         selection: {
           file: {
             entry: null
@@ -71,6 +75,7 @@ describe('evaluators', () => {
 
     it('should return [false] if selected file has no properties', () => {
       const context: any = {
+        aosPlugin: true,
         selection: {
           file: {
             entry: {
@@ -85,6 +90,7 @@ describe('evaluators', () => {
 
     it('should return [false] if selected file is a record with containing aspect rma:declaredRecord', () => {
       const context: any = {
+        aosPlugin: true,
         selection: {
           file: {
             entry: {
@@ -104,6 +110,7 @@ describe('evaluators', () => {
 
     it('should return [false] if selected file is a record with containing aspect rma:record', () => {
       const context: any = {
+        aosPlugin: true,
         selection: {
           file: {
             entry: {
@@ -123,6 +130,7 @@ describe('evaluators', () => {
 
     it('should return [false] if selected file is a record 1', () => {
       const context: any = {
+        aosPlugin: true,
         selection: {
           file: {
             entry: {
@@ -137,6 +145,7 @@ describe('evaluators', () => {
 
     it('should return [false] if selected file is locked', () => {
       const context: any = {
+        aosPlugin: true,
         selection: {
           file: {
             entry: {
@@ -152,6 +161,7 @@ describe('evaluators', () => {
 
     it('should return [false] if selected file has no extension', () => {
       const context: any = {
+        aosPlugin: true,
         selection: {
           file: {
             entry: {
@@ -168,6 +178,7 @@ describe('evaluators', () => {
 
     it('should return [false] if extension is not supported', () => {
       const context: any = {
+        aosPlugin: true,
         selection: {
           file: {
             entry: {
@@ -184,6 +195,7 @@ describe('evaluators', () => {
 
     it('should return [false] if selected file has write lock', () => {
       const context: any = {
+        aosPlugin: true,
         selection: {
           file: {
             entry: {
@@ -202,6 +214,7 @@ describe('evaluators', () => {
 
     it('should return [false] if selected file has read-only lock', () => {
       const context: any = {
+        aosPlugin: true,
         selection: {
           file: {
             entry: {
@@ -220,6 +233,7 @@ describe('evaluators', () => {
 
     it('should return [false] if current user is not lock owner', () => {
       const context: any = {
+        aosPlugin: true,
         profile: {
           id: 'user1'
         },
@@ -244,6 +258,7 @@ describe('evaluators', () => {
 
     it('should return [false] if current user is lock owner', () => {
       const context: any = {
+        aosPlugin: true,
         profile: {
           id: 'user1'
         },
@@ -268,6 +283,7 @@ describe('evaluators', () => {
 
     it('should return [false] if permissions check is false', () => {
       const context: any = {
+        aosPlugin: true,
         selection: {
           file: {
             entry: {
@@ -287,6 +303,7 @@ describe('evaluators', () => {
 
     it('should return [true] if all checks succeed', () => {
       const context: any = {
+        aosPlugin: true,
         selection: {
           file: {
             entry: {
@@ -303,5 +320,14 @@ describe('evaluators', () => {
 
       expect(canOpenWithOffice(context)).toBeTruthy();
     });
+
+    it('should return [false] when `aosPlugin` property is false', () => {
+      const context: any = {
+        aosPlugin: false
+      };
+      expect(canOpenWithOffice(context)).toBeFalsy();
+    });
+
+
   });
 });

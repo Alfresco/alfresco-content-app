@@ -9,6 +9,7 @@ const APP_CONFIG_BPM_HOST = process.env.APP_CONFIG_BPM_HOST;
 const APP_CONFIG_OAUTH2_HOST = process.env.APP_CONFIG_OAUTH2_HOST || 'oauth-host-default-replaced-value';
 const APP_CONFIG_IDENTITY_HOST = process.env.APP_CONFIG_IDENTITY_HOST || 'identity-host-default-replaced-value';
 const APP_CONFIG_NOTIFICATION_LAST = parseInt(process.env.APP_CONFIG_NOTIFICATION_LAST, 10) || 2000;
+const APP_CONFIG_PLUGIN_AOS = process.env.APP_CONFIG_PLUGIN_AOS || true;
 
 const options = {
   apiHost: {

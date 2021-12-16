@@ -32,6 +32,7 @@ export class TestRuleContext implements RuleContext {
   permissions: NodePermissions;
   profile: ProfileState;
   repository: RepositoryInfo;
+  aosPlugin: boolean;
 
   selection: SelectionState = {
     count: 0,
