@@ -25,11 +25,11 @@
 
     &:not(.app-create-menu-secondary-button) {
       background-color: var(--theme-accent-color);
-      color: var(--theme-primary-color-default-contrast);
+      color: var(--theme-accent-color-default-contrast);
       margin-top: 0px;
 
       .mat-icon {
-        color: var(--theme-primary-color-default-contrast);
+        color: var(--theme-accent-color-default-contrast);
       }
     }
   }

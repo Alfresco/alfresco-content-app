@@ -1,13 +1,15 @@
 @import '~@angular/material/theming';
 @import './overrides/adf-style-fixes.theme';
-@import 'colors';
+@import './custom-theme-palettes';
 
 @include mat-core();
 
-$custom-theme-primary: mat-palette($aca-primary-blue, A100);
-$custom-theme-accent: mat-palette($aca-accent-green, A200);
-$custom-theme-warn: mat-palette($aca-warn, A100);
-$custom-theme: mat-light-theme($custom-theme-primary, $custom-theme-accent, $custom-theme-warn);
+$custom-theme: mat-light-theme(
+  $mat-primary-palette,
+  $mat-accent-palette,
+  $mat-warn-palette
+);
+
 $foreground: map-get($custom-theme, foreground);
 $background: map-get($custom-theme, background);
 $warn: map-get($custom-theme, warn);
