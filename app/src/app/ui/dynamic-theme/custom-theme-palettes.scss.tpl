@@ -1,8 +1,8 @@
 @import './colors';
 @import './dynamic-theme/custom-palette-creator.scss';
 
-$primary: ${primary};
-$accent: ${accent};
+$primary: ${PRIMARY_COLOR};
+$accent: ${ACCENT_COLOR};
 
 $custom-theme-primary-palette: createColorPalette($primary, 'primary');
 $custom-theme-accent-palette: createColorPalette($accent, 'accent');
