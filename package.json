@@ -7,7 +7,7 @@
     "postinstall": "ngcc",
     "ng": "ng",
     "validate-app-config": "ajv validate -s ./node_modules/@alfresco/adf-core/app.config.schema.json -d ./app/.tmp/app.config.json --errors=text --verbose",
-    "assemble-app-config": "envsub --env-file ./.env --env APP_CONFIG_ECM_HOST={protocol}//{hostname}{:port} --env APP_CONFIG_PROVIDER=ECM --env APP_CONFIG_AUTH_TYPE=BASIC --env APP_CONFIG_PLUGIN_AOS=true --env APP_CONFIG_OAUTH2_HOST=http://localhost:4200/auth/realms/alfresco --env APP_CONFIG_OAUTH2_CLIENTID=alfresco --env APP_CONFIG_OAUTH2_IMPLICIT_FLOW=true --env APP_CONFIG_OAUTH2_SILENT_LOGIN=true --env APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI={protocol}//{hostname}{:port}/assets/silent-refresh.html --env APP_CONFIG_OAUTH2_REDIRECT_LOGIN=/ --env APP_CONFIG_OAUTH2_REDIRECT_LOGOUT=/logout --all ./app/src/app.config.json.tpl ./app/.tmp/app.config.json",
+    "assemble-app-config": "envsub --env-file ./.env --env APP_CONFIG_ECM_HOST={protocol}//{hostname}{:port} --env APP_CONFIG_PROVIDER=ECM --env APP_CONFIG_AUTH_TYPE=BASIC --env APP_CONFIG_OAUTH2_HOST=http://localhost:4200/auth/realms/alfresco --env APP_CONFIG_OAUTH2_CLIENTID=alfresco --env APP_CONFIG_OAUTH2_IMPLICIT_FLOW=true --env APP_CONFIG_OAUTH2_SILENT_LOGIN=true --env APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI={protocol}//{hostname}{:port}/assets/silent-refresh.html --env APP_CONFIG_OAUTH2_REDIRECT_LOGIN=/ --env APP_CONFIG_OAUTH2_REDIRECT_LOGOUT=/logout --all ./app/src/app.config.json.tpl ./app/.tmp/app.config.json",
     "prestart": "mkdir -p ./app/.tmp && npm run assemble-app-config && npm run validate-app-config",
     "start": "ng serve",
     "start:prod": "npm run validate-app-config && node --max-old-space-size=8192 node_modules/@angular/cli/bin/ng serve --prod --open",
