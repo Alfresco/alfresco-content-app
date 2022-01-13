@@ -26,7 +26,7 @@
   },
   "private": true,
   "dependencies": {
-    "@alfresco/adf-content-services": "4.8.0-34027",
+    "@alfresco/adf-content-services": "4.8.0-34038",
     "@alfresco/adf-core": "4.8.0-34038",
     "@alfresco/adf-extensions": "4.8.0-34038",
     "@alfresco/js-api": "4.8.0-4074",
