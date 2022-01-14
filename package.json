@@ -28,7 +28,7 @@
   "dependencies": {
     "@alfresco/adf-content-services": "4.8.0-34039",
     "@alfresco/adf-core": "4.8.0-34039",
-    "@alfresco/adf-extensions": "4.8.0-34039",
+    "@alfresco/adf-extensions": "4.8.0-34045",
     "@alfresco/js-api": "4.8.0-4074",
     "@angular/animations": "10.0.4",
     "@angular/cdk": "^10.0.2",
