@@ -44,7 +44,8 @@ import {
   SetUserProfileAction,
   SnackbarErrorAction,
   CloseModalDialogsAction,
-  SetRepositoryInfoAction
+  SetRepositoryInfoAction,
+  getCustomCssPath
 } from '@alfresco/aca-shared/store';
 import { filter, takeUntil } from 'rxjs/operators';
 import { RouterExtensionService, AppService, ContentApiService } from '@alfresco/aca-shared';
@@ -96,6 +97,8 @@ export class AppComponent implements OnInit, OnDestroy {
     });
 
     this.loadAppSettings();
+
+    this.loadCustomCss();
 
     const { router, pageTitle } = this;
 
@@ -164,6 +167,7 @@ export class AppComponent implements OnInit, OnDestroy {
       headerTextColor: this.config.get<string>('headerTextColor', '#000000'),
       logoPath: this.config.get<string>('application.logo'),
       headerImagePath: this.config.get<string>('application.headerImagePath'),
+      customCssPath: this.config.get<string>('customCssPath'),
       sharedUrl: baseShareUrl
     };
 
@@ -194,5 +198,17 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     this.store.dispatch(new SnackbarErrorAction(message));
+  }
+
+  private loadCustomCss(): void {
+    this.store.select(getCustomCssPath).subscribe((cssPath) => {
+      if (cssPath) {
+        const cssLinkElement = document.createElement('link');
+        cssLinkElement.setAttribute('rel', 'stylesheet');
+        cssLinkElement.setAttribute('type', 'text/css');
+        cssLinkElement.setAttribute('href', cssPath);
+        document.head.appendChild(cssLinkElement);
+      }
+    });
   }
 }
