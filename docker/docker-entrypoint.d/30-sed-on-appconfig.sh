@@ -15,7 +15,6 @@ echo "replace APP_CONFIG_PROVIDER"
   sed -e "s/\"providers\": \".*\"/\"providers\": \"${APP_CONFIG_PROVIDER}\"/g" \
     -i "${NGINX_ENVSUBST_OUTPUT_DIR}/app.config.json"
 fi
-fi
 
 if [ -n "${APP_CONFIG_IDENTITY_HOST}" ]; then
 echo "replace APP_CONFIG_IDENTITY_HOST"
