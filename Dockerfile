@@ -17,6 +17,8 @@ RUN apk update && apk upgrade
 USER 101
 
 ARG PROJECT_NAME
+ARG PROVIDER="ECM"
+ARG AUTH_TYPE="BASIC"
 
 COPY docker/default.conf.template /etc/nginx/templates/
 COPY docker/docker-entrypoint.d/* /docker-entrypoint.d/

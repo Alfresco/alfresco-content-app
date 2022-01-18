@@ -8,7 +8,7 @@ docker rmi -f $DOCKER_IMAGE_REPO
 docker build --build-arg PROJECT_NAME=$PROJECT_NAME -t $DOCKER_IMAGE_REPO .
 echo "http://localhost:${HOST_PORT}${BASE_PATH}"
 docker run --rm -it \
-  --env APP_CONFIG_PROVIDER="ECM" \
+  --env APP_CONFIG_PROVIDER=$APP_CONFIG_PROVIDER \
   --env BASE_PATH=$BASE_PATH \
   --env APP_CONFIG_AUTH_TYPE=$APP_CONFIG_AUTH_TYPE \
   --env APP_CONFIG_IDENTITY_HOST=$APP_CONFIG_IDENTITY_HOST \
