@@ -82,7 +82,7 @@
     "dotenv": "^8.2.0",
     "dotenv-expand": "^5.1.0",
     "envsub": "^4.0.7",
-    "http-server": "^14.0.0",
+    "http-server": "^14.1.0",
     "husky": "^7.0.2",
     "inquirer": "^8.1.5",
     "jasmine-core": "^3.8.0",
