@@ -1,0 +1,52 @@
+---
+Title: Changelog for alfresco-content-app v2.8.0
+---
+
+# Changelog
+
+- [b97c6f8e](https://github.com/Alfresco/alfresco-content-app/commit/b97c6f8e) Update branch for ADF 34105 and JS-API 4.8.0-4074 [ci:force] (#2414)
+- [ba5756fb](https://github.com/Alfresco/alfresco-content-app/commit/ba5756fb) Build(deps-dev): Bump cspell from 5.15.1 to 5.16.0 (#2412)
+- [68cbd496](https://github.com/Alfresco/alfresco-content-app/commit/68cbd496) Build(deps-dev): Bump lint-staged from 12.1.7 to 12.3.1 (#2411)
+- [fc544fe5](https://github.com/Alfresco/alfresco-content-app/commit/fc544fe5) Build(deps-dev): Bump karma from 6.3.9 to 6.3.12 (#2410)
+- [4b205573](https://github.com/Alfresco/alfresco-content-app/commit/4b205573) Build(deps-dev): Bump dotenv from 8.2.0 to 14.3.0 (#2409)
+- [6d8dadd8](https://github.com/Alfresco/alfresco-content-app/commit/6d8dadd8) Build(deps): Bump follow-redirects from 1.13.2 to 1.14.7 (#2396)
+- [75fcf917](https://github.com/Alfresco/alfresco-content-app/commit/75fcf917) Build(deps-dev): Bump jasmine-core from 3.8.0 to 4.0.0 (#2388)
+- [92f14ea8](https://github.com/Alfresco/alfresco-content-app/commit/92f14ea8) Build(deps-dev): Bump winston from 3.3.3 to 3.4.0 (#2398)
+- [32856fe2](https://github.com/Alfresco/alfresco-content-app/commit/32856fe2) Update branch for ADF 34086 and JS-API 4.8.0-4074 [ci:force] (#2406)
+- [2c58bcaf](https://github.com/Alfresco/alfresco-content-app/commit/2c58bcaf) Build(deps-dev): Bump dotenv-expand from 5.1.0 to 6.0.1 (#2407)
+- [58cbae3b](https://github.com/Alfresco/alfresco-content-app/commit/58cbae3b) Build(deps): Bump log4js from 6.3.0 to 6.4.0 (#2405)
+- [08aaa61b](https://github.com/Alfresco/alfresco-content-app/commit/08aaa61b) Build(deps-dev): Bump http-server from 14.0.0 to 14.1.0 (#2399)
+- [c5a912d9](https://github.com/Alfresco/alfresco-content-app/commit/c5a912d9) Update branch for ADF 34055 and JS-API 4.8.0-4074 [ci:force] (#2401)
+- [c3de2da2](https://github.com/Alfresco/alfresco-content-app/commit/c3de2da2) add missing PROVIDER env variable for docker (#2404)
+- [37acccd6](https://github.com/Alfresco/alfresco-content-app/commit/37acccd6) [AAE-6811] Load custom theme (#2402)
+- [652cf176](https://github.com/Alfresco/alfresco-content-app/commit/652cf176) Call the npm build to create replace app.config with envsub (#2403)
+- [ab64357e](https://github.com/Alfresco/alfresco-content-app/commit/ab64357e) Fix the node version for being able to generate license
+- [56318b7a](https://github.com/Alfresco/alfresco-content-app/commit/56318b7a) Update branch for ADF 34038 and JS-API 4.8.0-4074 [ci:force] (#2397)
+- [77a2f29c](https://github.com/Alfresco/alfresco-content-app/commit/77a2f29c) Build(deps-dev): Bump lint-staged from 12.1.2 to 12.1.7 (#2392)
+- [d7db035b](https://github.com/Alfresco/alfresco-content-app/commit/d7db035b) Build(deps-dev): Bump cspell from 5.13.1 to 5.15.1 (#2391)
+- [bc63bd95](https://github.com/Alfresco/alfresco-content-app/commit/bc63bd95) Update branch for ADF 34027 and JS-API 4.8.0-4045 [ci:force] (#2395)
+- [18e8eae6](https://github.com/Alfresco/alfresco-content-app/commit/18e8eae6) Update branch for ADF 33975 and JS-API 4.8.0-4045 [ci:force] (#2381)
+- [0ba1e160](https://github.com/Alfresco/alfresco-content-app/commit/0ba1e160) [AAE-6826] Create SCSS template (#2385)
+- [e8d4cba4](https://github.com/Alfresco/alfresco-content-app/commit/e8d4cba4) Update branch for ADF 33907 and JS-API 4.8.0-3998 [ci:force] (#2370)
+- [114e2154](https://github.com/Alfresco/alfresco-content-app/commit/114e2154) Fix the typo (#2378)
+- [3cb6152a](https://github.com/Alfresco/alfresco-content-app/commit/3cb6152a) [AAE-6455] Rename the structure to be compliant with nx (#2376)
+- [4d1dab60](https://github.com/Alfresco/alfresco-content-app/commit/4d1dab60) [AAE-6555] Rename the app into content-ce (#2375)
+- [056ff4b0](https://github.com/Alfresco/alfresco-content-app/commit/056ff4b0) [AAE-6455] use tpl format instead of json and replace values (#2374)
+- [c78e3382](https://github.com/Alfresco/alfresco-content-app/commit/c78e3382) Rename the dist folder to content-ce and use env (#2373)
+- [482d5719](https://github.com/Alfresco/alfresco-content-app/commit/482d5719) [AAE-6309] Adding missing ids to main action (#2371)
+- [16835ce1](https://github.com/Alfresco/alfresco-content-app/commit/16835ce1) [AAE-6309] Fix for displaying main action on collapsed menu (#2369)
+- [3ed95559](https://github.com/Alfresco/alfresco-content-app/commit/3ed95559) [ACA-4382]  Use adf about and make it available in prod mode (#2361)
+- [fb0eb63f](https://github.com/Alfresco/alfresco-content-app/commit/fb0eb63f) Update branch for ADF 33893 and JS-API 4.8.0-3998 [ci:force] (#2368)
+- [84a7bcb4](https://github.com/Alfresco/alfresco-content-app/commit/84a7bcb4) Update branch for ADF 33875 and JS-API 4.8.0-3998 [ci:force] (#2362)
+- [4b06fc39](https://github.com/Alfresco/alfresco-content-app/commit/4b06fc39) Build(deps-dev): Bump chalk from 4.1.2 to 5.0.0 (#2364)
+- [20bd56ff](https://github.com/Alfresco/alfresco-content-app/commit/20bd56ff) Build(deps-dev): Bump selenium-webdriver from 4.0.0-alpha.8 to 4.1.0 (#2365)
+- [4c2ec18e](https://github.com/Alfresco/alfresco-content-app/commit/4c2ec18e) Build(deps-dev): Bump lint-staged from 11.1.1 to 12.1.2 (#2366)
+- [70c94591](https://github.com/Alfresco/alfresco-content-app/commit/70c94591) Build(deps-dev): Bump cspell from 5.12.6 to 5.13.1 (#2367)
+- [2a3c67ee](https://github.com/Alfresco/alfresco-content-app/commit/2a3c67ee) Update branch for ADF 33831 and JS-API 4.7.0 [ci:force] (#2355)
+- [7c285e62](https://github.com/Alfresco/alfresco-content-app/commit/7c285e62) Build(deps-dev): Bump karma from 6.3.8 to 6.3.9 (#2358)
+- [a7690744](https://github.com/Alfresco/alfresco-content-app/commit/a7690744) Build(deps-dev): Bump tsconfig-paths from 3.11.0 to 3.12.0 (#2357)
+- [0a8a3895](https://github.com/Alfresco/alfresco-content-app/commit/0a8a3895) [AAE-6309] Cleaning process references (#2360)
+- [60446dc3](https://github.com/Alfresco/alfresco-content-app/commit/60446dc3) [AAE-6309] New process start button (#2353)
+- [e9d5ab75](https://github.com/Alfresco/alfresco-content-app/commit/e9d5ab75) Update branch for ADF 33821 and JS-API 4.7.0 [ci:force] (#2352)
+- [45a3efef](https://github.com/Alfresco/alfresco-content-app/commit/45a3efef) ACA-4526 avoid pushing a &#39;master&#39; tag to dockerhub next time. [skip ci]
+
