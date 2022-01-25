@@ -113,7 +113,7 @@
     "tslint-plugin-prettier": "^2.3.0",
     "typescript": "3.9.8",
     "webdriver-manager": "12.1.8",
-    "winston": "^3.3.3"
+    "winston": "^3.4.0"
   },
   "lint-staged": {
     "*.{ts,js,css,scss,html}": [
