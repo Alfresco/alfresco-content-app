@@ -303,12 +303,5 @@ describe('evaluators', () => {
 
       expect(canOpenWithOffice(context)).toBeTruthy();
     });
-
-    it('should return [false] when `aosPlugin` property is false', () => {
-      const context: any = {
-        aosPlugin: false
-      };
-      expect(canOpenWithOffice(context)).toBeFalsy();
-    });
   });
 });
