@@ -106,7 +106,6 @@ export class AppExtensionService implements RuleContext {
   profile: ProfileState;
   repository: RepositoryInfo;
   withCredentials: boolean;
-  aosPlugin: boolean;
 
   references$: Observable<ExtensionRef[]>;
 
@@ -177,7 +176,6 @@ export class AppExtensionService implements RuleContext {
     };
 
     this.withCredentials = this.appConfig.get<boolean>('auth.withCredentials', false);
-    this.aosPlugin = this.appConfig.get<boolean>('plugins.aosPlugin', true);
 
     if (config.features && config.features.viewer) {
       this.viewerRules = (config.features.viewer['rules'] as ViewerRules) || {};

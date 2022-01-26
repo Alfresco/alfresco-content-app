@@ -26,15 +26,7 @@
 import { RuleContext } from '@alfresco/adf-extensions';
 import { getFileExtension, supportedExtensions } from './utils';
 
-export interface AcaRuleContext extends RuleContext {
-  aosPlugin: boolean;
-}
-
-export function canOpenWithOffice(context: AcaRuleContext): boolean {
-  if (!context.aosPlugin) {
-    return false;
-  }
-
+export function canOpenWithOffice(context: RuleContext): boolean {
   if (context.navigation && context.navigation.url && context.navigation.url.startsWith('/trashcan')) {
     return false;
   }
