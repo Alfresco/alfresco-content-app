@@ -185,6 +185,7 @@ export class UserActions {
         }
       }
     } catch (error) {
+      debugger
       this.handleError('User Actions - deleteSites failed : ', error);
     }
   }

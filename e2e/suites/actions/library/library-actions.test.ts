@@ -105,34 +105,29 @@ describe('Library actions', () => {
   afterAll(async () => {
     await adminApiActions.login();
     await adminApiActions.deleteSites([
-      sitePublic1Admin,
       siteSearchPublic1Admin,
-      sitePublic2Admin,
-      sitePublic3Admin,
-      sitePublic4Admin,
-      sitePublic5Admin,
-      sitePublic6Admin,
-      sitePublic7Admin,
-      sitePublic8Admin,
       siteSearchPublic2Admin,
       siteSearchPublic3Admin,
       siteSearchPublic4Admin,
-      siteModerated1Admin,
-      siteModerated2Admin,
       siteSearchModerated1Admin,
       siteSearchModerated2Admin
     ]);
 
+    // await apis.user.sites.deleteSite(siteSearchForDelete);
+
     await userActions.login(username, username);
-    await userActions.deleteSites([sitePublicUser]);
+    await userActions.deleteSites([siteSearchForDelete]);
     await userActions.emptyTrashcan();
   });
 
   describe('Join a public library', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await adminApiActions.sites.createSite(sitePublic1Admin);
       await apis.user.favorites.addFavoriteById('site', sitePublic1Admin);
-      done();
+    });
+
+    afterAll(async () => {
+      await adminApiActions.sites.deleteSite(sitePublic1Admin);
     });
 
     it('[C290105] from Favorite Libraries', async () => {
@@ -148,7 +143,6 @@ describe('Library actions', () => {
       await searchInput.checkLibraries();
       await searchInput.searchFor(siteSearchPublic1Admin);
       await dataTable.waitForBody();
-
       await dataTable.selectItem(siteSearchPublic1Admin);
       await BrowserActions.click(toolbar.joinButton);
 
@@ -157,11 +151,14 @@ describe('Library actions', () => {
   });
 
   describe('Join a moderated library', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await adminApiActions.sites.createSite(siteModerated1Admin, SITE_VISIBILITY.MODERATED);
       await apis.user.favorites.addFavoriteById('site', siteModerated1Admin);
       await apis.user.queries.waitForSites(siteSearchModerated1Admin, { expect: 1 });
-      done();
+    });
+
+    afterAll(async () => {
+      await adminApiActions.sites.deleteSite(siteModerated1Admin);
     });
 
     it('[C290109] from Favorite Libraries', async () => {
@@ -179,7 +176,6 @@ describe('Library actions', () => {
       await searchInput.checkLibraries();
       await searchInput.searchFor(siteSearchModerated1Admin);
       await dataTable.waitForBody();
-
       await dataTable.selectItem(siteSearchModerated1Admin);
       await BrowserActions.click(toolbar.joinButton);
 
@@ -190,12 +186,13 @@ describe('Library actions', () => {
   });
 
   describe('Leave a library', () => {
-    beforeAll(async (done) => {
-      await adminApiActions.sites.createSite(sitePublic2Admin);
-      await adminApiActions.sites.createSite(sitePublic3Admin);
-      await adminApiActions.sites.createSite(sitePublic4Admin);
-      await adminApiActions.sites.createSite(sitePublic5Admin);
-      await apis.user.sites.createSite(sitePublicUser);
+    const adminSites = [sitePublic2Admin, sitePublic3Admin, sitePublic4Admin, sitePublic5Admin];
+    const userSites = [sitePublicUser];
+
+    beforeAll(async () => {
+      await adminApiActions.sites.createSites(adminSites);
+      await apis.user.sites.createSites(userSites);
+
       await apis.user.favorites.addFavoriteById('site', sitePublic3Admin);
       await adminApiActions.sites.addSiteMember(sitePublic2Admin, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
       await adminApiActions.sites.addSiteMember(sitePublic3Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
@@ -203,7 +200,11 @@ describe('Library actions', () => {
       await adminApiActions.sites.addSiteMember(sitePublic4Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
       await adminApiActions.sites.addSiteMember(sitePublic5Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
       await apis.user.queries.waitForSites(siteSearchPublic2Admin, { expect: 1 });
-      done();
+    });
+
+    afterAll(async () => {
+      await adminApiActions.deleteSites(adminSites);
+      await apis.user.sites.deleteSites(userSites);
     });
 
     it('[C290106] from My Libraries', async () => {
@@ -280,13 +281,16 @@ describe('Library actions', () => {
   });
 
   describe('Cancel join', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await adminApiActions.sites.createSite(siteModerated2Admin, SITE_VISIBILITY.MODERATED);
       await apis.user.favorites.addFavoriteById('site', siteModerated2Admin);
       await apis.user.sites.requestToJoin(siteModerated2Admin);
       await apis.user.sites.requestToJoin(siteSearchModerated2Admin);
       await apis.user.queries.waitForSites(siteSearchModerated2Admin, { expect: 1 });
-      done();
+    });
+
+    afterAll(async () => {
+      await adminApiActions.sites.deleteSite(siteModerated2Admin);
     });
 
     it('[C290108] from Favorite Libraries', async () => {
@@ -317,11 +321,14 @@ describe('Library actions', () => {
   });
 
   describe('Mark library as favorite', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await adminApiActions.sites.createSite(sitePublic6Admin);
       await adminApiActions.sites.addSiteMember(sitePublic6Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
       await apis.user.queries.waitForSites(siteSearchPublic3Admin, { expect: 1 });
-      done();
+    });
+
+    afterAll(async () => {
+      await adminApiActions.sites.deleteSite(sitePublic6Admin);
     });
 
     it('[C289974] from My Libraries', async () => {
@@ -349,17 +356,23 @@ describe('Library actions', () => {
   });
 
   describe('Remove library from favorites', () => {
-    beforeAll(async (done) => {
-      await adminApiActions.sites.createSite(sitePublic7Admin);
-      await adminApiActions.sites.createSite(sitePublic8Admin);
+    const adminSites = [sitePublic7Admin, sitePublic8Admin];
+
+    beforeAll(async () => {
+      await adminApiActions.sites.createSites(adminSites);
+
       await apis.user.favorites.addFavoriteById('site', sitePublic7Admin);
       await apis.user.favorites.addFavoriteById('site', sitePublic8Admin);
+
       await apis.user.favorites.addFavoriteById('site', siteSearchPublic4Admin);
       await adminApiActions.sites.addSiteMember(sitePublic7Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
       await adminApiActions.sites.addSiteMember(sitePublic8Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
       await adminApiActions.sites.addSiteMember(siteSearchPublic4Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
       await apis.user.queries.waitForSites(siteSearchPublic4Admin, { expect: 1 });
-      done();
+    });
+
+    afterAll(async () => {
+      await adminApiActions.sites.deleteSites(adminSites);
     });
 
     it('[C289975] from My Libraries', async () => {
@@ -395,12 +408,18 @@ describe('Library actions', () => {
     });
   });
 
-  describe('Delete a library', () => {
+  fdescribe('Delete a library', () => {
+    const userSites = [siteForDelete1, siteSearchForDelete];
+
     beforeAll(async (done) => {
-      await apis.user.sites.createSite(siteForDelete1);
-      await apis.user.sites.createSite(siteForDelete2);
+      await apis.user.sites.createSites(userSites);
       await apis.user.queries.waitForSites(siteSearchForDelete, { expect: 1 });
       done();
+    });
+
+    afterAll(async () => {
+      // await userActions.deleteSites(userSites);
+      await apis.user.sites.deleteSites(userSites);
     });
 
     it('[C289988] from My Libraries', async () => {
