@@ -23,17 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  AdminActions,
-  UserActions,
-  SITE_VISIBILITY,
-  SITE_ROLES,
-  LoginPage,
-  BrowsingPage,
-  Utils,
-  ConfirmDialog,
-  RepoClient
-} from '@alfresco/aca-testing-shared';
+import { AdminActions, SITE_VISIBILITY, SITE_ROLES, LoginPage, BrowsingPage, Utils, ConfirmDialog, RepoClient } from '@alfresco/aca-testing-shared';
 import { BrowserActions } from '@alfresco/adf-testing';
 
 describe('Library actions', () => {
@@ -75,7 +65,6 @@ describe('Library actions', () => {
 
   const confirmDialog = new ConfirmDialog();
   const adminApiActions = new AdminActions();
-  const userActions = new UserActions();
 
   beforeAll(async (done) => {
     await adminApiActions.createUser({ username });
@@ -86,7 +75,6 @@ describe('Library actions', () => {
     await adminApiActions.sites.createSite(siteSearchPublic4Admin);
     await adminApiActions.sites.createSite(siteSearchModerated1Admin, SITE_VISIBILITY.MODERATED);
     await adminApiActions.sites.createSite(siteSearchModerated2Admin, SITE_VISIBILITY.MODERATED);
-    await apis.user.sites.createSite(siteSearchForDelete);
 
     await loginPage.loginWith(username);
     done();
@@ -112,12 +100,6 @@ describe('Library actions', () => {
       siteSearchModerated1Admin,
       siteSearchModerated2Admin
     ]);
-
-    // await apis.user.sites.deleteSite(siteSearchForDelete);
-
-    await userActions.login(username, username);
-    await userActions.deleteSites([siteSearchForDelete]);
-    await userActions.emptyTrashcan();
   });
 
   describe('Join a public library', () => {
@@ -408,18 +390,12 @@ describe('Library actions', () => {
     });
   });
 
-  fdescribe('Delete a library', () => {
-    const userSites = [siteForDelete1, siteSearchForDelete];
+  describe('Delete a library', () => {
+    const userSites = [siteForDelete1, siteForDelete2, siteSearchForDelete];
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await apis.user.sites.createSites(userSites);
       await apis.user.queries.waitForSites(siteSearchForDelete, { expect: 1 });
-      done();
-    });
-
-    afterAll(async () => {
-      // await userActions.deleteSites(userSites);
-      await apis.user.sites.deleteSites(userSites);
     });
 
     it('[C289988] from My Libraries', async () => {
