@@ -24,7 +24,6 @@
  */
 
 import { browser, by, ExpectedConditions, protractor } from 'protractor';
-// import { browser, by, protractor } from 'protractor';
 import { Component } from '../component';
 import { waitForPresence, waitElement } from '../../utilities/utils';
 import { BrowserActions, TestElement } from '@alfresco/adf-testing';
@@ -33,7 +32,6 @@ export class SearchInput extends Component {
   searchButton = this.component.element(by.css('.app-search-button'));
   searchContainer = browser.element(by.css('.app-search-container'));
   searchControl = browser.element(by.css('.app-search-control'));
-  // searchInput = browser.element(by.css(`input[id='app-control-input']`));
 
   searchInput = TestElement.byCss('input[id="app-control-input"]');
 
@@ -154,7 +152,7 @@ export class SearchInput extends Component {
   }
 
   async searchFor(text: string) {
-    await browser.wait(ExpectedConditions.elementToBeClickable(this.searchInput.elementFinder), 3500);
+    await browser.wait(ExpectedConditions.elementToBeClickable(this.searchInput.elementFinder), 1000);
     await this.searchInput.typeText(text);
     await this.searchInput.elementFinder.sendKeys(protractor.Key.ENTER);
   }
