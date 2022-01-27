@@ -66,18 +66,16 @@ describe('Library actions', () => {
   const confirmDialog = new ConfirmDialog();
   const adminApiActions = new AdminActions();
 
-  beforeAll(async (done) => {
+  const publicAdminSites = [siteSearchPublic1Admin, siteSearchPublic2Admin, siteSearchPublic3Admin, siteSearchPublic4Admin];
+  const moderatedSites = [siteSearchModerated1Admin, siteSearchModerated2Admin];
+
+  beforeAll(async () => {
     await adminApiActions.createUser({ username });
 
-    await adminApiActions.sites.createSite(siteSearchPublic1Admin);
-    await adminApiActions.sites.createSite(siteSearchPublic2Admin);
-    await adminApiActions.sites.createSite(siteSearchPublic3Admin);
-    await adminApiActions.sites.createSite(siteSearchPublic4Admin);
-    await adminApiActions.sites.createSite(siteSearchModerated1Admin, SITE_VISIBILITY.MODERATED);
-    await adminApiActions.sites.createSite(siteSearchModerated2Admin, SITE_VISIBILITY.MODERATED);
+    await adminApiActions.sites.createSites(publicAdminSites);
+    await adminApiActions.sites.createSites(moderatedSites, SITE_VISIBILITY.MODERATED);
 
     await loginPage.loginWith(username);
-    done();
   });
 
   beforeEach(async () => {
@@ -92,14 +90,7 @@ describe('Library actions', () => {
 
   afterAll(async () => {
     await adminApiActions.login();
-    await adminApiActions.deleteSites([
-      siteSearchPublic1Admin,
-      siteSearchPublic2Admin,
-      siteSearchPublic3Admin,
-      siteSearchPublic4Admin,
-      siteSearchModerated1Admin,
-      siteSearchModerated2Admin
-    ]);
+    await adminApiActions.deleteSites([...publicAdminSites, ...moderatedSites]);
   });
 
   describe('Join a public library', () => {
