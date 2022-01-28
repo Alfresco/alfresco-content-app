@@ -23,10 +23,10 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { browser, by, ExpectedConditions, protractor } from 'protractor';
+import { browser, by, protractor } from 'protractor';
 import { Component } from '../component';
 import { waitForPresence, waitElement } from '../../utilities/utils';
-import { BrowserActions, TestElement } from '@alfresco/adf-testing';
+import { BrowserActions, BrowserVisibility, TestElement } from '@alfresco/adf-testing';
 
 export class SearchInput extends Component {
   searchButton = this.component.element(by.css('.app-search-button'));
@@ -152,7 +152,7 @@ export class SearchInput extends Component {
   }
 
   async searchFor(text: string) {
-    await browser.wait(ExpectedConditions.elementToBeClickable(this.searchInput.elementFinder), 1000);
+    await BrowserVisibility.waitUntilElementIsClickable(this.searchInput.elementFinder, 1000);
     await this.searchInput.typeText(text);
     await this.searchInput.elementFinder.sendKeys(protractor.Key.ENTER);
   }
