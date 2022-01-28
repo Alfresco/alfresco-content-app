@@ -48,21 +48,17 @@ describe('Upload files', () => {
     done();
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async () => {
     await page.clickPersonalFilesAndWait();
     await dataTable.doubleClickOnRowByName(folder1);
     await page.sidenav.openNewMenu();
     await page.sidenav.menu.uploadFilesInput.sendKeys(`${__dirname}/upload-file.test.ts`);
-    done();
+    await page.sidenav.closeNewMenu();
+    await page.uploadFilesDialog.uploadDialog.isVisible();
   });
 
-  // afterEach(async () => {
-  //   await page.closeUploadDialog();
-  // });
-
-  afterAll(async (done) => {
+  afterAll(async () => {
     await apis.user.nodes.deleteNodeById(folder1Id);
-    done();
   });
 
   it('Upload a file', async () => {
@@ -79,28 +75,28 @@ describe('Upload files', () => {
   it('[T14752051] Minimize / maximize the upload dialog ', async () => {
     await page.uploadFilesDialog.minimizeButton.click();
     await expect(await page.uploadFilesDialog.uploadedFiles.waitNotVisible()).toBe(true);
-  
+
     // await expect(await page.uploadFilesDialog.maximizeButton.isVisible()).toBe(true);
     await page.uploadFilesDialog.maximizeButton.click();
     await expect(await page.uploadFilesDialog.uploadedFiles.waitVisible()).toBe(true);
   });
 
-  fdescribe('[T14752053]', () => {
-    fit('Upload history is expunged on browser refresh ', async () => {
+  describe('[T14752053]', () => {
+    it('Upload history is expunged on browser refresh ', async () => {
       await page.refresh();
-      await expect(await page.uploadFilesDialog.uploadDialog.isVisible()).toBe(false);
+      const isUploadDialogVivible = await page.uploadFilesDialog.uploadDialog.isVisible();
+
+      await expect(isUploadDialogVivible).toBe(false);
     });
 
-
-    fit('Upload history is expunged on browser login/logout ', async () => {
+    it('Upload history is expunged on browser login/logout ', async () => {
       await page.signOut();
       await loginPage.loginWith(username);
-      await expect(await page.uploadFilesDialog.uploadDialog.isVisible()).toBe(false);
+      const isUploadDialogVivible = await page.uploadFilesDialog.uploadDialog.isVisible();
 
+      await expect(isUploadDialogVivible).toBe(false);
     });
-  })
-
-  
+  });
 
   it('Upload dialog remains fixed in the browser when user performs other actions in parallel ', async () => {
     await expect(page.uploadFilesDialog.uploadDialog.isVisible()).toBe(true);
@@ -116,7 +112,7 @@ describe('Upload files', () => {
 
     await page.clickRecentFiles();
     await expect(page.uploadFilesDialog.uploadDialog.isVisible()).toBe(true);
-    
+
     await page.clickFavorites();
     await expect(page.uploadFilesDialog.uploadDialog.isVisible()).toBe(true);
 
