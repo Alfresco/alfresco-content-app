@@ -43,12 +43,6 @@ export abstract class Page {
   genericErrorIcon = this.byCss('aca-generic-error .mat-icon');
   genericErrorTitle = this.byCss('.generic-error__title');
 
-  // uploadDialog = TestElement.byCss('.adf-upload-dialog');
-  // closeUploadButton = TestElement.byCss('.adf-upload-dialog [id="adf-upload-dialog-close"]');
-  // minimizeButton = new TestElement(this.uploadDialog.elementFinder.element(by.css('mat-icon[title="Minimize"]')));
-  // maximizeButton = new TestElement(this.uploadDialog.elementFinder.element(by.css('mat-icon[title="Maximize"]')));
-  // uploadedFiles = TestElement.byCss('adf-file-uploading-row__name');
-
   uploadFilesDialog = new UploadFilesDialog();
 
   constructor(public url: string = '') {}

@@ -48,13 +48,14 @@ describe('Upload files', () => {
     done();
   });
 
-  beforeEach(async () => {
+  beforeEach(async (done) => {
     await page.clickPersonalFilesAndWait();
     await dataTable.doubleClickOnRowByName(folder1);
     await page.sidenav.openNewMenu();
     await page.sidenav.menu.uploadFilesInput.sendKeys(`${__dirname}/upload-file.test.ts`);
     await page.sidenav.closeNewMenu();
     await page.uploadFilesDialog.uploadDialog.isVisible();
+    done();
   });
 
   afterAll(async () => {
@@ -92,13 +93,13 @@ describe('Upload files', () => {
     it('Upload history is expunged on browser login/logout ', async () => {
       await page.signOut();
       await loginPage.loginWith(username);
-      const isUploadDialogVivible = await page.uploadFilesDialog.uploadDialog.isVisible();
+      const isUploadDialogVisible = await page.uploadFilesDialog.uploadDialog.isVisible();
 
-      await expect(isUploadDialogVivible).toBe(false);
+      await expect(isUploadDialogVisible).toBe(false);
     });
   });
 
-  it('Upload dialog remains fixed in the browser when user performs other actions in parallel ', async () => {
+  it('[T14752052] Upload dialog remains fixed in the browser when user performs other actions in parallel ', async () => {
     await expect(page.uploadFilesDialog.uploadDialog.isVisible()).toBe(true);
 
     await page.clickPersonalFiles();
