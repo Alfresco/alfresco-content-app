@@ -77,7 +77,6 @@ describe('Upload files', () => {
     await page.uploadFilesDialog.minimizeButton.click();
     await expect(await page.uploadFilesDialog.uploadedFiles.waitNotVisible()).toBe(true);
 
-    // await expect(await page.uploadFilesDialog.maximizeButton.isVisible()).toBe(true);
     await page.uploadFilesDialog.maximizeButton.click();
     await expect(await page.uploadFilesDialog.uploadedFiles.waitVisible()).toBe(true);
   });
