@@ -34,3 +34,4 @@ export * from './password-dialog';
 export * from './select-template-dialog';
 export * from './share-dialog';
 export * from './upload-new-version-dialog';
+export * from './upload-files-dialog';

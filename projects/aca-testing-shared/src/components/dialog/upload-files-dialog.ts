@@ -26,25 +26,24 @@
 import { TestElement } from '@alfresco/adf-testing';
 
 export class UploadFilesDialog {
-    uploadDialog = TestElement.byCss('.adf-upload-dialog');
-    closeUploadButton = TestElement.byCss('.adf-upload-dialog [id="adf-upload-dialog-close"]');
-    minimizeButton = TestElement.byCss('.adf-upload-dialog mat-icon[title="Minimize"]');
-    maximizeButton = TestElement.byCss('.adf-upload-dialog mat-icon[title="Maximize"]');
-    uploadedFiles = TestElement.byCss('.adf-file-uploading-row__name');
+  uploadDialog = TestElement.byCss('.adf-upload-dialog');
+  closeUploadButton = TestElement.byCss('.adf-upload-dialog [id="adf-upload-dialog-close"]');
+  minimizeButton = TestElement.byCss('.adf-upload-dialog mat-icon[title="Minimize"]');
+  maximizeButton = TestElement.byCss('.adf-upload-dialog mat-icon[title="Maximize"]');
+  uploadedFiles = TestElement.byCss('.adf-file-uploading-row__name');
 
-    async isUploadDialogOpen(): Promise<boolean> {
-        try {
-            await this.uploadDialog.isVisible();
-            return true;
-        } catch (error) {
-            return false;
-        }
+  async isUploadDialogOpen(): Promise<boolean> {
+    try {
+      await this.uploadDialog.isVisible();
+      return true;
+    } catch (error) {
+      return false;
     }
+  }
 
-    async closeUploadDialog(): Promise<void> {
-        if (await this.isUploadDialogOpen()) {
-            this.closeUploadButton.click();
-        }
+  async closeUploadDialog(): Promise<void> {
+    if (await this.isUploadDialogOpen()) {
+      this.closeUploadButton.click();
     }
-
+  }
 }

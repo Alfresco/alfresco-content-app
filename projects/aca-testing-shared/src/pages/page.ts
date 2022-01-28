@@ -24,7 +24,7 @@
  */
 
 import { browser, by, ElementFinder } from 'protractor';
-import {  BrowserVisibility, Logger } from '@alfresco/adf-testing';
+import { BrowserVisibility, Logger } from '@alfresco/adf-testing';
 import { APP_ROUTES, USE_HASH_STRATEGY } from './../configs';
 import { Utils, waitElement, waitForPresence, isPresentAndDisplayed } from '../utilities/utils';
 import { Header } from '../components';
@@ -83,7 +83,7 @@ export abstract class Page {
   }
 
   async isUploadDialogOpen(): Promise<boolean> {
-    return await this.uploadFilesDialog.isUploadDialogOpen();
+    return this.uploadFilesDialog.isUploadDialogOpen();
   }
 
   async closeUploadDialog(): Promise<void> {
