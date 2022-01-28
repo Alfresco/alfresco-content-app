@@ -24,10 +24,11 @@
  */
 
 import { browser, by, ElementFinder } from 'protractor';
-import { BrowserActions, BrowserVisibility, Logger } from '@alfresco/adf-testing';
+import {  BrowserVisibility, Logger } from '@alfresco/adf-testing';
 import { APP_ROUTES, USE_HASH_STRATEGY } from './../configs';
 import { Utils, waitElement, waitForPresence, isPresentAndDisplayed } from '../utilities/utils';
 import { Header } from '../components';
+import { UploadFilesDialog } from '../components/dialog/upload-files-dialog';
 
 export abstract class Page {
   appRoot = 'app-root';
@@ -42,8 +43,13 @@ export abstract class Page {
   genericErrorIcon = this.byCss('aca-generic-error .mat-icon');
   genericErrorTitle = this.byCss('.generic-error__title');
 
-  uploadDialog = this.byCss('.adf-upload-dialog');
-  closeUploadButton = this.byCss('.adf-upload-dialog [id="adf-upload-dialog-close"]');
+  // uploadDialog = TestElement.byCss('.adf-upload-dialog');
+  // closeUploadButton = TestElement.byCss('.adf-upload-dialog [id="adf-upload-dialog-close"]');
+  // minimizeButton = new TestElement(this.uploadDialog.elementFinder.element(by.css('mat-icon[title="Minimize"]')));
+  // maximizeButton = new TestElement(this.uploadDialog.elementFinder.element(by.css('mat-icon[title="Maximize"]')));
+  // uploadedFiles = TestElement.byCss('adf-file-uploading-row__name');
+
+  uploadFilesDialog = new UploadFilesDialog();
 
   constructor(public url: string = '') {}
 
@@ -62,8 +68,9 @@ export abstract class Page {
   }
 
   async signOut(): Promise<void> {
-    await new Header().openMoreMenu();
-    await new Header().menu.clickMenuItem('Sign out');
+    const header = new Header();
+    await header.openMoreMenu();
+    await header.menu.clickMenuItem('Sign out');
     await BrowserVisibility.waitUntilElementIsPresent(browser.element(by.css('[class*="login-content"] input#username')));
   }
 
@@ -82,13 +89,11 @@ export abstract class Page {
   }
 
   async isUploadDialogOpen(): Promise<boolean> {
-    return isPresentAndDisplayed(this.uploadDialog);
+    return await this.uploadFilesDialog.isUploadDialogOpen();
   }
 
   async closeUploadDialog(): Promise<void> {
-    if (await this.isUploadDialogOpen()) {
-      await BrowserActions.click(this.closeUploadButton);
-    }
+    await this.uploadFilesDialog.closeUploadDialog();
   }
 
   async refresh(): Promise<void> {

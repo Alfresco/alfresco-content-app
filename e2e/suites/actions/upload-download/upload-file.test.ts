@@ -50,8 +50,15 @@ describe('Upload files', () => {
 
   beforeEach(async (done) => {
     await page.clickPersonalFilesAndWait();
+    await dataTable.doubleClickOnRowByName(folder1);
+    await page.sidenav.openNewMenu();
+    await page.sidenav.menu.uploadFilesInput.sendKeys(`${__dirname}/upload-file.test.ts`);
     done();
   });
+
+  // afterEach(async () => {
+  //   await page.closeUploadDialog();
+  // });
 
   afterAll(async (done) => {
     await apis.user.nodes.deleteNodeById(folder1Id);
@@ -59,10 +66,61 @@ describe('Upload files', () => {
   });
 
   it('Upload a file', async () => {
-    await dataTable.doubleClickOnRowByName(folder1);
-    await page.sidenav.openNewMenu();
-    await page.sidenav.menu.uploadFilesInput.sendKeys(`${__dirname}/upload-file.test.ts`);
+    const uploadedFiles = await dataTable.isItemPresent('upload-file.test.ts');
+    expect(uploadedFiles).toBe(true, 'file not uploaded');
+  });
 
-    expect(await dataTable.isItemPresent('upload-file.test.ts')).toBe(true, 'file not uploaded');
+  it('[T14752064] Close the upload dialog ', async () => {
+    await page.uploadFilesDialog.closeUploadButton.click();
+    await page.uploadFilesDialog.uploadDialog.isPresent();
+    await expect(await page.uploadFilesDialog.uploadDialog.isVisible()).toBe(false);
+  });
+
+  it('[T14752051] Minimize / maximize the upload dialog ', async () => {
+    await page.uploadFilesDialog.minimizeButton.click();
+    await expect(await page.uploadFilesDialog.uploadedFiles.waitNotVisible()).toBe(true);
+  
+    // await expect(await page.uploadFilesDialog.maximizeButton.isVisible()).toBe(true);
+    await page.uploadFilesDialog.maximizeButton.click();
+    await expect(await page.uploadFilesDialog.uploadedFiles.waitVisible()).toBe(true);
+  });
+
+  fdescribe('[T14752053]', () => {
+    fit('Upload history is expunged on browser refresh ', async () => {
+      await page.refresh();
+      await expect(await page.uploadFilesDialog.uploadDialog.isVisible()).toBe(false);
+    });
+
+
+    fit('Upload history is expunged on browser login/logout ', async () => {
+      await page.signOut();
+      await loginPage.loginWith(username);
+      await expect(await page.uploadFilesDialog.uploadDialog.isVisible()).toBe(false);
+
+    });
+  })
+
+  
+
+  it('Upload dialog remains fixed in the browser when user performs other actions in parallel ', async () => {
+    await expect(page.uploadFilesDialog.uploadDialog.isVisible()).toBe(true);
+
+    await page.clickPersonalFiles();
+    await expect(page.uploadFilesDialog.uploadDialog.isVisible()).toBe(true);
+
+    await page.clickFileLibraries();
+    await expect(page.uploadFilesDialog.uploadDialog.isVisible()).toBe(true);
+
+    await page.clickSharedFiles();
+    await expect(page.uploadFilesDialog.uploadDialog.isVisible()).toBe(true);
+
+    await page.clickRecentFiles();
+    await expect(page.uploadFilesDialog.uploadDialog.isVisible()).toBe(true);
+    
+    await page.clickFavorites();
+    await expect(page.uploadFilesDialog.uploadDialog.isVisible()).toBe(true);
+
+    await page.clickTrash();
+    await expect(page.uploadFilesDialog.uploadDialog.isVisible()).toBe(true);
   });
 });
