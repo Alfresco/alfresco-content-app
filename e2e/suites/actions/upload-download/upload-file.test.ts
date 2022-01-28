@@ -84,9 +84,9 @@ describe('Upload files', () => {
   describe('[T14752053]', () => {
     it('Upload history is expunged on browser refresh ', async () => {
       await page.refresh();
-      const isUploadDialogVivible = await page.uploadFilesDialog.uploadDialog.isVisible();
+      const isUploadDialogVisible = await page.uploadFilesDialog.uploadDialog.isVisible();
 
-      await expect(isUploadDialogVivible).toBe(false);
+      await expect(isUploadDialogVisible).toBe(false);
     });
 
     it('Upload history is expunged on browser login/logout ', async () => {
