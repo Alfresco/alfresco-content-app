@@ -42,7 +42,7 @@ describe('Extensions - Metadata presets', () => {
 
   let fileId: string;
 
-  const properties_tab = {
+  const PROPERTIES_TAB = {
     title: 'Properties',
     component: 'app.components.tabs.metadata'
   };
@@ -91,7 +91,7 @@ describe('Extensions - Metadata presets', () => {
     await BrowserActions.click(page.toolbar.viewDetailsButton);
     await infoDrawer.waitForInfoDrawerToOpen();
 
-    await infoDrawer.clickTab(properties_tab.title);
+    await infoDrawer.clickTab(PROPERTIES_TAB.title);
     await BrowserActions.click(metadataCard.expandButton);
     await metadataCard.waitForFirstExpansionPanel();
 

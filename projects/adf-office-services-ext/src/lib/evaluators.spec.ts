@@ -30,9 +30,7 @@ describe('evaluators', () => {
     it('should return [false] if using SSO', () => {
       const context: any = {
         auth: {
-          isOauth() {
-            return true;
-          }
+          isOauth: () => true
         }
       };
 

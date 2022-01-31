@@ -266,15 +266,11 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "app/tsconfig.app.json",
-              "app/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "package.json"
+            "lintFilePatterns": [
+              "app/**/*.ts",
+              "app/**/*.html"
             ]
           }
         }
@@ -307,14 +303,11 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "e2e/tsconfig.e2e.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "package.json"
+            "lintFilePatterns": [
+              "e2e/**/*.ts",
+              "e2e/**/*.html"
             ]
           }
         }
@@ -347,14 +340,11 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "projects/adf-office-services-ext/tsconfig.lib.json",
-              "projects/adf-office-services-ext/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "projects/adf-office-services-ext/**/*.ts",
+              "projects/adf-office-services-ext/**/*.html"
             ]
           }
         }

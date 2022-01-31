@@ -177,12 +177,10 @@ function showInfoDrawerPreview(state: AppState) {
   return newState;
 }
 
-function toggleDocumentDisplayMode(state: AppState) {
-  return {
+const toggleDocumentDisplayMode = (state: AppState) => ({
     ...state,
     documentDisplayMode: state.documentDisplayMode === 'list' ? 'gallery' : 'list'
-  };
-}
+  });
 
 function updateSelectedNodes(state: AppState, action: SetSelectedNodesAction): AppState {
   const newState = { ...state };
@@ -201,10 +199,10 @@ function updateSelectedNodes(state: AppState, action: SetSelectedNodesAction): A
     last = nodes[nodes.length - 1];
 
     if (nodes.length === 1) {
-      file = nodes.find((entity: any) => {
+      file = nodes.find((entity: any) =>
         // workaround Shared
-        return !!(entity.entry.isFile || entity.entry.nodeId || entity.entry.sharedByUser);
-      });
+         !!(entity.entry.isFile || entity.entry.nodeId || entity.entry.sharedByUser)
+      );
       folder = nodes.find((entity: any) => entity.entry.isFolder);
     }
   }
@@ -232,26 +230,20 @@ function updateSelectedNodes(state: AppState, action: SetSelectedNodesAction): A
   return newState;
 }
 
-function setInfoDrawer(state: AppState, action: SetInfoDrawerStateAction) {
-  return {
+const setInfoDrawer = (state: AppState, action: SetInfoDrawerStateAction) => ({
     ...state,
     infoDrawerOpened: action.payload
-  };
-}
+  });
 
-function setInfoDrawerPreview(state: AppState, action: SetInfoDrawerPreviewStateAction) {
-  return {
+const setInfoDrawerPreview = (state: AppState, action: SetInfoDrawerPreviewStateAction) => ({
     ...state,
     infoDrawerPreview: action.payload
-  };
-}
+  });
 
-function setInfoDrawerAspect(state: AppState, action: SetInfoDrawerMetadataAspectAction) {
-  return {
+const setInfoDrawerAspect = (state: AppState, action: SetInfoDrawerMetadataAspectAction) => ({
     ...state,
     infoDrawerMetadataAspect: action.payload
-  };
-}
+  });
 
 function updateRepositoryStatus(state: AppState, action: SetRepositoryInfoAction) {
   const newState = { ...state };

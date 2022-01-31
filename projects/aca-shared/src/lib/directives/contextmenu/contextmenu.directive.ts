@@ -37,7 +37,7 @@ export class ContextActionsDirective implements OnInit, OnDestroy {
   private execute$: Subject<any> = new Subject();
   onDestroy$: Subject<boolean> = new Subject<boolean>();
 
-  // tslint:disable-next-line:no-input-rename
+  // eslint-disable-next-line
   @Input('acaContextEnable')
   enabled = true;
 
@@ -93,7 +93,7 @@ export class ContextActionsDirective implements OnInit, OnDestroy {
     if (el.classList.contains(className)) {
       return el;
     }
-    // tslint:disable-next-line:curly
+    // eslint-disable-next-line curly
     while ((el = el.parentElement) && !el.classList.contains(className));
     return el;
   }

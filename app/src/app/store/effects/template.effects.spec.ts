@@ -185,7 +185,7 @@ describe('TemplateEffects', () => {
   }));
 
   it('should resolve error with current node value when updateNode api fails', fakeAsync(() => {
-    const test_node = {
+    const TEST_NODE = {
       entry: {
         id: 'test-node-id',
         properties: {
@@ -194,7 +194,7 @@ describe('TemplateEffects', () => {
         }
       }
     } as NodeEntry;
-    copyNodeSpy.and.returnValue(of(test_node));
+    copyNodeSpy.and.returnValue(of(TEST_NODE));
 
     updateNodeSpy.and.returnValue(
       Promise.reject({
@@ -202,10 +202,10 @@ describe('TemplateEffects', () => {
       })
     );
 
-    store.dispatch(new CreateFromTemplate(test_node.entry));
+    store.dispatch(new CreateFromTemplate(TEST_NODE.entry));
     tick();
 
-    expect(store.dispatch['calls'].mostRecent().args[0]).toEqual(new CreateFromTemplateSuccess(test_node.entry));
+    expect(store.dispatch['calls'].mostRecent().args[0]).toEqual(new CreateFromTemplateSuccess(TEST_NODE.entry));
   }));
 
   it('should close dialog on create template success', fakeAsync(() => {
@@ -215,9 +215,9 @@ describe('TemplateEffects', () => {
   }));
 
   it('should should reload content on create template success', fakeAsync(() => {
-    const test_node = { id: 'test-node-id' } as Node;
-    store.dispatch(new CreateFromTemplateSuccess(test_node));
+    const TEST_NODE = { id: 'test-node-id' } as Node;
+    store.dispatch(new CreateFromTemplateSuccess(TEST_NODE));
     tick();
-    expect(appHookService.reload.next).toHaveBeenCalledWith(test_node);
+    expect(appHookService.reload.next).toHaveBeenCalledWith(TEST_NODE);
   }));
 });

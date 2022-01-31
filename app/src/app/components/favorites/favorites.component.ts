@@ -75,9 +75,7 @@ export class FavoritesComponent extends PageComponent implements OnInit {
     const { isFolder, id } = favorite;
 
     // TODO: rework as it will fail on non-English setups
-    const isSitePath = (path: PathInfo): boolean => {
-      return path && path.elements && path.elements.some(({ name }: PathElementEntity) => name === 'Sites');
-    };
+    const isSitePath = (path: PathInfo): boolean => path && path.elements && path.elements.some(({ name }: PathElementEntity) => name === 'Sites');
 
     if (isFolder) {
       this.contentApi

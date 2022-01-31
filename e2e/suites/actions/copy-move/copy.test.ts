@@ -477,7 +477,7 @@ describe('Copy content', () => {
       }));
   });
 
-  async function copyFile(fileName: string, location: string = '', destination: string, doBefore?: Function) {
+  async function copyFile(fileName: string, location: string = '', destination: string, doBefore?: () => void ) {
     if (doBefore) {
       await doBefore();
     }
@@ -497,7 +497,7 @@ describe('Copy content', () => {
     expect(await dataTable.isItemPresent(fileName)).toBe(true, `${fileName} not present in ${destination} folder`);
   }
 
-  async function copyFolderWithContent(folderName: string, location: string = '', destination: string, doBefore?: Function) {
+  async function copyFolderWithContent(folderName: string, location: string = '', destination: string, doBefore?: () => void) {
     if (doBefore) {
       await doBefore();
     }
@@ -521,7 +521,7 @@ describe('Copy content', () => {
     expect(await dataTable.isItemPresent(fileInFolder)).toBe(true, `${fileInFolder} is not present in ${folderName} folder in ${destination}`);
   }
 
-  async function copyMultipleItems(items: string[], location: string = '', destination: string, doBefore?: Function) {
+  async function copyMultipleItems(items: string[], location: string = '', destination: string, doBefore?: () => void ) {
     if (doBefore) {
       await doBefore();
     }
@@ -543,7 +543,7 @@ describe('Copy content', () => {
     expect(await dataTable.isItemPresent(items[1])).toBe(true, `${items[1]} not present in ${destination} folder`);
   }
 
-  async function copyFileWithNameThatAlreadyExists(fileName: string, location: string = '', destination: string, doBefore?: Function) {
+  async function copyFileWithNameThatAlreadyExists(fileName: string, location: string = '', destination: string, doBefore?: () => void) {
     if (doBefore) {
       await doBefore();
     }
@@ -563,7 +563,7 @@ describe('Copy content', () => {
     expect(await dataTable.isItemPresent(fileName)).toBe(true, `${fileName}.txt not present in ${destination} folder`);
   }
 
-  async function copyFolderWithNameThatAlreadyExists(folderName: string, location: string = '', destination: string, doBefore?: Function) {
+  async function copyFolderWithNameThatAlreadyExists(folderName: string, location: string = '', destination: string, doBefore?: () => void) {
     if (doBefore) {
       await doBefore();
     }
@@ -586,7 +586,7 @@ describe('Copy content', () => {
     expect(await dataTable.isItemPresent(file3InFolder)).toBe(true, `${file3InFolder} not present in ${destination} folder in ${folderName}`);
   }
 
-  async function copyItemsIntoLibrary(items: string[], location: string = '', destination: string, doBefore?: Function) {
+  async function copyItemsIntoLibrary(items: string[], location: string = '', destination: string, doBefore?: () => void) {
     if (doBefore) {
       await doBefore();
     }
@@ -616,7 +616,7 @@ describe('Copy content', () => {
     }
   }
 
-  async function copyLockedFile(fileName: string, location: string = '', destination: string, doBefore?: Function) {
+  async function copyLockedFile(fileName: string, location: string = '', destination: string, doBefore?: () => void) {
     if (doBefore) {
       await doBefore();
     }
@@ -639,7 +639,7 @@ describe('Copy content', () => {
     expect(await apis.user.nodes.isFileLockedByName(fileName, destinationId)).toBe(false, `${fileName} is locked in ${destination}`);
   }
 
-  async function copyFolderThatContainsLockedFile(folderName: string, location: string = '', destination: string, doBefore?: Function) {
+  async function copyFolderThatContainsLockedFile(folderName: string, location: string = '', destination: string, doBefore?: () => void) {
     if (doBefore) {
       await doBefore();
     }
@@ -671,7 +671,7 @@ describe('Copy content', () => {
     ).toBe(false, `${fileLockedInFolder} is locked in ${destination}`);
   }
 
-  async function undoCopyFile(fileName: string, location: string = '', destination: string, doBefore?: Function) {
+  async function undoCopyFile(fileName: string, location: string = '', destination: string, doBefore?: () => void) {
     if (doBefore) {
       await doBefore();
     }
@@ -694,7 +694,7 @@ describe('Copy content', () => {
     expect(await dataTable.isEmpty()).toBe(true, 'Trash is not empty');
   }
 
-  async function undoCopyFolder(folderName: string, location: string = '', destination: string, doBefore?: Function) {
+  async function undoCopyFolder(folderName: string, location: string = '', destination: string, doBefore?: () => void) {
     if (doBefore) {
       await doBefore();
     }
@@ -717,7 +717,7 @@ describe('Copy content', () => {
     expect(await dataTable.isEmpty()).toBe(true, 'Trash is not empty');
   }
 
-  async function undoCopyFileWithExistingName(fileName: string, location: string = '', destination: string, doBefore?: Function) {
+  async function undoCopyFileWithExistingName(fileName: string, location: string = '', destination: string, doBefore?: () => void) {
     if (doBefore) {
       await doBefore();
     }
@@ -744,7 +744,7 @@ describe('Copy content', () => {
     expect(await dataTable.isEmpty()).toBe(true, 'Trash is not empty');
   }
 
-  async function undoCopyFolderWithExistingName(folderName: string, location: string = '', destination: string, doBefore?: Function) {
+  async function undoCopyFolderWithExistingName(folderName: string, location: string = '', destination: string, doBefore?: () => void) {
     if (doBefore) {
       await doBefore();
     }

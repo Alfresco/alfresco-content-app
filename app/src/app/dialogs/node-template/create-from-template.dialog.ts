@@ -80,8 +80,8 @@ export class CreateFromTemplateDialogComponent implements OnInit {
   }
 
   private forbidSpecialCharacters({ value }: FormControl): ValidationErrors | null {
-    const specialCharacters: RegExp = /([\*\"\<\>\\\/\?\:\|])/;
-    const isValid: boolean = !specialCharacters.test(value);
+    const specialCharacters = /([\*\"\<\>\\\/\?\:\|])/;
+    const isValid = !specialCharacters.test(value);
 
     return isValid
       ? null
@@ -102,7 +102,7 @@ export class CreateFromTemplateDialogComponent implements OnInit {
 
   private forbidOnlySpaces({ value }: FormControl): ValidationErrors | null {
     if (value.length) {
-      const isValid: boolean = !!(value || '').trim();
+      const isValid = !!(value || '').trim();
 
       return isValid
         ? null

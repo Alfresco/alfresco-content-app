@@ -109,11 +109,11 @@ export class AosEditOnlineService {
     if (!this.isWindows() && !this.isMacOs()) {
       this.notificationService.openSnackMessage('Only supported for Windows and Mac', 3000);
     } else {
-      this.aos_tryToLaunchOfficeByMsProtocolHandler(protocolHandler, url);
+      this.aosTryToLaunchOfficeByMsProtocolHandler(protocolHandler, url);
     }
   }
 
-  private aos_tryToLaunchOfficeByMsProtocolHandler(protocolHandler: string, url: string) {
+  private aosTryToLaunchOfficeByMsProtocolHandler(protocolHandler: string, url: string) {
     const protocolUrl = protocolHandler + ':ofe%7Cu%7C' + url;
 
     const iframe = document.createElement('iframe');

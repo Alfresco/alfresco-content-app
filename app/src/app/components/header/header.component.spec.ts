@@ -75,9 +75,7 @@ describe('AppHeaderComponent', () => {
       ]
     });
 
-    store.select.and.callFake((memoizeFn) => {
-      return of(memoizeFn({ app }));
-    });
+    store.select.and.callFake((memoizeFn) => of(memoizeFn({ app })));
 
     fixture = TestBed.createComponent(AppHeaderComponent);
     component = fixture.componentInstance;

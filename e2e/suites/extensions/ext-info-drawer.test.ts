@@ -32,25 +32,25 @@ describe('Extensions - Info Drawer', () => {
   const file = `file-${Utils.random()}.txt`;
   let fileId: string;
 
-  const properties_tab = {
+  const PROPERTIES_TAB = {
     order: 1,
     title: 'MY PROPERTIES'
   };
 
-  const custom_tab = {
+  const CUSTOM_TAB = {
     order: 2,
     icon: 'mood',
     title: 'MY CUSTOM TITLE',
     component: 'app.toolbar.toggleFavorite'
   };
 
-  const no_title_tab = {
+  const NO_TITLE_TAB = {
     order: 3,
     icon: 'check_circle',
     title: ''
   };
 
-  const comments_tab = {
+  const COMMENTS_TAB = {
     title: 'COMMENTS'
   };
 
@@ -94,9 +94,9 @@ describe('Extensions - Info Drawer', () => {
       await BrowserActions.click(page.toolbar.viewDetailsButton);
       await infoDrawer.waitForInfoDrawerToOpen();
 
-      const val = await infoDrawer.getTabTitle(custom_tab.order);
-      expect(await infoDrawer.isTabPresent(custom_tab.title)).toBe(true, `${custom_tab.title} tab is not present`);
-      expect(val.trim()).toEqual(`${custom_tab.icon}\n${custom_tab.title}`.trim());
+      const val = await infoDrawer.getTabTitle(CUSTOM_TAB.order);
+      expect(await infoDrawer.isTabPresent(CUSTOM_TAB.title)).toBe(true, `${CUSTOM_TAB.title} tab is not present`);
+      expect(val.trim()).toEqual(`${CUSTOM_TAB.icon}\n${CUSTOM_TAB.title}`.trim());
     });
 
     it('[C284647] Remove existing tab', async () => {
@@ -104,7 +104,7 @@ describe('Extensions - Info Drawer', () => {
       await BrowserActions.click(page.toolbar.viewDetailsButton);
       await infoDrawer.waitForInfoDrawerToOpen();
 
-      expect(await infoDrawer.isTabPresent(comments_tab.title)).toBe(false, `${comments_tab.title} tab should not be present!`);
+      expect(await infoDrawer.isTabPresent(COMMENTS_TAB.title)).toBe(false, `${COMMENTS_TAB.title} tab should not be present!`);
     });
 
     it('[C284648] Change tab title', async () => {
@@ -112,8 +112,8 @@ describe('Extensions - Info Drawer', () => {
       await BrowserActions.click(page.toolbar.viewDetailsButton);
       await infoDrawer.waitForInfoDrawerToOpen();
 
-      expect(await infoDrawer.isTabPresent(properties_tab.title)).toBe(true, `${properties_tab.title} tab is not present`);
-      expect(await infoDrawer.getTabTitle(properties_tab.order)).toEqual(properties_tab.title);
+      expect(await infoDrawer.isTabPresent(PROPERTIES_TAB.title)).toBe(true, `${PROPERTIES_TAB.title} tab is not present`);
+      expect(await infoDrawer.getTabTitle(PROPERTIES_TAB.order)).toEqual(PROPERTIES_TAB.title);
     });
 
     it('[C284649] Tab with icon and no title', async () => {
@@ -121,8 +121,8 @@ describe('Extensions - Info Drawer', () => {
       await BrowserActions.click(page.toolbar.viewDetailsButton);
       await infoDrawer.waitForInfoDrawerToOpen();
 
-      expect(await infoDrawer.isTabPresent(no_title_tab.title)).toBe(true, `${no_title_tab.title} tab is not present`);
-      expect((await infoDrawer.getTabTitle(no_title_tab.order)).trim()).toEqual(`${no_title_tab.icon}`.trim());
+      expect(await infoDrawer.isTabPresent(NO_TITLE_TAB.title)).toBe(true, `${NO_TITLE_TAB.title} tab is not present`);
+      expect((await infoDrawer.getTabTitle(NO_TITLE_TAB.order)).trim()).toEqual(`${NO_TITLE_TAB.icon}`.trim());
     });
 
     it('[C284651] Insert new component in tab', async () => {
@@ -130,9 +130,9 @@ describe('Extensions - Info Drawer', () => {
       await BrowserActions.click(page.toolbar.viewDetailsButton);
       await infoDrawer.waitForInfoDrawerToOpen();
 
-      expect(await infoDrawer.isTabDisplayed(custom_tab.title)).toBe(true, `${custom_tab.title} tab is not displayed`);
-      await infoDrawer.clickTab(custom_tab.title);
-      expect(await infoDrawer.getComponentIdOfTab()).toEqual(custom_tab.component);
+      expect(await infoDrawer.isTabDisplayed(CUSTOM_TAB.title)).toBe(true, `${CUSTOM_TAB.title} tab is not displayed`);
+      await infoDrawer.clickTab(CUSTOM_TAB.title);
+      expect(await infoDrawer.getComponentIdOfTab()).toEqual(CUSTOM_TAB.component);
     });
   });
 

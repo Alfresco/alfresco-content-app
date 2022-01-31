@@ -33,9 +33,7 @@ import { CreateFromTemplate } from '@alfresco/aca-shared/store';
 import { Node } from '@alfresco/js-api';
 import { TranslateModule } from '@ngx-translate/core';
 
-function text(length: number) {
-  return new Array(length).fill(Math.random().toString().substring(2, 3)).join('');
-}
+const text = (length: number) => new Array(length).fill(Math.random().toString().substring(2, 3)).join('');
 
 describe('CreateFileFromTemplateDialogComponent', () => {
   let fixture: ComponentFixture<CreateFromTemplateDialogComponent>;

@@ -59,9 +59,7 @@ describe('CustomNameColumnComponent', () => {
             id: 'nodeId'
           }
         },
-        getValue(key: string) {
-          return key;
-        }
+        getValue: (key: string) => key
       }
     };
 
@@ -79,9 +77,7 @@ describe('CustomNameColumnComponent', () => {
             id: 'nodeId'
           }
         },
-        getValue(key: string) {
-          return key;
-        }
+        getValue: (key: string) => key
       }
     };
 
@@ -100,9 +96,7 @@ describe('CustomNameColumnComponent', () => {
             properties: { 'cm:lockType': 'WRITE_LOCK' }
           }
         },
-        getValue(key: string) {
-          return key;
-        }
+        getValue: (key: string) => key
       }
     };
 

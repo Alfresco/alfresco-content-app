@@ -46,7 +46,7 @@ import {
 } from '@alfresco/aca-shared/store';
 import { isLocked, isLibrary, AppExtensionService } from '@alfresco/aca-shared';
 
-/* tslint:disable:directive-class-suffix */
+/* eslint-disable @angular-eslint/directive-class-suffix */
 @Directive()
 export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   onDestroy$: Subject<boolean> = new Subject<boolean>();
@@ -75,9 +75,7 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   ngOnInit() {
     this.sharedPreviewUrl$ = this.store.select(getSharedUrl);
     this.infoDrawerOpened$ = this.store.select(isInfoDrawerOpened).pipe(
-      map((infoDrawerState) => {
-        return !this.isOutletPreviewUrl() && infoDrawerState;
-      })
+      map((infoDrawerState) => !this.isOutletPreviewUrl() && infoDrawerState)
     );
 
     this.documentDisplayMode$ = this.store.select(getDocumentDisplayMode);

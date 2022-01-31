@@ -64,9 +64,9 @@ export class ExtensionsDataLoaderGuard implements CanActivate {
         map(() => true),
         tap(() => (this.invoked = true)),
         catchError((e) => {
-          // tslint:disable-next-line
+          // eslint-disable-next-line no-console
           console.error('Some of the extension data loader guards has been errored.');
-          // tslint:disable-next-line
+          // eslint-disable-next-line no-console
           console.error(e);
           return of(true);
         })

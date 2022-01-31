@@ -135,22 +135,6 @@ export class ContentManagementService {
     }
   }
 
-  private openVersionManagerDialog(node: any) {
-    // workaround Shared
-    if (node.isFile || node.nodeId) {
-      const dialogRef = this.dialogRef.open(NodeVersionsDialogComponent, {
-        data: { node, showVersionsOnly: true, title: 'VERSION.DIALOG_ADF.TITLE' } as NodeVersionDialogData,
-        panelClass: 'adf-version-manager-dialog-panel',
-        width: '630px'
-      });
-      dialogRef.componentInstance.refreshEvent.subscribe(() => {
-        this.store.dispatch(new ReloadDocumentListAction());
-      });
-    } else {
-      this.store.dispatch(new SnackbarErrorAction('APP.MESSAGES.ERRORS.PERMISSION'));
-    }
-  }
-
   manageAspects(node: any) {
     if (node && node.entry) {
       // shared and favorite
@@ -163,15 +147,6 @@ export class ContentManagementService {
       } else {
         this.openAspectListDialog(node.entry);
       }
-    }
-  }
-
-  private openAspectListDialog(node: any) {
-    // workaround Shared
-    if (node.isFile || node.id) {
-      this.nodeAspectService.updateNodeAspects(node.id);
-    } else {
-      this.store.dispatch(new SnackbarErrorAction('APP.MESSAGES.ERRORS.PERMISSION'));
     }
   }
 
@@ -226,7 +201,7 @@ export class ContentManagementService {
   createFolder(parentNodeId: string) {
     const dialogInstance = this.dialogRef.open(FolderDialogComponent, {
       data: {
-        parentNodeId: parentNodeId,
+        parentNodeId,
         createTitle: undefined,
         nodeType: 'cm:folder'
       },
@@ -435,6 +410,66 @@ export class ContentManagementService {
     );
   }
 
+  moveNodes(nodes: Array<MinimalNodeEntity>) {
+    const permissionForMove = '!';
+
+    zip(this.nodeActionsService.moveNodes(nodes, permissionForMove), this.nodeActionsService.contentMoved).subscribe(
+      (result) => {
+        const [operationResult, moveResponse] = result;
+        this.showMoveMessage(nodes, operationResult, moveResponse);
+
+        this.store.dispatch(new ReloadDocumentListAction());
+      },
+      (error) => {
+        this.showMoveMessage(nodes, error);
+      }
+    );
+  }
+
+  getErrorMessage(errorObject: { message: any }): string {
+    let i18nMessageString = 'APP.MESSAGES.ERRORS.GENERIC';
+
+    try {
+      const {
+        error: { statusCode }
+      } = JSON.parse(errorObject.message);
+
+      if (statusCode === 409) {
+        i18nMessageString = 'APP.MESSAGES.ERRORS.NODE_MOVE';
+      } else if (statusCode === 403) {
+        i18nMessageString = 'APP.MESSAGES.ERRORS.PERMISSION';
+      }
+    } catch (err) {
+      /* Do nothing, keep the original message */
+    }
+
+    return i18nMessageString;
+  }
+
+  getNodeInfo(): Observable<MinimalNodeEntryEntity> {
+    return this.store.select(getAppSelection).pipe(
+      take(1),
+      mergeMap(({ file }) => {
+        const id = (file as any).entry.nodeId || (file as any).entry.guid;
+        if (!id) {
+          return of(file.entry);
+        } else {
+          return this.contentApi.getNodeInfo(id);
+        }
+      })
+    );
+  }
+
+  unlockNode(node: NodeEntry): Promise<void | NodeEntry> {
+    return this.contentApi.unlockNode(node.entry.id).catch(() => {
+      this.store.dispatch(
+        new SnackbarErrorAction('APP.MESSAGES.ERRORS.UNLOCK_NODE', {
+          fileName: node.entry.name
+        })
+      );
+    });
+  }
+
   private showCopyMessage(info: any, nodes: Array<MinimalNodeEntity>, newItems?: Array<MinimalNodeEntity>) {
     const numberOfCopiedItems = newItems ? newItems.length : 0;
     const failedItems = nodes.length - numberOfCopiedItems;
@@ -513,29 +548,36 @@ export class ContentManagementService {
     );
   }
 
-  moveNodes(nodes: Array<MinimalNodeEntity>) {
-    const permissionForMove = '!';
-
-    zip(this.nodeActionsService.moveNodes(nodes, permissionForMove), this.nodeActionsService.contentMoved).subscribe(
-      (result) => {
-        const [operationResult, moveResponse] = result;
-        this.showMoveMessage(nodes, operationResult, moveResponse);
-
+  private openVersionManagerDialog(node: any) {
+    // workaround Shared
+    if (node.isFile || node.nodeId) {
+      const dialogRef = this.dialogRef.open(NodeVersionsDialogComponent, {
+        data: { node, showVersionsOnly: true, title: 'VERSION.DIALOG_ADF.TITLE' } as NodeVersionDialogData,
+        panelClass: 'adf-version-manager-dialog-panel',
+        width: '630px'
+      });
+      dialogRef.componentInstance.refreshEvent.subscribe(() => {
         this.store.dispatch(new ReloadDocumentListAction());
-      },
-      (error) => {
-        this.showMoveMessage(nodes, error);
-      }
-    );
+      });
+    } else {
+      this.store.dispatch(new SnackbarErrorAction('APP.MESSAGES.ERRORS.PERMISSION'));
+    }
+  }
+
+  private openAspectListDialog(node: any) {
+    // workaround Shared
+    if (node.isFile || node.id) {
+      this.nodeAspectService.updateNodeAspects(node.id);
+    } else {
+      this.store.dispatch(new SnackbarErrorAction('APP.MESSAGES.ERRORS.PERMISSION'));
+    }
   }
 
   private undoMoveNodes(moveResponse, selectionParentId: string) {
     const movedNodes = moveResponse && moveResponse['succeeded'] ? moveResponse['succeeded'] : [];
     const partiallyMovedNodes = moveResponse && moveResponse['partiallySucceeded'] ? moveResponse['partiallySucceeded'] : [];
 
-    const restoreDeletedNodesBatch = this.nodeActionsService.moveDeletedEntries.map((folderEntry) => {
-      return this.contentApi.restoreNode(folderEntry.nodeId || folderEntry.id).pipe(map((node) => node.entry));
-    });
+    const restoreDeletedNodesBatch = this.nodeActionsService.moveDeletedEntries.map((folderEntry) => this.contentApi.restoreNode(folderEntry.nodeId || folderEntry.id).pipe(map((node) => node.entry)));
 
     zip(...restoreDeletedNodesBatch, of(null))
       .pipe(
@@ -627,20 +669,16 @@ export class ContentManagementService {
     const { id, name } = item;
 
     return this.contentApi.restoreNode(id).pipe(
-      map(() => {
-        return {
+      map(() => ({
           id,
           name,
           status: 1
-        };
-      }),
-      catchError(() => {
-        return of({
+        })),
+      catchError(() => of({
           id,
           name,
           status: 0
-        });
-      })
+        }))
     );
   }
 
@@ -707,13 +745,11 @@ export class ContentManagementService {
         id,
         name
       })),
-      catchError(() => {
-        return of({
+      catchError(() => of({
           status: 0,
           id,
           name
-        });
-      })
+        }))
     );
   }
 
@@ -878,20 +914,16 @@ export class ContentManagementService {
     const id = node.entry.nodeId || node.entry.id;
 
     return this.contentApi.deleteNode(id).pipe(
-      map(() => {
-        return {
+      map(() => ({
           id,
           name,
           status: 1
-        };
-      }),
-      catchError(() => {
-        return of({
+        })),
+      catchError(() => of({
           id,
           name,
           status: 0
-        });
-      })
+        }))
     );
   }
 
@@ -1002,49 +1034,5 @@ export class ContentManagementService {
       )
       .onAction()
       .subscribe(() => this.undoMoveNodes(moveResponse, initialParentId));
-  }
-
-  getErrorMessage(errorObject: { message: any }): string {
-    let i18nMessageString = 'APP.MESSAGES.ERRORS.GENERIC';
-
-    try {
-      const {
-        error: { statusCode }
-      } = JSON.parse(errorObject.message);
-
-      if (statusCode === 409) {
-        i18nMessageString = 'APP.MESSAGES.ERRORS.NODE_MOVE';
-      } else if (statusCode === 403) {
-        i18nMessageString = 'APP.MESSAGES.ERRORS.PERMISSION';
-      }
-    } catch (err) {
-      /* Do nothing, keep the original message */
-    }
-
-    return i18nMessageString;
-  }
-
-  getNodeInfo(): Observable<MinimalNodeEntryEntity> {
-    return this.store.select(getAppSelection).pipe(
-      take(1),
-      mergeMap(({ file }) => {
-        const id = (file as any).entry.nodeId || (file as any).entry.guid;
-        if (!id) {
-          return of(file.entry);
-        } else {
-          return this.contentApi.getNodeInfo(id);
-        }
-      })
-    );
-  }
-
-  unlockNode(node: NodeEntry): Promise<void | NodeEntry> {
-    return this.contentApi.unlockNode(node.entry.id).catch(() => {
-      this.store.dispatch(
-        new SnackbarErrorAction('APP.MESSAGES.ERRORS.UNLOCK_NODE', {
-          fileName: node.entry.name
-        })
-      );
-    });
   }
 }

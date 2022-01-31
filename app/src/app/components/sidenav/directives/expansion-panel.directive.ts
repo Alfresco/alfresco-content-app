@@ -59,9 +59,7 @@ export class ExpansionPanelDirective implements OnInit, OnDestroy {
 
   hasActiveLinks() {
     if (this.acaExpansionPanel && this.acaExpansionPanel.children) {
-      return this.acaExpansionPanel.children.some((child) => {
-        return this.router.url.startsWith(child.url || child.action.payload);
-      });
+      return this.acaExpansionPanel.children.some((child) => this.router.url.startsWith(child.url || child.action.payload));
     }
     return false;
   }

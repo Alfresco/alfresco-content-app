@@ -29,7 +29,7 @@ import { Store } from '@ngrx/store';
 import { AppStore } from '@alfresco/aca-shared/store';
 
 @Directive({
-  /* tslint:disable-next-line */
+  /* eslint-disable-next-line */
   selector: '[action]',
   exportAs: 'action'
 })

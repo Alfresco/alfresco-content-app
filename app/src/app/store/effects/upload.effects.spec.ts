@@ -46,9 +46,7 @@ describe('UploadEffects', () => {
     });
 
     zone = TestBed.inject(NgZone);
-    spyOn(zone, 'run').and.callFake((fn: () => any) => {
-      return fn();
-    });
+    spyOn(zone, 'run').and.callFake((fn: () => any) => fn());
 
     contentManagementService = TestBed.inject(ContentManagementService);
     store = TestBed.inject(Store);
