@@ -1,11 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~@alfresco/adf-core/prebuilt-themes/adf-blue-orange.css';
 @import 'app/ui/application';
+@import './app/ui/variables/font-family';
 
 body,
 html {
   height: 100%;
-  font-family: 'Muli', 'Helvetica', 'Arial', sans-serif !important;
+  font-family: $default-font-family;
 }
 
 body {

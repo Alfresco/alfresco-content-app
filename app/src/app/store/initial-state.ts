@@ -32,6 +32,7 @@ export const INITIAL_APP_STATE: AppState = {
   logoPath: 'assets/images/alfresco-logo-white.svg',
   headerImagePath: 'assets/images/mastHead-bg-shapesPattern.svg',
   customCssPath: '',
+  webFontPath: '',
   sharedUrl: '',
   user: {
     isAdmin: null,
