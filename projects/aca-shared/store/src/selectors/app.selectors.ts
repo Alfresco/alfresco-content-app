@@ -49,26 +49,22 @@ export const isQuickShareEnabled = createSelector(getRepositoryStatus, (info) =>
 export const isAdmin = createSelector(selectApp, (state) => state.user.isAdmin);
 export const getFileUploadingDialog = createSelector(selectApp, (state) => state.fileUploadingDialog);
 
-export const getSideNavState = createSelector(getAppSelection, getNavigationState, (selection, navigation) => {
-  return {
+export const getSideNavState = createSelector(getAppSelection, getNavigationState, (selection, navigation) => ({
     selection,
     navigation
-  };
-});
+  }));
 
 export const getRuleContext = createSelector(
   getAppSelection,
   getNavigationState,
   getUserProfile,
   getRepositoryStatus,
-  (selection, navigation, profile, repository) => {
-    return {
+  (selection, navigation, profile, repository) => ({
       selection,
       navigation,
       profile,
       repository
-    };
-  }
+    })
 );
 
 export const infoDrawerMetadataAspect = createSelector(selectApp, (state) => state.infoDrawerMetadataAspect);

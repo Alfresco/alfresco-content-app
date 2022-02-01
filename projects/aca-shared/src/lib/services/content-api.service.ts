@@ -124,6 +124,7 @@ export class ContentApiService {
 
   /**
    * Moves a node to the trashcan.
+   *
    * @param nodeId ID of the target node
    * @param options Optional parameters supported by JS-API
    * @returns Empty result that notifies when the deletion is complete
@@ -134,6 +135,7 @@ export class ContentApiService {
 
   /**
    * Gets the stored information about a node.
+   *
    * @param nodeId ID of the target node
    * @param options Optional parameters supported by JS-API
    * @returns Node information
@@ -170,6 +172,7 @@ export class ContentApiService {
 
   /**
    * Gets the items contained in a folder node.
+   *
    * @param nodeId ID of the target node
    * @param options Optional parameters supported by JS-API
    * @returns List of child items from the folder
@@ -208,6 +211,7 @@ export class ContentApiService {
 
   /**
    * Gets information about a user identified by their username.
+   *
    * @param personId ID of the target user
    * @param options Api options
    * @returns User information
@@ -230,6 +234,7 @@ export class ContentApiService {
 
   /**
    * Gets product information for Content Services.
+   *
    * @returns ProductVersionModel containing product details
    */
   getRepositoryInformation(): Observable<DiscoveryEntry> {
@@ -253,8 +258,7 @@ export class ContentApiService {
       ...opts,
       where: '(EXISTS(target/site))'
     }).pipe(
-      map((response: FavoritePaging) => {
-        return {
+      map((response: FavoritePaging) => ({
           list: {
             entries: response.list.entries.map(({ entry }: any) => {
               entry.target.site.createdAt = entry.createdAt;
@@ -264,8 +268,7 @@ export class ContentApiService {
             }),
             pagination: response.list.pagination
           }
-        };
-      })
+        }))
     );
   }
 

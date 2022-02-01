@@ -35,8 +35,8 @@ describe('RouterExtensionService', () => {
   let extensionService: ExtensionService;
   let service: RouterExtensionService;
   let router: Router;
-  let component1, component2, component3, layoutComponent;
-  let guard1, guard2, guard3;
+  let component1; let component2; let component3; let layoutComponent;
+  let guard1; let guard2; let guard3;
 
   beforeEach(() => {
     component1 = { name: 'component-1' };
@@ -97,8 +97,7 @@ describe('RouterExtensionService', () => {
   });
 
   describe('getApplicationRoutes', () => {
-    function getDummyRoute(overrides) {
-      return {
+    const getDummyRoute = (overrides) => ({
         id: 'aca:routes/about',
         path: 'ext/about',
         component: 'ext:components/about',
@@ -106,8 +105,7 @@ describe('RouterExtensionService', () => {
         auth: ['aca:auth'],
         data: { title: 'Custom About' },
         ...overrides
-      };
-    }
+      });
     it('should calculate path properly', () => {
       extensionService.routes = [getDummyRoute({ path: 'aca:routes/about' })];
 

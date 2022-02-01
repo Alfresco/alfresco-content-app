@@ -25,16 +25,16 @@
           "error",
           {
             "type": "element",
-            "prefix": "aca",
-            "style": "app"
+            "prefix": ["aca", "adf", "app"],
+            "style": "kebab-case"
           }
         ],
         "@angular-eslint/directive-selector": [
           "error",
           {
             "type": "attribute",
-            "prefix": "aca",
-            "style": "app"
+            "prefix": ["aca", "adf", "app"],
+            "style": "camelCase"
           }
         ],
         "@angular-eslint/no-host-metadata-property": "off",

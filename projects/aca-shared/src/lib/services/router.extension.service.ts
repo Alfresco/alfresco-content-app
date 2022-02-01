@@ -68,14 +68,12 @@ export class RouterExtensionService {
         parentRoute: route.parentRoute,
         children: [
           ...(route['children']
-            ? route['children'].map(({ path, component, outlet, data }) => {
-                return {
+            ? route['children'].map(({ path, component, outlet, data }) => ({
                   path,
                   outlet,
                   data,
                   component: this.getComponentById(component)
-                };
-              })
+                }))
             : []),
           {
             path: '',
@@ -87,7 +85,7 @@ export class RouterExtensionService {
     });
   }
 
-  private getComponentById(id: string): Type<{}> {
+  private getComponentById(id: string): Type<unknown> {
     return this.extensions.getComponentById(id);
   }
 

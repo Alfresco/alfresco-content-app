@@ -377,14 +377,11 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "projects/aca-shared/tsconfig.lib.json",
-              "projects/aca-shared/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "projects/aca-shared/**/*.ts",
+              "projects/aca-shared/**/*.html"
             ]
           }
         }
@@ -423,14 +420,11 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "projects/aca-about/tsconfig.lib.json",
-              "projects/aca-about/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "projects/aca-about/**/*.ts",
+              "projects/aca-about/**/*.html"
             ]
           }
         }
@@ -463,14 +457,11 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "projects/aca-settings/tsconfig.lib.json",
-              "projects/aca-settings/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "projects/aca-settings/**/*.ts",
+              "projects/aca-settings/**/*.html"
             ]
           }
         }

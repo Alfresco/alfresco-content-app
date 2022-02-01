@@ -30,9 +30,7 @@ import { tap, map, catchError } from 'rxjs/operators';
 
 export type ExtensionLoaderCallback = (route: ActivatedRouteSnapshot) => Observable<boolean>;
 
-export function DefaultExtensionLoaderFactory() {
-  return [];
-}
+export const DefaultExtensionLoaderFactory = () => [];
 
 export const EXTENSION_DATA_LOADERS = new InjectionToken<ExtensionLoaderCallback[]>('EXTENSION_DATA_LOADERS', {
   providedIn: 'root',

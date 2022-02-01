@@ -218,8 +218,7 @@ export class AppExtensionService implements RuleContext {
   getApplicationNavigation(elements): Array<NavBarGroupRef> {
     return elements
       .filter((group) => this.filterVisible(group))
-      .map((group) => {
-        return {
+      .map((group) => ({
           ...group,
           items: (group.items || [])
             .filter((entry) => !entry.disabled)
@@ -277,8 +276,7 @@ export class AppExtensionService implements RuleContext {
               };
             })
             .reduce(reduceEmptyMenus, [])
-        };
-      });
+        }));
   }
 
   loadContentMetadata(config: ExtensionConfig): any {
