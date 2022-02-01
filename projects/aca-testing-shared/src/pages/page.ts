@@ -82,10 +82,6 @@ export abstract class Page {
     }
   }
 
-  async isUploadDialogOpen(): Promise<boolean> {
-    return this.uploadFilesDialog.isUploadDialogOpen();
-  }
-
   async closeUploadDialog(): Promise<void> {
     await this.uploadFilesDialog.closeUploadDialog();
   }

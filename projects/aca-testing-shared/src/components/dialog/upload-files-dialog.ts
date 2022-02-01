@@ -32,17 +32,8 @@ export class UploadFilesDialog {
   maximizeButton = TestElement.byCss('.adf-upload-dialog mat-icon[title="Maximize"]');
   uploadedFiles = TestElement.byCss('.adf-file-uploading-row__name');
 
-  async isUploadDialogOpen(): Promise<boolean> {
-    try {
-      await this.uploadDialog.isVisible();
-      return true;
-    } catch (error) {
-      return false;
-    }
-  }
-
   async closeUploadDialog(): Promise<void> {
-    if (await this.isUploadDialogOpen()) {
+    if (await this.uploadDialog.isVisible()) {
       this.closeUploadButton.click();
     }
   }

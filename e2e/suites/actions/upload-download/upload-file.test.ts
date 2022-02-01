@@ -100,23 +100,7 @@ describe('Upload files', () => {
 
   it('[T14752052] Upload dialog remains fixed in the browser when user performs other actions in parallel ', async () => {
     await expect(page.uploadFilesDialog.uploadDialog.isVisible()).toBe(true);
-
     await page.clickPersonalFiles();
-    await expect(page.uploadFilesDialog.uploadDialog.isVisible()).toBe(true);
-
-    await page.clickFileLibraries();
-    await expect(page.uploadFilesDialog.uploadDialog.isVisible()).toBe(true);
-
-    await page.clickSharedFiles();
-    await expect(page.uploadFilesDialog.uploadDialog.isVisible()).toBe(true);
-
-    await page.clickRecentFiles();
-    await expect(page.uploadFilesDialog.uploadDialog.isVisible()).toBe(true);
-
-    await page.clickFavorites();
-    await expect(page.uploadFilesDialog.uploadDialog.isVisible()).toBe(true);
-
-    await page.clickTrash();
     await expect(page.uploadFilesDialog.uploadDialog.isVisible()).toBe(true);
   });
 });
