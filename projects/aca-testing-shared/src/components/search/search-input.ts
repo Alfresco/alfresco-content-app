@@ -26,13 +26,15 @@
 import { browser, by, protractor } from 'protractor';
 import { Component } from '../component';
 import { waitForPresence, waitElement } from '../../utilities/utils';
-import { BrowserActions } from '@alfresco/adf-testing';
+import { BrowserActions, BrowserVisibility, TestElement } from '@alfresco/adf-testing';
 
 export class SearchInput extends Component {
   searchButton = this.component.element(by.css('.app-search-button'));
   searchContainer = browser.element(by.css('.app-search-container'));
   searchControl = browser.element(by.css('.app-search-control'));
-  searchInput = browser.element(by.css(`input[id='app-control-input']`));
+
+  searchInput = TestElement.byCss('input[id="app-control-input"]');
+
   searchOptionsArea = browser.element(by.id('search-options'));
   searchFilesOption = this.searchOptionsArea.element(by.cssContainingText('.mat-checkbox', 'Files'));
   searchFoldersOption = this.searchOptionsArea.element(by.cssContainingText('.mat-checkbox', 'Folders'));
@@ -150,8 +152,8 @@ export class SearchInput extends Component {
   }
 
   async searchFor(text: string) {
-    await BrowserActions.clearWithBackSpace(this.searchInput);
-    await this.searchInput.sendKeys(text);
-    await this.searchInput.sendKeys(protractor.Key.ENTER);
+    await BrowserVisibility.waitUntilElementIsClickable(this.searchInput.elementFinder, 1000);
+    await this.searchInput.typeText(text);
+    await this.searchInput.elementFinder.sendKeys(protractor.Key.ENTER);
   }
 }
