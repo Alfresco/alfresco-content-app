@@ -82,10 +82,6 @@ export abstract class Page {
     }
   }
 
-  async closeUploadDialog(): Promise<void> {
-    await this.uploadFilesDialog.closeUploadDialog();
-  }
-
   async refresh(): Promise<void> {
     await browser.refresh();
     await this.waitForApp();

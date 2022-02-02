@@ -81,21 +81,12 @@ describe('Upload files', () => {
     await expect(await page.uploadFilesDialog.uploadedFiles.waitVisible()).toBe(true);
   });
 
-  describe('[T14752053]', () => {
-    it('Upload history is expunged on browser refresh ', async () => {
-      await page.refresh();
-      const isUploadDialogVisible = await page.uploadFilesDialog.uploadDialog.isVisible();
+  it('[T14752053] Upload history is expunged on browser login/logout ', async () => {
+    await page.signOut();
+    await loginPage.loginWith(username);
+    const isUploadDialogVisible = await page.uploadFilesDialog.uploadDialog.isVisible();
 
-      await expect(isUploadDialogVisible).toBe(false);
-    });
-
-    it('Upload history is expunged on browser login/logout ', async () => {
-      await page.signOut();
-      await loginPage.loginWith(username);
-      const isUploadDialogVisible = await page.uploadFilesDialog.uploadDialog.isVisible();
-
-      await expect(isUploadDialogVisible).toBe(false);
-    });
+    await expect(isUploadDialogVisible).toBe(false);
   });
 
   it('[T14752052] Upload dialog remains fixed in the browser when user performs other actions in parallel ', async () => {

@@ -35,7 +35,8 @@ import {
   ContentNodeSelectorDialog,
   ShareDialog,
   ManageVersionsDialog,
-  UploadNewVersionDialog
+  UploadNewVersionDialog,
+  UploadFilesDialog
 } from '@alfresco/aca-testing-shared';
 import { BrowserActions, Logger } from '@alfresco/adf-testing';
 
@@ -62,6 +63,7 @@ describe('Viewer actions', () => {
   const uploadNewVersionDialog = new UploadNewVersionDialog();
   const adminApiActions = new AdminActions();
   const userActions = new UserActions();
+  const uploadFilesDialog = new UploadFilesDialog();
 
   beforeAll(async () => {
     await adminApiActions.createUser({ username });
@@ -129,7 +131,7 @@ describe('Viewer actions', () => {
 
     afterEach(async () => {
       await Utils.pressEscape();
-      await page.closeUploadDialog();
+      await uploadFilesDialog.closeUploadDialog();
     });
 
     afterAll(async () => {
@@ -370,7 +372,7 @@ describe('Viewer actions', () => {
 
     afterEach(async () => {
       await Utils.pressEscape();
-      await page.closeUploadDialog();
+      await uploadFilesDialog.closeUploadDialog();
     });
 
     afterAll(async () => {
@@ -564,7 +566,7 @@ describe('Viewer actions', () => {
 
     afterEach(async () => {
       await Utils.pressEscape();
-      await page.closeUploadDialog();
+      await uploadFilesDialog.closeUploadDialog();
     });
 
     afterAll(async () => {
@@ -776,7 +778,7 @@ describe('Viewer actions', () => {
       try {
         await page.closeOpenDialogs();
         await Utils.pressEscape();
-        await page.closeUploadDialog();
+        await uploadFilesDialog.closeUploadDialog();
       } catch (error) {
         Logger.error(`----- afterEach failed : ${error}`);
       }
@@ -980,7 +982,7 @@ describe('Viewer actions', () => {
 
     afterEach(async () => {
       await Utils.pressEscape();
-      await page.closeUploadDialog();
+      await uploadFilesDialog.closeUploadDialog();
     });
 
     afterAll(async () => {
