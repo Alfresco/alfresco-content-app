@@ -17,12 +17,10 @@ $fontFamily: map-get($theme, 'font-family');
   @include baseFontFamily($fontFamily);
 }
 
-$custom-typography: get-mat-typography($baseFontSize, $fontFamily, $alfresco-typography);
-
-@include mat-core($custom-typography);
+$alfresco-typography: get-mat-typography($baseFontSize, $fontFamily, $alfresco-typography);
+@include mat-core($alfresco-typography);
 
 $palettes: get-mat-palettes($primary, $accent);
-
 $custom-theme: mat-light-theme(
   map-get($palettes, primary),
   map-get($palettes, accent),
