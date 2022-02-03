@@ -27,7 +27,7 @@ import { Action } from '@ngrx/store';
 import { MinimalNodeEntity } from '@alfresco/js-api';
 
 export enum RouterActionTypes {
-  navigateUrl = 'NAVIGATE_URL',
+  NavigateUrl = 'NAVIGATE_URL',
   NavigateRoute = 'NAVIGATE_ROUTE',
   NavigateFolder = 'NAVIGATE_FOLDER',
   NavigateParentFolder = 'NAVIGATE_PARENT_FOLDER',
@@ -35,7 +35,7 @@ export enum RouterActionTypes {
 }
 
 export class NavigateUrlAction implements Action {
-  readonly type = RouterActionTypes.navigateUrl;
+  readonly type = RouterActionTypes.NavigateUrl;
 
   constructor(public payload: string) {}
 }

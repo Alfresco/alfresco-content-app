@@ -91,7 +91,7 @@
           }
         ],
         "@typescript-eslint/type-annotation-spacing": "off",
-        "arrow-parens": [
+        "arrow-parents": [
           "off",
           "always"
         ],
