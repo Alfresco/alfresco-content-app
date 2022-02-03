@@ -5,7 +5,7 @@
 @import 'variables/variables';
 
 @include angular-material-theme($custom-theme);
-@include adf-core-theme($custom-theme);
+@include alfresco-material-theme($custom-theme);
 @include adf-style-fixes($custom-theme);
 
 .mat-toolbar {
