@@ -93,6 +93,15 @@ echo "replace APP_CONFIG_ECM_HOST"
     -i "${NGINX_ENVSUBST_OUTPUT_DIR}/app.config.json"
 fi
 
+if [[ -n "${APP_CONFIG_PLUGIN_AOS}" ]]; then
+echo "replace APP_CONFIG_PLUGIN_AOS"
+
+  replace="\/"
+  encoded=${APP_CONFIG_PLUGIN_AOS//\//$replace}
+  sed -e "s/\"aosPlugin\": \".*\"/\"aosPlugin\": \"${encoded}\"/g" \
+    -i "${NGINX_ENVSUBST_OUTPUT_DIR}/app.config.json"
+fi
+
 # application specific ce replacements
 
 if [ -n "${APP_BASE_SHARE_URL}" ]; then
