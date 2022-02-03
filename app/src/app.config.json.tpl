@@ -33,6 +33,7 @@
   "sharedLinkDateTimePickerType": "date",
   "headerColor": "#ffffff",
   "headerTextColor": "#000000",
+  "customCssPath": "",
   "pagination": {
     "size": 25,
     "supportedPageSizes": [25, 50, 100]
