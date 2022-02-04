@@ -26,8 +26,6 @@
         "eslint-plugin-unicorn"
       ],
       "rules": {
-        "no-shadow": "off",
-        "@typescript-eslint/no-shadow": "error",
         "prefer-arrow/prefer-arrow-functions": [
           "warn",
           {

@@ -33,16 +33,6 @@ describe('TrashcanComponent', () => {
   let fixture: ComponentFixture<TrashcanComponent>;
   let component: TrashcanComponent;
   let alfrescoApi: AlfrescoApiService;
-  let page;
-
-  beforeEach(() => {
-    page = {
-      list: {
-        entries: [{ entry: { id: 1 } }, { entry: { id: 2 } }],
-        pagination: { data: 'data' }
-      }
-    };
-  });
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -63,7 +53,9 @@ describe('TrashcanComponent', () => {
     } as any;
   });
 
-  beforeEach(() => {
-    spyOn(component['nodesApi'], 'getDeletedNodes').and.returnValue(Promise.resolve(page));
+  it('should perform at least a test otherwise karma will complain', async () => {
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(fixture.nativeElement.querySelector('adf-document-list')).not.toBeNull();
   });
 });
