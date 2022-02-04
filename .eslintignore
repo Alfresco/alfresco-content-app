@@ -1,0 +1,11 @@
+node_modules
+e2e-output
+dist
+coverage
+.github
+.travis
+.vscode
+scripts
+src/assets/i18n
+/angular.json
+docs/**/*.md

@@ -10,8 +10,7 @@
       ],
       "parserOptions": {
         "project": [
-          "tsconfig.json",
-          "e2e/tsconfig.e2e.json"
+          "tsconfig.json"
         ],
         "createDefaultProgram": true
       },
@@ -26,6 +25,8 @@
         "eslint-plugin-unicorn"
       ],
       "rules": {
+        "no-shadow": "off",
+        "@typescript-eslint/no-shadow": "error",
         "prefer-arrow/prefer-arrow-functions": [
           "warn",
           {

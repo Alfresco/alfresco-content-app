@@ -271,7 +271,10 @@
             "lintFilePatterns": [
               "app/**/*.ts",
               "app/**/*.html"
-            ]
+            ],
+            "cache": true,
+            "cacheLocation": ".eslintcache",
+            "ignorePath": ".eslintignore"
           }
         }
       }
@@ -308,7 +311,10 @@
             "lintFilePatterns": [
               "e2e/**/*.ts",
               "e2e/**/*.html"
-            ]
+            ],
+            "cache": true,
+            "cacheLocation": ".eslintcache",
+            "ignorePath": ".eslintignore"
           }
         }
       }
@@ -345,7 +351,10 @@
             "lintFilePatterns": [
               "projects/adf-office-services-ext/**/*.ts",
               "projects/adf-office-services-ext/**/*.html"
-            ]
+            ],
+            "cache": true,
+            "cacheLocation": ".eslintcache",
+            "ignorePath": ".eslintignore"
           }
         }
       }
@@ -382,7 +391,10 @@
             "lintFilePatterns": [
               "projects/aca-shared/**/*.ts",
               "projects/aca-shared/**/*.html"
-            ]
+            ],
+            "cache": true,
+            "cacheLocation": ".eslintcache",
+            "ignorePath": ".eslintignore"
           }
         }
       }
@@ -425,7 +437,10 @@
             "lintFilePatterns": [
               "projects/aca-about/**/*.ts",
               "projects/aca-about/**/*.html"
-            ]
+            ],
+            "cache": true,
+            "cacheLocation": ".eslintcache",
+            "ignorePath": ".eslintignore"
           }
         }
       }
@@ -462,7 +477,10 @@
             "lintFilePatterns": [
               "projects/aca-settings/**/*.ts",
               "projects/aca-settings/**/*.html"
-            ]
+            ],
+            "cache": true,
+            "cacheLocation": ".eslintcache",
+            "ignorePath": ".eslintignore"
           }
         }
       }
