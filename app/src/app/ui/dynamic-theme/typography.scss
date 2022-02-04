@@ -42,7 +42,7 @@
 
 @mixin baseFontSize($fontSize) {
     html, body {
-        font-size: $fontSize;
+        font-size: $fontSize !important;
     }
 }
 
