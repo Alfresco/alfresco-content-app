@@ -22,10 +22,7 @@
             $caption:       mat-typography-level(0.86rem, 1.42rem, 400),
             $button:        mat-typography-level(1rem, 1rem, 500),
             $font-family:   $default-font-family,
-            // Line-height must be unit-less fraction of the font-size.
-            // $input:         mat-typography-level(1.14rem, 1.25, 400)
-            // $input:         mat-typography-level(16px, 1.25, 400)
-            $input:         mat-typography-level(inherit, 1.25, 400)
+            $input:         mat-typography-level(1.14em, 1.25, 400)
         );
     }
 
@@ -55,3 +52,10 @@
     }
 }
 
+@function strip-unit($number) {
+  @if type-of($number) == 'number' and not unitless($number) {
+    @return $number / ($number * 0 + 1);
+  }
+
+  @return $number;
+}
