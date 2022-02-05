@@ -124,7 +124,8 @@ describe('Move content', () => {
     const existingFile = `existing-${Utils.random()}`;
 
     const existingFolder = `existing-${Utils.random()}`;
-    let existingId1; let existingId2;
+    let existingId1;
+    let existingId2;
 
     const file2InFolder = `file2InFolder-${Utils.random()}.txt`;
     const file3InFolder = `file3InFolder-${Utils.random()}.txt`;
@@ -551,7 +552,8 @@ describe('Move content', () => {
     let existingFileId;
 
     const existingFolder = `existing-${Utils.random()}`;
-    let existingId1; let existingId2;
+    let existingId1;
+    let existingId2;
     const file2InFolder = `file2InFolder-${Utils.random()}.txt`;
     const file3InFolder = `file3InFolder-${Utils.random()}.txt`;
 

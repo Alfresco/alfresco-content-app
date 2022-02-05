@@ -122,7 +122,7 @@ describe('ExtensionsDataLoaderGuard', () => {
     it('should call canActivate only once', () => {
       const subject1 = new Subject<true>();
       const extensionLoaders = {
-        fct1 : () => subject1.asObservable()
+        fct1: () => subject1.asObservable()
       };
       const extensionLoaderSpy = spyOn(extensionLoaders, 'fct1').and.callThrough();
       const guard = new ExtensionsDataLoaderGuard([extensionLoaders.fct1]);

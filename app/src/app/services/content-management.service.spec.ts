@@ -886,7 +886,7 @@ describe('ContentManagementService', () => {
   describe('Permanent Delete', () => {
     beforeEach(() => {
       spyOn(dialog, 'open').and.returnValue({
-        afterClosed: () =>  of(true)
+        afterClosed: () => of(true)
       } as MatDialogRef<MatDialog>);
     });
 

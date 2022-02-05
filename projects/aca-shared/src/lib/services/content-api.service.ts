@@ -259,16 +259,16 @@ export class ContentApiService {
       where: '(EXISTS(target/site))'
     }).pipe(
       map((response: FavoritePaging) => ({
-          list: {
-            entries: response.list.entries.map(({ entry }: any) => {
-              entry.target.site.createdAt = entry.createdAt;
-              return {
-                entry: entry.target.site
-              };
-            }),
-            pagination: response.list.pagination
-          }
-        }))
+        list: {
+          entries: response.list.entries.map(({ entry }: any) => {
+            entry.target.site.createdAt = entry.createdAt;
+            return {
+              entry: entry.target.site
+            };
+          }),
+          pagination: response.list.pagination
+        }
+      }))
     );
   }
 

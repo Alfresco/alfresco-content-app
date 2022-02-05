@@ -477,7 +477,7 @@ describe('Copy content', () => {
       }));
   });
 
-  async function copyFile(fileName: string, location: string = '', destination: string, doBefore?: () => void ) {
+  async function copyFile(fileName: string, location: string = '', destination: string, doBefore?: () => void) {
     if (doBefore) {
       await doBefore();
     }
@@ -521,7 +521,7 @@ describe('Copy content', () => {
     expect(await dataTable.isItemPresent(fileInFolder)).toBe(true, `${fileInFolder} is not present in ${folderName} folder in ${destination}`);
   }
 
-  async function copyMultipleItems(items: string[], location: string = '', destination: string, doBefore?: () => void ) {
+  async function copyMultipleItems(items: string[], location: string = '', destination: string, doBefore?: () => void) {
     if (doBefore) {
       await doBefore();
     }

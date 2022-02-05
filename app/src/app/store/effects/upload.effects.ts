@@ -139,11 +139,14 @@ export class UploadEffects {
       .subscribe((node) => {
         if (node && node.id) {
           const input = event.currentTarget as HTMLInputElement;
-          const files = FileUtils.toFileArray(input.files).map((file: any) => new FileModel(file, {
-              parentId: node.id,
-              path: (file.webkitRelativePath || '').replace(/\/[^\/]*$/, ''),
-              nodeType: 'cm:content'
-            }));
+          const files = FileUtils.toFileArray(input.files).map(
+            (file: any) =>
+              new FileModel(file, {
+                parentId: node.id,
+                path: (file.webkitRelativePath || '').replace(/\/[^\/]*$/, ''),
+                nodeType: 'cm:content'
+              })
+          );
 
           this.uploadQueue(files);
           event.target.value = '';

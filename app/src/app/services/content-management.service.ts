@@ -577,7 +577,9 @@ export class ContentManagementService {
     const movedNodes = moveResponse && moveResponse['succeeded'] ? moveResponse['succeeded'] : [];
     const partiallyMovedNodes = moveResponse && moveResponse['partiallySucceeded'] ? moveResponse['partiallySucceeded'] : [];
 
-    const restoreDeletedNodesBatch = this.nodeActionsService.moveDeletedEntries.map((folderEntry) => this.contentApi.restoreNode(folderEntry.nodeId || folderEntry.id).pipe(map((node) => node.entry)));
+    const restoreDeletedNodesBatch = this.nodeActionsService.moveDeletedEntries.map((folderEntry) =>
+      this.contentApi.restoreNode(folderEntry.nodeId || folderEntry.id).pipe(map((node) => node.entry))
+    );
 
     zip(...restoreDeletedNodesBatch, of(null))
       .pipe(
@@ -670,15 +672,17 @@ export class ContentManagementService {
 
     return this.contentApi.restoreNode(id).pipe(
       map(() => ({
-          id,
-          name,
-          status: 1
-        })),
-      catchError(() => of({
+        id,
+        name,
+        status: 1
+      })),
+      catchError(() =>
+        of({
           id,
           name,
           status: 0
-        }))
+        })
+      )
     );
   }
 
@@ -745,11 +749,13 @@ export class ContentManagementService {
         id,
         name
       })),
-      catchError(() => of({
+      catchError(() =>
+        of({
           status: 0,
           id,
           name
-        }))
+        })
+      )
     );
   }
 
@@ -915,15 +921,17 @@ export class ContentManagementService {
 
     return this.contentApi.deleteNode(id).pipe(
       map(() => ({
-          id,
-          name,
-          status: 1
-        })),
-      catchError(() => of({
+        id,
+        name,
+        status: 1
+      })),
+      catchError(() =>
+        of({
           id,
           name,
           status: 0
-        }))
+        })
+      )
     );
   }
 

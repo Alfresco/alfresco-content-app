@@ -178,9 +178,9 @@ function showInfoDrawerPreview(state: AppState) {
 }
 
 const toggleDocumentDisplayMode = (state: AppState) => ({
-    ...state,
-    documentDisplayMode: state.documentDisplayMode === 'list' ? 'gallery' : 'list'
-  });
+  ...state,
+  documentDisplayMode: state.documentDisplayMode === 'list' ? 'gallery' : 'list'
+});
 
 function updateSelectedNodes(state: AppState, action: SetSelectedNodesAction): AppState {
   const newState = { ...state };
@@ -199,9 +199,10 @@ function updateSelectedNodes(state: AppState, action: SetSelectedNodesAction): A
     last = nodes[nodes.length - 1];
 
     if (nodes.length === 1) {
-      file = nodes.find((entity: any) =>
-        // workaround Shared
-         !!(entity.entry.isFile || entity.entry.nodeId || entity.entry.sharedByUser)
+      file = nodes.find(
+        (entity: any) =>
+          // workaround Shared
+          !!(entity.entry.isFile || entity.entry.nodeId || entity.entry.sharedByUser)
       );
       folder = nodes.find((entity: any) => entity.entry.isFolder);
     }
@@ -231,19 +232,19 @@ function updateSelectedNodes(state: AppState, action: SetSelectedNodesAction): A
 }
 
 const setInfoDrawer = (state: AppState, action: SetInfoDrawerStateAction) => ({
-    ...state,
-    infoDrawerOpened: action.payload
-  });
+  ...state,
+  infoDrawerOpened: action.payload
+});
 
 const setInfoDrawerPreview = (state: AppState, action: SetInfoDrawerPreviewStateAction) => ({
-    ...state,
-    infoDrawerPreview: action.payload
-  });
+  ...state,
+  infoDrawerPreview: action.payload
+});
 
 const setInfoDrawerAspect = (state: AppState, action: SetInfoDrawerMetadataAspectAction) => ({
-    ...state,
-    infoDrawerMetadataAspect: action.payload
-  });
+  ...state,
+  infoDrawerMetadataAspect: action.payload
+});
 
 function updateRepositoryStatus(state: AppState, action: SetRepositoryInfoAction) {
   const newState = { ...state };

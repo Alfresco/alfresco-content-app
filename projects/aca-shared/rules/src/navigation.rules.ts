@@ -131,8 +131,10 @@ export const isNotRecentFiles = (context: RuleContext): boolean => !isRecentFile
  * Checks if a **Search Results** route is activated.
  * JSON ref: `app.navigation.isSearchResults`
  */
-export function isSearchResults(context: RuleContext /*,
-  ...args: RuleParameter[]*/): boolean {
+export function isSearchResults(
+  context: RuleContext /*,
+  ...args: RuleParameter[]*/
+): boolean {
   const { url } = context.navigation;
   return url && url.startsWith('/search');
 }

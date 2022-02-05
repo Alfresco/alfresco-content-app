@@ -70,7 +70,10 @@ describe('NodeActionsService', () => {
   let dialog: MatDialog;
 
   const helper = {
-    fakeCopyNode: (isForbidden: boolean = false, nameExistingOnDestination?: string) => (_entryId, options) => new Promise((resolve, reject) => {
+    fakeCopyNode:
+      (isForbidden: boolean = false, nameExistingOnDestination?: string) =>
+      (_entryId, options) =>
+        new Promise((resolve, reject) => {
           if (isForbidden) {
             reject(permissionError);
           } else if (nameExistingOnDestination && options && options.name === nameExistingOnDestination) {
@@ -79,7 +82,10 @@ describe('NodeActionsService', () => {
             resolve('');
           }
         }),
-    fakeGetNodeChildren: (familyNodes: { parentNodeId: string; nodeChildren: any[] }[], isForbidden: boolean = false) => (parentId) => new Promise((resolve, reject) => {
+    fakeGetNodeChildren:
+      (familyNodes: { parentNodeId: string; nodeChildren: any[] }[], isForbidden: boolean = false) =>
+      (parentId) =>
+        new Promise((resolve, reject) => {
           if (isForbidden) {
             reject(permissionError);
           } else {
@@ -176,7 +182,7 @@ describe('NodeActionsService', () => {
   });
 
   describe('doBatchOperation', () => {
-    it('should throw error if \'contentEntities\' required parameter is missing', (done) => {
+    it('should throw error if "contentEntities" required parameter is missing', (done) => {
       const contentEntities = undefined;
       const doCopyBatchOperation = service.copyNodes(contentEntities).asObservable();
 
@@ -193,7 +199,7 @@ describe('NodeActionsService', () => {
         });
     });
 
-    it('should throw error if \'contentEntities\' is not an array of entry entities', (done) => {
+    it('should throw error if "contentEntities" is not an array of entry entities', (done) => {
       const contentEntities = [new TestNode(), {}];
       const doCopyBatchOperation = service.copyNodes(contentEntities).asObservable();
 
@@ -210,7 +216,7 @@ describe('NodeActionsService', () => {
         });
     });
 
-    it('should throw error if an entry in \'contentEntities\' does not have id nor nodeId property', (done) => {
+    it('should throw error if an entry in "contentEntities" does not have id nor nodeId property', (done) => {
       const contentEntities = [new TestNode(), { entry: {} }];
       const doCopyBatchOperation = service.copyNodes(contentEntities).asObservable();
 
@@ -227,7 +233,7 @@ describe('NodeActionsService', () => {
         });
     });
 
-    it('should not throw error if entry in \'contentEntities\' does not have id, but has nodeId property', () => {
+    it('should not throw error if entry in "contentEntities" does not have id, but has nodeId property', () => {
       const contentEntities = [new TestNode(), { entry: { nodeId: '1234' } }];
       const subject = new Subject<MinimalNodeEntryEntity[]>();
 

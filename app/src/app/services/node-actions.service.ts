@@ -517,7 +517,7 @@ export class NodeActionsService {
       map((itemMoved) => ({ itemMoved, initialParentId })),
       catchError((err) =>
         // do not throw error, to be able to show message in case of partial move of files
-         of(err)
+        of(err)
       )
     );
   }

@@ -22,9 +22,11 @@
       "plugins": [
         "eslint-plugin-react",
         "eslint-plugin-rxjs",
-        "eslint-plugin-unicorn"
+        "eslint-plugin-unicorn",
+        "prettier"
       ],
       "rules": {
+        "prettier/prettier": "error",
         "no-shadow": "off",
         "@typescript-eslint/no-shadow": "error",
         "prefer-arrow/prefer-arrow-functions": [

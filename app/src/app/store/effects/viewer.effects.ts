@@ -43,9 +43,9 @@ import { AppExtensionService } from '@alfresco/aca-shared';
 import { MatDialog } from '@angular/material/dialog';
 
 export const fileToPreview = createSelector(getAppSelection, getCurrentFolder, (selection, folder) => ({
-    selection,
-    folder
-  }));
+  selection,
+  folder
+}));
 
 @Injectable()
 export class ViewerEffects {

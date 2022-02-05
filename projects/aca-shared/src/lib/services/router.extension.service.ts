@@ -69,11 +69,11 @@ export class RouterExtensionService {
         children: [
           ...(route['children']
             ? route['children'].map(({ path, component, outlet, data }) => ({
-                  path,
-                  outlet,
-                  data,
-                  component: this.getComponentById(component)
-                }))
+                path,
+                outlet,
+                data,
+                component: this.getComponentById(component)
+              }))
             : []),
           {
             path: '',

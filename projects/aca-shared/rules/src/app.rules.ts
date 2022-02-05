@@ -38,7 +38,8 @@ export interface AcaRuleContext extends RuleContext {
  *
  * @param context Rule execution context
  */
-export const canCopyNode = (context: RuleContext): boolean => [hasSelection(context), navigation.isNotTrashcan(context), navigation.isNotLibraries(context)].every(Boolean);
+export const canCopyNode = (context: RuleContext): boolean =>
+  [hasSelection(context), navigation.isNotTrashcan(context), navigation.isNotLibraries(context)].every(Boolean);
 
 /**
  * Checks if user can mark selected nodes as **Favorite**.
@@ -72,16 +73,16 @@ export function canRemoveFavorite(context: RuleContext): boolean {
  * Checks if user can share selected file.
  * JSON ref: `app.selection.file.canShare`
  */
-export const canShareFile = (context: RuleContext): boolean => [context.selection.file, navigation.isNotTrashcan(context), repository.hasQuickShareEnabled(context), !isShared(context)].every(Boolean);
+export const canShareFile = (context: RuleContext): boolean =>
+  [context.selection.file, navigation.isNotTrashcan(context), repository.hasQuickShareEnabled(context), !isShared(context)].every(Boolean);
 
 /**
  * Checks if user can perform "Join" or "Cancel Join Request" on a library.
  * JSON ref: `canToggleJoinLibrary`
  */
-export const canToggleJoinLibrary = (context: RuleContext): boolean => (
-    [hasLibrarySelected(context), !isPrivateLibrary(context), hasNoLibraryRole(context)].every(Boolean) ||
-    [hasLibrarySelected(context), isPrivateLibrary(context), hasNoLibraryRole(context), isAdmin(context)].every(Boolean)
-  );
+export const canToggleJoinLibrary = (context: RuleContext): boolean =>
+  [hasLibrarySelected(context), !isPrivateLibrary(context), hasNoLibraryRole(context)].every(Boolean) ||
+  [hasLibrarySelected(context), isPrivateLibrary(context), hasNoLibraryRole(context), isAdmin(context)].every(Boolean);
 
 /**
  * Checks if user can edit the selected folder.
@@ -301,7 +302,8 @@ export function hasLockedFiles(context: RuleContext): boolean {
  * Checks if the selected file has **write** or **read-only** locks specified.
  * JSON ref: `app.selection.file.isLocked`
  */
-export const isWriteLocked = (context: RuleContext): boolean => !!(
+export const isWriteLocked = (context: RuleContext): boolean =>
+  !!(
     context &&
     context.selection &&
     context.selection.file &&
@@ -316,11 +318,10 @@ export const isWriteLocked = (context: RuleContext): boolean => !!(
  * and that current user is the owner of the lock.
  * JSON ref: `app.selection.file.isLockOwner`
  */
-export const isUserWriteLockOwner = (context: RuleContext): boolean => (
-    isWriteLocked(context) &&
-    context.selection.file.entry.properties['cm:lockOwner'] &&
-    context.selection.file.entry.properties['cm:lockOwner'].id === context.profile.id
-  );
+export const isUserWriteLockOwner = (context: RuleContext): boolean =>
+  isWriteLocked(context) &&
+  context.selection.file.entry.properties['cm:lockOwner'] &&
+  context.selection.file.entry.properties['cm:lockOwner'].id === context.profile.id;
 
 /**
  * Checks if user can lock selected file.
@@ -383,7 +384,8 @@ export const canLeaveLibrary = (context: RuleContext): boolean => [hasLibrarySel
  *
  * @param context Rule execution context
  */
-export const canToggleSharedLink = (context: RuleContext): boolean => [hasFileSelected(context), [canShareFile(context), isShared(context)].some(Boolean)].every(Boolean);
+export const canToggleSharedLink = (context: RuleContext): boolean =>
+  [hasFileSelected(context), [canShareFile(context), isShared(context)].some(Boolean)].every(Boolean);
 
 /**
  * Checks if user can show **Info Drawer** for the selected node.
@@ -391,7 +393,8 @@ export const canToggleSharedLink = (context: RuleContext): boolean => [hasFileSe
  *
  * @param context Rule execution context
  */
-export const canShowInfoDrawer = (context: RuleContext): boolean => [hasSelection(context), navigation.isNotLibraries(context), navigation.isNotTrashcan(context)].every(Boolean);
+export const canShowInfoDrawer = (context: RuleContext): boolean =>
+  [hasSelection(context), navigation.isNotLibraries(context), navigation.isNotTrashcan(context)].every(Boolean);
 
 /**
  * Checks if user can manage file versions for the selected node.
@@ -399,7 +402,8 @@ export const canShowInfoDrawer = (context: RuleContext): boolean => [hasSelectio
  *
  * @param context Rule execution context
  */
-export const canManageFileVersions = (context: RuleContext): boolean => [hasFileSelected(context), navigation.isNotTrashcan(context), !hasLockedFiles(context)].every(Boolean);
+export const canManageFileVersions = (context: RuleContext): boolean =>
+  [hasFileSelected(context), navigation.isNotTrashcan(context), !hasLockedFiles(context)].every(Boolean);
 
 /**
  * Checks if user can edit aspects for the selected node.
@@ -407,7 +411,8 @@ export const canManageFileVersions = (context: RuleContext): boolean => [hasFile
  *
  * @param context Rule execution context
  */
-export const canEditAspects = (context: RuleContext): boolean => [
+export const canEditAspects = (context: RuleContext): boolean =>
+  [
     !isMultiselection(context),
     canUpdateSelectedNode(context),
     !isWriteLocked(context),
@@ -421,7 +426,8 @@ export const canEditAspects = (context: RuleContext): boolean => [
  *
  * @param context Rule execution context
  */
-export const canManagePermissions = (context: RuleContext): boolean => [canUpdateSelectedNode(context), navigation.isNotTrashcan(context)].every(Boolean);
+export const canManagePermissions = (context: RuleContext): boolean =>
+  [canUpdateSelectedNode(context), navigation.isNotTrashcan(context)].every(Boolean);
 
 /**
  * Checks if user can toggle **Edit Offline** mode for selected node.
@@ -429,14 +435,16 @@ export const canManagePermissions = (context: RuleContext): boolean => [canUpdat
  *
  * @param context Rule execution context
  */
-export const canToggleEditOffline = (context: RuleContext): boolean => [hasFileSelected(context), navigation.isNotTrashcan(context), canLockFile(context) || canUnlockFile(context)].every(Boolean);
+export const canToggleEditOffline = (context: RuleContext): boolean =>
+  [hasFileSelected(context), navigation.isNotTrashcan(context), canLockFile(context) || canUnlockFile(context)].every(Boolean);
 
 /**
  * @deprecated Uses workarounds for for recent files and search api issues.
  * Checks if user can toggle **Favorite** state for a node.
  * @param context Rule execution context
  */
-export const canToggleFavorite = (context: RuleContext): boolean => [
+export const canToggleFavorite = (context: RuleContext): boolean =>
+  [
     [canAddFavorite(context), canRemoveFavorite(context)].some(Boolean),
     [navigation.isRecentFiles(context), navigation.isSharedFiles(context), navigation.isSearchResults(context), navigation.isFavorites(context)].some(
       Boolean
@@ -457,7 +465,8 @@ export const canShowLogout = (context: AcaRuleContext): boolean => !context.with
  *
  * @param context Rule execution context
  */
-export const isLibraryManager = (context: RuleContext): boolean => hasLibrarySelected(context) && context.selection.library.entry && context.selection.library.entry.role === 'SiteManager';
+export const isLibraryManager = (context: RuleContext): boolean =>
+  hasLibrarySelected(context) && context.selection.library.entry && context.selection.library.entry.role === 'SiteManager';
 
 /**
  * Checks if the preview button for search results can be showed
@@ -465,6 +474,7 @@ export const isLibraryManager = (context: RuleContext): boolean => hasLibrarySel
  *
  * @param context Rule execution context
  */
-export const canInfoPreview = (context: RuleContext): boolean => navigation.isSearchResults(context) && !isMultiselection(context) && !hasFolderSelected(context) && !navigation.isPreview(context);
+export const canInfoPreview = (context: RuleContext): boolean =>
+  navigation.isSearchResults(context) && !isMultiselection(context) && !hasFolderSelected(context) && !navigation.isPreview(context);
 
 export const showInfoSelectionButton = (context: RuleContext): boolean => navigation.isSearchResults(context) && !navigation.isPreview(context);

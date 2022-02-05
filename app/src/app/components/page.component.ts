@@ -74,9 +74,7 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnInit() {
     this.sharedPreviewUrl$ = this.store.select(getSharedUrl);
-    this.infoDrawerOpened$ = this.store.select(isInfoDrawerOpened).pipe(
-      map((infoDrawerState) => !this.isOutletPreviewUrl() && infoDrawerState)
-    );
+    this.infoDrawerOpened$ = this.store.select(isInfoDrawerOpened).pipe(map((infoDrawerState) => !this.isOutletPreviewUrl() && infoDrawerState));
 
     this.documentDisplayMode$ = this.store.select(getDocumentDisplayMode);
 
