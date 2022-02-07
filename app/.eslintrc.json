@@ -11,8 +11,7 @@
       "parserOptions": {
         "project": [
           "app/tsconfig.app.json",
-          "app/tsconfig.spec.json",
-          "e2e/tsconfig.e2e.json"
+          "app/tsconfig.spec.json"
         ],
         "createDefaultProgram": true
       },
