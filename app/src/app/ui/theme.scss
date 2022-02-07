@@ -4,9 +4,7 @@
 @import 'custom-theme';
 @import 'variables/variables';
 
-@include angular-material-theme($custom-theme);
-@include alfresco-material-theme($custom-theme);
-@include adf-style-fixes($custom-theme);
+@include custom-theme($custom-theme);
 
 .mat-toolbar {
   color: var(--theme-text-color, rgba(0, 0, 0, 0.54));

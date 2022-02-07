@@ -13,3 +13,9 @@ $custom-theme: mat-light-theme(
   $mat-accent-palette,
   $mat-warn-palette,
 );
+
+@mixin custom-theme($theme) {
+  @include angular-material-theme($theme);
+  @include adf-core-theme($theme);
+  @include adf-style-fixes($theme);
+}

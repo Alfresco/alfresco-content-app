@@ -38,24 +38,23 @@
     }
 
     @return $custom-typography;
-}
+};
+
+@function get-custom-adf-font-sizes() {
+    @return (
+        'theme-adf-font-size-1': 1.2rem,
+        'theme-adf-font-size-2': 1.28rem
+    )
+};
 
 @mixin baseFontSize($fontSize) {
     html, body {
         font-size: $fontSize !important;
     }
-}
+};
 
 @mixin baseFontFamily($fontFamily) {
     html, body {
         font-family: $fontFamily !important;
     }
-}
-
-@function strip-unit($number) {
-  @if type-of($number) == 'number' and not unitless($number) {
-    @return $number / ($number * 0 + 1);
-  }
-
-  @return $number;
-}
+};

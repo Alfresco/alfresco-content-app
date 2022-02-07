@@ -26,3 +26,15 @@ $custom-theme: mat-light-theme(
   map-get($palettes, accent),
   map-get($palettes, warning),
 );
+
+@mixin custom-theme($theme) {
+  @include angular-material-theme($theme);
+
+  @if $baseFontSize {
+    @include adf-core-theme($theme, get-custom-adf-font-sizes());
+  } @else {
+    @include adf-core-theme($theme);
+  }
+
+  @include adf-style-fixes($theme);
+}
