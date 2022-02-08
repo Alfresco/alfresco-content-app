@@ -3,9 +3,13 @@
 @import "./dynamic-theme/theme-configuration";
 @import "./dynamic-theme/typography";
 @import "./dynamic-theme/custom-theme-palettes";
+@import "./dynamic-theme/custom-background-color";
+@import "./dynamic-theme/custom-text-color";
 
 $primary-color: map-get($theme-config, 'primary-color');
 $accent-color: map-get($theme-config, 'accent-color');
+$background-color: map-get($theme-config, 'background-color');
+$text-color: map-get($theme-config, 'text-color');
 $base-font-size: map-get($theme-config, 'base-font-size');
 $font-family: map-get($theme-config, 'font-family');
 
@@ -23,6 +27,16 @@ $custom-theme: mat-light-theme(
   map-get($palettes, accent),
   map-get($palettes, warning),
 );
+
+@if $background-color {
+  $custom-background: get-custom-backgrond-color($background-color, $custom-theme);
+  $custom-theme: map_merge($custom-theme, (background: $custom-background));
+}
+
+@if $text-color {
+  $custom-foreground: get-custom-text-color($text-color, $custom-theme);
+  $custom-theme: map_merge($custom-theme, (foreground: $custom-foreground));
+}
 
 @mixin custom-theme($theme) {
   @include angular-material-theme($theme);
