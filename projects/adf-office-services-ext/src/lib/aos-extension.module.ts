@@ -28,7 +28,7 @@ import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { AosEffects } from './effects/aos.effects';
 import { TranslationService } from '@alfresco/adf-core';
-import { AlfrescoOfficeExtensionService } from 'projects/aca-shared/src/lib/services/alfresco-office-extension.service';
+import { AlfrescoOfficeExtensionService } from '@alfresco/aca-shared';
 import { canOpenWithOffice } from './evaluators';
 
 @NgModule({
