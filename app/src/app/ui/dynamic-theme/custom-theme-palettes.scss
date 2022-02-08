@@ -1,18 +1,18 @@
 @import '../colors';
 @import './custom-palette-creator.scss';
 
-@function get-mat-palettes($primaryColour, $accentColour) {
+@function get-mat-palettes($primary-color, $accent-color) {
     $mat-primary-palette: null;
-    @if $primary {
-        $custom-theme-primary-palette: createColorPalette($primary, 'primary');
+    @if $primary-color {
+        $custom-theme-primary-palette: createColorPalette($primary-color, 'primary');
         $mat-primary-palette: mat-palette($custom-theme-primary-palette, 500);
     } @else {
         $mat-primary-palette: mat-palette($aca-primary-blue, A100);
     }
 
     $mat-accent-palette: null;
-    @if $accent {
-        $custom-theme-accent-palette: createColorPalette($accent, 'accent');
+    @if $accent-color {
+        $custom-theme-accent-palette: createColorPalette($accent-color, 'accent');
         $mat-accent-palette: mat-palette($custom-theme-accent-palette, 500);
     } @else {
         $mat-accent-palette: mat-palette($aca-accent-green, A200);

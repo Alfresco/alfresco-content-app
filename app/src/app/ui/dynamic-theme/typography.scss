@@ -1,13 +1,13 @@
 @import '../variables/font-family.scss';
 
 @function get-mat-typography(
-    $baseFontSize,
+    $base-font-size,
     $font-family,
     $default-typography
 ) {
     $custom-typography: $default-typography;
 
-    @if $baseFontSize {
+    @if $base-font-size {
         $custom-typography: mat-typography-config(
             $display-4:     mat-typography-level(8rem, 8rem, 300),
             $display-3:     mat-typography-level(4rem, 4rem, 400),
@@ -26,10 +26,10 @@
         );
     }
 
-    @if $fontFamily {
+    @if $font-family {
         @each $key, $level in $custom-typography {
             @if (type-of($level) == 'map') {
-                $new-level: map-merge($level, (font-family: $fontFamily));
+                $new-level: map-merge($level, (font-family: $font-family));
                 $custom-typography: map-merge($custom-typography, ($key: $new-level));
             }
         }
@@ -42,19 +42,21 @@
 
 @function get-custom-adf-font-sizes() {
     @return (
-        'theme-adf-font-size-1': 1.2rem,
-        'theme-adf-font-size-2': 1.28rem
+        'theme-adf-icon-1-font-size': 1.2rem,
+        'theme-adf-picture-1-font-size': 1.28rem,
+        'theme-adf-task-footer-font-size': 1.28rem,
+        'theme-adf-task-title-font-size': 1.28rem
     )
 };
 
-@mixin baseFontSize($fontSize) {
+@mixin base-font-size($font-size) {
     html, body {
-        font-size: $fontSize !important;
+        font-size: $font-size !important;
     }
 };
 
-@mixin baseFontFamily($fontFamily) {
+@mixin base-font-family($font-family) {
     html, body {
-        font-family: $fontFamily !important;
+        font-family: $font-family !important;
     }
 };
