@@ -6,6 +6,9 @@
   "providers": "${APP_CONFIG_PROVIDER}",
   "authType": "${APP_CONFIG_AUTH_TYPE}",
   "loginRoute": "login",
+  "plugins":{
+    "aosPlugin" : ${APP_CONFIG_PLUGIN_AOS}
+  },
   "oauth2": {
     "host": "${APP_CONFIG_OAUTH2_HOST}",
     "clientId": "${APP_CONFIG_OAUTH2_CLIENTID}",

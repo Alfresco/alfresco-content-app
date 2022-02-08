@@ -70,3 +70,11 @@ Update `app.extensions.json` and append a reference to the plugin definition:
   "$references": ["aos.plugin.json"]
 }
 ```
+
+## Disable and Enable the extension after it is installed
+
+There's an environment that can disable or enable the installed extension.
+
+In the `app.config.json` file there's a `aosPlugin` boolean variable where you can toggle the value `false` or `true` if you want to hide or show the extension.
+
+The extension is enabled by default.

@@ -23,29 +23,42 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ExtensionService, provideExtensionConfig } from '@alfresco/adf-extensions';
-import { NgModule } from '@angular/core';
-import { EffectsModule } from '@ngrx/effects';
-import { AosEffects } from './effects/aos.effects';
-import { TranslationService } from '@alfresco/adf-core';
-import { AlfrescoOfficeExtensionService } from 'projects/aca-shared/src/lib/services/alfresco-office-extension.service';
-import { canOpenWithOffice } from './evaluators';
+import { Injectable } from '@angular/core';
+import { AppConfigService } from '@alfresco/adf-core';
+import { map, take } from 'rxjs/operators';
 
-@NgModule({
-  imports: [EffectsModule.forFeature([AosEffects])],
-  providers: [provideExtensionConfig(['aos.plugin.json'])]
+@Injectable({
+  providedIn: 'root'
 })
-export class AosExtensionModule {
-  constructor(extensions: ExtensionService, translation: TranslationService, aosService: AlfrescoOfficeExtensionService) {
-    translation.addTranslationFolder('adf-office-services-ext', 'assets/adf-office-services-ext');
-    if (!aosService.isAosPluginEnabled()) {
-      extensions.setEvaluators({
-        'aos.canOpenWithOffice': () => false
+export class AlfrescoOfficeExtensionService {
+  constructor(private appConfigService: AppConfigService) {
+    this.appConfigService.onLoad
+      .pipe(
+        take(1),
+        map((appConfig) => {
+          return appConfig.plugins && appConfig.plugins.aosPlugin;
+        })
+      )
+      .subscribe((aosPlugin) => {
+        if (aosPlugin) {
+          this.enablePlugin();
+        } else {
+          this.disablePlugin();
+        }
       });
-    } else {
-      extensions.setEvaluators({
-        'aos.canOpenWithOffice': canOpenWithOffice
-      });
+  }
+
+  enablePlugin() {
+    if (localStorage && localStorage.getItem('aosPlugin') === null) {
+      localStorage.setItem('aosPlugin', 'true');
     }
+  }
+
+  disablePlugin() {
+    localStorage.removeItem('aosPlugin');
+  }
+
+  isAosPluginEnabled() {
+    return localStorage && localStorage.getItem('aosPlugin') === 'true';
   }
 }
