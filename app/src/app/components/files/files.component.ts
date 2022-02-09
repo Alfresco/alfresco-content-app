@@ -250,9 +250,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   }
 
   onContentCopied(nodes: MinimalNodeEntity[]) {
-    const newNode = nodes.find((node) => {
-      return node && node.entry && node.entry.parentId === this.getParentNodeId();
-    });
+    const newNode = nodes.find((node) => node && node.entry && node.entry.parentId === this.getParentNodeId());
     if (newNode) {
       this.reload(this.selectedNode);
     }
@@ -265,9 +263,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     if (node && node.path && node.path.elements) {
       const elements = node.path.elements;
 
-      this.nodePath = elements.map((pathElement) => {
-        return Object.assign({}, pathElement);
-      });
+      this.nodePath = elements.map((pathElement) => Object.assign({}, pathElement));
 
       if (elements.length > 1) {
         if (elements[1].name === 'User Homes') {

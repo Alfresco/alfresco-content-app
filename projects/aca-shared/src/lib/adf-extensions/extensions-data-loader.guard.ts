@@ -30,9 +30,7 @@ import { tap, map, catchError } from 'rxjs/operators';
 
 export type ExtensionLoaderCallback = (route: ActivatedRouteSnapshot) => Observable<boolean>;
 
-export function DefaultExtensionLoaderFactory() {
-  return [];
-}
+export const DefaultExtensionLoaderFactory = () => [];
 
 export const EXTENSION_DATA_LOADERS = new InjectionToken<ExtensionLoaderCallback[]>('EXTENSION_DATA_LOADERS', {
   providedIn: 'root',
@@ -64,9 +62,9 @@ export class ExtensionsDataLoaderGuard implements CanActivate {
         map(() => true),
         tap(() => (this.invoked = true)),
         catchError((e) => {
-          // tslint:disable-next-line
+          // eslint-disable-next-line no-console
           console.error('Some of the extension data loader guards has been errored.');
-          // tslint:disable-next-line
+          // eslint-disable-next-line no-console
           console.error(e);
           return of(true);
         })

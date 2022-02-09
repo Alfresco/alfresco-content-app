@@ -35,11 +35,11 @@ export interface AcaRuleContext extends RuleContext {
 /**
  * Checks if user can copy selected node.
  * JSON ref: `app.canCopyNode`
+ *
  * @param context Rule execution context
  */
-export function canCopyNode(context: RuleContext): boolean {
-  return [hasSelection(context), navigation.isNotTrashcan(context), navigation.isNotLibraries(context)].every(Boolean);
-}
+export const canCopyNode = (context: RuleContext): boolean =>
+  [hasSelection(context), navigation.isNotTrashcan(context), navigation.isNotLibraries(context)].every(Boolean);
 
 /**
  * Checks if user can mark selected nodes as **Favorite**.
@@ -73,29 +73,24 @@ export function canRemoveFavorite(context: RuleContext): boolean {
  * Checks if user can share selected file.
  * JSON ref: `app.selection.file.canShare`
  */
-export function canShareFile(context: RuleContext): boolean {
-  return [context.selection.file, navigation.isNotTrashcan(context), repository.hasQuickShareEnabled(context), !isShared(context)].every(Boolean);
-}
+export const canShareFile = (context: RuleContext): boolean =>
+  [context.selection.file, navigation.isNotTrashcan(context), repository.hasQuickShareEnabled(context), !isShared(context)].every(Boolean);
 
 /**
  * Checks if user can perform "Join" or "Cancel Join Request" on a library.
  * JSON ref: `canToggleJoinLibrary`
  */
-export function canToggleJoinLibrary(context: RuleContext): boolean {
-  return (
-    [hasLibrarySelected(context), !isPrivateLibrary(context), hasNoLibraryRole(context)].every(Boolean) ||
-    [hasLibrarySelected(context), isPrivateLibrary(context), hasNoLibraryRole(context), isAdmin(context)].every(Boolean)
-  );
-}
+export const canToggleJoinLibrary = (context: RuleContext): boolean =>
+  [hasLibrarySelected(context), !isPrivateLibrary(context), hasNoLibraryRole(context)].every(Boolean) ||
+  [hasLibrarySelected(context), isPrivateLibrary(context), hasNoLibraryRole(context), isAdmin(context)].every(Boolean);
 
 /**
  * Checks if user can edit the selected folder.
  * JSON ref: `canEditFolder`
+ *
  * @param context Rule execution context
  */
-export function canEditFolder(context: RuleContext): boolean {
-  return [canUpdateSelectedFolder(context), navigation.isNotTrashcan(context)].every(Boolean);
-}
+export const canEditFolder = (context: RuleContext): boolean => [canUpdateSelectedFolder(context), navigation.isNotTrashcan(context)].every(Boolean);
 
 /**
  * Checks if the selected file is already shared.
@@ -166,9 +161,7 @@ export function canUnshareNodes(context: RuleContext): boolean {
  * Checks if user selected anything.
  * JSON ref: `app.selection.notEmpty`
  */
-export function hasSelection(context: RuleContext): boolean {
-  return !context.selection.isEmpty;
-}
+export const hasSelection = (context: RuleContext): boolean => !context.selection.isEmpty;
 
 /**
  * Checks if user can create a new folder with current path.
@@ -200,9 +193,7 @@ export function canUpload(context: RuleContext): boolean {
  */
 export function canDownloadSelection(context: RuleContext): boolean {
   if (!context.selection.isEmpty && navigation.isNotTrashcan(context)) {
-    return context.selection.nodes.every((node: any) => {
-      return node.entry && (node.entry.isFile || node.entry.isFolder || !!node.entry.nodeId);
-    });
+    return context.selection.nodes.every((node: any) => node.entry && (node.entry.isFile || node.entry.isFolder || !!node.entry.nodeId));
   }
   return false;
 }
@@ -211,17 +202,13 @@ export function canDownloadSelection(context: RuleContext): boolean {
  * Checks if user has selected a folder.
  * JSON ref: `app.selection.folder`
  */
-export function hasFolderSelected(context: RuleContext): boolean {
-  return !!context.selection.folder;
-}
+export const hasFolderSelected = (context: RuleContext): boolean => !!context.selection.folder;
 
 /**
  * Checks if user has selected a library (site).
  * JSON ref: `app.selection.library`
  */
-export function hasLibrarySelected(context: RuleContext): boolean {
-  return !!context.selection.library;
-}
+export const hasLibrarySelected = (context: RuleContext): boolean => !!context.selection.library;
 
 /**
  * Checks if user has selected a **private** library (site)
@@ -245,17 +232,13 @@ export function hasLibraryRole(context: RuleContext): boolean {
  * Checks if the selected library has no **role** property defined.
  * JSON ref: `app.selection.hasNoLibraryRole`
  */
-export function hasNoLibraryRole(context: RuleContext): boolean {
-  return !hasLibraryRole(context);
-}
+export const hasNoLibraryRole = (context: RuleContext): boolean => !hasLibraryRole(context);
 
 /**
  * Checks if user has selected a file.
  * JSON ref: `app.selection.file`
  */
-export function hasFileSelected(context: RuleContext): boolean {
-  return !!(context && context.selection && context.selection.file);
-}
+export const hasFileSelected = (context: RuleContext): boolean => !!(context && context.selection && context.selection.file);
 
 /**
  * Checks if user can update the first selected node.
@@ -319,8 +302,8 @@ export function hasLockedFiles(context: RuleContext): boolean {
  * Checks if the selected file has **write** or **read-only** locks specified.
  * JSON ref: `app.selection.file.isLocked`
  */
-export function isWriteLocked(context: RuleContext): boolean {
-  return !!(
+export const isWriteLocked = (context: RuleContext): boolean =>
+  !!(
     context &&
     context.selection &&
     context.selection.file &&
@@ -329,28 +312,22 @@ export function isWriteLocked(context: RuleContext): boolean {
     (context.selection.file.entry.properties['cm:lockType'] === 'WRITE_LOCK' ||
       context.selection.file.entry.properties['cm:lockType'] === 'READ_ONLY_LOCK')
   );
-}
 
 /**
  * Checks if the selected file has **write** or **read-only** locks specified,
  * and that current user is the owner of the lock.
  * JSON ref: `app.selection.file.isLockOwner`
  */
-export function isUserWriteLockOwner(context: RuleContext): boolean {
-  return (
-    isWriteLocked(context) &&
-    context.selection.file.entry.properties['cm:lockOwner'] &&
-    context.selection.file.entry.properties['cm:lockOwner'].id === context.profile.id
-  );
-}
+export const isUserWriteLockOwner = (context: RuleContext): boolean =>
+  isWriteLocked(context) &&
+  context.selection.file.entry.properties['cm:lockOwner'] &&
+  context.selection.file.entry.properties['cm:lockOwner'].id === context.profile.id;
 
 /**
  * Checks if user can lock selected file.
  * JSON ref: `app.selection.file.canLock`
  */
-export function canLockFile(context: RuleContext): boolean {
-  return !isWriteLocked(context) && canUpdateSelectedNode(context);
-}
+export const canLockFile = (context: RuleContext): boolean => !isWriteLocked(context) && canUpdateSelectedNode(context);
 
 /**
  * Checks if user can unlock selected file.
@@ -380,131 +357,124 @@ export function canUploadVersion(context: RuleContext): boolean {
 /**
  * Checks if user has trashcan item selected.
  * JSON ref: `isTrashcanItemSelected`
+ *
  * @param context Rule execution context
  */
-export function isTrashcanItemSelected(context: RuleContext): boolean {
-  return [navigation.isTrashcan(context), hasSelection(context)].every(Boolean);
-}
+export const isTrashcanItemSelected = (context: RuleContext): boolean => [navigation.isTrashcan(context), hasSelection(context)].every(Boolean);
 
 /**
  * Checks if user can view the file.
  * JSON ref: `canViewFile`
+ *
  * @param context Rule execution context
  */
-export function canViewFile(context: RuleContext): boolean {
-  return [hasFileSelected(context), navigation.isNotTrashcan(context)].every(Boolean);
-}
+export const canViewFile = (context: RuleContext): boolean => [hasFileSelected(context), navigation.isNotTrashcan(context)].every(Boolean);
 
 /**
  * Checks if user can **Leave** selected library.
  * JSON ref: `canLeaveLibrary`
+ *
  * @param context Rule execution context
  */
-export function canLeaveLibrary(context: RuleContext): boolean {
-  return [hasLibrarySelected(context), hasLibraryRole(context)].every(Boolean);
-}
+export const canLeaveLibrary = (context: RuleContext): boolean => [hasLibrarySelected(context), hasLibraryRole(context)].every(Boolean);
 
 /**
  * Checks if user can toggle shared link mode.
  * JSON ref: `canToggleSharedLink`
+ *
  * @param context Rule execution context
  */
-export function canToggleSharedLink(context: RuleContext): boolean {
-  return [hasFileSelected(context), [canShareFile(context), isShared(context)].some(Boolean)].every(Boolean);
-}
+export const canToggleSharedLink = (context: RuleContext): boolean =>
+  [hasFileSelected(context), [canShareFile(context), isShared(context)].some(Boolean)].every(Boolean);
 
 /**
  * Checks if user can show **Info Drawer** for the selected node.
  * JSON ref: `canShowInfoDrawer`
+ *
  * @param context Rule execution context
  */
-export function canShowInfoDrawer(context: RuleContext): boolean {
-  return [hasSelection(context), navigation.isNotLibraries(context), navigation.isNotTrashcan(context)].every(Boolean);
-}
+export const canShowInfoDrawer = (context: RuleContext): boolean =>
+  [hasSelection(context), navigation.isNotLibraries(context), navigation.isNotTrashcan(context)].every(Boolean);
 
 /**
  * Checks if user can manage file versions for the selected node.
  * JSON ref: `canManageFileVersions`
+ *
  * @param context Rule execution context
  */
-export function canManageFileVersions(context: RuleContext): boolean {
-  return [hasFileSelected(context), navigation.isNotTrashcan(context), !hasLockedFiles(context)].every(Boolean);
-}
+export const canManageFileVersions = (context: RuleContext): boolean =>
+  [hasFileSelected(context), navigation.isNotTrashcan(context), !hasLockedFiles(context)].every(Boolean);
 
 /**
  * Checks if user can edit aspects for the selected node.
  * JSON ref: `canEditAspects`
+ *
  * @param context Rule execution context
  */
-export function canEditAspects(context: RuleContext): boolean {
-  return [
+export const canEditAspects = (context: RuleContext): boolean =>
+  [
     !isMultiselection(context),
     canUpdateSelectedNode(context),
     !isWriteLocked(context),
     navigation.isNotTrashcan(context),
     repository.isMajorVersionAvailable(context, '7')
   ].every(Boolean);
-}
 
 /**
  * Checks if user can manage permissions for the selected node.
  * JSON ref: `canManagePermissions`
+ *
  * @param context Rule execution context
  */
-export function canManagePermissions(context: RuleContext): boolean {
-  return [canUpdateSelectedNode(context), navigation.isNotTrashcan(context)].every(Boolean);
-}
+export const canManagePermissions = (context: RuleContext): boolean =>
+  [canUpdateSelectedNode(context), navigation.isNotTrashcan(context)].every(Boolean);
 
 /**
  * Checks if user can toggle **Edit Offline** mode for selected node.
  * JSON ref: `canToggleEditOffline`
+ *
  * @param context Rule execution context
  */
-export function canToggleEditOffline(context: RuleContext): boolean {
-  return [hasFileSelected(context), navigation.isNotTrashcan(context), canLockFile(context) || canUnlockFile(context)].every(Boolean);
-}
+export const canToggleEditOffline = (context: RuleContext): boolean =>
+  [hasFileSelected(context), navigation.isNotTrashcan(context), canLockFile(context) || canUnlockFile(context)].every(Boolean);
 
 /**
  * @deprecated Uses workarounds for for recent files and search api issues.
  * Checks if user can toggle **Favorite** state for a node.
  * @param context Rule execution context
  */
-export function canToggleFavorite(context: RuleContext): boolean {
-  return [
+export const canToggleFavorite = (context: RuleContext): boolean =>
+  [
     [canAddFavorite(context), canRemoveFavorite(context)].some(Boolean),
     [navigation.isRecentFiles(context), navigation.isSharedFiles(context), navigation.isSearchResults(context), navigation.isFavorites(context)].some(
       Boolean
     )
   ].every(Boolean);
-}
 
 /**
  * Checks if application should render logout option.
  * JSON ref: `canShowLogout`
+ *
  * @param context Rule execution context
  */
-export function canShowLogout(context: AcaRuleContext): boolean {
-  return !context.withCredentials;
-}
+export const canShowLogout = (context: AcaRuleContext): boolean => !context.withCredentials;
 
 /**
  * Checks if user is library manager
  * JSON ref: `isLibraryManager`
+ *
  * @param context Rule execution context
  */
-export function isLibraryManager(context: RuleContext): boolean {
-  return hasLibrarySelected(context) && context.selection.library.entry && context.selection.library.entry.role === 'SiteManager';
-}
+export const isLibraryManager = (context: RuleContext): boolean =>
+  hasLibrarySelected(context) && context.selection.library.entry && context.selection.library.entry.role === 'SiteManager';
 
 /**
  * Checks if the preview button for search results can be showed
  * JSON ref: `canInfoPreview`
+ *
  * @param context Rule execution context
  */
-export function canInfoPreview(context: RuleContext): boolean {
-  return navigation.isSearchResults(context) && !isMultiselection(context) && !hasFolderSelected(context) && !navigation.isPreview(context);
-}
+export const canInfoPreview = (context: RuleContext): boolean =>
+  navigation.isSearchResults(context) && !isMultiselection(context) && !hasFolderSelected(context) && !navigation.isPreview(context);
 
-export function showInfoSelectionButton(context: RuleContext): boolean {
-  return navigation.isSearchResults(context) && !navigation.isPreview(context);
-}
+export const showInfoSelectionButton = (context: RuleContext): boolean => navigation.isSearchResults(context) && !navigation.isPreview(context);

@@ -35,9 +35,7 @@ export class AlfrescoOfficeExtensionService {
     this.appConfigService.onLoad
       .pipe(
         take(1),
-        map((appConfig) => {
-          return appConfig.plugins && appConfig.plugins.aosPlugin;
-        })
+        map((appConfig) => appConfig.plugins && appConfig.plugins.aosPlugin)
       )
       .subscribe((aosPlugin) => {
         if (aosPlugin) {

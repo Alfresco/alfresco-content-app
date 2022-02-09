@@ -90,9 +90,7 @@ export class TemplateEffects {
       this.store
         .select(getCurrentFolder)
         .pipe(
-          switchMap((folder) => {
-            return this.copyNode(action.payload, folder.id);
-          }),
+          switchMap((folder) => this.copyNode(action.payload, folder.id)),
           take(1)
         )
         .subscribe((node: NodeEntry | null) => {
@@ -134,9 +132,7 @@ export class TemplateEffects {
           }
         })
       ),
-      catchError((error) => {
-        return this.handleError(error);
-      })
+      catchError((error) => this.handleError(error))
     );
   }
 

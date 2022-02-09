@@ -69,9 +69,7 @@ export class CustomNameColumnComponent extends NameColumnComponent implements On
     this.actions$
       .pipe(
         ofType<any>(NodeActionTypes.EditOffline),
-        filter((val) => {
-          return this.node.entry.id === val.payload.entry.id;
-        }),
+        filter((val) => this.node.entry.id === val.payload.entry.id),
         takeUntil(this.onDestroy$$)
       )
       .subscribe(() => {

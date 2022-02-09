@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// This file is required by karma.conf.js and loads recursively all the .spec and framework files
+// This file is required by __karma__.conf.js and loads recursively all the .spec and framework files
 
 import 'zone.js/dist/long-stack-trace-zone';
 import 'zone.js/dist/proxy.js';
@@ -38,7 +38,7 @@ import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@ang
 declare const __karma__: any;
 declare const require: any;
 
-// Prevent Karma from running prematurely.
+// Prevent __karma__ from running prematurely.
 __karma__.loaded = function () {};
 
 // First, initialize the Angular testing environment.
@@ -47,5 +47,5 @@ getTestBed().initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDyn
 const context = require.context('./', true, /\.spec\.ts$/);
 // And load the modules.
 context.keys().map(context);
-// Finally, start Karma to run the tests.
+// Finally, start __karma__ to run the tests.
 __karma__.start();

@@ -886,9 +886,7 @@ describe('ContentManagementService', () => {
   describe('Permanent Delete', () => {
     beforeEach(() => {
       spyOn(dialog, 'open').and.returnValue({
-        afterClosed() {
-          return of(true);
-        }
+        afterClosed: () => of(true)
       } as MatDialogRef<MatDialog>);
     });
 
@@ -1378,9 +1376,7 @@ describe('ContentManagementService', () => {
       const node = { entry: { id: '1', name: 'name1' } } as any;
       spyOn(contentApi, 'getNodeInfo').and.returnValue(of({} as Node));
       spyOn(dialog, 'open').and.returnValue({
-        afterClosed() {
-          return of(null);
-        }
+        afterClosed: () => of(null)
       } as MatDialogRef<MatDialog>);
 
       store.dispatch(new ShareNodeAction(node));
@@ -1395,9 +1391,7 @@ describe('ContentManagementService', () => {
       } as any;
       spyOn(contentApi, 'getNodeInfo').and.returnValue(of({} as Node));
       spyOn(dialog, 'open').and.returnValue({
-        afterClosed() {
-          return of(null);
-        }
+        afterClosed: () => of(null)
       } as MatDialogRef<MatDialog>);
 
       store.dispatch(new ShareNodeAction(node));
@@ -1410,9 +1404,7 @@ describe('ContentManagementService', () => {
       const node = { entry: { id: '1', name: 'name1' } } as NodeEntry;
       spyOn(store, 'dispatch').and.callThrough();
       spyOn(dialog, 'open').and.returnValue({
-        afterClosed() {
-          return of(null);
-        }
+        afterClosed: () => of(null)
       } as MatDialogRef<MatDialog>);
 
       store.dispatch(new ShareNodeAction(node));

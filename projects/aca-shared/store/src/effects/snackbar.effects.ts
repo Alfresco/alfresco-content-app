@@ -75,7 +75,7 @@ export class SnackbarEffects {
 
     const snackBarRef = this.snackBar.open(message, actionName, {
       duration: action.duration || 4000,
-      panelClass: panelClass
+      panelClass
     });
 
     if (action.userAction) {
@@ -85,7 +85,7 @@ export class SnackbarEffects {
     }
   }
 
-  private translate(message: string, params?: Object): string {
+  private translate(message: string, params?: any): string {
     return this.translationService.instant(message, params);
   }
 }

@@ -57,7 +57,7 @@ export class OutsideEventDirective implements OnInit, OnDestroy {
     if (el.classList.contains(className)) {
       return true;
     }
-    // tslint:disable-next-line:curly
+    // eslint-disable-next-line curly
     while ((el = el.parentElement) && !el.classList.contains(className));
     return !!el;
   }

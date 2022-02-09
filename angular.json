@@ -266,16 +266,15 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "app/tsconfig.app.json",
-              "app/tsconfig.spec.json"
+            "lintFilePatterns": [
+              "app/**/*.ts",
+              "app/**/*.html"
             ],
-            "exclude": [
-              "**/node_modules/**",
-              "package.json"
-            ]
+            "cache": true,
+            "cacheLocation": ".eslintcache",
+            "ignorePath": ".eslintignore"
           }
         }
       }
@@ -307,15 +306,15 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "e2e/tsconfig.e2e.json"
+            "lintFilePatterns": [
+              "e2e/**/*.ts",
+              "e2e/**/*.html"
             ],
-            "exclude": [
-              "**/node_modules/**",
-              "package.json"
-            ]
+            "cache": true,
+            "cacheLocation": ".eslintcache",
+            "ignorePath": ".eslintignore"
           }
         }
       }
@@ -347,15 +346,15 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "projects/adf-office-services-ext/tsconfig.lib.json",
-              "projects/adf-office-services-ext/tsconfig.spec.json"
+            "lintFilePatterns": [
+              "projects/adf-office-services-ext/**/*.ts",
+              "projects/adf-office-services-ext/**/*.html"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "cache": true,
+            "cacheLocation": ".eslintcache",
+            "ignorePath": ".eslintignore"
           }
         }
       }
@@ -387,15 +386,15 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "projects/aca-shared/tsconfig.lib.json",
-              "projects/aca-shared/tsconfig.spec.json"
+            "lintFilePatterns": [
+              "projects/aca-shared/**/*.ts",
+              "projects/aca-shared/**/*.html"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "cache": true,
+            "cacheLocation": ".eslintcache",
+            "ignorePath": ".eslintignore"
           }
         }
       }
@@ -433,15 +432,15 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "projects/aca-about/tsconfig.lib.json",
-              "projects/aca-about/tsconfig.spec.json"
+            "lintFilePatterns": [
+              "projects/aca-about/**/*.ts",
+              "projects/aca-about/**/*.html"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "cache": true,
+            "cacheLocation": ".eslintcache",
+            "ignorePath": ".eslintignore"
           }
         }
       }
@@ -473,15 +472,15 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "projects/aca-settings/tsconfig.lib.json",
-              "projects/aca-settings/tsconfig.spec.json"
+            "lintFilePatterns": [
+              "projects/aca-settings/**/*.ts",
+              "projects/aca-settings/**/*.html"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "cache": true,
+            "cacheLocation": ".eslintcache",
+            "ignorePath": ".eslintignore"
           }
         }
       }

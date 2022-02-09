@@ -167,6 +167,7 @@ export class PreviewComponent extends PageComponent implements OnInit, OnDestroy
 
   /**
    * Loads the particular node into the Viewer
+   *
    * @param id Unique identifier for the Node to display
    */
   async displayNode(id: string) {
@@ -206,6 +207,7 @@ export class PreviewComponent extends PageComponent implements OnInit, OnDestroy
 
   /**
    * Handles the visibility change of the Viewer component.
+   *
    * @param isVisible Indicator whether Viewer is visible or hidden.
    */
   onVisibilityChanged(isVisible: boolean): void {
@@ -253,6 +255,7 @@ export class PreviewComponent extends PageComponent implements OnInit, OnDestroy
 
   /**
    * Generates a node preview route based on folder and node IDs.
+   *
    * @param folderId Folder ID
    * @param nodeId Node ID
    */
@@ -272,6 +275,7 @@ export class PreviewComponent extends PageComponent implements OnInit, OnDestroy
 
   /**
    * Retrieves nearest node information for the given node and folder.
+   *
    * @param nodeId Unique identifier of the document node
    * @param folderId Unique identifier of the containing folder node.
    */
@@ -304,6 +308,7 @@ export class PreviewComponent extends PageComponent implements OnInit, OnDestroy
 
   /**
    * Retrieves a list of node identifiers for the folder and data source.
+   *
    * @param source Data source name. Allowed values are: personal-files, libraries, favorites, shared, recent-files.
    * @param folderId Containing folder node identifier for 'personal-files' and 'libraries' sources.
    */
@@ -425,6 +430,7 @@ export class PreviewComponent extends PageComponent implements OnInit, OnDestroy
   /**
    * Get the root field name from the property path.
    * Example: 'property1.some.child.property' => 'property1'
+   *
    * @param path Property path
    */
   getRootField(path: string) {

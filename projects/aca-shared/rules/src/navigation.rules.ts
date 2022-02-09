@@ -47,9 +47,7 @@ export function isFavorites(context: RuleContext): boolean {
  * Checks if the activated route is not **Favorites**.
  * JSON ref: `app.navigation.isNotFavorites`
  */
-export function isNotFavorites(context: RuleContext): boolean {
-  return !isFavorites(context);
-}
+export const isNotFavorites = (context: RuleContext): boolean => !isFavorites(context);
 
 /**
  * Checks if a **Shared Files** route is activated.
@@ -64,9 +62,7 @@ export function isSharedFiles(context: RuleContext): boolean {
  * Checks if the activated route is not **Shared Files**.
  * JSON ref: `app.navigation.isNotSharedFiles`
  */
-export function isNotSharedFiles(context: RuleContext): boolean {
-  return !isSharedFiles(context);
-}
+export const isNotSharedFiles = (context: RuleContext): boolean => !isSharedFiles(context);
 
 /**
  * Checks if a **Trashcan** route is activated.
@@ -81,9 +77,7 @@ export function isTrashcan(context: RuleContext): boolean {
  * Checks if the activated route is not **Trashcan**.
  * JSON ref: `app.navigation.isNotTrashcan`
  */
-export function isNotTrashcan(context: RuleContext): boolean {
-  return !isTrashcan(context);
-}
+export const isNotTrashcan = (context: RuleContext): boolean => !isTrashcan(context);
 
 /**
  * Checks if a **Personal Files** route is activated.
@@ -116,9 +110,7 @@ export function isLibraries(context: RuleContext): boolean {
  * Checks if the activated route is neither **Libraries** nor **Library Search Results**.
  * JSON ref: `app.navigation.isNotLibraries`
  */
-export function isNotLibraries(context: RuleContext): boolean {
-  return !isLibraries(context);
-}
+export const isNotLibraries = (context: RuleContext): boolean => !isLibraries(context);
 
 /**
  * Checks if a **Recent Files** route is activated.
@@ -133,16 +125,16 @@ export function isRecentFiles(context: RuleContext): boolean {
  * Checks if the activated route is not **Recent Files**.
  * JSON ref: `app.navigation.isNotRecentFiles`
  */
-export function isNotRecentFiles(context: RuleContext): boolean {
-  return !isRecentFiles(context);
-}
+export const isNotRecentFiles = (context: RuleContext): boolean => !isRecentFiles(context);
 
 /**
  * Checks if a **Search Results** route is activated.
  * JSON ref: `app.navigation.isSearchResults`
  */
-export function isSearchResults(context: RuleContext /*,
-  ...args: RuleParameter[]*/): boolean {
+export function isSearchResults(
+  context: RuleContext /*,
+  ...args: RuleParameter[]*/
+): boolean {
   const { url } = context.navigation;
   return url && url.startsWith('/search');
 }
@@ -151,9 +143,7 @@ export function isSearchResults(context: RuleContext /*,
  * Checks if the activated route is not **Search Results**.
  * JSON ref: `app.navigation.isNotSearchResults`
  */
-export function isNotSearchResults(context: RuleContext): boolean {
-  return !isSearchResults(context);
-}
+export const isNotSearchResults = (context: RuleContext): boolean => !isSearchResults(context);
 
 /**
  * Checks if a **Shared Preview** route is activated.

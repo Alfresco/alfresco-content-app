@@ -33,7 +33,7 @@ export enum SnackbarActionTypes {
 
 export interface SnackbarAction extends Action {
   payload: string;
-  params?: Object;
+  params?: any;
   userAction?: SnackbarUserAction;
   duration: number;
 }
@@ -48,7 +48,7 @@ export class SnackbarInfoAction implements SnackbarAction {
   userAction?: SnackbarUserAction;
   duration = 4000;
 
-  constructor(public payload: string, public params?: Object) {}
+  constructor(public payload: string, public params?: any) {}
 }
 
 export class SnackbarWarningAction implements SnackbarAction {
@@ -57,7 +57,7 @@ export class SnackbarWarningAction implements SnackbarAction {
   userAction?: SnackbarUserAction;
   duration = 4000;
 
-  constructor(public payload: string, public params?: Object) {}
+  constructor(public payload: string, public params?: any) {}
 }
 
 export class SnackbarErrorAction implements SnackbarAction {
@@ -66,5 +66,5 @@ export class SnackbarErrorAction implements SnackbarAction {
   userAction?: SnackbarUserAction;
   duration = 4000;
 
-  constructor(public payload: string, public params?: Object) {}
+  constructor(public payload: string, public params?: any) {}
 }

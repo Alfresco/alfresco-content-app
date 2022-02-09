@@ -268,6 +268,7 @@ export class AppViewerComponent implements OnInit, OnDestroy {
 
   /**
    * Retrieves nearest node information for the given node and folder.
+   *
    * @param nodeId Unique identifier of the document node
    * @param folderId Unique identifier of the containing folder node.
    */
@@ -300,6 +301,7 @@ export class AppViewerComponent implements OnInit, OnDestroy {
 
   /**
    * Retrieves a list of node identifiers for the folder and data source.
+   *
    * @param source Data source name. Allowed values are: personal-files, libraries, favorites, shared, recent-files.
    * @param folderId Containing folder node identifier for 'personal-files' and 'libraries' sources.
    */
@@ -395,6 +397,7 @@ export class AppViewerComponent implements OnInit, OnDestroy {
   /**
    * Get the root field name from the property path.
    * Example: 'property1.some.child.property' => 'property1'
+   *
    * @param path Property path
    */
   getRootField(path: string) {

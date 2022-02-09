@@ -28,14 +28,12 @@ import { ContentActionRef, ContentActionType } from '@alfresco/adf-extensions';
 export const ACTION_TITLE = 'ACTION_TITLE';
 export const ACTION_CLICK = 'ACTION_CLICK';
 
-export const getContentActionRef = (): ContentActionRef => {
-  return {
-    id: 'id',
-    type: ContentActionType.button,
-    title: ACTION_TITLE,
-    disabled: false,
-    actions: {
-      click: ACTION_CLICK
-    }
-  };
-};
+export const getContentActionRef = (): ContentActionRef => ({
+  id: 'id',
+  type: ContentActionType.button,
+  title: ACTION_TITLE,
+  disabled: false,
+  actions: {
+    click: ACTION_CLICK
+  }
+});

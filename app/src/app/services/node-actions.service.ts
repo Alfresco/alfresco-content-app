@@ -198,7 +198,7 @@ export class NodeActionsService {
     this.isSitesDestinationAvailable = false;
     const data: ContentNodeSelectorComponentData = {
       selectionMode: 'single',
-      title: title,
+      title,
       currentFolderId: currentParentFolderId,
       actionName: action,
       dropdownHideMyFiles: true,
@@ -463,9 +463,7 @@ export class NodeActionsService {
     let newDestinationFolder;
 
     return this.documentListService.moveNode(contentEntryId, selectionId).pipe(
-      map((itemMoved) => {
-        return { itemMoved, initialParentId };
-      }),
+      map((itemMoved) => ({ itemMoved, initialParentId })),
       catchError((err) => {
         let errStatusCode;
         try {
@@ -516,13 +514,11 @@ export class NodeActionsService {
     const initialParentId = this.getEntryParentId(contentEntry);
 
     return this.documentListService.moveNode(contentEntryId, selectionId).pipe(
-      map((itemMoved) => {
-        return { itemMoved, initialParentId };
-      }),
-      catchError((err) => {
+      map((itemMoved) => ({ itemMoved, initialParentId })),
+      catchError((err) =>
         // do not throw error, to be able to show message in case of partial move of files
-        return of(err);
-      })
+        of(err)
+      )
     );
   }
 
@@ -539,9 +535,7 @@ export class NodeActionsService {
           matchedNodes.next(null);
         }
       },
-      (err) => {
-        return matchedNodes.error(err);
-      }
+      (err) => matchedNodes.error(err)
     );
     return matchedNodes;
   }

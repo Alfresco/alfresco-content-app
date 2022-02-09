@@ -132,6 +132,4 @@ export async function checkViewerActions(item: string, expectedToolbarPrimary: s
 
 const toRemove = ['Close', 'Previous File', 'Next File', 'View details'];
 
-function removeClosePreviousNextOldInfo(actions: string[]): string[] {
-  return actions.filter((elem) => !toRemove.includes(elem));
-}
+const removeClosePreviousNextOldInfo = (actions: string[]): string[] => actions.filter((elem) => !toRemove.includes(elem));
