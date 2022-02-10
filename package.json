@@ -95,7 +95,7 @@
     "eslint-plugin-prefer-arrow": "1.2.2",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "latest",
-    "eslint-plugin-rxjs": "latest",
+    "eslint-plugin-rxjs": "^5.0.2",
     "eslint-plugin-unicorn": "latest",
     "http-server": "^14.1.0",
     "husky": "^7.0.2",
