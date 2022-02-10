@@ -1,0 +1,62 @@
+$warn: map-get($custom-theme, warn);
+$accent: map-get($custom-theme, accent);
+$primary: map-get($custom-theme, primary);
+
+$foreground: map-get($custom-theme, foreground);
+$background: map-get($custom-theme, background);
+
+//Custom variables - ACA specific styling:
+$document-list-selection-color: mat-color($alfresco-ecm-blue, 500);
+$document-list-background: white;
+$data-table-dividers-wrapper-border: none;
+$data-table-thumbnail-width: 35px;
+$data-table-cell-min-width: 150px;
+$data-table-cell-min-width--no-grow: 120px;
+$data-table-cell-min-width--fileSize: 110px !important;
+$data-table-cell-text-color: mat-color($foreground, text, 0.54);
+$data-table-cell-link-color: mat-color($foreground, text);
+$data-table-hover-color: #e3fafd;
+$data-table-selection-color: #e3fafd;
+
+$adf-pagination--border: 1px solid mat-color($foreground, text, 0.07);
+$adf-pagination__empty--height: 0;
+
+$adf-toolbar-single-row-height: 48px;
+$adf-toolbar-padding: 14px;
+
+$adf-upload-dragging-color: unset;
+$adf-upload-dragging-border: 1px solid #00bcd4;
+$adf-upload-dragging-background: #e0f7fa;
+$adf-upload-dragging-level1-color: unset;
+$adf-upload-dragging-level1-border: none;
+
+$adf-permission-list-width: 100%;
+
+$defaults: (
+  --theme-primary-color: mat-color($primary),
+  --theme-primary-color-default-contrast: mat-color($primary, default-contrast),
+  --theme-warn-color: mat-color($warn),
+  --theme-accent-color: mat-color($accent),
+  --theme-background-color: mat-color($background, background),
+  --theme-text-color: mat-color($foreground, text, 0.54),
+  --theme-text-bold-color: mat-color($foreground, text, 0.87),
+  --theme-title-color: mat-color($foreground, text, 0.87),
+  --theme-text-disabled-color: mat-color($foreground, text, 0.38),
+  --theme-border-color: mat-color($foreground, text, 0.07),
+  --header-background-image: url('/assets/images/mastHead-bg-shapesPattern.svg'),
+  --theme-card-background-color: mat-color($background, card),
+  --theme-foreground-text-color: mat-color($foreground, text, 0.72),
+  --theme-foreground-text-bold-color: mat-color($foreground, text, 0.87),
+  --theme-secondary-text-color: mat-color($foreground, secondary-text),
+  --theme-divider-color: mat-color($foreground, divider, 0.07),
+  --theme-dialog-background-color: mat-color($background, dialog),
+
+  --new-button-font-size: 0.9rem,
+);
+
+// propagates SCSS variables into the CSS variables scope
+:root {
+  @each $name, $value in $defaults {
+    #{$name}: #{$value};
+  }
+}

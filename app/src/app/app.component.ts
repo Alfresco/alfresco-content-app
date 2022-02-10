@@ -45,7 +45,8 @@ import {
   SnackbarErrorAction,
   CloseModalDialogsAction,
   SetRepositoryInfoAction,
-  getCustomCssPath
+  getCustomCssPath,
+  getCustomWebFontPath
 } from '@alfresco/aca-shared/store';
 import { filter, takeUntil } from 'rxjs/operators';
 import { RouterExtensionService, AppService, ContentApiService } from '@alfresco/aca-shared';
@@ -99,6 +100,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.loadAppSettings();
 
     this.loadCustomCss();
+    this.loadCustomWebFont();
 
     const { router, pageTitle } = this;
 
@@ -203,12 +205,24 @@ export class AppComponent implements OnInit, OnDestroy {
   private loadCustomCss(): void {
     this.store.select(getCustomCssPath).subscribe((cssPath) => {
       if (cssPath) {
-        const cssLinkElement = document.createElement('link');
-        cssLinkElement.setAttribute('rel', 'stylesheet');
-        cssLinkElement.setAttribute('type', 'text/css');
-        cssLinkElement.setAttribute('href', cssPath);
-        document.head.appendChild(cssLinkElement);
+        this.createLink(cssPath);
       }
     });
+  }
+
+  private loadCustomWebFont(): void {
+    this.store.select(getCustomWebFontPath).subscribe((fontUrl) => {
+      if (fontUrl) {
+        this.createLink(fontUrl);
+      }
+    });
+  }
+
+  private createLink(url: string): void {
+    const cssLinkElement = document.createElement('link');
+    cssLinkElement.setAttribute('rel', 'stylesheet');
+    cssLinkElement.setAttribute('type', 'text/css');
+    cssLinkElement.setAttribute('href', url);
+    document.head.appendChild(cssLinkElement);
   }
 }

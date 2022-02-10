@@ -32,6 +32,7 @@ export interface AppState {
   headerTextColor: string;
   logoPath: string;
   customCssPath: string;
+  webFontPath: string;
   headerImagePath: string;
   sharedUrl: string;
   currentNodeVersion: VersionEntry;

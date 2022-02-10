@@ -1,6 +1,0 @@
-@use '~@angular/material/theming';
-@import './colors';
-
-$mat-primary-palette: mat-palette($aca-primary-blue, A100);
-$mat-accent-palette: mat-palette($aca-accent-green, A200);
-$mat-warn-palette: mat-palette($aca-warn, A100);

@@ -1,5 +1,6 @@
 @import 'mixins';
 @import 'theme';
+@import 'variables/font-family';
 
 $foreground: map-get($custom-theme, foreground);
 
@@ -7,7 +8,7 @@ html,
 body {
   @include flex-column;
   font-size: 14px;
-  font-family: 'Muli', sans-serif;
+  font-family: $default-font-family;
   color: mat-color($foreground, text, 0.87);
   margin: 0;
 

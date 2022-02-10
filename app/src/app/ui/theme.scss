@@ -1,8 +1,10 @@
 @import '~@angular/material/theming';
 @import '~@alfresco/adf-core/theming';
-@import 'custom-theme';
 
-@include mat-core($alfresco-typography);
+@import 'custom-theme';
+@import 'variables/variables';
+
+@include custom-theme($custom-theme);
 
 // fixes [ACA-2069]
 $primary: map-get($custom-theme, primary);
@@ -16,4 +18,6 @@ $primary: map-get($custom-theme, primary);
   }
 }
 
-@include custom-theme($custom-theme);
+.mat-toolbar {
+  color: var(--theme-text-color, rgba(0, 0, 0, 0.54));
+}
