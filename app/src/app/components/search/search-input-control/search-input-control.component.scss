@@ -7,6 +7,10 @@ $top-margin: 12px;
   padding-left: 15px;
   box-sizing: border-box;
 
+  .mat-form-field {
+    font-size: 16px;
+  }
+
   .mat-form-field-underline {
     display: none;
   }
