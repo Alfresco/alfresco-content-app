@@ -251,5 +251,22 @@ describe('File / Folder properties', () => {
       expect(await propertiesTab.isEditPropertiesButtonEnabled()).toBe(true, 'Edit button not enabled');
       expect(await propertiesTab.isLessInfoButtonEnabled()).toBe(true, 'Less information button not enabled');
     });
+
+    it('[C599174] Should be able to make the files/folders info drawer expandable as for Sites', async () => {
+      await dataTable.selectItem(file1.name);
+      await BrowserActions.click(page.toolbar.viewDetailsButton);
+      await infoDrawer.waitForInfoDrawerToOpen();
+      await infoDrawer.expandDetailsButton.click();
+      await expect(await infoDrawer.expandedDetailsPermissionsTab.isPresent()).toBe(true, 'Permissions tab is not displayed');
+
+      await page.clickPersonalFilesAndWait();
+      await dataTable.selectItem(parent);
+      await BrowserActions.rightClick(dataTable.selectedRow);
+      await dataTable.menu.clickMenuItem('Permissions');
+      const expectedSelectedTabTitle = 'permissions';
+      const actualSelectedTabTitle = await infoDrawer.selectedTab.getText();
+
+      await expect(actualSelectedTabTitle.toLowerCase()).toEqual(expectedSelectedTabTitle);
+    });
   });
 });

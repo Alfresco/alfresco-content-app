@@ -24,7 +24,7 @@
  */
 
 import { by, browser } from 'protractor';
-import { BrowserActions, BrowserVisibility, Logger } from '@alfresco/adf-testing';
+import { BrowserActions, BrowserVisibility, Logger, TestElement } from '@alfresco/adf-testing';
 import { Component } from '../component';
 import { CommentsTab } from './info-drawer-comments-tab';
 import { LibraryMetadata } from './info-drawer-metadata-library';
@@ -43,6 +43,9 @@ export class InfoDrawer extends Component {
   tabActiveContent = this.byCss('.mat-tab-body-active .mat-tab-body-content adf-dynamic-tab');
   nextButton = this.byCss('.mat-tab-header-pagination-after .mat-tab-header-pagination-chevron');
   previousButton = this.byCss('.mat-tab-header-pagination-before .mat-tab-header-pagination-chevron');
+  expandDetailsButton = TestElement.byCss(`button[title='Expand']`);
+  selectedTab = TestElement.byCss(`.mat-tab-list [aria-selected='true'] div`);
+  expandedDetailsPermissionsTab = TestElement.byText('.acs-details-container .mat-tab-label-content', 'Permissions');
 
   constructor(ancestor?: string) {
     super('adf-info-drawer', ancestor);
