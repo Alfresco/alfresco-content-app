@@ -1,0 +1,29 @@
+Alfresco Content App as generic app shell?
+
+What we must have:
+	- Prerequisites:
+		- ACA must be part of the monorepo. If we expect active/frequent work on it, all the apps has to be in the same repo
+		- From our current DAL (@alfresco/js-api), we must extract the identity services related parts, so it can be either used by Alfresco IDp and Hyland IDp
+		- HxCS api library must be added to DAL
+	- Content services from ACA needs to be ejected or hidden:
+		- Option A: Ejecting would mean creating an extension of the core of the current ACA application. This is a massive rewrite, possibly is not worth the effort.
+		- Option B: Hiding ACA features is a dirty work, every part of the app would remain there, just would not be visible. This also means, just having a generic app shell with login and a layout, we would start with an application which is ~ 4MB (3.41 + polyfills, scripts, styles) in size…
+		- Option C: Start a new application from scratch, providing initially the app-shell only, adding HxCS related features as micro-frontend
+
+	- Option B: Hiding of Alfresco Content Services related features:
+		- app.extensions.json needs to be rewritten / reprovided:
+			- create menu is ACA related as it is => can be hidden, but nothing can be reused
+			- toolbar menu is ACA related as it is => can be hidden, but nothing can be reused
+			- contextMenu menu is ACA related as it is => can be hidden, but nothing can be reused
+			- viewer menu is ACA related as it is => can be hidden, but ALMOST nothing can be reused (only print and fullscreen)
+			- sidebar menu is ACA related as it is => can be hidden, but nothing can be reused
+			- search menu is ACA related as it is => can be hidden, but nothing can be reused
+			- content-metadata-presets menu is ACA related as it is => can be hidden, but nothing can be reused
+			- documentList menu is ACA related as it is => can be hidden, but nothing can be reused
+		- Routes:
+			- We can not reuse the ACA routes, the HxP Digital Workspace needs to define its custom routes as plugins
+		- aca-shared:
+			- Most of the generic things, like raising dialogs, confirmation models, error pages are still part of aca-shared, which is heavily ACA influenced.
+		- Effects / Actions:
+			- Despite not invokable, everything is there, dormant
+			- 90% of the custom actions are ACA related, we can not reuse too much (like app.toolbar.download, app.toolbar.purgeDeletedNodes, etc)
