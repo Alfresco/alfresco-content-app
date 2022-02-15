@@ -23,15 +23,18 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './confirm-dialog';
-export * from './content-node-selector-dialog';
-export * from './create-edit-folder-dialog';
-export * from './create-from-template-dialog';
-export * from './create-library-dialog';
-export * from './generic-dialog';
-export * from './manage-versions-dialog';
-export * from './password-dialog';
-export * from './select-template-dialog';
-export * from './share-dialog';
-export * from './upload-new-version-dialog';
-export * from './upload-files-dialog';
+import { TestElement } from '@alfresco/adf-testing';
+
+export class UploadFilesDialog {
+  uploadDialog = TestElement.byCss('.adf-upload-dialog');
+  closeUploadButton = TestElement.byCss('.adf-upload-dialog [id="adf-upload-dialog-close"]');
+  minimizeButton = TestElement.byCss('.adf-upload-dialog mat-icon[title="Minimize"]');
+  maximizeButton = TestElement.byCss('.adf-upload-dialog mat-icon[title="Maximize"]');
+  uploadedFiles = TestElement.byCss('.adf-file-uploading-row__name');
+
+  async closeUploadDialog(): Promise<void> {
+    if (await this.uploadDialog.isVisible()) {
+      this.closeUploadButton.click();
+    }
+  }
+}
