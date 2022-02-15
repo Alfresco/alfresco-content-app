@@ -33,6 +33,7 @@ ENV APP_CONFIG_OAUTH2_SILENT_LOGIN=true
 ENV APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI="{protocol}//{hostname}{:port}/assets/silent-refresh.html"
 ENV APP_CONFIG_OAUTH2_REDIRECT_LOGIN="/"
 ENV APP_CONFIG_OAUTH2_REDIRECT_LOGOUT="/"
+ENV APP_CONFIG_PLUGIN_AOS=true
 
 COPY docker/default.conf.template /etc/nginx/templates/
 COPY docker/docker-entrypoint.d/* /docker-entrypoint.d/
