@@ -6,12 +6,12 @@
 @import "./dynamic-theme/custom-background-color";
 @import "./dynamic-theme/custom-text-color";
 
-$primary-color: map-get($theme-config, 'primary-color');
-$accent-color: map-get($theme-config, 'accent-color');
-$background-color: map-get($theme-config, 'background-color');
-$text-color: map-get($theme-config, 'text-color');
-$base-font-size: map-get($theme-config, 'base-font-size');
-$font-family: map-get($theme-config, 'font-family');
+$primary-color: map-get($theme-config, 'primaryColor');
+$accent-color: map-get($theme-config, 'accentColor');
+$background-color: map-get($theme-config, 'backgroundColor');
+$text-color: map-get($theme-config, 'textColor');
+$base-font-size: map-get($theme-config, 'baseFontSize');
+$font-family: map-get($theme-config, 'fontFamily');
 
 $alfresco-typography: get-mat-typography(
   $base-font-size,
