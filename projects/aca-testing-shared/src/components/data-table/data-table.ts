@@ -90,6 +90,7 @@ export class DataTable extends Component {
   async sortBy(label: string, order: 'asc' | 'desc'): Promise<void> {
     const sortColumn = await this.getSortedColumnHeaderText();
     const sortOrder = await this.getSortingOrder();
+
     if (sortColumn !== label) {
       await this.getColumnHeaderByLabel(label).click();
       if (sortOrder !== order) {
@@ -384,7 +385,7 @@ export class DataTable extends Component {
     return this.getRowByName(name, location).isPresent();
   }
 
-  async getEntireDataTableText(): Promise<string[]> {
+  private async getEntireDataTableText(): Promise<string[]> {
     return this.getRows().map((row) => {
       return row.all(by.css(DataTable.selectors.cell)).map(async (cell) => {
         return cell.getText();
