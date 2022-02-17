@@ -75,18 +75,54 @@ describe('Search sorting', () => {
   });
 
   it('[C261136] Sort order is retained when navigating to another part of the app', async () => {
-    const preSortFirstItem = await documentListPage.dataTable.getFirstElementDetail('Name');
+    const preSortData = {
+      sorting: await dataTable.getSortingOrder(),
+      firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
+    };
 
     await dataTable.getColumnHeaderByLabel('Name').click();
 
-    const afterSortItem = await documentListPage.dataTable.getFirstElementDetail('Name');
+    const expectedSortData = {
+      sorting: await dataTable.getSortingOrder(),
+      firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
+    };
 
-    await expect(afterSortItem).not.toEqual(preSortFirstItem, 'Initial sort did not work');
+    await expect(expectedSortData).not.toEqual(preSortData, 'Initial sort did not work');
 
     await browsingPage.clickFavorites();
     await browsingPage.clickPersonalFilesAndWait();
 
-    const actualFirstItem = await documentListPage.dataTable.getFirstElementDetail('Name');
-    await expect(actualFirstItem).toEqual(afterSortItem, 'Order is different - sorting was not retained');
+    const actualSortData = {
+      sorting: await dataTable.getSortingOrder(),
+      firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
+    };
+
+    await expect(actualSortData).toEqual(actualSortData, 'Order is different - sorting was not retained');
+  });
+
+  it('[C261137] Size sort order is retained when user logs out and logs back in', async () => {
+    const preSortData = {
+      sorting: await dataTable.getSortingOrder(),
+      firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
+    };
+
+    await dataTable.getColumnHeaderByLabel('Name').click();
+
+    const expectedSortData = {
+      sorting: await dataTable.getSortingOrder(),
+      firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
+    };
+
+    await expect(expectedSortData).not.toEqual(preSortData, 'Initial sort did not work');
+
+    await browsingPage.signOut();
+    await loginPage.loginWith(user1);
+
+    const actualSortData = {
+      sorting: await dataTable.getSortingOrder(),
+      firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
+    };
+
+    await expect(actualSortData).toEqual(actualSortData, 'Order is different - sorting was not retained');
   });
 });
