@@ -24,7 +24,7 @@
  */
 
 import { Logger } from '@alfresco/adf-testing';
-import { AlfrescoApi, Comment, CommentsApi, NodesApi, TrashcanApi, SitesApi, SharedlinksApi } from '@alfresco/js-api';
+import { AlfrescoApi, Comment, CommentsApi, NodesApi, TrashcanApi, SitesApi, SharedlinksApi, UploadApi } from '@alfresco/js-api';
 import { browser } from 'protractor';
 import { Utils } from './utils';
 
@@ -36,6 +36,7 @@ export class UserActions {
   readonly trashcanApi: TrashcanApi;
   readonly sitesApi: SitesApi;
   readonly sharedLinksApi: SharedlinksApi;
+  readonly uploadApi: UploadApi;
 
   protected username: string;
   protected password: string;
@@ -49,6 +50,7 @@ export class UserActions {
     this.trashcanApi = new TrashcanApi(this.alfrescoApi);
     this.sitesApi = new SitesApi(this.alfrescoApi);
     this.sharedLinksApi = new SharedlinksApi(this.alfrescoApi);
+    this.uploadApi = new UploadApi(this.alfrescoApi);
   }
 
   async login(username: string, password: string) {
@@ -72,6 +74,16 @@ export class UserActions {
   }
 
   async createComment(nodeId: string, content: string): Promise<Comment | null> {
+    try {
+      const comment = await this.commentsApi.createComment(nodeId, { content });
+      return comment?.entry;
+    } catch (error) {
+      this.handleError('User Actions - createComment failed : ', error);
+      return null;
+    }
+  }
+
+  async uploadFile(nodeId: string, content: string): Promise<Comment | null> {
     try {
       const comment = await this.commentsApi.createComment(nodeId, { content });
       return comment?.entry;
