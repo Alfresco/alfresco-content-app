@@ -23,28 +23,28 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, RepoClient, Utils, FILES, BrowsingPage, DataTable } from '@alfresco/aca-testing-shared';
-import { DocumentListPage } from '@alfresco/adf-testing';
+import { AdminActions, LoginPage, RepoClient, Utils, FILES, BrowsingPage, DataTable, CreateOrEditFolderDialog } from '@alfresco/aca-testing-shared';
+import { BrowserActions, DocumentListPage } from '@alfresco/adf-testing';
 
 describe('Search sorting', () => {
   const random = Utils.random();
-
   const user1 = `user1-${random}`;
-
   const fileJpg = {
     name: `sort-${random}-file-1.jpg`,
     source: FILES.jpgFile
   };
-
   const filePdf = {
     name: `sort-${random}-file-2.pdf`,
     title: 'sort title',
     description: 'search sort',
     source: FILES.pdfFile
   };
-
   let fileJpgId: string;
   let filePdfId: string;
+  let preSortState: {
+    sorting: string;
+    firstElement: string;
+  };
 
   const apis = {
     user1: new RepoClient(user1, user1)
@@ -55,6 +55,7 @@ describe('Search sorting', () => {
   const dataTable = new DataTable();
   const documentListPage = new DocumentListPage();
   const adminApiActions = new AdminActions();
+  const createDialog = new CreateOrEditFolderDialog();
 
   beforeAll(async (done) => {
     await adminApiActions.createUser({ username: user1 });
@@ -66,6 +67,10 @@ describe('Search sorting', () => {
 
   beforeEach(async (done) => {
     await browsingPage.clickPersonalFilesAndWait();
+    preSortState = {
+      sorting: await dataTable.getSortingOrder(),
+      firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
+    };
     done();
   });
 
@@ -75,11 +80,6 @@ describe('Search sorting', () => {
   });
 
   it('[C261136] Sort order is retained when navigating to another part of the app', async () => {
-    const preSortData = {
-      sorting: await dataTable.getSortingOrder(),
-      firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
-    };
-
     await dataTable.getColumnHeaderByLabel('Name').click();
 
     const expectedSortData = {
@@ -87,7 +87,7 @@ describe('Search sorting', () => {
       firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
     };
 
-    await expect(expectedSortData).not.toEqual(preSortData, 'Initial sort did not work');
+    await expect(expectedSortData).not.toEqual(preSortState, 'Initial sort did not work');
 
     await browsingPage.clickFavorites();
     await browsingPage.clickPersonalFilesAndWait();
@@ -97,15 +97,10 @@ describe('Search sorting', () => {
       firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
     };
 
-    await expect(actualSortData).toEqual(actualSortData, 'Order is different - sorting was not retained');
+    await expect(actualSortData).toEqual(expectedSortData, 'Order is different - sorting was not retained');
   });
 
   it('[C261137] Size sort order is retained when user logs out and logs back in', async () => {
-    const preSortData = {
-      sorting: await dataTable.getSortingOrder(),
-      firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
-    };
-
     await dataTable.getColumnHeaderByLabel('Name').click();
 
     const expectedSortData = {
@@ -113,7 +108,7 @@ describe('Search sorting', () => {
       firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
     };
 
-    await expect(expectedSortData).not.toEqual(preSortData, 'Initial sort did not work');
+    await expect(expectedSortData).not.toEqual(preSortState, 'Initial sort did not work');
 
     await browsingPage.signOut();
     await loginPage.loginWith(user1);
@@ -123,6 +118,34 @@ describe('Search sorting', () => {
       firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
     };
 
-    await expect(actualSortData).toEqual(actualSortData, 'Order is different - sorting was not retained');
+    await expect(actualSortData).toEqual(expectedSortData, 'Order is different - sorting was not retained');
+  });
+
+  it('[C261138] Sort order is retained when creating a new folder', async () => {
+    await apis.user1.nodes.createFolder('a-folderName');
+
+    const folderName = 'z-folderName';
+    await dataTable.getColumnHeaderByLabel('Name').click();
+
+    const expectedSortData = {
+      sorting: await dataTable.getSortingOrder(),
+      firstElement: folderName
+    };
+
+    await expect(expectedSortData).not.toEqual(preSortState, 'Initial sort did not work');
+
+    await browsingPage.sidenav.openCreateFolderDialog();
+    await createDialog.waitForDialogToOpen();
+    await createDialog.enterName(folderName);
+    await BrowserActions.click(createDialog.createButton);
+    await createDialog.waitForDialogToClose();
+    await documentListPage.dataTable.checkRowContentIsDisplayed(folderName);
+
+    const actualSortData = {
+      sorting: await dataTable.getSortingOrder(),
+      firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
+    };
+
+    await expect(actualSortData).toEqual(expectedSortData, 'Order is different - sorting was not retained');
   });
 });
