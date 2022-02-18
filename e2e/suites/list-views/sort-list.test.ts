@@ -29,16 +29,21 @@ import { BrowserActions, ContentNodeSelectorDialogPage, DocumentListPage } from 
 describe('Search sorting', () => {
   const random = Utils.random();
   const user1 = `user1-${random}`;
-  let fileJpgId: string;
-  let filePdfId: string;
+  const user2 = `user2-${random}`;
+  let user1_fileJpgId: string;
+  let user1_filePdfId: string;
+  let user2_fileJpgId: string;
+  let user2_filePdfId: string;
   //let fileXlsxId: string;
   let preSortState: {
-    sorting: string;
+    sortingColumn: string;
+    sortingOrder: string;
     firstElement: string;
   };
 
   const apis = {
-    user1: new RepoClient(user1, user1)
+    user1: new RepoClient(user1, user1),
+    user2: new RepoClient(user2, user2)
   };
 
   const loginPage = new LoginPage();
@@ -51,8 +56,11 @@ describe('Search sorting', () => {
 
   beforeAll(async (done) => {
     await adminApiActions.createUser({ username: user1 });
-    fileJpgId = (await apis.user1.upload.uploadFile(FILES.jpgFile)).entry.id;
-    filePdfId = (await apis.user1.upload.uploadFile(FILES.pdfFile)).entry.id;
+    await adminApiActions.createUser({ username: user2 });
+    user1_fileJpgId = (await apis.user1.upload.uploadFile(FILES.jpgFile)).entry.id;
+    user1_filePdfId = (await apis.user1.upload.uploadFile(FILES.pdfFile)).entry.id;
+    user2_fileJpgId = (await apis.user2.upload.uploadFile(FILES.jpgFile)).entry.id;
+    user2_filePdfId = (await apis.user2.upload.uploadFile(FILES.pdfFile)).entry.id;
     //fileXlsxId = (await apis.user1.upload.uploadFile(FILES.xlsxFile)).entry.id;
     await loginPage.loginWith(user1);
     done();
@@ -61,15 +69,18 @@ describe('Search sorting', () => {
   beforeEach(async (done) => {
     await browsingPage.clickPersonalFilesAndWait();
     preSortState = {
-      sorting: await dataTable.getSortingOrder(),
+      sortingColumn: await dataTable.getSortedColumnHeaderText(),
+      sortingOrder: await dataTable.getSortingOrder(),
       firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
     };
     done();
   });
 
   afterAll(async () => {
-    await apis.user1.nodes.deleteNodeById(fileJpgId);
-    await apis.user1.nodes.deleteNodeById(filePdfId);
+    await apis.user1.nodes.deleteNodeById(user1_fileJpgId);
+    await apis.user1.nodes.deleteNodeById(user1_filePdfId);
+    await apis.user2.nodes.deleteNodeById(user2_fileJpgId);
+    await apis.user2.nodes.deleteNodeById(user2_filePdfId);
     //await apis.user1.nodes.deleteNodeById(fileXlsxId);
   });
 
@@ -77,7 +88,8 @@ describe('Search sorting', () => {
     await dataTable.getColumnHeaderByLabel('Name').click();
 
     const expectedSortData = {
-      sorting: await dataTable.getSortingOrder(),
+      sortingColumn: await dataTable.getSortedColumnHeaderText(),
+      sortingOrder: await dataTable.getSortingOrder(),
       firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
     };
 
@@ -87,7 +99,8 @@ describe('Search sorting', () => {
     await browsingPage.clickPersonalFilesAndWait();
 
     const actualSortData = {
-      sorting: await dataTable.getSortingOrder(),
+      sortingColumn: await dataTable.getSortedColumnHeaderText(),
+      sortingOrder: await dataTable.getSortingOrder(),
       firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
     };
 
@@ -98,7 +111,8 @@ describe('Search sorting', () => {
     await dataTable.getColumnHeaderByLabel('Name').click();
 
     const expectedSortData = {
-      sorting: await dataTable.getSortingOrder(),
+      sortingColumn: await dataTable.getSortedColumnHeaderText(),
+      sortingOrder: await dataTable.getSortingOrder(),
       firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
     };
 
@@ -108,7 +122,8 @@ describe('Search sorting', () => {
     await loginPage.loginWith(user1);
 
     const actualSortData = {
-      sorting: await dataTable.getSortingOrder(),
+      sortingColumn: await dataTable.getSortedColumnHeaderText(),
+      sortingOrder: await dataTable.getSortingOrder(),
       firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
     };
 
@@ -122,7 +137,8 @@ describe('Search sorting', () => {
     await dataTable.getColumnHeaderByLabel('Name').click();
 
     const expectedSortData = {
-      sorting: await dataTable.getSortingOrder(),
+      sortingColumn: await dataTable.getSortedColumnHeaderText(),
+      sortingOrder: await dataTable.getSortingOrder(),
       firstElement: folderName
     };
 
@@ -136,7 +152,8 @@ describe('Search sorting', () => {
     await documentListPage.dataTable.checkRowContentIsDisplayed(folderName);
 
     const actualSortData = {
-      sorting: await dataTable.getSortingOrder(),
+      sortingColumn: await dataTable.getSortedColumnHeaderText(),
+      sortingOrder: await dataTable.getSortingOrder(),
       firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
     };
 
@@ -151,7 +168,8 @@ describe('Search sorting', () => {
     await dataTable.getColumnHeaderByLabel('Name').click();
 
     const expectedSortData = {
-      sorting: await dataTable.getSortingOrder(),
+      sortingColumn: await dataTable.getSortedColumnHeaderText(),
+      sortingOrder: await dataTable.getSortingOrder(),
       firstElement: folderToContain
     };
 
@@ -164,10 +182,34 @@ describe('Search sorting', () => {
     await documentListPage.dataTable.checkRowContentIsNotDisplayed(folderToMove);
 
     const actualSortData = {
-      sorting: await dataTable.getSortingOrder(),
+      sortingColumn: await dataTable.getSortedColumnHeaderText(),
+      sortingOrder: await dataTable.getSortingOrder(),
       firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
     };
 
     await expect(actualSortData).toEqual(expectedSortData, 'Order is different - sorting was not retained');
+  });
+  /* Make it last on the list */
+  it('[C261150] Sort order is not retained between different users', async () => {
+    await dataTable.getColumnHeaderByLabel('Size').click();
+
+    const expectedSortData = {
+      sortingColumn: await dataTable.getSortedColumnHeaderText(),
+      sortingOrder: await dataTable.getSortingOrder(),
+      firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
+    };
+
+    await browsingPage.signOut();
+    await loginPage.loginWith(user2);
+
+    const actualSortData = {
+      sortingColumn: await dataTable.getSortedColumnHeaderText(),
+      sortingOrder: await dataTable.getSortingOrder(),
+      firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
+    };
+
+    await expect(actualSortData).not.toEqual(expectedSortData, 'Order is the same - sorting was retained');
+
+    await browsingPage.signOut();
   });
 });
