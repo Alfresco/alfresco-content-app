@@ -24,7 +24,7 @@
  */
 
 import { AdminActions, LoginPage, RepoClient, Utils, FILES, BrowsingPage, DataTable, CreateOrEditFolderDialog } from '@alfresco/aca-testing-shared';
-import { BrowserActions, ContentNodeSelectorDialogPage, DocumentListPage } from '@alfresco/adf-testing';
+import { BrowserActions, ContentNodeSelectorDialogPage, DocumentListPage, ViewerPage } from '@alfresco/adf-testing';
 
 describe('Search sorting', () => {
   const random = Utils.random();
@@ -50,6 +50,7 @@ describe('Search sorting', () => {
   const browsingPage = new BrowsingPage();
   const dataTable = new DataTable();
   const documentListPage = new DocumentListPage();
+  const viewerPage = new ViewerPage();
   const adminApiActions = new AdminActions();
   const createDialog = new CreateOrEditFolderDialog();
   const contentNodeSelectorDialogPage = new ContentNodeSelectorDialogPage();
@@ -86,6 +87,7 @@ describe('Search sorting', () => {
 
   it('[C261136] Sort order is retained when navigating to another part of the app', async () => {
     await dataTable.getColumnHeaderByLabel('Name').click();
+    await browsingPage.clickPersonalFilesAndWait();
 
     const expectedSortData = {
       sortingColumn: await dataTable.getSortedColumnHeaderText(),
@@ -109,6 +111,7 @@ describe('Search sorting', () => {
 
   it('[C261137] Size sort order is retained when user logs out and logs back in', async () => {
     await dataTable.getColumnHeaderByLabel('Name').click();
+    await browsingPage.clickPersonalFilesAndWait();
 
     const expectedSortData = {
       sortingColumn: await dataTable.getSortedColumnHeaderText(),
@@ -135,6 +138,7 @@ describe('Search sorting', () => {
 
     const folderName = 'z-folderName';
     await dataTable.getColumnHeaderByLabel('Name').click();
+    await browsingPage.clickPersonalFilesAndWait();
 
     const expectedSortData = {
       sortingColumn: await dataTable.getSortedColumnHeaderText(),
@@ -166,6 +170,7 @@ describe('Search sorting', () => {
     await apis.user1.nodes.createFolder(folderToContain);
     await apis.user1.nodes.createFolder(folderToMove);
     await dataTable.getColumnHeaderByLabel('Name').click();
+    await browsingPage.clickPersonalFilesAndWait();
 
     const expectedSortData = {
       sortingColumn: await dataTable.getSortedColumnHeaderText(),
@@ -189,9 +194,33 @@ describe('Search sorting', () => {
 
     await expect(actualSortData).toEqual(expectedSortData, 'Order is different - sorting was not retained');
   });
-  /* Make it last on the list */
+
+  xit('[C589205] Size sort order is retained after viewing a file and closing the viewer', async () => {
+    await dataTable.getColumnHeaderByLabel('Size').click();
+    await browsingPage.clickPersonalFilesAndWait();
+
+    const expectedSortData = {
+      sortingColumn: await dataTable.getSortedColumnHeaderText(),
+      sortingOrder: await dataTable.getSortingOrder(),
+      firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
+    };
+
+    await dataTable.doubleClickOnRowByName(FILES.jpgFile);
+    await viewerPage.clickCloseButton();
+    await browsingPage.clickPersonalFilesAndWait();
+
+    const actualSortData = {
+      sortingColumn: await dataTable.getSortedColumnHeaderText(),
+      sortingOrder: await dataTable.getSortingOrder(),
+      firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
+    };
+
+    await expect(actualSortData).toEqual(expectedSortData, 'Order is different - sorting was not retained');
+  });
+
   it('[C261150] Sort order is not retained between different users', async () => {
     await dataTable.getColumnHeaderByLabel('Size').click();
+    await browsingPage.clickPersonalFilesAndWait();
 
     const expectedSortData = {
       sortingColumn: await dataTable.getSortedColumnHeaderText(),
