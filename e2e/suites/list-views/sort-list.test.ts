@@ -24,23 +24,14 @@
  */
 
 import { AdminActions, LoginPage, RepoClient, Utils, FILES, BrowsingPage, DataTable, CreateOrEditFolderDialog } from '@alfresco/aca-testing-shared';
-import { BrowserActions, DocumentListPage } from '@alfresco/adf-testing';
+import { BrowserActions, ContentNodeSelectorDialogPage, DocumentListPage } from '@alfresco/adf-testing';
 
 describe('Search sorting', () => {
   const random = Utils.random();
   const user1 = `user1-${random}`;
-  const fileJpg = {
-    name: `sort-${random}-file-1.jpg`,
-    source: FILES.jpgFile
-  };
-  const filePdf = {
-    name: `sort-${random}-file-2.pdf`,
-    title: 'sort title',
-    description: 'search sort',
-    source: FILES.pdfFile
-  };
   let fileJpgId: string;
   let filePdfId: string;
+  //let fileXlsxId: string;
   let preSortState: {
     sorting: string;
     firstElement: string;
@@ -56,11 +47,13 @@ describe('Search sorting', () => {
   const documentListPage = new DocumentListPage();
   const adminApiActions = new AdminActions();
   const createDialog = new CreateOrEditFolderDialog();
+  const contentNodeSelectorDialogPage = new ContentNodeSelectorDialogPage();
 
   beforeAll(async (done) => {
     await adminApiActions.createUser({ username: user1 });
-    fileJpgId = (await apis.user1.upload.uploadFile(fileJpg.source)).entry.id;
-    filePdfId = (await apis.user1.upload.uploadFile(filePdf.source)).entry.id;
+    fileJpgId = (await apis.user1.upload.uploadFile(FILES.jpgFile)).entry.id;
+    filePdfId = (await apis.user1.upload.uploadFile(FILES.pdfFile)).entry.id;
+    //fileXlsxId = (await apis.user1.upload.uploadFile(FILES.xlsxFile)).entry.id;
     await loginPage.loginWith(user1);
     done();
   });
@@ -77,6 +70,7 @@ describe('Search sorting', () => {
   afterAll(async () => {
     await apis.user1.nodes.deleteNodeById(fileJpgId);
     await apis.user1.nodes.deleteNodeById(filePdfId);
+    //await apis.user1.nodes.deleteNodeById(fileXlsxId);
   });
 
   it('[C261136] Sort order is retained when navigating to another part of the app', async () => {
@@ -140,6 +134,34 @@ describe('Search sorting', () => {
     await BrowserActions.click(createDialog.createButton);
     await createDialog.waitForDialogToClose();
     await documentListPage.dataTable.checkRowContentIsDisplayed(folderName);
+
+    const actualSortData = {
+      sorting: await dataTable.getSortingOrder(),
+      firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
+    };
+
+    await expect(actualSortData).toEqual(expectedSortData, 'Order is different - sorting was not retained');
+  });
+
+  it('[C261139] Sort order is retained when moving a file', async () => {
+    const folderToMove = 'z-folderName';
+    const folderToContain = 'a-folderName';
+    await apis.user1.nodes.createFolder(folderToContain);
+    await apis.user1.nodes.createFolder(folderToMove);
+    await dataTable.getColumnHeaderByLabel('Name').click();
+
+    const expectedSortData = {
+      sorting: await dataTable.getSortingOrder(),
+      firstElement: folderToContain
+    };
+
+    await expect(expectedSortData).not.toEqual(preSortState, 'Initial sort did not work');
+
+    await browsingPage.dataTable.rightClickOnItem(folderToMove);
+    await dataTable.menu.clickMenuItem('Move');
+    await contentNodeSelectorDialogPage.clickContentNodeSelectorResult(folderToContain);
+    await contentNodeSelectorDialogPage.clickMoveCopyButton();
+    await documentListPage.dataTable.checkRowContentIsNotDisplayed(folderToMove);
 
     const actualSortData = {
       sorting: await dataTable.getSortingOrder(),
