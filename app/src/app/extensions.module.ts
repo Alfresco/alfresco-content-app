@@ -24,12 +24,8 @@
  */
 
 import { NgModule } from '@angular/core';
-import { AosExtensionModule } from '@alfresco/adf-office-services-ext';
-import { AcaAboutModule } from '@alfresco/aca-about';
-import { AcaSettingsModule } from '@alfresco/aca-settings';
-import { environment } from '../environments/environment';
 
 @NgModule({
-  imports: [AosExtensionModule, ...(environment.devTools ? [AcaSettingsModule] : []), AcaAboutModule.forRoot(environment.production)]
+  imports: []
 })
 export class AppExtensionsModule {}

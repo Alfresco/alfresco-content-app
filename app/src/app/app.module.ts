@@ -29,43 +29,23 @@ import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TRANSLATION_PROVIDER, CoreModule, AppConfigService, DebugAppConfigService } from '@alfresco/adf-core';
-import { ContentModule, ContentVersionService } from '@alfresco/adf-content-services';
+import { ContentModule } from '@alfresco/adf-content-services';
 import { SharedModule } from '@alfresco/aca-shared';
 
 import { AppComponent } from './app.component';
 import { APP_ROUTES } from './app.routes';
 
-import { FilesComponent } from './components/files/files.component';
-import { LibrariesComponent } from './components/libraries/libraries.component';
-import { FavoriteLibrariesComponent } from './components/favorite-libraries/favorite-libraries.component';
-import { NodeVersionsDialogComponent } from './dialogs/node-versions/node-versions.dialog';
-
 import { AppStoreModule } from './store/app-store.module';
 import { MaterialModule } from './material.module';
 import { AppExtensionsModule } from './extensions.module';
 import { CoreExtensionsModule } from './extensions/core.extensions.module';
-import { AppInfoDrawerModule } from './components/info-drawer/info.drawer.module';
-import { DirectivesModule } from './directives/directives.module';
-import { ContextMenuModule } from './components/context-menu/context-menu.module';
 import { ExtensionsModule } from '@alfresco/adf-extensions';
-import { AppToolbarModule } from './components/toolbar/toolbar.module';
-import { AppCreateMenuModule } from './components/create-menu/create-menu.module';
 import { AppSidenavModule } from './components/sidenav/sidenav.module';
 import { AppCommonModule } from './components/common/common.module';
 import { AppLayoutModule } from './components/layout/layout.module';
-import { AppSearchInputModule } from './components/search/search-input.module';
-import { DocumentListCustomComponentsModule } from './components/dl-custom-components/document-list-custom-components.module';
-import { AppSearchResultsModule } from './components/search/search-results.module';
 import { AppLoginModule } from './components/login/login.module';
 import { AppHeaderModule } from './components/header/header.module';
-import { AppNodeVersionModule } from './components/node-version/node-version.module';
-import { FavoritesComponent } from './components/favorites/favorites.component';
-import { RecentFilesComponent } from './components/recent-files/recent-files.component';
-import { SharedFilesComponent } from './components/shared-files/shared-files.component';
-import { CreateFromTemplateDialogComponent } from './dialogs/node-template/create-from-template.dialog';
 import { environment } from '../environments/environment';
-import { DetailsComponent } from './components/details/details.component';
-import { ContentUrlService } from './services/content-url.service';
 
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
@@ -123,34 +103,13 @@ registerLocaleData(localeSv);
     AppLoginModule,
     AppCommonModule,
     AppLayoutModule,
-    DirectivesModule,
-    ContextMenuModule,
-    AppInfoDrawerModule,
-    AppToolbarModule,
     AppSidenavModule,
-    AppCreateMenuModule,
-    DocumentListCustomComponentsModule,
-    AppSearchInputModule,
-    AppSearchResultsModule,
     AppHeaderModule,
-    AppNodeVersionModule,
     HammerModule
   ],
-  declarations: [
-    AppComponent,
-    FilesComponent,
-    DetailsComponent,
-    LibrariesComponent,
-    FavoriteLibrariesComponent,
-    NodeVersionsDialogComponent,
-    FavoritesComponent,
-    RecentFilesComponent,
-    SharedFilesComponent,
-    CreateFromTemplateDialogComponent
-  ],
+  declarations: [AppComponent],
   providers: [
     { provide: AppConfigService, useClass: DebugAppConfigService },
-    { provide: ContentVersionService, useClass: ContentUrlService },
     {
       provide: TRANSLATION_PROVIDER,
       multi: true,

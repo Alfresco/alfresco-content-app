@@ -31,18 +31,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { environment } from '../../environments/environment';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { SharedStoreModule } from '@alfresco/aca-shared/store';
-import {
-  AppEffects,
-  NodeEffects,
-  DownloadEffects,
-  ViewerEffects,
-  SearchEffects,
-  LibraryEffects,
-  UploadEffects,
-  FavoriteEffects,
-  TemplateEffects,
-  ContextMenuEffects
-} from './effects';
+import { AppEffects } from './effects';
 import { INITIAL_STATE } from './initial-state';
 
 @NgModule({
@@ -62,18 +51,7 @@ import { INITIAL_STATE } from './initial-state';
       stateKey: 'router'
     }),
     SharedStoreModule,
-    EffectsModule.forRoot([
-      AppEffects,
-      NodeEffects,
-      DownloadEffects,
-      ViewerEffects,
-      SearchEffects,
-      LibraryEffects,
-      UploadEffects,
-      FavoriteEffects,
-      TemplateEffects,
-      ContextMenuEffects
-    ]),
+    EffectsModule.forRoot([AppEffects]),
     !environment.production ? StoreDevtoolsModule.instrument({ maxAge: 25 }) : []
   ]
 })
