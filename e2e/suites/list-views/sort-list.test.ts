@@ -30,11 +30,18 @@ describe('Search sorting', () => {
   const random = Utils.random();
   const user1 = `user1-${random}`;
   const user2 = `user2-${random}`;
-  let user1_fileJpgId: string;
-  let user1_filePdfId: string;
-  let user2_fileJpgId: string;
-  let user2_filePdfId: string;
-  //let fileXlsxId: string;
+
+  const testData = {
+    user1: {
+      files: [FILES.jpgFile, FILES.pdfFile, FILES.xlsxFile, FILES.docxFile],
+      filesIds: {}
+    },
+    user2: {
+      files: [FILES.jpgFile, FILES.pdfFile],
+      filesIds: {}
+    }
+  };
+
   let preSortState: {
     sortingColumn: string;
     sortingOrder: string;
@@ -58,11 +65,11 @@ describe('Search sorting', () => {
   beforeAll(async (done) => {
     await adminApiActions.createUser({ username: user1 });
     await adminApiActions.createUser({ username: user2 });
-    user1_fileJpgId = (await apis.user1.upload.uploadFile(FILES.jpgFile)).entry.id;
-    user1_filePdfId = (await apis.user1.upload.uploadFile(FILES.pdfFile)).entry.id;
-    user2_fileJpgId = (await apis.user2.upload.uploadFile(FILES.jpgFile)).entry.id;
-    user2_filePdfId = (await apis.user2.upload.uploadFile(FILES.pdfFile)).entry.id;
-    //fileXlsxId = (await apis.user1.upload.uploadFile(FILES.xlsxFile)).entry.id;
+    await Promise.all(testData.user1.files.map(async (i) => (testData.user1.filesIds[i] = (await apis.user1.upload.uploadFile(i)).entry.id)));
+    await Promise.all(testData.user2.files.map(async (i) => (testData.user2.filesIds[i] = (await apis.user2.upload.uploadFile(i)).entry.id)));
+    await apis.user1.favorites.addFavoritesByIds('file', [testData.user1.filesIds[FILES.xlsxFile], testData.user1.filesIds[FILES.docxFile]]);
+    //await apis.user1.nodes.createImageNode('fileForTrashFolder2.jpg');
+
     await loginPage.loginWith(user1);
     done();
   });
@@ -78,11 +85,8 @@ describe('Search sorting', () => {
   });
 
   afterAll(async () => {
-    await apis.user1.nodes.deleteNodeById(user1_fileJpgId);
-    await apis.user1.nodes.deleteNodeById(user1_filePdfId);
-    await apis.user2.nodes.deleteNodeById(user2_fileJpgId);
-    await apis.user2.nodes.deleteNodeById(user2_filePdfId);
-    //await apis.user1.nodes.deleteNodeById(fileXlsxId);
+    await Promise.all(Object.keys(testData.user1.filesIds).map((i) => apis.user1.nodes.deleteNodeById(testData.user1.filesIds[i])));
+    await Promise.all(Object.keys(testData.user2.filesIds).map((i) => apis.user2.nodes.deleteNodeById(testData.user2.filesIds[i])));
   });
 
   it('[C261136] Sort order is retained when navigating to another part of the app', async () => {
@@ -216,6 +220,39 @@ describe('Search sorting', () => {
     };
 
     await expect(actualSortData).toEqual(expectedSortData, 'Order is different - sorting was not retained');
+  });
+
+  it('[C261153] Sort order should be remembered separately on each list view', async () => {
+    await dataTable.getColumnHeaderByLabel('Size').click();
+    await browsingPage.clickPersonalFilesAndWait();
+
+    const personalFilesSortData = {
+      sortingColumn: await dataTable.getSortedColumnHeaderText(),
+      sortingOrder: await dataTable.getSortingOrder(),
+      firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
+    };
+
+    await browsingPage.clickFavoritesAndWait();
+    await dataTable.getColumnHeaderByLabel('Name').click();
+    await browsingPage.clickFavoritesAndWait();
+    await dataTable.getColumnHeaderByLabel('Name').click();
+    await browsingPage.clickFavoritesAndWait();
+
+    const favouritesSortData = {
+      sortingColumn: await dataTable.getSortedColumnHeaderText(),
+      sortingOrder: await dataTable.getSortingOrder(),
+      firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
+    };
+    await expect(favouritesSortData).not.toEqual(personalFilesSortData, 'Order is the same - sorting was retained');
+
+    await browsingPage.clickPersonalFilesAndWait();
+
+    const personalFilesSortDataAfterFavSort = {
+      sortingColumn: await dataTable.getSortedColumnHeaderText(),
+      sortingOrder: await dataTable.getSortingOrder(),
+      firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
+    };
+    await expect(personalFilesSortDataAfterFavSort).toEqual(personalFilesSortData, 'Order is different - sorting was not retained');
   });
 
   it('[C261150] Sort order is not retained between different users', async () => {
