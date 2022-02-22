@@ -28,14 +28,12 @@ import { ExtensionsModule } from '@alfresco/adf-extensions';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { GenericErrorModule } from '@alfresco/aca-shared';
-import { LocationLinkComponent } from './location-link/location-link.component';
-import { ToggleSharedComponent } from './toggle-shared/toggle-shared.component';
 import { LanguagePickerComponent } from './language-picker/language-picker.component';
 import { LogoutComponent } from './logout/logout.component';
 
 @NgModule({
   imports: [CommonModule, CoreModule.forChild(), ExtensionsModule, GenericErrorModule],
-  declarations: [LocationLinkComponent, ToggleSharedComponent, LanguagePickerComponent, LogoutComponent],
-  exports: [ExtensionsModule, LocationLinkComponent, GenericErrorModule, ToggleSharedComponent, LanguagePickerComponent, LogoutComponent]
+  declarations: [LanguagePickerComponent, LogoutComponent],
+  exports: [ExtensionsModule, GenericErrorModule, LanguagePickerComponent, LogoutComponent]
 })
 export class AppCommonModule {}
