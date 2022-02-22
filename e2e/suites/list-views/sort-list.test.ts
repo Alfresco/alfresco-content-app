@@ -24,20 +24,25 @@
  */
 
 import { AdminActions, LoginPage, RepoClient, Utils, FILES, BrowsingPage, DataTable, CreateOrEditFolderDialog } from '@alfresco/aca-testing-shared';
-import { BrowserActions, ContentNodeSelectorDialogPage, DocumentListPage, ViewerPage } from '@alfresco/adf-testing';
+import { BrowserActions, ContentNodeSelectorDialogPage, DocumentListPage, PaginationPage, ViewerPage } from '@alfresco/adf-testing';
 
-describe('Search sorting', () => {
+describe('Remember sorting', () => {
   const random = Utils.random();
   const user1 = `user1-${random}`;
   const user2 = `user2-${random}`;
+  const pdfFileNames = [...new Array(14).fill(100)].map((v, i) => `file-${v + i}.pdf`);
+  const jpgFileNames = [...new Array(12).fill(114)].map((v, i) => `file-${v + i}.jpg`);
 
   const testData = {
     user1: {
-      files: [FILES.jpgFile, FILES.pdfFile, FILES.xlsxFile, FILES.docxFile],
+      files: {
+        jpg: jpgFileNames,
+        pdf: pdfFileNames
+      },
       filesIds: {}
     },
     user2: {
-      files: [FILES.jpgFile, FILES.pdfFile],
+      files: ['file-100.pdf', 'file-100.jpg'],
       filesIds: {}
     }
   };
@@ -61,15 +66,27 @@ describe('Search sorting', () => {
   const adminApiActions = new AdminActions();
   const createDialog = new CreateOrEditFolderDialog();
   const contentNodeSelectorDialogPage = new ContentNodeSelectorDialogPage();
+  const paginationPage = new PaginationPage();
 
   beforeAll(async (done) => {
     await adminApiActions.createUser({ username: user1 });
     await adminApiActions.createUser({ username: user2 });
-    await Promise.all(testData.user1.files.map(async (i) => (testData.user1.filesIds[i] = (await apis.user1.upload.uploadFile(i)).entry.id)));
-    await Promise.all(testData.user2.files.map(async (i) => (testData.user2.filesIds[i] = (await apis.user2.upload.uploadFile(i)).entry.id)));
-    await apis.user1.favorites.addFavoritesByIds('file', [testData.user1.filesIds[FILES.xlsxFile], testData.user1.filesIds[FILES.docxFile]]);
-    //await apis.user1.nodes.createImageNode('fileForTrashFolder2.jpg');
-
+    await Promise.all(
+      testData.user1.files.pdf.map(
+        async (i) => (testData.user1.filesIds[i] = (await apis.user1.upload.uploadFileWithRename(FILES.pdfFile, '-my-', i)).entry.id)
+      )
+    );
+    await Promise.all(
+      testData.user1.files.jpg.map(
+        async (i) => (testData.user1.filesIds[i] = (await apis.user1.upload.uploadFileWithRename(FILES.jpgFile, '-my-', i)).entry.id)
+      )
+    );
+    await Promise.all(
+      testData.user2.files.map(
+        async (i) => (testData.user2.filesIds[i] = (await apis.user2.upload.uploadFileWithRename(FILES.pdfFile, '-my-', i)).entry.id)
+      )
+    );
+    await apis.user1.favorites.addFavoritesByIds('file', [testData.user1.filesIds[pdfFileNames[0]], testData.user1.filesIds[jpgFileNames[0]]]);
     await loginPage.loginWith(user1);
     done();
   });
@@ -91,7 +108,7 @@ describe('Search sorting', () => {
 
   it('[C261136] Sort order is retained when navigating to another part of the app', async () => {
     await dataTable.getColumnHeaderByLabel('Name').click();
-    await browsingPage.clickPersonalFilesAndWait();
+    await dataTable.waitForFirstElementToChange(preSortState.firstElement);
 
     const expectedSortData = {
       sortingColumn: await dataTable.getSortedColumnHeaderText(),
@@ -115,7 +132,7 @@ describe('Search sorting', () => {
 
   it('[C261137] Size sort order is retained when user logs out and logs back in', async () => {
     await dataTable.getColumnHeaderByLabel('Name').click();
-    await browsingPage.clickPersonalFilesAndWait();
+    await dataTable.waitForFirstElementToChange(preSortState.firstElement);
 
     const expectedSortData = {
       sortingColumn: await dataTable.getSortedColumnHeaderText(),
@@ -201,7 +218,7 @@ describe('Search sorting', () => {
 
   xit('[C589205] Size sort order is retained after viewing a file and closing the viewer', async () => {
     await dataTable.getColumnHeaderByLabel('Size').click();
-    await browsingPage.clickPersonalFilesAndWait();
+    await dataTable.waitForFirstElementToChange(preSortState.firstElement);
 
     const expectedSortData = {
       sortingColumn: await dataTable.getSortedColumnHeaderText(),
@@ -209,7 +226,7 @@ describe('Search sorting', () => {
       firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
     };
 
-    await dataTable.doubleClickOnRowByName(FILES.jpgFile);
+    await dataTable.doubleClickOnRowByName(pdfFileNames[0]);
     await viewerPage.clickCloseButton();
     await browsingPage.clickPersonalFilesAndWait();
 
@@ -224,7 +241,7 @@ describe('Search sorting', () => {
 
   it('[C261153] Sort order should be remembered separately on each list view', async () => {
     await dataTable.getColumnHeaderByLabel('Size').click();
-    await browsingPage.clickPersonalFilesAndWait();
+    await dataTable.waitForFirstElementToChange(preSortState.firstElement);
 
     const personalFilesSortData = {
       sortingColumn: await dataTable.getSortedColumnHeaderText(),
@@ -233,16 +250,14 @@ describe('Search sorting', () => {
     };
 
     await browsingPage.clickFavoritesAndWait();
-    await dataTable.getColumnHeaderByLabel('Name').click();
-    await browsingPage.clickFavoritesAndWait();
-    await dataTable.getColumnHeaderByLabel('Name').click();
-    await browsingPage.clickFavoritesAndWait();
+    await dataTable.sortBy('Name', 'desc');
 
     const favouritesSortData = {
       sortingColumn: await dataTable.getSortedColumnHeaderText(),
       sortingOrder: await dataTable.getSortingOrder(),
       firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
     };
+
     await expect(favouritesSortData).not.toEqual(personalFilesSortData, 'Order is the same - sorting was retained');
 
     await browsingPage.clickPersonalFilesAndWait();
@@ -253,6 +268,47 @@ describe('Search sorting', () => {
       firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
     };
     await expect(personalFilesSortDataAfterFavSort).toEqual(personalFilesSortData, 'Order is different - sorting was not retained');
+  });
+
+  it('[C261147] Sort order is retained when user changes the page from pagination', async () => {
+    const lastFileInArray = testData.user1.files.jpg.slice(-1).pop();
+    const firstFileInArray = testData.user1.files.pdf[0];
+
+    await dataTable.sortBy('Name', 'asc');
+
+    await paginationPage.clickOnNextPage();
+    await dataTable.waitForBody();
+
+    let expectedPersonalFilesSortDataPage2 = {
+      sortingColumn: 'Name',
+      sortingOrder: 'asc',
+      firstElement: lastFileInArray
+    };
+
+    let currentPersonalFilesSortDataPage2 = {
+      sortingColumn: await dataTable.getSortedColumnHeaderText(),
+      sortingOrder: await dataTable.getSortingOrder(),
+      firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
+    };
+
+    await expect(currentPersonalFilesSortDataPage2).toEqual(expectedPersonalFilesSortDataPage2, 'Order is different- sorting was not retained');
+
+    await dataTable.sortBy('Name', 'desc');
+    await dataTable.waitForFirstElementToChange(expectedPersonalFilesSortDataPage2.firstElement);
+
+    expectedPersonalFilesSortDataPage2 = {
+      sortingColumn: 'Name',
+      sortingOrder: 'desc',
+      firstElement: firstFileInArray
+    };
+
+    currentPersonalFilesSortDataPage2 = {
+      sortingColumn: await dataTable.getSortedColumnHeaderText(),
+      sortingOrder: await dataTable.getSortingOrder(),
+      firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
+    };
+
+    await expect(expectedPersonalFilesSortDataPage2).toEqual(currentPersonalFilesSortDataPage2, 'Order is different - sorting was not retained');
   });
 
   it('[C261150] Sort order is not retained between different users', async () => {

@@ -69,6 +69,11 @@ export class DataTable extends Component {
     return waitForPresence(this.body, '--- timeout waitForBody ---');
   }
 
+  async waitForFirstElementToChange(name: string): Promise<void> {
+    const firstElementWithName = this.byCss(`[data-automation-id='datatable-row-0'][aria-label='${name}']`);
+    await BrowserVisibility.waitUntilElementIsNotVisible(firstElementWithName);
+  }
+
   async waitForEmptyState(): Promise<void> {
     return waitForPresence(this.emptyList);
   }
@@ -89,25 +94,26 @@ export class DataTable extends Component {
 
   async sortBy(label: string, order: 'asc' | 'desc'): Promise<void> {
     const sortColumn = await this.getSortedColumnHeaderText();
-    const sortOrder = await this.getSortingOrder();
-
+    let sortOrder = await this.getSortingOrder();
     if (sortColumn !== label) {
       await this.getColumnHeaderByLabel(label).click();
-      if (sortOrder !== order) {
-        await this.getColumnHeaderByLabel(label).click();
-      }
+      sortOrder = await this.getSortingOrder();
+    }
+    if (sortOrder !== order) {
+      await this.getColumnHeaderByLabel(label).click();
     }
   }
 
   async sortByModified(order: 'asc' | 'desc'): Promise<void> {
-    const sortOrder = await this.getSortingOrder();
+    let sortOrder = await this.getSortingOrder();
     const sortColumn = await this.getSortedColumnHeaderText();
 
     if (sortColumn !== 'Modified') {
       await this.columnModified.click();
-      if (sortOrder !== order) {
-        await this.columnModified.click();
-      }
+      sortOrder = await this.getSortingOrder();
+    }
+    if (sortOrder !== order) {
+      await this.columnModified.click();
     }
   }
 
