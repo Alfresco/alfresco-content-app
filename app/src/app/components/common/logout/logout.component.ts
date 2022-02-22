@@ -24,22 +24,14 @@
  */
 
 import { Component } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { AppStore, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 
 @Component({
   selector: 'aca-logout',
   template: `
-    <button mat-menu-item (click)="onLogoutEvent()" adf-logout>
+    <button mat-menu-item adf-logout>
       <mat-icon>exit_to_app</mat-icon>
       <span>{{ 'APP.SIGN_OUT' | translate }}</span>
     </button>
   `
 })
-export class LogoutComponent {
-  constructor(private store: Store<AppStore>) {}
-
-  onLogoutEvent() {
-    this.store.dispatch(new SetSelectedNodesAction([]));
-  }
-}
+export class LogoutComponent {}

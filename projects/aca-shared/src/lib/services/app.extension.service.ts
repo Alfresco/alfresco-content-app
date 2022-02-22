@@ -52,10 +52,7 @@ import {
 } from '@alfresco/adf-extensions';
 import { AppConfigService, AuthenticationService, LogService } from '@alfresco/adf-core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { RepositoryInfo, NodeEntry } from '@alfresco/js-api';
-import { ViewerRules } from '../models/viewer.rules';
-import { SettingsGroupRef } from '../models/types';
-import { NodePermissionService } from '../services/node-permission.service';
+import { RepositoryInfo } from '@alfresco/js-api';
 import { filter, map } from 'rxjs/operators';
 
 @Injectable({
@@ -68,8 +65,6 @@ export class AppExtensionService implements RuleContext {
   sidebarTabs: Array<SidebarTabRef> = [];
   contentMetadata: any;
   search: any;
-  viewerRules: ViewerRules = {};
-  settingGroups: Array<SettingsGroupRef> = [];
 
   private _headerActions = new BehaviorSubject<Array<ContentActionRef>>([]);
   private _toolbarActions = new BehaviorSubject<Array<ContentActionRef>>([]);
@@ -108,6 +103,7 @@ export class AppExtensionService implements RuleContext {
   withCredentials: boolean;
 
   references$: Observable<ExtensionRef[]>;
+  public permissions: any;
 
   config: ExtensionConfig;
 
@@ -116,7 +112,6 @@ export class AppExtensionService implements RuleContext {
     protected store: Store<AppStore>,
     protected loader: ExtensionLoaderService,
     protected extensions: ExtensionService,
-    public permissions: NodePermissionService,
     protected appConfig: AppConfigService,
     protected matIconRegistry: MatIconRegistry,
     protected sanitizer: DomSanitizer,
@@ -147,8 +142,6 @@ export class AppExtensionService implements RuleContext {
       return;
     }
 
-    this.settingGroups = this.loader.getElements<SettingsGroupRef>(config, 'settings');
-
     this._headerActions.next(this.loader.getContentActions(config, 'features.header'));
     this._sidebarActions.next(this.loader.getContentActions(config, 'features.sidebar.toolbar'));
     this._toolbarActions.next(this.loader.getContentActions(config, 'features.toolbar'));
@@ -176,10 +169,6 @@ export class AppExtensionService implements RuleContext {
     };
 
     this.withCredentials = this.appConfig.get<boolean>('auth.withCredentials', false);
-
-    if (config.features && config.features.viewer) {
-      this.viewerRules = (config.features.viewer['rules'] as ViewerRules) || {};
-    }
 
     this.registerIcons(config);
 
@@ -465,10 +454,6 @@ export class AppExtensionService implements RuleContext {
     return this._contextMenuActions.pipe(map((contextMenuActions) => (!this.selection.isEmpty ? this.getAllowedActions(contextMenuActions) : [])));
   }
 
-  getSettingsGroups(): Array<SettingsGroupRef> {
-    return this.settingGroups.filter((group) => this.filterVisible(group));
-  }
-
   copyAction(action: ContentActionRef): ContentActionRef {
     return {
       ...action,
@@ -476,7 +461,7 @@ export class AppExtensionService implements RuleContext {
     };
   }
 
-  filterVisible(action: ContentActionRef | SettingsGroupRef | SidebarTabRef): boolean {
+  filterVisible(action: ContentActionRef | SidebarTabRef): boolean {
     if (action && action.rules && action.rules.visible) {
       return this.extensions.evaluateRule(action.rules.visible, this);
     }
@@ -530,32 +515,5 @@ export class AppExtensionService implements RuleContext {
 
   getEvaluator(key: string): RuleEvaluator {
     return this.extensions.getEvaluator(key);
-  }
-
-  canPreviewNode(node: NodeEntry) {
-    const rules = this.viewerRules;
-
-    if (this.isRuleDefined(rules.canPreview)) {
-      const canPreview = this.evaluateRule(rules.canPreview, node);
-
-      if (!canPreview) {
-        return false;
-      }
-    }
-
-    return true;
-  }
-
-  canShowViewerNavigation(node: NodeEntry) {
-    const rules = this.viewerRules;
-
-    if (this.isRuleDefined(rules.showNavigation)) {
-      const showNavigation = this.evaluateRule(rules.showNavigation, node);
-      if (!showNavigation) {
-        return false;
-      }
-    }
-
-    return true;
   }
 }

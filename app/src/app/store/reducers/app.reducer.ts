@@ -27,15 +27,12 @@ import { Action } from '@ngrx/store';
 import {
   AppState,
   AppActionTypes,
-  NodeActionTypes,
   SetUserProfileAction,
   SetCurrentFolderAction,
   SetCurrentUrlAction,
   SetInitialStateAction,
-  SetSelectedNodesAction,
   SetRepositoryInfoAction,
   SetInfoDrawerStateAction,
-  SetInfoDrawerMetadataAspectAction,
   SetHeaderColorAction,
   SetCurrentNodeVersionAction,
   SetFileUploadingDialogAction,
@@ -56,9 +53,6 @@ export function appReducer(state: AppState = INITIAL_APP_STATE, action: Action):
         headerColor: (action as SetHeaderColorAction).color
       };
       break;
-    case NodeActionTypes.SetSelection:
-      newState = updateSelectedNodes(state, action as SetSelectedNodesAction);
-      break;
     case AppActionTypes.SetUserProfile:
       newState = updateUser(state, action as SetUserProfileAction);
       break;
@@ -76,9 +70,6 @@ export function appReducer(state: AppState = INITIAL_APP_STATE, action: Action):
       break;
     case AppActionTypes.SetInfoDrawerState:
       newState = setInfoDrawer(state, action as SetInfoDrawerStateAction);
-      break;
-    case AppActionTypes.SetInfoDrawerMetadataAspect:
-      newState = setInfoDrawerAspect(state, action as SetInfoDrawerMetadataAspectAction);
       break;
     case AppActionTypes.ToggleDocumentDisplayMode:
       newState = toggleDocumentDisplayMode(state);
@@ -182,55 +173,6 @@ const toggleDocumentDisplayMode = (state: AppState) => ({
   documentDisplayMode: state.documentDisplayMode === 'list' ? 'gallery' : 'list'
 });
 
-function updateSelectedNodes(state: AppState, action: SetSelectedNodesAction): AppState {
-  const newState = { ...state };
-  const nodes = [...action.payload];
-  const count = nodes.length;
-  const isEmpty = nodes.length === 0;
-
-  let first = null;
-  let last = null;
-  let file = null;
-  let folder = null;
-  let library = null;
-
-  if (nodes.length > 0) {
-    first = nodes[0];
-    last = nodes[nodes.length - 1];
-
-    if (nodes.length === 1) {
-      file = nodes.find(
-        (entity: any) =>
-          // workaround Shared
-          !!(entity.entry.isFile || entity.entry.nodeId || entity.entry.sharedByUser)
-      );
-      folder = nodes.find((entity: any) => entity.entry.isFolder);
-    }
-  }
-
-  const libraries: any[] = [...action.payload].filter((node: any) => node.isLibrary);
-  if (libraries.length === 1) {
-    library = libraries[0] as any;
-  }
-
-  if (isEmpty) {
-    newState.infoDrawerOpened = false;
-  }
-
-  newState.selection = {
-    count,
-    nodes,
-    isEmpty,
-    first,
-    last,
-    file,
-    folder,
-    libraries,
-    library
-  };
-  return newState;
-}
-
 const setInfoDrawer = (state: AppState, action: SetInfoDrawerStateAction) => ({
   ...state,
   infoDrawerOpened: action.payload
@@ -239,11 +181,6 @@ const setInfoDrawer = (state: AppState, action: SetInfoDrawerStateAction) => ({
 const setInfoDrawerPreview = (state: AppState, action: SetInfoDrawerPreviewStateAction) => ({
   ...state,
   infoDrawerPreview: action.payload
-});
-
-const setInfoDrawerAspect = (state: AppState, action: SetInfoDrawerMetadataAspectAction) => ({
-  ...state,
-  infoDrawerMetadataAspect: action.payload
 });
 
 function updateRepositoryStatus(state: AppState, action: SetRepositoryInfoAction) {

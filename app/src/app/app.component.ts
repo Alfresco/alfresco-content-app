@@ -41,16 +41,14 @@ import {
   AppState,
   SetCurrentUrlAction,
   SetInitialStateAction,
-  SetUserProfileAction,
   SnackbarErrorAction,
   CloseModalDialogsAction,
-  SetRepositoryInfoAction,
   getCustomCssPath,
   getCustomWebFontPath
 } from '@alfresco/aca-shared/store';
 import { filter, takeUntil } from 'rxjs/operators';
-import { RouterExtensionService, AppService, ContentApiService } from '@alfresco/aca-shared';
-import { DiscoveryEntry, GroupEntry, Group } from '@alfresco/js-api';
+import { RouterExtensionService, AppService } from '@alfresco/aca-shared';
+import { GroupEntry, Group } from '@alfresco/js-api';
 import { Subject } from 'rxjs';
 import { INITIAL_APP_STATE } from './store/initial-state';
 
@@ -73,7 +71,6 @@ export class AppComponent implements OnInit, OnDestroy {
     private authenticationService: AuthenticationService,
     private uploadService: UploadService,
     private routerExtensionService: RouterExtensionService,
-    private contentApi: ContentApiService,
     private appService: AppService,
     private sharedLinksApiService: SharedLinksApiService,
     private groupService: GroupService
@@ -125,7 +122,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.appService.ready$.pipe(takeUntil(this.onDestroy$)).subscribe((isReady) => {
       if (isReady) {
-        this.loadRepositoryStatus();
         this.loadUserProfile();
       }
     });
@@ -136,12 +132,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.onDestroy$.complete();
   }
 
-  private loadRepositoryStatus() {
-    this.contentApi.getRepositoryInformation().subscribe((response: DiscoveryEntry) => {
-      this.store.dispatch(new SetRepositoryInfoAction(response.entry.repository));
-    });
-  }
-
   private async loadUserProfile() {
     const groupsEntries: GroupEntry[] = await this.groupService.listAllGroupMembershipsForPerson('-me-', { maxItems: 250 });
 
@@ -150,10 +140,6 @@ export class AppComponent implements OnInit, OnDestroy {
     if (groupsEntries) {
       groups.push(...groupsEntries.map((obj) => obj.entry));
     }
-
-    this.contentApi.getPerson('-me-').subscribe((person) => {
-      this.store.dispatch(new SetUserProfileAction({ person: person.entry, groups }));
-    });
   }
 
   loadAppSettings() {

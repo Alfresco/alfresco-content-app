@@ -29,7 +29,6 @@ import { NavigationEnd, Router, NavigationStart } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subject, Observable } from 'rxjs';
 import { filter, takeUntil, map, withLatestFrom, delay } from 'rxjs/operators';
-import { NodePermissionService } from '@alfresco/aca-shared';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { AppStore, getCurrentFolder, getFileUploadingDialog, ResetSelectionAction } from '@alfresco/aca-shared/store';
 import { Directionality } from '@angular/cdk/bidi';
@@ -63,7 +62,6 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
 
   constructor(
     protected store: Store<AppStore>,
-    private permission: NodePermissionService,
     private router: Router,
     private userPreferenceService: UserPreferencesService,
     private appConfigService: AppConfigService,
@@ -88,7 +86,6 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((node) => {
         this.currentFolderId = node ? node.id : null;
-        this.canUpload = node && this.permission.check(node, ['create']);
       });
 
     this.router.events

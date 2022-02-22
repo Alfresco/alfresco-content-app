@@ -28,10 +28,10 @@ import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
 import { ExtensionsModule } from '@alfresco/adf-extensions';
 import { AppCommonModule } from '../common/common.module';
-import { SharedDirectivesModule, SharedToolbarModule } from '@alfresco/aca-shared';
+import { SharedToolbarModule } from '@alfresco/aca-shared';
 
 @NgModule({
-  imports: [CommonModule, CoreModule.forChild(), AppCommonModule, ExtensionsModule, SharedToolbarModule, SharedDirectivesModule],
+  imports: [CommonModule, CoreModule.forChild(), AppCommonModule, ExtensionsModule, SharedToolbarModule],
   exports: [SharedToolbarModule]
 })
 export class AppToolbarModule {}
