@@ -32,6 +32,9 @@ describe('Remember sorting', () => {
   const user2 = `user2-${random}`;
   const pdfFileNames = [...new Array(14).fill(100)].map((v, i) => `file-${v + i}.pdf`);
   const jpgFileNames = [...new Array(12).fill(114)].map((v, i) => `file-${v + i}.jpg`);
+  const folderToContain = `folder1-${random}`;
+  const folderToMove = `folder2-${random}`;
+  const uiCreatedFolder = `folder3-${random}`;
 
   const testData = {
     user1: {
@@ -39,10 +42,11 @@ describe('Remember sorting', () => {
         jpg: jpgFileNames,
         pdf: pdfFileNames
       },
-      filesIds: {}
+      filesIds: {},
+      foldersIds: {}
     },
     user2: {
-      files: ['file-100.pdf', 'file-100.jpg'],
+      files: [pdfFileNames[0], jpgFileNames[0]],
       filesIds: {}
     }
   };
@@ -68,7 +72,7 @@ describe('Remember sorting', () => {
   const contentNodeSelectorDialogPage = new ContentNodeSelectorDialogPage();
   const paginationPage = new PaginationPage();
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     await adminApiActions.createUser({ username: user1 });
     await adminApiActions.createUser({ username: user2 });
     await Promise.all(
@@ -86,19 +90,17 @@ describe('Remember sorting', () => {
         async (i) => (testData.user2.filesIds[i] = (await apis.user2.upload.uploadFileWithRename(FILES.pdfFile, '-my-', i)).entry.id)
       )
     );
-    await apis.user1.favorites.addFavoritesByIds('file', [testData.user1.filesIds[pdfFileNames[0]], testData.user1.filesIds[jpgFileNames[0]]]);
+    await apis.user1.favorites.addFavoritesByIds('file', [testData.user1.filesIds[pdfFileNames[0]], testData.user1.filesIds[pdfFileNames[1]]]);
     await loginPage.loginWith(user1);
-    done();
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async () => {
     await browsingPage.clickPersonalFilesAndWait();
     preSortState = {
       sortingColumn: await dataTable.getSortedColumnHeaderText(),
       sortingOrder: await dataTable.getSortingOrder(),
       firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
     };
-    done();
   });
 
   afterAll(async () => {
@@ -154,69 +156,74 @@ describe('Remember sorting', () => {
     await expect(actualSortData).toEqual(expectedSortData, 'Order is different - sorting was not retained');
   });
 
-  it('[C261138] Sort order is retained when creating a new folder', async () => {
-    await apis.user1.nodes.createFolder('a-folderName');
+  describe('Folder actions', () => {
+    beforeAll(async () => {
+      testData.user1.foldersIds[folderToContain] = (await apis.user1.nodes.createFolder(folderToContain)).entry.id;
+      testData.user1.foldersIds[folderToMove] = (await apis.user1.nodes.createFolder(folderToMove)).entry.id;
+    });
 
-    const folderName = 'z-folderName';
-    await dataTable.getColumnHeaderByLabel('Name').click();
-    await browsingPage.clickPersonalFilesAndWait();
+    afterAll(async () => {
+      testData.user1.foldersIds[uiCreatedFolder] = await apis.user1.nodes.getNodeIdFromParent(uiCreatedFolder, '-my-');
+      await Promise.all(Object.keys(testData.user1.foldersIds).map((i) => apis.user1.nodes.deleteNodeById(testData.user1.foldersIds[i])));
+    });
 
-    const expectedSortData = {
-      sortingColumn: await dataTable.getSortedColumnHeaderText(),
-      sortingOrder: await dataTable.getSortingOrder(),
-      firstElement: folderName
-    };
+    it('[C261138] Sort order is retained when creating a new folder', async () => {
+      await dataTable.getColumnHeaderByLabel('Name').click();
+      await browsingPage.clickPersonalFilesAndWait();
 
-    await expect(expectedSortData).not.toEqual(preSortState, 'Initial sort did not work');
+      const expectedSortData = {
+        sortingColumn: await dataTable.getSortedColumnHeaderText(),
+        sortingOrder: await dataTable.getSortingOrder(),
+        firstElement: uiCreatedFolder
+      };
 
-    await browsingPage.sidenav.openCreateFolderDialog();
-    await createDialog.waitForDialogToOpen();
-    await createDialog.enterName(folderName);
-    await BrowserActions.click(createDialog.createButton);
-    await createDialog.waitForDialogToClose();
-    await documentListPage.dataTable.checkRowContentIsDisplayed(folderName);
+      await expect(expectedSortData).not.toEqual(preSortState, 'Initial sort did not work');
 
-    const actualSortData = {
-      sortingColumn: await dataTable.getSortedColumnHeaderText(),
-      sortingOrder: await dataTable.getSortingOrder(),
-      firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
-    };
+      await browsingPage.sidenav.openCreateFolderDialog();
+      await createDialog.waitForDialogToOpen();
+      await createDialog.enterName(uiCreatedFolder);
+      await BrowserActions.click(createDialog.createButton);
+      await createDialog.waitForDialogToClose();
+      await documentListPage.dataTable.checkRowContentIsDisplayed(uiCreatedFolder);
 
-    await expect(actualSortData).toEqual(expectedSortData, 'Order is different - sorting was not retained');
+      const actualSortData = {
+        sortingColumn: await dataTable.getSortedColumnHeaderText(),
+        sortingOrder: await dataTable.getSortingOrder(),
+        firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
+      };
+
+      await expect(actualSortData).toEqual(expectedSortData, 'Order is different - sorting was not retained');
+    });
+
+    it('[C261139] Sort order is retained when moving a file', async () => {
+      await dataTable.getColumnHeaderByLabel('Name').click();
+      await browsingPage.clickPersonalFilesAndWait();
+
+      const expectedSortData = {
+        sortingColumn: await dataTable.getSortedColumnHeaderText(),
+        sortingOrder: await dataTable.getSortingOrder(),
+        firstElement: folderToContain
+      };
+
+      await expect(expectedSortData).not.toEqual(preSortState, 'Initial sort did not work');
+
+      await browsingPage.dataTable.rightClickOnItem(folderToMove);
+      await dataTable.menu.clickMenuItem('Move');
+      await contentNodeSelectorDialogPage.clickContentNodeSelectorResult(folderToContain);
+      await contentNodeSelectorDialogPage.clickMoveCopyButton();
+      await documentListPage.dataTable.checkRowContentIsNotDisplayed(folderToMove);
+
+      const actualSortData = {
+        sortingColumn: await dataTable.getSortedColumnHeaderText(),
+        sortingOrder: await dataTable.getSortingOrder(),
+        firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
+      };
+
+      await expect(actualSortData).toEqual(expectedSortData, 'Order is different - sorting was not retained');
+    });
   });
 
-  it('[C261139] Sort order is retained when moving a file', async () => {
-    const folderToMove = 'z-folderName';
-    const folderToContain = 'a-folderName';
-    await apis.user1.nodes.createFolder(folderToContain);
-    await apis.user1.nodes.createFolder(folderToMove);
-    await dataTable.getColumnHeaderByLabel('Name').click();
-    await browsingPage.clickPersonalFilesAndWait();
-
-    const expectedSortData = {
-      sortingColumn: await dataTable.getSortedColumnHeaderText(),
-      sortingOrder: await dataTable.getSortingOrder(),
-      firstElement: folderToContain
-    };
-
-    await expect(expectedSortData).not.toEqual(preSortState, 'Initial sort did not work');
-
-    await browsingPage.dataTable.rightClickOnItem(folderToMove);
-    await dataTable.menu.clickMenuItem('Move');
-    await contentNodeSelectorDialogPage.clickContentNodeSelectorResult(folderToContain);
-    await contentNodeSelectorDialogPage.clickMoveCopyButton();
-    await documentListPage.dataTable.checkRowContentIsNotDisplayed(folderToMove);
-
-    const actualSortData = {
-      sortingColumn: await dataTable.getSortedColumnHeaderText(),
-      sortingOrder: await dataTable.getSortingOrder(),
-      firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
-    };
-
-    await expect(actualSortData).toEqual(expectedSortData, 'Order is different - sorting was not retained');
-  });
-
-  xit('[C589205] Size sort order is retained after viewing a file and closing the viewer', async () => {
+  it('[C589205] Size sort order is retained after viewing a file and closing the viewer', async () => {
     await dataTable.getColumnHeaderByLabel('Size').click();
     await dataTable.waitForFirstElementToChange(preSortState.firstElement);
 
@@ -240,7 +247,7 @@ describe('Remember sorting', () => {
   });
 
   it('[C261153] Sort order should be remembered separately on each list view', async () => {
-    await dataTable.getColumnHeaderByLabel('Size').click();
+    await dataTable.sortBy('Size', 'desc');
     await dataTable.waitForFirstElementToChange(preSortState.firstElement);
 
     const personalFilesSortData = {
@@ -250,7 +257,7 @@ describe('Remember sorting', () => {
     };
 
     await browsingPage.clickFavoritesAndWait();
-    await dataTable.sortBy('Name', 'desc');
+    await dataTable.sortBy('Name', 'asc');
 
     const favouritesSortData = {
       sortingColumn: await dataTable.getSortedColumnHeaderText(),
