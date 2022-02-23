@@ -69,11 +69,6 @@ export class DataTable extends Component {
     return waitForPresence(this.body, '--- timeout waitForBody ---');
   }
 
-  async waitForFirstElementToChange(name: string): Promise<void> {
-    const firstElementWithName = this.byCss(`[data-automation-id='datatable-row-0'][aria-label='${name}']`);
-    await BrowserVisibility.waitUntilElementIsNotVisible(firstElementWithName);
-  }
-
   async waitForEmptyState(): Promise<void> {
     return waitForPresence(this.emptyList);
   }
