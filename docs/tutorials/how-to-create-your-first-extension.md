@@ -7,9 +7,9 @@ The purpose of this tutorial is to describe how to develop a “hello world” e
 # Prerequisites
 
 The starting point for this tutorial is the availability of the full repository of the [Alfresco Content Application (aka ACA)](https://github.com/Alfresco/alfresco-content-app "https://github.com/Alfresco/alfresco-content-app") on your development environment (your laptop as an example). This tutorial has been written with the following versions of the software:
--   ACA version 2.2.0,
--   ACS 7.0.0-M3,
--   NodeJs version 14.15.2,
+-   ACA version 2.8.0,
+-   ACS 7.1.1,
+-   NodeJs version 12.22.10,
 -   Chrome Version 87.0.4280.88.
 
 # Creating the ACA extension
@@ -42,6 +42,7 @@ Now that the `my-extension` is created, let's add the proper configuration to th
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MaterialModule } from '@alfresco/adf-core';
 
 import { ExtensionService, provideExtensionConfig } from '@alfresco/adf-extensions';
 import { CoreModule, TRANSLATION_PROVIDER } from '@alfresco/adf-core';
@@ -70,15 +71,32 @@ export function components() {
     declarations: components(),
     exports: components(),
 })
-export class MyViewModule {
+export class MyExtensionModule {
     constructor(extensions: ExtensionService, myService: MyExtensionService) {
         extensions.setComponents({
           'my-extension.main.component' : MyExtensionComponent,
         });
         extensions.setEvaluators({
-           'my-extensionr.disabled': () => !myService.mySmartViewerEnabled(),
+           'my-extension.disabled': () => !myService.mySmartViewerEnabled(),
         });
     }
+}
+```
+
+Since a new evaluator has been defined in the module, `mySmartViewerEnabled` method should be implemented in `projects/my-extension/src/lib/my-extension.service.ts` file.
+
+```typescript
+import { Injectable } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class MyExtensionService {
+  mySmartViewerEnabled() {
+    return true;
+  }
+
+  constructor() { }
 }
 ```
 
@@ -99,16 +117,16 @@ Once done, create the file `projects/my-extension/assets/my-extension.json` file
       "$name": "plugin1",
       "$description": "demo plugin",
       "$license": "MIT",
-      
-      "routes": [ 
+
+      "routes": [
       {
         "id": "my.extension.route",
         "path": "ext/my/route",
         "component": "my-extension.main.component"
       }
     ],
-      
-      "features": { 
+
+      "features": {
         "navbar": [
           {
             "id": "my.extension.nav",
@@ -118,7 +136,7 @@ Once done, create the file `projects/my-extension/assets/my-extension.json` file
                 "icon": "extension",
                 "title": "My Extension",
                 "route": "my.extension.route"
-            } 
+            }
           ]
         }
       ]
@@ -150,9 +168,9 @@ In addition, edit the `src/assets/app.extensions.json` file on the `$references`
 
     "$references": ["my-extension.json"],
 
-Let's instruct the configuration file for the extension to be visible from the ACA app through a public URL. To complete the task, edit the angular.json file as described below.
+Let's instruct the configuration file for the extension to be visible from the ACA app through a public URL. To complete the task, edit the `angular.json` file as described below.
 
-    // Add to 'src/app.config.json' array.
+    // Add to projects.content-ce.architect.build.options.assets array.
     ...
     {
       "glob": "my-extension.json",
