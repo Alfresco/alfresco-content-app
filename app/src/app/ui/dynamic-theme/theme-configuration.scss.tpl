@@ -1,14 +1,14 @@
 /*
-    Specify theme parameters e.g.:
+Specify theme parameters e.g.:
 
-    $theme-config: (
-        primary-color: #5175d2,
-        background-color: #FAFAFA,
-        text-color: #793942,
-        accent-color: #C64F73,
-        base-font-size: 26px,
-        font-family: Cursive
-    );
+$theme-config: (
+    primaryColor: #5175d2,
+    backgroundColor: #FAFAFA,
+    textColor: #793942,
+    accentColor: #C64F73,
+    baseFontSize: 26px,
+    fontFamily: Cursive
+);
 */
 
 ${THEME_CONFIGURATION}
