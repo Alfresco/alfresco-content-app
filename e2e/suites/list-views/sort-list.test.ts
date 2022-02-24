@@ -27,14 +27,14 @@ import { AdminActions, LoginPage, RepoClient, Utils, FILES, BrowsingPage, DataTa
 import { BrowserActions, ContentNodeSelectorDialogPage, DocumentListPage, PaginationPage, ViewerPage } from '@alfresco/adf-testing';
 
 describe('Remember sorting', () => {
-  const random = Utils.random();
-  const user1 = `user1-${random}`;
-  const user2 = `user2-${random}`;
+  const timestamp = new Date().getTime();
+  const user1 = `user1-${timestamp}`;
+  const user2 = `user2-${timestamp}`;
   const pdfFileNames = [...new Array(14).fill(100)].map((v, i) => `file-${v + i}.pdf`);
   const jpgFileNames = [...new Array(12).fill(114)].map((v, i) => `file-${v + i}.jpg`);
-  const folderToMove = `folder1-${random}`;
-  const folderToContain = `folder2-${random}`;
-  const uiCreatedFolder = `folder3-${random}`;
+  const folderToMove = `folder1`;
+  const folderToContain = `folder2`;
+  const uiCreatedFolder = `folder3`;
 
   const testData = {
     user1: {
