@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, RepoClient, Utils, FILES, BrowsingPage, DataTable, CreateOrEditFolderDialog } from '@alfresco/aca-testing-shared';
+import { AdminActions, LoginPage, RepoClient, FILES, BrowsingPage, DataTable, CreateOrEditFolderDialog } from '@alfresco/aca-testing-shared';
 import { BrowserActions, ContentNodeSelectorDialogPage, DocumentListPage, PaginationPage, ViewerPage } from '@alfresco/adf-testing';
 
 describe('Remember sorting', () => {
@@ -112,6 +112,7 @@ describe('Remember sorting', () => {
 
   it('[C261136] Sort order is retained when navigating to another part of the app', async () => {
     await dataTable.sortBy('Name', 'desc');
+    await dataTable.waitForFirstElementToChange(initialSortState.firstElement);
     await dataTable.waitForBody();
 
     const expectedSortData = {
@@ -136,6 +137,7 @@ describe('Remember sorting', () => {
 
   it('[C261137] Size sort order is retained when user logs out and logs back in', async () => {
     await dataTable.sortBy('Name', 'desc');
+    await dataTable.waitForFirstElementToChange(initialSortState.firstElement);
     await dataTable.waitForBody();
 
     const expectedSortData = {
@@ -171,6 +173,7 @@ describe('Remember sorting', () => {
 
     it('[C261138] Sort order is retained when creating a new folder', async () => {
       await dataTable.sortBy('Name', 'desc');
+      await dataTable.waitForFirstElementToChange(initialSortState.firstElement);
       await dataTable.waitForBody();
 
       const expectedSortData = {
@@ -220,6 +223,7 @@ describe('Remember sorting', () => {
 
   it('[C589205] Size sort order is retained after viewing a file and closing the viewer', async () => {
     await dataTable.sortBy('Size', 'desc');
+    await dataTable.waitForFirstElementToChange(initialSortState.firstElement);
     await dataTable.waitForBody();
 
     const expectedSortData = {
@@ -228,7 +232,7 @@ describe('Remember sorting', () => {
       firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
     };
 
-    await dataTable.doubleClickOnRowByName(pdfFileNames[0]);
+    await dataTable.doubleClickOnRowByName(expectedSortData.firstElement);
     await viewerPage.clickCloseButton();
     await browsingPage.clickPersonalFilesAndWait();
 
@@ -242,7 +246,8 @@ describe('Remember sorting', () => {
   });
 
   it('[C261153] Sort order should be remembered separately on each list view', async () => {
-    await dataTable.sortBy('Name', 'desc');
+    await dataTable.sortBy('Size', 'desc');
+    await dataTable.waitForFirstElementToChange(initialSortState.firstElement);
     await dataTable.waitForBody();
 
     const personalFilesSortData = {
@@ -253,6 +258,7 @@ describe('Remember sorting', () => {
 
     await browsingPage.clickFavoritesAndWait();
     await dataTable.sortBy('Name', 'asc');
+    await dataTable.waitForFirstElementToChange(personalFilesSortData.firstElement);
     await dataTable.waitForBody();
 
     const favouritesSortData = {
@@ -270,15 +276,13 @@ describe('Remember sorting', () => {
       sortingOrder: await dataTable.getSortingOrder(),
       firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
     };
+
     await expect(personalFilesSortDataAfterFavSort).toEqual(personalFilesSortData, 'Order is different - sorting was not retained');
   });
 
   it('[C261147] Sort order is retained when user changes the page from pagination', async () => {
     const lastFileInArray = testData.user1.files.jpg.slice(-1).pop();
     const firstFileInArray = testData.user1.files.pdf[0];
-
-    await dataTable.sortBy('Name', 'asc');
-    await dataTable.waitForBody();
 
     await paginationPage.clickOnNextPage();
     await dataTable.waitForBody();
@@ -298,6 +302,7 @@ describe('Remember sorting', () => {
     await expect(currentPersonalFilesSortDataPage2).toEqual(expectedPersonalFilesSortDataPage2, 'Order is different- sorting was not retained');
 
     await dataTable.sortBy('Name', 'desc');
+    await dataTable.waitForFirstElementToChange(currentPersonalFilesSortDataPage2.firstElement);
     await dataTable.waitForBody();
 
     expectedPersonalFilesSortDataPage2 = {
@@ -317,6 +322,7 @@ describe('Remember sorting', () => {
 
   it('[C261150] Sort order is not retained between different users', async () => {
     await dataTable.sortBy('Size', 'asc');
+    await dataTable.waitForFirstElementToChange(initialSortState.firstElement);
     await dataTable.waitForBody();
 
     const expectedSortData = {

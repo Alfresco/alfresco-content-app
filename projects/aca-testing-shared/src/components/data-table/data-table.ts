@@ -73,6 +73,11 @@ export class DataTable extends Component {
     return waitForPresence(this.emptyList);
   }
 
+  async waitForFirstElementToChange(name: string): Promise<void> {
+    const firstElementWithName = this.byCss(`[data-automation-id='datatable-row-0'][aria-label='${name}']`);
+    await BrowserVisibility.waitUntilElementIsNotVisible(firstElementWithName);
+  }
+
   private getColumnHeaders(): ElementArrayFinder {
     const locator = by.css(DataTable.selectors.columnHeader);
     return this.head.all(locator);
