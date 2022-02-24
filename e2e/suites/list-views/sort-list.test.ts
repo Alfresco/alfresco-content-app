@@ -27,6 +27,10 @@ import { AdminActions, LoginPage, RepoClient, FILES, BrowsingPage, DataTable, Cr
 import { BrowserActions, ContentNodeSelectorDialogPage, DocumentListPage, PaginationPage, ViewerPage } from '@alfresco/adf-testing';
 
 describe('Remember sorting', () => {
+  interface nodesIds {
+    [index: string]: string;
+  }
+
   const timestamp = new Date().getTime();
   const user1 = `user1-${timestamp}`;
   const user2 = `user2-${timestamp}`;
@@ -35,19 +39,19 @@ describe('Remember sorting', () => {
   const folderToMove = `folder1`;
   const folderToContain = `folder2`;
   const uiCreatedFolder = `folder3`;
+  const filesIdsUser1: nodesIds = {};
+  const filesIdsUser2: nodesIds = {};
+  const folderIds: nodesIds = {};
 
   const testData = {
     user1: {
       files: {
         jpg: jpgFileNames,
         pdf: pdfFileNames
-      },
-      filesIds: {},
-      foldersIds: {}
+      }
     },
     user2: {
-      files: [pdfFileNames[0], jpgFileNames[0]],
-      filesIds: {}
+      files: [pdfFileNames[0], jpgFileNames[0]]
     }
   };
 
@@ -77,20 +81,18 @@ describe('Remember sorting', () => {
     await adminApiActions.createUser({ username: user2 });
     await Promise.all(
       testData.user1.files.pdf.map(
-        async (i) => (testData.user1.filesIds[i] = (await apis.user1.upload.uploadFileWithRename(FILES.pdfFile, '-my-', i)).entry.id)
+        async (i) => (filesIdsUser1[i] = (await apis.user1.upload.uploadFileWithRename(FILES.pdfFile, '-my-', i)).entry.id)
       )
     );
     await Promise.all(
       testData.user1.files.jpg.map(
-        async (i) => (testData.user1.filesIds[i] = (await apis.user1.upload.uploadFileWithRename(FILES.jpgFile, '-my-', i)).entry.id)
+        async (i) => (filesIdsUser1[i] = (await apis.user1.upload.uploadFileWithRename(FILES.jpgFile, '-my-', i)).entry.id)
       )
     );
     await Promise.all(
-      testData.user2.files.map(
-        async (i) => (testData.user2.filesIds[i] = (await apis.user2.upload.uploadFileWithRename(FILES.pdfFile, '-my-', i)).entry.id)
-      )
+      testData.user2.files.map(async (i) => (filesIdsUser2[i] = (await apis.user2.upload.uploadFileWithRename(FILES.pdfFile, '-my-', i)).entry.id))
     );
-    await apis.user1.favorites.addFavoritesByIds('file', [testData.user1.filesIds[pdfFileNames[0]], testData.user1.filesIds[pdfFileNames[1]]]);
+    await apis.user1.favorites.addFavoritesByIds('file', [filesIdsUser1[pdfFileNames[0]], filesIdsUser1[pdfFileNames[1]]]);
     await loginPage.loginWith(user1);
   });
 
@@ -106,8 +108,8 @@ describe('Remember sorting', () => {
   });
 
   afterAll(async () => {
-    await Promise.all(Object.keys(testData.user1.filesIds).map((i) => apis.user1.nodes.deleteNodeById(testData.user1.filesIds[i])));
-    await Promise.all(Object.keys(testData.user2.filesIds).map((i) => apis.user2.nodes.deleteNodeById(testData.user2.filesIds[i])));
+    await Promise.all(Object.keys(filesIdsUser1).map((i) => apis.user1.nodes.deleteNodeById(filesIdsUser1[i])));
+    await Promise.all(Object.keys(filesIdsUser2).map((i) => apis.user2.nodes.deleteNodeById(filesIdsUser2[i])));
   });
 
   it('[C261136] Sort order is retained when navigating to another part of the app', async () => {
@@ -162,13 +164,13 @@ describe('Remember sorting', () => {
 
   describe('Folder actions', () => {
     beforeAll(async () => {
-      testData.user1.foldersIds[folderToContain] = (await apis.user1.nodes.createFolder(folderToContain)).entry.id;
-      testData.user1.foldersIds[folderToMove] = (await apis.user1.nodes.createFolder(folderToMove)).entry.id;
+      folderIds[folderToContain] = (await apis.user1.nodes.createFolder(folderToContain)).entry.id;
+      folderIds[folderToMove] = (await apis.user1.nodes.createFolder(folderToMove)).entry.id;
     });
 
     afterAll(async () => {
-      testData.user1.foldersIds[uiCreatedFolder] = await apis.user1.nodes.getNodeIdFromParent(uiCreatedFolder, '-my-');
-      await Promise.all(Object.keys(testData.user1.foldersIds).map((i) => apis.user1.nodes.deleteNodeById(testData.user1.foldersIds[i])));
+      folderIds[uiCreatedFolder] = await apis.user1.nodes.getNodeIdFromParent(uiCreatedFolder, '-my-');
+      await Promise.all(Object.keys(folderIds).map((i) => apis.user1.nodes.deleteNodeById(folderIds[i])));
     });
 
     it('[C261138] Sort order is retained when creating a new folder', async () => {
