@@ -34,6 +34,7 @@
   "headerColor": "#ffffff",
   "headerTextColor": "#000000",
   "customCssPath": "",
+  "webFontPath": "",
   "pagination": {
     "size": 25,
     "supportedPageSizes": [25, 50, 100]

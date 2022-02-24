@@ -170,6 +170,7 @@ export class AppComponent implements OnInit, OnDestroy {
       logoPath: this.config.get<string>('application.logo'),
       headerImagePath: this.config.get<string>('application.headerImagePath'),
       customCssPath: this.config.get<string>('customCssPath'),
+      webFontPath: this.config.get<string>('webFontPath'),
       sharedUrl: baseShareUrl
     };
 
