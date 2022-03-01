@@ -47,7 +47,7 @@ describe('File preview', () => {
   beforeAll(async () => {
     await adminApiActions.createUser({ username });
     fileId = (await apis.user.upload.uploadFileWithRename(FILES.pdfFile, '-my-', fileName)).entry.id;
-
+    await apis.user.search.waitForNodes(fileName, { expect: 1 });
     await loginPage.loginWith(username);
   });
 
