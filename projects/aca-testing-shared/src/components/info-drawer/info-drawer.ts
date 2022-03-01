@@ -46,6 +46,7 @@ export class InfoDrawer extends Component {
   expandDetailsButton = TestElement.byCss(`button[title='Expand']`);
   selectedTab = TestElement.byCss(`.mat-tab-list [aria-selected='true'] div`);
   expandedDetailsPermissionsTab = TestElement.byText('.acs-details-container .mat-tab-label-content', 'Permissions');
+  previewButton = TestElement.byCss(`button[title='Preview File']`);
 
   constructor(ancestor?: string) {
     super('adf-info-drawer', ancestor);

@@ -34,6 +34,7 @@ export class SearchInput extends Component {
   searchControl = browser.element(by.css('.app-search-control'));
 
   searchInput = TestElement.byCss('input[id="app-control-input"]');
+  searchResult = TestElement.byCss('.search-file-name');
 
   searchOptionsArea = browser.element(by.id('search-options'));
   searchFilesOption = this.searchOptionsArea.element(by.cssContainingText('.mat-checkbox', 'Files'));
@@ -155,5 +156,24 @@ export class SearchInput extends Component {
     await BrowserVisibility.waitUntilElementIsClickable(this.searchInput.elementFinder);
     await this.searchInput.typeText(text);
     await BrowserActions.click(this.searchButton);
+  }
+
+  async searchByURL(text: string){
+    const query = Buffer.from(text, 'utf-8').toString();
+    await BrowserActions.getUrl(`#/search;q=${query}`);
+  }
+
+  async searchUntilResult(text: string, methodType: 'URL' | 'UI', waitPerSearch: number = 2000, timeout: number = 20000) {
+    const attempts = Math.round(timeout/waitPerSearch);
+    let loopCount = 0;
+    let myPromise = new Promise((resolve, reject) => {
+      const check = async () => {
+          loopCount++;
+          loopCount >= attempts ? reject('File not found') : methodType === 'UI' ? await this.searchFor(text) : await this.searchByURL(text);
+          await this.searchResult.isPresent(waitPerSearch) ? resolve('File found') : setTimeout(check, waitPerSearch);
+      }
+      return check();
+  });
+  return myPromise;
   }
 }
