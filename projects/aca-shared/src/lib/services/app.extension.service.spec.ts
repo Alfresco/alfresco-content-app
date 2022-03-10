@@ -41,6 +41,7 @@ import {
 } from '@alfresco/adf-extensions';
 import { AppConfigService } from '@alfresco/adf-core';
 import { provideMockStore } from '@ngrx/store/testing';
+import { hasQuickShareEnabled } from '@alfresco/aca-shared/rules';
 
 describe('AppExtensionService', () => {
   let service: AppExtensionService;
@@ -56,7 +57,10 @@ describe('AppExtensionService', () => {
 
     appConfigService = TestBed.inject(AppConfigService);
     store = TestBed.inject(Store);
+
     service = TestBed.inject(AppExtensionService);
+    service.repository.status.isQuickShareEnabled = true;
+
     extensions = TestBed.inject(ExtensionService);
   });
 
@@ -1235,6 +1239,123 @@ describe('AppExtensionService', () => {
 
       service.getAllowedContextMenuActions().subscribe((serviceActions) => {
         expect(serviceActions).toEqual(expectedActionsWithoutChildren);
+        done();
+      });
+    });
+  });
+
+  describe('quick share', () => {
+    let config: ExtensionConfig;
+
+    beforeEach(() => {
+      const actions = [
+        {
+          id: 'id1',
+          type: ContentActionType.button,
+          icon: 'icon1',
+          actions: {
+            click: 'click'
+          },
+          rules: {
+            visible: 'repository.isQuickShareEnabled'
+          }
+        }
+      ];
+
+      config = {
+        $id: 'test',
+        $name: 'test',
+        $version: '1.0.0',
+        $license: 'MIT',
+        $vendor: 'Good company',
+        $runtime: '1.5.0',
+        features: {
+          contextMenu: [...actions],
+          toolbar: [...actions],
+          viewer: {
+            toolbarActions: [...actions]
+          },
+          sidebar: {
+            toolbar: [...actions]
+          }
+        }
+      };
+
+      applyConfig(config, true);
+
+      extensions.setEvaluators({
+        'repository.isQuickShareEnabled': hasQuickShareEnabled
+      });
+    });
+
+    it('should display context menu action if quick share is enabled', (done) => {
+      service.repository.status.isQuickShareEnabled = true;
+
+      service.getAllowedContextMenuActions().subscribe((actions) => {
+        expect(actions.length).toEqual(1);
+        done();
+      });
+    });
+
+    it('should hide context menu action if quick share is disabled', (done) => {
+      service.repository.status.isQuickShareEnabled = false;
+
+      service.getAllowedContextMenuActions().subscribe((actions) => {
+        expect(actions.length).toEqual(0);
+        done();
+      });
+    });
+
+    it('should display toolbar action if quick share is enabled', (done) => {
+      service.repository.status.isQuickShareEnabled = true;
+
+      service.getAllowedToolbarActions().subscribe((actions) => {
+        expect(actions.length).toEqual(1);
+        done();
+      });
+    });
+
+    it('should hide toolbar action if quick share is disabled', (done) => {
+      service.repository.status.isQuickShareEnabled = false;
+
+      service.getAllowedToolbarActions().subscribe((actions) => {
+        expect(actions.length).toEqual(0);
+        done();
+      });
+    });
+
+    it('should display viewer toolbar action if quick share is enabled', (done) => {
+      service.repository.status.isQuickShareEnabled = true;
+
+      service.getViewerToolbarActions().subscribe((actions) => {
+        expect(actions.length).toEqual(1);
+        done();
+      });
+    });
+
+    it('should hide viewer toolbar action if quick share is disabled', (done) => {
+      service.repository.status.isQuickShareEnabled = false;
+
+      service.getViewerToolbarActions().subscribe((actions) => {
+        expect(actions.length).toEqual(0);
+        done();
+      });
+    });
+
+    it('should display sidebar action if quick share is enabled', (done) => {
+      service.repository.status.isQuickShareEnabled = true;
+
+      service.getAllowedSidebarActions().subscribe((actions) => {
+        expect(actions.length).toEqual(1);
+        done();
+      });
+    });
+
+    it('should hide sidebar action if quick share is disabled', (done) => {
+      service.repository.status.isQuickShareEnabled = false;
+
+      service.getAllowedSidebarActions().subscribe((actions) => {
+        expect(actions.length).toEqual(0);
         done();
       });
     });
