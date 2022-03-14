@@ -252,6 +252,7 @@
         "component": {
           "selector": "check-list",
           "settings": {
+            "allowUpdateOnChange": false,
             "options": [
               {
                 "name": "SEARCH.SEARCH_HEADER.FILTERS.SIZE.SMALL",
