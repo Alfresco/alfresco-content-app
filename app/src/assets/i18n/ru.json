@@ -1,6 +1,6 @@
 {
   "APP": {
-    "COPYRIGHT": "© 2017 - 2020 Alfresco Software, Inc. Все права защищены.",
+    "COPYRIGHT": "© 2017 - 2022 Alfresco Software, Inc. Все права защищены.",
     "ABOUT": {
       "VERSION": "Версия:",
       "PLUGINS": {
@@ -40,7 +40,7 @@
     "SIGN_OUT": "Выйти",
     "SETTINGS": {
       "TITLE": "Параметры",
-      "APPLICATION-SETTINGS": "Настройки приложений",
+      "APPLICATION-SETTINGS": "Параметры приложения",
       "REPOSITORY-SETTINGS": "Настройки репозитория",
       "INVALID-VALUE-FORMAT": "Недопустимый формат значения",
       "REQUIRED-FIELD": "Поле обязательно для заполнения",
@@ -52,7 +52,7 @@
       "TITLE": "Предварительный просмотр"
     },
     "DETAILS": {
-      "TITLE": "Подробности"
+      "TITLE": "Сведения"
     },
     "NEW_MENU": {
       "LABEL": "Создать",
@@ -168,6 +168,8 @@
       },
       "SEARCH": {
         "DEFAULT_SEARCH": "По умолчанию",
+        "DUBLIN_CORE": "Дублинское ядро",
+        "EFFECTIVITY": "Эффективность",
         "TITLE": "Результаты поиска",
         "FOUND_RESULTS": "Найдено результатов: {{ number }}",
         "FOUND_ONE_RESULT": "Найден результат: {{ number }}",
@@ -202,7 +204,7 @@
       "DELETE_PERMANENT": "Удалить навсегда",
       "MORE": "Больше действий",
       "UNDO": "Отменить",
-      "PERMISSIONS": "Права",
+      "PERMISSIONS": "Разрешения",
       "RESTORE": "Восстановить",
       "FAVORITE": "Избранное",
       "ADD_FAVORITE": "Добавить в избранное",
@@ -248,7 +250,7 @@
         "MODIFIED_ON": "Изменено",
         "MODIFIED_BY": "Изменено пользователем",
         "VISIBILITY": "Видимость",
-        "TITLE": "Название",
+        "TITLE": "Заголовок",
         "LOCATION": "Местоположение",
         "SHARED_BY": "Доступ открыт пользователем",
         "DELETED_ON": "Удаленные",
@@ -362,10 +364,10 @@
       "EFFECTIVITY_GROUP_TITLE": "Эффективность"
     },
     "INFO_DRAWER": {
-      "TITLE": "Сведения",
+      "TITLE": "Подробности",
       "TABS": {
         "PROPERTIES": "Свойства",
-        "LIBRARY_PROPERTIES": "О программе",
+        "LIBRARY_PROPERTIES": "О продукте",
         "VERSIONS": "Версии",
         "COMMENTS": "Комментарии",
         "PERMISSIONS": "Разрешения",
@@ -391,7 +393,7 @@
     "FORM": {
       "PLACEHOLDER": {
         "NAME": "Имя",
-        "TITLE": "Название",
+        "TITLE": "Заголовок",
         "DESCRIPTION": "Описание"
       },
       "ERRORS": {
@@ -414,7 +416,7 @@
     },
     "DIALOG": {
       "TITLE": "Загрузить новую версию",
-      "CANCEL": "Отмена",
+      "CANCEL": "Отменить",
       "UPLOAD": "Загрузить"
     },
     "FORM": {
@@ -436,7 +438,9 @@
     }
   },
   "INFO_PANEL": {
-    "TABS": {},
+    "TABS": {
+    
+    },
     "DETAILS": "Подробности"
   },
   "LIBRARY": {
@@ -485,9 +489,12 @@
       "HINT": "Поисковый запрос должен содержать как минимум два буквенно-цифровых символа."
     },
     "SORT": {
+      "SORTING_OPTION": "Сортировать по",
+      "ASCENDING": "По возрастанию",
+      "DESCENDING": "По убыванию",
       "RELEVANCE": "Релевантность",
       "FILENAME": "Имя файла",
-      "TITLE": "Название",
+      "TITLE": "Заголовок",
       "MODIFIED_DATE": "Дата изменения",
       "SIZE": "Размер",
       "TYPE": "Тип",
@@ -509,7 +516,9 @@
         "LARGE": "Большой",
         "HUGE": "Огромный"
       },
-      "CREATED_DATE": "Дата создания"
+      "CREATED_DATE": "Дата создания",
+      "EFFECTIVITY_FROM": "Действует с",
+      "EFFECTIVITY_TO": "Действует до"
     },
     "FACET_QUERIES": {
       "TODAY": "Сегодня",

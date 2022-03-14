@@ -1,6 +1,6 @@
 {
   "APP": {
-    "COPYRIGHT": "© 2017 - 2020 Alfresco Software, Inc。 All rights reserved。",
+    "COPYRIGHT": "© 2017 - 2022 Alfresco Software, Inc。 All rights reserved。",
     "ABOUT": {
       "VERSION": "バージョン:",
       "PLUGINS": {
@@ -168,6 +168,8 @@
       },
       "SEARCH": {
         "DEFAULT_SEARCH": "デフォルト",
+        "DUBLIN_CORE": "Dublin core",
+        "EFFECTIVITY": "有効性",
         "TITLE": "検索結果",
         "FOUND_RESULTS": "{{ number }} 件見つかりました",
         "FOUND_ONE_RESULT": "{{ number }} 件見つかりました",
@@ -397,7 +399,7 @@
       "ERRORS": {
         "DESCRIPTION_TOO_LONG": "説明は 512 文字以内で入力してください",
         "TITLE_TOO_LONG": "タイトルは 256 文字以内で入力してください",
-        "REQUIRED": "名前を指定してください",
+        "REQUIRED": "名前は必須です",
         "SPECIAL_CHARACTERS": "名前に次の文字を含めることはできません。 * \" < > \\ / ? : |",
         "ENDING_DOT": "名前の末尾にピリオド (.) を付けることはできません。",
         "ONLY_SPACES": "名前にスペースだけを含めることはできません"
@@ -436,7 +438,9 @@
     }
   },
   "INFO_PANEL": {
-    "TABS": {},
+    "TABS": {
+    
+    },
     "DETAILS": "詳細"
   },
   "LIBRARY": {
@@ -462,7 +466,7 @@
       "SITE_TITLE_EXISTS": "ライブラリ名は既に使用されています"
     },
     "ERRORS": {
-      "GENERIC": "問題が発生しました",
+      "GENERIC": "問題の発生",
       "EXISTENT_SITE": "このライブラリ ID は使用できません。別のライブラリ ID を使用してください。",
       "CONFLICT": "このライブラリ ID は既に使われています。ごみ箱をチェックしてください。",
       "ID_TOO_LONG": "URL 名は 72 文字以内で入力してください",
@@ -485,6 +489,9 @@
       "HINT": "検索する語句は、2 文字以上の英数字で入力してください。"
     },
     "SORT": {
+      "SORTING_OPTION": "並べ替え",
+      "ASCENDING": "昇順",
+      "DESCENDING": "降順",
       "RELEVANCE": "関連性",
       "FILENAME": "ファイル名",
       "TITLE": "タイトル",
@@ -509,7 +516,9 @@
         "LARGE": "大",
         "HUGE": "特大"
       },
-      "CREATED_DATE": "作成日"
+      "CREATED_DATE": "作成日",
+      "EFFECTIVITY_FROM": "有効性の開始",
+      "EFFECTIVITY_TO": "有効性の終了"
     },
     "FACET_QUERIES": {
       "TODAY": "今日",

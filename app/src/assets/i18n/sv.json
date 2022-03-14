@@ -1,6 +1,6 @@
 {
   "APP": {
-    "COPYRIGHT": "© 2017 - 2020 Alfresco Software, Inc. Alla rättigheter förbehålls.",
+    "COPYRIGHT": "© 2017 - 2022 Alfresco Software, Inc. Alla rättigheter förbehålls.",
     "ABOUT": {
       "VERSION": "Version:",
       "PLUGINS": {
@@ -168,6 +168,8 @@
       },
       "SEARCH": {
         "DEFAULT_SEARCH": "Standard",
+        "DUBLIN_CORE": "Dublin core",
+        "EFFECTIVITY": "Giltighet",
         "TITLE": "Sökresultat",
         "FOUND_RESULTS": "{{ number }} resultat hittades",
         "FOUND_ONE_RESULT": "{{ number }} resultat hittades",
@@ -436,7 +438,9 @@
     }
   },
   "INFO_PANEL": {
-    "TABS": {},
+    "TABS": {
+    
+    },
     "DETAILS": "Detaljer"
   },
   "LIBRARY": {
@@ -485,6 +489,9 @@
       "HINT": "Sökindata måste ha minst 2 alfanumeriska tecken."
     },
     "SORT": {
+      "SORTING_OPTION": "Sortera efter",
+      "ASCENDING": "Stigande",
+      "DESCENDING": "Fallande",
       "RELEVANCE": "Relevans",
       "FILENAME": "Filnamn",
       "TITLE": "Titel",
@@ -509,7 +516,9 @@
         "LARGE": "Stort",
         "HUGE": "Jättestort"
       },
-      "CREATED_DATE": "Skapad datum"
+      "CREATED_DATE": "Skapad datum",
+      "EFFECTIVITY_FROM": "Giltighet från",
+      "EFFECTIVITY_TO": "Giltighet till"
     },
     "FACET_QUERIES": {
       "TODAY": "I dag",

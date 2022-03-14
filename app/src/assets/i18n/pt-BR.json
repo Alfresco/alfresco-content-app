@@ -1,6 +1,6 @@
 {
   "APP": {
-    "COPYRIGHT": "© 2017 - 2020 Alfresco Software, Inc. Todos os direitos reservados.",
+    "COPYRIGHT": "© 2017 - 2022 Alfresco Software, Inc. Todos os direitos reservados.",
     "ABOUT": {
       "VERSION": "Versão:",
       "PLUGINS": {
@@ -168,6 +168,8 @@
       },
       "SEARCH": {
         "DEFAULT_SEARCH": "Padrão",
+        "DUBLIN_CORE": "Dublin core",
+        "EFFECTIVITY": "Efetividade",
         "TITLE": "Resultados da pesquisa",
         "FOUND_RESULTS": "{{ number }} resultados encontrados",
         "FOUND_ONE_RESULT": "{{ number }} resultados encontrados",
@@ -195,7 +197,7 @@
     "ACTIONS": {
       "VIEW": "Visualizar",
       "EDIT": "Editar",
-      "DOWNLOAD": "Download",
+      "DOWNLOAD": "Baixar",
       "COPY": "Copiar",
       "MOVE": "Mover",
       "DELETE": "Excluir",
@@ -436,7 +438,9 @@
     }
   },
   "INFO_PANEL": {
-    "TABS": {},
+    "TABS": {
+    
+    },
     "DETAILS": "Detalhes"
   },
   "LIBRARY": {
@@ -485,6 +489,9 @@
       "HINT": "O termo da pesquisa deve ter no mínimo 2 caracteres alfanuméricos."
     },
     "SORT": {
+      "SORTING_OPTION": "Classificar por",
+      "ASCENDING": "Ascendente",
+      "DESCENDING": "Descendente",
       "RELEVANCE": "Relevância",
       "FILENAME": "Nome do arquivo",
       "TITLE": "Título",
@@ -509,7 +516,9 @@
         "LARGE": "Grande",
         "HUGE": "Enorme"
       },
-      "CREATED_DATE": "Data de criação"
+      "CREATED_DATE": "Data de criação",
+      "EFFECTIVITY_FROM": "Eficácia de",
+      "EFFECTIVITY_TO": "Eficácia para"
     },
     "FACET_QUERIES": {
       "TODAY": "Hoje",

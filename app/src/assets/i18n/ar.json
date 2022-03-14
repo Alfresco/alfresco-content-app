@@ -1,6 +1,6 @@
 {
   "APP": {
-    "COPYRIGHT": "حقوق الطبع والنشر © 2017 - 2020 Alfresco Software, Inc. جميع الحقوق محفوظة.",
+    "COPYRIGHT": "© 2017 - 2022 Alfresco Software, Inc. All rights reserved.",
     "ABOUT": {
       "VERSION": "الإصدار:",
       "PLUGINS": {
@@ -52,7 +52,7 @@
       "TITLE": "معاينة"
     },
     "DETAILS": {
-      "TITLE": "تفاصيل"
+      "TITLE": "التفاصيل"
     },
     "NEW_MENU": {
       "LABEL": "جديد",
@@ -168,6 +168,8 @@
       },
       "SEARCH": {
         "DEFAULT_SEARCH": "تفاصيل",
+        "DUBLIN_CORE": "Dublin core",
+        "EFFECTIVITY": "السريان",
         "TITLE": "نتائج البحث",
         "FOUND_RESULTS": "تم العثور على {{ number }} نتائج",
         "FOUND_ONE_RESULT": "تم العثور على {{ number }} نتيجة",
@@ -202,7 +204,7 @@
       "DELETE_PERMANENT": "حذف دائم",
       "MORE": "إجراءات أكثر",
       "UNDO": "تراجع",
-      "PERMISSIONS": "الأذونات",
+      "PERMISSIONS": "أذونات",
       "RESTORE": "استعادة",
       "FAVORITE": "مفضلة",
       "ADD_FAVORITE": "إضافة مفضلة",
@@ -359,10 +361,10 @@
       "GROUP_IPTC_EXT_ADMIN_INFO": "معلومات مسؤول IPTC",
       "GROUP_IPTC_EXT_RIGHTS_INFO": "معلومات حقوق IPTC",
       "GROUP_IPTC_EXT_OTHER": "IPTC أخرى",
-      "EFFECTIVITY_GROUP_TITLE": "الفاعلية"
+      "EFFECTIVITY_GROUP_TITLE": "السريان"
     },
     "INFO_DRAWER": {
-      "TITLE": "التفاصيل",
+      "TITLE": "تفاصيل",
       "TABS": {
         "PROPERTIES": "الخصائص",
         "LIBRARY_PROPERTIES": "حول",
@@ -436,7 +438,9 @@
     }
   },
   "INFO_PANEL": {
-    "TABS": {},
+    "TABS": {
+    
+    },
     "DETAILS": "تفاصيل"
   },
   "LIBRARY": {
@@ -485,6 +489,9 @@
       "HINT": "يجب أن يحتوي إدخال البحث على حرفين أبجديين رقميين على الأقل."
     },
     "SORT": {
+      "SORTING_OPTION": "صنف حسب",
+      "ASCENDING": "تصاعدي",
+      "DESCENDING": "تنازلي",
       "RELEVANCE": "الصلة",
       "FILENAME": "اسم الملف",
       "TITLE": "العنوان",
@@ -509,7 +516,9 @@
         "LARGE": "كبير",
         "HUGE": "ضخم"
       },
-      "CREATED_DATE": "تاريخ الإنشاء"
+      "CREATED_DATE": "تاريخ الإنشاء",
+      "EFFECTIVITY_FROM": "فعالية من",
+      "EFFECTIVITY_TO": "فعالية ل"
     },
     "FACET_QUERIES": {
       "TODAY": "اليوم",
