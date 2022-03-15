@@ -3,22 +3,15 @@
 # Trigger a new Travis-CI job.
 
 # Usage:
-#   trigger-travis.sh [--pro] [--branch BRANCH] GITHUBID GITHUBPROJECT TRAVIS_ACCESS_TOKEN [MESSAGE]
+#   trigger-travis.sh [--branch BRANCH] GITHUBID GITHUBPROJECT TRAVIS_API_TOKEN [MESSAGE]
 # For example:
 #   trigger-travis.sh typetools checker-framework `cat ~/private/.travis-access-token` "Trigger for testing"
 
 
 if [ "$#" -lt 3 ] || [ "$#" -ge 7 ]; then
   echo "Wrong number of arguments $# to trigger-travis.sh; run like:"
-  echo " trigger-travis.sh [--pro] [--branch BRANCH] GITHUBID GITHUBPROJECT TRAVIS_ACCESS_TOKEN [MESSAGE]" >&2
+  echo " trigger-travis.sh [--branch BRANCH] TRAVIS_API_TOKEN [MESSAGE]" >&2
   exit 1
-fi
-
-if [ "$1" = "--pro" ] ; then
-  TRAVIS_URL=travis-ci.com
-  shift
-else
-  TRAVIS_URL=travis-ci.org
 fi
 
 if [ "$1" = "--branch" ] ; then
@@ -29,20 +22,18 @@ else
   BRANCH=master
 fi
 
-USER=$1
-REPO=$2
 TOKEN=$3
+
 if [ $# -eq 4 ] ; then
     MESSAGE=",\"message\": \"$4\""
 elif [ -n "$TRAVIS_REPO_SLUG" ] ; then
-    MESSAGE=",\"message\": \"Triggered by upstream build of $TRAVIS_REPO_SLUG commit "`git log --oneline -n 1 HEAD`"\""
+    MESSAGE=",\"message\": \"Triggered by ACA upstream [affected:content-ee,content-ee-apa]\""
 else
     MESSAGE=""
 fi
 ## For debugging:
 # echo "USER=$USER"
 # echo "REPO=$REPO"
-# echo "TOKEN=$TOKEN"
 # echo "MESSAGE=$MESSAGE"
 
 body="{
@@ -59,7 +50,7 @@ curl -s -X POST \
   -H "Travis-API-Version: 3" \
   -H "Authorization: token ${TOKEN}" \
   -d "$body" \
-  https://api.${TRAVIS_URL}/repo/${USER}%2F${REPO}/requests \
+  https://api.travis-ci.com/repo/Alfresco/alfresco-apps/requests \
  | tee /tmp/travis-request-output.$$.txt
 
 if grep -q '"@type": "error"' /tmp/travis-request-output.$$.txt; then
