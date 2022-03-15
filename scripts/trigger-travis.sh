@@ -6,11 +6,9 @@
 #   trigger-travis.sh [--branch BRANCH] GITHUBID GITHUBPROJECT TRAVIS_API_TOKEN [MESSAGE]
 # For example:
 #   trigger-travis.sh typetools checker-framework `cat ~/private/.travis-access-token` "Trigger for testing"
-
-
 if [ "$#" -lt 3 ] || [ "$#" -ge 7 ]; then
   echo "Wrong number of arguments $# to trigger-travis.sh; run like:"
-  echo " trigger-travis.sh [--branch BRANCH] TRAVIS_API_TOKEN [MESSAGE]" >&2
+  echo " trigger-travis.sh [--branch BRANCH] GITHUBID GITHUBPROJECT TRAVIS_API_TOKEN [MESSAGE]" >&2
   exit 1
 fi
 
@@ -22,8 +20,9 @@ else
   BRANCH=master
 fi
 
+USER=$1
+REPO=$2
 TOKEN=$3
-
 if [ $# -eq 4 ] ; then
     MESSAGE=",\"message\": \"$4\""
 elif [ -n "$TRAVIS_REPO_SLUG" ] ; then
@@ -34,6 +33,7 @@ fi
 ## For debugging:
 # echo "USER=$USER"
 # echo "REPO=$REPO"
+# echo "TOKEN=$TOKEN"
 # echo "MESSAGE=$MESSAGE"
 
 body="{
@@ -50,7 +50,7 @@ curl -s -X POST \
   -H "Travis-API-Version: 3" \
   -H "Authorization: token ${TOKEN}" \
   -d "$body" \
-  https://api.travis-ci.com/repo/Alfresco%2Falfresco-apps/requests \
+  https://api.travis-ci.com/repo/${USER}%2F${REPO}/requests \
  | tee /tmp/travis-request-output.$$.txt
 
 if grep -q '"@type": "error"' /tmp/travis-request-output.$$.txt; then
@@ -59,3 +59,4 @@ fi
 if grep -q 'access denied' /tmp/travis-request-output.$$.txt; then
     exit 1
 fi
+
