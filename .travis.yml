@@ -37,7 +37,7 @@ stages:
   - name: e2e
     if: type = cron || type = pull_request
   - name: Trigger DW
-    if: branch = develop AND type = cron
+    if: branch = develop AND (type = cron OR (type = api AND commit_message =~ /\[trigger aca\]/))
 
 env:
   global:
