@@ -215,7 +215,7 @@ jobs:
       script: ./scripts/travis/deploy/publish.sh "content-ce" "$DOCKER_HUB_REPOSITORY_DOMAIN" "$DOCKER_HUB_USERNAME" "$DOCKER_HUB_PASSWORD"
 
     - stage: Trigger DW
-      script: ./scripts/trigger-travis.sh --pro --branch $TRAVIS_BRANCH Alfresco alfresco-digital-workspace-app $TRAVIS_ACCESS_TOKEN
+      script: ./scripts/trigger-travis.sh --branch $TRAVIS_BRANCH $TRAVIS_API_TOKEN
 
 notifications:
   slack:
