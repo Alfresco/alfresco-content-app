@@ -1,6 +1,6 @@
 {
   "APP": {
-    "COPYRIGHT": "© 2017 - 2020 Alfresco Software, Inc. Kaikki oikeudet pidätetään.",
+    "COPYRIGHT": "© 2017 - 2022 Alfresco Software, Inc. Kaikki oikeudet pidätetään.",
     "ABOUT": {
       "VERSION": "Versio:",
       "PLUGINS": {
@@ -168,6 +168,8 @@
       },
       "SEARCH": {
         "DEFAULT_SEARCH": "Oletus",
+        "DUBLIN_CORE": "Dublin core",
+        "EFFECTIVITY": "Voimassaolo",
         "TITLE": "Hakutulosta",
         "FOUND_RESULTS": "Löytyi {{ number }} tulosta",
         "FOUND_ONE_RESULT": "Löytyi {{ number }} tulos",
@@ -436,7 +438,9 @@
     }
   },
   "INFO_PANEL": {
-    "TABS": {},
+    "TABS": {
+    
+    },
     "DETAILS": "Tiedot"
   },
   "LIBRARY": {
@@ -485,6 +489,9 @@
       "HINT": "Hakuehdoissa täytyy olla vähintään kaksi aakkosnumeerista merkkiä."
     },
     "SORT": {
+      "SORTING_OPTION": "Järjestä",
+      "ASCENDING": "Nouseva",
+      "DESCENDING": "Laskeva",
       "RELEVANCE": "Osuvuus",
       "FILENAME": "Tiedostonimi",
       "TITLE": "Otsikko",
@@ -509,7 +516,9 @@
         "LARGE": "Suuri",
         "HUGE": "Valtava"
       },
-      "CREATED_DATE": "Luontipäivämäärä"
+      "CREATED_DATE": "Luontipäivämäärä",
+      "EFFECTIVITY_FROM": "Voimassaolon alku",
+      "EFFECTIVITY_TO": "Voimassaolon loppu"
     },
     "FACET_QUERIES": {
       "TODAY": "Tänään",

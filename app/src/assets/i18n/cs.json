@@ -1,6 +1,6 @@
 {
   "APP": {
-    "COPYRIGHT": "© 2017 - 2020 Alfresco Software, Inc. Všechna práva vyhrazena.",
+    "COPYRIGHT": "© 2017 - 2022 Alfresco Software, Inc. All rights reserved.",
     "ABOUT": {
       "VERSION": "Verze:",
       "PLUGINS": {
@@ -168,6 +168,8 @@
       },
       "SEARCH": {
         "DEFAULT_SEARCH": "Výchozí",
+        "DUBLIN_CORE": "Dublin Core",
+        "EFFECTIVITY": "Účinnost",
         "TITLE": "Výsledky hledání",
         "FOUND_RESULTS": "Nalezené výsledky: {{ number }}",
         "FOUND_ONE_RESULT": "Nalezené výsledky: {{ number }}",
@@ -436,7 +438,9 @@
     }
   },
   "INFO_PANEL": {
-    "TABS": {},
+    "TABS": {
+    
+    },
     "DETAILS": "Podrobnosti"
   },
   "LIBRARY": {
@@ -485,6 +489,9 @@
       "HINT": "Hledaný výraz musí obsahovat kombinaci alespoň 2 písmen a číslic."
     },
     "SORT": {
+      "SORTING_OPTION": "Řadit podle",
+      "ASCENDING": "Vzestupně",
+      "DESCENDING": "Sestupně",
       "RELEVANCE": "Relevance",
       "FILENAME": "Název souboru",
       "TITLE": "Označení",
@@ -509,7 +516,9 @@
         "LARGE": "Velká",
         "HUGE": "Obrovská"
       },
-      "CREATED_DATE": "Datum vytvoření"
+      "CREATED_DATE": "Datum vytvoření",
+      "EFFECTIVITY_FROM": "Platnost od",
+      "EFFECTIVITY_TO": "Platnost do"
     },
     "FACET_QUERIES": {
       "TODAY": "Dnes",

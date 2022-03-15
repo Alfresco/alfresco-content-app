@@ -1,6 +1,6 @@
 {
   "APP": {
-    "COPYRIGHT": "© 2017 - 2020 Alfresco Software, Inc. Alle rechten voorbehouden.",
+    "COPYRIGHT": "© 2017 - 2022 Alfresco Software, Inc. Alle rechten voorbehouden.",
     "ABOUT": {
       "VERSION": "Versie:",
       "PLUGINS": {
@@ -40,7 +40,7 @@
     "SIGN_OUT": "Afmelden",
     "SETTINGS": {
       "TITLE": "Instellingen",
-      "APPLICATION-SETTINGS": "Toepassingsinstellingen",
+      "APPLICATION-SETTINGS": "Toepassingsnaam",
       "REPOSITORY-SETTINGS": "Opslagplaatsinstellingen",
       "INVALID-VALUE-FORMAT": "Ongeldige indeling van waarde",
       "REQUIRED-FIELD": "Dit veld is vereist",
@@ -52,7 +52,7 @@
       "TITLE": "Preview"
     },
     "DETAILS": {
-      "TITLE": "Details"
+      "TITLE": "Gegevens"
     },
     "NEW_MENU": {
       "LABEL": "Nieuw",
@@ -168,6 +168,8 @@
       },
       "SEARCH": {
         "DEFAULT_SEARCH": "Standaard",
+        "DUBLIN_CORE": "Dublin Core",
+        "EFFECTIVITY": "Effectiviteit",
         "TITLE": "Zoekresultaten",
         "FOUND_RESULTS": "{{ number }} resultaten gevonden",
         "FOUND_ONE_RESULT": "{{ number }} resultaat gevonden",
@@ -208,7 +210,7 @@
       "ADD_FAVORITE": "Favoriet toevoegen",
       "REMOVE_FAVORITE": "Favoriet verwijderen",
       "UNSHARE": "Delen ongedaan maken",
-      "DETAILS": "Details weergeven",
+      "DETAILS": "Gegevens weergeven",
       "VERSIONS": "Versies beheren",
       "UPLOAD_VERSION": "Nieuwe versie uploaden",
       "TOGGLE-SIDENAV": "Zij-navigatiebalk in- of uitschakelen",
@@ -362,7 +364,7 @@
       "EFFECTIVITY_GROUP_TITLE": "Effectiviteit"
     },
     "INFO_DRAWER": {
-      "TITLE": "Details",
+      "TITLE": "Gegevens",
       "TABS": {
         "PROPERTIES": "Eigenschappen",
         "LIBRARY_PROPERTIES": "Info",
@@ -436,8 +438,10 @@
     }
   },
   "INFO_PANEL": {
-    "TABS": {},
-    "DETAILS": "Details"
+    "TABS": {
+    
+    },
+    "DETAILS": "Gegevens"
   },
   "LIBRARY": {
     "DIALOG": {
@@ -485,6 +489,9 @@
       "HINT": "Invoer voor een zoekopdracht moet uit minstens 2 alfanumerieke tekens bestaan."
     },
     "SORT": {
+      "SORTING_OPTION": "Sorteren op",
+      "ASCENDING": "Oplopend",
+      "DESCENDING": "Aflopend",
       "RELEVANCE": "Relevantie",
       "FILENAME": "Bestandsnaam",
       "TITLE": "Titel",
@@ -509,7 +516,9 @@
         "LARGE": "Groot",
         "HUGE": "Zeer groot"
       },
-      "CREATED_DATE": "Datum gemaakt"
+      "CREATED_DATE": "Datum gemaakt",
+      "EFFECTIVITY_FROM": "Effectiviteit vanaf",
+      "EFFECTIVITY_TO": "Effectiviteit tot"
     },
     "FACET_QUERIES": {
       "TODAY": "Vandaag",

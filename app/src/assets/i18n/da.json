@@ -1,6 +1,6 @@
 {
   "APP": {
-    "COPYRIGHT": "© 2017 - 2020 Alfresco Software, Inc. Alle rettigheder forbeholdes.",
+    "COPYRIGHT": "© 2017 - 2022 Alfresco Software, Inc. Alle rettigheder forbeholdes.",
     "ABOUT": {
       "VERSION": "Version:",
       "PLUGINS": {
@@ -40,7 +40,7 @@
     "SIGN_OUT": "Log af",
     "SETTINGS": {
       "TITLE": "Indstillinger",
-      "APPLICATION-SETTINGS": "Appindstillinger",
+      "APPLICATION-SETTINGS": "Applikationsindstillinger",
       "REPOSITORY-SETTINGS": "Lagerindstillinger",
       "INVALID-VALUE-FORMAT": "Værdiformatet er ugyldigt",
       "REQUIRED-FIELD": "Dette felt er påkrævet",
@@ -141,9 +141,9 @@
         }
       },
       "FAVORITES": {
-        "TITLE": "Angivet som favorit",
+        "TITLE": "Favoritter",
         "SIDENAV_LINK": {
-          "LABEL": "Angivet som favorit",
+          "LABEL": "Favoritter",
           "TOOLTIP": "Se de filer og mapper, du har angivet som favorit"
         },
         "EMPTY_STATE": {
@@ -168,6 +168,8 @@
       },
       "SEARCH": {
         "DEFAULT_SEARCH": "Standard",
+        "DUBLIN_CORE": "Dublin-kerne",
+        "EFFECTIVITY": "Gældende periode",
         "TITLE": "Søgeresultater",
         "FOUND_RESULTS": "{{ number }} resultater fundet",
         "FOUND_ONE_RESULT": "{{ number }} resultat fundet",
@@ -436,7 +438,9 @@
     }
   },
   "INFO_PANEL": {
-    "TABS": {},
+    "TABS": {
+    
+    },
     "DETAILS": "Detaljer"
   },
   "LIBRARY": {
@@ -485,6 +489,9 @@
       "HINT": "Din søgetekst skal være på mindst 2 tal/bogstaver."
     },
     "SORT": {
+      "SORTING_OPTION": "Sortér efter",
+      "ASCENDING": "Stigende rækkefølge",
+      "DESCENDING": "Faldende rækkefølge",
       "RELEVANCE": "Relevans",
       "FILENAME": "Filnavn",
       "TITLE": "Titel",
@@ -509,7 +516,9 @@
         "LARGE": "Stor",
         "HUGE": "Meget stor"
       },
-      "CREATED_DATE": "Oprettelsesdato"
+      "CREATED_DATE": "Oprettelsesdato",
+      "EFFECTIVITY_FROM": "Gældende periode fra",
+      "EFFECTIVITY_TO": "Gældende periode til"
     },
     "FACET_QUERIES": {
       "TODAY": "I dag",

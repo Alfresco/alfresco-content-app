@@ -1,6 +1,6 @@
 {
   "APP": {
-    "COPYRIGHT": "© 2017 - 2020 Alfresco Software, Inc。保留所有权利。",
+    "COPYRIGHT": "© 2017 - 2022 Alfresco Software, Inc。保留所有权利。",
     "ABOUT": {
       "VERSION": "版本：",
       "PLUGINS": {
@@ -168,6 +168,8 @@
       },
       "SEARCH": {
         "DEFAULT_SEARCH": "默认",
+        "DUBLIN_CORE": "都柏林核心",
+        "EFFECTIVITY": "有效性",
         "TITLE": "搜索结果",
         "FOUND_RESULTS": "找到 {{ number }} 个结果",
         "FOUND_ONE_RESULT": "找到 {{ number }} 个结果",
@@ -436,7 +438,9 @@
     }
   },
   "INFO_PANEL": {
-    "TABS": {},
+    "TABS": {
+    
+    },
     "DETAILS": "详细信息"
   },
   "LIBRARY": {
@@ -485,6 +489,9 @@
       "HINT": "搜索输入必须至少具有 2 个字母数字字符。"
     },
     "SORT": {
+      "SORTING_OPTION": "排序方式",
+      "ASCENDING": "升序",
+      "DESCENDING": "降序",
       "RELEVANCE": "相关性",
       "FILENAME": "文件名",
       "TITLE": "标题",
@@ -509,7 +516,9 @@
         "LARGE": "大",
         "HUGE": "特大"
       },
-      "CREATED_DATE": "创建日期"
+      "CREATED_DATE": "创建日期",
+      "EFFECTIVITY_FROM": "有效开始",
+      "EFFECTIVITY_TO": "有效结束"
     },
     "FACET_QUERIES": {
       "TODAY": "今天",

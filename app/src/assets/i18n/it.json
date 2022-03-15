@@ -1,6 +1,6 @@
 {
   "APP": {
-    "COPYRIGHT": "© 2017 - 2020 Alfresco Software, Inc. Tutti i diritti riservati.",
+    "COPYRIGHT": "© 2017 - 2022 Alfresco Software, Inc. Tutti i diritti riservati.",
     "ABOUT": {
       "VERSION": "Versione:",
       "PLUGINS": {
@@ -168,6 +168,8 @@
       },
       "SEARCH": {
         "DEFAULT_SEARCH": "Predefinita",
+        "DUBLIN_CORE": "Dublin core",
+        "EFFECTIVITY": "Validità",
         "TITLE": "Risultati della ricerca",
         "FOUND_RESULTS": "{{ number }} risultati trovati",
         "FOUND_ONE_RESULT": "{{ number }} risultato trovato",
@@ -436,7 +438,9 @@
     }
   },
   "INFO_PANEL": {
-    "TABS": {},
+    "TABS": {
+    
+    },
     "DETAILS": "Dettagli"
   },
   "LIBRARY": {
@@ -468,7 +472,7 @@
       "ID_TOO_LONG": "Utilizzare 72 caratteri o meno per il nome URL",
       "DESCRIPTION_TOO_LONG": "Utilizzare 512 o meno per la descrizione",
       "TITLE_TOO_LONG": "Utilizzare 256 caratteri o meno per il titolo",
-      "ILLEGAL_CHARACTERS": "Utilizzare solo lettere e numeri",
+      "ILLEGAL_CHARACTERS": "Utilizza solo lettere e numeri",
       "ONLY_SPACES": "Il nome della libreria non può contenere solo spazi",
       "LIBRARY_UPDATE_ERROR": "Si è verificato un errore di caricamento delle proprietà della libreria"
     },
@@ -485,6 +489,9 @@
       "HINT": "La stringa di ricerca deve contenere almeno 2 caratteri alfanumerici."
     },
     "SORT": {
+      "SORTING_OPTION": "Ordina per",
+      "ASCENDING": "Ordine crescente",
+      "DESCENDING": "Ordine decrescente",
       "RELEVANCE": "Pertinenza",
       "FILENAME": "Nome file",
       "TITLE": "Titolo",
@@ -509,7 +516,9 @@
         "LARGE": "Grande",
         "HUGE": "Enorme"
       },
-      "CREATED_DATE": "Data di creazione"
+      "CREATED_DATE": "Data di creazione",
+      "EFFECTIVITY_FROM": "Inizio validità",
+      "EFFECTIVITY_TO": "Fine validità"
     },
     "FACET_QUERIES": {
       "TODAY": "Oggi",

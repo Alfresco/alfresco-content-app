@@ -1,6 +1,6 @@
 {
   "APP": {
-    "COPYRIGHT": "© 2017–2020 Alfresco Software, Inc. Wszelkie prawa zastrzeżone.",
+    "COPYRIGHT": "© 2017–2022 Alfresco Software, Inc. Wszelkie prawa zastrzeżone.",
     "ABOUT": {
       "VERSION": "Wersja:",
       "PLUGINS": {
@@ -168,6 +168,8 @@
       },
       "SEARCH": {
         "DEFAULT_SEARCH": "Domyślne",
+        "DUBLIN_CORE": "Dublin Core",
+        "EFFECTIVITY": "Obowiązywanie",
         "TITLE": "Wyniki wyszukiwania",
         "FOUND_RESULTS": "Znaleziono wyników: {{ number }}",
         "FOUND_ONE_RESULT": "Znaleziono wyników: {{ number }}",
@@ -436,7 +438,9 @@
     }
   },
   "INFO_PANEL": {
-    "TABS": {},
+    "TABS": {
+    
+    },
     "DETAILS": "Szczegóły"
   },
   "LIBRARY": {
@@ -485,6 +489,9 @@
       "HINT": "Tekst do wyszukiwania musi mieć co najmniej 2 znaki alfanumeryczne."
     },
     "SORT": {
+      "SORTING_OPTION": "Sortuj wg",
+      "ASCENDING": "Rosnąco",
+      "DESCENDING": "Malejąco",
       "RELEVANCE": "Znaczenie",
       "FILENAME": "Nazwa pliku",
       "TITLE": "Tytuł",
@@ -509,7 +516,9 @@
         "LARGE": "Duży",
         "HUGE": "Ogromny"
       },
-      "CREATED_DATE": "Data utworzenia"
+      "CREATED_DATE": "Data utworzenia",
+      "EFFECTIVITY_FROM": "Data początku obowiązywania",
+      "EFFECTIVITY_TO": "Data końca obowiązywania"
     },
     "FACET_QUERIES": {
       "TODAY": "Dzisiaj",
