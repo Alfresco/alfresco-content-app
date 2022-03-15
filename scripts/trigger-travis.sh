@@ -50,7 +50,7 @@ curl -s -X POST \
   -H "Travis-API-Version: 3" \
   -H "Authorization: token ${TOKEN}" \
   -d "$body" \
-  https://api.travis-ci.com/repo/Alfresco/alfresco-apps/requests \
+  https://api.travis-ci.com/repo/Alfresco%2Falfresco-apps/requests \
  | tee /tmp/travis-request-output.$$.txt
 
 if grep -q '"@type": "error"' /tmp/travis-request-output.$$.txt; then
