@@ -96,7 +96,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "latest",
     "eslint-plugin-rxjs": "^5.0.2",
-    "eslint-plugin-unicorn": "latest",
+    "eslint-plugin-unicorn": "^40.1.0",
     "http-server": "^14.1.0",
     "husky": "^7.0.2",
     "inquirer": "^8.1.5",
