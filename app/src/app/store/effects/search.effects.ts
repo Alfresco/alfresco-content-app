@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Effect, Actions, ofType } from '@ngrx/effects';
+import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { SearchActionTypes, SearchByTermAction, SearchOptionIds } from '@alfresco/aca-shared/store';
@@ -33,19 +33,22 @@ import { Router } from '@angular/router';
 export class SearchEffects {
   constructor(private actions$: Actions, private router: Router) {}
 
-  @Effect({ dispatch: false })
-  searchByTerm$ = this.actions$.pipe(
-    ofType<SearchByTermAction>(SearchActionTypes.SearchByTerm),
-    map((action) => {
-      const query = action.payload.replace(/[(]/g, '%28').replace(/[)]/g, '%29');
+  searchByTerm$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType<SearchByTermAction>(SearchActionTypes.SearchByTerm),
+        map((action) => {
+          const query = action.payload.replace(/[(]/g, '%28').replace(/[)]/g, '%29');
 
-      const libItem = action.searchOptions.find((item) => item.id === SearchOptionIds.Libraries);
-      const librarySelected = !!libItem && libItem.value;
-      if (librarySelected) {
-        this.router.navigateByUrl('/search-libraries;q=' + encodeURIComponent(query));
-      } else {
-        this.router.navigateByUrl('/search;q=' + encodeURIComponent(query));
-      }
-    })
+          const libItem = action.searchOptions.find((item) => item.id === SearchOptionIds.Libraries);
+          const librarySelected = !!libItem && libItem.value;
+          if (librarySelected) {
+            this.router.navigateByUrl('/search-libraries;q=' + encodeURIComponent(query));
+          } else {
+            this.router.navigateByUrl('/search;q=' + encodeURIComponent(query));
+          }
+        })
+      ),
+    { dispatch: false }
   );
 }

@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Effect, Actions, ofType } from '@ngrx/effects';
+import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { AppActionTypes, LogoutAction, ReloadDocumentListAction, ResetSelectionAction } from '@alfresco/aca-shared/store';
@@ -35,31 +35,40 @@ import { AppHookService } from '@alfresco/aca-shared';
 export class AppEffects {
   constructor(private actions$: Actions, private auth: AuthenticationService, private router: Router, private appHookService: AppHookService) {}
 
-  @Effect({ dispatch: false })
-  reload = this.actions$.pipe(
-    ofType<ReloadDocumentListAction>(AppActionTypes.ReloadDocumentList),
-    map((action) => {
-      this.appHookService.reload.next(action);
-    })
+  reload = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType<ReloadDocumentListAction>(AppActionTypes.ReloadDocumentList),
+        map((action) => {
+          this.appHookService.reload.next(action);
+        })
+      ),
+    { dispatch: false }
   );
 
-  @Effect({ dispatch: false })
-  resetSelection = this.actions$.pipe(
-    ofType<ResetSelectionAction>(AppActionTypes.ResetSelection),
-    map((action) => {
-      this.appHookService.reset.next(action);
-    })
+  resetSelection = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType<ResetSelectionAction>(AppActionTypes.ResetSelection),
+        map((action) => {
+          this.appHookService.reset.next(action);
+        })
+      ),
+    { dispatch: false }
   );
 
-  @Effect({ dispatch: false })
-  logout$ = this.actions$.pipe(
-    ofType<LogoutAction>(AppActionTypes.Logout),
-    map(() => {
-      this.auth.logout().subscribe(
-        () => this.redirectToLogin(),
-        () => this.redirectToLogin()
-      );
-    })
+  logout$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType<LogoutAction>(AppActionTypes.Logout),
+        map(() => {
+          this.auth.logout().subscribe(
+            () => this.redirectToLogin(),
+            () => this.redirectToLogin()
+          );
+        })
+      ),
+    { dispatch: false }
   );
 
   private redirectToLogin(): Promise<boolean> {

@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Effect, Actions, ofType } from '@ngrx/effects';
+import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { map, take, tap } from 'rxjs/operators';
 import {
@@ -57,106 +57,121 @@ export class ViewerEffects {
     private dialog: MatDialog
   ) {}
 
-  @Effect({ dispatch: false })
-  fullscreenViewer$ = this.actions$.pipe(
-    ofType<FullscreenViewerAction>(ViewerActionTypes.FullScreen),
-    map(() => {
-      this.enterFullScreen();
-    })
+  fullscreenViewer$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType<FullscreenViewerAction>(ViewerActionTypes.FullScreen),
+        map(() => {
+          this.enterFullScreen();
+        })
+      ),
+    { dispatch: false }
   );
 
-  @Effect({ dispatch: false })
-  viewNode$ = this.actions$.pipe(
-    ofType<ViewNodeAction>(ViewerActionTypes.ViewNode),
-    map((action) => {
-      if (action.viewNodeExtras) {
-        const { location, path } = action.viewNodeExtras;
+  viewNode$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType<ViewNodeAction>(ViewerActionTypes.ViewNode),
+        map((action) => {
+          if (action.viewNodeExtras) {
+            const { location, path } = action.viewNodeExtras;
 
-        if (location) {
-          const navigation = this.getNavigationCommands(location);
+            if (location) {
+              const navigation = this.getNavigationCommands(location);
 
-          this.router.navigate([...navigation, { outlets: { viewer: ['view', action.nodeId] } }], {
-            queryParams: { location }
-          });
-        }
+              this.router.navigate([...navigation, { outlets: { viewer: ['view', action.nodeId] } }], {
+                queryParams: { location }
+              });
+            }
 
-        if (path) {
-          this.router.navigate(['view', { outlets: { viewer: [action.nodeId] } }], {
-            queryParams: { path }
-          });
-        }
-      } else {
-        this.router.navigate(['view', { outlets: { viewer: [action.nodeId] } }]);
-      }
-    })
+            if (path) {
+              this.router.navigate(['view', { outlets: { viewer: [action.nodeId] } }], {
+                queryParams: { path }
+              });
+            }
+          } else {
+            this.router.navigate(['view', { outlets: { viewer: [action.nodeId] } }]);
+          }
+        })
+      ),
+    { dispatch: false }
   );
 
-  @Effect({ dispatch: false })
-  viewFile$ = this.actions$.pipe(
-    ofType<ViewFileAction>(ViewerActionTypes.ViewFile),
-    map((action) => {
-      if (action.payload && action.payload.entry) {
-        const { id, nodeId, isFile } = action.payload.entry as any;
+  viewFile$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType<ViewFileAction>(ViewerActionTypes.ViewFile),
+        map((action) => {
+          if (action.payload && action.payload.entry) {
+            const { id, nodeId, isFile } = action.payload.entry as any;
 
-        if (this.extensions.canPreviewNode(action.payload) && (isFile || nodeId)) {
-          this.displayPreview(nodeId || id, action.parentId);
-        }
-      } else {
-        this.store
-          .select(fileToPreview)
-          .pipe(take(1))
-          .subscribe((result) => {
-            if (result.selection && result.selection.file) {
-              const { id, nodeId, isFile } = result.selection.file.entry as any;
+            if (this.extensions.canPreviewNode(action.payload) && (isFile || nodeId)) {
+              this.displayPreview(nodeId || id, action.parentId);
+            }
+          } else {
+            this.store
+              .select(fileToPreview)
+              .pipe(take(1))
+              .subscribe((result) => {
+                if (result.selection && result.selection.file) {
+                  const { id, nodeId, isFile } = result.selection.file.entry as any;
 
-              if (this.extensions.canPreviewNode(action.payload) && (isFile || nodeId)) {
-                const parentId = result.folder ? result.folder.id : null;
-                this.displayPreview(nodeId || id, parentId);
+                  if (this.extensions.canPreviewNode(action.payload) && (isFile || nodeId)) {
+                    const parentId = result.folder ? result.folder.id : null;
+                    this.displayPreview(nodeId || id, parentId);
+                  }
+                }
+              });
+          }
+        })
+      ),
+    { dispatch: false }
+  );
+
+  viewNodeVersion$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType<ViewNodeVersionAction>(ViewerActionTypes.ViewNodeVersion),
+        map((action) => {
+          this.dialog.closeAll();
+          if (action.viewNodeExtras) {
+            const { location, path } = action.viewNodeExtras;
+            if (location) {
+              const navigation = this.getNavigationCommands(location);
+              this.router.navigate([...navigation, { outlets: { viewer: ['view', action.nodeId, action.versionId] } }], {
+                queryParams: { location }
+              });
+            }
+
+            if (path) {
+              this.router.navigate(['view', { outlets: { viewer: [action.nodeId, action.versionId] } }], {
+                queryParams: { path }
+              });
+            }
+          } else {
+            this.router.navigate(['view', { outlets: { viewer: [action.nodeId, action.versionId] } }]);
+          }
+        })
+      ),
+    { dispatch: false }
+  );
+
+  pluginPreview$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType<PluginPreviewAction>(ViewerActionTypes.PluginPreview),
+        tap((action) => {
+          this.router.navigate([
+            action.pluginRoute,
+            {
+              outlets: {
+                viewer: ['preview', action.nodeId]
               }
             }
-          });
-      }
-    })
-  );
-
-  @Effect({ dispatch: false })
-  viewNodeVersion$ = this.actions$.pipe(
-    ofType<ViewNodeVersionAction>(ViewerActionTypes.ViewNodeVersion),
-    map((action) => {
-      this.dialog.closeAll();
-      if (action.viewNodeExtras) {
-        const { location, path } = action.viewNodeExtras;
-        if (location) {
-          const navigation = this.getNavigationCommands(location);
-          this.router.navigate([...navigation, { outlets: { viewer: ['view', action.nodeId, action.versionId] } }], {
-            queryParams: { location }
-          });
-        }
-
-        if (path) {
-          this.router.navigate(['view', { outlets: { viewer: [action.nodeId, action.versionId] } }], {
-            queryParams: { path }
-          });
-        }
-      } else {
-        this.router.navigate(['view', { outlets: { viewer: [action.nodeId, action.versionId] } }]);
-      }
-    })
-  );
-
-  @Effect({ dispatch: false })
-  pluginPreview$ = this.actions$.pipe(
-    ofType<PluginPreviewAction>(ViewerActionTypes.PluginPreview),
-    tap((action) => {
-      this.router.navigate([
-        action.pluginRoute,
-        {
-          outlets: {
-            viewer: ['preview', action.nodeId]
-          }
-        }
-      ]);
-    })
+          ]);
+        })
+      ),
+    { dispatch: false }
   );
 
   private displayPreview(nodeId: string, parentId: string) {
