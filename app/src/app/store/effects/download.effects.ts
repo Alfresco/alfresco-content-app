@@ -28,7 +28,7 @@ import { DownloadZipDialogComponent } from '@alfresco/adf-core';
 import { MinimalNodeEntity, Version } from '@alfresco/js-api';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { map, take } from 'rxjs/operators';
 import { ContentApiService } from '@alfresco/aca-shared';
@@ -44,32 +44,35 @@ export class DownloadEffects {
     private contentUrlService: ContentUrlService
   ) {}
 
-  @Effect({ dispatch: false })
-  downloadNode$ = this.actions$.pipe(
-    ofType<DownloadNodesAction>(NodeActionTypes.Download),
-    map((action) => {
-      if (action.payload && action.payload.length > 0) {
-        this.downloadNodes(action.payload);
-      } else {
-        this.store
-          .select(getAppSelection)
-          .pipe(take(1))
-          .subscribe((selection) => {
-            if (selection && !selection.isEmpty) {
-              this.store
-                .select(getCurrentVersion)
-                .pipe(take(1))
-                .subscribe((version) => {
-                  if (version) {
-                    this.downloadFileVersion(selection.nodes[0].entry, version.entry);
-                  } else {
-                    this.downloadNodes(selection.nodes);
-                  }
-                });
-            }
-          });
-      }
-    })
+  downloadNode$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType<DownloadNodesAction>(NodeActionTypes.Download),
+        map((action) => {
+          if (action.payload && action.payload.length > 0) {
+            this.downloadNodes(action.payload);
+          } else {
+            this.store
+              .select(getAppSelection)
+              .pipe(take(1))
+              .subscribe((selection) => {
+                if (selection && !selection.isEmpty) {
+                  this.store
+                    .select(getCurrentVersion)
+                    .pipe(take(1))
+                    .subscribe((version) => {
+                      if (version) {
+                        this.downloadFileVersion(selection.nodes[0].entry, version.entry);
+                      } else {
+                        this.downloadNodes(selection.nodes);
+                      }
+                    });
+                }
+              });
+          }
+        })
+      ),
+    { dispatch: false }
   );
 
   private downloadNodes(toDownload: Array<MinimalNodeEntity>) {

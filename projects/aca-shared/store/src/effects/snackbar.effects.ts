@@ -26,7 +26,7 @@
 import { TranslationService } from '@alfresco/adf-core';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
 import { AppStore } from '../states/app.state';
@@ -41,28 +41,37 @@ export class SnackbarEffects {
     private translationService: TranslationService
   ) {}
 
-  @Effect({ dispatch: false })
-  infoEffect = this.actions$.pipe(
-    ofType<SnackbarInfoAction>(SnackbarActionTypes.Info),
-    map((action: SnackbarInfoAction) => {
-      this.showSnackBar(action, 'adf-info-snackbar');
-    })
+  infoEffect = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType<SnackbarInfoAction>(SnackbarActionTypes.Info),
+        map((action: SnackbarInfoAction) => {
+          this.showSnackBar(action, 'adf-info-snackbar');
+        })
+      ),
+    { dispatch: false }
   );
 
-  @Effect({ dispatch: false })
-  warningEffect = this.actions$.pipe(
-    ofType<SnackbarWarningAction>(SnackbarActionTypes.Warning),
-    map((action: SnackbarWarningAction) => {
-      this.showSnackBar(action, 'adf-warning-snackbar');
-    })
+  warningEffect = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType<SnackbarWarningAction>(SnackbarActionTypes.Warning),
+        map((action: SnackbarWarningAction) => {
+          this.showSnackBar(action, 'adf-warning-snackbar');
+        })
+      ),
+    { dispatch: false }
   );
 
-  @Effect({ dispatch: false })
-  errorEffect = this.actions$.pipe(
-    ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
-    map((action: SnackbarErrorAction) => {
-      this.showSnackBar(action, 'adf-error-snackbar');
-    })
+  errorEffect = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
+        map((action: SnackbarErrorAction) => {
+          this.showSnackBar(action, 'adf-error-snackbar');
+        })
+      ),
+    { dispatch: false }
   );
 
   private showSnackBar(action: SnackbarAction, panelClass: string) {

@@ -36,7 +36,7 @@ import {
   getAppSelection
 } from '@alfresco/aca-shared/store';
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { map, mergeMap, take } from 'rxjs/operators';
 import { ContentApiService } from '@alfresco/aca-shared';
@@ -51,94 +51,109 @@ export class LibraryEffects {
     private contentApi: ContentApiService
   ) {}
 
-  @Effect({ dispatch: false })
-  deleteLibrary$ = this.actions$.pipe(
-    ofType<DeleteLibraryAction>(LibraryActionTypes.Delete),
-    map((action) => {
-      if (action.payload) {
-        this.content.deleteLibrary(action.payload);
-      } else {
-        this.store
-          .select(getAppSelection)
-          .pipe(take(1))
-          .subscribe((selection) => {
-            if (selection && selection.library) {
-              this.content.deleteLibrary(selection.library.entry.id);
-            }
-          });
-      }
-    })
-  );
-
-  @Effect({ dispatch: false })
-  leaveLibrary$ = this.actions$.pipe(
-    ofType<LeaveLibraryAction>(LibraryActionTypes.Leave),
-    map((action) => {
-      if (action.payload) {
-        this.content.leaveLibrary(action.payload);
-      } else {
-        this.store
-          .select(getAppSelection)
-          .pipe(take(1))
-          .subscribe((selection) => {
-            if (selection && selection.library) {
-              this.content.leaveLibrary(selection.library.entry.id);
-            }
-          });
-      }
-    })
-  );
-
-  @Effect()
-  createLibrary$ = this.actions$.pipe(
-    ofType<CreateLibraryAction>(LibraryActionTypes.Create),
-    mergeMap(() => this.content.createLibrary()),
-    map((libraryId) => new NavigateLibraryAction(libraryId))
-  );
-
-  @Effect({ dispatch: false })
-  navigateLibrary$ = this.actions$.pipe(
-    ofType<NavigateLibraryAction>(LibraryActionTypes.Navigate),
-    map((action) => {
-      const libraryId = action.payload;
-      if (libraryId) {
-        this.contentApi
-          .getNode(libraryId, { relativePath: '/documentLibrary' })
-          .pipe(map((node) => node.entry.id))
-          .subscribe(
-            (id) => {
-              const route = action.route ? action.route : 'libraries';
-              this.store.dispatch(new NavigateRouteAction([route, id]));
-            },
-            () => {
-              this.store.dispatch(new SnackbarErrorAction('APP.MESSAGES.ERRORS.MISSING_CONTENT'));
-            }
-          );
-      }
-    })
-  );
-
-  @Effect({ dispatch: false })
-  updateLibrary$ = this.actions$.pipe(
-    ofType<UpdateLibraryAction>(LibraryActionTypes.Update),
-    map((action) => {
-      this.store
-        .select(getAppSelection)
-        .pipe(take(1))
-        .subscribe((selection) => {
-          if (selection && selection.library) {
-            const { id } = selection.library.entry;
-            const { title, description, visibility } = action.payload;
-
-            const siteBody = {
-              title,
-              description,
-              visibility
-            };
-
-            this.content.updateLibrary(id, siteBody);
+  deleteLibrary$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType<DeleteLibraryAction>(LibraryActionTypes.Delete),
+        map((action) => {
+          if (action.payload) {
+            this.content.deleteLibrary(action.payload);
+          } else {
+            this.store
+              .select(getAppSelection)
+              .pipe(take(1))
+              .subscribe((selection) => {
+                if (selection && selection.library) {
+                  this.content.deleteLibrary(selection.library.entry.id);
+                }
+              });
           }
-        });
-    })
+        })
+      ),
+    { dispatch: false }
+  );
+
+  leaveLibrary$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType<LeaveLibraryAction>(LibraryActionTypes.Leave),
+        map((action) => {
+          if (action.payload) {
+            this.content.leaveLibrary(action.payload);
+          } else {
+            this.store
+              .select(getAppSelection)
+              .pipe(take(1))
+              .subscribe((selection) => {
+                if (selection && selection.library) {
+                  this.content.leaveLibrary(selection.library.entry.id);
+                }
+              });
+          }
+        })
+      ),
+    { dispatch: false }
+  );
+
+  createLibrary$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType<CreateLibraryAction>(LibraryActionTypes.Create),
+        mergeMap(() => this.content.createLibrary()),
+        map((libraryId) => new NavigateLibraryAction(libraryId))
+      ),
+    { dispatch: true }
+  );
+
+  navigateLibrary$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType<NavigateLibraryAction>(LibraryActionTypes.Navigate),
+        map((action) => {
+          const libraryId = action.payload;
+          if (libraryId) {
+            this.contentApi
+              .getNode(libraryId, { relativePath: '/documentLibrary' })
+              .pipe(map((node) => node.entry.id))
+              .subscribe(
+                (id) => {
+                  const route = action.route ? action.route : 'libraries';
+                  this.store.dispatch(new NavigateRouteAction([route, id]));
+                },
+                () => {
+                  this.store.dispatch(new SnackbarErrorAction('APP.MESSAGES.ERRORS.MISSING_CONTENT'));
+                }
+              );
+          }
+        })
+      ),
+    { dispatch: false }
+  );
+
+  updateLibrary$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType<UpdateLibraryAction>(LibraryActionTypes.Update),
+        map((action) => {
+          this.store
+            .select(getAppSelection)
+            .pipe(take(1))
+            .subscribe((selection) => {
+              if (selection && selection.library) {
+                const { id } = selection.library.entry;
+                const { title, description, visibility } = action.payload;
+
+                const siteBody = {
+                  title,
+                  description,
+                  visibility
+                };
+
+                this.content.updateLibrary(id, siteBody);
+              }
+            });
+        })
+      ),
+    { dispatch: false }
   );
 }
