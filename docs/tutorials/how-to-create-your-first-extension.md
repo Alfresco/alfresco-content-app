@@ -44,7 +44,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { ExtensionService, provideExtensionConfig } from '@alfresco/adf-extensions';
-import { CoreModule, TRANSLATION_PROVIDER } from '@alfresco/adf-core';
+import { CoreModule, MaterialModule, TRANSLATION_PROVIDER } from '@alfresco/adf-core';
 
 import { MyExtensionComponent } from './my-extension.component';
 import { MyExtensionService } from './my-extension.service';
@@ -70,13 +70,10 @@ export function components() {
     declarations: components(),
     exports: components(),
 })
-export class MyViewModule {
-    constructor(extensions: ExtensionService, myService: MyExtensionService) {
+export class MyExtensionModule {
+    constructor(extensions: ExtensionService) {
         extensions.setComponents({
           'my-extension.main.component' : MyExtensionComponent,
-        });
-        extensions.setEvaluators({
-           'my-extensionr.disabled': () => !myService.mySmartViewerEnabled(),
         });
     }
 }
