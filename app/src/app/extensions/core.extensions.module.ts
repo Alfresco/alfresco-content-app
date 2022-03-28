@@ -55,6 +55,7 @@ import { LogoutComponent } from '../components/common/logout/logout.component';
 import { AppExtensionService, ExtensionsDataLoaderGuard } from '@alfresco/aca-shared';
 import { PreviewComponent } from '../components/preview/preview.component';
 
+// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 export function setupExtensions(service: AppExtensionService): () => void {
   return () => service.load();
 }
