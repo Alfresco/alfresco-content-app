@@ -92,7 +92,6 @@
     "eslint-plugin-jsdoc": "30.7.6",
     "eslint-plugin-prefer-arrow": "1.2.3",
     "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-react": "^7.29.4",
     "eslint-plugin-rxjs": "^5.0.2",
     "eslint-plugin-unicorn": "^40.1.0",
     "http-server": "^14.1.0",
