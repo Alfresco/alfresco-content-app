@@ -52,7 +52,7 @@ describe('Shared Files', () => {
   const { dataTable, breadcrumb } = page;
   const adminApiActions = new AdminActions();
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     await adminApiActions.createUser({ username });
     await adminApiActions.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
     await adminApiActions.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_CONSUMER.ROLE);
@@ -77,12 +77,10 @@ describe('Shared Files', () => {
     await apis.user.shared.waitForFilesToNotBeShared([file2Id, file3Id]);
 
     await loginPage.loginWith(username);
-    done();
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async () => {
     await page.clickSharedFilesAndWait();
-    done();
   });
 
   afterAll(async () => {

@@ -57,25 +57,22 @@ describe('Login', () => {
   };
   const newPassword = 'new password';
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     await adminApiActions.createUser({ username: testUser });
     await adminApiActions.createUser(russianUser);
     await adminApiActions.createUser(johnDoe);
     await adminApiActions.createUser({ username: disabledUser });
     await adminApiActions.createUser(testUser2);
     await adminApiActions.disableUser(disabledUser);
-    done();
   });
 
-  afterEach(async (done) => {
+  afterEach(async () => {
     await Utils.clearLocalStorage();
-    done();
   });
 
   describe('general tests', () => {
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await loginPage.load();
-      done();
     });
 
     it('[C213089] login page layout', async () => {
@@ -149,9 +146,8 @@ describe('Login', () => {
     const { login: loginComponent } = loginPage;
     const { submitButton } = loginComponent;
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await loginPage.load();
-      done();
     });
 
     it('[C280072] disabled submit button when password is empty', async () => {

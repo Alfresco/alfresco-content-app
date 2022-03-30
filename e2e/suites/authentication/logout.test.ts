@@ -32,14 +32,12 @@ describe('Logout', () => {
   const johnDoe = `user-${Utils.random()}`;
   const adminApiActions = new AdminActions();
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     await adminApiActions.createUser({ username: johnDoe });
-    done();
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async () => {
     await loginPage.loginWith(johnDoe);
-    done();
   });
 
   it('[C213143] Sign out option is available', async () => {

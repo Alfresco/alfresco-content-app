@@ -67,7 +67,7 @@ describe('Move content', () => {
   const adminApiActions = new AdminActions();
   const userActions = new UserActions();
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     await adminApiActions.createUser({ username });
 
     await apis.user.sites.createSite(siteName);
@@ -90,10 +90,9 @@ describe('Move content', () => {
     destinationIdFav = (await apis.user.nodes.createFolder(destinationFav)).entry.id;
 
     await loginPage.loginWith(username);
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await apis.user.nodes.deleteNodeById(sourceIdPF);
     await apis.user.nodes.deleteNodeById(sourceIdRF);
     await apis.user.nodes.deleteNodeById(sourceIdSF);
@@ -103,7 +102,6 @@ describe('Move content', () => {
     await apis.user.nodes.deleteNodeById(destinationIdSF);
     await apis.user.nodes.deleteNodeById(destinationIdFav);
     await apis.user.sites.deleteSite(siteName);
-    done();
   });
 
   describe('from Personal Files', () => {
@@ -130,7 +128,7 @@ describe('Move content', () => {
     const file2InFolder = `file2InFolder-${Utils.random()}.txt`;
     const file3InFolder = `file3InFolder-${Utils.random()}.txt`;
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await apis.user.nodes.createFile(file1, sourceIdPF);
 
       folder1Id = (await apis.user.nodes.createFolder(folder1, sourceIdPF)).entry.id;
@@ -150,15 +148,12 @@ describe('Move content', () => {
       await apis.user.nodes.createFile(file4, sourceIdPF);
       folder2Id = (await apis.user.nodes.createFolder(folder2, sourceIdPF)).entry.id;
       await apis.user.nodes.createFile(fileInFolder2, folder2Id);
-
-      done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await Utils.pressEscape();
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(sourcePF);
-      done();
     });
 
     it('[C217316] Move a file', async () => {
@@ -300,7 +295,7 @@ describe('Move content', () => {
 
     const existingFile = `existing-${Utils.random()}`;
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await apis.user.nodes.createFile(file1, sourceIdRF);
       await apis.user.nodes.createFile(file2, sourceIdRF);
       await apis.user.nodes.createFile(file3, sourceIdRF);
@@ -309,13 +304,11 @@ describe('Move content', () => {
       await apis.user.nodes.createFile(file4, sourceIdRF);
 
       await apis.user.search.waitForApi(username, { expect: 16 });
-      done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await Utils.pressEscape();
       await page.clickRecentFilesAndWait();
-      done();
     });
 
     it('[C280230] Move a file', async () => {
@@ -418,7 +411,7 @@ describe('Move content', () => {
     const existingFile = `existing-${Utils.random()}`;
     let existingFileId;
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       file1Id = (await apis.user.nodes.createFile(file1, sourceIdSF)).entry.id;
 
       await userActions.login(username, username);
@@ -435,8 +428,6 @@ describe('Move content', () => {
       file4Id = (await apis.user.nodes.createFile(file4, sourceIdSF)).entry.id;
       await userActions.shareNodes([file4Id]);
       await apis.user.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, existingFileId, file4Id]);
-
-      done();
     });
 
     beforeEach(async () => {
@@ -557,7 +548,7 @@ describe('Move content', () => {
     const file2InFolder = `file2InFolder-${Utils.random()}.txt`;
     const file3InFolder = `file3InFolder-${Utils.random()}.txt`;
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       file1Id = (await apis.user.nodes.createFile(file1, sourceIdFav)).entry.id;
       await apis.user.favorites.addFavoriteById('file', file1Id);
 
@@ -587,14 +578,11 @@ describe('Move content', () => {
       await apis.user.favorites.addFavoriteById('folder', folder2Id);
 
       await apis.user.favorites.waitForApi({ expect: 9 });
-
-      done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await Utils.pressEscape();
       await page.clickFavoritesAndWait();
-      done();
     });
 
     it('[C280256] Move a file', async () => {

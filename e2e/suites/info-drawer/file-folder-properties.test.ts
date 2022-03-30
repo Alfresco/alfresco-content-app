@@ -82,7 +82,7 @@ describe('File / Folder properties', () => {
   const { dataTable } = page;
   const adminApiActions = new AdminActions();
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     await adminApiActions.createUser({ username });
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
     file1Id = (await apis.user.nodes.createFile(file1.name, parentId, file1.title, file1.description, file1.author)).entry.id;
@@ -90,18 +90,15 @@ describe('File / Folder properties', () => {
     image1Id = (await apis.user.upload.uploadFile(image1.name, parentId)).entry.id;
 
     await loginPage.loginWith(username);
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await apis.user.nodes.deleteNodeById(parentId);
-    done();
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async () => {
     await page.clickPersonalFilesAndWait();
     await dataTable.doubleClickOnRowByName(parent);
-    done();
   });
 
   describe('View properties', () => {

@@ -116,7 +116,7 @@ describe('Upload new version', () => {
   });
 
   describe('on Search Results', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       fileId = (await apis.user.upload.uploadFile(file, parentSearchId)).entry.id;
       fileSearch1Id = (await apis.user.nodes.createFile(fileSearch1, parentSearchId)).entry.id;
       fileSearch2Id = (await apis.user.nodes.createFile(fileSearch2, parentSearchId)).entry.id;
@@ -132,7 +132,6 @@ describe('Upload new version', () => {
       await apis.user.search.waitForNodes(searchRandom, { expect: 6 });
 
       await loginPage.loginWith(username);
-      done();
     });
 
     afterEach(async () => {
@@ -292,7 +291,7 @@ describe('Upload new version', () => {
   });
 
   describe('on Personal Files', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       fileId = (await apis.user.upload.uploadFile(file, parentPFId)).entry.id;
       file1Id = (await apis.user.nodes.createFile(file1, parentPFId)).entry.id;
       file2Id = (await apis.user.nodes.createFile(file2, parentPFId)).entry.id;
@@ -306,19 +305,16 @@ describe('Upload new version', () => {
       await apis.user.nodes.lockFile(fileLocked2Id);
 
       await loginPage.loginWith(username);
-      done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(parentPF);
-      done();
     });
 
-    afterEach(async (done) => {
+    afterEach(async () => {
       await Utils.pressEscape();
       await page.refresh();
-      done();
     });
 
     it('[C297544] dialog UI defaults', async () => {
@@ -441,7 +437,7 @@ describe('Upload new version', () => {
   });
 
   describe('on Shared Files', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       fileId = (await apis.user.upload.uploadFile(file, parentSFId)).entry.id;
       file1Id = (await apis.user.nodes.createFile(file1, parentSFId)).entry.id;
       file2Id = (await apis.user.nodes.createFile(file2, parentSFId)).entry.id;
@@ -458,7 +454,6 @@ describe('Upload new version', () => {
       await apis.user.shared.waitForFilesToBeShared([fileId, file1Id, file2Id, file3Id, file4Id, fileLocked1Id, fileLocked2Id]);
 
       await loginPage.loginWith(username);
-      done();
     });
 
     beforeEach(async () => {
@@ -589,7 +584,7 @@ describe('Upload new version', () => {
   });
 
   describe('on Recent Files', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       const initialRecentTotalItems = await apis.user.search.getTotalItems(username);
       fileId = (await apis.user.upload.uploadFile(file, parentRFId)).entry.id;
       file1Id = (await apis.user.nodes.createFile(file1, parentRFId)).entry.id;
@@ -606,7 +601,6 @@ describe('Upload new version', () => {
       await apis.user.search.waitForApi(username, { expect: initialRecentTotalItems + 7 });
 
       await loginPage.loginWith(username);
-      done();
     });
 
     beforeEach(async () => {
@@ -737,7 +731,7 @@ describe('Upload new version', () => {
   });
 
   describe('on Favorite Files', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       const initialFavoritesTotalItems = await apis.user.favorites.getFavoritesTotalItems();
       fileId = (await apis.user.upload.uploadFile(file, parentFavId)).entry.id;
       file1Id = (await apis.user.nodes.createFile(file1, parentFavId)).entry.id;
@@ -755,17 +749,14 @@ describe('Upload new version', () => {
       await apis.user.favorites.waitForApi({ expect: initialFavoritesTotalItems + 7 });
 
       await loginPage.loginWith(username);
-      done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickFavoritesAndWait();
-      done();
     });
 
-    afterEach(async (done) => {
+    afterEach(async () => {
       await page.refresh();
-      done();
     });
 
     it('[C297565] dialog UI defaults', async () => {

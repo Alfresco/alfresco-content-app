@@ -50,7 +50,7 @@ describe('Favorites', () => {
   let parentId: string;
   let folderId: string;
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     await adminApiActions.createUser({ username });
 
     await adminApiActions.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
@@ -74,22 +74,19 @@ describe('Favorites', () => {
     await userActions.deleteNodes([file3Id, file4Id], false);
     await userActions.trashcanApi.restoreDeletedNode(file4Id);
     await loginPage.loginWith(username);
-    done();
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async () => {
     await page.clickFavoritesAndWait();
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await userActions.login(username, username);
     await userActions.deleteNodes([folderId, parentId]);
     await userActions.emptyTrashcan();
 
     await adminApiActions.login();
     await adminApiActions.deleteSites([siteName]);
-    done();
   });
 
   it('[C280482] has the correct columns', async () => {

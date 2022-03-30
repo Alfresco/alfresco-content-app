@@ -42,7 +42,7 @@ describe('New menu', () => {
 
   const adminApiActions = new AdminActions();
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     await adminApiActions.createUser({ username });
     await adminApiActions.sites.createSite(siteAdmin);
     await adminApiActions.sites.addSiteMember(siteAdmin, username, SITE_ROLES.SITE_CONSUMER.ROLE);
@@ -50,18 +50,15 @@ describe('New menu', () => {
     await apis.user.sites.createSite(siteUser);
 
     await loginPage.loginWith(username);
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await apis.user.sites.deleteSite(siteUser);
     await adminApiActions.sites.deleteSite(siteAdmin);
-    done();
   });
 
-  afterEach(async (done) => {
+  afterEach(async () => {
     await sidenav.closeNewMenu();
-    done();
   });
 
   it('[C286524] Actions in Personal Files', async () => {

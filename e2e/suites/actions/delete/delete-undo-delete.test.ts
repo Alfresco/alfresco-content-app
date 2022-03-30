@@ -61,7 +61,7 @@ describe('Delete and undo delete', () => {
     const recentFile5 = `recentFile5-${random}.txt`;
     const recentFile6 = `recentFile6-${random}.txt`;
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       try {
         parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
 
@@ -77,7 +77,6 @@ describe('Delete and undo delete', () => {
       } catch (error) {
         Logger.error(`----- beforeAll failed : ${error}`);
       }
-      done();
     });
 
     beforeEach(async () => {
@@ -180,7 +179,7 @@ describe('Delete and undo delete', () => {
     const parent = `parentPF-${Utils.random()}`;
     let parentId: string;
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
 
       await apis.user.nodes.createFile(file1, parentId);
@@ -211,8 +210,6 @@ describe('Delete and undo delete', () => {
       await apis.user.nodes.lockFile(fileLocked4Id, 'FULL');
 
       await loginPage.loginWith(username);
-
-      done();
     });
 
     beforeEach(async () => {
@@ -220,7 +217,7 @@ describe('Delete and undo delete', () => {
       await page.dataTable.doubleClickOnRowByName(parent);
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       try {
         await apis.user.nodes.unlockFile(fileLocked1Id);
         await apis.user.nodes.unlockFile(fileLocked2Id);
@@ -233,7 +230,6 @@ describe('Delete and undo delete', () => {
       } catch (error) {
         Logger.error(`----- afterAll failed : ${error}`);
       }
-      done();
     });
 
     it('[C217125] delete a file and check notification', async () => {
@@ -355,7 +351,7 @@ describe('Delete and undo delete', () => {
     const parent = `parentSF-${Utils.random()}`;
     let parentId: string;
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       try {
         parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
 
@@ -373,7 +369,6 @@ describe('Delete and undo delete', () => {
       } catch (error) {
         Logger.error(`----- beforeAll failed : ${error}`);
       }
-      done();
     });
 
     beforeEach(async () => {
@@ -475,7 +470,7 @@ describe('Delete and undo delete', () => {
     const fileLocked4 = `fileLocked4-${Utils.random()}.txt`;
     let fileLocked4Id: string;
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       try {
         parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
 
@@ -515,7 +510,6 @@ describe('Delete and undo delete', () => {
       } catch (error) {
         Logger.error(`----- beforeAll failed : ${error}`);
       }
-      done();
     });
 
     beforeEach(async () => {

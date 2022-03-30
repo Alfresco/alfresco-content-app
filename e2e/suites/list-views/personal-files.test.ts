@@ -44,27 +44,23 @@ describe('Personal Files', () => {
   const userFile = `file-${Utils.random()}.txt`;
   const adminApiActions = new AdminActions();
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     await Promise.all([adminApiActions.createUser({ username }), adminApiActions.nodes.createFolders([adminFolder])]);
     await apis.user.nodes.createFolders([userFolder]);
     await apis.user.nodes.createFiles([userFile], userFolder);
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await Promise.all([adminApiActions.nodes.deleteNodes([adminFolder]), apis.user.nodes.deleteNodes([userFolder])]);
-    done();
   });
 
   describe(`Admin user's personal files`, () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await loginPage.loginWithAdmin();
-      done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickPersonalFilesAndWait();
-      done();
     });
 
     it('[C213241] has Data Dictionary and created content', async () => {
@@ -74,14 +70,12 @@ describe('Personal Files', () => {
   });
 
   describe(`Regular user's personal files`, () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await loginPage.loginWith(username);
-      done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickPersonalFilesAndWait();
-      done();
     });
 
     it('[C217142] has the correct columns', async () => {

@@ -40,7 +40,7 @@ describe('Library actions : ', () => {
   const searchResultsPage = new SearchResultsPage();
   const { searchInput } = searchResultsPage.header;
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     try {
       await adminApiActions.createUser({ username });
 
@@ -72,7 +72,6 @@ describe('Library actions : ', () => {
     } catch (error) {
       Logger.error(`----- beforeAll failed : ${error}`);
     }
-    done();
   });
 
   afterAll(async () => {

@@ -67,7 +67,7 @@ describe('Create folder', () => {
     await createDialog.waitForDialogToOpen();
   }
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     await adminApiActions.createUser({ username });
 
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
@@ -78,24 +78,20 @@ describe('Create folder', () => {
     await apis.user.nodes.createFolder(duplicateFolderSite, docLibUserSite);
 
     await loginPage.loginWith(username);
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await apis.user.sites.deleteSite(siteName);
     await apis.user.nodes.deleteNodeById(parentId);
-    done();
   });
 
   describe('on Personal Files', () => {
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickPersonalFilesAndWait();
-      done();
     });
 
-    afterEach(async (done) => {
+    afterEach(async () => {
       await Utils.pressEscape();
-      done();
     });
 
     it('[C216341] creates new folder with name', async () => {
@@ -108,7 +104,7 @@ describe('Create folder', () => {
       expect(await dataTable.isItemPresent(folderName1)).toBe(true, 'Folder not displayed in list view');
     });
 
-    it('[C216340] creates new folder with name and description', async (done) => {
+    it('[C216340] creates new folder with name and description', async () => {
       await openCreateFolderDialog(parent);
       await createDialog.enterName(folderName2);
       await createDialog.enterDescription(folderDescription);
@@ -119,7 +115,6 @@ describe('Create folder', () => {
       expect(await dataTable.isItemPresent(folderName2)).toBe(true, 'Folder not displayed');
       const desc = await apis.user.nodes.getNodeDescription(folderName2, parentId);
       expect(desc).toEqual(folderDescription);
-      done();
     });
 
     it('[C216345] dialog UI elements', async () => {
@@ -200,14 +195,12 @@ describe('Create folder', () => {
   describe('on File Libraries', () => {
     const fileLibrariesPage = new BrowsingPage();
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await fileLibrariesPage.goToMyLibrariesAndWait();
-      done();
     });
 
-    afterEach(async (done) => {
+    afterEach(async () => {
       await Utils.pressEscape();
-      done();
     });
 
     it('[C280394] creates new folder with name and description', async () => {

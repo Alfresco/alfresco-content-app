@@ -78,7 +78,7 @@ describe('Unshare a file from Search Results', () => {
   const adminApiActions = new AdminActions();
   const userActions = new UserActions();
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     try {
       await adminApiActions.createUser({ username });
 
@@ -111,7 +111,6 @@ describe('Unshare a file from Search Results', () => {
     } catch (error) {
       Logger.error(`----- beforeAll failed : ${error}`);
     }
-    done();
   });
 
   afterAll(async () => {

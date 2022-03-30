@@ -46,7 +46,7 @@ describe('General', () => {
   const { dataTable } = page;
   const adminApiActions = new AdminActions();
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     await adminApiActions.createUser({ username });
 
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
@@ -54,25 +54,21 @@ describe('General', () => {
     await apis.user.nodes.createFolder(folder1, parentId);
 
     await loginPage.loginWith(username);
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await apis.user.nodes.deleteNodeById(parentId);
-    done();
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async () => {
     await page.clickPersonalFilesAndWait();
     await dataTable.doubleClickOnRowByName(parent);
-    done();
   });
 
-  afterEach(async (done) => {
+  afterEach(async () => {
     if (await infoDrawer.isOpen()) {
       await BrowserActions.click(page.toolbar.viewDetailsButton);
     }
-    done();
   });
 
   it('[C268999] Info drawer closes on page refresh', async () => {

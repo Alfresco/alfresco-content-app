@@ -46,7 +46,7 @@ describe('Search results general', () => {
   const dataTable = page.dataTable;
   const adminApiActions = new AdminActions();
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     await adminApiActions.createUser({ username });
 
     fileId = (await apis.user.nodes.createFile(file)).entry.id;
@@ -57,17 +57,14 @@ describe('Search results general', () => {
     await apis.user.queries.waitForSites(site, { expect: 1 });
 
     await loginPage.loginWith(username);
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await Promise.all([apis.user.nodes.deleteNodeById(fileId), apis.user.nodes.deleteNodeById(folderId), apis.user.sites.deleteSite(site)]);
-    done();
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async () => {
     await page.refresh();
-    done();
   });
 
   it('[C290005] Only files are returned when Files option is the only one checked', async () => {

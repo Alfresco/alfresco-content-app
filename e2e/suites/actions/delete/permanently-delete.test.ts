@@ -52,7 +52,7 @@ describe('Permanently delete from Trash', () => {
   const adminApiActions = new AdminActions();
   const userActions = new UserActions();
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     await adminApiActions.createUser({ username });
 
     filesIds = (await apis.user.nodes.createFiles([file1, file2, file3])).list.entries.map((entries: any) => entries.entry.id);
@@ -64,17 +64,15 @@ describe('Permanently delete from Trash', () => {
     await userActions.deleteSites([site], false);
 
     await loginPage.loginWith(username);
-    done();
   });
 
   beforeEach(async () => {
     await page.clickTrashAndWait();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await userActions.login(username, username);
     await userActions.emptyTrashcan();
-    done();
   });
 
   it('[C217091] delete a file', async () => {

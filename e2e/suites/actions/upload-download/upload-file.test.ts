@@ -40,22 +40,20 @@ describe('Upload files', () => {
   const { dataTable } = page;
   const adminApiActions = new AdminActions();
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     await adminApiActions.createUser({ username });
     folder1Id = (await apis.user.nodes.createFolder(folder1)).entry.id;
 
     await loginPage.loginWith(username);
-    done();
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async () => {
     await page.clickPersonalFilesAndWait();
     await dataTable.doubleClickOnRowByName(folder1);
     await page.sidenav.openNewMenu();
     await page.sidenav.menu.uploadFilesInput.sendKeys(`${__dirname}/upload-file.test.ts`);
     await page.sidenav.closeNewMenu();
     await page.uploadFilesDialog.uploadDialog.isVisible();
-    done();
   });
 
   afterAll(async () => {

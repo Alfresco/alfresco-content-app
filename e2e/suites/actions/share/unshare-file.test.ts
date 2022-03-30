@@ -60,7 +60,7 @@ describe('Unshare a file', () => {
   const adminApiActions = new AdminActions();
   const userActions = new UserActions();
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     try {
       await adminApiActions.createUser({ username });
 
@@ -69,7 +69,6 @@ describe('Unshare a file', () => {
     } catch (error) {
       Logger.error(`----- beforeAll failed : ${error}`);
     }
-    done();
   });
 
   afterAll(async () => {
