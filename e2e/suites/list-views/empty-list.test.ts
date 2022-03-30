@@ -33,10 +33,9 @@ describe('Empty list views', () => {
   const { searchInput } = page.header;
   const adminApiActions = new AdminActions();
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     await adminApiActions.createUser({ username });
     await loginPage.loginWith(username);
-    done();
   });
 
   it('[C217099] empty My Libraries', async () => {

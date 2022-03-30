@@ -36,14 +36,12 @@ describe('General', () => {
   let folderId: string;
 
   describe('on session expire', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       folderId = (await adminApi.nodes.createFolder(folder)).entry.id;
-      done();
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       await adminApi.nodes.deleteNodeById(folderId);
-      done();
     });
 
     it('[C286473] should close opened dialogs', async () => {

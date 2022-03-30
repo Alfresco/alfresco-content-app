@@ -65,7 +65,7 @@ describe('Library properties', () => {
   const { dataTable } = page;
   const adminApiActions = new AdminActions();
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     await adminApiActions.createUser({ username });
     await adminApiActions.createUser({ username: user2 });
     await adminApiActions.createUser({ username: user3 });
@@ -77,26 +77,22 @@ describe('Library properties', () => {
     await apis.user.sites.addSiteMember(site.id, user3, SITE_ROLES.SITE_MANAGER.ROLE);
 
     await loginPage.loginWith(username);
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await apis.user.sites.deleteSite(site.id);
     await apis.user.sites.deleteSite(siteForUpdate.id);
     await apis.user.sites.deleteSite(siteDup);
-    done();
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async () => {
     await page.clickFileLibrariesAndWait();
-    done();
   });
 
-  afterEach(async (done) => {
+  afterEach(async () => {
     if (await infoDrawer.isOpen()) {
       await BrowserActions.click(page.toolbar.viewDetailsButton);
     }
-    done();
   });
 
   it('[C289336] Info drawer opens for a library', async () => {
@@ -224,9 +220,8 @@ describe('Library properties', () => {
   });
 
   describe('Non manager', () => {
-    afterAll(async (done) => {
+    afterAll(async () => {
       await loginPage.loginWith(username);
-      done();
     });
 
     it('[C289337] Info drawer button is not displayed when user is not the library manager', async () => {

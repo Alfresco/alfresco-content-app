@@ -33,15 +33,13 @@ describe('Sidebar', () => {
   const searchResultsPage = new SearchResultsPage();
   const { searchInput } = searchResultsPage.header;
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     await loginPage.loginWithAdmin();
-    done();
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async () => {
     await Utils.pressEscape();
     await header.expandSideNav();
-    done();
   });
 
   it('[C217149] has "Personal Files" as default', async () => {

@@ -57,7 +57,7 @@ describe('Viewer general', () => {
   const adminApiActions = new AdminActions();
   const userActions = new UserActions();
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     await adminApiActions.createUser({ username });
 
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
@@ -79,28 +79,24 @@ describe('Viewer general', () => {
     await apis.user.shared.waitForFilesToBeShared([xlsxFileId]);
 
     await loginPage.loginWith(username);
-    done();
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async () => {
     await page.header.expandSideNav();
     await page.clickPersonalFilesAndWait();
     await dataTable.doubleClickOnRowByName(parent);
     await dataTable.waitForHeader();
-    done();
   });
 
-  afterEach(async (done) => {
+  afterEach(async () => {
     await Utils.pressEscape();
     await page.header.expandSideNav();
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await apis.user.nodes.deleteNodeById(parentId);
     await adminApiActions.sites.deleteSite(siteAdmin);
     await apis.user.sites.deleteSite(siteUser);
-    done();
   });
 
   it('[C279269] Viewer opens on double clicking on a file from Personal Files', async () => {

@@ -49,7 +49,7 @@ describe('Special permissions', () => {
     const fileName = `file-${Utils.random()}.txt`;
     let fileId: string;
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await adminApiActions.login();
       await adminApiActions.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
       await adminApiActions.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
@@ -67,7 +67,6 @@ describe('Special permissions', () => {
       await adminApiActions.shared.waitForFilesToBeShared([fileId]);
 
       await loginPage.loginWith(username);
-      done();
     });
 
     afterEach(async () => {
@@ -126,7 +125,7 @@ describe('Special permissions', () => {
     const fileName = `file-${Utils.random()}.txt`;
     let fileId;
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await adminApiActions.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
       await adminApiActions.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
       const docLibId = await adminApiActions.sites.getDocLibId(sitePrivate);
@@ -140,12 +139,10 @@ describe('Special permissions', () => {
       await apis.user.search.waitForApi(username, { expect: 1 });
       await adminApiActions.sites.deleteSiteMember(sitePrivate, username);
       await loginPage.loginWith(username);
-      done();
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       await adminApiActions.sites.deleteSite(sitePrivate);
-      done();
     });
 
     it('[C213178] on Recent Files', async () => {

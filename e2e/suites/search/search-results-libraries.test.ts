@@ -74,7 +74,7 @@ describe('Search results - libraries', () => {
   const dataTable = page.dataTable;
   const adminApiActions = new AdminActions();
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     try {
       await adminApiActions.createUser({ username });
 
@@ -120,7 +120,6 @@ describe('Search results - libraries', () => {
     } catch (error) {
       Logger.error(`----- beforeAll failed : ${error}`);
     }
-    done();
   });
 
   afterAll(async () => {

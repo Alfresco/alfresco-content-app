@@ -54,7 +54,7 @@ describe('Single click on item name', () => {
   const adminApiActions = new AdminActions();
   const userActions = new UserActions();
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     await adminApiActions.createUser({ username });
 
     const initialRecentTotalItems = await apis.user.search.getTotalItems(username);
@@ -75,7 +75,6 @@ describe('Single click on item name', () => {
     await userActions.deleteNodes([deletedFile1Id, deletedFolder1Id], false);
 
     await loginPage.loginWith(username);
-    done();
   });
 
   afterAll(async () => {

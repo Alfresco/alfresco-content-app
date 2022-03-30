@@ -48,17 +48,15 @@ describe('Extensions - Header', () => {
   const loginPage = new LoginPage();
   const adminApiActions = new AdminActions();
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     await adminApiActions.createUser({ username });
     await loginPage.load();
     await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.HEADER);
     await loginPage.loginWith(username);
-    done();
   });
 
-  afterEach(async (done) => {
+  afterEach(async () => {
     await header.closeMoreMenu();
-    done();
   });
 
   it('[C286474] Add a new button in the header', async () => {

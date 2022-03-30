@@ -64,29 +64,25 @@ describe('Extensions - Info Drawer', () => {
   const page = new BrowsingPage();
   const adminApiActions = new AdminActions();
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     await adminApiActions.createUser({ username });
     fileId = (await apis.user.nodes.createFile(file)).entry.id;
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await apis.user.nodes.deleteNodeById(fileId);
-    done();
   });
 
   describe('', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await loginPage.load();
       await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.INFO_DRAWER);
       await loginPage.loginWith(username);
-      done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickPersonalFilesAndWait();
       await page.dataTable.clearSelection();
-      done();
     });
 
     it('[C284646] Add a new tab with icon and title ', async () => {
@@ -137,12 +133,11 @@ describe('Extensions - Info Drawer', () => {
   });
 
   describe('', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await loginPage.load();
       await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.INFO_DRAWER_EMPTY);
       await loginPage.loginWith(username);
       await page.clickPersonalFilesAndWait();
-      done();
     });
 
     it('[C284650] Remove all tabs', async () => {

@@ -56,7 +56,7 @@ describe('Search results - files and folders', () => {
   const { dataTable, breadcrumb } = page;
   const adminApiActions = new AdminActions();
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     await adminApiActions.createUser({ username });
 
     fileId = (await apis.user.nodes.createFile(file, '-my-', fileTitle, fileDescription)).entry.id;
@@ -69,22 +69,19 @@ describe('Search results - files and folders', () => {
     await apis.user.queries.waitForSites(site, { expect: 1 });
 
     await loginPage.loginWith(username);
-    done();
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async () => {
     await page.refresh();
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await Promise.all([
       apis.user.nodes.deleteNodeById(fileId),
       apis.user.nodes.deleteNodeById(fileRussianId),
       apis.user.nodes.deleteNodeById(folderId),
       apis.user.sites.deleteSite(site)
     ]);
-    done();
   });
 
   it('[C307002] Results page title', async () => {

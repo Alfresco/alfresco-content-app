@@ -48,7 +48,7 @@ describe('Generic errors', () => {
   const adminApiActions = new AdminActions();
   const userActions = new UserActions();
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     try {
       await adminApiActions.createUser({ username });
       await adminApiActions.createUser({ username: username2 });
@@ -61,7 +61,6 @@ describe('Generic errors', () => {
     } catch (error) {
       Logger.error(`----- beforeAll failed : ${error}`);
     }
-    done();
   });
 
   afterAll(async () => {

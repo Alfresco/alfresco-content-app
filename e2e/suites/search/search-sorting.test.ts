@@ -57,7 +57,7 @@ describe('Search sorting', () => {
   const { dataTable } = page;
   const adminApiActions = new AdminActions();
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     await adminApiActions.createUser({ username: user1 });
     await adminApiActions.createUser({ username: user2 });
     parentId = (await apis.user1.nodes.createFolder(parent)).entry.id;
@@ -70,17 +70,15 @@ describe('Search sorting', () => {
     await apis.user1.search.waitForNodes(`search-sort-${random}`, { expect: 2 });
 
     await loginPage.loginWith(user1);
-    done();
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async () => {
     await Utils.pressEscape();
     await page.clickPersonalFilesAndWait();
 
     await searchInput.clickSearchButton();
     await searchInput.searchFor(`search sort ${random}`);
     await dataTable.waitForBody();
-    done();
   });
 
   afterAll(async () => {

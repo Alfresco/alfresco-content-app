@@ -69,26 +69,23 @@ describe('Create library', () => {
   const adminApiActions = new AdminActions();
   const userActions = new UserActions();
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     await adminApiActions.createUser({ username });
     await apis.user.sites.createSite(duplicateSite.name, SITE_VISIBILITY.PRIVATE, '', duplicateSite.id);
     await apis.user.sites.createSite(siteInTrash.name, SITE_VISIBILITY.PUBLIC, '', siteInTrash.id);
     await apis.user.sites.deleteSite(siteInTrash.id, false);
 
     await loginPage.loginWith(username);
-    done();
   });
 
-  afterEach(async (done) => {
+  afterEach(async () => {
     await Utils.pressEscape();
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await apis.user.sites.deleteAllUserSites();
     await userActions.login(username, username);
     await userActions.emptyTrashcan();
-    done();
   });
 
   it('[C280024] Create Library dialog UI', async () => {

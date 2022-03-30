@@ -59,25 +59,21 @@ describe('Extensions - DocumentList presets', () => {
   const { dataTable } = page;
   const adminApiActions = new AdminActions();
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     await adminApiActions.createUser({ username });
     fileId = (await apis.user.nodes.createFile(file)).entry.id;
 
     await loginPage.load();
     await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.DOCUMENT_LIST_PRESETS);
     await loginPage.loginWith(username);
-
-    done();
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async () => {
     await page.clickPersonalFilesAndWait();
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await apis.user.nodes.deleteNodeById(fileId);
-    done();
   });
 
   it('[C286700] Sets the columns to display', async () => {

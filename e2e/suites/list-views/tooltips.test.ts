@@ -62,7 +62,7 @@ describe('File / folder tooltips', () => {
   const adminApiActions = new AdminActions();
   const userActions = new UserActions();
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     await adminApiActions.createUser({ username });
 
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
@@ -82,21 +82,18 @@ describe('File / folder tooltips', () => {
     await apis.user.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id]);
 
     await loginPage.loginWith(username);
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await userActions.login(username, username);
     await userActions.deleteNodes([parentId]);
     await userActions.emptyTrashcan();
-    done();
   });
 
   describe('on Personal Files', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(parent);
-      done();
     });
 
     it('[C255871] File with name, no title, no description', async () => {
@@ -133,10 +130,9 @@ describe('File / folder tooltips', () => {
   });
 
   describe('on Recent Files', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await apis.user.search.waitForApi(username, { expect: 8 });
       await page.clickRecentFilesAndWait();
-      done();
     });
 
     it('[C280135] File with name, no title, no description', async () => {
@@ -173,9 +169,8 @@ describe('File / folder tooltips', () => {
   });
 
   describe('on Favorites', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await page.clickFavoritesAndWait();
-      done();
     });
 
     it('[C280151] File with name, no title, no description', async () => {
@@ -223,7 +218,7 @@ describe('File / folder tooltips', () => {
     let file7TrashId: string;
     let file8TrashId: string;
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       parentForTrashId = (await apis.user.nodes.createFolder(parentForTrash)).entry.id;
       file1TrashId = (await apis.user.nodes.createFile(file, parentForTrashId)).entry.id;
       file2TrashId = (await apis.user.nodes.createFile(fileWithDesc, parentForTrashId, '', fileDescription)).entry.id;
@@ -241,14 +236,12 @@ describe('File / folder tooltips', () => {
       );
 
       await page.clickTrashAndWait();
-      done();
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       await userActions.login(username, username);
       await userActions.deleteNodes([parentForTrashId]);
       await userActions.emptyTrashcan();
-      done();
     });
 
     it('[C280159] File with name, no title, no description', async () => {
