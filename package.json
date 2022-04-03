@@ -89,7 +89,7 @@
     "envsub": "^4.0.7",
     "eslint": "^7.6.0",
     "eslint-plugin-import": "^2.25.4",
-    "eslint-plugin-jsdoc": "30.7.6",
+    "eslint-plugin-jsdoc": "38.1.6",
     "eslint-plugin-prefer-arrow": "1.2.3",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-rxjs": "^5.0.2",
