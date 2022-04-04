@@ -530,4 +530,21 @@ describe('app.evaluators', () => {
       expect(app.isLibraryManager(context)).toBe(false);
     });
   });
+
+  describe('isContentPluginEnabled', () => {
+    it('should return true when local storage has contentPlugin set to true', () => {
+      localStorage.setItem('contentPlugin', 'true');
+      expect(app.isContentPluginEnabled()).toBe(true);
+    });
+
+    it('should return false when local storage has contentPlugin set to false', () => {
+      localStorage.setItem('contentPlugin', 'false');
+      expect(app.isContentPluginEnabled()).toBe(false);
+    });
+
+    it('should return false when contentPlugin is not defined in local storage', () => {
+      localStorage.clear()
+      expect(app.isContentPluginEnabled()).toBe(false);
+    });
+  });
 });

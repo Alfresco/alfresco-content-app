@@ -33,6 +33,14 @@ export interface AcaRuleContext extends RuleContext {
 }
 
 /**
+ * Checks if the content plugin is enabled.
+ * JSON ref: `app.content.isPluginEnabled`
+ */
+export function isContentPluginEnabled(): boolean {
+  return localStorage && localStorage.getItem('contentPlugin') === 'true';
+}
+
+/**
  * Checks if user can copy selected node.
  * JSON ref: `app.canCopyNode`
  *

@@ -7,7 +7,8 @@
   "authType": "${APP_CONFIG_AUTH_TYPE}",
   "loginRoute": "login",
   "plugins":{
-    "aosPlugin" : ${APP_CONFIG_PLUGIN_AOS}
+    "aosPlugin" : ${APP_CONFIG_PLUGIN_AOS},
+    "contentPlugin": ${APP_CONFIG_PLUGIN_CONTENT}
   },
   "oauth2": {
     "host": "${APP_CONFIG_OAUTH2_HOST}",

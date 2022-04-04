@@ -241,6 +241,9 @@
             "icon": "library_books",
             "title": "APP.BROWSE.LIBRARIES.SIDENAV_LINK.LABEL",
             "description": "APP.BROWSE.LIBRARIES.SIDENAV_LINK.TOOLTIP",
+            "rules": {
+              "visible": "app.content.isPluginEnabled"
+            },
             "children": [
               {
                 "id": "app.navbar.libraries.favorite",
@@ -262,6 +265,9 @@
       },
       {
         "id": "app.navbar.secondary",
+        "rules": {
+          "visible": "app.content.isPluginEnabled"
+        },
         "items": [
           {
             "id": "app.navbar.shared",
