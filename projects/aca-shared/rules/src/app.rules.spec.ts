@@ -531,20 +531,20 @@ describe('app.evaluators', () => {
     });
   });
 
-  describe('isContentPluginEnabled', () => {
-    it('should return true when local storage has contentPlugin set to true', () => {
-      localStorage.setItem('contentPlugin', 'true');
-      expect(app.isContentPluginEnabled()).toBe(true);
+  describe('isContentServiceEnabled', () => {
+    it('should return true when local storage has contentService set to true', () => {
+      localStorage.setItem('contentService', 'true');
+      expect(app.isContentServiceEnabled()).toBe(true);
     });
 
-    it('should return false when local storage has contentPlugin set to false', () => {
-      localStorage.setItem('contentPlugin', 'false');
-      expect(app.isContentPluginEnabled()).toBe(false);
+    it('should return false when local storage has contentService set to false', () => {
+      localStorage.setItem('contentService', 'false');
+      expect(app.isContentServiceEnabled()).toBe(false);
     });
 
-    it('should return false when contentPlugin is not defined in local storage', () => {
+    it('should return true when contentService is not defined in local storage', () => {
       localStorage.clear()
-      expect(app.isContentPluginEnabled()).toBe(false);
+      expect(app.isContentServiceEnabled()).toBe(true);
     });
   });
 });

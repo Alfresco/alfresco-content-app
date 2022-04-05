@@ -6,7 +6,7 @@
  * agreement is prohibited.
  */
 
-import { ContentExtensionService } from './content-extension.service';
+import { ContentServiceExtensionService } from './content-service-extension.service';
 import {
   AppConfigService,
   AppConfigServiceMock,
@@ -16,8 +16,8 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { HttpClientModule } from '@angular/common/http';
 
-describe('ContentExtensionService', () => {
-  let service: ContentExtensionService
+describe('ContentServiceExtensionService', () => {
+  let service: ContentServiceExtensionService
   let appConfig: AppConfigService;
 
   setupTestBed({
@@ -30,11 +30,11 @@ describe('ContentExtensionService', () => {
   });
 
   beforeEach(() => {
-    service = TestBed.inject(ContentExtensionService);
+    service = TestBed.inject(ContentServiceExtensionService);
     appConfig = TestBed.inject(AppConfigService);
     appConfig.config = Object.assign(appConfig.config, {
       plugins: {
-        contentPlugin: true
+        contentService: true
       }
     });
 
@@ -42,9 +42,20 @@ describe('ContentExtensionService', () => {
     appConfig.onLoad = of(appConfig.config);
   });
 
-  it('should set the content plugin to true in local storage when it is set to true in the app config', () => {
-    expect(service).toBeDefined();
-    expect(localStorage.getItem('contentPlugin')).toEqual('true');
+  it('should set the content service to true when it is false in local storage and enabled in the app config', () => {
+    localStorage.setItem('contentService', 'false');
+    service.updateContentServiceAvailability();
+
+    expect(localStorage.getItem('contentService')).toEqual('true');
+  });
+
+  it('should set the content service to false in local storage when it is false in the app config', () => {
+    appConfig.config.plugins.contentService = false;
+    appConfig.load();
+    appConfig.onLoad = of(appConfig.config);
+    service.updateContentServiceAvailability();
+
+    expect(localStorage.getItem('contentService')).toEqual('false');
   });
 
   afterEach(() => {

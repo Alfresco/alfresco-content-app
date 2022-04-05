@@ -242,7 +242,7 @@
             "title": "APP.BROWSE.LIBRARIES.SIDENAV_LINK.LABEL",
             "description": "APP.BROWSE.LIBRARIES.SIDENAV_LINK.TOOLTIP",
             "rules": {
-              "visible": "app.content.isPluginEnabled"
+              "visible": "app.isContentServiceEnabled"
             },
             "children": [
               {
@@ -266,7 +266,7 @@
       {
         "id": "app.navbar.secondary",
         "rules": {
-          "visible": "app.content.isPluginEnabled"
+          "visible": "app.isContentServiceEnabled"
         },
         "items": [
           {

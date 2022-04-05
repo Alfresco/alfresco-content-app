@@ -34,10 +34,10 @@ export interface AcaRuleContext extends RuleContext {
 
 /**
  * Checks if the content plugin is enabled.
- * JSON ref: `app.content.isPluginEnabled`
+ * JSON ref: `app.isContentServiceEnabled`
  */
-export function isContentPluginEnabled(): boolean {
-  return localStorage && localStorage.getItem('contentPlugin') === 'true';
+export function isContentServiceEnabled(): boolean {
+  return localStorage && localStorage.getItem('contentService') !== 'false';
 }
 
 /**

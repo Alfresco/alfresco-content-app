@@ -8,7 +8,7 @@
   "loginRoute": "login",
   "plugins":{
     "aosPlugin" : ${APP_CONFIG_PLUGIN_AOS},
-    "contentPlugin": ${APP_CONFIG_PLUGIN_CONTENT}
+    "contentService": ${APP_CONFIG_CONTENT_SERVICE}
   },
   "oauth2": {
     "host": "${APP_CONFIG_OAUTH2_HOST}",
