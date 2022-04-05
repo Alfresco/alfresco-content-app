@@ -1,4 +1,3 @@
-
 /*
  * Copyright © 2005 - 2021 Alfresco Software, Ltd. All rights reserved.
  *
@@ -12,13 +11,11 @@ import { AppConfigService } from '@alfresco/adf-core';
 import { take } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ContentServiceExtensionService {
-  constructor(
-    private appConfigService: AppConfigService
-  ) {
-      this.updateContentServiceAvailability();
+  constructor(private appConfigService: AppConfigService) {
+    this.updateContentServiceAvailability();
   }
 
   updateContentServiceAvailability() {

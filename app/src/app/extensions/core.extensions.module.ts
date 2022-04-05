@@ -183,7 +183,7 @@ export class CoreExtensionsModule {
       'repository.isQuickShareEnabled': rules.hasQuickShareEnabled,
       'user.isAdmin': rules.isAdmin,
       'app.canShowLogout': rules.canShowLogout,
-      'app.isContentServiceEnabled': rules.isContentServiceEnabled,
+      'app.isContentServiceEnabled': rules.isContentServiceEnabled
     });
   }
 }

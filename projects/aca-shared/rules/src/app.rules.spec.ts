@@ -543,7 +543,7 @@ describe('app.evaluators', () => {
     });
 
     it('should return true when contentService is not defined in local storage', () => {
-      localStorage.clear()
+      localStorage.clear();
       expect(app.isContentServiceEnabled()).toBe(true);
     });
   });
