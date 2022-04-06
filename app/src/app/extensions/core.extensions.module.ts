@@ -54,6 +54,7 @@ import { LanguagePickerComponent } from '../components/common/language-picker/la
 import { LogoutComponent } from '../components/common/logout/logout.component';
 import { AppExtensionService, ExtensionsDataLoaderGuard } from '@alfresco/aca-shared';
 import { PreviewComponent } from '../components/preview/preview.component';
+import { ContentServiceExtensionService } from '../services/content-service-extension.service';
 
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 export function setupExtensions(service: AppExtensionService): () => void {
@@ -71,7 +72,7 @@ export class CoreExtensionsModule {
         {
           provide: APP_INITIALIZER,
           useFactory: setupExtensions,
-          deps: [AppExtensionService],
+          deps: [AppExtensionService, ContentServiceExtensionService],
           multi: true
         }
       ]
@@ -181,7 +182,8 @@ export class CoreExtensionsModule {
 
       'repository.isQuickShareEnabled': rules.hasQuickShareEnabled,
       'user.isAdmin': rules.isAdmin,
-      'app.canShowLogout': rules.canShowLogout
+      'app.canShowLogout': rules.canShowLogout,
+      'app.isContentServiceEnabled': rules.isContentServiceEnabled
     });
   }
 }
