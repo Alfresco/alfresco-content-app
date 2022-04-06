@@ -109,9 +109,11 @@ registerLocaleData(localeSv);
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot(APP_ROUTES, {
-      useHash: true,
-      enableTracing: false // enable for debug only
-    }),
+    useHash: true,
+    enableTracing: false // enable for debug only
+    ,
+    relativeLinkResolution: 'legacy'
+}),
     MaterialModule,
     CoreModule.forRoot(),
     ContentModule.forRoot(),
