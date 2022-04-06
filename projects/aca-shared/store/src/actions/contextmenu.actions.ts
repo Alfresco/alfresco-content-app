@@ -24,10 +24,7 @@
  */
 
 import { Action } from '@ngrx/store';
-
-export enum ContextMenuActionTypes {
-  ContextMenu = 'CONTEXT_MENU'
-}
+import { ContextMenuActionTypes } from './context-menu-action-types';
 
 export class ContextMenu implements Action {
   readonly type = ContextMenuActionTypes.ContextMenu;

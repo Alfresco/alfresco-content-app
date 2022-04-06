@@ -25,13 +25,7 @@
 
 import { Action } from '@ngrx/store';
 import { Node } from '@alfresco/js-api';
-
-export enum TemplateActionTypes {
-  FileFromTemplate = 'FILE_FROM_TEMPLATE',
-  FolderFromTemplate = 'FOLDER_FROM_TEMPLATE',
-  CreateFromTemplate = 'CREATE_FROM_TEMPLATE',
-  CreateFromTemplateSuccess = 'CREATE_FROM_TEMPLATE_SUCCESS'
-}
+import { TemplateActionTypes } from './template-action-types';
 
 export class FileFromTemplate implements Action {
   readonly type = TemplateActionTypes.FileFromTemplate;

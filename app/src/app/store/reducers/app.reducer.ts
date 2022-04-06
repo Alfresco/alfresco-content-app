@@ -26,7 +26,6 @@
 import { Action } from '@ngrx/store';
 import {
   AppState,
-  AppActionTypes,
   NodeActionTypes,
   SetUserProfileAction,
   SetCurrentFolderAction,
@@ -39,7 +38,8 @@ import {
   SetHeaderColorAction,
   SetCurrentNodeVersionAction,
   SetFileUploadingDialogAction,
-  SetInfoDrawerPreviewStateAction
+  SetInfoDrawerPreviewStateAction,
+  AppActionTypes
 } from '@alfresco/aca-shared/store';
 import { INITIAL_APP_STATE } from '../initial-state';
 

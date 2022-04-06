@@ -31,15 +31,9 @@ import { map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../states/app.state';
 import { Location } from '@angular/common';
-import {
-  NavigateUrlAction,
-  RouterActionTypes,
-  NavigateRouteAction,
-  NavigateToFolder,
-  NavigateToParentFolder,
-  NavigateToPreviousPage
-} from '../actions/router.actions';
+import { NavigateUrlAction, NavigateRouteAction, NavigateToFolder, NavigateToParentFolder, NavigateToPreviousPage } from '../actions/router.actions';
 import { SnackbarErrorAction } from '../actions/snackbar.actions';
+import { RouterActionTypes } from '../actions/router-action-types';
 
 @Injectable()
 export class RouterEffects {
