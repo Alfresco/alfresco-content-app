@@ -20,7 +20,7 @@ export class ContentServiceExtensionService {
 
   updateContentServiceAvailability() {
     this.appConfigService.onLoad.pipe(take(1)).subscribe((config) => {
-      if (config.plugins && (config.plugins.contentService === false || config.plugins.contentService === 'false')) {
+      if (config.plugins && config.plugins.contentService === false) {
         this.disableContentServices();
       } else {
         this.enableContentServices();
