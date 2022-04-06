@@ -23,7 +23,8 @@
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "app/src/app/ui"
+                "app/src/app/ui",
+                "node_modules"
               ]
             },
             "assets": [
