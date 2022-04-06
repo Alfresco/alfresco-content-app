@@ -233,7 +233,8 @@
             "polyfills": "app/src/polyfills.ts",
             "stylePreprocessorOptions": {
               "includePaths": [
-                "app/src/app/ui"
+                "app/src/app/ui",
+                "node_modules"
               ]
             },
             "tsConfig": "app/tsconfig.spec.json",
