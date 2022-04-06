@@ -107,7 +107,8 @@
       "rules": {
         "@angular-eslint/template/no-autofocus": "error",
         "@angular-eslint/template/no-negated-async": "off",
-        "@angular-eslint/template/no-positive-tabindex": "error"
+        "@angular-eslint/template/no-positive-tabindex": "error",
+        "@angular-eslint/template/eqeqeq": "error"
       }
     }
   ]
