@@ -6,6 +6,7 @@
   "providers": "${APP_CONFIG_PROVIDER}",
   "authType": "${APP_CONFIG_AUTH_TYPE}",
   "loginRoute": "login",
+  "landingPage": "/personal-files",
   "plugins":{
     "aosPlugin" : ${APP_CONFIG_PLUGIN_AOS},
     "contentService": ${APP_CONFIG_CONTENT_SERVICE}

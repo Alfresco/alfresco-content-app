@@ -233,7 +233,10 @@
             "icon": "folder",
             "title": "APP.BROWSE.PERSONAL.SIDENAV_LINK.LABEL",
             "description": "APP.BROWSE.PERSONAL.SIDENAV_LINK.TOOLTIP",
-            "route": "personal-files"
+            "route": "personal-files",
+            "rules": {
+              "visible": "app.isContentServiceEnabled"
+            }
           },
           {
             "id": "app.navbar.libraries.menu",
