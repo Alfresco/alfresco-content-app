@@ -48,7 +48,8 @@ import {
   getAppSelection,
   ManageAspectsAction,
   NavigateRouteAction,
-  ExpandInfoDrawerAction
+  ExpandInfoDrawerAction,
+  ManageSecurityMarksAction
 } from '@alfresco/aca-shared/store';
 import { ContentManagementService } from '../../services/content-management.service';
 import { ViewUtilService } from '@alfresco/adf-core';
@@ -335,6 +336,28 @@ export class NodeEffects {
               .subscribe((selection) => {
                 if (selection && selection.file) {
                   this.contentService.manageVersions(selection.file);
+                }
+              });
+          }
+        })
+      ),
+    { dispatch: false }
+  );
+
+  manageSecurityMarks$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType<ManageSecurityMarksAction>(NodeActionTypes.ManageSecurityMarks),
+        map((action) => {
+          if (action && action.payload) {
+            this.contentService.manageSecurityMarks(action.payload);
+          } else {
+            this.store
+              .select(getAppSelection)
+              .pipe(take(1))
+              .subscribe((selection) => {
+                if (selection && selection.file) {
+                  this.contentService.manageSecurityMarks(selection.file);
                 }
               });
           }

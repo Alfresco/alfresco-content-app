@@ -67,6 +67,7 @@ import { Store } from '@ngrx/store';
 import { forkJoin, Observable, of, zip } from 'rxjs';
 import { catchError, map, mergeMap, take, tap } from 'rxjs/operators';
 import { NodeVersionsDialogComponent, NodeVersionDialogData } from '../dialogs/node-versions/node-versions.dialog';
+import { SecurityMarksDialogComponent, SecurityMarksDialogData } from '../dialogs/security-marks/security-marks.dialog';
 import { NodeActionsService } from './node-actions.service';
 
 interface RestoredNode {
@@ -131,6 +132,20 @@ export class ContentManagementService {
         });
       } else {
         this.openVersionManagerDialog(node.entry);
+      }
+    }
+  }
+
+  manageSecurityMarks(node: any){
+    if (node && node.entry) {
+      const id = node.entry.nodeId || (node as any).entry.guid;
+
+      if (id) {
+        this.contentApi.getNodeInfo(id).subscribe((entry) => {
+          this.openSecurityMarksManagerDialog(entry);
+        });
+      } else {
+        this.openSecurityMarksManagerDialog(node.entry);
       }
     }
   }
@@ -558,6 +573,18 @@ export class ContentManagementService {
       });
       dialogRef.componentInstance.refreshEvent.subscribe(() => {
         this.store.dispatch(new ReloadDocumentListAction());
+      });
+    } else {
+      this.store.dispatch(new SnackbarErrorAction('APP.MESSAGES.ERRORS.PERMISSION'));
+    }
+  }
+
+  private openSecurityMarksManagerDialog(node: any) {
+    if (node.isFile || node.id) {
+      this.dialogRef.open(SecurityMarksDialogComponent, {
+        data: { title: 'Edit Security Marks' } as SecurityMarksDialogData,
+        panelClass: 'adf-security-marks-manager-dialog-panel',
+        width: '600px'
       });
     } else {
       this.store.dispatch(new SnackbarErrorAction('APP.MESSAGES.ERRORS.PERMISSION'));
