@@ -1,0 +1,34 @@
+<header mat-dialog-title>{{ data.title | translate }}</header>
+
+<div><hr></div>
+<div *ngFor ="let group of map | keyvalue">
+<p ><b>{{ group.key.groupName }} (  {{ group.key.groupType }} )</b></p>
+
+<table >
+  <tr >
+    <td *ngFor ="let marks of group.value"  class ="hover" (click)="selectMarks(marks.name, group.key.groupName)"> {{marks.name}}</td>
+  </tr>
+</table>
+ <hr>
+</div>
+
+<footer mat-dialog-actions>
+  <button mat-button mat-dialog-close
+  (click)="handleCancel()">
+      <!-- {{ 'ADD_MEMBER.CANCEL_ACTION' | translate }} -->
+      Cancel
+  </button>
+  <button
+      mat-button
+      color="primary"
+      [disabled]="false">
+      Save
+  </button>
+</footer>
+
+
+
+
+
+
+

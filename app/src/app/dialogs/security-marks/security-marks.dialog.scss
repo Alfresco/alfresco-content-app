@@ -1,0 +1,17 @@
+  table{
+    border-spacing: 20px 20px;
+    }
+  
+  td:hover {background-color: rgb(162, 220, 235);}
+  
+  td{
+    background-color:adjust-hue($color: #e9f1f3, $degrees: 0);
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 10px;
+  }
+  
+  hr{
+    background-color:adjust-hue($color: #e1f2f7, $degrees: 0);
+  }
+  
