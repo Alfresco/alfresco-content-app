@@ -31,6 +31,7 @@ import { AppStore, getHeaderColor, getAppName, getLogoPath, getHeaderImagePath, 
 import { AppExtensionService } from '@alfresco/aca-shared';
 import { takeUntil } from 'rxjs/operators';
 import { AppConfigService } from '@alfresco/adf-core';
+import { isContentServiceEnabled } from '@alfresco/aca-shared/rules';
 
 @Component({
   selector: 'app-header',
@@ -77,6 +78,10 @@ export class AppHeaderComponent implements OnInit, OnDestroy {
     this.headerTextColor$.subscribe((color) => {
       document.documentElement.style.setProperty('--adf-header-text-color', color);
     });
+  }
+
+  isContentServiceEnabled(): boolean {
+    return isContentServiceEnabled();
   }
 
   ngOnDestroy() {
