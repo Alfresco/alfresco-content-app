@@ -31,7 +31,6 @@ import { AppConfigService } from '@alfresco/adf-core';
   template: ''
 })
 export class HomeComponent implements OnInit {
-
   constructor(private appConfig: AppConfigService, private router: Router) {}
 
   ngOnInit() {
