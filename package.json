@@ -114,7 +114,7 @@
     "protractor-screenshoter-plugin": "0.10.3",
     "protractor-smartrunner": "^2.0.0-beta6",
     "selenium-webdriver": "^4.1.1",
-    "ts-node": "^10.2.1",
+    "ts-node": "^10.7.0",
     "tsconfig-paths": "3.12.0",
     "typescript": "3.9.8",
     "webdriver-manager": "12.1.8"
