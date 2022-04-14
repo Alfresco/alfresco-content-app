@@ -31,10 +31,12 @@ import { AppConfigService } from '@alfresco/adf-core';
   template: ''
 })
 export class HomeComponent implements OnInit {
+  readonly DEFAULT_LANDING_PAGE = '/personal-files';
+
   constructor(private appConfig: AppConfigService, private router: Router) {}
 
   ngOnInit() {
-    const landingPage = this.appConfig.get('landingPage', '/personal-files');
+    const landingPage = this.appConfig.get('landingPage', this.DEFAULT_LANDING_PAGE);
     this.router.navigateByUrl(landingPage);
   }
 }

@@ -30,4 +30,12 @@ describe('HomeComponent', () => {
 
     expect(navigateSpy).toHaveBeenCalledWith('/my-mock-landing-page');
   });
+
+  it('should navigate to personal files by default when there is no landingPage defined', () => {
+    appConfig.config = {};
+    const navigateSpy = spyOn(router, 'navigateByUrl');
+    fixture.detectChanges();
+
+    expect(navigateSpy).toHaveBeenCalledWith('/personal-files');
+  });
 });
