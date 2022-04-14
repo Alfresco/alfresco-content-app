@@ -30,6 +30,7 @@ import { ContentActionRef } from '@alfresco/adf-extensions';
 import { AppStore, getHeaderColor, getAppName, getLogoPath, getHeaderImagePath, getHeaderTextColor } from '@alfresco/aca-shared/store';
 import { AppExtensionService } from '@alfresco/aca-shared';
 import { takeUntil } from 'rxjs/operators';
+import { AppConfigService } from '@alfresco/adf-core';
 
 @Component({
   selector: 'app-header',
@@ -49,14 +50,16 @@ export class AppHeaderComponent implements OnInit, OnDestroy {
   headerColor$: Observable<any>;
   headerTextColor$: Observable<string>;
   logo$: Observable<string>;
+  landingPage: string;
 
   actions: Array<ContentActionRef> = [];
 
-  constructor(store: Store<AppStore>, private appExtensions: AppExtensionService) {
+  constructor(store: Store<AppStore>, private appExtensions: AppExtensionService, private appConfigService: AppConfigService) {
     this.headerColor$ = store.select(getHeaderColor);
     this.headerTextColor$ = store.select(getHeaderTextColor);
     this.appName$ = store.select(getAppName);
     this.logo$ = store.select(getLogoPath);
+    this.landingPage = this.appConfigService.get('landingPage', '/personal-files');
 
     store.select(getHeaderImagePath).subscribe((path) => {
       document.body.style.setProperty('--header-background-image', `url('${path}')`);

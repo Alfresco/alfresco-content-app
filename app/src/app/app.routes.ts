@@ -37,6 +37,7 @@ import { FavoritesComponent } from './components/favorites/favorites.component';
 import { RecentFilesComponent } from './components/recent-files/recent-files.component';
 import { SharedFilesComponent } from './components/shared-files/shared-files.component';
 import { DetailsComponent } from './components/details/details.component';
+import { HomeComponent } from './components/home/home.component';
 
 export const APP_ROUTES: Routes = [
   {
@@ -77,8 +78,7 @@ export const APP_ROUTES: Routes = [
     children: [
       {
         path: '',
-        redirectTo: `/personal-files`,
-        pathMatch: 'full'
+        component: HomeComponent
       },
       {
         path: 'personal-files',

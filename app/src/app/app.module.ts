@@ -66,6 +66,7 @@ import { CreateFromTemplateDialogComponent } from './dialogs/node-template/creat
 import { environment } from '../environments/environment';
 import { DetailsComponent } from './components/details/details.component';
 import { ContentUrlService } from './services/content-url.service';
+import { HomeComponent } from './components/home/home.component';
 
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
@@ -146,7 +147,8 @@ registerLocaleData(localeSv);
     FavoritesComponent,
     RecentFilesComponent,
     SharedFilesComponent,
-    CreateFromTemplateDialogComponent
+    CreateFromTemplateDialogComponent,
+    HomeComponent
   ],
   providers: [
     { provide: AppConfigService, useClass: DebugAppConfigService },
