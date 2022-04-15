@@ -189,14 +189,17 @@ export class ShowMydDialogAction implements Action {
 `src/app/store/effects/app.effects.ts` を更新します:
 
 ```ts
+import { createEffect } from '@ngrx/effects';
 import { ShowMydDialogAction, SHOW_MY_DIALOG } from '../actions/app.actions';
 
 @Injectable()
 export class AppEffects {
-  @Effect({ dispatch: false })
-  showMyDialog$ = this.actions$.pipe(
-    ofType<ShowMydDialogAction>(SHOW_MY_DIALOG),
-    map(() => {})
+  showMyDialog$ = createEffect(
+    () => this.actions$.pipe(
+      ofType<ShowMydDialogAction>(SHOW_MY_DIALOG),
+      map(() => {})
+    ), 
+    { dispatch: false }
   );
 }
 ```
@@ -208,6 +211,7 @@ export class AppEffects {
 ダイアログを表示するための更新
 
 ```ts
+import { createEffect } from '@ngrx/effects';
 import { MatDialog } from '@angular/material/dialog';
 import { MyExtensionDialogComponent } from '../../dialogs/my-extension-dialog/my-extension-dialog.component';
 
@@ -215,12 +219,14 @@ import { MyExtensionDialogComponent } from '../../dialogs/my-extension-dialog/my
 export class AppEffects {
   constructor(private dialog: MatDialog) {}
 
-  @Effect({ dispatch: false })
-  showMyDialog$ = this.actions$.pipe(
-    ofType<ShowMydDialogAction>(SHOW_MY_DIALOG),
-    map(() => {
-      this.dialog.open(MyExtensionDialogComponent)
-    })
+  showMyDialog$ = createEffect(
+    () => this.actions$.pipe(
+      ofType<ShowMydDialogAction>(SHOW_MY_DIALOG),
+      map(() => {
+        this.dialog.open(MyExtensionDialogComponent)
+      })
+    ), 
+    { dispatch: false }
   );
 }
 ```

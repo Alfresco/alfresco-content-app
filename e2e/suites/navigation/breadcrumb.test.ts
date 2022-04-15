@@ -63,7 +63,7 @@ describe('Breadcrumb', () => {
   };
   const adminApiActions = new AdminActions();
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     await adminApiActions.createUser({ username });
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
     subFolder1Id = (await apis.user.nodes.createFolder(subFolder1, parentId)).entry.id;
@@ -81,12 +81,10 @@ describe('Breadcrumb', () => {
     await apis.user.nodes.createFile(fileName1FromSite, subFolder2FromSiteId);
 
     await loginPage.loginWith(username);
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await Promise.all([apis.user.nodes.deleteNodeById(parentId), apis.user.nodes.deleteNodeById(parent2Id), apis.user.sites.deleteSite(siteName)]);
-    done();
   });
 
   async function verifyBreadcrumb(expectedCount: number, expectedText: string) {
@@ -199,20 +197,17 @@ describe('Breadcrumb', () => {
     let userFolderId: string;
     const user2Api = new RepoClient(user2, user2);
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await adminApiActions.createUser({ username: user2 });
       userFolderId = (await user2Api.nodes.createFolder(userFolder)).entry.id;
       await loginPage.loginWithAdmin();
       await page.dataTable.waitForBody();
 
       await page.dataTable.sortByModified('desc');
-
-      done();
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       await user2Api.nodes.deleteNodeById(userFolderId);
-      done();
     });
 
     it(`[C260970] Breadcrumb on navigation to a user's home`, async () => {

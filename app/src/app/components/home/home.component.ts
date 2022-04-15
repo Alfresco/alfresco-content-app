@@ -23,31 +23,20 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ParamType } from './params';
-import { BaseParam, CommanderOptionParams } from './base-param';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AppConfigService } from '@alfresco/adf-core';
 
-export class InputParam extends BaseParam {
-  protected type = ParamType.input;
+@Component({
+  template: ''
+})
+export class HomeComponent implements OnInit {
+  readonly DEFAULT_LANDING_PAGE = '/personal-files';
 
-  get commanderOption(): CommanderOptionParams {
-    const optionParams: CommanderOptionParams = [`-${this.options.alias}, --${this.options.name} <${this.options.name}>`, this.options.title];
+  constructor(private appConfig: AppConfigService, private router: Router) {}
 
-    if (this.options.processor !== undefined) {
-      optionParams.push(this.options.processor);
-    }
-
-    if (this.options.default !== undefined) {
-      optionParams.push(this.options.default);
-    }
-
-    return optionParams;
-  }
-
-  get inquirerOption() {
-    return {
-      type: this.type,
-      name: this.options.name,
-      message: this.options.title
-    };
+  ngOnInit() {
+    const landingPage = this.appConfig.get('landingPage', this.DEFAULT_LANDING_PAGE);
+    this.router.navigateByUrl(landingPage);
   }
 }

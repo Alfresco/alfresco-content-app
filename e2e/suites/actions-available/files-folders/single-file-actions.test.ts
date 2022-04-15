@@ -49,7 +49,7 @@ describe('Files - available actions : ', () => {
   const { searchInput } = page.header;
   const searchResultsPage = new SearchResultsPage();
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     try {
       await adminApiActions.createUser({ username });
 
@@ -71,7 +71,6 @@ describe('Files - available actions : ', () => {
     } catch (error) {
       Logger.error(`----- beforeEach failed : ${error}`);
     }
-    done();
   });
 
   afterAll(async () => {

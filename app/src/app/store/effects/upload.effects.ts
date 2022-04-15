@@ -35,7 +35,7 @@ import {
 } from '@alfresco/aca-shared/store';
 import { FileModel, FileUtils, UploadService } from '@alfresco/adf-core';
 import { Injectable, NgZone, RendererFactory2 } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { catchError, map, take } from 'rxjs/operators';
@@ -85,34 +85,43 @@ export class UploadEffects {
     renderer.appendChild(document.body, this.folderInput);
   }
 
-  @Effect({ dispatch: false })
-  uploadFiles$ = this.actions$.pipe(
-    ofType<UploadFilesAction>(UploadActionTypes.UploadFiles),
-    map(() => {
-      this.fileInput.click();
-    })
+  uploadFiles$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType<UploadFilesAction>(UploadActionTypes.UploadFiles),
+        map(() => {
+          this.fileInput.click();
+        })
+      ),
+    { dispatch: false }
   );
 
-  @Effect({ dispatch: false })
-  uploadFolder$ = this.actions$.pipe(
-    ofType<UploadFolderAction>(UploadActionTypes.UploadFolder),
-    map(() => {
-      this.folderInput.click();
-    })
+  uploadFolder$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType<UploadFolderAction>(UploadActionTypes.UploadFolder),
+        map(() => {
+          this.folderInput.click();
+        })
+      ),
+    { dispatch: false }
   );
 
-  @Effect({ dispatch: false })
-  uploadVersion$ = this.actions$.pipe(
-    ofType<UploadFileVersionAction>(UploadActionTypes.UploadFileVersion),
-    map((action) => {
-      if (action?.payload) {
-        const node = action?.payload?.detail?.data?.node?.entry;
-        const file: any = action?.payload?.detail?.files[0]?.file;
-        this.contentService.versionUpdateDialog(node, file);
-      } else if (!action?.payload) {
-        this.fileVersionInput.click();
-      }
-    })
+  uploadVersion$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType<UploadFileVersionAction>(UploadActionTypes.UploadFileVersion),
+        map((action) => {
+          if (action?.payload) {
+            const node = action?.payload?.detail?.data?.node?.entry;
+            const file: any = action?.payload?.detail?.files[0]?.file;
+            this.contentService.versionUpdateDialog(node, file);
+          } else if (!action?.payload) {
+            this.fileVersionInput.click();
+          }
+        })
+      ),
+    { dispatch: false }
   );
 
   uploadVersion() {

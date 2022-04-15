@@ -51,7 +51,7 @@ describe('Recent Files', () => {
   const adminApiActions = new AdminActions();
   const userActions = new UserActions();
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     await adminApiActions.createUser({ username });
 
     folderId = (await apis.user.nodes.createFolders([folderName])).entry.id;
@@ -70,20 +70,17 @@ describe('Recent Files', () => {
     await apis.user.search.waitForApi(username, { expect: 3 });
 
     await loginPage.loginWith(username);
-    done();
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async () => {
     await page.clickRecentFilesAndWait();
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await userActions.login(username, username);
     await userActions.deleteNodes([folderId, file2Id]);
     await userActions.deleteSites([siteName]);
     await userActions.emptyTrashcan();
-    done();
   });
 
   it('[C213168] has the correct columns', async () => {

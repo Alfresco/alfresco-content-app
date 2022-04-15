@@ -92,7 +92,7 @@ describe('Viewer actions', () => {
     const fileForUploadNewVersion2 = `file4-${Utils.random()}.docx`;
     let fileForUploadNewVersionId2: string;
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       try {
         parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
         destinationId = (await apis.user.nodes.createFolder(destination)).entry.id;
@@ -116,7 +116,6 @@ describe('Viewer actions', () => {
       } catch (error) {
         Logger.error(`----- beforeAll failed : ${error}`);
       }
-      done();
     });
 
     beforeEach(async () => {
@@ -334,7 +333,7 @@ describe('Viewer actions', () => {
     const fileForUploadNewVersion = `file3-${Utils.random()}.docx`;
     let fileForUploadNewVersionId: string;
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       try {
         await apis.user.sites.createSite(siteName);
         const docLibId = await apis.user.sites.getDocLibId(siteName);
@@ -357,7 +356,6 @@ describe('Viewer actions', () => {
       } catch (error) {
         Logger.error(`----- beforeAll failed : ${error}`);
       }
-      done();
     });
 
     beforeEach(async () => {
@@ -394,7 +392,7 @@ describe('Viewer actions', () => {
       expect(await Utils.fileExistsOnOS(docxLibraries)).toBe(true, 'File not found in download location');
     });
 
-    it('[C286370] Copy action', async (done) => {
+    it('[C286370] Copy action', async () => {
       await dataTable.doubleClickOnRowByName(docxLibraries);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
@@ -411,7 +409,6 @@ describe('Viewer actions', () => {
       expect(await dataTable.isItemPresent(docxLibraries)).toBe(true, 'Item is not present in destination');
 
       await apis.user.nodes.deleteNodeChildren(destinationId);
-      done();
     });
 
     it('[C286371] Move action', async () => {
@@ -531,7 +528,7 @@ describe('Viewer actions', () => {
     const fileForUploadNewVersion = `file3-${Utils.random()}.docx`;
     let fileForUploadNewVersionId: string;
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       try {
         await apis.user.search.waitForApi(username, { expect: 0 });
 
@@ -557,7 +554,6 @@ describe('Viewer actions', () => {
       } catch (error) {
         Logger.error(`----- beforeAll failed : ${error}`);
       }
-      done();
     });
 
     beforeEach(async () => {
@@ -587,7 +583,7 @@ describe('Viewer actions', () => {
       expect(await Utils.fileExistsOnOS(docxRecentFiles)).toBe(true, 'File not found in download location');
     });
 
-    it('[C286384] Copy action', async (done) => {
+    it('[C286384] Copy action', async () => {
       await dataTable.doubleClickOnRowByName(docxRecentFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
@@ -604,7 +600,6 @@ describe('Viewer actions', () => {
       expect(await dataTable.isItemPresent(docxRecentFiles)).toBe(true, 'Item is not present in destination');
 
       await apis.user.nodes.deleteNodeChildren(destinationId);
-      done();
     });
 
     it('[C286385] Move action', async () => {
@@ -727,7 +722,7 @@ describe('Viewer actions', () => {
     const fileForUploadNewVersion = `file3-${Utils.random()}.docx`;
     let fileForUploadNewVersionId;
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       try {
         parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
         destinationId = (await apis.user.nodes.createFolder(destination)).entry.id;
@@ -767,7 +762,6 @@ describe('Viewer actions', () => {
       } catch (error) {
         Logger.error(`----- beforeAll failed : ${error}`);
       }
-      done();
     });
 
     beforeEach(async () => {
@@ -941,7 +935,7 @@ describe('Viewer actions', () => {
     const fileForUploadNewVersion = `file3-${Utils.random()}.docx`;
     let fileForUploadNewVersionId: string;
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       try {
         parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
         destinationId = (await apis.user.nodes.createFolder(destination)).entry.id;
@@ -973,7 +967,6 @@ describe('Viewer actions', () => {
       } catch (error) {
         Logger.error(`----- beforeAll failed : ${error}`);
       }
-      done();
     });
 
     beforeEach(async () => {
@@ -1003,7 +996,7 @@ describe('Viewer actions', () => {
       expect(await Utils.fileExistsOnOS(docxFavorites)).toBe(true, 'File not found in download location');
     });
 
-    it('[C286391] Copy action', async (done) => {
+    it('[C286391] Copy action', async () => {
       await dataTable.doubleClickOnRowByName(docxFavorites);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
@@ -1020,7 +1013,6 @@ describe('Viewer actions', () => {
       expect(await dataTable.isItemPresent(docxFavorites)).toBe(true, 'Item is not present in destination');
 
       await apis.user.nodes.deleteNodeChildren(destinationId);
-      done();
     });
 
     it('[C286392] Move action', async () => {

@@ -143,7 +143,8 @@
           "click": "UPLOAD_FILES"
         },
         "rules": {
-          "enabled": "app.navigation.folder.canUpload"
+          "enabled": "app.navigation.folder.canUpload",
+          "visible": "app.isContentServiceEnabled"
         }
       },
       {
@@ -157,13 +158,17 @@
           "click": "UPLOAD_FOLDER"
         },
         "rules": {
-          "enabled": "app.navigation.folder.canUpload"
+          "enabled": "app.navigation.folder.canUpload",
+          "visible": "app.isContentServiceEnabled"
         }
       },
       {
         "id": "app.create.separator.1",
         "type": "separator",
-        "order": 300
+        "order": 300,
+        "rules": {
+          "visible": "app.isContentServiceEnabled"
+        }
       },
       {
         "id": "app.create.folder",
@@ -176,7 +181,8 @@
           "click": "CREATE_FOLDER"
         },
         "rules": {
-          "enabled": "app.navigation.folder.canCreate"
+          "enabled": "app.navigation.folder.canCreate",
+          "visible": "app.isContentServiceEnabled"
         }
       },
       {
@@ -187,12 +193,18 @@
         "icon": "create_new_folder",
         "actions": {
           "click": "CREATE_LIBRARY"
+        },
+        "rules": {
+          "visible": "app.isContentServiceEnabled"
         }
       },
       {
         "id": "app.create.separator.2",
         "type": "separator",
-        "order": 650
+        "order": 650,
+        "rules": {
+          "visible": "app.isContentServiceEnabled"
+        }
       },
       {
         "id": "app.create.fileFromTemplate",
@@ -205,7 +217,8 @@
           "click": "FILE_FROM_TEMPLATE"
         },
         "rules": {
-          "enabled": "app.navigation.folder.canUpload"
+          "enabled": "app.navigation.folder.canUpload",
+          "visible": "app.isContentServiceEnabled"
         }
       },
       {
@@ -219,7 +232,8 @@
           "click": "FOLDER_FROM_TEMPLATE"
         },
         "rules": {
-          "enabled": "app.navigation.folder.canUpload"
+          "enabled": "app.navigation.folder.canUpload",
+          "visible": "app.isContentServiceEnabled"
         }
       }
     ],
@@ -233,7 +247,10 @@
             "icon": "folder",
             "title": "APP.BROWSE.PERSONAL.SIDENAV_LINK.LABEL",
             "description": "APP.BROWSE.PERSONAL.SIDENAV_LINK.TOOLTIP",
-            "route": "personal-files"
+            "route": "personal-files",
+            "rules": {
+              "visible": "app.isContentServiceEnabled"
+            }
           },
           {
             "id": "app.navbar.libraries.menu",
@@ -241,6 +258,9 @@
             "icon": "library_books",
             "title": "APP.BROWSE.LIBRARIES.SIDENAV_LINK.LABEL",
             "description": "APP.BROWSE.LIBRARIES.SIDENAV_LINK.TOOLTIP",
+            "rules": {
+              "visible": "app.isContentServiceEnabled"
+            },
             "children": [
               {
                 "id": "app.navbar.libraries.favorite",
@@ -262,6 +282,9 @@
       },
       {
         "id": "app.navbar.secondary",
+        "rules": {
+          "visible": "app.isContentServiceEnabled"
+        },
         "items": [
           {
             "id": "app.navbar.shared",

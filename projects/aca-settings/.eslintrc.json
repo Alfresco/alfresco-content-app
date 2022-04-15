@@ -16,7 +16,6 @@
         "createDefaultProgram": true
       },
       "plugins": [
-        "eslint-plugin-react",
         "eslint-plugin-rxjs",
         "eslint-plugin-unicorn"
       ],
@@ -95,9 +94,6 @@
         "no-return-await": "error",
         "no-underscore-dangle": "off",
         "quote-props": "off",
-        "react/jsx-curly-spacing": "off",
-        "react/jsx-equals-spacing": "off",
-        "react/jsx-wrap-multilines": "off",
         "rxjs/no-create": "error",
         "rxjs/no-subject-unsubscribe": "error",
         "rxjs/no-subject-value": "error",

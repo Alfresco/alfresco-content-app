@@ -74,7 +74,7 @@ describe('Extensions - Viewer', () => {
   const { toolbar } = viewer;
   const adminApiActions = new AdminActions();
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     await adminApiActions.createUser({ username });
     pdfFileId = (await apis.user.upload.uploadFile(pdfFile.fileName)).entry.id;
     docxFileId = (await apis.user.upload.uploadFile(docxFile.fileName)).entry.id;
@@ -82,22 +82,18 @@ describe('Extensions - Viewer', () => {
     await loginPage.load();
     await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.VIEWER);
     await loginPage.loginWith(username);
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await apis.user.nodes.deleteNodesById([pdfFileId, docxFileId]);
-    done();
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async () => {
     await page.clickPersonalFilesAndWait();
-    done();
   });
 
-  afterEach(async (done) => {
+  afterEach(async () => {
     await Utils.pressEscape();
-    done();
   });
 
   describe('content', () => {

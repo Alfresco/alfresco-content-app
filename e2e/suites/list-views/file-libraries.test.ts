@@ -57,7 +57,7 @@ describe('File Libraries', () => {
   const { dataTable } = page;
   const adminApiActions = new AdminActions();
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     try {
       await adminApiActions.createUser({ username });
 
@@ -89,7 +89,6 @@ describe('File Libraries', () => {
     } catch (error) {
       Logger.error(`----- beforeAll failed : ${error}`);
     }
-    done();
   });
 
   afterAll(async () => {

@@ -80,7 +80,7 @@ describe('Download', () => {
   const adminApiActions = new AdminActions();
   const userActions = new UserActions();
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     await adminApiActions.createUser({ username });
 
     initialRecentTotalItems = await apis.user.search.getTotalItems(username);
@@ -116,26 +116,22 @@ describe('Download', () => {
     await apis.user.favorites.waitForApi({ expect: initialFavoritesTotalItems + 2 });
 
     await loginPage.loginWith(username);
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await userActions.login(username, username);
     await userActions.deleteNodes([parentId]);
     await userActions.emptyTrashcan();
-    done();
   });
 
-  afterEach(async (done) => {
+  afterEach(async () => {
     await Utils.renameFile(archiveZip, `${random}.zip`);
-    done();
   });
 
   describe('on Personal Files', () => {
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(parent);
-      done();
     });
 
     it('[C213179] Download a file', async () => {
@@ -176,9 +172,8 @@ describe('Download', () => {
   });
 
   describe('on Favorites', () => {
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickFavoritesAndWait();
-      done();
     });
 
     it('[C280173] Download a file', async () => {
@@ -219,9 +214,8 @@ describe('Download', () => {
   });
 
   describe('on Shared Files', () => {
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickSharedFilesAndWait();
-      done();
     });
 
     it('[C280170] Download a file', async () => {
@@ -245,9 +239,8 @@ describe('Download', () => {
   });
 
   describe('on Recent Files', () => {
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickRecentFilesAndWait();
-      done();
     });
 
     it('[C280167] Download a file', async () => {
@@ -271,12 +264,11 @@ describe('Download', () => {
   });
 
   describe('on Search Results', () => {
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickPersonalFilesAndWait();
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
       await searchInput.searchFor(random);
-      done();
     });
 
     it('[C279164] Download a file', async () => {

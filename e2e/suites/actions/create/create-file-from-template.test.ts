@@ -111,7 +111,7 @@ describe('Create file from template', () => {
   };
   let link: string;
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     await adminApiActions.createUser({ username });
 
     parentId = (await userApi.nodes.createFolder(parent)).entry.id;
@@ -122,7 +122,6 @@ describe('Create file from template', () => {
     await userApi.nodes.createFile(duplicateFileSite, docLibUserSite);
 
     await loginPage.loginWith(username);
-    done();
   });
 
   afterAll(async () => {

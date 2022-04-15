@@ -10,6 +10,17 @@ module.exports = {
             "^/alfresco/alfresco": ""
         },
         "changeOrigin": true,
-        'logLevel': 'debug'
+        'logLevel': 'debug',
+        onProxyReq: function(request) {
+          if(request["method"] !== "GET")
+          request.setHeader("origin", APP_CONFIG_ECM_HOST);
+        },
+        // workaround for REPO-2260
+        onProxyRes: function (proxyRes) {
+          const header = proxyRes.headers['www-authenticate'];
+          if (header && header.startsWith('Basic')) {
+              proxyRes.headers['www-authenticate'] = 'x' + header;
+          }
+      }
     }
 };

@@ -25,7 +25,7 @@
 
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { MinimalNodeEntryEntity, PathInfoEntity } from '@alfresco/js-api';
 import { map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
@@ -45,48 +45,63 @@ import { SnackbarErrorAction } from '../actions/snackbar.actions';
 export class RouterEffects {
   constructor(private store: Store<AppStore>, private actions$: Actions, private router: Router, private location: Location) {}
 
-  @Effect({ dispatch: false })
-  navigateUrl$ = this.actions$.pipe(
-    ofType<NavigateUrlAction>(RouterActionTypes.NavigateUrl),
-    map((action) => {
-      if (action.payload) {
-        this.router.navigateByUrl(action.payload);
-      }
-    })
+  navigateUrl$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType<NavigateUrlAction>(RouterActionTypes.NavigateUrl),
+        map((action) => {
+          if (action.payload) {
+            this.router.navigateByUrl(action.payload);
+          }
+        })
+      ),
+    { dispatch: false }
   );
 
-  @Effect({ dispatch: false })
-  navigateRoute$ = this.actions$.pipe(
-    ofType<NavigateRouteAction>(RouterActionTypes.NavigateRoute),
-    map((action) => {
-      this.router.navigate(action.payload);
-    })
+  navigateRoute$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType<NavigateRouteAction>(RouterActionTypes.NavigateRoute),
+        map((action) => {
+          this.router.navigate(action.payload);
+        })
+      ),
+    { dispatch: false }
   );
 
-  @Effect({ dispatch: false })
-  navigateToFolder$ = this.actions$.pipe(
-    ofType<NavigateToFolder>(RouterActionTypes.NavigateFolder),
-    map((action) => {
-      if (action.payload && action.payload.entry) {
-        this.navigateToFolder(action.payload.entry);
-      }
-    })
+  navigateToFolder$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType<NavigateToFolder>(RouterActionTypes.NavigateFolder),
+        map((action) => {
+          if (action.payload && action.payload.entry) {
+            this.navigateToFolder(action.payload.entry);
+          }
+        })
+      ),
+    { dispatch: false }
   );
 
-  @Effect({ dispatch: false })
-  navigateToParentFolder$ = this.actions$.pipe(
-    ofType<NavigateToParentFolder>(RouterActionTypes.NavigateParentFolder),
-    map((action) => {
-      if (action.payload && action.payload.entry) {
-        this.navigateToParentFolder(action.payload.entry);
-      }
-    })
+  navigateToParentFolder$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType<NavigateToParentFolder>(RouterActionTypes.NavigateParentFolder),
+        map((action) => {
+          if (action.payload && action.payload.entry) {
+            this.navigateToParentFolder(action.payload.entry);
+          }
+        })
+      ),
+    { dispatch: false }
   );
 
-  @Effect({ dispatch: false })
-  navigateToPreviousPage$ = this.actions$.pipe(
-    ofType<NavigateToPreviousPage>(RouterActionTypes.NavigateToPreviousPage),
-    map(() => this.location.back())
+  navigateToPreviousPage$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType<NavigateToPreviousPage>(RouterActionTypes.NavigateToPreviousPage),
+        map(() => this.location.back())
+      ),
+    { dispatch: false }
   );
 
   private navigateToFolder(node: MinimalNodeEntryEntity) {

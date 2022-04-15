@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Effect, Actions, ofType } from '@ngrx/effects';
+import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { map, switchMap, debounceTime, take, catchError } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
@@ -46,7 +46,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 @Injectable()
 export class TemplateEffects {
-  _nodesApi: NodesApi;
+  private _nodesApi: NodesApi;
   get nodesApi(): NodesApi {
     this._nodesApi = this._nodesApi ?? new NodesApi(this.apiService.getInstance());
     return this._nodesApi;
@@ -61,53 +61,65 @@ export class TemplateEffects {
     private nodeTemplateService: NodeTemplateService
   ) {}
 
-  @Effect({ dispatch: false })
-  fileFromTemplate$ = this.actions$.pipe(
-    ofType<FileFromTemplate>(TemplateActionTypes.FileFromTemplate),
-    map(() => {
-      this.openDialog({
-        primaryPathName: 'app:node_templates',
-        selectionType: 'file'
-      });
-    })
+  fileFromTemplate$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType<FileFromTemplate>(TemplateActionTypes.FileFromTemplate),
+        map(() => {
+          this.openDialog({
+            primaryPathName: 'app:node_templates',
+            selectionType: 'file'
+          });
+        })
+      ),
+    { dispatch: false }
   );
 
-  @Effect({ dispatch: false })
-  folderFromTemplate$ = this.actions$.pipe(
-    ofType<FolderFromTemplate>(TemplateActionTypes.FolderFromTemplate),
-    map(() =>
-      this.openDialog({
-        primaryPathName: 'app:space_templates',
-        selectionType: 'folder'
-      })
-    )
-  );
-
-  @Effect({ dispatch: false })
-  createFromTemplate$ = this.actions$.pipe(
-    ofType<CreateFromTemplate>(TemplateActionTypes.CreateFromTemplate),
-    map((action) => {
-      this.store
-        .select(getCurrentFolder)
-        .pipe(
-          switchMap((folder) => this.copyNode(action.payload, folder.id)),
-          take(1)
+  folderFromTemplate$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType<FolderFromTemplate>(TemplateActionTypes.FolderFromTemplate),
+        map(() =>
+          this.openDialog({
+            primaryPathName: 'app:space_templates',
+            selectionType: 'folder'
+          })
         )
-        .subscribe((node: NodeEntry | null) => {
-          if (node) {
-            this.store.dispatch(new CreateFromTemplateSuccess(node.entry));
-          }
-        });
-    })
+      ),
+    { dispatch: false }
   );
 
-  @Effect({ dispatch: false })
-  createFromTemplateSuccess$ = this.actions$.pipe(
-    ofType<CreateFromTemplateSuccess>(TemplateActionTypes.CreateFromTemplateSuccess),
-    map((payload) => {
-      this.matDialog.closeAll();
-      this.appHookService.reload.next(payload.node);
-    })
+  createFromTemplate$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType<CreateFromTemplate>(TemplateActionTypes.CreateFromTemplate),
+        map((action) => {
+          this.store
+            .select(getCurrentFolder)
+            .pipe(
+              switchMap((folder) => this.copyNode(action.payload, folder.id)),
+              take(1)
+            )
+            .subscribe((node: NodeEntry | null) => {
+              if (node) {
+                this.store.dispatch(new CreateFromTemplateSuccess(node.entry));
+              }
+            });
+        })
+      ),
+    { dispatch: false }
+  );
+
+  createFromTemplateSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType<CreateFromTemplateSuccess>(TemplateActionTypes.CreateFromTemplateSuccess),
+        map((payload) => {
+          this.matDialog.closeAll();
+          this.appHookService.reload.next(payload.node);
+        })
+      ),
+    { dispatch: false }
   );
 
   private openDialog(config: TemplateDialogConfig) {

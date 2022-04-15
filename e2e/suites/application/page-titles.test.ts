@@ -55,15 +55,13 @@ describe('Page titles', () => {
   });
 
   describe('on app pages', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       fileId = (await adminApi.nodes.createFile(file)).entry.id;
       await loginPage.loginWithAdmin();
-      done();
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       await adminApi.nodes.deleteNodeById(fileId);
-      done();
     });
 
     it('[C217157] Personal Files page', async () => {

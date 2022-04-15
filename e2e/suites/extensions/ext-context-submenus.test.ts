@@ -53,7 +53,7 @@ describe('Extensions - Context submenu', () => {
   const contextMenu = dataTable.menu;
   const adminApiActions = new AdminActions();
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     await adminApiActions.createUser({ username });
     fileId = (await apis.user.nodes.createFile(file)).entry.id;
     folderId = (await apis.user.nodes.createFolder(folder)).entry.id;
@@ -61,21 +61,17 @@ describe('Extensions - Context submenu', () => {
     await loginPage.load();
     await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.CONTEXT_SUBMENUS);
     await loginPage.loginWith(username);
-
-    done();
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async () => {
     await Utils.pressEscape();
     await dataTable.clearSelection();
     await page.clickPersonalFilesAndWait();
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await apis.user.nodes.deleteNodeById(fileId, true);
     await apis.user.nodes.deleteNodeById(folderId, true);
-    done();
   });
 
   it('[C286717] Displays the submenu actions set from config', async () => {

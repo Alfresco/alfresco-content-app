@@ -30,15 +30,13 @@ describe('Search input', () => {
   const page = new BrowsingPage();
   const { searchInput } = page.header;
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     await loginPage.loginWithAdmin();
-    done();
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async () => {
     await Utils.pressEscape();
     await page.clickPersonalFiles();
-    done();
   });
 
   it('[C289847] Search input is displayed in the app header', async () => {
