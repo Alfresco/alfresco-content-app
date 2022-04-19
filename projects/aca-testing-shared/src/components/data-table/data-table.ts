@@ -34,8 +34,8 @@ export class DataTable extends Component {
   private static selectors = {
     columnHeader: '.adf-datatable-row .adf-datatable-cell-header .adf-datatable-cell-value',
     sortedColumnHeader: `
-      .adf-datatable__header--sorted-asc .adf-datatable-cell-value,
-      .adf-datatable__header--sorted-desc .adf-datatable-cell-value
+      .adf-datatable__header--sorted-asc .adf-datatable-cell-header-content .adf-datatable-cell-value,
+      .adf-datatable__header--sorted-desc .adf-datatable-cell-header-content .adf-datatable-cell-value
     `,
     row: '.adf-datatable-row[data-automation-id^="datatable-row"]',
     cell: '.adf-datatable-cell-container',
@@ -127,7 +127,7 @@ export class DataTable extends Component {
   }
 
   async getSortingOrder(): Promise<string> {
-    const str = await this.getSortedColumnHeader().element(by.xpath('..')).getAttribute('class');
+    const str = await this.getSortedColumnHeader().element(by.xpath('../..')).getAttribute('class');
     if (str.includes('asc')) {
       return 'asc';
     }
