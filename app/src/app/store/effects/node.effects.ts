@@ -357,7 +357,7 @@ export class NodeEffects {
               .pipe(take(1))
               .subscribe((selection) => {
                 if (selection && !selection.isEmpty) {
-                  this.contentService.manageSecurityMarks(selection[0]);
+                  this.contentService.manageSecurityMarks(selection.nodes[0]);
                 }
               });
           }
