@@ -356,8 +356,8 @@ export class NodeEffects {
               .select(getAppSelection)
               .pipe(take(1))
               .subscribe((selection) => {
-                if (selection && selection.file) {
-                  this.contentService.manageSecurityMarks(selection.file);
+                if (selection && !selection.isEmpty) {
+                  this.contentService.manageSecurityMarks(selection[0]);
                 }
               });
           }
