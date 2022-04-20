@@ -1,17 +1,47 @@
-  table{
-    border-spacing: 20px 20px;
-    }
-  
-  td:hover {background-color: rgb(162, 220, 235);}
-  
-  td{
-    background-color:adjust-hue($color: #e9f1f3, $degrees: 0);
-    padding-left: 10px;
-    padding-right: 10px;
-    border-radius: 10px;
+.div-title {
+  width: 85%;
+  vertical-align: top;
+  display: inline-block;
+  font-weight: bold;
+}
+
+.div-button {
+  vertical-align: top;
+  display: inline-block;
+  width: 15%;  
+}
+
+.div-table{
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+table{
+  border-spacing: 20px 20px;
+}
+
+td:hover {background-color: rgb(162, 220, 235);}
+
+td{
+  background-color:adjust-hue($color: #e9f1f3, $degrees: 0);
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 10px;
+  font-weight: bold;
+  padding: 8px;
+}
+
+hr{
+  background-color:adjust-hue($color: #D3D3D3, $degrees: 0);
+}
+
+.mat-dialog-actions {
+  padding: 8px 22px;
+  display: flex;
+  justify-content: flex-end;
+  color: var(--theme-secondary-text-color);
+  button {
+    text-transform: uppercase;
+    font-weight: normal;
   }
-  
-  hr{
-    background-color:adjust-hue($color: #e1f2f7, $degrees: 0);
-  }
-  
+}

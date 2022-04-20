@@ -598,5 +598,11 @@
             "BOOKS-24PX": "file library",
             "BASELINE-LOCK-24PX": "locked file"
         }
+    },
+    "SECURITY_MARKS" :{
+        "SAVE": "Save",
+        "CANCEL": "Cancel",
+        "HELP": "Help",
+        "CLOSE": "Close"
     }
 }

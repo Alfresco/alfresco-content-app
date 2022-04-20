@@ -1,34 +1,30 @@
-<header mat-dialog-title>{{ data.title | translate }}</header>
+<div>
+  <div mat-dialog-title class="div-title ">{{ data.title | translate }} </div>
+  <div class ="div-button">
+    <button mat-icon-button  title="{{ 'SECURITY_MARKS.HELP' | translate}}" >
+      <mat-icon >help</mat-icon>
+   </button>
+   <button mat-icon-button mat-dialog-close  title="{{ 'SECURITY_MARKS.CLOSE' | translate}}">
+      <mat-icon >close</mat-icon>
+   </button>
+  </div>
+</div>
 
-<div><hr></div>
-<div *ngFor ="let group of map | keyvalue">
-<p ><b>{{ group.key.groupName }} (  {{ group.key.groupType }} )</b></p>
-
-<table >
-  <tr >
-    <td *ngFor ="let marks of group.value"  class ="hover" (click)="selectMarks(marks.name, group.key.groupName)"> {{marks.name}}</td>
-  </tr>
-</table>
- <hr>
+<div *ngFor ="let group of map | keyvalue" class="div-table">
+  <hr>
+  <p>{{ group.key.groupName }} (  {{ group.key.groupType }} )</p>
+  <table>
+     <tr>
+        <td *ngFor ="let marks of group.value"  (click)="selectMarks(marks.name, group.key.groupName)"> {{marks.name}}</td>
+     </tr>
+  </table>
 </div>
 
 <footer mat-dialog-actions>
-  <button mat-button mat-dialog-close
-  (click)="handleCancel()">
-      <!-- {{ 'ADD_MEMBER.CANCEL_ACTION' | translate }} -->
-      Cancel
+  <button mat-button mat-dialog-close>
+    {{ 'SECURITY_MARKS.CANCEL' | translate}}
   </button>
-  <button
-      mat-button
-      color="primary"
-      [disabled]="false">
-      Save
+  <button mat-button color="primary" class="save" >
+    {{ 'SECURITY_MARKS.SAVE' | translate }}
   </button>
 </footer>
-
-
-
-
-
-
-
