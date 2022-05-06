@@ -15,16 +15,16 @@
   <p>{{ group.key.groupName }} (  {{ group.key.groupType }} )</p>
   <table>
      <tr>
-        <td *ngFor ="let marks of group.value"  (click)="selectMarks(marks.name, group.key.groupName)"> {{marks.name}}</td>
+        <td *ngFor ="let marks of group.value" (click)="manageSecurityMarksList(marks.id, group.key.id)"> {{marks.name}}</td>
      </tr>
   </table>
 </div>
 
 <footer mat-dialog-actions>
-  <button mat-button mat-dialog-close>
+  <button mat-button mat-dialog-close (click)="handleCancel()">
     {{ 'SECURITY_MARKS.CANCEL' | translate}}
   </button>
-  <button mat-button color="primary" class="save" >
+  <button mat-button color="primary" class="save" (click)="onSave()">
     {{ 'SECURITY_MARKS.SAVE' | translate }}
   </button>
 </footer>

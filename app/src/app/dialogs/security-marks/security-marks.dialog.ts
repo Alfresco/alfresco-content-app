@@ -23,13 +23,15 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { SecurityGroup, SecurityMark } from '@alfresco/js-api';
+import { SecurityGroup, SecurityMark, NodeSecurityMarkBody } from '@alfresco/js-api';
 import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { SecurityMarkResponse } from './security-mark-response.interface';
 import { SecurityMarksService } from './security-marks.service';
 
 export interface SecurityMarksDialogData {
   title: string;
+  nodeId: string;
 }
 
 @Component({
@@ -37,29 +39,100 @@ export interface SecurityMarksDialogData {
   styleUrls: ['./security-marks.dialog.scss'],
   encapsulation: ViewEncapsulation.None
 })
-
 export class SecurityMarksDialogComponent {
-  private dialogRef: MatDialogRef<SecurityMarksDialogComponent>
   map = new Map<SecurityGroup, SecurityMark[]>();
+  existingGroupAndMarksMap = new Map<string, Map<string, string>>();
+  newGroupAndMarkMap = new Map<string, Map<string, NodeSecurityMarkBody>>();
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: SecurityMarksDialogData,
-    private securityMarksService: SecurityMarksService
+    private securityMarksService: SecurityMarksService,
+    private dialogRef: MatDialogRef<SecurityMarksDialogComponent>,
   ) {}
 
   ngOnInit(){
     this.getData();
+    this.getSecurityMarksOnNode();
+  }
+
+  handleCancel() {
+    this.map.clear();
+    this.newGroupAndMarkMap.clear();
+    this.existingGroupAndMarksMap.clear();
   }
 
   getData(){
     this.map = this.securityMarksService.securityDataMap;
   }
 
-  selectMarks(ab, cd){
-    console.log(ab + "   "+ cd);
+  manageSecurityMarksList(securityMarkId: string, securityGroupId: string){
+    let securityMarkMap: Map<string, NodeSecurityMarkBody> =
+      this.newGroupAndMarkMap.get(securityGroupId);
+
+    if(securityMarkMap == null || securityMarkMap.size == 0){
+      securityMarkMap = new Map<string, NodeSecurityMarkBody>();
+      if(this.existingGroupAndMarksMap.get(securityGroupId)?.has(securityMarkId)){
+        securityMarkMap.set(securityMarkId,
+          {id: securityMarkId, groupId: securityGroupId, op: 'REMOVE'} as NodeSecurityMarkBody);
+      }
+      else{
+        securityMarkMap.set(securityMarkId,
+          {id: securityMarkId, groupId: securityGroupId, op: 'ADD'} as NodeSecurityMarkBody);
+      }
+      this.newGroupAndMarkMap.set(securityGroupId, securityMarkMap);
+    } else {
+      if(securityMarkMap.has(securityMarkId)){
+        securityMarkMap.delete(securityMarkId);
+
+        if(this.newGroupAndMarkMap.get(securityGroupId)?.size == 0){
+          this.newGroupAndMarkMap.delete(securityGroupId);
+        }
+      }
+      else{
+        if(this.existingGroupAndMarksMap.get(securityGroupId)?.has(securityMarkId)){
+          securityMarkMap.set(securityMarkId,
+            {id: securityMarkId, groupId: securityGroupId, op: 'REMOVE'} as NodeSecurityMarkBody)
+          this.newGroupAndMarkMap.set(securityGroupId, securityMarkMap);
+        }
+        else{
+          securityMarkMap.set(securityMarkId,
+            {id: securityMarkId, groupId: securityGroupId, op: 'ADD'} as NodeSecurityMarkBody)
+          this.newGroupAndMarkMap.set(securityGroupId, securityMarkMap);
+        }
+      }
+    }
+    console.log(this.newGroupAndMarkMap)
   }
 
-  handleCancel() {
+  onSave() {
+    var array: Array<NodeSecurityMarkBody> = [];
+    this.newGroupAndMarkMap.forEach(function(value,key){
+      value.forEach((securityMarkBody: NodeSecurityMarkBody) =>
+        array.push(securityMarkBody))
+      });
+
+    if(array.length > 0){
+      this.securityMarksService.onSave(this.data.nodeId, array);
+    }
+
     this.dialogRef.close();
+  }
+
+  getSecurityMarksOnNode(){
+    this.existingGroupAndMarksMap.clear();
+    this.securityMarksService
+      .getNodeSecurityMarks(this.data.nodeId)
+      .then((securityMarkResponse: SecurityMarkResponse) => {
+        securityMarkResponse.entries
+          .forEach((securityMark: SecurityMark) => {
+            let securityMarkMap: Map<string, string>
+              = this.existingGroupAndMarksMap.get(securityMark.groupId);
+            securityMarkMap =
+              (securityMarkMap == null || securityMarkMap.size == 0)
+                ? new Map<string, string>() : securityMarkMap;
+            securityMarkMap.set(securityMark.id, '');
+            this.existingGroupAndMarksMap.set(securityMark.groupId, securityMarkMap);
+          })
+    });
   }
 }

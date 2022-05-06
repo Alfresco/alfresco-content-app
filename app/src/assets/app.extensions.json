@@ -129,7 +129,12 @@
       {
         "id": "adf:move_file",
         "value": "./assets/images/adf-move-file-24px.svg"
+      },
+      {
+        "id": "adf:security_mark",
+        "value": "./assets/images/security-marks.svg"
       }
+
     ],
     "create": [
       {
@@ -729,6 +734,15 @@
         },
         "rules": {
           "visible": "app.selection.canDelete"
+        }
+      },
+      {
+        "id": "app.context.record.menu.securityMarks",
+        "title": "SECURITY_MARKS.TITLE",
+        "order": 930,
+        "icon": "adf:security_mark",
+        "actions": {
+          "click": "MANAGE_SECURITY_MARKS"
         }
       },
       {

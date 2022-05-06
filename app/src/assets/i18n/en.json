@@ -603,6 +603,7 @@
         "SAVE": "Save",
         "CANCEL": "Cancel",
         "HELP": "Help",
-        "CLOSE": "Close"
+        "CLOSE": "Close",
+        "TITLE": "Security Marks"
     }
 }

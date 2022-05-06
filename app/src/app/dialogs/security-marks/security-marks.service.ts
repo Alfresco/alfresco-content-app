@@ -30,22 +30,24 @@ import { SecurityGroup,
   SecurityMark,
   SecurityMarkEntry,
   SecurityMarkPaging,
-  SecurityMarksApi } from '@alfresco/js-api';
+  SecurityMarksApi,
+  NodeSecurityMarksApi,
+  NodeSecurityMarkBody} from '@alfresco/js-api';
 import { SecurityGroupResponse } from './security-group-response.interface';
 import { SecurityMarkResponse } from './security-mark-response.interface';
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { Injectable } from '@angular/core';
 
-const DEFAULT_MAX_GROUPS = 10;
-const DEFAULT_SKIP_COUNT = 0;
 const DEFAULT_INCLUDE = 'inUse';
 
 @Injectable({ providedIn: 'root' })
 export class SecurityMarksService {
   private securityGroup: SecurityGroupsApi;
   private securityMark: SecurityMarksApi;
+  private nodeSecurityMark: NodeSecurityMarksApi;
+  securityMarkResponse: SecurityMarkResponse;
 
-  map=new Map<SecurityGroup, SecurityMark[]>();
+  mapOfSecurityGroupAndMark = new Map<SecurityGroup, SecurityMark[]>();
 
   constructor(
     private apiService: AlfrescoApiService
@@ -53,13 +55,26 @@ export class SecurityMarksService {
 
   get securityDataMap(){
     this.getSecurityGroup().then((data) => this.getSecurityMarks(data.entries));
-    return this.map;
+    return this.mapOfSecurityGroupAndMark;
   }
 
   getSecurityMarks(groups : SecurityGroup[]){
     groups.forEach(
-      group => this.getSecurityMark(group.id)
-     .then(marks => { this.map.set(group, marks.entries); console.log(this.map); }));
+      group =>
+        this.getSecurityMark(group.id)
+          .then(marks => {
+              this.mapOfSecurityGroupAndMark.set(group, marks.entries)})
+    );
+    console.log(this.mapOfSecurityGroupAndMark)
+  }
+
+  get nodeMarksApi() {
+    return (
+        this.nodeSecurityMark ||
+        (this.nodeSecurityMark = new NodeSecurityMarksApi(
+            this.apiService.getInstance()
+        ))
+    );
   }
 
   get groupsApi() {
@@ -81,24 +96,18 @@ export class SecurityMarksService {
   }
 
   getSecurityGroup(
-    include = DEFAULT_INCLUDE,
-    skipCount = DEFAULT_SKIP_COUNT,
-    maxItems = DEFAULT_MAX_GROUPS
   ): Promise<SecurityGroupResponse> {
     let securityGroupResponse: SecurityGroupResponse;
     return new Promise((resolve, reject) => {
         this.groupsApi
             .getSecurityGroups({
-                include,
-                skipCount,
-                maxItems,
+              DEFAULT_INCLUDE
             })
             .then((response: SecurityGroupPaging) => {
                         securityGroupResponse = {
-                        entries: response.list.entries.map(
-                            (group: SecurityGroupEntry) => group.entry
-                        ),
-                    }
+                          entries: response.list.entries.map(
+                            (group: SecurityGroupEntry) => group.entry)
+                        }
                 resolve(securityGroupResponse);
             })
             .catch((error) => {
@@ -109,25 +118,54 @@ export class SecurityMarksService {
 
   getSecurityMark(
     SecurityGroupId: string,
-    include = DEFAULT_INCLUDE,
-    skipCount = DEFAULT_SKIP_COUNT,
-    maxItems = DEFAULT_MAX_GROUPS
+    include = DEFAULT_INCLUDE
   ): Promise<SecurityMarkResponse> {
     let securityMarkResponse: SecurityMarkResponse;
     return new Promise((resolve, reject) => {
       this.marksApi
           .getSecurityMarks(SecurityGroupId, {
-              include,
-              skipCount,
-              maxItems,
+              include
           })
           .then((response: SecurityMarkPaging) => {
-                  (securityMarkResponse = {
+                  securityMarkResponse = {
                       entries: response.list.entries.map(
-                          (mark: SecurityMarkEntry) => mark.entry
-                      ),
-                  })
-              resolve(securityMarkResponse);
+                        (mark: SecurityMarkEntry) => mark.entry)
+                  }
+                  resolve(securityMarkResponse);
+          })
+          .catch((error) => {
+              reject(error);
+          });
+    });
+  }
+
+  onSave(nodeId: string,
+    array: Array<NodeSecurityMarkBody>
+  ) {
+    return new Promise((resolve, reject) => {
+      this.nodeMarksApi
+          .manageSecurityMarksOnNode(nodeId, array)
+          .then(response => {
+            resolve(response);
+          })
+          .catch((error) => {
+              reject(error);
+          });
+    });
+  }
+
+  getNodeSecurityMarks(nodeId: string,
+    include = DEFAULT_INCLUDE): Promise<SecurityMarkResponse>{
+    let securityMarkResponse: SecurityMarkResponse;
+    return new Promise((resolve, reject) => {
+      this.nodeMarksApi
+          .getSecurityMarksOnNode(nodeId, {include})
+          .then((response: SecurityMarkPaging) => {
+            securityMarkResponse = {
+              entries: response.list.entries.map(
+                (mark: SecurityMarkEntry) => mark.entry)
+            }
+            resolve(securityMarkResponse);
           })
           .catch((error) => {
               reject(error);

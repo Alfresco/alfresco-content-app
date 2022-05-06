@@ -582,7 +582,7 @@ export class ContentManagementService {
   private openSecurityMarksManagerDialog(node: any) {
     if (node.isFile || node.id) {
       this.dialogRef.open(SecurityMarksDialogComponent, {
-        data: { title: 'Edit Security Marks' } as SecurityMarksDialogData,
+        data: { title: 'Edit Security Marks', nodeId: node.id } as SecurityMarksDialogData,
         panelClass: 'adf-security-marks-manager-dialog-panel',
         width: '600px'
       });
