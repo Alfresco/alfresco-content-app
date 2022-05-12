@@ -8,7 +8,7 @@
 .div-button {
   vertical-align: top;
   display: inline-block;
-  width: 15%;  
+  width: 15%;
 }
 
 .div-table{
@@ -18,6 +18,14 @@
 
 table{
   border-spacing: 20px 20px;
+}
+
+.marksChanged {background-color: rgb(147, 200, 231);}
+.existingMarks {background-color: rgb(116, 223, 134);}
+
+.divScroll {
+  height: 600px;
+  overflow: scroll;
 }
 
 td:hover {background-color: rgb(162, 220, 235);}

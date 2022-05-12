@@ -28,7 +28,6 @@ import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SecurityMarkResponse } from './security-mark-response.interface';
 import { SecurityMarksService } from './security-marks.service';
-
 export interface SecurityMarksDialogData {
   title: string;
   nodeId: string;
@@ -40,14 +39,14 @@ export interface SecurityMarksDialogData {
   encapsulation: ViewEncapsulation.None
 })
 export class SecurityMarksDialogComponent {
-  map = new Map<SecurityGroup, SecurityMark[]>();
-  existingGroupAndMarksMap = new Map<string, Map<string, string>>();
+  availableGroupAndMarkMap = new Map<SecurityGroup, SecurityMark[]>();
+  existingGroupAndMarkOnNodeMap = new Map<string, Map<string, string>>();
   newGroupAndMarkMap = new Map<string, Map<string, NodeSecurityMarkBody>>();
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: SecurityMarksDialogData,
     private securityMarksService: SecurityMarksService,
-    private dialogRef: MatDialogRef<SecurityMarksDialogComponent>,
+    private dialogRef: MatDialogRef<SecurityMarksDialogComponent>
   ) {}
 
   ngOnInit(){
@@ -56,13 +55,13 @@ export class SecurityMarksDialogComponent {
   }
 
   handleCancel() {
-    this.map.clear();
+    this.availableGroupAndMarkMap.clear();
     this.newGroupAndMarkMap.clear();
-    this.existingGroupAndMarksMap.clear();
+    this.existingGroupAndMarkOnNodeMap.clear();
   }
 
   getData(){
-    this.map = this.securityMarksService.securityDataMap;
+    this.availableGroupAndMarkMap = this.securityMarksService.securityDataMap;
   }
 
   manageSecurityMarksList(securityMarkId: string, securityGroupId: string){
@@ -71,13 +70,15 @@ export class SecurityMarksDialogComponent {
 
     if(securityMarkMap == null || securityMarkMap.size == 0){
       securityMarkMap = new Map<string, NodeSecurityMarkBody>();
-      if(this.existingGroupAndMarksMap.get(securityGroupId)?.has(securityMarkId)){
+      if(this.existingGroupAndMarkOnNodeMap.get(securityGroupId)?.has(securityMarkId)){
         securityMarkMap.set(securityMarkId,
-          {id: securityMarkId, groupId: securityGroupId, op: 'REMOVE'} as NodeSecurityMarkBody);
+          {id: securityMarkId, groupId: securityGroupId,
+            op: 'REMOVE'} as NodeSecurityMarkBody);
       }
       else{
         securityMarkMap.set(securityMarkId,
-          {id: securityMarkId, groupId: securityGroupId, op: 'ADD'} as NodeSecurityMarkBody);
+          {id: securityMarkId, groupId: securityGroupId,
+            op: 'ADD'} as NodeSecurityMarkBody);
       }
       this.newGroupAndMarkMap.set(securityGroupId, securityMarkMap);
     } else {
@@ -89,24 +90,26 @@ export class SecurityMarksDialogComponent {
         }
       }
       else{
-        if(this.existingGroupAndMarksMap.get(securityGroupId)?.has(securityMarkId)){
+        if(this.existingGroupAndMarkOnNodeMap.get(securityGroupId)?.has(securityMarkId)){
           securityMarkMap.set(securityMarkId,
-            {id: securityMarkId, groupId: securityGroupId, op: 'REMOVE'} as NodeSecurityMarkBody)
+            {id: securityMarkId, groupId: securityGroupId,
+              op: 'REMOVE'} as NodeSecurityMarkBody)
           this.newGroupAndMarkMap.set(securityGroupId, securityMarkMap);
         }
         else{
           securityMarkMap.set(securityMarkId,
-            {id: securityMarkId, groupId: securityGroupId, op: 'ADD'} as NodeSecurityMarkBody)
+            {id: securityMarkId, groupId: securityGroupId,
+              op: 'ADD'} as NodeSecurityMarkBody)
           this.newGroupAndMarkMap.set(securityGroupId, securityMarkMap);
         }
       }
     }
-    console.log(this.newGroupAndMarkMap)
+    console.log(this.existingGroupAndMarkOnNodeMap)
   }
 
   onSave() {
     var array: Array<NodeSecurityMarkBody> = [];
-    this.newGroupAndMarkMap.forEach(function(value,key){
+    this.newGroupAndMarkMap.forEach(function(value){
       value.forEach((securityMarkBody: NodeSecurityMarkBody) =>
         array.push(securityMarkBody))
       });
@@ -119,20 +122,30 @@ export class SecurityMarksDialogComponent {
   }
 
   getSecurityMarksOnNode(){
-    this.existingGroupAndMarksMap.clear();
+    this.existingGroupAndMarkOnNodeMap.clear();
     this.securityMarksService
       .getNodeSecurityMarks(this.data.nodeId)
       .then((securityMarkResponse: SecurityMarkResponse) => {
         securityMarkResponse.entries
           .forEach((securityMark: SecurityMark) => {
             let securityMarkMap: Map<string, string>
-              = this.existingGroupAndMarksMap.get(securityMark.groupId);
+              = this.existingGroupAndMarkOnNodeMap.get(securityMark.groupId);
             securityMarkMap =
               (securityMarkMap == null || securityMarkMap.size == 0)
                 ? new Map<string, string>() : securityMarkMap;
-            securityMarkMap.set(securityMark.id, '');
-            this.existingGroupAndMarksMap.set(securityMark.groupId, securityMarkMap);
+            securityMarkMap.set(securityMark.id, securityMark.name);
+            this.existingGroupAndMarkOnNodeMap.set(securityMark.groupId, securityMarkMap);
           })
     });
+  }
+
+  isSelected(securityMarkId: string, securityGroupId: string): string{
+    if(this.newGroupAndMarkMap.get(securityGroupId)?.has(securityMarkId)){
+      return 'marksChanged';
+    }
+    else if(this.existingGroupAndMarkOnNodeMap.get(securityGroupId)?.has(securityMarkId)){
+      return 'existingMarks';
+    }
+    return 'noChange';
   }
 }

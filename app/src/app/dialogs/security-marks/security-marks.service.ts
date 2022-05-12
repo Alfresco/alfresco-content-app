@@ -45,28 +45,11 @@ export class SecurityMarksService {
   private securityGroup: SecurityGroupsApi;
   private securityMark: SecurityMarksApi;
   private nodeSecurityMark: NodeSecurityMarksApi;
-  securityMarkResponse: SecurityMarkResponse;
-
-  mapOfSecurityGroupAndMark = new Map<SecurityGroup, SecurityMark[]>();
+  private mapOfSecurityGroupAndMark = new Map<SecurityGroup, SecurityMark[]>();
 
   constructor(
     private apiService: AlfrescoApiService
   ) {}
-
-  get securityDataMap(){
-    this.getSecurityGroup().then((data) => this.getSecurityMarks(data.entries));
-    return this.mapOfSecurityGroupAndMark;
-  }
-
-  getSecurityMarks(groups : SecurityGroup[]){
-    groups.forEach(
-      group =>
-        this.getSecurityMark(group.id)
-          .then(marks => {
-              this.mapOfSecurityGroupAndMark.set(group, marks.entries)})
-    );
-    console.log(this.mapOfSecurityGroupAndMark)
-  }
 
   get nodeMarksApi() {
     return (
@@ -86,6 +69,23 @@ export class SecurityMarksService {
     );
   }
 
+  get securityDataMap(){
+    this.getSecurityGroup()
+        .then((data) =>
+          this.getSecurityMarks(data.entries));
+
+    return this.mapOfSecurityGroupAndMark;
+  }
+
+  getSecurityMarks(groups : SecurityGroup[]){
+    groups.forEach(
+      group =>
+        this.getSecurityMark(group.id)
+          .then(marks => {
+            this.mapOfSecurityGroupAndMark.set(group, marks.entries)})
+    );
+  }
+
   get marksApi() {
     return (
         this.securityMark ||
@@ -95,8 +95,7 @@ export class SecurityMarksService {
     );
   }
 
-  getSecurityGroup(
-  ): Promise<SecurityGroupResponse> {
+  getSecurityGroup(): Promise<SecurityGroupResponse> {
     let securityGroupResponse: SecurityGroupResponse;
     return new Promise((resolve, reject) => {
         this.groupsApi
@@ -139,9 +138,7 @@ export class SecurityMarksService {
     });
   }
 
-  onSave(nodeId: string,
-    array: Array<NodeSecurityMarkBody>
-  ) {
+  onSave(nodeId: string, array: Array<NodeSecurityMarkBody>) {
     return new Promise((resolve, reject) => {
       this.nodeMarksApi
           .manageSecurityMarksOnNode(nodeId, array)

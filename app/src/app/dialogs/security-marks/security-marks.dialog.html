@@ -10,14 +10,19 @@
   </div>
 </div>
 
-<div *ngFor ="let group of map | keyvalue" class="div-table">
-  <hr>
-  <p>{{ group.key.groupName }} (  {{ group.key.groupType }} )</p>
-  <table>
-     <tr>
-        <td *ngFor ="let marks of group.value" (click)="manageSecurityMarksList(marks.id, group.key.id)"> {{marks.name}}</td>
-     </tr>
-  </table>
+<div class="divScroll">
+  <div *ngFor ="let group of availableGroupAndMarkMap | keyvalue" class="div-table">
+    <hr>
+    <p>{{ group.key.groupName }} (  {{ group.key.groupType }} )</p>
+    <table>
+      <tr>
+        <ng-container *ngFor ="let marks of group.value">
+          <td (click)="manageSecurityMarksList(marks.id, group.key.id)"
+              [class]="isSelected(marks.id, group.key.id)">{{marks.name}}</td>
+        </ng-container>
+      </tr>
+    </table>
+  </div>
 </div>
 
 <footer mat-dialog-actions>
