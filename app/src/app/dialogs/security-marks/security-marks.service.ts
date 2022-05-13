@@ -78,6 +78,7 @@ export class SecurityMarksService {
   }
 
   getSecurityMarks(groups : SecurityGroup[]){
+    this.mapOfSecurityGroupAndMark.clear();
     groups.forEach(
       group =>
         this.getSecurityMark(group.id)

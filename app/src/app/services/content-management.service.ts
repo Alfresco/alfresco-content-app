@@ -587,7 +587,7 @@ export class ContentManagementService {
         width: '600px'
       });
     } else {
-      this.store.dispatch(new SnackbarErrorAction('APP.MESSAGES.ERRORS.PERMISSION'));
+      this.store.dispatch(new SnackbarErrorAction('APP.MESSAGES.ERRORS.FETCH_SECURITY_MARKS'));
     }
   }
 

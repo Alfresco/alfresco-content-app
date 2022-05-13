@@ -275,6 +275,7 @@
                 "NODE_RESTORE": "{{ name }} couldn't be restored",
                 "NODE_RESTORE_PLURAL": "{{ number }} items couldn't be restored",
                 "PERMISSION": "You don't have access to do this",
+                "FETCH_SECURITY_MARKS": "Error while fetching security marks",
                 "LOCK_NODE": "There was a problem locking the {{ fileName }} file",
                 "UNLOCK_NODE": "There was a problem unlocking the {{ fileName }} file",
                 "TRASH": {

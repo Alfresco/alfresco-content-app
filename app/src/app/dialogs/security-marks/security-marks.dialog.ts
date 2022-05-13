@@ -39,9 +39,28 @@ export interface SecurityMarksDialogData {
   encapsulation: ViewEncapsulation.None
 })
 export class SecurityMarksDialogComponent {
+  /*
+    this map stores the security group/s and mark/s
+    which are available for that particular user
+  */
   availableGroupAndMarkMap = new Map<SecurityGroup, SecurityMark[]>();
-  existingGroupAndMarkOnNodeMap = new Map<string, Map<string, string>>();
-  newGroupAndMarkMap = new Map<string, Map<string, NodeSecurityMarkBody>>();
+
+  /*
+    this map stores the security group/s and mark/s
+    which are assigned on that specific node
+    key : security group id
+    value : Set<security mark id>
+  */
+  assignedGroupAndMarkOnNodeMap = new Map<string, Set<string>>();
+
+  /*
+    this map stores the security group/s and mark/s on
+    which the user has clicked to add or remove the
+    security mark
+    key : security group id
+    value : Map<security mark id, NodeSecurityMarkBody>
+  */
+  newlySelectedGroupAndMarkMap = new Map<string, Map<string, NodeSecurityMarkBody>>();
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: SecurityMarksDialogData,
@@ -50,66 +69,83 @@ export class SecurityMarksDialogComponent {
   ) {}
 
   ngOnInit(){
-    this.getData();
-    this.getSecurityMarksOnNode();
+    this.getDialogData();
+    this.getSecurityMarksAssignedOnNode();
   }
 
   handleCancel() {
     this.availableGroupAndMarkMap.clear();
-    this.newGroupAndMarkMap.clear();
-    this.existingGroupAndMarkOnNodeMap.clear();
+    this.newlySelectedGroupAndMarkMap.clear();
+    this.assignedGroupAndMarkOnNodeMap.clear();
   }
 
-  getData(){
+  getDialogData(){
     this.availableGroupAndMarkMap = this.securityMarksService.securityDataMap;
   }
 
+  /*
+    this method is called whenever user clicks on the security
+    marks in the dialog box. This method further compares the data with
+    the already assigned security marks map (assignedGroupAndMarkOnNodeMap)
+    and then decide whether to add or remove that mark from that node
+  */
   manageSecurityMarksList(securityMarkId: string, securityGroupId: string){
     let securityMarkMap: Map<string, NodeSecurityMarkBody> =
-      this.newGroupAndMarkMap.get(securityGroupId);
+      this.newlySelectedGroupAndMarkMap.get(securityGroupId);
 
-    if(securityMarkMap == null || securityMarkMap.size == 0){
-      securityMarkMap = new Map<string, NodeSecurityMarkBody>();
-      if(this.existingGroupAndMarkOnNodeMap.get(securityGroupId)?.has(securityMarkId)){
-        securityMarkMap.set(securityMarkId,
-          {id: securityMarkId, groupId: securityGroupId,
-            op: 'REMOVE'} as NodeSecurityMarkBody);
-      }
-      else{
-        securityMarkMap.set(securityMarkId,
-          {id: securityMarkId, groupId: securityGroupId,
-            op: 'ADD'} as NodeSecurityMarkBody);
-      }
-      this.newGroupAndMarkMap.set(securityGroupId, securityMarkMap);
-    } else {
-      if(securityMarkMap.has(securityMarkId)){
-        securityMarkMap.delete(securityMarkId);
-
-        if(this.newGroupAndMarkMap.get(securityGroupId)?.size == 0){
-          this.newGroupAndMarkMap.delete(securityGroupId);
-        }
-      }
-      else{
-        if(this.existingGroupAndMarkOnNodeMap.get(securityGroupId)?.has(securityMarkId)){
-          securityMarkMap.set(securityMarkId,
-            {id: securityMarkId, groupId: securityGroupId,
-              op: 'REMOVE'} as NodeSecurityMarkBody)
-          this.newGroupAndMarkMap.set(securityGroupId, securityMarkMap);
-        }
-        else{
-          securityMarkMap.set(securityMarkId,
-            {id: securityMarkId, groupId: securityGroupId,
-              op: 'ADD'} as NodeSecurityMarkBody)
-          this.newGroupAndMarkMap.set(securityGroupId, securityMarkMap);
-        }
-      }
+    if(securityMarkMap != null && securityMarkMap.has(securityMarkId)){
+      this.sameSecurityMarkSelectedEventHandler(
+        securityMarkMap, securityMarkId, securityGroupId);
     }
-    console.log(this.existingGroupAndMarkOnNodeMap)
+    else {
+      securityMarkMap = securityMarkMap == null ?
+        new Map<string, NodeSecurityMarkBody>() : securityMarkMap;
+
+        this.manageSecurityMarkEventHandler(
+          securityMarkMap, securityMarkId, securityGroupId);
+    }
+  }
+
+  private sameSecurityMarkSelectedEventHandler(
+    securityMarkMap: Map<string, NodeSecurityMarkBody>,
+    securityMarkId: string, securityGroupId: string) {
+
+    securityMarkMap.delete(securityMarkId);
+
+    if(this.newlySelectedGroupAndMarkMap.get(securityGroupId)?.size == 0){
+      this.newlySelectedGroupAndMarkMap.delete(securityGroupId);
+    }
+  }
+
+  private manageSecurityMarkEventHandler(
+    securityMarkMap: Map<string, NodeSecurityMarkBody>,
+    securityMarkId: string, securityGroupId: string) {
+
+    if(this.assignedGroupAndMarkOnNodeMap.get(securityGroupId)?.has(securityMarkId)) {
+      this.setPayloadBasedOnOperation(securityMarkMap,
+        securityMarkId, securityGroupId, 'REMOVE');
+    }
+    else {
+      this.setPayloadBasedOnOperation(securityMarkMap,
+        securityMarkId, securityGroupId, 'ADD');
+    }
+
+    this.newlySelectedGroupAndMarkMap.set(securityGroupId, securityMarkMap);
+  }
+
+  private setPayloadBasedOnOperation(
+    securityMarkMap: Map<string, NodeSecurityMarkBody>,
+    securityMarkId: string, securityGroupId: string,
+    operation: string) {
+
+    securityMarkMap.set(securityMarkId,
+      {id: securityMarkId, groupId: securityGroupId,
+        op: operation} as NodeSecurityMarkBody);
   }
 
   onSave() {
     var array: Array<NodeSecurityMarkBody> = [];
-    this.newGroupAndMarkMap.forEach(function(value){
+    this.newlySelectedGroupAndMarkMap.forEach(function(value){
       value.forEach((securityMarkBody: NodeSecurityMarkBody) =>
         array.push(securityMarkBody))
       });
@@ -121,31 +157,41 @@ export class SecurityMarksDialogComponent {
     this.dialogRef.close();
   }
 
-  getSecurityMarksOnNode(){
-    this.existingGroupAndMarkOnNodeMap.clear();
+  getSecurityMarksAssignedOnNode(){
+    this.assignedGroupAndMarkOnNodeMap.clear();
     this.securityMarksService
       .getNodeSecurityMarks(this.data.nodeId)
       .then((securityMarkResponse: SecurityMarkResponse) => {
         securityMarkResponse.entries
           .forEach((securityMark: SecurityMark) => {
-            let securityMarkMap: Map<string, string>
-              = this.existingGroupAndMarkOnNodeMap.get(securityMark.groupId);
-            securityMarkMap =
-              (securityMarkMap == null || securityMarkMap.size == 0)
-                ? new Map<string, string>() : securityMarkMap;
-            securityMarkMap.set(securityMark.id, securityMark.name);
-            this.existingGroupAndMarkOnNodeMap.set(securityMark.groupId, securityMarkMap);
+            let securityMarkSet: Set<string>
+              = this.assignedGroupAndMarkOnNodeMap.get(securityMark.groupId);
+            securityMarkSet = (securityMarkSet == null || securityMarkSet.size == 0)
+                ? new Set<string>() : securityMarkSet;
+            securityMarkSet.add(securityMark.id);
+            this.assignedGroupAndMarkOnNodeMap.set(securityMark.groupId, securityMarkSet);
           })
     });
   }
 
-  isSelected(securityMarkId: string, securityGroupId: string): string{
-    if(this.newGroupAndMarkMap.get(securityGroupId)?.has(securityMarkId)){
-      return 'marksChanged';
+  /*
+    this method decides the background color of
+    the security mark/s like for assigned marks,
+    unassigned marks, selected marks to add/remove
+  */
+  setBackgroundColorForSecurityMark(
+    securityMarkId: string, securityGroupId: string): string{
+
+    if(this.newlySelectedGroupAndMarkMap.get(securityGroupId)?.has(securityMarkId)){
+      return 'selectedMarks';
     }
-    else if(this.existingGroupAndMarkOnNodeMap.get(securityGroupId)?.has(securityMarkId)){
-      return 'existingMarks';
+    else if(this.assignedGroupAndMarkOnNodeMap.get(securityGroupId)?.has(securityMarkId)){
+      return 'assignedMarks';
     }
-    return 'noChange';
+    return 'unAssignedMarks';
+  }
+
+  isSaveButtonDisabled(): boolean{
+    return this.newlySelectedGroupAndMarkMap.size == 0;
   }
 }

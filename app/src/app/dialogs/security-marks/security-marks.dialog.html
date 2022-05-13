@@ -18,7 +18,7 @@
       <tr>
         <ng-container *ngFor ="let marks of group.value">
           <td (click)="manageSecurityMarksList(marks.id, group.key.id)"
-              [class]="isSelected(marks.id, group.key.id)">{{marks.name}}</td>
+              [class]="setBackgroundColorForSecurityMark(marks.id, group.key.id)">{{marks.name}}</td>
         </ng-container>
       </tr>
     </table>
@@ -29,7 +29,8 @@
   <button mat-button mat-dialog-close (click)="handleCancel()">
     {{ 'SECURITY_MARKS.CANCEL' | translate}}
   </button>
-  <button mat-button color="primary" class="save" (click)="onSave()">
-    {{ 'SECURITY_MARKS.SAVE' | translate }}
+  <button mat-button color="primary" class="save"
+    (click)="onSave()" [disabled]="isSaveButtonDisabled()">
+      {{ 'SECURITY_MARKS.SAVE' | translate }}
   </button>
 </footer>
