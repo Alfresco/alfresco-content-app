@@ -41,7 +41,10 @@ import {
   SetSelectedNodesAction,
   UnlockWriteAction,
   SnackbarActionTypes,
-  NodeActionTypes
+  NodeActionTypes,
+  ReloadDocumentListAction,
+  ViewNodeVersionAction,
+  ViewNodeExtras
 } from '@alfresco/aca-shared/store';
 import { map } from 'rxjs/operators';
 import { NodeEffects } from '../store/effects/node.effects';
@@ -54,7 +57,7 @@ import { TranslationService, AlfrescoApiService, FileModel } from '@alfresco/adf
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
 import { NodeEntry, Node, VersionPaging } from '@alfresco/js-api';
-import { NewVersionUploaderDataAction, NewVersionUploaderService, NodeAspectService } from '@alfresco/adf-content-services';
+import { NewVersionUploaderDataAction, NewVersionUploaderService, NodeAspectService, ViewVersion } from '@alfresco/adf-content-services';
 
 describe('ContentManagementService', () => {
   let dialog: MatDialog;
@@ -1470,7 +1473,7 @@ describe('ContentManagementService', () => {
       fakeFile = new FileModel({ name: 'file1.png', size: 10 } as File, null, 'file1');
       spyOn(contentApi, 'getNodeVersions').and.returnValue(of(fakeVersion));
       spyOnDispatch = spyOn(store, 'dispatch');
-      spyOnOpenUploadNewVersionDialog = spyOn(newVersionUploaderService, 'openUploadNewVersionDialog');
+      spyOnOpenUploadNewVersionDialog = spyOn(newVersionUploaderService, 'openUploadNewVersionDialog').and.returnValue(of({ action: 'test' }));
     });
 
     it('should open dialog with NewVersionUploaderService', () => {
@@ -1511,6 +1514,59 @@ describe('ContentManagementService', () => {
       contentManagementService.versionUpdateDialog(fakeNode, fakeFile);
       expect(spyOnDispatch).toHaveBeenCalledOnceWith(new SnackbarErrorAction(fakeError));
     });
+  });
+
+  describe('manageVersions', () => {
+    let fakeNodeIsFile;
+    let fakeNodeIsNotFile;
+    let spyOnOpenUploadNewVersionDialog: jasmine.Spy;
+    let spyOnDispatch: jasmine.Spy;
+
+    beforeEach(() => {
+      fakeNodeIsFile = { entry: { id: '1', name: 'name1', isFile: true } };
+      fakeNodeIsNotFile = { entry: { id: '2', name: 'name1', isFile: false } };
+      spyOnOpenUploadNewVersionDialog = spyOn(newVersionUploaderService, 'openUploadNewVersionDialog').and.returnValue(of({ action: 'test' }));
+      spyOnDispatch = spyOn(store, 'dispatch');
+    });
+
+    it('should call openUploadNewVersionDialog', () => {
+      contentManagementService.manageVersions(fakeNodeIsFile);
+      expect(spyOnOpenUploadNewVersionDialog).toHaveBeenCalledTimes(1);
+    });
+
+    it('should call openUploadNewVersionDialog passing dialog data', () => {
+      const expectedArgument = {
+        node: fakeNodeIsFile.entry,
+        showVersionsOnly: true,
+        title: 'VERSION.DIALOG.TITLE'
+      };
+      contentManagementService.manageVersions(fakeNodeIsFile);
+      expect(spyOnOpenUploadNewVersionDialog['calls'].argsFor(0)[0]).toEqual(expectedArgument);
+    });
+
+    it('should dispatch ReloadDocumentListAction if dialog emit refresh action', () => {
+      spyOnOpenUploadNewVersionDialog.and.returnValue(of({ action: NewVersionUploaderDataAction.refresh }));
+      contentManagementService.manageVersions(fakeNodeIsFile);
+      expect(spyOnDispatch).toHaveBeenCalledOnceWith(new ReloadDocumentListAction());
+    });
+
+    it('should dispatch ReloadDocumentListAction if dialog emit view action', () => {
+      const fakeVersionId = '1';
+      const fakeLocation: ViewNodeExtras = {
+        location: '/'
+      };
+      spyOnOpenUploadNewVersionDialog.and.returnValue(of({ action: NewVersionUploaderDataAction.view, versionId: fakeVersionId } as ViewVersion));
+      contentManagementService.manageVersions(fakeNodeIsFile);
+      expect(spyOnDispatch).toHaveBeenCalledOnceWith(new ViewNodeVersionAction(fakeNodeIsFile.entry.id, fakeVersionId, fakeLocation));
+    });
+
+    it('should show permission error is node is not a file and does not have nodeId', () => {
+      contentManagementService.manageVersions(fakeNodeIsNotFile);
+      expect(spyOnDispatch).toHaveBeenCalledOnceWith(new SnackbarErrorAction('APP.MESSAGES.ERRORS.PERMISSION'));
+    });
+
+
+
   });
 
   describe('editFolder', () => {
