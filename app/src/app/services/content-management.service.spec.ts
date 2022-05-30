@@ -1564,9 +1564,6 @@ describe('ContentManagementService', () => {
       contentManagementService.manageVersions(fakeNodeIsNotFile);
       expect(spyOnDispatch).toHaveBeenCalledOnceWith(new SnackbarErrorAction('APP.MESSAGES.ERRORS.PERMISSION'));
     });
-
-
-
   });
 
   describe('editFolder', () => {
