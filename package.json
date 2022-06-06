@@ -84,7 +84,7 @@
     "connect-history-api-fallback": "^1.6.0",
     "cspell": "^5.16.0",
     "dotenv": "8.2.0",
-    "dotenv-expand": "^5.1.0",
+    "dotenv-expand": "^8.0.3",
     "envsub": "^4.0.7",
     "eslint": "^7.6.0",
     "eslint-plugin-ban": "^1.6.0",
