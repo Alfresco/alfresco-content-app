@@ -34,7 +34,7 @@ export class ManageVersionsDialog extends GenericDialog {
   menu = new Menu();
 
   constructor() {
-    super('.aca-node-versions-dialog');
+    super('.adf-new-version-uploader-dialog');
   }
 
   async clickClose(): Promise<void> {

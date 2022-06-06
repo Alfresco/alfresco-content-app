@@ -35,7 +35,7 @@ export class UploadNewVersionDialog extends GenericDialog {
   description = this.childElement(by.css('textarea'));
 
   constructor() {
-    super('.adf-version-manager-dialog-panel-upload');
+    super('.adf-new-version-uploader-dialog');
   }
 
   async isCancelButtonEnabled(): Promise<boolean> {
