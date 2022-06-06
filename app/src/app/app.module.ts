@@ -38,7 +38,6 @@ import { APP_ROUTES } from './app.routes';
 import { FilesComponent } from './components/files/files.component';
 import { LibrariesComponent } from './components/libraries/libraries.component';
 import { FavoriteLibrariesComponent } from './components/favorite-libraries/favorite-libraries.component';
-import { NodeVersionsDialogComponent } from './dialogs/node-versions/node-versions.dialog';
 
 import { AppStoreModule } from './store/app-store.module';
 import { MaterialModule } from './material.module';
@@ -143,7 +142,6 @@ registerLocaleData(localeSv);
     DetailsComponent,
     LibrariesComponent,
     FavoriteLibrariesComponent,
-    NodeVersionsDialogComponent,
     FavoritesComponent,
     RecentFilesComponent,
     SharedFilesComponent,
