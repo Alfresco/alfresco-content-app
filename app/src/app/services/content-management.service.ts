@@ -40,14 +40,20 @@ import {
   SnackbarInfoAction,
   SnackbarUserAction,
   SnackbarWarningAction,
-  UndoDeleteNodesAction
+  UndoDeleteNodesAction,
+  UnlockWriteAction,
+  ViewNodeVersionAction
 } from '@alfresco/aca-shared/store';
 import {
   ConfirmDialogComponent,
   FolderDialogComponent,
   LibraryDialogComponent,
   ShareDialogComponent,
-  NodeAspectService
+  NodeAspectService,
+  NewVersionUploaderService,
+  NewVersionUploaderDialogData,
+  NewVersionUploaderData,
+  NewVersionUploaderDataAction
 } from '@alfresco/adf-content-services';
 import { TranslationService, AlfrescoApiService } from '@alfresco/adf-core';
 import {
@@ -61,13 +67,13 @@ import {
   SiteEntry
 } from '@alfresco/js-api';
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 import { forkJoin, Observable, of, zip } from 'rxjs';
 import { catchError, map, mergeMap, take, tap } from 'rxjs/operators';
-import { NodeVersionsDialogComponent, NodeVersionDialogData } from '../dialogs/node-versions/node-versions.dialog';
 import { NodeActionsService } from './node-actions.service';
+import { Router } from '@angular/router';
 
 interface RestoredNode {
   status: number;
@@ -89,7 +95,9 @@ export class ContentManagementService {
     private translation: TranslationService,
     private snackBar: MatSnackBar,
     private nodeAspectService: NodeAspectService,
-    private appHookService: AppHookService
+    private appHookService: AppHookService,
+    private newVersionUploaderService: NewVersionUploaderService,
+    private router: Router
   ) {}
 
   addFavorite(nodes: Array<MinimalNodeEntity>) {
@@ -152,11 +160,23 @@ export class ContentManagementService {
 
   versionUpdateDialog(node, file) {
     this.contentApi.getNodeVersions(node.id).subscribe(({ list }) => {
-      this.dialogRef.open(NodeVersionsDialogComponent, {
-        data: { node, file, currentVersion: list.entries[0].entry, title: 'VERSION.DIALOG.TITLE' } as NodeVersionDialogData,
-        panelClass: 'adf-version-manager-dialog-panel-upload',
-        width: '600px'
-      });
+      const newVersionUploaderDialogData: NewVersionUploaderDialogData = {
+        node,
+        file,
+        currentVersion: list.entries[0].entry,
+        title: 'VERSION.DIALOG.TITLE'
+      };
+      const dialogConfig: MatDialogConfig = { width: '600px' };
+      this.newVersionUploaderService.openUploadNewVersionDialog(newVersionUploaderDialogData, dialogConfig).subscribe(
+        (data: NewVersionUploaderData) => {
+          if (data.action === NewVersionUploaderDataAction.upload) {
+            if (data.newVersion.value.entry.properties['cm:lockType'] === 'WRITE_LOCK') {
+              this.store.dispatch(new UnlockWriteAction(data.newVersion.value));
+            }
+          }
+        },
+        (error) => this.store.dispatch(new SnackbarErrorAction(error))
+      );
     });
   }
 
@@ -551,14 +571,29 @@ export class ContentManagementService {
   private openVersionManagerDialog(node: any) {
     // workaround Shared
     if (node.isFile || node.nodeId) {
-      const dialogRef = this.dialogRef.open(NodeVersionsDialogComponent, {
-        data: { node, showVersionsOnly: true, title: 'VERSION.DIALOG_ADF.TITLE' } as NodeVersionDialogData,
-        panelClass: 'adf-version-manager-dialog-panel',
-        width: '630px'
-      });
-      dialogRef.componentInstance.refreshEvent.subscribe(() => {
-        this.store.dispatch(new ReloadDocumentListAction());
-      });
+      const newVersionUploaderDialogData: NewVersionUploaderDialogData = {
+        node,
+        showVersionsOnly: true,
+        title: 'VERSION.DIALOG.TITLE'
+      };
+      this.newVersionUploaderService
+        .openUploadNewVersionDialog(newVersionUploaderDialogData, { width: '630px' })
+        .subscribe((newVersionUploaderData: NewVersionUploaderData) => {
+          switch (newVersionUploaderData.action) {
+            case NewVersionUploaderDataAction.refresh:
+              this.store.dispatch(new ReloadDocumentListAction());
+              break;
+            case NewVersionUploaderDataAction.view:
+              this.store.dispatch(
+                new ViewNodeVersionAction(node.id, newVersionUploaderData.versionId, {
+                  location: this.router.url
+                })
+              );
+              break;
+            default:
+              break;
+          }
+        });
     } else {
       this.store.dispatch(new SnackbarErrorAction('APP.MESSAGES.ERRORS.PERMISSION'));
     }

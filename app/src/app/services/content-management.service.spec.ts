@@ -41,7 +41,10 @@ import {
   SetSelectedNodesAction,
   UnlockWriteAction,
   SnackbarActionTypes,
-  NodeActionTypes
+  NodeActionTypes,
+  ReloadDocumentListAction,
+  ViewNodeVersionAction,
+  ViewNodeExtras
 } from '@alfresco/aca-shared/store';
 import { map } from 'rxjs/operators';
 import { NodeEffects } from '../store/effects/node.effects';
@@ -54,7 +57,7 @@ import { TranslationService, AlfrescoApiService, FileModel } from '@alfresco/adf
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
 import { NodeEntry, Node, VersionPaging } from '@alfresco/js-api';
-import { NodeAspectService } from '@alfresco/adf-content-services';
+import { NewVersionUploaderDataAction, NewVersionUploaderService, NodeAspectService, ViewVersion } from '@alfresco/adf-content-services';
 
 describe('ContentManagementService', () => {
   let dialog: MatDialog;
@@ -68,6 +71,7 @@ describe('ContentManagementService', () => {
   let alfrescoApiService: AlfrescoApiService;
   let nodeAspectService: NodeAspectService;
   let appHookService: AppHookService;
+  let newVersionUploaderService: NewVersionUploaderService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -84,6 +88,7 @@ describe('ContentManagementService', () => {
     alfrescoApiService = TestBed.inject(AlfrescoApiService);
     nodeAspectService = TestBed.inject(NodeAspectService);
     appHookService = TestBed.inject(AppHookService);
+    newVersionUploaderService = TestBed.inject(NewVersionUploaderService);
 
     dialog = TestBed.inject(MatDialog);
   });
@@ -1454,28 +1459,110 @@ describe('ContentManagementService', () => {
   });
 
   describe('versionUpdateDialog', () => {
+    let spyOnOpenUploadNewVersionDialog: jasmine.Spy;
+    let spyOnDispatch: jasmine.Spy;
+    let fakeFile;
+    let fakeNode;
+
     beforeEach(() => {
       const fakeVersion = { list: { entries: [{ entry: { id: '1.0' } }] } } as VersionPaging;
-      spyOn(contentApi, 'getNodeVersions').and.returnValue(of(fakeVersion));
-    });
-
-    it('should open dialog with NodeVersionUploadDialogComponent instance', () => {
-      spyOn(dialog, 'open');
-      const fakeNode = {
+      fakeNode = {
         name: 'lights.jpg',
         id: 'f5e5cb54-200e-41a8-9c21-b5ee77da3992'
       };
-      const fakeFile = new FileModel({ name: 'file1.png', size: 10 } as File, null, 'file1');
+      fakeFile = new FileModel({ name: 'file1.png', size: 10 } as File, null, 'file1');
+      spyOn(contentApi, 'getNodeVersions').and.returnValue(of(fakeVersion));
+      spyOnDispatch = spyOn(store, 'dispatch');
+      spyOnOpenUploadNewVersionDialog = spyOn(newVersionUploaderService, 'openUploadNewVersionDialog').and.returnValue(of({ action: 'test' }));
+    });
 
+    it('should open dialog with NewVersionUploaderService', () => {
       contentManagementService.versionUpdateDialog(fakeNode, fakeFile);
+      const expectedParams = [{ node: fakeNode, file: fakeFile, currentVersion: { id: '1.0' }, title: 'VERSION.DIALOG.TITLE' }, { width: '600px' }];
+      expect(spyOnOpenUploadNewVersionDialog).toHaveBeenCalledOnceWith(...expectedParams);
+    });
 
-      expect(dialog.open['calls'].argsFor(0)[0].name).toBe('NodeVersionsDialogComponent');
-      expect(dialog.open['calls'].argsFor(0)[1].data).toEqual({
-        node: fakeNode,
-        file: fakeFile,
-        currentVersion: { id: '1.0' },
+    it('should unlock node if is locked when uploading a file', () => {
+      const mockNewVersion = {
+        value: {
+          entry: {
+            id: 'a8b2caff-a58c-40f1-8c47-0b8e63ceaa0e',
+            isFavorite: false,
+            isFile: true,
+            isFolder: false,
+            name: '84348838_3451105884918116_7819187244555567104_o.jpg',
+            nodeType: 'cm:content',
+            parentId: '72c65b52-b856-4a5c-b028-42ce03adb4fe',
+            modifiedAt: null,
+            createdByUser: null,
+            createdAt: null,
+            modifiedByUser: null,
+            properties: { 'cm:lockType': 'WRITE_LOCK' }
+          }
+        }
+      };
+      spyOnOpenUploadNewVersionDialog.and.returnValue(
+        of({ action: NewVersionUploaderDataAction.upload, newVersion: mockNewVersion, currentVersion: fakeNode })
+      );
+      contentManagementService.versionUpdateDialog(fakeNode, fakeFile);
+      expect(spyOnDispatch).toHaveBeenCalledOnceWith(new UnlockWriteAction(mockNewVersion.value));
+    });
+
+    it('should unlock node if is locked when uploading a file', () => {
+      const fakeError = 'Upload error';
+      spyOnOpenUploadNewVersionDialog.and.returnValue(throwError(fakeError));
+      contentManagementService.versionUpdateDialog(fakeNode, fakeFile);
+      expect(spyOnDispatch).toHaveBeenCalledOnceWith(new SnackbarErrorAction(fakeError));
+    });
+  });
+
+  describe('manageVersions', () => {
+    let fakeNodeIsFile;
+    let fakeNodeIsNotFile;
+    let spyOnOpenUploadNewVersionDialog: jasmine.Spy;
+    let spyOnDispatch: jasmine.Spy;
+
+    beforeEach(() => {
+      fakeNodeIsFile = { entry: { id: '1', name: 'name1', isFile: true } };
+      fakeNodeIsNotFile = { entry: { id: '2', name: 'name1', isFile: false } };
+      spyOnOpenUploadNewVersionDialog = spyOn(newVersionUploaderService, 'openUploadNewVersionDialog').and.returnValue(of({ action: 'test' }));
+      spyOnDispatch = spyOn(store, 'dispatch');
+    });
+
+    it('should call openUploadNewVersionDialog', () => {
+      contentManagementService.manageVersions(fakeNodeIsFile);
+      expect(spyOnOpenUploadNewVersionDialog).toHaveBeenCalledTimes(1);
+    });
+
+    it('should call openUploadNewVersionDialog passing dialog data', () => {
+      const expectedArgument = {
+        node: fakeNodeIsFile.entry,
+        showVersionsOnly: true,
         title: 'VERSION.DIALOG.TITLE'
-      });
+      };
+      contentManagementService.manageVersions(fakeNodeIsFile);
+      expect(spyOnOpenUploadNewVersionDialog['calls'].argsFor(0)[0]).toEqual(expectedArgument);
+    });
+
+    it('should dispatch ReloadDocumentListAction if dialog emit refresh action', () => {
+      spyOnOpenUploadNewVersionDialog.and.returnValue(of({ action: NewVersionUploaderDataAction.refresh }));
+      contentManagementService.manageVersions(fakeNodeIsFile);
+      expect(spyOnDispatch).toHaveBeenCalledOnceWith(new ReloadDocumentListAction());
+    });
+
+    it('should dispatch ReloadDocumentListAction if dialog emit view action', () => {
+      const fakeVersionId = '1';
+      const fakeLocation: ViewNodeExtras = {
+        location: '/'
+      };
+      spyOnOpenUploadNewVersionDialog.and.returnValue(of({ action: NewVersionUploaderDataAction.view, versionId: fakeVersionId } as ViewVersion));
+      contentManagementService.manageVersions(fakeNodeIsFile);
+      expect(spyOnDispatch).toHaveBeenCalledOnceWith(new ViewNodeVersionAction(fakeNodeIsFile.entry.id, fakeVersionId, fakeLocation));
+    });
+
+    it('should show permission error is node is not a file and does not have nodeId', () => {
+      contentManagementService.manageVersions(fakeNodeIsNotFile);
+      expect(spyOnDispatch).toHaveBeenCalledOnceWith(new SnackbarErrorAction('APP.MESSAGES.ERRORS.PERMISSION'));
     });
   });
 
