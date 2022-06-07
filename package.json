@@ -89,7 +89,7 @@
     "eslint": "^7.6.0",
     "eslint-plugin-ban": "^1.6.0",
     "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-jsdoc": "30.7.6",
+    "eslint-plugin-jsdoc": "39.3.2",
     "eslint-plugin-prefer-arrow": "1.2.3",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-rxjs": "^5.0.2",
