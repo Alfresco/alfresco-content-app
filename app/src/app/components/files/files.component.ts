@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { FileUploadEvent, ShowHeaderMode, UploadService } from '@alfresco/adf-core';
+import { DiscoveryApiService, FileUploadEvent, ShowHeaderMode, UploadService } from '@alfresco/adf-core';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -47,6 +47,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   isAdmin = false;
   selectedNode: MinimalNodeEntity;
   queryParams = null;
+  isAgsEnabled = false;
 
   private nodePath: PathElement[];
 
@@ -61,7 +62,8 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     private uploadService: UploadService,
     content: ContentManagementService,
     extensions: AppExtensionService,
-    private breakpointObserver: BreakpointObserver
+    private breakpointObserver: BreakpointObserver,
+    private discoveryApiService: DiscoveryApiService
   ) {
     super(store, extensions, content);
   }
@@ -115,6 +117,13 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
       });
 
     this.columns = this.extensions.documentListPresets.files || [];
+
+    this.discoveryApiService.getEcmProductInfo()
+        .subscribe(response => {
+          console.log(response.modules)
+          this.isAgsEnabled = response.modules.filter(module =>
+            module.id === 'alfresco-rm-enterprise-repo')[0].installState === 'INSTALLED'
+        });
   }
 
   ngOnDestroy() {

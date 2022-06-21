@@ -40,7 +40,8 @@
         >
           <data-columns>
             <ng-container *ngFor="let column of columns; trackBy: trackByColumnId">
-              <ng-container *ngIf="column.template && !(column.desktopOnly && isSmallScreen)">
+              <ng-container *ngIf="column.template && !(column.desktopOnly && isSmallScreen) &&
+              (column.id=='app.files.name' || (column.id=='app.files.securityMarks' && isAgsEnabled))">
                 <data-column
                   [key]="column.key"
                   [title]="column.title"
