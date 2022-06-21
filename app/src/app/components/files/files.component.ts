@@ -118,12 +118,14 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
     this.columns = this.extensions.documentListPresets.files || [];
 
-    this.discoveryApiService.getEcmProductInfo()
-        .subscribe(response => {
-          console.log(response.modules)
+    this.discoveryApiService
+        .getEcmProductInfo()
+        .toPromise()
+        .then(response => {
           this.isAgsEnabled = response.modules.filter(module =>
-            module.id === 'alfresco-rm-enterprise-repo')[0].installState === 'INSTALLED'
-        });
+          module.id === 'alfresco-rm-enterprise-repo')[0].installState === 'INSTALLED'
+        })
+        .catch(() => this.isAgsEnabled = false)
   }
 
   ngOnDestroy() {
