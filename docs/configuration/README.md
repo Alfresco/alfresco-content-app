@@ -91,13 +91,12 @@ The default logo displayed in the top left corner of the Alfresco Content Applic
 
 ### Header Background color
 
-You can change the header background color by specifying the color code for the "headerColor" key:
+You can change the header text and background colors by specifying the color code for the "headerTextColor" and "headerColor" keys:
 
 ```json
 {
-    "application": {
-      "headerColor": "#ffffff"
-    }
+    "headerTextColor": "#000000",
+    "headerColor": "#ffffff"
 }
 ```
 
