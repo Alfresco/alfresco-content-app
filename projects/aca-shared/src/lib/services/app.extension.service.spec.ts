@@ -158,13 +158,13 @@ describe('AppExtensionService', () => {
                 order: 20
               },
               {
-                id: "app.files.securityMarks",
-                key: "securityMarks",
-                title: "GOVERNANCE.SECURITY_MARKS.COLUMNS.NAME",
-                type: "text",
+                id: 'app.files.securityMarks',
+                key: 'securityMarks',
+                title: 'GOVERNANCE.SECURITY_MARKS.COLUMNS.NAME',
+                type: 'text',
                 order: 55,
                 rules: {
-                  visible: "visible"
+                  visible: 'visible'
                 }
               }
             ],
@@ -224,13 +224,13 @@ describe('AppExtensionService', () => {
                 order: 20
               },
               {
-                id: "app.files.securityMarks",
-                key: "securityMarks",
-                title: "GOVERNANCE.SECURITY_MARKS.COLUMNS.NAME",
-                type: "text",
+                id: 'app.files.securityMarks',
+                key: 'securityMarks',
+                title: 'GOVERNANCE.SECURITY_MARKS.COLUMNS.NAME',
+                type: 'text',
                 order: 55,
                 rules: {
-                  visible: "notVisible"
+                  visible: 'notVisible'
                 }
               }
             ]
