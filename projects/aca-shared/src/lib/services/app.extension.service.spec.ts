@@ -126,6 +126,13 @@ describe('AppExtensionService', () => {
   });
 
   describe('documentList', () => {
+    beforeEach(() => {
+      extensions.setEvaluators({
+        notVisible: () => false,
+        visible: () => true
+      });
+    });
+
     it('should support column orders', () => {
       applyConfig({
         $id: 'test',
@@ -149,6 +156,16 @@ describe('AppExtensionService', () => {
                 title: 'APP.DOCUMENT_LIST.COLUMNS.NAME',
                 type: 'text',
                 order: 20
+              },
+              {
+                id: 'app.files.securityMarks',
+                key: 'securityMarks',
+                title: 'GOVERNANCE.SECURITY_MARKS.COLUMNS.NAME',
+                type: 'text',
+                order: 55,
+                rules: {
+                  visible: 'visible'
+                }
               }
             ],
             libraries: [
@@ -172,13 +189,60 @@ describe('AppExtensionService', () => {
 
       const { files, libraries } = service.documentListPresets;
 
-      expect(files.length).toBe(2);
+      expect(files.length).toBe(3);
       expect(files[0].id).toBe('app.files.thumbnail');
       expect(files[1].id).toBe('app.files.name');
+      expect(files[2].id).toBe('app.files.securityMarks');
 
       expect(libraries.length).toBe(2);
       expect(libraries[0].id).toBe('app.libraries.name');
       expect(libraries[1].id).toBe('app.libraries.thumbnail');
+    });
+
+    it('should ignore column if visibility in rules is false', () => {
+      applyConfig({
+        $id: 'test',
+        $name: 'test',
+        $version: '1.0.0',
+        $license: 'MIT',
+        $vendor: 'Good company',
+        $runtime: '1.5.0',
+        features: {
+          documentList: {
+            files: [
+              {
+                id: 'app.files.thumbnail',
+                key: '$thumbnail',
+                type: 'image',
+                order: 10
+              },
+              {
+                id: 'app.files.name',
+                key: 'name',
+                title: 'APP.DOCUMENT_LIST.COLUMNS.NAME',
+                type: 'text',
+                order: 20
+              },
+              {
+                id: 'app.files.securityMarks',
+                key: 'securityMarks',
+                title: 'GOVERNANCE.SECURITY_MARKS.COLUMNS.NAME',
+                type: 'text',
+                order: 55,
+                rules: {
+                  visible: 'notVisible'
+                }
+              }
+            ]
+          }
+        }
+      });
+
+      const { files } = service.documentListPresets;
+
+      expect(files.length).toBe(2);
+      expect(files[0].id).toBe('app.files.thumbnail');
+      expect(files[1].id).toBe('app.files.name');
     });
   });
 
