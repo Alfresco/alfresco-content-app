@@ -53,7 +53,7 @@ export function appReducer(state: AppState = INITIAL_APP_STATE, action: Action):
     case AppActionTypes.SetHeaderColor:
       newState = {
         ...state,
-        headerColor: (action as SetHeaderColorAction).color
+        headerColor: (action as SetHeaderColorAction).payload
       };
       break;
     case NodeActionTypes.SetSelection:
