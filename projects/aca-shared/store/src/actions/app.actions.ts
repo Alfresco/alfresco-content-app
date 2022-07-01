@@ -64,7 +64,7 @@ export class SetInitialStateAction implements Action {
 export class SetHeaderColorAction implements Action {
   readonly type = AppActionTypes.SetHeaderColor;
 
-  constructor(public color: string) {}
+  constructor(public payload: string) {}
 }
 
 export class SetCurrentFolderAction implements Action {
