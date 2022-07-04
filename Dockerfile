@@ -35,6 +35,7 @@ ENV APP_CONFIG_OAUTH2_REDIRECT_LOGIN="/"
 ENV APP_CONFIG_OAUTH2_REDIRECT_LOGOUT="/"
 ENV APP_CONFIG_PLUGIN_AOS=true
 ENV APP_CONFIG_PLUGIN_CONTENT_SERVICE=true
+ENV APP_CONFIG_PLUGIN_FOLDER_RULES=true
 
 COPY docker/default.conf.template /etc/nginx/templates/
 COPY docker/docker-entrypoint.d/* /docker-entrypoint.d/
