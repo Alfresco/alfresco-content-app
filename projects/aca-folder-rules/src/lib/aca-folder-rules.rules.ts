@@ -23,21 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { TranslationService } from '@alfresco/adf-core';
-import { ExtensionService, provideExtensionConfig } from '@alfresco/adf-extensions';
-import { NgModule } from '@angular/core';
-import * as rules from './aca-folder-rules.rules';
+import { RuleContext } from '@alfresco/adf-extensions';
+import * as rules from '@alfresco/aca-shared/rules';
 
-@NgModule({
-  providers: [provideExtensionConfig(['folder-rules.plugin.json'])]
-})
-export class AcaFolderRulesModule {
-  constructor(translation: TranslationService, extensions: ExtensionService) {
-    translation.addTranslationFolder('aca-folder-rules', 'assets/aca-folder-rules');
-
-    extensions.setEvaluators({
-      'app.canCreateFolderRule': rules.canCreateFolderRule,
-      'app.canLinkFolderRule': rules.canLinkFolderRule
-    });
-  }
-}
+export const canCreateFolderRule = (context: RuleContext): boolean => rules.hasFolderSelected(context);
+export const canLinkFolderRule = (context: RuleContext): boolean => rules.hasFolderSelected(context);
