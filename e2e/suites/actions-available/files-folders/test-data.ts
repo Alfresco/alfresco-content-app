@@ -808,20 +808,61 @@ export const folder2InTrash = {
 
 // ---- folders ---
 
-const folderContextMenu = ['Download', 'Edit', 'Favorite', 'Move', 'Copy', 'Delete', 'Edit Aspects', 'Permissions'];
-const folderFavContextMenu = ['Download', 'Edit', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Edit Aspects', 'Permissions'];
+const folderContextMenu = [
+  'Download',
+  'Edit',
+  'Favorite',
+  'Move',
+  'Copy',
+  'Delete',
+  'Edit Aspects',
+  'Permissions',
+  'Create rules',
+  'Link to rules set'
+];
+const folderFavContextMenu = [
+  'Download',
+  'Edit',
+  'Remove Favorite',
+  'Move',
+  'Copy',
+  'Delete',
+  'Edit Aspects',
+  'Permissions',
+  'Create rules',
+  'Link to rules set'
+];
 const folderToolbarPrimary = ['Download', 'View Details', 'More Actions'];
-const folderToolbarMore = ['Edit', 'Favorite', 'Move', 'Copy', 'Delete', 'Edit Aspects', 'Permissions'];
-const folderFavToolbarMore = ['Edit', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Edit Aspects', 'Permissions'];
+const folderToolbarMore = ['Edit', 'Favorite', 'Move', 'Copy', 'Delete', 'Edit Aspects', 'Permissions', 'Create rules', 'Link to rules set'];
+const folderFavToolbarMore = [
+  'Edit',
+  'Remove Favorite',
+  'Move',
+  'Copy',
+  'Delete',
+  'Edit Aspects',
+  'Permissions',
+  'Create rules',
+  'Link to rules set'
+];
 
 const favoritesFolderFavContextMenu = ['Download', 'Edit', 'Remove Favorite', 'Move', 'Copy', 'Delete'];
 const favoritesFolderFavToolbarMore = ['Edit', 'Remove Favorite', 'Move', 'Copy', 'Delete'];
 
-const searchFolderContextMenu = ['Download', 'Edit', 'Favorite', 'Copy', 'Edit Aspects', 'Permissions'];
+const searchFolderContextMenu = ['Download', 'Edit', 'Favorite', 'Copy', 'Edit Aspects', 'Permissions', 'Create rules', 'Link to rules set'];
 const searchFolderToolbarPrimary = ['Download', 'View Details', 'More Actions'];
-const searchFolderToolbarMore = ['Edit', 'Favorite', 'Copy', 'Edit Aspects', 'Permissions'];
-const searchFolderFavContextMenu = ['Download', 'Edit', 'Remove Favorite', 'Copy', 'Edit Aspects', 'Permissions'];
-const searchFolderFavToolbarMore = ['Edit', 'Remove Favorite', 'Copy', 'Edit Aspects', 'Permissions'];
+const searchFolderToolbarMore = ['Edit', 'Favorite', 'Copy', 'Edit Aspects', 'Permissions', 'Create rules', 'Link to rules set'];
+const searchFolderFavContextMenu = [
+  'Download',
+  'Edit',
+  'Remove Favorite',
+  'Copy',
+  'Edit Aspects',
+  'Permissions',
+  'Create rules',
+  'Link to rules set'
+];
+const searchFolderFavToolbarMore = ['Edit', 'Remove Favorite', 'Copy', 'Edit Aspects', 'Permissions', 'Create rules', 'Link to rules set'];
 
 export const folder = {
   name: `folderActions-${random}`,
