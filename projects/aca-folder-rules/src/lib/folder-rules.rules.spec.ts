@@ -24,10 +24,10 @@
  */
 
 import { AcaRuleContext } from '@alfresco/aca-shared/rules';
-import { isFolderRulesFeatureEnabled, canCreateFolderRule, canLinkFolderRule } from './folder-rules.rules';
+import { isFolderRulesEnabled, canCreateFolderRule, canLinkFolderRule } from './folder-rules.rules';
 
 describe('Folder Rules', () => {
-  describe('isFolderRulesFeatureEnabled', () => {
+  describe('isFolderRulesEnabled', () => {
     it('should have the feature enabled', () => {
       const context: any = {
         appConfig: {
@@ -35,7 +35,7 @@ describe('Folder Rules', () => {
         }
       };
 
-      const result = isFolderRulesFeatureEnabled(context);
+      const result = isFolderRulesEnabled(context);
       expect(result).toEqual(true);
     });
 
@@ -46,7 +46,7 @@ describe('Folder Rules', () => {
         }
       };
 
-      const result = isFolderRulesFeatureEnabled(context);
+      const result = isFolderRulesEnabled(context);
       expect(result).toEqual(false);
     });
   });
@@ -61,6 +61,12 @@ describe('Folder Rules', () => {
         },
         selection: {
           folder: {} as any
+        },
+        navigation: {
+          url: '/personal-files'
+        },
+        permissions: {
+          check: () => true
         }
       } as any;
     });
@@ -88,6 +94,12 @@ describe('Folder Rules', () => {
         },
         selection: {
           folder: {} as any
+        },
+        navigation: {
+          url: '/personal-files'
+        },
+        permissions: {
+          check: () => true
         }
       } as any;
     });

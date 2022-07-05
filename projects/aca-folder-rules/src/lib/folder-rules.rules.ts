@@ -23,8 +23,11 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AcaRuleContext, hasFolderSelected } from '@alfresco/aca-shared/rules';
+import { AcaRuleContext, hasFolderSelected, canEditFolder } from '@alfresco/aca-shared/rules';
 
-export const isFolderRulesFeatureEnabled = (context: AcaRuleContext) => context.appConfig.get<boolean>('plugins.folderRules', false);
-export const canCreateFolderRule = (context: AcaRuleContext): boolean => isFolderRulesFeatureEnabled(context) && hasFolderSelected(context);
-export const canLinkFolderRule = (context: AcaRuleContext): boolean => isFolderRulesFeatureEnabled(context) && hasFolderSelected(context);
+export const isFolderRulesEnabled = (context: AcaRuleContext) => context.appConfig.get<boolean>('plugins.folderRules', false);
+export const isFolderRulesAllowed = (context: AcaRuleContext) =>
+  isFolderRulesEnabled(context) && canEditFolder(context) && hasFolderSelected(context);
+
+export const canCreateFolderRule = (context: AcaRuleContext): boolean => isFolderRulesAllowed(context);
+export const canLinkFolderRule = (context: AcaRuleContext): boolean => isFolderRulesAllowed(context);
