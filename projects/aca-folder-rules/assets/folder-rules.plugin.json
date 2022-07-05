@@ -24,7 +24,7 @@
             "description": "ACA_FOLDER_RULES.MENU.CREATE_RULES_DESC",
             "icon": "add",
             "rules": {
-              "visible": "app.canCreateFolderRule"
+              "visible": "rules.canCreateFolderRule"
             }
           },
           {
@@ -33,7 +33,7 @@
             "description": "ACA_FOLDER_RULES.MENU.LINK_RULES_DESC",
             "icon": "link",
             "rules": {
-              "visible": "app.canLinkFolderRule"
+              "visible": "rules.canLinkFolderRule"
             }
           }
         ]
@@ -54,7 +54,7 @@
         "description": "ACA_FOLDER_RULES.MENU.CREATE_RULES_DESC",
         "icon": "add",
         "rules": {
-          "visible": "app.canCreateFolderRule"
+          "visible": "rules.canCreateFolderRule"
         }
       },
       {
@@ -63,7 +63,7 @@
         "description": "ACA_FOLDER_RULES.MENU.LINK_RULES_DESC",
         "icon": "link",
         "rules": {
-          "visible": "app.canLinkFolderRule"
+          "visible": "rules.canLinkFolderRule"
         }
       }
     ]

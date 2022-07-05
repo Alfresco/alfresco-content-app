@@ -36,8 +36,8 @@ export class AcaFolderRulesModule {
     translation.addTranslationFolder('aca-folder-rules', 'assets/aca-folder-rules');
 
     extensions.setEvaluators({
-      'app.canCreateFolderRule': rules.canCreateFolderRule,
-      'app.canLinkFolderRule': rules.canLinkFolderRule
+      'rules.canCreateFolderRule': rules.canCreateFolderRule,
+      'rules.canLinkFolderRule': rules.canLinkFolderRule
     });
   }
 }
