@@ -117,7 +117,7 @@ export class AppExtensionService implements RuleContext {
     protected loader: ExtensionLoaderService,
     protected extensions: ExtensionService,
     public permissions: NodePermissionService,
-    protected appConfig: AppConfigService,
+    public appConfig: AppConfigService,
     protected matIconRegistry: MatIconRegistry,
     protected sanitizer: DomSanitizer,
     protected logger: LogService
