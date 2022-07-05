@@ -846,8 +846,8 @@ const folderFavToolbarMore = [
   'Link to rules set'
 ];
 
-const favoritesFolderFavContextMenu = ['Download', 'Edit', 'Remove Favorite', 'Move', 'Copy', 'Delete'];
-const favoritesFolderFavToolbarMore = ['Edit', 'Remove Favorite', 'Move', 'Copy', 'Delete'];
+const favoritesFolderFavContextMenu = ['Download', 'Edit', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Create rules', 'Link to rules set'];
+const favoritesFolderFavToolbarMore = ['Edit', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Create rules', 'Link to rules set'];
 
 const searchFolderContextMenu = ['Download', 'Edit', 'Favorite', 'Copy', 'Edit Aspects', 'Permissions', 'Create rules', 'Link to rules set'];
 const searchFolderToolbarPrimary = ['Download', 'View Details', 'More Actions'];
