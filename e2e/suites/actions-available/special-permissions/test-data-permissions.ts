@@ -330,9 +330,9 @@ const consumerFolderFavToolbarMore = ['Remove Favorite', 'Copy'];
 // ---- FAVORITES workarounds ----
 
 // TODO: remove 'Edit', 'Move' and 'Delete' when ACA-1737 is done
-const favoritesConsumerFolderContextMenu = ['Download', 'Edit', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Create rules', 'Link to rules set'];
+const favoritesConsumerFolderContextMenu = ['Download', 'Edit', 'Remove Favorite', 'Move', 'Copy', 'Delete'];
 // TODO: remove 'Edit', 'Move' and 'Delete' when ACA-1737 is done
-const favoritesConsumerFolderToolbarMore = ['Edit', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Create rules', 'Link to rules set'];
+const favoritesConsumerFolderToolbarMore = ['Edit', 'Remove Favorite', 'Move', 'Copy', 'Delete'];
 
 export const folder = {
   name: `folder-${random}`,
