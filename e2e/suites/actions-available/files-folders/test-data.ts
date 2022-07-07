@@ -808,30 +808,8 @@ export const folder2InTrash = {
 
 // ---- folders ---
 
-const folderContextMenu = [
-  'Download',
-  'Edit',
-  'Favorite',
-  'Move',
-  'Copy',
-  'Delete',
-  'Edit Aspects',
-  'Permissions',
-  'Create rules',
-  'Link to rules set'
-];
-const folderFavContextMenu = [
-  'Download',
-  'Edit',
-  'Remove Favorite',
-  'Move',
-  'Copy',
-  'Delete',
-  'Edit Aspects',
-  'Permissions',
-  'Create rules',
-  'Link to rules set'
-];
+const folderContextMenu = ['Download', 'Edit', 'Favorite', 'Move', 'Copy', 'Delete', 'Edit Aspects', 'Permissions'];
+const folderFavContextMenu = ['Download', 'Edit', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Edit Aspects', 'Permissions'];
 const folderToolbarPrimary = ['Download', 'View Details', 'More Actions'];
 const folderToolbarMore = ['Edit', 'Favorite', 'Move', 'Copy', 'Delete', 'Edit Aspects', 'Permissions'];
 const folderFavToolbarMore = ['Edit', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Edit Aspects', 'Permissions'];
