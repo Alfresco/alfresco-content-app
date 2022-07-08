@@ -23,6 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { AppConfigService } from '@alfresco/adf-core';
 import { RuleContext } from '@alfresco/adf-extensions';
 import * as navigation from './navigation.rules';
 import * as repository from './repository.rules';
@@ -30,6 +31,7 @@ import { isAdmin } from './user.rules';
 
 export interface AcaRuleContext extends RuleContext {
   withCredentials: boolean;
+  appConfig: AppConfigService;
 }
 
 /**

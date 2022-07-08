@@ -89,6 +89,16 @@
                 "glob": "settings.plugin.json",
                 "input": "projects/aca-settings/assets",
                 "output": "./assets/plugins"
+              },
+              {
+                "glob": "folder-rules.plugin.json",
+                "input": "projects/aca-folder-rules/assets",
+                "output": "./assets/plugins"
+              },
+              {
+                "glob": "**/*",
+                "input": "projects/aca-folder-rules/assets",
+                "output": "./assets/aca-folder-rules"
               }
             ],
             "styles": [
@@ -477,6 +487,46 @@
             "lintFilePatterns": [
               "projects/aca-settings/**/*.ts",
               "projects/aca-settings/**/*.html"
+            ],
+            "cache": true,
+            "cacheLocation": ".eslintcache",
+            "ignorePath": ".eslintignore"
+          }
+        }
+      }
+    },
+    "aca-folder-rules": {
+      "projectType": "library",
+      "root": "projects/aca-folder-rules",
+      "sourceRoot": "projects/aca-folder-rules/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/aca-folder-rules/tsconfig.lib.json",
+            "project": "projects/aca-folder-rules/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/aca-folder-rules/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/aca-folder-rules/src/test.ts",
+            "tsConfig": "projects/aca-folder-rules/tsconfig.spec.json",
+            "karmaConfig": "projects/aca-folder-rules/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/aca-folder-rules/**/*.ts",
+              "projects/aca-folder-rules/**/*.html"
             ],
             "cache": true,
             "cacheLocation": ".eslintcache",

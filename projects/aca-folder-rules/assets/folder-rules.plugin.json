@@ -1,0 +1,71 @@
+{
+  "$schema": "../../../extension.schema.json",
+  "$id": "0455ca6c-cc7a-43ae-bbf7-35795413d2dd",
+  "$name": "Folder Rules Plugin",
+  "$version": "0.0.1",
+  "$vendor": "Alfresco Software, Ltd.",
+  "$license": "LGPL-3.0",
+
+  "features": {
+    "toolbar": [
+      {
+        "id": "app.toolbar.more",
+        "children": [
+          {
+            "id": "app.toolbar.rules.separator",
+            "type": "separator",
+            "rules": {
+              "visible": "app.selection.folder"
+            }
+          },
+          {
+            "id": "app.toolbar.rules.create",
+            "title": "ACA_FOLDER_RULES.MENU.CREATE_RULES",
+            "description": "ACA_FOLDER_RULES.MENU.CREATE_RULES_DESC",
+            "icon": "add",
+            "rules": {
+              "visible": "rules.canCreateFolderRule"
+            }
+          },
+          {
+            "id": "app.toolbar.rules.link",
+            "title": "ACA_FOLDER_RULES.MENU.LINK_RULES",
+            "description": "ACA_FOLDER_RULES.MENU.LINK_RULES_DESC",
+            "icon": "link",
+            "rules": {
+              "visible": "rules.canLinkFolderRule"
+            }
+          }
+        ]
+      }
+    ],
+
+    "contextMenu": [
+      {
+        "id": "app.toolbar.rules.separator",
+        "type": "separator",
+        "rules": {
+          "visible": "app.selection.folder"
+        }
+      },
+      {
+        "id": "app.toolbar.rules.create",
+        "title": "ACA_FOLDER_RULES.MENU.CREATE_RULES",
+        "description": "ACA_FOLDER_RULES.MENU.CREATE_RULES_DESC",
+        "icon": "add",
+        "rules": {
+          "visible": "rules.canCreateFolderRule"
+        }
+      },
+      {
+        "id": "app.toolbar.rules.link",
+        "title": "ACA_FOLDER_RULES.MENU.LINK_RULES",
+        "description": "ACA_FOLDER_RULES.MENU.LINK_RULES_DESC",
+        "icon": "link",
+        "rules": {
+          "visible": "rules.canLinkFolderRule"
+        }
+      }
+    ]
+  }
+}

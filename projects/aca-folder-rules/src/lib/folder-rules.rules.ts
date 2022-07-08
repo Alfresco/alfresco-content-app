@@ -23,19 +23,11 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NgModule } from '@angular/core';
-import { AosExtensionModule } from '@alfresco/adf-office-services-ext';
-import { AcaAboutModule } from '@alfresco/aca-about';
-import { AcaSettingsModule } from '@alfresco/aca-settings';
-import { AcaFolderRulesModule } from '@alfresco/aca-folder-rules';
-import { environment } from '../environments/environment';
+import { AcaRuleContext, hasFolderSelected, canEditFolder } from '@alfresco/aca-shared/rules';
 
-@NgModule({
-  imports: [
-    AosExtensionModule,
-    ...(environment.devTools ? [AcaSettingsModule] : []),
-    AcaAboutModule.forRoot(environment.production),
-    AcaFolderRulesModule
-  ]
-})
-export class AppExtensionsModule {}
+export const isFolderRulesEnabled = (context: AcaRuleContext) => context.appConfig.get<boolean>('plugins.folderRules', false);
+export const isFolderRulesAllowed = (context: AcaRuleContext) =>
+  isFolderRulesEnabled(context) && canEditFolder(context) && hasFolderSelected(context);
+
+export const canCreateFolderRule = (context: AcaRuleContext): boolean => isFolderRulesAllowed(context);
+export const canLinkFolderRule = (context: AcaRuleContext): boolean => isFolderRulesAllowed(context);

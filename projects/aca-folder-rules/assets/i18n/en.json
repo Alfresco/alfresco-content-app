@@ -1,0 +1,10 @@
+{
+  "ACA_FOLDER_RULES": {
+    "MENU": {
+      "CREATE_RULES": "Create rules",
+      "CREATE_RULES_DESC": "[tbd] Creates new rules",
+      "LINK_RULES": "Link to rules set",
+      "LINK_RULES_DESC": "[tbd] Link to existing rules"
+    }
+  }
+}
