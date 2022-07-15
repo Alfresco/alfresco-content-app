@@ -5,6 +5,27 @@
       "CREATE_RULES_DESC": "[tbd] Creates new rules",
       "LINK_RULES": "Link to rules set",
       "LINK_RULES_DESC": "[tbd] Link to existing rules"
+    },
+    "EDIT_RULE_DIALOG": {
+      "CANCEL": "Cancel",
+      "CREATE": "Create",
+      "CREATE_TITLE": "Create a rule",
+      "UPDATE": "Update",
+      "UPDATE_TITLE": "Update a rule"
+    },
+    "RULE_DETAILS": {
+      "LABEL": {
+        "NAME": "Name",
+        "DESCRIPTION": "Description"
+      },
+      "PLACEHOLDER": {
+        "NAME": "Enter rule name",
+        "DESCRIPTION": "Enter rule description",
+        "NO_DESCRIPTION": "No description"
+      },
+      "ERROR": {
+        "REQUIRED": "This field is required"
+      }
     }
   }
 }

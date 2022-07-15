@@ -47,7 +47,8 @@ export enum NodeActionTypes {
   AddFavorite = 'ADD_FAVORITE',
   RemoveFavorite = 'REMOVE_FAVORITE',
   ChangeAspects = 'ASPECT_LIST',
-  ExpandInfoDrawer = 'EXPAND_INFO_DRAWER'
+  ExpandInfoDrawer = 'EXPAND_INFO_DRAWER',
+  ManageRules = 'MANAGE_RULES'
 }
 
 export class SetSelectedNodesAction implements Action {
@@ -170,6 +171,12 @@ export class RemoveFavoriteAction implements Action {
 }
 export class ManageAspectsAction implements Action {
   readonly type = NodeActionTypes.ChangeAspects;
+
+  constructor(public payload: MinimalNodeEntity) {}
+}
+
+export class ManageRulesAction implements Action {
+  readonly type = NodeActionTypes.ManageRules;
 
   constructor(public payload: MinimalNodeEntity) {}
 }

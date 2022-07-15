@@ -23,27 +23,38 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { CoreModule, TranslationService } from '@alfresco/adf-core';
-import { ExtensionService, provideExtensionConfig } from '@alfresco/adf-extensions';
-import { NgModule } from '@angular/core';
-import * as rules from './folder-rules.rules';
-import { CommonModule } from '@angular/common';
+import { Component, Inject, ViewEncapsulation } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Rule } from '../model/rule.model';
 
-import { EditRuleDialogSmartComponent } from './rule-details/edit-rule-dialog.smart-component';
-import { RuleDetailsUiComponent } from './rule-details/rule-details.ui-component';
+export interface EditRuleDialogOptions {
+  model?: Partial<Rule>;
+}
 
-@NgModule({
-  providers: [provideExtensionConfig(['folder-rules.plugin.json'])],
-  imports: [CommonModule, CoreModule.forChild()],
-  declarations: [EditRuleDialogSmartComponent, RuleDetailsUiComponent]
+@Component({
+  selector: 'aca-edit-rule-dialog',
+  templateUrl: './edit-rule-dialog.smart-component.html',
+  styleUrls: ['./edit-rule-dialog.smart-component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  host: { class: 'aca-edit-rule-dialog' }
 })
-export class AcaFolderRulesModule {
-  constructor(translation: TranslationService, extensions: ExtensionService) {
-    translation.addTranslationFolder('aca-folder-rules', 'assets/aca-folder-rules');
+export class EditRuleDialogSmartComponent {
+  formValid = false;
+  model: Partial<Rule>;
 
-    extensions.setEvaluators({
-      'rules.canCreateFolderRule': rules.canCreateFolderRule,
-      'rules.canLinkFolderRule': rules.canLinkFolderRule
-    });
+  constructor(@Inject(MAT_DIALOG_DATA) public options: EditRuleDialogOptions) {
+    this.model = this.options?.model || {};
+  }
+
+  get isUpdateMode(): boolean {
+    return !!this.options?.model?.id;
+  }
+
+  get title(): string {
+    return 'ACA_FOLDER_RULES.EDIT_RULE_DIALOG.' + (this.isUpdateMode ? 'UPDATE_TITLE' : 'CREATE_TITLE');
+  }
+
+  get submitLabel(): string {
+    return 'ACA_FOLDER_RULES.EDIT_RULE_DIALOG.' + (this.isUpdateMode ? 'UPDATE' : 'CREATE');
   }
 }

@@ -48,7 +48,7 @@ import {
   getAppSelection,
   ManageAspectsAction,
   NavigateRouteAction,
-  ExpandInfoDrawerAction
+  ExpandInfoDrawerAction, ManageRulesAction
 } from '@alfresco/aca-shared/store';
 import { ContentManagementService } from '../../services/content-management.service';
 import { ViewUtilService } from '@alfresco/adf-core';
@@ -420,4 +420,26 @@ export class NodeEffects {
       }
     }
   }
+
+  manageRules$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType<ManageRulesAction>(NodeActionTypes.ManageRules),
+        map((action) => {
+          if (action && action.payload) {
+            this.contentService.manageRules(action.payload);
+          } else {
+            this.store
+              .select(getAppSelection)
+              .pipe(take(1))
+              .subscribe((selection) => {
+                if (selection && !selection.isEmpty) {
+                  this.contentService.manageRules(selection.nodes[0]);
+                }
+              });
+          }
+        })
+      ),
+      { dispatch: false }
+  );
 }

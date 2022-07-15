@@ -1,0 +1,17 @@
+<div mat-dialog-title class="aca-edit-rule-dialog__header">
+  <div class="aca-edit-rule-dialog__header__title" data-automation-id="edit-rule-dialog-title">
+    {{ title | translate }}
+  </div>
+  <button mat-icon-button mat-dialog-close class="aca-edit-rule-dialog__header__close" tabindex="-1">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<mat-dialog-content class="aca-edit-rule-dialog__content">
+  <aca-rule-details (formValidationChanged)="formValid = $event" [initialValue]="model"></aca-rule-details>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" class="aca-edit-rule-dialog__footer">
+  <button mat-flat-button mat-dialog-close>{{ 'ACA_FOLDER_RULES.EDIT_RULE_DIALOG.CANCEL' | translate }}</button>
+  <button mat-flat-button color="primary" [disabled]="!formValid" data-automation-id="edit-rule-dialog-submit">{{ submitLabel | translate }}</button>
+</mat-dialog-actions>

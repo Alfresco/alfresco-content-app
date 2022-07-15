@@ -23,27 +23,18 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { CoreModule, TranslationService } from '@alfresco/adf-core';
-import { ExtensionService, provideExtensionConfig } from '@alfresco/adf-extensions';
-import { NgModule } from '@angular/core';
-import * as rules from './folder-rules.rules';
-import { CommonModule } from '@angular/common';
+import { RuleCompositeCondition } from './rule-composite-condition.model';
 
-import { EditRuleDialogSmartComponent } from './rule-details/edit-rule-dialog.smart-component';
-import { RuleDetailsUiComponent } from './rule-details/rule-details.ui-component';
-
-@NgModule({
-  providers: [provideExtensionConfig(['folder-rules.plugin.json'])],
-  imports: [CommonModule, CoreModule.forChild()],
-  declarations: [EditRuleDialogSmartComponent, RuleDetailsUiComponent]
-})
-export class AcaFolderRulesModule {
-  constructor(translation: TranslationService, extensions: ExtensionService) {
-    translation.addTranslationFolder('aca-folder-rules', 'assets/aca-folder-rules');
-
-    extensions.setEvaluators({
-      'rules.canCreateFolderRule': rules.canCreateFolderRule,
-      'rules.canLinkFolderRule': rules.canLinkFolderRule
-    });
-  }
+export interface Rule {
+  id: string;
+  name: string;
+  description: string;
+  enabled: boolean;
+  cascade: boolean;
+  asynchronous: boolean;
+  errorScript: string;
+  shared: boolean;
+  triggers: ('inbound' | 'update' | 'outbound')[];
+  conditions: RuleCompositeCondition;
+  actions: string[];
 }

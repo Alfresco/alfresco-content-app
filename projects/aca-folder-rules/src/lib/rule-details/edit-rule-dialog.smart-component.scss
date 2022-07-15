@@ -1,0 +1,42 @@
+.aca-edit-rule-dialog-container {
+  --edit-rule-dialog-padding: 8px 20px;
+
+  .mat-dialog-container {
+    padding: 0;
+  }
+}
+
+.aca-edit-rule-dialog {
+  &__header {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: var(--edit-rule-dialog-padding);
+    box-sizing: border-box;
+    border-bottom: 1px solid var(--theme-border-color);
+
+    &__title {
+      font-size: 16px;
+      font-weight: bold;
+      flex-grow: 1;
+    }
+
+    &__close {
+      & mat-icon {
+        font-size: 18px;
+      }
+    }
+  }
+
+  &__content {
+    margin: 0;
+    padding: 0;
+  }
+
+  &__footer {
+    margin: 0;
+    padding: var(--edit-rule-dialog-padding);
+    box-sizing: border-box;
+    border-top: 1px solid var(--theme-border-color);
+  }
+}
