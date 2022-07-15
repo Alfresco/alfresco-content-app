@@ -1084,14 +1084,7 @@ export class ContentManagementService {
     if (node && node.entry) {
       this.dialogRef.open(EditRuleDialogSmartComponent, {
         minWidth: '70%',
-        panelClass: 'aca-edit-rule-dialog-container',
-        data: {
-          model: {
-            id: 'rule-id',
-            name: 'Test rule',
-            description: 'This is the rule description'
-          }
-        }
+        panelClass: 'aca-edit-rule-dialog-container'
       });
     }
   }
