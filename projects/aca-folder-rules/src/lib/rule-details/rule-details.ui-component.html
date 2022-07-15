@@ -1,0 +1,27 @@
+<form class="aca-rule-details__form" [formGroup]="form">
+  <div class="aca-rule-details__form__row">
+    <label for="rule-details-name-input">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.NAME' | translate }}</label>
+    <div>
+      <mat-form-field floatLabel='never'>
+        <input
+          id="rule-details-name-input"
+          matInput type="text" formControlName="name" data-automation-id="rule-details-name-input"
+          [placeholder]="getPlaceholder('name') | translate">
+        <mat-error>{{ getErrorMessage(name) | translate }}</mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="aca-rule-details__form__row">
+    <label for="rule-details-description-textarea">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.DESCRIPTION' | translate }}</label>
+    <div>
+      <mat-form-field floatLabel='never'>
+        <textarea
+          id="rule-details-description-textarea"
+          matInput formControlName="description" data-automation-id="rule-details-description-textarea"
+          [placeholder]="getPlaceholder('description') | translate">
+        </textarea>
+      </mat-form-field>
+    </div>
+  </div>
+</form>

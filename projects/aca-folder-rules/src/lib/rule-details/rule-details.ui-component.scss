@@ -1,0 +1,44 @@
+.aca-rule-details {
+  &__form {
+    padding: 20px;
+
+    &__row {
+      display: flex;
+      gap: 8px;
+
+      & > label {
+        font-weight: bold;
+        width: 20%;
+        min-width: 100px;
+        max-width: 150px;
+        padding-top: 0.75em;
+      }
+
+      & > div {
+        flex-grow: 1;
+
+        mat-form-field {
+          width: 100%;
+          font-size: inherit;
+
+          .mat-form-field-infix {
+            border: none;
+          }
+        }
+      }
+    }
+
+    hr {
+      border: none;
+      border-bottom: 1px solid var(--theme-border-color);
+    }
+
+    *:disabled {
+      color: #000000;
+    }
+
+    textarea {
+      min-height: 4em;
+    }
+  }
+}
