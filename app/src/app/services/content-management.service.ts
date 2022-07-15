@@ -74,7 +74,7 @@ import { forkJoin, Observable, of, zip } from 'rxjs';
 import { catchError, map, mergeMap, take, tap } from 'rxjs/operators';
 import { NodeActionsService } from './node-actions.service';
 import { Router } from '@angular/router';
-import { EditRuleDialogSmartComponent } from '../../../../projects/aca-folder-rules/src/lib/rule-details/edit-rule-dialog.smart-component';
+import { EditRuleDialogSmartComponent } from '@alfresco/aca-folder-rules';
 
 interface RestoredNode {
   status: number;
