@@ -48,7 +48,8 @@ import {
   getAppSelection,
   ManageAspectsAction,
   NavigateRouteAction,
-  ExpandInfoDrawerAction, ManageRulesAction
+  ExpandInfoDrawerAction,
+  ManageRulesAction
 } from '@alfresco/aca-shared/store';
 import { ContentManagementService } from '../../services/content-management.service';
 import { ViewUtilService } from '@alfresco/adf-core';
@@ -440,6 +441,6 @@ export class NodeEffects {
           }
         })
       ),
-      { dispatch: false }
+    { dispatch: false }
   );
 }
