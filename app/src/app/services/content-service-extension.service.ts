@@ -15,7 +15,17 @@ import { take } from 'rxjs/operators';
 })
 export class ContentServiceExtensionService {
   constructor(private appConfigService: AppConfigService) {
-    this.updateContentServiceAvailability();
+    this.prepareContentServiceProperty();
+  }
+
+  private prepareContentServiceProperty() {
+    if (!this.existsContentServicePropertyLocalStorage()) {
+      this.updateContentServiceAvailability();
+    }
+  }
+
+  private existsContentServicePropertyLocalStorage() {
+    return localStorage && localStorage.getItem('contentService');
   }
 
   updateContentServiceAvailability() {
