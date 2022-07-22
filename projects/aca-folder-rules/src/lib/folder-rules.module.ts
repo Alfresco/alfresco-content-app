@@ -32,7 +32,9 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { EditRuleDialogSmartComponent } from './rule-details/edit-rule-dialog.smart-component';
 import { ManageRulesSmartComponent } from './manage-rules/manage-rules.smart-component';
+import { RuleCompositeConditionUiComponent } from './rule-details/conditions/rule-composite-condition.ui-component';
 import { RuleDetailsUiComponent } from './rule-details/rule-details.ui-component';
+import { RuleSimpleConditionUiComponent } from './rule-details/conditions/rule-simple-condition.ui-component';
 
 const routes: Routes = [
   {
@@ -44,7 +46,7 @@ const routes: Routes = [
 @NgModule({
   providers: [provideExtensionConfig(['folder-rules.plugin.json'])],
   imports: [CommonModule, RouterModule.forChild(routes), CoreModule.forChild()],
-  declarations: [EditRuleDialogSmartComponent, ManageRulesSmartComponent, RuleDetailsUiComponent]
+  declarations: [EditRuleDialogSmartComponent, ManageRulesSmartComponent, RuleCompositeConditionUiComponent, RuleDetailsUiComponent, RuleSimpleConditionUiComponent]
 })
 export class AcaFolderRulesModule {
   constructor(translation: TranslationService, extensions: ExtensionService) {

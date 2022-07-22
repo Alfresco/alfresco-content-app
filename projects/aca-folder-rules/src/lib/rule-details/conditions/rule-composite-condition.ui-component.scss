@@ -1,0 +1,33 @@
+.aca-rule-composite-condition {
+  display: block;
+  border-radius: 8px;
+  background-color: hsl(0,0%,100%);
+
+  &.childCompositeCondition {
+    padding: 8px 16px;
+  }
+
+  &.secondaryBackground {
+    background-color: hsl(0,0%,95%);
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    &__row {
+      display: flex;
+      gap: 8px;
+
+      & > :nth-child(1) {
+        width: 5em;
+        font-size: inherit;
+      }
+
+      & > :nth-child(2) {
+        flex: 1;
+      }
+    }
+  }
+}
