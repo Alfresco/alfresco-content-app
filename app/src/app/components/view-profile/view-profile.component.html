@@ -1,0 +1,182 @@
+<div class="profile_container">
+  <div class="profile_row">
+    <div class="profile_title">
+      <mat-icon class="profile_icon" (click)="navigateToPersonalFiles()">arrow_back</mat-icon>
+      <h3 class="profile">My Profile</h3>
+    </div>
+    <mat-divider class="mat_divider"></mat-divider>
+  </div>
+  <div class="profile_general_row" [formGroup]="profileForm">
+    <div class="profile_general">
+      <div class="profile_general_div">
+        <mat-icon *ngIf="!general_section_dropdown" class="profile_general_icon" (click)="toggle_general_dropdown()">chevron_right</mat-icon>
+        <mat-icon *ngIf="general_section_dropdown" class="profile_general_icon" (click)="toggle_general_dropdown()">expand_more</mat-icon>
+        <h4 class="general_title">General</h4>
+      </div>
+      <div class="general_edit_btn" *ngIf="general_section_buttons_toggle">
+        <button mat-raised-button (click)="toggle_general_buttons()" class="general_edit">Edit</button>
+      </div>
+      <div class="general_edit_btn" *ngIf="!general_section_buttons_toggle">
+        <button mat-raised-button class="general_cancel_btn" (click)="toggle_general_buttons()">Cancel</button>
+        <button mat-raised-button class="general_save_btn" (click)="onSave_general_data(profileForm)">Save</button>
+      </div>
+    </div>
+    <mat-divider class="mat_divider"  *ngIf="general_section_dropdown"></mat-divider>
+    <div  *ngIf="general_section_dropdown" class="form-group">
+      <div class="general_dropdown">
+        <div class="general_dropdown_details">
+          <h4 class="profile_general_dropdown_heading">First name </h4>
+          <p class="profile_general_dropdown_details">{{person_details?.firstName}}</p>
+        </div>
+        <mat-divider class="general_dropdown_divider"></mat-divider>
+        <div class="general_dropdown_details">
+          <h4 class="profile_general_dropdown_heading">Last name</h4>
+          <p class="profile_general_dropdown_details">{{person_details?.lastName}}</p>
+        </div>
+        <mat-divider class="general_dropdown_divider"></mat-divider>
+        <div class="general_dropdown_details">
+          <h4 class="profile_general_dropdown_heading">Job title</h4>
+          <p class="profile_general_dropdown_details" *ngIf="general_section_buttons_toggle">{{person_details?.jobTitle}}</p>
+          <input type="text" value="" formControlName="jobTitle" *ngIf="!general_section_buttons_toggle" class="profile_general_dropdown_input_details" >
+        </div>
+        <mat-divider class="general_dropdown_divider"></mat-divider>
+        <div class="general_dropdown_details" >
+          <h4 class="profile_general_dropdown_heading">Location</h4>
+          <p class="profile_general_dropdown_details"  *ngIf="general_section_buttons_toggle">{{person_details?.location}}</p>
+          <input type="text" value="" formControlName="location" *ngIf="!general_section_buttons_toggle" class="profile_general_dropdown_input_details" >
+
+        </div>
+        <mat-divider class="general_dropdown_divider"></mat-divider>
+        <div class="general_dropdown_details">
+          <h4 class="profile_general_dropdown_heading">Telephone</h4>
+          <p class="profile_general_dropdown_details" *ngIf="general_section_buttons_toggle">{{person_details?.telephone}}</p>
+          <input type="tel" name="Telephone" value="" formControlName="telephone" *ngIf="!general_section_buttons_toggle" class="profile_general_dropdown_input_details" >
+
+        </div>
+        <mat-divider class="general_dropdown_divider"></mat-divider>
+        <div class="general_dropdown_details">
+          <h4 class="profile_general_dropdown_heading">Mobile</h4>
+          <p class="profile_general_dropdown_details" *ngIf="general_section_buttons_toggle">{{person_details?.mobile}}</p>
+        <input type="tel" value="" formControlName="mobile" *ngIf="!general_section_buttons_toggle"
+         class="profile_general_dropdown_input_details" >
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="profile_login_row" [formGroup]="profileForm">
+    <div class="profile_login" >
+      <div class="profile_general_div">
+        <mat-icon *ngIf="!login_section_dropdown" class="profile_general_icon" (click)="toggle_login_dropdown()">chevron_right</mat-icon>
+        <mat-icon *ngIf="login_section_dropdown" class="profile_general_icon" (click)="toggle_login_dropdown()">expand_more</mat-icon>
+        <h4 class="general_title">Login</h4>
+      </div>
+
+      <div class="general_edit_btn" *ngIf="login_section_buttons_toggle">
+        <button mat-raised-button (click)="toggle_login_buttons()" class="general_edit">Edit</button>
+      </div>
+      <div class="general_edit_btn" *ngIf="!login_section_buttons_toggle">
+        <button mat-raised-button class="general_cancel_btn" (click)="toggle_login_buttons()">Cancel</button>
+        <button mat-raised-button  class="general_save_btn" (click)="onSave_login_data()">Save</button>
+      </div>
+    </div>
+    <mat-divider class="mat_divider" *ngIf="login_section_dropdown"></mat-divider>
+    <div class="profile_login_dropdown" *ngIf="login_section_dropdown">
+      <div class="general_dropdown" >
+        <div class="general_dropdown_details">
+          <h4 class="profile_general_dropdown_heading">Username</h4>
+          <p class="profile_general_dropdown_details">{{person_details?.id}}</p>
+        </div>
+        <mat-divider class="general_dropdown_divider"></mat-divider>
+        <div class="general_dropdown_details">
+          <h4 class="profile_general_dropdown_heading">Email</h4>
+          <p class="profile_general_dropdown_details">{{person_details?.email}}</p>
+        </div>
+        <mat-divider class="general_dropdown_divider" *ngIf="!password_section_dropdown"></mat-divider>
+        <div class="general_dropdown_details" *ngIf="!password_section_dropdown">
+          <h4 class="profile_general_dropdown_heading">Password</h4>
+          <p class="profile_general_dropdown_details"></p>
+        </div>
+        <mat-divider class="general_dropdown_divider" *ngIf="password_section_dropdown"></mat-divider>
+        <div class="general_dropdown_details" *ngIf="password_section_dropdown">
+          <h4 class="profile_general_dropdown_heading">Old Password</h4>
+          <input class="profile_login_dropdown_details" formControlName="oldPassword" type="password">
+          <h4 class="profile_login_dropdown_heading_forgot">Forgot Password</h4>
+        </div>
+        <mat-divider class="general_dropdown_divider" *ngIf="password_section_dropdown"></mat-divider>
+        <div class="general_dropdown_details" *ngIf="password_section_dropdown">
+          <h4 class="profile_general_dropdown_heading">New Password</h4>
+          <input class="profile_login_dropdown_details" type="password" formControlName="newPassword">
+        </div>
+        <mat-divider class="general_dropdown_divider" *ngIf="password_section_dropdown"></mat-divider>
+        <div class="general_dropdown_details" *ngIf="password_section_dropdown">
+          <h4 class="profile_general_dropdown_heading">Verify Password</h4>
+          <input class="profile_login_dropdown_details" type="password" formControlName="verifyPassword">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="profile_contact_row" [formGroup]="profileForm">
+    <div class="profile_general profile_general_bottom_radius">
+      <div class="profile_general_div">
+        <mat-icon *ngIf="!contact_section_dropdown" class="profile_general_icon" (click)="toggle_contact_dropdown()">chevron_right</mat-icon>
+        <mat-icon *ngIf="contact_section_dropdown" class="profile_general_icon" (click)="toggle_contact_dropdown()">expand_more</mat-icon>
+        <h4 class="general_title">Company details</h4>
+      </div>
+
+      <div class="general_edit_btn" *ngIf="contact_section_buttons_toggle">
+        <button mat-raised-button class="general_edit" (click)="toggle_contact_buttons()">Edit</button>
+      </div>
+      <div class="general_edit_btn" *ngIf="!contact_section_buttons_toggle">
+        <button mat-raised-button class="general_cancel_btn" (click)="toggle_contact_buttons()">Cancel</button>
+        <button mat-raised-button  class="general_save_btn" (click)="onSave_company_data(profileForm)">Save</button>
+      </div>
+    </div>
+    <mat-divider class="mat_divider" *ngIf="contact_section_dropdown"></mat-divider>
+    <div *ngIf="contact_section_dropdown">
+      <div class="general_dropdown" >
+        <div class="general_dropdown_details">
+          <h4 class="profile_general_dropdown_heading">Name</h4>
+          <p class="profile_general_dropdown_details">{{person_details?.company?.organization}}</p>
+        </div>
+        <mat-divider class="general_dropdown_divider"></mat-divider>
+        <div class="general_dropdown_details">
+          <h4 class="profile_general_dropdown_heading">Address</h4>
+          <p class="profile_general_dropdown_details" *ngIf="contact_section_buttons_toggle">{{person_details?.company?.address1}}</p>
+          <input type="text" value="" *ngIf="!contact_section_buttons_toggle" formControlName="companyAddress"
+                  class="profile_general_dropdown_input_details">
+
+        </div>
+        <mat-divider class="general_dropdown_divider" ></mat-divider>
+        <div class="general_dropdown_details" >
+          <h4 class="profile_general_dropdown_heading">Post code</h4>
+          <p class="profile_general_dropdown_details" *ngIf="contact_section_buttons_toggle">{{person_details?.company?.postcode}}</p>
+          <input type="text" value="" *ngIf="!contact_section_buttons_toggle" formControlName="companyPostCode"
+                  class="profile_general_dropdown_input_details">
+
+        </div>
+        <mat-divider class="general_dropdown_divider" ></mat-divider>
+        <div class="general_dropdown_details" >
+          <h4 class="profile_general_dropdown_heading">Telephone</h4>
+          <p class="profile_general_dropdown_details" *ngIf="contact_section_buttons_toggle">{{person_details?.company?.telephone}}</p>
+          <input type="tel" value="" *ngIf="!contact_section_buttons_toggle" formControlName="companyTelephone"
+                  class="profile_general_dropdown_input_details">
+
+        </div>
+        <mat-divider class="general_dropdown_divider" ></mat-divider>
+        <div class="general_dropdown_details">
+          <h4 class="profile_general_dropdown_heading">Email</h4>
+          <p class="profile_general_dropdown_details" *ngIf="contact_section_buttons_toggle">{{person_details?.company?.email}}</p>
+          <input type="text" value="" *ngIf="!contact_section_buttons_toggle" formControlName="companyEmail"
+                  class="profile_general_dropdown_input_details">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+

@@ -38,6 +38,7 @@ import { APP_ROUTES } from './app.routes';
 import { FilesComponent } from './components/files/files.component';
 import { LibrariesComponent } from './components/libraries/libraries.component';
 import { FavoriteLibrariesComponent } from './components/favorite-libraries/favorite-libraries.component';
+import { ViewProfileModule } from './components/view-profile/view-profile.module';
 
 import { AppStoreModule } from './store/app-store.module';
 import { MaterialModule } from './material.module';
@@ -134,7 +135,8 @@ registerLocaleData(localeSv);
     AppSearchResultsModule,
     AppHeaderModule,
     AppNodeVersionModule,
-    HammerModule
+    HammerModule,
+    ViewProfileModule
   ],
   declarations: [
     AppComponent,
