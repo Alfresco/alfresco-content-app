@@ -597,6 +597,18 @@
             }
           },
           {
+            "id": "app.toolbar.rules",
+            "title": "ACA_FOLDER_RULES.ACTIONS.MANAGE_RULES",
+            "icon": "gavel",
+            "order": 1300,
+            "actions": {
+              "click": "MANAGE_RULES"
+            },
+            "rules": {
+              "visible": "rules.canManageFolderRules"
+            }
+          },
+          {
             "id": "app.toolbar.deleteLibrary",
             "order": 100,
             "title": "APP.ACTIONS.DELETE",
@@ -811,6 +823,18 @@
         },
         "rules": {
           "visible": "canManagePermissions"
+        }
+      },
+      {
+        "id": "app.context.menu.rules",
+        "title": "ACA_FOLDER_RULES.ACTIONS.MANAGE_RULES",
+        "icon": "gavel",
+        "order": 1600,
+        "actions": {
+          "click": "MANAGE_RULES"
+        },
+        "rules": {
+          "visible": "rules.canManageFolderRules"
         }
       },
       {
