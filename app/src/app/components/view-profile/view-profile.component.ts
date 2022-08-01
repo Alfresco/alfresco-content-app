@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 import { throwError } from 'rxjs';
 
 @Component({
-  selector: 'adf-view-profile',
+  selector: 'app-view-profile',
   templateUrl: './view-profile.component.html',
   styleUrls: ['./view-profile.component.scss'],
   encapsulation: ViewEncapsulation.None
@@ -22,29 +22,29 @@ export class ViewProfileComponent implements OnInit {
   peopleApi: PeopleApi;
 
   profileForm: FormGroup;
-  person_details: Person;
+  personDetails: Person;
 
-  general_section_dropdown = true;
-  general_section_buttons_toggle = true;
+  generalSectionDropdown = true;
+  generalSectionButtonsToggle = true;
 
-  login_section_dropdown = false;
-  login_section_buttons_toggle = true;
-  password_section_dropdown = false;
+  loginSectionDropdown = false;
+  loginSectionButtonsToggle = true;
+  passwordSectionDropdown = false;
 
-  contact_section_dropdown = false;
-  contact_section_buttons_toggle = true;
+  contactSectionDropdown = false;
+  contactSectionButtonsToggle = true;
 
   constructor(private formBuilder: FormBuilder, private router: Router, apiService: AlfrescoApiService) {
     this.peopleApi = new PeopleApi(apiService.getInstance());
   }
 
   ngOnInit() {
-    this.populateForm(this.person_details);
+    this.populateForm(this.personDetails);
 
     this.peopleApi
       .getPerson('-me-')
       .then((userInfo) => {
-        this.person_details = userInfo?.entry;
+        this.personDetails = userInfo?.entry;
         this.populateForm(userInfo?.entry);
       })
       .catch((error) => {
@@ -74,63 +74,75 @@ export class ViewProfileComponent implements OnInit {
     });
   }
 
-  toggle_general_dropdown() {
-    this.general_section_dropdown = !this.general_section_dropdown;
-  }
+  toggleGeneralDropdown() {
+    this.generalSectionDropdown = !this.generalSectionDropdown;
 
-  toggle_general_buttons() {
-    this.general_section_buttons_toggle = !this.general_section_buttons_toggle;
-
-    if (!this.general_section_buttons_toggle) {
-      this.general_section_dropdown = true;
+    if (!this.generalSectionDropdown) {
+      this.generalSectionButtonsToggle = true;
     }
   }
 
-  onSave_general_data(event) {
-    this.general_section_buttons_toggle = !this.general_section_buttons_toggle;
-    this.updatePersonDetails(event);
-  }
+  toggleGeneralButtons() {
+    this.generalSectionButtonsToggle = !this.generalSectionButtonsToggle;
 
-  onSave_login_data() {
-    this.password_section_dropdown = !this.password_section_dropdown;
-    this.login_section_buttons_toggle = !this.login_section_buttons_toggle;
-  }
-
-  onSave_company_data(event) {
-    this.contact_section_buttons_toggle = !this.contact_section_buttons_toggle;
-    this.updatePersonDetails(event);
-  }
-
-  toggle_login_dropdown() {
-    this.login_section_dropdown = !this.login_section_dropdown;
-  }
-
-  toggle_login_buttons() {
-    this.login_section_buttons_toggle = !this.login_section_buttons_toggle;
-    this.password_section_dropdown = !this.password_section_dropdown;
-
-    if (!this.login_section_buttons_toggle) {
-      this.login_section_dropdown = true;
-      this.password_section_dropdown = true;
+    if (!this.generalSectionButtonsToggle) {
+      this.generalSectionDropdown = true;
     }
   }
 
-  toggle_contact_dropdown() {
-    this.contact_section_dropdown = !this.contact_section_dropdown;
+  onSaveGeneralData(event) {
+    this.generalSectionButtonsToggle = !this.generalSectionButtonsToggle;
+    this.updatePersonDetails(event);
   }
 
-  toggle_contact_buttons() {
-    this.contact_section_buttons_toggle = !this.contact_section_buttons_toggle;
+  onSaveLoginData() {
+    this.passwordSectionDropdown = !this.passwordSectionDropdown;
+    this.loginSectionButtonsToggle = !this.loginSectionButtonsToggle;
+  }
 
-    if (!this.contact_section_buttons_toggle) {
-      this.contact_section_dropdown = true;
+  onSaveCompanyData(event) {
+    this.contactSectionButtonsToggle = !this.contactSectionButtonsToggle;
+    this.updatePersonDetails(event);
+  }
+
+  toggleLoginDropdown() {
+    this.loginSectionDropdown = !this.loginSectionDropdown;
+
+    if (!this.loginSectionDropdown) {
+      this.loginSectionButtonsToggle = true;
+    }
+  }
+
+  toggleLoginButtons() {
+    this.loginSectionButtonsToggle = !this.loginSectionButtonsToggle;
+    this.passwordSectionDropdown = !this.passwordSectionDropdown;
+
+    if (!this.loginSectionButtonsToggle) {
+      this.loginSectionDropdown = true;
+      this.passwordSectionDropdown = true;
+    }
+  }
+
+  toggleContactDropdown() {
+    this.contactSectionDropdown = !this.contactSectionDropdown;
+
+    if (!this.contactSectionDropdown) {
+      this.contactSectionButtonsToggle = true;
+    }
+  }
+
+  toggleContactButtons() {
+    this.contactSectionButtonsToggle = !this.contactSectionButtonsToggle;
+
+    if (!this.contactSectionButtonsToggle) {
+      this.contactSectionDropdown = true;
     }
   }
 
   updatePersonDetails(event) {
     if (this.profileForm.valid) {
       this.peopleApi
-        .updatePerson(this.person_details.id, {
+        .updatePerson(this.personDetails.id, {
           jobTitle: event.value.jobTitle,
           location: event.value.location,
           telephone: event.value.telephone,
@@ -143,15 +155,15 @@ export class ViewProfileComponent implements OnInit {
           }
         })
         .then((person) => {
-          this.person_details = person?.entry;
+          this.personDetails = person?.entry;
           this.populateForm(person?.entry);
         })
         .catch((error) => {
-          this.populateForm(this.person_details);
+          this.populateForm(this.personDetails);
           throwError(error);
         });
     } else {
-      this.populateForm(this.person_details);
+      this.populateForm(this.personDetails);
     }
   }
 }

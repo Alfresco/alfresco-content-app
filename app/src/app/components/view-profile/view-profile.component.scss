@@ -1,132 +1,132 @@
-adf-view-profile {
+app-view-profile {
   letter-spacing: .5px;
 
-  .profile_container {
+  .app-profile-container {
     margin-top: 1rem;
     overflow: scroll;
     height:100%;
     width: 100%;
   }
 
-  .profile_row {
+  .app-profile-row {
     width: 100%;
   }
 
-  .profile_title {
+  .app-profile-title {
     display: flex;
     margin-left: 2rem;
   }
 
-  .profile {
+  .app-profile {
     cursor: pointer;
   }
 
-  .profile_general_row {
+  .app-profile-general-row {
     margin: 2rem 0 0 2rem;
     width: 70%;
     border: 1px solid var(--theme-grey-background-color);
     border-radius: 1rem;
   }
 
-  .profile_icon{
+  .app-profile-icon {
     margin-right: 1rem;
     margin-top: 1rem;
     cursor: pointer;
   }
 
-  .profile_general_icon {
+  .app-profile-general-icon {
     cursor: pointer;
   }
 
-  .profile_text {
+  .app-profile-text {
     letter-spacing: .5px;
   }
 
-  .profile_general {
+  .app-profile-general {
     display: flex;
     padding-left: 1rem;
   }
 
-  .profile_general_bottom_radius {
+  .app-profile-general-bottom-radius {
     border-bottom-left-radius:0;
     border-bottom-right-radius: 0;
   }
 
-  .profile_general_div {
+  .app-profile-general-div {
     display: flex;
     width: 60%;
     padding-top: 1rem;
     cursor: pointer;
   }
 
-  .general_title {
+  .app-general-title {
     margin-left: 0.6rem;
     margin-top: 4px;
     letter-spacing: .5px;
   }
 
-  .general_edit_btn {
+  .app-general-edit-btn {
     width:60%;
     text-align: end;
   }
 
-  .mat_divider {
+  .app-mat-divider {
     border-top-width: 2px;
     border-top-color: var(--theme-grey-background-color);
     padding-left: -1px;
     padding-right: 1px;
   }
 
-  .profile_row {
+  .app-profile-row {
     width: 100%;
     margin: 2rem 0 0 0;
   }
 
-  .general_edit {
+  .app-general-edit {
     margin: 0.7rem;
     background: var(--theme-grey-text-background-color);
   }
 
-  .general_edit:hover {
+  .app-general-edit:hover {
     background: var(--theme-grey-hover-background-color);
   }
 
-  .general_cancel_btn {
+  .app-general-cancel-btn {
     margin: 0.7rem;
     background-color: var(--theme-grey-text-background-color);
   }
 
-  .general_save_btn {
+  .app-general-save-btn {
     margin: 0.7rem;
     color: white;
     background-color: var(--theme-blue-button-color);
   }
 
-  .general_dropdown_divider {
+  .app-general-dropdown-divider {
     border-top-color: var(--theme-grey-divider-color);
   }
 
-  .general_dropdown {
+  .app-general-dropdown {
     padding: 0rem 1rem;
   }
 
-  .general_dropdown_details {
+  .app-general-dropdown-details {
     display: flex;
   }
 
-  .profile_general_dropdown_heading {
+  .app-profile-general-dropdown-heading {
     color: var(--theme-heading-color);
     width: 20%;
     font-weight: 400;
     letter-spacing: .5px;
   }
 
-  .profile_general_dropdown_details {
+  .app-profile-general-dropdown-details {
     margin-top: 1.3rem;
     letter-spacing: .5px;
   }
 
-  .profile_general_dropdown_input_details {
+  .app-profile-general-dropdown-input-details {
     width: 24%;
     height: 25px;
     border: none;
@@ -134,19 +134,19 @@ adf-view-profile {
     background-color: var(--theme-dropdown-color);
   }
 
-  .profile_login_row {
+  .app-profile-login-row {
     margin: 2rem 0 0 2rem;
     width: 70%;
     border: 1px solid var(--theme-grey-background-color);
     border-radius: 1rem;
   }
 
-  .profile_login {
+  .app-profile-login {
     display: flex;
     padding-left: 1rem;
   }
 
-  .profile_login_dropdown_details {
+  .app-profile-login-dropdown-details {
     width: 24%;
     height: 25px;
     border: none;
@@ -154,17 +154,17 @@ adf-view-profile {
     background-color: var(--theme-dropdown-color) ;
   }
 
-  .profile_login_dropdown_heading_forgot {
+  .app-profile-login-dropdown-heading-forgot {
     margin-top: 1.3rem;
     color: var(--theme-heading-color);
     margin-left: 16rem;
   }
 
-  .profile_company_row {
+  .app-profile-company-row {
     margin-top: 2rem;
   }
 
-  .profile_contact_row {
+  .app-profile-contact-row {
     margin: 2rem 0 5rem 2rem;
     width: 70%;
     border: 1px solid var(--theme-grey-background-color);
