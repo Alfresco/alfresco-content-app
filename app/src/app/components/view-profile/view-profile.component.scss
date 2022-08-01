@@ -1,30 +1,30 @@
 adf-view-profile {
   letter-spacing: .5px;
 
-  .profile_container{
+  .profile_container {
     margin-top: 1rem;
     overflow: scroll;
     height:100%;
     width: 100%;
   }
 
-  .profile_row{
+  .profile_row {
     width: 100%;
   }
 
-  .profile_title{
+  .profile_title {
     display: flex;
     margin-left: 2rem;
   }
 
-  .profile{
+  .profile {
     cursor: pointer;
   }
 
-  .profile_general_row{
+  .profile_general_row {
     margin: 2rem 0 0 2rem;
     width: 70%;
-    border: 1px solid rgba(33,33,33,0.12);
+    border: 1px solid var(--theme-grey-background-color);
     border-radius: 1rem;
   }
 
@@ -34,139 +34,139 @@ adf-view-profile {
     cursor: pointer;
   }
 
-  .profile_general_icon{
+  .profile_general_icon {
     cursor: pointer;
   }
 
-  .profile_text{
+  .profile_text {
     letter-spacing: .5px;
   }
 
-  .profile_general{
+  .profile_general {
     display: flex;
     padding-left: 1rem;
   }
 
-  .profile_general_bottom_radius{
+  .profile_general_bottom_radius {
   border-bottom-left-radius:0;
   border-bottom-right-radius: 0;
   }
 
-  .profile_general_div{
+  .profile_general_div {
     display: flex;
     width: 60%;
     padding-top: 1rem;
     cursor: pointer;
   }
 
-  .general_title{
+  .general_title {
     margin-left: 0.6rem;
     margin-top: 4px;
     letter-spacing: .5px;
   }
 
-  .general_edit_btn{
+  .general_edit_btn {
     width:60%;
     text-align: end;
   }
 
-  .mat_divider{
+  .mat_divider {
     border-top-width: 2px;
-    border-top-color: rgba(33,33,33,0.12);
+    border-top-color: var(--theme-grey-background-color);
     padding-left: -1px;
     padding-right: 1px;
   }
 
-  .profile_row{
+  .profile_row {
     width: 100%;
     margin: 2rem 0 0 0;
   }
 
-  .general_edit{
+  .general_edit {
     margin: 0.7rem;
-    background: rgba(33, 33, 33, 0.05);
+    background: var(--theme-grey-text-background-color);
   }
 
-  .general_edit:hover{
-    background: rgba(33, 33, 33, 0.24);
+  .general_edit:hover {
+    background: var(--theme-grey-hover-background-color);
   }
 
-  .general_cancel_btn{
+  .general_cancel_btn {
     margin: 0.7rem;
-    background-color: rgba(33, 33, 33, 0.05);
+    background-color: var(--theme-grey-text-background-color);
   }
 
-  .general_save_btn{
+  .general_save_btn {
     margin: 0.7rem;
-    color: #FFFFFF;
-    background-color: #1F74DB;
+    color: white;
+    background-color: var(--theme-blue-button-color);
   }
-  .general_dropdown_divider{
-    border-top-color: rgba(0,0,0,.22);
+  .general_dropdown_divider {
+    border-top-color: var(--theme-grey-divider-color);
   }
 
-  .general_dropdown{
+  .general_dropdown {
     padding: 0rem 1rem;
   }
 
-  .general_dropdown_details{
+  .general_dropdown_details {
     display: flex;
   }
 
-  .profile_general_dropdown_heading{
-    color:#4e4c4c;
+  .profile_general_dropdown_heading {
+    color: var(--theme-heading-color);
     width: 20%;
     font-weight: 400;
     letter-spacing: .5px;
   }
 
-  .profile_general_dropdown_details{
+  .profile_general_dropdown_details {
     margin-top: 1.3rem;
     letter-spacing: .5px;
   }
 
-  .profile_general_dropdown_input_details{
-  width: 24%;
-  height: 25px;
-  border: none;
-  margin-top: 1.3rem;
-  background-color: #eee;
-  }
-
-  .profile_login_row{
-    margin: 2rem 0 0 2rem;
-    width: 70%;
-    border: 1px solid rgba(33, 33, 33, 0.12);
-    border-radius: 1rem;
-  }
-
-  .profile_login{
-    display: flex;
-    padding-left: 1rem;
-  }
-
-  .profile_login_dropdown_details{
+  .profile_general_dropdown_input_details {
     width: 24%;
     height: 25px;
     border: none;
     margin-top: 1.3rem;
-    background-color:#eee ;
+    background-color: var(--theme-dropdown-color);
   }
 
-  .profile_login_dropdown_heading_forgot{
+  .profile_login_row {
+    margin: 2rem 0 0 2rem;
+    width: 70%;
+    border: 1px solid var(--theme-grey-background-color);
+    border-radius: 1rem;
+  }
+
+  .profile_login {
+    display: flex;
+    padding-left: 1rem;
+  }
+
+  .profile_login_dropdown_details {
+    width: 24%;
+    height: 25px;
+    border: none;
     margin-top: 1.3rem;
-    color:#4e4c4c;
+    background-color: var(--theme-dropdown-color) ;
+  }
+
+  .profile_login_dropdown_heading_forgot {
+    margin-top: 1.3rem;
+    color: var(--theme-heading-color);
     margin-left: 16rem;
   }
 
-  .profile_company_row{
+  .profile_company_row {
     margin-top: 2rem;
   }
 
-  .profile_contact_row{
+  .profile_contact_row {
     margin: 2rem 0 5rem 2rem;
     width: 70%;
-    border: 1px solid rgba(33,33,33,0.12);
+    border: 1px solid var(--theme-grey-background-color);
     border-radius: 1rem;
   }
 }
