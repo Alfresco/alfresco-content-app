@@ -24,4 +24,4 @@
  */
 
 export * from './lib/folder-rules.module';
-export { EditRuleDialogSmartComponent } from './lib/rule-details/edit-rule-dialog.smart-component';
+export { ManageRulesSmartComponent } from './lib/manage-rules/manage-rules.smart-component';
