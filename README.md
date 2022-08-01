@@ -2,32 +2,33 @@
 
 # Alfresco Content Application
 
-Please refer to the [Public documentation](https://alfresco-content-app.netlify.com/) for more details
+## Requirements
 
-| branch  | status                                                                                                                                         |
-| ------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| master  | [![Build Status](https://travis-ci.com/Alfresco/alfresco-content-app.svg?branch=master)](https://travis-ci.com/Alfresco/alfresco-content-app)  |
-| develop | [![Build Status](https://travis-ci.org/Alfresco/alfresco-content-app.svg?branch=develop)](https://travis-ci.com/Alfresco/alfresco-content-app) |
+| Name | Version |
+| --- | --- |
+| Node.js | 14.x |
+| Npm | 6.x |
 
-## Setting up environment variables
+## Running
 
-We need to set some environment variable to be able to run the local dev server. In the project root folder, create an `.env` file (this is gitignored) with the following data:
+Create an `.env` file in the project root folder with the following content
 
-```bash
-# App config settings
-APP_CONFIG_BPM_HOST="<url>"
-APP_CONFIG_ECM_HOST="<url>"
-APP_CONFIG_OAUTH2_HOST="<url>"
-APP_CONFIG_IDENTITY_HOST="<url>"
-APP_CONFIG_PROVIDER="ALL"
-APP_CONFIG_AUTH_TYPE="OAUTH"
-APP_CONFIG_OAUTH2_CLIENTID="alfresco"
-APP_CONFIG_OAUTH2_IMPLICIT_FLOW=true
-APP_CONFIG_OAUTH2_SILENT_LOGIN=true
-APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI="{protocol}//{hostname}{:port}/assets/silent-refresh.html"
-APP_CONFIG_OAUTH2_REDIRECT_LOGIN=/
-APP_CONFIG_OAUTH2_REDIRECT_LOGOUT=/
-# CONTENT - ALFRESCO OFFICE SERVICES PLUGIN RELATED
-APP_CONFIG_PLUGIN_AOS=true
-# ALFRESCO CONTENT SERVICE RELATED
+```yml
+APP_CONFIG_ECM_HOST="<URL>"
+APP_CONFIG_PLUGIN_AOS=false
 APP_CONFIG_PLUGIN_CONTENT_SERVICE=true
+APP_CONFIG_PLUGIN_FOLDER_RULES=true
+```
+
+Where `<URL>` is the address of the ACS.
+
+Run the following commands:
+
+```sh
+npm install
+npm start content-ce
+```
+
+## See Also
+
+Please refer to the [Public documentation](https://alfresco-content-app.netlify.com/) for more details
