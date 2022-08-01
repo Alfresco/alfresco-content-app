@@ -48,8 +48,8 @@ adf-view-profile {
   }
 
   .profile_general_bottom_radius {
-  border-bottom-left-radius:0;
-  border-bottom-right-radius: 0;
+    border-bottom-left-radius:0;
+    border-bottom-right-radius: 0;
   }
 
   .profile_general_div {
@@ -101,6 +101,7 @@ adf-view-profile {
     color: white;
     background-color: var(--theme-blue-button-color);
   }
+
   .general_dropdown_divider {
     border-top-color: var(--theme-grey-divider-color);
   }
