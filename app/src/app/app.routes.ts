@@ -38,7 +38,6 @@ import { RecentFilesComponent } from './components/recent-files/recent-files.com
 import { SharedFilesComponent } from './components/shared-files/shared-files.component';
 import { DetailsComponent } from './components/details/details.component';
 import { HomeComponent } from './components/home/home.component';
-import { ManageRulesSmartComponent } from '@alfresco/aca-folder-rules';
 
 export const APP_ROUTES: Routes = [
   {
@@ -553,8 +552,8 @@ export const APP_ROUTES: Routes = [
         path: 'nodes/:nodeId',
         children: [
           {
-            path: 'rules',
-            component: ManageRulesSmartComponent
+            path: '',
+            loadChildren: () => import('@alfresco/aca-folder-rules').then((m) => m.AcaFolderRulesModule)
           }
         ]
       },

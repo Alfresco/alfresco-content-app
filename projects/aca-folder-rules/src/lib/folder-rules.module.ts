@@ -28,14 +28,22 @@ import { ExtensionService, provideExtensionConfig } from '@alfresco/adf-extensio
 import { NgModule } from '@angular/core';
 import * as rules from './folder-rules.rules';
 import { CommonModule } from '@angular/common';
+import { RouterModule, Routes } from '@angular/router';
 
 import { EditRuleDialogSmartComponent } from './rule-details/edit-rule-dialog.smart-component';
 import { ManageRulesSmartComponent } from './manage-rules/manage-rules.smart-component';
 import { RuleDetailsUiComponent } from './rule-details/rule-details.ui-component';
 
+const routes: Routes = [
+  {
+    path: 'rules',
+    component: ManageRulesSmartComponent
+  }
+];
+
 @NgModule({
   providers: [provideExtensionConfig(['folder-rules.plugin.json'])],
-  imports: [CommonModule, CoreModule.forChild()],
+  imports: [CommonModule, RouterModule.forChild(routes), CoreModule.forChild()],
   declarations: [EditRuleDialogSmartComponent, ManageRulesSmartComponent, RuleDetailsUiComponent]
 })
 export class AcaFolderRulesModule {
