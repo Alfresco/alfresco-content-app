@@ -428,14 +428,14 @@ export class NodeEffects {
         ofType<ManageRulesAction>(NodeActionTypes.ManageRules),
         map((action) => {
           if (action && action.payload) {
-            this.contentService.manageRules(action.payload);
+            this.store.dispatch(new NavigateRouteAction(['nodes', action.payload.entry.id, 'rules']));
           } else {
             this.store
               .select(getAppSelection)
               .pipe(take(1))
               .subscribe((selection) => {
                 if (selection && !selection.isEmpty) {
-                  this.contentService.manageRules(selection.nodes[0]);
+                  this.store.dispatch(new NavigateRouteAction(['nodes', selection.first.entry.id, 'rules']));
                 }
               });
           }

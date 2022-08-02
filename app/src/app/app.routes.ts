@@ -549,6 +549,15 @@ export const APP_ROUTES: Routes = [
         ]
       },
       {
+        path: 'nodes/:nodeId',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('@alfresco/aca-folder-rules').then((m) => m.AcaFolderRulesModule)
+          }
+        ]
+      },
+      {
         path: '**',
         component: GenericErrorComponent
       }

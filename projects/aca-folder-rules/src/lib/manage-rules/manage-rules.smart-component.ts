@@ -23,10 +23,10 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AcaRuleContext, hasFolderSelected, canEditFolder, isNotFavorites } from '@alfresco/aca-shared/rules';
+import { Component } from '@angular/core';
 
-export const isFolderRulesEnabled = (context: AcaRuleContext) => context.appConfig.get<boolean>('plugins.folderRules', false);
-export const isFolderRulesAllowed = (context: AcaRuleContext) =>
-  isFolderRulesEnabled(context) && canEditFolder(context) && hasFolderSelected(context) && isNotFavorites(context);
-
-export const canManageFolderRules = (context: AcaRuleContext): boolean => isFolderRulesAllowed(context);
+@Component({
+  selector: 'aca-manage-rules',
+  template: `<div>This is the Manage Rules component</div>`
+})
+export class ManageRulesSmartComponent {}

@@ -74,7 +74,6 @@ import { forkJoin, Observable, of, zip } from 'rxjs';
 import { catchError, map, mergeMap, take, tap } from 'rxjs/operators';
 import { NodeActionsService } from './node-actions.service';
 import { Router } from '@angular/router';
-import { EditRuleDialogSmartComponent } from '@alfresco/aca-folder-rules';
 
 interface RestoredNode {
   status: number;
@@ -1078,14 +1077,5 @@ export class ContentManagementService {
       )
       .onAction()
       .subscribe(() => this.undoMoveNodes(moveResponse, initialParentId));
-  }
-
-  manageRules(node: any) {
-    if (node && node.entry) {
-      this.dialogRef.open(EditRuleDialogSmartComponent, {
-        minWidth: '70%',
-        panelClass: 'aca-edit-rule-dialog-container'
-      });
-    }
   }
 }
