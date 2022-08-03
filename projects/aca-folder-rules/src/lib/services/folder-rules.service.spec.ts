@@ -25,15 +25,17 @@
 
 import {FolderRulesService} from "./folder-rules.service";
 import {TestBed} from "@angular/core/testing";
-import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
-import {Rule} from "../model/rule.model";
+// import {Rule} from "../model/rule.model";
+import {take} from "rxjs/operators";
+import {AlfrescoApiService} from "@alfresco/adf-core";
 
 fdescribe('FolderRulesService', () => {
 
   let folderRulesService: FolderRulesService,
-    httpTestingController: HttpTestingController
+    alfrescoApiService: AlfrescoApiService
 
-  let dummyResponse = {
+
+  const dummyResponse = {
     "list": {
       "pagination": {
         "count": 2,
@@ -91,108 +93,128 @@ fdescribe('FolderRulesService', () => {
       ]
     }
   }
-  let dummyRules: Partial<Rule>[] = [
-    {
-      "shared": false,
-      "cascade": false,
-      "asynchronous": false,
-      "name": "rule1",
-      "id": "53273531-fb09-4bcc-97c9-dc1d2036275e",
-      "triggers": [
-        "INBOUND"
-      ],
-      "actions": [
-        {
-          "actionDefinitionId": "copy",
-          "params": {
-            "deep-copy": false,
-            "destination-folder": "6c98161d-2aa1-4f06-9b37-ed46be28320d",
-            "actionContext": "rule"
-          }
-        }
-      ],
-      "enabled": true
-    },
-    {
-      "shared": false,
-      "cascade": false,
-      "asynchronous": false,
-      "name": "rule2",
-      "id": "b21fbf98-41da-4023-bc7e-2e727b3324d4",
-      "triggers": [
-        "INBOUND"
-      ],
-      "actions": [
-        {
-          "actionDefinitionId": "move",
-          "params": {
-            "destination-folder": "6c98161d-2aa1-4f06-9b37-ed46be28320d",
-            "actionContext": "rule"
-          }
-        }
-      ],
-      "enabled": true
-    }
-  ]
+  // const dummyRules: Partial<Rule>[] = [
+  //   {
+  //     "shared": false,
+  //     "cascade": false,
+  //     "asynchronous": false,
+  //     "name": "rule1",
+  //     "id": "53273531-fb09-4bcc-97c9-dc1d2036275e",
+  //     "triggers": [
+  //       "INBOUND"
+  //     ],
+  //     "actions": [
+  //       {
+  //         "actionDefinitionId": "copy",
+  //         "params": {
+  //           "deep-copy": false,
+  //           "destination-folder": "6c98161d-2aa1-4f06-9b37-ed46be28320d",
+  //           "actionContext": "rule"
+  //         }
+  //       }
+  //     ],
+  //     "enabled": true
+  //   },
+  //   {
+  //     "shared": false,
+  //     "cascade": false,
+  //     "asynchronous": false,
+  //     "name": "rule2",
+  //     "id": "b21fbf98-41da-4023-bc7e-2e727b3324d4",
+  //     "triggers": [
+  //       "INBOUND"
+  //     ],
+  //     "actions": [
+  //       {
+  //         "actionDefinitionId": "move",
+  //         "params": {
+  //           "destination-folder": "6c98161d-2aa1-4f06-9b37-ed46be28320d",
+  //           "actionContext": "rule"
+  //         }
+  //       }
+  //     ],
+  //     "enabled": true
+  //   }
+  // ]
 
-  let firstRuleId = dummyResponse['list']['entries'][0]['entry'].id
+  const firstRuleId = dummyResponse['list']['entries'][0]['entry'].id
+
 
   beforeEach((() => {
 
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         FolderRulesService
       ]
     })
 
     folderRulesService = TestBed.inject<FolderRulesService>(FolderRulesService)
-    httpTestingController = TestBed.inject<HttpTestingController>(HttpTestingController)
-
-
+    alfrescoApiService = TestBed.inject<AlfrescoApiService>(AlfrescoApiService)
   }))
 
-  it('should set a list of rules to observable', (done: DoneFn) => {
+  // it('should set a list of rules to observable', (done: DoneFn) => {
+  //
+  //   folderRulesService.loadAllRules()
+  //
+  //   setTimeout(() => {
+  //
+  //     let rules$ = folderRulesService.rulesListing$
+  //
+  //     rules$.subscribe(
+  //       res => {
+  //
+  //         console.log(res)
+  //
+  //         expect(res).toBeTruthy('No response received')
+  //
+  //         // expect(res).toEqual(dummyRules)
+  //
+  //         expect(res[0].id).toBe(firstRuleId)
+  //
+  //         done()
+  //
+  //       }
+  //     )
+  //   })
+  //
+  //   const req = httpTestingController.expectOne(`https://acadev.envalfresco.com/alfresco/api/-default-/public/alfresco/versions/1/nodes/d91aa433-45f0-4c4c-9fb1-89ade91215aa/rule-sets/-default-/rules`)
+  //   expect(req.request.method).toEqual('GET')
+  //   req.flush(dummyResponse)
+  //
+  // })
+
+  it('should set a list of rules to observable', async () => {
+
+    spyOn(alfrescoApiService, 'getInstance').and.returnValue(
+      {
+        contentClient: {
+          callApi: jasmine.createSpy('callApi').and.returnValue(dummyResponse)
+        }
+      } as any
+    );
+
+    let rulesPromise = folderRulesService.rulesListing$
+      .pipe(take(1))
+      .toPromise();
 
     folderRulesService.loadAllRules()
 
-    setTimeout(() => {
+    const rules = await rulesPromise
 
-      let rules$ = folderRulesService.rulesListing$
+    console.log(rules)
 
-      rules$.subscribe(
-        res => {
+    expect(rules).toBeTruthy('No response received')
 
-          console.log(res)
+    // expect(rules).toEqual(dummyRules)
 
-          expect(res).toBeTruthy('No response received')
+    expect(rules[0].id).toBe(firstRuleId)
 
-          expect(res).toEqual(dummyRules)
+    // expect(request.method).toEqual('GET')
 
-          expect(res[0].id).toBe(firstRuleId)
+    // const req = httpTestingController.expectOne(`https://acadev.envalfresco.com/alfresco/api/-default-/public/alfresco/versions/1/nodes/d91aa433-45f0-4c4c-9fb1-89ade91215aa/rule-sets/-default-/rules`)
 
-          done()
-
-        }
-      )
-    })
-
-
-    // rules$.toPromise().then((res) => {
-    //
-    //     console.log(res)
-    //
-    //     expect(res).toBeTruthy('No response received')
-    //
-    //     expect(res).toEqual(dummyRules)
-    //
-    //     expect(res[0].id).toBe(firstRuleId)
-    // })
-
-
-    const req = httpTestingController.expectOne(`https://acadev.envalfresco.com/alfresco/api/-default-/public/alfresco/versions/1/nodes/d91aa433-45f0-4c4c-9fb1-89ade91215aa/rule-sets/-default-/rules`)
-    expect(req.request.method).toEqual('GET')
-    req.flush(dummyResponse)
+    // req.flush(dummyResponse)
 
   })
 

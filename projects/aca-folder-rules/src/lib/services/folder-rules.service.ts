@@ -24,11 +24,10 @@
  */
 
 import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
-import {BehaviorSubject, Observable} from "rxjs";
+import {BehaviorSubject, from, Observable} from "rxjs";
 import {finalize, map} from "rxjs/operators";
 import {Rule} from "../model/rule.model";
-import {AppConfigService} from "@alfresco/adf-core";
+import {AlfrescoApiService} from "@alfresco/adf-core";
 
 @Injectable({
   providedIn: 'root'
@@ -42,19 +41,21 @@ export class FolderRulesService {
 
   private rulesListingSource = new BehaviorSubject<Partial<Rule>[]>([]);
   rulesListing$: Observable<Partial<Rule>[]> = this.rulesListingSource.asObservable();
+
   private loadingSource = new BehaviorSubject<boolean>(false);
   loading$ = this.loadingSource.asObservable();
 
   // private appConfig: AppConfigService second parameter of constructor
 
-  constructor(private http: HttpClient, private appConfig: AppConfigService) {
-    this.identityHost = this.appConfig.get('ecmHost');
+  constructor(private apiService: AlfrescoApiService) {
+
   }
 
   loadAllRules(nodeId: string = this.nodeId, ruleSetId: string = '-default-'): void {
-    this.loadingSource.next(true);
-    // ${this.appConfig.get()}
-    this.http.get(`${this.baseUrl}/nodes/${nodeId}/rule-sets/${ruleSetId}/rules`)
+
+    from(this.apiService.getInstance().contentClient.callApi(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules`, 'GET',
+      {}, {}, {}, {}, {},
+      ['application/json'], ['application/json']))
       .pipe(
         map(res => this.formatRules(res)),
         finalize(() => this.loadingSource.next(false))
@@ -63,6 +64,10 @@ export class FolderRulesService {
         res => this.rulesListingSource.next(res),
         err => this.rulesListingSource.error(err)
       )
+
+    this.loadingSource.next(true);
+
+
   }
 
   formatRules(res): Rule[] {

@@ -24,9 +24,26 @@
  */
 
 import { Component } from '@angular/core';
+import {FolderRulesService} from "../services/folder-rules.service";
 
 @Component({
   selector: 'aca-manage-rules',
-  template: `<div>This is the Manage Rules component</div>`
+  template: `
+    <div>This is the Manage Rules component</div>
+    <button (click)="loadRules()">Load Rules</button>
+    <pre>{{folderRulesService.rulesListing$ | async | json}}</pre>
+  `
 })
-export class ManageRulesSmartComponent {}
+export class ManageRulesSmartComponent {
+
+  constructor(public folderRulesService: FolderRulesService) {
+
+
+
+
+  }
+
+  loadRules() {
+    this.folderRulesService.loadAllRules()
+  }
+}
