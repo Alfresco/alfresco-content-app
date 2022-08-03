@@ -24,9 +24,9 @@
  */
 
 import { AcaRuleContext } from '@alfresco/aca-shared/rules';
-import { isFolderRulesEnabled, canCreateFolderRule, canLinkFolderRule } from './folder-rules.rules';
+import { isFolderRulesEnabled, canManageFolderRules } from './folder-rules.rules';
 
-describe('Folder Rules', () => {
+describe('Folder Rules Visibility Rules', () => {
   describe('isFolderRulesEnabled', () => {
     it('should have the feature enabled', () => {
       const context: any = {
@@ -51,7 +51,7 @@ describe('Folder Rules', () => {
     });
   });
 
-  describe('canCreateFolderRule', () => {
+  describe('canManageFolderRules', () => {
     let context: AcaRuleContext;
 
     beforeEach(() => {
@@ -72,47 +72,14 @@ describe('Folder Rules', () => {
     });
 
     it('should allow creating a rule for the selected folder', () => {
-      const result = canCreateFolderRule(context);
+      const result = canManageFolderRules(context);
       expect(result).toEqual(true);
     });
 
     it('should not allow creating a rule if no folder selected', () => {
       context.selection.folder = null;
 
-      const result = canCreateFolderRule(context);
-      expect(result).toEqual(false);
-    });
-  });
-
-  describe('canLinkFolderRule', () => {
-    let context: AcaRuleContext;
-
-    beforeEach(() => {
-      context = {
-        appConfig: {
-          get: () => true
-        },
-        selection: {
-          folder: {} as any
-        },
-        navigation: {
-          url: '/personal-files'
-        },
-        permissions: {
-          check: () => true
-        }
-      } as any;
-    });
-
-    it('should allow linking rule for the selected folder', () => {
-      const result = canLinkFolderRule(context);
-      expect(result).toEqual(true);
-    });
-
-    it('should not allow linking rule if no folder selected', () => {
-      context.selection.folder = null;
-
-      const result = canLinkFolderRule(context);
+      const result = canManageFolderRules(context);
       expect(result).toEqual(false);
     });
   });
