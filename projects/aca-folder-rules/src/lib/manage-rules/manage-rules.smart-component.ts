@@ -26,6 +26,7 @@
 import { Component } from '@angular/core';
 import {FolderRulesService} from "../services/folder-rules.service";
 
+
 @Component({
   selector: 'aca-manage-rules',
   template: `

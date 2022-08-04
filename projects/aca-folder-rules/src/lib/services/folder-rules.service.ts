@@ -37,15 +37,12 @@ export class FolderRulesService {
 
   baseUrl = 'https://acadev.envalfresco.com/alfresco/api/-default-/public/alfresco/versions/1'
   nodeId = 'd91aa433-45f0-4c4c-9fb1-89ade91215aa'
-  identityHost = ''
 
   private rulesListingSource = new BehaviorSubject<Partial<Rule>[]>([]);
   rulesListing$: Observable<Partial<Rule>[]> = this.rulesListingSource.asObservable();
 
   private loadingSource = new BehaviorSubject<boolean>(false);
   loading$ = this.loadingSource.asObservable();
-
-  // private appConfig: AppConfigService second parameter of constructor
 
   constructor(private apiService: AlfrescoApiService) {
 
@@ -66,7 +63,6 @@ export class FolderRulesService {
       )
 
     this.loadingSource.next(true);
-
 
   }
 

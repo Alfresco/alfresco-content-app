@@ -27,7 +27,7 @@ import {FolderRulesService} from "./folder-rules.service";
 import {TestBed} from "@angular/core/testing";
 // import {Rule} from "../model/rule.model";
 import {take} from "rxjs/operators";
-import {AlfrescoApiService} from "@alfresco/adf-core";
+import {AlfrescoApiService, CoreTestingModule} from "@alfresco/adf-core";
 
 fdescribe('FolderRulesService', () => {
 
@@ -137,13 +137,16 @@ fdescribe('FolderRulesService', () => {
   //   }
   // ]
 
+
   const firstRuleId = dummyResponse['list']['entries'][0]['entry'].id
 
 
   beforeEach((() => {
 
     TestBed.configureTestingModule({
-      imports: [],
+      imports: [
+        CoreTestingModule
+    ],
       providers: [
         FolderRulesService
       ]
@@ -186,16 +189,21 @@ fdescribe('FolderRulesService', () => {
 
   it('should set a list of rules to observable', async () => {
 
-    spyOn(alfrescoApiService, 'getInstance').and.returnValue(
+      spyOn(alfrescoApiService, 'getInstance').and.returnValue(
       {
         contentClient: {
           callApi: jasmine.createSpy('callApi').and.returnValue(dummyResponse)
-        }
+        },
+        reply: () => {}
       } as any
     );
 
+    // spyOn(AlfrescoApiClient.prototype, 'callApi').and.returnValue(dummyResponse as any)
+      // .withArgs('/nodes/d91aa433-45f0-4c4c-9fb1-89ade91215aa/rule-sets/-default-/rules', 'GET',
+      //   {}, {}, {}, {}, {}, ['application/json'], ['application/json'])
+
     let rulesPromise = folderRulesService.rulesListing$
-      .pipe(take(1))
+      .pipe(take(2))
       .toPromise();
 
     folderRulesService.loadAllRules()
