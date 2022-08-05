@@ -8,7 +8,7 @@
 </div>
 
 <mat-dialog-content class="aca-edit-rule-dialog__content">
-  <aca-rule-details (formValidationChanged)="formValid = $event" [initialValue]="model"></aca-rule-details>
+  <aca-rule-details (formValidationChanged)="formValid = $event" [initialValue]="model" [readOnly]="false"></aca-rule-details>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end" class="aca-edit-rule-dialog__footer">

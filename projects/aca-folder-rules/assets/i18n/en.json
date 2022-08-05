@@ -58,7 +58,9 @@
         "ADD_CONDITION": "Add condition",
         "ADD_GROUP": "Add group",
         "REMOVE": "Remove"
-      }
+      },
+      "NO_CONDITIONS": "No conditions",
+      "NO_CONDITIONS_IN_GROUP": "No conditions in the group"
     }
   }
 }

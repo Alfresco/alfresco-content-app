@@ -77,6 +77,14 @@ export class RuleCompositeConditionUiComponent implements ControlValueAccessor, 
   get conditionFormControls(): FormControl[] {
     return [...(this.compositeConditionsFormArray.controls as FormControl[]), ...(this.simpleConditionsFormArray.controls as FormControl[])];
   }
+  get hasNoConditions(): boolean {
+    return this.conditionFormControls.length === 0;
+  }
+
+  private _readOnly = false;
+  get readOnly(): boolean {
+    return this._readOnly;
+  }
 
   onChange: (condition: RuleCompositeCondition) => void = () => undefined;
   onTouch: () => void = () => undefined;
@@ -98,8 +106,10 @@ export class RuleCompositeConditionUiComponent implements ControlValueAccessor, 
 
   setDisabledState(isDisabled: boolean) {
     if (isDisabled) {
+      this._readOnly = true;
       this.form.disable();
     } else {
+      this._readOnly = false;
       this.form.enable();
     }
   }

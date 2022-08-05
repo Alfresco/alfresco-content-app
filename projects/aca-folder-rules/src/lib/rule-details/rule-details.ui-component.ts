@@ -77,30 +77,12 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
     this.form = this.formBuilder.group({
       name: [this.initialValue.name || '', Validators.required],
       description: [this.initialValue.description || ''],
-      compositeConditionTest: [
-        {
-          inverted: true,
-          booleanMode: 'or',
-          compositeConditions: [],
-          simpleConditions: [
-            {
-              field: 'size',
-              comparator: 'greaterThan',
-              parameter: '0'
-            },
-            {
-              field: 'cm:name',
-              comparator: 'contains',
-              parameter: 'abc'
-            },
-            {
-              field: 'tag',
-              comparator: 'equals',
-              parameter: 'TAG_NAME'
-            }
-          ]
-        }
-      ]
+      conditions: [this.initialValue.conditions || {
+        inverted: false,
+        booleanMode: 'and',
+        compositeConditions: [],
+        simpleConditions: []
+      }]
     });
     this.readOnly = this._readOnly;
 

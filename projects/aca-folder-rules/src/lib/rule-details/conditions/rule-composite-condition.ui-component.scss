@@ -16,6 +16,11 @@
     flex-direction: column;
     gap: 8px;
 
+    &__no-conditions {
+      color: var(--theme-disabled-text-color);
+      margin: 0.5em 0;
+    }
+
     &__row {
       display: flex;
       gap: 8px;
