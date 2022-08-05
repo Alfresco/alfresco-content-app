@@ -23,51 +23,42 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {Injectable} from "@angular/core";
-import {BehaviorSubject, from, Observable} from "rxjs";
-import {finalize, map} from "rxjs/operators";
-import {Rule} from "../model/rule.model";
-import {AlfrescoApiService} from "@alfresco/adf-core";
+import { Injectable } from '@angular/core';
+import { AlfrescoApiService } from '@alfresco/adf-core';
+import { BehaviorSubject, from, Observable } from 'rxjs';
+import { finalize, map } from 'rxjs/operators';
+import { Rule } from '../model/rule.model';
 
 @Injectable({
   providedIn: 'root'
 })
-
 export class FolderRulesService {
-
-  baseUrl = 'https://acadev.envalfresco.com/alfresco/api/-default-/public/alfresco/versions/1'
-  nodeId = 'd91aa433-45f0-4c4c-9fb1-89ade91215aa'
-
   private rulesListingSource = new BehaviorSubject<Partial<Rule>[]>([]);
   rulesListing$: Observable<Partial<Rule>[]> = this.rulesListingSource.asObservable();
-
   private loadingSource = new BehaviorSubject<boolean>(false);
   loading$ = this.loadingSource.asObservable();
+  constructor(private apiService: AlfrescoApiService) {}
 
-  constructor(private apiService: AlfrescoApiService) {
-
-  }
-
-  loadAllRules(nodeId: string = this.nodeId, ruleSetId: string = '-default-'): void {
-
-    from(this.apiService.getInstance().contentClient.callApi(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules`, 'GET',
-      {}, {}, {}, {}, {},
-      ['application/json'], ['application/json']))
+  loadAllRules(nodeId: string, ruleSetId: string = '-default-'): void {
+    from(this.apiCall(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules`, 'GET', [{}, {}, {}, {}, {}, ['application/json'], ['application/json']]))
       .pipe(
-        map(res => this.formatRules(res)),
+        map((res) => this.formatRules(res)),
         finalize(() => this.loadingSource.next(false))
       )
       .subscribe(
-        res => this.rulesListingSource.next(res),
-        err => this.rulesListingSource.error(err)
-      )
+        (res) => this.rulesListingSource.next(res),
+        (err) => this.rulesListingSource.error(err)
+      );
 
     this.loadingSource.next(true);
+  }
 
+  apiCall(path: string, httpMethod: string, params?: any[]): Promise<any> {
+    return this.apiService.getInstance().contentClient.callApi(path, httpMethod, ...params);
   }
 
   formatRules(res): Rule[] {
-    return res.list.entries.map(entry => this.formatRule(entry.entry));
+    return res.list.entries.map((entry) => this.formatRule(entry.entry));
   }
 
   formatRule(obj): Rule {
@@ -81,12 +72,8 @@ export class FolderRulesService {
       errorScript: obj.errorScript ?? '',
       shared: obj.shared ?? false,
       triggers: obj.triggers ?? ['INBOUND'],
-      conditions: obj.conditions ?? [],
+      conditions: obj.conditions ?? null,
       actions: obj.actions ?? []
     };
   }
-
 }
-
-
-

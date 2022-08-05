@@ -24,12 +24,12 @@
  */
 
 export interface RuleAction {
-  actionDefinitionId: string,
-  params: Partial<RuleActionParams>
+  actionDefinitionId: string;
+  params: Partial<RuleActionParams>;
 }
 
 export interface RuleActionParams {
-  "deep-copy": boolean,
-  "destination-folder": string,
-  actionContext: string
+  'deep-copy': boolean;
+  'destination-folder': string;
+  actionContext: string;
 }

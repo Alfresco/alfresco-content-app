@@ -24,7 +24,7 @@
  */
 
 import { RuleCompositeCondition } from './rule-composite-condition.model';
-import {RuleAction} from "./rule-action.model";
+import { RuleAction } from './rule-action.model';
 
 export interface Rule {
   id: string;

@@ -23,209 +23,163 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {FolderRulesService} from "./folder-rules.service";
-import {TestBed} from "@angular/core/testing";
-// import {Rule} from "../model/rule.model";
-import {take} from "rxjs/operators";
-import {AlfrescoApiService, CoreTestingModule} from "@alfresco/adf-core";
+import { TestBed } from '@angular/core/testing';
+import { CoreTestingModule } from '@alfresco/adf-core';
+import { take } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { FolderRulesService } from './folder-rules.service';
+import { Rule } from '../model/rule.model';
 
-fdescribe('FolderRulesService', () => {
-
-  let folderRulesService: FolderRulesService,
-    alfrescoApiService: AlfrescoApiService
-
+describe('FolderRulesService', () => {
+  let folderRulesService: FolderRulesService;
+  let rulesPromise: Promise<Partial<Rule>[]>;
+  let rules: Partial<Rule>[];
+  let apiCallSpy;
 
   const dummyResponse = {
-    "list": {
-      "pagination": {
-        "count": 2,
-        "hasMoreItems": false,
-        "totalItems": 2,
-        "skipCount": 0,
-        "maxItems": 100
+    list: {
+      pagination: {
+        count: 2,
+        hasMoreItems: false,
+        totalItems: 2,
+        skipCount: 0,
+        maxItems: 100
       },
-      "entries": [
+      entries: [
         {
-          "entry": {
-            "shared": false,
-            "cascade": false,
-            "asynchronous": false,
-            "name": "rule1",
-            "id": "53273531-fb09-4bcc-97c9-dc1d2036275e",
-            "triggers": [
-              "INBOUND"
-            ],
-            "actions": [
+          entry: {
+            shared: false,
+            cascade: false,
+            asynchronous: false,
+            name: 'rule1',
+            id: 'd388ed54-a522-410f-a158-6dbf5a833731',
+            triggers: ['INBOUND'],
+            actions: [
               {
-                "actionDefinitionId": "copy",
-                "params": {
-                  "deep-copy": false,
-                  "destination-folder": "6c98161d-2aa1-4f06-9b37-ed46be28320d",
-                  "actionContext": "rule"
+                actionDefinitionId: 'copy',
+                params: {
+                  'deep-copy': false,
+                  'destination-folder': '279c65f0-912b-4563-affb-ed9dab8338e0',
+                  actionContext: 'rule'
                 }
               }
             ],
-            "enabled": true
+            enabled: true
           }
         },
         {
-          "entry": {
-            "shared": false,
-            "cascade": false,
-            "asynchronous": false,
-            "name": "rule2",
-            "id": "b21fbf98-41da-4023-bc7e-2e727b3324d4",
-            "triggers": [
-              "INBOUND"
-            ],
-            "actions": [
+          entry: {
+            shared: false,
+            cascade: false,
+            asynchronous: false,
+            name: 'rule2',
+            id: 'e0e645ca-e6c0-47d4-9936-1a8872a6c30b',
+            triggers: ['INBOUND'],
+            actions: [
               {
-                "actionDefinitionId": "move",
-                "params": {
-                  "destination-folder": "6c98161d-2aa1-4f06-9b37-ed46be28320d",
-                  "actionContext": "rule"
+                actionDefinitionId: 'move',
+                params: {
+                  'destination-folder': '279c65f0-912b-4563-affb-ed9dab8338e0',
+                  actionContext: 'rule'
                 }
               }
             ],
-            "enabled": true
+            enabled: true
           }
         }
       ]
     }
-  }
-  // const dummyRules: Partial<Rule>[] = [
-  //   {
-  //     "shared": false,
-  //     "cascade": false,
-  //     "asynchronous": false,
-  //     "name": "rule1",
-  //     "id": "53273531-fb09-4bcc-97c9-dc1d2036275e",
-  //     "triggers": [
-  //       "INBOUND"
-  //     ],
-  //     "actions": [
-  //       {
-  //         "actionDefinitionId": "copy",
-  //         "params": {
-  //           "deep-copy": false,
-  //           "destination-folder": "6c98161d-2aa1-4f06-9b37-ed46be28320d",
-  //           "actionContext": "rule"
-  //         }
-  //       }
-  //     ],
-  //     "enabled": true
-  //   },
-  //   {
-  //     "shared": false,
-  //     "cascade": false,
-  //     "asynchronous": false,
-  //     "name": "rule2",
-  //     "id": "b21fbf98-41da-4023-bc7e-2e727b3324d4",
-  //     "triggers": [
-  //       "INBOUND"
-  //     ],
-  //     "actions": [
-  //       {
-  //         "actionDefinitionId": "move",
-  //         "params": {
-  //           "destination-folder": "6c98161d-2aa1-4f06-9b37-ed46be28320d",
-  //           "actionContext": "rule"
-  //         }
-  //       }
-  //     ],
-  //     "enabled": true
-  //   }
-  // ]
-
-
-  const firstRuleId = dummyResponse['list']['entries'][0]['entry'].id
-
-
-  beforeEach((() => {
-
-    TestBed.configureTestingModule({
-      imports: [
-        CoreTestingModule
-    ],
-      providers: [
-        FolderRulesService
+  };
+  const dummyRules: Partial<Rule>[] = [
+    {
+      id: 'd388ed54-a522-410f-a158-6dbf5a833731',
+      name: 'rule1',
+      description: '',
+      enabled: true,
+      cascade: false,
+      asynchronous: false,
+      errorScript: '',
+      shared: false,
+      triggers: ['INBOUND'],
+      conditions: null,
+      actions: [
+        {
+          actionDefinitionId: 'copy',
+          params: {
+            'deep-copy': false,
+            'destination-folder': '279c65f0-912b-4563-affb-ed9dab8338e0',
+            actionContext: 'rule'
+          }
+        }
       ]
-    })
+    },
+    {
+      id: 'e0e645ca-e6c0-47d4-9936-1a8872a6c30b',
+      name: 'rule2',
+      description: '',
+      enabled: true,
+      cascade: false,
+      asynchronous: false,
+      errorScript: '',
+      shared: false,
+      triggers: ['INBOUND'],
+      conditions: null,
+      actions: [
+        {
+          actionDefinitionId: 'move',
+          params: {
+            'destination-folder': '279c65f0-912b-4563-affb-ed9dab8338e0',
+            actionContext: 'rule'
+          }
+        }
+      ]
+    }
+  ];
 
-    folderRulesService = TestBed.inject<FolderRulesService>(FolderRulesService)
-    alfrescoApiService = TestBed.inject<AlfrescoApiService>(AlfrescoApiService)
-  }))
+  const firstRuleId = dummyResponse.list.entries[0].entry.id;
+  const lastRuleId = dummyResponse.list.entries[dummyResponse.list.entries.length - 1].entry.id;
+  const nodeId = '';
+  const ruleSetId = '-default-';
 
-  // it('should set a list of rules to observable', (done: DoneFn) => {
-  //
-  //   folderRulesService.loadAllRules()
-  //
-  //   setTimeout(() => {
-  //
-  //     let rules$ = folderRulesService.rulesListing$
-  //
-  //     rules$.subscribe(
-  //       res => {
-  //
-  //         console.log(res)
-  //
-  //         expect(res).toBeTruthy('No response received')
-  //
-  //         // expect(res).toEqual(dummyRules)
-  //
-  //         expect(res[0].id).toBe(firstRuleId)
-  //
-  //         done()
-  //
-  //       }
-  //     )
-  //   })
-  //
-  //   const req = httpTestingController.expectOne(`https://acadev.envalfresco.com/alfresco/api/-default-/public/alfresco/versions/1/nodes/d91aa433-45f0-4c4c-9fb1-89ade91215aa/rule-sets/-default-/rules`)
-  //   expect(req.request.method).toEqual('GET')
-  //   req.flush(dummyResponse)
-  //
-  // })
+  beforeEach(async () => {
+    TestBed.configureTestingModule({
+      imports: [CoreTestingModule],
+      providers: [FolderRulesService]
+    });
 
-  it('should set a list of rules to observable', async () => {
+    folderRulesService = TestBed.inject<FolderRulesService>(FolderRulesService);
 
-      spyOn(alfrescoApiService, 'getInstance').and.returnValue(
-      {
-        contentClient: {
-          callApi: jasmine.createSpy('callApi').and.returnValue(dummyResponse)
-        },
-        reply: () => {}
-      } as any
-    );
+    apiCallSpy = spyOn(folderRulesService, 'apiCall').and.returnValue(of(dummyResponse) as any);
 
-    // spyOn(AlfrescoApiClient.prototype, 'callApi').and.returnValue(dummyResponse as any)
-      // .withArgs('/nodes/d91aa433-45f0-4c4c-9fb1-89ade91215aa/rule-sets/-default-/rules', 'GET',
-      //   {}, {}, {}, {}, {}, ['application/json'], ['application/json'])
+    rulesPromise = folderRulesService.rulesListing$.pipe(take(2)).toPromise();
 
-    let rulesPromise = folderRulesService.rulesListing$
-      .pipe(take(2))
-      .toPromise();
+    folderRulesService.loadAllRules(nodeId, ruleSetId);
 
-    folderRulesService.loadAllRules()
+    rules = await rulesPromise;
+  });
 
-    const rules = await rulesPromise
+  it('should set data', async () => {
+    expect(rules).toBeTruthy('rulesListing$ is empty');
+    expect(rules.length).toBe(2, 'rulesListing$ size is wrong');
+  });
 
-    console.log(rules)
+  it('should make 1 API call', async () => {
+    expect(apiCallSpy).toHaveBeenCalledTimes(1);
+  });
 
-    expect(rules).toBeTruthy('No response received')
+  it('should format response to list of rules', async () => {
+    expect(rules).toEqual(dummyRules, 'The list of rules is incorrectly formatted');
+  });
 
-    // expect(rules).toEqual(dummyRules)
+  it('should format each rule entity', async () => {
+    const unformattedRule = dummyResponse.list.entries[0].entry;
 
-    expect(rules[0].id).toBe(firstRuleId)
+    expect(rules[0]).not.toEqual(unformattedRule as any, 'Rule entity is not formatted');
+    expect(rules[0]).toEqual(dummyRules[0], 'Rule entity is not formatted correctly');
+  });
 
-    // expect(request.method).toEqual('GET')
-
-    // const req = httpTestingController.expectOne(`https://acadev.envalfresco.com/alfresco/api/-default-/public/alfresco/versions/1/nodes/d91aa433-45f0-4c4c-9fb1-89ade91215aa/rule-sets/-default-/rules`)
-
-    // req.flush(dummyResponse)
-
-  })
-
-
-})
-
+  it('should keep the order of the rules list', async () => {
+    expect(rules[0].id).toBe(firstRuleId, 'First rule has wrong id');
+    expect(rules[rules.length - 1].id).toBe(lastRuleId, 'Last rule has wrong id');
+  });
+});
