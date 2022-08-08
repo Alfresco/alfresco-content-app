@@ -29,6 +29,7 @@ import { By } from '@angular/platform-browser';
 import { RuleDetailsUiComponent } from './rule-details.ui-component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CoreTestingModule } from '@alfresco/adf-core';
+import { RuleCompositeConditionUiComponent } from './conditions/rule-composite-condition.ui-component';
 
 describe('EditRuleDialogComponent', () => {
   let fixture: ComponentFixture<EditRuleDialogSmartComponent>;
@@ -41,7 +42,7 @@ describe('EditRuleDialogComponent', () => {
   const setupBeforeEach = (dialogOptions: EditRuleDialogOptions = {}) => {
     TestBed.configureTestingModule({
       imports: [CoreTestingModule],
-      declarations: [EditRuleDialogSmartComponent, RuleDetailsUiComponent],
+      declarations: [EditRuleDialogSmartComponent, RuleCompositeConditionUiComponent, RuleDetailsUiComponent],
       providers: [
         { provide: MatDialogRef, useValue: dialogRef },
         { provide: MAT_DIALOG_DATA, useValue: dialogOptions }
