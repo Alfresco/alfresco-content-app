@@ -41,28 +41,28 @@
           <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.JOB_TITLE' | translate}}</h4>
           <p class="app-profile-general-dropdown-details" *ngIf="generalSectionButtonsToggle">{{personDetails?.jobTitle}}</p>
           <input type="text" value="" formControlName="jobTitle" *ngIf="!generalSectionButtonsToggle"
-            class="app-profile-general-dropdown-input-details">
+            class="app-profile-general-dropdown-input-details app-selected">
         </div>
         <mat-divider class="app-general-dropdown-divider"></mat-divider>
         <div class="app-general-dropdown-details">
           <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.LOCATION' | translate}}</h4>
           <p class="app-profile-general-dropdown-details"  *ngIf="generalSectionButtonsToggle">{{personDetails?.location}}</p>
           <input type="text" value="" formControlName="location" *ngIf="!generalSectionButtonsToggle"
-            class="app-profile-general-dropdown-input-details">
+            class="app-profile-general-dropdown-input-details app-selected">
         </div>
         <mat-divider class="app-general-dropdown-divider"></mat-divider>
         <div class="app-general-dropdown-details">
           <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.TELEPHONE' | translate}}</h4>
           <p class="app-profile-general-dropdown-details" *ngIf="generalSectionButtonsToggle">{{personDetails?.telephone}}</p>
           <input type="tel" name="Telephone" value="" formControlName="telephone" *ngIf="!generalSectionButtonsToggle"
-            class="app-profile-general-dropdown-input-details">
+            class="app-profile-general-dropdown-input-details app-selected">
         </div>
         <mat-divider class="app-general-dropdown-divider"></mat-divider>
         <div class="app-general-dropdown-details">
           <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.MOBILE' | translate}}</h4>
           <p class="app-profile-general-dropdown-details" *ngIf="generalSectionButtonsToggle">{{personDetails?.mobile}}</p>
         <input type="tel" value="" formControlName="mobile" *ngIf="!generalSectionButtonsToggle"
-         class="app-profile-general-dropdown-input-details">
+          class="app-profile-general-dropdown-input-details app-selected">
         </div>
       </div>
     </div>
@@ -107,18 +107,18 @@
         <mat-divider class="app-general-dropdown-divider" *ngIf="passwordSectionDropdown"></mat-divider>
         <div class="app-general-dropdown-details" *ngIf="passwordSectionDropdown">
           <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.OLD_PASSWORD' | translate}}</h4>
-          <input class="app-profile-login-dropdown-details" formControlName="oldPassword" type="password">
+          <input class="app-profile-login-dropdown-details app-selected" formControlName="oldPassword" type="password">
           <h4 class="app-profile-login-dropdown-heading-forgot">{{'APP.EDIT_PROFILE.FORGOT_PASSWORD' | translate}}</h4>
         </div>
         <mat-divider class="app-general-dropdown-divider" *ngIf="passwordSectionDropdown"></mat-divider>
         <div class="app-general-dropdown-details" *ngIf="passwordSectionDropdown">
           <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.NEW_PASSWORD' | translate}}</h4>
-          <input class="app-profile-login-dropdown-details" type="password" formControlName="newPassword">
+          <input class="app-profile-login-dropdown-details app-selected" type="password" formControlName="newPassword">
         </div>
         <mat-divider class="app-general-dropdown-divider" *ngIf="passwordSectionDropdown"></mat-divider>
         <div class="app-general-dropdown-details" *ngIf="passwordSectionDropdown">
           <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.VERIFY_PASSWORD' | translate}}</h4>
-          <input class="app-profile-login-dropdown-details" type="password" formControlName="verifyPassword">
+          <input class="app-profile-login-dropdown-details app-selected" type="password" formControlName="verifyPassword">
         </div>
       </div>
     </div>
@@ -155,14 +155,14 @@
           <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.ADDRESS' | translate}}</h4>
           <p class="app-profile-general-dropdown-details" *ngIf="contactSectionButtonsToggle">{{personDetails?.company?.address1}}</p>
           <input type="text" value="" *ngIf="!contactSectionButtonsToggle" formControlName="companyAddress"
-                  class="app-profile-general-dropdown-input-details">
+            class="app-profile-general-dropdown-input-details app-selected">
         </div>
         <mat-divider class="app-general-dropdown-divider" ></mat-divider>
         <div class="app-general-dropdown-details" >
           <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.POST_CODE' | translate}}</h4>
           <p class="app-profile-general-dropdown-details" *ngIf="contactSectionButtonsToggle">{{personDetails?.company?.postcode}}</p>
           <input type="text" value="" *ngIf="!contactSectionButtonsToggle" formControlName="companyPostCode"
-                  class="app-profile-general-dropdown-input-details">
+            class="app-profile-general-dropdown-input-details app-selected">
 
         </div>
         <mat-divider class="app-general-dropdown-divider" ></mat-divider>
@@ -170,7 +170,7 @@
           <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.TELEPHONE' | translate}}</h4>
           <p class="app-profile-general-dropdown-details" *ngIf="contactSectionButtonsToggle">{{personDetails?.company?.telephone}}</p>
           <input type="tel" value="" *ngIf="!contactSectionButtonsToggle" formControlName="companyTelephone"
-                  class="app-profile-general-dropdown-input-details">
+            class="app-profile-general-dropdown-input-details app-selected">
 
         </div>
         <mat-divider class="app-general-dropdown-divider" ></mat-divider>
@@ -178,7 +178,7 @@
           <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.EMAIL' | translate}}</h4>
           <p class="app-profile-general-dropdown-details" *ngIf="contactSectionButtonsToggle">{{personDetails?.company?.email}}</p>
           <input type="text" value="" *ngIf="!contactSectionButtonsToggle" formControlName="companyEmail"
-                  class="app-profile-general-dropdown-input-details">
+            class="app-profile-general-dropdown-input-details app-selected">
         </div>
       </div>
     </div>

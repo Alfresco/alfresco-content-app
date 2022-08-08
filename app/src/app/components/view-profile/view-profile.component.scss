@@ -77,6 +77,13 @@ app-view-profile {
     padding-right: 1px;
   }
 
+  .app-selected:focus {
+    border: 2px solid var(--theme-blue-button-color) !important;
+    border-radius: 6px;
+    outline : none !important;
+    box-shadow: 0 0 2px (--theme-blue-button-color);
+  }
+
   .app-profile-row {
     width: 100%;
     margin: 2rem 0 0 0;
