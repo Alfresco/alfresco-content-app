@@ -33,13 +33,13 @@ import { Rule } from '../model/rule.model';
   providedIn: 'root'
 })
 export class FolderRulesService {
-  private rulesListingSource = new BehaviorSubject<Partial<Rule>[]>([]);
-  rulesListing$: Observable<Partial<Rule>[]> = this.rulesListingSource.asObservable();
+  private rulesListingSource = new BehaviorSubject<Rule[]>([]);
+  rulesListing$: Observable<Rule[]> = this.rulesListingSource.asObservable();
   private loadingSource = new BehaviorSubject<boolean>(false);
   loading$ = this.loadingSource.asObservable();
   constructor(private apiService: AlfrescoApiService) {}
 
-  loadAllRules(nodeId: string, ruleSetId: string = '-default-'): void {
+  loadRules(nodeId: string, ruleSetId: string = '-default-'): void {
     from(this.apiCall(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules`, 'GET', [{}, {}, {}, {}, {}, ['application/json'], ['application/json']]))
       .pipe(
         map((res) => this.formatRules(res)),
@@ -53,7 +53,7 @@ export class FolderRulesService {
     this.loadingSource.next(true);
   }
 
-  apiCall(path: string, httpMethod: string, params?: any[]): Promise<any> {
+  private apiCall(path: string, httpMethod: string, params?: any[]): Promise<any> {
     return this.apiService.getInstance().contentClient.callApi(path, httpMethod, ...params);
   }
 
