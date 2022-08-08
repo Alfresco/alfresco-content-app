@@ -19,6 +19,7 @@ import { throwError } from 'rxjs';
   encapsulation: ViewEncapsulation.None
 })
 export class ViewProfileComponent implements OnInit {
+
   peopleApi: PeopleApi;
 
   profileForm: FormGroup;
