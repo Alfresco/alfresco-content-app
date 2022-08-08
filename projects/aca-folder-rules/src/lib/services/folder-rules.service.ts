@@ -57,11 +57,11 @@ export class FolderRulesService {
     return this.apiService.getInstance().contentClient.callApi(path, httpMethod, ...params);
   }
 
-  formatRules(res): Rule[] {
+  private formatRules(res): Rule[] {
     return res.list.entries.map((entry) => this.formatRule(entry.entry));
   }
 
-  formatRule(obj): Rule {
+  private formatRule(obj): Rule {
     return {
       id: obj.id,
       name: obj.name ?? '',

@@ -55,7 +55,7 @@ export const dummyResponse = {
   }
 };
 
-export const dummyRules: Partial<Rule>[] = [
+export const dummyRules: Rule[] = [
   {
     id: 'd388ed54-a522-410f-a158-6dbf5a833731',
     name: 'rule1',
