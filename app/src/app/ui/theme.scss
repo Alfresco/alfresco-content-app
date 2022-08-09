@@ -1,5 +1,5 @@
-@import '~@angular/material/theming';
-@import '~@alfresco/adf-core/theming';
+@use '@angular/material' as mat;
+@import '@alfresco/adf-core/theming';
 
 @import 'custom-theme';
 @import 'variables/variables';
@@ -11,10 +11,10 @@ $primary: map-get($custom-theme, primary);
 .mat-slide-toggle.mat-primary.mat-checked:not(.mat-disabled) {
   .mat-slide-toggle-thumb,
   .mat-slide-toggle-ripple .mat-ripple-element {
-    background-color: mat-color($primary);
+    background-color: mat.get-color-from-palette($primary);
   }
   .mat-slide-toggle-bar {
-    background-color: mat-color($primary, 0.54);
+    background-color: mat.get-color-from-palette($primary, 0.54);
   }
 }
 

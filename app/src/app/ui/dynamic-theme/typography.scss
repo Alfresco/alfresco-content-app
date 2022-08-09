@@ -1,3 +1,4 @@
+@use '@angular/material' as mat;
 @import '../variables/font-family.scss';
 
 @function get-mat-typography(
@@ -8,21 +9,21 @@
     $custom-typography: $default-typography;
 
     @if $base-font-size {
-        $custom-typography: mat-typography-config(
-            $display-4:     mat-typography-level(8rem, 8rem, 300),
-            $display-3:     mat-typography-level(4rem, 4rem, 400),
-            $display-2:     mat-typography-level(3.21rem, 3.21rem, 400),
-            $display-1:     mat-typography-level(2.42rem, 2.85rem, 400),
-            $headline:      mat-typography-level(1.71rem, 2.28rem, 400),
-            $title:         mat-typography-level(1.42rem, 2.28rem, 500),
-            $subheading-2:  mat-typography-level(1.14rem, 2rem, 400),
-            $subheading-1:  mat-typography-level(1.07rem, 1.71rem, 400),
-            $body-2:        mat-typography-level(1rem, 1.71rem, 500),
-            $body-1:        mat-typography-level(1rem, 1.42rem, 400),
-            $caption:       mat-typography-level(0.86rem, 1.42rem, 400),
-            $button:        mat-typography-level(1rem, 1rem, 500),
+        $custom-typography: mat.define-typography-config(
+            $display-4:     mat.define-typography-level(8rem, 8rem, 300),
+            $display-3:     mat.define-typography-level(4rem, 4rem, 400),
+            $display-2:     mat.define-typography-level(3.21rem, 3.21rem, 400),
+            $display-1:     mat.define-typography-level(2.42rem, 2.85rem, 400),
+            $headline:      mat.define-typography-level(1.71rem, 2.28rem, 400),
+            $title:         mat.define-typography-level(1.42rem, 2.28rem, 500),
+            $subheading-2:  mat.define-typography-level(1.14rem, 2rem, 400),
+            $subheading-1:  mat.define-typography-level(1.07rem, 1.71rem, 400),
+            $body-2:        mat.define-typography-level(1rem, 1.71rem, 500),
+            $body-1:        mat.define-typography-level(1rem, 1.42rem, 400),
+            $caption:       mat.define-typography-level(0.86rem, 1.42rem, 400),
+            $button:        mat.define-typography-level(1rem, 1rem, 500),
             $font-family:   $default-font-family,
-            $input:         mat-typography-level(1.14em, 1.25, 400)
+            $input:         mat.define-typography-level(1.14em, 1.25, 400)
         );
     }
 

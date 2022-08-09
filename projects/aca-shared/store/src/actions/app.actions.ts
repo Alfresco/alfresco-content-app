@@ -26,28 +26,7 @@
 import { Action } from '@ngrx/store';
 import { Node, Person, Group, RepositoryInfo, VersionEntry } from '@alfresco/js-api';
 import { AppState } from '../states/app.state';
-
-export enum AppActionTypes {
-  SetSettingsParameter = 'SET_SETTINGS_PARAMETER',
-  SetInitialState = 'SET_INITIAL_STATE',
-  SetHeaderColor = 'SET_HEADER_COLOR',
-  SetCurrentFolder = 'SET_CURRENT_FOLDER',
-  SetCurrentVersion = 'SET_CURRENT_VERSION',
-  SetCurrentUrl = 'SET_CURRENT_URL',
-  SetUserProfile = 'SET_USER_PROFILE',
-  SetRepositoryInfo = 'SET_REPOSITORY_INFO',
-  ToggleInfoDrawer = 'TOGGLE_INFO_DRAWER',
-  ToggleDocumentDisplayMode = 'TOGGLE_DOCUMENT_DISPLAY_MODE',
-  Logout = 'LOGOUT',
-  ReloadDocumentList = 'RELOAD_DOCUMENT_LIST',
-  ResetSelection = 'RESET_SELECTION',
-  SetInfoDrawerState = 'SET_INFO_DRAWER_STATE',
-  SetInfoDrawerMetadataAspect = 'SET_INFO_DRAWER_METADATA_ASPECT',
-  CloseModalDialogs = 'CLOSE_MODAL_DIALOGS',
-  SetFileUploadingDialog = 'SET_FILE_UPLOADING_DIALOG',
-  ShowInfoDrawerPreview = 'SHOW_INFO_DRAWER_PREVIEW',
-  SetInfoDrawerPreviewState = 'SET_INFO_DRAWER_PREVIEW_STATE'
-}
+import { AppActionTypes } from './app-action-types';
 
 export class SetSettingsParameterAction implements Action {
   readonly type = AppActionTypes.SetSettingsParameter;

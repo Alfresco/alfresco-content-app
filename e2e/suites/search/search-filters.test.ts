@@ -23,7 +23,17 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, SearchResultsPage, RepoClient, Utils, FILES, SITE_VISIBILITY, SITE_ROLES } from '@alfresco/aca-testing-shared';
+import {
+  AdminActions,
+  LoginPage,
+  SearchResultsPage,
+  RepoClient,
+  Utils,
+  FILES,
+  SITE_VISIBILITY,
+  SITE_ROLES,
+  SizeOptions
+} from '@alfresco/aca-testing-shared';
 import { BrowserActions } from '@alfresco/adf-testing';
 
 const moment = require('moment');
@@ -140,7 +150,7 @@ describe('Search filters', () => {
 
     it('[C279199] Filter by Small', async () => {
       await sizeFilter.openDialog();
-      await sizeFilter.checkSizeSmall();
+      await sizeFilter.getSizeCheckboxOption(SizeOptions.Small).click();
       await sizeFilter.clickApplyButton();
 
       expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(true, `${fileJpgUser1.name} not in the list`);
@@ -149,7 +159,7 @@ describe('Search filters', () => {
 
     it('[C279202] Filter by Huge', async () => {
       await sizeFilter.openDialog();
-      await sizeFilter.checkSizeHuge();
+      await sizeFilter.getSizeCheckboxOption(SizeOptions.Huge).click();
       await sizeFilter.clickApplyButton();
 
       expect(await dataTable.isEmpty()).toBe(true, 'list is not empty');
@@ -157,9 +167,9 @@ describe('Search filters', () => {
 
     it('[C279203] Filter by multiple size categories', async () => {
       await sizeFilter.openDialog();
-      await sizeFilter.checkSizeSmall();
-      await sizeFilter.checkSizeMedium();
-      await sizeFilter.checkSizeLarge();
+      await sizeFilter.getSizeCheckboxOption(SizeOptions.Small).click();
+      await sizeFilter.getSizeCheckboxOption(SizeOptions.Medium).click();
+      await sizeFilter.getSizeCheckboxOption(SizeOptions.Large).click();
       await sizeFilter.clickApplyButton();
 
       expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(true, `${fileJpgUser1.name} not in the list`);
@@ -168,8 +178,8 @@ describe('Search filters', () => {
 
     it('[C279198] Clear the Size filter options', async () => {
       await sizeFilter.openDialog();
-      await sizeFilter.checkSizeSmall();
-      await sizeFilter.checkSizeMedium();
+      await sizeFilter.getSizeCheckboxOption(SizeOptions.Small).click();
+      await sizeFilter.getSizeCheckboxOption(SizeOptions.Medium).click();
       await sizeFilter.clickApplyButton();
 
       await sizeFilter.openDialog();
@@ -600,7 +610,7 @@ describe('Search filters', () => {
 
     it('[C280051] Multiple filters can be applied', async () => {
       await sizeFilter.openDialog();
-      await sizeFilter.checkSizeSmall();
+      await sizeFilter.getSizeCheckboxOption(SizeOptions.Small).click();
       await sizeFilter.clickApplyButton();
 
       await fileTypeFilter.openDialog();

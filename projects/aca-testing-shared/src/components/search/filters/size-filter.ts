@@ -25,8 +25,14 @@
 
 import { by, ElementArrayFinder } from 'protractor';
 import { GenericFilter } from './generic-filter';
-import { BrowserActions } from '@alfresco/adf-testing';
+import { BrowserActions, TestElement } from '@alfresco/adf-testing';
 
+export enum SizeOptions {
+  Small = 'SMALL',
+  Medium = 'MEDIUM',
+  Large = 'LARGE',
+  Huge = 'HUGE'
+}
 export class SizeFilter extends GenericFilter {
   constructor() {
     super('Size');
@@ -34,6 +40,8 @@ export class SizeFilter extends GenericFilter {
 
   facets: ElementArrayFinder = this.filterDialogOpened.all(by.css('.mat-checkbox'));
   selectedFacets: ElementArrayFinder = this.filterDialogOpened.all(by.css('.mat-checkbox.mat-checkbox-checked'));
+  public getSizeCheckboxOption = (sizeOption: SizeOptions) =>
+    TestElement.byCss(`[data-automation-id="checkbox-SEARCH.CATEGORIES.SIZE_OPTIONS.${sizeOption}"] [type="checkbox"]`);
 
   async getFiltersValues(): Promise<string[]> {
     return this.facets.map((option) => {
@@ -55,25 +63,5 @@ export class SizeFilter extends GenericFilter {
       });
     }
     await this.closeDialog();
-  }
-
-  async checkSizeSmall(): Promise<void> {
-    const small = this.facets.filter(async (elem) => (await elem.getText()) === 'Small').first();
-    await BrowserActions.click(small);
-  }
-
-  async checkSizeMedium(): Promise<void> {
-    const medium = this.facets.filter(async (elem) => (await elem.getText()) === 'Medium').first();
-    await BrowserActions.click(medium);
-  }
-
-  async checkSizeLarge(): Promise<void> {
-    const large = this.facets.filter(async (elem) => (await elem.getText()) === 'Large').first();
-    await BrowserActions.click(large);
-  }
-
-  async checkSizeHuge(): Promise<void> {
-    const huge = this.facets.filter(async (elem) => (await elem.getText()) === 'Huge').first();
-    await BrowserActions.click(huge);
   }
 }

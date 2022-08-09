@@ -43,8 +43,8 @@ export class SearchInputControlComponent implements OnDestroy {
   /** Emitted when the search is submitted pressing ENTER button.
    * The search term is provided as value of the event.
    */
-  // eslint-disable-next-line @angular-eslint/no-output-native
   @Output()
+  // eslint-disable-next-line @angular-eslint/no-output-native
   submit: EventEmitter<any> = new EventEmitter();
 
   /** Emitted when the search term is changed. The search term is provided

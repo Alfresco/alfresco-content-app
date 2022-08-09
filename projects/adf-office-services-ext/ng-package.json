@@ -3,12 +3,6 @@
   "dest": "../../dist/@alfresco/adf-office-services-ext",
   "lib": {
     "entryFile": "src/public-api.ts",
-    "flatModuleFile": "adf-office-services-ext",
-    "umdModuleIds": {
-      "@alfresco/js-api": "@alfresco/js-api",
-      "@alfresco/adf-core": "@alfresco/adf-core",
-      "@alfresco/adf-extensions": "@alfresco/adf-extensions",
-      "@ngrx/effects": "@ngrx/effects"
-    }
+    "flatModuleFile": "adf-office-services-ext"
   }
 }

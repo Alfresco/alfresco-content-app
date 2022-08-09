@@ -24,7 +24,11 @@
           "error",
           {
             "type": "element",
-            "prefix": ["aca", "adf", "app"],
+            "prefix": [
+              "aca",
+              "adf",
+              "app"
+            ],
             "style": "kebab-case"
           }
         ],
@@ -32,7 +36,11 @@
           "error",
           {
             "type": "attribute",
-            "prefix": ["aca", "adf", "app"],
+            "prefix": [
+              "aca",
+              "adf",
+              "app"
+            ],
             "style": "camelCase"
           }
         ],
@@ -103,7 +111,8 @@
       "rules": {
         "@angular-eslint/template/no-autofocus": "error",
         "@angular-eslint/template/no-negated-async": "off",
-        "@angular-eslint/template/no-positive-tabindex": "error"
+        "@angular-eslint/template/no-positive-tabindex": "error",
+        "@angular-eslint/template/eqeqeq": "error"
       }
     }
   ]
