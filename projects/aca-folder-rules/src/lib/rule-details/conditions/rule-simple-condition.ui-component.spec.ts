@@ -32,9 +32,8 @@ import { DebugElement } from '@angular/core';
 describe('RuleSimpleConditionUiComponent', () => {
   let fixture: ComponentFixture<RuleSimpleConditionUiComponent>;
 
-  const getByDataAutomationId = (dataAutomationId: string): DebugElement => {
-    return fixture.debugElement.query(By.css(`[data-automation-id="${dataAutomationId}"]`));
-  }
+  const getByDataAutomationId = (dataAutomationId: string): DebugElement =>
+    fixture.debugElement.query(By.css(`[data-automation-id="${dataAutomationId}"]`));
 
   const changeMatSelectValue = (dataAutomationId: string, value: string) => {
     const matSelect = getByDataAutomationId(dataAutomationId).nativeElement;
@@ -43,7 +42,7 @@ describe('RuleSimpleConditionUiComponent', () => {
     const matOption = fixture.debugElement.query(By.css(`.mat-option[ng-reflect-value="${value}"]`)).nativeElement;
     matOption.click();
     fixture.detectChanges();
-  }
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({

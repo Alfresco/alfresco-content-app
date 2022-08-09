@@ -46,7 +46,13 @@ const routes: Routes = [
 @NgModule({
   providers: [provideExtensionConfig(['folder-rules.plugin.json'])],
   imports: [CommonModule, RouterModule.forChild(routes), CoreModule.forChild()],
-  declarations: [EditRuleDialogSmartComponent, ManageRulesSmartComponent, RuleCompositeConditionUiComponent, RuleDetailsUiComponent, RuleSimpleConditionUiComponent]
+  declarations: [
+    EditRuleDialogSmartComponent,
+    ManageRulesSmartComponent,
+    RuleCompositeConditionUiComponent,
+    RuleDetailsUiComponent,
+    RuleSimpleConditionUiComponent
+  ]
 })
 export class AcaFolderRulesModule {
   constructor(translation: TranslationService, extensions: ExtensionService) {

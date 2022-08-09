@@ -24,10 +24,11 @@
  */
 
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewEncapsulation } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { distinctUntilChanged, map, takeUntil } from 'rxjs/operators';
 import { Rule } from '../model/rule.model';
+import { ruleCompositeConditionValidator } from './conditions/rule-composite-condition.validators';
 
 @Component({
   selector: 'aca-rule-details',
@@ -66,23 +67,23 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
   get name(): AbstractControl {
     return this.form.get('name');
   }
-
   get description(): AbstractControl {
     return this.form.get('description');
   }
 
-  constructor(private formBuilder: FormBuilder) {}
-
   ngOnInit() {
-    this.form = this.formBuilder.group({
-      name: [this.initialValue.name || '', Validators.required],
-      description: [this.initialValue.description || ''],
-      conditions: [this.initialValue.conditions || {
-        inverted: false,
-        booleanMode: 'and',
-        compositeConditions: [],
-        simpleConditions: []
-      }]
+    this.form = new FormGroup({
+      name: new FormControl(this.initialValue.name || '', Validators.required),
+      description: new FormControl(this.initialValue.description || ''),
+      conditions: new FormControl(
+        this.initialValue.conditions || {
+          inverted: false,
+          booleanMode: 'and',
+          compositeConditions: [],
+          simpleConditions: []
+        },
+        ruleCompositeConditionValidator()
+      )
     });
     this.readOnly = this._readOnly;
 

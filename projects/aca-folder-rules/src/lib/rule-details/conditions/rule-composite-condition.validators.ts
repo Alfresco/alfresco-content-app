@@ -23,21 +23,20 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component } from '@angular/core';
-import { EditRuleDialogSmartComponent } from '../rule-details/edit-rule-dialog.smart-component';
-import { MatDialog } from '@angular/material/dialog';
+import { RuleCompositeCondition } from '../../model/rule-composite-condition.model';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
-@Component({
-  selector: 'aca-manage-rules',
-  template: `<button (click)="onClick()">Button</button>`
-})
-export class ManageRulesSmartComponent {
-  constructor(private dialogRef: MatDialog) {}
-
-  onClick() {
-    this.dialogRef.open(EditRuleDialogSmartComponent, {
-      minWidth: '70%',
-      panelClass: 'aca-edit-rule-dialog-container'
-    });
+const isCompositeConditionValid = (value: RuleCompositeCondition, isRootCondition = true): boolean => {
+  if (value.compositeConditions.length > 0) {
+    return value.compositeConditions.reduce(
+      (arrayValid: boolean, nestedCondition: RuleCompositeCondition) => arrayValid && isCompositeConditionValid(nestedCondition, false),
+      true
+    );
   }
-}
+  return !!value.simpleConditions.length || isRootCondition;
+};
+
+export const ruleCompositeConditionValidator =
+  (): ValidatorFn =>
+  (control: AbstractControl): ValidationErrors | null =>
+    isCompositeConditionValid(control.value) ? null : { ruleCompositeConditionInvalid: true };
