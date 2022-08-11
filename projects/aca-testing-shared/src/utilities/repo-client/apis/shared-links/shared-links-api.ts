@@ -141,7 +141,7 @@ export class SharedLinksApi extends RepoApi {
         }
       };
 
-      return await Utils.retryCall(sharedFile);
+      return Utils.retryCall(sharedFile);
     } catch (error) {
       Logger.error(`SharedLinksApi waitForFilesToBeShared :  catch : ${error}`);
       Logger.error(`\tWait timeout reached waiting for files to be shared`);

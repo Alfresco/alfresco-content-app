@@ -46,21 +46,21 @@ describe('Unshare a file from Search Results', () => {
   let parentId: string;
 
   const searchRandom = Utils.random();
-  const file1 = `search-file-${searchRandom}-1.txt`;
   let file1Id: string;
-  const file2 = `search-file-${searchRandom}-2.txt`;
   let file2Id: string;
-  const file3 = `search-file-${searchRandom}-3.txt`;
   let file3Id: string;
-  const file4 = `search-file-${searchRandom}-4.txt`;
   let file4Id: string;
+  const file1 = `search-file-${searchRandom}-1.txt`;
+  const file2 = `search-file-${searchRandom}-2.txt`;
+  const file3 = `search-file-${searchRandom}-3.txt`;
+  const file4 = `search-file-${searchRandom}-4.txt`;
 
   const sitePrivate = `site-private-${Utils.random()}`;
 
-  const fileSite1 = `search-file-${searchRandom}-Site1.txt`;
   let fileSite1Id: string;
-  const fileSite2 = `search-file-${searchRandom}-Site2.txt`;
   let fileSite2Id: string;
+  const fileSite1 = `search-file-${searchRandom}-Site1.txt`;
+  const fileSite2 = `search-file-${searchRandom}-Site2.txt`;
 
   const apis = {
     user: new RepoClient(username, username)
@@ -200,7 +200,7 @@ describe('Unshare a file from Search Results', () => {
 
     await dataTable.rightClickOnItem(file4);
     await contextMenu.waitForMenuToOpen();
-    await BrowserActions.click(contextMenu.shareEditAction);
+    await contextMenu.shareEditAction.click();
     await shareDialog.waitForDialogToOpen();
     const url = await shareDialog.getLinkUrl();
     await BrowserActions.click(shareDialog.shareToggle);
