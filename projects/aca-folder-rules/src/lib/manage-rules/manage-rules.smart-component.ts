@@ -24,20 +24,9 @@
  */
 
 import { Component } from '@angular/core';
-import { EditRuleDialogSmartComponent } from '../rule-details/edit-rule-dialog.smart-component';
-import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'aca-manage-rules',
-  template: `<button (click)="onClick()">Button</button>`
+  template: ``
 })
-export class ManageRulesSmartComponent {
-  constructor(private dialogRef: MatDialog) {}
-
-  onClick() {
-    this.dialogRef.open(EditRuleDialogSmartComponent, {
-      width: '90%',
-      panelClass: 'aca-edit-rule-dialog-container'
-    });
-  }
-}
+export class ManageRulesSmartComponent {}
