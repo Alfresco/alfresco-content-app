@@ -27,6 +27,6 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'aca-manage-rules',
-  template: ``
+  template: `<div>This is the Manage Rules component</div>`
 })
 export class ManageRulesSmartComponent {}
