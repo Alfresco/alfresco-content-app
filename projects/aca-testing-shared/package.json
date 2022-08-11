@@ -1,0 +1,8 @@
+{
+  "name": "aca-testing-shared",
+  "version": "3.0.0",
+  "main": "src/index.ts",
+  "dependencies": {
+    "tslib": "^2.0.0"
+  }
+}
