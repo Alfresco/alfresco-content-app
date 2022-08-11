@@ -40,5 +40,10 @@
     textarea {
       min-height: 4em;
     }
+
+    & > .aca-rule-composite-condition + .mat-error {
+      font-size: 75%;
+      margin-left: 16px;
+    }
   }
 }

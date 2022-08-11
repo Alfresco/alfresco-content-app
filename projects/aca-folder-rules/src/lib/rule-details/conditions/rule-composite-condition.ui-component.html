@@ -1,5 +1,5 @@
 <form class="aca-rule-composite-condition__form" [formGroup]="form">
-  <div class="aca-rule-composite-condition__form__no-conditions" *ngIf="hasNoConditions">
+  <div *ngIf="hasNoConditions" class="aca-rule-composite-condition__form__no-conditions" data-automation-id="no-conditions">
     {{ 'ACA_FOLDER_RULES.RULE_DETAILS.' + (childCondition ? 'NO_CONDITIONS_IN_GROUP' : 'NO_CONDITIONS') | translate }}
   </div>
 
@@ -39,7 +39,7 @@
       [formControl]="control">
     </aca-rule-simple-condition>
 
-    <button mat-icon-button [matMenuTriggerFor]="menu" *ngIf="!readOnly">
+    <button mat-icon-button [matMenuTriggerFor]="menu" *ngIf="!readOnly" data-automation-id="condition-actions-button">
       <mat-icon>more_vert</mat-icon>
     </button>
 
@@ -55,12 +55,12 @@
 
   </div>
 
-  <div class="aca-rule-composite-condition__form__actions" *ngIf="!readOnly">
-    <button mat-button (click)="addSimpleCondition()">
+  <div class="aca-rule-composite-condition__form__actions" *ngIf="!readOnly" data-automation-id="add-actions">
+    <button mat-button (click)="addSimpleCondition()" data-automation-id="add-condition-button">
       <mat-icon>add</mat-icon>
       <span>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.ACTIONS.ADD_CONDITION' | translate }}</span>
     </button>
-    <button mat-button (click)="addCompositeCondition()">
+    <button mat-button (click)="addCompositeCondition()" data-automation-id="add-group-button">
       <mat-icon>add</mat-icon>
       <span>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.ACTIONS.ADD_GROUP' | translate }}</span>
     </button>

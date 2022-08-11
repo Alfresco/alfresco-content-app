@@ -36,7 +36,7 @@ export class ManageRulesSmartComponent {
 
   onClick() {
     this.dialogRef.open(EditRuleDialogSmartComponent, {
-      minWidth: '70%',
+      width: '90%',
       panelClass: 'aca-edit-rule-dialog-container'
     });
   }

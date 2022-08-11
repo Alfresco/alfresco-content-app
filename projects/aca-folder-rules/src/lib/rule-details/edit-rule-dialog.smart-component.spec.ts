@@ -106,7 +106,7 @@ describe('EditRuleDialogComponent', () => {
       expect(titleElement.innerText.trim()).toBe('ACA_FOLDER_RULES.EDIT_RULE_DIALOG.UPDATE_TITLE');
     });
 
-    it('should show a "create" label in the submit button', () => {
+    it('should show an "update" label in the submit button', () => {
       fixture.detectChanges();
       const titleElement = fixture.debugElement.query(By.css('[data-automation-id="edit-rule-dialog-submit"]')).nativeElement as HTMLButtonElement;
 

@@ -21,7 +21,8 @@
         "NO_DESCRIPTION": "No description"
       },
       "ERROR": {
-        "REQUIRED": "This field is required"
+        "REQUIRED": "This field is required",
+        "RULE_COMPOSITE_CONDITION_INVALID": "One or more condition groups is empty"
       },
       "COMPARATORS": {
         "EQUALS": "(=) Equals",

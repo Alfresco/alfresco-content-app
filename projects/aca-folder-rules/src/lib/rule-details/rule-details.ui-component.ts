@@ -70,6 +70,9 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
   get description(): AbstractControl {
     return this.form.get('description');
   }
+  get conditions(): AbstractControl {
+    return this.form.get('conditions');
+  }
 
   ngOnInit() {
     this.form = new FormGroup({
@@ -111,6 +114,8 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
   getErrorMessage(control: AbstractControl): string {
     if (control.hasError('required')) {
       return 'ACA_FOLDER_RULES.RULE_DETAILS.ERROR.REQUIRED';
+    } else if (control.hasError('ruleCompositeConditionInvalid')) {
+      return 'ACA_FOLDER_RULES.RULE_DETAILS.ERROR.RULE_COMPOSITE_CONDITION_INVALID';
     }
     return '';
   }
