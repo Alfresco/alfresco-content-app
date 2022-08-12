@@ -1,0 +1,43 @@
+<aca-page-layout>
+
+  <aca-page-layout-header>
+    <adf-toolbar class="adf-toolbar--inline">
+      <button mat-icon-button (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    </adf-toolbar>
+    <adf-breadcrumb root="Manage rules"></adf-breadcrumb>
+  </aca-page-layout-header>
+
+
+  <aca-page-layout-content>
+    <div class="main-content">
+
+      <ng-container *ngIf="isLoading$ | async; else onLoaded">
+        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+      </ng-container>
+
+      <ng-template #onLoaded>
+        <adf-toolbar class="adf-toolbar--inline">
+          <adf-toolbar-title>
+            <mat-icon>folder</mat-icon>
+            <adf-breadcrumb root="{{folderInfo.name}}:rules"></adf-breadcrumb>
+          </adf-toolbar-title>
+        </adf-toolbar>
+        <ng-container *ngIf="(rules$ | async) && (rules$ | async).length > 0 ; else emptyContent">
+          <rule *ngFor="let rule of rules$ | async" [title]="rule.name" [description]="rule.description"></rule>
+        </ng-container>
+        <ng-template #emptyContent>
+          <adf-empty-content
+            icon="library_books"
+            [title]="folderInfo.name + ' has no rules defined yet.'"
+            subtitle="Lorem ipsome some text amet"
+          >
+          </adf-empty-content>
+        </ng-template>
+      </ng-template>
+
+    </div>
+  </aca-page-layout-content>
+
+</aca-page-layout>

@@ -25,9 +25,11 @@
 
 import { Injectable } from '@angular/core';
 import { AlfrescoApiService } from '@alfresco/adf-core';
-import { BehaviorSubject, from, Observable } from 'rxjs';
-import { finalize, map } from 'rxjs/operators';
+import {BehaviorSubject, forkJoin, from, Observable, of} from 'rxjs';
+import {catchError, finalize, map} from 'rxjs/operators';
 import { Rule } from '../model/rule.model';
+import {ContentApiService} from "@alfresco/aca-shared";
+// import {Node} from "@alfresco/js-api";
 
 @Injectable({
   providedIn: 'root'
@@ -35,22 +37,40 @@ import { Rule } from '../model/rule.model';
 export class FolderRulesService {
   private rulesListingSource = new BehaviorSubject<Rule[]>([]);
   rulesListing$: Observable<Rule[]> = this.rulesListingSource.asObservable();
+  private folderInfoSource = new BehaviorSubject({})    // types
+  folderInfo$: Observable<any> = this.folderInfoSource.asObservable()   //types
   private loadingSource = new BehaviorSubject<boolean>(false);
   loading$ = this.loadingSource.asObservable();
-  constructor(private apiService: AlfrescoApiService) {}
+
+  constructor(private apiService: AlfrescoApiService, private contentApi: ContentApiService) {}
 
   loadRules(nodeId: string, ruleSetId: string = '-default-'): void {
+    this.loadingSource.next(true);
+    forkJoin([
     from(this.apiCall(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules`, 'GET', [{}, {}, {}, {}, {}, ['application/json'], ['application/json']]))
       .pipe(
-        map((res) => this.formatRules(res)),
+        map((res) => {
+          return this.formatRules(res)
+        }),
+        catchError(error => {
+          if (error.status == 404){
+            return of([])
+          }
+          return of(error)
+        })
+      ),
+      this.contentApi.getNode(nodeId)
+    ])
+      .pipe(
         finalize(() => this.loadingSource.next(false))
       )
-      .subscribe(
-        (res) => this.rulesListingSource.next(res),
-        (err) => this.rulesListingSource.error(err)
-      );
-
-    this.loadingSource.next(true);
+      .subscribe(([rules, nodeInfo]) => {
+        this.rulesListingSource.next(rules);
+        this.folderInfoSource.next(nodeInfo.entry);
+      }, (error) => {
+        this.rulesListingSource.next([]);
+        this.folderInfoSource.next(error)
+      })
   }
 
   private apiCall(path: string, httpMethod: string, params?: any[]): Promise<any> {
