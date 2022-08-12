@@ -56,9 +56,9 @@ describe('RuleCompositeConditionUiComponent', () => {
     });
 
     it('should default to no conditions', () => {
-      const rowElementss = fixture.debugElement.queryAll(By.css(`.aca-rule-composite-condition__form__row`));
+      const rowElements = fixture.debugElement.queryAll(By.css(`.aca-rule-composite-condition__form__row`));
 
-      expect(rowElementss.length).toBe(0);
+      expect(rowElements.length).toBe(0);
     });
 
     it('should show a message if there are no conditions', () => {
