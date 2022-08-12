@@ -23,19 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { RuleCompositeCondition } from './rule-composite-condition.model';
-import { RuleAction } from './rule-action.model';
+export interface RuleAction {
+  actionDefinitionId: string;
+  params: RuleActionParams;
+}
 
-export interface Rule {
-  id: string;
-  name: string;
-  description: string;
-  enabled: boolean;
-  cascade: boolean;
-  asynchronous: boolean;
-  errorScript: string;
-  shared: boolean;
-  triggers: ('INBOUND' | 'UPDATE' | 'OUTBOUND')[];
-  conditions: RuleCompositeCondition;
-  actions: RuleAction[];
+export interface RuleActionParams {
+  'deep-copy'?: boolean;
+  'destination-folder'?: string;
+  actionContext?: string;
 }
