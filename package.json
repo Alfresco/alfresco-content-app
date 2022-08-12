@@ -116,7 +116,7 @@
     "protractor-smartrunner": "^2.0.0-beta6",
     "selenium-webdriver": "^4.1.1",
     "ts-node": "^10.2.1",
-    "tsconfig-paths": "3.12.0",
+    "tsconfig-paths": "4.1.0",
     "typescript": "4.6.3",
     "webdriver-manager": "12.1.8",
     "winston": "^3.4.0"
