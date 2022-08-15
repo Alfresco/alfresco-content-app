@@ -27,6 +27,19 @@
 
   <hr>
 
+  <div class="aca-rule-details__form__row aca-rule-details__form__triggers">
+    <label>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.WHEN' | translate }}</label>
+    <div>
+      <div *ngFor="let trigger of triggerOptions">
+        <mat-checkbox (change)="onTriggerChange(trigger, $event)" [checked]="isTriggerInitiallyChecked(trigger)">
+          {{ 'ACA_FOLDER_RULES.RULE_DETAILS.TRIGGERS.' + trigger | uppercase | translate }}
+        </mat-checkbox>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
   <aca-rule-composite-condition formControlName="conditions"></aca-rule-composite-condition>
   <mat-error>{{ getErrorMessage(conditions) | translate }}</mat-error>
 </form>

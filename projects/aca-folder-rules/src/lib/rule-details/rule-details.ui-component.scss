@@ -28,6 +28,10 @@
       }
     }
 
+    &__triggers {
+      padding: 0.75em 0;
+    }
+
     hr {
       border: none;
       border-bottom: 1px solid var(--theme-border-color);

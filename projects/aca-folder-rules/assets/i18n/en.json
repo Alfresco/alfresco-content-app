@@ -13,7 +13,8 @@
     "RULE_DETAILS": {
       "LABEL": {
         "NAME": "Name",
-        "DESCRIPTION": "Description"
+        "DESCRIPTION": "Description",
+        "WHEN": "When"
       },
       "PLACEHOLDER": {
         "NAME": "Enter rule name",
@@ -23,6 +24,11 @@
       "ERROR": {
         "REQUIRED": "This field is required",
         "RULE_COMPOSITE_CONDITION_INVALID": "One or more condition groups is empty"
+      },
+      "TRIGGERS": {
+        "INBOUND": "Items are created or enter this folder",
+        "UPDATE": "Items are updated",
+        "OUTBOUND": "Items are deleted or leave this folder"
       },
       "COMPARATORS": {
         "EQUALS": "(=) Equals",
