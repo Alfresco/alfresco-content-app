@@ -24,7 +24,7 @@
  */
 
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewEncapsulation } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { distinctUntilChanged, map, takeUntil } from 'rxjs/operators';
 import { Rule } from '../model/rule.model';
@@ -79,27 +79,27 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
   formValueChanged = new EventEmitter<Partial<Rule>>();
 
   private onDestroy$ = new Subject();
-  form: FormGroup;
+  form: UntypedFormGroup;
 
-  get name(): FormControl {
-    return this.form.get('name') as FormControl;
+  get name(): UntypedFormControl {
+    return this.form.get('name') as UntypedFormControl;
   }
-  get description(): FormControl {
-    return this.form.get('description') as FormControl;
+  get description(): UntypedFormControl {
+    return this.form.get('description') as UntypedFormControl;
   }
-  get triggers(): FormControl {
-    return this.form.get('triggers') as FormControl;
+  get triggers(): UntypedFormControl {
+    return this.form.get('triggers') as UntypedFormControl;
   }
-  get conditions(): FormControl {
-    return this.form.get('conditions') as FormControl;
+  get conditions(): UntypedFormControl {
+    return this.form.get('conditions') as UntypedFormControl;
   }
 
   ngOnInit() {
-    this.form = new FormGroup({
-      name: new FormControl(this.value.name || '', Validators.required),
-      description: new FormControl(this.value.description || ''),
-      triggers: new FormControl(this.value.triggers || ['inbound'], Validators.required),
-      conditions: new FormControl(
+    this.form = new UntypedFormGroup({
+      name: new UntypedFormControl(this.value.name || '', Validators.required),
+      description: new UntypedFormControl(this.value.description || ''),
+      triggers: new UntypedFormControl(this.value.triggers || ['inbound'], Validators.required),
+      conditions: new UntypedFormControl(
         this.value.conditions || {
           inverted: false,
           booleanMode: 'and',

@@ -25,7 +25,7 @@
 
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { AppConfigService, StorageService, OauthConfigModel } from '@alfresco/adf-core';
-import { Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { Validators, UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppStore, getHeaderColor, getAppName, getUserProfile, SetSettingsParameterAction } from '@alfresco/aca-shared/store';
@@ -48,7 +48,7 @@ interface RepositoryConfig {
 export class SettingsComponent implements OnInit {
   private defaultPath = '/assets/images/alfresco-logo-white.svg';
 
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   profile$: Observable<ProfileState>;
   appName$: Observable<string>;
@@ -63,7 +63,7 @@ export class SettingsComponent implements OnInit {
     private store: Store<AppStore>,
     private appConfig: AppConfigService,
     private storage: StorageService,
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) {
     this.profile$ = store.select(getUserProfile);
     this.appName$ = store.select(getAppName);
