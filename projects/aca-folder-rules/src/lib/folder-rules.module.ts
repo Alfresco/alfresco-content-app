@@ -24,22 +24,22 @@
  */
 
 import { CoreModule, TranslationService } from '@alfresco/adf-core';
-import {ExtensionService, ExtensionsModule, provideExtensionConfig} from '@alfresco/adf-extensions';
+import { ExtensionService, ExtensionsModule, provideExtensionConfig } from '@alfresco/adf-extensions';
 import { NgModule } from '@angular/core';
 import * as rules from './folder-rules.rules';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-
 import { EditRuleDialogSmartComponent } from './rule-details/edit-rule-dialog.smart-component';
 import { ManageRulesSmartComponent } from './manage-rules/manage-rules.smart-component';
 import { RuleCompositeConditionUiComponent } from './rule-details/conditions/rule-composite-condition.ui-component';
 import { RuleDetailsUiComponent } from './rule-details/rule-details.ui-component';
 import { RuleSimpleConditionUiComponent } from './rule-details/conditions/rule-simple-condition.ui-component';
-import {PageLayoutModule} from "@alfresco/aca-shared";
-import {AppToolbarModule} from "../../../../app/src/app/components/toolbar/toolbar.module";
-import {AppLayoutModule} from "../../../../app/src/app/components/layout/layout.module";
-import {BreadcrumbModule, DocumentListModule} from "@alfresco/adf-content-services";
-import {RuleComponent} from "./rule/rule.component";
+import { GenericErrorModule, PageLayoutModule } from '@alfresco/aca-shared';
+import { AppToolbarModule } from '../../../../app/src/app/components/toolbar/toolbar.module';
+import { AppLayoutModule } from '../../../../app/src/app/components/layout/layout.module';
+import { BreadcrumbModule, DocumentListModule } from '@alfresco/adf-content-services';
+import { RuleComponent } from './rules-list/rule/rule.component';
+import { RulesListComponent } from './rules-list/rules-list.component';
 
 const routes: Routes = [
   {
@@ -50,8 +50,27 @@ const routes: Routes = [
 
 @NgModule({
   providers: [provideExtensionConfig(['folder-rules.plugin.json'])],
-  imports: [CommonModule, RouterModule.forChild(routes), CoreModule.forChild(), PageLayoutModule, AppToolbarModule, AppLayoutModule, BreadcrumbModule, DocumentListModule, ExtensionsModule],
-  declarations: [EditRuleDialogSmartComponent, ManageRulesSmartComponent, RuleCompositeConditionUiComponent, RuleDetailsUiComponent, RuleComponent, RuleSimpleConditionUiComponent]
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+    CoreModule.forChild(),
+    PageLayoutModule,
+    AppToolbarModule,
+    AppLayoutModule,
+    BreadcrumbModule,
+    DocumentListModule,
+    ExtensionsModule,
+    GenericErrorModule
+  ],
+  declarations: [
+    EditRuleDialogSmartComponent,
+    ManageRulesSmartComponent,
+    RuleCompositeConditionUiComponent,
+    RuleDetailsUiComponent,
+    RuleComponent,
+    RuleSimpleConditionUiComponent,
+    RulesListComponent
+  ]
 })
 export class AcaFolderRulesModule {
   constructor(translation: TranslationService, extensions: ExtensionService) {

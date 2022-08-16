@@ -23,39 +23,15 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
-import { FolderRulesService } from '../services/folder-rules.service';
-import { Observable } from 'rxjs';
+import { Component, Input } from '@angular/core';
 import { Rule } from '../model/rule.model';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'aca-manage-rules',
-  templateUrl: 'manage-rules.smart-component.html',
-  styleUrls: ['manage-rules.smart-component.scss']
+  selector: 'aca-rules-list',
+  templateUrl: 'rules-list.component.html',
+  styleUrls: ['rules-list.component.scss']
 })
-export class ManageRulesSmartComponent implements OnInit {
-  rules$: Observable<Rule[]>;
-  isLoading$: Observable<boolean>;
-  folderInfo;
-  nodeId = null;
-
-  constructor(private location: Location, private folderRulesService: FolderRulesService, private route: ActivatedRoute) {}
-
-  ngOnInit(): void {
-    this.route.params.subscribe((params) => {
-      this.nodeId = params.nodeId;
-      if (this.nodeId) {
-        this.folderRulesService.loadRules(this.nodeId);
-        this.folderRulesService.folderInfo$.subscribe((res) => (this.folderInfo = res));
-        this.rules$ = this.folderRulesService.rulesListing$;
-        this.isLoading$ = this.folderRulesService.loading$;
-      }
-    });
-  }
-
-  goBack(): void {
-    this.location.back();
-  }
+export class RulesListComponent {
+  @Input()
+  rules: Rule[];
 }

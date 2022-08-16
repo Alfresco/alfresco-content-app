@@ -23,31 +23,17 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {Component, Input} from "@angular/core";
-import {FolderRulesService} from "../services/folder-rules.service";
-import {Observable} from "rxjs";
+import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'rule',
+  selector: 'aca-rule',
   templateUrl: 'rule.component.html',
   styleUrls: ['rule.component.scss']
 })
 export class RuleComponent {
+  @Input()
+  title: string;
 
   @Input()
-  title: string
-
-  @Input()
-  description: string
-
-  rules$: Observable<any>
-  constructor(private folderRulesService: FolderRulesService) {
-  }
-
-  load(){
-    this.folderRulesService.loadRules('22dabdb0-c029-49b6-824a-1ac3fa90af28')
-    this.rules$ = this.folderRulesService.rulesListing$
-
-  }
-
+  description: string;
 }

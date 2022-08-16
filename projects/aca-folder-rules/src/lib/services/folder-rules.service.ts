@@ -25,11 +25,10 @@
 
 import { Injectable } from '@angular/core';
 import { AlfrescoApiService } from '@alfresco/adf-core';
-import {BehaviorSubject, forkJoin, from, Observable, of} from 'rxjs';
-import {catchError, finalize, map} from 'rxjs/operators';
+import { BehaviorSubject, forkJoin, from, Observable, of } from 'rxjs';
+import { catchError, finalize, map } from 'rxjs/operators';
 import { Rule } from '../model/rule.model';
-import {ContentApiService} from "@alfresco/aca-shared";
-// import {Node} from "@alfresco/js-api";
+import { ContentApiService } from '@alfresco/aca-shared';
 
 @Injectable({
   providedIn: 'root'
@@ -37,8 +36,8 @@ import {ContentApiService} from "@alfresco/aca-shared";
 export class FolderRulesService {
   private rulesListingSource = new BehaviorSubject<Rule[]>([]);
   rulesListing$: Observable<Rule[]> = this.rulesListingSource.asObservable();
-  private folderInfoSource = new BehaviorSubject({})    // types
-  folderInfo$: Observable<any> = this.folderInfoSource.asObservable()   //types
+  private folderInfoSource = new BehaviorSubject({});
+  folderInfo$: Observable<any> = this.folderInfoSource.asObservable();
   private loadingSource = new BehaviorSubject<boolean>(false);
   loading$ = this.loadingSource.asObservable();
 
@@ -47,30 +46,37 @@ export class FolderRulesService {
   loadRules(nodeId: string, ruleSetId: string = '-default-'): void {
     this.loadingSource.next(true);
     forkJoin([
-    from(this.apiCall(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules`, 'GET', [{}, {}, {}, {}, {}, ['application/json'], ['application/json']]))
-      .pipe(
-        map((res) => {
-          return this.formatRules(res)
-        }),
-        catchError(error => {
-          if (error.status == 404){
-            return of([])
+      from(
+        this.apiCall(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules`, 'GET', [{}, {}, {}, {}, {}, ['application/json'], ['application/json']])
+      ).pipe(
+        map((res) => this.formatRules(res)),
+        catchError((error) => {
+          if (error.status === 404) {
+            return of([]);
           }
-          return of(error)
+          return of(error);
         })
       ),
-      this.contentApi.getNode(nodeId)
-    ])
-      .pipe(
-        finalize(() => this.loadingSource.next(false))
+      this.contentApi.getNode(nodeId).pipe(
+        catchError((error) => {
+          if (error.status === 404) {
+            return of({ entry: null });
+          }
+          return of(error);
+        })
       )
-      .subscribe(([rules, nodeInfo]) => {
-        this.rulesListingSource.next(rules);
-        this.folderInfoSource.next(nodeInfo.entry);
-      }, (error) => {
-        this.rulesListingSource.next([]);
-        this.folderInfoSource.next(error)
-      })
+    ])
+      .pipe(finalize(() => this.loadingSource.next(false)))
+      .subscribe(
+        ([rules, nodeInfo]) => {
+          this.rulesListingSource.next(rules);
+          this.folderInfoSource.next(nodeInfo.entry);
+        },
+        (error) => {
+          this.rulesListingSource.next([]);
+          this.folderInfoSource.next(error);
+        }
+      );
   }
 
   private apiCall(path: string, httpMethod: string, params?: any[]): Promise<any> {
