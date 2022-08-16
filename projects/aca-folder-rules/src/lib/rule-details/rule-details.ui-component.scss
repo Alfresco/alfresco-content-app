@@ -6,7 +6,7 @@
       display: flex;
       gap: 8px;
 
-      & > label {
+      & > label, & > .label {
         font-weight: bold;
         width: 20%;
         min-width: 100px;

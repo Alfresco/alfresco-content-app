@@ -29,19 +29,24 @@ import { RuleDetailsUiComponent } from './rule-details.ui-component';
 import { Rule } from '../model/rule.model';
 import { By } from '@angular/platform-browser';
 import { RuleCompositeConditionUiComponent } from './conditions/rule-composite-condition.ui-component';
+import { MatCheckbox } from '@angular/material/checkbox';
 
-describe('RuleDetailsUiComponent', () => {
+fdescribe('RuleDetailsUiComponent', () => {
   let fixture: ComponentFixture<RuleDetailsUiComponent>;
   let component: RuleDetailsUiComponent;
 
   const initialValue: Partial<Rule> = {
     id: 'rule-id',
     name: 'Rule name',
-    description: 'This is the description of the rule'
+    description: 'This is the description of the rule',
+    triggers: ['UPDATE', 'OUTBOUND']
   };
 
   const getHtmlElement = <T>(dataAutomationId: string) =>
-    fixture.debugElement.query(By.css(`[data-automation-id="${dataAutomationId}"]`)).nativeElement as T;
+    fixture.debugElement.query(By.css(`[data-automation-id="${dataAutomationId}"]`))?.nativeElement as T;
+
+  const getComponentInstance = <T>(dataAutomationId: string) =>
+    fixture.debugElement.query(By.css(`[data-automation-id="${dataAutomationId}"]`))?.componentInstance as T;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -59,9 +64,15 @@ describe('RuleDetailsUiComponent', () => {
 
     const nameInput = getHtmlElement<HTMLInputElement>('rule-details-name-input');
     const descriptionTextarea = getHtmlElement<HTMLTextAreaElement>('rule-details-description-textarea');
+    const inboundTriggerCheckbox = getComponentInstance<MatCheckbox>('rule-details-trigger-checkbox-inbound');
+    const updateTriggerCheckbox = getComponentInstance<MatCheckbox>('rule-details-trigger-checkbox-update');
+    const outboundTriggerCheckbox = getComponentInstance<MatCheckbox>('rule-details-trigger-checkbox-outbound');
 
     expect(nameInput.value).toBe(initialValue.name);
     expect(descriptionTextarea.value).toBe(initialValue.description);
+    expect(inboundTriggerCheckbox.checked).toBeFalsy();
+    expect(updateTriggerCheckbox.checked).toBeTruthy();
+    expect(outboundTriggerCheckbox.checked).toBeTruthy();
   });
 
   it('should be editable if not read-only', () => {
@@ -70,9 +81,15 @@ describe('RuleDetailsUiComponent', () => {
 
     const nameInput = getHtmlElement<HTMLInputElement>('rule-details-name-input');
     const descriptionTextarea = getHtmlElement<HTMLTextAreaElement>('rule-details-description-textarea');
+    const inboundTriggerCheckbox = getComponentInstance<MatCheckbox>('rule-details-trigger-checkbox-inbound');
+    const updateTriggerCheckbox = getComponentInstance<MatCheckbox>('rule-details-trigger-checkbox-update');
+    const outboundTriggerCheckbox = getComponentInstance<MatCheckbox>('rule-details-trigger-checkbox-outbound');
 
     expect(nameInput.disabled).toBeFalsy();
     expect(descriptionTextarea.disabled).toBeFalsy();
+    expect(inboundTriggerCheckbox.disabled).toBeFalsy();
+    expect(updateTriggerCheckbox.disabled).toBeFalsy();
+    expect(outboundTriggerCheckbox.disabled).toBeFalsy();
   });
 
   it('should not be editable if read-only', () => {
@@ -81,8 +98,16 @@ describe('RuleDetailsUiComponent', () => {
 
     const nameInput = getHtmlElement<HTMLInputElement>('rule-details-name-input');
     const descriptionTextarea = getHtmlElement<HTMLTextAreaElement>('rule-details-description-textarea');
+    const inboundTriggerCheckbox = getComponentInstance<MatCheckbox>('rule-details-trigger-checkbox-inbound');
+    const updateTriggerCheckbox = getComponentInstance<MatCheckbox>('rule-details-trigger-checkbox-update');
+    const outboundTriggerCheckbox = getComponentInstance<MatCheckbox>('rule-details-trigger-checkbox-outbound');
 
     expect(nameInput.disabled).toBeTruthy();
     expect(descriptionTextarea.disabled).toBeTruthy();
+    expect(inboundTriggerCheckbox.disabled).toBeTruthy();
+    expect(updateTriggerCheckbox.disabled).toBeTruthy();
+    expect(outboundTriggerCheckbox.disabled).toBeTruthy();
   });
+
+  // it('should not be able to uncheck a trigger when it is the only one')
 });
