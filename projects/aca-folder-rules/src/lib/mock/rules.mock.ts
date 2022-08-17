@@ -12,12 +12,12 @@ export const dummyResponse = {
     entries: [
       {
         entry: {
-          shared: false,
+          isShared: false,
           cascade: false,
           asynchronous: false,
           name: 'rule1',
           id: 'd388ed54-a522-410f-a158-6dbf5a833731',
-          triggers: ['INBOUND'],
+          triggers: ['inbound'],
           actions: [
             {
               actionDefinitionId: 'copy',
@@ -33,12 +33,12 @@ export const dummyResponse = {
       },
       {
         entry: {
-          shared: false,
+          isShared: false,
           cascade: false,
           asynchronous: false,
           name: 'rule2',
           id: 'e0e645ca-e6c0-47d4-9936-1a8872a6c30b',
-          triggers: ['INBOUND'],
+          triggers: ['inbound'],
           actions: [
             {
               actionDefinitionId: 'move',
@@ -64,8 +64,8 @@ export const dummyRules: Rule[] = [
     cascade: false,
     asynchronous: false,
     errorScript: '',
-    shared: false,
-    triggers: ['INBOUND'],
+    isShared: false,
+    triggers: ['inbound'],
     conditions: null,
     actions: [
       {
@@ -86,8 +86,8 @@ export const dummyRules: Rule[] = [
     cascade: false,
     asynchronous: false,
     errorScript: '',
-    shared: false,
-    triggers: ['INBOUND'],
+    isShared: false,
+    triggers: ['inbound'],
     conditions: null,
     actions: [
       {

@@ -96,8 +96,8 @@ export class FolderRulesService {
       cascade: obj.cascade ?? false,
       asynchronous: obj.asynchronous ?? false,
       errorScript: obj.errorScript ?? '',
-      shared: obj.shared ?? false,
-      triggers: obj.triggers ?? ['INBOUND'],
+      isShared: obj.isShared ?? false,
+      triggers: obj.triggers ?? ['inbound'],
       conditions: obj.conditions ?? null,
       actions: obj.actions ?? []
     };

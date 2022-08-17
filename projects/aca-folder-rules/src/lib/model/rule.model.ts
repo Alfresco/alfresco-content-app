@@ -34,8 +34,8 @@ export interface Rule {
   cascade: boolean;
   asynchronous: boolean;
   errorScript: string;
-  shared: boolean;
-  triggers: ('INBOUND' | 'UPDATE' | 'OUTBOUND')[];
+  isShared: boolean;
+  triggers: ('inbound' | 'update' | 'outbound')[];
   conditions: RuleCompositeCondition;
   actions: RuleAction[];
 }
