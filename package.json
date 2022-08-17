@@ -12,7 +12,7 @@
     "start": "ng serve",
     "start:prod": "npm run validate-app-config && node --max-old-space-size=8192 node_modules/@angular/cli/bin/ng serve --configuration production --open",
     "prebuild": "mkdir -p ./app/.tmp && cp ./app/src/app.config.json.tpl ./app/.tmp/app.config.json",
-    "build": "ng build",
+    "build": "ng build content-ce",
     "build.release": "npm run build -- --configuration=production,release",
     "test": "ng test",
     "test:ci": "ng test adf-office-services-ext && ng test content-ce --code-coverage",
