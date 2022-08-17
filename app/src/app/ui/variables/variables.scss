@@ -33,6 +33,14 @@ $adf-upload-dragging-level1-border: none;
 
 $adf-permission-list-width: 100%;
 
+$grey-background: rgba(33, 33, 33, 0.12);
+$grey-text-background: rgba(33, 33, 33, 0.05);
+$grey-hover-background: rgba(33, 33, 33, 0.24);
+$blue-save-button-background: #1F74DB;
+$black-heading: #4e4c4c;
+$grey-dropdown-background: #eee;
+$grey-divider: rgba(0,0,0,.22);
+
 $defaults: (
   --theme-primary-color: mat.get-color-from-palette($primary),
   --theme-primary-color-default-contrast: mat.get-color-from-palette($primary, default-contrast),
@@ -53,6 +61,13 @@ $defaults: (
   --theme-dialog-background-color: mat.get-color-from-palette($background, dialog),
 
   --new-button-font-size: 0.9rem,
+  --theme-grey-text-background-color: $grey-text-background,
+  --theme-grey-background-color: $grey-background,
+  --theme-grey-hover-background-color: $grey-hover-background,
+  --theme-blue-button-color: $blue-save-button-background,
+  --theme-heading-color: $black-heading,
+  --theme-dropdown-color: $grey-dropdown-background,
+  --theme-grey-divider-color: $grey-divider,
 );
 
 // propagates SCSS variables into the CSS variables scope
