@@ -1,0 +1,18 @@
+.aca-rule-simple-condition {
+  &__form {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+
+    mat-form-field {
+      flex: 2;
+      font-size: inherit;
+    }
+
+    &__comparator-input {
+      &.hidden {
+        display: none;
+      }
+    }
+  }
+}

@@ -33,12 +33,17 @@
       border-bottom: 1px solid var(--theme-border-color);
     }
 
-    *:disabled {
-      color: #000000;
+    *:disabled, .mat-select-disabled .mat-select-value {
+      color: inherit;
     }
 
     textarea {
       min-height: 4em;
+    }
+
+    & > .aca-rule-composite-condition + .mat-error {
+      font-size: 75%;
+      margin-left: 16px;
     }
   }
 }

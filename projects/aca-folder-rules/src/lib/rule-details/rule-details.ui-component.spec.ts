@@ -28,6 +28,7 @@ import { CoreTestingModule } from '@alfresco/adf-core';
 import { RuleDetailsUiComponent } from './rule-details.ui-component';
 import { Rule } from '../model/rule.model';
 import { By } from '@angular/platform-browser';
+import { RuleCompositeConditionUiComponent } from './conditions/rule-composite-condition.ui-component';
 
 describe('RuleDetailsUiComponent', () => {
   let fixture: ComponentFixture<RuleDetailsUiComponent>;
@@ -45,7 +46,7 @@ describe('RuleDetailsUiComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [CoreTestingModule],
-      declarations: [RuleDetailsUiComponent]
+      declarations: [RuleCompositeConditionUiComponent, RuleDetailsUiComponent]
     });
 
     fixture = TestBed.createComponent(RuleDetailsUiComponent);

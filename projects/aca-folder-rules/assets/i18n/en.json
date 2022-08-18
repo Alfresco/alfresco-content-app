@@ -21,8 +21,47 @@
         "NO_DESCRIPTION": "No description"
       },
       "ERROR": {
-        "REQUIRED": "This field is required"
-      }
+        "REQUIRED": "This field is required",
+        "RULE_COMPOSITE_CONDITION_INVALID": "One or more condition groups is empty"
+      },
+      "COMPARATORS": {
+        "EQUALS": "(=) Equals",
+        "CONTAINS": "Contains",
+        "STARTS_WITH": "Starts with",
+        "ENDS_WITH": "Ends with",
+        "GREATER_THAN": "(>) Greater than",
+        "LESS_THAN": "(<) Less than",
+        "GREATER_THAN_OR_EQUAL": "(>=) Greater than or equal",
+        "LESS_THAN_OR_EQUAL": "(<=) Less than or equal",
+        "ON": "(=) On",
+        "AFTER": "(>) After",
+        "BEFORE": "(<) Before",
+        "ON_OR_AFTER": "(>=) On or after",
+        "ON_OR_BEFORE": "(<=) On or before",
+        "INSTANCE_OF": "(=) Is"
+      },
+      "FIELDS": {
+        "NAME": "Name",
+        "SIZE": "Size",
+        "MIMETYPE": "Mimetype",
+        "ENCODING": "Encoding",
+        "HAS_CATEGORY": "Has category",
+        "HAS_TAG": "Has tag",
+        "HAS_ASPECT": "Has aspect"
+      },
+      "LOGIC_OPERATORS": {
+        "IF": "If",
+        "NOT_IF": "NOT If",
+        "AND": "And",
+        "OR": "Or"
+      },
+      "ACTIONS": {
+        "ADD_CONDITION": "Add condition",
+        "ADD_GROUP": "Add group",
+        "REMOVE": "Remove"
+      },
+      "NO_CONDITIONS": "No conditions",
+      "NO_CONDITIONS_IN_GROUP": "No conditions in the group"
     }
   }
 }

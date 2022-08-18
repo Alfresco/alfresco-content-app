@@ -29,6 +29,7 @@ import { By } from '@angular/platform-browser';
 import { RuleDetailsUiComponent } from './rule-details.ui-component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CoreTestingModule } from '@alfresco/adf-core';
+import { RuleCompositeConditionUiComponent } from './conditions/rule-composite-condition.ui-component';
 
 describe('EditRuleDialogComponent', () => {
   let fixture: ComponentFixture<EditRuleDialogSmartComponent>;
@@ -41,7 +42,7 @@ describe('EditRuleDialogComponent', () => {
   const setupBeforeEach = (dialogOptions: EditRuleDialogOptions = {}) => {
     TestBed.configureTestingModule({
       imports: [CoreTestingModule],
-      declarations: [EditRuleDialogSmartComponent, RuleDetailsUiComponent],
+      declarations: [EditRuleDialogSmartComponent, RuleCompositeConditionUiComponent, RuleDetailsUiComponent],
       providers: [
         { provide: MatDialogRef, useValue: dialogRef },
         { provide: MAT_DIALOG_DATA, useValue: dialogOptions }
@@ -105,7 +106,7 @@ describe('EditRuleDialogComponent', () => {
       expect(titleElement.innerText.trim()).toBe('ACA_FOLDER_RULES.EDIT_RULE_DIALOG.UPDATE_TITLE');
     });
 
-    it('should show a "create" label in the submit button', () => {
+    it('should show an "update" label in the submit button', () => {
       fixture.detectChanges();
       const titleElement = fixture.debugElement.query(By.css('[data-automation-id="edit-rule-dialog-submit"]')).nativeElement as HTMLButtonElement;
 
