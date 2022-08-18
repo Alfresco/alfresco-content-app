@@ -17,26 +17,26 @@
       </ng-container>
 
       <ng-template #onLoaded>
-        <ng-container *ngIf="folderInfo; else genericError">
+        <ng-container *ngIf="folderInfo$ | async; else genericError">
           <adf-toolbar class="adf-toolbar--inline aca-rules-actions-bar">
             <adf-toolbar-title>
-              <mat-icon>folder</mat-icon>
-              <adf-breadcrumb root="{{folderInfo.name}}:{{'ACA_FOLDER_RULES.TOOLBAR.BREADCRUMB.RULES' | translate}}"
+              <mat-icon class="icon-aligner">folder</mat-icon>
+              <adf-breadcrumb root="{{ (folderInfo$ | async).name }}:{{'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.BREADCRUMB.RULES' | translate}}"
                               class="aca-rules-breadcrumb"></adf-breadcrumb>
             </adf-toolbar-title>
           </adf-toolbar>
           <mat-divider></mat-divider>
 
           <div class="aca-manage-rules-container" *ngIf="(rules$ | async).length > 0 ; else emptyContent">
-            <aca-rules-list [rules]="rules$ | async"></aca-rules-list>
-            <aca-rule-details [readOnly]="true"></aca-rule-details>
+              <aca-rules-list [rules]="rules$ | async" (ruleSelected)="onRuleSelected($event)"></aca-rules-list>
+              <aca-rule-details [readOnly]="true" [initialValue]="selectedRule || {}"></aca-rule-details>
           </div>
 
           <ng-template #emptyContent>
             <adf-empty-content
               icon="library_books"
-              [title]="'ACA_FOLDER_RULES.EMPTY_RULES_LIST.TITLE' | translate"
-              [subtitle]="'ACA_FOLDER_RULES.EMPTY_RULES_LIST.SUBTITLE' | translate"
+              [title]="'ACA_FOLDER_RULES.MANAGE_RULES.EMPTY_RULES_LIST.TITLE' | translate"
+              [subtitle]="'ACA_FOLDER_RULES.MANAGE_RULES.EMPTY_RULES_LIST.SUBTITLE' | translate"
             >
             </adf-empty-content>
           </ng-template>

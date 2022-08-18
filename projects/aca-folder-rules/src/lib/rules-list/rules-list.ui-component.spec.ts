@@ -24,7 +24,7 @@
  */
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RulesListComponent } from './rules-list.component';
+import { RulesListUiComponent } from './rules-list.ui-component';
 import { dummyRules } from '../mock/rules.mock';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
@@ -32,17 +32,17 @@ import { CoreTestingModule } from '@alfresco/adf-core';
 import { AcaFolderRulesModule } from '@alfresco/aca-folder-rules';
 
 describe('RulesListComponent', () => {
-  let component: RulesListComponent;
-  let fixture: ComponentFixture<RulesListComponent>;
+  let component: RulesListUiComponent;
+  let fixture: ComponentFixture<RulesListUiComponent>;
   let debugElement: DebugElement;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [CoreTestingModule, AcaFolderRulesModule],
-      declarations: [RulesListComponent]
+      declarations: [RulesListUiComponent]
     });
 
-    fixture = TestBed.createComponent(RulesListComponent);
+    fixture = TestBed.createComponent(RulesListUiComponent);
     component = fixture.componentInstance;
     debugElement = fixture.debugElement;
   });

@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AcaFolderRulesModule, ManageRulesSmartComponent } from '@alfresco/aca-folder-rules';
 import { DebugElement } from '@angular/core';
 import { CoreTestingModule } from '@alfresco/adf-core';
@@ -40,23 +40,25 @@ describe('ManageRulesSmartComponent', () => {
   let debugElement: DebugElement;
   let folderRulesService: FolderRulesService;
 
-  beforeEach(async(() => {
-    const folderRulesServiceSpy = jasmine.createSpyObj('FolderRulesService', ['loadRules']);
-    TestBed.configureTestingModule({
-      imports: [CoreTestingModule, AcaFolderRulesModule],
-      providers: [
-        { provide: FolderRulesService, useValue: folderRulesServiceSpy },
-        { provide: ActivatedRoute, useValue: { params: of({ nodeId: 1 }) } }
-      ]
+  beforeEach(
+    waitForAsync(() => {
+      const folderRulesServiceSpy = jasmine.createSpyObj('FolderRulesService', ['loadRules']);
+      TestBed.configureTestingModule({
+        imports: [CoreTestingModule, AcaFolderRulesModule],
+        providers: [
+          { provide: FolderRulesService, useValue: folderRulesServiceSpy },
+          { provide: ActivatedRoute, useValue: { params: of({ nodeId: 1 }) } }
+        ]
+      })
+        .compileComponents()
+        .then(() => {
+          fixture = TestBed.createComponent(ManageRulesSmartComponent);
+          component = fixture.componentInstance;
+          debugElement = fixture.debugElement;
+          folderRulesService = TestBed.inject<FolderRulesService>(FolderRulesService);
+        });
     })
-      .compileComponents()
-      .then(() => {
-        fixture = TestBed.createComponent(ManageRulesSmartComponent);
-        component = fixture.componentInstance;
-        debugElement = fixture.debugElement;
-        folderRulesService = TestBed.inject<FolderRulesService>(FolderRulesService);
-      });
-  }));
+  );
 
   it('should display aca-rules-list and aca-rule-details', () => {
     folderRulesService.folderInfo$ = of(dummyNodeInfo);

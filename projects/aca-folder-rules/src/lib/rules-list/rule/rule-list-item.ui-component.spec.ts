@@ -23,17 +23,19 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RuleListItemUiComponent } from './rule-list-item.ui-component';
 
-@Component({
-  selector: 'aca-rule',
-  templateUrl: 'rule.component.html',
-  styleUrls: ['rule.component.scss']
-})
-export class RuleComponent {
-  @Input()
-  title: string;
+describe('RuleComponent', () => {
+  let component: RuleListItemUiComponent;
+  let fixture: ComponentFixture<RuleListItemUiComponent>;
 
-  @Input()
-  description: string;
-}
+  beforeEach(() => {
+    fixture = TestBed.createComponent(RuleListItemUiComponent);
+    component = fixture.componentInstance;
+  });
+
+  it('should create the component', () => {
+    expect(component).toBeTruthy();
+  });
+});

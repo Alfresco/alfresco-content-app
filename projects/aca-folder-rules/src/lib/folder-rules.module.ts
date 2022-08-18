@@ -35,11 +35,9 @@ import { RuleCompositeConditionUiComponent } from './rule-details/conditions/rul
 import { RuleDetailsUiComponent } from './rule-details/rule-details.ui-component';
 import { RuleSimpleConditionUiComponent } from './rule-details/conditions/rule-simple-condition.ui-component';
 import { GenericErrorModule, PageLayoutModule } from '@alfresco/aca-shared';
-import { AppToolbarModule } from '../../../../app/src/app/components/toolbar/toolbar.module';
-import { AppLayoutModule } from '../../../../app/src/app/components/layout/layout.module';
 import { BreadcrumbModule, DocumentListModule } from '@alfresco/adf-content-services';
-import { RuleComponent } from './rules-list/rule/rule.component';
-import { RulesListComponent } from './rules-list/rules-list.component';
+import { RuleListItemUiComponent } from './rules-list/rule/rule-list-item.ui-component';
+import { RulesListUiComponent } from './rules-list/rules-list.ui-component';
 
 const routes: Routes = [
   {
@@ -55,8 +53,6 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     CoreModule.forChild(),
     PageLayoutModule,
-    AppToolbarModule,
-    AppLayoutModule,
     BreadcrumbModule,
     DocumentListModule,
     ExtensionsModule,
@@ -67,9 +63,9 @@ const routes: Routes = [
     ManageRulesSmartComponent,
     RuleCompositeConditionUiComponent,
     RuleDetailsUiComponent,
-    RuleComponent,
     RuleSimpleConditionUiComponent,
-    RulesListComponent
+    RulesListUiComponent,
+    RuleListItemUiComponent
   ]
 })
 export class AcaFolderRulesModule {

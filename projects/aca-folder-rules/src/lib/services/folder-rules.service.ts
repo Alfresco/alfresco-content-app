@@ -29,6 +29,7 @@ import { BehaviorSubject, forkJoin, from, Observable, of } from 'rxjs';
 import { catchError, finalize, map } from 'rxjs/operators';
 import { Rule } from '../model/rule.model';
 import { ContentApiService } from '@alfresco/aca-shared';
+import { NodeInfo } from '@alfresco/aca-shared/store';
 
 @Injectable({
   providedIn: 'root'
@@ -36,8 +37,8 @@ import { ContentApiService } from '@alfresco/aca-shared';
 export class FolderRulesService {
   private rulesListingSource = new BehaviorSubject<Rule[]>([]);
   rulesListing$: Observable<Rule[]> = this.rulesListingSource.asObservable();
-  private folderInfoSource = new BehaviorSubject({});
-  folderInfo$: Observable<any> = this.folderInfoSource.asObservable();
+  private folderInfoSource = new BehaviorSubject<NodeInfo>(null);
+  folderInfo$: Observable<NodeInfo> = this.folderInfoSource.asObservable();
   private loadingSource = new BehaviorSubject<boolean>(false);
   loading$ = this.loadingSource.asObservable();
 

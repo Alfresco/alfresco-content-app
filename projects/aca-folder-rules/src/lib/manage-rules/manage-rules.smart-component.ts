@@ -29,6 +29,7 @@ import { FolderRulesService } from '../services/folder-rules.service';
 import { Observable } from 'rxjs';
 import { Rule } from '../model/rule.model';
 import { ActivatedRoute } from '@angular/router';
+import { NodeInfo } from '@alfresco/aca-shared/store';
 
 @Component({
   selector: 'aca-manage-rules',
@@ -38,24 +39,29 @@ import { ActivatedRoute } from '@angular/router';
 export class ManageRulesSmartComponent implements OnInit {
   rules$: Observable<Rule[]>;
   isLoading$: Observable<boolean>;
-  folderInfo;
-  nodeId = null;
+  folderInfo$: Observable<NodeInfo>;
+  selectedRule: Rule = null;
+  nodeId: string = null;
 
   constructor(private location: Location, private folderRulesService: FolderRulesService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
+    this.rules$ = this.folderRulesService.rulesListing$;
+    this.isLoading$ = this.folderRulesService.loading$;
+    this.folderInfo$ = this.folderRulesService.folderInfo$;
     this.route.params.subscribe((params) => {
       this.nodeId = params.nodeId;
       if (this.nodeId) {
         this.folderRulesService.loadRules(this.nodeId);
-        this.folderRulesService.folderInfo$.subscribe((res) => (this.folderInfo = res));
-        this.rules$ = this.folderRulesService.rulesListing$;
-        this.isLoading$ = this.folderRulesService.loading$;
       }
     });
   }
 
   goBack(): void {
     this.location.back();
+  }
+
+  onRuleSelected(rule: Rule): void {
+    this.selectedRule = rule;
   }
 }

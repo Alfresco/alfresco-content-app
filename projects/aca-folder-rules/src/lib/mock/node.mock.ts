@@ -4,13 +4,13 @@ export const dummyNodeInfo = {
   isFolder: true,
   isFile: false,
   createdByUser: {
-    id: 'hruser',
-    displayName: 'hruser'
+    id: 'username',
+    displayName: 'username'
   },
   modifiedAt: '2022-08-16T07:59:45.771+0000',
   modifiedByUser: {
-    id: 'hruser',
-    displayName: 'hruser'
+    id: 'username',
+    displayName: 'username'
   },
   name: 'folder1',
   id: '76659fe3-5f93-483d-948e-38b9e006cc94',
