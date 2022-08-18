@@ -38,14 +38,8 @@ import { canOpenWithOffice } from './evaluators';
 export class AosExtensionModule {
   constructor(extensions: ExtensionService, translation: TranslationService, aosService: AlfrescoOfficeExtensionService) {
     translation.addTranslationFolder('adf-office-services-ext', 'assets/adf-office-services-ext');
-    if (!aosService.isAosPluginEnabled()) {
-      extensions.setEvaluators({
-        'aos.canOpenWithOffice': () => false
-      });
-    } else {
-      extensions.setEvaluators({
-        'aos.canOpenWithOffice': canOpenWithOffice
-      });
-    }
+    extensions.setEvaluators({
+      'aos.canOpenWithOffice': (context) => aosService.isAosPluginEnabled() && canOpenWithOffice(context)
+    });
   }
 }
