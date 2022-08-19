@@ -30,20 +30,13 @@
   <div class="aca-rule-details__form__row aca-rule-details__form__triggers">
     <div class="label">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.WHEN' | translate }}</div>
     <div>
-      <div *ngFor="let trigger of triggerOptions">
-        <mat-checkbox
-          [attr.data-automation-id]="'rule-details-trigger-checkbox-' + trigger | lowercase"
-          [checked]="isTriggerInitiallyChecked(trigger)"
-          [disabled]="readOnly"
-          (change)="onTriggerChange(trigger, $event)">
-          {{ 'ACA_FOLDER_RULES.RULE_DETAILS.TRIGGERS.' + trigger | uppercase | translate }}
-        </mat-checkbox>
-      </div>
+      <aca-rule-triggers formControlName="triggers" data-automation-id="rule-details-triggers-component"></aca-rule-triggers>
+      <mat-error class="rule-details-error">{{ getErrorMessage(triggers) | translate }}</mat-error>
     </div>
   </div>
 
   <hr>
 
   <aca-rule-composite-condition formControlName="conditions"></aca-rule-composite-condition>
-  <mat-error>{{ getErrorMessage(conditions) | translate }}</mat-error>
+  <mat-error class="rule-details-error">{{ getErrorMessage(conditions) | translate }}</mat-error>
 </form>

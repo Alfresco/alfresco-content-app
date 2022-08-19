@@ -1,0 +1,9 @@
+<div *ngFor="let trigger of triggerOptions">
+  <mat-checkbox
+    [attr.data-automation-id]="'rule-trigger-checkbox-' + trigger | lowercase"
+    [checked]="isTriggerChecked(trigger)"
+    [disabled]="disabled"
+    (change)="onTriggerChange(trigger, $event.checked)">
+    {{ 'ACA_FOLDER_RULES.RULE_DETAILS.TRIGGERS.' + trigger | uppercase | translate }}
+  </mat-checkbox>
+</div>

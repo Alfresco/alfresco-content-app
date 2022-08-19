@@ -23,7 +23,8 @@
       },
       "ERROR": {
         "REQUIRED": "This field is required",
-        "RULE_COMPOSITE_CONDITION_INVALID": "One or more condition groups is empty"
+        "RULE_COMPOSITE_CONDITION_INVALID": "One or more condition groups is empty",
+        "INSUFFICIENT_TRIGGERS_SELECTED": "At least one trigger is required"
       },
       "TRIGGERS": {
         "INBOUND": "Items are created or enter this folder",

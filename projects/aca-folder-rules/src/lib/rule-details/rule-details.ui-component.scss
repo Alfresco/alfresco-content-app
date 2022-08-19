@@ -45,8 +45,12 @@
       min-height: 4em;
     }
 
-    & > .aca-rule-composite-condition + .mat-error {
+    .rule-details-error {
       font-size: 75%;
+      height: 1em;
+    }
+
+    & > .aca-rule-composite-condition + .rule-details-error {
       margin-left: 16px;
     }
   }

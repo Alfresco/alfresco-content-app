@@ -29,13 +29,13 @@ import { RuleDetailsUiComponent } from './rule-details.ui-component';
 import { Rule } from '../model/rule.model';
 import { By } from '@angular/platform-browser';
 import { RuleCompositeConditionUiComponent } from './conditions/rule-composite-condition.ui-component';
-import { MatCheckbox } from '@angular/material/checkbox';
+import { RuleTriggersUiComponent } from './triggers/rule-triggers.ui-component';
 
 describe('RuleDetailsUiComponent', () => {
   let fixture: ComponentFixture<RuleDetailsUiComponent>;
   let component: RuleDetailsUiComponent;
 
-  const initialValue: Partial<Rule> = {
+  const testValue: Partial<Rule> = {
     id: 'rule-id',
     name: 'Rule name',
     description: 'This is the description of the rule',
@@ -51,7 +51,7 @@ describe('RuleDetailsUiComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [CoreTestingModule],
-      declarations: [RuleCompositeConditionUiComponent, RuleDetailsUiComponent]
+      declarations: [RuleCompositeConditionUiComponent, RuleDetailsUiComponent, RuleTriggersUiComponent]
     });
 
     fixture = TestBed.createComponent(RuleDetailsUiComponent);
@@ -59,20 +59,33 @@ describe('RuleDetailsUiComponent', () => {
   });
 
   it('should fill the form out with initial values', () => {
-    component.value = initialValue;
+    component.value = testValue;
     fixture.detectChanges();
 
     const nameInput = getHtmlElement<HTMLInputElement>('rule-details-name-input');
     const descriptionTextarea = getHtmlElement<HTMLTextAreaElement>('rule-details-description-textarea');
-    const inboundTriggerCheckbox = getComponentInstance<MatCheckbox>('rule-details-trigger-checkbox-inbound');
-    const updateTriggerCheckbox = getComponentInstance<MatCheckbox>('rule-details-trigger-checkbox-update');
-    const outboundTriggerCheckbox = getComponentInstance<MatCheckbox>('rule-details-trigger-checkbox-outbound');
+    const ruleTriggersComponent = getComponentInstance<RuleTriggersUiComponent>('rule-details-triggers-component');
 
-    expect(nameInput.value).toBe(initialValue.name);
-    expect(descriptionTextarea.value).toBe(initialValue.description);
-    expect(inboundTriggerCheckbox.checked).toBeFalsy();
-    expect(updateTriggerCheckbox.checked).toBeTruthy();
-    expect(outboundTriggerCheckbox.checked).toBeTruthy();
+    expect(nameInput.value).toBe(testValue.name);
+    expect(descriptionTextarea.value).toBe(testValue.description);
+    expect(ruleTriggersComponent.value).toEqual(testValue.triggers);
+  });
+
+  it('should modify the form if the value input property is modified', () => {
+    fixture.detectChanges();
+    const nameInput = getHtmlElement<HTMLInputElement>('rule-details-name-input');
+    const descriptionTextarea = getHtmlElement<HTMLTextAreaElement>('rule-details-description-textarea');
+    const ruleTriggersComponent = getComponentInstance<RuleTriggersUiComponent>('rule-details-triggers-component');
+
+    expect(nameInput.value).toBe('');
+    expect(descriptionTextarea.value).toBe('');
+    expect(ruleTriggersComponent.value).toEqual(['INBOUND']);
+    component.value = testValue;
+    fixture.detectChanges();
+
+    expect(nameInput.value).toBe(testValue.name);
+    expect(descriptionTextarea.value).toBe(testValue.description);
+    expect(ruleTriggersComponent.value).toEqual(testValue.triggers);
   });
 
   it('should be editable if not read-only', () => {
@@ -81,15 +94,11 @@ describe('RuleDetailsUiComponent', () => {
 
     const nameInput = getHtmlElement<HTMLInputElement>('rule-details-name-input');
     const descriptionTextarea = getHtmlElement<HTMLTextAreaElement>('rule-details-description-textarea');
-    const inboundTriggerCheckbox = getComponentInstance<MatCheckbox>('rule-details-trigger-checkbox-inbound');
-    const updateTriggerCheckbox = getComponentInstance<MatCheckbox>('rule-details-trigger-checkbox-update');
-    const outboundTriggerCheckbox = getComponentInstance<MatCheckbox>('rule-details-trigger-checkbox-outbound');
+    const ruleTriggersComponent = getComponentInstance<RuleTriggersUiComponent>('rule-details-triggers-component');
 
     expect(nameInput.disabled).toBeFalsy();
     expect(descriptionTextarea.disabled).toBeFalsy();
-    expect(inboundTriggerCheckbox.disabled).toBeFalsy();
-    expect(updateTriggerCheckbox.disabled).toBeFalsy();
-    expect(outboundTriggerCheckbox.disabled).toBeFalsy();
+    expect(ruleTriggersComponent.disabled).toBeFalsy();
   });
 
   it('should not be editable if read-only', () => {
@@ -98,16 +107,10 @@ describe('RuleDetailsUiComponent', () => {
 
     const nameInput = getHtmlElement<HTMLInputElement>('rule-details-name-input');
     const descriptionTextarea = getHtmlElement<HTMLTextAreaElement>('rule-details-description-textarea');
-    const inboundTriggerCheckbox = getComponentInstance<MatCheckbox>('rule-details-trigger-checkbox-inbound');
-    const updateTriggerCheckbox = getComponentInstance<MatCheckbox>('rule-details-trigger-checkbox-update');
-    const outboundTriggerCheckbox = getComponentInstance<MatCheckbox>('rule-details-trigger-checkbox-outbound');
+    const ruleTriggersComponent = getComponentInstance<RuleTriggersUiComponent>('rule-details-triggers-component');
 
     expect(nameInput.disabled).toBeTruthy();
     expect(descriptionTextarea.disabled).toBeTruthy();
-    expect(inboundTriggerCheckbox.disabled).toBeTruthy();
-    expect(updateTriggerCheckbox.disabled).toBeTruthy();
-    expect(outboundTriggerCheckbox.disabled).toBeTruthy();
+    expect(ruleTriggersComponent.disabled).toBeTruthy();
   });
-
-  // it('should not be able to uncheck a trigger when it is the only one')
 });

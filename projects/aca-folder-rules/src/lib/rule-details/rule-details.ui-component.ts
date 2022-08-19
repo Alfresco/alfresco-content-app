@@ -24,12 +24,11 @@
  */
 
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewEncapsulation } from '@angular/core';
-import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { distinctUntilChanged, map, takeUntil } from 'rxjs/operators';
-import { Rule, RuleTrigger } from '../model/rule.model';
-import { ruleCompositeConditionValidator } from './conditions/rule-composite-condition.validators';
-import { MatCheckboxChange } from '@angular/material/checkbox';
+import { Rule } from '../model/rule.model';
+import { ruleCompositeConditionValidator } from './validators/rule-composite-condition.validator';
 import { FolderRulesService } from '../services/folder-rules.service';
 
 @Component({
@@ -40,8 +39,6 @@ import { FolderRulesService } from '../services/folder-rules.service';
   host: { class: 'aca-rule-details' }
 })
 export class RuleDetailsUiComponent implements OnInit, OnDestroy {
-  readonly triggerOptions: string[] = ['INBOUND', 'UPDATE', 'OUTBOUND'];
-
   private _readOnly = false;
   @Input()
   get readOnly(): boolean {
@@ -90,8 +87,8 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
   get description(): FormControl {
     return this.form.get('description') as FormControl;
   }
-  get triggers(): FormArray {
-    return this.form.get('triggers') as FormArray;
+  get triggers(): FormControl {
+    return this.form.get('triggers') as FormControl;
   }
   get conditions(): FormControl {
     return this.form.get('conditions') as FormControl;
@@ -101,7 +98,7 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
     this.form = new FormGroup({
       name: new FormControl(this.value.name || '', Validators.required),
       description: new FormControl(this.value.description || ''),
-      triggers: new FormArray((this.value.triggers || ['INBOUND']).map((trigger: string) => new FormControl(trigger))),
+      triggers: new FormControl(this.value.triggers || ['INBOUND'], Validators.required),
       conditions: new FormControl(
         this.value.conditions || {
           inverted: false,
@@ -126,6 +123,7 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
     this.formValidationChanged.emit(this.form.valid);
 
     this.form.valueChanges.pipe(takeUntil(this.onDestroy$)).subscribe((newFormValue: any) => {
+      console.log(newFormValue);
       this.formValueChanged.emit(newFormValue);
     });
   }
@@ -136,8 +134,11 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
   }
 
   getErrorMessage(control: AbstractControl): string {
+    if (this.readOnly) { return ''; }
     if (control.hasError('required')) {
-      return 'ACA_FOLDER_RULES.RULE_DETAILS.ERROR.REQUIRED';
+      return control === this.triggers
+        ? 'ACA_FOLDER_RULES.RULE_DETAILS.ERROR.INSUFFICIENT_TRIGGERS_SELECTED'
+        : 'ACA_FOLDER_RULES.RULE_DETAILS.ERROR.REQUIRED';
     } else if (control.hasError('ruleCompositeConditionInvalid')) {
       return 'ACA_FOLDER_RULES.RULE_DETAILS.ERROR.RULE_COMPOSITE_CONDITION_INVALID';
     }
@@ -157,22 +158,5 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
         return '';
     }
     return str;
-  }
-
-  isTriggerInitiallyChecked(trigger: string): boolean {
-    return (this.value.triggers || ['INBOUND']).indexOf(trigger as RuleTrigger) > -1;
-  }
-
-  onTriggerChange(trigger: string, event: MatCheckboxChange) {
-    if (event.checked) {
-      this.triggers.push(new FormControl(trigger));
-    } else {
-      if (this.triggers.controls.length === 1) {
-        event.source.checked = true;
-      } else {
-        const triggerIndex = this.triggers.controls.findIndex((control: AbstractControl) => control.value === trigger);
-        this.triggers.removeAt(triggerIndex);
-      }
-    }
   }
 }
