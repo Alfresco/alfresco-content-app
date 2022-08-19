@@ -18,16 +18,18 @@
 
       <ng-template #onLoaded>
         <ng-container *ngIf="folderInfo$ | async; else genericError">
-          <adf-toolbar class="adf-toolbar--inline aca-rules-actions-bar">
-            <adf-toolbar-title>
+          <adf-toolbar class="adf-toolbar--inline aca-manage-rules__actions-bar">
+            <adf-toolbar-title class="aca-manage-rules__actions-bar__title">
               <mat-icon class="icon-aligner">folder</mat-icon>
               <adf-breadcrumb root="{{ (folderInfo$ | async).name }}:{{'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.BREADCRUMB.RULES' | translate}}"
-                              class="aca-rules-breadcrumb"></adf-breadcrumb>
+                              class="aca-manage-rules__actions-bar__title__breadcrumb"></adf-breadcrumb>
             </adf-toolbar-title>
+
+            <button mat-flat-button color="primary" (click)="openNewRuleDialog()">{{ 'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.ACTIONS.NEW_RULE' | translate }}</button>
           </adf-toolbar>
           <mat-divider></mat-divider>
 
-          <div class="aca-manage-rules-container" *ngIf="(rules$ | async).length > 0 ; else emptyContent">
+          <div class="aca-manage-rules__container" *ngIf="(rules$ | async).length > 0 ; else emptyContent">
               <aca-rules-list [rules]="rules$ | async" (ruleSelected)="onRuleSelected($event)" [selectedRule]="selectedRule"></aca-rules-list>
               <aca-rule-details [readOnly]="true" ></aca-rule-details>
           </div>

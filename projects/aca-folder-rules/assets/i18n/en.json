@@ -74,6 +74,9 @@
       "TOOLBAR": {
         "BREADCRUMB": {
           "RULES": "rules"
+        },
+        "ACTIONS": {
+          "NEW_RULE": "New rule"
         }
       },
       "EMPTY_RULES_LIST": {

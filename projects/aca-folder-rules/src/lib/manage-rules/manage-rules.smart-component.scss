@@ -1,19 +1,25 @@
-.aca-rules-actions-bar {
-  padding: 0 30px;
+.aca-manage-rules {
+  &__actions-bar {
+    padding: 0 30px;
+    display: flex;
+    align-items: center;
 
-  .aca-rules-breadcrumb {
-    margin-left: 18px;
+    &__title {
+      align-items: center;
+      width: unset !important;
+      flex: 1;
+
+      &__breadcrumb {
+        margin-left: 18px;
+      }
+    }
   }
 
-  .icon-aligner{
-    margin-top: 4px;
+  &__container {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    padding: 32px;
+    overflow: scroll;
+
   }
-}
-
-.aca-manage-rules-container {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  padding: 32px;
-  overflow: scroll;
-
 }
