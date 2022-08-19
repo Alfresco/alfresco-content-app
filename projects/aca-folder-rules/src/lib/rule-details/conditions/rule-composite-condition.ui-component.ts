@@ -66,7 +66,7 @@ export class RuleCompositeConditionUiComponent implements ControlValueAccessor, 
     this.setDisabledState(isReadOnly);
   }
 
-  private formSubscription = this.form.valueChanges.subscribe((value) => {
+  private formSubscription = this.form.valueChanges.subscribe((value: any) => {
     this.onChange(value);
     this.onTouch();
   });
