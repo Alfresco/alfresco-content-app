@@ -96,7 +96,7 @@ describe('ManageRulesSmartComponent', () => {
     expect(ruleDetails).toBeFalsy();
   });
 
-  it('should only show aca-generic-error if the unexisting node was provided', () => {
+  it('should only show aca-generic-error if the non-existing node was provided', () => {
     folderRulesService.folderInfo$ = of(null);
     folderRulesService.rulesListing$ = of([]);
     folderRulesService.loading$ = of(false);
