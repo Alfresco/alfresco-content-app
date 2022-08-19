@@ -31,7 +31,7 @@ import { By } from '@angular/platform-browser';
 import { RuleCompositeConditionUiComponent } from './conditions/rule-composite-condition.ui-component';
 import { MatCheckbox } from '@angular/material/checkbox';
 
-fdescribe('RuleDetailsUiComponent', () => {
+describe('RuleDetailsUiComponent', () => {
   let fixture: ComponentFixture<RuleDetailsUiComponent>;
   let component: RuleDetailsUiComponent;
 
@@ -59,7 +59,7 @@ fdescribe('RuleDetailsUiComponent', () => {
   });
 
   it('should fill the form out with initial values', () => {
-    component.initialValue = initialValue;
+    component.value = initialValue;
     fixture.detectChanges();
 
     const nameInput = getHtmlElement<HTMLInputElement>('rule-details-name-input');

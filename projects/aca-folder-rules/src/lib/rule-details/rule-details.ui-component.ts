@@ -30,6 +30,7 @@ import { distinctUntilChanged, map, takeUntil } from 'rxjs/operators';
 import { Rule, RuleTrigger } from '../model/rule.model';
 import { ruleCompositeConditionValidator } from './conditions/rule-composite-condition.validators';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { FolderRulesService } from '../services/folder-rules.service';
 
 @Component({
   selector: 'aca-rule-details',
@@ -56,8 +57,24 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
       }
     }
   }
+  private _initialValue: Partial<Rule> = FolderRulesService.emptyRule;
   @Input()
-  initialValue: Partial<Rule> = {};
+  get value(): Partial<Rule> {
+    return this.form ? this.form.value : this._initialValue;
+  }
+  set value(newValue: Partial<Rule>) {
+    newValue = {
+      name: newValue.name || FolderRulesService.emptyRule.name,
+      description: newValue.description || FolderRulesService.emptyRule.description,
+      triggers: newValue.triggers || FolderRulesService.emptyRule.triggers,
+      conditions: newValue.conditions || FolderRulesService.emptyRule.conditions
+    };
+    if (this.form) {
+      this.form.setValue(newValue);
+    } else {
+      this._initialValue = newValue;
+    }
+  }
 
   @Output()
   formValidationChanged = new EventEmitter<boolean>();
@@ -82,11 +99,11 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.form = new FormGroup({
-      name: new FormControl(this.initialValue.name || '', Validators.required),
-      description: new FormControl(this.initialValue.description || ''),
-      triggers: new FormArray((this.initialValue.triggers || ['INBOUND']).map((trigger: string) => new FormControl(trigger))),
+      name: new FormControl(this.value.name || '', Validators.required),
+      description: new FormControl(this.value.description || ''),
+      triggers: new FormArray((this.value.triggers || ['INBOUND']).map((trigger: string) => new FormControl(trigger))),
       conditions: new FormControl(
-        this.initialValue.conditions || {
+        this.value.conditions || {
           inverted: false,
           booleanMode: 'and',
           compositeConditions: [],
@@ -143,7 +160,7 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
   }
 
   isTriggerInitiallyChecked(trigger: string): boolean {
-    return (this.initialValue.triggers || ['INBOUND']).indexOf(trigger as RuleTrigger) > -1;
+    return (this.value.triggers || ['INBOUND']).indexOf(trigger as RuleTrigger) > -1;
   }
 
   onTriggerChange(trigger: string, event: MatCheckboxChange) {
