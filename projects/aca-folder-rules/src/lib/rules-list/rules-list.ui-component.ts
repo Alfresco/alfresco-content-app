@@ -35,10 +35,20 @@ export class RulesListUiComponent {
   @Input()
   rules: Rule[];
 
+  @Input()
+  selectedRule: Rule;
+
   @Output()
   ruleSelected = new EventEmitter<Rule>();
 
   onRuleClicked(rule: Rule): void {
     this.ruleSelected.emit(rule);
+  }
+
+  isSelected(rule): boolean {
+    if (this.selectedRule) {
+      return rule.id === this.selectedRule.id;
+    }
+    return false;
   }
 }

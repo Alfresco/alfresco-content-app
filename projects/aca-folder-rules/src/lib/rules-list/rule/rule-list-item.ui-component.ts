@@ -33,4 +33,5 @@ import { Rule } from '../../model/rule.model';
 })
 export class RuleListItemUiComponent {
   @Input() rule: Rule;
+  @Input() isSelected: boolean;
 }

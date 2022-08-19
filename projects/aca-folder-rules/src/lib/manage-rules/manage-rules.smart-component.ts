@@ -30,6 +30,7 @@ import { Observable } from 'rxjs';
 import { Rule } from '../model/rule.model';
 import { ActivatedRoute } from '@angular/router';
 import { NodeInfo } from '@alfresco/aca-shared/store';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'aca-manage-rules',
@@ -46,7 +47,13 @@ export class ManageRulesSmartComponent implements OnInit {
   constructor(private location: Location, private folderRulesService: FolderRulesService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.rules$ = this.folderRulesService.rulesListing$;
+    this.rules$ = this.folderRulesService.rulesListing$.pipe(
+      tap((rules) => {
+        if (!rules.includes(this.selectedRule)) {
+          this.selectedRule = rules[0];
+        }
+      })
+    );
     this.isLoading$ = this.folderRulesService.loading$;
     this.folderInfo$ = this.folderRulesService.folderInfo$;
     this.route.params.subscribe((params) => {
