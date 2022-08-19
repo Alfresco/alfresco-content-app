@@ -29,7 +29,7 @@
 
           <div class="aca-manage-rules-container" *ngIf="(rules$ | async).length > 0 ; else emptyContent">
               <aca-rules-list [rules]="rules$ | async" (ruleSelected)="onRuleSelected($event)" [selectedRule]="selectedRule"></aca-rules-list>
-              <aca-rule-details [readOnly]="true" [initialValue]="selectedRule"></aca-rule-details>
+              <aca-rule-details [readOnly]="true" ></aca-rule-details>
           </div>
 
           <ng-template #emptyContent>
