@@ -26,7 +26,7 @@
 import { NgModule } from '@angular/core';
 import { StoreModule } from '@ngrx/store';
 import { appReducer } from './reducers/app.reducer';
-import { StoreRouterConnectingModule, DefaultRouterStateSerializer } from '@ngrx/router-store';
+import { StoreRouterConnectingModule, FullRouterStateSerializer } from '@ngrx/router-store';
 import { EffectsModule } from '@ngrx/effects';
 import { environment } from '../../environments/environment';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -58,7 +58,7 @@ import { INITIAL_STATE } from './initial-state';
       }
     ),
     StoreRouterConnectingModule.forRoot({
-      serializer: DefaultRouterStateSerializer,
+      serializer: FullRouterStateSerializer,
       stateKey: 'router'
     }),
     SharedStoreModule,
