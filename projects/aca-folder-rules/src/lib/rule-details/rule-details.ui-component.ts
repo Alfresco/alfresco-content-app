@@ -98,7 +98,7 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
     this.form = new FormGroup({
       name: new FormControl(this.value.name || '', Validators.required),
       description: new FormControl(this.value.description || ''),
-      triggers: new FormControl(this.value.triggers || ['INBOUND'], Validators.required),
+      triggers: new FormControl(this.value.triggers || ['inbound'], Validators.required),
       conditions: new FormControl(
         this.value.conditions || {
           inverted: false,

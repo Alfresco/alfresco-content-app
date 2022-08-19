@@ -53,7 +53,7 @@ describe('RuleTriggerUiComponent', () => {
   it('should default to only the inbound checkbox', () => {
     fixture.detectChanges();
 
-    expect(component.value).toEqual(['INBOUND']);
+    expect(component.value).toEqual(['inbound']);
     expect(getByDataAutomationId('rule-trigger-checkbox-inbound').componentInstance.checked).toBeTruthy();
     expect(getByDataAutomationId('rule-trigger-checkbox-update').componentInstance.checked).toBeFalsy();
     expect(getByDataAutomationId('rule-trigger-checkbox-outbound').componentInstance.checked).toBeFalsy();
@@ -61,10 +61,10 @@ describe('RuleTriggerUiComponent', () => {
 
   it('should change the checked boxes when the value is written to', () => {
     fixture.detectChanges();
-    component.writeValue(['UPDATE', 'OUTBOUND']);
+    component.writeValue(['update', 'outbound']);
     fixture.detectChanges();
 
-    expect(component.value).toEqual(['UPDATE', 'OUTBOUND']);
+    expect(component.value).toEqual(['update', 'outbound']);
     expect(getByDataAutomationId('rule-trigger-checkbox-inbound').componentInstance.checked).toBeFalsy();
     expect(getByDataAutomationId('rule-trigger-checkbox-update').componentInstance.checked).toBeTruthy();
     expect(getByDataAutomationId('rule-trigger-checkbox-outbound').componentInstance.checked).toBeTruthy();
@@ -76,8 +76,8 @@ describe('RuleTriggerUiComponent', () => {
     toggleMatCheckbox('rule-trigger-checkbox-update');
     fixture.detectChanges();
 
-    expect(component.value).toEqual(['INBOUND', 'UPDATE']);
-    expect(onChangeSpy).toHaveBeenCalledWith(['INBOUND', 'UPDATE']);
+    expect(component.value).toEqual(['inbound', 'update']);
+    expect(onChangeSpy).toHaveBeenCalledWith(['inbound', 'update']);
   });
 
   it('should update the value when a checkbox is unchecked', () => {

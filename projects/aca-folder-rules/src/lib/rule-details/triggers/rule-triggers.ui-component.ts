@@ -41,9 +41,9 @@ import { RuleTrigger } from '../../model/rule.model';
   ]
 })
 export class RuleTriggersUiComponent implements ControlValueAccessor {
-  readonly triggerOptions: RuleTrigger[] = ['INBOUND', 'UPDATE', 'OUTBOUND'];
+  readonly triggerOptions: RuleTrigger[] = ['inbound', 'update', 'outbound'];
 
-  value: RuleTrigger[] = ['INBOUND'];
+  value: RuleTrigger[] = ['inbound'];
   disabled = false;
 
   onChange: (triggers: RuleTrigger[]) => void = () => undefined;

@@ -26,7 +26,7 @@
 import { RuleCompositeCondition } from './rule-composite-condition.model';
 import { RuleAction } from './rule-action.model';
 
-export type RuleTrigger = 'INBOUND' | 'UPDATE' | 'OUTBOUND';
+export type RuleTrigger = 'inbound' | 'update' | 'outbound';
 
 export interface Rule {
   id: string;

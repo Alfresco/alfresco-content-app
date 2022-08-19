@@ -90,7 +90,7 @@ export const dummyRules: Rule[] = [
     asynchronous: false,
     errorScript: '',
     isShared: false,
-    triggers: ['INBOUND'],
+    triggers: ['inbound'],
     conditions: {
       inverted: false,
       booleanMode: 'and',
@@ -117,7 +117,7 @@ export const dummyRules: Rule[] = [
     asynchronous: false,
     errorScript: '',
     isShared: false,
-    triggers: ['INBOUND'],
+    triggers: ['inbound'],
     conditions: {
       inverted: false,
       booleanMode: 'and',

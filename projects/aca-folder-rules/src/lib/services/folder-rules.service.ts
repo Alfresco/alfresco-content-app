@@ -55,7 +55,7 @@ export class FolderRulesService {
       asynchronous: false,
       errorScript: '',
       isShared: false,
-      triggers: ['INBOUND'],
+      triggers: ['inbound'],
       conditions: FolderRulesService.emptyCompositeCondition,
       actions: []
     };

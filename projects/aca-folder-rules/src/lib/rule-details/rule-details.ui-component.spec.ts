@@ -39,7 +39,7 @@ describe('RuleDetailsUiComponent', () => {
     id: 'rule-id',
     name: 'Rule name',
     description: 'This is the description of the rule',
-    triggers: ['UPDATE', 'OUTBOUND']
+    triggers: ['update', 'outbound']
   };
 
   const getHtmlElement = <T>(dataAutomationId: string) =>
@@ -79,7 +79,7 @@ describe('RuleDetailsUiComponent', () => {
 
     expect(nameInput.value).toBe('');
     expect(descriptionTextarea.value).toBe('');
-    expect(ruleTriggersComponent.value).toEqual(['INBOUND']);
+    expect(ruleTriggersComponent.value).toEqual(['inbound']);
     component.value = testValue;
     fixture.detectChanges();
 
