@@ -62,6 +62,17 @@
       },
       "NO_CONDITIONS": "No conditions",
       "NO_CONDITIONS_IN_GROUP": "No conditions in the group"
+      },
+    "MANAGE_RULES": {
+      "TOOLBAR": {
+        "BREADCRUMB": {
+          "RULES": "rules"
+        }
+      },
+      "EMPTY_RULES_LIST": {
+        "TITLE": "The list is empty",
+        "SUBTITLE": "There are no rules defined for this folder yet."
+      }
     }
   }
 }

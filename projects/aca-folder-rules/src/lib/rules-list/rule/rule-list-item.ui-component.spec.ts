@@ -23,19 +23,19 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { RuleCompositeCondition } from './rule-composite-condition.model';
-import { RuleAction } from './rule-action.model';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RuleListItemUiComponent } from './rule-list-item.ui-component';
 
-export interface Rule {
-  id: string;
-  name: string;
-  description: string;
-  enabled: boolean;
-  cascade: boolean;
-  asynchronous: boolean;
-  errorScript: string;
-  isShared: boolean;
-  triggers: ('inbound' | 'update' | 'outbound')[];
-  conditions: RuleCompositeCondition;
-  actions: RuleAction[];
-}
+describe('RuleComponent', () => {
+  let component: RuleListItemUiComponent;
+  let fixture: ComponentFixture<RuleListItemUiComponent>;
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(RuleListItemUiComponent);
+    component = fixture.componentInstance;
+  });
+
+  it('should create the component', () => {
+    expect(component).toBeTruthy();
+  });
+});

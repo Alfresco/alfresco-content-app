@@ -30,39 +30,53 @@ import { of } from 'rxjs';
 import { FolderRulesService } from './folder-rules.service';
 import { Rule } from '../model/rule.model';
 import { dummyResponse, dummyRules } from '../mock/rules.mock';
+import { NodeInfo } from '@alfresco/aca-shared/store';
+import { ContentApiService } from '@alfresco/aca-shared';
+import { dummyGetNodeResponse, dummyNodeInfo } from '../mock/node.mock';
 
 describe('FolderRulesService', () => {
   let folderRulesService: FolderRulesService;
+  let contentApi: ContentApiService;
   let rulesPromise: Promise<Partial<Rule>[]>;
+  let folderInfoPromise: Promise<NodeInfo>;
   let rules: Partial<Rule>[];
+  let folderInfo: NodeInfo;
   let apiCallSpy;
+  let getNodeSpy;
 
-  const nodeId = '';
+  const nodeId = '********-fake-node-****-********';
   const ruleSetId = '-default-';
 
   describe('loadRules', () => {
     beforeEach(async () => {
       TestBed.configureTestingModule({
         imports: [CoreTestingModule],
-        providers: [FolderRulesService]
+        providers: [FolderRulesService, ContentApiService]
       });
 
       folderRulesService = TestBed.inject<FolderRulesService>(FolderRulesService);
+      contentApi = TestBed.inject<ContentApiService>(ContentApiService);
 
       apiCallSpy = spyOn<any>(folderRulesService, 'apiCall').and.returnValue(of(dummyResponse) as any);
+      getNodeSpy = spyOn<any>(contentApi, 'getNode').and.returnValue(of(dummyGetNodeResponse) as any);
 
       rulesPromise = folderRulesService.rulesListing$.pipe(take(2)).toPromise();
+      folderInfoPromise = folderRulesService.folderInfo$.pipe(take(2)).toPromise();
 
       folderRulesService.loadRules(nodeId, ruleSetId);
 
       rules = await rulesPromise;
+      folderInfo = await folderInfoPromise;
     });
 
     it('should format and set the data', async () => {
       expect(rules).toBeTruthy('rulesListing$ is empty');
+      expect(folderInfo).toBeTruthy('folderInfo$ is empty');
       expect(rules.length).toBe(2, 'rulesListing$ size is wrong');
       expect(rules).toEqual(dummyRules, 'The list of rules is incorrectly formatted');
+      expect(folderInfo).toEqual(dummyNodeInfo, 'The node info is wrong');
       expect(apiCallSpy).toHaveBeenCalledTimes(1);
+      expect(getNodeSpy).toHaveBeenCalledTimes(1);
     });
   });
 });

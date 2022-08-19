@@ -1,0 +1,19 @@
+.aca-rules-actions-bar {
+  padding: 0 30px;
+
+  .aca-rules-breadcrumb {
+    margin-left: 18px;
+  }
+
+  .icon-aligner{
+    margin-top: 4px;
+  }
+}
+
+.aca-manage-rules-container {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  padding: 32px;
+  overflow: scroll;
+
+}

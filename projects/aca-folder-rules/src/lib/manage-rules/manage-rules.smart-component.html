@@ -1,0 +1,56 @@
+<aca-page-layout>
+
+  <aca-page-layout-header>
+    <adf-toolbar class="adf-toolbar--inline">
+      <button mat-icon-button (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    </adf-toolbar>
+    <adf-breadcrumb root="{{'ACA_FOLDER_RULES.ACTIONS.MANAGE_RULES' | translate}}"></adf-breadcrumb>
+  </aca-page-layout-header>
+
+  <aca-page-layout-content>
+    <div class="main-content">
+
+      <ng-container *ngIf="isLoading$ | async; else onLoaded">
+        <mat-progress-bar color="primary" mode="indeterminate"></mat-progress-bar>
+      </ng-container>
+
+      <ng-template #onLoaded>
+        <ng-container *ngIf="folderInfo$ | async; else genericError">
+          <adf-toolbar class="adf-toolbar--inline aca-rules-actions-bar">
+            <adf-toolbar-title>
+              <mat-icon class="icon-aligner">folder</mat-icon>
+              <adf-breadcrumb root="{{ (folderInfo$ | async).name }}:{{'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.BREADCRUMB.RULES' | translate}}"
+                              class="aca-rules-breadcrumb"></adf-breadcrumb>
+            </adf-toolbar-title>
+          </adf-toolbar>
+          <mat-divider></mat-divider>
+
+          <div class="aca-manage-rules-container" *ngIf="(rules$ | async).length > 0 ; else emptyContent">
+              <aca-rules-list [rules]="rules$ | async" (ruleSelected)="onRuleSelected($event)" [selectedRule]="selectedRule"></aca-rules-list>
+              <aca-rule-details [readOnly]="true" ></aca-rule-details>
+          </div>
+
+          <ng-template #emptyContent>
+            <adf-empty-content
+              icon="library_books"
+              [title]="'ACA_FOLDER_RULES.MANAGE_RULES.EMPTY_RULES_LIST.TITLE' | translate"
+              [subtitle]="'ACA_FOLDER_RULES.MANAGE_RULES.EMPTY_RULES_LIST.SUBTITLE' | translate"
+            >
+            </adf-empty-content>
+          </ng-template>
+        </ng-container>
+
+        <ng-template #genericError>
+          <aca-page-layout-error>
+            <aca-generic-error></aca-generic-error>
+          </aca-page-layout-error>
+        </ng-template>
+
+      </ng-template>
+
+    </div>
+  </aca-page-layout-content>
+
+</aca-page-layout>
