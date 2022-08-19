@@ -38,7 +38,7 @@ describe('RuleTriggerUiComponent', () => {
 
   const toggleMatCheckbox = (dataAutomationId: string) => {
     ((getByDataAutomationId(dataAutomationId).nativeElement as HTMLElement).children[0] as HTMLElement).click();
-  }
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({

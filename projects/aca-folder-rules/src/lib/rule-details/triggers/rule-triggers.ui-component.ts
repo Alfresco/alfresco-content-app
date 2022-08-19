@@ -73,7 +73,10 @@ export class RuleTriggersUiComponent implements ControlValueAccessor {
     if (checked) {
       this.value.push(trigger);
     } else {
-      this.value.splice(this.value.findIndex((t) => t === trigger), 1);
+      this.value.splice(
+        this.value.findIndex((t) => t === trigger),
+        1
+      );
     }
     this.onTouch();
     this.onChange([...this.value]);

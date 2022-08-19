@@ -134,7 +134,9 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
   }
 
   getErrorMessage(control: AbstractControl): string {
-    if (this.readOnly) { return ''; }
+    if (this.readOnly) {
+      return '';
+    }
     if (control.hasError('required')) {
       return control === this.triggers
         ? 'ACA_FOLDER_RULES.RULE_DETAILS.ERROR.INSUFFICIENT_TRIGGERS_SELECTED'
