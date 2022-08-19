@@ -8,7 +8,7 @@
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { PeopleApi, Person } from '@alfresco/js-api';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { throwError } from 'rxjs';
 
@@ -34,13 +34,12 @@ export class ViewProfileComponent implements OnInit {
   contactSectionDropdown = false;
   contactSectionButtonsToggle = true;
 
-  constructor(private formBuilder: FormBuilder, private router: Router, apiService: AlfrescoApiService) {
+  constructor(private router: Router, apiService: AlfrescoApiService) {
     this.peopleApi = new PeopleApi(apiService.getInstance());
   }
 
   ngOnInit() {
     this.populateForm(this.personDetails);
-
     this.peopleApi
       .getPerson('-me-')
       .then((userInfo) => {
@@ -53,18 +52,19 @@ export class ViewProfileComponent implements OnInit {
   }
 
   populateForm(userInfo: Person) {
-    this.profileForm = this.formBuilder.group({
-      jobTitle: [userInfo?.jobTitle || ''],
-      location: [userInfo?.location || ''],
-      telephone: [userInfo?.telephone || '', Validators.pattern('^[0-9]*$')],
-      mobile: [userInfo?.mobile || '', Validators.pattern('^[0-9]*$')],
-      oldPassword: [''],
-      newPassword: [''],
-      verifyPassword: [''],
-      companyPostCode: [userInfo?.company?.postcode || ''],
-      companyAddress: [userInfo?.company?.address1 || ''],
-      companyTelephone: [userInfo?.company?.telephone || '', Validators.pattern('^[0-9]*$')],
-      companyEmail: [userInfo?.company?.email || '', Validators.email]
+    this.profileForm = new FormGroup({
+      jobTitle: new FormControl(userInfo?.jobTitle || ''),
+      location: new FormControl(userInfo?.location || ''),
+      telephone: new FormControl(userInfo?.telephone || '', [Validators.pattern('^([0-9]+-)*[0-9]+$')]),
+      mobile: new FormControl(userInfo?.mobile || '', [Validators.pattern('^([0-9]+-)*[0-9]+$')]),
+      oldPassword: new FormControl(''),
+      newPassword: new FormControl(''),
+      verifyPassword: new FormControl(''),
+      companyName: new FormControl(userInfo?.company?.organization || ''),
+      companyPostCode: new FormControl(userInfo?.company?.postcode || ''),
+      companyAddress: new FormControl(userInfo?.company?.address1 || ''),
+      companyTelephone: new FormControl(userInfo?.company?.telephone || '', [Validators.pattern('^([0-9]+-)*[0-9]+$')]),
+      companyEmail: new FormControl(userInfo?.company?.email || '', [Validators.email])
     });
   }
 
@@ -142,12 +142,13 @@ export class ViewProfileComponent implements OnInit {
   updatePersonDetails(event) {
     if (this.profileForm.valid) {
       this.peopleApi
-        .updatePerson(this.personDetails.id, {
+        .updatePerson('-me-', {
           jobTitle: event.value.jobTitle,
           location: event.value.location,
           telephone: event.value.telephone,
           mobile: event.value.mobile,
           company: {
+            organization: event.value.companyName,
             postcode: event.value.companyPostCode,
             address1: event.value.companyAddress,
             telephone: event.value.companyTelephone,
@@ -164,6 +165,15 @@ export class ViewProfileComponent implements OnInit {
         });
     } else {
       this.populateForm(this.personDetails);
+    }
+  }
+
+  isSaveButtonDisabled(): boolean {
+    if(!this.profileForm.dirty) {
+      return true;
+    }
+    else {
+      return this.profileForm.invalid;
     }
   }
 }
