@@ -59,7 +59,7 @@
             <div *ngIf="profileForm.get('telephone').invalid &&
               (profileForm.get('telephone').dirty || profileForm.get('telephone').touched)">
               <div *ngIf="profileForm.get('telephone').errors?.['pattern']" class="app-alert-danger">
-                Invalid Input
+                {{ 'APP.EDIT_PROFILE.INVALID_INPUT'  | translate }}
               </div>
             </div>
         </div>
@@ -72,7 +72,7 @@
           <div *ngIf="profileForm.get('mobile').invalid &&
             (profileForm.get('mobile').dirty || profileForm.get('mobile').touched)">
             <div *ngIf="profileForm.get('mobile').errors?.['pattern']" class="app-alert-danger">
-              Invalid Input
+              {{ 'APP.EDIT_PROFILE.INVALID_INPUT'  | translate }}
             </div>
           </div>
         </div>
@@ -187,7 +187,7 @@
             <div *ngIf="profileForm.get('companyTelephone').invalid &&
               (profileForm.get('companyTelephone').dirty || profileForm.get('companyTelephone').touched)">
               <div *ngIf="profileForm.get('companyTelephone').errors?.['pattern']" class="app-alert-danger">
-                Invalid Input
+                {{ 'APP.EDIT_PROFILE.INVALID_INPUT'  | translate }}
               </div>
             </div>
         </div>
@@ -200,7 +200,7 @@
             <div *ngIf="profileForm.get('companyEmail').invalid &&
               (profileForm.get('companyEmail').dirty || profileForm.get('companyEmail').touched)">
               <div *ngIf="profileForm.get('companyEmail').errors?.['email']" class="app-alert-danger">
-                Invalid Input
+                {{ 'APP.EDIT_PROFILE.INVALID_INPUT'  | translate }}
               </div>
             </div>
         </div>
