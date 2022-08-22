@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, forwardRef, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { Component, forwardRef, Input, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { RuleSimpleCondition } from '../../model/rule-simple-condition.model';
 import { RuleConditionField, ruleConditionFields } from './rule-condition-fields';
@@ -51,6 +51,15 @@ export class RuleSimpleConditionUiComponent implements ControlValueAccessor, OnD
     comparator: new FormControl('equals'),
     parameter: new FormControl()
   });
+
+  private _readOnly = false;
+  @Input()
+  get readOnly(): boolean {
+    return this._readOnly;
+  }
+  set readOnly(isReadOnly: boolean) {
+    this.setDisabledState(isReadOnly);
+  }
 
   private formSubscription = this.form.valueChanges.subscribe((value) => {
     this.onChange(value);
@@ -100,8 +109,10 @@ export class RuleSimpleConditionUiComponent implements ControlValueAccessor, OnD
 
   setDisabledState(isDisabled: boolean) {
     if (isDisabled) {
+      this._readOnly = true;
       this.form.disable();
     } else {
+      this._readOnly = false;
       this.form.enable();
     }
   }
