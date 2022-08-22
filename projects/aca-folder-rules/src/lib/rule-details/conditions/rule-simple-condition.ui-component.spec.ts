@@ -28,6 +28,7 @@ import { RuleSimpleConditionUiComponent } from './rule-simple-condition.ui-compo
 import { CoreTestingModule } from '@alfresco/adf-core';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
+import { simpleConditionUnknownFieldMock } from '../../mock/conditions.mock';
 
 describe('RuleSimpleConditionUiComponent', () => {
   let fixture: ComponentFixture<RuleSimpleConditionUiComponent>;
@@ -88,5 +89,31 @@ describe('RuleSimpleConditionUiComponent', () => {
 
     expect(onChangeFieldSpy).toHaveBeenCalledTimes(2);
     expect(getByDataAutomationId('comparator-select').componentInstance.value).toBe('equals');
+  });
+
+  it('should display an additional option for a currently selected unknown field', () => {
+    fixture.componentInstance.writeValue(simpleConditionUnknownFieldMock);
+    fixture.detectChanges();
+
+    expect(getByDataAutomationId('field-select').componentInstance.value).toBe(simpleConditionUnknownFieldMock.field);
+    const matSelect = getByDataAutomationId('field-select').nativeElement;
+    matSelect.click();
+    fixture.detectChanges();
+
+    const unknownOptionMatOption = getByDataAutomationId('unknown-field-option');
+    expect(unknownOptionMatOption).not.toBeNull();
+    expect((unknownOptionMatOption.nativeElement as HTMLElement).innerText.trim()).toBe(simpleConditionUnknownFieldMock.field);
+  });
+
+  it('should remove the option for the unknown field as soon as another option is selected', () => {
+    fixture.componentInstance.writeValue(simpleConditionUnknownFieldMock);
+    fixture.detectChanges();
+    changeMatSelectValue('field-select', 'cm:name');
+    const matSelect = getByDataAutomationId('field-select').nativeElement;
+    matSelect.click();
+    fixture.detectChanges();
+
+    const unknownOptionMatOption = getByDataAutomationId('unknown-field-option');
+    expect(unknownOptionMatOption).toBeNull();
   });
 });

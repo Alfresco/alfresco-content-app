@@ -2,7 +2,7 @@
   <mat-form-field class="aca-rule-simple-condition__form__field-input">
     <mat-select formControlName="field" data-automation-id="field-select"
       (selectionChange)="onChangeField()">
-      <mat-option *ngIf="!isSelectedFieldKnown" [value]="selectedField.name">
+      <mat-option *ngIf="!isSelectedFieldKnown" [value]="selectedField.name" data-automation-id="unknown-field-option">
         {{ selectedField.label }}
       </mat-option>
       <mat-option *ngFor="let field of fields" [value]="field.name">
