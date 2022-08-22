@@ -169,10 +169,9 @@ export class ViewProfileComponent implements OnInit {
   }
 
   isSaveButtonDisabled(): boolean {
-    if(!this.profileForm.dirty) {
+    if (!this.profileForm.dirty) {
       return true;
-    }
-    else {
+    } else {
       return this.profileForm.invalid;
     }
   }
