@@ -135,8 +135,8 @@ export class FolderRulesService {
     return {
       inverted: obj.inverted ?? false,
       booleanMode: obj.booleanMode ?? 'and',
-      compositeConditions: (obj.compositeConditions || []).map(condition => this.formatCompositeCondition(condition)),
-      simpleConditions: (obj.simpleConditions || []).map(condition => this.formatSimpleCondition(condition))
+      compositeConditions: (obj.compositeConditions || []).map((condition) => this.formatCompositeCondition(condition)),
+      simpleConditions: (obj.simpleConditions || []).map((condition) => this.formatSimpleCondition(condition))
     };
   }
 

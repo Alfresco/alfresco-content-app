@@ -36,7 +36,7 @@ export const simpleConditionUnknownFieldMock: RuleSimpleCondition = {
   field: 'unknown-field',
   comparator: 'equals',
   parameter: ''
-}
+};
 
 const emptyCompositeConditionMock: RuleCompositeCondition = {
   inverted: false,
