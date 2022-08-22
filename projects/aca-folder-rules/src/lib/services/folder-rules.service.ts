@@ -31,6 +31,7 @@ import { Rule } from '../model/rule.model';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { NodeInfo } from '@alfresco/aca-shared/store';
 import { RuleCompositeCondition } from '../model/rule-composite-condition.model';
+import { RuleSimpleCondition } from '../model/rule-simple-condition.model';
 
 @Injectable({
   providedIn: 'root'
@@ -125,8 +126,25 @@ export class FolderRulesService {
       errorScript: obj.errorScript ?? FolderRulesService.emptyRule.errorScript,
       isShared: obj.isShared ?? FolderRulesService.emptyRule.isShared,
       triggers: obj.triggers ?? FolderRulesService.emptyRule.triggers,
-      conditions: obj.conditions ?? { ...FolderRulesService.emptyRule.conditions },
+      conditions: this.formatCompositeCondition(obj.conditions ?? { ...FolderRulesService.emptyRule.conditions }),
       actions: obj.actions ?? FolderRulesService.emptyRule.actions
+    };
+  }
+
+  private formatCompositeCondition(obj): RuleCompositeCondition {
+    return {
+      inverted: obj.inverted ?? false,
+      booleanMode: obj.booleanMode ?? 'and',
+      compositeConditions: (obj.compositeConditions || []).map(condition => this.formatCompositeCondition(condition)),
+      simpleConditions: (obj.simpleConditions || []).map(condition => this.formatSimpleCondition(condition))
+    };
+  }
+
+  private formatSimpleCondition(obj): RuleSimpleCondition {
+    return {
+      field: obj.field || 'cm:name',
+      comparator: obj.comparator || 'equals',
+      parameter: obj.parameter || ''
     };
   }
 }

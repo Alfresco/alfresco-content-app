@@ -48,7 +48,12 @@ export class ManageRulesSmartComponent implements OnInit {
   selectedRule: Rule = null;
   nodeId: string = null;
 
-  constructor(private location: Location, private folderRulesService: FolderRulesService, private route: ActivatedRoute, private matDialogService: MatDialog) {}
+  constructor(
+    private location: Location,
+    private folderRulesService: FolderRulesService,
+    private route: ActivatedRoute,
+    private matDialogService: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.rules$ = this.folderRulesService.rulesListing$.pipe(

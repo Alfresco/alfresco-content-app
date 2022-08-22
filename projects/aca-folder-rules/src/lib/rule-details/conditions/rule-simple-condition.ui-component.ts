@@ -57,9 +57,22 @@ export class RuleSimpleConditionUiComponent implements ControlValueAccessor, OnD
     this.onTouch();
   });
 
-  get selectedField(): RuleConditionField {
-    return this.fields.find((field) => field.name === this.form.get('field').value);
+  get isSelectedFieldKnown(): boolean {
+    const selectedFieldName = this.form.get('field').value;
+    return this.fields.findIndex((field: RuleConditionField) => selectedFieldName === field.name) > -1;
   }
+  get selectedField(): RuleConditionField {
+    const selectedFieldName = this.form.get('field').value;
+    if (!this.isSelectedFieldKnown) {
+      return {
+        name: selectedFieldName,
+        label: selectedFieldName,
+        type: 'special'
+      };
+    }
+    return this.fields.find((field) => field.name === selectedFieldName);
+  }
+
   get selectedFieldComparators(): RuleConditionComparator[] {
     return ruleConditionComparators.filter((comparator) => Object.keys(comparator.labels).includes(this.selectedField.type));
   }

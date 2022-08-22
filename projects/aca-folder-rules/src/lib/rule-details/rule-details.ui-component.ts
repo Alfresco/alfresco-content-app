@@ -123,7 +123,6 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
     this.formValidationChanged.emit(this.form.valid);
 
     this.form.valueChanges.pipe(takeUntil(this.onDestroy$)).subscribe((newFormValue: any) => {
-      console.log(newFormValue);
       this.formValueChanged.emit(newFormValue);
     });
   }

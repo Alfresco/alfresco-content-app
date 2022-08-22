@@ -1,14 +1,14 @@
 .aca-rule-composite-condition {
   display: block;
   border-radius: 8px;
-  background-color: hsl(0,0%,100%);
 
   &.childCompositeCondition {
     padding: 8px 16px;
-  }
+    background-color: hsl(0,0%,100%);
 
-  &.secondaryBackground {
-    background-color: hsl(0,0%,95%);
+    &.secondaryBackground {
+      background-color: hsl(0,0%,95%);
+    }
   }
 
   &__form {
