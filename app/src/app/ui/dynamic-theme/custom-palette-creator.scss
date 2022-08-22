@@ -1,4 +1,4 @@
-@import '~sass-math-pow/sass/index';
+@use "sass:math";
 
 @function multiply($fore, $back) {
     $red: red($back) * red($fore) / 255;
@@ -23,7 +23,7 @@
       $value: $value / 12.92;
     } @else {
       $value: ($value + .055) / 1.055;
-      $value: poly-pow($value, 2.4);
+      $value: math.pow($value, 2.4);
     }
 
     $colors: map-merge($colors, ($name: $value));
