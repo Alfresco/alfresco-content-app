@@ -89,4 +89,18 @@ describe('RuleTriggerUiComponent', () => {
     expect(component.value).toEqual([]);
     expect(onChangeSpy).toHaveBeenCalledWith([]);
   });
+
+  it('should only show the correct triggers in read only mode', () => {
+    component.setDisabledState(true);
+    component.writeValue(['update', 'outbound']);
+    fixture.detectChanges();
+
+    expect(getByDataAutomationId('rule-trigger-checkbox-inbound')).toBeNull();
+    expect(getByDataAutomationId('rule-trigger-checkbox-update')).toBeNull();
+    expect(getByDataAutomationId('rule-trigger-checkbox-outbound')).toBeNull();
+
+    expect(getByDataAutomationId('rule-trigger-value-inbound')).toBeNull();
+    expect(getByDataAutomationId('rule-trigger-value-update')).not.toBeNull();
+    expect(getByDataAutomationId('rule-trigger-value-outbound')).not.toBeNull();
+  });
 });

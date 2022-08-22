@@ -98,7 +98,7 @@ describe('RuleDetailsUiComponent', () => {
 
     expect(nameInput.disabled).toBeFalsy();
     expect(descriptionTextarea.disabled).toBeFalsy();
-    expect(ruleTriggersComponent.disabled).toBeFalsy();
+    expect(ruleTriggersComponent.readOnly).toBeFalsy();
   });
 
   it('should not be editable if read-only', () => {
@@ -111,6 +111,6 @@ describe('RuleDetailsUiComponent', () => {
 
     expect(nameInput.disabled).toBeTruthy();
     expect(descriptionTextarea.disabled).toBeTruthy();
-    expect(ruleTriggersComponent.disabled).toBeTruthy();
+    expect(ruleTriggersComponent.readOnly).toBeTruthy();
   });
 });

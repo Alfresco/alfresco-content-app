@@ -44,7 +44,7 @@ export class RuleTriggersUiComponent implements ControlValueAccessor {
   readonly triggerOptions: RuleTrigger[] = ['inbound', 'update', 'outbound'];
 
   value: RuleTrigger[] = ['inbound'];
-  disabled = false;
+  readOnly = false;
 
   onChange: (triggers: RuleTrigger[]) => void = () => undefined;
   onTouch: () => void = () => undefined;
@@ -62,7 +62,7 @@ export class RuleTriggersUiComponent implements ControlValueAccessor {
   }
 
   setDisabledState(isDisabled: boolean) {
-    this.disabled = isDisabled;
+    this.readOnly = isDisabled;
   }
 
   isTriggerChecked(trigger: RuleTrigger): boolean {
@@ -80,5 +80,9 @@ export class RuleTriggersUiComponent implements ControlValueAccessor {
     }
     this.onTouch();
     this.onChange([...this.value]);
+  }
+
+  isTriggerSelected(trigger: RuleTrigger): boolean {
+    return this.value.includes(trigger);
   }
 }
