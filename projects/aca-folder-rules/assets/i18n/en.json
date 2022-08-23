@@ -13,7 +13,8 @@
     "RULE_DETAILS": {
       "LABEL": {
         "NAME": "Name",
-        "DESCRIPTION": "Description"
+        "DESCRIPTION": "Description",
+        "WHEN": "When"
       },
       "PLACEHOLDER": {
         "NAME": "Enter rule name",
@@ -22,7 +23,13 @@
       },
       "ERROR": {
         "REQUIRED": "This field is required",
-        "RULE_COMPOSITE_CONDITION_INVALID": "One or more condition groups is empty"
+        "RULE_COMPOSITE_CONDITION_INVALID": "One or more condition groups is empty",
+        "INSUFFICIENT_TRIGGERS_SELECTED": "At least one trigger is required"
+      },
+      "TRIGGERS": {
+        "INBOUND": "Items are created or enter this folder",
+        "UPDATE": "Items are updated",
+        "OUTBOUND": "Items are deleted or leave this folder"
       },
       "COMPARATORS": {
         "EQUALS": "(=) Equals",
@@ -67,6 +74,9 @@
       "TOOLBAR": {
         "BREADCRUMB": {
           "RULES": "rules"
+        },
+        "ACTIONS": {
+          "NEW_RULE": "New rule"
         }
       },
       "EMPTY_RULES_LIST": {

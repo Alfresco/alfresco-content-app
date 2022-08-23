@@ -28,7 +28,8 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { Subject } from 'rxjs';
 import { distinctUntilChanged, map, takeUntil } from 'rxjs/operators';
 import { Rule } from '../model/rule.model';
-import { ruleCompositeConditionValidator } from './conditions/rule-composite-condition.validators';
+import { ruleCompositeConditionValidator } from './validators/rule-composite-condition.validator';
+import { FolderRulesService } from '../services/folder-rules.service';
 
 @Component({
   selector: 'aca-rule-details',
@@ -53,8 +54,24 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
       }
     }
   }
+  private _initialValue: Partial<Rule> = FolderRulesService.emptyRule;
   @Input()
-  initialValue: Partial<Rule> = {};
+  get value(): Partial<Rule> {
+    return this.form ? this.form.value : this._initialValue;
+  }
+  set value(newValue: Partial<Rule>) {
+    newValue = {
+      name: newValue.name || FolderRulesService.emptyRule.name,
+      description: newValue.description || FolderRulesService.emptyRule.description,
+      triggers: newValue.triggers || FolderRulesService.emptyRule.triggers,
+      conditions: newValue.conditions || FolderRulesService.emptyRule.conditions
+    };
+    if (this.form) {
+      this.form.setValue(newValue);
+    } else {
+      this._initialValue = newValue;
+    }
+  }
 
   @Output()
   formValidationChanged = new EventEmitter<boolean>();
@@ -64,22 +81,26 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
   private onDestroy$ = new Subject();
   form: FormGroup;
 
-  get name(): AbstractControl {
-    return this.form.get('name');
+  get name(): FormControl {
+    return this.form.get('name') as FormControl;
   }
-  get description(): AbstractControl {
-    return this.form.get('description');
+  get description(): FormControl {
+    return this.form.get('description') as FormControl;
   }
-  get conditions(): AbstractControl {
-    return this.form.get('conditions');
+  get triggers(): FormControl {
+    return this.form.get('triggers') as FormControl;
+  }
+  get conditions(): FormControl {
+    return this.form.get('conditions') as FormControl;
   }
 
   ngOnInit() {
     this.form = new FormGroup({
-      name: new FormControl(this.initialValue.name || '', Validators.required),
-      description: new FormControl(this.initialValue.description || ''),
+      name: new FormControl(this.value.name || '', Validators.required),
+      description: new FormControl(this.value.description || ''),
+      triggers: new FormControl(this.value.triggers || ['inbound'], Validators.required),
       conditions: new FormControl(
-        this.initialValue.conditions || {
+        this.value.conditions || {
           inverted: false,
           booleanMode: 'and',
           compositeConditions: [],
@@ -112,8 +133,13 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
   }
 
   getErrorMessage(control: AbstractControl): string {
+    if (this.readOnly) {
+      return '';
+    }
     if (control.hasError('required')) {
-      return 'ACA_FOLDER_RULES.RULE_DETAILS.ERROR.REQUIRED';
+      return control === this.triggers
+        ? 'ACA_FOLDER_RULES.RULE_DETAILS.ERROR.INSUFFICIENT_TRIGGERS_SELECTED'
+        : 'ACA_FOLDER_RULES.RULE_DETAILS.ERROR.REQUIRED';
     } else if (control.hasError('ruleCompositeConditionInvalid')) {
       return 'ACA_FOLDER_RULES.RULE_DETAILS.ERROR.RULE_COMPOSITE_CONDITION_INVALID';
     }

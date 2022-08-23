@@ -30,11 +30,38 @@ import { catchError, finalize, map } from 'rxjs/operators';
 import { Rule } from '../model/rule.model';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { NodeInfo } from '@alfresco/aca-shared/store';
+import { RuleCompositeCondition } from '../model/rule-composite-condition.model';
+import { RuleSimpleCondition } from '../model/rule-simple-condition.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FolderRulesService {
+  public static get emptyCompositeCondition(): RuleCompositeCondition {
+    return {
+      inverted: false,
+      booleanMode: 'and',
+      compositeConditions: [],
+      simpleConditions: []
+    };
+  }
+
+  public static get emptyRule(): Rule {
+    return {
+      id: '',
+      name: '',
+      description: '',
+      enabled: true,
+      cascade: false,
+      asynchronous: false,
+      errorScript: '',
+      isShared: false,
+      triggers: ['inbound'],
+      conditions: FolderRulesService.emptyCompositeCondition,
+      actions: []
+    };
+  }
+
   private rulesListingSource = new BehaviorSubject<Rule[]>([]);
   rulesListing$: Observable<Rule[]> = this.rulesListingSource.asObservable();
   private folderInfoSource = new BehaviorSubject<NodeInfo>(null);
@@ -91,16 +118,33 @@ export class FolderRulesService {
   private formatRule(obj): Rule {
     return {
       id: obj.id,
-      name: obj.name ?? '',
-      description: obj.description ?? '',
-      enabled: obj.enabled ?? true,
-      cascade: obj.cascade ?? false,
-      asynchronous: obj.asynchronous ?? false,
-      errorScript: obj.errorScript ?? '',
-      isShared: obj.isShared ?? false,
-      triggers: obj.triggers ?? ['inbound'],
-      conditions: obj.conditions ?? null,
-      actions: obj.actions ?? []
+      name: obj.name ?? FolderRulesService.emptyRule.name,
+      description: obj.description ?? FolderRulesService.emptyRule.description,
+      enabled: obj.enabled ?? FolderRulesService.emptyRule.enabled,
+      cascade: obj.cascade ?? FolderRulesService.emptyRule.cascade,
+      asynchronous: obj.asynchronous ?? FolderRulesService.emptyRule.asynchronous,
+      errorScript: obj.errorScript ?? FolderRulesService.emptyRule.errorScript,
+      isShared: obj.isShared ?? FolderRulesService.emptyRule.isShared,
+      triggers: obj.triggers ?? FolderRulesService.emptyRule.triggers,
+      conditions: this.formatCompositeCondition(obj.conditions ?? { ...FolderRulesService.emptyRule.conditions }),
+      actions: obj.actions ?? FolderRulesService.emptyRule.actions
+    };
+  }
+
+  private formatCompositeCondition(obj): RuleCompositeCondition {
+    return {
+      inverted: obj.inverted ?? false,
+      booleanMode: obj.booleanMode ?? 'and',
+      compositeConditions: (obj.compositeConditions || []).map((condition) => this.formatCompositeCondition(condition)),
+      simpleConditions: (obj.simpleConditions || []).map((condition) => this.formatSimpleCondition(condition))
+    };
+  }
+
+  private formatSimpleCondition(obj): RuleSimpleCondition {
+    return {
+      field: obj.field || 'cm:name',
+      comparator: obj.comparator || 'equals',
+      parameter: obj.parameter || ''
     };
   }
 }

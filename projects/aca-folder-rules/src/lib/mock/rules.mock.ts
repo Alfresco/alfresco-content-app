@@ -91,7 +91,12 @@ export const dummyRules: Rule[] = [
     errorScript: '',
     isShared: false,
     triggers: ['inbound'],
-    conditions: null,
+    conditions: {
+      inverted: false,
+      booleanMode: 'and',
+      simpleConditions: [],
+      compositeConditions: []
+    },
     actions: [
       {
         actionDefinitionId: 'copy',
@@ -113,7 +118,12 @@ export const dummyRules: Rule[] = [
     errorScript: '',
     isShared: false,
     triggers: ['inbound'],
-    conditions: null,
+    conditions: {
+      inverted: false,
+      booleanMode: 'and',
+      simpleConditions: [],
+      compositeConditions: []
+    },
     actions: [
       {
         actionDefinitionId: 'move',

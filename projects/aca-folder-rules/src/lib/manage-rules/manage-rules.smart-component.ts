@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Location } from '@angular/common';
 import { FolderRulesService } from '../services/folder-rules.service';
 import { Observable } from 'rxjs';
@@ -31,11 +31,15 @@ import { Rule } from '../model/rule.model';
 import { ActivatedRoute } from '@angular/router';
 import { NodeInfo } from '@alfresco/aca-shared/store';
 import { tap } from 'rxjs/operators';
+import { EditRuleDialogSmartComponent } from '../rule-details/edit-rule-dialog.smart-component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'aca-manage-rules',
   templateUrl: 'manage-rules.smart-component.html',
-  styleUrls: ['manage-rules.smart-component.scss']
+  styleUrls: ['manage-rules.smart-component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  host: { class: 'aca-manage-rules' }
 })
 export class ManageRulesSmartComponent implements OnInit {
   rules$: Observable<Rule[]>;
@@ -44,7 +48,12 @@ export class ManageRulesSmartComponent implements OnInit {
   selectedRule: Rule = null;
   nodeId: string = null;
 
-  constructor(private location: Location, private folderRulesService: FolderRulesService, private route: ActivatedRoute) {}
+  constructor(
+    private location: Location,
+    private folderRulesService: FolderRulesService,
+    private route: ActivatedRoute,
+    private matDialogService: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.rules$ = this.folderRulesService.rulesListing$.pipe(
@@ -70,5 +79,12 @@ export class ManageRulesSmartComponent implements OnInit {
 
   onRuleSelected(rule: Rule): void {
     this.selectedRule = rule;
+  }
+
+  openNewRuleDialog() {
+    this.matDialogService.open(EditRuleDialogSmartComponent, {
+      width: '90%',
+      panelClass: 'aca-edit-rule-dialog-container'
+    });
   }
 }

@@ -6,7 +6,7 @@
       display: flex;
       gap: 8px;
 
-      & > label {
+      & > label, & > .label {
         font-weight: bold;
         width: 20%;
         min-width: 100px;
@@ -28,6 +28,14 @@
       }
     }
 
+    &__triggers {
+      padding: 0.75em 0;
+
+      & > .label {
+        padding: 0;
+      }
+    }
+
     hr {
       border: none;
       border-bottom: 1px solid var(--theme-border-color);
@@ -41,9 +49,14 @@
       min-height: 4em;
     }
 
-    & > .aca-rule-composite-condition + .mat-error {
+    .rule-details-error {
       font-size: 75%;
+      height: 1em;
+    }
+
+    & > .aca-rule-composite-condition + .rule-details-error {
       margin-left: 16px;
+      color: inherit;
     }
   }
 }

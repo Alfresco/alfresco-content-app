@@ -31,12 +31,14 @@
       *ngIf="!isFormControlSimpleCondition(control)"
       [secondaryBackground]="!secondaryBackground"
       [childCondition]="true"
-      [formControl]="control">
+      [formControl]="control"
+      [readOnly]="readOnly">
     </aca-rule-composite-condition>
 
     <aca-rule-simple-condition
       *ngIf="isFormControlSimpleCondition(control)"
-      [formControl]="control">
+      [formControl]="control"
+      [readOnly]="readOnly">
     </aca-rule-simple-condition>
 
     <button mat-icon-button [matMenuTriggerFor]="menu" *ngIf="!readOnly" data-automation-id="condition-actions-button">
