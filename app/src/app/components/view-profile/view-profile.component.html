@@ -56,8 +56,7 @@
           <p class="app-profile-general-dropdown-details" *ngIf="generalSectionButtonsToggle">{{personDetails?.telephone}}</p>
           <input type="tel" name="Telephone" value="" formControlName="telephone" *ngIf="!generalSectionButtonsToggle"
             class="app-profile-general-dropdown-input-details app-selected">
-          <mat-error class="app-error-message" *ngIf="profileForm.get('telephone').invalid  &&
-            (profileForm.get('telephone').dirty || profileForm.get('telephone').touched)">
+          <mat-error class="app-error-message" *ngIf="profileForm.get('telephone').invalid">
             {{ 'APP.EDIT_PROFILE.INVALID_INPUT' | translate }}
           </mat-error>
         </div>
@@ -67,8 +66,7 @@
           <p class="app-profile-general-dropdown-details" *ngIf="generalSectionButtonsToggle">{{personDetails?.mobile}}</p>
         <input type="tel" value="" formControlName="mobile" *ngIf="!generalSectionButtonsToggle"
           class="app-profile-general-dropdown-input-details app-selected">
-        <mat-error class="app-error-message" *ngIf="profileForm.get('mobile').invalid  &&
-          (profileForm.get('mobile').dirty || profileForm.get('mobile').touched)">
+        <mat-error class="app-error-message" *ngIf="profileForm.get('mobile').invalid">
           {{ 'APP.EDIT_PROFILE.INVALID_INPUT' | translate }}
         </mat-error>
         </div>
@@ -180,8 +178,7 @@
           <p class="app-profile-general-dropdown-details" *ngIf="contactSectionButtonsToggle">{{personDetails?.company?.telephone}}</p>
           <input type="tel" value="" *ngIf="!contactSectionButtonsToggle" formControlName="companyTelephone"
             class="app-profile-general-dropdown-input-details app-selected">
-          <mat-error class="app-error-message" *ngIf="profileForm.get('companyTelephone').invalid  &&
-            (profileForm.get('companyTelephone').dirty || profileForm.get('companyTelephone').touched)">
+          <mat-error class="app-error-message" *ngIf="profileForm.get('companyTelephone').invalid">
             {{ 'APP.EDIT_PROFILE.INVALID_INPUT' | translate }}
           </mat-error>
         </div>
@@ -191,8 +188,7 @@
           <p class="app-profile-general-dropdown-details" *ngIf="contactSectionButtonsToggle">{{personDetails?.company?.email}}</p>
           <input type="text" value="" *ngIf="!contactSectionButtonsToggle" formControlName="companyEmail"
             class="app-profile-general-dropdown-input-details app-selected">
-          <mat-error class="app-error-message" *ngIf="profileForm.get('companyEmail').invalid  &&
-            (profileForm.get('companyEmail').dirty || profileForm.get('companyEmail').touched)">
+          <mat-error class="app-error-message" *ngIf="profileForm.get('companyEmail').invalid">
             {{ 'APP.EDIT_PROFILE.INVALID_INPUT' | translate }}
           </mat-error>
         </div>
