@@ -30,50 +30,73 @@ describe('ViewProfileComponent', () => {
     expect(component.contactSectionDropdown).toBe(false);
   });
 
-  it('Save Button is Disabled if Profile Form has invalid inputs.', () => {
+  it('save button is disabled if form has invalid mobile number', () => {
     component.ngOnInit();
     const profileFormGroup = component.profileForm;
 
     profileFormGroup.setValue({
       jobTitle: "Developer",
-      location: "Kolkata",
-      telephone: "27442ABC", //invalid format
-      mobile: "AB8866322112", //invalid format
+      location: "US",
+      telephone: "2744245",
+      mobile: "AB8866322112",
       oldPassword: "admin@123",
       newPassword: "admin@1234",
       verifyPassword: "admin@1234",
-      companyName: "Hyland",
+      companyName: "test Name",
       companyPostCode: "12345",
-      companyAddress: "Hyland Software, Kolkata, West Bengal",
+      companyAddress: "test address",
       companyTelephone: "27442266",
-      companyEmail: "HylandContact" //invalid format
+      companyEmail: "email@test.com"
     });
 
     expect(profileFormGroup.valid).toEqual(false);
     expect(component.isSaveButtonDisabled()).toBeTruthy();
-
    });
 
-   it('Save Button is Enabled if Profile Form has valid inputs.', () => {
+   it('save button is disabled if form has invalid email', () => {
     component.ngOnInit();
     const profileFormGroup = component.profileForm;
+
     profileFormGroup.setValue({
       jobTitle: "Developer",
-      location: "Kolkata",
-      telephone: "27442255", //valid format
-      mobile: "8866322112", //valid format
+      location: "US",
+      telephone: "2744245",
+      mobile: "457554",
       oldPassword: "admin@123",
       newPassword: "admin@1234",
       verifyPassword: "admin@1234",
-      companyName: "Hyland",
+      companyName: "test Name",
       companyPostCode: "12345",
-      companyAddress: "Hyland Software, Kolkata, West Bengal",
-      companyTelephone: "27442266", //valid format
-      companyEmail: "HylandContact@hyland.com" //valid format
+      companyAddress: "test address",
+      companyTelephone: "27442266",
+      companyEmail: "email"
+    });
+
+    expect(profileFormGroup.valid).toEqual(false);
+    expect(component.isSaveButtonDisabled()).toBeTruthy();
+   });
+
+
+   it('save button is enabled if form has valid inputs', () => {
+    component.ngOnInit();
+    const profileFormGroup = component.profileForm;
+
+    profileFormGroup.setValue({
+      jobTitle: "Developer",
+      location: "US",
+      telephone: "274-422-55",
+      mobile: "886-632-2112",
+      oldPassword: "test@123",
+      newPassword: "test@1234",
+      verifyPassword: "test@1234",
+      companyName: "testCompany",
+      companyPostCode: "12345",
+      companyAddress: "test address",
+      companyTelephone: "274-22-66",
+      companyEmail: "testEmail@test.com"
     });
 
     expect(profileFormGroup.valid).toEqual(true);
     expect(component.isSaveButtonDisabled()).toBeFalsy();
-
    });
 });
