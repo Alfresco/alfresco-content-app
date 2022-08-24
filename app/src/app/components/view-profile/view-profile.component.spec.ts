@@ -60,7 +60,7 @@ describe('ViewProfileComponent', () => {
     profileFormGroup.setValue({
       jobTitle: "Developer",
       location: "US",
-      telephone: "2744245",
+      telephone: "27442445",
       mobile: "457554",
       oldPassword: "admin@123",
       newPassword: "admin@1234",
