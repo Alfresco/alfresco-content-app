@@ -54,8 +54,7 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
     private location: Location,
     private folderRulesService: FolderRulesService,
     private route: ActivatedRoute,
-    private matDialogService: MatDialog,
-    private dialog: MatDialog
+    private matDialogService: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -101,7 +100,7 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
   }
 
   onRuleDelete(): void {
-    this.dialog
+    this.matDialogService
       .open(ConfirmDialogComponent, {
         data: {
           title: 'ACA_FOLDER_RULES.CONFIRMATION_DIALOG.DELETE_RULE.TITLE',
@@ -111,11 +110,9 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
       })
       .afterClosed()
       .subscribe((result) => {
-        if (result === true) {
+        if (result) {
           this.folderRulesService.deleteRule(this.nodeId, this.selectedRule.id);
         }
       });
   }
-
-  onRuleDeleteBounded = this.onRuleDelete.bind(this);
 }

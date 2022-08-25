@@ -51,14 +51,16 @@ describe('FolderRulesService', () => {
   const ruleSetId = '-default-';
   const params = [{}, {}, {}, {}, {}, ['application/json'], ['application/json']];
 
+  beforeEach(async () => {
+    TestBed.configureTestingModule({
+      imports: [CoreTestingModule],
+      providers: [FolderRulesService, ContentApiService]
+    });
+    folderRulesService = TestBed.inject<FolderRulesService>(FolderRulesService);
+  });
+
   describe('loadRules', () => {
     beforeEach(async () => {
-      TestBed.configureTestingModule({
-        imports: [CoreTestingModule],
-        providers: [FolderRulesService, ContentApiService]
-      });
-
-      folderRulesService = TestBed.inject<FolderRulesService>(FolderRulesService);
       contentApi = TestBed.inject<ContentApiService>(ContentApiService);
 
       apiCallSpy = spyOn<any>(folderRulesService, 'apiCall')
@@ -89,13 +91,6 @@ describe('FolderRulesService', () => {
 
   describe('deleteRule', () => {
     beforeEach(async () => {
-      TestBed.configureTestingModule({
-        imports: [CoreTestingModule],
-        providers: [FolderRulesService]
-      });
-
-      folderRulesService = TestBed.inject<FolderRulesService>(FolderRulesService);
-
       apiCallSpy = spyOn<any>(folderRulesService, 'apiCall')
         .withArgs(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules/${ruleId}`, 'DELETE', params)
         .and.returnValue(ruleId);

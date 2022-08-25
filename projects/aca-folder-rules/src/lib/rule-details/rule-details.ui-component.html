@@ -1,6 +1,6 @@
 <form class="aca-rule-details__form" [formGroup]="form">
 
-  <ng-container *ngIf="!readOnly">
+  <ng-container *ngIf="!preview">
     <div class="aca-rule-details__form__row">
       <label for="rule-details-name-input">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.NAME' | translate }}</label>
       <div>
