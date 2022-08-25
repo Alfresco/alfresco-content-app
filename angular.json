@@ -19,7 +19,19 @@
             "allowedCommonJsDependencies": [
               "moment-es6",
               "minimatch",
-              "zen-observable"
+              "zen-observable",
+              "moment",
+              "@editorjs/code",
+              "@editorjs/editorjs",
+              "@editorjs/header",
+              "@editorjs/inline-code",
+              "@editorjs/list",
+              "@editorjs/marker",
+              "@editorjs/underline",
+              "@quanzo/change-font-size",
+              "cropperjs",
+              "editorjs-html",
+              "editorjs-text-color-plugin"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
@@ -540,7 +552,6 @@
       }
     }
   },
-  "defaultProject": "content-ce",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "aca",

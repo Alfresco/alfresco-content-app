@@ -24,7 +24,7 @@
  */
 
 import { Component, Input, OnInit, OnChanges, OnDestroy } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormGroupDirective, NgForm } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators, FormGroupDirective, NgForm } from '@angular/forms';
 import { QueriesApi, SiteEntry, SitePaging } from '@alfresco/js-api';
 import { Store } from '@ngrx/store';
 import { AppStore, UpdateLibraryAction } from '@alfresco/aca-shared/store';
@@ -34,7 +34,7 @@ import { Observable, from, Subject } from 'rxjs';
 import { ErrorStateMatcher } from '@angular/material/core';
 
 export class InstantErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+  isErrorState(control: UntypedFormControl | null, form: FormGroupDirective | NgForm | null): boolean {
     const isSubmitted = form && form.submitted;
     return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
   }
@@ -63,11 +63,11 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
     { value: 'MODERATED', label: 'LIBRARY.VISIBILITY.MODERATED' }
   ];
 
-  form: FormGroup = new FormGroup({
-    id: new FormControl({ value: '', disabled: true }),
-    title: new FormControl({ value: '' }, [Validators.required, Validators.maxLength(256)]),
-    description: new FormControl({ value: '' }, [Validators.maxLength(512)]),
-    visibility: new FormControl(this.libraryType[0].value)
+  form: UntypedFormGroup = new UntypedFormGroup({
+    id: new UntypedFormControl({ value: '', disabled: true }),
+    title: new UntypedFormControl({ value: '' }, [Validators.required, Validators.maxLength(256)]),
+    description: new UntypedFormControl({ value: '' }, [Validators.maxLength(512)]),
+    visibility: new UntypedFormControl(this.libraryType[0].value)
   });
 
   matcher = new InstantErrorStateMatcher();
