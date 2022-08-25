@@ -23,10 +23,10 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { Location } from '@angular/common';
 import { FolderRulesService } from '../services/folder-rules.service';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Rule } from '../model/rule.model';
 import { ActivatedRoute } from '@angular/router';
 import { NodeInfo } from '@alfresco/aca-shared/store';
@@ -42,12 +42,13 @@ import { ConfirmDialogComponent } from '@alfresco/adf-content-services';
   encapsulation: ViewEncapsulation.None,
   host: { class: 'aca-manage-rules' }
 })
-export class ManageRulesSmartComponent implements OnInit {
+export class ManageRulesSmartComponent implements OnInit, OnDestroy {
   rules$: Observable<Rule[]>;
   isLoading$: Observable<boolean>;
   folderInfo$: Observable<NodeInfo>;
   selectedRule: Rule = null;
   nodeId: string = null;
+  deletedRuleSubscription$: Subscription;
 
   constructor(
     private location: Location,
@@ -65,15 +66,11 @@ export class ManageRulesSmartComponent implements OnInit {
         }
       })
     );
-    this.folderRulesService.deletedRuleId$
-      .pipe(
-        tap((deletedRuleId) => {
-          if (deletedRuleId) {
-            this.folderRulesService.loadRules(this.nodeId);
-          }
-        })
-      )
-      .subscribe();
+    this.deletedRuleSubscription$ = this.folderRulesService.deletedRuleId$.subscribe((deletedRuleId) => {
+      if (deletedRuleId) {
+        this.folderRulesService.loadRules(this.nodeId);
+      }
+    });
     this.isLoading$ = this.folderRulesService.loading$;
     this.folderInfo$ = this.folderRulesService.folderInfo$;
     this.route.params.subscribe((params) => {
@@ -82,6 +79,10 @@ export class ManageRulesSmartComponent implements OnInit {
         this.folderRulesService.loadRules(this.nodeId);
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.deletedRuleSubscription$.unsubscribe();
   }
 
   goBack(): void {
