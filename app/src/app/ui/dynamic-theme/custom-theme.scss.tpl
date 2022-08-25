@@ -1,4 +1,4 @@
-@import '~@angular/material/theming';
+@import '@angular/material/theming';
 @import './overrides/adf-style-fixes.theme';
 @import "./dynamic-theme/theme-configuration";
 @import "./dynamic-theme/typography";
@@ -29,7 +29,7 @@ $custom-theme: mat-light-theme(
 );
 
 @if $background-color {
-  $custom-background: get-custom-backgrond-color($background-color, $custom-theme);
+  $custom-background: get-custom-background-color($background-color, $custom-theme);
   $custom-theme: map_merge($custom-theme, (background: $custom-background));
 }
 

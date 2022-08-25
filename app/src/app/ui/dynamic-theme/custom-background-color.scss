@@ -1,4 +1,4 @@
-@function get-custom-backgrond-color($background-color, $theme) {
+@function get-custom-background-color($background-color, $theme) {
     $background: map-get($theme, background);
 
     $card: map-get($background, card);
