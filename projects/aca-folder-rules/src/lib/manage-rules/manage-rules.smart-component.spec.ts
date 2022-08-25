@@ -33,6 +33,7 @@ import { of } from 'rxjs';
 import { dummyRules } from '../mock/rules.mock';
 import { By } from '@angular/platform-browser';
 import { dummyNodeInfo } from '../mock/node.mock';
+import { MatDialog } from '@angular/material/dialog';
 
 describe('ManageRulesSmartComponent', () => {
   let fixture: ComponentFixture<ManageRulesSmartComponent>;
@@ -42,7 +43,7 @@ describe('ManageRulesSmartComponent', () => {
 
   beforeEach(
     waitForAsync(() => {
-      const folderRulesServiceSpy = jasmine.createSpyObj('FolderRulesService', ['loadRules']);
+      const folderRulesServiceSpy = jasmine.createSpyObj('FolderRulesService', ['loadRules', 'deleteRule']);
       TestBed.configureTestingModule({
         imports: [CoreTestingModule, AcaFolderRulesModule],
         providers: [
@@ -61,6 +62,7 @@ describe('ManageRulesSmartComponent', () => {
   );
 
   it('should display aca-rules-list and aca-rule-details', () => {
+    folderRulesService.deletedRuleId$ = of(null);
     folderRulesService.folderInfo$ = of(dummyNodeInfo);
     folderRulesService.rulesListing$ = of(dummyRules);
     folderRulesService.loading$ = of(false);
@@ -73,15 +75,18 @@ describe('ManageRulesSmartComponent', () => {
 
     const rules = debugElement.queryAll(By.css('.aca-rule'));
     const ruleDetails = debugElement.queryAll(By.css('aca-rule-details'));
+    const deleteRuleBtn = debugElement.query(By.css('#delete-rule-btn'));
 
-    expect(rules.length).toBe(2, 'Unexpected number of aca-rule');
+    expect(rules.length).toBe(2, 'unexpected number of aca-rule');
     expect(ruleDetails.length).toBeTruthy('aca-rule-details was not rendered');
+    expect(deleteRuleBtn).toBeTruthy('no delete rule button');
   });
 
   it('should only show adf-empty-content if provided node has no rules defined yet', () => {
     folderRulesService.folderInfo$ = of(dummyNodeInfo);
     folderRulesService.rulesListing$ = of([]);
     folderRulesService.loading$ = of(false);
+    folderRulesService.deletedRuleId$ = of(null);
 
     fixture.detectChanges();
 
@@ -98,6 +103,7 @@ describe('ManageRulesSmartComponent', () => {
 
   it('should only show aca-generic-error if the non-existing node was provided', () => {
     folderRulesService.folderInfo$ = of(null);
+    folderRulesService.deletedRuleId$ = of(null);
     folderRulesService.rulesListing$ = of([]);
     folderRulesService.loading$ = of(false);
 
@@ -116,6 +122,7 @@ describe('ManageRulesSmartComponent', () => {
 
   it('should only show progress bar while loading', () => {
     folderRulesService.folderInfo$ = of(null);
+    folderRulesService.deletedRuleId$ = of(null);
     folderRulesService.rulesListing$ = of([]);
     folderRulesService.loading$ = of(true);
 
@@ -130,5 +137,58 @@ describe('ManageRulesSmartComponent', () => {
     expect(matProgressBar).toBeTruthy();
     expect(rules).toBeFalsy();
     expect(ruleDetails).toBeFalsy();
+  });
+
+  it('should call deleteRule() if confirmation dialog returns true', () => {
+    const dialog = TestBed.inject(MatDialog);
+    folderRulesService.deletedRuleId$ = of(null);
+    folderRulesService.folderInfo$ = of(dummyNodeInfo);
+    folderRulesService.rulesListing$ = of(dummyRules);
+    folderRulesService.loading$ = of(false);
+
+    spyOn(component, 'onRuleDelete').and.callThrough();
+
+    const dialogResult: any = {
+      afterClosed: () =>
+        of(true).subscribe((res) => {
+          if (res === true) {
+            folderRulesService.deleteRule(component.nodeId, component.selectedRule.id);
+          }
+        })
+    };
+    spyOn(dialog, 'open').and.returnValue(dialogResult);
+
+    fixture.detectChanges();
+    expect(component).toBeTruthy('expected component');
+
+    const rules = debugElement.queryAll(By.css('.aca-rule'));
+    const ruleDetails = debugElement.query(By.css('aca-rule-details'));
+    const deleteRuleBtn = fixture.debugElement.nativeElement.querySelector('#delete-rule-btn');
+
+    deleteRuleBtn.click();
+
+    fixture.detectChanges();
+    folderRulesService.deletedRuleId$ = of(component.selectedRule.id);
+
+    expect(component.onRuleDelete).toHaveBeenCalled();
+    expect(dialog.open).toHaveBeenCalled();
+    expect(folderRulesService.deleteRule).toHaveBeenCalled();
+    expect(folderRulesService.loadRules).toHaveBeenCalledTimes(1);
+    expect(rules).toBeTruthy('expected rules');
+    expect(ruleDetails).toBeTruthy('expected ruleDetails');
+    expect(deleteRuleBtn).toBeTruthy();
+  });
+
+  it('should run loadRules() when deletedRuleId$ emits new value', () => {
+    folderRulesService.deletedRuleId$ = of('new-value');
+    folderRulesService.folderInfo$ = of(dummyNodeInfo);
+    folderRulesService.rulesListing$ = of(dummyRules);
+    folderRulesService.loading$ = of(false);
+
+    fixture.detectChanges();
+
+    expect(component).toBeTruthy();
+
+    expect(folderRulesService.loadRules).toHaveBeenCalledTimes(2);
   });
 });

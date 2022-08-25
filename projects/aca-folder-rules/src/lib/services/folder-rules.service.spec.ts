@@ -39,13 +39,17 @@ describe('FolderRulesService', () => {
   let contentApi: ContentApiService;
   let rulesPromise: Promise<Partial<Rule>[]>;
   let folderInfoPromise: Promise<NodeInfo>;
+  let deletedRulePromise: Promise<string>;
   let rules: Partial<Rule>[];
   let folderInfo: NodeInfo;
+  let deletedRule: string;
   let apiCallSpy;
   let getNodeSpy;
 
   const nodeId = '********-fake-node-****-********';
+  const ruleId = '********-fake-rule-****-********';
   const ruleSetId = '-default-';
+  const params = [{}, {}, {}, {}, {}, ['application/json'], ['application/json']];
 
   describe('loadRules', () => {
     beforeEach(async () => {
@@ -57,7 +61,9 @@ describe('FolderRulesService', () => {
       folderRulesService = TestBed.inject<FolderRulesService>(FolderRulesService);
       contentApi = TestBed.inject<ContentApiService>(ContentApiService);
 
-      apiCallSpy = spyOn<any>(folderRulesService, 'apiCall').and.returnValue(of(dummyResponse) as any);
+      apiCallSpy = spyOn<any>(folderRulesService, 'apiCall')
+        .withArgs(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules`, 'GET', params)
+        .and.returnValue(of(dummyResponse) as any);
       getNodeSpy = spyOn<any>(contentApi, 'getNode').and.returnValue(of(dummyGetNodeResponse) as any);
 
       rulesPromise = folderRulesService.rulesListing$.pipe(take(2)).toPromise();
@@ -76,7 +82,36 @@ describe('FolderRulesService', () => {
       expect(rules).toEqual(dummyRules, 'The list of rules is incorrectly formatted');
       expect(folderInfo).toEqual(dummyNodeInfo, 'The node info is wrong');
       expect(apiCallSpy).toHaveBeenCalledTimes(1);
+      expect(apiCallSpy).toHaveBeenCalledWith(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules`, 'GET', params);
       expect(getNodeSpy).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('deleteRule', () => {
+    beforeEach(async () => {
+      TestBed.configureTestingModule({
+        imports: [CoreTestingModule],
+        providers: [FolderRulesService]
+      });
+
+      folderRulesService = TestBed.inject<FolderRulesService>(FolderRulesService);
+
+      apiCallSpy = spyOn<any>(folderRulesService, 'apiCall')
+        .withArgs(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules/${ruleId}`, 'DELETE', params)
+        .and.returnValue(ruleId);
+
+      deletedRulePromise = folderRulesService.deletedRuleId$.pipe(take(2)).toPromise();
+
+      folderRulesService.deleteRule(nodeId, ruleId, ruleSetId);
+
+      deletedRule = await deletedRulePromise;
+    });
+
+    it('should delete a rule and return its id', async () => {
+      expect(deletedRule).toBeTruthy('rule has not been deleted');
+      expect(deletedRule).toBe(ruleId, 'wrong id of deleted rule');
+      expect(apiCallSpy).toHaveBeenCalledTimes(1);
+      expect(apiCallSpy).toHaveBeenCalledWith(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules/${ruleId}`, 'DELETE', params);
     });
   });
 });

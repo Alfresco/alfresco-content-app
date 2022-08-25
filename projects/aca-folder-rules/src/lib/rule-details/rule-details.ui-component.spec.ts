@@ -109,8 +109,8 @@ describe('RuleDetailsUiComponent', () => {
     const descriptionTextarea = getHtmlElement<HTMLTextAreaElement>('rule-details-description-textarea');
     const ruleTriggersComponent = getComponentInstance<RuleTriggersUiComponent>('rule-details-triggers-component');
 
-    expect(nameInput.disabled).toBeTruthy();
-    expect(descriptionTextarea.disabled).toBeTruthy();
+    expect(nameInput).toBeFalsy();
+    expect(descriptionTextarea).toBeFalsy();
     expect(ruleTriggersComponent.readOnly).toBeTruthy();
   });
 });

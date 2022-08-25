@@ -33,6 +33,7 @@ import { NodeInfo } from '@alfresco/aca-shared/store';
 import { tap } from 'rxjs/operators';
 import { EditRuleDialogSmartComponent } from '../rule-details/edit-rule-dialog.smart-component';
 import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '@alfresco/adf-content-services';
 
 @Component({
   selector: 'aca-manage-rules',
@@ -52,7 +53,8 @@ export class ManageRulesSmartComponent implements OnInit {
     private location: Location,
     private folderRulesService: FolderRulesService,
     private route: ActivatedRoute,
-    private matDialogService: MatDialog
+    private matDialogService: MatDialog,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -63,6 +65,15 @@ export class ManageRulesSmartComponent implements OnInit {
         }
       })
     );
+    this.folderRulesService.deletedRuleId$
+      .pipe(
+        tap((deletedRuleId) => {
+          if (deletedRuleId) {
+            this.folderRulesService.loadRules(this.nodeId);
+          }
+        })
+      )
+      .subscribe();
     this.isLoading$ = this.folderRulesService.loading$;
     this.folderInfo$ = this.folderRulesService.folderInfo$;
     this.route.params.subscribe((params) => {
@@ -87,4 +98,23 @@ export class ManageRulesSmartComponent implements OnInit {
       panelClass: 'aca-edit-rule-dialog-container'
     });
   }
+
+  onRuleDelete(): void {
+    this.dialog
+      .open(ConfirmDialogComponent, {
+        data: {
+          title: 'ACA_FOLDER_RULES.CONFIRMATION_DIALOG.DELETE_RULE.TITLE',
+          message: 'ACA_FOLDER_RULES.CONFIRMATION_DIALOG.DELETE_RULE.MESSAGE'
+        },
+        minWidth: '346px'
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        if (result === true) {
+          this.folderRulesService.deleteRule(this.nodeId, this.selectedRule.id);
+        }
+      });
+  }
+
+  onRuleDeleteBounded = this.onRuleDelete.bind(this);
 }

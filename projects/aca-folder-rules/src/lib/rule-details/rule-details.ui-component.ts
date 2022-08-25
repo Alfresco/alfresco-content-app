@@ -72,6 +72,8 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
       this._initialValue = newValue;
     }
   }
+  @Input()
+  onRuleDelete: () => void;
 
   @Output()
   formValidationChanged = new EventEmitter<boolean>();

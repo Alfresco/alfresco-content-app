@@ -21,6 +21,38 @@
     padding: 32px;
     overflow: scroll;
 
+    &__preview{
+      padding: 0 20px;
+
+      &__toolbar{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        span{
+          font-style: normal;
+          font-weight: 700;
+          font-size: 14px;
+          line-height: 20px;
+        }
+
+        &__buttons{
+          display: inline-block;
+        }
+
+      }
+
+      p{
+        font-style: normal;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 16px;
+        color: #212121;
+      }
+
+    }
+
+
     &__rule-details {
       overflow-x: scroll;
     }
