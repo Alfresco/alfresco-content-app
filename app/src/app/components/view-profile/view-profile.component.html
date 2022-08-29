@@ -8,7 +8,7 @@
   </div>
   <div class="app-profile-general-row" [formGroup]="profileForm">
     <div class="app-profile-general">
-      <div class="app-profile-general-div">
+      <div class="app-profile-general-section">
         <mat-icon class="app-profile-general-icon" (click)="toggleGeneralDropdown()">
           {{ generalSectionDropdown ?  'expand_more' : 'chevron_right'}}</mat-icon>
         <h4 class="app-general-title">{{'APP.EDIT_PROFILE.GENERAL' | translate}}</h4>
@@ -76,7 +76,7 @@
 
   <div class="app-profile-login-row" [formGroup]="profileForm" hidden>
     <div class="app-profile-login">
-      <div class="app-profile-general-div">
+      <div class="app-profile-general-section">
         <mat-icon class="app-profile-general-icon" (click)="toggleLoginDropdown()">
           {{ loginSectionDropdown ?  'expand_more' : 'chevron_right'}}</mat-icon>
         <h4 class="app-general-title">{{'APP.EDIT_PROFILE.LOGIN' | translate}}</h4>
@@ -132,7 +132,7 @@
 
   <div class="app-profile-contact-row" [formGroup]="profileForm">
     <div class="app-profile-general profile-general-bottom-radius">
-      <div class="app-profile-general-div">
+      <div class="app-profile-general-section">
         <mat-icon class="app-profile-general-icon" (click)="toggleContactDropdown()">
           {{ contactSectionDropdown ?  'expand_more' : 'chevron_right'}}</mat-icon>
         <h4 class="app-general-title">{{'APP.EDIT_PROFILE.COMPANY_DETAILS' | translate}}</h4>
