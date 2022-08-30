@@ -48,7 +48,7 @@ export class ContextActionsDirective implements OnInit, OnDestroy {
 
       if (this.enabled) {
         const target = this.getTarget(event);
-        if (target) {
+        if (target && !target.classList.contains('adf-no-content-container')) {
           this.execute(event, target);
         }
       }
