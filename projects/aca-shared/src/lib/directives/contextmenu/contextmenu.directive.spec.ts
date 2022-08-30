@@ -80,6 +80,6 @@ describe('ContextActionsDirective', () => {
 
     tick(500);
 
-    expect(storeMock.dispatch).not.toHaveBeenCalledWith(new ContextMenu(mouseEventMock));
+    expect(storeMock.dispatch).not.toHaveBeenCalled();
   }));
 });
