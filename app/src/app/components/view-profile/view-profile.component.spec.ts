@@ -10,10 +10,13 @@ import { AppConfigModule } from '@alfresco/adf-core';
 import { ViewProfileComponent } from './view-profile.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 
 describe('ViewProfileComponent', () => {
   let fixture: ComponentFixture<ViewProfileComponent>;
   let component: ViewProfileComponent;
+  let router: Router;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -23,6 +26,8 @@ describe('ViewProfileComponent', () => {
 
     fixture = TestBed.createComponent(ViewProfileComponent);
     component = fixture.componentInstance;
+    router = TestBed.inject(Router);
+    router.initialNavigation();
   });
 
   it('default login and company dropdown remains close', async () => {
@@ -97,5 +102,90 @@ describe('ViewProfileComponent', () => {
 
     expect(profileFormGroup.valid).toEqual(true);
     expect(component.isSaveButtonDisabled()).toBeFalsy();
+  });
+
+  it('should navigate to personal files when back button is clicked', () => {
+    const navigateSpy = spyOn(router, 'navigate');
+    component.navigateToPersonalFiles();
+
+    expect(navigateSpy).toHaveBeenCalledWith(['/personal-files'], { replaceUrl: true });
+  });
+
+  it('should expand or compress general dropdown when arrow button is clicked', () => {
+    spyOn(component, 'toggleGeneralDropdown').and.callThrough();
+    component.generalSectionDropdown = false;
+    fixture.detectChanges();
+
+    const generalToggleIcon = fixture.debugElement.query(By.css('#toggle-general-dropdown'));
+    generalToggleIcon.triggerEventHandler('click', null);
+
+    expect(component.toggleGeneralDropdown).toHaveBeenCalled();
+    expect(component.generalSectionButtonsToggle).toBe(true);
+  });
+
+  it('should expand or compress login dropdown when arrow button is clicked', () => {
+    spyOn(component, 'toggleLoginDropdown').and.callThrough();
+    component.loginSectionDropdown = false;
+    fixture.detectChanges();
+
+    const loginToggleIcon = fixture.debugElement.query(By.css('#toggle-login-dropdown'));
+    loginToggleIcon.triggerEventHandler('click', null);
+
+    expect(component.toggleLoginDropdown).toHaveBeenCalled();
+    expect(component.loginSectionButtonsToggle).toBe(true);
+  });
+
+  it('should expand or compress contact dropdown when arrow button is clicked', () => {
+    spyOn(component, 'toggleContactDropdown').and.callThrough();
+    component.contactSectionDropdown = false;
+    fixture.detectChanges();
+
+    const contactToggleIcon = fixture.debugElement.query(By.css('#toggle-contact-dropdown'));
+    contactToggleIcon.triggerEventHandler('click', null);
+
+    expect(component.toggleContactDropdown).toHaveBeenCalled();
+    expect(component.contactSectionButtonsToggle).toBe(true);
+  });
+
+  it('should toggle form view when edit or cancel buttons is clicked for general form', () => {
+    spyOn(component, 'toggleGeneralButtons').and.callThrough();
+    fixture.detectChanges();
+
+    const generalEditButton = fixture.debugElement.query(By.css('#general-edit-button'));
+    generalEditButton.triggerEventHandler('click', null);
+    fixture.detectChanges();
+
+    const generalCancelButton = fixture.debugElement.query(By.css('#general-cancel-button'));
+    generalCancelButton.triggerEventHandler('click', null);
+
+    expect(component.toggleGeneralButtons).toHaveBeenCalledTimes(2);
+  });
+
+  it('should toggle form view when edit or cancel buttons is clicked for login form', () => {
+    spyOn(component, 'toggleLoginButtons').and.callThrough();
+    fixture.detectChanges();
+
+    const loginEditButton = fixture.debugElement.query(By.css('#login-edit-button'));
+    loginEditButton.triggerEventHandler('click', null);
+    fixture.detectChanges();
+
+    const loginCancelButton = fixture.debugElement.query(By.css('#login-cancel-button'));
+    loginCancelButton.triggerEventHandler('click', null);
+
+    expect(component.toggleLoginButtons).toHaveBeenCalledTimes(2);
+  });
+
+  it('should toggle form view when edit or cancel buttons is clicked for contact form', () => {
+    spyOn(component, 'toggleContactButtons').and.callThrough();
+    fixture.detectChanges();
+
+    const contactEditButton = fixture.debugElement.query(By.css('#contact-edit-button'));
+    contactEditButton.triggerEventHandler('click', null);
+    fixture.detectChanges();
+
+    const contactCancelButton = fixture.debugElement.query(By.css('#contact-cancel-button'));
+    contactCancelButton.triggerEventHandler('click', null);
+
+    expect(component.toggleContactButtons).toHaveBeenCalledTimes(2);
   });
 });
