@@ -32,7 +32,18 @@
           <div class="aca-manage-rules__container" *ngIf="(rules$ | async).length > 0 ; else emptyContent">
             <aca-rules-list [rules]="rules$ | async" (ruleSelected)="onRuleSelected($event)" [selectedRule]="selectedRule"></aca-rules-list>
             <div class="aca-manage-rules__container__rule-details">
-              <aca-rule-details [readOnly]="true" [value]="selectedRule"></aca-rule-details>
+              <div class="aca-manage-rules__container__preview">
+                <div class="aca-manage-rules__container__preview__toolbar">
+                  <span>{{ selectedRule.name }}</span>
+                  <div class="aca-manage-rules__container__preview__toolbar__buttons">
+                    <button mat-icon-button (click)="onRuleDelete()" id="delete-rule-btn">
+                      <mat-icon>delete_outline</mat-icon>
+                    </button>
+                  </div>
+                </div>
+                <p>{{ selectedRule.description }}</p>
+              </div>
+              <aca-rule-details [readOnly]="true" [preview]="true" [value]="selectedRule"></aca-rule-details>
             </div>
           </div>
 

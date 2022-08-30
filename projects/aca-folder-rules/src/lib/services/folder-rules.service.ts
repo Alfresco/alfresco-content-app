@@ -68,6 +68,8 @@ export class FolderRulesService {
   folderInfo$: Observable<NodeInfo> = this.folderInfoSource.asObservable();
   private loadingSource = new BehaviorSubject<boolean>(false);
   loading$ = this.loadingSource.asObservable();
+  private deletedRuleIdSource = new BehaviorSubject<string>(null);
+  deletedRuleId$: Observable<string> = this.deletedRuleIdSource.asObservable();
 
   constructor(private apiService: AlfrescoApiService, private contentApi: ContentApiService) {}
 
@@ -105,6 +107,29 @@ export class FolderRulesService {
           this.folderInfoSource.next(error);
         }
       );
+  }
+
+  deleteRule(nodeId: string, ruleId: string, ruleSetId: string = '-default-'): void {
+    this.loadingSource.next(true);
+    from(
+      this.apiCall(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules/${ruleId}`, 'DELETE', [
+        {},
+        {},
+        {},
+        {},
+        {},
+        ['application/json'],
+        ['application/json']
+      ])
+    ).subscribe(
+      () => {
+        this.deletedRuleIdSource.next(ruleId);
+      },
+      (error) => {
+        this.deletedRuleIdSource.next(error);
+        this.loadingSource.next(false);
+      }
+    );
   }
 
   private apiCall(path: string, httpMethod: string, params?: any[]): Promise<any> {
