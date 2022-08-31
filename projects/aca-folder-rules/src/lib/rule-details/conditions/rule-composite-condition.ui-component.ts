@@ -57,7 +57,16 @@ export class RuleCompositeConditionUiComponent implements ControlValueAccessor, 
     simpleConditions: new FormArray([])
   });
 
-  private formSubscription = this.form.valueChanges.subscribe((value) => {
+  private _readOnly = false;
+  @Input()
+  get readOnly(): boolean {
+    return this._readOnly;
+  }
+  set readOnly(isReadOnly: boolean) {
+    this.setDisabledState(isReadOnly);
+  }
+
+  private formSubscription = this.form.valueChanges.subscribe((value: any) => {
     this.onChange(value);
     this.onTouch();
   });
@@ -79,11 +88,6 @@ export class RuleCompositeConditionUiComponent implements ControlValueAccessor, 
   }
   get hasNoConditions(): boolean {
     return this.conditionFormControls.length === 0;
-  }
-
-  private _readOnly = false;
-  get readOnly(): boolean {
-    return this._readOnly;
   }
 
   onChange: (condition: RuleCompositeCondition) => void = () => undefined;

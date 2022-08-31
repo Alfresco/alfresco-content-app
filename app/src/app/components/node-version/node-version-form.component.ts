@@ -24,7 +24,7 @@
  */
 
 import { Component, OnDestroy, OnInit, ViewEncapsulation, Output, EventEmitter } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -44,7 +44,7 @@ export interface VersionFormEntry {
 export class AppNodeVersionFormComponent implements OnInit, OnDestroy {
   @Output() update: EventEmitter<VersionFormEntry> = new EventEmitter();
 
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   private onDestroy$: Subject<boolean> = new Subject<boolean>();
   private versionOptions = [
@@ -52,7 +52,7 @@ export class AppNodeVersionFormComponent implements OnInit, OnDestroy {
     { label: 'VERSION.FORM.VERSION.MAJOR', value: true }
   ];
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: UntypedFormBuilder) {}
 
   ngOnInit() {
     this.form = this.formBuilder.group({

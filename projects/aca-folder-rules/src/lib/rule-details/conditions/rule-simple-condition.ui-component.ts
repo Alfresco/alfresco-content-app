@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, forwardRef, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { Component, forwardRef, Input, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { RuleSimpleCondition } from '../../model/rule-simple-condition.model';
 import { RuleConditionField, ruleConditionFields } from './rule-condition-fields';
@@ -52,14 +52,36 @@ export class RuleSimpleConditionUiComponent implements ControlValueAccessor, OnD
     parameter: new FormControl()
   });
 
-  private formSubscription = this.form.valueChanges.subscribe((value) => {
+  private _readOnly = false;
+  @Input()
+  get readOnly(): boolean {
+    return this._readOnly;
+  }
+  set readOnly(isReadOnly: boolean) {
+    this.setDisabledState(isReadOnly);
+  }
+
+  private formSubscription = this.form.valueChanges.subscribe((value: any) => {
     this.onChange(value);
     this.onTouch();
   });
 
-  get selectedField(): RuleConditionField {
-    return this.fields.find((field) => field.name === this.form.get('field').value);
+  get isSelectedFieldKnown(): boolean {
+    const selectedFieldName = this.form.get('field').value;
+    return this.fields.findIndex((field: RuleConditionField) => selectedFieldName === field.name) > -1;
   }
+  get selectedField(): RuleConditionField {
+    const selectedFieldName = this.form.get('field').value;
+    if (!this.isSelectedFieldKnown) {
+      return {
+        name: selectedFieldName,
+        label: selectedFieldName,
+        type: 'special'
+      };
+    }
+    return this.fields.find((field) => field.name === selectedFieldName);
+  }
+
   get selectedFieldComparators(): RuleConditionComparator[] {
     return ruleConditionComparators.filter((comparator) => Object.keys(comparator.labels).includes(this.selectedField.type));
   }
@@ -87,8 +109,10 @@ export class RuleSimpleConditionUiComponent implements ControlValueAccessor, OnD
 
   setDisabledState(isDisabled: boolean) {
     if (isDisabled) {
+      this._readOnly = true;
       this.form.disable();
     } else {
+      this._readOnly = false;
       this.form.enable();
     }
   }

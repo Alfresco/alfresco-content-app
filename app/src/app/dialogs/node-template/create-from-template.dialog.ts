@@ -26,7 +26,7 @@
 import { Component, ViewEncapsulation, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Node } from '@alfresco/js-api';
-import { FormBuilder, FormGroup, Validators, FormControl, ValidationErrors } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, UntypedFormControl, ValidationErrors } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppStore, CreateFromTemplate } from '@alfresco/aca-shared/store';
 import { TranslationService } from '@alfresco/adf-core';
@@ -37,12 +37,12 @@ import { TranslationService } from '@alfresco/adf-core';
   encapsulation: ViewEncapsulation.None
 })
 export class CreateFromTemplateDialogComponent implements OnInit {
-  public form: FormGroup;
+  public form: UntypedFormGroup;
 
   constructor(
     private translationService: TranslationService,
     private store: Store<AppStore>,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private dialogRef: MatDialogRef<CreateFromTemplateDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Node
   ) {}
@@ -79,7 +79,7 @@ export class CreateFromTemplateDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  private forbidSpecialCharacters({ value }: FormControl): ValidationErrors | null {
+  private forbidSpecialCharacters({ value }: UntypedFormControl): ValidationErrors | null {
     const specialCharacters = /([\*\"\<\>\\\/\?\:\|])/;
     const isValid = !specialCharacters.test(value);
 
@@ -90,7 +90,7 @@ export class CreateFromTemplateDialogComponent implements OnInit {
         };
   }
 
-  private forbidEndingDot({ value }: FormControl): ValidationErrors | null {
+  private forbidEndingDot({ value }: UntypedFormControl): ValidationErrors | null {
     const isValid: boolean = (value || '').trim().split('').pop() !== '.';
 
     return isValid
@@ -100,7 +100,7 @@ export class CreateFromTemplateDialogComponent implements OnInit {
         };
   }
 
-  private forbidOnlySpaces({ value }: FormControl): ValidationErrors | null {
+  private forbidOnlySpaces({ value }: UntypedFormControl): ValidationErrors | null {
     if (value.length) {
       const isValid = !!(value || '').trim();
 

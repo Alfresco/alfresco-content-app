@@ -30,39 +30,83 @@ import { of } from 'rxjs';
 import { FolderRulesService } from './folder-rules.service';
 import { Rule } from '../model/rule.model';
 import { dummyResponse, dummyRules } from '../mock/rules.mock';
+import { NodeInfo } from '@alfresco/aca-shared/store';
+import { ContentApiService } from '@alfresco/aca-shared';
+import { dummyGetNodeResponse, dummyNodeInfo } from '../mock/node.mock';
 
 describe('FolderRulesService', () => {
   let folderRulesService: FolderRulesService;
+  let contentApi: ContentApiService;
   let rulesPromise: Promise<Partial<Rule>[]>;
+  let folderInfoPromise: Promise<NodeInfo>;
+  let deletedRulePromise: Promise<string>;
   let rules: Partial<Rule>[];
+  let folderInfo: NodeInfo;
+  let deletedRule: string;
   let apiCallSpy;
+  let getNodeSpy;
 
-  const nodeId = '';
+  const nodeId = '********-fake-node-****-********';
+  const ruleId = '********-fake-rule-****-********';
   const ruleSetId = '-default-';
+  const params = [{}, {}, {}, {}, {}, ['application/json'], ['application/json']];
+
+  beforeEach(async () => {
+    TestBed.configureTestingModule({
+      imports: [CoreTestingModule],
+      providers: [FolderRulesService, ContentApiService]
+    });
+    folderRulesService = TestBed.inject<FolderRulesService>(FolderRulesService);
+  });
 
   describe('loadRules', () => {
     beforeEach(async () => {
-      TestBed.configureTestingModule({
-        imports: [CoreTestingModule],
-        providers: [FolderRulesService]
-      });
+      contentApi = TestBed.inject<ContentApiService>(ContentApiService);
 
-      folderRulesService = TestBed.inject<FolderRulesService>(FolderRulesService);
-
-      apiCallSpy = spyOn<any>(folderRulesService, 'apiCall').and.returnValue(of(dummyResponse) as any);
+      apiCallSpy = spyOn<any>(folderRulesService, 'apiCall')
+        .withArgs(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules`, 'GET', params)
+        .and.returnValue(of(dummyResponse) as any);
+      getNodeSpy = spyOn<any>(contentApi, 'getNode').and.returnValue(of(dummyGetNodeResponse) as any);
 
       rulesPromise = folderRulesService.rulesListing$.pipe(take(2)).toPromise();
+      folderInfoPromise = folderRulesService.folderInfo$.pipe(take(2)).toPromise();
 
       folderRulesService.loadRules(nodeId, ruleSetId);
 
       rules = await rulesPromise;
+      folderInfo = await folderInfoPromise;
     });
 
     it('should format and set the data', async () => {
       expect(rules).toBeTruthy('rulesListing$ is empty');
+      expect(folderInfo).toBeTruthy('folderInfo$ is empty');
       expect(rules.length).toBe(2, 'rulesListing$ size is wrong');
       expect(rules).toEqual(dummyRules, 'The list of rules is incorrectly formatted');
+      expect(folderInfo).toEqual(dummyNodeInfo, 'The node info is wrong');
       expect(apiCallSpy).toHaveBeenCalledTimes(1);
+      expect(apiCallSpy).toHaveBeenCalledWith(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules`, 'GET', params);
+      expect(getNodeSpy).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('deleteRule', () => {
+    beforeEach(async () => {
+      apiCallSpy = spyOn<any>(folderRulesService, 'apiCall')
+        .withArgs(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules/${ruleId}`, 'DELETE', params)
+        .and.returnValue(ruleId);
+
+      deletedRulePromise = folderRulesService.deletedRuleId$.pipe(take(2)).toPromise();
+
+      folderRulesService.deleteRule(nodeId, ruleId, ruleSetId);
+
+      deletedRule = await deletedRulePromise;
+    });
+
+    it('should delete a rule and return its id', async () => {
+      expect(deletedRule).toBeTruthy('rule has not been deleted');
+      expect(deletedRule).toBe(ruleId, 'wrong id of deleted rule');
+      expect(apiCallSpy).toHaveBeenCalledTimes(1);
+      expect(apiCallSpy).toHaveBeenCalledWith(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules/${ruleId}`, 'DELETE', params);
     });
   });
 });

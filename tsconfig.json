@@ -14,7 +14,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
-    "target": "es2015",
+    "target": "es2020",
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "typeRoots": ["node_modules/@types"],

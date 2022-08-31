@@ -13,7 +13,8 @@
     "RULE_DETAILS": {
       "LABEL": {
         "NAME": "Name",
-        "DESCRIPTION": "Description"
+        "DESCRIPTION": "Description",
+        "WHEN": "When"
       },
       "PLACEHOLDER": {
         "NAME": "Enter rule name",
@@ -22,7 +23,13 @@
       },
       "ERROR": {
         "REQUIRED": "This field is required",
-        "RULE_COMPOSITE_CONDITION_INVALID": "One or more condition groups is empty"
+        "RULE_COMPOSITE_CONDITION_INVALID": "One or more condition groups is empty",
+        "INSUFFICIENT_TRIGGERS_SELECTED": "At least one trigger is required"
+      },
+      "TRIGGERS": {
+        "INBOUND": "Items are created or enter this folder",
+        "UPDATE": "Items are updated",
+        "OUTBOUND": "Items are deleted or leave this folder"
       },
       "COMPARATORS": {
         "EQUALS": "(=) Equals",
@@ -62,6 +69,26 @@
       },
       "NO_CONDITIONS": "No conditions",
       "NO_CONDITIONS_IN_GROUP": "No conditions in the group"
+      },
+    "MANAGE_RULES": {
+      "TOOLBAR": {
+        "BREADCRUMB": {
+          "RULES": "rules"
+        },
+        "ACTIONS": {
+          "NEW_RULE": "New rule"
+        }
+      },
+      "EMPTY_RULES_LIST": {
+        "TITLE": "The list is empty",
+        "SUBTITLE": "There are no rules defined for this folder yet."
+      }
+    },
+    "CONFIRMATION_DIALOG": {
+      "DELETE_RULE": {
+        "TITLE": "Delete rule",
+        "MESSAGE": "Are you sure you want to delete this rule?"
+      }
     }
   }
 }

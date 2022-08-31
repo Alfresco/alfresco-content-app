@@ -23,21 +23,32 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { RuleCompositeCondition } from './rule-composite-condition.model';
-import { RuleAction } from './rule-action.model';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Rule } from '../model/rule.model';
 
-export type RuleTrigger = 'inbound' | 'update' | 'outbound';
+@Component({
+  selector: 'aca-rules-list',
+  templateUrl: 'rules-list.ui-component.html',
+  styleUrls: ['rules-list.ui-component.scss']
+})
+export class RulesListUiComponent {
+  @Input()
+  rules: Rule[];
 
-export interface Rule {
-  id: string;
-  name: string;
-  description: string;
-  enabled: boolean;
-  cascade: boolean;
-  asynchronous: boolean;
-  errorScript: string;
-  isShared: boolean;
-  triggers: RuleTrigger[];
-  conditions: RuleCompositeCondition;
-  actions: RuleAction[];
+  @Input()
+  selectedRule: Rule;
+
+  @Output()
+  ruleSelected = new EventEmitter<Rule>();
+
+  onRuleClicked(rule: Rule): void {
+    this.ruleSelected.emit(rule);
+  }
+
+  isSelected(rule): boolean {
+    if (this.selectedRule) {
+      return rule.id === this.selectedRule.id;
+    }
+    return false;
+  }
 }

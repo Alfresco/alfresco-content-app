@@ -24,11 +24,12 @@
  */
 
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewEncapsulation } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { distinctUntilChanged, map, takeUntil } from 'rxjs/operators';
 import { Rule } from '../model/rule.model';
-import { ruleCompositeConditionValidator } from './conditions/rule-composite-condition.validators';
+import { ruleCompositeConditionValidator } from './validators/rule-composite-condition.validator';
+import { FolderRulesService } from '../services/folder-rules.service';
 
 @Component({
   selector: 'aca-rule-details',
@@ -53,8 +54,26 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
       }
     }
   }
+  private _initialValue: Partial<Rule> = FolderRulesService.emptyRule;
   @Input()
-  initialValue: Partial<Rule> = {};
+  get value(): Partial<Rule> {
+    return this.form ? this.form.value : this._initialValue;
+  }
+  set value(newValue: Partial<Rule>) {
+    newValue = {
+      name: newValue.name || FolderRulesService.emptyRule.name,
+      description: newValue.description || FolderRulesService.emptyRule.description,
+      triggers: newValue.triggers || FolderRulesService.emptyRule.triggers,
+      conditions: newValue.conditions || FolderRulesService.emptyRule.conditions
+    };
+    if (this.form) {
+      this.form.setValue(newValue);
+    } else {
+      this._initialValue = newValue;
+    }
+  }
+  @Input()
+  preview: boolean;
 
   @Output()
   formValidationChanged = new EventEmitter<boolean>();
@@ -62,24 +81,28 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
   formValueChanged = new EventEmitter<Partial<Rule>>();
 
   private onDestroy$ = new Subject();
-  form: FormGroup;
+  form: UntypedFormGroup;
 
-  get name(): AbstractControl {
-    return this.form.get('name');
+  get name(): UntypedFormControl {
+    return this.form.get('name') as UntypedFormControl;
   }
-  get description(): AbstractControl {
-    return this.form.get('description');
+  get description(): UntypedFormControl {
+    return this.form.get('description') as UntypedFormControl;
   }
-  get conditions(): AbstractControl {
-    return this.form.get('conditions');
+  get triggers(): UntypedFormControl {
+    return this.form.get('triggers') as UntypedFormControl;
+  }
+  get conditions(): UntypedFormControl {
+    return this.form.get('conditions') as UntypedFormControl;
   }
 
   ngOnInit() {
-    this.form = new FormGroup({
-      name: new FormControl(this.initialValue.name || '', Validators.required),
-      description: new FormControl(this.initialValue.description || ''),
-      conditions: new FormControl(
-        this.initialValue.conditions || {
+    this.form = new UntypedFormGroup({
+      name: new UntypedFormControl(this.value.name || '', Validators.required),
+      description: new UntypedFormControl(this.value.description || ''),
+      triggers: new UntypedFormControl(this.value.triggers || ['inbound'], Validators.required),
+      conditions: new UntypedFormControl(
+        this.value.conditions || {
           inverted: false,
           booleanMode: 'and',
           compositeConditions: [],
@@ -112,8 +135,13 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
   }
 
   getErrorMessage(control: AbstractControl): string {
+    if (this.readOnly) {
+      return '';
+    }
     if (control.hasError('required')) {
-      return 'ACA_FOLDER_RULES.RULE_DETAILS.ERROR.REQUIRED';
+      return control === this.triggers
+        ? 'ACA_FOLDER_RULES.RULE_DETAILS.ERROR.INSUFFICIENT_TRIGGERS_SELECTED'
+        : 'ACA_FOLDER_RULES.RULE_DETAILS.ERROR.REQUIRED';
     } else if (control.hasError('ruleCompositeConditionInvalid')) {
       return 'ACA_FOLDER_RULES.RULE_DETAILS.ERROR.RULE_COMPOSITE_CONDITION_INVALID';
     }

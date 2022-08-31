@@ -25,32 +25,111 @@
 
 import { Injectable } from '@angular/core';
 import { AlfrescoApiService } from '@alfresco/adf-core';
-import { BehaviorSubject, from, Observable } from 'rxjs';
-import { finalize, map } from 'rxjs/operators';
+import { BehaviorSubject, forkJoin, from, Observable, of } from 'rxjs';
+import { catchError, finalize, map } from 'rxjs/operators';
 import { Rule } from '../model/rule.model';
+import { ContentApiService } from '@alfresco/aca-shared';
+import { NodeInfo } from '@alfresco/aca-shared/store';
+import { RuleCompositeCondition } from '../model/rule-composite-condition.model';
+import { RuleSimpleCondition } from '../model/rule-simple-condition.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FolderRulesService {
+  public static get emptyCompositeCondition(): RuleCompositeCondition {
+    return {
+      inverted: false,
+      booleanMode: 'and',
+      compositeConditions: [],
+      simpleConditions: []
+    };
+  }
+
+  public static get emptyRule(): Rule {
+    return {
+      id: '',
+      name: '',
+      description: '',
+      enabled: true,
+      cascade: false,
+      asynchronous: false,
+      errorScript: '',
+      isShared: false,
+      triggers: ['inbound'],
+      conditions: FolderRulesService.emptyCompositeCondition,
+      actions: []
+    };
+  }
+
   private rulesListingSource = new BehaviorSubject<Rule[]>([]);
   rulesListing$: Observable<Rule[]> = this.rulesListingSource.asObservable();
+  private folderInfoSource = new BehaviorSubject<NodeInfo>(null);
+  folderInfo$: Observable<NodeInfo> = this.folderInfoSource.asObservable();
   private loadingSource = new BehaviorSubject<boolean>(false);
   loading$ = this.loadingSource.asObservable();
-  constructor(private apiService: AlfrescoApiService) {}
+  private deletedRuleIdSource = new BehaviorSubject<string>(null);
+  deletedRuleId$: Observable<string> = this.deletedRuleIdSource.asObservable();
+
+  constructor(private apiService: AlfrescoApiService, private contentApi: ContentApiService) {}
 
   loadRules(nodeId: string, ruleSetId: string = '-default-'): void {
-    from(this.apiCall(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules`, 'GET', [{}, {}, {}, {}, {}, ['application/json'], ['application/json']]))
-      .pipe(
-        map((res) => this.formatRules(res)),
-        finalize(() => this.loadingSource.next(false))
-      )
-      .subscribe(
-        (res) => this.rulesListingSource.next(res),
-        (err) => this.rulesListingSource.error(err)
-      );
-
     this.loadingSource.next(true);
+    forkJoin([
+      from(
+        this.apiCall(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules`, 'GET', [{}, {}, {}, {}, {}, ['application/json'], ['application/json']])
+      ).pipe(
+        map((res) => this.formatRules(res)),
+        catchError((error) => {
+          if (error.status === 404) {
+            return of([]);
+          }
+          return of(error);
+        })
+      ),
+      this.contentApi.getNode(nodeId).pipe(
+        catchError((error) => {
+          if (error.status === 404) {
+            return of({ entry: null });
+          }
+          return of(error);
+        })
+      )
+    ])
+      .pipe(finalize(() => this.loadingSource.next(false)))
+      .subscribe(
+        ([rules, nodeInfo]) => {
+          this.rulesListingSource.next(rules);
+          this.folderInfoSource.next(nodeInfo.entry);
+        },
+        (error) => {
+          this.rulesListingSource.next([]);
+          this.folderInfoSource.next(error);
+        }
+      );
+  }
+
+  deleteRule(nodeId: string, ruleId: string, ruleSetId: string = '-default-'): void {
+    this.loadingSource.next(true);
+    from(
+      this.apiCall(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules/${ruleId}`, 'DELETE', [
+        {},
+        {},
+        {},
+        {},
+        {},
+        ['application/json'],
+        ['application/json']
+      ])
+    ).subscribe(
+      () => {
+        this.deletedRuleIdSource.next(ruleId);
+      },
+      (error) => {
+        this.deletedRuleIdSource.next(error);
+        this.loadingSource.next(false);
+      }
+    );
   }
 
   private apiCall(path: string, httpMethod: string, params?: any[]): Promise<any> {
@@ -64,16 +143,33 @@ export class FolderRulesService {
   private formatRule(obj): Rule {
     return {
       id: obj.id,
-      name: obj.name ?? '',
-      description: obj.description ?? '',
-      enabled: obj.enabled ?? true,
-      cascade: obj.cascade ?? false,
-      asynchronous: obj.asynchronous ?? false,
-      errorScript: obj.errorScript ?? '',
-      shared: obj.shared ?? false,
-      triggers: obj.triggers ?? ['INBOUND'],
-      conditions: obj.conditions ?? null,
-      actions: obj.actions ?? []
+      name: obj.name ?? FolderRulesService.emptyRule.name,
+      description: obj.description ?? FolderRulesService.emptyRule.description,
+      enabled: obj.enabled ?? FolderRulesService.emptyRule.enabled,
+      cascade: obj.cascade ?? FolderRulesService.emptyRule.cascade,
+      asynchronous: obj.asynchronous ?? FolderRulesService.emptyRule.asynchronous,
+      errorScript: obj.errorScript ?? FolderRulesService.emptyRule.errorScript,
+      isShared: obj.isShared ?? FolderRulesService.emptyRule.isShared,
+      triggers: obj.triggers ?? FolderRulesService.emptyRule.triggers,
+      conditions: this.formatCompositeCondition(obj.conditions ?? { ...FolderRulesService.emptyRule.conditions }),
+      actions: obj.actions ?? FolderRulesService.emptyRule.actions
+    };
+  }
+
+  private formatCompositeCondition(obj): RuleCompositeCondition {
+    return {
+      inverted: obj.inverted ?? false,
+      booleanMode: obj.booleanMode ?? 'and',
+      compositeConditions: (obj.compositeConditions || []).map((condition) => this.formatCompositeCondition(condition)),
+      simpleConditions: (obj.simpleConditions || []).map((condition) => this.formatSimpleCondition(condition))
+    };
+  }
+
+  private formatSimpleCondition(obj): RuleSimpleCondition {
+    return {
+      field: obj.field || 'cm:name',
+      comparator: obj.comparator || 'equals',
+      parameter: obj.parameter || ''
     };
   }
 }
