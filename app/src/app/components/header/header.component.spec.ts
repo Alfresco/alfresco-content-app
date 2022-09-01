@@ -30,7 +30,7 @@ import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testin
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { Store } from '@ngrx/store';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { AppExtensionService } from '@alfresco/aca-shared';
+import { AppExtensionService, SharedToolbarModule } from '@alfresco/aca-shared';
 import { CoreModule } from '@alfresco/adf-core';
 import { AppSearchInputModule } from '../search/search-input.module';
 import { By } from '@angular/platform-browser';
@@ -62,7 +62,7 @@ describe('AppHeaderComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, CoreModule.forChild(), AppSearchInputModule],
+      imports: [AppTestingModule, CoreModule.forChild(), AppSearchInputModule, SharedToolbarModule],
       declarations: [AppHeaderComponent],
       providers: [
         {
