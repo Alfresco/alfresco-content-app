@@ -5,11 +5,6 @@ VERSION=$1
 
 eval packages=(
     "$DIR"
-    "$DIR/projects/aca-about"
-    "$DIR/projects/aca-settings"
-    "$DIR/projects/aca-shared"
-    "$DIR/projects/aca-testing-shared"
-    "$DIR/projects/adf-office-services-ext"
 )
 packagesLength=${#packages[@]}
 
