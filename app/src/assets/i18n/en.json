@@ -70,7 +70,7 @@
             "COMPANY_DETAILS": "Company details",
             "NAME": "Name",
             "ADDRESS": "Address",
-            "POST_CODE": "Post code",
+            "POSTCODE": "Postcode",
             "INVALID_INPUT": "Invalid Input"
         },
         "LOCKED_BY": "Locked by: ",

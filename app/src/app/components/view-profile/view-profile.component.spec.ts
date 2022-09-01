@@ -30,12 +30,12 @@ describe('ViewProfileComponent', () => {
     router.initialNavigation();
   });
 
-  it('default login and company dropdown remains close', async () => {
+  it('should company dropdown remains close', async () => {
     expect(component.loginSectionDropdown).toBe(false);
     expect(component.contactSectionDropdown).toBe(false);
   });
 
-  it('save button is disabled if form has invalid mobile number', () => {
+  it('should save button is disabled if form has invalid mobile number', () => {
     component.ngOnInit();
     const profileFormGroup = component.profileForm;
 
@@ -58,7 +58,7 @@ describe('ViewProfileComponent', () => {
     expect(component.isSaveButtonDisabled()).toBeTruthy();
   });
 
-  it('save button is disabled if form has invalid email', () => {
+  it('should save button is disabled if form has invalid email', () => {
     component.ngOnInit();
     const profileFormGroup = component.profileForm;
 
@@ -81,7 +81,7 @@ describe('ViewProfileComponent', () => {
     expect(component.isSaveButtonDisabled()).toBeTruthy();
   });
 
-  it('save button is enabled if form has valid inputs', () => {
+  it('should save button is enabled if form has valid inputs', () => {
     component.ngOnInit();
     const profileFormGroup = component.profileForm;
 
@@ -123,18 +123,6 @@ describe('ViewProfileComponent', () => {
     expect(component.generalSectionButtonsToggle).toBe(true);
   });
 
-  it('should expand or compress login dropdown when arrow button is clicked', () => {
-    spyOn(component, 'toggleLoginDropdown').and.callThrough();
-    component.loginSectionDropdown = false;
-    fixture.detectChanges();
-
-    const loginToggleIcon = fixture.debugElement.query(By.css('#toggle-login-dropdown'));
-    loginToggleIcon.triggerEventHandler('click', null);
-
-    expect(component.toggleLoginDropdown).toHaveBeenCalled();
-    expect(component.loginSectionButtonsToggle).toBe(true);
-  });
-
   it('should expand or compress contact dropdown when arrow button is clicked', () => {
     spyOn(component, 'toggleContactDropdown').and.callThrough();
     component.contactSectionDropdown = false;
@@ -159,20 +147,6 @@ describe('ViewProfileComponent', () => {
     generalCancelButton.triggerEventHandler('click', null);
 
     expect(component.toggleGeneralButtons).toHaveBeenCalledTimes(2);
-  });
-
-  it('should toggle form view when edit or cancel buttons is clicked for login form', () => {
-    spyOn(component, 'toggleLoginButtons').and.callThrough();
-    fixture.detectChanges();
-
-    const loginEditButton = fixture.debugElement.query(By.css('#login-edit-button'));
-    loginEditButton.triggerEventHandler('click', null);
-    fixture.detectChanges();
-
-    const loginCancelButton = fixture.debugElement.query(By.css('#login-cancel-button'));
-    loginCancelButton.triggerEventHandler('click', null);
-
-    expect(component.toggleLoginButtons).toHaveBeenCalledTimes(2);
   });
 
   it('should toggle form view when edit or cancel buttons is clicked for contact form', () => {
