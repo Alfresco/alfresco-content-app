@@ -80,7 +80,7 @@
     "ajv-cli": "^4.2.0",
     "browser-sync": "^2.27.7",
     "commander": "^6.1.0",
-    "connect-history-api-fallback": "^1.6.0",
+    "connect-history-api-fallback": "^2.0.0",
     "cspell": "^6.8.1",
     "dotenv": "8.2.0",
     "dotenv-expand": "^5.1.0",
