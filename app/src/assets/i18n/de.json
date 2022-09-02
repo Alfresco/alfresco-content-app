@@ -47,6 +47,31 @@
       "RESET": "Zurücksetzen",
       "APPLY": "Anwenden"
     },
+    "EDIT_PROFILE": {
+      "MY_PROFILE": "Mein Profil",
+      "GENERAL": "Allgemein",
+      "EDIT": "Bearbeiten",
+      "CANCEL": "Abbrechen",
+      "SAVE": "Speichern",
+      "FIRST_NAME": "Vorname",
+      "LAST_NAME": "Nachname",
+      "JOB_TITLE": "Berufsbezeichnung",
+      "LOCATION": "Speicherort",
+      "TELEPHONE": "Telefon",
+      "MOBILE": "Mobil",
+      "LOGIN": "Anmeldung",
+      "USERNAME": "Benutzername",
+      "EMAIL": "E-Mail",
+      "PASSWORD": "Passwort",
+      "OLD_PASSWORD": "Altes Passwort",
+      "FORGOT_PASSWORD": "Passwort vergessen",
+      "NEW_PASSWORD": "Neues Passwort",
+      "VERIFY_PASSWORD": "Passwort prüfen",
+      "COMPANY_DETAILS": "Angaben zum Unternehmen",
+      "NAME": "Name",
+      "ADDRESS": "Anschrift",
+      "POST_CODE": "Postleitzahl"
+    },
     "LOCKED_BY": "Gesperrte von: ",
     "PREVIEW": {
       "TITLE": "Vorschau"

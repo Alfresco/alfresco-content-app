@@ -47,6 +47,31 @@
       "RESET": "Reset",
       "APPLY": "Použít"
     },
+    "EDIT_PROFILE": {
+      "MY_PROFILE": "Můj profil",
+      "GENERAL": "Obecné",
+      "EDIT": "Upravit",
+      "CANCEL": "Zrušit",
+      "SAVE": "Uložit",
+      "FIRST_NAME": "Jméno",
+      "LAST_NAME": "Příjmení",
+      "JOB_TITLE": "Název funkce",
+      "LOCATION": "Umístění",
+      "TELEPHONE": "Telefon",
+      "MOBILE": "Mobil",
+      "LOGIN": "Přihlášení",
+      "USERNAME": "Uživatelské jméno",
+      "EMAIL": "E-mail",
+      "PASSWORD": "Heslo",
+      "OLD_PASSWORD": "Staré heslo",
+      "FORGOT_PASSWORD": "Zapomenuté heslo",
+      "NEW_PASSWORD": "Nové heslo",
+      "VERIFY_PASSWORD": "Ověření hesla",
+      "COMPANY_DETAILS": "Podrobnosti o společnosti",
+      "NAME": "Název",
+      "ADDRESS": "Adresa",
+      "POST_CODE": "PSČ"
+    },
     "LOCKED_BY": "Uzamknul(a): ",
     "PREVIEW": {
       "TITLE": "Náhled"

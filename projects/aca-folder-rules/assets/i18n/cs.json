@@ -1,0 +1,88 @@
+{
+  "ACA_FOLDER_RULES": {
+    "ACTIONS": {
+      "MANAGE_RULES": "Správa pravidel"
+    },
+    "EDIT_RULE_DIALOG": {
+      "CANCEL": "Zrušit",
+      "CREATE": "Vytvořit",
+      "CREATE_TITLE": "Vytvořit pravidlo",
+      "UPDATE": "Aktualizovat",
+      "UPDATE_TITLE": "Aktualizovat pravidlo"
+    },
+    "RULE_DETAILS": {
+      "LABEL": {
+        "NAME": "Název",
+        "DESCRIPTION": "Popis",
+        "WHEN": "Když"
+      },
+      "PLACEHOLDER": {
+        "NAME": "Zadejte název pravidla",
+        "DESCRIPTION": "Zadejte popis pravidla",
+        "NO_DESCRIPTION": "Žádný popis"
+      },
+      "ERROR": {
+        "REQUIRED": "Toto pole je povinné",
+        "RULE_COMPOSITE_CONDITION_INVALID": "Nejméně jedna skupina podmínek je prázdná",
+        "INSUFFICIENT_TRIGGERS_SELECTED": "Je požadován alespoň jeden spouštěč"
+      },
+      "TRIGGERS": {
+        "INBOUND": "Položky jsou vytvořeny nebo vstupují do této složky",
+        "UPDATE": "Položky jsou aktualizovány",
+        "OUTBOUND": "Položky jsou odstraněny nebo opouští tuto složku"
+      },
+      "COMPARATORS": {
+        "EQUALS": "(=) Rovná se",
+        "CONTAINS": "Obsahuje",
+        "STARTS_WITH": "Začíná na",
+        "ENDS_WITH": "Končí na",
+        "GREATER_THAN": "(>) Větší než",
+        "LESS_THAN": "(<) Menší než",
+        "GREATER_THAN_OR_EQUAL": "(>=) Větší než nebo rovno",
+        "LESS_THAN_OR_EQUAL": "(<=) Menší než nebo rovno",
+        "ON": "(=) Na",
+        "AFTER": "(>) Po",
+        "BEFORE": "(<) Před",
+        "ON_OR_AFTER": "(>=) Na nebo po",
+        "ON_OR_BEFORE": "(<=) Na nebo před",
+        "INSTANCE_OF": "(=) Je"
+      },
+      "FIELDS": {
+        "NAME": "Název",
+        "SIZE": "Velikost",
+        "MIMETYPE": "Typ MIME",
+        "ENCODING": "Kódování",
+        "HAS_CATEGORY": "Má kategorii",
+        "HAS_TAG": "Má značku",
+        "HAS_ASPECT": "Má aspekt"
+      },
+      "LOGIC_OPERATORS": {
+        "IF": "Pokud",
+        "NOT_IF": "NE pokud",
+        "AND": "A",
+        "OR": "Nebo"
+      },
+      "ACTIONS": {
+        "ADD_CONDITION": "Přidat podmínku",
+        "ADD_GROUP": "Přidat skupinu",
+        "REMOVE": "Odebrat"
+      },
+      "NO_CONDITIONS": "Žádné podmínky",
+      "NO_CONDITIONS_IN_GROUP": "Žádné podmínky ve skupině"
+    },
+    "MANAGE_RULES": {
+      "TOOLBAR": {
+        "BREADCRUMB": {
+          "RULES": "pravidla"
+        },
+        "ACTIONS": {
+          "NEW_RULE": "Nové pravidlo"
+        }
+      },
+      "EMPTY_RULES_LIST": {
+        "TITLE": "Tento seznam je prázdný",
+        "SUBTITLE": "Pro tuto složku ještě nejsou definována žádná pravidla."
+      }
+    }
+  }
+}

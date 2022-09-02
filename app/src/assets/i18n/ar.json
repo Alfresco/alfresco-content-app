@@ -47,6 +47,31 @@
       "RESET": "إعادة تعيين",
       "APPLY": "تطبيق"
     },
+    "EDIT_PROFILE": {
+      "MY_PROFILE": "ملف التعريف الخاص بي",
+      "GENERAL": "عام",
+      "EDIT": "تحرير",
+      "CANCEL": "إلغاء",
+      "SAVE": "حفظ",
+      "FIRST_NAME": "الاسم الأول",
+      "LAST_NAME": "اسم العائلة",
+      "JOB_TITLE": "المسمى الوظيفي",
+      "LOCATION": "مكان",
+      "TELEPHONE": "الهاتف",
+      "MOBILE": "الجوال",
+      "LOGIN": "دخول",
+      "USERNAME": "اسم المستخدم",
+      "EMAIL": "بريد إلكتروني",
+      "PASSWORD": "كلمة سر",
+      "OLD_PASSWORD": "كلمة السر القديمة",
+      "FORGOT_PASSWORD": "هل نسيت كلمة السر",
+      "NEW_PASSWORD": "كلمة سر جديدة",
+      "VERIFY_PASSWORD": "التحقق من كلمة السر",
+      "COMPANY_DETAILS": "تفاصيل الشركة",
+      "NAME": "الاسم",
+      "ADDRESS": "العنوان",
+      "POST_CODE": "الرمز البريدي"
+    },
     "LOCKED_BY": "مغلق من قبل ",
     "PREVIEW": {
       "TITLE": "معاينة"

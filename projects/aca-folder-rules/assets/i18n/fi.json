@@ -1,0 +1,88 @@
+{
+  "ACA_FOLDER_RULES": {
+    "ACTIONS": {
+      "MANAGE_RULES": "Hallitse sääntöjä"
+    },
+    "EDIT_RULE_DIALOG": {
+      "CANCEL": "Peruuta",
+      "CREATE": "Luo",
+      "CREATE_TITLE": "Luo sääntö",
+      "UPDATE": "Päivitä",
+      "UPDATE_TITLE": "Päivitä sääntö"
+    },
+    "RULE_DETAILS": {
+      "LABEL": {
+        "NAME": "Nimi",
+        "DESCRIPTION": "Kuvaus",
+        "WHEN": "Kun"
+      },
+      "PLACEHOLDER": {
+        "NAME": "Syötä säännön nimi",
+        "DESCRIPTION": "Syötä säännön kuvaus",
+        "NO_DESCRIPTION": "Ei kuvausta"
+      },
+      "ERROR": {
+        "REQUIRED": "Tämä kenttä on pakollinen",
+        "RULE_COMPOSITE_CONDITION_INVALID": "Yksi tai useampi ehtoryhmä on tyhjä",
+        "INSUFFICIENT_TRIGGERS_SELECTED": "Vähintään yksi laukaisija on pakollinen"
+      },
+      "TRIGGERS": {
+        "INBOUND": "Kohteet luodaan tai syötetään tähän kansioon",
+        "UPDATE": "Kohteet päivitetään",
+        "OUTBOUND": "Kohteet poistetaan tai ne poistuvat tästä kansiosta"
+      },
+      "COMPARATORS": {
+        "EQUALS": "(=) On yhtä suuri kuin",
+        "CONTAINS": "Sisältää",
+        "STARTS_WITH": "Alkaa merkillä",
+        "ENDS_WITH": "Loppuu merkkiin",
+        "GREATER_THAN": "(>) On suurempi kuin",
+        "LESS_THAN": "(<) On pienempi kuin",
+        "GREATER_THAN_OR_EQUAL": "(>=) Suurempi tai yhtä suuri kuin",
+        "LESS_THAN_OR_EQUAL": "(<=) Vähemmän tai yhtä paljon",
+        "ON": "(=) Tänä ajankohtana",
+        "AFTER": "(>) Jälkeen",
+        "BEFORE": "(<) Ennen",
+        "ON_OR_AFTER": "(>=) Tänä ajankohtana tai sen jälkeen",
+        "ON_OR_BEFORE": "(<=) Tänän ajankohtana tai sitä ennen",
+        "INSTANCE_OF": "(=) On"
+      },
+      "FIELDS": {
+        "NAME": "Nimi",
+        "SIZE": "Koko",
+        "MIMETYPE": "MIME-tyyppi",
+        "ENCODING": "Koodaus",
+        "HAS_CATEGORY": "Sisältää luokan",
+        "HAS_TAG": "Sisältää tunnuksen",
+        "HAS_ASPECT": "Sisältää ominaisuusjoukon"
+      },
+      "LOGIC_OPERATORS": {
+        "IF": "Jos",
+        "NOT_IF": "EI jos",
+        "AND": "Ja",
+        "OR": "Tai"
+      },
+      "ACTIONS": {
+        "ADD_CONDITION": "Lisää ehto",
+        "ADD_GROUP": "Lisää ryhmä",
+        "REMOVE": "Poista"
+      },
+      "NO_CONDITIONS": "Ei ehtoja",
+      "NO_CONDITIONS_IN_GROUP": "Ryhmässä ei ole ehtoja"
+    },
+    "MANAGE_RULES": {
+      "TOOLBAR": {
+        "BREADCRUMB": {
+          "RULES": "säännöt"
+        },
+        "ACTIONS": {
+          "NEW_RULE": "Uusi sääntö"
+        }
+      },
+      "EMPTY_RULES_LIST": {
+        "TITLE": "Luettelo on tyhjä",
+        "SUBTITLE": "Tälle kansiolle ei ole vielä määritelty sääntöjä."
+      }
+    }
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "ACA_FOLDER_RULES": {
+    "ACTIONS": {
+      "MANAGE_RULES": "Управление правилами"
+    },
+    "EDIT_RULE_DIALOG": {
+      "CANCEL": "Отмена",
+      "CREATE": "Создать",
+      "CREATE_TITLE": "Создать правило",
+      "UPDATE": "Обновить",
+      "UPDATE_TITLE": "Обновить правило"
+    },
+    "RULE_DETAILS": {
+      "LABEL": {
+        "NAME": "Имя",
+        "DESCRIPTION": "Описание",
+        "WHEN": "Когда"
+      },
+      "PLACEHOLDER": {
+        "NAME": "Введите имя правила",
+        "DESCRIPTION": "Введите описание правила",
+        "NO_DESCRIPTION": "Нет описания"
+      },
+      "ERROR": {
+        "REQUIRED": "Поле обязательно для заполнения",
+        "RULE_COMPOSITE_CONDITION_INVALID": "Одна или несколько групп условий пустые",
+        "INSUFFICIENT_TRIGGERS_SELECTED": "Требуется как минимум один триггер"
+      },
+      "TRIGGERS": {
+        "INBOUND": "Элементы создаются или попадают в эту папку",
+        "UPDATE": "Элементы обновлены",
+        "OUTBOUND": "Элементы удаляются или покидают эту папку"
+      },
+      "COMPARATORS": {
+        "EQUALS": "(=) Равно",
+        "CONTAINS": "Содержит",
+        "STARTS_WITH": "Начинается с",
+        "ENDS_WITH": "Завершается с",
+        "GREATER_THAN": "(>) Больше чем",
+        "LESS_THAN": "(<) Меньше чем",
+        "GREATER_THAN_OR_EQUAL": "(>=) Больше или равно",
+        "LESS_THAN_OR_EQUAL": "(<=) Меньше или равно",
+        "ON": "(=) В",
+        "AFTER": "(>) После",
+        "BEFORE": "(<) До",
+        "ON_OR_AFTER": "(>=) В или после",
+        "ON_OR_BEFORE": "(<=) В или ранее",
+        "INSTANCE_OF": "(=) Есть"
+      },
+      "FIELDS": {
+        "NAME": "Имя",
+        "SIZE": "Размер",
+        "MIMETYPE": "Тип MIME",
+        "ENCODING": "Кодировка",
+        "HAS_CATEGORY": "Имеет категорию",
+        "HAS_TAG": "Имеется метка",
+        "HAS_ASPECT": "Имеет аспект"
+      },
+      "LOGIC_OPERATORS": {
+        "IF": "Если",
+        "NOT_IF": "Не если",
+        "AND": "И",
+        "OR": "Или"
+      },
+      "ACTIONS": {
+        "ADD_CONDITION": "Добавить условие",
+        "ADD_GROUP": "Добавить группу",
+        "REMOVE": "Удалить"
+      },
+      "NO_CONDITIONS": "Нет условий",
+      "NO_CONDITIONS_IN_GROUP": "В группе нет условий"
+    },
+    "MANAGE_RULES": {
+      "TOOLBAR": {
+        "BREADCRUMB": {
+          "RULES": "правила"
+        },
+        "ACTIONS": {
+          "NEW_RULE": "Новое правило"
+        }
+      },
+      "EMPTY_RULES_LIST": {
+        "TITLE": "Список пуст",
+        "SUBTITLE": "Для этой папки еще не определены правила."
+      }
+    }
+  }
+}
