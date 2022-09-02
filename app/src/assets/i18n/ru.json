@@ -47,6 +47,31 @@
       "RESET": "Сброс",
       "APPLY": "Применить"
     },
+    "EDIT_PROFILE": {
+      "MY_PROFILE": "Мой профиль",
+      "GENERAL": "Общее",
+      "EDIT": "Редактировать",
+      "CANCEL": "Отмена",
+      "SAVE": "Сохранить",
+      "FIRST_NAME": "Имя",
+      "LAST_NAME": "Фамилия",
+      "JOB_TITLE": "Должность",
+      "LOCATION": "Местоположение",
+      "TELEPHONE": "Телефон",
+      "MOBILE": "Мобильный",
+      "LOGIN": "Войти",
+      "USERNAME": "Имя пользователя",
+      "EMAIL": "Электронная почта",
+      "PASSWORD": "Пароль",
+      "OLD_PASSWORD": "Старый пароль",
+      "FORGOT_PASSWORD": "Забыли пароль",
+      "NEW_PASSWORD": "Новый пароль",
+      "VERIFY_PASSWORD": "Проверка пароля",
+      "COMPANY_DETAILS": "Сведения о компании",
+      "NAME": "Имя",
+      "ADDRESS": "Адрес",
+      "POST_CODE": "Почтовый индекс"
+    },
     "LOCKED_BY": "Заблокировано: ",
     "PREVIEW": {
       "TITLE": "Предварительный просмотр"
@@ -439,7 +464,7 @@
   },
   "INFO_PANEL": {
     "TABS": {
-    
+
     },
     "DETAILS": "Подробности"
   },

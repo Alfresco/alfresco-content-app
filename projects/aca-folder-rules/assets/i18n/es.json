@@ -1,0 +1,88 @@
+{
+  "ACA_FOLDER_RULES": {
+    "ACTIONS": {
+      "MANAGE_RULES": "Gestionar reglas"
+    },
+    "EDIT_RULE_DIALOG": {
+      "CANCEL": "Cancelar",
+      "CREATE": "Crear",
+      "CREATE_TITLE": "Crear una regla",
+      "UPDATE": "Actualizar",
+      "UPDATE_TITLE": "Actualizar la regla"
+    },
+    "RULE_DETAILS": {
+      "LABEL": {
+        "NAME": "Nombre",
+        "DESCRIPTION": "Descripción",
+        "WHEN": "Cuando"
+      },
+      "PLACEHOLDER": {
+        "NAME": "Introducir un nombre para la regla",
+        "DESCRIPTION": "Introducir una descripción para la regla",
+        "NO_DESCRIPTION": "Sin descripción"
+      },
+      "ERROR": {
+        "REQUIRED": "Este campo es obligatorio",
+        "RULE_COMPOSITE_CONDITION_INVALID": "Uno o más grupos de condiciones están vacíos",
+        "INSUFFICIENT_TRIGGERS_SELECTED": "Se requiere al menos un activador"
+      },
+      "TRIGGERS": {
+        "INBOUND": "Los elementos se crean o ingresan a esta carpeta",
+        "UPDATE": "Los elementos se actualizan",
+        "OUTBOUND": "Los elementos se eliminan o abandonan esta carpeta"
+      },
+      "COMPARATORS": {
+        "EQUALS": "Igual a",
+        "CONTAINS": "Contiene",
+        "STARTS_WITH": "Comienza con",
+        "ENDS_WITH": "Termina con",
+        "GREATER_THAN": "Mayor que",
+        "LESS_THAN": "Menor que",
+        "GREATER_THAN_OR_EQUAL": "(>=) Mayor que o igual",
+        "LESS_THAN_OR_EQUAL": "(<=) Menor que o igual",
+        "ON": "(=) En",
+        "AFTER": "(>) Después",
+        "BEFORE": "(<) Antes",
+        "ON_OR_AFTER": "(>=) En o después",
+        "ON_OR_BEFORE": "(<=) En o antes",
+        "INSTANCE_OF": "(=) Es"
+      },
+      "FIELDS": {
+        "NAME": "Nombre",
+        "SIZE": "Tamaño",
+        "MIMETYPE": "Tipo MIME",
+        "ENCODING": "Codificación",
+        "HAS_CATEGORY": "Sin categoría",
+        "HAS_TAG": "Tiene etiqueta",
+        "HAS_ASPECT": "Tiene aspecto"
+      },
+      "LOGIC_OPERATORS": {
+        "IF": "Si",
+        "NOT_IF": "NO si es que",
+        "AND": "Y",
+        "OR": "O"
+      },
+      "ACTIONS": {
+        "ADD_CONDITION": "Añadir condición",
+        "ADD_GROUP": "Añadir grupo",
+        "REMOVE": "Eliminar"
+      },
+      "NO_CONDITIONS": "Sin condiciones",
+      "NO_CONDITIONS_IN_GROUP": "Sin condiciones en el grupo"
+    },
+    "MANAGE_RULES": {
+      "TOOLBAR": {
+        "BREADCRUMB": {
+          "RULES": "Reglas"
+        },
+        "ACTIONS": {
+          "NEW_RULE": "Nueva regla"
+        }
+      },
+      "EMPTY_RULES_LIST": {
+        "TITLE": "Esta lista está vacía",
+        "SUBTITLE": "Todavía no hay reglas definidas para esta carpeta."
+      }
+    }
+  }
+}

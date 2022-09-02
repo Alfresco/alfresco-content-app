@@ -1,0 +1,88 @@
+{
+  "ACA_FOLDER_RULES": {
+    "ACTIONS": {
+      "MANAGE_RULES": "إدارة القواعد"
+    },
+    "EDIT_RULE_DIALOG": {
+      "CANCEL": "إلغاء",
+      "CREATE": "إنشاء",
+      "CREATE_TITLE": "إنشاء قاعدة",
+      "UPDATE": "تحديث",
+      "UPDATE_TITLE": "تحديث قاعدة"
+    },
+    "RULE_DETAILS": {
+      "LABEL": {
+        "NAME": "الاسم",
+        "DESCRIPTION": "الوصف",
+        "WHEN": "متي"
+      },
+      "PLACEHOLDER": {
+        "NAME": "أدخل اسم للقاعدة",
+        "DESCRIPTION": "أدخل وصف للقاعدة",
+        "NO_DESCRIPTION": "لا يوجد وصف"
+      },
+      "ERROR": {
+        "REQUIRED": "هذا الحقل مطلوب",
+        "RULE_COMPOSITE_CONDITION_INVALID": "مجموعة شرطية واحدة أو أكثر فارغة",
+        "INSUFFICIENT_TRIGGERS_SELECTED": "مطلوب مشغل واحد على الأقل"
+      },
+      "TRIGGERS": {
+        "INBOUND": "يتم إنشاء العناصر أو الدخول إلى هذا المجلد",
+        "UPDATE": "تم تحديث العناصر",
+        "OUTBOUND": "تم حذف العناصر أو ترك هذا المجلد"
+      },
+      "COMPARATORS": {
+        "EQUALS": "(=) يساوي",
+        "CONTAINS": "يتضمن",
+        "STARTS_WITH": "يبدأ بـ",
+        "ENDS_WITH": "ينتهي بـ",
+        "GREATER_THAN": "(>) أكبر من",
+        "LESS_THAN": "(<) أقل من",
+        "GREATER_THAN_OR_EQUAL": "(>=) أكبر من أو يساوي",
+        "LESS_THAN_OR_EQUAL": "(<=) أقل من أو يساوي",
+        "ON": "(=) في",
+        "AFTER": "(>) بعد",
+        "BEFORE": "(<) قبل",
+        "ON_OR_AFTER": "(>=) في أو بعد",
+        "ON_OR_BEFORE": "(<=) في أو قبل",
+        "INSTANCE_OF": "(=) هو"
+      },
+      "FIELDS": {
+        "NAME": "الاسم",
+        "SIZE": "الحجم",
+        "MIMETYPE": "نوع Mime",
+        "ENCODING": "ترميز",
+        "HAS_CATEGORY": "لديه فئة",
+        "HAS_TAG": "له علامة",
+        "HAS_ASPECT": "له جانب"
+      },
+      "LOGIC_OPERATORS": {
+        "IF": "إذا",
+        "NOT_IF": "ليس إذا",
+        "AND": "و",
+        "OR": "أو"
+      },
+      "ACTIONS": {
+        "ADD_CONDITION": "أضف الشرط",
+        "ADD_GROUP": "إضافة مجموعة",
+        "REMOVE": "إزالة"
+      },
+      "NO_CONDITIONS": "لا شروط",
+      "NO_CONDITIONS_IN_GROUP": "لا توجد شروط في المجموعة"
+    },
+    "MANAGE_RULES": {
+      "TOOLBAR": {
+        "BREADCRUMB": {
+          "RULES": "قواعد"
+        },
+        "ACTIONS": {
+          "NEW_RULE": "قاعدة جديدة"
+        }
+      },
+      "EMPTY_RULES_LIST": {
+        "TITLE": "القائمة فارغة",
+        "SUBTITLE": "لا توجد قواعد محددة لهذا المجلد حتى الآن."
+      }
+    }
+  }
+}

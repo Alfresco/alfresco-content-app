@@ -47,6 +47,31 @@
       "RESET": "Opnieuw instellen",
       "APPLY": "Toepassen"
     },
+    "EDIT_PROFILE": {
+      "MY_PROFILE": "Mijn profiel",
+      "GENERAL": "Algemeen",
+      "EDIT": "Bewerken",
+      "CANCEL": "Annuleren",
+      "SAVE": "Opslaan",
+      "FIRST_NAME": "Voornaam",
+      "LAST_NAME": "Achternaam",
+      "JOB_TITLE": "Functie",
+      "LOCATION": "Locatie",
+      "TELEPHONE": "Telefoon",
+      "MOBILE": "Mobiel",
+      "LOGIN": "Aanmelden",
+      "USERNAME": "Gebruikersnaam",
+      "EMAIL": "E-mail",
+      "PASSWORD": "Wachtwoord",
+      "OLD_PASSWORD": "Oud wachtwoord",
+      "FORGOT_PASSWORD": "Wachtwoord vergeten",
+      "NEW_PASSWORD": "Nieuw wachtwoord",
+      "VERIFY_PASSWORD": "Wachtwoord bevestigen",
+      "COMPANY_DETAILS": "Bedrijfsgegevens",
+      "NAME": "Naam",
+      "ADDRESS": "Adres",
+      "POST_CODE": "Postcode"
+    },
     "LOCKED_BY": "Vergrendeld door: ",
     "PREVIEW": {
       "TITLE": "Preview"

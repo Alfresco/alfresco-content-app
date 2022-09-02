@@ -1,0 +1,88 @@
+{
+  "ACA_FOLDER_RULES": {
+    "ACTIONS": {
+      "MANAGE_RULES": "Gérer les règles"
+    },
+    "EDIT_RULE_DIALOG": {
+      "CANCEL": "Annuler",
+      "CREATE": "Créer",
+      "CREATE_TITLE": "Créer une règle",
+      "UPDATE": "Mettre à jour",
+      "UPDATE_TITLE": "Mettre à jour une règle"
+    },
+    "RULE_DETAILS": {
+      "LABEL": {
+        "NAME": "Nom",
+        "DESCRIPTION": "Description",
+        "WHEN": "Quand"
+      },
+      "PLACEHOLDER": {
+        "NAME": "Entrer le nom de la règle",
+        "DESCRIPTION": "Entrer la description de la règle",
+        "NO_DESCRIPTION": "Aucune description"
+      },
+      "ERROR": {
+        "REQUIRED": "Ce champ est obligatoire",
+        "RULE_COMPOSITE_CONDITION_INVALID": "Un ou plusieurs groupes de conditions sont vides",
+        "INSUFFICIENT_TRIGGERS_SELECTED": "Au moins un déclencheur est requis"
+      },
+      "TRIGGERS": {
+        "INBOUND": "Des éléments sont créés ou ajoutés à ce dossier",
+        "UPDATE": "Des éléments sont mis à jour",
+        "OUTBOUND": "Des éléments sont supprimés ou retirés de ce dossier"
+      },
+      "COMPARATORS": {
+        "EQUALS": "(=) Est égal à",
+        "CONTAINS": "Contient",
+        "STARTS_WITH": "Commence par",
+        "ENDS_WITH": "Finit par",
+        "GREATER_THAN": "(>) Supérieur à",
+        "LESS_THAN": "(<) Inférieur à",
+        "GREATER_THAN_OR_EQUAL": "(>=) Supérieur ou égal à",
+        "LESS_THAN_OR_EQUAL": "(<=) Inférieur ou égal à",
+        "ON": "(=) A cet instant",
+        "AFTER": "(>) Après",
+        "BEFORE": "(<) Avant",
+        "ON_OR_AFTER": "(>=) A cet instant ou après",
+        "ON_OR_BEFORE": "(<=) A cet instant ou avant",
+        "INSTANCE_OF": "(=) Est"
+      },
+      "FIELDS": {
+        "NAME": "Nom",
+        "SIZE": "Taille",
+        "MIMETYPE": "Type MIME",
+        "ENCODING": "Encodage",
+        "HAS_CATEGORY": "A une catégorie",
+        "HAS_TAG": "A un tag",
+        "HAS_ASPECT": "A un aspect"
+      },
+      "LOGIC_OPERATORS": {
+        "IF": "Si",
+        "NOT_IF": "PAS Si",
+        "AND": "Et",
+        "OR": "Ou"
+      },
+      "ACTIONS": {
+        "ADD_CONDITION": "Ajouter une condition",
+        "ADD_GROUP": "Ajouter un groupe",
+        "REMOVE": "Supprimer"
+      },
+      "NO_CONDITIONS": "Aucune condition",
+      "NO_CONDITIONS_IN_GROUP": "Aucune condition dans le groupe"
+    },
+    "MANAGE_RULES": {
+      "TOOLBAR": {
+        "BREADCRUMB": {
+          "RULES": "règles"
+        },
+        "ACTIONS": {
+          "NEW_RULE": "Nouvelle règle"
+        }
+      },
+      "EMPTY_RULES_LIST": {
+        "TITLE": "La liste est vide",
+        "SUBTITLE": "Aucune règle définie pour ce dossier pour l'instant."
+      }
+    }
+  }
+}

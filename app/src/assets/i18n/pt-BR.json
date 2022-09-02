@@ -47,6 +47,31 @@
       "RESET": "Redefinir",
       "APPLY": "Aplicar"
     },
+    "EDIT_PROFILE": {
+      "MY_PROFILE": "Meu perfil",
+      "GENERAL": "Geral",
+      "EDIT": "Editar",
+      "CANCEL": "Cancelar",
+      "SAVE": "Salvar",
+      "FIRST_NAME": "Nome",
+      "LAST_NAME": "Sobrenome",
+      "JOB_TITLE": "Cargo",
+      "LOCATION": "Localização",
+      "TELEPHONE": "Telefone",
+      "MOBILE": "Celular",
+      "LOGIN": "Login",
+      "USERNAME": "Nome de usuário",
+      "EMAIL": "E-mail",
+      "PASSWORD": "Senha",
+      "OLD_PASSWORD": "Senha antiga",
+      "FORGOT_PASSWORD": "Esqueci a senha",
+      "NEW_PASSWORD": "Nova senha",
+      "VERIFY_PASSWORD": "Verificar senha",
+      "COMPANY_DETAILS": "Detalhes da empresa",
+      "NAME": "Nome",
+      "ADDRESS": "Endereço",
+      "POST_CODE": "CEP"
+    },
     "LOCKED_BY": "Bloqueado por: ",
     "PREVIEW": {
       "TITLE": "Visualizar"

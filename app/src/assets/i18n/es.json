@@ -47,6 +47,31 @@
       "RESET": "Reiniciar",
       "APPLY": "Aplicar"
     },
+    "EDIT_PROFILE": {
+      "MY_PROFILE": "Mi Perfil",
+      "GENERAL": "General",
+      "EDIT": "Editar",
+      "CANCEL": "Cancelar",
+      "SAVE": "Guardar",
+      "FIRST_NAME": "Nombre",
+      "LAST_NAME": "Apellidos",
+      "JOB_TITLE": "Cargo",
+      "LOCATION": "Ubicación",
+      "TELEPHONE": "Teléfono",
+      "MOBILE": "Móvil",
+      "LOGIN": "Iniciar sesión",
+      "USERNAME": "Nombre de usuario",
+      "EMAIL": "Correo electrónico",
+      "PASSWORD": "Contraseña",
+      "OLD_PASSWORD": "Contraseña anterior",
+      "FORGOT_PASSWORD": "¿Olvidó la contraseña?",
+      "NEW_PASSWORD": "Nueva contraseña",
+      "VERIFY_PASSWORD": "Contraseña de verificación",
+      "COMPANY_DETAILS": "Detalles de la empresa",
+      "NAME": "Nombre",
+      "ADDRESS": "Dirección",
+      "POST_CODE": "Código postal"
+    },
     "LOCKED_BY": "Bloqueado por: ",
     "PREVIEW": {
       "TITLE": "Vista previa"
@@ -81,7 +106,7 @@
         "TITLE": "Ficheros personales",
         "SIDENAV_LINK": {
           "LABEL": "Ficheros personales",
-          "TOOLTIP": "Vea sus ficheros personales"
+          "TOOLTIP": "Ver sus ficheros personales"
         }
       },
       "LIBRARIES": {
@@ -98,7 +123,7 @@
           },
           "FAVORITE_LIBRARIES": {
             "TITLE": "No hay bibliotecas favoritas",
-            "TEXT": "Marque como favorita una biblioteca para encontrarla más rápidamente."
+            "TEXT": "Marcar como favorita una biblioteca para encontrarla más rápidamente."
           }
         },
         "MENU": {
@@ -122,7 +147,7 @@
         "TITLE": "Ficheros compartidos",
         "SIDENAV_LINK": {
           "LABEL": "Compartido",
-          "TOOLTIP": "Vea los ficheros que se hayan compartido"
+          "TOOLTIP": "Ver los ficheros que se hayan compartido"
         },
         "EMPTY_STATE": {
           "TITLE": "No hay carpetas ni ficheros compartidos",
@@ -133,7 +158,7 @@
         "TITLE": "Ficheros recientes",
         "SIDENAV_LINK": {
           "LABEL": "Ficheros recientes",
-          "TOOLTIP": "Vea los ficheros que ha editado recientemente"
+          "TOOLTIP": "Ver los ficheros que ha editado recientemente"
         },
         "EMPTY_STATE": {
           "TITLE": "No hay ficheros recientes",
@@ -144,7 +169,7 @@
         "TITLE": "Favoritos",
         "SIDENAV_LINK": {
           "LABEL": "Favoritos",
-          "TOOLTIP": "Vea sus ficheros y carpetas favoritos"
+          "TOOLTIP": "Ver sus ficheros y carpetas favoritos"
         },
         "EMPTY_STATE": {
           "TITLE": "No hay ficheros ni carpetas favoritos",
@@ -155,12 +180,12 @@
         "TITLE": "Papelera",
         "SIDENAV_LINK": {
           "LABEL": "Papelera",
-          "TOOLTIP": "Vea ficheros eliminados en la papelera"
+          "TOOLTIP": "Ver ficheros eliminados en la papelera"
         },
         "EMPTY_STATE": {
           "TITLE": "La papelera está vacía",
           "FIRST_TEXT": "Los elementos que elimine se moverán a la papelera.",
-          "SECOND_TEXT": "Vacíe la papelera para eliminar los elementos permanentemente."
+          "SECOND_TEXT": "Vaciar la papelera para eliminar los elementos permanentemente."
         }
       },
       "ABOUT": {
@@ -169,7 +194,7 @@
       "SEARCH": {
         "DEFAULT_SEARCH": "Predeterminada",
         "DUBLIN_CORE": "Dublin core",
-        "EFFECTIVITY": "Validez",
+        "EFFECTIVITY": "Efectividad",
         "TITLE": "Resultados de la búsqueda",
         "FOUND_RESULTS": "{{ number }} resultados encontrados",
         "FOUND_ONE_RESULT": "{{ number }} resultado encontrado",
@@ -371,7 +396,7 @@
         "VERSIONS": "Versiones",
         "COMMENTS": "Comentarios",
         "PERMISSIONS": "Permisos",
-        "EXPAND": "Expandir"
+        "EXPAND": "Ampliar"
       }
     }
   },
@@ -382,8 +407,8 @@
     "MOVE_ITEMS": "Mover {{ number }} elementos a...",
     "SEARCH": "Buscar",
     "NEXT": "Siguiente",
-    "SELECT_FILE_TEMPLATE_TITLE": "Seleccione una plantilla de documento",
-    "SELECT_FOLDER_TEMPLATE_TITLE": "Seleccione una plantilla de carpeta"
+    "SELECT_FILE_TEMPLATE_TITLE": "Seleccionar una plantilla de documento",
+    "SELECT_FOLDER_TEMPLATE_TITLE": "Seleccionar una plantilla de carpeta"
   },
   "NODE_FROM_TEMPLATE": {
     "CANCEL": "Cancelar",
@@ -397,8 +422,8 @@
         "DESCRIPTION": "Descripción"
       },
       "ERRORS": {
-        "DESCRIPTION_TOO_LONG": "Utilice como máximo 512 caracteres para la descripción",
-        "TITLE_TOO_LONG": "Utilice como máximo 256 caracteres para el título",
+        "DESCRIPTION_TOO_LONG": "Utilizar como máximo 512 caracteres para la descripción",
+        "TITLE_TOO_LONG": "Utilizar como máximo 256 caracteres para el título",
         "REQUIRED": "Se requiere el nombre",
         "SPECIAL_CHARACTERS": "El nombre no puede contener estos caracteres * \" < > \\ / ? : |",
         "ENDING_DOT": "El nombre no puede terminar en punto .",
@@ -469,10 +494,10 @@
       "GENERIC": "Ha surgido un problema",
       "EXISTENT_SITE": "Esta ID de biblioteca no está disponible. Pruebe con otra ID distinta.",
       "CONFLICT": "Esta ID de biblioteca ya está utilizada. Compruebe la papelera.",
-      "ID_TOO_LONG": "Utilice como máximo 72 caracteres para el nombre de la URL",
-      "DESCRIPTION_TOO_LONG": "Utilice como máximo 512 caracteres para la descripción",
-      "TITLE_TOO_LONG": "Utilice como máximo 256 caracteres para el título",
-      "ILLEGAL_CHARACTERS": "Use solo números y letras",
+      "ID_TOO_LONG": "Utilizar como máximo 72 caracteres para el nombre de la URL",
+      "DESCRIPTION_TOO_LONG": "Utilizar como máximo 512 caracteres para la descripción",
+      "TITLE_TOO_LONG": "Utilizar como máximo 256 caracteres para el título",
+      "ILLEGAL_CHARACTERS": "Utilizar solo números y letras",
       "ONLY_SPACES": "El nombre de biblioteca no puede tener solo espacios",
       "LIBRARY_UPDATE_ERROR": "Error al actualizar las propiedades de la biblioteca"
     },
@@ -536,10 +561,10 @@
       "FILTERS": {
         "NAME": {
           "TITLE": "Nombre",
-          "PLACEHOLDER": "Introduzca el nombre"
+          "PLACEHOLDER": "Introducir el nombre"
         },
         "TYPE": {
-          "TITLE": "Marque el tipo",
+          "TITLE": "Marcar el tipo",
           "FOLDER": "Carpeta",
           "DOCUMENT": "Documento"
         },
