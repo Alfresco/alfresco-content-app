@@ -14,7 +14,7 @@
   </aca-page-layout-error>
 
   <aca-page-layout-content>
-    <div class="main-content">
+    <div class="main-content" *ngIf="!(showLoader$ | async)">
       <adf-upload-drag-area [rootFolderId]="node?.id" [disabled]="!canUpload" (updateFileVersion)="onUploadNewVersion($event)">
         <adf-document-list
           #documentList
@@ -85,6 +85,13 @@
         <adf-pagination acaPagination [target]="documentList"> </adf-pagination>
       </adf-upload-drag-area>
     </div>
+
+    <mat-progress-spinner *ngIf="showLoader$ | async"
+      id="adf-document-list-loading"
+      class="adf-document-list-loading-margin"
+      [color]="'primary'"
+      [mode]="'indeterminate'">
+    </mat-progress-spinner>
 
     <div class="sidebar" *ngIf="infoDrawerOpened$ | async">
       <aca-info-drawer [node]="selection.last"></aca-info-drawer>

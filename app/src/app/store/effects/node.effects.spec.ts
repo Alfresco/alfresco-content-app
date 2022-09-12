@@ -47,14 +47,15 @@ import {
   PrintFileAction,
   SetCurrentFolderAction,
   ManageAspectsAction,
-  ManagePermissionsAction
+  ManagePermissionsAction,
+  ShowLoaderAction
 } from '@alfresco/aca-shared/store';
 import { ViewUtilService } from '@alfresco/adf-core';
 import { ViewerEffects } from './viewer.effects';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
 
-describe('NodeEffects', () => {
+fdescribe('NodeEffects', () => {
   let store: Store<any>;
   let contentService: ContentManagementService;
   let viewUtilService: ViewUtilService;
@@ -201,30 +202,37 @@ describe('NodeEffects', () => {
   describe('deleteNodes$', () => {
     it('should delete nodes from the payload', () => {
       spyOn(contentService, 'deleteNodes').and.stub();
-
+      spyOn(store, 'dispatch').and.callThrough();
       const node: any = {};
       store.dispatch(new DeleteNodesAction([node]));
 
+      expect(store.dispatch).toHaveBeenCalledWith(new DeleteNodesAction([node]));
+      expect(store.dispatch).toHaveBeenCalledWith(new ShowLoaderAction(true));
       expect(contentService.deleteNodes).toHaveBeenCalledWith([node]);
     });
 
     it('should delete nodes from the active selection', fakeAsync(() => {
       spyOn(contentService, 'deleteNodes').and.stub();
-
+      spyOn(store, 'dispatch').and.callThrough();
       const node: any = { entry: { isFile: true } };
       store.dispatch(new SetSelectedNodesAction([node]));
 
       tick(100);
 
       store.dispatch(new DeleteNodesAction(null));
+
+      expect(store.dispatch).toHaveBeenCalledWith(new DeleteNodesAction(null));
+      expect(store.dispatch).toHaveBeenCalledWith(new ShowLoaderAction(true));
       expect(contentService.deleteNodes).toHaveBeenCalledWith([node]);
     }));
 
     it('should do nothing if invoking delete with no data', () => {
       spyOn(contentService, 'deleteNodes').and.stub();
-
+      spyOn(store, 'dispatch').and.callThrough();
       store.dispatch(new DeleteNodesAction(null));
 
+      expect(store.dispatch).toHaveBeenCalledWith(new DeleteNodesAction(null));
+      expect(store.dispatch).toHaveBeenCalledWith(new ShowLoaderAction(true));
       expect(contentService.deleteNodes).not.toHaveBeenCalled();
     });
   });

@@ -49,6 +49,7 @@ export const getRepositoryStatus = createSelector(selectApp, (state) => state.re
 export const isQuickShareEnabled = createSelector(getRepositoryStatus, (info) => info.status.isQuickShareEnabled);
 export const isAdmin = createSelector(selectApp, (state) => state.user.isAdmin);
 export const getFileUploadingDialog = createSelector(selectApp, (state) => state.fileUploadingDialog);
+export const showLoaderSelector = createSelector(selectApp, (state) => state.showLoader);
 
 export const getSideNavState = createSelector(getAppSelection, getNavigationState, (selection, navigation) => ({
   selection,

@@ -42,5 +42,6 @@ export enum AppActionTypes {
   CloseModalDialogs = 'CLOSE_MODAL_DIALOGS',
   SetFileUploadingDialog = 'SET_FILE_UPLOADING_DIALOG',
   ShowInfoDrawerPreview = 'SHOW_INFO_DRAWER_PREVIEW',
-  SetInfoDrawerPreviewState = 'SET_INFO_DRAWER_PREVIEW_STATE'
+  SetInfoDrawerPreviewState = 'SET_INFO_DRAWER_PREVIEW_STATE',
+  ShowLoaderAction = 'SHOW_LOADER'
 }

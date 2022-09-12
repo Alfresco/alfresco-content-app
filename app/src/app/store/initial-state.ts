@@ -56,6 +56,7 @@ export const INITIAL_APP_STATE: AppState = {
   showFacetFilter: true,
   fileUploadingDialog: true,
   documentDisplayMode: 'list',
+  showLoader: false,
   repository: {
     status: {
       isQuickShareEnabled: true

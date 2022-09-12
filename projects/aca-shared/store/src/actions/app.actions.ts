@@ -125,3 +125,10 @@ export class SetInfoDrawerPreviewStateAction implements Action {
 
   constructor(public payload: boolean) {}
 }
+
+
+export class ShowLoaderAction implements Action {
+  readonly type = AppActionTypes.ShowLoaderAction;
+
+  constructor(public payload: boolean) {}
+}
