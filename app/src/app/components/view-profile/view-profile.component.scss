@@ -52,7 +52,7 @@ app-view-profile {
     border-bottom-right-radius: 0;
   }
 
-  .app-profile-general-div {
+  .app-profile-general-section {
     display: flex;
     width: 60%;
     padding-top: 1rem;
@@ -92,6 +92,8 @@ app-view-profile {
   .app-general-edit {
     margin: 0.7rem;
     background: var(--theme-grey-text-background-color);
+    height: 30px;
+    margin: 1rem;
   }
 
   .app-general-edit:hover {
@@ -99,12 +101,18 @@ app-view-profile {
   }
 
   .app-general-cancel-btn {
-    margin: 0.7rem;
+    height: 30px;
+    margin: 1rem;
+    margin-left: .5rem;
     background-color: var(--theme-grey-text-background-color);
+    padding-top: .25px;
   }
 
   .app-general-save-btn {
-    margin: 0.7rem;
+    width: 75px;
+    height: 30px;
+    margin: 1rem;
+    margin-left: .5rem;
     color: white;
     background-color: var(--theme-blue-button-color);
   }
@@ -176,5 +184,10 @@ app-view-profile {
     width: 70%;
     border: 1px solid var(--theme-grey-background-color);
     border-radius: 1rem;
+  }
+
+  .app-error-message {
+    padding-top: 2rem;
+    padding-left: .5rem;
   }
 }
