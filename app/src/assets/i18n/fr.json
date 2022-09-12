@@ -47,6 +47,31 @@
       "RESET": "Réinitialiser",
       "APPLY": "Appliquer"
     },
+    "EDIT_PROFILE": {
+      "MY_PROFILE": "Mon profil",
+      "GENERAL": "Général",
+      "EDIT": "Modifier",
+      "CANCEL": "Annuler",
+      "SAVE": "Enregistrer",
+      "FIRST_NAME": "Prénom",
+      "LAST_NAME": "Nom",
+      "JOB_TITLE": "Fonction",
+      "LOCATION": "Emplacement",
+      "TELEPHONE": "Téléphone",
+      "MOBILE": "Téléphone mobile",
+      "LOGIN": "Connexion",
+      "USERNAME": "Nom d'utilisateur",
+      "EMAIL": "E-mail",
+      "PASSWORD": "Mot de passe",
+      "OLD_PASSWORD": "Ancien mot de passe",
+      "FORGOT_PASSWORD": "Mot de passe oublié",
+      "NEW_PASSWORD": "Nouveau mot de passe",
+      "VERIFY_PASSWORD": "Vérifier le mot de passe",
+      "COMPANY_DETAILS": "Détails de la société",
+      "NAME": "Nom",
+      "ADDRESS": "Adresse",
+      "POST_CODE": "Code postal"
+    },
     "LOCKED_BY": "Verrouillé par: ",
     "PREVIEW": {
       "TITLE": "Aperçu"
@@ -536,7 +561,7 @@
       "FILTERS": {
         "NAME": {
           "TITLE": "Nom",
-          "PLACEHOLDER": "Saisir le nom"
+          "PLACEHOLDER": "Entrer le nom"
         },
         "TYPE": {
           "TITLE": "Cocher le type",

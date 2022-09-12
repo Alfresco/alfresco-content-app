@@ -1,0 +1,88 @@
+{
+  "ACA_FOLDER_RULES": {
+    "ACTIONS": {
+      "MANAGE_RULES": "ルールの管理"
+    },
+    "EDIT_RULE_DIALOG": {
+      "CANCEL": "キャンセル",
+      "CREATE": "作成",
+      "CREATE_TITLE": "ルールの作成",
+      "UPDATE": "更新",
+      "UPDATE_TITLE": "ファイルの更新"
+    },
+    "RULE_DETAILS": {
+      "LABEL": {
+        "NAME": "名前",
+        "DESCRIPTION": "説明",
+        "WHEN": "日時"
+      },
+      "PLACEHOLDER": {
+        "NAME": "ルールの名前を入力します",
+        "DESCRIPTION": "ルールの説明を入力します",
+        "NO_DESCRIPTION": "説明なし"
+      },
+      "ERROR": {
+        "REQUIRED": "このフィールドは必要です",
+        "RULE_COMPOSITE_CONDITION_INVALID": "1つ以上の条件グループが空です",
+        "INSUFFICIENT_TRIGGERS_SELECTED": "少なくとも1つのトリガーが必要です"
+      },
+      "TRIGGERS": {
+        "INBOUND": "アイタムがこのフォルダに作成または入力される",
+        "UPDATE": "アイタムが更新される",
+        "OUTBOUND": "アイタムがこのフォルダから削除または送り出される"
+      },
+      "COMPARATORS": {
+        "EQUALS": "(=) 等しい",
+        "CONTAINS": "含む",
+        "STARTS_WITH": "で始まる",
+        "ENDS_WITH": "で終わる",
+        "GREATER_THAN": "(>) より大きい",
+        "LESS_THAN": "(<) より小さい",
+        "GREATER_THAN_OR_EQUAL": "(>=) より大きいか等しい",
+        "LESS_THAN_OR_EQUAL": "(<=) より小さいか等しい",
+        "ON": "(=) その日",
+        "AFTER": "(>) その日の後",
+        "BEFORE": "(<) その日の前",
+        "ON_OR_AFTER": "(>=) その日か後",
+        "ON_OR_BEFORE": "(<=) その日か前",
+        "INSTANCE_OF": "(=) 等しい"
+      },
+      "FIELDS": {
+        "NAME": "名前",
+        "SIZE": "サイズ",
+        "MIMETYPE": "MIME タイプ",
+        "ENCODING": "エンコーディング",
+        "HAS_CATEGORY": "カテゴリがない",
+        "HAS_TAG": "タグがある",
+        "HAS_ASPECT": "アスペクトがある"
+      },
+      "LOGIC_OPERATORS": {
+        "IF": "次の場合",
+        "NOT_IF": "次でない場合",
+        "AND": "および",
+        "OR": "または"
+      },
+      "ACTIONS": {
+        "ADD_CONDITION": "条件の追加",
+        "ADD_GROUP": "グループの追加",
+        "REMOVE": "削除"
+      },
+      "NO_CONDITIONS": "条件なし",
+      "NO_CONDITIONS_IN_GROUP": "グループに条件なし"
+    },
+    "MANAGE_RULES": {
+      "TOOLBAR": {
+        "BREADCRUMB": {
+          "RULES": "ルール"
+        },
+        "ACTIONS": {
+          "NEW_RULE": "新しいルール"
+        }
+      },
+      "EMPTY_RULES_LIST": {
+        "TITLE": "このリストは空です",
+        "SUBTITLE": "このフォルダーにはまだルールが定義されていません。"
+      }
+    }
+  }
+}

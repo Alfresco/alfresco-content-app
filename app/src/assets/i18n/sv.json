@@ -47,6 +47,31 @@
       "RESET": "Återställ",
       "APPLY": "Tillämpa"
     },
+    "EDIT_PROFILE": {
+      "MY_PROFILE": "Min profil",
+      "GENERAL": "Allmänt",
+      "EDIT": "Redigera",
+      "CANCEL": "Avbryt",
+      "SAVE": "Spara",
+      "FIRST_NAME": "Förnamn",
+      "LAST_NAME": "Efternamn",
+      "JOB_TITLE": "Jobbtitel",
+      "LOCATION": "Plats",
+      "TELEPHONE": "Telefon",
+      "MOBILE": "Mobil",
+      "LOGIN": "Inloggning",
+      "USERNAME": "Användarnamn",
+      "EMAIL": "E-post",
+      "PASSWORD": "Lösenord",
+      "OLD_PASSWORD": "Gammalt lösenord",
+      "FORGOT_PASSWORD": "Glömt ditt lösenord?",
+      "NEW_PASSWORD": "Nytt lösenord",
+      "VERIFY_PASSWORD": "Verifiera lösenord",
+      "COMPANY_DETAILS": "Företagsuppgifter",
+      "NAME": "Namn",
+      "ADDRESS": "Adress",
+      "POST_CODE": "Postnummer"
+    },
     "LOCKED_BY": "Låst av: ",
     "PREVIEW": {
       "TITLE": "Förhandsgranskning"

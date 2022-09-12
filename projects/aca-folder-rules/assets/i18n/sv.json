@@ -1,0 +1,88 @@
+{
+  "ACA_FOLDER_RULES": {
+    "ACTIONS": {
+      "MANAGE_RULES": "Hantera regler"
+    },
+    "EDIT_RULE_DIALOG": {
+      "CANCEL": "Avbryt",
+      "CREATE": "Skapa",
+      "CREATE_TITLE": "Skapa en regel",
+      "UPDATE": "Uppdatera",
+      "UPDATE_TITLE": "Uppdatera en regel"
+    },
+    "RULE_DETAILS": {
+      "LABEL": {
+        "NAME": "Namn",
+        "DESCRIPTION": "Beskrivning",
+        "WHEN": "När"
+      },
+      "PLACEHOLDER": {
+        "NAME": "Ange regelnamn",
+        "DESCRIPTION": "Ange regelbeskrivning",
+        "NO_DESCRIPTION": "Ingen beskrivning"
+      },
+      "ERROR": {
+        "REQUIRED": "Det här fältet krävs",
+        "RULE_COMPOSITE_CONDITION_INVALID": "En eller flera villkorsgrupper är tomma",
+        "INSUFFICIENT_TRIGGERS_SELECTED": "Minst en utlösare krävs"
+      },
+      "TRIGGERS": {
+        "INBOUND": "Objekt skapas eller gå in i den här mappen",
+        "UPDATE": "Objekt uppdateras",
+        "OUTBOUND": "Objekt tas bort eller lämna den här mappen"
+      },
+      "COMPARATORS": {
+        "EQUALS": "(=) Är lika med",
+        "CONTAINS": "Innehåller",
+        "STARTS_WITH": "Börjar med",
+        "ENDS_WITH": "Slutar med",
+        "GREATER_THAN": "(>) Större än",
+        "LESS_THAN": "(<) Mindre än",
+        "GREATER_THAN_OR_EQUAL": "(>=) Större än eller lika med",
+        "LESS_THAN_OR_EQUAL": "(<=) Mindre än eller lika",
+        "ON": "(=) På",
+        "AFTER": "(>) Efter",
+        "BEFORE": "(<) Innan",
+        "ON_OR_AFTER": "(>=) På eller efter",
+        "ON_OR_BEFORE": "(<=) På eller innan",
+        "INSTANCE_OF": "(=) Är"
+      },
+      "FIELDS": {
+        "NAME": "Namn",
+        "SIZE": "Storlek",
+        "MIMETYPE": "Mime-typ",
+        "ENCODING": "Kodning",
+        "HAS_CATEGORY": "Har en kategori",
+        "HAS_TAG": "Har en tagg",
+        "HAS_ASPECT": "Har en aspekt"
+      },
+      "LOGIC_OPERATORS": {
+        "IF": "Om",
+        "NOT_IF": "INTE om",
+        "AND": "Och",
+        "OR": "Eller"
+      },
+      "ACTIONS": {
+        "ADD_CONDITION": "Lägg till villkor",
+        "ADD_GROUP": "Lägg till grupp",
+        "REMOVE": "Ta bort"
+      },
+      "NO_CONDITIONS": "Inga villkor",
+      "NO_CONDITIONS_IN_GROUP": "Inga villkor i gruppen"
+    },
+    "MANAGE_RULES": {
+      "TOOLBAR": {
+        "BREADCRUMB": {
+          "RULES": "regler"
+        },
+        "ACTIONS": {
+          "NEW_RULE": "Ny regel"
+        }
+      },
+      "EMPTY_RULES_LIST": {
+        "TITLE": "Listan är tom",
+        "SUBTITLE": "Det finns inga regler definierade för den här mappen ännu."
+      }
+    }
+  }
+}

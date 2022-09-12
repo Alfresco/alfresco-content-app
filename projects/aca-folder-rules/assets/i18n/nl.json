@@ -1,0 +1,88 @@
+{
+  "ACA_FOLDER_RULES": {
+    "ACTIONS": {
+      "MANAGE_RULES": "Regels beheren"
+    },
+    "EDIT_RULE_DIALOG": {
+      "CANCEL": "Annuleren",
+      "CREATE": "Maken",
+      "CREATE_TITLE": "Een regel maken",
+      "UPDATE": "Bijwerken",
+      "UPDATE_TITLE": "Een regel bijwerken"
+    },
+    "RULE_DETAILS": {
+      "LABEL": {
+        "NAME": "Naam",
+        "DESCRIPTION": "Beschrijving",
+        "WHEN": "Wanneer"
+      },
+      "PLACEHOLDER": {
+        "NAME": "Regelnaam invoeren",
+        "DESCRIPTION": "Regelbeschrijving invoeren",
+        "NO_DESCRIPTION": "Geen beschrijving"
+      },
+      "ERROR": {
+        "REQUIRED": "Dit veld is vereist",
+        "RULE_COMPOSITE_CONDITION_INVALID": "Eén of meer voorwaardegroepen zijn leeg",
+        "INSUFFICIENT_TRIGGERS_SELECTED": "Er is minstens één trigger vereist"
+      },
+      "TRIGGERS": {
+        "INBOUND": "Items worden gemaakt of gaan naar deze map",
+        "UPDATE": "Items worden bijgewerkt",
+        "OUTBOUND": "Items worden verwijderd of verlaten deze map"
+      },
+      "COMPARATORS": {
+        "EQUALS": "(=) Gelijk aan",
+        "CONTAINS": "Bevat",
+        "STARTS_WITH": "Begint met",
+        "ENDS_WITH": "Eindigt met",
+        "GREATER_THAN": "(>) Groter dan",
+        "LESS_THAN": "(<) Kleiner dan",
+        "GREATER_THAN_OR_EQUAL": "(>=) Groter dan of gelijk aan",
+        "LESS_THAN_OR_EQUAL": "(<=) Kleiner dan of gelijk aan",
+        "ON": "(=) Op",
+        "AFTER": "(>) Na",
+        "BEFORE": "(<) Voor",
+        "ON_OR_AFTER": "(>=) Op of na",
+        "ON_OR_BEFORE": "(<=) Op of voor",
+        "INSTANCE_OF": "(=) Is"
+      },
+      "FIELDS": {
+        "NAME": "Naam",
+        "SIZE": "Grootte",
+        "MIMETYPE": "Mimetype",
+        "ENCODING": "Codering",
+        "HAS_CATEGORY": "Heeft categorie",
+        "HAS_TAG": "Heeft tag",
+        "HAS_ASPECT": "Heeft aspect"
+      },
+      "LOGIC_OPERATORS": {
+        "IF": "Als",
+        "NOT_IF": "NIET Als",
+        "AND": "En",
+        "OR": "Of"
+      },
+      "ACTIONS": {
+        "ADD_CONDITION": "Voorwaarde toevoegen",
+        "ADD_GROUP": "Groep toevoegen",
+        "REMOVE": "Verwijderen"
+      },
+      "NO_CONDITIONS": "Geen voorwaarden",
+      "NO_CONDITIONS_IN_GROUP": "Geen voorwaarden in de groep"
+    },
+    "MANAGE_RULES": {
+      "TOOLBAR": {
+        "BREADCRUMB": {
+          "RULES": "regels"
+        },
+        "ACTIONS": {
+          "NEW_RULE": "Nieuwe regel"
+        }
+      },
+      "EMPTY_RULES_LIST": {
+        "TITLE": "De lijst is leeg",
+        "SUBTITLE": "Er zijn nog geen regels gedefinieerd voor deze map."
+      }
+    }
+  }
+}

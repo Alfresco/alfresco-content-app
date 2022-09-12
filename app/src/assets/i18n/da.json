@@ -47,6 +47,31 @@
       "RESET": "Nulstil",
       "APPLY": "Anvend"
     },
+    "EDIT_PROFILE": {
+      "MY_PROFILE": "Min profil",
+      "GENERAL": "Generelt",
+      "EDIT": "Rediger",
+      "CANCEL": "Annuller",
+      "SAVE": "Gem",
+      "FIRST_NAME": "Fornavn",
+      "LAST_NAME": "Efternavn",
+      "JOB_TITLE": "Jobtitel",
+      "LOCATION": "Placering",
+      "TELEPHONE": "Telefon",
+      "MOBILE": "Mobil",
+      "LOGIN": "Log ind",
+      "USERNAME": "Brugernavn",
+      "EMAIL": "E-mail",
+      "PASSWORD": "Adgangskode",
+      "OLD_PASSWORD": "Gammel adgangskode",
+      "FORGOT_PASSWORD": "Glemt adgangskode",
+      "NEW_PASSWORD": "Ny adgangskode",
+      "VERIFY_PASSWORD": "Bekræft adgangskode",
+      "COMPANY_DETAILS": "Virksomhedsoplysninger",
+      "NAME": "Navn",
+      "ADDRESS": "Adresse",
+      "POST_CODE": "Postnummer"
+    },
     "LOCKED_BY": "Låst af: ",
     "PREVIEW": {
       "TITLE": "Forhåndsvis"

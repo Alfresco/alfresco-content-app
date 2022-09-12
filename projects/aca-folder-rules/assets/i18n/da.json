@@ -1,0 +1,88 @@
+{
+  "ACA_FOLDER_RULES": {
+    "ACTIONS": {
+      "MANAGE_RULES": "Administrér regler"
+    },
+    "EDIT_RULE_DIALOG": {
+      "CANCEL": "Annuller",
+      "CREATE": "Opret",
+      "CREATE_TITLE": "Opret en regel",
+      "UPDATE": "Opdater",
+      "UPDATE_TITLE": "Ppdatér en regel"
+    },
+    "RULE_DETAILS": {
+      "LABEL": {
+        "NAME": "Navn",
+        "DESCRIPTION": "Beskrivelse",
+        "WHEN": "Når"
+      },
+      "PLACEHOLDER": {
+        "NAME": "Indtast regelnavn",
+        "DESCRIPTION": "Indtast regelbeskrivelse",
+        "NO_DESCRIPTION": "Ingen beskrivelse"
+      },
+      "ERROR": {
+        "REQUIRED": "Dette felt er påkrævet",
+        "RULE_COMPOSITE_CONDITION_INVALID": "En eller flere betingelsesgrupper tomme",
+        "INSUFFICIENT_TRIGGERS_SELECTED": "Der kræves mindst en udløser"
+      },
+      "TRIGGERS": {
+        "INBOUND": "Der er oprettet elementer, eller indtast denne mappe",
+        "UPDATE": "Elementer er opdateret",
+        "OUTBOUND": "Elementer slettes, eller forlad denne mappe"
+      },
+      "COMPARATORS": {
+        "EQUALS": "(=) lig med",
+        "CONTAINS": "Indeholder",
+        "STARTS_WITH": "Starter med",
+        "ENDS_WITH": "Slutter med",
+        "GREATER_THAN": "(>) større end",
+        "LESS_THAN": "(<) mindre end",
+        "GREATER_THAN_OR_EQUAL": "(>=) større end eller lig med",
+        "LESS_THAN_OR_EQUAL": "(<=) mindre end eller lig med",
+        "ON": "(=) ved",
+        "AFTER": "(>) efter",
+        "BEFORE": "(<) før",
+        "ON_OR_AFTER": "(>=) ved eller efter",
+        "ON_OR_BEFORE": "(<=) ved eller før",
+        "INSTANCE_OF": "(=) er"
+      },
+      "FIELDS": {
+        "NAME": "Navn",
+        "SIZE": "Størrelse",
+        "MIMETYPE": "Mimetype",
+        "ENCODING": "Kodning",
+        "HAS_CATEGORY": "Har kategori",
+        "HAS_TAG": "Har tag",
+        "HAS_ASPECT": "Har aspekt"
+      },
+      "LOGIC_OPERATORS": {
+        "IF": "Hvis",
+        "NOT_IF": "IKKE hvis",
+        "AND": "Og",
+        "OR": "Eller"
+      },
+      "ACTIONS": {
+        "ADD_CONDITION": "Tilføj betingelse",
+        "ADD_GROUP": "Tilføj gruppe",
+        "REMOVE": "Fjern"
+      },
+      "NO_CONDITIONS": "Ingen betingelser",
+      "NO_CONDITIONS_IN_GROUP": "Ingen betingelser i denne gruppe"
+    },
+    "MANAGE_RULES": {
+      "TOOLBAR": {
+        "BREADCRUMB": {
+          "RULES": "regler"
+        },
+        "ACTIONS": {
+          "NEW_RULE": "Ny regel"
+        }
+      },
+      "EMPTY_RULES_LIST": {
+        "TITLE": "Listen er tom",
+        "SUBTITLE": "Der er ingen definerede regler for denne mappe endnu."
+      }
+    }
+  }
+}
