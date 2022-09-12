@@ -55,7 +55,7 @@ import { ViewerEffects } from './viewer.effects';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
 
-fdescribe('NodeEffects', () => {
+describe('NodeEffects', () => {
   let store: Store<any>;
   let contentService: ContentManagementService;
   let viewUtilService: ViewUtilService;
