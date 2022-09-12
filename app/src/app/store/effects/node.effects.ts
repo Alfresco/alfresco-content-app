@@ -49,7 +49,8 @@ import {
   ManageAspectsAction,
   NavigateRouteAction,
   ExpandInfoDrawerAction,
-  ManageRulesAction
+  ManageRulesAction,
+  ShowLoaderAction
 } from '@alfresco/aca-shared/store';
 import { ContentManagementService } from '../../services/content-management.service';
 import { ViewUtilService } from '@alfresco/adf-core';
@@ -156,6 +157,7 @@ export class NodeEffects {
       this.actions$.pipe(
         ofType<DeleteNodesAction>(NodeActionTypes.Delete),
         map((action) => {
+          this.store.dispatch(new ShowLoaderAction(true));
           if (action && action.payload && action.payload.length > 0) {
             this.contentService.deleteNodes(action.payload);
           } else {

@@ -32,11 +32,12 @@ import { ContentManagementService } from '../../services/content-management.serv
 import { NodeActionsService } from '../../services/node-actions.service';
 import { PageComponent } from '../page.component';
 import { AppExtensionService, ContentApiService } from '@alfresco/aca-shared';
-import { SetCurrentFolderAction, isAdmin, AppStore, UploadFileVersionAction } from '@alfresco/aca-shared/store';
+import { SetCurrentFolderAction, isAdmin, AppStore, UploadFileVersionAction, showLoaderSelector } from '@alfresco/aca-shared/store';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { FilterSearch, ShareDataRow } from '@alfresco/adf-content-services';
 import { DocumentListPresetRef } from '@alfresco/adf-extensions';
+import { Observable } from 'rxjs';
 
 @Component({
   templateUrl: './files.component.html'
@@ -48,6 +49,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   selectedNode: MinimalNodeEntity;
   queryParams = null;
 
+  showLoader$: Observable<boolean>;
   private nodePath: PathElement[];
 
   columns: DocumentListPresetRef[] = [];
@@ -74,6 +76,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
     this.title = data.title;
 
+    this.showLoader$ = this.store.select(showLoaderSelector);
     route.queryParamMap.subscribe((queryMap: Params) => {
       this.queryParams = queryMap.params;
     });

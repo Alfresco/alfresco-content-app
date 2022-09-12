@@ -39,7 +39,8 @@ import {
   SetCurrentNodeVersionAction,
   SetFileUploadingDialogAction,
   SetInfoDrawerPreviewStateAction,
-  AppActionTypes
+  AppActionTypes,
+  ShowLoaderAction
 } from '@alfresco/aca-shared/store';
 import { INITIAL_APP_STATE } from '../initial-state';
 
@@ -94,6 +95,9 @@ export function appReducer(state: AppState = INITIAL_APP_STATE, action: Action):
       break;
     case AppActionTypes.SetInfoDrawerPreviewState:
       newState = setInfoDrawerPreview(state, action as SetInfoDrawerPreviewStateAction);
+      break;
+    case AppActionTypes.ShowLoaderAction:
+      newState = showLoader(state, action as ShowLoaderAction);
       break;
     default:
       newState = { ...state };
@@ -255,5 +259,11 @@ function updateRepositoryStatus(state: AppState, action: SetRepositoryInfoAction
 function setUploadDialogVisibility(state: AppState, action: SetFileUploadingDialogAction): AppState {
   const newState = { ...state };
   newState.fileUploadingDialog = action.payload;
+  return newState;
+}
+
+function showLoader(state: AppState, action: ShowLoaderAction): AppState {
+  const newState = { ...state };
+  newState.showLoader = action.payload;
   return newState;
 }

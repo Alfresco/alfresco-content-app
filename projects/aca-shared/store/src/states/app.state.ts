@@ -46,6 +46,7 @@ export interface AppState {
   documentDisplayMode: string;
   repository: RepositoryInfo;
   fileUploadingDialog: boolean;
+  showLoader: boolean;
 }
 
 export interface AppStore {

@@ -35,6 +35,7 @@ import {
   NodeInfo,
   ReloadDocumentListAction,
   SetSelectedNodesAction,
+  ShowLoaderAction,
   SnackbarAction,
   SnackbarErrorAction,
   SnackbarInfoAction,
@@ -678,6 +679,7 @@ export class ContentManagementService {
         this.appHookService.nodesDeleted.next();
         this.store.dispatch(new ReloadDocumentListAction());
       }
+      this.store.dispatch(new ShowLoaderAction(false));
     });
   }
 
