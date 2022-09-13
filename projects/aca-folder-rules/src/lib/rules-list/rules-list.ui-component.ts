@@ -38,6 +38,9 @@ export class RulesListUiComponent {
   @Input()
   selectedRule: Rule;
 
+  @Input()
+  nodeId: string
+
   @Output()
   ruleSelected = new EventEmitter<Rule>();
 
