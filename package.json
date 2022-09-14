@@ -78,7 +78,7 @@
     "@typescript-eslint/eslint-plugin": "^5.29.0",
     "@typescript-eslint/parser": "^5.29.0",
     "ajv-cli": "^4.2.0",
-    "browser-sync": "^2.27.7",
+    "browser-sync": "^2.27.10",
     "commander": "^6.1.0",
     "connect-history-api-fallback": "^2.0.0",
     "cspell": "^6.8.1",
