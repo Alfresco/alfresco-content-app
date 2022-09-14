@@ -39,15 +39,14 @@ export class RuleListItemUiComponent {
 
   constructor(private folderRulesService: FolderRulesService) {}
 
-  onToggleClick(){
-    this.folderRulesService.toggleRule(this.nodeId, this.rule.id, this.parseRule(this.rule))
+  onToggleClick() {
+    this.folderRulesService.toggleRule(this.nodeId, this.rule.id, this.parseRule(this.rule));
   }
 
   private parseRule(rule): Rule {
-    let parsedRule = {...rule , enabled: !this.rule.enabled }
+    const parsedRule = { ...rule, enabled: !this.rule.enabled };
     delete parsedRule.actions[0].params.actionContext;
     parsedRule.conditions.booleanMode = parsedRule.conditions.booleanMode.toUpperCase();
-    return parsedRule
+    return parsedRule;
   }
 }
-

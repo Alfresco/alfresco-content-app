@@ -132,18 +132,18 @@ export class FolderRulesService {
     );
   }
 
-  toggleRule(nodeId: string, ruleId: string, rule: Rule, ruleSetId: string = '-default-'): void{
+  toggleRule(nodeId: string, ruleId: string, rule: Rule, ruleSetId: string = '-default-'): void {
     from(
       this.apiCall(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules/${ruleId}`, 'PUT', [
         {},
         {},
         {},
         {},
-        {...rule},
+        { ...rule },
         ['application/json'],
         ['application/json']
-    ])
-   ).subscribe({error: (error) => console.error(error)})
+      ])
+    ).subscribe({ error: (error) => console.error(error) });
   }
 
   private apiCall(path: string, httpMethod: string, params?: any[]): Promise<any> {
