@@ -42,4 +42,12 @@
 
   <aca-rule-composite-condition formControlName="conditions"></aca-rule-composite-condition>
   <mat-error class="rule-details-error">{{ getErrorMessage(conditions) | translate }}</mat-error>
+
+  <hr>
+
+  <div class="aca-rule-details__form__row">
+    <aca-rule-options formControlName="options"></aca-rule-options>
+    <mat-error class="rule-details-error">{{ getErrorMessage(conditions) | translate }}</mat-error>
+  </div>
+
 </form>

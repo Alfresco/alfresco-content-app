@@ -31,6 +31,11 @@
         "UPDATE": "Items are updated",
         "OUTBOUND": "Items are deleted or leave this folder"
       },
+      "OPTIONS": {
+        "CASCADE":  "Rule applies to subfolders",
+        "ASYNCHRONOUS": "Run rule in the background",
+        "ENABLED": "Disable rule"
+      },
       "COMPARATORS": {
         "EQUALS": "(=) Equals",
         "CONTAINS": "Contains",

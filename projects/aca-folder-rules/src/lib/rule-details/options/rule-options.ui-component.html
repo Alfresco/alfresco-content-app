@@ -1,0 +1,32 @@
+<div class="options-list">
+  <div *ngFor="let option of ruleOption">
+  <!--  <ng-container *ngIf="readOnly; else checkbox">-->
+  <!--    <div-->
+  <!--      *ngIf="isTriggerSelected(trigger)"-->
+  <!--      [attr.data-automation-id]="'rule-trigger-value-' + trigger | lowercase">-->
+  <!--      {{ 'ACA_FOLDER_RULES.RULE_DETAILS.TRIGGERS.' + trigger | uppercase | translate }}-->
+  <!--    </div>-->
+  <!--  </ng-container>-->
+
+    <ng-container #checkbox>
+      <mat-checkbox
+        [attr.data-automation-id]="'rule-trigger-value-' + option"
+        [checked]="false"
+        [disabled]="readOnly">
+  <!--      (change)="onTriggerChange(trigger, $event.checked)"-->
+        {{ 'ACA_FOLDER_RULES.RULE_DETAILS.OPTIONS.' + option | uppercase | translate }}
+      </mat-checkbox>
+    </ng-container>
+  </div>
+</div>
+
+<mat-form-field>
+  <mat-select
+    value="value"
+    [disabled]="readOnly"
+    placeholder="Select action">
+<!--    (selectionChange)="setInverted($event.value)"-->
+    <mat-option [value]="false">Start Pooled Review and Approve Workflow</mat-option>
+<!--    <mat-option [value]="true">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LOGIC_OPERATORS.NOT_IF' | translate }}</mat-option>-->
+  </mat-select>
+</mat-form-field>

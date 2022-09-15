@@ -64,7 +64,7 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
       name: newValue.name || FolderRulesService.emptyRule.name,
       description: newValue.description || FolderRulesService.emptyRule.description,
       triggers: newValue.triggers || FolderRulesService.emptyRule.triggers,
-      conditions: newValue.conditions || FolderRulesService.emptyRule.conditions
+      conditions: newValue.conditions || FolderRulesService.emptyRule.conditions,
     };
     if (this.form) {
       this.form.setValue(newValue);
