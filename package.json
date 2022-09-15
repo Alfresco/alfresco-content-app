@@ -119,7 +119,7 @@
     "tsconfig-paths": "4.1.0",
     "typescript": "4.6.3",
     "webdriver-manager": "12.1.8",
-    "winston": "^3.8.1"
+    "winston": "^3.8.2"
   },
   "lint-staged": {
     "*.{ts,js,css,scss,html}": [
