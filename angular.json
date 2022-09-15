@@ -54,11 +54,6 @@
               },
               {
                 "glob": "**/*",
-                "input": "node_modules/@alfresco/adf-core/prebuilt-themes",
-                "output": "/assets/prebuilt-themes"
-              },
-              {
-                "glob": "**/*",
                 "input": "node_modules/@alfresco/adf-core/bundles/assets",
                 "output": "/assets"
               },
