@@ -66,8 +66,8 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
       triggers: newValue.triggers || FolderRulesService.emptyRule.triggers,
       conditions: newValue.conditions || FolderRulesService.emptyRule.conditions,
       asynchronous: newValue.asynchronous || FolderRulesService.emptyRule.asynchronous,
-      // cascade: newValue.options.cascade || FolderRulesService.emptyRule.cascade,
-      // enabled: newValue.options.enabled || FolderRulesService.emptyRule.enabled
+      cascade: newValue.cascade || FolderRulesService.emptyRule.cascade,
+      enabled: newValue.enabled || FolderRulesService.emptyRule.enabled
     };
     if (this.form) {
       this.form.setValue(newValue);
@@ -116,8 +116,10 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
         },
         ruleCompositeConditionValidator()
       ),
-      options: new UntypedFormControl(this.value.asynchronous),
-      asynchronous: new UntypedFormControl(false)
+      asynchronous: new UntypedFormControl(this.value.asynchronous),
+      cascade: new UntypedFormControl(this.value.cascade),
+      enabled: new UntypedFormControl(this.value.enabled)
+
     });
     this.readOnly = this._readOnly;
 

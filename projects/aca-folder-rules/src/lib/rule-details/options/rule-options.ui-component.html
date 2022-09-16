@@ -34,15 +34,17 @@
       </div>
       <div class="options-list__rest">
         <mat-checkbox
+          formControlName="cascade"
           [attr.data-automation-id]="'rule-trigger-value-cascade'"
-          [checked]="false"
+          [checked]="true"
           [disabled]="readOnly">
           <!--      (change)="onTriggerChange(trigger, $event.checked)"-->
           {{ 'ACA_FOLDER_RULES.RULE_DETAILS.OPTIONS.CASCADE' | translate }}
         </mat-checkbox>
         <mat-checkbox
+          formControlName="enabled"
           [attr.data-automation-id]="'rule-trigger-value-enabled'"
-          [checked]="false"
+          [checked]="true"
           [disabled]="readOnly">
           <!--      (change)="onTriggerChange(trigger, $event.checked)"-->
           {{ 'ACA_FOLDER_RULES.RULE_DETAILS.OPTIONS.ENABLED' | translate }}
