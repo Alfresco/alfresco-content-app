@@ -65,6 +65,9 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
       description: newValue.description || FolderRulesService.emptyRule.description,
       triggers: newValue.triggers || FolderRulesService.emptyRule.triggers,
       conditions: newValue.conditions || FolderRulesService.emptyRule.conditions,
+      asynchronous: newValue.asynchronous || FolderRulesService.emptyRule.asynchronous,
+      // cascade: newValue.options.cascade || FolderRulesService.emptyRule.cascade,
+      // enabled: newValue.options.enabled || FolderRulesService.emptyRule.enabled
     };
     if (this.form) {
       this.form.setValue(newValue);
@@ -95,6 +98,9 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
   get conditions(): UntypedFormControl {
     return this.form.get('conditions') as UntypedFormControl;
   }
+  get options(): UntypedFormControl {
+    return this.form.get('options') as UntypedFormControl;
+  }
 
   ngOnInit() {
     this.form = new UntypedFormGroup({
@@ -109,7 +115,9 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
           simpleConditions: []
         },
         ruleCompositeConditionValidator()
-      )
+      ),
+      options: new UntypedFormControl(this.value.asynchronous),
+      asynchronous: new UntypedFormControl(false)
     });
     this.readOnly = this._readOnly;
 

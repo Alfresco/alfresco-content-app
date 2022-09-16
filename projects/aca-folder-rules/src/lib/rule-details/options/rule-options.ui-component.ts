@@ -23,15 +23,29 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component } from '@angular/core'
+import { Component, forwardRef, Input, ViewEncapsulation } from '@angular/core'
+import { FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Rule } from '../../model/rule.model';
 
 @Component({
   selector: 'aca-rule-options',
   templateUrl: 'rule-options.ui-component.html',
-  styleUrls: ['rule-options.ui-component.scss']
+  styleUrls: ['rule-options.ui-component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  host: { class: 'aca-rule-triggers' },
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      multi: true,
+      useExisting: forwardRef(() => RuleOptionsUiComponent)
+    }
+  ]
 })
 export class RuleOptionsUiComponent {
   readonly ruleOption = ['cascade', 'asynchronous', 'enabled'];
+  @Input() form: FormGroup;
+
+  value: Partial<Rule> = {}
 
 readOnly = false
 }

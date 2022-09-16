@@ -1,5 +1,20 @@
-.options-list{
+.options-list {
   display: flex;
-  padding: 10px 5px;
-  gap: 50px;
+  column-gap: 25px;
+  padding: 0.75em 0;
+
+  &__rest {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 25px;
+  }
+}
+
+.select-action {
+  margin-left: 5px;
+  margin-top: 12px;
+
+  span {
+    display: block;
+  }
 }

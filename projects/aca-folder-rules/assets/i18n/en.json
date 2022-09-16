@@ -14,7 +14,8 @@
       "LABEL": {
         "NAME": "Name",
         "DESCRIPTION": "Description",
-        "WHEN": "When"
+        "WHEN": "When",
+        "OPTIONS": "Other options"
       },
       "PLACEHOLDER": {
         "NAME": "Enter rule name",

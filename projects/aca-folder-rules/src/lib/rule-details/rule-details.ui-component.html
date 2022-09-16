@@ -45,9 +45,19 @@
 
   <hr>
 
-  <div class="aca-rule-details__form__row">
-    <aca-rule-options formControlName="options"></aca-rule-options>
-    <mat-error class="rule-details-error">{{ getErrorMessage(conditions) | translate }}</mat-error>
+  <div class="aca-rule-details__form__row ">
+    <div class="label">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.OPTIONS' | translate }}</div>
+    <aca-rule-options formControlName="options" [form]="form"></aca-rule-options>
+<!--    <mat-error class="rule-details-error">{{ getErrorMessage(conditions) | translate }}</mat-error>-->
   </div>
+<!--  <mat-checkbox-->
+<!--    formControlName="asynchronous"-->
+<!--    [attr.data-automation-id]="'rule-trigger-value-asynchronous'"-->
+<!--    [checked]="false"-->
+<!--    [disabled]="readOnly">-->
+<!--    &lt;!&ndash;      (change)="onTriggerChange(trigger, $event.checked)"&ndash;&gt;-->
+<!--    {{ 'ACA_FOLDER_RULES.RULE_DETAILS.OPTIONS.ASYNCHRONOUS' | translate }}-->
+<!--  </mat-checkbox>-->
 
+  {{form.value | json }}
 </form>
