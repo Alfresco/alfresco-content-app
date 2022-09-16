@@ -83,6 +83,12 @@
         "TITLE": "Esta lista está vacía",
         "SUBTITLE": "Todavía no hay reglas definidas para esta carpeta."
       }
+    },
+    "CONFIRMATION_DIALOG": {
+      "DELETE_RULE": {
+        "TITLE": "Eliminar regla",
+        "MESSAGE": "¿Está seguro de que desea eliminar esta regla?"
+      }
     }
   }
 }

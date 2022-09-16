@@ -83,6 +83,12 @@
         "TITLE": "Diese Liste ist leer",
         "SUBTITLE": "Es sind noch keine Regeln für diesen Ordner definiert."
       }
+    },
+    "CONFIRMATION_DIALOG": {
+      "DELETE_RULE": {
+        "TITLE": "Regel löschen",
+        "MESSAGE": "Möchten Sie diese Regel wirklich löschen?"
+      }
     }
   }
 }

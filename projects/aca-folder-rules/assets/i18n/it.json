@@ -83,6 +83,12 @@
         "TITLE": "L'elenco è vuoto",
         "SUBTITLE": "Non sono ancora state definite delle regole per questa cartella."
       }
+    },
+    "CONFIRMATION_DIALOG": {
+      "DELETE_RULE": {
+        "TITLE": "Elimina regola",
+        "MESSAGE": "Eliminare questa regola?"
+      }
     }
   }
 }

@@ -83,6 +83,12 @@
         "TITLE": "A lista está vazia",
         "SUBTITLE": "Não há regras definidas para esta pasta ainda."
       }
+    },
+    "CONFIRMATION_DIALOG": {
+      "DELETE_RULE": {
+        "TITLE": "Excluir regra",
+        "MESSAGE": "Tem certeza de que deseja excluir esta regra?"
+      }
     }
   }
 }

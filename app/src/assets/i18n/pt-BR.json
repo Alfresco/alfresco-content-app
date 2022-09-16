@@ -70,7 +70,8 @@
       "COMPANY_DETAILS": "Detalhes da empresa",
       "NAME": "Nome",
       "ADDRESS": "Endereço",
-      "POST_CODE": "CEP"
+      "POSTCODE": "Código postal",
+      "INVALID_INPUT": "Entrada inválida"
     },
     "LOCKED_BY": "Bloqueado por: ",
     "PREVIEW": {

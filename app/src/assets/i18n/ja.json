@@ -70,7 +70,8 @@
       "COMPANY_DETAILS": "会社情報",
       "NAME": "名前",
       "ADDRESS": "住所",
-      "POST_CODE": "郵便番号"
+      "POSTCODE": "郵便番号",
+      "INVALID_INPUT": "無効な入力"
     },
     "LOCKED_BY": "ロックしているユーザー: ",
     "PREVIEW": {

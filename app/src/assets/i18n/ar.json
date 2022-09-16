@@ -70,7 +70,8 @@
       "COMPANY_DETAILS": "تفاصيل الشركة",
       "NAME": "الاسم",
       "ADDRESS": "العنوان",
-      "POST_CODE": "الرمز البريدي"
+      "POSTCODE": "الرمز البريدي",
+      "INVALID_INPUT": "إدخال غير صالح"
     },
     "LOCKED_BY": "مغلق من قبل ",
     "PREVIEW": {

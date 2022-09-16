@@ -70,7 +70,8 @@
       "COMPANY_DETAILS": "Bedrijfsgegevens",
       "NAME": "Naam",
       "ADDRESS": "Adres",
-      "POST_CODE": "Postcode"
+      "POSTCODE": "Postcode",
+      "INVALID_INPUT": "Ongeldige invoer"
     },
     "LOCKED_BY": "Vergrendeld door: ",
     "PREVIEW": {

@@ -83,6 +83,12 @@
         "TITLE": "Listan är tom",
         "SUBTITLE": "Det finns inga regler definierade för den här mappen ännu."
       }
+    },
+    "CONFIRMATION_DIALOG": {
+      "DELETE_RULE": {
+        "TITLE": "Radera regel",
+        "MESSAGE": "Vill du verkligen radera den här regeln?"
+      }
     }
   }
 }

@@ -83,6 +83,12 @@
         "TITLE": "De lijst is leeg",
         "SUBTITLE": "Er zijn nog geen regels gedefinieerd voor deze map."
       }
+    },
+    "CONFIRMATION_DIALOG": {
+      "DELETE_RULE": {
+        "TITLE": "Regel verwijderen",
+        "MESSAGE": "Weet u zeker dat u deze regel wilt verwijderen?"
+      }
     }
   }
 }

@@ -70,7 +70,8 @@
       "COMPANY_DETAILS": "Yhtiön tiedot",
       "NAME": "Nimi",
       "ADDRESS": "Osoite",
-      "POST_CODE": "Postinumero"
+      "POSTCODE": "Postinumero",
+      "INVALID_INPUT": "Syöte ei kelpaa"
     },
     "LOCKED_BY": "Lukinnut: ",
     "PREVIEW": {
