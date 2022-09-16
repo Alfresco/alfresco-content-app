@@ -73,6 +73,10 @@ export class ContextActionsDirective implements OnInit, OnDestroy {
       target.dispatchEvent(new MouseEvent('click'));
     }
 
+    if (this.isEmptyTable(target)) {
+      return null;
+    }
+
     this.execute$.next(event);
   }
 
@@ -87,6 +91,10 @@ export class ContextActionsDirective implements OnInit, OnDestroy {
     }
 
     return this.findAncestor(target, 'adf-datatable-row').classList.contains('adf-is-selected');
+  }
+
+  private isEmptyTable(target: Element): boolean {
+    return this.findAncestor(target, 'adf-datatable-cell').classList.contains('adf-no-content-container');
   }
 
   private findAncestor(el: Element, className: string): Element {

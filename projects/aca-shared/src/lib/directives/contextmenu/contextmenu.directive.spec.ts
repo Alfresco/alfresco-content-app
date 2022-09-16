@@ -63,4 +63,23 @@ describe('ContextActionsDirective', () => {
 
     expect(storeMock.dispatch).toHaveBeenCalledWith(new ContextMenu(mouseEventMock));
   }));
+
+  it('should not call service to render context menu if the datatable is empty', fakeAsync(() => {
+    const el = document.createElement('div');
+    el.className = 'adf-no-content-container';
+
+    const fragment = document.createDocumentFragment();
+    fragment.appendChild(el);
+
+    const target = fragment.querySelector('div');
+    const mouseEventMock: any = { preventDefault: () => {}, target };
+
+    directive.ngOnInit();
+
+    directive.onContextMenuEvent(mouseEventMock);
+
+    tick(500);
+
+    expect(storeMock.dispatch).not.toHaveBeenCalled();
+  }));
 });
