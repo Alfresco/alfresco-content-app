@@ -70,7 +70,8 @@
       "COMPANY_DETAILS": "Podrobnosti o společnosti",
       "NAME": "Název",
       "ADDRESS": "Adresa",
-      "POST_CODE": "PSČ"
+      "POSTCODE": "PSČ",
+      "INVALID_INPUT": "Neplatné zadání"
     },
     "LOCKED_BY": "Uzamknul(a): ",
     "PREVIEW": {

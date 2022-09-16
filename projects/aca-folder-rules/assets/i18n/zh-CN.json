@@ -83,6 +83,12 @@
         "TITLE": "此列表为空",
         "SUBTITLE": "尚未为此文件夹定义规则。"
       }
+    },
+    "CONFIRMATION_DIALOG": {
+      "DELETE_RULE": {
+        "TITLE": "删除规则",
+        "MESSAGE": "是否确定要删除此规则?"
+      }
     }
   }
 }

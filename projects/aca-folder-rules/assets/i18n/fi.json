@@ -83,6 +83,12 @@
         "TITLE": "Luettelo on tyhjä",
         "SUBTITLE": "Tälle kansiolle ei ole vielä määritelty sääntöjä."
       }
+    },
+    "CONFIRMATION_DIALOG": {
+      "DELETE_RULE": {
+        "TITLE": "Poista sääntö",
+        "MESSAGE": "Haluatko varmasti poistaa tämän säännön?"
+      }
     }
   }
 }

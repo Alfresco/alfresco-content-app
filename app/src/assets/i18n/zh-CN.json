@@ -70,7 +70,8 @@
       "COMPANY_DETAILS": "公司详细信息",
       "NAME": "名称",
       "ADDRESS": "地址",
-      "POST_CODE": "邮政编码"
+      "POSTCODE": "邮政编码",
+      "INVALID_INPUT": "无效输入"
     },
     "LOCKED_BY": "锁定者： ",
     "PREVIEW": {

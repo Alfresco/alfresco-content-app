@@ -83,6 +83,12 @@
         "TITLE": "Listen er tom",
         "SUBTITLE": "Der er ingen definerede regler for denne mappe endnu."
       }
+    },
+    "CONFIRMATION_DIALOG": {
+      "DELETE_RULE": {
+        "TITLE": "Slet regel",
+        "MESSAGE": "Er du sikker på, at du vil slette denne regel?"
+      }
     }
   }
 }

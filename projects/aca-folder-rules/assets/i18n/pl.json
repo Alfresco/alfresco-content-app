@@ -83,6 +83,12 @@
         "TITLE": "Ta lista jest pusta",
         "SUBTITLE": "Nie zdefiniowano jeszcze reguł dla tego folderu."
       }
+    },
+    "CONFIRMATION_DIALOG": {
+      "DELETE_RULE": {
+        "TITLE": "Usuń regułę",
+        "MESSAGE": "Czy na pewno chcesz usunąć tę regułę?"
+      }
     }
   }
 }

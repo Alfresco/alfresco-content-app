@@ -1,6 +1,6 @@
 {
   "APP": {
-    "COPYRIGHT": "© 2017 – 2022 Alfresco Software, Inc. Wszelkie prawa zastrzeżone.",
+    "COPYRIGHT": "© 2017–2022 Alfresco Software, Inc. Wszelkie prawa zastrzeżone.",
     "ABOUT": {
       "VERSION": "Wersja:",
       "PLUGINS": {
@@ -70,7 +70,8 @@
       "COMPANY_DETAILS": "Dane firmy",
       "NAME": "Nazwa",
       "ADDRESS": "Adres",
-      "POST_CODE": "Kod pocztowy"
+      "POSTCODE": "Kod pocztowy",
+      "INVALID_INPUT": "Nieprawidłowe dane wejściowe"
     },
     "LOCKED_BY": "Zablokowane przez: ",
     "PREVIEW": {

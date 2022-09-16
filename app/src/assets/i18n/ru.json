@@ -70,7 +70,8 @@
       "COMPANY_DETAILS": "Сведения о компании",
       "NAME": "Имя",
       "ADDRESS": "Адрес",
-      "POST_CODE": "Почтовый индекс"
+      "POSTCODE": "Почтовый индекс",
+      "INVALID_INPUT": "Недопустимый ввод"
     },
     "LOCKED_BY": "Заблокировано: ",
     "PREVIEW": {
@@ -464,7 +465,7 @@
   },
   "INFO_PANEL": {
     "TABS": {
-
+    
     },
     "DETAILS": "Подробности"
   },

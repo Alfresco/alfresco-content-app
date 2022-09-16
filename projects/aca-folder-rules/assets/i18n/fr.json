@@ -83,6 +83,12 @@
         "TITLE": "La liste est vide",
         "SUBTITLE": "Aucune règle définie pour ce dossier pour l'instant."
       }
+    },
+    "CONFIRMATION_DIALOG": {
+      "DELETE_RULE": {
+        "TITLE": "Supprimez la règle",
+        "MESSAGE": "Voulez-vous vraiment supprimer cette règle ?"
+      }
     }
   }
 }

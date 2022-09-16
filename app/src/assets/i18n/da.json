@@ -70,7 +70,8 @@
       "COMPANY_DETAILS": "Virksomhedsoplysninger",
       "NAME": "Navn",
       "ADDRESS": "Adresse",
-      "POST_CODE": "Postnummer"
+      "POSTCODE": "Postnummer",
+      "INVALID_INPUT": "Ugyldigt input"
     },
     "LOCKED_BY": "Låst af: ",
     "PREVIEW": {

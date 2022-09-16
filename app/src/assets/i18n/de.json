@@ -70,7 +70,8 @@
       "COMPANY_DETAILS": "Angaben zum Unternehmen",
       "NAME": "Name",
       "ADDRESS": "Anschrift",
-      "POST_CODE": "Postleitzahl"
+      "POSTCODE": "Postleitzahl",
+      "INVALID_INPUT": "Ungültige Eingabe"
     },
     "LOCKED_BY": "Gesperrte von: ",
     "PREVIEW": {

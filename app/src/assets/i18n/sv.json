@@ -70,7 +70,8 @@
       "COMPANY_DETAILS": "Företagsuppgifter",
       "NAME": "Namn",
       "ADDRESS": "Adress",
-      "POST_CODE": "Postnummer"
+      "POSTCODE": "Postnummer",
+      "INVALID_INPUT": "Ogiltig inmatning"
     },
     "LOCKED_BY": "Låst av: ",
     "PREVIEW": {

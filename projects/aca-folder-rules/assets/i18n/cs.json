@@ -83,6 +83,12 @@
         "TITLE": "Tento seznam je prázdný",
         "SUBTITLE": "Pro tuto složku ještě nejsou definována žádná pravidla."
       }
+    },
+    "CONFIRMATION_DIALOG": {
+      "DELETE_RULE": {
+        "TITLE": "Odstranit pravidlo",
+        "MESSAGE": "Opravdu chcete odstranit toto pravidlo?"
+      }
     }
   }
 }

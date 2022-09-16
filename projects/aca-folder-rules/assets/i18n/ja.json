@@ -83,6 +83,12 @@
         "TITLE": "このリストは空です",
         "SUBTITLE": "このフォルダーにはまだルールが定義されていません。"
       }
+    },
+    "CONFIRMATION_DIALOG": {
+      "DELETE_RULE": {
+        "TITLE": "ルールの削除",
+        "MESSAGE": "この規則を削除しますか?"
+      }
     }
   }
 }
