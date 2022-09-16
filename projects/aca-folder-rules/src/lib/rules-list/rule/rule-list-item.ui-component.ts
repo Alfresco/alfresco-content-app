@@ -25,6 +25,7 @@
 
 import { Component, Input } from '@angular/core';
 import { Rule } from '../../model/rule.model';
+import { FolderRulesService } from '../../services/folder-rules.service';
 
 @Component({
   selector: 'aca-rule',
@@ -34,4 +35,11 @@ import { Rule } from '../../model/rule.model';
 export class RuleListItemUiComponent {
   @Input() rule: Rule;
   @Input() isSelected: boolean;
+  @Input() nodeId: string;
+
+  constructor(private folderRulesService: FolderRulesService) {}
+
+  onToggleClick(enabled: boolean) {
+    this.folderRulesService.toggleRule(this.nodeId, this.rule.id, { ...this.rule, enabled });
+  }
 }

@@ -109,4 +109,20 @@ describe('FolderRulesService', () => {
       expect(apiCallSpy).toHaveBeenCalledWith(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules/${ruleId}`, 'DELETE', params);
     });
   });
+
+  describe('toggleRule', () => {
+    const paramsWithBody = [{}, {}, {}, {}, dummyRules[0], ['application/json'], ['application/json']];
+    beforeEach(async () => {
+      apiCallSpy = spyOn<any>(folderRulesService, 'apiCall')
+        .withArgs(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules/${ruleId}`, 'PUT', paramsWithBody)
+        .and.returnValue([]);
+
+      folderRulesService.toggleRule(nodeId, ruleId, dummyRules[0]);
+    });
+
+    it('should send correct PUT request', async () => {
+      expect(apiCallSpy).toHaveBeenCalled();
+      expect(apiCallSpy).toHaveBeenCalledWith(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules/${ruleId}`, 'PUT', paramsWithBody);
+    });
+  });
 });

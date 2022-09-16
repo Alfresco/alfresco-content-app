@@ -25,12 +25,16 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RuleListItemUiComponent } from './rule-list-item.ui-component';
+import { CoreTestingModule } from '@alfresco/adf-core';
 
 describe('RuleComponent', () => {
   let component: RuleListItemUiComponent;
   let fixture: ComponentFixture<RuleListItemUiComponent>;
 
   beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [CoreTestingModule]
+    });
     fixture = TestBed.createComponent(RuleListItemUiComponent);
     component = fixture.componentInstance;
   });

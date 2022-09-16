@@ -30,7 +30,8 @@
           <mat-divider></mat-divider>
 
           <div class="aca-manage-rules__container" *ngIf="(rules$ | async).length > 0 ; else emptyContent">
-            <aca-rules-list [rules]="rules$ | async" (ruleSelected)="onRuleSelected($event)" [selectedRule]="selectedRule"></aca-rules-list>
+            <aca-rules-list [rules]="rules$ | async" (ruleSelected)="onRuleSelected($event)"
+                            [selectedRule]="selectedRule" [nodeId]="nodeId"></aca-rules-list>
             <div class="aca-manage-rules__container__rule-details">
               <div class="aca-manage-rules__container__preview">
                 <div class="aca-manage-rules__container__preview__toolbar">

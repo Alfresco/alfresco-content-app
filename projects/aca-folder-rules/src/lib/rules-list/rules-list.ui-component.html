@@ -1,3 +1,4 @@
 <div class="aca-rules-list" >
-  <aca-rule *ngFor="let rule of rules" [rule]="rule" (click)="onRuleClicked(rule)" [isSelected]="isSelected(rule)"></aca-rule>
+  <aca-rule *ngFor="let rule of rules" [rule]="rule" (click)="onRuleClicked(rule)" [isSelected]="isSelected(rule)"
+            [nodeId]="nodeId"></aca-rule>
 </div>

@@ -60,10 +60,12 @@ describe('RulesListComponent', () => {
     expect(rules.length).toBe(2, 'Unexpected number of rules');
 
     const rule = debugElement.query(By.css('.aca-rule:first-child'));
-    const title = rule.query(By.css('.aca-rule-title'));
+    const title = rule.query(By.css('.rule-info__header__title'));
     const description = rule.query(By.css('p'));
+    const toggleBtn = rule.query(By.css('mat-slide-toggle'));
 
     expect(title.nativeElement.textContent).toBe(dummyRules[0].name);
+    expect(toggleBtn).toBeTruthy();
     expect(description.nativeElement.textContent).toBe(dummyRules[0].description);
   });
 });

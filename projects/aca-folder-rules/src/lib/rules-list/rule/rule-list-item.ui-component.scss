@@ -5,13 +5,6 @@
   margin-bottom: 8px;
   cursor: pointer;
 
-  .aca-rule-title{
-    font-weight: 900;
-    font-size: 14px;
-    color: #212121;
-    line-height: 20px;
-  }
-
   p{
     margin: 6px 0 0 0;
     color: rgba(33, 35, 40, 0.7);
@@ -19,6 +12,22 @@
     font-weight: 400;
     font-size: 12px;
     line-height: 16px;
+  }
+}
+
+.rule-info{
+  width: 100%;
+
+  &__header{
+    display: flex;
+    justify-content: space-between;
+
+    &__title{
+      font-weight: 900;
+      font-size: 14px;
+      color: #212121;
+      line-height: 20px;
+    }
   }
 }
 
