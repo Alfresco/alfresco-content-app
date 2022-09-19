@@ -53,6 +53,7 @@ import { RouterExtensionService, AppService, ContentApiService } from '@alfresco
 import { DiscoveryEntry, GroupEntry, Group } from '@alfresco/js-api';
 import { Subject } from 'rxjs';
 import { INITIAL_APP_STATE } from './store/initial-state';
+import { OverlayContainer } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-root',
@@ -76,7 +77,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private contentApi: ContentApiService,
     private appService: AppService,
     private sharedLinksApiService: SharedLinksApiService,
-    private groupService: GroupService
+    private groupService: GroupService,
+    private overlayContainer: OverlayContainer
   ) {}
 
   ngOnInit() {
@@ -129,6 +131,8 @@ export class AppComponent implements OnInit, OnDestroy {
         this.loadUserProfile();
       }
     });
+
+    this.overlayContainer.getContainerElement().setAttribute('role', 'region');
   }
 
   ngOnDestroy() {

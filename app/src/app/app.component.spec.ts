@@ -37,6 +37,10 @@ describe('AppComponent', () => {
     dispatch: jasmine.createSpy('dispatch')
   };
 
+  const overlayContainerMock: any = {
+    getContainerElement: jasmine.createSpy('getContainerElement')
+  }
+
   const configMock: any = {
     get: (key: string) => {
       if (key === 'baseShareUrl') {
@@ -53,7 +57,7 @@ describe('AppComponent', () => {
 
     router = TestBed.inject(Router);
 
-    component = new AppComponent(null, router, null, storeMock, configMock, null, null, null, null, null, null, null, null);
+    component = new AppComponent(null, router, null, storeMock, configMock, null, null, null, null, null, null, null, null, overlayContainerMock);
 
     storeMock.dispatch = jasmine.createSpy('dispatch');
   });
