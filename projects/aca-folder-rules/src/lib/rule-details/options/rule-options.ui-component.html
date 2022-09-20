@@ -1,0 +1,35 @@
+<div class="options-list" [formGroup]="form">
+  <div class="options-list__asynchronous">
+    <mat-checkbox
+      formControlName="asynchronous"
+      (change)="toggleScriptSelector()"
+      [attr.data-automation-id]="'rule-option-checkbox-asynchronous'">
+      {{ 'ACA_FOLDER_RULES.RULE_DETAILS.OPTIONS.ASYNCHRONOUS' | translate }}
+    </mat-checkbox>
+    <div class="select-action" *ngIf="!preview">
+      <span>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.OPTIONS.ERROR_SCRIPT' | translate}}:</span>
+      <mat-form-field>
+        <mat-select [disabled]="disableSelector" formControlName="errorScript"
+                    placeholder="{{ 'ACA_FOLDER_RULES.RULE_DETAILS.OPTIONS.SELECT_ACTION' | translate}}"
+                    [attr.data-automation-id]="'rule-option-select-errorScript'">
+          <mat-option>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.OPTIONS.SELECT_ACTION' | translate}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="options-list__rest">
+    <mat-checkbox
+      formControlName="cascade"
+      [attr.data-automation-id]="'rule-option-checkbox-cascade'">
+      {{ 'ACA_FOLDER_RULES.RULE_DETAILS.OPTIONS.CASCADE' | translate }}
+    </mat-checkbox>
+    <mat-checkbox
+      [attr.data-automation-id]="'rule-option-checkbox-enabled'"
+      [checked]="!form.value.enabled" *ngIf="!preview"
+      (change)="form.get('enabled').setValue(!$event.checked)">
+      {{ 'ACA_FOLDER_RULES.RULE_DETAILS.OPTIONS.ENABLED' | translate }}
+    </mat-checkbox>
+  </div>
+</div>
+
+

@@ -14,7 +14,8 @@
       "LABEL": {
         "NAME": "Name",
         "DESCRIPTION": "Description",
-        "WHEN": "When"
+        "WHEN": "When",
+        "OPTIONS": "Other options"
       },
       "PLACEHOLDER": {
         "NAME": "Enter rule name",
@@ -30,6 +31,13 @@
         "INBOUND": "Items are created or enter this folder",
         "UPDATE": "Items are updated",
         "OUTBOUND": "Items are deleted or leave this folder"
+      },
+      "OPTIONS": {
+        "CASCADE":  "Rule applies to subfolders",
+        "ASYNCHRONOUS": "Run rule in the background",
+        "ENABLED": "Disable rule",
+        "ERROR_SCRIPT": "If errors occur run script",
+        "SELECT_ACTION": "Select action"
       },
       "COMPARATORS": {
         "EQUALS": "(=) Equals",

@@ -30,6 +30,8 @@ import { Rule } from '../model/rule.model';
 import { By } from '@angular/platform-browser';
 import { RuleCompositeConditionUiComponent } from './conditions/rule-composite-condition.ui-component';
 import { RuleTriggersUiComponent } from './triggers/rule-triggers.ui-component';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { RuleOptionsUiComponent } from './options/rule-options.ui-component';
 
 describe('RuleDetailsUiComponent', () => {
   let fixture: ComponentFixture<RuleDetailsUiComponent>;
@@ -39,7 +41,10 @@ describe('RuleDetailsUiComponent', () => {
     id: 'rule-id',
     name: 'Rule name',
     description: 'This is the description of the rule',
-    triggers: ['update', 'outbound']
+    triggers: ['update', 'outbound'],
+    asynchronous: true,
+    cascade: true,
+    enabled: true
   };
 
   const getHtmlElement = <T>(dataAutomationId: string) =>
@@ -51,7 +56,7 @@ describe('RuleDetailsUiComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [CoreTestingModule],
-      declarations: [RuleCompositeConditionUiComponent, RuleDetailsUiComponent, RuleTriggersUiComponent]
+      declarations: [RuleCompositeConditionUiComponent, RuleDetailsUiComponent, RuleTriggersUiComponent, RuleOptionsUiComponent]
     });
 
     fixture = TestBed.createComponent(RuleDetailsUiComponent);
@@ -65,10 +70,16 @@ describe('RuleDetailsUiComponent', () => {
     const nameInput = getHtmlElement<HTMLInputElement>('rule-details-name-input');
     const descriptionTextarea = getHtmlElement<HTMLTextAreaElement>('rule-details-description-textarea');
     const ruleTriggersComponent = getComponentInstance<RuleTriggersUiComponent>('rule-details-triggers-component');
+    const ruleOptionAsynchronous = getComponentInstance<MatCheckbox>('rule-option-checkbox-asynchronous');
+    const ruleOptionCascade = getComponentInstance<MatCheckbox>('rule-option-checkbox-cascade');
+    const ruleOptionDisabled = getComponentInstance<MatCheckbox>('rule-option-checkbox-enabled');
 
     expect(nameInput.value).toBe(testValue.name);
     expect(descriptionTextarea.value).toBe(testValue.description);
     expect(ruleTriggersComponent.value).toEqual(testValue.triggers);
+    expect(ruleOptionAsynchronous.checked).toBe(testValue.asynchronous);
+    expect(ruleOptionCascade.checked).toBe(testValue.cascade);
+    expect(ruleOptionDisabled.checked).toBe(!testValue.enabled);
   });
 
   it('should modify the form if the value input property is modified', () => {
@@ -95,10 +106,16 @@ describe('RuleDetailsUiComponent', () => {
     const nameInput = getHtmlElement<HTMLInputElement>('rule-details-name-input');
     const descriptionTextarea = getHtmlElement<HTMLTextAreaElement>('rule-details-description-textarea');
     const ruleTriggersComponent = getComponentInstance<RuleTriggersUiComponent>('rule-details-triggers-component');
+    const ruleOptionAsynchronous = getComponentInstance<MatCheckbox>('rule-option-checkbox-asynchronous');
+    const ruleOptionCascade = getComponentInstance<MatCheckbox>('rule-option-checkbox-cascade');
+    const ruleOptionDisabled = getComponentInstance<MatCheckbox>('rule-option-checkbox-enabled');
 
     expect(nameInput.disabled).toBeFalsy();
     expect(descriptionTextarea.disabled).toBeFalsy();
     expect(ruleTriggersComponent.readOnly).toBeFalsy();
+    expect(ruleOptionAsynchronous.disabled).toBeFalsy();
+    expect(ruleOptionCascade.disabled).toBeFalsy();
+    expect(ruleOptionDisabled.disabled).toBeFalsy();
   });
 
   it('should not be editable if read-only', () => {
@@ -108,9 +125,13 @@ describe('RuleDetailsUiComponent', () => {
     const nameInput = getHtmlElement<HTMLInputElement>('rule-details-name-input');
     const descriptionTextarea = getHtmlElement<HTMLTextAreaElement>('rule-details-description-textarea');
     const ruleTriggersComponent = getComponentInstance<RuleTriggersUiComponent>('rule-details-triggers-component');
+    const ruleOptionAsynchronous = getComponentInstance<MatCheckbox>('rule-option-checkbox-asynchronous');
+    const ruleOptionCascade = getComponentInstance<MatCheckbox>('rule-option-checkbox-cascade');
 
     expect(nameInput.disabled).toBeTruthy();
     expect(descriptionTextarea.disabled).toBeTruthy();
     expect(ruleTriggersComponent.readOnly).toBeTruthy();
+    expect(ruleOptionAsynchronous.disabled).toBeTruthy();
+    expect(ruleOptionCascade.disabled).toBeTruthy();
   });
 });

@@ -39,6 +39,7 @@ import { BreadcrumbModule, DocumentListModule } from '@alfresco/adf-content-serv
 import { RuleListItemUiComponent } from './rules-list/rule/rule-list-item.ui-component';
 import { RulesListUiComponent } from './rules-list/rules-list.ui-component';
 import { RuleTriggersUiComponent } from './rule-details/triggers/rule-triggers.ui-component';
+import { RuleOptionsUiComponent } from './rule-details/options/rule-options.ui-component';
 
 const routes: Routes = [
   {
@@ -67,7 +68,8 @@ const routes: Routes = [
     RuleSimpleConditionUiComponent,
     RulesListUiComponent,
     RuleListItemUiComponent,
-    RuleTriggersUiComponent
+    RuleTriggersUiComponent,
+    RuleOptionsUiComponent
   ]
 })
 export class AcaFolderRulesModule {

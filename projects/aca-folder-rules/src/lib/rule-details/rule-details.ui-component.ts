@@ -64,7 +64,11 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
       name: newValue.name || FolderRulesService.emptyRule.name,
       description: newValue.description || FolderRulesService.emptyRule.description,
       triggers: newValue.triggers || FolderRulesService.emptyRule.triggers,
-      conditions: newValue.conditions || FolderRulesService.emptyRule.conditions
+      conditions: newValue.conditions || FolderRulesService.emptyRule.conditions,
+      asynchronous: newValue.asynchronous || FolderRulesService.emptyRule.asynchronous,
+      errorScript: newValue.errorScript || FolderRulesService.emptyRule.errorScript,
+      cascade: newValue.cascade || FolderRulesService.emptyRule.cascade,
+      enabled: newValue.enabled || FolderRulesService.emptyRule.enabled
     };
     if (this.form) {
       this.form.setValue(newValue);
@@ -95,6 +99,18 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
   get conditions(): UntypedFormControl {
     return this.form.get('conditions') as UntypedFormControl;
   }
+  get asynchronous(): UntypedFormControl {
+    return this.form.get('asynchronous') as UntypedFormControl;
+  }
+  get errorScript(): UntypedFormControl {
+    return this.form.get('errorScript') as UntypedFormControl;
+  }
+  get cascade(): UntypedFormControl {
+    return this.form.get('cascade') as UntypedFormControl;
+  }
+  get enabled(): UntypedFormControl {
+    return this.form.get('enabled') as UntypedFormControl;
+  }
 
   ngOnInit() {
     this.form = new UntypedFormGroup({
@@ -109,7 +125,11 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
           simpleConditions: []
         },
         ruleCompositeConditionValidator()
-      )
+      ),
+      asynchronous: new UntypedFormControl(this.value.asynchronous),
+      errorScript: new UntypedFormControl(this.value.errorScript),
+      cascade: new UntypedFormControl(this.value.cascade),
+      enabled: new UntypedFormControl(this.value.enabled)
     });
     this.readOnly = this._readOnly;
 
