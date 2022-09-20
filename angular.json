@@ -188,6 +188,15 @@
                   "with": "app/src/environments/environment.e2e.ts"
                 }
               ]
+            },
+            "adf": {
+              "tsConfig": "app/tsconfig.app.adf.json",
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "buildOptimizer": false,
+              "sourceMap": true,
+              "optimization": false,
+              "namedChunks": true
             }
           },
           "defaultConfiguration": ""
@@ -210,6 +219,9 @@
             },
             "release": {
               "browserTarget": "content-ce:build:release"
+            },
+            "adf": {
+              "browserTarget": "content-ce:build:adf"
             }
           }
         },

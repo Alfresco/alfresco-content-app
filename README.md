@@ -29,6 +29,16 @@ npm install
 npm start content-ce
 ```
 
+### Using Local ADF
+
+Clone the `alfresco-ng2-components` and `alfresco-content-app` repositories in the same folder, and run the following command:
+
+```sh
+npm start content-ce -- --configuration=adf
+```
+
+Changing the ADF code results in the recompilation and hot-reloading of the ACA application.
+
 ## See Also
 
 Please refer to the [Public documentation](https://alfresco-content-app.netlify.com/) for more details
