@@ -25,11 +25,22 @@
 
 export interface RuleAction {
   actionDefinitionId: string;
-  params: RuleActionParams;
+  params: unknown;
 }
 
-export interface RuleActionParams {
-  'deep-copy'?: boolean;
-  'destination-folder'?: string;
-  actionContext?: string;
+export interface ActionDefinitionTransformed {
+  id: string;
+  name: string;
+  titleKey: string;
+  applicableTypes: string[];
+  trackStatus: boolean;
+  parameterDefinitions: ActionParameterDefinitionTransformed[];
+}
+
+export interface ActionParameterDefinitionTransformed {
+  name: string;
+  type: string;
+  multiValued: boolean;
+  mandatory: boolean;
+  displayLabelKey: string;
 }
