@@ -39,7 +39,7 @@ describe('AppComponent', () => {
 
   const overlayContainerMock: any = {
     getContainerElement: jasmine.createSpy('getContainerElement')
-  }
+  };
 
   const configMock: any = {
     get: (key: string) => {
