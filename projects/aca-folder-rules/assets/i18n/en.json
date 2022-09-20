@@ -35,7 +35,9 @@
       "OPTIONS": {
         "CASCADE":  "Rule applies to subfolders",
         "ASYNCHRONOUS": "Run rule in the background",
-        "ENABLED": "Disable rule"
+        "ENABLED": "Disable rule",
+        "ERROR_SCRIPT": "If errors occur run script",
+        "SELECT_ACTION": "Select action"
       },
       "COMPARATORS": {
         "EQUALS": "(=) Equals",

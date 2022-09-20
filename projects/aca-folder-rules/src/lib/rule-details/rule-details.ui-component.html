@@ -45,10 +45,9 @@
 
   <hr>
 
-  <div class="aca-rule-details__form__row ">
+  <div class="aca-rule-details__form__row">
     <div class="label">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.OPTIONS' | translate }}</div>
-    <aca-rule-options formControlName="options" [form]="form"></aca-rule-options>
+    <aca-rule-options [form]="form" [preview]="preview" data-automation-id="rule-details-options-component"></aca-rule-options>
   </div>
 
-  {{form.value | json }}
 </form>

@@ -66,6 +66,7 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
       triggers: newValue.triggers || FolderRulesService.emptyRule.triggers,
       conditions: newValue.conditions || FolderRulesService.emptyRule.conditions,
       asynchronous: newValue.asynchronous || FolderRulesService.emptyRule.asynchronous,
+      errorScript: newValue.errorScript || FolderRulesService.emptyRule.errorScript,
       cascade: newValue.cascade || FolderRulesService.emptyRule.cascade,
       enabled: newValue.enabled || FolderRulesService.emptyRule.enabled
     };
@@ -98,8 +99,17 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
   get conditions(): UntypedFormControl {
     return this.form.get('conditions') as UntypedFormControl;
   }
-  get options(): UntypedFormControl {
-    return this.form.get('options') as UntypedFormControl;
+  get asynchronous(): UntypedFormControl {
+    return this.form.get('asynchronous') as UntypedFormControl;
+  }
+  get errorScript(): UntypedFormControl {
+    return this.form.get('errorScript') as UntypedFormControl;
+  }
+  get cascade(): UntypedFormControl {
+    return this.form.get('cascade') as UntypedFormControl;
+  }
+  get enabled(): UntypedFormControl {
+    return this.form.get('enabled') as UntypedFormControl;
   }
 
   ngOnInit() {
@@ -117,9 +127,9 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
         ruleCompositeConditionValidator()
       ),
       asynchronous: new UntypedFormControl(this.value.asynchronous),
+      errorScript: new UntypedFormControl(this.value.errorScript),
       cascade: new UntypedFormControl(this.value.cascade),
       enabled: new UntypedFormControl(this.value.enabled)
-
     });
     this.readOnly = this._readOnly;
 

@@ -1,57 +1,35 @@
 <div class="options-list" [formGroup]="form">
-<!--  <div *ngFor="let option of ruleOption">-->
-    <ng-container *ngIf="readOnly; else checkbox">
-  <!--    <div-->
-  <!--      *ngIf="isTriggerSelected(trigger)"-->
-  <!--      [attr.data-automation-id]="'rule-trigger-value-' + trigger | lowercase">-->
-  <!--      {{ 'ACA_FOLDER_RULES.RULE_DETAILS.TRIGGERS.' + trigger | uppercase | translate }}-->
-  <!--    </div>-->
-    </ng-container>
-
-    <ng-template #checkbox>
-      <div class="options-list__asynchronous">
-        <mat-checkbox
-          formControlName="asynchronous"
-          [attr.data-automation-id]="'rule-trigger-value-asynchronous'"
-          [checked]="false"
-          [disabled]="readOnly">
-    <!--      (change)="onTriggerChange(trigger, $event.checked)"-->
-          {{ 'ACA_FOLDER_RULES.RULE_DETAILS.OPTIONS.ASYNCHRONOUS' | translate }}
-        </mat-checkbox>
-        <div class="select-action">
-          <span>If errors occur run script:</span>
-          <mat-form-field>
-            <mat-select
-              value="value"
-              [disabled]="readOnly"
-              placeholder="Select action">
-              <!--    (selectionChange)="setInverted($event.value)"-->
-              <mat-option [value]="false">Start Pooled Review and Approve Workflow</mat-option>
-              <!--    <mat-option [value]="true">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LOGIC_OPERATORS.NOT_IF' | translate }}</mat-option>-->
-            </mat-select>
-          </mat-form-field>
-        </div>
-      </div>
-      <div class="options-list__rest">
-        <mat-checkbox
-          formControlName="cascade"
-          [attr.data-automation-id]="'rule-trigger-value-cascade'"
-          [checked]="true"
-          [disabled]="readOnly">
-          <!--      (change)="onTriggerChange(trigger, $event.checked)"-->
-          {{ 'ACA_FOLDER_RULES.RULE_DETAILS.OPTIONS.CASCADE' | translate }}
-        </mat-checkbox>
-        <mat-checkbox
-          formControlName="enabled"
-          [attr.data-automation-id]="'rule-trigger-value-enabled'"
-          [checked]="true"
-          [disabled]="readOnly">
-          <!--      (change)="onTriggerChange(trigger, $event.checked)"-->
-          {{ 'ACA_FOLDER_RULES.RULE_DETAILS.OPTIONS.ENABLED' | translate }}
-        </mat-checkbox>
-      </div>
-    </ng-template>
-<!--  </div>-->
+  <div class="options-list__asynchronous">
+    <mat-checkbox
+      formControlName="asynchronous"
+      (change)="toggleScriptSelector()"
+      [attr.data-automation-id]="'rule-option-checkbox-asynchronous'">
+      {{ 'ACA_FOLDER_RULES.RULE_DETAILS.OPTIONS.ASYNCHRONOUS' | translate }}
+    </mat-checkbox>
+    <div class="select-action" *ngIf="!preview">
+      <span>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.OPTIONS.ERROR_SCRIPT' | translate}}:</span>
+      <mat-form-field>
+        <mat-select [disabled]="disableSelector" formControlName="errorScript"
+                    placeholder="{{ 'ACA_FOLDER_RULES.RULE_DETAILS.OPTIONS.SELECT_ACTION' | translate}}"
+                    [attr.data-automation-id]="'rule-option-select-errorScript'">
+          <mat-option>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.OPTIONS.SELECT_ACTION' | translate}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="options-list__rest">
+    <mat-checkbox
+      formControlName="cascade"
+      [attr.data-automation-id]="'rule-option-checkbox-cascade'">
+      {{ 'ACA_FOLDER_RULES.RULE_DETAILS.OPTIONS.CASCADE' | translate }}
+    </mat-checkbox>
+    <mat-checkbox
+      [attr.data-automation-id]="'rule-option-checkbox-enabled'"
+      [checked]="!form.value.enabled" *ngIf="!preview"
+      (change)="form.get('enabled').setValue(!$event.checked)">
+      {{ 'ACA_FOLDER_RULES.RULE_DETAILS.OPTIONS.ENABLED' | translate }}
+    </mat-checkbox>
+  </div>
 </div>
 
 
