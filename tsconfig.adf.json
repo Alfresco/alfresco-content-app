@@ -20,6 +20,14 @@
     "typeRoots": ["node_modules/@types"],
     "lib": ["es2019", "dom"],
     "paths": {
+      "@alfresco/adf-testing": ["../alfresco-ng2-components/lib/testing"],
+      "@alfresco/adf-testing/shared": ["../alfresco-ng2-components/lib/testing/src/lib/shared"],
+      "@alfresco/adf-core": ["../alfresco-ng2-components/lib/core"],
+      "@alfresco/adf-core/*": ["../alfresco-ng2-components/lib/core/*/public-api.ts"],
+      "@alfresco/adf-extensions": ["../alfresco-ng2-components/lib/extensions"],
+      "@alfresco/adf-content-services": ["../alfresco-ng2-components/lib/content-services"],
+      "@alfresco/adf-process-services-cloud": ["../alfresco-ng2-components/lib/process-services-cloud"],
+      "@alfresco/adf-process-services": ["../alfresco-ng2-components/lib/process-services"],
       "@alfresco/aca-shared": ["projects/aca-shared/src/public-api.ts"],
       "@alfresco/aca-shared/store": ["projects/aca-shared/store/src/public-api.ts"],
       "@alfresco/aca-shared/rules": ["projects/aca-shared/rules/src/public-api.ts"],
@@ -28,7 +36,8 @@
       "@alfresco/aca-about": ["projects/aca-about/src/public-api.ts"],
       "@alfresco/aca-settings": ["projects/aca-settings/src/public-api.ts"],
       "@alfresco/aca-folder-rules": ["projects/aca-folder-rules/src/public-api.ts"],
-      "package.json": ["package.json"]
+      "package.json": ["package.json"],
+      "*": ["./node_modules/*"]
     }
   },
   "exclude": ["node_modules"],
