@@ -179,11 +179,13 @@ export class FolderRulesService {
     };
   }
 
-  private formatSimpleCondition(obj): RuleSimpleCondition {
-    return {
-      field: obj.field || 'cm:name',
-      comparator: obj.comparator || 'equals',
-      parameter: obj.parameter || ''
-    };
+  private formatSimpleCondition(obj): RuleSimpleCondition | [] {
+    if (obj){
+      return {
+        field: obj.field || 'cm:name',
+        comparator: obj.comparator || 'equals',
+        parameter: obj.parameter || ''
+      }
+    } else return []
   }
 }
