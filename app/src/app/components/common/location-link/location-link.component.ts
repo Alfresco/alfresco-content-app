@@ -53,7 +53,7 @@ import { TranslationService } from '@alfresco/adf-core';
 export class LocationLinkComponent implements OnInit {
   private _path: PathInfo;
 
-  nodeLocation$ = new BehaviorSubject('');
+  nodeLocation$ = new BehaviorSubject(this.translationService.instant('APP.BROWSE.SEARCH.UNKNOWN_LOCATION'));
   displayText: Observable<string>;
 
   @Input()
