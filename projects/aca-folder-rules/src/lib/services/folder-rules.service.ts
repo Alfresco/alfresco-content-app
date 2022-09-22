@@ -175,15 +175,15 @@ export class FolderRulesService {
       inverted: obj.inverted ?? false,
       booleanMode: obj.booleanMode ?? 'and',
       compositeConditions: (obj.compositeConditions || []).map((condition) => this.formatCompositeCondition(condition)),
-      simpleConditions: (obj.simpleConditions || []).map((condition) => condition ? this.formatSimpleCondition(condition) : [])
+      simpleConditions: (obj.simpleConditions || []).map((condition) => (condition ? this.formatSimpleCondition(condition) : []))
     };
   }
 
   private formatSimpleCondition(obj): RuleSimpleCondition {
-      return {
-        field: obj.field || 'cm:name',
-        comparator: obj.comparator || 'equals',
-        parameter: obj.parameter || ''
-      }
+    return {
+      field: obj.field || 'cm:name',
+      comparator: obj.comparator || 'equals',
+      parameter: obj.parameter || ''
+    };
   }
 }
