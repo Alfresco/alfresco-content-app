@@ -15,7 +15,6 @@ import { AuthenticationService } from '@alfresco/adf-core';
   providedIn: 'root'
 })
 export class ViewProfileRuleGuard implements CanActivate {
-
   constructor(private authService: AuthenticationService) {}
 
   canActivate(_: ActivatedRouteSnapshot): Observable<boolean> | Promise<boolean> | boolean {
