@@ -15,6 +15,7 @@
         "NAME": "Name",
         "DESCRIPTION": "Description",
         "WHEN": "When",
+        "PERFORM_ACTIONS": "Perform actions",
         "OPTIONS": "Other options"
       },
       "PLACEHOLDER": {
@@ -84,7 +85,7 @@
           "RULES": "rules"
         },
         "ACTIONS": {
-          "NEW_RULE": "New rule"
+          "CREATE_RULE": "Create rule"
         }
       },
       "EMPTY_RULES_LIST": {

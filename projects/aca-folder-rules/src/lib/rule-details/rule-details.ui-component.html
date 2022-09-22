@@ -46,6 +46,13 @@
   <hr>
 
   <div class="aca-rule-details__form__row">
+    <div class="label">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.PERFORM_ACTIONS' | translate }}</div>
+    <aca-rule-action-list></aca-rule-action-list>
+  </div>
+
+  <hr>
+
+  <div class="aca-rule-details__form__row">
     <div class="label">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.OPTIONS' | translate }}</div>
     <aca-rule-options [form]="form" [preview]="preview" data-automation-id="rule-details-options-component"></aca-rule-options>
   </div>

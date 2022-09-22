@@ -24,15 +24,18 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ActionDefinition, ActionParameterDefinition, ActionsApi } from '@alfresco/js-api';
+import { ActionDefinition, ActionDefinitionList, ActionParameterDefinition, ActionsApi } from '@alfresco/js-api';
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { BehaviorSubject, from } from 'rxjs';
 import { ActionDefinitionTransformed, ActionParameterDefinitionTransformed } from '../model/rule-action.model';
+import { finalize, map } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class ActionsService {
   private actionDefinitionsListingSource = new BehaviorSubject<ActionDefinitionTransformed[]>([]);
   actionDefinitionsListing$ = this.actionDefinitionsListingSource.asObservable();
+  private loadingSource = new BehaviorSubject<boolean>(false);
+  loading$ = this.loadingSource.asObservable();
 
   private _actionsApi: ActionsApi;
   get actionsApi(): ActionsApi {
@@ -45,8 +48,12 @@ export class ActionsService {
   constructor(private apiService: AlfrescoApiService) {}
 
   loadActionDefinitions() {
-    from(this.actionsApi.listActions()).pipe().subscribe(() => {
-
+    this.loadingSource.next(true);
+    from(this.actionsApi.listActions()).pipe(
+      map((list: ActionDefinitionList) => list.list.entries.map(this.transformActionDefinition)),
+      finalize(() => this.loadingSource.next(false))
+    ).subscribe((obj: ActionDefinitionTransformed[]) => {
+      this.actionDefinitionsListingSource.next(obj);
     });
   }
 
@@ -58,7 +65,7 @@ export class ActionsService {
       applicableTypes: obj.applicableTypes ?? [],
       trackStatus: obj.trackStatus ?? false,
       parameterDefinitions: (obj.parameterDefinitions ?? []).map((paramDef: ActionParameterDefinition) => this.transformActionParameterDefinition(paramDef))
-    }
+    };
   }
 
   transformActionParameterDefinition(obj: ActionParameterDefinition): ActionParameterDefinitionTransformed {
@@ -68,6 +75,6 @@ export class ActionsService {
       multiValued: obj.multiValued ?? false,
       mandatory: obj.mandatory ?? false,
       displayLabelKey: ''
-    }
+    };
   }
 }
