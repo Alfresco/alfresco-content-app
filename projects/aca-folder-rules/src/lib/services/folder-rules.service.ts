@@ -70,6 +70,8 @@ export class FolderRulesService {
   loading$ = this.loadingSource.asObservable();
   private deletedRuleIdSource = new BehaviorSubject<string>(null);
   deletedRuleId$: Observable<string> = this.deletedRuleIdSource.asObservable();
+  private aspectsSource = new BehaviorSubject<any>([]);
+  aspects$: Observable<any> = this.aspectsSource.asObservable();
 
   constructor(private apiService: AlfrescoApiService, private contentApi: ContentApiService) {}
 
@@ -79,7 +81,7 @@ export class FolderRulesService {
       from(
         this.apiCall(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules`, 'GET', [{}, {}, {}, {}, {}, ['application/json'], ['application/json']])
       ).pipe(
-        map((res) => this.formatRules(res)),
+        map((res) => this.formatResponse(res)),
         catchError((error) => {
           if (error.status === 404) {
             return of([]);
@@ -146,11 +148,24 @@ export class FolderRulesService {
     ).subscribe({ error: (error) => console.error(error) });
   }
 
+  loadAspects(): void {
+    from(
+      this.apiCall('/aspects', 'GET', [{}, {}, {}, {}, {}, ['application/json'], ['application/json']])
+    ).pipe(
+      map((res) => this.formatResponse(res))
+    ).subscribe(
+      (res) => {
+        console.log(res)
+        this.aspectsSource.next(res)
+      }
+    )
+  }
+
   private apiCall(path: string, httpMethod: string, params?: any[]): Promise<any> {
     return this.apiService.getInstance().contentClient.callApi(path, httpMethod, ...params);
   }
 
-  private formatRules(res): Rule[] {
+  private formatResponse(res): Rule[] {
     return res.list.entries.map((entry) => this.formatRule(entry.entry));
   }
 
