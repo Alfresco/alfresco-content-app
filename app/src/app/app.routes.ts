@@ -39,6 +39,7 @@ import { SharedFilesComponent } from './components/shared-files/shared-files.com
 import { DetailsComponent } from './components/details/details.component';
 import { HomeComponent } from './components/home/home.component';
 import { ViewProfileComponent } from './components/view-profile/view-profile.component';
+import { ViewProfileRuleGuard } from './components/view-profile/view-profile.guard';
 
 export const APP_ROUTES: Routes = [
   {
@@ -79,6 +80,7 @@ export const APP_ROUTES: Routes = [
     children: [
       {
         path: 'profile',
+        canActivate: [ViewProfileRuleGuard],
         component: ViewProfileComponent
       },
       {
