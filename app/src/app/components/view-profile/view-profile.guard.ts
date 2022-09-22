@@ -17,11 +17,10 @@ import { AuthenticationService } from '@alfresco/adf-core';
 export class ViewProfileRuleGuard implements CanActivate {
   isViewProfileEnabled$: Observable<boolean>;
 
-  constructor(private authService: AuthenticationService) { }
+  constructor(private authService: AuthenticationService) {}
 
   canActivate(_: ActivatedRouteSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     return (this.authService.isEcmLoggedIn() ||
-            (this.authService.isECMProvider() && this.authService.isKerberosEnabled())) &&
-              !this.authService.isOauth();
+            (this.authService.isECMProvider() && this.authService.isKerberosEnabled())) && !this.authService.isOauth();
   }
 }
