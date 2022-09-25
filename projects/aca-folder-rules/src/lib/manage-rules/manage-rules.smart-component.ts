@@ -76,7 +76,6 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
       this.nodeId = params.nodeId;
       if (this.nodeId) {
         this.folderRulesService.loadRules(this.nodeId);
-        this.folderRulesService.loadAspects()
       }
     });
   }
