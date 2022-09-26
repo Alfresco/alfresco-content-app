@@ -1,3 +1,9 @@
-<mat-select>
-  <mat-option *ngFor="let actionDefinition of actionDefinitions">{{ actionDefinition.id }}</mat-option>
-</mat-select>
+<mat-form-field>
+  <mat-select>
+    <mat-option
+      *ngFor="let actionDefinition of actionDefinitions"
+      [value]="actionDefinition.id">
+      {{ actionDefinition.name }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

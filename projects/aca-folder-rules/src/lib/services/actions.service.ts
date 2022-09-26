@@ -24,7 +24,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ActionDefinition, ActionDefinitionList, ActionParameterDefinition, ActionsApi } from '@alfresco/js-api';
+import { ActionDefinition, ActionDefinitionEntry, ActionDefinitionList, ActionParameterDefinition, ActionsApi } from '@alfresco/js-api';
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { BehaviorSubject, from } from 'rxjs';
 import { ActionDefinitionTransformed, ActionParameterDefinitionTransformed } from '../model/rule-action.model';
@@ -50,14 +50,17 @@ export class ActionsService {
   loadActionDefinitions() {
     this.loadingSource.next(true);
     from(this.actionsApi.listActions()).pipe(
-      map((list: ActionDefinitionList) => list.list.entries.map(this.transformActionDefinition)),
+      map((list: ActionDefinitionList) => list.list.entries.map((entry) => this.transformActionDefinition(entry))),
       finalize(() => this.loadingSource.next(false))
     ).subscribe((obj: ActionDefinitionTransformed[]) => {
       this.actionDefinitionsListingSource.next(obj);
     });
   }
 
-  transformActionDefinition(obj: ActionDefinition): ActionDefinitionTransformed {
+  private transformActionDefinition(obj: ActionDefinition | ActionDefinitionEntry): ActionDefinitionTransformed {
+    if (this.isActionDefinitionEntry(obj)) {
+      obj = obj.entry;
+    }
     return {
       id: obj.id,
       name: obj.name ?? '',
@@ -68,7 +71,7 @@ export class ActionsService {
     };
   }
 
-  transformActionParameterDefinition(obj: ActionParameterDefinition): ActionParameterDefinitionTransformed {
+  private transformActionParameterDefinition(obj: ActionParameterDefinition): ActionParameterDefinitionTransformed {
     return {
       name: obj.name ?? '',
       type: obj.type ?? '',
@@ -76,5 +79,9 @@ export class ActionsService {
       mandatory: obj.mandatory ?? false,
       displayLabelKey: ''
     };
+  }
+
+  private isActionDefinitionEntry(obj): obj is ActionDefinitionEntry {
+    return typeof obj.entry !== 'undefined';
   }
 }

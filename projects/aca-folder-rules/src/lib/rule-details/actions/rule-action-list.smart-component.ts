@@ -9,8 +9,5 @@ import { ActionsService } from '../../services/actions.service';
 export class RuleActionListSmartComponent {
   constructor(public actionsService: ActionsService) {
     this.actionsService.loadActionDefinitions();
-    this.actionsService.actionDefinitionsListing$.subscribe((val) => {
-      console.log(val);
-    });
   }
 }
