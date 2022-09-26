@@ -186,8 +186,19 @@ export class FolderRulesService {
       inverted: obj.inverted ?? false,
       booleanMode: obj.booleanMode ?? 'and',
       compositeConditions: (obj.compositeConditions || []).map((condition) => this.formatCompositeCondition(condition)),
-      simpleConditions: (obj.simpleConditions || []).map((condition) => this.formatSimpleCondition(condition))
+      simpleConditions: this.parseSimpleCondition(obj.simpleConditions)
     };
+  }
+
+  private parseSimpleCondition(arr) {
+    if (arr) {
+      if (arr.every((element) => element === null)) {
+        return [];
+      }
+      return arr.map((condition) => this.formatSimpleCondition(condition));
+    } else {
+      return [];
+    }
   }
 
   private formatSimpleCondition(obj): RuleSimpleCondition {
