@@ -29,8 +29,8 @@
   </button>
 </ng-container>
 
-<mat-menu #rootMenu="matMenu" class="app-create-menu__root-menu app-create-menu__sub-menu" [overlapTrigger]="false" yPosition="below">
-  <div role="menu" *ngFor="let action of createActions; trackBy: trackByActionId">
+<mat-menu #rootMenu="matMenu" role="menu" class="app-create-menu__root-menu app-create-menu__sub-menu" [overlapTrigger]="false" yPosition="below">
+  <div *ngFor="let action of createActions; trackBy: trackByActionId">
     <app-toolbar-menu-item [actionRef]="action"></app-toolbar-menu-item>
   </div>
 </mat-menu>
