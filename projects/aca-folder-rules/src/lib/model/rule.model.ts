@@ -32,9 +32,9 @@ export interface Rule {
   id: string;
   name: string;
   description: string;
-  enabled: boolean;
-  cascade: boolean;
-  asynchronous: boolean;
+  isEnabled: boolean;
+  isInheritable: boolean;
+  isAsynchronous: boolean;
   errorScript: string;
   isShared: boolean;
   triggers: RuleTrigger[];

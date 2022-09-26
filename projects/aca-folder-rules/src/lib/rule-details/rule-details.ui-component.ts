@@ -65,10 +65,10 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
       description: newValue.description || FolderRulesService.emptyRule.description,
       triggers: newValue.triggers || FolderRulesService.emptyRule.triggers,
       conditions: newValue.conditions || FolderRulesService.emptyRule.conditions,
-      asynchronous: newValue.asynchronous || FolderRulesService.emptyRule.asynchronous,
+      isAsynchronous: newValue.isAsynchronous || FolderRulesService.emptyRule.isAsynchronous,
       errorScript: newValue.errorScript || FolderRulesService.emptyRule.errorScript,
-      cascade: newValue.cascade || FolderRulesService.emptyRule.cascade,
-      enabled: newValue.enabled || FolderRulesService.emptyRule.enabled
+      isInheritable: newValue.isInheritable || FolderRulesService.emptyRule.isInheritable,
+      isEnabled: newValue.isEnabled || FolderRulesService.emptyRule.isEnabled
     };
     if (this.form) {
       this.form.setValue(newValue);
@@ -105,8 +105,8 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
   get errorScript(): UntypedFormControl {
     return this.form.get('errorScript') as UntypedFormControl;
   }
-  get cascade(): UntypedFormControl {
-    return this.form.get('cascade') as UntypedFormControl;
+  get inheritable(): UntypedFormControl {
+    return this.form.get('inheritable') as UntypedFormControl;
   }
   get enabled(): UntypedFormControl {
     return this.form.get('enabled') as UntypedFormControl;
@@ -126,10 +126,10 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
         },
         ruleCompositeConditionValidator()
       ),
-      asynchronous: new UntypedFormControl(this.value.asynchronous),
+      isAsynchronous: new UntypedFormControl(this.value.isAsynchronous),
       errorScript: new UntypedFormControl(this.value.errorScript),
-      cascade: new UntypedFormControl(this.value.cascade),
-      enabled: new UntypedFormControl(this.value.enabled)
+      isInheritable: new UntypedFormControl(this.value.isInheritable),
+      isEnabled: new UntypedFormControl(this.value.isEnabled)
     });
     this.readOnly = this._readOnly;
 

@@ -42,9 +42,9 @@ describe('RuleDetailsUiComponent', () => {
     name: 'Rule name',
     description: 'This is the description of the rule',
     triggers: ['update', 'outbound'],
-    asynchronous: true,
-    cascade: true,
-    enabled: true
+    isAsynchronous: true,
+    isInheritable: true,
+    isEnabled: true
   };
 
   const getHtmlElement = <T>(dataAutomationId: string) =>
@@ -71,15 +71,15 @@ describe('RuleDetailsUiComponent', () => {
     const descriptionTextarea = getHtmlElement<HTMLTextAreaElement>('rule-details-description-textarea');
     const ruleTriggersComponent = getComponentInstance<RuleTriggersUiComponent>('rule-details-triggers-component');
     const ruleOptionAsynchronous = getComponentInstance<MatCheckbox>('rule-option-checkbox-asynchronous');
-    const ruleOptionCascade = getComponentInstance<MatCheckbox>('rule-option-checkbox-cascade');
+    const ruleOptionInheritable = getComponentInstance<MatCheckbox>('rule-option-checkbox-inheritable');
     const ruleOptionDisabled = getComponentInstance<MatCheckbox>('rule-option-checkbox-enabled');
 
     expect(nameInput.value).toBe(testValue.name);
     expect(descriptionTextarea.value).toBe(testValue.description);
     expect(ruleTriggersComponent.value).toEqual(testValue.triggers);
-    expect(ruleOptionAsynchronous.checked).toBe(testValue.asynchronous);
-    expect(ruleOptionCascade.checked).toBe(testValue.cascade);
-    expect(ruleOptionDisabled.checked).toBe(!testValue.enabled);
+    expect(ruleOptionAsynchronous.checked).toBe(testValue.isAsynchronous);
+    expect(ruleOptionInheritable.checked).toBe(testValue.isInheritable);
+    expect(ruleOptionDisabled.checked).toBe(!testValue.isEnabled);
   });
 
   it('should modify the form if the value input property is modified', () => {
@@ -107,14 +107,14 @@ describe('RuleDetailsUiComponent', () => {
     const descriptionTextarea = getHtmlElement<HTMLTextAreaElement>('rule-details-description-textarea');
     const ruleTriggersComponent = getComponentInstance<RuleTriggersUiComponent>('rule-details-triggers-component');
     const ruleOptionAsynchronous = getComponentInstance<MatCheckbox>('rule-option-checkbox-asynchronous');
-    const ruleOptionCascade = getComponentInstance<MatCheckbox>('rule-option-checkbox-cascade');
+    const ruleOptionInheritable = getComponentInstance<MatCheckbox>('rule-option-checkbox-inheritable');
     const ruleOptionDisabled = getComponentInstance<MatCheckbox>('rule-option-checkbox-enabled');
 
     expect(nameInput.disabled).toBeFalsy();
     expect(descriptionTextarea.disabled).toBeFalsy();
     expect(ruleTriggersComponent.readOnly).toBeFalsy();
     expect(ruleOptionAsynchronous.disabled).toBeFalsy();
-    expect(ruleOptionCascade.disabled).toBeFalsy();
+    expect(ruleOptionInheritable.disabled).toBeFalsy();
     expect(ruleOptionDisabled.disabled).toBeFalsy();
   });
 
@@ -126,12 +126,12 @@ describe('RuleDetailsUiComponent', () => {
     const descriptionTextarea = getHtmlElement<HTMLTextAreaElement>('rule-details-description-textarea');
     const ruleTriggersComponent = getComponentInstance<RuleTriggersUiComponent>('rule-details-triggers-component');
     const ruleOptionAsynchronous = getComponentInstance<MatCheckbox>('rule-option-checkbox-asynchronous');
-    const ruleOptionCascade = getComponentInstance<MatCheckbox>('rule-option-checkbox-cascade');
+    const ruleOptionInheritable = getComponentInstance<MatCheckbox>('rule-option-checkbox-inheritable');
 
     expect(nameInput.disabled).toBeTruthy();
     expect(descriptionTextarea.disabled).toBeTruthy();
     expect(ruleTriggersComponent.readOnly).toBeTruthy();
     expect(ruleOptionAsynchronous.disabled).toBeTruthy();
-    expect(ruleOptionCascade.disabled).toBeTruthy();
+    expect(ruleOptionInheritable.disabled).toBeTruthy();
   });
 });

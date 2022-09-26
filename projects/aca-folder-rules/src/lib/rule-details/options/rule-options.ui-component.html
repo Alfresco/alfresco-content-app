@@ -4,7 +4,7 @@
       formControlName="asynchronous"
       (change)="toggleScriptSelector()"
       [attr.data-automation-id]="'rule-option-checkbox-asynchronous'">
-      {{ 'ACA_FOLDER_RULES.RULE_DETAILS.OPTIONS.ASYNCHRONOUS' | translate }}
+      {{ 'ACA_FOLDER_RULES.RULE_DETAILS.OPTIONS.IS_ASYNCHRONOUS' | translate }}
     </mat-checkbox>
     <div class="select-action" *ngIf="!preview">
       <span>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.OPTIONS.ERROR_SCRIPT' | translate}}:</span>
@@ -19,9 +19,9 @@
   </div>
   <div class="options-list__rest">
     <mat-checkbox
-      formControlName="cascade"
-      [attr.data-automation-id]="'rule-option-checkbox-cascade'">
-      {{ 'ACA_FOLDER_RULES.RULE_DETAILS.OPTIONS.CASCADE' | translate }}
+      formControlName="inheritable"
+      [attr.data-automation-id]="'rule-option-checkbox-inheritable'">
+      {{ 'ACA_FOLDER_RULES.RULE_DETAILS.OPTIONS.IS_INHERITABLE' | translate }}
     </mat-checkbox>
     <mat-checkbox
       [attr.data-automation-id]="'rule-option-checkbox-enabled'"
