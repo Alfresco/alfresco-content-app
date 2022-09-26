@@ -32,6 +32,7 @@ import { ContentApiService } from '@alfresco/aca-shared';
 import { NodeInfo } from '@alfresco/aca-shared/store';
 import { RuleCompositeCondition } from '../model/rule-composite-condition.model';
 import { RuleSimpleCondition } from '../model/rule-simple-condition.model';
+import { Aspect, AspectModel } from '../model/aspect.model';
 
 @Injectable({
   providedIn: 'root'
@@ -70,6 +71,8 @@ export class FolderRulesService {
   loading$ = this.loadingSource.asObservable();
   private deletedRuleIdSource = new BehaviorSubject<string>(null);
   deletedRuleId$: Observable<string> = this.deletedRuleIdSource.asObservable();
+  private aspectsSource = new BehaviorSubject<Aspect[]>([]);
+  aspects$: Observable<Aspect[]> = this.aspectsSource.asObservable();
 
   constructor(private apiService: AlfrescoApiService, private contentApi: ContentApiService) {}
 
@@ -146,6 +149,14 @@ export class FolderRulesService {
     ).subscribe({ error: (error) => console.error(error) });
   }
 
+  loadAspects(): void {
+    from(this.apiCall('/aspects', 'GET', [{}, {}, {}, {}, {}, ['application/json'], ['application/json']]))
+      .pipe(map((res) => res.list.entries.map((entry) => this.formatAspect(entry.entry))))
+      .subscribe((res) => {
+        this.aspectsSource.next(res);
+      });
+  }
+
   private apiCall(path: string, httpMethod: string, params?: any[]): Promise<any> {
     return this.apiService.getInstance().contentClient.callApi(path, httpMethod, ...params);
   }
@@ -195,6 +206,26 @@ export class FolderRulesService {
       field: obj.field || 'cm:name',
       comparator: obj.comparator || 'equals',
       parameter: obj.parameter || ''
+    };
+  }
+
+  private formatAspect(obj): Aspect {
+    return {
+      includedInSupertypeQuery: obj.includedInSupertypeQuery ?? false,
+      isContainer: obj.isContainer ?? false,
+      model: this.formatAspectModel(obj.model),
+      id: obj.id ?? '',
+      title: obj.title ?? '',
+      parentId: obj.parentId ?? ''
+    };
+  }
+
+  private formatAspectModel(obj): AspectModel {
+    return {
+      id: obj.id ?? '',
+      description: obj.description ?? '',
+      namespaceUri: obj.namespaceUri ?? '',
+      namespacePrefix: obj.namespacePrefix ?? ''
     };
   }
 }

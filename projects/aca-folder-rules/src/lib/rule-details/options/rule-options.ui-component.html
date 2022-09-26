@@ -27,7 +27,7 @@
       [attr.data-automation-id]="'rule-option-checkbox-enabled'"
       [checked]="!form.value.enabled" *ngIf="!preview"
       (change)="form.get('enabled').setValue(!$event.checked)">
-      {{ 'ACA_FOLDER_RULES.RULE_DETAILS.OPTIONS.ENABLED' | translate }}
+      {{ 'ACA_FOLDER_RULES.RULE_DETAILS.OPTIONS.DISABLE_RULE' | translate }}
     </mat-checkbox>
   </div>
 </div>
