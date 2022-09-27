@@ -25,43 +25,38 @@
 
 import { CoreModule } from '@alfresco/adf-core';
 import { CommonModule } from '@angular/common';
-import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
-import { ExtensionService, ExtensionsModule } from '@alfresco/adf-extensions';
-import { AppExtensionService } from '@alfresco/aca-shared';
-import { LoginComponent } from '../content-plugin/components/login/login.component';
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { ContentDirectiveModule } from '@alfresco/adf-content-services';
+import { CoreExtensionsModule } from '../../../extensions/core.extensions.module';
+import { DirectivesModule } from '../../directives/directives.module';
+import { AppInfoDrawerModule } from '../info-drawer/info.drawer.module';
+import { PreviewComponent } from './preview.component';
+import { AppToolbarModule } from '../toolbar/toolbar.module';
 
-// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
-export function setupExtensions(service: AppExtensionService): () => void {
-  return () => service.load();
-}
+const routes: Routes = [
+  {
+    path: '',
+    component: PreviewComponent,
+    data: {
+      title: 'APP.PREVIEW.TITLE',
+      navigateMultiple: true
+    }
+  }
+];
 
 @NgModule({
-  imports: [CommonModule, CoreModule.forChild(), ExtensionsModule],
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+    CoreModule.forChild(),
+    ContentDirectiveModule,
+    DirectivesModule,
+    AppInfoDrawerModule,
+    CoreExtensionsModule.forChild(),
+    AppToolbarModule
+  ],
+  declarations: [PreviewComponent],
+  exports: [PreviewComponent]
 })
-export class CoreExtensionsModule {
-  constructor(extensions: ExtensionService) {
-    extensions.setComponents({
-      'app.shell.login': LoginComponent
-    });
-  }
-
-  static forRoot(): ModuleWithProviders<CoreExtensionsModule> {
-    return {
-      ngModule: CoreExtensionsModule,
-      providers: [
-        {
-          provide: APP_INITIALIZER,
-          useFactory: setupExtensions,
-          deps: [AppExtensionService],
-          multi: true
-        }
-      ]
-    };
-  }
-
-  static forChild(): ModuleWithProviders<CoreExtensionsModule> {
-    return {
-      ngModule: CoreExtensionsModule
-    };
-  }
-}
+export class PreviewModule {}

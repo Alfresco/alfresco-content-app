@@ -103,6 +103,11 @@
                 "output": "./assets/plugins"
               },
               {
+                "glob": "shell.plugin.json",
+                "input": "app/src/app/app-shell/assets",
+                "output": "./assets/plugins"
+              },
+              {
                 "glob": "**/*",
                 "input": "projects/aca-folder-rules/assets",
                 "output": "./assets/aca-folder-rules"

@@ -1,0 +1,128 @@
+@import '../../../ui/mixins.scss';
+
+$adf-chip-background: #efefef;
+$contrast-gray: #646569;
+
+.adf-search-results {
+  @include flex-row;
+
+  &__facets {
+    display: flex;
+    flex-direction: row;
+    margin-top: 5px;
+    margin-bottom: 15px;
+  }
+
+  &__content {
+    @include flex-column;
+    border-left: 1px solid #eee;
+  }
+
+  &__content-header {
+    display: flex;
+    padding: 0 25px 0 25px;
+    flex-direction: row;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+
+    .adf-search-filter-chip {
+      &.mat-chip {
+        background-color: $adf-chip-background;
+        color: $contrast-gray;
+      }
+      .adf-search-filter-placeholder {
+        color: $contrast-gray;
+      }
+    }
+  }
+
+  &--info-text {
+    flex: 1;
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.54);
+  }
+
+  &--embedded_viewer {
+    position: unset;
+    display: flex;
+    width: 100%;
+  }
+
+  &--right_panel_section {
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  &--right_panel_section-extended {
+    display: flex;
+    justify-content: flex-start;
+    flex-basis: 55%;
+  }
+
+  &--preview-toolbar {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin: 5px 5px;
+    padding-right: 24px;
+  }
+
+  &--visibility_button {
+    margin-right: 8px;
+  }
+
+  .adf-search-filter {
+    min-width: 260px;
+    max-width: 320px;
+    padding: 5px;
+    height: 100%;
+    overflow: scroll;
+
+    &--hidden {
+      display: none;
+    }
+  }
+
+  .content {
+    box-sizing: border-box;
+    display: flex;
+    place-content: flex-start space-between;
+    align-items: flex-start;
+    padding: 16px 12px;
+
+    &__button {
+      padding: 0 12px;
+    }
+
+    &__divider {
+      height: 100%;
+    }
+
+    &__filter {
+      padding: 0 12px;
+      flex: 1 1 auto;
+    }
+
+    &__reset-action {
+      line-height: 33px;
+    }
+
+    &__sort-picker {
+      min-width: 220px;
+    }
+  }
+
+  .adf-datatable {
+
+    aca-search-action-menu button {
+      width: 0;
+    }
+
+    .aca-location-link a {
+      font-size: 12px;
+      max-width: 350px;
+      text-align: left;
+      direction: rtl;
+    }
+  }
+}

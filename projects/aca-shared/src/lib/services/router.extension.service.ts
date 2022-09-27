@@ -39,9 +39,11 @@ export class RouterExtensionService {
 
   constructor(private router: Router, protected extensions: ExtensionService) {}
 
-  mapExtensionRoutes() {
+  mapExtensionRoutes(extensionRoutes?: ExtensionRoute[]) {
     const routesWithoutParent = [];
-    this.getApplicationRoutes().forEach((extensionRoute: ExtensionRoute) => {
+    const routes = extensionRoutes ?? this.getApplicationRoutes();
+
+    routes.forEach((extensionRoute: ExtensionRoute) => {
       if (this.extensionRouteHasChild(extensionRoute)) {
         const parentRoute = this.findRoute(extensionRoute.parentRoute);
         if (parentRoute) {
@@ -60,9 +62,9 @@ export class RouterExtensionService {
     return this.extensions.routes.map((route) => {
       const guards = this.extensions.getAuthGuards(route.auth && route.auth.length > 0 ? route.auth : this.defaults.auth);
 
-      return {
+      const newRoute = {
         path: route.path,
-        component: this.getComponentById(route.layout || this.defaults.layout),
+        component: this.getComponentById(route.layout ?? this.defaults.layout),
         canActivateChild: guards,
         canActivate: guards,
         parentRoute: route.parentRoute,
@@ -82,6 +84,8 @@ export class RouterExtensionService {
           }
         ]
       };
+
+      return newRoute;
     });
   }
 

@@ -23,50 +23,16 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { BrowserModule, HammerModule } from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TRANSLATION_PROVIDER, CoreModule, AppConfigService, DebugAppConfigService } from '@alfresco/adf-core';
+
+import { TRANSLATION_PROVIDER, AppConfigService, DebugAppConfigService, CoreModule, AuthGuard } from '@alfresco/adf-core';
 import { ContentModule, ContentVersionService } from '@alfresco/adf-content-services';
-import { SharedModule } from '@alfresco/aca-shared';
+import { AppService, SharedModule } from '@alfresco/aca-shared';
 
-import { AppComponent } from './app.component';
-import { APP_ROUTES } from './app.routes';
-
-import { FilesComponent } from './components/files/files.component';
-import { LibrariesComponent } from './components/libraries/libraries.component';
-import { FavoriteLibrariesComponent } from './components/favorite-libraries/favorite-libraries.component';
-import { ViewProfileModule } from './components/view-profile/view-profile.module';
-
-import { AppStoreModule } from './store/app-store.module';
-import { MaterialModule } from './material.module';
 import { AppExtensionsModule } from './extensions.module';
-import { CoreExtensionsModule } from './extensions/core.extensions.module';
-import { AppInfoDrawerModule } from './components/info-drawer/info.drawer.module';
-import { DirectivesModule } from './directives/directives.module';
-import { ContextMenuModule } from './components/context-menu/context-menu.module';
-import { ExtensionsModule } from '@alfresco/adf-extensions';
-import { AppToolbarModule } from './components/toolbar/toolbar.module';
-import { AppCreateMenuModule } from './components/create-menu/create-menu.module';
-import { AppSidenavModule } from './components/sidenav/sidenav.module';
-import { AppCommonModule } from './components/common/common.module';
-import { AppLayoutModule } from './components/layout/layout.module';
-import { AppSearchInputModule } from './components/search/search-input.module';
-import { DocumentListCustomComponentsModule } from './components/dl-custom-components/document-list-custom-components.module';
-import { AppSearchResultsModule } from './components/search/search-results.module';
-import { AppLoginModule } from './components/login/login.module';
-import { AppHeaderModule } from './components/header/header.module';
-import { AppNodeVersionModule } from './components/node-version/node-version.module';
-import { FavoritesComponent } from './components/favorites/favorites.component';
-import { RecentFilesComponent } from './components/recent-files/recent-files.component';
-import { SharedFilesComponent } from './components/shared-files/shared-files.component';
-import { CreateFromTemplateDialogComponent } from './dialogs/node-template/create-from-template.dialog';
 import { environment } from '../environments/environment';
-import { DetailsComponent } from './components/details/details.component';
-import { ContentUrlService } from './services/content-url.service';
-import { HomeComponent } from './components/home/home.component';
 
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
@@ -85,6 +51,14 @@ import localePl from '@angular/common/locales/pl';
 import localeFi from '@angular/common/locales/fi';
 import localeDa from '@angular/common/locales/da';
 import localeSv from '@angular/common/locales/sv';
+import { ContentUrlService } from './content-plugin/services/content-url.service';
+import { AppShellModule } from './app-shell/app-shell.module';
+import { TranslateModule } from '@ngx-translate/core';
+import { RouterModule } from '@angular/router';
+import { AppComponent } from './app.components';
+import { SHELL_AUTH_TOKEN } from './app-shell/app-shell.routes';
+import { CONTENT_LAYOUT_ROUTES } from './content-plugin/content.routes';
+import { ContentServiceExtensionModule } from './content-plugin/content-services-extension.module';
 
 registerLocaleData(localeFr);
 registerLocaleData(localeDe);
@@ -106,54 +80,28 @@ registerLocaleData(localeSv);
 @NgModule({
   imports: [
     BrowserModule,
+    TranslateModule.forRoot(),
+    CoreModule.forRoot(),
+    ContentModule.forRoot(),
+    SharedModule.forRoot(),
     environment.e2e ? NoopAnimationsModule : BrowserAnimationsModule,
-    FormsModule,
-    ReactiveFormsModule,
-    RouterModule.forRoot(APP_ROUTES, {
+    RouterModule.forRoot([], {
       useHash: true,
       enableTracing: false, // enable for debug only
       relativeLinkResolution: 'legacy'
     }),
-    MaterialModule,
-    CoreModule.forRoot(),
-    ContentModule.forRoot(),
-    SharedModule.forRoot(),
-    AppStoreModule,
-    CoreExtensionsModule.forRoot(),
-    ExtensionsModule.forRoot(),
     AppExtensionsModule,
-    AppLoginModule,
-    AppCommonModule,
-    AppLayoutModule,
-    DirectivesModule,
-    ContextMenuModule,
-    AppInfoDrawerModule,
-    AppToolbarModule,
-    AppSidenavModule,
-    AppCreateMenuModule,
-    DocumentListCustomComponentsModule,
-    AppSearchInputModule,
-    AppSearchResultsModule,
-    AppHeaderModule,
-    AppNodeVersionModule,
-    HammerModule,
-    ViewProfileModule
-  ],
-  declarations: [
-    AppComponent,
-    FilesComponent,
-    DetailsComponent,
-    LibrariesComponent,
-    FavoriteLibrariesComponent,
-    FavoritesComponent,
-    RecentFilesComponent,
-    SharedFilesComponent,
-    CreateFromTemplateDialogComponent,
-    HomeComponent
+    AppShellModule.withChildren(CONTENT_LAYOUT_ROUTES.children),
+    ContentServiceExtensionModule
   ],
   providers: [
+    { provide: AppService, useClass: AppService },
     { provide: AppConfigService, useClass: DebugAppConfigService },
     { provide: ContentVersionService, useClass: ContentUrlService },
+    {
+      provide: SHELL_AUTH_TOKEN,
+      useClass: AuthGuard
+    },
     {
       provide: TRANSLATION_PROVIDER,
       multi: true,
@@ -163,6 +111,7 @@ registerLocaleData(localeSv);
       }
     }
   ],
+  declarations: [AppComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
