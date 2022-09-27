@@ -112,6 +112,16 @@ export class FolderRulesService {
       );
   }
 
+  createRule(nodeId: string, rule = FolderRulesService.emptyRule, ruleSetId: string = '-default-'): void {
+    from(
+      this.apiCall(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules`, 'POST',
+        [{}, {}, {}, {}, {...rule}, ['application/json'], ['application/json']])
+    ).subscribe(
+      (res) => {console.log(res)},
+    (error) => { console.log(error)}
+    )
+  }
+
   deleteRule(nodeId: string, ruleId: string, ruleSetId: string = '-default-'): void {
     this.loadingSource.next(true);
     from(

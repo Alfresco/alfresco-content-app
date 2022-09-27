@@ -57,4 +57,8 @@ export class EditRuleDialogSmartComponent {
   get submitLabel(): string {
     return 'ACA_FOLDER_RULES.EDIT_RULE_DIALOG.' + (this.isUpdateMode ? 'UPDATE' : 'CREATE');
   }
+
+  onSubmit() {
+    console.log(this.model)
+  }
 }
