@@ -39,7 +39,7 @@ export class RuleListItemUiComponent {
 
   constructor(private folderRulesService: FolderRulesService) {}
 
-  onToggleClick(enabled: boolean) {
-    this.folderRulesService.toggleRule(this.nodeId, this.rule.id, { ...this.rule, enabled });
+  onToggleClick(isEnabled: boolean) {
+    this.folderRulesService.toggleRule(this.nodeId, this.rule.id, { ...this.rule, isEnabled });
   }
 }

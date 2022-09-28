@@ -99,17 +99,17 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
   get conditions(): UntypedFormControl {
     return this.form.get('conditions') as UntypedFormControl;
   }
-  get asynchronous(): UntypedFormControl {
-    return this.form.get('asynchronous') as UntypedFormControl;
+  get isAsynchronous(): UntypedFormControl {
+    return this.form.get('isAsynchronous') as UntypedFormControl;
   }
   get errorScript(): UntypedFormControl {
     return this.form.get('errorScript') as UntypedFormControl;
   }
-  get inheritable(): UntypedFormControl {
-    return this.form.get('inheritable') as UntypedFormControl;
+  get isInheritable(): UntypedFormControl {
+    return this.form.get('isInheritable') as UntypedFormControl;
   }
-  get enabled(): UntypedFormControl {
-    return this.form.get('enabled') as UntypedFormControl;
+  get isEnabled(): UntypedFormControl {
+    return this.form.get('isEnabled') as UntypedFormControl;
   }
 
   ngOnInit() {

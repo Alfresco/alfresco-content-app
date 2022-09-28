@@ -2,7 +2,7 @@
     <div class="rule-info">
       <div class="rule-info__header">
         <span class="rule-info__header__title">{{rule.name}}</span>
-        <mat-slide-toggle [(ngModel)]="rule.enabled" (click)="onToggleClick(!rule.enabled)"></mat-slide-toggle>
+        <mat-slide-toggle [(ngModel)]="rule.isEnabled" (click)="onToggleClick(!rule.isEnabled)"></mat-slide-toggle>
       </div>
       <p>{{rule.description}}</p>
     </div>

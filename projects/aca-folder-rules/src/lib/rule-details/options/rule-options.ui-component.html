@@ -1,7 +1,7 @@
 <div class="options-list" [formGroup]="form">
   <div class="options-list__asynchronous">
     <mat-checkbox
-      formControlName="asynchronous"
+      formControlName="isAsynchronous"
       (change)="toggleScriptSelector()"
       [attr.data-automation-id]="'rule-option-checkbox-asynchronous'">
       {{ 'ACA_FOLDER_RULES.RULE_DETAILS.OPTIONS.IS_ASYNCHRONOUS' | translate }}
@@ -19,14 +19,14 @@
   </div>
   <div class="options-list__rest">
     <mat-checkbox
-      formControlName="inheritable"
+      formControlName="isInheritable"
       [attr.data-automation-id]="'rule-option-checkbox-inheritable'">
       {{ 'ACA_FOLDER_RULES.RULE_DETAILS.OPTIONS.IS_INHERITABLE' | translate }}
     </mat-checkbox>
     <mat-checkbox
       [attr.data-automation-id]="'rule-option-checkbox-enabled'"
-      [checked]="!form.value.enabled" *ngIf="!preview"
-      (change)="form.get('enabled').setValue(!$event.checked)">
+      [checked]="!form.value.isEnabled" *ngIf="!preview"
+      (change)="form.get('isEnabled').setValue(!$event.checked)">
       {{ 'ACA_FOLDER_RULES.RULE_DETAILS.OPTIONS.DISABLE_RULE' | translate }}
     </mat-checkbox>
   </div>
