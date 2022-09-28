@@ -33,8 +33,8 @@
         "OUTBOUND": "Items are deleted or leave this folder"
       },
       "OPTIONS": {
-        "CASCADE":  "Rule applies to subfolders",
-        "ASYNCHRONOUS": "Run rule in the background",
+        "IS_INHERITABLE":  "Rule applies to subfolders",
+        "IS_ASYNCHRONOUS": "Run rule in the background",
         "DISABLE_RULE": "Disable rule",
         "ERROR_SCRIPT": "If errors occur run script",
         "SELECT_ACTION": "Select action"

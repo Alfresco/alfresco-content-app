@@ -38,8 +38,8 @@ export const dummyResponse = {
       {
         entry: {
           isShared: false,
-          cascade: false,
-          asynchronous: false,
+          isInheritable: false,
+          isAsynchronous: false,
           name: 'rule1',
           id: 'd388ed54-a522-410f-a158-6dbf5a833731',
           triggers: ['inbound'],
@@ -53,14 +53,14 @@ export const dummyResponse = {
               }
             }
           ],
-          enabled: true
+          isEnabled: true
         }
       },
       {
         entry: {
           isShared: false,
-          cascade: false,
-          asynchronous: false,
+          isInheritable: false,
+          isAsynchronous: false,
           name: 'rule2',
           id: 'e0e645ca-e6c0-47d4-9936-1a8872a6c30b',
           triggers: ['inbound'],
@@ -73,7 +73,7 @@ export const dummyResponse = {
               }
             }
           ],
-          enabled: true
+          isEnabled: true
         }
       }
     ]
@@ -85,9 +85,9 @@ export const dummyRules: Rule[] = [
     id: 'd388ed54-a522-410f-a158-6dbf5a833731',
     name: 'rule1',
     description: '',
-    enabled: true,
-    cascade: false,
-    asynchronous: false,
+    isEnabled: true,
+    isInheritable: false,
+    isAsynchronous: false,
     errorScript: '',
     isShared: false,
     triggers: ['inbound'],
@@ -112,9 +112,9 @@ export const dummyRules: Rule[] = [
     id: 'e0e645ca-e6c0-47d4-9936-1a8872a6c30b',
     name: 'rule2',
     description: '',
-    enabled: true,
-    cascade: false,
-    asynchronous: false,
+    isEnabled: true,
+    isInheritable: false,
+    isAsynchronous: false,
     errorScript: '',
     isShared: false,
     triggers: ['inbound'],

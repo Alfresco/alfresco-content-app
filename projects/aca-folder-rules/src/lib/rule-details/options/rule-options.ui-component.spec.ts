@@ -56,9 +56,9 @@ describe('RuleOptionsUiComponent', () => {
     component = fixture.componentInstance;
 
     component.form = fb.group({
-      asynchronous: [false],
-      cascade: [false],
-      enabled: [true],
+      isAsynchronous: [false],
+      isInheritable: [false],
+      isEnabled: [true],
       errorScript: ['']
     });
     fixture.detectChanges();
@@ -68,7 +68,7 @@ describe('RuleOptionsUiComponent', () => {
     expect(component).toBeTruthy();
 
     expect(getByDataAutomationId('rule-option-checkbox-asynchronous').componentInstance.checked).toBeFalsy();
-    expect(getByDataAutomationId('rule-option-checkbox-cascade').componentInstance.checked).toBeFalsy();
+    expect(getByDataAutomationId('rule-option-checkbox-inheritable').componentInstance.checked).toBeFalsy();
     expect(getByDataAutomationId('rule-option-checkbox-enabled').componentInstance.checked).toBeFalsy();
     expect(getByDataAutomationId('rule-option-select-errorScript').componentInstance.disabled).toBeTruthy();
   });
@@ -87,7 +87,7 @@ describe('RuleOptionsUiComponent', () => {
 
     expect(getByDataAutomationId('rule-option-checkbox-asynchronous')).toBeTruthy();
     expect(getByDataAutomationId('rule-option-checkbox-asynchronous')).toBeTruthy();
-    expect(getByDataAutomationId('rule-option-checkbox-cascade')).toBeTruthy();
+    expect(getByDataAutomationId('rule-option-checkbox-inheritable')).toBeTruthy();
     expect(getByDataAutomationId('rule-option-checkbox-enabled')).toBeFalsy();
     expect(getByDataAutomationId('rule-option-select-errorScript')).toBeFalsy();
   });
