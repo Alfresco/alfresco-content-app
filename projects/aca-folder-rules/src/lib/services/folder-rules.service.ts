@@ -73,6 +73,8 @@ export class FolderRulesService {
   deletedRuleId$: Observable<string> = this.deletedRuleIdSource.asObservable();
   private aspectsSource = new BehaviorSubject<Aspect[]>([]);
   aspects$: Observable<Aspect[]> = this.aspectsSource.asObservable();
+  // private createRuleErrorsSource = new BehaviorSubject('');
+  // createRuleErrors = this.createRuleErrorsSource.asObservable();
 
   constructor(private apiService: AlfrescoApiService, private contentApi: ContentApiService) {}
 
@@ -112,14 +114,16 @@ export class FolderRulesService {
       );
   }
 
-  createRule(nodeId: string, rule = FolderRulesService.emptyRule, ruleSetId: string = '-default-'): void {
-    from(
-      this.apiCall(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules`, 'POST',
-        [{}, {}, {}, {}, {...rule}, ['application/json'], ['application/json']])
-    ).subscribe(
-      (res) => {console.log(res)},
-    (error) => { console.log(error)}
-    )
+  createRule(nodeId: string, rule: Partial<Rule>, ruleSetId: string = '-default-') {
+    return this.apiCall(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules`, 'POST', [
+      {},
+      {},
+      {},
+      {},
+      { ...this.addFakeAction(rule) },
+      ['application/json'],
+      ['application/json']
+    ]);
   }
 
   deleteRule(nodeId: string, ruleId: string, ruleSetId: string = '-default-'): void {
@@ -165,6 +169,17 @@ export class FolderRulesService {
       .subscribe((res) => {
         this.aspectsSource.next(res);
       });
+  }
+
+  private addFakeAction(rule): Partial<Rule> {
+    return {
+      ...rule,
+      actions: [
+        {
+          actionDefinitionId: 'counter'
+        }
+      ],
+    }
   }
 
   private apiCall(path: string, httpMethod: string, params?: any[]): Promise<any> {

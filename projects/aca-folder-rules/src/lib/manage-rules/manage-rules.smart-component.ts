@@ -34,6 +34,7 @@ import { tap } from 'rxjs/operators';
 import { EditRuleDialogSmartComponent } from '../rule-details/edit-rule-dialog.smart-component';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '@alfresco/adf-content-services';
+import { NotificationService } from '@alfresco/adf-core';
 
 @Component({
   selector: 'aca-manage-rules',
@@ -49,12 +50,14 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
   selectedRule: Rule = null;
   nodeId: string = null;
   deletedRuleSubscription$: Subscription;
+  ruleDialogOnSubmitSubscription$: Subscription;
 
   constructor(
     private location: Location,
     private folderRulesService: FolderRulesService,
     private route: ActivatedRoute,
-    private matDialogService: MatDialog
+    private matDialogService: MatDialog,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -76,13 +79,13 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
       this.nodeId = params.nodeId;
       if (this.nodeId) {
         this.folderRulesService.loadRules(this.nodeId);
-        // this.folderRulesService.createRule('7b1e2bd9-fcdb-4de6-a330-dc687bb25117')
       }
     });
   }
 
   ngOnDestroy(): void {
     this.deletedRuleSubscription$.unsubscribe();
+    this.ruleDialogOnSubmitSubscription$.unsubscribe();
   }
 
   goBack(): void {
@@ -94,9 +97,25 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
   }
 
   openNewRuleDialog() {
-    this.matDialogService.open(EditRuleDialogSmartComponent, {
+    const dialogRef = this.matDialogService.open(EditRuleDialogSmartComponent, {
       width: '90%',
       panelClass: 'aca-edit-rule-dialog-container'
+    });
+
+    this.onRuleCreate(dialogRef)
+  }
+
+  onRuleCreate(dialogRef) {
+    this.ruleDialogOnSubmitSubscription$ = dialogRef.componentInstance.submitted.subscribe((rule) => {
+      this.folderRulesService
+        .createRule(this.nodeId, rule)
+        .then((_) => {
+          this.folderRulesService.loadRules(this.nodeId);
+          dialogRef.close();
+        })
+        .catch((err) => {
+          this.notificationService.showError(err.response.body.error.errorKey);
+        });
     });
   }
 
