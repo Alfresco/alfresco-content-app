@@ -1,1 +1,11 @@
-<aca-rule-action [actionDefinitions]="actionsService.actionDefinitionsListing$ | async"></aca-rule-action>
+<ng-container *ngFor="let control of formControls">
+  <aca-rule-action
+    [actionDefinitions]="actionsService.actionDefinitionsListing$ | async"
+    [formControl]="control">
+  </aca-rule-action>
+</ng-container>
+
+<button mat-button (click)="addAction()">
+  <mat-icon>add</mat-icon>
+  <span>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.ACTION_BUTTONS.ADD_ACTION' | translate }}</span>
+</button>

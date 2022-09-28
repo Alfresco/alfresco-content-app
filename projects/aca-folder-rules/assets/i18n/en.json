@@ -71,14 +71,23 @@
         "AND": "And",
         "OR": "Or"
       },
-      "ACTIONS": {
+      "CONDITION_BUTTONS": {
         "ADD_CONDITION": "Add condition",
-        "ADD_GROUP": "Add group",
+        "ADD_GROUP": "Add condition group",
         "REMOVE": "Remove"
       },
       "NO_CONDITIONS": "No conditions",
-      "NO_CONDITIONS_IN_GROUP": "No conditions in the group"
+      "NO_CONDITIONS_IN_GROUP": "No conditions in the group",
+      "ACTION_BUTTONS": {
+        "ADD_ACTION": "Add action"
       },
+      "ACTION_SELECT_PLACEHOLDER": "Select an action",
+      "ACTION_PARAMETERS": {
+        "DEEP_COPY": "Deep copy",
+        "DESTINATION_FOLDER": "Desination folder",
+        "OVERWRIGHT_COPY": "Overwright copy"
+      }
+    },
     "MANAGE_RULES": {
       "TOOLBAR": {
         "BREADCRUMB": {

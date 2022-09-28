@@ -68,7 +68,8 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
       isAsynchronous: newValue.isAsynchronous || FolderRulesService.emptyRule.isAsynchronous,
       errorScript: newValue.errorScript || FolderRulesService.emptyRule.errorScript,
       isInheritable: newValue.isInheritable || FolderRulesService.emptyRule.isInheritable,
-      isEnabled: newValue.isEnabled || FolderRulesService.emptyRule.isEnabled
+      isEnabled: newValue.isEnabled || FolderRulesService.emptyRule.isEnabled,
+      actions: newValue.actions || FolderRulesService.emptyRule.actions
     };
     if (this.form) {
       this.form.setValue(newValue);
@@ -129,7 +130,8 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
       isAsynchronous: new UntypedFormControl(this.value.isAsynchronous),
       errorScript: new UntypedFormControl(this.value.errorScript),
       isInheritable: new UntypedFormControl(this.value.isInheritable),
-      isEnabled: new UntypedFormControl(this.value.isEnabled)
+      isEnabled: new UntypedFormControl(this.value.isEnabled),
+      actions: new UntypedFormControl(this.value.actions)
     });
     this.readOnly = this._readOnly;
 

@@ -1,13 +1,24 @@
-import { Component, Input } from '@angular/core';
-import { ControlValueAccessor, FormControl, FormGroup } from '@angular/forms';
+import { Component, forwardRef, Input, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ActionDefinitionTransformed, RuleAction } from '../../model/rule-action.model';
+import { CardViewItem } from '@alfresco/adf-core/lib/card-view/interfaces/card-view-item.interface';
+import { CardViewBoolItemModel, CardViewTextItemModel } from '@alfresco/adf-core';
 
 @Component({
   selector: 'aca-rule-action',
   templateUrl: './rule-action.ui-component.html',
-  styleUrls: ['./rule-action.ui-component.scss']
+  styleUrls: ['./rule-action.ui-component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  host: { class: 'aca-rule-action' },
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      multi: true,
+      useExisting: forwardRef(() => RuleActionUiComponent)
+    }
+  ]
 })
-export class RuleActionUiComponent implements ControlValueAccessor {
+export class RuleActionUiComponent implements ControlValueAccessor, OnDestroy {
   @Input()
   actionDefinitions: ActionDefinitionTransformed[];
 
@@ -15,18 +26,62 @@ export class RuleActionUiComponent implements ControlValueAccessor {
     actionDefinitionId: new FormControl('copy')
   });
 
+  cardViewItems: CardViewItem[] = [];
+
+  get selectedActionDefinitionId(): string {
+    return this.form.get('actionDefinitionId').value;
+  }
+
+  get selectedActionDefinition(): ActionDefinitionTransformed {
+    return this.actionDefinitions.find((actionDefinition: ActionDefinitionTransformed) => actionDefinition.id === this.selectedActionDefinitionId);
+  }
+
+  private formSubscription = this.form.valueChanges.subscribe((value: any) => {
+    this.setCardViewProperties({});
+    this.onChange(value);
+    this.onTouch();
+  });
+
   onChange: (action: RuleAction) => void = () => undefined;
   onTouch: () => void = () => undefined;
 
   writeValue(action: RuleAction) {
-    this.form.setValue(action);
+    this.form.setValue({
+      actionDefinitionId: action.actionDefinitionId
+    });
+    this.setCardViewProperties(action.params);
   }
 
-  registerOnChange(fn: () => void) {
+  registerOnChange(fn: (action: RuleAction) => void) {
     this.onChange = fn;
   }
 
   registerOnTouched(fn: any) {
     this.onTouch = fn;
+  }
+
+  ngOnDestroy() {
+    this.formSubscription.unsubscribe();
+  }
+
+  setCardViewProperties(defaultValues: unknown) {
+    this.cardViewItems = (this.selectedActionDefinition?.parameterDefinitions ?? []).map((parameterDef) => {
+      const cardViewPropertiesModel = {
+        label: parameterDef.displayLabelKey,
+        key: parameterDef.name
+      }
+      switch (parameterDef.type) {
+        case 'd:boolean':
+          return new CardViewBoolItemModel({
+            ...cardViewPropertiesModel,
+            value: defaultValues[parameterDef.name] ?? false
+          });
+        default:
+          return new CardViewTextItemModel({
+            ...cardViewPropertiesModel,
+            value: defaultValues[parameterDef.name] ?? ''
+          });
+      }
+    });
   }
 }

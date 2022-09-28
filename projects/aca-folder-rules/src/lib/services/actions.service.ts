@@ -72,12 +72,13 @@ export class ActionsService {
   }
 
   private transformActionParameterDefinition(obj: ActionParameterDefinition): ActionParameterDefinitionTransformed {
+    const displayLabelKey = obj.name ? `ACA_FOLDER_RULES.RULE_DETAILS.ACTION_PARAMETERS.${obj.name.toUpperCase().replace(/-/g,'_')}` : '';
     return {
       name: obj.name ?? '',
       type: obj.type ?? '',
       multiValued: obj.multiValued ?? false,
       mandatory: obj.mandatory ?? false,
-      displayLabelKey: ''
+      displayLabelKey:  displayLabelKey
     };
   }
 
