@@ -1,24 +1,26 @@
-import { Component, forwardRef, OnDestroy, ViewEncapsulation } from '@angular/core';
-import { ActionsService } from '../../services/actions.service';
+import { Component, forwardRef, Input, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { ControlValueAccessor, FormArray, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { RuleAction } from '../../model/rule-action.model';
+import { ActionDefinitionTransformed, RuleAction } from '../../model/rule-action.model';
 import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'aca-rule-action-list',
-  templateUrl: './rule-action-list.smart-component.html',
-  styleUrls: ['./rule-action-list.smart-component.scss'],
+  templateUrl: './rule-action-list.ui-component.html',
+  styleUrls: ['./rule-action-list.ui-component.scss'],
   encapsulation: ViewEncapsulation.None,
   host: { class: 'aca-rule-action-list' },
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
       multi: true,
-      useExisting: forwardRef(() => RuleActionListSmartComponent)
+      useExisting: forwardRef(() => RuleActionListUiComponent)
     }
   ]
 })
-export class RuleActionListSmartComponent implements ControlValueAccessor, OnDestroy {
+export class RuleActionListUiComponent implements ControlValueAccessor, OnDestroy {
+  @Input()
+  actionDefinitions: ActionDefinitionTransformed[] = [];
+
   formArray = new FormArray([]);
   private formArraySubscription: Subscription;
 
@@ -28,10 +30,6 @@ export class RuleActionListSmartComponent implements ControlValueAccessor, OnDes
 
   onChange: (actions: RuleAction[]) => void = () => undefined;
   onTouch: () => void = () => undefined;
-
-  constructor(public actionsService: ActionsService) {
-    this.actionsService.loadActionDefinitions();
-  }
 
   writeValue(actions: RuleAction[]) {
     this.formArray = new FormArray(actions.map((action: RuleAction) => new FormControl(action)));

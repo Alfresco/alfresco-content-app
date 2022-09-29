@@ -23,9 +23,10 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, EventEmitter, Inject, Output, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Rule } from '../model/rule.model';
+import { ActionsService } from '../services/actions.service';
 
 export interface EditRuleDialogOptions {
   model?: Partial<Rule>;
@@ -38,13 +39,15 @@ export interface EditRuleDialogOptions {
   encapsulation: ViewEncapsulation.None,
   host: { class: 'aca-edit-rule-dialog' }
 })
-export class EditRuleDialogSmartComponent {
+export class EditRuleDialogSmartComponent implements OnInit {
   formValid = false;
   model: Partial<Rule>;
   formValue: Partial<Rule>;
   @Output() submitted = new EventEmitter<Partial<Rule>>();
+  actionDefinitions$ = this.actionsService.actionDefinitionsListing$;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public options: EditRuleDialogOptions) {
+  constructor(@Inject(MAT_DIALOG_DATA) public options: EditRuleDialogOptions,
+              private actionsService: ActionsService) {
     this.model = this.options?.model || {};
   }
 
@@ -62,5 +65,10 @@ export class EditRuleDialogSmartComponent {
 
   onSubmit() {
     this.submitted.emit(this.formValue);
+  }
+
+  ngOnInit() {
+    this.actionsService.loadActionDefinitions();
+    // TODO loading
   }
 }

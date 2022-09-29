@@ -30,11 +30,13 @@ import { Observable, Subscription } from 'rxjs';
 import { Rule } from '../model/rule.model';
 import { ActivatedRoute } from '@angular/router';
 import { NodeInfo } from '@alfresco/aca-shared/store';
-import { tap } from 'rxjs/operators';
+import { tap, combineLatest, map } from 'rxjs/operators';
 import { EditRuleDialogSmartComponent } from '../rule-details/edit-rule-dialog.smart-component';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '@alfresco/adf-content-services';
 import { NotificationService } from '@alfresco/adf-core';
+import { ActionDefinitionTransformed } from '../model/rule-action.model';
+import { ActionsService } from '../services/actions.service';
 
 @Component({
   selector: 'aca-manage-rules',
@@ -47,6 +49,7 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
   rules$: Observable<Rule[]>;
   isLoading$: Observable<boolean>;
   folderInfo$: Observable<NodeInfo>;
+  actionDefinitions$: Observable<ActionDefinitionTransformed[]>;
   selectedRule: Rule = null;
   nodeId: string = null;
   deletedRuleSubscription$: Subscription;
@@ -57,10 +60,12 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
     private folderRulesService: FolderRulesService,
     private route: ActivatedRoute,
     private matDialogService: MatDialog,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private actionsService: ActionsService
   ) {}
 
   ngOnInit(): void {
+    this.actionDefinitions$ = this.actionsService.actionDefinitionsListing$;
     this.rules$ = this.folderRulesService.rulesListing$.pipe(
       tap((rules) => {
         if (!rules.includes(this.selectedRule)) {
@@ -73,8 +78,12 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
         this.folderRulesService.loadRules(this.nodeId);
       }
     });
-    this.isLoading$ = this.folderRulesService.loading$;
+    this.isLoading$ = this.folderRulesService.loading$.pipe(
+      combineLatest(this.actionsService.loading$),
+      map(([rulesLoading, actionsLoading]) => rulesLoading || actionsLoading)
+    );
     this.folderInfo$ = this.folderRulesService.folderInfo$;
+    this.actionsService.loadActionDefinitions();
     this.route.params.subscribe((params) => {
       this.nodeId = params.nodeId;
       if (this.nodeId) {

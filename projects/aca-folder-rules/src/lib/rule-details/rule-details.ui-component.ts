@@ -30,6 +30,7 @@ import { distinctUntilChanged, map, takeUntil } from 'rxjs/operators';
 import { Rule } from '../model/rule.model';
 import { ruleCompositeConditionValidator } from './validators/rule-composite-condition.validator';
 import { FolderRulesService } from '../services/folder-rules.service';
+import { ActionDefinitionTransformed } from '../model/rule-action.model';
 
 @Component({
   selector: 'aca-rule-details',
@@ -79,6 +80,8 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
   }
   @Input()
   preview: boolean;
+  @Input()
+  actionDefinitions: ActionDefinitionTransformed[] = [];
 
   @Output()
   formValidationChanged = new EventEmitter<boolean>();

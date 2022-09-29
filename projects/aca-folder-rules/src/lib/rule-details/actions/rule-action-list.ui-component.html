@@ -1,6 +1,6 @@
 <ng-container *ngFor="let control of formControls">
   <aca-rule-action
-    [actionDefinitions]="actionsService.actionDefinitionsListing$ | async"
+    [actionDefinitions]="actionDefinitions"
     [formControl]="control">
   </aca-rule-action>
 </ng-container>

@@ -44,7 +44,12 @@
                 </div>
                 <p>{{ selectedRule.description }}</p>
               </div>
-              <aca-rule-details [readOnly]="true" [preview]="true" [value]="selectedRule"></aca-rule-details>
+              <aca-rule-details
+                [actionDefinitions]="actionDefinitions$ | async"
+                [readOnly]="true"
+                [preview]="true"
+                [value]="selectedRule">
+              </aca-rule-details>
             </div>
           </div>
 
