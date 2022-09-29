@@ -21,6 +21,16 @@
     flex-direction: row;
     align-items: center;
     border-bottom: 1px solid #eee;
+
+    .adf-search-filter-chip {
+      &.mat-chip {
+        background-color: #efefef;
+        color: #646569;
+      }
+      .adf-search-filter-placeholder {
+        color: #646569;
+      }
+    }
   }
 
   &--info-text {
