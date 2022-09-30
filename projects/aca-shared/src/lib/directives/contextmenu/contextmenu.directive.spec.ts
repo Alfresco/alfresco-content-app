@@ -65,6 +65,7 @@ describe('ContextActionsDirective', () => {
   }));
 
   it('should not call service to render context menu if the datatable is empty', fakeAsync(() => {
+    storeMock.dispatch.calls.reset();
     const el = document.createElement('div');
     el.className = 'adf-no-content-container';
 
