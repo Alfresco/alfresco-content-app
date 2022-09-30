@@ -31,6 +31,12 @@
   &__content {
     margin: 0;
     padding: 0;
+
+    &__spinner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
 
   &__footer {

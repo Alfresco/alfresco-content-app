@@ -61,12 +61,14 @@ export class ActionsService {
     if (this.isActionDefinitionEntry(obj)) {
       obj = obj.entry;
     }
+    const displayLabelKey = obj.name ? `ACA_FOLDER_RULES.RULE_DETAILS.ACTION_DEFINITION_NAMES.${obj.name.toUpperCase().replace(/-/g,'_')}` : '';
     return {
       id: obj.id,
       name: obj.name ?? '',
       titleKey: '',
       applicableTypes: obj.applicableTypes ?? [],
       trackStatus: obj.trackStatus ?? false,
+      displayLabelKey,
       parameterDefinitions: (obj.parameterDefinitions ?? []).map((paramDef: ActionParameterDefinition) => this.transformActionParameterDefinition(paramDef))
     };
   }
@@ -78,7 +80,7 @@ export class ActionsService {
       type: obj.type ?? '',
       multiValued: obj.multiValued ?? false,
       mandatory: obj.mandatory ?? false,
-      displayLabelKey:  displayLabelKey
+      displayLabelKey
     };
   }
 

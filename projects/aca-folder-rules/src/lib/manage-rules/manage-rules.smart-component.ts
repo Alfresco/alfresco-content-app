@@ -30,7 +30,7 @@ import { Observable, Subscription } from 'rxjs';
 import { Rule } from '../model/rule.model';
 import { ActivatedRoute } from '@angular/router';
 import { NodeInfo } from '@alfresco/aca-shared/store';
-import { tap, combineLatest, map } from 'rxjs/operators';
+import { tap, combineLatest, map, delay } from 'rxjs/operators';
 import { EditRuleDialogSmartComponent } from '../rule-details/edit-rule-dialog.smart-component';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '@alfresco/adf-content-services';
@@ -80,7 +80,8 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
     });
     this.isLoading$ = this.folderRulesService.loading$.pipe(
       combineLatest(this.actionsService.loading$),
-      map(([rulesLoading, actionsLoading]) => rulesLoading || actionsLoading)
+      map(([rulesLoading, actionsLoading]) => rulesLoading || actionsLoading),
+      delay(1)
     );
     this.folderInfo$ = this.folderRulesService.folderInfo$;
     this.actionsService.loadActionDefinitions();

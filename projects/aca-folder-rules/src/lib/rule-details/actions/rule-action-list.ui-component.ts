@@ -20,6 +20,8 @@ import { Subscription } from 'rxjs';
 export class RuleActionListUiComponent implements ControlValueAccessor, OnDestroy {
   @Input()
   actionDefinitions: ActionDefinitionTransformed[] = [];
+  @Input()
+  readOnly = false;
 
   formArray = new FormArray([]);
   private formArraySubscription: Subscription;

@@ -45,6 +45,7 @@ export class EditRuleDialogSmartComponent implements OnInit {
   formValue: Partial<Rule>;
   @Output() submitted = new EventEmitter<Partial<Rule>>();
   actionDefinitions$ = this.actionsService.actionDefinitionsListing$;
+  loading$ = this.actionsService.loading$;
 
   constructor(@Inject(MAT_DIALOG_DATA) public options: EditRuleDialogOptions,
               private actionsService: ActionsService) {

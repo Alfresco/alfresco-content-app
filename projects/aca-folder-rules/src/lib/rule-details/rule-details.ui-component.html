@@ -47,7 +47,11 @@
 
   <div class="aca-rule-details__form__row">
     <div class="label">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.PERFORM_ACTIONS' | translate }}</div>
-    <aca-rule-action-list formControlName="actions" [actionDefinitions]="actionDefinitions"></aca-rule-action-list>
+    <aca-rule-action-list
+      formControlName="actions"
+      [actionDefinitions]="actionDefinitions"
+      [readOnly]="readOnly">
+    </aca-rule-action-list>
   </div>
 
   <hr>

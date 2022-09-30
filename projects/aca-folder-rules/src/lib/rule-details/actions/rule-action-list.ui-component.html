@@ -1,6 +1,7 @@
 <ng-container *ngFor="let control of formControls">
   <aca-rule-action
     [actionDefinitions]="actionDefinitions"
+    [readOnly]="readOnly"
     [formControl]="control">
   </aca-rule-action>
 </ng-container>

@@ -22,6 +22,15 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnDestroy {
   @Input()
   actionDefinitions: ActionDefinitionTransformed[];
 
+  private _readOnly = false;
+  @Input()
+  get readOnly(): boolean {
+    return this._readOnly;
+  }
+  set readOnly(isReadOnly: boolean) {
+    this.setDisabledState(isReadOnly);
+  }
+
   form = new FormGroup({
     actionDefinitionId: new FormControl('copy')
   });
@@ -66,9 +75,11 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnDestroy {
 
   setCardViewProperties(defaultValues: unknown) {
     this.cardViewItems = (this.selectedActionDefinition?.parameterDefinitions ?? []).map((parameterDef) => {
+      console.log(parameterDef.name, parameterDef.type, `multivalued: ${parameterDef.multiValued}`);
       const cardViewPropertiesModel = {
         label: parameterDef.displayLabelKey,
-        key: parameterDef.name
+        key: parameterDef.name,
+        editable: true
       }
       switch (parameterDef.type) {
         case 'd:boolean':
@@ -83,5 +94,15 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnDestroy {
           });
       }
     });
+  }
+
+  setDisabledState(isDisabled: boolean) {
+    if (isDisabled) {
+      this._readOnly = true;
+      this.form.disable();
+    } else {
+      this._readOnly = false;
+      this.form.enable();
+    }
   }
 }

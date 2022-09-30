@@ -5,14 +5,14 @@
       <mat-option
         *ngFor="let actionDefinition of actionDefinitions"
         [value]="actionDefinition.id">
-        {{ actionDefinition.name }}
+        {{ actionDefinition.displayLabelKey | translate }}
       </mat-option>
     </mat-select>
   </mat-form-field>
 
   <adf-card-view
     [properties]="cardViewItems"
-    [editable]="true">
+    [editable]="!readOnly">
   </adf-card-view>
 
 </form>

@@ -34,6 +34,7 @@ export interface ActionDefinitionTransformed {
   titleKey: string;
   applicableTypes: string[];
   trackStatus: boolean;
+  displayLabelKey: string;
   parameterDefinitions: ActionParameterDefinitionTransformed[];
 }
 
