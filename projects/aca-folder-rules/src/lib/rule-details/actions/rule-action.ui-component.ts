@@ -19,8 +19,14 @@ import { CardViewBoolItemModel, CardViewTextItemModel } from '@alfresco/adf-core
   ]
 })
 export class RuleActionUiComponent implements ControlValueAccessor, OnDestroy {
+  _actionDefinitions: ActionDefinitionTransformed[];
   @Input()
-  actionDefinitions: ActionDefinitionTransformed[];
+  get actionDefinitions(): ActionDefinitionTransformed[] {
+    return this._actionDefinitions;
+  };
+  set actionDefinitions(value: ActionDefinitionTransformed[]) {
+    this._actionDefinitions = value.sort((a, b) => a.title.localeCompare(b.title));
+  }
 
   private _readOnly = false;
   @Input()
@@ -75,9 +81,8 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnDestroy {
 
   setCardViewProperties(defaultValues: unknown) {
     this.cardViewItems = (this.selectedActionDefinition?.parameterDefinitions ?? []).map((parameterDef) => {
-      console.log(parameterDef.name, parameterDef.type, `multivalued: ${parameterDef.multiValued}`);
       const cardViewPropertiesModel = {
-        label: parameterDef.displayLabelKey,
+        label: parameterDef.displayLabel,
         key: parameterDef.name,
         editable: true
       }

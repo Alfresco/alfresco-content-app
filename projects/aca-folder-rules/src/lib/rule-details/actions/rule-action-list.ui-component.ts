@@ -61,4 +61,9 @@ export class RuleActionListUiComponent implements ControlValueAccessor, OnDestro
   ngOnDestroy() {
     this.formArraySubscription?.unsubscribe();
   }
+
+  removeAction(control: FormControl) {
+    const index = this.formArray.value.indexOf(control.value);
+    this.formArray.removeAt(index);
+  }
 }

@@ -5,7 +5,7 @@
       <mat-option
         *ngFor="let actionDefinition of actionDefinitions"
         [value]="actionDefinition.id">
-        {{ actionDefinition.displayLabelKey | translate }}
+        {{ actionDefinition.title }}
       </mat-option>
     </mat-select>
   </mat-form-field>

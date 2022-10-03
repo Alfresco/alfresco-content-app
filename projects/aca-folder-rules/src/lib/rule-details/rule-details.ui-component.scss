@@ -58,5 +58,11 @@
       margin-left: 16px;
       color: inherit;
     }
+
+    &__actions {
+      .aca-rule-action-list {
+        flex: 1;
+      }
+    }
   }
 }

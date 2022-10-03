@@ -31,10 +31,9 @@ export interface RuleAction {
 export interface ActionDefinitionTransformed {
   id: string;
   name: string;
-  titleKey: string;
+  title: string;
   applicableTypes: string[];
   trackStatus: boolean;
-  displayLabelKey: string;
   parameterDefinitions: ActionParameterDefinitionTransformed[];
 }
 
@@ -43,5 +42,5 @@ export interface ActionParameterDefinitionTransformed {
   type: string;
   multiValued: boolean;
   mandatory: boolean;
-  displayLabelKey: string;
+  displayLabel: string;
 }

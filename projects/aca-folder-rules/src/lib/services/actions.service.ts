@@ -61,26 +61,23 @@ export class ActionsService {
     if (this.isActionDefinitionEntry(obj)) {
       obj = obj.entry;
     }
-    const displayLabelKey = obj.name ? `ACA_FOLDER_RULES.RULE_DETAILS.ACTION_DEFINITION_NAMES.${obj.name.toUpperCase().replace(/-/g,'_')}` : '';
     return {
       id: obj.id,
       name: obj.name ?? '',
-      titleKey: '',
+      title: obj.title ?? obj.name ?? '',
       applicableTypes: obj.applicableTypes ?? [],
       trackStatus: obj.trackStatus ?? false,
-      displayLabelKey,
       parameterDefinitions: (obj.parameterDefinitions ?? []).map((paramDef: ActionParameterDefinition) => this.transformActionParameterDefinition(paramDef))
     };
   }
 
   private transformActionParameterDefinition(obj: ActionParameterDefinition): ActionParameterDefinitionTransformed {
-    const displayLabelKey = obj.name ? `ACA_FOLDER_RULES.RULE_DETAILS.ACTION_PARAMETERS.${obj.name.toUpperCase().replace(/-/g,'_')}` : '';
     return {
       name: obj.name ?? '',
       type: obj.type ?? '',
       multiValued: obj.multiValued ?? false,
       mandatory: obj.mandatory ?? false,
-      displayLabelKey
+      displayLabel: obj.displayLabel ?? obj.name ?? ''
     };
   }
 
