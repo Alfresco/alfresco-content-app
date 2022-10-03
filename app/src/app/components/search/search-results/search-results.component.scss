@@ -1,5 +1,8 @@
 @import 'mixins';
 
+$adf-chip-background: #efefef;
+$contrast-gray: #646569;
+
 .adf-search-results {
   @include flex-row;
 
@@ -24,11 +27,11 @@
 
     .adf-search-filter-chip {
       &.mat-chip {
-        background-color: #efefef;
-        color: #646569;
+        background-color: $adf-chip-background;
+        color: $contrast-gray;
       }
       .adf-search-filter-placeholder {
-        color: #646569;
+        color: $contrast-gray;
       }
     }
   }
