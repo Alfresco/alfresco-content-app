@@ -61,7 +61,7 @@
     "@alfresco/adf-testing": "5.1.0-36495",
     "@angular-custom-builders/lite-serve": "^0.2.3",
     "@angular-devkit/build-angular": "14.1.2",
-    "@angular-eslint/builder": "^14.0.3",
+    "@angular-eslint/builder": "^14.1.2",
     "@angular-eslint/eslint-plugin": "^14.1.2",
     "@angular-eslint/eslint-plugin-template": "^14.0.3",
     "@angular-eslint/schematics": "14.0.4",
