@@ -95,7 +95,7 @@
     "eslint-plugin-unicorn": "^44.0.0",
     "http-server": "^14.1.1",
     "husky": "^8.0.1",
-    "inquirer": "^8.1.5",
+    "inquirer": "^9.1.2",
     "jasmine-core": "~4.4.0",
     "jasmine-marbles": "0.8.3",
     "jasmine-spec-reporter": "~5.0.0",
