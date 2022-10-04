@@ -1,4 +1,4 @@
-<div class="aca-rule-action-list__item" *ngFor="let control of formControls">
+<div class="aca-rule-action-list__item  " *ngFor="let control of formControls">
   <aca-rule-action
     [actionDefinitions]="actionDefinitions"
     [readOnly]="readOnly"
@@ -13,6 +13,7 @@
     <button
       mat-menu-item
       [title]="'ACA_FOLDER_RULES.RULE_DETAILS.ACTION_BUTTONS.REMOVE' | translate"
+      [disabled]="formArray.controls.length <= 1"
       (click)="removeAction(control)">
       <mat-icon>delete</mat-icon>
       <span>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.ACTION_BUTTONS.REMOVE' | translate }}</span>

@@ -34,6 +34,12 @@ export class RuleActionListUiComponent implements ControlValueAccessor, OnDestro
   onTouch: () => void = () => undefined;
 
   writeValue(actions: RuleAction[]) {
+    if (actions.length === 0) {
+      actions = [{
+        actionDefinitionId: null,
+        params: {}
+      }];
+    }
     this.formArray = new FormArray(actions.map((action: RuleAction) => new FormControl(action)));
     this.formArraySubscription?.unsubscribe();
     this.formArraySubscription = this.formArray.valueChanges.subscribe((value: any) => {
