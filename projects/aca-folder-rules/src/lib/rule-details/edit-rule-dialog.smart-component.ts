@@ -70,6 +70,5 @@ export class EditRuleDialogSmartComponent implements OnInit {
 
   ngOnInit() {
     this.actionsService.loadActionDefinitions();
-    // TODO loading
   }
 }

@@ -25,7 +25,7 @@
 
 export interface RuleAction {
   actionDefinitionId: string;
-  params: unknown;
+  params: { [key: string]: unknown };
 }
 
 export interface ActionDefinitionTransformed {

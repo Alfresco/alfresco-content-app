@@ -23,6 +23,19 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { ActionsService } from './actions.service';
+import { TestBed } from '@angular/core/testing';
+import { CoreTestingModule } from '@alfresco/adf-core';
+
 describe('ActionsService', () => {
-  
+  let actionsService: ActionsService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [CoreTestingModule],
+      providers: [ActionsService]
+    });
+
+    actionsService = TestBed.inject(ActionsService);
+  })
 });
