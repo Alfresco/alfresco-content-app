@@ -73,8 +73,6 @@ export class FolderRulesService {
   deletedRuleId$: Observable<string> = this.deletedRuleIdSource.asObservable();
   private aspectsSource = new BehaviorSubject<Aspect[]>([]);
   aspects$: Observable<Aspect[]> = this.aspectsSource.asObservable();
-  // private createRuleErrorsSource = new BehaviorSubject('');
-  // createRuleErrors = this.createRuleErrorsSource.asObservable();
 
   constructor(private apiService: AlfrescoApiService, private contentApi: ContentApiService) {}
 
