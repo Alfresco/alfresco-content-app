@@ -50,6 +50,7 @@ describe('FolderRulesService', () => {
   const ruleId = '********-fake-rule-****-********';
   const ruleSetId = '-default-';
   const params = [{}, {}, {}, {}, {}, ['application/json'], ['application/json']];
+  const paramsWithBody = [{}, {}, {}, {}, dummyRules[0], ['application/json'], ['application/json']];
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
@@ -111,7 +112,6 @@ describe('FolderRulesService', () => {
   });
 
   describe('toggleRule', () => {
-    const paramsWithBody = [{}, {}, {}, {}, dummyRules[0], ['application/json'], ['application/json']];
     beforeEach(async () => {
       apiCallSpy = spyOn<any>(folderRulesService, 'apiCall')
         .withArgs(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules/${ruleId}`, 'PUT', paramsWithBody)
@@ -136,6 +136,21 @@ describe('FolderRulesService', () => {
     it('should send correct GET request', async () => {
       expect(apiCallSpy).toHaveBeenCalled();
       expect(apiCallSpy).toHaveBeenCalledWith(`/aspects`, 'GET', params);
+    });
+  });
+
+  describe('createRule', () => {
+    beforeEach(async () => {
+      spyOn<any>(folderRulesService, 'apiCall')
+        .withArgs(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules`, 'POST', paramsWithBody)
+        .and.returnValue(Promise.resolve(dummyRules[0]));
+    });
+
+    it('should send correct POST request and return created rule', function () {
+      folderRulesService.createRule(nodeId, dummyRules[0]).then((result) => {
+        expect(folderRulesService.createRule).toHaveBeenCalledWith(nodeId, dummyRules[0]);
+        expect(result).toEqual(dummyRules[0]);
+      });
     });
   });
 });

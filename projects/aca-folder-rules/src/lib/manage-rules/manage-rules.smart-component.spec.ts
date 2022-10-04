@@ -26,7 +26,7 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AcaFolderRulesModule, ManageRulesSmartComponent } from '@alfresco/aca-folder-rules';
 import { DebugElement } from '@angular/core';
-import { CoreTestingModule } from '@alfresco/adf-core';
+import { CoreTestingModule, NotificationService } from '@alfresco/adf-core';
 import { FolderRulesService } from '../services/folder-rules.service';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
@@ -43,12 +43,14 @@ describe('ManageRulesSmartComponent', () => {
 
   beforeEach(
     waitForAsync(() => {
-      const folderRulesServiceSpy = jasmine.createSpyObj('FolderRulesService', ['loadRules', 'deleteRule']);
+      const folderRulesServiceSpy = jasmine.createSpyObj('FolderRulesService', ['loadRules', 'deleteRule', 'createRule']);
+      const notificationServiceSpy = jasmine.createSpyObj('NotificationService', ['showError']);
       TestBed.configureTestingModule({
         imports: [CoreTestingModule, AcaFolderRulesModule],
         providers: [
           { provide: FolderRulesService, useValue: folderRulesServiceSpy },
-          { provide: ActivatedRoute, useValue: { params: of({ nodeId: 1 }) } }
+          { provide: ActivatedRoute, useValue: { params: of({ nodeId: 1 }) } },
+          { provide: NotificationService, useValue: notificationServiceSpy }
         ]
       })
         .compileComponents()

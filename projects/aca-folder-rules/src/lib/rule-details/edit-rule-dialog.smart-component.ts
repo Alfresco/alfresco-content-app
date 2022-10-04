@@ -60,15 +60,7 @@ export class EditRuleDialogSmartComponent {
     return 'ACA_FOLDER_RULES.EDIT_RULE_DIALOG.' + (this.isUpdateMode ? 'UPDATE' : 'CREATE');
   }
 
-  // check(e) {
-  //   console.log("event")
-  //   console.log(e)
-  //   console.log("this.model")
-  //   console.log(this.model)
-  // }
   onSubmit() {
     this.submitted.emit(this.formValue);
-    // console.log("submit")
-    console.log(this.formValue)
   }
 }

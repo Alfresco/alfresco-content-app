@@ -172,13 +172,20 @@ export class FolderRulesService {
   }
 
   private addFakeAction(rule): Partial<Rule> {
-    return {
-      ...rule,
-      actions: [
-        {
-          actionDefinitionId: 'counter'
-        }
-      ],
+    if (rule.actions) {
+      return rule;
+    } else {
+      return {
+        ...rule,
+        actions: [
+          {
+            actionDefinitionId: 'add-features',
+            params: {
+              'aspect-name': 'ai:creativeWorks'
+            }
+          }
+        ]
+      };
     }
   }
 

@@ -85,7 +85,6 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.deletedRuleSubscription$.unsubscribe();
-    this.ruleDialogOnSubmitSubscription$.unsubscribe();
   }
 
   goBack(): void {
@@ -102,20 +101,18 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
       panelClass: 'aca-edit-rule-dialog-container'
     });
 
-    this.onRuleCreate(dialogRef)
+    this.onSubmitRuleDialog(dialogRef);
   }
 
-  onRuleCreate(dialogRef) {
-    this.ruleDialogOnSubmitSubscription$ = dialogRef.componentInstance.submitted.subscribe((rule) => {
-      this.folderRulesService
-        .createRule(this.nodeId, rule)
-        .then((_) => {
-          this.folderRulesService.loadRules(this.nodeId);
-          dialogRef.close();
-        })
-        .catch((err) => {
-          this.notificationService.showError(err.response.body.error.errorKey);
-        });
+  onSubmitRuleDialog(dialogRef) {
+    dialogRef.componentInstance.submitted.subscribe(async (rule) => {
+      try {
+        await this.folderRulesService.createRule(this.nodeId, rule);
+        this.folderRulesService.loadRules(this.nodeId);
+        dialogRef.close();
+      } catch (error) {
+        this.notificationService.showError(error.response.body.error.errorKey);
+      }
     });
   }
 
