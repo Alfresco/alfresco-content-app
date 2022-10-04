@@ -35,10 +35,12 @@ export class RuleActionListUiComponent implements ControlValueAccessor, OnDestro
 
   writeValue(actions: RuleAction[]) {
     if (actions.length === 0) {
-      actions = [{
-        actionDefinitionId: null,
-        params: {}
-      }];
+      actions = [
+        {
+          actionDefinitionId: null,
+          params: {}
+        }
+      ];
     }
     this.formArray = new FormArray(actions.map((action: RuleAction) => new FormControl(action)));
     this.formArraySubscription?.unsubscribe();

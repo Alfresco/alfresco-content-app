@@ -47,8 +47,7 @@ export class EditRuleDialogSmartComponent implements OnInit {
   actionDefinitions$ = this.actionsService.actionDefinitionsListing$;
   loading$ = this.actionsService.loading$;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public options: EditRuleDialogOptions,
-              private actionsService: ActionsService) {
+  constructor(@Inject(MAT_DIALOG_DATA) public options: EditRuleDialogOptions, private actionsService: ActionsService) {
     this.model = this.options?.model || {};
   }
 

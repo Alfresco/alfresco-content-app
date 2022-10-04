@@ -25,7 +25,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnDestroy {
   @Input()
   get actionDefinitions(): ActionDefinitionTransformed[] {
     return this._actionDefinitions;
-  };
+  }
   set actionDefinitions(value: ActionDefinitionTransformed[]) {
     this._actionDefinitions = value.sort((a, b) => a.title.localeCompare(b.title));
   }
@@ -112,7 +112,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnDestroy {
         label: paramDef.displayLabel,
         key: paramDef.name,
         editable: true
-      }
+      };
       switch (paramDef.type) {
         case 'd:boolean':
           return new CardViewBoolItemModel({

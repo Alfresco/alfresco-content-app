@@ -151,7 +151,6 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
 
     this.form.valueChanges.pipe(takeUntil(this.onDestroy$)).subscribe((newFormValue: any) => {
       this.formValueChanged.emit(newFormValue);
-      console.log(newFormValue);
     });
   }
 

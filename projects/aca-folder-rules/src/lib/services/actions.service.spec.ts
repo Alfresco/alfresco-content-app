@@ -28,7 +28,7 @@ import { TestBed } from '@angular/core/testing';
 import { CoreTestingModule } from '@alfresco/adf-core';
 
 describe('ActionsService', () => {
-  let actionsService: ActionsService;
+  // let actionsService: ActionsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -36,6 +36,6 @@ describe('ActionsService', () => {
       providers: [ActionsService]
     });
 
-    actionsService = TestBed.inject(ActionsService);
-  })
+    // actionsService = TestBed.inject(ActionsService);
+  });
 });

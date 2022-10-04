@@ -49,12 +49,14 @@ export class ActionsService {
 
   loadActionDefinitions() {
     this.loadingSource.next(true);
-    from(this.actionsApi.listActions()).pipe(
-      map((list: ActionDefinitionList) => list.list.entries.map((entry) => this.transformActionDefinition(entry))),
-      finalize(() => this.loadingSource.next(false))
-    ).subscribe((obj: ActionDefinitionTransformed[]) => {
-      this.actionDefinitionsListingSource.next(obj);
-    });
+    from(this.actionsApi.listActions())
+      .pipe(
+        map((list: ActionDefinitionList) => list.list.entries.map((entry) => this.transformActionDefinition(entry))),
+        finalize(() => this.loadingSource.next(false))
+      )
+      .subscribe((obj: ActionDefinitionTransformed[]) => {
+        this.actionDefinitionsListingSource.next(obj);
+      });
   }
 
   private transformActionDefinition(obj: ActionDefinition | ActionDefinitionEntry): ActionDefinitionTransformed {
@@ -67,7 +69,9 @@ export class ActionsService {
       title: obj.title ?? obj.name ?? '',
       applicableTypes: obj.applicableTypes ?? [],
       trackStatus: obj.trackStatus ?? false,
-      parameterDefinitions: (obj.parameterDefinitions ?? []).map((paramDef: ActionParameterDefinition) => this.transformActionParameterDefinition(paramDef))
+      parameterDefinitions: (obj.parameterDefinitions ?? []).map((paramDef: ActionParameterDefinition) =>
+        this.transformActionParameterDefinition(paramDef)
+      )
     };
   }
 
