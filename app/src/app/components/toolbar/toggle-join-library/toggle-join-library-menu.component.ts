@@ -38,6 +38,7 @@ import { ToggleJoinLibraryButtonComponent } from './toggle-join-library-button.c
       (toggle)="onToggleEvent($event)"
       (error)="onErrorEvent($event)"
       [adf-library-membership]="(selection$ | async).library"
+      [isAdmin]="(profile$ | async).isAdmin"
       [attr.title]="(membership.isJoinRequested | async) ? ('APP.ACTIONS.CANCEL_JOIN' | translate) : ('APP.ACTIONS.JOIN' | translate)"
     >
       <mat-icon *ngIf="membership.isJoinRequested | async">cancel</mat-icon>
