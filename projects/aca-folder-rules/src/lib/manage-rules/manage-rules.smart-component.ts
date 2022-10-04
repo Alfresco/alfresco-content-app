@@ -34,6 +34,7 @@ import { tap } from 'rxjs/operators';
 import { EditRuleDialogSmartComponent } from '../rule-details/edit-rule-dialog.smart-component';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '@alfresco/adf-content-services';
+import { NotificationService } from '@alfresco/adf-core';
 
 @Component({
   selector: 'aca-manage-rules',
@@ -49,12 +50,14 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
   selectedRule: Rule = null;
   nodeId: string = null;
   deletedRuleSubscription$: Subscription;
+  ruleDialogOnSubmitSubscription$: Subscription;
 
   constructor(
     private location: Location,
     private folderRulesService: FolderRulesService,
     private route: ActivatedRoute,
-    private matDialogService: MatDialog
+    private matDialogService: MatDialog,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -93,9 +96,23 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
   }
 
   openNewRuleDialog() {
-    this.matDialogService.open(EditRuleDialogSmartComponent, {
+    const dialogRef = this.matDialogService.open(EditRuleDialogSmartComponent, {
       width: '90%',
       panelClass: 'aca-edit-rule-dialog-container'
+    });
+
+    this.onSubmitRuleDialog(dialogRef);
+  }
+
+  onSubmitRuleDialog(dialogRef) {
+    dialogRef.componentInstance.submitted.subscribe(async (rule) => {
+      try {
+        await this.folderRulesService.createRule(this.nodeId, rule);
+        this.folderRulesService.loadRules(this.nodeId);
+        dialogRef.close();
+      } catch (error) {
+        this.notificationService.showError(error.response.body.error.errorKey);
+      }
     });
   }
 

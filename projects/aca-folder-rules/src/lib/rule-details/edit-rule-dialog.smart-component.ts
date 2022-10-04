@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Inject, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Inject, Output, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Rule } from '../model/rule.model';
 
@@ -41,6 +41,8 @@ export interface EditRuleDialogOptions {
 export class EditRuleDialogSmartComponent {
   formValid = false;
   model: Partial<Rule>;
+  formValue: Partial<Rule>;
+  @Output() submitted = new EventEmitter<Partial<Rule>>();
 
   constructor(@Inject(MAT_DIALOG_DATA) public options: EditRuleDialogOptions) {
     this.model = this.options?.model || {};
@@ -56,5 +58,9 @@ export class EditRuleDialogSmartComponent {
 
   get submitLabel(): string {
     return 'ACA_FOLDER_RULES.EDIT_RULE_DIALOG.' + (this.isUpdateMode ? 'UPDATE' : 'CREATE');
+  }
+
+  onSubmit() {
+    this.submitted.emit(this.formValue);
   }
 }

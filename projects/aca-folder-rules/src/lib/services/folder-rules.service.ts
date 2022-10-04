@@ -112,6 +112,18 @@ export class FolderRulesService {
       );
   }
 
+  createRule(nodeId: string, rule: Partial<Rule>, ruleSetId: string = '-default-') {
+    return this.apiCall(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules`, 'POST', [
+      {},
+      {},
+      {},
+      {},
+      { ...this.addFakeAction(rule) },
+      ['application/json'],
+      ['application/json']
+    ]);
+  }
+
   deleteRule(nodeId: string, ruleId: string, ruleSetId: string = '-default-'): void {
     this.loadingSource.next(true);
     from(
@@ -155,6 +167,24 @@ export class FolderRulesService {
       .subscribe((res) => {
         this.aspectsSource.next(res);
       });
+  }
+
+  private addFakeAction(rule): Partial<Rule> {
+    if (rule.actions) {
+      return rule;
+    } else {
+      return {
+        ...rule,
+        actions: [
+          {
+            actionDefinitionId: 'add-features',
+            params: {
+              'aspect-name': 'ai:creativeWorks'
+            }
+          }
+        ]
+      };
+    }
   }
 
   private apiCall(path: string, httpMethod: string, params?: any[]): Promise<any> {
