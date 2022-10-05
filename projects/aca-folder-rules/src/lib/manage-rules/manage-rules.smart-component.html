@@ -12,7 +12,7 @@
   <aca-page-layout-content>
     <div class="main-content">
 
-      <ng-container *ngIf="isLoading$ | async; else onLoaded">
+      <ng-container *ngIf="(rulesLoading$ | async) || (actionsLoading$ | async); else onLoaded">
         <mat-progress-bar color="primary" mode="indeterminate"></mat-progress-bar>
       </ng-container>
 

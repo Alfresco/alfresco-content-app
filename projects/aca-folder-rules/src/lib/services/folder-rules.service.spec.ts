@@ -146,11 +146,9 @@ describe('FolderRulesService', () => {
         .and.returnValue(Promise.resolve(dummyRules[0]));
     });
 
-    it('should send correct POST request and return created rule', function () {
-      folderRulesService.createRule(nodeId, dummyRules[0]).then((result) => {
-        expect(folderRulesService.createRule).toHaveBeenCalledWith(nodeId, dummyRules[0]);
-        expect(result).toEqual(dummyRules[0]);
-      });
+    it('should send correct POST request and return created rule', async () => {
+      const result = await folderRulesService.createRule(nodeId, dummyRules[0]);
+      expect(result).toEqual(dummyRules[0]);
     });
   });
 });

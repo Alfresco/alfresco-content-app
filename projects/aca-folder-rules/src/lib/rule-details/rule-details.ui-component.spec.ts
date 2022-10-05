@@ -58,7 +58,14 @@ describe('RuleDetailsUiComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [CoreTestingModule],
-      declarations: [RuleCompositeConditionUiComponent, RuleDetailsUiComponent, RuleTriggersUiComponent, RuleOptionsUiComponent, RuleActionListUiComponent, RuleActionUiComponent]
+      declarations: [
+        RuleCompositeConditionUiComponent,
+        RuleDetailsUiComponent,
+        RuleTriggersUiComponent,
+        RuleOptionsUiComponent,
+        RuleActionListUiComponent,
+        RuleActionUiComponent
+      ]
     });
 
     fixture = TestBed.createComponent(RuleDetailsUiComponent);

@@ -33,9 +33,12 @@ import { RuleCompositeConditionUiComponent } from './conditions/rule-composite-c
 import { RuleTriggersUiComponent } from './triggers/rule-triggers.ui-component';
 import { RuleActionListUiComponent } from './actions/rule-action-list.ui-component';
 import { RuleActionUiComponent } from './actions/rule-action.ui-component';
+import { ActionsService } from '../services/actions.service';
+import { RuleOptionsUiComponent } from './options/rule-options.ui-component';
 
 describe('EditRuleDialogComponent', () => {
   let fixture: ComponentFixture<EditRuleDialogSmartComponent>;
+  let actionsService: ActionsService;
 
   const dialogRef = {
     close: jasmine.createSpy('close'),
@@ -45,14 +48,26 @@ describe('EditRuleDialogComponent', () => {
   const setupBeforeEach = (dialogOptions: EditRuleDialogOptions = {}) => {
     TestBed.configureTestingModule({
       imports: [CoreTestingModule],
-      declarations: [EditRuleDialogSmartComponent, RuleCompositeConditionUiComponent, RuleDetailsUiComponent, RuleTriggersUiComponent, RuleActionListUiComponent, RuleActionUiComponent],
+      declarations: [
+        EditRuleDialogSmartComponent,
+        RuleCompositeConditionUiComponent,
+        RuleDetailsUiComponent,
+        RuleTriggersUiComponent,
+        RuleActionListUiComponent,
+        RuleActionUiComponent,
+        RuleOptionsUiComponent
+      ],
       providers: [
         { provide: MatDialogRef, useValue: dialogRef },
         { provide: MAT_DIALOG_DATA, useValue: dialogOptions }
       ]
     });
 
+    actionsService = TestBed.inject(ActionsService);
+    spyOn(actionsService, 'loadActionDefinitions').and.stub();
+
     fixture = TestBed.createComponent(EditRuleDialogSmartComponent);
+    fixture.detectChanges();
   };
 
   describe('No dialog options passed / indifferent', () => {
@@ -61,7 +76,6 @@ describe('EditRuleDialogComponent', () => {
     });
 
     it('should activate the submit button only when a valid state is received', () => {
-      fixture.detectChanges();
       const submitButton = fixture.debugElement.query(By.css('[data-automation-id="edit-rule-dialog-submit"]')).nativeElement as HTMLButtonElement;
       const ruleDetails = fixture.debugElement.query(By.directive(RuleDetailsUiComponent)).componentInstance as RuleDetailsUiComponent;
       ruleDetails.formValidationChanged.emit(true);
@@ -75,14 +89,12 @@ describe('EditRuleDialogComponent', () => {
     });
 
     it('should show a "create" label in the title', () => {
-      fixture.detectChanges();
       const titleElement = fixture.debugElement.query(By.css('[data-automation-id="edit-rule-dialog-title"]')).nativeElement as HTMLDivElement;
 
       expect(titleElement.innerText.trim()).toBe('ACA_FOLDER_RULES.EDIT_RULE_DIALOG.CREATE_TITLE');
     });
 
     it('should show a "create" label in the submit button', () => {
-      fixture.detectChanges();
       const titleElement = fixture.debugElement.query(By.css('[data-automation-id="edit-rule-dialog-submit"]')).nativeElement as HTMLButtonElement;
 
       expect(titleElement.innerText.trim()).toBe('ACA_FOLDER_RULES.EDIT_RULE_DIALOG.CREATE');
@@ -92,9 +104,7 @@ describe('EditRuleDialogComponent', () => {
   describe('With dialog options passed', () => {
     const dialogOptions: EditRuleDialogOptions = {
       model: {
-        id: 'rule-id',
-        name: 'Rule name',
-        description: 'This is the description of the rule'
+        id: 'rule-id'
       }
     };
 
@@ -103,14 +113,12 @@ describe('EditRuleDialogComponent', () => {
     });
 
     it('should show an "update" label in the title', () => {
-      fixture.detectChanges();
       const titleElement = fixture.debugElement.query(By.css('[data-automation-id="edit-rule-dialog-title"]')).nativeElement as HTMLDivElement;
 
       expect(titleElement.innerText.trim()).toBe('ACA_FOLDER_RULES.EDIT_RULE_DIALOG.UPDATE_TITLE');
     });
 
     it('should show an "update" label in the submit button', () => {
-      fixture.detectChanges();
       const titleElement = fixture.debugElement.query(By.css('[data-automation-id="edit-rule-dialog-submit"]')).nativeElement as HTMLButtonElement;
 
       expect(titleElement.innerText.trim()).toBe('ACA_FOLDER_RULES.EDIT_RULE_DIALOG.UPDATE');

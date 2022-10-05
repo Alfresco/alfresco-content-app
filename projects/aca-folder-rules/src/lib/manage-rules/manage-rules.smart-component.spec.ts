@@ -34,12 +34,14 @@ import { dummyRules } from '../mock/rules.mock';
 import { By } from '@angular/platform-browser';
 import { dummyNodeInfo } from '../mock/node.mock';
 import { MatDialog } from '@angular/material/dialog';
+import { ActionsService } from '../services/actions.service';
 
 describe('ManageRulesSmartComponent', () => {
   let fixture: ComponentFixture<ManageRulesSmartComponent>;
   let component: ManageRulesSmartComponent;
   let debugElement: DebugElement;
   let folderRulesService: FolderRulesService;
+  let actionsService: ActionsService;
 
   beforeEach(
     waitForAsync(() => {
@@ -57,6 +59,7 @@ describe('ManageRulesSmartComponent', () => {
           component = fixture.componentInstance;
           debugElement = fixture.debugElement;
           folderRulesService = TestBed.inject<FolderRulesService>(FolderRulesService);
+          actionsService = TestBed.inject<ActionsService>(ActionsService);
         });
     })
   );
@@ -66,6 +69,7 @@ describe('ManageRulesSmartComponent', () => {
     folderRulesService.folderInfo$ = of(dummyNodeInfo);
     folderRulesService.rulesListing$ = of(dummyRules);
     folderRulesService.loading$ = of(false);
+    actionsService.loading$ = of(false);
 
     fixture.detectChanges();
 
@@ -87,6 +91,7 @@ describe('ManageRulesSmartComponent', () => {
     folderRulesService.rulesListing$ = of([]);
     folderRulesService.loading$ = of(false);
     folderRulesService.deletedRuleId$ = of(null);
+    actionsService.loading$ = of(false);
 
     fixture.detectChanges();
 
@@ -106,6 +111,7 @@ describe('ManageRulesSmartComponent', () => {
     folderRulesService.deletedRuleId$ = of(null);
     folderRulesService.rulesListing$ = of([]);
     folderRulesService.loading$ = of(false);
+    actionsService.loading$ = of(false);
 
     fixture.detectChanges();
 
@@ -120,11 +126,12 @@ describe('ManageRulesSmartComponent', () => {
     expect(ruleDetails).toBeFalsy();
   });
 
-  it('should only show progress bar while loading', () => {
+  it('should only show progress bar while loading', async () => {
     folderRulesService.folderInfo$ = of(null);
     folderRulesService.deletedRuleId$ = of(null);
     folderRulesService.rulesListing$ = of([]);
     folderRulesService.loading$ = of(true);
+    actionsService.loading$ = of(true);
 
     fixture.detectChanges();
 
@@ -145,6 +152,7 @@ describe('ManageRulesSmartComponent', () => {
     folderRulesService.folderInfo$ = of(dummyNodeInfo);
     folderRulesService.rulesListing$ = of(dummyRules);
     folderRulesService.loading$ = of(false);
+    actionsService.loading$ = of(false);
 
     spyOn(component, 'onRuleDelete').and.callThrough();
 
