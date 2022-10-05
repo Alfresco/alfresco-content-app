@@ -26,9 +26,12 @@
 import { ActionsService } from './actions.service';
 import { TestBed } from '@angular/core/testing';
 import { CoreTestingModule } from '@alfresco/adf-core';
+import { ActionsApi } from '@alfresco/js-api';
+import { actionDefListMock, actionsTransformedListMock } from '../mock/actions.mock';
+import { take } from 'rxjs/operators';
 
 describe('ActionsService', () => {
-  // let actionsService: ActionsService;
+  let actionsService: ActionsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -36,6 +39,27 @@ describe('ActionsService', () => {
       providers: [ActionsService]
     });
 
-    // actionsService = TestBed.inject(ActionsService);
+    actionsService = TestBed.inject(ActionsService);
+  });
+
+  it('should load the data into the observable', async () => {
+    spyOn(ActionsApi.prototype, 'listActions').and.returnValue(Promise.resolve(actionDefListMock));
+    const actionsPromise = actionsService.actionDefinitionsListing$.pipe(take(2)).toPromise();
+
+    actionsService.loadActionDefinitions();
+
+    const actionsList = await actionsPromise;
+    expect(actionsList).toEqual(actionsTransformedListMock);
+  });
+
+  it('should set loading to true while the request is being sent', async () => {
+    spyOn(ActionsApi.prototype, 'listActions').and.returnValue(Promise.resolve(actionDefListMock));
+    const loadingTruePromise = actionsService.loading$.pipe(take(2)).toPromise();
+    const loadingFalsePromise = actionsService.loading$.pipe(take(3)).toPromise();
+
+    actionsService.loadActionDefinitions();
+
+    expect(await loadingTruePromise).toBeTrue();
+    expect(await loadingFalsePromise).toBeFalse();
   });
 });

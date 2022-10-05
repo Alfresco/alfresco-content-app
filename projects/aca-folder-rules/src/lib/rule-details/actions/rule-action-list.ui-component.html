@@ -5,13 +5,17 @@
     [formControl]="control">
   </aca-rule-action>
 
-  <button mat-icon-button *ngIf="!readOnly" [matMenuTriggerFor]="menu">
+  <button
+    mat-icon-button
+    data-automation-id="rule-action-list-action-menu"
+    *ngIf="!readOnly" [matMenuTriggerFor]="menu">
     <mat-icon>more_vert</mat-icon>
   </button>
 
   <mat-menu #menu>
     <button
       mat-menu-item
+      data-automation-id="rule-action-list-remove-action-button"
       [title]="'ACA_FOLDER_RULES.RULE_DETAILS.ACTION_BUTTONS.REMOVE' | translate"
       [disabled]="formArray.controls.length <= 1"
       (click)="removeAction(control)">
@@ -21,7 +25,7 @@
   </mat-menu>
 </div>
 
-<button mat-button (click)="addAction()" *ngIf="!readOnly">
+<button mat-button data-automation-id="rule-action-list-add-action-button" (click)="addAction()" *ngIf="!readOnly">
   <mat-icon>add</mat-icon>
   <span>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.ACTION_BUTTONS.ADD_ACTION' | translate }}</span>
 </button>

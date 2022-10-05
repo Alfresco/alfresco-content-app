@@ -31,6 +31,7 @@ export interface RuleAction {
 export interface ActionDefinitionTransformed {
   id: string;
   name: string;
+  description: string;
   title: string;
   applicableTypes: string[];
   trackStatus: boolean;

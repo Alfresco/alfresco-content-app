@@ -1,7 +1,10 @@
 <form class="aca-rule-action__form" [formGroup]="form">
 
   <mat-form-field>
-    <mat-select formControlName="actionDefinitionId" [placeholder]="'ACA_FOLDER_RULES.RULE_DETAILS.ACTION_SELECT_PLACEHOLDER' | translate">
+    <mat-select
+      formControlName="actionDefinitionId"
+      data-automation-id="rule-action-select"
+      [placeholder]="'ACA_FOLDER_RULES.RULE_DETAILS.ACTION_SELECT_PLACEHOLDER' | translate">
       <mat-option
         *ngFor="let actionDefinition of actionDefinitions"
         [value]="actionDefinition.id">
@@ -11,6 +14,7 @@
   </mat-form-field>
 
   <adf-card-view
+    data-automation-id="rule-action-card-view"
     [properties]="cardViewItems"
     [editable]="!readOnly">
   </adf-card-view>

@@ -66,6 +66,7 @@ export class ActionsService {
     return {
       id: obj.id,
       name: obj.name ?? '',
+      description: obj.description ?? '',
       title: obj.title ?? obj.name ?? '',
       applicableTypes: obj.applicableTypes ?? [],
       trackStatus: obj.trackStatus ?? false,
