@@ -65,10 +65,10 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnDestroy {
     this.onTouch();
   });
 
-  private updateServiceSubscription = this.cardViewUpdateService.itemUpdated$.subscribe((updateNotif: UpdateNotification) => {
+  private updateServiceSubscription = this.cardViewUpdateService.itemUpdated$.subscribe((updateNotification: UpdateNotification) => {
     this.parameters = {
       ...this.parameters,
-      ...updateNotif.changed
+      ...updateNotification.changed
     };
     this.onChange({
       actionDefinitionId: this.selectedActionDefinitionId,
