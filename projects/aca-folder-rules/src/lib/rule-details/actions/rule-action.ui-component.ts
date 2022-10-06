@@ -21,7 +21,7 @@ import { ActionParameterDefinition } from '@alfresco/js-api';
   ]
 })
 export class RuleActionUiComponent implements ControlValueAccessor, OnDestroy {
-  _actionDefinitions: ActionDefinitionTransformed[];
+  private _actionDefinitions: ActionDefinitionTransformed[];
   @Input()
   get actionDefinitions(): ActionDefinitionTransformed[] {
     return this._actionDefinitions;
