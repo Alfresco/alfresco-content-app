@@ -40,6 +40,8 @@ import { RuleListItemUiComponent } from './rules-list/rule/rule-list-item.ui-com
 import { RulesListUiComponent } from './rules-list/rules-list.ui-component';
 import { RuleTriggersUiComponent } from './rule-details/triggers/rule-triggers.ui-component';
 import { RuleOptionsUiComponent } from './rule-details/options/rule-options.ui-component';
+import { RuleActionListUiComponent } from './rule-details/actions/rule-action-list.ui-component';
+import { RuleActionUiComponent } from './rule-details/actions/rule-action.ui-component';
 
 const routes: Routes = [
   {
@@ -63,6 +65,8 @@ const routes: Routes = [
   declarations: [
     EditRuleDialogSmartComponent,
     ManageRulesSmartComponent,
+    RuleActionListUiComponent,
+    RuleActionUiComponent,
     RuleCompositeConditionUiComponent,
     RuleDetailsUiComponent,
     RuleSimpleConditionUiComponent,

@@ -32,6 +32,8 @@ import { RuleCompositeConditionUiComponent } from './conditions/rule-composite-c
 import { RuleTriggersUiComponent } from './triggers/rule-triggers.ui-component';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { RuleOptionsUiComponent } from './options/rule-options.ui-component';
+import { RuleActionListUiComponent } from './actions/rule-action-list.ui-component';
+import { RuleActionUiComponent } from './actions/rule-action.ui-component';
 
 describe('RuleDetailsUiComponent', () => {
   let fixture: ComponentFixture<RuleDetailsUiComponent>;
@@ -56,7 +58,14 @@ describe('RuleDetailsUiComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [CoreTestingModule],
-      declarations: [RuleCompositeConditionUiComponent, RuleDetailsUiComponent, RuleTriggersUiComponent, RuleOptionsUiComponent]
+      declarations: [
+        RuleCompositeConditionUiComponent,
+        RuleDetailsUiComponent,
+        RuleTriggersUiComponent,
+        RuleOptionsUiComponent,
+        RuleActionListUiComponent,
+        RuleActionUiComponent
+      ]
     });
 
     fixture = TestBed.createComponent(RuleDetailsUiComponent);

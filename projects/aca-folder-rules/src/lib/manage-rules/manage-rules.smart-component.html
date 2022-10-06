@@ -12,7 +12,7 @@
   <aca-page-layout-content>
     <div class="main-content">
 
-      <ng-container *ngIf="isLoading$ | async; else onLoaded">
+      <ng-container *ngIf="(rulesLoading$ | async) || (actionsLoading$ | async); else onLoaded">
         <mat-progress-bar color="primary" mode="indeterminate"></mat-progress-bar>
       </ng-container>
 
@@ -25,7 +25,7 @@
                               class="aca-manage-rules__actions-bar__title__breadcrumb"></adf-breadcrumb>
             </adf-toolbar-title>
 
-            <button mat-flat-button color="primary" (click)="openNewRuleDialog()">{{ 'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.ACTIONS.NEW_RULE' | translate }}</button>
+            <button mat-flat-button color="primary" (click)="openNewRuleDialog()">{{ 'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.ACTIONS.CREATE_RULE' | translate }}</button>
           </adf-toolbar>
           <mat-divider></mat-divider>
 
@@ -44,7 +44,12 @@
                 </div>
                 <p>{{ selectedRule.description }}</p>
               </div>
-              <aca-rule-details [readOnly]="true" [preview]="true" [value]="selectedRule"></aca-rule-details>
+              <aca-rule-details
+                [actionDefinitions]="actionDefinitions$ | async"
+                [readOnly]="true"
+                [preview]="true"
+                [value]="selectedRule">
+              </aca-rule-details>
             </div>
           </div>
 

@@ -30,11 +30,13 @@ import { Observable, Subscription } from 'rxjs';
 import { Rule } from '../model/rule.model';
 import { ActivatedRoute } from '@angular/router';
 import { NodeInfo } from '@alfresco/aca-shared/store';
-import { tap } from 'rxjs/operators';
+import { delay, tap } from 'rxjs/operators';
 import { EditRuleDialogSmartComponent } from '../rule-details/edit-rule-dialog.smart-component';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '@alfresco/adf-content-services';
 import { NotificationService } from '@alfresco/adf-core';
+import { ActionDefinitionTransformed } from '../model/rule-action.model';
+import { ActionsService } from '../services/actions.service';
 
 @Component({
   selector: 'aca-manage-rules',
@@ -45,8 +47,10 @@ import { NotificationService } from '@alfresco/adf-core';
 })
 export class ManageRulesSmartComponent implements OnInit, OnDestroy {
   rules$: Observable<Rule[]>;
-  isLoading$: Observable<boolean>;
+  rulesLoading$: Observable<boolean>;
+  actionsLoading$: Observable<boolean>;
   folderInfo$: Observable<NodeInfo>;
+  actionDefinitions$: Observable<ActionDefinitionTransformed[]>;
   selectedRule: Rule = null;
   nodeId: string = null;
   deletedRuleSubscription$: Subscription;
@@ -57,10 +61,12 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
     private folderRulesService: FolderRulesService,
     private route: ActivatedRoute,
     private matDialogService: MatDialog,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private actionsService: ActionsService
   ) {}
 
   ngOnInit(): void {
+    this.actionDefinitions$ = this.actionsService.actionDefinitionsListing$;
     this.rules$ = this.folderRulesService.rulesListing$.pipe(
       tap((rules) => {
         if (!rules.includes(this.selectedRule)) {
@@ -73,8 +79,10 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
         this.folderRulesService.loadRules(this.nodeId);
       }
     });
-    this.isLoading$ = this.folderRulesService.loading$;
+    this.rulesLoading$ = this.folderRulesService.loading$;
+    this.actionsLoading$ = this.actionsService.loading$.pipe(delay(0));
     this.folderInfo$ = this.folderRulesService.folderInfo$;
+    this.actionsService.loadActionDefinitions();
     this.route.params.subscribe((params) => {
       this.nodeId = params.nodeId;
       if (this.nodeId) {

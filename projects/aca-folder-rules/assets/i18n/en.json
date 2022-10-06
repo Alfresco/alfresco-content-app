@@ -15,6 +15,7 @@
         "NAME": "Name",
         "DESCRIPTION": "Description",
         "WHEN": "When",
+        "PERFORM_ACTIONS": "Perform actions",
         "OPTIONS": "Other options"
       },
       "PLACEHOLDER": {
@@ -70,21 +71,26 @@
         "AND": "And",
         "OR": "Or"
       },
-      "ACTIONS": {
+      "CONDITION_BUTTONS": {
         "ADD_CONDITION": "Add condition",
-        "ADD_GROUP": "Add group",
+        "ADD_GROUP": "Add condition group",
         "REMOVE": "Remove"
       },
       "NO_CONDITIONS": "No conditions",
-      "NO_CONDITIONS_IN_GROUP": "No conditions in the group"
+      "NO_CONDITIONS_IN_GROUP": "No conditions in the group",
+      "ACTION_BUTTONS": {
+        "ADD_ACTION": "Add action",
+        "REMOVE": "Remove"
       },
+      "ACTION_SELECT_PLACEHOLDER": "Select an action"
+    },
     "MANAGE_RULES": {
       "TOOLBAR": {
         "BREADCRUMB": {
           "RULES": "rules"
         },
         "ACTIONS": {
-          "NEW_RULE": "New rule"
+          "CREATE_RULE": "Create rule"
         }
       },
       "EMPTY_RULES_LIST": {

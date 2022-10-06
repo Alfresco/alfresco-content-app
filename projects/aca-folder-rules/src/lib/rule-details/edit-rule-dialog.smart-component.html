@@ -8,7 +8,21 @@
 </div>
 
 <mat-dialog-content class="aca-edit-rule-dialog__content">
-  <aca-rule-details (formValidationChanged)="formValid = $event" (formValueChanged)="formValue = $event" [value]="model"></aca-rule-details>
+  <div class="aca-edit-rule-dialog__content__spinner" *ngIf="loading$ | async; else ruleDetails">
+    <mat-progress-spinner
+      color="primary"
+      mode="indeterminate">
+    </mat-progress-spinner>
+  </div>
+
+  <ng-template #ruleDetails>
+    <aca-rule-details
+      [actionDefinitions]="actionDefinitions$ | async"
+      [value]="model"
+      (formValueChanged)="formValue = $event"
+      (formValidationChanged)="formValid = $event">
+    </aca-rule-details>
+  </ng-template>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end" class="aca-edit-rule-dialog__footer">

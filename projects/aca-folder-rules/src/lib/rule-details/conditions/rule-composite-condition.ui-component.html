@@ -48,10 +48,10 @@
     <mat-menu #menu="matMenu">
       <button
         mat-menu-item
-        [title]="'ACA_FOLDER_RULES.RULE_DETAILS.ACTIONS.REMOVE' | translate"
+        [title]="'ACA_FOLDER_RULES.RULE_DETAILS.CONDITION_BUTTONS.REMOVE' | translate"
         (click)="removeCondition(control)">
         <mat-icon>delete</mat-icon>
-        <span>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.ACTIONS.REMOVE' | translate }}</span>
+        <span>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.CONDITION_BUTTONS.REMOVE' | translate }}</span>
       </button>
     </mat-menu>
 
@@ -60,11 +60,11 @@
   <div class="aca-rule-composite-condition__form__actions" *ngIf="!readOnly" data-automation-id="add-actions">
     <button mat-button (click)="addSimpleCondition()" data-automation-id="add-condition-button">
       <mat-icon>add</mat-icon>
-      <span>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.ACTIONS.ADD_CONDITION' | translate }}</span>
+      <span>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.CONDITION_BUTTONS.ADD_CONDITION' | translate }}</span>
     </button>
     <button mat-button (click)="addCompositeCondition()" data-automation-id="add-group-button">
       <mat-icon>add</mat-icon>
-      <span>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.ACTIONS.ADD_GROUP' | translate }}</span>
+      <span>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.CONDITION_BUTTONS.ADD_GROUP' | translate }}</span>
     </button>
   </div>
 </form>

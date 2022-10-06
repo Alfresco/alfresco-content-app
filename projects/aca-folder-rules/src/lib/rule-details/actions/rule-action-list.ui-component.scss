@@ -1,0 +1,15 @@
+.aca-rule-action-list {
+  &__item {
+    padding: 4px 8px;
+    border-radius: 8px;
+    display: flex;
+
+    & > .aca-rule-action {
+      flex: 1;
+    }
+
+    &:nth-child(2n) {
+      background-color: hsl(0,0%,95%);
+    }
+  }
+}
