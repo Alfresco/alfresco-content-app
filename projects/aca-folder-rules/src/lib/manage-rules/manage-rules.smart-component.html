@@ -40,6 +40,9 @@
                     <button mat-icon-button (click)="onRuleDelete()" id="delete-rule-btn">
                       <mat-icon>delete_outline</mat-icon>
                     </button>
+                    <button mat-stroked-button (click)="onRuleUpdate()" id="edit-rule-btn">
+                      {{ 'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.ACTIONS.EDIT_RULE' | translate }}
+                    </button>
                   </div>
                 </div>
                 <p>{{ selectedRule.description }}</p>
