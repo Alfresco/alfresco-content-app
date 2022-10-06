@@ -197,6 +197,7 @@
               "DUBLIN_CORE": "Dublin core",
               "EFFECTIVITY": "Effectivity",
               "TITLE": "Search Results",
+              "RESET_ACTION": "Reset search filters",
                 "FOUND_RESULTS": "{{ number }} results found",
                 "FOUND_ONE_RESULT": "{{ number }} result found",
                 "CUSTOM_ROW": {
