@@ -18,7 +18,7 @@ export class ViewProfileRuleGuard implements CanActivate {
   constructor(private authService: AuthenticationService) {}
 
   canActivate(_: ActivatedRouteSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    return this.isEcmLoggedIn() && !this.authService.isOauth();
+    return this.isEcmLoggedIn() || this.authService.isOauth();
   }
 
   private isEcmLoggedIn() {
