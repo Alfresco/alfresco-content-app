@@ -118,7 +118,11 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
   onSubmitRuleDialog(dialogRef) {
     dialogRef.componentInstance.submitted.subscribe(async (rule) => {
       try {
-        await this.folderRulesService.createRule(this.nodeId, rule);
+        if (rule.id){
+          await this.folderRulesService.updateRule(this.nodeId, rule.id, rule)
+        } else {
+          await this.folderRulesService.createRule(this.nodeId, rule);
+        }
         this.folderRulesService.loadRules(this.nodeId);
         dialogRef.close();
       } catch (error) {

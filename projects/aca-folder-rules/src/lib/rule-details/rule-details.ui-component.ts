@@ -62,6 +62,7 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
   }
   set value(newValue: Partial<Rule>) {
     newValue = {
+      id: newValue.id || FolderRulesService.emptyRule.id,
       name: newValue.name || FolderRulesService.emptyRule.name,
       description: newValue.description || FolderRulesService.emptyRule.description,
       triggers: newValue.triggers || FolderRulesService.emptyRule.triggers,
@@ -69,7 +70,7 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
       isAsynchronous: newValue.isAsynchronous || FolderRulesService.emptyRule.isAsynchronous,
       errorScript: newValue.errorScript || FolderRulesService.emptyRule.errorScript,
       isInheritable: newValue.isInheritable || FolderRulesService.emptyRule.isInheritable,
-      isEnabled: newValue.isEnabled || FolderRulesService.emptyRule.isEnabled,
+      isEnabled: typeof newValue.isInheritable == "boolean" ? newValue.isEnabled : FolderRulesService.emptyRule.isEnabled,
       actions: newValue.actions || FolderRulesService.emptyRule.actions
     };
     if (this.form) {
@@ -118,6 +119,7 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.form = new UntypedFormGroup({
+      id: new UntypedFormControl(this.value.id),
       name: new UntypedFormControl(this.value.name || '', Validators.required),
       description: new UntypedFormControl(this.value.description || ''),
       triggers: new UntypedFormControl(this.value.triggers || ['inbound'], Validators.required),

@@ -124,6 +124,18 @@ export class FolderRulesService {
     ]);
   }
 
+  updateRule(nodeId: string, ruleId: string, rule: Rule, ruleSetId: string = '-default-') {
+    return this.apiCall(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules/${ruleId}`, 'PUT', [
+      {},
+      {},
+      {},
+      {},
+      { ...this.addFakeAction(rule) },
+      ['application/json'],
+      ['application/json']
+    ]);
+  }
+
   deleteRule(nodeId: string, ruleId: string, ruleSetId: string = '-default-'): void {
     this.loadingSource.next(true);
     from(
