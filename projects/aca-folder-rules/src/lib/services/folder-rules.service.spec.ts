@@ -151,4 +151,13 @@ describe('FolderRulesService', () => {
       expect(result).toEqual(dummyRules[0]);
     });
   });
+
+  it('should send correct PUT request to update rule and return it', async () => {
+    spyOn<any>(folderRulesService, 'apiCall')
+      .withArgs(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules/${ruleId}`, 'PUT', paramsWithBody)
+      .and.returnValue(Promise.resolve(dummyRules[0]));
+
+    const result = await folderRulesService.updateRule(nodeId, ruleId, dummyRules[0]);
+    expect(result).toEqual(dummyRules[0])
+  })
 });

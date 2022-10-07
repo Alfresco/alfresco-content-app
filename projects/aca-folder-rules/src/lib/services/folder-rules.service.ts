@@ -118,7 +118,7 @@ export class FolderRulesService {
       {},
       {},
       {},
-      { ...this.addFakeAction(rule) },
+      { ...rule },
       ['application/json'],
       ['application/json']
     ]);
@@ -130,7 +130,7 @@ export class FolderRulesService {
       {},
       {},
       {},
-      { ...this.addFakeAction(rule) },
+      { ...rule },
       ['application/json'],
       ['application/json']
     ]);
@@ -181,23 +181,23 @@ export class FolderRulesService {
       });
   }
 
-  private addFakeAction(rule): Partial<Rule> {
-    if (rule.actions) {
-      return rule;
-    } else {
-      return {
-        ...rule,
-        actions: [
-          {
-            actionDefinitionId: 'add-features',
-            params: {
-              'aspect-name': 'ai:creativeWorks'
-            }
-          }
-        ]
-      };
-    }
-  }
+  // private addFakeAction(rule): Partial<Rule> {
+  //   if (rule.actions) {
+  //     return rule;
+  //   } else {
+  //     return {
+  //       ...rule,
+  //       actions: [
+  //         {
+  //           actionDefinitionId: 'add-features',
+  //           params: {
+  //             'aspect-name': 'ai:creativeWorks'
+  //           }
+  //         }
+  //       ]
+  //     };
+  //   }
+  // }
 
   private apiCall(path: string, httpMethod: string, params?: any[]): Promise<any> {
     return this.apiService.getInstance().contentClient.callApi(path, httpMethod, ...params);
