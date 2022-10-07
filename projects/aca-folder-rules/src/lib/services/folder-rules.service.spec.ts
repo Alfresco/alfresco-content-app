@@ -158,6 +158,6 @@ describe('FolderRulesService', () => {
       .and.returnValue(Promise.resolve(dummyRules[0]));
 
     const result = await folderRulesService.updateRule(nodeId, ruleId, dummyRules[0]);
-    expect(result).toEqual(dummyRules[0])
-  })
+    expect(result).toEqual(dummyRules[0]);
+  });
 });

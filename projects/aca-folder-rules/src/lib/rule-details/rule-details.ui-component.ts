@@ -70,7 +70,7 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
       isAsynchronous: newValue.isAsynchronous || FolderRulesService.emptyRule.isAsynchronous,
       errorScript: newValue.errorScript || FolderRulesService.emptyRule.errorScript,
       isInheritable: newValue.isInheritable || FolderRulesService.emptyRule.isInheritable,
-      isEnabled: typeof newValue.isInheritable == "boolean" ? newValue.isEnabled : FolderRulesService.emptyRule.isEnabled,
+      isEnabled: typeof newValue.isInheritable == 'boolean' ? newValue.isEnabled : FolderRulesService.emptyRule.isEnabled,
       actions: newValue.actions || FolderRulesService.emptyRule.actions
     };
     if (this.form) {

@@ -108,7 +108,7 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
       width: '90%',
       panelClass: 'aca-edit-rule-dialog-container',
       data: {
-        model: model
+        model
       }
     });
 
@@ -118,8 +118,8 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
   onSubmitRuleDialog(dialogRef) {
     dialogRef.componentInstance.submitted.subscribe(async (rule) => {
       try {
-        if (rule.id){
-          await this.folderRulesService.updateRule(this.nodeId, rule.id, rule)
+        if (rule.id) {
+          await this.folderRulesService.updateRule(this.nodeId, rule.id, rule);
         } else {
           await this.folderRulesService.createRule(this.nodeId, rule);
         }
@@ -149,6 +149,6 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
   }
 
   onRuleUpdate(): void {
-    this.openNewRuleDialog(this.selectedRule)
+    this.openNewRuleDialog(this.selectedRule);
   }
 }
