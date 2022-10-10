@@ -103,7 +103,7 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
     this.selectedRule = rule;
   }
 
-  openNewRuleDialog(model = {}) {
+  openCreateUpdateRuleDialog(model = {}) {
     const dialogRef = this.matDialogService.open(EditRuleDialogSmartComponent, {
       width: '90%',
       panelClass: 'aca-edit-rule-dialog-container',
@@ -149,6 +149,6 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
   }
 
   onRuleUpdate(): void {
-    this.openNewRuleDialog(this.selectedRule);
+    this.openCreateUpdateRuleDialog(this.selectedRule);
   }
 }
