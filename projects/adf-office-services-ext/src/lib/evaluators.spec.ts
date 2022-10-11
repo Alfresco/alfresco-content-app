@@ -86,6 +86,7 @@ describe('evaluators', () => {
         selection: {
           file: {
             entry: {
+              isFile: true,
               name: 'document.docx',
               isLocked: false,
               properties: {},
@@ -105,6 +106,7 @@ describe('evaluators', () => {
         selection: {
           file: {
             entry: {
+              isFile: true,
               name: 'document.docx',
               isLocked: false,
               properties: {},

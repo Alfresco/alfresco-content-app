@@ -24,6 +24,7 @@
  */
 
 import { RuleContext } from '@alfresco/adf-extensions';
+import { isNodeRecord } from '@alfresco/aca-shared/rules';
 import { getFileExtension, supportedExtensions } from './utils';
 
 export function canOpenWithOffice(context: RuleContext): boolean {
@@ -76,7 +77,7 @@ export function canOpenWithOffice(context: RuleContext): boolean {
   }
 
   // check if record
-  if (file.entry.aspectNames && (file.entry.aspectNames.includes('rma:declaredRecord') || file.entry.aspectNames.includes('rma:record'))) {
+  if (isNodeRecord(context)) {
     return false;
   }
 
