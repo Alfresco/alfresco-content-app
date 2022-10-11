@@ -73,7 +73,7 @@
 
           <adf-custom-empty-content-template *ngIf="isFilterHeaderActive()">
             <ng-container>
-              <div class="empty-search__block">
+              <div class="empty-search__block" aria-live="polite">
                 <p class="empty-search__text">
                   {{ 'APP.BROWSE.SEARCH.NO_FILTER_RESULTS' | translate }}
                 </p>
