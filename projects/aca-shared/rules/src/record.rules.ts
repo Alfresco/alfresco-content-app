@@ -26,11 +26,11 @@
 import { RuleContext } from '@alfresco/adf-extensions';
 
 export function isNodeRecord(context: RuleContext): boolean {
-  const selectedNode = context.selection.first;
+  const { file } = context.selection;
   return (
-    selectedNode &&
-    selectedNode.entry.isFile &&
-    selectedNode.entry.aspectNames &&
-    (selectedNode.entry.aspectNames.includes('rma:declaredRecord') || selectedNode.entry.aspectNames.includes('rma:record'))
+    file &&
+    file.entry.isFile &&
+    file.entry.aspectNames &&
+    (file.entry.aspectNames.includes('rma:declaredRecord') || file.entry.aspectNames.includes('rma:record'))
   );
 }
