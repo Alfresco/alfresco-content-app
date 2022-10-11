@@ -47,12 +47,12 @@ export class EditRuleDialogSmartComponent implements OnInit {
   actionDefinitions$ = this.actionsService.actionDefinitionsListing$;
   loading$ = this.actionsService.loading$;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public options: EditRuleDialogOptions, private actionsService: ActionsService) {
-    this.model = this.options?.model || {};
+  constructor(@Inject(MAT_DIALOG_DATA) public data: EditRuleDialogOptions, private actionsService: ActionsService) {
+    this.model = this.data?.model || {};
   }
 
   get isUpdateMode(): boolean {
-    return !!this.options?.model?.id;
+    return !!this.data?.model?.id;
   }
 
   get title(): string {

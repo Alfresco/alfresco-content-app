@@ -118,7 +118,19 @@ export class FolderRulesService {
       {},
       {},
       {},
-      { ...this.addFakeAction(rule) },
+      { ...rule },
+      ['application/json'],
+      ['application/json']
+    ]);
+  }
+
+  updateRule(nodeId: string, ruleId: string, rule: Rule, ruleSetId: string = '-default-') {
+    return this.apiCall(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules/${ruleId}`, 'PUT', [
+      {},
+      {},
+      {},
+      {},
+      { ...rule },
       ['application/json'],
       ['application/json']
     ]);
@@ -167,24 +179,6 @@ export class FolderRulesService {
       .subscribe((res) => {
         this.aspectsSource.next(res);
       });
-  }
-
-  private addFakeAction(rule): Partial<Rule> {
-    if (rule.actions) {
-      return rule;
-    } else {
-      return {
-        ...rule,
-        actions: [
-          {
-            actionDefinitionId: 'add-features',
-            params: {
-              'aspect-name': 'ai:creativeWorks'
-            }
-          }
-        ]
-      };
-    }
   }
 
   private apiCall(path: string, httpMethod: string, params?: any[]): Promise<any> {

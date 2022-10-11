@@ -90,7 +90,8 @@
           "RULES": "rules"
         },
         "ACTIONS": {
-          "CREATE_RULE": "Create rule"
+          "CREATE_RULE": "Create rule",
+          "EDIT_RULE": "Edit"
         }
       },
       "EMPTY_RULES_LIST": {

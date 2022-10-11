@@ -25,7 +25,7 @@
                               class="aca-manage-rules__actions-bar__title__breadcrumb"></adf-breadcrumb>
             </adf-toolbar-title>
 
-            <button mat-flat-button color="primary" (click)="openNewRuleDialog()">{{ 'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.ACTIONS.CREATE_RULE' | translate }}</button>
+            <button mat-flat-button color="primary" (click)="openCreateUpdateRuleDialog()">{{ 'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.ACTIONS.CREATE_RULE' | translate }}</button>
           </adf-toolbar>
           <mat-divider></mat-divider>
 
@@ -39,6 +39,9 @@
                   <div class="aca-manage-rules__container__preview__toolbar__buttons">
                     <button mat-icon-button (click)="onRuleDelete()" id="delete-rule-btn">
                       <mat-icon>delete_outline</mat-icon>
+                    </button>
+                    <button mat-stroked-button (click)="onRuleUpdate()" id="edit-rule-btn">
+                      {{ 'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.ACTIONS.EDIT_RULE' | translate }}
                     </button>
                   </div>
                 </div>
