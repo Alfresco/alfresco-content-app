@@ -54,7 +54,7 @@
     "pdfjs-dist": "2.5.207",
     "rxjs": "6.6.6",
     "tslib": "^2.0.0",
-    "zone.js": "0.11.7"
+    "zone.js": "0.11.8"
   },
   "devDependencies": {
     "@alfresco/adf-cli": "5.1.0-36523",
@@ -92,7 +92,7 @@
     "eslint-plugin-prefer-arrow": "1.2.3",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-rxjs": "^5.0.2",
-    "eslint-plugin-unicorn": "^44.0.0",
+    "eslint-plugin-unicorn": "^44.0.2",
     "http-server": "^14.1.1",
     "husky": "^8.0.1",
     "inquirer": "^8.1.5",
