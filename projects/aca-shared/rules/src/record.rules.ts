@@ -23,8 +23,14 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './app.rules';
-export * from './navigation.rules';
-export * from './repository.rules';
-export * from './user.rules';
-export * from './record.rules';
+import { RuleContext } from '@alfresco/adf-extensions';
+
+export function isNodeRecord(context: RuleContext): boolean {
+  const selectedNode = context.selection.first;
+  return (
+    selectedNode &&
+    selectedNode.entry.isFile &&
+    selectedNode.entry.aspectNames &&
+    (selectedNode.entry.aspectNames.includes('rma:declaredRecord') || selectedNode.entry.aspectNames.includes('rma:record'))
+  );
+}
