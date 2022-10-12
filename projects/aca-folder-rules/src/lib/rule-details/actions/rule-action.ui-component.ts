@@ -1,9 +1,11 @@
-import { Component, forwardRef, Input, OnDestroy, ViewEncapsulation } from '@angular/core';
-import { ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, forwardRef, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
 import { ActionDefinitionTransformed, RuleAction } from '../../model/rule-action.model';
 import { CardViewItem } from '@alfresco/adf-core/lib/card-view/interfaces/card-view-item.interface';
 import { CardViewBoolItemModel, CardViewTextItemModel, CardViewUpdateService, UpdateNotification } from '@alfresco/adf-core';
 import { ActionParameterDefinition } from '@alfresco/js-api';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'aca-rule-action',
@@ -20,7 +22,7 @@ import { ActionParameterDefinition } from '@alfresco/js-api';
     CardViewUpdateService
   ]
 })
-export class RuleActionUiComponent implements ControlValueAccessor, OnDestroy {
+export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDestroy {
   private _actionDefinitions: ActionDefinitionTransformed[];
   @Input()
   get actionDefinitions(): ActionDefinitionTransformed[] {
@@ -40,12 +42,12 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnDestroy {
   }
 
   form = new FormGroup({
-    actionDefinitionId: new FormControl('copy')
+    actionDefinitionId: new FormControl('', Validators.required)
   });
 
   cardViewItems: CardViewItem[] = [];
-
   parameters: { [key: string]: unknown } = {};
+  private onDestroy$ = new Subject<boolean>();
 
   get selectedActionDefinitionId(): string {
     return this.form.get('actionDefinitionId').value;
@@ -54,28 +56,6 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnDestroy {
   get selectedActionDefinition(): ActionDefinitionTransformed {
     return this.actionDefinitions.find((actionDefinition: ActionDefinitionTransformed) => actionDefinition.id === this.selectedActionDefinitionId);
   }
-
-  private formSubscription = this.form.valueChanges.subscribe(() => {
-    this.setDefaultParameters();
-    this.setCardViewProperties();
-    this.onChange({
-      actionDefinitionId: this.selectedActionDefinitionId,
-      params: this.parameters
-    });
-    this.onTouch();
-  });
-
-  private updateServiceSubscription = this.cardViewUpdateService.itemUpdated$.subscribe((updateNotification: UpdateNotification) => {
-    this.parameters = {
-      ...this.parameters,
-      ...updateNotification.changed
-    };
-    this.onChange({
-      actionDefinitionId: this.selectedActionDefinitionId,
-      params: this.parameters
-    });
-    this.onTouch();
-  });
 
   onChange: (action: RuleAction) => void = () => undefined;
   onTouch: () => void = () => undefined;
@@ -101,9 +81,37 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnDestroy {
     this.onTouch = fn;
   }
 
+  ngOnInit() {
+    this.form.valueChanges
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(() => {
+        this.setDefaultParameters();
+        this.setCardViewProperties();
+        this.onChange({
+          actionDefinitionId: this.selectedActionDefinitionId,
+          params: this.parameters
+        });
+        this.onTouch();
+      });
+
+    this.cardViewUpdateService.itemUpdated$
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((updateNotification: UpdateNotification) => {
+        this.parameters = {
+          ...this.parameters,
+          ...updateNotification.changed
+        };
+        this.onChange({
+          actionDefinitionId: this.selectedActionDefinitionId,
+          params: this.parameters
+        });
+        this.onTouch();
+      });
+  }
+
   ngOnDestroy() {
-    this.formSubscription.unsubscribe();
-    this.updateServiceSubscription.unsubscribe();
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 
   setCardViewProperties() {

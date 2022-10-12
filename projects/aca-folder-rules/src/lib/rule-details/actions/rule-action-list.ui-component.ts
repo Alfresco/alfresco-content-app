@@ -1,7 +1,8 @@
 import { Component, forwardRef, Input, OnDestroy, ViewEncapsulation } from '@angular/core';
-import { ControlValueAccessor, FormArray, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, FormArray, FormControl, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
 import { ActionDefinitionTransformed, RuleAction } from '../../model/rule-action.model';
 import { Subscription } from 'rxjs';
+import { ruleActionValidator } from '../validators/rule-actions.validator';
 
 @Component({
   selector: 'aca-rule-action-list',
@@ -63,7 +64,7 @@ export class RuleActionListUiComponent implements ControlValueAccessor, OnDestro
       actionDefinitionId: null,
       params: {}
     };
-    this.formArray.push(new FormControl(newAction));
+    this.formArray.push(new FormControl(newAction, [Validators.required, ruleActionValidator(this.actionDefinitions)]));
   }
 
   ngOnDestroy() {

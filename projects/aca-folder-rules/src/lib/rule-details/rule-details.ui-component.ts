@@ -31,6 +31,7 @@ import { Rule } from '../model/rule.model';
 import { ruleCompositeConditionValidator } from './validators/rule-composite-condition.validator';
 import { FolderRulesService } from '../services/folder-rules.service';
 import { ActionDefinitionTransformed } from '../model/rule-action.model';
+import { ruleActionsValidator } from './validators/rule-actions.validator';
 
 @Component({
   selector: 'aca-rule-details',
@@ -136,7 +137,7 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
       errorScript: new UntypedFormControl(this.value.errorScript),
       isInheritable: new UntypedFormControl(this.value.isInheritable),
       isEnabled: new UntypedFormControl(this.value.isEnabled),
-      actions: new UntypedFormControl(this.value.actions)
+      actions: new UntypedFormControl(this.value.actions, [Validators.required, ruleActionsValidator(this.actionDefinitions)])
     });
     this.readOnly = this._readOnly;
 
