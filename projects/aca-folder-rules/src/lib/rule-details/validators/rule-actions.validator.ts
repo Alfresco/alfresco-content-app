@@ -24,10 +24,14 @@
  */
 
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { ActionDefinitionTransformed, isRuleAction, isRuleActions, RuleAction } from '../../model/rule-action.model';
+import { ActionDefinitionTransformed, ActionParameterDefinitionTransformed, isRuleAction, isRuleActions, RuleAction } from '../../model/rule-action.model';
 
-const isRuleActionValid = (value: unknown, actionDefinitions: ActionDefinitionTransformed[]): boolean =>
-  isRuleAction(value) && actionDefinitions.findIndex((actionDefinition: ActionDefinitionTransformed) => value.actionDefinitionId === actionDefinition.id) > -1;
+const isRuleActionValid = (value: unknown, actionDefinitions: ActionDefinitionTransformed[]): boolean => {
+  const actionDefinition = isRuleAction(value) ? actionDefinitions.find((actionDefinition: ActionDefinitionTransformed) => value.actionDefinitionId === actionDefinition.id) : undefined;
+  return isRuleAction(value) && actionDefinition &&
+    actionDefinition.parameterDefinitions.reduce((isValid: boolean, paramDef: ActionParameterDefinitionTransformed) =>
+      isValid && (!paramDef.mandatory || !!value.params[paramDef.name]), true);
+}
 
 const isRuleActionsValid = (value: unknown, actionDefinitions: ActionDefinitionTransformed[]): boolean =>
   isRuleActions(value) && value.reduce((isValid: boolean, currentAction: RuleAction) => isValid && isRuleActionValid(currentAction, actionDefinitions), true);

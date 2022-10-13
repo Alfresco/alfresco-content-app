@@ -117,9 +117,15 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
   setCardViewProperties() {
     this.cardViewItems = (this.selectedActionDefinition?.parameterDefinitions ?? []).map((paramDef) => {
       const cardViewPropertiesModel = {
-        label: paramDef.displayLabel,
+        label: paramDef.displayLabel + (paramDef.mandatory ? ' *' : ''),
         key: paramDef.name,
-        editable: true
+        editable: true,
+        ...(paramDef.mandatory ? {
+          validators: [{
+            message: 'ACA_FOLDER_RULES.RULE_DETAILS.ERROR.REQUIRED',
+            isValid: (value: unknown) => !!value
+          }]
+        } : {})
       };
       switch (paramDef.type) {
         case 'd:boolean':
