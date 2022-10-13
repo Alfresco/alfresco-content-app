@@ -1,3 +1,28 @@
+/*!
+ * @license
+ * Alfresco Example Content Application
+ *
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
+ *
+ * This file is part of the Alfresco Example Content Application.
+ * If the software was purchased under a paid Alfresco license, the terms of
+ * the paid license agreement will prevail.  Otherwise, the software is
+ * provided under the following open source license terms:
+ *
+ * The Alfresco Example Content Application is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * The Alfresco Example Content Application is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 import { Component, forwardRef, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
 import { ActionDefinitionTransformed, RuleAction } from '../../model/rule-action.model';
@@ -82,31 +107,27 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
   }
 
   ngOnInit() {
-    this.form.valueChanges
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe(() => {
-        this.setDefaultParameters();
-        this.setCardViewProperties();
-        this.onChange({
-          actionDefinitionId: this.selectedActionDefinitionId,
-          params: this.parameters
-        });
-        this.onTouch();
+    this.form.valueChanges.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
+      this.setDefaultParameters();
+      this.setCardViewProperties();
+      this.onChange({
+        actionDefinitionId: this.selectedActionDefinitionId,
+        params: this.parameters
       });
+      this.onTouch();
+    });
 
-    this.cardViewUpdateService.itemUpdated$
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((updateNotification: UpdateNotification) => {
-        this.parameters = {
-          ...this.parameters,
-          ...updateNotification.changed
-        };
-        this.onChange({
-          actionDefinitionId: this.selectedActionDefinitionId,
-          params: this.parameters
-        });
-        this.onTouch();
+    this.cardViewUpdateService.itemUpdated$.pipe(takeUntil(this.onDestroy$)).subscribe((updateNotification: UpdateNotification) => {
+      this.parameters = {
+        ...this.parameters,
+        ...updateNotification.changed
+      };
+      this.onChange({
+        actionDefinitionId: this.selectedActionDefinitionId,
+        params: this.parameters
       });
+      this.onTouch();
+    });
   }
 
   ngOnDestroy() {
@@ -120,12 +141,16 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
         label: paramDef.displayLabel + (paramDef.mandatory ? ' *' : ''),
         key: paramDef.name,
         editable: true,
-        ...(paramDef.mandatory ? {
-          validators: [{
-            message: 'ACA_FOLDER_RULES.RULE_DETAILS.ERROR.REQUIRED',
-            isValid: (value: unknown) => !!value
-          }]
-        } : {})
+        ...(paramDef.mandatory
+          ? {
+              validators: [
+                {
+                  message: 'ACA_FOLDER_RULES.RULE_DETAILS.ERROR.REQUIRED',
+                  isValid: (value: unknown) => !!value
+                }
+              ]
+            }
+          : {})
       };
       switch (paramDef.type) {
         case 'd:boolean':
