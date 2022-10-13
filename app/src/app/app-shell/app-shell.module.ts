@@ -21,9 +21,12 @@ import { ContentModule } from '@alfresco/adf-content-services';
   ]
 })
 export class AppShellModule {
-  static withChildren(childRouters: Routes): ModuleWithProviders<AppShellModule> {
+  static withChildren(childRouters: Routes[]): ModuleWithProviders<AppShellModule> {
     const shellLayoutRoute = SHELL_LAYOUT_ROUTE;
-    shellLayoutRoute.children = [...childRouters];
+
+    childRouters.forEach((childRoute) => {
+      shellLayoutRoute.children.push(...childRoute);
+    });
 
     return {
       ngModule: AppShellModule,
