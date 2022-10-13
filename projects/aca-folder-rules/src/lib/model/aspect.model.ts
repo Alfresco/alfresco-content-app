@@ -23,18 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export interface AspectModel {
-  id: string;
-  description: string;
-  namespaceUri: string;
-  namespacePrefix: string;
-}
-
 export interface Aspect {
-  includedInSupertypeQuery: boolean;
-  isContainer: boolean;
-  model: AspectModel;
-  id: string;
-  title: string;
-  parentId: string;
+  value: string;
+  label: string;
 }

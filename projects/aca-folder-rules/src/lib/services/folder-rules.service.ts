@@ -32,7 +32,7 @@ import { ContentApiService } from '@alfresco/aca-shared';
 import { NodeInfo } from '@alfresco/aca-shared/store';
 import { RuleCompositeCondition } from '../model/rule-composite-condition.model';
 import { RuleSimpleCondition } from '../model/rule-simple-condition.model';
-import { Aspect, AspectModel } from '../model/aspect.model';
+import { Aspect } from '../model/aspect.model';
 
 @Injectable({
   providedIn: 'root'
@@ -174,8 +174,8 @@ export class FolderRulesService {
   }
 
   loadAspects(): void {
-    from(this.apiCall('/aspects', 'GET', [{}, {}, {}, {}, {}, ['application/json'], ['application/json']]))
-      .pipe(map((res) => res.list.entries.map((entry) => this.formatAspect(entry.entry))))
+    from(this.apiCall('/action-parameter-constraints/ac-aspects', 'GET', [{}, {}, {}, {}, {}, ['application/json'], ['application/json']]))
+      .pipe(map((res) => res.entry.constraintValues.map((entry) => this.formatAspect(entry))))
       .subscribe((res) => {
         this.aspectsSource.next(res);
       });
@@ -234,23 +234,10 @@ export class FolderRulesService {
     };
   }
 
-  private formatAspect(obj): Aspect {
+  private formatAspect(aspect): Aspect {
     return {
-      includedInSupertypeQuery: obj.includedInSupertypeQuery ?? false,
-      isContainer: obj.isContainer ?? false,
-      model: this.formatAspectModel(obj.model),
-      id: obj.id ?? '',
-      title: obj.title ?? '',
-      parentId: obj.parentId ?? ''
-    };
-  }
-
-  private formatAspectModel(obj): AspectModel {
-    return {
-      id: obj.id ?? '',
-      description: obj.description ?? '',
-      namespaceUri: obj.namespaceUri ?? '',
-      namespacePrefix: obj.namespacePrefix ?? ''
+      value: aspect.value ?? '',
+      label: aspect.label ?? ''
     };
   }
 }

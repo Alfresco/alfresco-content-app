@@ -128,14 +128,14 @@ describe('FolderRulesService', () => {
 
   describe('loadAspects', () => {
     beforeEach(async () => {
-      apiCallSpy = spyOn<any>(folderRulesService, 'apiCall').withArgs(`/aspects`, 'GET', params).and.returnValue([]);
+      apiCallSpy = spyOn<any>(folderRulesService, 'apiCall').withArgs(`/action-parameter-constraints/ac-aspects`, 'GET', params).and.returnValue([]);
 
       folderRulesService.loadAspects();
     });
 
     it('should send correct GET request', async () => {
       expect(apiCallSpy).toHaveBeenCalled();
-      expect(apiCallSpy).toHaveBeenCalledWith(`/aspects`, 'GET', params);
+      expect(apiCallSpy).toHaveBeenCalledWith(`/action-parameter-constraints/ac-aspects`, 'GET', params);
     });
   });
 

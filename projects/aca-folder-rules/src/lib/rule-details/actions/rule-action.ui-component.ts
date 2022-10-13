@@ -75,6 +75,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
   }
 
   private aspects$
+  isFullWidth = false
 
   form = new FormGroup({
     actionDefinitionId: new FormControl('', Validators.required)
@@ -152,7 +153,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
 
   setCardViewProperties() {
     this.cardViewItems = (this.selectedActionDefinition?.parameterDefinitions ?? []).map((paramDef) => {
-      console.log(this.parameters[paramDef.name])
+      this.isFullWidth = false
       const cardViewPropertiesModel = {
         label: paramDef.displayLabel + (paramDef.mandatory ? ' *' : ''),
         key: paramDef.name,
@@ -176,6 +177,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
           });
         case 'd:qname':
           if (paramDef.name === 'aspect-name'){
+            this.isFullWidth = true;
             return new CardViewSelectItemModel({
               ...cardViewPropertiesModel,
               value:  this.parameters[paramDef.name] as string ?? '',
@@ -215,12 +217,16 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
   }
 
   private formatAspects(aspects) {
-    return aspects.sort((a, b) => a.title.localeCompare(b.title))
-      .filter( aspect => aspect.title.length > 0)
+    return aspects.sort(function(a, b) {
+      if(a.label === "" || a.label === null) return 1;
+      if(b.label === "" || b.label === null) return -1;
+      if(a.label === b.label) return 0;
+      return a.label < b.label ? -1 : 1;
+    })
       .map( (aspect) => {
       return {
-        key: aspect.id,
-        label: aspect.title
+        key: aspect.value,
+        label: aspect.label ? `${aspect.label} [${aspect.value}]` : aspect.value
       }
     })
   }
