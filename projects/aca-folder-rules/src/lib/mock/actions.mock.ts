@@ -24,7 +24,7 @@
  */
 
 import { ActionDefinitionList } from '@alfresco/js-api';
-import { ActionDefinitionTransformed, ActionParameterDefinitionTransformed } from '../model/rule-action.model';
+import { ActionDefinitionTransformed, ActionParameterDefinitionTransformed, RuleAction } from '../model/rule-action.model';
 
 export const actionDefListMock: ActionDefinitionList = {
   list: {
@@ -43,7 +43,7 @@ export const actionDefListMock: ActionDefinitionList = {
             name: 'mock-action-parameter-text',
             type: 'd:text',
             multiValued: false,
-            mandatory: false,
+            mandatory: true,
             displayLabel: 'Mock action parameter text'
           },
           {
@@ -73,7 +73,7 @@ const actionParam1TransformedMock: ActionParameterDefinitionTransformed = {
   name: 'mock-action-parameter-text',
   type: 'd:text',
   multiValued: false,
-  mandatory: false,
+  mandatory: true,
   displayLabel: 'Mock action parameter text'
 };
 
@@ -106,3 +106,31 @@ const action2TransformedMock: ActionDefinitionTransformed = {
 };
 
 export const actionsTransformedListMock: ActionDefinitionTransformed[] = [action1TransformedMock, action2TransformedMock];
+
+export const validActionMock: RuleAction = {
+  actionDefinitionId: 'mock-action-1-definition',
+  params: {
+    'mock-action-parameter-text': 'mock'
+  }
+};
+export const nonExistentActionDefinitionIdMock: RuleAction = {
+  actionDefinitionId: 'non-existent-action-definition-id',
+  params: {}
+};
+export const missingMandatoryParameterMock: RuleAction = {
+  actionDefinitionId: 'mock-action-1-definition',
+  params: {}
+};
+export const incompleteMandatoryParameterMock: RuleAction = {
+  actionDefinitionId: 'mock-action-1-definition',
+  params: {
+    'mock-action-parameter-text': ''
+  }
+};
+export const validActionsMock: RuleAction[] = [
+  validActionMock,
+  {
+    actionDefinitionId: 'mock-action-2-definition',
+    params: {}
+  }
+];
