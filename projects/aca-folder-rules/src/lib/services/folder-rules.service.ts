@@ -182,7 +182,8 @@ export class FolderRulesService {
   }
 
   private apiCall(path: string, httpMethod: string, params?: any[]): Promise<any> {
-    return this.apiService.getInstance().contentClient.callApi(path, httpMethod, ...params);
+    // APIs used by this service are still private and not yet available for public use
+    return this.apiService.getInstance().contentPrivateClient.callApi(path, httpMethod, ...params);
   }
 
   private formatRules(res): Rule[] {
