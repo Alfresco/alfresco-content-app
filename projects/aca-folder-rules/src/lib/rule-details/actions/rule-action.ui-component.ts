@@ -27,10 +27,18 @@ import { Component, forwardRef, Input, OnDestroy, OnInit, ViewEncapsulation } fr
 import { ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
 import { ActionDefinitionTransformed, RuleAction } from '../../model/rule-action.model';
 import { CardViewItem } from '@alfresco/adf-core/lib/card-view/interfaces/card-view-item.interface';
-import { CardViewBoolItemModel, CardViewTextItemModel, CardViewUpdateService, UpdateNotification } from '@alfresco/adf-core';
+import {
+  CardViewBoolItemModel,
+  CardViewSelectItemModel,
+  CardViewTextItemModel,
+  CardViewUpdateService,
+  UpdateNotification
+} from '@alfresco/adf-core';
 import { ActionParameterDefinition } from '@alfresco/js-api';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { FolderRulesService } from '../../services/folder-rules.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'aca-rule-action',
@@ -66,6 +74,8 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
     this.setDisabledState(isReadOnly);
   }
 
+  private aspects$
+
   form = new FormGroup({
     actionDefinitionId: new FormControl('', Validators.required)
   });
@@ -85,7 +95,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
   onChange: (action: RuleAction) => void = () => undefined;
   onTouch: () => void = () => undefined;
 
-  constructor(private cardViewUpdateService: CardViewUpdateService) {}
+  constructor(private cardViewUpdateService: CardViewUpdateService, private folderRulesService: FolderRulesService) {}
 
   writeValue(action: RuleAction) {
     this.form.setValue({
@@ -128,6 +138,11 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
       });
       this.onTouch();
     });
+
+    this.aspects$ = this.folderRulesService.aspects$.pipe(
+      map(aspects => this.formatAspects(aspects))
+    )
+    this.folderRulesService.loadAspects()
   }
 
   ngOnDestroy() {
@@ -137,6 +152,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
 
   setCardViewProperties() {
     this.cardViewItems = (this.selectedActionDefinition?.parameterDefinitions ?? []).map((paramDef) => {
+      console.log(this.parameters[paramDef.name])
       const cardViewPropertiesModel = {
         label: paramDef.displayLabel + (paramDef.mandatory ? ' *' : ''),
         key: paramDef.name,
@@ -158,6 +174,14 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
             ...cardViewPropertiesModel,
             value: this.parameters[paramDef.name] ?? false
           });
+        case 'd:qname':
+          if (paramDef.name === 'aspect-name'){
+            return new CardViewSelectItemModel({
+              ...cardViewPropertiesModel,
+              value:  this.parameters[paramDef.name] as string ?? '',
+              options$: this.aspects$
+            });
+          }
         default:
           return new CardViewTextItemModel({
             ...cardViewPropertiesModel,
@@ -188,5 +212,16 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
       this._readOnly = false;
       this.form.enable();
     }
+  }
+
+  private formatAspects(aspects) {
+    return aspects.sort((a, b) => a.title.localeCompare(b.title))
+      .filter( aspect => aspect.title.length > 0)
+      .map( (aspect) => {
+      return {
+        key: aspect.id,
+        label: aspect.title
+      }
+    })
   }
 }
