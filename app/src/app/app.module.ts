@@ -91,7 +91,7 @@ registerLocaleData(localeSv);
       relativeLinkResolution: 'legacy'
     }),
     AppExtensionsModule,
-    AppShellModule.withChildren(CONTENT_LAYOUT_ROUTES.children),
+    AppShellModule.withChildren([CONTENT_LAYOUT_ROUTES.children]),
     ContentServiceExtensionModule
   ],
   providers: [
