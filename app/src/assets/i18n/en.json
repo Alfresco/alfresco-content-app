@@ -398,7 +398,8 @@
                 "VERSIONS": "Versions",
                 "COMMENTS": "Comments",
                 "PERMISSIONS": "Permissions",
-                "EXPAND": "Expand"
+                "EXPAND": "Expand",
+                "CLOSE_LIBRARY": "Close Library"
             }
         }
     },
