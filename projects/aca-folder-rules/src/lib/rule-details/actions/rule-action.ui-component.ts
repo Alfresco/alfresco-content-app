@@ -27,11 +27,19 @@ import { Component, forwardRef, Input, OnDestroy, OnInit, ViewEncapsulation } fr
 import { ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
 import { ActionDefinitionTransformed, RuleAction } from '../../model/rule-action.model';
 import { CardViewItem } from '@alfresco/adf-core/lib/card-view/interfaces/card-view-item.interface';
-import { CardViewBoolItemModel, CardViewSelectItemModel, CardViewTextItemModel, CardViewUpdateService, UpdateNotification } from '@alfresco/adf-core';
+import {
+  CardViewBoolItemModel,
+  CardViewSelectItemModel,
+  CardViewSelectItemOption,
+  CardViewTextItemModel,
+  CardViewUpdateService,
+  UpdateNotification
+} from '@alfresco/adf-core';
 import { ActionParameterDefinition } from '@alfresco/js-api';
 import { Subject } from 'rxjs';
 import { takeUntil, map } from 'rxjs/operators';
 import { FolderRulesService } from '../../services/folder-rules.service';
+import { Aspect } from '../../model/aspect.model';
 
 @Component({
   selector: 'aca-rule-action',
@@ -133,7 +141,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
       this.onTouch();
     });
 
-    this.aspects$ = this.folderRulesService.aspects$.pipe(map((aspects) => this.formatAspects(aspects)));
+    this.aspects$ = this.folderRulesService.aspects$.pipe(map((aspects) => this.parseAspectsToSelectOptions(aspects)));
     this.folderRulesService.loadAspects();
   }
 
@@ -208,7 +216,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
     }
   }
 
-  private formatAspects(aspects) {
+  private parseAspectsToSelectOptions(aspects: Aspect[]): CardViewSelectItemOption<unknown>[] {
     return aspects
       .sort(function (a, b) {
         if (a.label === '' || a.label === null) {
