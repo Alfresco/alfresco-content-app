@@ -59,6 +59,7 @@ import { AppComponent } from './app.components';
 import { SHELL_AUTH_TOKEN } from './app-shell/app-shell.routes';
 import { CONTENT_LAYOUT_ROUTES } from './content-plugin/content.routes';
 import { ContentServiceExtensionModule } from './content-plugin/content-services-extension.module';
+import { CoreExtensionsModule } from './extensions/core.extensions.module';
 
 registerLocaleData(localeFr);
 registerLocaleData(localeDe);
@@ -84,6 +85,7 @@ registerLocaleData(localeSv);
     CoreModule.forRoot(),
     ContentModule.forRoot(),
     SharedModule.forRoot(),
+    CoreExtensionsModule.forRoot(),
     environment.e2e ? NoopAnimationsModule : BrowserAnimationsModule,
     RouterModule.forRoot([], {
       useHash: true,
