@@ -61,7 +61,7 @@ describe('ManageRulesSmartComponent', () => {
           debugElement = fixture.debugElement;
           folderRulesService = TestBed.inject<FolderRulesService>(FolderRulesService);
           actionsService = TestBed.inject<ActionsService>(ActionsService);
-          folderRulesService.aspects$ = of(dummyAspects)
+          folderRulesService.aspects$ = of(dummyAspects);
         });
     })
   );

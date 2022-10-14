@@ -24,13 +24,7 @@
  */
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-  CardViewBoolItemModel,
-  CardViewComponent,
-  CardViewSelectItemModel,
-  CardViewTextItemModel,
-  CoreTestingModule
-} from '@alfresco/adf-core';
+import { CardViewBoolItemModel, CardViewComponent, CardViewSelectItemModel, CardViewTextItemModel, CoreTestingModule } from '@alfresco/adf-core';
 import { RuleActionUiComponent } from './rule-action.ui-component';
 import { actionsTransformedListMock } from '../../mock/actions.mock';
 import { DebugElement } from '@angular/core';

@@ -38,4 +38,4 @@ export const dummyAspects: Aspect[] = [
     value: 'cm:aspect3',
     label: 'Label 3'
   }
-]
+];

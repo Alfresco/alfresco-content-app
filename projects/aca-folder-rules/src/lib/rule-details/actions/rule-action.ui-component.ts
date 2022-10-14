@@ -27,18 +27,11 @@ import { Component, forwardRef, Input, OnDestroy, OnInit, ViewEncapsulation } fr
 import { ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
 import { ActionDefinitionTransformed, RuleAction } from '../../model/rule-action.model';
 import { CardViewItem } from '@alfresco/adf-core/lib/card-view/interfaces/card-view-item.interface';
-import {
-  CardViewBoolItemModel,
-  CardViewSelectItemModel,
-  CardViewTextItemModel,
-  CardViewUpdateService,
-  UpdateNotification
-} from '@alfresco/adf-core';
+import { CardViewBoolItemModel, CardViewSelectItemModel, CardViewTextItemModel, CardViewUpdateService, UpdateNotification } from '@alfresco/adf-core';
 import { ActionParameterDefinition } from '@alfresco/js-api';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, map } from 'rxjs/operators';
 import { FolderRulesService } from '../../services/folder-rules.service';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'aca-rule-action',
@@ -74,8 +67,8 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
     this.setDisabledState(isReadOnly);
   }
 
-  private aspects$
-  isFullWidth = false
+  private aspects$;
+  isFullWidth = false;
 
   form = new FormGroup({
     actionDefinitionId: new FormControl('', Validators.required)
@@ -140,10 +133,8 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
       this.onTouch();
     });
 
-    this.aspects$ = this.folderRulesService.aspects$.pipe(
-      map(aspects => this.formatAspects(aspects))
-    )
-    this.folderRulesService.loadAspects()
+    this.aspects$ = this.folderRulesService.aspects$.pipe(map((aspects) => this.formatAspects(aspects)));
+    this.folderRulesService.loadAspects();
   }
 
   ngOnDestroy() {
@@ -153,7 +144,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
 
   setCardViewProperties() {
     this.cardViewItems = (this.selectedActionDefinition?.parameterDefinitions ?? []).map((paramDef) => {
-      this.isFullWidth = false
+      this.isFullWidth = false;
       const cardViewPropertiesModel = {
         label: paramDef.displayLabel + (paramDef.mandatory ? ' *' : ''),
         key: paramDef.name,
@@ -176,14 +167,15 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
             value: this.parameters[paramDef.name] ?? false
           });
         case 'd:qname':
-          if (paramDef.name === 'aspect-name'){
+          if (paramDef.name === 'aspect-name') {
             this.isFullWidth = true;
             return new CardViewSelectItemModel({
               ...cardViewPropertiesModel,
-              value:  this.parameters[paramDef.name] as string ?? '',
+              value: (this.parameters[paramDef.name] as string) ?? '',
               options$: this.aspects$
             });
           }
+        /* falls through */
         default:
           return new CardViewTextItemModel({
             ...cardViewPropertiesModel,
@@ -217,17 +209,22 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
   }
 
   private formatAspects(aspects) {
-    return aspects.sort(function(a, b) {
-      if(a.label === "" || a.label === null) return 1;
-      if(b.label === "" || b.label === null) return -1;
-      if(a.label === b.label) return 0;
-      return a.label < b.label ? -1 : 1;
-    })
-      .map( (aspect) => {
-      return {
+    return aspects
+      .sort(function (a, b) {
+        if (a.label === '' || a.label === null) {
+          return 1;
+        }
+        if (b.label === '' || b.label === null) {
+          return -1;
+        }
+        if (a.label === b.label) {
+          return 0;
+        }
+        return a.label < b.label ? -1 : 1;
+      })
+      .map((aspect) => ({
         key: aspect.value,
         label: aspect.label ? `${aspect.label} [${aspect.value}]` : aspect.value
-      }
-    })
+      }));
   }
 }
