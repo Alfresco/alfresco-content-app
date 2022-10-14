@@ -174,11 +174,15 @@ export class FolderRulesService {
   }
 
   loadAspects(): void {
-    from(this.apiCall('/action-parameter-constraints/ac-aspects', 'GET', [{}, {}, {}, {}, {}, ['application/json'], ['application/json']]))
+    from(this.publicApiCall('/action-parameter-constraints/ac-aspects', 'GET', [{}, {}, {}, {}, {}, ['application/json'], ['application/json']]))
       .pipe(map((res) => res.entry.constraintValues.map((entry) => this.formatAspect(entry))))
       .subscribe((res) => {
         this.aspectsSource.next(res);
       });
+  }
+
+  private publicApiCall(path: string, httpMethod: string, params?: any[]): Promise<any> {
+    return this.apiService.getInstance().contentClient.callApi(path, httpMethod, ...params);
   }
 
   private apiCall(path: string, httpMethod: string, params?: any[]): Promise<any> {

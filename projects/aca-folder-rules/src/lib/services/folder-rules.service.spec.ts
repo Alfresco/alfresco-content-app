@@ -128,7 +128,9 @@ describe('FolderRulesService', () => {
 
   describe('loadAspects', () => {
     beforeEach(async () => {
-      apiCallSpy = spyOn<any>(folderRulesService, 'apiCall').withArgs(`/action-parameter-constraints/ac-aspects`, 'GET', params).and.returnValue([]);
+      apiCallSpy = spyOn<any>(folderRulesService, 'publicApiCall')
+        .withArgs(`/action-parameter-constraints/ac-aspects`, 'GET', params)
+        .and.returnValue([]);
 
       folderRulesService.loadAspects();
     });
