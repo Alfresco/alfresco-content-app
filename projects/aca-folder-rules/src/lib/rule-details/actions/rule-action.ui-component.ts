@@ -94,6 +94,10 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
     return this.actionDefinitions.find((actionDefinition: ActionDefinitionTransformed) => actionDefinition.id === this.selectedActionDefinitionId);
   }
 
+  get cardViewStyle() {
+    return this.isFullWidth ? { ' width': '100%' } : {};
+  }
+
   onChange: (action: RuleAction) => void = () => undefined;
   onTouch: () => void = () => undefined;
 
