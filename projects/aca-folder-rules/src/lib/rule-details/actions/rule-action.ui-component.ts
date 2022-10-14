@@ -36,9 +36,8 @@ import {
   UpdateNotification
 } from '@alfresco/adf-core';
 import { ActionParameterDefinition } from '@alfresco/js-api';
-import { Subject } from 'rxjs';
-import { takeUntil, map } from 'rxjs/operators';
-import { FolderRulesService } from '../../services/folder-rules.service';
+import { of, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { Aspect } from '../../model/aspect.model';
 
 @Component({
@@ -75,7 +74,15 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
     this.setDisabledState(isReadOnly);
   }
 
-  private aspects$;
+  private _aspects;
+  @Input()
+  get aspects(): Aspect[] {
+    return this._aspects;
+  }
+  set aspects(value) {
+    this._aspects = this.parseAspectsToSelectOptions(value);
+  }
+
   isFullWidth = false;
 
   form = new FormGroup({
@@ -101,7 +108,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
   onChange: (action: RuleAction) => void = () => undefined;
   onTouch: () => void = () => undefined;
 
-  constructor(private cardViewUpdateService: CardViewUpdateService, private folderRulesService: FolderRulesService) {}
+  constructor(private cardViewUpdateService: CardViewUpdateService) {}
 
   writeValue(action: RuleAction) {
     this.form.setValue({
@@ -144,9 +151,6 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
       });
       this.onTouch();
     });
-
-    this.aspects$ = this.folderRulesService.aspects$.pipe(map((aspects) => this.parseAspectsToSelectOptions(aspects)));
-    this.folderRulesService.loadAspects();
   }
 
   ngOnDestroy() {
@@ -184,7 +188,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
             return new CardViewSelectItemModel({
               ...cardViewPropertiesModel,
               value: (this.parameters[paramDef.name] as string) ?? '',
-              options$: this.aspects$
+              options$: of(this._aspects)
             });
           }
         /* falls through */
