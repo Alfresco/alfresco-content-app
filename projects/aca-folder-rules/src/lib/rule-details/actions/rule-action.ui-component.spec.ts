@@ -24,7 +24,13 @@
  */
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CardViewBoolItemModel, CardViewComponent, CardViewTextItemModel, CoreTestingModule } from '@alfresco/adf-core';
+import {
+  CardViewBoolItemModel,
+  CardViewComponent,
+  CardViewSelectItemModel,
+  CardViewTextItemModel,
+  CoreTestingModule
+} from '@alfresco/adf-core';
 import { RuleActionUiComponent } from './rule-action.ui-component';
 import { actionsTransformedListMock } from '../../mock/actions.mock';
 import { DebugElement } from '@angular/core';
@@ -77,9 +83,10 @@ describe('RuleActionUiComponent', () => {
     expect(cardView.properties.length).toBe(0);
 
     changeMatSelectValue('rule-action-select', 'mock-action-1-definition');
-    expect(cardView.properties.length).toBe(2);
+    expect(cardView.properties.length).toBe(3);
     expect(cardView.properties[0]).toBeInstanceOf(CardViewTextItemModel);
     expect(cardView.properties[1]).toBeInstanceOf(CardViewBoolItemModel);
+    expect(cardView.properties[2]).toBeInstanceOf(CardViewSelectItemModel);
 
     changeMatSelectValue('rule-action-select', 'mock-action-2-definition');
     expect(cardView.properties.length).toBe(0);
