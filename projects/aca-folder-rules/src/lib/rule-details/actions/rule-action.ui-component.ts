@@ -183,7 +183,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
             value: this.parameters[paramDef.name] ?? false
           });
         case 'd:qname':
-          if (paramDef.name === 'aspect-name') {
+          if (paramDef.name === 'aspect-name' && !this.readOnly) {
             this.isFullWidth = true;
             return new CardViewSelectItemModel({
               ...cardViewPropertiesModel,
