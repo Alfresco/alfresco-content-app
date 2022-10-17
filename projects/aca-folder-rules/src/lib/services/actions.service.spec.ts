@@ -32,6 +32,8 @@ import { take } from 'rxjs/operators';
 
 describe('ActionsService', () => {
   let actionsService: ActionsService;
+  let apiCallSpy;
+  const params = [{}, {}, {}, {}, {}, ['application/json'], ['application/json']];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -61,5 +63,24 @@ describe('ActionsService', () => {
 
     expect(await loadingTruePromise).toBeTrue();
     expect(await loadingFalsePromise).toBeFalse();
+  });
+
+  it('should load the data into the observable', async () => {
+    spyOn(ActionsApi.prototype, 'listActions').and.returnValue(Promise.resolve(actionDefListMock));
+    const actionsPromise = actionsService.actionDefinitionsListing$.pipe(take(2)).toPromise();
+
+    actionsService.loadActionDefinitions();
+
+    const actionsList = await actionsPromise;
+    expect(actionsList).toEqual(actionsTransformedListMock);
+  });
+
+  it('loadAspects should send correct GET request', async () => {
+    apiCallSpy = spyOn<any>(actionsService, 'publicApiCall').withArgs(`/action-parameter-constraints/ac-aspects`, 'GET', params).and.returnValue([]);
+
+    actionsService.loadAspects();
+
+    expect(apiCallSpy).toHaveBeenCalled();
+    expect(apiCallSpy).toHaveBeenCalledWith(`/action-parameter-constraints/ac-aspects`, 'GET', params);
   });
 });

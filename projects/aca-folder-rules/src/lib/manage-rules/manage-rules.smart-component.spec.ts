@@ -46,7 +46,7 @@ describe('ManageRulesSmartComponent', () => {
 
   beforeEach(
     waitForAsync(() => {
-      const folderRulesServiceSpy = jasmine.createSpyObj('FolderRulesService', ['loadRules', 'deleteRule', 'loadAspects']);
+      const folderRulesServiceSpy = jasmine.createSpyObj('FolderRulesService', ['loadRules', 'deleteRule']);
       TestBed.configureTestingModule({
         imports: [CoreTestingModule, AcaFolderRulesModule],
         providers: [
@@ -61,7 +61,7 @@ describe('ManageRulesSmartComponent', () => {
           debugElement = fixture.debugElement;
           folderRulesService = TestBed.inject<FolderRulesService>(FolderRulesService);
           actionsService = TestBed.inject<ActionsService>(ActionsService);
-          folderRulesService.aspects$ = of(dummyAspects);
+          actionsService.aspects$ = of(dummyAspects);
         });
     })
   );

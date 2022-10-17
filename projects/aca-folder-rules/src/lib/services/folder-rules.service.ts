@@ -32,7 +32,6 @@ import { ContentApiService } from '@alfresco/aca-shared';
 import { NodeInfo } from '@alfresco/aca-shared/store';
 import { RuleCompositeCondition } from '../model/rule-composite-condition.model';
 import { RuleSimpleCondition } from '../model/rule-simple-condition.model';
-import { Aspect } from '../model/aspect.model';
 
 @Injectable({
   providedIn: 'root'
@@ -71,8 +70,6 @@ export class FolderRulesService {
   loading$ = this.loadingSource.asObservable();
   private deletedRuleIdSource = new BehaviorSubject<string>(null);
   deletedRuleId$: Observable<string> = this.deletedRuleIdSource.asObservable();
-  private aspectsSource = new BehaviorSubject<Aspect[]>([]);
-  aspects$: Observable<Aspect[]> = this.aspectsSource.asObservable();
 
   constructor(private apiService: AlfrescoApiService, private contentApi: ContentApiService) {}
 
@@ -173,18 +170,6 @@ export class FolderRulesService {
     ).subscribe({ error: (error) => console.error(error) });
   }
 
-  loadAspects(): void {
-    from(this.publicApiCall('/action-parameter-constraints/ac-aspects', 'GET', [{}, {}, {}, {}, {}, ['application/json'], ['application/json']]))
-      .pipe(map((res) => res.entry.constraintValues.map((entry) => this.formatAspect(entry))))
-      .subscribe((res) => {
-        this.aspectsSource.next(res);
-      });
-  }
-
-  private publicApiCall(path: string, httpMethod: string, params?: any[]): Promise<any> {
-    return this.apiService.getInstance().contentClient.callApi(path, httpMethod, ...params);
-  }
-
   private apiCall(path: string, httpMethod: string, params?: any[]): Promise<any> {
     // APIs used by this service are still private and not yet available for public use
     return this.apiService.getInstance().contentPrivateClient.callApi(path, httpMethod, ...params);
@@ -235,13 +220,6 @@ export class FolderRulesService {
       field: obj.field || 'cm:name',
       comparator: obj.comparator || 'equals',
       parameter: obj.parameter || ''
-    };
-  }
-
-  private formatAspect(aspect): Aspect {
-    return {
-      value: aspect.value ?? '',
-      label: aspect.label ?? ''
     };
   }
 }

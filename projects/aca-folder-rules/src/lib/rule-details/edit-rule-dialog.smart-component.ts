@@ -27,7 +27,6 @@ import { Component, EventEmitter, Inject, OnInit, Output, ViewEncapsulation } fr
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Rule } from '../model/rule.model';
 import { ActionsService } from '../services/actions.service';
-import { FolderRulesService } from '../services/folder-rules.service';
 
 export interface EditRuleDialogOptions {
   model?: Partial<Rule>;
@@ -47,13 +46,9 @@ export class EditRuleDialogSmartComponent implements OnInit {
   @Output() submitted = new EventEmitter<Partial<Rule>>();
   actionDefinitions$ = this.actionsService.actionDefinitionsListing$;
   loading$ = this.actionsService.loading$;
-  aspects$ = this.folderRulesService.aspects$;
+  aspects$ = this.actionsService.aspects$;
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: EditRuleDialogOptions,
-    private actionsService: ActionsService,
-    private folderRulesService: FolderRulesService
-  ) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: EditRuleDialogOptions, private actionsService: ActionsService) {
     this.model = this.data?.model || {};
   }
 
@@ -75,6 +70,6 @@ export class EditRuleDialogSmartComponent implements OnInit {
 
   ngOnInit() {
     this.actionsService.loadActionDefinitions();
-    this.folderRulesService.loadAspects();
+    this.actionsService.loadAspects();
   }
 }

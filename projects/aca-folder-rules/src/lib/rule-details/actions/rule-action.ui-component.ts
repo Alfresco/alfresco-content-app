@@ -102,7 +102,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
   }
 
   get cardViewStyle() {
-    return this.isFullWidth ? { ' width': '100%' } : {};
+    return this.isFullWidth ? { width: '100%' } : {};
   }
 
   onChange: (action: RuleAction) => void = () => undefined;
@@ -226,17 +226,14 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
 
   private parseAspectsToSelectOptions(aspects: Aspect[]): CardViewSelectItemOption<unknown>[] {
     return aspects
-      .sort(function (a, b) {
-        if (a.label === '' || a.label === null) {
+      .sort((a, b) => {
+        if (!a.label && b.label) {
           return 1;
         }
-        if (b.label === '' || b.label === null) {
+        if (!b.label && a.label) {
           return -1;
         }
-        if (a.label === b.label) {
-          return 0;
-        }
-        return a.label < b.label ? -1 : 1;
+        return a.label?.localeCompare(b.label) ?? -1;
       })
       .map((aspect) => ({
         key: aspect.value,
