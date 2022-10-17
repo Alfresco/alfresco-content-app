@@ -65,16 +65,6 @@ describe('ActionsService', () => {
     expect(await loadingFalsePromise).toBeFalse();
   });
 
-  it('should load the data into the observable', async () => {
-    spyOn(ActionsApi.prototype, 'listActions').and.returnValue(Promise.resolve(actionDefListMock));
-    const actionsPromise = actionsService.actionDefinitionsListing$.pipe(take(2)).toPromise();
-
-    actionsService.loadActionDefinitions();
-
-    const actionsList = await actionsPromise;
-    expect(actionsList).toEqual(actionsTransformedListMock);
-  });
-
   it('loadAspects should send correct GET request', async () => {
     apiCallSpy = spyOn<any>(actionsService, 'publicApiCall').withArgs(`/action-parameter-constraints/ac-aspects`, 'GET', params).and.returnValue([]);
 
