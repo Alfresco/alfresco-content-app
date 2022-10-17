@@ -23,9 +23,10 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { Component, Input, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { AppExtensionService } from '../../../services/app.extension.service';
+import { MatMenuItem } from '@angular/material/menu';
 
 @Component({
   selector: 'app-toolbar-menu-item',
@@ -43,6 +44,9 @@ import { AppExtensionService } from '../../../services/app.extension.service';
 export class ToolbarMenuItemComponent {
   @Input()
   actionRef: ContentActionRef;
+
+  @ViewChild(MatMenuItem)
+  menuItem: MatMenuItem;
 
   constructor(private extensions: AppExtensionService) {}
 
