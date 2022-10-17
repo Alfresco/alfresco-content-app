@@ -29,7 +29,6 @@ import { ExtensionsDataLoaderGuard } from '../../../../projects/aca-shared/src/p
 import { ShellLayoutComponent } from './components/shell/shell.component';
 
 export const SHELL_AUTH_TOKEN = new InjectionToken<CanActivate & CanActivateChild>('SHELL_AUTH_TOKEN');
-export const SHELL_MAIN_ROUTE = new InjectionToken<Route>('SHELL_MAIN_ROUTE');
 
 @Injectable({
   providedIn: 'root'
