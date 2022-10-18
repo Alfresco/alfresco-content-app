@@ -113,6 +113,7 @@ export const APP_ROUTES: Routes = [
                 path: ':activeTab',
                 component: DetailsComponent,
                 data: {
+                  title: 'APP.BROWSE.PERSONAL.PERMISSIONS.TITLE',
                   navigateSource: 'personal-files'
                 }
               }
