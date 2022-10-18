@@ -26,9 +26,10 @@
 import { Injectable } from '@angular/core';
 import { ActionDefinition, ActionDefinitionEntry, ActionDefinitionList, ActionParameterDefinition, ActionsApi } from '@alfresco/js-api';
 import { AlfrescoApiService } from '@alfresco/adf-core';
-import { BehaviorSubject, from } from 'rxjs';
+import { BehaviorSubject, from, Observable } from 'rxjs';
 import { ActionDefinitionTransformed, ActionParameterDefinitionTransformed } from '../model/rule-action.model';
 import { finalize, map } from 'rxjs/operators';
+import { Aspect } from '../model/aspect.model';
 
 @Injectable({ providedIn: 'root' })
 export class ActionsService {
@@ -36,6 +37,8 @@ export class ActionsService {
   actionDefinitionsListing$ = this.actionDefinitionsListingSource.asObservable();
   private loadingSource = new BehaviorSubject<boolean>(false);
   loading$ = this.loadingSource.asObservable();
+  private aspectsSource = new BehaviorSubject<Aspect[]>([]);
+  aspects$: Observable<Aspect[]> = this.aspectsSource.asObservable();
 
   private _actionsApi: ActionsApi;
   get actionsApi(): ActionsApi {
@@ -56,6 +59,14 @@ export class ActionsService {
       )
       .subscribe((obj: ActionDefinitionTransformed[]) => {
         this.actionDefinitionsListingSource.next(obj);
+      });
+  }
+
+  loadAspects(): void {
+    from(this.publicApiCall('/action-parameter-constraints/ac-aspects', 'GET', [{}, {}, {}, {}, {}, ['application/json'], ['application/json']]))
+      .pipe(map((res) => res.entry.constraintValues.map((entry) => this.formatAspect(entry))))
+      .subscribe((res) => {
+        this.aspectsSource.next(res);
       });
   }
 
@@ -88,5 +99,16 @@ export class ActionsService {
 
   private isActionDefinitionEntry(obj): obj is ActionDefinitionEntry {
     return typeof obj.entry !== 'undefined';
+  }
+
+  private publicApiCall(path: string, httpMethod: string, params?: any[]): Promise<any> {
+    return this.apiService.getInstance().contentClient.callApi(path, httpMethod, ...params);
+  }
+
+  private formatAspect(aspect): Aspect {
+    return {
+      value: aspect.value ?? '',
+      label: aspect.label ?? ''
+    };
   }
 }

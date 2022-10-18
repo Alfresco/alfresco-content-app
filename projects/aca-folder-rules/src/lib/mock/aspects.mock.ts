@@ -23,7 +23,19 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export interface Aspect {
-  value: string;
-  label: string;
-}
+import { Aspect } from '../model/aspect.model';
+
+export const dummyAspects: Aspect[] = [
+  {
+    value: 'cm:aspect1',
+    label: 'Label 1'
+  },
+  {
+    value: 'cm:aspect2',
+    label: 'Label 2'
+  },
+  {
+    value: 'cm:aspect3',
+    label: 'Label 3'
+  }
+];

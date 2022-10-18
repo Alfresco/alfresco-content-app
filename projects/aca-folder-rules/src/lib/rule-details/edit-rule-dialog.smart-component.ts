@@ -46,6 +46,7 @@ export class EditRuleDialogSmartComponent implements OnInit {
   @Output() submitted = new EventEmitter<Partial<Rule>>();
   actionDefinitions$ = this.actionsService.actionDefinitionsListing$;
   loading$ = this.actionsService.loading$;
+  aspects$ = this.actionsService.aspects$;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: EditRuleDialogOptions, private actionsService: ActionsService) {
     this.model = this.data?.model || {};
@@ -68,6 +69,7 @@ export class EditRuleDialogSmartComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.actionsService.loadAspects();
     this.actionsService.loadActionDefinitions();
   }
 }

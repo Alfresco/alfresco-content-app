@@ -32,6 +32,8 @@ import { take } from 'rxjs/operators';
 
 describe('ActionsService', () => {
   let actionsService: ActionsService;
+  let apiCallSpy;
+  const params = [{}, {}, {}, {}, {}, ['application/json'], ['application/json']];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -61,5 +63,14 @@ describe('ActionsService', () => {
 
     expect(await loadingTruePromise).toBeTrue();
     expect(await loadingFalsePromise).toBeFalse();
+  });
+
+  it('loadAspects should send correct GET request', async () => {
+    apiCallSpy = spyOn<any>(actionsService, 'publicApiCall').withArgs(`/action-parameter-constraints/ac-aspects`, 'GET', params).and.returnValue([]);
+
+    actionsService.loadAspects();
+
+    expect(apiCallSpy).toHaveBeenCalled();
+    expect(apiCallSpy).toHaveBeenCalledWith(`/action-parameter-constraints/ac-aspects`, 'GET', params);
   });
 });

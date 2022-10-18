@@ -51,6 +51,12 @@ export const actionDefListMock: ActionDefinitionList = {
             type: 'd:boolean',
             multiValued: false,
             mandatory: false
+          },
+          {
+            name: 'aspect-name',
+            type: 'd:qname',
+            multiValued: false,
+            mandatory: false
           }
         ],
         name: 'mock-action-1-definition',
@@ -85,6 +91,14 @@ const actionParam2TransformedMock: ActionParameterDefinitionTransformed = {
   displayLabel: 'mock-action-parameter-boolean'
 };
 
+const actionParam3TransformedMock: ActionParameterDefinitionTransformed = {
+  name: 'aspect-name',
+  type: 'd:qname',
+  multiValued: false,
+  mandatory: false,
+  displayLabel: 'aspect-name'
+};
+
 const action1TransformedMock: ActionDefinitionTransformed = {
   id: 'mock-action-1-definition',
   name: 'mock-action-1-definition',
@@ -92,7 +106,7 @@ const action1TransformedMock: ActionDefinitionTransformed = {
   title: 'Action 1 title',
   applicableTypes: [],
   trackStatus: false,
-  parameterDefinitions: [actionParam1TransformedMock, actionParam2TransformedMock]
+  parameterDefinitions: [actionParam1TransformedMock, actionParam2TransformedMock, actionParam3TransformedMock]
 };
 
 const action2TransformedMock: ActionDefinitionTransformed = {
