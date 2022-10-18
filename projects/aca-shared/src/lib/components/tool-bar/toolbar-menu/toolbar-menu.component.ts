@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, ViewEncapsulation, HostListener, ViewChild, ViewChildren, QueryList } from '@angular/core';
+import { Component, Input, ViewEncapsulation, HostListener, ViewChild, ViewChildren, QueryList, AfterViewInit } from '@angular/core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
 import { ThemePalette } from '@angular/material/core';
@@ -35,7 +35,7 @@ import { ToolbarMenuItemComponent } from '../toolbar-menu-item/toolbar-menu-item
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-toolbar-menu' }
 })
-export class ToolbarMenuComponent {
+export class ToolbarMenuComponent implements AfterViewInit {
   @Input()
   actionRef: ContentActionRef;
 
@@ -57,13 +57,13 @@ export class ToolbarMenuComponent {
   }
 
   ngAfterViewInit(): void {
-    let menuItems: MatMenuItem[] = [];
+    const menuItems: MatMenuItem[] = [];
     this.toolbarMenuItems.forEach((toolbarMenuItem: ToolbarMenuItemComponent) => {
       if (toolbarMenuItem.menuItem !== undefined) {
         menuItems.push(toolbarMenuItem.menuItem);
       }
     });
-    let menuItemsQueryList: QueryList<MatMenuItem> = new QueryList<MatMenuItem>();
+    const menuItemsQueryList: QueryList<MatMenuItem> = new QueryList<MatMenuItem>();
     menuItemsQueryList.reset(menuItems);
     this.menu._allItems = menuItemsQueryList;
     this.menu.ngAfterContentInit();
