@@ -227,7 +227,7 @@ export class ContentManagementService {
         nodeType: 'cm:folder'
       },
       width: '400px',
-      role: "dialog"
+      role: 'dialog'
     });
 
     dialogInstance.componentInstance.error.subscribe((message: string) => {
