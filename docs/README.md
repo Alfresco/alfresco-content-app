@@ -40,6 +40,8 @@ The documentation is divided into the following sections:
 
 | ACA Version | Built with | Tested on |
 | ----------- | ---------- | --------- |
+| ACA 3.1.0    | ADF 5.1.0  | ACS 7.3   |
+| ACA 3.0.0    | ADF 5.0.0  | ACS 7.3   |
 | ACA 2.4.0    | ADF 4.4.0  | ACS 6.2   |
 | ACA 2.3.0    | ADF 4.3.0  | ACS 6.2   |
 | ACA 2.2.0    | ADF 4.2.0  | ACS 6.2   |
@@ -60,35 +62,37 @@ The documentation is divided into the following sections:
 
 ## Available Features
 
-| Version | Feature                            | Description                                                                                                                                                                                    |
-| ------- | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1.5     | My Files                           | Folder/File browsing of Personal Files.                                                                                                                                                        |
-| 1.5     | File Libraries                     | Create, find, join and browse the file libraries of sites created in the repository.                                                                                                           |
-| 1.5     | Shared Files                       | Lists all files that have shared.                                                                                                                                                              |
-| 1.5     | Recent Files                       | List files created and/or modified by the logged users within the last 30 days.                                                                                                                |
-| 1.5     | Favorites                          | Lists all favorite files for the user.                                                                                                                                                         |
-| 1.5     | Trash                              | Lists all deleted items stored in the trash can, users can restore or permanently remove. Admin user will see items deleted by all users.                                                      |
-| 1.5     | Upload                             | Files and folders can be uploaded through the New button or by dragging and dropping into the browser.                                                                                         |
-| 1.5     | Search                             | Quick search with live results, and full faceted search results page.                                                                                                                          |
-| 1.5     | Actions                            | A number of actions can be performed on files and/or folders, either individually or multiples at a time.                                                                                      |
-| 1.5     | Viewer                             | Viewing files in natively in the browser, unsupported formats are transformed by the repository.                                                                                               |
+| Version | Feature | Description |
+| ------- | ---------------------------------- | ---------------------------------- |
+| 3.1     | Folder Rules                       | Early preview of the Folder Rules |
+| 3.0     | Angular 14 and ADF 5               | Upgrade to the latest version of Angular (14.x) and ADF (5.x) |
+| 1.5     | My Files                           | Folder/File browsing of Personal Files. |
+| 1.5     | File Libraries                     | Create, find, join and browse the file libraries of sites created in the repository. |
+| 1.5     | Shared Files                       | Lists all files that have shared. |
+| 1.5     | Recent Files                       | List files created and/or modified by the logged users within the last 30 days. |
+| 1.5     | Favorites                          | Lists all favorite files for the user. |
+| 1.5     | Trash                              | Lists all deleted items stored in the trash can, users can restore or permanently remove. Admin user will see items deleted by all users. |
+| 1.5     | Upload                             | Files and folders can be uploaded through the New button or by dragging and dropping into the browser. |
+| 1.5     | Search                             | Quick search with live results, and full faceted search results page. |
+| 1.5     | Actions                            | A number of actions can be performed on files and/or folders, either individually or multiples at a time. |
+| 1.5     | Viewer                             | Viewing files in natively in the browser, unsupported formats are transformed by the repository. |
 | 1.5     | Metadata                           | The information drawer can be configured in the app.config.json to display metadata information, by default file the Properties Aspect is shown and images will also include EXIF information. |
-| 1.5     | File Sharing                       | Share files, with time expiry if required, externally with uniquely generated URLs.                                                                                                            |
-| 1.5     | Versioning                         | The version manager provides access and management of previous file versions, and the ability to upload new versions.                                                                          |
-| 1.5     | Permissions                        | Granular user permission management of the folders and files throughout the repository.                                                                                                        |
-| 1.5     | Extensibility                      | The application provides safe extension points allowing full customisation; see [Documentation](https://alfresco-content-app.netlify.com/#/extending/) for details.                            |
-| 1.6     | Library management                 | Join and favorite libraries. New search input to find Libraries, files and/or folders.                                                                                                         |
-| 1.7     | Edit Offline                       | Lock and unlock for editing, download current version, upload new version.                                                                                                                     |
-| 1.7     | Edit with Microsoft Office         | Extension to edit online with Alfresco Office Services (AOS)                                                                                                                                   |
-| 1.7     | Single Sign-On (SSO)               | Support for Alfresco Identity Service, with ADF 3.0.0                                                                                                                                          |
-| 1.7     | Search Query Language              | Enhanced search input using the Alfresco Search Query Language                                                                                                                                 |
-| 1.8     | Localizations .                    | Arabic, Czech, Danish, Finnish, Polish and Swedish                                                                                                                                             |
-| 1.8     | Metadata improvements              | Automatic display of aspects and properties                                                                                                                                                    |
-| 1.8     | Search facet improvements          | Facet intervals and grouped facet queries                                                                                                                                                      |
-| 1.8     | Extensibility improvements         | Various - see [release notes](https://github.com/Alfresco/alfresco-content-app/releases) for details                                                                                           |
-| 1.9     | Single Log Out                     | Users will be automatically logged out from the Content App after logging out from another application in the same browser session                                                             |
-| 1.9     | Accessibility improvements         | Various - see [release notes](https://github.com/Alfresco/alfresco-content-app/releases) for details                                                                                           |
-| 1.10    | Create (file/folder) from template | Users can create files and folders structures from pre-set templates                                                                                                                           |
+| 1.5     | File Sharing                       | Share files, with time expiry if required, externally with uniquely generated URLs. |
+| 1.5     | Versioning                         | The version manager provides access and management of previous file versions, and the ability to upload new versions. |
+| 1.5     | Permissions                        | Granular user permission management of the folders and files throughout the repository. |
+| 1.5     | Extensibility                      | The application provides safe extension points allowing full customisation; see [Documentation](https://alfresco-content-app.netlify.com/#/extending/) for details. |
+| 1.6     | Library management                 | Join and favorite libraries. New search input to find Libraries, files and/or folders. |
+| 1.7     | Edit Offline                       | Lock and unlock for editing, download current version, upload new version. |
+| 1.7     | Edit with Microsoft Office         | Extension to edit online with Alfresco Office Services (AOS) |
+| 1.7     | Single Sign-On (SSO)               | Support for Alfresco Identity Service, with ADF 3.0.0 |
+| 1.7     | Search Query Language              | Enhanced search input using the Alfresco Search Query Language |
+| 1.8     | Localizations .                    | Arabic, Czech, Danish, Finnish, Polish and Swedish |
+| 1.8     | Metadata improvements              | Automatic display of aspects and properties |
+| 1.8     | Search facet improvements          | Facet intervals and grouped facet queries |
+| 1.8     | Extensibility improvements         | Various - see [release notes](https://github.com/Alfresco/alfresco-content-app/releases) for details |
+| 1.9     | Single Log Out                     | Users will be automatically logged out from the Content App after logging out from another application in the same browser session |
+| 1.9     | Accessibility improvements         | Various - see [release notes](https://github.com/Alfresco/alfresco-content-app/releases) for details |
+| 1.10    | Create (file/folder) from template | Users can create files and folders structures from pre-set templates |
 
 For the full list of features please refer to the [Releases](https://github.com/Alfresco/alfresco-content-app/releases).
 
