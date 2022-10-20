@@ -47,47 +47,47 @@ export const ruleConditionComparators: RuleConditionComparator[] = [
     }
   },
   {
-    name: 'startsWith',
+    name: 'starts_with',
     labels: {
       string: 'ACA_FOLDER_RULES.RULE_DETAILS.COMPARATORS.STARTS_WITH'
     }
   },
   {
-    name: 'endsWith',
+    name: 'ends_with',
     labels: {
       string: 'ACA_FOLDER_RULES.RULE_DETAILS.COMPARATORS.ENDS_WITH'
     }
   },
   {
-    name: 'greaterThan',
+    name: 'greater_than',
     labels: {
       number: 'ACA_FOLDER_RULES.RULE_DETAILS.COMPARATORS.GREATER_THAN',
       date: 'ACA_FOLDER_RULES.RULE_DETAILS.COMPARATORS.AFTER'
     }
   },
   {
-    name: 'lessThan',
+    name: 'less_than',
     labels: {
       number: 'ACA_FOLDER_RULES.RULE_DETAILS.COMPARATORS.LESS_THAN',
       date: 'ACA_FOLDER_RULES.RULE_DETAILS.COMPARATORS.BEFORE'
     }
   },
   {
-    name: 'greaterThanOrEqual',
+    name: 'greater_than_or_equal',
     labels: {
       number: 'ACA_FOLDER_RULES.RULE_DETAILS.COMPARATORS.GREATER_THAN_OR_EQUAL',
       date: 'ACA_FOLDER_RULES.RULE_DETAILS.COMPARATORS.ON_OR_AFTER'
     }
   },
   {
-    name: 'lessThanOrEqual',
+    name: 'less_than_or_equal',
     labels: {
       number: 'ACA_FOLDER_RULES.RULE_DETAILS.COMPARATORS.LESS_THAN_OR_EQUAL',
       date: 'ACA_FOLDER_RULES.RULE_DETAILS.COMPARATORS.ON_OR_BEFORE'
     }
   },
   {
-    name: 'instanceOf',
+    name: 'instance_of',
     labels: {
       type: 'ACA_FOLDER_RULES.RULE_DETAILS.COMPARATORS.INSTANCE_OF'
     }
