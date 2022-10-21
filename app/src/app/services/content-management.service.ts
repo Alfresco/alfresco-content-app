@@ -670,7 +670,6 @@ export class ContentManagementService {
       const message = this.getDeleteMessage(status);
 
       if (message && status.someSucceeded) {
-        message.duration = 10000;
         message.userAction = new SnackbarUserAction('APP.ACTIONS.UNDO', new UndoDeleteNodesAction([...status.success]));
       }
 
