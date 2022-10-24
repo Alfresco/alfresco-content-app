@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { SnackbarContentComponent, TranslationService } from '@alfresco/adf-core';
+import { SnackbarContentComponent, SnackBarData, TranslationService } from '@alfresco/adf-core';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
@@ -81,13 +81,15 @@ export class SnackbarEffects {
     if (action.userAction) {
       actionName = this.translate(action.userAction.title);
     }
-    const snackBarRef = this.snackBar.openFromComponent(SnackbarContentComponent, {
+    const snackBarRef = this.snackBar.openFromComponent<SnackbarContentComponent, SnackBarData>(SnackbarContentComponent, {
       ...(action.duration !== undefined && action.duration !== null && { duration: action.duration }),
       panelClass,
       data: {
         message,
         actionLabel: actionName,
-        actionIcon: actionName ? null : 'close'
+        actionIcon: 'close',
+        showAction: true,
+        callActionOnIconClick: false,
       }
     });
 
