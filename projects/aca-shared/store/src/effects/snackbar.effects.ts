@@ -89,7 +89,7 @@ export class SnackbarEffects {
         actionLabel: actionName,
         actionIcon: 'close',
         showAction: true,
-        callActionOnIconClick: false,
+        callActionOnIconClick: false
       }
     });
 
