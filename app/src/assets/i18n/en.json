@@ -395,6 +395,7 @@
         },
         "INFO_DRAWER": {
             "TITLE": "Details",
+            "DATA_LOADING": "Data is loading",
             "TABS": {
                 "PROPERTIES": "Properties",
                 "LIBRARY_PROPERTIES": "About",

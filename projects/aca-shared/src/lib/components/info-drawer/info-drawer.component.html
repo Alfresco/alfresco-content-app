@@ -1,5 +1,5 @@
 <div *ngIf="isLoading">
-  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  <mat-progress-bar mode="indeterminate" [attr.aria-label]="'APP.INFO_DRAWER.DATA_LOADING' | translate"></mat-progress-bar>
 </div>
 <ng-container *ngIf="!isLoading && !!displayNode">
   <adf-info-drawer [title]="'APP.INFO_DRAWER.TITLE'" cdkTrapFocus cdkTrapFocusAutoCapture>
