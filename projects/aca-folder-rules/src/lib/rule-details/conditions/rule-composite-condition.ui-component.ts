@@ -57,6 +57,8 @@ export class RuleCompositeConditionUiComponent implements ControlValueAccessor, 
     simpleConditions: new FormArray([])
   });
 
+  readonly isOrImplemented = false;
+
   private _readOnly = false;
   @Input()
   get readOnly(): boolean {

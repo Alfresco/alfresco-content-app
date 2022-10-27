@@ -20,7 +20,7 @@
     <mat-form-field *ngIf="i > 0">
       <mat-select
         [value]="booleanModeControl.value"
-        [disabled]="i > 1 || readOnly"
+        [disabled]="!isOrImplemented || i > 1 || readOnly"
         (selectionChange)="setBooleanMode($event.value)">
         <mat-option value="and">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LOGIC_OPERATORS.AND' | translate }}</mat-option>
         <mat-option value="or">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LOGIC_OPERATORS.OR' | translate }}</mat-option>
