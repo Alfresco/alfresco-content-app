@@ -30,9 +30,10 @@ import { InfoDrawerModule, ToolbarModule } from '@alfresco/adf-core';
 import { ExtensionsModule } from '@alfresco/adf-extensions';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { SharedToolbarModule } from '../tool-bar/shared-toolbar.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
-  imports: [CommonModule, InfoDrawerModule, MatProgressBarModule, ExtensionsModule, ToolbarModule, SharedToolbarModule],
+  imports: [CommonModule, InfoDrawerModule, MatProgressBarModule, ExtensionsModule, ToolbarModule, SharedToolbarModule, TranslateModule],
   declarations: [InfoDrawerComponent],
   exports: [InfoDrawerComponent]
 })
