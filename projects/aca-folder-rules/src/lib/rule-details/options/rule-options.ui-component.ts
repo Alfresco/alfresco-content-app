@@ -70,7 +70,7 @@ export class RuleOptionsUiComponent implements ControlValueAccessor, OnDestroy {
     return this.form.get('isAsynchronous').value;
   }
   get isInheritableChecked(): boolean {
-    return this.form.get('isAsynchronous').value;
+    return this.form.get('isInheritable').value;
   }
 
   writeValue(options: RuleOptions) {
