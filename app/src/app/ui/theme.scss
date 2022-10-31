@@ -57,7 +57,7 @@ $contrast-gray: #646569;
   color: $contrast-gray !important;
 }
 
-.mat-icon-button, .mat-button, .mat-checkbox {
+.mat-icon-button, .mat-button, .mat-checkbox, .mat-raised-button {
   &:focus {
     @include rounded-border($focus-color);
   }
