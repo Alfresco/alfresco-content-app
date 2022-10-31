@@ -79,7 +79,7 @@ describe('ManageRulesSmartComponent', () => {
 
     expect(folderRulesService.loadRules).toHaveBeenCalledOnceWith(component.nodeId);
 
-    const rules = debugElement.queryAll(By.css('.aca-rule'));
+    const rules = debugElement.queryAll(By.css('.aca-rule-list-item'));
     const ruleDetails = debugElement.queryAll(By.css('aca-rule-details'));
     const deleteRuleBtn = debugElement.query(By.css('#delete-rule-btn'));
 

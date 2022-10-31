@@ -8,7 +8,7 @@
       "CREATE": "Create",
       "CREATE_TITLE": "Create a rule",
       "UPDATE": "Update",
-      "UPDATE_TITLE": "Update a rule"
+      "UPDATE_TITLE": "Edit a rule"
     },
     "RULE_DETAILS": {
       "LABEL": {
@@ -38,7 +38,7 @@
         "IS_ASYNCHRONOUS": "Run rule in the background",
         "DISABLE_RULE": "Disable rule",
         "ERROR_SCRIPT": "If errors occur run script",
-        "SELECT_ACTION": "Select action"
+        "NO_SCRIPT": "None"
       },
       "COMPARATORS": {
         "EQUALS": "(=) Equals",

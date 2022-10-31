@@ -1,9 +1,31 @@
 .aca-rule-details {
   &__form {
-    padding: 20px;
+    position: relative;
+
+    & > div {
+      padding: 8px 20px;
+      width: 100%;
+      box-sizing: border-box;
+      overflow-x: auto;
+
+      &:not(:nth-child(1)) {
+        border-top: 1px solid var(--theme-border-color);
+      }
+
+      &.aca-rule-details__form__name {
+        padding-bottom: 0;
+      }
+
+      &.aca-rule-details__form__description {
+        padding-top: 0;
+        border: none;
+        align-items: flex-start;
+      }
+    }
 
     &__row {
       display: flex;
+      align-items: baseline;
       gap: 8px;
 
       & > label, & > .label {
@@ -11,7 +33,7 @@
         width: 20%;
         min-width: 100px;
         max-width: 150px;
-        padding-top: 0.75em;
+        padding: 0.75em 0;
       }
 
       & > div {
@@ -19,6 +41,7 @@
 
         mat-form-field {
           width: 100%;
+          max-width: 400px;
           font-size: inherit;
 
           .mat-form-field-infix {
@@ -28,21 +51,13 @@
       }
     }
 
-    &__triggers {
-      padding: 0.75em 0;
+    &__conditions {
+      width: 100%;
 
-      & > .label {
-        padding: 0;
+      & > .rule-details-error {
+        margin-left: 16px;
+        color: inherit;
       }
-    }
-
-    hr {
-      border: none;
-      border-bottom: 1px solid var(--theme-border-color);
-    }
-
-    *:disabled, .mat-select-disabled .mat-select-value {
-      color: inherit;
     }
 
     textarea {
@@ -54,14 +69,19 @@
       height: 1em;
     }
 
-    & > .aca-rule-composite-condition + .rule-details-error {
-      margin-left: 16px;
-      color: inherit;
-    }
-
     &__actions {
       .aca-rule-action-list {
         flex: 1;
+      }
+    }
+
+    &.read-only, .mat-form-field-disabled {
+      .mat-form-field-underline, .mat-select-arrow-wrapper {
+        display: none;
+      }
+
+      *:disabled, .mat-select-disabled .mat-select-value {
+        color: inherit;
       }
     }
   }

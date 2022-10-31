@@ -23,16 +23,16 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ComponentFixture, TestBed, inject, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
-import { FormsModule, ReactiveFormsModule, FormBuilder } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RuleOptionsUiComponent } from './rule-options.ui-component';
 import { CoreTestingModule } from '@alfresco/adf-core';
 import { By } from '@angular/platform-browser';
 
 describe('RuleOptionsUiComponent', () => {
-  let component: RuleOptionsUiComponent;
   let fixture: ComponentFixture<RuleOptionsUiComponent>;
+  let component: RuleOptionsUiComponent;
 
   const getByDataAutomationId = (dataAutomationId: string): DebugElement =>
     fixture.debugElement.query(By.css(`[data-automation-id="${dataAutomationId}"]`));
@@ -41,54 +41,75 @@ describe('RuleOptionsUiComponent', () => {
     ((getByDataAutomationId(dataAutomationId).nativeElement as HTMLElement).children[0] as HTMLElement).click();
   };
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-        imports: [FormsModule, ReactiveFormsModule, CoreTestingModule],
-        declarations: [RuleOptionsUiComponent]
-      }).compileComponents();
-    })
-  );
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [FormsModule, ReactiveFormsModule, CoreTestingModule],
+      declarations: [RuleOptionsUiComponent]
+    });
 
-  beforeEach(inject([FormBuilder], (fb: FormBuilder) => {
     fixture = TestBed.createComponent(RuleOptionsUiComponent);
     component = fixture.componentInstance;
 
-    component.form = fb.group({
-      isAsynchronous: [false],
-      isInheritable: [false],
-      isEnabled: [true],
-      errorScript: ['']
+    component.writeValue({
+      isEnabled: true,
+      isInheritable: false,
+      isAsynchronous: false,
+      errorScript: ''
     });
-    fixture.detectChanges();
-  }));
+  });
 
-  it('checkboxes should be falsy by default, selector is disabled', () => {
-    expect(component).toBeTruthy();
+  it('should be able to write to the component', () => {
+    fixture.detectChanges();
 
     expect(getByDataAutomationId('rule-option-checkbox-asynchronous').componentInstance.checked).toBeFalsy();
     expect(getByDataAutomationId('rule-option-checkbox-inheritable').componentInstance.checked).toBeFalsy();
-    expect(getByDataAutomationId('rule-option-checkbox-enabled').componentInstance.checked).toBeFalsy();
+    expect(getByDataAutomationId('rule-option-checkbox-disabled').componentInstance.checked).toBeFalsy();
     expect(getByDataAutomationId('rule-option-select-errorScript').componentInstance.disabled).toBeTruthy();
+
+    component.writeValue({
+      isEnabled: false,
+      isInheritable: true,
+      isAsynchronous: true,
+      errorScript: ''
+    });
+    fixture.detectChanges();
+
+    expect(getByDataAutomationId('rule-option-checkbox-asynchronous').componentInstance.checked).toBeTruthy();
+    expect(getByDataAutomationId('rule-option-checkbox-inheritable').componentInstance.checked).toBeTruthy();
+    expect(getByDataAutomationId('rule-option-checkbox-disabled').componentInstance.checked).toBeTruthy();
+    expect(getByDataAutomationId('rule-option-select-errorScript').componentInstance.disabled).toBeFalsy();
   });
 
   it('should enable selector when async checkbox is truthy', () => {
-    toggleMatCheckbox('rule-option-checkbox-asynchronous');
-
     fixture.detectChanges();
+    toggleMatCheckbox('rule-option-checkbox-asynchronous');
+    fixture.detectChanges();
+
     expect(getByDataAutomationId('rule-option-checkbox-asynchronous').componentInstance.checked).toBeTruthy();
     expect(getByDataAutomationId('rule-option-select-errorScript').componentInstance.disabled).toBeFalsy();
   });
 
-  it('should hide some fields in preview mode', () => {
-    component.preview = true;
+  it('should hide disabled checkbox and unselected checkboxes in read-only mode', () => {
+    component.readOnly = true;
+    fixture.detectChanges();
+
+    expect(getByDataAutomationId('rule-option-checkbox-asynchronous')).toBeFalsy();
+    expect(getByDataAutomationId('rule-option-checkbox-inheritable')).toBeFalsy();
+    expect(getByDataAutomationId('rule-option-checkbox-enabled')).toBeFalsy();
+    expect(getByDataAutomationId('rule-option-select-errorScript')).toBeFalsy();
+
+    component.writeValue({
+      isEnabled: false,
+      isInheritable: true,
+      isAsynchronous: true,
+      errorScript: ''
+    });
     fixture.detectChanges();
 
     expect(getByDataAutomationId('rule-option-checkbox-asynchronous')).toBeTruthy();
-    expect(getByDataAutomationId('rule-option-checkbox-asynchronous')).toBeTruthy();
     expect(getByDataAutomationId('rule-option-checkbox-inheritable')).toBeTruthy();
     expect(getByDataAutomationId('rule-option-checkbox-enabled')).toBeFalsy();
-    expect(getByDataAutomationId('rule-option-select-errorScript')).toBeFalsy();
+    expect(getByDataAutomationId('rule-option-select-errorScript')).toBeTruthy();
   });
 });
