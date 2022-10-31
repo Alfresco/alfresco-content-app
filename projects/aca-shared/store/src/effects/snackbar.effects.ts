@@ -88,6 +88,7 @@ export class SnackbarEffects {
         message,
         actionLabel: actionName,
         actionIcon: 'close',
+        actionIconAriaLabel: 'CLOSE',
         showAction: true,
         callActionOnIconClick: false
       }
