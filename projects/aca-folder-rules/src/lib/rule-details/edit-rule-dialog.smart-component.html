@@ -21,7 +21,7 @@
       [aspects]="aspects$ | async"
       [value]="model"
       (formValueChanged)="formValue = $event"
-      (formValidationChanged)="formValid = $event">
+      (formValidationChanged)="onFormValidChange($event)">
     </aca-rule-details>
   </ng-template>
 </mat-dialog-content>

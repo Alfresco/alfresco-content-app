@@ -72,4 +72,11 @@ export class EditRuleDialogSmartComponent implements OnInit {
     this.actionsService.loadAspects();
     this.actionsService.loadActionDefinitions();
   }
+
+  onFormValidChange(isValid: boolean) {
+    // setTimeout needed to avoid ExpressionChangedAfterItHasBeenCheckedError
+    setTimeout(() => {
+      this.formValid = isValid;
+    }, 0);
+  }
 }
