@@ -35,8 +35,9 @@ import { RuleActionListUiComponent } from './actions/rule-action-list.ui-compone
 import { RuleActionUiComponent } from './actions/rule-action.ui-component';
 import { ActionsService } from '../services/actions.service';
 import { RuleOptionsUiComponent } from './options/rule-options.ui-component';
+import { timer } from 'rxjs';
 
-describe('EditRuleDialogComponent', () => {
+describe('EditRuleDialogSmartComponent', () => {
   let fixture: ComponentFixture<EditRuleDialogSmartComponent>;
   let actionsService: ActionsService;
 
@@ -65,6 +66,7 @@ describe('EditRuleDialogComponent', () => {
 
     actionsService = TestBed.inject(ActionsService);
     spyOn(actionsService, 'loadActionDefinitions').and.stub();
+    spyOn(actionsService, 'loadAspects').and.stub();
 
     fixture = TestBed.createComponent(EditRuleDialogSmartComponent);
     fixture.detectChanges();
@@ -75,15 +77,20 @@ describe('EditRuleDialogComponent', () => {
       setupBeforeEach();
     });
 
-    it('should activate the submit button only when a valid state is received', () => {
+    it('should activate the submit button only when a valid state is received', async () => {
       const submitButton = fixture.debugElement.query(By.css('[data-automation-id="edit-rule-dialog-submit"]')).nativeElement as HTMLButtonElement;
       const ruleDetails = fixture.debugElement.query(By.directive(RuleDetailsUiComponent)).componentInstance as RuleDetailsUiComponent;
       ruleDetails.formValidationChanged.emit(true);
 
       fixture.detectChanges();
+      // timer needed to wait for the next tick to avoid ExpressionChangedAfterItHasBeenCheckedError
+      await timer(1).toPromise();
+      fixture.detectChanges();
       expect(submitButton.disabled).toBeFalsy();
       ruleDetails.formValidationChanged.emit(false);
 
+      fixture.detectChanges();
+      await timer(1).toPromise();
       fixture.detectChanges();
       expect(submitButton.disabled).toBeTruthy();
     });
