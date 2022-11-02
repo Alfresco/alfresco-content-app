@@ -24,25 +24,25 @@
  */
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RulesListUiComponent } from './rules-list.ui-component';
+import { RuleListUiComponent } from './rule-list.ui-component';
 import { dummyRules } from '../mock/rules.mock';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { CoreTestingModule } from '@alfresco/adf-core';
 import { AcaFolderRulesModule } from '@alfresco/aca-folder-rules';
 
-describe('RulesListComponent', () => {
-  let component: RulesListUiComponent;
-  let fixture: ComponentFixture<RulesListUiComponent>;
+describe('RuleListComponent', () => {
+  let component: RuleListUiComponent;
+  let fixture: ComponentFixture<RuleListUiComponent>;
   let debugElement: DebugElement;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [CoreTestingModule, AcaFolderRulesModule],
-      declarations: [RulesListUiComponent]
+      declarations: [RuleListUiComponent]
     });
 
-    fixture = TestBed.createComponent(RulesListUiComponent);
+    fixture = TestBed.createComponent(RuleListUiComponent);
     component = fixture.componentInstance;
     debugElement = fixture.debugElement;
   });
@@ -54,17 +54,17 @@ describe('RulesListComponent', () => {
 
     fixture.detectChanges();
 
-    const rules = debugElement.queryAll(By.css('.aca-rule'));
+    const rules = debugElement.queryAll(By.css('.aca-rule-list-item'));
 
     expect(rules).toBeTruthy('Could not find rules');
     expect(rules.length).toBe(2, 'Unexpected number of rules');
 
-    const rule = debugElement.query(By.css('.aca-rule:first-child'));
-    const title = rule.query(By.css('.rule-info__header__title'));
-    const description = rule.query(By.css('p'));
+    const rule = debugElement.query(By.css('.aca-rule-list-item:first-child'));
+    const name = rule.query(By.css('.aca-rule-list-item__header__name'));
+    const description = rule.query(By.css('.aca-rule-list-item__description'));
     const toggleBtn = rule.query(By.css('mat-slide-toggle'));
 
-    expect(title.nativeElement.textContent).toBe(dummyRules[0].name);
+    expect(name.nativeElement.textContent).toBe(dummyRules[0].name);
     expect(toggleBtn).toBeTruthy();
     expect(description.nativeElement.textContent).toBe(dummyRules[0].description);
   });

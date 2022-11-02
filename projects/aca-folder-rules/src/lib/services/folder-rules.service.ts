@@ -27,7 +27,7 @@ import { Injectable } from '@angular/core';
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { BehaviorSubject, forkJoin, from, Observable, of } from 'rxjs';
 import { catchError, finalize, map } from 'rxjs/operators';
-import { Rule } from '../model/rule.model';
+import { Rule, RuleForForm, RuleOptions } from '../model/rule.model';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { NodeInfo } from '@alfresco/aca-shared/store';
 import { RuleCompositeCondition } from '../model/rule-composite-condition.model';
@@ -46,20 +46,37 @@ export class FolderRulesService {
     };
   }
 
+  public static get emptyRuleOptions(): RuleOptions {
+    return {
+      isEnabled: true,
+      isInheritable: false,
+      isAsynchronous: false,
+      errorScript: ''
+    };
+  }
+
   public static get emptyRule(): Rule {
     return {
       id: '',
       name: '',
       description: '',
-      isEnabled: true,
-      isInheritable: false,
-      isAsynchronous: false,
-      errorScript: '',
       isShared: false,
       triggers: ['inbound'],
       conditions: FolderRulesService.emptyCompositeCondition,
-      actions: []
+      actions: [],
+      ...FolderRulesService.emptyRuleOptions
     };
+  }
+
+  public static get emptyRuleForForm(): RuleForForm {
+    const value = {
+      ...FolderRulesService.emptyRule,
+      options: FolderRulesService.emptyRuleOptions
+    };
+    Object.keys(value.options).forEach((key: string) => {
+      delete value[key];
+    });
+    return value;
   }
 
   private rulesListingSource = new BehaviorSubject<Rule[]>([]);

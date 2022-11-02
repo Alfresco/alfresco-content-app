@@ -23,20 +23,98 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { Component, forwardRef, HostBinding, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { AbstractControl, ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { MatCheckboxChange } from '@angular/material/checkbox';
+import { RuleOptions } from '../../model/rule.model';
 
 @Component({
   selector: 'aca-rule-options',
   templateUrl: 'rule-options.ui-component.html',
-  styleUrls: ['rule-options.ui-component.scss']
+  styleUrls: ['rule-options.ui-component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  host: { class: 'aca-rule-options' },
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      multi: true,
+      useExisting: forwardRef(() => RuleOptionsUiComponent)
+    }
+  ]
 })
-export class RuleOptionsUiComponent {
-  @Input() form: FormGroup;
-  @Input() preview: boolean;
-  disableSelector = true;
+export class RuleOptionsUiComponent implements ControlValueAccessor, OnDestroy {
+  form = new FormGroup({
+    isDisabled: new FormControl(),
+    isInheritable: new FormControl(),
+    isAsynchronous: new FormControl(),
+    errorScript: new FormControl()
+  });
 
-  toggleScriptSelector() {
-    this.disableSelector = !this.disableSelector;
+  formSubscription = this.form.valueChanges.subscribe((value: any) => {
+    this.onChange({
+      isEnabled: !value.isDisabled,
+      isInheritable: value.isInheritable,
+      isAsynchronous: value.isAsynchronous,
+      errorScript: value.errorScript ?? ''
+    });
+    this.onTouch();
+  });
+
+  @HostBinding('class.read-only')
+  readOnly = false;
+
+  onChange: (options: RuleOptions) => void = () => undefined;
+  onTouch: () => void = () => undefined;
+
+  get isAsynchronousChecked(): boolean {
+    return this.form.get('isAsynchronous').value;
+  }
+  get isInheritableChecked(): boolean {
+    return this.form.get('isInheritable').value;
+  }
+
+  writeValue(options: RuleOptions) {
+    const isAsynchronousFormControl = this.form.get('isAsynchronous');
+    const errorScriptFormControl = this.form.get('errorScript');
+    this.form.get('isDisabled').setValue(!options.isEnabled);
+    this.form.get('isInheritable').setValue(options.isInheritable);
+    this.form.get('isAsynchronous').setValue(options.isAsynchronous);
+    errorScriptFormControl.setValue(options.errorScript ?? '');
+    if (isAsynchronousFormControl.value) {
+      errorScriptFormControl.enable();
+    } else {
+      errorScriptFormControl.disable();
+    }
+  }
+
+  registerOnChange(fn: () => void) {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: () => void) {
+    this.onTouch = fn;
+  }
+
+  setDisabledState(isDisabled: boolean) {
+    if (isDisabled) {
+      this.form.disable();
+      this.readOnly = true;
+    } else {
+      this.form.enable();
+      this.readOnly = false;
+    }
+  }
+
+  ngOnDestroy() {
+    this.formSubscription.unsubscribe();
+  }
+
+  toggleErrorScriptDropdown(value: MatCheckboxChange) {
+    const formControl: AbstractControl = this.form.get('errorScript');
+    if (value.checked) {
+      formControl.enable();
+    } else {
+      formControl.disable();
+    }
   }
 }

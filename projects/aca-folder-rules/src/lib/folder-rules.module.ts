@@ -37,7 +37,7 @@ import { RuleSimpleConditionUiComponent } from './rule-details/conditions/rule-s
 import { GenericErrorModule, PageLayoutModule } from '@alfresco/aca-shared';
 import { BreadcrumbModule, DocumentListModule } from '@alfresco/adf-content-services';
 import { RuleListItemUiComponent } from './rules-list/rule/rule-list-item.ui-component';
-import { RulesListUiComponent } from './rules-list/rules-list.ui-component';
+import { RuleListUiComponent } from './rules-list/rule-list.ui-component';
 import { RuleTriggersUiComponent } from './rule-details/triggers/rule-triggers.ui-component';
 import { RuleOptionsUiComponent } from './rule-details/options/rule-options.ui-component';
 import { RuleActionListUiComponent } from './rule-details/actions/rule-action-list.ui-component';
@@ -70,7 +70,7 @@ const routes: Routes = [
     RuleCompositeConditionUiComponent,
     RuleDetailsUiComponent,
     RuleSimpleConditionUiComponent,
-    RulesListUiComponent,
+    RuleListUiComponent,
     RuleListItemUiComponent,
     RuleTriggersUiComponent,
     RuleOptionsUiComponent

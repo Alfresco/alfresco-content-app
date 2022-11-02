@@ -1,7 +1,7 @@
-<form class="aca-rule-details__form" [formGroup]="form">
+<form class="aca-rule-details__form" [ngClass]="{ 'read-only': readOnly }" [formGroup]="form">
 
   <ng-container *ngIf="!preview">
-    <div class="aca-rule-details__form__row">
+    <div class="aca-rule-details__form__row aca-rule-details__form__name">
       <label for="rule-details-name-input">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.NAME' | translate }}</label>
       <div>
         <mat-form-field floatLabel='never'>
@@ -14,7 +14,7 @@
       </div>
     </div>
 
-    <div class="aca-rule-details__form__row">
+    <div class="aca-rule-details__form__row aca-rule-details__form__description">
       <label for="rule-details-description-textarea">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.DESCRIPTION' | translate }}</label>
       <div>
         <mat-form-field floatLabel='never'>
@@ -28,8 +28,6 @@
     </div>
   </ng-container>
 
-  <hr>
-
   <div class="aca-rule-details__form__row aca-rule-details__form__triggers">
     <div class="label">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.WHEN' | translate }}</div>
     <div>
@@ -38,12 +36,10 @@
     </div>
   </div>
 
-  <hr>
-
-  <aca-rule-composite-condition formControlName="conditions"></aca-rule-composite-condition>
-  <mat-error class="rule-details-error">{{ getErrorMessage(conditions) | translate }}</mat-error>
-
-  <hr>
+  <div class="aca-rule-details__form__conditions">
+    <aca-rule-composite-condition formControlName="conditions"></aca-rule-composite-condition>
+    <mat-error class="rule-details-error">{{ getErrorMessage(conditions) | translate }}</mat-error>
+  </div>
 
   <div class="aca-rule-details__form__row aca-rule-details__form__actions">
     <div class="label">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.PERFORM_ACTIONS' | translate }}</div>
@@ -55,11 +51,9 @@
     </aca-rule-action-list>
   </div>
 
-  <hr>
-
-  <div class="aca-rule-details__form__row">
+  <div class="aca-rule-details__form__row" *ngIf="showOptionsSection">
     <div class="label">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.OPTIONS' | translate }}</div>
-    <aca-rule-options [form]="form" [preview]="preview" data-automation-id="rule-details-options-component"></aca-rule-options>
+    <aca-rule-options formControlName="options" data-automation-id="rule-details-options-component"></aca-rule-options>
   </div>
 
 </form>

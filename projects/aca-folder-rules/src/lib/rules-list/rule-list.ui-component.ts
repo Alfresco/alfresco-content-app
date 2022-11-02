@@ -23,21 +23,21 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 import { Rule } from '../model/rule.model';
 
 @Component({
-  selector: 'aca-rules-list',
-  templateUrl: 'rules-list.ui-component.html',
-  styleUrls: ['rules-list.ui-component.scss']
+  selector: 'aca-rule-list',
+  templateUrl: 'rule-list.ui-component.html',
+  styleUrls: ['rule-list.ui-component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  host: { class: 'aca-rule-list' }
 })
-export class RulesListUiComponent {
+export class RuleListUiComponent {
   @Input()
   rules: Rule[];
-
   @Input()
   selectedRule: Rule;
-
   @Input()
   nodeId: string;
 
