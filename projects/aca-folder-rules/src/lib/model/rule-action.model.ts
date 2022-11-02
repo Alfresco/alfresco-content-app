@@ -25,11 +25,11 @@
 
 export interface RuleAction {
   actionDefinitionId: string;
-  params: { [key: string]: unknown };
+  params?: { [key: string]: unknown };
 }
 
 export const isRuleAction = (obj): obj is RuleAction =>
-  typeof obj === 'object' && typeof obj.actionDefinitionId === 'string' && typeof obj.params === 'object';
+  typeof obj === 'object' && typeof obj.actionDefinitionId === 'string' && (obj.params === undefined || typeof obj.params === 'object');
 export const isRuleActions = (obj): obj is RuleAction[] =>
   typeof obj === 'object' && obj instanceof Array && obj.reduce((acc, curr) => acc && isRuleAction(curr), true);
 
