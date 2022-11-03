@@ -445,9 +445,7 @@ export const canManagePermissions = (context: RuleContext): boolean =>
  * @param context Rule execution context
  */
 export const canToggleEditOffline = (context: RuleContext): boolean =>
-  [hasFileSelected(context), navigation.isNotTrashcan(context), canLockFile(context) || canUnlockFile(context)].every(
-    Boolean
-  );
+  [hasFileSelected(context), navigation.isNotTrashcan(context), canLockFile(context) || canUnlockFile(context)].every(Boolean);
 
 /**
  * @deprecated Uses workarounds for for recent files and search api issues.
