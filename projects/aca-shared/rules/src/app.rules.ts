@@ -26,7 +26,6 @@
 import { AppConfigService } from '@alfresco/adf-core';
 import { RuleContext } from '@alfresco/adf-extensions';
 import * as navigation from './navigation.rules';
-import { isNodeRecord } from './record.rules';
 import * as repository from './repository.rules';
 import { isAdmin } from './user.rules';
 
@@ -359,7 +358,6 @@ export function canUploadVersion(context: RuleContext): boolean {
   return [
     hasFileSelected(context),
     navigation.isNotTrashcan(context),
-    !isNodeRecord(context),
     isWriteLocked(context) ? isUserWriteLockOwner(context) : canUpdateSelectedNode(context)
   ].every(Boolean);
 }
@@ -446,7 +444,7 @@ export const canManagePermissions = (context: RuleContext): boolean =>
  * @param context Rule execution context
  */
 export const canToggleEditOffline = (context: RuleContext): boolean =>
-  [hasFileSelected(context), navigation.isNotTrashcan(context), canLockFile(context) || canUnlockFile(context), !isNodeRecord(context)].every(
+  [hasFileSelected(context), navigation.isNotTrashcan(context), canLockFile(context) || canUnlockFile(context)].every(
     Boolean
   );
 

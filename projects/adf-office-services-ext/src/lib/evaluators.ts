@@ -24,7 +24,6 @@
  */
 
 import { RuleContext } from '@alfresco/adf-extensions';
-import { isNodeRecord } from '@alfresco/aca-shared/rules';
 import { getFileExtension, supportedExtensions } from './utils';
 
 export function canOpenWithOffice(context: RuleContext): boolean {
@@ -73,11 +72,6 @@ export function canOpenWithOffice(context: RuleContext): boolean {
 
   const lockOwner = file.entry.properties['cm:lockOwner'];
   if (lockOwner && lockOwner.id !== context.profile.id) {
-    return false;
-  }
-
-  // check if record
-  if (isNodeRecord(context)) {
     return false;
   }
 
