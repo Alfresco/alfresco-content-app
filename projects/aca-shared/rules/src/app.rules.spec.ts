@@ -607,20 +607,6 @@ describe('app.evaluators', () => {
       expect(app.canOpenWithOffice(context)).toBeFalsy();
     });
 
-    it('should return [false] if selected file is a record 1', () => {
-      const context: any = {
-        selection: {
-          file: {
-            entry: {
-              aspectName: ['rma:declaredRecord']
-            }
-          }
-        }
-      };
-
-      expect(app.canOpenWithOffice(context)).toBeFalsy();
-    });
-
     it('should return [false] if selected file is locked', () => {
       const context: any = {
         selection: {
