@@ -25,6 +25,7 @@
 
 import { AppConfigService } from '@alfresco/adf-core';
 import { RuleContext } from '@alfresco/adf-extensions';
+import { getFileExtension, supportedExtensions } from '@alfresco/adf-office-services-ext';
 import * as navigation from './navigation.rules';
 import * as repository from './repository.rules';
 import { isAdmin } from './user.rules';
@@ -488,3 +489,58 @@ export const canInfoPreview = (context: RuleContext): boolean =>
   navigation.isSearchResults(context) && !isMultiselection(context) && !hasFolderSelected(context) && !navigation.isPreview(context);
 
 export const showInfoSelectionButton = (context: RuleContext): boolean => navigation.isSearchResults(context) && !navigation.isPreview(context);
+
+/**
+ * Checks if the file can be opened with MS Office
+ * JSON ref: `aos.canOpenWithOffice`
+ *
+ * @param context Rule execution context
+ */
+export function canOpenWithOffice(context: RuleContext): boolean {
+  if (context.navigation && context.navigation.url && context.navigation.url.startsWith('/trashcan')) {
+    return false;
+  }
+
+  if (!context || !context.selection) {
+    return false;
+  }
+
+  const { file } = context.selection;
+
+  if (!file || !file.entry) {
+    return false;
+  }
+
+  const extension = getFileExtension(file.entry.name);
+  if (!extension || !supportedExtensions[extension]) {
+    return false;
+  }
+
+  if (!file.entry.properties) {
+    return false;
+  }
+
+  if (file.entry.isLocked) {
+    return false;
+  }
+
+  if (file.entry.properties['cm:lockType'] === 'WRITE_LOCK' || file.entry.properties['cm:lockType'] === 'READ_ONLY_LOCK') {
+    return false;
+  }
+
+  const lockOwner = file.entry.properties['cm:lockOwner'];
+  if (lockOwner && lockOwner.id !== context.profile.id) {
+    return false;
+  }
+
+  // workaround for Shared files
+  if (context.navigation && context.navigation.url && context.navigation.url.startsWith('/shared')) {
+    if (file.entry.hasOwnProperty('allowableOperationsOnTarget')) {
+      return context.permissions.check(file, ['update'], {
+        target: 'allowableOperationsOnTarget'
+      });
+    }
+  }
+
+  return context.permissions.check(file, ['update']);
+}
