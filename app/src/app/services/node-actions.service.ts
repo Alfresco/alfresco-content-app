@@ -214,7 +214,8 @@ export class NodeActionsService {
     this.dialog.open(ContentNodeSelectorComponent, {
       data,
       panelClass: 'adf-content-node-selector-dialog',
-      width: '630px'
+      width: '630px',
+      role: 'dialog'
     });
 
     data.select.subscribe({
