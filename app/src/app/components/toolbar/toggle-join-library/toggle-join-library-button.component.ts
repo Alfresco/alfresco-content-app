@@ -36,7 +36,7 @@ import { ProfileState, SelectionState } from '@alfresco/adf-extensions';
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { LibraryMembershipErrorEvent, LibraryMembershipToggleEvent } from '@alfresco/adf-core';
+import { LibraryMembershipErrorEvent, LibraryMembershipToggleEvent } from '@alfresco/adf-content-services';
 
 @Component({
   selector: 'app-toggle-join-library-button',
