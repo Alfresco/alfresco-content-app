@@ -35,10 +35,10 @@ export class CommentsTab extends Component {
   commentTextarea = this.byCss('.adf-comments-input-container textarea');
   addCommentButton = this.byCss('button.adf-comments-input-add');
   commentListItem = by.css('.adf-comment-list-item');
-  commentUserAvatar = by.id('comment-user-icon');
-  commentUser = by.id('comment-user');
-  commentText = by.id('comment-message');
-  commentTime = by.id('comment-time');
+  commentUserAvatar = by.css('.adf-comment-img-container');
+  commentUser = by.css('.adf-comment-user-name');
+  commentText = by.css('.adf-comment-message');
+  commentTime = by.css('.adf-comment-message-time');
 
   constructor(ancestor?: string) {
     super('adf-comments', ancestor);
