@@ -23,35 +23,30 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
-import { Rule } from '../model/rule.model';
+import { Component, HostBinding, Input, ViewEncapsulation } from '@angular/core';
+import { Rule } from '../../model/rule.model';
+import { FolderRulesService } from '../../services/folder-rules.service';
 
 @Component({
-  selector: 'aca-rule-list',
-  templateUrl: 'rule-list.ui-component.html',
-  styleUrls: ['rule-list.ui-component.scss'],
+  selector: 'aca-rule-list-item',
+  templateUrl: 'rule-list-item.ui-component.html',
+  styleUrls: ['rule-list-item.ui-component.scss'],
   encapsulation: ViewEncapsulation.None,
-  host: { class: 'aca-rule-list' }
+  host: { class: 'aca-rule-list-item' }
 })
-export class RuleListUiComponent {
+export class RuleListItemUiComponent {
   @Input()
-  rules: Rule[];
-  @Input()
-  selectedRule: Rule;
+  rule: Rule;
   @Input()
   nodeId: string;
+  @Input()
+  @HostBinding('class.selected')
+  isSelected: boolean;
 
-  @Output()
-  ruleSelected = new EventEmitter<Rule>();
+  constructor(private folderRulesService: FolderRulesService) {}
 
-  onRuleClicked(rule: Rule): void {
-    this.ruleSelected.emit(rule);
-  }
-
-  isSelected(rule): boolean {
-    if (this.selectedRule) {
-      return rule.id === this.selectedRule.id;
-    }
-    return false;
+  onToggleClick(isEnabled: boolean, event: Event) {
+    event.stopPropagation();
+    this.folderRulesService.toggleRule(this.nodeId, this.rule.id, { ...this.rule, isEnabled });
   }
 }

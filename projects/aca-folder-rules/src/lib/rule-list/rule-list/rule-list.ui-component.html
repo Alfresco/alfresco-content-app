@@ -1,6 +1,7 @@
 <div class="aca-rules-list" >
   <aca-rule-list-item
     matRipple matRippleColor="hsla(0,0%,0%,0.05)"
+    tabindex="0"
     *ngFor="let rule of rules"
     [rule]="rule"
     [isSelected]="isSelected(rule)"

@@ -1,0 +1,83 @@
+<div
+  *ngFor="let ruleSet of ruleSets"
+  class="aca-rule-set-list__item"
+  [ngClass]="{ expanded: isRuleSetExpanded(ruleSet) }">
+
+  <div class="aca-rule-set-list__item__header">
+
+    <div
+      tabindex="0"
+      *ngIf="ruleSet.owningFolder.id !== folderId"
+      matRipple matRippleColor="hsla(0,0%,0%,0.05)"
+      class="aca-rule-set-list__item__header__navigate-button"
+      (click)="clickNavigateButton(ruleSet.owningFolder)">
+      <mat-icon>edit_note</mat-icon>
+    </div>
+
+    <div
+      tabindex="0"
+      class="aca-rule-set-list__item__header__title"
+      matRipple matRippleColor="hsla(0,0%,0%,0.05)"
+      (click)="clickRuleSetHeader(ruleSet)">
+
+      <ng-container *ngIf="ruleSet.owningFolder.id === folderId; else nonOwnedRuleSet">
+        {{ 'ACA_FOLDER_RULES.RULE_LIST.OWNED_BY_THIS_FOLDER' | translate }}
+      </ng-container>
+
+      <ng-template #nonOwnedRuleSet>
+        <ng-container *ngIf="isRuleSetLinked(ruleSet); else inheritedRuleSet">
+          {{ 'ACA_FOLDER_RULES.RULE_LIST.LINKED_FROM' | translate }} {{ ruleSet.owningFolder.name }}
+        </ng-container>
+
+        <ng-template #inheritedRuleSet>
+          {{ 'ACA_FOLDER_RULES.RULE_LIST.INHERITED_FROM' | translate }} {{ ruleSet.owningFolder.name }}
+        </ng-template>
+      </ng-template>
+
+      <mat-icon class="aca-rule-set-list__item__header__icon">
+        {{ isRuleSetExpanded(ruleSet) ? 'expand_more' : 'chevron_right' }}
+      </mat-icon>
+    </div>
+
+  </div>
+
+  <ng-container *ngIf="isRuleSetExpanded(ruleSet)">
+    <aca-rule-list
+      [rules]="ruleSet.rules"
+      [selectedRule]="selectedRule"
+      (selectRule)="onSelectRule($event)">
+    </aca-rule-list>
+
+    <div
+      *ngIf="ruleSet.hasMoreRules || ruleSet.loadingRules"
+      tabindex="0"
+      class="aca-rule-set-list__item__load-more load-more"
+      matRipple matRippleColor="hsla(0,0%,0%,0.05)"
+      (click)="clickLoadMoreRules(ruleSet)">
+      <ng-container *ngIf="!ruleSet.loadingRules; else rulesLoadingTemplate">
+        {{ 'ACA_FOLDER_RULES.RULE_LIST.LOAD_MORE_RULES' | translate }}
+      </ng-container>
+      <ng-template #rulesLoadingTemplate>
+        <mat-spinner mode="indeterminate" [diameter]="16"></mat-spinner>
+        {{ 'ACA_FOLDER_RULES.RULE_LIST.LOADING_RULES' | translate }}
+      </ng-template>
+    </div>
+  </ng-container>
+
+</div>
+
+<div
+  *ngIf="hasMoreRuleSets"
+  tabindex="0"
+  class="aca-rule-set-list__load-more load-more"
+  matRipple matRippleColor="hsla(0,0%,0%,0.05)"
+  [matRippleDisabled]="ruleSetsLoading"
+  (click)="clickLoadMoreRuleSets()">
+  <ng-container *ngIf="!ruleSetsLoading; else ruleSetsLoadingTemplate">
+    {{ 'ACA_FOLDER_RULES.RULE_LIST.LOAD_MORE_RULE_SETS' | translate }}
+  </ng-container>
+  <ng-template #ruleSetsLoadingTemplate>
+    <mat-spinner mode="indeterminate" [diameter]="16"></mat-spinner>
+    {{ 'ACA_FOLDER_RULES.RULE_LIST.LOADING_RULE_SETS' | translate }}
+  </ng-template>
+</div>

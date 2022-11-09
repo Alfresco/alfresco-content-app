@@ -25,7 +25,7 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RuleListUiComponent } from './rule-list.ui-component';
-import { dummyRules } from '../mock/rules.mock';
+import { dummyRules } from '../../mock/rules.mock';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { CoreTestingModule } from '@alfresco/adf-core';
