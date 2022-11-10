@@ -115,7 +115,7 @@ export class FolderRulesService {
       );
   }
 
-  loadRules(ruleSet: RuleSet, skipCount = ruleSet.rules.length) {
+  loadRules(ruleSet: RuleSet, skipCount = ruleSet.rules.length, selectRule: ('first' | 'last' | Rule) = null) {
     if (ruleSet && !ruleSet.loadingRules) {
       ruleSet.loadingRules = true;
       this.getRules(ruleSet.owningFolder.id, ruleSet.id, skipCount)
@@ -128,19 +128,26 @@ export class FolderRulesService {
           ruleSet.hasMoreRules = res.hasMoreRules;
           ruleSet.rules.splice(skipCount);
           ruleSet.rules.push(...res.rules);
+          if (selectRule === 'first') {
+            this.selectRule(ruleSet.rules[0]);
+          } else if (selectRule === 'last') {
+            this.selectRule(ruleSet.rules[ruleSet.rules.length - 1]);
+          } else if (selectRule) {
+            this.selectRule(selectRule);
+          }
         });
     }
   }
 
-  createRule(nodeId: string, rule: Partial<Rule>, ruleSetId: string = '-default-') {
+  createRule(nodeId: string, rule: Partial<Rule>, ruleSetId: string): Promise<unknown> {
     return this.callApi(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules`, 'POST', { ...rule });
   }
 
-  updateRule(nodeId: string, ruleId: string, rule: Rule, ruleSetId: string = '-default-') {
+  updateRule(nodeId: string, ruleId: string, rule: Rule, ruleSetId: string): Promise<unknown> {
     return this.callApi(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules/${ruleId}`, 'PUT', { ...rule });
   }
 
-  deleteRule(nodeId: string, ruleId: string, ruleSetId: string = '-default-'): void {
+  deleteRule(nodeId: string, ruleId: string, ruleSetId: string = '-default-') {
     this.loadingSource.next(true);
     from(
       this.callApi(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules/${ruleId}`, 'DELETE')
@@ -153,12 +160,6 @@ export class FolderRulesService {
         this.loadingSource.next(false);
       }
     );
-  }
-
-  toggleRule(nodeId: string, ruleId: string, rule: Rule, ruleSetId: string = '-default-'): void {
-    from(
-      this.callApi(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules/${ruleId}`, 'PUT', { ...rule })
-    ).subscribe({ error: (error) => console.error(error) });
   }
 
   private formatRules(res): Rule[] {

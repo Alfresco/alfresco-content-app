@@ -5,7 +5,7 @@
     *ngFor="let rule of rules"
     [rule]="rule"
     [isSelected]="isSelected(rule)"
-    [nodeId]="nodeId"
-    (click)="onRuleClicked(rule)">
+    (click)="onRuleClicked(rule)"
+    (enabledChanged)="onEnabledChanged(rule, $event)">
   </aca-rule-list-item>
 </div>

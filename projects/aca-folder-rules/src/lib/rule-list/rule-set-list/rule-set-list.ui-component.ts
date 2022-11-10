@@ -62,6 +62,8 @@ export class RuleSetListUiComponent {
   loadMoreRules = new EventEmitter<RuleSet>();
   @Output()
   selectRule = new EventEmitter<Rule>();
+  @Output()
+  ruleEnabledChanged = new EventEmitter<[Rule, boolean]>();
 
   expandedRuleSets: RuleSet[] = [];
 
@@ -97,5 +99,9 @@ export class RuleSetListUiComponent {
 
   onSelectRule(rule: Rule) {
     this.selectRule.emit(rule);
+  }
+
+  onRuleEnabledChanged(event: [Rule, boolean]) {
+    this.ruleEnabledChanged.emit(event);
   }
 }

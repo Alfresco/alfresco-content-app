@@ -77,11 +77,7 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
     this.actionDefinitions$ = this.actionsService.actionDefinitionsListing$;
     this.folderRulesService.deletedRuleId$
       .pipe(takeUntil(this.destroyed$))
-      .subscribe((deletedRuleId) => {
-        if (deletedRuleId) {
-          this.folderRulesService.loadRules(this.folderRuleSetsService.getRuleSetFromRuleId(deletedRuleId), 0);
-        }
-      });
+      .subscribe((deletedRuleId) => this.onRuleDelete(deletedRuleId));
     this.actionsLoading$ = this.actionsService.loading$.pipe(delay(0));
     this.actionsService.loadActionDefinitions();
     this.route.params.subscribe((params) => {
@@ -120,21 +116,10 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
   onSubmitRuleDialog(dialogRef) {
     dialogRef.componentInstance.submitted.subscribe(async (rule) => {
       try {
-        let ruleSetToLoad = null;
         if (rule.id) {
-          await this.folderRulesService.updateRule(this.nodeId, rule.id, rule);
-          ruleSetToLoad = this.folderRuleSetsService.getRuleSetFromRuleId(rule.id);
+          await this.onRuleUpdate(rule);
         } else {
-          await this.folderRulesService.createRule(this.nodeId, rule);
-          ruleSetToLoad = this.folderRuleSetsService.getOwnedOrLinkedRuleSet();
-        }
-        if (ruleSetToLoad) {
-          this.folderRulesService.loadRules(ruleSetToLoad, 0);
-        } else {
-          this.folderRuleSetsService.loadMoreRuleSets();
-        }
-        if (rule.id) {
-          this.folderRulesService.selectRule(rule);
+          await this.onRuleCreate(rule);
         }
         dialogRef.close();
       } catch (error) {
@@ -143,7 +128,28 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
     });
   }
 
-  onRuleDelete(rule: Rule): void {
+  async onRuleUpdate(rule: Rule) {
+    const ruleSet = this.folderRuleSetsService.getRuleSetFromRuleId(rule.id);
+    await this.folderRulesService.updateRule(this.nodeId, rule.id, rule, ruleSet.id);
+    this.folderRulesService.loadRules(ruleSet, 0, rule);
+  }
+
+  async onRuleCreate(ruleCreateParams: Partial<Rule>) {
+    await this.folderRulesService.createRule(this.nodeId, ruleCreateParams, '-default-');
+    const ruleSetToLoad = this.folderRuleSetsService.getOwnedOrLinkedRuleSet();
+    if (ruleSetToLoad) {
+      this.folderRulesService.loadRules(ruleSetToLoad, 0, 'last');
+    } else {
+      this.folderRuleSetsService.loadMoreRuleSets(true);
+    }
+  }
+
+  async onRuleEnabledToggle(rule: Rule, isEnabled: boolean) {
+    const ruleSet = this.folderRuleSetsService.getRuleSetFromRuleId(rule.id);
+    await this.folderRulesService.updateRule(this.nodeId, rule.id, { ...rule, isEnabled }, ruleSet.id);
+  }
+
+  onRuleDeleteButtonClicked(rule: Rule) {
     this.matDialogService
       .open(ConfirmDialogComponent, {
         data: {
@@ -158,6 +164,17 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
           this.folderRulesService.deleteRule(this.nodeId, rule.id);
         }
       });
+  }
+
+  onRuleDelete(deletedRuleId: string) {
+    if (deletedRuleId) {
+      const folderToRefresh = this.folderRuleSetsService.getRuleSetFromRuleId(deletedRuleId);
+      if (folderToRefresh?.rules.length > 1) {
+        this.folderRulesService.loadRules(folderToRefresh, 0, 'first');
+      } else {
+        this.folderRuleSetsService.loadRuleSets(this.nodeId);
+      }
+    }
   }
 
   onNavigateToOtherFolder(nodeId) {

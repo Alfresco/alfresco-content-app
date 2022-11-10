@@ -101,17 +101,19 @@ export class FolderRuleSetsService {
     });
   }
 
-  loadMoreRuleSets() {
-    if (this.currentFolder && this.hasMoreRuleSets) {
-      this.isLoadingSource.next(true);
-      this.getRuleSets(this.currentFolder.id, this.ruleSets.length)
-        .pipe(finalize(() => this.isLoadingSource.next(false)))
-        .subscribe((ruleSets) => {
-          this.ruleSets.push(...ruleSets);
-          this.ruleSetListingSource.next(this.ruleSets);
-          this.hasMoreRuleSetsSource.next(this.hasMoreRuleSets);
-        });
-    }
+  loadMoreRuleSets(selectLastRule = false) {
+    this.isLoadingSource.next(true);
+    this.getRuleSets(this.currentFolder.id, this.ruleSets.length)
+      .pipe(finalize(() => this.isLoadingSource.next(false)))
+      .subscribe((ruleSets) => {
+        this.ruleSets.push(...ruleSets);
+        this.ruleSetListingSource.next(this.ruleSets);
+        this.hasMoreRuleSetsSource.next(this.hasMoreRuleSets);
+        if (selectLastRule) {
+          const ownedRuleSet = this.getOwnedOrLinkedRuleSet();
+          this.folderRulesService.selectRule(ownedRuleSet?.rules[ownedRuleSet.rules.length - 1]);
+        }
+      });
   }
 
   private getNodeInfo(nodeId: string): Observable<NodeInfo> {

@@ -178,7 +178,7 @@ describe('ManageRulesSmartComponent', () => {
     fixture.detectChanges();
     folderRulesService.deletedRuleId$ = of(component.selectedRule.id);
 
-    expect(component.onRuleDelete).toHaveBeenCalled();
+    expect(component.onRuleDeleteButtonClicked).toHaveBeenCalled();
     expect(dialog.open).toHaveBeenCalled();
     expect(folderRulesService.deleteRule).toHaveBeenCalled();
     expect(folderRulesService.loadRules).toHaveBeenCalledTimes(1);

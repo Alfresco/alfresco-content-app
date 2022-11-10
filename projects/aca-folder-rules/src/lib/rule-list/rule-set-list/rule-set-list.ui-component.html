@@ -45,7 +45,8 @@
     <aca-rule-list
       [rules]="ruleSet.rules"
       [selectedRule]="selectedRule"
-      (selectRule)="onSelectRule($event)">
+      (selectRule)="onSelectRule($event)"
+      (ruleEnabledChanged)="onRuleEnabledChanged($event)">
     </aca-rule-list>
 
     <div

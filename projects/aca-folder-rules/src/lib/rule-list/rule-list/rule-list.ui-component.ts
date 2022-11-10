@@ -38,11 +38,11 @@ export class RuleListUiComponent {
   rules: Rule[] = [];
   @Input()
   selectedRule: Rule = null;
-  @Input()
-  nodeId: string;
 
   @Output()
   selectRule = new EventEmitter<Rule>();
+  @Output()
+  ruleEnabledChanged = new EventEmitter<[Rule, boolean]>();
 
   onRuleClicked(rule: Rule): void {
     this.selectRule.emit(rule);
@@ -50,5 +50,9 @@ export class RuleListUiComponent {
 
   isSelected(rule): boolean {
     return rule.id === this.selectedRule?.id;
+  }
+
+  onEnabledChanged(rule: Rule, isEnabled: boolean) {
+    this.ruleEnabledChanged.emit([rule, isEnabled]);
   }
 }
