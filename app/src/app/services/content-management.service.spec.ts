@@ -466,7 +466,9 @@ describe('ContentManagementService', () => {
       nodeActions.contentMoved.next(moveResponse);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
-      expect(notificationService.openSnackMessageAction['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.FAIL');
+      expect(notificationService.openSnackMessageAction['calls'].argsFor(0)[0]).toBe(
+        'APP.MESSAGES.INFO.NODE_MOVE.SINGULAR APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.FAIL'
+      );
     });
 
     it('notifies successful move and the number of partially moved ones', () => {
@@ -485,7 +487,9 @@ describe('ContentManagementService', () => {
       nodeActions.contentMoved.next(moveResponse);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
-      expect(notificationService.openSnackMessageAction['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.SINGULAR');
+      expect(notificationService.openSnackMessageAction['calls'].argsFor(0)[0]).toBe(
+        'APP.MESSAGES.INFO.NODE_MOVE.SINGULAR APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.SINGULAR'
+      );
     });
 
     it('notifies error if success message was not emitted', () => {
