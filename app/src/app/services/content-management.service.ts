@@ -532,9 +532,10 @@ export class ContentManagementService {
       failed: failedItems
     });
 
-    this.notificationService.openSnackMessageAction(message, undo, {
-      panelClass: 'info-snackbar'
-    })
+    this.notificationService
+      .openSnackMessageAction(message, undo, {
+        panelClass: 'info-snackbar'
+      })
       .onAction()
       .subscribe(() => this.undoCopyNodes(newItems));
   }
