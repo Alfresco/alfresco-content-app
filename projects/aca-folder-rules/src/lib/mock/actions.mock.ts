@@ -23,7 +23,6 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// import { ActionDefinitionList } from '@alfresco/js-api';
 import { ActionDefinitionTransformed, ActionParameterDefinitionTransformed, RuleAction } from '../model/rule-action.model';
 
 export const actionDefListMock = {
@@ -57,7 +56,7 @@ export const actionDefListMock = {
             type: 'd:qname',
             multiValued: false,
             mandatory: false,
-            parameterConstraintName: 'constraint-name'
+            parameterConstraintName: 'ac-aspects'
           }
         ],
         name: 'mock-action-1-definition',
@@ -100,7 +99,7 @@ const actionParam3TransformedMock: ActionParameterDefinitionTransformed = {
   multiValued: false,
   mandatory: false,
   displayLabel: 'aspect-name',
-  parameterConstraintName: 'constraint-name'
+  parameterConstraintName: 'ac-aspects'
 };
 
 const action1TransformedMock: ActionDefinitionTransformed = {

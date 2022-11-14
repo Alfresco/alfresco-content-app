@@ -27,8 +27,8 @@ import { Injectable } from '@angular/core';
 import { ActionDefinition, ActionDefinitionEntry, ActionDefinitionList, ActionsApi } from '@alfresco/js-api';
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { BehaviorSubject, forkJoin, from, Observable, of } from 'rxjs';
-import { ActionDefinitionTransformed, ActionParameterDefinitionTransformed } from '../model/rule-action.model';
 import { finalize, map, switchMap } from 'rxjs/operators';
+import { ActionDefinitionTransformed, ActionParameterDefinitionTransformed } from '../model/rule-action.model';
 import { ActionParameterConstraint, ConstraintValue } from '../model/action-parameter-constraint.model';
 
 @Injectable({ providedIn: 'root' })
@@ -62,7 +62,7 @@ export class ActionsService {
       });
   }
 
-  loadParameterConstraints(constraintName) {
+  getParameterConstraints(constraintName): Observable<ConstraintValue[]> {
     return from(
       this.publicApiCall(`/action-parameter-constraints/${constraintName}`, 'GET', [{}, {}, {}, {}, {}, ['application/json'], ['application/json']])
     ).pipe(map((res) => res.entry.constraintValues.map((entry) => this.formatConstraint(entry))));
@@ -112,7 +112,6 @@ export class ActionsService {
   }
 
   loadActionParameterConstraints(actionDefinitions: ActionDefinitionTransformed[]): void {
-    this.loadingSource.next(true);
     of(actionDefinitions)
       .pipe(
         map((actionDefinition) =>
@@ -129,13 +128,12 @@ export class ActionsService {
         switchMap((parameterDefinitions) =>
           forkJoin(
             ...parameterDefinitions.map((parameterDefinition) =>
-              this.loadParameterConstraints(parameterDefinition.parameterConstraintName).pipe(
-                map((constraints) => ({ ...parameterDefinition, constraints }))
+              this.getParameterConstraints(parameterDefinition.parameterConstraintName).pipe(
+                map((constraints) => ({ name: parameterDefinition.name, constraints }))
               )
             )
           )
-        ),
-        finalize(() => this.loadingSource.next(false))
+        )
       )
       .subscribe((res) => this.parameterConstraintsSource.next(res));
   }

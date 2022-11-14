@@ -80,7 +80,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
     return this._parameterConstraints;
   }
   set parameterConstraints(value) {
-    this._parameterConstraints = value;
+    this._parameterConstraints = value.map((obj) => ({ ...obj, constraints: this.parseConstraintsToSelectOptions(obj.constraints) }));
   }
 
   isFullWidth = false;
@@ -183,12 +183,13 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
             value: this.parameters[paramDef.name] ?? false
           });
         default:
-          if (this._parameterConstraints.find((obj) => obj.name === paramDef.name) && !this.readOnly) {
+          const constraintsForDropdownBox = this._parameterConstraints.find((obj) => obj.name === paramDef.name);
+          if (constraintsForDropdownBox && !this.readOnly) {
             this.isFullWidth = true;
             return new CardViewSelectItemModel({
               ...cardViewPropertiesModel,
               value: (this.parameters[paramDef.name] as string) ?? '',
-              options$: of(this.parseConstraintsToSelectOptions(this._parameterConstraints.find((obj) => obj.name === paramDef.name).constraints))
+              options$: of(constraintsForDropdownBox.constraints)
             });
           }
           return new CardViewTextItemModel({
@@ -222,8 +223,8 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
     }
   }
 
-  private parseConstraintsToSelectOptions(constraint: ConstraintValue[]): CardViewSelectItemOption<unknown>[] {
-    return constraint
+  private parseConstraintsToSelectOptions(constraints: ConstraintValue[]): CardViewSelectItemOption<unknown>[] {
+    return constraints
       .sort((a, b) => {
         if (!a.label && b.label) {
           return 1;
@@ -233,9 +234,9 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
         }
         return a.label?.localeCompare(b.label) ?? -1;
       })
-      .map((obj) => ({
-        key: obj.value,
-        label: obj.label ? `${obj.label} [${obj.value}]` : obj.value
+      .map((constraint) => ({
+        key: constraint.value,
+        label: constraint.label ? `${constraint.label} [${constraint.value}]` : constraint.value
       }));
   }
 }

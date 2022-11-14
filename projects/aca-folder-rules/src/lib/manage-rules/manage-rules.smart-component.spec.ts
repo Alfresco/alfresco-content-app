@@ -35,7 +35,6 @@ import { By } from '@angular/platform-browser';
 import { dummyNodeInfo } from '../mock/node.mock';
 import { MatDialog } from '@angular/material/dialog';
 import { ActionsService } from '../services/actions.service';
-// import { dummyAspects } from '../mock/aspects.mock';
 
 describe('ManageRulesSmartComponent', () => {
   let fixture: ComponentFixture<ManageRulesSmartComponent>;
@@ -61,7 +60,6 @@ describe('ManageRulesSmartComponent', () => {
           debugElement = fixture.debugElement;
           folderRulesService = TestBed.inject<FolderRulesService>(FolderRulesService);
           actionsService = TestBed.inject<ActionsService>(ActionsService);
-          // actionsService.aspects$ = of(dummyAspects);
         });
     })
   );

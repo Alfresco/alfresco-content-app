@@ -29,6 +29,7 @@ import { RuleActionUiComponent } from './rule-action.ui-component';
 import { actionsTransformedListMock } from '../../mock/actions.mock';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import { dummyConstraints } from '../../mock/action-parameter-constraints.mock';
 
 describe('RuleActionUiComponent', () => {
   let fixture: ComponentFixture<RuleActionUiComponent>;
@@ -71,6 +72,7 @@ describe('RuleActionUiComponent', () => {
 
   it('should populate the card view with parameters when an action is selected', () => {
     component.actionDefinitions = actionsTransformedListMock;
+    component.parameterConstraints = dummyConstraints;
     fixture.detectChanges();
 
     const cardView = getByDataAutomationId('rule-action-card-view').componentInstance as CardViewComponent;
