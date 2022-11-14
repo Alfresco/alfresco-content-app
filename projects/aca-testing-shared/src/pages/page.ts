@@ -35,10 +35,10 @@ export abstract class Page {
 
   layout = this.byCss('app-layout');
   overlay = this.byCss('.cdk-overlay-container');
-  snackBar = this.byCss('.mat-simple-snackbar-action button');
+  snackBar = this.byCss('.adf-snackbar-message-content-action-label');
   dialogContainer = this.byCss('.mat-dialog-container');
   snackBarContainer = this.byCss('.mat-snack-bar-container');
-  snackBarAction = this.byCss('.mat-simple-snackbar-action button');
+  snackBarAction = this.byCss('.adf-snackbar-message-content-action-label');
   genericError = this.byCss('aca-generic-error');
   genericErrorIcon = this.byCss('aca-generic-error .mat-icon');
   genericErrorTitle = this.byCss('.generic-error__title');
@@ -88,14 +88,14 @@ export abstract class Page {
   }
 
   async getSnackBarMessage(): Promise<string> {
-    const elem = await waitElement('.mat-snack-bar-container');
+    const elem = await waitElement('.adf-snackbar-message-content');
     const attributeValue: string = await browser.executeScript(`return arguments[0].innerText`, elem);
     return attributeValue || '';
   }
 
   async clickSnackBarAction(): Promise<void> {
     try {
-      const action = await waitElement('.mat-simple-snackbar-action button');
+      const action = await waitElement('.adf-snackbar-message-content-action-label');
       await action.click();
     } catch (e) {
       Logger.error(e, '.......failed on click snack bar action.........');
