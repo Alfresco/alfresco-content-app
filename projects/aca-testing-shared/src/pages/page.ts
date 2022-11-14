@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { browser, by, ElementFinder } from 'protractor';
+import { browser, by, ElementFinder, WebElement } from 'protractor';
 import { BrowserVisibility, Logger } from '@alfresco/adf-testing';
 import { APP_ROUTES, USE_HASH_STRATEGY } from './../configs';
 import { Utils, waitElement, waitForPresence, isPresentAndDisplayed } from '../utilities/utils';
@@ -94,7 +94,12 @@ export abstract class Page {
   }
 
   async getSnackBarAction(): Promise<string> {
-    const elem = await waitElement('.adf-snackbar-message-content-action-label');
+    let elem: WebElement;
+    try {
+      elem = await waitElement('.adf-snackbar-message-content-action-label');
+    } catch (e) {
+      return '';
+    }
     const attributeValue: string = await browser.executeScript(`return arguments[0].innerText`, elem);
     return attributeValue || '';
   }

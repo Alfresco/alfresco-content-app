@@ -236,7 +236,7 @@ describe('Move content', () => {
       expect(msg).toContain('Move unsuccessful, a file with the same name already exists');
 
       const action = await page.getSnackBarAction();
-      expect(action).toContain('Undo');
+      expect(action).not.toContain('Undo');
 
       await moveDialog.waitForDialogToClose();
       expect(await dataTable.isItemPresent(`${existingFile}.txt`)).toBe(true, `${existingFile}.txt not present in source folder`);
@@ -387,7 +387,7 @@ describe('Move content', () => {
       expect(msg).toContain('Move unsuccessful, a file with the same name already exists');
 
       const action = await page.getSnackBarAction();
-      expect(action).toContain('Undo');
+      expect(action).not.toContain('Undo');
 
       await moveDialog.waitForDialogToClose();
       expect(await dataTable.isItemPresent(existingFile, sourceRF)).toBe(true, `${existingFile} from ${sourceRF} not present`);
@@ -523,7 +523,7 @@ describe('Move content', () => {
       expect(msg).toContain('Move unsuccessful, a file with the same name already exists');
 
       const action = await page.getSnackBarAction();
-      expect(action).toContain('Undo');
+      expect(action).not.toContain('Undo');
 
       await moveDialog.waitForDialogToClose();
       expect(await dataTable.isItemPresent(existingFile, sourceSF)).toBe(true, `${existingFile} from ${sourceSF} not present`);
@@ -711,7 +711,7 @@ describe('Move content', () => {
       expect(msg).toContain('Move unsuccessful, a file with the same name already exists');
 
       const action = await page.getSnackBarAction();
-      expect(action).toContain('Undo');
+      expect(action).not.toContain('Undo');
 
       await moveDialog.waitForDialogToClose();
       expect(await dataTable.isItemPresent(existingFile, sourceFav)).toBe(true, `${existingFile} from ${sourceFav} not present`);
@@ -731,7 +731,8 @@ describe('Move content', () => {
       await BrowserActions.click(moveDialog.moveButton);
       const msg = await page.getSnackBarMessage();
       expect(msg).toContain('Moved 1 item');
-      expect(msg).toContain('Undo');
+      const action = await page.getSnackBarAction();
+      expect(action).toContain('Undo');
 
       await moveDialog.waitForDialogToClose();
       expect(await dataTable.isItemPresent(existingFolder, sourceFav)).toBe(false, `${existingFolder} from ${sourceFav} is present`);

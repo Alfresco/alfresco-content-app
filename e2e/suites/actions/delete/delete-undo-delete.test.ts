@@ -293,7 +293,7 @@ describe('Delete and undo delete', () => {
       expect(message).toContain(`${folder2} couldn't be deleted`);
 
       const action = await page.getSnackBarAction();
-      expect(action).toContain('Undo');
+      expect(action).not.toContain('Undo');
 
       expect(await dataTable.isItemPresent(folder2)).toBe(true, `${folder2} was removed from list`);
       await page.clickTrash();
@@ -320,7 +320,7 @@ describe('Delete and undo delete', () => {
       expect(message).toEqual(`2 items couldn't be deleted`);
 
       const action = await page.getSnackBarAction();
-      expect(action).toContain('Undo');
+      expect(action).not.toContain('Undo');
     });
 
     it('[C217132] undo delete of file', async () => {
@@ -633,7 +633,7 @@ describe('Delete and undo delete', () => {
       expect(message).toEqual(`2 items couldn't be deleted`);
 
       const action = await page.getSnackBarAction();
-      expect(action).toContain('Undo');
+      expect(action).not.toContain('Undo');
     });
 
     it('[C280524] undo delete of file', async () => {

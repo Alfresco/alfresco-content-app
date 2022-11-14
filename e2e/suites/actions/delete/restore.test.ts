@@ -133,7 +133,7 @@ describe('Restore from Trash', () => {
       expect(text).toContain(`Restore successful`);
 
       const action = await page.getSnackBarAction();
-      expect(action).toContain('View');
+      expect(action).not.toContain('View');
 
       expect(await dataTable.isItemPresent(file)).toBe(false, 'Item was not removed from list');
       expect(await dataTable.isItemPresent(folder)).toBe(false, 'Item was not removed from list');
