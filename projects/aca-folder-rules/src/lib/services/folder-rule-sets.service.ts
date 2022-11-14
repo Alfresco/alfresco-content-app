@@ -54,29 +54,28 @@ export class FolderRuleSetsService {
   folderInfo$: Observable<NodeInfo> = this.folderInfoSource.asObservable();
   isLoading$ = this.isLoadingSource.asObservable();
 
-  constructor(private apiService: AlfrescoApiService,
-              private contentApi: ContentApiService,
-              private folderRulesService: FolderRulesService) {}
+  constructor(private apiService: AlfrescoApiService, private contentApi: ContentApiService, private folderRulesService: FolderRulesService) {}
 
-  private callApi(path: string, httpMethod: string, body: Object = {}): Promise<any> {
+  private callApi(path: string, httpMethod: string, body: object = {}): Promise<any> {
     // APIs used by this service are still private and not yet available for public use
     const params = [{}, {}, {}, {}, body, ['application/json'], ['application/json']];
     return this.apiService.getInstance().contentPrivateClient.callApi(path, httpMethod, ...params);
   }
 
   private getRuleSets(nodeId: string, skipCount = 0): Observable<RuleSet[]> {
-    return from(this.callApi(
-      `/nodes/${nodeId}/rule-sets?include=isLinkedTo,owningFolder,linkedToBy&skipCount=${skipCount}&maxItems=${FolderRuleSetsService.MAX_RULE_SETS_PER_GET}`,
-      'GET'
-    ))
-      .pipe(
-        tap((res) => {
-          if (res?.list?.pagination) {
-            this.hasMoreRuleSets = res.list.pagination.hasMoreItems;
-          }
-        }),
-        switchMap((res) => this.formatRuleSets(res))
-      );
+    return from(
+      this.callApi(
+        `/nodes/${nodeId}/rule-sets?include=isLinkedTo,owningFolder,linkedToBy&skipCount=${skipCount}&maxItems=${FolderRuleSetsService.MAX_RULE_SETS_PER_GET}`,
+        'GET'
+      )
+    ).pipe(
+      tap((res) => {
+        if (res?.list?.pagination) {
+          this.hasMoreRuleSets = res.list.pagination.hasMoreItems;
+        }
+      }),
+      switchMap((res) => this.formatRuleSets(res))
+    );
   }
 
   loadRuleSets(nodeId: string) {
@@ -86,19 +85,21 @@ export class FolderRuleSetsService {
     this.currentFolder = null;
     this.ruleSetListingSource.next(this.ruleSets);
     this.hasMoreRuleSetsSource.next(this.hasMoreRuleSets);
-    this.getNodeInfo(nodeId).pipe(
-      tap((nodeInfo: NodeInfo) => {
-        this.currentFolder = nodeInfo;
-        this.folderInfoSource.next(this.currentFolder);
-      }),
-      switchMap(() => this.getRuleSets(nodeId)),
-      finalize(() => this.isLoadingSource.next(false))
-    ).subscribe((ruleSets: RuleSet[]) => {
-      this.ruleSets = ruleSets;
-      this.ruleSetListingSource.next(this.ruleSets);
-      this.hasMoreRuleSetsSource.next(this.hasMoreRuleSets);
-      this.folderRulesService.selectRule(this.getOwnedOrLinkedRuleSet()?.rules[0] ?? ruleSets[0]?.rules[0]);
-    });
+    this.getNodeInfo(nodeId)
+      .pipe(
+        tap((nodeInfo: NodeInfo) => {
+          this.currentFolder = nodeInfo;
+          this.folderInfoSource.next(this.currentFolder);
+        }),
+        switchMap(() => this.getRuleSets(nodeId)),
+        finalize(() => this.isLoadingSource.next(false))
+      )
+      .subscribe((ruleSets: RuleSet[]) => {
+        this.ruleSets = ruleSets;
+        this.ruleSetListingSource.next(this.ruleSets);
+        this.hasMoreRuleSetsSource.next(this.hasMoreRuleSets);
+        this.folderRulesService.selectRule(this.getOwnedOrLinkedRuleSet()?.rules[0] ?? ruleSets[0]?.rules[0]);
+      });
   }
 
   loadMoreRuleSets(selectLastRule = false) {
@@ -134,7 +135,7 @@ export class FolderRuleSetsService {
 
   private formatRuleSets(res: any): Observable<RuleSet[]> {
     return res?.list?.entries && res.list.entries instanceof Array
-      ? combineLatest((res.list.entries as Array<any>).map(entry => this.formatRuleSet(entry.entry)))
+      ? combineLatest((res.list.entries as Array<any>).map((entry) => this.formatRuleSet(entry.entry)))
       : of([]);
   }
 
@@ -142,20 +143,17 @@ export class FolderRuleSetsService {
     return combineLatest(
       this.currentFolder?.id === entry.owningFolder ? of(this.currentFolder) : this.getNodeInfo(entry.owningFolder || ''),
       this.folderRulesService.getRules(entry.owningFolder || '', entry.id)
-    )
-      .pipe(
-        map(([owningFolderNodeInfo, getRulesRes]) => {
-          return {
-            id: entry.id,
-            isLinkedTo: entry.isLinkedTo || false,
-            owningFolder: owningFolderNodeInfo,
-            linkedToBy: entry.linkedToBy || [],
-            rules: getRulesRes.rules,
-            hasMoreRules: getRulesRes.hasMoreRules,
-            loadingRules: false
-          };
-        })
-      );
+    ).pipe(
+      map(([owningFolderNodeInfo, getRulesRes]) => ({
+        id: entry.id,
+        isLinkedTo: entry.isLinkedTo || false,
+        owningFolder: owningFolderNodeInfo,
+        linkedToBy: entry.linkedToBy || [],
+        rules: getRulesRes.rules,
+        hasMoreRules: getRulesRes.hasMoreRules,
+        loadingRules: false
+      }))
+    );
   }
 
   getRuleSetFromRuleId(ruleId: string): RuleSet {
@@ -163,6 +161,10 @@ export class FolderRuleSetsService {
   }
 
   getOwnedOrLinkedRuleSet(): RuleSet {
-    return this.ruleSets.find((ruleSet: RuleSet) => ruleSet.owningFolder.id === this.currentFolder.id || ruleSet.linkedToBy.indexOf(this.currentFolder.id) > -1) ?? null;
+    return (
+      this.ruleSets.find(
+        (ruleSet: RuleSet) => ruleSet.owningFolder.id === this.currentFolder.id || ruleSet.linkedToBy.indexOf(this.currentFolder.id) > -1
+      ) ?? null
+    );
   }
 }

@@ -95,7 +95,7 @@ export class FolderRulesService {
 
   constructor(private apiService: AlfrescoApiService) {}
 
-  private callApi(path: string, httpMethod: string, body: Object = {}): Promise<any> {
+  private callApi(path: string, httpMethod: string, body: object = {}): Promise<any> {
     // APIs used by this service are still private and not yet available for public use
     const params = [{}, {}, {}, {}, body, ['application/json'], ['application/json']];
     return this.apiService.getInstance().contentPrivateClient.callApi(path, httpMethod, ...params);
@@ -103,19 +103,19 @@ export class FolderRulesService {
 
   getRules(owningFolderId: string, ruleSetId: string, skipCount = 0): Observable<GetRulesResult> {
     return from(
-      this.callApi(`/nodes/${owningFolderId}/rule-sets/${ruleSetId}/rules?skipCount=${skipCount}&maxItems=${FolderRulesService.MAX_RULES_PER_GET}`, 'GET')
-    )
-      .pipe(
-        map((res) => {
-          return {
-            rules: this.formatRules(res),
-            hasMoreRules: !!res?.list?.pagination?.hasMoreItems
-          }
-        })
-      );
+      this.callApi(
+        `/nodes/${owningFolderId}/rule-sets/${ruleSetId}/rules?skipCount=${skipCount}&maxItems=${FolderRulesService.MAX_RULES_PER_GET}`,
+        'GET'
+      )
+    ).pipe(
+      map((res) => ({
+        rules: this.formatRules(res),
+        hasMoreRules: !!res?.list?.pagination?.hasMoreItems
+      }))
+    );
   }
 
-  loadRules(ruleSet: RuleSet, skipCount = ruleSet.rules.length, selectRule: ('first' | 'last' | Rule) = null) {
+  loadRules(ruleSet: RuleSet, skipCount = ruleSet.rules.length, selectRule: 'first' | 'last' | Rule = null) {
     if (ruleSet && !ruleSet.loadingRules) {
       ruleSet.loadingRules = true;
       this.getRules(ruleSet.owningFolder.id, ruleSet.id, skipCount)
@@ -149,9 +149,7 @@ export class FolderRulesService {
 
   deleteRule(nodeId: string, ruleId: string, ruleSetId: string = '-default-') {
     this.loadingSource.next(true);
-    from(
-      this.callApi(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules/${ruleId}`, 'DELETE')
-    ).subscribe(
+    from(this.callApi(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules/${ruleId}`, 'DELETE')).subscribe(
       () => {
         this.deletedRuleIdSource.next(ruleId);
       },

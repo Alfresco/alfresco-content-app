@@ -75,9 +75,7 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.actionDefinitions$ = this.actionsService.actionDefinitionsListing$;
-    this.folderRulesService.deletedRuleId$
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe((deletedRuleId) => this.onRuleDelete(deletedRuleId));
+    this.folderRulesService.deletedRuleId$.pipe(takeUntil(this.destroyed$)).subscribe((deletedRuleId) => this.onRuleDelete(deletedRuleId));
     this.actionsLoading$ = this.actionsService.loading$.pipe(delay(0));
     this.actionsService.loadActionDefinitions();
     this.route.params.subscribe((params) => {

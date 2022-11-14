@@ -31,7 +31,7 @@ import { By } from '@angular/platform-browser';
 import { CoreTestingModule } from '@alfresco/adf-core';
 import { AcaFolderRulesModule } from '@alfresco/aca-folder-rules';
 
-describe('RuleListComponent', () => {
+describe('RuleListUiComponent', () => {
   let component: RuleListUiComponent;
   let fixture: ComponentFixture<RuleListUiComponent>;
   let debugElement: DebugElement;
