@@ -93,6 +93,12 @@ export abstract class Page {
     return attributeValue || '';
   }
 
+  async getSnackBarAction(): Promise<string> {
+    const elem = await waitElement('.adf-snackbar-message-content-action-label');
+    const attributeValue: string = await browser.executeScript(`return arguments[0].innerText`, elem);
+    return attributeValue || '';
+  }
+
   async clickSnackBarAction(): Promise<void> {
     try {
       const action = await waitElement('.adf-snackbar-message-content-action-label');
