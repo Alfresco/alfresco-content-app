@@ -38,7 +38,7 @@ import {
 import { ActionParameterDefinition } from '@alfresco/js-api';
 import { of, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Aspect } from '../../model/aspect.model';
+import { ActionParameterConstraint, ConstraintValue } from '../../model/action-parameter-constraint.model';
 
 @Component({
   selector: 'aca-rule-action',
@@ -74,13 +74,13 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
     this.setDisabledState(isReadOnly);
   }
 
-  private _aspects;
+  private _parameterConstraints;
   @Input()
-  get aspects(): Aspect[] {
-    return this._aspects;
+  get parameterConstraints(): ActionParameterConstraint[] {
+    return this._parameterConstraints;
   }
-  set aspects(value) {
-    this._aspects = this.parseAspectsToSelectOptions(value);
+  set parameterConstraints(value) {
+    this._parameterConstraints = value;
   }
 
   isFullWidth = false;
@@ -182,17 +182,15 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
             ...cardViewPropertiesModel,
             value: this.parameters[paramDef.name] ?? false
           });
-        case 'd:qname':
-          if (paramDef.name === 'aspect-name' && !this.readOnly) {
+        default:
+          if (this._parameterConstraints.find((obj) => obj.name === paramDef.name) && !this.readOnly) {
             this.isFullWidth = true;
             return new CardViewSelectItemModel({
               ...cardViewPropertiesModel,
               value: (this.parameters[paramDef.name] as string) ?? '',
-              options$: of(this._aspects)
+              options$: of(this.parseConstraintsToSelectOptions(this._parameterConstraints.find((obj) => obj.name === paramDef.name).constraints))
             });
           }
-        /* falls through */
-        default:
           return new CardViewTextItemModel({
             ...cardViewPropertiesModel,
             value: this.parameters[paramDef.name] ?? ''
@@ -224,8 +222,8 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
     }
   }
 
-  private parseAspectsToSelectOptions(aspects: Aspect[]): CardViewSelectItemOption<unknown>[] {
-    return aspects
+  private parseConstraintsToSelectOptions(constraint: ConstraintValue[]): CardViewSelectItemOption<unknown>[] {
+    return constraint
       .sort((a, b) => {
         if (!a.label && b.label) {
           return 1;
@@ -235,9 +233,9 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
         }
         return a.label?.localeCompare(b.label) ?? -1;
       })
-      .map((aspect) => ({
-        key: aspect.value,
-        label: aspect.label ? `${aspect.label} [${aspect.value}]` : aspect.value
+      .map((obj) => ({
+        key: obj.value,
+        label: obj.label ? `${obj.label} [${obj.value}]` : obj.value
       }));
   }
 }

@@ -23,12 +23,12 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export interface ParameterConstraintForDropdownBox {
+export interface ActionParameterConstraint {
   name: string;
-  constraints: ActionParameterConstraint[];
+  constraints: ConstraintValue[];
 }
 
-export interface ActionParameterConstraint {
+export interface ConstraintValue {
   value: string;
   label: string;
 }

@@ -49,4 +49,5 @@ export interface ActionParameterDefinitionTransformed {
   multiValued: boolean;
   mandatory: boolean;
   displayLabel: string;
+  parameterConstraintName?: string;
 }

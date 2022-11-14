@@ -23,9 +23,9 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Aspect } from '../model/aspect.model';
+import { ConstraintValue } from '../model/action-parameter-constraint.model';
 
-export const dummyAspects: Aspect[] = [
+export const dummyAspects: ConstraintValue[] = [
   {
     value: 'cm:aspect1',
     label: 'Label 1'

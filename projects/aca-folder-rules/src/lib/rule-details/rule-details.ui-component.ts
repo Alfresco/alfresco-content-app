@@ -32,7 +32,7 @@ import { ruleCompositeConditionValidator } from './validators/rule-composite-con
 import { FolderRulesService } from '../services/folder-rules.service';
 import { ActionDefinitionTransformed } from '../model/rule-action.model';
 import { ruleActionsValidator } from './validators/rule-actions.validator';
-import { Aspect } from '../model/aspect.model';
+import { ActionParameterConstraint } from '../model/action-parameter-constraint.model';
 
 @Component({
   selector: 'aca-rule-details',
@@ -96,7 +96,7 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
   @Input()
   actionDefinitions: ActionDefinitionTransformed[] = [];
   @Input()
-  aspects: Aspect[] = [];
+  parameterConstraints: ActionParameterConstraint[] = [];
 
   @Output()
   formValidationChanged = new EventEmitter<boolean>();

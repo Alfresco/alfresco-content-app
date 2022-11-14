@@ -28,7 +28,7 @@ import { ControlValueAccessor, FormArray, FormControl, NG_VALUE_ACCESSOR, Valida
 import { ActionDefinitionTransformed, RuleAction } from '../../model/rule-action.model';
 import { Subscription } from 'rxjs';
 import { ruleActionValidator } from '../validators/rule-actions.validator';
-import { Aspect } from '../../model/aspect.model';
+import { ActionParameterConstraint } from '../../model/action-parameter-constraint.model';
 
 @Component({
   selector: 'aca-rule-action-list',
@@ -50,7 +50,7 @@ export class RuleActionListUiComponent implements ControlValueAccessor, OnDestro
   @Input()
   readOnly = false;
   @Input()
-  aspects: Aspect[] = [];
+  parameterConstraints: ActionParameterConstraint[] = [];
 
   formArray = new FormArray([]);
   private formArraySubscription: Subscription;

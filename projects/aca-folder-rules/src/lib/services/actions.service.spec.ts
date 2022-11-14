@@ -65,12 +65,16 @@ describe('ActionsService', () => {
     expect(await loadingFalsePromise).toBeFalse();
   });
 
-  it('loadAspects should send correct GET request', async () => {
-    apiCallSpy = spyOn<any>(actionsService, 'publicApiCall').withArgs(`/action-parameter-constraints/ac-aspects`, 'GET', params).and.returnValue([]);
+  it('loadParameterConstraints should send correct GET request', async () => {
+    const constraintName = 'constraintName';
 
-    actionsService.loadAspects();
+    apiCallSpy = spyOn<any>(actionsService, 'publicApiCall')
+      .withArgs(`/action-parameter-constraints/${constraintName}`, 'GET', params)
+      .and.returnValue([]);
+
+    actionsService.loadParameterConstraints(constraintName);
 
     expect(apiCallSpy).toHaveBeenCalled();
-    expect(apiCallSpy).toHaveBeenCalledWith(`/action-parameter-constraints/ac-aspects`, 'GET', params);
+    expect(apiCallSpy).toHaveBeenCalledWith(`/action-parameter-constraints/${constraintName}`, 'GET', params);
   });
 });
