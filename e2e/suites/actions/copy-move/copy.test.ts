@@ -553,7 +553,6 @@ describe('Copy content', () => {
     await BrowserActions.click(copyDialog.copyButton);
     const msg = await page.getSnackBarMessage();
     expect(msg).toContain('Copied 1 item');
-    expect(msg).toContain('Undo');
 
     await copyDialog.waitForDialogToClose();
     expect(await dataTable.isItemPresent(fileName)).toBe(true, `${fileName}.txt not present in source folder`);
