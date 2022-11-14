@@ -118,7 +118,6 @@ import { ToggleJoinLibraryMenuComponent } from './components/toolbar/toggle-join
 import { ViewNodeComponent } from './components/toolbar/view-node/view-node.component';
 import { CONTENT_ROUTES } from './content.routes';
 import { RouterModule } from '@angular/router';
-import { AppLayoutComponent } from './components/layout/app-layout/app-layout.component';
 
 registerLocaleData(localeFr);
 registerLocaleData(localeDe);
@@ -200,7 +199,6 @@ export class ContentServiceExtensionModule {
     });
 
     extensions.setComponents({
-      'app.layout.main': AppLayoutComponent,
       'app.layout.header': AppHeaderComponent,
       'app.layout.sidenav': SidenavComponent,
       'app.components.tabs.metadata': MetadataTabComponent,

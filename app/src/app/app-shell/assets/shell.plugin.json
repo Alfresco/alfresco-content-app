@@ -8,16 +8,6 @@
 
   "routes": [
     {
-      "id": "app.shell.login",
-      "path": "login",
-      "auth": ["app.shell.dummy.guard"],
-      "component": "app.shell.login",
-      "layout": "",
-      "data": {
-        "title": "APP.SIGN_IN"
-      }
-    },
-    {
       "id": "app.shell.blank",
       "path": "blank",
       "auth": ["app.shell.dummy.guard"],

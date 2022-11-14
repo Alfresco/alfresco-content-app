@@ -38,11 +38,16 @@ import { DetailsComponent } from './components/details/details.component';
 import { HomeComponent } from './components/home/home.component';
 import { ViewProfileComponent } from './components/view-profile/view-profile.component';
 import { ViewProfileRuleGuard } from './components/view-profile/view-profile.guard';
+import { LoginComponent } from './components/login/login.component';
 
 export const CONTENT_ROUTES: ExtensionRoute[] = [
   {
     path: 'preview/s/:id',
     loadChildren: () => import('./components/shared-link-view/shared-link-view.module').then((m) => m.AppSharedLinkViewModule)
+  },
+  {
+    path: 'login',
+    component: LoginComponent
   },
   {
     path: 'view',
