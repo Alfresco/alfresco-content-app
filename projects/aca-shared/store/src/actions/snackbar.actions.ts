@@ -35,7 +35,7 @@ export interface SnackbarAction extends Action {
   payload: string;
   params?: any;
   userAction?: SnackbarUserAction;
-  duration?: number;
+  duration: number;
 }
 
 export class SnackbarUserAction {
@@ -46,6 +46,7 @@ export class SnackbarInfoAction implements SnackbarAction {
   readonly type = SnackbarActionTypes.Info;
 
   userAction?: SnackbarUserAction;
+  duration = 4000;
 
   constructor(public payload: string, public params?: any) {}
 }
@@ -54,6 +55,7 @@ export class SnackbarWarningAction implements SnackbarAction {
   readonly type = SnackbarActionTypes.Warning;
 
   userAction?: SnackbarUserAction;
+  duration = 4000;
 
   constructor(public payload: string, public params?: any) {}
 }
@@ -62,6 +64,7 @@ export class SnackbarErrorAction implements SnackbarAction {
   readonly type = SnackbarActionTypes.Error;
 
   userAction?: SnackbarUserAction;
+  duration = 4000;
 
   constructor(public payload: string, public params?: any) {}
 }

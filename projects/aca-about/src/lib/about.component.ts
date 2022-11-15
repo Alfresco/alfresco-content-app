@@ -23,44 +23,21 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { DEV_MODE_TOKEN } from './dev-mode.tokens';
 import pkg from 'package.json';
-import { Observable } from 'rxjs';
-import { AppExtensionService, ExtensionRef } from '@alfresco/adf-extensions';
-import { AuthenticationService, DiscoveryApiService, RepositoryInfo } from '@alfresco/adf-core';
 
 @Component({
   selector: 'app-about-page',
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.scss']
 })
-export class AboutComponent implements OnInit {
+export class AboutComponent {
   pkg: any;
   dev = false;
-  extensions$: Observable<ExtensionRef[]>;
-  repository: RepositoryInfo = null;
 
-  constructor(
-    @Inject(DEV_MODE_TOKEN) devMode,
-    private authService: AuthenticationService,
-    private appExtensions: AppExtensionService,
-    private discovery: DiscoveryApiService
-  ) {
+  constructor(@Inject(DEV_MODE_TOKEN) devMode) {
     this.dev = !devMode;
     this.pkg = pkg;
-    this.extensions$ = this.appExtensions.references$;
-  }
-
-  ngOnInit(): void {
-    if (this.authService.isEcmLoggedIn()) {
-      this.setECMInfo();
-    }
-  }
-
-  setECMInfo() {
-    this.discovery.getEcmProductInfo().subscribe((repository) => {
-      this.repository = repository as RepositoryInfo;
-    });
   }
 }

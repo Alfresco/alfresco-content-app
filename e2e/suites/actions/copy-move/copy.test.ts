@@ -485,12 +485,9 @@ describe('Copy content', () => {
     await copyDialog.selectLocation('Personal Files');
     await copyDialog.selectDestination(destination);
     await BrowserActions.click(copyDialog.copyButton);
-
     const msg = await page.getSnackBarMessage();
     expect(msg).toContain('Copied 1 item');
-
-    const action = await page.getSnackBarAction();
-    expect(action).toContain('Undo');
+    expect(msg).toContain('Undo');
 
     await copyDialog.waitForDialogToClose();
     expect(await dataTable.isItemPresent(fileName)).toBe(true, `${fileName} not present in source folder`);
@@ -508,12 +505,9 @@ describe('Copy content', () => {
     await copyDialog.selectLocation('Personal Files');
     await copyDialog.selectDestination(destination);
     await BrowserActions.click(copyDialog.copyButton);
-
     const msg = await page.getSnackBarMessage();
     expect(msg).toContain('Copied 1 item');
-
-    const action = await page.getSnackBarAction();
-    expect(action).toContain('Undo');
+    expect(msg).toContain('Undo');
 
     await copyDialog.waitForDialogToClose();
     expect(await dataTable.isItemPresent(folderName)).toBe(true, `${folderName} not present in source folder`);
@@ -535,12 +529,9 @@ describe('Copy content', () => {
     await copyDialog.selectLocation('Personal Files');
     await copyDialog.selectDestination(destination);
     await BrowserActions.click(copyDialog.copyButton);
-
     const msg = await page.getSnackBarMessage();
     expect(msg).toContain('Copied 2 items');
-
-    const action = await page.getSnackBarAction();
-    expect(action).toContain('Undo');
+    expect(msg).toContain('Undo');
 
     await copyDialog.waitForDialogToClose();
     expect(await dataTable.isItemPresent(items[0])).toBe(true, `${items[0]} not present in source folder`);
@@ -560,12 +551,9 @@ describe('Copy content', () => {
     await copyDialog.selectLocation('Personal Files');
     await copyDialog.selectDestination(destination);
     await BrowserActions.click(copyDialog.copyButton);
-
     const msg = await page.getSnackBarMessage();
     expect(msg).toContain('Copied 1 item');
-
-    const action = await page.getSnackBarAction();
-    expect(action).toContain('Undo');
+    expect(msg).toContain('Undo');
 
     await copyDialog.waitForDialogToClose();
     expect(await dataTable.isItemPresent(fileName)).toBe(true, `${fileName}.txt not present in source folder`);
@@ -583,12 +571,9 @@ describe('Copy content', () => {
     await copyDialog.selectLocation('Personal Files');
     await copyDialog.selectDestination(destination);
     await BrowserActions.click(copyDialog.copyButton);
-
     const msg = await page.getSnackBarMessage();
     expect(msg).toContain('Copied 1 item');
-
-    const action = await page.getSnackBarAction();
-    expect(action).toContain('Undo');
+    expect(msg).toContain('Undo');
 
     await copyDialog.waitForDialogToClose();
     expect(await dataTable.isItemPresent(folderName)).toBe(true, `${folderName} not present in source folder`);
@@ -612,12 +597,9 @@ describe('Copy content', () => {
     await copyDialog.dataTable.doubleClickOnRowByName('documentLibrary');
     await copyDialog.selectDestination(destination);
     await BrowserActions.click(copyDialog.copyButton);
-
     const msg = await page.getSnackBarMessage();
     expect(msg).toContain(`Copied ${noOfItems} ${noOfItems === 1 ? 'item' : 'items'}`);
-
-    const action = await page.getSnackBarAction();
-    expect(action).toContain('Undo');
+    expect(msg).toContain('Undo');
 
     await copyDialog.waitForDialogToClose();
     for (const item of items) {
@@ -643,12 +625,9 @@ describe('Copy content', () => {
     await copyDialog.selectLocation('Personal Files');
     await copyDialog.selectDestination(destination);
     await BrowserActions.click(copyDialog.copyButton);
-
     const msg = await page.getSnackBarMessage();
     expect(msg).toContain('Copied 1 item');
-
-    const action = await page.getSnackBarAction();
-    expect(action).toContain('Undo');
+    expect(msg).toContain('Undo');
 
     await copyDialog.waitForDialogToClose();
     expect(await dataTable.isItemPresent(fileName)).toBe(true, `${fileName} not present in source folder`);
@@ -669,12 +648,9 @@ describe('Copy content', () => {
     await copyDialog.selectLocation('Personal Files');
     await copyDialog.selectDestination(destination);
     await BrowserActions.click(copyDialog.copyButton);
-
     const msg = await page.getSnackBarMessage();
     expect(msg).toContain('Copied 1 item');
-
-    const action = await page.getSnackBarAction();
-    expect(action).toContain('Undo');
+    expect(msg).toContain('Undo');
 
     await copyDialog.waitForDialogToClose();
     expect(await dataTable.isItemPresent(folderName)).toBe(true, `${folderName} not present in source folder`);
@@ -703,12 +679,9 @@ describe('Copy content', () => {
     await copyDialog.selectLocation('Personal Files');
     await copyDialog.selectDestination(destination);
     await BrowserActions.click(copyDialog.copyButton);
-
     const msg = await page.getSnackBarMessage();
     expect(msg).toContain('Copied 1 item');
-
-    const action = await page.getSnackBarAction();
-    expect(action).toContain('Undo');
+    expect(msg).toContain('Undo');
 
     await page.clickSnackBarAction();
 
@@ -729,12 +702,9 @@ describe('Copy content', () => {
     await copyDialog.selectLocation('Personal Files');
     await copyDialog.selectDestination(destination);
     await BrowserActions.click(copyDialog.copyButton);
-
     const msg = await page.getSnackBarMessage();
     expect(msg).toContain('Copied 1 item');
-
-    const action = await page.getSnackBarAction();
-    expect(action).toContain('Undo');
+    expect(msg).toContain('Undo');
 
     await page.clickSnackBarAction();
 
@@ -757,12 +727,9 @@ describe('Copy content', () => {
     await copyDialog.dataTable.doubleClickOnRowByName(source);
     await copyDialog.selectDestination(destination);
     await BrowserActions.click(copyDialog.copyButton);
-
     const msg = await page.getSnackBarMessage();
     expect(msg).toContain('Copied 1 item');
-
-    const action = await page.getSnackBarAction();
-    expect(action).toContain('Undo');
+    expect(msg).toContain('Undo');
 
     await page.clickSnackBarAction();
 
@@ -786,12 +753,9 @@ describe('Copy content', () => {
     await copyDialog.selectLocation('Personal Files');
     await copyDialog.dataTable.doubleClickOnRowByName(destination);
     await BrowserActions.click(copyDialog.copyButton);
-
     const msg = await page.getSnackBarMessage();
     expect(msg).toContain('Copied 1 item');
-
-    const action = await page.getSnackBarAction();
-    expect(action).toContain('Undo');
+    expect(msg).toContain('Undo');
 
     await page.clickSnackBarAction();
 
