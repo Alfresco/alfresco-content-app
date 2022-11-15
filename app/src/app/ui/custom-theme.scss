@@ -6,13 +6,14 @@ $mat-primary-palette: mat.define-palette($aca-primary-blue, A100);
 $mat-accent-palette: mat.define-palette($aca-accent-green, A200);
 $mat-warn-palette: mat.define-palette($aca-warn, A100);
 
-@include mat.core($alfresco-typography);
+$app-typography: mat.define-typography-config($font-family: 'Open Sans'
+  );
 
-$custom-theme: mat.define-light-theme(
-  $mat-primary-palette,
-  $mat-accent-palette,
-  $mat-warn-palette
-);
+@include mat.core($app-typography);
+
+$custom-theme: mat.define-light-theme($mat-primary-palette,
+    $mat-accent-palette,
+    $mat-warn-palette);
 
 @mixin custom-theme($theme) {
   @include mat.all-component-themes($theme);
