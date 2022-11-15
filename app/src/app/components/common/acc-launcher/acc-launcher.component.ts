@@ -30,29 +30,29 @@ import { AppConfigService, NotificationService } from '@alfresco/adf-core';
   selector: 'aca-acc-launcher',
   template: `
     <button mat-menu-item (click)="launchControlCenter()" class="acc-launcher-container">
-      <img alt="control-center-logo" src="./assets/images/acc_icon.svg" class="acc-icon">
+      <img alt="control-center-logo" src="./assets/images/acc_icon.svg" class="acc-icon" />
       <span>{{ 'APP.CONTROL_CENTER.LABEL' | translate }}</span>
     </button>
   `,
-  styles: [`
-        .acc-launcher-container {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-        }
-        .acc-icon {
-            margin-right: 16px;
-            width: 20px;
-        }
-
-    `]
+  styles: [
+    `
+      .acc-launcher-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
+      .acc-icon {
+        margin-right: 16px;
+        width: 20px;
+      }
+    `
+  ]
 })
 export class AccLauncherComponent {
-  constructor(private appConfigService: AppConfigService,
-              private notificationService: NotificationService) {}
+  constructor(private appConfigService: AppConfigService, private notificationService: NotificationService) {}
 
   launchControlCenter() {
-    const url:string = this.appConfigService.get('accHost');
+    const url: string = this.appConfigService.get('accHost');
     if (url && url !== '') {
       window.open(url, '_blank');
     } else {
