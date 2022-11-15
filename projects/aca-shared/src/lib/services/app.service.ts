@@ -36,7 +36,7 @@ import {
 import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { GroupService, SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { OverlayContainer } from '@angular/cdk/overlay';
-import { ActivatedRoute, ActivationEnd, Router } from '@angular/router';
+import { ActivatedRoute, ActivationEnd, NavigationStart, Router } from '@angular/router';
 import { filter, takeUntil } from 'rxjs/operators';
 import {
   AppState,
@@ -49,7 +49,8 @@ import {
   SetInitialStateAction,
   SetRepositoryInfoAction,
   SetUserProfileAction,
-  SnackbarErrorAction
+  SnackbarErrorAction,
+  ResetSelectionAction
 } from '../../../store/src/public-api';
 import { ContentApiService } from './content-api.service';
 import { RouterExtensionService } from './router.extension.service';
@@ -147,6 +148,15 @@ export class AppService implements OnDestroy {
 
         pageTitle.setTitle(data.title || '');
         this.store.dispatch(new SetCurrentUrlAction(router.url));
+      });
+
+    this.router.events
+      .pipe(
+        filter((event) => event instanceof NavigationStart),
+        takeUntil(this.onDestroy$)
+      )
+      .subscribe(() => {
+        this.store.dispatch(new ResetSelectionAction());
       });
 
     this.routerExtensionService.mapExtensionRoutes();

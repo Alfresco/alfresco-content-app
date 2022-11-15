@@ -25,13 +25,12 @@
 
 import { AppConfigService, SidenavLayoutComponent, UserPreferencesService } from '@alfresco/adf-core';
 import { Component, Inject, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { NavigationEnd, Router, NavigationStart } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subject, Observable } from 'rxjs';
-import { filter, takeUntil, map, withLatestFrom, delay } from 'rxjs/operators';
-import { NodePermissionService } from '@alfresco/aca-shared';
+import { filter, takeUntil, map, withLatestFrom } from 'rxjs/operators';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { AppStore, getCurrentFolder, getFileUploadingDialog, ResetSelectionAction } from '@alfresco/aca-shared/store';
+import { AppStore } from '@alfresco/aca-shared/store';
 import { Directionality } from '@angular/cdk/bidi';
 import { SHELL_APP_SERVICE, ShellAppService } from '../../app-shell.module';
 
@@ -64,7 +63,6 @@ export class ShellLayoutComponent implements OnInit, OnDestroy {
 
   constructor(
     protected store: Store<AppStore>,
-    private permission: NodePermissionService,
     private router: Router,
     private userPreferenceService: UserPreferencesService,
     private appConfigService: AppConfigService,
@@ -86,14 +84,6 @@ export class ShellLayoutComponent implements OnInit, OnDestroy {
       this.expandedSidenav = false;
     }
 
-    this.store
-      .select(getCurrentFolder)
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((node) => {
-        this.currentFolderId = node ? node.id : null;
-        this.canUpload = node && this.permission.check(node, ['create']);
-      });
-
     this.router.events
       .pipe(
         withLatestFrom(this.isSmallScreen$),
@@ -114,22 +104,6 @@ export class ShellLayoutComponent implements OnInit, OnDestroy {
         this.hideSidenav = this.hideConditions.some((el) => event.urlAfterRedirects.includes(el));
 
         this.updateState();
-      });
-
-    this.router.events
-      .pipe(
-        filter((event) => event instanceof NavigationStart),
-        takeUntil(this.onDestroy$)
-      )
-      .subscribe(() => {
-        this.store.dispatch(new ResetSelectionAction());
-      });
-
-    this.store
-      .select(getFileUploadingDialog)
-      .pipe(delay(0), takeUntil(this.onDestroy$))
-      .subscribe((fileUploadingDialog: boolean) => {
-        this.showFileUploadingDialog = fileUploadingDialog;
       });
   }
 
