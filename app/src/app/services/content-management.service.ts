@@ -56,7 +56,7 @@ import {
   NewVersionUploaderData,
   NewVersionUploaderDataAction
 } from '@alfresco/adf-content-services';
-import { TranslationService, AlfrescoApiService, NotificationService } from '@alfresco/adf-core';
+import { TranslationService, AlfrescoApiService } from '@alfresco/adf-core';
 import {
   DeletedNodesPaging,
   MinimalNodeEntity,
@@ -69,6 +69,7 @@ import {
 } from '@alfresco/js-api';
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 import { forkJoin, Observable, of, zip } from 'rxjs';
 import { catchError, map, mergeMap, take, tap } from 'rxjs/operators';
@@ -93,7 +94,7 @@ export class ContentManagementService {
     private dialogRef: MatDialog,
     private nodeActionsService: NodeActionsService,
     private translation: TranslationService,
-    private notificationService: NotificationService,
+    private snackBar: MatSnackBar,
     private nodeAspectService: NodeAspectService,
     private appHookService: AppHookService,
     private newVersionUploaderService: NewVersionUploaderService,
@@ -532,9 +533,10 @@ export class ContentManagementService {
       failed: failedItems
     });
 
-    this.notificationService
-      .openSnackMessageAction(message, undo, {
-        panelClass: 'info-snackbar'
+    this.snackBar
+      .open(message, undo, {
+        panelClass: 'info-snackbar',
+        duration: 3000
       })
       .onAction()
       .subscribe(() => this.undoCopyNodes(newItems));
@@ -668,6 +670,7 @@ export class ContentManagementService {
       const message = this.getDeleteMessage(status);
 
       if (message && status.someSucceeded) {
+        message.duration = 10000;
         message.userAction = new SnackbarUserAction('APP.ACTIONS.UNDO', new UndoDeleteNodesAction([...status.success]));
       }
 
@@ -1066,12 +1069,13 @@ export class ContentManagementService {
     });
 
     // TODO: review in terms of i18n
-    this.notificationService
-      .openSnackMessageAction(
+    this.snackBar
+      .open(
         messages[successMessage] + beforePartialSuccessMessage + messages[partialSuccessMessage] + beforeFailedMessage + messages[failedMessage],
         undo,
         {
-          panelClass: 'info-snackbar'
+          panelClass: 'info-snackbar',
+          duration: 3000
         }
       )
       .onAction()
