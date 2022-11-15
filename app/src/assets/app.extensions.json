@@ -103,6 +103,11 @@
             "order": 100,
             "type": "custom",
             "component": "app.languagePicker"
+          },{
+            "id": "app.accLauncher",
+            "order": 100,
+            "type": "custom",
+            "component": "app.accLauncher"
           },
           {
             "id": "logout.separator",

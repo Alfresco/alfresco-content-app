@@ -23,20 +23,40 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { CoreModule } from '@alfresco/adf-core';
-import { ExtensionsModule } from '@alfresco/adf-extensions';
-import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { GenericErrorModule } from '@alfresco/aca-shared';
-import { LocationLinkComponent } from './location-link/location-link.component';
-import { ToggleSharedComponent } from './toggle-shared/toggle-shared.component';
-import { LanguagePickerComponent } from './language-picker/language-picker.component';
-import { LogoutComponent } from './logout/logout.component';
-import { AccLauncherComponent } from './acc-launcher/acc-launcher.component';
+import { Component } from '@angular/core';
+import { AppConfigService, NotificationService } from '@alfresco/adf-core';
 
-@NgModule({
-  imports: [CommonModule, CoreModule.forChild(), ExtensionsModule, GenericErrorModule],
-  declarations: [LocationLinkComponent, ToggleSharedComponent, LanguagePickerComponent, LogoutComponent, AccLauncherComponent],
-  exports: [ExtensionsModule, LocationLinkComponent, GenericErrorModule, ToggleSharedComponent, LanguagePickerComponent, LogoutComponent]
+@Component({
+  selector: 'aca-acc-launcher',
+  template: `
+    <button mat-menu-item (click)="launchControlCenter()" class="acc-launcher-container">
+      <img alt="control-center-logo" src="./assets/images/acc_icon.svg" class="acc-icon">
+      <span>{{ 'APP.CONTROL_CENTER.LABEL' | translate }}</span>
+    </button>
+  `,
+  styles: [`
+        .acc-launcher-container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+        .acc-icon {
+            margin-right: 16px;
+            width: 20px;
+        }
+
+    `]
 })
-export class AppCommonModule {}
+export class AccLauncherComponent {
+  constructor(private appConfigService: AppConfigService,
+              private notificationService: NotificationService) {}
+
+  launchControlCenter() {
+    const url:string = this.appConfigService.get('accHost');
+    if (url && url !== '') {
+      window.open(url, '_blank');
+    } else {
+      this.notificationService.showError('APP.CONTROL_CENTER.ERROR');
+    }
+  }
+}

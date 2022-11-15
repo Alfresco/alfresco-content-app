@@ -11,6 +11,7 @@
     "contentService": ${APP_CONFIG_PLUGIN_CONTENT_SERVICE},
     "folderRules": ${APP_CONFIG_PLUGIN_FOLDER_RULES}
   },
+  "accHost": "${APP_ACC_HOST}",
   "oauth2": {
     "host": "${APP_CONFIG_OAUTH2_HOST}",
     "clientId": "${APP_CONFIG_OAUTH2_CLIENTID}",

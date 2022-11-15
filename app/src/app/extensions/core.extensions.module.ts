@@ -55,6 +55,7 @@ import { LogoutComponent } from '../components/common/logout/logout.component';
 import { AppExtensionService, ExtensionsDataLoaderGuard } from '@alfresco/aca-shared';
 import { PreviewComponent } from '../components/preview/preview.component';
 import { ContentServiceExtensionService } from '../services/content-service-extension.service';
+import { AccLauncherComponent } from '../components/common/acc-launcher/acc-launcher.component';
 
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 export function setupExtensions(service: AppExtensionService): () => void {
@@ -109,6 +110,7 @@ export class CoreExtensionsModule {
       'app.toolbar.toggleEditOffline': ToggleEditOfflineComponent,
       'app.toolbar.viewNode': ViewNodeComponent,
       'app.languagePicker': LanguagePickerComponent,
+      'app.accLauncher': AccLauncherComponent,
       'app.logout': LogoutComponent,
       'app.user': UserInfoComponent,
       'app.notification-center': NotificationHistoryComponent
