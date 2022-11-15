@@ -74,7 +74,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
     this.setDisabledState(isReadOnly);
   }
 
-  private _parameterConstraints;
+  private _parameterConstraints = [];
   @Input()
   get parameterConstraints(): ActionParameterConstraint[] {
     return this._parameterConstraints;
