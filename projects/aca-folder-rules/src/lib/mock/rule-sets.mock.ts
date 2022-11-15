@@ -23,11 +23,16 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NodeInfo } from '@alfresco/aca-shared/store';
+import { RuleSet } from '../model/rule-set.model';
+import { owningFolderMock } from './node.mock';
+import { Rule } from '../model/rule.model';
 
-export const owningFolderIdMock = 'owning-folder-id';
-
-export const owningFolderMock = (): NodeInfo => ({
-  id: owningFolderIdMock,
-  name: 'owning-folder-name'
+export const ruleSetMock = (rules: Rule[] = []): RuleSet => ({
+  id: 'rule-set-id',
+  isLinkedTo: false,
+  owningFolder: owningFolderMock(),
+  linkedToBy: [],
+  rules: [...rules],
+  hasMoreRules: true,
+  loadingRules: false
 });
