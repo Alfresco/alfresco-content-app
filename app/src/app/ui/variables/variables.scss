@@ -68,6 +68,7 @@ $defaults: (
   --theme-heading-color: $black-heading,
   --theme-dropdown-color: $grey-dropdown-background,
   --theme-grey-divider-color: $grey-divider,
+  --theme-white-color: #fff,
 );
 
 // propagates SCSS variables into the CSS variables scope
