@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ModuleWithProviders, NgModule } from '@angular/core';
+import { InjectionToken, ModuleWithProviders, NgModule } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { Routes, provideRoutes, RouterModule } from '@angular/router';
 import { ShellDummyGuard, SHELL_LAYOUT_ROUTE } from './app-shell.routes';
@@ -7,6 +7,14 @@ import { BlankPageComponent, SidenavLayoutModule } from '@alfresco/adf-core';
 import { ExtensionService, ExtensionsModule, provideExtensionConfig } from '@alfresco/adf-extensions';
 import { ShellLayoutComponent } from './components/shell/shell.component';
 import { ContentModule } from '@alfresco/adf-content-services';
+import { Observable } from 'rxjs';
+
+export interface ShellAppService {
+  init(): void;
+  pageHeading$: Observable<string>;
+}
+
+export const SHELL_APP_SERVICE = new InjectionToken<ShellAppService>('SHELL_APP_SERVICE');
 
 @NgModule({
   imports: [SidenavLayoutModule, ContentModule, ExtensionsModule, RouterModule.forChild([]), CommonModule, TranslateModule.forChild()],

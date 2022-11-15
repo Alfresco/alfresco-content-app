@@ -24,7 +24,7 @@
  */
 
 import { AppConfigService, SidenavLayoutComponent, UserPreferencesService } from '@alfresco/adf-core';
-import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { NavigationEnd, Router, NavigationStart } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subject, Observable } from 'rxjs';
@@ -33,6 +33,7 @@ import { NodePermissionService } from '@alfresco/aca-shared';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { AppStore, getCurrentFolder, getFileUploadingDialog, ResetSelectionAction } from '@alfresco/aca-shared/store';
 import { Directionality } from '@angular/cdk/bidi';
+import { SHELL_APP_SERVICE, ShellAppService } from '../../app-shell.module';
 
 @Component({
   selector: 'app-shell',
@@ -67,10 +68,12 @@ export class ShellLayoutComponent implements OnInit, OnDestroy {
     private router: Router,
     private userPreferenceService: UserPreferencesService,
     private appConfigService: AppConfigService,
-    private breakpointObserver: BreakpointObserver
+    private breakpointObserver: BreakpointObserver,
+    @Inject(SHELL_APP_SERVICE) private shellService: ShellAppService
   ) {}
 
   ngOnInit() {
+    this.shellService.init();
     this.isSmallScreen$ = this.breakpointObserver.observe(['(max-width: 600px)']).pipe(map((result) => result.matches));
 
     this.hideSidenav = this.hideConditions.some((el) => this.router.routerState.snapshot.url.includes(el));

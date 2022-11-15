@@ -28,7 +28,6 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { TRANSLATION_PROVIDER, AppConfigService, DebugAppConfigService, CoreModule, AuthGuard } from '@alfresco/adf-core';
-import { ContentModule, ContentVersionService } from '@alfresco/adf-content-services';
 import { AppService, SharedModule } from '@alfresco/aca-shared';
 
 import { AppExtensionsModule } from './extensions.module';
@@ -51,8 +50,7 @@ import localePl from '@angular/common/locales/pl';
 import localeFi from '@angular/common/locales/fi';
 import localeDa from '@angular/common/locales/da';
 import localeSv from '@angular/common/locales/sv';
-import { ContentUrlService } from './content-plugin/services/content-url.service';
-import { AppShellModule } from './app-shell/app-shell.module';
+import { AppShellModule, SHELL_APP_SERVICE } from './app-shell';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.components';
@@ -60,6 +58,10 @@ import { SHELL_AUTH_TOKEN } from './app-shell/app-shell.routes';
 import { CONTENT_LAYOUT_ROUTES } from './content-plugin/content.routes';
 import { ContentServiceExtensionModule } from './content-plugin/content-services-extension.module';
 import { CoreExtensionsModule } from './extensions/core.extensions.module';
+import { INITIAL_APP_STATE } from './content-plugin/store/initial-state';
+import { ContentVersionService } from '@alfresco/adf-content-services';
+import { ContentUrlService } from './content-plugin/services/content-url.service';
+import { STORE_INITIAL_APP_DATA } from '@alfresco/aca-shared/store';
 
 registerLocaleData(localeFr);
 registerLocaleData(localeDe);
@@ -83,7 +85,6 @@ registerLocaleData(localeSv);
     BrowserModule,
     TranslateModule.forRoot(),
     CoreModule.forRoot(),
-    ContentModule.forRoot(),
     SharedModule.forRoot(),
     CoreExtensionsModule.forRoot(),
     environment.e2e ? NoopAnimationsModule : BrowserAnimationsModule,
@@ -101,8 +102,16 @@ registerLocaleData(localeSv);
     { provide: AppConfigService, useClass: DebugAppConfigService },
     { provide: ContentVersionService, useClass: ContentUrlService },
     {
+      provide: SHELL_APP_SERVICE,
+      useClass: AppService
+    },
+    {
       provide: SHELL_AUTH_TOKEN,
       useClass: AuthGuard
+    },
+    {
+      provide: STORE_INITIAL_APP_DATA,
+      useValue: INITIAL_APP_STATE
     },
     {
       provide: TRANSLATION_PROVIDER,
