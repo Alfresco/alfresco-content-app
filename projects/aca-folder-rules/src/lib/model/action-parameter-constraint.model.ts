@@ -23,7 +23,12 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export interface Aspect {
+export interface ActionParameterConstraint {
+  name: string;
+  constraints: ConstraintValue[];
+}
+
+export interface ConstraintValue {
   value: string;
   label: string;
 }

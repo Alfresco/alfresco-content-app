@@ -18,7 +18,7 @@
   <ng-template #ruleDetails>
     <aca-rule-details
       [actionDefinitions]="actionDefinitions$ | async"
-      [aspects]="aspects$ | async"
+      [parameterConstraints]="parameterConstraints$ | async"
       [value]="model"
       (formValueChanged)="formValue = $event"
       (formValidationChanged)="onFormValidChange($event)">

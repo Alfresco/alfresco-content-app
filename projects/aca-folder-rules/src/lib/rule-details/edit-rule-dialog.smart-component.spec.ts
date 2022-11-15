@@ -66,7 +66,7 @@ describe('EditRuleDialogSmartComponent', () => {
 
     actionsService = TestBed.inject(ActionsService);
     spyOn(actionsService, 'loadActionDefinitions').and.stub();
-    spyOn(actionsService, 'loadAspects').and.stub();
+    spyOn(actionsService, 'getParameterConstraints').and.stub();
 
     fixture = TestBed.createComponent(EditRuleDialogSmartComponent);
     fixture.detectChanges();

@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, EventEmitter, Inject, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, OnDestroy, Output, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Rule } from '../model/rule.model';
 import { ActionsService } from '../services/actions.service';
@@ -39,14 +39,15 @@ export interface EditRuleDialogOptions {
   encapsulation: ViewEncapsulation.None,
   host: { class: 'aca-edit-rule-dialog' }
 })
-export class EditRuleDialogSmartComponent implements OnInit {
+export class EditRuleDialogSmartComponent implements OnInit, OnDestroy {
   formValid = false;
   model: Partial<Rule>;
   formValue: Partial<Rule>;
   @Output() submitted = new EventEmitter<Partial<Rule>>();
   actionDefinitions$ = this.actionsService.actionDefinitionsListing$;
   loading$ = this.actionsService.loading$;
-  aspects$ = this.actionsService.aspects$;
+  parameterConstraints$ = this.actionsService.parameterConstraints$;
+  private _actionDefinitionsSub;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: EditRuleDialogOptions, private actionsService: ActionsService) {
     this.model = this.data?.model || {};
@@ -69,8 +70,14 @@ export class EditRuleDialogSmartComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.actionsService.loadAspects();
     this.actionsService.loadActionDefinitions();
+    this._actionDefinitionsSub = this.actionDefinitions$.subscribe((actionDefinitions) =>
+      this.actionsService.loadActionParameterConstraints(actionDefinitions)
+    );
+  }
+
+  ngOnDestroy() {
+    this._actionDefinitionsSub.unsubscribe();
   }
 
   onFormValidChange(isValid: boolean) {

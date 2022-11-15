@@ -29,6 +29,8 @@ import { CoreTestingModule } from '@alfresco/adf-core';
 import { ActionsApi } from '@alfresco/js-api';
 import { actionDefListMock, actionsTransformedListMock } from '../mock/actions.mock';
 import { take } from 'rxjs/operators';
+import { dummyConstraints, rawConstraints } from '../mock/action-parameter-constraints.mock';
+import { of } from 'rxjs';
 
 describe('ActionsService', () => {
   let actionsService: ActionsService;
@@ -65,12 +67,29 @@ describe('ActionsService', () => {
     expect(await loadingFalsePromise).toBeFalse();
   });
 
-  it('loadAspects should send correct GET request', async () => {
-    apiCallSpy = spyOn<any>(actionsService, 'publicApiCall').withArgs(`/action-parameter-constraints/ac-aspects`, 'GET', params).and.returnValue([]);
+  it('loadParameterConstraints should send GET request and return formatted observable', async () => {
+    const constraintName = dummyConstraints[0].name;
+    const formattedConstraints = dummyConstraints[0].constraints;
 
-    actionsService.loadAspects();
+    apiCallSpy = spyOn<any>(actionsService, 'publicApiCall')
+      .withArgs(`/action-parameter-constraints/${constraintName}`, 'GET', params)
+      .and.returnValue(of(rawConstraints));
+
+    actionsService.getParameterConstraints(constraintName).subscribe((result) => expect(result).toEqual(formattedConstraints));
 
     expect(apiCallSpy).toHaveBeenCalled();
-    expect(apiCallSpy).toHaveBeenCalledWith(`/action-parameter-constraints/ac-aspects`, 'GET', params);
+    expect(apiCallSpy).toHaveBeenCalledWith(`/action-parameter-constraints/${constraintName}`, 'GET', params);
+  });
+
+  it('loadActionParameterConstraints should load the data into the observable', async () => {
+    spyOn<any>(actionsService, 'getParameterConstraints').and.returnValue(of(dummyConstraints[0].constraints));
+
+    const constraintsPromise = actionsService.parameterConstraints$.pipe(take(2)).toPromise();
+
+    actionsService.loadActionParameterConstraints(actionsTransformedListMock);
+
+    const parameterConstraints = await constraintsPromise;
+
+    expect(parameterConstraints).toEqual(dummyConstraints);
   });
 });
