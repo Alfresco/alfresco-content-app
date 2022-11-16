@@ -579,7 +579,7 @@ export class ContentManagementService {
         title: 'VERSION.DIALOG.TITLE'
       };
       this.newVersionUploaderService
-        .openUploadNewVersionDialog(newVersionUploaderDialogData, { width: '630px' })
+        .openUploadNewVersionDialog(newVersionUploaderDialogData, { width: '630px', role: 'dialog' })
         .subscribe((newVersionUploaderData: NewVersionUploaderData) => {
           switch (newVersionUploaderData.action) {
             case NewVersionUploaderDataAction.refresh:
