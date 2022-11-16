@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { browser, by, ElementFinder, WebElement } from 'protractor';
+import { browser, by, ElementFinder } from 'protractor';
 import { BrowserVisibility, Logger } from '@alfresco/adf-testing';
 import { APP_ROUTES, USE_HASH_STRATEGY } from './../configs';
 import { Utils, waitElement, waitForPresence, isPresentAndDisplayed } from '../utilities/utils';
@@ -35,10 +35,10 @@ export abstract class Page {
 
   layout = this.byCss('app-layout');
   overlay = this.byCss('.cdk-overlay-container');
-  snackBar = this.byCss('.adf-snackbar-message-content-action-label');
+  snackBar = this.byCss('.mat-simple-snackbar-action button');
   dialogContainer = this.byCss('.mat-dialog-container');
   snackBarContainer = this.byCss('.mat-snack-bar-container');
-  snackBarAction = this.byCss('.adf-snackbar-message-content-action-label');
+  snackBarAction = this.byCss('.mat-simple-snackbar-action button');
   genericError = this.byCss('aca-generic-error');
   genericErrorIcon = this.byCss('aca-generic-error .mat-icon');
   genericErrorTitle = this.byCss('.generic-error__title');
@@ -88,25 +88,14 @@ export abstract class Page {
   }
 
   async getSnackBarMessage(): Promise<string> {
-    const elem = await waitElement('.adf-snackbar-message-content');
-    const attributeValue: string = await browser.executeScript(`return arguments[0].innerText`, elem);
-    return attributeValue || '';
-  }
-
-  async getSnackBarAction(): Promise<string> {
-    let elem: WebElement;
-    try {
-      elem = await waitElement('.adf-snackbar-message-content-action-label');
-    } catch (e) {
-      return '';
-    }
+    const elem = await waitElement('.mat-snack-bar-container');
     const attributeValue: string = await browser.executeScript(`return arguments[0].innerText`, elem);
     return attributeValue || '';
   }
 
   async clickSnackBarAction(): Promise<void> {
     try {
-      const action = await waitElement('.adf-snackbar-message-content-action-label');
+      const action = await waitElement('.mat-simple-snackbar-action button');
       await action.click();
     } catch (e) {
       Logger.error(e, '.......failed on click snack bar action.........');
