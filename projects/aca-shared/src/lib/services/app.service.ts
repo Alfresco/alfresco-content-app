@@ -31,7 +31,8 @@ import {
   SharedLinksApiService,
   UploadService,
   FileUploadErrorEvent,
-  PageTitleService
+  PageTitleService,
+  UserPreferencesService
 } from '@alfresco/adf-core';
 import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { GroupService, SearchQueryBuilderService } from '@alfresco/adf-content-services';
@@ -82,6 +83,7 @@ export class AppService implements OnDestroy {
   }
 
   constructor(
+    public preferenceService: UserPreferencesService,
     private store: Store<AppStore>,
     private router: Router,
     private route: ActivatedRoute,

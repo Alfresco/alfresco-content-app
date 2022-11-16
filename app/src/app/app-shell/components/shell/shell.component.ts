@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AppConfigService, SidenavLayoutComponent, UserPreferencesService } from '@alfresco/adf-core';
+import { AppConfigService, SidenavLayoutComponent } from '@alfresco/adf-core';
 import { Component, Inject, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subject, Observable } from 'rxjs';
@@ -53,7 +53,6 @@ export class ShellLayoutComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
-    private userPreferenceService: UserPreferencesService,
     private appConfigService: AppConfigService,
     private breakpointObserver: BreakpointObserver,
     @Inject(SHELL_APP_SERVICE) private shellService: ShellAppService
@@ -125,7 +124,7 @@ export class ShellLayoutComponent implements OnInit, OnDestroy {
 
   onExpanded(state: boolean) {
     if (!this.minimizeSidenav && this.appConfigService.get('sideNav.preserveState')) {
-      this.userPreferenceService.set('expandedSidenav', state);
+      this.shellService.preferencesService.set('expandedSidenav', state);
     }
   }
 
@@ -134,7 +133,7 @@ export class ShellLayoutComponent implements OnInit, OnDestroy {
     const preserveState = this.appConfigService.get<boolean>('sideNav.preserveState', true);
 
     if (preserveState) {
-      return this.userPreferenceService.get('expandedSidenav', expand.toString()) === 'true';
+      return this.shellService.preferencesService.get('expandedSidenav', expand.toString()) === 'true';
     }
 
     return expand;

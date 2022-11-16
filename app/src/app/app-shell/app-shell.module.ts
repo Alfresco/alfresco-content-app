@@ -9,11 +9,16 @@ import { ShellLayoutComponent } from './components/shell/shell.component';
 import { ContentModule } from '@alfresco/adf-content-services';
 import { Observable } from 'rxjs';
 
+export interface ShellPreferencesService {
+  set(preferenceKey: string, value: any): void;
+  get(preferenceKey: string, defaultValue: string): string;
+}
 export interface ShellAppService {
   init(): void;
   pageHeading$: Observable<string>;
   hideSidenavConditions: string[];
   minimizeSidenavConditions: string[];
+  preferencesService: ShellPreferencesService;
 }
 
 export const SHELL_APP_SERVICE = new InjectionToken<ShellAppService>('SHELL_APP_SERVICE');
