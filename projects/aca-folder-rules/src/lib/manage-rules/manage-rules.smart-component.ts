@@ -29,7 +29,7 @@ import { FolderRulesService } from '../services/folder-rules.service';
 import { Observable, Subject } from 'rxjs';
 import { Rule } from '../model/rule.model';
 import { ActivatedRoute } from '@angular/router';
-import { AppStore, NavigateRouteAction } from '@alfresco/aca-shared/store';
+import { AppStore, NavigateRouteAction, NodeInfo } from '@alfresco/aca-shared/store';
 import { delay, takeUntil } from 'rxjs/operators';
 import { EditRuleDialogSmartComponent } from '../rule-details/edit-rule-dialog.smart-component';
 import { MatDialog } from '@angular/material/dialog';
@@ -51,11 +51,11 @@ import { RuleSet } from '../model/rule-set.model';
 export class ManageRulesSmartComponent implements OnInit, OnDestroy {
   nodeId: string = null;
 
-  ruleSetListing$ = this.folderRuleSetsService.ruleSetListing$;
-  selectedRule$ = this.folderRulesService.selectedRule$;
-  hasMoreRuleSets$ = this.folderRuleSetsService.hasMoreRuleSets$;
-  ruleSetsLoading$ = this.folderRuleSetsService.isLoading$;
-  folderInfo$ = this.folderRuleSetsService.folderInfo$;
+  ruleSetListing$: Observable<RuleSet[]>;
+  selectedRule$: Observable<Rule>;
+  hasMoreRuleSets$: Observable<boolean>;
+  ruleSetsLoading$: Observable<boolean>;
+  folderInfo$: Observable<NodeInfo>;
 
   actionsLoading$: Observable<boolean>;
   actionDefinitions$: Observable<ActionDefinitionTransformed[]>;
@@ -73,11 +73,20 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
     private store: Store<AppStore>
   ) {}
 
-  ngOnInit(): void {
-    this.actionDefinitions$ = this.actionsService.actionDefinitionsListing$;
-    this.folderRulesService.deletedRuleId$.pipe(takeUntil(this.destroyed$)).subscribe((deletedRuleId) => this.onRuleDelete(deletedRuleId));
+  ngOnInit() {
+    this.ruleSetListing$ = this.folderRuleSetsService.ruleSetListing$;
+    this.selectedRule$ = this.folderRulesService.selectedRule$;
+    this.hasMoreRuleSets$ = this.folderRuleSetsService.hasMoreRuleSets$;
+    this.ruleSetsLoading$ = this.folderRuleSetsService.isLoading$;
+    this.folderInfo$ = this.folderRuleSetsService.folderInfo$;
+
     this.actionsLoading$ = this.actionsService.loading$.pipe(delay(0));
+    this.actionDefinitions$ = this.actionsService.actionDefinitionsListing$;
+
+    this.folderRulesService.deletedRuleId$.pipe(takeUntil(this.destroyed$)).subscribe((deletedRuleId) => this.onRuleDelete(deletedRuleId));
+
     this.actionsService.loadActionDefinitions();
+
     this.route.params.subscribe((params) => {
       this.nodeId = params.nodeId;
       if (this.nodeId) {

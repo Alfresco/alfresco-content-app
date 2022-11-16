@@ -65,8 +65,12 @@ describe('RuleSetListUiComponent', () => {
     const innerTextWithoutIcon = (element: HTMLDivElement): string => element.innerText.replace(/(expand_more|chevron_right)$/, '').trim();
 
     expect(ruleSetTitleElements.length).toBe(3);
-    expect(innerTextWithoutIcon(ruleSetTitleElements[0].nativeElement as HTMLDivElement)).toBe('ACA_FOLDER_RULES.RULE_LIST.INHERITED_FROM other-folder-name');
+    expect(innerTextWithoutIcon(ruleSetTitleElements[0].nativeElement as HTMLDivElement)).toBe(
+      'ACA_FOLDER_RULES.RULE_LIST.INHERITED_FROM other-folder-name'
+    );
     expect(innerTextWithoutIcon(ruleSetTitleElements[1].nativeElement as HTMLDivElement)).toBe('ACA_FOLDER_RULES.RULE_LIST.OWNED_BY_THIS_FOLDER');
-    expect(innerTextWithoutIcon(ruleSetTitleElements[2].nativeElement as HTMLDivElement)).toBe('ACA_FOLDER_RULES.RULE_LIST.LINKED_FROM other-folder-name');
+    expect(innerTextWithoutIcon(ruleSetTitleElements[2].nativeElement as HTMLDivElement)).toBe(
+      'ACA_FOLDER_RULES.RULE_LIST.LINKED_FROM other-folder-name'
+    );
   });
 });
