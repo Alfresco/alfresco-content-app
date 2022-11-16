@@ -56,8 +56,8 @@ export const getRuleSetsResponseMock = {
       },
       {
         entry: {
-          linkedToBy: [otherFolderIdMock],
-          owningFolder: owningFolderIdMock,
+          linkedToBy: [owningFolderIdMock],
+          owningFolder: otherFolderIdMock,
           isLinkedTo: true,
           id: 'rule-set-with-link'
         }
@@ -89,8 +89,8 @@ const ruleSetWithNoLinksMock: RuleSet = {
 const ruleSetWithLinkMock: RuleSet = {
   id: 'rule-set-with-link',
   isLinkedTo: true,
-  owningFolder: owningFolderMock,
-  linkedToBy: [otherFolderIdMock],
+  owningFolder: otherFolderMock,
+  linkedToBy: [owningFolderIdMock],
   rules: linkedRulesMock,
   hasMoreRules: false,
   loadingRules: false
