@@ -137,24 +137,24 @@ const genericRuleMock: Rule = {
     simpleConditions: [],
     compositeConditions: []
   },
-  actions: [{
-    actionDefinitionId: 'counter',
-    params: {}
-  }]
+  actions: [
+    {
+      actionDefinitionId: 'counter',
+      params: {}
+    }
+  ]
 };
 
-const ruleMock = (unique: string): Rule => ({
+export const ruleMock = (unique: string): Rule => ({
   ...genericRuleMock,
   id: `${unique}-id`,
   name: `${unique}-name`
 });
 
-export const rulesMock: Rule[] = [
-  ruleMock('rule1'),
-  ruleMock('rule2')
-];
+export const rulesMock: Rule[] = [ruleMock('rule1'), ruleMock('rule2')];
+export const moreRulesMock: Rule[] = [ruleMock('rule3'), ruleMock('rule4')];
+export const manyRulesMock: Rule[] = [ruleMock('rule1'), ruleMock('rule2'), ruleMock('rule3'), ruleMock('rule4'), ruleMock('rule5')];
 
-export const moreRulesMock: Rule[] = [
-  ruleMock('rule3'),
-  ruleMock('rule4')
-];
+export const ownedRulesMock: Rule[] = [ruleMock('owned-rule-1'), ruleMock('owned-rule-2')];
+export const linkedRulesMock: Rule[] = [ruleMock('linked-rule-1'), ruleMock('linked-rule-2')];
+export const inheritedRulesMock: Rule[] = [ruleMock('inherited-rule-1'), ruleMock('inherited-rule-2')];

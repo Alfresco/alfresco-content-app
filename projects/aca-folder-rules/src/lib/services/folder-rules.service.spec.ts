@@ -27,13 +27,15 @@ import { TestBed } from '@angular/core/testing';
 import { CoreTestingModule } from '@alfresco/adf-core';
 import { of } from 'rxjs';
 import { FolderRulesService } from './folder-rules.service';
-import { getMoreRulesResponseMock, getRulesResponseMock, moreRulesMock, rulesMock } from '../mock/rules.mock';
-import { ContentApiService } from '@alfresco/aca-shared';
+import { getMoreRulesResponseMock, getRulesResponseMock, manyRulesMock, moreRulesMock, ruleMock, rulesMock } from '../mock/rules.mock';
 import { ruleSetMock } from '../mock/rule-sets.mock';
 import { expect } from '@angular/flex-layout/_private-utils/testing';
 
 describe('FolderRulesService', () => {
   let folderRulesService: FolderRulesService;
+
+  let callApiSpy: jasmine.Spy;
+
   // let contentApi: ContentApiService;
   // let rulesPromise: Promise<Partial<Rule>[]>;
   // let folderInfoPromise: Promise<NodeInfo>;
@@ -49,17 +51,20 @@ describe('FolderRulesService', () => {
   // const params = [{}, {}, {}, {}, {}, ['application/json'], ['application/json']];
   // const paramsWithBody = [{}, {}, {}, {}, rulesMock[0], ['application/json'], ['application/json']];
 
-  beforeEach(async () => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [CoreTestingModule],
-      providers: [FolderRulesService, ContentApiService]
+      providers: [FolderRulesService]
     });
+
     folderRulesService = TestBed.inject<FolderRulesService>(FolderRulesService);
+
+    callApiSpy = spyOn<any>(folderRulesService, 'callApi');
   });
 
   it('should load some rules into a rule set', () => {
     const ruleSet = ruleSetMock();
-    const callApiSpy = spyOn<any>(folderRulesService, 'callApi').and.returnValue(of(getRulesResponseMock));
+    callApiSpy.and.returnValue(of(getRulesResponseMock));
 
     expect(ruleSet.rules.length).toBe(0);
     expect(ruleSet.hasMoreRules).toBeTrue();
@@ -75,7 +80,7 @@ describe('FolderRulesService', () => {
 
   it('should load more rules if it still has some more to load', () => {
     const ruleSet = ruleSetMock(rulesMock);
-    const callApiSpy = spyOn<any>(folderRulesService, 'callApi').and.returnValue(of(getMoreRulesResponseMock));
+    callApiSpy.and.returnValue(of(getMoreRulesResponseMock));
 
     expect(ruleSet.rules.length).toBe(2);
     expect(ruleSet.hasMoreRules).toBeTrue();
@@ -86,6 +91,27 @@ describe('FolderRulesService', () => {
     expect(ruleSet.rules.length).toBe(4);
     expect(ruleSet.rules).toEqual([...rulesMock, ...moreRulesMock]);
     expect(ruleSet.hasMoreRules).toBeFalse();
+  });
+
+  it('should select the right rule rule after loading', () => {
+    const ruleSet = ruleSetMock(rulesMock);
+    spyOn(folderRulesService, 'getRules').and.returnValue(of({ rules: manyRulesMock, hasMoreRules: false }));
+    const selectedRuleSourceSpy = spyOn(folderRulesService['selectedRuleSource'], 'next');
+
+    folderRulesService.loadRules(ruleSet, 0);
+    expect(selectedRuleSourceSpy).not.toHaveBeenCalled();
+
+    folderRulesService.loadRules(ruleSet, 0, 'first');
+    expect(selectedRuleSourceSpy).toHaveBeenCalledWith(ruleMock('rule1'));
+    selectedRuleSourceSpy.calls.reset();
+
+    folderRulesService.loadRules(ruleSet, 0, 'last');
+    expect(selectedRuleSourceSpy).toHaveBeenCalledWith(ruleMock('rule5'));
+    selectedRuleSourceSpy.calls.reset();
+    selectedRuleSourceSpy.calls.reset();
+
+    folderRulesService.loadRules(ruleSet, 0, ruleMock('rule3'));
+    expect(selectedRuleSourceSpy).toHaveBeenCalledWith(ruleMock('rule3'));
   });
 
   // describe('loadRules', () => {

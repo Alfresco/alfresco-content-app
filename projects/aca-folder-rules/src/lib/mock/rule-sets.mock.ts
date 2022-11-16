@@ -24,15 +24,86 @@
  */
 
 import { RuleSet } from '../model/rule-set.model';
-import { owningFolderMock } from './node.mock';
+import { otherFolderIdMock, otherFolderMock, owningFolderIdMock, owningFolderMock } from './node.mock';
 import { Rule } from '../model/rule.model';
+import { inheritedRulesMock, linkedRulesMock, ownedRulesMock } from './rules.mock';
+
+export const getRuleSetsResponseMock = {
+  list: {
+    pagination: {
+      count: 3,
+      hasMoreItems: false,
+      totalItems: 3,
+      skipCount: 0,
+      maxItems: 100
+    },
+    entries: [
+      {
+        entry: {
+          linkedToBy: [],
+          owningFolder: otherFolderIdMock,
+          isLinkedTo: false,
+          id: 'inherited-rule-set'
+        }
+      },
+      {
+        entry: {
+          linkedToBy: [],
+          owningFolder: owningFolderIdMock,
+          isLinkedTo: false,
+          id: 'rule-set-no-links'
+        }
+      },
+      {
+        entry: {
+          linkedToBy: [otherFolderIdMock],
+          owningFolder: owningFolderIdMock,
+          isLinkedTo: true,
+          id: 'rule-set-with-link'
+        }
+      }
+    ]
+  }
+};
 
 export const ruleSetMock = (rules: Rule[] = []): RuleSet => ({
   id: 'rule-set-id',
   isLinkedTo: false,
-  owningFolder: owningFolderMock(),
+  owningFolder: owningFolderMock,
   linkedToBy: [],
   rules: [...rules],
   hasMoreRules: true,
   loadingRules: false
 });
+
+const ruleSetWithNoLinksMock: RuleSet = {
+  id: 'rule-set-no-links',
+  isLinkedTo: false,
+  owningFolder: owningFolderMock,
+  linkedToBy: [],
+  rules: ownedRulesMock,
+  hasMoreRules: false,
+  loadingRules: false
+};
+
+const ruleSetWithLinkMock: RuleSet = {
+  id: 'rule-set-with-link',
+  isLinkedTo: true,
+  owningFolder: owningFolderMock,
+  linkedToBy: [otherFolderIdMock],
+  rules: linkedRulesMock,
+  hasMoreRules: false,
+  loadingRules: false
+};
+
+const inheritedRuleSetMock: RuleSet = {
+  id: 'inherited-rule-set',
+  isLinkedTo: false,
+  owningFolder: otherFolderMock,
+  linkedToBy: [],
+  rules: inheritedRulesMock,
+  hasMoreRules: false,
+  loadingRules: false
+};
+
+export const ruleSetsMock: RuleSet[] = [inheritedRuleSetMock, ruleSetWithNoLinksMock, ruleSetWithLinkMock];
