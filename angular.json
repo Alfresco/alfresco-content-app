@@ -110,7 +110,6 @@
             ],
             "styles": [
               "app/src/assets/fonts/material-icons/material-icons.css",
-              "app/src/assets/fonts/muli/muli.css",
               "app/src/assets/fonts/OpenSans/OpenSans.css",
               "node_modules/cropperjs/dist/cropper.min.css",
               "app/src/styles.scss"
@@ -265,7 +264,6 @@
             ],
             "styles": [
               "app/src/assets/fonts/material-icons/material-icons.css",
-              "app/src/assets/fonts/muli/muli.css",
               "app/src/assets/fonts/OpenSans/OpenSans.css",
               "app/src/styles.scss"
             ],
