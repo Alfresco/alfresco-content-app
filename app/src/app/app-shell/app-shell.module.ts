@@ -12,6 +12,8 @@ import { Observable } from 'rxjs';
 export interface ShellAppService {
   init(): void;
   pageHeading$: Observable<string>;
+  hideSidenavConditions: string[];
+  minimizeSidenavConditions: string[];
 }
 
 export const SHELL_APP_SERVICE = new InjectionToken<ShellAppService>('SHELL_APP_SERVICE');

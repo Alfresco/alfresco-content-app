@@ -39,7 +39,7 @@ import { SHELL_APP_SERVICE, ShellAppService } from '../../app-shell.module';
   templateUrl: './shell.component.html',
   styleUrls: ['./shell.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  host: { class: 'app-layout' }
+  host: { class: 'app-shell' }
 })
 export class ShellLayoutComponent implements OnInit, OnDestroy {
   @ViewChild('layout', { static: true })
@@ -49,17 +49,9 @@ export class ShellLayoutComponent implements OnInit, OnDestroy {
   isSmallScreen$: Observable<boolean>;
 
   expandedSidenav: boolean;
-  currentFolderId: string;
-  canUpload = false;
-
   minimizeSidenav = false;
   hideSidenav = false;
   direction: Directionality;
-
-  showFileUploadingDialog: boolean;
-
-  private minimizeConditions: string[] = ['search'];
-  private hideConditions: string[] = ['/preview/'];
 
   constructor(
     protected store: Store<AppStore>,
@@ -74,9 +66,8 @@ export class ShellLayoutComponent implements OnInit, OnDestroy {
     this.shellService.init();
     this.isSmallScreen$ = this.breakpointObserver.observe(['(max-width: 600px)']).pipe(map((result) => result.matches));
 
-    this.hideSidenav = this.hideConditions.some((el) => this.router.routerState.snapshot.url.includes(el));
-
-    this.minimizeSidenav = this.minimizeConditions.some((el) => this.router.routerState.snapshot.url.includes(el));
+    this.hideSidenav = this.shellService.hideSidenavConditions.some((el) => this.router.routerState.snapshot.url.includes(el));
+    this.minimizeSidenav = this.shellService.minimizeSidenavConditions.some((el) => this.router.routerState.snapshot.url.includes(el));
 
     if (!this.minimizeSidenav) {
       this.expandedSidenav = this.getSidenavState();
@@ -100,8 +91,8 @@ export class ShellLayoutComponent implements OnInit, OnDestroy {
         takeUntil(this.onDestroy$)
       )
       .subscribe((event: NavigationEnd) => {
-        this.minimizeSidenav = this.minimizeConditions.some((el) => event.urlAfterRedirects.includes(el));
-        this.hideSidenav = this.hideConditions.some((el) => event.urlAfterRedirects.includes(el));
+        this.minimizeSidenav = this.shellService.minimizeSidenavConditions.some((el) => event.urlAfterRedirects.includes(el));
+        this.hideSidenav = this.shellService.hideSidenavConditions.some((el) => event.urlAfterRedirects.includes(el));
 
         this.updateState();
       });

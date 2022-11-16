@@ -60,12 +60,16 @@ import { DiscoveryEntry, GroupEntry, Group } from '@alfresco/js-api';
 @Injectable({
   providedIn: 'root'
 })
+// After moving shell to ADF to core, AppService will implement ShellAppService
 export class AppService implements OnDestroy {
   private ready: BehaviorSubject<boolean>;
   ready$: Observable<boolean>;
 
   pageHeadingSubject$ = new BehaviorSubject('');
   pageHeading$ = this.pageHeadingSubject$.asObservable();
+
+  hideSidenavConditions = ['/preview/'];
+  minimizeSidenavConditions = ['search'];
 
   onDestroy$ = new Subject<boolean>();
 
