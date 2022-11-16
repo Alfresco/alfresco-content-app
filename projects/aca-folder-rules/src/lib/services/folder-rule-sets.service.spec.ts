@@ -40,7 +40,6 @@ describe('FolderRuleSetsService', () => {
   let contentApiService: ContentApiService;
 
   let callApiSpy: jasmine.Spy;
-  // let loadRulesSpy: jasmine.Spy;
   let getNodeSpy: jasmine.Spy;
 
   beforeEach(() => {
@@ -83,7 +82,7 @@ describe('FolderRuleSetsService', () => {
 
   it('should load rule sets of a node', async () => {
     callApiSpy.and.returnValue(of(getRuleSetsResponseMock));
-    // take(3), because: 1 = init of the BehaviourSubject, 2 = reinit at beginning of loadRuleSets, 3 = in subscribe
+    // take(3), because: 1 = init of the BehaviourSubject, 2 = reinitialise at beginning of loadRuleSets, 3 = in subscribe
     const ruleSetListingPromise = folderRuleSetsService.ruleSetListing$.pipe(take(3)).toPromise();
     const hasMoreRuleSetsPromise = folderRuleSetsService.hasMoreRuleSets$.pipe(take(3)).toPromise();
 
@@ -102,7 +101,7 @@ describe('FolderRuleSetsService', () => {
   it('should select the first rule of the owned rule set of the folder', async () => {
     callApiSpy.and.returnValue(of(getRuleSetsResponseMock));
     const selectRuleSpy = spyOn(folderRulesService, 'selectRule');
-    // take(3), because: 1 = init of the BehaviourSubject, 2 = reinit at beginning of loadRuleSets, 3 = in subscribe
+    // take(3), because: 1 = init of the BehaviourSubject, 2 = reinitialise at beginning of loadRuleSets, 3 = in subscribe
     const ruleSetListingPromise = folderRuleSetsService.ruleSetListing$.pipe(take(3)).toPromise();
 
     folderRuleSetsService.loadRuleSets(owningFolderIdMock);

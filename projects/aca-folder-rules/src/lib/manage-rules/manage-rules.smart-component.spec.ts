@@ -55,7 +55,6 @@ describe('ManageRulesSmartComponent', () => {
         FolderRuleSetsService,
         FolderRulesService,
         { provide: Store, useValue: { dispatch: () => {} } },
-        // { provide: FolderRulesService, useValue: folderRulesServiceSpy },
         { provide: ActivatedRoute, useValue: { params: of({ nodeId: owningFolderIdMock }) } }
       ]
     });
