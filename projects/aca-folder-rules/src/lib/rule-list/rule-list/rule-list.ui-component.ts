@@ -24,7 +24,7 @@
  */
 
 import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
-import { Rule } from '../model/rule.model';
+import { Rule } from '../../model/rule.model';
 
 @Component({
   selector: 'aca-rule-list',
@@ -35,23 +35,24 @@ import { Rule } from '../model/rule.model';
 })
 export class RuleListUiComponent {
   @Input()
-  rules: Rule[];
+  rules: Rule[] = [];
   @Input()
-  selectedRule: Rule;
-  @Input()
-  nodeId: string;
+  selectedRule: Rule = null;
 
   @Output()
-  ruleSelected = new EventEmitter<Rule>();
+  selectRule = new EventEmitter<Rule>();
+  @Output()
+  ruleEnabledChanged = new EventEmitter<[Rule, boolean]>();
 
   onRuleClicked(rule: Rule): void {
-    this.ruleSelected.emit(rule);
+    this.selectRule.emit(rule);
   }
 
   isSelected(rule): boolean {
-    if (this.selectedRule) {
-      return rule.id === this.selectedRule.id;
-    }
-    return false;
+    return rule.id === this.selectedRule?.id;
+  }
+
+  onEnabledChanged(rule: Rule, isEnabled: boolean) {
+    this.ruleEnabledChanged.emit([rule, isEnabled]);
   }
 }

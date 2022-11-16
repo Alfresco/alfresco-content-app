@@ -25,7 +25,7 @@
 
 import { Rule } from '../model/rule.model';
 
-export const dummyResponse = {
+export const getRulesResponseMock = {
   list: {
     pagination: {
       count: 2,
@@ -40,17 +40,13 @@ export const dummyResponse = {
           isShared: false,
           isInheritable: false,
           isAsynchronous: false,
-          name: 'rule1',
-          id: 'd388ed54-a522-410f-a158-6dbf5a833731',
+          name: 'rule1-name',
+          id: 'rule1-id',
           triggers: ['inbound'],
           actions: [
             {
-              actionDefinitionId: 'copy',
-              params: {
-                'deep-copy': false,
-                'destination-folder': '279c65f0-912b-4563-affb-ed9dab8338e0',
-                actionContext: 'rule'
-              }
+              actionDefinitionId: 'counter',
+              params: {}
             }
           ],
           isEnabled: true
@@ -61,16 +57,13 @@ export const dummyResponse = {
           isShared: false,
           isInheritable: false,
           isAsynchronous: false,
-          name: 'rule2',
-          id: 'e0e645ca-e6c0-47d4-9936-1a8872a6c30b',
+          name: 'rule2-name',
+          id: 'rule2-id',
           triggers: ['inbound'],
           actions: [
             {
-              actionDefinitionId: 'move',
-              params: {
-                'destination-folder': '279c65f0-912b-4563-affb-ed9dab8338e0',
-                actionContext: 'rule'
-              }
+              actionDefinitionId: 'counter',
+              params: {}
             }
           ],
           isEnabled: true
@@ -80,58 +73,88 @@ export const dummyResponse = {
   }
 };
 
-export const dummyRules: Rule[] = [
-  {
-    id: 'd388ed54-a522-410f-a158-6dbf5a833731',
-    name: 'rule1',
-    description: '',
-    isEnabled: true,
-    isInheritable: false,
-    isAsynchronous: false,
-    errorScript: '',
-    isShared: false,
-    triggers: ['inbound'],
-    conditions: {
-      inverted: false,
-      booleanMode: 'and',
-      simpleConditions: [],
-      compositeConditions: []
+export const getMoreRulesResponseMock = {
+  list: {
+    pagination: {
+      count: 2,
+      hasMoreItems: false,
+      totalItems: 2,
+      skipCount: 0,
+      maxItems: 100
     },
-    actions: [
+    entries: [
       {
-        actionDefinitionId: 'copy',
-        params: {
-          'deep-copy': false,
-          'destination-folder': '279c65f0-912b-4563-affb-ed9dab8338e0',
-          actionContext: 'rule'
+        entry: {
+          isShared: false,
+          isInheritable: false,
+          isAsynchronous: false,
+          name: 'rule3-name',
+          id: 'rule3-id',
+          triggers: ['inbound'],
+          actions: [
+            {
+              actionDefinitionId: 'counter',
+              params: {}
+            }
+          ],
+          isEnabled: true
         }
-      }
-    ]
-  },
-  {
-    id: 'e0e645ca-e6c0-47d4-9936-1a8872a6c30b',
-    name: 'rule2',
-    description: '',
-    isEnabled: true,
-    isInheritable: false,
-    isAsynchronous: false,
-    errorScript: '',
-    isShared: false,
-    triggers: ['inbound'],
-    conditions: {
-      inverted: false,
-      booleanMode: 'and',
-      simpleConditions: [],
-      compositeConditions: []
-    },
-    actions: [
+      },
       {
-        actionDefinitionId: 'move',
-        params: {
-          'destination-folder': '279c65f0-912b-4563-affb-ed9dab8338e0',
-          actionContext: 'rule'
+        entry: {
+          isShared: false,
+          isInheritable: false,
+          isAsynchronous: false,
+          name: 'rule4-name',
+          id: 'rule4-id',
+          triggers: ['inbound'],
+          actions: [
+            {
+              actionDefinitionId: 'counter',
+              params: {}
+            }
+          ],
+          isEnabled: true
         }
       }
     ]
   }
-];
+};
+
+const genericRuleMock: Rule = {
+  id: '',
+  name: '',
+  description: '',
+  isEnabled: true,
+  isInheritable: false,
+  isAsynchronous: false,
+  errorScript: '',
+  isShared: false,
+  triggers: ['inbound'],
+  conditions: {
+    inverted: false,
+    booleanMode: 'and',
+    simpleConditions: [],
+    compositeConditions: []
+  },
+  actions: [
+    {
+      actionDefinitionId: 'counter',
+      params: {}
+    }
+  ]
+};
+
+export const ruleMock = (unique: string): Rule => ({
+  ...genericRuleMock,
+  id: `${unique}-id`,
+  name: `${unique}-name`
+});
+
+export const rulesMock: Rule[] = [ruleMock('rule1'), ruleMock('rule2')];
+export const moreRulesMock: Rule[] = [ruleMock('rule3'), ruleMock('rule4')];
+export const manyRulesMock: Rule[] = [ruleMock('rule1'), ruleMock('rule2'), ruleMock('rule3'), ruleMock('rule4'), ruleMock('rule5')];
+
+export const ownedRulesMock: Rule[] = [ruleMock('owned-rule-1'), ruleMock('owned-rule-2')];
+export const linkedRulesMock: Rule[] = [ruleMock('linked-rule-1'), ruleMock('linked-rule-2')];
+export const inheritedRulesMock: Rule[] = [ruleMock('inherited-rule-1'), ruleMock('inherited-rule-2')];
