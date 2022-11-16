@@ -83,7 +83,7 @@ export class AppService implements OnDestroy {
   }
 
   constructor(
-    public preferenceService: UserPreferencesService,
+    public preferencesService: UserPreferencesService,
     private store: Store<AppStore>,
     private router: Router,
     private route: ActivatedRoute,
