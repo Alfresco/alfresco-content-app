@@ -39,6 +39,8 @@ import { HomeComponent } from './components/home/home.component';
 import { ViewProfileComponent } from './components/view-profile/view-profile.component';
 import { ViewProfileRuleGuard } from './components/view-profile/view-profile.guard';
 import { LoginComponent } from './components/login/login.component';
+import { UploadFilesAreaComponent } from './components/upload-files-area/upload-files-area.component';
+import { Route } from '@angular/router';
 
 export const CONTENT_ROUTES: ExtensionRoute[] = [
   {
@@ -67,8 +69,12 @@ export const CONTENT_ROUTES: ExtensionRoute[] = [
   }
 ];
 
-export const CONTENT_LAYOUT_ROUTES: ExtensionRoute = {
-  parentRoute: '',
+export const CONTENT_LAYOUT_UPLOAD_ROUTE: Route = {
+  path: '',
+  component: UploadFilesAreaComponent
+};
+
+export const CONTENT_LAYOUT_ROUTES: Route = {
   path: '',
   children: [
     {

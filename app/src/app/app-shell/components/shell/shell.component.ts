@@ -60,6 +60,7 @@ export class ShellLayoutComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.shellService.init();
+
     this.isSmallScreen$ = this.breakpointObserver.observe(['(max-width: 600px)']).pipe(map((result) => result.matches));
 
     this.hideSidenav = this.shellService.hideSidenavConditions.some((el) => this.router.routerState.snapshot.url.includes(el));

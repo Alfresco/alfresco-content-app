@@ -1,0 +1,9 @@
+<adf-upload-drag-area
+    [rootFolderId]="currentFolderId$ | async"
+    [disabled]="(canUpload$ | async) === false"
+>
+    <router-outlet></router-outlet>
+</adf-upload-drag-area>
+
+<adf-file-uploading-dialog *ngIf="showFileUploadingDialog$ | async" position="left">
+</adf-file-uploading-dialog>

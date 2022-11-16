@@ -118,6 +118,7 @@ import { ToggleJoinLibraryMenuComponent } from './components/toolbar/toggle-join
 import { ViewNodeComponent } from './components/toolbar/view-node/view-node.component';
 import { CONTENT_ROUTES } from './content.routes';
 import { RouterModule } from '@angular/router';
+import { UploadFilesAreaComponent } from './components/upload-files-area/upload-files-area.component';
 
 registerLocaleData(localeFr);
 registerLocaleData(localeDe);
@@ -176,7 +177,8 @@ registerLocaleData(localeSv);
     RecentFilesComponent,
     SharedFilesComponent,
     CreateFromTemplateDialogComponent,
-    HomeComponent
+    HomeComponent,
+    UploadFilesAreaComponent
   ],
   providers: [
     { provide: AppConfigService, useClass: DebugAppConfigService },
