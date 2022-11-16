@@ -26,11 +26,9 @@
 import { AppConfigService, SidenavLayoutComponent, UserPreferencesService } from '@alfresco/adf-core';
 import { Component, Inject, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { Store } from '@ngrx/store';
 import { Subject, Observable } from 'rxjs';
 import { filter, takeUntil, map, withLatestFrom } from 'rxjs/operators';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { AppStore } from '@alfresco/aca-shared/store';
 import { Directionality } from '@angular/cdk/bidi';
 import { SHELL_APP_SERVICE, ShellAppService } from '../../app-shell.module';
 
@@ -54,7 +52,6 @@ export class ShellLayoutComponent implements OnInit, OnDestroy {
   direction: Directionality;
 
   constructor(
-    protected store: Store<AppStore>,
     private router: Router,
     private userPreferenceService: UserPreferencesService,
     private appConfigService: AppConfigService,
