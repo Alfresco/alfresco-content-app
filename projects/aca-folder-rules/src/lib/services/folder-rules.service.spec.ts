@@ -30,26 +30,18 @@ import { FolderRulesService } from './folder-rules.service';
 import { getMoreRulesResponseMock, getRulesResponseMock, manyRulesMock, moreRulesMock, ruleMock, rulesMock } from '../mock/rules.mock';
 import { ruleSetMock } from '../mock/rule-sets.mock';
 import { expect } from '@angular/flex-layout/_private-utils/testing';
+import { owningFolderIdMock } from '../mock/node.mock';
+import { take } from 'rxjs/operators';
 
 describe('FolderRulesService', () => {
   let folderRulesService: FolderRulesService;
 
   let callApiSpy: jasmine.Spy;
 
-  // let contentApi: ContentApiService;
-  // let rulesPromise: Promise<Partial<Rule>[]>;
-  // let folderInfoPromise: Promise<NodeInfo>;
-  // let deletedRulePromise: Promise<string>;
-  // let rules: Partial<Rule>[];
-  // let folderInfo: NodeInfo;
-  // let deletedRule: string;
-  // let getNodeSpy;
-
-  // const nodeId = '********-fake-node-****-********';
-  // const ruleId = '********-fake-rule-****-********';
-  // const ruleSetId = '-default-';
-  // const params = [{}, {}, {}, {}, {}, ['application/json'], ['application/json']];
-  // const paramsWithBody = [{}, {}, {}, {}, rulesMock[0], ['application/json'], ['application/json']];
+  const nodeId = owningFolderIdMock;
+  const ruleSetId = 'rule-set-id';
+  const mockedRule = ruleMock('rule-mock');
+  const ruleId = mockedRule.id;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -114,91 +106,30 @@ describe('FolderRulesService', () => {
     expect(selectedRuleSourceSpy).toHaveBeenCalledWith(ruleMock('rule3'));
   });
 
-  // describe('loadRules', () => {
-  //   beforeEach(async () => {
-  //     contentApi = TestBed.inject<ContentApiService>(ContentApiService);
-  //
-  //     callApiSpy = spyOn<any>(folderRulesService, 'apiCall')
-  //       .withArgs(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules`, 'GET', params)
-  //       .and.returnValue(of(getRulesResponseMock) as any);
-  //     getNodeSpy = spyOn<any>(contentApi, 'getNode').and.returnValue(of(dummyGetNodeResponse) as any);
-  //
-  //     rulesPromise = folderRulesService.rulesListing$.pipe(take(2)).toPromise();
-  //     folderInfoPromise = folderRulesService.folderInfo$.pipe(take(2)).toPromise();
-  //
-  //     folderRulesService.loadRules(nodeId, ruleSetId);
-  //
-  //     rules = await rulesPromise;
-  //     folderInfo = await folderInfoPromise;
-  //   });
-  //
-  //   it('should format and set the data', async () => {
-  //     expect(rules).toBeTruthy('rulesListing$ is empty');
-  //     expect(folderInfo).toBeTruthy('folderInfo$ is empty');
-  //     expect(rules.length).toBe(2, 'rulesListing$ size is wrong');
-  //     expect(rules).toEqual(rulesMock, 'The list of rules is incorrectly formatted');
-  //     expect(folderInfo).toEqual(dummyNodeInfo, 'The node info is wrong');
-  //     expect(callApiSpy).toHaveBeenCalledTimes(1);
-  //     expect(callApiSpy).toHaveBeenCalledWith(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules`, 'GET', params);
-  //     expect(getNodeSpy).toHaveBeenCalledTimes(1);
-  //   });
-  // });
-  //
-  // describe('deleteRule', () => {
-  //   beforeEach(async () => {
-  //     callApiSpy = spyOn<any>(folderRulesService, 'apiCall')
-  //       .withArgs(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules/${ruleId}`, 'DELETE', params)
-  //       .and.returnValue(ruleId);
-  //
-  //     deletedRulePromise = folderRulesService.deletedRuleId$.pipe(take(2)).toPromise();
-  //
-  //     folderRulesService.deleteRule(nodeId, ruleId, ruleSetId);
-  //
-  //     deletedRule = await deletedRulePromise;
-  //   });
-  //
-  //   it('should delete a rule and return its id', async () => {
-  //     expect(deletedRule).toBeTruthy('rule has not been deleted');
-  //     expect(deletedRule).toBe(ruleId, 'wrong id of deleted rule');
-  //     expect(callApiSpy).toHaveBeenCalledTimes(1);
-  //     expect(callApiSpy).toHaveBeenCalledWith(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules/${ruleId}`, 'DELETE', params);
-  //   });
-  // });
-  //
-  // describe('toggleRule', () => {
-  //   beforeEach(async () => {
-  //     callApiSpy = spyOn<any>(folderRulesService, 'apiCall')
-  //       .withArgs(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules/${ruleId}`, 'PUT', paramsWithBody)
-  //       .and.returnValue([]);
-  //
-  //     folderRulesService.toggleRule(nodeId, ruleId, rulesMock[0]);
-  //   });
-  //
-  //   it('should send correct PUT request', async () => {
-  //     expect(callApiSpy).toHaveBeenCalled();
-  //     expect(callApiSpy).toHaveBeenCalledWith(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules/${ruleId}`, 'PUT', paramsWithBody);
-  //   });
-  // });
-  //
-  // describe('createRule', () => {
-  //   beforeEach(async () => {
-  //     spyOn<any>(folderRulesService, 'apiCall')
-  //       .withArgs(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules`, 'POST', paramsWithBody)
-  //       .and.returnValue(Promise.resolve(rulesMock[0]));
-  //   });
-  //
-  //   it('should send correct POST request and return created rule', async () => {
-  //     const result = await folderRulesService.createRule(nodeId, rulesMock[0]);
-  //     expect(result).toEqual(rulesMock[0]);
-  //   });
-  // });
-  //
-  // it('should send correct PUT request to update rule and return it', async () => {
-  //   spyOn<any>(folderRulesService, 'apiCall')
-  //     .withArgs(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules/${ruleId}`, 'PUT', paramsWithBody)
-  //     .and.returnValue(Promise.resolve(rulesMock[0]));
-  //
-  //   const result = await folderRulesService.updateRule(nodeId, ruleId, rulesMock[0]);
-  //   expect(result).toEqual(rulesMock[0]);
-  // });
+  it('should delete a rule and return its id', async () => {
+    callApiSpy.withArgs(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules/${ruleId}`, 'DELETE').and.returnValue(ruleId);
+    const deletedRulePromise = folderRulesService.deletedRuleId$.pipe(take(2)).toPromise();
+
+    folderRulesService.deleteRule(nodeId, ruleId, ruleSetId);
+    const deletedRule = await deletedRulePromise;
+
+    expect(deletedRule).toBeTruthy('rule has not been deleted');
+    expect(deletedRule).toBe(ruleId, 'wrong id of deleted rule');
+    expect(callApiSpy).toHaveBeenCalledTimes(1);
+    expect(callApiSpy).toHaveBeenCalledWith(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules/${ruleId}`, 'DELETE');
+  });
+
+  it('should send correct POST request and return created rule', async () => {
+    callApiSpy.withArgs(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules`, 'POST', mockedRule).and.returnValue(Promise.resolve(mockedRule));
+    const result = await folderRulesService.createRule(nodeId, mockedRule, ruleSetId);
+
+    expect(result).toEqual(mockedRule);
+  });
+
+  it('should send correct PUT request to update rule and return it', async () => {
+    callApiSpy.withArgs(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules/${ruleId}`, 'PUT', mockedRule).and.returnValue(Promise.resolve(mockedRule));
+
+    const result = await folderRulesService.updateRule(nodeId, ruleId, mockedRule, ruleSetId);
+    expect(result).toEqual(mockedRule);
+  });
 });
