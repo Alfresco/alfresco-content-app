@@ -69,7 +69,7 @@ export class AppHeaderComponent implements OnInit, OnDestroy {
     this.logo$ = store.select(getLogoPath);
     this.landingPage = this.appConfigService.get('landingPage', '/personal-files');
 
-    this.store.select(getHeaderImagePath).subscribe((path) => {
+    store.select(getHeaderImagePath).subscribe((path) => {
       document.body.style.setProperty('--header-background-image', `url('${path}')`);
     });
   }

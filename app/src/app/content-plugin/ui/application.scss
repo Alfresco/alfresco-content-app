@@ -2,7 +2,6 @@
 @import 'mixins';
 @import 'theme';
 @import 'variables/font-family';
-@import 'custom-theme';
 
 $foreground: map-get($custom-theme, foreground);
 
