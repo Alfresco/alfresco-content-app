@@ -1,8 +1,8 @@
 <div class="sidenav">
-  <ng-container [ngSwitch]="sidenavMode">
-    <div class="section action-menu" [ngClass]="'section--' + sidenavMode">
-      <app-main-action [expanded]="sidenavMode === 'expanded'"></app-main-action>
-      <app-create-menu [expanded]="sidenavMode === 'expanded'"></app-create-menu>
+  <ng-container [ngSwitch]="mode">
+    <div class="section action-menu" [ngClass]="'section--' + mode">
+      <app-main-action [expanded]="mode === 'expanded'"></app-main-action>
+      <app-create-menu [expanded]="mode === 'expanded'"></app-create-menu>
     </div>
 
     <div class="section-sub-actions">

@@ -107,7 +107,6 @@ import { LibraryMetadataTabComponent } from './components/info-drawer/library-me
 import { MetadataTabComponent } from './components/info-drawer/metadata-tab/metadata-tab.component';
 import { VersionsTabComponent } from './components/info-drawer/versions-tab/versions-tab.component';
 import { PreviewComponent } from './components/preview/preview.component';
-import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { DocumentDisplayModeComponent } from './components/toolbar/document-display-mode/document-display-mode.component';
 import { ToggleEditOfflineComponent } from './components/toolbar/toggle-edit-offline/toggle-edit-offline.component';
 import { ToggleFavoriteLibraryComponent } from './components/toolbar/toggle-favorite-library/toggle-favorite-library.component';
@@ -119,6 +118,7 @@ import { ViewNodeComponent } from './components/toolbar/view-node/view-node.comp
 import { CONTENT_ROUTES } from './content.routes';
 import { RouterModule } from '@angular/router';
 import { UploadFilesAreaComponent } from './components/upload-files-area/upload-files-area.component';
+import { SidenavWrapperComponent } from './components/sidenav/sidenav-wrapper/sidenav-wrapper.component';
 
 registerLocaleData(localeFr);
 registerLocaleData(localeDe);
@@ -202,7 +202,7 @@ export class ContentServiceExtensionModule {
 
     extensions.setComponents({
       'app.layout.header': AppHeaderComponent,
-      'app.layout.sidenav': SidenavComponent,
+      'app.layout.sidenav': SidenavWrapperComponent,
       'app.components.tabs.metadata': MetadataTabComponent,
       'app.components.tabs.library.metadata': LibraryMetadataTabComponent,
       'app.components.tabs.comments': CommentsTabComponent,
