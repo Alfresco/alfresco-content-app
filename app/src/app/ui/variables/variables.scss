@@ -40,6 +40,7 @@ $blue-save-button-background: #1F74DB;
 $black-heading: #4e4c4c;
 $grey-dropdown-background: #eee;
 $grey-divider: rgba(0,0,0,.22);
+$pagination-background-color: #ffffff;
 
 $defaults: (
   --theme-primary-color: mat.get-color-from-palette($primary),
@@ -68,7 +69,7 @@ $defaults: (
   --theme-heading-color: $black-heading,
   --theme-dropdown-color: $grey-dropdown-background,
   --theme-grey-divider-color: $grey-divider,
-  --theme-white-color: #fff,
+  --theme-pagination-background-color: $pagination-background-color,
 );
 
 // propagates SCSS variables into the CSS variables scope
