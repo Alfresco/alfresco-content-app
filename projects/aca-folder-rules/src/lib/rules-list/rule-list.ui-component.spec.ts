@@ -25,13 +25,13 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RuleListUiComponent } from './rule-list.ui-component';
-import { rulesMock } from '../../mock/rules.mock';
+import { dummyRules } from '../mock/rules.mock';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { CoreTestingModule } from '@alfresco/adf-core';
 import { AcaFolderRulesModule } from '@alfresco/aca-folder-rules';
 
-describe('RuleListUiComponent', () => {
+describe('RuleListComponent', () => {
   let component: RuleListUiComponent;
   let fixture: ComponentFixture<RuleListUiComponent>;
   let debugElement: DebugElement;
@@ -50,7 +50,7 @@ describe('RuleListUiComponent', () => {
   it('should display the list of rules', () => {
     expect(component).toBeTruthy();
 
-    component.rules = rulesMock;
+    component.rules = dummyRules;
 
     fixture.detectChanges();
 
@@ -64,8 +64,8 @@ describe('RuleListUiComponent', () => {
     const description = rule.query(By.css('.aca-rule-list-item__description'));
     const toggleBtn = rule.query(By.css('mat-slide-toggle'));
 
-    expect(name.nativeElement.textContent).toBe(rulesMock[0].name);
+    expect(name.nativeElement.textContent).toBe(dummyRules[0].name);
     expect(toggleBtn).toBeTruthy();
-    expect(description.nativeElement.textContent).toBe(rulesMock[0].description);
+    expect(description.nativeElement.textContent).toBe(dummyRules[0].description);
   });
 });
