@@ -38,7 +38,6 @@ export function setupExtensions(service: AppExtensionService): () => void {
   imports: [CommonModule, CoreModule.forChild(), ExtensionsModule]
 })
 export class CoreExtensionsModule {
-
   static forRoot(): ModuleWithProviders<CoreExtensionsModule> {
     return {
       ngModule: CoreExtensionsModule,

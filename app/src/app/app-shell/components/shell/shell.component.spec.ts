@@ -1,40 +1,25 @@
-/*!
- * @license
- * Alfresco Example Content Application
+/*
+ * Copyright © 2005 - 2021 Alfresco Software, Ltd. All rights reserved.
  *
- * Copyright (C) 2005 - 2020 Alfresco Software Limited
- *
- * This file is part of the Alfresco Example Content Application.
- * If the software was purchased under a paid Alfresco license, the terms of
- * the paid license agreement will prevail.  Otherwise, the software is
- * provided under the following open source license terms:
- *
- * The Alfresco Example Content Application is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * The Alfresco Example Content Application is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ * License rights for this program may be obtained from Alfresco Software, Ltd.
+ * pursuant to a written agreement and any use of this program without such an
+ * agreement is prohibited.
  */
 
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { AppConfigService, FileModel, UploadService, UserPreferencesService } from '@alfresco/adf-core';
+import { AppConfigService, SidenavLayoutModule } from '@alfresco/adf-core';
 import { ShellLayoutComponent } from './shell.component';
 import { Store } from '@ngrx/store';
-import { AppStore, SetSelectedNodesAction, ResetSelectionAction } from '@alfresco/aca-shared/store';
-import { Router, NavigationStart } from '@angular/router';
-import { Subject } from 'rxjs';
-
-
-// TODO: remove AppTestingModule
-import { AppTestingModule } from '../../../content-plugin/testing/app-testing.module';
+import { Router, NavigationStart, RouterModule } from '@angular/router';
+import { of, Subject } from 'rxjs';
+import { ExtensionsModule } from '@alfresco/adf-extensions';
+import { CommonModule } from '@angular/common';
+import { ShellAppService, SHELL_APP_SERVICE } from '../../services/shell-app.service';
+import { HttpClientModule } from '@angular/common/http';
+import { TranslateService } from '@ngx-translate/core';
+import { TranslateServiceMock } from '../../../content-plugin/testing/translation.service';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 class MockRouter {
   private url = 'some-url';
@@ -52,21 +37,33 @@ describe('AppLayoutComponent', () => {
   let fixture: ComponentFixture<ShellLayoutComponent>;
   let component: ShellLayoutComponent;
   let appConfig: AppConfigService;
-  let userPreference: UserPreferencesService;
-  let store: Store<AppStore>;
-  let router: Router;
-  let uploadService: UploadService;
-  let fakeFileList: FileModel[];
+  let shellAppService: ShellAppService;
 
   beforeEach(() => {
+    const shellService: ShellAppService = {
+      init: () => {},
+      pageHeading$: of('Title'),
+      hideSidenavConditions: [],
+      minimizeSidenavConditions: [],
+      preferencesService: {
+        get: (_key: string) => 'true',
+        set: (_key: string, _value: any) => {}
+      }
+    };
+
     TestBed.configureTestingModule({
-      imports: [AppTestingModule],
+      imports: [CommonModule, NoopAnimationsModule, HttpClientModule, SidenavLayoutModule, ExtensionsModule, RouterModule.forChild([])],
       providers: [
         Store,
         {
           provide: Router,
           useClass: MockRouter
-        }
+        },
+        {
+          provide: SHELL_APP_SERVICE,
+          useValue: shellService
+        },
+        { provide: TranslateService, useClass: TranslateServiceMock }
       ],
       declarations: [ShellLayoutComponent],
       schemas: [NO_ERRORS_SCHEMA]
@@ -75,13 +72,7 @@ describe('AppLayoutComponent', () => {
     fixture = TestBed.createComponent(ShellLayoutComponent);
     component = fixture.componentInstance;
     appConfig = TestBed.inject(AppConfigService);
-    store = TestBed.inject(Store);
-    router = TestBed.inject(Router);
-    userPreference = TestBed.inject(UserPreferencesService);
-
-    fakeFileList = [new FileModel(new File([], 'fakeFile'))];
-
-    uploadService = TestBed.inject(UploadService);
+    shellAppService = TestBed.inject(SHELL_APP_SERVICE);
   });
 
   beforeEach(() => {
@@ -115,7 +106,7 @@ describe('AppLayoutComponent', () => {
         preserveState: true
       };
 
-      spyOn(userPreference, 'get').and.callFake((key) => {
+      spyOn(shellAppService.preferencesService, 'get').and.callFake((key) => {
         if (key === 'expandedSidenav') {
           return 'true';
         }
@@ -133,7 +124,7 @@ describe('AppLayoutComponent', () => {
         preserveState: true
       };
 
-      spyOn(userPreference, 'get').and.callFake((key) => {
+      spyOn(shellAppService.preferencesService, 'get').and.callFake((key) => {
         if (key === 'expandedSidenav') {
           return 'false';
         }
@@ -144,17 +135,6 @@ describe('AppLayoutComponent', () => {
 
       expect(component.expandedSidenav).toBe(false);
     });
-  });
-
-  it('should reset selection before navigation', () => {
-    const selection: any[] = [{ entry: { id: 'nodeId', name: 'name' } }];
-    spyOn(store, 'dispatch').and.stub();
-    fixture.detectChanges();
-    store.dispatch(new SetSelectedNodesAction(selection));
-    router.navigateByUrl('somewhere/over/the/rainbow');
-    fixture.detectChanges();
-
-    expect(store.dispatch['calls'].mostRecent().args).toEqual([new ResetSelectionAction()]);
   });
 
   it('should close menu on mobile screen size', () => {

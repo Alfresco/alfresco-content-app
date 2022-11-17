@@ -94,7 +94,7 @@ registerLocaleData(localeSv);
       relativeLinkResolution: 'legacy'
     }),
     AppExtensionsModule,
-    AppShellModule.withChildren({
+    AppShellModule.withRoutes({
       shellChildren: [CONTENT_LAYOUT_ROUTES],
       shellParentRoute: CONTENT_LAYOUT_UPLOAD_ROUTE
     }),

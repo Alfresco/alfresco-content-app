@@ -1,27 +1,18 @@
+/*
+ * Copyright © 2005 - 2021 Alfresco Software, Ltd. All rights reserved.
+ *
+ * License rights for this program may be obtained from Alfresco Software, Ltd.
+ * pursuant to a written agreement and any use of this program without such an
+ * agreement is prohibited.
+ */
+
 import { CommonModule } from '@angular/common';
-import { InjectionToken, ModuleWithProviders, NgModule } from '@angular/core';
-import { TranslateModule } from '@ngx-translate/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { Routes, provideRoutes, RouterModule, Route } from '@angular/router';
 import { ShellDummyGuard, SHELL_LAYOUT_ROUTE } from './app-shell.routes';
 import { BlankPageComponent, SidenavLayoutModule } from '@alfresco/adf-core';
 import { ExtensionService, ExtensionsModule, provideExtensionConfig } from '@alfresco/adf-extensions';
 import { ShellLayoutComponent } from './components/shell/shell.component';
-import { ContentModule } from '@alfresco/adf-content-services';
-import { Observable } from 'rxjs';
-
-export interface ShellPreferencesService {
-  set(preferenceKey: string, value: any): void;
-  get(preferenceKey: string, defaultValue: string): string;
-}
-export interface ShellAppService {
-  init(): void;
-  pageHeading$: Observable<string>;
-  hideSidenavConditions: string[];
-  minimizeSidenavConditions: string[];
-  preferencesService: ShellPreferencesService;
-}
-
-export const SHELL_APP_SERVICE = new InjectionToken<ShellAppService>('SHELL_APP_SERVICE');
 
 export interface AppShellRoutesConfig {
   shellParentRoute?: Route;
@@ -29,13 +20,13 @@ export interface AppShellRoutesConfig {
 }
 
 @NgModule({
-  imports: [SidenavLayoutModule, ContentModule, ExtensionsModule, RouterModule.forChild([]), CommonModule, TranslateModule.forChild()],
+  imports: [SidenavLayoutModule, ExtensionsModule, RouterModule.forChild([]), CommonModule],
   exports: [ShellLayoutComponent],
   declarations: [ShellLayoutComponent],
   providers: [provideExtensionConfig(['shell.plugin.json'])]
 })
 export class AppShellModule {
-  static withChildren(routes: Routes | AppShellRoutesConfig): ModuleWithProviders<AppShellModule> {
+  static withRoutes(routes: Routes | AppShellRoutesConfig): ModuleWithProviders<AppShellModule> {
     if (Array.isArray(routes)) {
       return getModuleForRoutes(routes);
     }

@@ -258,7 +258,7 @@
             "polyfills": "app/src/polyfills.ts",
             "stylePreprocessorOptions": {
               "includePaths": [
-                "app/src/app/ui",
+                "app/src/app/content-plugin/ui",
                 "node_modules"
               ]
             },

@@ -570,4 +570,4 @@ export const CONTENT_LAYOUT_ROUTES: Route = {
     }
   ],
   canActivateChild: [AuthGuard]
-}
+};

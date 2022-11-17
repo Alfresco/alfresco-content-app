@@ -84,13 +84,13 @@ export class AppService implements OnDestroy {
 
   constructor(
     public preferencesService: UserPreferencesService,
+    private authenticationService: AuthenticationService,
     private store: Store<AppStore>,
     private router: Router,
-    private route: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
     private config: AppConfigService,
     private pageTitle: PageTitleService,
     private alfrescoApiService: AlfrescoApiService,
-    private authenticationService: AuthenticationService,
     private uploadService: UploadService,
     private routerExtensionService: RouterExtensionService,
     private contentApi: ContentApiService,
@@ -98,17 +98,16 @@ export class AppService implements OnDestroy {
     private groupService: GroupService,
     private overlayContainer: OverlayContainer,
     @Inject(STORE_INITIAL_APP_DATA) private initialAppState: AppState,
-    auth: AuthenticationService,
     searchQueryBuilderService: SearchQueryBuilderService
   ) {
-    this.ready = new BehaviorSubject(auth.isLoggedIn() || this.withCredentials);
+    this.ready = new BehaviorSubject(this.authenticationService.isLoggedIn() || this.withCredentials);
     this.ready$ = this.ready.asObservable();
 
-    auth.onLogin.subscribe(() => {
+    this.authenticationService.onLogin.subscribe(() => {
       this.ready.next(true);
     });
 
-    auth.onLogout.subscribe(() => {
+    this.authenticationService.onLogout.subscribe(() => {
       searchQueryBuilderService.resetToDefaults();
     });
   }
@@ -124,7 +123,7 @@ export class AppService implements OnDestroy {
         if (!this.authenticationService.isLoggedIn()) {
           this.store.dispatch(new CloseModalDialogsAction());
 
-          let redirectUrl = this.route.snapshot.queryParams['redirectUrl'];
+          let redirectUrl = this.activatedRoute.snapshot.queryParams['redirectUrl'];
           if (!redirectUrl) {
             redirectUrl = this.router.url;
           }
