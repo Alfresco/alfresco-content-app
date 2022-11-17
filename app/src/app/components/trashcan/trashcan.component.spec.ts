@@ -24,8 +24,8 @@
  */
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { AlfrescoApiService, NodeFavoriteDirective, DataTableComponent, AppConfigModule } from '@alfresco/adf-core';
-import { DocumentListComponent } from '@alfresco/adf-content-services';
+import { AlfrescoApiService, DataTableComponent, AppConfigModule } from '@alfresco/adf-core';
+import { DocumentListComponent, NodeFavoriteDirective } from '@alfresco/adf-content-services';
 import { TrashcanComponent } from './trashcan.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 

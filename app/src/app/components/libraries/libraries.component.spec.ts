@@ -26,8 +26,8 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlfrescoApiService, NodeFavoriteDirective, DataTableComponent, AppConfigModule } from '@alfresco/adf-core';
-import { DocumentListComponent } from '@alfresco/adf-content-services';
+import { AlfrescoApiService, DataTableComponent, AppConfigModule } from '@alfresco/adf-core';
+import { DocumentListComponent, NodeFavoriteDirective } from '@alfresco/adf-content-services';
 import { LibrariesComponent } from './libraries.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { EffectsModule } from '@ngrx/effects';

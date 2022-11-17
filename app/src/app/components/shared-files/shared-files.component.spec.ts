@@ -25,8 +25,8 @@
 
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { NodeFavoriteDirective, DataTableComponent, AppConfigModule } from '@alfresco/adf-core';
-import { CustomResourcesService, DocumentListComponent } from '@alfresco/adf-content-services';
+import { DataTableComponent, AppConfigModule } from '@alfresco/adf-core';
+import { CustomResourcesService, DocumentListComponent, NodeFavoriteDirective } from '@alfresco/adf-content-services';
 import { SharedFilesComponent } from './shared-files.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { Router } from '@angular/router';
