@@ -62,3 +62,4 @@ export * from './lib/services/alfresco-office-extension.service';
 export * from './lib/utils/node.utils';
 export * from './lib/shared.module';
 export * from './lib/testing/lib-testing-module';
+export * from './lib/testing/translation.service';

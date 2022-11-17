@@ -18,7 +18,7 @@ import { CommonModule } from '@angular/common';
 import { ShellAppService, SHELL_APP_SERVICE } from '../../services/shell-app.service';
 import { HttpClientModule } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
-import { TranslateServiceMock } from '../../../content-plugin/testing/translation.service';
+import { TranslateServiceMock } from '@alfresco/aca-shared';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 class MockRouter {

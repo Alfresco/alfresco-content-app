@@ -49,7 +49,7 @@ import { AppStore, STORE_INITIAL_APP_DATA } from '../../../store/src/states/app.
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { CommonModule } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
-import { TranslateServiceMock } from '../../../../../app/src/app/content-plugin/testing/translation.service';
+import { TranslateServiceMock } from '../testing/translation.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RepositoryInfo } from '@alfresco/js-api';
 

@@ -44,7 +44,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { MaterialModule } from '../../material.module';
 import { INITIAL_STATE } from '../store/initial-state';
 import { TranslatePipeMock } from './translate-pipe.directive';
-import { TranslateServiceMock } from './translation.service';
+import { TranslateServiceMock } from '@alfresco/aca-shared';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 
 @NgModule({
