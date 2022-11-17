@@ -60,6 +60,7 @@ $contrast-gray: #646569;
 .mat-icon-button, .mat-button, .mat-checkbox, .mat-raised-button {
   &:focus {
     @include rounded-border($focus-color);
+    left: 6px;
   }
   .mat-ripple-element {
     display: none;
@@ -90,17 +91,15 @@ $contrast-gray: #646569;
 }
 
 .mat-menu-item {
+  .mat-menu-ripple {
+    display: none;
+  }
   &:focus {
     @include rounded-border($focus-color);
     background-color: white;
   }
   &.cdk-keyboard-focused:not([disabled]) {
     background-color: white;
-  }
-  &.cdk-focused {
-    .mat-menu-ripple {
-      display: none;
-    }
   }
 }
 

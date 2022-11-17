@@ -79,13 +79,9 @@ describe('Restore from Trash', () => {
     it('[C217177] restore file', async () => {
       await dataTable.selectItem(file);
       await BrowserActions.click(toolbar.restoreButton);
-
       const text = await page.getSnackBarMessage();
       expect(text).toContain(`${file} restored`);
-
-      const action = await page.getSnackBarAction();
-      expect(action).toContain('View');
-
+      expect(text).toContain(`View`);
       expect(await dataTable.isItemPresent(file)).toBe(false, 'Item was not removed from list');
       await page.clickPersonalFilesAndWait();
       expect(await page.dataTable.isItemPresent(file)).toBe(true, 'Item not displayed in list');
@@ -96,13 +92,9 @@ describe('Restore from Trash', () => {
     it('[C280438] restore folder', async () => {
       await dataTable.selectItem(folder);
       await BrowserActions.click(toolbar.restoreButton);
-
       const text = await page.getSnackBarMessage();
       expect(text).toContain(`${folder} restored`);
-
-      const action = await page.getSnackBarAction();
-      expect(action).toContain('View');
-
+      expect(text).toContain(`View`);
       expect(await dataTable.isItemPresent(folder)).toBe(false, 'Item was not removed from list');
       await page.clickPersonalFilesAndWait();
       expect(await page.dataTable.isItemPresent(folder)).toBe(true, 'Item not displayed in list');
@@ -113,13 +105,9 @@ describe('Restore from Trash', () => {
     it('[C290104] restore library', async () => {
       await dataTable.selectItem(site);
       await BrowserActions.click(toolbar.restoreButton);
-
       const text = await page.getSnackBarMessage();
       expect(text).toContain(`${site} restored`);
-
-      const action = await page.getSnackBarAction();
-      expect(action).toContain('View');
-
+      expect(text).toContain(`View`);
       expect(await dataTable.isItemPresent(site)).toBe(false, `${site} was not removed from list`);
       await page.clickFileLibrariesAndWait();
       expect(await page.dataTable.isItemPresent(site)).toBe(true, `${site} not displayed in list`);
@@ -128,13 +116,9 @@ describe('Restore from Trash', () => {
     it('[C217182] restore multiple items', async () => {
       await dataTable.selectMultipleItems([file, folder]);
       await BrowserActions.click(toolbar.restoreButton);
-
       const text = await page.getSnackBarMessage();
       expect(text).toContain(`Restore successful`);
-
-      const action = await page.getSnackBarAction();
-      expect(action).not.toContain('View');
-
+      expect(text).not.toContain(`View`);
       expect(await dataTable.isItemPresent(file)).toBe(false, 'Item was not removed from list');
       expect(await dataTable.isItemPresent(folder)).toBe(false, 'Item was not removed from list');
       await page.clickPersonalFilesAndWait();
