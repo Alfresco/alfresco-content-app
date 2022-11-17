@@ -49,7 +49,10 @@ export const CONTENT_ROUTES: ExtensionRoute[] = [
   },
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
+    data: {
+      title: 'APP.SIGN_IN'
+    }
   },
   {
     path: 'view',

@@ -38,7 +38,7 @@ import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { GroupService, SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { ActivatedRoute, ActivationEnd, NavigationStart, Router } from '@angular/router';
-import { filter, takeUntil } from 'rxjs/operators';
+import { filter, map, takeUntil, tap } from 'rxjs/operators';
 import {
   AppState,
   AppStore,
@@ -66,8 +66,7 @@ export class AppService implements OnDestroy {
   private ready: BehaviorSubject<boolean>;
   ready$: Observable<boolean>;
 
-  pageHeadingSubject$ = new BehaviorSubject('');
-  pageHeading$ = this.pageHeadingSubject$.asObservable();
+  pageHeading$: Observable<string>;
 
   hideSidenavConditions = ['/preview/'];
   minimizeSidenavConditions = ['search'];
@@ -110,6 +109,12 @@ export class AppService implements OnDestroy {
     this.authenticationService.onLogout.subscribe(() => {
       searchQueryBuilderService.resetToDefaults();
     });
+
+    this.pageHeading$ = this.router.events.pipe(
+      filter((event) => event instanceof ActivationEnd && event.snapshot.children.length === 0),
+      map((event: ActivationEnd) => event.snapshot?.data?.title ?? ''),
+      tap((title) => this.pageTitle.setTitle(title))
+    );
   }
 
   ngOnDestroy(): void {
@@ -140,18 +145,11 @@ export class AppService implements OnDestroy {
     this.loadCustomCss();
     this.loadCustomWebFont();
 
-    const { router, pageTitle } = this;
+    const { router } = this;
 
     this.router.events
       .pipe(filter((event) => event instanceof ActivationEnd && event.snapshot.children.length === 0))
-      .subscribe((event: ActivationEnd) => {
-        const snapshot: any = event.snapshot || {};
-        const data: any = snapshot.data || {};
-
-        // this.pageHeading = data.title || '';
-        this.pageHeadingSubject$.next(data.title || '');
-
-        pageTitle.setTitle(data.title || '');
+      .subscribe((_event: ActivationEnd) => {
         this.store.dispatch(new SetCurrentUrlAction(router.url));
       });
 
