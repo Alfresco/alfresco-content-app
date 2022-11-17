@@ -12,7 +12,7 @@
   <aca-page-layout-content>
     <div class="main-content">
 
-      <ng-container *ngIf="(rulesLoading$ | async) || (actionsLoading$ | async); else onLoaded">
+      <ng-container *ngIf="(ruleSetsLoading$ | async) || (actionsLoading$ | async); else onLoaded">
         <mat-progress-bar color="primary" mode="indeterminate"></mat-progress-bar>
       </ng-container>
 
@@ -29,12 +29,23 @@
           </adf-toolbar>
           <mat-divider></mat-divider>
 
-          <div class="aca-manage-rules__container" *ngIf="(rules$ | async).length > 0 ; else emptyContent">
-            <aca-rule-list [rules]="rules$ | async" (ruleSelected)="onRuleSelected($event)"
-                            [selectedRule]="selectedRule" [nodeId]="nodeId"></aca-rule-list>
+          <div class="aca-manage-rules__container" *ngIf="(ruleSetListing$ | async).length > 0; else emptyContent">
+            <aca-rule-set-list
+              [folderId]="nodeId"
+              [ruleSets]="ruleSetListing$ | async"
+              [hasMoreRuleSets]="hasMoreRuleSets$ | async"
+              [ruleSetsLoading]="ruleSetsLoading$ | async"
+              [selectedRule]="selectedRule$ | async"
+              (loadMoreRuleSets)="onLoadMoreRuleSets()"
+              (loadMoreRules)="onLoadMoreRules($event)"
+              (navigateToOtherFolder)="onNavigateToOtherFolder($event)"
+              (selectRule)="onSelectRule($event)"
+              (ruleEnabledChanged)="onRuleEnabledToggle($event[0], $event[1])">
+            </aca-rule-set-list>
+
             <div class="aca-manage-rules__container__rule-details">
 
-              <div class="aca-manage-rules__container__rule-details__header">
+              <div class="aca-manage-rules__container__rule-details__header" *ngIf="(selectedRule$ | async) as selectedRule">
                 <div class="aca-manage-rules__container__rule-details__header__title">
                   <div class="aca-manage-rules__container__rule-details__header__title__name">
                     {{ selectedRule.name }}
@@ -45,16 +56,16 @@
                 </div>
 
                 <div class="aca-manage-rules__container__rule-details__header__buttons">
-                  <button mat-stroked-button (click)="onRuleDelete()" id="delete-rule-btn">
+                  <button mat-stroked-button (click)="onRuleDeleteButtonClicked(selectedRule)" id="delete-rule-btn">
                     <mat-icon>delete_outline</mat-icon>
                   </button>
-                  <button mat-stroked-button (click)="onRuleUpdate()" id="edit-rule-btn">
+                  <button mat-stroked-button (click)="openCreateUpdateRuleDialog(selectedRule)" id="edit-rule-btn">
                     {{ 'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.ACTIONS.EDIT_RULE' | translate }}
                   </button>
                 </div>
               </div>
 
-              <div class="aca-manage-rules__container__rule-details__content">
+              <div class="aca-manage-rules__container__rule-details__content" *ngIf="(selectedRule$ | async) as selectedRule">
                 <aca-rule-details
                   [actionDefinitions]="actionDefinitions$ | async"
                   [readOnly]="true"
