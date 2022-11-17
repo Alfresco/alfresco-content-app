@@ -35,10 +35,10 @@ export abstract class Page {
 
   layout = this.byCss('app-layout');
   overlay = this.byCss('.cdk-overlay-container');
-  snackBar = this.byCss('.adf-snackbar-message-content-action-label');
+  snackBar = this.byCss(`[data-automation-id='adf-snackbar-message-content-action-button']`);
   dialogContainer = this.byCss('.mat-dialog-container');
   snackBarContainer = this.byCss('.mat-snack-bar-container');
-  snackBarAction = this.byCss('.adf-snackbar-message-content-action-label');
+  snackBarAction = this.byCss(`[data-automation-id='adf-snackbar-message-content-action-button']`);
   genericError = this.byCss('aca-generic-error');
   genericErrorIcon = this.byCss('aca-generic-error .mat-icon');
   genericErrorTitle = this.byCss('.generic-error__title');
@@ -88,7 +88,7 @@ export abstract class Page {
   }
 
   async getSnackBarMessage(): Promise<string> {
-    const elem = await waitElement('.adf-snackbar-message-content');
+    const elem = await waitElement(`[data-automation-id='adf-snackbar-message-content']`);
     const attributeValue: string = await browser.executeScript(`return arguments[0].innerText`, elem);
     return attributeValue || '';
   }
@@ -96,7 +96,7 @@ export abstract class Page {
   async getSnackBarAction(): Promise<string> {
     let elem: WebElement;
     try {
-      elem = await waitElement('.adf-snackbar-message-content-action-label');
+      elem = await waitElement(`[data-automation-id='adf-snackbar-message-content-action-button']`);
     } catch (e) {
       return '';
     }
@@ -106,7 +106,7 @@ export abstract class Page {
 
   async clickSnackBarAction(): Promise<void> {
     try {
-      const action = await waitElement('.adf-snackbar-message-content-action-label');
+      const action = await waitElement(`[data-automation-id='adf-snackbar-message-content-action-button']`);
       await action.click();
     } catch (e) {
       Logger.error(e, '.......failed on click snack bar action.........');
