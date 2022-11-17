@@ -21,8 +21,7 @@
       "PLACEHOLDER": {
         "NAME": "Enter rule name",
         "DESCRIPTION": "Enter rule description",
-        "NO_DESCRIPTION": "No description",
-        "VALUE": "Value"
+        "NO_DESCRIPTION": "No description"
       },
       "ERROR": {
         "REQUIRED": "This field is required",
@@ -105,15 +104,6 @@
         "TITLE": "Delete rule",
         "MESSAGE": "Are you sure you want to delete this rule?"
       }
-    },
-    "RULE_LIST": {
-      "OWNED_BY_THIS_FOLDER": "Owned by this folder",
-      "LINKED_FROM": "Linked from",
-      "INHERITED_FROM": "Inherited from",
-      "LOAD_MORE_RULE_SETS": "Load more rule sets",
-      "LOADING_RULE_SETS": "Loading rule sets",
-      "LOAD_MORE_RULES": "Load more rules",
-      "LOADING_RULES": "Loading rules"
     }
   }
 }

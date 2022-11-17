@@ -23,15 +23,23 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Rule } from './rule.model';
-import { NodeInfo } from '@alfresco/aca-shared/store';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RuleListItemUiComponent } from './rule-list-item.ui-component';
+import { CoreTestingModule } from '@alfresco/adf-core';
 
-export interface RuleSet {
-  id: string;
-  isLinkedTo: boolean;
-  owningFolder: NodeInfo;
-  linkedToBy: string[];
-  rules: Rule[];
-  hasMoreRules: boolean;
-  loadingRules: boolean;
-}
+describe('RuleComponent', () => {
+  let component: RuleListItemUiComponent;
+  let fixture: ComponentFixture<RuleListItemUiComponent>;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [CoreTestingModule]
+    });
+    fixture = TestBed.createComponent(RuleListItemUiComponent);
+    component = fixture.componentInstance;
+  });
+
+  it('should create the component', () => {
+    expect(component).toBeTruthy();
+  });
+});
