@@ -1,6 +1,5 @@
 @import '@angular/material/theming';
 @import './overrides/adf-style-fixes.theme';
-@import './overrides/adf-pagination.theme';
 @import "./dynamic-theme/theme-configuration";
 @import "./dynamic-theme/typography";
 @import "./dynamic-theme/custom-theme-palettes";
@@ -54,6 +53,4 @@ $custom-theme: mat-light-theme(
   }
 
   @include adf-style-fixes($theme);
-  @include adf-pagination-theme($theme);
-
 }
