@@ -21,7 +21,8 @@
     "e2e.typecheck": "tsc -p ./e2e/tsconfig.e2e.typecheck.json",
     "e2e": "npm run update-webdriver && protractor $SUITE",
     "spellcheck": "cspell '{src,e2e,projects}/**/*.ts'",
-    "inspect.bundle": "ng build content-ce --configuration production --stats-json && npx webpack-bundle-analyzer dist/content-ce/stats.json"
+    "inspect.bundle": "ng build content-ce --configuration production --stats-json && npx webpack-bundle-analyzer dist/content-ce/stats.json",
+    "prepare": "husky install"
   },
   "private": true,
   "dependencies": {
@@ -120,16 +121,5 @@
     "typescript": "4.6.3",
     "webdriver-manager": "12.1.8",
     "winston": "^3.8.2"
-  },
-  "lint-staged": {
-    "*.{ts,js,css,scss,html}": [
-      "prettier --single-quote --write",
-      "git add"
-    ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   }
 }
