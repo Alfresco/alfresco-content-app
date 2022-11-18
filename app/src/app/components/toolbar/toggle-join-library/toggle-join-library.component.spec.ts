@@ -32,6 +32,7 @@ import { SnackbarErrorAction, SnackbarInfoAction } from '@alfresco/aca-shared/st
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { ToggleJoinLibraryButtonComponent } from './toggle-join-library-button.component';
 import { AppHookService, ContentApiService } from '@alfresco/aca-shared';
+import { ContentDirectiveModule } from '@alfresco/adf-content-services';
 
 describe('ToggleJoinLibraryComponent', () => {
   let component: ToggleJoinLibraryButtonComponent;
@@ -50,7 +51,7 @@ describe('ToggleJoinLibraryComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, DirectiveModule],
+      imports: [AppTestingModule, DirectiveModule, ContentDirectiveModule],
       declarations: [ToggleJoinLibraryButtonComponent],
       providers: [
         {

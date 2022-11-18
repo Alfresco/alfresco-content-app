@@ -26,8 +26,8 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { NodeFavoriteDirective, DataTableComponent, AppConfigModule } from '@alfresco/adf-core';
-import { CustomResourcesService, DocumentListComponent } from '@alfresco/adf-content-services';
+import { DataTableComponent, AppConfigModule } from '@alfresco/adf-core';
+import { CustomResourcesService, DocumentListComponent, NodeFavoriteDirective } from '@alfresco/adf-content-services';
 import { of } from 'rxjs';
 import { FavoritesComponent } from './favorites.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
