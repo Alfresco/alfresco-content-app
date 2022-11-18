@@ -14,6 +14,22 @@
     line-height: 24px !important;
     padding: 16px 0;
     background: var(--theme-pagination-background-color);
+
+    &__perpage-block,
+    &__actualinfo-block {
+      .mat-icon-button {
+        &:focus {
+          border: none;
+          left: 3px;
+        }
+
+        &.cdk-focused {
+          .mat-icon {
+            @include rounded-border();
+          }
+        }
+      }
+    }
   }
 
   .adf-pagination__range-block {
@@ -44,5 +60,4 @@
   .adf-pagination__controls-block {
     padding-right: 24px !important;
   }
-
 }

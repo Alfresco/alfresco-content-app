@@ -6,13 +6,7 @@
 
 @include custom-theme($custom-theme);
 
-$focus-color: #1f74db;
 $contrast-gray: #646569;
-
-@mixin rounded-border($border-color, $thickness: 2px, $radius: 4px) {
-  border: $thickness solid $border-color;
-  border-radius: $radius;
-}
 
 .mat-toolbar {
   color: var(--theme-text-color, rgba(0, 0, 0, 0.54));
@@ -59,8 +53,7 @@ $contrast-gray: #646569;
 
 .mat-icon-button, .mat-button, .mat-checkbox, .mat-raised-button {
   &:focus {
-    @include rounded-border($focus-color);
-    left: 6px;
+    @include rounded-border();
   }
   .mat-ripple-element {
     display: none;
@@ -70,7 +63,7 @@ $contrast-gray: #646569;
       display: none;
     }
     .mat-checkbox-ripple {
-      @include rounded-border($focus-color);
+      @include rounded-border();
       height: 22px;
       width: 22px;
       left: calc(50% - 13px);
@@ -80,13 +73,13 @@ $contrast-gray: #646569;
 }
 
 .adf-content-node-selector-content-list .adf-datatable-list .adf-datatable-selected > svg {
-  fill: #1f74db !important;
+  fill: var(--theme-blue-button-color) !important;
 }
 
 .mat-list-base .mat-list-option:focus {
   background-color: white;
   .mat-list-item-content {
-    border: 2px solid #1f74db;
+    border: 2px solid var(--theme-blue-button-color);
   }
 }
 
@@ -95,7 +88,7 @@ $contrast-gray: #646569;
     display: none;
   }
   &:focus {
-    @include rounded-border($focus-color);
+    @include rounded-border();
     background-color: white;
   }
   &.cdk-keyboard-focused:not([disabled]) {
@@ -106,7 +99,7 @@ $contrast-gray: #646569;
 .mat-option {
   &.cdk-focused {
     .mat-option-ripple {
-      @include rounded-border($focus-color);
+      @include rounded-border();
     }
   }
 }
@@ -130,7 +123,7 @@ $contrast-gray: #646569;
 
   &.mat-primary.mat-checked:not(.mat-disabled) {
     .mat-slide-toggle-bar {
-      background-color: $focus-color;
+      background-color: var(--theme-blue-button-color);
     }
     .mat-slide-toggle-thumb {
       background-color: white;
@@ -142,7 +135,7 @@ $contrast-gray: #646569;
   }
   &.cdk-focused {
     .mat-slide-toggle-bar {
-      border: 2px solid $focus-color;
+      border: 2px solid var(--theme-blue-button-color);
     }
   }
 }
@@ -150,7 +143,7 @@ $contrast-gray: #646569;
 .mat-stroked-button, .mat-flat-button {
   &.cdk-focused {
     .mat-button-ripple.mat-ripple {
-      border: 2px solid $focus-color;
+      border: 2px solid var(--theme-blue-button-color);
       top: -4px;
       left: -4px;
       bottom: -4px;
@@ -162,14 +155,14 @@ $contrast-gray: #646569;
 .mat-option {
   &.cdk-focused {
     .mat-option-ripple {
-      @include rounded-border($focus-color);
+      @include rounded-border();
     }
   }
 }
 
 .mat-datetimepicker-calendar-body-active .mat-datetimepicker-calendar-body-cell-content:not(.mat-datetimepicker-calendar-body-selected) {
   background-color: white !important;
-  border: 2px solid $focus-color;
+  border: 2px solid var(--theme-blue-button-color);
 }
 
 .mat-datetimepicker-calendar-body-cell-content.mat-datetimepicker-calendar-body-selected {
@@ -178,7 +171,7 @@ $contrast-gray: #646569;
 
 .mat-expansion-panel .mat-expansion-panel-header.cdk-keyboard-focused:not([aria-disabled=true]) {
   background-color: white;
-  border: 2px solid $focus-color;
+  border: 2px solid var(--theme-blue-button-color);
 }
 
 .adf-error-snackbar {
@@ -190,7 +183,7 @@ $contrast-gray: #646569;
 }
 
 .adf-info-snackbar {
-  background-color: $focus-color;
+  background-color: var(--theme-blue-button-color);
 
   .mat-simple-snackbar, .mat-simple-snackbar-action {
       color: white;
@@ -200,3 +193,4 @@ $contrast-gray: #646569;
 .adf-empty-content__icon {
   color: $contrast-gray;
 }
+
