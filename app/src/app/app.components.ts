@@ -23,9 +23,9 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { SHELL_APP_SERVICE, ShellAppService } from './app-shell';
+import { AppService } from '@alfresco/aca-shared';
 
 @Component({
   selector: 'app-root',
@@ -36,7 +36,8 @@ export class AppComponent {
   onDestroy$: Subject<boolean> = new Subject<boolean>();
   pageHeading: Observable<string>;
 
-  constructor(@Inject(SHELL_APP_SERVICE) private shellService: ShellAppService) {
-    this.pageHeading = this.shellService.pageHeading$;
+  constructor(private appService: AppService) {
+    this.pageHeading = this.appService.pageHeading$;
+    this.appService.init();
   }
 }

@@ -483,8 +483,14 @@ export const isLibraryManager = (context: RuleContext): boolean =>
  *
  * @param context Rule execution context
  */
-export const canInfoPreview = (context: RuleContext): boolean =>
-  navigation.isSearchResults(context) && !isMultiselection(context) && !hasFolderSelected(context) && !navigation.isPreview(context);
+export const canInfoPreview = (context: RuleContext): boolean => {
+  const isSearchResult = navigation.isSearchResults(context);
+  const isNotMultiselect = !isMultiselection(context);
+  const isFileSelected = !hasFolderSelected(context);
+  const isPreview = !navigation.isPreview(context);
+
+  return isSearchResult && isNotMultiselect && isFileSelected && isPreview;
+};
 
 export const showInfoSelectionButton = (context: RuleContext): boolean => navigation.isSearchResults(context) && !navigation.isPreview(context);
 

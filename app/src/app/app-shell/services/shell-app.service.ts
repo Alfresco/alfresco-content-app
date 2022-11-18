@@ -15,7 +15,6 @@ export interface ShellPreferencesService {
 }
 
 export interface ShellAppService {
-  init(): void;
   pageHeading$: Observable<string>;
   hideSidenavConditions: string[];
   minimizeSidenavConditions: string[];
