@@ -32,16 +32,9 @@ import { ContentManagementService } from '../../services/content-management.serv
 import { NodeActionsService } from '../../services/node-actions.service';
 import { PageComponent } from '../page.component';
 import { AppExtensionService, ContentApiService } from '@alfresco/aca-shared';
-import {
-  SetCurrentFolderAction,
-  isAdmin,
-  AppStore,
-  UploadFileVersionAction,
-  showLoaderSelector,
-  getFileUploadingDialog
-} from '@alfresco/aca-shared/store';
+import { SetCurrentFolderAction, isAdmin, AppStore, UploadFileVersionAction, showLoaderSelector } from '@alfresco/aca-shared/store';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { debounceTime, delay, takeUntil } from 'rxjs/operators';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 import { FilterSearch, ShareDataRow } from '@alfresco/adf-content-services';
 import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 import { Observable } from 'rxjs';
@@ -55,8 +48,6 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   isAdmin = false;
   selectedNode: MinimalNodeEntity;
   queryParams = null;
-
-  showFileUploadingDialog$: Observable<boolean>;
 
   showLoader$: Observable<boolean>;
   private nodePath: PathElement[];
@@ -75,8 +66,6 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     private breakpointObserver: BreakpointObserver
   ) {
     super(store, extensions, content);
-
-    this.showFileUploadingDialog$ = this.store.select(getFileUploadingDialog).pipe(delay(0), takeUntil(this.onDestroy$));
   }
 
   ngOnInit() {

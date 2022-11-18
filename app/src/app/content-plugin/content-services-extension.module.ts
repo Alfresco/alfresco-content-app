@@ -117,6 +117,7 @@ import { ToggleJoinLibraryMenuComponent } from './components/toolbar/toggle-join
 import { ViewNodeComponent } from './components/toolbar/view-node/view-node.component';
 import { CONTENT_ROUTES } from './content.routes';
 import { RouterModule } from '@angular/router';
+import { UploadFilesDialogComponent } from './components/upload-files-dialog/upload-files-dialog.component';
 import { SidenavWrapperComponent } from './components/sidenav/sidenav-wrapper/sidenav-wrapper.component';
 
 registerLocaleData(localeFr);
@@ -176,7 +177,8 @@ registerLocaleData(localeSv);
     RecentFilesComponent,
     SharedFilesComponent,
     CreateFromTemplateDialogComponent,
-    HomeComponent
+    HomeComponent,
+    UploadFilesDialogComponent
   ],
   providers: [
     { provide: AppConfigService, useClass: DebugAppConfigService },
@@ -201,6 +203,7 @@ export class ContentServiceExtensionModule {
     extensions.setComponents({
       'app.layout.header': AppHeaderComponent,
       'app.layout.sidenav': SidenavWrapperComponent,
+      'app.shell.sibling': UploadFilesDialogComponent,
       'app.components.tabs.metadata': MetadataTabComponent,
       'app.components.tabs.library.metadata': LibraryMetadataTabComponent,
       'app.components.tabs.comments': CommentsTabComponent,

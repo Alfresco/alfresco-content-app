@@ -41,7 +41,6 @@ describe('AppLayoutComponent', () => {
 
   beforeEach(() => {
     const shellService: ShellAppService = {
-      init: () => {},
       pageHeading$: of('Title'),
       hideSidenavConditions: [],
       minimizeSidenavConditions: [],
