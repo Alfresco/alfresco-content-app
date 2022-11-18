@@ -200,3 +200,21 @@ $contrast-gray: #646569;
 .adf-empty-content__icon {
   color: $contrast-gray;
 }
+
+.adf-pagination {
+  &__perpage-block,
+  &__actualinfo-block  {
+    .mat-icon-button {
+      &:focus {
+        border: none;
+        left: 2px
+      }
+      &.cdk-focused {
+        .mat-icon {
+          @include rounded-border($focus-color);
+          width: 23px;
+        }
+      }
+    }
+  }
+}
