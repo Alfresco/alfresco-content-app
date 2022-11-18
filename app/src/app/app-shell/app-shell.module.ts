@@ -9,9 +9,9 @@
 import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { Routes, provideRoutes, RouterModule, Route } from '@angular/router';
-import { ShellDummyGuard, SHELL_LAYOUT_ROUTE } from './app-shell.routes';
-import { BlankPageComponent, SidenavLayoutModule } from '@alfresco/adf-core';
-import { ExtensionService, ExtensionsModule, provideExtensionConfig } from '@alfresco/adf-extensions';
+import { SHELL_LAYOUT_ROUTE } from './app-shell.routes';
+import { SidenavLayoutModule } from '@alfresco/adf-core';
+import { ExtensionsModule } from '@alfresco/adf-extensions';
 import { ShellLayoutComponent } from './components/shell/shell.component';
 
 export interface AppShellRoutesConfig {
@@ -22,8 +22,7 @@ export interface AppShellRoutesConfig {
 @NgModule({
   imports: [SidenavLayoutModule, ExtensionsModule, RouterModule.forChild([]), CommonModule],
   exports: [ShellLayoutComponent],
-  declarations: [ShellLayoutComponent],
-  providers: [provideExtensionConfig(['shell.plugin.json'])]
+  declarations: [ShellLayoutComponent]
 })
 export class AppShellModule {
   static withRoutes(routes: Routes | AppShellRoutesConfig): ModuleWithProviders<AppShellModule> {
@@ -32,16 +31,6 @@ export class AppShellModule {
     }
 
     return getModuleForRouteConfig(routes);
-  }
-
-  constructor(extensions: ExtensionService) {
-    extensions.setAuthGuards({
-      'app.shell.dummy.guard': ShellDummyGuard
-    });
-
-    extensions.setComponents({
-      'app.shell.blank': BlankPageComponent
-    });
   }
 }
 

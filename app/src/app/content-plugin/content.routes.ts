@@ -30,7 +30,7 @@ import { FavoriteLibrariesComponent } from './components/favorite-libraries/favo
 import { SearchResultsComponent } from './components/search/search-results/search-results.component';
 import { SearchLibrariesResultsComponent } from './components/search/search-libraries-results/search-libraries-results.component';
 import { AppSharedRuleGuard, GenericErrorComponent, ExtensionRoute } from '@alfresco/aca-shared';
-import { AuthGuard } from '@alfresco/adf-core';
+import { AuthGuard, BlankPageComponent } from '@alfresco/adf-core';
 import { FavoritesComponent } from './components/favorites/favorites.component';
 import { RecentFilesComponent } from './components/recent-files/recent-files.component';
 import { SharedFilesComponent } from './components/shared-files/shared-files.component';
@@ -42,6 +42,10 @@ import { LoginComponent } from './components/login/login.component';
 import { Route } from '@angular/router';
 
 export const CONTENT_ROUTES: ExtensionRoute[] = [
+  {
+    path: 'blank',
+    component: BlankPageComponent
+  },
   {
     path: 'preview/s/:id',
     loadChildren: () => import('./components/shared-link-view/shared-link-view.module').then((m) => m.AppSharedLinkViewModule)

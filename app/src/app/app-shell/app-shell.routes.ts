@@ -6,29 +6,12 @@
  * agreement is prohibited.
  */
 
-import { Injectable, InjectionToken } from '@angular/core';
-import { CanActivate, CanActivateChild, Route, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { InjectionToken } from '@angular/core';
+import { CanActivate, CanActivateChild, Route } from '@angular/router';
 import { ExtensionsDataLoaderGuard } from '../../../../projects/aca-shared/src/public-api';
 import { ShellLayoutComponent } from './components/shell/shell.component';
 
 export const SHELL_AUTH_TOKEN = new InjectionToken<CanActivate & CanActivateChild>('SHELL_AUTH_TOKEN');
-
-@Injectable({
-  providedIn: 'root'
-})
-export class ShellDummyGuard implements CanActivate, CanActivateChild {
-  /*
-    Required due to plugin system since without it
-    we are going to get real guard which could prevent us from accessing e.g. login page
-  */
-  canActivate(_route: ActivatedRouteSnapshot, _state: RouterStateSnapshot): boolean {
-    return true;
-  }
-
-  canActivateChild(_childRoute: ActivatedRouteSnapshot, _state: RouterStateSnapshot): boolean {
-    return true;
-  }
-}
 
 export const SHELL_LAYOUT_ROUTE: Route = {
   path: '',
