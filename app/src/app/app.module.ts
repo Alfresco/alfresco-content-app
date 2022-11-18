@@ -55,7 +55,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.components';
 import { SHELL_AUTH_TOKEN } from './app-shell/app-shell.routes';
-import { CONTENT_LAYOUT_ROUTES, CONTENT_LAYOUT_UPLOAD_ROUTE } from './content-plugin/content.routes';
+import { CONTENT_LAYOUT_ROUTES } from './content-plugin/content.routes';
 import { ContentServiceExtensionModule } from './content-plugin/content-services-extension.module';
 import { CoreExtensionsModule } from './extensions/core.extensions.module';
 import { INITIAL_APP_STATE } from './content-plugin/store/initial-state';
@@ -95,8 +95,7 @@ registerLocaleData(localeSv);
     }),
     AppExtensionsModule,
     AppShellModule.withRoutes({
-      shellChildren: [CONTENT_LAYOUT_ROUTES],
-      shellParentRoute: CONTENT_LAYOUT_UPLOAD_ROUTE
+      shellChildren: [CONTENT_LAYOUT_ROUTES]
     }),
     ContentServiceExtensionModule
   ],
