@@ -39,6 +39,11 @@ import { ActionParameterDefinition } from '@alfresco/js-api';
 import { of, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ActionParameterConstraint, ConstraintValue } from '../../model/action-parameter-constraint.model';
+import {
+  ContentNodeSelectorComponent,
+  ContentNodeSelectorComponentData, NodeAction
+} from '@alfresco/adf-content-services';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'aca-rule-action',
@@ -84,6 +89,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
   }
 
   isFullWidth = false;
+  isNodeSelector = false;
 
   form = new FormGroup({
     actionDefinitionId: new FormControl('', Validators.required)
@@ -102,13 +108,18 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
   }
 
   get cardViewStyle() {
-    return this.isFullWidth ? { width: '100%' } : {};
+    let style = {}
+
+    this.isFullWidth ? style = {...style, width: '100%' } : style = {...style };
+    this.isNodeSelector ? style = {...style, cursor: 'pointer', input: {cursor: 'pointer !important'} } : style = {...style };
+
+    return style;
   }
 
   onChange: (action: RuleAction) => void = () => undefined;
   onTouch: () => void = () => undefined;
 
-  constructor(private cardViewUpdateService: CardViewUpdateService) {}
+  constructor(private cardViewUpdateService: CardViewUpdateService, private dialog: MatDialog ) {}
 
   writeValue(action: RuleAction) {
     this.form.setValue({
@@ -161,6 +172,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
   setCardViewProperties() {
     this.cardViewItems = (this.selectedActionDefinition?.parameterDefinitions ?? []).map((paramDef) => {
       this.isFullWidth = false;
+      this.isNodeSelector = false;
       const cardViewPropertiesModel = {
         label: paramDef.displayLabel + (paramDef.mandatory ? ' *' : ''),
         key: paramDef.name,
@@ -182,6 +194,17 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
             ...cardViewPropertiesModel,
             value: this.parameters[paramDef.name] ?? false
           });
+        case 'd:noderef':
+          this.isNodeSelector = true;
+          console.log(this.parameters[paramDef.name])
+          return new CardViewTextItemModel({
+            ...cardViewPropertiesModel,
+            icon: 'folder',
+            default: 'Choose destination folder',
+            clickable: true,
+            clickCallBack: this.openSelectorDialog.bind(this),
+            value: this.parameters[paramDef.name]
+          });
         default:
           const constraintsForDropdownBox = this._parameterConstraints.find((obj) => obj.name === paramDef.name);
           if (constraintsForDropdownBox && !this.readOnly) {
@@ -198,6 +221,42 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
           });
       }
     });
+  }
+
+  openSelectorDialog() {
+    let data: ContentNodeSelectorComponentData
+    data = {
+      title: "Choose an item",
+      actionName: NodeAction.CHOOSE,
+      currentFolderId: '8338d53d-ac22-400b-b98b-3647ce770af8',
+      select: new Subject<any>()
+    };
+
+    this.dialog.open(
+      ContentNodeSelectorComponent,
+      {
+        data,
+        panelClass: 'adf-content-node-selector-dialog',
+        width: '630px'
+      }
+    );
+
+    data.select.subscribe((selections) => {
+
+        console.log(selections[0].id)
+
+        this.writeValue({
+          actionDefinitionId: this.selectedActionDefinitionId,
+          params: {"destination-folder": selections[0].id}
+        });
+      },
+      (error)=>{
+      console.log(error)
+        //your error handling
+      },
+      ()=>{
+        this.dialog.closeAll();
+      });
   }
 
   setDefaultParameters() {
