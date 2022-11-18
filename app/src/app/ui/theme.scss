@@ -60,7 +60,6 @@ $contrast-gray: #646569;
 .mat-icon-button, .mat-button, .mat-checkbox, .mat-raised-button {
   &:focus {
     @include rounded-border($focus-color);
-    left: 6px;
   }
   .mat-ripple-element {
     display: none;
