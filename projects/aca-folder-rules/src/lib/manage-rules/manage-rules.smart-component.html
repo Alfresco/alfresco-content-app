@@ -12,36 +12,43 @@
   <aca-page-layout-content>
     <div class="main-content">
 
-      <ng-container *ngIf="(ruleSetsLoading$ | async) || (actionsLoading$ | async); else onLoaded">
+      <ng-container *ngIf="((ruleSetsLoading$ | async) && (inheritedRuleSets$ | async).length === 0) || (actionsLoading$ | async); else onLoaded">
         <mat-progress-bar color="primary" mode="indeterminate"></mat-progress-bar>
       </ng-container>
 
       <ng-template #onLoaded>
         <ng-container *ngIf="folderInfo$ | async; else genericError">
           <adf-toolbar class="adf-toolbar--inline aca-manage-rules__actions-bar">
+
             <adf-toolbar-title class="aca-manage-rules__actions-bar__title">
               <mat-icon class="icon-aligner">folder</mat-icon>
               <adf-breadcrumb root="{{ (folderInfo$ | async).name }}:{{'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.BREADCRUMB.RULES' | translate}}"
                               class="aca-manage-rules__actions-bar__title__breadcrumb"></adf-breadcrumb>
             </adf-toolbar-title>
 
-            <button mat-flat-button color="primary" (click)="openCreateUpdateRuleDialog()">{{ 'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.ACTIONS.CREATE_RULE' | translate }}</button>
+            <button
+              *ngIf="canEditRule(mainRuleSet$ | async)"
+              mat-flat-button color="primary"
+              (click)="openCreateUpdateRuleDialog()">
+              {{ 'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.ACTIONS.CREATE_RULE' | translate }}
+            </button>
+
           </adf-toolbar>
           <mat-divider></mat-divider>
 
-          <div class="aca-manage-rules__container" *ngIf="(ruleSetListing$ | async).length > 0; else emptyContent">
-            <aca-rule-set-list
-              [folderId]="nodeId"
-              [ruleSets]="ruleSetListing$ | async"
+          <div class="aca-manage-rules__container" *ngIf="(mainRuleSet$ | async) || (inheritedRuleSets$ | async).length > 0; else emptyContent">
+            <aca-rule-list
+              [mainRuleSet]="mainRuleSet$ | async"
+              [nodeId]="nodeId"
+              [inheritedRuleSets]="inheritedRuleSets$ | async"
               [hasMoreRuleSets]="hasMoreRuleSets$ | async"
               [ruleSetsLoading]="ruleSetsLoading$ | async"
               [selectedRule]="selectedRule$ | async"
               (loadMoreRuleSets)="onLoadMoreRuleSets()"
               (loadMoreRules)="onLoadMoreRules($event)"
-              (navigateToOtherFolder)="onNavigateToOtherFolder($event)"
               (selectRule)="onSelectRule($event)"
               (ruleEnabledChanged)="onRuleEnabledToggle($event[0], $event[1])">
-            </aca-rule-set-list>
+            </aca-rule-list>
 
             <div class="aca-manage-rules__container__rule-details">
 
@@ -56,12 +63,20 @@
                 </div>
 
                 <div class="aca-manage-rules__container__rule-details__header__buttons">
-                  <button mat-stroked-button (click)="onRuleDeleteButtonClicked(selectedRule)" id="delete-rule-btn">
-                    <mat-icon>delete_outline</mat-icon>
-                  </button>
-                  <button mat-stroked-button (click)="openCreateUpdateRuleDialog(selectedRule)" id="edit-rule-btn">
-                    {{ 'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.ACTIONS.EDIT_RULE' | translate }}
-                  </button>
+                  <ng-container *ngIf="canEditRule(selectedRuleSet$ | async); else goToFolderButton">
+                    <button mat-stroked-button (click)="onRuleDeleteButtonClicked(selectedRule)" id="delete-rule-btn">
+                      <mat-icon>delete_outline</mat-icon>
+                    </button>
+                    <button mat-stroked-button (click)="openCreateUpdateRuleDialog(selectedRule)" id="edit-rule-btn">
+                      {{ 'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.ACTIONS.EDIT_RULE' | translate }}
+                    </button>
+                  </ng-container>
+
+                  <ng-template #goToFolderButton>
+                    <button mat-stroked-button [routerLink]="['/nodes', (selectedRuleSet$ | async).owningFolder.id, 'rules']">
+                      {{ 'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.ACTIONS.SEE_IN_FOLDER' | translate }}
+                    </button>
+                  </ng-template>
                 </div>
               </div>
 

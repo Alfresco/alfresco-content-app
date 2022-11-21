@@ -83,7 +83,7 @@ describe('FolderRuleSetsService', () => {
   it('should load rule sets of a node', async () => {
     callApiSpy.and.returnValue(of(getRuleSetsResponseMock));
     // take(3), because: 1 = init of the BehaviourSubject, 2 = reinitialise at beginning of loadRuleSets, 3 = in subscribe
-    const ruleSetListingPromise = folderRuleSetsService.ruleSetListing$.pipe(take(3)).toPromise();
+    const ruleSetListingPromise = folderRuleSetsService.inheritedRuleSets$.pipe(take(3)).toPromise();
     const hasMoreRuleSetsPromise = folderRuleSetsService.hasMoreRuleSets$.pipe(take(3)).toPromise();
 
     folderRuleSetsService.loadRuleSets(owningFolderIdMock);
@@ -102,7 +102,7 @@ describe('FolderRuleSetsService', () => {
     callApiSpy.and.returnValue(of(getRuleSetsResponseMock));
     const selectRuleSpy = spyOn(folderRulesService, 'selectRule');
     // take(3), because: 1 = init of the BehaviourSubject, 2 = reinitialise at beginning of loadRuleSets, 3 = in subscribe
-    const ruleSetListingPromise = folderRuleSetsService.ruleSetListing$.pipe(take(3)).toPromise();
+    const ruleSetListingPromise = folderRuleSetsService.inheritedRuleSets$.pipe(take(3)).toPromise();
 
     folderRuleSetsService.loadRuleSets(owningFolderIdMock);
     await ruleSetListingPromise;

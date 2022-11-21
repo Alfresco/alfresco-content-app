@@ -74,7 +74,7 @@ describe('ManageRulesSmartComponent', () => {
     const loadRuleSetsSpy = spyOn(folderRuleSetsService, 'loadRuleSets').and.stub();
 
     folderRuleSetsService.folderInfo$ = of(owningFolderMock);
-    folderRuleSetsService.ruleSetListing$ = of(ruleSetsMock);
+    folderRuleSetsService.inheritedRuleSets$ = of(ruleSetsMock);
     folderRuleSetsService.isLoading$ = of(false);
     folderRulesService.selectedRule$ = of(ruleMock('owned-rule-1'));
     actionsService.loading$ = of(false);
@@ -98,7 +98,7 @@ describe('ManageRulesSmartComponent', () => {
 
   it('should only show adf-empty-content if node has no rules defined yet', () => {
     folderRuleSetsService.folderInfo$ = of(owningFolderMock);
-    folderRuleSetsService.ruleSetListing$ = of([]);
+    folderRuleSetsService.inheritedRuleSets$ = of([]);
     folderRuleSetsService.isLoading$ = of(false);
     actionsService.loading$ = of(false);
 
@@ -117,7 +117,7 @@ describe('ManageRulesSmartComponent', () => {
 
   it('should only show aca-generic-error if the non-existing node was provided', () => {
     folderRuleSetsService.folderInfo$ = of(null);
-    folderRuleSetsService.ruleSetListing$ = of([]);
+    folderRuleSetsService.inheritedRuleSets$ = of([]);
     folderRuleSetsService.isLoading$ = of(false);
     actionsService.loading$ = of(false);
 
@@ -136,7 +136,7 @@ describe('ManageRulesSmartComponent', () => {
 
   it('should only show progress bar while loading', async () => {
     folderRuleSetsService.folderInfo$ = of(null);
-    folderRuleSetsService.ruleSetListing$ = of([]);
+    folderRuleSetsService.inheritedRuleSets$ = of([]);
     folderRuleSetsService.isLoading$ = of(true);
     actionsService.loading$ = of(true);
 
@@ -156,7 +156,7 @@ describe('ManageRulesSmartComponent', () => {
   it('should call deleteRule() if confirmation dialog returns true', () => {
     const dialog = TestBed.inject(MatDialog);
     folderRuleSetsService.folderInfo$ = of(owningFolderMock);
-    folderRuleSetsService.ruleSetListing$ = of(ruleSetsMock);
+    folderRuleSetsService.inheritedRuleSets$ = of(ruleSetsMock);
     folderRuleSetsService.isLoading$ = of(false);
     folderRulesService.selectedRule$ = of(ruleMock('owned-rule-1'));
     folderRulesService.deletedRuleId$ = of(null);

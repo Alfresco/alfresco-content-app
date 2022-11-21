@@ -1,11 +1,81 @@
-<div class="aca-rules-list" >
-  <aca-rule-list-item
-    matRipple matRippleColor="hsla(0,0%,0%,0.05)"
-    tabindex="0"
-    *ngFor="let rule of rules"
-    [rule]="rule"
-    [isSelected]="isSelected(rule)"
-    (click)="onRuleClicked(rule)"
-    (enabledChanged)="onEnabledChanged(rule, $event)">
-  </aca-rule-list-item>
+<div
+  *ngIf="inheritedRuleSetGroupingItems.length > 0"
+  class="aca-rule-list__item"
+  data-automation-id="rule-set-list-item"
+  [ngClass]="{ expanded: inheritedRuleSetsExpanded }">
+
+  <div class="aca-rule-list__item__header">
+
+    <div
+      tabindex="0"
+      class="aca-rule-list__item__header__title"
+      data-automation-id="rule-set-item-title"
+      matRipple matRippleColor="hsla(0,0%,0%,0.05)"
+      (click)="inheritedRuleSetsExpanded = !inheritedRuleSetsExpanded"
+      (keyup.enter)="inheritedRuleSetsExpanded = !inheritedRuleSetsExpanded">
+
+      <span class="aca-rule-list__item__header__title__text">
+        {{ 'ACA_FOLDER_RULES.RULE_LIST.INHERITED_RULES' | translate }}
+        <mat-icon [matTooltip]="'ACA_FOLDER_RULES.RULE_LIST.INHERITED_RULES_WILL_BE_RUN_FIRST' | translate">
+          info
+        </mat-icon>
+      </span>
+      <mat-icon class="aca-rule-list__item__header__icon">
+        {{ inheritedRuleSetsExpanded ? 'expand_more' : 'chevron_right' }}
+      </mat-icon>
+    </div>
+
+  </div>
+
+  <aca-rule-list-grouping
+    *ngIf="inheritedRuleSetsExpanded"
+    [items]="inheritedRuleSetGroupingItems"
+    [selectedRule]="selectedRule"
+    (selectRule)="onSelectRule($event)"
+    (ruleEnabledChanged)="onRuleEnabledChanged($event)"
+    (loadMoreRules)="onLoadMoreRules($event)"
+    (loadMoreRuleSets)="onLoadMoreRuleSets()">
+  </aca-rule-list-grouping>
+
+</div>
+
+<div
+  *ngIf="mainRuleSetGroupingItems.length > 0"
+  class="aca-rule-list__item"
+  data-automation-id="rule-set-list-item"
+  [ngClass]="{ expanded: mainRuleSetExpanded }">
+
+  <div class="aca-rule-list__item__header">
+
+    <div
+      tabindex="0"
+      class="aca-rule-list__item__header__title"
+      data-automation-id="rule-set-item-title"
+      matRipple matRippleColor="hsla(0,0%,0%,0.05)"
+      (click)="mainRuleSetExpanded = !mainRuleSetExpanded"
+      (keyup.enter)="mainRuleSetExpanded = !mainRuleSetExpanded">
+
+      <ng-container *ngIf="isMainRuleSetOwned; else linkedRuleSet">
+        {{ 'ACA_FOLDER_RULES.RULE_LIST.OWNED_RULES' | translate }}
+      </ng-container>
+      <ng-template #linkedRuleSet>
+          {{ 'ACA_FOLDER_RULES.RULE_LIST.LINKED_RULES' | translate }}
+      </ng-template>
+
+      <mat-icon class="aca-rule-list__item__header__icon">
+        {{ mainRuleSetExpanded ? 'expand_more' : 'chevron_right' }}
+      </mat-icon>
+    </div>
+
+  </div>
+
+  <aca-rule-list-grouping
+    *ngIf="mainRuleSetExpanded"
+    [items]="mainRuleSetGroupingItems"
+    [selectedRule]="selectedRule"
+    (selectRule)="onSelectRule($event)"
+    (ruleEnabledChanged)="onRuleEnabledChanged($event)"
+    (loadMoreRules)="onLoadMoreRules($event)">
+  </aca-rule-list-grouping>
+
 </div>

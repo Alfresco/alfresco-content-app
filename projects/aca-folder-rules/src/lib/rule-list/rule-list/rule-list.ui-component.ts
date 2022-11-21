@@ -24,35 +24,108 @@
  */
 
 import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
+import { RuleSet } from '../../model/rule-set.model';
+// TODO -- remove this
+// import { NodeInfo } from '@alfresco/aca-shared/store';
 import { Rule } from '../../model/rule.model';
+import { RuleGroupingItem } from '../../model/rule-grouping-item.model';
+import { FolderRuleSetsService } from '../../services/folder-rule-sets.service';
 
 @Component({
   selector: 'aca-rule-list',
-  templateUrl: 'rule-list.ui-component.html',
-  styleUrls: ['rule-list.ui-component.scss'],
+  templateUrl: './rule-list.ui-component.html',
+  styleUrls: ['./rule-list.ui-component.scss'],
   encapsulation: ViewEncapsulation.None,
   host: { class: 'aca-rule-list' }
 })
 export class RuleListUiComponent {
   @Input()
-  rules: Rule[] = [];
+  mainRuleSet: RuleSet = null;
   @Input()
-  selectedRule: Rule = null;
+  nodeId: string;
+  @Input()
+  inheritedRuleSets: RuleSet[] = [];
+  @Input()
+  hasMoreRuleSets = false;
+  @Input()
+  ruleSetsLoading = false;
+  @Input()
+  selectedRule = null;
 
+  @Output()
+  loadMoreRuleSets = new EventEmitter<void>();
+  @Output()
+  loadMoreRules = new EventEmitter<RuleSet>();
   @Output()
   selectRule = new EventEmitter<Rule>();
   @Output()
   ruleEnabledChanged = new EventEmitter<[Rule, boolean]>();
 
-  onRuleClicked(rule: Rule): void {
+  inheritedRuleSetsExpanded = true;
+  mainRuleSetExpanded = true;
+
+  get isMainRuleSetOwned(): boolean {
+    return FolderRuleSetsService.isOwnedRuleSet(this.mainRuleSet, this.nodeId);
+  }
+
+  get mainRuleSetGroupingItems(): RuleGroupingItem[] {
+    return this.mainRuleSet ? this.getRuleSetGroupingItems(this.mainRuleSet) : [];
+  }
+
+  get inheritedRuleSetGroupingItems(): RuleGroupingItem[] {
+    const items = this.inheritedRuleSets.reduce((items: RuleGroupingItem[], currentRuleSet: RuleSet) => {
+      items.push(...this.getRuleSetGroupingItems(currentRuleSet));
+      return items;
+    }, []);
+    if (this.ruleSetsLoading || this.hasMoreRuleSets) {
+      items.push({
+        type: this.ruleSetsLoading ? 'loading' : 'load-more-rule-sets'
+      });
+    }
+    return items;
+  }
+
+  getRuleSetGroupingItems(ruleSet: RuleSet): RuleGroupingItem[] {
+    const items: RuleGroupingItem[] = ruleSet.rules.map((rule: Rule) => ({
+      type: 'rule',
+      rule
+    }));
+    if (ruleSet.loadingRules || ruleSet.hasMoreRules) {
+      items.push(ruleSet.loadingRules ? {
+        type: 'loading'
+      } : {
+        type: 'load-more-rules',
+        ruleSet: ruleSet
+      });
+    }
+    return items;
+  }
+
+  // TODO -- remove
+  // isRuleSetLinked(ruleSet: RuleSet): boolean {
+  //   return ruleSet.linkedToBy.indexOf(this.folderId) > -1;
+  // }
+
+  // TODO -- move this outside
+  // clickNavigateButton(folder: NodeInfo) {
+  //   if (folder && folder.id) {
+  //     this.navigateToOtherFolder.emit(folder.id);
+  //   }
+  // }
+
+  onLoadMoreRuleSets() {
+    this.loadMoreRuleSets.emit();
+  }
+
+  onLoadMoreRules(ruleSet: RuleSet) {
+    this.loadMoreRules.emit(ruleSet);
+  }
+
+  onSelectRule(rule: Rule) {
     this.selectRule.emit(rule);
   }
 
-  isSelected(rule): boolean {
-    return rule.id === this.selectedRule?.id;
-  }
-
-  onEnabledChanged(rule: Rule, isEnabled: boolean) {
-    this.ruleEnabledChanged.emit([rule, isEnabled]);
+  onRuleEnabledChanged(event: [Rule, boolean]) {
+    this.ruleEnabledChanged.emit(event);
   }
 }

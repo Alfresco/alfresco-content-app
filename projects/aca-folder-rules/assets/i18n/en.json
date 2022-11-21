@@ -92,7 +92,8 @@
         },
         "ACTIONS": {
           "CREATE_RULE": "Create rule",
-          "EDIT_RULE": "Edit"
+          "EDIT_RULE": "Edit",
+          "SEE_IN_FOLDER": "See in folder"
         }
       },
       "EMPTY_RULES_LIST": {
@@ -107,13 +108,13 @@
       }
     },
     "RULE_LIST": {
-      "OWNED_BY_THIS_FOLDER": "Owned by this folder",
-      "LINKED_FROM": "Linked from",
-      "INHERITED_FROM": "Inherited from",
-      "LOAD_MORE_RULE_SETS": "Load more rule sets",
-      "LOADING_RULE_SETS": "Loading rule sets",
+      "OWNED_RULES": "Rules from current folder",
+      "LINKED_RULES": "Rules from linked folder",
+      "INHERITED_RULES": "Inherited rules",
+      "LOAD_MORE_RULE_SETS": "Load rules from other folders",
       "LOAD_MORE_RULES": "Load more rules",
-      "LOADING_RULES": "Loading rules"
+      "LOADING_RULES": "Loading rules",
+      "INHERITED_RULES_WILL_BE_RUN_FIRST": "Inherited rules will be run first"
     }
   }
 }

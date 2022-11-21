@@ -23,49 +23,54 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RuleListUiComponent } from './rule-list.ui-component';
-import { rulesMock } from '../../mock/rules.mock';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { CoreTestingModule } from '@alfresco/adf-core';
+import { RuleListGroupingUiComponent } from '../rule-list-grouping/rule-list-grouping.ui-component';
+import { RuleListItemUiComponent } from '../rule-list-item/rule-list-item.ui-component';
+import { ruleSetsMock } from '../../mock/rule-sets.mock';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { CoreTestingModule } from '@alfresco/adf-core';
-import { AcaFolderRulesModule } from '@alfresco/aca-folder-rules';
+import { owningFolderIdMock } from '../../mock/node.mock';
 
-describe('RuleListUiComponent', () => {
-  let component: RuleListUiComponent;
+describe('RuleSetListUiComponent', () => {
   let fixture: ComponentFixture<RuleListUiComponent>;
+  let component: RuleListUiComponent;
   let debugElement: DebugElement;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CoreTestingModule, AcaFolderRulesModule],
-      declarations: [RuleListUiComponent]
+      imports: [CoreTestingModule],
+      declarations: [RuleListUiComponent, RuleListGroupingUiComponent, RuleListItemUiComponent]
     });
 
     fixture = TestBed.createComponent(RuleListUiComponent);
     component = fixture.componentInstance;
     debugElement = fixture.debugElement;
+
+    component.folderId = owningFolderIdMock;
+    component.inheritedRuleSets = ruleSetsMock;
+    fixture.detectChanges();
   });
 
-  it('should display the list of rules', () => {
-    expect(component).toBeTruthy();
+  it('should display a list of rule sets', () => {
+    const ruleSetElements = debugElement.queryAll(By.css(`[data-automation-id="rule-set-list-item"]`));
 
-    component.rules = rulesMock;
+    expect(ruleSetElements.length).toBe(3);
+  });
 
-    fixture.detectChanges();
+  it('should show the right message for the right sort of rule set', () => {
+    const ruleSetTitleElements = debugElement.queryAll(By.css(`[data-automation-id="rule-set-item-title"]`));
 
-    const rules = debugElement.queryAll(By.css('.aca-rule-list-item'));
+    const innerTextWithoutIcon = (element: HTMLDivElement): string => element.innerText.replace(/(expand_more|chevron_right)$/, '').trim();
 
-    expect(rules).toBeTruthy('Could not find rules');
-    expect(rules.length).toBe(2, 'Unexpected number of rules');
-
-    const rule = debugElement.query(By.css('.aca-rule-list-item:first-child'));
-    const name = rule.query(By.css('.aca-rule-list-item__header__name'));
-    const description = rule.query(By.css('.aca-rule-list-item__description'));
-    const toggleBtn = rule.query(By.css('mat-slide-toggle'));
-
-    expect(name.nativeElement.textContent).toBe(rulesMock[0].name);
-    expect(toggleBtn).toBeTruthy();
-    expect(description.nativeElement.textContent).toBe(rulesMock[0].description);
+    expect(ruleSetTitleElements.length).toBe(3);
+    expect(innerTextWithoutIcon(ruleSetTitleElements[0].nativeElement as HTMLDivElement)).toBe(
+      'ACA_FOLDER_RULES.RULE_LIST.INHERITED_FROM other-folder-name'
+    );
+    expect(innerTextWithoutIcon(ruleSetTitleElements[1].nativeElement as HTMLDivElement)).toBe('ACA_FOLDER_RULES.RULE_LIST.OWNED_BY_THIS_FOLDER');
+    expect(innerTextWithoutIcon(ruleSetTitleElements[2].nativeElement as HTMLDivElement)).toBe(
+      'ACA_FOLDER_RULES.RULE_LIST.LINKED_FROM other-folder-name'
+    );
   });
 });

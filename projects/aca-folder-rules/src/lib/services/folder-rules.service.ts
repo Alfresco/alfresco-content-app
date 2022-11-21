@@ -126,23 +126,19 @@ export class FolderRulesService {
           ruleSet.hasMoreRules = res.hasMoreRules;
           ruleSet.rules.splice(skipCount);
           ruleSet.rules.push(...res.rules);
-          if (selectRule === 'first') {
-            this.selectRule(ruleSet.rules[0]);
-          } else if (selectRule === 'last') {
-            this.selectRule(ruleSet.rules[ruleSet.rules.length - 1]);
-          } else if (selectRule) {
-            this.selectRule(selectRule);
-          }
+          this.selectRuleInRuleSet(ruleSet, selectRule);
         });
     }
   }
 
-  createRule(nodeId: string, rule: Partial<Rule>, ruleSetId: string): Promise<unknown> {
-    return this.callApi(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules`, 'POST', { ...rule });
+  async createRule(nodeId: string, rule: Partial<Rule>, ruleSetId: string = '-default-'): Promise<Rule> {
+    const response = await this.callApi(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules`, 'POST', { ...rule });
+    return this.formatRule(response.entry);
   }
 
-  updateRule(nodeId: string, ruleId: string, rule: Rule, ruleSetId: string): Promise<unknown> {
-    return this.callApi(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules/${ruleId}`, 'PUT', { ...rule });
+  async updateRule(nodeId: string, ruleId: string, rule: Rule, ruleSetId: string = '-default-'): Promise<Rule> {
+    const response = await this.callApi(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules/${ruleId}`, 'PUT', { ...rule });
+    return this.formatRule(response.entry);
   }
 
   deleteRule(nodeId: string, ruleId: string, ruleSetId: string = '-default-') {
@@ -206,5 +202,15 @@ export class FolderRulesService {
 
   selectRule(rule: Rule) {
     this.selectedRuleSource.next(rule);
+  }
+
+  selectRuleInRuleSet(ruleSet: RuleSet, selectRule: 'first' | 'last' | Rule = null) {
+    if (selectRule === 'first') {
+      this.selectRule(ruleSet.rules[0]);
+    } else if (selectRule === 'last') {
+      this.selectRule(ruleSet.rules[ruleSet.rules.length - 1]);
+    } else if (selectRule) {
+      this.selectRule(selectRule);
+    }
   }
 }
