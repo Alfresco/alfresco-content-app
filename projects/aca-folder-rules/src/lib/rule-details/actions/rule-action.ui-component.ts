@@ -61,6 +61,15 @@ import { MatDialog } from '@angular/material/dialog';
   ]
 })
 export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDestroy {
+  private _nodeId;
+  @Input()
+  get nodeId(): string{
+    return this._nodeId
+  }
+  set nodeId(value) {
+    this._nodeId = value
+  }
+
   private _actionDefinitions: ActionDefinitionTransformed[];
   @Input()
   get actionDefinitions(): ActionDefinitionTransformed[] {
@@ -90,6 +99,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
 
   isFullWidth = false;
   isNodeSelector = false;
+  data: ContentNodeSelectorComponentData;
 
   form = new FormGroup({
     actionDefinitionId: new FormControl('', Validators.required)
@@ -119,7 +129,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
   onChange: (action: RuleAction) => void = () => undefined;
   onTouch: () => void = () => undefined;
 
-  constructor(private cardViewUpdateService: CardViewUpdateService, private dialog: MatDialog ) {}
+  constructor(private cardViewUpdateService: CardViewUpdateService, private dialog: MatDialog) {}
 
   writeValue(action: RuleAction) {
     this.form.setValue({
@@ -173,6 +183,8 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
     this.cardViewItems = (this.selectedActionDefinition?.parameterDefinitions ?? []).map((paramDef) => {
       this.isFullWidth = false;
       this.isNodeSelector = false;
+      const constraintsForDropdownBox = this._parameterConstraints.find((obj) => obj.name === paramDef.name);
+
       const cardViewPropertiesModel = {
         label: paramDef.displayLabel + (paramDef.mandatory ? ' *' : ''),
         key: paramDef.name,
@@ -196,17 +208,18 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
           });
         case 'd:noderef':
           this.isNodeSelector = true;
-          console.log(this.parameters[paramDef.name])
-          return new CardViewTextItemModel({
-            ...cardViewPropertiesModel,
-            icon: 'folder',
-            default: 'Choose destination folder',
-            clickable: true,
-            clickCallBack: this.openSelectorDialog.bind(this),
-            value: this.parameters[paramDef.name]
-          });
+          if (!constraintsForDropdownBox && !this.readOnly) {
+            return new CardViewTextItemModel({
+              ...cardViewPropertiesModel,
+              icon: 'folder',
+              default: 'Choose destination folder',
+              clickable: true,
+              clickCallBack: this.openSelectorDialog.bind(this),
+              value: this.parameters[paramDef.name]
+            });
+          }
+        //  falls through
         default:
-          const constraintsForDropdownBox = this._parameterConstraints.find((obj) => obj.name === paramDef.name);
           if (constraintsForDropdownBox && !this.readOnly) {
             this.isFullWidth = true;
             return new CardViewSelectItemModel({
@@ -224,11 +237,10 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
   }
 
   openSelectorDialog() {
-    let data: ContentNodeSelectorComponentData
-    data = {
-      title: "Choose an item",
+    let data = {
+      title: 'Choose an item',
       actionName: NodeAction.CHOOSE,
-      currentFolderId: '8338d53d-ac22-400b-b98b-3647ce770af8',
+      currentFolderId: this._nodeId,
       select: new Subject<any>()
     };
 
@@ -242,19 +254,19 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
     );
 
     data.select.subscribe((selections) => {
-
-        console.log(selections[0].id)
-
+      // console.log(selections[0].name)
         this.writeValue({
           actionDefinitionId: this.selectedActionDefinitionId,
-          params: {"destination-folder": selections[0].id}
+          params: {
+            'destination-folder': selections[0].id //,
+            // 'folder-name': selections[0].name
+          }
         });
       },
-      (error)=>{
-      console.log(error)
-        //your error handling
+      (error) => {
+      console.error(error)
       },
-      ()=>{
+      () => {
         this.dialog.closeAll();
       });
   }

@@ -20,6 +20,7 @@
       [actionDefinitions]="actionDefinitions$ | async"
       [parameterConstraints]="parameterConstraints$ | async"
       [value]="model"
+      [nodeId]="nodeId"
       (formValueChanged)="formValue = $event"
       (formValidationChanged)="onFormValidChange($event)">
     </aca-rule-details>
