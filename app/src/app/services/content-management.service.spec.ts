@@ -53,9 +53,9 @@ import { AppHookService, ContentApiService } from '@alfresco/aca-shared';
 import { Store } from '@ngrx/store';
 import { ContentManagementService } from './content-management.service';
 import { NodeActionsService } from './node-actions.service';
-import { TranslationService, AlfrescoApiService, FileModel } from '@alfresco/adf-core';
+import { TranslationService, AlfrescoApiService, FileModel, NotificationService } from '@alfresco/adf-core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
 import { NodeEntry, Node, VersionPaging } from '@alfresco/js-api';
 import { NewVersionUploaderDataAction, NewVersionUploaderService, NodeAspectService, ViewVersion } from '@alfresco/adf-content-services';
 
@@ -65,7 +65,7 @@ describe('ContentManagementService', () => {
   let contentApi: ContentApiService;
   let store: Store<AppStore>;
   let contentManagementService: ContentManagementService;
-  let snackBar: MatSnackBar;
+  let notificationService: NotificationService;
   let nodeActions: NodeActionsService;
   let translationService: TranslationService;
   let alfrescoApiService: AlfrescoApiService;
@@ -82,7 +82,7 @@ describe('ContentManagementService', () => {
     actions$ = TestBed.inject(Actions);
     store = TestBed.inject(Store);
     contentManagementService = TestBed.inject(ContentManagementService);
-    snackBar = TestBed.inject(MatSnackBar);
+    notificationService = TestBed.inject(NotificationService);
     nodeActions = TestBed.inject(NodeActionsService);
     translationService = TestBed.inject(TranslationService);
     alfrescoApiService = TestBed.inject(AlfrescoApiService);
@@ -98,7 +98,7 @@ describe('ContentManagementService', () => {
 
     beforeEach(() => {
       subject = new Subject<string>();
-      spyOn(snackBar, 'open').and.callThrough();
+      spyOn(notificationService, 'openSnackMessageAction').and.callThrough();
     });
 
     afterEach(() => subject.complete());
@@ -114,7 +114,7 @@ describe('ContentManagementService', () => {
       subject.next('OPERATION.SUCCESS.CONTENT.COPY');
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.SINGULAR');
+      expect(notificationService.openSnackMessageAction['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.SINGULAR');
     });
 
     it('notifies successful copy of multiple nodes', () => {
@@ -128,7 +128,7 @@ describe('ContentManagementService', () => {
       subject.next('OPERATION.SUCCESS.CONTENT.COPY');
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.PLURAL');
+      expect(notificationService.openSnackMessageAction['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.PLURAL');
     });
 
     it('notifies partially copy of one node out of a multiple selection of nodes', () => {
@@ -142,7 +142,7 @@ describe('ContentManagementService', () => {
       subject.next('OPERATION.SUCCESS.CONTENT.COPY');
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.PARTIAL_SINGULAR');
+      expect(notificationService.openSnackMessageAction['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.PARTIAL_SINGULAR');
     });
 
     it('notifies partially copy of more nodes out of a multiple selection of nodes', () => {
@@ -160,7 +160,7 @@ describe('ContentManagementService', () => {
       subject.next('OPERATION.SUCCESS.CONTENT.COPY');
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.PARTIAL_PLURAL');
+      expect(notificationService.openSnackMessageAction['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.PARTIAL_PLURAL');
     });
 
     it('notifies of failed copy of multiple nodes', () => {
@@ -178,7 +178,7 @@ describe('ContentManagementService', () => {
       subject.next('OPERATION.SUCCESS.CONTENT.COPY');
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.FAIL_PLURAL');
+      expect(notificationService.openSnackMessageAction['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.FAIL_PLURAL');
     });
 
     it('notifies of failed copy of one node', () => {
@@ -192,7 +192,7 @@ describe('ContentManagementService', () => {
       subject.next('OPERATION.SUCCESS.CONTENT.COPY');
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.FAIL_SINGULAR');
+      expect(notificationService.openSnackMessageAction['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.FAIL_SINGULAR');
     });
 
     it('notifies error if success message was not emitted', () => {
@@ -205,7 +205,7 @@ describe('ContentManagementService', () => {
       subject.next('');
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.GENERIC');
+      expect(notificationService.openSnackMessageAction['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.GENERIC');
     });
 
     it('notifies permission error on copy of node', () => {
@@ -216,7 +216,7 @@ describe('ContentManagementService', () => {
       subject.error(new Error(JSON.stringify({ error: { statusCode: 403 } })));
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.PERMISSION');
+      expect(notificationService.openSnackMessageAction['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.PERMISSION');
     });
 
     it('notifies generic error message on all errors, but 403', () => {
@@ -228,7 +228,7 @@ describe('ContentManagementService', () => {
       subject.error(new Error(JSON.stringify({ error: { statusCode: 404 } })));
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.GENERIC');
+      expect(notificationService.openSnackMessageAction['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.GENERIC');
     });
   });
 
@@ -239,7 +239,7 @@ describe('ContentManagementService', () => {
       subject = new Subject<string>();
 
       spyOn(nodeActions, 'copyNodes').and.returnValue(subject);
-      spyOn(snackBar, 'open').and.returnValue({
+      spyOn(notificationService, 'openSnackMessageAction').and.returnValue({
         onAction: () => of(null)
       } as MatSnackBarRef<SimpleSnackBar>);
     });
@@ -255,7 +255,7 @@ describe('ContentManagementService', () => {
       nodeActions.contentCopied.next(createdItems);
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.SINGULAR');
+      expect(notificationService.openSnackMessageAction['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.SINGULAR');
 
       expect(contentApi.deleteNode).toHaveBeenCalledWith(createdItems[0].entry.id, { permanent: true });
     });
@@ -292,7 +292,7 @@ describe('ContentManagementService', () => {
       nodeActions.contentCopied.next(createdItems);
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.PLURAL');
+      expect(notificationService.openSnackMessageAction['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.PLURAL');
 
       expect(spyOnDeleteNode).toHaveBeenCalled();
       expect(spyOnDeleteNode.calls.allArgs()).toEqual([
@@ -313,7 +313,7 @@ describe('ContentManagementService', () => {
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
       expect(contentApi.deleteNode).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toEqual('APP.MESSAGES.INFO.NODE_COPY.SINGULAR');
+      expect(notificationService.openSnackMessageAction['calls'].argsFor(0)[0]).toEqual('APP.MESSAGES.INFO.NODE_COPY.SINGULAR');
     });
 
     it('notifies when some error of type Error occurs on Undo action', () => {
@@ -328,7 +328,7 @@ describe('ContentManagementService', () => {
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
       expect(contentApi.deleteNode).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toEqual('APP.MESSAGES.INFO.NODE_COPY.SINGULAR');
+      expect(notificationService.openSnackMessageAction['calls'].argsFor(0)[0]).toEqual('APP.MESSAGES.INFO.NODE_COPY.SINGULAR');
     });
 
     it('notifies permission error when it occurs on Undo action', () => {
@@ -343,7 +343,7 @@ describe('ContentManagementService', () => {
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
       expect(contentApi.deleteNode).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toEqual('APP.MESSAGES.INFO.NODE_COPY.SINGULAR');
+      expect(notificationService.openSnackMessageAction['calls'].argsFor(0)[0]).toEqual('APP.MESSAGES.INFO.NODE_COPY.SINGULAR');
     });
   });
 
@@ -366,7 +366,7 @@ describe('ContentManagementService', () => {
 
     beforeEach(() => {
       subject = new Subject<string>();
-      spyOn(snackBar, 'open').and.callThrough();
+      spyOn(notificationService, 'openSnackMessageAction').and.callThrough();
     });
 
     afterEach(() => subject.complete());
@@ -388,7 +388,7 @@ describe('ContentManagementService', () => {
       nodeActions.contentMoved.next(moveResponse);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR');
+      expect(notificationService.openSnackMessageAction['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR');
     });
 
     it('notifies successful move of multiple nodes', () => {
@@ -409,7 +409,7 @@ describe('ContentManagementService', () => {
       nodeActions.contentMoved.next(moveResponse);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.PLURAL');
+      expect(notificationService.openSnackMessageAction['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.PLURAL');
     });
 
     it('notifies partial move of a node', () => {
@@ -428,7 +428,7 @@ describe('ContentManagementService', () => {
       nodeActions.contentMoved.next(moveResponse);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.SINGULAR');
+      expect(notificationService.openSnackMessageAction['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.SINGULAR');
     });
 
     it('notifies partial move of multiple nodes', () => {
@@ -447,7 +447,7 @@ describe('ContentManagementService', () => {
       nodeActions.contentMoved.next(moveResponse);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.PLURAL');
+      expect(notificationService.openSnackMessageAction['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.PLURAL');
     });
 
     it('notifies successful move and the number of nodes that could not be moved', () => {
@@ -466,7 +466,9 @@ describe('ContentManagementService', () => {
       nodeActions.contentMoved.next(moveResponse);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.FAIL');
+      expect(notificationService.openSnackMessageAction['calls'].argsFor(0)[0]).toBe(
+        'APP.MESSAGES.INFO.NODE_MOVE.SINGULAR APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.FAIL'
+      );
     });
 
     it('notifies successful move and the number of partially moved ones', () => {
@@ -485,7 +487,9 @@ describe('ContentManagementService', () => {
       nodeActions.contentMoved.next(moveResponse);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.SINGULAR');
+      expect(notificationService.openSnackMessageAction['calls'].argsFor(0)[0]).toBe(
+        'APP.MESSAGES.INFO.NODE_MOVE.SINGULAR APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.SINGULAR'
+      );
     });
 
     it('notifies error if success message was not emitted', () => {
@@ -503,7 +507,7 @@ describe('ContentManagementService', () => {
       nodeActions.contentMoved.next(moveResponse);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.GENERIC');
+      expect(notificationService.openSnackMessageAction['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.GENERIC');
     });
 
     it('notifies permission error on move of node', () => {
@@ -514,7 +518,7 @@ describe('ContentManagementService', () => {
       nodeActions.moveNodes(null).error(new Error(JSON.stringify({ error: { statusCode: 403 } })));
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.PERMISSION');
+      expect(notificationService.openSnackMessageAction['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.PERMISSION');
     });
 
     it('notifies generic error message on all errors, but 403', () => {
@@ -525,7 +529,7 @@ describe('ContentManagementService', () => {
       nodeActions.moveNodes(null).error(new Error(JSON.stringify({ error: { statusCode: 404 } })));
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.GENERIC');
+      expect(notificationService.openSnackMessageAction['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.GENERIC');
     });
 
     it('notifies conflict error message on 409', () => {
@@ -536,7 +540,7 @@ describe('ContentManagementService', () => {
       nodeActions.moveNodes(null).error(new Error(JSON.stringify({ error: { statusCode: 409 } })));
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.NODE_MOVE');
+      expect(notificationService.openSnackMessageAction['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.NODE_MOVE');
     });
 
     it('notifies error if move response has only failed items', () => {
@@ -555,7 +559,7 @@ describe('ContentManagementService', () => {
       nodeActions.contentMoved.next(moveResponse);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.GENERIC');
+      expect(notificationService.openSnackMessageAction['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.GENERIC');
     });
   });
 
@@ -580,7 +584,7 @@ describe('ContentManagementService', () => {
       subject = new Subject<string>();
       spyOn(nodeActions, 'moveNodes').and.returnValue(subject);
 
-      spyOn(snackBar, 'open').and.returnValue({
+      spyOn(notificationService, 'openSnackMessageAction').and.returnValue({
         onAction: () => of(null)
       } as MatSnackBarRef<SimpleSnackBar>);
     });
@@ -606,7 +610,7 @@ describe('ContentManagementService', () => {
       nodeActions.contentMoved.next(movedItems);
 
       expect(nodeActions.moveNodeAction).toHaveBeenCalledWith(movedItems.succeeded[0].itemMoved.entry, movedItems.succeeded[0].initialParentId);
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR');
+      expect(notificationService.openSnackMessageAction['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR');
     });
 
     it('should move node back to initial parent, after succeeded move of a single file', () => {
@@ -634,7 +638,7 @@ describe('ContentManagementService', () => {
       nodeActions.contentMoved.next(movedItems);
 
       expect(nodeActions.moveNodeAction).toHaveBeenCalledWith(node.entry, initialParent);
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR');
+      expect(notificationService.openSnackMessageAction['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR');
     });
 
     it('should restore deleted folder back to initial parent, after succeeded moving all its files', () => {
@@ -666,7 +670,7 @@ describe('ContentManagementService', () => {
       nodeActions.contentMoved.next(movedItems);
 
       expect(contentApi.restoreNode).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR');
+      expect(notificationService.openSnackMessageAction['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR');
     });
 
     it('should notify when error occurs on Undo Move action', fakeAsync((done) => {

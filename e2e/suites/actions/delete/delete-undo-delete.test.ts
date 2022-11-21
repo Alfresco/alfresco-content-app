@@ -98,7 +98,8 @@ describe('Delete and undo delete', () => {
       await toolbar.clickMoreActionsDelete();
       const message = await page.getSnackBarMessage();
       expect(message).toContain(`${recentFile1} deleted`);
-      expect(message).toContain(`Undo`);
+      const action = await page.getSnackBarAction();
+      expect(action).toContain('Undo');
       expect(await dataTable.isItemPresent(recentFile1)).toBe(false, `${recentFile1} was not removed from list`);
       await page.clickTrashAndWait();
       expect(await dataTable.isItemPresent(recentFile1)).toBe(true, `${recentFile1} is not in trash`);
@@ -109,7 +110,8 @@ describe('Delete and undo delete', () => {
       await toolbar.clickMoreActionsDelete();
       const message = await page.getSnackBarMessage();
       expect(message).toContain(`Deleted 2 items`);
-      expect(message).toContain(`Undo`);
+      const action = await page.getSnackBarAction();
+      expect(action).toContain('Undo');
       expect(await dataTable.isItemPresent(recentFile2)).toBe(false, `${recentFile2} was not removed from list`);
       expect(await dataTable.isItemPresent(recentFile3)).toBe(false, `${recentFile3} was not removed from list`);
       await page.clickTrashAndWait();
@@ -238,7 +240,8 @@ describe('Delete and undo delete', () => {
       await toolbar.clickMoreActionsDelete();
       const message = await page.getSnackBarMessage();
       expect(message).toContain(`${file1} deleted`);
-      expect(message).toContain(`Undo`);
+      const action = await page.getSnackBarAction();
+      expect(action).toContain('Undo');
       expect(await dataTable.isItemPresent(file1)).toBe(false, `${file1} was not removed from list`);
       items--;
       expect(await page.pagination.getRange()).toContain(`1-${items} of ${items}`);
@@ -278,7 +281,8 @@ describe('Delete and undo delete', () => {
       await toolbar.clickMoreActionsDelete();
       const message = await page.getSnackBarMessage();
       expect(message).toContain(`${folder2} couldn't be deleted`);
-      expect(message).not.toContain(`Undo`);
+      const action = await page.getSnackBarAction();
+      expect(action).not.toContain('Undo');
       expect(await dataTable.isItemPresent(folder2)).toBe(true, `${folder2} was removed from list`);
       await page.clickTrash();
       expect(await dataTable.isItemPresent(folder2)).toBe(false, `${folder2} is in trash`);
@@ -290,7 +294,8 @@ describe('Delete and undo delete', () => {
       await toolbar.clickMoreActionsDelete();
       const message = await page.getSnackBarMessage();
       expect(message).toContain(`Deleted 1 item, 1 couldn't be deleted`);
-      expect(message).toContain(`Undo`);
+      const action = await page.getSnackBarAction();
+      expect(action).toContain('Undo');
     });
 
     it('[C217130] notification on multiple items deletion - all items fail to delete', async () => {
@@ -298,7 +303,8 @@ describe('Delete and undo delete', () => {
       await toolbar.clickMoreActionsDelete();
       const message = await page.getSnackBarMessage();
       expect(message).toEqual(`2 items couldn't be deleted`);
-      expect(message).not.toContain(`Undo`);
+      const action = await page.getSnackBarAction();
+      expect(action).not.toContain('Undo');
     });
 
     it('[C217132] undo delete of file', async () => {
@@ -390,7 +396,8 @@ describe('Delete and undo delete', () => {
       await toolbar.clickMoreActionsDelete();
       const message = await page.getSnackBarMessage();
       expect(message).toContain(`${sharedFile1} deleted`);
-      expect(message).toContain(`Undo`);
+      const action = await page.getSnackBarAction();
+      expect(action).toContain('Undo');
       expect(await dataTable.isItemPresent(sharedFile1)).toBe(false, `${sharedFile1} was not removed from list`);
       await page.clickTrashAndWait();
       expect(await dataTable.isItemPresent(sharedFile1)).toBe(true, `${sharedFile1} is not in trash`);
@@ -401,7 +408,8 @@ describe('Delete and undo delete', () => {
       await toolbar.clickMoreActionsDelete();
       const message = await page.getSnackBarMessage();
       expect(message).toContain(`Deleted 2 items`);
-      expect(message).toContain(`Undo`);
+      const action = await page.getSnackBarAction();
+      expect(action).toContain('Undo');
       expect(await dataTable.isItemPresent(sharedFile2)).toBe(false, `${sharedFile2} was not removed from list`);
       expect(await dataTable.isItemPresent(sharedFile3)).toBe(false, `${sharedFile3} was not removed from list`);
       await page.clickTrashAndWait();
@@ -536,7 +544,8 @@ describe('Delete and undo delete', () => {
       await toolbar.clickMoreActionsDelete();
       const message = await page.getSnackBarMessage();
       expect(message).toContain(`${favFile1} deleted`);
-      expect(message).toContain(`Undo`);
+      const action = await page.getSnackBarAction();
+      expect(action).toContain('Undo');
       expect(await dataTable.isItemPresent(favFile1)).toBe(false, `${favFile1} was not removed from list`);
       await page.clickTrashAndWait();
       expect(await dataTable.isItemPresent(favFile1)).toBe(true, `${favFile1} is not in trash`);
@@ -547,7 +556,8 @@ describe('Delete and undo delete', () => {
       await toolbar.clickMoreActionsDelete();
       const message = await page.getSnackBarMessage();
       expect(message).toContain(`Deleted 2 items`);
-      expect(message).toContain(`Undo`);
+      const action = await page.getSnackBarAction();
+      expect(action).toContain('Undo');
       expect(await dataTable.isItemPresent(favFile2)).toBe(false, `${favFile2} was not removed from list`);
       expect(await dataTable.isItemPresent(favFile3)).toBe(false, `${favFile3} was not removed from list`);
       await page.clickTrashAndWait();
@@ -581,7 +591,8 @@ describe('Delete and undo delete', () => {
       await toolbar.clickMoreActionsDelete();
       const message = await page.getSnackBarMessage();
       expect(message).toContain(`Deleted 1 item, 1 couldn't be deleted`);
-      expect(message).toContain(`Undo`);
+      const action = await page.getSnackBarAction();
+      expect(action).toContain('Undo');
     });
 
     it('[C280521] notification on multiple items deletion - all items fail to delete', async () => {
@@ -589,7 +600,8 @@ describe('Delete and undo delete', () => {
       await toolbar.clickMoreActionsDelete();
       const message = await page.getSnackBarMessage();
       expect(message).toEqual(`2 items couldn't be deleted`);
-      expect(message).not.toContain(`Undo`);
+      const action = await page.getSnackBarAction();
+      expect(action).not.toContain('Undo');
     });
 
     it('[C280524] undo delete of file', async () => {
