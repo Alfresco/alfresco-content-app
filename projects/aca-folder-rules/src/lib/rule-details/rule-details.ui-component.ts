@@ -23,15 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-  ViewEncapsulation
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { AbstractControl, UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { distinctUntilChanged, map, takeUntil } from 'rxjs/operators';
@@ -106,7 +98,7 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
   @Input()
   parameterConstraints: ActionParameterConstraint[] = [];
   @Input()
-  nodeId: string = '';
+  nodeId = '';
 
   @Output()
   formValidationChanged = new EventEmitter<boolean>();

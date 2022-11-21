@@ -62,14 +62,14 @@ export const actionDefListMock = {
             name: 'mock-action-parameter-noderef',
             type: 'd:noderef',
             multiValued: false,
-            mandatory: false,
+            mandatory: false
           },
           {
             name: 'aspect-name',
             type: 'd:noderef',
             multiValued: false,
-            mandatory: false,
-          },
+            mandatory: false
+          }
         ],
         name: 'mock-action-1-definition',
         trackStatus: false,
@@ -139,7 +139,13 @@ const action1TransformedMock: ActionDefinitionTransformed = {
   title: 'Action 1 title',
   applicableTypes: [],
   trackStatus: false,
-  parameterDefinitions: [actionParam1TransformedMock, actionParam2TransformedMock, actionParam3TransformedMock, actionParam4TransformedMock, actionParam5TransformedMock]
+  parameterDefinitions: [
+    actionParam1TransformedMock,
+    actionParam2TransformedMock,
+    actionParam3TransformedMock,
+    actionParam4TransformedMock,
+    actionParam5TransformedMock
+  ]
 };
 
 const action2TransformedMock: ActionDefinitionTransformed = {

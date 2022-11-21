@@ -39,10 +39,7 @@ import { ActionParameterDefinition } from '@alfresco/js-api';
 import { of, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ActionParameterConstraint, ConstraintValue } from '../../model/action-parameter-constraint.model';
-import {
-  ContentNodeSelectorComponent,
-  ContentNodeSelectorComponentData, NodeAction
-} from '@alfresco/adf-content-services';
+import { ContentNodeSelectorComponent, ContentNodeSelectorComponentData, NodeAction } from '@alfresco/adf-content-services';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
@@ -63,11 +60,11 @@ import { MatDialog } from '@angular/material/dialog';
 export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDestroy {
   private _nodeId;
   @Input()
-  get nodeId(): string{
-    return this._nodeId
+  get nodeId(): string {
+    return this._nodeId;
   }
   set nodeId(value) {
-    this._nodeId = value
+    this._nodeId = value;
   }
 
   private _actionDefinitions: ActionDefinitionTransformed[];
@@ -117,7 +114,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
   }
 
   get cardViewStyle() {
-    return this.isFullWidth ? {width: '100%'} : {};
+    return this.isFullWidth ? { width: '100%' } : {};
   }
 
   onChange: (action: RuleAction) => void = () => undefined;
@@ -228,23 +225,21 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
   }
 
   openSelectorDialog() {
-    let data = {
+    const data = {
       title: 'Choose an item',
       actionName: NodeAction.CHOOSE,
       currentFolderId: this._nodeId,
       select: new Subject<any>()
     };
 
-    this.dialog.open(
-      ContentNodeSelectorComponent,
-      {
-        data,
-        panelClass: 'adf-content-node-selector-dialog',
-        width: '630px'
-      }
-    );
+    this.dialog.open(ContentNodeSelectorComponent, {
+      data,
+      panelClass: 'adf-content-node-selector-dialog',
+      width: '630px'
+    });
 
-    data.select.subscribe((selections) => {
+    data.select.subscribe(
+      (selections) => {
         if (selections[0].id) {
           this.writeValue({
             actionDefinitionId: this.selectedActionDefinitionId,
@@ -260,11 +255,12 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
         }
       },
       (error) => {
-      console.error(error)
+        console.error(error);
       },
       () => {
         this.dialog.closeAll();
-      });
+      }
+    );
   }
 
   setDefaultParameters() {

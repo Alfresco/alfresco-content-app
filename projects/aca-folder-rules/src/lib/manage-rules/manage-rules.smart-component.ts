@@ -48,7 +48,7 @@ import { RuleSet } from '../model/rule-set.model';
   host: { class: 'aca-manage-rules' }
 })
 export class ManageRulesSmartComponent implements OnInit, OnDestroy {
-  nodeId: string = '';
+  nodeId = '';
 
   mainRuleSet$: Observable<RuleSet>;
   inheritedRuleSets$: Observable<RuleSet[]>;

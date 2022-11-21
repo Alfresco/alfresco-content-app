@@ -43,7 +43,7 @@ export interface EditRuleDialogOptions {
 export class EditRuleDialogSmartComponent implements OnInit, OnDestroy {
   formValid = false;
   model: Partial<Rule>;
-  nodeId: string = '';
+  nodeId = '';
   formValue: Partial<Rule>;
   @Output() submitted = new EventEmitter<Partial<Rule>>();
   actionDefinitions$ = this.actionsService.actionDefinitionsListing$;
@@ -53,7 +53,7 @@ export class EditRuleDialogSmartComponent implements OnInit, OnDestroy {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: EditRuleDialogOptions, private actionsService: ActionsService) {
     this.model = this.data?.model || {};
-    this.nodeId = this.data?.nodeId
+    this.nodeId = this.data?.nodeId;
   }
 
   get isUpdateMode(): boolean {

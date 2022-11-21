@@ -52,7 +52,7 @@ export class RuleActionListUiComponent implements ControlValueAccessor, OnDestro
   @Input()
   parameterConstraints: ActionParameterConstraint[] = [];
   @Input()
-  nodeId: string = '';
+  nodeId = '';
 
   formArray = new FormArray([]);
   private formArraySubscription: Subscription;
