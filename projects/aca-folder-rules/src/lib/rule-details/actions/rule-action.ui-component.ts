@@ -59,7 +59,7 @@ import { TranslateService } from '@ngx-translate/core';
   ]
 })
 export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDestroy {
-  private _nodeId;
+  private _nodeId = '';
   @Input()
   get nodeId(): string {
     return this._nodeId;
@@ -96,7 +96,6 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
   }
 
   isFullWidth = false;
-  data: ContentNodeSelectorComponentData;
 
   form = new FormGroup({
     actionDefinitionId: new FormControl('', Validators.required)
@@ -226,7 +225,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
   }
 
   openSelectorDialog() {
-    const data = {
+    const data: ContentNodeSelectorComponentData = {
       title: this.translate.instant('ACA_FOLDER_RULES.RULE_DETAILS.PLACEHOLDER.CHOOSE_FOLDER'),
       actionName: NodeAction.CHOOSE,
       currentFolderId: this._nodeId,
