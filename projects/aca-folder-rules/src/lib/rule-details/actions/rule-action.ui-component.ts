@@ -98,7 +98,6 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
   }
 
   isFullWidth = false;
-  isNodeSelector = false;
   data: ContentNodeSelectorComponentData;
 
   form = new FormGroup({
@@ -118,12 +117,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
   }
 
   get cardViewStyle() {
-    let style = {}
-
-    this.isFullWidth ? style = {...style, width: '100%' } : style = {...style };
-    this.isNodeSelector ? style = {...style, cursor: 'pointer', input: {cursor: 'pointer !important'} } : style = {...style };
-
-    return style;
+    return this.isFullWidth ? {width: '100%'} : {};
   }
 
   onChange: (action: RuleAction) => void = () => undefined;
@@ -182,9 +176,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
   setCardViewProperties() {
     this.cardViewItems = (this.selectedActionDefinition?.parameterDefinitions ?? []).map((paramDef) => {
       this.isFullWidth = false;
-      this.isNodeSelector = false;
       const constraintsForDropdownBox = this._parameterConstraints.find((obj) => obj.name === paramDef.name);
-
       const cardViewPropertiesModel = {
         label: paramDef.displayLabel + (paramDef.mandatory ? ' *' : ''),
         key: paramDef.name,
@@ -207,7 +199,6 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
             value: this.parameters[paramDef.name] ?? false
           });
         case 'd:noderef':
-          this.isNodeSelector = true;
           if (!constraintsForDropdownBox && !this.readOnly) {
             return new CardViewTextItemModel({
               ...cardViewPropertiesModel,
@@ -254,14 +245,19 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
     );
 
     data.select.subscribe((selections) => {
-      // console.log(selections[0].name)
-        this.writeValue({
-          actionDefinitionId: this.selectedActionDefinitionId,
-          params: {
-            'destination-folder': selections[0].id //,
-            // 'folder-name': selections[0].name
-          }
-        });
+        if (selections[0].id) {
+          this.writeValue({
+            actionDefinitionId: this.selectedActionDefinitionId,
+            params: {
+              'destination-folder': selections[0].id
+            }
+          });
+          this.onChange({
+            actionDefinitionId: this.selectedActionDefinitionId,
+            params: this.parameters
+          });
+          this.onTouch();
+        }
       },
       (error) => {
       console.error(error)

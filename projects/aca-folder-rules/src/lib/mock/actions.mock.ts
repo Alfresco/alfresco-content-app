@@ -57,7 +57,19 @@ export const actionDefListMock = {
             multiValued: false,
             mandatory: false,
             parameterConstraintName: 'ac-aspects'
-          }
+          },
+          {
+            name: 'mock-action-parameter-noderef',
+            type: 'd:noderef',
+            multiValued: false,
+            mandatory: false,
+          },
+          {
+            name: 'aspect-name',
+            type: 'd:noderef',
+            multiValued: false,
+            mandatory: false,
+          },
         ],
         name: 'mock-action-1-definition',
         trackStatus: false,
@@ -102,6 +114,24 @@ const actionParam3TransformedMock: ActionParameterDefinitionTransformed = {
   parameterConstraintName: 'ac-aspects'
 };
 
+const actionParam4TransformedMock: ActionParameterDefinitionTransformed = {
+  name: 'mock-action-parameter-noderef',
+  type: 'd:noderef',
+  multiValued: false,
+  mandatory: false,
+  displayLabel: 'mock-action-parameter-noderef',
+  parameterConstraintName: ''
+};
+
+const actionParam5TransformedMock: ActionParameterDefinitionTransformed = {
+  name: 'aspect-name',
+  type: 'd:noderef',
+  multiValued: false,
+  mandatory: false,
+  displayLabel: 'aspect-name',
+  parameterConstraintName: ''
+};
+
 const action1TransformedMock: ActionDefinitionTransformed = {
   id: 'mock-action-1-definition',
   name: 'mock-action-1-definition',
@@ -109,7 +139,7 @@ const action1TransformedMock: ActionDefinitionTransformed = {
   title: 'Action 1 title',
   applicableTypes: [],
   trackStatus: false,
-  parameterDefinitions: [actionParam1TransformedMock, actionParam2TransformedMock, actionParam3TransformedMock]
+  parameterDefinitions: [actionParam1TransformedMock, actionParam2TransformedMock, actionParam3TransformedMock, actionParam4TransformedMock, actionParam5TransformedMock]
 };
 
 const action2TransformedMock: ActionDefinitionTransformed = {
