@@ -41,6 +41,7 @@ import { takeUntil } from 'rxjs/operators';
 import { ActionParameterConstraint, ConstraintValue } from '../../model/action-parameter-constraint.model';
 import { ContentNodeSelectorComponent, ContentNodeSelectorComponentData, NodeAction } from '@alfresco/adf-content-services';
 import { MatDialog } from '@angular/material/dialog';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'aca-rule-action',
@@ -120,7 +121,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
   onChange: (action: RuleAction) => void = () => undefined;
   onTouch: () => void = () => undefined;
 
-  constructor(private cardViewUpdateService: CardViewUpdateService, private dialog: MatDialog) {}
+  constructor(private cardViewUpdateService: CardViewUpdateService, private dialog: MatDialog, private translate: TranslateService) {}
 
   writeValue(action: RuleAction) {
     this.form.setValue({
@@ -200,7 +201,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
             return new CardViewTextItemModel({
               ...cardViewPropertiesModel,
               icon: 'folder',
-              default: 'Choose destination folder',
+              default: this.translate.instant('ACA_FOLDER_RULES.RULE_DETAILS.PLACEHOLDER.CHOOSE_FOLDER'),
               clickable: true,
               clickCallBack: this.openSelectorDialog.bind(this),
               value: this.parameters[paramDef.name]
@@ -226,7 +227,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
 
   openSelectorDialog() {
     const data = {
-      title: 'Choose an item',
+      title: this.translate.instant('ACA_FOLDER_RULES.RULE_DETAILS.PLACEHOLDER.CHOOSE_FOLDER'),
       actionName: NodeAction.CHOOSE,
       currentFolderId: this._nodeId,
       select: new Subject<any>()
