@@ -26,12 +26,15 @@
 import { Rule } from './rule.model';
 import { RuleSet } from './rule-set.model';
 
-export type RuleGroupingItem = {
-  type: 'rule';
-  rule: Rule;
-} | {
-  type: 'load-more-rules';
-  ruleSet: RuleSet;
-} | {
-  type: 'loading' | 'load-more-rule-sets'
-}
+export type RuleGroupingItem =
+  | {
+      type: 'rule';
+      rule: Rule;
+    }
+  | {
+      type: 'load-more-rules';
+      ruleSet: RuleSet;
+    }
+  | {
+      type: 'loading' | 'load-more-rule-sets';
+    };

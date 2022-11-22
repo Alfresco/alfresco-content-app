@@ -75,9 +75,7 @@ export class FolderRuleSetsService {
       if (this.mainRuleSet?.rules.findIndex((r: Rule) => r.id === rule.id) > -1) {
         return this.mainRuleSet;
       } else {
-        return this.inheritedRuleSets.find(
-          (ruleSet: RuleSet) => ruleSet.rules.findIndex((r: Rule) => r.id === rule.id) > -1
-        ) ?? null;
+        return this.inheritedRuleSets.find((ruleSet: RuleSet) => ruleSet.rules.findIndex((r: Rule) => r.id === rule.id) > -1) ?? null;
       }
     })
   );
@@ -91,9 +89,7 @@ export class FolderRuleSetsService {
   }
 
   private getMainRuleSet(nodeId: string): Observable<RuleSet> {
-    return from(
-      this.callApi(`/nodes/${nodeId}/rule-sets/-default-?include=isLinkedTo,owningFolder,linkedToBy`, 'GET')
-    ).pipe(
+    return from(this.callApi(`/nodes/${nodeId}/rule-sets/-default-?include=isLinkedTo,owningFolder,linkedToBy`, 'GET')).pipe(
       catchError((error) => {
         if (error.status === 404) {
           return of({ entry: null });
@@ -101,7 +97,7 @@ export class FolderRuleSetsService {
         return of(error);
       }),
       switchMap((res) => this.formatRuleSet(res.entry))
-    )
+    );
   }
 
   private getInheritedRuleSets(nodeId: string, skipCount = 0): Observable<RuleSet[]> {
@@ -117,7 +113,7 @@ export class FolderRuleSetsService {
         }
       }),
       switchMap((res) => this.formatRuleSets(res)),
-      map((ruleSets: RuleSet[]) => ruleSets.filter(ruleSet => FolderRuleSetsService.isInheritedRuleSet(ruleSet, this.currentFolder.id)))
+      map((ruleSets: RuleSet[]) => ruleSets.filter((ruleSet) => FolderRuleSetsService.isInheritedRuleSet(ruleSet, this.currentFolder.id)))
     );
   }
 
@@ -136,10 +132,7 @@ export class FolderRuleSetsService {
           this.currentFolder = nodeInfo;
           this.folderInfoSource.next(this.currentFolder);
         }),
-        switchMap(() => combineLatest(
-          this.getMainRuleSet(nodeId),
-          this.getInheritedRuleSets(nodeId)
-        )),
+        switchMap(() => combineLatest(this.getMainRuleSet(nodeId), this.getInheritedRuleSets(nodeId))),
         finalize(() => this.isLoadingSource.next(false))
       )
       .subscribe(([mainRuleSet, inheritedRuleSets]) => {
@@ -187,7 +180,9 @@ export class FolderRuleSetsService {
 
   private formatRuleSet(entry: any): Observable<RuleSet> {
     // TODO -- remove fetch node info?
-    if (!entry) { return of(null); }
+    if (!entry) {
+      return of(null);
+    }
     return combineLatest(
       this.currentFolder?.id === entry.owningFolder ? of(this.currentFolder) : this.getNodeInfo(entry.owningFolder || ''),
       this.folderRulesService.getRules(entry.owningFolder || '', entry.id)
@@ -228,15 +223,14 @@ export class FolderRuleSetsService {
       }
       this.folderRulesService.selectRule(newRule);
     } else {
-      this.getMainRuleSet(this.currentFolder.id)
-        .subscribe((mainRuleSet: RuleSet) => {
-          this.mainRuleSet = mainRuleSet;
-          this.mainRuleSetSource.next(mainRuleSet);
-          if (mainRuleSet) {
-            const ruleToSelect = mainRuleSet.rules.find((rule: Rule) => rule.id === newRule.id);
-            this.folderRulesService.selectRule(ruleToSelect);
-          }
-        });
+      this.getMainRuleSet(this.currentFolder.id).subscribe((mainRuleSet: RuleSet) => {
+        this.mainRuleSet = mainRuleSet;
+        this.mainRuleSetSource.next(mainRuleSet);
+        if (mainRuleSet) {
+          const ruleToSelect = mainRuleSet.rules.find((rule: Rule) => rule.id === newRule.id);
+          this.folderRulesService.selectRule(ruleToSelect);
+        }
+      });
     }
   }
 }

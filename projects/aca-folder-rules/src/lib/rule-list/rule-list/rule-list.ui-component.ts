@@ -73,9 +73,9 @@ export class RuleListUiComponent {
   }
 
   get inheritedRuleSetGroupingItems(): RuleGroupingItem[] {
-    const items = this.inheritedRuleSets.reduce((items: RuleGroupingItem[], currentRuleSet: RuleSet) => {
-      items.push(...this.getRuleSetGroupingItems(currentRuleSet));
-      return items;
+    const items = this.inheritedRuleSets.reduce((accumulator: RuleGroupingItem[], currentRuleSet: RuleSet) => {
+      accumulator.push(...this.getRuleSetGroupingItems(currentRuleSet));
+      return accumulator;
     }, []);
     if (this.ruleSetsLoading || this.hasMoreRuleSets) {
       items.push({
@@ -91,12 +91,16 @@ export class RuleListUiComponent {
       rule
     }));
     if (ruleSet.loadingRules || ruleSet.hasMoreRules) {
-      items.push(ruleSet.loadingRules ? {
-        type: 'loading'
-      } : {
-        type: 'load-more-rules',
-        ruleSet: ruleSet
-      });
+      items.push(
+        ruleSet.loadingRules
+          ? {
+              type: 'loading'
+            }
+          : {
+              type: 'load-more-rules',
+              ruleSet
+            }
+      );
     }
     return items;
   }
