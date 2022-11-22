@@ -42,7 +42,7 @@ export class RuleListUiComponent {
   @Input()
   mainRuleSet: RuleSet = null;
   @Input()
-  nodeId: string;
+  folderId: string;
   @Input()
   inheritedRuleSets: RuleSet[] = [];
   @Input()
@@ -65,7 +65,7 @@ export class RuleListUiComponent {
   mainRuleSetExpanded = true;
 
   get isMainRuleSetOwned(): boolean {
-    return FolderRuleSetsService.isOwnedRuleSet(this.mainRuleSet, this.nodeId);
+    return FolderRuleSetsService.isOwnedRuleSet(this.mainRuleSet, this.folderId);
   }
 
   get mainRuleSetGroupingItems(): RuleGroupingItem[] {

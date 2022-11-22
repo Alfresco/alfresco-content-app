@@ -41,6 +41,8 @@ describe('FolderRulesService', () => {
   const nodeId = owningFolderIdMock;
   const ruleSetId = 'rule-set-id';
   const mockedRule = ruleMock('rule-mock');
+  const { id, ...mockedRuleWithoutId } = mockedRule;
+  const mockedRuleEntry = { entry: mockedRule };
   const ruleId = mockedRule.id;
 
   beforeEach(() => {
@@ -120,14 +122,18 @@ describe('FolderRulesService', () => {
   });
 
   it('should send correct POST request and return created rule', async () => {
-    callApiSpy.withArgs(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules`, 'POST', mockedRule).and.returnValue(Promise.resolve(mockedRule));
-    const result = await folderRulesService.createRule(nodeId, mockedRule, ruleSetId);
+    callApiSpy
+      .withArgs(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules`, 'POST', mockedRuleWithoutId)
+      .and.returnValue(Promise.resolve(mockedRuleEntry));
+    const result = await folderRulesService.createRule(nodeId, mockedRuleWithoutId, ruleSetId);
 
     expect(result).toEqual(mockedRule);
   });
 
   it('should send correct PUT request to update rule and return it', async () => {
-    callApiSpy.withArgs(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules/${ruleId}`, 'PUT', mockedRule).and.returnValue(Promise.resolve(mockedRule));
+    callApiSpy
+      .withArgs(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules/${ruleId}`, 'PUT', mockedRule)
+      .and.returnValue(Promise.resolve(mockedRuleEntry));
 
     const result = await folderRulesService.updateRule(nodeId, ruleId, mockedRule, ruleSetId);
     expect(result).toEqual(mockedRule);

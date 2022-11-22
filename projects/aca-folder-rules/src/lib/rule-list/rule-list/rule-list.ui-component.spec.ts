@@ -28,15 +28,17 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CoreTestingModule } from '@alfresco/adf-core';
 import { RuleListGroupingUiComponent } from '../rule-list-grouping/rule-list-grouping.ui-component';
 import { RuleListItemUiComponent } from '../rule-list-item/rule-list-item.ui-component';
-import { ruleSetsMock } from '../../mock/rule-sets.mock';
+import { ownedRuleSetMock, ruleSetsMock, ruleSetWithLinkMock } from '../../mock/rule-sets.mock';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { owningFolderIdMock } from '../../mock/node.mock';
 
-describe('RuleSetListUiComponent', () => {
+describe('RuleListUiComponent', () => {
   let fixture: ComponentFixture<RuleListUiComponent>;
   let component: RuleListUiComponent;
   let debugElement: DebugElement;
+
+  const innerTextWithoutIcon = (element: HTMLDivElement): string => element.innerText.replace(/(expand_more|chevron_right)$/, '').trim();
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -50,27 +52,21 @@ describe('RuleSetListUiComponent', () => {
 
     component.folderId = owningFolderIdMock;
     component.inheritedRuleSets = ruleSetsMock;
+  });
+
+  it('should show "Rules from current folder" as a title if the main rule set is owned', () => {
+    component.mainRuleSet = ownedRuleSetMock;
     fixture.detectChanges();
+
+    const mainRuleSetTitleElement = debugElement.query(By.css(`[data-automation-id="main-rule-set-title"]`));
+    expect(innerTextWithoutIcon(mainRuleSetTitleElement.nativeElement as HTMLDivElement)).toBe('ACA_FOLDER_RULES.RULE_LIST.OWNED_RULES');
   });
 
-  it('should display a list of rule sets', () => {
-    const ruleSetElements = debugElement.queryAll(By.css(`[data-automation-id="rule-set-list-item"]`));
+  it('should show "Rules from linked folder" as a title if the main rule set is linked', () => {
+    component.mainRuleSet = ruleSetWithLinkMock;
+    fixture.detectChanges();
 
-    expect(ruleSetElements.length).toBe(3);
-  });
-
-  it('should show the right message for the right sort of rule set', () => {
-    const ruleSetTitleElements = debugElement.queryAll(By.css(`[data-automation-id="rule-set-item-title"]`));
-
-    const innerTextWithoutIcon = (element: HTMLDivElement): string => element.innerText.replace(/(expand_more|chevron_right)$/, '').trim();
-
-    expect(ruleSetTitleElements.length).toBe(3);
-    expect(innerTextWithoutIcon(ruleSetTitleElements[0].nativeElement as HTMLDivElement)).toBe(
-      'ACA_FOLDER_RULES.RULE_LIST.INHERITED_FROM other-folder-name'
-    );
-    expect(innerTextWithoutIcon(ruleSetTitleElements[1].nativeElement as HTMLDivElement)).toBe('ACA_FOLDER_RULES.RULE_LIST.OWNED_BY_THIS_FOLDER');
-    expect(innerTextWithoutIcon(ruleSetTitleElements[2].nativeElement as HTMLDivElement)).toBe(
-      'ACA_FOLDER_RULES.RULE_LIST.LINKED_FROM other-folder-name'
-    );
+    const mainRuleSetTitleElement = debugElement.query(By.css(`[data-automation-id="main-rule-set-title"]`));
+    expect(innerTextWithoutIcon(mainRuleSetTitleElement.nativeElement as HTMLDivElement)).toBe('ACA_FOLDER_RULES.RULE_LIST.LINKED_RULES');
   });
 });

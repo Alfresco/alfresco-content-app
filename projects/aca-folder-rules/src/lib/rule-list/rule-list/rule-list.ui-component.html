@@ -1,7 +1,7 @@
 <div
   *ngIf="inheritedRuleSetGroupingItems.length > 0"
   class="aca-rule-list__item"
-  data-automation-id="rule-set-list-item"
+  data-automation-id="rule-list-item"
   [ngClass]="{ expanded: inheritedRuleSetsExpanded }">
 
   <div class="aca-rule-list__item__header">
@@ -9,7 +9,6 @@
     <div
       tabindex="0"
       class="aca-rule-list__item__header__title"
-      data-automation-id="rule-set-item-title"
       matRipple matRippleColor="hsla(0,0%,0%,0.05)"
       (click)="inheritedRuleSetsExpanded = !inheritedRuleSetsExpanded"
       (keyup.enter)="inheritedRuleSetsExpanded = !inheritedRuleSetsExpanded">
@@ -42,7 +41,7 @@
 <div
   *ngIf="mainRuleSetGroupingItems.length > 0"
   class="aca-rule-list__item"
-  data-automation-id="rule-set-list-item"
+  data-automation-id="rule-list-item"
   [ngClass]="{ expanded: mainRuleSetExpanded }">
 
   <div class="aca-rule-list__item__header">
@@ -50,7 +49,7 @@
     <div
       tabindex="0"
       class="aca-rule-list__item__header__title"
-      data-automation-id="rule-set-item-title"
+      data-automation-id="main-rule-set-title"
       matRipple matRippleColor="hsla(0,0%,0%,0.05)"
       (click)="mainRuleSetExpanded = !mainRuleSetExpanded"
       (keyup.enter)="mainRuleSetExpanded = !mainRuleSetExpanded">

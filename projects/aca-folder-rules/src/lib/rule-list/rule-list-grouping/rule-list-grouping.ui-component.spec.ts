@@ -25,13 +25,13 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RuleListGroupingUiComponent } from './rule-list-grouping.ui-component';
-import { rulesMock } from '../../mock/rules.mock';
+import { ruleListGroupingItemsMock, rulesMock } from '../../mock/rules.mock';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { CoreTestingModule } from '@alfresco/adf-core';
 import { AcaFolderRulesModule } from '@alfresco/aca-folder-rules';
 
-describe('RuleListUiComponent', () => {
+describe('RuleListGroupingUiComponent', () => {
   let component: RuleListGroupingUiComponent;
   let fixture: ComponentFixture<RuleListGroupingUiComponent>;
   let debugElement: DebugElement;
@@ -50,7 +50,7 @@ describe('RuleListUiComponent', () => {
   it('should display the list of rules', () => {
     expect(component).toBeTruthy();
 
-    component.items = rulesMock;
+    component.items = ruleListGroupingItemsMock;
 
     fixture.detectChanges();
 

@@ -24,6 +24,7 @@
  */
 
 import { Rule } from '../model/rule.model';
+import { RuleGroupingItem } from '../model/rule-grouping-item.model';
 
 export const getRulesResponseMock = {
   list: {
@@ -158,3 +159,14 @@ export const manyRulesMock: Rule[] = [ruleMock('rule1'), ruleMock('rule2'), rule
 export const ownedRulesMock: Rule[] = [ruleMock('owned-rule-1'), ruleMock('owned-rule-2')];
 export const linkedRulesMock: Rule[] = [ruleMock('linked-rule-1'), ruleMock('linked-rule-2')];
 export const inheritedRulesMock: Rule[] = [ruleMock('inherited-rule-1'), ruleMock('inherited-rule-2')];
+
+export const ruleListGroupingItemsMock: RuleGroupingItem[] = [
+  {
+    type: 'rule',
+    rule: ruleMock('rule1')
+  },
+  {
+    type: 'rule',
+    rule: ruleMock('rule2')
+  }
+];
