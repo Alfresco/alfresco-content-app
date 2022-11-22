@@ -59,14 +59,8 @@ import { TranslateService } from '@ngx-translate/core';
   ]
 })
 export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDestroy {
-  private _nodeId = '';
   @Input()
-  get nodeId(): string {
-    return this._nodeId;
-  }
-  set nodeId(value) {
-    this._nodeId = value;
-  }
+  nodeId = '';
 
   private _actionDefinitions: ActionDefinitionTransformed[];
   @Input()
@@ -228,7 +222,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
     const data: ContentNodeSelectorComponentData = {
       title: this.translate.instant('ACA_FOLDER_RULES.RULE_DETAILS.PLACEHOLDER.CHOOSE_FOLDER'),
       actionName: NodeAction.CHOOSE,
-      currentFolderId: this._nodeId,
+      currentFolderId: this.nodeId,
       select: new Subject<Node[]>()
     };
 
