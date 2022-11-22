@@ -8,7 +8,6 @@
 
 import { InjectionToken } from '@angular/core';
 import { CanActivate, CanActivateChild, Route } from '@angular/router';
-import { ExtensionsDataLoaderGuard } from '../../../../projects/aca-shared/src/public-api';
 import { ShellLayoutComponent } from './components/shell/shell.component';
 
 export const SHELL_AUTH_TOKEN = new InjectionToken<CanActivate & CanActivateChild>('SHELL_AUTH_TOKEN');
@@ -16,6 +15,6 @@ export const SHELL_AUTH_TOKEN = new InjectionToken<CanActivate & CanActivateChil
 export const SHELL_LAYOUT_ROUTE: Route = {
   path: '',
   component: ShellLayoutComponent,
-  canActivate: [SHELL_AUTH_TOKEN, ExtensionsDataLoaderGuard],
+  canActivate: [SHELL_AUTH_TOKEN],
   children: []
 };
