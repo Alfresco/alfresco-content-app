@@ -65,7 +65,8 @@
     "dateitem",
     "versionable",
     "erroredSpy",
-    "errored"
+    "errored",
+    "noderef"
   ],
   "dictionaries": ["html", "en-gb", "en_US"]
 }
