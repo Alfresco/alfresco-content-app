@@ -35,7 +35,7 @@ import {
   CardViewUpdateService,
   UpdateNotification
 } from '@alfresco/adf-core';
-import { ActionParameterDefinition } from '@alfresco/js-api';
+import { ActionParameterDefinition, Node } from '@alfresco/js-api';
 import { of, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ActionParameterConstraint, ConstraintValue } from '../../model/action-parameter-constraint.model';
@@ -224,12 +224,12 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
     });
   }
 
-  openSelectorDialog() {
+  private openSelectorDialog() {
     const data: ContentNodeSelectorComponentData = {
       title: this.translate.instant('ACA_FOLDER_RULES.RULE_DETAILS.PLACEHOLDER.CHOOSE_FOLDER'),
       actionName: NodeAction.CHOOSE,
       currentFolderId: this._nodeId,
-      select: new Subject<any>()
+      select: new Subject<Node[]>()
     };
 
     this.dialog.open(ContentNodeSelectorComponent, {
@@ -239,7 +239,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
     });
 
     data.select.subscribe(
-      (selections) => {
+      (selections: Node[]) => {
         if (selections[0].id) {
           this.writeValue({
             actionDefinitionId: this.selectedActionDefinitionId,
