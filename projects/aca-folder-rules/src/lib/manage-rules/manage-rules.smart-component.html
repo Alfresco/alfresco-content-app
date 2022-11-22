@@ -26,6 +26,10 @@
                               class="aca-manage-rules__actions-bar__title__breadcrumb"></adf-breadcrumb>
             </adf-toolbar-title>
 
+            <mat-slide-toggle disableRipple [labelPosition]="'before'" [aria-label]="'Inherit rules'">Inherit rules</mat-slide-toggle>
+
+            <mat-divider vertical [style]="{height:'50%', margin:'0 12px'}"></mat-divider>
+
             <div class="aca-manage-rules__actions-bar__buttons">
               <button
                 *ngIf="!(mainRuleSet$ | async)"
