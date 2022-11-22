@@ -30,7 +30,7 @@ import { FolderRulesService } from './folder-rules.service';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { getOtherFolderEntryMock, getOwningFolderEntryMock, otherFolderIdMock, owningFolderIdMock, owningFolderMock } from '../mock/node.mock';
 import { of } from 'rxjs';
-import { getRuleSetsResponseMock, ruleSetsMock } from '../mock/rule-sets.mock';
+import { getDefaultRuleSetResponseMock, getRuleSetsResponseMock, inheritedRuleSetMock, ownedRuleSetMock } from '../mock/rule-sets.mock';
 import { take } from 'rxjs/operators';
 import { inheritedRulesMock, linkedRulesMock, ownedRulesMock, ruleMock } from '../mock/rules.mock';
 
@@ -52,7 +52,11 @@ describe('FolderRuleSetsService', () => {
     folderRulesService = TestBed.inject(FolderRulesService);
     contentApiService = TestBed.inject(ContentApiService);
 
-    callApiSpy = spyOn<any>(folderRuleSetsService, 'callApi');
+    callApiSpy = spyOn<any>(folderRuleSetsService, 'callApi')
+      .withArgs(`/nodes/${owningFolderIdMock}/rule-sets/-default-?include=isLinkedTo,owningFolder,linkedToBy`, 'GET')
+      .and.returnValue(of(getDefaultRuleSetResponseMock))
+      .withArgs(`/nodes/${owningFolderIdMock}/rule-sets?include=isLinkedTo,owningFolder,linkedToBy&skipCount=0&maxItems=100`, 'GET')
+      .and.returnValue(of(getRuleSetsResponseMock));
     spyOn<any>(folderRulesService, 'getRules')
       .withArgs(jasmine.anything(), 'rule-set-no-links')
       .and.returnValue(of({ rules: ownedRulesMock, hasMoreRules: false }))
@@ -69,7 +73,6 @@ describe('FolderRuleSetsService', () => {
   });
 
   it(`should load node info when loading the node's rule sets`, async () => {
-    callApiSpy.and.returnValue(of(getRuleSetsResponseMock));
     // take(2), because: 1 = init of the BehaviourSubject, 2 = in subscribe
     const folderInfoPromise = folderRuleSetsService.folderInfo$.pipe(take(2)).toPromise();
 
@@ -80,29 +83,38 @@ describe('FolderRuleSetsService', () => {
     expect(folderInfo).toEqual(owningFolderMock);
   });
 
-  it('should load rule sets of a node', async () => {
-    callApiSpy.and.returnValue(of(getRuleSetsResponseMock));
+  it('should load the main rule set (main or linked)', async () => {
     // take(3), because: 1 = init of the BehaviourSubject, 2 = reinitialise at beginning of loadRuleSets, 3 = in subscribe
-    const ruleSetListingPromise = folderRuleSetsService.ruleSetListing$.pipe(take(3)).toPromise();
+    const mainRuleSetPromise = folderRuleSetsService.mainRuleSet$.pipe(take(3)).toPromise();
+
+    folderRuleSetsService.loadRuleSets(owningFolderIdMock);
+    const ruleSet = await mainRuleSetPromise;
+
+    expect(callApiSpy).toHaveBeenCalledWith(`/nodes/${owningFolderIdMock}/rule-sets/-default-?include=isLinkedTo,owningFolder,linkedToBy`, 'GET');
+    expect(ruleSet).toEqual(ownedRuleSetMock);
+  });
+
+  it('should load inherited rule sets of a node and filter out owned or inherited rule sets', async () => {
+    // take(3), because: 1 = init of the BehaviourSubject, 2 = reinitialise at beginning of loadRuleSets, 3 = in subscribe
+    const inheritedRuleSetsPromise = folderRuleSetsService.inheritedRuleSets$.pipe(take(3)).toPromise();
     const hasMoreRuleSetsPromise = folderRuleSetsService.hasMoreRuleSets$.pipe(take(3)).toPromise();
 
     folderRuleSetsService.loadRuleSets(owningFolderIdMock);
-    const ruleSets = await ruleSetListingPromise;
+    const ruleSets = await inheritedRuleSetsPromise;
     const hasMoreRuleSets = await hasMoreRuleSetsPromise;
 
     expect(callApiSpy).toHaveBeenCalledWith(
       `/nodes/${owningFolderIdMock}/rule-sets?include=isLinkedTo,owningFolder,linkedToBy&skipCount=0&maxItems=100`,
       'GET'
     );
-    expect(ruleSets).toEqual(ruleSetsMock);
+    expect(ruleSets).toEqual([inheritedRuleSetMock]);
     expect(hasMoreRuleSets).toEqual(false);
   });
 
   it('should select the first rule of the owned rule set of the folder', async () => {
-    callApiSpy.and.returnValue(of(getRuleSetsResponseMock));
     const selectRuleSpy = spyOn(folderRulesService, 'selectRule');
     // take(3), because: 1 = init of the BehaviourSubject, 2 = reinitialise at beginning of loadRuleSets, 3 = in subscribe
-    const ruleSetListingPromise = folderRuleSetsService.ruleSetListing$.pipe(take(3)).toPromise();
+    const ruleSetListingPromise = folderRuleSetsService.inheritedRuleSets$.pipe(take(3)).toPromise();
 
     folderRuleSetsService.loadRuleSets(owningFolderIdMock);
     await ruleSetListingPromise;

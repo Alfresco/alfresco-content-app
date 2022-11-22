@@ -30,7 +30,7 @@ import { CoreTestingModule } from '@alfresco/adf-core';
 import { FolderRulesService } from '../services/folder-rules.service';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
-import { ruleSetsMock } from '../mock/rule-sets.mock';
+import { inheritedRuleSetMock, ownedRuleSetMock, ruleSetWithLinkMock } from '../mock/rule-sets.mock';
 import { By } from '@angular/platform-browser';
 import { owningFolderIdMock, owningFolderMock } from '../mock/node.mock';
 import { MatDialog } from '@angular/material/dialog';
@@ -74,7 +74,8 @@ describe('ManageRulesSmartComponent', () => {
     const loadRuleSetsSpy = spyOn(folderRuleSetsService, 'loadRuleSets').and.stub();
 
     folderRuleSetsService.folderInfo$ = of(owningFolderMock);
-    folderRuleSetsService.ruleSetListing$ = of(ruleSetsMock);
+    folderRuleSetsService.mainRuleSet$ = of(ownedRuleSetMock);
+    folderRuleSetsService.inheritedRuleSets$ = of([inheritedRuleSetMock]);
     folderRuleSetsService.isLoading$ = of(false);
     folderRulesService.selectedRule$ = of(ruleMock('owned-rule-1'));
     actionsService.loading$ = of(false);
@@ -85,20 +86,21 @@ describe('ManageRulesSmartComponent', () => {
 
     expect(loadRuleSetsSpy).toHaveBeenCalledOnceWith(component.nodeId);
 
-    const ruleSets = debugElement.queryAll(By.css(`[data-automation-id="rule-set-list-item"]`));
+    const ruleGroupingSections = debugElement.queryAll(By.css(`[data-automation-id="rule-list-item"]`));
     const rules = debugElement.queryAll(By.css('.aca-rule-list-item'));
     const ruleDetails = debugElement.query(By.css('aca-rule-details'));
     const deleteRuleBtn = debugElement.query(By.css('#delete-rule-btn'));
 
-    expect(ruleSets.length).toBe(3, 'unexpected number of rule sets');
-    expect(rules.length).toBe(6, 'unexpected number of aca-rule-list-item');
+    expect(ruleGroupingSections.length).toBe(2, 'unexpected number of rule sections');
+    expect(rules.length).toBe(4, 'unexpected number of aca-rule-list-item');
     expect(ruleDetails).toBeTruthy('aca-rule-details was not rendered');
     expect(deleteRuleBtn).toBeTruthy('no delete rule button');
   });
 
   it('should only show adf-empty-content if node has no rules defined yet', () => {
     folderRuleSetsService.folderInfo$ = of(owningFolderMock);
-    folderRuleSetsService.ruleSetListing$ = of([]);
+    folderRuleSetsService.mainRuleSet$ = of(null);
+    folderRuleSetsService.inheritedRuleSets$ = of([]);
     folderRuleSetsService.isLoading$ = of(false);
     actionsService.loading$ = of(false);
 
@@ -117,7 +119,8 @@ describe('ManageRulesSmartComponent', () => {
 
   it('should only show aca-generic-error if the non-existing node was provided', () => {
     folderRuleSetsService.folderInfo$ = of(null);
-    folderRuleSetsService.ruleSetListing$ = of([]);
+    folderRuleSetsService.mainRuleSet$ = of(null);
+    folderRuleSetsService.inheritedRuleSets$ = of([]);
     folderRuleSetsService.isLoading$ = of(false);
     actionsService.loading$ = of(false);
 
@@ -136,7 +139,8 @@ describe('ManageRulesSmartComponent', () => {
 
   it('should only show progress bar while loading', async () => {
     folderRuleSetsService.folderInfo$ = of(null);
-    folderRuleSetsService.ruleSetListing$ = of([]);
+    folderRuleSetsService.mainRuleSet$ = of(null);
+    folderRuleSetsService.inheritedRuleSets$ = of([]);
     folderRuleSetsService.isLoading$ = of(true);
     actionsService.loading$ = of(true);
 
@@ -156,7 +160,8 @@ describe('ManageRulesSmartComponent', () => {
   it('should call deleteRule() if confirmation dialog returns true', () => {
     const dialog = TestBed.inject(MatDialog);
     folderRuleSetsService.folderInfo$ = of(owningFolderMock);
-    folderRuleSetsService.ruleSetListing$ = of(ruleSetsMock);
+    folderRuleSetsService.mainRuleSet$ = of(ownedRuleSetMock);
+    folderRuleSetsService.inheritedRuleSets$ = of([inheritedRuleSetMock]);
     folderRuleSetsService.isLoading$ = of(false);
     folderRulesService.selectedRule$ = of(ruleMock('owned-rule-1'));
     folderRulesService.deletedRuleId$ = of(null);
@@ -190,5 +195,38 @@ describe('ManageRulesSmartComponent', () => {
     expect(rules).toBeTruthy('expected rules');
     expect(ruleDetails).toBeTruthy('expected ruleDetails');
     expect(deleteRuleBtn).toBeTruthy();
+  });
+
+  describe('Create rule button visibility', () => {
+    beforeEach(() => {
+      folderRuleSetsService.folderInfo$ = of(owningFolderMock);
+      folderRuleSetsService.inheritedRuleSets$ = of([]);
+      folderRuleSetsService.isLoading$ = of(false);
+      actionsService.loading$ = of(false);
+    });
+
+    it('should show the create rule button if there is no main rule set', () => {
+      folderRuleSetsService.mainRuleSet$ = of(null);
+      fixture.detectChanges();
+
+      const createButton = debugElement.query(By.css(`[data-automation-id="manage-rules-create-button"]`));
+      expect(createButton).toBeTruthy();
+    });
+
+    it('should show the create rule button if the main rule set is owned', () => {
+      folderRuleSetsService.mainRuleSet$ = of(ownedRuleSetMock);
+      fixture.detectChanges();
+
+      const createButton = debugElement.query(By.css(`[data-automation-id="manage-rules-create-button"]`));
+      expect(createButton).toBeTruthy();
+    });
+
+    it('should not show the create rule button if the main rule set is linked', () => {
+      folderRuleSetsService.mainRuleSet$ = of(ruleSetWithLinkMock);
+      fixture.detectChanges();
+
+      const createButton = debugElement.query(By.css(`[data-automation-id="manage-rules-create-button"]`));
+      expect(createButton).toBeFalsy();
+    });
   });
 });

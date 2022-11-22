@@ -29,7 +29,7 @@ import { FolderRulesService } from '../services/folder-rules.service';
 import { Observable, Subject } from 'rxjs';
 import { Rule } from '../model/rule.model';
 import { ActivatedRoute } from '@angular/router';
-import { AppStore, NavigateRouteAction, NodeInfo } from '@alfresco/aca-shared/store';
+import { NodeInfo } from '@alfresco/aca-shared/store';
 import { delay, takeUntil } from 'rxjs/operators';
 import { EditRuleDialogSmartComponent } from '../rule-details/edit-rule-dialog.smart-component';
 import { MatDialog } from '@angular/material/dialog';
@@ -38,7 +38,6 @@ import { NotificationService } from '@alfresco/adf-core';
 import { ActionDefinitionTransformed } from '../model/rule-action.model';
 import { ActionsService } from '../services/actions.service';
 import { FolderRuleSetsService } from '../services/folder-rule-sets.service';
-import { Store } from '@ngrx/store';
 import { RuleSet } from '../model/rule-set.model';
 
 @Component({
@@ -51,8 +50,10 @@ import { RuleSet } from '../model/rule-set.model';
 export class ManageRulesSmartComponent implements OnInit, OnDestroy {
   nodeId: string = null;
 
-  ruleSetListing$: Observable<RuleSet[]>;
+  mainRuleSet$: Observable<RuleSet>;
+  inheritedRuleSets$: Observable<RuleSet[]>;
   selectedRule$: Observable<Rule>;
+  selectedRuleSet$: Observable<RuleSet>;
   hasMoreRuleSets$: Observable<boolean>;
   ruleSetsLoading$: Observable<boolean>;
   folderInfo$: Observable<NodeInfo>;
@@ -69,13 +70,14 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
     private matDialogService: MatDialog,
     private notificationService: NotificationService,
     private actionsService: ActionsService,
-    private folderRuleSetsService: FolderRuleSetsService,
-    private store: Store<AppStore>
+    private folderRuleSetsService: FolderRuleSetsService
   ) {}
 
   ngOnInit() {
-    this.ruleSetListing$ = this.folderRuleSetsService.ruleSetListing$;
+    this.mainRuleSet$ = this.folderRuleSetsService.mainRuleSet$;
+    this.inheritedRuleSets$ = this.folderRuleSetsService.inheritedRuleSets$;
     this.selectedRule$ = this.folderRulesService.selectedRule$;
+    this.selectedRuleSet$ = this.folderRuleSetsService.selectedRuleSet$;
     this.hasMoreRuleSets$ = this.folderRuleSetsService.hasMoreRuleSets$;
     this.ruleSetsLoading$ = this.folderRuleSetsService.isLoading$;
     this.folderInfo$ = this.folderRuleSetsService.folderInfo$;
@@ -136,24 +138,17 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
   }
 
   async onRuleUpdate(rule: Rule) {
-    const ruleSet = this.folderRuleSetsService.getRuleSetFromRuleId(rule.id);
-    await this.folderRulesService.updateRule(this.nodeId, rule.id, rule, ruleSet.id);
-    this.folderRulesService.loadRules(ruleSet, 0, rule);
+    const newRule = await this.folderRulesService.updateRule(this.nodeId, rule.id, rule);
+    this.folderRuleSetsService.addOrUpdateRuleInMainRuleSet(newRule);
   }
 
   async onRuleCreate(ruleCreateParams: Partial<Rule>) {
-    await this.folderRulesService.createRule(this.nodeId, ruleCreateParams, '-default-');
-    const ruleSetToLoad = this.folderRuleSetsService.getOwnedOrLinkedRuleSet();
-    if (ruleSetToLoad) {
-      this.folderRulesService.loadRules(ruleSetToLoad, 0, 'last');
-    } else {
-      this.folderRuleSetsService.loadMoreRuleSets(true);
-    }
+    const newRule = await this.folderRulesService.createRule(this.nodeId, ruleCreateParams);
+    this.folderRuleSetsService.addOrUpdateRuleInMainRuleSet(newRule);
   }
 
   async onRuleEnabledToggle(rule: Rule, isEnabled: boolean) {
-    const ruleSet = this.folderRuleSetsService.getRuleSetFromRuleId(rule.id);
-    await this.folderRulesService.updateRule(this.nodeId, rule.id, { ...rule, isEnabled }, ruleSet.id);
+    await this.folderRulesService.updateRule(this.nodeId, rule.id, { ...rule, isEnabled });
   }
 
   onRuleDeleteButtonClicked(rule: Rule) {
@@ -174,25 +169,18 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
   }
 
   onRuleDelete(deletedRuleId: string) {
-    if (deletedRuleId) {
-      const folderToRefresh = this.folderRuleSetsService.getRuleSetFromRuleId(deletedRuleId);
-      if (folderToRefresh?.rules.length > 1) {
-        this.folderRulesService.loadRules(folderToRefresh, 0, 'first');
-      } else {
-        this.folderRuleSetsService.loadRuleSets(this.nodeId);
-      }
-    }
-  }
-
-  onNavigateToOtherFolder(nodeId) {
-    this.store.dispatch(new NavigateRouteAction(['nodes', nodeId, 'rules']));
+    this.folderRuleSetsService.removeRuleFromMainRuleSet(deletedRuleId);
   }
 
   onLoadMoreRuleSets() {
-    this.folderRuleSetsService.loadMoreRuleSets();
+    this.folderRuleSetsService.loadMoreInheritedRuleSets();
   }
 
   onLoadMoreRules(ruleSet: RuleSet) {
     this.folderRulesService.loadRules(ruleSet);
+  }
+
+  canEditRule(ruleSet: RuleSet): boolean {
+    return !ruleSet || FolderRuleSetsService.isOwnedRuleSet(ruleSet, this.nodeId);
   }
 }

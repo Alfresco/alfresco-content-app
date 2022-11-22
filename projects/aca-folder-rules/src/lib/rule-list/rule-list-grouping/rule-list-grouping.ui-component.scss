@@ -1,0 +1,27 @@
+.aca-rule-list-grouping {
+  display: flex;
+  flex-direction: column;
+
+  &__non-rule-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    color: var(--theme-disabled-text-color);
+    font-style: italic;
+    text-align: center;
+    padding: 0.5em 0;
+
+    &.load-more {
+      cursor: pointer;
+    }
+
+    &:not(:last-child) {
+      border-bottom: 1px solid var(--theme-border-color);
+    }
+
+    .mat-spinner {
+      margin-right: 0.5em;
+    }
+  }
+}

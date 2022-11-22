@@ -23,49 +23,50 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RuleListUiComponent } from './rule-list.ui-component';
-import { rulesMock } from '../../mock/rules.mock';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { CoreTestingModule } from '@alfresco/adf-core';
+import { RuleListGroupingUiComponent } from '../rule-list-grouping/rule-list-grouping.ui-component';
+import { RuleListItemUiComponent } from '../rule-list-item/rule-list-item.ui-component';
+import { ownedRuleSetMock, ruleSetsMock, ruleSetWithLinkMock } from '../../mock/rule-sets.mock';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { CoreTestingModule } from '@alfresco/adf-core';
-import { AcaFolderRulesModule } from '@alfresco/aca-folder-rules';
+import { owningFolderIdMock } from '../../mock/node.mock';
 
 describe('RuleListUiComponent', () => {
-  let component: RuleListUiComponent;
   let fixture: ComponentFixture<RuleListUiComponent>;
+  let component: RuleListUiComponent;
   let debugElement: DebugElement;
+
+  const innerTextWithoutIcon = (element: HTMLDivElement): string => element.innerText.replace(/(expand_more|chevron_right)$/, '').trim();
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CoreTestingModule, AcaFolderRulesModule],
-      declarations: [RuleListUiComponent]
+      imports: [CoreTestingModule],
+      declarations: [RuleListUiComponent, RuleListGroupingUiComponent, RuleListItemUiComponent]
     });
 
     fixture = TestBed.createComponent(RuleListUiComponent);
     component = fixture.componentInstance;
     debugElement = fixture.debugElement;
+
+    component.folderId = owningFolderIdMock;
+    component.inheritedRuleSets = ruleSetsMock;
   });
 
-  it('should display the list of rules', () => {
-    expect(component).toBeTruthy();
-
-    component.rules = rulesMock;
-
+  it('should show "Rules from current folder" as a title if the main rule set is owned', () => {
+    component.mainRuleSet = ownedRuleSetMock;
     fixture.detectChanges();
 
-    const rules = debugElement.queryAll(By.css('.aca-rule-list-item'));
+    const mainRuleSetTitleElement = debugElement.query(By.css(`[data-automation-id="main-rule-set-title"]`));
+    expect(innerTextWithoutIcon(mainRuleSetTitleElement.nativeElement as HTMLDivElement)).toBe('ACA_FOLDER_RULES.RULE_LIST.OWNED_RULES');
+  });
 
-    expect(rules).toBeTruthy('Could not find rules');
-    expect(rules.length).toBe(2, 'Unexpected number of rules');
+  it('should show "Rules from linked folder" as a title if the main rule set is linked', () => {
+    component.mainRuleSet = ruleSetWithLinkMock;
+    fixture.detectChanges();
 
-    const rule = debugElement.query(By.css('.aca-rule-list-item:first-child'));
-    const name = rule.query(By.css('.aca-rule-list-item__header__name'));
-    const description = rule.query(By.css('.aca-rule-list-item__description'));
-    const toggleBtn = rule.query(By.css('mat-slide-toggle'));
-
-    expect(name.nativeElement.textContent).toBe(rulesMock[0].name);
-    expect(toggleBtn).toBeTruthy();
-    expect(description.nativeElement.textContent).toBe(rulesMock[0].description);
+    const mainRuleSetTitleElement = debugElement.query(By.css(`[data-automation-id="main-rule-set-title"]`));
+    expect(innerTextWithoutIcon(mainRuleSetTitleElement.nativeElement as HTMLDivElement)).toBe('ACA_FOLDER_RULES.RULE_LIST.LINKED_RULES');
   });
 });

@@ -1,5 +1,11 @@
 <div class="aca-rule-list-item__header">
+
   <span class="aca-rule-list-item__header__name">{{ rule.name }}</span>
-  <mat-slide-toggle [(ngModel)]="rule.isEnabled" (click)="onToggleClick(!rule.isEnabled, $event)"></mat-slide-toggle>
+
+  <mat-slide-toggle
+    [checked]="rule.isEnabled"
+    (click)="onToggleClick(!rule.isEnabled, $event)">
+  </mat-slide-toggle>
+
 </div>
 <div class="aca-rule-list-item__description">{{ rule.description }}</div>

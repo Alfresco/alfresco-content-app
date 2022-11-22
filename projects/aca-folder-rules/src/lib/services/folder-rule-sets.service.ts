@@ -40,19 +40,45 @@ import { Rule } from '../model/rule.model';
 export class FolderRuleSetsService {
   public static MAX_RULE_SETS_PER_GET = 100;
 
+  static isOwnedRuleSet(ruleSet: RuleSet, nodeId: string): boolean {
+    return ruleSet.owningFolder.id === nodeId;
+  }
+  static isLinkedRuleSet(ruleSet: RuleSet, nodeId: string): boolean {
+    return ruleSet.linkedToBy.indexOf(nodeId) > -1;
+  }
+  static isMainRuleSet(ruleSet: RuleSet, nodeId: string): boolean {
+    return this.isOwnedRuleSet(ruleSet, nodeId) || this.isLinkedRuleSet(ruleSet, nodeId);
+  }
+  static isInheritedRuleSet(ruleSet: RuleSet, nodeId: string): boolean {
+    return !this.isMainRuleSet(ruleSet, nodeId);
+  }
+
   private currentFolder: NodeInfo = null;
-  private ruleSets: RuleSet[] = [];
+  private mainRuleSet: RuleSet = null;
+  private inheritedRuleSets: RuleSet[] = [];
   private hasMoreRuleSets = true;
 
-  private ruleSetListingSource = new BehaviorSubject<RuleSet[]>([]);
+  private mainRuleSetSource = new BehaviorSubject<RuleSet>(null);
+  private inheritedRuleSetsSource = new BehaviorSubject<RuleSet[]>([]);
   private hasMoreRuleSetsSource = new BehaviorSubject<boolean>(true);
   private folderInfoSource = new BehaviorSubject<NodeInfo>(null);
   private isLoadingSource = new BehaviorSubject<boolean>(false);
 
-  ruleSetListing$: Observable<RuleSet[]> = this.ruleSetListingSource.asObservable();
+  mainRuleSet$: Observable<RuleSet> = this.mainRuleSetSource.asObservable();
+  inheritedRuleSets$: Observable<RuleSet[]> = this.inheritedRuleSetsSource.asObservable();
   hasMoreRuleSets$: Observable<boolean> = this.hasMoreRuleSetsSource.asObservable();
   folderInfo$: Observable<NodeInfo> = this.folderInfoSource.asObservable();
   isLoading$ = this.isLoadingSource.asObservable();
+
+  selectedRuleSet$ = this.folderRulesService.selectedRule$.pipe(
+    map((rule: Rule) => {
+      if (this.mainRuleSet?.rules.findIndex((r: Rule) => r.id === rule.id) > -1) {
+        return this.mainRuleSet;
+      } else {
+        return this.inheritedRuleSets.find((ruleSet: RuleSet) => ruleSet.rules.findIndex((r: Rule) => r.id === rule.id) > -1) ?? null;
+      }
+    })
+  );
 
   constructor(private apiService: AlfrescoApiService, private contentApi: ContentApiService, private folderRulesService: FolderRulesService) {}
 
@@ -62,7 +88,19 @@ export class FolderRuleSetsService {
     return this.apiService.getInstance().contentPrivateClient.callApi(path, httpMethod, ...params);
   }
 
-  private getRuleSets(nodeId: string, skipCount = 0): Observable<RuleSet[]> {
+  private getMainRuleSet(nodeId: string): Observable<RuleSet> {
+    return from(this.callApi(`/nodes/${nodeId}/rule-sets/-default-?include=isLinkedTo,owningFolder,linkedToBy`, 'GET')).pipe(
+      catchError((error) => {
+        if (error.status === 404) {
+          return of({ entry: null });
+        }
+        return of(error);
+      }),
+      switchMap((res) => this.formatRuleSet(res.entry))
+    );
+  }
+
+  private getInheritedRuleSets(nodeId: string, skipCount = 0): Observable<RuleSet[]> {
     return from(
       this.callApi(
         `/nodes/${nodeId}/rule-sets?include=isLinkedTo,owningFolder,linkedToBy&skipCount=${skipCount}&maxItems=${FolderRuleSetsService.MAX_RULE_SETS_PER_GET}`,
@@ -74,16 +112,19 @@ export class FolderRuleSetsService {
           this.hasMoreRuleSets = res.list.pagination.hasMoreItems;
         }
       }),
-      switchMap((res) => this.formatRuleSets(res))
+      switchMap((res) => this.formatRuleSets(res)),
+      map((ruleSets: RuleSet[]) => ruleSets.filter((ruleSet) => FolderRuleSetsService.isInheritedRuleSet(ruleSet, this.currentFolder.id)))
     );
   }
 
   loadRuleSets(nodeId: string) {
     this.isLoadingSource.next(true);
-    this.ruleSets = [];
+    this.mainRuleSet = null;
+    this.inheritedRuleSets = [];
     this.hasMoreRuleSets = true;
     this.currentFolder = null;
-    this.ruleSetListingSource.next(this.ruleSets);
+    this.mainRuleSetSource.next(this.mainRuleSet);
+    this.inheritedRuleSetsSource.next(this.inheritedRuleSets);
     this.hasMoreRuleSetsSource.next(this.hasMoreRuleSets);
     this.getNodeInfo(nodeId)
       .pipe(
@@ -91,29 +132,27 @@ export class FolderRuleSetsService {
           this.currentFolder = nodeInfo;
           this.folderInfoSource.next(this.currentFolder);
         }),
-        switchMap(() => this.getRuleSets(nodeId)),
+        switchMap(() => combineLatest(this.getMainRuleSet(nodeId), this.getInheritedRuleSets(nodeId))),
         finalize(() => this.isLoadingSource.next(false))
       )
-      .subscribe((ruleSets: RuleSet[]) => {
-        this.ruleSets = ruleSets;
-        this.ruleSetListingSource.next(this.ruleSets);
+      .subscribe(([mainRuleSet, inheritedRuleSets]) => {
+        this.mainRuleSet = mainRuleSet;
+        this.inheritedRuleSets = inheritedRuleSets;
+        this.mainRuleSetSource.next(mainRuleSet);
+        this.inheritedRuleSetsSource.next(inheritedRuleSets);
         this.hasMoreRuleSetsSource.next(this.hasMoreRuleSets);
-        this.folderRulesService.selectRule(this.getOwnedOrLinkedRuleSet()?.rules[0] ?? ruleSets[0]?.rules[0]);
+        this.folderRulesService.selectRule(mainRuleSet?.rules[0] ?? inheritedRuleSets[0]?.rules[0] ?? null);
       });
   }
 
-  loadMoreRuleSets(selectLastRule = false) {
+  loadMoreInheritedRuleSets() {
     this.isLoadingSource.next(true);
-    this.getRuleSets(this.currentFolder.id, this.ruleSets.length)
+    this.getInheritedRuleSets(this.currentFolder.id, this.inheritedRuleSets.length)
       .pipe(finalize(() => this.isLoadingSource.next(false)))
       .subscribe((ruleSets) => {
-        this.ruleSets.push(...ruleSets);
-        this.ruleSetListingSource.next(this.ruleSets);
+        this.inheritedRuleSets.push(...ruleSets);
+        this.inheritedRuleSetsSource.next(this.inheritedRuleSets);
         this.hasMoreRuleSetsSource.next(this.hasMoreRuleSets);
-        if (selectLastRule) {
-          const ownedRuleSet = this.getOwnedOrLinkedRuleSet();
-          this.folderRulesService.selectRule(ownedRuleSet?.rules[ownedRuleSet.rules.length - 1]);
-        }
       });
   }
 
@@ -140,6 +179,9 @@ export class FolderRuleSetsService {
   }
 
   private formatRuleSet(entry: any): Observable<RuleSet> {
+    if (!entry) {
+      return of(null);
+    }
     return combineLatest(
       this.currentFolder?.id === entry.owningFolder ? of(this.currentFolder) : this.getNodeInfo(entry.owningFolder || ''),
       this.folderRulesService.getRules(entry.owningFolder || '', entry.id)
@@ -156,15 +198,38 @@ export class FolderRuleSetsService {
     );
   }
 
-  getRuleSetFromRuleId(ruleId: string): RuleSet {
-    return this.ruleSets.find((ruleSet: RuleSet) => ruleSet.rules.findIndex((r: Rule) => r.id === ruleId) > -1) ?? null;
+  removeRuleFromMainRuleSet(ruleId: string) {
+    if (this.mainRuleSet) {
+      const index = this.mainRuleSet.rules.findIndex((rule: Rule) => rule.id === ruleId);
+      if (index > -1) {
+        if (this.mainRuleSet.rules.length > 1) {
+          this.mainRuleSet.rules.splice(index, 1);
+        } else {
+          this.mainRuleSet = null;
+          this.mainRuleSetSource.next(this.mainRuleSet);
+        }
+      }
+    }
   }
 
-  getOwnedOrLinkedRuleSet(): RuleSet {
-    return (
-      this.ruleSets.find(
-        (ruleSet: RuleSet) => ruleSet.owningFolder.id === this.currentFolder.id || ruleSet.linkedToBy.indexOf(this.currentFolder.id) > -1
-      ) ?? null
-    );
+  addOrUpdateRuleInMainRuleSet(newRule: Rule) {
+    if (this.mainRuleSet) {
+      const index = this.mainRuleSet.rules.findIndex((rule: Rule) => rule.id === newRule.id);
+      if (index > -1) {
+        this.mainRuleSet.rules.splice(index, 1, newRule);
+      } else {
+        this.mainRuleSet.rules.push(newRule);
+      }
+      this.folderRulesService.selectRule(newRule);
+    } else {
+      this.getMainRuleSet(this.currentFolder.id).subscribe((mainRuleSet: RuleSet) => {
+        this.mainRuleSet = mainRuleSet;
+        this.mainRuleSetSource.next(mainRuleSet);
+        if (mainRuleSet) {
+          const ruleToSelect = mainRuleSet.rules.find((rule: Rule) => rule.id === newRule.id);
+          this.folderRulesService.selectRule(ruleToSelect);
+        }
+      });
+    }
   }
 }

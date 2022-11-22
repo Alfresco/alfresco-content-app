@@ -23,29 +23,18 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, EventEmitter, HostBinding, Input, Output, ViewEncapsulation } from '@angular/core';
-import { Rule } from '../../model/rule.model';
+import { Rule } from './rule.model';
+import { RuleSet } from './rule-set.model';
 
-@Component({
-  selector: 'aca-rule-list-item',
-  templateUrl: 'rule-list-item.ui-component.html',
-  styleUrls: ['rule-list-item.ui-component.scss'],
-  encapsulation: ViewEncapsulation.None,
-  host: { class: 'aca-rule-list-item' }
-})
-export class RuleListItemUiComponent {
-  @Input()
-  rule: Rule;
-  @Input()
-  @HostBinding('class.selected')
-  isSelected: boolean;
-
-  @Output()
-  enabledChanged = new EventEmitter<boolean>();
-
-  onToggleClick(isEnabled: boolean, event: Event) {
-    event.stopPropagation();
-    this.rule.isEnabled = !this.rule.isEnabled;
-    this.enabledChanged.emit(isEnabled);
-  }
-}
+export type RuleGroupingItem =
+  | {
+      type: 'rule';
+      rule: Rule;
+    }
+  | {
+      type: 'load-more-rules';
+      ruleSet: RuleSet;
+    }
+  | {
+      type: 'loading' | 'load-more-rule-sets';
+    };

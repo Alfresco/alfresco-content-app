@@ -66,6 +66,15 @@ export const getRuleSetsResponseMock = {
   }
 };
 
+export const getDefaultRuleSetResponseMock = {
+  entry: {
+    linkedToBy: [],
+    owningFolder: owningFolderIdMock,
+    isLinkedTo: false,
+    id: 'rule-set-no-links'
+  }
+};
+
 export const ruleSetMock = (rules: Rule[] = []): RuleSet => ({
   id: 'rule-set-id',
   isLinkedTo: false,
@@ -76,7 +85,7 @@ export const ruleSetMock = (rules: Rule[] = []): RuleSet => ({
   loadingRules: false
 });
 
-const ruleSetWithNoLinksMock: RuleSet = {
+export const ownedRuleSetMock: RuleSet = {
   id: 'rule-set-no-links',
   isLinkedTo: false,
   owningFolder: owningFolderMock,
@@ -86,7 +95,7 @@ const ruleSetWithNoLinksMock: RuleSet = {
   loadingRules: false
 };
 
-const ruleSetWithLinkMock: RuleSet = {
+export const ruleSetWithLinkMock: RuleSet = {
   id: 'rule-set-with-link',
   isLinkedTo: true,
   owningFolder: otherFolderMock,
@@ -96,7 +105,7 @@ const ruleSetWithLinkMock: RuleSet = {
   loadingRules: false
 };
 
-const inheritedRuleSetMock: RuleSet = {
+export const inheritedRuleSetMock: RuleSet = {
   id: 'inherited-rule-set',
   isLinkedTo: false,
   owningFolder: otherFolderMock,
@@ -106,4 +115,4 @@ const inheritedRuleSetMock: RuleSet = {
   loadingRules: false
 };
 
-export const ruleSetsMock: RuleSet[] = [inheritedRuleSetMock, ruleSetWithNoLinksMock, ruleSetWithLinkMock];
+export const ruleSetsMock: RuleSet[] = [inheritedRuleSetMock, ownedRuleSetMock, ruleSetWithLinkMock];
