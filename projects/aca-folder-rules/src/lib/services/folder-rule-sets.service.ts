@@ -179,7 +179,6 @@ export class FolderRuleSetsService {
   }
 
   private formatRuleSet(entry: any): Observable<RuleSet> {
-    // TODO -- remove fetch node info?
     if (!entry) {
       return of(null);
     }

@@ -25,8 +25,6 @@
 
 import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 import { RuleSet } from '../../model/rule-set.model';
-// TODO -- remove this
-// import { NodeInfo } from '@alfresco/aca-shared/store';
 import { Rule } from '../../model/rule.model';
 import { RuleGroupingItem } from '../../model/rule-grouping-item.model';
 import { FolderRuleSetsService } from '../../services/folder-rule-sets.service';
@@ -104,18 +102,6 @@ export class RuleListUiComponent {
     }
     return items;
   }
-
-  // TODO -- remove
-  // isRuleSetLinked(ruleSet: RuleSet): boolean {
-  //   return ruleSet.linkedToBy.indexOf(this.folderId) > -1;
-  // }
-
-  // TODO -- move this outside
-  // clickNavigateButton(folder: NodeInfo) {
-  //   if (folder && folder.id) {
-  //     this.navigateToOtherFolder.emit(folder.id);
-  //   }
-  // }
 
   onLoadMoreRuleSets() {
     this.loadMoreRuleSets.emit();
