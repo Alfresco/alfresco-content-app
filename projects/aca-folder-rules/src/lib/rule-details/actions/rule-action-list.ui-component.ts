@@ -51,6 +51,8 @@ export class RuleActionListUiComponent implements ControlValueAccessor, OnDestro
   readOnly = false;
   @Input()
   parameterConstraints: ActionParameterConstraint[] = [];
+  @Input()
+  nodeId = '';
 
   formArray = new FormArray([]);
   private formArraySubscription: Subscription;
