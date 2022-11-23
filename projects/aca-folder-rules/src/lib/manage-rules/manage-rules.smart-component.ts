@@ -86,7 +86,6 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
     this.hasMoreRuleSets$ = this.folderRuleSetsService.hasMoreRuleSets$;
     this.ruleSetsLoading$ = this.folderRuleSetsService.isLoading$;
     this.folderInfo$ = this.folderRuleSetsService.folderInfo$;
-    // this.isInheritanceEnabled$ = this.folderRulesService.isInheritanceEnabled$;
 
     this.actionsLoading$ = this.actionsService.loading$.pipe(delay(0));
     this.actionDefinitions$ = this.actionsService.actionDefinitionsListing$;
