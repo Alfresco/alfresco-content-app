@@ -116,11 +116,13 @@ export class NodeTemplateService {
   }
 
   createTemplateDialog(node: Node): MatDialogRef<CreateFromTemplateDialogComponent> {
-    return this.dialog.open(CreateFromTemplateDialogComponent, {
+    const dialog = this.dialog.open(CreateFromTemplateDialogComponent, {
       data: node,
       panelClass: 'aca-create-from-template-dialog',
       width: '630px'
     });
+    dialog.afterClosed().subscribe(() => NodeTemplateService.focusCreateMenuButton());
+    return dialog;
   }
 
   private transformNode(node: MinimalNode): MinimalNode {
@@ -144,6 +146,7 @@ export class NodeTemplateService {
 
   private close() {
     this.dialog.closeAll();
+    NodeTemplateService.focusCreateMenuButton();
   }
 
   private title(selectionType: string) {
@@ -161,5 +164,9 @@ export class NodeTemplateService {
 
   private getPathElements(node: Node): PathElement[] {
     return node.path.elements.filter((pathElement) => !this.rootNode.path.elements.some((rootPathElement) => pathElement.id === rootPathElement.id));
+  }
+
+  private static focusCreateMenuButton(): void {
+    document.querySelector<HTMLElement>('app-create-menu button').focus();
   }
 }
