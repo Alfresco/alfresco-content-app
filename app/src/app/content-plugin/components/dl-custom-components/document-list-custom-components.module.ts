@@ -23,38 +23,18 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { CustomNameColumnComponent } from './name-column/name-column.component';
+import { LockedByModule } from '@alfresco/aca-shared';
+import { ContentModule } from '@alfresco/adf-content-services';
+import { MaterialModule } from '../../../material.module';
 import { CoreModule } from '@alfresco/adf-core';
-import { CommonModule } from '@angular/common';
-import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
-import { ExtensionsModule } from '@alfresco/adf-extensions';
-import { AppExtensionService } from '@alfresco/aca-shared';
-
-// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
-export function setupExtensions(service: AppExtensionService): () => void {
-  return () => service.load();
-}
+import { ThumbnailColumnComponent } from './thumbnail-column/thumbnail-column.component';
 
 @NgModule({
-  imports: [CommonModule, CoreModule.forChild(), ExtensionsModule]
+  imports: [BrowserModule, CoreModule.forChild(), ContentModule.forChild(), MaterialModule, LockedByModule],
+  declarations: [CustomNameColumnComponent, ThumbnailColumnComponent],
+  exports: [CustomNameColumnComponent, ThumbnailColumnComponent]
 })
-export class CoreExtensionsModule {
-  static forRoot(): ModuleWithProviders<CoreExtensionsModule> {
-    return {
-      ngModule: CoreExtensionsModule,
-      providers: [
-        {
-          provide: APP_INITIALIZER,
-          useFactory: setupExtensions,
-          deps: [AppExtensionService],
-          multi: true
-        }
-      ]
-    };
-  }
-
-  static forChild(): ModuleWithProviders<CoreExtensionsModule> {
-    return {
-      ngModule: CoreExtensionsModule
-    };
-  }
-}
+export class DocumentListCustomComponentsModule {}

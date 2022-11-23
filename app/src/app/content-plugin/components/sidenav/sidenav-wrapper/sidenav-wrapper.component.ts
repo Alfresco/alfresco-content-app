@@ -23,38 +23,17 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { CoreModule } from '@alfresco/adf-core';
-import { CommonModule } from '@angular/common';
-import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
-import { ExtensionsModule } from '@alfresco/adf-extensions';
-import { AppExtensionService } from '@alfresco/aca-shared';
+import { Component, Input } from '@angular/core';
 
-// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
-export function setupExtensions(service: AppExtensionService): () => void {
-  return () => service.load();
-}
-
-@NgModule({
-  imports: [CommonModule, CoreModule.forChild(), ExtensionsModule]
+/**
+ * This wrapper is designated to be used with 'adf-dynamic-component'.
+ * It forwards the dynamic component inputs to original sidenav.
+ */
+@Component({
+  selector: 'aca-sidenav-wrapper',
+  templateUrl: './sidenav-wrapper.component.html'
 })
-export class CoreExtensionsModule {
-  static forRoot(): ModuleWithProviders<CoreExtensionsModule> {
-    return {
-      ngModule: CoreExtensionsModule,
-      providers: [
-        {
-          provide: APP_INITIALIZER,
-          useFactory: setupExtensions,
-          deps: [AppExtensionService],
-          multi: true
-        }
-      ]
-    };
-  }
-
-  static forChild(): ModuleWithProviders<CoreExtensionsModule> {
-    return {
-      ngModule: CoreExtensionsModule
-    };
-  }
+export class SidenavWrapperComponent {
+  @Input()
+  data: { mode?: 'collapsed' | 'expanded' } = {};
 }

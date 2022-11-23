@@ -23,38 +23,40 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { CoreModule } from '@alfresco/adf-core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
-import { ExtensionsModule } from '@alfresco/adf-extensions';
-import { AppExtensionService } from '@alfresco/aca-shared';
+import { RouterModule, Routes } from '@angular/router';
+import { CoreModule } from '@alfresco/adf-core';
+import { ContentDirectiveModule } from '@alfresco/adf-content-services';
+import { DirectivesModule } from '../../directives/directives.module';
+import { AppInfoDrawerModule } from '../info-drawer/info.drawer.module';
+import { CoreExtensionsModule } from '../../../extensions/core.extensions.module';
+import { AppToolbarModule } from '../toolbar/toolbar.module';
+import { AppViewerComponent } from './viewer.component';
 
-// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
-export function setupExtensions(service: AppExtensionService): () => void {
-  return () => service.load();
-}
+const routes: Routes = [
+  {
+    path: '',
+    data: {
+      title: 'APP.PREVIEW.TITLE',
+      navigateMultiple: true
+    },
+    component: AppViewerComponent
+  }
+];
 
 @NgModule({
-  imports: [CommonModule, CoreModule.forChild(), ExtensionsModule]
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+    CoreModule.forChild(),
+    ContentDirectiveModule,
+    DirectivesModule,
+    AppInfoDrawerModule,
+    CoreExtensionsModule.forChild(),
+    AppToolbarModule
+  ],
+  declarations: [AppViewerComponent],
+  exports: [AppViewerComponent]
 })
-export class CoreExtensionsModule {
-  static forRoot(): ModuleWithProviders<CoreExtensionsModule> {
-    return {
-      ngModule: CoreExtensionsModule,
-      providers: [
-        {
-          provide: APP_INITIALIZER,
-          useFactory: setupExtensions,
-          deps: [AppExtensionService],
-          multi: true
-        }
-      ]
-    };
-  }
-
-  static forChild(): ModuleWithProviders<CoreExtensionsModule> {
-    return {
-      ngModule: CoreExtensionsModule
-    };
-  }
-}
+export class AppViewerModule {}

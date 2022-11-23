@@ -23,38 +23,15 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { CoreModule } from '@alfresco/adf-core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
-import { ExtensionsModule } from '@alfresco/adf-extensions';
-import { AppExtensionService } from '@alfresco/aca-shared';
-
-// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
-export function setupExtensions(service: AppExtensionService): () => void {
-  return () => service.load();
-}
+import { CoreModule } from '@alfresco/adf-core';
+import { LoginComponent } from './login.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
-  imports: [CommonModule, CoreModule.forChild(), ExtensionsModule]
+  imports: [CommonModule, CoreModule.forChild(), TranslateModule.forChild()],
+  exports: [LoginComponent],
+  declarations: [LoginComponent]
 })
-export class CoreExtensionsModule {
-  static forRoot(): ModuleWithProviders<CoreExtensionsModule> {
-    return {
-      ngModule: CoreExtensionsModule,
-      providers: [
-        {
-          provide: APP_INITIALIZER,
-          useFactory: setupExtensions,
-          deps: [AppExtensionService],
-          multi: true
-        }
-      ]
-    };
-  }
-
-  static forChild(): ModuleWithProviders<CoreExtensionsModule> {
-    return {
-      ngModule: CoreExtensionsModule
-    };
-  }
-}
+export class AppLoginModule {}

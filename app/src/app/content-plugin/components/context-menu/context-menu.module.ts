@@ -24,37 +24,32 @@
  */
 
 import { CoreModule } from '@alfresco/adf-core';
-import { CommonModule } from '@angular/common';
-import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
 import { ExtensionsModule } from '@alfresco/adf-extensions';
-import { AppExtensionService } from '@alfresco/aca-shared';
-
-// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
-export function setupExtensions(service: AppExtensionService): () => void {
-  return () => service.load();
-}
+import { NgModule } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
+import { CoreExtensionsModule } from '../../../extensions/core.extensions.module';
+import { AppCommonModule } from '../common/common.module';
+import { ContextMenuItemComponent } from './context-menu-item.component';
+import { OutsideEventDirective } from './context-menu-outside-event.directive';
+import { ContextMenuComponent } from './context-menu.component';
+import { ContextActionsModule } from '@alfresco/aca-shared';
 
 @NgModule({
-  imports: [CommonModule, CoreModule.forChild(), ExtensionsModule]
+  imports: [
+    MatMenuModule,
+    MatListModule,
+    MatIconModule,
+    MatButtonModule,
+    CoreExtensionsModule.forChild(),
+    CoreModule.forChild(),
+    AppCommonModule,
+    ExtensionsModule,
+    ContextActionsModule
+  ],
+  declarations: [ContextMenuComponent, ContextMenuItemComponent, OutsideEventDirective],
+  exports: [OutsideEventDirective, ContextMenuComponent, ContextMenuItemComponent, ContextActionsModule]
 })
-export class CoreExtensionsModule {
-  static forRoot(): ModuleWithProviders<CoreExtensionsModule> {
-    return {
-      ngModule: CoreExtensionsModule,
-      providers: [
-        {
-          provide: APP_INITIALIZER,
-          useFactory: setupExtensions,
-          deps: [AppExtensionService],
-          multi: true
-        }
-      ]
-    };
-  }
-
-  static forChild(): ModuleWithProviders<CoreExtensionsModule> {
-    return {
-      ngModule: CoreExtensionsModule
-    };
-  }
-}
+export class ContextMenuModule {}

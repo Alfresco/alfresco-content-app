@@ -23,38 +23,21 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { CoreModule } from '@alfresco/adf-core';
-import { CommonModule } from '@angular/common';
-import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
-import { ExtensionsModule } from '@alfresco/adf-extensions';
-import { AppExtensionService } from '@alfresco/aca-shared';
+import { Component } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import { AppService } from '@alfresco/aca-shared';
 
-// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
-export function setupExtensions(service: AppExtensionService): () => void {
-  return () => service.load();
-}
-
-@NgModule({
-  imports: [CommonModule, CoreModule.forChild(), ExtensionsModule]
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss']
 })
-export class CoreExtensionsModule {
-  static forRoot(): ModuleWithProviders<CoreExtensionsModule> {
-    return {
-      ngModule: CoreExtensionsModule,
-      providers: [
-        {
-          provide: APP_INITIALIZER,
-          useFactory: setupExtensions,
-          deps: [AppExtensionService],
-          multi: true
-        }
-      ]
-    };
-  }
+export class AppComponent {
+  onDestroy$: Subject<boolean> = new Subject<boolean>();
+  pageHeading: Observable<string>;
 
-  static forChild(): ModuleWithProviders<CoreExtensionsModule> {
-    return {
-      ngModule: CoreExtensionsModule
-    };
+  constructor(private appService: AppService) {
+    this.pageHeading = this.appService.pageHeading$;
+    this.appService.init();
   }
 }

@@ -25,23 +25,91 @@
 
 import { AppService } from './app.service';
 import { TestBed } from '@angular/core/testing';
-import { AuthenticationService, AppConfigService, AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-core';
-import { Subject } from 'rxjs';
+import {
+  AuthenticationService,
+  AppConfigService,
+  AlfrescoApiService,
+  PageTitleService,
+  UserPreferencesService,
+  UploadService,
+  SharedLinksApiService,
+  AlfrescoApiServiceMock,
+  TranslationMock,
+  TranslationService,
+  DiscoveryApiService
+} from '@alfresco/adf-core';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { HttpClientModule } from '@angular/common/http';
-import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
+import { GroupService, SearchQueryBuilderService } from '@alfresco/adf-content-services';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ContentApiService } from './content-api.service';
+import { RouterExtensionService } from './router.extension.service';
+import { OverlayContainer } from '@angular/cdk/overlay';
+import { AppStore, STORE_INITIAL_APP_DATA } from '../../../store/src/states/app.state';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { CommonModule } from '@angular/common';
+import { TranslateService } from '@ngx-translate/core';
+import { TranslateServiceMock } from '../testing/translation.service';
+import { RouterTestingModule } from '@angular/router/testing';
+import { RepositoryInfo } from '@alfresco/js-api';
 
 describe('AppService', () => {
   let service: AppService;
   let auth: AuthenticationService;
   let appConfig: AppConfigService;
   let searchQueryBuilderService: SearchQueryBuilderService;
+  let userPreferencesService: UserPreferencesService;
+  let router: Router;
+  let activatedRoute: ActivatedRoute;
+  let routerExtensionService: RouterExtensionService;
+  let pageTitleService: PageTitleService;
+  let uploadService: UploadService;
+  let contentApiService: ContentApiService;
+  let sharedLinksApiService: SharedLinksApiService;
+  let overlayContainer: OverlayContainer;
+  let alfrescoApiService: AlfrescoApiService;
+  let groupService: GroupService;
+  let storeInitialAppData: any;
+  let store: MockStore<AppStore>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule],
+      imports: [HttpClientModule, RouterTestingModule.withRoutes([])],
       providers: [
-        { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock },
+        CommonModule,
         SearchQueryBuilderService,
+        UserPreferencesService,
+        RouterExtensionService,
+        UploadService,
+        ContentApiService,
+        SharedLinksApiService,
+        OverlayContainer,
+        provideMockStore({}),
+        {
+          provide: PageTitleService,
+          useValue: {}
+        },
+        {
+          provide: DiscoveryApiService,
+          useValue: {
+            ecmProductInfo$: new BehaviorSubject<RepositoryInfo>(null),
+            getEcmProductInfo: (): Observable<RepositoryInfo> => of(new RepositoryInfo({ version: '10.0.0' }))
+          }
+        },
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: {}
+          }
+        },
+        {
+          provide: STORE_INITIAL_APP_DATA,
+          useValue: {}
+        },
+        {
+          provide: AlfrescoApiService,
+          useClass: AlfrescoApiServiceMock
+        },
         {
           provide: AuthenticationService,
           useValue: {
@@ -49,15 +117,47 @@ describe('AppService', () => {
             onLogout: new Subject<any>(),
             isLoggedIn: () => false
           }
-        }
+        },
+        { provide: TranslationService, useClass: TranslationMock },
+        { provide: TranslateService, useClass: TranslateServiceMock }
       ]
     });
 
-    auth = TestBed.inject(AuthenticationService);
     appConfig = TestBed.inject(AppConfigService);
     searchQueryBuilderService = TestBed.inject(SearchQueryBuilderService);
+    userPreferencesService = TestBed.inject(UserPreferencesService);
+    router = TestBed.inject(Router);
+    activatedRoute = TestBed.inject(ActivatedRoute);
+    routerExtensionService = TestBed.inject(RouterExtensionService);
+    pageTitleService = TestBed.inject(PageTitleService);
+    uploadService = TestBed.inject(UploadService);
+    contentApiService = TestBed.inject(ContentApiService);
+    sharedLinksApiService = TestBed.inject(SharedLinksApiService);
+    overlayContainer = TestBed.inject(OverlayContainer);
+    alfrescoApiService = TestBed.inject(AlfrescoApiService);
+    groupService = TestBed.inject(GroupService);
+    storeInitialAppData = TestBed.inject(STORE_INITIAL_APP_DATA);
+    store = TestBed.inject(MockStore);
+    auth = TestBed.inject(AuthenticationService);
 
-    service = new AppService(auth, appConfig, searchQueryBuilderService);
+    service = new AppService(
+      userPreferencesService,
+      auth,
+      store,
+      router,
+      activatedRoute,
+      appConfig,
+      pageTitleService,
+      alfrescoApiService,
+      uploadService,
+      routerExtensionService,
+      contentApiService,
+      sharedLinksApiService,
+      groupService,
+      overlayContainer,
+      storeInitialAppData,
+      searchQueryBuilderService
+    );
   });
 
   it('should be ready if [withCredentials] mode is used', (done) => {
@@ -67,7 +167,25 @@ describe('AppService', () => {
       }
     };
 
-    const instance = new AppService(auth, appConfig, searchQueryBuilderService);
+    const instance = new AppService(
+      userPreferencesService,
+      auth,
+      store,
+      router,
+      activatedRoute,
+      appConfig,
+      pageTitleService,
+      alfrescoApiService,
+      uploadService,
+      routerExtensionService,
+      contentApiService,
+      sharedLinksApiService,
+      groupService,
+      overlayContainer,
+      storeInitialAppData,
+      searchQueryBuilderService
+    );
+
     expect(instance.withCredentials).toBeTruthy();
 
     instance.ready$.subscribe(() => {

@@ -33,7 +33,7 @@ import { UploadFilesDialog } from '../components/dialog/upload-files-dialog';
 export abstract class Page {
   appRoot = 'app-root';
 
-  layout = this.byCss('app-layout');
+  layout = this.byCss('app-shell');
   overlay = this.byCss('.cdk-overlay-container');
   snackBar = this.byCss(`[data-automation-id='adf-snackbar-message-content-action-button']`);
   dialogContainer = this.byCss('.mat-dialog-container');

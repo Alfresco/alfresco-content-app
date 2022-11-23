@@ -23,38 +23,39 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { CoreModule } from '@alfresco/adf-core';
+import { NgModule } from '@angular/core';
+import { SharedLinkViewComponent } from './shared-link-view.component';
 import { CommonModule } from '@angular/common';
-import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
-import { ExtensionsModule } from '@alfresco/adf-extensions';
-import { AppExtensionService } from '@alfresco/aca-shared';
+import { CoreModule } from '@alfresco/adf-core';
+import { RouterModule, Routes } from '@angular/router';
+import { DirectivesModule } from '../../directives/directives.module';
+import { AppCommonModule } from '../common/common.module';
+import { AppToolbarModule } from '../toolbar/toolbar.module';
+import { AppInfoDrawerModule } from '../info-drawer/info.drawer.module';
+import { CoreExtensionsModule } from '../../../extensions/core.extensions.module';
 
-// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
-export function setupExtensions(service: AppExtensionService): () => void {
-  return () => service.load();
-}
+const routes: Routes = [
+  {
+    path: '',
+    component: SharedLinkViewComponent,
+    data: {
+      title: 'APP.PREVIEW.TITLE'
+    }
+  }
+];
 
 @NgModule({
-  imports: [CommonModule, CoreModule.forChild(), ExtensionsModule]
+  imports: [
+    CommonModule,
+    CoreModule.forChild(),
+    RouterModule.forChild(routes),
+    DirectivesModule,
+    AppCommonModule,
+    AppToolbarModule,
+    CoreExtensionsModule.forChild(),
+    AppInfoDrawerModule
+  ],
+  declarations: [SharedLinkViewComponent],
+  exports: [SharedLinkViewComponent]
 })
-export class CoreExtensionsModule {
-  static forRoot(): ModuleWithProviders<CoreExtensionsModule> {
-    return {
-      ngModule: CoreExtensionsModule,
-      providers: [
-        {
-          provide: APP_INITIALIZER,
-          useFactory: setupExtensions,
-          deps: [AppExtensionService],
-          multi: true
-        }
-      ]
-    };
-  }
-
-  static forChild(): ModuleWithProviders<CoreExtensionsModule> {
-    return {
-      ngModule: CoreExtensionsModule
-    };
-  }
-}
+export class AppSharedLinkViewModule {}
