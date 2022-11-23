@@ -24,6 +24,7 @@
       "@alfresco/adf-testing/shared": ["../alfresco-ng2-components/lib/testing/src/lib/shared"],
       "@alfresco/adf-core": ["../alfresco-ng2-components/lib/core"],
       "@alfresco/adf-core/*": ["../alfresco-ng2-components/lib/core/*/public-api.ts"],
+      "@alfresco/adf-core/shell": ["../alfresco-ng2-components/lib/core/shell/src/index.ts"],
       "@alfresco/adf-core/auth": ["../alfresco-ng2-components/lib/core/auth/src/index.ts"],
       "@alfresco/adf-extensions": ["../alfresco-ng2-components/lib/extensions"],
       "@alfresco/adf-content-services": ["../alfresco-ng2-components/lib/content-services"],
