@@ -26,7 +26,13 @@
                               class="aca-manage-rules__actions-bar__title__breadcrumb"></adf-breadcrumb>
             </adf-toolbar-title>
 
-            <mat-slide-toggle disableRipple [labelPosition]="'before'" [aria-label]="'Inherit rules'">Inherit rules</mat-slide-toggle>
+            <mat-slide-toggle
+              [checked]="isInheritanceEnabled"
+              (change)="onToggleInheritanceClick($event)"
+              [disabled]="isInheritanceToggleDisabled"
+              [labelPosition]="'before'">
+              {{ 'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.ACTIONS.INHERIT_RULES' | translate }}
+            </mat-slide-toggle>
 
             <mat-divider vertical [style]="{height:'50%', margin:'0 12px'}"></mat-divider>
 
