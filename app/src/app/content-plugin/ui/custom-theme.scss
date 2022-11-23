@@ -1,6 +1,7 @@
 @use '@angular/material' as mat;
 @import './overrides/adf-style-fixes.theme';
 @import './overrides/adf-pagination.theme';
+@import './overrides/ay11';
 @import './colors';
 
 $mat-primary-palette: mat.define-palette($aca-primary-blue, A100);
@@ -20,4 +21,5 @@ $custom-theme: mat.define-light-theme(
   @include adf-core-theme($theme);
   @include adf-style-fixes($theme);
   @include adf-pagination-theme($theme);
+  @include ay11-theme();
 }
