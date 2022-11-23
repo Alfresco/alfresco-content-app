@@ -152,13 +152,13 @@ export class FolderRulesService {
     );
   }
 
-  async getRuleSettings(nodeId: string, parameter: string = '-isInheritanceEnabled-'): Promise<RuleSettings> {
-    const response = await this.callApi(`/nodes/${nodeId}/rule-settings/${parameter}`, 'GET');
+  async getRuleSettings(nodeId: string, key: string = '-isInheritanceEnabled-'): Promise<RuleSettings> {
+    const response = await this.callApi(`/nodes/${nodeId}/rule-settings/${key}`, 'GET');
     return response.entry;
   }
 
-  async updateRuleSettings(nodeId: string, parameter: string, body: RuleSettings): Promise<RuleSettings> {
-    const response = await this.callApi(`/nodes/${nodeId}/rule-settings/${parameter}`, 'PUT', { ...body });
+  async updateRuleSettings(nodeId: string, key: string, body: RuleSettings): Promise<RuleSettings> {
+    const response = await this.callApi(`/nodes/${nodeId}/rule-settings/${key}`, 'PUT', { ...body });
     return response.entry;
   }
 

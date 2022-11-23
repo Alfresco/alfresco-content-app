@@ -162,7 +162,7 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
     await this.folderRulesService.updateRule(this.nodeId, rule.id, { ...rule, isEnabled });
   }
 
-  async onToggleInheritanceClick(event: MatSlideToggleChange) {
+  async onInheritanceToggleChange(event: MatSlideToggleChange) {
     this.isInheritanceToggleDisabled = true;
     const ruleSettings = await this.folderRulesService.updateRuleSettings(this.nodeId, '-isInheritanceEnabled-', { value: event.checked });
     this.isInheritanceEnabled = ruleSettings.value;
