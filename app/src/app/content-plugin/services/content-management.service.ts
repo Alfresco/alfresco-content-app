@@ -237,6 +237,7 @@ export class ContentManagementService {
       if (node) {
         this.store.dispatch(new ReloadDocumentListAction());
       }
+      ContentManagementService.focusCreateMenuButton();
     });
   }
 
@@ -277,6 +278,7 @@ export class ContentManagementService {
         if (node) {
           this.appHookService.libraryCreated.next(node);
         }
+        ContentManagementService.focusCreateMenuButton();
       }),
       map((node: SiteEntry) => {
         if (node && node.entry && node.entry.guid) {
@@ -1076,5 +1078,9 @@ export class ContentManagementService {
       )
       .onAction()
       .subscribe(() => this.undoMoveNodes(moveResponse, initialParentId));
+  }
+
+  private static focusCreateMenuButton(): void {
+    document.querySelector<HTMLElement>('app-create-menu button').focus();
   }
 }

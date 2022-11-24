@@ -55,6 +55,7 @@ describe('NodeTemplateService', () => {
     store = TestBed.inject(Store);
     dialog = TestBed.inject(MatDialog);
     nodeTemplateService = TestBed.inject(NodeTemplateService);
+    spyOn(document, 'querySelector').and.returnValue(document.createElement('button'));
   });
 
   it('should open dialog with parent node `id` as data property', fakeAsync(() => {
