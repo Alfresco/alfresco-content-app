@@ -79,10 +79,13 @@ describe('RuleActionUiComponent', () => {
     expect(cardView.properties.length).toBe(0);
 
     changeMatSelectValue('rule-action-select', 'mock-action-1-definition');
-    expect(cardView.properties.length).toBe(3);
+
+    expect(cardView.properties.length).toBe(5);
     expect(cardView.properties[0]).toBeInstanceOf(CardViewTextItemModel);
     expect(cardView.properties[1]).toBeInstanceOf(CardViewBoolItemModel);
     expect(cardView.properties[2]).toBeInstanceOf(CardViewSelectItemModel);
+    expect(cardView.properties[3]).toBeInstanceOf(CardViewTextItemModel);
+    expect(cardView.properties[4]).toBeInstanceOf(CardViewSelectItemModel);
 
     changeMatSelectValue('rule-action-select', 'mock-action-2-definition');
     expect(cardView.properties.length).toBe(0);

@@ -35,10 +35,13 @@ import {
   CardViewUpdateService,
   UpdateNotification
 } from '@alfresco/adf-core';
-import { ActionParameterDefinition } from '@alfresco/js-api';
+import { ActionParameterDefinition, Node } from '@alfresco/js-api';
 import { of, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ActionParameterConstraint, ConstraintValue } from '../../model/action-parameter-constraint.model';
+import { ContentNodeSelectorComponent, ContentNodeSelectorComponentData, NodeAction } from '@alfresco/adf-content-services';
+import { MatDialog } from '@angular/material/dialog';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'aca-rule-action',
@@ -56,6 +59,9 @@ import { ActionParameterConstraint, ConstraintValue } from '../../model/action-p
   ]
 })
 export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDestroy {
+  @Input()
+  nodeId = '';
+
   private _actionDefinitions: ActionDefinitionTransformed[];
   @Input()
   get actionDefinitions(): ActionDefinitionTransformed[] {
@@ -108,7 +114,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
   onChange: (action: RuleAction) => void = () => undefined;
   onTouch: () => void = () => undefined;
 
-  constructor(private cardViewUpdateService: CardViewUpdateService) {}
+  constructor(private cardViewUpdateService: CardViewUpdateService, private dialog: MatDialog, private translate: TranslateService) {}
 
   writeValue(action: RuleAction) {
     this.form.setValue({
@@ -161,6 +167,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
   setCardViewProperties() {
     this.cardViewItems = (this.selectedActionDefinition?.parameterDefinitions ?? []).map((paramDef) => {
       this.isFullWidth = false;
+      const constraintsForDropdownBox = this._parameterConstraints.find((obj) => obj.name === paramDef.name);
       const cardViewPropertiesModel = {
         label: paramDef.displayLabel + (paramDef.mandatory ? ' *' : ''),
         key: paramDef.name,
@@ -182,8 +189,19 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
             ...cardViewPropertiesModel,
             value: this.parameters[paramDef.name] ?? false
           });
+        case 'd:noderef':
+          if (!constraintsForDropdownBox && !this.readOnly) {
+            return new CardViewTextItemModel({
+              ...cardViewPropertiesModel,
+              icon: 'folder',
+              default: this.translate.instant('ACA_FOLDER_RULES.RULE_DETAILS.PLACEHOLDER.CHOOSE_FOLDER'),
+              clickable: true,
+              clickCallBack: this.openSelectorDialog.bind(this),
+              value: this.parameters[paramDef.name]
+            });
+          }
+        //  falls through
         default:
-          const constraintsForDropdownBox = this._parameterConstraints.find((obj) => obj.name === paramDef.name);
           if (constraintsForDropdownBox && !this.readOnly) {
             this.isFullWidth = true;
             return new CardViewSelectItemModel({
@@ -198,6 +216,45 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
           });
       }
     });
+  }
+
+  private openSelectorDialog() {
+    const data: ContentNodeSelectorComponentData = {
+      title: this.translate.instant('ACA_FOLDER_RULES.RULE_DETAILS.PLACEHOLDER.CHOOSE_FOLDER'),
+      actionName: NodeAction.CHOOSE,
+      currentFolderId: this.nodeId,
+      select: new Subject<Node[]>()
+    };
+
+    this.dialog.open(ContentNodeSelectorComponent, {
+      data,
+      panelClass: 'adf-content-node-selector-dialog',
+      width: '630px'
+    });
+
+    data.select.subscribe(
+      (selections: Node[]) => {
+        if (selections[0].id) {
+          this.writeValue({
+            actionDefinitionId: this.selectedActionDefinitionId,
+            params: {
+              'destination-folder': selections[0].id
+            }
+          });
+          this.onChange({
+            actionDefinitionId: this.selectedActionDefinitionId,
+            params: this.parameters
+          });
+          this.onTouch();
+        }
+      },
+      (error) => {
+        console.error(error);
+      },
+      () => {
+        this.dialog.closeAll();
+      }
+    );
   }
 
   setDefaultParameters() {

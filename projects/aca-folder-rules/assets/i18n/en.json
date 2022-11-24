@@ -21,7 +21,9 @@
       "PLACEHOLDER": {
         "NAME": "Enter rule name",
         "DESCRIPTION": "Enter rule description",
-        "NO_DESCRIPTION": "No description"
+        "NO_DESCRIPTION": "No description",
+        "VALUE": "Value",
+        "CHOOSE_FOLDER": "Choose destination folder"
       },
       "ERROR": {
         "REQUIRED": "This field is required",
@@ -91,7 +93,8 @@
         },
         "ACTIONS": {
           "CREATE_RULE": "Create rule",
-          "EDIT_RULE": "Edit"
+          "EDIT_RULE": "Edit",
+          "SEE_IN_FOLDER": "See in folder"
         }
       },
       "EMPTY_RULES_LIST": {
@@ -104,6 +107,15 @@
         "TITLE": "Delete rule",
         "MESSAGE": "Are you sure you want to delete this rule?"
       }
+    },
+    "RULE_LIST": {
+      "OWNED_RULES": "Rules from current folder",
+      "LINKED_RULES": "Rules from linked folder",
+      "INHERITED_RULES": "Inherited rules",
+      "LOAD_MORE_RULE_SETS": "Load rules from other folders",
+      "LOAD_MORE_RULES": "Load more rules",
+      "LOADING_RULES": "Loading rules",
+      "INHERITED_RULES_WILL_BE_RUN_FIRST": "Inherited rules will be run first"
     }
   }
 }

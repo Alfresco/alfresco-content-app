@@ -21,11 +21,12 @@
     padding: 20px;
     gap: 12px;
     overflow-y: auto;
+    flex: 1;
 
     &__rule-details {
       border: 1px solid var(--theme-border-color);
       border-radius: 12px;
-      overflow-y: scroll;
+      overflow-y: auto;
 
       &__header {
         position: sticky;

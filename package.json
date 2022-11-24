@@ -21,14 +21,15 @@
     "e2e.typecheck": "tsc -p ./e2e/tsconfig.e2e.typecheck.json",
     "e2e": "npm run update-webdriver && protractor $SUITE",
     "spellcheck": "cspell '{src,e2e,projects}/**/*.ts'",
-    "inspect.bundle": "ng build content-ce --configuration production --stats-json && npx webpack-bundle-analyzer dist/content-ce/stats.json"
+    "inspect.bundle": "ng build content-ce --configuration production --stats-json && npx webpack-bundle-analyzer dist/content-ce/stats.json",
+    "prepare": "husky install"
   },
   "private": true,
   "dependencies": {
-    "@alfresco/adf-content-services": "5.2.0-37012",
-    "@alfresco/adf-core": "5.2.0-37012",
-    "@alfresco/adf-extensions": "5.2.0-37012",
-    "@alfresco/js-api": "5.2.0-418",
+    "@alfresco/adf-content-services": "5.2.0-37106",
+    "@alfresco/adf-core": "5.2.0-37106",
+    "@alfresco/adf-extensions": "5.2.0-37106",
+    "@alfresco/js-api": "5.2.0-423",
     "@angular/animations": "14.1.2",
     "@angular/cdk": "14.1.2",
     "@angular/common": "14.1.2",
@@ -57,8 +58,8 @@
     "zone.js": "0.11.8"
   },
   "devDependencies": {
-    "@alfresco/adf-cli": "5.2.0-37012",
-    "@alfresco/adf-testing": "5.2.0-37012",
+    "@alfresco/adf-cli": "5.2.0-37106",
+    "@alfresco/adf-testing": "5.2.0-37106",
     "@angular-custom-builders/lite-serve": "^0.2.3",
     "@angular-devkit/build-angular": "14.1.2",
     "@angular-eslint/builder": "^14.1.2",
@@ -75,8 +76,8 @@
     "@types/node": "^14.14.12",
     "@types/selenium-webdriver": "^4.0.9",
     "@types/superagent": "^4.1.10",
-    "@typescript-eslint/eslint-plugin": "^5.42.0",
-    "@typescript-eslint/parser": "^5.40.1",
+    "@typescript-eslint/eslint-plugin": "^5.42.1",
+    "@typescript-eslint/parser": "^5.43.0",
     "ajv-cli": "^4.2.0",
     "browser-sync": "^2.27.10",
     "commander": "^6.1.0",
@@ -107,7 +108,7 @@
     "karma-mocha-reporter": "^2.2.5",
     "lint-staged": "^13.0.3",
     "lite-server": "^2.4.0",
-    "ng-packagr": "^14.2.1",
+    "ng-packagr": "^14.2.2",
     "node-stream-zip": "^1.14.0",
     "prettier": "2.5.1",
     "protractor": "~7.0.0",
@@ -120,16 +121,5 @@
     "typescript": "4.6.3",
     "webdriver-manager": "12.1.8",
     "winston": "^3.8.2"
-  },
-  "lint-staged": {
-    "*.{ts,js,css,scss,html}": [
-      "prettier --single-quote --write",
-      "git add"
-    ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   }
 }

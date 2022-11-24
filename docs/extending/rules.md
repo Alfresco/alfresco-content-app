@@ -202,7 +202,7 @@ for example mixing `core.every` and `core.not`.
 | 1.7.0   | app.navigation.isPersonalFiles    | Current page is **Personal Files**.                              |
 | 1.7.0   | app.navigation.isLibraryFiles     | Current page is **Library Files**.                               |
 
-**Tip:** See the [Registration](/extending/registration) section for more details
+**Tip:** See the [Registration](./registration) section for more details
 on how to register your own entries to be re-used at runtime.
 
 ### Example

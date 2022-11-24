@@ -97,6 +97,8 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
   actionDefinitions: ActionDefinitionTransformed[] = [];
   @Input()
   parameterConstraints: ActionParameterConstraint[] = [];
+  @Input()
+  nodeId = '';
 
   @Output()
   formValidationChanged = new EventEmitter<boolean>();

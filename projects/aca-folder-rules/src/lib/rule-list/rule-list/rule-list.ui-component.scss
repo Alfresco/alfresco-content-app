@@ -1,0 +1,52 @@
+.aca-rule-list {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  gap: 8px;
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--theme-border-color);
+    border-radius: 12px;
+    overflow: hidden;
+
+    &__header {
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      cursor: pointer;
+      color: var(--theme-text-color);
+      user-select: none;
+      font-size: 0.9em;
+
+      & > * {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      &__title {
+        padding: 0.5em 1em;
+        flex: 1;
+
+        &__text {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+
+          .mat-icon {
+            transform: scale(0.8);
+          }
+        }
+      }
+    }
+
+    &.expanded {
+      .aca-rule-list__item__header {
+        border-bottom: 1px solid var(--theme-border-color);
+      }
+    }
+  }
+}

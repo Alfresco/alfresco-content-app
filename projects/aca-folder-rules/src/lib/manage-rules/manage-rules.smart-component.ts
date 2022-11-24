@@ -23,20 +23,22 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Location } from '@angular/common';
 import { FolderRulesService } from '../services/folder-rules.service';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Rule } from '../model/rule.model';
 import { ActivatedRoute } from '@angular/router';
 import { NodeInfo } from '@alfresco/aca-shared/store';
-import { delay, tap } from 'rxjs/operators';
+import { delay, takeUntil } from 'rxjs/operators';
 import { EditRuleDialogSmartComponent } from '../rule-details/edit-rule-dialog.smart-component';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '@alfresco/adf-content-services';
 import { NotificationService } from '@alfresco/adf-core';
 import { ActionDefinitionTransformed } from '../model/rule-action.model';
 import { ActionsService } from '../services/actions.service';
+import { FolderRuleSetsService } from '../services/folder-rule-sets.service';
+import { RuleSet } from '../model/rule-set.model';
 
 @Component({
   selector: 'aca-manage-rules',
@@ -46,15 +48,20 @@ import { ActionsService } from '../services/actions.service';
   host: { class: 'aca-manage-rules' }
 })
 export class ManageRulesSmartComponent implements OnInit, OnDestroy {
-  rules$: Observable<Rule[]>;
-  rulesLoading$: Observable<boolean>;
-  actionsLoading$: Observable<boolean>;
+  nodeId = '';
+
+  mainRuleSet$: Observable<RuleSet>;
+  inheritedRuleSets$: Observable<RuleSet[]>;
+  selectedRule$: Observable<Rule>;
+  selectedRuleSet$: Observable<RuleSet>;
+  hasMoreRuleSets$: Observable<boolean>;
+  ruleSetsLoading$: Observable<boolean>;
   folderInfo$: Observable<NodeInfo>;
+
+  actionsLoading$: Observable<boolean>;
   actionDefinitions$: Observable<ActionDefinitionTransformed[]>;
-  selectedRule: Rule = null;
-  nodeId: string = null;
-  deletedRuleSubscription$: Subscription;
-  ruleDialogOnSubmitSubscription$: Subscription;
+
+  private destroyed$ = new Subject<void>();
 
   constructor(
     private location: Location,
@@ -62,45 +69,45 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private matDialogService: MatDialog,
     private notificationService: NotificationService,
-    private actionsService: ActionsService
+    private actionsService: ActionsService,
+    private folderRuleSetsService: FolderRuleSetsService
   ) {}
 
-  ngOnInit(): void {
-    this.actionDefinitions$ = this.actionsService.actionDefinitionsListing$;
-    this.rules$ = this.folderRulesService.rulesListing$.pipe(
-      tap((rules) => {
-        if (!rules.includes(this.selectedRule)) {
-          this.selectedRule = rules[0];
-        }
-      })
-    );
-    this.deletedRuleSubscription$ = this.folderRulesService.deletedRuleId$.subscribe((deletedRuleId) => {
-      if (deletedRuleId) {
-        this.folderRulesService.loadRules(this.nodeId);
-      }
-    });
-    this.rulesLoading$ = this.folderRulesService.loading$;
+  ngOnInit() {
+    this.mainRuleSet$ = this.folderRuleSetsService.mainRuleSet$;
+    this.inheritedRuleSets$ = this.folderRuleSetsService.inheritedRuleSets$;
+    this.selectedRule$ = this.folderRulesService.selectedRule$;
+    this.selectedRuleSet$ = this.folderRuleSetsService.selectedRuleSet$;
+    this.hasMoreRuleSets$ = this.folderRuleSetsService.hasMoreRuleSets$;
+    this.ruleSetsLoading$ = this.folderRuleSetsService.isLoading$;
+    this.folderInfo$ = this.folderRuleSetsService.folderInfo$;
+
     this.actionsLoading$ = this.actionsService.loading$.pipe(delay(0));
-    this.folderInfo$ = this.folderRulesService.folderInfo$;
+    this.actionDefinitions$ = this.actionsService.actionDefinitionsListing$;
+
+    this.folderRulesService.deletedRuleId$.pipe(takeUntil(this.destroyed$)).subscribe((deletedRuleId) => this.onRuleDelete(deletedRuleId));
+
     this.actionsService.loadActionDefinitions();
+
     this.route.params.subscribe((params) => {
       this.nodeId = params.nodeId;
       if (this.nodeId) {
-        this.folderRulesService.loadRules(this.nodeId);
+        this.folderRuleSetsService.loadRuleSets(this.nodeId);
       }
     });
   }
 
-  ngOnDestroy(): void {
-    this.deletedRuleSubscription$.unsubscribe();
+  ngOnDestroy() {
+    this.destroyed$.next();
+    this.destroyed$.complete();
   }
 
   goBack(): void {
     this.location.back();
   }
 
-  onRuleSelected(rule: Rule): void {
-    this.selectedRule = rule;
+  onSelectRule(rule: Rule) {
+    this.folderRulesService.selectRule(rule);
   }
 
   openCreateUpdateRuleDialog(model = {}) {
@@ -108,7 +115,8 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
       width: '90%',
       panelClass: 'aca-edit-rule-dialog-container',
       data: {
-        model
+        model,
+        nodeId: this.nodeId
       }
     });
 
@@ -119,11 +127,10 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
     dialogRef.componentInstance.submitted.subscribe(async (rule) => {
       try {
         if (rule.id) {
-          await this.folderRulesService.updateRule(this.nodeId, rule.id, rule);
+          await this.onRuleUpdate(rule);
         } else {
-          await this.folderRulesService.createRule(this.nodeId, rule);
+          await this.onRuleCreate(rule);
         }
-        this.folderRulesService.loadRules(this.nodeId);
         dialogRef.close();
       } catch (error) {
         this.notificationService.showError(error.response.body.error.errorKey);
@@ -131,7 +138,21 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
     });
   }
 
-  onRuleDelete(): void {
+  async onRuleUpdate(rule: Rule) {
+    const newRule = await this.folderRulesService.updateRule(this.nodeId, rule.id, rule);
+    this.folderRuleSetsService.addOrUpdateRuleInMainRuleSet(newRule);
+  }
+
+  async onRuleCreate(ruleCreateParams: Partial<Rule>) {
+    const newRule = await this.folderRulesService.createRule(this.nodeId, ruleCreateParams);
+    this.folderRuleSetsService.addOrUpdateRuleInMainRuleSet(newRule);
+  }
+
+  async onRuleEnabledToggle(rule: Rule, isEnabled: boolean) {
+    await this.folderRulesService.updateRule(this.nodeId, rule.id, { ...rule, isEnabled });
+  }
+
+  onRuleDeleteButtonClicked(rule: Rule) {
     this.matDialogService
       .open(ConfirmDialogComponent, {
         data: {
@@ -143,12 +164,24 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
       .afterClosed()
       .subscribe((result) => {
         if (result) {
-          this.folderRulesService.deleteRule(this.nodeId, this.selectedRule.id);
+          this.folderRulesService.deleteRule(this.nodeId, rule.id);
         }
       });
   }
 
-  onRuleUpdate(): void {
-    this.openCreateUpdateRuleDialog(this.selectedRule);
+  onRuleDelete(deletedRuleId: string) {
+    this.folderRuleSetsService.removeRuleFromMainRuleSet(deletedRuleId);
+  }
+
+  onLoadMoreRuleSets() {
+    this.folderRuleSetsService.loadMoreInheritedRuleSets();
+  }
+
+  onLoadMoreRules(ruleSet: RuleSet) {
+    this.folderRulesService.loadRules(ruleSet);
+  }
+
+  canEditRule(ruleSet: RuleSet): boolean {
+    return !ruleSet || FolderRuleSetsService.isOwnedRuleSet(ruleSet, this.nodeId);
   }
 }
