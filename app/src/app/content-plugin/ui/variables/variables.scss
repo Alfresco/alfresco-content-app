@@ -70,6 +70,9 @@ $defaults: (
   --theme-dropdown-color: $grey-dropdown-background,
   --theme-grey-divider-color: $grey-divider,
   --theme-pagination-background-color: $pagination-background-color,
+  --theme-about-panel-border-color: $grey-background,
+  --theme-about-panel-background-color: #ffffff,
+  --theme-about-panel-title-color: #212121,
 );
 
 // propagates SCSS variables into the CSS variables scope
