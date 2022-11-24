@@ -39,7 +39,6 @@ import { timer } from 'rxjs';
 
 describe('EditRuleDialogSmartComponent', () => {
   let fixture: ComponentFixture<EditRuleDialogSmartComponent>;
-  let actionsService: ActionsService;
 
   const dialogRef = {
     close: jasmine.createSpy('close'),
@@ -64,9 +63,8 @@ describe('EditRuleDialogSmartComponent', () => {
       ]
     });
 
-    actionsService = TestBed.inject(ActionsService);
-    spyOn(actionsService, 'loadActionDefinitions').and.stub();
-    spyOn(actionsService, 'getParameterConstraints').and.stub();
+    spyOn(ActionsService.prototype, 'loadActionDefinitions').and.stub();
+    spyOn(ActionsService.prototype, 'getParameterConstraints').and.stub();
 
     fixture = TestBed.createComponent(EditRuleDialogSmartComponent);
     fixture.detectChanges();

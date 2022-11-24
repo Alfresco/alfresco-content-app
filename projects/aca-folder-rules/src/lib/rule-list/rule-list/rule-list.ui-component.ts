@@ -58,6 +58,10 @@ export class RuleListUiComponent {
   selectRule = new EventEmitter<Rule>();
   @Output()
   ruleEnabledChanged = new EventEmitter<[Rule, boolean]>();
+  @Output()
+  ruleSetEditLinkClicked = new EventEmitter<RuleSet>();
+  @Output()
+  ruleSetUnlinkClicked = new EventEmitter<RuleSet>();
 
   inheritedRuleSetsExpanded = true;
   mainRuleSetExpanded = true;
@@ -117,5 +121,15 @@ export class RuleListUiComponent {
 
   onRuleEnabledChanged(event: [Rule, boolean]) {
     this.ruleEnabledChanged.emit(event);
+  }
+
+  onRuleSetEditLinkClicked(event: Event) {
+    event.stopPropagation();
+    this.ruleSetEditLinkClicked.emit(this.mainRuleSet);
+  }
+
+  onRuleSetUnlinkClicked(event: Event) {
+    event.stopPropagation();
+    this.ruleSetUnlinkClicked.emit(this.mainRuleSet);
   }
 }

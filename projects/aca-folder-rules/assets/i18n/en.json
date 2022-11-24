@@ -93,6 +93,7 @@
         },
         "ACTIONS": {
           "CREATE_RULE": "Create rule",
+          "LINK_RULES": "Link rules",
           "EDIT_RULE": "Edit",
           "SEE_IN_FOLDER": "See in folder"
         }
@@ -106,6 +107,10 @@
       "DELETE_RULE": {
         "TITLE": "Delete rule",
         "MESSAGE": "Are you sure you want to delete this rule?"
+      },
+      "DELETE_RULE_SET_LINK": {
+        "TITLE": "Delete rule set link",
+        "MESSAGE": "Are you sure you want to delete the link to this rule set?"
       }
     },
     "RULE_LIST": {
@@ -116,6 +121,22 @@
       "LOAD_MORE_RULES": "Load more rules",
       "LOADING_RULES": "Loading rules",
       "INHERITED_RULES_WILL_BE_RUN_FIRST": "Inherited rules will be run first"
+    },
+    "LINK_RULES_DIALOG": {
+      "TITLE": "Select a folder to link rules from",
+      "CANCEL": "Cancel",
+      "SUBMIT": "Select folder",
+      "EMPTY_RULES_LIST": {
+        "TITLE": "No owned rules",
+        "SUBTITLE": "The selected folder doesn't have any rules of its own."
+      },
+      "LIST_OF_RULES_TO_LINK": "List of rules that will be linked",
+      "ERRORS": {
+        "REQUEST_FAILED": "Error while trying to create a link to a rule set"
+      }
+    },
+    "ERRORS": {
+      "DELETE_RULE_SET_LINK_FAILED": "Error while trying to delete a link from a rule set"
     }
   }
 }

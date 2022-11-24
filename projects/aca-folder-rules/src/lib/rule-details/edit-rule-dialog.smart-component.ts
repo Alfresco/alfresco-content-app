@@ -38,7 +38,8 @@ export interface EditRuleDialogOptions {
   templateUrl: './edit-rule-dialog.smart-component.html',
   styleUrls: ['./edit-rule-dialog.smart-component.scss'],
   encapsulation: ViewEncapsulation.None,
-  host: { class: 'aca-edit-rule-dialog' }
+  host: { class: 'aca-edit-rule-dialog' },
+  providers: [{ provide: ActionsService, useClass: ActionsService }]
 })
 export class EditRuleDialogSmartComponent implements OnInit, OnDestroy {
   formValid = false;

@@ -40,6 +40,8 @@ export class RuleListGroupingUiComponent {
   items: RuleGroupingItem[] = [];
   @Input()
   selectedRule: Rule = null;
+  @Input()
+  showEnabledToggles = false;
 
   @Output()
   selectRule = new EventEmitter<Rule>();

@@ -26,13 +26,22 @@
                               class="aca-manage-rules__actions-bar__title__breadcrumb"></adf-breadcrumb>
             </adf-toolbar-title>
 
-            <button
-              *ngIf="canEditRule(mainRuleSet$ | async)"
-              data-automation-id="manage-rules-create-button"
-              mat-flat-button color="primary"
-              (click)="openCreateUpdateRuleDialog()">
-              {{ 'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.ACTIONS.CREATE_RULE' | translate }}
-            </button>
+            <div class="aca-manage-rules__actions-bar__buttons">
+              <button
+                *ngIf="!(mainRuleSet$ | async)"
+                mat-stroked-button
+                (click)="openLinkRulesDialog()">
+                {{ 'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.ACTIONS.LINK_RULES' | translate }}
+              </button>
+
+              <button
+                *ngIf="canEditRule(mainRuleSet$ | async)"
+                data-automation-id="manage-rules-create-button"
+                mat-flat-button color="primary"
+                (click)="openCreateUpdateRuleDialog()">
+                {{ 'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.ACTIONS.CREATE_RULE' | translate }}
+              </button>
+            </div>
 
           </adf-toolbar>
           <mat-divider></mat-divider>
@@ -48,7 +57,9 @@
               (loadMoreRuleSets)="onLoadMoreRuleSets()"
               (loadMoreRules)="onLoadMoreRules($event)"
               (selectRule)="onSelectRule($event)"
-              (ruleEnabledChanged)="onRuleEnabledToggle($event[0], $event[1])">
+              (ruleEnabledChanged)="onRuleEnabledToggle($event[0], $event[1])"
+              (ruleSetEditLinkClicked)="openLinkRulesDialog($event)"
+              (ruleSetUnlinkClicked)="onRuleSetUnlinkClicked($event)">
             </aca-rule-list>
 
             <div class="aca-manage-rules__container__rule-details">
