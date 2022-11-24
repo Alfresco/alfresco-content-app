@@ -25,6 +25,11 @@
       font-size: 14px;
       color: var(--adf-breadcrumb-item-active-color);
     }
+
+    .vertical-divider {
+      height: 50%;
+      margin: 0 12px;
+    }
   }
 
   &__container {

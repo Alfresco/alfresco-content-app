@@ -61,7 +61,6 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
   hasMoreRuleSets$: Observable<boolean>;
   ruleSetsLoading$: Observable<boolean>;
   folderInfo$: Observable<NodeInfo>;
-  isInheritanceEnabled$: Observable<boolean>;
 
   actionsLoading$: Observable<boolean>;
   actionDefinitions$: Observable<ActionDefinitionTransformed[]>;
