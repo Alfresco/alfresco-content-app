@@ -95,7 +95,8 @@
           "CREATE_RULE": "Create rule",
           "LINK_RULES": "Link rules",
           "EDIT_RULE": "Edit",
-          "SEE_IN_FOLDER": "See in folder"
+          "SEE_IN_FOLDER": "See in folder",
+          "INHERIT_RULES": "Inherit rules"
         }
       },
       "EMPTY_RULES_LIST": {

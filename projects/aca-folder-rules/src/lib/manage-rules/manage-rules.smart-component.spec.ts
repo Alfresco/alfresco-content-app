@@ -36,7 +36,7 @@ import { owningFolderIdMock, owningFolderMock } from '../mock/node.mock';
 import { MatDialog } from '@angular/material/dialog';
 import { ActionsService } from '../services/actions.service';
 import { FolderRuleSetsService } from '../services/folder-rule-sets.service';
-import { ruleMock } from '../mock/rules.mock';
+import { ruleMock, ruleSettingsMock } from '../mock/rules.mock';
 import { Store } from '@ngrx/store';
 
 describe('ManageRulesSmartComponent', () => {
@@ -227,6 +227,45 @@ describe('ManageRulesSmartComponent', () => {
 
       const createButton = debugElement.query(By.css(`[data-automation-id="manage-rules-create-button"]`));
       expect(createButton).toBeFalsy();
+    });
+  });
+
+  describe('Rule inheritance toggle  button', () => {
+    beforeEach(() => {
+      folderRuleSetsService.folderInfo$ = of(owningFolderMock);
+      folderRuleSetsService.inheritedRuleSets$ = of([]);
+      folderRuleSetsService.isLoading$ = of(false);
+      actionsService.loading$ = of(false);
+    });
+
+    it('should show inherit rules toggle button, and disable it when isInheritanceToggleDisabled = true', () => {
+      fixture.detectChanges();
+
+      const createButton = debugElement.query(By.css(`[data-automation-id="manage-rules-inheritance-toggle-button"]`));
+      expect(createButton).toBeTruthy();
+
+      component.isInheritanceToggleDisabled = true;
+      fixture.detectChanges();
+
+      expect(createButton.nativeNode.classList).toContain('mat-disabled');
+    });
+
+    it('should call onInheritanceToggleChange() on change', () => {
+      const onInheritanceToggleChangeSpy = spyOn(component, 'onInheritanceToggleChange').and.callThrough();
+      const updateRuleSettingsSpy = spyOn(folderRulesService, 'updateRuleSettings').and.returnValue(Promise.resolve(ruleSettingsMock));
+      const loadRuleSetsSpy = spyOn(folderRuleSetsService, 'loadRuleSets').and.callThrough();
+
+      fixture.detectChanges();
+
+      const inheritanceToggleBtn = fixture.debugElement.query(By.css(`[data-automation-id="manage-rules-inheritance-toggle-button"]`));
+
+      inheritanceToggleBtn.nativeElement.dispatchEvent(new Event('change'));
+
+      fixture.detectChanges();
+
+      expect(onInheritanceToggleChangeSpy).toHaveBeenCalled();
+      expect(updateRuleSettingsSpy).toHaveBeenCalledTimes(1);
+      expect(loadRuleSetsSpy).toHaveBeenCalledTimes(1);
     });
   });
 });

@@ -27,7 +27,7 @@ import { Injectable } from '@angular/core';
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { BehaviorSubject, from, Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
-import { Rule, RuleForForm, RuleOptions } from '../model/rule.model';
+import { Rule, RuleForForm, RuleOptions, RuleSettings } from '../model/rule.model';
 import { RuleCompositeCondition } from '../model/rule-composite-condition.model';
 import { RuleSimpleCondition } from '../model/rule-simple-condition.model';
 import { RuleSet } from '../model/rule-set.model';
@@ -150,6 +150,16 @@ export class FolderRulesService {
         this.deletedRuleIdSource.next(error);
       }
     );
+  }
+
+  async getRuleSettings(nodeId: string, key: string = '-isInheritanceEnabled-'): Promise<RuleSettings> {
+    const response = await this.callApi(`/nodes/${nodeId}/rule-settings/${key}`, 'GET');
+    return response.entry;
+  }
+
+  async updateRuleSettings(nodeId: string, key: string, body: RuleSettings): Promise<RuleSettings> {
+    const response = await this.callApi(`/nodes/${nodeId}/rule-settings/${key}`, 'PUT', { ...body });
+    return response.entry;
   }
 
   private formatRules(res): Rule[] {

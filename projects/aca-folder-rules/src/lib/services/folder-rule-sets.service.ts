@@ -68,7 +68,7 @@ export class FolderRuleSetsService {
   inheritedRuleSets$: Observable<RuleSet[]> = this.inheritedRuleSetsSource.asObservable();
   hasMoreRuleSets$: Observable<boolean> = this.hasMoreRuleSetsSource.asObservable();
   folderInfo$: Observable<NodeInfo> = this.folderInfoSource.asObservable();
-  isLoading$ = this.isLoadingSource.asObservable();
+  isLoading$: Observable<boolean> = this.isLoadingSource.asObservable();
 
   selectedRuleSet$ = this.folderRulesService.selectedRule$.pipe(
     map((rule: Rule) => {

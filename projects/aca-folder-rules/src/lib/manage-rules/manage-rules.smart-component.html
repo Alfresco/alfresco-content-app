@@ -26,6 +26,17 @@
                               class="aca-manage-rules__actions-bar__title__breadcrumb"></adf-breadcrumb>
             </adf-toolbar-title>
 
+            <mat-slide-toggle
+              data-automation-id="manage-rules-inheritance-toggle-button"
+              [checked]="isInheritanceEnabled"
+              (change)="onInheritanceToggleChange($event)"
+              [disabled]="isInheritanceToggleDisabled"
+              [labelPosition]="'before'">
+              {{ 'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.ACTIONS.INHERIT_RULES' | translate }}
+            </mat-slide-toggle>
+
+            <mat-divider vertical class="vertical-divider"></mat-divider>
+
             <div class="aca-manage-rules__actions-bar__buttons">
               <button
                 *ngIf="!(mainRuleSet$ | async)"

@@ -40,6 +40,7 @@ import { ActionsService } from '../services/actions.service';
 import { FolderRuleSetsService } from '../services/folder-rule-sets.service';
 import { RuleSet } from '../model/rule-set.model';
 import { RuleSetPickerSmartComponent } from '../rule-set-picker/rule-set-picker.smart-component';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'aca-manage-rules',
@@ -50,6 +51,8 @@ import { RuleSetPickerSmartComponent } from '../rule-set-picker/rule-set-picker.
 })
 export class ManageRulesSmartComponent implements OnInit, OnDestroy {
   nodeId = '';
+  isInheritanceEnabled = true;
+  isInheritanceToggleDisabled = false;
 
   mainRuleSet$: Observable<RuleSet>;
   inheritedRuleSets$: Observable<RuleSet[]>;
@@ -93,6 +96,10 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
     this.route.params.subscribe((params) => {
       this.nodeId = params.nodeId;
       if (this.nodeId) {
+        this.folderRulesService.getRuleSettings(this.nodeId).then((ruleSettings) => {
+          this.isInheritanceEnabled = ruleSettings.value;
+        });
+
         this.folderRuleSetsService.loadRuleSets(this.nodeId);
       }
     });
@@ -151,6 +158,14 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
 
   async onRuleEnabledToggle(rule: Rule, isEnabled: boolean) {
     await this.folderRulesService.updateRule(this.nodeId, rule.id, { ...rule, isEnabled });
+  }
+
+  async onInheritanceToggleChange(event: MatSlideToggleChange) {
+    this.isInheritanceToggleDisabled = true;
+    const ruleSettings = await this.folderRulesService.updateRuleSettings(this.nodeId, '-isInheritanceEnabled-', { value: event.checked });
+    this.isInheritanceEnabled = ruleSettings.value;
+    this.folderRuleSetsService.loadRuleSets(this.nodeId);
+    this.isInheritanceToggleDisabled = false;
   }
 
   onRuleDeleteButtonClicked(rule: Rule) {

@@ -17,7 +17,18 @@
     &__buttons {
       display: flex;
       align-items: stretch;
-      gap: 4px;
+      gap: 12px;
+    }
+
+    .mat-slide-toggle-label {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--adf-breadcrumb-item-active-color);
+    }
+
+    .vertical-divider {
+      height: 50%;
+      margin: 0 12px;
     }
   }
 

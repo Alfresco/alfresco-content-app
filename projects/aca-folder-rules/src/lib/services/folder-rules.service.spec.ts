@@ -27,7 +27,15 @@ import { TestBed } from '@angular/core/testing';
 import { CoreTestingModule } from '@alfresco/adf-core';
 import { of } from 'rxjs';
 import { FolderRulesService } from './folder-rules.service';
-import { getMoreRulesResponseMock, getRulesResponseMock, manyRulesMock, moreRulesMock, ruleMock, rulesMock } from '../mock/rules.mock';
+import {
+  getMoreRulesResponseMock,
+  getRulesResponseMock,
+  manyRulesMock,
+  moreRulesMock,
+  ruleMock,
+  ruleSettingsMock,
+  rulesMock
+} from '../mock/rules.mock';
 import { ruleSetMock } from '../mock/rule-sets.mock';
 import { expect } from '@angular/flex-layout/_private-utils/testing';
 import { owningFolderIdMock } from '../mock/node.mock';
@@ -44,6 +52,8 @@ describe('FolderRulesService', () => {
   const { id, ...mockedRuleWithoutId } = mockedRule;
   const mockedRuleEntry = { entry: mockedRule };
   const ruleId = mockedRule.id;
+  const mockedRuleSettingsEntry = { entry: ruleSettingsMock };
+  const key = ruleSettingsMock.key;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -137,5 +147,19 @@ describe('FolderRulesService', () => {
 
     const result = await folderRulesService.updateRule(nodeId, ruleId, mockedRule, ruleSetId);
     expect(result).toEqual(mockedRule);
+  });
+
+  it('should send correct GET request and return rule settings', async () => {
+    callApiSpy.withArgs(`/nodes/${nodeId}/rule-settings/${key}`, 'GET').and.returnValue(Promise.resolve(mockedRuleSettingsEntry));
+
+    const result = await folderRulesService.getRuleSettings(nodeId, key);
+    expect(result).toEqual(ruleSettingsMock);
+  });
+
+  it('should send correct PUT request to update rule settings and return them', async () => {
+    callApiSpy.withArgs(`/nodes/${nodeId}/rule-settings/${key}`, 'PUT', ruleSettingsMock).and.returnValue(Promise.resolve(mockedRuleSettingsEntry));
+
+    const result = await folderRulesService.updateRuleSettings(nodeId, key, ruleSettingsMock);
+    expect(result).toEqual(ruleSettingsMock);
   });
 });

@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Rule } from '../model/rule.model';
+import { Rule, RuleSettings } from '../model/rule.model';
 import { RuleGroupingItem } from '../model/rule-grouping-item.model';
 
 export const getRulesResponseMock = {
@@ -170,3 +170,8 @@ export const ruleListGroupingItemsMock: RuleGroupingItem[] = [
     rule: ruleMock('rule2')
   }
 ];
+
+export const ruleSettingsMock: RuleSettings = {
+  value: false,
+  key: '-parameter-'
+};

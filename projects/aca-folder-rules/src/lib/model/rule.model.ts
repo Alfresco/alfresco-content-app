@@ -58,3 +58,8 @@ export interface RuleForForm {
   actions: RuleAction[];
   options: RuleOptions;
 }
+
+export interface RuleSettings {
+  value: boolean;
+  key?: string;
+}
