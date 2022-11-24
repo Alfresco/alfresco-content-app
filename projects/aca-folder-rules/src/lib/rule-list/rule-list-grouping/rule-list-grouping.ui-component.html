@@ -6,6 +6,7 @@
     tabindex="0"
     [rule]="item.rule"
     [isSelected]="isSelected(item.rule)"
+    [showEnabledToggle]="showEnabledToggles"
     (click)="onRuleClicked(item.rule)"
     (enabledChanged)="onEnabledChanged(item.rule, $event)">
   </aca-rule-list-item>

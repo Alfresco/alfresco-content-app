@@ -38,8 +38,6 @@ describe('RuleListUiComponent', () => {
   let component: RuleListUiComponent;
   let debugElement: DebugElement;
 
-  const innerTextWithoutIcon = (element: HTMLDivElement): string => element.innerText.replace(/(expand_more|chevron_right)$/, '').trim();
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [CoreTestingModule],
@@ -59,7 +57,7 @@ describe('RuleListUiComponent', () => {
     fixture.detectChanges();
 
     const mainRuleSetTitleElement = debugElement.query(By.css(`[data-automation-id="main-rule-set-title"]`));
-    expect(innerTextWithoutIcon(mainRuleSetTitleElement.nativeElement as HTMLDivElement)).toBe('ACA_FOLDER_RULES.RULE_LIST.OWNED_RULES');
+    expect((mainRuleSetTitleElement.nativeElement as HTMLDivElement).innerText.trim()).toBe('ACA_FOLDER_RULES.RULE_LIST.OWNED_RULES');
   });
 
   it('should show "Rules from linked folder" as a title if the main rule set is linked', () => {
@@ -67,6 +65,6 @@ describe('RuleListUiComponent', () => {
     fixture.detectChanges();
 
     const mainRuleSetTitleElement = debugElement.query(By.css(`[data-automation-id="main-rule-set-title"]`));
-    expect(innerTextWithoutIcon(mainRuleSetTitleElement.nativeElement as HTMLDivElement)).toBe('ACA_FOLDER_RULES.RULE_LIST.LINKED_RULES');
+    expect((mainRuleSetTitleElement.nativeElement as HTMLDivElement).innerText.trim()).toBe('ACA_FOLDER_RULES.RULE_LIST.LINKED_RULES');
   });
 });

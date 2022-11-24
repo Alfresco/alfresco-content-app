@@ -41,10 +41,10 @@ export class FolderRuleSetsService {
   public static MAX_RULE_SETS_PER_GET = 100;
 
   static isOwnedRuleSet(ruleSet: RuleSet, nodeId: string): boolean {
-    return ruleSet.owningFolder.id === nodeId;
+    return ruleSet?.owningFolder?.id === nodeId;
   }
   static isLinkedRuleSet(ruleSet: RuleSet, nodeId: string): boolean {
-    return ruleSet.linkedToBy.indexOf(nodeId) > -1;
+    return ruleSet?.linkedToBy.indexOf(nodeId) > -1;
   }
   static isMainRuleSet(ruleSet: RuleSet, nodeId: string): boolean {
     return this.isOwnedRuleSet(ruleSet, nodeId) || this.isLinkedRuleSet(ruleSet, nodeId);
@@ -72,11 +72,13 @@ export class FolderRuleSetsService {
 
   selectedRuleSet$ = this.folderRulesService.selectedRule$.pipe(
     map((rule: Rule) => {
+      if (rule === null) {
+        return null;
+      }
       if (this.mainRuleSet?.rules.findIndex((r: Rule) => r.id === rule.id) > -1) {
         return this.mainRuleSet;
-      } else {
-        return this.inheritedRuleSets.find((ruleSet: RuleSet) => ruleSet.rules.findIndex((r: Rule) => r.id === rule.id) > -1) ?? null;
       }
+      return this.inheritedRuleSets.find((ruleSet: RuleSet) => ruleSet.rules.findIndex((r: Rule) => r.id === rule.id) > -1) ?? null;
     })
   );
 
@@ -117,7 +119,7 @@ export class FolderRuleSetsService {
     );
   }
 
-  loadRuleSets(nodeId: string) {
+  loadRuleSets(nodeId: string, loadInheritedRuleSets = true) {
     this.isLoadingSource.next(true);
     this.mainRuleSet = null;
     this.inheritedRuleSets = [];
@@ -132,7 +134,7 @@ export class FolderRuleSetsService {
           this.currentFolder = nodeInfo;
           this.folderInfoSource.next(this.currentFolder);
         }),
-        switchMap(() => combineLatest(this.getMainRuleSet(nodeId), this.getInheritedRuleSets(nodeId))),
+        switchMap(() => combineLatest(this.getMainRuleSet(nodeId), loadInheritedRuleSets ? this.getInheritedRuleSets(nodeId) : of([]))),
         finalize(() => this.isLoadingSource.next(false))
       )
       .subscribe(([mainRuleSet, inheritedRuleSets]) => {
@@ -222,14 +224,29 @@ export class FolderRuleSetsService {
       }
       this.folderRulesService.selectRule(newRule);
     } else {
-      this.getMainRuleSet(this.currentFolder.id).subscribe((mainRuleSet: RuleSet) => {
-        this.mainRuleSet = mainRuleSet;
-        this.mainRuleSetSource.next(mainRuleSet);
-        if (mainRuleSet) {
-          const ruleToSelect = mainRuleSet.rules.find((rule: Rule) => rule.id === newRule.id);
-          this.folderRulesService.selectRule(ruleToSelect);
-        }
-      });
+      this.refreshMainRuleSet(newRule);
     }
+  }
+
+  refreshMainRuleSet(ruleToSelect: Rule = null) {
+    this.getMainRuleSet(this.currentFolder.id).subscribe((mainRuleSet: RuleSet) => {
+      this.mainRuleSet = mainRuleSet;
+      this.mainRuleSetSource.next(mainRuleSet);
+      if (mainRuleSet) {
+        const ruleToSelectInRuleSet = ruleToSelect ? mainRuleSet.rules.find((rule: Rule) => rule.id === ruleToSelect.id) : mainRuleSet.rules[0];
+        this.folderRulesService.selectRule(ruleToSelectInRuleSet);
+      }
+    });
+  }
+
+  async createRuleSetLink(folderIdToCreateLink: string, folderIdToLinkFrom: string): Promise<unknown> {
+    const data = {
+      id: folderIdToLinkFrom
+    };
+    return this.callApi(`/nodes/${folderIdToCreateLink}/rule-set-links`, 'POST', data);
+  }
+
+  async deleteRuleSetLink(folderIdToDeleteLink: string, ruleSetIdToDelete: string): Promise<unknown> {
+    return this.callApi(`/nodes/${folderIdToDeleteLink}/rule-set-links/${ruleSetIdToDelete}`, 'DELETE');
   }
 }

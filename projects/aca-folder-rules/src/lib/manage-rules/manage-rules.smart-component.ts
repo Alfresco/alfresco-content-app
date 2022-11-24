@@ -39,6 +39,7 @@ import { ActionDefinitionTransformed } from '../model/rule-action.model';
 import { ActionsService } from '../services/actions.service';
 import { FolderRuleSetsService } from '../services/folder-rule-sets.service';
 import { RuleSet } from '../model/rule-set.model';
+import { RuleSetPickerSmartComponent } from '../rule-set-picker/rule-set-picker.smart-component';
 
 @Component({
   selector: 'aca-manage-rules',
@@ -183,5 +184,46 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
 
   canEditRule(ruleSet: RuleSet): boolean {
     return !ruleSet || FolderRuleSetsService.isOwnedRuleSet(ruleSet, this.nodeId);
+  }
+
+  openLinkRulesDialog(existingRuleSet?: RuleSet) {
+    this.matDialogService
+      .open(RuleSetPickerSmartComponent, {
+        width: '90%',
+        panelClass: 'aca-rule-set-picker-container',
+        data: {
+          nodeId: this.nodeId,
+          defaultNodeId: this.nodeId,
+          existingRuleSet
+        }
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        if (result) {
+          this.folderRuleSetsService.refreshMainRuleSet();
+        }
+      });
+  }
+
+  onRuleSetUnlinkClicked(linkedRuleSet: RuleSet) {
+    this.matDialogService
+      .open(ConfirmDialogComponent, {
+        data: {
+          title: 'ACA_FOLDER_RULES.CONFIRMATION_DIALOG.DELETE_RULE_SET_LINK.TITLE',
+          message: 'ACA_FOLDER_RULES.CONFIRMATION_DIALOG.DELETE_RULE_SET_LINK.MESSAGE'
+        },
+        minWidth: '346px'
+      })
+      .afterClosed()
+      .subscribe(async (result) => {
+        if (result) {
+          try {
+            await this.folderRuleSetsService.deleteRuleSetLink(this.nodeId, linkedRuleSet.id);
+            this.folderRuleSetsService.refreshMainRuleSet();
+          } catch (error) {
+            this.notificationService.showError('ACA_FOLDER_RULES.ERRORS.DELETE_RULE_SET_LINK_FAILED');
+          }
+        }
+      });
   }
 }

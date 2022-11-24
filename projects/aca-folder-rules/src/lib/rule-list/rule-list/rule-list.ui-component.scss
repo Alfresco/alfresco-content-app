@@ -14,31 +14,29 @@
     &__header {
       display: flex;
       flex-direction: row;
+      gap: 4px;
       align-items: stretch;
       cursor: pointer;
       color: var(--theme-text-color);
       user-select: none;
       font-size: 0.9em;
+      padding: 0.5em 1em;
 
       & > * {
         display: flex;
         flex-direction: row;
         align-items: center;
-        justify-content: space-between;
       }
 
       &__title {
-        padding: 0.5em 1em;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
         flex: 1;
 
-        &__text {
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-
-          .mat-icon {
-            transform: scale(0.8);
-          }
+        .mat-icon {
+          transform: scale(0.8);
         }
       }
     }

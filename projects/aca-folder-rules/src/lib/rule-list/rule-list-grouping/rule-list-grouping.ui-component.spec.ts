@@ -62,10 +62,8 @@ describe('RuleListGroupingUiComponent', () => {
     const rule = debugElement.query(By.css('.aca-rule-list-item:first-child'));
     const name = rule.query(By.css('.aca-rule-list-item__header__name'));
     const description = rule.query(By.css('.aca-rule-list-item__description'));
-    const toggleBtn = rule.query(By.css('mat-slide-toggle'));
 
     expect(name.nativeElement.textContent).toBe(rulesMock[0].name);
-    expect(toggleBtn).toBeTruthy();
     expect(description.nativeElement.textContent).toBe(rulesMock[0].description);
   });
 });

@@ -39,6 +39,8 @@ export class RuleListItemUiComponent {
   @Input()
   @HostBinding('class.selected')
   isSelected: boolean;
+  @Input()
+  showEnabledToggle = false;
 
   @Output()
   enabledChanged = new EventEmitter<boolean>();
