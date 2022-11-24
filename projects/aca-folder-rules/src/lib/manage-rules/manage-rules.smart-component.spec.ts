@@ -36,7 +36,7 @@ import { owningFolderIdMock, owningFolderMock } from '../mock/node.mock';
 import { MatDialog } from '@angular/material/dialog';
 import { ActionsService } from '../services/actions.service';
 import { FolderRuleSetsService } from '../services/folder-rule-sets.service';
-import { ruleMock, ruleSettings } from '../mock/rules.mock';
+import { ruleMock, ruleSettingsMock } from '../mock/rules.mock';
 import { Store } from '@ngrx/store';
 
 describe('ManageRulesSmartComponent', () => {
@@ -252,7 +252,7 @@ describe('ManageRulesSmartComponent', () => {
 
     it('should call onInheritanceToggleChange() on change', () => {
       const onInheritanceToggleChangeSpy = spyOn(component, 'onInheritanceToggleChange').and.callThrough();
-      const updateRuleSettingsSpy = spyOn(folderRulesService, 'updateRuleSettings').and.returnValue(Promise.resolve(ruleSettings));
+      const updateRuleSettingsSpy = spyOn(folderRulesService, 'updateRuleSettings').and.returnValue(Promise.resolve(ruleSettingsMock));
       const loadRuleSetsSpy = spyOn(folderRuleSetsService, 'loadRuleSets').and.callThrough();
 
       fixture.detectChanges();

@@ -171,7 +171,7 @@ export const ruleListGroupingItemsMock: RuleGroupingItem[] = [
   }
 ];
 
-export const ruleSettings: RuleSettings = {
+export const ruleSettingsMock: RuleSettings = {
   value: false,
   key: '-parameter-'
 };
