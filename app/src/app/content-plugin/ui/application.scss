@@ -38,3 +38,12 @@ aca-search-results,
 ng-component {
   @include flex-column;
 }
+@media screen and (max-width: 600px) {
+  app-root,
+  app-about,
+  adf-layout-container,
+  aca-search-results,
+  ng-component {
+    height: 80vh;
+  }
+}
