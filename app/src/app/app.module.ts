@@ -50,11 +50,9 @@ import localePl from '@angular/common/locales/pl';
 import localeFi from '@angular/common/locales/fi';
 import localeDa from '@angular/common/locales/da';
 import localeSv from '@angular/common/locales/sv';
-import { AppShellModule, SHELL_APP_SERVICE } from './app-shell';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.components';
-import { SHELL_AUTH_TOKEN } from './app-shell/app-shell.routes';
 import { CONTENT_LAYOUT_ROUTES } from './content-plugin/content.routes';
 import { ContentServiceExtensionModule } from './content-plugin/content-services-extension.module';
 import { CoreExtensionsModule } from './extensions/core.extensions.module';
@@ -62,6 +60,7 @@ import { INITIAL_APP_STATE } from './content-plugin/store/initial-state';
 import { ContentVersionService } from '@alfresco/adf-content-services';
 import { ContentUrlService } from './content-plugin/services/content-url.service';
 import { STORE_INITIAL_APP_DATA } from '@alfresco/aca-shared/store';
+import { ShellModule, SHELL_APP_SERVICE, SHELL_AUTH_TOKEN } from '@alfresco/adf-core/shell';
 
 registerLocaleData(localeFr);
 registerLocaleData(localeDe);
@@ -94,7 +93,7 @@ registerLocaleData(localeSv);
       relativeLinkResolution: 'legacy'
     }),
     AppExtensionsModule,
-    AppShellModule.withRoutes({
+    ShellModule.withRoutes({
       shellChildren: [CONTENT_LAYOUT_ROUTES]
     }),
     ContentServiceExtensionModule
