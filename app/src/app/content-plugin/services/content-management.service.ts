@@ -85,6 +85,8 @@ interface RestoredNode {
   providedIn: 'root'
 })
 export class ContentManagementService {
+  private static MORE_ACTIONS_BUTTON_SELECTOR = '#app\\.toolbar\\.more';
+
   constructor(
     private alfrescoApiService: AlfrescoApiService,
     private store: Store<AppStore>,
@@ -261,6 +263,7 @@ export class ContentManagementService {
       if (node) {
         this.alfrescoApiService.nodeUpdated.next(node);
       }
+      ContentManagementService.focusMoreActionsButton();
     });
   }
 
@@ -578,9 +581,8 @@ export class ContentManagementService {
         showVersionsOnly: true,
         title: 'VERSION.DIALOG.TITLE'
       };
-      this.newVersionUploaderService
-        .openUploadNewVersionDialog(newVersionUploaderDialogData, { width: '630px', role: 'dialog' })
-        .subscribe((newVersionUploaderData: NewVersionUploaderData) => {
+      this.newVersionUploaderService.openUploadNewVersionDialog(newVersionUploaderDialogData, { width: '630px', role: 'dialog' }).subscribe({
+        next: (newVersionUploaderData: NewVersionUploaderData) => {
           switch (newVersionUploaderData.action) {
             case NewVersionUploaderDataAction.refresh:
               this.store.dispatch(new ReloadDocumentListAction());
@@ -595,7 +597,9 @@ export class ContentManagementService {
             default:
               break;
           }
-        });
+        },
+        complete: ContentManagementService.focusMoreActionsButton
+      });
     } else {
       this.store.dispatch(new SnackbarErrorAction('APP.MESSAGES.ERRORS.PERMISSION'));
     }
@@ -604,7 +608,7 @@ export class ContentManagementService {
   private openAspectListDialog(node: any) {
     // workaround Shared
     if (node.isFile || node.id) {
-      this.nodeAspectService.updateNodeAspects(node.id);
+      this.nodeAspectService.updateNodeAspects(node.id, ContentManagementService.MORE_ACTIONS_BUTTON_SELECTOR);
     } else {
       this.store.dispatch(new SnackbarErrorAction('APP.MESSAGES.ERRORS.PERMISSION'));
     }
@@ -1082,5 +1086,9 @@ export class ContentManagementService {
 
   private static focusCreateMenuButton(): void {
     document.querySelector<HTMLElement>('app-create-menu button').focus();
+  }
+
+  private static focusMoreActionsButton(): void {
+    document.querySelector<HTMLElement>(ContentManagementService.MORE_ACTIONS_BUTTON_SELECTOR).focus();
   }
 }

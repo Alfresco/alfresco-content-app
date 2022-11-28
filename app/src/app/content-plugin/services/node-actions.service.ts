@@ -211,12 +211,15 @@ export class NodeActionsService {
       excludeSiteContent: ContentNodeDialogService.nonDocumentSiteContent
     };
 
-    this.dialog.open(ContentNodeSelectorComponent, {
-      data,
-      panelClass: 'adf-content-node-selector-dialog',
-      width: '630px',
-      role: 'dialog'
-    });
+    this.dialog
+      .open(ContentNodeSelectorComponent, {
+        data,
+        panelClass: 'adf-content-node-selector-dialog',
+        width: '630px',
+        role: 'dialog'
+      })
+      .afterClosed()
+      .subscribe(() => NodeActionsService.focusMoreActionsButton());
 
     data.select.subscribe({
       complete: this.close.bind(this)
@@ -686,5 +689,9 @@ export class NodeActionsService {
 
       return moveStatus;
     }
+  }
+
+  private static focusMoreActionsButton(): void {
+    document.querySelector<HTMLElement>('#app\\.toolbar\\.more').focus();
   }
 }
