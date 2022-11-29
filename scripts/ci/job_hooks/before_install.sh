@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+PARENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+export BUILD_OPTS = "--configuration=production,e2e"
 # Settings for Angular builder --------------------------------------------------------
 export NODE_OPTIONS="--max_old_space_size=30000"
 
@@ -19,6 +21,7 @@ if [ "${TRAVIS_EVENT_TYPE}" == "push" ]; then
 elif [ "${TRAVIS_EVENT_TYPE}" == "pull_request" ]; then
     export S3_DBP_ROOT_FOLDER="$S3_DBP_PATH/$TRAVIS_PULL_REQUEST"
     export BASE_HASH="origin/$TRAVIS_BRANCH"
+    source $PARENT_DIR/utils/adf-linking.sh
 elif [ "${TRAVIS_EVENT_TYPE}" == "cron" ]; then
     export S3_DBP_ROOT_FOLDER="$S3_DBP_PATH/cron"
 else
