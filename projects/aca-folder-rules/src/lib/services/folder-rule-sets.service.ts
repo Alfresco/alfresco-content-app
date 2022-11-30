@@ -186,7 +186,7 @@ export class FolderRuleSetsService {
     }
     return combineLatest(
       this.currentFolder?.id === entry.owningFolder ? of(this.currentFolder) : this.getNodeInfo(entry.owningFolder || ''),
-      this.folderRulesService.getRules(entry.owningFolder || '', entry.id)
+      this.folderRulesService.getRules(this.currentFolder.id || '', entry.id)
     ).pipe(
       map(([owningFolderNodeInfo, getRulesRes]) => ({
         id: entry.id,

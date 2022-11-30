@@ -40,6 +40,7 @@ describe('FolderRuleSetsService', () => {
   let contentApiService: ContentApiService;
 
   let callApiSpy: jasmine.Spy;
+  let getRulesSpy: jasmine.Spy;
   let getNodeSpy: jasmine.Spy;
 
   beforeEach(() => {
@@ -57,7 +58,7 @@ describe('FolderRuleSetsService', () => {
       .and.returnValue(of(getDefaultRuleSetResponseMock))
       .withArgs(`/nodes/${owningFolderIdMock}/rule-sets?include=isLinkedTo,owningFolder,linkedToBy&skipCount=0&maxItems=100`, 'GET')
       .and.returnValue(of(getRuleSetsResponseMock));
-    spyOn<any>(folderRulesService, 'getRules')
+    getRulesSpy = spyOn<any>(folderRulesService, 'getRules')
       .withArgs(jasmine.anything(), 'rule-set-no-links')
       .and.returnValue(of({ rules: ownedRulesMock, hasMoreRules: false }))
       .withArgs(jasmine.anything(), 'rule-set-with-link')
@@ -108,6 +109,7 @@ describe('FolderRuleSetsService', () => {
       'GET'
     );
     expect(ruleSets).toEqual([inheritedRuleSetMock]);
+    expect(getRulesSpy).toHaveBeenCalledWith(owningFolderIdMock, jasmine.anything());
     expect(hasMoreRuleSets).toEqual(false);
   });
 
