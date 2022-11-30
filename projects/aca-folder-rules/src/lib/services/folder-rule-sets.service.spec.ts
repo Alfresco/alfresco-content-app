@@ -124,8 +124,8 @@ describe('FolderRuleSetsService', () => {
 
   it('should select a different rule when removing a rule', () => {
     const selectRuleSpy = spyOn(folderRulesService, 'selectRule');
-    folderRuleSetsService['mainRuleSet'] = ownedRuleSetMock;
-    folderRuleSetsService['inheritedRuleSets'] = [inheritedRuleSetMock];
+    folderRuleSetsService['mainRuleSet'] = JSON.parse(JSON.stringify(ownedRuleSetMock));
+    folderRuleSetsService['inheritedRuleSets'] = JSON.parse(JSON.stringify([inheritedRuleSetMock]));
 
     folderRuleSetsService.removeRuleFromMainRuleSet('owned-rule-1-id');
 
