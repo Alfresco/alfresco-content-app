@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # ---------------------------------------------------------------
 # ADF linking
 # ---------------------------------------------------------------
@@ -10,7 +11,6 @@ if [[ $COMMIT_MESSAGE == *"[link-adf:"* ]]; then
     cd ../alfresco-ng2-components
     npm install @angular/material
     cd $CWD
-    export BUILD_OPTS="--configuration=adfprod,e2e"
 else
     echo -e "\e[32mUsing ADF from installed node_modules.\e[0m"
 fi ;
