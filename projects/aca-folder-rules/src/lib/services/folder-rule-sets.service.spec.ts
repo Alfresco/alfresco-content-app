@@ -121,4 +121,19 @@ describe('FolderRuleSetsService', () => {
 
     expect(selectRuleSpy).toHaveBeenCalledWith(ruleMock('owned-rule-1'));
   });
+
+  it('should select a different rule when removing a rule', () => {
+    const selectRuleSpy = spyOn(folderRulesService, 'selectRule');
+    folderRuleSetsService['mainRuleSet'] = JSON.parse(JSON.stringify(ownedRuleSetMock));
+    folderRuleSetsService['inheritedRuleSets'] = JSON.parse(JSON.stringify([inheritedRuleSetMock]));
+
+    folderRuleSetsService.removeRuleFromMainRuleSet('owned-rule-1-id');
+
+    expect(selectRuleSpy).toHaveBeenCalledWith(ruleMock('owned-rule-2'));
+
+    selectRuleSpy.calls.reset();
+    folderRuleSetsService.removeRuleFromMainRuleSet('owned-rule-2-id');
+
+    expect(selectRuleSpy).toHaveBeenCalledWith(ruleMock('inherited-rule-1'));
+  });
 });
