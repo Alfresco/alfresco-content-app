@@ -206,7 +206,19 @@ export class UploadEffects {
         window.addEventListener(
           'focus',
           () => {
-            document.querySelector<HTMLElement>('app-create-menu button').focus();
+            const createMenuButton = document.querySelector<HTMLElement>('app-create-menu button');
+            const oldBackgroundColor = createMenuButton.style.backgroundColor;
+            createMenuButton.style.backgroundColor = 'rgb(221, 221, 221)';
+            createMenuButton.focus();
+            createMenuButton.addEventListener(
+              'blur',
+              () => {
+                createMenuButton.style.backgroundColor = oldBackgroundColor;
+              },
+              {
+                once: true
+              }
+            );
           },
           {
             once: true
