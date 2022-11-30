@@ -28,8 +28,8 @@ before_install:
 install: echo "no install"
 
 stages:
-  - name: ADF linking
-    if: type = pull_request AND commit_message =~ \[link-adf:*
+  # - name: ADF linking
+  #   if: type = pull_request AND commit_message =~ \[link-adf:*
   - name: Quality and Unit tests
     if: type = cron || type = pull_request
   - name: Publish Docker Registry
@@ -61,10 +61,10 @@ env:
 
 jobs:
   include:
-    - stage: ADF linking
-      name: 'Linking ADF branch specified in commit'
-      script: ./scripts/ci/utils/adf-linking.sh
-      cache: false
+    # - stage: ADF linking
+    #   name: 'Linking ADF branch specified in commit'
+    #   script: ./scripts/ci/utils/adf-linking.sh
+    #   cache: false
 
     - stage: Quality and Unit tests
       name: 'Code quality checks'

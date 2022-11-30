@@ -1,8 +1,6 @@
-#!/usr/bin/env bash
 # ---------------------------------------------------------------
 # ADF linking
 # ---------------------------------------------------------------
-echo "Commit message: $COMMIT_MESSAGE"
 if [[ $COMMIT_MESSAGE == *"[link-adf:"* ]]; then
     BRANCH=`echo $COMMIT_MESSAGE | grep -o "\[link-adf\:[^]]*\]" | sed -e 's#\[link-adf:##g' | sed -e 's#\]##g'`
     echo "Checking out ADF's branch: ${BRANCH}" && \
