@@ -138,6 +138,10 @@
   }
 
   .mat-stroked-button, .mat-flat-button {
+    &.cdk-focused .mat-button-focus-overlay {
+      opacity: .12;
+    }
+
     &.cdk-keyboard-focused {
       .mat-button-ripple.mat-ripple {
         outline: 2px solid var(--theme-blue-button-color);
