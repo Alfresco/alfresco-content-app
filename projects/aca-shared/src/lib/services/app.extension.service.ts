@@ -500,6 +500,7 @@ export class AppExtensionService implements RuleContext {
 
   runActionById(id: string) {
     const action = this.extensions.getActionById(id);
+    console.log(action);
     if (action) {
       const { type, payload } = action;
       const context = {
@@ -517,7 +518,7 @@ export class AppExtensionService implements RuleContext {
     const { click, ...payload } = contentActionRef.actions;
     this.store.dispatch({
       type: click,
-      payload
+      payload: Object.keys(payload).length ? payload : undefined
     });
   }
 
