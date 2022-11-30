@@ -43,4 +43,4 @@ Changing the ADF code results in the recompilation and hot-reloading of the ACA 
 
 Please refer to the [Public documentation](https://alfresco-content-app.netlify.com/) for more details
 
-test change 2
+test change 4
