@@ -90,6 +90,7 @@ export class UploadEffects {
       this.actions$.pipe(
         ofType<UploadFilesAction>(UploadActionTypes.UploadFiles),
         map(() => {
+          this.registerFocusingCreateMenuButton(this.fileInput);
           this.fileInput.click();
         })
       ),
@@ -101,6 +102,7 @@ export class UploadEffects {
       this.actions$.pipe(
         ofType<UploadFolderAction>(UploadActionTypes.UploadFolder),
         map(() => {
+          this.registerFocusingCreateMenuButton(this.folderInput);
           this.folderInput.click();
         })
       ),
@@ -195,5 +197,25 @@ export class UploadEffects {
         subscription.unsubscribe();
       });
     });
+  }
+
+  private registerFocusingCreateMenuButton(input: HTMLInputElement): void {
+    input.addEventListener(
+      'click',
+      () => {
+        window.addEventListener(
+          'focus',
+          () => {
+            document.querySelector<HTMLElement>('app-create-menu button').focus();
+          },
+          {
+            once: true
+          }
+        );
+      },
+      {
+        once: true
+      }
+    );
   }
 }
