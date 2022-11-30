@@ -330,7 +330,8 @@
         "type": "custom",
         "order": 100,
         "data": {
-          "iconButton": true
+          "iconButton": true,
+          "focusedElementOnCloseSelector": "#share-action-button"
         },
         "component": "app.shared-link.toggleSharedLink",
         "rules": {
@@ -464,7 +465,8 @@
             "title": "APP.ACTIONS.EDIT",
             "icon": "create",
             "actions": {
-              "click": "EDIT_FOLDER"
+              "click": "EDIT_FOLDER",
+              "focusedElementOnCloseSelector": "#app\\.toolbar\\.more"
             },
             "rules": {
               "visible": "canEditFolder"
@@ -525,7 +527,8 @@
             "title": "APP.ACTIONS.MOVE",
             "icon": "adf:move_file",
             "actions": {
-              "click": "MOVE_NODES"
+              "click": "MOVE_NODES",
+              "focusedElementOnCloseSelector": "#app\\.toolbar\\.more"
             },
             "rules": {
               "visible": "app.selection.canDelete"
@@ -537,7 +540,8 @@
             "title": "APP.ACTIONS.COPY",
             "icon": "content_copy",
             "actions": {
-              "click": "COPY_NODES"
+              "click": "COPY_NODES",
+              "focusedElementOnCloseSelector": "#app\\.toolbar\\.more"
             },
             "rules": {
               "visible": "canCopyNode"
@@ -566,7 +570,8 @@
             "title": "APP.ACTIONS.VERSIONS",
             "icon": "history",
             "actions": {
-              "click": "MANAGE_VERSIONS"
+              "click": "MANAGE_VERSIONS",
+              "focusedElementOnCloseSelector": "#app\\.toolbar\\.more"
             },
             "rules": {
               "visible": "canManageFileVersions"
@@ -578,7 +583,8 @@
             "title": "APP.ACTIONS.CHANGE_ASPECT",
             "icon": "toc",
             "actions": {
-              "click": "ASPECT_LIST"
+              "click": "ASPECT_LIST",
+              "focusedElementOnCloseSelector": "#app\\.toolbar\\.more"
             },
             "rules": {
               "visible": "canEditAspects"
@@ -629,7 +635,8 @@
         "type": "custom",
         "order": 100,
         "data": {
-          "iconButton": false
+          "iconButton": false,
+          "focusedElementOnCloseSelector": ".adf-is-selected"
         },
         "component": "app.shared-link.toggleSharedLink",
         "rules": {
@@ -681,7 +688,8 @@
         "title": "APP.ACTIONS.EDIT",
         "icon": "create",
         "actions": {
-          "click": "EDIT_FOLDER"
+          "click": "EDIT_FOLDER",
+          "focusedElementOnCloseSelector": ".adf-is-selected"
         },
         "rules": {
           "visible": "canEditFolder"
@@ -754,7 +762,8 @@
         "order": 1000,
         "icon": "adf:move_file",
         "actions": {
-          "click": "MOVE_NODES"
+          "click": "MOVE_NODES",
+          "focusedElementOnCloseSelector": ".adf-is-selected"
         },
         "rules": {
           "visible": "app.selection.canDelete"
@@ -766,7 +775,8 @@
         "order": 1100,
         "icon": "content_copy",
         "actions": {
-          "click": "COPY_NODES"
+          "click": "COPY_NODES",
+          "focusedElementOnCloseSelector": ".adf-is-selected"
         },
         "rules": {
           "visible": "canCopyNode"
@@ -795,7 +805,8 @@
         "order": 1400,
         "icon": "history",
         "actions": {
-          "click": "MANAGE_VERSIONS"
+          "click": "MANAGE_VERSIONS",
+          "focusedElementOnCloseSelector": ".adf-is-selected"
         },
         "rules": {
           "visible": "canManageFileVersions"
@@ -807,7 +818,8 @@
         "title": "APP.ACTIONS.CHANGE_ASPECT",
         "icon": "toc",
         "actions": {
-          "click": "ASPECT_LIST"
+          "click": "ASPECT_LIST",
+          "focusedElementOnCloseSelector": ".adf-is-selected"
         },
         "rules": {
           "visible": "canEditAspects"

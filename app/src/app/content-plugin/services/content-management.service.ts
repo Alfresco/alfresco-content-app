@@ -85,8 +85,6 @@ interface RestoredNode {
   providedIn: 'root'
 })
 export class ContentManagementService {
-  private static MORE_ACTIONS_BUTTON_SELECTOR = '#app\\.toolbar\\.more';
-
   constructor(
     private alfrescoApiService: AlfrescoApiService,
     private store: Store<AppStore>,
@@ -130,32 +128,32 @@ export class ContentManagementService {
     }
   }
 
-  manageVersions(node: any) {
+  manageVersions(node: any, focusedElementOnCloseSelector?: string) {
     if (node && node.entry) {
       // shared and favorite
       const id = node.entry.nodeId || (node as any).entry.guid;
 
       if (id) {
         this.contentApi.getNodeInfo(id).subscribe((entry) => {
-          this.openVersionManagerDialog(entry);
+          this.openVersionManagerDialog(entry, focusedElementOnCloseSelector);
         });
       } else {
-        this.openVersionManagerDialog(node.entry);
+        this.openVersionManagerDialog(node.entry, focusedElementOnCloseSelector);
       }
     }
   }
 
-  manageAspects(node: any) {
+  manageAspects(node: any, focusedElementOnCloseSelector?: string) {
     if (node && node.entry) {
       // shared and favorite
       const id = node.entry.nodeId || (node as any).entry.guid;
 
       if (id) {
         this.contentApi.getNodeInfo(id).subscribe((entry) => {
-          this.openAspectListDialog(entry);
+          this.openAspectListDialog(entry, focusedElementOnCloseSelector);
         });
       } else {
-        this.openAspectListDialog(node.entry);
+        this.openAspectListDialog(node.entry, focusedElementOnCloseSelector);
       }
     }
   }
@@ -182,22 +180,22 @@ export class ContentManagementService {
     });
   }
 
-  shareNode(node: any): void {
+  shareNode(node: any, focusedElementOnCloseSelector?: string): void {
     if (node && node.entry) {
       // shared and favorite
       const id = node.entry.nodeId || (node as any).entry.guid;
 
       if (id) {
         this.contentApi.getNodeInfo(id).subscribe((entry) => {
-          this.openShareLinkDialog({ entry });
+          this.openShareLinkDialog({ entry }, focusedElementOnCloseSelector);
         });
       } else {
-        this.openShareLinkDialog(node);
+        this.openShareLinkDialog(node, focusedElementOnCloseSelector);
       }
     }
   }
 
-  openShareLinkDialog(node) {
+  openShareLinkDialog(node, focusedElementOnCloseSelector?: string) {
     this.store
       .select(getSharedUrl)
       .pipe(take(1))
@@ -216,6 +214,7 @@ export class ContentManagementService {
           .subscribe(() => {
             this.store.dispatch(new SetSelectedNodesAction([node]));
             this.appHookService.linksUnshared.next();
+            ContentManagementService.focusAfterClose(focusedElementOnCloseSelector);
           });
       });
   }
@@ -243,7 +242,7 @@ export class ContentManagementService {
     });
   }
 
-  editFolder(folder: MinimalNodeEntity) {
+  editFolder(folder: MinimalNodeEntity, focusedElementOnCloseSelector?: string) {
     if (!folder) {
       return;
     }
@@ -263,7 +262,7 @@ export class ContentManagementService {
       if (node) {
         this.alfrescoApiService.nodeUpdated.next(node);
       }
-      ContentManagementService.focusMoreActionsButton();
+      ContentManagementService.focusAfterClose(focusedElementOnCloseSelector);
     });
   }
 
@@ -424,8 +423,8 @@ export class ContentManagementService {
       });
   }
 
-  copyNodes(nodes: Array<MinimalNodeEntity>) {
-    zip(this.nodeActionsService.copyNodes(nodes), this.nodeActionsService.contentCopied).subscribe(
+  copyNodes(nodes: Array<MinimalNodeEntity>, focusedElementOnCloseSelector?: string) {
+    zip(this.nodeActionsService.copyNodes(nodes, undefined, focusedElementOnCloseSelector), this.nodeActionsService.contentCopied).subscribe(
       (result) => {
         const [operationResult, newItems] = result;
         this.showCopyMessage(operationResult, nodes, newItems);
@@ -436,10 +435,10 @@ export class ContentManagementService {
     );
   }
 
-  moveNodes(nodes: Array<MinimalNodeEntity>) {
+  moveNodes(nodes: Array<MinimalNodeEntity>, focusedElementOnCloseSelector?: string) {
     const permissionForMove = '!';
 
-    zip(this.nodeActionsService.moveNodes(nodes, permissionForMove), this.nodeActionsService.contentMoved).subscribe(
+    zip(this.nodeActionsService.moveNodes(nodes, permissionForMove, focusedElementOnCloseSelector), this.nodeActionsService.contentMoved).subscribe(
       (result) => {
         const [operationResult, moveResponse] = result;
         this.showMoveMessage(nodes, operationResult, moveResponse);
@@ -573,7 +572,7 @@ export class ContentManagementService {
     );
   }
 
-  private openVersionManagerDialog(node: any) {
+  private openVersionManagerDialog(node: any, focusedElementOnCloseSelector?: string) {
     // workaround Shared
     if (node.isFile || node.nodeId) {
       const newVersionUploaderDialogData: NewVersionUploaderDialogData = {
@@ -598,17 +597,17 @@ export class ContentManagementService {
               break;
           }
         },
-        complete: ContentManagementService.focusMoreActionsButton
+        complete: () => ContentManagementService.focusAfterClose(focusedElementOnCloseSelector)
       });
     } else {
       this.store.dispatch(new SnackbarErrorAction('APP.MESSAGES.ERRORS.PERMISSION'));
     }
   }
 
-  private openAspectListDialog(node: any) {
+  private openAspectListDialog(node: any, focusedElementOnCloseSelector?: string) {
     // workaround Shared
     if (node.isFile || node.id) {
-      this.nodeAspectService.updateNodeAspects(node.id, ContentManagementService.MORE_ACTIONS_BUTTON_SELECTOR);
+      this.nodeAspectService.updateNodeAspects(node.id, focusedElementOnCloseSelector);
     } else {
       this.store.dispatch(new SnackbarErrorAction('APP.MESSAGES.ERRORS.PERMISSION'));
     }
@@ -1088,7 +1087,9 @@ export class ContentManagementService {
     document.querySelector<HTMLElement>('app-create-menu button').focus();
   }
 
-  private static focusMoreActionsButton(): void {
-    document.querySelector<HTMLElement>(ContentManagementService.MORE_ACTIONS_BUTTON_SELECTOR).focus();
+  private static focusAfterClose(focusedElementSelector: string): void {
+    if (focusedElementSelector) {
+      document.querySelector<HTMLElement>(focusedElementSelector).focus();
+    }
   }
 }

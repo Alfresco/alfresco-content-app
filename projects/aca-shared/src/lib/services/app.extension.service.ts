@@ -513,6 +513,14 @@ export class AppExtensionService implements RuleContext {
     }
   }
 
+  runAction(contentActionRef: ContentActionRef) {
+    const { click, ...payload } = contentActionRef.actions;
+    this.store.dispatch({
+      type: click,
+      payload
+    });
+  }
+
   // todo: move to ADF/RuleService
   isRuleDefined(ruleId: string): boolean {
     return !!(ruleId && this.getEvaluator(ruleId));

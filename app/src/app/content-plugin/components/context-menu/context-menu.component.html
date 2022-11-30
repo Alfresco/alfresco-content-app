@@ -4,7 +4,7 @@
   <mat-menu #rootMenu="matMenu" class="aca-context-menu" hasBackdrop="false" acaContextMenuOutsideEvent (clickOutside)="onClickOutsideEvent()">
     <ng-container *ngFor="let entry of actions; trackBy: trackByActionId" [ngSwitch]="entry.type">
       <ng-container *ngSwitchDefault>
-        <button mat-menu-item [id]="entry.id" (click)="runAction(entry.actions.click)">
+        <button mat-menu-item [id]="entry.id" (click)="runAction(entry)">
           <adf-icon [value]="entry.icon"></adf-icon>
           <span>{{ entry.title | translate }}</span>
         </button>

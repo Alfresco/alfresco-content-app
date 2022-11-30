@@ -96,13 +96,13 @@ export class CreateFolderAction implements Action {
 export class EditFolderAction implements Action {
   readonly type = NodeActionTypes.EditFolder;
 
-  constructor(public payload: MinimalNodeEntity) {}
+  constructor(public payload: MinimalNodeEntity | { focusedElementOnCloseSelector: string }) {}
 }
 
 export class ShareNodeAction implements Action {
   readonly type = NodeActionTypes.Share;
 
-  constructor(public payload: MinimalNodeEntity) {}
+  constructor(public payload: MinimalNodeEntity & { focusedElementOnCloseSelector: string }) {}
 }
 
 export class UnshareNodesAction implements Action {
@@ -114,13 +114,13 @@ export class UnshareNodesAction implements Action {
 export class CopyNodesAction implements Action {
   readonly type = NodeActionTypes.Copy;
 
-  constructor(public payload: Array<MinimalNodeEntity>) {}
+  constructor(public payload: Array<MinimalNodeEntity> | { focusedElementOnCloseSelector: string }) {}
 }
 
 export class MoveNodesAction implements Action {
   readonly type = NodeActionTypes.Move;
 
-  constructor(public payload: Array<MinimalNodeEntity>) {}
+  constructor(public payload: Array<MinimalNodeEntity> | { focusedElementOnCloseSelector: string }) {}
 }
 
 export class ManagePermissionsAction implements Action {
@@ -143,7 +143,7 @@ export class PrintFileAction implements Action {
 export class ManageVersionsAction implements Action {
   readonly type = NodeActionTypes.ManageVersions;
 
-  constructor(public payload: MinimalNodeEntity) {}
+  constructor(public payload: MinimalNodeEntity | { focusedElementOnCloseSelector: string }) {}
 }
 
 export class EditOfflineAction implements Action {
@@ -172,7 +172,7 @@ export class RemoveFavoriteAction implements Action {
 export class ManageAspectsAction implements Action {
   readonly type = NodeActionTypes.ChangeAspects;
 
-  constructor(public payload: MinimalNodeEntity) {}
+  constructor(public payload: MinimalNodeEntity | { focusedElementOnCloseSelector: string }) {}
 }
 
 export class ManageRulesAction implements Action {
