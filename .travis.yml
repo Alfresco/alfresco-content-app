@@ -23,14 +23,11 @@ branches:
     - /.*beta.*/
 
 before_install:
-  - COMMIT_MESSAGE=$(git show -s --format=%B $TRAVIS_COMMIT | tr -d '\n')
   - . ./scripts/ci/job_hooks/before_install.sh
 
 install: echo "no install"
 
 stages:
-  - name: ADF linking
-    if: type = pull_request AND commit_message =~ \[link-adf:*
   - name: Quality and Unit tests
     if: type = cron || type = pull_request
   - name: Publish Docker Registry
