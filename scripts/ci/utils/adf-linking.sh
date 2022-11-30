@@ -1,6 +1,4 @@
-# Note no #!/bin/sh as this should not spawn
-# an extra shell, since this partial shell script
-# is supposed to be invoked as part of another.
+#!/usr/bin/env bash
 # ---------------------------------------------------------------
 # ADF linking
 # ---------------------------------------------------------------
