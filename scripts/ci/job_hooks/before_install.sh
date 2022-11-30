@@ -16,6 +16,8 @@ export HEAD_HASH="HEAD"
 # Settings for S3 caching -------------------------------------------------------------
 pip install --user awscli
 S3_DBP_PATH="s3://alfresco-travis-builds/aca"
+echo "${TRAVIS_EVENT_TYPE}"
+echo "${PARENT_DIR}"
 if [ "${TRAVIS_EVENT_TYPE}" == "push" ]; then
     export S3_DBP_ROOT_FOLDER="$S3_DBP_PATH/$TRAVIS_BRANCH"
 elif [ "${TRAVIS_EVENT_TYPE}" == "pull_request" ]; then
