@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-export BUILD_OPTS = "--configuration=production,e2e"
+export BUILD_OPTS="--configuration=production,e2e"
 export HEAD_COMMIT_HASH=${TRAVIS_PULL_REQUEST_SHA:-${TRAVIS_COMMIT}}
 export COMMIT_MESSAGE=`git log --format=%B -n 1 $HEAD_COMMIT_HASH`
 
