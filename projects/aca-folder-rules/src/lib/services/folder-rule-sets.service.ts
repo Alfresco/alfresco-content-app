@@ -210,6 +210,7 @@ export class FolderRuleSetsService {
           this.mainRuleSet = null;
           this.mainRuleSetSource.next(this.mainRuleSet);
         }
+        this.folderRulesService.selectRule(this.mainRuleSet?.rules[0] ?? this.inheritedRuleSets[0]?.rules[0] ?? null);
       }
     }
   }
