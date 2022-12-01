@@ -4,17 +4,5 @@
     "outDir": "../out-tsc/content-ce"
   },
   "files": ["src/main.ts", "src/polyfills.ts"],
-  "include": ["src/**/*.d.ts"],
-  "exclude": [
-    "**/*.spec.ts",
-    "**/*.spec.ts",
-    "**/*.mock.ts",
-    "src/test.ts",
-    "src/environments/environment.prod.ts",
-    "src/environments/environment.e2e.ts",
-    "src/app/testing/app-testing.module.ts",
-    "src/app/testing/translation.service.ts",
-    "src/app/testing/translate-pipe.directive.ts",
-    "src/environments/environment.release.ts"
-  ]
+  "include": ["src/**/*.d.ts"]
 }
