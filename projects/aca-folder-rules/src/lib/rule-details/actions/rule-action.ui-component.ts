@@ -218,7 +218,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
     });
   }
 
-  private openSelectorDialog(pramName) {
+  private openSelectorDialog(paramDefName) {
     const data: ContentNodeSelectorComponentData = {
       title: this.translate.instant('ACA_FOLDER_RULES.RULE_DETAILS.PLACEHOLDER.CHOOSE_FOLDER'),
       actionName: NodeAction.CHOOSE,
@@ -239,7 +239,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
             actionDefinitionId: this.selectedActionDefinitionId,
             params: {
               ...this.parameters,
-              [pramName]: selections[0].id
+              [paramDefName]: selections[0].id
             }
           });
           this.onChange({
