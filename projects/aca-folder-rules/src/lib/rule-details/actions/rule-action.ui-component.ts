@@ -196,7 +196,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
               icon: 'folder',
               default: this.translate.instant('ACA_FOLDER_RULES.RULE_DETAILS.PLACEHOLDER.CHOOSE_FOLDER'),
               clickable: true,
-              clickCallBack: this.openSelectorDialog.bind(this),
+              clickCallBack: this.openSelectorDialog.bind(this, paramDef.name),
               value: this.parameters[paramDef.name]
             });
           }
@@ -218,7 +218,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
     });
   }
 
-  private openSelectorDialog() {
+  private openSelectorDialog(paramDefName) {
     const data: ContentNodeSelectorComponentData = {
       title: this.translate.instant('ACA_FOLDER_RULES.RULE_DETAILS.PLACEHOLDER.CHOOSE_FOLDER'),
       actionName: NodeAction.CHOOSE,
@@ -238,7 +238,8 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
           this.writeValue({
             actionDefinitionId: this.selectedActionDefinitionId,
             params: {
-              'destination-folder': selections[0].id
+              ...this.parameters,
+              [paramDefName]: selections[0].id
             }
           });
           this.onChange({
