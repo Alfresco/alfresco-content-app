@@ -206,7 +206,11 @@ export class UploadEffects {
         window.addEventListener(
           'focus',
           () => {
-            document.querySelector<HTMLElement>('app-create-menu button').focus();
+            const createMenuButton = document.querySelector<HTMLElement>('app-create-menu button');
+            createMenuButton.addEventListener('focus', () => createMenuButton.classList.add('cdk-program-focused'), {
+              once: true
+            });
+            createMenuButton.focus();
           },
           {
             once: true
