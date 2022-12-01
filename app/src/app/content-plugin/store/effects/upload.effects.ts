@@ -114,11 +114,15 @@ export class UploadEffects {
       this.actions$.pipe(
         ofType<UploadFileVersionAction>(UploadActionTypes.UploadFileVersion),
         map((action) => {
-          if (action?.payload) {
+          if (action?.payload instanceof CustomEvent) {
             const node = action?.payload?.detail?.data?.node?.entry;
             const file: any = action?.payload?.detail?.files[0]?.file;
             this.contentService.versionUpdateDialog(node, file);
-          } else if (!action?.payload) {
+          } else if (!action?.payload || !(action.payload instanceof CustomEvent)) {
+            this.registerFocusingCreateMenuButton(
+              this.fileVersionInput,
+              (action?.payload as { focusedElementOnCloseSelector: string })?.focusedElementOnCloseSelector
+            );
             this.fileVersionInput.click();
           }
         })
@@ -199,18 +203,18 @@ export class UploadEffects {
     });
   }
 
-  private registerFocusingCreateMenuButton(input: HTMLInputElement): void {
+  private registerFocusingCreateMenuButton(input: HTMLInputElement, focusedElementSelector: string): void {
     input.addEventListener(
       'click',
       () => {
         window.addEventListener(
           'focus',
           () => {
-            const createMenuButton = document.querySelector<HTMLElement>('app-create-menu button');
-            createMenuButton.addEventListener('focus', () => createMenuButton.classList.add('cdk-program-focused'), {
+            const elementToFocus = document.querySelector<HTMLElement>(focusedElementSelector);
+            elementToFocus.addEventListener('focus', () => elementToFocus.classList.add('cdk-program-focused'), {
               once: true
             });
-            createMenuButton.focus();
+            elementToFocus.focus();
           },
           {
             once: true

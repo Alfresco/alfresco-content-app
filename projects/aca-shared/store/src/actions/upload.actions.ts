@@ -46,5 +46,5 @@ export class UploadFolderAction implements Action {
 export class UploadFileVersionAction implements Action {
   readonly type = UploadActionTypes.UploadFileVersion;
 
-  constructor(public payload: CustomEvent) {}
+  constructor(public payload: CustomEvent | { focusedElementOnCloseSelector: string }) {}
 }

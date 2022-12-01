@@ -453,7 +453,8 @@
             "title": "APP.ACTIONS.UPLOAD_VERSION",
             "icon": "playlist_add",
             "actions": {
-              "click": "UPLOAD_FILE_VERSION"
+              "click": "UPLOAD_FILE_VERSION",
+              "focusedElementOnCloseSelector": "#app\\.toolbar\\.more"
             },
             "rules": {
               "visible": "app.selection.file.canUploadVersion"
@@ -701,7 +702,8 @@
         "order": 700,
         "icon": "playlist_add",
         "actions": {
-          "click": "UPLOAD_FILE_VERSION"
+          "click": "UPLOAD_FILE_VERSION",
+          "focusedElementOnCloseSelector": ".adf-is-selected"
         },
         "rules": {
           "visible": "app.selection.file.canUploadVersion"
