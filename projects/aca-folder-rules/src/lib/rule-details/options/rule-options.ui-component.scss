@@ -11,4 +11,8 @@
   &.read-only .mat-checkbox-inner-container {
     display: none;
   }
+
+  .hide-error-script-dropdown {
+    opacity: 0;
+  }
 }

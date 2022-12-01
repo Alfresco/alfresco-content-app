@@ -23,10 +23,11 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, forwardRef, HostBinding, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { Component, forwardRef, HostBinding, Input, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { RuleOptions } from '../../model/rule.model';
+import { ActionParameterConstraint, ConstraintValue } from '../../model/action-parameter-constraint.model';
 
 @Component({
   selector: 'aca-rule-options',
@@ -60,6 +61,11 @@ export class RuleOptionsUiComponent implements ControlValueAccessor, OnDestroy {
     this.onTouch();
   });
 
+  hideErrorScriptDropdown = true;
+
+  @Input()
+  errorScriptConstraint: ActionParameterConstraint;
+
   @HostBinding('class.read-only')
   readOnly = false;
 
@@ -73,6 +79,10 @@ export class RuleOptionsUiComponent implements ControlValueAccessor, OnDestroy {
     return this.form.get('isInheritable').value;
   }
 
+  get errorScriptOptions(): ConstraintValue[] {
+    return this.errorScriptConstraint?.constraints ?? [];
+  }
+
   writeValue(options: RuleOptions) {
     const isAsynchronousFormControl = this.form.get('isAsynchronous');
     const errorScriptFormControl = this.form.get('errorScript');
@@ -81,8 +91,10 @@ export class RuleOptionsUiComponent implements ControlValueAccessor, OnDestroy {
     this.form.get('isAsynchronous').setValue(options.isAsynchronous);
     errorScriptFormControl.setValue(options.errorScript ?? '');
     if (isAsynchronousFormControl.value) {
+      this.hideErrorScriptDropdown = false;
       errorScriptFormControl.enable();
     } else {
+      this.hideErrorScriptDropdown = true;
       errorScriptFormControl.disable();
     }
   }
@@ -112,8 +124,10 @@ export class RuleOptionsUiComponent implements ControlValueAccessor, OnDestroy {
   toggleErrorScriptDropdown(value: MatCheckboxChange) {
     const formControl: AbstractControl = this.form.get('errorScript');
     if (value.checked) {
+      this.hideErrorScriptDropdown = false;
       formControl.enable();
     } else {
+      this.hideErrorScriptDropdown = true;
       formControl.disable();
     }
   }
