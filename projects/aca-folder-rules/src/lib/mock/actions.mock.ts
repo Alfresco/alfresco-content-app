@@ -24,6 +24,7 @@
  */
 
 import { ActionDefinitionTransformed, ActionParameterDefinitionTransformed, RuleAction } from '../model/rule-action.model';
+import { ActionParameterConstraint } from '../model/action-parameter-constraint.model';
 
 export const actionDefListMock = {
   list: {
@@ -187,3 +188,17 @@ export const validActionsMock: RuleAction[] = [
     params: {}
   }
 ];
+
+export const errorScriptConstraintMock: ActionParameterConstraint = {
+  name: 'script-ref',
+  constraints: [
+    {
+      value: 'script-1-value',
+      label: 'Script 1'
+    },
+    {
+      value: 'script-2-value',
+      label: 'Script 2'
+    }
+  ]
+};

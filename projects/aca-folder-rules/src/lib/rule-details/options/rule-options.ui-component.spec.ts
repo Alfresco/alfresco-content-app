@@ -29,6 +29,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RuleOptionsUiComponent } from './rule-options.ui-component';
 import { CoreTestingModule } from '@alfresco/adf-core';
 import { By } from '@angular/platform-browser';
+import { errorScriptConstraintMock } from '../../mock/actions.mock';
 
 describe('RuleOptionsUiComponent', () => {
   let fixture: ComponentFixture<RuleOptionsUiComponent>;
@@ -111,5 +112,25 @@ describe('RuleOptionsUiComponent', () => {
     expect(getByDataAutomationId('rule-option-checkbox-inheritable')).toBeTruthy();
     expect(getByDataAutomationId('rule-option-checkbox-enabled')).toBeFalsy();
     expect(getByDataAutomationId('rule-option-select-errorScript')).toBeTruthy();
+  });
+
+  it('should populate the error script dropdown with scripts', () => {
+    component.writeValue({
+      isEnabled: true,
+      isInheritable: false,
+      isAsynchronous: true,
+      errorScript: ''
+    });
+    component.errorScriptConstraint = errorScriptConstraintMock;
+    fixture.detectChanges();
+
+    (getByDataAutomationId('rule-option-select-errorScript').nativeElement as HTMLElement).click();
+    fixture.detectChanges();
+
+    const matOptions = fixture.debugElement.queryAll(By.css(`.mat-option`));
+    expect(matOptions.length).toBe(3);
+    expect((matOptions[0].nativeElement as HTMLElement).innerText.trim()).toBe('ACA_FOLDER_RULES.RULE_DETAILS.OPTIONS.NO_SCRIPT');
+    expect((matOptions[1].nativeElement as HTMLElement).innerText.trim()).toBe('Script 1');
+    expect((matOptions[2].nativeElement as HTMLElement).innerText.trim()).toBe('Script 2');
   });
 });
