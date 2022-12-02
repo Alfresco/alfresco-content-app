@@ -21,11 +21,55 @@
 }
 
 .sidenav {
+  width: 289px !important;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--theme-sidenav-background-color) !important;
   display: flex;
   flex: 1;
   flex-direction: column;
   height: 100%;
-  background-color: var(--theme-background-color);
+
+  &-header {
+    height: 32px;
+    padding: 32px 0;
+
+
+    &-title {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      height: 32px;
+      padding: 0 24px;
+
+      &-logo {
+        position: absolute;
+        transform: scale(0.7);
+        cursor: pointer;
+      }
+
+      &-text {
+        color: var(--theme-selected-text-color);
+        margin-left: 32px;
+        letter-spacing: 0.25px;
+        font-style: normal;
+        font-weight: 400;
+        font-size: var(--theme-body-1-font-size);
+        cursor: pointer;
+      }
+    }
+
+    &-menu-icon {
+      transform: scale(1.2);
+    }
+
+    &-notification {
+      margin-left: 56px;
+    }
+  }
 
   .section:last-child {
     border-bottom: 0;
@@ -45,11 +89,6 @@
 
   .section-sub-actions {
     overflow-y: auto;
-  }
-
-  .section {
-    padding: 8px 6px;
-    border-bottom: 1px solid var(--theme-divider-color);
   }
 
   .section--collapsed {
@@ -77,7 +116,8 @@
   }
 
   .action-button--active {
-    color: var(--theme-primary-color) !important;
+    color: var(--theme-selected-text-color) !important;
+    background: var(--theme-selected-background-color);
   }
 
   .action-button {
@@ -107,11 +147,11 @@
   }
 
   .item:hover .action-button__label {
-    color: var(--theme-primary-color);
+    color: var(--theme-selected-text-color);
   }
 
   .mat-expansion-panel-header {
-    padding: 0 8px 0 0 !important;
+    padding: 0 24px 0 0 !important;
     display: flex;
     align-items: center;
     font-size: 14px !important;
@@ -147,4 +187,12 @@
   .mat-expansion-panel-header {
     padding: 0 0 0 8px !important;
   }
+}
+
+mat-sidenav {
+  width: 0px !important;
+}
+
+.adf-container-full-width {
+  margin-left: 289px !important;
 }

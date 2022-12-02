@@ -2,7 +2,6 @@ app-view-profile {
   letter-spacing: .5px;
 
   .app-profile-container {
-    margin-top: 1rem;
     overflow: scroll;
     height:100%;
     width: 100%;
@@ -10,15 +9,26 @@ app-view-profile {
 
   .app-profile-row {
     width: 100%;
+    height: 32px;
+    padding: 32px 0;
+    border-bottom: 1px solid var(--theme-grey-background-color);
   }
 
   .app-profile-title {
+    // display: flex;
+    // padding: 32px 0px;
+    // height: 32px;
     display: flex;
-    margin-left: 2rem;
+    flex-direction: row;
+    align-items: center;
+    height: 32px;
+    padding: 0 24px;
   }
 
   .app-profile {
     cursor: pointer;
+    margin-top: 1rem;
+
   }
 
   .app-profile-general-row {
@@ -30,7 +40,6 @@ app-view-profile {
 
   .app-profile-icon {
     margin-right: 1rem;
-    margin-top: 1rem;
     cursor: pointer;
   }
 
@@ -86,7 +95,7 @@ app-view-profile {
 
   .app-profile-row {
     width: 100%;
-    margin: 2rem 0 0 0;
+    
   }
 
   .app-general-edit {
@@ -189,5 +198,14 @@ app-view-profile {
   .app-error-message {
     padding-top: 2rem;
     padding-left: .5rem;
+  }
+  .layoutStyle {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    bottom: 0;
+    right: 0;
+    height: 100%;
   }
 }

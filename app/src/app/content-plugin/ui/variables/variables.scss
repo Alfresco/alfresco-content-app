@@ -41,6 +41,7 @@ $black-heading: #4e4c4c;
 $grey-dropdown-background: #eee;
 $grey-divider: rgba(0,0,0,.22);
 $pagination-background-color: #ffffff;
+$sidenav-background-color: #f8f8f8;
 
 $defaults: (
   --theme-primary-color: mat.get-color-from-palette($primary),
@@ -70,6 +71,9 @@ $defaults: (
   --theme-dropdown-color: $grey-dropdown-background,
   --theme-grey-divider-color: $grey-divider,
   --theme-pagination-background-color: $pagination-background-color,
+  --theme-sidenav-background-color: $sidenav-background-color,
+  --theme-selected-text-color: #212121,
+  --theme-selected-background-color: rgba(31, 116, 219, 0.24),
 );
 
 // propagates SCSS variables into the CSS variables scope

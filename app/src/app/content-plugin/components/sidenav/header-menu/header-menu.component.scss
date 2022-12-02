@@ -1,0 +1,32 @@
+.app-user-details {
+    border-radius: 90%;
+    height: 32px;
+    margin-right: 0;
+    min-width: 32px;
+    padding: 0;
+    font-weight: bolder;
+    line-height: 24px !important;
+    text-align: center;
+    vertical-align: middle;
+    background: var(--theme-studio-background);
+    border: none;
+}
+
+.app-user-details.app-details {
+    padding-top: 20px;
+    transform: scale(1.1);
+}
+
+.app-user-name-mail {
+    // margin-left: 15px;
+    line-height: 40px;
+}
+
+.app-user-menu-name {
+    height: 24px;
+}
+
+.app-details {
+    display: flex;
+    height: 66px;
+}
