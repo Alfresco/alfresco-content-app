@@ -26,7 +26,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CardViewBoolItemModel, CardViewComponent, CardViewSelectItemModel, CardViewTextItemModel, CoreTestingModule } from '@alfresco/adf-core';
 import { RuleActionUiComponent } from './rule-action.ui-component';
-import { actionsTransformedListMock } from '../../mock/actions.mock';
+import { actionLinkToCategoryTransformedMock, actionsTransformedListMock } from '../../mock/actions.mock';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { dummyConstraints } from '../../mock/action-parameter-constraints.mock';
@@ -89,5 +89,20 @@ describe('RuleActionUiComponent', () => {
 
     changeMatSelectValue('rule-action-select', 'mock-action-2-definition');
     expect(cardView.properties.length).toBe(0);
+  });
+
+  it('should create category value as a text box rather than node picker', () => {
+    component.actionDefinitions = [actionLinkToCategoryTransformedMock];
+    component.parameterConstraints = dummyConstraints;
+    fixture.detectChanges();
+
+    const cardView = getByDataAutomationId('rule-action-card-view').componentInstance as CardViewComponent;
+    expect(cardView.properties.length).toBe(0);
+
+    changeMatSelectValue('rule-action-select', 'mock-action-3-definition');
+
+    expect(cardView.properties[0].icon).toBeFalsy();
+    expect(cardView.properties[0].value).toBeFalsy();
+    expect(cardView.properties[0]).toBeInstanceOf(CardViewTextItemModel);
   });
 });
