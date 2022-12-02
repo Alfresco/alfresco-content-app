@@ -133,6 +133,14 @@ const actionParam5TransformedMock: ActionParameterDefinitionTransformed = {
   parameterConstraintName: ''
 };
 
+const actionParamLinkToCategoryTransformedMock = {
+  name: 'category-value',
+  type: 'd:noderef',
+  multiValued: false,
+  mandatory: true,
+  displayLabel: 'Category value'
+};
+
 const action1TransformedMock: ActionDefinitionTransformed = {
   id: 'mock-action-1-definition',
   name: 'mock-action-1-definition',
@@ -157,6 +165,16 @@ const action2TransformedMock: ActionDefinitionTransformed = {
   applicableTypes: [],
   trackStatus: false,
   parameterDefinitions: []
+};
+
+export const actionLinkToCategoryTransformedMock: ActionDefinitionTransformed = {
+  id: 'mock-action-3-definition',
+  name: 'mock-action-3-definition',
+  description: '',
+  title: 'mock-action-3-definition',
+  applicableTypes: [],
+  trackStatus: false,
+  parameterDefinitions: [actionParamLinkToCategoryTransformedMock]
 };
 
 export const actionsTransformedListMock: ActionDefinitionTransformed[] = [action1TransformedMock, action2TransformedMock];

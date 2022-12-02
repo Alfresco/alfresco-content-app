@@ -190,7 +190,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
             value: this.parameters[paramDef.name] ?? false
           });
         case 'd:noderef':
-          if (!constraintsForDropdownBox && !this.readOnly) {
+          if (!constraintsForDropdownBox && !this.readOnly && paramDef.name !== 'category-value') {
             return new CardViewTextItemModel({
               ...cardViewPropertiesModel,
               icon: 'folder',
