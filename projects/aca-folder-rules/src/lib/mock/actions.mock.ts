@@ -169,7 +169,7 @@ const action2TransformedMock: ActionDefinitionTransformed = {
 
 export const actionLinkToCategoryTransformedMock: ActionDefinitionTransformed = {
   id: 'mock-action-3-definition',
-  name: 'mock-action--definition',
+  name: 'mock-action-3-definition',
   description: '',
   title: 'mock-action-3-definition',
   applicableTypes: [],

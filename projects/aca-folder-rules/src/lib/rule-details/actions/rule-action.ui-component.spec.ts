@@ -91,7 +91,7 @@ describe('RuleActionUiComponent', () => {
     expect(cardView.properties.length).toBe(0);
   });
 
-  it('should create category value as a text box rather than node picker', () => {
+  it('should create category-value action parameter as a text box rather than node picker', () => {
     component.actionDefinitions = [actionLinkToCategoryTransformedMock];
     component.parameterConstraints = dummyConstraints;
     fixture.detectChanges();
