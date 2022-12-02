@@ -303,7 +303,7 @@ export class ContentManagementService {
     );
   }
 
-  leaveLibrary(siteId: string): void {
+  leaveLibrary(siteId: string, focusedElementOnCloseSelector?: string): void {
     const dialogRef = this.dialogRef.open(ConfirmDialogComponent, {
       data: {
         title: 'APP.DIALOGS.CONFIRM_LEAVE.TITLE',
@@ -326,6 +326,7 @@ export class ContentManagementService {
           }
         );
       }
+      ContentManagementService.focusAfterClose(focusedElementOnCloseSelector);
     });
   }
 
@@ -580,25 +581,26 @@ export class ContentManagementService {
         showVersionsOnly: true,
         title: 'VERSION.DIALOG.TITLE'
       };
-      this.newVersionUploaderService.openUploadNewVersionDialog(newVersionUploaderDialogData, { width: '630px', role: 'dialog' }).subscribe({
-        next: (newVersionUploaderData: NewVersionUploaderData) => {
-          switch (newVersionUploaderData.action) {
-            case NewVersionUploaderDataAction.refresh:
-              this.store.dispatch(new ReloadDocumentListAction());
-              break;
-            case NewVersionUploaderDataAction.view:
-              this.store.dispatch(
-                new ViewNodeVersionAction(node.id, newVersionUploaderData.versionId, {
-                  location: this.router.url
-                })
-              );
-              break;
-            default:
-              break;
+      this.newVersionUploaderService
+        .openUploadNewVersionDialog(newVersionUploaderDialogData, { width: '630px', role: 'dialog' }, focusedElementOnCloseSelector)
+        .subscribe({
+          next: (newVersionUploaderData: NewVersionUploaderData) => {
+            switch (newVersionUploaderData.action) {
+              case NewVersionUploaderDataAction.refresh:
+                this.store.dispatch(new ReloadDocumentListAction());
+                break;
+              case NewVersionUploaderDataAction.view:
+                this.store.dispatch(
+                  new ViewNodeVersionAction(node.id, newVersionUploaderData.versionId, {
+                    location: this.router.url
+                  })
+                );
+                break;
+              default:
+                break;
+            }
           }
-        },
-        complete: () => ContentManagementService.focusAfterClose(focusedElementOnCloseSelector)
-      });
+        });
     } else {
       this.store.dispatch(new SnackbarErrorAction('APP.MESSAGES.ERRORS.PERMISSION'));
     }

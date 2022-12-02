@@ -402,7 +402,8 @@
         "title": "APP.ACTIONS.LEAVE",
         "icon": "exit_to_app",
         "actions": {
-          "click": "LEAVE_LIBRARY"
+          "click": "LEAVE_LIBRARY",
+          "focusedElementOnCloseSelector": "#app\\.toolbar\\.leaveLibrary"
         },
         "rules": {
           "visible": "canLeaveLibrary"
@@ -637,7 +638,7 @@
         "order": 100,
         "data": {
           "iconButton": false,
-          "focusedElementOnCloseSelector": ".adf-is-selected"
+          "focusedElementOnCloseSelector": ".adf-context-menu-source"
         },
         "component": "app.shared-link.toggleSharedLink",
         "rules": {
@@ -690,7 +691,7 @@
         "icon": "create",
         "actions": {
           "click": "EDIT_FOLDER",
-          "focusedElementOnCloseSelector": ".adf-is-selected"
+          "focusedElementOnCloseSelector": ".adf-context-menu-source"
         },
         "rules": {
           "visible": "canEditFolder"
@@ -703,7 +704,7 @@
         "icon": "playlist_add",
         "actions": {
           "click": "UPLOAD_FILE_VERSION",
-          "focusedElementOnCloseSelector": ".adf-is-selected"
+          "focusedElementOnCloseSelector": ".adf-context-menu-source"
         },
         "rules": {
           "visible": "app.selection.file.canUploadVersion"
@@ -765,7 +766,7 @@
         "icon": "adf:move_file",
         "actions": {
           "click": "MOVE_NODES",
-          "focusedElementOnCloseSelector": ".adf-is-selected"
+          "focusedElementOnCloseSelector": ".adf-context-menu-source"
         },
         "rules": {
           "visible": "app.selection.canDelete"
@@ -778,7 +779,7 @@
         "icon": "content_copy",
         "actions": {
           "click": "COPY_NODES",
-          "focusedElementOnCloseSelector": ".adf-is-selected"
+          "focusedElementOnCloseSelector": ".adf-context-menu-source"
         },
         "rules": {
           "visible": "canCopyNode"
@@ -808,7 +809,7 @@
         "icon": "history",
         "actions": {
           "click": "MANAGE_VERSIONS",
-          "focusedElementOnCloseSelector": ".adf-is-selected"
+          "focusedElementOnCloseSelector": ".adf-context-menu-source"
         },
         "rules": {
           "visible": "canManageFileVersions"
@@ -821,7 +822,7 @@
         "icon": "toc",
         "actions": {
           "click": "ASPECT_LIST",
-          "focusedElementOnCloseSelector": ".adf-is-selected"
+          "focusedElementOnCloseSelector": ".adf-context-menu-source"
         },
         "rules": {
           "visible": "canEditAspects"
@@ -866,7 +867,8 @@
         "title": "APP.ACTIONS.LEAVE",
         "icon": "exit_to_app",
         "actions": {
-          "click": "LEAVE_LIBRARY"
+          "click": "LEAVE_LIBRARY",
+          "focusedElementOnCloseSelector": ".adf-context-menu-source"
         },
         "rules": {
           "visible": "canLeaveLibrary"

@@ -54,7 +54,6 @@ import {
 } from '@alfresco/aca-shared/store';
 import { ContentManagementService } from '../../services/content-management.service';
 import { ViewUtilService } from '@alfresco/adf-core';
-import { MinimalNodeEntity } from '@alfresco/js-api';
 
 @Injectable()
 export class NodeEffects {
@@ -216,7 +215,7 @@ export class NodeEffects {
       this.actions$.pipe(
         ofType<EditFolderAction>(NodeActionTypes.EditFolder),
         map((action) => {
-          if (action.payload instanceof MinimalNodeEntity) {
+          if (action.payload?.entry) {
             this.contentService.editFolder(action.payload);
           } else {
             this.store
@@ -224,10 +223,7 @@ export class NodeEffects {
               .pipe(take(1))
               .subscribe((selection) => {
                 if (selection && selection.folder) {
-                  this.contentService.editFolder(
-                    selection.folder,
-                    action.payload instanceof MinimalNodeEntity ? '' : action.payload?.focusedElementOnCloseSelector
-                  );
+                  this.contentService.editFolder(selection.folder, action.payload?.focusedElementOnCloseSelector);
                 }
               });
           }
@@ -339,7 +335,7 @@ export class NodeEffects {
       this.actions$.pipe(
         ofType<ManageVersionsAction>(NodeActionTypes.ManageVersions),
         map((action) => {
-          if (action?.payload instanceof MinimalNodeEntity) {
+          if (action?.payload?.entry) {
             this.contentService.manageVersions(action.payload);
           } else {
             this.store
@@ -347,10 +343,7 @@ export class NodeEffects {
               .pipe(take(1))
               .subscribe((selection) => {
                 if (selection && selection.file) {
-                  this.contentService.manageVersions(
-                    selection.file,
-                    action.payload instanceof MinimalNodeEntity ? '' : action.payload?.focusedElementOnCloseSelector
-                  );
+                  this.contentService.manageVersions(selection.file, action.payload?.focusedElementOnCloseSelector);
                 }
               });
           }
@@ -408,7 +401,7 @@ export class NodeEffects {
       this.actions$.pipe(
         ofType<ManageAspectsAction>(NodeActionTypes.ChangeAspects),
         map((action) => {
-          if (action?.payload instanceof MinimalNodeEntity) {
+          if (action?.payload?.entry) {
             this.contentService.manageAspects(action.payload);
           } else {
             this.store
@@ -416,10 +409,7 @@ export class NodeEffects {
               .pipe(take(1))
               .subscribe((selection) => {
                 if (selection && !selection.isEmpty) {
-                  this.contentService.manageAspects(
-                    selection.nodes[0],
-                    action.payload instanceof MinimalNodeEntity ? '' : action.payload?.focusedElementOnCloseSelector
-                  );
+                  this.contentService.manageAspects(selection.nodes[0], action.payload?.focusedElementOnCloseSelector);
                 }
               });
           }

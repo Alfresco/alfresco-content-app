@@ -78,7 +78,7 @@ export class LibraryEffects {
       this.actions$.pipe(
         ofType<LeaveLibraryAction>(LibraryActionTypes.Leave),
         map((action) => {
-          if (action.payload) {
+          if (typeof action.payload === 'string') {
             this.content.leaveLibrary(action.payload);
           } else {
             this.store
@@ -86,7 +86,10 @@ export class LibraryEffects {
               .pipe(take(1))
               .subscribe((selection) => {
                 if (selection && selection.library) {
-                  this.content.leaveLibrary(selection.library.entry.id);
+                  this.content.leaveLibrary(
+                    selection.library.entry.id,
+                    (action.payload as { focusedElementOnCloseSelector: string })?.focusedElementOnCloseSelector
+                  );
                 }
               });
           }
