@@ -8,18 +8,22 @@
       "CREATE": "Создать",
       "CREATE_TITLE": "Создать правило",
       "UPDATE": "Обновить",
-      "UPDATE_TITLE": "Обновить правило"
+      "UPDATE_TITLE": "Редактировать правило"
     },
     "RULE_DETAILS": {
       "LABEL": {
         "NAME": "Имя",
         "DESCRIPTION": "Описание",
-        "WHEN": "Когда"
+        "WHEN": "Когда",
+        "PERFORM_ACTIONS": "Выполнить действия",
+        "OPTIONS": "Другие параметры"
       },
       "PLACEHOLDER": {
         "NAME": "Введите имя правила",
         "DESCRIPTION": "Введите описание правила",
-        "NO_DESCRIPTION": "Нет описания"
+        "NO_DESCRIPTION": "Нет описания",
+        "VALUE": "Значение",
+        "CHOOSE_FOLDER": "Выбрать расположение"
       },
       "ERROR": {
         "REQUIRED": "Поле обязательно для заполнения",
@@ -30,6 +34,13 @@
         "INBOUND": "Элементы создаются или попадают в эту папку",
         "UPDATE": "Элементы обновлены",
         "OUTBOUND": "Элементы удаляются или покидают эту папку"
+      },
+      "OPTIONS": {
+        "IS_INHERITABLE": "Правило применяется к вложенным папкам",
+        "IS_ASYNCHRONOUS": "Выполнить правило в фоновом режиме",
+        "DISABLE_RULE": "Отключить правило",
+        "ERROR_SCRIPT": "Запустите скрипт при возникновении ошибок",
+        "NO_SCRIPT": "Нет"
       },
       "COMPARATORS": {
         "EQUALS": "(=) Равно",
@@ -62,13 +73,18 @@
         "AND": "И",
         "OR": "Или"
       },
-      "ACTIONS": {
+      "CONDITION_BUTTONS": {
         "ADD_CONDITION": "Добавить условие",
-        "ADD_GROUP": "Добавить группу",
+        "ADD_GROUP": "Добавить группу условий",
         "REMOVE": "Удалить"
       },
       "NO_CONDITIONS": "Нет условий",
-      "NO_CONDITIONS_IN_GROUP": "В группе нет условий"
+      "NO_CONDITIONS_IN_GROUP": "В группе нет условий",
+      "ACTION_BUTTONS": {
+        "ADD_ACTION": "Добавить действие",
+        "REMOVE": "Удалить"
+      },
+      "ACTION_SELECT_PLACEHOLDER": "Выбрать действие"
     },
     "MANAGE_RULES": {
       "TOOLBAR": {
@@ -76,7 +92,11 @@
           "RULES": "правила"
         },
         "ACTIONS": {
-          "NEW_RULE": "Новое правило"
+          "CREATE_RULE": "Создать правило",
+          "LINK_RULES": "Привязать правила",
+          "EDIT_RULE": "Редактировать",
+          "SEE_IN_FOLDER": "Показать в папке",
+          "INHERIT_RULES": "Наследовать правила"
         }
       },
       "EMPTY_RULES_LIST": {
@@ -88,7 +108,36 @@
       "DELETE_RULE": {
         "TITLE": "Удалить правило",
         "MESSAGE": "Вы действительно хотите удалить это правило?"
+      },
+      "DELETE_RULE_SET_LINK": {
+        "TITLE": "Удалить ссылку на набор правил",
+        "MESSAGE": "Вы действительно хотите удалить ссылку на этот набор правил?"
       }
+    },
+    "RULE_LIST": {
+      "OWNED_RULES": "Правила из текущей папки",
+      "LINKED_RULES": "Правила из привязанной папки",
+      "INHERITED_RULES": "Унаследованные правила",
+      "LOAD_MORE_RULE_SETS": "Загрузить правила из других папок",
+      "LOAD_MORE_RULES": "Загрузить другие правила",
+      "LOADING_RULES": "Загрузка правил",
+      "INHERITED_RULES_WILL_BE_RUN_FIRST": "Унаследованные правила будут выполняться в первую очередь"
+    },
+    "LINK_RULES_DIALOG": {
+      "TITLE": "Выберите папку, из которой будут взяты правила",
+      "CANCEL": "Отмена",
+      "SUBMIT": "Выбрать папку",
+      "EMPTY_RULES_LIST": {
+        "TITLE": "Нет приобретенных правил",
+        "SUBTITLE": "Выбранная папка не имеет собственных правил."
+      },
+      "LIST_OF_RULES_TO_LINK": "Список правил, которые будут привязаны",
+      "ERRORS": {
+        "REQUEST_FAILED": "Ошибка при попытке создать ссылку на набор правил"
+      }
+    },
+    "ERRORS": {
+      "DELETE_RULE_SET_LINK_FAILED": "Ошибка при попытке удалить ссылку из набора правил"
     }
   }
 }

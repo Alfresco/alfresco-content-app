@@ -8,18 +8,22 @@
       "CREATE": "Luo",
       "CREATE_TITLE": "Luo sääntö",
       "UPDATE": "Päivitä",
-      "UPDATE_TITLE": "Päivitä sääntö"
+      "UPDATE_TITLE": "Muokkaa sääntöä"
     },
     "RULE_DETAILS": {
       "LABEL": {
         "NAME": "Nimi",
         "DESCRIPTION": "Kuvaus",
-        "WHEN": "Kun"
+        "WHEN": "Kun",
+        "PERFORM_ACTIONS": "Suorita toimintoja",
+        "OPTIONS": "Muut valinnat"
       },
       "PLACEHOLDER": {
         "NAME": "Syötä säännön nimi",
         "DESCRIPTION": "Syötä säännön kuvaus",
-        "NO_DESCRIPTION": "Ei kuvausta"
+        "NO_DESCRIPTION": "Ei kuvausta",
+        "VALUE": "Arvo",
+        "CHOOSE_FOLDER": "Valitse kohdekansio"
       },
       "ERROR": {
         "REQUIRED": "Tämä kenttä on pakollinen",
@@ -30,6 +34,13 @@
         "INBOUND": "Kohteet luodaan tai syötetään tähän kansioon",
         "UPDATE": "Kohteet päivitetään",
         "OUTBOUND": "Kohteet poistetaan tai ne poistuvat tästä kansiosta"
+      },
+      "OPTIONS": {
+        "IS_INHERITABLE": "Sääntö koskee alikansioita",
+        "IS_ASYNCHRONOUS": "Suorita sääntö taustalla",
+        "DISABLE_RULE": "Poista sääntö käytöstä",
+        "ERROR_SCRIPT": "Suorita komentosarja, jos virheitä havaitaan",
+        "NO_SCRIPT": "Ei mitään"
       },
       "COMPARATORS": {
         "EQUALS": "(=) On yhtä suuri kuin",
@@ -44,7 +55,7 @@
         "AFTER": "(>) Jälkeen",
         "BEFORE": "(<) Ennen",
         "ON_OR_AFTER": "(>=) Tänä ajankohtana tai sen jälkeen",
-        "ON_OR_BEFORE": "(<=) Tänän ajankohtana tai sitä ennen",
+        "ON_OR_BEFORE": "(<=) Tänä ajankohtana tai sitä ennen",
         "INSTANCE_OF": "(=) On"
       },
       "FIELDS": {
@@ -62,13 +73,18 @@
         "AND": "Ja",
         "OR": "Tai"
       },
-      "ACTIONS": {
+      "CONDITION_BUTTONS": {
         "ADD_CONDITION": "Lisää ehto",
-        "ADD_GROUP": "Lisää ryhmä",
+        "ADD_GROUP": "Lisää ehtoryhmä",
         "REMOVE": "Poista"
       },
       "NO_CONDITIONS": "Ei ehtoja",
-      "NO_CONDITIONS_IN_GROUP": "Ryhmässä ei ole ehtoja"
+      "NO_CONDITIONS_IN_GROUP": "Ryhmässä ei ole ehtoja",
+      "ACTION_BUTTONS": {
+        "ADD_ACTION": "Lisää toiminto",
+        "REMOVE": "Poista"
+      },
+      "ACTION_SELECT_PLACEHOLDER": "Valitse toiminto"
     },
     "MANAGE_RULES": {
       "TOOLBAR": {
@@ -76,7 +92,11 @@
           "RULES": "säännöt"
         },
         "ACTIONS": {
-          "NEW_RULE": "Uusi sääntö"
+          "CREATE_RULE": "Luo sääntö",
+          "LINK_RULES": "Linkitä sääntöjä",
+          "EDIT_RULE": "Muokkaa",
+          "SEE_IN_FOLDER": "Katso kansiosta",
+          "INHERIT_RULES": "Peri sääntöjä"
         }
       },
       "EMPTY_RULES_LIST": {
@@ -88,7 +108,36 @@
       "DELETE_RULE": {
         "TITLE": "Poista sääntö",
         "MESSAGE": "Haluatko varmasti poistaa tämän säännön?"
+      },
+      "DELETE_RULE_SET_LINK": {
+        "TITLE": "Poista sääntöjoukon linkki",
+        "MESSAGE": "Haluatko varmasti poistaa tähän sääntöjoukkoon johtavan linkin?"
       }
+    },
+    "RULE_LIST": {
+      "OWNED_RULES": "Säännöt nykyisestä kansiosta",
+      "LINKED_RULES": "Säännöt linkitetystä kansiosta",
+      "INHERITED_RULES": "Perityt säännöt",
+      "LOAD_MORE_RULE_SETS": "Lataa sääntöjä muista kansioista",
+      "LOAD_MORE_RULES": "Lataa lisää sääntöjä",
+      "LOADING_RULES": "Sääntöjä ladataan",
+      "INHERITED_RULES_WILL_BE_RUN_FIRST": "Perityt säännöt suoritetaan ensin"
+    },
+    "LINK_RULES_DIALOG": {
+      "TITLE": "Valitse kansio, josta sääntöjä linkitetään",
+      "CANCEL": "Peruuta",
+      "SUBMIT": "Valitse kansio",
+      "EMPTY_RULES_LIST": {
+        "TITLE": "Ei omistettuja sääntöjä",
+        "SUBTITLE": "Valitulla kansiolla ei ole omia sääntöjä."
+      },
+      "LIST_OF_RULES_TO_LINK": "Luettelo säännöistä, jotka linkitetään",
+      "ERRORS": {
+        "REQUEST_FAILED": "Virhe yritettäessä luoda linkki sääntöjoukkoon"
+      }
+    },
+    "ERRORS": {
+      "DELETE_RULE_SET_LINK_FAILED": "Virhe yritettäessä poistaa linkki sääntöjoukosta"
     }
   }
 }

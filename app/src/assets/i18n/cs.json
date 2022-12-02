@@ -70,8 +70,8 @@
       "COMPANY_DETAILS": "Podrobnosti o společnosti",
       "NAME": "Název",
       "ADDRESS": "Adresa",
-      "POSTCODE": "PSČ",
-      "INVALID_INPUT": "Neplatné zadání"
+      "POSTCODE": "Postcode",
+      "INVALID_INPUT": "Invalid Input"
     },
     "LOCKED_BY": "Uzamknul(a): ",
     "PREVIEW": {
@@ -108,6 +108,9 @@
         "SIDENAV_LINK": {
           "LABEL": "Osobní soubory",
           "TOOLTIP": "Zobrazit osobní soubory"
+        },
+        "PERMISSIONS": {
+          "TITLE": "Oprávnění"
         }
       },
       "LIBRARIES": {
@@ -197,6 +200,7 @@
         "DUBLIN_CORE": "Dublin Core",
         "EFFECTIVITY": "Účinnost",
         "TITLE": "Výsledky hledání",
+        "RESET_ACTION": "Reset search filters",
         "FOUND_RESULTS": "Nalezené výsledky: {{ number }}",
         "FOUND_ONE_RESULT": "Nalezené výsledky: {{ number }}",
         "CUSTOM_ROW": {
@@ -391,13 +395,15 @@
     },
     "INFO_DRAWER": {
       "TITLE": "Podrobnosti",
+      "DATA_LOADING": "Data is loading",
       "TABS": {
         "PROPERTIES": "Vlastnosti",
         "LIBRARY_PROPERTIES": "O aplikaci",
         "VERSIONS": "Verze",
         "COMMENTS": "Poznámky",
         "PERMISSIONS": "Oprávnění",
-        "EXPAND": "Rozbalit"
+        "EXPAND": "Rozbalit",
+        "CLOSE_LIBRARY": "Close Library"
       }
     }
   },

@@ -8,18 +8,22 @@
       "CREATE": "作成",
       "CREATE_TITLE": "ルールの作成",
       "UPDATE": "更新",
-      "UPDATE_TITLE": "ファイルの更新"
+      "UPDATE_TITLE": "ルールの編集"
     },
     "RULE_DETAILS": {
       "LABEL": {
         "NAME": "名前",
         "DESCRIPTION": "説明",
-        "WHEN": "日時"
+        "WHEN": "日時",
+        "PERFORM_ACTIONS": "アクションの実行",
+        "OPTIONS": "他のオプション"
       },
       "PLACEHOLDER": {
         "NAME": "ルールの名前を入力します",
         "DESCRIPTION": "ルールの説明を入力します",
-        "NO_DESCRIPTION": "説明なし"
+        "NO_DESCRIPTION": "説明なし",
+        "VALUE": "値",
+        "CHOOSE_FOLDER": "移動先フォルダの選択"
       },
       "ERROR": {
         "REQUIRED": "このフィールドは必要です",
@@ -30,6 +34,13 @@
         "INBOUND": "アイタムがこのフォルダに作成または入力される",
         "UPDATE": "アイタムが更新される",
         "OUTBOUND": "アイタムがこのフォルダから削除または送り出される"
+      },
+      "OPTIONS": {
+        "IS_INHERITABLE": "ルールはサブフォルダに適用",
+        "IS_ASYNCHRONOUS": "ルールを背景で実行",
+        "DISABLE_RULE": "ルールの無効化",
+        "ERROR_SCRIPT": "エラーが発生した場合、スクリプトを実行",
+        "NO_SCRIPT": "なし"
       },
       "COMPARATORS": {
         "EQUALS": "(=) 等しい",
@@ -62,13 +73,18 @@
         "AND": "および",
         "OR": "または"
       },
-      "ACTIONS": {
+      "CONDITION_BUTTONS": {
         "ADD_CONDITION": "条件の追加",
-        "ADD_GROUP": "グループの追加",
+        "ADD_GROUP": "条件グループの追加",
         "REMOVE": "削除"
       },
       "NO_CONDITIONS": "条件なし",
-      "NO_CONDITIONS_IN_GROUP": "グループに条件なし"
+      "NO_CONDITIONS_IN_GROUP": "グループに条件なし",
+      "ACTION_BUTTONS": {
+        "ADD_ACTION": "処理の追加",
+        "REMOVE": "削除"
+      },
+      "ACTION_SELECT_PLACEHOLDER": "アクションの選択"
     },
     "MANAGE_RULES": {
       "TOOLBAR": {
@@ -76,7 +92,11 @@
           "RULES": "ルール"
         },
         "ACTIONS": {
-          "NEW_RULE": "新しいルール"
+          "CREATE_RULE": "ルールの作成",
+          "LINK_RULES": "リンクルール",
+          "EDIT_RULE": "編集",
+          "SEE_IN_FOLDER": "フォルダで見る",
+          "INHERIT_RULES": "ルールの継承"
         }
       },
       "EMPTY_RULES_LIST": {
@@ -87,8 +107,37 @@
     "CONFIRMATION_DIALOG": {
       "DELETE_RULE": {
         "TITLE": "ルールの削除",
-        "MESSAGE": "この規則を削除しますか?"
+        "MESSAGE": "このルールを削除しますか?"
+      },
+      "DELETE_RULE_SET_LINK": {
+        "TITLE": "ルールセットリンクの削除",
+        "MESSAGE": "このルールセットへのリンクを削除しますか？"
       }
+    },
+    "RULE_LIST": {
+      "OWNED_RULES": "現在のフォルダのルール",
+      "LINKED_RULES": "リンク先フォルダのルール",
+      "INHERITED_RULES": "継承されたルール",
+      "LOAD_MORE_RULE_SETS": "他のフォルダからユールを読み込む",
+      "LOAD_MORE_RULES": "さらにルールを読み込む",
+      "LOADING_RULES": "ルールの読み込み中",
+      "INHERITED_RULES_WILL_BE_RUN_FIRST": "継承されたルールが最初に実行されます"
+    },
+    "LINK_RULES_DIALOG": {
+      "TITLE": "ルールをリンクさせるフォルダを選択",
+      "CANCEL": "キャンセル",
+      "SUBMIT": "フォルダの選択",
+      "EMPTY_RULES_LIST": {
+        "TITLE": "所有ルールがありません",
+        "SUBTITLE": "選択したフォルダには、それ自身のルールがありません。"
+      },
+      "LIST_OF_RULES_TO_LINK": "リンク先のルールリスト",
+      "ERRORS": {
+        "REQUEST_FAILED": "ルールセットへのリンクを作成中にエラーが発生しました"
+      }
+    },
+    "ERRORS": {
+      "DELETE_RULE_SET_LINK_FAILED": "ルールセットからリンクを削除中にエラーが発生しました"
     }
   }
 }

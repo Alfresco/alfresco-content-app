@@ -8,18 +8,22 @@
       "CREATE": "Criar",
       "CREATE_TITLE": "Criar uma regra",
       "UPDATE": "Atualizar",
-      "UPDATE_TITLE": "Atualizar uma regra"
+      "UPDATE_TITLE": "Editar uma regra"
     },
     "RULE_DETAILS": {
       "LABEL": {
         "NAME": "Nome",
         "DESCRIPTION": "Descrição",
-        "WHEN": "Quando"
+        "WHEN": "Quando",
+        "PERFORM_ACTIONS": "Realizar ações",
+        "OPTIONS": "Outras opções"
       },
       "PLACEHOLDER": {
         "NAME": "Inserir um nome para a regra",
         "DESCRIPTION": "Inserir uma descrição para a regra",
-        "NO_DESCRIPTION": "Nenhuma descrição"
+        "NO_DESCRIPTION": "Nenhuma descrição",
+        "VALUE": "Valor",
+        "CHOOSE_FOLDER": "Escolher pasta de destino"
       },
       "ERROR": {
         "REQUIRED": "Este campo é obrigatório",
@@ -30,6 +34,13 @@
         "INBOUND": "Itens foram criados ou inseridos nesta pasta",
         "UPDATE": "Itens foram atualizados",
         "OUTBOUND": "Itens foram excluídos ou saíram desta pasta"
+      },
+      "OPTIONS": {
+        "IS_INHERITABLE": "A regra é aplicável a subpastas",
+        "IS_ASYNCHRONOUS": "Executar regra no plano de fundo",
+        "DISABLE_RULE": "Desativar regra",
+        "ERROR_SCRIPT": "Se ocorrerem erros, execute o script",
+        "NO_SCRIPT": "Nenhum"
       },
       "COMPARATORS": {
         "EQUALS": "(=) Igual a",
@@ -62,13 +73,18 @@
         "AND": "E",
         "OR": "Ou"
       },
-      "ACTIONS": {
+      "CONDITION_BUTTONS": {
         "ADD_CONDITION": "Adicionar condição",
-        "ADD_GROUP": "Adicionar grupo",
-        "REMOVE": "Remover"
+        "ADD_GROUP": "Adicionar grupo de condição",
+        "REMOVE": "Excluir"
       },
       "NO_CONDITIONS": "Sem condições",
-      "NO_CONDITIONS_IN_GROUP": "Sem condições no grupo"
+      "NO_CONDITIONS_IN_GROUP": "Sem condições no grupo",
+      "ACTION_BUTTONS": {
+        "ADD_ACTION": "Adicionar ação",
+        "REMOVE": "Excluir"
+      },
+      "ACTION_SELECT_PLACEHOLDER": "Selecionar uma ação"
     },
     "MANAGE_RULES": {
       "TOOLBAR": {
@@ -76,7 +92,11 @@
           "RULES": "regras"
         },
         "ACTIONS": {
-          "NEW_RULE": "Nova regra"
+          "CREATE_RULE": "Criar uma regra",
+          "LINK_RULES": "Regras de link",
+          "EDIT_RULE": "Editar",
+          "SEE_IN_FOLDER": "Consulte na pasta",
+          "INHERIT_RULES": "Herdar regras"
         }
       },
       "EMPTY_RULES_LIST": {
@@ -88,7 +108,36 @@
       "DELETE_RULE": {
         "TITLE": "Excluir regra",
         "MESSAGE": "Tem certeza de que deseja excluir esta regra?"
+      },
+      "DELETE_RULE_SET_LINK": {
+        "TITLE": "Excluir link do conjunto de regras",
+        "MESSAGE": "Tem certeza de que deseja excluir o link deste conjunto de regras?"
       }
+    },
+    "RULE_LIST": {
+      "OWNED_RULES": "Regras da pasta atual",
+      "LINKED_RULES": "Regras da pasta vinculada",
+      "INHERITED_RULES": "Regras herdadas",
+      "LOAD_MORE_RULE_SETS": "Carregar regras de outras pastas",
+      "LOAD_MORE_RULES": "Carregar mais regras",
+      "LOADING_RULES": "Carregando regras",
+      "INHERITED_RULES_WILL_BE_RUN_FIRST": "As regras herdadas serão executadas primeiro"
+    },
+    "LINK_RULES_DIALOG": {
+      "TITLE": "Selecione uma pasta da qual vincular regras",
+      "CANCEL": "Cancelar",
+      "SUBMIT": "Selecionar pasta",
+      "EMPTY_RULES_LIST": {
+        "TITLE": "Nenhuma regra própria",
+        "SUBTITLE": "A pasta selecionada não possui regras próprias."
+      },
+      "LIST_OF_RULES_TO_LINK": "Lista das regras que serão vinculadas",
+      "ERRORS": {
+        "REQUEST_FAILED": "Erro ao tentar criar um link a um conjunto de regras"
+      }
+    },
+    "ERRORS": {
+      "DELETE_RULE_SET_LINK_FAILED": "Erro ao tentar excluir um link de um conjunto de regras"
     }
   }
 }

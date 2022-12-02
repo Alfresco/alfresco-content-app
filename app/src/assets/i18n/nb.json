@@ -108,6 +108,9 @@
         "SIDENAV_LINK": {
           "LABEL": "Personlige filer",
           "TOOLTIP": "Vis dine personlige filer"
+        },
+        "PERMISSIONS": {
+          "TITLE": "Tillatelser"
         }
       },
       "LIBRARIES": {
@@ -197,6 +200,7 @@
         "DUBLIN_CORE": "Dublin Core",
         "EFFECTIVITY": "Effektivitet",
         "TITLE": "Søkeresultater",
+        "RESET_ACTION": "Tilbakestill søkefiltre",
         "FOUND_RESULTS": "{{ number }} resultater funnet",
         "FOUND_ONE_RESULT": "{{ number }} resultat funnet",
         "CUSTOM_ROW": {
@@ -391,13 +395,15 @@
     },
     "INFO_DRAWER": {
       "TITLE": "Detaljer",
+      "DATA_LOADING": "Data laster inn",
       "TABS": {
         "PROPERTIES": "Egenskaper",
         "LIBRARY_PROPERTIES": "Om",
         "VERSIONS": "Versjoner",
         "COMMENTS": "Kommentarer",
         "PERMISSIONS": "Tillatelser",
-        "EXPAND": "Utvid"
+        "EXPAND": "Utvid",
+        "CLOSE_LIBRARY": "Lukk bibliotek"
       }
     }
   },

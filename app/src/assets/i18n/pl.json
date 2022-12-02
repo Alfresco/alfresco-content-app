@@ -108,6 +108,9 @@
         "SIDENAV_LINK": {
           "LABEL": "Pliki osobiste",
           "TOOLTIP": "Wyświetl pliki osobiste"
+        },
+        "PERMISSIONS": {
+          "TITLE": "Uprawnienia"
         }
       },
       "LIBRARIES": {
@@ -197,6 +200,7 @@
         "DUBLIN_CORE": "Dublin Core",
         "EFFECTIVITY": "Obowiązywanie",
         "TITLE": "Wyniki wyszukiwania",
+        "RESET_ACTION": "Resetuj filtry wyszukiwania",
         "FOUND_RESULTS": "Znaleziono wyników: {{ number }}",
         "FOUND_ONE_RESULT": "Znaleziono wyników: {{ number }}",
         "CUSTOM_ROW": {
@@ -391,13 +395,15 @@
     },
     "INFO_DRAWER": {
       "TITLE": "Szczegóły",
+      "DATA_LOADING": "Dane są wczytywane",
       "TABS": {
         "PROPERTIES": "Właściwości",
         "LIBRARY_PROPERTIES": "Informacje",
         "VERSIONS": "Wersje",
         "COMMENTS": "Komentarze",
         "PERMISSIONS": "Uprawnienia",
-        "EXPAND": "Rozwiń"
+        "EXPAND": "Rozwiń",
+        "CLOSE_LIBRARY": "Zamknij bibliotekę"
       }
     }
   },

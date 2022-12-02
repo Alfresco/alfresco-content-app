@@ -108,6 +108,9 @@
         "SIDENAV_LINK": {
           "LABEL": "个人文件",
           "TOOLTIP": "查看您的个人文件"
+        },
+        "PERMISSIONS": {
+          "TITLE": "权限"
         }
       },
       "LIBRARIES": {
@@ -197,6 +200,7 @@
         "DUBLIN_CORE": "都柏林核心",
         "EFFECTIVITY": "有效性",
         "TITLE": "搜索结果",
+        "RESET_ACTION": "重置搜索筛选器",
         "FOUND_RESULTS": "找到 {{ number }} 个结果",
         "FOUND_ONE_RESULT": "找到 {{ number }} 个结果",
         "CUSTOM_ROW": {
@@ -391,13 +395,15 @@
     },
     "INFO_DRAWER": {
       "TITLE": "详细信息",
+      "DATA_LOADING": "数据正在加载",
       "TABS": {
         "PROPERTIES": "属性",
         "LIBRARY_PROPERTIES": "关于",
         "VERSIONS": "版本",
         "COMMENTS": "注释",
         "PERMISSIONS": "权限",
-        "EXPAND": "展开"
+        "EXPAND": "展开",
+        "CLOSE_LIBRARY": "关闭库"
       }
     }
   },

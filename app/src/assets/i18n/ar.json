@@ -108,6 +108,9 @@
         "SIDENAV_LINK": {
           "LABEL": "الملفات الشخصية",
           "TOOLTIP": "عرض الملفات الشخصية"
+        },
+        "PERMISSIONS": {
+          "TITLE": "أذونات"
         }
       },
       "LIBRARIES": {
@@ -197,6 +200,7 @@
         "DUBLIN_CORE": "Dublin core",
         "EFFECTIVITY": "السريان",
         "TITLE": "نتائج البحث",
+        "RESET_ACTION": "إعادة تعيين عوامل تصفية البحث",
         "FOUND_RESULTS": "تم العثور على {{ number }} نتائج",
         "FOUND_ONE_RESULT": "تم العثور على {{ number }} نتيجة",
         "CUSTOM_ROW": {
@@ -391,13 +395,15 @@
     },
     "INFO_DRAWER": {
       "TITLE": "تفاصيل",
+      "DATA_LOADING": "يتم تحميل البيانات",
       "TABS": {
         "PROPERTIES": "الخصائص",
         "LIBRARY_PROPERTIES": "حول",
         "VERSIONS": "الإصدارات",
         "COMMENTS": "تعليقات",
         "PERMISSIONS": "أذونات",
-        "EXPAND": "توسيع"
+        "EXPAND": "توسيع",
+        "CLOSE_LIBRARY": "أغلق المكتبة"
       }
     }
   },

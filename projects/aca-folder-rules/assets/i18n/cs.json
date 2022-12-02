@@ -8,18 +8,22 @@
       "CREATE": "Vytvořit",
       "CREATE_TITLE": "Vytvořit pravidlo",
       "UPDATE": "Aktualizovat",
-      "UPDATE_TITLE": "Aktualizovat pravidlo"
+      "UPDATE_TITLE": "Edit a rule"
     },
     "RULE_DETAILS": {
       "LABEL": {
         "NAME": "Název",
         "DESCRIPTION": "Popis",
-        "WHEN": "Když"
+        "WHEN": "Když",
+        "PERFORM_ACTIONS": "Perform actions",
+        "OPTIONS": "Other options"
       },
       "PLACEHOLDER": {
         "NAME": "Zadejte název pravidla",
         "DESCRIPTION": "Zadejte popis pravidla",
-        "NO_DESCRIPTION": "Žádný popis"
+        "NO_DESCRIPTION": "Žádný popis",
+        "VALUE": "Hodnota",
+        "CHOOSE_FOLDER": "Vyberte cílovou složku"
       },
       "ERROR": {
         "REQUIRED": "Toto pole je povinné",
@@ -30,6 +34,13 @@
         "INBOUND": "Položky jsou vytvořeny nebo vstupují do této složky",
         "UPDATE": "Položky jsou aktualizovány",
         "OUTBOUND": "Položky jsou odstraněny nebo opouští tuto složku"
+      },
+      "OPTIONS": {
+        "IS_INHERITABLE": "Rule applies to subfolders",
+        "IS_ASYNCHRONOUS": "Run rule in the background",
+        "DISABLE_RULE": "Disable rule",
+        "ERROR_SCRIPT": "If errors occur run script",
+        "NO_SCRIPT": "None"
       },
       "COMPARATORS": {
         "EQUALS": "(=) Rovná se",
@@ -62,13 +73,18 @@
         "AND": "A",
         "OR": "Nebo"
       },
-      "ACTIONS": {
-        "ADD_CONDITION": "Přidat podmínku",
-        "ADD_GROUP": "Přidat skupinu",
+      "CONDITION_BUTTONS": {
+        "ADD_CONDITION": "Add condition",
+        "ADD_GROUP": "Add condition group",
         "REMOVE": "Odebrat"
       },
       "NO_CONDITIONS": "Žádné podmínky",
-      "NO_CONDITIONS_IN_GROUP": "Žádné podmínky ve skupině"
+      "NO_CONDITIONS_IN_GROUP": "Žádné podmínky ve skupině",
+      "ACTION_BUTTONS": {
+        "ADD_ACTION": "Přidat akci",
+        "REMOVE": "Odebrat"
+      },
+      "ACTION_SELECT_PLACEHOLDER": "Select an action"
     },
     "MANAGE_RULES": {
       "TOOLBAR": {
@@ -76,7 +92,11 @@
           "RULES": "pravidla"
         },
         "ACTIONS": {
-          "NEW_RULE": "Nové pravidlo"
+          "CREATE_RULE": "Vytvořit pravidlo",
+          "LINK_RULES": "Pravidla pro odkazy",
+          "EDIT_RULE": "Upravit",
+          "SEE_IN_FOLDER": "Zobrazit ve složce",
+          "INHERIT_RULES": "Zděděná pravidla"
         }
       },
       "EMPTY_RULES_LIST": {
@@ -87,8 +107,37 @@
     "CONFIRMATION_DIALOG": {
       "DELETE_RULE": {
         "TITLE": "Odstranit pravidlo",
-        "MESSAGE": "Opravdu chcete odstranit toto pravidlo?"
+        "MESSAGE": "Chcete skutečně smazat toto pravidlo?"
+      },
+      "DELETE_RULE_SET_LINK": {
+        "TITLE": "Smazat odkaz na nastavené pravidlo",
+        "MESSAGE": "Chcete skutečně smazat odkaz na toto nastavené pravidlo?"
       }
+    },
+    "RULE_LIST": {
+      "OWNED_RULES": "Pravidla z aktuální složky",
+      "LINKED_RULES": "Pravidla z odkazované složky",
+      "INHERITED_RULES": "Zděděná pravidla",
+      "LOAD_MORE_RULE_SETS": "Načíst pravidla z jiných složek",
+      "LOAD_MORE_RULES": "Načíst více pravidel",
+      "LOADING_RULES": "Načítání pravidel",
+      "INHERITED_RULES_WILL_BE_RUN_FIRST": "Jako první budou spuštěna zděděná pravidla"
+    },
+    "LINK_RULES_DIALOG": {
+      "TITLE": "Vyberte složku pro vytvoření odkaz na pravidla z",
+      "CANCEL": "Zrušit",
+      "SUBMIT": "Vybrat složku",
+      "EMPTY_RULES_LIST": {
+        "TITLE": "Žádná vlastní pravidla",
+        "SUBTITLE": "Vybraná složka neobsahuje žádná vlastní pravidla."
+      },
+      "LIST_OF_RULES_TO_LINK": "Seznam pravidel, na která bude vytvořen odkaz",
+      "ERRORS": {
+        "REQUEST_FAILED": "Vyskytla se chyba při vytváření odkaz na nastavené pravidlo"
+      }
+    },
+    "ERRORS": {
+      "DELETE_RULE_SET_LINK_FAILED": "Vyskytla se chyba při pokusu o smazání odkazu z nastaveného pravidla"
     }
   }
 }

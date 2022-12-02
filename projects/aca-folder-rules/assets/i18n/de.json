@@ -8,18 +8,22 @@
       "CREATE": "Erstellen",
       "CREATE_TITLE": "Eine Regel erstellen",
       "UPDATE": "Aktualisieren",
-      "UPDATE_TITLE": "Eine Regel aktualisieren"
+      "UPDATE_TITLE": "Eine Regel bearbeiten"
     },
     "RULE_DETAILS": {
       "LABEL": {
         "NAME": "Name",
         "DESCRIPTION": "Beschreibung",
-        "WHEN": "Wenn"
+        "WHEN": "Wenn",
+        "PERFORM_ACTIONS": "Aktionen durchführen",
+        "OPTIONS": "Andere Optionen"
       },
       "PLACEHOLDER": {
         "NAME": "Regelname eingeben",
-        "DESCRIPTION": "Enter rule description",
-        "NO_DESCRIPTION": "Keine Beschreibung"
+        "DESCRIPTION": "Regelbeschreibung eingeben",
+        "NO_DESCRIPTION": "Keine Beschreibung",
+        "VALUE": "Wert",
+        "CHOOSE_FOLDER": "Zielordner auswählen"
       },
       "ERROR": {
         "REQUIRED": "Dieses Feld ist erforderlich",
@@ -30,6 +34,13 @@
         "INBOUND": "Elemente werden erstellt oder in diesen Ordner eingegeben",
         "UPDATE": "Elemente werden aktualisiert",
         "OUTBOUND": "Elemente werden gelöscht oder verlassen diesen Ordner"
+      },
+      "OPTIONS": {
+        "IS_INHERITABLE": "Regel gilt für Unterordner",
+        "IS_ASYNCHRONOUS": "Regel im Hintergrund ausführen",
+        "DISABLE_RULE": "Regel deaktivieren",
+        "ERROR_SCRIPT": "Wenn Fehler auftreten, Skript ausführen",
+        "NO_SCRIPT": "Keine"
       },
       "COMPARATORS": {
         "EQUALS": "(=) Gleich",
@@ -62,13 +73,18 @@
         "AND": "Und",
         "OR": "Oder"
       },
-      "ACTIONS": {
+      "CONDITION_BUTTONS": {
         "ADD_CONDITION": "Kondition hinzufügen",
-        "ADD_GROUP": "Gruppe hinzufügen",
+        "ADD_GROUP": "Konditionsgruppe hinzufügen",
         "REMOVE": "Entfernen"
       },
       "NO_CONDITIONS": "Keine Kondition",
-      "NO_CONDITIONS_IN_GROUP": "Keine Kondition in der Gruppe"
+      "NO_CONDITIONS_IN_GROUP": "Keine Kondition in der Gruppe",
+      "ACTION_BUTTONS": {
+        "ADD_ACTION": "Aktion hinzufügen",
+        "REMOVE": "Entfernen"
+      },
+      "ACTION_SELECT_PLACEHOLDER": "Eine Aktion auswählen"
     },
     "MANAGE_RULES": {
       "TOOLBAR": {
@@ -76,7 +92,11 @@
           "RULES": "Regeln"
         },
         "ACTIONS": {
-          "NEW_RULE": "Neue Regel"
+          "CREATE_RULE": "Eine Regel erstellen",
+          "LINK_RULES": "Link-Regeln",
+          "EDIT_RULE": "Bearbeiten",
+          "SEE_IN_FOLDER": "Siehe im Ordner",
+          "INHERIT_RULES": "Regeln vererben"
         }
       },
       "EMPTY_RULES_LIST": {
@@ -88,7 +108,36 @@
       "DELETE_RULE": {
         "TITLE": "Regel löschen",
         "MESSAGE": "Möchten Sie diese Regel wirklich löschen?"
+      },
+      "DELETE_RULE_SET_LINK": {
+        "TITLE": "Link für Regelsatz löschen",
+        "MESSAGE": "Sind Sie sicher, dass Sie den Link zu diesem Regelsatz löschen möchten?"
       }
+    },
+    "RULE_LIST": {
+      "OWNED_RULES": "Regeln aus aktuellem Ordner",
+      "LINKED_RULES": "Regeln aus verknüpften Ordnern",
+      "INHERITED_RULES": "Vererbte Regeln",
+      "LOAD_MORE_RULE_SETS": "Regeln aus anderen Ordnern laden",
+      "LOAD_MORE_RULES": "Weitere Regeln laden",
+      "LOADING_RULES": "Regeln werden geladen",
+      "INHERITED_RULES_WILL_BE_RUN_FIRST": "Vererbte Regeln werden zuerst ausgeführt"
+    },
+    "LINK_RULES_DIALOG": {
+      "TITLE": "Wählen Sie einen Ordner für die Verknüpfung von Regeln aus",
+      "CANCEL": "Abbrechen",
+      "SUBMIT": "Ordner auswählen",
+      "EMPTY_RULES_LIST": {
+        "TITLE": "Keine eigenen Regeln",
+        "SUBTITLE": "Der ausgewählte Ordner hat keine eigenen Regeln."
+      },
+      "LIST_OF_RULES_TO_LINK": "Liste der Regeln, die verknüpft werden sollen",
+      "ERRORS": {
+        "REQUEST_FAILED": "Fehler beim Versuch, einen Link zu einem Regelsatz zu erstellen, ist aufgetreten"
+      }
+    },
+    "ERRORS": {
+      "DELETE_RULE_SET_LINK_FAILED": "Fehler beim Versuch, einen Link aus einem Regelsatz zu löschen, ist aufgetreten"
     }
   }
 }

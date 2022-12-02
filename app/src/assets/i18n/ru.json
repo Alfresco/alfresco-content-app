@@ -78,7 +78,7 @@
       "TITLE": "Предварительный просмотр"
     },
     "DETAILS": {
-      "TITLE": "Сведения"
+      "TITLE": "Подробности"
     },
     "NEW_MENU": {
       "LABEL": "Создать",
@@ -108,6 +108,9 @@
         "SIDENAV_LINK": {
           "LABEL": "Личные файлы",
           "TOOLTIP": "Посмотреть свои личные файлы"
+        },
+        "PERMISSIONS": {
+          "TITLE": "Разрешения"
         }
       },
       "LIBRARIES": {
@@ -197,6 +200,7 @@
         "DUBLIN_CORE": "Дублинское ядро",
         "EFFECTIVITY": "Эффективность",
         "TITLE": "Результаты поиска",
+        "RESET_ACTION": "Сбросить фильтры поиска",
         "FOUND_RESULTS": "Найдено результатов: {{ number }}",
         "FOUND_ONE_RESULT": "Найден результат: {{ number }}",
         "CUSTOM_ROW": {
@@ -391,13 +395,15 @@
     },
     "INFO_DRAWER": {
       "TITLE": "Подробности",
+      "DATA_LOADING": "Загрузка данных",
       "TABS": {
         "PROPERTIES": "Свойства",
-        "LIBRARY_PROPERTIES": "О продукте",
+        "LIBRARY_PROPERTIES": "О программе",
         "VERSIONS": "Версии",
         "COMMENTS": "Комментарии",
         "PERMISSIONS": "Разрешения",
-        "EXPAND": "Развернуть"
+        "EXPAND": "Развернуть",
+        "CLOSE_LIBRARY": "Закрыть библиотеку"
       }
     }
   },
@@ -442,7 +448,7 @@
     },
     "DIALOG": {
       "TITLE": "Загрузить новую версию",
-      "CANCEL": "Отменить",
+      "CANCEL": "Отмена",
       "UPLOAD": "Загрузить"
     },
     "FORM": {
@@ -465,7 +471,7 @@
   },
   "INFO_PANEL": {
     "TABS": {
-    
+
     },
     "DETAILS": "Подробности"
   },

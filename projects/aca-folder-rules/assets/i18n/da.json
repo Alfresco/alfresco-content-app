@@ -8,18 +8,22 @@
       "CREATE": "Opret",
       "CREATE_TITLE": "Opret en regel",
       "UPDATE": "Opdater",
-      "UPDATE_TITLE": "Ppdatér en regel"
+      "UPDATE_TITLE": "Redigér en regel"
     },
     "RULE_DETAILS": {
       "LABEL": {
         "NAME": "Navn",
         "DESCRIPTION": "Beskrivelse",
-        "WHEN": "Når"
+        "WHEN": "Når",
+        "PERFORM_ACTIONS": "Udfør handlinger",
+        "OPTIONS": "Andre optioner"
       },
       "PLACEHOLDER": {
         "NAME": "Indtast regelnavn",
         "DESCRIPTION": "Indtast regelbeskrivelse",
-        "NO_DESCRIPTION": "Ingen beskrivelse"
+        "NO_DESCRIPTION": "Ingen beskrivelse",
+        "VALUE": "Værdi",
+        "CHOOSE_FOLDER": "Vælg destinationsmappe"
       },
       "ERROR": {
         "REQUIRED": "Dette felt er påkrævet",
@@ -30,6 +34,13 @@
         "INBOUND": "Der er oprettet elementer, eller indtast denne mappe",
         "UPDATE": "Elementer er opdateret",
         "OUTBOUND": "Elementer slettes, eller forlad denne mappe"
+      },
+      "OPTIONS": {
+        "IS_INHERITABLE": "Regel gælder for undermapper",
+        "IS_ASYNCHRONOUS": "Kør regel i baggrunden",
+        "DISABLE_RULE": "Deaktivér regel",
+        "ERROR_SCRIPT": "Kør script, hvis der forekommer fejl",
+        "NO_SCRIPT": "Ingen"
       },
       "COMPARATORS": {
         "EQUALS": "(=) lig med",
@@ -62,13 +73,18 @@
         "AND": "Og",
         "OR": "Eller"
       },
-      "ACTIONS": {
+      "CONDITION_BUTTONS": {
         "ADD_CONDITION": "Tilføj betingelse",
-        "ADD_GROUP": "Tilføj gruppe",
+        "ADD_GROUP": "Tilføj betingelsesgruppe",
         "REMOVE": "Fjern"
       },
       "NO_CONDITIONS": "Ingen betingelser",
-      "NO_CONDITIONS_IN_GROUP": "Ingen betingelser i denne gruppe"
+      "NO_CONDITIONS_IN_GROUP": "Ingen betingelser i denne gruppe",
+      "ACTION_BUTTONS": {
+        "ADD_ACTION": "Tilføj handling",
+        "REMOVE": "Fjern"
+      },
+      "ACTION_SELECT_PLACEHOLDER": "Vælg en handling"
     },
     "MANAGE_RULES": {
       "TOOLBAR": {
@@ -76,7 +92,11 @@
           "RULES": "regler"
         },
         "ACTIONS": {
-          "NEW_RULE": "Ny regel"
+          "CREATE_RULE": "Opret en regel",
+          "LINK_RULES": "Forbind regler",
+          "EDIT_RULE": "Rediger",
+          "SEE_IN_FOLDER": "Se i mappe",
+          "INHERIT_RULES": "Overtag regler"
         }
       },
       "EMPTY_RULES_LIST": {
@@ -88,7 +108,36 @@
       "DELETE_RULE": {
         "TITLE": "Slet regel",
         "MESSAGE": "Er du sikker på, at du vil slette denne regel?"
+      },
+      "DELETE_RULE_SET_LINK": {
+        "TITLE": "Slet regelsætforbindelse",
+        "MESSAGE": "Er du sikker på, at du vil slette forbindelsen til dette regelsæt?"
       }
+    },
+    "RULE_LIST": {
+      "OWNED_RULES": "Regler fra aktuel mappe",
+      "LINKED_RULES": "Regler fra forbundet mappe",
+      "INHERITED_RULES": "Overtagede regler",
+      "LOAD_MORE_RULE_SETS": "Indlæs regler fra andre mapper",
+      "LOAD_MORE_RULES": "Indlæs flere regler",
+      "LOADING_RULES": "Indlæser regler",
+      "INHERITED_RULES_WILL_BE_RUN_FIRST": "Overtagede regler køres først"
+    },
+    "LINK_RULES_DIALOG": {
+      "TITLE": "Vælg en mappe for at forbinde regler fra",
+      "CANCEL": "Annuller",
+      "SUBMIT": "Vælg mappe",
+      "EMPTY_RULES_LIST": {
+        "TITLE": "Ingen egne regler",
+        "SUBTITLE": "Den valgte mappe har ikke sine egne regler."
+      },
+      "LIST_OF_RULES_TO_LINK": "Liste med regler, som forbindes",
+      "ERRORS": {
+        "REQUEST_FAILED": "Fejl, mens du prøvede at oprette en forbindelse til et regelsæt"
+      }
+    },
+    "ERRORS": {
+      "DELETE_RULE_SET_LINK_FAILED": "Fejl, mens du prøvede at slette en forbindelse fra et regelsæt"
     }
   }
 }

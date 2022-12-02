@@ -71,7 +71,7 @@
       "NAME": "Navn",
       "ADDRESS": "Adresse",
       "POSTCODE": "Postnummer",
-      "INVALID_INPUT": "Ugyldigt input"
+      "INVALID_INPUT": "Ugyldig indtastning"
     },
     "LOCKED_BY": "Låst af: ",
     "PREVIEW": {
@@ -108,6 +108,9 @@
         "SIDENAV_LINK": {
           "LABEL": "Personlige filer",
           "TOOLTIP": "Se dine personlige filer"
+        },
+        "PERMISSIONS": {
+          "TITLE": "Tilladelser"
         }
       },
       "LIBRARIES": {
@@ -197,6 +200,7 @@
         "DUBLIN_CORE": "Dublin-kerne",
         "EFFECTIVITY": "Gældende periode",
         "TITLE": "Søgeresultater",
+        "RESET_ACTION": "Nulstil søgefiltre",
         "FOUND_RESULTS": "{{ number }} resultater fundet",
         "FOUND_ONE_RESULT": "{{ number }} resultat fundet",
         "CUSTOM_ROW": {
@@ -391,13 +395,15 @@
     },
     "INFO_DRAWER": {
       "TITLE": "Detaljer",
+      "DATA_LOADING": "Data indlæses",
       "TABS": {
         "PROPERTIES": "Egenskaber",
         "LIBRARY_PROPERTIES": "Om",
         "VERSIONS": "Versioner",
         "COMMENTS": "Kommentarer",
         "PERMISSIONS": "Tilladelser",
-        "EXPAND": "Udvid"
+        "EXPAND": "Udvid",
+        "CLOSE_LIBRARY": "Luk bibliotek"
       }
     }
   },
