@@ -8,18 +8,22 @@
       "CREATE": "إنشاء",
       "CREATE_TITLE": "إنشاء قاعدة",
       "UPDATE": "تحديث",
-      "UPDATE_TITLE": "تحديث قاعدة"
+      "UPDATE_TITLE": "تحرير قاعدة"
     },
     "RULE_DETAILS": {
       "LABEL": {
         "NAME": "الاسم",
         "DESCRIPTION": "الوصف",
-        "WHEN": "متي"
+        "WHEN": "متي",
+        "PERFORM_ACTIONS": "نفذ الإجراءات",
+        "OPTIONS": "خيارات أخرى"
       },
       "PLACEHOLDER": {
         "NAME": "أدخل اسم للقاعدة",
         "DESCRIPTION": "أدخل وصف للقاعدة",
-        "NO_DESCRIPTION": "لا يوجد وصف"
+        "NO_DESCRIPTION": "لا يوجد وصف",
+        "VALUE": "القيمة",
+        "CHOOSE_FOLDER": "اختر مجلد الوجهة"
       },
       "ERROR": {
         "REQUIRED": "هذا الحقل مطلوب",
@@ -30,6 +34,13 @@
         "INBOUND": "يتم إنشاء العناصر أو الدخول إلى هذا المجلد",
         "UPDATE": "تم تحديث العناصر",
         "OUTBOUND": "تم حذف العناصر أو ترك هذا المجلد"
+      },
+      "OPTIONS": {
+        "IS_INHERITABLE": "تنطبق القاعدة على المجلدات الفرعية",
+        "IS_ASYNCHRONOUS": "تشغيل القاعدة في الخلفية",
+        "DISABLE_RULE": "تعطيل القاعدة",
+        "ERROR_SCRIPT": "في حالة حدوث أخطاء قم بتشغيل البرنامج النصي",
+        "NO_SCRIPT": "بلا"
       },
       "COMPARATORS": {
         "EQUALS": "(=) يساوي",
@@ -62,13 +73,18 @@
         "AND": "و",
         "OR": "أو"
       },
-      "ACTIONS": {
+      "CONDITION_BUTTONS": {
         "ADD_CONDITION": "أضف الشرط",
-        "ADD_GROUP": "إضافة مجموعة",
+        "ADD_GROUP": "أضف مجموعة شرطية",
         "REMOVE": "إزالة"
       },
       "NO_CONDITIONS": "لا شروط",
-      "NO_CONDITIONS_IN_GROUP": "لا توجد شروط في المجموعة"
+      "NO_CONDITIONS_IN_GROUP": "لا توجد شروط في المجموعة",
+      "ACTION_BUTTONS": {
+        "ADD_ACTION": "إضافة إجراء",
+        "REMOVE": "إزالة"
+      },
+      "ACTION_SELECT_PLACEHOLDER": "حدد إجراء"
     },
     "MANAGE_RULES": {
       "TOOLBAR": {
@@ -76,7 +92,11 @@
           "RULES": "قواعد"
         },
         "ACTIONS": {
-          "NEW_RULE": "قاعدة جديدة"
+          "CREATE_RULE": "إنشاء قاعدة",
+          "LINK_RULES": "قواعد الارتباط",
+          "EDIT_RULE": "تحرير",
+          "SEE_IN_FOLDER": "انظر في المجلد",
+          "INHERIT_RULES": "ترث القواعد"
         }
       },
       "EMPTY_RULES_LIST": {
@@ -87,8 +107,37 @@
     "CONFIRMATION_DIALOG": {
       "DELETE_RULE": {
         "TITLE": "حذف القاعدة",
-        "MESSAGE": "هل تريد بالتأكيد حذف هذه القاعدة؟"
+        "MESSAGE": "هل انت متأكد من رغبتك بحذف هذه القاعدة؟"
+      },
+      "DELETE_RULE_SET_LINK": {
+        "TITLE": "حذف ارتباط مجموعة القواعد",
+        "MESSAGE": "هل أنت متأكد أنك تريد حذف الارتباط لمجموعة القواعد هذه؟"
       }
+    },
+    "RULE_LIST": {
+      "OWNED_RULES": "القواعد من المجلد الحالي",
+      "LINKED_RULES": "قواعد من مجلد مرتبط",
+      "INHERITED_RULES": "القواعد الموروثة",
+      "LOAD_MORE_RULE_SETS": "قواعد التحميل من المجلدات الأخرى",
+      "LOAD_MORE_RULES": "تحميل المزيد من القواعد",
+      "LOADING_RULES": "قواعد التحميل",
+      "INHERITED_RULES_WILL_BE_RUN_FIRST": "سيتم تشغيل القواعد الموروثة أولاً"
+    },
+    "LINK_RULES_DIALOG": {
+      "TITLE": "حدد مجلدًا لربط القواعد منه",
+      "CANCEL": "إلغاء",
+      "SUBMIT": "اختر مجلد",
+      "EMPTY_RULES_LIST": {
+        "TITLE": "لا توجد قواعد مملوكة",
+        "SUBTITLE": "لا يحتوي المجلد المحدد على أي قواعد خاصة به."
+      },
+      "LIST_OF_RULES_TO_LINK": "قائمة القواعد التي سيتم ربطها",
+      "ERRORS": {
+        "REQUEST_FAILED": "حدث خطأ أثناء محاولة إنشاء ارتباط لمجموعة قواعد"
+      }
+    },
+    "ERRORS": {
+      "DELETE_RULE_SET_LINK_FAILED": "خطأ أثناء محاولة حذف ارتباط من مجموعة القواعد"
     }
   }
 }

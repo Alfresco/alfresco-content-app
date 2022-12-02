@@ -8,28 +8,39 @@
       "CREATE": "Maken",
       "CREATE_TITLE": "Een regel maken",
       "UPDATE": "Bijwerken",
-      "UPDATE_TITLE": "Een regel bijwerken"
+      "UPDATE_TITLE": "Een regel bewerken"
     },
     "RULE_DETAILS": {
       "LABEL": {
         "NAME": "Naam",
         "DESCRIPTION": "Beschrijving",
-        "WHEN": "Wanneer"
+        "WHEN": "Wanneer",
+        "PERFORM_ACTIONS": "Acties uitvoeren",
+        "OPTIONS": "Andere opties"
       },
       "PLACEHOLDER": {
         "NAME": "Regelnaam invoeren",
         "DESCRIPTION": "Regelbeschrijving invoeren",
-        "NO_DESCRIPTION": "Geen beschrijving"
+        "NO_DESCRIPTION": "Geen beschrijving",
+        "VALUE": "Waarde",
+        "CHOOSE_FOLDER": "Doelmap kiezen"
       },
       "ERROR": {
         "REQUIRED": "Dit veld is vereist",
-        "RULE_COMPOSITE_CONDITION_INVALID": "Eén of meer voorwaardegroepen zijn leeg",
+        "RULE_COMPOSITE_CONDITION_INVALID": "Eén of meer voorwaardengroepen zijn leeg",
         "INSUFFICIENT_TRIGGERS_SELECTED": "Er is minstens één trigger vereist"
       },
       "TRIGGERS": {
         "INBOUND": "Items worden gemaakt of gaan naar deze map",
         "UPDATE": "Items worden bijgewerkt",
         "OUTBOUND": "Items worden verwijderd of verlaten deze map"
+      },
+      "OPTIONS": {
+        "IS_INHERITABLE": "Regel is van toepassing op submappen",
+        "IS_ASYNCHRONOUS": "Regel op de achtergrond uitvoeren",
+        "DISABLE_RULE": "Regel uitschakelen",
+        "ERROR_SCRIPT": "Script uitvoeren wanneer er fouten optreden",
+        "NO_SCRIPT": "Geen"
       },
       "COMPARATORS": {
         "EQUALS": "(=) Gelijk aan",
@@ -62,13 +73,18 @@
         "AND": "En",
         "OR": "Of"
       },
-      "ACTIONS": {
+      "CONDITION_BUTTONS": {
         "ADD_CONDITION": "Voorwaarde toevoegen",
-        "ADD_GROUP": "Groep toevoegen",
+        "ADD_GROUP": "Voorwaardengroep toevoegen",
         "REMOVE": "Verwijderen"
       },
       "NO_CONDITIONS": "Geen voorwaarden",
-      "NO_CONDITIONS_IN_GROUP": "Geen voorwaarden in de groep"
+      "NO_CONDITIONS_IN_GROUP": "Geen voorwaarden in de groep",
+      "ACTION_BUTTONS": {
+        "ADD_ACTION": "Actie toevoegen",
+        "REMOVE": "Verwijderen"
+      },
+      "ACTION_SELECT_PLACEHOLDER": "Selecteer een actie"
     },
     "MANAGE_RULES": {
       "TOOLBAR": {
@@ -76,7 +92,11 @@
           "RULES": "regels"
         },
         "ACTIONS": {
-          "NEW_RULE": "Nieuwe regel"
+          "CREATE_RULE": "Een regel maken",
+          "LINK_RULES": "Regels koppelen",
+          "EDIT_RULE": "Bewerken",
+          "SEE_IN_FOLDER": "Zien in map",
+          "INHERIT_RULES": "Regels overnemen"
         }
       },
       "EMPTY_RULES_LIST": {
@@ -88,7 +108,36 @@
       "DELETE_RULE": {
         "TITLE": "Regel verwijderen",
         "MESSAGE": "Weet u zeker dat u deze regel wilt verwijderen?"
+      },
+      "DELETE_RULE_SET_LINK": {
+        "TITLE": "Koppeling regelset verwijderen",
+        "MESSAGE": "Weet u zeker dat u de koppeling naar deze regelset wilt verwijderen?"
       }
+    },
+    "RULE_LIST": {
+      "OWNED_RULES": "Regels uit huidige map",
+      "LINKED_RULES": "Regels uit gekoppelde map",
+      "INHERITED_RULES": "Overgenomen regels",
+      "LOAD_MORE_RULE_SETS": "Regels laden uit andere mappen",
+      "LOAD_MORE_RULES": "Meer regels laden",
+      "LOADING_RULES": "Regels worden geladen",
+      "INHERITED_RULES_WILL_BE_RUN_FIRST": "Overgenomen regels worden als eerste uitgevoerd"
+    },
+    "LINK_RULES_DIALOG": {
+      "TITLE": "Selecteer een map van waaruit regels moeten worden gekoppeld",
+      "CANCEL": "Annuleren",
+      "SUBMIT": "Map selecteren",
+      "EMPTY_RULES_LIST": {
+        "TITLE": "Geen regels in eigendom",
+        "SUBTITLE": "De geselecteerde map bevat geen eigen regels."
+      },
+      "LIST_OF_RULES_TO_LINK": "Lijst met regels die worden gekoppeld",
+      "ERRORS": {
+        "REQUEST_FAILED": "Fout bij het maken van een koppeling naar een regelset"
+      }
+    },
+    "ERRORS": {
+      "DELETE_RULE_SET_LINK_FAILED": "Fout bij het verwijderen van een koppeling uit een regelset"
     }
   }
 }

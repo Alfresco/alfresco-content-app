@@ -108,6 +108,9 @@
         "SIDENAV_LINK": {
           "LABEL": "Persoonlijke bestanden",
           "TOOLTIP": "Uw persoonlijke bestanden weergeven"
+        },
+        "PERMISSIONS": {
+          "TITLE": "Rechten"
         }
       },
       "LIBRARIES": {
@@ -197,6 +200,7 @@
         "DUBLIN_CORE": "Dublin Core",
         "EFFECTIVITY": "Effectiviteit",
         "TITLE": "Zoekresultaten",
+        "RESET_ACTION": "Zoekfilters opnieuw instellen",
         "FOUND_RESULTS": "{{ number }} resultaten gevonden",
         "FOUND_ONE_RESULT": "{{ number }} resultaat gevonden",
         "CUSTOM_ROW": {
@@ -382,7 +386,7 @@
       "GROUP_IPTC_CORE_CONTENT_INFO": "IPTC-content",
       "GROUP_IPTC_CORE_STATUS_INFO": "IPTC-status",
       "GROUP_IPTC_EXT_DESCRIPTION": "IPTC-afbeeldingsbeschrijving",
-      "GROUP_IPTC_EXT_AO_DETAIL": "IPTC-kunstwerk- of -objectdetails",
+      "GROUP_IPTC_EXT_AO_DETAIL": "IPTC-kunstwerk- of -objectdetail",
       "GROUP_IPTC_EXT_MODEL_INFO": "IPTC-modelinformatie",
       "GROUP_IPTC_EXT_ADMIN_INFO": "IPTC-beheerinformatie",
       "GROUP_IPTC_EXT_RIGHTS_INFO": "IPTC-rechteninformatie",
@@ -391,13 +395,15 @@
     },
     "INFO_DRAWER": {
       "TITLE": "Gegevens",
+      "DATA_LOADING": "Data worden geladen",
       "TABS": {
         "PROPERTIES": "Eigenschappen",
         "LIBRARY_PROPERTIES": "Info",
         "VERSIONS": "Versies",
         "COMMENTS": "Opmerkingen",
         "PERMISSIONS": "Rechten",
-        "EXPAND": "Uitvouwen"
+        "EXPAND": "Uitvouwen",
+        "CLOSE_LIBRARY": "Bibliotheek sluiten"
       }
     }
   },

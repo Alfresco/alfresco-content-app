@@ -108,6 +108,9 @@
         "SIDENAV_LINK": {
           "LABEL": "個人用ファイル",
           "TOOLTIP": "自分の個人用ファイルを表示します"
+        },
+        "PERMISSIONS": {
+          "TITLE": "権限"
         }
       },
       "LIBRARIES": {
@@ -197,6 +200,7 @@
         "DUBLIN_CORE": "Dublin core",
         "EFFECTIVITY": "有効性",
         "TITLE": "検索結果",
+        "RESET_ACTION": "検索フィルタのリセット",
         "FOUND_RESULTS": "{{ number }} 件見つかりました",
         "FOUND_ONE_RESULT": "{{ number }} 件見つかりました",
         "CUSTOM_ROW": {
@@ -391,13 +395,15 @@
     },
     "INFO_DRAWER": {
       "TITLE": "詳細",
+      "DATA_LOADING": "データの読み込み中",
       "TABS": {
         "PROPERTIES": "プロパティ",
         "LIBRARY_PROPERTIES": "バージョン情報",
         "VERSIONS": "バージョン",
         "COMMENTS": "コメント",
         "PERMISSIONS": "権限",
-        "EXPAND": "展開"
+        "EXPAND": "展開",
+        "CLOSE_LIBRARY": "ライブラリを閉じる"
       }
     }
   },

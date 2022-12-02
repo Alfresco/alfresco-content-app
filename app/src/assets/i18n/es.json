@@ -108,6 +108,9 @@
         "SIDENAV_LINK": {
           "LABEL": "Ficheros personales",
           "TOOLTIP": "Ver sus ficheros personales"
+        },
+        "PERMISSIONS": {
+          "TITLE": "Permisos"
         }
       },
       "LIBRARIES": {
@@ -197,6 +200,7 @@
         "DUBLIN_CORE": "Dublin core",
         "EFFECTIVITY": "Efectividad",
         "TITLE": "Resultados de la búsqueda",
+        "RESET_ACTION": "Restablecer los filtros de la búsqueda",
         "FOUND_RESULTS": "{{ number }} resultados encontrados",
         "FOUND_ONE_RESULT": "{{ number }} resultado encontrado",
         "CUSTOM_ROW": {
@@ -391,13 +395,15 @@
     },
     "INFO_DRAWER": {
       "TITLE": "Detalles",
+      "DATA_LOADING": "Los datos se están cargando",
       "TABS": {
         "PROPERTIES": "Propiedades",
         "LIBRARY_PROPERTIES": "Acerca de",
         "VERSIONS": "Versiones",
         "COMMENTS": "Comentarios",
         "PERMISSIONS": "Permisos",
-        "EXPAND": "Ampliar"
+        "EXPAND": "Ampliar",
+        "CLOSE_LIBRARY": "Cerrar biblioteca"
       }
     }
   },
@@ -622,7 +628,7 @@
   "ADF-DATATABLE": {
     "FILE_TYPE": {
       "BOOKS-24PX": "Biblioteca de ficheros",
-      "BASELINE-LOCK-24PX": "fichero bloqueado"
+      "BASELINE-LOCK-24PX": "Fichero bloqueado"
     }
   }
 }

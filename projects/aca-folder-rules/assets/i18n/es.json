@@ -8,18 +8,22 @@
       "CREATE": "Crear",
       "CREATE_TITLE": "Crear una regla",
       "UPDATE": "Actualizar",
-      "UPDATE_TITLE": "Actualizar la regla"
+      "UPDATE_TITLE": "Editar la regla"
     },
     "RULE_DETAILS": {
       "LABEL": {
         "NAME": "Nombre",
         "DESCRIPTION": "Descripción",
-        "WHEN": "Cuando"
+        "WHEN": "Cuando",
+        "PERFORM_ACTIONS": "Realizar acciones",
+        "OPTIONS": "Otras opciones"
       },
       "PLACEHOLDER": {
         "NAME": "Introducir un nombre para la regla",
         "DESCRIPTION": "Introducir una descripción para la regla",
-        "NO_DESCRIPTION": "Sin descripción"
+        "NO_DESCRIPTION": "Sin descripción",
+        "VALUE": "Valor",
+        "CHOOSE_FOLDER": "Seleccione la carpeta de destino"
       },
       "ERROR": {
         "REQUIRED": "Este campo es obligatorio",
@@ -31,13 +35,20 @@
         "UPDATE": "Los elementos se actualizan",
         "OUTBOUND": "Los elementos se eliminan o abandonan esta carpeta"
       },
+      "OPTIONS": {
+        "IS_INHERITABLE": "La regla se aplica a las subcarpetas",
+        "IS_ASYNCHRONOUS": "Ejecutar la regla en segundo plano",
+        "DISABLE_RULE": "Desactivar regla",
+        "ERROR_SCRIPT": "Si se producen errores, ejecute el script",
+        "NO_SCRIPT": "Ninguna"
+      },
       "COMPARATORS": {
-        "EQUALS": "Igual a",
+        "EQUALS": "(=) Igual a",
         "CONTAINS": "Contiene",
         "STARTS_WITH": "Comienza con",
         "ENDS_WITH": "Termina con",
-        "GREATER_THAN": "Mayor que",
-        "LESS_THAN": "Menor que",
+        "GREATER_THAN": "(>) Mayor que",
+        "LESS_THAN": "(<) Menor que",
         "GREATER_THAN_OR_EQUAL": "(>=) Mayor que o igual",
         "LESS_THAN_OR_EQUAL": "(<=) Menor que o igual",
         "ON": "(=) En",
@@ -52,7 +63,7 @@
         "SIZE": "Tamaño",
         "MIMETYPE": "Tipo MIME",
         "ENCODING": "Codificación",
-        "HAS_CATEGORY": "Sin categoría",
+        "HAS_CATEGORY": "Tiene categoría",
         "HAS_TAG": "Tiene etiqueta",
         "HAS_ASPECT": "Tiene aspecto"
       },
@@ -62,21 +73,30 @@
         "AND": "Y",
         "OR": "O"
       },
-      "ACTIONS": {
+      "CONDITION_BUTTONS": {
         "ADD_CONDITION": "Añadir condición",
-        "ADD_GROUP": "Añadir grupo",
+        "ADD_GROUP": "Añadir grupo de condiciones",
         "REMOVE": "Eliminar"
       },
       "NO_CONDITIONS": "Sin condiciones",
-      "NO_CONDITIONS_IN_GROUP": "Sin condiciones en el grupo"
+      "NO_CONDITIONS_IN_GROUP": "Sin condiciones en el grupo",
+      "ACTION_BUTTONS": {
+        "ADD_ACTION": "Añadir acción",
+        "REMOVE": "Eliminar"
+      },
+      "ACTION_SELECT_PLACEHOLDER": "Seleccionar una acción"
     },
     "MANAGE_RULES": {
       "TOOLBAR": {
         "BREADCRUMB": {
-          "RULES": "Reglas"
+          "RULES": "reglas"
         },
         "ACTIONS": {
-          "NEW_RULE": "Nueva regla"
+          "CREATE_RULE": "Crear una regla",
+          "LINK_RULES": "Reglas de enlace",
+          "EDIT_RULE": "Editar",
+          "SEE_IN_FOLDER": "Ver en carpeta",
+          "INHERIT_RULES": "Heredar reglas"
         }
       },
       "EMPTY_RULES_LIST": {
@@ -88,7 +108,36 @@
       "DELETE_RULE": {
         "TITLE": "Eliminar regla",
         "MESSAGE": "¿Está seguro de que desea eliminar esta regla?"
+      },
+      "DELETE_RULE_SET_LINK": {
+        "TITLE": "Eliminar el enlace del conjunto de reglas",
+        "MESSAGE": "¿Está seguro de que quiere eliminar el enlace a este conjunto de reglas?"
       }
+    },
+    "RULE_LIST": {
+      "OWNED_RULES": "Reglas de la carpeta actual",
+      "LINKED_RULES": "Reglas de la carpeta vinculada",
+      "INHERITED_RULES": "Reglas heredadas",
+      "LOAD_MORE_RULE_SETS": "Cargar reglas de otras carpetas",
+      "LOAD_MORE_RULES": "Cargar más reglas",
+      "LOADING_RULES": "Cargando reglas",
+      "INHERITED_RULES_WILL_BE_RUN_FIRST": "Las reglas heredadas se ejecutarán primero"
+    },
+    "LINK_RULES_DIALOG": {
+      "TITLE": "Seleccione una carpeta desde la que vincular las reglas",
+      "CANCEL": "Cancelar",
+      "SUBMIT": "Seleccionar carpeta",
+      "EMPTY_RULES_LIST": {
+        "TITLE": "No hay reglas de propiedad",
+        "SUBTITLE": "La carpeta seleccionada no tiene reglas propias."
+      },
+      "LIST_OF_RULES_TO_LINK": "Lista de reglas que se vincularán",
+      "ERRORS": {
+        "REQUEST_FAILED": "Se produjo un error al intentar crear un enlace a un conjunto de reglas"
+      }
+    },
+    "ERRORS": {
+      "DELETE_RULE_SET_LINK_FAILED": "Se produjo un error al intentar eliminar un enlace de un conjunto de reglas"
     }
   }
 }

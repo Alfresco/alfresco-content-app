@@ -108,6 +108,9 @@
         "SIDENAV_LINK": {
           "LABEL": "Personliga filer",
           "TOOLTIP": "Visa dina personliga filer"
+        },
+        "PERMISSIONS": {
+          "TITLE": "Behörigheter"
         }
       },
       "LIBRARIES": {
@@ -197,6 +200,7 @@
         "DUBLIN_CORE": "Dublin core",
         "EFFECTIVITY": "Giltighet",
         "TITLE": "Sökresultat",
+        "RESET_ACTION": "Återställ sökfilter",
         "FOUND_RESULTS": "{{ number }} resultat hittades",
         "FOUND_ONE_RESULT": "{{ number }} resultat hittades",
         "CUSTOM_ROW": {
@@ -391,13 +395,15 @@
     },
     "INFO_DRAWER": {
       "TITLE": "Detaljer",
+      "DATA_LOADING": "Data läses in",
       "TABS": {
         "PROPERTIES": "Egenskaper",
         "LIBRARY_PROPERTIES": "Om",
         "VERSIONS": "Versioner",
         "COMMENTS": "Kommentarer",
         "PERMISSIONS": "Behörigheter",
-        "EXPAND": "Expandera"
+        "EXPAND": "Expandera",
+        "CLOSE_LIBRARY": "Stäng bibliotek"
       }
     }
   },

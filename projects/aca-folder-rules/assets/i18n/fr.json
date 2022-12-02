@@ -8,18 +8,22 @@
       "CREATE": "Créer",
       "CREATE_TITLE": "Créer une règle",
       "UPDATE": "Mettre à jour",
-      "UPDATE_TITLE": "Mettre à jour une règle"
+      "UPDATE_TITLE": "Modifier une règle"
     },
     "RULE_DETAILS": {
       "LABEL": {
         "NAME": "Nom",
         "DESCRIPTION": "Description",
-        "WHEN": "Quand"
+        "WHEN": "Quand",
+        "PERFORM_ACTIONS": "Effectuer des actions",
+        "OPTIONS": "Autres options"
       },
       "PLACEHOLDER": {
         "NAME": "Entrer le nom de la règle",
         "DESCRIPTION": "Entrer la description de la règle",
-        "NO_DESCRIPTION": "Aucune description"
+        "NO_DESCRIPTION": "Aucune description",
+        "VALUE": "Valeur",
+        "CHOOSE_FOLDER": "Choisir le dossier de destination"
       },
       "ERROR": {
         "REQUIRED": "Ce champ est obligatoire",
@@ -30,6 +34,13 @@
         "INBOUND": "Des éléments sont créés ou ajoutés à ce dossier",
         "UPDATE": "Des éléments sont mis à jour",
         "OUTBOUND": "Des éléments sont supprimés ou retirés de ce dossier"
+      },
+      "OPTIONS": {
+        "IS_INHERITABLE": "La règle s'applique aux sous-dossiers",
+        "IS_ASYNCHRONOUS": "Exécuter la règle en arrière-plan",
+        "DISABLE_RULE": "Désactiver la règle",
+        "ERROR_SCRIPT": "Si des erreurs surviennent, exécuter le script",
+        "NO_SCRIPT": "Aucun"
       },
       "COMPARATORS": {
         "EQUALS": "(=) Est égal à",
@@ -62,13 +73,18 @@
         "AND": "Et",
         "OR": "Ou"
       },
-      "ACTIONS": {
+      "CONDITION_BUTTONS": {
         "ADD_CONDITION": "Ajouter une condition",
-        "ADD_GROUP": "Ajouter un groupe",
+        "ADD_GROUP": "Ajouter un groupe de conditions",
         "REMOVE": "Supprimer"
       },
       "NO_CONDITIONS": "Aucune condition",
-      "NO_CONDITIONS_IN_GROUP": "Aucune condition dans le groupe"
+      "NO_CONDITIONS_IN_GROUP": "Aucune condition dans le groupe",
+      "ACTION_BUTTONS": {
+        "ADD_ACTION": "Ajouter une action",
+        "REMOVE": "Supprimer"
+      },
+      "ACTION_SELECT_PLACEHOLDER": "Sélectionner une action"
     },
     "MANAGE_RULES": {
       "TOOLBAR": {
@@ -76,7 +92,11 @@
           "RULES": "règles"
         },
         "ACTIONS": {
-          "NEW_RULE": "Nouvelle règle"
+          "CREATE_RULE": "Créer une règle",
+          "LINK_RULES": "Lier des règles",
+          "EDIT_RULE": "Modifier",
+          "SEE_IN_FOLDER": "Voir dans le dossier",
+          "INHERIT_RULES": "Hériter des règles"
         }
       },
       "EMPTY_RULES_LIST": {
@@ -88,7 +108,36 @@
       "DELETE_RULE": {
         "TITLE": "Supprimez la règle",
         "MESSAGE": "Voulez-vous vraiment supprimer cette règle ?"
+      },
+      "DELETE_RULE_SET_LINK": {
+        "TITLE": "Supprimer le lien vers l'ensemble de règles",
+        "MESSAGE": "Voulez-vous vraiment supprimer le lien vers cet ensemble de règles ?"
       }
+    },
+    "RULE_LIST": {
+      "OWNED_RULES": "Règles du dossier actuel",
+      "LINKED_RULES": "Règles du dossier lié",
+      "INHERITED_RULES": "Règles héritées",
+      "LOAD_MORE_RULE_SETS": "Charger les règles d'autres dossiers",
+      "LOAD_MORE_RULES": "Charger plus de règles",
+      "LOADING_RULES": "Chargement des règles en cours",
+      "INHERITED_RULES_WILL_BE_RUN_FIRST": "Les règles héritées seront exécutées en premier"
+    },
+    "LINK_RULES_DIALOG": {
+      "TITLE": "Sélectionner le dossier à partir duquel lier les règles",
+      "CANCEL": "Annuler",
+      "SUBMIT": "Sélectionner le dossier",
+      "EMPTY_RULES_LIST": {
+        "TITLE": "Aucune règle acquise",
+        "SUBTITLE": "Le dossier sélectionné n'a pas ses propres règles."
+      },
+      "LIST_OF_RULES_TO_LINK": "Liste des règles qui seront liées",
+      "ERRORS": {
+        "REQUEST_FAILED": "Erreur lors de la tentative de création d'un lien vers un ensemble de règles"
+      }
+    },
+    "ERRORS": {
+      "DELETE_RULE_SET_LINK_FAILED": "Erreur lors de la tentative de suppression d'un lien avec un ensemble de règles"
     }
   }
 }

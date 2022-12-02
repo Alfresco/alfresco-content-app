@@ -108,6 +108,9 @@
         "SIDENAV_LINK": {
           "LABEL": "Omat tiedostot",
           "TOOLTIP": "Näytä omat tiedostot"
+        },
+        "PERMISSIONS": {
+          "TITLE": "Oikeudet"
         }
       },
       "LIBRARIES": {
@@ -197,6 +200,7 @@
         "DUBLIN_CORE": "Dublin core",
         "EFFECTIVITY": "Voimassaolo",
         "TITLE": "Hakutulosta",
+        "RESET_ACTION": "Nollaa hakusuodattimet",
         "FOUND_RESULTS": "Löytyi {{ number }} tulosta",
         "FOUND_ONE_RESULT": "Löytyi {{ number }} tulos",
         "CUSTOM_ROW": {
@@ -391,13 +395,15 @@
     },
     "INFO_DRAWER": {
       "TITLE": "Tiedot",
+      "DATA_LOADING": "Tietoja ladataan",
       "TABS": {
         "PROPERTIES": "Ominaisuudet",
         "LIBRARY_PROPERTIES": "Tietoja",
         "VERSIONS": "Versiot",
         "COMMENTS": "Kommentit",
         "PERMISSIONS": "Oikeudet",
-        "EXPAND": "Laajenna"
+        "EXPAND": "Laajenna",
+        "CLOSE_LIBRARY": "Sulje kirjasto"
       }
     }
   },

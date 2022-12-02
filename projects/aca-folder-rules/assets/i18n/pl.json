@@ -8,18 +8,22 @@
       "CREATE": "Utwórz",
       "CREATE_TITLE": "Utwórz regułę",
       "UPDATE": "Aktualizuj",
-      "UPDATE_TITLE": "Aktualizuj regułę"
+      "UPDATE_TITLE": "Edytuj regułę"
     },
     "RULE_DETAILS": {
       "LABEL": {
         "NAME": "Nazwa",
         "DESCRIPTION": "Opis",
-        "WHEN": "Kiedy"
+        "WHEN": "Kiedy",
+        "PERFORM_ACTIONS": "Wykonaj czynności",
+        "OPTIONS": "Inne opcje"
       },
       "PLACEHOLDER": {
         "NAME": "Wprowadź nazwę reguły",
         "DESCRIPTION": "Wprowadź opis reguły",
-        "NO_DESCRIPTION": "Brak opisu"
+        "NO_DESCRIPTION": "Brak opisu",
+        "VALUE": "Wartość",
+        "CHOOSE_FOLDER": "Wybierz folder docelowy"
       },
       "ERROR": {
         "REQUIRED": "To pole jest wymagane.",
@@ -30,6 +34,13 @@
         "INBOUND": "Pozycje są utworzone lub wejdź do tego folderu",
         "UPDATE": "Pozycje są zaktualizowane",
         "OUTBOUND": "Pozycje są usunięte lub opuść ten folder"
+      },
+      "OPTIONS": {
+        "IS_INHERITABLE": "Reguła ma zastosowanie do podfolderów",
+        "IS_ASYNCHRONOUS": "Uruchom regułę w tle",
+        "DISABLE_RULE": "Wyłącz regułę",
+        "ERROR_SCRIPT": "Jeśli wystąpią błędy, uruchom skrypt",
+        "NO_SCRIPT": "Brak"
       },
       "COMPARATORS": {
         "EQUALS": "(=) Równa się",
@@ -62,13 +73,18 @@
         "AND": "Oraz",
         "OR": "Lub"
       },
-      "ACTIONS": {
+      "CONDITION_BUTTONS": {
         "ADD_CONDITION": "Dodaj warunek",
-        "ADD_GROUP": "Dodaj grupę",
+        "ADD_GROUP": "Dodaj grupę warunków",
         "REMOVE": "Usuń"
       },
       "NO_CONDITIONS": "Brak warunków",
-      "NO_CONDITIONS_IN_GROUP": "Brak warunków w grupie"
+      "NO_CONDITIONS_IN_GROUP": "Brak warunków w grupie",
+      "ACTION_BUTTONS": {
+        "ADD_ACTION": "Dodaj czynność",
+        "REMOVE": "Usuń"
+      },
+      "ACTION_SELECT_PLACEHOLDER": "Wybierz czynność"
     },
     "MANAGE_RULES": {
       "TOOLBAR": {
@@ -76,7 +92,11 @@
           "RULES": "reguły"
         },
         "ACTIONS": {
-          "NEW_RULE": "Nowa reguła"
+          "CREATE_RULE": "Utwórz regułę",
+          "LINK_RULES": "Połącz reguły",
+          "EDIT_RULE": "Edytuj",
+          "SEE_IN_FOLDER": "Zobacz w folderze",
+          "INHERIT_RULES": "Dziedzicz reguły"
         }
       },
       "EMPTY_RULES_LIST": {
@@ -88,7 +108,36 @@
       "DELETE_RULE": {
         "TITLE": "Usuń regułę",
         "MESSAGE": "Czy na pewno chcesz usunąć tę regułę?"
+      },
+      "DELETE_RULE_SET_LINK": {
+        "TITLE": "Usuń łącze zbioru reguł",
+        "MESSAGE": "Czy na pewno usunąć łącze do tego zbioru reguł?"
       }
+    },
+    "RULE_LIST": {
+      "OWNED_RULES": "Reguły z bieżącego folderu",
+      "LINKED_RULES": "Reguły z połączonego folderu",
+      "INHERITED_RULES": "Odziedziczone reguły",
+      "LOAD_MORE_RULE_SETS": "Wczytaj reguły z innych folderów",
+      "LOAD_MORE_RULES": "Wczytaj więcej reguł",
+      "LOADING_RULES": "Wczytywanie reguł",
+      "INHERITED_RULES_WILL_BE_RUN_FIRST": "Odziedziczone reguły zostaną wykonane najpierw"
+    },
+    "LINK_RULES_DIALOG": {
+      "TITLE": "Wybierz folder, z którego mają być łączone reguły",
+      "CANCEL": "Anuluj",
+      "SUBMIT": "Wybierz folder",
+      "EMPTY_RULES_LIST": {
+        "TITLE": "Brak własnych reguł",
+        "SUBTITLE": "Wybrany folder nie ma żadnych własnych reguł."
+      },
+      "LIST_OF_RULES_TO_LINK": "Lista reguł, które zostaną połączone",
+      "ERRORS": {
+        "REQUEST_FAILED": "Błąd podczas próby utworzenia łącza do zbioru reguł"
+      }
+    },
+    "ERRORS": {
+      "DELETE_RULE_SET_LINK_FAILED": "Błąd podczas próby usunięcia łącza ze zbioru reguł"
     }
   }
 }

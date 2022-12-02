@@ -8,18 +8,22 @@
       "CREATE": "创建",
       "CREATE_TITLE": "创建规则",
       "UPDATE": "更新",
-      "UPDATE_TITLE": "更新规则"
+      "UPDATE_TITLE": "编辑一个规则"
     },
     "RULE_DETAILS": {
       "LABEL": {
         "NAME": "名称",
         "DESCRIPTION": "说明",
-        "WHEN": "什么时候"
+        "WHEN": "什么时候",
+        "PERFORM_ACTIONS": "执行操作",
+        "OPTIONS": "其他选项"
       },
       "PLACEHOLDER": {
         "NAME": "输入规则名称",
         "DESCRIPTION": "输入规则描述",
-        "NO_DESCRIPTION": "没有描述"
+        "NO_DESCRIPTION": "没有描述",
+        "VALUE": "值",
+        "CHOOSE_FOLDER": "选择目标文件夹"
       },
       "ERROR": {
         "REQUIRED": "此字段为必填字段",
@@ -31,13 +35,20 @@
         "UPDATE": "项目被更新",
         "OUTBOUND": "项目被删除或离开此文件夹"
       },
+      "OPTIONS": {
+        "IS_INHERITABLE": "规则适用于子文件夹",
+        "IS_ASYNCHRONOUS": "在后台运行规则",
+        "DISABLE_RULE": "禁用规则",
+        "ERROR_SCRIPT": "如果发生错误则运行脚本",
+        "NO_SCRIPT": "无"
+      },
       "COMPARATORS": {
-        "EQUALS": "等于",
+        "EQUALS": "(=) 等于",
         "CONTAINS": "包含",
         "STARTS_WITH": "开始于",
         "ENDS_WITH": "结束于",
-        "GREATER_THAN": "大于",
-        "LESS_THAN": "小于",
+        "GREATER_THAN": "(>) 大于",
+        "LESS_THAN": "(<) 小于",
         "GREATER_THAN_OR_EQUAL": "(>=) 大于或等于",
         "LESS_THAN_OR_EQUAL": "(<=) 小于或等于",
         "ON": "(=) 当天",
@@ -49,7 +60,7 @@
       },
       "FIELDS": {
         "NAME": "名称",
-        "SIZE": "尺寸",
+        "SIZE": "大小",
         "MIMETYPE": "MIME 类型",
         "ENCODING": "编码",
         "HAS_CATEGORY": "有类别",
@@ -62,13 +73,18 @@
         "AND": "与",
         "OR": "或"
       },
-      "ACTIONS": {
+      "CONDITION_BUTTONS": {
         "ADD_CONDITION": "添加条件",
-        "ADD_GROUP": "添加组",
+        "ADD_GROUP": "添加条件组",
         "REMOVE": "删除"
       },
       "NO_CONDITIONS": "无条件",
-      "NO_CONDITIONS_IN_GROUP": "组中无条件"
+      "NO_CONDITIONS_IN_GROUP": "组中无条件",
+      "ACTION_BUTTONS": {
+        "ADD_ACTION": "添加操作",
+        "REMOVE": "删除"
+      },
+      "ACTION_SELECT_PLACEHOLDER": "选择一个操作"
     },
     "MANAGE_RULES": {
       "TOOLBAR": {
@@ -76,7 +92,11 @@
           "RULES": "规则"
         },
         "ACTIONS": {
-          "NEW_RULE": "新规则"
+          "CREATE_RULE": "创建规则",
+          "LINK_RULES": "链接规则",
+          "EDIT_RULE": "编辑",
+          "SEE_IN_FOLDER": "在文件夹中查看",
+          "INHERIT_RULES": "继承规则"
         }
       },
       "EMPTY_RULES_LIST": {
@@ -88,7 +108,36 @@
       "DELETE_RULE": {
         "TITLE": "删除规则",
         "MESSAGE": "是否确定要删除此规则?"
+      },
+      "DELETE_RULE_SET_LINK": {
+        "TITLE": "删除规则集链接",
+        "MESSAGE": "是否确定要删除此规则集的链接？"
       }
+    },
+    "RULE_LIST": {
+      "OWNED_RULES": "来自当前文件夹的规则",
+      "LINKED_RULES": "来自链接文件夹的规则",
+      "INHERITED_RULES": "继承的规则",
+      "LOAD_MORE_RULE_SETS": "加载来自其他文件夹的规则",
+      "LOAD_MORE_RULES": "加载更多规则",
+      "LOADING_RULES": "正在加载规则",
+      "INHERITED_RULES_WILL_BE_RUN_FIRST": "首先运行继承的规则"
+    },
+    "LINK_RULES_DIALOG": {
+      "TITLE": "选择要从中链接规则的文件夹",
+      "CANCEL": "取消",
+      "SUBMIT": "选择文件夹",
+      "EMPTY_RULES_LIST": {
+        "TITLE": "无自定义规则",
+        "SUBTITLE": "所选文件夹不包含任何自定义规则。"
+      },
+      "LIST_OF_RULES_TO_LINK": "将链接的规则列表",
+      "ERRORS": {
+        "REQUEST_FAILED": "创建规则集链接时出错"
+      }
+    },
+    "ERRORS": {
+      "DELETE_RULE_SET_LINK_FAILED": "删除规则集链接时出错"
     }
   }
 }

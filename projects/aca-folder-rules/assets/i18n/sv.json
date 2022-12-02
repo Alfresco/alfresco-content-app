@@ -8,18 +8,22 @@
       "CREATE": "Skapa",
       "CREATE_TITLE": "Skapa en regel",
       "UPDATE": "Uppdatera",
-      "UPDATE_TITLE": "Uppdatera en regel"
+      "UPDATE_TITLE": "Redigera en regel"
     },
     "RULE_DETAILS": {
       "LABEL": {
         "NAME": "Namn",
         "DESCRIPTION": "Beskrivning",
-        "WHEN": "När"
+        "WHEN": "När",
+        "PERFORM_ACTIONS": "Utför åtgärder",
+        "OPTIONS": "Andra alternativ"
       },
       "PLACEHOLDER": {
         "NAME": "Ange regelnamn",
         "DESCRIPTION": "Ange regelbeskrivning",
-        "NO_DESCRIPTION": "Ingen beskrivning"
+        "NO_DESCRIPTION": "Ingen beskrivning",
+        "VALUE": "Värde",
+        "CHOOSE_FOLDER": "Välj destinationsmapp"
       },
       "ERROR": {
         "REQUIRED": "Det här fältet krävs",
@@ -30,6 +34,13 @@
         "INBOUND": "Objekt skapas eller gå in i den här mappen",
         "UPDATE": "Objekt uppdateras",
         "OUTBOUND": "Objekt tas bort eller lämna den här mappen"
+      },
+      "OPTIONS": {
+        "IS_INHERITABLE": "Regel för undermappar",
+        "IS_ASYNCHRONOUS": "Kör regel i bakgrunden",
+        "DISABLE_RULE": "Inaktivera regel",
+        "ERROR_SCRIPT": "Kör skript om fel inträffar",
+        "NO_SCRIPT": "Ingen"
       },
       "COMPARATORS": {
         "EQUALS": "(=) Är lika med",
@@ -62,13 +73,18 @@
         "AND": "Och",
         "OR": "Eller"
       },
-      "ACTIONS": {
+      "CONDITION_BUTTONS": {
         "ADD_CONDITION": "Lägg till villkor",
-        "ADD_GROUP": "Lägg till grupp",
+        "ADD_GROUP": "Lägg till villkorsgrupp",
         "REMOVE": "Ta bort"
       },
       "NO_CONDITIONS": "Inga villkor",
-      "NO_CONDITIONS_IN_GROUP": "Inga villkor i gruppen"
+      "NO_CONDITIONS_IN_GROUP": "Inga villkor i gruppen",
+      "ACTION_BUTTONS": {
+        "ADD_ACTION": "Lägg till åtgärd",
+        "REMOVE": "Ta bort"
+      },
+      "ACTION_SELECT_PLACEHOLDER": "Välj en åtgärd"
     },
     "MANAGE_RULES": {
       "TOOLBAR": {
@@ -76,7 +92,11 @@
           "RULES": "regler"
         },
         "ACTIONS": {
-          "NEW_RULE": "Ny regel"
+          "CREATE_RULE": "Skapa en regel",
+          "LINK_RULES": "Länkregler",
+          "EDIT_RULE": "Redigera",
+          "SEE_IN_FOLDER": "Se i mappen",
+          "INHERIT_RULES": "Ärv regler"
         }
       },
       "EMPTY_RULES_LIST": {
@@ -88,7 +108,36 @@
       "DELETE_RULE": {
         "TITLE": "Radera regel",
         "MESSAGE": "Vill du verkligen radera den här regeln?"
+      },
+      "DELETE_RULE_SET_LINK": {
+        "TITLE": "Ta bort regeluppsättningslänk",
+        "MESSAGE": "Är du säker på att du vill ta bort länken till denna regeluppsättning?"
       }
+    },
+    "RULE_LIST": {
+      "OWNED_RULES": "Regler från aktuell mapp",
+      "LINKED_RULES": "Regler från länkad mapp",
+      "INHERITED_RULES": "Ärvda regler",
+      "LOAD_MORE_RULE_SETS": "Läs in regler från andra mappar",
+      "LOAD_MORE_RULES": "Ladda fler regler",
+      "LOADING_RULES": "Laddar regler",
+      "INHERITED_RULES_WILL_BE_RUN_FIRST": "Ärvda regler körs först"
+    },
+    "LINK_RULES_DIALOG": {
+      "TITLE": "Välj en mapp att länka regler från",
+      "CANCEL": "Avbryt",
+      "SUBMIT": "Välj mapp",
+      "EMPTY_RULES_LIST": {
+        "TITLE": "Inga ägda regler",
+        "SUBTITLE": "Den valda mappen har inga egna regler."
+      },
+      "LIST_OF_RULES_TO_LINK": "Lista över regler som kommer att länkas",
+      "ERRORS": {
+        "REQUEST_FAILED": "Det gick inte att skapa en länk till en regeluppsättning"
+      }
+    },
+    "ERRORS": {
+      "DELETE_RULE_SET_LINK_FAILED": "Det gick inte att ta bort en länk från en regeluppsättning"
     }
   }
 }
