@@ -53,7 +53,8 @@ export class ToolbarButtonComponent {
 
   runAction() {
     if (this.hasClickAction(this.actionRef)) {
-      this.extensions.runAction(this.actionRef);
+      const { click, ...payload } = this.actionRef.actions;
+      this.extensions.runActionById(click, Object.keys(payload).length ? payload : undefined);
     }
   }
 

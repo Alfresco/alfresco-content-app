@@ -498,9 +498,8 @@ export class AppExtensionService implements RuleContext {
     return false;
   }
 
-  runActionById(id: string) {
+  runActionById(id: string, additionalPayload?: { [key: string]: any }) {
     const action = this.extensions.getActionById(id);
-    console.log(action);
     if (action) {
       const { type, payload } = action;
       const context = {
@@ -508,18 +507,22 @@ export class AppExtensionService implements RuleContext {
       };
       const expression = this.extensions.runExpression(payload, context);
 
-      this.store.dispatch({ type, payload: expression });
+      this.store.dispatch({
+        type,
+        payload:
+          typeof expression === 'object'
+            ? {
+                ...expression,
+                ...additionalPayload
+              }
+            : expression
+      });
     } else {
-      this.store.dispatch({ type: id });
+      this.store.dispatch({
+        type: id,
+        payload: additionalPayload
+      });
     }
-  }
-
-  runAction(contentActionRef: ContentActionRef) {
-    const { click, ...payload } = contentActionRef.actions;
-    this.store.dispatch({
-      type: click,
-      payload: Object.keys(payload).length ? payload : undefined
-    });
   }
 
   // todo: move to ADF/RuleService

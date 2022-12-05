@@ -70,7 +70,8 @@ export class ContextMenuComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   runAction(contentActionRef: ContentActionRef) {
-    this.extensions.runAction(contentActionRef);
+    const { click, ...payload } = contentActionRef.actions;
+    this.extensions.runActionById(click, Object.keys(payload).length ? payload : undefined);
   }
 
   ngOnDestroy() {
