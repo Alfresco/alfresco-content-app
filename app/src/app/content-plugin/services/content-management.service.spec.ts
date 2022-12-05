@@ -1410,25 +1410,37 @@ describe('ContentManagementService', () => {
     }));
 
     it('should update node selection after dialog is closed', fakeAsync(() => {
+      spyOn(document, 'querySelector').and.returnValue(document.createElement('button'));
       const node = { entry: { id: '1', name: 'name1' } } as NodeEntry;
       spyOn(store, 'dispatch').and.callThrough();
       spyOn(dialog, 'open').and.returnValue({
         afterClosed: () => of(null)
       } as MatDialogRef<MatDialog>);
-
-      store.dispatch(new ShareNodeAction(node));
-
-      expect(store.dispatch['calls'].argsFor(1)[0]).toEqual(new SetSelectedNodesAction([node]));
+      const payload = {
+        ...node,
+        ...{
+          focusedElementOnCloseSelector: 'some-selector'
+        }
+      };
+      store.dispatch(new ShareNodeAction(payload));
+      expect(store.dispatch['calls'].argsFor(1)[0]).toEqual(new SetSelectedNodesAction([payload]));
     }));
 
     it('should emit event when node is un-shared', fakeAsync(() => {
+      spyOn(document, 'querySelector').and.returnValue(document.createElement('button'));
       const node = { entry: { id: '1', name: 'name1' } } as NodeEntry;
       spyOn(appHookService.linksUnshared, 'next').and.callThrough();
       spyOn(dialog, 'open').and.returnValue({
         afterClosed: () => of(node)
       } as MatDialogRef<MatDialog>);
-
-      store.dispatch(new ShareNodeAction(node));
+      store.dispatch(
+        new ShareNodeAction({
+          ...node,
+          ...{
+            focusedElementOnCloseSelector: 'some-selector'
+          }
+        })
+      );
       tick();
       flush();
 
@@ -1638,7 +1650,7 @@ describe('ContentManagementService', () => {
 
       contentManagementService.manageAspects(fakeNode);
 
-      expect(nodeAspectService.updateNodeAspects).toHaveBeenCalledWith('real-node-ghostbuster');
+      expect(nodeAspectService.updateNodeAspects).toHaveBeenCalledWith('real-node-ghostbuster', undefined);
     });
 
     it('should open dialog for managing the aspects', () => {
@@ -1647,7 +1659,7 @@ describe('ContentManagementService', () => {
 
       contentManagementService.manageAspects(fakeNode);
 
-      expect(nodeAspectService.updateNodeAspects).toHaveBeenCalledWith('fake-node-id');
+      expect(nodeAspectService.updateNodeAspects).toHaveBeenCalledWith('fake-node-id', undefined);
     });
   });
 });

@@ -99,8 +99,8 @@ describe('ContextMenuComponent', () => {
   it('should run action with provided action id', () => {
     spyOn(extensionsService, 'runActionById');
 
-    component.runAction(contextItem.actions.click);
+    component.runAction(contextItem);
 
-    expect(extensionsService.runActionById).toHaveBeenCalledWith(contextItem.actions.click);
+    expect(extensionsService.runActionById).toHaveBeenCalledWith(contextItem.actions.click, undefined);
   });
 });

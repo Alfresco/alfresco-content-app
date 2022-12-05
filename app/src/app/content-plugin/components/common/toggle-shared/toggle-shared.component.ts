@@ -61,7 +61,7 @@ export class ToggleSharedComponent implements OnInit {
     this.store.dispatch(
       new ShareNodeAction({
         ...selection.first,
-        focusedElementOnCloseSelector: this.data.focusedElementOnCloseSelector
+        focusedElementOnCloseSelector: this.data?.focusedElementOnCloseSelector
       })
     );
   }
