@@ -26,7 +26,7 @@
   "locale": "en",
   "application": {
     "name": "Alfresco Content Application",
-    "version": "3.1.0",
+    "version": "4.0.0-A.1",
     "logo": "assets/images/alfresco-logo-flower.svg",
     "headerImagePath": "assets/images/mastHead-bg-shapesPattern.svg",
     "copyright": "APP.COPYRIGHT"
