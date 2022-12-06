@@ -243,7 +243,6 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
   }
 
   isInheritedRuleSetsNotEmpty(inheritedRuleSets: RuleSet[]): boolean {
-    console.log(inheritedRuleSets);
     return inheritedRuleSets.filter((ruleSet) => ruleSet.rules.length > 0).length > 0;
   }
 }
