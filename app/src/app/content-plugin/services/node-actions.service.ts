@@ -78,6 +78,7 @@ export class NodeActionsService {
    *
    * @param contentEntities nodes to copy
    * @param permission permission which is needed to apply the action
+   * @param focusedElementOnCloseSelector element's selector which should be autofocused after closing modal
    */
   copyNodes(contentEntities: any[], permission?: string, focusedElementOnCloseSelector?: string): Subject<string> {
     return this.doBatchOperation(NodeAction.COPY, contentEntities, permission, focusedElementOnCloseSelector);
@@ -88,6 +89,7 @@ export class NodeActionsService {
    *
    * @param contentEntities nodes to move
    * @param permission permission which is needed to apply the action
+   * @param focusedElementOnCloseSelector element's selector which should be autofocused after closing modal
    */
   moveNodes(contentEntities: any[], permission?: string, focusedElementOnCloseSelector?: string): Subject<string> {
     return this.doBatchOperation(NodeAction.MOVE, contentEntities, permission, focusedElementOnCloseSelector);
@@ -99,6 +101,7 @@ export class NodeActionsService {
    * @param action the action to perform (copy|move)
    * @param contentEntities the contentEntities which have to have the action performed on
    * @param permission permission which is needed to apply the action
+   * @param focusedElementOnCloseSelector element's selector which should be autofocused after closing modal
    */
   doBatchOperation(action: BatchOperationType, contentEntities: any[], permission?: string, focusedElementOnCloseSelector?: string): Subject<string> {
     const observable: Subject<string> = new Subject<string>();
