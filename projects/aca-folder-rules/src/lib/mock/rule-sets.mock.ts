@@ -115,4 +115,16 @@ export const inheritedRuleSetMock: RuleSet = {
   loadingRules: false
 };
 
+export const inheritedRuleSetWithEmptyRulesMock: RuleSet = {
+  id: 'inherited-rule-set',
+  isLinkedTo: false,
+  owningFolder: otherFolderMock,
+  linkedToBy: [],
+  rules: [],
+  hasMoreRules: false,
+  loadingRules: false
+};
+
 export const ruleSetsMock: RuleSet[] = [inheritedRuleSetMock, ownedRuleSetMock, ruleSetWithLinkMock];
+
+export const ruleSetsWithEmptyRulesMock: RuleSet[] = [inheritedRuleSetWithEmptyRulesMock];

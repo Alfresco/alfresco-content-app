@@ -30,7 +30,7 @@ import { CoreTestingModule } from '@alfresco/adf-core';
 import { FolderRulesService } from '../services/folder-rules.service';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
-import { inheritedRuleSetMock, ownedRuleSetMock, ruleSetWithLinkMock } from '../mock/rule-sets.mock';
+import { inheritedRuleSetMock, ownedRuleSetMock, ruleSetsWithEmptyRulesMock, ruleSetWithLinkMock } from '../mock/rule-sets.mock';
 import { By } from '@angular/platform-browser';
 import { owningFolderIdMock, owningFolderMock } from '../mock/node.mock';
 import { MatDialog } from '@angular/material/dialog';
@@ -100,7 +100,7 @@ describe('ManageRulesSmartComponent', () => {
   it('should only show adf-empty-content if node has no rules defined yet', () => {
     folderRuleSetsService.folderInfo$ = of(owningFolderMock);
     folderRuleSetsService.mainRuleSet$ = of(null);
-    folderRuleSetsService.inheritedRuleSets$ = of([]);
+    folderRuleSetsService.inheritedRuleSets$ = of(ruleSetsWithEmptyRulesMock);
     folderRuleSetsService.isLoading$ = of(false);
     actionsService.loading$ = of(false);
 
