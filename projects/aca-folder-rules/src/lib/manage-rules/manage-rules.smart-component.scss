@@ -57,13 +57,13 @@
         padding: 12px 20px;
         border-bottom: 1px solid var(--theme-border-color);
         background-color: var(--theme-background-color);
+        column-gap: 20px;
 
         &__title {
           display: flex;
           flex-direction: column;
           gap: 4px;
           word-wrap: break-word;
-          width: calc(100% - 120px);
           min-width: 100px;
 
           &__name {
