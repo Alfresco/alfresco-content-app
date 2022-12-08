@@ -57,7 +57,7 @@
           </adf-toolbar>
           <mat-divider></mat-divider>
 
-          <div class="aca-manage-rules__container" *ngIf="(mainRuleSet$ | async) || isInheritedRuleSetsNotEmpty(inheritedRuleSets$ | async); else emptyContent">
+          <div class="aca-manage-rules__container" *ngIf="isMainRuleSetNotEmpty(mainRuleSet$ | async) || isInheritedRuleSetsNotEmpty(inheritedRuleSets$ | async); else emptyContent">
             <aca-rule-list
               [mainRuleSet]="mainRuleSet$ | async"
               [folderId]="nodeId"

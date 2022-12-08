@@ -242,6 +242,13 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
       });
   }
 
+  isMainRuleSetNotEmpty(mainRuleSet: RuleSet): boolean {
+    return (
+      !!mainRuleSet &&
+      (FolderRuleSetsService.isOwnedRuleSet(mainRuleSet, this.nodeId) || mainRuleSet.rules.filter((rule: Rule) => rule.isEnabled).length > 0)
+    );
+  }
+
   isInheritedRuleSetsNotEmpty(inheritedRuleSets: RuleSet[]): boolean {
     return inheritedRuleSets.filter((ruleSet) => ruleSet.rules.filter((rule: Rule) => rule.isEnabled).length > 0).length > 0;
   }
