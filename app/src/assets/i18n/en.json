@@ -75,15 +75,25 @@
         },
         "RESET_PASSWORD": {
             "RESET_PASSWORD": "Reset Password",
-            "WARNING_FILLER": "In order to protect your account, make sure your password:",
-            "NEW_PASSWORD": "New Password",
-            "RE_ENTER_NEW_PASSWORD": "Re-enter your New Password",
+            "INFO_FILLER": "In order to protect your account, make sure your password:",
+            "NEW_PASSWORD": "New password",
+            "RE_ENTER_NEW_PASSWORD": "Re-enter your new password",
             "PLACEHOLDERS" : {
-                "ENTER_PASSWORD": "Enter Password",
-                "CONFIRM_PASSWORD": "Confirm Password"
+                "ENTER_PASSWORD": "Enter password",
+                "CONFIRM_PASSWORD": "Confirm password"
             },
-            "PASSWORD_MISMATCH_ERROR": "Passwords do not match",
-            "CHANGE_PASSWORD": "Change Password"
+            "CHANGE_PASSWORD": "Change Password",
+            "PASSWORD_RULES": {
+                "LENGTH": "is 8 characters or longer",
+                "UPPERCASE": "has at least 1 uppercase letter",
+                "LOWERCASE": "has at least 1 lowercase letter",
+                "NUMBER": "as at least 1 number",
+                "SPECIAL_CHARACTER": "if possible, has at least 1 special character"
+            },
+            "ERRORS": {
+                "INVALID_PASSWORD_FORMAT": "Invalid password format",
+                "PASSWORD_MISMATCH_ERROR": "Passwords do not match"
+            }
         },
         "LOCKED_BY": "Locked by: ",
         "PREVIEW": {

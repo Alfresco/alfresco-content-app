@@ -32,7 +32,7 @@ export class ResetPasswordComponent implements OnInit {
   ngOnInit(): void {
     this.resetPasswordForm = new FormGroup(
       {
-        password: new FormControl('', [Validators.required]),
+        password: new FormControl('', [Validators.required, Validators.pattern('^.*(?=.{6,20})(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[-_@!#$%&*]).*$')]),
         confirmPassword: new FormControl('', [Validators.required])
       },
       [this.matchValidator('password', 'confirmPassword')]
