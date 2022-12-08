@@ -26,7 +26,7 @@
 import { RuleSet } from '../model/rule-set.model';
 import { otherFolderIdMock, otherFolderMock, owningFolderIdMock, owningFolderMock } from './node.mock';
 import { Rule } from '../model/rule.model';
-import { inheritedRulesMock, linkedRulesMock, ownedRulesMock } from './rules.mock';
+import { inheritedRulesMock, linkedRulesMock, ownedRulesMock, ruleMock } from './rules.mock';
 
 export const getRuleSetsResponseMock = {
   list: {
@@ -125,6 +125,17 @@ export const inheritedRuleSetWithEmptyRulesMock: RuleSet = {
   loadingRules: false
 };
 
-export const ruleSetsMock: RuleSet[] = [inheritedRuleSetMock, ownedRuleSetMock, ruleSetWithLinkMock];
+export const inheritedRuleSetWithOnlyDisabledRulesMock: RuleSet = {
+  id: 'inherited-rule-set',
+  isLinkedTo: false,
+  owningFolder: otherFolderMock,
+  linkedToBy: [],
+  rules: [
+    { ...ruleMock('rule1'), isEnabled: false },
+    { ...ruleMock('rule2'), isEnabled: false }
+  ],
+  hasMoreRules: false,
+  loadingRules: false
+};
 
-export const ruleSetsWithEmptyRulesMock: RuleSet[] = [inheritedRuleSetWithEmptyRulesMock];
+export const ruleSetsMock: RuleSet[] = [inheritedRuleSetMock, ownedRuleSetMock, ruleSetWithLinkMock];

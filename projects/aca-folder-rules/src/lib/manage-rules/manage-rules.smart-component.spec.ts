@@ -30,7 +30,13 @@ import { CoreTestingModule } from '@alfresco/adf-core';
 import { FolderRulesService } from '../services/folder-rules.service';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
-import { inheritedRuleSetMock, ownedRuleSetMock, ruleSetsWithEmptyRulesMock, ruleSetWithLinkMock } from '../mock/rule-sets.mock';
+import {
+  inheritedRuleSetMock,
+  inheritedRuleSetWithEmptyRulesMock,
+  inheritedRuleSetWithOnlyDisabledRulesMock,
+  ownedRuleSetMock,
+  ruleSetWithLinkMock
+} from '../mock/rule-sets.mock';
 import { By } from '@angular/platform-browser';
 import { owningFolderIdMock, owningFolderMock } from '../mock/node.mock';
 import { MatDialog } from '@angular/material/dialog';
@@ -97,10 +103,30 @@ describe('ManageRulesSmartComponent', () => {
     expect(deleteRuleBtn).toBeTruthy('no delete rule button');
   });
 
-  it('should only show adf-empty-content if node has no rules defined yet', () => {
+  it('should show adf-empty-content if node has no rules defined yet', () => {
     folderRuleSetsService.folderInfo$ = of(owningFolderMock);
     folderRuleSetsService.mainRuleSet$ = of(null);
-    folderRuleSetsService.inheritedRuleSets$ = of(ruleSetsWithEmptyRulesMock);
+    folderRuleSetsService.inheritedRuleSets$ = of([inheritedRuleSetWithEmptyRulesMock]);
+    folderRuleSetsService.isLoading$ = of(false);
+    actionsService.loading$ = of(false);
+
+    fixture.detectChanges();
+
+    expect(component).toBeTruthy();
+
+    const adfEmptyContent = debugElement.query(By.css('adf-empty-content'));
+    const ruleSets = debugElement.queryAll(By.css(`[data-automation-id="rule-set-list-item"]`));
+    const ruleDetails = debugElement.query(By.css('aca-rule-details'));
+
+    expect(adfEmptyContent).toBeTruthy();
+    expect(ruleSets.length).toBe(0);
+    expect(ruleDetails).toBeFalsy();
+  });
+
+  it('should show adf-empty-content if there are only inherited disabled rules', () => {
+    folderRuleSetsService.folderInfo$ = of(owningFolderMock);
+    folderRuleSetsService.mainRuleSet$ = of(null);
+    folderRuleSetsService.inheritedRuleSets$ = of([inheritedRuleSetWithOnlyDisabledRulesMock]);
     folderRuleSetsService.isLoading$ = of(false);
     actionsService.loading$ = of(false);
 

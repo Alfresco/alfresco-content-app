@@ -71,12 +71,12 @@ export class RuleListUiComponent {
   }
 
   get mainRuleSetGroupingItems(): RuleGroupingItem[] {
-    return this.mainRuleSet ? this.getRuleSetGroupingItems(this.mainRuleSet) : [];
+    return this.mainRuleSet ? this.getRuleSetGroupingItems(this.mainRuleSet, !this.isMainRuleSetOwned) : [];
   }
 
   get inheritedRuleSetGroupingItems(): RuleGroupingItem[] {
     const items = this.inheritedRuleSets.reduce((accumulator: RuleGroupingItem[], currentRuleSet: RuleSet) => {
-      accumulator.push(...this.getRuleSetGroupingItems(currentRuleSet));
+      accumulator.push(...this.getRuleSetGroupingItems(currentRuleSet, true));
       return accumulator;
     }, []);
     if (this.ruleSetsLoading || this.hasMoreRuleSets) {
@@ -87,11 +87,13 @@ export class RuleListUiComponent {
     return items;
   }
 
-  getRuleSetGroupingItems(ruleSet: RuleSet): RuleGroupingItem[] {
-    const items: RuleGroupingItem[] = ruleSet.rules.map((rule: Rule) => ({
-      type: 'rule',
-      rule
-    }));
+  getRuleSetGroupingItems(ruleSet: RuleSet, filterOutDisabledRules: boolean): RuleGroupingItem[] {
+    const items: RuleGroupingItem[] = ruleSet.rules
+      .filter((rule: Rule) => rule.isEnabled || !filterOutDisabledRules)
+      .map((rule: Rule) => ({
+        type: 'rule',
+        rule
+      }));
     if (ruleSet.loadingRules || ruleSet.hasMoreRules) {
       items.push(
         ruleSet.loadingRules
