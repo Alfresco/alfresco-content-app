@@ -61,6 +61,7 @@ import { ContentVersionService } from '@alfresco/adf-content-services';
 import { ContentUrlService } from './content-plugin/services/content-url.service';
 import { STORE_INITIAL_APP_DATA } from '@alfresco/aca-shared/store';
 import { ShellModule, SHELL_APP_SERVICE, SHELL_AUTH_TOKEN } from '@alfresco/adf-core/shell';
+import { ResetPasswordModule } from './components/reset-password/reset-password.module';
 
 registerLocaleData(localeFr);
 registerLocaleData(localeDe);
@@ -82,6 +83,7 @@ registerLocaleData(localeSv);
 @NgModule({
   imports: [
     BrowserModule,
+    ResetPasswordModule,
     TranslateModule.forRoot(),
     CoreModule.forRoot(),
     SharedModule.forRoot(),

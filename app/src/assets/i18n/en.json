@@ -73,6 +73,18 @@
             "POSTCODE": "Postcode",
             "INVALID_INPUT": "Invalid Input"
         },
+        "RESET_PASSWORD": {
+            "RESET_PASSWORD": "Reset Password",
+            "WARNING_FILLER": "In order to protect your account, make sure your password:",
+            "NEW_PASSWORD": "New Password",
+            "RE_ENTER_NEW_PASSWORD": "Re-enter your New Password",
+            "PLACEHOLDERS" : {
+                "ENTER_PASSWORD": "Enter Password",
+                "CONFIRM_PASSWORD": "Confirm Password"
+            },
+            "PASSWORD_MISMATCH_ERROR": "Passwords do not match",
+            "CHANGE_PASSWORD": "Change Password"
+        },
         "LOCKED_BY": "Locked by: ",
         "PREVIEW": {
             "TITLE": "Preview"

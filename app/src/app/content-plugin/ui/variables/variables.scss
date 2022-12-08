@@ -70,6 +70,13 @@ $defaults: (
   --theme-dropdown-color: $grey-dropdown-background,
   --theme-grey-divider-color: $grey-divider,
   --theme-pagination-background-color: $pagination-background-color,
+  --theme-reset-password-title-color: #212121,
+  --theme-reset-password-label-color: rgba(33, 35, 40, 0.7),
+  --theme-reset-password-input-background-color: $grey-text-background,
+  --theme-reset-password-button-background-color: $blue-save-button-background,
+  --theme-reset-password-dialog-border-color: $grey-background,
+  --theme-reset-password-dialog-shadow-color: rgba(33, 35, 40, 0.06),
+  --theme-reset-password-error-color: red,
 );
 
 // propagates SCSS variables into the CSS variables scope

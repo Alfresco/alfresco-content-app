@@ -40,6 +40,7 @@ import { ViewProfileComponent } from './components/view-profile/view-profile.com
 import { ViewProfileRuleGuard } from './components/view-profile/view-profile.guard';
 import { LoginComponent } from './components/login/login.component';
 import { Route } from '@angular/router';
+import { ResetPasswordComponent } from '../components/reset-password/reset-password.component';
 
 export const CONTENT_ROUTES: ExtensionRoute[] = [
   {
@@ -56,6 +57,10 @@ export const CONTENT_ROUTES: ExtensionRoute[] = [
     data: {
       title: 'APP.SIGN_IN'
     }
+  },
+  {
+    path: 'reset-password',
+    component: ResetPasswordComponent
   },
   {
     path: 'view',
