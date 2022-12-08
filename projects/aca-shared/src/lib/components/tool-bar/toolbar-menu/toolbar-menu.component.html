@@ -18,7 +18,7 @@
         <adf-dynamic-component [id]="child.component" [data]="child.data"></adf-dynamic-component>
       </ng-container>
       <ng-container *ngSwitchDefault>
-        <app-toolbar-menu-item [actionRef]="child"></app-toolbar-menu-item>
+        <app-toolbar-menu-item [actionRef]="child" [menuId]="actionRef.id"></app-toolbar-menu-item>
       </ng-container>
     </ng-container>
   </ng-container>

@@ -226,7 +226,7 @@ export class NodeActionsService {
         role: 'dialog'
       })
       .afterClosed()
-      .subscribe(() => NodeActionsService.focusAfterClose(focusedElementOnCloseSelector));
+      .subscribe(() => this.focusAfterClose(focusedElementOnCloseSelector));
 
     data.select.subscribe({
       complete: this.close.bind(this)
@@ -698,7 +698,7 @@ export class NodeActionsService {
     }
   }
 
-  private static focusAfterClose(focusedElementSelector: string): void {
+  private focusAfterClose(focusedElementSelector: string): void {
     if (focusedElementSelector) {
       document.querySelector<HTMLElement>(focusedElementSelector).focus();
     }

@@ -44,6 +44,8 @@ import { MatMenuItem } from '@angular/material/menu';
 export class ToolbarMenuItemComponent {
   @Input()
   actionRef: ContentActionRef;
+  @Input()
+  menuId?: string;
 
   @ViewChild(MatMenuItem)
   menuItem: MatMenuItem;
@@ -52,8 +54,14 @@ export class ToolbarMenuItemComponent {
 
   runAction() {
     if (this.hasClickAction(this.actionRef)) {
-      const { click, ...payload } = this.actionRef.actions;
-      this.extensions.runActionById(click, Object.keys(payload).length ? payload : undefined);
+      this.extensions.runActionById(
+        this.actionRef.actions.click,
+        this.actionRef.data?.autoFocusedTriggerAfterModalClose && this.menuId
+          ? {
+              focusedElementOnCloseSelector: `#${this.menuId.replace(/\./g, '\\.')}`
+            }
+          : undefined
+      );
     }
   }
 

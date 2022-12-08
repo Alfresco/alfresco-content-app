@@ -85,6 +85,8 @@ interface RestoredNode {
   providedIn: 'root'
 })
 export class ContentManagementService {
+  private readonly createMenuButtonSelector = 'app-create-menu button';
+
   constructor(
     private alfrescoApiService: AlfrescoApiService,
     private store: Store<AppStore>,
@@ -214,7 +216,7 @@ export class ContentManagementService {
           .subscribe(() => {
             this.store.dispatch(new SetSelectedNodesAction([node]));
             this.appHookService.linksUnshared.next();
-            ContentManagementService.focusAfterClose(focusedElementOnCloseSelector);
+            this.focusAfterClose(focusedElementOnCloseSelector);
           });
       });
   }
@@ -238,7 +240,7 @@ export class ContentManagementService {
       if (node) {
         this.store.dispatch(new ReloadDocumentListAction());
       }
-      ContentManagementService.focusCreateMenuButton();
+      this.focusAfterClose(this.createMenuButtonSelector);
     });
   }
 
@@ -262,7 +264,7 @@ export class ContentManagementService {
       if (node) {
         this.alfrescoApiService.nodeUpdated.next(node);
       }
-      ContentManagementService.focusAfterClose(focusedElementOnCloseSelector);
+      this.focusAfterClose(focusedElementOnCloseSelector);
     });
   }
 
@@ -280,7 +282,7 @@ export class ContentManagementService {
         if (node) {
           this.appHookService.libraryCreated.next(node);
         }
-        ContentManagementService.focusCreateMenuButton();
+        this.focusAfterClose(this.createMenuButtonSelector);
       }),
       map((node: SiteEntry) => {
         if (node && node.entry && node.entry.guid) {
@@ -326,7 +328,7 @@ export class ContentManagementService {
           }
         );
       }
-      ContentManagementService.focusAfterClose(focusedElementOnCloseSelector);
+      this.focusAfterClose(focusedElementOnCloseSelector);
     });
   }
 
@@ -1085,11 +1087,7 @@ export class ContentManagementService {
       .subscribe(() => this.undoMoveNodes(moveResponse, initialParentId));
   }
 
-  private static focusCreateMenuButton(): void {
-    document.querySelector<HTMLElement>('app-create-menu button').focus();
-  }
-
-  private static focusAfterClose(focusedElementSelector: string): void {
+  private focusAfterClose(focusedElementSelector: string): void {
     if (focusedElementSelector) {
       document.querySelector<HTMLElement>(focusedElementSelector).focus();
     }

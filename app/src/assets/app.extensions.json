@@ -331,7 +331,7 @@
         "order": 100,
         "data": {
           "iconButton": true,
-          "focusedElementOnCloseSelector": "#share-action-button"
+          "autoFocusedTriggerAfterModalClose": true
         },
         "component": "app.shared-link.toggleSharedLink",
         "rules": {
@@ -402,8 +402,10 @@
         "title": "APP.ACTIONS.LEAVE",
         "icon": "exit_to_app",
         "actions": {
-          "click": "LEAVE_LIBRARY",
-          "focusedElementOnCloseSelector": "#app\\.toolbar\\.leaveLibrary"
+          "click": "LEAVE_LIBRARY"
+        },
+        "data": {
+          "autoFocusedTriggerAfterModalClose": true
         },
         "rules": {
           "visible": "canLeaveLibrary"
@@ -454,8 +456,10 @@
             "title": "APP.ACTIONS.UPLOAD_VERSION",
             "icon": "playlist_add",
             "actions": {
-              "click": "UPLOAD_FILE_VERSION",
-              "focusedElementOnCloseSelector": "#app\\.toolbar\\.more"
+              "click": "UPLOAD_FILE_VERSION"
+            },
+            "data": {
+              "autoFocusedTriggerAfterModalClose": true
             },
             "rules": {
               "visible": "app.selection.file.canUploadVersion"
@@ -467,8 +471,10 @@
             "title": "APP.ACTIONS.EDIT",
             "icon": "create",
             "actions": {
-              "click": "EDIT_FOLDER",
-              "focusedElementOnCloseSelector": "#app\\.toolbar\\.more"
+              "click": "EDIT_FOLDER"
+            },
+            "data": {
+              "autoFocusedTriggerAfterModalClose": true
             },
             "rules": {
               "visible": "canEditFolder"
@@ -529,8 +535,10 @@
             "title": "APP.ACTIONS.MOVE",
             "icon": "adf:move_file",
             "actions": {
-              "click": "MOVE_NODES",
-              "focusedElementOnCloseSelector": "#app\\.toolbar\\.more"
+              "click": "MOVE_NODES"
+            },
+            "data": {
+              "autoFocusedTriggerAfterModalClose": true
             },
             "rules": {
               "visible": "app.selection.canDelete"
@@ -542,8 +550,10 @@
             "title": "APP.ACTIONS.COPY",
             "icon": "content_copy",
             "actions": {
-              "click": "COPY_NODES",
-              "focusedElementOnCloseSelector": "#app\\.toolbar\\.more"
+              "click": "COPY_NODES"
+            },
+            "data": {
+              "autoFocusedTriggerAfterModalClose": true
             },
             "rules": {
               "visible": "canCopyNode"
@@ -572,8 +582,10 @@
             "title": "APP.ACTIONS.VERSIONS",
             "icon": "history",
             "actions": {
-              "click": "MANAGE_VERSIONS",
-              "focusedElementOnCloseSelector": "#app\\.toolbar\\.more"
+              "click": "MANAGE_VERSIONS"
+            },
+            "data": {
+              "autoFocusedTriggerAfterModalClose": true
             },
             "rules": {
               "visible": "canManageFileVersions"
@@ -585,8 +597,10 @@
             "title": "APP.ACTIONS.CHANGE_ASPECT",
             "icon": "toc",
             "actions": {
-              "click": "ASPECT_LIST",
-              "focusedElementOnCloseSelector": "#app\\.toolbar\\.more"
+              "click": "ASPECT_LIST"
+            },
+            "data": {
+              "autoFocusedTriggerAfterModalClose": true
             },
             "rules": {
               "visible": "canEditAspects"
@@ -638,7 +652,7 @@
         "order": 100,
         "data": {
           "iconButton": false,
-          "focusedElementOnCloseSelector": ".adf-context-menu-source"
+          "autoFocusedTriggerAfterModalClose": true
         },
         "component": "app.shared-link.toggleSharedLink",
         "rules": {
@@ -690,8 +704,10 @@
         "title": "APP.ACTIONS.EDIT",
         "icon": "create",
         "actions": {
-          "click": "EDIT_FOLDER",
-          "focusedElementOnCloseSelector": ".adf-context-menu-source"
+          "click": "EDIT_FOLDER"
+        },
+        "data": {
+          "autoFocusedTriggerAfterModalClose": true
         },
         "rules": {
           "visible": "canEditFolder"
@@ -703,8 +719,10 @@
         "order": 700,
         "icon": "playlist_add",
         "actions": {
-          "click": "UPLOAD_FILE_VERSION",
-          "focusedElementOnCloseSelector": ".adf-context-menu-source"
+          "click": "UPLOAD_FILE_VERSION"
+        },
+        "data": {
+          "autoFocusedTriggerAfterModalClose": true
         },
         "rules": {
           "visible": "app.selection.file.canUploadVersion"
@@ -765,8 +783,10 @@
         "order": 1000,
         "icon": "adf:move_file",
         "actions": {
-          "click": "MOVE_NODES",
-          "focusedElementOnCloseSelector": ".adf-context-menu-source"
+          "click": "MOVE_NODES"
+        },
+        "data": {
+          "autoFocusedTriggerAfterModalClose": true
         },
         "rules": {
           "visible": "app.selection.canDelete"
@@ -778,8 +798,10 @@
         "order": 1100,
         "icon": "content_copy",
         "actions": {
-          "click": "COPY_NODES",
-          "focusedElementOnCloseSelector": ".adf-context-menu-source"
+          "click": "COPY_NODES"
+        },
+        "data": {
+          "autoFocusedTriggerAfterModalClose": true
         },
         "rules": {
           "visible": "canCopyNode"
@@ -808,8 +830,10 @@
         "order": 1400,
         "icon": "history",
         "actions": {
-          "click": "MANAGE_VERSIONS",
-          "focusedElementOnCloseSelector": ".adf-context-menu-source"
+          "click": "MANAGE_VERSIONS"
+        },
+        "data": {
+          "autoFocusedTriggerAfterModalClose": true
         },
         "rules": {
           "visible": "canManageFileVersions"
@@ -821,8 +845,10 @@
         "title": "APP.ACTIONS.CHANGE_ASPECT",
         "icon": "toc",
         "actions": {
-          "click": "ASPECT_LIST",
-          "focusedElementOnCloseSelector": ".adf-context-menu-source"
+          "click": "ASPECT_LIST"
+        },
+        "data": {
+          "autoFocusedTriggerAfterModalClose": true
         },
         "rules": {
           "visible": "canEditAspects"
@@ -867,8 +893,10 @@
         "title": "APP.ACTIONS.LEAVE",
         "icon": "exit_to_app",
         "actions": {
-          "click": "LEAVE_LIBRARY",
-          "focusedElementOnCloseSelector": ".adf-context-menu-source"
+          "click": "LEAVE_LIBRARY"
+        },
+        "data": {
+          "autoFocusedTriggerAfterModalClose": true
         },
         "rules": {
           "visible": "canLeaveLibrary"
