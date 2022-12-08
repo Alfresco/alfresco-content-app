@@ -30,7 +30,7 @@ import { UploadEffects } from './upload.effects';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { NgZone } from '@angular/core';
 import { UploadService, FileUploadCompleteEvent, FileModel } from '@alfresco/adf-core';
-import { UnlockWriteAction, UploadFileVersionAction } from '@alfresco/aca-shared/store';
+import { UnlockWriteAction, UploadFilesAction, UploadFileVersionAction, UploadFolderAction } from '@alfresco/aca-shared/store';
 import { ContentManagementService } from '../../services/content-management.service';
 
 describe('UploadEffects', () => {
@@ -57,6 +57,80 @@ describe('UploadEffects', () => {
   beforeEach(() => {
     spyOn(effects['fileVersionInput'], 'click');
     spyOn(effects, 'uploadVersion').and.callThrough();
+  });
+
+  describe('uploadFiles$', () => {
+    let createMenuButton: HTMLButtonElement;
+    const focusedClass = 'cdk-program-focused';
+
+    beforeEach(() => {
+      createMenuButton = document.createElement('button');
+      document.body.appendChild(createMenuButton);
+      store.dispatch(new UploadFilesAction({}));
+      spyOn(document, 'querySelector').withArgs('app-create-menu button').and.returnValue(createMenuButton);
+    });
+
+    it('should call focus function on create menu button', () => {
+      spyOn(createMenuButton, 'focus');
+      window.dispatchEvent(new FocusEvent('focus'));
+      expect(createMenuButton.focus).toHaveBeenCalledWith();
+    });
+
+    it('should not call focus function on create menu button if handler for focus of window is not fired', () => {
+      spyOn(createMenuButton, 'focus');
+      expect(createMenuButton.focus).not.toHaveBeenCalled();
+    });
+
+    it('should add cdk-program-focused class to create menu button', () => {
+      window.dispatchEvent(new FocusEvent('focus'));
+      createMenuButton.dispatchEvent(new FocusEvent('focus'));
+      expect(createMenuButton).toHaveClass(focusedClass);
+    });
+
+    it('should not add cdk-program-focused class to create menu button if handler for focus of window is not fired', () => {
+      expect(createMenuButton).not.toHaveClass(focusedClass);
+    });
+
+    afterEach(() => {
+      createMenuButton.remove();
+    });
+  });
+
+  describe('uploadFolder$', () => {
+    let createMenuButton: HTMLButtonElement;
+    const focusedClass = 'cdk-program-focused';
+
+    beforeEach(() => {
+      createMenuButton = document.createElement('button');
+      document.body.appendChild(createMenuButton);
+      store.dispatch(new UploadFolderAction({}));
+      spyOn(document, 'querySelector').withArgs('app-create-menu button').and.returnValue(createMenuButton);
+    });
+
+    it('should call focus function on create menu button', () => {
+      spyOn(createMenuButton, 'focus');
+      window.dispatchEvent(new FocusEvent('focus'));
+      expect(createMenuButton.focus).toHaveBeenCalledWith();
+    });
+
+    it('should not call focus function on create menu button if handler for focus of window is not fired', () => {
+      spyOn(createMenuButton, 'focus');
+      expect(createMenuButton.focus).not.toHaveBeenCalled();
+    });
+
+    it('should add cdk-program-focused class to create menu button', () => {
+      window.dispatchEvent(new FocusEvent('focus'));
+      createMenuButton.dispatchEvent(new FocusEvent('focus'));
+      expect(createMenuButton).toHaveClass(focusedClass);
+    });
+
+    it('should not add cdk-program-focused class to create menu button if handler for focus of window is not fired', () => {
+      expect(createMenuButton).not.toHaveClass(focusedClass);
+    });
+
+    afterEach(() => {
+      createMenuButton.remove();
+    });
   });
 
   describe('uploadAndUnlock()', () => {
