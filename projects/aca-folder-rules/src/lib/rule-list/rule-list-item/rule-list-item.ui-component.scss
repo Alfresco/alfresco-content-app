@@ -22,12 +22,17 @@
     &__name {
       font-size: 1.2em;
       font-weight: bold;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: calc(100% - 36px);
     }
   }
 
   &__description {
     font-size: 0.8em;
     font-style: italic;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   &.selected {
