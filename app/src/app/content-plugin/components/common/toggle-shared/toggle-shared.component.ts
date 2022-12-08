@@ -37,7 +37,6 @@ export class ToggleSharedComponent implements OnInit {
   @Input()
   data: {
     iconButton?: string;
-    autoFocusedTriggerAfterModalClose?: boolean;
   };
 
   selection$: Observable<SelectionState>;
@@ -61,7 +60,7 @@ export class ToggleSharedComponent implements OnInit {
     this.store.dispatch(
       new ShareNodeAction({
         ...selection.first,
-        focusedElementOnCloseSelector: this.data?.autoFocusedTriggerAfterModalClose ? focusedElementOnCloseSelector : undefined
+        focusedElementOnCloseSelector
       })
     );
   }

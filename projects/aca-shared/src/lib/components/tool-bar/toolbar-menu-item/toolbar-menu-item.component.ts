@@ -56,7 +56,7 @@ export class ToolbarMenuItemComponent {
     if (this.hasClickAction(this.actionRef)) {
       this.extensions.runActionById(
         this.actionRef.actions.click,
-        this.actionRef.data?.autoFocusedTriggerAfterModalClose && this.menuId
+        this.menuId
           ? {
               focusedElementOnCloseSelector: `#${this.menuId.replace(/\./g, '\\.')}`
             }

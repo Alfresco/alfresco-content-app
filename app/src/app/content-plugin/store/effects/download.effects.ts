@@ -49,7 +49,7 @@ export class DownloadEffects {
       this.actions$.pipe(
         ofType<DownloadNodesAction>(NodeActionTypes.Download),
         map((action) => {
-          if (action.payload && action.payload.length > 0) {
+          if (Array.isArray(action.payload) && action.payload?.length > 0) {
             this.downloadNodes(action.payload);
           } else {
             this.store
@@ -64,7 +64,10 @@ export class DownloadEffects {
                       if (version) {
                         this.downloadFileVersion(selection.nodes[0].entry, version.entry);
                       } else {
-                        this.downloadNodes(selection.nodes);
+                        this.downloadNodes(
+                          selection.nodes,
+                          (action.payload as { focusedElementOnCloseSelector: string })?.focusedElementOnCloseSelector
+                        );
                       }
                     });
                 }
@@ -75,7 +78,7 @@ export class DownloadEffects {
     { dispatch: false }
   );
 
-  private downloadNodes(toDownload: Array<MinimalNodeEntity>) {
+  private downloadNodes(toDownload: Array<MinimalNodeEntity>, focusedElementSelector?: string) {
     const nodes = toDownload.map((node) => {
       const { id, nodeId, name, isFile, isFolder } = node.entry as any;
 
@@ -92,16 +95,16 @@ export class DownloadEffects {
     }
 
     if (nodes.length === 1) {
-      this.downloadNode(nodes[0]);
+      this.downloadNode(nodes[0], focusedElementSelector);
     } else {
-      this.downloadZip(nodes);
+      this.downloadZip(nodes, focusedElementSelector);
     }
   }
 
-  private downloadNode(node: NodeInfo) {
+  private downloadNode(node: NodeInfo, focusedElementSelector?: string) {
     if (node) {
       if (node.isFolder) {
-        this.downloadZip([node]);
+        this.downloadZip([node], focusedElementSelector);
       } else {
         this.downloadFile(node);
       }
@@ -128,17 +131,20 @@ export class DownloadEffects {
     }
   }
 
-  private downloadZip(nodes: Array<NodeInfo>) {
+  private downloadZip(nodes: Array<NodeInfo>, focusedElementSelector?: string) {
     if (nodes && nodes.length > 0) {
       const nodeIds = nodes.map((node) => node.id);
 
-      this.dialog.open(DownloadZipDialogComponent, {
-        width: '600px',
-        disableClose: true,
-        data: {
-          nodeIds
-        }
-      });
+      this.dialog
+        .open(DownloadZipDialogComponent, {
+          width: '600px',
+          disableClose: true,
+          data: {
+            nodeIds
+          }
+        })
+        .afterClosed()
+        .subscribe(() => this.focusAfterClose(focusedElementSelector));
     }
   }
 
@@ -158,5 +164,11 @@ export class DownloadEffects {
 
   private get isSharedLinkPreview() {
     return location.href.includes('/preview/s/');
+  }
+
+  private focusAfterClose(focusedElementSelector: string): void {
+    if (focusedElementSelector) {
+      document.querySelector<HTMLElement>(focusedElementSelector).focus();
+    }
   }
 }

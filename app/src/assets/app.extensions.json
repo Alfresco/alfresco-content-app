@@ -330,8 +330,7 @@
         "type": "custom",
         "order": 100,
         "data": {
-          "iconButton": true,
-          "autoFocusedTriggerAfterModalClose": true
+          "iconButton": true
         },
         "component": "app.shared-link.toggleSharedLink",
         "rules": {
@@ -404,9 +403,6 @@
         "actions": {
           "click": "LEAVE_LIBRARY"
         },
-        "data": {
-          "autoFocusedTriggerAfterModalClose": true
-        },
         "rules": {
           "visible": "canLeaveLibrary"
         }
@@ -458,9 +454,6 @@
             "actions": {
               "click": "UPLOAD_FILE_VERSION"
             },
-            "data": {
-              "autoFocusedTriggerAfterModalClose": true
-            },
             "rules": {
               "visible": "app.selection.file.canUploadVersion"
             }
@@ -472,9 +465,6 @@
             "icon": "create",
             "actions": {
               "click": "EDIT_FOLDER"
-            },
-            "data": {
-              "autoFocusedTriggerAfterModalClose": true
             },
             "rules": {
               "visible": "canEditFolder"
@@ -537,9 +527,6 @@
             "actions": {
               "click": "MOVE_NODES"
             },
-            "data": {
-              "autoFocusedTriggerAfterModalClose": true
-            },
             "rules": {
               "visible": "app.selection.canDelete"
             }
@@ -551,9 +538,6 @@
             "icon": "content_copy",
             "actions": {
               "click": "COPY_NODES"
-            },
-            "data": {
-              "autoFocusedTriggerAfterModalClose": true
             },
             "rules": {
               "visible": "canCopyNode"
@@ -584,9 +568,6 @@
             "actions": {
               "click": "MANAGE_VERSIONS"
             },
-            "data": {
-              "autoFocusedTriggerAfterModalClose": true
-            },
             "rules": {
               "visible": "canManageFileVersions"
             }
@@ -598,9 +579,6 @@
             "icon": "toc",
             "actions": {
               "click": "ASPECT_LIST"
-            },
-            "data": {
-              "autoFocusedTriggerAfterModalClose": true
             },
             "rules": {
               "visible": "canEditAspects"
@@ -651,8 +629,7 @@
         "type": "custom",
         "order": 100,
         "data": {
-          "iconButton": false,
-          "autoFocusedTriggerAfterModalClose": true
+          "iconButton": false
         },
         "component": "app.shared-link.toggleSharedLink",
         "rules": {
@@ -706,9 +683,6 @@
         "actions": {
           "click": "EDIT_FOLDER"
         },
-        "data": {
-          "autoFocusedTriggerAfterModalClose": true
-        },
         "rules": {
           "visible": "canEditFolder"
         }
@@ -720,9 +694,6 @@
         "icon": "playlist_add",
         "actions": {
           "click": "UPLOAD_FILE_VERSION"
-        },
-        "data": {
-          "autoFocusedTriggerAfterModalClose": true
         },
         "rules": {
           "visible": "app.selection.file.canUploadVersion"
@@ -785,9 +756,6 @@
         "actions": {
           "click": "MOVE_NODES"
         },
-        "data": {
-          "autoFocusedTriggerAfterModalClose": true
-        },
         "rules": {
           "visible": "app.selection.canDelete"
         }
@@ -799,9 +767,6 @@
         "icon": "content_copy",
         "actions": {
           "click": "COPY_NODES"
-        },
-        "data": {
-          "autoFocusedTriggerAfterModalClose": true
         },
         "rules": {
           "visible": "canCopyNode"
@@ -832,9 +797,6 @@
         "actions": {
           "click": "MANAGE_VERSIONS"
         },
-        "data": {
-          "autoFocusedTriggerAfterModalClose": true
-        },
         "rules": {
           "visible": "canManageFileVersions"
         }
@@ -846,9 +808,6 @@
         "icon": "toc",
         "actions": {
           "click": "ASPECT_LIST"
-        },
-        "data": {
-          "autoFocusedTriggerAfterModalClose": true
         },
         "rules": {
           "visible": "canEditAspects"
@@ -894,9 +853,6 @@
         "icon": "exit_to_app",
         "actions": {
           "click": "LEAVE_LIBRARY"
-        },
-        "data": {
-          "autoFocusedTriggerAfterModalClose": true
         },
         "rules": {
           "visible": "canLeaveLibrary"

@@ -84,7 +84,7 @@ export class PurgeDeletedNodesAction implements Action {
 export class DownloadNodesAction implements Action {
   readonly type = NodeActionTypes.Download;
 
-  constructor(public payload: MinimalNodeEntity[] = []) {}
+  constructor(public payload: MinimalNodeEntity[] | { focusedElementOnCloseSelector: string } = []) {}
 }
 
 export class CreateFolderAction implements Action {

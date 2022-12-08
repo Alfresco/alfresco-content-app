@@ -287,7 +287,7 @@ export class NodeEffects {
       this.actions$.pipe(
         ofType<ManagePermissionsAction>(NodeActionTypes.ManagePermissions),
         map((action) => {
-          if (action && action.payload) {
+          if (action?.payload?.entry) {
             const route = 'personal-files/details';
             this.store.dispatch(new NavigateRouteAction([route, action.payload.entry.id, 'permissions']));
           } else {
@@ -435,7 +435,7 @@ export class NodeEffects {
       this.actions$.pipe(
         ofType<ManageRulesAction>(NodeActionTypes.ManageRules),
         map((action) => {
-          if (action && action.payload) {
+          if (action?.payload?.entry) {
             this.store.dispatch(new NavigateRouteAction(['nodes', action.payload.entry.id, 'rules']));
           } else {
             this.store

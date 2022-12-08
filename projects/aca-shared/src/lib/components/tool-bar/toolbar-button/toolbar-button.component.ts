@@ -52,16 +52,10 @@ export class ToolbarButtonComponent {
   constructor(private extensions: AppExtensionService) {}
 
   runAction() {
-    console.log(1234);
     if (this.hasClickAction(this.actionRef)) {
-      this.extensions.runActionById(
-        this.actionRef.actions.click,
-        this.actionRef.data?.autoFocusedTriggerAfterModalClose
-          ? {
-              focusedElementOnCloseSelector: `#${this.actionRef.id.replace(/\./g, '\\.')}`
-            }
-          : undefined
-      );
+      this.extensions.runActionById(this.actionRef.actions.click, {
+        focusedElementOnCloseSelector: `#${this.actionRef.id.replace(/\./g, '\\.')}`
+      });
     }
   }
 
