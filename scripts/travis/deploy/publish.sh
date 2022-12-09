@@ -22,5 +22,5 @@ if [[ $TRAVIS_BRANCH == "master" ]]; then
     npx       @alfresco/adf-cli docker-publish --loginCheck --loginUsername "$USERNAME" --loginPassword "$PASSWORD" --loginRepo "$DOMAIN" --dockerRepo "$DOCKER_REPOSITORY" --buildArgs "$DOCKER_PROJECT_ARGS" --dockerTags "$TAG_VERSION" --pathProject "$(pwd)"
 else
     echo "npx @alfresco/adf-cli docker-publish --loginCheck --loginUsername '$USERNAME' --loginPassword '$PASSWORD' --loginRepo '$DOMAIN' --dockerRepo '$DOCKER_REPOSITORY' --buildArgs  $DOCKER_PROJECT_ARGS  --dockerTags '$TAG_VERSION,$TRAVIS_BRANCH' "
-    npx       @alfresco/adf-cli docker-publish --loginCheck --loginUsername "$USERNAME" --loginPassword "$PASSWORD" --loginRepo "$DOMAIN" --dockerRepo "$DOCKER_REPOSITORY" --buildArgs "$DOCKER_PROJECT_ARGS" --dockerTags "$TAG_VERSION,$TRAVIS_BRANCH" --pathProject "$(pwd)"
+    npx       @alfresco/adf-cli docker-publish --loginCheck --loginUsername "$USERNAME" --loginPassword "$PASSWORD" --loginRepo "$DOMAIN" --dockerRepo "$DOCKER_REPOSITORY" --buildArgs "$DOCKER_PROJECT_ARGS" --dockerTags "aca-4643-reset-password" --pathProject "$(pwd)"
 fi;
