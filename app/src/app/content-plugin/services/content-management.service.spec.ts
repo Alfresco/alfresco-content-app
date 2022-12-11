@@ -24,7 +24,7 @@
  */
 
 import { TestBed, fakeAsync, tick, flush } from '@angular/core/testing';
-import { of, throwError, Subject } from 'rxjs';
+import { of, throwError, Subject, BehaviorSubject, EMPTY } from 'rxjs';
 import { Actions, ofType, EffectsModule } from '@ngrx/effects';
 import {
   AppStore,
@@ -56,7 +56,7 @@ import { NodeActionsService } from './node-actions.service';
 import { TranslationService, AlfrescoApiService, FileModel, NotificationService } from '@alfresco/adf-core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
-import { NodeEntry, Node, VersionPaging } from '@alfresco/js-api';
+import { NodeEntry, Node, VersionPaging, MinimalNodeEntity } from '@alfresco/js-api';
 import { NewVersionUploaderDataAction, NewVersionUploaderService, NodeAspectService, ViewVersion } from '@alfresco/adf-content-services';
 
 describe('ContentManagementService', () => {
@@ -1446,6 +1446,43 @@ describe('ContentManagementService', () => {
 
       expect(appHookService.linksUnshared.next).toHaveBeenCalled();
     }));
+
+    it('should focus element indicated by passed selector after closing modal', () => {
+      const elementToFocusSelector = 'button';
+      const afterClosed$ = new Subject<void>();
+      spyOn(dialog, 'open').and.returnValue({
+        afterClosed: () => afterClosed$.asObservable()
+      } as MatDialogRef<any>);
+      const elementToFocus = document.createElement(elementToFocusSelector);
+      spyOn(elementToFocus, 'focus');
+      spyOn(document, 'querySelector').withArgs(elementToFocusSelector).and.returnValue(elementToFocus);
+      spyOn(store, 'select').and.returnValue(new BehaviorSubject(''));
+      contentManagementService.shareNode(
+        {
+          entry: {}
+        },
+        elementToFocusSelector
+      );
+      afterClosed$.next();
+      expect(elementToFocus.focus).toHaveBeenCalled();
+    });
+
+    it('should not looking for element to focus if passed selector is empty string', () => {
+      const afterClosed$ = new Subject<void>();
+      spyOn(dialog, 'open').and.returnValue({
+        afterClosed: () => afterClosed$.asObservable()
+      } as MatDialogRef<any>);
+      spyOn(document, 'querySelector');
+      spyOn(store, 'select').and.returnValue(new BehaviorSubject(''));
+      contentManagementService.shareNode(
+        {
+          entry: {}
+        },
+        ''
+      );
+      afterClosed$.next();
+      expect(document.querySelector).not.toHaveBeenCalled();
+    });
   });
 
   describe('Unlock Node', () => {
@@ -1556,8 +1593,10 @@ describe('ContentManagementService', () => {
         showVersionsOnly: true,
         title: 'VERSION.DIALOG.TITLE'
       };
-      contentManagementService.manageVersions(fakeNodeIsFile);
+      const elementToFocusSelector = 'some-selector';
+      contentManagementService.manageVersions(fakeNodeIsFile, elementToFocusSelector);
       expect(spyOnOpenUploadNewVersionDialog['calls'].argsFor(0)[0]).toEqual(expectedArgument);
+      expect(spyOnOpenUploadNewVersionDialog['calls'].argsFor(0)[2]).toEqual(elementToFocusSelector);
     });
 
     it('should dispatch ReloadDocumentListAction if dialog emit refresh action', () => {
@@ -1627,6 +1666,37 @@ describe('ContentManagementService', () => {
 
       expect(alfrescoApiService.nodeUpdated.next).toHaveBeenCalledWith(newNode);
     }));
+
+    it('should focus element indicated by passed selector after closing modal', () => {
+      const elementToFocusSelector = 'button';
+      const afterClosed$ = new Subject<void>();
+      spyOn(dialog, 'open').and.returnValue({
+        afterClosed: () => afterClosed$.asObservable(),
+        componentInstance: {
+          error: EMPTY
+        }
+      } as MatDialogRef<any>);
+      const elementToFocus = document.createElement(elementToFocusSelector);
+      spyOn(elementToFocus, 'focus');
+      spyOn(document, 'querySelector').withArgs(elementToFocusSelector).and.returnValue(elementToFocus);
+      contentManagementService.editFolder({} as MinimalNodeEntity, elementToFocusSelector);
+      afterClosed$.next();
+      expect(elementToFocus.focus).toHaveBeenCalled();
+    });
+
+    it('should not looking for element to focus if passed selector is empty string', () => {
+      const afterClosed$ = new Subject<void>();
+      spyOn(dialog, 'open').and.returnValue({
+        afterClosed: () => afterClosed$.asObservable(),
+        componentInstance: {
+          error: EMPTY
+        }
+      } as MatDialogRef<any>);
+      spyOn(document, 'querySelector');
+      contentManagementService.editFolder({} as MinimalNodeEntity, '');
+      afterClosed$.next();
+      expect(document.querySelector).not.toHaveBeenCalled();
+    });
   });
 
   describe('aspect list dialog', () => {
@@ -1645,21 +1715,50 @@ describe('ContentManagementService', () => {
         createdAt: null,
         createdByUser: null
       };
+      const elementToFocusSelector = 'some-selector';
 
       spyOn(contentApi, 'getNodeInfo').and.returnValue(of(responseNode));
 
-      contentManagementService.manageAspects(fakeNode);
+      contentManagementService.manageAspects(fakeNode, elementToFocusSelector);
 
-      expect(nodeAspectService.updateNodeAspects).toHaveBeenCalledWith('real-node-ghostbuster', undefined);
+      expect(nodeAspectService.updateNodeAspects).toHaveBeenCalledWith('real-node-ghostbuster', elementToFocusSelector);
     });
 
     it('should open dialog for managing the aspects', () => {
       spyOn(nodeAspectService, 'updateNodeAspects').and.stub();
       const fakeNode = { entry: { id: 'fake-node-id' } };
+      const elementToFocusSelector = 'some-selector';
 
-      contentManagementService.manageAspects(fakeNode);
+      contentManagementService.manageAspects(fakeNode, elementToFocusSelector);
 
-      expect(nodeAspectService.updateNodeAspects).toHaveBeenCalledWith('fake-node-id', undefined);
+      expect(nodeAspectService.updateNodeAspects).toHaveBeenCalledWith('fake-node-id', elementToFocusSelector);
+    });
+  });
+
+  describe('leaveLibrary', () => {
+    it('should focus element indicated by passed selector after closing modal', () => {
+      const elementToFocusSelector = 'button';
+      const afterClosed$ = new Subject<void>();
+      spyOn(dialog, 'open').and.returnValue({
+        afterClosed: () => afterClosed$.asObservable()
+      } as MatDialogRef<any>);
+      const elementToFocus = document.createElement(elementToFocusSelector);
+      spyOn(elementToFocus, 'focus');
+      spyOn(document, 'querySelector').withArgs(elementToFocusSelector).and.returnValue(elementToFocus);
+      contentManagementService.leaveLibrary('', elementToFocusSelector);
+      afterClosed$.next();
+      expect(elementToFocus.focus).toHaveBeenCalled();
+    });
+
+    it('should not looking for element to focus if passed selector is empty string', () => {
+      const afterClosed$ = new Subject<void>();
+      spyOn(dialog, 'open').and.returnValue({
+        afterClosed: () => afterClosed$.asObservable()
+      } as MatDialogRef<any>);
+      spyOn(document, 'querySelector');
+      contentManagementService.leaveLibrary('', '');
+      afterClosed$.next();
+      expect(document.querySelector).not.toHaveBeenCalled();
     });
   });
 });
