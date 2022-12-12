@@ -2,7 +2,7 @@
 @import './overrides/adf-style-fixes.theme';
 @import './overrides/adf-pagination.theme';
 @import './overrides/ay11';
-@import '../../ui/overrides/adf-about.theme.scss';
+@import './overrides/adf-about.theme.scss';
 @import './colors';
 
 $mat-primary-palette: mat.define-palette($aca-primary-blue, A100);

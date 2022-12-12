@@ -1,7 +1,7 @@
 @import '@angular/material/theming';
 @import './overrides/adf-style-fixes.theme';
 @import './overrides/adf-pagination.theme';
-@import '../../../ui/overrides/adf-about.theme.scss';
+@import './overrides/adf-about.theme.scss';
 @import "./dynamic-theme/theme-configuration";
 @import "./dynamic-theme/typography";
 @import "./dynamic-theme/custom-theme-palettes";
