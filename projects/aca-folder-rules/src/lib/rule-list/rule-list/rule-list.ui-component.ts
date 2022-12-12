@@ -69,6 +69,9 @@ export class RuleListUiComponent {
   get isMainRuleSetOwned(): boolean {
     return FolderRuleSetsService.isOwnedRuleSet(this.mainRuleSet, this.folderId);
   }
+  get isMainRuleSetLinked(): boolean {
+    return FolderRuleSetsService.isLinkedRuleSet(this.mainRuleSet, this.folderId);
+  }
 
   get mainRuleSetGroupingItems(): RuleGroupingItem[] {
     return this.mainRuleSet ? this.getRuleSetGroupingItems(this.mainRuleSet, !this.isMainRuleSetOwned) : [];

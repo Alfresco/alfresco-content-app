@@ -35,7 +35,7 @@
 </div>
 
 <div
-  *ngIf="mainRuleSetGroupingItems.length > 0"
+  *ngIf="mainRuleSetGroupingItems.length > 0 || isMainRuleSetLinked"
   class="aca-rule-list__item"
   data-automation-id="rule-list-item"
   [ngClass]="{ expanded: mainRuleSetExpanded }">
@@ -66,14 +66,25 @@
     </mat-icon>
   </div>
 
-  <aca-rule-list-grouping
-    *ngIf="mainRuleSetExpanded"
-    [items]="mainRuleSetGroupingItems"
-    [selectedRule]="selectedRule"
-    [showEnabledToggles]="isMainRuleSetOwned"
-    (selectRule)="onSelectRule($event)"
-    (ruleEnabledChanged)="onRuleEnabledChanged($event)"
-    (loadMoreRules)="onLoadMoreRules($event)">
-  </aca-rule-list-grouping>
+  <ng-container *ngIf="mainRuleSetExpanded">
+    <aca-rule-list-grouping
+      *ngIf="mainRuleSetGroupingItems.length > 0; else emptyLinkedRuleSet"
+      [items]="mainRuleSetGroupingItems"
+      [selectedRule]="selectedRule"
+      [showEnabledToggles]="isMainRuleSetOwned"
+      (selectRule)="onSelectRule($event)"
+      (ruleEnabledChanged)="onRuleEnabledChanged($event)"
+      (loadMoreRules)="onLoadMoreRules($event)">
+    </aca-rule-list-grouping>
+
+    <ng-template #emptyLinkedRuleSet>
+      <div class="aca-rule-list__item__all-linked-rules-are-disabled">
+        {{ 'ACA_FOLDER_RULES.RULE_LIST.ALL_LINKED_RULES_ARE_DISABLED' | translate }}
+        <button mat-stroked-button [routerLink]="['/nodes', mainRuleSet.owningFolder.id, 'rules']">
+          {{ 'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.ACTIONS.SEE_IN_FOLDER' | translate }}
+        </button>
+      </div>
+    </ng-template>
+  </ng-container>
 
 </div>

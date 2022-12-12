@@ -46,5 +46,18 @@
         border-bottom: 1px solid var(--theme-border-color);
       }
     }
+
+    &__all-linked-rules-are-disabled {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 4px;
+      color: var(--theme-disabled-text-color);
+      font-style: italic;
+      text-align: center;
+      padding: 0.5em 0;
+      font-size: 0.9em;
+    }
   }
 }

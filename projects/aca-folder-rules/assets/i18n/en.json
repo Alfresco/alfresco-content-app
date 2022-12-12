@@ -121,7 +121,8 @@
       "LOAD_MORE_RULE_SETS": "Load rules from other folders",
       "LOAD_MORE_RULES": "Load more rules",
       "LOADING_RULES": "Loading rules",
-      "INHERITED_RULES_WILL_BE_RUN_FIRST": "Inherited rules will be run first"
+      "INHERITED_RULES_WILL_BE_RUN_FIRST": "Inherited rules will be run first",
+      "ALL_LINKED_RULES_ARE_DISABLED": "All rules linked from this rule set are disabled"
     },
     "LINK_RULES_DIALOG": {
       "TITLE": "Select a folder to link rules from",
