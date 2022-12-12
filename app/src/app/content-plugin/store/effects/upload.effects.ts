@@ -47,6 +47,7 @@ export class UploadEffects {
   private fileInput: HTMLInputElement;
   private folderInput: HTMLInputElement;
   private fileVersionInput: HTMLInputElement;
+  private readonly createMenuButtonSelector = 'app-create-menu button';
 
   constructor(
     private store: Store<AppStore>,
@@ -90,7 +91,7 @@ export class UploadEffects {
       this.actions$.pipe(
         ofType<UploadFilesAction>(UploadActionTypes.UploadFiles),
         map(() => {
-          this.registerFocusingCreateMenuButton(this.fileInput);
+          this.registerFocusingElementAfterModalClose(this.fileInput, this.createMenuButtonSelector);
           this.fileInput.click();
         })
       ),
@@ -102,7 +103,7 @@ export class UploadEffects {
       this.actions$.pipe(
         ofType<UploadFolderAction>(UploadActionTypes.UploadFolder),
         map(() => {
-          this.registerFocusingCreateMenuButton(this.folderInput);
+          this.registerFocusingElementAfterModalClose(this.folderInput, this.createMenuButtonSelector);
           this.folderInput.click();
         })
       ),
@@ -119,7 +120,7 @@ export class UploadEffects {
             const file: any = action?.payload?.detail?.files[0]?.file;
             this.contentService.versionUpdateDialog(node, file);
           } else if (!action?.payload || !(action.payload instanceof CustomEvent)) {
-            this.registerFocusingCreateMenuButton(
+            this.registerFocusingElementAfterModalClose(
               this.fileVersionInput,
               (action?.payload as { focusedElementOnCloseSelector: string })?.focusedElementOnCloseSelector
             );
@@ -203,7 +204,7 @@ export class UploadEffects {
     });
   }
 
-  private registerFocusingCreateMenuButton(input: HTMLInputElement, focusedElementSelector: string): void {
+  private registerFocusingElementAfterModalClose(input: HTMLInputElement, focusedElementSelector: string): void {
     input.addEventListener(
       'click',
       () => {
