@@ -306,7 +306,7 @@ export class NodeEffects {
       this.actions$.pipe(
         ofType<ExpandInfoDrawerAction>(NodeActionTypes.ExpandInfoDrawer),
         map((action) => {
-          if (action && action.payload) {
+          if (action?.payload?.entry) {
             const route = 'personal-files/details';
             this.store.dispatch(new NavigateRouteAction([route, action.payload.entry.id]));
           } else {
