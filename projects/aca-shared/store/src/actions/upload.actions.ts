@@ -24,6 +24,7 @@
  */
 
 import { Action } from '@ngrx/store';
+import { ModalConfiguration } from '@alfresco/aca-shared';
 
 export enum UploadActionTypes {
   UploadFiles = 'UPLOAD_FILES',
@@ -46,5 +47,5 @@ export class UploadFolderAction implements Action {
 export class UploadFileVersionAction implements Action {
   readonly type = UploadActionTypes.UploadFileVersion;
 
-  constructor(public payload: CustomEvent) {}
+  constructor(public payload: CustomEvent | ModalConfiguration) {}
 }

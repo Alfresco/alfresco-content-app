@@ -498,7 +498,7 @@ export class AppExtensionService implements RuleContext {
     return false;
   }
 
-  runActionById(id: string) {
+  runActionById(id: string, additionalPayload?: { [key: string]: any }) {
     const action = this.extensions.getActionById(id);
     if (action) {
       const { type, payload } = action;
@@ -507,9 +507,21 @@ export class AppExtensionService implements RuleContext {
       };
       const expression = this.extensions.runExpression(payload, context);
 
-      this.store.dispatch({ type, payload: expression });
+      this.store.dispatch({
+        type,
+        payload:
+          typeof expression === 'object'
+            ? {
+                ...expression,
+                ...additionalPayload
+              }
+            : expression
+      });
     } else {
-      this.store.dispatch({ type: id });
+      this.store.dispatch({
+        type: id,
+        payload: additionalPayload
+      });
     }
   }
 

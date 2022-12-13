@@ -25,6 +25,7 @@
 
 import { Action } from '@ngrx/store';
 import { SiteBody } from '@alfresco/js-api';
+import { ModalConfiguration } from '@alfresco/aca-shared';
 
 export enum LibraryActionTypes {
   Delete = 'DELETE_LIBRARY',
@@ -59,5 +60,5 @@ export class UpdateLibraryAction implements Action {
 export class LeaveLibraryAction implements Action {
   readonly type = LibraryActionTypes.Leave;
 
-  constructor(public payload?: string) {}
+  constructor(public payload?: string | ModalConfiguration) {}
 }

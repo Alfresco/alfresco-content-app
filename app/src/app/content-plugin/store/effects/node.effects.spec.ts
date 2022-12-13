@@ -79,10 +79,12 @@ describe('NodeEffects', () => {
     it('should share node from payload', () => {
       spyOn(contentService, 'shareNode').and.stub();
 
-      const node: any = {};
+      const node: any = {
+        entry: {}
+      };
       store.dispatch(new ShareNodeAction(node));
 
-      expect(contentService.shareNode).toHaveBeenCalledWith(node);
+      expect(contentService.shareNode).toHaveBeenCalledWith(node, undefined);
     });
 
     it('should share node from active selection', fakeAsync(() => {
@@ -94,7 +96,7 @@ describe('NodeEffects', () => {
       tick(100);
 
       store.dispatch(new ShareNodeAction(null));
-      expect(contentService.shareNode).toHaveBeenCalledWith(node);
+      expect(contentService.shareNode).toHaveBeenCalledWith(node, undefined);
     }));
 
     it('should do nothing if invoking share with no data', () => {
@@ -300,7 +302,7 @@ describe('NodeEffects', () => {
       tick(100);
 
       store.dispatch(new EditFolderAction(null));
-      expect(contentService.editFolder).toHaveBeenCalledWith(currentFolder);
+      expect(contentService.editFolder).toHaveBeenCalledWith(currentFolder, undefined);
     }));
 
     it('should do nothing if editing folder with no selection and payload', () => {
@@ -332,7 +334,7 @@ describe('NodeEffects', () => {
 
       store.dispatch(new CopyNodesAction(null));
 
-      expect(contentService.copyNodes).toHaveBeenCalledWith([node]);
+      expect(contentService.copyNodes).toHaveBeenCalledWith([node], undefined);
     }));
 
     it('should do nothing if invoking copy with no data', () => {
@@ -364,7 +366,7 @@ describe('NodeEffects', () => {
 
       store.dispatch(new MoveNodesAction(null));
 
-      expect(contentService.moveNodes).toHaveBeenCalledWith([node]);
+      expect(contentService.moveNodes).toHaveBeenCalledWith([node], undefined);
     }));
 
     it('should do nothing if invoking move with no data', () => {
@@ -488,7 +490,7 @@ describe('NodeEffects', () => {
 
       store.dispatch(new ManageAspectsAction(null));
 
-      expect(contentService.manageAspects).toHaveBeenCalledWith({ entry: { isFile: true, id: 'file-node-id' } });
+      expect(contentService.manageAspects).toHaveBeenCalledWith({ entry: { isFile: true, id: 'file-node-id' } }, undefined);
     }));
 
     it('should call aspect dialog from the active folder selection', fakeAsync(() => {
@@ -501,7 +503,7 @@ describe('NodeEffects', () => {
 
       store.dispatch(new ManageAspectsAction(null));
 
-      expect(contentService.manageAspects).toHaveBeenCalledWith({ entry: { isFile: false, id: 'folder-node-id' } });
+      expect(contentService.manageAspects).toHaveBeenCalledWith({ entry: { isFile: false, id: 'folder-node-id' } }, undefined);
     }));
   });
 });

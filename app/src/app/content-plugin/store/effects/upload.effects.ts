@@ -41,12 +41,14 @@ import { of } from 'rxjs';
 import { catchError, map, take } from 'rxjs/operators';
 import { ContentManagementService } from '../../services/content-management.service';
 import { MinimalNodeEntryEntity } from '@alfresco/js-api';
+import { ModalConfiguration } from '@alfresco/aca-shared';
 
 @Injectable()
 export class UploadEffects {
   private fileInput: HTMLInputElement;
   private folderInput: HTMLInputElement;
   private fileVersionInput: HTMLInputElement;
+  private readonly createMenuButtonSelector = 'app-create-menu button';
 
   constructor(
     private store: Store<AppStore>,
@@ -90,7 +92,7 @@ export class UploadEffects {
       this.actions$.pipe(
         ofType<UploadFilesAction>(UploadActionTypes.UploadFiles),
         map(() => {
-          this.registerFocusingCreateMenuButton(this.fileInput);
+          this.registerFocusingElementAfterModalClose(this.fileInput, this.createMenuButtonSelector);
           this.fileInput.click();
         })
       ),
@@ -102,7 +104,7 @@ export class UploadEffects {
       this.actions$.pipe(
         ofType<UploadFolderAction>(UploadActionTypes.UploadFolder),
         map(() => {
-          this.registerFocusingCreateMenuButton(this.folderInput);
+          this.registerFocusingElementAfterModalClose(this.folderInput, this.createMenuButtonSelector);
           this.folderInput.click();
         })
       ),
@@ -114,11 +116,15 @@ export class UploadEffects {
       this.actions$.pipe(
         ofType<UploadFileVersionAction>(UploadActionTypes.UploadFileVersion),
         map((action) => {
-          if (action?.payload) {
+          if (action?.payload instanceof CustomEvent) {
             const node = action?.payload?.detail?.data?.node?.entry;
             const file: any = action?.payload?.detail?.files[0]?.file;
             this.contentService.versionUpdateDialog(node, file);
-          } else if (!action?.payload) {
+          } else if (!action?.payload || !(action.payload instanceof CustomEvent)) {
+            this.registerFocusingElementAfterModalClose(
+              this.fileVersionInput,
+              (action?.payload as ModalConfiguration)?.focusedElementOnCloseSelector
+            );
             this.fileVersionInput.click();
           }
         })
@@ -199,18 +205,18 @@ export class UploadEffects {
     });
   }
 
-  private registerFocusingCreateMenuButton(input: HTMLInputElement): void {
+  private registerFocusingElementAfterModalClose(input: HTMLInputElement, focusedElementSelector: string): void {
     input.addEventListener(
       'click',
       () => {
         window.addEventListener(
           'focus',
           () => {
-            const createMenuButton = document.querySelector<HTMLElement>('app-create-menu button');
-            createMenuButton.addEventListener('focus', () => createMenuButton.classList.add('cdk-program-focused'), {
+            const elementToFocus = document.querySelector<HTMLElement>(focusedElementSelector);
+            elementToFocus.addEventListener('focus', () => elementToFocus.classList.add('cdk-program-focused'), {
               once: true
             });
-            createMenuButton.focus();
+            elementToFocus.focus();
           },
           {
             once: true

@@ -96,11 +96,13 @@ describe('ContextMenuComponent', () => {
     expect(contextMenuElements[0].querySelector('span').innerText).toBe(contextItem.title);
   });
 
-  it('should run action with provided action id', () => {
+  it('should run action with provided action id and correct payload', () => {
     spyOn(extensionsService, 'runActionById');
 
-    component.runAction(contextItem.actions.click);
+    component.runAction(contextItem);
 
-    expect(extensionsService.runActionById).toHaveBeenCalledWith(contextItem.actions.click);
+    expect(extensionsService.runActionById).toHaveBeenCalledWith(contextItem.actions.click, {
+      focusedElementOnCloseSelector: '.adf-context-menu-source'
+    });
   });
 });

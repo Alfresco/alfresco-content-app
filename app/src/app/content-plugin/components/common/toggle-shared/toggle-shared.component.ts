@@ -34,7 +34,10 @@ import { AppStore, ShareNodeAction, getAppSelection } from '@alfresco/aca-shared
   templateUrl: './toggle-shared.component.html'
 })
 export class ToggleSharedComponent implements OnInit {
-  @Input() data: { iconButton?: string };
+  @Input()
+  data: {
+    iconButton?: string;
+  };
 
   selection$: Observable<SelectionState>;
 
@@ -53,8 +56,13 @@ export class ToggleSharedComponent implements OnInit {
     return selection.first && selection.first.entry && selection.first.entry.properties && !!selection.first.entry.properties['qshare:sharedId'];
   }
 
-  editSharedNode(selection: SelectionState) {
-    this.store.dispatch(new ShareNodeAction(selection.first));
+  editSharedNode(selection: SelectionState, focusedElementOnCloseSelector: string) {
+    this.store.dispatch(
+      new ShareNodeAction({
+        ...selection.first,
+        focusedElementOnCloseSelector
+      })
+    );
   }
 
   getLabel(selection: SelectionState): string {

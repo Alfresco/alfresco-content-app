@@ -78,9 +78,10 @@ export class NodeActionsService {
    *
    * @param contentEntities nodes to copy
    * @param permission permission which is needed to apply the action
+   * @param focusedElementOnCloseSelector element's selector which should be autofocused after closing modal
    */
-  copyNodes(contentEntities: any[], permission?: string): Subject<string> {
-    return this.doBatchOperation(NodeAction.COPY, contentEntities, permission);
+  copyNodes(contentEntities: any[], permission?: string, focusedElementOnCloseSelector?: string): Subject<string> {
+    return this.doBatchOperation(NodeAction.COPY, contentEntities, permission, focusedElementOnCloseSelector);
   }
 
   /**
@@ -88,9 +89,10 @@ export class NodeActionsService {
    *
    * @param contentEntities nodes to move
    * @param permission permission which is needed to apply the action
+   * @param focusedElementOnCloseSelector element's selector which should be autofocused after closing modal
    */
-  moveNodes(contentEntities: any[], permission?: string): Subject<string> {
-    return this.doBatchOperation(NodeAction.MOVE, contentEntities, permission);
+  moveNodes(contentEntities: any[], permission?: string, focusedElementOnCloseSelector?: string): Subject<string> {
+    return this.doBatchOperation(NodeAction.MOVE, contentEntities, permission, focusedElementOnCloseSelector);
   }
 
   /**
@@ -99,14 +101,15 @@ export class NodeActionsService {
    * @param action the action to perform (copy|move)
    * @param contentEntities the contentEntities which have to have the action performed on
    * @param permission permission which is needed to apply the action
+   * @param focusedElementOnCloseSelector element's selector which should be autofocused after closing modal
    */
-  doBatchOperation(action: BatchOperationType, contentEntities: any[], permission?: string): Subject<string> {
+  doBatchOperation(action: BatchOperationType, contentEntities: any[], permission?: string, focusedElementOnCloseSelector?: string): Subject<string> {
     const observable: Subject<string> = new Subject<string>();
 
     if (!this.isEntryEntitiesArray(contentEntities)) {
       observable.error(new Error(JSON.stringify({ error: { statusCode: 400 } })));
     } else if (this.checkPermission(action, contentEntities, permission)) {
-      const destinationSelection = this.getContentNodeSelection(action, contentEntities);
+      const destinationSelection = this.getContentNodeSelection(action, contentEntities, focusedElementOnCloseSelector);
       destinationSelection.subscribe((selections: MinimalNodeEntryEntity[]) => {
         const contentEntry = contentEntities[0].entry;
         // Check if there's nodeId for Shared Files
@@ -171,7 +174,11 @@ export class NodeActionsService {
     return entryParentId;
   }
 
-  getContentNodeSelection(action: NodeAction, contentEntities: MinimalNodeEntity[]): Subject<MinimalNodeEntryEntity[]> {
+  getContentNodeSelection(
+    action: NodeAction,
+    contentEntities: MinimalNodeEntity[],
+    focusedElementOnCloseSelector?: string
+  ): Subject<MinimalNodeEntryEntity[]> {
     const currentParentFolderId = this.getEntryParentId(contentEntities[0].entry);
 
     const customDropdown = new SitePaging({
@@ -211,12 +218,15 @@ export class NodeActionsService {
       excludeSiteContent: ContentNodeDialogService.nonDocumentSiteContent
     };
 
-    this.dialog.open(ContentNodeSelectorComponent, {
-      data,
-      panelClass: 'adf-content-node-selector-dialog',
-      width: '630px',
-      role: 'dialog'
-    });
+    this.dialog
+      .open(ContentNodeSelectorComponent, {
+        data,
+        panelClass: 'adf-content-node-selector-dialog',
+        width: '630px',
+        role: 'dialog'
+      })
+      .afterClosed()
+      .subscribe(() => this.focusAfterClose(focusedElementOnCloseSelector));
 
     data.select.subscribe({
       complete: this.close.bind(this)
@@ -685,6 +695,12 @@ export class NodeActionsService {
       }
 
       return moveStatus;
+    }
+  }
+
+  private focusAfterClose(focusedElementSelector: string): void {
+    if (focusedElementSelector) {
+      document.querySelector<HTMLElement>(focusedElementSelector).focus();
     }
   }
 }

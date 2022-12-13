@@ -69,8 +69,10 @@ export class ContextMenuComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  runAction(actionId: string) {
-    this.extensions.runActionById(actionId);
+  runAction(contentActionRef: ContentActionRef) {
+    this.extensions.runActionById(contentActionRef.actions.click, {
+      focusedElementOnCloseSelector: '.adf-context-menu-source'
+    });
   }
 
   ngOnDestroy() {
