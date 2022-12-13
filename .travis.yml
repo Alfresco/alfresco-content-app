@@ -29,7 +29,7 @@ install: echo "no install"
 
 stages:
   - name: ADF linking
-    if: type = pull_request AND commit_message =~ \[link-adf:*
+    if: type = pull_request
   - name: Quality and Unit tests
     if: type = cron || type = pull_request
   - name: Publish Docker Registry
@@ -221,18 +221,6 @@ jobs:
       if: type = pull_request AND commit_message =~ \[link-adf:*
       script:
         - ./scripts/ci/jobs/check-link-adf.sh
-      workspaces:
-        use: node_modules_cache
-      env:
-        - CAN_JOB_BE_CANCELLED=false
-
-    - stage: Finalize
-      name: 'Travis'
-      if: type = push
-      install: echo "no install"
-      script: echo Finalize Done
-      env:
-        - CAN_JOB_BE_CANCELLED=false
 
     - stage: Publish Docker Registry
       name: Publish Docker Registry

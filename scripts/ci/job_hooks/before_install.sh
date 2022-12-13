@@ -25,9 +25,7 @@ if [ "${TRAVIS_EVENT_TYPE}" == "push" ]; then
 elif [ "${TRAVIS_EVENT_TYPE}" == "pull_request" ]; then
     export S3_DBP_ROOT_FOLDER="$S3_DBP_PATH/$TRAVIS_PULL_REQUEST"
     export BASE_HASH="origin/$TRAVIS_BRANCH"
-    if [[ $COMMIT_MESSAGE == *"[link-adf:"* ]]; then
-      export BUILD_OPTS="--configuration=adfprod,e2e"
-    fi
+    source ../partials/_adf-linking.sh
 elif [ "${TRAVIS_EVENT_TYPE}" == "cron" ]; then
     export S3_DBP_ROOT_FOLDER="$S3_DBP_PATH/cron"
 else

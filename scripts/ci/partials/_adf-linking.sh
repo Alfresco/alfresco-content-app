@@ -1,8 +1,11 @@
-#!/usr/bin/env bash
+# Note no #!/bin/sh as this should not spawn
+# an extra shell, since this partial shell script
+# is supposed to be invoked as part of another.
 # ---------------------------------------------------------------
 # ADF linking
 # ---------------------------------------------------------------
 if [[ $COMMIT_MESSAGE == *"[link-adf:"* ]]; then
+    export BUILD_OPTS="--configuration=adfprod,e2e"
     BRANCH=`echo $COMMIT_MESSAGE | grep -o "\[link-adf\:[^]]*\]" | sed -e 's#\[link-adf:##g' | sed -e 's#\]##g'`
     echo "Checking out ADF's branch: ${BRANCH}" && \
     git clone https://github.com/Alfresco/alfresco-ng2-components.git --depth=1 --branch ${BRANCH} ../alfresco-ng2-components
