@@ -56,7 +56,6 @@ export class LibraryEffects {
       this.actions$.pipe(
         ofType<DeleteLibraryAction>(LibraryActionTypes.Delete),
         map((action) => {
-          console.log(action);
           if (typeof action?.payload === 'string') {
             this.content.deleteLibrary(action.payload);
           } else {
