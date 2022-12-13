@@ -143,7 +143,10 @@ export class FolderRuleSetsService {
         this.mainRuleSetSource.next(mainRuleSet);
         this.inheritedRuleSetsSource.next(inheritedRuleSets);
         this.hasMoreRuleSetsSource.next(this.hasMoreRuleSets);
-        this.folderRulesService.selectRule(mainRuleSet?.rules[0] ?? inheritedRuleSets[0]?.rules[0] ?? null);
+        const ruleToSelect =
+          mainRuleSet?.rules.find((r: Rule) => FolderRuleSetsService.isOwnedRuleSet(mainRuleSet, nodeId) || r.isEnabled) ??
+          inheritedRuleSets.reduce((foundRule: Rule, ruleSet: RuleSet) => foundRule ?? ruleSet.rules.find((r: Rule) => r.isEnabled), null);
+        this.folderRulesService.selectRule(ruleToSelect);
       });
   }
 
