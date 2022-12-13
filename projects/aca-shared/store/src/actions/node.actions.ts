@@ -25,6 +25,7 @@
 
 import { Action } from '@ngrx/store';
 import { MinimalNodeEntity } from '@alfresco/js-api';
+import { ModalConfiguration } from '@alfresco/aca-shared';
 
 export enum NodeActionTypes {
   SetSelection = 'SET_SELECTED_NODES',
@@ -84,7 +85,7 @@ export class PurgeDeletedNodesAction implements Action {
 export class DownloadNodesAction implements Action {
   readonly type = NodeActionTypes.Download;
 
-  constructor(public payload: MinimalNodeEntity[] | { focusedElementOnCloseSelector: string } = []) {}
+  constructor(public payload: MinimalNodeEntity[] | ModalConfiguration = []) {}
 }
 
 export class CreateFolderAction implements Action {
@@ -96,13 +97,13 @@ export class CreateFolderAction implements Action {
 export class EditFolderAction implements Action {
   readonly type = NodeActionTypes.EditFolder;
 
-  constructor(public payload: MinimalNodeEntity & { focusedElementOnCloseSelector: string }) {}
+  constructor(public payload: MinimalNodeEntity & ModalConfiguration) {}
 }
 
 export class ShareNodeAction implements Action {
   readonly type = NodeActionTypes.Share;
 
-  constructor(public payload: MinimalNodeEntity & { focusedElementOnCloseSelector: string }) {}
+  constructor(public payload: MinimalNodeEntity & ModalConfiguration) {}
 }
 
 export class UnshareNodesAction implements Action {
@@ -114,13 +115,13 @@ export class UnshareNodesAction implements Action {
 export class CopyNodesAction implements Action {
   readonly type = NodeActionTypes.Copy;
 
-  constructor(public payload: Array<MinimalNodeEntity> | { focusedElementOnCloseSelector: string }) {}
+  constructor(public payload: Array<MinimalNodeEntity> | ModalConfiguration) {}
 }
 
 export class MoveNodesAction implements Action {
   readonly type = NodeActionTypes.Move;
 
-  constructor(public payload: Array<MinimalNodeEntity> | { focusedElementOnCloseSelector: string }) {}
+  constructor(public payload: Array<MinimalNodeEntity> | ModalConfiguration) {}
 }
 
 export class ManagePermissionsAction implements Action {
@@ -143,7 +144,7 @@ export class PrintFileAction implements Action {
 export class ManageVersionsAction implements Action {
   readonly type = NodeActionTypes.ManageVersions;
 
-  constructor(public payload: MinimalNodeEntity & { focusedElementOnCloseSelector: string }) {}
+  constructor(public payload: MinimalNodeEntity & ModalConfiguration) {}
 }
 
 export class EditOfflineAction implements Action {
@@ -172,7 +173,7 @@ export class RemoveFavoriteAction implements Action {
 export class ManageAspectsAction implements Action {
   readonly type = NodeActionTypes.ChangeAspects;
 
-  constructor(public payload: MinimalNodeEntity & { focusedElementOnCloseSelector: string }) {}
+  constructor(public payload: MinimalNodeEntity & ModalConfiguration) {}
 }
 
 export class ManageRulesAction implements Action {

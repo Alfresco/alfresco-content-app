@@ -39,7 +39,7 @@ import { Injectable } from '@angular/core';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { map, mergeMap, take } from 'rxjs/operators';
-import { ContentApiService } from '@alfresco/aca-shared';
+import { ContentApiService, ModalConfiguration } from '@alfresco/aca-shared';
 import { ContentManagementService } from '../../services/content-management.service';
 
 @Injectable()
@@ -86,10 +86,7 @@ export class LibraryEffects {
               .pipe(take(1))
               .subscribe((selection) => {
                 if (selection && selection.library) {
-                  this.content.leaveLibrary(
-                    selection.library.entry.id,
-                    (action.payload as { focusedElementOnCloseSelector: string })?.focusedElementOnCloseSelector
-                  );
+                  this.content.leaveLibrary(selection.library.entry.id, (action.payload as ModalConfiguration)?.focusedElementOnCloseSelector);
                 }
               });
           }

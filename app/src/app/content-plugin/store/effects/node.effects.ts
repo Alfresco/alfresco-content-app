@@ -54,6 +54,7 @@ import {
 } from '@alfresco/aca-shared/store';
 import { ContentManagementService } from '../../services/content-management.service';
 import { ViewUtilService } from '@alfresco/adf-core';
+import { ModalConfiguration } from '@alfresco/aca-shared';
 
 @Injectable()
 export class NodeEffects {
@@ -245,10 +246,7 @@ export class NodeEffects {
               .pipe(take(1))
               .subscribe((selection) => {
                 if (selection && !selection.isEmpty) {
-                  this.contentService.copyNodes(
-                    selection.nodes,
-                    (action.payload as { focusedElementOnCloseSelector: string })?.focusedElementOnCloseSelector
-                  );
+                  this.contentService.copyNodes(selection.nodes, (action.payload as ModalConfiguration)?.focusedElementOnCloseSelector);
                 }
               });
           }
@@ -270,10 +268,7 @@ export class NodeEffects {
               .pipe(take(1))
               .subscribe((selection) => {
                 if (selection && !selection.isEmpty) {
-                  this.contentService.moveNodes(
-                    selection.nodes,
-                    (action.payload as { focusedElementOnCloseSelector: string })?.focusedElementOnCloseSelector
-                  );
+                  this.contentService.moveNodes(selection.nodes, (action.payload as ModalConfiguration)?.focusedElementOnCloseSelector);
                 }
               });
           }
