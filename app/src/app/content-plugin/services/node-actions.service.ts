@@ -140,7 +140,7 @@ export class NodeActionsService {
           } else if (action === NodeAction.MOVE) {
             this.contentMoved.next(processedData);
           }
-        });
+        }, observable.error.bind(observable));
       });
     } else {
       observable.error(new Error(JSON.stringify({ error: { statusCode: 403 } })));
