@@ -4,7 +4,9 @@
 # ---------------------------------------------------------------
 # ADF linking
 # ---------------------------------------------------------------
+echo "Inside linking"
 if [[ $COMMIT_MESSAGE == *"[link-adf:"* ]]; then
+    echo "Entered if $COMMIT_MESSAGE"
     export BUILD_OPTS="--configuration=adfprod,e2e"
     BRANCH=`echo $COMMIT_MESSAGE | grep -o "\[link-adf\:[^]]*\]" | sed -e 's#\[link-adf:##g' | sed -e 's#\]##g'`
     echo "Checking out ADF's branch: ${BRANCH}" && \

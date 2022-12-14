@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+echo "Before install starts"
 # Build options -----------------------------------------------------------------------
 export BUILD_OPTS="--configuration=production,e2e"
 
@@ -20,15 +21,20 @@ export HEAD_HASH="HEAD"
 # Settings for S3 caching -------------------------------------------------------------
 pip install --user awscli
 S3_DBP_PATH="s3://alfresco-travis-builds/aca"
+echo "Before ifs"
 if [ "${TRAVIS_EVENT_TYPE}" == "push" ]; then
     export S3_DBP_ROOT_FOLDER="$S3_DBP_PATH/$TRAVIS_BRANCH"
+    echo "push"
 elif [ "${TRAVIS_EVENT_TYPE}" == "pull_request" ]; then
     export S3_DBP_ROOT_FOLDER="$S3_DBP_PATH/$TRAVIS_PULL_REQUEST"
     export BASE_HASH="origin/$TRAVIS_BRANCH"
+    echo "Before adf linking"
     source ../partials/_adf-linking.sh
 elif [ "${TRAVIS_EVENT_TYPE}" == "cron" ]; then
+    echo "cron"
     export S3_DBP_ROOT_FOLDER="$S3_DBP_PATH/cron"
 else
+    echo "else"
     export S3_DBP_ROOT_FOLDER="$S3_DBP_PATH/api"
 fi
 export S3_DBP_FOLDER="$S3_DBP_ROOT_FOLDER/$TRAVIS_BUILD_ID"
