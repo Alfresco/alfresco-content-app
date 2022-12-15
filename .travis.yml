@@ -22,8 +22,7 @@ branches:
     - develop
     - /.*beta.*/
 
-before_install:
-  - . ./scripts/ci/job_hooks/before_install.sh
+before_install: . ./scripts/ci/job_hooks/before_install.sh
 
 install: echo "no install"
 
@@ -61,11 +60,6 @@ env:
 
 jobs:
   include:
-    - stage: ADF linking
-      name: 'Linking ADF branch specified in commit'
-      script: ./scripts/ci/utils/adf-linking.sh
-      cache: false
-
     - stage: Quality and Unit tests
       name: 'Code quality checks'
       script: npm ci && npm run lint

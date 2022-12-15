@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+PARENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 # Build options -----------------------------------------------------------------------
 export BUILD_OPTS="--configuration=production,e2e"
 
@@ -25,7 +26,7 @@ if [ "${TRAVIS_EVENT_TYPE}" == "push" ]; then
 elif [ "${TRAVIS_EVENT_TYPE}" == "pull_request" ]; then
     export S3_DBP_ROOT_FOLDER="$S3_DBP_PATH/$TRAVIS_PULL_REQUEST"
     export BASE_HASH="origin/$TRAVIS_BRANCH"
-    source ../partials/_adf-linking.sh
+    source $PARENT_DIR/partials/_adf-linking.sh
 elif [ "${TRAVIS_EVENT_TYPE}" == "cron" ]; then
     export S3_DBP_ROOT_FOLDER="$S3_DBP_PATH/cron"
 else
