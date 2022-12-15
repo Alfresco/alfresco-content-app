@@ -22,8 +22,7 @@ branches:
     - develop
     - /.*beta.*/
 
-before_install:
-  - . ./scripts/ci/job_hooks/before_install.sh
+before_install: . ./scripts/ci/job_hooks/before_install.sh
 
 install: echo "no install"
 
@@ -66,7 +65,7 @@ jobs:
     - stage: Quality and Unit tests
       name: 'Build (without animation)'
       before_script: npx @alfresco/adf-cli update-commit-sha --pointer "HEAD" --pathPackage "$(pwd)"
-      script: npm ci && npm run build -- --configuration=production,e2e
+      script: npm ci && npm run build -- $BUILD_OPTS
       after_success: ./scripts/ci/utils/artifact-to-s3.sh -a $CONTENT_CE_DIST_PATH -o "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" || travis_terminate 1
       cache: false
 
@@ -208,6 +207,12 @@ jobs:
       script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=uploadDownloadActions"
       after_script:
         - ./scripts/ci/job_hooks/after_e2e.sh
+
+    - stage: Finalize
+      name: Check build with link-adf
+      if: type = pull_request AND commit_message =~ \[link-adf:*
+      script:
+        - ./scripts/ci/jobs/check-link-adf.sh
 
     - stage: Publish Docker Registry
       name: Publish Docker Registry

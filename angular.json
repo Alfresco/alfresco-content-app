@@ -198,6 +198,16 @@
               "sourceMap": true,
               "optimization": false,
               "namedChunks": true
+            },
+            "adfprod": {
+              "tsConfig": "app/tsconfig.app.adf.json",
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "app/src/environments/environment.ts",
+                  "with": "app/src/environments/environment.prod.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": ""
