@@ -2,6 +2,7 @@
 @import './overrides/adf-style-fixes.theme';
 @import './overrides/adf-pagination.theme';
 @import './overrides/ay11';
+@import './overrides/adf-about.theme.scss';
 @import './colors';
 
 $mat-primary-palette: mat.define-palette($aca-primary-blue, A100);
@@ -23,4 +24,5 @@ $custom-theme: mat.define-light-theme($mat-primary-palette,
   @include adf-style-fixes($theme);
   @include adf-pagination-theme($theme);
   @include ay11-theme();
+  @include adf-about-theme($theme);
 }
