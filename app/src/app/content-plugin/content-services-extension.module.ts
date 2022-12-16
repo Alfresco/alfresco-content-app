@@ -119,6 +119,7 @@ import { CONTENT_ROUTES } from './content.routes';
 import { RouterModule } from '@angular/router';
 import { UploadFilesDialogComponent } from './components/upload-files-dialog/upload-files-dialog.component';
 import { SidenavWrapperComponent } from './components/sidenav/sidenav-wrapper/sidenav-wrapper.component';
+import { AppLayoutComponent } from './components/layout/app-layout/app-layout.component';
 
 registerLocaleData(localeFr);
 registerLocaleData(localeDe);
@@ -201,6 +202,7 @@ export class ContentServiceExtensionModule {
     });
 
     extensions.setComponents({
+      'app.layout.main': AppLayoutComponent,
       'app.layout.header': AppHeaderComponent,
       'app.layout.sidenav': SidenavWrapperComponent,
       'app.shell.sibling': UploadFilesDialogComponent,
