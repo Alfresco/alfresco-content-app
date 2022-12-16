@@ -57,6 +57,7 @@ import { ViewerRules } from '../models/viewer.rules';
 import { SettingsGroupRef } from '../models/types';
 import { NodePermissionService } from '../services/node-permission.service';
 import { filter, map } from 'rxjs/operators';
+import { ModalConfiguration } from '@alfresco/aca-shared';
 
 @Injectable({
   providedIn: 'root'
@@ -498,7 +499,7 @@ export class AppExtensionService implements RuleContext {
     return false;
   }
 
-  runActionById(id: string, additionalPayload?: { [key: string]: any }) {
+  runActionById(id: string, additionalPayload?: ModalConfiguration) {
     const action = this.extensions.getActionById(id);
     if (action) {
       const { type, payload } = action;
@@ -509,18 +510,13 @@ export class AppExtensionService implements RuleContext {
 
       this.store.dispatch({
         type,
-        payload:
-          typeof expression === 'object'
-            ? {
-                ...expression,
-                ...additionalPayload
-              }
-            : expression
+        payload: expression,
+        configuration: additionalPayload
       });
     } else {
       this.store.dispatch({
         type: id,
-        payload: additionalPayload
+        configuration: additionalPayload
       });
     }
   }

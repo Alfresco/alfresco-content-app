@@ -60,5 +60,5 @@ export class UpdateLibraryAction implements Action {
 export class LeaveLibraryAction implements Action {
   readonly type = LibraryActionTypes.Leave;
 
-  constructor(public payload?: string | ModalConfiguration) {}
+  constructor(public payload?: string, public configuration?: ModalConfiguration) {}
 }

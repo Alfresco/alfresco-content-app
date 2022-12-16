@@ -75,7 +75,7 @@ describe('DownloadEffects', () => {
         new BehaviorSubject<VersionEntry>(null)
       );
       store.dispatch(
-        new DownloadNodesAction({
+        new DownloadNodesAction([], {
           focusedElementOnCloseSelector: elementToFocusSelector
         })
       );
@@ -104,7 +104,7 @@ describe('DownloadEffects', () => {
         new BehaviorSubject<VersionEntry>(null)
       );
       store.dispatch(
-        new DownloadNodesAction({
+        new DownloadNodesAction([], {
           focusedElementOnCloseSelector: ''
         })
       );

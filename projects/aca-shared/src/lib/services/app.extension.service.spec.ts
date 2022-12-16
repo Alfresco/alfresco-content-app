@@ -287,7 +287,8 @@ describe('AppExtensionService', () => {
       service.runActionById('aca:actions/create-folder');
       expect(store.dispatch).toHaveBeenCalledWith({
         type: 'CREATE_FOLDER',
-        payload: 'folder-name'
+        payload: 'folder-name',
+        configuration: undefined
       } as Action);
     });
 

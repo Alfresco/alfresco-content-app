@@ -41,7 +41,6 @@ import { of } from 'rxjs';
 import { catchError, map, take } from 'rxjs/operators';
 import { ContentManagementService } from '../../services/content-management.service';
 import { MinimalNodeEntryEntity } from '@alfresco/js-api';
-import { ModalConfiguration } from '@alfresco/aca-shared';
 
 @Injectable()
 export class UploadEffects {
@@ -116,15 +115,12 @@ export class UploadEffects {
       this.actions$.pipe(
         ofType<UploadFileVersionAction>(UploadActionTypes.UploadFileVersion),
         map((action) => {
-          if (action?.payload instanceof CustomEvent) {
+          if (action?.payload) {
             const node = action?.payload?.detail?.data?.node?.entry;
             const file: any = action?.payload?.detail?.files[0]?.file;
             this.contentService.versionUpdateDialog(node, file);
-          } else if (!action?.payload || !(action.payload instanceof CustomEvent)) {
-            this.registerFocusingElementAfterModalClose(
-              this.fileVersionInput,
-              (action?.payload as ModalConfiguration)?.focusedElementOnCloseSelector
-            );
+          } else if (!action?.payload) {
+            this.registerFocusingElementAfterModalClose(this.fileVersionInput, action.configuration?.focusedElementOnCloseSelector);
             this.fileVersionInput.click();
           }
         })
