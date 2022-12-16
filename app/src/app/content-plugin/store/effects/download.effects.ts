@@ -31,7 +31,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { map, take } from 'rxjs/operators';
-import { ContentApiService, ModalConfiguration } from '@alfresco/aca-shared';
+import { ContentApiService } from '@alfresco/aca-shared';
 import { ContentUrlService } from '../../services/content-url.service';
 
 @Injectable()
@@ -49,7 +49,7 @@ export class DownloadEffects {
       this.actions$.pipe(
         ofType<DownloadNodesAction>(NodeActionTypes.Download),
         map((action) => {
-          if (Array.isArray(action.payload) && action.payload?.length > 0) {
+          if (action.payload?.length > 0) {
             this.downloadNodes(action.payload);
           } else {
             this.store
@@ -64,7 +64,7 @@ export class DownloadEffects {
                       if (version) {
                         this.downloadFileVersion(selection.nodes[0].entry, version.entry);
                       } else {
-                        this.downloadNodes(selection.nodes, (action.payload as ModalConfiguration)?.focusedElementOnCloseSelector);
+                        this.downloadNodes(selection.nodes, action.configuration?.focusedElementOnCloseSelector);
                       }
                     });
                 }

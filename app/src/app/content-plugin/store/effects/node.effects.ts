@@ -54,7 +54,6 @@ import {
 } from '@alfresco/aca-shared/store';
 import { ContentManagementService } from '../../services/content-management.service';
 import { ViewUtilService } from '@alfresco/adf-core';
-import { ModalConfiguration } from '@alfresco/aca-shared';
 
 @Injectable()
 export class NodeEffects {
@@ -70,15 +69,15 @@ export class NodeEffects {
       this.actions$.pipe(
         ofType<ShareNodeAction>(NodeActionTypes.Share),
         map((action) => {
-          if (action.payload?.entry) {
-            this.contentService.shareNode(action.payload, action.payload?.focusedElementOnCloseSelector);
+          if (action.payload) {
+            this.contentService.shareNode(action.payload, action.configuration?.focusedElementOnCloseSelector);
           } else {
             this.store
               .select(getAppSelection)
               .pipe(take(1))
               .subscribe((selection) => {
                 if (selection && selection.file) {
-                  this.contentService.shareNode(selection.file, action.payload?.focusedElementOnCloseSelector);
+                  this.contentService.shareNode(selection.file, action.configuration?.focusedElementOnCloseSelector);
                 }
               });
           }
@@ -216,7 +215,7 @@ export class NodeEffects {
       this.actions$.pipe(
         ofType<EditFolderAction>(NodeActionTypes.EditFolder),
         map((action) => {
-          if (action.payload?.entry) {
+          if (action.payload) {
             this.contentService.editFolder(action.payload);
           } else {
             this.store
@@ -224,7 +223,7 @@ export class NodeEffects {
               .pipe(take(1))
               .subscribe((selection) => {
                 if (selection && selection.folder) {
-                  this.contentService.editFolder(selection.folder, action.payload?.focusedElementOnCloseSelector);
+                  this.contentService.editFolder(selection.folder, action.configuration?.focusedElementOnCloseSelector);
                 }
               });
           }
@@ -238,7 +237,7 @@ export class NodeEffects {
       this.actions$.pipe(
         ofType<CopyNodesAction>(NodeActionTypes.Copy),
         map((action) => {
-          if (Array.isArray(action.payload) && action.payload?.length > 0) {
+          if (action.payload?.length > 0) {
             this.contentService.copyNodes(action.payload);
           } else {
             this.store
@@ -246,7 +245,7 @@ export class NodeEffects {
               .pipe(take(1))
               .subscribe((selection) => {
                 if (selection && !selection.isEmpty) {
-                  this.contentService.copyNodes(selection.nodes, (action.payload as ModalConfiguration)?.focusedElementOnCloseSelector);
+                  this.contentService.copyNodes(selection.nodes, action.configuration?.focusedElementOnCloseSelector);
                 }
               });
           }
@@ -260,7 +259,7 @@ export class NodeEffects {
       this.actions$.pipe(
         ofType<MoveNodesAction>(NodeActionTypes.Move),
         map((action) => {
-          if (Array.isArray(action.payload) && action.payload?.length > 0) {
+          if (action.payload?.length > 0) {
             this.contentService.moveNodes(action.payload);
           } else {
             this.store
@@ -268,7 +267,7 @@ export class NodeEffects {
               .pipe(take(1))
               .subscribe((selection) => {
                 if (selection && !selection.isEmpty) {
-                  this.contentService.moveNodes(selection.nodes, (action.payload as ModalConfiguration)?.focusedElementOnCloseSelector);
+                  this.contentService.moveNodes(selection.nodes, action.configuration?.focusedElementOnCloseSelector);
                 }
               });
           }
@@ -282,7 +281,7 @@ export class NodeEffects {
       this.actions$.pipe(
         ofType<ManagePermissionsAction>(NodeActionTypes.ManagePermissions),
         map((action) => {
-          if (action?.payload?.entry) {
+          if (action?.payload) {
             const route = 'personal-files/details';
             this.store.dispatch(new NavigateRouteAction([route, action.payload.entry.id, 'permissions']));
           } else {
@@ -306,7 +305,7 @@ export class NodeEffects {
       this.actions$.pipe(
         ofType<ExpandInfoDrawerAction>(NodeActionTypes.ExpandInfoDrawer),
         map((action) => {
-          if (action?.payload?.entry) {
+          if (action?.payload) {
             const route = 'personal-files/details';
             this.store.dispatch(new NavigateRouteAction([route, action.payload.entry.id]));
           } else {
@@ -330,7 +329,7 @@ export class NodeEffects {
       this.actions$.pipe(
         ofType<ManageVersionsAction>(NodeActionTypes.ManageVersions),
         map((action) => {
-          if (action?.payload?.entry) {
+          if (action?.payload) {
             this.contentService.manageVersions(action.payload);
           } else {
             this.store
@@ -338,7 +337,7 @@ export class NodeEffects {
               .pipe(take(1))
               .subscribe((selection) => {
                 if (selection && selection.file) {
-                  this.contentService.manageVersions(selection.file, action.payload?.focusedElementOnCloseSelector);
+                  this.contentService.manageVersions(selection.file, action.configuration?.focusedElementOnCloseSelector);
                 }
               });
           }
@@ -396,7 +395,7 @@ export class NodeEffects {
       this.actions$.pipe(
         ofType<ManageAspectsAction>(NodeActionTypes.ChangeAspects),
         map((action) => {
-          if (action?.payload?.entry) {
+          if (action?.payload) {
             this.contentService.manageAspects(action.payload);
           } else {
             this.store
@@ -404,7 +403,7 @@ export class NodeEffects {
               .pipe(take(1))
               .subscribe((selection) => {
                 if (selection && !selection.isEmpty) {
-                  this.contentService.manageAspects(selection.nodes[0], action.payload?.focusedElementOnCloseSelector);
+                  this.contentService.manageAspects(selection.nodes[0], action.configuration?.focusedElementOnCloseSelector);
                 }
               });
           }
@@ -430,7 +429,7 @@ export class NodeEffects {
       this.actions$.pipe(
         ofType<ManageRulesAction>(NodeActionTypes.ManageRules),
         map((action) => {
-          if (action?.payload?.entry) {
+          if (action?.payload) {
             this.store.dispatch(new NavigateRouteAction(['nodes', action.payload.entry.id, 'rules']));
           } else {
             this.store

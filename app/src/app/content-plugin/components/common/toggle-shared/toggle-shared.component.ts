@@ -58,8 +58,7 @@ export class ToggleSharedComponent implements OnInit {
 
   editSharedNode(selection: SelectionState, focusedElementOnCloseSelector: string) {
     this.store.dispatch(
-      new ShareNodeAction({
-        ...selection.first,
+      new ShareNodeAction(selection.first, {
         focusedElementOnCloseSelector
       })
     );
