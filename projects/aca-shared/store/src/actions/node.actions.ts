@@ -25,7 +25,7 @@
 
 import { Action } from '@ngrx/store';
 import { MinimalNodeEntity } from '@alfresco/js-api';
-import { ModalConfiguration } from '@alfresco/aca-shared';
+import { ModalConfiguration } from '../models/modal-configuration';
 
 export enum NodeActionTypes {
   SetSelection = 'SET_SELECTED_NODES',

@@ -24,6 +24,9 @@
  */
 
 /* cspell:disable */
+/**
+ * @deprecated please use 'supportedExtensions' from 'aca-shared/rules'
+ */
 export const supportedExtensions = {
   doc: 'ms-word',
   docx: 'ms-word',
@@ -62,9 +65,12 @@ export const supportedExtensions = {
   vstx: 'ms-visio',
   vstm: 'ms-visio'
 };
-/* cspell:enable */
 
-export function getFileExtension(fileName: string): string {
+/* cspell:enable */
+/**
+ * @deprecated please use 'getFileExtension' from 'aca-shared/rules'
+ */
+export function getFileExtension(fileName: string): string | null {
   if (fileName) {
     const match = fileName.match(/\.([^\./\?\#]+)($|\?|\#)/);
     return match ? match[1] : null;
