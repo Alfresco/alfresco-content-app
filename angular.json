@@ -35,8 +35,7 @@
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "app/src/app/ui",
-                "app/src/app/content-plugin/ui",
+                "projects/aca-content/src/lib/ui",
                 "node_modules"
               ]
             },
@@ -113,6 +112,7 @@
               "app/src/assets/fonts/material-icons/material-icons.css",
               "app/src/assets/fonts/OpenSans/OpenSans.css",
               "node_modules/cropperjs/dist/cropper.min.css",
+              "projects/aca-content/src/lib/ui/application.scss",
               "app/src/styles.scss"
             ],
             "scripts": [
@@ -263,7 +263,7 @@
             "polyfills": "app/src/polyfills.ts",
             "stylePreprocessorOptions": {
               "includePaths": [
-                "app/src/app/content-plugin/ui",
+                "projects/aca-content/src/lib/ui/application.scss",
                 "node_modules"
               ]
             },
@@ -276,7 +276,8 @@
             "styles": [
               "app/src/assets/fonts/material-icons/material-icons.css",
               "app/src/assets/fonts/OpenSans/OpenSans.css",
-              "app/src/styles.scss"
+              "app/src/styles.scss",
+              "projects/aca-content/src/lib/ui/application.scss"
             ],
             "assets": [
               "app/src/assets",
@@ -590,6 +591,40 @@
             "cache": true,
             "cacheLocation": ".eslintcache",
             "ignorePath": ".eslintignore"
+          }
+        }
+      }
+    },
+    "aca-content": {
+      "projectType": "library",
+      "root": "projects/aca-content",
+      "sourceRoot": "projects/aca-content/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/aca-content/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/aca-content/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/aca-content/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/aca-content/src/test.ts",
+            "tsConfig": "projects/aca-content/tsconfig.spec.json",
+            "karmaConfig": "projects/aca-content/karma.conf.js",
+            "styles": [
+              "projects/aca-content/src/lib/ui/application.scss"
+            ]
           }
         }
       }

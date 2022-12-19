@@ -1,11 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
-@import 'app/content-plugin/ui/application';
-@import 'app/content-plugin/ui/variables/font-family';
-
 body,
 html {
   height: 100%;
-  font-family: $default-font-family;
 }
 
 body {

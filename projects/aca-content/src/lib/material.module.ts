@@ -23,33 +23,24 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { CoreModule } from '@alfresco/adf-core';
-import { ExtensionsModule } from '@alfresco/adf-extensions';
 import { NgModule } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
-import { CoreExtensionsModule } from '../../../extensions/core.extensions.module';
-import { AppCommonModule } from '../common/common.module';
-import { ContextMenuItemComponent } from './context-menu-item.component';
-import { OutsideEventDirective } from './context-menu-outside-event.directive';
-import { ContextMenuComponent } from './context-menu.component';
-import { ContextActionsModule } from '@alfresco/aca-shared';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
+import { MatInputModule } from '@angular/material/input';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
-  imports: [
-    MatMenuModule,
-    MatListModule,
-    MatIconModule,
-    MatButtonModule,
-    CoreExtensionsModule.forChild(),
-    CoreModule.forChild(),
-    AppCommonModule,
-    ExtensionsModule,
-    ContextActionsModule
-  ],
-  declarations: [ContextMenuComponent, ContextMenuItemComponent, OutsideEventDirective],
-  exports: [OutsideEventDirective, ContextMenuComponent, ContextMenuItemComponent, ContextActionsModule]
+  imports: [MatMenuModule, MatIconModule, MatButtonModule, MatDialogModule, MatInputModule, MatSnackBarModule, MatProgressBarModule, MatCardModule],
+  exports: [MatMenuModule, MatIconModule, MatButtonModule, MatDialogModule, MatInputModule, MatSnackBarModule, MatProgressBarModule, MatCardModule],
+  providers: [
+    {
+      provide: MAT_DIALOG_DEFAULT_OPTIONS,
+      useValue: { closeOnNavigation: true, hasBackdrop: true, autoFocus: true }
+    }
+  ]
 })
-export class ContextMenuModule {}
+export class MaterialModule {}

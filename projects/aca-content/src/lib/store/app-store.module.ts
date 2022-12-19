@@ -28,8 +28,6 @@ import { StoreModule } from '@ngrx/store';
 import { appReducer } from './reducers/app.reducer';
 import { StoreRouterConnectingModule, FullRouterStateSerializer } from '@ngrx/router-store';
 import { EffectsModule } from '@ngrx/effects';
-import { environment } from '../../../environments/environment';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { SharedStoreModule } from '@alfresco/aca-shared/store';
 import {
   AppEffects,
@@ -73,8 +71,7 @@ import { INITIAL_STATE } from './initial-state';
       FavoriteEffects,
       TemplateEffects,
       ContextMenuEffects
-    ]),
-    !environment.production ? StoreDevtoolsModule.instrument({ maxAge: 25 }) : []
+    ])
   ]
 })
 export class AppStoreModule {}

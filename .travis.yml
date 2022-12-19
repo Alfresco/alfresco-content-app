@@ -90,10 +90,10 @@ jobs:
       cache: false
 
     - stage: Quality and Unit tests
-      name: 'Unit tests: ACA'
+      name: 'Unit tests: aca-content'
       script:
         - npm ci
-        - ng test content-ce $TEST_OPTS
+        - ng test aca-content $TEST_OPTS
       cache: false
 
     - stage: e2e

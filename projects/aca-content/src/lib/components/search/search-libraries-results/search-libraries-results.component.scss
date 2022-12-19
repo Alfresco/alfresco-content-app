@@ -1,4 +1,4 @@
-@import 'mixins';
+@import '../../../ui/mixins';
 
 .adf-search-results {
   @include flex-row;

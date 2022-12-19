@@ -29,7 +29,7 @@ import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
 import { RouterModule } from '@angular/router';
 import { ExtensionsModule } from '@alfresco/adf-extensions';
-import { CoreExtensionsModule } from '../../../extensions/core.extensions.module';
+import { CoreExtensionsModule } from '../../extensions/core.extensions.module';
 import { ExpansionPanelDirective } from './directives/expansion-panel.directive';
 import { MenuPanelDirective } from './directives/menu-panel.directive';
 import { SidenavComponent } from './sidenav.component';

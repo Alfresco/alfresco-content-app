@@ -24,38 +24,39 @@
  */
 
 import { NgModule } from '@angular/core';
-import { SharedLinkViewComponent } from './shared-link-view.component';
 import { CommonModule } from '@angular/common';
-import { CoreModule } from '@alfresco/adf-core';
 import { RouterModule, Routes } from '@angular/router';
+import { CoreModule } from '@alfresco/adf-core';
+import { ContentDirectiveModule } from '@alfresco/adf-content-services';
 import { DirectivesModule } from '../../directives/directives.module';
-import { AppCommonModule } from '../common/common.module';
-import { AppToolbarModule } from '../toolbar/toolbar.module';
 import { AppInfoDrawerModule } from '../info-drawer/info.drawer.module';
-import { CoreExtensionsModule } from '../../../extensions/core.extensions.module';
+import { CoreExtensionsModule } from '../../extensions/core.extensions.module';
+import { AppToolbarModule } from '../toolbar/toolbar.module';
+import { AppViewerComponent } from './viewer.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: SharedLinkViewComponent,
     data: {
-      title: 'APP.PREVIEW.TITLE'
-    }
+      title: 'APP.PREVIEW.TITLE',
+      navigateMultiple: true
+    },
+    component: AppViewerComponent
   }
 ];
 
 @NgModule({
   imports: [
     CommonModule,
-    CoreModule.forChild(),
     RouterModule.forChild(routes),
+    CoreModule.forChild(),
+    ContentDirectiveModule,
     DirectivesModule,
-    AppCommonModule,
-    AppToolbarModule,
+    AppInfoDrawerModule,
     CoreExtensionsModule.forChild(),
-    AppInfoDrawerModule
+    AppToolbarModule
   ],
-  declarations: [SharedLinkViewComponent],
-  exports: [SharedLinkViewComponent]
+  declarations: [AppViewerComponent],
+  exports: [AppViewerComponent]
 })
-export class AppSharedLinkViewModule {}
+export class AppViewerModule {}

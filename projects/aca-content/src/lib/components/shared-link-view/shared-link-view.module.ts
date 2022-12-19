@@ -23,18 +23,39 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { CustomNameColumnComponent } from './name-column/name-column.component';
-import { LockedByModule } from '@alfresco/aca-shared';
-import { ContentModule } from '@alfresco/adf-content-services';
-import { MaterialModule } from '../../../material.module';
+import { SharedLinkViewComponent } from './shared-link-view.component';
+import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
-import { ThumbnailColumnComponent } from './thumbnail-column/thumbnail-column.component';
+import { RouterModule, Routes } from '@angular/router';
+import { DirectivesModule } from '../../directives/directives.module';
+import { AppCommonModule } from '../common/common.module';
+import { AppToolbarModule } from '../toolbar/toolbar.module';
+import { AppInfoDrawerModule } from '../info-drawer/info.drawer.module';
+import { CoreExtensionsModule } from '../../extensions/core.extensions.module';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: SharedLinkViewComponent,
+    data: {
+      title: 'APP.PREVIEW.TITLE'
+    }
+  }
+];
 
 @NgModule({
-  imports: [BrowserModule, CoreModule.forChild(), ContentModule.forChild(), MaterialModule, LockedByModule],
-  declarations: [CustomNameColumnComponent, ThumbnailColumnComponent],
-  exports: [CustomNameColumnComponent, ThumbnailColumnComponent]
+  imports: [
+    CommonModule,
+    CoreModule.forChild(),
+    RouterModule.forChild(routes),
+    DirectivesModule,
+    AppCommonModule,
+    AppToolbarModule,
+    CoreExtensionsModule.forChild(),
+    AppInfoDrawerModule
+  ],
+  declarations: [SharedLinkViewComponent],
+  exports: [SharedLinkViewComponent]
 })
-export class DocumentListCustomComponentsModule {}
+export class AppSharedLinkViewModule {}

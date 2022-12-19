@@ -23,40 +23,18 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule, Routes } from '@angular/router';
+import { CustomNameColumnComponent } from './name-column/name-column.component';
+import { LockedByModule } from '@alfresco/aca-shared';
+import { ContentModule } from '@alfresco/adf-content-services';
+import { MaterialModule } from '../../material.module';
 import { CoreModule } from '@alfresco/adf-core';
-import { ContentDirectiveModule } from '@alfresco/adf-content-services';
-import { DirectivesModule } from '../../directives/directives.module';
-import { AppInfoDrawerModule } from '../info-drawer/info.drawer.module';
-import { CoreExtensionsModule } from '../../../extensions/core.extensions.module';
-import { AppToolbarModule } from '../toolbar/toolbar.module';
-import { AppViewerComponent } from './viewer.component';
-
-const routes: Routes = [
-  {
-    path: '',
-    data: {
-      title: 'APP.PREVIEW.TITLE',
-      navigateMultiple: true
-    },
-    component: AppViewerComponent
-  }
-];
+import { ThumbnailColumnComponent } from './thumbnail-column/thumbnail-column.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    CoreModule.forChild(),
-    ContentDirectiveModule,
-    DirectivesModule,
-    AppInfoDrawerModule,
-    CoreExtensionsModule.forChild(),
-    AppToolbarModule
-  ],
-  declarations: [AppViewerComponent],
-  exports: [AppViewerComponent]
+  imports: [BrowserModule, CoreModule.forChild(), ContentModule.forChild(), MaterialModule, LockedByModule],
+  declarations: [CustomNameColumnComponent, ThumbnailColumnComponent],
+  exports: [CustomNameColumnComponent, ThumbnailColumnComponent]
 })
-export class AppViewerModule {}
+export class DocumentListCustomComponentsModule {}

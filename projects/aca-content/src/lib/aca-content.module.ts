@@ -23,9 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { BrowserModule, HammerModule } from '@angular/platform-browser';
+import { HammerModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   TRANSLATION_PROVIDER,
@@ -54,8 +53,8 @@ import { FavoriteLibrariesComponent } from './components/favorite-libraries/favo
 import { ViewProfileModule } from './components/view-profile/view-profile.module';
 
 import { AppStoreModule } from './store/app-store.module';
-import { MaterialModule } from '../material.module';
-import { CoreExtensionsModule } from '../extensions/core.extensions.module';
+import { MaterialModule } from './material.module';
+import { CoreExtensionsModule } from './extensions/core.extensions.module';
 import { AppInfoDrawerModule } from './components/info-drawer/info.drawer.module';
 import { DirectivesModule } from './directives/directives.module';
 import { ContextMenuModule } from './components/context-menu/context-menu.module';
@@ -75,12 +74,11 @@ import { FavoritesComponent } from './components/favorites/favorites.component';
 import { RecentFilesComponent } from './components/recent-files/recent-files.component';
 import { SharedFilesComponent } from './components/shared-files/shared-files.component';
 import { CreateFromTemplateDialogComponent } from './dialogs/node-template/create-from-template.dialog';
-import { environment } from '../../environments/environment';
 import { DetailsComponent } from './components/details/details.component';
 import { ContentUrlService } from './services/content-url.service';
 import { HomeComponent } from './components/home/home.component';
 
-import { registerLocaleData } from '@angular/common';
+import { CommonModule, registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import localeDe from '@angular/common/locales/de';
 import localeIt from '@angular/common/locales/it';
@@ -115,7 +113,7 @@ import { ToggleInfoDrawerComponent } from './components/toolbar/toggle-info-draw
 import { ToggleJoinLibraryButtonComponent } from './components/toolbar/toggle-join-library/toggle-join-library-button.component';
 import { ToggleJoinLibraryMenuComponent } from './components/toolbar/toggle-join-library/toggle-join-library-menu.component';
 import { ViewNodeComponent } from './components/toolbar/view-node/view-node.component';
-import { CONTENT_ROUTES } from './content.routes';
+import { CONTENT_ROUTES } from './aca-content.routes';
 import { RouterModule } from '@angular/router';
 import { UploadFilesDialogComponent } from './components/upload-files-dialog/upload-files-dialog.component';
 import { SidenavWrapperComponent } from './components/sidenav/sidenav-wrapper/sidenav-wrapper.component';
@@ -140,8 +138,7 @@ registerLocaleData(localeSv);
 
 @NgModule({
   imports: [
-    BrowserModule,
-    environment.e2e ? NoopAnimationsModule : BrowserAnimationsModule,
+    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     ContentModule.forRoot(),

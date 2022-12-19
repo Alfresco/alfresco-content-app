@@ -53,14 +53,17 @@ import localeSv from '@angular/common/locales/sv';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.components';
-import { CONTENT_LAYOUT_ROUTES } from './content-plugin/content.routes';
-import { ContentServiceExtensionModule } from './content-plugin/content-services-extension.module';
-import { CoreExtensionsModule } from './extensions/core.extensions.module';
-import { INITIAL_APP_STATE } from './content-plugin/store/initial-state';
+import {
+  ContentUrlService,
+  INITIAL_APP_STATE,
+  CONTENT_LAYOUT_ROUTES,
+  ContentServiceExtensionModule,
+  CoreExtensionsModule
+} from '@alfresco/aca-content';
 import { ContentVersionService } from '@alfresco/adf-content-services';
-import { ContentUrlService } from './content-plugin/services/content-url.service';
 import { STORE_INITIAL_APP_DATA } from '@alfresco/aca-shared/store';
 import { ShellModule, SHELL_APP_SERVICE, SHELL_AUTH_TOKEN } from '@alfresco/adf-core/shell';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 registerLocaleData(localeFr);
 registerLocaleData(localeDe);
@@ -87,6 +90,7 @@ registerLocaleData(localeSv);
     SharedModule.forRoot(),
     CoreExtensionsModule.forRoot(),
     environment.e2e ? NoopAnimationsModule : BrowserAnimationsModule,
+    !environment.production ? StoreDevtoolsModule.instrument({ maxAge: 25 }) : [],
     RouterModule.forRoot([], {
       useHash: true,
       enableTracing: false, // enable for debug only

@@ -24,39 +24,32 @@
  */
 
 import { CoreModule } from '@alfresco/adf-core';
-import { CommonModule } from '@angular/common';
+import { ExtensionsModule } from '@alfresco/adf-extensions';
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { ContentDirectiveModule } from '@alfresco/adf-content-services';
-import { CoreExtensionsModule } from '../../../extensions/core.extensions.module';
-import { DirectivesModule } from '../../directives/directives.module';
-import { AppInfoDrawerModule } from '../info-drawer/info.drawer.module';
-import { PreviewComponent } from './preview.component';
-import { AppToolbarModule } from '../toolbar/toolbar.module';
-
-const routes: Routes = [
-  {
-    path: '',
-    component: PreviewComponent,
-    data: {
-      title: 'APP.PREVIEW.TITLE',
-      navigateMultiple: true
-    }
-  }
-];
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
+import { CoreExtensionsModule } from '../../extensions/core.extensions.module';
+import { AppCommonModule } from '../common/common.module';
+import { ContextMenuItemComponent } from './context-menu-item.component';
+import { OutsideEventDirective } from './context-menu-outside-event.directive';
+import { ContextMenuComponent } from './context-menu.component';
+import { ContextActionsModule } from '@alfresco/aca-shared';
 
 @NgModule({
   imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    CoreModule.forChild(),
-    ContentDirectiveModule,
-    DirectivesModule,
-    AppInfoDrawerModule,
+    MatMenuModule,
+    MatListModule,
+    MatIconModule,
+    MatButtonModule,
     CoreExtensionsModule.forChild(),
-    AppToolbarModule
+    CoreModule.forChild(),
+    AppCommonModule,
+    ExtensionsModule,
+    ContextActionsModule
   ],
-  declarations: [PreviewComponent],
-  exports: [PreviewComponent]
+  declarations: [ContextMenuComponent, ContextMenuItemComponent, OutsideEventDirective],
+  exports: [OutsideEventDirective, ContextMenuComponent, ContextMenuItemComponent, ContextActionsModule]
 })
-export class PreviewModule {}
+export class ContextMenuModule {}
