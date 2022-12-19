@@ -27,7 +27,7 @@
 import { AppConfigService, AuthenticationService, NotificationService } from '@alfresco/adf-core';
 import { Injectable } from '@angular/core';
 import { MinimalNodeEntryEntity } from '@alfresco/js-api';
-import { supportedExtensions, getFileExtension } from './utils';
+import { getFileExtension, supportedExtensions } from '@alfresco/aca-shared/rules';
 
 @Injectable({
   providedIn: 'root'

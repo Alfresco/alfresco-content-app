@@ -2,7 +2,12 @@
 {
   "extends": "./tsconfig.lib.json",
   "compilerOptions": {
-    "declarationMap": false
+    "declarationMap": false,
+    "paths": {
+      "@alfresco/aca-shared": ["dist/aca-shared"],
+      "@alfresco/aca-shared/store": ["dist/aca-shared/store"],
+      "@alfresco/aca-shared/rules": ["dist/aca-shared/rules"]
+    }
   },
   "angularCompilerOptions": {
     "enableIvy": false
