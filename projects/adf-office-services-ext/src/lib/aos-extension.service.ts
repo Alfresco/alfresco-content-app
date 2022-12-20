@@ -29,10 +29,14 @@ import { Injectable } from '@angular/core';
 import { MinimalNodeEntryEntity } from '@alfresco/js-api';
 import { getFileExtension, supportedExtensions } from '@alfresco/aca-shared/rules';
 
+export interface IAosEditOnlineService {
+  onActionEditOnlineAos(node: MinimalNodeEntryEntity): void;
+}
+
 @Injectable({
   providedIn: 'root'
 })
-export class AosEditOnlineService {
+export class AosEditOnlineService implements IAosEditOnlineService {
   constructor(
     private alfrescoAuthenticationService: AuthenticationService,
     private appConfigService: AppConfigService,
