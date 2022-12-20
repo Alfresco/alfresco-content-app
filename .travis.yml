@@ -71,29 +71,29 @@ jobs:
 
     - stage: Quality and Unit tests
       name: 'Unit tests: aos'
-      script: npm ci && ng test adf-office-services-ext
+      script: npm ci && ng test adf-office-services-ext $TEST_OPTS
       cache: false
 
     - stage: Quality and Unit tests
       name: 'Unit tests: aca-shared'
-      script: npm ci && ng test aca-shared
+      script: npm ci && ng test aca-shared $TEST_OPTS
       cache: false
 
     - stage: Quality and Unit tests
       name: 'Unit tests: aca-settings'
-      script: npm ci && ng test aca-settings
+      script: npm ci && ng test aca-settings $TEST_OPTS
       cache: false
 
     - stage: Quality and Unit tests
       name: 'Unit tests: aca-folder-rules'
-      script: npm ci && ng test aca-folder-rules
+      script: npm ci && ng test aca-folder-rules $TEST_OPTS
       cache: false
 
     - stage: Quality and Unit tests
       name: 'Unit tests: ACA'
       script:
         - npm ci
-        - ng test content-ce
+        - ng test content-ce $TEST_OPTS
       cache: false
 
     - stage: e2e

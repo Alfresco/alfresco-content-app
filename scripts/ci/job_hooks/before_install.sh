@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 PARENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
-# Build options -----------------------------------------------------------------------
+# Build and test options -----------------------------------------------------------------------
 export BUILD_OPTS="--configuration=production,e2e"
+export TEST_OPTS=""
+export E2E_PROTRACTOR_OPTS=""
+export E2E_TSCONFIG="tsconfig.e2e.json"
 
 # Commit settings for ADF linking -----------------------------------------------------
 export HEAD_COMMIT_HASH=${TRAVIS_PULL_REQUEST_SHA:-${TRAVIS_COMMIT}}

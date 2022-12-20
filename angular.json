@@ -307,6 +307,11 @@
                 "output": "/"
               }
             ]
+          },
+          "configurations": {
+            "adfprod": {
+              "tsConfig": "app/tsconfig.spec.adf.json"
+            }
           }
         },
         "lint": {
@@ -387,6 +392,11 @@
             "main": "projects/adf-office-services-ext/src/test.ts",
             "tsConfig": "projects/adf-office-services-ext/tsconfig.spec.json",
             "karmaConfig": "projects/adf-office-services-ext/karma.conf.js"
+          },
+          "configurations": {
+            "adfprod": {
+              "tsConfig": "projects/adf-office-services-ext/tsconfig.spec.adf.json"
+            }
           }
         },
         "lint": {
@@ -427,6 +437,11 @@
             "main": "projects/aca-shared/test.ts",
             "tsConfig": "projects/aca-shared/tsconfig.spec.json",
             "karmaConfig": "projects/aca-shared/karma.conf.js"
+          },
+          "configurations": {
+            "adfprod": {
+              "tsConfig": "projects/aca-shared/tsconfig.spec.adf.json"
+            }
           }
         },
         "lint": {
@@ -513,6 +528,11 @@
             "main": "projects/aca-settings/src/test.ts",
             "tsConfig": "projects/aca-settings/tsconfig.spec.json",
             "karmaConfig": "projects/aca-settings/karma.conf.js"
+          },
+          "configurations": {
+            "adfprod": {
+              "tsConfig": "projects/aca-settings/tsconfig.spec.adf.json"
+            }
           }
         },
         "lint": {
@@ -553,6 +573,11 @@
             "main": "projects/aca-folder-rules/src/test.ts",
             "tsConfig": "projects/aca-folder-rules/tsconfig.spec.json",
             "karmaConfig": "projects/aca-folder-rules/karma.conf.js"
+          },
+          "configurations": {
+            "adfprod": {
+              "tsConfig": "projects/aca-folder-rules/tsconfig.spec.adf.json"
+            }
           }
         },
         "lint": {
