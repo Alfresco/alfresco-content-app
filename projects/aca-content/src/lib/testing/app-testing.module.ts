@@ -76,7 +76,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
     {
       provide: DiscoveryApiService,
       useValue: {
-        ecmProductInfo$: new BehaviorSubject<RepositoryInfo>(null),
+        ecmProductInfo$: new BehaviorSubject<RepositoryInfo | null>(null),
         getEcmProductInfo: (): Observable<RepositoryInfo> => of(new RepositoryInfo({ version: '10.0.0' }))
       }
     },
@@ -84,7 +84,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
       provide: AuthenticationService,
       useValue: {
         isEcmLoggedIn: (): boolean => true,
-        getRedirect: (): string => null,
+        getRedirect: (): string | null => null,
         setRedirect() {},
         isOauth: (): boolean => false,
         isOAuthWithoutSilentLogin: (): boolean => false

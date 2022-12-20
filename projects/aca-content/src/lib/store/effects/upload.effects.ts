@@ -176,7 +176,7 @@ export class UploadEffects {
     }
   }
 
-  uploadAndUnlock(file: FileModel) {
+  uploadAndUnlock(file: FileModel | null) {
     if (!file) {
       return;
     }

@@ -11,14 +11,15 @@ declare const require: {
     deep?: boolean,
     filter?: RegExp
   ): {
-    <T>(id: string): T;
     keys(): string[];
+    <T>(id: string): T;
   };
 };
 
 // First, initialize the Angular testing environment.
-getTestBed().initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
-
+getTestBed().initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting(), {
+  teardown: { destroyAfterEach: false }
+});
 // Then we find all the tests.
 const context = require.context('./', true, /\.spec\.ts$/);
 // And load the modules.

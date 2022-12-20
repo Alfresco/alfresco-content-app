@@ -81,18 +81,18 @@ describe('SearchActionMenuComponent', () => {
     await fixture.whenStable();
     fixture.detectChanges();
 
-    const sortingMenuButton: HTMLButtonElement = document.querySelector('#aca-button-sorting-menu');
-    sortingMenuButton.dispatchEvent(new Event('click'));
+    const sortingMenuButton: HTMLButtonElement | null = document.querySelector('#aca-button-sorting-menu');
+    sortingMenuButton?.dispatchEvent(new Event('click'));
     await fixture.whenStable();
     fixture.detectChanges();
 
-    const fieldAMenuButton: HTMLButtonElement = document.querySelector('#keyA-sorting-option');
-    fieldAMenuButton.dispatchEvent(new Event('click'));
+    const fieldAMenuButton: HTMLButtonElement | null = document.querySelector('#keyA-sorting-option');
+    fieldAMenuButton?.dispatchEvent(new Event('click'));
     await fixture.whenStable();
     fixture.detectChanges();
 
-    const directionButton: HTMLButtonElement = document.querySelector('#keyA-sorting-option-asc');
-    directionButton.dispatchEvent(new Event('click'));
+    const directionButton: HTMLButtonElement | null = document.querySelector('#keyA-sorting-option-asc');
+    directionButton?.dispatchEvent(new Event('click'));
     await fixture.whenStable();
     fixture.detectChanges();
 
@@ -117,18 +117,18 @@ describe('SearchActionMenuComponent', () => {
     await fixture.whenStable();
     fixture.detectChanges();
 
-    const sortingMenuButton: HTMLButtonElement = document.querySelector('#aca-button-sorting-menu');
-    sortingMenuButton.dispatchEvent(new Event('click'));
+    const sortingMenuButton: HTMLButtonElement | null = document.querySelector('#aca-button-sorting-menu');
+    sortingMenuButton?.dispatchEvent(new Event('click'));
     await fixture.whenStable();
     fixture.detectChanges();
 
-    const fieldAMenuButton: HTMLButtonElement = document.querySelector('#keyB-sorting-option');
-    fieldAMenuButton.dispatchEvent(new Event('click'));
+    const fieldAMenuButton: HTMLButtonElement | null = document.querySelector('#keyB-sorting-option');
+    fieldAMenuButton?.dispatchEvent(new Event('click'));
     await fixture.whenStable();
     fixture.detectChanges();
 
-    const directionButton: HTMLButtonElement = document.querySelector('#keyB-sorting-option-desc');
-    directionButton.dispatchEvent(new Event('click'));
+    const directionButton: HTMLButtonElement | null = document.querySelector('#keyB-sorting-option-desc');
+    directionButton?.dispatchEvent(new Event('click'));
     await fixture.whenStable();
     fixture.detectChanges();
 

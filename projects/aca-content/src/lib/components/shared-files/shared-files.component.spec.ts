@@ -62,7 +62,6 @@ describe('SharedFilesComponent', () => {
 
     const customResourcesService = TestBed.inject(CustomResourcesService);
     spyOn(customResourcesService, 'loadSharedLinks').and.returnValue(of(page));
-
     fixture = TestBed.createComponent(SharedFilesComponent);
   });
 
