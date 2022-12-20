@@ -29,7 +29,7 @@ import { NodePermissionService, isLocked } from '@alfresco/aca-shared';
 
 @Component({
   selector: 'app-comments-tab',
-  template: `<mat-card><adf-comments [readOnly]="!canUpdateNode" [nodeId]="node?.id"></adf-comments></mat-card>`
+  template: `<mat-card><adf-node-comments [readOnly]="!canUpdateNode" [nodeId]="node?.id"></adf-node-comments></mat-card>`
 })
 export class CommentsTabComponent {
   @Input()
