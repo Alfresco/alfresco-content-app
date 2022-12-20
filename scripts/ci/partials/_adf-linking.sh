@@ -6,6 +6,9 @@
 # ---------------------------------------------------------------
 if [[ $COMMIT_MESSAGE == *"[link-adf:"* ]]; then
     export BUILD_OPTS="--configuration=adfprod,e2e"
+    export TEST_OPTS="--configuration=adfprod"
+    export E2E_PROTRACTOR_OPTS="--with-local-adf"
+    export E2E_TSCONFIG="tsconfig.e2e.adf.json"
     BRANCH=`echo $COMMIT_MESSAGE | grep -o "\[link-adf\:[^]]*\]" | sed -e 's#\[link-adf:##g' | sed -e 's#\]##g'`
     echo "Checking out ADF's branch: ${BRANCH}" && \
     git clone https://github.com/Alfresco/alfresco-ng2-components.git --depth=1 --branch ${BRANCH} ../alfresco-ng2-components
