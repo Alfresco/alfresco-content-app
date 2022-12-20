@@ -6,7 +6,7 @@
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
- * the paid license agreement will prevail.  Otherwise, the software is
+ * the paid license agreement will prevail. Otherwise, the software is
  * provided under the following open source license terms:
  *
  * The Alfresco Example Content Application is free software: you can redistribute it and/or modify
@@ -16,14 +16,14 @@
  *
  * The Alfresco Example Content Application is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AppStore, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
+import { AppStore, SetSelectedNodesAction, getSharedUrl } from '@alfresco/aca-shared/store';
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { SharedLinkEntry, SharedlinksApi } from '@alfresco/js-api';
@@ -31,7 +31,7 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { forkJoin, from, of, Subject } from 'rxjs';
-import { catchError, mergeMap, takeUntil } from 'rxjs/operators';
+import { catchError, mergeMap, take, takeUntil } from 'rxjs/operators';
 import { AppExtensionService } from '@alfresco/aca-shared';
 
 @Component({
@@ -46,6 +46,8 @@ export class SharedLinkViewComponent implements OnInit, OnDestroy {
   private sharedLinksApi: SharedlinksApi;
   sharedLinkId: string = null;
   viewerToolbarActions: Array<ContentActionRef> = [];
+  sharedId: string = null;
+  baseUrl: string = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -57,6 +59,46 @@ export class SharedLinkViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.store
+      .select(getSharedUrl)
+      .pipe(take(1))
+      .subscribe((baseShareUrl) => {
+        this.baseUrl = baseShareUrl;
+      });
+
+    this.route.params.subscribe((data) => {
+      this.sharedId = data.id;
+    });
+
+    const ua = navigator.userAgent.toLowerCase();
+    const isAndroid = ua.indexOf('android') > -1;
+    const isIphone = ua.indexOf('iphone') > -1;
+
+    if (isIphone === true) {
+      window.location.href = 'com.alfresco.contentapp://iosamw';
+      setTimeout(() => {
+        this.previewData();
+      }, 25);
+    } else if (isAndroid === true) {
+      window.location.href = 'com.alfresco.content.app://androidamw://' + this.baseUrl + this.sharedId;
+      setTimeout(() => {
+        this.previewData();
+      }, 25);
+    } else {
+      this.previewData();
+    }
+  }
+
+  ngOnDestroy() {
+    this.onDestroy$.next(true);
+    this.onDestroy$.complete();
+  }
+
+  trackByActionId(_: number, action: ContentActionRef) {
+    return action.id;
+  }
+
+  previewData() {
     this.route.params
       .pipe(
         mergeMap((params) =>
@@ -76,14 +118,5 @@ export class SharedLinkViewComponent implements OnInit, OnDestroy {
       .subscribe((actions) => {
         this.viewerToolbarActions = actions;
       });
-  }
-
-  ngOnDestroy() {
-    this.onDestroy$.next(true);
-    this.onDestroy$.complete();
-  }
-
-  trackByActionId(_: number, action: ContentActionRef) {
-    return action.id;
   }
 }
