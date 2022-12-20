@@ -52,7 +52,7 @@ import {
   SetUserProfileAction,
   SnackbarErrorAction,
   ResetSelectionAction
-} from '../../../store/src/public-api';
+} from '@alfresco/aca-shared/store';
 import { ContentApiService } from './content-api.service';
 import { RouterExtensionService } from './router.extension.service';
 import { Store } from '@ngrx/store';

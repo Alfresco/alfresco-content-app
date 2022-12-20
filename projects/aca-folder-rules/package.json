@@ -1,0 +1,25 @@
+{
+  "name": "aca-folder-rules",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": "^14.1.0",
+    "@angular/core": "^14.1.0",
+    "@alfresco/adf-core": "6.0.0-A.1-37376",
+    "@alfresco/adf-content-services": "6.0.0-A.1-37376",
+    "@alfresco/adf-extensions": "6.0.0-A.1-37376",
+    "@alfresco/aca-shared": "0.0.1",
+    "@alfresco/js-api": "5.2.0",
+    "@angular/animations": "14.1.2",
+    "@angular/cdk": "14.1.2",
+    "@angular/flex-layout": "^14.0.0-beta.40",
+    "@angular/forms": "14.1.2",
+    "@angular/material": "14.1.2",
+    "@ngx-translate/core": "^14.0.0",
+    "rxjs": "6.6.6",
+    "tslib": "^2.0.0",
+    "zone.js": "0.11.8"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  }
+}

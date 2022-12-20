@@ -1,0 +1,6 @@
+{
+  "dest": "../../dist/aca-shared",
+  "lib": {
+    "entryFile": "src/public-api.ts"
+  }
+}

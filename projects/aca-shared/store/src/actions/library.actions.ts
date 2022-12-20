@@ -25,7 +25,7 @@
 
 import { Action } from '@ngrx/store';
 import { SiteBody } from '@alfresco/js-api';
-import { ModalConfiguration } from '@alfresco/aca-shared';
+import { ModalConfiguration } from '../models/modal-configuration';
 
 export enum LibraryActionTypes {
   Delete = 'DELETE_LIBRARY',

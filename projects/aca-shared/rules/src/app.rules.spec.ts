@@ -26,8 +26,23 @@
 import * as app from './app.rules';
 import { TestRuleContext } from './test-rule-context';
 import { NodeEntry } from '@alfresco/js-api';
+import { getFileExtension } from './app.rules';
 
 describe('app.evaluators', () => {
+  describe('getFileExtension', () => {
+    it('should return no extension when input is null', () => {
+      expect(getFileExtension(null)).toBe(null);
+    });
+
+    it('should extract file extension', () => {
+      expect(getFileExtension('test.docx')).toBe('docx');
+    });
+
+    it('should not extract file extension', () => {
+      expect(getFileExtension('unknown')).toBe(null);
+    });
+  });
+
   describe('canDownloadSelection', () => {
     it('should return [false] if selection is empty', () => {
       const context = new TestRuleContext();

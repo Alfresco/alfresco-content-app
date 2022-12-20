@@ -24,7 +24,7 @@
  */
 
 import { Action } from '@ngrx/store';
-import { ModalConfiguration } from '@alfresco/aca-shared';
+import { ModalConfiguration } from '../models/modal-configuration';
 
 export enum UploadActionTypes {
   UploadFiles = 'UPLOAD_FILES',

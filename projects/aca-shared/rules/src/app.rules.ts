@@ -25,10 +25,60 @@
 
 import { AppConfigService } from '@alfresco/adf-core';
 import { RuleContext } from '@alfresco/adf-extensions';
-import { getFileExtension, supportedExtensions } from '@alfresco/adf-office-services-ext';
 import * as navigation from './navigation.rules';
 import * as repository from './repository.rules';
 import { isAdmin } from './user.rules';
+
+/* cspell:disable */
+export const supportedExtensions = {
+  doc: 'ms-word',
+  docx: 'ms-word',
+  docm: 'ms-word',
+  dot: 'ms-word',
+  dotx: 'ms-word',
+  dotm: 'ms-word',
+  rtf: 'ms-word',
+  xls: 'ms-excel',
+  xlsx: 'ms-excel',
+  xlsb: 'ms-excel',
+  xlsm: 'ms-excel',
+  xlt: 'ms-excel',
+  xltx: 'ms-excel',
+  xltm: 'ms-excel',
+  xlam: 'ms-excel',
+  ppt: 'ms-powerpoint',
+  pptx: 'ms-powerpoint',
+  pot: 'ms-powerpoint',
+  potx: 'ms-powerpoint',
+  potm: 'ms-powerpoint',
+  pptm: 'ms-powerpoint',
+  pps: 'ms-powerpoint',
+  ppsx: 'ms-powerpoint',
+  ppam: 'ms-powerpoint',
+  ppsm: 'ms-powerpoint',
+  sldx: 'ms-powerpoint',
+  sldm: 'ms-powerpoint',
+  vsd: 'ms-visio',
+  vss: 'ms-visio',
+  vst: 'ms-visio',
+  vsdx: 'ms-visio',
+  vsdm: 'ms-visio',
+  vssx: 'ms-visio',
+  vssm: 'ms-visio',
+  vstx: 'ms-visio',
+  vstm: 'ms-visio'
+};
+/* cspell:enable */
+
+export function getFileExtension(fileName: string): string | null {
+  if (fileName) {
+    const match = fileName.match(/\.([^\./\?\#]+)($|\?|\#)/);
+
+    return match ? match[1] : null;
+  }
+
+  return null;
+}
 
 export interface AcaRuleContext extends RuleContext {
   withCredentials: boolean;
@@ -257,7 +307,7 @@ export function canUpdateSelectedNode(context: RuleContext): boolean {
   if (context.selection && !context.selection.isEmpty) {
     const node = context.selection.first;
 
-    if (node.entry.isFile && hasLockedFiles(context)) {
+    if (node?.entry.isFile && hasLockedFiles(context)) {
       return false;
     }
 
@@ -329,8 +379,8 @@ export const isWriteLocked = (context: RuleContext): boolean =>
  */
 export const isUserWriteLockOwner = (context: RuleContext): boolean =>
   isWriteLocked(context) &&
-  context.selection.file.entry.properties['cm:lockOwner'] &&
-  context.selection.file.entry.properties['cm:lockOwner'].id === context.profile.id;
+  context.selection.file?.entry.properties['cm:lockOwner'] &&
+  context.selection.file?.entry.properties['cm:lockOwner'].id === context.profile.id;
 
 /**
  * Checks if user can lock selected file.
@@ -344,7 +394,7 @@ export const canLockFile = (context: RuleContext): boolean => !isWriteLocked(con
  */
 export function canUnlockFile(context: RuleContext): boolean {
   const { file } = context.selection;
-  return isWriteLocked(context) && (context.permissions.check(file.entry, ['delete']) || isUserWriteLockOwner(context));
+  return isWriteLocked(context) && (context.permissions.check(file?.entry, ['delete']) || isUserWriteLockOwner(context));
 }
 
 /**
@@ -475,7 +525,7 @@ export const canShowLogout = (context: AcaRuleContext): boolean => !context.with
  * @param context Rule execution context
  */
 export const isLibraryManager = (context: RuleContext): boolean =>
-  hasLibrarySelected(context) && context.selection.library.entry && context.selection.library.entry.role === 'SiteManager';
+  hasLibrarySelected(context) && context.selection.library?.entry.role === 'SiteManager';
 
 /**
  * Checks if the preview button for search results can be showed

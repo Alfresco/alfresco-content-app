@@ -1,0 +1,28 @@
+{
+    "name": "@alfresco/aca-shared",
+    "version": "0.0.1",
+    "commit": "",
+    "license": "LGPL-3.0",
+    "scripts": {},
+    "peerDependencies": {
+      "@alfresco/adf-content-services": "6.0.0-A.1-37376",
+      "@alfresco/adf-core": "6.0.0-A.1-37376",
+      "@alfresco/adf-extensions": "6.0.0-A.1-37376",
+      "@alfresco/js-api": "5.2.0",
+      "@angular/animations": "14.1.2",
+      "@angular/cdk": "14.1.2",
+      "@angular/common": "14.1.2",
+      "@angular/compiler": "14.1.2",
+      "@angular/core": "14.1.2",
+      "@angular/flex-layout": "^14.0.0-beta.40",
+      "@angular/forms": "14.1.2",
+      "@angular/material": "14.1.2",
+      "@ngrx/effects": "^14.2.0",
+      "@ngrx/router-store": "^14.2.0",
+      "@ngrx/store": "^14.2.0",
+      "@ngx-translate/core": "^14.0.0",
+      "rxjs": "6.6.6",
+      "tslib": "^2.0.0",
+      "zone.js": "0.11.8"
+    }
+  }
