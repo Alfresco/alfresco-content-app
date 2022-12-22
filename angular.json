@@ -118,7 +118,8 @@
             "scripts": [
               "node_modules/pdfjs-dist/build/pdf.js",
               "node_modules/pdfjs-dist/web/pdf_viewer.js",
-              "node_modules/moment/min/moment.min.js"
+              "node_modules/moment/min/moment.min.js",
+              "app/src/assets/scripts/checkMobileDevice.js"
             ],
             "vendorChunk": true,
             "extractLicenses": false,
