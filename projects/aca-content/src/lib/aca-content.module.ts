@@ -118,6 +118,7 @@ import { UserInfoComponent } from './components/common/user-info/user-info.compo
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { ContentManagementService } from './services/content-management.service';
 import { ShellLayoutComponent, SHELL_NAVBAR_MIN_WIDTH } from '@alfresco/adf-core/shell';
+import { ResetPasswordModule } from './components/reset-password/reset-password.module';
 
 registerLocaleData(localeFr);
 registerLocaleData(localeDe);
@@ -149,6 +150,7 @@ registerLocaleData(localeSv);
     SharedModule,
     MaterialModule,
     AppStoreModule,
+    ResetPasswordModule,
     AppCommonModule,
     PageLayoutModule,
     DirectivesModule,
