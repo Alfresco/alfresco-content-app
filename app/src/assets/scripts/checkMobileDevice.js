@@ -21,9 +21,6 @@
     let url = window.location.href;
      let app = {
        launchApp: function() {
-        setTimeout(function() {
-          window.location.href = "https://itunes.apple.com/us/app/appname/appid";
-        }, 25);
         window.location.href = "iosamw://"+url; //which page to open(now from mobile, check its authorization)
        },
        openWebApp: function() {
@@ -38,7 +35,7 @@
         //  setTimeout(this.openWebApp, 500);
        },
        openWebApp: function() {
-         window.location.href =  "https://play.google.com/store/apps/details?id=package";
+         window.location.href =  "https://play.google.com/store/apps/details?id=packagename";
        }
    };
    app.launchApp();
