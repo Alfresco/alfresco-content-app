@@ -14,10 +14,10 @@
     //   }, 25);
     // }
 
-    let ua = navigator.userAgent.toLowerCase();
-    let isAndroid = ua.indexOf("android") > -1; // android check
-    let isIphone = ua.indexOf("iphone") > -1; // ios check
-    if (isIphone == true) {
+    const ua = navigator.userAgent.toLowerCase();
+    const isAndroid = ua.indexOf("android") > -1; // android check
+    const isIphone = ua.indexOf("iphone") > -1; // ios check
+    if (isIphone === true) {
     let url = window.location.href;
      let app = {
        launchApp: function() {
@@ -28,7 +28,7 @@
        }
    };
    app.launchApp();
-  } else if (isAndroid== true) {
+  } else if (isAndroid === true) {
      let app = {
        launchApp: function() {
          window.location.href = "intent:#Intent;scheme=androidamw;package=com.alfresco.content.app;end"; //which page to open(now from mobile, check its authorization)
