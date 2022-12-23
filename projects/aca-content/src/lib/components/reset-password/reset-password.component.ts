@@ -10,7 +10,7 @@ import { AlfrescoApiService } from '@alfresco/adf-core';
 import { PasswordResetBody, PeopleApi } from '@alfresco/js-api';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-reset-password',
@@ -23,7 +23,7 @@ export class ResetPasswordComponent implements OnInit {
   passwordVisibility: boolean;
   confirmPasswordVisibility: boolean;
 
-  constructor(private activatedRoute: ActivatedRoute, private apiService: AlfrescoApiService) {}
+  constructor(private activatedRoute: ActivatedRoute, private apiService: AlfrescoApiService, private router: Router) {}
 
   get peopleApiInstance() {
     return this.peopleApi || (this.peopleApi = new PeopleApi(this.apiService.getInstance()));
@@ -65,6 +65,7 @@ export class ResetPasswordComponent implements OnInit {
       id,
       key
     } as PasswordResetBody);
+    this.router.navigate(['./login']);
   }
 
   isSubmitButtonDisabled(): boolean {
