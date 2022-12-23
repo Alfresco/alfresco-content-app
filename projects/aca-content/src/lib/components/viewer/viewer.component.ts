@@ -40,7 +40,7 @@ import { ContentActionRef, SelectionState } from '@alfresco/adf-extensions';
 import { MinimalNodeEntryEntity, SearchRequest, VersionEntry, VersionsApi } from '@alfresco/js-api';
 import { Component, HostListener, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, PRIMARY_OUTLET, Router } from '@angular/router';
-import { AlfrescoApiService, ObjectUtils, UploadService, UserPreferencesService } from '@alfresco/adf-core';
+import { AlfrescoApiService, ObjectUtils, UploadService, UserPreferencesService, NodesApiService } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
 import { from, Observable, Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
@@ -117,6 +117,7 @@ export class AppViewerComponent implements OnInit, OnDestroy {
     private actions$: Actions,
     private preferences: UserPreferencesService,
     private apiService: AlfrescoApiService,
+    private nodesApiService: NodesApiService,
     private uploadService: UploadService,
     private appHookService: AppHookService
   ) {}
@@ -194,7 +195,7 @@ export class AppViewerComponent implements OnInit, OnDestroy {
     this.uploadService.fileUploadDeleted.pipe(takeUntil(this.onDestroy$)).subscribe(() => this.navigateToFileLocation());
 
     this.uploadService.fileUploadComplete.pipe(debounceTime(300), takeUntil(this.onDestroy$)).subscribe((file) => {
-      this.apiService.nodeUpdated.next(file.data.entry);
+      this.nodesApiService.nodeUpdated.next(file.data.entry);
       this.displayNode(file.data.entry.id);
     });
 

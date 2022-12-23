@@ -53,7 +53,7 @@ import { AppHookService, ContentApiService } from '@alfresco/aca-shared';
 import { Store } from '@ngrx/store';
 import { ContentManagementService } from './content-management.service';
 import { NodeActionsService } from './node-actions.service';
-import { TranslationService, AlfrescoApiService, FileModel, NotificationService } from '@alfresco/adf-core';
+import { TranslationService, NodesApiService, FileModel, NotificationService } from '@alfresco/adf-core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
 import { NodeEntry, Node, VersionPaging, MinimalNodeEntity } from '@alfresco/js-api';
@@ -68,7 +68,7 @@ describe('ContentManagementService', () => {
   let notificationService: NotificationService;
   let nodeActions: NodeActionsService;
   let translationService: TranslationService;
-  let alfrescoApiService: AlfrescoApiService;
+  let nodesApiService: NodesApiService;
   let nodeAspectService: NodeAspectService;
   let appHookService: AppHookService;
   let newVersionUploaderService: NewVersionUploaderService;
@@ -85,7 +85,7 @@ describe('ContentManagementService', () => {
     notificationService = TestBed.inject(NotificationService);
     nodeActions = TestBed.inject(NodeActionsService);
     translationService = TestBed.inject(TranslationService);
-    alfrescoApiService = TestBed.inject(AlfrescoApiService);
+    nodesApiService = TestBed.inject(NodesApiService);
     nodeAspectService = TestBed.inject(NodeAspectService);
     appHookService = TestBed.inject(AppHookService);
     newVersionUploaderService = TestBed.inject(NewVersionUploaderService);
@@ -1659,12 +1659,12 @@ describe('ContentManagementService', () => {
         afterClosed: () => of(newNode)
       };
 
-      spyOn(alfrescoApiService.nodeUpdated, 'next');
+      spyOn(nodesApiService.nodeUpdated, 'next');
       spyOn(dialog, 'open').and.returnValue(mockDialogInstance);
 
       contentManagementService.editFolder(node);
 
-      expect(alfrescoApiService.nodeUpdated.next).toHaveBeenCalledWith(newNode);
+      expect(nodesApiService.nodeUpdated.next).toHaveBeenCalledWith(newNode);
     }));
 
     it('should focus element indicated by passed selector after closing modal', () => {
