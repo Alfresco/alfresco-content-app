@@ -17,7 +17,7 @@
      let app = {
        launchApp: function() {
         setTimeout((event) => {
-          window.location.href = "intent:#Intent;scheme=androidamw;package=com.alfresco.content.app.debug;end"; //which page to open(now from mobile, check its authorization)
+          window.location.href = "intent:///"+url+"#Intent;scheme=androidamw;package=com.alfresco.content.app.debug;end"; //which page to open(now from mobile, check its authorization)
           console.log(event);
         }, 500);
         url;
