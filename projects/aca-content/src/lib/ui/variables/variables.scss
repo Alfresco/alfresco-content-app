@@ -73,6 +73,10 @@ $defaults: (
   --theme-about-panel-border-color: $grey-background,
   --theme-about-panel-background-color: #ffffff,
   --theme-about-panel-title-color: #212121,
+  --theme-create-button-background-color: $grey-text-background,
+  --theme-create-button-text-color: #212121,
+  --theme-upload-button-background-color: #2A7DE1,
+  --theme-upload-button-text-color: $pagination-background-color,
 );
 
 // propagates SCSS variables into the CSS variables scope

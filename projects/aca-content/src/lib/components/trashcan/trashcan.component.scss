@@ -1,0 +1,34 @@
+.aca-search-input {
+    width: 100%;
+    background-color: var(--theme-white-color);
+}
+
+.action-bar {
+    display: flex;
+    flex: auto;
+    height: 32px;
+}
+
+.aca-mat-button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    letter-spacing: 0.25px;
+    font-weight: 500;
+    font-size: 14px;
+    font-style: normal;
+    border-radius: 6px;
+    border: none;
+}
+
+.aca-delete-button {
+    width: 89px !important;
+    min-width: 89px;
+    height: 32px;
+    background-color: var(--theme-delete-button-background-color);
+    color: var(--theme-upload-button-text-color);
+    text-overflow: ellipsis;
+    display: flex;
+    padding: 0;
+}

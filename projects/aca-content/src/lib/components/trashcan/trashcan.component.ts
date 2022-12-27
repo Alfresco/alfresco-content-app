@@ -33,12 +33,13 @@ import { ContentManagementService } from '../../services/content-management.serv
 import { AppExtensionService, PageComponent } from '@alfresco/aca-shared';
 
 @Component({
-  templateUrl: './trashcan.component.html'
+  templateUrl: './trashcan.component.html',
+  styleUrls: ['./trashcan.component.scss']
 })
 export class TrashcanComponent extends PageComponent implements OnInit {
   isSmallScreen = false;
   user$: Observable<ProfileState>;
-
+  searchVisibility = false;
   columns: DocumentListPresetRef[] = [];
 
   constructor(
@@ -61,5 +62,9 @@ export class TrashcanComponent extends PageComponent implements OnInit {
     );
 
     this.columns = this.extensions.documentListPresets.trashcan || [];
+  }
+
+  onSearchVisibilityChange() {
+    this.searchVisibility = !this.searchVisibility;
   }
 }

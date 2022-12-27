@@ -1,11 +1,21 @@
 $search-width: 594px;
-$search-height: 40px;
+$search-height: 32px;
 $search-background: #f5f6f5;
 $search-border-radius: 4px;
 $top-margin: 12px;
 
 .app-search-container {
   color: var(--theme-foreground-text-color);
+  max-width: 100%;
+  margin: 0 !important;
+
+  .app-search-button {
+    width: 32px !important;
+    height: 32px !important;
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+    margin-top: -4px !important;
+  }
 
   .app-input-form-field {
     .mat-input-element {
@@ -54,6 +64,8 @@ mat-checkbox {
   background-color: $search-background;
   border-radius: $search-border-radius;
   height: $search-height;
+  margin-bottom: 0 !important;
+  padding-bottom: 26px !important;
 }
 
 .app-search-container {

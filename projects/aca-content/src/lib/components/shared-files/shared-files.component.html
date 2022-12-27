@@ -2,6 +2,13 @@
   <aca-page-layout-header>
     <adf-breadcrumb root="APP.BROWSE.SHARED.TITLE"></adf-breadcrumb>
 
+    <div *ngIf="!searchVisibility">
+      <div class="adf-toolbar--spacer adf-toolbar-divider"></div>
+      <span class="action-bar">
+        <aca-search-input class="aca-search-input" (click)="onSearchVisibilityChange()"></aca-search-input>
+      </span>
+    </div>
+
     <adf-toolbar class="adf-toolbar--inline">
       <ng-container *ngFor="let entry of actions; trackBy: trackByActionId">
         <aca-toolbar-action [actionRef]="entry"></aca-toolbar-action>

@@ -35,11 +35,12 @@ import { SetCurrentFolderAction, isAdmin, AppStore, UploadFileVersionAction, sho
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { FilterSearch, ShareDataRow } from '@alfresco/adf-content-services';
-import { DocumentListPresetRef } from '@alfresco/adf-extensions';
+import { ContentActionRef, DocumentListPresetRef } from '@alfresco/adf-extensions';
 import { Observable } from 'rxjs';
 
 @Component({
-  templateUrl: './files.component.html'
+  templateUrl: './files.component.html',
+  styleUrls: ['./files.component.scss']
 })
 export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   isValidPath = true;
@@ -47,6 +48,12 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   isAdmin = false;
   selectedNode: MinimalNodeEntity;
   queryParams = null;
+  searchMode = true;
+  searchVisibility = false;
+  isMainActionPresent: boolean;
+  actions: Array<ContentActionRef> = [];
+  createActions: Array<ContentActionRef> = [];
+  uploadActions: Array<ContentActionRef> = [];
 
   showLoader$: Observable<boolean>;
   private nodePath: PathElement[];
@@ -69,6 +76,14 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     super.ngOnInit();
+
+    this.extensions
+      .getCreateActions()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((actions) => {
+        this.createActions = actions.filter((action) => !(action.id.includes('upload') || action.id.includes('separator')));
+        this.uploadActions = actions.filter((action) => action.id.includes('upload'));
+      });
 
     const { route, nodeActionsService, uploadService } = this;
     const { data } = route.snapshot;
@@ -122,6 +137,10 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.store.dispatch(new SetCurrentFolderAction(null));
     super.ngOnDestroy();
+  }
+
+  onSearchVisibilityChange() {
+    this.searchVisibility = !this.searchVisibility;
   }
 
   navigate(nodeId: string = null) {
