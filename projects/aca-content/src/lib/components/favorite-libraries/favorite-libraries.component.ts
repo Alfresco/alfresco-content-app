@@ -32,10 +32,12 @@ import { AppExtensionService, AppHookService, ContentApiService } from '@alfresc
 import { NavigateLibraryAction } from '@alfresco/aca-shared/store';
 import { PageComponent } from '../page.component';
 import { UserPreferencesService } from '@alfresco/adf-core';
-import { DocumentListPresetRef } from '@alfresco/adf-extensions';
+import { ContentActionRef, DocumentListPresetRef } from '@alfresco/adf-extensions';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
-  templateUrl: './favorite-libraries.component.html'
+  templateUrl: './favorite-libraries.component.html',
+  styleUrls: ['./favorite-libraries.component.scss']
 })
 export class FavoriteLibrariesComponent extends PageComponent implements OnInit {
   pagination: Pagination = new Pagination({
@@ -47,6 +49,10 @@ export class FavoriteLibrariesComponent extends PageComponent implements OnInit 
   list: FavoritePaging;
   isSmallScreen = false;
   columns: DocumentListPresetRef[] = [];
+  searchVisibility = false;
+  isMainActionPresent: boolean;
+  actions: Array<ContentActionRef> = [];
+  createActions: Array<ContentActionRef> = [];
 
   constructor(
     content: ContentManagementService,
@@ -64,6 +70,15 @@ export class FavoriteLibrariesComponent extends PageComponent implements OnInit 
   ngOnInit() {
     super.ngOnInit();
 
+    this.extensions
+      .getCreateActions()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((actions) => {
+        this.createActions = actions.filter(
+          (action) => !(action.id.includes('upload') || action.id.includes('separator') || action.disabled === true)
+        );
+      });
+
     this.getList({ maxItems: this.preferences.paginationSize });
 
     this.subscriptions = this.subscriptions.concat([
@@ -78,6 +93,10 @@ export class FavoriteLibrariesComponent extends PageComponent implements OnInit 
       })
     ]);
     this.columns = this.extensions.documentListPresets.favoriteLibraries || [];
+  }
+
+  onSearchVisibilityChange() {
+    this.searchVisibility = !this.searchVisibility;
   }
 
   navigateTo(node: SiteEntry) {

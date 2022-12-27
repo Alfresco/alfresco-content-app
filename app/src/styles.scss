@@ -7,3 +7,10 @@ html {
 body {
   margin: 0;
 }
+
+.aca-page-layout .aca-page-layout-header {
+  background-color: white !important;
+  flex-basis: 96px !important;
+  height: 32px !important;
+  padding: 32px 24px;
+}

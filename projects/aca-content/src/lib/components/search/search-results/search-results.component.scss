@@ -3,6 +3,18 @@
 $adf-chip-background: #efefef;
 $contrast-gray: #646569;
 
+aca-search-input {
+  height: 32px !important;
+  margin: 32px 0 !important;
+}
+
+adf-toolbar {
+  position: fixed;
+  right: 24px;
+  height: 32px;
+  margin-bottom: 32px !important;
+}
+
 .adf-search-results {
   @include flex-row;
 

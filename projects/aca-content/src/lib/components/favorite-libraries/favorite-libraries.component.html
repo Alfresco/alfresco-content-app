@@ -2,6 +2,27 @@
   <aca-page-layout-header>
     <adf-breadcrumb root="APP.BROWSE.LIBRARIES.MENU.FAVORITE_LIBRARIES.TITLE"> </adf-breadcrumb>
 
+    <div *ngIf="!searchVisibility">
+      <div class="adf-toolbar--spacer adf-toolbar-divider"></div>
+      <span class="action-bar">
+        <button class="aca-mat-button aca-create-button" mat-stroked-button data-automation-id="create-button"
+          [matMenuTriggerFor]="createMenu" [class]="{'app-create-menu-secondary-button': isMainActionPresent}" 
+          [matMenuTriggerFor]="createMenu">
+            {{ 'APP.HEADER.BUTTONS.CREATE' | translate }}
+        </button>
+
+        <mat-menu #createMenu="matMenu" role="menu" class="app-create-menu__root-menu app-create-menu__sub-menu"
+          [overlapTrigger]="false" yPosition="below">
+          <div *ngFor="let action of createActions; trackBy: trackByActionId">
+            <app-toolbar-menu-item [actionRef]="action"></app-toolbar-menu-item>
+          </div>
+        </mat-menu>
+
+        <adf-toolbar-divider></adf-toolbar-divider>
+        <aca-search-input class="aca-search-input" (click)="onSearchVisibilityChange()"></aca-search-input>
+      </span>
+    </div>
+
     <adf-toolbar class="adf-toolbar--inline">
       <ng-container *ngFor="let entry of actions; trackBy: trackByActionId">
         <aca-toolbar-action [actionRef]="entry"></aca-toolbar-action>

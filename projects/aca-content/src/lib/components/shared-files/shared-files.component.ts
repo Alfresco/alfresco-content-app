@@ -36,11 +36,12 @@ import { AppExtensionService, AppHookService } from '@alfresco/aca-shared';
 import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 
 @Component({
-  templateUrl: './shared-files.component.html'
+  templateUrl: './shared-files.component.html',
+  styleUrls: ['./shared-files.component.scss']
 })
 export class SharedFilesComponent extends PageComponent implements OnInit {
   isSmallScreen = false;
-
+  searchVisibility = false;
   columns: DocumentListPresetRef[] = [];
 
   constructor(
@@ -70,6 +71,10 @@ export class SharedFilesComponent extends PageComponent implements OnInit {
     ]);
 
     this.columns = this.extensions.documentListPresets.shared || [];
+  }
+
+  onSearchVisibilityChange() {
+    this.searchVisibility = !this.searchVisibility;
   }
 
   preview(node: MinimalNodeEntity) {
