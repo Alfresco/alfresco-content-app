@@ -57,6 +57,7 @@ import { ContentApiService } from './content-api.service';
 import { RouterExtensionService } from './router.extension.service';
 import { Store } from '@ngrx/store';
 import { DiscoveryEntry, GroupEntry, Group } from '@alfresco/js-api';
+import { AcaMobileAppSwitcherService } from './aca-mobile-app-switcher.service';
 
 @Injectable({
   providedIn: 'root'
@@ -96,6 +97,7 @@ export class AppService implements OnDestroy {
     private sharedLinksApiService: SharedLinksApiService,
     private groupService: GroupService,
     private overlayContainer: OverlayContainer,
+    private acaMobileAppSwitcherService: AcaMobileAppSwitcherService,
     @Inject(STORE_INITIAL_APP_DATA) private initialAppState: AppState,
     searchQueryBuilderService: SearchQueryBuilderService
   ) {
@@ -178,6 +180,11 @@ export class AppService implements OnDestroy {
     });
 
     this.overlayContainer.getContainerElement().setAttribute('role', 'region');
+
+    const isMobileSwitchEnabled = this.config.get<string>('mobileAppSwitch.enabled', 'false').toLowerCase() === 'true';
+    if (isMobileSwitchEnabled) {
+      this.acaMobileAppSwitcherService.checkForMobileApp();
+    }
   }
 
   private loadRepositoryStatus() {
