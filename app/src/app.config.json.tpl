@@ -6,6 +6,14 @@
   "providers": "${APP_CONFIG_PROVIDER}",
   "authType": "${APP_CONFIG_AUTH_TYPE}",
   "loginRoute": "login",
+  "mobileAppSwitch": {
+      "enabled" : "${APP_CONFIG_ENABLE_MOBILE_APP_SWITCH}",
+      "isIphone": "iosamw://",
+      "isAndroidPart1": "intent:///",
+      "isAndroidPart2": "#Intent;scheme=androidamw;package=com.alfresco.content.app.debug;end",
+      "appleStore": "https://itunes.apple.com/us/app/appname/appid",
+      "googlePlayStore": "https://play.google.com/store/apps/details?id=packagename"
+  },
   "plugins": {
     "aosPlugin": ${APP_CONFIG_PLUGIN_AOS},
     "contentService": ${APP_CONFIG_PLUGIN_CONTENT_SERVICE},
