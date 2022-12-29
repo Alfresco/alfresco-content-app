@@ -14,7 +14,7 @@ npm ci && npm run build.release
 TAG_VERSION=$(./scripts/travis/deploy/get-docker-image-tag-name.sh)
 echo "Running the docker with tag" $TAG_VERSION
 DOCKER_PROJECT_ARGS="PROJECT_NAME=$PROJECT_AFFECTED"
-DOCKER_REPOSITORY="$DOMAIN/alfresco/dev"
+DOCKER_REPOSITORY="$DOMAIN/$REPO_SLUG"
 
 # Publish Image to quay.io or dockerhub or another domain - only publish the version on master - elsewhere version and branch
 if [[ $TRAVIS_BRANCH == "master" ]]; then
@@ -22,5 +22,5 @@ if [[ $TRAVIS_BRANCH == "master" ]]; then
     npx       @alfresco/adf-cli docker-publish --loginCheck --loginUsername "$USERNAME" --loginPassword "$PASSWORD" --loginRepo "$DOMAIN" --dockerRepo "$DOCKER_REPOSITORY" --buildArgs "$DOCKER_PROJECT_ARGS" --dockerTags "$TAG_VERSION" --pathProject "$(pwd)"
 else
     echo "npx @alfresco/adf-cli docker-publish --loginCheck --loginUsername '$USERNAME' --loginPassword '$PASSWORD' --loginRepo '$DOMAIN' --dockerRepo '$DOCKER_REPOSITORY' --buildArgs  $DOCKER_PROJECT_ARGS  --dockerTags '$TAG_VERSION,$TRAVIS_BRANCH' "
-    npx       @alfresco/adf-cli docker-publish --loginCheck --loginUsername "$USERNAME" --loginPassword "$PASSWORD" --loginRepo "$DOMAIN" --dockerRepo "$DOCKER_REPOSITORY" --buildArgs "$DOCKER_PROJECT_ARGS" --dockerTags "mobileapps-1622" --pathProject "$(pwd)"
+    npx       @alfresco/adf-cli docker-publish --loginCheck --loginUsername "$USERNAME" --loginPassword "$PASSWORD" --loginRepo "$DOMAIN" --dockerRepo "$DOCKER_REPOSITORY" --buildArgs "$DOCKER_PROJECT_ARGS" --dockerTags "$TAG_VERSION,$TRAVIS_BRANCH" --pathProject "$(pwd)"
 fi;

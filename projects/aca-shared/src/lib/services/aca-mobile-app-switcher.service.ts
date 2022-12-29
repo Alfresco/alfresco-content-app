@@ -36,8 +36,6 @@ export class AcaMobileAppSwitcherService {
         }
       };
       app.launchApp();
-    } else {
-      //navigate to website url
     }
   }
 }
