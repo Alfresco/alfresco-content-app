@@ -97,9 +97,9 @@ export class AppService implements OnDestroy {
     private sharedLinksApiService: SharedLinksApiService,
     private groupService: GroupService,
     private overlayContainer: OverlayContainer,
-    private acaMobileAppSwitcherService: AcaMobileAppSwitcherService,
     @Inject(STORE_INITIAL_APP_DATA) private initialAppState: AppState,
-    searchQueryBuilderService: SearchQueryBuilderService
+    searchQueryBuilderService: SearchQueryBuilderService,
+    private acaMobileAppSwitcherService: AcaMobileAppSwitcherService
   ) {
     this.ready = new BehaviorSubject(this.authenticationService.isLoggedIn() || this.withCredentials);
     this.ready$ = this.ready.asObservable();

@@ -52,6 +52,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { TranslateServiceMock } from '../testing/translation.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RepositoryInfo } from '@alfresco/js-api';
+import { AcaMobileAppSwitcherService } from './aca-mobile-app-switcher.service';
 
 describe('AppService', () => {
   let service: AppService;
@@ -71,6 +72,7 @@ describe('AppService', () => {
   let groupService: GroupService;
   let storeInitialAppData: any;
   let store: MockStore<AppStore>;
+  let acaMobileAppSwitcherService: AcaMobileAppSwitcherService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -139,6 +141,7 @@ describe('AppService', () => {
     storeInitialAppData = TestBed.inject(STORE_INITIAL_APP_DATA);
     store = TestBed.inject(MockStore);
     auth = TestBed.inject(AuthenticationService);
+    acaMobileAppSwitcherService = TestBed.inject(AcaMobileAppSwitcherService);
 
     service = new AppService(
       userPreferencesService,
@@ -156,7 +159,8 @@ describe('AppService', () => {
       groupService,
       overlayContainer,
       storeInitialAppData,
-      searchQueryBuilderService
+      searchQueryBuilderService,
+      acaMobileAppSwitcherService
     );
   });
 
@@ -183,7 +187,8 @@ describe('AppService', () => {
       groupService,
       overlayContainer,
       storeInitialAppData,
-      searchQueryBuilderService
+      searchQueryBuilderService,
+      acaMobileAppSwitcherService
     );
 
     expect(instance.withCredentials).toBeTruthy();
