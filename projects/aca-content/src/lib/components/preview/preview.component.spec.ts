@@ -633,7 +633,7 @@ describe('PreviewComponent', () => {
   });
 
   it('should emit nodeUpdated event on fileUploadComplete event', fakeAsync(() => {
-    spyOn(noodesApiService.nodeUpdated, 'next');
+    spyOn(nodesApiService.nodeUpdated, 'next');
     fixture.detectChanges();
     uploadService.fileUploadComplete.next({ data: { entry: {} } } as any);
     tick(300);
