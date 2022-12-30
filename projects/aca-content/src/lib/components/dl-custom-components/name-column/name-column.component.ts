@@ -44,14 +44,14 @@ import { isLocked } from '@alfresco/aca-shared';
 export class CustomNameColumnComponent extends NameColumnComponent implements OnInit, OnDestroy {
   private onDestroy$$ = new Subject<boolean>();
 
-  constructor(element: ElementRef, private cd: ChangeDetectorRef, private actions$: Actions, private nodesApiService: NodesApiService) {
-    super(element, nodesApiService);
+  constructor(element: ElementRef, private cd: ChangeDetectorRef, private actions$: Actions, private nodesService: NodesApiService) {
+    super(element, nodesService);
   }
 
   ngOnInit() {
     this.updateValue();
 
-    this.nodesApiService.nodeUpdated.pipe(takeUntil(this.onDestroy$$)).subscribe((node: any) => {
+    this.nodesService.nodeUpdated.pipe(takeUntil(this.onDestroy$$)).subscribe((node: any) => {
       const row = this.context.row;
       if (row) {
         const { entry } = row.node;
