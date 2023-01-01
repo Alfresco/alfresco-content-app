@@ -91,7 +91,7 @@ describe('EditRuleDialogSmartComponent', () => {
 
     it('should show a "create" label in the title', () => {
       const titleElement = fixture.debugElement.query(By.css('[data-automation-id="edit-rule-dialog-title"]')).nativeElement as HTMLDivElement;
-      console.log(fixture.nativeElement);
+
       expect(titleElement.innerText.trim()).toBe('ACA_FOLDER_RULES.EDIT_RULE_DIALOG.CREATE_TITLE');
     });
 

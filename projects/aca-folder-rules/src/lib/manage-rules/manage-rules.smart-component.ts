@@ -66,7 +66,6 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
   actionsLoading$: Observable<boolean>;
   actionDefinitions$: Observable<ActionDefinitionTransformed[]>;
   parameterConstraints$: Observable<ActionParameterConstraint[]>;
-  loading$: Observable<boolean>;
 
   private destroyed$ = new Subject<void>();
   private _actionDefinitionsSub;

@@ -35,7 +35,6 @@ export interface EditRuleDialogOptions {
   nodeId?: string;
   actionDefinitions$?: Observable<ActionDefinitionTransformed[]>;
   parameterConstraints$?: Observable<ActionParameterConstraint[]>;
-  loading$?;
 }
 
 @Component({
@@ -51,7 +50,6 @@ export class EditRuleDialogUiComponent {
   nodeId = '';
   actionDefinitions$;
   parameterConstraints$;
-  loading$;
   formValue: Partial<Rule>;
   @Output() submitted = new EventEmitter<Partial<Rule>>();
 
