@@ -24,7 +24,7 @@
  */
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { EditRuleDialogOptions, EditRuleDialogSmartComponent } from './edit-rule-dialog.smart-component';
+import { EditRuleDialogOptions, EditRuleDialogUiComponent } from './edit-rule-dialog.ui-component';
 import { By } from '@angular/platform-browser';
 import { RuleDetailsUiComponent } from './rule-details.ui-component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -33,23 +33,22 @@ import { RuleCompositeConditionUiComponent } from './conditions/rule-composite-c
 import { RuleTriggersUiComponent } from './triggers/rule-triggers.ui-component';
 import { RuleActionListUiComponent } from './actions/rule-action-list.ui-component';
 import { RuleActionUiComponent } from './actions/rule-action.ui-component';
-import { ActionsService } from '../services/actions.service';
 import { RuleOptionsUiComponent } from './options/rule-options.ui-component';
-import { timer } from 'rxjs';
+import { of, timer } from 'rxjs';
 
 describe('EditRuleDialogSmartComponent', () => {
-  let fixture: ComponentFixture<EditRuleDialogSmartComponent>;
+  let fixture: ComponentFixture<EditRuleDialogUiComponent>;
 
   const dialogRef = {
     close: jasmine.createSpy('close'),
     open: jasmine.createSpy('open')
   };
 
-  const setupBeforeEach = (dialogOptions: EditRuleDialogOptions = {}) => {
+  const setupBeforeEach = (dialogOptions: EditRuleDialogOptions = { actionDefinitions$: of([]), parameterConstraints$: of([]) }) => {
     TestBed.configureTestingModule({
       imports: [CoreTestingModule],
       declarations: [
-        EditRuleDialogSmartComponent,
+        EditRuleDialogUiComponent,
         RuleCompositeConditionUiComponent,
         RuleDetailsUiComponent,
         RuleTriggersUiComponent,
@@ -63,10 +62,7 @@ describe('EditRuleDialogSmartComponent', () => {
       ]
     });
 
-    spyOn(ActionsService.prototype, 'loadActionDefinitions').and.stub();
-    spyOn(ActionsService.prototype, 'getParameterConstraints').and.stub();
-
-    fixture = TestBed.createComponent(EditRuleDialogSmartComponent);
+    fixture = TestBed.createComponent(EditRuleDialogUiComponent);
     fixture.detectChanges();
   };
 
@@ -95,7 +91,7 @@ describe('EditRuleDialogSmartComponent', () => {
 
     it('should show a "create" label in the title', () => {
       const titleElement = fixture.debugElement.query(By.css('[data-automation-id="edit-rule-dialog-title"]')).nativeElement as HTMLDivElement;
-
+      console.log(fixture.nativeElement);
       expect(titleElement.innerText.trim()).toBe('ACA_FOLDER_RULES.EDIT_RULE_DIALOG.CREATE_TITLE');
     });
 
@@ -110,7 +106,9 @@ describe('EditRuleDialogSmartComponent', () => {
     const dialogOptions: EditRuleDialogOptions = {
       model: {
         id: 'rule-id'
-      }
+      },
+      actionDefinitions$: of([]),
+      parameterConstraints$: of([])
     };
 
     beforeEach(() => {
