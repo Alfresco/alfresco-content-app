@@ -26,7 +26,7 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Location } from '@angular/common';
 import { FolderRulesService } from '../services/folder-rules.service';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { Rule } from '../model/rule.model';
 import { ActivatedRoute } from '@angular/router';
 import { NodeInfo } from '@alfresco/aca-shared/store';
@@ -68,7 +68,7 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
   parameterConstraints$: Observable<ActionParameterConstraint[]>;
 
   private destroyed$ = new Subject<void>();
-  private _actionDefinitionsSub;
+  private _actionDefinitionsSub: Subscription;
 
   constructor(
     private location: Location,
@@ -108,7 +108,7 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
       }
     });
 
-    this._actionDefinitionsSub = this.actionDefinitions$.subscribe((actionDefinitions) =>
+    this._actionDefinitionsSub = this.actionDefinitions$.subscribe((actionDefinitions: ActionDefinitionTransformed[]) =>
       this.actionsService.loadActionParameterConstraints(actionDefinitions)
     );
   }
