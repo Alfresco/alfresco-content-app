@@ -25,7 +25,7 @@
 
 import { Router, ActivatedRoute } from '@angular/router';
 import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
-import { UserPreferencesService, UploadService, AlfrescoApiService } from '@alfresco/adf-core';
+import { UserPreferencesService, UploadService, NodesApiService } from '@alfresco/adf-core';
 import { ClosePreviewAction } from '@alfresco/aca-shared/store';
 import { PreviewComponent } from './preview.component';
 import { of, throwError } from 'rxjs';
@@ -45,7 +45,7 @@ describe('PreviewComponent', () => {
   let preferences: UserPreferencesService;
   let contentApi: ContentApiService;
   let uploadService: UploadService;
-  let alfrescoApiService: AlfrescoApiService;
+  let nodesApiService: NodesApiService;
   let appHookService: AppHookService;
   let store: Store<any>;
 
@@ -62,7 +62,7 @@ describe('PreviewComponent', () => {
     preferences = TestBed.inject(UserPreferencesService);
     contentApi = TestBed.inject(ContentApiService);
     uploadService = TestBed.inject(UploadService);
-    alfrescoApiService = TestBed.inject(AlfrescoApiService);
+    nodesApiService = TestBed.inject(NodesApiService);
     appHookService = TestBed.inject(AppHookService);
     store = TestBed.inject(Store);
   });
@@ -633,12 +633,12 @@ describe('PreviewComponent', () => {
   });
 
   it('should emit nodeUpdated event on fileUploadComplete event', fakeAsync(() => {
-    spyOn(alfrescoApiService.nodeUpdated, 'next');
+    spyOn(nodesApiService.nodeUpdated, 'next');
     fixture.detectChanges();
     uploadService.fileUploadComplete.next({ data: { entry: {} } } as any);
     tick(300);
 
-    expect(alfrescoApiService.nodeUpdated.next).toHaveBeenCalled();
+    expect(nodesApiService.nodeUpdated.next).toHaveBeenCalled();
   }));
 
   it('should return to parent folder when event emitted from extension', async () => {

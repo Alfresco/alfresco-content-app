@@ -56,7 +56,7 @@ import {
   NewVersionUploaderData,
   NewVersionUploaderDataAction
 } from '@alfresco/adf-content-services';
-import { TranslationService, AlfrescoApiService, NotificationService } from '@alfresco/adf-core';
+import { TranslationService, NodesApiService, NotificationService } from '@alfresco/adf-core';
 import {
   DeletedNodesPaging,
   MinimalNodeEntity,
@@ -88,7 +88,7 @@ export class ContentManagementService {
   private readonly createMenuButtonSelector = 'app-create-menu button';
 
   constructor(
-    private alfrescoApiService: AlfrescoApiService,
+    private nodesApiService: NodesApiService,
     private store: Store<AppStore>,
     private contentApi: ContentApiService,
     private permission: NodePermissionService,
@@ -262,7 +262,7 @@ export class ContentManagementService {
 
     dialog.afterClosed().subscribe((node) => {
       if (node) {
-        this.alfrescoApiService.nodeUpdated.next(node);
+        this.nodesApiService.nodeUpdated.next(node);
       }
       this.focusAfterClose(focusedElementOnCloseSelector);
     });

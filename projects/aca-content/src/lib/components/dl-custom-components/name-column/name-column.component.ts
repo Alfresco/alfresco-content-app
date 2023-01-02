@@ -24,7 +24,7 @@
  */
 
 import { NameColumnComponent } from '@alfresco/adf-content-services';
-import { AlfrescoApiService } from '@alfresco/adf-core';
+import { NodesApiService } from '@alfresco/adf-core';
 import { ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
 import { Subject } from 'rxjs';
@@ -44,14 +44,14 @@ import { isLocked } from '@alfresco/aca-shared';
 export class CustomNameColumnComponent extends NameColumnComponent implements OnInit, OnDestroy {
   private onDestroy$$ = new Subject<boolean>();
 
-  constructor(element: ElementRef, private cd: ChangeDetectorRef, private actions$: Actions, private apiService: AlfrescoApiService) {
-    super(element, apiService);
+  constructor(element: ElementRef, private cd: ChangeDetectorRef, private actions$: Actions, private nodesService: NodesApiService) {
+    super(element, nodesService);
   }
 
   ngOnInit() {
     this.updateValue();
 
-    this.apiService.nodeUpdated.pipe(takeUntil(this.onDestroy$$)).subscribe((node: any) => {
+    this.nodesService.nodeUpdated.pipe(takeUntil(this.onDestroy$$)).subscribe((node: any) => {
       const row = this.context.row;
       if (row) {
         const { entry } = row.node;

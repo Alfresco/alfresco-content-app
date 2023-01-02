@@ -27,7 +27,7 @@ import { Component, OnInit, OnDestroy, ViewEncapsulation, HostListener } from '@
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router, UrlTree, UrlSegmentGroup, UrlSegment, PRIMARY_OUTLET } from '@angular/router';
 import { debounceTime, map, takeUntil } from 'rxjs/operators';
-import { UserPreferencesService, ObjectUtils, UploadService, AlfrescoApiService } from '@alfresco/adf-core';
+import { UserPreferencesService, ObjectUtils, UploadService, NodesApiService } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
 import { AppStore, ClosePreviewAction, ViewerActionTypes, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { PageComponent } from '../page.component';
@@ -92,7 +92,7 @@ export class PreviewComponent extends PageComponent implements OnInit, OnDestroy
     private preferences: UserPreferencesService,
     private route: ActivatedRoute,
     private router: Router,
-    private apiService: AlfrescoApiService,
+    private nodesApiService: NodesApiService,
     private uploadService: UploadService,
     private actions$: Actions,
     private location: Location,
@@ -143,7 +143,7 @@ export class PreviewComponent extends PageComponent implements OnInit, OnDestroy
 
       this.uploadService.fileUploadDeleted.subscribe(() => this.navigateToFileLocation(true)),
 
-      this.uploadService.fileUploadComplete.pipe(debounceTime(300)).subscribe((file) => this.apiService.nodeUpdated.next(file.data.entry)),
+      this.uploadService.fileUploadComplete.pipe(debounceTime(300)).subscribe((file) => this.nodesApiService.nodeUpdated.next(file.data.entry)),
 
       this.actions$
         .pipe(
