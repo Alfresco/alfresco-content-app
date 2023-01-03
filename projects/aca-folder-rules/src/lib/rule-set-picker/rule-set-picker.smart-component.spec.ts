@@ -27,12 +27,18 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RuleSetPickerOptions, RuleSetPickerSmartComponent } from './rule-set-picker.smart-component';
 import { CoreTestingModule } from '@alfresco/adf-core';
 import { folderToLinkMock } from '../mock/node.mock';
-import { FolderRuleSetsService } from '../services/folder-rule-sets.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { FolderRuleSetsService } from '../services/folder-rule-sets.service';
+import { of } from 'rxjs';
+import { ruleSetWithLinkMock, ruleSetWithNoRulesToLinkMock, ruleSetWithOwnedRulesToLinkMock } from '../mock/rule-sets.mock';
+import { By } from '@angular/platform-browser';
 
 describe('RuleSetPickerSmartComponent', () => {
   let fixture: ComponentFixture<RuleSetPickerSmartComponent>;
   let component: RuleSetPickerSmartComponent;
+  let folderRuleSetsService: FolderRuleSetsService;
+
+  let loadRuleSetsSpy: jasmine.Spy;
 
   const dialogRef = {
     close: jasmine.createSpy('close'),
@@ -53,13 +59,58 @@ describe('RuleSetPickerSmartComponent', () => {
       ]
     });
 
+    folderRuleSetsService = TestBed.inject(FolderRuleSetsService);
     fixture = TestBed.createComponent(RuleSetPickerSmartComponent);
     component = fixture.componentInstance;
+    component['folderRuleSetsService'] = folderRuleSetsService;
+
+    loadRuleSetsSpy = spyOn(folderRuleSetsService, 'loadRuleSets');
   });
 
   it('should load the rule sets of a node once it has been selected', () => {
-    const loadRuleSetsSpy = spyOn(FolderRuleSetsService.prototype, 'loadRuleSets');
+    expect(loadRuleSetsSpy).not.toHaveBeenCalled();
     component.onNodeSelect([folderToLinkMock]);
     expect(loadRuleSetsSpy).toHaveBeenCalledWith(folderToLinkMock.id, false);
+    component.onNodeSelect([folderToLinkMock]);
+    expect(loadRuleSetsSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should show an empty list message if a selected folder has no rules', () => {
+    component.mainRuleSet$ = of(ruleSetWithNoRulesToLinkMock);
+    component.rulesLoading$ = of(false);
+    component.onNodeSelect([folderToLinkMock]);
+    fixture.detectChanges();
+
+    const items = fixture.debugElement.queryAll(By.css('.aca-rule-set-picker__content__rule-list aca-rule-list-item'));
+    expect(items.length).toBe(0);
+
+    const emptyList = fixture.debugElement.query(By.css('adf-empty-content'));
+    expect(emptyList).not.toBeNull();
+  });
+
+  it('should show an empty list message if a selected folder has linked rules', () => {
+    component.mainRuleSet$ = of(ruleSetWithLinkMock);
+    component.rulesLoading$ = of(false);
+    component.onNodeSelect([folderToLinkMock]);
+    fixture.detectChanges();
+
+    const items = fixture.debugElement.queryAll(By.css('.aca-rule-set-picker__content__rule-list aca-rule-list-item'));
+    expect(items.length).toBe(0);
+
+    const emptyList = fixture.debugElement.query(By.css('adf-empty-content'));
+    expect(emptyList).not.toBeNull();
+  });
+
+  it('should show a list of items if a selected folder has owned rules', () => {
+    component.mainRuleSet$ = of(ruleSetWithOwnedRulesToLinkMock);
+    component.rulesLoading$ = of(false);
+    component.onNodeSelect([folderToLinkMock]);
+    fixture.detectChanges();
+
+    const items = fixture.debugElement.queryAll(By.css('.aca-rule-set-picker__content__rule-list aca-rule-list-item'));
+    expect(items.length).toBe(2);
+
+    const emptyList = fixture.debugElement.query(By.css('adf-empty-content'));
+    expect(emptyList).toBeNull();
   });
 });
