@@ -38,6 +38,7 @@
       "@alfresco/aca-about": ["projects/aca-about/src/public-api.ts"],
       "@alfresco/aca-settings": ["projects/aca-settings/src/public-api.ts"],
       "@alfresco/aca-folder-rules": ["projects/aca-folder-rules/src/public-api.ts"],
+      "@alfresco/aca-content": ["projects/aca-content/src/public-api.ts"],
       "package.json": ["package.json"],
       "*": ["./node_modules/*"]
     }
