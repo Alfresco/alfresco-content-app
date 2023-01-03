@@ -138,4 +138,16 @@ describe('FolderRuleSetsService', () => {
 
     expect(selectRuleSpy).toHaveBeenCalledWith(ruleMock('inherited-rule-1'));
   });
+
+  it('should send a POST request to create a new link between two folders', () => {
+    folderRuleSetsService.createRuleSetLink('folder-1-id', 'folder-2-id');
+    expect(callApiSpy).toHaveBeenCalledWith('/nodes/folder-1-id/rule-set-links', 'POST', {
+      id: 'folder-2-id'
+    });
+  });
+
+  it('should send a DELETE request to delete a link between two folders', () => {
+    folderRuleSetsService.deleteRuleSetLink('folder-1-id', 'rule-set-1-id');
+    expect(callApiSpy).toHaveBeenCalledWith('/nodes/folder-1-id/rule-set-links/rule-set-1-id', 'DELETE');
+  });
 });
