@@ -11,8 +11,6 @@
       "isIphone": "iosamw://",
       "isAndroidPart1": "intent:///",
       "isAndroidPart2": "#Intent;scheme=androidamw;package=com.alfresco.content.app.debug;end",
-      "appleStore": "https://itunes.apple.com/us/app/appname/appid",
-      "googlePlayStore": "https://play.google.com/store/apps/details?id=packagename"
   },
   "plugins": {
     "aosPlugin": ${APP_CONFIG_PLUGIN_AOS},
