@@ -24,7 +24,7 @@
  */
 
 import { RuleSet } from '../model/rule-set.model';
-import { otherFolderIdMock, otherFolderMock, owningFolderIdMock, owningFolderMock } from './node.mock';
+import { folderToLinkMock, otherFolderIdMock, otherFolderMock, owningFolderIdMock, owningFolderMock } from './node.mock';
 import { Rule } from '../model/rule.model';
 import { inheritedRulesMock, linkedRulesMock, ownedRulesMock, ruleMock } from './rules.mock';
 
@@ -139,3 +139,23 @@ export const inheritedRuleSetWithOnlyDisabledRulesMock: RuleSet = {
 };
 
 export const ruleSetsMock: RuleSet[] = [inheritedRuleSetMock, ownedRuleSetMock, ruleSetWithLinkMock];
+
+export const ruleSetWithNoRulesToLinkMock: RuleSet = {
+  id: 'rule-set-to-link-with-no-rules',
+  isLinkedTo: false,
+  owningFolder: folderToLinkMock,
+  linkedToBy: [],
+  rules: [],
+  hasMoreRules: false,
+  loadingRules: false
+};
+
+export const ruleSetWithOwnedRulesToLinkMock: RuleSet = {
+  id: 'rule-set-to-link-with-no-rules',
+  isLinkedTo: false,
+  owningFolder: folderToLinkMock,
+  linkedToBy: [],
+  rules: ownedRulesMock,
+  hasMoreRules: false,
+  loadingRules: false
+};

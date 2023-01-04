@@ -24,7 +24,7 @@
  */
 
 import { NodeInfo } from '@alfresco/aca-shared/store';
-import { NodeEntry } from '@alfresco/js-api';
+import { Node, NodeEntry } from '@alfresco/js-api';
 
 export const getOwningFolderEntryMock: NodeEntry = {
   entry: {
@@ -51,4 +51,22 @@ export const owningFolderMock: NodeInfo = {
 export const otherFolderMock: NodeInfo = {
   id: otherFolderIdMock,
   name: 'other-folder-name'
+};
+
+export const folderToLinkMock: Node = {
+  id: 'folder-1-id',
+  name: 'folder-1-name',
+  nodeType: 'folder',
+  isFolder: true,
+  isFile: false,
+  modifiedAt: new Date(),
+  modifiedByUser: {
+    id: 'user-id',
+    displayName: 'user-name'
+  },
+  createdAt: new Date(),
+  createdByUser: {
+    id: 'user-id',
+    displayName: 'user-name'
+  }
 };

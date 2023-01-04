@@ -44,12 +44,7 @@ export interface RuleSetPickerOptions {
   styleUrls: ['./rule-set-picker.smart-component.scss'],
   encapsulation: ViewEncapsulation.None,
   host: { class: 'aca-rule-set-picker' },
-  providers: [
-    {
-      provide: FolderRuleSetsService,
-      useClass: FolderRuleSetsService
-    }
-  ]
+  providers: [FolderRuleSetsService]
 })
 export class RuleSetPickerSmartComponent {
   nodeId = '-root-';
