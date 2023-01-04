@@ -40,6 +40,7 @@
             <div class="aca-manage-rules__actions-bar__buttons">
               <button
                 *ngIf="!(mainRuleSet$ | async)"
+                data-automation-id="manage-rules-link-button"
                 mat-stroked-button
                 (click)="openLinkRulesDialog()">
                 {{ 'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.ACTIONS.LINK_RULES' | translate }}

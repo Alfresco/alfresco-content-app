@@ -25,7 +25,7 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AcaFolderRulesModule, ManageRulesSmartComponent } from '@alfresco/aca-folder-rules';
-import { DebugElement } from '@angular/core';
+import { DebugElement, Predicate } from '@angular/core';
 import { CoreTestingModule } from '@alfresco/adf-core';
 import { FolderRulesService } from '../services/folder-rules.service';
 import { ActivatedRoute } from '@angular/router';
@@ -223,27 +223,41 @@ describe('ManageRulesSmartComponent', () => {
     expect(deleteRuleBtn).toBeTruthy();
   });
 
-  describe('Create rule button visibility', () => {
+  describe('Create rule & link rules buttons visibility', () => {
+    let createButtonPredicate: Predicate<DebugElement>;
+    let linkButtonPredicate: Predicate<DebugElement>;
+
     beforeEach(() => {
       folderRuleSetsService.folderInfo$ = of(owningFolderMock);
       folderRuleSetsService.inheritedRuleSets$ = of([]);
       folderRuleSetsService.isLoading$ = of(false);
       actionsService.loading$ = of(false);
+
+      createButtonPredicate = By.css(`[data-automation-id="manage-rules-create-button"]`);
+      linkButtonPredicate = By.css(`[data-automation-id="manage-rules-link-button"]`);
     });
 
     it('should show the create rule button if there is no main rule set', () => {
       folderRuleSetsService.mainRuleSet$ = of(null);
       fixture.detectChanges();
 
-      const createButton = debugElement.query(By.css(`[data-automation-id="manage-rules-create-button"]`));
+      const createButton = debugElement.query(createButtonPredicate);
       expect(createButton).toBeTruthy();
+    });
+
+    it('should show the link rules button if there is no main rule set', () => {
+      folderRuleSetsService.mainRuleSet$ = of(null);
+      fixture.detectChanges();
+
+      const linkButton = debugElement.query(linkButtonPredicate);
+      expect(linkButton).toBeTruthy();
     });
 
     it('should show the create rule button if the main rule set is owned', () => {
       folderRuleSetsService.mainRuleSet$ = of(ownedRuleSetMock);
       fixture.detectChanges();
 
-      const createButton = debugElement.query(By.css(`[data-automation-id="manage-rules-create-button"]`));
+      const createButton = debugElement.query(createButtonPredicate);
       expect(createButton).toBeTruthy();
     });
 
@@ -251,12 +265,20 @@ describe('ManageRulesSmartComponent', () => {
       folderRuleSetsService.mainRuleSet$ = of(ruleSetWithLinkMock);
       fixture.detectChanges();
 
-      const createButton = debugElement.query(By.css(`[data-automation-id="manage-rules-create-button"]`));
+      const createButton = debugElement.query(createButtonPredicate);
       expect(createButton).toBeFalsy();
+    });
+
+    it('should not show the link rules button if the folder has a main rule set', () => {
+      folderRuleSetsService.mainRuleSet$ = of(ownedRuleSetMock);
+      fixture.detectChanges();
+
+      const linkButton = debugElement.query(linkButtonPredicate);
+      expect(linkButton).toBeFalsy();
     });
   });
 
-  describe('Rule inheritance toggle  button', () => {
+  describe('Rule inheritance toggle button', () => {
     beforeEach(() => {
       folderRuleSetsService.folderInfo$ = of(owningFolderMock);
       folderRuleSetsService.inheritedRuleSets$ = of([]);
