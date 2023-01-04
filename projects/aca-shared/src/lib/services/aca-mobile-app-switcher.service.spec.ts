@@ -23,12 +23,9 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import 'zone.js';
-import 'zone.js/testing';
-import { getTestBed, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { AppConfigService } from '@alfresco/adf-core';
 import { LibTestingModule, initialState } from '../testing/lib-testing-module';
-import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { AcaMobileAppSwitcherService } from './aca-mobile-app-switcher.service';
 
@@ -51,9 +48,6 @@ describe('AcaMobileAppSwitcherService', () => {
         isAndroidPart2: '#Intent;scheme=androidamw;package=com.alfresco.content.app.debug;end'
       }
     });
-  });
-  getTestBed().initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting(), {
-    teardown: { destroyAfterEach: false }
   });
 
   it('should be created', () => {
