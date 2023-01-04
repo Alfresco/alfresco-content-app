@@ -35,6 +35,8 @@ stages:
     if: branch = master AND type = push
   - name: e2e
     if: type = cron || type = pull_request
+  - name: Release Libraries
+    if: type = push
   - name: Trigger DW
     if: branch = develop AND (type = cron OR (type = api AND commit_message =~ /\[trigger aca\]/))
 
@@ -189,6 +191,13 @@ jobs:
     - stage: Release Tag and Publish to Dockerhub
       name: Release Tag
       script: ./scripts/travis/release/git-tag.sh
+
+    - stage: Release Libraries
+      name: Release Libraries
+      script:
+        - npm ci
+        - ./scripts/ci/npm/release-libs.sh
+      cache: false
 
     - name: Publish to Dockerhub
       script: ./scripts/travis/deploy/publish.sh "content-ce" "$DOCKER_HUB_REPOSITORY_DOMAIN" "$DOCKER_HUB_USERNAME" "$DOCKER_HUB_PASSWORD"
