@@ -28,9 +28,9 @@ import 'zone.js/testing';
 import { getTestBed, TestBed } from '@angular/core/testing';
 import { AppConfigService } from '@alfresco/adf-core';
 import { LibTestingModule, initialState } from '../testing/lib-testing-module';
-import { AcaMobileAppSwitcherService } from './aca-mobile-app-switcher.service';
 import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 import { provideMockStore } from '@ngrx/store/testing';
+import { AcaMobileAppSwitcherService } from './aca-mobile-app-switcher.service';
 
 describe('AcaMobileAppSwitcherService', () => {
   let appConfig: AppConfigService;
