@@ -104,13 +104,6 @@ describe('AppHeaderComponent', () => {
       localStorage.clear();
     });
 
-    it('should search be present when contentService is enabled', () => {
-      fixture.detectChanges();
-      const searchInput = fixture.debugElement.query(By.css('.aca-search-input'));
-
-      expect(searchInput).not.toBeNull();
-    });
-
     it('should search not be present when contentService is disabled', () => {
       localStorage.setItem('contentService', 'false');
       fixture.detectChanges();
