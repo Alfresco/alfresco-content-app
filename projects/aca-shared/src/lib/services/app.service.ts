@@ -28,14 +28,13 @@ import {
   AuthenticationService,
   AppConfigService,
   AlfrescoApiService,
-  SharedLinksApiService,
   UploadService,
   FileUploadErrorEvent,
   PageTitleService,
   UserPreferencesService
 } from '@alfresco/adf-core';
 import { Observable, BehaviorSubject, Subject } from 'rxjs';
-import { GroupService, SearchQueryBuilderService } from '@alfresco/adf-content-services';
+import { GroupService, SearchQueryBuilderService, SharedLinksApiService } from '@alfresco/adf-content-services';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { ActivatedRoute, ActivationEnd, NavigationStart, Router } from '@angular/router';
 import { filter, map, takeUntil, tap } from 'rxjs/operators';
