@@ -10,7 +10,7 @@
     "enabled" : "${APP_CONFIG_ENABLE_MOBILE_APP_SWITCH}",
     "isIphone": "iosamw://",
     "isAndroidPart1": "intent:///",
-    "isAndroidPart2": "#Intent;scheme=androidamw;package=com.alfresco.content.app.debug;end",
+    "isAndroidPart2": "#Intent;scheme=androidamw;package=com.alfresco.content.app.debug;end"
   },
   "plugins": {
     "aosPlugin": ${APP_CONFIG_PLUGIN_AOS},
