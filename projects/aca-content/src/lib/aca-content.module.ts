@@ -120,6 +120,7 @@ import { AppLayoutComponent } from './components/layout/app-layout/app-layout.co
 import { AppTrashcanModule } from './components/trashcan/trashcan.module';
 import { AppSharedLinkViewModule } from './components/shared-link-view/shared-link-view.module';
 import { AcaFolderRulesModule } from '@alfresco/aca-folder-rules';
+import { CustomIconsModule } from './extensions/custom-icons.module';
 
 registerLocaleData(localeFr);
 registerLocaleData(localeDe);
@@ -168,7 +169,8 @@ registerLocaleData(localeSv);
     ViewProfileModule,
     AppTrashcanModule,
     AppSharedLinkViewModule,
-    AcaFolderRulesModule
+    AcaFolderRulesModule,
+    CustomIconsModule
   ],
   declarations: [
     FilesComponent,

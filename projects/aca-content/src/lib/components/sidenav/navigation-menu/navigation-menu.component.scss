@@ -1,0 +1,26 @@
+.app-menu-user-details {
+    display: flex;
+    height: 66px;
+
+    &-button {
+        height: 32px;
+        margin-right: 0;
+        padding: 0;
+        line-height: 24px;
+        background: none;
+        border: none;
+    }
+
+    &-button.app-menu-button {
+        margin-top: 14px;
+        transform: scale(1.2);
+    }
+
+    &-name-mail {
+        line-height: 40px;
+    }
+
+    &-name {
+        height: 24px;
+    }
+}

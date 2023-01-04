@@ -1,6 +1,7 @@
 {
     "APP": {
       "COPYRIGHT": "© 2017 - 2020 Alfresco Software, Inc. All rights reserved.",
+      "TITLE": "Workspace",
       "ABOUT": {
         "VERSION": "Version:",
         "PLUGINS": {
@@ -103,6 +104,13 @@
             }
         },
         "BROWSE": {
+            "FILE": {
+                "TITLE": "Files",
+                "SIDENAV_LINK": {
+                    "LABEL": "Files",
+                    "TOOLTIP": "Files"
+                }
+            },
             "PERSONAL": {
                 "TITLE": "Personal Files",
                 "SIDENAV_LINK": {

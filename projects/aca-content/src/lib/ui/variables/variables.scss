@@ -41,6 +41,10 @@ $black-heading: #4e4c4c;
 $grey-dropdown-background: #eee;
 $grey-divider: rgba(0,0,0,.22);
 $pagination-background-color: #ffffff;
+$sidenav-background-color: #f8f8f8;
+$selected-text-color: #212121;
+$selected-background-color: rgba(31, 116, 219, 0.24);
+$action-button-text-color: rgba(33, 35, 40, 0.7);
 
 $defaults: (
   --theme-primary-color: mat.get-color-from-palette($primary),
@@ -73,6 +77,11 @@ $defaults: (
   --theme-about-panel-border-color: $grey-background,
   --theme-about-panel-background-color: #ffffff,
   --theme-about-panel-title-color: #212121,
+  --theme-sidenav-background-color: $sidenav-background-color,
+  --theme-selected-text-color: $selected-text-color,
+  --theme-selected-background-color: $selected-background-color,
+  --theme-hover-background-color: $grey-text-background,
+  --theme-action-button-text-color: $action-button-text-color,
 );
 
 // propagates SCSS variables into the CSS variables scope
