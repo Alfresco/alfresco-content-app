@@ -90,7 +90,10 @@ describe('Share a file', () => {
   });
 
   describe('when logged in', () => {
-    const expiryDate: any = '2022-12-25T18:30:00.000+0000';
+    const expiryDateObj: Date = new Date();
+    expiryDateObj.setFullYear(expiryDateObj.getFullYear() + 1);
+    const expiryDate: any = expiryDateObj.toISOString().replace('Z', '+0000');
+    // const expiryDate: any = '2022-12-25T18:30:00.000+0000';
 
     const loginPage = new LoginPage();
     const shareDialog = new ShareDialog();
