@@ -23,32 +23,26 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, Inject, ViewEncapsulation } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'aca-open-in-app',
   templateUrl: './open-in-app.component.html',
-  styleUrls: ['./open-in-app.component.scss']
+  styleUrls: ['./open-in-app.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
-export class OpenInAppComponent implements OnInit {
+export class OpenInAppComponent {
   private redirectUrl: string;
   constructor(
     @Inject(MAT_DIALOG_DATA)
-    public data: any,
-    private dialogRef: MatDialogRef<OpenInAppComponent>
+    public data: any
   ) {
     if (data) {
       this.redirectUrl = data.redirectUrl;
     }
   }
-  ngOnInit(): void {}
-
-  OpenInApp() {
+  openInApp() {
     window.location.href = this.redirectUrl;
-  }
-  close(event) {
-    this.dialogRef.close(true);
-    event.stopPropagation();
   }
 }

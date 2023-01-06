@@ -57,10 +57,8 @@ export class AcaMobileAppSwitcherService {
       const iphoneUrl = this.mobileAppSwitchConfig.isIphone + url;
       this.openInApp(iphoneUrl);
     } else if (isAndroid === true) {
-      setTimeout(() => {
-        const androidUrl = this.mobileAppSwitchConfig.isAndroidPart1 + url + this.mobileAppSwitchConfig.isAndroidPart2;
-        this.openInApp(androidUrl);
-      }, 500);
+      const androidUrl = this.mobileAppSwitchConfig.isAndroidPart1 + url + this.mobileAppSwitchConfig.isAndroidPart2;
+      this.openInApp(androidUrl);
     }
   }
   openInApp(redirectUrl: string) {
