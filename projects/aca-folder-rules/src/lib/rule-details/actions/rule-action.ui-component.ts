@@ -239,7 +239,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
             actionDefinitionId: this.selectedActionDefinitionId,
             params: {
               ...this.parameters,
-              [paramDefName]: selections[0].id
+              [paramDefName]: selections[0].name
             }
           });
           this.onChange({
