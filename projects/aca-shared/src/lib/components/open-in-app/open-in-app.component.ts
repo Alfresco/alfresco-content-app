@@ -23,25 +23,32 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ModuleWithProviders, NgModule } from '@angular/core';
-import { ContentApiService } from './services/content-api.service';
-import { NodePermissionService } from './services/node-permission.service';
-import { AppService } from './services/app.service';
-import { ContextActionsModule } from './directives/contextmenu/contextmenu.module';
-import { OpenInAppComponent } from './components/open-in-app/open-in-app.component';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-@NgModule({
-  imports: [ContextActionsModule, MatButtonModule, MatIconModule],
-  exports: [ContextActionsModule, MatButtonModule, MatIconModule],
-  declarations: [OpenInAppComponent]
+@Component({
+  selector: 'aca-open-in-app',
+  templateUrl: './open-in-app.component.html',
+  styleUrls: ['./open-in-app.component.scss']
 })
-export class SharedModule {
-  static forRoot(): ModuleWithProviders<SharedModule> {
-    return {
-      ngModule: SharedModule,
-      providers: [ContentApiService, NodePermissionService, AppService]
-    };
+export class OpenInAppComponent implements OnInit {
+  private redirectUrl: string;
+  constructor(
+    @Inject(MAT_DIALOG_DATA)
+    public data: any,
+    private dialogRef: MatDialogRef<OpenInAppComponent>
+  ) {
+    if (data) {
+      this.redirectUrl = data.redirectUrl;
+    }
+  }
+  ngOnInit(): void {}
+
+  OpenInApp() {
+    window.location.href = this.redirectUrl;
+  }
+  close(event) {
+    this.dialogRef.close(true);
+    event.stopPropagation();
   }
 }
