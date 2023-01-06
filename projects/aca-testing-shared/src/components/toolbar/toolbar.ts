@@ -33,8 +33,7 @@ export class Toolbar extends Component {
   menu = new Menu();
 
   buttons = this.allByCss('button');
-  shareButton = this.byCss(`.mat-icon-button[title='Share']`);
-  shareEditButton = this.byCss(`.mat-icon-button[title='Shared Link Settings']`);
+  shareButton = this.byId('share-action-button');
   viewButton = this.byCss(`.mat-icon-button[title='View']`);
   downloadButton = this.byCss(`.mat-icon-button[title='Download']`);
   editFolderButton = this.byId('app.toolbar.editFolder');

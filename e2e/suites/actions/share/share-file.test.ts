@@ -90,7 +90,9 @@ describe('Share a file', () => {
   });
 
   describe('when logged in', () => {
-    const expiryDate: any = '2022-12-25T18:30:00.000+0000';
+    const expiryDateObj: Date = new Date();
+    expiryDateObj.setFullYear(expiryDateObj.getFullYear() + 1);
+    const expiryDate: any = expiryDateObj.toISOString().replace('Z', '+0000');
 
     const loginPage = new LoginPage();
     const shareDialog = new ShareDialog();
@@ -209,7 +211,7 @@ describe('Share a file', () => {
 
       it('[C286337] Expire date is displayed correctly', async () => {
         await dataTable.selectItem(file6);
-        await BrowserActions.click(toolbar.shareEditButton);
+        await BrowserActions.click(toolbar.shareButton);
         await shareDialog.waitForDialogToOpen();
 
         const expireProperty = await apis.user.nodes.getSharedExpiryDate(file6Id);
@@ -220,7 +222,7 @@ describe('Share a file', () => {
 
       it('[C286333] Disable the share link expiration', async () => {
         await dataTable.selectItem(file7);
-        await BrowserActions.click(toolbar.shareEditButton);
+        await BrowserActions.click(toolbar.shareButton);
         await shareDialog.waitForDialogToOpen();
 
         expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expiration is not checked');
@@ -244,7 +246,7 @@ describe('Share a file', () => {
 
         await page.dataTable.clearSelection();
         await dataTable.selectItem(file8);
-        await BrowserActions.click(toolbar.shareEditButton);
+        await BrowserActions.click(toolbar.shareButton);
         await shareDialog.waitForDialogToOpen();
         const url2 = await shareDialog.getLinkUrl();
 
