@@ -36,8 +36,7 @@ import { ContentActionRef, DocumentListPresetRef } from '@alfresco/adf-extension
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
-  templateUrl: './favorite-libraries.component.html',
-  styleUrls: ['./favorite-libraries.component.scss']
+  templateUrl: './favorite-libraries.component.html'
 })
 export class FavoriteLibrariesComponent extends PageComponent implements OnInit {
   pagination: Pagination = new Pagination({
@@ -49,8 +48,6 @@ export class FavoriteLibrariesComponent extends PageComponent implements OnInit 
   list: FavoritePaging;
   isSmallScreen = false;
   columns: DocumentListPresetRef[] = [];
-  searchVisibility = false;
-  isMainActionPresent: boolean;
   actions: Array<ContentActionRef> = [];
   createActions: Array<ContentActionRef> = [];
 
@@ -74,9 +71,7 @@ export class FavoriteLibrariesComponent extends PageComponent implements OnInit 
       .getCreateActions()
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((actions) => {
-        this.createActions = actions.filter(
-          (action) => !(action.id.includes('upload') || action.id.includes('separator') || action.disabled === true)
-        );
+        this.createActions = actions;
       });
 
     this.getList({ maxItems: this.preferences.paginationSize });
@@ -93,10 +88,6 @@ export class FavoriteLibrariesComponent extends PageComponent implements OnInit 
       })
     ]);
     this.columns = this.extensions.documentListPresets.favoriteLibraries || [];
-  }
-
-  onSearchVisibilityChange() {
-    this.searchVisibility = !this.searchVisibility;
   }
 
   navigateTo(node: SiteEntry) {

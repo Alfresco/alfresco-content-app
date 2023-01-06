@@ -67,6 +67,7 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   nodeResult: NodePaging;
   showHeader = ShowHeaderMode.Data;
   filterSorting = 'name-asc';
+  searchVisibility = false;
 
   protected subscriptions: Subscription[] = [];
 
@@ -121,6 +122,10 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
     this.onDestroy$.next(true);
     this.onDestroy$.complete();
     this.store.dispatch(new SetSelectedNodesAction([]));
+  }
+
+  onSearchVisibilityChange() {
+    this.searchVisibility = !this.searchVisibility;
   }
 
   showPreview(node: MinimalNodeEntity, extras?: ViewNodeExtras) {

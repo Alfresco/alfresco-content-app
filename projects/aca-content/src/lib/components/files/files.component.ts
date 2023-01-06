@@ -40,8 +40,7 @@ import { ContentActionRef, DocumentListPresetRef } from '@alfresco/adf-extension
 import { Observable } from 'rxjs';
 
 @Component({
-  templateUrl: './files.component.html',
-  styleUrls: ['./files.component.scss']
+  templateUrl: './files.component.html'
 })
 export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   isValidPath = true;
@@ -49,9 +48,6 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   isAdmin = false;
   selectedNode: MinimalNodeEntity;
   queryParams = null;
-  searchMode = true;
-  searchVisibility = false;
-  isMainActionPresent: boolean;
   actions: Array<ContentActionRef> = [];
   createActions: Array<ContentActionRef> = [];
   uploadActions: Array<ContentActionRef> = [];
@@ -82,8 +78,14 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
       .getCreateActions()
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((actions) => {
-        this.createActions = actions.filter((action) => !(action.id.includes('upload') || action.id.includes('separator')));
-        this.uploadActions = actions.filter((action) => action.id.includes('upload'));
+        this.createActions = actions;
+      });
+
+    this.extensions
+      .getUploadActions()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((actions) => {
+        this.uploadActions = actions;
       });
 
     const { route, nodeActionsService, uploadService } = this;
@@ -138,10 +140,6 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.store.dispatch(new SetCurrentFolderAction(null));
     super.ngOnDestroy();
-  }
-
-  onSearchVisibilityChange() {
-    this.searchVisibility = !this.searchVisibility;
   }
 
   navigate(nodeId: string = null) {

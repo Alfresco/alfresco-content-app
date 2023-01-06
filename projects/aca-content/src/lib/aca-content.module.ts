@@ -68,7 +68,6 @@ import { AppSearchInputModule } from './components/search/search-input.module';
 import { DocumentListCustomComponentsModule } from './components/dl-custom-components/document-list-custom-components.module';
 import { AppSearchResultsModule } from './components/search/search-results.module';
 import { AppLoginModule } from './components/login/login.module';
-import { AppHeaderModule } from './components/header/header.module';
 import { AppNodeVersionModule } from './components/node-version/node-version.module';
 import { FavoritesComponent } from './components/favorites/favorites.component';
 import { RecentFilesComponent } from './components/recent-files/recent-files.component';
@@ -99,7 +98,6 @@ import { LocationLinkComponent } from './components/common/location-link/locatio
 import { LogoutComponent } from './components/common/logout/logout.component';
 import { ToggleSharedComponent } from './components/common/toggle-shared/toggle-shared.component';
 import { CustomNameColumnComponent } from './components/dl-custom-components/name-column/name-column.component';
-import { AppHeaderComponent } from './components/header/header.component';
 import { CommentsTabComponent } from './components/info-drawer/comments-tab/comments-tab.component';
 import { LibraryMetadataTabComponent } from './components/info-drawer/library-metadata-tab/library-metadata-tab.component';
 import { MetadataTabComponent } from './components/info-drawer/metadata-tab/metadata-tab.component';
@@ -161,7 +159,6 @@ registerLocaleData(localeSv);
     DocumentListCustomComponentsModule,
     AppSearchInputModule,
     AppSearchResultsModule,
-    AppHeaderModule,
     AppNodeVersionModule,
     HammerModule,
     ViewProfileModule
@@ -200,7 +197,6 @@ export class ContentServiceExtensionModule {
 
     extensions.setComponents({
       'app.layout.main': AppLayoutComponent,
-      'app.layout.header': AppHeaderComponent,
       'app.layout.sidenav': SidenavWrapperComponent,
       'app.shell.sibling': UploadFilesDialogComponent,
       'app.components.tabs.metadata': MetadataTabComponent,

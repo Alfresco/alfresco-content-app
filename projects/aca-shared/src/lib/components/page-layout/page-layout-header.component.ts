@@ -28,6 +28,7 @@ import { Component, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/
 @Component({
   selector: 'aca-page-layout-header',
   template: '<ng-content></ng-content>',
+  styleUrls: ['../../../../../aca-content/src/lib/ui/header-styles.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'aca-page-layout-header' }

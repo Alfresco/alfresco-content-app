@@ -6,7 +6,6 @@
       <div class="adf-toolbar--spacer adf-toolbar-divider"></div>
       <span class="action-bar">
         <button class="aca-mat-button aca-create-button" mat-stroked-button data-automation-id="create-button"
-          [matMenuTriggerFor]="createMenu" [class]="{'app-create-menu-secondary-button': isMainActionPresent}"
           [matMenuTriggerFor]="createMenu">
           {{ 'APP.HEADER.BUTTONS.CREATE' | translate }}
         </button>
@@ -19,7 +18,6 @@
         </mat-menu>
 
         <button class="aca-mat-button aca-upload-button" mat-stroked-button data-automation-id="upload-button"
-          [matMenuTriggerFor]="uploadMenu" [class]="{'app-upload-menu-secondary-button': isMainActionPresent}"
           [matMenuTriggerFor]="uploadMenu">
             {{ 'APP.HEADER.BUTTONS.UPLOAD' | translate }}
           </button>
