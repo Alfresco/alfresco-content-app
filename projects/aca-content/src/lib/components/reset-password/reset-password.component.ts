@@ -22,6 +22,9 @@ export class ResetPasswordComponent implements OnInit {
   resetPasswordForm: FormGroup;
   passwordVisibility: boolean;
   confirmPasswordVisibility: boolean;
+  passwordChanged: boolean;
+  passwordChangeSuccess: boolean;
+  passwordChangeFailure: boolean;
 
   constructor(private activatedRoute: ActivatedRoute, private apiService: AlfrescoApiService, private router: Router) {}
 
@@ -32,11 +35,15 @@ export class ResetPasswordComponent implements OnInit {
   ngOnInit(): void {
     this.resetPasswordForm = new FormGroup(
       {
+        username: new FormControl('', [Validators.required]),
         password: new FormControl('', [Validators.required]),
         confirmPassword: new FormControl('', [Validators.required])
       },
       [this.matchValidator('password', 'confirmPassword')]
     );
+    this.passwordChanged = false;
+    this.passwordChangeSuccess = false;
+    this.passwordChangeFailure = false;
     this.passwordVisibility = false;
     this.confirmPasswordVisibility = false;
   }
@@ -50,6 +57,8 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   changePassword() {
+    //this.passwordChangeSuccess = true;
+    //this.passwordChangeFailure = true;
     let key = '';
     let id = '';
     let userName = '';
@@ -57,15 +66,24 @@ export class ResetPasswordComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe((data) => {
       key = data.key;
       id = data.id;
-      userName = data.userName;
+      // userName = data.userName;
+      userName = this.resetPasswordForm.controls.username.value;
     });
 
-    this.peopleApiInstance.resetPassword(userName, {
+    let resetPassword = this.peopleApi.resetPassword(userName, {
       password: this.resetPasswordForm.controls.password.value,
       id,
       key
     } as PasswordResetBody);
-    this.router.navigate(['./login']);
+
+    resetPassword.then((value) => {
+      console.log('resolved', value);
+      this.passwordChangeSuccess = true;
+    });
+    resetPassword.catch((error) => {
+      console.log('rejected', error);
+      this.passwordChangeFailure = true;
+    });
   }
 
   isSubmitButtonDisabled(): boolean {
@@ -87,5 +105,9 @@ export class ResetPasswordComponent implements OnInit {
 
       return sourceCtrl && targetCtrl && sourceCtrl.value !== targetCtrl.value ? { mismatch: true } : null;
     };
+  }
+
+  close() {
+    this.router.navigate(['./login']);
   }
 }

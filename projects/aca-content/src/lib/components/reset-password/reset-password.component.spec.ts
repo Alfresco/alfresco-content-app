@@ -56,8 +56,21 @@ describe('ResetPasswordComponent', () => {
     expect(component.isSubmitButtonDisabled).toBeTruthy();
   });
 
+  it('change password button should be disabled if username field is empty', async () => {
+    component.ngOnInit();
+    component.resetPasswordForm.controls['username'].setValue('');
+    component.resetPasswordForm.controls['password'].setValue('password');
+    component.resetPasswordForm.controls['confirmPassword'].setValue('password');
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(component.isSubmitButtonDisabled).toBeTruthy();
+  });
+
   it('change password button should be disabled if new password field is empty', async () => {
     component.ngOnInit();
+    component.resetPasswordForm.controls['username'].setValue('user');
     component.resetPasswordForm.controls['password'].setValue('');
     component.resetPasswordForm.controls['confirmPassword'].setValue('password');
 
@@ -69,6 +82,7 @@ describe('ResetPasswordComponent', () => {
 
   it('change password button should be disabled if confirm password field is empty', async () => {
     component.ngOnInit();
+    component.resetPasswordForm.controls['username'].setValue('user');
     component.resetPasswordForm.controls['password'].setValue('password');
     component.resetPasswordForm.controls['confirmPassword'].setValue('');
 
@@ -80,6 +94,7 @@ describe('ResetPasswordComponent', () => {
 
   it('change password button should be disabled if new password and confirm password field values do not match', async () => {
     component.ngOnInit();
+    component.resetPasswordForm.controls['username'].setValue('user');
     component.resetPasswordForm.controls['password'].setValue('password1');
     component.resetPasswordForm.controls['confirmPassword'].setValue('password2');
 
@@ -89,11 +104,12 @@ describe('ResetPasswordComponent', () => {
     expect(component.isSubmitButtonDisabled).toBeTruthy();
   });
 
-  it('change password button should be enabled when new password and confirm password field values match', async () => {
+  it('change password button should be enabled when new password and confirm password field values match and username field is not empty', async () => {
     component.ngOnInit();
     fixture.detectChanges();
     await fixture.whenStable();
 
+    component.resetPasswordForm.controls['username'].setValue('user');
     component.resetPasswordForm.controls['password'].setValue('password');
     component.resetPasswordForm.controls['confirmPassword'].setValue('password');
 
@@ -145,6 +161,7 @@ describe('ResetPasswordComponent', () => {
 
   it('should change password when the change password button is clicked', async () => {
     component.ngOnInit();
+    component.resetPasswordForm.controls['username'].setValue('user');
     component.resetPasswordForm.controls['password'].setValue('password');
     component.resetPasswordForm.controls['confirmPassword'].setValue('password');
     spyOn(component, 'changePassword').and.callThrough();
