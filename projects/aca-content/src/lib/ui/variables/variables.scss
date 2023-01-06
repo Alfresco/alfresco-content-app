@@ -82,6 +82,7 @@ $defaults: (
   --theme-selected-background-color: $selected-background-color,
   --theme-hover-background-color: $grey-text-background,
   --theme-action-button-text-color: $action-button-text-color,
+  --theme-header-border-color: $grey-background,
 );
 
 // propagates SCSS variables into the CSS variables scope
