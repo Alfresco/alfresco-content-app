@@ -111,7 +111,7 @@ export class SearchInputComponent implements OnInit, OnDestroy {
   }
 
   navigateToSearch() {
-    this.router.navigate(['/search', { prevRoute: this.href }], { skipLocationChange: true, replaceUrl: false });
+    this.router.navigate(['/search'], { skipLocationChange: true, replaceUrl: false });
   }
 
   showInputValue() {

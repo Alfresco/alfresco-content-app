@@ -34,14 +34,11 @@ import { ContentActionRef, DocumentListPresetRef } from '@alfresco/adf-extension
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
-  templateUrl: './libraries.component.html',
-  styleUrls: ['./libraries.component.scss']
+  templateUrl: './libraries.component.html'
 })
 export class LibrariesComponent extends PageComponent implements OnInit {
   isSmallScreen = false;
   columns: DocumentListPresetRef[] = [];
-  searchVisibility = false;
-  isMainActionPresent: boolean;
   actions: Array<ContentActionRef> = [];
   createActions: Array<ContentActionRef> = [];
 
@@ -62,9 +59,7 @@ export class LibrariesComponent extends PageComponent implements OnInit {
       .getCreateActions()
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((actions) => {
-        this.createActions = actions.filter(
-          (action) => !(action.id.includes('upload') || action.id.includes('separator') || action.disabled === true)
-        );
+        this.createActions = actions;
       });
 
     this.subscriptions.push(
@@ -78,10 +73,6 @@ export class LibrariesComponent extends PageComponent implements OnInit {
     );
 
     this.columns = this.extensions.documentListPresets.libraries || [];
-  }
-
-  onSearchVisibilityChange() {
-    this.searchVisibility = !this.searchVisibility;
   }
 
   navigateTo(node: SiteEntry) {
