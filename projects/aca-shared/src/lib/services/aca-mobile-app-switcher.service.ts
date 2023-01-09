@@ -32,8 +32,11 @@ import { OpenInAppComponent } from '../components/open-in-app/open-in-app.compon
   providedIn: 'root'
 })
 export class AcaMobileAppSwitcherService {
-  private mobileAppSwitchConfig: any = this.config.get<any>('mobileAppSwitch', {});
-  constructor(private config: AppConfigService, private dialog: MatDialog) {}
+  private mobileAppSwitchConfig: any;
+  public redirectUrl: any;
+  constructor(private config: AppConfigService, private dialog: MatDialog) {
+    this.mobileAppSwitchConfig = this.config.get<any>('mobileAppSwitch', {});
+  }
 
   checkForMobileApp() {
     const currentTime = new Date().getTime();
@@ -54,11 +57,11 @@ export class AcaMobileAppSwitcherService {
     const time = date.getTime();
     sessionStorage.setItem('sessionTime', time.toString());
     if (isIphone === true) {
-      const iphoneUrl = this.mobileAppSwitchConfig.isIphone + url;
-      this.openInApp(iphoneUrl);
+      this.redirectUrl = this.mobileAppSwitchConfig.isIphone + url;
+      this.openInApp(this.redirectUrl);
     } else if (isAndroid === true) {
-      const androidUrl = this.mobileAppSwitchConfig.isAndroidPart1 + url + this.mobileAppSwitchConfig.isAndroidPart2;
-      this.openInApp(androidUrl);
+      this.redirectUrl = this.mobileAppSwitchConfig.isAndroidPart1 + url + this.mobileAppSwitchConfig.isAndroidPart2;
+      this.openInApp(this.redirectUrl);
     }
   }
   openInApp(redirectUrl: string) {

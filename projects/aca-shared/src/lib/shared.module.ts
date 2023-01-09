@@ -31,10 +31,11 @@ import { ContextActionsModule } from './directives/contextmenu/contextmenu.modul
 import { OpenInAppComponent } from './components/open-in-app/open-in-app.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
-  imports: [ContextActionsModule, MatButtonModule, MatIconModule],
-  exports: [ContextActionsModule, MatButtonModule, MatIconModule],
+  imports: [ContextActionsModule, MatButtonModule, MatIconModule, MatDialogModule],
+  exports: [ContextActionsModule, MatButtonModule, MatIconModule, MatDialogModule],
   declarations: [OpenInAppComponent]
 })
 export class SharedModule {
