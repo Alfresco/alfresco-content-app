@@ -29,7 +29,7 @@
     "@alfresco/adf-content-services": "6.0.0-A.1-37726",
     "@alfresco/adf-core": "6.0.0-A.1-37726",
     "@alfresco/adf-extensions": "6.0.0-A.1-37726",
-    "@alfresco/js-api": "5.3.0-520",
+    "@alfresco/js-api": "5.3.0-524",
     "@angular/animations": "14.1.2",
     "@angular/cdk": "14.1.2",
     "@angular/common": "14.1.2",
