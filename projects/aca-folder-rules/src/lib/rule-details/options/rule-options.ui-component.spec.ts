@@ -30,6 +30,7 @@ import { RuleOptionsUiComponent } from './rule-options.ui-component';
 import { CoreTestingModule } from '@alfresco/adf-core';
 import { By } from '@angular/platform-browser';
 import { errorScriptConstraintMock } from '../../mock/actions.mock';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 describe('RuleOptionsUiComponent', () => {
   let fixture: ComponentFixture<RuleOptionsUiComponent>;
@@ -46,7 +47,8 @@ describe('RuleOptionsUiComponent', () => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [FormsModule, ReactiveFormsModule, CoreTestingModule],
-      declarations: [RuleOptionsUiComponent]
+      declarations: [RuleOptionsUiComponent],
+      providers: [{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { floatLabel: 'never' } }]
     });
 
     fixture = TestBed.createComponent(RuleOptionsUiComponent);
@@ -132,5 +134,21 @@ describe('RuleOptionsUiComponent', () => {
     expect((matOptions[0].nativeElement as HTMLElement).innerText.trim()).toBe('ACA_FOLDER_RULES.RULE_DETAILS.OPTIONS.NO_SCRIPT');
     expect((matOptions[1].nativeElement as HTMLElement).innerText.trim()).toBe('Script 1');
     expect((matOptions[2].nativeElement as HTMLElement).innerText.trim()).toBe('Script 2');
+  });
+
+  it('should always show a label for the error script dropdown even when MAT_FORM_FIELD_DEFAULT_OPTIONS sets floatLabel to never', () => {
+    component.writeValue({
+      isEnabled: true,
+      isInheritable: false,
+      isAsynchronous: true,
+      errorScript: ''
+    });
+    component.errorScriptConstraint = errorScriptConstraintMock;
+    fixture.detectChanges();
+
+    const matFormField = fixture.debugElement.query(By.css(`[data-automation-id="rule-option-form-field-errorScript"] .mat-form-field-label`));
+    fixture.detectChanges();
+    expect(matFormField).not.toBeNull();
+    expect(matFormField.componentInstance['floatLabel']).toBe('always');
   });
 });
