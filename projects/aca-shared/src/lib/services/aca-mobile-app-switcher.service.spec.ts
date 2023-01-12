@@ -56,6 +56,7 @@ describe('AcaMobileAppSwitcherService', () => {
     service.showAppNotification();
     expect(service.redirectUrl).toEqual(iphoneUrl);
   });
+
   it('should check if the redirectUrl is `androidUrl`', () => {
     spyOnProperty(window.navigator, 'userAgent').and.returnValue('android');
     const url = window.location.href;

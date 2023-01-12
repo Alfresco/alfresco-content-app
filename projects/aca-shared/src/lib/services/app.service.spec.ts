@@ -52,6 +52,7 @@ import { TranslateServiceMock } from '../testing/translation.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RepositoryInfo } from '@alfresco/js-api';
 import { AcaMobileAppSwitcherService } from './aca-mobile-app-switcher.service';
+import { MatDialogModule } from '@angular/material/dialog';
 
 describe('AppService', () => {
   let service: AppService;
@@ -75,7 +76,7 @@ describe('AppService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule, RouterTestingModule.withRoutes([])],
+      imports: [HttpClientModule, RouterTestingModule.withRoutes([]), MatDialogModule],
       providers: [
         CommonModule,
         SearchQueryBuilderService,
