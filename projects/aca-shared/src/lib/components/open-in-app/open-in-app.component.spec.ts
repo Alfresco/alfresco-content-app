@@ -19,10 +19,10 @@ describe('OpenInAppComponent', () => {
   });
 
   it('should redirect to app when click on `Open in App` button` ', async () => {
-    let currentLocation: any;
-    const windowStub = {
+    let currentLocation: string | string[];
+    const windowStub: Window & typeof globalThis = {
       location: {
-        set href(value) {
+        set href(value: string | string[]) {
           currentLocation = value;
         }
       }

@@ -34,7 +34,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class OpenInAppComponent {
   private redirectUrl: string;
-  public window = window;
+  public window: Window & typeof globalThis = window;
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: any
@@ -43,7 +43,7 @@ export class OpenInAppComponent {
       this.redirectUrl = data.redirectUrl;
     }
   }
-  openInApp() {
+  openInApp(): void {
     this.window.location.href = this.redirectUrl;
   }
 }

@@ -33,28 +33,27 @@ import { OpenInAppComponent } from '../components/open-in-app/open-in-app.compon
 })
 export class AcaMobileAppSwitcherService {
   private mobileAppSwitchConfig: any;
-  public redirectUrl: any;
+  public redirectUrl: string;
   constructor(private config: AppConfigService, private dialog: MatDialog) {
     this.mobileAppSwitchConfig = this.config.get<any>('mobileAppSwitch', {});
   }
 
-  checkForMobileApp() {
-    const currentTime = new Date().getTime();
-    const sessionTime = sessionStorage.getItem('sessionTime');
-    const sessionConvertedTime = parseFloat(sessionTime);
-    const timeDifference = (currentTime - sessionConvertedTime) / (1000 * 60 * 60);
-    const sessionTimeForOpenAppDialogDisplay = parseFloat(this.mobileAppSwitchConfig.sessionTimeForOpenAppDialogDisplay);
+  checkForMobileApp(): void {
+    const currentTime: number = new Date().getTime();
+    const sessionTime: string = sessionStorage.getItem('sessionTime');
+    const sessionConvertedTime: number = parseFloat(sessionTime);
+    const timeDifference: number = (currentTime - sessionConvertedTime) / (1000 * 60 * 60);
+    const sessionTimeForOpenAppDialogDisplay: number = parseFloat(this.mobileAppSwitchConfig.sessionTimeForOpenAppDialogDisplay);
     if (sessionTime === null || (sessionTime !== null && timeDifference > sessionTimeForOpenAppDialogDisplay)) {
       this.showAppNotification();
     }
   }
-  showAppNotification() {
-    const ua = navigator.userAgent.toLowerCase();
-    const isAndroid = ua.indexOf('android') > -1;
-    const isIphone = ua.indexOf('iphone') > -1;
-    const url = window.location.href;
-    const date = new Date();
-    const time = date.getTime();
+  showAppNotification(): void {
+    const ua: string = navigator.userAgent.toLowerCase();
+    const isAndroid: boolean = ua.indexOf('android') > -1;
+    const isIphone: boolean = ua.indexOf('iphone') > -1;
+    const url: string = window.location.href;
+    const time: number = new Date().getTime();
     sessionStorage.setItem('sessionTime', time.toString());
     if (isIphone === true) {
       this.redirectUrl = this.mobileAppSwitchConfig.isIphone + url;
@@ -64,7 +63,7 @@ export class AcaMobileAppSwitcherService {
       this.openInApp(this.redirectUrl);
     }
   }
-  openInApp(redirectUrl: string) {
+  openInApp(redirectUrl: string): void {
     this.dialog.open(OpenInAppComponent, {
       data: {
         redirectUrl

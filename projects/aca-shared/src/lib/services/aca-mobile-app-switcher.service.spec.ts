@@ -51,16 +51,16 @@ describe('AcaMobileAppSwitcherService', () => {
 
   it('should check if redirectUrl is the `iphoneUrl`', () => {
     spyOnProperty(window.navigator, 'userAgent').and.returnValue('iphone');
-    const url = window.location.href;
-    const iphoneUrl = appConfig.config.mobileAppSwitch.isIphone + url;
+    const url: string = window.location.href;
+    const iphoneUrl: string = appConfig.config.mobileAppSwitch.isIphone + url;
     service.showAppNotification();
     expect(service.redirectUrl).toEqual(iphoneUrl);
   });
 
   it('should check if the redirectUrl is `androidUrl`', () => {
     spyOnProperty(window.navigator, 'userAgent').and.returnValue('android');
-    const url = window.location.href;
-    const androidUrl = appConfig.config.mobileAppSwitch.isAndroidPart1 + url + appConfig.config.mobileAppSwitch.isAndroidPart2;
+    const url: string = window.location.href;
+    const androidUrl: string = appConfig.config.mobileAppSwitch.isAndroidPart1 + url + appConfig.config.mobileAppSwitch.isAndroidPart2;
     service.showAppNotification();
     expect(service.redirectUrl).toEqual(androidUrl);
   });
