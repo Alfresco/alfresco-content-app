@@ -7,7 +7,11 @@
       {{ 'ACA_FOLDER_RULES.RULE_DETAILS.OPTIONS.IS_ASYNCHRONOUS' | translate }}
     </mat-checkbox>
 
-    <mat-form-field [ngClass]="{ 'hide-error-script-dropdown': hideErrorScriptDropdown }">
+    <mat-form-field
+      data-automation-id="rule-option-form-field-errorScript"
+      floatLabel="always"
+      [ngClass]="{ 'hide-error-script-dropdown': hideErrorScriptDropdown }">
+
       <mat-select
         formControlName="errorScript"
         placeholder="{{ 'ACA_FOLDER_RULES.RULE_DETAILS.OPTIONS.ERROR_SCRIPT' | translate}}"
@@ -23,6 +27,7 @@
         </ng-template>
 
       </mat-select>
+
     </mat-form-field>
   </div>
 
