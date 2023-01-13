@@ -28,14 +28,21 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { OpenInAppComponent } from '../components/open-in-app/open-in-app.component';
 
+export interface MobileAppSwitchConfigurationOptions {
+  enabled: string;
+  isIphone: string;
+  isAndroidPart1: string;
+  isAndroidPart2: string;
+  sessionTimeForOpenAppDialogDisplay: string;
+}
 @Injectable({
   providedIn: 'root'
 })
 export class AcaMobileAppSwitcherService {
-  private mobileAppSwitchConfig: any;
+  private mobileAppSwitchConfig: MobileAppSwitchConfigurationOptions;
   public redirectUrl: string;
   constructor(private config: AppConfigService, private dialog: MatDialog) {
-    this.mobileAppSwitchConfig = this.config.get<any>('mobileAppSwitch', {});
+    this.mobileAppSwitchConfig = this.config.get<MobileAppSwitchConfigurationOptions>('mobileAppSwitch');
   }
 
   checkForMobileApp(): void {

@@ -26,6 +26,9 @@
 import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
+export interface OpenInAppDialogOptions {
+  redirectUrl: string;
+}
 @Component({
   selector: 'aca-open-in-app',
   templateUrl: './open-in-app.component.html',
@@ -37,7 +40,7 @@ export class OpenInAppComponent {
   public window: Window & typeof globalThis = window;
   constructor(
     @Inject(MAT_DIALOG_DATA)
-    public data: any
+    public data: OpenInAppDialogOptions
   ) {
     if (data) {
       this.redirectUrl = data.redirectUrl;
