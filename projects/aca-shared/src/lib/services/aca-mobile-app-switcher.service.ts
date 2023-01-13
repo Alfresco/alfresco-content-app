@@ -58,17 +58,21 @@ export class AcaMobileAppSwitcherService {
   showAppNotification(): void {
     const ua: string = navigator.userAgent.toLowerCase();
     const isAndroid: boolean = ua.indexOf('android') > -1;
-    const isIphone: boolean = ua.indexOf('iphone') > -1;
+    const isIOS: boolean = this.checkForIOSDevice();
     const url: string = window.location.href;
     const time: number = new Date().getTime();
     sessionStorage.setItem('sessionTime', time.toString());
-    if (isIphone === true) {
+    if (isIOS === true) {
       this.redirectUrl = this.mobileAppSwitchConfig.isIphone + url;
       this.openInApp(this.redirectUrl);
     } else if (isAndroid === true) {
       this.redirectUrl = this.mobileAppSwitchConfig.isAndroidPart1 + url + this.mobileAppSwitchConfig.isAndroidPart2;
       this.openInApp(this.redirectUrl);
     }
+  }
+  checkForIOSDevice(): boolean {
+    const ua: string = navigator.userAgent.toLowerCase();
+    return ua.indexOf('iphone') > -1 || ua.indexOf('ipad') > -1 || ua.indexOf('ipod') > -1;
   }
   openInApp(redirectUrl: string): void {
     this.dialog.open(OpenInAppComponent, {
