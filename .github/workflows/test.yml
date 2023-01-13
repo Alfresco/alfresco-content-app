@@ -40,4 +40,4 @@ jobs:
           node-version: '14'
           cache: 'npm'
       - run: npm install
-      - run: ng test adf-office-services-ext --browsers=ChromeHeadless --watch=false
+      - run: npm test adf-office-services-ext -- --browsers=ChromeHeadless --watch=false
