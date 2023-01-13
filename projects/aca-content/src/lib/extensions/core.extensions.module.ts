@@ -28,6 +28,7 @@ import { CommonModule } from '@angular/common';
 import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
 import { ExtensionsModule } from '@alfresco/adf-extensions';
 import { AppExtensionService } from '@alfresco/aca-shared';
+import { ContentServiceExtensionService } from '../services/content-service-extension.service';
 
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 export function setupExtensions(service: AppExtensionService): () => void {
@@ -45,7 +46,7 @@ export class CoreExtensionsModule {
         {
           provide: APP_INITIALIZER,
           useFactory: setupExtensions,
-          deps: [AppExtensionService],
+          deps: [AppExtensionService, ContentServiceExtensionService],
           multi: true
         }
       ]
