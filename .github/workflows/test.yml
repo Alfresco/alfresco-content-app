@@ -7,7 +7,7 @@ on:
     branches: [master, develop]
 
 jobs:
-  build:
+  lint:
     name: 'Lint'
     runs-on: ubuntu-latest
     steps:
@@ -23,3 +23,21 @@ jobs:
           cache: 'npm'
       - run: npm install
       - run: npm run lint
+
+  test-aos:
+    needs: lint
+    name: AOS
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.0.0
+        with:
+          fetch-depth: 2
+
+      - name: node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          cache: 'npm'
+      - run: npm install
+      - run: ng test adf-office-services-ext --browsers=ChromeHeadless --watch=false
