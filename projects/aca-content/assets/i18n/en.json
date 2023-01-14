@@ -270,8 +270,8 @@
                 "YES_LABEL": "OK",
                 "NO_LABEL": "Cancel"
             },
-            "OPEN_IN_APP": {
-              "TITLE": "Open in APP"
+            "MOBILE_APP": {
+              "MOBILE_APP_BUTTON_LABEL": "Open in App"
             }
         },
         "DOCUMENT_LIST": {

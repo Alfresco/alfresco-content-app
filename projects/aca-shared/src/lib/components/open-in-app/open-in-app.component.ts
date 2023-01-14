@@ -38,6 +38,7 @@ export interface OpenInAppDialogOptions {
 export class OpenInAppComponent {
   private redirectUrl: string;
   public window: Window & typeof globalThis = window;
+
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: OpenInAppDialogOptions
@@ -46,6 +47,7 @@ export class OpenInAppComponent {
       this.redirectUrl = data.redirectUrl;
     }
   }
+
   openInApp(): void {
     this.window.location.href = this.redirectUrl;
   }
