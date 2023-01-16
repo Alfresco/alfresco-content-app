@@ -29,7 +29,7 @@ import { NgModule } from '@angular/core';
 import * as rules from './folder-rules.rules';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { EditRuleDialogSmartComponent } from './rule-details/edit-rule-dialog.smart-component';
+import { EditRuleDialogUiComponent } from './rule-details/edit-rule-dialog.ui-component';
 import { ManageRulesSmartComponent } from './manage-rules/manage-rules.smart-component';
 import { RuleCompositeConditionUiComponent } from './rule-details/conditions/rule-composite-condition.ui-component';
 import { RuleDetailsUiComponent } from './rule-details/rule-details.ui-component';
@@ -66,7 +66,7 @@ const routes: Routes = [
     ContentNodeSelectorModule
   ],
   declarations: [
-    EditRuleDialogSmartComponent,
+    EditRuleDialogUiComponent,
     ManageRulesSmartComponent,
     RuleActionListUiComponent,
     RuleActionUiComponent,

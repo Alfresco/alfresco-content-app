@@ -26,12 +26,12 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Location } from '@angular/common';
 import { FolderRulesService } from '../services/folder-rules.service';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { Rule } from '../model/rule.model';
 import { ActivatedRoute } from '@angular/router';
 import { NodeInfo } from '@alfresco/aca-shared/store';
 import { delay, takeUntil } from 'rxjs/operators';
-import { EditRuleDialogSmartComponent } from '../rule-details/edit-rule-dialog.smart-component';
+import { EditRuleDialogUiComponent } from '../rule-details/edit-rule-dialog.ui-component';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '@alfresco/adf-content-services';
 import { NotificationService } from '@alfresco/adf-core';
@@ -41,6 +41,7 @@ import { FolderRuleSetsService } from '../services/folder-rule-sets.service';
 import { RuleSet } from '../model/rule-set.model';
 import { RuleSetPickerSmartComponent } from '../rule-set-picker/rule-set-picker.smart-component';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { ActionParameterConstraint } from '../model/action-parameter-constraint.model';
 
 @Component({
   selector: 'aca-manage-rules',
@@ -64,8 +65,10 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
 
   actionsLoading$: Observable<boolean>;
   actionDefinitions$: Observable<ActionDefinitionTransformed[]>;
+  parameterConstraints$: Observable<ActionParameterConstraint[]>;
 
   private destroyed$ = new Subject<void>();
+  private _actionDefinitionsSub: Subscription;
 
   constructor(
     private location: Location,
@@ -88,6 +91,7 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
 
     this.actionsLoading$ = this.actionsService.loading$.pipe(delay(0));
     this.actionDefinitions$ = this.actionsService.actionDefinitionsListing$;
+    this.parameterConstraints$ = this.actionsService.parameterConstraints$;
 
     this.folderRulesService.deletedRuleId$.pipe(takeUntil(this.destroyed$)).subscribe((deletedRuleId) => this.onRuleDelete(deletedRuleId));
 
@@ -103,11 +107,16 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
         this.folderRuleSetsService.loadRuleSets(this.nodeId);
       }
     });
+
+    this._actionDefinitionsSub = this.actionDefinitions$.subscribe((actionDefinitions: ActionDefinitionTransformed[]) =>
+      this.actionsService.loadActionParameterConstraints(actionDefinitions)
+    );
   }
 
   ngOnDestroy() {
     this.destroyed$.next();
     this.destroyed$.complete();
+    this._actionDefinitionsSub.unsubscribe();
   }
 
   goBack(): void {
@@ -119,12 +128,14 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
   }
 
   openCreateUpdateRuleDialog(model = {}) {
-    const dialogRef = this.matDialogService.open(EditRuleDialogSmartComponent, {
+    const dialogRef = this.matDialogService.open(EditRuleDialogUiComponent, {
       width: '90%',
       panelClass: 'aca-edit-rule-dialog-container',
       data: {
         model,
-        nodeId: this.nodeId
+        nodeId: this.nodeId,
+        parameterConstraints$: this.parameterConstraints$,
+        actionDefinitions$: this.actionDefinitions$
       }
     });
 
