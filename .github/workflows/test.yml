@@ -8,7 +8,7 @@ on:
 
 jobs:
   lint:
-    name: 'Lint'
+    name: 'lint'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -24,9 +24,8 @@ jobs:
       - run: npm ci
       - run: npm run lint
 
-  test-aca-content:
-    needs: lint
-    name: aca-content
+  build:
+    name: 'build'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -40,11 +39,29 @@ jobs:
           node-version: 14
           cache: 'npm'
       - run: npm ci
-      - run: npm test aca-content -- --browsers=ChromeHeadless --watch=false
+      - run: npm run build --configuration=production,e2e
+
+  test-aca-content:
+    needs: [lint, build]
+    name: 'test: aca-content'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
+          cache: 'npm'
+      - run: npm ci
+      - run: npm test aca-content -- --browsers=ChromeHeadless --watch=false $TEST_OPTS
 
   test-aos:
-    needs: lint
-    name: adf-office-services-ext
+    needs: [lint, build]
+    name: 'test: adf-office-services-ext'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -58,11 +75,11 @@ jobs:
           node-version: 14
           cache: 'npm'
       - run: npm ci
-      - run: npm test adf-office-services-ext -- --browsers=ChromeHeadless --watch=false
+      - run: npm test adf-office-services-ext -- --browsers=ChromeHeadless --watch=false $TEST_OPTS
 
   test-aca-shared:
-    needs: lint
-    name: aca-shared
+    needs: [lint, build]
+    name: 'test: aca-shared'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -76,11 +93,11 @@ jobs:
           node-version: 14
           cache: 'npm'
       - run: npm ci
-      - run: npm test aca-shared -- --browsers=ChromeHeadless --watch=false
+      - run: npm test aca-shared -- --browsers=ChromeHeadless --watch=false $TEST_OPTS
 
   test-aca-settings:
-    needs: lint
-    name: aca-settings
+    needs: [lint, build]
+    name: 'test: aca-settings'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -94,11 +111,11 @@ jobs:
           node-version: 14
           cache: 'npm'
       - run: npm ci
-      - run: npm test aca-settings -- --browsers=ChromeHeadless --watch=false
+      - run: npm test aca-settings -- --browsers=ChromeHeadless --watch=false $TEST_OPTS
 
   test-aca-folder-rules:
-    needs: lint
-    name: aca-folder-rules
+    needs: [lint, build]
+    name: 'test: aca-folder-rules'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -112,4 +129,4 @@ jobs:
           node-version: 14
           cache: 'npm'
       - run: npm ci
-      - run: npm test aca-folder-rules -- --browsers=ChromeHeadless --watch=false
+      - run: npm test aca-folder-rules -- --browsers=ChromeHeadless --watch=false $TEST_OPTS
