@@ -3,7 +3,8 @@
     <div class="sidenav-header">
       <div class="sidenav-header-title">
         <div class="sidenav-header-title-logo">
-          <mat-icon svgIcon="workspace"></mat-icon>
+          <mat-icon svgIcon="workspace" matTooltip="{{'ACA_FOLDER_RULES.TOOLTIPS.COLLAPSE_NAVIGATION' | translate}}" matTooltipClass="navigation-tooltip"
+          ></mat-icon>
         </div>
         <div class="sidenav-header-title-text" [routerLink]="['/']">{{ 'APP.TITLE' | translate }}
         </div>

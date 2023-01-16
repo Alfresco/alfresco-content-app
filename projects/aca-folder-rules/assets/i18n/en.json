@@ -3,6 +3,11 @@
     "ACTIONS": {
       "MANAGE_RULES": "Manage Rules"
     },
+    "TOOLTIPS": {
+      "COLLAPSE_NAVIGATION": "Collapse Navigation",
+      "OPTION_SETTINGS": "Option Settings",
+      "MY_PROFILE": "My Profile"
+    },
     "EDIT_RULE_DIALOG": {
       "CANCEL": "Cancel",
       "CREATE": "Create",

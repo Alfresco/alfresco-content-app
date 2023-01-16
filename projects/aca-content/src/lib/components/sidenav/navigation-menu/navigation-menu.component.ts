@@ -6,8 +6,9 @@
  * agreement is prohibited.
  */
 
+import { AlfrescoApiService } from '@alfresco/adf-core';
+import { PeopleApi } from '@alfresco/js-api';
 import { Component, OnInit } from '@angular/core';
-import { ContentApiService } from '../../../../../../../projects/aca-shared/src/public-api';
 
 @Component({
   selector: 'app-navigation-menu',
@@ -15,15 +16,18 @@ import { ContentApiService } from '../../../../../../../projects/aca-shared/src/
   styleUrls: ['./navigation-menu.component.scss']
 })
 export class NavigationMenuComponent implements OnInit {
+  peopleApi: PeopleApi;
   personDetails;
   userName = '';
   userMail = '';
 
-  constructor(private contentApi: ContentApiService) {}
+  constructor(apiService: AlfrescoApiService) {
+    this.peopleApi = new PeopleApi(apiService.getInstance());
+  }
 
   ngOnInit() {
-    this.contentApi.getPerson('-me-').subscribe((person) => {
-      this.personDetails = person?.entry;
+    this.peopleApi.getPerson('-me-').then((userInfo) => {
+      this.personDetails = userInfo?.entry;
       this.userName = this.personDetails.displayName;
       this.userMail = this.personDetails.email;
     });
