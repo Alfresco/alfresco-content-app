@@ -627,6 +627,18 @@
               "projects/aca-content/src/lib/ui/application.scss"
             ]
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/aca-content/**/*.ts",
+              "projects/aca-content/**/*.html"
+            ],
+            "cache": true,
+            "cacheLocation": ".eslintcache",
+            "ignorePath": ".eslintignore"
+          }
         }
       }
     }
