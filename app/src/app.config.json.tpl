@@ -32,7 +32,7 @@
     "copyright": "APP.COPYRIGHT"
   },
   "viewer.maxRetries": 1,
-  "sharedLinkDateTimePickerType": "date",
+  "sharedLinkDateTimePickerType": "datetime",
   "headerColor": "#ffffff",
   "headerTextColor": "#000000",
   "customCssPath": "",
