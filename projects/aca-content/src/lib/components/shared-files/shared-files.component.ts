@@ -40,6 +40,7 @@ import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 })
 export class SharedFilesComponent extends PageComponent implements OnInit {
   isSmallScreen = false;
+
   columns: DocumentListPresetRef[] = [];
 
   constructor(

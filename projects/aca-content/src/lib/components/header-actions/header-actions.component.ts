@@ -23,44 +23,41 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AppStore, getUserProfile } from '@alfresco/aca-shared/store';
-import { DocumentListPresetRef, ProfileState } from '@alfresco/adf-extensions';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
 import { ContentManagementService } from '../../services/content-management.service';
 import { PageComponent } from '../page.component';
 import { AppExtensionService } from '@alfresco/aca-shared';
+import { SetCurrentFolderAction, AppStore } from '@alfresco/aca-shared/store';
 
 @Component({
-  templateUrl: './trashcan.component.html'
+  selector: 'aca-header-actions',
+  templateUrl: './header-actions.component.html'
 })
-export class TrashcanComponent extends PageComponent implements OnInit {
-  isSmallScreen = false;
-  user$: Observable<ProfileState>;
-
-  columns: DocumentListPresetRef[] = [];
-
-  constructor(
-    content: ContentManagementService,
-    extensions: AppExtensionService,
-    store: Store<AppStore>,
-    private breakpointObserver: BreakpointObserver
-  ) {
+export class HeaderActionsComponent extends PageComponent implements OnInit, OnDestroy {
+  constructor(private router: Router, store: Store<AppStore>, content: ContentManagementService, extensions: AppExtensionService) {
     super(store, extensions, content);
-    this.user$ = this.store.select(getUserProfile);
   }
 
   ngOnInit() {
     super.ngOnInit();
+  }
 
-    this.subscriptions.push(
-      this.breakpointObserver.observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape]).subscribe((result) => {
-        this.isSmallScreen = result.matches;
-      })
-    );
+  ngOnDestroy() {
+    this.store.dispatch(new SetCurrentFolderAction(null));
+    super.ngOnDestroy();
+  }
 
-    this.columns = this.extensions.documentListPresets.trashcan || [];
+  isPersonalFilesRoute(): Boolean {
+    return this.router.url.includes('/personal-files');
+  }
+
+  isFavoriteLibrariesRoute(): Boolean {
+    return this.router.url.includes('/favorite/libraries');
+  }
+
+  isLibrariesrRoute(): Boolean {
+    return this.router.url.includes('/libraries');
   }
 }

@@ -36,7 +36,7 @@ import { SetCurrentFolderAction, isAdmin, AppStore, UploadFileVersionAction, sho
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { FilterSearch, ShareDataRow } from '@alfresco/adf-content-services';
-import { ContentActionRef, DocumentListPresetRef } from '@alfresco/adf-extensions';
+import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -48,9 +48,6 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   isAdmin = false;
   selectedNode: MinimalNodeEntity;
   queryParams = null;
-  actions: Array<ContentActionRef> = [];
-  createActions: Array<ContentActionRef> = [];
-  uploadActions: Array<ContentActionRef> = [];
 
   showLoader$: Observable<boolean>;
   private nodePath: PathElement[];
@@ -73,20 +70,6 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     super.ngOnInit();
-
-    this.extensions
-      .getCreateActions()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((actions) => {
-        this.createActions = actions;
-      });
-
-    this.extensions
-      .getUploadActions()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((actions) => {
-        this.uploadActions = actions;
-      });
 
     const { route, nodeActionsService, uploadService } = this;
     const { data } = route.snapshot;

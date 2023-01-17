@@ -1,4 +1,4 @@
-<div *ngIf=" href.includes('/search') "
+<div *ngIf="isSearchRoute()"
   class="app-search-container searchMenuTrigger"
   [matMenuTriggerFor]="searchOptionsMenu"
   (menuOpened)="onMenuOpened()"
@@ -24,7 +24,7 @@
   </mat-form-field> 
 </div>
 
-<div *ngIf=" !href.includes('/search') "
+<div *ngIf="!isSearchRoute()"
   class="app-search-container searchMenuTrigger">
   <button mat-icon-button class="app-search-button" (click)="navigateToSearch()" [title]="'SEARCH.BUTTON.TOOLTIP' | translate">
     <mat-icon [attr.aria-label]="'SEARCH.BUTTON.ARIA-LABEL' | translate">search</mat-icon>
