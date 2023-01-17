@@ -50,7 +50,6 @@ export class SearchInputComponent implements OnInit, OnDestroy {
   navigationTimer: any;
   has400LibraryError = false;
   searchOnChange: boolean;
-  href = '';
 
   searchedWord: string = null;
   searchOptions: Array<SearchOptionModel> = [
@@ -92,22 +91,26 @@ export class SearchInputComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.showInputValue();
+    if (this.isSearchRoute()) {
+      this.showInputValue();
 
-    this.router.events
-      .pipe(takeUntil(this.onDestroy$))
-      .pipe(filter((e) => e instanceof RouterEvent))
-      .subscribe((event) => {
-        if (event instanceof NavigationEnd) {
-          this.showInputValue();
-        }
+      this.router.events
+        .pipe(takeUntil(this.onDestroy$))
+        .pipe(filter((e) => e instanceof RouterEvent))
+        .subscribe((event) => {
+          if (event instanceof NavigationEnd) {
+            this.showInputValue();
+          }
+        });
+
+      this.appHookService.library400Error.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
+        this.has400LibraryError = true;
       });
+    }
+  }
 
-    this.href = this.router.url;
-
-    this.appHookService.library400Error.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
-      this.has400LibraryError = true;
-    });
+  isSearchRoute(): Boolean {
+    return this.router.url.includes('/search');
   }
 
   navigateToSearch() {

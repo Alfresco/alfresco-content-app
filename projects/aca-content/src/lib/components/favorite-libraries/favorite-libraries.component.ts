@@ -31,8 +31,7 @@ import { ContentManagementService } from '../../services/content-management.serv
 import { AppExtensionService, AppHookService, ContentApiService, PageComponent } from '@alfresco/aca-shared';
 import { NavigateLibraryAction } from '@alfresco/aca-shared/store';
 import { UserPreferencesService } from '@alfresco/adf-core';
-import { ContentActionRef, DocumentListPresetRef } from '@alfresco/adf-extensions';
-import { takeUntil } from 'rxjs/operators';
+import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 
 @Component({
   templateUrl: './favorite-libraries.component.html'
@@ -47,8 +46,6 @@ export class FavoriteLibrariesComponent extends PageComponent implements OnInit 
   list: FavoritePaging;
   isSmallScreen = false;
   columns: DocumentListPresetRef[] = [];
-  actions: Array<ContentActionRef> = [];
-  createActions: Array<ContentActionRef> = [];
 
   constructor(
     content: ContentManagementService,
@@ -65,13 +62,6 @@ export class FavoriteLibrariesComponent extends PageComponent implements OnInit 
 
   ngOnInit() {
     super.ngOnInit();
-
-    this.extensions
-      .getCreateActions()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((actions) => {
-        this.createActions = actions;
-      });
 
     this.getList({ maxItems: this.preferences.paginationSize });
 
