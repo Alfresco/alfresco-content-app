@@ -139,7 +139,7 @@
 
 .adf-sidenav-layout {
   .mat-sidenav {
-    width: 289px !important;
+    width: 0 !important;
   }
 }
 
@@ -164,7 +164,7 @@ mat-tooltip-component {
     background: var(--theme-tooltip-background-color);
     border-radius: 0;
     border: 1px solid var(--theme-selected-text-color);
-    font-size: 12px;
+    font-size: var(--theme-body-1-font-size);
     margin: 4px;
     color: var(--theme-selected-text-color);
   }

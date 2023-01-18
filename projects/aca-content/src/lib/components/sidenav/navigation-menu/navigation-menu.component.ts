@@ -8,12 +8,13 @@
 
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { PeopleApi } from '@alfresco/js-api';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-navigation-menu',
   templateUrl: './navigation-menu.component.html',
-  styleUrls: ['./navigation-menu.component.scss']
+  styleUrls: ['./navigation-menu.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class NavigationMenuComponent implements OnInit {
   peopleApi: PeopleApi;

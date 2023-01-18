@@ -45,6 +45,7 @@ $sidenav-background-color: #f8f8f8;
 $selected-text-color: #212121;
 $selected-background-color: rgba(31, 116, 219, 0.24);
 $action-button-text-color: rgba(33, 35, 40, 0.7);
+$tooltip-background-color: #ffffff;
 
 $defaults: (
   --theme-primary-color: mat.get-color-from-palette($primary),
@@ -83,7 +84,7 @@ $defaults: (
   --theme-hover-background-color: $grey-text-background,
   --theme-action-button-text-color: $action-button-text-color,
   --theme-header-border-color: $grey-background,
-  --theme-tooltip-background-color: $pagination-background-color,
+  --theme-tooltip-background-color: $tooltip-background-color,
 );
 
 // propagates SCSS variables into the CSS variables scope

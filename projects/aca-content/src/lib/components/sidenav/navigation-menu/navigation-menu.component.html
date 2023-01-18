@@ -1,9 +1,9 @@
-<button mat-icon-button [matMenuTriggerFor]="menu" class="app-menu-user-details-button" aria-label="matMenu">
+<button mat-icon-button [matMenuTriggerFor]="menu" aria-label="matMenu" class="app-menu-button">
     <mat-icon svgIcon="menu" matTooltip="{{'ACA_FOLDER_RULES.TOOLTIPS.OPTION_SETTINGS' | translate}}" matTooltipClass="navigation-tooltip"></mat-icon>
 </button>
 <mat-menu #menu="matMenu" xPosition="before">
     <div mat-menu-item class="app-menu-user-details" [routerLink]="['/profile']" matTooltip="{{'ACA_FOLDER_RULES.TOOLTIPS.MY_PROFILE' | translate}}" matTooltipClass="navigation-tooltip">
-        <button class="app-menu-user-details-button app-menu-button" aria-label="matMenu">
+        <button class="app-menu-user-details-button" aria-label="matMenu">
             <mat-icon svgIcon="avatar"></mat-icon>
         </button>
         <div class="app-menu-user-details-name-mail">

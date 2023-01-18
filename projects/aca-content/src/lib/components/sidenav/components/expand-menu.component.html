@@ -17,7 +17,7 @@
 
 <ng-container *ngIf="item.children && item.children.length">
   <mat-expansion-panel
-    [expanded]="acaExpansionPanel.hasActiveLinks()"
+    [expanded]="(isRouteAbout() || isRouteProfile() || isRouteSearch() ) ? !acaExpansionPanel.hasActiveLinks() : acaExpansionPanel.hasActiveLinks()"
     [acaExpansionPanel]="item"
     #acaExpansionPanel="acaExpansionPanel"
     [@.disabled]="true"
