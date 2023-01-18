@@ -47,15 +47,15 @@ export class ExpandMenuComponent implements OnInit {
     return obj.id;
   }
 
-  isRouteAbout(): Boolean {
+  isRouteAbout(): boolean {
     return this.router.url.includes('/about');
   }
 
-  isRouteProfile(): Boolean {
+  isRouteProfile(): boolean {
     return this.router.url.includes('/profile');
   }
 
-  isRouteSearch(): Boolean {
+  isRouteSearch(): boolean {
     return this.router.url.includes('/search');
   }
 }
