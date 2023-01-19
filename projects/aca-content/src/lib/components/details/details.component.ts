@@ -25,8 +25,7 @@
 
 import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { PageComponent } from '../page.component';
-import { AppExtensionService, ContentApiService } from '@alfresco/aca-shared';
+import { AppExtensionService, ContentApiService, PageComponent } from '@alfresco/aca-shared';
 import { AppStore, NavigateToPreviousPage, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { Store } from '@ngrx/store';
 import { ContentManagementService } from '../../services/content-management.service';

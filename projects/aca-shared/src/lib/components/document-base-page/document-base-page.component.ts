@@ -31,7 +31,7 @@ import { Store } from '@ngrx/store';
 import { MinimalNodeEntity, MinimalNodeEntryEntity, NodePaging } from '@alfresco/js-api';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { takeUntil, map } from 'rxjs/operators';
-import { ContentManagementService } from '../services/content-management.service';
+import { DocumentBasePageService } from './document-base-page.service';
 import {
   AppStore,
   ReloadDocumentListAction,
@@ -44,7 +44,8 @@ import {
   ViewNodeExtras,
   SetSelectedNodesAction
 } from '@alfresco/aca-shared/store';
-import { isLocked, isLibrary, AppExtensionService } from '@alfresco/aca-shared';
+import { AppExtensionService } from '../../services/app.extension.service';
+import { isLibrary, isLocked } from '../../utils/node.utils';
 
 /* eslint-disable @angular-eslint/directive-class-suffix */
 @Directive()
@@ -70,7 +71,7 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
 
   protected subscriptions: Subscription[] = [];
 
-  protected constructor(protected store: Store<AppStore>, protected extensions: AppExtensionService, protected content: ContentManagementService) {}
+  protected constructor(protected store: Store<AppStore>, protected extensions: AppExtensionService, protected content: DocumentBasePageService) {}
 
   ngOnInit() {
     this.sharedPreviewUrl$ = this.store.select(getSharedUrl);

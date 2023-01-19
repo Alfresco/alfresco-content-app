@@ -29,8 +29,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ContentManagementService } from '../../services/content-management.service';
-import { PageComponent } from '../page.component';
-import { AppExtensionService, AppHookService } from '@alfresco/aca-shared';
+import { AppExtensionService, AppHookService, PageComponent } from '@alfresco/aca-shared';
 import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 
 @Component({

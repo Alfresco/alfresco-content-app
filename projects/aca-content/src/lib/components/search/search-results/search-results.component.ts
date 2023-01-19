@@ -27,7 +27,6 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MinimalNodeEntity, Pagination, ResultSetPaging } from '@alfresco/js-api';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
-import { PageComponent } from '../../page.component';
 import { Store } from '@ngrx/store';
 import {
   AppStore,
@@ -42,7 +41,7 @@ import {
 import { ContentManagementService } from '../../../services/content-management.service';
 import { TranslationService } from '@alfresco/adf-core';
 import { combineLatest, Observable } from 'rxjs';
-import { AppExtensionService } from '@alfresco/aca-shared';
+import { AppExtensionService, PageComponent } from '@alfresco/aca-shared';
 import { SearchSortingDefinition } from '@alfresco/adf-content-services/lib/search/models/search-sorting-definition.interface';
 import { takeUntil } from 'rxjs/operators';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';

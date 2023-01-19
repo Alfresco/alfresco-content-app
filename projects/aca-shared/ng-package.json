@@ -1,5 +1,5 @@
 {
-  "dest": "../../dist/aca-shared",
+  "dest": "../../dist/@alfresco/aca-shared",
   "lib": {
     "entryFile": "src/public-api.ts"
   }
