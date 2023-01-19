@@ -23,7 +23,6 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Location } from '@angular/common';
 import { Component, EventEmitter, Input, OnDestroy, Output, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
 import { Subject } from 'rxjs';
 
@@ -61,8 +60,6 @@ export class SearchInputControlComponent implements OnDestroy {
 
   searchTerm = '';
 
-  constructor(private location: Location) {}
-
   ngOnDestroy(): void {
     this.onDestroy$.next(true);
     this.onDestroy$.complete();
@@ -79,7 +76,6 @@ export class SearchInputControlComponent implements OnDestroy {
   clear() {
     this.searchTerm = '';
     this.searchChange.emit('');
-    this.location.back();
   }
 
   isTermTooShort() {

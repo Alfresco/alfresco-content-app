@@ -34,6 +34,7 @@ import { map } from 'rxjs/operators';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { SearchInputService } from '../search-input.service';
 
 describe('SearchInputComponent', () => {
   let fixture: ComponentFixture<SearchInputComponent>;
@@ -241,6 +242,44 @@ describe('navigateToSearch()', () => {
     await fixture.whenStable();
 
     expect(spyNavigate).toHaveBeenCalled();
-    expect(routerNavigate).toHaveBeenCalledWith(['/search'], Object({ skipLocationChange: true, replaceUrl: false }));
+    expect(routerNavigate).toHaveBeenCalledWith(['/search']);
+  });
+});
+
+describe('exitSearch()', () => {
+  let fixture: ComponentFixture<SearchInputComponent>;
+  let component: SearchInputComponent;
+  let searchInputService: SearchInputService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [AppTestingModule, RouterTestingModule],
+      declarations: [SearchInputComponent],
+      providers: [SearchQueryBuilderService, { provide: Router, useValue: { url: 'test-url', navigate: (_options?: any) => {} } }],
+      schemas: [NO_ERRORS_SCHEMA]
+    });
+
+    fixture = TestBed.createComponent(SearchInputComponent);
+    searchInputService = TestBed.inject(SearchInputService);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should exit search on click of close icon', async () => {
+    spyOn(component, 'isSearchRoute').and.returnValue(true);
+    spyOn(component, 'exitSearch').and.callThrough();
+    spyOn(searchInputService, 'exitSearch').and.callThrough();
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const closeIcon = fixture.debugElement.nativeElement.querySelector('.app-close-icon');
+    closeIcon.click();
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(component.exitSearch).toHaveBeenCalled();
+    expect(searchInputService.exitSearch).toHaveBeenCalledWith();
   });
 });

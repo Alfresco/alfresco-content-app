@@ -116,7 +116,7 @@ import { RouterModule } from '@angular/router';
 import { UploadFilesDialogComponent } from './components/upload-files-dialog/upload-files-dialog.component';
 import { SidenavWrapperComponent } from './components/sidenav/sidenav-wrapper/sidenav-wrapper.component';
 import { AppLayoutComponent } from './components/layout/app-layout/app-layout.component';
-import { HeaderActionsComponent } from './components/header-actions/header-actions.component';
+import { AppHeaderActionsModule } from './components/header-actions/header-actions.module';
 
 registerLocaleData(localeFr);
 registerLocaleData(localeDe);
@@ -159,6 +159,7 @@ registerLocaleData(localeSv);
     AppCreateMenuModule,
     DocumentListCustomComponentsModule,
     AppSearchInputModule,
+    AppHeaderActionsModule,
     AppSearchResultsModule,
     AppNodeVersionModule,
     HammerModule,
@@ -172,7 +173,6 @@ registerLocaleData(localeSv);
     FavoritesComponent,
     RecentFilesComponent,
     SharedFilesComponent,
-    HeaderActionsComponent,
     CreateFromTemplateDialogComponent,
     HomeComponent,
     UploadFilesDialogComponent

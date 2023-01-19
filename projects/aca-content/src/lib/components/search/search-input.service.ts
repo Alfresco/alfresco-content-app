@@ -23,41 +23,22 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { ContentManagementService } from '../../services/content-management.service';
-import { PageComponent } from '../page.component';
-import { AppExtensionService } from '@alfresco/aca-shared';
-import { SetCurrentFolderAction, AppStore } from '@alfresco/aca-shared/store';
 
-@Component({
-  selector: 'aca-header-actions',
-  templateUrl: './header-actions.component.html'
+@Injectable({
+  providedIn: 'root'
 })
-export class HeaderActionsComponent extends PageComponent implements OnInit, OnDestroy {
-  constructor(private router: Router, store: Store<AppStore>, content: ContentManagementService, extensions: AppExtensionService) {
-    super(store, extensions, content);
+export class SearchInputService {
+  savedRoute: '';
+
+  constructor(private router: Router) {}
+
+  saveRoute(route) {
+    this.savedRoute = route;
   }
 
-  ngOnInit() {
-    super.ngOnInit();
-  }
-
-  ngOnDestroy() {
-    this.store.dispatch(new SetCurrentFolderAction(null));
-    super.ngOnDestroy();
-  }
-
-  isPersonalFilesRoute(): boolean {
-    return this.router.url.includes('/personal-files');
-  }
-
-  isFavoriteLibrariesRoute(): boolean {
-    return this.router.url.includes('/favorite/libraries');
-  }
-
-  isLibrariesrRoute(): boolean {
-    return this.router.url.includes('/libraries');
+  exitSearch() {
+    this.router.navigate([this.savedRoute]);
   }
 }

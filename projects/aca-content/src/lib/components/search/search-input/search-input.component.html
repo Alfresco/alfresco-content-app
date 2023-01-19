@@ -21,11 +21,15 @@
     <div matSuffix class="app-suffix-search-icon-wrapper">
       <mat-icon>arrow_drop_down</mat-icon>
     </div>
+
+    <div matSuffix class="app-suffix-search-icon-wrapper app-close-icon" (click)="exitSearch()">
+      <mat-icon>close</mat-icon>
+    </div>
   </mat-form-field> 
 </div>
 
 <div *ngIf="!isSearchRoute()"
-  class="app-search-container searchMenuTrigger">
+  class="app-search-container">
   <button mat-icon-button class="app-search-button" (click)="navigateToSearch()" [title]="'SEARCH.BUTTON.TOOLTIP' | translate">
     <mat-icon [attr.aria-label]="'SEARCH.BUTTON.ARIA-LABEL' | translate">search</mat-icon>
   </button>
