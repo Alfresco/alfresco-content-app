@@ -40,11 +40,13 @@ echo -e "Branch is '$TRAVIS_BRANCH', therefore publish with '$TAG_NPM' tag\n"
 
 PROJECTS=(
     'aca-shared'
+    'aca-folder-rules'
     'adf-office-services-ext'
     'aca-settings'
     'aca-about'
     'aca-preview'
     'aca-viewer'
+    'aca-content'
 );
 
 for PROJECT in "${PROJECTS[@]}"

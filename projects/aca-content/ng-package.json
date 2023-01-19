@@ -1,10 +1,16 @@
 {
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
-  "dest": "../../dist/aca-content",
+  "dest": "../../dist/@alfresco/aca-content",
   "lib": {
-    "styleIncludePaths": [
-      "projects/aca-content/src/lib/ui"
-    ],
+    "styleIncludePaths": ["projects/aca-content/src/lib/ui"],
     "entryFile": "src/public-api.ts"
-  }
+  },
+  "assets": [
+    {
+      "glob": "**/*",
+      "input": "./src/lib/ui/",
+      "output": "ui"
+    },
+    "assets"
+  ]
 }
