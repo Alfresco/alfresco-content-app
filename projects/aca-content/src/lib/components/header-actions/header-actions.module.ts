@@ -26,8 +26,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
-import { TrashcanComponent } from './trashcan.component';
-import { Routes, RouterModule } from '@angular/router';
 import { ContentModule } from '@alfresco/adf-content-services';
 import { AppCommonModule } from '../common/common.module';
 import { AppToolbarModule } from '../toolbar/toolbar.module';
@@ -35,34 +33,21 @@ import { DirectivesModule } from '../../directives/directives.module';
 import { ContextMenuModule } from '../context-menu/context-menu.module';
 import { AppLayoutModule } from '../layout/layout.module';
 import { AppSearchInputModule } from '../search/search-input.module';
-import { AppHeaderActionsModule } from '../header-actions/header-actions.module';
-
-const routes: Routes = [
-  {
-    path: '',
-    component: TrashcanComponent,
-    data: {
-      title: 'APP.BROWSE.TRASHCAN.TITLE',
-      sortingPreferenceKey: 'trashcan'
-    }
-  }
-];
+import { HeaderActionsComponent } from './header-actions.component';
 
 @NgModule({
   imports: [
     CommonModule,
     CoreModule.forChild(),
-    RouterModule.forChild(routes),
     ContentModule.forChild(),
     DirectivesModule,
     AppCommonModule,
     AppToolbarModule,
     ContextMenuModule,
     AppLayoutModule,
-    AppSearchInputModule,
-    AppHeaderActionsModule
+    AppSearchInputModule
   ],
-  declarations: [TrashcanComponent],
-  exports: [TrashcanComponent]
+  declarations: [HeaderActionsComponent],
+  exports: [HeaderActionsComponent]
 })
-export class AppTrashcanModule {}
+export class AppHeaderActionsModule {}

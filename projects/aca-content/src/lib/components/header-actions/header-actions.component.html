@@ -1,4 +1,4 @@
-<div *ngIf="!searchVisibility">
+<div>
   <div class="adf-toolbar--spacer adf-toolbar-divider"></div>
   <span class="action-bar">
     <button class="aca-mat-button aca-create-button" mat-stroked-button data-automation-id="create-button"
@@ -26,6 +26,7 @@
 
     <adf-toolbar-divider *ngIf=" isPersonalFilesRoute() || isFavoriteLibrariesRoute() || isLibrariesrRoute() ">
     </adf-toolbar-divider>
-    <aca-search-input class="aca-search-input" style="background-color: var(--theme-white-color);" (click)="onSearchVisibilityChange()"></aca-search-input>
+    <aca-search-input class="app-search-input"></aca-search-input>
+
   </span>
 </div>

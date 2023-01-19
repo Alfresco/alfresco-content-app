@@ -48,27 +48,6 @@ describe('HeaderActionsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('searchVisibility is false by default', async () => {
-    component.ngOnInit();
-    fixture.detectChanges();
-    await fixture.whenStable();
-
-    expect(component.searchVisibility).toBe(false);
-  });
-
-  it('should open search input when search icon is clicked', async () => {
-    component.ngOnInit();
-    spyOn(component, 'onSearchVisibilityChange').and.callThrough();
-
-    fixture.detectChanges();
-    await fixture.whenStable();
-
-    const searchIcon = fixture.debugElement.nativeElement.querySelector('.aca-search-input');
-    searchIcon.click();
-
-    expect(component.onSearchVisibilityChange).toHaveBeenCalled();
-  });
-
   it('should open create menu on click of create button', async () => {
     component.ngOnInit();
     fixture.detectChanges();
