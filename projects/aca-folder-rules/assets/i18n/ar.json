@@ -121,7 +121,8 @@
       "LOAD_MORE_RULE_SETS": "قواعد التحميل من المجلدات الأخرى",
       "LOAD_MORE_RULES": "تحميل المزيد من القواعد",
       "LOADING_RULES": "قواعد التحميل",
-      "INHERITED_RULES_WILL_BE_RUN_FIRST": "سيتم تشغيل القواعد الموروثة أولاً"
+      "INHERITED_RULES_WILL_BE_RUN_FIRST": "سيتم تشغيل القواعد الموروثة أولاً",
+      "ALL_LINKED_RULES_ARE_DISABLED": "تم تعطيل جميع القواعد المرتبطة من مجموعة القواعد هذه"
     },
     "LINK_RULES_DIALOG": {
       "TITLE": "حدد مجلدًا لربط القواعد منه",

@@ -121,7 +121,8 @@
       "LOAD_MORE_RULE_SETS": "Carregar regras de outras pastas",
       "LOAD_MORE_RULES": "Carregar mais regras",
       "LOADING_RULES": "Carregando regras",
-      "INHERITED_RULES_WILL_BE_RUN_FIRST": "As regras herdadas serão executadas primeiro"
+      "INHERITED_RULES_WILL_BE_RUN_FIRST": "As regras herdadas serão executadas primeiro",
+      "ALL_LINKED_RULES_ARE_DISABLED": "Todas as regras vinculadas deste conjunto de regras estão desativadas"
     },
     "LINK_RULES_DIALOG": {
       "TITLE": "Selecione uma pasta da qual vincular regras",

@@ -121,7 +121,8 @@
       "LOAD_MORE_RULE_SETS": "他のフォルダからユールを読み込む",
       "LOAD_MORE_RULES": "さらにルールを読み込む",
       "LOADING_RULES": "ルールの読み込み中",
-      "INHERITED_RULES_WILL_BE_RUN_FIRST": "継承されたルールが最初に実行されます"
+      "INHERITED_RULES_WILL_BE_RUN_FIRST": "継承されたルールが最初に実行されます",
+      "ALL_LINKED_RULES_ARE_DISABLED": "このルールセットからリンクされているすべてのルールは無効です"
     },
     "LINK_RULES_DIALOG": {
       "TITLE": "ルールをリンクさせるフォルダを選択",

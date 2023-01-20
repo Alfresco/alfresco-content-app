@@ -121,7 +121,8 @@
       "LOAD_MORE_RULE_SETS": "Regeln aus anderen Ordnern laden",
       "LOAD_MORE_RULES": "Weitere Regeln laden",
       "LOADING_RULES": "Regeln werden geladen",
-      "INHERITED_RULES_WILL_BE_RUN_FIRST": "Vererbte Regeln werden zuerst ausgeführt"
+      "INHERITED_RULES_WILL_BE_RUN_FIRST": "Vererbte Regeln werden zuerst ausgeführt",
+      "ALL_LINKED_RULES_ARE_DISABLED": "Alle von diesem Regelsatz verknüpften Regeln sind deaktiviert"
     },
     "LINK_RULES_DIALOG": {
       "TITLE": "Wählen Sie einen Ordner für die Verknüpfung von Regeln aus",

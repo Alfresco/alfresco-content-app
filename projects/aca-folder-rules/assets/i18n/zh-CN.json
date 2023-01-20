@@ -121,7 +121,8 @@
       "LOAD_MORE_RULE_SETS": "加载来自其他文件夹的规则",
       "LOAD_MORE_RULES": "加载更多规则",
       "LOADING_RULES": "正在加载规则",
-      "INHERITED_RULES_WILL_BE_RUN_FIRST": "首先运行继承的规则"
+      "INHERITED_RULES_WILL_BE_RUN_FIRST": "首先运行继承的规则",
+      "ALL_LINKED_RULES_ARE_DISABLED": "禁用从此规则集链接的所有规则"
     },
     "LINK_RULES_DIALOG": {
       "TITLE": "选择要从中链接规则的文件夹",

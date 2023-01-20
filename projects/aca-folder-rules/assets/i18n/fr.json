@@ -121,7 +121,8 @@
       "LOAD_MORE_RULE_SETS": "Charger les règles d'autres dossiers",
       "LOAD_MORE_RULES": "Charger plus de règles",
       "LOADING_RULES": "Chargement des règles en cours",
-      "INHERITED_RULES_WILL_BE_RUN_FIRST": "Les règles héritées seront exécutées en premier"
+      "INHERITED_RULES_WILL_BE_RUN_FIRST": "Les règles héritées seront exécutées en premier",
+      "ALL_LINKED_RULES_ARE_DISABLED": "Toutes les règles liées à cet ensemble de règles sont désactivées"
     },
     "LINK_RULES_DIALOG": {
       "TITLE": "Sélectionner le dossier à partir duquel lier les règles",

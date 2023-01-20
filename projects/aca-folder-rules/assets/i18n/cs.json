@@ -121,10 +121,11 @@
       "LOAD_MORE_RULE_SETS": "Načíst pravidla z jiných složek",
       "LOAD_MORE_RULES": "Načíst více pravidel",
       "LOADING_RULES": "Načítání pravidel",
-      "INHERITED_RULES_WILL_BE_RUN_FIRST": "Jako první budou spuštěna zděděná pravidla"
+      "INHERITED_RULES_WILL_BE_RUN_FIRST": "Jako první budou spuštěna zděděná pravidla",
+      "ALL_LINKED_RULES_ARE_DISABLED": "Všechna pravidla, na která byl vytvořen odkaz z tohoto souboru pravidel, jsou zakázaná"
     },
     "LINK_RULES_DIALOG": {
-      "TITLE": "Vyberte složku pro vytvoření odkaz na pravidla z",
+      "TITLE": "Vyberte složku pro vytvoření odkazu na pravidla z",
       "CANCEL": "Zrušit",
       "SUBMIT": "Vybrat složku",
       "EMPTY_RULES_LIST": {

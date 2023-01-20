@@ -121,7 +121,8 @@
       "LOAD_MORE_RULE_SETS": "Lataa sääntöjä muista kansioista",
       "LOAD_MORE_RULES": "Lataa lisää sääntöjä",
       "LOADING_RULES": "Sääntöjä ladataan",
-      "INHERITED_RULES_WILL_BE_RUN_FIRST": "Perityt säännöt suoritetaan ensin"
+      "INHERITED_RULES_WILL_BE_RUN_FIRST": "Perityt säännöt suoritetaan ensin",
+      "ALL_LINKED_RULES_ARE_DISABLED": "Kaikki tästä sääntöjoukosta linkitetyt säännöt on poistettu käytöstä"
     },
     "LINK_RULES_DIALOG": {
       "TITLE": "Valitse kansio, josta sääntöjä linkitetään",
