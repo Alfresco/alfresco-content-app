@@ -121,7 +121,8 @@
       "LOAD_MORE_RULE_SETS": "Regels laden uit andere mappen",
       "LOAD_MORE_RULES": "Meer regels laden",
       "LOADING_RULES": "Regels worden geladen",
-      "INHERITED_RULES_WILL_BE_RUN_FIRST": "Overgenomen regels worden als eerste uitgevoerd"
+      "INHERITED_RULES_WILL_BE_RUN_FIRST": "Overgenomen regels worden als eerste uitgevoerd",
+      "ALL_LINKED_RULES_ARE_DISABLED": "Alle regels die vanuit deze regelset zijn gekoppeld worden uitgeschakeld"
     },
     "LINK_RULES_DIALOG": {
       "TITLE": "Selecteer een map van waaruit regels moeten worden gekoppeld",

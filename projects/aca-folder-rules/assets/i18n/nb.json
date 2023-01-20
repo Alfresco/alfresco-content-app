@@ -121,7 +121,8 @@
       "LOAD_MORE_RULE_SETS": "Last regler fra andre mapper",
       "LOAD_MORE_RULES": "Last flere regler",
       "LOADING_RULES": "Laster regler",
-      "INHERITED_RULES_WILL_BE_RUN_FIRST": "Arvede regler kjøres først"
+      "INHERITED_RULES_WILL_BE_RUN_FIRST": "Arvede regler kjøres først",
+      "ALL_LINKED_RULES_ARE_DISABLED": "Alle regler som er stammer fra dette regelsettet, er deaktiverte"
     },
     "LINK_RULES_DIALOG": {
       "TITLE": "Velg en mappe å koble regler fra",

@@ -121,7 +121,8 @@
       "LOAD_MORE_RULE_SETS": "Läs in regler från andra mappar",
       "LOAD_MORE_RULES": "Ladda fler regler",
       "LOADING_RULES": "Laddar regler",
-      "INHERITED_RULES_WILL_BE_RUN_FIRST": "Ärvda regler körs först"
+      "INHERITED_RULES_WILL_BE_RUN_FIRST": "Ärvda regler körs först",
+      "ALL_LINKED_RULES_ARE_DISABLED": "Alla regler som är länkade från den här regeluppsättningen är inaktiverade"
     },
     "LINK_RULES_DIALOG": {
       "TITLE": "Välj en mapp att länka regler från",

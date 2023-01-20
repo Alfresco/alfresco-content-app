@@ -121,7 +121,8 @@
       "LOAD_MORE_RULE_SETS": "Wczytaj reguły z innych folderów",
       "LOAD_MORE_RULES": "Wczytaj więcej reguł",
       "LOADING_RULES": "Wczytywanie reguł",
-      "INHERITED_RULES_WILL_BE_RUN_FIRST": "Odziedziczone reguły zostaną wykonane najpierw"
+      "INHERITED_RULES_WILL_BE_RUN_FIRST": "Odziedziczone reguły zostaną wykonane najpierw",
+      "ALL_LINKED_RULES_ARE_DISABLED": "Wszystkie reguły z łączem z tego zbioru reguł są wyłączone"
     },
     "LINK_RULES_DIALOG": {
       "TITLE": "Wybierz folder, z którego mają być łączone reguły",

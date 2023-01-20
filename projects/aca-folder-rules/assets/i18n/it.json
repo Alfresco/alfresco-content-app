@@ -121,7 +121,8 @@
       "LOAD_MORE_RULE_SETS": "Carica regole da altre cartelle",
       "LOAD_MORE_RULES": "Carica altre regole",
       "LOADING_RULES": "Caricamento delle regole in corso",
-      "INHERITED_RULES_WILL_BE_RUN_FIRST": "Le regole ereditate verranno eseguite per prime"
+      "INHERITED_RULES_WILL_BE_RUN_FIRST": "Le regole ereditate verranno eseguite per prime",
+      "ALL_LINKED_RULES_ARE_DISABLED": "Tutte le regole collegate a questo set di regole verranno disabilitate"
     },
     "LINK_RULES_DIALOG": {
       "TITLE": "Seleziona una cartella da cui collegare le regole",
