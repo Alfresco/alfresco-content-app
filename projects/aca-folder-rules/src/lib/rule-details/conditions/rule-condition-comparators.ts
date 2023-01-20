@@ -47,13 +47,13 @@ export const ruleConditionComparators: RuleConditionComparator[] = [
     }
   },
   {
-    name: 'starts_with',
+    name: 'begins',
     labels: {
       string: 'ACA_FOLDER_RULES.RULE_DETAILS.COMPARATORS.STARTS_WITH'
     }
   },
   {
-    name: 'ends_with',
+    name: 'ends',
     labels: {
       string: 'ACA_FOLDER_RULES.RULE_DETAILS.COMPARATORS.ENDS_WITH'
     }
