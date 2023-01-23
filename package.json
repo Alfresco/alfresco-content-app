@@ -1,6 +1,6 @@
 {
   "name": "alfresco-content-app",
-  "version": "4.0.0-A.1",
+  "version": "4.0.0-A.2",
   "commit": "",
   "license": "LGPL-3.0",
   "scripts": {
@@ -26,10 +26,10 @@
   },
   "private": true,
   "dependencies": {
-    "@alfresco/adf-content-services": "6.0.0-A.1-3975475084",
-    "@alfresco/adf-core": "6.0.0-A.1-3975475084",
-    "@alfresco/adf-extensions": "6.0.0-A.1-3975475084",
-    "@alfresco/js-api": "5.3.0-539",
+    "@alfresco/adf-content-services": "6.0.0-A.2",
+    "@alfresco/adf-core": "6.0.0-A.2",
+    "@alfresco/adf-extensions": "6.0.0-A.2",
+    "@alfresco/js-api": "5.3.0",
     "@angular/animations": "14.1.2",
     "@angular/cdk": "14.1.2",
     "@angular/common": "14.1.2",
@@ -58,8 +58,8 @@
     "zone.js": "0.11.8"
   },
   "devDependencies": {
-    "@alfresco/adf-cli": "6.0.0-A.1-3975475084",
-    "@alfresco/adf-testing": "6.0.0-A.1-3975475084",
+    "@alfresco/adf-cli": "6.0.0-A.2",
+    "@alfresco/adf-testing": "6.0.0-A.2",
     "@angular-custom-builders/lite-serve": "^0.2.3",
     "@angular-devkit/build-angular": "14.1.2",
     "@angular-eslint/builder": "^14.1.2",
@@ -83,6 +83,7 @@
     "commander": "^6.1.0",
     "connect-history-api-fallback": "^2.0.0",
     "cspell": "^6.19.2",
+    "cypress": "^12.3.0",
     "dotenv": "8.2.0",
     "dotenv-expand": "^5.1.0",
     "envsub": "^4.1.0",
