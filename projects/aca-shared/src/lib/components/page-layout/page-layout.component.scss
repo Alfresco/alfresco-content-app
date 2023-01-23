@@ -12,6 +12,12 @@
     border-bottom: 1px solid var(--theme-border-color, rgba(0, 0, 0, 0.07));
     padding: 0 24px;
 
+      .adf-breadcrumb-item {
+        font-size: 20px !important;
+        font-weight: 400 !important;
+        letter-spacing: 0.15px !important;
+      }
+
       .app-search-input {
         background: none;
       }
@@ -20,6 +26,7 @@
         display: flex;
         flex: auto;
         height: 32px;
+        margin-left: 24px;
       }
     
       .aca-mat-button {

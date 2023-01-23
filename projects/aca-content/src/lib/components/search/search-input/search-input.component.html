@@ -30,7 +30,7 @@
 
 <div *ngIf="!isSearchRoute()"
   class="app-search-container">
-  <button mat-icon-button class="app-search-button" (click)="navigateToSearch()" [title]="'SEARCH.BUTTON.TOOLTIP' | translate">
+  <button mat-icon-button class="app-search-button" (click)="searchByOption()" [title]="'SEARCH.BUTTON.TOOLTIP' | translate">
     <mat-icon [attr.aria-label]="'SEARCH.BUTTON.ARIA-LABEL' | translate">search</mat-icon>
   </button>
 </div>
