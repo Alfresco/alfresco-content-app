@@ -24,18 +24,69 @@
  */
 
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { PageComponent } from './page.component';
+import { PageComponent } from './document-base-page.component';
 import { ReloadDocumentListAction, SetSelectedNodesAction, AppState, AppStore, ViewNodeAction } from '@alfresco/aca-shared/store';
 import { AppExtensionService } from '@alfresco/aca-shared';
-import { MinimalNodeEntity, NodePaging } from '@alfresco/js-api';
-import { ContentManagementService } from '../services/content-management.service';
-import { EffectsModule } from '@ngrx/effects';
-import { ViewerEffects } from '../store/effects';
-import { Store } from '@ngrx/store';
-import { AppTestingModule } from '../testing/app-testing.module';
-import { Component } from '@angular/core';
+import { MinimalNodeEntity, Node, NodePaging } from '@alfresco/js-api';
+import { DocumentBasePageService } from './document-base-page.service';
+import { Store, StoreModule } from '@ngrx/store';
+import { Component, Injectable } from '@angular/core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { MaterialModule, PipeModule } from '@alfresco/adf-core';
+import { HttpClientModule } from '@angular/common/http';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
+import { EffectsModule } from '@ngrx/effects';
+
+export const INITIAL_APP_STATE: AppState = {
+  appName: 'Alfresco Content Application',
+  headerColor: '#ffffff',
+  headerTextColor: '#000000',
+  logoPath: 'assets/images/alfresco-logo-white.svg',
+  headerImagePath: 'assets/images/mastHead-bg-shapesPattern.svg',
+  customCssPath: '',
+  webFontPath: '',
+  sharedUrl: '',
+  user: {
+    isAdmin: null,
+    id: null,
+    firstName: '',
+    lastName: ''
+  },
+  selection: {
+    nodes: [],
+    libraries: [],
+    isEmpty: true,
+    count: 0
+  },
+  navigation: {
+    currentFolder: null
+  },
+  currentNodeVersion: null,
+  infoDrawerOpened: false,
+  infoDrawerPreview: false,
+  infoDrawerMetadataAspect: '',
+  showFacetFilter: true,
+  fileUploadingDialog: true,
+  documentDisplayMode: 'list',
+  showLoader: false,
+  repository: {
+    status: {
+      isQuickShareEnabled: true
+    }
+  } as any
+};
+
+@Injectable()
+class DocumentBasePageServiceMock extends DocumentBasePageService {
+  canUpdateNode(_node: MinimalNodeEntity): boolean {
+    return true;
+  }
+  canUploadContent(_node: Node): boolean {
+    return true;
+  }
+}
 
 @Component({
   selector: 'aca-test',
@@ -44,7 +95,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 class TestComponent extends PageComponent {
   node: any;
 
-  constructor(store: Store<AppStore>, extensions: AppExtensionService, content: ContentManagementService) {
+  constructor(store: Store<AppStore>, extensions: AppExtensionService, content: DocumentBasePageService) {
     super(store, extensions, content);
   }
 }
@@ -56,9 +107,34 @@ describe('PageComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, EffectsModule.forRoot([ViewerEffects])],
+      imports: [
+        NoopAnimationsModule,
+        HttpClientModule,
+        RouterTestingModule,
+        MaterialModule,
+        StoreModule.forRoot(
+          { app: (state) => state },
+          {
+            initialState: {
+              app: INITIAL_APP_STATE
+            },
+            runtimeChecks: {
+              strictStateImmutability: false,
+              strictActionImmutability: false
+            }
+          }
+        ),
+        EffectsModule.forRoot([]),
+        PipeModule
+      ],
       declarations: [TestComponent],
-      providers: [ContentManagementService, AppExtensionService]
+      providers: [
+        {
+          provide: DocumentBasePageService,
+          useClass: DocumentBasePageServiceMock
+        },
+        AppExtensionService
+      ]
     });
 
     store = TestBed.inject(Store);
@@ -202,10 +278,10 @@ describe('Info Drawer state', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, EffectsModule.forRoot([ViewerEffects])],
+      imports: [NoopAnimationsModule, HttpClientModule, RouterTestingModule],
       declarations: [TestComponent],
       providers: [
-        ContentManagementService,
+        { provide: DocumentBasePageService, useClass: DocumentBasePageServiceMock },
         AppExtensionService,
         provideMockStore({
           initialState: { app: appState }

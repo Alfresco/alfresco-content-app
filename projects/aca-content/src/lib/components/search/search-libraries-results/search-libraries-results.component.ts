@@ -30,9 +30,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ContentManagementService } from '../../../services/content-management.service';
-import { PageComponent } from '../../page.component';
 import { SearchLibrariesQueryBuilderService } from './search-libraries-query-builder.service';
-import { AppExtensionService, AppHookService } from '@alfresco/aca-shared';
+import { AppExtensionService, AppHookService, PageComponent } from '@alfresco/aca-shared';
 import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 
 @Component({

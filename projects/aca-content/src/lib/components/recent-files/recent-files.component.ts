@@ -27,13 +27,12 @@ import { Component, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { MinimalNodeEntity } from '@alfresco/js-api';
 import { ContentManagementService } from '../../services/content-management.service';
-import { PageComponent } from '../page.component';
 import { Store } from '@ngrx/store';
 import { AppStore } from '@alfresco/aca-shared/store';
 import { UploadService } from '@alfresco/adf-core';
 import { debounceTime } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { AppExtensionService } from '@alfresco/aca-shared';
+import { AppExtensionService, PageComponent } from '@alfresco/aca-shared';
 import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 
 @Component({

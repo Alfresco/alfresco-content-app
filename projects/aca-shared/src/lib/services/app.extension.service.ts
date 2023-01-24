@@ -57,7 +57,7 @@ import { ViewerRules } from '../models/viewer.rules';
 import { SettingsGroupRef } from '../models/types';
 import { NodePermissionService } from '../services/node-permission.service';
 import { filter, map } from 'rxjs/operators';
-import { ModalConfiguration } from '@alfresco/aca-shared';
+import { ModalConfiguration } from '../models/modal-configuration';
 
 @Injectable({
   providedIn: 'root'
