@@ -47,13 +47,13 @@ export const ruleConditionComparators: RuleConditionComparator[] = [
     }
   },
   {
-    name: 'starts_with',
+    name: 'begins',
     labels: {
       string: 'ACA_FOLDER_RULES.RULE_DETAILS.COMPARATORS.STARTS_WITH'
     }
   },
   {
-    name: 'ends_with',
+    name: 'ends',
     labels: {
       string: 'ACA_FOLDER_RULES.RULE_DETAILS.COMPARATORS.ENDS_WITH'
     }
@@ -73,14 +73,14 @@ export const ruleConditionComparators: RuleConditionComparator[] = [
     }
   },
   {
-    name: 'greater_than_or_equal',
+    name: 'greater_than_equal',
     labels: {
       number: 'ACA_FOLDER_RULES.RULE_DETAILS.COMPARATORS.GREATER_THAN_OR_EQUAL',
       date: 'ACA_FOLDER_RULES.RULE_DETAILS.COMPARATORS.ON_OR_AFTER'
     }
   },
   {
-    name: 'less_than_or_equal',
+    name: 'less_than_equal',
     labels: {
       number: 'ACA_FOLDER_RULES.RULE_DETAILS.COMPARATORS.LESS_THAN_OR_EQUAL',
       date: 'ACA_FOLDER_RULES.RULE_DETAILS.COMPARATORS.ON_OR_BEFORE'
