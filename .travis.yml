@@ -196,7 +196,7 @@ jobs:
       name: Release Libraries
       script:
         - npm ci
-        - ./scripts/ci/npm/release-libs.sh
+        - ./scripts/ci/npm/publish-libs.sh
       cache: false
 
     - name: Publish to Dockerhub
