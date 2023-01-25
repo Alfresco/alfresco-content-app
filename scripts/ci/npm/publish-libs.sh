@@ -36,7 +36,7 @@ then
     TAG_NPM=alpha
 fi
 
-echo -e "Branch is '$TRAVIS_BRANCH' therefore publish with '$TAG_NPM' tag\n"
+echo -e "Branch is '$TRAVIS_BRANCH', therefore publish with '$TAG_NPM' tag\n"
 
 PROJECTS=(
     'aca-shared'
@@ -52,6 +52,7 @@ done
 
 echo -e "\n\nBuild projects"
 cd ${ROOT_DIR}
+
 npm run build-libs
 
 for PROJECT in "${PROJECTS[@]}"
@@ -59,16 +60,18 @@ do
   cd $DIST_DIR/${PROJECT}
 
   if [ "$DRY_RUN" = "true" ] ; then
-    echo -e "Publish with dry mode for project: ${PROJECT}"
+    echo -e "Publish with dry mode for project: $PROJECT\n"
+    echo -e "npm publish --dry-run --tag $TAG_NPM \n"
 
-    npm publish --dry-run
+    npm publish --dry-run --tag $TAG_NPM
   else
-    echo "Publish ${PROJECT}"
+    echo -e "Publish $PROJECT\n"
+    echo -e "npm publish --tag $TAG_NPM\n"
 
     echo 'strict-ssl=false' >> .npmrc
     echo 'registry=http://${NPM_REGISTRY_ADDRESS}' >> .npmrc
     echo '//${NPM_REGISTRY_ADDRESS}/:_authToken="${NPM_REGISTRY_TOKEN}"' >> .npmrc
 
-    npm publish
+    npm publish --tag $TAG_NPM
   fi
 done
