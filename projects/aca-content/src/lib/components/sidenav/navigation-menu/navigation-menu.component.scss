@@ -30,3 +30,14 @@ app-navigation-menu {
         }
     }
 }
+
+mat-tooltip-component {
+.app-menu-tooltip {
+    background: var(--theme-tooltip-background-color);
+    border-radius: 0;
+    border: 1px solid var(--theme-selected-text-color);
+    font-size: var(--theme-body-1-font-size);
+    margin: 4px;
+    color: var(--theme-selected-text-color); 
+}
+}
