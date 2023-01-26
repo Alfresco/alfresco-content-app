@@ -58,7 +58,7 @@ npm run build-libs
 for PROJECT in "${PROJECTS[@]}"
 do
   cd $DIST_DIR/${PROJECT}
-  PREVIOUS_LIBRARY_VERSION=$(npm view @alfresco/${PROJECT} version)
+  PREVIOUS_LIBRARY_VERSION=$(npm view @alfresco/${PROJECT}@${TAG_NPM} version)
 
   if [ "$DRY_RUN" = "true" ] ; then
     echo -e "Publish with dry mode for project: $PROJECT\n"
@@ -66,7 +66,7 @@ do
 
     npm publish --dry-run --tag $TAG_NPM
 
-    echo -e "Deprecating old version of @alfresco/$PROJECT the old version is $PREVIOUS_LIBRARY_VERSION\n"
+    echo -e "Deprecating old version of @alfresco/$PROJECT@${TAG_NPM} the old version is $PREVIOUS_LIBRARY_VERSION\n"
 
     echo "npm deprecate @alfresco/$PROJECT@$PREVIOUS_LIBRARY_VERSION 'Upgrade to @latest or $NEW_LIBRARY_VERSION'"
   else
@@ -78,6 +78,9 @@ do
     echo '//${NPM_REGISTRY_ADDRESS}/:_authToken="${NPM_REGISTRY_TOKEN}"' >> .npmrc
 
     npm publish --tag $TAG_NPM
+
+    echo -e "Deprecating old version of @alfresco/$PROJECT@${TAG_NPM} the old version is $PREVIOUS_LIBRARY_VERSION\n"
+
     npm deprecate "@alfresco/$PROJECT@$PREVIOUS_LIBRARY_VERSION" "Upgrade to @latest or $NEW_LIBRARY_VERSION"
   fi
 done
