@@ -70,11 +70,11 @@ do
 
     echo "npm deprecate @alfresco/$PROJECT@$PREVIOUS_LIBRARY_VERSION 'Upgrade to @latest or $NEW_LIBRARY_VERSION'"
   else
-    echo -e "Publish $PROJECT\n"
+    echo -e "======== Publishing project: $PROJECT ========\n"
     echo -e "npm publish --tag $TAG_NPM\n"
 
-    echo 'strict-ssl=false' >> .npmrc
-    echo 'registry=http://${NPM_REGISTRY_ADDRESS}' >> .npmrc
+    echo 'strict-ssl=true' >> .npmrc
+    echo 'registry=https://${NPM_REGISTRY_ADDRESS}' >> .npmrc
     echo '//${NPM_REGISTRY_ADDRESS}/:_authToken="${NPM_REGISTRY_TOKEN}"' >> .npmrc
 
     npm publish --tag $TAG_NPM
