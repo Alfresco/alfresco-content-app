@@ -66,9 +66,11 @@ do
 
     npm publish --dry-run --tag $TAG_NPM
 
-    echo -e "Deprecating old version of @alfresco/$PROJECT@${TAG_NPM} the old version is $PREVIOUS_LIBRARY_VERSION\n"
-
-    echo "npm deprecate @alfresco/$PROJECT@$PREVIOUS_LIBRARY_VERSION 'Upgrade to @latest or $NEW_LIBRARY_VERSION'"
+    if [[ "$PREVIOUS_LIBRARY_VERSION" != "" ]]
+    then
+      echo -e "Deprecating old version of @alfresco/$PROJECT@${TAG_NPM} the old version is $PREVIOUS_LIBRARY_VERSION\n"
+      echo "npm deprecate @alfresco/$PROJECT@$PREVIOUS_LIBRARY_VERSION 'Upgrade to @latest or $NEW_LIBRARY_VERSION'"
+    fi
   else
     echo -e "======== Publishing project: $PROJECT ========\n"
     echo -e "npm publish --tag $TAG_NPM\n"
@@ -79,8 +81,10 @@ do
 
     npm publish --tag $TAG_NPM
 
-    echo -e "Deprecating old version of @alfresco/$PROJECT@${TAG_NPM} the old version is $PREVIOUS_LIBRARY_VERSION\n"
-
-    npm deprecate "@alfresco/$PROJECT@$PREVIOUS_LIBRARY_VERSION" "Upgrade to @latest or $NEW_LIBRARY_VERSION"
+    if [[ "$PREVIOUS_LIBRARY_VERSION" != "" ]]
+    then
+      echo -e "Deprecating old version of @alfresco/$PROJECT@${TAG_NPM} the old version is $PREVIOUS_LIBRARY_VERSION\n"
+      npm deprecate "@alfresco/$PROJECT@$PREVIOUS_LIBRARY_VERSION" "Upgrade to @latest or $NEW_LIBRARY_VERSION"
+    fi
   fi
 done
