@@ -23,12 +23,12 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { DEV_MODE_TOKEN } from './dev-mode.tokens';
-import pkg from 'package.json';
 import { Observable } from 'rxjs';
 import { AppExtensionService, ExtensionRef } from '@alfresco/adf-extensions';
 import { AuthenticationService, DiscoveryApiService, RepositoryInfo } from '@alfresco/adf-core';
+import { PACKAGE_JSON } from './package-json.token';
 
 @Component({
   selector: 'app-about-page',
@@ -43,12 +43,14 @@ export class AboutComponent implements OnInit {
 
   constructor(
     @Inject(DEV_MODE_TOKEN) devMode,
+    @Optional()
+    @Inject(PACKAGE_JSON)
+    public packageJson,
     private authService: AuthenticationService,
     private appExtensions: AppExtensionService,
     private discovery: DiscoveryApiService
   ) {
     this.dev = !devMode;
-    this.pkg = pkg;
     this.extensions$ = this.appExtensions.references$;
   }
 

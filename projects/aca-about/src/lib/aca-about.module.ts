@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ModuleWithProviders, NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule, Provider } from '@angular/core';
 import { AboutComponent } from './about.component';
 import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
@@ -31,6 +31,7 @@ import { SharedModule, PageLayoutModule } from '@alfresco/aca-shared';
 
 import { ExtensionService, provideExtensionConfig } from '@alfresco/adf-extensions';
 import { DEV_MODE_TOKEN } from './dev-mode.tokens';
+import { PACKAGE_JSON } from './package-json.token';
 
 @NgModule({
   imports: [CommonModule, CoreModule.forChild(), SharedModule, PageLayoutModule],
@@ -44,10 +45,19 @@ export class AcaAboutModule {
     });
   }
 
-  public static forRoot(devMode: any): ModuleWithProviders<AcaAboutModule> {
+  public static forRoot(devMode: any, packageJson?: any): ModuleWithProviders<AcaAboutModule> {
+    const providers: Provider[] = [{ provide: DEV_MODE_TOKEN, useValue: devMode }];
+
+    if (packageJson) {
+      providers.push({
+        provide: PACKAGE_JSON,
+        useValue: packageJson
+      });
+    }
+
     return {
       ngModule: AcaAboutModule,
-      providers: [{ provide: DEV_MODE_TOKEN, useValue: devMode }]
+      providers
     };
   }
 }

@@ -25,3 +25,4 @@
 
 export * from './lib/about.component';
 export * from './lib/aca-about.module';
+export * from './lib/package-json.token';
