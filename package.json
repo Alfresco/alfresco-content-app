@@ -14,7 +14,7 @@
     "prebuild": "mkdir -p ./app/.tmp && cp ./app/src/app.config.json.tpl ./app/.tmp/app.config.json",
     "build": "ng build content-ce",
     "build.release": "npm run build -- --configuration=production,release",
-    "build-libs": "ng build aca-shared",
+    "build-libs": "ng build aca-shared && ng build adf-office-services-ext",
     "test": "ng test",
     "test:ci": "ng test adf-office-services-ext && ng test content-ce --code-coverage",
     "lint": "NODE_OPTIONS=--max_old_space_size=4096 ng lint && npm run spellcheck && npm run e2e.typecheck",

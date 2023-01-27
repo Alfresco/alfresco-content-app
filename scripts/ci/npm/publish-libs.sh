@@ -40,6 +40,7 @@ echo -e "Branch is '$TRAVIS_BRANCH', therefore publish with '$TAG_NPM' tag\n"
 
 PROJECTS=(
     'aca-shared'
+    'adf-office-services-ext'
 );
 
 for PROJECT in "${PROJECTS[@]}"
