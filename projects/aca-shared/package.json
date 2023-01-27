@@ -10,7 +10,6 @@
       "@alfresco/adf-extensions": "6.0.0-A.1-37376",
       "@alfresco/js-api": "5.2.0",
       "@angular/animations": "14.1.2",
-      "@angular/cdk": "14.1.2",
       "@angular/common": "14.1.2",
       "@angular/compiler": "14.1.2",
       "@angular/core": "14.1.2",
