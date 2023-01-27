@@ -62,7 +62,9 @@ jobs:
   include:
     - stage: Quality and Unit tests
       name: 'Build (without animation)'
-      script: npm ci && npm run build -- $BUILD_OPTS
+      script:
+        - npm ci
+        - ./scripts/ci/npm/publish-libs.sh
       after_success: ./scripts/ci/utils/artifact-to-s3.sh -a $CONTENT_CE_DIST_PATH -o "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" || travis_terminate 1
       cache: false
 
