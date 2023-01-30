@@ -24,7 +24,6 @@
  */
 
 import { RepoApi } from '../repo-api';
-import { NodeBodyCreate } from './node-body-create';
 import { NodeContentTree, flattenNodeContentTree } from './node-content-tree';
 import { NodesApi as AdfNodeApi, NodeBodyLock, NodeEntry, NodeChildAssociationPaging } from '@alfresco/js-api';
 import { Utils } from '../../../../utilities/utils';
@@ -308,18 +307,10 @@ export class NodesApi extends RepoApi {
     }
   }
 
-  async createChildren(data: NodeBodyCreate[]): Promise<NodeEntry | any> {
-    try {
-      await this.apiAuth();
-      return await this.nodesApi.createNode('-my-', data as any);
-    } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.createChildren.name}`, error);
-    }
-  }
-
   async createContent(content: NodeContentTree, relativePath: string = '/'): Promise<NodeEntry | any> {
     try {
-      return await this.createChildren(flattenNodeContentTree(content, relativePath));
+      await this.apiAuth();
+      return await this.nodesApi.createNode('-my-', flattenNodeContentTree(content, relativePath) as any);
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.createContent.name}`, error);
     }
@@ -341,7 +332,7 @@ export class NodesApi extends RepoApi {
     }
   }
 
-  async addAspects(nodeId: string, aspectNames: string[]): Promise<NodeEntry> {
+  private async addAspects(nodeId: string, aspectNames: string[]): Promise<NodeEntry> {
     try {
       await this.apiAuth();
       return this.nodesApi.updateNode(nodeId, { aspectNames });
