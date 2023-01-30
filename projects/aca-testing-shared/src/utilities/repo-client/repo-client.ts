@@ -38,7 +38,7 @@ export class RepoClient {
     this.alfrescoApi.setConfig(browser.params.config);
   }
 
-  apiAuth(): Promise<any> {
+  login(): Promise<any> {
     return this.alfrescoApi.login(this.username, this.password);
   }
 
@@ -71,7 +71,7 @@ export class RepoClient {
   }
 
   async logout(): Promise<any> {
-    await this.apiAuth();
+    await this.login();
     return this.alfrescoApi.logout();
   }
 }
