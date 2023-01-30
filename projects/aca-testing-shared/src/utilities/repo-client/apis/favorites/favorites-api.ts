@@ -57,7 +57,7 @@ export class FavoritesApi extends RepoApi {
   async addFavoriteById(nodeType: 'file' | 'folder' | 'site', id: string): Promise<FavoriteEntry | null> {
     let guid;
     try {
-      await this.apiAuth();
+      await this.login();
       if (nodeType === 'site') {
         guid = (await this.sitesApi.getSite(id)).entry.guid;
       } else {
@@ -94,7 +94,7 @@ export class FavoritesApi extends RepoApi {
 
   async getFavorites() {
     try {
-      await this.apiAuth();
+      await this.login();
       return await this.favoritesApi.listFavorites(this.username);
     } catch (error) {
       this.handleError(`FavoritesApi getFavorites : catch : `, error);
@@ -104,7 +104,7 @@ export class FavoritesApi extends RepoApi {
 
   async getFavoritesTotalItems(): Promise<number> {
     try {
-      await this.apiAuth();
+      await this.login();
       return (await this.favoritesApi.listFavorites(this.username)).list.pagination.totalItems;
     } catch (error) {
       this.handleError(`FavoritesApi getFavoritesTotalItems : catch : `, error);
@@ -114,7 +114,7 @@ export class FavoritesApi extends RepoApi {
 
   async getFavoriteById(nodeId: string) {
     try {
-      await this.apiAuth();
+      await this.login();
       return await this.favoritesApi.getFavorite('-me-', nodeId);
     } catch (error) {
       this.handleError(`FavoritesApi getFavoriteById : catch : `, error);
@@ -149,7 +149,7 @@ export class FavoritesApi extends RepoApi {
 
   async removeFavoriteById(nodeId: string) {
     try {
-      await this.apiAuth();
+      await this.login();
       return await this.favoritesApi.deleteFavorite('-me-', nodeId);
     } catch (error) {
       this.handleError(`FavoritesApi removeFavoriteById : catch : `, error);

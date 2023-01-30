@@ -37,7 +37,7 @@ export class SharedLinksApi extends RepoApi {
 
   async shareFileById(id: string, expireDate?: Date): Promise<SharedLinkEntry | null> {
     try {
-      await this.apiAuth();
+      await this.login();
       const data = {
         nodeId: id,
         expiresAt: expireDate
@@ -86,7 +86,7 @@ export class SharedLinksApi extends RepoApi {
 
   async getSharedLinks(maxItems: number = 250): Promise<SharedLinkPaging | null> {
     try {
-      await this.apiAuth();
+      await this.login();
       const opts = {
         maxItems
       };
@@ -99,7 +99,7 @@ export class SharedLinksApi extends RepoApi {
 
   async getSharedLinksTotalItems(): Promise<number> {
     try {
-      await this.apiAuth();
+      await this.login();
       const opts = {
         maxItems: 250
       };

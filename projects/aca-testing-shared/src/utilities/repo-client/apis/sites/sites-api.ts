@@ -46,7 +46,7 @@ export class SitesApi extends RepoApi {
 
   async getSite(siteId: string) {
     try {
-      await this.apiAuth();
+      await this.login();
       return await this.sitesApi.getSite(siteId);
     } catch (error) {
       this.handleError(`SitesApi getSite : catch : `, error);
@@ -56,7 +56,7 @@ export class SitesApi extends RepoApi {
 
   async getSites() {
     try {
-      await this.apiAuth();
+      await this.login();
       return await this.sitesApi.listSiteMembershipsForPerson(this.username);
     } catch (error) {
       this.handleError(`SitesApi getSites : catch : `, error);
@@ -66,7 +66,7 @@ export class SitesApi extends RepoApi {
 
   async getSitesTotalItems(): Promise<number> {
     try {
-      await this.apiAuth();
+      await this.login();
       return (await this.sitesApi.listSiteMembershipsForPerson(this.username)).list.pagination.totalItems;
     } catch (error) {
       this.handleError(`SitesApi getSitesTotalItems : catch : `, error);
@@ -76,7 +76,7 @@ export class SitesApi extends RepoApi {
 
   async getDocLibId(siteId: string): Promise<string> {
     try {
-      await this.apiAuth();
+      await this.login();
       return (await this.sitesApi.listSiteContainers(siteId)).list.entries[0].entry.id;
     } catch (error) {
       this.handleError(`SitesApi getDocLibId : catch : `, error);
@@ -123,7 +123,7 @@ export class SitesApi extends RepoApi {
     } as SiteBody;
 
     try {
-      await this.apiAuth();
+      await this.login();
       return await this.sitesApi.createSite(site);
     } catch (error) {
       this.handleError(`SitesApi createSite : catch : `, error);
@@ -160,7 +160,7 @@ export class SitesApi extends RepoApi {
 
   async deleteSite(siteId: string, permanent: boolean = true) {
     try {
-      await this.apiAuth();
+      await this.login();
       return await this.sitesApi.deleteSite(siteId, { permanent });
     } catch (error) {
       this.handleError(`SitesApi deleteSite : catch : `, error);
@@ -170,7 +170,7 @@ export class SitesApi extends RepoApi {
   async deleteSites(siteIds: string[], permanent: boolean = true) {
     try {
       if (siteIds && siteIds.length > 0) {
-        await this.apiAuth();
+        await this.login();
 
         for (const siteId of siteIds) {
           await this.sitesApi.deleteSite(siteId, { permanent });
@@ -200,7 +200,7 @@ export class SitesApi extends RepoApi {
     } as SiteMemberRoleBody;
 
     try {
-      await this.apiAuth();
+      await this.login();
       return await this.sitesApi.updateSiteMembership(siteId, userId, siteRole);
     } catch (error) {
       this.handleError(`SitesApi updateSiteMember : catch : `, error);
@@ -215,7 +215,7 @@ export class SitesApi extends RepoApi {
     } as SiteMemberBody;
 
     try {
-      await this.apiAuth();
+      await this.login();
       return await this.sitesApi.createSiteMembership(siteId, memberBody);
     } catch (error) {
       if (error.status === 409) {
@@ -245,7 +245,7 @@ export class SitesApi extends RepoApi {
 
   async deleteSiteMember(siteId: string, userId: string) {
     try {
-      await this.apiAuth();
+      await this.login();
       return await this.sitesApi.deleteSiteMembership(siteId, userId);
     } catch (error) {
       this.handleError(`SitesApi deleteSiteMember : catch : `, error);
@@ -258,7 +258,7 @@ export class SitesApi extends RepoApi {
     };
 
     try {
-      await this.apiAuth();
+      await this.login();
       return await this.sitesApi.createSiteMembershipRequestForPerson('-me-', body);
     } catch (error) {
       this.handleError(`SitesApi requestToJoin : catch : `, error);
@@ -268,7 +268,7 @@ export class SitesApi extends RepoApi {
 
   async hasMembershipRequest(siteId: string) {
     try {
-      await this.apiAuth();
+      await this.login();
       const requests = (await this.sitesApi.getSiteMembershipRequests('-me-')).list.entries.map((e) => e.entry.id);
       return requests.includes(siteId);
     } catch (error) {

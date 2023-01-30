@@ -34,7 +34,7 @@ export abstract class RepoApi {
     this.alfrescoJsApi.setConfig(browser.params.config);
   }
 
-  apiAuth(): Promise<any> {
+  login(): Promise<any> {
     return this.alfrescoJsApi.login(this.username, this.password);
   }
 
