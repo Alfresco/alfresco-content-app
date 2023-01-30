@@ -483,7 +483,8 @@
             "production": {
               "tsConfig": "projects/aca-about/tsconfig.lib.prod.json"
             }
-          }
+          },
+          "defaultConfiguration": "production"
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
@@ -523,7 +524,8 @@
             "production": {
               "tsConfig": "projects/aca-settings/tsconfig.lib.prod.json"
             }
-          }
+          },
+          "defaultConfiguration": "production"
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",

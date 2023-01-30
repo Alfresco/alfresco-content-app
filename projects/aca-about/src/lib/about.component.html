@@ -15,7 +15,7 @@
 
       <adf-about-panel *ngIf="dev" [label]="'ABOUT.PACKAGES.TITLE' | translate">
         <ng-template>
-            <adf-about-package-list [dependencies]="pkg?.dependencies"></adf-about-package-list>
+            <adf-about-package-list [dependencies]="packageJson?.dependencies"></adf-about-package-list>
         </ng-template>
       </adf-about-panel>
 
