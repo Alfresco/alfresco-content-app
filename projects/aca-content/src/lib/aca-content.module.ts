@@ -104,7 +104,7 @@ import { CommentsTabComponent } from './components/info-drawer/comments-tab/comm
 import { LibraryMetadataTabComponent } from './components/info-drawer/library-metadata-tab/library-metadata-tab.component';
 import { MetadataTabComponent } from './components/info-drawer/metadata-tab/metadata-tab.component';
 import { VersionsTabComponent } from './components/info-drawer/versions-tab/versions-tab.component';
-import { PreviewComponent } from './components/preview/preview.component';
+import { PreviewComponent } from '@alfresco/aca-preview';
 import { DocumentDisplayModeComponent } from './components/toolbar/document-display-mode/document-display-mode.component';
 import { ToggleEditOfflineComponent } from './components/toolbar/toggle-edit-offline/toggle-edit-offline.component';
 import { ToggleFavoriteLibraryComponent } from './components/toolbar/toggle-favorite-library/toggle-favorite-library.component';

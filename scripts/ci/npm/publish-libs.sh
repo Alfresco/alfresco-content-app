@@ -43,6 +43,8 @@ PROJECTS=(
     'adf-office-services-ext'
     'aca-settings'
     'aca-about'
+    'aca-preview'
+    'aca-viewer'
 );
 
 for PROJECT in "${PROJECTS[@]}"

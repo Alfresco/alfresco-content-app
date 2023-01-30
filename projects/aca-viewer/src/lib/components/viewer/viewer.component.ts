@@ -47,13 +47,13 @@ import { debounceTime, takeUntil } from 'rxjs/operators';
 import { Actions, ofType } from '@ngrx/effects';
 
 @Component({
-  selector: 'app-viewer',
+  selector: 'aca-viewer',
   templateUrl: './viewer.component.html',
   styleUrls: ['./viewer.component.scss'],
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-viewer' }
 })
-export class AppViewerComponent implements OnInit, OnDestroy {
+export class AcaViewerComponent implements OnInit, OnDestroy {
   _versionsApi: VersionsApi;
   get versionsApi(): VersionsApi {
     this._versionsApi = this._versionsApi ?? new VersionsApi(this.apiService.getInstance());

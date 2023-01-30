@@ -23,40 +23,38 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { CoreModule } from '@alfresco/adf-core';
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { CoreModule } from '@alfresco/adf-core';
 import { ContentDirectiveModule } from '@alfresco/adf-content-services';
-import { CoreExtensionsModule } from '../../extensions/core.extensions.module';
-import { DirectivesModule } from '../../directives/directives.module';
-import { AppInfoDrawerModule } from '../info-drawer/info.drawer.module';
-import { PreviewComponent } from './preview.component';
-import { AppToolbarModule } from '../toolbar/toolbar.module';
+import { SharedDirectivesModule, SharedInfoDrawerModule, SharedToolbarModule } from '@alfresco/aca-shared';
+import { ExtensionsModule } from '@alfresco/adf-extensions';
+import { AcaViewerComponent } from './components/viewer/viewer.component';
+import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
     path: '',
-    component: PreviewComponent,
     data: {
       title: 'APP.PREVIEW.TITLE',
       navigateMultiple: true
-    }
+    },
+    component: AcaViewerComponent
   }
 ];
 
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forChild(routes),
     CoreModule.forChild(),
+    RouterModule.forChild(routes),
+    ExtensionsModule.forChild(),
     ContentDirectiveModule,
-    DirectivesModule,
-    AppInfoDrawerModule,
-    CoreExtensionsModule.forChild(),
-    AppToolbarModule
+    SharedDirectivesModule,
+    SharedInfoDrawerModule,
+    SharedToolbarModule
   ],
-  declarations: [PreviewComponent],
-  exports: [PreviewComponent]
+  declarations: [AcaViewerComponent],
+  exports: [AcaViewerComponent]
 })
-export class PreviewModule {}
+export class AcaViewerModule {}
