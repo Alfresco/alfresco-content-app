@@ -81,14 +81,6 @@ export class SitesApi extends RepoApi {
     }
   }
 
-  async createSitePrivate(title: string, description?: string, siteId?: string): Promise<SiteEntry> {
-    return this.createSite(title, SITE_VISIBILITY.PRIVATE, description, siteId);
-  }
-
-  async createSiteModerated(title: string, description?: string, siteId?: string): Promise<SiteEntry> {
-    return this.createSite(title, SITE_VISIBILITY.MODERATED, description, siteId);
-  }
-
   async createSites(siteNames: string[], visibility?: string): Promise<SiteEntry[]> {
     const sites: SiteEntry[] = [];
     try {
@@ -102,10 +94,6 @@ export class SitesApi extends RepoApi {
       this.handleError(`SitesApi createSites : catch : `, error);
     }
     return sites;
-  }
-
-  async createSitesPrivate(siteNames: string[]): Promise<any> {
-    return this.createSites(siteNames, SITE_VISIBILITY.PRIVATE);
   }
 
   async deleteSite(siteId: string, permanent: boolean = true) {

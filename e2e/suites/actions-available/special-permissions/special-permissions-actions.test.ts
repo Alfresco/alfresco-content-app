@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, RepoClient, Utils, AdminActions, FILES, SITE_ROLES } from '@alfresco/aca-testing-shared';
+import { LoginPage, RepoClient, Utils, AdminActions, FILES, SITE_ROLES, SITE_VISIBILITY } from '@alfresco/aca-testing-shared';
 import * as testData from './test-data-permissions';
 import { librariesTests } from './my-libraries';
 import { favoritesTests } from './favorites';
@@ -76,7 +76,7 @@ describe('Special permissions : ', () => {
     const managerSearchTotalItems = await userManagerApi.search.getTotalItems(userManager);
     const collaboratorFavoritesTotalItems = await userCollaboratorApi.favorites.getFavoritesTotalItems();
 
-    await userManagerApi.sites.createSitePrivate(sitePrivate);
+    await userManagerApi.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
     const docLibId = await userManagerApi.sites.getDocLibId(sitePrivate);
     await userManagerApi.sites.addSiteConsumer(sitePrivate, userConsumer);
     await userManagerApi.sites.addSiteCollaborator(sitePrivate, userCollaborator);
