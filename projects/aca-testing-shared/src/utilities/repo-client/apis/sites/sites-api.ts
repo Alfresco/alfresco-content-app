@@ -54,23 +54,13 @@ export class SitesApi extends RepoApi {
     }
   }
 
-  async getSites() {
+  private async getSites() {
     try {
       await this.apiAuth();
       return await this.sitesApi.listSiteMembershipsForPerson(this.username);
     } catch (error) {
       this.handleError(`SitesApi getSites : catch : `, error);
       return null;
-    }
-  }
-
-  async getSitesTotalItems(): Promise<number> {
-    try {
-      await this.apiAuth();
-      return (await this.sitesApi.listSiteMembershipsForPerson(this.username)).list.pagination.totalItems;
-    } catch (error) {
-      this.handleError(`SitesApi getSitesTotalItems : catch : `, error);
-      return -1;
     }
   }
 
@@ -293,24 +283,6 @@ export class SitesApi extends RepoApi {
     } catch (error) {
       Logger.error(`SitesApi waitForSitesToBeCreated :  catch : ${error}`);
       Logger.error(`\tWait timeout reached waiting for sites to be created`);
-    }
-  }
-
-  async waitForApi(data: { expect: number }) {
-    try {
-      const sites = async () => {
-        const totalItems = await this.getSitesTotalItems();
-        if (totalItems !== data.expect) {
-          return Promise.reject(totalItems);
-        } else {
-          return Promise.resolve(totalItems);
-        }
-      };
-
-      return await Utils.retryCall(sites);
-    } catch (error) {
-      Logger.error(`SitesApi waitForApi : catch : `);
-      Logger.error(`\tExpected: ${data.expect} items, but found ${error}`);
     }
   }
 }
