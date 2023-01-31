@@ -643,9 +643,10 @@ describe('Copy content', () => {
       true,
       `${fileLockedInFolder} is not present in ${folderName} folder from ${destination}`
     );
-    expect(
-      await apis.nodes.isFileLockedByName(fileLockedInFolder, await apis.user.nodes.getNodeIdFromParent(folderWithLockedFiles, destinationId))
-    ).toBe(false, `${fileLockedInFolder} is locked in ${destination}`);
+    expect(await apis.nodes.isFileLockedByName(fileLockedInFolder, await apis.nodes.getNodeIdFromParent(folderWithLockedFiles, destinationId))).toBe(
+      false,
+      `${fileLockedInFolder} is locked in ${destination}`
+    );
   }
 
   async function undoCopyFile(fileName: string, location: string = '', destination: string, doBefore?: () => void) {
