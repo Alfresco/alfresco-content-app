@@ -37,7 +37,7 @@ import {
   TranslationService,
   PipeModule
 } from '@alfresco/adf-core';
-import { INITIAL_APP_STORE, ClosePreviewAction } from '@alfresco/aca-shared/store';
+import { AppState, ClosePreviewAction } from '@alfresco/aca-shared/store';
 import { PreviewComponent } from './preview.component';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { ContentApiService, AppHookService, TranslateServiceMock, DocumentBasePageService } from '@alfresco/aca-shared';
@@ -58,6 +58,45 @@ class DocumentBasePageServiceMock extends DocumentBasePageService {
     return true;
   }
 }
+
+export const INITIAL_APP_STATE: AppState = {
+  appName: 'Alfresco Content Application',
+  headerColor: '#ffffff',
+  headerTextColor: '#000000',
+  logoPath: 'assets/images/alfresco-logo-white.svg',
+  headerImagePath: 'assets/images/mastHead-bg-shapesPattern.svg',
+  customCssPath: '',
+  webFontPath: '',
+  sharedUrl: '',
+  user: {
+    isAdmin: null,
+    id: null,
+    firstName: '',
+    lastName: ''
+  },
+  selection: {
+    nodes: [],
+    libraries: [],
+    isEmpty: true,
+    count: 0
+  },
+  navigation: {
+    currentFolder: null
+  },
+  currentNodeVersion: null,
+  infoDrawerOpened: false,
+  infoDrawerPreview: false,
+  infoDrawerMetadataAspect: '',
+  showFacetFilter: true,
+  fileUploadingDialog: true,
+  documentDisplayMode: 'list',
+  showLoader: false,
+  repository: {
+    status: {
+      isQuickShareEnabled: true
+    }
+  } as any
+};
 
 describe('PreviewComponent', () => {
   let fixture: ComponentFixture<PreviewComponent>;
@@ -81,7 +120,9 @@ describe('PreviewComponent', () => {
         StoreModule.forRoot(
           { app: (state) => state },
           {
-            initialState: INITIAL_APP_STORE,
+            initialState: {
+              app: INITIAL_APP_STATE
+            },
             runtimeChecks: {
               strictStateImmutability: false,
               strictActionImmutability: false
