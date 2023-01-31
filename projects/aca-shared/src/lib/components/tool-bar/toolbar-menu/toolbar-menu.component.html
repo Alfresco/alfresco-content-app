@@ -12,14 +12,19 @@
 </button>
 
 <mat-menu #menu="matMenu" [overlapTrigger]="false">
-  <ng-container *ngFor="let child of actionRef.children; trackBy: trackByActionId">
-    <ng-container [ngSwitch]="child.type">
+  <ng-container *ngFor="let child of actionRef.children; trackBy: trackByActionId" [ngSwitch]="child.type">
       <ng-container *ngSwitchCase="'custom'">
-        <adf-dynamic-component [id]="child.component" [data]="child.data"></adf-dynamic-component>
+        <button mat-menu-item style="padding: 0" (click)="onCustomItemContainerClick($event)">
+          <adf-dynamic-component [id]="child.component" [data]="child.data"></adf-dynamic-component>
+        </button>
       </ng-container>
-      <ng-container *ngSwitchDefault>
+      <ng-container *ngSwitchCase="'separator'">
         <app-toolbar-menu-item [actionRef]="child" [menuId]="actionRef.id"></app-toolbar-menu-item>
       </ng-container>
-    </ng-container>
+      <ng-container *ngSwitchDefault>
+        <button mat-menu-item style="padding: 0" (click)="onCustomItemContainerClick($event)">
+          <app-toolbar-menu-item [actionRef]="child" [menuId]="actionRef.id"></app-toolbar-menu-item>
+        </button>
+      </ng-container>
   </ng-container>
 </mat-menu>
