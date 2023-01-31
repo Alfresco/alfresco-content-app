@@ -1,11 +1,11 @@
-<div *ngIf="isSearchRoute()"
+<div *ngIf="searchInputService.isSearchRoute()"
   class="app-search-container searchMenuTrigger"
   [matMenuTriggerFor]="searchOptionsMenu"
   (menuOpened)="onMenuOpened()"
   (menuClosed)="syncInputValues()"
 >
 
-  <button mat-icon-button class="app-search-button" (click)="navigateToSearch()" [title]="'SEARCH.BUTTON.TOOLTIP' | translate">
+  <button mat-icon-button class="app-search-button" (click)="searchByOption()" [title]="'SEARCH.BUTTON.TOOLTIP' | translate">
     <mat-icon [attr.aria-label]="'SEARCH.BUTTON.ARIA-LABEL' | translate">search</mat-icon>
   </button>
    <mat-form-field class="app-input-form-field" [floatLabel]="'never'">
@@ -22,15 +22,15 @@
       <mat-icon>arrow_drop_down</mat-icon>
     </div>
 
-    <div matSuffix class="app-suffix-search-icon-wrapper app-close-icon" (click)="exitSearch()">
+    <button mat-icon-button matSuffix class="app-suffix-search-icon-wrapper app-close-icon" (click)="exitSearch()" (keypressk)="exitSearch()">
       <mat-icon>close</mat-icon>
-    </div>
+    </button>
   </mat-form-field> 
 </div>
 
-<div *ngIf="!isSearchRoute()"
+<div *ngIf="!searchInputService.isSearchRoute()"
   class="app-search-container">
-  <button mat-icon-button class="app-search-button" (click)="searchByOption()" [title]="'SEARCH.BUTTON.TOOLTIP' | translate">
+  <button mat-icon-button class="app-search-button" (click)="navigateToSearch()" [title]="'SEARCH.BUTTON.TOOLTIP' | translate">
     <mat-icon [attr.aria-label]="'SEARCH.BUTTON.ARIA-LABEL' | translate">search</mat-icon>
   </button>
 </div>

@@ -18,6 +18,16 @@ $top-margin: 12px;
   }
 
   .app-input-form-field {
+
+    .app-close-icon {
+      height: 6px;
+
+      .mat-icon {
+        font-size: 18px !important;
+        line-height: 28px;
+      }
+    }
+
     .mat-input-element {
       caret-color: var(--theme-text-color);
 

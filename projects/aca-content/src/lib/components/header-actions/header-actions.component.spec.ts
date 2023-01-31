@@ -22,7 +22,6 @@ import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { MatButtonHarness } from '@angular/material/button/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { By } from '@angular/platform-browser';
 
@@ -33,40 +32,60 @@ describe('HeaderActionsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, MatMenuModule, NoopAnimationsModule, MatButtonModule],
+      imports: [AppTestingModule, NoopAnimationsModule, MatButtonModule],
       declarations: [HeaderActionsComponent],
-      providers: []
     });
 
     fixture = TestBed.createComponent(HeaderActionsComponent);
     component = fixture.componentInstance;
-    component.ngOnInit();
     loader = TestbedHarnessEnvironment.loader(fixture);
   });
 
-  it('should be created', () => {
-    expect(component).toBeTruthy();
-  });
+  it('total number of buttons in header should be 2 if route is personal-files', async () => {
+    spyOn(component, 'isPersonalFilesRoute').and.returnValue(true);
+    const buttons = await loader.getAllHarnesses(MatButtonHarness);
 
-  it('should open create menu on click of create button', async () => {
-    component.ngOnInit();
     fixture.detectChanges();
     await fixture.whenStable();
 
+    expect(buttons.length).toBe(2);
+  });
+
+  it('total number of buttons in header should be 1 if route is not personal-files', async () => {
+    spyOn(component, 'isLibrariesrRoute').and.returnValue(true);
     const buttons = await loader.getAllHarnesses(MatButtonHarness);
-    buttons.forEach((btn) => btn.click());
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(buttons.length).toBe(1);
+  });
+
+  it('should load create menu on click of create button', async () => {
+    spyOn(component, 'isPersonalFilesRoute').and.returnValue(true);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const buttons = await loader.getHarness(MatButtonHarness.with({selector: '.aca-create-button'}));
+    buttons.click();
+
+    fixture.detectChanges();
+    await fixture.whenStable();
 
     const createMenu = fixture.debugElement.queryAll(By.css('.app-create-menu__root-menu app-create-menu__sub-menu'));
     expect(createMenu).toBeTruthy();
   });
-
-  it('should open upload menu on click of upload button', async () => {
-    component.ngOnInit();
+  
+  it('should load upload menu on click of upload button', async () => {
+    spyOn(component, 'isPersonalFilesRoute').and.returnValue(true);
     fixture.detectChanges();
     await fixture.whenStable();
 
-    const buttons = await loader.getAllHarnesses(MatButtonHarness);
-    buttons.forEach((btn) => btn.click());
+    const buttons = await loader.getHarness(MatButtonHarness.with({selector: '.aca-upload-button'}));
+    buttons.click();
+
+    fixture.detectChanges();
+    await fixture.whenStable();
 
     const uploadMenu = fixture.debugElement.queryAll(By.css('.app-upload-menu__root-menu app-upload-menu__sub-menu'));
     expect(uploadMenu).toBeTruthy();

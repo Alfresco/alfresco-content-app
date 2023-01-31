@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ContentManagementService } from '../../services/content-management.service';
@@ -33,7 +33,8 @@ import { SetCurrentFolderAction, AppStore } from '@alfresco/aca-shared/store';
 
 @Component({
   selector: 'aca-header-actions',
-  templateUrl: './header-actions.component.html'
+  templateUrl: './header-actions.component.html',
+  encapsulation: ViewEncapsulation.None
 })
 export class HeaderActionsComponent extends PageComponent implements OnInit, OnDestroy {
   constructor(private router: Router, store: Store<AppStore>, content: ContentManagementService, extensions: AppExtensionService) {
@@ -59,5 +60,13 @@ export class HeaderActionsComponent extends PageComponent implements OnInit, OnD
 
   isLibrariesrRoute(): boolean {
     return this.router.url.includes('/libraries');
+  }
+
+  isTasksRoute(): boolean {
+    return this.router.url.includes('/tasks');
+  }
+
+  isProcessesRoute(): boolean {
+    return this.router.url.includes('/processes');
   }
 }

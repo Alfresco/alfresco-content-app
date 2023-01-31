@@ -24,7 +24,24 @@
       </div>
     </mat-menu>
 
-    <adf-toolbar-divider *ngIf=" isPersonalFilesRoute() || isFavoriteLibrariesRoute() || isLibrariesrRoute() ">
+    <ng-container *ngIf="(mainAction$ | async) as action">
+      <ng-container [ngSwitch]="action.type">
+          <ng-container *ngSwitchCase="actionTypes.button">
+              <button *ngIf="isTasksRoute() || isProcessesRoute()"
+                  mat-stroked-button
+                  [id]="action.id"
+                  (click)="runAction(action.actions.click)"
+                  [disabled]="action.disabled"
+                  class="app-main-action-button aca-mat-button aca-process-button"
+                  data-automation-id="app-main-action-button"
+              >
+                  {{action.title | translate}}
+              </button>
+          </ng-container>
+      </ng-container>
+    </ng-container>
+
+    <adf-toolbar-divider *ngIf=" isPersonalFilesRoute() || isFavoriteLibrariesRoute() || isLibrariesrRoute() || isTasksRoute() || isProcessesRoute() ">
     </adf-toolbar-divider>
     <aca-search-input class="app-search-input"></aca-search-input>
 

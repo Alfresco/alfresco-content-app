@@ -30,15 +30,26 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class SearchInputService {
-  savedRoute: '';
+  savedRoute = '';
 
   constructor(private router: Router) {}
+
+  isSearchRoute(): boolean {
+    return this.router.url.includes('/search');
+  }
 
   saveRoute(route) {
     this.savedRoute = route;
   }
 
   exitSearch() {
-    this.router.navigate([this.savedRoute]);
+    if(this.savedRoute.length > 0){
+      this.router.navigate([this.savedRoute]);
+    }
+  }
+
+  navigateToSearch() {
+    this.saveRoute(this.router.url);
+    this.router.navigate(['/search']);
   }
 }

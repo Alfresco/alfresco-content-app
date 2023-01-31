@@ -87,13 +87,13 @@ export class SearchInputComponent implements OnInit, OnDestroy {
     private router: Router,
     private store: Store<AppStore>,
     private appHookService: AppHookService,
-    private searchInputService: SearchInputService
+    public searchInputService: SearchInputService
   ) {
     this.searchOnChange = this.config.get<boolean>('search.aca:triggeredOnChange', true);
   }
 
   ngOnInit() {
-    if (this.isSearchRoute()) {
+    if (this.searchInputService.isSearchRoute()) {
       this.showInputValue();
 
       this.router.events
@@ -111,13 +111,8 @@ export class SearchInputComponent implements OnInit, OnDestroy {
     }
   }
 
-  isSearchRoute(): boolean {
-    return this.router.url.includes('/search');
-  }
-
   navigateToSearch() {
-    this.searchInputService.saveRoute(this.router.url);
-    this.router.navigate(['/search']);
+    this.searchInputService.navigateToSearch();
   }
 
   exitSearch() {
@@ -140,7 +135,7 @@ export class SearchInputComponent implements OnInit, OnDestroy {
   }
 
   onMenuOpened() {
-    this.searchInputControl.searchInput.nativeElement.focus();
+    //this.searchInputControl.searchInput.nativeElement.focus();
   }
 
   /**
