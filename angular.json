@@ -106,7 +106,13 @@
                 "glob": "**/*",
                 "input": "projects/aca-folder-rules/assets",
                 "output": "./assets/aca-folder-rules"
+              },
+              {
+                "glob": "**/*",
+                "input": "projects/aca-content/assets",
+                "output": "./assets"
               }
+
             ],
             "styles": [
               "app/src/assets/fonts/material-icons/material-icons.css",
@@ -282,6 +288,7 @@
             "assets": [
               "app/src/assets",
               "app/src/favicon-96x96.png",
+              "projects/aca-content/assets",
               {
                 "input": "app/.tmp",
                 "output": "/",

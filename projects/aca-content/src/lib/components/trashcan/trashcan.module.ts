@@ -27,7 +27,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
 import { TrashcanComponent } from './trashcan.component';
-import { Routes, RouterModule } from '@angular/router';
 import { ContentModule } from '@alfresco/adf-content-services';
 import { AppCommonModule } from '../common/common.module';
 import { AppToolbarModule } from '../toolbar/toolbar.module';
@@ -35,22 +34,10 @@ import { DirectivesModule } from '../../directives/directives.module';
 import { ContextMenuModule } from '../context-menu/context-menu.module';
 import { AppLayoutModule } from '../layout/layout.module';
 
-const routes: Routes = [
-  {
-    path: '',
-    component: TrashcanComponent,
-    data: {
-      title: 'APP.BROWSE.TRASHCAN.TITLE',
-      sortingPreferenceKey: 'trashcan'
-    }
-  }
-];
-
 @NgModule({
   imports: [
     CommonModule,
     CoreModule.forChild(),
-    RouterModule.forChild(routes),
     ContentModule.forChild(),
     DirectivesModule,
     AppCommonModule,

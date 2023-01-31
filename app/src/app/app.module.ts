@@ -64,6 +64,8 @@ import { ContentVersionService } from '@alfresco/adf-content-services';
 import { STORE_INITIAL_APP_DATA } from '@alfresco/aca-shared/store';
 import { ShellModule, SHELL_APP_SERVICE, SHELL_AUTH_TOKEN } from '@alfresco/adf-core/shell';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { APP_ROUTES } from './app.routes';
+import { AppLoginModule } from './components/login/login.module';
 
 registerLocaleData(localeFr);
 registerLocaleData(localeDe);
@@ -89,9 +91,10 @@ registerLocaleData(localeSv);
     CoreModule.forRoot(),
     SharedModule.forRoot(),
     CoreExtensionsModule.forRoot(),
+    AppLoginModule,
     environment.e2e ? NoopAnimationsModule : BrowserAnimationsModule,
     !environment.production ? StoreDevtoolsModule.instrument({ maxAge: 25 }) : [],
-    RouterModule.forRoot([], {
+    RouterModule.forRoot(APP_ROUTES, {
       useHash: true,
       enableTracing: false, // enable for debug only
       relativeLinkResolution: 'legacy'
