@@ -34,6 +34,7 @@ import { ContextMenuModule } from '../context-menu/context-menu.module';
 import { AppLayoutModule } from '../layout/layout.module';
 import { AppSearchInputModule } from '../search/search-input.module';
 import { HeaderActionsComponent } from './header-actions.component';
+import { MainActionModule } from '../main-action/main-action.module';
 
 @NgModule({
   imports: [
@@ -45,7 +46,8 @@ import { HeaderActionsComponent } from './header-actions.component';
     AppToolbarModule,
     ContextMenuModule,
     AppLayoutModule,
-    AppSearchInputModule
+    AppSearchInputModule,
+    MainActionModule
   ],
   declarations: [HeaderActionsComponent],
   exports: [HeaderActionsComponent]

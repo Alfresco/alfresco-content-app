@@ -41,10 +41,26 @@ describe('SearchInputService', () => {
     router = TestBed.inject(Router);
   });
 
+  it('should not navigate to saved route when exitSearch function is called if saved route is null', () => {
+    const routerNavigate = spyOn(router, 'navigate');
+    service.savedRoute = '';
+    service.exitSearch();
+
+    expect(routerNavigate).not.toHaveBeenCalledWith([service.savedRoute]);
+  });
+
   it('should navigate to saved route when exitSearch function is called', () => {
     const routerNavigate = spyOn(router, 'navigate');
+    service.savedRoute = '/personal-files';
     service.exitSearch();
 
     expect(routerNavigate).toHaveBeenCalledWith([service.savedRoute]);
+  });
+
+  it('should navigate to Search when navigateToSearch function is called', () => {
+    const routerNavigate = spyOn(router, 'navigate');
+    service.navigateToSearch();
+
+    expect(routerNavigate).toHaveBeenCalledWith(['/search']);
   });
 });

@@ -32,8 +32,6 @@ import { SearchByTermAction, SearchActionTypes, SnackbarErrorAction, SnackbarAct
 import { AppHookService } from '@alfresco/aca-shared';
 import { map } from 'rxjs/operators';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
-import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
 import { SearchInputService } from '../search-input.service';
 
 describe('SearchInputComponent', () => {
@@ -41,6 +39,7 @@ describe('SearchInputComponent', () => {
   let component: SearchInputComponent;
   let actions$: Actions;
   let appHookService: AppHookService;
+  let searchInputService: SearchInputService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -53,14 +52,18 @@ describe('SearchInputComponent', () => {
     actions$ = TestBed.inject(Actions);
     fixture = TestBed.createComponent(SearchInputComponent);
     appHookService = TestBed.inject(AppHookService);
+    searchInputService = TestBed.inject(SearchInputService);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
-  it('should change flag on library400Error event', () => {
-    spyOn(component, 'isSearchRoute').and.returnValue(true);
-    component.ngOnInit();
+  afterEach(() => {
+    fixture.destroy();
+  });
+
+  it('should change flag on library400Error event', async () => {
+    spyOn(searchInputService, 'isSearchRoute').and.returnValue(true);
     fixture.detectChanges();
+    await fixture.whenStable();
 
     expect(component.has400LibraryError).toBe(false);
 
@@ -73,10 +76,10 @@ describe('SearchInputComponent', () => {
     expect(component.hasLibraryConstraint()).toBe(false);
   });
 
-  it('should have library constraint on 400 error received', () => {
-    spyOn(component, 'isSearchRoute').and.returnValue(true);
-    component.ngOnInit();
+  it('should have library constraint on 400 error received', async () => {
+    spyOn(searchInputService, 'isSearchRoute').and.returnValue(true);
     fixture.detectChanges();
+    await fixture.whenStable();
 
     const libItem = component.searchOptions.find((item) => item.key.toLowerCase().indexOf('libraries') > 0);
     libItem.value = true;
@@ -206,80 +209,44 @@ describe('SearchInputComponent', () => {
       expect(component.isContentChecked()).toBe(true);
     });
   });
-});
 
-describe('navigateToSearch()', () => {
-  let fixture: ComponentFixture<SearchInputComponent>;
-  let component: SearchInputComponent;
-  let router: Router;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [AppTestingModule, RouterTestingModule],
-      declarations: [SearchInputComponent],
-      providers: [SearchQueryBuilderService, { provide: Router, useValue: { url: 'test-url', navigate: (_options?: any) => {} } }],
-      schemas: [NO_ERRORS_SCHEMA]
+  describe('navigateToSearch()', () => {
+    it('should navigate to search on click of search icon', async () => {
+      spyOn(searchInputService, 'isSearchRoute').and.returnValue(false);
+      spyOn(component, 'navigateToSearch').and.callThrough();
+      spyOn(searchInputService, 'navigateToSearch').and.callThrough();
+  
+      fixture.detectChanges();
+      await fixture.whenStable();
+  
+      const searchIcon = fixture.debugElement.nativeElement.querySelector('.app-search-button');
+      searchIcon.click();
+  
+      fixture.detectChanges();
+      await fixture.whenStable();
+  
+      expect(component.navigateToSearch).toHaveBeenCalled();
+      expect(searchInputService.navigateToSearch).toHaveBeenCalledWith();
     });
-
-    fixture = TestBed.createComponent(SearchInputComponent);
-    router = TestBed.inject(Router);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
-  it('should navigate to search results component on click of the search icon button', async () => {
-    component.ngOnInit();
-    const spyNavigate = spyOn(component, 'navigateToSearch').and.callThrough();
-    const routerNavigate = spyOn(router, 'navigate');
-
-    fixture.detectChanges();
-    await fixture.whenStable();
-
-    const searchIcon = fixture.debugElement.nativeElement.querySelector('.app-search-button');
-    searchIcon.click();
-
-    fixture.detectChanges();
-    await fixture.whenStable();
-
-    expect(spyNavigate).toHaveBeenCalled();
-    expect(routerNavigate).toHaveBeenCalledWith(['/search']);
-  });
-});
-
-describe('exitSearch()', () => {
-  let fixture: ComponentFixture<SearchInputComponent>;
-  let component: SearchInputComponent;
-  let searchInputService: SearchInputService;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [AppTestingModule, RouterTestingModule],
-      declarations: [SearchInputComponent],
-      providers: [SearchQueryBuilderService, { provide: Router, useValue: { url: 'test-url', navigate: (_options?: any) => {} } }],
-      schemas: [NO_ERRORS_SCHEMA]
+  describe('exitSearch()', () => {
+    it('should exit search on click of close icon', async () => {
+      spyOn(searchInputService, 'isSearchRoute').and.returnValue(true);
+      spyOn(component, 'exitSearch').and.callThrough();
+      spyOn(searchInputService, 'exitSearch').and.callThrough();
+  
+      fixture.detectChanges();
+      await fixture.whenStable();
+  
+      const closeIcon = fixture.debugElement.nativeElement.querySelector('.app-close-icon');
+      closeIcon.click();
+  
+      fixture.detectChanges();
+      await fixture.whenStable();
+  
+      expect(component.exitSearch).toHaveBeenCalled();
+      expect(searchInputService.exitSearch).toHaveBeenCalledWith();
     });
-
-    fixture = TestBed.createComponent(SearchInputComponent);
-    searchInputService = TestBed.inject(SearchInputService);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should exit search on click of close icon', async () => {
-    spyOn(component, 'isSearchRoute').and.returnValue(true);
-    spyOn(component, 'exitSearch').and.callThrough();
-    spyOn(searchInputService, 'exitSearch').and.callThrough();
-
-    fixture.detectChanges();
-    await fixture.whenStable();
-
-    const closeIcon = fixture.debugElement.nativeElement.querySelector('.app-close-icon');
-    closeIcon.click();
-
-    fixture.detectChanges();
-    await fixture.whenStable();
-
-    expect(component.exitSearch).toHaveBeenCalled();
-    expect(searchInputService.exitSearch).toHaveBeenCalledWith();
   });
 });
