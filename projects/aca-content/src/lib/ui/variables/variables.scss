@@ -41,6 +41,9 @@ $black-heading: #4e4c4c;
 $grey-dropdown-background: #eee;
 $grey-divider: rgba(0,0,0,.22);
 $pagination-background-color: #ffffff;
+$create-button-text-color: #212121;
+$upload-button-background-color: #2A7DE1;
+$page-layout-header-background-color: #ffffff;
 
 $defaults: (
   --theme-primary-color: mat.get-color-from-palette($primary),
@@ -73,6 +76,11 @@ $defaults: (
   --theme-about-panel-border-color: $grey-background,
   --theme-about-panel-background-color: #ffffff,
   --theme-about-panel-title-color: #212121,
+  --theme-page-layout-header-background-color: $page-layout-header-background-color,
+  --theme-create-button-background-color: $grey-text-background,
+  --theme-create-button-text-color: $create-button-text-color,
+  --theme-upload-button-background-color: $upload-button-background-color,
+  --theme-upload-button-text-color: $pagination-background-color,
 );
 
 // propagates SCSS variables into the CSS variables scope

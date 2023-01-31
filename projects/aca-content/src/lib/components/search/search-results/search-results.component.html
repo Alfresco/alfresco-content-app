@@ -1,7 +1,7 @@
 <aca-page-layout>
   <aca-page-layout-header>
-    <adf-breadcrumb root="APP.BROWSE.SEARCH.TITLE"> </adf-breadcrumb>
-    <adf-toolbar class="adf-toolbar--inline">
+    <aca-search-input></aca-search-input>
+    <adf-toolbar class="adf-toolbar--inline adf-toolbar-search-results">
       <ng-container *ngFor="let entry of actions; trackBy: trackByActionId">
         <aca-toolbar-action [actionRef]="entry"></aca-toolbar-action>
       </ng-container>

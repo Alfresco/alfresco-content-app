@@ -33,6 +33,8 @@ import { AppToolbarModule } from '../toolbar/toolbar.module';
 import { DirectivesModule } from '../../directives/directives.module';
 import { ContextMenuModule } from '../context-menu/context-menu.module';
 import { AppLayoutModule } from '../layout/layout.module';
+import { AppSearchInputModule } from '../search/search-input.module';
+import { AppHeaderActionsModule } from '../header-actions/header-actions.module';
 
 @NgModule({
   imports: [
@@ -43,7 +45,9 @@ import { AppLayoutModule } from '../layout/layout.module';
     AppCommonModule,
     AppToolbarModule,
     ContextMenuModule,
-    AppLayoutModule
+    AppLayoutModule,
+    AppSearchInputModule,
+    AppHeaderActionsModule
   ],
   declarations: [TrashcanComponent],
   exports: [TrashcanComponent]

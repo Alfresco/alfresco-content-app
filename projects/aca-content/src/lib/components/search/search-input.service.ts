@@ -23,29 +23,33 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { CoreModule } from '@alfresco/adf-core';
-import { AppLayoutComponent } from './app-layout/app-layout.component';
-import { ContentModule } from '@alfresco/adf-content-services';
-import { RouterModule } from '@angular/router';
-import { AppSidenavModule } from '../sidenav/sidenav.module';
-import { AppCommonModule } from '../common/common.module';
-import { HttpClientModule } from '@angular/common/http';
-import { PageLayoutModule } from '@alfresco/aca-shared';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
-@NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    CoreModule.forChild(),
-    ContentModule.forChild(),
-    AppCommonModule,
-    AppSidenavModule,
-    HttpClientModule,
-    PageLayoutModule
-  ],
-  declarations: [AppLayoutComponent],
-  exports: [AppLayoutComponent, PageLayoutModule]
+@Injectable({
+  providedIn: 'root'
 })
-export class AppLayoutModule {}
+export class SearchInputService {
+  savedRoute = '';
+
+  constructor(private router: Router) {}
+
+  isSearchRoute(): boolean {
+    return this.router.url.includes('/search');
+  }
+
+  saveRoute(route) {
+    this.savedRoute = route;
+  }
+
+  exitSearch() {
+    if (this.savedRoute.length > 0) {
+      this.router.navigate([this.savedRoute]);
+    }
+  }
+
+  navigateToSearch() {
+    this.saveRoute(this.router.url);
+    this.router.navigate(['/search']);
+  }
+}
