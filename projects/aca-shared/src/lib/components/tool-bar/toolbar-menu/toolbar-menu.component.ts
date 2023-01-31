@@ -63,7 +63,17 @@ export class ToolbarMenuComponent {
   onCustomItemContainerClick(event) {
     console.log(event);
     const el: HTMLElement = event.target;
-    const ev = new MouseEvent('click');
-    el.firstElementChild?.firstElementChild?.dispatchEvent(ev);
+    const x = window.scrollX + el.getBoundingClientRect().left + 5;
+    const y = window.scrollY + el.getBoundingClientRect().top + 5;
+
+    const opts = {
+      bubbles: false,
+      screenX: x,
+      screenY: y
+    };
+
+    const ev = new MouseEvent('click', opts);
+    document.elementFromPoint(x, y).dispatchEvent(ev);
+    event.stopPropagation();
   }
 }
