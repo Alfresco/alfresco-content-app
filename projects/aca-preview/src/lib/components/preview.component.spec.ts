@@ -25,17 +25,78 @@
 
 import { Router, ActivatedRoute } from '@angular/router';
 import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
-import { UserPreferencesService, UploadService, NodesApiService } from '@alfresco/adf-core';
-import { ClosePreviewAction } from '@alfresco/aca-shared/store';
+import {
+  UserPreferencesService,
+  UploadService,
+  NodesApiService,
+  AlfrescoApiService,
+  AlfrescoApiServiceMock,
+  AuthenticationService,
+  DiscoveryApiService,
+  TranslationMock,
+  TranslationService,
+  PipeModule
+} from '@alfresco/adf-core';
+import { AppState, ClosePreviewAction } from '@alfresco/aca-shared/store';
 import { PreviewComponent } from './preview.component';
-import { of, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
+import { ContentApiService, AppHookService, TranslateServiceMock, DocumentBasePageService } from '@alfresco/aca-shared';
+import { Store, StoreModule } from '@ngrx/store';
+import { Node, NodePaging, FavoritePaging, SharedLinkPaging, PersonEntry, ResultSetPaging, RepositoryInfo, NodeEntry } from '@alfresco/js-api';
+import { PreviewModule } from '../preview.module';
+import { TranslateService } from '@ngx-translate/core';
+import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientModule } from '@angular/common/http';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { EffectsModule } from '@ngrx/effects';
-import { NodeEffects } from '../../store/effects/node.effects';
-import { AppTestingModule } from '../../testing/app-testing.module';
-import { ContentApiService, AppHookService } from '@alfresco/aca-shared';
-import { Store } from '@ngrx/store';
-import { Node, NodePaging, FavoritePaging, SharedLinkPaging, PersonEntry, ResultSetPaging } from '@alfresco/js-api';
-import { PreviewModule } from './preview.module';
+
+class DocumentBasePageServiceMock extends DocumentBasePageService {
+  canUpdateNode(_node: NodeEntry): boolean {
+    return true;
+  }
+  canUploadContent(_node: Node): boolean {
+    return true;
+  }
+}
+
+export const INITIAL_APP_STATE: AppState = {
+  appName: 'Alfresco Content Application',
+  headerColor: '#ffffff',
+  headerTextColor: '#000000',
+  logoPath: 'assets/images/alfresco-logo-white.svg',
+  headerImagePath: 'assets/images/mastHead-bg-shapesPattern.svg',
+  customCssPath: '',
+  webFontPath: '',
+  sharedUrl: '',
+  user: {
+    isAdmin: null,
+    id: null,
+    firstName: '',
+    lastName: ''
+  },
+  selection: {
+    nodes: [],
+    libraries: [],
+    isEmpty: true,
+    count: 0
+  },
+  navigation: {
+    currentFolder: null
+  },
+  currentNodeVersion: null,
+  infoDrawerOpened: false,
+  infoDrawerPreview: false,
+  infoDrawerMetadataAspect: '',
+  showFacetFilter: true,
+  fileUploadingDialog: true,
+  documentDisplayMode: 'list',
+  showLoader: false,
+  repository: {
+    status: {
+      isQuickShareEnabled: true
+    }
+  } as any
+};
 
 describe('PreviewComponent', () => {
   let fixture: ComponentFixture<PreviewComponent>;
@@ -51,7 +112,49 @@ describe('PreviewComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [EffectsModule.forRoot([NodeEffects]), PreviewModule, AppTestingModule]
+      imports: [
+        PreviewModule,
+        NoopAnimationsModule,
+        HttpClientModule,
+        RouterTestingModule,
+        StoreModule.forRoot(
+          { app: (state) => state },
+          {
+            initialState: {
+              app: INITIAL_APP_STATE
+            },
+            runtimeChecks: {
+              strictStateImmutability: false,
+              strictActionImmutability: false
+            }
+          }
+        ),
+        EffectsModule.forRoot([]),
+        PipeModule
+      ],
+      providers: [
+        { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock },
+        { provide: TranslationService, useClass: TranslationMock },
+        { provide: TranslateService, useClass: TranslateServiceMock },
+        { provide: DocumentBasePageService, useVale: new DocumentBasePageServiceMock() },
+        {
+          provide: DiscoveryApiService,
+          useValue: {
+            ecmProductInfo$: new BehaviorSubject<RepositoryInfo | null>(null),
+            getEcmProductInfo: (): Observable<RepositoryInfo> => of(new RepositoryInfo({ version: '10.0.0' }))
+          }
+        },
+        {
+          provide: AuthenticationService,
+          useValue: {
+            isEcmLoggedIn: (): boolean => true,
+            getRedirect: (): string | null => null,
+            setRedirect() {},
+            isOauth: (): boolean => false,
+            isOAuthWithoutSilentLogin: (): boolean => false
+          }
+        }
+      ]
     });
 
     fixture = TestBed.createComponent(PreviewComponent);

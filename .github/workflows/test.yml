@@ -130,3 +130,21 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - run: npm test aca-folder-rules -- --browsers=ChromeHeadless --watch=false $TEST_OPTS
+
+  test-aca-preview:
+    needs: [lint, build]
+    name: 'test: aca-preview'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
+          cache: 'npm'
+      - run: npm ci
+      - run: npm test aca-preview -- --browsers=ChromeHeadless --watch=false $TEST_OPTS

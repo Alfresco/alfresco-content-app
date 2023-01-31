@@ -645,6 +645,92 @@
           }
         }
       }
+    },
+    "aca-viewer": {
+      "projectType": "library",
+      "root": "projects/aca-viewer",
+      "sourceRoot": "projects/aca-viewer/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/aca-viewer/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/aca-viewer/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/aca-viewer/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/aca-viewer/src/test.ts",
+            "tsConfig": "projects/aca-viewer/tsconfig.spec.json",
+            "karmaConfig": "projects/aca-viewer/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/aca-viewer/**/*.ts",
+              "projects/aca-viewer/**/*.html"
+            ],
+            "cache": true,
+            "cacheLocation": ".eslintcache",
+            "ignorePath": ".eslintignore"
+          }
+        }
+      }
+    },
+    "aca-preview": {
+      "projectType": "library",
+      "root": "projects/aca-preview",
+      "sourceRoot": "projects/aca-preview/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/aca-preview/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/aca-preview/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/aca-preview/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/aca-preview/src/test.ts",
+            "tsConfig": "projects/aca-preview/tsconfig.spec.json",
+            "karmaConfig": "projects/aca-preview/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/aca-preview/**/*.ts",
+              "projects/aca-preview/**/*.html"
+            ],
+            "cache": true,
+            "cacheLocation": ".eslintcache",
+            "ignorePath": ".eslintignore"
+          }
+        }
+      }
     }
   },
   "schematics": {
