@@ -137,6 +137,15 @@
   }
 }
 
+.app-navigation-tooltip {
+  background: var(--theme-tooltip-background-color);
+  border-radius: 0 !important;
+  border: 1px solid var(--theme-selected-text-color);
+  font-size: var(--theme-body-1-font-size);
+  margin: 4px !important;
+  color: var(--theme-selected-text-color) !important;
+}
+
 .adf-sidenav-layout {
   .mat-sidenav {
     width: 0 !important;
@@ -156,16 +165,5 @@
     .adf-container-full-width {
       margin-left: 289px !important;
     }
-  }
-}
-
-mat-tooltip-component {
-  .app-navigation-tooltip {
-    background: var(--theme-tooltip-background-color);
-    border-radius: 0;
-    border: 1px solid var(--theme-selected-text-color);
-    font-size: var(--theme-body-1-font-size);
-    margin: 4px;
-    color: var(--theme-selected-text-color);
   }
 }
