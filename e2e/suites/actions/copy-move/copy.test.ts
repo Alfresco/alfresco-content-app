@@ -103,6 +103,7 @@ describe('Copy content', () => {
   beforeAll(async () => {
     try {
       await adminApiActions.createUser({ username });
+      await userActions.login(username, username);
 
       const initialFavoritesTotalItems = await apis.favorites.getFavoritesTotalItems();
 
@@ -115,7 +116,6 @@ describe('Copy content', () => {
 
       const existingFileToCopyId = await apis.createFile(existingFile, sourceId);
 
-      await userActions.login(username, username);
       await userActions.shareNodes([existingFileToCopyId]);
       await apis.favorites.addFavoriteById('file', existingFileToCopyId);
 
@@ -164,11 +164,11 @@ describe('Copy content', () => {
       await apis.favorites.addFavoriteById('folder', folder2Id);
 
       fileLocked1Id = await apis.createFile(fileLocked1, sourceId);
-      await apis.nodes.lockFile(fileLocked1Id);
+      await userActions.lockNodes([fileLocked1Id]);
 
       folderWithLockedFilesId = await apis.createFolder(folderWithLockedFiles, sourceId);
       fileLockedInFolderId = await apis.createFile(fileLockedInFolder, folderWithLockedFilesId);
-      await apis.nodes.lockFile(fileLockedInFolderId);
+      await userActions.lockNodes([fileLockedInFolderId]);
       await apis.favorites.addFavoriteById('folder', folderWithLockedFilesId);
 
       const file1Id = await apis.createFile(file1, sourceId);
@@ -203,10 +203,10 @@ describe('Copy content', () => {
 
   afterAll(async () => {
     try {
-      await apis.nodes.unlockFile(fileLocked1Id);
-      await apis.nodes.unlockFile(fileLockedInFolderId);
-      await apis.nodes.deleteNodesById([sourceId, destinationIdRF, destinationIdPF, destinationIdSF, destinationIdFav, destinationIdSearch]);
-      await apis.sites.deleteSite(siteName);
+      await userActions.login(username, username);
+      await userActions.unlockNodes([fileLocked1Id, fileLockedInFolderId]);
+      await userActions.deleteNodes([sourceId, destinationIdRF, destinationIdPF, destinationIdSF, destinationIdFav, destinationIdSearch]);
+      await userActions.deleteSites([siteName]);
     } catch (error) {
       Logger.error(`---- afterAll failed : ${error}`);
     }

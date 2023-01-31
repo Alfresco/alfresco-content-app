@@ -42,6 +42,7 @@ describe('Delete and undo delete', () => {
 
   beforeAll(async () => {
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
   });
 
   afterAll(async () => {
@@ -155,17 +156,11 @@ describe('Delete and undo delete', () => {
     const file7 = `file7-${Utils.random()}.txt`;
 
     const folder1 = `folder1-${Utils.random()}`;
-    let folder1Id: string;
     const folder2 = `folder2-${Utils.random()}`;
-    let folder2Id: string;
     const folder3 = `folder3-${Utils.random()}`;
-    let folder3Id: string;
     const folder4 = `folder4-${Utils.random()}`;
-    let folder4Id: string;
     const folder5 = `folder5-${Utils.random()}`;
-    let folder5Id: string;
     const folder6 = `folder6-${Utils.random()}`;
-    let folder6Id: string;
 
     const file1InFolder = `file1InFolder-${Utils.random()}.txt`;
     const file2InFolder = `file2InFolder-${Utils.random()}.txt`;
@@ -182,34 +177,31 @@ describe('Delete and undo delete', () => {
     let parentId: string;
 
     beforeAll(async () => {
-      parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
+      parentId = await apis.user.createFolder(parent);
 
-      await apis.user.nodes.createFile(file1, parentId);
-      await apis.user.nodes.createFile(file2, parentId);
-      await apis.user.nodes.createFile(file3, parentId);
-      await apis.user.nodes.createFile(file4, parentId);
-      await apis.user.nodes.createFile(file5, parentId);
-      await apis.user.nodes.createFile(file6, parentId);
-      await apis.user.nodes.createFile(file7, parentId);
+      await apis.user.createFile(file1, parentId);
+      await apis.user.createFile(file2, parentId);
+      await apis.user.createFile(file3, parentId);
+      await apis.user.createFile(file4, parentId);
+      await apis.user.createFile(file5, parentId);
+      await apis.user.createFile(file6, parentId);
+      await apis.user.createFile(file7, parentId);
 
-      folder1Id = (await apis.user.nodes.createFolder(folder1, parentId)).entry.id;
-      folder2Id = (await apis.user.nodes.createFolder(folder2, parentId)).entry.id;
-      folder3Id = (await apis.user.nodes.createFolder(folder3, parentId)).entry.id;
-      folder4Id = (await apis.user.nodes.createFolder(folder4, parentId)).entry.id;
-      folder5Id = (await apis.user.nodes.createFolder(folder5, parentId)).entry.id;
-      folder6Id = (await apis.user.nodes.createFolder(folder6, parentId)).entry.id;
+      const folder1Id = await apis.user.createFolder(folder1, parentId);
+      const folder2Id = await apis.user.createFolder(folder2, parentId);
+      const folder3Id = await apis.user.createFolder(folder3, parentId);
+      const folder4Id = await apis.user.createFolder(folder4, parentId);
+      const folder5Id = await apis.user.createFolder(folder5, parentId);
+      const folder6Id = await apis.user.createFolder(folder6, parentId);
 
-      await apis.user.nodes.createFile(file1InFolder, folder1Id);
-      fileLocked1Id = (await apis.user.nodes.createFile(fileLocked1, folder2Id)).entry.id;
-      fileLocked2Id = (await apis.user.nodes.createFile(fileLocked2, folder3Id)).entry.id;
-      fileLocked3Id = (await apis.user.nodes.createFile(fileLocked3, folder4Id)).entry.id;
-      fileLocked4Id = (await apis.user.nodes.createFile(fileLocked4, folder5Id)).entry.id;
-      await apis.user.nodes.createFile(file2InFolder, folder6Id);
+      await apis.user.createFile(file1InFolder, folder1Id);
+      fileLocked1Id = await apis.user.createFile(fileLocked1, folder2Id);
+      fileLocked2Id = await apis.user.createFile(fileLocked2, folder3Id);
+      fileLocked3Id = await apis.user.createFile(fileLocked3, folder4Id);
+      fileLocked4Id = await apis.user.createFile(fileLocked4, folder5Id);
+      await apis.user.createFile(file2InFolder, folder6Id);
 
-      await apis.user.nodes.lockFile(fileLocked1Id, 'FULL');
-      await apis.user.nodes.lockFile(fileLocked2Id, 'FULL');
-      await apis.user.nodes.lockFile(fileLocked3Id, 'FULL');
-      await apis.user.nodes.lockFile(fileLocked4Id, 'FULL');
+      await userActions.lockNodes([fileLocked1Id, fileLocked2Id, fileLocked3Id, fileLocked4Id], 'FULL');
 
       await loginPage.loginWith(username);
     });
@@ -221,12 +213,8 @@ describe('Delete and undo delete', () => {
 
     afterAll(async () => {
       try {
-        await apis.user.nodes.unlockFile(fileLocked1Id);
-        await apis.user.nodes.unlockFile(fileLocked2Id);
-        await apis.user.nodes.unlockFile(fileLocked3Id);
-        await apis.user.nodes.unlockFile(fileLocked4Id);
-
         await userActions.login(username, username);
+        await userActions.unlockNodes([fileLocked1Id, fileLocked2Id, fileLocked3Id, fileLocked4Id]);
         await userActions.deleteNodes([parentId]);
         await userActions.emptyTrashcan();
       } catch (error) {
@@ -342,31 +330,25 @@ describe('Delete and undo delete', () => {
 
   describe('on Shared Files', () => {
     const sharedFile1 = `sharedFile1-${Utils.random()}.txt`;
-    let sharedFile1Id: string;
     const sharedFile2 = `sharedFile2-${Utils.random()}.txt`;
-    let sharedFile2Id: string;
     const sharedFile3 = `sharedFile3-${Utils.random()}.txt`;
-    let sharedFile3Id: string;
     const sharedFile4 = `sharedFile4-${Utils.random()}.txt`;
-    let sharedFile4Id: string;
     const sharedFile5 = `sharedFile5-${Utils.random()}.txt`;
-    let sharedFile5Id: string;
     const sharedFile6 = `sharedFile6-${Utils.random()}.txt`;
-    let sharedFile6Id: string;
 
     const parent = `parentSF-${Utils.random()}`;
     let parentId: string;
 
     beforeAll(async () => {
       try {
-        parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
+        parentId = await apis.user.createFolder(parent);
 
-        sharedFile1Id = (await apis.user.nodes.createFile(sharedFile1, parentId)).entry.id;
-        sharedFile2Id = (await apis.user.nodes.createFile(sharedFile2, parentId)).entry.id;
-        sharedFile3Id = (await apis.user.nodes.createFile(sharedFile3, parentId)).entry.id;
-        sharedFile4Id = (await apis.user.nodes.createFile(sharedFile4, parentId)).entry.id;
-        sharedFile5Id = (await apis.user.nodes.createFile(sharedFile5, parentId)).entry.id;
-        sharedFile6Id = (await apis.user.nodes.createFile(sharedFile6, parentId)).entry.id;
+        const sharedFile1Id = await apis.user.createFile(sharedFile1, parentId);
+        const sharedFile2Id = await apis.user.createFile(sharedFile2, parentId);
+        const sharedFile3Id = await apis.user.createFile(sharedFile3, parentId);
+        const sharedFile4Id = await apis.user.createFile(sharedFile4, parentId);
+        const sharedFile5Id = await apis.user.createFile(sharedFile5, parentId);
+        const sharedFile6Id = await apis.user.createFile(sharedFile6, parentId);
 
         await apis.user.shared.shareFilesByIds([sharedFile1Id, sharedFile2Id, sharedFile3Id, sharedFile4Id, sharedFile5Id, sharedFile6Id]);
         await apis.user.shared.waitForFilesToBeShared([sharedFile1Id, sharedFile2Id, sharedFile3Id, sharedFile4Id, sharedFile5Id, sharedFile6Id]);
@@ -440,32 +422,19 @@ describe('Delete and undo delete', () => {
     let parentId: string;
 
     const favFile1 = `favFile1-${Utils.random()}.txt`;
-    let favFile1Id: string;
     const favFile2 = `favFile2-${Utils.random()}.txt`;
-    let favFile2Id: string;
     const favFile3 = `favFile3-${Utils.random()}.txt`;
-    let favFile3Id: string;
     const favFile4 = `favFile4-${Utils.random()}.txt`;
-    let favFile4Id: string;
     const favFile5 = `favFile5-${Utils.random()}.txt`;
-    let favFile5Id: string;
     const favFile6 = `favFile6-${Utils.random()}.txt`;
-    let favFile6Id: string;
     const favFile7 = `favFile7-${Utils.random()}.txt`;
-    let favFile7Id: string;
 
     const favFolder1 = `favFolder1-${Utils.random()}`;
-    let favFolder1Id: string;
     const favFolder2 = `favFolder2-${Utils.random()}`;
-    let favFolder2Id: string;
     const favFolder3 = `favFolder3-${Utils.random()}`;
-    let favFolder3Id: string;
     const favFolder4 = `favFolder4-${Utils.random()}`;
-    let favFolder4Id: string;
     const favFolder5 = `favFolder5-${Utils.random()}`;
-    let favFolder5Id: string;
     const favFolder6 = `favFolder6-${Utils.random()}`;
-    let favFolder6Id: string;
 
     const file1InFolder = `file1InFolder-${Utils.random()}.txt`;
     const file2InFolder = `file2InFolder-${Utils.random()}.txt`;
@@ -480,34 +449,31 @@ describe('Delete and undo delete', () => {
 
     beforeAll(async () => {
       try {
-        parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
+        parentId = await apis.user.createFolder(parent);
 
-        favFile1Id = (await apis.user.nodes.createFile(favFile1, parentId)).entry.id;
-        favFile2Id = (await apis.user.nodes.createFile(favFile2, parentId)).entry.id;
-        favFile3Id = (await apis.user.nodes.createFile(favFile3, parentId)).entry.id;
-        favFile4Id = (await apis.user.nodes.createFile(favFile4, parentId)).entry.id;
-        favFile5Id = (await apis.user.nodes.createFile(favFile5, parentId)).entry.id;
-        favFile6Id = (await apis.user.nodes.createFile(favFile6, parentId)).entry.id;
-        favFile7Id = (await apis.user.nodes.createFile(favFile7, parentId)).entry.id;
+        const favFile1Id = await apis.user.createFile(favFile1, parentId);
+        const favFile2Id = await apis.user.createFile(favFile2, parentId);
+        const favFile3Id = await apis.user.createFile(favFile3, parentId);
+        const favFile4Id = await apis.user.createFile(favFile4, parentId);
+        const favFile5Id = await apis.user.createFile(favFile5, parentId);
+        const favFile6Id = await apis.user.createFile(favFile6, parentId);
+        const favFile7Id = await apis.user.createFile(favFile7, parentId);
 
-        favFolder1Id = (await apis.user.nodes.createFolder(favFolder1, parentId)).entry.id;
-        favFolder2Id = (await apis.user.nodes.createFolder(favFolder2, parentId)).entry.id;
-        favFolder3Id = (await apis.user.nodes.createFolder(favFolder3, parentId)).entry.id;
-        favFolder4Id = (await apis.user.nodes.createFolder(favFolder4, parentId)).entry.id;
-        favFolder5Id = (await apis.user.nodes.createFolder(favFolder5, parentId)).entry.id;
-        favFolder6Id = (await apis.user.nodes.createFolder(favFolder6, parentId)).entry.id;
+        const favFolder1Id = await apis.user.createFolder(favFolder1, parentId);
+        const favFolder2Id = await apis.user.createFolder(favFolder2, parentId);
+        const favFolder3Id = await apis.user.createFolder(favFolder3, parentId);
+        const favFolder4Id = await apis.user.createFolder(favFolder4, parentId);
+        const favFolder5Id = await apis.user.createFolder(favFolder5, parentId);
+        const favFolder6Id = await apis.user.createFolder(favFolder6, parentId);
 
-        await apis.user.nodes.createFile(file1InFolder, favFolder1Id);
-        fileLocked1Id = (await apis.user.nodes.createFile(fileLocked1, favFolder2Id)).entry.id;
-        fileLocked2Id = (await apis.user.nodes.createFile(fileLocked2, favFolder3Id)).entry.id;
-        fileLocked3Id = (await apis.user.nodes.createFile(fileLocked3, favFolder4Id)).entry.id;
-        fileLocked4Id = (await apis.user.nodes.createFile(fileLocked4, favFolder5Id)).entry.id;
+        await apis.user.createFile(file1InFolder, favFolder1Id);
+        fileLocked1Id = await apis.user.createFile(fileLocked1, favFolder2Id);
+        fileLocked2Id = await apis.user.createFile(fileLocked2, favFolder3Id);
+        fileLocked3Id = await apis.user.createFile(fileLocked3, favFolder4Id);
+        fileLocked4Id = await apis.user.createFile(fileLocked4, favFolder5Id);
         await apis.user.nodes.createFile(file2InFolder, favFolder6Id);
 
-        await apis.user.nodes.lockFile(fileLocked1Id, 'FULL');
-        await apis.user.nodes.lockFile(fileLocked2Id, 'FULL');
-        await apis.user.nodes.lockFile(fileLocked3Id, 'FULL');
-        await apis.user.nodes.lockFile(fileLocked4Id, 'FULL');
+        await userActions.lockNodes([fileLocked1Id, fileLocked2Id, fileLocked3Id, fileLocked4Id], 'FULL');
 
         const initialFavoritesTotalItems = await apis.user.favorites.getFavoritesTotalItems();
         await apis.user.favorites.addFavoritesByIds('file', [favFile1Id, favFile2Id, favFile3Id, favFile4Id, favFile5Id, favFile6Id, favFile7Id]);
@@ -526,12 +492,8 @@ describe('Delete and undo delete', () => {
 
     afterAll(async () => {
       try {
-        await apis.user.nodes.unlockFile(fileLocked1Id);
-        await apis.user.nodes.unlockFile(fileLocked2Id);
-        await apis.user.nodes.unlockFile(fileLocked3Id);
-        await apis.user.nodes.unlockFile(fileLocked4Id);
-
         await userActions.login(username, username);
+        await userActions.unlockNodes([fileLocked1Id, fileLocked2Id, fileLocked3Id, fileLocked4Id]);
         await userActions.deleteNodes([parentId]);
         await userActions.emptyTrashcan();
       } catch (error) {

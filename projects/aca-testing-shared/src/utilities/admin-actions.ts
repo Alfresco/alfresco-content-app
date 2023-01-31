@@ -24,7 +24,7 @@
  */
 
 import { PersonEntry, NodeEntry, PeopleApi } from '@alfresco/js-api';
-import { PersonModel, SitesApi, UploadApi, NodesApi, FavoritesApi, SearchApi, NodeContentTree, Person, SharedLinksApi } from './repo-client/apis';
+import { PersonModel, SitesApi, UploadApi, NodesApi, NodeContentTree, Person, SharedLinksApi } from './repo-client/apis';
 import { UserActions } from './user-actions';
 import { browser } from 'protractor';
 
@@ -36,8 +36,6 @@ export class AdminActions extends UserActions {
   sites: SitesApi = new SitesApi();
   upload: UploadApi = new UploadApi();
   nodes: NodesApi = new NodesApi();
-  favorites: FavoritesApi = new FavoritesApi();
-  search: SearchApi = new SearchApi();
   shared: SharedLinksApi = new SharedLinksApi();
 
   async login(username?: string, password?: string) {

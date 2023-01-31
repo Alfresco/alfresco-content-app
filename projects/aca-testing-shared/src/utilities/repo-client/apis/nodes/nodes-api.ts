@@ -458,32 +458,6 @@ export class NodesApi extends RepoApi {
     }
   }
 
-  // lock node
-  async lockFile(nodeId: string, lockType: string = 'ALLOW_OWNER_CHANGES'): Promise<NodeEntry | null> {
-    const data = {
-      type: lockType
-    } as NodeBodyLock;
-
-    try {
-      await this.apiAuth();
-      return await this.nodesApi.lockNode(nodeId, data);
-    } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.lockFile.name}`, error);
-      return null;
-    }
-  }
-
-  /* @deprecated check {UserActions.unlockNodes} instead. */
-  async unlockFile(nodeId: string): Promise<NodeEntry | null> {
-    try {
-      await this.apiAuth();
-      return await this.nodesApi.unlockNode(nodeId);
-    } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.unlockFile.name}`, error);
-      return null;
-    }
-  }
-
   private async getLockType(nodeId: string): Promise<string> {
     try {
       const lockType = await this.getNodeProperty(nodeId, 'cm:lockType');

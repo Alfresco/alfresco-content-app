@@ -159,6 +159,16 @@ export class UserActions {
     }
   }
 
+  async lockNodes(nodeIds: string[], lockType: string = 'ALLOW_OWNER_CHANGES') {
+    try {
+      for (const nodeId of nodeIds) {
+        await this.nodesApi.lockNode(nodeId, { type: lockType });
+      }
+    } catch (error) {
+      this.handleError('User Actions - lockNodes failed : ', error);
+    }
+  }
+
   /**
    * Unlock multiple nodes.
    * @param nodeIds The list of node IDs to unlock.
