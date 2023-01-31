@@ -55,9 +55,7 @@ describe('Move content', () => {
   const folderSiteSF = `folderSiteShared-${Utils.random()}`;
   const folderSiteFav = `folderSiteFavorites-${Utils.random()}`;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const apis = new RepoClient(username, username);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -67,44 +65,34 @@ describe('Move content', () => {
   const adminApiActions = new AdminActions();
   const userActions = new UserActions();
 
-  async function createFolder(name: string, parentId?: string): Promise<string> {
-    const response = await apis.user.nodes.createFolder(name, parentId);
-    return response.entry.id;
-  }
-
-  async function createFile(name: string, parentId?: string): Promise<string> {
-    const response = await apis.user.nodes.createFile(name, parentId);
-    return response.entry.id;
-  }
-
   beforeAll(async () => {
     await adminApiActions.createUser({ username });
 
-    await apis.user.sites.createSite(siteName);
-    const docLibId = await apis.user.sites.getDocLibId(siteName);
+    await apis.sites.createSite(siteName);
+    const docLibId = await apis.sites.getDocLibId(siteName);
 
-    await createFolder(folderSitePF, docLibId);
-    await createFolder(folderSiteRF, docLibId);
-    await createFolder(folderSiteSF, docLibId);
-    await createFolder(folderSiteFav, docLibId);
+    await apis.createFolder(folderSitePF, docLibId);
+    await apis.createFolder(folderSiteRF, docLibId);
+    await apis.createFolder(folderSiteSF, docLibId);
+    await apis.createFolder(folderSiteFav, docLibId);
 
-    sourceIdPF = await createFolder(sourcePF);
-    destinationIdPF = await createFolder(destinationPF);
+    sourceIdPF = await apis.createFolder(sourcePF);
+    destinationIdPF = await apis.createFolder(destinationPF);
 
-    sourceIdRF = await createFolder(sourceRF);
-    destinationIdRF = await createFolder(destinationRF);
+    sourceIdRF = await apis.createFolder(sourceRF);
+    destinationIdRF = await apis.createFolder(destinationRF);
 
-    sourceIdSF = await createFolder(sourceSF);
-    destinationIdSF = await createFolder(destinationSF);
+    sourceIdSF = await apis.createFolder(sourceSF);
+    destinationIdSF = await apis.createFolder(destinationSF);
 
-    sourceIdFav = await createFolder(sourceFav);
-    destinationIdFav = await createFolder(destinationFav);
+    sourceIdFav = await apis.createFolder(sourceFav);
+    destinationIdFav = await apis.createFolder(destinationFav);
 
     await loginPage.loginWith(username);
   });
 
   afterAll(async () => {
-    await apis.user.nodes.deleteNodesById([
+    await apis.nodes.deleteNodesById([
       sourceIdPF,
       sourceIdRF,
       sourceIdSF,
@@ -114,7 +102,7 @@ describe('Move content', () => {
       destinationIdSF,
       destinationIdFav
     ]);
-    await apis.user.sites.deleteSite(siteName);
+    await apis.sites.deleteSite(siteName);
   });
 
   describe('from Personal Files', () => {
@@ -132,26 +120,26 @@ describe('Move content', () => {
     const file3InFolder = `file3InFolder-${Utils.random()}.txt`;
 
     beforeAll(async () => {
-      await createFile(file1, sourceIdPF);
+      await apis.createFile(file1, sourceIdPF);
 
-      const folder1Id = await createFolder(folder1, sourceIdPF);
-      await createFile(fileInFolder, folder1Id);
+      const folder1Id = await apis.createFolder(folder1, sourceIdPF);
+      await apis.createFile(fileInFolder, folder1Id);
 
-      await createFile(file2, sourceIdPF);
-      await createFile(file3, sourceIdPF);
-      await createFile(file4, sourceIdPF);
+      await apis.createFile(file2, sourceIdPF);
+      await apis.createFile(file3, sourceIdPF);
+      await apis.createFile(file4, sourceIdPF);
 
-      await createFile(`${existingFile}.txt`, sourceIdPF);
-      await createFile(`${existingFile}.txt`, destinationIdPF);
+      await apis.createFile(`${existingFile}.txt`, sourceIdPF);
+      await apis.createFile(`${existingFile}.txt`, destinationIdPF);
 
-      const existingId1 = await createFolder(existingFolder, sourceIdPF);
-      await createFile(file2InFolder, existingId1);
+      const existingId1 = await apis.createFolder(existingFolder, sourceIdPF);
+      await apis.createFile(file2InFolder, existingId1);
 
-      const existingId2 = await createFolder(existingFolder, destinationIdPF);
-      await createFile(file3InFolder, existingId2);
+      const existingId2 = await apis.createFolder(existingFolder, destinationIdPF);
+      await apis.createFile(file3InFolder, existingId2);
 
-      const folder2Id = await createFolder(folder2, sourceIdPF);
-      await createFile(fileInFolder2, folder2Id);
+      const folder2Id = await apis.createFolder(folder2, sourceIdPF);
+      await apis.createFile(fileInFolder2, folder2Id);
     });
 
     beforeEach(async () => {
@@ -303,14 +291,14 @@ describe('Move content', () => {
     const existingFile = `existing-${Utils.random()}`;
 
     beforeAll(async () => {
-      await createFile(file1, sourceIdRF);
-      await createFile(file2, sourceIdRF);
-      await createFile(file3, sourceIdRF);
-      await createFile(`${existingFile}.txt`, sourceIdRF);
-      await createFile(`${existingFile}.txt`, destinationIdRF);
-      await createFile(file4, sourceIdRF);
+      await apis.createFile(file1, sourceIdRF);
+      await apis.createFile(file2, sourceIdRF);
+      await apis.createFile(file3, sourceIdRF);
+      await apis.createFile(`${existingFile}.txt`, sourceIdRF);
+      await apis.createFile(`${existingFile}.txt`, destinationIdRF);
+      await apis.createFile(file4, sourceIdRF);
 
-      await apis.user.search.waitForApi(username, { expect: 16 });
+      await apis.search.waitForApi(username, { expect: 16 });
     });
 
     beforeEach(async () => {
@@ -415,22 +403,22 @@ describe('Move content', () => {
     const existingFile = `existing-${Utils.random()}`;
 
     beforeAll(async () => {
-      const file1Id = await createFile(file1, sourceIdSF);
+      const file1Id = await apis.createFile(file1, sourceIdSF);
 
       await userActions.login(username, username);
       await userActions.shareNodes([file1Id]);
 
-      const file2Id = await createFile(file2, sourceIdSF);
-      const file3Id = await createFile(file3, sourceIdSF);
+      const file2Id = await apis.createFile(file2, sourceIdSF);
+      const file3Id = await apis.createFile(file3, sourceIdSF);
       await userActions.shareNodes([file2Id, file3Id]);
 
-      const existingFileId = await createFile(`${existingFile}.txt`, sourceIdSF);
+      const existingFileId = await apis.createFile(`${existingFile}.txt`, sourceIdSF);
       await userActions.shareNodes([existingFileId]);
-      await createFile(`${existingFile}.txt`, destinationIdSF);
+      await apis.createFile(`${existingFile}.txt`, destinationIdSF);
 
-      const file4Id = await createFile(file4, sourceIdSF);
+      const file4Id = await apis.createFile(file4, sourceIdSF);
       await userActions.shareNodes([file4Id]);
-      await apis.user.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, existingFileId, file4Id]);
+      await apis.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, existingFileId, file4Id]);
     });
 
     beforeEach(async () => {
@@ -542,21 +530,19 @@ describe('Move content', () => {
     const file3InFolder = `file3InFolder-${Utils.random()}.txt`;
 
     async function createFavoriteFile(name: string, parentId: string) {
-      const response = await apis.user.nodes.createFile(name, parentId);
-      const fileId = response.entry.id;
-
-      return apis.user.favorites.addFavoriteById('file', fileId);
+      const fileId = await apis.createFile(name, parentId);
+      return apis.favorites.addFavoriteById('file', fileId);
     }
 
     async function createFavoriteFolder(name: string, parentId: string): Promise<string> {
-      const folderId = await createFolder(name, parentId);
-      await apis.user.favorites.addFavoriteById('folder', folderId);
+      const folderId = await apis.createFolder(name, parentId);
+      await apis.favorites.addFavoriteById('folder', folderId);
       return folderId;
     }
 
     beforeAll(async () => {
       const folder1Id = await createFavoriteFolder(folder1, sourceIdFav);
-      await createFile(fileInFolder, folder1Id);
+      await apis.createFile(fileInFolder, folder1Id);
 
       await createFavoriteFile(file1, sourceIdFav);
       await createFavoriteFile(file2, sourceIdFav);
@@ -564,18 +550,18 @@ describe('Move content', () => {
       await createFavoriteFile(file4, sourceIdFav);
       await createFavoriteFile(`${existingFile}.txt`, sourceIdFav);
 
-      await createFile(`${existingFile}.txt`, destinationIdFav);
+      await apis.createFile(`${existingFile}.txt`, destinationIdFav);
 
       const existingId1 = await createFavoriteFolder(existingFolder, sourceIdFav);
-      await createFile(file2InFolder, existingId1);
+      await apis.createFile(file2InFolder, existingId1);
 
-      const existingId2 = await createFolder(existingFolder, destinationIdFav);
-      await createFile(file3InFolder, existingId2);
+      const existingId2 = await apis.createFolder(existingFolder, destinationIdFav);
+      await apis.createFile(file3InFolder, existingId2);
 
       const folder2Id = await createFavoriteFolder(folder2, sourceIdFav);
-      await createFile(fileInFolder2, folder2Id);
+      await apis.createFile(fileInFolder2, folder2Id);
 
-      await apis.user.favorites.waitForApi({ expect: 9 });
+      await apis.favorites.waitForApi({ expect: 9 });
     });
 
     beforeEach(async () => {

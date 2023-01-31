@@ -37,9 +37,7 @@ import { BrowserActions, Logger } from '@alfresco/adf-testing';
 
 describe('Copy content', () => {
   const random = Utils.random();
-
   const username = `user-${random}`;
-
   const source = `source-${random}`;
   let sourceId: string;
   const destinationPF = `destinationPersonal-${random}`;
@@ -54,15 +52,10 @@ describe('Copy content', () => {
   let destinationIdSearch: string;
 
   const file1 = `copy-file1-${random}.txt`;
-  let file1Id: string;
-
   const folder1 = `copy-folder1-${random}`;
-  let folder1Id: string;
   const fileInFolder = `copy-fileInFolder-${random}.txt`;
-  let fileInFolderId: string;
 
   const folder2 = `copy-folder2-${random}`;
-  let folder2Id: string;
   const fileInFolder2 = fileInFolder;
 
   const folderExisting = `copy-folder-existing-${random}`;
@@ -71,12 +64,8 @@ describe('Copy content', () => {
   const file2InFolderExisting = `copy-file2InFolderExisting-${random}.txt`;
 
   const file2 = `copy-file2-${random}.txt`;
-  let file2Id: string;
   const file3 = `copy-file3-${random}.txt`;
-  let file3Id: string;
   const file4 = `copy-file4-${random}.txt`;
-  let file4Id: string;
-
   const fileLocked1 = `copy-file-locked1-${random}.txt`;
   let fileLocked1Id: string;
 
@@ -86,21 +75,9 @@ describe('Copy content', () => {
   let fileLockedInFolderId: string;
 
   const existingFile = `copy-existing-${random}-file.txt`;
-  let existingFileToCopyId: string;
-
   const existingFolder = `copy-existing-${random}-folder`;
-  let existingFolderToCopyId: string;
-
-  let existingIdPF: string;
-  let existingIdFav: string;
-  let existingIdSearch: string;
-  let folderExistingPFId: string;
-  let folderExistingFavId: string;
-  let folderExistingSearchId: string;
-
   const file2InFolder = `copy-file2InFolder-${random}.txt`;
   const file3InFolder = `copy-file3InFolder-${random}.txt`;
-
   const siteName = `copy-site-${random}`;
   const folderSitePF = `copy-folderSitePersonal-${random}`;
   const folderSiteRF = `copy-folderSiteRecent-${random}`;
@@ -111,9 +88,7 @@ describe('Copy content', () => {
   let locationId: string;
   let destinationId: string;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const apis = new RepoClient(username, username);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -129,97 +104,92 @@ describe('Copy content', () => {
     try {
       await adminApiActions.createUser({ username });
 
-      const initialFavoritesTotalItems = await apis.user.favorites.getFavoritesTotalItems();
+      const initialFavoritesTotalItems = await apis.favorites.getFavoritesTotalItems();
 
-      sourceId = (await apis.user.nodes.createFolder(source)).entry.id;
-      destinationIdPF = (await apis.user.nodes.createFolder(destinationPF)).entry.id;
-      destinationIdRF = (await apis.user.nodes.createFolder(destinationRF)).entry.id;
-      destinationIdSF = (await apis.user.nodes.createFolder(destinationSF)).entry.id;
-      destinationIdFav = (await apis.user.nodes.createFolder(destinationFav)).entry.id;
-      destinationIdSearch = (await apis.user.nodes.createFolder(destinationSearch)).entry.id;
+      sourceId = await apis.createFolder(source);
+      destinationIdPF = await apis.createFolder(destinationPF);
+      destinationIdRF = await apis.createFolder(destinationRF);
+      destinationIdSF = await apis.createFolder(destinationSF);
+      destinationIdFav = await apis.createFolder(destinationFav);
+      destinationIdSearch = await apis.createFolder(destinationSearch);
 
-      existingFileToCopyId = (await apis.user.nodes.createFile(existingFile, sourceId)).entry.id;
+      const existingFileToCopyId = await apis.createFile(existingFile, sourceId);
 
       await userActions.login(username, username);
       await userActions.shareNodes([existingFileToCopyId]);
-      await apis.user.favorites.addFavoriteById('file', existingFileToCopyId);
+      await apis.favorites.addFavoriteById('file', existingFileToCopyId);
 
-      await apis.user.nodes.createFile(existingFile, destinationIdPF);
-      await apis.user.nodes.createFile(existingFile, destinationIdRF);
-      await apis.user.nodes.createFile(existingFile, destinationIdSF);
-      await apis.user.nodes.createFile(existingFile, destinationIdFav);
-      await apis.user.nodes.createFile(existingFile, destinationIdSearch);
+      await apis.createFile(existingFile, destinationIdPF);
+      await apis.createFile(existingFile, destinationIdRF);
+      await apis.createFile(existingFile, destinationIdSF);
+      await apis.createFile(existingFile, destinationIdFav);
+      await apis.createFile(existingFile, destinationIdSearch);
 
-      existingFolderToCopyId = (await apis.user.nodes.createFolder(existingFolder, sourceId)).entry.id;
+      const existingFolderToCopyId = await apis.createFolder(existingFolder, sourceId);
 
-      existingIdPF = (await apis.user.nodes.createFolder(existingFolder, destinationIdPF)).entry.id;
-      await apis.user.nodes.createFolder(existingFolder, destinationIdRF);
-      await apis.user.nodes.createFolder(existingFolder, destinationIdSF);
-      existingIdFav = (await apis.user.nodes.createFolder(existingFolder, destinationIdFav)).entry.id;
-      existingIdSearch = (await apis.user.nodes.createFolder(existingFolder, destinationIdSearch)).entry.id;
-      await apis.user.nodes.createFile(file2InFolder, existingFolderToCopyId);
+      const existingIdPF = await apis.createFolder(existingFolder, destinationIdPF);
+      await apis.createFolder(existingFolder, destinationIdRF);
+      await apis.createFolder(existingFolder, destinationIdSF);
+      const existingIdFav = await apis.createFolder(existingFolder, destinationIdFav);
+      const existingIdSearch = await apis.createFolder(existingFolder, destinationIdSearch);
+      await apis.createFile(file2InFolder, existingFolderToCopyId);
 
-      await apis.user.nodes.createFile(file3InFolder, existingIdPF);
-      await apis.user.nodes.createFile(file3InFolder, existingIdFav);
-      await apis.user.nodes.createFile(file3InFolder, existingIdSearch);
+      await apis.createFile(file3InFolder, existingIdPF);
+      await apis.createFile(file3InFolder, existingIdFav);
+      await apis.createFile(file3InFolder, existingIdSearch);
 
-      await apis.user.favorites.addFavoriteById('folder', existingFolderToCopyId);
+      await apis.favorites.addFavoriteById('folder', existingFolderToCopyId);
 
-      folder1Id = (await apis.user.nodes.createFolder(folder1, sourceId)).entry.id;
-      fileInFolderId = (await apis.user.nodes.createFile(fileInFolder, folder1Id)).entry.id;
-      await apis.user.favorites.addFavoriteById('folder', folder1Id);
-      await apis.user.favorites.addFavoriteById('file', fileInFolderId);
+      const folder1Id = await apis.createFolder(folder1, sourceId);
+      const fileInFolderId = await apis.createFile(fileInFolder, folder1Id);
+      await apis.favorites.addFavoriteById('folder', folder1Id);
+      await apis.favorites.addFavoriteById('file', fileInFolderId);
       await userActions.shareNodes([fileInFolderId]);
 
-      folderExistingId = (await apis.user.nodes.createFolder(folderExisting, sourceId)).entry.id;
-      await apis.user.favorites.addFavoriteById('folder', folderExistingId);
-      await apis.user.nodes.createFile(file1InFolderExisting, folderExistingId);
+      folderExistingId = await apis.createFolder(folderExisting, sourceId);
+      await apis.favorites.addFavoriteById('folder', folderExistingId);
+      await apis.createFile(file1InFolderExisting, folderExistingId);
 
-      folderExistingPFId = (await apis.user.nodes.createFolder(folderExisting, destinationIdPF)).entry.id;
-      await apis.user.nodes.createFile(file2InFolderExisting, folderExistingPFId);
+      const folderExistingPFId = await apis.createFolder(folderExisting, destinationIdPF);
+      await apis.createFile(file2InFolderExisting, folderExistingPFId);
 
-      folderExistingFavId = (await apis.user.nodes.createFolder(folderExisting, destinationIdFav)).entry.id;
-      await apis.user.nodes.createFile(file2InFolderExisting, folderExistingFavId);
+      const folderExistingFavId = await apis.createFolder(folderExisting, destinationIdFav);
+      await apis.createFile(file2InFolderExisting, folderExistingFavId);
 
-      folderExistingSearchId = (await apis.user.nodes.createFolder(folderExisting, destinationIdSearch)).entry.id;
-      await apis.user.nodes.createFile(file2InFolderExisting, folderExistingSearchId);
+      const folderExistingSearchId = await apis.createFolder(folderExisting, destinationIdSearch);
+      await apis.createFile(file2InFolderExisting, folderExistingSearchId);
 
-      folder2Id = (await apis.user.nodes.createFolder(folder2, sourceId)).entry.id;
-      await apis.user.nodes.createFile(fileInFolder2, folder2Id);
-      await apis.user.favorites.addFavoriteById('folder', folder2Id);
+      const folder2Id = await apis.createFolder(folder2, sourceId);
+      await apis.createFile(fileInFolder2, folder2Id);
+      await apis.favorites.addFavoriteById('folder', folder2Id);
 
-      fileLocked1Id = (await apis.user.nodes.createFile(fileLocked1, sourceId)).entry.id;
-      await apis.user.nodes.lockFile(fileLocked1Id);
+      fileLocked1Id = await apis.createFile(fileLocked1, sourceId);
+      await apis.nodes.lockFile(fileLocked1Id);
 
-      folderWithLockedFilesId = (await apis.user.nodes.createFolder(folderWithLockedFiles, sourceId)).entry.id;
-      fileLockedInFolderId = (await apis.user.nodes.createFile(fileLockedInFolder, folderWithLockedFilesId)).entry.id;
-      await apis.user.nodes.lockFile(fileLockedInFolderId);
-      await apis.user.favorites.addFavoriteById('folder', folderWithLockedFilesId);
+      folderWithLockedFilesId = await apis.createFolder(folderWithLockedFiles, sourceId);
+      fileLockedInFolderId = await apis.createFile(fileLockedInFolder, folderWithLockedFilesId);
+      await apis.nodes.lockFile(fileLockedInFolderId);
+      await apis.favorites.addFavoriteById('folder', folderWithLockedFilesId);
 
-      file1Id = (await apis.user.nodes.createFile(file1, sourceId)).entry.id;
-      file2Id = (await apis.user.nodes.createFile(file2, sourceId)).entry.id;
-      file3Id = (await apis.user.nodes.createFile(file3, sourceId)).entry.id;
-      file4Id = (await apis.user.nodes.createFile(file4, sourceId)).entry.id;
+      const file1Id = await apis.createFile(file1, sourceId);
+      const file2Id = await apis.createFile(file2, sourceId);
+      const file3Id = await apis.createFile(file3, sourceId);
+      const file4Id = await apis.createFile(file4, sourceId);
 
       await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id, fileLocked1Id]);
 
-      await apis.user.favorites.addFavoriteById('file', file1Id);
-      await apis.user.favorites.addFavoriteById('file', file2Id);
-      await apis.user.favorites.addFavoriteById('file', file3Id);
-      await apis.user.favorites.addFavoriteById('file', file4Id);
+      await apis.favorites.addFavoritesByIds('file', [file1Id, file2Id, file3Id, file4Id, fileLocked1Id]);
 
-      await apis.user.favorites.addFavoriteById('file', fileLocked1Id);
+      await apis.sites.createSite(siteName);
+      const docLibId = await apis.sites.getDocLibId(siteName);
+      await apis.createFolder(folderSitePF, docLibId);
+      await apis.createFolder(folderSiteRF, docLibId);
+      await apis.createFolder(folderSiteSF, docLibId);
+      await apis.createFolder(folderSiteFav, docLibId);
+      await apis.createFolder(folderSiteSearch, docLibId);
 
-      await apis.user.sites.createSite(siteName);
-      const docLibId = await apis.user.sites.getDocLibId(siteName);
-      await apis.user.nodes.createFolder(folderSitePF, docLibId);
-      await apis.user.nodes.createFolder(folderSiteRF, docLibId);
-      await apis.user.nodes.createFolder(folderSiteSF, docLibId);
-      await apis.user.nodes.createFolder(folderSiteFav, docLibId);
-      await apis.user.nodes.createFolder(folderSiteSearch, docLibId);
-
-      await apis.user.shared.waitForFilesToBeShared([existingFileToCopyId, fileInFolderId, file1Id, file2Id, file3Id, file4Id, fileLocked1Id]);
-      await apis.user.favorites.waitForApi({ expect: initialFavoritesTotalItems + 13 });
+      await apis.shared.waitForFilesToBeShared([existingFileToCopyId, fileInFolderId, file1Id, file2Id, file3Id, file4Id, fileLocked1Id]);
+      await apis.favorites.waitForApi({ expect: initialFavoritesTotalItems + 13 });
 
       await loginPage.loginWith(username);
     } catch (error) {
@@ -233,10 +203,10 @@ describe('Copy content', () => {
 
   afterAll(async () => {
     try {
-      await apis.user.nodes.unlockFile(fileLocked1Id);
-      await apis.user.nodes.unlockFile(fileLockedInFolderId);
-      await apis.user.nodes.deleteNodesById([sourceId, destinationIdRF, destinationIdPF, destinationIdSF, destinationIdFav, destinationIdSearch]);
-      await apis.user.sites.deleteSite(siteName);
+      await apis.nodes.unlockFile(fileLocked1Id);
+      await apis.nodes.unlockFile(fileLockedInFolderId);
+      await apis.nodes.deleteNodesById([sourceId, destinationIdRF, destinationIdPF, destinationIdSF, destinationIdFav, destinationIdSearch]);
+      await apis.sites.deleteSite(siteName);
     } catch (error) {
       Logger.error(`---- afterAll failed : ${error}`);
     }
@@ -638,11 +608,11 @@ describe('Copy content', () => {
 
     await copyDialog.waitForDialogToClose();
     expect(await dataTable.isItemPresent(fileName)).toBe(true, `${fileName} not present in source folder`);
-    expect(await apis.user.nodes.isFileLockedByName(fileName, locationId)).toBe(true, `${fileName} not locked in ${location}`);
+    expect(await apis.nodes.isFileLockedByName(fileName, locationId)).toBe(true, `${fileName} not locked in ${location}`);
     await page.clickPersonalFilesAndWait();
     await dataTable.doubleClickOnRowByName(destination);
     expect(await dataTable.isItemPresent(fileName)).toBe(true, `${fileName} not present in ${destination} folder`);
-    expect(await apis.user.nodes.isFileLockedByName(fileName, destinationId)).toBe(false, `${fileName} is locked in ${destination}`);
+    expect(await apis.nodes.isFileLockedByName(fileName, destinationId)).toBe(false, `${fileName} is locked in ${destination}`);
   }
 
   async function copyFolderThatContainsLockedFile(folderName: string, location: string = '', destination: string, doBefore?: () => void) {
@@ -666,7 +636,7 @@ describe('Copy content', () => {
     await dataTable.doubleClickOnRowByName(destination);
     expect(await dataTable.isItemPresent(folderName)).toBe(true, `${folderName} not present in ${destination} folder`);
     expect(await dataTable.isItemPresent(fileLockedInFolder)).toBe(false, `${fileLockedInFolder} is present in ${destination}`);
-    expect(await apis.user.nodes.isFileLockedByName(fileLockedInFolder, locationId)).toBe(true, `${fileLockedInFolder} not locked in ${location}`);
+    expect(await apis.nodes.isFileLockedByName(fileLockedInFolder, locationId)).toBe(true, `${fileLockedInFolder} not locked in ${location}`);
 
     await dataTable.doubleClickOnRowByName(folderName);
     expect(await dataTable.isItemPresent(fileLockedInFolder)).toBe(
@@ -674,7 +644,7 @@ describe('Copy content', () => {
       `${fileLockedInFolder} is not present in ${folderName} folder from ${destination}`
     );
     expect(
-      await apis.user.nodes.isFileLockedByName(fileLockedInFolder, await apis.user.nodes.getNodeIdFromParent(folderWithLockedFiles, destinationId))
+      await apis.nodes.isFileLockedByName(fileLockedInFolder, await apis.user.nodes.getNodeIdFromParent(folderWithLockedFiles, destinationId))
     ).toBe(false, `${fileLockedInFolder} is locked in ${destination}`);
   }
 
