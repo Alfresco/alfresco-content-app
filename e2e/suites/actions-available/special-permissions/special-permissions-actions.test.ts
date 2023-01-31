@@ -99,7 +99,7 @@ describe('Special permissions : ', () => {
     fileLockedByUserId = (await userManagerApi.nodes.createFile(testData.fileLockedByUser, docLibId)).entry.id;
     await userDemotedApi.nodes.lockFile(fileLockedByUserId);
     await userDemotedApi.favorites.addFavoriteById('file', fileLockedByUserId);
-    await userDemotedApi.shared.shareFileById(fileLockedByUserId);
+    await userDemotedApi.shared.shareFilesByIds([fileLockedByUserId]);
     await userManagerApi.sites.updateSiteMember(sitePrivate, userDemoted, SITE_ROLES.SITE_CONSUMER.ROLE);
 
     await userManagerApi.nodes.createFolder(testData.folder.name, docLibId);

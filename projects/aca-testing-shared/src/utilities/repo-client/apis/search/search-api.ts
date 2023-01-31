@@ -84,15 +84,6 @@ export class SearchApi extends RepoApi {
     }
   }
 
-  private async getSearchByTermTotalItems(searchTerm: string): Promise<number> {
-    try {
-      return (await this.queryNodesNames(searchTerm)).list.pagination.totalItems;
-    } catch (error) {
-      this.handleError(`SearchApi getSearchByTermTotalItems : catch : `, error);
-      return -1;
-    }
-  }
-
   async waitForApi(username: string, data: { expect: number }) {
     try {
       const recentFiles = async () => {
@@ -116,7 +107,7 @@ export class SearchApi extends RepoApi {
 
     const apiCall = async () => {
       try {
-        return await this.getSearchByTermTotalItems(searchTerm);
+        return (await this.queryNodesNames(searchTerm)).list.pagination.totalItems;
       } catch (error) {
         return 0;
       }

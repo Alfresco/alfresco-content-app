@@ -54,52 +54,12 @@ export class SitesApi extends RepoApi {
     }
   }
 
-  private async getSites() {
-    try {
-      await this.apiAuth();
-      return await this.sitesApi.listSiteMembershipsForPerson(this.username);
-    } catch (error) {
-      this.handleError(`SitesApi getSites : catch : `, error);
-      return null;
-    }
-  }
-
   async getDocLibId(siteId: string): Promise<string> {
     try {
       await this.apiAuth();
       return (await this.sitesApi.listSiteContainers(siteId)).list.entries[0].entry.id;
     } catch (error) {
       this.handleError(`SitesApi getDocLibId : catch : `, error);
-      return null;
-    }
-  }
-
-  async getVisibility(siteId: string) {
-    try {
-      const site = await this.getSite(siteId);
-      return site.entry.visibility;
-    } catch (error) {
-      this.handleError(`SitesApi getVisibility : catch : `, error);
-      return null;
-    }
-  }
-
-  async getDescription(siteId: string) {
-    try {
-      const site = await this.getSite(siteId);
-      return site.entry.description;
-    } catch (error) {
-      this.handleError(`SitesApi getDescription : catch : `, error);
-      return null;
-    }
-  }
-
-  async getTitle(siteId: string) {
-    try {
-      const site = await this.getSite(siteId);
-      return site.entry.title;
-    } catch (error) {
-      this.handleError(`SitesApi getTitle : catch : `, error);
       return null;
     }
   }
@@ -173,7 +133,9 @@ export class SitesApi extends RepoApi {
 
   async deleteAllUserSites(permanent: boolean = true) {
     try {
-      const siteIds = (await this.getSites()).list.entries.map((entries) => entries.entry.id);
+      await this.apiAuth();
+      const sites = await this.sitesApi.listSiteMembershipsForPerson(this.username);
+      const siteIds = sites.list.entries.map((entries) => entries.entry.id);
 
       return await siteIds.reduce(async (previous, current) => {
         await previous;
@@ -270,7 +232,9 @@ export class SitesApi extends RepoApi {
   async waitForSitesToBeCreated(sitesIds: string[]) {
     try {
       const site = async () => {
-        const sitesList = (await this.getSites()).list.entries.map((link) => link.entry.id);
+        await this.apiAuth();
+        const sites = await this.sitesApi.listSiteMembershipsForPerson(this.username);
+        const sitesList = sites.list.entries.map((link) => link.entry.id);
         const foundItems = sitesIds.every((id) => sitesList.includes(id));
         if (foundItems) {
           return Promise.resolve(foundItems);
