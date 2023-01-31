@@ -257,7 +257,7 @@ describe('Viewer actions', () => {
       try {
         await apis.user.sites.createSite(siteName);
         const docLibId = await apis.user.sites.getDocLibId(siteName);
-        destinationId = (await apis.user.nodes.createFolder(destination)).entry.id;
+        destinationId = await apis.user.createFolder(destination);
 
         await apis.user.upload.uploadFile(docxFile2, docLibId);
 

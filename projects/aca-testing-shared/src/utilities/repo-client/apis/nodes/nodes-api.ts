@@ -25,7 +25,7 @@
 
 import { RepoApi } from '../repo-api';
 import { NodeContentTree, flattenNodeContentTree } from './node-content-tree';
-import { NodesApi as AdfNodeApi, NodeBodyLock, NodeEntry, NodeChildAssociationPaging } from '@alfresco/js-api';
+import { NodesApi as AdfNodeApi, NodeEntry, NodeChildAssociationPaging } from '@alfresco/js-api';
 import { Utils } from '../../../../utilities/utils';
 
 export class NodesApi extends RepoApi {
