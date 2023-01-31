@@ -35,7 +35,7 @@ export class QueriesApi extends RepoApi {
     super(username, password);
   }
 
-  async findSites(searchTerm: string) {
+  private async findSites(searchTerm: string) {
     const data = {
       term: searchTerm,
       fields: ['title']
@@ -50,27 +50,12 @@ export class QueriesApi extends RepoApi {
     }
   }
 
-  async findSitesTotalItems(searchTerm: string): Promise<number> {
+  private async findSitesTotalItems(searchTerm: string): Promise<number> {
     try {
       return (await this.findSites(searchTerm)).list.pagination.totalItems;
     } catch (error) {
       this.handleError(`QueriesApi findSitesTotalItems : catch :`, error);
       return -1;
-    }
-  }
-
-  async findNodes(searchTerm: string) {
-    const data = {
-      term: searchTerm,
-      fields: ['name']
-    };
-
-    try {
-      await this.apiAuth();
-      return this.queriesApi.findNodes(searchTerm, data);
-    } catch (error) {
-      this.handleError(`QueriesApi findNodes : catch : `, error);
-      return null;
     }
   }
 
@@ -88,24 +73,6 @@ export class QueriesApi extends RepoApi {
       return await Utils.retryCall(sites);
     } catch (error) {
       Logger.error(`QueriesApi waitForSites : catch : `);
-      Logger.error(`\tExpected: ${data.expect} items, but found ${error}`);
-    }
-  }
-
-  async waitForFilesAndFolders(searchTerm: string, data: { expect: number }) {
-    try {
-      const nodes = async () => {
-        const totalItems = (await this.findNodes(searchTerm)).list.pagination.totalItems;
-        if (totalItems !== data.expect) {
-          return Promise.reject(totalItems);
-        } else {
-          return Promise.resolve(totalItems);
-        }
-      };
-
-      return await Utils.retryCall(nodes);
-    } catch (error) {
-      Logger.error(`QueriesApi waitForFilesAndFolders : catch : `);
       Logger.error(`\tExpected: ${data.expect} items, but found ${error}`);
     }
   }

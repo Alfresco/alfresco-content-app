@@ -185,7 +185,7 @@ export class NodesApi extends RepoApi {
     }
   }
 
-  async getNodeChildren(nodeId: string): Promise<NodeChildAssociationPaging | null> {
+  private async getNodeChildren(nodeId: string): Promise<NodeChildAssociationPaging | null> {
     try {
       const opts = {
         include: ['properties']
@@ -213,7 +213,7 @@ export class NodesApi extends RepoApi {
     }
   }
 
-  async createImageNode(name: string, parentId: string = '-my-', title: string = '', description: string = ''): Promise<NodeEntry | null> {
+  private async createImageNode(name: string, parentId: string = '-my-', title: string = '', description: string = ''): Promise<NodeEntry | null> {
     const imageProps = {
       'exif:pixelXDimension': 1000,
       'exif:pixelYDimension': 1200
@@ -226,7 +226,7 @@ export class NodesApi extends RepoApi {
     }
   }
 
-  async createNode(
+  private async createNode(
     nodeType: string,
     name: string,
     parentId: string = '-my-',
@@ -387,16 +387,6 @@ export class NodesApi extends RepoApi {
     }
   }
 
-  // node content
-  async getNodeContent(nodeId: string): Promise<any> {
-    try {
-      await this.apiAuth();
-      return await this.nodesApi.getNodeContent(nodeId);
-    } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.getNodeContent.name}`, error);
-    }
-  }
-
   async updateNodeContent(
     nodeId: string,
     content: string,
@@ -493,22 +483,12 @@ export class NodesApi extends RepoApi {
     }
   }
 
-  async getLockType(nodeId: string): Promise<string> {
+  private async getLockType(nodeId: string): Promise<string> {
     try {
       const lockType = await this.getNodeProperty(nodeId, 'cm:lockType');
       return lockType || '';
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.getLockType.name}`, error);
-      return '';
-    }
-  }
-
-  async getLockOwner(nodeId: string): Promise<string> {
-    try {
-      const lockOwner = await this.getNodeProperty(nodeId, 'cm:lockOwner');
-      return lockOwner || '';
-    } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.getLockOwner.name}`, error);
       return '';
     }
   }

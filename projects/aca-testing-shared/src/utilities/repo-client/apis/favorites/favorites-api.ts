@@ -25,7 +25,6 @@
 
 import { RepoApi } from '../repo-api';
 import { Logger } from '@alfresco/adf-testing';
-import { RepoClient } from './../../repo-client';
 import { Utils } from '../../../../utilities/utils';
 import { FavoritesApi as AdfFavoritesApi, SitesApi as AdfSiteApi, FavoriteEntry } from '@alfresco/js-api';
 
@@ -35,23 +34,6 @@ export class FavoritesApi extends RepoApi {
 
   constructor(username?: string, password?: string) {
     super(username, password);
-  }
-
-  async addFavorite(api: RepoClient, nodeType: string, name: string, parentFolderId?: string) {
-    try {
-      const nodeId = (await api.nodes.getNodeByPath(name, parentFolderId)).entry.id;
-      const data = {
-        target: {
-          [nodeType]: {
-            guid: nodeId
-          }
-        }
-      };
-      return await this.favoritesApi.createFavorite('-me-', data);
-    } catch (error) {
-      this.handleError(`FavoritesApi addFavorite : catch : `, error);
-      return null;
-    }
   }
 
   async addFavoriteById(nodeType: 'file' | 'folder' | 'site', id: string): Promise<FavoriteEntry | null> {
@@ -92,7 +74,7 @@ export class FavoritesApi extends RepoApi {
     return favorites;
   }
 
-  async getFavorites() {
+  private async getFavorites() {
     try {
       await this.apiAuth();
       return await this.favoritesApi.listFavorites(this.username);
@@ -147,7 +129,7 @@ export class FavoritesApi extends RepoApi {
     return isFavorite;
   }
 
-  async removeFavoriteById(nodeId: string) {
+  private async removeFavoriteById(nodeId: string) {
     try {
       await this.apiAuth();
       return await this.favoritesApi.deleteFavorite('-me-', nodeId);
