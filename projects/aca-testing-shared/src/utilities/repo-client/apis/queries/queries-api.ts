@@ -35,24 +35,17 @@ export class QueriesApi extends RepoApi {
     super(username, password);
   }
 
-  private async findSites(searchTerm: string) {
-    const data = {
-      term: searchTerm,
-      fields: ['title']
-    };
-
-    try {
-      await this.apiAuth();
-      return this.queriesApi.findSites(searchTerm, data);
-    } catch (error) {
-      this.handleError(`QueriesApi findSites : catch : `, error);
-      return null;
-    }
-  }
-
   private async findSitesTotalItems(searchTerm: string): Promise<number> {
     try {
-      return (await this.findSites(searchTerm)).list.pagination.totalItems;
+      await this.apiAuth();
+
+      const opts = {
+        term: searchTerm,
+        fields: ['title']
+      };
+
+      const sites = await this.queriesApi.findSites(searchTerm, opts);
+      return sites.list.pagination.totalItems;
     } catch (error) {
       this.handleError(`QueriesApi findSitesTotalItems : catch :`, error);
       return -1;

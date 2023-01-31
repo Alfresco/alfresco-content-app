@@ -177,8 +177,9 @@ export class NodesApi extends RepoApi {
 
   async deleteNodesById(ids: string[], permanent: boolean = true): Promise<void> {
     try {
+      await this.apiAuth();
       for (const id of ids) {
-        await this.deleteNodeById(id, permanent);
+        await this.nodesApi.deleteNode(id, { permanent });
       }
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.deleteNodesById.name}`, error);
