@@ -31,7 +31,8 @@ import {
   EXTENSIBILITY_CONFIGS,
   Utils,
   InfoDrawer,
-  MetadataCard
+  MetadataCard,
+  UserActions
 } from '@alfresco/aca-testing-shared';
 import { BrowserActions } from '@alfresco/adf-testing';
 
@@ -71,10 +72,14 @@ describe('Extensions - Metadata presets', () => {
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
+
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   beforeAll(async () => {
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
+
     fileId = (await apis.user.nodes.createImage(file)).entry.id;
 
     await loginPage.load();
@@ -95,7 +100,7 @@ describe('Extensions - Metadata presets', () => {
   });
 
   afterAll(async () => {
-    await apis.user.nodes.deleteNodeById(fileId);
+    await userActions.deleteNodes([fileId]);
   });
 
   it('[C286636] Set groups of properties to display', async () => {

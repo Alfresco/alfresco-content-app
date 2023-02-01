@@ -23,7 +23,16 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, InfoDrawer, RepoClient, EXTENSIBILITY_CONFIGS, Utils } from '@alfresco/aca-testing-shared';
+import {
+  AdminActions,
+  LoginPage,
+  BrowsingPage,
+  InfoDrawer,
+  RepoClient,
+  EXTENSIBILITY_CONFIGS,
+  Utils,
+  UserActions
+} from '@alfresco/aca-testing-shared';
 import { BrowserActions } from '@alfresco/adf-testing';
 
 describe('Extensions - Info Drawer', () => {
@@ -62,15 +71,19 @@ describe('Extensions - Info Drawer', () => {
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
+
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   beforeAll(async () => {
     await adminApiActions.createUser({ username });
-    fileId = (await apis.user.nodes.createFile(file)).entry.id;
+    await userActions.login(username, username);
+
+    fileId = await apis.user.createFile(file);
   });
 
   afterAll(async () => {
-    await apis.user.nodes.deleteNodeById(fileId);
+    await userActions.deleteNodes([fileId]);
   });
 
   describe('', () => {

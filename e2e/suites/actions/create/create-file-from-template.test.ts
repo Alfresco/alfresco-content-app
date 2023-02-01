@@ -32,7 +32,8 @@ import {
   clearTextWithBackspace,
   AdminActions,
   RepoClient,
-  NodeContentTree
+  NodeContentTree,
+  UserActions
 } from '@alfresco/aca-testing-shared';
 import { BrowserActions, Logger } from '@alfresco/adf-testing';
 
@@ -80,6 +81,7 @@ describe('Create file from template', () => {
   const userApi = new RepoClient(username, username);
 
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -113,20 +115,22 @@ describe('Create file from template', () => {
 
   beforeAll(async () => {
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
 
-    parentId = (await userApi.nodes.createFolder(parent)).entry.id;
+    parentId = await userApi.createFolder(parent);
     await userApi.nodes.createFile(duplicateFileName, parentId);
 
     await userApi.sites.createSite(siteName);
     docLibUserSite = await userApi.sites.getDocLibId(siteName);
-    await userApi.nodes.createFile(duplicateFileSite, docLibUserSite);
+    await userApi.createFile(duplicateFileSite, docLibUserSite);
 
     await loginPage.loginWith(username);
   });
 
   afterAll(async () => {
-    await userApi.nodes.deleteNodeById(parentId);
-    await userApi.sites.deleteSite(siteName);
+    await userActions.login(username, username);
+    await userActions.deleteNodes([parentId]);
+    await userActions.deleteSites([siteName]);
 
     await adminApiActions.login();
     await adminApiActions.cleanupNodeTemplatesItems([

@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, RepoClient, Utils, AdminActions, FILES, SITE_ROLES } from '@alfresco/aca-testing-shared';
+import { LoginPage, RepoClient, Utils, AdminActions, FILES, SITE_ROLES, SITE_VISIBILITY, UserActions } from '@alfresco/aca-testing-shared';
 import * as testData from './test-data-permissions';
 import { librariesTests } from './my-libraries';
 import { favoritesTests } from './favorites';
@@ -58,6 +58,8 @@ describe('Special permissions : ', () => {
   let folderFav2Id: string;
 
   const adminApiActions = new AdminActions();
+  const managerActions = new UserActions();
+  const demotedUserActions = new UserActions();
 
   const userManagerApi = new RepoClient(userManager, userManager);
   const userConsumerApi = new RepoClient(userConsumer, userConsumer);
@@ -72,11 +74,14 @@ describe('Special permissions : ', () => {
     await adminApiActions.createUser({ username: userCollaborator });
     await adminApiActions.createUser({ username: userDemoted });
 
+    await managerActions.login(userManager, userManager);
+    await demotedUserActions.login(userDemoted, userDemoted);
+
     const consumerFavoritesTotalItems = await userConsumerApi.favorites.getFavoritesTotalItems();
     const managerSearchTotalItems = await userManagerApi.search.getTotalItems(userManager);
     const collaboratorFavoritesTotalItems = await userCollaboratorApi.favorites.getFavoritesTotalItems();
 
-    await userManagerApi.sites.createSitePrivate(sitePrivate);
+    await userManagerApi.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
     const docLibId = await userManagerApi.sites.getDocLibId(sitePrivate);
     await userManagerApi.sites.addSiteConsumer(sitePrivate, userConsumer);
     await userManagerApi.sites.addSiteCollaborator(sitePrivate, userCollaborator);
@@ -84,27 +89,27 @@ describe('Special permissions : ', () => {
 
     await userManagerApi.upload.uploadFileWithRename(FILES.docxFile, docLibId, testData.fileDocx.name);
     fileDocxFavId = (await userManagerApi.upload.uploadFileWithRename(FILES.docxFile, docLibId, testData.fileDocxFav.name)).entry.id;
-    await userManagerApi.nodes.createFile(testData.file.name, docLibId);
-    fileFavId = (await userManagerApi.nodes.createFile(testData.fileFav.name, docLibId)).entry.id;
+    await userManagerApi.createFile(testData.file.name, docLibId);
+    fileFavId = await userManagerApi.createFile(testData.fileFav.name, docLibId);
     fileDocxSharedId = (await userManagerApi.upload.uploadFileWithRename(FILES.docxFile, docLibId, testData.fileDocxShared.name)).entry.id;
     fileDocxSharedFavId = (await userManagerApi.upload.uploadFileWithRename(FILES.docxFile, docLibId, testData.fileDocxSharedFav.name)).entry.id;
-    fileSharedId = (await userManagerApi.nodes.createFile(testData.fileShared.name, docLibId)).entry.id;
-    fileSharedFavId = (await userManagerApi.nodes.createFile(testData.fileSharedFav.name, docLibId)).entry.id;
-    fileLockedId = (await userManagerApi.nodes.createFile(testData.fileLocked.name, docLibId)).entry.id;
-    fileFavLockedId = (await userManagerApi.nodes.createFile(testData.fileFavLocked.name, docLibId)).entry.id;
-    fileSharedLockedId = (await userManagerApi.nodes.createFile(testData.fileSharedLocked.name, docLibId)).entry.id;
-    fileSharedFavLockedId = (await userManagerApi.nodes.createFile(testData.fileSharedFavLocked.name, docLibId)).entry.id;
-    fileGranularPermissionId = (await userManagerApi.nodes.createFile(testData.fileGranularPermission, docLibId)).entry.id;
+    fileSharedId = await userManagerApi.createFile(testData.fileShared.name, docLibId);
+    fileSharedFavId = await userManagerApi.createFile(testData.fileSharedFav.name, docLibId);
+    fileLockedId = await userManagerApi.createFile(testData.fileLocked.name, docLibId);
+    fileFavLockedId = await userManagerApi.createFile(testData.fileFavLocked.name, docLibId);
+    fileSharedLockedId = await userManagerApi.createFile(testData.fileSharedLocked.name, docLibId);
+    fileSharedFavLockedId = await userManagerApi.createFile(testData.fileSharedFavLocked.name, docLibId);
+    fileGranularPermissionId = await userManagerApi.createFile(testData.fileGranularPermission, docLibId);
 
-    fileLockedByUserId = (await userManagerApi.nodes.createFile(testData.fileLockedByUser, docLibId)).entry.id;
-    await userDemotedApi.nodes.lockFile(fileLockedByUserId);
+    fileLockedByUserId = await userManagerApi.createFile(testData.fileLockedByUser, docLibId);
+    await demotedUserActions.lockNodes([fileLockedByUserId]);
     await userDemotedApi.favorites.addFavoriteById('file', fileLockedByUserId);
-    await userDemotedApi.shared.shareFileById(fileLockedByUserId);
+    await userDemotedApi.shared.shareFilesByIds([fileLockedByUserId]);
     await userManagerApi.sites.updateSiteMember(sitePrivate, userDemoted, SITE_ROLES.SITE_CONSUMER.ROLE);
 
     await userManagerApi.nodes.createFolder(testData.folder.name, docLibId);
-    folderFavId = (await userManagerApi.nodes.createFolder(testData.folderFav.name, docLibId)).entry.id;
-    folderFav2Id = (await userManagerApi.nodes.createFolder(testData.folderFav2.name, docLibId)).entry.id;
+    folderFavId = await userManagerApi.createFolder(testData.folderFav.name, docLibId);
+    folderFav2Id = await userManagerApi.createFolder(testData.folderFav2.name, docLibId);
     await userConsumerApi.favorites.addFavoritesByIds('folder', [folderFavId, folderFav2Id]);
 
     await userConsumerApi.favorites.addFavoritesByIds('file', [
@@ -129,10 +134,7 @@ describe('Special permissions : ', () => {
 
     await userCollaboratorApi.favorites.addFavoritesByIds('file', [fileDocxSharedFavId, fileSharedFavId]);
 
-    await userManagerApi.nodes.lockFile(fileLockedId);
-    await userManagerApi.nodes.lockFile(fileFavLockedId);
-    await userManagerApi.nodes.lockFile(fileSharedLockedId);
-    await userManagerApi.nodes.lockFile(fileSharedFavLockedId);
+    await managerActions.lockNodes([fileLockedId, fileFavLockedId, fileSharedLockedId, fileSharedFavLockedId]);
 
     await userManagerApi.nodes.setGranularPermission(fileGranularPermissionId, false, userConsumer, SITE_ROLES.SITE_MANAGER.ROLE);
 

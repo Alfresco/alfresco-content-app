@@ -64,7 +64,7 @@ export class SharedLinksApi extends RepoApi {
     return sharedLinks;
   }
 
-  async getSharedIdOfNode(fileId: string): Promise<string> {
+  private async getSharedIdOfNode(fileId: string): Promise<string> {
     try {
       const sharedLinksEntries = (await this.getSharedLinks())?.list.entries;
       const found = sharedLinksEntries.find((sharedLink) => sharedLink.entry.nodeId === fileId);
@@ -84,7 +84,7 @@ export class SharedLinksApi extends RepoApi {
     }
   }
 
-  async getSharedLinks(maxItems: number = 250): Promise<SharedLinkPaging | null> {
+  private async getSharedLinks(maxItems: number = 250): Promise<SharedLinkPaging | null> {
     try {
       await this.apiAuth();
       const opts = {
@@ -94,38 +94,6 @@ export class SharedLinksApi extends RepoApi {
     } catch (error) {
       this.handleError(`SharedLinksApi getSharedLinks : catch : `, error);
       return null;
-    }
-  }
-
-  async getSharedLinksTotalItems(): Promise<number> {
-    try {
-      await this.apiAuth();
-      const opts = {
-        maxItems: 250
-      };
-      const sharedList = await this.sharedlinksApi.listSharedLinks(opts);
-      return sharedList.list.entries.length;
-    } catch (error) {
-      this.handleError(`SharedLinksApi getSharedLinksTotalItems : catch : `, error);
-      return -1;
-    }
-  }
-
-  async waitForApi(data: { expect: number }): Promise<any> {
-    try {
-      const sharedFiles = async () => {
-        const totalItems = await this.getSharedLinksTotalItems();
-        if (totalItems !== data.expect) {
-          return Promise.reject(totalItems);
-        } else {
-          return Promise.resolve(totalItems);
-        }
-      };
-
-      return await Utils.retryCall(sharedFiles);
-    } catch (error) {
-      Logger.error(`SharedLinksApi waitForApi :  catch : `);
-      Logger.error(`\tExpected: ${data.expect} items, but found ${error}`);
     }
   }
 

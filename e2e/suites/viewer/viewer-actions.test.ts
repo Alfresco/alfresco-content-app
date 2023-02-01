@@ -59,12 +59,15 @@ describe('Viewer actions', () => {
   const copyMoveDialog = new ContentNodeSelectorDialog();
   const shareDialog = new ShareDialog();
   const uploadNewVersionDialog = new UploadNewVersionDialog();
+
   const adminApiActions = new AdminActions();
   const userActions = new UserActions();
+
   const uploadFilesDialog = new UploadFilesDialog();
 
   beforeAll(async () => {
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
   });
 
   describe('from Personal Files', () => {
@@ -91,8 +94,8 @@ describe('Viewer actions', () => {
 
     beforeAll(async () => {
       try {
-        parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
-        destinationId = (await apis.user.nodes.createFolder(destination)).entry.id;
+        parentId = await apis.user.createFolder(parent);
+        destinationId = await apis.user.createFolder(destination);
 
         await apis.user.upload.uploadFileWithRename(docxFile, parentId, docxPersonalFiles);
 
@@ -105,10 +108,7 @@ describe('Viewer actions', () => {
         fileForUploadNewVersionId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForUploadNewVersion)).entry.id;
         fileForUploadNewVersionId2 = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForUploadNewVersion2)).entry.id;
 
-        await apis.user.nodes.lockFile(fileForCancelEditingId);
-        await apis.user.nodes.lockFile(fileForUploadNewVersionId);
-        await apis.user.nodes.lockFile(fileForUploadNewVersionId2);
-
+        await userActions.lockNodes([fileForCancelEditingId, fileForUploadNewVersionId, fileForUploadNewVersionId2]);
         await loginPage.loginWith(username);
       } catch (error) {
         Logger.error(`----- beforeAll failed : ${error}`);
@@ -257,7 +257,7 @@ describe('Viewer actions', () => {
       try {
         await apis.user.sites.createSite(siteName);
         const docLibId = await apis.user.sites.getDocLibId(siteName);
-        destinationId = (await apis.user.nodes.createFolder(destination)).entry.id;
+        destinationId = await apis.user.createFolder(destination);
 
         await apis.user.upload.uploadFile(docxFile2, docLibId);
 
@@ -268,8 +268,7 @@ describe('Viewer actions', () => {
         fileForCancelEditingId = (await apis.user.upload.uploadFileWithRename(docxFile, docLibId, fileForCancelEditing)).entry.id;
         fileForUploadNewVersionId = (await apis.user.upload.uploadFileWithRename(docxFile, docLibId, fileForUploadNewVersion)).entry.id;
 
-        await apis.user.nodes.lockFile(fileForCancelEditingId);
-        await apis.user.nodes.lockFile(fileForUploadNewVersionId);
+        await userActions.lockNodes([fileForCancelEditingId, fileForUploadNewVersionId]);
 
         await loginPage.loginWith(username);
       } catch (error) {
@@ -350,8 +349,7 @@ describe('Viewer actions', () => {
         fileForCancelEditingId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForCancelEditing)).entry.id;
         fileForUploadNewVersionId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForUploadNewVersion)).entry.id;
 
-        await apis.user.nodes.lockFile(fileForCancelEditingId);
-        await apis.user.nodes.lockFile(fileForUploadNewVersionId);
+        await userActions.lockNodes([fileForCancelEditingId, fileForUploadNewVersionId]);
 
         await apis.user.upload.uploadFileWithRename(xlsxFileForMove, parentId, xlsxRecentFiles);
         await apis.user.upload.uploadFileWithRename(pdfFileForDelete, parentId, pdfRecentFiles);
@@ -439,8 +437,7 @@ describe('Viewer actions', () => {
         fileForCancelEditingId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForCancelEditing)).entry.id;
         fileForUploadNewVersionId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForUploadNewVersion)).entry.id;
 
-        await apis.user.nodes.lockFile(fileForCancelEditingId);
-        await apis.user.nodes.lockFile(fileForUploadNewVersionId);
+        await userActions.lockNodes([fileForCancelEditingId, fileForUploadNewVersionId]);
 
         await apis.user.shared.shareFilesByIds([
           docxFileId,
@@ -510,37 +507,27 @@ describe('Viewer actions', () => {
     let destinationId: string;
 
     const docxFavorites = `docxFav-${Utils.random()}.docx`;
-    let docxFileId: string;
-
     const xlsxFavorites = `xlsxFav-${Utils.random()}.xlsx`;
-    let xlsxFileId: string;
     const pdfFavorites = `pdfFav-${Utils.random()}.pdf`;
-    let pdfFileId: string;
-    let fileFavId: string;
-
     const fileForEditOffline = `file1-${Utils.random()}.docx`;
-    let fileForEditOfflineId: string;
     const fileForCancelEditing = `file2-${Utils.random()}.docx`;
-    let fileForCancelEditingId: string;
     const fileForUploadNewVersion = `file3-${Utils.random()}.docx`;
-    let fileForUploadNewVersionId: string;
 
     beforeAll(async () => {
       try {
         parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
         destinationId = (await apis.user.nodes.createFolder(destination)).entry.id;
-        docxFileId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, docxFavorites)).entry.id;
+        const docxFileId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, docxFavorites)).entry.id;
 
-        xlsxFileId = (await apis.user.upload.uploadFileWithRename(xlsxFileForMove, parentId, xlsxFavorites)).entry.id;
-        pdfFileId = (await apis.user.upload.uploadFileWithRename(pdfFileForDelete, parentId, pdfFavorites)).entry.id;
-        fileFavId = (await apis.user.upload.uploadFile(docxFile2, parentId)).entry.id;
+        const xlsxFileId = (await apis.user.upload.uploadFileWithRename(xlsxFileForMove, parentId, xlsxFavorites)).entry.id;
+        const pdfFileId = (await apis.user.upload.uploadFileWithRename(pdfFileForDelete, parentId, pdfFavorites)).entry.id;
+        const fileFavId = (await apis.user.upload.uploadFile(docxFile2, parentId)).entry.id;
 
-        fileForEditOfflineId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForEditOffline)).entry.id;
-        fileForCancelEditingId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForCancelEditing)).entry.id;
-        fileForUploadNewVersionId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForUploadNewVersion)).entry.id;
+        const fileForEditOfflineId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForEditOffline)).entry.id;
+        const fileForCancelEditingId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForCancelEditing)).entry.id;
+        const fileForUploadNewVersionId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForUploadNewVersion)).entry.id;
 
-        await apis.user.nodes.lockFile(fileForCancelEditingId);
-        await apis.user.nodes.lockFile(fileForUploadNewVersionId);
+        await userActions.lockNodes([fileForCancelEditingId, fileForUploadNewVersionId]);
 
         await apis.user.favorites.addFavoritesByIds('file', [
           docxFileId,

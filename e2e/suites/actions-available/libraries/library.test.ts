@@ -23,7 +23,16 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage, SearchResultsPage, RepoClient, Utils, AdminActions, UserActions } from '@alfresco/aca-testing-shared';
+import {
+  LoginPage,
+  BrowsingPage,
+  SearchResultsPage,
+  RepoClient,
+  Utils,
+  AdminActions,
+  UserActions,
+  SITE_VISIBILITY
+} from '@alfresco/aca-testing-shared';
 import * as testData from './test-data-libraries';
 import * as testUtil from '../test-util';
 import { Logger } from '@alfresco/adf-testing';
@@ -45,18 +54,23 @@ describe('Library actions : ', () => {
       await adminApiActions.createUser({ username });
 
       await userApi.sites.createSite(testData.publicUserMemberFav.name);
-      await userApi.sites.createSitePrivate(testData.privateUserMemberFav.name);
-      await userApi.sites.createSiteModerated(testData.moderatedUserMemberFav.name);
+      await userApi.sites.createSite(testData.privateUserMemberFav.name, SITE_VISIBILITY.PRIVATE);
+      await userApi.sites.createSite(testData.moderatedUserMemberFav.name, SITE_VISIBILITY.MODERATED);
       const publicUserMemberNotFavId = (await userApi.sites.createSite(testData.publicUserMemberNotFav.name)).entry.guid;
-      const privateUserMemberNotFavId = (await userApi.sites.createSitePrivate(testData.privateUserMemberNotFav.name)).entry.guid;
-      const moderatedUserMemberNotFavId = (await userApi.sites.createSiteModerated(testData.moderatedUserMemberNotFav.name)).entry.guid;
+      const privateUserMemberNotFavId = (await userApi.sites.createSite(testData.privateUserMemberNotFav.name, SITE_VISIBILITY.PRIVATE)).entry.guid;
+      const moderatedUserMemberNotFavId = (await userApi.sites.createSite(testData.moderatedUserMemberNotFav.name, SITE_VISIBILITY.MODERATED)).entry
+        .guid;
 
-      await adminApiActions.sites.createSite(testData.publicNotMemberFav.name);
-      await adminApiActions.sites.createSiteModerated(testData.moderatedNotMemberFav.name);
-      await adminApiActions.sites.createSite(testData.publicNotMemberNotFav.name);
-      await adminApiActions.sites.createSiteModerated(testData.moderatedNotMemberNotFav.name);
-      await adminApiActions.sites.createSiteModerated(testData.moderatedRequestedJoinFav.name);
-      await adminApiActions.sites.createSiteModerated(testData.moderatedRequestedJoinNotFav.name);
+      await adminApiActions.sites.createSites([testData.publicNotMemberFav.name, testData.publicNotMemberNotFav.name]);
+      await adminApiActions.sites.createSites(
+        [
+          testData.moderatedNotMemberFav.name,
+          testData.moderatedNotMemberNotFav.name,
+          testData.moderatedRequestedJoinFav.name,
+          testData.moderatedRequestedJoinNotFav.name
+        ],
+        SITE_VISIBILITY.MODERATED
+      );
 
       await userApi.sites.requestToJoin(testData.moderatedRequestedJoinFav.name);
       await userApi.sites.requestToJoin(testData.moderatedRequestedJoinNotFav.name);

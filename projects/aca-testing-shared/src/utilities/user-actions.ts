@@ -24,8 +24,9 @@
  */
 
 import { Logger } from '@alfresco/adf-testing';
-import { AlfrescoApi, Comment, CommentsApi, NodesApi, TrashcanApi, SitesApi, SharedlinksApi } from '@alfresco/js-api';
+import { AlfrescoApi, Comment, CommentsApi, NodesApi, TrashcanApi, SitesApi, SharedlinksApi, SiteEntry } from '@alfresco/js-api';
 import { browser } from 'protractor';
+import { SITE_VISIBILITY } from '../configs';
 import { Utils } from './utils';
 
 export class UserActions {
@@ -158,6 +159,16 @@ export class UserActions {
     }
   }
 
+  async lockNodes(nodeIds: string[], lockType: string = 'ALLOW_OWNER_CHANGES') {
+    try {
+      for (const nodeId of nodeIds) {
+        await this.nodesApi.lockNode(nodeId, { type: lockType });
+      }
+    } catch (error) {
+      this.handleError('User Actions - lockNodes failed : ', error);
+    }
+  }
+
   /**
    * Unlock multiple nodes.
    * @param nodeIds The list of node IDs to unlock.
@@ -170,6 +181,32 @@ export class UserActions {
     } catch (error) {
       this.handleError('User Actions - unlockNodes failed : ', error);
     }
+  }
+
+  /**
+   * Create multiple sites
+   * @param siteNames The list of the site names
+   * @param visibility Default site visibility
+   * @returns List of site entries
+   */
+  async createSites(siteNames: string[], visibility?: string): Promise<SiteEntry[]> {
+    const sites: SiteEntry[] = [];
+
+    try {
+      if (siteNames && siteNames.length > 0) {
+        for (const siteName of siteNames) {
+          const site = await this.sitesApi.createSite({
+            title: siteName,
+            visibility: visibility || SITE_VISIBILITY.PUBLIC,
+            id: siteName
+          });
+          sites.push(site);
+        }
+      }
+    } catch (error) {
+      this.handleError(`User Actions - createSites failed : `, error);
+    }
+    return sites;
   }
 
   /**

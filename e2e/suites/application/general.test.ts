@@ -25,23 +25,26 @@
 
 import { browser } from 'protractor';
 import { BrowserActions } from '@alfresco/adf-testing';
-import { BrowsingPage, LoginPage, CreateOrEditFolderDialog, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { BrowsingPage, LoginPage, CreateOrEditFolderDialog, Utils, AdminActions } from '@alfresco/aca-testing-shared';
 
 describe('General', () => {
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const createDialog = new CreateOrEditFolderDialog();
-  const adminApi = new RepoClient();
+
+  const adminActions = new AdminActions();
+
   const folder = `folder-${Utils.random()}`;
   let folderId: string;
 
   describe('on session expire', () => {
     beforeAll(async () => {
-      folderId = (await adminApi.nodes.createFolder(folder)).entry.id;
+      adminActions.login();
+      folderId = (await adminActions.nodes.createFolder(folder)).entry.id;
     });
 
     afterAll(async () => {
-      await adminApi.nodes.deleteNodeById(folderId);
+      await adminActions.deleteNodes([folderId]);
     });
 
     it('[C286473] should close opened dialogs', async () => {
@@ -51,7 +54,7 @@ describe('General', () => {
       await createDialog.waitForDialogToOpen();
       await createDialog.enterName(folder);
 
-      await adminApi.logout();
+      await adminActions.logout();
 
       await BrowserActions.click(createDialog.createButton);
 

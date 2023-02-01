@@ -51,13 +51,14 @@ describe('Locked Files - available actions : ', () => {
 
   beforeAll(async () => {
     await adminApiActions.createUser({ username });
+    userActions.login(username, username);
 
-    parentId = (await userApi.nodes.createFolder(parentName)).entry.id;
+    parentId = await userApi.createFolder(parentName);
 
-    fileLockedId = (await userApi.nodes.createFile(testData.fileLocked.name, parentId)).entry.id;
-    fileFavLockedId = (await userApi.nodes.createFile(testData.fileFavLocked.name, parentId)).entry.id;
-    fileSharedLockedId = (await userApi.nodes.createFile(testData.fileSharedLocked.name, parentId)).entry.id;
-    fileSharedFavLockedId = (await userApi.nodes.createFile(testData.fileSharedFavLocked.name, parentId)).entry.id;
+    fileLockedId = await userApi.createFile(testData.fileLocked.name, parentId);
+    fileFavLockedId = await userApi.createFile(testData.fileFavLocked.name, parentId);
+    fileSharedLockedId = await userApi.createFile(testData.fileSharedLocked.name, parentId);
+    fileSharedFavLockedId = await userApi.createFile(testData.fileSharedFavLocked.name, parentId);
 
     const initialFavoritesTotalItems = (await userApi.favorites.getFavoritesTotalItems()) || 0;
     await userApi.favorites.addFavoritesByIds('file', [fileFavLockedId, fileSharedFavLockedId]);
@@ -65,10 +66,7 @@ describe('Locked Files - available actions : ', () => {
 
     await userApi.shared.shareFilesByIds([fileSharedLockedId, fileSharedFavLockedId]);
 
-    await userApi.nodes.lockFile(fileLockedId);
-    await userApi.nodes.lockFile(fileFavLockedId);
-    await userApi.nodes.lockFile(fileSharedLockedId);
-    await userApi.nodes.lockFile(fileSharedFavLockedId);
+    await userActions.lockNodes([fileLockedId, fileFavLockedId, fileSharedLockedId, fileSharedFavLockedId]);
 
     await userApi.shared.waitForFilesToBeShared([fileSharedLockedId, fileSharedFavLockedId]);
     await userApi.search.waitForApi(username, { expect: 4 });
