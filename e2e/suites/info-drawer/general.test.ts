@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, RepoClient, InfoDrawer, Utils } from '@alfresco/aca-testing-shared';
+import { AdminActions, LoginPage, BrowsingPage, RepoClient, InfoDrawer, Utils, UserActions } from '@alfresco/aca-testing-shared';
 import { BrowserActions } from '@alfresco/adf-testing';
 
 describe('General', () => {
@@ -44,20 +44,23 @@ describe('General', () => {
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable } = page;
+
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   beforeAll(async () => {
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
 
-    parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
-    await apis.user.nodes.createFile(file1, parentId);
-    await apis.user.nodes.createFolder(folder1, parentId);
+    parentId = await apis.user.createFolder(parent);
+    await apis.user.createFile(file1, parentId);
+    await apis.user.createFolder(folder1, parentId);
 
     await loginPage.loginWith(username);
   });
 
   afterAll(async () => {
-    await apis.user.nodes.deleteNodeById(parentId);
+    await userActions.deleteNodes([parentId]);
   });
 
   beforeEach(async () => {
