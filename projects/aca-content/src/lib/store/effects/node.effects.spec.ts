@@ -50,7 +50,7 @@ import {
   ManagePermissionsAction,
   ShowLoaderAction
 } from '@alfresco/aca-shared/store';
-import { ViewUtilService } from '@alfresco/adf-core';
+import { RenditionViewerService } from '@alfresco/adf-content-services';
 import { ViewerEffects } from './viewer.effects';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
@@ -58,19 +58,19 @@ import { of } from 'rxjs';
 describe('NodeEffects', () => {
   let store: Store<any>;
   let contentService: ContentManagementService;
-  let viewUtilService: ViewUtilService;
+  let renditionViewerService: RenditionViewerService;
   let viewerEffects: ViewerEffects;
   let router: Router;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule, SharedStoreModule, EffectsModule.forRoot([NodeEffects, ViewerEffects])],
-      providers: [ViewUtilService]
+      providers: [RenditionViewerService]
     });
 
     store = TestBed.inject(Store);
     contentService = TestBed.inject(ContentManagementService);
-    viewUtilService = TestBed.inject(ViewUtilService);
+    renditionViewerService = TestBed.inject(RenditionViewerService);
     viewerEffects = TestBed.inject(ViewerEffects);
     router = TestBed.inject(Router);
   });
@@ -406,18 +406,18 @@ describe('NodeEffects', () => {
 
   describe('printFile$', () => {
     it('it should print node content from payload', () => {
-      spyOn(viewUtilService, 'printFileGeneric').and.stub();
+      spyOn(renditionViewerService, 'printFileGeneric').and.stub();
       const node: any = {
         entry: { id: 'node-id', content: { mimeType: 'text/json' } }
       };
 
       store.dispatch(new PrintFileAction(node));
 
-      expect(viewUtilService.printFileGeneric).toHaveBeenCalledWith('node-id', 'text/json');
+      expect(renditionViewerService.printFileGeneric).toHaveBeenCalledWith('node-id', 'text/json');
     });
 
     it('it should print node content from store', fakeAsync(() => {
-      spyOn(viewUtilService, 'printFileGeneric').and.stub();
+      spyOn(renditionViewerService, 'printFileGeneric').and.stub();
       const node: any = {
         entry: {
           isFile: true,
@@ -432,7 +432,7 @@ describe('NodeEffects', () => {
 
       store.dispatch(new PrintFileAction(null));
 
-      expect(viewUtilService.printFileGeneric).toHaveBeenCalledWith('node-id', 'text/json');
+      expect(renditionViewerService.printFileGeneric).toHaveBeenCalledWith('node-id', 'text/json');
     }));
   });
 
