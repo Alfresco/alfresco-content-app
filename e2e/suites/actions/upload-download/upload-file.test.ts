@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { AdminActions, LoginPage, BrowsingPage, RepoClient, Utils, UserActions } from '@alfresco/aca-testing-shared';
 
 describe('Upload files', () => {
   const username = `user-${Utils.random()}`;
@@ -38,11 +38,15 @@ describe('Upload files', () => {
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable } = page;
+
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   beforeAll(async () => {
     await adminApiActions.createUser({ username });
-    folder1Id = (await apis.user.nodes.createFolder(folder1)).entry.id;
+    await userActions.login(username, username);
+
+    folder1Id = await apis.user.createFolder(folder1);
 
     await loginPage.loginWith(username);
   });
@@ -57,7 +61,7 @@ describe('Upload files', () => {
   });
 
   afterAll(async () => {
-    await apis.user.nodes.deleteNodeById(folder1Id);
+    await userActions.deleteNodes([folder1Id]);
   });
 
   it('Upload a file', async () => {

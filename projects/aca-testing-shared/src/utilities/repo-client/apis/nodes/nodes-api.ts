@@ -29,7 +29,7 @@ import { NodesApi as AdfNodeApi, NodeEntry, NodeChildAssociationPaging } from '@
 import { Utils } from '../../../../utilities/utils';
 
 export class NodesApi extends RepoApi {
-  nodesApi = new AdfNodeApi(this.alfrescoJsApi);
+  private nodesApi = new AdfNodeApi(this.alfrescoJsApi);
 
   constructor(username?: string, password?: string) {
     super(username, password);

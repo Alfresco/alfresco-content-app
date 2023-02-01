@@ -54,12 +54,13 @@ describe('Share a file', () => {
 
   beforeAll(async () => {
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
 
-    parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
+    parentId = await apis.user.createFolder(parent);
   });
 
   afterAll(async () => {
-    await apis.user.nodes.deleteNodeById(parentId);
+    await userActions.deleteNodes([parentId]);
   });
 
   describe('when logged out', () => {
@@ -67,7 +68,7 @@ describe('Share a file', () => {
     let file6Id: string;
 
     beforeAll(async () => {
-      file6Id = (await apis.user.nodes.createFile(file6, parentId)).entry.id;
+      file6Id = await apis.user.createFile(file6, parentId);
 
       const sharedId = (await apis.user.shared.shareFileById(file6Id)).entry.id;
       file6SharedLink = `${shareLinkPreUrl}${sharedId}`;
@@ -75,7 +76,7 @@ describe('Share a file', () => {
     });
 
     afterAll(async () => {
-      await apis.user.nodes.deleteNodeById(file6Id);
+      await userActions.deleteNodes([file6Id]);
     });
 
     it('[C286326] A non-logged user can download the shared file from the viewer', async () => {
@@ -112,13 +113,13 @@ describe('Share a file', () => {
       let file9Id: string;
 
       beforeAll(async () => {
-        file3Id = (await apis.user.nodes.createFile(file3, parentId)).entry.id;
-        file4Id = (await apis.user.nodes.createFile(file4, parentId)).entry.id;
-        file5Id = (await apis.user.nodes.createFile(file5, parentId)).entry.id;
-        file6Id = (await apis.user.nodes.createFile(file6, parentId)).entry.id;
-        file7Id = (await apis.user.nodes.createFile(file7, parentId)).entry.id;
-        file8Id = (await apis.user.nodes.createFile(file8, parentId)).entry.id;
-        file9Id = (await apis.user.nodes.createFile(file9, parentId)).entry.id;
+        file3Id = await apis.user.createFile(file3, parentId);
+        file4Id = await apis.user.createFile(file4, parentId);
+        file5Id = await apis.user.createFile(file5, parentId);
+        file6Id = await apis.user.createFile(file6, parentId);
+        file7Id = await apis.user.createFile(file7, parentId);
+        file8Id = await apis.user.createFile(file8, parentId);
+        file9Id = await apis.user.createFile(file9, parentId);
 
         await userActions.login(username, username);
         await userActions.shareNodes([file6Id, file7Id], expiryDate);
@@ -137,7 +138,7 @@ describe('Share a file', () => {
       });
 
       afterAll(async () => {
-        await apis.user.nodes.deleteNodesById([file3Id, file4Id, file5Id, file6Id, file7Id, file8Id, file9Id]);
+        await userActions.deleteNodes([file3Id, file4Id, file5Id, file6Id, file7Id, file8Id, file9Id]);
       });
 
       it('[C286327] Share dialog default values', async () => {

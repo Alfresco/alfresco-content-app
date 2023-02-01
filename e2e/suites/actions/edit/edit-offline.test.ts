@@ -88,7 +88,8 @@ describe('Edit offline', () => {
     });
 
     afterAll(async () => {
-      await apis.user.nodes.deleteNodeById(parentPFId);
+      userActions.login(username, username);
+      await userActions.deleteNodes([parentPFId]);
     });
 
     it('[C297538] File is locked and downloaded when clicking Edit Offline', async () => {
@@ -137,7 +138,7 @@ describe('Edit offline', () => {
     });
 
     afterAll(async () => {
-      await apis.user.nodes.deleteNodeById(parentSFId);
+      await userActions.deleteNodes([parentSFId]);
     });
 
     beforeEach(async () => {
@@ -195,7 +196,7 @@ describe('Edit offline', () => {
     });
 
     afterAll(async () => {
-      await apis.user.nodes.deleteNodeById(parentRFId);
+      await userActions.deleteNodes([parentRFId]);
     });
 
     beforeEach(async () => {
@@ -250,7 +251,7 @@ describe('Edit offline', () => {
     });
 
     afterAll(async () => {
-      await apis.user.nodes.deleteNodeById(parentFavId);
+      await userActions.deleteNodes([parentFavId]);
     });
 
     beforeEach(async () => {
@@ -298,7 +299,7 @@ describe('Edit offline', () => {
     });
 
     afterAll(async () => {
-      await apis.user.nodes.deleteNodeById(parentSearchId);
+      await userActions.deleteNodes([parentSearchId]);
     });
 
     beforeEach(async () => {
