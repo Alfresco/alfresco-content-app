@@ -95,7 +95,7 @@
       "
       *ngIf="infoDrawerOpened$ | async"
     >
-      <adf-viewer
+      <adf-alfresco-viewer
         class="adf-search-results--embedded_viewer"
         [nodeId]="selection.last.entry.id"
         *ngIf="infoDrawerPreview$ | async; else infoDrawerPanel"
@@ -122,7 +122,7 @@
             </div>
           </div>
         </adf-viewer-toolbar>
-      </adf-viewer>
+      </adf-alfresco-viewer>
       <ng-template #infoDrawerPanel>
         <div class="sidebar">
           <aca-info-drawer [node]="selection.last"></aca-info-drawer>

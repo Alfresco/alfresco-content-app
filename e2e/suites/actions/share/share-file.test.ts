@@ -180,7 +180,8 @@ describe('Share a file', () => {
         expect(await page.getSnackBarMessage()).toBe('Link copied to the clipboard');
 
         await browser.get(url);
-        expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
+
+        await viewer.waitForViewerToOpen();
         expect(await viewer.getFileTitle()).toEqual(file4);
 
         await page.load();

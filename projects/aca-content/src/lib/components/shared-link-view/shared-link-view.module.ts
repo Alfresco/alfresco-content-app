@@ -32,6 +32,7 @@ import { AppCommonModule } from '../common/common.module';
 import { AppToolbarModule } from '../toolbar/toolbar.module';
 import { AppInfoDrawerModule } from '../info-drawer/info.drawer.module';
 import { CoreExtensionsModule } from '../../extensions/core.extensions.module';
+import { ContentModule } from '@alfresco/adf-content-services';
 
 @NgModule({
   imports: [
@@ -41,7 +42,8 @@ import { CoreExtensionsModule } from '../../extensions/core.extensions.module';
     AppCommonModule,
     AppToolbarModule,
     CoreExtensionsModule.forChild(),
-    AppInfoDrawerModule
+    AppInfoDrawerModule,
+    ContentModule
   ],
   declarations: [SharedLinkViewComponent],
   exports: [SharedLinkViewComponent]

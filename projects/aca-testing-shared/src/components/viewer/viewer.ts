@@ -31,8 +31,8 @@ import { waitForPresence } from '../../utilities/utils';
 
 export class Viewer extends Component {
   root = browser.$('adf-viewer');
-  viewerLayout = this.byCss('.adf-viewer-layout-content');
-  viewerContainer = this.byCss('.adf-viewer-content-container');
+  viewerLayout = this.byCss('.adf-viewer-render-layout-content');
+  viewerContainer = this.byCss('.adf-viewer-render-content-container');
   closeButton = this.byCss('.adf-viewer-close-button');
   fileTitle = this.byCss('.adf-viewer__file-title');
   viewerExtensionContent = this.byCss('adf-preview-extension');
