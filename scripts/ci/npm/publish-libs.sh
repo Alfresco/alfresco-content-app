@@ -45,8 +45,9 @@ PROJECTS=(
     'aca-settings'
     'aca-about'
     'aca-preview'
-    'aca-viewer'
-    'aca-content'
+    'aca-viewer',
+    'aca-content',
+    'aca-folder-rules'
 );
 
 for PROJECT in "${PROJECTS[@]}"
