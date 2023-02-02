@@ -29,6 +29,8 @@ import { AppTestingModule } from '../../../testing/app-testing.module';
 import { NodePermissionService } from '@alfresco/aca-shared';
 import { Node } from '@alfresco/js-api';
 import { NodeCommentsModule } from '@alfresco/adf-content-services';
+import { of } from 'rxjs';
+import { AuthenticationService } from '@alfresco/adf-core';
 
 describe('CommentsTabComponent', () => {
   let component: CommentsTabComponent;
@@ -39,7 +41,8 @@ describe('CommentsTabComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule, NodeCommentsModule],
-      declarations: [CommentsTabComponent]
+      declarations: [CommentsTabComponent],
+      providers: [{ provide: AuthenticationService, useValue: { onLogout: of({}) } }]
     });
 
     nodePermissionService = TestBed.inject(NodePermissionService);

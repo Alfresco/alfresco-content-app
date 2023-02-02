@@ -53,7 +53,7 @@ import {
   ShowLoaderAction
 } from '@alfresco/aca-shared/store';
 import { ContentManagementService } from '../../services/content-management.service';
-import { ViewUtilService } from '@alfresco/adf-core';
+import { RenditionViewerService } from '@alfresco/adf-content-services';
 
 @Injectable()
 export class NodeEffects {
@@ -61,7 +61,7 @@ export class NodeEffects {
     private store: Store<AppStore>,
     private actions$: Actions,
     private contentService: ContentManagementService,
-    private viewUtils: ViewUtilService
+    private renditionViewer: RenditionViewerService
   ) {}
 
   shareNode$ = createEffect(
@@ -419,7 +419,7 @@ export class NodeEffects {
       const mimeType = node.entry.content.mimeType;
 
       if (id) {
-        this.viewUtils.printFileGeneric(id, mimeType);
+        this.renditionViewer.printFileGeneric(id, mimeType);
       }
     }
   }

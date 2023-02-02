@@ -163,7 +163,7 @@ describe('Unshare a file from Search Results', () => {
     expect(await apis.user.nodes.isFileShared(file2Id)).toBe(false, `${file2} is shared`);
 
     await browser.get(url);
-    expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
+    await viewer.waitForViewerToOpen();
     expect(await viewer.getFileTitle()).not.toEqual(file2);
 
     await page.load();
@@ -213,7 +213,7 @@ describe('Unshare a file from Search Results', () => {
     expect(await apis.user.nodes.isFileShared(file4Id)).toBe(false, `${file4} is shared`);
 
     await browser.get(url);
-    expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
+    await viewer.waitForViewerToOpen();
     expect(await viewer.getFileTitle()).not.toEqual(file4);
 
     await page.load();
