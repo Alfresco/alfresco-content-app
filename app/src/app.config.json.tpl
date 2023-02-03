@@ -8,9 +8,9 @@
   "loginRoute": "login",
   "mobileAppSwitch": {
     "enabled" : "${APP_CONFIG_ENABLE_MOBILE_APP_SWITCH}",
-    "isIphone": "iosamw://",
-    "isAndroidPart1": "intent:///",
-    "isAndroidPart2": "#Intent;scheme=androidamw;package=com.alfresco.content.app.debug;end",
+    "iphoneUrl": "iosamw://",
+    "androidUrlPart1": "intent:///",
+    "androidUrlPart2": "#Intent;scheme=androidamw;package=com.alfresco.content.app;end",
     "sessionTimeForOpenAppDialogDisplay": "${APP_CONFIG_SESSION_TIME_FOR_OPEN_APP_DIALOG_DISPLAY_IN_HOURS}"
   },
   "plugins": {
