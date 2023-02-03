@@ -30,4 +30,3 @@ export const test = base.extend<Pages & Api>({
     }
 });
 
-export { expect } from '@playwright/test';
