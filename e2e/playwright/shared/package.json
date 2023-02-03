@@ -1,0 +1,8 @@
+{
+  "name": "playwright-shared",
+  "version": "3.0.0",
+  "main": "index.ts",
+  "dependencies": {
+    "tslib": "^2.0.0"
+  }
+}
