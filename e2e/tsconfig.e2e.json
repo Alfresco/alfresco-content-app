@@ -5,10 +5,11 @@
     "baseUrl": "./",
     "module": "commonjs",
     "target": "es2017",
-    "types": ["jasmine", "jasminewd2", "node"],
+    "types": ["jasmine", "jasminewd2", "node", "@playwright/test"],
     "skipLibCheck": true,
     "paths": {
-      "@alfresco/aca-testing-shared": ["../projects/aca-testing-shared/src/index.ts"]
+      "@alfresco/aca-testing-shared": ["../projects/aca-testing-shared/src/index.ts"],
+      "@alfresco/playwright-shared": ["./playwright/shared/index.ts"]
     }
   },
   "exclude": ["node_modules"]
