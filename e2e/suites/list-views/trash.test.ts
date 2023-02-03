@@ -93,12 +93,13 @@ describe('Trash', () => {
   afterAll(async () => {
     try {
       await adminApiActions.login();
-      await adminApiActions.deleteSites([siteName]);
+      await adminApiActions.sites.deleteSite(siteName);
       await adminApiActions.trashcanApi.deleteDeletedNode(fileAdminId);
       await adminApiActions.trashcanApi.deleteDeletedNode(folderAdminId);
 
+      await apis.user.nodes.deleteNodeById(folderNotDeletedId);
+
       await userActions.login(username, username);
-      await userActions.deleteNodes([folderNotDeletedId]);
       await userActions.emptyTrashcan();
     } catch (error) {
       Logger.error(`----- afterAll failed : ${error}`);

@@ -24,12 +24,13 @@
  */
 
 import { RepoApi } from '../repo-api';
+import { NodeBodyCreate } from './node-body-create';
 import { NodeContentTree, flattenNodeContentTree } from './node-content-tree';
-import { NodesApi as AdfNodeApi, NodeEntry, NodeChildAssociationPaging } from '@alfresco/js-api';
+import { NodesApi as AdfNodeApi, NodeBodyLock, NodeEntry, NodeChildAssociationPaging } from '@alfresco/js-api';
 import { Utils } from '../../../../utilities/utils';
 
 export class NodesApi extends RepoApi {
-  private nodesApi = new AdfNodeApi(this.alfrescoJsApi);
+  nodesApi = new AdfNodeApi(this.alfrescoJsApi);
 
   constructor(username?: string, password?: string) {
     super(username, password);
@@ -177,16 +178,15 @@ export class NodesApi extends RepoApi {
 
   async deleteNodesById(ids: string[], permanent: boolean = true): Promise<void> {
     try {
-      await this.apiAuth();
       for (const id of ids) {
-        await this.nodesApi.deleteNode(id, { permanent });
+        await this.deleteNodeById(id, permanent);
       }
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.deleteNodesById.name}`, error);
     }
   }
 
-  private async getNodeChildren(nodeId: string): Promise<NodeChildAssociationPaging | null> {
+  async getNodeChildren(nodeId: string): Promise<NodeChildAssociationPaging | null> {
     try {
       const opts = {
         include: ['properties']
@@ -214,7 +214,7 @@ export class NodesApi extends RepoApi {
     }
   }
 
-  private async createImageNode(name: string, parentId: string = '-my-', title: string = '', description: string = ''): Promise<NodeEntry | null> {
+  async createImageNode(name: string, parentId: string = '-my-', title: string = '', description: string = ''): Promise<NodeEntry | null> {
     const imageProps = {
       'exif:pixelXDimension': 1000,
       'exif:pixelYDimension': 1200
@@ -227,7 +227,7 @@ export class NodesApi extends RepoApi {
     }
   }
 
-  private async createNode(
+  async createNode(
     nodeType: string,
     name: string,
     parentId: string = '-my-',
@@ -308,10 +308,18 @@ export class NodesApi extends RepoApi {
     }
   }
 
-  async createContent(content: NodeContentTree, relativePath: string = '/'): Promise<NodeEntry | any> {
+  async createChildren(data: NodeBodyCreate[]): Promise<NodeEntry | any> {
     try {
       await this.apiAuth();
-      return await this.nodesApi.createNode('-my-', flattenNodeContentTree(content, relativePath) as any);
+      return await this.nodesApi.createNode('-my-', data as any);
+    } catch (error) {
+      this.handleError(`${this.constructor.name} ${this.createChildren.name}`, error);
+    }
+  }
+
+  async createContent(content: NodeContentTree, relativePath: string = '/'): Promise<NodeEntry | any> {
+    try {
+      return await this.createChildren(flattenNodeContentTree(content, relativePath));
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.createContent.name}`, error);
     }
@@ -333,7 +341,7 @@ export class NodesApi extends RepoApi {
     }
   }
 
-  private async addAspects(nodeId: string, aspectNames: string[]): Promise<NodeEntry> {
+  async addAspects(nodeId: string, aspectNames: string[]): Promise<NodeEntry> {
     try {
       await this.apiAuth();
       return this.nodesApi.updateNode(nodeId, { aspectNames });
@@ -385,6 +393,16 @@ export class NodesApi extends RepoApi {
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.createFolderLink.name}`, error);
       return null;
+    }
+  }
+
+  // node content
+  async getNodeContent(nodeId: string): Promise<any> {
+    try {
+      await this.apiAuth();
+      return await this.nodesApi.getNodeContent(nodeId);
+    } catch (error) {
+      this.handleError(`${this.constructor.name} ${this.getNodeContent.name}`, error);
     }
   }
 
@@ -458,12 +476,48 @@ export class NodesApi extends RepoApi {
     }
   }
 
-  private async getLockType(nodeId: string): Promise<string> {
+  // lock node
+  async lockFile(nodeId: string, lockType: string = 'ALLOW_OWNER_CHANGES'): Promise<NodeEntry | null> {
+    const data = {
+      type: lockType
+    } as NodeBodyLock;
+
+    try {
+      await this.apiAuth();
+      return await this.nodesApi.lockNode(nodeId, data);
+    } catch (error) {
+      this.handleError(`${this.constructor.name} ${this.lockFile.name}`, error);
+      return null;
+    }
+  }
+
+  /* @deprecated check {UserActions.unlockNodes} instead. */
+  async unlockFile(nodeId: string): Promise<NodeEntry | null> {
+    try {
+      await this.apiAuth();
+      return await this.nodesApi.unlockNode(nodeId);
+    } catch (error) {
+      this.handleError(`${this.constructor.name} ${this.unlockFile.name}`, error);
+      return null;
+    }
+  }
+
+  async getLockType(nodeId: string): Promise<string> {
     try {
       const lockType = await this.getNodeProperty(nodeId, 'cm:lockType');
       return lockType || '';
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.getLockType.name}`, error);
+      return '';
+    }
+  }
+
+  async getLockOwner(nodeId: string): Promise<string> {
+    try {
+      const lockOwner = await this.getNodeProperty(nodeId, 'cm:lockOwner');
+      return lockOwner || '';
+    } catch (error) {
+      this.handleError(`${this.constructor.name} ${this.getLockOwner.name}`, error);
       return '';
     }
   }

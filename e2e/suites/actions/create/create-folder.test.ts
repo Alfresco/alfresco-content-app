@@ -30,8 +30,7 @@ import {
   CreateOrEditFolderDialog,
   Utils,
   clearTextWithBackspace,
-  RepoClient,
-  UserActions
+  RepoClient
 } from '@alfresco/aca-testing-shared';
 import { BrowserActions } from '@alfresco/adf-testing';
 
@@ -60,9 +59,7 @@ describe('Create folder', () => {
   const page = new BrowsingPage();
   const createDialog = new CreateOrEditFolderDialog();
   const { dataTable } = page;
-
   const adminApiActions = new AdminActions();
-  const userActions = new UserActions();
 
   async function openCreateFolderDialog(name: string) {
     await page.dataTable.doubleClickOnRowByName(name);
@@ -72,21 +69,20 @@ describe('Create folder', () => {
 
   beforeAll(async () => {
     await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
 
-    parentId = await apis.user.createFolder(parent);
-    await apis.user.createFolder(duplicateFolderName, parentId);
+    parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
+    await apis.user.nodes.createFolder(duplicateFolderName, parentId);
 
     await apis.user.sites.createSite(siteName);
     docLibUserSite = await apis.user.sites.getDocLibId(siteName);
-    await apis.user.createFolder(duplicateFolderSite, docLibUserSite);
+    await apis.user.nodes.createFolder(duplicateFolderSite, docLibUserSite);
 
     await loginPage.loginWith(username);
   });
 
   afterAll(async () => {
-    await userActions.deleteSites([siteName]);
-    await userActions.deleteNodes([parentId]);
+    await apis.user.sites.deleteSite(siteName);
+    await apis.user.nodes.deleteNodeById(parentId);
   });
 
   describe('on Personal Files', () => {

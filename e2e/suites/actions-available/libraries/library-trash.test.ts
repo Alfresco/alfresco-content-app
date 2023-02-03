@@ -23,13 +23,14 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage, Utils, AdminActions, UserActions } from '@alfresco/aca-testing-shared';
+import { LoginPage, BrowsingPage, RepoClient, Utils, AdminActions, UserActions } from '@alfresco/aca-testing-shared';
 import * as testData from './test-data-libraries';
 import * as testUtil from '../test-util';
 
 describe('Library actions : ', () => {
   const username = `user-${Utils.random()}`;
 
+  const userApi = new RepoClient(username, username);
   const adminApiActions = new AdminActions();
   const userActions = new UserActions();
 
@@ -38,9 +39,11 @@ describe('Library actions : ', () => {
 
   beforeAll(async () => {
     await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
 
-    await userActions.createSites([testData.siteInTrash.name, testData.site2InTrash.name]);
+    await userApi.sites.createSite(testData.siteInTrash.name);
+    await userApi.sites.createSite(testData.site2InTrash.name);
+
+    await userActions.login(username, username);
     await userActions.deleteSites([testData.siteInTrash.name, testData.site2InTrash.name], false);
 
     await loginPage.loginWith(username);

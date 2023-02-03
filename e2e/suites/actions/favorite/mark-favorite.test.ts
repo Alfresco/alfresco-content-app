@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, SITE_VISIBILITY, RepoClient, Utils, UserActions } from '@alfresco/aca-testing-shared';
+import { AdminActions, LoginPage, BrowsingPage, SITE_VISIBILITY, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 
 describe('Mark items as favorites', () => {
   const username = `user-${Utils.random()}`;
@@ -84,11 +84,9 @@ describe('Mark items as favorites', () => {
   const { searchInput } = page.header;
 
   const adminApiActions = new AdminActions();
-  const userActions = new UserActions();
 
   beforeAll(async () => {
     await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
 
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
 
@@ -125,7 +123,7 @@ describe('Mark items as favorites', () => {
   });
 
   afterAll(async () => {
-    await userActions.deleteNodes([parentId]);
+    await apis.user.nodes.deleteNodeById(parentId);
   });
 
   afterEach(async () => {
@@ -362,15 +360,15 @@ describe('Mark items as favorites', () => {
 
   describe('on Search Results', () => {
     beforeAll(async () => {
-      fileSearchNotFav1Id = await apis.user.createFile(fileSearchNotFav1, parentId);
-      fileSearchNotFav2Id = await apis.user.createFile(fileSearchNotFav2, parentId);
-      fileSearchNotFav3Id = await apis.user.createFile(fileSearchNotFav3, parentId);
-      fileSearchNotFav4Id = await apis.user.createFile(fileSearchNotFav4, parentId);
-      fileSearchFav1Id = await apis.user.createFile(fileSearchFav1, parentId);
-      fileSearchFav2Id = await apis.user.createFile(fileSearchFav2, parentId);
-      fileSearchFav3Id = await apis.user.createFile(fileSearchFav3, parentId);
-      fileSearchFav4Id = await apis.user.createFile(fileSearchFav4, parentId);
-      folderSearchId = await apis.user.createFolder(folderSearch, parentId);
+      fileSearchNotFav1Id = (await apis.user.nodes.createFile(fileSearchNotFav1, parentId)).entry.id;
+      fileSearchNotFav2Id = (await apis.user.nodes.createFile(fileSearchNotFav2, parentId)).entry.id;
+      fileSearchNotFav3Id = (await apis.user.nodes.createFile(fileSearchNotFav3, parentId)).entry.id;
+      fileSearchNotFav4Id = (await apis.user.nodes.createFile(fileSearchNotFav4, parentId)).entry.id;
+      fileSearchFav1Id = (await apis.user.nodes.createFile(fileSearchFav1, parentId)).entry.id;
+      fileSearchFav2Id = (await apis.user.nodes.createFile(fileSearchFav2, parentId)).entry.id;
+      fileSearchFav3Id = (await apis.user.nodes.createFile(fileSearchFav3, parentId)).entry.id;
+      fileSearchFav4Id = (await apis.user.nodes.createFile(fileSearchFav4, parentId)).entry.id;
+      folderSearchId = (await apis.user.nodes.createFolder(folderSearch, parentId)).entry.id;
       await apis.user.search.waitForNodes(searchRandom, { expect: 9 });
 
       await apis.user.favorites.addFavoritesByIds('file', [fileSearchFav1Id, fileSearchFav2Id, fileSearchFav3Id, fileSearchFav4Id]);
@@ -478,15 +476,15 @@ describe('Mark items as favorites', () => {
       await apis.user.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
       const docLibId = await apis.user.sites.getDocLibId(siteName);
 
-      folderSiteId = await apis.user.createFolder(folderSite, docLibId);
-      fileSiteNotFav1Id = await apis.user.createFile(fileSiteNotFav1, folderSiteId);
-      fileSiteNotFav2Id = await apis.user.createFile(fileSiteNotFav2, folderSiteId);
-      fileSiteNotFav3Id = await apis.user.createFile(fileSiteNotFav3, folderSiteId);
-      fileSiteNotFav4Id = await apis.user.createFile(fileSiteNotFav4, folderSiteId);
-      fileSiteFav1Id = await apis.user.createFile(fileSiteFav1, folderSiteId);
-      fileSiteFav2Id = await apis.user.createFile(fileSiteFav2, folderSiteId);
-      fileSiteFav3Id = await apis.user.createFile(fileSiteFav3, folderSiteId);
-      fileSiteFav4Id = await apis.user.createFile(fileSiteFav4, folderSiteId);
+      folderSiteId = (await apis.user.nodes.createFolder(folderSite, docLibId)).entry.id;
+      fileSiteNotFav1Id = (await apis.user.nodes.createFile(fileSiteNotFav1, folderSiteId)).entry.id;
+      fileSiteNotFav2Id = (await apis.user.nodes.createFile(fileSiteNotFav2, folderSiteId)).entry.id;
+      fileSiteNotFav3Id = (await apis.user.nodes.createFile(fileSiteNotFav3, folderSiteId)).entry.id;
+      fileSiteNotFav4Id = (await apis.user.nodes.createFile(fileSiteNotFav4, folderSiteId)).entry.id;
+      fileSiteFav1Id = (await apis.user.nodes.createFile(fileSiteFav1, folderSiteId)).entry.id;
+      fileSiteFav2Id = (await apis.user.nodes.createFile(fileSiteFav2, folderSiteId)).entry.id;
+      fileSiteFav3Id = (await apis.user.nodes.createFile(fileSiteFav3, folderSiteId)).entry.id;
+      fileSiteFav4Id = (await apis.user.nodes.createFile(fileSiteFav4, folderSiteId)).entry.id;
 
       await apis.user.favorites.addFavoritesByIds('file', [fileSiteFav1Id, fileSiteFav2Id, fileSiteFav3Id, fileSiteFav4Id]);
 
@@ -497,7 +495,7 @@ describe('Mark items as favorites', () => {
     });
 
     afterAll(async () => {
-      await userActions.deleteSites([siteName]);
+      await apis.user.sites.deleteSite(siteName);
     });
 
     beforeEach(async () => {

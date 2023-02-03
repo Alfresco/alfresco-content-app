@@ -60,7 +60,7 @@ describe('Viewer general', () => {
   beforeAll(async () => {
     await adminApiActions.createUser({ username });
 
-    parentId = await apis.user.createFolder(parent);
+    parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
     xlsxFileId = (await apis.user.upload.uploadFile(xlsxFile, parentId)).entry.id;
 
     await adminApiActions.sites.createSite(siteAdmin, SITE_VISIBILITY.PRIVATE);

@@ -29,8 +29,8 @@ import { browser } from 'protractor';
 import * as fs from 'fs';
 
 export class UploadApi extends RepoApi {
-  private upload = new AdfUploadApi(this.alfrescoJsApi);
-  private e2eRootPath = browser.params.e2eRootPath;
+  upload = new AdfUploadApi(this.alfrescoJsApi);
+  e2eRootPath = browser.params.e2eRootPath;
 
   constructor(username?: string, password?: string) {
     super(username, password);

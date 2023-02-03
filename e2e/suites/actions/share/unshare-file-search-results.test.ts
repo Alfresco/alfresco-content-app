@@ -82,12 +82,12 @@ describe('Unshare a file from Search Results', () => {
     try {
       await adminApiActions.createUser({ username });
 
-      parentId = await apis.user.createFolder(parent);
+      parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
 
-      file1Id = await apis.user.createFile(file1, parentId);
-      file2Id = await apis.user.createFile(file2, parentId);
-      file3Id = await apis.user.createFile(file3, parentId);
-      file4Id = await apis.user.createFile(file4, parentId);
+      file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
+      file2Id = (await apis.user.nodes.createFile(file2, parentId)).entry.id;
+      file3Id = (await apis.user.nodes.createFile(file3, parentId)).entry.id;
+      file4Id = (await apis.user.nodes.createFile(file4, parentId)).entry.id;
 
       await adminApiActions.login();
       await adminApiActions.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
@@ -114,7 +114,7 @@ describe('Unshare a file from Search Results', () => {
   });
 
   afterAll(async () => {
-    await userActions.deleteNodes([parentId]);
+    await apis.user.nodes.deleteNodeById(parentId);
     await adminApiActions.sites.deleteSite(sitePrivate);
   });
 

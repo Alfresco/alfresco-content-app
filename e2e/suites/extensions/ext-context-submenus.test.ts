@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, EXTENSIBILITY_CONFIGS, RepoClient, Utils, UserActions } from '@alfresco/aca-testing-shared';
+import { AdminActions, LoginPage, BrowsingPage, EXTENSIBILITY_CONFIGS, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 
 describe('Extensions - Context submenu', () => {
   const username = `user-${Utils.random()}`;
@@ -51,16 +51,12 @@ describe('Extensions - Context submenu', () => {
   const page = new BrowsingPage();
   const { dataTable } = page;
   const contextMenu = dataTable.menu;
-
   const adminApiActions = new AdminActions();
-  const userActions = new UserActions();
 
   beforeAll(async () => {
     await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
-
-    fileId = await apis.user.createFile(file);
-    folderId = await apis.user.createFolder(folder);
+    fileId = (await apis.user.nodes.createFile(file)).entry.id;
+    folderId = (await apis.user.nodes.createFolder(folder)).entry.id;
 
     await loginPage.load();
     await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.CONTEXT_SUBMENUS);
@@ -74,7 +70,8 @@ describe('Extensions - Context submenu', () => {
   });
 
   afterAll(async () => {
-    await userActions.deleteNodes([fileId, folderId]);
+    await apis.user.nodes.deleteNodeById(fileId, true);
+    await apis.user.nodes.deleteNodeById(folderId, true);
   });
 
   it('[C286717] Displays the submenu actions set from config', async () => {

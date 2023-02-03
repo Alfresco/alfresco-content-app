@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage, Utils, AdminActions, RepoClient, SITE_VISIBILITY } from '@alfresco/aca-testing-shared';
+import { LoginPage, BrowsingPage, Utils, AdminActions, RepoClient } from '@alfresco/aca-testing-shared';
 import { Logger } from '@alfresco/adf-testing';
 
 describe('Pagination on multiple pages', () => {
@@ -46,7 +46,7 @@ describe('Pagination on multiple pages', () => {
     try {
       await adminApiActions.createUser({ username });
 
-      await userApi.sites.createSites(sites, SITE_VISIBILITY.PRIVATE);
+      await userApi.sites.createSitesPrivate(sites);
       await userApi.sites.waitForSitesToBeCreated(sites);
 
       await loginPage.loginWith(username);

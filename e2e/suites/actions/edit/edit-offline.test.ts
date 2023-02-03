@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, FILES, RepoClient, Utils, UserActions } from '@alfresco/aca-testing-shared';
+import { AdminActions, LoginPage, BrowsingPage, FILES, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 
 describe('Edit offline', () => {
   const username = `user-${Utils.random()}`;
@@ -53,11 +53,9 @@ describe('Edit offline', () => {
   const { searchInput } = page.header;
 
   const adminApiActions = new AdminActions();
-  const userActions = new UserActions();
 
   beforeAll(async () => {
     await adminApiActions.createUser({ username });
-    userActions.login(username, username);
   });
 
   describe('on Personal Files', () => {
@@ -67,13 +65,14 @@ describe('Edit offline', () => {
     let fileLocked2Id: string;
 
     beforeAll(async () => {
-      parentPFId = await apis.user.createFolder(parentPF);
+      parentPFId = (await apis.user.nodes.createFolder(parentPF)).entry.id;
 
       file1Id = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentPFId, file1)).entry.id;
       fileLockedId = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentPFId, fileLocked)).entry.id;
       fileLocked2Id = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentPFId, fileLocked2)).entry.id;
 
-      await userActions.lockNodes([fileLockedId, fileLocked2Id]);
+      await apis.user.nodes.lockFile(fileLockedId);
+      await apis.user.nodes.lockFile(fileLocked2Id);
 
       await loginPage.loginWith(username);
     });
@@ -88,8 +87,7 @@ describe('Edit offline', () => {
     });
 
     afterAll(async () => {
-      userActions.login(username, username);
-      await userActions.deleteNodes([parentPFId]);
+      await apis.user.nodes.deleteNodeById(parentPFId);
     });
 
     it('[C297538] File is locked and downloaded when clicking Edit Offline', async () => {
@@ -123,13 +121,14 @@ describe('Edit offline', () => {
     let fileLocked2Id: string;
 
     beforeAll(async () => {
-      parentSFId = await apis.user.createFolder(parentSF);
+      parentSFId = (await apis.user.nodes.createFolder(parentSF)).entry.id;
 
       file1Id = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentSFId, file1)).entry.id;
       fileLockedId = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentSFId, fileLocked)).entry.id;
       fileLocked2Id = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentSFId, fileLocked2)).entry.id;
 
-      await userActions.lockNodes([fileLockedId, fileLocked2Id]);
+      await apis.user.nodes.lockFile(fileLockedId);
+      await apis.user.nodes.lockFile(fileLocked2Id);
 
       await apis.user.shared.shareFilesByIds([file1Id, fileLockedId, fileLocked2Id]);
       await apis.user.shared.waitForFilesToBeShared([file1Id, fileLockedId, fileLocked2Id]);
@@ -138,7 +137,7 @@ describe('Edit offline', () => {
     });
 
     afterAll(async () => {
-      await userActions.deleteNodes([parentSFId]);
+      await apis.user.nodes.deleteNodeById(parentSFId);
     });
 
     beforeEach(async () => {
@@ -180,7 +179,7 @@ describe('Edit offline', () => {
     let fileLocked2Id: string;
 
     beforeAll(async () => {
-      parentRFId = await apis.user.createFolder(parentRF);
+      parentRFId = (await apis.user.nodes.createFolder(parentRF)).entry.id;
 
       await apis.user.search.waitForApi(username, { expect: 0 });
 
@@ -188,7 +187,8 @@ describe('Edit offline', () => {
       fileLockedId = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentRFId, fileLocked)).entry.id;
       fileLocked2Id = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentRFId, fileLocked2)).entry.id;
 
-      await userActions.lockNodes([fileLockedId, fileLocked2Id]);
+      await apis.user.nodes.lockFile(fileLockedId);
+      await apis.user.nodes.lockFile(fileLocked2Id);
 
       await apis.user.search.waitForApi(username, { expect: 3 });
 
@@ -196,7 +196,7 @@ describe('Edit offline', () => {
     });
 
     afterAll(async () => {
-      await userActions.deleteNodes([parentRFId]);
+      await apis.user.nodes.deleteNodeById(parentRFId);
     });
 
     beforeEach(async () => {
@@ -237,12 +237,13 @@ describe('Edit offline', () => {
     let fileLocked2Id: string;
 
     beforeAll(async () => {
-      parentFavId = await apis.user.createFolder(parentFav);
+      parentFavId = (await apis.user.nodes.createFolder(parentFav)).entry.id;
 
       fileLockedId = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentFavId, fileLocked)).entry.id;
       fileLocked2Id = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentFavId, fileLocked2)).entry.id;
 
-      userActions.lockNodes([fileLockedId, fileLocked2Id]);
+      await apis.user.nodes.lockFile(fileLockedId);
+      await apis.user.nodes.lockFile(fileLocked2Id);
 
       await apis.user.favorites.addFavoritesByIds('file', [fileLockedId, fileLocked2Id]);
       await apis.user.favorites.waitForApi({ expect: 2 });
@@ -251,7 +252,7 @@ describe('Edit offline', () => {
     });
 
     afterAll(async () => {
-      await userActions.deleteNodes([parentFavId]);
+      await apis.user.nodes.deleteNodeById(parentFavId);
     });
 
     beforeEach(async () => {
@@ -285,13 +286,14 @@ describe('Edit offline', () => {
     let fileSearchLocked2Id: string;
 
     beforeAll(async () => {
-      parentSearchId = await apis.user.createFolder(parentSearch);
+      parentSearchId = (await apis.user.nodes.createFolder(parentSearch)).entry.id;
 
       fileSearch1Id = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentSearchId, fileSearch1)).entry.id;
       fileSearchLockedId = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentSearchId, fileSearchLocked)).entry.id;
       fileSearchLocked2Id = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentSearchId, fileSearchLocked2)).entry.id;
 
-      await userActions.lockNodes([fileSearchLockedId, fileSearchLocked2Id]);
+      await apis.user.nodes.lockFile(fileSearchLockedId);
+      await apis.user.nodes.lockFile(fileSearchLocked2Id);
 
       await apis.user.search.waitForNodes(searchRandom, { expect: 3 });
 
@@ -299,7 +301,7 @@ describe('Edit offline', () => {
     });
 
     afterAll(async () => {
-      await userActions.deleteNodes([parentSearchId]);
+      await apis.user.nodes.deleteNodeById(parentSearchId);
     });
 
     beforeEach(async () => {

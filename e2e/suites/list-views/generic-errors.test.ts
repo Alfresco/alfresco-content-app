@@ -52,10 +52,9 @@ describe('Generic errors', () => {
     try {
       await adminApiActions.createUser({ username });
       await adminApiActions.createUser({ username: username2 });
-      await userActions.login(username, username);
 
-      parentId = await apis.user.createFolder(parent);
-      file1Id = await apis.user.createFile(file1, parentId);
+      parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
+      file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
       await apis.user.nodes.createFile(file2, parentId);
 
       await loginPage.loginWith(username);
@@ -75,7 +74,7 @@ describe('Generic errors', () => {
     await dataTable.doubleClickOnRowByName(parent);
     await dataTable.doubleClickOnRowByName(file1);
     const URL = await browser.getCurrentUrl();
-    await userActions.deleteNodes([file1Id], false);
+    await apis.user.nodes.deleteNodeById(file1Id, false);
     await browser.get(URL);
 
     expect(await page.genericError.isDisplayed()).toBe(true, 'Generic error page not displayed');

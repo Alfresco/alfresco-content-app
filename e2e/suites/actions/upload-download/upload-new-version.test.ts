@@ -31,8 +31,7 @@ import {
   FILES,
   RepoClient,
   Utils,
-  UploadNewVersionDialog,
-  UserActions
+  UploadNewVersionDialog
 } from '@alfresco/aca-testing-shared';
 
 describe('Upload new version', () => {
@@ -96,38 +95,39 @@ describe('Upload new version', () => {
   const { dataTable, toolbar } = page;
   const uploadNewVersionDialog = new UploadNewVersionDialog();
   const { searchInput } = page.header;
-
-  const adminActions = new AdminActions();
-  const userActions = new UserActions();
+  const adminApiActions = new AdminActions();
 
   beforeAll(async () => {
-    await adminActions.createUser({ username });
-    userActions.login(username, username);
+    await adminApiActions.createUser({ username });
 
-    parentPFId = await apis.user.createFolder(parentPF);
-    parentSFId = await apis.user.createFolder(parentSF);
-    parentRFId = await apis.user.createFolder(parentRF);
-    parentFavId = await apis.user.createFolder(parentFav);
-    parentSearchId = await apis.user.createFolder(parentSearch);
+    parentPFId = (await apis.user.nodes.createFolder(parentPF)).entry.id;
+    parentSFId = (await apis.user.nodes.createFolder(parentSF)).entry.id;
+    parentRFId = (await apis.user.nodes.createFolder(parentRF)).entry.id;
+    parentFavId = (await apis.user.nodes.createFolder(parentFav)).entry.id;
+    parentSearchId = (await apis.user.nodes.createFolder(parentSearch)).entry.id;
   });
 
   afterAll(async () => {
-    userActions.login(username, username);
-    await userActions.deleteNodes([parentPFId, parentSFId, parentRFId, parentFavId, parentSearchId]);
+    await apis.user.nodes.deleteNodeById(parentPFId);
+    await apis.user.nodes.deleteNodeById(parentSFId);
+    await apis.user.nodes.deleteNodeById(parentRFId);
+    await apis.user.nodes.deleteNodeById(parentFavId);
+    await apis.user.nodes.deleteNodeById(parentSearchId);
   });
 
   describe('on Search Results', () => {
     beforeAll(async () => {
       fileId = (await apis.user.upload.uploadFile(file, parentSearchId)).entry.id;
-      fileSearch1Id = await apis.user.createFile(fileSearch1, parentSearchId);
-      fileSearch2Id = await apis.user.createFile(fileSearch2, parentSearchId);
-      fileSearch3Id = await apis.user.createFile(fileSearch3, parentSearchId);
-      fileSearch4Id = await apis.user.createFile(fileSearch4, parentSearchId);
+      fileSearch1Id = (await apis.user.nodes.createFile(fileSearch1, parentSearchId)).entry.id;
+      fileSearch2Id = (await apis.user.nodes.createFile(fileSearch2, parentSearchId)).entry.id;
+      fileSearch3Id = (await apis.user.nodes.createFile(fileSearch3, parentSearchId)).entry.id;
+      fileSearch4Id = (await apis.user.nodes.createFile(fileSearch4, parentSearchId)).entry.id;
 
-      fileLockedSearch1Id = await apis.user.createFile(fileLockedSearch1, parentSearchId);
-      fileLockedSearch2Id = await apis.user.createFile(fileLockedSearch2, parentSearchId);
+      fileLockedSearch1Id = (await apis.user.nodes.createFile(fileLockedSearch1, parentSearchId)).entry.id;
+      fileLockedSearch2Id = (await apis.user.nodes.createFile(fileLockedSearch2, parentSearchId)).entry.id;
 
-      userActions.lockNodes([fileLockedSearch1Id, fileLockedSearch2Id]);
+      await apis.user.nodes.lockFile(fileLockedSearch1Id);
+      await apis.user.nodes.lockFile(fileLockedSearch2Id);
 
       await apis.user.search.waitForNodes(searchRandom, { expect: 6 });
 
@@ -301,7 +301,9 @@ describe('Upload new version', () => {
       fileLocked1Id = (await apis.user.nodes.createFile(fileLocked1, parentPFId)).entry.id;
       fileLocked2Id = (await apis.user.nodes.createFile(fileLocked2, parentPFId)).entry.id;
 
-      await userActions.lockNodes([fileLocked1Id, fileLocked2Id]);
+      await apis.user.nodes.lockFile(fileLocked1Id);
+      await apis.user.nodes.lockFile(fileLocked2Id);
+
       await loginPage.loginWith(username);
     });
 
@@ -437,15 +439,16 @@ describe('Upload new version', () => {
   describe('on Shared Files', () => {
     beforeAll(async () => {
       fileId = (await apis.user.upload.uploadFile(file, parentSFId)).entry.id;
-      file1Id = await apis.user.createFile(file1, parentSFId);
-      file2Id = await apis.user.createFile(file2, parentSFId);
-      file3Id = await apis.user.createFile(file3, parentSFId);
-      file4Id = await apis.user.createFile(file4, parentSFId);
+      file1Id = (await apis.user.nodes.createFile(file1, parentSFId)).entry.id;
+      file2Id = (await apis.user.nodes.createFile(file2, parentSFId)).entry.id;
+      file3Id = (await apis.user.nodes.createFile(file3, parentSFId)).entry.id;
+      file4Id = (await apis.user.nodes.createFile(file4, parentSFId)).entry.id;
 
-      fileLocked1Id = await apis.user.createFile(fileLocked1, parentSFId);
-      fileLocked2Id = await apis.user.createFile(fileLocked2, parentSFId);
+      fileLocked1Id = (await apis.user.nodes.createFile(fileLocked1, parentSFId)).entry.id;
+      fileLocked2Id = (await apis.user.nodes.createFile(fileLocked2, parentSFId)).entry.id;
 
-      await userActions.lockNodes([fileLocked1Id, fileLocked2Id]);
+      await apis.user.nodes.lockFile(fileLocked1Id);
+      await apis.user.nodes.lockFile(fileLocked2Id);
 
       await apis.user.shared.shareFilesByIds([fileId, file1Id, file2Id, file3Id, file4Id, fileLocked1Id, fileLocked2Id]);
       await apis.user.shared.waitForFilesToBeShared([fileId, file1Id, file2Id, file3Id, file4Id, fileLocked1Id, fileLocked2Id]);
@@ -584,15 +587,16 @@ describe('Upload new version', () => {
     beforeAll(async () => {
       const initialRecentTotalItems = await apis.user.search.getTotalItems(username);
       fileId = (await apis.user.upload.uploadFile(file, parentRFId)).entry.id;
-      file1Id = await apis.user.createFile(file1, parentRFId);
-      file2Id = await apis.user.createFile(file2, parentRFId);
-      file3Id = await apis.user.createFile(file3, parentRFId);
-      file4Id = await apis.user.createFile(file4, parentRFId);
+      file1Id = (await apis.user.nodes.createFile(file1, parentRFId)).entry.id;
+      file2Id = (await apis.user.nodes.createFile(file2, parentRFId)).entry.id;
+      file3Id = (await apis.user.nodes.createFile(file3, parentRFId)).entry.id;
+      file4Id = (await apis.user.nodes.createFile(file4, parentRFId)).entry.id;
 
-      fileLocked1Id = await apis.user.createFile(fileLocked1, parentRFId);
-      fileLocked2Id = await apis.user.createFile(fileLocked2, parentRFId);
+      fileLocked1Id = (await apis.user.nodes.createFile(fileLocked1, parentRFId)).entry.id;
+      fileLocked2Id = (await apis.user.nodes.createFile(fileLocked2, parentRFId)).entry.id;
 
-      await userActions.lockNodes([fileLocked1Id, fileLocked2Id]);
+      await apis.user.nodes.lockFile(fileLocked1Id);
+      await apis.user.nodes.lockFile(fileLocked2Id);
 
       await apis.user.search.waitForApi(username, { expect: initialRecentTotalItems + 7 });
 
@@ -730,15 +734,16 @@ describe('Upload new version', () => {
     beforeAll(async () => {
       const initialFavoritesTotalItems = await apis.user.favorites.getFavoritesTotalItems();
       fileId = (await apis.user.upload.uploadFile(file, parentFavId)).entry.id;
-      file1Id = await apis.user.createFile(file1, parentFavId);
-      file2Id = await apis.user.createFile(file2, parentFavId);
-      file3Id = await apis.user.createFile(file3, parentFavId);
-      file4Id = await apis.user.createFile(file4, parentFavId);
+      file1Id = (await apis.user.nodes.createFile(file1, parentFavId)).entry.id;
+      file2Id = (await apis.user.nodes.createFile(file2, parentFavId)).entry.id;
+      file3Id = (await apis.user.nodes.createFile(file3, parentFavId)).entry.id;
+      file4Id = (await apis.user.nodes.createFile(file4, parentFavId)).entry.id;
 
-      fileLocked1Id = await apis.user.createFile(fileLocked1, parentFavId);
-      fileLocked2Id = await apis.user.createFile(fileLocked2, parentFavId);
+      fileLocked1Id = (await apis.user.nodes.createFile(fileLocked1, parentFavId)).entry.id;
+      fileLocked2Id = (await apis.user.nodes.createFile(fileLocked2, parentFavId)).entry.id;
 
-      await userActions.lockNodes([fileLocked1Id, fileLocked2Id]);
+      await apis.user.nodes.lockFile(fileLocked1Id);
+      await apis.user.nodes.lockFile(fileLocked2Id);
 
       await apis.user.favorites.addFavoritesByIds('file', [fileId, file1Id, file2Id, file3Id, file4Id, fileLocked1Id, fileLocked2Id]);
       await apis.user.favorites.waitForApi({ expect: initialFavoritesTotalItems + 7 });

@@ -58,17 +58,18 @@ describe('Multiple Files - available actions : ', () => {
 
   beforeAll(async () => {
     await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
 
-    parentId = await userApi.createFolder(parentName);
+    parentId = (await userApi.nodes.createFolder(parentName)).entry.id;
 
-    file1Id = await userApi.createFile(file1, parentId);
-    file2Id = await userApi.createFile(file2, parentId);
-    file3LockedId = await userApi.createFile(file3Locked, parentId);
-    file1LockedFavId = await userApi.createFile(file1LockedFav, parentId);
-    file2LockedFavId = await userApi.createFile(file2LockedFav, parentId);
+    file1Id = (await userApi.nodes.createFile(file1, parentId)).entry.id;
+    file2Id = (await userApi.nodes.createFile(file2, parentId)).entry.id;
+    file3LockedId = (await userApi.nodes.createFile(file3Locked, parentId)).entry.id;
+    file1LockedFavId = (await userApi.nodes.createFile(file1LockedFav, parentId)).entry.id;
+    file2LockedFavId = (await userApi.nodes.createFile(file2LockedFav, parentId)).entry.id;
 
-    await userActions.lockNodes([file1LockedFavId, file2LockedFavId, file3LockedId]);
+    await userApi.nodes.lockFile(file1LockedFavId);
+    await userApi.nodes.lockFile(file2LockedFavId);
+    await userApi.nodes.lockFile(file3LockedId);
 
     const initialFavoritesTotalItems = (await userApi.favorites.getFavoritesTotalItems()) || 0;
     await userApi.favorites.addFavoritesByIds('file', [file1LockedFavId, file2LockedFavId]);

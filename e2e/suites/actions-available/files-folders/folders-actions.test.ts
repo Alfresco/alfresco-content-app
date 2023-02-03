@@ -51,14 +51,14 @@ describe('Folders - available actions : ', () => {
   beforeAll(async () => {
     await adminApiActions.createUser({ username });
 
-    parentId = await userApi.createFolder(parentName);
+    parentId = (await userApi.nodes.createFolder(parentName)).entry.id;
 
-    await userApi.createFile(testData.file.name, parentId);
-    fileFavId = await userApi.createFile(testData.fileFav.name, parentId);
+    await userApi.nodes.createFile(testData.file.name, parentId);
+    fileFavId = (await userApi.nodes.createFile(testData.fileFav.name, parentId)).entry.id;
 
-    await userApi.createFolder(testData.folder.name, parentId);
-    folderFavId = await userApi.createFolder(testData.folderFav.name, parentId);
-    folderFav2Id = await userApi.createFolder(testData.folderFav2.name, parentId);
+    await userApi.nodes.createFolder(testData.folder.name, parentId);
+    folderFavId = (await userApi.nodes.createFolder(testData.folderFav.name, parentId)).entry.id;
+    folderFav2Id = (await userApi.nodes.createFolder(testData.folderFav2.name, parentId)).entry.id;
 
     const initialFavoritesTotalItems = (await userApi.favorites.getFavoritesTotalItems()) || 0;
     await userApi.favorites.addFavoritesByIds('folder', [folderFavId, folderFav2Id]);

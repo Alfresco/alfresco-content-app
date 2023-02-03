@@ -23,17 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  AdminActions,
-  LoginPage,
-  BrowsingPage,
-  FILES,
-  RepoClient,
-  Utils,
-  ManageVersionsDialog,
-  Viewer,
-  UserActions
-} from '@alfresco/aca-testing-shared';
+import { AdminActions, LoginPage, BrowsingPage, FILES, RepoClient, Utils, ManageVersionsDialog, Viewer } from '@alfresco/aca-testing-shared';
 import { browser } from 'protractor';
 import { Logger } from '@alfresco/adf-testing';
 
@@ -58,14 +48,11 @@ describe('Version actions', () => {
   const versionManagePage = new ManageVersionsDialog();
   const viewerPage = new Viewer();
   const { searchInput } = page.header;
-
   const adminApiActions = new AdminActions();
-  const userActions = new UserActions();
 
   beforeAll(async () => {
     try {
       await adminApiActions.createUser({ username });
-      await userActions.login(username, username);
 
       parentFolderId = (await apis.user.nodes.createFolder(parentFolder)).entry.id;
 
@@ -95,7 +82,7 @@ describe('Version actions', () => {
   });
 
   afterAll(async () => {
-    await userActions.deleteNodes([parentFolderId]);
+    await apis.user.nodes.deleteNodeById(parentFolderId);
   });
 
   describe('on Personal Files', () => {

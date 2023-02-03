@@ -35,7 +35,7 @@ export class SearchApi extends RepoApi {
     super(username, password);
   }
 
-  private async queryRecentFiles(username: string) {
+  async queryRecentFiles(username: string) {
     const data = {
       query: {
         query: '*',
@@ -66,7 +66,7 @@ export class SearchApi extends RepoApi {
     }
   }
 
-  private async queryNodesNames(searchTerm: string) {
+  async queryNodesNames(searchTerm: string) {
     const data = {
       query: {
         query: `cm:name:\"${searchTerm}*\"`,
@@ -80,6 +80,33 @@ export class SearchApi extends RepoApi {
       return this.searchApi.search(data);
     } catch (error) {
       this.handleError(`SearchApi queryNodesNames : catch : `, error);
+      return null;
+    }
+  }
+
+  async getSearchByTermTotalItems(searchTerm: string): Promise<number> {
+    try {
+      return (await this.queryNodesNames(searchTerm)).list.pagination.totalItems;
+    } catch (error) {
+      this.handleError(`SearchApi getSearchByTermTotalItems : catch : `, error);
+      return -1;
+    }
+  }
+
+  async queryNodesExactNames(searchTerm: string) {
+    const data = {
+      query: {
+        query: `cm:name:\"${searchTerm}\"`,
+        language: 'afts'
+      },
+      filterQueries: [{ query: `+TYPE:'cm:folder' OR +TYPE:'cm:content'` }]
+    };
+
+    try {
+      await this.apiAuth();
+      return this.searchApi.search(data);
+    } catch (error) {
+      this.handleError(`SearchApi queryNodesExactNames : catch : `, error);
       return null;
     }
   }
@@ -107,7 +134,7 @@ export class SearchApi extends RepoApi {
 
     const apiCall = async () => {
       try {
-        return (await this.queryNodesNames(searchTerm)).list.pagination.totalItems;
+        return await this.getSearchByTermTotalItems(searchTerm);
       } catch (error) {
         return 0;
       }

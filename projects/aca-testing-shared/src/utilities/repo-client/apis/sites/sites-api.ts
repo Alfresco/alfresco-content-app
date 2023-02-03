@@ -54,12 +54,62 @@ export class SitesApi extends RepoApi {
     }
   }
 
+  async getSites() {
+    try {
+      await this.apiAuth();
+      return await this.sitesApi.listSiteMembershipsForPerson(this.username);
+    } catch (error) {
+      this.handleError(`SitesApi getSites : catch : `, error);
+      return null;
+    }
+  }
+
+  async getSitesTotalItems(): Promise<number> {
+    try {
+      await this.apiAuth();
+      return (await this.sitesApi.listSiteMembershipsForPerson(this.username)).list.pagination.totalItems;
+    } catch (error) {
+      this.handleError(`SitesApi getSitesTotalItems : catch : `, error);
+      return -1;
+    }
+  }
+
   async getDocLibId(siteId: string): Promise<string> {
     try {
       await this.apiAuth();
       return (await this.sitesApi.listSiteContainers(siteId)).list.entries[0].entry.id;
     } catch (error) {
       this.handleError(`SitesApi getDocLibId : catch : `, error);
+      return null;
+    }
+  }
+
+  async getVisibility(siteId: string) {
+    try {
+      const site = await this.getSite(siteId);
+      return site.entry.visibility;
+    } catch (error) {
+      this.handleError(`SitesApi getVisibility : catch : `, error);
+      return null;
+    }
+  }
+
+  async getDescription(siteId: string) {
+    try {
+      const site = await this.getSite(siteId);
+      return site.entry.description;
+    } catch (error) {
+      this.handleError(`SitesApi getDescription : catch : `, error);
+      return null;
+    }
+  }
+
+  async getTitle(siteId: string) {
+    try {
+      const site = await this.getSite(siteId);
+      return site.entry.title;
+    } catch (error) {
+      this.handleError(`SitesApi getTitle : catch : `, error);
       return null;
     }
   }
@@ -81,6 +131,14 @@ export class SitesApi extends RepoApi {
     }
   }
 
+  async createSitePrivate(title: string, description?: string, siteId?: string): Promise<SiteEntry> {
+    return this.createSite(title, SITE_VISIBILITY.PRIVATE, description, siteId);
+  }
+
+  async createSiteModerated(title: string, description?: string, siteId?: string): Promise<SiteEntry> {
+    return this.createSite(title, SITE_VISIBILITY.MODERATED, description, siteId);
+  }
+
   async createSites(siteNames: string[], visibility?: string): Promise<SiteEntry[]> {
     const sites: SiteEntry[] = [];
     try {
@@ -94,6 +152,10 @@ export class SitesApi extends RepoApi {
       this.handleError(`SitesApi createSites : catch : `, error);
     }
     return sites;
+  }
+
+  async createSitesPrivate(siteNames: string[]): Promise<any> {
+    return this.createSites(siteNames, SITE_VISIBILITY.PRIVATE);
   }
 
   async deleteSite(siteId: string, permanent: boolean = true) {
@@ -121,9 +183,7 @@ export class SitesApi extends RepoApi {
 
   async deleteAllUserSites(permanent: boolean = true) {
     try {
-      await this.apiAuth();
-      const sites = await this.sitesApi.listSiteMembershipsForPerson(this.username);
-      const siteIds = sites.list.entries.map((entries) => entries.entry.id);
+      const siteIds = (await this.getSites()).list.entries.map((entries) => entries.entry.id);
 
       return await siteIds.reduce(async (previous, current) => {
         await previous;
@@ -220,9 +280,7 @@ export class SitesApi extends RepoApi {
   async waitForSitesToBeCreated(sitesIds: string[]) {
     try {
       const site = async () => {
-        await this.apiAuth();
-        const sites = await this.sitesApi.listSiteMembershipsForPerson(this.username);
-        const sitesList = sites.list.entries.map((link) => link.entry.id);
+        const sitesList = (await this.getSites()).list.entries.map((link) => link.entry.id);
         const foundItems = sitesIds.every((id) => sitesList.includes(id));
         if (foundItems) {
           return Promise.resolve(foundItems);
@@ -235,6 +293,24 @@ export class SitesApi extends RepoApi {
     } catch (error) {
       Logger.error(`SitesApi waitForSitesToBeCreated :  catch : ${error}`);
       Logger.error(`\tWait timeout reached waiting for sites to be created`);
+    }
+  }
+
+  async waitForApi(data: { expect: number }) {
+    try {
+      const sites = async () => {
+        const totalItems = await this.getSitesTotalItems();
+        if (totalItems !== data.expect) {
+          return Promise.reject(totalItems);
+        } else {
+          return Promise.resolve(totalItems);
+        }
+      };
+
+      return await Utils.retryCall(sites);
+    } catch (error) {
+      Logger.error(`SitesApi waitForApi : catch : `);
+      Logger.error(`\tExpected: ${data.expect} items, but found ${error}`);
     }
   }
 }
