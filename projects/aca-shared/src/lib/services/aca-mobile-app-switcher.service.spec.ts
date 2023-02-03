@@ -28,31 +28,38 @@ import { AppConfigService } from '@alfresco/adf-core';
 import { LibTestingModule, initialState } from '../testing/lib-testing-module';
 import { provideMockStore } from '@ngrx/store/testing';
 import { AcaMobileAppSwitcherService } from './aca-mobile-app-switcher.service';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 
 describe('AcaMobileAppSwitcherService', () => {
   let appConfig: AppConfigService;
   let service: AcaMobileAppSwitcherService;
 
+  const mockDialogRef = {
+    close: jasmine.createSpy('close'),
+    open: jasmine.createSpy('open')
+  };
+
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [LibTestingModule, MatDialogModule],
-      providers: [provideMockStore({ initialState })]
+      imports: [LibTestingModule],
+      providers: [provideMockStore({ initialState }), { provide: MatDialog, useValue: mockDialogRef }]
     });
     appConfig = TestBed.inject(AppConfigService);
     appConfig.config.mobileAppSwitch = {
       enabled: true,
-      isIphone: 'iosamw://',
-      isAndroidPart1: 'intent:///',
-      isAndroidPart2: '#Intent;scheme=androidamw;package=com.alfresco.content.app.debug;end'
+      iphoneUrl: 'iosamw://',
+      androidUrlPart1: 'intent:///',
+      androidUrlPart2: '#Intent;scheme=androidamw;package=com.alfresco.content.app;end',
+      sessionTimeForOpenAppDialogDisplay: 12
     };
     service = TestBed.inject(AcaMobileAppSwitcherService);
+    sessionStorage.clear();
   });
 
   it('should check if redirectUrl is the `iphoneUrl`', () => {
     spyOnProperty(window.navigator, 'userAgent').and.returnValue('iphone');
     const url: string = window.location.href;
-    const iphoneUrl: string = appConfig.config.mobileAppSwitch.isIphone + url;
+    const iphoneUrl: string = appConfig.config.mobileAppSwitch.iphoneUrl + url;
     service.showAppNotification();
     expect(service.redirectUrl).toEqual(iphoneUrl);
   });
@@ -60,8 +67,39 @@ describe('AcaMobileAppSwitcherService', () => {
   it('should check if the redirectUrl is `androidUrl`', () => {
     spyOnProperty(window.navigator, 'userAgent').and.returnValue('android');
     const url: string = window.location.href;
-    const androidUrl: string = appConfig.config.mobileAppSwitch.isAndroidPart1 + url + appConfig.config.mobileAppSwitch.isAndroidPart2;
+    const androidUrl: string = appConfig.config.mobileAppSwitch.androidUrlPart1 + url + appConfig.config.mobileAppSwitch.androidUrlPart2;
     service.showAppNotification();
     expect(service.redirectUrl).toEqual(androidUrl);
+  });
+
+  it('should check if `showAppNotification` function is called', () => {
+    const showAppNotificationSpy: jasmine.Spy<() => void> = spyOn(service, 'showAppNotification');
+    service.checkForMobileApp();
+    expect(showAppNotificationSpy).toHaveBeenCalled();
+  });
+
+  it('should not display `openInApp` dialog box when timeDifference is less than the session time', () => {
+    service.checkForMobileApp();
+    const showAppNotificationSpy: jasmine.Spy<() => void> = spyOn(service, 'showAppNotification');
+    service.checkForMobileApp();
+    expect(showAppNotificationSpy).not.toHaveBeenCalled();
+  });
+
+  it('should check if `openInApp` dialog box is getting opened with `iphone` url', () => {
+    const openInAppSpy: jasmine.Spy<(redirectUrl: string) => void> = spyOn(service, 'openInApp');
+    const url: string = window.location.href;
+    service.redirectUrl = appConfig.config.mobileAppSwitch.iphoneUrl + url;
+    service.showAppNotification();
+    expect(openInAppSpy).toHaveBeenCalled();
+    expect(mockDialogRef.open).toHaveBeenCalled();
+  });
+
+  it('should check if `openInApp` dialog box is getting opened with `android` url', () => {
+    const openInAppSpy: jasmine.Spy<(redirectUrl: string) => void> = spyOn(service, 'openInApp');
+    const url: string = window.location.href;
+    service.redirectUrl = appConfig.config.mobileAppSwitch.androidUrlPart1 + url + appConfig.config.mobileAppSwitch.androidUrlPart2;
+    service.showAppNotification();
+    expect(openInAppSpy).toHaveBeenCalled();
+    expect(mockDialogRef.open).toHaveBeenCalled();
   });
 });

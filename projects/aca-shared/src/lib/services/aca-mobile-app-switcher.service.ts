@@ -30,9 +30,9 @@ import { OpenInAppComponent } from '../components/open-in-app/open-in-app.compon
 
 export interface MobileAppSwitchConfigurationOptions {
   enabled: string;
-  isIphone: string;
-  isAndroidPart1: string;
-  isAndroidPart2: string;
+  iphoneUrl: string;
+  androidUrlPart1: string;
+  androidUrlPart2: string;
   sessionTimeForOpenAppDialogDisplay: string;
 }
 @Injectable({
@@ -49,11 +49,16 @@ export class AcaMobileAppSwitcherService {
   checkForMobileApp(): void {
     const currentTime: number = new Date().getTime();
     const sessionTime: string = sessionStorage.getItem('sessionTime');
-    const sessionConvertedTime: number = parseFloat(sessionTime);
-    const timeDifference: number = (currentTime - sessionConvertedTime) / (1000 * 60 * 60);
-    const sessionTimeForOpenAppDialogDisplay: number = parseFloat(this.mobileAppSwitchConfig.sessionTimeForOpenAppDialogDisplay);
 
-    if (sessionTime === null || (sessionTime !== null && timeDifference > sessionTimeForOpenAppDialogDisplay)) {
+    if (sessionTime !== null) {
+      const sessionConvertedTime: number = parseFloat(sessionTime);
+      const timeDifference: number = (currentTime - sessionConvertedTime) / (1000 * 60 * 60);
+      const sessionTimeForOpenAppDialogDisplay: number = parseFloat(this.mobileAppSwitchConfig.sessionTimeForOpenAppDialogDisplay);
+
+      if (timeDifference > sessionTimeForOpenAppDialogDisplay) {
+        this.showAppNotification();
+      }
+    } else {
       this.showAppNotification();
     }
   }
@@ -62,17 +67,20 @@ export class AcaMobileAppSwitcherService {
     const ua: string = navigator.userAgent.toLowerCase();
     const isAndroid: boolean = ua.indexOf('android') > -1;
     const isIOS: boolean = ua.indexOf('iphone') > -1 || ua.indexOf('ipad') > -1 || ua.indexOf('ipod') > -1;
-    const url: string = window.location.href;
+    const currentUrl: string = window.location.href;
     const time: number = new Date().getTime();
 
     sessionStorage.setItem('sessionTime', time.toString());
 
     if (isIOS === true) {
-      this.redirectUrl = this.mobileAppSwitchConfig.isIphone + url;
+      this.redirectUrl = this.mobileAppSwitchConfig.iphoneUrl + currentUrl;
     } else if (isAndroid === true) {
-      this.redirectUrl = this.mobileAppSwitchConfig.isAndroidPart1 + url + this.mobileAppSwitchConfig.isAndroidPart2;
+      this.redirectUrl = this.mobileAppSwitchConfig.androidUrlPart1 + currentUrl + this.mobileAppSwitchConfig.androidUrlPart2;
     }
-    this.openInApp(this.redirectUrl);
+
+    if (this.redirectUrl !== undefined && this.redirectUrl !== null) {
+      this.openInApp(this.redirectUrl);
+    }
   }
 
   openInApp(redirectUrl: string): void {
