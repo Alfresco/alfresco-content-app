@@ -180,7 +180,7 @@ export class AppService implements OnDestroy {
 
     this.overlayContainer.getContainerElement().setAttribute('role', 'region');
 
-    const isMobileSwitchEnabled: boolean = this.config.get<string>('mobileAppSwitch.enabled', 'false').toLowerCase() === 'true';
+    const isMobileSwitchEnabled: boolean = this.config.get<boolean>('mobileAppSwitch.enabled', false);
     if (isMobileSwitchEnabled) {
       this.acaMobileAppSwitcherService.checkForMobileApp();
     }

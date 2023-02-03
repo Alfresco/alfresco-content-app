@@ -7,7 +7,7 @@
   "authType": "${APP_CONFIG_AUTH_TYPE}",
   "loginRoute": "login",
   "mobileAppSwitch": {
-    "enabled" : "${APP_CONFIG_ENABLE_MOBILE_APP_SWITCH}",
+    "enabled" : ${APP_CONFIG_ENABLE_MOBILE_APP_SWITCH},
     "iphoneUrl": "iosamw://",
     "androidUrlPart1": "intent:///",
     "androidUrlPart2": "#Intent;scheme=androidamw;package=com.alfresco.content.app;end",
