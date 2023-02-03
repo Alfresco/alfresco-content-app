@@ -70,7 +70,7 @@ jobs:
       name: 'Test Suites: authentication,listViews,navigation,application'
       before_script:
         - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "$CONTENT_CE_DIST_PATH" "-a" || travis_terminate 1
-      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=authentication,listViews,navigation,application" -test-runner protractor
+      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=authentication,listViews,navigation,application"
       after_script:
         - ./scripts/ci/job_hooks/after_e2e.sh
 
@@ -78,7 +78,7 @@ jobs:
       name: 'Test Suites: search'
       before_script:
         - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "$CONTENT_CE_DIST_PATH" "-a" || travis_terminate 1
-      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=search" -test-runner protractor
+      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=search"
       after_script:
         - ./scripts/ci/job_hooks/after_e2e.sh
 
@@ -86,7 +86,7 @@ jobs:
       name: 'Test Suites: viewer,infoDrawer,extensions'
       before_script:
         - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "$CONTENT_CE_DIST_PATH" "-a" || travis_terminate 1
-      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=viewer,infoDrawer,extensions" -test-runner protractor
+      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=viewer,infoDrawer,extensions"
       after_script:
         - ./scripts/ci/job_hooks/after_e2e.sh
 
@@ -94,7 +94,7 @@ jobs:
       name: 'Test Suites: shareActions'
       before_script:
         - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "$CONTENT_CE_DIST_PATH" "-a" || travis_terminate 1
-      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=shareActions" -test-runner protractor
+      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=shareActions"
       after_script:
         - ./scripts/ci/job_hooks/after_e2e.sh
 
@@ -102,7 +102,7 @@ jobs:
       name: 'Test Suites: pagination'
       before_script:
         - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "$CONTENT_CE_DIST_PATH" "-a" || travis_terminate 1
-      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=pagination" -test-runner protractor
+      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=pagination"
       after_script:
         - ./scripts/ci/job_hooks/after_e2e.sh
 
@@ -110,7 +110,7 @@ jobs:
       name: 'Test Suites: actionsAvailableFilesFolders'
       before_script:
         - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "$CONTENT_CE_DIST_PATH" "-a" || travis_terminate 1
-      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=actionsAvailableFilesFolders" -test-runner protractor
+      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=actionsAvailableFilesFolders"
       after_script:
         - ./scripts/ci/job_hooks/after_e2e.sh
 
@@ -118,7 +118,7 @@ jobs:
       name: 'Test Suites: actionsAvailableLibraries,actionsAvailableNewMenu'
       before_script:
         - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "$CONTENT_CE_DIST_PATH" "-a" || travis_terminate 1
-      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=actionsAvailableLibraries,actionsAvailableNewMenu" -test-runner protractor
+      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=actionsAvailableLibraries,actionsAvailableNewMenu"
       after_script:
         - ./scripts/ci/job_hooks/after_e2e.sh
 
@@ -126,7 +126,7 @@ jobs:
       name: 'Test Suites: actionsAvailableSpecialPermissions'
       before_script:
         - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "$CONTENT_CE_DIST_PATH" "-a" || travis_terminate 1
-      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=actionsAvailableSpecialPermissions" -test-runner protractor
+      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=actionsAvailableSpecialPermissions"
       after_script:
         - ./scripts/ci/job_hooks/after_e2e.sh
 
@@ -134,7 +134,7 @@ jobs:
       name: 'Test Suites: copyMoveActions'
       before_script:
         - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "$CONTENT_CE_DIST_PATH" "-a" || travis_terminate 1
-      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=copyMoveActions" -test-runner protractor
+      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=copyMoveActions"
       after_script:
         - ./scripts/ci/job_hooks/after_e2e.sh
 
@@ -142,7 +142,7 @@ jobs:
       name: 'Test Suites: createActions'
       before_script:
         - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "$CONTENT_CE_DIST_PATH" "-a" || travis_terminate 1
-      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=createActions" -test-runner protractor
+      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=createActions"
       after_script:
         - ./scripts/ci/job_hooks/after_e2e.sh
 
@@ -150,7 +150,7 @@ jobs:
       name: 'Test Suites: deleteActions'
       before_script:
         - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "$CONTENT_CE_DIST_PATH" "-a" || travis_terminate 1
-      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=deleteActions" -test-runner protractor
+      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=deleteActions"
       after_script:
         - ./scripts/ci/job_hooks/after_e2e.sh
 
@@ -158,7 +158,7 @@ jobs:
       name: 'Test Suites: editActions,favoriteActions'
       before_script:
         - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "$CONTENT_CE_DIST_PATH" "-a" || travis_terminate 1
-      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=editActions,favoriteActions" -test-runner protractor
+      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=editActions,favoriteActions"
       after_script:
         - ./scripts/ci/job_hooks/after_e2e.sh
 
@@ -166,7 +166,7 @@ jobs:
       name: 'Test Suites: libraryActions'
       before_script:
         - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "$CONTENT_CE_DIST_PATH" "-a" || travis_terminate 1
-      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=libraryActions" -test-runner protractor
+      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=libraryActions"
       after_script:
         - ./scripts/ci/job_hooks/after_e2e.sh
 
@@ -174,7 +174,7 @@ jobs:
       name: 'Test Suites: uploadDownloadActions'
       before_script:
         - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "$CONTENT_CE_DIST_PATH" "-a" || travis_terminate 1
-      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=uploadDownloadActions" -test-runner protractor
+      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=uploadDownloadActions"
       after_script:
         - ./scripts/ci/job_hooks/after_e2e.sh
 
