@@ -10,13 +10,12 @@ import { Page } from '@playwright/test';
 import { BaseComponent } from './base.component';
 
 export class SnackBarComponent extends BaseComponent {
+  private static rootElement = 'simple-snack-bar';
 
-    private static rootElement = 'simple-snack-bar';
+  public message = this.getChild(' > span');
+  public getByMessageLocator = (message: string) => this.getChild('span', { hasText: message });
 
-    public message = this.getChild(' > span');
-    public getByMessageLocator = (message: string) => this.getChild('span', { hasText: message });
-
-    constructor(page: Page, rootElement = SnackBarComponent.rootElement) {
-        super(page, rootElement);
-    }
+  constructor(page: Page, rootElement = SnackBarComponent.rootElement) {
+    super(page, rootElement);
+  }
 }

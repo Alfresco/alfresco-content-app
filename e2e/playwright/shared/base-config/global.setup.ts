@@ -14,7 +14,6 @@ const E2E_PORT = process.env.PLAYWRIGHT_E2E_PORT;
 const acsAdminUser = process.env.ADMIN_EMAIL;
 const acsAdminUserPassword = process.env.ADMIN_PASSWORD;
 
-
 async function globalSetup(config: FullConfig) {
   const { use } = config.projects[0];
 
@@ -35,7 +34,7 @@ async function globalSetup(config: FullConfig) {
   const loginPage = new LoginPage(page);
 
   await page.goto(baseUrl);
-  await loginPage.loginUser({username: acsAdminUser, password: acsAdminUserPassword}, {withNavigation: false, waitForLoading: true});
+  await loginPage.loginUser({ username: acsAdminUser, password: acsAdminUserPassword }, { withNavigation: false, waitForLoading: true });
   await page.context().storageState({ path: `storageState.json` });
   await browser.close();
 }

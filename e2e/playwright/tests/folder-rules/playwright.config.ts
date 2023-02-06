@@ -1,11 +1,10 @@
-import type { PlaywrightTestConfig } from '@playwright/test';
-import { devices } from '@playwright/test';
+import type { PlaywrightTestConfig, devices } from '@playwright/test';
 
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
-require('dotenv').config()
+require('dotenv').config();
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -39,7 +38,7 @@ export const config: PlaywrightTestConfig = {
     baseURL: process.env.PLAYWRIGHT_E2E_HOST,
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
+    trace: 'on-first-retry'
   },
 
   /* Configure projects for major browsers */
@@ -49,16 +48,15 @@ export const config: PlaywrightTestConfig = {
       use: {
         ...devices['Desktop Chrome'],
         storageState: 'storageState.json'
-      },
-    },
-  ],
+      }
+    }
+  ]
 
   /* Run your local dev server before starting the tests */
   // webServer: {
   //   command: 'npm run start',
   //   port: 3000,
   // },
-
 };
 
 export default config;

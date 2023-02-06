@@ -7,15 +7,15 @@
  */
 
 import { Locator, Page } from '@playwright/test';
-import {ManageRulesDialogComponent} from "./manage-rules-dialog.component";
+import { ManageRulesDialogComponent } from './manage-rules-dialog.component';
 
-export enum field {
+export enum Field {
   Name = 'Name',
   Size = 'Size',
-  Mimetype = 'Mimetype',
+  Mimetype = 'Mimetype'
 }
 
-export enum comparator {
+export enum Comparator {
   Equals = '(=) Equals',
   Contains = 'Contains',
   StartsWith = 'Starts with',
@@ -23,29 +23,28 @@ export enum comparator {
 }
 
 export class ConditionComponent extends ManageRulesDialogComponent {
-
   private getOptionLocator = (optionName: string): Locator => this.page.locator(`.cdk-overlay-pane .mat-option span`, { hasText: optionName });
 
   constructor(page: Page) {
     super(page);
   }
 
-  private async selectField(field: Partial<field>): Promise<void> {
+  private async selectField(fields: Partial<Field>): Promise<void> {
     await this.fieldDropDown.click();
-    const option =  this.getOptionLocator(field);
+    const option = this.getOptionLocator(fields);
     await option.click();
   }
 
-  private async selectComparator(comparator: Partial<comparator>): Promise<void> {
+  private async selectComparator(comparators: Partial<Comparator>): Promise<void> {
     await this.comparatorDropDown.click();
-    const option =  this.getOptionLocator(comparator);
+    const option = this.getOptionLocator(comparators);
     await option.click();
   }
 
-  async addCondition(field: Partial<field>, comparator: Partial<comparator>, value: string): Promise<void> {
+  async addCondition(fields: Partial<Field>, comparators: Partial<Comparator>, value: string): Promise<void> {
     await this.addConditionButton.click();
-    await this.selectField(field);
-    await this.selectComparator(comparator);
+    await this.selectField(fields);
+    await this.selectComparator(comparators);
     await this.typeConditionValue(value);
   }
 }

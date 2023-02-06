@@ -9,23 +9,22 @@
 import { Locator, Page } from '@playwright/test';
 import { BaseComponent } from '../../../../shared/page-objects/components/base.component';
 
-export enum actionType {
+export enum ActionType {
   Aspect = 'Add aspect',
   SimpleWorkflow = 'Add simple workflow',
-  IncrementCounter = 'Increment Counter',
+  IncrementCounter = 'Increment Counter'
 }
 
 export class ActionsDropdownComponent extends BaseComponent {
-
   private static rootElement = '.mat-select-panel';
 
   public getOptionLocator = (optionName: string): Locator => this.getChild('.mat-option-text', { hasText: optionName });
 
-    constructor(page: Page) {
-        super(page, ActionsDropdownComponent.rootElement);
-    }
+  constructor(page: Page) {
+    super(page, ActionsDropdownComponent.rootElement);
+  }
 
-  async selectAction(action: Partial<actionType>): Promise<void> {
+  async selectAction(action: Partial<ActionType>): Promise<void> {
     await this.page.locator(`aca-edit-rule-dialog [data-automation-id="rule-action-select"]`).click();
     const option = this.getOptionLocator(action);
     await option.click();

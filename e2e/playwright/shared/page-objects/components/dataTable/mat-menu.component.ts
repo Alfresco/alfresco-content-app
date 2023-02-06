@@ -10,15 +10,13 @@ import { Page } from '@playwright/test';
 import { BaseComponent } from '../base.component';
 
 export class MatMenuComponent extends BaseComponent {
+  private static rootElement = '.mat-menu-content';
 
-    private static rootElement = '.mat-menu-content';
+  constructor(page: Page) {
+    super(page, MatMenuComponent.rootElement);
+  }
 
-    constructor(page: Page) {
-        super(page, MatMenuComponent.rootElement);
-    }
+  public getMenuItemsLocator = this.getChild('button');
 
-    public getMenuItemsLocator = this.getChild('button');
-
-    public getButtonByText = (text: string) => this.getChild('button', { hasText: text });
-
+  public getButtonByText = (text: string) => this.getChild('button', { hasText: text });
 }

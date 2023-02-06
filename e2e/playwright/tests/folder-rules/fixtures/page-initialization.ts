@@ -6,27 +6,29 @@
  * agreement is prohibited.
  */
 
-import { PersonalFilesPage } from '../page-objects';
+import { PersonalFilesPage, NodesPage } from '../page-objects';
 import { test as base } from '@playwright/test';
 import { ApiClientFactory } from '../../../shared/api/api-client-factory';
-import { NodesPage } from "../page-objects";
 
 interface Pages {
-    personalFiles: PersonalFilesPage;
-    nodesPage: NodesPage
+  personalFiles: PersonalFilesPage;
+  nodesPage: NodesPage;
 }
 
 interface Api {
-    apiClient: ApiClientFactory;
+  apiClient: ApiClientFactory;
 }
 
 export const test = base.extend<Pages & Api>({
-    personalFiles: async ({ page }, use) => { await use(new PersonalFilesPage(page)); },
-    nodesPage: async ({ page }, use) => { await use(new NodesPage(page)); },
-    apiClient: async({}, use) => {
-      let apiClient = new ApiClientFactory();
-      await apiClient.setUpAcaBackend("admin");
-      await use(apiClient);
-    }
+  personalFiles: async ({ page }, use) => {
+    await use(new PersonalFilesPage(page));
+  },
+  nodesPage: async ({ page }, use) => {
+    await use(new NodesPage(page));
+  },
+  apiClient: async ({}, use) => {
+    const apiClient = new ApiClientFactory();
+    await apiClient.setUpAcaBackend('admin');
+    await use(apiClient);
+  }
 });
-

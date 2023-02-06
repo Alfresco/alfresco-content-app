@@ -11,29 +11,27 @@ import { BasePage } from './base.page';
 import { UserModel } from '../../models/user-model';
 
 interface LoginOptions {
-    waitForLoading?: boolean;
-    withNavigation?: boolean;
+  waitForLoading?: boolean;
+  withNavigation?: boolean;
 }
 export class LoginPage extends BasePage {
+  constructor(page: Page) {
+    super(page, '');
+  }
 
-    constructor(page: Page) {
-        super(page, '');
+  private username = this.page.locator('#username');
+  private password = this.page.locator('#password');
+  private submitButton = this.page.locator('#login-button');
+
+  async loginUser(userData: { username: string; password: string } | UserModel, options?: LoginOptions): Promise<void> {
+    if (options?.withNavigation) {
+      await this.navigate();
     }
-
-    private username = this.page.locator('#username');
-    private password = this.page.locator('#password');
-    private submitButton = this.page.locator('#login-button');
-
-    async loginUser(userData: { username: string; password: string } | UserModel, options?: LoginOptions): Promise<void> {
-        if (options?.withNavigation) { await this.navigate(); }
-        await this.username.fill(userData.username);
-        await this.password.fill(userData.password);
-        await this.submitButton.click();
-        if (options?.waitForLoading) {
-            await Promise.all([
-                this.page.waitForLoadState('domcontentloaded'),
-                this.spinner.waitForReload()
-            ]);
-        }
+    await this.username.fill(userData.username);
+    await this.password.fill(userData.password);
+    await this.submitButton.click();
+    if (options?.waitForLoading) {
+      await Promise.all([this.page.waitForLoadState('domcontentloaded'), this.spinner.waitForReload()]);
     }
+  }
 }

@@ -10,7 +10,6 @@ import { Locator, Page } from '@playwright/test';
 import { BaseComponent } from '../../../../shared/page-objects/components/base.component';
 
 export class ManageRules extends BaseComponent {
-
   private static rootElement = '.aca-manage-rules';
 
   public getGroupsList = (optionName: string): Locator => this.getChild('.aca-rule-list-item__header', { hasText: optionName });

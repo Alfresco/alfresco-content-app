@@ -11,11 +11,11 @@ import { Page } from '@playwright/test';
 import { DataTableComponent } from '../../../../shared/page-objects/components/dataTable/data-table.component';
 
 export class PersonalFilesPage extends BasePage {
-    private static pageUrl = 'personal-files';
+  private static pageUrl = 'personal-files';
 
-    constructor(page: Page) {
-        super(page, PersonalFilesPage.pageUrl);
-    }
+  constructor(page: Page) {
+    super(page, PersonalFilesPage.pageUrl);
+  }
 
-    public dataTable = new DataTableComponent(this.page);
+  public dataTable = new DataTableComponent(this.page);
 }

@@ -10,12 +10,11 @@ import { GenericLogger, LoggerLike } from '@alfresco/adf-testing';
 import { Page } from '@playwright/test';
 
 export abstract class PlaywrightBase {
-    public page: Page;
-    public logger: LoggerLike;
+  public page: Page;
+  public logger: LoggerLike;
 
-    constructor(page: Page) {
-        this.page = page;
-        this.logger = new GenericLogger(process.env.PLAYWRIGHT_CUSTOM_LOG_LEVEL);
-    }
-
+  constructor(page: Page) {
+    this.page = page;
+    this.logger = new GenericLogger(process.env.PLAYWRIGHT_CUSTOM_LOG_LEVEL);
+  }
 }

@@ -6,9 +6,9 @@
  * agreement is prohibited.
  */
 
-import {RuleTrigger} from "../../../../projects/aca-folder-rules/src/lib/model/rule.model";
-import {RuleCompositeCondition} from "../../../../projects/aca-folder-rules/src/lib/model/rule-composite-condition.model";
-import {RuleAction} from "../../../../projects/aca-folder-rules/src/lib/model/rule-action.model";
+import { RuleTrigger } from '../../../../projects/aca-folder-rules/src/lib/model/rule.model';
+import { RuleCompositeCondition } from '../../../../projects/aca-folder-rules/src/lib/model/rule-composite-condition.model';
+import { RuleAction } from '../../../../projects/aca-folder-rules/src/lib/model/rule-action.model';
 
 export interface Rule {
   id: string;
@@ -26,18 +26,16 @@ export interface Rule {
 
 export class ActionTypes {
   static ADDFEATURES = new ActionTypes('ADDFEATURES', {
-    actionDefinitionId: "add-features",
-    params: {"aspect-name": "cm:thumbnailed"}
+    actionDefinitionId: 'add-features',
+    params: { 'aspect-name': 'cm:thumbnailed' }
   });
   static CHECKIN = new ActionTypes('CHECKIN', {
-    actionDefinitionId: "check-in",
+    actionDefinitionId: 'check-in',
     params: {
-      "description": "test",
-      "minorChange": true
+      description: 'test',
+      minorChange: true
     }
   });
 
-  constructor(public key: string, public value: RuleAction) {
-  }
+  constructor(public key: string, public value: RuleAction) {}
 }
-

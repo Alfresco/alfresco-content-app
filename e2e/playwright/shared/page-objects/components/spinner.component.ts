@@ -10,18 +10,18 @@ import { Page } from '@playwright/test';
 import { BaseComponent } from './base.component';
 
 export class SpinnerComponent extends BaseComponent {
-    private static rootElement = 'mat-progress-spinner';
+  private static rootElement = 'mat-progress-spinner';
 
-    constructor(page: Page, rootElement = SpinnerComponent.rootElement) {
-        super(page, rootElement);
-    }
+  constructor(page: Page, rootElement = SpinnerComponent.rootElement) {
+    super(page, rootElement);
+  }
 
-    async waitForReload(): Promise<void> {
-        try {
-            await this.getChild('').waitFor({ state: 'attached', timeout: 1000 });
-            await this.getChild('').waitFor({ state: 'detached', timeout: 1000 });
-        } catch (e) {
-            this.logger.info('Spinner was not present');
-        }
+  async waitForReload(): Promise<void> {
+    try {
+      await this.getChild('').waitFor({ state: 'attached', timeout: 1000 });
+      await this.getChild('').waitFor({ state: 'detached', timeout: 1000 });
+    } catch (e) {
+      this.logger.info('Spinner was not present');
     }
+  }
 }

@@ -10,15 +10,14 @@ import { BaseComponent } from '../base.component';
 import { Page } from '@playwright/test';
 
 export class ToolbarComponent extends BaseComponent {
+  private static rootElement = 'adf-toolbar';
+  private createRuleButton = this.getChild('[data-automation-id="manage-rules-create-button"]');
 
-    private static rootElement = 'adf-toolbar';
-    private createRuleButton = this.getChild('[data-automation-id="manage-rules-create-button"]');
+  constructor(page: Page) {
+    super(page, ToolbarComponent.rootElement);
+  }
 
-    constructor(page: Page) {
-        super(page, ToolbarComponent.rootElement);
-    }
-
-    async clickCreateRuleButton(): Promise<void> {
-        await this.createRuleButton.click();
-    }
+  async clickCreateRuleButton(): Promise<void> {
+    await this.createRuleButton.click();
+  }
 }
