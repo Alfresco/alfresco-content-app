@@ -6,9 +6,8 @@
  * agreement is prohibited.
  */
 
-import { BasePage } from '../../../../shared/page-objects/pages/base.page';
+import { BasePage, ToolbarComponent } from '@alfresco/playwright-shared';
 import { Page } from '@playwright/test';
-import { ToolbarComponent } from '../../../../shared/page-objects/components/dataTable/toolbar.component';
 import { ManageRulesDialogComponent } from '../components/manage-rules-dialog.component';
 import { ActionsDropdownComponent } from '../components/actions-dropdown.component';
 import { ConditionComponent } from '../components/conditions.component';

@@ -6,9 +6,8 @@
  * agreement is prohibited.
  */
 
-import { BasePage } from '../../../../shared/page-objects/pages/base.page';
+import { BasePage, DataTableComponent } from '@alfresco/playwright-shared';
 import { Page } from '@playwright/test';
-import { DataTableComponent } from '../../../../shared/page-objects/components/dataTable/data-table.component';
 
 export class PersonalFilesPage extends BasePage {
   private static pageUrl = 'personal-files';

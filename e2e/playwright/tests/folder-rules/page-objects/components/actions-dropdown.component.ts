@@ -7,7 +7,7 @@
  */
 
 import { Locator, Page } from '@playwright/test';
-import { BaseComponent } from '../../../../shared/page-objects/components/base.component';
+import { BaseComponent } from '@alfresco/playwright-shared';
 
 export enum ActionType {
   Aspect = 'Add aspect',

@@ -40,14 +40,7 @@ const config = {
   hostBpm: process.env.APP_CONFIG_BPM_HOST,
   hostEcm: process.env.APP_CONFIG_ECM_HOST,
   provider: process.env.APP_CONFIG_PROVIDER,
-  contextRoot: 'alfresco',
-  oauth2: {
-    host: process.env.APP_CONFIG_OAUTH2_HOST,
-    clientId: process.env.APP_CONFIG_OAUTH2_CLIENTID,
-    scope: 'openid',
-    redirectUri: '/',
-    implicitFlow: false
-  }
+  contextRoot: 'alfresco'
 };
 
 export class ApiClientFactory {

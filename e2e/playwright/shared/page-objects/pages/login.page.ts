@@ -8,7 +8,7 @@
 
 import { Page } from '@playwright/test';
 import { BasePage } from './base.page';
-import { UserModel } from '../../models/user-model';
+import { UserModel } from '../../models';
 
 interface LoginOptions {
   waitForLoading?: boolean;

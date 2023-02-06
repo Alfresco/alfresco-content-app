@@ -8,7 +8,7 @@
 
 import { StringUtil } from '@alfresco/adf-testing';
 
-const LOWER_CASE_ALPHA = 'asdqweasdqweasdqwe';
+const LOWER_CASE_ALPHA = 'helloworld';
 export class UserModel {
   firstName?: string = StringUtil.generateRandomCharset(length, LOWER_CASE_ALPHA)(7);
   lastName?: string = StringUtil.generateRandomCharset(length, LOWER_CASE_ALPHA)(7);

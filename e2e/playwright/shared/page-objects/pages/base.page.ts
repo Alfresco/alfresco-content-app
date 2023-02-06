@@ -8,8 +8,7 @@
 
 import { Page } from '@playwright/test';
 import { PlaywrightBase } from '../playwright-base';
-import { SnackBarComponent } from '../components/snack-bar.component';
-import { SpinnerComponent } from '../components/spinner.component';
+import { SnackBarComponent, SpinnerComponent } from '../components';
 
 export interface NavigateOptions {
   query?: string;
@@ -36,7 +35,7 @@ export abstract class BasePage extends PlaywrightBase {
    *
    * @param options object with configurable options
    * @property {string} query if you would like to navigate to page which support query,
-   * then pass it in this option - e.g. '?appName=simpleapp'
+   * then pass it in this option - e.g. '?appName=content'
    * @property {boolean} waitForRequest if you would like to NOT wait for request (which need to be passed
    * in the constructor of the page), then pass false. By default it'll wait for request to be fulfilled.
    * @property {'networkidle' | 'commit' | 'load' | 'domcontentloaded'} waitUntil by default will wait until 'networkidle' but you can change it if needed

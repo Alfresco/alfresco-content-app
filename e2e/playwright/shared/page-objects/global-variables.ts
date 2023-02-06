@@ -26,10 +26,6 @@ export const users = {
     username: env.SALES_USER,
     password: env.SALES_USER_PASSWORD
   },
-  manageruser: {
-    username: env.APPLICATION_MANAGER_EMAIL,
-    password: env.APPLICATION_MANAGER_PASSWORD
-  },
   admin: {
     username: env.ADMIN_EMAIL,
     password: env.ADMIN_PASSWORD

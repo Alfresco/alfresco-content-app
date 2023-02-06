@@ -8,7 +8,7 @@
 
 import { PersonalFilesPage, NodesPage } from '../page-objects';
 import { test as base } from '@playwright/test';
-import { ApiClientFactory } from '../../../shared/api/api-client-factory';
+import { ApiClientFactory } from '@alfresco/playwright-shared';
 
 interface Pages {
   personalFiles: PersonalFilesPage;

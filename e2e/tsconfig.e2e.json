@@ -9,7 +9,7 @@
     "skipLibCheck": true,
     "paths": {
       "@alfresco/aca-testing-shared": ["../projects/aca-testing-shared"],
-      "@alfresco/playwright-shared": ["./playwright/shared"]
+      "@alfresco/playwright-shared": ["./playwright/shared/index.ts"]
     }
   },
   "exclude": ["node_modules"]

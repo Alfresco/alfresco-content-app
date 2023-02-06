@@ -7,7 +7,7 @@
  */
 
 import { chromium, FullConfig } from '@playwright/test';
-import { LoginPage } from '../page-objects/pages/login.page';
+import { LoginPage } from '../page-objects';
 
 const E2E_HOST = process.env.PLAYWRIGHT_E2E_HOST;
 const E2E_PORT = process.env.PLAYWRIGHT_E2E_PORT;

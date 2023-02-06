@@ -6,7 +6,7 @@
  * agreement is prohibited.
  */
 
-import { BaseComponent } from '../../../../shared/page-objects/components/base.component';
+import { BaseComponent } from '@alfresco/playwright-shared';
 import { Page } from '@playwright/test';
 
 export class ManageRulesDialogComponent extends BaseComponent {
