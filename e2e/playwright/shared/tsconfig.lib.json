@@ -11,7 +11,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "types": ["node"],
+    "types": ["@playwright/test", "node"],
     "lib": ["dom", "es2018"]
   },
   "angularCompilerOptions": {
