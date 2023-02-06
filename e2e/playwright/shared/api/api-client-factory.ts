@@ -22,7 +22,7 @@ import {
   UploadApi
 } from '@alfresco/js-api';
 
-import { users } from '../page-objects/global-variables';
+import { users } from '../page-objects';
 
 import { logger } from '@alfresco/adf-cli/scripts/logger';
 import { ActionTypes, Rule } from './rules-api';
