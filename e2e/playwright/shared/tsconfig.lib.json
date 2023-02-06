@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig.e2e.json",
+  "extends": "../../../tsconfig.json",
   "compilerOptions": {
     "outDir": "../../../out-tsc/playwright-testing",
     "target": "es2015",
