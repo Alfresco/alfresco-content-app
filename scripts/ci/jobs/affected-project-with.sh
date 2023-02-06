@@ -36,7 +36,7 @@ done
 
 if [ "$TEST_RUNNER" == "playwright" ]; then
   echo "Running playwright tests with options $OPTIONS"
-  npx playwright test $OPTIONS
+  npx playwright test --config $OPTIONS
 else
    echo "Running protractor tests with options $OPTIONS"
    echo "./node_modules/.bin/protractor \"./protractor.conf.js\" $OPTIONS || exit 1"
