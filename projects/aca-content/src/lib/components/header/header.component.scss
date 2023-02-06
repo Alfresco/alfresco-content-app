@@ -1,0 +1,17 @@
+.app-header {
+  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.02), 0px 6px 10px 0px rgba(0, 0, 0, 0.014), 0px 1px 18px 0px rgba(0, 0, 0, 0.012);
+  z-index: 2;
+
+  .mat-toolbar {
+    background-image: var(--header-background-image) !important;
+    background-repeat: no-repeat !important;
+
+    .aca-current-user {
+      color: var(--theme-foreground-text-color) !important;
+    }
+
+    .adf-toolbar-divider div {
+      background-color: var(--theme-foreground-text-color) !important;
+    }
+  }
+}

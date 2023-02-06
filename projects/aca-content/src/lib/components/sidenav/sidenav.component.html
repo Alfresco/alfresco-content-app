@@ -33,7 +33,7 @@
         <ng-container *ngSwitchCase="'collapsed'">
           <div class="list-item" *ngFor="let item of group.items; trackBy: trackByLinkId">
             <ng-container *ngIf="!item.component">
-              <app-button-menu [item]="item"></app-button-menu>
+              <app-expand-menu [item]="item"></app-expand-menu>
             </ng-container>
 
             <ng-container *ngIf="item.component">

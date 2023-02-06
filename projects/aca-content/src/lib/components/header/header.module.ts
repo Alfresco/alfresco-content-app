@@ -26,28 +26,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
-import { AppLayoutComponent } from './app-layout/app-layout.component';
-import { ContentModule } from '@alfresco/adf-content-services';
-import { RouterModule } from '@angular/router';
-import { AppSidenavModule } from '../sidenav/sidenav.module';
-import { AppCommonModule } from '../common/common.module';
-import { AppHeaderModule } from '../header/header.module';
-import { HttpClientModule } from '@angular/common/http';
-import { PageLayoutModule } from '@alfresco/aca-shared';
+import { AppHeaderComponent } from './header.component';
+import { AppSearchInputModule } from '../search/search-input.module';
+import { AppToolbarModule } from '../toolbar/toolbar.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    CoreModule.forChild(),
-    ContentModule.forChild(),
-    AppCommonModule,
-    AppSidenavModule,
-    AppHeaderModule,
-    HttpClientModule,
-    PageLayoutModule
-  ],
-  declarations: [AppLayoutComponent],
-  exports: [AppLayoutComponent, PageLayoutModule]
+  imports: [CommonModule, CoreModule.forChild(), AppSearchInputModule, AppToolbarModule],
+  declarations: [AppHeaderComponent],
+  exports: [AppHeaderComponent]
 })
-export class AppLayoutModule {}
+export class AppHeaderModule {}
