@@ -5,8 +5,8 @@
     "baseUrl": "./",
     "module": "commonjs",
     "target": "es2017",
-    "types": ["jasmine", "jasminewd2", "node", "@playwright/test"],
     "skipLibCheck": true,
+    "types": ["jasmine", "jasminewd2", "node", "@playwright/test"],
     "paths": {
       "@alfresco/aca-testing-shared": ["../projects/aca-testing-shared"],
       "@alfresco/playwright-shared": ["./playwright/shared/index.ts"]
