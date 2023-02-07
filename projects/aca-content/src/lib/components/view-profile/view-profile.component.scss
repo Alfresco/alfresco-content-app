@@ -2,23 +2,30 @@ app-view-profile {
   letter-spacing: .5px;
 
   .app-profile-container {
-    margin-top: 1rem;
     overflow: scroll;
-    height:100%;
+    height: 100%;
     width: 100%;
   }
 
   .app-profile-row {
     width: 100%;
+    height: 32px;
+    padding: 32px 0;
+    border-bottom: 1px solid var(--theme-header-border-color);
   }
 
   .app-profile-title {
     display: flex;
-    margin-left: 2rem;
+    flex-direction: row;
+    align-items: center;
+    height: 32px;
+    padding: 0 24px;
   }
 
   .app-profile {
     cursor: pointer;
+    margin-top: 1rem;
+
   }
 
   .app-profile-general-row {
@@ -30,7 +37,6 @@ app-view-profile {
 
   .app-profile-icon {
     margin-right: 1rem;
-    margin-top: 1rem;
     cursor: pointer;
   }
 
@@ -48,7 +54,7 @@ app-view-profile {
   }
 
   .app-profile-general-bottom-radius {
-    border-bottom-left-radius:0;
+    border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
   }
 
@@ -66,7 +72,7 @@ app-view-profile {
   }
 
   .app-general-edit-btn {
-    width:60%;
+    width: 60%;
     text-align: end;
   }
 
@@ -80,13 +86,12 @@ app-view-profile {
   .app-selected:focus {
     border: 2px solid var(--theme-blue-button-color) !important;
     border-radius: 6px;
-    outline : none !important;
+    outline: none !important;
     box-shadow: 0 0 2px (--theme-blue-button-color);
   }
 
   .app-profile-row {
     width: 100%;
-    margin: 2rem 0 0 0;
   }
 
   .app-general-edit {
@@ -166,7 +171,7 @@ app-view-profile {
     height: 25px;
     border: none;
     margin-top: 1.3rem;
-    background-color: var(--theme-dropdown-color) ;
+    background-color: var(--theme-dropdown-color);
   }
 
   .app-profile-login-dropdown-heading-forgot {

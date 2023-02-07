@@ -1,0 +1,32 @@
+app-navigation-menu {
+    .app-menu-button {
+        height: 32px;
+        background: none;
+        line-height: 24px;
+    }
+}
+
+.mat-menu-panel {
+    .app-menu-user-details {
+        display: flex;
+        height: 66px;
+
+        &-button {
+            height: 32px;
+            padding: 0;
+            line-height: 24px;
+            background: none;
+            border: none;
+            margin-top: 14px;
+            transform: scale(1.2);
+        }
+
+        &-name-mail {
+            line-height: 40px;
+        }
+
+        &-name {
+            height: 24px;
+        }
+    }
+}
