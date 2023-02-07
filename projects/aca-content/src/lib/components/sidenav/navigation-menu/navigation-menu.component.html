@@ -1,0 +1,35 @@
+<button mat-icon-button [matMenuTriggerFor]="menu" aria-label="matMenu" class="app-menu-button">
+    <mat-icon svgIcon="menu" title="{{'APP.TOOLTIPS.OPTIONS_SETTINGS' | translate}}"></mat-icon>
+</button>
+<mat-menu #menu="matMenu" xPosition="before">
+    <div mat-menu-item class="app-menu-user-details" [routerLink]="['/profile']" title="{{'APP.TOOLTIPS.MY_PROFILE' | translate}}">
+        <button class="app-menu-user-details-button" aria-label="matMenu">
+            <mat-icon svgIcon="avatar"></mat-icon>
+        </button>
+        <div class="app-menu-user-details-name-mail">
+            <div class="app-menu-user-details-name">{{ userName }}</div>
+            <div class="app-menu-user-details-name">{{ userEmail }}</div>
+        </div>
+    </div>
+    <mat-divider></mat-divider>
+    <button mat-menu-item data-automation-id="language-menu-button" [matMenuTriggerFor]="langMenu">
+        <mat-icon>language</mat-icon>
+        <span>{{ 'APP.LANGUAGE' | translate }}</span>
+    </button>
+    <mat-menu #langMenu="matMenu" class="adf-menu">
+        <adf-language-menu></adf-language-menu>
+    </mat-menu>
+    <button mat-menu-item data-automation-id="about" [routerLink]="['/about']">
+        <mat-icon>info</mat-icon>
+        {{ 'APP.BROWSE.ABOUT.TITLE' | translate }}
+    </button>
+    <button mat-menu-item data-automation-id="user-language-menu" [routerLink]="['/settings']">
+        <mat-icon svgIcon="settings"></mat-icon>
+        <span>{{ 'APP.SETTINGS.TITLE' | translate }}</span>
+    </button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item data-automation-id="sign-out" adf-logout>
+        <mat-icon>exit_to_app</mat-icon>
+        {{ 'APP.SIGN_OUT' | translate }}
+    </button>
+</mat-menu>
