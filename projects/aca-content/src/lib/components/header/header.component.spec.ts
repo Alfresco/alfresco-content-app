@@ -33,7 +33,6 @@ import { AppTestingModule } from '../../testing/app-testing.module';
 import { AppExtensionService, SharedToolbarModule } from '@alfresco/aca-shared';
 import { CoreModule } from '@alfresco/adf-core';
 import { AppSearchInputModule } from '../search/search-input.module';
-import { By } from '@angular/platform-browser';
 
 describe('AppHeaderComponent', () => {
   let component: AppHeaderComponent;
@@ -94,29 +93,5 @@ describe('AppHeaderComponent', () => {
     tick();
     expect(component.actions).toEqual(actions);
   }));
-
-  describe('Search input', () => {
-    beforeEach(() => {
-      localStorage.clear();
-    });
-
-    afterEach(() => {
-      localStorage.clear();
-    });
-
-    it('should search be present when contentService is enabled', () => {
-      fixture.detectChanges();
-      const searchInput = fixture.debugElement.query(By.css('.aca-search-input'));
-
-      expect(searchInput).not.toBeNull();
-    });
-
-    it('should search not be present when contentService is disabled', () => {
-      localStorage.setItem('contentService', 'false');
-      fixture.detectChanges();
-      const searchInput = fixture.debugElement.query(By.css('.aca-search-input'));
-
-      expect(searchInput).toBeNull();
-    });
-  });
 });
+

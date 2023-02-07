@@ -121,6 +121,7 @@ import { AppSharedLinkViewModule } from './components/shared-link-view/shared-li
 import { AcaFolderRulesModule } from '@alfresco/aca-folder-rules';
 import { TagsColumnComponent } from './components/dl-custom-components/tags-column/tags-column.component';
 import { UserInfoComponent } from './components/common/user-info/user-info.component';
+import { CustomIconsModule } from './extensions/custom-icons.module';
 
 registerLocaleData(localeFr);
 registerLocaleData(localeDe);
@@ -169,7 +170,8 @@ registerLocaleData(localeSv);
     ViewProfileModule,
     AppTrashcanModule,
     AppSharedLinkViewModule,
-    AcaFolderRulesModule
+    AcaFolderRulesModule,
+    CustomIconsModule
   ],
   declarations: [
     FilesComponent,
