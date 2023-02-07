@@ -1,10 +1,21 @@
 <div class="sidenav">
   <ng-container [ngSwitch]="mode">
-    <div class="section action-menu" [ngClass]="'section--' + mode">
-      <app-main-action [expanded]="mode === 'expanded'"></app-main-action>
-      <app-create-menu [expanded]="mode === 'expanded'"></app-create-menu>
+    <div class="sidenav-header">
+      <div class="sidenav-header-title">
+        <div class="sidenav-header-title-logo">
+          <mat-icon svgIcon="workspace"
+            title="{{'APP.TOOLTIPS.COLLAPSE_NAVIGATION' | translate}}"></mat-icon>
+        </div>
+        <div class="sidenav-header-title-text" [routerLink]="['/']">{{ 'APP.TITLE' | translate }}
+        </div>
+        <div class="sidenav-header-notification">
+          <adf-notification-history></adf-notification-history>
+        </div>
+        <div class="sidenav-header-menu-icon">
+          <app-navigation-menu></app-navigation-menu>
+        </div>
+      </div>
     </div>
-
     <div class="section-sub-actions">
       <div *ngFor="let group of groups; trackBy: trackByGroupId" class="section" [ngClass]="'section--' + mode">
         <ng-container *ngSwitchCase="'expanded'">
@@ -12,9 +23,9 @@
             <ng-container *ngIf="!item.component">
               <app-expand-menu [item]="item"></app-expand-menu>
             </ng-container>
-
             <ng-container *ngIf="item.component">
-              <adf-dynamic-component [data]="{ item: item, state: 'expanded' }" [id]="item.component"></adf-dynamic-component>
+              <adf-dynamic-component [data]="{ item: item, state: 'expanded' }"
+                [id]="item.component"></adf-dynamic-component>
             </ng-container>
           </mat-list-item>
         </ng-container>
@@ -22,11 +33,12 @@
         <ng-container *ngSwitchCase="'collapsed'">
           <div class="list-item" *ngFor="let item of group.items; trackBy: trackByLinkId">
             <ng-container *ngIf="!item.component">
-              <app-button-menu [item]="item"></app-button-menu>
+              <app-expand-menu [item]="item"></app-expand-menu>
             </ng-container>
 
             <ng-container *ngIf="item.component">
-              <adf-dynamic-component [data]="{ item: item, state: 'collapsed' }" [id]="item.component"> </adf-dynamic-component>
+              <adf-dynamic-component [data]="{ item: item, state: 'collapsed' }" [id]="item.component">
+              </adf-dynamic-component>
             </ng-container>
           </div>
         </ng-container>
