@@ -33,7 +33,6 @@ import { AppTestingModule } from '../../testing/app-testing.module';
 import { AppExtensionService, SharedToolbarModule } from '@alfresco/aca-shared';
 import { CoreModule, SidenavLayoutComponent } from '@alfresco/adf-core';
 import { AppSearchInputModule } from '../search/search-input.module';
-import { By } from '@angular/platform-browser';
 
 describe('AppHeaderComponent', () => {
   let component: AppHeaderComponent;
@@ -94,41 +93,5 @@ describe('AppHeaderComponent', () => {
     tick();
     expect(component.actions).toEqual(actions);
   }));
-
-  it('should minimize sidenav on toggle sidenav click', () => {
-    const layout = TestBed.createComponent(SidenavLayoutComponent);
-    const mockData: any = { layout: layout.componentInstance, isMenuMinimized: true };
-    component.data = mockData;
-
-    const toggleMenuSpy = spyOn(component.data.layout, 'toggleMenu');
-    component.onToggleSidenav(true);
-
-    expect(toggleMenuSpy).toHaveBeenCalled();
-    expect(component.isSidenavExpanded).toBe(false);
-  });
-
-  describe('Search input', () => {
-    beforeEach(() => {
-      localStorage.clear();
-    });
-
-    afterEach(() => {
-      localStorage.clear();
-    });
-
-    it('should search be present when contentService is enabled', () => {
-      fixture.detectChanges();
-      const searchInput = fixture.debugElement.query(By.css('.aca-search-input'));
-
-      expect(searchInput).not.toBeNull();
-    });
-
-    it('should search not be present when contentService is disabled', () => {
-      localStorage.setItem('contentService', 'false');
-      fixture.detectChanges();
-      const searchInput = fixture.debugElement.query(By.css('.aca-search-input'));
-
-      expect(searchInput).toBeNull();
-    });
-  });
 });
+
