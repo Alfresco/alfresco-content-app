@@ -10,7 +10,6 @@
       mat-button
       class="action-button full-width"
     >
-      <adf-icon *ngIf="item.icon" [value]="item.icon"></adf-icon>
       <span class="action-button__label">{{ item.title | translate }}</span>
     </button>
   </div>
@@ -18,28 +17,23 @@
 
 <ng-container *ngIf="item.children && item.children.length">
   <mat-expansion-panel
-    [expanded]="acaExpansionPanel.hasActiveLinks()"
+  [expanded]="acaExpansionPanel.isItemExpanded()"
     [acaExpansionPanel]="item"
     #acaExpansionPanel="acaExpansionPanel"
     [@.disabled]="true"
   >
-    <mat-expansion-panel-header expandedHeight="48px" collapsedHeight="48px" role="group">
+    <mat-expansion-panel-header expandedHeight="32x" collapsedHeight="32px" role="group">
       <mat-panel-title>
         <div class="item">
-          <button
-            [ngClass]="{
-              'action-button--active': acaExpansionPanel.hasActiveLinks()
-            }"
+          <div
             [attr.aria-label]="item.title | translate"
             [id]="item.id"
             [attr.title]="item.description | translate"
             [attr.data-automation-id]="item.id"
-            mat-button
-            class="action-button full-width"
+            class="action-panel-header"
           >
-            <adf-icon *ngIf="item.icon" [value]="item.icon"></adf-icon>
-            <span class="action-button__label">{{ item.title | translate }}</span>
-          </button>
+            <span class="action-panel-header__label">{{ item.title | translate }}</span>
+          </div>
         </div>
       </mat-panel-title>
     </mat-expansion-panel-header>

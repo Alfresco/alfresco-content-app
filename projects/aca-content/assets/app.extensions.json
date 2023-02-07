@@ -242,32 +242,24 @@
         "id": "app.navbar.primary",
         "items": [
           {
-            "id": "app.navbar.personalFiles",
+            "id": "app.navbar.menu",
             "order": 100,
             "icon": "folder",
-            "title": "APP.BROWSE.PERSONAL.SIDENAV_LINK.LABEL",
-            "description": "APP.BROWSE.PERSONAL.SIDENAV_LINK.TOOLTIP",
-            "route": "personal-files",
-            "rules": {
-              "visible": "app.isContentServiceEnabled"
-            }
-          },
-          {
-            "id": "app.navbar.libraries.menu",
-            "order": 200,
-            "icon": "library_books",
-            "title": "APP.BROWSE.LIBRARIES.SIDENAV_LINK.LABEL",
-            "description": "APP.BROWSE.LIBRARIES.SIDENAV_LINK.TOOLTIP",
+            "title": "APP.BROWSE.FILE.SIDENAV_LINK.LABEL",
+            "description": "APP.BROWSE.FILE.SIDENAV_LINK.TOOLTIP",
             "rules": {
               "visible": "app.isContentServiceEnabled"
             },
             "children": [
               {
-                "id": "app.navbar.libraries.favorite",
+                "id": "app.navbar.personalFiles",
                 "order": 100,
-                "title": "APP.BROWSE.LIBRARIES.MENU.FAVORITE_LIBRARIES.SIDENAV_LINK.LABEL",
-                "description": "APP.BROWSE.LIBRARIES.MENU.FAVORITE_LIBRARIES.SIDENAV_LINK.TOOLTIP",
-                "route": "favorite/libraries"
+                "title": "APP.BROWSE.PERSONAL.SIDENAV_LINK.LABEL",
+                "description": "APP.BROWSE.PERSONAL.SIDENAV_LINK.TOOLTIP",
+                "route": "personal-files",
+                "rules": {
+                  "visible": "app.isContentServiceEnabled"
+                }
               },
               {
                 "id": "app.navbar.libraries.files",
@@ -275,51 +267,43 @@
                 "title": "APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.SIDENAV_LINK.LABEL",
                 "description": "APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.SIDENAV_LINK.TOOLTIP",
                 "route": "libraries"
+              },
+              {
+                "id": "app.navbar.libraries.favorite",
+                "order": 300,
+                "title": "APP.BROWSE.LIBRARIES.MENU.FAVORITE_LIBRARIES.SIDENAV_LINK.LABEL",
+                "description": "APP.BROWSE.LIBRARIES.MENU.FAVORITE_LIBRARIES.SIDENAV_LINK.TOOLTIP",
+                "route": "favorite/libraries"
+              },
+              {
+                "id": "app.navbar.recentFiles",
+                "order": 400,
+                "title": "APP.BROWSE.RECENT.SIDENAV_LINK.LABEL",
+                "description": "APP.BROWSE.RECENT.SIDENAV_LINK.TOOLTIP",
+                "route": "recent-files"
+              },
+              {
+                "id": "app.navbar.favorites",
+                "order": 500,
+                "title": "APP.BROWSE.FAVORITES.SIDENAV_LINK.LABEL",
+                "description": "APP.BROWSE.FAVORITES.SIDENAV_LINK.TOOLTIP",
+                "route": "favorites"
+              },
+              {
+                "id": "app.navbar.shared",
+                "order": 600,
+                "title": "APP.BROWSE.SHARED.SIDENAV_LINK.LABEL",
+                "description": "APP.BROWSE.SHARED.SIDENAV_LINK.TOOLTIP",
+                "route": "shared"
+              },
+              {
+                "id": "app.navbar.trashcan",
+                "order": 700,
+                "title": "APP.BROWSE.TRASHCAN.SIDENAV_LINK.LABEL",
+                "description": "APP.BROWSE.TRASHCAN.SIDENAV_LINK.TOOLTIP",
+                "route": "trashcan"
               }
             ]
-          }
-        ]
-      },
-      {
-        "id": "app.navbar.secondary",
-        "rules": {
-          "visible": "app.isContentServiceEnabled"
-        },
-        "items": [
-          {
-            "id": "app.navbar.shared",
-            "order": 100,
-            "icon": "people",
-            "title": "APP.BROWSE.SHARED.SIDENAV_LINK.LABEL",
-            "description": "APP.BROWSE.SHARED.SIDENAV_LINK.TOOLTIP",
-            "route": "shared",
-            "rules": {
-              "visible": "repository.isQuickShareEnabled"
-            }
-          },
-          {
-            "id": "app.navbar.recentFiles",
-            "order": 200,
-            "icon": "schedule",
-            "title": "APP.BROWSE.RECENT.SIDENAV_LINK.LABEL",
-            "description": "APP.BROWSE.RECENT.SIDENAV_LINK.TOOLTIP",
-            "route": "recent-files"
-          },
-          {
-            "id": "app.navbar.favorites",
-            "order": 300,
-            "icon": "star",
-            "title": "APP.BROWSE.FAVORITES.SIDENAV_LINK.LABEL",
-            "description": "APP.BROWSE.FAVORITES.SIDENAV_LINK.TOOLTIP",
-            "route": "favorites"
-          },
-          {
-            "id": "app.navbar.trashcan",
-            "order": 400,
-            "icon": "delete",
-            "title": "APP.BROWSE.TRASHCAN.SIDENAV_LINK.LABEL",
-            "description": "APP.BROWSE.TRASHCAN.SIDENAV_LINK.TOOLTIP",
-            "route": "trashcan"
           }
         ]
       }
