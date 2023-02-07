@@ -20,5 +20,6 @@
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true,
     "enableResourceInlining": true
-  }
+  },
+  "exclude": ["node_modules", "src/test.ts"]
 }
