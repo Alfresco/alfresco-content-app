@@ -6,7 +6,7 @@
     "module": "commonjs",
     "target": "es2017",
     "typeRoots" : ["./node_modules","./node_modules/@types"],
-    "types": ["jasmine", "jasminewd2", "node", "@types/jest", "@playwright/test"],
+    "types": ["jasmine", "jasminewd2", "node", "@playwright/test"],
     "skipLibCheck": true,
     "paths": {
       "@alfresco/aca-testing-shared": ["../projects/aca-testing-shared"],
