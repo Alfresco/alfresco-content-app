@@ -23,17 +23,23 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, ViewEncapsulation, HostListener, ViewChild, ViewChildren, QueryList } from '@angular/core';
+import { Component, Input, ViewEncapsulation, HostListener, ViewChild } from '@angular/core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
 import { ThemePalette } from '@angular/material/core';
-import { ToolbarMenuItemComponent } from '../toolbar-menu-item/toolbar-menu-item.component';
 
 @Component({
   selector: 'app-toolbar-menu',
   templateUrl: './toolbar-menu.component.html',
   encapsulation: ViewEncapsulation.None,
-  host: { class: 'app-toolbar-menu' }
+  host: { class: 'app-toolbar-menu' },
+  styles: [
+    `
+      .aca-mat-menu-item-container {
+        padding: 0;
+      }
+    `
+  ]
 })
 export class ToolbarMenuComponent {
   @Input()
@@ -48,9 +54,6 @@ export class ToolbarMenuComponent {
   @ViewChild(MatMenu)
   menu: MatMenu;
 
-  @ViewChildren(ToolbarMenuItemComponent)
-  toolbarMenuItems: QueryList<ToolbarMenuItemComponent>;
-
   @HostListener('document:keydown.Escape')
   handleKeydownEscape() {
     this.matTrigger.closeMenu();
@@ -61,19 +64,8 @@ export class ToolbarMenuComponent {
   }
 
   onCustomItemContainerClick(event) {
-    console.log(event);
-    const el: HTMLElement = event.target;
-    const x = window.scrollX + el.getBoundingClientRect().left + 5;
-    const y = window.scrollY + el.getBoundingClientRect().top + 5;
-
-    const opts = {
-      bubbles: false,
-      screenX: x,
-      screenY: y
-    };
-
-    const ev = new MouseEvent('click', opts);
-    document.elementFromPoint(x, y).dispatchEvent(ev);
+    const ev = new MouseEvent('click');
+    event.target.querySelector('.mat-menu-item').dispatchEvent(ev);
     event.stopPropagation();
   }
 }
