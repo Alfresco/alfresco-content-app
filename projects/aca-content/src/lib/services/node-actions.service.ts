@@ -26,14 +26,15 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable, Subject, of, zip, from } from 'rxjs';
-import { AlfrescoApiService, ContentService, DataColumn, TranslationService, ThumbnailService } from '@alfresco/adf-core';
+import { AlfrescoApiService, DataColumn, TranslationService, ThumbnailService } from '@alfresco/adf-core';
 import {
   DocumentListService,
   ContentNodeSelectorComponent,
   ContentNodeSelectorComponentData,
   ContentNodeDialogService,
   ShareDataRow,
-  NodeAction
+  NodeAction,
+  ContentService
 } from '@alfresco/adf-content-services';
 import {
   MinimalNodeEntity,

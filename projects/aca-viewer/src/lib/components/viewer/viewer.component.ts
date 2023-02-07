@@ -40,11 +40,12 @@ import { ContentActionRef, SelectionState } from '@alfresco/adf-extensions';
 import { MinimalNodeEntryEntity, SearchRequest, VersionEntry, VersionsApi } from '@alfresco/js-api';
 import { Component, HostListener, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, PRIMARY_OUTLET, Router } from '@angular/router';
-import { AlfrescoApiService, ObjectUtils, UploadService, UserPreferencesService, NodesApiService } from '@alfresco/adf-core';
+import { AlfrescoApiService, ObjectUtils, UserPreferencesService } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
 import { from, Observable, Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { Actions, ofType } from '@ngrx/effects';
+import { NodesApiService, UploadService } from '@alfresco/adf-content-services';
 
 @Component({
   selector: 'aca-viewer',

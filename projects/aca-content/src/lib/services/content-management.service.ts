@@ -54,9 +54,10 @@ import {
   NewVersionUploaderService,
   NewVersionUploaderDialogData,
   NewVersionUploaderData,
-  NewVersionUploaderDataAction
+  NewVersionUploaderDataAction,
+  NodesApiService
 } from '@alfresco/adf-content-services';
-import { TranslationService, NodesApiService, NotificationService } from '@alfresco/adf-core';
+import { TranslationService, NotificationService } from '@alfresco/adf-core';
 import {
   DeletedNodesPaging,
   MinimalNodeEntity,

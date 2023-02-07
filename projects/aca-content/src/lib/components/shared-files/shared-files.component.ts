@@ -28,7 +28,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { ContentManagementService } from '../../services/content-management.service';
 import { Store } from '@ngrx/store';
 import { debounceTime } from 'rxjs/operators';
-import { UploadService } from '@alfresco/adf-core';
+import { UploadService } from '@alfresco/adf-content-services';
 import { Router } from '@angular/router';
 import { MinimalNodeEntity } from '@alfresco/js-api';
 import { AppExtensionService, AppHookService, PageComponent } from '@alfresco/aca-shared';

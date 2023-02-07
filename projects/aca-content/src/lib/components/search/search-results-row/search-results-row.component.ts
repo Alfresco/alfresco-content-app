@@ -28,7 +28,7 @@ import { MinimalNodeEntity } from '@alfresco/js-api';
 import { ViewNodeAction, NavigateToFolder } from '@alfresco/aca-shared/store';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { NodesApiService } from '@alfresco/adf-core';
+import { NodesApiService } from '@alfresco/adf-content-services';
 import { takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
 

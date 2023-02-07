@@ -41,7 +41,8 @@ import {
   LibraryNameColumnComponent,
   LibraryRoleColumnComponent,
   LibraryStatusColumnComponent,
-  TrashcanNameColumnComponent
+  TrashcanNameColumnComponent,
+  ContentUserInfoComponent
 } from '@alfresco/adf-content-services';
 import { DocumentBasePageService, ExtensionsDataLoaderGuard, RouterExtensionService, SharedModule } from '@alfresco/aca-shared';
 import * as rules from '@alfresco/aca-shared/rules';
@@ -233,7 +234,7 @@ export class ContentServiceExtensionModule {
       'app.toolbar.viewNode': ViewNodeComponent,
       'app.languagePicker': LanguagePickerComponent,
       'app.logout': LogoutComponent,
-      'app.user': UserInfoComponent,
+      'app.user': ContentUserInfoComponent,
       'app.notification-center': NotificationHistoryComponent
     });
 

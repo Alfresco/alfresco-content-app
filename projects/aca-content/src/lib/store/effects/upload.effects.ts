@@ -33,7 +33,7 @@ import {
   UploadFolderAction,
   getCurrentFolder
 } from '@alfresco/aca-shared/store';
-import { FileModel, FileUtils, UploadService } from '@alfresco/adf-core';
+import { FileUtils } from '@alfresco/adf-core';
 import { Injectable, NgZone, RendererFactory2 } from '@angular/core';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
@@ -41,6 +41,7 @@ import { of } from 'rxjs';
 import { catchError, map, take } from 'rxjs/operators';
 import { ContentManagementService } from '../../services/content-management.service';
 import { MinimalNodeEntryEntity } from '@alfresco/js-api';
+import { UploadService, FileModel } from '@alfresco/adf-content-services';
 
 @Injectable()
 export class UploadEffects {

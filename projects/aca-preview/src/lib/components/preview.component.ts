@@ -27,7 +27,7 @@ import { Component, OnInit, OnDestroy, ViewEncapsulation, HostListener } from '@
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router, UrlTree, UrlSegmentGroup, UrlSegment, PRIMARY_OUTLET } from '@angular/router';
 import { debounceTime, map, takeUntil } from 'rxjs/operators';
-import { UserPreferencesService, ObjectUtils, UploadService, NodesApiService } from '@alfresco/adf-core';
+import { UserPreferencesService, ObjectUtils } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
 import { AppStore, ClosePreviewAction, ViewerActionTypes, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { PageComponent, AppExtensionService, AppHookService, ContentApiService, DocumentBasePageService } from '@alfresco/aca-shared';
@@ -35,6 +35,7 @@ import { ContentActionRef, ViewerExtensionRef } from '@alfresco/adf-extensions';
 import { SearchRequest } from '@alfresco/js-api';
 import { from } from 'rxjs';
 import { Actions, ofType } from '@ngrx/effects';
+import { NodesApiService, UploadService } from '@alfresco/adf-content-services';
 
 @Component({
   selector: 'app-preview',
