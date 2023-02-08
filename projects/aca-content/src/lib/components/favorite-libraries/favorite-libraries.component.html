@@ -1,7 +1,7 @@
 <aca-page-layout>
   <aca-page-layout-header>
     <adf-breadcrumb root="APP.BROWSE.LIBRARIES.MENU.FAVORITE_LIBRARIES.TITLE"> </adf-breadcrumb>
-
+    <aca-header-actions></aca-header-actions>
     <adf-toolbar class="adf-toolbar--inline">
       <ng-container *ngFor="let entry of actions; trackBy: trackByActionId">
         <aca-toolbar-action [actionRef]="entry"></aca-toolbar-action>
