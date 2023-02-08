@@ -1,13 +1,14 @@
-<div
+<div *ngIf="searchInputService.isSearchRoute()"
   class="app-search-container searchMenuTrigger"
   [matMenuTriggerFor]="searchOptionsMenu"
   (menuOpened)="onMenuOpened()"
   (menuClosed)="syncInputValues()"
 >
+
   <button mat-icon-button class="app-search-button" (click)="searchByOption()" [title]="'SEARCH.BUTTON.TOOLTIP' | translate">
     <mat-icon [attr.aria-label]="'SEARCH.BUTTON.ARIA-LABEL' | translate">search</mat-icon>
   </button>
-  <mat-form-field class="app-input-form-field" [floatLabel]="'never'">
+   <mat-form-field class="app-input-form-field" [floatLabel]="'never'">
     <input
       matInput
       [attr.aria-label]="'SEARCH.INPUT.ARIA-LABEL' | translate"
@@ -20,7 +21,18 @@
     <div matSuffix class="app-suffix-search-icon-wrapper">
       <mat-icon>arrow_drop_down</mat-icon>
     </div>
-  </mat-form-field>
+
+    <button mat-icon-button matSuffix class="app-suffix-search-icon-wrapper app-close-icon" (click)="exitSearch()" (keypressk)="exitSearch()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field> 
+</div>
+
+<div *ngIf="!searchInputService.isSearchRoute()"
+  class="app-search-container">
+  <button mat-icon-button class="app-search-button" (click)="navigateToSearch()" [title]="'SEARCH.BUTTON.TOOLTIP' | translate">
+    <mat-icon [attr.aria-label]="'SEARCH.BUTTON.ARIA-LABEL' | translate">search</mat-icon>
+  </button>
 </div>
 
 <mat-menu #searchOptionsMenu="matMenu" [overlapTrigger]="true" class="app-search-options-menu">

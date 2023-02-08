@@ -121,6 +121,7 @@ import { AppSharedLinkViewModule } from './components/shared-link-view/shared-li
 import { AcaFolderRulesModule } from '@alfresco/aca-folder-rules';
 import { TagsColumnComponent } from './components/dl-custom-components/tags-column/tags-column.component';
 import { UserInfoComponent } from './components/common/user-info/user-info.component';
+import { AppHeaderActionsModule } from './components/header-actions/header-actions.module';
 import { ContentManagementService } from './services/content-management.service';
 
 registerLocaleData(localeFr);
@@ -163,6 +164,7 @@ registerLocaleData(localeSv);
     AppCreateMenuModule,
     DocumentListCustomComponentsModule,
     AppSearchInputModule,
+    AppHeaderActionsModule,
     AppSearchResultsModule,
     AppHeaderModule,
     AppNodeVersionModule,

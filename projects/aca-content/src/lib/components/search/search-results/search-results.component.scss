@@ -3,6 +3,13 @@
 $adf-chip-background: #efefef;
 $contrast-gray: #646569;
 
+.adf-toolbar-search-results {
+  position: fixed;
+  right: 24px;
+  height: 32px;
+  margin-bottom: 32px !important;
+}
+
 .adf-search-results {
   @include flex-row;
 
