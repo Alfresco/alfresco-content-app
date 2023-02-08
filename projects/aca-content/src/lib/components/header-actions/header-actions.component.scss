@@ -1,0 +1,80 @@
+.aca-page-layout-header {
+    // display: flex;
+    // align-items: center;
+    // flex: 0 0 65px;
+    // flex-basis: 96px;
+    // background: var(--theme-page-layout-header-background-color);
+    // border-bottom: 1px solid var(--theme-border-color, rgba(0, 0, 0, 0.07));
+    // padding: 0 24px;
+
+      .adf-breadcrumb-item {
+        font-size: 20px !important;
+        font-weight: 400 !important;
+        letter-spacing: 0.15px !important;
+      }
+
+      .app-search-input {
+        background: none;
+      }
+    
+      .action-bar {
+        display: flex;
+        flex: auto;
+        height: 32px;
+        margin-left: 24px;
+
+        adf-toolbar-divider {
+          width: 24px !important;
+          height: 32px !important;
+          margin: 4px 0 0 12px !important;
+        }
+      }
+    
+      .aca-mat-button {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        letter-spacing: 0.25px;
+        font-weight: 500;
+        font-size: 14px;
+        font-style: normal;
+        border-radius: 6px;
+        border: none;
+      }   
+    
+      .aca-create-button {
+        width: 71px !important;
+        min-width: 71px;
+        height: 32px;
+        background-color: var(--theme-create-button-background-color);
+        color: var(--theme-create-button-text-color);
+        text-overflow: ellipsis;
+        display: flex;
+        padding: 0;
+      }
+    
+      .aca-upload-button {
+        width: 73px !important;
+        min-width: 73px;
+        height: 32px;
+        background-color: var(--theme-upload-button-background-color);
+        color: var(--theme-upload-button-text-color);
+        text-overflow: ellipsis;
+        display: flex;
+        padding: 0;
+        margin-left: 12px;
+      }
+    
+    //   .aca-process-button {
+    //     width: 130px !important;
+    //     min-width: 130px;
+    //     height: 32px;
+    //     background-color: var(--theme-upload-button-background-color);
+    //     color: var(--theme-upload-button-text-color);
+    //     text-overflow: ellipsis;
+    //     display: flex;
+    //     padding: 0;
+    //     margin-left: 12px;
+    //   }
+  }

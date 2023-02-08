@@ -122,6 +122,7 @@ import { AcaFolderRulesModule } from '@alfresco/aca-folder-rules';
 import { TagsColumnComponent } from './components/dl-custom-components/tags-column/tags-column.component';
 import { UserInfoComponent } from './components/common/user-info/user-info.component';
 import { CustomIconsModule } from './extensions/custom-icons.module';
+import { AppHeaderActionsModule } from './components/header-actions/header-actions.module';
 
 registerLocaleData(localeFr);
 registerLocaleData(localeDe);
@@ -163,6 +164,7 @@ registerLocaleData(localeSv);
     AppCreateMenuModule,
     DocumentListCustomComponentsModule,
     AppSearchInputModule,
+    AppHeaderActionsModule,
     AppSearchResultsModule,
     AppHeaderModule,
     AppNodeVersionModule,

@@ -79,6 +79,7 @@ export class AppExtensionService implements RuleContext {
   private _contextMenuActions = new BehaviorSubject<Array<ContentActionRef>>([]);
   private _openWithActions = new BehaviorSubject<Array<ContentActionRef>>([]);
   private _createActions = new BehaviorSubject<Array<ContentActionRef>>([]);
+  private _uploadActions = new BehaviorSubject<Array<ContentActionRef>>([]);
   private _mainActions = new BehaviorSubject<ContentActionRef>(null);
   private _sidebarActions = new BehaviorSubject<Array<ContentActionRef>>([]);
 
@@ -158,6 +159,7 @@ export class AppExtensionService implements RuleContext {
     this._contextMenuActions.next(this.loader.getContentActions(config, 'features.contextMenu'));
     this._openWithActions.next(this.loader.getContentActions(config, 'features.viewer.openWith'));
     this._createActions.next(this.loader.getElements<ContentActionRef>(config, 'features.create'));
+    this._uploadActions.next(this.loader.getElements<ContentActionRef>(config, 'features.upload'));
     this._mainActions.next(this.loader.getFeatures(config).mainAction);
 
     this.navbar = this.loadNavBar(config);
@@ -358,6 +360,18 @@ export class AppExtensionService implements RuleContext {
     return this._createActions.pipe(
       map((createActions) =>
         createActions
+          .filter((action) => this.filterVisible(action))
+          .map((action) => this.copyAction(action))
+          .map((action) => this.buildMenu(action))
+          .map((action) => this.setActionDisabledFromRule(action))
+      )
+    );
+  }
+
+  getUploadActions(): Observable<Array<ContentActionRef>> {
+    return this._uploadActions.pipe(
+      map((uploadActions) =>
+        uploadActions
           .filter((action) => this.filterVisible(action))
           .map((action) => this.copyAction(action))
           .map((action) => this.buildMenu(action))

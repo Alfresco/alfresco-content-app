@@ -34,6 +34,7 @@ import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { SearchInputControlComponent } from '../search-input-control/search-input-control.component';
+import { SearchInputService } from '../search-input.service';
 import { SearchLibrariesQueryBuilderService } from '../search-libraries-results/search-libraries-query-builder.service';
 
 @Component({
@@ -85,26 +86,37 @@ export class SearchInputComponent implements OnInit, OnDestroy {
     private config: AppConfigService,
     private router: Router,
     private store: Store<AppStore>,
-    private appHookService: AppHookService
+    private appHookService: AppHookService,
+    public searchInputService: SearchInputService
   ) {
     this.searchOnChange = this.config.get<boolean>('search.aca:triggeredOnChange', true);
   }
 
   ngOnInit() {
-    this.showInputValue();
+    if (this.searchInputService.isSearchRoute()) {
+      this.showInputValue();
 
-    this.router.events
-      .pipe(takeUntil(this.onDestroy$))
-      .pipe(filter((e) => e instanceof RouterEvent))
-      .subscribe((event) => {
-        if (event instanceof NavigationEnd) {
-          this.showInputValue();
-        }
+      this.router.events
+        .pipe(takeUntil(this.onDestroy$))
+        .pipe(filter((e) => e instanceof RouterEvent))
+        .subscribe((event) => {
+          if (event instanceof NavigationEnd) {
+            this.showInputValue();
+          }
+        });
+
+      this.appHookService.library400Error.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
+        this.has400LibraryError = true;
       });
+    }
+  }
 
-    this.appHookService.library400Error.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
-      this.has400LibraryError = true;
-    });
+  navigateToSearch() {
+    this.searchInputService.navigateToSearch();
+  }
+
+  exitSearch() {
+    this.searchInputService.exitSearch();
   }
 
   showInputValue() {
@@ -140,7 +152,6 @@ export class SearchInputComponent implements OnInit, OnDestroy {
     } else {
       this.store.dispatch(new SnackbarErrorAction('APP.BROWSE.SEARCH.EMPTY_SEARCH'));
     }
-    this.trigger.closeMenu();
   }
 
   onSearchChange(searchTerm: string) {
