@@ -103,6 +103,12 @@
                 "CREATE_LIBRARY": "Create a new File Library"
             }
         },
+        "HEADER": {
+            "BUTTONS": {
+                "CREATE": "Create",
+                "UPLOAD": "Upload"
+            }
+        },
         "BROWSE": {
             "FILE": {
                 "TITLE": "Files",

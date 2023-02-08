@@ -1,7 +1,7 @@
 <aca-page-layout [hasError]="!isValidPath">
   <aca-page-layout-header>
     <adf-breadcrumb [root]="title" [folderNode]="node" [maxItems]="isSmallScreen ? 1 : 0" (navigate)="onBreadcrumbNavigate($event)"> </adf-breadcrumb>
-
+    <aca-header-actions></aca-header-actions>
     <adf-toolbar class="adf-toolbar--inline">
       <ng-container *ngFor="let entry of actions; trackBy: trackByActionId">
         <aca-toolbar-action [actionRef]="entry"></aca-toolbar-action>
