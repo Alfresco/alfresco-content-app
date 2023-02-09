@@ -39,8 +39,8 @@ class PrCreator {
 
     async fetchContributors(shaFrom, shaTo)  {
         const mapAuthors = new Map();
-        let upstreamShaFound = true;
-        const listCommits = await this.repoOrigin.listCommits(({sha: shaFrom}))
+        let upstreamShaFound = shaTo !== null;
+        const listCommits = await this.repoOrigin.listCommits(({sha: shaFrom}));
         let index = 0;
         while(upstreamShaFound) {
             if (listCommits.data[index].sha === shaTo ) {
@@ -82,9 +82,12 @@ class PrCreator {
 
     async getShaTo(head, base)  {
         const { data: closedUpstreamPRs }  = await this.repoDestination.listPullRequests({ state: 'closed', head: `${ORGANISATION}:${head}`, base });
-        const latestClosedUpstream = closedUpstreamPRs[0];
-        const shaTo = latestClosedUpstream.body.split(':')[1].trim();
-        return shaTo;
+        if (closedUpstreamPRs && closedUpstreamPRs.length > 0) {
+          const latestClosedUpstream = closedUpstreamPRs[0];
+          const shaTo = latestClosedUpstream.body.split(':')[1].trim();
+          return shaTo;
+        }
+        return null;
     }
 
     async getCommentAmount(issueOrPrNumber)  {

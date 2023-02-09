@@ -43,9 +43,8 @@ async function main() {
         .option('-c, --commit [type]', 'commit')
         .parse(process.argv);
 
-    const { token, head, repo, commit } = program,
-        prCreator = new PrCreator(ORGANISATION, repo, token, commit);
-
+    const { token, head, repo, commit } = program;
+    const prCreator = new PrCreator(ORGANISATION, repo, token, commit);
 
     const baseBranchName = 'develop';
 
