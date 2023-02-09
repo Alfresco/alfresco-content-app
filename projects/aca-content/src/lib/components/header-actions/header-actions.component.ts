@@ -85,12 +85,4 @@ export class HeaderActionsComponent extends PageComponent implements OnInit, OnD
       return false;
     }
   }
-
-  isTasksRoute(): boolean {
-    return this.router.url.includes('/tasks');
-  }
-
-  isProcessesRoute(): boolean {
-    return this.router.url.includes('/processes');
-  }
 }

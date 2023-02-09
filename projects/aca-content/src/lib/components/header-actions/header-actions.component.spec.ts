@@ -17,93 +17,125 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { HeaderActionsComponent } from './header-actions.component';
-import { HarnessLoader } from '@angular/cdk/testing';
-import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { MatButtonHarness } from '@angular/material/button/testing';
-import { MatMenuHarness } from '@angular/material/menu/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule } from '@angular/material/button';
-import { MatMenuModule } from '@angular/material/menu';
+import { HeaderActionsComponent } from './header-actions.component'
+import { ContentActionType } from '@alfresco/adf-extensions';
+import { AppExtensionService } from '@alfresco/aca-shared';
+import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
+import { CoreModule } from '@alfresco/adf-core';
+import { AppHeaderActionsModule } from './header-actions.module';
 
 describe('HeaderActionsComponent', () => {
   let component: HeaderActionsComponent;
   let fixture: ComponentFixture<HeaderActionsComponent>;
-  let loader: HarnessLoader;
+  
+  let extensionService: AppExtensionService;
+  let getCreateActionsSpy: jasmine.Spy;
+  let getUploadActionsSpy: jasmine.Spy;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, NoopAnimationsModule, MatButtonModule, MatMenuModule],
+      imports: [AppTestingModule, CoreModule.forRoot(), AppHeaderActionsModule],
       declarations: [HeaderActionsComponent]
     });
 
     fixture = TestBed.createComponent(HeaderActionsComponent);
     component = fixture.componentInstance;
-    loader = TestbedHarnessEnvironment.loader(fixture);
+    extensionService = TestBed.inject(AppExtensionService);
+
+    getCreateActionsSpy = spyOn(extensionService, 'getCreateActions');
+    getCreateActionsSpy.and.returnValue(
+      of([
+        {
+          id: 'action1',
+          type: ContentActionType.button,
+          title: 'create action one'
+        },
+        {
+          id: 'action2',
+          type: ContentActionType.button,
+          title: 'create action two'
+        }
+      ])
+    );
+
+    getUploadActionsSpy = spyOn(extensionService, 'getUploadActions');
+    getUploadActionsSpy.and.returnValue(
+      of([
+        {
+          id: 'action3',
+          type: ContentActionType.button,
+          title: 'upload action one'
+        }
+      ])
+    );
+
+    fixture = TestBed.createComponent(HeaderActionsComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   it('total number of buttons in header should be 2 if route is personal-files', async () => {
     spyOn(component, 'isPersonalFilesRoute').and.returnValue(true);
-    const buttons = await loader.getAllHarnesses(MatButtonHarness);
-    const createButton = await loader.getAllHarnesses(MatButtonHarness.with({text: 'APP.HEADER.BUTTONS.CREATE'}));
-    const uploadButton = await loader.getAllHarnesses(MatButtonHarness.with({text: 'APP.HEADER.BUTTONS.UPLOAD'}));
+    fixture.detectChanges();
+
+    const buttons = fixture.debugElement.queryAll(By.css('.action-bar > .aca-mat-button'));
+    const createButton: HTMLButtonElement = fixture.debugElement.query(By.css('[data-automation-id="create-button"]')).nativeElement;
+    const uploadButton: HTMLButtonElement = fixture.debugElement.query(By.css('[data-automation-id="upload-button"]')).nativeElement;
 
     expect(buttons.length).toBe(2);
-    expect(createButton.length).toBe(1);
-    expect(uploadButton.length).toBe(1);
+    expect(createButton).toBeTruthy();
+    expect(uploadButton).toBeTruthy();
   });
 
   it('total number of buttons in header should be 1 if route is libraries', async () => {
     spyOn(component, 'isLibrariesRoute').and.returnValue(true);
-    const buttons = await loader.getAllHarnesses(MatButtonHarness);
-    const createButton = await loader.getAllHarnesses(MatButtonHarness.with({text: 'APP.HEADER.BUTTONS.CREATE'}));
+    fixture.detectChanges();
+
+    const buttons = fixture.debugElement.queryAll(By.css('.action-bar > .aca-mat-button'));
+    const createButton: HTMLButtonElement = fixture.debugElement.query(By.css('[data-automation-id="create-button"]')).nativeElement;
 
     expect(buttons.length).toBe(1);
-    expect(createButton.length).toBe(1);
+    expect(createButton).toBeTruthy();
   });
 
-  it('should open and close the create menu', async () => {
+  async function clickCreateMenu() {
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const button: HTMLButtonElement = fixture.debugElement.query(By.css('[data-automation-id="create-button"]')).nativeElement;
+    button.click();
+  }
+
+  async function clickUploadMenu() {
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const button: HTMLButtonElement = fixture.debugElement.query(By.css('[data-automation-id="upload-button"]')).nativeElement;
+    button.click();
+  }
+
+  it('should render menu items when create menu is opened' , async () => {
     spyOn(component, 'isPersonalFilesRoute').and.returnValue(true);
-    const createMenu = await loader.getHarness(MatMenuHarness.with({ triggerText: 'APP.HEADER.BUTTONS.CREATE' }));
+    await clickCreateMenu();
 
-    expect(await createMenu.isOpen()).toBe(false);
-    await createMenu.open();
-    expect(await createMenu.isOpen()).toBe(true);
+    const menuItems = fixture.debugElement.queryAll(By.css('.app-toolbar-menu-item'));
+    expect(menuItems.length).toBe(2);
 
-    await createMenu.close();
-    expect(await createMenu.isOpen()).toBe(false);
+    const menuItemOne: HTMLSpanElement = (menuItems[0].nativeElement as HTMLButtonElement).querySelector('[data-automation-id="menu-item-title"]');
+    const menuItemTwo: HTMLSpanElement = (menuItems[1].nativeElement as HTMLButtonElement).querySelector('[data-automation-id="menu-item-title"]');
+    expect(menuItemOne.innerText).toBe('create action one');
+    expect(menuItemTwo.innerText).toBe('create action two');
   });
 
-  it('should open and close the upload menu', async () => {
+  it('should render menu items when upload menu is opened', async () => {
     spyOn(component, 'isPersonalFilesRoute').and.returnValue(true);
-    const uploadMenu = await loader.getHarness(MatMenuHarness.with({ triggerText: 'APP.HEADER.BUTTONS.UPLOAD' }));
+    await clickUploadMenu();
 
-    expect(await uploadMenu.isOpen()).toBe(false);
-    await uploadMenu.open();
-    expect(await uploadMenu.isOpen()).toBe(true);
+    const menuItems = fixture.debugElement.queryAll(By.css('.app-toolbar-menu-item'));
+    expect(menuItems.length).toBe(1);
 
-    await uploadMenu.close();
-    expect(await uploadMenu.isOpen()).toBe(false);
-  });
-
-  it('should load create menu on click of create button', async () => {
-    spyOn(component, 'isPersonalFilesRoute').and.returnValue(true);
-
-    const buttons = await loader.getHarness(MatButtonHarness.with({ selector: '.aca-create-button' }));
-    buttons.click();
-
-    const createMenu = fixture.debugElement.queryAll(By.css('.app-create-menu__root-menu app-create-menu__sub-menu'));
-    expect(createMenu).toBeTruthy();
-  });
-
-  it('should load upload menu on click of upload button', async () => {
-    spyOn(component, 'isPersonalFilesRoute').and.returnValue(true);
-
-    const buttons = await loader.getHarness(MatButtonHarness.with({ selector: '.aca-upload-button' }));
-    buttons.click();
-
-    const uploadMenu = fixture.debugElement.queryAll(By.css('.app-upload-menu__root-menu app-upload-menu__sub-menu'));
-    expect(uploadMenu).toBeTruthy();
+    const menuItemOne: HTMLSpanElement = (menuItems[0].nativeElement as HTMLButtonElement).querySelector('[data-automation-id="menu-item-title"]');
+    expect(menuItemOne.innerText).toBe('upload action one');
   });
 });
