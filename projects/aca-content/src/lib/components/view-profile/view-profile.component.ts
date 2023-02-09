@@ -28,6 +28,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { throwError } from 'rxjs';
+import { ContentServiceExtensionService } from '../../services/content-service-extension.service';
 
 @Component({
   selector: 'app-view-profile',
@@ -50,8 +51,9 @@ export class ViewProfileComponent implements OnInit {
 
   contactSectionDropdown = false;
   contactSectionButtonsToggle = true;
+  hideSidenav: boolean;
 
-  constructor(private router: Router, apiService: AlfrescoApiService) {
+  constructor(private router: Router, apiService: AlfrescoApiService, private contentServices: ContentServiceExtensionService) {
     this.peopleApi = new PeopleApi(apiService.getInstance());
   }
 
@@ -66,6 +68,7 @@ export class ViewProfileComponent implements OnInit {
       .catch((error) => {
         throwError(error);
       });
+      this.contentServices.cast.subscribe((data) => (this.hideSidenav = data));
   }
 
   populateForm(userInfo: Person) {

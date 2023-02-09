@@ -427,7 +427,8 @@
         "TOOLTIPS": {
             "COLLAPSE_NAVIGATION": "Collapse navigation menu",
             "OPTIONS_SETTINGS": "Options and settings",
-            "MY_PROFILE": "My profile"
+            "MY_PROFILE": "My profile",
+            "EXPAND_NAVIGATION": "Expand navigation"
           }
     },
     "NODE_SELECTOR": {
