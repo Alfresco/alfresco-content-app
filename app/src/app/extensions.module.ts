@@ -26,17 +26,11 @@
 import { NgModule } from '@angular/core';
 import { AosExtensionModule } from '@alfresco/adf-office-services-ext';
 import { AcaAboutModule } from '@alfresco/aca-about';
-import { AcaSettingsModule } from '@alfresco/aca-settings';
 import { AcaFolderRulesModule } from '@alfresco/aca-folder-rules';
 import { environment } from '../environments/environment';
 import packageJson from 'package.json';
 
 @NgModule({
-  imports: [
-    AosExtensionModule,
-    ...(environment.devTools ? [AcaSettingsModule] : []),
-    AcaAboutModule.forRoot(environment.production, packageJson),
-    AcaFolderRulesModule
-  ]
+  imports: [AosExtensionModule, AcaAboutModule.forRoot(environment.production, packageJson), AcaFolderRulesModule]
 })
 export class AppExtensionsModule {}
