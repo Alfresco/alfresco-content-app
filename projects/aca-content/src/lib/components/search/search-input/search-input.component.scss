@@ -153,3 +153,9 @@ mat-checkbox {
     max-width: 180px;
   }
 }
+
+@media screen and (max-width: 380px) {
+  .aca-search-input {
+    max-width: 148px;
+  }
+}
