@@ -24,7 +24,7 @@
 
 import { DocumentListComponent, ShareDataRow } from '@alfresco/adf-content-services';
 import { ShowHeaderMode } from '@alfresco/adf-core';
-import { ContentActionRef, ContentActionType, DocumentListPresetRef, SelectionState } from '@alfresco/adf-extensions';
+import { ContentActionRef, DocumentListPresetRef, SelectionState } from '@alfresco/adf-extensions';
 import { OnDestroy, OnInit, OnChanges, ViewChild, SimpleChanges, Directive } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { MinimalNodeEntity, MinimalNodeEntryEntity, NodePaging } from '@alfresco/js-api';
@@ -69,15 +69,12 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   filterSorting = 'name-asc';
   createActions: Array<ContentActionRef> = [];
   uploadActions: Array<ContentActionRef> = [];
-  mainAction$: Observable<ContentActionRef>;
-  actionTypes = ContentActionType;
 
   protected subscriptions: Subscription[] = [];
 
   protected constructor(protected store: Store<AppStore>, protected extensions: AppExtensionService, protected content: DocumentBasePageService) {}
 
   ngOnInit() {
-    this.mainAction$ = this.extensions.getMainAction().pipe(takeUntil(this.onDestroy$));
 
     this.extensions
       .getCreateActions()
@@ -92,7 +89,7 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
       .subscribe((actions) => {
         this.uploadActions = actions;
       });
-    
+
     this.sharedPreviewUrl$ = this.store.select(getSharedUrl);
     this.infoDrawerOpened$ = this.store.select(isInfoDrawerOpened).pipe(map((infoDrawerState) => !this.isOutletPreviewUrl() && infoDrawerState));
 
@@ -141,10 +138,6 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
     this.onDestroy$.next(true);
     this.onDestroy$.complete();
     this.store.dispatch(new SetSelectedNodesAction([]));
-  }
-
-  runAction(action: string): void {
-    this.extensions.runActionById(action);
   }
 
   showPreview(node: MinimalNodeEntity, extras?: ViewNodeExtras) {
