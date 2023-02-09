@@ -23,7 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewEncapsulation, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, ViewEncapsulation, ChangeDetectionStrategy, Input, ChangeDetectorRef } from '@angular/core';
+import { ContentServiceExtensionService } from '../../../../../aca-content/src/lib/services/content-service-extension.service';
 
 @Component({
   selector: 'aca-page-layout',
@@ -36,4 +37,20 @@ import { Component, ViewEncapsulation, ChangeDetectionStrategy, Input } from '@a
 export class PageLayoutComponent {
   @Input()
   hasError = false;
+  hideSidenav: boolean;
+
+  constructor(private contentServices: ContentServiceExtensionService, private ref: ChangeDetectorRef) {
+    setInterval(() => {
+      this.ref.detectChanges();
+    });
+  }
+
+  ngOnInit() {
+    this.contentServices.cast.subscribe((data) => (this.hideSidenav = data));
+  }
+
+  toggleClick() {
+    this.hideSidenav = !this.hideSidenav;
+    this.contentServices.push(this.hideSidenav);
+  }
 }
