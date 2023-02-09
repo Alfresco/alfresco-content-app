@@ -48,7 +48,7 @@ export class AcaMobileAppSwitcherService {
 
   checkForMobileApp(): void {
     const currentTime: number = new Date().getTime();
-    const sessionTime: string = sessionStorage.getItem('sessionTime');
+    const sessionTime: string = sessionStorage.getItem('mobile_notification_expires_in');
 
     if (sessionTime !== null) {
       const sessionConvertedTime: number = parseFloat(sessionTime);
@@ -70,7 +70,7 @@ export class AcaMobileAppSwitcherService {
     const currentUrl: string = window.location.href;
     const time: number = new Date().getTime();
 
-    sessionStorage.setItem('sessionTime', time.toString());
+    sessionStorage.setItem('mobile_notification_expires_in', time.toString());
 
     if (isIOS === true) {
       this.redirectUrl = this.mobileAppSwitchConfig.iphoneUrl + currentUrl;

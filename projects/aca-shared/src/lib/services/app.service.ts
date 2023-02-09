@@ -183,6 +183,8 @@ export class AppService implements OnDestroy {
     const isMobileSwitchEnabled: boolean = this.config.get<boolean>('mobileAppSwitch.enabled', false);
     if (isMobileSwitchEnabled) {
       this.acaMobileAppSwitcherService.checkForMobileApp();
+    } else {
+      sessionStorage.removeItem('mobile_notification_expires_in');
     }
   }
 
