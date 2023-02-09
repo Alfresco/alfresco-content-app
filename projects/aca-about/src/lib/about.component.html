@@ -1,5 +1,4 @@
-<aca-page-layout>
-  <aca-page-layout-content [scrollable]="true">
+  <aca-page-layout-content [scrollable]="true" [ngClass]="{'app-about-container' : hideSidenav === true}">
     <adf-about>
       <adf-about-panel *ngIf="dev" [label]="'ABOUT.SERVER_SETTINGS.TITLE' | translate">
         <ng-template>
@@ -26,4 +25,3 @@
       </adf-about-panel>
     </adf-about>
   </aca-page-layout-content>
-</aca-page-layout>
