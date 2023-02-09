@@ -56,7 +56,7 @@ describe('AcaMobileAppSwitcherService', () => {
     sessionStorage.clear();
   });
 
-  it('should check if redirectUrl is the `iphoneUrl`', () => {
+  it('should set the redirectUrl to `iphoneUrl`', () => {
     spyOnProperty(window.navigator, 'userAgent').and.returnValue('iphone');
     const url: string = window.location.href;
     const iphoneUrl: string = appConfig.config.mobileAppSwitch.iphoneUrl + url;
@@ -64,7 +64,7 @@ describe('AcaMobileAppSwitcherService', () => {
     expect(service.redirectUrl).toEqual(iphoneUrl);
   });
 
-  it('should check if the redirectUrl is `androidUrl`', () => {
+  it('should set the redirectUrl to `androidUrl`', () => {
     spyOnProperty(window.navigator, 'userAgent').and.returnValue('android');
     const url: string = window.location.href;
     const androidUrl: string = appConfig.config.mobileAppSwitch.androidUrlPart1 + url + appConfig.config.mobileAppSwitch.androidUrlPart2;

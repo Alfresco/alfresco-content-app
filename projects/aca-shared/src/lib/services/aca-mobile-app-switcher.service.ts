@@ -93,4 +93,8 @@ export class AcaMobileAppSwitcherService {
       position: { bottom: '50px' }
     });
   }
+
+  reset(): void {
+    sessionStorage.removeItem('mobile_notification_expires_in');
+  }
 }

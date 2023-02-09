@@ -184,7 +184,7 @@ export class AppService implements OnDestroy {
     if (isMobileSwitchEnabled) {
       this.acaMobileAppSwitcherService.checkForMobileApp();
     } else {
-      sessionStorage.removeItem('mobile_notification_expires_in');
+      this.acaMobileAppSwitcherService.reset();
     }
   }
 
