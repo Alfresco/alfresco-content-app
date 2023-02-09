@@ -120,6 +120,7 @@ import { AppLayoutComponent } from './components/layout/app-layout/app-layout.co
 import { AppTrashcanModule } from './components/trashcan/trashcan.module';
 import { AppSharedLinkViewModule } from './components/shared-link-view/shared-link-view.module';
 import { AcaFolderRulesModule } from '@alfresco/aca-folder-rules';
+import { TagsColumnComponent } from './components/dl-custom-components/tags-column/tags-column.component';
 
 registerLocaleData(localeFr);
 registerLocaleData(localeDe);
@@ -226,6 +227,7 @@ export class ContentServiceExtensionModule {
       'app.columns.libraryStatus': LibraryStatusColumnComponent,
       'app.columns.trashcanName': TrashcanNameColumnComponent,
       'app.columns.location': LocationLinkComponent,
+      'app.columns.tags': TagsColumnComponent,
       'app.toolbar.toggleEditOffline': ToggleEditOfflineComponent,
       'app.toolbar.viewNode': ViewNodeComponent,
       'app.languagePicker': LanguagePickerComponent,

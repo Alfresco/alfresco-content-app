@@ -1,0 +1,15 @@
+.aca-tags-name-column {
+  display: flex;
+  width: inherit;
+
+  adf-tag-node-list {
+    width: inherit;
+
+    .adf-tag-chips {
+      background-color: white;
+      border: 1px solid var(--theme-text-color);
+      border-radius: 10px;
+      color: var(--theme-text-color);
+    }
+  }
+}

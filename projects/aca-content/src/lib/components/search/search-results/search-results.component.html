@@ -71,6 +71,11 @@
               <data-column key="content.sizeInBytes" type="fileSize" title="APP.DOCUMENT_LIST.COLUMNS.SIZE" class="adf-no-grow-cell adf-ellipsis-cell" [sortable]="false" *ngIf="!isSmallScreen"></data-column>
               <data-column key="modifiedAt" type="date" title="APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON" class="adf-no-grow-cell adf-ellipsis-cell" format="timeAgo" [sortable]="false" *ngIf="!isSmallScreen"></data-column>
               <data-column key="modifiedByUser.displayName" title="APP.DOCUMENT_LIST.COLUMNS.MODIFIED_BY" class="adf-no-grow-cell adf-ellipsis-cell" [sortable]="false" *ngIf="!isSmallScreen"></data-column>
+              <data-column key="$tags" type="text" title="APP.DOCUMENT_LIST.COLUMNS.TAGS" class="adf-full-width adf-expand-cell-4" [sortable]="false">
+                <ng-template let-context>
+                  <aca-tags-column [context]="context"></aca-tags-column>
+                </ng-template>
+              </data-column>
             </data-columns>
 
             <adf-custom-empty-content-template>

@@ -23,19 +23,30 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { CustomNameColumnComponent } from './name-column/name-column.component';
-import { LockedByModule } from '@alfresco/aca-shared';
-import { ContentModule } from '@alfresco/adf-content-services';
-import { MaterialModule } from '../../material.module';
-import { CoreModule } from '@alfresco/adf-core';
-import { ThumbnailColumnComponent } from './thumbnail-column/thumbnail-column.component';
-import { TagsColumnComponent } from './tags-column/tags-column.component';
+import { ChangeDetectorRef, Component, Input, ViewEncapsulation } from '@angular/core';
 
-@NgModule({
-  imports: [BrowserModule, CoreModule.forChild(), ContentModule.forChild(), MaterialModule, LockedByModule],
-  declarations: [CustomNameColumnComponent, ThumbnailColumnComponent, TagsColumnComponent],
-  exports: [CustomNameColumnComponent, ThumbnailColumnComponent, TagsColumnComponent]
+@Component({
+  selector: 'aca-tags-column',
+  template: `
+    <adf-tag-node-list [showDelete]="false" [limitTagsDisplayed]="true" [nodeId]="getNodeId(context)" (results)="onTagsLoaded()"> </adf-tag-node-list>
+  `,
+  styleUrls: ['./tags-column.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  host: {
+    class: 'adf-datatable-content-cell aca-tags-name-column'
+  }
 })
-export class DocumentListCustomComponentsModule {}
+export class TagsColumnComponent {
+  @Input()
+  context: any;
+
+  constructor(private cd: ChangeDetectorRef) {}
+
+  getNodeId({ row }): string {
+    return row.id;
+  }
+
+  onTagsLoaded(): void {
+    this.cd.detectChanges();
+  }
+}
