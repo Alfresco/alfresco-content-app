@@ -9,13 +9,21 @@
 import { Injectable } from '@angular/core';
 import { AppConfigService } from '@alfresco/adf-core';
 import { take } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ContentServiceExtensionService {
+  public hideSidenav = new BehaviorSubject<boolean>(false);
+  cast = this.hideSidenav.asObservable();
+
   constructor(private appConfigService: AppConfigService) {
     this.updateContentServiceAvailability();
+  }
+
+  push(str: boolean) {
+    this.hideSidenav.next(str);
   }
 
   updateContentServiceAvailability() {

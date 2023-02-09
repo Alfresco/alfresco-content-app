@@ -29,9 +29,10 @@ import { PageLayoutErrorComponent } from './page-layout-error.component';
 import { PageLayoutHeaderComponent } from './page-layout-header.component';
 import { PageLayoutComponent } from './page-layout.component';
 import { CommonModule } from '@angular/common';
+import { CoreModule } from '@alfresco/adf-core';
 
 @NgModule({
-  imports: [CommonModule],
+  imports: [CommonModule, CoreModule.forChild()],
   declarations: [PageLayoutContentComponent, PageLayoutErrorComponent, PageLayoutHeaderComponent, PageLayoutComponent],
   exports: [PageLayoutContentComponent, PageLayoutErrorComponent, PageLayoutHeaderComponent, PageLayoutComponent]
 })
