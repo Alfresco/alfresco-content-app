@@ -76,7 +76,6 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   protected constructor(protected store: Store<AppStore>, protected extensions: AppExtensionService, protected content: DocumentBasePageService) {}
 
   ngOnInit() {
-
     this.extensions
       .getCreateActions()
       .pipe(takeUntil(this.onDestroy$))

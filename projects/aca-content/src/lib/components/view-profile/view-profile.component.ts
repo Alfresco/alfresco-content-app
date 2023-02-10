@@ -51,7 +51,7 @@ export class ViewProfileComponent implements OnInit {
       .catch((error) => {
         throwError(error);
       });
-      this.appService.cast.subscribe((data) => (this.hideSidenav = data));
+    this.appService.cast.subscribe((data) => (this.hideSidenav = data));
   }
 
   populateForm(userInfo: Person) {
