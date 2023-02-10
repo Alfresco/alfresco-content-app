@@ -66,6 +66,9 @@ export class AppService implements OnDestroy {
   private ready: BehaviorSubject<boolean>;
   ready$: Observable<boolean>;
 
+  public hideSidenav = new BehaviorSubject<boolean>(false);
+  cast = this.hideSidenav.asObservable();
+
   pageHeading$: Observable<string>;
 
   hideSidenavConditions = ['/preview/'];
@@ -116,6 +119,10 @@ export class AppService implements OnDestroy {
       map((event: ActivationEnd) => event.snapshot?.data?.title ?? ''),
       tap((title) => this.pageTitle.setTitle(title))
     );
+  }
+
+  getSidenavValue(str: boolean) {
+    this.hideSidenav.next(str);
   }
 
   ngOnDestroy(): void {

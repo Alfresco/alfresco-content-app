@@ -11,7 +11,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { throwError } from 'rxjs';
-import { ContentServiceExtensionService } from '../../services/content-service-extension.service';
+import { AppService } from '@alfresco/aca-shared';
 
 @Component({
   selector: 'app-view-profile',
@@ -36,7 +36,7 @@ export class ViewProfileComponent implements OnInit {
   contactSectionButtonsToggle = true;
   hideSidenav: boolean;
 
-  constructor(private router: Router, apiService: AlfrescoApiService, private contentServices: ContentServiceExtensionService) {
+  constructor(private router: Router, apiService: AlfrescoApiService, private appService: AppService) {
     this.peopleApi = new PeopleApi(apiService.getInstance());
   }
 
@@ -51,7 +51,7 @@ export class ViewProfileComponent implements OnInit {
       .catch((error) => {
         throwError(error);
       });
-      this.contentServices.cast.subscribe((data) => (this.hideSidenav = data));
+      this.appService.cast.subscribe((data) => (this.hideSidenav = data));
   }
 
   populateForm(userInfo: Person) {

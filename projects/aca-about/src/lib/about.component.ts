@@ -29,7 +29,7 @@ import { Observable } from 'rxjs';
 import { AppExtensionService, ExtensionRef } from '@alfresco/adf-extensions';
 import { AuthenticationService, DiscoveryApiService, RepositoryInfo } from '@alfresco/adf-core';
 import { PACKAGE_JSON } from './package-json.token';
-import { ContentServiceExtensionService } from '../../../aca-content/src/lib/services/content-service-extension.service';
+import { AppService } from '@alfresco/aca-shared';
 
 @Component({
   selector: 'app-about-page',
@@ -51,7 +51,7 @@ export class AboutComponent implements OnInit {
     private authService: AuthenticationService,
     private appExtensions: AppExtensionService,
     private discovery: DiscoveryApiService,
-    private contentServices: ContentServiceExtensionService
+    private appServices: AppService
   ) {
     this.dev = !devMode;
     this.extensions$ = this.appExtensions.references$;
@@ -61,7 +61,7 @@ export class AboutComponent implements OnInit {
     if (this.authService.isEcmLoggedIn()) {
       this.setECMInfo();
     }
-    this.contentServices.cast.subscribe((data) => (this.hideSidenav = data));
+    this.appServices.cast.subscribe((data) => (this.hideSidenav = data));
   }
 
   setECMInfo() {
