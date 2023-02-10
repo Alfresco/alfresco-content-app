@@ -12,20 +12,22 @@ import { ContentApiService } from '@alfresco/aca-shared';
 @Component({
   selector: 'app-navigation-menu',
   templateUrl: './navigation-menu.component.html',
-  styleUrls: ['./navigation-menu.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class NavigationMenuComponent implements OnInit {
-  userName = '';
-  userEmail = '';
+  displayName = 'Unknown user';
 
   constructor(private contentApi: ContentApiService) {}
 
   ngOnInit() {
     this.contentApi.getPerson('-me-').subscribe((person) => {
       const personDetails = person?.entry;
-      this.userName = personDetails.displayName;
-      this.userEmail = personDetails.email;
+
+      this.displayName = personDetails.displayName;
+
+      if (personDetails.email) {
+        this.displayName = `${personDetails.displayName} (${personDetails.email})`;
+      }
     });
   }
 }
