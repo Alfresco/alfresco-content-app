@@ -14,7 +14,7 @@ import { DomSanitizer } from '@angular/platform-browser';
   providedIn: 'root'
 })
 export class IconService {
-  contentIcons: string[] = ['workspace', 'menu', 'avatar'];
+  contentIcons: string[] = ['workspace', 'avatar'];
 
   constructor(private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {}
 
