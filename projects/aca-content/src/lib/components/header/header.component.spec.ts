@@ -94,4 +94,3 @@ describe('AppHeaderComponent', () => {
     expect(component.actions).toEqual(actions);
   }));
 });
-
