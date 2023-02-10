@@ -54,7 +54,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.groups = this.extensions.getApplicationNavigation(this.extensions.navbar);
       });
-      this.appServices.cast.subscribe((data) => (this.hideSidenav = data));
+    this.appServices.cast.subscribe((data) => (this.hideSidenav = data));
   }
 
   trackByGroupId(_: number, obj: NavBarGroupRef): string {

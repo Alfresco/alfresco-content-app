@@ -17,7 +17,7 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { HeaderActionsComponent } from './header-actions.component'
+import { HeaderActionsComponent } from './header-actions.component';
 import { ContentActionType } from '@alfresco/adf-extensions';
 import { AppExtensionService } from '@alfresco/aca-shared';
 import { of } from 'rxjs';
@@ -28,7 +28,6 @@ import { AppHeaderActionsModule } from './header-actions.module';
 describe('HeaderActionsComponent', () => {
   let component: HeaderActionsComponent;
   let fixture: ComponentFixture<HeaderActionsComponent>;
-  
   let extensionService: AppExtensionService;
   let getCreateActionsSpy: jasmine.Spy;
   let getUploadActionsSpy: jasmine.Spy;
@@ -115,7 +114,7 @@ describe('HeaderActionsComponent', () => {
     button.click();
   }
 
-  it('should render menu items when create menu is opened' , async () => {
+  it('should render menu items when create menu is opened', async () => {
     spyOn(component, 'isPersonalFilesRoute').and.returnValue(true);
     await clickCreateMenu();
 

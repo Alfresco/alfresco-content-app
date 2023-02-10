@@ -2,7 +2,7 @@
   <ng-container [ngSwitch]="mode">
     <div class="sidenav-header">
       <div class="sidenav-header-title">
-        <div class="sidenav-header-title-logo" (click)="toggleClick()">
+        <div class="sidenav-header-title-logo" (click)="toggleClick()" (keypress)="toggleClick()">
           <mat-icon svgIcon="workspace"
             title="{{'APP.TOOLTIPS.COLLAPSE_NAVIGATION' | translate}}"></mat-icon>
         </div>

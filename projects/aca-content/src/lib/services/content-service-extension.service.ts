@@ -30,7 +30,6 @@ import { take } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class ContentServiceExtensionService {
-
   constructor(private appConfigService: AppConfigService) {
     this.updateContentServiceAvailability();
   }
