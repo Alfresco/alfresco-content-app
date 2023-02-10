@@ -28,8 +28,7 @@ import { Store } from '@ngrx/store';
 import { AppStore, getSideNavState } from '@alfresco/aca-shared/store';
 import { Subject } from 'rxjs';
 import { takeUntil, distinctUntilChanged, debounceTime } from 'rxjs/operators';
-import { AppExtensionService } from '@alfresco/aca-shared';
-import { ContentServiceExtensionService } from '../../services/content-service-extension.service';
+import { AppExtensionService, AppService } from '@alfresco/aca-shared';
 
 @Component({
   selector: 'app-sidenav',
@@ -46,7 +45,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
   groups: Array<NavBarGroupRef> = [];
   private onDestroy$ = new Subject<boolean>();
 
-  constructor(private store: Store<AppStore>, private extensions: AppExtensionService, private contentServices: ContentServiceExtensionService) {}
+  constructor(private store: Store<AppStore>, private extensions: AppExtensionService, private appServices: AppService) {}
 
   ngOnInit() {
     this.store
@@ -55,7 +54,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.groups = this.extensions.getApplicationNavigation(this.extensions.navbar);
       });
-      this.contentServices.cast.subscribe((data) => (this.hideSidenav = data));
+      this.appServices.cast.subscribe((data) => (this.hideSidenav = data));
   }
 
   trackByGroupId(_: number, obj: NavBarGroupRef): string {
@@ -68,7 +67,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
   toggleClick() {
     this.hideSidenav = !this.hideSidenav;
-    this.contentServices.push(this.hideSidenav);
+    this.appServices.getSidenavValue(this.hideSidenav);
   }
 
   ngOnDestroy() {

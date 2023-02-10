@@ -24,7 +24,7 @@
 
 import { Inject, Injectable } from '@angular/core';
 import { AuthenticationService, AppConfigService, AlfrescoApiService, PageTitleService, UserPreferencesService } from '@alfresco/adf-core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { GroupService, SearchQueryBuilderService, SharedLinksApiService, UploadService, FileUploadErrorEvent } from '@alfresco/adf-content-services';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { ActivatedRoute, ActivationEnd, NavigationStart, Router } from '@angular/router';
@@ -57,10 +57,14 @@ export class AppService {
   private ready: BehaviorSubject<boolean>;
   ready$: Observable<boolean>;
 
+  public hideSidenav = new BehaviorSubject<boolean>(false);
+  cast = this.hideSidenav.asObservable();
+
   pageHeading$: Observable<string>;
 
   hideSidenavConditions = ['/preview/'];
   minimizeSidenavConditions = ['search'];
+  onDestroy$ = new Subject<boolean>();
 
   /**
    * Whether `withCredentials` mode is enabled.
@@ -105,6 +109,11 @@ export class AppService {
       map((event: ActivationEnd) => event.snapshot?.data?.title ?? ''),
       tap((title) => this.pageTitle.setTitle(title))
     );
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy$.next(true);
+    this.onDestroy$.complete();
   }
 
   init(): void {
