@@ -24,7 +24,7 @@
  */
 
 import { Component, ViewEncapsulation, ChangeDetectionStrategy, Input, ChangeDetectorRef } from '@angular/core';
-import { ContentServiceExtensionService } from '../../../../../aca-content/src/lib/services/content-service-extension.service';
+import { AppService } from '../../services/app.service';
 
 @Component({
   selector: 'aca-page-layout',
@@ -39,18 +39,18 @@ export class PageLayoutComponent {
   hasError = false;
   hideSidenav: boolean;
 
-  constructor(private contentServices: ContentServiceExtensionService, private ref: ChangeDetectorRef) {
+  constructor(private appService: AppService, private ref: ChangeDetectorRef) {
     setInterval(() => {
       this.ref.detectChanges();
     });
   }
 
   ngOnInit() {
-    this.contentServices.cast.subscribe((data) => (this.hideSidenav = data));
+    this.appService.cast.subscribe((data) => (this.hideSidenav = data));
   }
 
   toggleClick() {
     this.hideSidenav = !this.hideSidenav;
-    this.contentServices.push(this.hideSidenav);
+    this.appService.getSidenavValue(this.hideSidenav);
   }
 }
