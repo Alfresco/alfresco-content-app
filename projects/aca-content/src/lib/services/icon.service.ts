@@ -14,11 +14,14 @@ import { DomSanitizer } from '@angular/platform-browser';
   providedIn: 'root'
 })
 export class IconService {
-  contentIcons: string[] = ['workspace', 'menu', 'avatar', 'settings'];
+  contentIcons: string[] = ['workspace', 'menu', 'avatar'];
+
   constructor(private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {}
+
   public registerIcons(): void {
     this.loadIcons(this.contentIcons, './assets/svg/icons');
   }
+
   private loadIcons(iconKeys: string[], iconUrl: string): void {
     iconKeys.forEach((key) => {
       this.matIconRegistry.addSvgIcon(key, this.domSanitizer.bypassSecurityTrustResourceUrl(`${iconUrl}/${key}.svg`));
