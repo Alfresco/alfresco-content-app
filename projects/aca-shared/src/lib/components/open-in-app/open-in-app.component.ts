@@ -23,26 +23,32 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ModuleWithProviders, NgModule } from '@angular/core';
-import { ContentApiService } from './services/content-api.service';
-import { NodePermissionService } from './services/node-permission.service';
-import { AppService } from './services/app.service';
-import { ContextActionsModule } from './directives/contextmenu/contextmenu.module';
-import { OpenInAppComponent } from './components/open-in-app/open-in-app.component';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatDialogModule } from '@angular/material/dialog';
+import { Component, Inject, ViewEncapsulation } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-@NgModule({
-  imports: [ContextActionsModule, MatButtonModule, MatIconModule, MatDialogModule],
-  exports: [ContextActionsModule, MatButtonModule, MatIconModule, MatDialogModule],
-  declarations: [OpenInAppComponent]
+export interface OpenInAppDialogOptions {
+  redirectUrl: string;
+}
+@Component({
+  selector: 'aca-open-in-app',
+  templateUrl: './open-in-app.component.html',
+  styleUrls: ['./open-in-app.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
-export class SharedModule {
-  static forRoot(): ModuleWithProviders<SharedModule> {
-    return {
-      ngModule: SharedModule,
-      providers: [ContentApiService, NodePermissionService, AppService]
-    };
+export class OpenInAppComponent {
+  private redirectUrl: string;
+  public window: Window & typeof globalThis = window;
+
+  constructor(
+    @Inject(MAT_DIALOG_DATA)
+    public data: OpenInAppDialogOptions
+  ) {
+    if (data) {
+      this.redirectUrl = data.redirectUrl;
+    }
+  }
+
+  openInApp(): void {
+    this.window.location.href = this.redirectUrl;
   }
 }

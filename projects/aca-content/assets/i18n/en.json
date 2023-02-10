@@ -269,6 +269,9 @@
                 "MESSAGE": "Leaving will remove your access.",
                 "YES_LABEL": "OK",
                 "NO_LABEL": "Cancel"
+            },
+            "MOBILE_APP": {
+              "MOBILE_APP_BUTTON_LABEL": "Open in App"
             }
         },
         "DOCUMENT_LIST": {

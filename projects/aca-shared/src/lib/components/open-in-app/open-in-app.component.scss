@@ -1,0 +1,13 @@
+.container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mat-dialog-container{
+  padding: 12px;
+  border-radius: 36px;
+  background-color: var(--theme-blue-button-color);
+  color: var(--theme-about-panel-background-color);
+}
