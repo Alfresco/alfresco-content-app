@@ -23,12 +23,14 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { ShareDataRow } from '@alfresco/adf-content-services';
 import { ChangeDetectorRef, Component, Input, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'aca-tags-column',
   template: `
-    <adf-tag-node-list [showDelete]="false" [limitTagsDisplayed]="true" [nodeId]="getNodeId(context)" (results)="onTagsLoaded()"> </adf-tag-node-list>
+    <adf-tag-node-list [showDelete]="false" [limitTagsDisplayed]="true" [nodeId]="getNodeId(context.row)" (results)="onTagsLoaded()">
+    </adf-tag-node-list>
   `,
   styleUrls: ['./tags-column.component.scss'],
   encapsulation: ViewEncapsulation.None,
@@ -42,7 +44,7 @@ export class TagsColumnComponent {
 
   constructor(private cd: ChangeDetectorRef) {}
 
-  getNodeId({ row }): string {
+  getNodeId(row: ShareDataRow): string {
     return row.id;
   }
 
