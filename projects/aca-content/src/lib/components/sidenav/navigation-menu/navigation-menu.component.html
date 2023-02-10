@@ -1,15 +1,10 @@
-<button mat-icon-button [matMenuTriggerFor]="menu" aria-label="matMenu" class="app-menu-button">
+<button mat-icon-button [matMenuTriggerFor]="menu" aria-label="matMenu">
     <mat-icon title="{{'APP.TOOLTIPS.OPTIONS_SETTINGS' | translate}}">apps</mat-icon>
 </button>
 <mat-menu #menu="matMenu" xPosition="before">
-    <div mat-menu-item class="app-menu-user-details" [routerLink]="['/profile']" title="{{'APP.TOOLTIPS.MY_PROFILE' | translate}}">
-        <button class="app-menu-user-details-button" aria-label="matMenu">
-            <mat-icon>account_circle</mat-icon>
-        </button>
-        <div class="app-menu-user-details-name-mail">
-            <div class="app-menu-user-details-name">{{ userName }}</div>
-            <div class="app-menu-user-details-name">{{ userEmail }}</div>
-        </div>
+    <div mat-menu-item [routerLink]="['/profile']" title="{{'APP.TOOLTIPS.MY_PROFILE' | translate}}">
+        <mat-icon>account_circle</mat-icon>
+        <span>{{ displayName }}</span>
     </div>
     <mat-divider></mat-divider>
     <button mat-menu-item data-automation-id="language-menu-button" [matMenuTriggerFor]="langMenu">
