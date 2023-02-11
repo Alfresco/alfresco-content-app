@@ -1,0 +1,24 @@
+<div class="sidenav-header">
+  <div class="sidenav-header-title">
+    <div class="sidenav-header-title-logo"
+      (click)="toggleNavBar.emit()"
+      (keypress)="toggleNavBar.emit()">
+      <img
+        src="{{ logo$ | async }}"
+        title="{{'APP.TOOLTIPS.COLLAPSE_NAVIGATION' | translate}}"
+        alt="{{ 'CORE.HEADER.LOGO_ARIA' | translate }}" />
+    </div>
+
+    <div class="sidenav-header-title-text" [routerLink]="landingPage">
+      {{ appName$ | async | translate }}
+    </div>
+
+    <div class="sidenav-header-notification">
+      <adf-notification-history></adf-notification-history>
+    </div>
+
+    <div class="sidenav-header-menu-icon">
+      <app-navigation-menu></app-navigation-menu>
+    </div>
+  </div>
+</div>

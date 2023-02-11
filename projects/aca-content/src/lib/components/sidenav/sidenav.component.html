@@ -1,21 +1,6 @@
 <div class="sidenav">
   <ng-container [ngSwitch]="data.mode">
-    <div class="sidenav-header">
-      <div class="sidenav-header-title">
-        <div class="sidenav-header-title-logo" (click)="toggleClick()" (keypress)="toggleClick()">
-          <mat-icon svgIcon="workspace"
-            title="{{'APP.TOOLTIPS.COLLAPSE_NAVIGATION' | translate}}"></mat-icon>
-        </div>
-        <div class="sidenav-header-title-text" [routerLink]="['/']">{{ 'APP.TITLE' | translate }}
-        </div>
-        <div class="sidenav-header-notification">
-          <adf-notification-history></adf-notification-history>
-        </div>
-        <div class="sidenav-header-menu-icon">
-          <app-navigation-menu></app-navigation-menu>
-        </div>
-      </div>
-    </div>
+    <app-sidenav-header (toggleNavBar)="toggleClick()"></app-sidenav-header>
 
     <div class="section-sub-actions">
       <div *ngFor="let group of groups; trackBy: trackByGroupId" class="section" [ngClass]="'section--' + data.mode">
