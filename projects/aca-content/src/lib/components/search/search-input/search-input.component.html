@@ -8,7 +8,7 @@
   <button mat-icon-button class="app-search-button" (click)="searchByOption()" [title]="'SEARCH.BUTTON.TOOLTIP' | translate">
     <mat-icon [attr.aria-label]="'SEARCH.BUTTON.ARIA-LABEL' | translate">search</mat-icon>
   </button>
-   <mat-form-field class="app-input-form-field" [floatLabel]="'never'">
+  <mat-form-field class="app-input-form-field" [floatLabel]="'never'">
     <input
       matInput
       [attr.aria-label]="'SEARCH.INPUT.ARIA-LABEL' | translate"
@@ -22,10 +22,10 @@
       <mat-icon>arrow_drop_down</mat-icon>
     </div>
 
-    <button mat-icon-button matSuffix class="app-suffix-search-icon-wrapper app-close-icon" (click)="exitSearch()" (keypressk)="exitSearch()">
+    <button mat-icon-button matSuffix class="app-suffix-search-icon-wrapper app-close-icon" (click)="exitSearch()">
       <mat-icon>close</mat-icon>
     </button>
-  </mat-form-field> 
+  </mat-form-field>
 </div>
 
 <div *ngIf="!searchInputService.isSearchRoute()"
