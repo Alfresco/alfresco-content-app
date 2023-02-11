@@ -32,7 +32,14 @@ import { PACKAGE_JSON } from './package-json.token';
 
 @Component({
   selector: 'app-about-page',
-  templateUrl: './about.component.html'
+  templateUrl: './about.component.html',
+  styles: [
+    `
+      adf-about {
+        width: 100%;
+      }
+    `
+  ]
 })
 export class AboutComponent implements OnInit {
   pkg: any;

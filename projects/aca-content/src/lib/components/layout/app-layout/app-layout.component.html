@@ -1,20 +1,13 @@
 <adf-upload-drag-area [rootFolderId]="currentFolderId" [disabled]="!canUpload">
   <adf-sidenav-layout
     #layout
-    [sidenavMin]="70"
+    [sidenavMin]="0"
     [sidenavMax]="320"
     [stepOver]="600"
     [hideSidenav]="hideSidenav"
     [expandedSidenav]="expandedSidenav"
     (expanded)="onExpanded($event)"
   >
-    <adf-sidenav-layout-header>
-      <ng-template let-isMenuMinimized="isMenuMinimized">
-        <app-header role="heading" aria-level="1" *ngIf="!hideSidenav" (toggleClicked)="layout.toggleMenu()" [expandedSidenav]="!isMenuMinimized()">
-        </app-header>
-      </ng-template>
-    </adf-sidenav-layout-header>
-
     <adf-sidenav-layout-navigation>
       <ng-template let-isMenuMinimized="isMenuMinimized">
         <app-sidenav

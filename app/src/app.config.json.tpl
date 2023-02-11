@@ -32,9 +32,9 @@
   },
   "locale": "en",
   "application": {
-    "name": "Alfresco Content Application",
+    "name": "Workspace",
     "version": "4.0.0-A.2",
-    "logo": "assets/images/alfresco-logo-flower.svg",
+    "logo": "assets/images/app-logo.svg",
     "copyright": "APP.COPYRIGHT"
   },
   "viewer.maxRetries": 1,

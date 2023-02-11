@@ -117,9 +117,6 @@ import { AppLayoutComponent } from './components/layout/app-layout/app-layout.co
 import { AppTrashcanModule } from './components/trashcan/trashcan.module';
 import { AppSharedLinkViewModule } from './components/shared-link-view/shared-link-view.module';
 import { AcaFolderRulesModule } from '@alfresco/aca-folder-rules';
-import { TagsColumnComponent } from './components/dl-custom-components/tags-column/tags-column.component';
-import { UserInfoComponent } from './components/common/user-info/user-info.component';
-import { CustomIconsModule } from './extensions/custom-icons.module';
 import { AppHeaderActionsModule } from './components/header-actions/header-actions.module';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 
@@ -171,8 +168,7 @@ registerLocaleData(localeSv);
     ViewProfileModule,
     AppTrashcanModule,
     AppSharedLinkViewModule,
-    AcaFolderRulesModule,
-    CustomIconsModule
+    AcaFolderRulesModule
   ],
   declarations: [
     FilesComponent,
