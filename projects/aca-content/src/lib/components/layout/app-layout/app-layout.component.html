@@ -18,7 +18,7 @@
     <adf-sidenav-layout-navigation>
       <ng-template let-isMenuMinimized="isMenuMinimized">
         <app-sidenav
-          [mode]="isMenuMinimized() ? 'collapsed' : 'expanded'"
+          [data]="{ layout, mode: layout.isMenuMinimized ? 'collapsed' : 'expanded'}"
           [attr.data-automation-id]="isMenuMinimized() ? 'collapsed' : 'expanded'"
           (swipeleft)="hideMenu($event)"
         >

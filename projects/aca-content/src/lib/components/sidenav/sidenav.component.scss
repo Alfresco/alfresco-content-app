@@ -1,14 +1,10 @@
 .sidenav {
-  width: 289px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: var(--theme-sidenav-background-color);
   display: flex;
+  flex: 1;
   flex-direction: column;
   height: 100%;
+  overflow-y: hidden;
+  background: var(--theme-sidenav-background-color);
 
   &-header {
     padding: 32px 0;
@@ -133,28 +129,6 @@
 
     .action-panel-header__label {
       font-size: var(--theme-caption-font-size);
-    }
-  }
-}
-
-.adf-sidenav-layout {
-  .mat-sidenav {
-    width: 0 !important;
-  }
-}
-
-@media screen and (max-width: 587px) {
-  .adf-sidenav-layout {
-    .adf-container-full-width {
-      margin-left: 0px !important;
-    }
-  }
-}
-
-@media screen and (min-width: 600px) {
-  .adf-sidenav-layout {
-    .adf-container-full-width {
-      margin-left: 289px !important;
     }
   }
 }
