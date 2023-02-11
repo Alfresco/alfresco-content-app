@@ -35,7 +35,6 @@ import {
   SetRepositoryInfoAction,
   SetInfoDrawerStateAction,
   SetInfoDrawerMetadataAspectAction,
-  SetHeaderColorAction,
   SetCurrentNodeVersionAction,
   SetFileUploadingDialogAction,
   SetInfoDrawerPreviewStateAction,
@@ -50,12 +49,6 @@ export function appReducer(state: AppState = INITIAL_APP_STATE, action: Action):
   switch (action.type) {
     case AppActionTypes.SetInitialState:
       newState = Object.assign({}, (action as SetInitialStateAction).payload);
-      break;
-    case AppActionTypes.SetHeaderColor:
-      newState = {
-        ...state,
-        headerColor: (action as SetHeaderColorAction).color
-      };
       break;
     case NodeActionTypes.SetSelection:
       newState = updateSelectedNodes(state, action as SetSelectedNodesAction);
