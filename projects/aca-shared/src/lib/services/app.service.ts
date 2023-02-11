@@ -57,10 +57,10 @@ export class AppService {
   private ready: BehaviorSubject<boolean>;
   ready$: Observable<boolean>;
 
-  public hideSidenav = new BehaviorSubject<boolean>(false);
-  cast = this.hideSidenav.asObservable();
-
   pageHeading$: Observable<string>;
+
+  appNavNarMode$: Subject<'collapsed' | 'expanded'> = new BehaviorSubject('expanded');
+  toggleAppNavBar$ = new Subject();
 
   hideSidenavConditions = ['/preview/'];
   minimizeSidenavConditions = ['search'];

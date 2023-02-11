@@ -1,5 +1,5 @@
-<div class="sidenav" *ngIf="!hideSidenav">
-  <ng-container [ngSwitch]="mode">
+<div class="sidenav">
+  <ng-container [ngSwitch]="data.mode">
     <div class="sidenav-header">
       <div class="sidenav-header-title">
         <div class="sidenav-header-title-logo" (click)="toggleClick()" (keypress)="toggleClick()">
@@ -16,8 +16,9 @@
         </div>
       </div>
     </div>
+
     <div class="section-sub-actions">
-      <div *ngFor="let group of groups; trackBy: trackByGroupId" class="section" [ngClass]="'section--' + mode">
+      <div *ngFor="let group of groups; trackBy: trackByGroupId" class="section" [ngClass]="'section--' + data.mode">
         <ng-container *ngSwitchCase="'expanded'">
           <mat-list-item *ngFor="let item of group.items; trackBy: trackByLinkId">
             <ng-container *ngIf="!item.component">

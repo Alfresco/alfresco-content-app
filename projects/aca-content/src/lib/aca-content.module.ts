@@ -42,7 +42,7 @@ import {
   LibraryStatusColumnComponent,
   TrashcanNameColumnComponent
 } from '@alfresco/adf-content-services';
-import { DocumentBasePageService, ExtensionsDataLoaderGuard, RouterExtensionService, SharedModule } from '@alfresco/aca-shared';
+import { DocumentBasePageService, ExtensionsDataLoaderGuard, PageLayoutModule, RouterExtensionService, SharedModule } from '@alfresco/aca-shared';
 import * as rules from '@alfresco/aca-shared/rules';
 
 import { FilesComponent } from './components/files/files.component';
@@ -61,11 +61,9 @@ import { AppToolbarModule } from './components/toolbar/toolbar.module';
 import { AppCreateMenuModule } from './components/create-menu/create-menu.module';
 import { AppSidenavModule } from './components/sidenav/sidenav.module';
 import { AppCommonModule } from './components/common/common.module';
-import { AppLayoutModule } from './components/layout/layout.module';
 import { AppSearchInputModule } from './components/search/search-input.module';
 import { DocumentListCustomComponentsModule } from './components/dl-custom-components/document-list-custom-components.module';
 import { AppSearchResultsModule } from './components/search/search-results.module';
-import { AppHeaderModule } from './components/header/header.module';
 import { AppNodeVersionModule } from './components/node-version/node-version.module';
 import { FavoritesComponent } from './components/favorites/favorites.component';
 import { RecentFilesComponent } from './components/recent-files/recent-files.component';
@@ -96,7 +94,6 @@ import { LocationLinkComponent } from './components/common/location-link/locatio
 import { LogoutComponent } from './components/common/logout/logout.component';
 import { ToggleSharedComponent } from './components/common/toggle-shared/toggle-shared.component';
 import { CustomNameColumnComponent } from './components/dl-custom-components/name-column/name-column.component';
-import { AppHeaderComponent } from './components/header/header.component';
 import { CommentsTabComponent } from './components/info-drawer/comments-tab/comments-tab.component';
 import { LibraryMetadataTabComponent } from './components/info-drawer/library-metadata-tab/library-metadata-tab.component';
 import { MetadataTabComponent } from './components/info-drawer/metadata-tab/metadata-tab.component';
@@ -113,14 +110,14 @@ import { ViewNodeComponent } from './components/toolbar/view-node/view-node.comp
 import { CONTENT_ROUTES } from './aca-content.routes';
 import { RouterModule } from '@angular/router';
 import { UploadFilesDialogComponent } from './components/upload-files-dialog/upload-files-dialog.component';
-import { SidenavWrapperComponent } from './components/sidenav/sidenav-wrapper/sidenav-wrapper.component';
-import { AppLayoutComponent } from './components/layout/app-layout/app-layout.component';
 import { AppTrashcanModule } from './components/trashcan/trashcan.module';
 import { AppSharedLinkViewModule } from './components/shared-link-view/shared-link-view.module';
 import { AcaFolderRulesModule } from '@alfresco/aca-folder-rules';
 import { TagsColumnComponent } from './components/dl-custom-components/tags-column/tags-column.component';
-import { ContentManagementService } from './services/content-management.service';
 import { UserInfoComponent } from './components/common/user-info/user-info.component';
+import { SidenavComponent } from './components/sidenav/sidenav.component';
+import { ContentManagementService } from './services/content-management.service';
+import { ShellLayoutComponent, SHELL_NAVBAR_MIN_WIDTH } from '@alfresco/adf-core/shell';
 
 registerLocaleData(localeFr);
 registerLocaleData(localeDe);
@@ -153,7 +150,7 @@ registerLocaleData(localeSv);
     MaterialModule,
     AppStoreModule,
     AppCommonModule,
-    AppLayoutModule,
+    PageLayoutModule,
     DirectivesModule,
     ContextMenuModule,
     AppInfoDrawerModule,
@@ -163,7 +160,6 @@ registerLocaleData(localeSv);
     DocumentListCustomComponentsModule,
     AppSearchInputModule,
     AppSearchResultsModule,
-    AppHeaderModule,
     AppNodeVersionModule,
     HammerModule,
     ViewProfileModule,
@@ -194,7 +190,8 @@ registerLocaleData(localeSv);
         name: 'app',
         source: 'assets'
       }
-    }
+    },
+    { provide: SHELL_NAVBAR_MIN_WIDTH, useValue: 0 }
   ]
 })
 export class ContentServiceExtensionModule {
@@ -205,9 +202,8 @@ export class ContentServiceExtensionModule {
     });
 
     extensions.setComponents({
-      'app.layout.main': AppLayoutComponent,
-      'app.layout.header': AppHeaderComponent,
-      'app.layout.sidenav': SidenavWrapperComponent,
+      'app.layout.main': ShellLayoutComponent,
+      'app.layout.sidenav': SidenavComponent,
       'app.shell.sibling': UploadFilesDialogComponent,
       'app.components.tabs.metadata': MetadataTabComponent,
       'app.components.tabs.library.metadata': LibraryMetadataTabComponent,
@@ -300,7 +296,10 @@ export class ContentServiceExtensionModule {
       'repository.isQuickShareEnabled': rules.hasQuickShareEnabled,
       'user.isAdmin': rules.isAdmin,
       'app.canShowLogout': rules.canShowLogout,
-      'app.isContentServiceEnabled': rules.isContentServiceEnabled
+      'app.isContentServiceEnabled': rules.isContentServiceEnabled,
+      'app.isUploadSupported': rules.isUploadSupported,
+      'app.canCreateLibrary': rules.canCreateLibrary,
+      'app.isSearchSupported': rules.isSearchSupported
     });
   }
 }
