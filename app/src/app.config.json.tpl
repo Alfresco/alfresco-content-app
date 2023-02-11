@@ -35,7 +35,6 @@
     "name": "Alfresco Content Application",
     "version": "4.0.0-A.3",
     "logo": "assets/images/alfresco-logo-flower.svg",
-    "headerImagePath": "assets/images/mastHead-bg-shapesPattern.svg",
     "copyright": "APP.COPYRIGHT"
   },
   "viewer.maxRetries": 1,
