@@ -17,9 +17,11 @@
       padding: 0 24px;
 
       &-logo {
-        position: absolute;
-        transform: scale(0.8);
-        cursor: pointer;
+        img {
+          cursor: pointer;
+          height: 28px;
+          vertical-align: middle;
+        }
       }
 
       &-text {
