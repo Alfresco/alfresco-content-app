@@ -40,7 +40,6 @@
   "viewer.maxRetries": 1,
   "sharedLinkDateTimePickerType": "datetime",
   "headerColor": "#ffffff",
-  "headerTextColor": "#000000",
   "customCssPath": "",
   "webFontPath": "",
   "pagination": {

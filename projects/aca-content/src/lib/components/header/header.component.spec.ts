@@ -55,7 +55,6 @@ describe('AppHeaderComponent', () => {
 
   const app = {
     headerColor: 'some-color',
-    headerTextColor: 'text-color',
     appName: 'name',
     logoPath: 'some/path'
   } as AppState;
@@ -86,7 +85,6 @@ describe('AppHeaderComponent', () => {
     component.appName$.subscribe((val) => expect(val).toBe(app.appName));
     component.logo$.subscribe((val) => expect(val).toBe(app.logoPath));
     component.headerColor$.subscribe((val) => expect(val).toBe(app.headerColor));
-    component.headerTextColor$.subscribe((val) => expect(val).toBe(app.headerTextColor));
   }));
 
   it('should get header actions', fakeAsync(() => {
