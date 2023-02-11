@@ -26,6 +26,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
+import { SHELL_NAVBAR_MIN_WIDTH } from '@alfresco/adf-core/shell';
 import { AppLayoutComponent } from './app-layout/app-layout.component';
 import { ContentModule } from '@alfresco/adf-content-services';
 import { RouterModule } from '@angular/router';
@@ -48,6 +49,7 @@ import { PageLayoutModule } from '@alfresco/aca-shared';
     PageLayoutModule
   ],
   declarations: [AppLayoutComponent],
-  exports: [AppLayoutComponent, PageLayoutModule]
+  exports: [AppLayoutComponent, PageLayoutModule],
+  providers: [{ provide: SHELL_NAVBAR_MIN_WIDTH, useValue: 0 }]
 })
 export class AppLayoutModule {}
