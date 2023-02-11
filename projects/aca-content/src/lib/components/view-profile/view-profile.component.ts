@@ -21,12 +21,10 @@
  * You should have received a copy of the GNU Lesser General Public License
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
-
-import { AlfrescoApiService } from '@alfresco/adf-core';
+import { AlfrescoApiService, AppConfigService } from '@alfresco/adf-core';
 import { PeopleApi, Person } from '@alfresco/js-api';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { throwError } from 'rxjs';
 
 @Component({
@@ -36,7 +34,11 @@ import { throwError } from 'rxjs';
   encapsulation: ViewEncapsulation.None
 })
 export class ViewProfileComponent implements OnInit {
-  peopleApi: PeopleApi;
+  private _peopleApi: PeopleApi;
+
+  get peopleApi(): PeopleApi {
+    return this._peopleApi ?? (this._peopleApi = new PeopleApi(this.apiService.getInstance()));
+  }
 
   profileForm: FormGroup;
   personDetails: Person;
@@ -52,8 +54,10 @@ export class ViewProfileComponent implements OnInit {
   contactSectionButtonsToggle = true;
   hideSidenav: boolean;
 
-  constructor(private router: Router, apiService: AlfrescoApiService) {
-    this.peopleApi = new PeopleApi(apiService.getInstance());
+  landingPage: string;
+
+  constructor(private apiService: AlfrescoApiService, private appConfigService: AppConfigService) {
+    this.landingPage = this.appConfigService.get('landingPage', '/personal-files');
   }
 
   ngOnInit() {
@@ -83,12 +87,6 @@ export class ViewProfileComponent implements OnInit {
       companyAddress: new FormControl(userInfo?.company?.address1 || ''),
       companyTelephone: new FormControl(userInfo?.company?.telephone || '', [Validators.pattern('^([0-9]+-)*[0-9]+$')]),
       companyEmail: new FormControl(userInfo?.company?.email || '', [Validators.email])
-    });
-  }
-
-  navigateToPersonalFiles() {
-    this.router.navigate(['/personal-files'], {
-      replaceUrl: true
     });
   }
 
