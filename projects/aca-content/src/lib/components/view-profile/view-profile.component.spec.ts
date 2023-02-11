@@ -104,13 +104,6 @@ describe('ViewProfileComponent', () => {
     expect(component.isSaveButtonDisabled()).toBeFalsy();
   });
 
-  it('should navigate to personal files when back button is clicked', () => {
-    const navigateSpy = spyOn(router, 'navigate');
-    component.navigateToPersonalFiles();
-
-    expect(navigateSpy).toHaveBeenCalledWith(['/personal-files'], { replaceUrl: true });
-  });
-
   it('should expand or compress general dropdown when arrow button is clicked', () => {
     spyOn(component, 'toggleGeneralDropdown').and.callThrough();
     component.generalSectionDropdown = false;

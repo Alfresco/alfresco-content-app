@@ -27,9 +27,10 @@ import { NgModule } from '@angular/core';
 import { ViewProfileComponent } from './view-profile.component';
 import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
-  imports: [CommonModule, CoreModule.forChild()],
+  imports: [CommonModule, RouterModule, CoreModule.forChild()],
   declarations: [ViewProfileComponent]
 })
 export class ViewProfileModule {}
