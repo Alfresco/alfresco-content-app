@@ -1,0 +1,18 @@
+<adf-layout-header
+  [logo]="logo$ | async"
+  [redirectUrl]="landingPage"
+  [tooltip]="appName$ | async"
+  [title]="appName$ | async"
+  (clicked)="onToggleSidenav($event)"
+  [expandedSidenav]="isSidenavExpanded"
+>
+  <div class="adf-toolbar--spacer adf-toolbar-divider"></div>
+
+  <aca-search-input *ngIf="isContentServiceEnabled()"></aca-search-input>
+
+  <adf-toolbar-divider></adf-toolbar-divider>
+
+  <ng-container *ngFor="let actionRef of actions; trackBy: trackByActionId">
+    <aca-toolbar-action [actionRef]="actionRef"> </aca-toolbar-action>
+  </ng-container>
+</adf-layout-header>

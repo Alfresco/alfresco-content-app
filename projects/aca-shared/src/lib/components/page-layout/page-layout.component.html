@@ -1,6 +1,6 @@
 <div class="aca-content-container">
     <div class="aca-content-header">
-        <div class="aca-menu-icon" [ngClass]="{'aca-menu-hidden' : !hideSidenav}" (click)="toggleClick()" (keypress)="toggleClick()">
+        <div *ngIf="(appNavNarMode$ | async) === 'collapsed'" class="aca-menu-icon" (click)="toggleClick()" (keypress)="toggleClick()">
             <mat-icon title="{{'APP.TOOLTIPS.EXPAND_NAVIGATION' | translate}}">menu</mat-icon>
         </div>
         <ng-content select="aca-page-layout-header"></ng-content>
