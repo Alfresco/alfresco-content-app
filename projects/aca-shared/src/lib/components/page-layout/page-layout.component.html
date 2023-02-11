@@ -1,10 +1,9 @@
-<div class="aca-content-container" [ngClass]="{'aca-page-layout-container' : hideSidenav}">
+<div class="aca-content-container">
     <div class="aca-content-header">
-        <div class="aca-menu-icon" [ngClass]="{'aca-display-menu' : !hideSidenav}" (click)="toggleClick()" (keypress)="toggleClick()">
+        <div class="aca-menu-icon" [ngClass]="{'aca-menu-hidden' : !hideSidenav}" (click)="toggleClick()" (keypress)="toggleClick()">
             <mat-icon title="{{'APP.TOOLTIPS.EXPAND_NAVIGATION' | translate}}">menu</mat-icon>
         </div>
-        <ng-content select="aca-page-layout-header">
-        </ng-content>
+        <ng-content select="aca-page-layout-header"></ng-content>
     </div>
     <ng-content select="aca-page-layout-error" *ngIf="hasError"></ng-content>
     <ng-content select="aca-page-layout-content" *ngIf="!hasError"></ng-content>

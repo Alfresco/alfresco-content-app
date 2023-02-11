@@ -29,18 +29,8 @@
     margin-top: 2px;
   }
 
-  .aca-display-menu {
+  .aca-menu-hidden {
     display: none;
-  }
-
-  .aca-page-layout-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    bottom: 0;
-    right: 0;
-    height: 100%;
   }
 
   .aca-page-layout-header {
@@ -48,7 +38,7 @@
     align-items: center;
     flex: auto;
     width: 100%;
-    
+
     .adf-breadcrumb-item {
       font-size: 20px !important;
       font-weight: 400 !important;
