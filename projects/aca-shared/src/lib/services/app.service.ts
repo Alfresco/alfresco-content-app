@@ -210,7 +210,6 @@ export class AppService {
       ...this.initialAppState,
       appName: this.config.get<string>('application.name'),
       headerColor: this.config.get<string>('headerColor'),
-      headerTextColor: this.config.get<string>('headerTextColor', '#000000'),
       logoPath: this.config.get<string>('application.logo'),
       customCssPath: this.config.get<string>('customCssPath'),
       webFontPath: this.config.get<string>('webFontPath'),
