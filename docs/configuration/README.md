@@ -89,17 +89,6 @@ The default logo displayed in the top left corner of the Alfresco Content Applic
 }
 ```
 
-### Header Background color
-
-You can change the header text and background colors by specifying the color code for the "headerTextColor" and "headerColor" keys:
-
-```json
-{
-    "headerTextColor": "#000000",
-    "headerColor": "#ffffff"
-}
-```
-
 ### Restricted content
 
 You can restrict users from uploading certain types of files and folders by setting or extending the list of rules at the "files.excluded" path.
