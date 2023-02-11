@@ -1,3 +1,8 @@
+<aca-page-layout>
+  <aca-page-layout-header>
+    <h1>{{ 'APP.BROWSE.ABOUT.TITLE' | translate }}</h1>
+  </aca-page-layout-header>
+
   <aca-page-layout-content [scrollable]="true">
     <adf-about>
       <adf-about-panel *ngIf="dev" [label]="'ABOUT.SERVER_SETTINGS.TITLE' | translate">
@@ -25,3 +30,4 @@
       </adf-about-panel>
     </adf-about>
   </aca-page-layout-content>
+</aca-page-layout>
