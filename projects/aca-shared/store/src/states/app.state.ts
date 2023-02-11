@@ -36,7 +36,6 @@ export interface AppState {
   logoPath: string;
   customCssPath: string;
   webFontPath: string;
-  headerImagePath: string;
   sharedUrl: string;
   currentNodeVersion: VersionEntry;
   selection: SelectionState;

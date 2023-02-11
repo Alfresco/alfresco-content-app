@@ -213,7 +213,6 @@ export class AppService {
       headerColor: this.config.get<string>('headerColor'),
       headerTextColor: this.config.get<string>('headerTextColor', '#000000'),
       logoPath: this.config.get<string>('application.logo'),
-      headerImagePath: this.config.get<string>('application.headerImagePath'),
       customCssPath: this.config.get<string>('customCssPath'),
       webFontPath: this.config.get<string>('webFontPath'),
       sharedUrl: baseShareUrl
