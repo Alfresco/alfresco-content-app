@@ -62,7 +62,6 @@ class DocumentBasePageServiceMock extends DocumentBasePageService {
 export const INITIAL_APP_STATE: AppState = {
   appName: 'Alfresco Content Application',
   headerColor: '#ffffff',
-  headerTextColor: '#000000',
   logoPath: 'assets/images/alfresco-logo-white.svg',
   customCssPath: '',
   webFontPath: '',
