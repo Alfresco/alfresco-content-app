@@ -100,18 +100,6 @@ You can change the header text and background colors by specifying the color cod
 }
 ```
 
-### Header background image
-
-You can change the header background image by specifying the path to the corresponding resource:
-
-```json
-{
-    "application": {
-      "headerImagePath": "assets/images/mastHead-bg-shapesPattern.svg"
-    }
-}
-```
-
 ### Restricted content
 
 You can restrict users from uploading certain types of files and folders by setting or extending the list of rules at the "files.excluded" path.
