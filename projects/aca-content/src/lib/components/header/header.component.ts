@@ -33,6 +33,7 @@ import { takeUntil } from 'rxjs/operators';
 import { AppConfigService, SidenavLayoutComponent } from '@alfresco/adf-core';
 import { isContentServiceEnabled } from '@alfresco/aca-shared/rules';
 
+/** @deprecated */
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',

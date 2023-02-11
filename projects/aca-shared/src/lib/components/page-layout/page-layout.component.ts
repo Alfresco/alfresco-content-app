@@ -23,7 +23,9 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewEncapsulation, ChangeDetectionStrategy, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, ViewEncapsulation, Input, OnDestroy } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { AppService } from '../../services/app.service';
 
 @Component({
@@ -31,26 +33,25 @@ import { AppService } from '../../services/app.service';
   templateUrl: './page-layout.component.html',
   styleUrls: ['./page-layout.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  host: { class: 'aca-page-layout' },
-  changeDetection: ChangeDetectionStrategy.OnPush
+  host: { class: 'aca-page-layout' }
 })
-export class PageLayoutComponent {
+export class PageLayoutComponent implements OnDestroy {
   @Input()
   hasError = false;
-  hideSidenav: boolean;
 
-  constructor(private appService: AppService, private ref: ChangeDetectorRef) {
-    setInterval(() => {
-      this.ref.detectChanges();
-    });
-  }
+  private onDestroy$ = new Subject<boolean>();
+  appNavNarMode$: Observable<'collapsed' | 'expanded'>;
 
-  ngOnInit() {
-    this.appService.cast.subscribe((data) => (this.hideSidenav = data));
+  constructor(private appService: AppService) {
+    this.appNavNarMode$ = appService.appNavNarMode$.pipe(takeUntil(this.onDestroy$));
   }
 
   toggleClick() {
-    this.hideSidenav = !this.hideSidenav;
-    this.appService.getSidenavValue(this.hideSidenav);
+    this.appService.toggleAppNavBar$.next();
+  }
+
+  ngOnDestroy() {
+    this.onDestroy$.next(true);
+    this.onDestroy$.complete();
   }
 }
