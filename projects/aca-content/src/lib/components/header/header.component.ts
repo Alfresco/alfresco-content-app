@@ -27,7 +27,7 @@ import { Component, ViewEncapsulation, Output, EventEmitter, OnInit, Input, OnDe
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { ContentActionRef } from '@alfresco/adf-extensions';
-import { AppStore, getHeaderColor, getAppName, getLogoPath, getHeaderImagePath, getHeaderTextColor } from '@alfresco/aca-shared/store';
+import { AppStore, getHeaderColor, getAppName, getLogoPath, getHeaderTextColor } from '@alfresco/aca-shared/store';
 import { AppExtensionService } from '@alfresco/aca-shared';
 import { takeUntil } from 'rxjs/operators';
 import { AppConfigService, SidenavLayoutComponent } from '@alfresco/adf-core';
@@ -68,10 +68,6 @@ export class AppHeaderComponent implements OnInit, OnDestroy {
     this.appName$ = store.select(getAppName);
     this.logo$ = store.select(getLogoPath);
     this.landingPage = this.appConfigService.get('landingPage', '/personal-files');
-
-    store.select(getHeaderImagePath).subscribe((path) => {
-      document.body.style.setProperty('--header-background-image', `url('${path}')`);
-    });
   }
 
   ngOnInit() {
