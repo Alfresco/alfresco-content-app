@@ -209,7 +209,6 @@ export class AppService {
     const state: AppState = {
       ...this.initialAppState,
       appName: this.config.get<string>('application.name'),
-      headerColor: this.config.get<string>('headerColor'),
       logoPath: this.config.get<string>('application.logo'),
       customCssPath: this.config.get<string>('customCssPath'),
       webFontPath: this.config.get<string>('webFontPath'),

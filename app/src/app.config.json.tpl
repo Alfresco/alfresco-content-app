@@ -39,7 +39,6 @@
   },
   "viewer.maxRetries": 1,
   "sharedLinkDateTimePickerType": "datetime",
-  "headerColor": "#ffffff",
   "customCssPath": "",
   "webFontPath": "",
   "pagination": {
