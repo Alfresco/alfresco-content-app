@@ -1,7 +1,7 @@
-<div class="app-profile-container" [ngClass]="{'app-view-profile-container' : hideSidenav === true}">
+<div class="app-profile-container">
   <div class="app-profile-row">
     <div class="app-profile-title">
-      <mat-icon class="app-profile-icon" (click)="navigateToPersonalFiles()" id="backButton">arrow_back</mat-icon>
+      <mat-icon class="app-profile-icon" [routerLink]="landingPage">arrow_back</mat-icon>
       <h3 class="app-profile">{{'APP.EDIT_PROFILE.MY_PROFILE' | translate}}</h3>
     </div>
   </div>
