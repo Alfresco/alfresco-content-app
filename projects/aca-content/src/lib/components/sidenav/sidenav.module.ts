@@ -38,6 +38,7 @@ import { ButtonMenuComponent } from './components/button-menu.component';
 import { ActionDirective } from './directives/action.directive';
 import { MainActionModule } from '../main-action/main-action.module';
 import { NavigationMenuComponent } from './navigation-menu/navigation-menu.component';
+import { SidenavHeaderComponent } from './components/sidenav-header.component';
 
 @NgModule({
   imports: [
@@ -57,7 +58,8 @@ import { NavigationMenuComponent } from './navigation-menu/navigation-menu.compo
     ExpandMenuComponent,
     ButtonMenuComponent,
     SidenavComponent,
-    NavigationMenuComponent
+    NavigationMenuComponent,
+    SidenavHeaderComponent
   ],
   exports: [
     MenuPanelDirective,
