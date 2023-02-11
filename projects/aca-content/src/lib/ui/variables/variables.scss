@@ -66,7 +66,6 @@ $defaults: (
   --theme-title-color: mat.get-color-from-palette($foreground, text, 0.87),
   --theme-text-disabled-color: mat.get-color-from-palette($foreground, text, 0.38),
   --theme-border-color: mat.get-color-from-palette($foreground, text, 0.07),
-  --header-background-image: url('/assets/images/mastHead-bg-shapesPattern.svg'),
   --theme-card-background-color: mat.get-color-from-palette($background, card),
   --theme-foreground-text-color: mat.get-color-from-palette($foreground, text, 0.72),
   --theme-foreground-text-bold-color: mat.get-color-from-palette($foreground, text, 0.87),
