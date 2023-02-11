@@ -15,6 +15,10 @@
       height: 32px !important;
       margin: 4px 0 0 12px !important;
     }
+
+    & > button {
+      margin-left: 12px;
+    }
   }
 
   .aca-mat-button {
@@ -28,28 +32,16 @@
     font-style: normal;
     border-radius: 6px;
     border: none;
+    height: 32px;
   }
 
   .aca-create-button {
-    width: 71px !important;
-    min-width: 71px;
-    height: 32px;
     background-color: var(--theme-create-button-background-color);
     color: var(--theme-create-button-text-color);
-    text-overflow: ellipsis;
-    display: flex;
-    padding: 0;
   }
 
   .aca-upload-button {
-    width: 73px !important;
-    min-width: 73px;
-    height: 32px;
     background-color: var(--theme-upload-button-background-color);
     color: var(--theme-upload-button-text-color);
-    text-overflow: ellipsis;
-    display: flex;
-    padding: 0;
-    margin-left: 12px;
   }
 }
