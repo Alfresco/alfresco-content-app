@@ -26,7 +26,6 @@
 export enum AppActionTypes {
   SetSettingsParameter = 'SET_SETTINGS_PARAMETER',
   SetInitialState = 'SET_INITIAL_STATE',
-  SetHeaderColor = 'SET_HEADER_COLOR',
   SetCurrentFolder = 'SET_CURRENT_FOLDER',
   SetCurrentVersion = 'SET_CURRENT_VERSION',
   SetCurrentUrl = 'SET_CURRENT_URL',

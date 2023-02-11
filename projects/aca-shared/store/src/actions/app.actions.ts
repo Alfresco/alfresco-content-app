@@ -40,12 +40,6 @@ export class SetInitialStateAction implements Action {
   constructor(public payload: AppState) {}
 }
 
-export class SetHeaderColorAction implements Action {
-  readonly type = AppActionTypes.SetHeaderColor;
-
-  constructor(public color: string) {}
-}
-
 export class SetCurrentFolderAction implements Action {
   readonly type = AppActionTypes.SetCurrentFolder;
 
