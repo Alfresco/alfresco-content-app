@@ -25,6 +25,7 @@
       }
 
       &-text {
+        flex: 1;
         color: var(--theme-selected-text-color);
         padding-left: 32px;
         letter-spacing: 0.25px;
@@ -33,14 +34,6 @@
         font-size: var(--theme-body-1-font-size);
         cursor: pointer;
       }
-    }
-
-    &-menu-icon {
-      transform: scale(1.2);
-    }
-
-    &-notification {
-      padding-left: 63px;
     }
   }
 
