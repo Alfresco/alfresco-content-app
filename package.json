@@ -83,7 +83,7 @@
     "browser-sync": "^2.27.11",
     "commander": "^6.1.0",
     "connect-history-api-fallback": "^2.0.0",
-    "cspell": "^6.19.2",
+    "cspell": "^6.23.0",
     "cypress": "^12.4.1",
     "dotenv": "8.2.0",
     "dotenv-expand": "^5.1.0",
