@@ -29,9 +29,11 @@ import { CoreModule } from '@alfresco/adf-core';
 import { AppToolbarModule } from '../toolbar/toolbar.module';
 import { AppSearchInputModule } from '../search/search-input.module';
 import { HeaderActionsComponent } from './header-actions.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
-  imports: [CommonModule, CoreModule.forChild(), AppToolbarModule, AppSearchInputModule],
+  imports: [CommonModule, CoreModule.forChild(), AppToolbarModule, AppSearchInputModule, MatButtonModule, MatIconModule],
   declarations: [HeaderActionsComponent],
   exports: [HeaderActionsComponent]
 })
