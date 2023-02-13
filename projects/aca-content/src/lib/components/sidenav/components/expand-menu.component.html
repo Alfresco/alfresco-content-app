@@ -10,6 +10,7 @@
       mat-button
       class="action-button full-width"
     >
+      <adf-icon *ngIf="item.icon" [value]="item.icon"></adf-icon>
       <span class="action-button__label">{{ item.title | translate }}</span>
     </button>
   </div>
