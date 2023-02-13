@@ -1,7 +1,8 @@
 <aca-page-layout>
   <aca-page-layout-header>
     <aca-search-input></aca-search-input>
-    <adf-toolbar class="adf-toolbar--inline adf-toolbar-search-results">
+    <div class="adf-toolbar--spacer adf-toolbar-divider"></div>
+    <adf-toolbar class="adf-toolbar--inline">
       <ng-container *ngFor="let entry of actions; trackBy: trackByActionId">
         <aca-toolbar-action [actionRef]="entry"></aca-toolbar-action>
       </ng-container>
