@@ -24,14 +24,16 @@ import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { CoreModule } from '@alfresco/adf-core';
 import { AppHeaderActionsModule } from './header-actions.module';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Router } from '@angular/router';
 
 describe('HeaderActionsComponent', () => {
-  let component: HeaderActionsComponent;
   let fixture: ComponentFixture<HeaderActionsComponent>;
+  let router: Router;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, CoreModule.forRoot(), AppHeaderActionsModule],
+      imports: [AppTestingModule, CoreModule.forRoot(), AppHeaderActionsModule, RouterTestingModule],
       declarations: [HeaderActionsComponent]
     });
 
@@ -61,8 +63,9 @@ describe('HeaderActionsComponent', () => {
       ])
     );
 
+    router = TestBed.inject(Router);
+
     fixture = TestBed.createComponent(HeaderActionsComponent);
-    component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
@@ -70,7 +73,7 @@ describe('HeaderActionsComponent', () => {
   const getUploadButton = (): HTMLButtonElement => fixture.debugElement.query(By.css('[data-automation-id="upload-button"]')).nativeElement;
 
   it('total number of buttons in header should be 2 if route is personal-files', async () => {
-    spyOn(component, 'isPersonalFilesRoute').and.returnValue(true);
+    spyOnProperty(router, 'url').and.returnValue('/personal-files');
 
     fixture.detectChanges();
     await fixture.whenStable();
@@ -83,7 +86,7 @@ describe('HeaderActionsComponent', () => {
   });
 
   it('total number of buttons in header should be 1 if route is libraries', async () => {
-    spyOn(component, 'isLibrariesRoute').and.returnValue(true);
+    spyOnProperty(router, 'url').and.returnValue('/libraries');
 
     fixture.detectChanges();
     await fixture.whenStable();
@@ -95,7 +98,7 @@ describe('HeaderActionsComponent', () => {
   });
 
   it('should render menu items when create menu is opened', async () => {
-    spyOn(component, 'isPersonalFilesRoute').and.returnValue(true);
+    spyOnProperty(router, 'url').and.returnValue('/personal-files');
 
     fixture.detectChanges();
     await fixture.whenStable();
@@ -112,7 +115,7 @@ describe('HeaderActionsComponent', () => {
   });
 
   it('should render menu items when upload menu is opened', async () => {
-    spyOn(component, 'isPersonalFilesRoute').and.returnValue(true);
+    spyOnProperty(router, 'url').and.returnValue('/personal-files');
 
     fixture.detectChanges();
     await fixture.whenStable();
