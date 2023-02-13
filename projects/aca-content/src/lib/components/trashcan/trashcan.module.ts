@@ -32,9 +32,9 @@ import { AppCommonModule } from '../common/common.module';
 import { AppToolbarModule } from '../toolbar/toolbar.module';
 import { DirectivesModule } from '../../directives/directives.module';
 import { ContextMenuModule } from '../context-menu/context-menu.module';
-import { AppLayoutModule } from '../layout/layout.module';
 import { AppSearchInputModule } from '../search/search-input.module';
 import { AppHeaderActionsModule } from '../header-actions/header-actions.module';
+import { PageLayoutModule } from '@alfresco/aca-shared';
 
 @NgModule({
   imports: [
@@ -45,7 +45,7 @@ import { AppHeaderActionsModule } from '../header-actions/header-actions.module'
     AppCommonModule,
     AppToolbarModule,
     ContextMenuModule,
-    AppLayoutModule,
+    PageLayoutModule,
     AppSearchInputModule,
     AppHeaderActionsModule
   ],

@@ -27,7 +27,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
 import { ContentModule } from '@alfresco/adf-content-services';
-import { LockedByModule } from '@alfresco/aca-shared';
+import { LockedByModule, PageLayoutModule } from '@alfresco/aca-shared';
 import { SearchResultsComponent } from './search-results/search-results.component';
 import { SearchResultsRowComponent } from './search-results-row/search-results-row.component';
 import { SearchLibrariesResultsComponent } from './search-libraries-results/search-libraries-results.component';
@@ -35,7 +35,6 @@ import { AppInfoDrawerModule } from '../info-drawer/info.drawer.module';
 import { AppToolbarModule } from '../toolbar/toolbar.module';
 import { AppCommonModule } from '../common/common.module';
 import { DirectivesModule } from '../../directives/directives.module';
-import { AppLayoutModule } from '../layout/layout.module';
 import { ContextMenuModule } from '../context-menu/context-menu.module';
 import { SearchActionMenuComponent } from './search-action-menu/search-action-menu.component';
 import { DocumentListCustomComponentsModule } from '../dl-custom-components/document-list-custom-components.module';
@@ -51,7 +50,7 @@ import { AppHeaderActionsModule } from '../header-actions/header-actions.module'
     AppInfoDrawerModule,
     AppToolbarModule,
     DirectivesModule,
-    AppLayoutModule,
+    PageLayoutModule,
     ContextMenuModule,
     LockedByModule,
     DocumentListCustomComponentsModule,
