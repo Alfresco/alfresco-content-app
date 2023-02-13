@@ -28,9 +28,6 @@ import { AppHeaderActionsModule } from './header-actions.module';
 describe('HeaderActionsComponent', () => {
   let component: HeaderActionsComponent;
   let fixture: ComponentFixture<HeaderActionsComponent>;
-  let extensionService: AppExtensionService;
-  let getCreateActionsSpy: jasmine.Spy;
-  let getUploadActionsSpy: jasmine.Spy;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -38,12 +35,8 @@ describe('HeaderActionsComponent', () => {
       declarations: [HeaderActionsComponent]
     });
 
-    fixture = TestBed.createComponent(HeaderActionsComponent);
-    component = fixture.componentInstance;
-    extensionService = TestBed.inject(AppExtensionService);
-
-    getCreateActionsSpy = spyOn(extensionService, 'getCreateActions');
-    getCreateActionsSpy.and.returnValue(
+    const extensionService = TestBed.inject(AppExtensionService);
+    spyOn(extensionService, 'getCreateActions').and.returnValue(
       of([
         {
           id: 'action1',
@@ -58,8 +51,7 @@ describe('HeaderActionsComponent', () => {
       ])
     );
 
-    getUploadActionsSpy = spyOn(extensionService, 'getUploadActions');
-    getUploadActionsSpy.and.returnValue(
+    spyOn(extensionService, 'getUploadActions').and.returnValue(
       of([
         {
           id: 'action3',
@@ -74,67 +66,63 @@ describe('HeaderActionsComponent', () => {
     fixture.detectChanges();
   });
 
+  const getCreateButton = (): HTMLButtonElement => fixture.debugElement.query(By.css('[data-automation-id="create-button"]')).nativeElement;
+  const getUploadButton = (): HTMLButtonElement => fixture.debugElement.query(By.css('[data-automation-id="upload-button"]')).nativeElement;
+
   it('total number of buttons in header should be 2 if route is personal-files', async () => {
     spyOn(component, 'isPersonalFilesRoute').and.returnValue(true);
+
     fixture.detectChanges();
+    await fixture.whenStable();
 
     const buttons = fixture.debugElement.queryAll(By.css('.action-bar > .aca-mat-button'));
-    const createButton: HTMLButtonElement = fixture.debugElement.query(By.css('[data-automation-id="create-button"]')).nativeElement;
-    const uploadButton: HTMLButtonElement = fixture.debugElement.query(By.css('[data-automation-id="upload-button"]')).nativeElement;
 
     expect(buttons.length).toBe(2);
-    expect(createButton).toBeTruthy();
-    expect(uploadButton).toBeTruthy();
+    expect(getCreateButton()).toBeTruthy();
+    expect(getUploadButton()).toBeTruthy();
   });
 
   it('total number of buttons in header should be 1 if route is libraries', async () => {
     spyOn(component, 'isLibrariesRoute').and.returnValue(true);
+
     fixture.detectChanges();
+    await fixture.whenStable();
 
     const buttons = fixture.debugElement.queryAll(By.css('.action-bar > .aca-mat-button'));
-    const createButton: HTMLButtonElement = fixture.debugElement.query(By.css('[data-automation-id="create-button"]')).nativeElement;
 
     expect(buttons.length).toBe(1);
-    expect(createButton).toBeTruthy();
+    expect(getCreateButton()).toBeTruthy();
   });
-
-  async function clickCreateMenu() {
-    fixture.detectChanges();
-    await fixture.whenStable();
-
-    const button: HTMLButtonElement = fixture.debugElement.query(By.css('[data-automation-id="create-button"]')).nativeElement;
-    button.click();
-  }
-
-  async function clickUploadMenu() {
-    fixture.detectChanges();
-    await fixture.whenStable();
-
-    const button: HTMLButtonElement = fixture.debugElement.query(By.css('[data-automation-id="upload-button"]')).nativeElement;
-    button.click();
-  }
 
   it('should render menu items when create menu is opened', async () => {
     spyOn(component, 'isPersonalFilesRoute').and.returnValue(true);
-    await clickCreateMenu();
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    getCreateButton().click();
 
     const menuItems = fixture.debugElement.queryAll(By.css('.app-toolbar-menu-item'));
     expect(menuItems.length).toBe(2);
 
-    const menuItemOne: HTMLSpanElement = (menuItems[0].nativeElement as HTMLButtonElement).querySelector('[data-automation-id="menu-item-title"]');
-    const menuItemTwo: HTMLSpanElement = (menuItems[1].nativeElement as HTMLButtonElement).querySelector('[data-automation-id="menu-item-title"]');
+    const menuItemOne = (menuItems[0].nativeElement as HTMLButtonElement).querySelector<HTMLSpanElement>('[data-automation-id="menu-item-title"]');
+    const menuItemTwo = (menuItems[1].nativeElement as HTMLButtonElement).querySelector<HTMLSpanElement>('[data-automation-id="menu-item-title"]');
     expect(menuItemOne.innerText).toBe('create action one');
     expect(menuItemTwo.innerText).toBe('create action two');
   });
 
   it('should render menu items when upload menu is opened', async () => {
     spyOn(component, 'isPersonalFilesRoute').and.returnValue(true);
-    await clickUploadMenu();
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    getUploadButton().click();
 
     const menuItems = fixture.debugElement.queryAll(By.css('.app-toolbar-menu-item'));
     expect(menuItems.length).toBe(1);
 
-    const menuItemOne: HTMLSpanElement = (menuItems[0].nativeElement as HTMLButtonElement).querySelector('[data-automation-id="menu-item-title"]');
+    const menuItemOne = (menuItems[0].nativeElement as HTMLButtonElement).querySelector<HTMLSpanElement>('[data-automation-id="menu-item-title"]');
     expect(menuItemOne.innerText).toBe('upload action one');
   });
 });
