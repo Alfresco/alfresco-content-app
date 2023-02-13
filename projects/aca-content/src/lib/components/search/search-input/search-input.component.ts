@@ -154,7 +154,10 @@ export class SearchInputComponent implements OnInit, OnDestroy {
     } else {
       this.store.dispatch(new SnackbarErrorAction('APP.BROWSE.SEARCH.EMPTY_SEARCH'));
     }
-    this.trigger.closeMenu();
+
+    if (this.trigger) {
+      this.trigger.closeMenu();
+    }
   }
 
   onSearchChange(searchTerm: string) {
