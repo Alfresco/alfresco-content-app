@@ -1,10 +1,8 @@
 <div class="sidenav">
-  <ng-container [ngSwitch]="data.mode">
     <app-sidenav-header (toggleNavBar)="toggleClick()"></app-sidenav-header>
 
     <div class="section-sub-actions">
-      <div *ngFor="let group of groups; trackBy: trackByGroupId" class="section" [ngClass]="'section--' + data.mode">
-        <ng-container *ngSwitchCase="'expanded'">
+      <div *ngFor="let group of groups; trackBy: trackByGroupId" class="section">
           <mat-list-item *ngFor="let item of group.items; trackBy: trackByLinkId">
             <ng-container *ngIf="!item.component">
               <app-expand-menu [item]="item"></app-expand-menu>
@@ -13,20 +11,6 @@
               <adf-dynamic-component [data]="{ item: item, state: 'expanded' }" [id]="item.component"></adf-dynamic-component>
             </ng-container>
           </mat-list-item>
-        </ng-container>
-
-        <ng-container *ngSwitchCase="'collapsed'">
-          <div class="list-item" *ngFor="let item of group.items; trackBy: trackByLinkId">
-            <ng-container *ngIf="!item.component">
-              <app-button-menu [item]="item"></app-button-menu>
-            </ng-container>
-
-            <ng-container *ngIf="item.component">
-              <adf-dynamic-component [data]="{ item: item, state: 'collapsed' }" [id]="item.component"></adf-dynamic-component>
-            </ng-container>
-          </div>
-        </ng-container>
       </div>
     </div>
-  </ng-container>
 </div>
