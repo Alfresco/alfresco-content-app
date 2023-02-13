@@ -113,12 +113,12 @@ import { ViewNodeComponent } from './components/toolbar/view-node/view-node.comp
 import { CONTENT_ROUTES } from './aca-content.routes';
 import { RouterModule } from '@angular/router';
 import { UploadFilesDialogComponent } from './components/upload-files-dialog/upload-files-dialog.component';
-import { AppLayoutComponent } from './components/layout/app-layout/app-layout.component';
 import { AppTrashcanModule } from './components/trashcan/trashcan.module';
 import { AppSharedLinkViewModule } from './components/shared-link-view/shared-link-view.module';
 import { AcaFolderRulesModule } from '@alfresco/aca-folder-rules';
 import { AppHeaderActionsModule } from './components/header-actions/header-actions.module';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
+import { ShellLayoutComponent } from '@alfresco/adf-core/shell';
 
 registerLocaleData(localeFr);
 registerLocaleData(localeDe);
@@ -204,7 +204,7 @@ export class ContentServiceExtensionModule {
     });
 
     extensions.setComponents({
-      'app.layout.main': AppLayoutComponent,
+      'app.layout.main': ShellLayoutComponent,
       // This allows providing custom application header, disabled for ACA the time being
       // 'app.layout.header': AppHeaderComponent,
       'app.layout.sidenav': SidenavComponent,

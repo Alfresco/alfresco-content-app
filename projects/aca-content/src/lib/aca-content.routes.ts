@@ -23,7 +23,6 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AppLayoutComponent } from './components/layout/app-layout/app-layout.component';
 import { FilesComponent } from './components/files/files.component';
 import { LibrariesComponent } from './components/libraries/libraries.component';
 import { FavoriteLibrariesComponent } from './components/favorite-libraries/favorite-libraries.component';
@@ -41,6 +40,7 @@ import { ViewProfileRuleGuard } from './components/view-profile/view-profile.gua
 import { Route } from '@angular/router';
 import { SharedLinkViewComponent } from './components/shared-link-view/shared-link-view.component';
 import { TrashcanComponent } from './components/trashcan/trashcan.component';
+import { ShellLayoutComponent } from '@alfresco/adf-core/shell';
 
 export const CONTENT_ROUTES: ExtensionRoute[] = [
   {
@@ -57,7 +57,7 @@ export const CONTENT_ROUTES: ExtensionRoute[] = [
   },
   {
     path: 'view',
-    component: AppLayoutComponent,
+    component: ShellLayoutComponent,
     children: [
       {
         path: ':nodeId',
