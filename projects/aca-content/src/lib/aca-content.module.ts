@@ -43,7 +43,7 @@ import {
   LibraryStatusColumnComponent,
   TrashcanNameColumnComponent
 } from '@alfresco/adf-content-services';
-import { DocumentBasePageService, ExtensionsDataLoaderGuard, RouterExtensionService, SharedModule } from '@alfresco/aca-shared';
+import { DocumentBasePageService, ExtensionsDataLoaderGuard, PageLayoutModule, RouterExtensionService, SharedModule } from '@alfresco/aca-shared';
 import * as rules from '@alfresco/aca-shared/rules';
 
 import { FilesComponent } from './components/files/files.component';
@@ -62,7 +62,6 @@ import { AppToolbarModule } from './components/toolbar/toolbar.module';
 import { AppCreateMenuModule } from './components/create-menu/create-menu.module';
 import { AppSidenavModule } from './components/sidenav/sidenav.module';
 import { AppCommonModule } from './components/common/common.module';
-import { AppLayoutModule } from './components/layout/layout.module';
 import { AppSearchInputModule } from './components/search/search-input.module';
 import { DocumentListCustomComponentsModule } from './components/dl-custom-components/document-list-custom-components.module';
 import { AppSearchResultsModule } from './components/search/search-results.module';
@@ -119,7 +118,7 @@ import { TagsColumnComponent } from './components/dl-custom-components/tags-colu
 import { UserInfoComponent } from './components/common/user-info/user-info.component';
 import { AppHeaderActionsModule } from './components/header-actions/header-actions.module';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
-import { ShellLayoutComponent } from '@alfresco/adf-core/shell';
+import { ShellLayoutComponent, SHELL_NAVBAR_MIN_WIDTH } from '@alfresco/adf-core/shell';
 
 registerLocaleData(localeFr);
 registerLocaleData(localeDe);
@@ -152,7 +151,7 @@ registerLocaleData(localeSv);
     MaterialModule,
     AppStoreModule,
     AppCommonModule,
-    AppLayoutModule,
+    PageLayoutModule,
     DirectivesModule,
     ContextMenuModule,
     AppInfoDrawerModule,
@@ -193,7 +192,8 @@ registerLocaleData(localeSv);
         name: 'app',
         source: 'assets'
       }
-    }
+    },
+    { provide: SHELL_NAVBAR_MIN_WIDTH, useValue: 0 }
   ]
 })
 export class ContentServiceExtensionModule {
