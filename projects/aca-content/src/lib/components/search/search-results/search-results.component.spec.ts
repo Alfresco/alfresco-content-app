@@ -25,7 +25,6 @@
 
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { SearchResultsComponent } from './search-results.component';
-import { AppTestingModule } from '../../../testing/app-testing.module';
 import { AppSearchResultsModule } from '../search-results.module';
 import { AppConfigService, CoreModule, TranslationService } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
@@ -34,7 +33,9 @@ import { Pagination, SearchRequest } from '@alfresco/js-api';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { AppTestingModule } from '../../../testing/app-testing.module';
+import { AppService } from '@alfresco/aca-shared';
 
 describe('SearchComponent', () => {
   let component: SearchResultsComponent;
@@ -50,8 +51,15 @@ describe('SearchComponent', () => {
   beforeEach(() => {
     params = new BehaviorSubject({ q: 'TYPE: "cm:folder" AND %28=cm: name: email OR cm: name: budget%29' });
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), CoreModule.forRoot(), AppTestingModule, AppSearchResultsModule],
+      imports: [TranslateModule.forRoot(), AppTestingModule, CoreModule.forRoot(), AppSearchResultsModule],
       providers: [
+        {
+          provide: AppService,
+          useValue: {
+            appNavNarMode$: new BehaviorSubject('expanded'),
+            toggleAppNavBar$: new Subject()
+          }
+        },
         {
           provide: ActivatedRoute,
           useValue: {

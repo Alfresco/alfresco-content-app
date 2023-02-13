@@ -6,12 +6,11 @@
  * agreement is prohibited.
  */
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { AppConfigModule } from '@alfresco/adf-core';
 import { ViewProfileComponent } from './view-profile.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { ViewProfileModule } from './view-profile.module';
 
 describe('ViewProfileComponent', () => {
   let fixture: ComponentFixture<ViewProfileComponent>;
@@ -20,8 +19,7 @@ describe('ViewProfileComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, AppConfigModule, FormsModule, ReactiveFormsModule],
-      declarations: [ViewProfileComponent]
+      imports: [AppTestingModule, ViewProfileModule]
     });
 
     fixture = TestBed.createComponent(ViewProfileComponent);
