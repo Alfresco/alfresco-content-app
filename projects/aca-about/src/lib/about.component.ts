@@ -27,7 +27,7 @@ import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { DEV_MODE_TOKEN } from './dev-mode.tokens';
 import { Observable } from 'rxjs';
 import { AppExtensionService, ExtensionRef } from '@alfresco/adf-extensions';
-import { AuthenticationService, DiscoveryApiService, RepositoryInfo } from '@alfresco/adf-core';
+import { AppConfigService, AuthenticationService, DiscoveryApiService, RepositoryInfo } from '@alfresco/adf-core';
 import { PACKAGE_JSON } from './package-json.token';
 
 @Component({
@@ -46,6 +46,7 @@ export class AboutComponent implements OnInit {
   dev = false;
   extensions$: Observable<ExtensionRef[]>;
   repository: RepositoryInfo = null;
+  landingPage: string;
 
   constructor(
     @Inject(DEV_MODE_TOKEN) devMode,
@@ -54,10 +55,12 @@ export class AboutComponent implements OnInit {
     public packageJson,
     private authService: AuthenticationService,
     private appExtensions: AppExtensionService,
-    private discovery: DiscoveryApiService
+    private discovery: DiscoveryApiService,
+    appConfigService: AppConfigService
   ) {
     this.dev = !devMode;
     this.extensions$ = this.appExtensions.references$;
+    this.landingPage = appConfigService.get('landingPage', '/personal-files');
   }
 
   ngOnInit(): void {

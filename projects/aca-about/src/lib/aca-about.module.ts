@@ -32,9 +32,10 @@ import { SharedModule, PageLayoutModule } from '@alfresco/aca-shared';
 import { ExtensionService, provideExtensionConfig } from '@alfresco/adf-extensions';
 import { DEV_MODE_TOKEN } from './dev-mode.tokens';
 import { PACKAGE_JSON } from './package-json.token';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
-  imports: [CommonModule, CoreModule.forChild(), SharedModule, PageLayoutModule],
+  imports: [CommonModule, RouterModule, CoreModule.forChild(), SharedModule, PageLayoutModule],
   declarations: [AboutComponent],
   providers: [provideExtensionConfig(['about.plugin.json'])]
 })
