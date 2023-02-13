@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ContentManagementService } from '../../services/content-management.service';
@@ -36,13 +36,9 @@ import { SetCurrentFolderAction, AppStore } from '@alfresco/aca-shared/store';
   styleUrls: ['./header-actions.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class HeaderActionsComponent extends PageComponent implements OnInit, OnDestroy {
+export class HeaderActionsComponent extends PageComponent implements OnDestroy {
   constructor(private router: Router, store: Store<AppStore>, content: ContentManagementService, extensions: AppExtensionService) {
     super(store, extensions, content);
-  }
-
-  ngOnInit() {
-    super.ngOnInit();
   }
 
   ngOnDestroy() {
@@ -50,39 +46,27 @@ export class HeaderActionsComponent extends PageComponent implements OnInit, OnD
     super.ngOnDestroy();
   }
 
-  isPersonalFilesRoute(): boolean {
+  private isPersonalFilesRoute(): boolean {
     return this.router.url.includes('/personal-files');
   }
 
-  isFavoriteLibrariesRoute(): boolean {
+  private isFavoriteLibrariesRoute(): boolean {
     return this.router.url.includes('/favorite/libraries');
   }
 
-  isLibrariesRoute(): boolean {
+  private isLibrariesRoute(): boolean {
     return this.router.url.includes('/libraries');
   }
 
   canShowCreateButton(): boolean {
-    if (this.isPersonalFilesRoute() || this.isFavoriteLibrariesRoute() || this.isLibrariesRoute()) {
-      return true;
-    } else {
-      return false;
-    }
+    return this.isPersonalFilesRoute() || this.isFavoriteLibrariesRoute() || this.isLibrariesRoute();
   }
 
   canShowUploadButton(): boolean {
-    if (this.isPersonalFilesRoute()) {
-      return true;
-    } else {
-      return false;
-    }
+    return this.isPersonalFilesRoute();
   }
 
   canShowSearchSeparator(): boolean {
-    if (this.isPersonalFilesRoute() || this.isFavoriteLibrariesRoute() || this.isLibrariesRoute()) {
-      return true;
-    } else {
-      return false;
-    }
+    return this.canShowUploadButton() || this.canShowCreateButton();
   }
 }
