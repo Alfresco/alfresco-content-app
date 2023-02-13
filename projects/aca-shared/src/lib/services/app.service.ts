@@ -72,7 +72,7 @@ export class AppService implements OnDestroy {
   toggleAppNavBar$ = new Subject();
 
   hideSidenavConditions = ['/preview/'];
-  minimizeSidenavConditions = ['search'];
+  minimizeSidenavConditions = ['search', 'about', 'profile'];
 
   onDestroy$ = new Subject<boolean>();
 
