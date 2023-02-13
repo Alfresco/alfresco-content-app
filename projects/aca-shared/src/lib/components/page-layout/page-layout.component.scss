@@ -3,18 +3,7 @@
 .aca-page-layout {
   @include flex-column;
 
-  .aca-content-container {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    height: 100%;
-    overflow: hidden;
-    min-height: 0;
-  }
-
   .aca-content-header {
-    border-left: none;
-    border-right: none;
     background: var(--theme-page-layout-header-background-color);
     height: 96px;
     padding: 0 24px;
@@ -29,9 +18,9 @@
     width: 100%;
 
     .adf-breadcrumb-item {
-      font-size: 20px !important;
-      font-weight: 400 !important;
-      letter-spacing: 0.15px !important;
+      font-size: 20px;
+      font-weight: 400;
+      letter-spacing: 0.15px;
     }
   }
 
@@ -53,14 +42,6 @@
     .main-content {
       overflow: auto !important;
     }
-  }
-
-  .sidebar {
-    display: block;
-    height: 100%;
-    overflow-y: scroll;
-    max-width: 350px;
-    width: 350px;
   }
 }
 
