@@ -27,7 +27,8 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { SidenavComponent } from './sidenav.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { AppExtensionService } from '@alfresco/aca-shared';
+import { AppExtensionService, AppService } from '@alfresco/aca-shared';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 describe('SidenavComponent', () => {
   let fixture: ComponentFixture<SidenavComponent>;
@@ -38,6 +39,15 @@ describe('SidenavComponent', () => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule],
       declarations: [SidenavComponent],
+      providers: [
+        {
+          provide: AppService,
+          useValue: {
+            appNavNarMode$: new BehaviorSubject('expanded'),
+            toggleAppNavBar$: new Subject()
+          }
+        }
+      ],
       schemas: [NO_ERRORS_SCHEMA]
     });
 
