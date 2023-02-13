@@ -23,12 +23,14 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { ContentManagementService } from '../../services/content-management.service';
-import { AppExtensionService, PageComponent } from '@alfresco/aca-shared';
+import { AppExtensionService } from '@alfresco/aca-shared';
 import { SetCurrentFolderAction, AppStore } from '@alfresco/aca-shared/store';
+import { ContentActionRef } from '@alfresco/adf-extensions';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'aca-header-actions',
@@ -36,14 +38,38 @@ import { SetCurrentFolderAction, AppStore } from '@alfresco/aca-shared/store';
   styleUrls: ['./header-actions.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class HeaderActionsComponent extends PageComponent implements OnDestroy {
-  constructor(private router: Router, store: Store<AppStore>, content: ContentManagementService, extensions: AppExtensionService) {
-    super(store, extensions, content);
+export class HeaderActionsComponent implements OnInit, OnDestroy {
+  private onDestroy$ = new Subject<boolean>();
+
+  createActions: Array<ContentActionRef> = [];
+  uploadActions: Array<ContentActionRef> = [];
+
+  constructor(private router: Router, private store: Store<AppStore>, private extensions: AppExtensionService) {}
+
+  ngOnInit(): void {
+    this.extensions
+      .getCreateActions()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((actions) => {
+        this.createActions = actions;
+      });
+
+    this.extensions
+      .getUploadActions()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((actions) => {
+        this.uploadActions = actions;
+      });
   }
 
   ngOnDestroy() {
+    this.onDestroy$.next(true);
+    this.onDestroy$.complete();
     this.store.dispatch(new SetCurrentFolderAction(null));
-    super.ngOnDestroy();
+  }
+
+  trackByActionId(_: number, action: ContentActionRef) {
+    return action.id;
   }
 
   private isPersonalFilesRoute(): boolean {
@@ -59,11 +85,11 @@ export class HeaderActionsComponent extends PageComponent implements OnDestroy {
   }
 
   canShowCreateButton(): boolean {
-    return this.isPersonalFilesRoute() || this.isFavoriteLibrariesRoute() || this.isLibrariesRoute();
+    return this.createActions.length > 0 && (this.isPersonalFilesRoute() || this.isFavoriteLibrariesRoute() || this.isLibrariesRoute());
   }
 
   canShowUploadButton(): boolean {
-    return this.isPersonalFilesRoute();
+    return this.uploadActions.length > 0 && this.isPersonalFilesRoute();
   }
 
   canShowSearchSeparator(): boolean {

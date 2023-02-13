@@ -26,29 +26,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
-import { ContentModule } from '@alfresco/adf-content-services';
-import { AppCommonModule } from '../common/common.module';
 import { AppToolbarModule } from '../toolbar/toolbar.module';
-import { DirectivesModule } from '../../directives/directives.module';
-import { ContextMenuModule } from '../context-menu/context-menu.module';
 import { AppSearchInputModule } from '../search/search-input.module';
 import { HeaderActionsComponent } from './header-actions.component';
 import { MainActionModule } from '../main-action/main-action.module';
-import { PageLayoutModule } from '@alfresco/aca-shared';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    CoreModule.forChild(),
-    ContentModule.forChild(),
-    DirectivesModule,
-    AppCommonModule,
-    AppToolbarModule,
-    ContextMenuModule,
-    PageLayoutModule,
-    AppSearchInputModule,
-    MainActionModule
-  ],
+  imports: [CommonModule, CoreModule.forChild(), AppToolbarModule, AppSearchInputModule, MainActionModule],
   declarations: [HeaderActionsComponent],
   exports: [HeaderActionsComponent]
 })
