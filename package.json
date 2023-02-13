@@ -88,7 +88,7 @@
     "dotenv": "8.2.0",
     "dotenv-expand": "^5.1.0",
     "envsub": "^4.1.0",
-    "eslint": "^8.33.0",
+    "eslint": "^8.34.0",
     "eslint-plugin-ban": "^1.6.0",
     "eslint-plugin-import": "2.27.5",
     "eslint-plugin-jsdoc": "39.3.25",
