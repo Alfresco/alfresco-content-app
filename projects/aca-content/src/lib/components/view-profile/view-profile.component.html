@@ -1,8 +1,10 @@
 <div class="app-profile-container">
   <div class="app-profile-row">
     <div class="app-profile-title">
-      <mat-icon class="app-profile-icon" [routerLink]="landingPage">arrow_back</mat-icon>
-      <h3 class="app-profile">{{'APP.EDIT_PROFILE.MY_PROFILE' | translate}}</h3>
+      <button mat-icon-button [routerLink]="landingPage">
+        <mat-icon class="app-profile-icon">arrow_back</mat-icon>
+      </button>
+      <h1 class="app-profile">{{'APP.EDIT_PROFILE.MY_PROFILE' | translate}}</h1>
     </div>
   </div>
   <div class="app-profile-general-row" [formGroup]="profileForm">
