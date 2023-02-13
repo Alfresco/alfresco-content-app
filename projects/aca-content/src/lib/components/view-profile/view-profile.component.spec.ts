@@ -30,6 +30,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { MatDividerModule } from '@angular/material/divider';
+import { ViewProfileModule } from './view-profile.module';
 
 describe('ViewProfileComponent', () => {
   let fixture: ComponentFixture<ViewProfileComponent>;
@@ -38,7 +39,7 @@ describe('ViewProfileComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, AppConfigModule, FormsModule, ReactiveFormsModule, MatDividerModule],
+      imports: [AppTestingModule, ViewProfileModule, AppConfigModule, FormsModule, ReactiveFormsModule, MatDividerModule],
       declarations: [ViewProfileComponent]
     });
 
