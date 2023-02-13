@@ -135,7 +135,9 @@ export class SearchInputComponent implements OnInit, OnDestroy {
   }
 
   onMenuOpened() {
-    this.searchInputControl.searchInput.nativeElement.focus();
+    if (this.searchInputControl) {
+      this.searchInputControl.searchInput?.nativeElement?.focus();
+    }
   }
 
   /**
