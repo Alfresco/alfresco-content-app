@@ -2085,7 +2085,7 @@
           "class": "adf-full-width adf-expand-cell-4",
           "type": "text",
           "sortable": false,
-          "desktopOnly": false,
+          "desktopOnly": true,
           "order": 60
         }
       ],
@@ -2150,7 +2150,7 @@
           "class": "adf-full-width adf-expand-cell-4",
           "type": "text",
           "sortable": false,
-          "desktopOnly": false,
+          "desktopOnly": true,
           "order": 60
         }
       ],
@@ -2215,7 +2215,7 @@
           "class": "adf-full-width adf-expand-cell-4",
           "type": "text",
           "sortable": false,
-          "desktopOnly": false,
+          "desktopOnly": true,
           "order": 60
         }
       ],
@@ -2304,7 +2304,7 @@
           "class": "adf-full-width adf-expand-cell-4",
           "type": "text",
           "sortable": false,
-          "desktopOnly": false,
+          "desktopOnly": true,
           "order": 80
         }
       ],
@@ -2369,7 +2369,7 @@
           "class": "adf-full-width adf-expand-cell-4",
           "type": "text",
           "sortable": false,
-          "desktopOnly": false,
+          "desktopOnly": true,
           "order": 60
         }
       ],
@@ -2444,7 +2444,7 @@
           "class": "adf-full-width adf-expand-cell-4",
           "type": "text",
           "sortable": false,
-          "desktopOnly": false,
+          "desktopOnly": true,
           "order": 70
         }
       ],
@@ -2564,7 +2564,7 @@
           "class": "adf-full-width adf-expand-cell-4",
           "type": "text",
           "sortable": false,
-          "desktopOnly": false,
+          "desktopOnly": true,
           "order": 60
         }
       ]
