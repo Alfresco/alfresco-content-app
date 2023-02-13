@@ -10,8 +10,7 @@
               <app-expand-menu [item]="item"></app-expand-menu>
             </ng-container>
             <ng-container *ngIf="item.component">
-              <adf-dynamic-component [data]="{ item: item, state: 'expanded' }"
-                [id]="item.component"></adf-dynamic-component>
+              <adf-dynamic-component [data]="{ item: item, state: 'expanded' }" [id]="item.component"></adf-dynamic-component>
             </ng-container>
           </mat-list-item>
         </ng-container>
@@ -19,12 +18,11 @@
         <ng-container *ngSwitchCase="'collapsed'">
           <div class="list-item" *ngFor="let item of group.items; trackBy: trackByLinkId">
             <ng-container *ngIf="!item.component">
-              <app-expand-menu [item]="item"></app-expand-menu>
+              <app-button-menu [item]="item"></app-button-menu>
             </ng-container>
 
             <ng-container *ngIf="item.component">
-              <adf-dynamic-component [data]="{ item: item, state: 'collapsed' }" [id]="item.component">
-              </adf-dynamic-component>
+              <adf-dynamic-component [data]="{ item: item, state: 'collapsed' }" [id]="item.component"></adf-dynamic-component>
             </ng-container>
           </div>
         </ng-container>
