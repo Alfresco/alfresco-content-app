@@ -23,18 +23,20 @@
     #acaExpansionPanel="acaExpansionPanel"
     [@.disabled]="true"
   >
-    <mat-expansion-panel-header expandedHeight="32x" collapsedHeight="32px" role="group">
+    <mat-expansion-panel-header expandedHeight="48x" collapsedHeight="48px" role="group">
       <mat-panel-title>
         <div class="item">
-          <div
+          <button
             [attr.aria-label]="item.title | translate"
             [id]="item.id"
             [attr.title]="item.description | translate"
             [attr.data-automation-id]="item.id"
-            class="action-panel-header"
+            mat-button
+            class="action-button full-width"
           >
-            <span class="action-panel-header__label">{{ item.title | translate }}</span>
-          </div>
+            <adf-icon *ngIf="item.icon" [value]="item.icon"></adf-icon>
+            <span class="action-button__label">{{ item.title | translate }}</span>
+          </button>
         </div>
       </mat-panel-title>
     </mat-expansion-panel-header>

@@ -230,7 +230,6 @@
           {
             "id": "app.navbar.menu",
             "order": 100,
-            "icon": "folder",
             "title": "APP.BROWSE.FILE.SIDENAV_LINK.LABEL",
             "description": "APP.BROWSE.FILE.SIDENAV_LINK.TOOLTIP",
             "rules": {
