@@ -66,7 +66,6 @@ import { AppLayoutModule } from './components/layout/layout.module';
 import { AppSearchInputModule } from './components/search/search-input.module';
 import { DocumentListCustomComponentsModule } from './components/dl-custom-components/document-list-custom-components.module';
 import { AppSearchResultsModule } from './components/search/search-results.module';
-import { AppHeaderModule } from './components/header/header.module';
 import { AppNodeVersionModule } from './components/node-version/node-version.module';
 import { FavoritesComponent } from './components/favorites/favorites.component';
 import { RecentFilesComponent } from './components/recent-files/recent-files.component';
@@ -162,7 +161,6 @@ registerLocaleData(localeSv);
     AppSearchInputModule,
     AppHeaderActionsModule,
     AppSearchResultsModule,
-    AppHeaderModule,
     AppNodeVersionModule,
     HammerModule,
     ViewProfileModule,
@@ -205,8 +203,6 @@ export class ContentServiceExtensionModule {
 
     extensions.setComponents({
       'app.layout.main': ShellLayoutComponent,
-      // This allows providing custom application header, disabled for ACA the time being
-      // 'app.layout.header': AppHeaderComponent,
       'app.layout.sidenav': SidenavComponent,
       'app.shell.sibling': UploadFilesDialogComponent,
       'app.components.tabs.metadata': MetadataTabComponent,
