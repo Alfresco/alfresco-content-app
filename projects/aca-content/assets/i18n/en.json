@@ -110,7 +110,6 @@
         },
         "BROWSE": {
             "FILE": {
-                "TITLE": "Files",
                 "SIDENAV_LINK": {
                     "LABEL": "Files",
                     "TOOLTIP": "Files"
