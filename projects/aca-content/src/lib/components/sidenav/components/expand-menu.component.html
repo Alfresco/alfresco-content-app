@@ -18,7 +18,7 @@
 
 <ng-container *ngIf="item.children && item.children.length">
   <mat-expansion-panel
-    [expanded]="acaExpansionPanel.isItemExpanded()"
+    [expanded]="acaExpansionPanel.hasActiveLinks()"
     [acaExpansionPanel]="item"
     #acaExpansionPanel="acaExpansionPanel"
     [@.disabled]="true"
