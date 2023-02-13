@@ -1,8 +1,11 @@
 <div class="aca-content-container">
     <div class="aca-content-header">
-        <div *ngIf="(appNavNarMode$ | async) === 'collapsed'" class="aca-menu-icon" (click)="toggleClick()" (keypress)="toggleClick()">
-            <mat-icon title="{{'APP.TOOLTIPS.EXPAND_NAVIGATION' | translate}}">menu</mat-icon>
-        </div>
+        <button *ngIf="(appNavNarMode$ | async) === 'collapsed'"
+          mat-icon-button
+          (click)="toggleClick()"
+          title="{{'APP.TOOLTIPS.EXPAND_NAVIGATION' | translate}}">
+          <mat-icon>menu</mat-icon>
+        </button>
         <ng-content select="aca-page-layout-header"></ng-content>
     </div>
     <ng-content select="aca-page-layout-error" *ngIf="hasError"></ng-content>
