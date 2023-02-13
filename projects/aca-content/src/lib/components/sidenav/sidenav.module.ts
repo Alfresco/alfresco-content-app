@@ -25,11 +25,9 @@
 
 import { NgModule } from '@angular/core';
 import { AppCreateMenuModule } from '../create-menu/create-menu.module';
-import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
 import { RouterModule } from '@angular/router';
 import { ExtensionsModule } from '@alfresco/adf-extensions';
-import { CoreExtensionsModule } from '../../extensions/core.extensions.module';
 import { ExpansionPanelDirective } from './directives/expansion-panel.directive';
 import { MenuPanelDirective } from './directives/menu-panel.directive';
 import { SidenavComponent } from './sidenav.component';
@@ -37,20 +35,11 @@ import { ActiveLinkDirective } from './directives/active-link.directive';
 import { ExpandMenuComponent } from './components/expand-menu.component';
 import { ButtonMenuComponent } from './components/button-menu.component';
 import { ActionDirective } from './directives/action.directive';
-import { MainActionModule } from '../main-action/main-action.module';
 import { NavigationMenuComponent } from './navigation-menu/navigation-menu.component';
 import { SidenavHeaderComponent } from './components/sidenav-header.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    CoreModule.forChild(),
-    CoreExtensionsModule.forChild(),
-    ExtensionsModule.forChild(),
-    RouterModule,
-    AppCreateMenuModule,
-    MainActionModule
-  ],
+  imports: [CoreModule.forChild(), ExtensionsModule.forChild(), RouterModule, AppCreateMenuModule],
   declarations: [
     MenuPanelDirective,
     ExpansionPanelDirective,
