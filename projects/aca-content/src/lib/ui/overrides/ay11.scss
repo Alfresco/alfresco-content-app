@@ -157,9 +157,17 @@
     }
   }
 
+  .mat-datetimepicker-calendar-body-active .mat-datetimepicker-calendar-body-cell-content {
+    outline: 2px solid var(--theme-blue-button-color);
+  }
+
   .mat-datetimepicker-calendar-body-active .mat-datetimepicker-calendar-body-cell-content:not(.mat-datetimepicker-calendar-body-selected) {
     background-color: white !important;
-    outline: 2px solid var(--theme-blue-button-color);
+  }
+
+  .mat-datetimepicker-calendar-body-active .mat-datetimepicker-calendar-body-cell-content.mat-datetimepicker-calendar-body-selected {
+    background-color: rgba(black, 0.12);
+    color: rgba(black, 0.87);
   }
 
   .mat-datetimepicker-calendar-body-cell-content.mat-datetimepicker-calendar-body-selected {
