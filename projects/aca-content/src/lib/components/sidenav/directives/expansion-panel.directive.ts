@@ -64,26 +64,6 @@ export class ExpansionPanelDirective implements OnInit, OnDestroy {
     return false;
   }
 
-  isRouteAbout(): boolean {
-    return this.router.url.includes('/about');
-  }
-
-  isRouteProfile(): boolean {
-    return this.router.url.includes('/profile');
-  }
-
-  isRouteSearch(): boolean {
-    return this.router.url.includes('/search');
-  }
-
-  isItemExpanded() {
-    if (this.isRouteAbout() || this.isRouteProfile() || this.isRouteSearch()) {
-      return !this.hasActiveLinks();
-    } else {
-      return this.hasActiveLinks();
-    }
-  }
-
   ngOnInit() {
     this.hasActiveChildren = this.hasActiveLinks();
 
