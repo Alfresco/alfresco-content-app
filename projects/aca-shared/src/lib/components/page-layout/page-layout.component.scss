@@ -53,3 +53,13 @@
     border-right: 1px solid var(--theme-border-color, rgba(0, 0, 0, 0.07));
   }
 }
+
+@media screen and (max-width: 380px) {
+  .aca-page-layout-header {
+    max-height: 16%;
+  }
+
+  .main-content {
+    max-height: 92%;
+  }
+}
