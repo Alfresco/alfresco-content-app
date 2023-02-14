@@ -1,47 +1,18 @@
 .aca-page-layout-header {
-
   .app-search-input {
     background: none;
   }
 
-  .action-bar {
-    display: flex;
-    flex: auto;
-    height: 32px;
-    margin-left: 24px;
+  .mat-flat-button {
+    min-width: auto;
+    margin-left: 4px;
+  }
 
-    adf-toolbar-divider {
-      width: 24px;
-      height: 32px;
-      margin: 4px 0 0 12px;
+  .app-search-input {
+    padding-bottom: 0 !important;
+
+    .app-search-container {
+      padding-top: 0;
     }
-
-    & > button {
-      margin-left: 12px;
-    }
-  }
-
-  .aca-mat-button {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    letter-spacing: 0.25px;
-    font-weight: 500;
-    font-size: 14px;
-    font-style: normal;
-    border-radius: 6px;
-    border: none;
-    height: 32px;
-  }
-
-  .aca-create-button {
-    background-color: var(--theme-create-button-background-color);
-    color: var(--theme-create-button-text-color);
-  }
-
-  .aca-upload-button {
-    background-color: var(--theme-upload-button-background-color);
-    color: var(--theme-upload-button-text-color);
   }
 }
