@@ -1,17 +1,22 @@
-app-view-profile {
+.app-view-profile {
   letter-spacing: .5px;
+
+  .app-profile-actions {
+    display: flex;
+
+    button {
+      margin: 1rem;
+      margin-left: 0;
+    }
+  }
 
   .app-profile-container {
     overflow: scroll;
     height: 100%;
     width: 100%;
-  }
-
-  .app-profile-row {
-    width: 100%;
-    height: 32px;
-    padding: 32px 0;
-    border-bottom: 1px solid var(--theme-header-border-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .app-profile-title {
@@ -20,32 +25,17 @@ app-view-profile {
     align-items: center;
     height: 32px;
     padding: 0 24px;
+    width: 100%;
+    height: 32px;
+    padding: 32px 0;
+    border-bottom: 1px solid var(--theme-header-border-color);
   }
 
-  .app-profile {
-    cursor: pointer;
-    margin-top: 1rem;
-
-  }
-
-  .app-profile-general-row {
+  .app-profile-row {
     margin: 2rem 0 0 2rem;
     width: 70%;
     border: 1px solid var(--theme-grey-background-color);
     border-radius: 1rem;
-  }
-
-  .app-profile-icon {
-    margin-right: 1rem;
-    cursor: pointer;
-  }
-
-  .app-profile-general-icon {
-    cursor: pointer;
-  }
-
-  .app-profile-text {
-    letter-spacing: .5px;
   }
 
   .app-profile-general {
@@ -53,14 +43,9 @@ app-view-profile {
     padding-left: 1rem;
   }
 
-  .app-profile-general-bottom-radius {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-
   .app-profile-general-section {
     display: flex;
-    width: 60%;
+    width: 100%;
     padding-top: 1rem;
     cursor: pointer;
   }
@@ -71,124 +56,39 @@ app-view-profile {
     letter-spacing: .5px;
   }
 
-  .app-general-edit-btn {
-    width: 60%;
-    text-align: end;
-  }
-
-  .app-mat-divider {
-    border-top-width: 2px;
-    border-top-color: var(--theme-grey-background-color);
-    padding-left: -1px;
-    padding-right: 1px;
-  }
-
-  .app-selected:focus {
-    border: 2px solid var(--theme-blue-button-color) !important;
-    border-radius: 6px;
-    outline: none !important;
-    box-shadow: 0 0 2px (--theme-blue-button-color);
-  }
-
-  .app-profile-row {
-    width: 100%;
-  }
-
-  .app-general-edit {
-    margin: 0.7rem;
-    background: var(--theme-grey-text-background-color);
-    height: 30px;
-    margin: 1rem;
-  }
-
-  .app-general-edit:hover {
-    background: var(--theme-grey-hover-background-color);
-  }
-
-  .app-general-cancel-btn {
-    height: 30px;
-    margin: 1rem;
-    margin-left: .5rem;
-    background-color: var(--theme-grey-text-background-color);
-    padding-top: .25px;
-  }
-
-  .app-general-save-btn {
-    width: 75px;
-    height: 30px;
-    margin: 1rem;
-    margin-left: .5rem;
-    color: white;
-    background-color: var(--theme-blue-button-color);
-  }
-
-  .app-general-dropdown-divider {
-    border-top-color: var(--theme-grey-divider-color);
-  }
-
   .app-general-dropdown {
     padding: 0rem 1rem;
   }
 
   .app-general-dropdown-details {
     display: flex;
-  }
 
-  .app-profile-general-dropdown-heading {
-    color: var(--theme-heading-color);
-    width: 20%;
-    font-weight: 400;
-    letter-spacing: .5px;
-  }
+    h4 {
+      color: var(--theme-heading-color);
+      width: 20%;
+      font-weight: 400;
+      letter-spacing: .5px;
+    }
 
-  .app-profile-general-dropdown-details {
-    margin-top: 1.3rem;
-    letter-spacing: .5px;
-  }
+    p {
+      margin-top: 1.3rem;
+      letter-spacing: .5px;
+    }
 
-  .app-profile-general-dropdown-input-details {
-    width: 24%;
-    height: 25px;
-    border: none;
-    margin-top: 1.3rem;
-    background-color: var(--theme-dropdown-color);
-  }
+    input {
+      width: 24%;
+      height: 25px;
+      border: none;
+      margin-top: 1.3rem;
+      background-color: var(--theme-dropdown-color);
 
-  .app-profile-login-row {
-    margin: 2rem 0 0 2rem;
-    width: 70%;
-    border: 1px solid var(--theme-grey-background-color);
-    border-radius: 1rem;
-  }
-
-  .app-profile-login {
-    display: flex;
-    padding-left: 1rem;
-  }
-
-  .app-profile-login-dropdown-details {
-    width: 24%;
-    height: 25px;
-    border: none;
-    margin-top: 1.3rem;
-    background-color: var(--theme-dropdown-color);
-  }
-
-  .app-profile-login-dropdown-heading-forgot {
-    margin-top: 1.3rem;
-    color: var(--theme-heading-color);
-    margin-left: 16rem;
-  }
-
-  .app-profile-company-row {
-    margin-top: 2rem;
-  }
-
-  .app-profile-contact-row {
-    margin: 2rem 0 5rem 2rem;
-    width: 70%;
-    border: 1px solid var(--theme-grey-background-color);
-    border-radius: 1rem;
+      &:focus {
+        border: 2px solid var(--theme-blue-button-color) !important;
+        border-radius: 6px;
+        outline: none !important;
+        box-shadow: 0 0 2px (--theme-blue-button-color);
+      }
+    }
   }
 
   .app-error-message {
