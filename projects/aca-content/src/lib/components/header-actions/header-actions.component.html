@@ -1,31 +1,22 @@
-<div>
-  <div class="adf-toolbar--spacer adf-toolbar-divider"></div>
-  <span class="action-bar">
-    <button class="aca-mat-button aca-create-button" mat-button data-automation-id="create-button"
-      *ngIf="canShowCreateButton()"
-      [matMenuTriggerFor]="createMenu">
-      {{ 'APP.HEADER.BUTTONS.CREATE' | translate }}
-    </button>
-    <mat-menu #createMenu="matMenu" role="menu" class="app-create-menu__root-menu app-create-menu__sub-menu"
-      [overlapTrigger]="false" yPosition="below">
-      <div *ngFor="let action of createActions; trackBy: trackByActionId">
-        <app-toolbar-menu-item [actionRef]="action"></app-toolbar-menu-item>
-      </div>
-    </mat-menu>
+<adf-toolbar class="adf-toolbar--inline">
+  <button mat-flat-button data-automation-id="create-button" *ngIf="canShowCreateButton()" [matMenuTriggerFor]="createMenu">
+    {{ 'APP.HEADER.BUTTONS.CREATE' | translate }}
+  </button>
+  <mat-menu #createMenu="matMenu" role="menu" class="app-create-menu__root-menu app-create-menu__sub-menu" [overlapTrigger]="false" yPosition="below">
+    <div *ngFor="let action of createActions; trackBy: trackByActionId">
+      <app-toolbar-menu-item [actionRef]="action"></app-toolbar-menu-item>
+    </div>
+  </mat-menu>
 
-    <button class="aca-mat-button aca-upload-button" mat-button data-automation-id="upload-button"
-      *ngIf="canShowUploadButton()" [matMenuTriggerFor]="uploadMenu">
-      {{ 'APP.HEADER.BUTTONS.UPLOAD' | translate }}
-    </button>
-    <mat-menu #uploadMenu="matMenu" role="menu" class="app-upload-menu__root-menu app-upload-menu__sub-menu"
-      [overlapTrigger]="false" yPosition="below">
-      <div *ngFor="let action of uploadActions; trackBy: trackByActionId">
-        <app-toolbar-menu-item [actionRef]="action"></app-toolbar-menu-item>
-      </div>
-    </mat-menu>
+  <button mat-flat-button color="primary" data-automation-id="upload-button" *ngIf="canShowUploadButton()" [matMenuTriggerFor]="uploadMenu">
+    {{ 'APP.HEADER.BUTTONS.UPLOAD' | translate }}
+  </button>
+  <mat-menu #uploadMenu="matMenu" role="menu" class="app-upload-menu__root-menu app-upload-menu__sub-menu" [overlapTrigger]="false" yPosition="below">
+    <div *ngFor="let action of uploadActions; trackBy: trackByActionId">
+      <app-toolbar-menu-item [actionRef]="action"></app-toolbar-menu-item>
+    </div>
+  </mat-menu>
 
-    <adf-toolbar-divider *ngIf="canShowSearchSeparator()">
-    </adf-toolbar-divider>
-    <aca-search-input class="app-search-input"></aca-search-input>
-  </span>
-</div>
+  <adf-toolbar-divider *ngIf="canShowSearchSeparator()"></adf-toolbar-divider>
+  <aca-search-input class="app-search-input"></aca-search-input>
+</adf-toolbar>
