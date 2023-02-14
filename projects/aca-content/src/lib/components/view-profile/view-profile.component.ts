@@ -15,7 +15,8 @@ import { throwError } from 'rxjs';
   selector: 'app-view-profile',
   templateUrl: './view-profile.component.html',
   styleUrls: ['./view-profile.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  host: { class: 'app-view-profile' }
 })
 export class ViewProfileComponent implements OnInit {
   private _peopleApi: PeopleApi;
@@ -30,13 +31,8 @@ export class ViewProfileComponent implements OnInit {
   generalSectionDropdown = true;
   generalSectionButtonsToggle = true;
 
-  loginSectionDropdown = false;
-  loginSectionButtonsToggle = true;
-  passwordSectionDropdown = false;
-
   contactSectionDropdown = false;
   contactSectionButtonsToggle = true;
-  hideSidenav: boolean;
 
   landingPage: string;
 
@@ -45,7 +41,6 @@ export class ViewProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.populateForm(this.personDetails);
     this.peopleApi
       .getPerson('-me-')
       .then((userInfo) => {
@@ -76,18 +71,12 @@ export class ViewProfileComponent implements OnInit {
 
   toggleGeneralDropdown() {
     this.generalSectionDropdown = !this.generalSectionDropdown;
-
-    if (!this.generalSectionDropdown) {
-      this.generalSectionButtonsToggle = true;
-    }
+    this.generalSectionButtonsToggle = true;
   }
 
   toggleGeneralButtons() {
     this.generalSectionButtonsToggle = !this.generalSectionButtonsToggle;
-
-    if (!this.generalSectionButtonsToggle) {
-      this.generalSectionDropdown = true;
-    }
+    this.generalSectionDropdown = true;
   }
 
   onSaveGeneralData(event) {
@@ -95,48 +84,19 @@ export class ViewProfileComponent implements OnInit {
     this.updatePersonDetails(event);
   }
 
-  onSaveLoginData() {
-    this.passwordSectionDropdown = !this.passwordSectionDropdown;
-    this.loginSectionButtonsToggle = !this.loginSectionButtonsToggle;
-  }
-
   onSaveCompanyData(event) {
     this.contactSectionButtonsToggle = !this.contactSectionButtonsToggle;
     this.updatePersonDetails(event);
   }
 
-  toggleLoginDropdown() {
-    this.loginSectionDropdown = !this.loginSectionDropdown;
-
-    if (!this.loginSectionDropdown) {
-      this.loginSectionButtonsToggle = true;
-    }
-  }
-
-  toggleLoginButtons() {
-    this.loginSectionButtonsToggle = !this.loginSectionButtonsToggle;
-    this.passwordSectionDropdown = !this.passwordSectionDropdown;
-
-    if (!this.loginSectionButtonsToggle) {
-      this.loginSectionDropdown = true;
-      this.passwordSectionDropdown = true;
-    }
-  }
-
   toggleContactDropdown() {
     this.contactSectionDropdown = !this.contactSectionDropdown;
-
-    if (!this.contactSectionDropdown) {
-      this.contactSectionButtonsToggle = true;
-    }
+    this.contactSectionButtonsToggle = true;
   }
 
   toggleContactButtons() {
     this.contactSectionButtonsToggle = !this.contactSectionButtonsToggle;
-
-    if (!this.contactSectionButtonsToggle) {
-      this.contactSectionDropdown = true;
-    }
+    this.contactSectionDropdown = true;
   }
 
   updatePersonDetails(event) {
