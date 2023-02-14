@@ -26,35 +26,35 @@
 import { TestBed } from '@angular/core/testing';
 import { CoreModule } from '@alfresco/adf-core';
 import { TranslateModule } from '@ngx-translate/core';
-import { SearchInputService } from './search-input.service';
+import { SearchNavigationService } from './search-navigation.service';
 import { Router } from '@angular/router';
 
-describe('SearchInputService', () => {
-  let service: SearchInputService;
+describe('SearchNavigationService', () => {
+  let service: SearchNavigationService;
   let router: Router;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), CoreModule.forRoot()]
     });
-    service = TestBed.inject(SearchInputService);
+    service = TestBed.inject(SearchNavigationService);
     router = TestBed.inject(Router);
   });
 
   it('should not navigate to saved route when exitSearch function is called if saved route is null', () => {
     const routerNavigate = spyOn(router, 'navigate');
-    service.savedRoute = '';
-    service.exitSearch();
+    service.saveRoute('');
+    service.navigateBack();
 
-    expect(routerNavigate).not.toHaveBeenCalledWith([service.savedRoute]);
+    expect(routerNavigate).not.toHaveBeenCalledWith([service.previousRoute]);
   });
 
   it('should navigate to saved route when exitSearch function is called', () => {
     const routerNavigate = spyOn(router, 'navigate');
-    service.savedRoute = '/personal-files';
-    service.exitSearch();
+    service.saveRoute('/personal-files');
+    service.navigateBack();
 
-    expect(routerNavigate).toHaveBeenCalledWith([service.savedRoute]);
+    expect(routerNavigate).toHaveBeenCalledWith([service.previousRoute]);
   });
 
   it('should navigate to Search when navigateToSearch function is called', () => {

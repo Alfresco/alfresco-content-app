@@ -34,7 +34,7 @@ import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { SearchInputControlComponent } from '../search-input-control/search-input-control.component';
-import { SearchInputService } from '../search-input.service';
+import { SearchNavigationService } from '../search-navigation.service';
 import { SearchLibrariesQueryBuilderService } from '../search-libraries-results/search-libraries-query-builder.service';
 
 @Component({
@@ -87,7 +87,7 @@ export class SearchInputComponent implements OnInit, OnDestroy {
     private router: Router,
     private store: Store<AppStore>,
     private appHookService: AppHookService,
-    public searchInputService: SearchInputService
+    public searchInputService: SearchNavigationService
   ) {
     this.searchOnChange = this.config.get<boolean>('search.aca:triggeredOnChange', true);
   }
@@ -116,7 +116,7 @@ export class SearchInputComponent implements OnInit, OnDestroy {
   }
 
   exitSearch() {
-    this.searchInputService.exitSearch();
+    this.searchInputService.navigateBack();
   }
 
   showInputValue() {
