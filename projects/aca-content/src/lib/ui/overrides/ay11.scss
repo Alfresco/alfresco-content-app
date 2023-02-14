@@ -166,12 +166,12 @@
   }
 
   .mat-datetimepicker-calendar-body-active .mat-datetimepicker-calendar-body-cell-content.mat-datetimepicker-calendar-body-selected {
-    background-color: rgba(black, 0.12);
-    color: rgba(black, 0.87);
+    background-color: var(--theme-grey-background-color);
+    color: var(--theme-font-color-black-87-alpha);
   }
 
   .mat-datetimepicker-calendar-body-cell-content.mat-datetimepicker-calendar-body-selected {
-    background-color: #2254b2;
+    background-color: var(--theme-datetimepicker-selected-date-background);
   }
 
   .mat-expansion-panel .mat-expansion-panel-header {
