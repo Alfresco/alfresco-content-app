@@ -1090,7 +1090,7 @@ export class ContentManagementService {
 
   private focusAfterClose(focusedElementSelector: string): void {
     if (focusedElementSelector) {
-      document.querySelector<HTMLElement>(focusedElementSelector).focus();
+      document.querySelector<HTMLElement>(focusedElementSelector)?.focus();
     }
   }
 }
