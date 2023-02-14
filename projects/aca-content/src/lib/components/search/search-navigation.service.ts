@@ -29,8 +29,12 @@ import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
-export class SearchInputService {
-  savedRoute = '';
+export class SearchNavigationService {
+  private _previousRoute = '';
+
+  get previousRoute(): string {
+    return this._previousRoute;
+  }
 
   constructor(private router: Router) {}
 
@@ -38,17 +42,17 @@ export class SearchInputService {
     return this.router.url.includes('/search');
   }
 
-  saveRoute(route: string) {
-    this.savedRoute = route;
+  saveRoute(route: string): void {
+    this._previousRoute = route;
   }
 
-  exitSearch() {
-    if (this.savedRoute.length > 0) {
-      this.router.navigate([this.savedRoute]);
+  navigateBack(): void {
+    if (this.previousRoute) {
+      this.router.navigate([this.previousRoute]);
     }
   }
 
-  navigateToSearch() {
+  navigateToSearch(): void {
     this.saveRoute(this.router.url);
     this.router.navigate(['/search']);
   }

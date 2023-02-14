@@ -94,6 +94,10 @@
       text-decoration: none;
       width: 100%;
       user-select: none;
+
+      &:hover .action-button__label {
+        color: var(--theme-selected-text-color);
+      }
     }
 
     .action-button {
@@ -113,17 +117,13 @@
       background: var(--theme-selected-background-color);
     }
 
-    .item:hover .action-button__label {
-      color: var(--theme-selected-text-color);
-    }
-
     .action-panel-header {
       color: var(--theme-action-button-text-color);
       padding: 0 24px;
-    }
 
-    .action-panel-header__label {
-      font-size: var(--theme-caption-font-size);
+      &__label {
+        font-size: var(--theme-caption-font-size);
+      }
     }
   }
 }
