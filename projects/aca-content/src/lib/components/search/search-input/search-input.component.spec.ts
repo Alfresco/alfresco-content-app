@@ -31,14 +31,14 @@ import { SearchByTermAction, SearchActionTypes, SnackbarErrorAction, SnackbarAct
 import { AppHookService } from '@alfresco/aca-shared';
 import { map } from 'rxjs/operators';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
-import { SearchInputService } from '../search-input.service';
+import { SearchNavigationService } from '../search-navigation.service';
 
 describe('SearchInputComponent', () => {
   let fixture: ComponentFixture<SearchInputComponent>;
   let component: SearchInputComponent;
   let actions$: Actions;
   let appHookService: AppHookService;
-  let searchInputService: SearchInputService;
+  let searchInputService: SearchNavigationService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -51,7 +51,7 @@ describe('SearchInputComponent', () => {
     actions$ = TestBed.inject(Actions);
     fixture = TestBed.createComponent(SearchInputComponent);
     appHookService = TestBed.inject(AppHookService);
-    searchInputService = TestBed.inject(SearchInputService);
+    searchInputService = TestBed.inject(SearchNavigationService);
     component = fixture.componentInstance;
   });
 
@@ -233,7 +233,7 @@ describe('SearchInputComponent', () => {
     it('should exit search on click of close icon', async () => {
       spyOn(searchInputService, 'isSearchRoute').and.returnValue(true);
       spyOn(component, 'exitSearch').and.callThrough();
-      spyOn(searchInputService, 'exitSearch').and.callThrough();
+      spyOn(searchInputService, 'navigateBack').and.callThrough();
 
       fixture.detectChanges();
       await fixture.whenStable();
@@ -245,7 +245,7 @@ describe('SearchInputComponent', () => {
       await fixture.whenStable();
 
       expect(component.exitSearch).toHaveBeenCalled();
-      expect(searchInputService.exitSearch).toHaveBeenCalledWith();
+      expect(searchInputService.navigateBack).toHaveBeenCalledWith();
     });
   });
 });
