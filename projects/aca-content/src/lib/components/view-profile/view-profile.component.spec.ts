@@ -28,80 +28,109 @@ describe('ViewProfileComponent', () => {
     router.initialNavigation();
   });
 
+  afterEach(() => {
+    fixture.destroy();
+  });
+
   it('should company dropdown remains close', async () => {
     expect(component.contactSectionDropdown).toBe(false);
   });
 
-  it('should save button is disabled if form has invalid mobile number', () => {
-    component.ngOnInit();
-    const profileFormGroup = component.profileForm;
+  it('should save button is disabled if form has invalid mobile number', async () => {
+    spyOn(component.peopleApi, 'getPerson').and.returnValue(
+      Promise.resolve({
+        entry: {
+          id: 'user1',
+          firstName: 'User1',
+          lastName: 'User1',
+          email: 'user1@company.com',
+          enabled: true,
+          jobTitle: 'Developer',
+          location: 'US',
+          telephone: '2744245',
+          mobile: 'AB8866322112',
+          company: {
+            organization: 'test Name',
+            postcode: '12345',
+            address1: 'test address',
+            telephone: '27442266',
+            email: 'email@test.com'
+          }
+        }
+      })
+    );
 
-    profileFormGroup.setValue({
-      jobTitle: 'Developer',
-      location: 'US',
-      telephone: '2744245',
-      mobile: 'AB8866322112',
-      oldPassword: 'admin@123',
-      newPassword: 'admin@1234',
-      verifyPassword: 'admin@1234',
-      companyName: 'test Name',
-      companyPostCode: '12345',
-      companyAddress: 'test address',
-      companyTelephone: '27442266',
-      companyEmail: 'email@test.com'
-    });
+    fixture.detectChanges();
+    await fixture.whenStable();
 
-    expect(profileFormGroup.valid).toEqual(false);
+    expect(component.profileForm.valid).toEqual(false);
     expect(component.isSaveButtonDisabled()).toBeTruthy();
   });
 
-  it('should save button is disabled if form has invalid email', () => {
-    component.ngOnInit();
-    const profileFormGroup = component.profileForm;
+  it('should save button is disabled if form has invalid email', async () => {
+    spyOn(component.peopleApi, 'getPerson').and.returnValue(
+      Promise.resolve({
+        entry: {
+          id: 'user1',
+          firstName: 'User1',
+          lastName: 'User1',
+          email: 'user1@company.com',
+          enabled: true,
+          jobTitle: 'Developer',
+          location: 'US',
+          telephone: '2744245',
+          mobile: 'AB8866322112',
+          company: {
+            organization: 'test Name',
+            postcode: '12345',
+            address1: 'test address',
+            telephone: '27442266',
+            email: 'email'
+          }
+        }
+      })
+    );
 
-    profileFormGroup.setValue({
-      jobTitle: 'Developer',
-      location: 'US',
-      telephone: '27442445',
-      mobile: '457554',
-      oldPassword: 'admin@123',
-      newPassword: 'admin@1234',
-      verifyPassword: 'admin@1234',
-      companyName: 'test Name',
-      companyPostCode: '12345',
-      companyAddress: 'test address',
-      companyTelephone: '27442266',
-      companyEmail: 'email'
-    });
+    fixture.detectChanges();
+    await fixture.whenStable();
 
-    expect(profileFormGroup.valid).toEqual(false);
+    expect(component.profileForm.valid).toEqual(false);
     expect(component.isSaveButtonDisabled()).toBeTruthy();
   });
 
-  it('should save button is enabled if form has valid inputs', () => {
-    component.ngOnInit();
-    const profileFormGroup = component.profileForm;
+  it('should enable save button if form is valid', async () => {
+    spyOn(component.peopleApi, 'getPerson').and.returnValue(
+      Promise.resolve({
+        entry: {
+          id: 'user1',
+          firstName: 'User1',
+          lastName: 'User1',
+          email: 'user1@company.com',
+          enabled: true,
+          jobTitle: 'Developer',
+          location: 'US',
+          telephone: '274-422-55',
+          mobile: '886-632-2112',
+          company: {
+            organization: 'testCompany',
+            postcode: '12345',
+            address1: 'test address',
+            telephone: '274-22-66',
+            email: 'testEmail@test.com'
+          }
+        }
+      })
+    );
 
-    profileFormGroup.setValue({
-      jobTitle: 'Developer',
-      location: 'US',
-      telephone: '274-422-55',
-      mobile: '886-632-2112',
-      oldPassword: 'test@123',
-      newPassword: 'test@1234',
-      verifyPassword: 'test@1234',
-      companyName: 'testCompany',
-      companyPostCode: '12345',
-      companyAddress: 'test address',
-      companyTelephone: '274-22-66',
-      companyEmail: 'testEmail@test.com'
-    });
+    fixture.detectChanges();
+    await fixture.whenStable();
 
-    expect(profileFormGroup.valid).toEqual(true);
+    expect(component.profileForm.valid).toEqual(true);
     expect(component.isSaveButtonDisabled()).toBeFalsy();
   });
 
   it('should expand or compress general dropdown when arrow button is clicked', () => {
+    component.populateForm({} as any);
     spyOn(component, 'toggleGeneralDropdown').and.callThrough();
     component.generalSectionDropdown = false;
     fixture.detectChanges();
@@ -114,6 +143,7 @@ describe('ViewProfileComponent', () => {
   });
 
   it('should expand or compress contact dropdown when arrow button is clicked', () => {
+    component.populateForm({} as any);
     spyOn(component, 'toggleContactDropdown').and.callThrough();
     component.contactSectionDropdown = false;
     fixture.detectChanges();
@@ -126,6 +156,7 @@ describe('ViewProfileComponent', () => {
   });
 
   it('should toggle form view when edit or cancel buttons is clicked for general form', () => {
+    component.populateForm({} as any);
     spyOn(component, 'toggleGeneralButtons').and.callThrough();
     fixture.detectChanges();
 
@@ -140,6 +171,7 @@ describe('ViewProfileComponent', () => {
   });
 
   it('should toggle form view when edit or cancel buttons is clicked for contact form', () => {
+    component.populateForm({} as any);
     spyOn(component, 'toggleContactButtons').and.callThrough();
     fixture.detectChanges();
 

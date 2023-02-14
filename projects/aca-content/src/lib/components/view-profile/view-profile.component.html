@@ -9,9 +9,9 @@
   <div *ngIf="profileForm" class="app-profile-row" [formGroup]="profileForm">
     <div class="app-profile-general">
       <div class="app-profile-general-section">
-        <mat-icon (click)="toggleGeneralDropdown()" id="toggle-general-dropdown">
-          {{ generalSectionDropdown ?  'expand_more' : 'chevron_right'}}
-        </mat-icon>
+        <button mat-icon-button (click)="toggleGeneralDropdown()" id="toggle-general-dropdown">
+          <mat-icon>{{ generalSectionDropdown ?  'expand_more' : 'chevron_right'}}</mat-icon>
+        </button>
         <h4 class="app-general-title">{{'APP.EDIT_PROFILE.GENERAL' | translate}}</h4>
       </div>
 
@@ -92,8 +92,9 @@
   <div *ngIf="profileForm" class="app-profile-row" [formGroup]="profileForm">
     <div class="app-profile-general">
       <div class="app-profile-general-section">
-        <mat-icon (click)="toggleContactDropdown()" id="toggle-contact-dropdown">
-          {{ contactSectionDropdown ?  'expand_more' : 'chevron_right'}}</mat-icon>
+        <button mat-icon-button (click)="toggleContactDropdown()" id="toggle-contact-dropdown">
+          <mat-icon>{{ contactSectionDropdown ?  'expand_more' : 'chevron_right'}}</mat-icon>
+        </button>
         <h4 class="app-general-title">{{'APP.EDIT_PROFILE.COMPANY_DETAILS' | translate}}</h4>
       </div>
 
