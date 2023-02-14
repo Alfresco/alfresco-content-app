@@ -78,7 +78,7 @@ describe('HeaderActionsComponent', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    const buttons = fixture.debugElement.queryAll(By.css('.action-bar > .aca-mat-button'));
+    const buttons = fixture.debugElement.queryAll(By.css('.mat-flat-button'));
 
     expect(buttons.length).toBe(2);
     expect(getCreateButton()).toBeTruthy();
@@ -91,7 +91,7 @@ describe('HeaderActionsComponent', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    const buttons = fixture.debugElement.queryAll(By.css('.action-bar > .aca-mat-button'));
+    const buttons = fixture.debugElement.queryAll(By.css('.mat-flat-button'));
 
     expect(buttons.length).toBe(1);
     expect(getCreateButton()).toBeTruthy();
