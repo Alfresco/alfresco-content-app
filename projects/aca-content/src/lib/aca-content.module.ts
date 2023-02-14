@@ -33,8 +33,7 @@ import {
   DebugAppConfigService,
   AuthGuardEcm,
   LanguagePickerComponent,
-  NotificationHistoryComponent,
-  UserInfoComponent
+  NotificationHistoryComponent
 } from '@alfresco/adf-core';
 import {
   ContentModule,
@@ -120,6 +119,7 @@ import { AppLayoutComponent } from './components/layout/app-layout/app-layout.co
 import { AppTrashcanModule } from './components/trashcan/trashcan.module';
 import { AppSharedLinkViewModule } from './components/shared-link-view/shared-link-view.module';
 import { AcaFolderRulesModule } from '@alfresco/aca-folder-rules';
+import { UserInfoComponent } from './components/common/user-info/user-info.component';
 
 registerLocaleData(localeFr);
 registerLocaleData(localeDe);

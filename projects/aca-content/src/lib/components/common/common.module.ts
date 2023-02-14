@@ -32,10 +32,20 @@ import { LocationLinkComponent } from './location-link/location-link.component';
 import { ToggleSharedComponent } from './toggle-shared/toggle-shared.component';
 import { LanguagePickerComponent } from './language-picker/language-picker.component';
 import { LogoutComponent } from './logout/logout.component';
+import { ContentModule } from '@alfresco/adf-content-services';
+import { UserInfoComponent } from './user-info/user-info.component';
 
 @NgModule({
-  imports: [CommonModule, CoreModule.forChild(), ExtensionsModule, GenericErrorModule],
-  declarations: [LocationLinkComponent, ToggleSharedComponent, LanguagePickerComponent, LogoutComponent],
-  exports: [ExtensionsModule, LocationLinkComponent, GenericErrorModule, ToggleSharedComponent, LanguagePickerComponent, LogoutComponent]
+  imports: [CommonModule, CoreModule.forChild(), ContentModule.forChild(), ExtensionsModule, GenericErrorModule],
+  declarations: [LocationLinkComponent, ToggleSharedComponent, LanguagePickerComponent, LogoutComponent, UserInfoComponent],
+  exports: [
+    ExtensionsModule,
+    LocationLinkComponent,
+    GenericErrorModule,
+    ToggleSharedComponent,
+    LanguagePickerComponent,
+    LogoutComponent,
+    UserInfoComponent
+  ]
 })
 export class AppCommonModule {}
