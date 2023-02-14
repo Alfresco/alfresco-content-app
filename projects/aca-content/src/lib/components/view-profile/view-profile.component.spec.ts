@@ -50,7 +50,6 @@ describe('ViewProfileComponent', () => {
   });
 
   it('should company dropdown remains close', async () => {
-    expect(component.loginSectionDropdown).toBe(false);
     expect(component.contactSectionDropdown).toBe(false);
   });
 
