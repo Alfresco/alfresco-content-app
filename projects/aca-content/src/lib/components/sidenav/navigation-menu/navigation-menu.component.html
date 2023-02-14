@@ -2,7 +2,7 @@
     <mat-icon title="{{'APP.TOOLTIPS.OPTIONS_SETTINGS' | translate}}">apps</mat-icon>
 </button>
 <mat-menu #menu="matMenu" xPosition="before">
-    <div mat-menu-item [routerLink]="['/profile']" title="{{'APP.TOOLTIPS.MY_PROFILE' | translate}}">
+    <div *ngIf="displayName" mat-menu-item [routerLink]="['/profile']" title="{{'APP.TOOLTIPS.MY_PROFILE' | translate}}">
         <mat-icon>account_circle</mat-icon>
         <span>{{ displayName }}</span>
     </div>

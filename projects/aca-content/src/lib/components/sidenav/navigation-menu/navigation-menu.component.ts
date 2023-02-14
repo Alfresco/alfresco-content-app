@@ -15,7 +15,7 @@ import { ContentApiService } from '@alfresco/aca-shared';
   encapsulation: ViewEncapsulation.None
 })
 export class NavigationMenuComponent implements OnInit {
-  displayName = 'Unknown user';
+  displayName = '';
 
   constructor(private contentApi: ContentApiService) {}
 
