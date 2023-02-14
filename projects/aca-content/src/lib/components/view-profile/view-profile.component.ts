@@ -43,24 +43,17 @@ export class ViewProfileComponent implements OnInit {
   ngOnInit() {
     this.peopleApi
       .getPerson('-me-')
-      .then((userInfo) => {
-        this.personDetails = userInfo?.entry;
-        this.populateForm(userInfo?.entry);
-      })
-      .catch((error) => {
-        throwError(error);
-      });
+      .then((userInfo) => this.populateForm(userInfo?.entry))
+      .catch((error) => throwError(error));
   }
 
   populateForm(userInfo: Person) {
+    this.personDetails = userInfo;
     this.profileForm = new FormGroup({
       jobTitle: new FormControl(userInfo?.jobTitle || ''),
       location: new FormControl(userInfo?.location || ''),
       telephone: new FormControl(userInfo?.telephone || '', [Validators.pattern('^([0-9]+-)*[0-9]+$')]),
       mobile: new FormControl(userInfo?.mobile || '', [Validators.pattern('^([0-9]+-)*[0-9]+$')]),
-      oldPassword: new FormControl(''),
-      newPassword: new FormControl(''),
-      verifyPassword: new FormControl(''),
       companyName: new FormControl(userInfo?.company?.organization || ''),
       companyPostCode: new FormControl(userInfo?.company?.postcode || ''),
       companyAddress: new FormControl(userInfo?.company?.address1 || ''),
