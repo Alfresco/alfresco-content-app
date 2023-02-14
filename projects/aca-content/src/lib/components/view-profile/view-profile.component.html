@@ -6,7 +6,7 @@
     <h1>{{'APP.EDIT_PROFILE.MY_PROFILE' | translate}}</h1>
   </div>
 
-  <div class="app-profile-row" [formGroup]="profileForm">
+  <div *ngIf="profileForm" class="app-profile-row" [formGroup]="profileForm">
     <div class="app-profile-general">
       <div class="app-profile-general-section">
         <mat-icon (click)="toggleGeneralDropdown()" id="toggle-general-dropdown">
@@ -89,7 +89,7 @@
     </div>
   </div>
 
-  <div class="app-profile-row" [formGroup]="profileForm">
+  <div *ngIf="profileForm" class="app-profile-row" [formGroup]="profileForm">
     <div class="app-profile-general">
       <div class="app-profile-general-section">
         <mat-icon (click)="toggleContactDropdown()" id="toggle-contact-dropdown">
