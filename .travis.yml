@@ -206,8 +206,8 @@ jobs:
 
     - stage: Trigger DW
       script:
-        - ./scripts/trigger-travis.sh --branch $TRAVIS_BRANCH Alfresco alfresco-apps $TRAVIS_API_TOKEN
-        - ./scripts/travis/update/update-project.sh -p $TRAVIS_BUILD_NUMBER -t $GITHUB_TOKEN -v alpha -c $TRAVIS_COMMIT
+        - ./scripts/trigger-travis.sh --branch $TRAVIS_BRANCH Alfresco alfresco-applications $TRAVIS_API_TOKEN
+        - ./scripts/travis/update/update-project.sh -p $TRAVIS_BUILD_NUMBER -t $GITHUB_TOKEN -v alpha -c $TRAVIS_COMMIT -r alfresco-applications
 
 
 notifications:

@@ -17,8 +17,10 @@ show_help() {
     echo ""
     echo "-t or --token: Github ouath token"
     echo "-p or --pr: Originating ACA PR number"
-    echo "-v or --version version to update"
+    echo "-v or --version: version to update"
+    echo "-c or --commit: commit"
     echo "-d or --dry-run: The script won't execute critical operation, just simulate them"
+    echo "-r or --repo: Repository to update"
 }
 
 set_token() {
@@ -38,15 +40,18 @@ set_commit() {
 }
 
 set_dryrun() {
-
     DRY_RUN="true"
-
 }
+
+set_repo() {
+    REPO=$1
+}
+
 
 update_dependency() {
     PKG=$1
     PKG_VERSION=$(npm view $PKG@$VERSION version)
-    echo "Update $PKG to $PKG_VERSION in $NAME_REPO"
+    echo "Update $PKG to $PKG_VERSION in $REPO"
 
     for i in $(find . ! -path "*/node_modules/*" -name "package-lock.json" | xargs grep -l $PKG); do
         directory=$(dirname $i)
@@ -59,11 +64,10 @@ update_dependency() {
 }
 
 update() {
-    NAME_REPO=$1
     PKG_VERSION=$(npm view $PKG@$VERSION version)
-    echo "Update dependencies $NAME_REPO"
+    echo "Update dependencies $REPO"
 
-    git clone https://$TOKEN@github.com/Alfresco/$NAME_REPO.git $TEMP_GENERATOR_DIR
+    git clone https://$TOKEN@github.com/Alfresco/$REPO.git $TEMP_GENERATOR_DIR
     cd $TEMP_GENERATOR_DIR
 
     git fetch
@@ -91,7 +95,7 @@ update() {
         git push --force origin $BRANCH_TO_CREATE
     fi
 
-    node $BUILD_PIPELINE_DIR/pr-creator.js --token=$TOKEN --title="Update branch for ACA ${PKG_VERSION} [ci:force]" --head=$BRANCH_TO_CREATE --repo=$NAME_REPO --commit=$COMMIT
+    node $BUILD_PIPELINE_DIR/pr-creator.js --token=$TOKEN --title="Update branch for ACA ${PKG_VERSION} [ci:force]" --head=$BRANCH_TO_CREATE --repo=$REPO --commit=$COMMIT
 
     cd ..
     rm -rf $TEMP_GENERATOR_DIR
@@ -105,6 +109,7 @@ while [[ $1 == -* ]]; do
       -v|--version)  version $2; shift 2;;
       -c|--commit) set_commit $2; shift 2;;
       -d|--dry-run) set_dryrun $2; shift; shift;;
+      -r|--repo) set_repo $2; shift; shift;;
       -*) echo "invalid option: $1" 1>&2; show_help; exit 1;;
     esac
 done
@@ -113,20 +118,20 @@ cd "$REPO_DIR"
 
 if [[ (-z "$TOKEN") || (-z "$VERSION") ]]
   then
-    echo "Each of 'branch name' (-b)  token (-t) and pr number (-p) have to be set. See -help."
+    echo "Each of 'branch name' (-b)  token (-t) pr number (-p) and repo (-r) have to be set. See -help."
     exit 1;
 fi
 
 rm -rf $TEMP_GENERATOR_DIR
 
-isSameACASha=$(node $BUILD_PIPELINE_DIR/aca-same-commit-verify.js --token=$TOKEN --head=$BRANCH_TO_CREATE --repo=$NAME_REPO --commit=$COMMIT )
+isSameACASha=$(node $BUILD_PIPELINE_DIR/aca-same-commit-verify.js --token=$TOKEN --head=$BRANCH_TO_CREATE --repo=$REPO --commit=$COMMIT )
 if [ "$isSameACASha" = 'true' ]; then
         echo 'ACA sha is the same. No need to create another pr'
     else
         if [ "$DRY_RUN" = "false" ]; then
-            update "alfresco-apps"
+            update $REPO
         else
-            echo "[dry-run] it would have update repos: 'alfresco-apps'"
+            echo "[dry-run] it would have update $REPO repo"
         fi
 fi
 

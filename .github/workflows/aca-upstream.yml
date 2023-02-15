@@ -1,0 +1,39 @@
+name: "ACA upstream"
+
+on:
+  workflow_call:
+  workflow_dispatch:
+    inputs:
+      repo_to_update:
+        description: Repository to update
+        type: choice
+        required: true
+        options:
+          - alfresco-applications
+          - alfresco-apps
+        default: alfresco-applications
+env:
+  GH_TOKEN: ${{ secrets.BOT_GITHUB_TOKEN }}
+  TRAVIS_COMMIT: ${{ github.sha }}
+  TRAVIS_BUILD_NUMBER: ${{ github.run_id }}
+  NODE_OPTIONS: "--max-old-space-size=5120"
+
+jobs:
+  trigger_aca_upstream:
+    name: Trigger ACA upstream
+    runs-on: ubuntu-latest
+    steps:
+        - name: Checkout repository
+          uses: actions/checkout@v3
+          with:
+            fetch-depth: 0
+        - name: install NPM
+          uses: actions/setup-node@v3
+          with:
+            node-version: 14
+            cache-dependency-path: package-lock.json
+        - name: Trigger upstream
+          shell: bash
+          run: |
+            npm install github-api
+            ./scripts/travis/update/update-project.sh -p $TRAVIS_BUILD_NUMBER -t $GH_TOKEN -v alpha -c $TRAVIS_COMMIT -r ${{ inputs.repo_to_update }}
