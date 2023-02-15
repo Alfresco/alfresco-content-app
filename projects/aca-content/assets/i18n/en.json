@@ -288,7 +288,8 @@
                 "SHARED_BY": "Shared by",
                 "DELETED_ON": "Deleted",
                 "DELETED_BY": "Deleted by",
-                "ROLE": "My Role"
+                "ROLE": "My Role",
+                "TAGS": "Tags"
             },
             "TOOLBAR": {
                 "CARDVIEW": "Card view mode",

@@ -90,7 +90,7 @@ describe('Favorites', () => {
   });
 
   it('[C280482] has the correct columns', async () => {
-    const expectedColumns = ['Name', 'Location', 'Size', 'Modified', 'Modified by'];
+    const expectedColumns = ['Name', 'Location', 'Size', 'Modified', 'Modified by', 'Tags'];
     const actualColumns = await dataTable.getColumnHeadersText();
 
     await expect(actualColumns).toEqual(expectedColumns);
