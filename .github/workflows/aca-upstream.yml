@@ -30,8 +30,8 @@ jobs:
         - name: install NPM
           uses: actions/setup-node@v3
           with:
-            node-version: 14
-            cache-dependency-path: package-lock.json
+            node-version: 16
+            cache: 'npm'
         - name: Trigger upstream
           shell: bash
           run: |
