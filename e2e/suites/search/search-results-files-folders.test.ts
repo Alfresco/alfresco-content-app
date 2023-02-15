@@ -105,7 +105,7 @@ describe('Search results - files and folders', () => {
     const size = fileEntry.entry.content.sizeInBytes;
 
     expect(await dataTable.isItemPresent(file)).toBe(true, `${file} is not displayed`);
-    expect(await dataTable.getRowCellsCount(file)).toEqual(6, 'incorrect number of columns');
+    expect(await dataTable.getRowCellsCount(file)).toEqual(7, 'incorrect number of columns');
     expect(await page.getName(file)).toBe(`${file} ( ${fileTitle} )`);
     expect(await page.getDescription(file)).toBe(fileDescription);
     expect(await page.getModified(file)).toBe(modifiedDate);
@@ -125,7 +125,7 @@ describe('Search results - files and folders', () => {
     const modifiedBy = folderEntry.entry.modifiedByUser.displayName;
 
     expect(await dataTable.isItemPresent(folder)).toBe(true, `${folder} is not displayed`);
-    expect(await dataTable.getRowCellsCount(file)).toEqual(6, 'incorrect number of columns');
+    expect(await dataTable.getRowCellsCount(file)).toEqual(7, 'incorrect number of columns');
     expect(await page.getName(folder)).toBe(`${folder} ( ${folderTitle} )`);
     expect(await page.getDescription(folder)).toBe(folderDescription);
     expect(await page.getModified(folder)).toBe(modifiedDate);

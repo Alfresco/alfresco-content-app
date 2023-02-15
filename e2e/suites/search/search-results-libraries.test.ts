@@ -187,7 +187,7 @@ describe('Search results - libraries', () => {
     await searchInput.searchFor(site1.name);
     await dataTable.waitForBody();
 
-    const expectedColumns = ['Name', 'Description', 'My Role', 'Visibility'];
+    const expectedColumns = ['Name', 'Description', 'My Role', 'Visibility', 'Tags'];
     const actualColumns = await dataTable.getColumnHeadersText();
 
     await expect(actualColumns).toEqual(expectedColumns);

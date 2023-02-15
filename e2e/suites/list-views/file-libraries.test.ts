@@ -102,7 +102,7 @@ describe('File Libraries', () => {
     });
 
     it('[C217095] has the correct columns', async () => {
-      const expectedColumns = ['Name', 'Description', 'My Role', 'Visibility'];
+      const expectedColumns = ['Name', 'Description', 'My Role', 'Visibility', 'Tags'];
       const actualColumns = await dataTable.getColumnHeadersText();
 
       await expect(actualColumns).toEqual(expectedColumns);
