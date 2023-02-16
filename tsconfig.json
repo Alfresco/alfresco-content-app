@@ -12,6 +12,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "noUnusedLocals": true,
+    "skipLibCheck": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "target": "es2020",
@@ -30,6 +31,7 @@
       "@alfresco/aca-content": ["projects/aca-content/src/public-api.ts"],
       "@alfresco/aca-viewer": ["projects/aca-viewer/src/public-api.ts"],
       "@alfresco/aca-preview": ["projects/aca-preview/src/public-api.ts"],
+      "@alfresco/playwright-shared": ["e2e/playwright/shared/index.ts"],
       "package.json": ["package.json"]
     }
   },
