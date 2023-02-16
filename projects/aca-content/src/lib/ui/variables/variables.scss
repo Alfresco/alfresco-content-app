@@ -41,8 +41,8 @@ $black-heading: #4e4c4c;
 $grey-dropdown-background: #eee;
 $grey-divider: rgba(0,0,0,.22);
 $pagination-background-color: #ffffff;
-$black-87-alpha: rgba(black, 0.87);
-$blue-datetimepicker-background: #2254b2;
+$datetimepicker-font-color: rgba(black, 0.87);
+$datetimepicker-selected-date-background: #2254b2;
 
 $defaults: (
   --theme-primary-color: mat.get-color-from-palette($primary),
@@ -75,8 +75,8 @@ $defaults: (
   --theme-about-panel-border-color: $grey-background,
   --theme-about-panel-background-color: #ffffff,
   --theme-about-panel-title-color: #212121,
-  --theme-font-color-black-87-alpha: $black-87-alpha,
-  --theme-datetimepicker-selected-date-background: $blue-datetimepicker-background
+  --theme-datetimepicker-font-color: $datetimepicker-font-color,
+  --theme-datetimepicker-selected-date-background: $datetimepicker-selected-date-background
 );
 
 // propagates SCSS variables into the CSS variables scope
