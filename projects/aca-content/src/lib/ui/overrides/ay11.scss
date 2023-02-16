@@ -162,7 +162,7 @@
   }
 
   .mat-datetimepicker-calendar-body-active .mat-datetimepicker-calendar-body-cell-content:not(.mat-datetimepicker-calendar-body-selected) {
-    background-color: white !important;
+    background-color: var(--theme-datetimepicker-cell-background); !important;
   }
 
   .mat-datetimepicker-calendar-body-active .mat-datetimepicker-calendar-body-cell-content.mat-datetimepicker-calendar-body-selected {
