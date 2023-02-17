@@ -53,13 +53,7 @@ export class AcaMobileAppSwitcherService {
     let hideBanner = false;
     if (queryParams !== null && queryParams !== undefined) {
       queryParamsList = queryParams.split('&');
-      queryParamsList.forEach((param) => {
-        const key = param.split('=')[0];
-        const value = param.split('=')[1];
-        if (key === 'mobileapps' && value === 'true') {
-          hideBanner = true;
-        }
-      });
+      hideBanner = queryParamsList.some((param) => param.split('=')[0] === 'mobileapps' && param.split('=')[1] === 'true');
     }
     if (!hideBanner) {
       this.verifySessionExistsForDialog();
