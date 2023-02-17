@@ -63,7 +63,7 @@ jobs:
       - run: npm run build --configuration=production,e2e
       - name: upload job artifact
         if: ${{ success() }}
-          run: ./scripts/ci/utils/artifact-to-s3.sh -a $CONTENT_CE_DIST_PATH -o "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2"
+        run: ./scripts/ci/utils/artifact-to-s3.sh -a $CONTENT_CE_DIST_PATH -o "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2"
 
   unit-tests:
     needs: [lint, build]
