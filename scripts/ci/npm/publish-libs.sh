@@ -5,6 +5,8 @@ ROOT_DIR=${DIR}/../../..
 DIST_DIR=${ROOT_DIR}/dist/@alfresco
 PROJECTS_DIR=${ROOT_DIR}/projects
 
+npm whoami
+
 DRY_RUN=""
 if [ "$PUBLISH_PROJECTS" = "false" ]; then
     DRY_RUN=true
