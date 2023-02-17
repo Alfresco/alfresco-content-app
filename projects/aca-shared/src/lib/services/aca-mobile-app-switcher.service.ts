@@ -26,7 +26,6 @@
 import { AppConfigService } from '@alfresco/adf-core';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Subject } from 'rxjs';
 import { OpenInAppComponent } from '../components/open-in-app/open-in-app.component';
 
 export interface MobileAppSwitchConfigurationOptions {
@@ -42,15 +41,13 @@ export interface MobileAppSwitchConfigurationOptions {
 export class AcaMobileAppSwitcherService {
   private mobileAppSwitchConfig: MobileAppSwitchConfigurationOptions;
   public redirectUrl: string;
-  public mobileAppsKey = false;
-  public subject = new Subject();
 
   constructor(private config: AppConfigService, private dialog: MatDialog) {
     this.mobileAppSwitchConfig = this.config.get<MobileAppSwitchConfigurationOptions>('mobileAppSwitch');
   }
 
-  checkForMobileAppFlag() {
-    const url: string = window.location.href;
+  resolveExistenceOfDialog(): void {
+    const url: string = this.getCurrentUrl();
     const queryParams: string = url.split('?')[1];
     let queryParamsList = [];
     let hideBanner = false;
@@ -65,11 +62,11 @@ export class AcaMobileAppSwitcherService {
       });
     }
     if (!hideBanner) {
-      this.showOpenInAppNotification();
+      this.verifySessionExistsForDialog();
     }
   }
 
-  showOpenInAppNotification(): void {
+  verifySessionExistsForDialog(): void {
     const sessionTime: string = sessionStorage.getItem('mobile_notification_expires_in');
     if (sessionTime !== null) {
       const currentTime: number = new Date().getTime();
@@ -78,19 +75,19 @@ export class AcaMobileAppSwitcherService {
       const sessionTimeForOpenAppDialogDisplay: number = parseFloat(this.mobileAppSwitchConfig.sessionTimeForOpenAppDialogDisplay);
 
       if (timeDifference > sessionTimeForOpenAppDialogDisplay) {
-        this.reset();
-        this.checkMobileBrowser();
+        this.clearSessionExpireTime();
+        this.identifyBrowserAndSetRedirectURL();
       }
     } else {
-      this.checkMobileBrowser();
+      this.identifyBrowserAndSetRedirectURL();
     }
   }
 
-  checkMobileBrowser() {
+  identifyBrowserAndSetRedirectURL(): void {
     const ua: string = navigator.userAgent.toLowerCase();
     const isAndroid: boolean = ua.indexOf('android') > -1;
     const isIOS: boolean = ua.indexOf('iphone') > -1 || ua.indexOf('ipad') > -1 || ua.indexOf('ipod') > -1;
-    const currentUrl: string = window.location.href;
+    const currentUrl: string = this.getCurrentUrl();
 
     if (isIOS === true) {
       this.redirectUrl = this.mobileAppSwitchConfig.iphoneUrl + currentUrl;
@@ -99,11 +96,11 @@ export class AcaMobileAppSwitcherService {
     }
 
     if (this.redirectUrl !== undefined && this.redirectUrl !== null) {
-      this.openInApp(this.redirectUrl);
+      this.openDialog(this.redirectUrl);
     }
   }
 
-  openInApp(redirectUrl: string): void {
+  openDialog(redirectUrl: string): void {
     this.dialog.open(OpenInAppComponent, {
       data: {
         redirectUrl
@@ -115,7 +112,11 @@ export class AcaMobileAppSwitcherService {
     });
   }
 
-  reset(): void {
+  clearSessionExpireTime(): void {
     sessionStorage.removeItem('mobile_notification_expires_in');
+  }
+
+  getCurrentUrl(): string {
+    return window.location.href;
   }
 }

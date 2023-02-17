@@ -1,7 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
 import { OpenInAppComponent } from './open-in-app.component';
+import { initialState, LibTestingModule } from '../../testing/lib-testing-module';
+import { provideMockStore } from '@ngrx/store/testing';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('OpenInAppComponent', () => {
   let fixture: ComponentFixture<OpenInAppComponent>;
@@ -15,9 +18,11 @@ describe('OpenInAppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [OpenInAppComponent],
+      imports: [LibTestingModule, TranslateModule],
       providers: [
+        provideMockStore({ initialState }),
         { provide: MAT_DIALOG_DATA, useValue: { redirectUrl: 'mockRedirectUrl' } },
-        { provide: MatDialog, useValue: mockDialogRef }
+        { provide: MatDialogRef, useValue: mockDialogRef }
       ]
     }).compileComponents();
 
