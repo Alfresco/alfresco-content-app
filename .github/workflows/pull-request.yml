@@ -126,10 +126,12 @@ jobs:
           node-version: 14
           cache: 'npm'
       - run: npm ci
-      - run: |
-        ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "$CONTENT_CE_DIST_PATH" "-a"
-        ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=${{ matrix.e2e-suites.name }}"
-        ./scripts/ci/job_hooks/after_e2e.sh
+      - name: run
+        shell: bash
+        run: |
+          ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "$CONTENT_CE_DIST_PATH" "-a"
+          ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=${{ matrix.e2e-suites.name }}"
+          ./scripts/ci/job_hooks/after_e2e.sh
 
   e2es-playwright:
     needs: [lint, build, unit-tests]
