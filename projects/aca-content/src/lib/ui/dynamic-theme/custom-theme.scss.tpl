@@ -21,13 +21,18 @@ $alfresco-typography: get-mat-typography(
   $alfresco-typography
 );
 
-@include mat-core($alfresco-typography);
+@include mat-core();
 
 $palettes: get-mat-palettes($primary-color, $accent-color);
 $custom-theme: mat-light-theme(
-  map-get($palettes, primary),
-  map-get($palettes, accent),
-  map-get($palettes, warning),
+      (
+          color: (
+              primary: map-get($palettes, primary),
+              accent: map-get($palettes, accent),
+              warn: map-get($palettes, warning)
+          ),
+          typography: $alfresco-typography
+      )
 );
 
 @if $background-color {
