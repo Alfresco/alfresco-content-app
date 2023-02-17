@@ -51,7 +51,7 @@ describe('OpenInAppComponent', () => {
 
   it('should set the value `mobile_notification_expires_in` in session storage on dialog close', async () => {
     component.onCloseDialog();
-    expect(sessionStorage.getItem('mobile_notification_expires_in')).not.toBe(null);
+    expect(sessionStorage.getItem('mobile_notification_expires_in')).not.toBeNull();
     expect(mockDialogRef.close).toHaveBeenCalled();
   });
 });
