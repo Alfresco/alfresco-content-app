@@ -59,7 +59,7 @@ jobs:
           node-version: 14
           cache: 'npm'
       - run: npm ci
-      -name: build
+      - name: build
       - run: npm run build --configuration=production,e2e
       - name: upload job artifact
         if: ${{ success() }}
