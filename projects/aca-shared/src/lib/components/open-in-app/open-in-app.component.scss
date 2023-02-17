@@ -6,8 +6,12 @@
 }
 
 .mat-dialog-container{
-  padding: 12px;
+  padding: 5px;
   border-radius: 36px;
   background-color: var(--theme-blue-button-color);
   color: var(--theme-about-panel-background-color);
+}
+
+.open-in-app {
+  overflow-x: hidden !important;
 }

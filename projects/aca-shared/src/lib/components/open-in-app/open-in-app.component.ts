@@ -24,7 +24,7 @@
  */
 
 import { Component, Inject, ViewEncapsulation } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 export interface OpenInAppDialogOptions {
   redirectUrl: string;
@@ -41,7 +41,8 @@ export class OpenInAppComponent {
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
-    public data: OpenInAppDialogOptions
+    public data: OpenInAppDialogOptions,
+    private dialog: MatDialogRef<OpenInAppComponent>
   ) {
     if (data) {
       this.redirectUrl = data.redirectUrl;
@@ -50,5 +51,11 @@ export class OpenInAppComponent {
 
   openInApp(): void {
     this.window.location.href = this.redirectUrl;
+  }
+
+  onCloseDialog(): void {
+    const time: number = new Date().getTime();
+    sessionStorage.setItem('mobile_notification_expires_in', time.toString());
+    this.dialog.close();
   }
 }

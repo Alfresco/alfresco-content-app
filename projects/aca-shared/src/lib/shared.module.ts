@@ -32,10 +32,11 @@ import { OpenInAppComponent } from './components/open-in-app/open-in-app.compone
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
-  imports: [ContextActionsModule, MatButtonModule, MatIconModule, MatDialogModule],
-  exports: [ContextActionsModule, MatButtonModule, MatIconModule, MatDialogModule],
+  imports: [ContextActionsModule, MatButtonModule, MatIconModule, MatDialogModule, TranslateModule],
+  exports: [ContextActionsModule, MatButtonModule, MatIconModule, MatDialogModule, TranslateModule],
   declarations: [OpenInAppComponent]
 })
 export class SharedModule {

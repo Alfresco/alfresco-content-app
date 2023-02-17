@@ -26,6 +26,9 @@
 import { AppConfigService } from '@alfresco/adf-core';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
+import { Subject } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { OpenInAppComponent } from '../components/open-in-app/open-in-app.component';
 
 export interface MobileAppSwitchConfigurationOptions {
@@ -41,21 +44,37 @@ export interface MobileAppSwitchConfigurationOptions {
 export class AcaMobileAppSwitcherService {
   private mobileAppSwitchConfig: MobileAppSwitchConfigurationOptions;
   public redirectUrl: string;
+  public mobileAppsKey = false;
+  public subject = new Subject();
 
-  constructor(private config: AppConfigService, private dialog: MatDialog) {
+  constructor(private config: AppConfigService, private dialog: MatDialog, private route: ActivatedRoute) {
     this.mobileAppSwitchConfig = this.config.get<MobileAppSwitchConfigurationOptions>('mobileAppSwitch');
   }
 
   checkForMobileApp(): void {
-    const currentTime: number = new Date().getTime();
-    const sessionTime: string = sessionStorage.getItem('mobile_notification_expires_in');
+    this.route.queryParamMap.pipe(filter((val) => val !== undefined)).subscribe((params) => {
+      if (params.has('mobileapps')) {
+        if (params.get('mobileapps') === 'true') {
+          return;
+        } else {
+          this.sessionTimeConversionInHours();
+        }
+      } else {
+        this.sessionTimeConversionInHours();
+      }
+    });
+  }
 
+  sessionTimeConversionInHours(): void {
+    const sessionTime: string = sessionStorage.getItem('mobile_notification_expires_in');
     if (sessionTime !== null) {
+      const currentTime: number = new Date().getTime();
       const sessionConvertedTime: number = parseFloat(sessionTime);
       const timeDifference: number = (currentTime - sessionConvertedTime) / (1000 * 60 * 60);
       const sessionTimeForOpenAppDialogDisplay: number = parseFloat(this.mobileAppSwitchConfig.sessionTimeForOpenAppDialogDisplay);
 
       if (timeDifference > sessionTimeForOpenAppDialogDisplay) {
+        this.reset();
         this.showAppNotification();
       }
     } else {
@@ -63,14 +82,11 @@ export class AcaMobileAppSwitcherService {
     }
   }
 
-  showAppNotification(): void {
+  showAppNotification() {
     const ua: string = navigator.userAgent.toLowerCase();
     const isAndroid: boolean = ua.indexOf('android') > -1;
     const isIOS: boolean = ua.indexOf('iphone') > -1 || ua.indexOf('ipad') > -1 || ua.indexOf('ipod') > -1;
     const currentUrl: string = window.location.href;
-    const time: number = new Date().getTime();
-
-    sessionStorage.setItem('mobile_notification_expires_in', time.toString());
 
     if (isIOS === true) {
       this.redirectUrl = this.mobileAppSwitchConfig.iphoneUrl + currentUrl;
@@ -88,9 +104,10 @@ export class AcaMobileAppSwitcherService {
       data: {
         redirectUrl
       },
-      width: '75%',
+      hasBackdrop: false,
+      width: 'auto',
       role: 'dialog',
-      position: { bottom: '50px' }
+      position: { bottom: '20px' }
     });
   }
 
