@@ -26,9 +26,7 @@
 import { AppConfigService } from '@alfresco/adf-core';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
-import { filter } from 'rxjs/operators';
 import { OpenInAppComponent } from '../components/open-in-app/open-in-app.component';
 
 export interface MobileAppSwitchConfigurationOptions {
@@ -47,25 +45,31 @@ export class AcaMobileAppSwitcherService {
   public mobileAppsKey = false;
   public subject = new Subject();
 
-  constructor(private config: AppConfigService, private dialog: MatDialog, private route: ActivatedRoute) {
+  constructor(private config: AppConfigService, private dialog: MatDialog) {
     this.mobileAppSwitchConfig = this.config.get<MobileAppSwitchConfigurationOptions>('mobileAppSwitch');
   }
 
-  checkForMobileApp(): void {
-    this.route.queryParamMap.pipe(filter((val) => val !== undefined)).subscribe((params) => {
-      if (params.has('mobileapps')) {
-        if (params.get('mobileapps') === 'true') {
-          return;
-        } else {
-          this.sessionTimeConversionInHours();
+  checkForMobileAppFlag() {
+    const url: string = window.location.href;
+    const queryParams: string = url.split('?')[1];
+    let queryParamsList = [];
+    let hideBanner = false;
+    if (queryParams !== null && queryParams !== undefined) {
+      queryParamsList = queryParams.split('&');
+      queryParamsList.forEach((param) => {
+        const key = param.split('=')[0];
+        const value = param.split('=')[1];
+        if (key === 'mobileapps' && value === 'true') {
+          hideBanner = true;
         }
-      } else {
-        this.sessionTimeConversionInHours();
-      }
-    });
+      });
+    }
+    if (!hideBanner) {
+      this.showOpenInAppNotification();
+    }
   }
 
-  sessionTimeConversionInHours(): void {
+  showOpenInAppNotification(): void {
     const sessionTime: string = sessionStorage.getItem('mobile_notification_expires_in');
     if (sessionTime !== null) {
       const currentTime: number = new Date().getTime();
@@ -75,14 +79,14 @@ export class AcaMobileAppSwitcherService {
 
       if (timeDifference > sessionTimeForOpenAppDialogDisplay) {
         this.reset();
-        this.showAppNotification();
+        this.checkMobileBrowser();
       }
     } else {
-      this.showAppNotification();
+      this.checkMobileBrowser();
     }
   }
 
-  showAppNotification() {
+  checkMobileBrowser() {
     const ua: string = navigator.userAgent.toLowerCase();
     const isAndroid: boolean = ua.indexOf('android') > -1;
     const isIOS: boolean = ua.indexOf('iphone') > -1 || ua.indexOf('ipad') > -1 || ua.indexOf('ipod') > -1;

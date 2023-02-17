@@ -182,7 +182,7 @@ export class AppService implements OnDestroy {
 
     const isMobileSwitchEnabled: boolean = this.config.get<boolean>('mobileAppSwitch.enabled', false);
     if (isMobileSwitchEnabled) {
-      this.acaMobileAppSwitcherService.checkForMobileApp();
+      this.acaMobileAppSwitcherService.checkForMobileAppFlag();
     } else {
       this.acaMobileAppSwitcherService.reset();
     }
