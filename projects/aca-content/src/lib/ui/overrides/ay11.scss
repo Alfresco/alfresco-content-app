@@ -158,7 +158,7 @@
   }
 
   .mat-datetimepicker-calendar-body-active .mat-datetimepicker-calendar-body-cell-content {
-    outline: 2px solid var(--theme-blue-button-color);
+    outline: 2px solid var(--theme-datetimepicker-cell-focus-border);
   }
 
   .mat-datetimepicker-calendar-body-active .mat-datetimepicker-calendar-body-cell-content:not(.mat-datetimepicker-calendar-body-selected) {
@@ -166,7 +166,7 @@
   }
 
   .mat-datetimepicker-calendar-body-active .mat-datetimepicker-calendar-body-cell-content.mat-datetimepicker-calendar-body-selected {
-    background-color: var(--theme-grey-background-color);
+    background-color: var(--theme-datetimepicker-cell-focus-background);
     color: var(--theme-datetimepicker-font-color);
   }
 

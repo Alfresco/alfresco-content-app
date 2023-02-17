@@ -44,6 +44,8 @@ $pagination-background-color: #ffffff;
 $datetimepicker-font-color: rgba(black, 0.87);
 $datetimepicker-selected-date-background: #2254b2;
 $datetimepicker-cell-background-color: #ffffff;
+$datetimepicker-cell-focus-border-color: #1F74DB;
+$datetimepicker-cell-focus-background-color: rgba(33, 33, 33, 0.12);
 
 $defaults: (
   --theme-primary-color: mat.get-color-from-palette($primary),
@@ -78,7 +80,9 @@ $defaults: (
   --theme-about-panel-title-color: #212121,
   --theme-datetimepicker-font-color: $datetimepicker-font-color,
   --theme-datetimepicker-selected-date-background: $datetimepicker-selected-date-background,
-  --theme-datetimepicker-cell-background: $datetimepicker-cell-background-color
+  --theme-datetimepicker-cell-background: $datetimepicker-cell-background-color,
+  --theme-datetimepicker-cell-focus-border: $datetimepicker-cell-focus-border-color,
+  --theme-datetimepicker-cell-focus-background: $datetimepicker-cell-focus-background-color
 );
 
 // propagates SCSS variables into the CSS variables scope
