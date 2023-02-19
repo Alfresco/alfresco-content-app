@@ -82,7 +82,7 @@
     "@typescript-eslint/parser": "^5.48.2",
     "ajv-cli": "^4.2.0",
     "browser-sync": "^2.27.11",
-    "commander": "^6.1.0",
+    "commander": "^10.0.0",
     "connect-history-api-fallback": "^2.0.0",
     "cspell": "^6.23.0",
     "cypress": "^12.5.1",
