@@ -45,7 +45,7 @@ runs:
         else
             S3_DBP_ROOT_FOLDER="$S3_DBP_PATH/api"
         fi
-        echo "S3_DBP_FOLDER="$S3_DBP_ROOT_FOLDER/${{ github.run_id }}" >> $GITHUB_ENV
+        echo "S3_DBP_FOLDER="$S3_DBP_ROOT_FOLDER/${{ github.run_id }}"" >> $GITHUB_ENV
     - name: ADF linking
       if: ${{ github.event_name == 'pull_request'}}
       uses: ./.github/actions/adf-linking
