@@ -43,7 +43,7 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-commit-message@ref
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-commit-message@v1.35.0
   lint:
     name: 'lint'
     runs-on: ubuntu-latest
