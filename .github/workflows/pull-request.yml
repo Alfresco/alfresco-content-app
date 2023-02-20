@@ -59,7 +59,7 @@ jobs:
           cache: 'npm'
       - uses: ./.github/actions/before-install
       - run: npm ci
-      - run: npm run build --configuration=production,e2e
+      - run: npm run build $BUILD_OPTS
       - name: upload job artifact
         if: ${{ success() }}
         uses: ./.github/actions/upload-job-artifact
