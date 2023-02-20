@@ -46,31 +46,42 @@ export class AcaMobileAppSwitcherService {
     this.mobileAppSwitchConfig = this.config.get<MobileAppSwitchConfigurationOptions>('mobileAppSwitch');
   }
 
-  checkForMobileApp(): void {
-    const currentTime: number = new Date().getTime();
-    const sessionTime: string = sessionStorage.getItem('mobile_notification_expires_in');
+  resolveExistenceOfDialog(): void {
+    const url: string = this.getCurrentUrl();
+    const queryParams: string = url.split('?')[1];
+    let queryParamsList = [];
+    let hideBanner = false;
+    if (queryParams !== null && queryParams !== undefined) {
+      queryParamsList = queryParams.split('&');
+      hideBanner = queryParamsList.some((param) => param.split('=')[0] === 'mobileapps' && param.split('=')[1] === 'true');
+    }
+    if (!hideBanner) {
+      this.verifySessionExistsForDialog();
+    }
+  }
 
+  verifySessionExistsForDialog(): void {
+    const sessionTime: string = sessionStorage.getItem('mobile_notification_expires_in');
     if (sessionTime !== null) {
+      const currentTime: number = new Date().getTime();
       const sessionConvertedTime: number = parseFloat(sessionTime);
       const timeDifference: number = (currentTime - sessionConvertedTime) / (1000 * 60 * 60);
       const sessionTimeForOpenAppDialogDisplay: number = parseFloat(this.mobileAppSwitchConfig.sessionTimeForOpenAppDialogDisplay);
 
       if (timeDifference > sessionTimeForOpenAppDialogDisplay) {
-        this.showAppNotification();
+        this.clearSessionExpireTime();
+        this.identifyBrowserAndSetRedirectURL();
       }
     } else {
-      this.showAppNotification();
+      this.identifyBrowserAndSetRedirectURL();
     }
   }
 
-  showAppNotification(): void {
+  identifyBrowserAndSetRedirectURL(): void {
     const ua: string = navigator.userAgent.toLowerCase();
     const isAndroid: boolean = ua.indexOf('android') > -1;
     const isIOS: boolean = ua.indexOf('iphone') > -1 || ua.indexOf('ipad') > -1 || ua.indexOf('ipod') > -1;
-    const currentUrl: string = window.location.href;
-    const time: number = new Date().getTime();
-
-    sessionStorage.setItem('mobile_notification_expires_in', time.toString());
+    const currentUrl: string = this.getCurrentUrl();
 
     if (isIOS === true) {
       this.redirectUrl = this.mobileAppSwitchConfig.iphoneUrl + currentUrl;
@@ -79,22 +90,27 @@ export class AcaMobileAppSwitcherService {
     }
 
     if (this.redirectUrl !== undefined && this.redirectUrl !== null) {
-      this.openInApp(this.redirectUrl);
+      this.openDialog(this.redirectUrl);
     }
   }
 
-  openInApp(redirectUrl: string): void {
+  openDialog(redirectUrl: string): void {
     this.dialog.open(OpenInAppComponent, {
       data: {
         redirectUrl
       },
-      width: '75%',
+      hasBackdrop: false,
+      width: 'auto',
       role: 'dialog',
-      position: { bottom: '50px' }
+      position: { bottom: '20px' }
     });
   }
 
-  reset(): void {
+  clearSessionExpireTime(): void {
     sessionStorage.removeItem('mobile_notification_expires_in');
+  }
+
+  getCurrentUrl(): string {
+    return window.location.href;
   }
 }

@@ -60,7 +60,7 @@ describe('AcaMobileAppSwitcherService', () => {
     spyOnProperty(window.navigator, 'userAgent').and.returnValue('iphone');
     const url: string = window.location.href;
     const iphoneUrl: string = appConfig.config.mobileAppSwitch.iphoneUrl + url;
-    service.showAppNotification();
+    service.identifyBrowserAndSetRedirectURL();
     expect(service.redirectUrl).toEqual(iphoneUrl);
   });
 
@@ -68,38 +68,49 @@ describe('AcaMobileAppSwitcherService', () => {
     spyOnProperty(window.navigator, 'userAgent').and.returnValue('android');
     const url: string = window.location.href;
     const androidUrl: string = appConfig.config.mobileAppSwitch.androidUrlPart1 + url + appConfig.config.mobileAppSwitch.androidUrlPart2;
-    service.showAppNotification();
+    service.identifyBrowserAndSetRedirectURL();
     expect(service.redirectUrl).toEqual(androidUrl);
   });
 
-  it('should check if `showAppNotification` function is called', () => {
-    const showAppNotificationSpy: jasmine.Spy<() => void> = spyOn(service, 'showAppNotification');
-    service.checkForMobileApp();
-    expect(showAppNotificationSpy).toHaveBeenCalled();
+  it('should check if `identifyBrowserAndSetRedirectURL` function is called', () => {
+    const identifyBrowserAndSetRedirectURLSpy: jasmine.Spy<() => void> = spyOn(service, 'identifyBrowserAndSetRedirectURL');
+    service.resolveExistenceOfDialog();
+    expect(identifyBrowserAndSetRedirectURLSpy).toHaveBeenCalled();
   });
 
-  it('should not display `openInApp` dialog box when timeDifference is less than the session time', () => {
-    service.checkForMobileApp();
-    const showAppNotificationSpy: jasmine.Spy<() => void> = spyOn(service, 'showAppNotification');
-    service.checkForMobileApp();
-    expect(showAppNotificationSpy).not.toHaveBeenCalled();
+  it('should not display `openInApp` dialog box after closing the same and time difference less than session time', () => {
+    const time: number = new Date().getTime();
+    sessionStorage.setItem('mobile_notification_expires_in', time.toString());
+    const identifyBrowserAndSetRedirectURLSpy: jasmine.Spy<() => void> = spyOn(service, 'identifyBrowserAndSetRedirectURL');
+    service.verifySessionExistsForDialog();
+    expect(identifyBrowserAndSetRedirectURLSpy).not.toHaveBeenCalled();
   });
 
   it('should check if `openInApp` dialog box is getting opened with `iphone` url', () => {
-    const openInAppSpy: jasmine.Spy<(redirectUrl: string) => void> = spyOn(service, 'openInApp');
     const url: string = window.location.href;
     service.redirectUrl = appConfig.config.mobileAppSwitch.iphoneUrl + url;
-    service.showAppNotification();
-    expect(openInAppSpy).toHaveBeenCalled();
+    service.identifyBrowserAndSetRedirectURL();
     expect(mockDialogRef.open).toHaveBeenCalled();
   });
 
   it('should check if `openInApp` dialog box is getting opened with `android` url', () => {
-    const openInAppSpy: jasmine.Spy<(redirectUrl: string) => void> = spyOn(service, 'openInApp');
     const url: string = window.location.href;
     service.redirectUrl = appConfig.config.mobileAppSwitch.androidUrlPart1 + url + appConfig.config.mobileAppSwitch.androidUrlPart2;
-    service.showAppNotification();
-    expect(openInAppSpy).toHaveBeenCalled();
+    service.identifyBrowserAndSetRedirectURL();
     expect(mockDialogRef.open).toHaveBeenCalled();
+  });
+
+  it('should not display Open in app dialog when the web application is opened within mobile application', () => {
+    spyOn(service, 'getCurrentUrl').and.returnValue('localhost?mobileapps=true');
+    const verifySessionExistsForDialogSpy: jasmine.Spy<() => void> = spyOn(service, 'verifySessionExistsForDialog');
+    service.resolveExistenceOfDialog();
+    expect(verifySessionExistsForDialogSpy).not.toHaveBeenCalled();
+  });
+
+  it('should display Open in app dialog when the web application is opened in mobile browser', () => {
+    spyOn(service, 'getCurrentUrl').and.returnValue('localhost');
+    const verifySessionExistsForDialogSpy: jasmine.Spy<() => void> = spyOn(service, 'verifySessionExistsForDialog');
+    service.resolveExistenceOfDialog();
+    expect(verifySessionExistsForDialogSpy).toHaveBeenCalled();
   });
 });
