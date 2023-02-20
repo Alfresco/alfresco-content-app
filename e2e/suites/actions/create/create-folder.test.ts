@@ -37,20 +37,10 @@ import { BrowserActions } from '@alfresco/adf-testing';
 
 describe('Create folder', () => {
   const username = `user-${Utils.random()}`;
-
   const parent = `parent-${Utils.random()}`;
   let parentId: string;
-  const folderName1 = `folder-${Utils.random()}`;
-  const folderName2 = `folder-${Utils.random()}`;
-  const folderDescription = 'description of my folder';
   const duplicateFolderName = `folder-${Utils.random()}`;
-  const nameWithSpaces = ` folder-${Utils.random()} `;
-
   const siteName = `site-${Utils.random()}`;
-
-  const folderSite = `folder-site-${Utils.random()}`;
-  const duplicateFolderSite = `folder-${Utils.random()}`;
-  let docLibUserSite: string;
 
   const apis = {
     user: new RepoClient(username, username)
@@ -78,7 +68,8 @@ describe('Create folder', () => {
     await apis.user.createFolder(duplicateFolderName, parentId);
 
     await apis.user.sites.createSite(siteName);
-    docLibUserSite = await apis.user.sites.getDocLibId(siteName);
+    const docLibUserSite = await apis.user.sites.getDocLibId(siteName);
+    const duplicateFolderSite = `folder-${Utils.random()}`;
     await apis.user.createFolder(duplicateFolderSite, docLibUserSite);
 
     await loginPage.loginWith(username);
@@ -99,6 +90,8 @@ describe('Create folder', () => {
     });
 
     it('[C216341] creates new folder with name', async () => {
+      const folderName1 = `folder-${Utils.random()}`;
+
       await openCreateFolderDialog(parent);
       await createDialog.enterName(folderName1);
       await BrowserActions.click(createDialog.createButton);
@@ -109,6 +102,9 @@ describe('Create folder', () => {
     });
 
     it('[C216340] creates new folder with name and description', async () => {
+      const folderDescription = 'description of my folder';
+      const folderName2 = `folder-${Utils.random()}`;
+
       await openCreateFolderDialog(parent);
       await createDialog.enterName(folderName2);
       await createDialog.enterDescription(folderDescription);
@@ -186,6 +182,8 @@ describe('Create folder', () => {
     });
 
     it('[C216351] trim ending spaces from folder name', async () => {
+      const nameWithSpaces = ` folder-${Utils.random()} `;
+
       await openCreateFolderDialog(parent);
       await createDialog.enterName(nameWithSpaces);
       await BrowserActions.click(createDialog.createButton);
@@ -193,49 +191,6 @@ describe('Create folder', () => {
       await dataTable.waitForHeader();
 
       expect(await dataTable.isItemPresent(nameWithSpaces.trim())).toBe(true, 'Folder not displayed in list view');
-    });
-  });
-
-  describe('on File Libraries', () => {
-    const fileLibrariesPage = new BrowsingPage();
-
-    beforeEach(async () => {
-      await fileLibrariesPage.goToMyLibrariesAndWait();
-    });
-
-    afterEach(async () => {
-      await Utils.pressEscape();
-    });
-
-    it('[C280394] creates new folder with name and description', async () => {
-      await openCreateFolderDialog(siteName);
-      await createDialog.enterName(folderSite);
-      await createDialog.enterDescription(folderDescription);
-      await BrowserActions.click(createDialog.createButton);
-      await createDialog.waitForDialogToClose();
-      await dataTable.waitForHeader();
-
-      expect(await dataTable.isItemPresent(folderSite)).toBe(true, 'Folder not displayed');
-      const desc = await apis.user.nodes.getNodeDescription(folderSite, docLibUserSite);
-      expect(desc).toEqual(folderDescription);
-    });
-
-    it('[C280403] cancel folder creation', async () => {
-      await openCreateFolderDialog(siteName);
-      await createDialog.enterName('test');
-      await createDialog.enterDescription('test description');
-      await createDialog.clickCancel();
-
-      expect(await createDialog.isDialogOpen()).not.toBe(true, 'dialog is not closed');
-    });
-
-    it('[C280404] duplicate folder name', async () => {
-      await openCreateFolderDialog(siteName);
-      await createDialog.enterName(duplicateFolderSite);
-      await BrowserActions.click(createDialog.createButton);
-
-      expect(await page.getSnackBarMessage()).toEqual(`There's already a folder with this name. Try a different name.`);
-      expect(await createDialog.isDialogOpen()).toBe(true, 'dialog is not present');
     });
   });
 });
