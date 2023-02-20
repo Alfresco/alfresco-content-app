@@ -57,18 +57,22 @@ jobs:
         with:
           node-version: 14
           cache: 'npm'
+      - uses: ./.github/actions/before-install
       - run: npm ci
       - run: npm run build --configuration=production,e2e
       - name: upload job artifact
         if: ${{ success() }}
-        run: ./scripts/ci/utils/artifact-to-s3.sh -a $CONTENT_CE_DIST_PATH -o "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2"
+        uses: ./.github/actions/upload-job-artifact
+        with:
+          artifact: $CONTENT_CE_DIST_PATH
+          output: $S3_DBP_FOLDER/alfresco-content-app.tar.bz2
 
   unit-tests:
     needs: [lint, build]
     name: "Unit tests: ${{ matrix.unit-tests.name }}"
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         unit-tests:
           - name: "aca-content"
@@ -87,15 +91,16 @@ jobs:
         with:
           node-version: 14
           cache: 'npm'
+      - uses: ./.github/actions/before-install
       - run: npm ci
       - run: npm test ${{ matrix.unit-tests.name }} -- --browsers=ChromeHeadless --watch=false $TEST_OPTS
 
   e2es:
     needs: [lint, build, unit-tests]
-    name: 'Test suites: ${{ matrix.e2e-suites.name }}'
+    name: 'E2e test suites: ${{ matrix.e2e-suites.name }}'
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         e2e-suites:
           - name: "authentication,listViews,navigation,application"
@@ -123,6 +128,7 @@ jobs:
         with:
           node-version: 14
           cache: 'npm'
+      - uses: ./.github/actions/before-install
       - run: npm ci
       - name: run
         shell: bash
@@ -133,7 +139,7 @@ jobs:
 
   e2es-playwright:
     needs: [lint, build, unit-tests]
-    name: 'Test Suites: Folder Rules - Playwright'
+    name: 'E2e test suites: Folder Rules - Playwright'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -146,6 +152,7 @@ jobs:
         with:
           node-version: 14
           cache: 'npm'
+      - uses: ./.github/actions/before-install
       - run: npm ci
       - name: run
         shell: bash

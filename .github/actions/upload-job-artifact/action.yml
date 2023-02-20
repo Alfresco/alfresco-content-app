@@ -1,0 +1,22 @@
+name: "Upload build artifacts"
+description: "Upload build artifacts"
+
+inputs:
+  artifact:
+    description: 'path to the artifact to archieve (tar.bz2) and upload (like ./dist)'
+    required: true
+    type: string
+  output:
+    description: 'the S3 object to copy it to, like: s3://bucket-name/folder/whatever.tar.bz2'
+    required: true
+    type: string
+
+runs:
+  using: "composite"
+  steps:
+    - name: upload build artifacts to s3
+      shell: bash
+      run: |
+        tar cvfj ./s3-artifact.tmp -C ${{ inputs.artifact }} `ls ${{ inputs.artifact }}`
+        aws s3 cp ./s3-artifact.tmp ${{ inputs.output }}
+        rm ./s3-artifact.tmp

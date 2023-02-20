@@ -1,0 +1,31 @@
+name: "ADF linking"
+description: "ADF linking"
+
+inputs:
+  commit-message:
+    description: 'commit message to check for linking'
+    required: true
+    type: string
+
+runs:
+  using: "composite"
+  steps:
+    - name: clone and install
+      shell: bash
+      run: |
+        if [[ ${{ inputs.commit-message }} == *"[link-adf:"* ]]; then
+            echo "BUILD_OPTS=--configuration=adfprod,e2e" >> $GITHUB_ENV
+            echo "TEST_OPTS=--configuration=adfprod" >> $GITHUB_ENV
+            echo "E2E_PROTRACTOR_OPTS=--with-local-adf" >> $GITHUB_ENV
+            echo "E2E_TSCONFIG=tsconfig.e2e.adf.json" >> $GITHUB_ENV
+            BRANCH=`echo ${{ inputs.commit-message }} | grep -o "\[link-adf\:[^]]*\]" | sed -e 's#\[link-adf:##g' | sed -e 's#\]##g'`
+            echo "Checking out ADF's branch: ${BRANCH}" && \
+            git clone https://github.com/Alfresco/alfresco-ng2-components.git --depth=1 --branch ${BRANCH} ../alfresco-ng2-components
+            # ADF theming needs it the styling
+            CWD=`pwd`
+            cd ../alfresco-ng2-components
+            npm install @angular/material
+            cd $CWD
+        else
+            echo -e "\e[32mUsing ADF from installed node_modules.\e[0m"
+        fi ;
