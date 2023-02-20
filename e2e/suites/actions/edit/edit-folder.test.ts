@@ -54,8 +54,6 @@ describe('Edit folder', () => {
   const siteName = `site-${Utils.random()}`;
 
   const folderSite = `folder-site-${Utils.random()}`;
-  const folderSiteToEdit = `folder-site-${Utils.random()}`;
-  let folderSiteToEditId: string;
   const duplicateFolderSite = `folder-${Utils.random()}`;
   let docLibUserSite: string;
 
@@ -99,7 +97,6 @@ describe('Edit folder', () => {
     await apis.user.sites.createSite(siteName);
     docLibUserSite = await apis.user.sites.getDocLibId(siteName);
     await apis.user.nodes.createFolder(folderSite, docLibUserSite);
-    folderSiteToEditId = (await apis.user.nodes.createFolder(folderSiteToEdit, docLibUserSite)).entry.id;
     await apis.user.nodes.createFolder(duplicateFolderSite, docLibUserSite);
 
     folderFavoriteId = (await apis.user.nodes.createFolder(folderFavorite)).entry.id;
