@@ -54,7 +54,7 @@
     "minimatch-browser": "^1.0.0",
     "moment": "^2.29.4",
     "moment-es6": "1.0.0",
-    "pdfjs-dist": "2.5.207",
+    "pdfjs-dist": "3.3.122",
     "rxjs": "6.6.6",
     "tslib": "^2.5.0",
     "zone.js": "0.11.8"
@@ -121,7 +121,7 @@
     "selenium-webdriver": "^4.1.1",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "4.1.1",
-    "typescript": "4.6.3",
+    "typescript": "4.7.4",
     "webdriver-manager": "12.1.8",
     "winston": "^3.8.2"
   }

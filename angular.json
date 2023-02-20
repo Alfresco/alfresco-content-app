@@ -113,6 +113,7 @@
               "app/src/assets/fonts/material-icons/material-icons.css",
               "app/src/assets/fonts/OpenSans/OpenSans.css",
               "node_modules/cropperjs/dist/cropper.min.css",
+              "node_modules/pdfjs-dist/web/pdf_viewer.css",
               "projects/aca-content/src/lib/ui/application.scss",
               "app/src/styles.scss"
             ],
