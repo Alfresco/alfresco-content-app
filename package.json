@@ -98,7 +98,7 @@
     "eslint-plugin-rxjs": "^5.0.2",
     "eslint-plugin-unicorn": "^45.0.2",
     "http-server": "^14.1.1",
-    "husky": "^8.0.2",
+    "husky": "^8.0.3",
     "inquirer": "^9.1.4",
     "jasmine-core": "~4.5.0",
     "jasmine-marbles": "0.8.3",
