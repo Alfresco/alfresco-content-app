@@ -21,9 +21,6 @@ runs:
         echo "TEST_OPTS=" >> $GITHUB_ENV
         echo "E2E_PROTRACTOR_OPTS=" >> $GITHUB_ENV
         echo "E2E_TSCONFIG=tsconfig.e2e.json" >> $GITHUB_ENV
-        export HEAD_COMMIT_HASH="${GITHUB_HEAD_REF}:-${GITHUB_SHA}"
-        export COMMIT_MESSAGE=`git log --format=%B -n 1 $HEAD_COMMIT_HASH`
-        echo "COMMIT_MESSAGE=$COMMIT_MESSAGE" >> $GITHUB_ENV
         echo "GIT_HASH=$(git rev-parse HEAD)" >> $GITHUB_ENV
         echo "SMART_RUNNER_DIRECTORY=.protractor-smartrunner" >> $GITHUB_ENV
         echo "BASE_HASH=.protractor-smartrunner" >> $GITHUB_ENV
@@ -32,7 +29,7 @@ runs:
       shell: bash
       run: |
         pip install -q awscli
-        S3_DBP_PATH="s3://alfresco-travis-builds/aca"
+        S3_DBP_PATH="s3://alfresco-gha-builds/aca"
         if [ "${{ github.event_name }}" == "push" ]; then
             BRANCH_NAME=${GITHUB_REF##*/}
             S3_DBP_ROOT_FOLDER="$S3_DBP_PATH/$BRANCH_NAME"
@@ -49,5 +46,3 @@ runs:
     - name: ADF linking
       if: ${{ github.event_name == 'pull_request'}}
       uses: ./.github/actions/adf-linking
-      with:
-        commit-message: $COMMIT_MESSAGE

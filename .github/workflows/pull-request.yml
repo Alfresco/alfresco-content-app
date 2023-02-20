@@ -9,6 +9,8 @@ on:
 env:
   ADMIN_EMAIL: $ADMIN_EMAIL_REMOTE
   ADMIN_PASSWORD: $ADMIN_PASSWORD_REMOTE
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   CONTENT_CE_DIST_PATH: "./dist/content-ce"
   APP_CONFIG_PROVIDER: ECM
   APP_CONFIG_AUTH_TYPE: BASIC
@@ -26,6 +28,15 @@ env:
   APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI: "{protocol}//{hostname}{:port}/assets/silent-refresh.html"
 
 jobs:
+  setup:
+    name: 'setup'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   lint:
     name: 'lint'
     runs-on: ubuntu-latest
@@ -44,6 +55,7 @@ jobs:
       - run: npm run lint
 
   build:
+    needs: [setup]
     name: 'build'
     runs-on: ubuntu-latest
     steps:
