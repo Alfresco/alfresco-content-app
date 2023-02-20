@@ -21,7 +21,7 @@ runs:
         echo "TEST_OPTS=" >> $GITHUB_ENV
         echo "E2E_PROTRACTOR_OPTS=" >> $GITHUB_ENV
         echo "E2E_TSCONFIG=tsconfig.e2e.json" >> $GITHUB_ENV
-        export HEAD_COMMIT_HASH=${${GITHUB_HEAD_REF}:-${GITHUB_SHA}}
+        export HEAD_COMMIT_HASH=${$GITHUB_HEAD_REF:-$GITHUB_SHA}
         export COMMIT_MESSAGE=`git log --format=%B -n 1 $HEAD_COMMIT_HASH`
         echo "COMMIT_MESSAGE=$COMMIT_MESSAGE" >> $GITHUB_ENV
         echo "GIT_HASH=`git rev-parse HEAD`" >> $GITHUB_ENV
