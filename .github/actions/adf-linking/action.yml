@@ -7,7 +7,7 @@ runs:
     - name: clone and install
       shell: bash
       run: |
-        echo "${{ ${{ github.event.workflow_run.head_commit.message }} }}"
+        echo "${{ github.event.workflow_run.head_commit.message }}"
         echo "${{ github.event.head_commit.message }}"
         if [[ ${{ github.event.head_commit.message }} == *"[link-adf:"* ]]; then
             echo "BUILD_OPTS=--configuration=adfprod,e2e" >> $GITHUB_ENV
