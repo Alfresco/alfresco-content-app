@@ -44,6 +44,7 @@ env:
   global:
     - ADMIN_EMAIL=$ADMIN_EMAIL_REMOTE
     - ADMIN_PASSWORD=$ADMIN_PASSWORD_REMOTE
+    - PLAYWRIGHT_E2E_HOST="http://localhost:4200"
     - CONTENT_CE_DIST_PATH="./dist/content-ce"
     # APP CONFIG DEFAULTS
     - APP_CONFIG_PROVIDER=ECM
@@ -67,6 +68,15 @@ jobs:
       script: npm ci && npm run build -- $BUILD_OPTS
       after_success: ./scripts/ci/utils/artifact-to-s3.sh -a $CONTENT_CE_DIST_PATH -o "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" || travis_terminate 1
       cache: false
+
+    - stage: e2e
+      name: 'Test Suites: Folder Rules - Playwright'
+      before_script:
+        - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "$CONTENT_CE_DIST_PATH" "-a" || travis_terminate 1
+        - ./scripts/ci/job_hooks/before-playwright.sh
+      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "e2e/playwright/tests/folder-rules/playwright.config.ts" -test-runner playwright
+      after_script:
+        - ./scripts/ci/job_hooks/after_e2e.sh
 
     - stage: e2e
       name: 'Test Suites: authentication,listViews,navigation,application'

@@ -12,11 +12,18 @@ $mat-warn-palette: mat.define-palette($aca-warn, A100);
 $app-typography: mat.define-typography-config($font-family: 'Open Sans'
   );
 
-@include mat.core($app-typography);
+@include mat.core();
 
-$custom-theme: mat.define-light-theme($mat-primary-palette,
-    $mat-accent-palette,
-    $mat-warn-palette);
+$custom-theme: mat.define-light-theme(
+      (
+          color: (
+              primary: $mat-primary-palette,
+              accent: $mat-accent-palette,
+              warn: $mat-warn-palette
+          ),
+          typography: $app-typography
+      )
+);
 
 @mixin custom-theme($theme) {
   @include mat.all-component-themes($theme);

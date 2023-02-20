@@ -23,5 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './lib/folder-rules.module';
-export { ManageRulesSmartComponent } from './lib/manage-rules/manage-rules.smart-component';
+export * from './api';
+export * from './base-config';
+export * from './models';
+export * from './page-objects';

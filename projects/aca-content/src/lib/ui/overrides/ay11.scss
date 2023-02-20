@@ -157,13 +157,21 @@
     }
   }
 
+  .mat-datetimepicker-calendar-body-active .mat-datetimepicker-calendar-body-cell-content {
+    outline: 2px solid var(--theme-datetimepicker-cell-focus-border);
+  }
+
   .mat-datetimepicker-calendar-body-active .mat-datetimepicker-calendar-body-cell-content:not(.mat-datetimepicker-calendar-body-selected) {
-    background-color: white !important;
-    outline: 2px solid var(--theme-blue-button-color);
+    background-color: var(--theme-datetimepicker-cell-background) !important;
+  }
+
+  .mat-datetimepicker-calendar-body-active .mat-datetimepicker-calendar-body-cell-content.mat-datetimepicker-calendar-body-selected {
+    background-color: var(--theme-datetimepicker-cell-focus-background);
+    color: var(--theme-datetimepicker-font-color);
   }
 
   .mat-datetimepicker-calendar-body-cell-content.mat-datetimepicker-calendar-body-selected {
-    background-color: #2254b2;
+    background-color: var(--theme-datetimepicker-selected-date-background);
   }
 
   .mat-expansion-panel .mat-expansion-panel-header {
