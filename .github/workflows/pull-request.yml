@@ -79,6 +79,7 @@ jobs:
           cache: 'npm'
       - uses: ./.github/actions/before-install
       - run: npm ci
+      - run: echo $BUILD_OPTS
       - run: npm run build $BUILD_OPTS
       - name: upload job artifact
         if: ${{ success() }}
