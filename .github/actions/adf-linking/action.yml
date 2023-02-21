@@ -9,9 +9,6 @@ runs:
       run: |
         echo "${{ env.COMMIT_MESSAGE }}"
         echo "${{ COMMIT_MESSAGE }}"
-        echo "${{ commit_message }}"
-        echo "${{ env.commit_message }}"
-        echo "$COMMIT_MESSAGE"
         if [[ ${{ env.COMMIT_MESSAGE }} == *"[link-adf:"* ]]; then
             echo "BUILD_OPTS=--configuration=adfprod,e2e" >> $GITHUB_ENV
             echo "TEST_OPTS=--configuration=adfprod" >> $GITHUB_ENV
