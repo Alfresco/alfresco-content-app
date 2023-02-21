@@ -79,7 +79,6 @@ jobs:
           cache: 'npm'
       - uses: ./.github/actions/before-install
       - run: npm ci
-      - run: echo $BUILD_OPTS
       - run: npm run build $BUILD_OPTS
       - name: upload job artifact
         if: ${{ success() }}
@@ -182,3 +181,28 @@ jobs:
           ./scripts/ci/job_hooks/before-playwright.sh
           ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "e2e/playwright/tests/folder-rules/playwright.config.ts" -test-runner playwright
           ./scripts/ci/job_hooks/after_e2e.sh
+
+  finalize:
+    # needs: [lint, build, unit-tests, e2es, e2es-playwright]
+    name: 'Finalize'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
+          cache: 'npm'
+
+      - name: Check ADF link
+        shell: bash
+        run: |
+          BRANCH=`echo $COMMIT_MESSAGE | grep -o "\[link-adf\:[^]]*\]" | sed -e 's#\[link-adf:##g' | sed -e 's#\]##g'`
+          echo -e "\e[31mPRs are not mergeable with conditional build. This build was run with custom ADF branch: $BRANCH \e[0m"
+          exit 1
+
+
