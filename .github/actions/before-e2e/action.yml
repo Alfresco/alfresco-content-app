@@ -16,7 +16,11 @@ runs:
   steps:
     - name: Check content UP
       shell: bash
-      run: ./node_modules/@alfresco/adf-cli/bin/adf-cli check-cs-env --host "$APP_CONFIG_ECM_HOST" -u "$ADMIN_EMAIL" -p "$ADMIN_PASSWORD" || exit 1
+      run: |
+        echo $APP_CONFIG_ECM_HOST
+        echo $ADMIN_EMAIL
+        echo $ADMIN_PASSWORD
+        ./node_modules/@alfresco/adf-cli/bin/adf-cli check-cs-env --host $APP_CONFIG_ECM_HOST -u $ADMIN_EMAIL -p $ADMIN_PASSWORD || exit 1
     - name: Download artifacts
       uses: ./.github/actions/download-job-artifact
       with:
