@@ -1,0 +1,17 @@
+name: "After e2e"
+description: "After e2e"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Remove storage dir
+      shell: bash
+      run: |
+        storage_dir="./storage-state/AdminUserState.json"
+        rm -rf $storage_dir
+
+    - name: Upload protractor-smartrunner artifact related to this particular job to S3
+      uses: ./.github/actions/upload-job-artifact
+      with:
+        artifact: $SMART_RUNNER_DIRECTORY
+        output: "$S3_DBP_FOLDER/protractor-smartrunner-${{ github.run_id }}.tar.bz2"
