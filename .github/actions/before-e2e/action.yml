@@ -43,9 +43,10 @@ runs:
     - name: Update webdriver-manager
       shell: bash
       run: |
+        npm install -g webdriver-manager
         if [ "$CI" = "true" ]; then
           export chrome=$(google-chrome --product-version)
-          echo "Updating wedriver-manager with chromedriver: $chrome."
+          echo "Updating wevdriver-manager with chromedriver: $chrome."
           webdriver-manager update --gecko=false --versions.chrome=$chrome
         else
           echo "Updating wedriver-manager with latest chromedriver, be sure to use evergreen Chrome."
