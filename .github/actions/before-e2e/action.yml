@@ -25,7 +25,7 @@ runs:
     - name: Replace variables in app.config.json
       shell: bash
       run: |
-        npm install envsub
+        npm install -g envsub
         APP_CONFIG_FILE_PATH="${{ inputs.to }}/app.config.json"
         EXTRA_ENV_SETTINGS=""
         envsub $EXTRA_ENV_SETTINGS --all $APP_CONFIG_FILE_PATH $APP_CONFIG_FILE_PATH || exit 1
