@@ -14,9 +14,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: install aws cli
-      shell: bash
-      run: pip install awscli
     - name: upload build artifacts to s3
       shell: bash
       run: |
