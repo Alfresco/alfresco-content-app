@@ -29,7 +29,7 @@ runs:
     - name: setup S3 caching
       shell: bash
       run: |
-        pip install -q awscli
+        # pip install -q awscli
         S3_DBP_PATH="s3://alfresco-travis-builds/aca"
         if [ "${{ github.event_name }}" == "push" ]; then
             BRANCH_NAME=${GITHUB_REF##*/}
