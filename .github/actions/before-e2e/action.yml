@@ -16,11 +16,7 @@ runs:
   steps:
     - name: Check content UP
       shell: bash
-      run: |
-        echo $APP_CONFIG_ECM_HOST
-        echo $ADMIN_EMAIL
-        echo $ADMIN_PASSWORD
-        ./node_modules/@alfresco/adf-cli/bin/adf-cli check-cs-env --host $APP_CONFIG_ECM_HOST -u $ADMIN_EMAIL -p $ADMIN_PASSWORD || exit 1
+      run: ./node_modules/@alfresco/adf-cli/bin/adf-cli check-cs-env --host $APP_CONFIG_ECM_HOST -u $ADMIN_EMAIL -p $ADMIN_PASSWORD || exit 1
     - name: Download artifacts
       uses: ./.github/actions/download-job-artifact
       with:
@@ -29,6 +25,7 @@ runs:
     - name: Replace variables in app.config.json
       shell: bash
       run: |
+        npm install envsub
         APP_CONFIG_FILE_PATH="${{ inputs.to }}/app.config.json"
         EXTRA_ENV_SETTINGS=""
         envsub $EXTRA_ENV_SETTINGS --all $APP_CONFIG_FILE_PATH $APP_CONFIG_FILE_PATH || exit 1
