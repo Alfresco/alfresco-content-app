@@ -30,6 +30,7 @@ runs:
         EXTRA_ENV_SETTINGS=""
         envsub $EXTRA_ENV_SETTINGS --all $APP_CONFIG_FILE_PATH $APP_CONFIG_FILE_PATH || exit 1
         echo  -n "     \_ Validating replaced config file ... ";
+        cat $APP_CONFIG_FILE_PATH
         $(npm bin)/ajv validate -s ./node_modules/@alfresco/adf-core/app.config.schema.json -d $APP_CONFIG_FILE_PATH --errors=text --verbose || exit 4
         if grep -E -q '\$\{[A-Z0-9_]*\}' $APP_CONFIG_FILE_PATH; then
             echo -e "\e[31m        \_ ERROR: Variables are still present in the app.config.json file. Some of them might not have default value set.\e[0m";
