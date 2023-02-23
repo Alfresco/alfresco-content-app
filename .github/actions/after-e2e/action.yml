@@ -1,6 +1,13 @@
 name: "After e2e"
 description: "After e2e"
 
+inputs:
+  id:
+    description: 'test suite id'
+    required: true
+    type: number
+
+
 runs:
   using: "composite"
   steps:
@@ -14,4 +21,4 @@ runs:
       uses: ./.github/actions/upload-job-artifact
       with:
         artifact: $SMART_RUNNER_DIRECTORY
-        output: $S3_DBP_FOLDER/protractor-smartrunner-${{ github.run_id }}${{ github.job }}.tar.bz2
+        output: $S3_DBP_FOLDER/protractor-smartrunner-${{ github.run_id }}${{ inputs.id }}.tar.bz2
