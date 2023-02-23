@@ -125,19 +125,33 @@ jobs:
       matrix:
         e2e-suites:
           - name: "authentication,listViews,navigation,application"
+            id: 1
           - name: "search"
+            id: 2
           - name: "viewer,infoDrawer,extensions"
+            id: 3
           - name: "shareActions"
+            id: 4
           - name: "pagination"
+            id: 5
           - name: "actionsAvailableFilesFolders"
+            id: 6
           - name: "actionsAvailableLibraries,actionsAvailableNewMenu"
+            id: 7
           - name: "actionsAvailableSpecialPermissions"
+            id: 8
           - name: "copyMoveActions"
+            id: 9
           - name: "createActions"
+            id: 10
           - name: "deleteActions"
+            id: 11
           - name: "editActions,favoriteActions"
+            id: 12
           - name: "libraryActions"
+            id: 13
           - name: "uploadDownloadActions"
+            id: 14
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -155,6 +169,7 @@ jobs:
         with:
           from: "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2"
           to: $CONTENT_CE_DIST_PATH
+          id: ${{ matrix.e2e-suites.id }}
       - uses: ./.github/actions/run-e2e
         with:
           options: "--suite=${{ matrix.e2e-suites.name }}"
@@ -181,6 +196,7 @@ jobs:
         with:
           from: "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2"
           to: $CONTENT_CE_DIST_PATH
+          id: 15
       - name: before playwright
         shell: bash
         run: npx playwright install chromium
