@@ -17,6 +17,10 @@ inputs:
     description: 'aws secret access key'
     required: true
     type: string
+  aws-region:
+    description: 'aws region'
+    required: true
+    type: string
 
 runs:
   using: "composite"
@@ -32,3 +36,4 @@ runs:
         output: $S3_DBP_FOLDER/protractor-smartrunner-${{ github.run_id }}-${{ inputs.id }}.tar.bz2
         aws-access-key-id: ${{ inputs.aws-access-key-id }}
         aws-secret-access-key: ${{ inputs.aws-secret-access-key }}
+        aws-region: ${{ inputs.aws-region }}

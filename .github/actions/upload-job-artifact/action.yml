@@ -18,6 +18,10 @@ inputs:
     description: 'aws secret access key'
     required: true
     type: string
+  aws-region:
+    description: 'aws region'
+    required: true
+    type: string
 
 runs:
   using: "composite"
@@ -27,7 +31,7 @@ runs:
       with:
         aws-access-key-id: ${{ inputs.aws-access-key-id }}
         aws-secret-access-key: ${{ inputs.aws-secret-access-key }}
-        aws-region: $AWS_REGION
+        aws-region: ${{ inputs.aws-region }}
     - name: upload build artifacts to s3
       shell: bash
       run: |

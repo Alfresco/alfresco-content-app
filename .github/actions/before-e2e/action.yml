@@ -22,6 +22,10 @@ inputs:
     description: 'aws secret access key'
     required: true
     type: string
+  aws-region:
+    description: 'aws region'
+    required: true
+    type: string
 
 runs:
   using: "composite"
@@ -36,6 +40,7 @@ runs:
         output: ${{ inputs.to }}
         aws-access-key-id: ${{ inputs.aws-access-key-id }}
         aws-secret-access-key: ${{ inputs.aws-secret-access-key }}
+        aws-region: ${{ inputs.aws-region }}
     - name: Replace variables in app.config.json
       shell: bash
       run: |
@@ -57,6 +62,7 @@ runs:
         output: $SMART_RUNNER_DIRECTORY
         aws-access-key-id: ${{ inputs.aws-access-key-id }}
         aws-secret-access-key: ${{ inputs.aws-secret-access-key }}
+        aws-region: ${{ inputs.aws-region }}
     - name: Update webdriver-manager
       shell: bash
       run: |
