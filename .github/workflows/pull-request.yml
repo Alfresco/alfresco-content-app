@@ -69,6 +69,8 @@ jobs:
         with:
           artifact: $CONTENT_CE_DIST_PATH
           output: $S3_DBP_FOLDER/alfresco-content-app.tar.bz2
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
   unit-tests:
     needs: [lint, build]
@@ -158,6 +160,8 @@ jobs:
       - uses: ./.github/actions/after-e2e
         with:
           id: ${{ matrix.e2e-suites.id }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
   e2es-playwright:
     needs: [lint, build, unit-tests]
@@ -191,6 +195,8 @@ jobs:
       - uses: ./.github/actions/after-e2e
         with:
           id: 15
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
   finalize:
     needs: [lint, build, unit-tests, e2es, e2es-playwright]

@@ -14,6 +14,14 @@ inputs:
     description: 'test suite id'
     required: true
     type: number
+  aws-access-key-id:
+    description: 'aws access key id'
+    required: true
+    type: string
+  aws-secret-access-key:
+    description: 'aws secret access key'
+    required: true
+    type: string
 
 runs:
   using: "composite"
@@ -26,6 +34,8 @@ runs:
       with:
         artifact: ${{ inputs.from }}
         output: ${{ inputs.to }}
+        aws-access-key-id: ${{ inputs.aws-access-key-id }}
+        aws-secret-access-key: ${{ inputs.aws-secret-access-key }}
     - name: Replace variables in app.config.json
       shell: bash
       run: |
@@ -45,6 +55,8 @@ runs:
       with:
         artifact: $S3_DBP_FOLDER/protractor-smartrunner-${{ github.run_id }}-${{ inputs.id }}.tar.bz2
         output: $SMART_RUNNER_DIRECTORY
+        aws-access-key-id: ${{ inputs.aws-access-key-id }}
+        aws-secret-access-key: ${{ inputs.aws-secret-access-key }}
     - name: Update webdriver-manager
       shell: bash
       run: |
