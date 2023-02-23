@@ -43,7 +43,7 @@ runs:
       if: ${{ github.run_attempt > 1 }}
       uses: ./.github/actions/download-job-artifact
       with:
-        artifact: $S3_DBP_FOLDER/protractor-smartrunner-${{ github.run_id }}${{ inputs.id }}.tar.bz2
+        artifact: $S3_DBP_FOLDER/protractor-smartrunner-${{ github.run_id }}-${{ inputs.id }}.tar.bz2
         output: $SMART_RUNNER_DIRECTORY
     - name: Update webdriver-manager
       shell: bash

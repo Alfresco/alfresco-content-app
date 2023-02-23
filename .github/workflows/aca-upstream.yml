@@ -30,7 +30,7 @@ jobs:
         - name: install NPM
           uses: actions/setup-node@v3
           with:
-            node-version: 14
+            node-version-file: '.nvmrc'
             cache: 'npm'
         - name: Trigger upstream
           shell: bash
