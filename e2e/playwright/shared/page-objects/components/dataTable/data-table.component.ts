@@ -9,6 +9,7 @@
 import { Locator, Page } from '@playwright/test';
 import { BaseComponent } from '../base.component';
 import { MatMenuComponent } from './mat-menu.component';
+import { PaginationActionsType, PaginationComponent } from '../pagination.component';
 
 export class DataTableComponent extends BaseComponent {
   private static rootElement = 'adf-datatable';
@@ -18,6 +19,7 @@ export class DataTableComponent extends BaseComponent {
     super(page, rootElement);
   }
 
+  public pagination = new PaginationComponent(this.page);
   getEmptyFolderLocator = this.getChild('.adf-empty-folder');
   getEmptyContentTitleLocator = this.getChild('adf-empty-content .adf-empty-content__title');
   getEmptyContentSubTitleLocator = this.getChild('adf-empty-content .adf-empty-content__subtitle');
@@ -115,6 +117,7 @@ export class DataTableComponent extends BaseComponent {
    * @param action provide which action you want to perform
    */
   async performActionFromExpandableMenu(name: string | number, action: string): Promise<void> {
+    await this.goThroughPagesLookingForRowWithName(name);
     const actionButtonLocator = await this.getActionLocatorFromExpandableMenu(name, action);
     await actionButtonLocator.click();
     await this.spinnerWaitForReload();
@@ -139,5 +142,26 @@ export class DataTableComponent extends BaseComponent {
   async getActionLocatorFromExpandableMenu(name: string | number, action: string): Promise<Locator> {
     await this.getRowByName(name).click({ button: 'right' });
     return this.contextMenuActions.getButtonByText(action);
+  }
+
+  async goThroughPagesLookingForRowWithName(name: string | number): Promise<void> {
+    await this.spinnerWaitForReload();
+    if (await this.getRowByName(name).isVisible()) {
+      return null;
+    }
+
+    if ((await this.pagination.currentPageLocator.textContent()) !== ' Page 1 ') {
+      await this.pagination.navigateToPage(1);
+    }
+
+    const maxPages = (await this.pagination.totalPageLocator.textContent()).match(/\d/)[0];
+    for (let page = 1; page <= Number(maxPages); page++) {
+      if (await this.getRowByName(name).isVisible()) {
+        break;
+      }
+      await this.pagination.getArrowLocatorFor(PaginationActionsType.NextPageSelector).isEnabled();
+      await this.pagination.getArrowLocatorFor(PaginationActionsType.NextPageSelector).click();
+      await this.spinnerWaitForReload();
+    }
   }
 }
