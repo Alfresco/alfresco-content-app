@@ -121,6 +121,7 @@ import { AppSharedLinkViewModule } from './components/shared-link-view/shared-li
 import { AcaFolderRulesModule } from '@alfresco/aca-folder-rules';
 import { TagsColumnComponent } from './components/dl-custom-components/tags-column/tags-column.component';
 import { UserInfoComponent } from './components/common/user-info/user-info.component';
+import { ContentManagementService } from './services/content-management.service';
 
 registerLocaleData(localeFr);
 registerLocaleData(localeDe);
@@ -186,7 +187,7 @@ registerLocaleData(localeSv);
   providers: [
     { provide: AppConfigService, useClass: DebugAppConfigService },
     { provide: ContentVersionService, useClass: ContentUrlService },
-    { provide: DocumentBasePageService, useExisting: ContentVersionService },
+    { provide: DocumentBasePageService, useExisting: ContentManagementService },
     {
       provide: TRANSLATION_PROVIDER,
       multi: true,
