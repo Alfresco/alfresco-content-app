@@ -1,14 +1,4 @@
-<ng-container>
-    <adf-content-user-info 
-        *ngIf="mode === userInfoMode.CONTENT || mode === userInfoMode.CONTENT_SSO"
-        [ecmUser]="ecmUser$ | async"
-        [identityUser]="identityUser$ | async"
-        [isLoggedIn]="isLoggedIn"
-        [mode]="mode"
-    ></adf-content-user-info>
-    <adf-identity-user-info 
-        *ngIf="mode === userInfoMode.SSO"
-        [identityUser]="identityUser$ | async"
-        [isLoggedIn]="isLoggedIn"
-    ></adf-identity-user-info>
-</ng-container>
+<button mat-menu-item [routerLink]="['/profile']" title="{{'APP.TOOLTIPS.MY_PROFILE' | translate}}">
+  <mat-icon>account_circle</mat-icon>
+  <span>{{ (displayName$ | async) }}</span>
+</button>
