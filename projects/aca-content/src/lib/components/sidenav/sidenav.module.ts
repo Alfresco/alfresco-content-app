@@ -34,11 +34,11 @@ import { ActiveLinkDirective } from './directives/active-link.directive';
 import { ExpandMenuComponent } from './components/expand-menu.component';
 import { ButtonMenuComponent } from './components/button-menu.component';
 import { ActionDirective } from './directives/action.directive';
-import { NavigationMenuComponent } from './navigation-menu/navigation-menu.component';
 import { SidenavHeaderComponent } from './components/sidenav-header.component';
+import { SharedToolbarModule } from '@alfresco/aca-shared';
 
 @NgModule({
-  imports: [CoreModule.forChild(), ExtensionsModule.forChild(), RouterModule, AppCreateMenuModule],
+  imports: [CoreModule.forChild(), ExtensionsModule.forChild(), RouterModule, AppCreateMenuModule, SharedToolbarModule],
   declarations: [
     MenuPanelDirective,
     ExpansionPanelDirective,
@@ -47,7 +47,6 @@ import { SidenavHeaderComponent } from './components/sidenav-header.component';
     ExpandMenuComponent,
     ButtonMenuComponent,
     SidenavComponent,
-    NavigationMenuComponent,
     SidenavHeaderComponent
   ],
   exports: [

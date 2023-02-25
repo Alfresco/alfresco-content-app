@@ -86,18 +86,18 @@
         "order": 50
       },
       {
-        "id": "app.header.user",
-        "type": "custom",
-        "component": "app.user",
-        "order": 100
-      },
-      {
         "id": "app.header.more",
         "type": "menu",
         "order": 10000,
-        "icon": "more_vert",
+        "icon": "apps",
         "title": "APP.ACTIONS.MORE",
         "children": [
+          {
+            "id": "app.header.user",
+            "type": "custom",
+            "component": "app.user",
+            "order": 100
+          },
           {
             "id": "app.languagePicker",
             "order": 100,
