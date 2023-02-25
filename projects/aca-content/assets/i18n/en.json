@@ -106,7 +106,9 @@
         "HEADER": {
             "BUTTONS": {
                 "CREATE": "Create",
-                "UPLOAD": "Upload"
+                "CREATE_TOOLTIP": "Create content",
+                "UPLOAD": "Upload",
+                "UPLOAD_TOOLTIP": "Upload content"
             }
         },
         "BROWSE": {
