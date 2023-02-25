@@ -92,6 +92,14 @@ export interface AcaRuleContext extends RuleContext {
 export const isContentServiceEnabled = (): boolean => localStorage && localStorage.getItem('contentService') !== 'false';
 
 /**
+ * Checks if upload action is supported for the given context
+ * JSON ref: `app.isUploadSupported`
+ *
+ * @param content Rule execution context
+ */
+export const isUploadSupported = (context: RuleContext): boolean =>
+  [isContentServiceEnabled(), navigation.isPersonalFiles(context) || navigation.isLibraryContent(context), canUpload(context)].every(Boolean);
+/**
  * Checks if user can copy selected node.
  * JSON ref: `app.canCopyNode`
  *
@@ -227,21 +235,35 @@ export const hasSelection = (context: RuleContext): boolean => !context.selectio
  * JSON ref: `app.navigation.folder.canCreate`
  */
 export function canCreateFolder(context: RuleContext): boolean {
-  const { currentFolder } = context.navigation;
-  if (currentFolder) {
-    return context.permissions.check(currentFolder, ['create']);
+  if (isContentServiceEnabled() && (navigation.isPersonalFiles(context) || navigation.isLibraryContent(context))) {
+    const { currentFolder } = context.navigation;
+
+    if (currentFolder) {
+      return context.permissions.check(currentFolder, ['create']);
+    }
   }
   return false;
 }
+
+/**
+ * Checks if user can create a Library
+ * JSON ref: `app.canCreateLibrary`
+ *
+ * @param context Rule execution context
+ */
+export const canCreateLibrary = (context: RuleContext): boolean => [isContentServiceEnabled(), navigation.isLibraries(context)].every(Boolean);
 
 /**
  * Checks if user can upload content to current folder.
  * JSON ref: `app.navigation.folder.canUpload`
  */
 export function canUpload(context: RuleContext): boolean {
-  const { currentFolder } = context.navigation;
-  if (currentFolder) {
-    return context.permissions.check(currentFolder, ['create']);
+  if (isContentServiceEnabled() && (navigation.isPersonalFiles(context) || navigation.isLibraryContent(context))) {
+    const { currentFolder } = context.navigation;
+
+    if (currentFolder) {
+      return context.permissions.check(currentFolder, ['create']);
+    }
   }
   return false;
 }

@@ -143,8 +143,7 @@
           "click": "CREATE_FOLDER"
         },
         "rules": {
-          "enabled": "app.navigation.folder.canCreate",
-          "visible": "app.isContentServiceEnabled"
+          "visible": "app.navigation.folder.canCreate"
         }
       },
       {
@@ -157,7 +156,7 @@
           "click": "CREATE_LIBRARY"
         },
         "rules": {
-          "visible": "app.isContentServiceEnabled"
+          "visible": "app.canCreateLibrary"
         }
       },
       {
@@ -171,8 +170,7 @@
           "click": "FILE_FROM_TEMPLATE"
         },
         "rules": {
-          "enabled": "app.navigation.folder.canUpload",
-          "visible": "app.isContentServiceEnabled"
+          "visible": "app.navigation.folder.canUpload"
         }
       },
       {
@@ -186,8 +184,7 @@
           "click": "FOLDER_FROM_TEMPLATE"
         },
         "rules": {
-          "enabled": "app.navigation.folder.canUpload",
-          "visible": "app.isContentServiceEnabled"
+          "visible": "app.navigation.folder.canUpload"
         }
       }
     ],
@@ -198,13 +195,11 @@
         "icon": "file_upload",
         "title": "APP.NEW_MENU.MENU_ITEMS.UPLOAD_FILE",
         "description": "APP.NEW_MENU.TOOLTIPS.UPLOAD_FILES",
-        "description-disabled": "APP.NEW_MENU.TOOLTIPS.UPLOAD_FILES_NOT_ALLOWED",
         "actions": {
           "click": "UPLOAD_FILES"
         },
         "rules": {
-          "enabled": "app.navigation.folder.canUpload",
-          "visible": "app.isContentServiceEnabled"
+          "visible": "app.isUploadSupported"
         }
       },
       {
@@ -213,13 +208,11 @@
         "icon": "file_upload",
         "title": "APP.NEW_MENU.MENU_ITEMS.UPLOAD_FOLDER",
         "description": "APP.NEW_MENU.TOOLTIPS.UPLOAD_FOLDERS",
-        "description-disabled": "APP.NEW_MENU.TOOLTIPS.UPLOAD_FOLDERS_NOT_ALLOWED",
         "actions": {
           "click": "UPLOAD_FOLDER"
         },
         "rules": {
-          "enabled": "app.navigation.folder.canUpload",
-          "visible": "app.isContentServiceEnabled"
+          "visible": "app.isUploadSupported"
         }
       }
     ],

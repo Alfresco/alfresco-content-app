@@ -24,7 +24,6 @@
  */
 
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppExtensionService } from '@alfresco/aca-shared';
 import { SetCurrentFolderAction, AppStore } from '@alfresco/aca-shared/store';
@@ -44,7 +43,7 @@ export class HeaderActionsComponent implements OnInit, OnDestroy {
   createActions: Array<ContentActionRef> = [];
   uploadActions: Array<ContentActionRef> = [];
 
-  constructor(private router: Router, private store: Store<AppStore>, private extensions: AppExtensionService) {}
+  constructor(private store: Store<AppStore>, private extensions: AppExtensionService) {}
 
   ngOnInit(): void {
     this.extensions
@@ -72,24 +71,12 @@ export class HeaderActionsComponent implements OnInit, OnDestroy {
     return action.id;
   }
 
-  private isPersonalFilesRoute(): boolean {
-    return this.router.url.includes('/personal-files');
-  }
-
-  private isFavoriteLibrariesRoute(): boolean {
-    return this.router.url.includes('/favorite/libraries');
-  }
-
-  private isLibrariesRoute(): boolean {
-    return this.router.url.includes('/libraries');
-  }
-
   canShowCreateButton(): boolean {
-    return this.createActions.length > 0 && (this.isPersonalFilesRoute() || this.isFavoriteLibrariesRoute() || this.isLibrariesRoute());
+    return this.createActions.length > 0;
   }
 
   canShowUploadButton(): boolean {
-    return this.uploadActions.length > 0 && this.isPersonalFilesRoute();
+    return this.uploadActions.length > 0;
   }
 
   canShowSearchSeparator(): boolean {
