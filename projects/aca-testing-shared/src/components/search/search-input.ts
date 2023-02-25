@@ -64,7 +64,6 @@ export class SearchInput extends Component {
     await BrowserActions.click(this.searchButton);
 
     // TODO: Workaround for new Layout having 2 buttons
-    await waitForPresence(this.searchButton);
     await BrowserActions.click(this.searchButton);
 
     await this.waitForSearchControl();
