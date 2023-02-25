@@ -13,7 +13,8 @@
       {{ appName$ | async | translate }}
     </div>
 
-    <adf-notification-history></adf-notification-history>
-    <app-navigation-menu></app-navigation-menu>
+    <ng-container *ngFor="let actionRef of actions; trackBy: trackByActionId">
+      <aca-toolbar-action [actionRef]="actionRef"></aca-toolbar-action>
+    </ng-container>
   </div>
 </div>
