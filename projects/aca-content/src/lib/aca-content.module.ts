@@ -299,7 +299,9 @@ export class ContentServiceExtensionModule {
       'repository.isQuickShareEnabled': rules.hasQuickShareEnabled,
       'user.isAdmin': rules.isAdmin,
       'app.canShowLogout': rules.canShowLogout,
-      'app.isContentServiceEnabled': rules.isContentServiceEnabled
+      'app.isContentServiceEnabled': rules.isContentServiceEnabled,
+      'app.isUploadSupported': rules.isUploadSupported,
+      'app.canCreateLibrary': rules.canCreateLibrary
     });
   }
 }
