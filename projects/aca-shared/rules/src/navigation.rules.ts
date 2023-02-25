@@ -106,6 +106,11 @@ export function isLibraries(context: RuleContext): boolean {
   return url && (url.endsWith('/libraries') || url.startsWith('/search-libraries'));
 }
 
+export function isLibraryContent(context: RuleContext): boolean {
+  const { url } = context.navigation;
+  return url && (url.endsWith('/libraries') || url.includes('/libraries/') || url.startsWith('/search-libraries'));
+}
+
 /**
  * Checks if the activated route is neither **Libraries** nor **Library Search Results**.
  * JSON ref: `app.navigation.isNotLibraries`
