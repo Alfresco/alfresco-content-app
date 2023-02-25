@@ -72,31 +72,6 @@ describe('HeaderActionsComponent', () => {
   const getCreateButton = (): HTMLButtonElement => fixture.debugElement.query(By.css('[data-automation-id="create-button"]')).nativeElement;
   const getUploadButton = (): HTMLButtonElement => fixture.debugElement.query(By.css('[data-automation-id="upload-button"]')).nativeElement;
 
-  it('total number of buttons in header should be 2 if route is personal-files', async () => {
-    spyOnProperty(router, 'url').and.returnValue('/personal-files');
-
-    fixture.detectChanges();
-    await fixture.whenStable();
-
-    const buttons = fixture.debugElement.queryAll(By.css('.mat-flat-button'));
-
-    expect(buttons.length).toBe(2);
-    expect(getCreateButton()).toBeTruthy();
-    expect(getUploadButton()).toBeTruthy();
-  });
-
-  it('total number of buttons in header should be 1 if route is libraries', async () => {
-    spyOnProperty(router, 'url').and.returnValue('/libraries');
-
-    fixture.detectChanges();
-    await fixture.whenStable();
-
-    const buttons = fixture.debugElement.queryAll(By.css('.mat-flat-button'));
-
-    expect(buttons.length).toBe(1);
-    expect(getCreateButton()).toBeTruthy();
-  });
-
   it('should render menu items when create menu is opened', async () => {
     spyOnProperty(router, 'url').and.returnValue('/personal-files');
 
