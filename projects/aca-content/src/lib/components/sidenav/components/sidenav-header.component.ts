@@ -23,11 +23,14 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, EventEmitter, Output, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { AppStore, getAppName, getLogoPath } from '@alfresco/aca-shared/store';
 import { AppConfigService } from '@alfresco/adf-core';
+import { ContentActionRef } from '@alfresco/adf-extensions';
+import { AppExtensionService } from '@alfresco/aca-shared';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-sidenav-header',
@@ -35,17 +38,38 @@ import { AppConfigService } from '@alfresco/adf-core';
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-sidenav-header' }
 })
-export class SidenavHeaderComponent {
+export class SidenavHeaderComponent implements OnInit, OnDestroy {
+  private onDestroy$ = new Subject<boolean>();
+
   appName$: Observable<string>;
   logo$: Observable<string>;
   landingPage: string;
+  actions: Array<ContentActionRef> = [];
 
   @Output()
   toggleNavBar = new EventEmitter();
 
-  constructor(public store: Store<AppStore>, private appConfigService: AppConfigService) {
+  constructor(public store: Store<AppStore>, private appConfigService: AppConfigService, private appExtensions: AppExtensionService) {
     this.appName$ = store.select(getAppName);
     this.logo$ = store.select(getLogoPath);
     this.landingPage = this.appConfigService.get('landingPage', '/personal-files');
+  }
+
+  ngOnInit() {
+    this.appExtensions
+      .getHeaderActions()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((actions) => {
+        this.actions = actions;
+      });
+  }
+
+  ngOnDestroy() {
+    this.onDestroy$.next(true);
+    this.onDestroy$.complete();
+  }
+
+  trackByActionId(_: number, action: ContentActionRef) {
+    return action.id;
   }
 }

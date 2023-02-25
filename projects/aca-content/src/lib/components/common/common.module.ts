@@ -34,9 +34,10 @@ import { LanguagePickerComponent } from './language-picker/language-picker.compo
 import { LogoutComponent } from './logout/logout.component';
 import { ContentModule } from '@alfresco/adf-content-services';
 import { UserInfoComponent } from './user-info/user-info.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
-  imports: [CommonModule, CoreModule.forChild(), ContentModule.forChild(), ExtensionsModule, GenericErrorModule],
+  imports: [CommonModule, CoreModule.forChild(), ContentModule.forChild(), ExtensionsModule, GenericErrorModule, RouterModule],
   declarations: [LocationLinkComponent, ToggleSharedComponent, LanguagePickerComponent, LogoutComponent, UserInfoComponent],
   exports: [
     ExtensionsModule,
