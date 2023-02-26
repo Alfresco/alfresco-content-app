@@ -50,7 +50,7 @@
     "@ngrx/store": "^14.2.0",
     "@ngrx/store-devtools": "^14.2.0",
     "@ngx-translate/core": "^14.0.0",
-    "@playwright/test": "^1.30.0",
+    "@playwright/test": "^1.31.1",
     "minimatch-browser": "^1.0.0",
     "moment": "^2.29.4",
     "moment-es6": "1.0.0",
