@@ -36,9 +36,8 @@ runs:
       shell: bash
       run: |
         test ! -d ${{ inputs.output }} && mkdir -p ${{ inputs.output }}
-        if aws s3api head-bucket --bucket ${{ inputs.artifact }} 2>/dev/null;
-        then
-          aws s3 cp ${{ inputs.artifact }} ./s3-artifact.tmp
+        aws s3 cp ${{ inputs.artifact }} ./s3-artifact.tmp 1>/dev/null 2>&1
+        if [[ $? -eq 0 ]]; then
           echo 'artifact download done'
           tar -xvf ./s3-artifact.tmp -C ${{ inputs.output }} >&/dev/null
           echo 'tar the artifact done'
