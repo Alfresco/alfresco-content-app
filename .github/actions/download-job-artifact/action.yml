@@ -35,9 +35,9 @@ runs:
     - name: download build artifacts from s3
       shell: bash
       run: |
+        test ! -d ${{ inputs.output }} && mkdir -p ${{ inputs.output }}
         if aws s3api head-bucket --bucket ${{ inputs.artifact }} 2>/dev/null;
         then
-          test ! -d ${{ inputs.output }} && mkdir -p ${{ inputs.output }}
           aws s3 cp ${{ inputs.artifact }} ./s3-artifact.tmp
           echo 'artifact download done'
           tar -xvf ./s3-artifact.tmp -C ${{ inputs.output }} >&/dev/null
