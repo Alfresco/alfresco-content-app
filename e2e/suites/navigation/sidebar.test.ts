@@ -129,14 +129,6 @@ describe('Sidebar', () => {
     expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.TRASH)).toContain('View deleted files in the trash');
   });
 
-  // it('[C217152] File Libraries tooltip', async () => {
-  //   await page.clickFileLibraries();
-  //   expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.FILE_LIBRARIES)).toContain('File Libraries');
-
-  //   await header.collapseSideNav();
-  //   expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.FILE_LIBRARIES)).toContain('File Libraries');
-  // });
-
   it('[C289916] My Libraries tooltip', async () => {
     await page.goToMyLibraries();
     expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.MY_LIBRARIES)).toContain('Access my libraries');
@@ -195,7 +187,7 @@ describe('Sidebar', () => {
     expect(await header.isSidenavExpanded()).toBe(false, 'Sidebar not collapsed');
   });
 
-  fit('[C277224] sidenav returns to the default state when navigating away from the Search Results page', async () => {
+  it('[C277224] sidenav returns to the default state when navigating away from the Search Results page', async () => {
     await searchInput.clickSearchButton();
     /* cspell:disable-next-line */
     await searchInput.searchFor('qwertyuiop');
