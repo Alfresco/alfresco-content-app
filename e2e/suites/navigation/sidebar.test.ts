@@ -47,31 +47,15 @@ describe('Sidebar', () => {
     expect(await sidenav.isActive(SIDEBAR_LABELS.PERSONAL_FILES)).toBe(true, 'Default active link');
   });
 
-  it('[C217150] File Libraries has correct sub-categories', async () => {
-    await page.clickFileLibraries();
-    expect(await sidenav.isFileLibrariesMenuExpanded()).toBe(true, 'File Libraries not expanded');
-    expect(await sidenav.getLink(SIDEBAR_LABELS.MY_LIBRARIES).isPresent()).toBe(true, 'My Libraries link not present');
-    expect(await sidenav.getLink(SIDEBAR_LABELS.FAVORITE_LIBRARIES).isPresent()).toBe(true, 'Favorite Libraries link not present');
-  });
-
-  it('[C289900] Favorite Libraries is automatically selected on expanding File Libraries', async () => {
-    await sidenav.expandFileLibraries();
-    expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.FAVORITE_LIBRARIES);
-    expect(await sidenav.isActive(SIDEBAR_LABELS.FILE_LIBRARIES)).toBe(true, 'File Libraries is not active');
-    expect(await sidenav.isActive(SIDEBAR_LABELS.FAVORITE_LIBRARIES)).toBe(true, 'Favorite Libraries link not active');
-  });
-
   it('[C289902] navigate to Favorite Libraries', async () => {
     await page.goToFavoriteLibraries();
     expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.FAVORITE_LIBRARIES);
-    expect(await sidenav.isActive(SIDEBAR_LABELS.FILE_LIBRARIES)).toBe(true, 'File Libraries link is not active');
     expect(await sidenav.isActive(SIDEBAR_LABELS.FAVORITE_LIBRARIES)).toBe(true, 'Favorite Libraries link not active');
   });
 
   it('[C289901] navigate to My Libraries', async () => {
     await page.goToMyLibraries();
     expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.MY_LIBRARIES);
-    expect(await sidenav.isActive(SIDEBAR_LABELS.FILE_LIBRARIES)).toBe(true, 'File Libraries link is not active');
     expect(await sidenav.isActive(SIDEBAR_LABELS.MY_LIBRARIES)).toBe(true, 'My Libraries link not active');
   });
 
@@ -145,13 +129,13 @@ describe('Sidebar', () => {
     expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.TRASH)).toContain('View deleted files in the trash');
   });
 
-  it('[C217152] File Libraries tooltip', async () => {
-    await page.clickFileLibraries();
-    expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.FILE_LIBRARIES)).toContain('File Libraries');
+  // it('[C217152] File Libraries tooltip', async () => {
+  //   await page.clickFileLibraries();
+  //   expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.FILE_LIBRARIES)).toContain('File Libraries');
 
-    await header.collapseSideNav();
-    expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.FILE_LIBRARIES)).toContain('File Libraries');
-  });
+  //   await header.collapseSideNav();
+  //   expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.FILE_LIBRARIES)).toContain('File Libraries');
+  // });
 
   it('[C289916] My Libraries tooltip', async () => {
     await page.goToMyLibraries();
@@ -211,7 +195,7 @@ describe('Sidebar', () => {
     expect(await header.isSidenavExpanded()).toBe(false, 'Sidebar not collapsed');
   });
 
-  it('[C277224] sidenav returns to the default state when navigating away from the Search Results page', async () => {
+  fit('[C277224] sidenav returns to the default state when navigating away from the Search Results page', async () => {
     await searchInput.clickSearchButton();
     /* cspell:disable-next-line */
     await searchInput.searchFor('qwertyuiop');

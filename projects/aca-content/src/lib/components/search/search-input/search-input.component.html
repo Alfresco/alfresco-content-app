@@ -5,7 +5,7 @@
   (menuClosed)="syncInputValues()"
 >
 
-  <button mat-icon-button class="app-search-button" (click)="searchByOption()" [title]="'SEARCH.BUTTON.TOOLTIP' | translate">
+  <button mat-icon-button class="app-search-button" (click)="searchByOption()" [title]="'SEARCH.BUTTON.TOOLTIP' | translate" id="app-search-button">
     <mat-icon [attr.aria-label]="'SEARCH.BUTTON.ARIA-LABEL' | translate">search</mat-icon>
   </button>
   <mat-form-field class="app-input-form-field" [floatLabel]="'never'">
@@ -30,7 +30,7 @@
 
 <div *ngIf="!searchInputService.isSearchRoute()"
   class="app-search-container">
-  <button mat-icon-button class="app-search-button" (click)="navigateToSearch()" [title]="'SEARCH.BUTTON.TOOLTIP' | translate">
+  <button mat-icon-button class="app-search-button" (click)="navigateToSearch()" [title]="'SEARCH.BUTTON.TOOLTIP' | translate" id="app-search-button">
     <mat-icon [attr.aria-label]="'SEARCH.BUTTON.ARIA-LABEL' | translate">search</mat-icon>
   </button>
 </div>
@@ -38,7 +38,7 @@
 <mat-menu #searchOptionsMenu="matMenu" [overlapTrigger]="true" class="app-search-options-menu">
   <div (keydown.tab)="$event.stopPropagation()" (keydown.shift.tab)="$event.stopPropagation()">
     <div cdkTrapFocus>
-      <app-search-input-control
+      <app-search-input-control class="app-search-control" id="app-search-control"
         #searchInputControl
         (click)="$event.stopPropagation()"
         (submit)="onSearchSubmit($event)"

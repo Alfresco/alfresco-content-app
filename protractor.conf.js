@@ -39,8 +39,8 @@ exports.config = {
     index_search: 25000,
     config: appConfig,
     downloadFolder: downloadFolder,
-    ADMIN_USERNAME: process.env.ADMIN_EMAIL || 'admin',
-    ADMIN_PASSWORD: process.env.ADMIN_PASSWORD || 'admin',
+    ADMIN_USERNAME: process.env.ADMIN_EMAIL || 'admin@alfresco.com',
+    ADMIN_PASSWORD: process.env.ADMIN_PASSWORD || 'adf$2018IloveAngular',
     e2eRootPath: e2eFolder,
     testConfig: {
       appConfig: {
