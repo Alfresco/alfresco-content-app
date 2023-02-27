@@ -36,12 +36,9 @@ runs:
       shell: bash
       run: |
         test ! -d ${{ inputs.output }} && mkdir -p ${{ inputs.output }}
-        aws s3 ls ${{ inputs.artifact }}
-        if [[ $? -eq 0 ]]; then
-          aws s3 cp ${{ inputs.artifact }} ./s3-artifact.tmp
-          echo 'artifact download done'
-          tar -xvf ./s3-artifact.tmp -C ${{ inputs.output }} >&/dev/null
-          echo 'tar the artifact done'
-          rm ./s3-artifact.tmp
-          echo 'remove tmp file'
-        fi
+        aws s3 cp ${{ inputs.artifact }} ./s3-artifact.tmp
+        echo 'artifact download done'
+        tar -xvf ./s3-artifact.tmp -C ${{ inputs.output }} >&/dev/null
+        echo 'tar the artifact done'
+        rm ./s3-artifact.tmp
+        echo 'remove tmp file'
