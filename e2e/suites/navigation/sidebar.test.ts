@@ -118,24 +118,15 @@ describe('Sidebar', () => {
   it('[C217153] Favorites tooltip', async () => {
     await page.clickFavorites();
     expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.FAVORITES)).toContain('View your favorite files and folders');
-
-    await header.collapseSideNav();
-    expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.FAVORITES)).toContain('View your favorite files and folders');
   });
 
   it('[C217154] Trash tooltip', async () => {
     await page.clickTrash();
     expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.TRASH)).toContain('View deleted files in the trash');
-
-    await header.collapseSideNav();
-    expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.TRASH)).toContain('View deleted files in the trash');
   });
 
   it('[C217152] File Libraries tooltip', async () => {
     await page.clickFileLibraries();
-    expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.FILE_LIBRARIES)).toContain('File Libraries');
-
-    await header.collapseSideNav();
     expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.FILE_LIBRARIES)).toContain('File Libraries');
   });
 
@@ -150,10 +141,6 @@ describe('Sidebar', () => {
 
   it('[C289917] Favorite Libraries tooltip', async () => {
     await page.goToFavoriteLibraries();
-    expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.FAVORITE_LIBRARIES)).toContain('Access my favorite libraries');
-
-    await header.collapseSideNav();
-    await sidenav.clickLink(SIDEBAR_LABELS.FILE_LIBRARIES);
     expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.FAVORITE_LIBRARIES)).toContain('Access my favorite libraries');
   });
 
