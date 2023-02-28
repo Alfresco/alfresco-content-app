@@ -44,15 +44,6 @@ export class BrowsingPage extends Page {
     await this.dataTable.waitForHeader();
   }
 
-  async clickFileLibraries(): Promise<void> {
-    await this.sidenav.clickLink(SIDEBAR_LABELS.FILE_LIBRARIES);
-  }
-
-  async clickFileLibrariesAndWait(): Promise<void> {
-    await this.clickFileLibraries();
-    await this.dataTable.waitForHeader();
-  }
-
   async goToFavoriteLibraries(): Promise<void> {
     await this.sidenav.clickLink(SIDEBAR_LABELS.FAVORITE_LIBRARIES);
   }
@@ -64,6 +55,7 @@ export class BrowsingPage extends Page {
 
   async goToMyLibraries(): Promise<void> {
     await this.sidenav.clickLink(SIDEBAR_LABELS.MY_LIBRARIES);
+    await this.dataTable.waitForHeader();
   }
 
   async goToMyLibrariesAndWait(): Promise<void> {
