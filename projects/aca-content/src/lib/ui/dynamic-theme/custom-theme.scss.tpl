@@ -15,10 +15,9 @@ $text-color: map-get($theme-config, 'textColor');
 $base-font-size: map-get($theme-config, 'baseFontSize');
 $font-family: map-get($theme-config, 'fontFamily');
 
-$alfresco-typography: get-mat-typography(
+$app-typography: get-mat-typography(
   $base-font-size,
-  $font-family,
-  $alfresco-typography
+  $font-family
 );
 
 @include mat-core();
@@ -31,7 +30,7 @@ $custom-theme: mat-light-theme(
               accent: map-get($palettes, accent),
               warn: map-get($palettes, warning)
           ),
-          typography: $alfresco-typography
+          typography: $app-typography
       )
 );
 
