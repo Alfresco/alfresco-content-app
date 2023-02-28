@@ -41,6 +41,7 @@ export interface MobileAppSwitchConfigurationOptions {
 export class AcaMobileAppSwitcherService {
   private mobileAppSwitchConfig: MobileAppSwitchConfigurationOptions;
   public redirectUrl: string;
+  public appleStoreUrl = 'https://apps.apple.com/us/app/alfresco-mobile-workspace/id1514434480';
 
   constructor(private config: AppConfigService, private dialog: MatDialog) {
     this.mobileAppSwitchConfig = this.config.get<MobileAppSwitchConfigurationOptions>('mobileAppSwitch');
@@ -90,14 +91,16 @@ export class AcaMobileAppSwitcherService {
     }
 
     if (this.redirectUrl !== undefined && this.redirectUrl !== null) {
-      this.openDialog(this.redirectUrl);
+      this.openDialog(this.redirectUrl, isIOS, this.appleStoreUrl);
     }
   }
 
-  openDialog(redirectUrl: string): void {
+  openDialog(redirectUrl: string, isIOS: boolean, appleStoreUrl: string): void {
     this.dialog.open(OpenInAppComponent, {
       data: {
-        redirectUrl
+        redirectUrl,
+        isIOS,
+        appleStoreUrl
       },
       hasBackdrop: false,
       width: 'auto',

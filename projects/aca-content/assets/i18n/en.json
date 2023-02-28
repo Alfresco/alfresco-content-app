@@ -271,7 +271,8 @@
                 "NO_LABEL": "Cancel"
             },
             "MOBILE_APP": {
-              "MOBILE_APP_BUTTON_LABEL": "Open in App"
+              "MOBILE_APP_BUTTON_LABEL": "Open in App",
+              "DOWNLOAD_APP_BUTTON_LABEL": "Download App"
             }
         },
         "DOCUMENT_LIST": {
