@@ -22,7 +22,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, browser, By } from 'protractor';
+import { ElementFinder, by, browser, By, element } from 'protractor';
 import { BrowserActions } from '@alfresco/adf-testing';
 import { Menu } from '../menu/menu';
 import { Component } from '../component';
@@ -32,7 +32,7 @@ export class Toolbar extends Component {
   menu = new Menu();
 
   buttons = this.allByCss('button');
-  shareButton = this.byId('share-action-button');
+  shareButton = element(By.css('button[data-automation-id="share-action-button"]'));
   viewButton = this.byCss(`.mat-icon-button[title='View']`);
   downloadButton = this.byCss(`.mat-icon-button[title='Download']`);
   editFolderButton = this.byId('app.toolbar.editFolder');
@@ -73,7 +73,7 @@ export class Toolbar extends Component {
   }
 
   async openMoreMenu(): Promise<void> {
-    const btnMoreActions = browser.element(By.css('button[id="app.toolbar.more"]'));
+    const btnMoreActions = element(By.css('button[id="app.toolbar.more"]'));
     await btnMoreActions.isPresent();
     await BrowserActions.click(btnMoreActions);
 
