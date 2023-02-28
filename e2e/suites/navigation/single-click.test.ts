@@ -116,7 +116,7 @@ describe('Single click on item name', () => {
 
   describe('on File Libraries', () => {
     beforeEach(async () => {
-      await page.clickFileLibrariesAndWait();
+      await page.goToMyLibrariesAndWait();
     });
 
     it('[C284901] Hyperlink appears when mouse over a library', async () => {

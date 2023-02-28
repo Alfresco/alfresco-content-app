@@ -49,14 +49,12 @@ describe('Sidebar', () => {
   it('[C289902] navigate to Favorite Libraries', async () => {
     await page.goToFavoriteLibraries();
     expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.FAVORITE_LIBRARIES);
-    expect(await sidenav.isActive(SIDEBAR_LABELS.FILE_LIBRARIES)).toBe(true, 'File Libraries link is not active');
     expect(await sidenav.isActive(SIDEBAR_LABELS.FAVORITE_LIBRARIES)).toBe(true, 'Favorite Libraries link not active');
   });
 
   it('[C289901] navigate to My Libraries', async () => {
     await page.goToMyLibraries();
     expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.MY_LIBRARIES);
-    expect(await sidenav.isActive(SIDEBAR_LABELS.FILE_LIBRARIES)).toBe(true, 'File Libraries link is not active');
     expect(await sidenav.isActive(SIDEBAR_LABELS.MY_LIBRARIES)).toBe(true, 'My Libraries link not active');
   });
 
@@ -124,17 +122,8 @@ describe('Sidebar', () => {
     expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.TRASH)).toContain('View deleted files in the trash');
   });
 
-  it('[C217152] File Libraries tooltip', async () => {
-    await page.clickFileLibraries();
-    expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.FILE_LIBRARIES)).toContain('File Libraries');
-  });
-
   it('[C289916] My Libraries tooltip', async () => {
     await page.goToMyLibraries();
-    expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.MY_LIBRARIES)).toContain('Access my libraries');
-
-    await header.collapseSideNav();
-    await sidenav.clickLink(SIDEBAR_LABELS.FILE_LIBRARIES);
     expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.MY_LIBRARIES)).toContain('Access my libraries');
   });
 

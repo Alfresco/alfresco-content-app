@@ -85,7 +85,7 @@ describe('Library properties', () => {
   });
 
   beforeEach(async () => {
-    await page.clickFileLibrariesAndWait();
+    await page.goToMyLibrariesAndWait();
   });
 
   afterEach(async () => {

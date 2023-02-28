@@ -111,7 +111,7 @@ describe('Restore from Trash', () => {
       const action = await page.getSnackBarAction();
       expect(action).toContain('View');
       expect(await dataTable.isItemPresent(site)).toBe(false, `${site} was not removed from list`);
-      await page.clickFileLibrariesAndWait();
+      await page.goToMyLibrariesAndWait();
       expect(await page.dataTable.isItemPresent(site)).toBe(true, `${site} not displayed in list`);
     });
 

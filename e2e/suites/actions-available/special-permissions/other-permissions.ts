@@ -268,7 +268,7 @@ export function filesLockedByOtherUser(siteName?: string) {
     });
 
     it('on File Libraries - [C297664]', async () => {
-      await page.clickFileLibrariesAndWait();
+      await page.goToMyLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
 
@@ -321,7 +321,7 @@ export function filesLockedByOtherUser(siteName?: string) {
 
     describe('available actions in the viewer : ', () => {
       it('file opened from File Libraries - [C297671]', async () => {
-        await page.clickFileLibrariesAndWait();
+        await page.goToMyLibrariesAndWait();
         await dataTable.doubleClickOnRowByName(siteName);
         await dataTable.waitForHeader();
 
