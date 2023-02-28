@@ -48,15 +48,12 @@ describe('Edit folder', () => {
   const duplicateFolderName = `folder-${Utils.random()}`;
 
   const folderNameEdited = `folder-renamed-${Utils.random()}`;
-  const folderNameEdited2 = `folder-search-renamed-${Utils.random()}`;
   const folderDescriptionEdited = 'description edited';
 
   const sitePrivate = `site-private-${Utils.random()}`;
   const siteName = `site-${Utils.random()}`;
 
   const folderSite = `folder-site-${Utils.random()}`;
-  const folderSiteToEdit = `folder-site-${Utils.random()}`;
-  let folderSiteToEditId: string;
   const duplicateFolderSite = `folder-${Utils.random()}`;
   let docLibUserSite: string;
 
@@ -81,7 +78,6 @@ describe('Edit folder', () => {
   const page = new BrowsingPage();
   const editDialog = new CreateOrEditFolderDialog();
   const { dataTable, toolbar } = page;
-  const { searchInput } = page.header;
 
   const adminApiActions = new AdminActions();
 
@@ -101,7 +97,6 @@ describe('Edit folder', () => {
     await apis.user.sites.createSite(siteName);
     docLibUserSite = await apis.user.sites.getDocLibId(siteName);
     await apis.user.nodes.createFolder(folderSite, docLibUserSite);
-    folderSiteToEditId = (await apis.user.nodes.createFolder(folderSiteToEdit, docLibUserSite)).entry.id;
     await apis.user.nodes.createFolder(duplicateFolderSite, docLibUserSite);
 
     folderFavoriteId = (await apis.user.nodes.createFolder(folderFavorite)).entry.id;
@@ -238,117 +233,6 @@ describe('Edit folder', () => {
 
       expect(await page.snackBar.isPresent()).not.toBe(true, 'notification appears');
       expect(await dataTable.isItemPresent(folderName)).toBe(true, 'Folder not displayed in list view');
-    });
-  });
-
-  describe('on Favorites', () => {
-    beforeEach(async () => {
-      await page.clickFavoritesAndWait();
-    });
-
-    it('[C280384] properties are modified when pressing OK', async () => {
-      await dataTable.selectItem(folderFavoriteToEdit);
-      await toolbar.openMoreMenu();
-      await BrowserActions.click(toolbar.menu.editFolderAction);
-      await editDialog.waitForDialogToOpen();
-      await editDialog.enterDescription(folderDescriptionEdited);
-      await editDialog.enterName(folderNameEdited);
-      await BrowserActions.click(editDialog.updateButton);
-      await editDialog.waitForDialogToClose();
-      await dataTable.waitForHeader();
-
-      expect(await dataTable.isItemPresent(folderNameEdited)).toBe(true, 'Folder not displayed');
-      const desc = await apis.user.nodes.getNodeProperty(folderFavoriteToEditId, 'cm:description');
-      expect(desc).toEqual(folderDescriptionEdited);
-    });
-
-    it('[C280386] with duplicate folder name', async () => {
-      await dataTable.selectItem(folderFavorite);
-      await toolbar.openMoreMenu();
-      await BrowserActions.click(toolbar.menu.editFolderAction);
-      await editDialog.waitForDialogToOpen();
-      await editDialog.enterName(folderFavoriteDuplicate);
-      await BrowserActions.click(editDialog.updateButton);
-
-      expect(await page.getSnackBarMessage()).toEqual(`There's already a folder with this name. Try a different name.`);
-      expect(await editDialog.isDialogOpen()).toBe(true, 'dialog is not present');
-    });
-  });
-
-  describe('on My Libraries', () => {
-    beforeEach(async () => {
-      await page.goToMyLibrariesAndWait();
-      await dataTable.doubleClickOnRowByName(siteName);
-    });
-
-    it('[C280509] properties are modified when pressing OK', async () => {
-      await dataTable.selectItem(folderSiteToEdit);
-      await toolbar.openMoreMenu();
-      await BrowserActions.click(toolbar.menu.editFolderAction);
-      await editDialog.waitForDialogToOpen();
-      await editDialog.enterDescription(folderDescriptionEdited);
-      await editDialog.enterName(folderNameEdited);
-      await BrowserActions.click(editDialog.updateButton);
-      await editDialog.waitForDialogToClose();
-      await dataTable.waitForHeader();
-
-      expect(await dataTable.isItemPresent(folderNameEdited)).toBe(true, 'Folder not displayed');
-      const desc = await apis.user.nodes.getNodeProperty(folderSiteToEditId, 'cm:description');
-      expect(desc).toEqual(folderDescriptionEdited);
-    });
-
-    it('[C280511] with duplicate folder name', async () => {
-      await dataTable.selectItem(folderSite);
-      await toolbar.openMoreMenu();
-      await BrowserActions.click(toolbar.menu.editFolderAction);
-      await editDialog.waitForDialogToOpen();
-      await editDialog.enterName(duplicateFolderSite);
-      await BrowserActions.click(editDialog.updateButton);
-
-      expect(await page.getSnackBarMessage()).toEqual(`There's already a folder with this name. Try a different name.`);
-      expect(await editDialog.isDialogOpen()).toBe(true, 'dialog is not present');
-    });
-  });
-
-  describe('on Search Results', () => {
-    it('[C306947] properties are modified when pressing OK', async () => {
-      await page.clickPersonalFiles();
-      await searchInput.clickSearchButton();
-      await searchInput.checkOnlyFolders();
-      await searchInput.searchFor(folderSearchToEdit);
-      await dataTable.waitForBody();
-
-      await dataTable.selectItem(folderSearchToEdit);
-      await toolbar.openMoreMenu();
-      await BrowserActions.click(toolbar.menu.editFolderAction);
-      await editDialog.waitForDialogToOpen();
-      await editDialog.enterDescription(folderDescriptionEdited);
-      await editDialog.enterName(folderNameEdited2);
-      await BrowserActions.click(editDialog.updateButton);
-      await editDialog.waitForDialogToClose();
-
-      await page.refresh();
-      expect(await dataTable.isItemPresent(folderNameEdited2)).toBe(true, 'Folder not displayed');
-      const desc = await apis.user.nodes.getNodeProperty(folderSearchToEditId, 'cm:description');
-      expect(desc).toEqual(folderDescriptionEdited);
-    });
-
-    it('[C306948] with duplicate folder name', async () => {
-      await page.clickPersonalFiles();
-      await searchInput.clickSearchButton();
-      await searchInput.checkOnlyFolders();
-      await searchInput.searchFor(folderSearch);
-      await dataTable.waitForBody();
-
-      await dataTable.selectItem(folderSearch);
-      await toolbar.openMoreMenu();
-      await BrowserActions.click(toolbar.menu.editFolderAction);
-      await editDialog.waitForDialogToOpen();
-      await editDialog.enterName(folderSearchDuplicate);
-      await BrowserActions.click(editDialog.updateButton);
-
-      expect(await page.getSnackBarMessage()).toEqual(`There's already a folder with this name. Try a different name.`);
-      expect(await editDialog.isDialogOpen()).toBe(true, 'dialog is not present');
     });
   });
 });

@@ -56,19 +56,6 @@ export const SIDEBAR_LABELS = {
   TRASH: 'Trash'
 };
 
-// Page titles
-export const PAGE_TITLES = {
-  PERSONAL_FILES: 'Personal Files',
-  MY_LIBRARIES: 'My Libraries',
-  FAVORITE_LIBRARIES: 'Favorite Libraries',
-  SHARED_FILES: 'Shared',
-  RECENT_FILES: 'Recent Files',
-  FAVORITES: 'Favorites',
-  TRASH: 'Trash',
-  VIEWER: 'Preview',
-  SEARCH: 'Search Results'
-};
-
 // Site visibility
 export const SITE_VISIBILITY = {
   PUBLIC: 'PUBLIC',

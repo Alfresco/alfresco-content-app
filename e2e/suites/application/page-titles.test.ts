@@ -24,7 +24,19 @@
  */
 
 import { browser } from 'protractor';
-import { PAGE_TITLES, LoginPage, BrowsingPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { LoginPage, BrowsingPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+
+const PAGE_TITLES = {
+  PERSONAL_FILES: 'Personal Files',
+  MY_LIBRARIES: 'My Libraries',
+  FAVORITE_LIBRARIES: 'Favorite Libraries',
+  SHARED_FILES: 'Shared',
+  RECENT_FILES: 'Recent Files',
+  FAVORITES: 'Favorites',
+  TRASH: 'Trash',
+  VIEWER: 'Preview',
+  SEARCH: 'Search Results'
+};
 
 describe('Page titles', () => {
   const loginPage = new LoginPage();

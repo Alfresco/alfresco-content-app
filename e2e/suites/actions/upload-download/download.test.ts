@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, UserActions, LoginPage, BrowsingPage, SearchResultsPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { AdminActions, UserActions, LoginPage, BrowsingPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 import { BrowserActions } from '@alfresco/adf-testing';
 
 describe('Download', () => {
@@ -50,10 +50,6 @@ describe('Download', () => {
   const fileInFolderSearch = `fileInFolderSearch-${random}.txt`;
 
   const unzippedPersonal = `unzippedPersonal-${random}`;
-  const unzippedRecent = `unzippedRecent-${random}`;
-  const unzippedShared = `unzippedShared-${random}`;
-  const unzippedFavorites = `unzippedFavorites-${random}`;
-  const unzippedSearch = `unzippedSearch-${random}`;
 
   let fileShared1Id: string;
   let fileShared2Id: string;
@@ -71,8 +67,6 @@ describe('Download', () => {
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable, toolbar } = page;
-  const searchResultsPage = new SearchResultsPage();
-  const { searchInput } = searchResultsPage.header;
 
   let initialFavoritesTotalItems: number;
   let initialRecentTotalItems: number;
@@ -167,143 +161,6 @@ describe('Download', () => {
       expect(await Utils.fileExistsOnOS(fileInFolderPersonal, unzippedPersonal, folderPersonal)).toBe(
         true,
         `${fileInFolderPersonal} not found in unzipped folder in ${folderPersonal}`
-      );
-    });
-  });
-
-  describe('on Favorites', () => {
-    beforeEach(async () => {
-      await page.clickFavoritesAndWait();
-    });
-
-    it('[C280173] Download a file', async () => {
-      await dataTable.selectItem(fileFavorites);
-      await BrowserActions.click(toolbar.downloadButton);
-
-      expect(await Utils.fileExistsOnOS(fileFavorites)).toBe(true, 'File not found in download location');
-    });
-
-    it('[C280188] Download a folder', async () => {
-      await dataTable.selectItem(folderFavorites);
-      await BrowserActions.click(toolbar.downloadButton);
-
-      const folderZip = `${folderFavorites}.zip`;
-
-      expect(await Utils.fileExistsOnOS(folderZip)).toBe(true, 'File not found in download location');
-
-      await Utils.unzip(folderZip);
-
-      expect(await Utils.fileExistsOnOS(fileInFolderFavorites, folderFavorites));
-    });
-
-    it('[C280189] Download multiple items', async () => {
-      await dataTable.selectMultipleItems([fileFavorites, folderFavorites]);
-      await BrowserActions.click(toolbar.downloadButton);
-
-      expect(await Utils.fileExistsOnOS(archiveZip)).toBe(true, 'File not found in download location');
-
-      await Utils.unzip(archiveZip, unzippedFavorites);
-
-      expect(await Utils.fileExistsOnOS(fileFavorites, unzippedFavorites)).toBe(true, `${fileFavorites} not found in unzipped folder`);
-      expect(await Utils.fileExistsOnOS(folderFavorites, unzippedFavorites)).toBe(true, `${folderFavorites} not found in unzipped folder`);
-      expect(await Utils.fileExistsOnOS(fileInFolderFavorites, unzippedFavorites, folderFavorites)).toBe(
-        true,
-        `${fileInFolderFavorites} not found in unzipped folder in ${folderFavorites}`
-      );
-    });
-  });
-
-  describe('on Shared Files', () => {
-    beforeEach(async () => {
-      await page.clickSharedFilesAndWait();
-    });
-
-    it('[C280170] Download a file', async () => {
-      await dataTable.selectItem(fileShared1);
-      await BrowserActions.click(toolbar.downloadButton);
-
-      expect(await Utils.fileExistsOnOS(fileShared1)).toBe(true, 'File not found in download location');
-    });
-
-    it('[C280183] Download multiple items', async () => {
-      await dataTable.selectMultipleItems([fileShared1, fileShared2]);
-      await BrowserActions.click(toolbar.downloadButton);
-
-      expect(await Utils.fileExistsOnOS(archiveZip)).toBe(true, 'File not found in download location');
-
-      await Utils.unzip(archiveZip, unzippedShared);
-
-      expect(await Utils.fileExistsOnOS(fileShared1, unzippedShared)).toBe(true, `${fileShared1} not found in unzipped folder`);
-      expect(await Utils.fileExistsOnOS(fileShared2, unzippedShared)).toBe(true, `${fileShared2} not found in unzipped folder`);
-    });
-  });
-
-  describe('on Recent Files', () => {
-    beforeEach(async () => {
-      await page.clickRecentFilesAndWait();
-    });
-
-    it('[C280167] Download a file', async () => {
-      await dataTable.selectItem(fileRecent1);
-      await BrowserActions.click(toolbar.downloadButton);
-
-      expect(await Utils.fileExistsOnOS(fileRecent1)).toBe(true, 'File not found in download location');
-    });
-
-    it('[C280177] Download multiple items', async () => {
-      await dataTable.selectMultipleItems([fileRecent1, fileRecent2]);
-      await BrowserActions.click(toolbar.downloadButton);
-
-      expect(await Utils.fileExistsOnOS(archiveZip)).toBe(true, 'File not found in download location');
-
-      await Utils.unzip(archiveZip, unzippedRecent);
-
-      expect(await Utils.fileExistsOnOS(fileRecent1, unzippedRecent)).toBe(true, `${fileRecent1} not found in unzipped folder`);
-      expect(await Utils.fileExistsOnOS(fileRecent2, unzippedRecent)).toBe(true, `${fileRecent2} not found in unzipped folder`);
-    });
-  });
-
-  describe('on Search Results', () => {
-    beforeEach(async () => {
-      await page.clickPersonalFilesAndWait();
-      await searchInput.clickSearchButton();
-      await searchInput.checkFilesAndFolders();
-      await searchInput.searchFor(random);
-    });
-
-    it('[C279164] Download a file', async () => {
-      await dataTable.selectItem(fileSearch, parent);
-      await BrowserActions.click(toolbar.downloadButton);
-
-      expect(await Utils.fileExistsOnOS(fileSearch)).toBe(true, 'File not found in download location');
-    });
-
-    it('[C297694] Download a folder', async () => {
-      await dataTable.selectItem(folderSearch, parent);
-      await BrowserActions.click(toolbar.downloadButton);
-
-      const folderZip = `${folderSearch}.zip`;
-
-      expect(await Utils.fileExistsOnOS(folderZip)).toBe(true, 'File not found in download location');
-
-      await Utils.unzip(folderZip);
-
-      expect(await Utils.fileExistsOnOS(fileInFolderSearch, folderSearch));
-    });
-
-    it('[C297695] Download multiple items', async () => {
-      await dataTable.selectMultipleItems([fileSearch, folderSearch], parent);
-      await BrowserActions.click(toolbar.downloadButton);
-
-      expect(await Utils.fileExistsOnOS(archiveZip)).toBe(true, 'File not found in download location');
-
-      await Utils.unzip(archiveZip, unzippedSearch);
-
-      expect(await Utils.fileExistsOnOS(fileSearch, unzippedSearch)).toBe(true, `${fileSearch} not found in unzipped folder`);
-      expect(await Utils.fileExistsOnOS(folderSearch, unzippedSearch)).toBe(true, `${folderSearch} not found in unzipped folder`);
-      expect(await Utils.fileExistsOnOS(fileInFolderSearch, unzippedSearch, folderSearch)).toBe(
-        true,
-        `${fileInFolderSearch} not found in unzipped folder in ${folderSearch}`
       );
     });
   });

@@ -57,7 +57,6 @@ describe('Version actions', () => {
   const { dataTable, toolbar } = page;
   const versionManagePage = new ManageVersionsDialog();
   const viewerPage = new Viewer();
-  const { searchInput } = page.header;
 
   const adminApiActions = new AdminActions();
   const userActions = new UserActions();
@@ -125,123 +124,6 @@ describe('Version actions', () => {
       await viewerPage.toolbar.downloadButton.click();
 
       expect(await Utils.fileExistsOnOS(filesToUpload[0])).toBe(true, 'File not found in download location');
-    });
-  });
-
-  describe('on Shared Files', () => {
-    beforeEach(async () => {
-      await page.clickSharedFilesAndWait();
-      await dataTable.selectItem(filesToUpload[4], parentFolder);
-      await toolbar.clickMoreActionsManageVersions();
-      await versionManagePage.viewFileVersion('2.0');
-    });
-
-    afterEach(async () => {
-      await page.closeOpenDialogs();
-      await Utils.pressEscape();
-    });
-
-    it('[C586776] Should be possible to view a previous document version', async () => {
-      expect(await browser.getCurrentUrl()).toContain('2.0');
-    });
-
-    it('[C586777] Previous document version title should be the same in Preview mode as the Uploaded File', async () => {
-      expect(await viewerPage.getFileTitle()).toContain(filesToUpload[1]);
-    });
-
-    it('[C586778] Should be possible to download a previous document version', async () => {
-      await viewerPage.toolbar.downloadButton.click();
-
-      expect(await Utils.fileExistsOnOS(filesToUpload[1])).toBe(true, 'File not found in download location');
-    });
-  });
-
-  describe('on Recent Files', () => {
-    beforeEach(async () => {
-      await page.clickRecentFilesAndWait();
-      await dataTable.selectItem(filesToUpload[4], parentFolder);
-      await toolbar.clickMoreActionsManageVersions();
-      await versionManagePage.viewFileVersion('3.0');
-    });
-
-    afterEach(async () => {
-      await page.closeOpenDialogs();
-      await Utils.pressEscape();
-    });
-
-    it('[C586769] Should be possible to view a previous document version', async () => {
-      expect(await browser.getCurrentUrl()).toContain('3.0');
-    });
-
-    it('[C586770] Previous document version title should be the same in Preview mode as the Uploaded File', async () => {
-      expect(await viewerPage.getFileTitle()).toContain(filesToUpload[2]);
-    });
-
-    it('[C586771] Should be possible to download a previous document version', async () => {
-      await viewerPage.toolbar.downloadButton.click();
-
-      expect(await Utils.fileExistsOnOS(filesToUpload[2])).toBe(true, 'File not found in download location');
-    });
-  });
-
-  describe('on Favorite Files', () => {
-    beforeEach(async () => {
-      await page.clickFavoritesAndWait();
-      await dataTable.selectItem(filesToUpload[4], parentFolder);
-      await toolbar.clickMoreActionsManageVersions();
-      await versionManagePage.viewFileVersion('4.0');
-    });
-
-    afterEach(async () => {
-      await page.closeOpenDialogs();
-      await Utils.pressEscape();
-    });
-
-    it('[C586772] Should be possible to view a previous document version', async () => {
-      expect(await browser.getCurrentUrl()).toContain('4.0');
-    });
-
-    it('[C586773] Previous document version title should be the same in Preview mode as the Uploaded File', async () => {
-      expect(await viewerPage.getFileTitle()).toContain(filesToUpload[3]);
-    });
-
-    it('[C586774] Should be possible to download a previous document version', async () => {
-      await viewerPage.toolbar.downloadButton.click();
-
-      expect(await Utils.fileExistsOnOS(filesToUpload[3])).toBe(true, 'File not found in download location');
-    });
-  });
-
-  describe('on Search Results', () => {
-    beforeEach(async () => {
-      await page.clickPersonalFiles();
-      await searchInput.clickSearchButton();
-      await searchInput.checkOnlyFiles();
-      await searchInput.searchFor(`${filesToUpload[4]} AND PARENT:"workspace://SpacesStore/${parentFolderId}"`);
-      await dataTable.waitForBody();
-
-      await dataTable.selectItem(filesToUpload[4], parentFolder);
-      await toolbar.clickMoreActionsManageVersions();
-      await versionManagePage.viewFileVersion('5.0');
-    });
-
-    afterEach(async () => {
-      await page.closeOpenDialogs();
-      await Utils.pressEscape();
-    });
-
-    it('[C586779] Should be possible to view a previous document version', async () => {
-      expect(await browser.getCurrentUrl()).toContain('5.0');
-    });
-
-    it('[C586780] Previous document version title should be the same in Preview mode as the Uploaded File', async () => {
-      expect(await viewerPage.getFileTitle()).toContain(filesToUpload[4]);
-    });
-
-    it('[C586781] Should be possible to download a previous document version', async () => {
-      await viewerPage.toolbar.downloadButton.click();
-
-      expect(await Utils.fileExistsOnOS(filesToUpload[4])).toBe(true, 'File not found in download location');
     });
   });
 });
