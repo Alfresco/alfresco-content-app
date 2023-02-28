@@ -34,7 +34,7 @@ import { BrowserActions } from '@alfresco/adf-testing';
 export class Header extends Component {
   logoLink = this.byCss('.app-menu__title');
   moreActions = browser.element(by.id('app.header.more'));
-  sidenavToggle = this.byCss(`[id='adf-sidebar-toggle-start']`);
+  sidenavToggle = this.byCss(`.sidenav-header-title-logo`);
 
   userInfo = new UserInfo();
   menu = new Menu();
