@@ -53,9 +53,6 @@ export class BrowsingPage extends Page {
   }
 
   async goToFavoriteLibraries(): Promise<void> {
-    if (!(await this.sidenav.isFileLibrariesMenuExpanded())) {
-      await this.sidenav.expandFileLibraries();
-    }
     await this.sidenav.clickLink(SIDEBAR_LABELS.FAVORITE_LIBRARIES);
   }
 
@@ -65,9 +62,6 @@ export class BrowsingPage extends Page {
   }
 
   async goToMyLibraries(): Promise<void> {
-    if (!(await this.sidenav.isFileLibrariesMenuExpanded())) {
-      await this.sidenav.expandFileLibraries();
-    }
     await this.sidenav.clickLink(SIDEBAR_LABELS.MY_LIBRARIES);
   }
 
