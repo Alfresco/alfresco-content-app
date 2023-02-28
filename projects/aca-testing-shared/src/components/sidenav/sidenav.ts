@@ -25,7 +25,7 @@
 
 import { ElementFinder, by, element, browser } from 'protractor';
 import { Logger, BrowserActions } from '@alfresco/adf-testing';
-import { SIDEBAR_LABELS, BROWSER_WAIT_TIMEOUT } from '../../configs';
+import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Menu } from '../menu/menu';
 import { Component } from '../component';
 
@@ -46,20 +46,6 @@ export class Sidenav extends Component {
 
   constructor(ancestor?: string) {
     super('app-sidenav', ancestor);
-  }
-
-  private async expandMenu(name: string): Promise<void> {
-    try {
-      if (await element(by.cssContainingText('.mat-expanded', name)).isPresent()) {
-        return Promise.resolve();
-      } else {
-        const link = this.getLink(name);
-        await BrowserActions.click(link);
-        await element(by.css('.mat-expansion-panel-body')).isPresent();
-      }
-    } catch (e) {
-      Logger.error(`---- sidebar navigation catch expandMenu: failed to expand ${name} menu : `, e);
-    }
   }
 
   async openNewMenu(): Promise<void> {
@@ -146,13 +132,5 @@ export class Sidenav extends Component {
     } catch (error) {
       Logger.error(`---- clickLink catch : sidebar navigation failed to click on - ${name} : `, error);
     }
-  }
-
-  async isFileLibrariesMenuExpanded(): Promise<boolean> {
-    return element(by.cssContainingText('.mat-expanded', SIDEBAR_LABELS.FILE_LIBRARIES)).isPresent();
-  }
-
-  async expandFileLibraries(): Promise<void> {
-    await this.expandMenu(SIDEBAR_LABELS.FILE_LIBRARIES);
   }
 }
