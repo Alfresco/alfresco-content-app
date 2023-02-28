@@ -33,16 +33,15 @@ export class Toolbar extends Component {
 
   buttons = this.allByCss('button');
   shareButton = element(By.css('button[data-automation-id="share-action-button"]'));
-  viewButton = this.byCss(`.mat-icon-button[title='View']`);
-  downloadButton = this.byCss(`.mat-icon-button[title='Download']`);
-  editFolderButton = this.byId('app.toolbar.editFolder');
-  viewDetailsButton = this.byCss(`.mat-icon-button[title='View Details']`);
-  printButton = this.byCss(`.mat-icon-button[title='Print']`);
-  fullScreenButton = this.byCss(`.mat-icon-button[title='Activate full-screen mode']`);
-  joinButton = this.byCss(`.mat-icon-button[title='Join']`);
-  leaveButton = this.byCss(`.mat-icon-button[title='Leave Library']`);
-  permanentlyDeleteButton = this.byCss(`.mat-icon-button[title='Permanently Delete']`);
-  restoreButton = this.byCss(`.mat-icon-button[title='Restore']`);
+  viewButton = element(By.css(`button[title='View']`));
+  downloadButton = element(By.css(`button[title='Download']`));
+  viewDetailsButton = element(By.css(`button[title='View Details']`));
+  printButton = element(By.css(`button[title='Print']`));
+  fullScreenButton = element(By.css(`button[title='Activate full-screen mode']`));
+  joinButton = element(By.css(`button[title='Join']`));
+  leaveButton = element(By.css(`button[title='Leave Library']`));
+  permanentlyDeleteButton = element(By.css(`button[title='Permanently Delete']`));
+  restoreButton = element(By.css(`button[title='Restore']`));
 
   constructor(ancestor?: string) {
     super('.adf-toolbar', ancestor);
