@@ -2,6 +2,12 @@
   width: 100%;
   height: 100%;
 
+  .adf-alfresco-viewer {
+    .adf-viewer {
+      position: relative;
+    }
+  }
+
   .adf-viewer-toolbar .adf-toolbar-divider {
     display: none;
   }
