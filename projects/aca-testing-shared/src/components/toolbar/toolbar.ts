@@ -74,10 +74,9 @@ export class Toolbar extends Component {
   }
 
   async openMoreMenu(): Promise<void> {
-    await this.isButtonPresent('More Actions');
-
-    const moreMenu = this.getButtonByTitleAttribute('More Actions');
-    await BrowserActions.click(moreMenu);
+    const btnMoreActions = this.allByCss('[id="app.toolbar.more"]');
+    await btnMoreActions.isPresent();
+    await BrowserActions.click(btnMoreActions);
 
     await this.menu.waitForMenuToOpen();
     await browser.sleep(500);
