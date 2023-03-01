@@ -78,8 +78,4 @@ export class HeaderActionsComponent implements OnInit, OnDestroy {
   canShowUploadButton(): boolean {
     return this.uploadActions.length > 0;
   }
-
-  canShowSearchSeparator(): boolean {
-    return this.canShowUploadButton() || this.canShowCreateButton();
-  }
 }
