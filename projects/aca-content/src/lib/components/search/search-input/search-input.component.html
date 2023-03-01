@@ -28,13 +28,6 @@
   </mat-form-field>
 </div>
 
-<div *ngIf="!searchInputService.isSearchRoute()"
-  class="app-search-container">
-  <button mat-icon-button class="app-search-button" (click)="navigateToSearch()" [title]="'SEARCH.BUTTON.TOOLTIP' | translate">
-    <mat-icon [attr.aria-label]="'SEARCH.BUTTON.ARIA-LABEL' | translate">search</mat-icon>
-  </button>
-</div>
-
 <mat-menu #searchOptionsMenu="matMenu" [overlapTrigger]="true" class="app-search-options-menu">
   <div (keydown.tab)="$event.stopPropagation()" (keydown.shift.tab)="$event.stopPropagation()">
     <div cdkTrapFocus>
