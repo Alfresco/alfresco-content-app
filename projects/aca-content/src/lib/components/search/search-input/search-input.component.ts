@@ -110,10 +110,6 @@ export class SearchInputComponent implements OnInit, OnDestroy {
     }
   }
 
-  navigateToSearch() {
-    this.searchInputService.navigateToSearch();
-  }
-
   exitSearch() {
     this.searchInputService.navigateBack();
   }

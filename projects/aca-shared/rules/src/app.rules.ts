@@ -91,6 +91,13 @@ export interface AcaRuleContext extends RuleContext {
 export const isContentServiceEnabled = (): boolean => localStorage && localStorage.getItem('contentService') !== 'false';
 
 /**
+ * Checks if Search is supported for active view
+ * JSON ref: `app.isSearchSupported`
+ */
+export const isSearchSupported = (context: RuleContext): boolean =>
+  [navigation.isNotSearchResults(context) /*, !hasSelection(context)*/].every(Boolean);
+
+/**
  * Checks if upload action is supported for the given context
  * JSON ref: `app.isUploadSupported`
  *

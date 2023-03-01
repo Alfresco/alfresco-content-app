@@ -26,7 +26,13 @@ import { Action } from '@ngrx/store';
 import { SearchOptionModel } from '../models/search-option.model';
 
 export enum SearchActionTypes {
+  Search = 'SEARCH',
   SearchByTerm = 'SEARCH_BY_TERM'
+}
+
+export class SearchAction implements Action {
+  readonly type = SearchActionTypes.Search;
+  constructor() {}
 }
 
 export class SearchByTermAction implements Action {

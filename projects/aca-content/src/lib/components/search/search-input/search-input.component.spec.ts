@@ -209,26 +209,6 @@ describe('SearchInputComponent', () => {
     });
   });
 
-  describe('navigateToSearch()', () => {
-    it('should navigate to search on click of search icon', async () => {
-      spyOn(searchInputService, 'isSearchRoute').and.returnValue(false);
-      spyOn(component, 'navigateToSearch').and.callThrough();
-      spyOn(searchInputService, 'navigateToSearch').and.callThrough();
-
-      fixture.detectChanges();
-      await fixture.whenStable();
-
-      const searchIcon = fixture.debugElement.nativeElement.querySelector('.app-search-button');
-      searchIcon.click();
-
-      fixture.detectChanges();
-      await fixture.whenStable();
-
-      expect(component.navigateToSearch).toHaveBeenCalled();
-      expect(searchInputService.navigateToSearch).toHaveBeenCalledWith();
-    });
-  });
-
   describe('exitSearch()', () => {
     it('should exit search on click of close icon', async () => {
       spyOn(searchInputService, 'isSearchRoute').and.returnValue(true);
