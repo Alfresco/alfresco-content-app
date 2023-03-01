@@ -38,7 +38,7 @@ export async function checkContextMenu(item: string, expectedContextMenu: string
 
   const actualActions = await contextMenu.getMenuItems();
   for (const action of expectedContextMenu) {
-    expect(actualActions.includes(action)).toBeTrue();
+    expect(actualActions.includes(action)).toBe(true);
   }
 
   await Utils.pressEscape();
@@ -50,7 +50,7 @@ export async function checkToolbarPrimary(item: string, expectedToolbarPrimary: 
 
   const actualPrimaryActions = await toolbar.getButtons();
   for (const action of expectedToolbarPrimary) {
-    expect(actualPrimaryActions.includes(action)).toBeTrue();
+    expect(actualPrimaryActions.includes(action)).toBe(true);
   }
 }
 
@@ -60,7 +60,7 @@ export async function checkToolbarMoreActions(item: string, expectedToolbarMore:
 
   const actualMoreActions = await toolbar.menu.getMenuItems();
   for (const action of expectedToolbarMore) {
-    expect(actualMoreActions.includes(action)).toBeTrue();
+    expect(actualMoreActions.includes(action)).toBe(true);
   }
 
   await toolbar.closeMoreMenu();
@@ -71,14 +71,14 @@ export async function checkToolbarActions(item: string, expectedToolbarPrimary: 
 
   const actualPrimaryActions = await toolbar.getButtons();
   for (const action of expectedToolbarPrimary) {
-    expect(actualPrimaryActions.includes(action)).toBeTrue();
+    expect(actualPrimaryActions.includes(action)).toBe(true);
   }
 
   await toolbar.openMoreMenu();
 
   const actualMoreActions = await toolbar.menu.getMenuItems();
   for (const action of expectedToolbarMore) {
-    expect(actualMoreActions.includes(action)).toBeTrue();
+    expect(actualMoreActions.includes(action)).toBe(true);
   }
 
   await toolbar.closeMoreMenu();
@@ -91,7 +91,7 @@ export async function checkMultipleSelContextMenu(items: string[], expectedConte
 
   const actualActions = await contextMenu.getMenuItems();
   for (const action of expectedContextMenu) {
-    expect(actualActions.includes(action)).toBeTrue();
+    expect(actualActions.includes(action)).toBe(true);
   }
 
   await Utils.pressEscape();
@@ -103,7 +103,7 @@ export async function checkMultipleSelToolbarPrimary(items: string[], expectedTo
 
   const actualPrimaryActions = await toolbar.getButtons();
   for (const action of expectedToolbarPrimary) {
-    expect(actualPrimaryActions.includes(action)).toBeTrue();
+    expect(actualPrimaryActions.includes(action)).toBe(true);
   }
 }
 
@@ -116,14 +116,14 @@ export async function checkMultipleSelToolbarActions(
 
   const actualPrimaryActions = await toolbar.getButtons();
   for (const action of expectedToolbarPrimary) {
-    expect(actualPrimaryActions.includes(action)).toBeTrue();
+    expect(actualPrimaryActions.includes(action)).toBe(true);
   }
 
   await toolbar.openMoreMenu();
 
   const actualMoreActions = await toolbar.menu.getMenuItems();
   for (const action of expectedToolbarMore) {
-    expect(actualMoreActions.includes(action)).toBeTrue();
+    expect(actualMoreActions.includes(action)).toBe(true);
   }
 
   await toolbar.closeMoreMenu();
@@ -138,14 +138,14 @@ export async function checkViewerActions(item: string, expectedToolbarPrimary: s
   actualPrimaryActions = removeClosePreviousNextOldInfo(actualPrimaryActions);
 
   for (const action of expectedToolbarPrimary) {
-    expect(actualPrimaryActions.includes(action)).toBeTrue();
+    expect(actualPrimaryActions.includes(action)).toBe(true);
   }
 
   await viewerToolbar.openMoreMenu();
 
   const actualMoreActions = await viewerToolbar.menu.getMenuItems();
   for (const action of expectedToolbarMore) {
-    expect(actualMoreActions.includes(action)).toBeTrue();
+    expect(actualMoreActions.includes(action)).toBe(true);
   }
 
   await Utils.pressEscape();
