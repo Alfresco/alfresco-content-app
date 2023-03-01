@@ -54,7 +54,6 @@ export class BrowsingPage extends Page {
 
   async goToMyLibraries(): Promise<void> {
     await this.sidenav.clickLink(SIDEBAR_LABELS.MY_LIBRARIES);
-    await this.dataTable.waitForHeader();
   }
 
   async goToMyLibrariesAndWait(): Promise<void> {
