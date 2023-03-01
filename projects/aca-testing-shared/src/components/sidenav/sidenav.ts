@@ -31,7 +31,7 @@ import { Component } from '../component';
 export class Sidenav extends Component {
   links = this.component.all(by.css('.item'));
   activeLink = this.byCss('.action-button--active');
-  newButton = element(By.css(('[data-automation-id="create-button"]')));
+  newButton = element(By.css(('[id="app.toolbar.create"]')));
   personalFiles = this.byCss(`[data-automation-id='app.navbar.personalFiles']`);
   fileLibraries = this.byCss(`[data-automation-id='app.navbar.libraries.menu']`);
   myLibraries = this.byCss(`[data-automation-id='app.navbar.libraries.files']`, browser);
@@ -53,7 +53,7 @@ export class Sidenav extends Component {
   }
 
   async closeNewMenu(): Promise<void> {
-    await BrowserActions.click(element(by.css('button[data-automation-id="create-button"] span span')));
+    await BrowserActions.click(element(by.css('button[id="app.toolbar.create"] span span')));
     await this.menu.waitForMenuToClose();
   }
 

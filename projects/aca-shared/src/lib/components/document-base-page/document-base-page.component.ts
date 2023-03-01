@@ -69,7 +69,6 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   showHeader = ShowHeaderMode.Data;
   filterSorting = 'name-asc';
   createActions: Array<ContentActionRef> = [];
-  uploadActions: Array<ContentActionRef> = [];
 
   protected subscriptions: Subscription[] = [];
 
@@ -81,13 +80,6 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((actions) => {
         this.createActions = actions;
-      });
-
-    this.extensions
-      .getUploadActions()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((actions) => {
-        this.uploadActions = actions;
       });
 
     this.sharedPreviewUrl$ = this.store.select(getSharedUrl);

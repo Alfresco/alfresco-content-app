@@ -1,25 +1,3 @@
 <adf-toolbar class="adf-toolbar--inline">
-  <button mat-flat-button data-automation-id="create-button" *ngIf="canShowCreateButton()"
-    [matMenuTriggerFor]="createMenu"
-    [attr.title]="'APP.HEADER.BUTTONS.CREATE_TOOLTIP' | translate">
-    {{ 'APP.HEADER.BUTTONS.CREATE' | translate }}
-  </button>
-  <mat-menu #createMenu="matMenu" role="menu" class="app-create-menu__root-menu app-create-menu__sub-menu" [overlapTrigger]="false" yPosition="below">
-    <div *ngFor="let action of createActions; trackBy: trackByActionId">
-      <app-toolbar-menu-item [actionRef]="action"></app-toolbar-menu-item>
-    </div>
-  </mat-menu>
-
-  <button mat-flat-button color="primary" data-automation-id="upload-button" *ngIf="canShowUploadButton()"
-    [matMenuTriggerFor]="uploadMenu"
-    [attr.title]="'APP.HEADER.BUTTONS.UPLOAD_TOOLTIP' | translate">
-    {{ 'APP.HEADER.BUTTONS.UPLOAD' | translate }}
-  </button>
-  <mat-menu #uploadMenu="matMenu" role="menu" class="app-upload-menu__root-menu app-upload-menu__sub-menu" [overlapTrigger]="false" yPosition="below">
-    <div *ngFor="let action of uploadActions; trackBy: trackByActionId">
-      <app-toolbar-menu-item [actionRef]="action"></app-toolbar-menu-item>
-    </div>
-  </mat-menu>
-
   <aca-search-input class="app-search-input"></aca-search-input>
 </adf-toolbar>
