@@ -24,7 +24,7 @@
  */
 
 import { browser } from 'protractor';
-import { LoginPage, BrowsingPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { LoginPage, BrowsingPage, RepoClient, Utils, AdminActions } from '@alfresco/aca-testing-shared';
 
 const PAGE_TITLES = {
   PERSONAL_FILES: 'Personal Files',
@@ -41,10 +41,16 @@ const PAGE_TITLES = {
 describe('Page titles', () => {
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
-  const adminApi = new RepoClient();
+  const username = `user-${Utils.random()}`;
+  const apis = new RepoClient(username, username);
+  const adminApiActions = new AdminActions();
   const file = `file-${Utils.random()}.txt`;
   let fileId: string;
   const { searchInput } = page.header;
+
+  beforeAll(async () => {
+    await adminApiActions.createUser({ username });
+  });
 
   describe('on Login / Logout pages', () => {
     it('[C217155] on Login page', async () => {
@@ -53,13 +59,13 @@ describe('Page titles', () => {
     });
 
     it('[C217156] after logout', async () => {
-      await loginPage.loginWithAdmin();
+      await loginPage.loginWith(username);
       await page.signOut();
       expect(await browser.getTitle()).toContain('Sign in');
     });
 
     it('[C280414] when pressing Back after Logout', async () => {
-      await loginPage.loginWithAdmin();
+      await loginPage.loginWith(username);
       await page.signOut();
       await browser.navigate().back();
       expect(await browser.getTitle()).toContain('Sign in');
@@ -68,12 +74,12 @@ describe('Page titles', () => {
 
   describe('on app pages', () => {
     beforeAll(async () => {
-      fileId = (await adminApi.nodes.createFile(file)).entry.id;
-      await loginPage.loginWithAdmin();
+      await loginPage.loginWith(username);
+      fileId = (await apis.nodes.createFile(file)).entry.id;
     });
 
     afterAll(async () => {
-      await adminApi.nodes.deleteNodeById(fileId);
+      await apis.nodes.deleteNodeById(fileId);
     });
 
     it('[C217157] Personal Files page', async () => {
