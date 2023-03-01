@@ -14,6 +14,10 @@
         ],
         "createDefaultProgram": true
       },
+      "plugins": [
+        "rxjs",
+        "unicorn"
+      ],
       "rules": {
       }
     }
