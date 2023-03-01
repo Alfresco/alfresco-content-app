@@ -23,12 +23,10 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppExtensionService } from '@alfresco/aca-shared';
 import { SetCurrentFolderAction, AppStore } from '@alfresco/aca-shared/store';
 import { ContentActionRef } from '@alfresco/adf-extensions';
-import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -37,29 +35,10 @@ import { Subject } from 'rxjs';
   styleUrls: ['./header-actions.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class HeaderActionsComponent implements OnInit, OnDestroy {
+export class HeaderActionsComponent implements OnDestroy {
   private onDestroy$ = new Subject<boolean>();
 
-  createActions: Array<ContentActionRef> = [];
-  uploadActions: Array<ContentActionRef> = [];
-
-  constructor(private store: Store<AppStore>, private extensions: AppExtensionService) {}
-
-  ngOnInit(): void {
-    this.extensions
-      .getCreateActions()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((actions) => {
-        this.createActions = actions;
-      });
-
-    this.extensions
-      .getUploadActions()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((actions) => {
-        this.uploadActions = actions;
-      });
-  }
+  constructor(private store: Store<AppStore>) {}
 
   ngOnDestroy() {
     this.onDestroy$.next(true);
@@ -69,13 +48,5 @@ export class HeaderActionsComponent implements OnInit, OnDestroy {
 
   trackByActionId(_: number, action: ContentActionRef) {
     return action.id;
-  }
-
-  canShowCreateButton(): boolean {
-    return this.createActions.length > 0;
-  }
-
-  canShowUploadButton(): boolean {
-    return this.uploadActions.length > 0;
   }
 }

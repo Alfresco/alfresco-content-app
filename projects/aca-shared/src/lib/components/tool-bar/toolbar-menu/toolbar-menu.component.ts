@@ -50,6 +50,16 @@ export class ToolbarMenuComponent implements AfterViewInit {
   @ViewChildren(ToolbarMenuItemComponent)
   toolbarMenuItems: QueryList<ToolbarMenuItemComponent>;
 
+  @Input()
+  data: {
+    menuType?: string;
+    color?: string;
+  };
+
+  get type(): string {
+    return this.data?.menuType || 'default';
+  }
+
   @HostListener('document:keydown.Escape')
   handleKeydownEscape() {
     this.matTrigger.closeMenu();
