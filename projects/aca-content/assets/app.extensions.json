@@ -188,34 +188,6 @@
         }
       }
     ],
-    "upload": [
-      {
-        "id": "app.create.uploadFile",
-        "order": 100,
-        "icon": "file_upload",
-        "title": "APP.NEW_MENU.MENU_ITEMS.UPLOAD_FILE",
-        "description": "APP.NEW_MENU.TOOLTIPS.UPLOAD_FILES",
-        "actions": {
-          "click": "UPLOAD_FILES"
-        },
-        "rules": {
-          "visible": "app.isUploadSupported"
-        }
-      },
-      {
-        "id": "app.create.uploadFolder",
-        "order": 200,
-        "icon": "file_upload",
-        "title": "APP.NEW_MENU.MENU_ITEMS.UPLOAD_FOLDER",
-        "description": "APP.NEW_MENU.TOOLTIPS.UPLOAD_FOLDERS",
-        "actions": {
-          "click": "UPLOAD_FOLDER"
-        },
-        "rules": {
-          "visible": "app.isUploadSupported"
-        }
-      }
-    ],
     "navbar": [
       {
         "id": "app.navbar.primary",
@@ -288,9 +260,115 @@
     ],
     "toolbar": [
       {
+        "id": "app.toolbar.create",
+        "type": "menu",
+        "order": 10,
+        "title": "APP.HEADER.BUTTONS.CREATE",
+        "description": "APP.HEADER.BUTTONS.CREATE_TOOLTIP",
+        "data": {
+          "menuType": "button"
+        },
+        "children": [
+          {
+            "id": "app.create.folder",
+            "order": 100,
+            "icon": "create_new_folder",
+            "title": "APP.NEW_MENU.MENU_ITEMS.CREATE_FOLDER",
+            "description": "APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER",
+            "description-disabled": "APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER_NOT_ALLOWED",
+            "actions": {
+              "click": "CREATE_FOLDER"
+            },
+            "rules": {
+              "visible": "app.navigation.folder.canCreate"
+            }
+          },
+          {
+            "id": "app.create.library",
+            "order": 200,
+            "title": "APP.NEW_MENU.MENU_ITEMS.CREATE_LIBRARY",
+            "description": "APP.NEW_MENU.TOOLTIPS.CREATE_LIBRARY",
+            "icon": "create_new_folder",
+            "actions": {
+              "click": "CREATE_LIBRARY"
+            },
+            "rules": {
+              "visible": "app.canCreateLibrary"
+            }
+          },
+          {
+            "id": "app.create.fileFromTemplate",
+            "order": 300,
+            "icon": "description",
+            "title": "APP.NEW_MENU.MENU_ITEMS.FILE_TEMPLATE",
+            "description": "APP.NEW_MENU.MENU_ITEMS.FILE_TEMPLATE",
+            "description-disabled": "APP.NEW_MENU.TOOLTIPS.CREATE_FILE_NOT_ALLOWED",
+            "actions": {
+              "click": "FILE_FROM_TEMPLATE"
+            },
+            "rules": {
+              "visible": "app.navigation.folder.canUpload"
+            }
+          },
+          {
+            "id": "app.create.folderFromTemplate",
+            "order": 400,
+            "icon": "create_new_folder",
+            "title": "APP.NEW_MENU.MENU_ITEMS.FOLDER_TEMPLATE",
+            "description": "APP.NEW_MENU.MENU_ITEMS.FOLDER_TEMPLATE",
+            "description-disabled": "APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER_NOT_ALLOWED",
+            "actions": {
+              "click": "FOLDER_FROM_TEMPLATE"
+            },
+            "rules": {
+              "visible": "app.navigation.folder.canUpload"
+            }
+          }
+        ]
+      },
+      {
+        "id": "app.toolbar.upload",
+        "type": "menu",
+        "order": 20,
+        "title": "APP.HEADER.BUTTONS.UPLOAD",
+        "description": "APP.HEADER.BUTTONS.UPLOAD_TOOLTIP",
+        "data": {
+          "menuType": "flat-button",
+          "color": "primary"
+        },
+        "children": [
+          {
+            "id": "app.create.uploadFile",
+            "order": 100,
+            "icon": "file_upload",
+            "title": "APP.NEW_MENU.MENU_ITEMS.UPLOAD_FILE",
+            "description": "APP.NEW_MENU.TOOLTIPS.UPLOAD_FILES",
+            "actions": {
+              "click": "UPLOAD_FILES"
+            },
+            "rules": {
+              "visible": "app.isUploadSupported"
+            }
+          },
+          {
+            "id": "app.create.uploadFolder",
+            "order": 200,
+            "icon": "file_upload",
+            "title": "APP.NEW_MENU.MENU_ITEMS.UPLOAD_FOLDER",
+            "description": "APP.NEW_MENU.TOOLTIPS.UPLOAD_FOLDERS",
+            "actions": {
+              "click": "UPLOAD_FOLDER"
+            },
+            "rules": {
+              "visible": "app.isUploadSupported"
+            }
+          }
+        ]
+      },
+      {
         "id": "app.toolbar.search.separator",
         "type": "separator",
-        "order": 90
+        "order": 89
       },
       {
         "id": "app.toolbar.search",
@@ -414,7 +492,7 @@
         "type": "menu",
         "order": 10000,
         "icon": "more_vert",
-        "title": "APP.ACTIONS.MORE",
+        "description": "APP.ACTIONS.MORE",
         "children": [
           {
             "id": "app.toolbar.toggleLock",
