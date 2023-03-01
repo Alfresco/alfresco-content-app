@@ -38,6 +38,7 @@ import {
   UploadFilesDialog
 } from '@alfresco/aca-testing-shared';
 import { Logger } from '@alfresco/adf-testing';
+import { By, element } from 'protractor';
 
 describe('Viewer actions', () => {
   const username = `user-${Utils.random()}`;
@@ -64,6 +65,8 @@ describe('Viewer actions', () => {
   const userActions = new UserActions();
 
   const uploadFilesDialog = new UploadFilesDialog();
+  const downloadButton = element(By.css(`button[id='app.viewer.download']`));
+  const shareButton = element(By.css(`adf-viewer [data-automation-id="share-action-button"]`));
 
   beforeAll(async () => {
     await adminApiActions.createUser({ username });
@@ -144,7 +147,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxPersonalFiles);
       await viewer.waitForViewerToOpen();
 
-      await toolbar.downloadButton.click();
+      await downloadButton.click();
 
       expect(await Utils.fileExistsOnOS(docxPersonalFiles)).toBe(true, 'File not found in download location');
     });
@@ -569,7 +572,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxFavorites);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.shareButton.click();
+      await shareButton.click();
       expect(await shareDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await shareDialog.clickClose();
     });
