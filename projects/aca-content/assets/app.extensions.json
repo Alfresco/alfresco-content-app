@@ -288,6 +288,23 @@
     ],
     "toolbar": [
       {
+        "id": "app.toolbar.search.separator",
+        "type": "separator",
+        "order": 90
+      },
+      {
+        "id": "app.toolbar.search",
+        "order": 90,
+        "title": "SEARCH.BUTTON.TOOLTIP",
+        "icon": "search",
+        "actions": {
+          "click": "SEARCH"
+        },
+        "rules": {
+          "visible": "app.isSearchSupported"
+        }
+      },
+      {
         "id": "app.toolbar.share",
         "type": "custom",
         "order": 100,
