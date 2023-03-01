@@ -42,7 +42,7 @@ export class Header extends Component {
   searchInput = new SearchInput();
 
   constructor(ancestor?: string) {
-    super('adf-layout-header', ancestor);
+    super('app-sidenav-header', ancestor);
   }
 
   async openMoreMenu(): Promise<void> {

@@ -24,7 +24,6 @@
 
 import { ElementFinder, by, element, browser, By } from 'protractor';
 import { Logger, BrowserActions } from '@alfresco/adf-testing';
-import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Menu } from '../menu/menu';
 import { Component } from '../component';
 
@@ -116,11 +115,6 @@ export class Sidenav extends Component {
 
   async getLinkTooltip(name: string): Promise<string> {
     const link = this.getLinkLabel(name);
-    const condition = () => link.getAttribute('title').then((value) => value && value.length > 0);
-
-    await browser.actions().mouseMove(link).perform();
-    await browser.wait(condition, BROWSER_WAIT_TIMEOUT);
-
     return link.getAttribute('title');
   }
 

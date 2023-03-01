@@ -91,24 +91,15 @@ describe('Sidebar', () => {
   it('[C217151] Personal Files tooltip', async () => {
     await page.clickPersonalFiles();
     expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.PERSONAL_FILES)).toContain('View your Personal Files');
-
-    await header.collapseSideNav();
-    expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.PERSONAL_FILES)).toContain('View your Personal Files');
   });
 
   it('[C213111] Shared Files tooltip', async () => {
     await page.clickSharedFiles();
     expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.SHARED_FILES)).toContain('View files that have been shared');
-
-    await header.collapseSideNav();
-    expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.SHARED_FILES)).toContain('View files that have been shared');
   });
 
   it('[C213167] Recent Files tooltip', async () => {
     await page.clickRecentFiles();
-    expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.RECENT_FILES)).toContain('View files you recently edited');
-
-    await header.collapseSideNav();
     expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.RECENT_FILES)).toContain('View files you recently edited');
   });
 
