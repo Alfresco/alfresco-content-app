@@ -235,12 +235,15 @@
             "title": "APP.BROWSE.LIBRARIES.MENU.FAVORITE_LIBRARIES.SIDENAV_LINK.LABEL",
             "description": "APP.BROWSE.LIBRARIES.MENU.FAVORITE_LIBRARIES.SIDENAV_LINK.TOOLTIP",
             "route": "favorite/libraries"
-          }
-        ]
-      },
-      {
-        "id": "app.navbar.secondary",
-        "items": [
+          },
+          {
+            "id": "app.navbar.recentFiles",
+            "order": 200,
+            "icon": "schedule",
+            "title": "APP.BROWSE.RECENT.SIDENAV_LINK.LABEL",
+            "description": "APP.BROWSE.RECENT.SIDENAV_LINK.TOOLTIP",
+            "route": "recent-files"
+          },
           {
             "id": "app.navbar.shared",
             "order": 100,
@@ -251,14 +254,6 @@
             "rules": {
               "visible": "repository.isQuickShareEnabled"
             }
-          },
-          {
-            "id": "app.navbar.recentFiles",
-            "order": 200,
-            "icon": "schedule",
-            "title": "APP.BROWSE.RECENT.SIDENAV_LINK.LABEL",
-            "description": "APP.BROWSE.RECENT.SIDENAV_LINK.TOOLTIP",
-            "route": "recent-files"
           },
           {
             "id": "app.navbar.favorites",
