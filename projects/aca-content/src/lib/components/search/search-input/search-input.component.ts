@@ -93,22 +93,20 @@ export class SearchInputComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    if (this.searchInputService.isSearchRoute()) {
-      this.showInputValue();
+    this.showInputValue();
 
-      this.router.events
-        .pipe(takeUntil(this.onDestroy$))
-        .pipe(filter((e) => e instanceof RouterEvent))
-        .subscribe((event) => {
-          if (event instanceof NavigationEnd) {
-            this.showInputValue();
-          }
-        });
-
-      this.appHookService.library400Error.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
-        this.has400LibraryError = true;
+    this.router.events
+      .pipe(takeUntil(this.onDestroy$))
+      .pipe(filter((e) => e instanceof RouterEvent))
+      .subscribe((event) => {
+        if (event instanceof NavigationEnd) {
+          this.showInputValue();
+        }
       });
-    }
+
+    this.appHookService.library400Error.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
+      this.has400LibraryError = true;
+    });
   }
 
   exitSearch() {

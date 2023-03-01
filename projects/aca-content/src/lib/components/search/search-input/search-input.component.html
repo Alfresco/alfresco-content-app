@@ -1,5 +1,4 @@
-<div *ngIf="searchInputService.isSearchRoute()"
-  class="app-search-container searchMenuTrigger"
+<div class="app-search-container searchMenuTrigger"
   [matMenuTriggerFor]="searchOptionsMenu"
   (menuOpened)="onMenuOpened()"
   (menuClosed)="syncInputValues()"
