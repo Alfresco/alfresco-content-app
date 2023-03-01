@@ -38,10 +38,6 @@ export class SearchNavigationService {
 
   constructor(private router: Router) {}
 
-  isSearchRoute(): boolean {
-    return this.router.url.includes('/search');
-  }
-
   saveRoute(route: string): void {
     this._previousRoute = route;
   }

@@ -61,7 +61,6 @@ describe('SearchInputComponent', () => {
   });
 
   it('should change flag on library400Error event', async () => {
-    spyOn(searchInputService, 'isSearchRoute').and.returnValue(true);
     fixture.detectChanges();
     await fixture.whenStable();
 
@@ -77,7 +76,6 @@ describe('SearchInputComponent', () => {
   });
 
   it('should have library constraint on 400 error received', async () => {
-    spyOn(searchInputService, 'isSearchRoute').and.returnValue(true);
     fixture.detectChanges();
     await fixture.whenStable();
 
@@ -212,7 +210,6 @@ describe('SearchInputComponent', () => {
 
   describe('exitSearch()', () => {
     it('should exit search on click of close icon', async () => {
-      spyOn(searchInputService, 'isSearchRoute').and.returnValue(true);
       spyOn(component, 'exitSearch').and.callThrough();
       spyOn(searchInputService, 'navigateBack').and.callThrough();
 
