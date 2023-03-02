@@ -1,0 +1,44 @@
+name: "Download build artifacts"
+description: "Download build artifacts"
+
+inputs:
+  artifact:
+    description: 'path to the s3 artifact (tar.bz2) to download and extract'
+    required: true
+    type: string
+  output:
+    description: 'directory to extract the archive to'
+    required: true
+    type: string
+  aws-access-key-id:
+    description: 'aws access key id'
+    required: true
+    type: string
+  aws-secret-access-key:
+    description: 'aws secret access key'
+    required: true
+    type: string
+  aws-region:
+    description: 'aws region'
+    required: true
+    type: string
+
+runs:
+  using: "composite"
+  steps:
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ inputs.aws-access-key-id }}
+        aws-secret-access-key: ${{ inputs.aws-secret-access-key }}
+        aws-region: ${{ inputs.aws-region }}
+    - name: download build artifacts from s3
+      shell: bash
+      run: |
+        test ! -d ${{ inputs.output }} && mkdir -p ${{ inputs.output }}
+        aws s3 cp ${{ inputs.artifact }} ./s3-artifact.tmp
+        echo 'artifact download done'
+        tar -xvf ./s3-artifact.tmp -C ${{ inputs.output }} >&/dev/null
+        echo 'tar the artifact done'
+        rm ./s3-artifact.tmp
+        echo 'remove tmp file'

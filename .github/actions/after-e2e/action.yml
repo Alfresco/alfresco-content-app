@@ -1,0 +1,30 @@
+name: "After e2e"
+description: "After e2e"
+
+env:
+  storage_file: "./storage-state/AdminUserState.json"
+
+inputs:
+  id:
+    description: 'test suite id'
+    required: true
+    type: number
+  aws-access-key-id:
+    description: 'aws access key id'
+    required: true
+    type: string
+  aws-secret-access-key:
+    description: 'aws secret access key'
+    required: true
+    type: string
+  aws-region:
+    description: 'aws region'
+    required: true
+    type: string
+
+runs:
+  using: "composite"
+  steps:
+    - name: Remove storage file
+      shell: bash
+      run: rm -f ${{ env.storage_file }}

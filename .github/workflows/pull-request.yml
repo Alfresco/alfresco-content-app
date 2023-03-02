@@ -1,0 +1,230 @@
+name: "Pull request"
+
+on:
+  push:
+    branches: [master, develop]
+  pull_request:
+    branches: [master, develop]
+
+env:
+  APP_CONFIG_ECM_HOST: ${{ secrets.PIPELINE_ENV_URL }}
+  ADMIN_EMAIL: ${{ secrets.PIPELINE_ADMIN_USERNAME }}
+  ADMIN_PASSWORD: ${{ secrets.PIPELINE_ADMIN_PASSWORD }}
+  AWS_REGION: "eu-west-2"
+  CONTENT_CE_DIST_PATH: "./dist/content-ce"
+  APP_CONFIG_PROVIDER: ECM
+  APP_CONFIG_AUTH_TYPE: BASIC
+  APP_CONFIG_OAUTH2_HOST: http://localhost:4200/auth/realms/alfresco
+  PLAYWRIGHT_E2E_HOST: "http://localhost:4200"
+  APP_CONFIG_OAUTH2_CLIENTID: alfresco
+  APP_CONFIG_PLUGIN_AOS: true
+  APP_CONFIG_PLUGIN_CONTENT_SERVICE: true
+  APP_CONFIG_PLUGIN_FOLDER_RULES: true
+  APP_CONFIG_ENABLE_MOBILE_APP_SWITCH: true
+  APP_CONFIG_SESSION_TIME_FOR_OPEN_APP_DIALOG_DISPLAY_IN_HOURS: "12"
+  APP_CONFIG_OAUTH2_IMPLICIT_FLOW: true
+  APP_CONFIG_OAUTH2_SILENT_LOGIN: true
+  APP_CONFIG_OAUTH2_REDIRECT_LOGOUT: /
+  APP_CONFIG_OAUTH2_REDIRECT_LOGIN: /
+  APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI: "{protocol}//{hostname}{:port}/assets/silent-refresh.html"
+
+jobs:
+  lint:
+    name: 'lint'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run lint
+
+  build:
+    name: 'build'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+      - uses: ./.github/actions/before-install
+      - run: npm ci
+      - run: npm run build $BUILD_OPTS
+      - name: upload job artifact
+        if: ${{ success() }}
+        uses: ./.github/actions/upload-job-artifact
+        with:
+          artifact: $CONTENT_CE_DIST_PATH
+          output: $S3_DBP_FOLDER/alfresco-content-app.tar.bz2
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+  unit-tests:
+    needs: [lint, build]
+    name: "Unit tests: ${{ matrix.unit-tests.name }}"
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        unit-tests:
+          - name: "aca-content"
+          - name: "adf-office-services-ext"
+          - name: "aca-shared"
+          - name: "aca-folder-rules"
+          - name: "aca-preview"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+      - uses: ./.github/actions/before-install
+      - run: npm ci
+      - run: npm test ${{ matrix.unit-tests.name }} -- --browsers=ChromeHeadless --watch=false $TEST_OPTS
+
+  e2es:
+    needs: [lint, build, unit-tests]
+    name: 'E2e test suites: ${{ matrix.e2e-suites.name }}'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        e2e-suites:
+          - name: "authentication,listViews,navigation,application"
+            id: 1
+          - name: "search"
+            id: 2
+          - name: "viewer,infoDrawer,extensions"
+            id: 3
+          - name: "shareActions"
+            id: 4
+          - name: "pagination"
+            id: 5
+          - name: "actionsAvailableFilesFolders"
+            id: 6
+          - name: "actionsAvailableLibraries,actionsAvailableNewMenu"
+            id: 7
+          - name: "actionsAvailableSpecialPermissions"
+            id: 8
+          - name: "copyMoveActions"
+            id: 9
+          - name: "createActions"
+            id: 10
+          - name: "deleteActions"
+            id: 11
+          - name: "editActions,favoriteActions"
+            id: 12
+          - name: "libraryActions"
+            id: 13
+          - name: "uploadDownloadActions"
+            id: 14
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+      - uses: ./.github/actions/before-install
+      - run: npm ci
+      - uses: ./.github/actions/before-e2e
+        with:
+          from: "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2"
+          to: $CONTENT_CE_DIST_PATH
+          id: ${{ matrix.e2e-suites.id }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+      - uses: ./.github/actions/run-e2e
+        with:
+          options: "--suite=${{ matrix.e2e-suites.name }}"
+      - uses: ./.github/actions/after-e2e
+        with:
+          id: ${{ matrix.e2e-suites.id }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+  e2es-playwright:
+    needs: [lint, build, unit-tests]
+    name: 'E2e test suites: Folder Rules - Playwright'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+      - uses: ./.github/actions/before-install
+      - run: npm ci
+      - uses: ./.github/actions/before-e2e
+        with:
+          from: "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2"
+          to: $CONTENT_CE_DIST_PATH
+          id: 15
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+      - name: before playwright
+        shell: bash
+        run: npx playwright install chromium
+      - uses: ./.github/actions/run-e2e
+        with:
+          options: "e2e/playwright/tests/folder-rules/playwright.config.ts"
+          test-runner: playwright
+      - uses: ./.github/actions/after-e2e
+        with:
+          id: 15
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+  finalize:
+    needs: [lint, build, unit-tests, e2es, e2es-playwright]
+    name: 'Finalize'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-commit-message@v1.35.0
+
+      - name: Check ADF link
+        shell: bash
+        run: |
+          if [[ $COMMIT_MESSAGE == *"[link-adf:"* ]]; then
+            BRANCH=`echo $COMMIT_MESSAGE | grep -o "\[link-adf\:[^]]*\]" | sed -e 's#\[link-adf:##g' | sed -e 's#\]##g'`
+            echo -e "\e[31mPRs are not mergeable with conditional build. This build was run with custom ADF branch: $BRANCH \e[0m"
+            exit 1
+          fi;
+
+
