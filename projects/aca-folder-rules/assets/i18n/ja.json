@@ -26,7 +26,7 @@
         "CHOOSE_FOLDER": "移動先フォルダの選択"
       },
       "ERROR": {
-        "REQUIRED": "このフィールドは必要です",
+        "REQUIRED": "このフィールドは必須です",
         "RULE_COMPOSITE_CONDITION_INVALID": "1つ以上の条件グループが空です",
         "INSUFFICIENT_TRIGGERS_SELECTED": "少なくとも1つのトリガーが必要です"
       },

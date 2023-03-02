@@ -206,7 +206,7 @@
         "CUSTOM_ROW": {
           "MODIFIED": "Modificato",
           "BY_USER": "da {{ user }}",
-          "LOCATION": "Località",
+          "LOCATION": "Posizione",
           "SIZE": "Dimensione"
         },
         "UNKNOWN_LOCATION": "Sconosciuto",
@@ -269,6 +269,9 @@
         "MESSAGE": "L'uscita comporta la rimozione dei dati di accesso.",
         "YES_LABEL": "OK",
         "NO_LABEL": "Annulla"
+      },
+      "MOBILE_APP": {
+        "MOBILE_APP_BUTTON_LABEL": "Apri nell'App"
       }
     },
     "DOCUMENT_LIST": {
@@ -281,11 +284,12 @@
         "MODIFIED_BY": "Modificato da",
         "VISIBILITY": "Visibilità",
         "TITLE": "Titolo",
-        "LOCATION": "Località",
+        "LOCATION": "Posizione",
         "SHARED_BY": "Condiviso da",
         "DELETED_ON": "Eliminato",
         "DELETED_BY": "Eliminato da",
-        "ROLE": "Il mio ruolo"
+        "ROLE": "Il mio ruolo",
+        "TAGS": "Tag"
       },
       "TOOLBAR": {
         "CARDVIEW": "Modalità di visualizzazione scheda",
@@ -294,7 +298,7 @@
     },
     "MESSAGES": {
       "ERRORS": {
-        "CANNOT_NAVIGATE_LOCATION": "Impossibile aprire questo percorso",
+        "CANNOT_NAVIGATE_LOCATION": "Impossibile aprire questa posizione",
         "MISSING_CONTENT": "Questo elemento non esiste più o non si dispone delle autorizzazioni per visualizzarlo.",
         "GENERIC": "Azione non eseguita correttamente. Riprovare o contattare il team IT.",
         "CONFLICT": "Nome già in uso, provare un nome diverso.",
@@ -313,9 +317,9 @@
             "SINGULAR": "Impossibile eliminare {{ name }}"
           },
           "NODES_RESTORE": {
-            "PARTIAL_PLURAL": "{{ number }} elementi non ripristinati a causa dei problemi con il percorso di ripristino",
+            "PARTIAL_PLURAL": "{{ number }} elementi non ripristinati a causa di problemi con la posizione di ripristino",
             "NODE_EXISTS": "Impossibile eseguire il ripristino. {{ name }} è già esistente.",
-            "LOCATION_MISSING": "Impossibile ripristinare {{ name }}. Il percorso originale non esiste più.",
+            "LOCATION_MISSING": "Impossibile ripristinare {{ name }}. La posizione originale non esiste più.",
             "GENERIC": "Si è verificato un problema durante il ripristino di {{ name }}"
           }
         },
@@ -471,8 +475,8 @@
   },
   "INFO_PANEL": {
     "TABS": {
-    
-    },
+
+        },
     "DETAILS": "Dettagli"
   },
   "LIBRARY": {
@@ -537,7 +541,7 @@
       "FILE_TYPE": "Tipo di file",
       "CREATOR": "Creatore",
       "MODIFIER": "Modificatore",
-      "LOCATION": "Località"
+      "LOCATION": "Posizione"
     },
     "CATEGORIES": {
       "MODIFIED_DATE": "Data di modifica",

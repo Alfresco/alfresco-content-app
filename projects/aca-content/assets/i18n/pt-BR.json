@@ -269,6 +269,9 @@
         "MESSAGE": "Sair removerá o seu acesso.",
         "YES_LABEL": "OK",
         "NO_LABEL": "Cancelar"
+      },
+      "MOBILE_APP": {
+        "MOBILE_APP_BUTTON_LABEL": "Abrir no aplicativo"
       }
     },
     "DOCUMENT_LIST": {
@@ -285,7 +288,8 @@
         "SHARED_BY": "Compartilhado por",
         "DELETED_ON": "Excluído",
         "DELETED_BY": "Excluído por",
-        "ROLE": "Meu papel"
+        "ROLE": "Meu papel",
+        "TAGS": "Marcas"
       },
       "TOOLBAR": {
         "CARDVIEW": "Modo de visualização de cartão",
@@ -471,8 +475,8 @@
   },
   "INFO_PANEL": {
     "TABS": {
-    
-    },
+
+        },
     "DETAILS": "Detalhes"
   },
   "LIBRARY": {

@@ -43,7 +43,7 @@
       "APPLICATION-SETTINGS": "Ustawienia aplikacji",
       "REPOSITORY-SETTINGS": "Ustawienia repozytorium",
       "INVALID-VALUE-FORMAT": "Nieprawidłowy format wartości",
-      "REQUIRED-FIELD": "To pole jest wymagane.",
+      "REQUIRED-FIELD": "To pole jest wymagane",
       "RESET": "Resetuj",
       "APPLY": "Zastosuj"
     },
@@ -269,6 +269,9 @@
         "MESSAGE": "Opuszczenie spowoduje usunięcie dostępu.",
         "YES_LABEL": "OK",
         "NO_LABEL": "Anuluj"
+      },
+      "MOBILE_APP": {
+        "MOBILE_APP_BUTTON_LABEL": "Otwórz w aplikacji"
       }
     },
     "DOCUMENT_LIST": {
@@ -285,7 +288,8 @@
         "SHARED_BY": "Udostępnione przez",
         "DELETED_ON": "Usunięte",
         "DELETED_BY": "Usunięte przez",
-        "ROLE": "Moja rola"
+        "ROLE": "Moja rola",
+        "TAGS": "Znaczniki"
       },
       "TOOLBAR": {
         "CARDVIEW": "Tryb widoku karty",
@@ -471,8 +475,8 @@
   },
   "INFO_PANEL": {
     "TABS": {
-    
-    },
+
+        },
     "DETAILS": "Szczegóły"
   },
   "LIBRARY": {

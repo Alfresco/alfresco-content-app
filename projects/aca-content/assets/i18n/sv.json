@@ -40,7 +40,7 @@
     "SIGN_OUT": "Logga ut",
     "SETTINGS": {
       "TITLE": "Inställningar",
-      "APPLICATION-SETTINGS": "Programinställningar",
+      "APPLICATION-SETTINGS": "Applikationsinställningar",
       "REPOSITORY-SETTINGS": "Arkivinställningar",
       "INVALID-VALUE-FORMAT": "Ogiltigt värdeformat",
       "REQUIRED-FIELD": "Det här fältet krävs",
@@ -269,6 +269,9 @@
         "MESSAGE": "Lämnar du tas din åtkomst bort.",
         "YES_LABEL": "OK",
         "NO_LABEL": "Avbryt"
+      },
+      "MOBILE_APP": {
+        "MOBILE_APP_BUTTON_LABEL": "Öppna i appen"
       }
     },
     "DOCUMENT_LIST": {
@@ -285,7 +288,8 @@
         "SHARED_BY": "Delad av",
         "DELETED_ON": "Raderad",
         "DELETED_BY": "Raderad av",
-        "ROLE": "Min roll"
+        "ROLE": "Min roll",
+        "TAGS": "Taggar"
       },
       "TOOLBAR": {
         "CARDVIEW": "Kortvyläge",
@@ -471,8 +475,8 @@
   },
   "INFO_PANEL": {
     "TABS": {
-    
-    },
+
+        },
     "DETAILS": "Detaljer"
   },
   "LIBRARY": {

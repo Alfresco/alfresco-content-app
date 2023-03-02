@@ -97,7 +97,7 @@
         "CREATE_FILE_NOT_ALLOWED": "لا يمكن إنشاء الملفات أثناء عرض العناصر الحالية",
         "UPLOAD_FILES": "تحديد ملفات لتحميلها",
         "UPLOAD_FILES_NOT_ALLOWED": "يتعذر تحميل الملفات أثناء عرض العناصر الحالية",
-        "UPLOAD_FOLDERS": "تحديد مجلدات لتحميلها",
+        "UPLOAD_FOLDERS": "حدد مجلدات لتحميلها",
         "UPLOAD_FOLDERS_NOT_ALLOWED": "يتعذر تحميل المجلدات أثناء عرض العناصر الحالية",
         "CREATE_LIBRARY": "إنشاء مكتبة ملفات جديدة"
       }
@@ -267,8 +267,11 @@
       "CONFIRM_LEAVE": {
         "TITLE": "أتريد مغادرة هذه المكتبة؟",
         "MESSAGE": "ستعمل المغادرة على إزالة حق وصولك.",
-        "YES_LABEL": "موافق",
+        "YES_LABEL": "نعم",
         "NO_LABEL": "إلغاء"
+      },
+      "MOBILE_APP": {
+        "MOBILE_APP_BUTTON_LABEL": "فتح في التطبيق"
       }
     },
     "DOCUMENT_LIST": {
@@ -285,7 +288,8 @@
         "SHARED_BY": "تمت المشاركة بواسطة",
         "DELETED_ON": "تم الحذف",
         "DELETED_BY": "تم الحذف بواسطة",
-        "ROLE": "دوري"
+        "ROLE": "دوري",
+        "TAGS": "علامات"
       },
       "TOOLBAR": {
         "CARDVIEW": "وضع عرض البطاقة",
@@ -394,7 +398,7 @@
       "EFFECTIVITY_GROUP_TITLE": "السريان"
     },
     "INFO_DRAWER": {
-      "TITLE": "تفاصيل",
+      "TITLE": "التفاصيل",
       "DATA_LOADING": "يتم تحميل البيانات",
       "TABS": {
         "PROPERTIES": "الخصائص",
@@ -402,7 +406,7 @@
         "VERSIONS": "الإصدارات",
         "COMMENTS": "تعليقات",
         "PERMISSIONS": "أذونات",
-        "EXPAND": "توسيع",
+        "EXPAND": "يوسع",
         "CLOSE_LIBRARY": "أغلق المكتبة"
       }
     }
@@ -414,8 +418,8 @@
     "MOVE_ITEMS": "نقل {{ number }} عناصر إلى...",
     "SEARCH": "بحث",
     "NEXT": "التالي",
-    "SELECT_FILE_TEMPLATE_TITLE": "تحديد قالب مستند",
-    "SELECT_FOLDER_TEMPLATE_TITLE": "تحديد قالب مجلد"
+    "SELECT_FILE_TEMPLATE_TITLE": "حدد قالب مستند",
+    "SELECT_FOLDER_TEMPLATE_TITLE": "حدد قالب مجلد"
   },
   "NODE_FROM_TEMPLATE": {
     "CANCEL": "إلغاء",
@@ -473,7 +477,7 @@
     "TABS": {
     
     },
-    "DETAILS": "تفاصيل"
+    "DETAILS": "التفاصيل"
   },
   "LIBRARY": {
     "DIALOG": {
