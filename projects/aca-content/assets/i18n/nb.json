@@ -40,7 +40,7 @@
     "SIGN_OUT": "Logg ut",
     "SETTINGS": {
       "TITLE": "Innstillinger",
-      "APPLICATION-SETTINGS": "Programinnstillinger",
+      "APPLICATION-SETTINGS": "Programnavn",
       "REPOSITORY-SETTINGS": "Datalagerinnstillinger",
       "INVALID-VALUE-FORMAT": "Ugyldig verdiformat",
       "REQUIRED-FIELD": "Dette feltet er påkrevd",
@@ -269,6 +269,9 @@
         "MESSAGE": "Hvis du går ut, mister du tilgangen.",
         "YES_LABEL": "OK",
         "NO_LABEL": "Avbryt"
+      },
+      "MOBILE_APP": {
+        "MOBILE_APP_BUTTON_LABEL": "Åpne i app"
       }
     },
     "DOCUMENT_LIST": {
@@ -285,7 +288,8 @@
         "SHARED_BY": "Delt av",
         "DELETED_ON": "Slettet",
         "DELETED_BY": "Slettet av",
-        "ROLE": "Min rolle"
+        "ROLE": "Min rolle",
+        "TAGS": "Tagger"
       },
       "TOOLBAR": {
         "CARDVIEW": "Kortvisningsmodus",
@@ -408,9 +412,9 @@
     }
   },
   "NODE_SELECTOR": {
-    "COPY_ITEM": "Kopier {{ name }} til...",
+    "COPY_ITEM": "Kopier '{{ name }}' til ...",
     "COPY_ITEMS": "Kopier {{ number }} elementer til...",
-    "MOVE_ITEM": "Flytt {{ name }} til...",
+    "MOVE_ITEM": "Flytt '{{ name }}' til...",
     "MOVE_ITEMS": "Flytt {{ number }} elementer til...",
     "SEARCH": "Søk",
     "NEXT": "Neste",
@@ -471,8 +475,8 @@
   },
   "INFO_PANEL": {
     "TABS": {
-    
-    },
+
+        },
     "DETAILS": "Detaljer"
   },
   "LIBRARY": {

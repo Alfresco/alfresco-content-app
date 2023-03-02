@@ -269,6 +269,9 @@
         "MESSAGE": "Hvis du forlader biblioteket, har du ikke længere adgang.",
         "YES_LABEL": "OK",
         "NO_LABEL": "Annuller"
+      },
+      "MOBILE_APP": {
+        "MOBILE_APP_BUTTON_LABEL": "Åbn i app"
       }
     },
     "DOCUMENT_LIST": {
@@ -285,7 +288,8 @@
         "SHARED_BY": "Delt af",
         "DELETED_ON": "Slettet",
         "DELETED_BY": "Slettet af",
-        "ROLE": "Min rolle"
+        "ROLE": "Min rolle",
+        "TAGS": "Tags"
       },
       "TOOLBAR": {
         "CARDVIEW": "Kortvisning",
@@ -471,9 +475,9 @@
   },
   "INFO_PANEL": {
     "TABS": {
-    
-    },
-    "DETAILS": "Detaljer"
+
+        },
+        "DETAILS": "Details"
   },
   "LIBRARY": {
     "DIALOG": {
@@ -498,7 +502,7 @@
       "SITE_TITLE_EXISTS": "Biblioteksnavnet er allerede i brug"
     },
     "ERRORS": {
-      "GENERIC": "Der er opstået et problem",
+      "GENERIC": "Der opstod et problem",
       "EXISTENT_SITE": "Dette biblioteks-id er ikke tilgængeligt. Prøv et andet biblioteks-id.",
       "CONFLICT": "Dette biblioteks-id er allerede i brug. Se eventuelt papirkurven.",
       "ID_TOO_LONG": "URL-navnet må ikke være på mere end 72 tegn",

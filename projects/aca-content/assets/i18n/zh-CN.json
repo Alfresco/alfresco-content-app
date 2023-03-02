@@ -269,6 +269,9 @@
         "MESSAGE": "离开将会删除您的访问权。",
         "YES_LABEL": "确定",
         "NO_LABEL": "取消"
+      },
+      "MOBILE_APP": {
+        "MOBILE_APP_BUTTON_LABEL": "在 App 中打开"
       }
     },
     "DOCUMENT_LIST": {
@@ -285,7 +288,8 @@
         "SHARED_BY": "分享人",
         "DELETED_ON": "已删除",
         "DELETED_BY": "删除人",
-        "ROLE": "我的角色"
+        "ROLE": "我的角色",
+        "TAGS": "标记"
       },
       "TOOLBAR": {
         "CARDVIEW": "卡查看模式",
@@ -471,8 +475,8 @@
   },
   "INFO_PANEL": {
     "TABS": {
-    
-    },
+
+        },
     "DETAILS": "详细信息"
   },
   "LIBRARY": {

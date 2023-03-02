@@ -269,6 +269,9 @@
         "MESSAGE": "Als u de bibliotheek verlaat, wordt uw toegang verwijderd.",
         "YES_LABEL": "OK",
         "NO_LABEL": "Annuleren"
+      },
+      "MOBILE_APP": {
+        "MOBILE_APP_BUTTON_LABEL": "Openen in app"
       }
     },
     "DOCUMENT_LIST": {
@@ -285,7 +288,8 @@
         "SHARED_BY": "Gedeeld door",
         "DELETED_ON": "Verwijderd",
         "DELETED_BY": "Verwijderd door",
-        "ROLE": "Mijn rol"
+        "ROLE": "Mijn rol",
+        "TAGS": "Tags"
       },
       "TOOLBAR": {
         "CARDVIEW": "Kaartweergavemodus",
@@ -471,8 +475,8 @@
   },
   "INFO_PANEL": {
     "TABS": {
-    
-    },
+
+        },
     "DETAILS": "Gegevens"
   },
   "LIBRARY": {

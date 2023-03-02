@@ -269,6 +269,9 @@
         "MESSAGE": "Al abandonarla, perderá el acceso.",
         "YES_LABEL": "Aceptar",
         "NO_LABEL": "Cancelar"
+      },
+      "MOBILE_APP": {
+        "MOBILE_APP_BUTTON_LABEL": "Abrir en la aplicación"
       }
     },
     "DOCUMENT_LIST": {
@@ -285,7 +288,8 @@
         "SHARED_BY": "Compartido por",
         "DELETED_ON": "Eliminado",
         "DELETED_BY": "Eliminado por",
-        "ROLE": "Mi función"
+        "ROLE": "Mi función",
+        "TAGS": "Etiquetas"
       },
       "TOOLBAR": {
         "CARDVIEW": "Modo de vista de tarjeta",
@@ -471,8 +475,8 @@
   },
   "INFO_PANEL": {
     "TABS": {
-    
     },
+
     "DETAILS": "Detalles"
   },
   "LIBRARY": {
@@ -628,7 +632,7 @@
   "ADF-DATATABLE": {
     "FILE_TYPE": {
       "BOOKS-24PX": "Biblioteca de ficheros",
-      "BASELINE-LOCK-24PX": "Fichero bloqueado"
+      "BASELINE-LOCK-24PX": "fichero bloqueado"
     }
   }
 }

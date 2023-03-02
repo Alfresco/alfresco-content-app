@@ -40,7 +40,7 @@
         "IS_ASYNCHRONOUS": "Run rule in the background",
         "DISABLE_RULE": "Disable rule",
         "ERROR_SCRIPT": "If errors occur run script",
-        "NO_SCRIPT": "None"
+        "NO_SCRIPT": "Žádný"
       },
       "COMPARATORS": {
         "EQUALS": "(=) Rovná se",

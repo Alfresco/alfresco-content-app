@@ -43,7 +43,7 @@
       "APPLICATION-SETTINGS": "アプリケーションの設定",
       "REPOSITORY-SETTINGS": "リポジトリの設定",
       "INVALID-VALUE-FORMAT": "無効な値形式",
-      "REQUIRED-FIELD": "このフィールドは必要です",
+      "REQUIRED-FIELD": "このフィールドは必須です",
       "RESET": "リセット",
       "APPLY": "適用"
     },
@@ -269,6 +269,9 @@
         "MESSAGE": "脱退すると、アクセス権が削除されます。",
         "YES_LABEL": "OK",
         "NO_LABEL": "キャンセル"
+      },
+      "MOBILE_APP": {
+        "MOBILE_APP_BUTTON_LABEL": "アプリで開く"
       }
     },
     "DOCUMENT_LIST": {
@@ -285,7 +288,8 @@
         "SHARED_BY": "共有者",
         "DELETED_ON": "削除済み",
         "DELETED_BY": "削除者",
-        "ROLE": "あなたの役割"
+        "ROLE": "あなたの役割",
+        "TAGS": "タグ"
       },
       "TOOLBAR": {
         "CARDVIEW": "カード表示モード",
@@ -431,7 +435,7 @@
       "ERRORS": {
         "DESCRIPTION_TOO_LONG": "説明は 512 文字以内で入力してください",
         "TITLE_TOO_LONG": "タイトルは 256 文字以内で入力してください",
-        "REQUIRED": "名前は必要です",
+        "REQUIRED": "名前は必須です",
         "SPECIAL_CHARACTERS": "名前に次の文字を含めることはできません。 * \" < > \\ / ? : |",
         "ENDING_DOT": "名前の末尾にピリオド (.) を付けることはできません。",
         "ONLY_SPACES": "名前にスペースだけを含めることはできません"
@@ -471,8 +475,8 @@
   },
   "INFO_PANEL": {
     "TABS": {
-    
-    },
+
+        },
     "DETAILS": "詳細"
   },
   "LIBRARY": {
@@ -529,12 +533,12 @@
       "TITLE": "タイトル",
       "MODIFIED_DATE": "変更日",
       "SIZE": "サイズ",
-      "TYPE": "種類",
+      "TYPE": "タイプ",
       "MODIFIER": "変更者",
       "CREATE_DATE": "作成日"
     },
     "FACET_FIELDS": {
-      "FILE_TYPE": "ファイルの種類",
+      "FILE_TYPE": "ファイルのタイプ",
       "CREATOR": "作成者",
       "MODIFIER": "変更者",
       "LOCATION": "場所"
@@ -561,7 +565,7 @@
     },
     "SEARCH_HEADER": {
       "TITLE": "フィルタ",
-      "TYPE": "種類",
+      "TYPE": "タイプ",
       "FILTER_BY": "{{ category }} でフィルタ",
       "CLEAR": "消去",
       "APPLY": "適用",
@@ -571,7 +575,7 @@
           "PLACEHOLDER": "名前を入力してください"
         },
         "TYPE": {
-          "TITLE": "種類を選択してください",
+          "TITLE": "タイプを選択してください",
           "FOLDER": "フォルダ",
           "DOCUMENT": "文書"
         },

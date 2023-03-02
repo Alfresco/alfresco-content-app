@@ -43,7 +43,7 @@
       "APPLICATION-SETTINGS": "Anwendungseinstellungen",
       "REPOSITORY-SETTINGS": "Repository-Einstellungen",
       "INVALID-VALUE-FORMAT": "Wert in ungültigem Format",
-      "REQUIRED-FIELD": "Dieses Feld ist erforderlich.",
+      "REQUIRED-FIELD": "Dieses Feld ist erforderlich",
       "RESET": "Zurücksetzen",
       "APPLY": "Anwenden"
     },
@@ -269,6 +269,9 @@
         "MESSAGE": "Beim Verlassen verlieren Sie Ihren Zugriff.",
         "YES_LABEL": "OK",
         "NO_LABEL": "Abbrechen"
+      },
+      "MOBILE_APP": {
+        "MOBILE_APP_BUTTON_LABEL": "In der App öffnen"
       }
     },
     "DOCUMENT_LIST": {
@@ -285,7 +288,8 @@
         "SHARED_BY": "Freigegeben von",
         "DELETED_ON": "Gelöscht",
         "DELETED_BY": "Gelöscht von",
-        "ROLE": "Meine Rolle"
+        "ROLE": "Meine Rolle",
+        "TAGS": "Tags"
       },
       "TOOLBAR": {
         "CARDVIEW": "Kartenansichtsmodus",
@@ -471,8 +475,8 @@
   },
   "INFO_PANEL": {
     "TABS": {
-    
-    },
+
+        },
     "DETAILS": "Details"
   },
   "LIBRARY": {

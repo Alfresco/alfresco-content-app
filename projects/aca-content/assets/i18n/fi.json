@@ -269,6 +269,9 @@
         "MESSAGE": "Jos poistut kirjastosta, menetät käyttöoikeutesi siihen.",
         "YES_LABEL": "OK",
         "NO_LABEL": "Peruuta"
+      },
+      "MOBILE_APP": {
+        "MOBILE_APP_BUTTON_LABEL": "Avaa sovelluksessa"
       }
     },
     "DOCUMENT_LIST": {
@@ -285,7 +288,8 @@
         "SHARED_BY": "Jakaja:",
         "DELETED_ON": "Poistettu",
         "DELETED_BY": "Poistaja:",
-        "ROLE": "Oma rooli"
+        "ROLE": "Oma rooli",
+        "TAGS": "Tunnisteet"
       },
       "TOOLBAR": {
         "CARDVIEW": "Korttinäkymätila",
@@ -471,8 +475,8 @@
   },
   "INFO_PANEL": {
     "TABS": {
-    
-    },
+
+        },
     "DETAILS": "Tiedot"
   },
   "LIBRARY": {

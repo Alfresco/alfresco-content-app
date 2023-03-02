@@ -78,7 +78,7 @@
       "TITLE": "Предварительный просмотр"
     },
     "DETAILS": {
-      "TITLE": "Подробности"
+      "TITLE": "Сведения"
     },
     "NEW_MENU": {
       "LABEL": "Создать",
@@ -225,7 +225,7 @@
       }
     },
     "ACTIONS": {
-      "VIEW": "Посмотреть",
+      "VIEW": "Просмотреть",
       "EDIT": "Редактировать",
       "DOWNLOAD": "Скачать",
       "COPY": "Копировать",
@@ -269,6 +269,9 @@
         "MESSAGE": "Покинув библиотеку, вы потеряете к ней доступ.",
         "YES_LABEL": "OK",
         "NO_LABEL": "Отмена"
+      },
+      "MOBILE_APP": {
+        "MOBILE_APP_BUTTON_LABEL": "Открыть в приложении"
       }
     },
     "DOCUMENT_LIST": {
@@ -280,12 +283,13 @@
         "MODIFIED_ON": "Изменено",
         "MODIFIED_BY": "Изменено пользователем",
         "VISIBILITY": "Видимость",
-        "TITLE": "Заголовок",
+        "TITLE": "Название",
         "LOCATION": "Местоположение",
         "SHARED_BY": "Доступ открыт пользователем",
         "DELETED_ON": "Удаленные",
         "DELETED_BY": "Удалено пользователем",
-        "ROLE": "Моя роль"
+        "ROLE": "Моя роль",
+        "TAGS": "Метки"
       },
       "TOOLBAR": {
         "CARDVIEW": "Режим просмотра карты",
@@ -394,7 +398,7 @@
       "EFFECTIVITY_GROUP_TITLE": "Эффективность"
     },
     "INFO_DRAWER": {
-      "TITLE": "Подробности",
+      "TITLE": "Сведения",
       "DATA_LOADING": "Загрузка данных",
       "TABS": {
         "PROPERTIES": "Свойства",
@@ -425,7 +429,7 @@
     "FORM": {
       "PLACEHOLDER": {
         "NAME": "Имя",
-        "TITLE": "Заголовок",
+        "TITLE": "Название",
         "DESCRIPTION": "Описание"
       },
       "ERRORS": {
@@ -472,9 +476,9 @@
   "INFO_PANEL": {
     "TABS": {
 
-    },
-    "DETAILS": "Подробности"
   },
+    "DETAILS": "Сведения"
+    },
   "LIBRARY": {
     "DIALOG": {
       "CREATE_TITLE": "Создание библиотеки",
@@ -526,7 +530,7 @@
       "DESCENDING": "По убыванию",
       "RELEVANCE": "Релевантность",
       "FILENAME": "Имя файла",
-      "TITLE": "Заголовок",
+      "TITLE": "Название",
       "MODIFIED_DATE": "Дата изменения",
       "SIZE": "Размер",
       "TYPE": "Тип",

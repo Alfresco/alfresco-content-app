@@ -269,6 +269,9 @@
         "MESSAGE": "Po opuštění ztratíte přístupová práva.",
         "YES_LABEL": "OK",
         "NO_LABEL": "Zrušit"
+      },
+      "MOBILE_APP": {
+        "MOBILE_APP_BUTTON_LABEL": "Open in App"
       }
     },
     "DOCUMENT_LIST": {
@@ -285,7 +288,8 @@
         "SHARED_BY": "Sdílel(a)",
         "DELETED_ON": "Odstraněno",
         "DELETED_BY": "Odstranil(a)",
-        "ROLE": "Moje role"
+        "ROLE": "Moje role",
+        "TAGS": "Tag"
       },
       "TOOLBAR": {
         "CARDVIEW": "Režim zobrazení karet",
@@ -471,8 +475,8 @@
   },
   "INFO_PANEL": {
     "TABS": {
-    
-    },
+
+        },
     "DETAILS": "Podrobnosti"
   },
   "LIBRARY": {
@@ -498,7 +502,7 @@
       "SITE_TITLE_EXISTS": "Název knihovny se již používá"
     },
     "ERRORS": {
-      "GENERIC": "Došlo k problému",
+      "GENERIC": "Vyskytl se problém",
       "EXISTENT_SITE": "Toto ID knihovny není dostupné. Použijte jiné ID.",
       "CONFLICT": "ID knihovny se již používá. Prohlédněte si obsah koše.",
       "ID_TOO_LONG": "Název URL může obsahovat maximálně 72 znaků",
