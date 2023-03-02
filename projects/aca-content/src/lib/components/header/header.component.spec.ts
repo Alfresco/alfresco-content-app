@@ -95,15 +95,16 @@ describe('AppHeaderComponent', () => {
     expect(component.actions).toEqual(actions);
   }));
 
-  it('should call layout toggleMenu on toggle click', () => {
+  it('should minimize sidenav on toggle sidenav click', () => {
     const layout = TestBed.createComponent(SidenavLayoutComponent);
-    const mockData: any = { layout: layout.componentInstance };
+    const mockData: any = { layout: layout.componentInstance, isMenuMinimized: true };
     component.data = mockData;
 
     const toggleMenuSpy = spyOn(component.data.layout, 'toggleMenu');
     component.onToggleSidenav(true);
 
     expect(toggleMenuSpy).toHaveBeenCalled();
+    expect(component.isSidenavExpanded).toBe(false);
   });
 
   describe('Search input', () => {
