@@ -1,0 +1,33 @@
+name: "Publish new tag in a repo"
+description: "Publish new tag in a repo"
+
+inputs:
+  github_token:
+    description: 'Github token'
+    required: true
+    type: string
+  dry-run:
+    description: dry run flag
+    required: true
+    type: boolean
+
+runs:
+  using: "composite"
+  steps:
+    - name: publish tag
+      shell: bash
+      run: |
+        if [[  $BRANCH_NAME == "master" ]]; then
+          VERSION=$(grep -m1 version package.json | awk '{ print $2 }' | sed 's/[", ]//g')
+        fi;
+
+        echo "git tag -a ${VERSION} -m ${VERSION}"
+        if [[ ${{ inputs.dry-run }} == false ]]; then
+          git config --local user.name "alfresco-build"
+          git config --local user.email "build@alfresco.com"
+          git tag -a ${VERSION} -m "${VERSION} [ci skip] "
+          git remote rm origin
+          GITHUB_REPO=https://${{ inputs.github_token }}:x-oauth-basic@github.com/Alfresco/alfresco-content-app.git
+          git remote add origin $GITHUB_REPO
+          git push origin --tags
+        fi;

@@ -15,29 +15,17 @@ runs:
   using: "composite"
   steps:
     - uses: Alfresco/alfresco-build-tools/.github/actions/get-commit-message@v1.35.0
-    - name: setup variables
-      shell: bash
-      run: |
-        echo "BUILD_OPTS=--configuration=production,e2e" >> $GITHUB_ENV
-        echo "TEST_OPTS=" >> $GITHUB_ENV
-        echo "E2E_PROTRACTOR_OPTS=" >> $GITHUB_ENV
-        echo "E2E_TSCONFIG=tsconfig.e2e.json" >> $GITHUB_ENV
-        echo "GIT_HASH=$(git rev-parse HEAD)" >> $GITHUB_ENV
-        echo "SMART_RUNNER_DIRECTORY=.protractor-smartrunner" >> $GITHUB_ENV
-        echo "BASE_HASH=.protractor-smartrunner" >> $GITHUB_ENV
-        echo "HEAD_HASH=HEAD" >> $GITHUB_ENV
+    - uses: ./.github/actions/setup
     - name: setup S3 caching
       shell: bash
       run: |
         S3_DBP_PATH="s3://alfresco-travis-builds/aca"
         if [ "${{ github.event_name }}" == "push" ]; then
-            BRANCH_NAME=${GITHUB_REF##*/}
             S3_DBP_ROOT_FOLDER="$S3_DBP_PATH/$BRANCH_NAME"
         elif [ "${{ github.event_name }}" == "pull_request" ]; then
-            BRANCH_NAME=${GITHUB_BASE_REF}
             S3_DBP_ROOT_FOLDER="$S3_DBP_PATH/$BRANCH_NAME"
             echo "BASE_HASH=origin/$BRANCH_NAME" >> $GITHUB_ENV
-        elif [ "${TRAVIS_EVENT_TYPE}" == "schedule" ]; then
+        elif [ "${{ github.event_name }}" == "schedule" ]; then
             S3_DBP_ROOT_FOLDER="$S3_DBP_PATH/cron"
         else
             S3_DBP_ROOT_FOLDER="$S3_DBP_PATH/api"
