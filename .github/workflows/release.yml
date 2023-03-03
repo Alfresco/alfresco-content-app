@@ -74,7 +74,7 @@ jobs:
       - name: publish
         uses: ./.github/actions/publish-image
         with:
-          domain: $DOCKER_REPOSITORY_DOMAIN
+          domain: quay.io
           username: ${{ secrets.QUAY_USERNAME }}
           password: ${{ secrets.QUAY_PASSWORD }}
           dry-run: ${{ inputs.dry-run-release }}
@@ -97,7 +97,7 @@ jobs:
       - name: publish
         uses: ./.github/actions/publish-image
         with:
-          domain: $DOCKER_HUB_REPOSITORY_DOMAIN
+          domain: docker.io
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           dry-run: ${{ inputs.dry-run-release }}
