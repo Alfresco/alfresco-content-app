@@ -2,6 +2,10 @@ name: "Publish ACA libs to NPM and GH registry"
 description: "Publish ACA libs to NPM and GH registry"
 
 inputs:
+  branch_name:
+    description: 'Name of the branch the workflow runs on'
+    required: true
+    type: string
   github_token:
     description: 'Github token'
     required: true
@@ -29,13 +33,13 @@ runs:
         PROJECTS_DIR=./projects
         VERSION_IN_PACKAGE_JSON=$(node -p "require('./package.json').version;")
 
-        if [[ $TRAVIS_BRANCH =~ ^master.*?$ ]] ; then
+        if [[ ${{ inputs.branch_name }} =~ ^master.*?$ ]] ; then
           NEW_LIBRARY_VERSION=VERSION_IN_PACKAGE_JSON
         else
           NEW_LIBRARY_VERSION="${VERSION_IN_PACKAGE_JSON}-${{ github.run_id }}"
         fi
 
-        echo -e "Branch is '$BRANCH_NAME', therefore publish with '$TAG_NPM' tag\n"
+        echo -e "Branch is '${{ inputs.branch_name }}, therefore publish with '$TAG_NPM' tag\n"
 
         export PROJECTS=(
           'aca-shared'
