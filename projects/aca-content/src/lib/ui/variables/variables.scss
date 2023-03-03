@@ -31,12 +31,6 @@ $datetimepicker-selected-date-background: #2254b2;
 $datetimepicker-cell-background-color: #fff;
 $datetimepicker-cell-focus-border-color: #1f74db;
 $datetimepicker-cell-focus-background-color: rgba(33, 33, 33, 0.12);
-$sidenav-background-color: #f8f8f8;
-$selected-text-color: #212121;
-$selected-background-color: rgba(31, 116, 219, 0.24);
-$action-button-text-color: rgba(33, 35, 40, 0.7);
-$page-layout-header-background-color: #fff;
-$aca-toolbar-button-background-color: rgba(33, 33, 33, 0.05);
 
 // CSS Variables
 $defaults: (
@@ -74,14 +68,6 @@ $defaults: (
   --theme-datetimepicker-cell-background: $datetimepicker-cell-background-color,
   --theme-datetimepicker-cell-focus-border: $datetimepicker-cell-focus-border-color,
   --theme-datetimepicker-cell-focus-background: $datetimepicker-cell-focus-background-color,
-  --theme-sidenav-background-color: $sidenav-background-color,
-  --theme-selected-text-color: $selected-text-color,
-  --theme-selected-background-color: $selected-background-color,
-  --theme-hover-background-color: $grey-text-background,
-  --theme-action-button-text-color: $action-button-text-color,
-  --theme-header-border-color: $grey-background,
-  --theme-page-layout-header-background-color: $page-layout-header-background-color,
-  --theme-app-toolbar-button-background-color: $aca-toolbar-button-background-color,
   --theme-reset-password-background: #E5E5E5,
   --theme-reset-password-title-color: #212121,
   --theme-reset-password-label-color: rgba(33, 35, 40, 0.7),

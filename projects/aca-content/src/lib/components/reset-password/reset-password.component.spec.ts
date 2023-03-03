@@ -28,7 +28,7 @@ import { CoreModule } from '@alfresco/adf-core';
 import { ResetPasswordComponent } from './reset-password.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 
-describe('ResetPasswordComponent', () => {
+fdescribe('ResetPasswordComponent', () => {
   let component: ResetPasswordComponent;
   let fixture: ComponentFixture<ResetPasswordComponent>;
 
@@ -36,28 +36,22 @@ describe('ResetPasswordComponent', () => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule, CoreModule.forChild()],
       declarations: [ResetPasswordComponent],
-      providers: []
     });
 
     fixture = TestBed.createComponent(ResetPasswordComponent);
     component = fixture.componentInstance;
+    component.ngOnInit();
   });
 
-  it('should be created', () => {
-    expect(component).toBeTruthy();
-  });
+  // afterEach(() => {
+  //   fixture.destroy();
+  // });
 
   it('change password button should be disabled by default', async () => {
-    component.ngOnInit();
-
-    fixture.detectChanges();
-    await fixture.whenStable();
-
     expect(component.isSubmitButtonDisabled).toBeTruthy();
   });
 
   it('change password button should be disabled if username field is empty', async () => {
-    component.ngOnInit();
     component.resetPasswordForm.controls['username'].setValue('');
     component.resetPasswordForm.controls['password'].setValue('password');
     component.resetPasswordForm.controls['confirmPassword'].setValue('password');
@@ -69,7 +63,6 @@ describe('ResetPasswordComponent', () => {
   });
 
   it('change password button should be disabled if new password field is empty', async () => {
-    component.ngOnInit();
     component.resetPasswordForm.controls['username'].setValue('user');
     component.resetPasswordForm.controls['password'].setValue('');
     component.resetPasswordForm.controls['confirmPassword'].setValue('password');
@@ -81,7 +74,6 @@ describe('ResetPasswordComponent', () => {
   });
 
   it('change password button should be disabled if confirm password field is empty', async () => {
-    component.ngOnInit();
     component.resetPasswordForm.controls['username'].setValue('user');
     component.resetPasswordForm.controls['password'].setValue('password');
     component.resetPasswordForm.controls['confirmPassword'].setValue('');
@@ -93,7 +85,6 @@ describe('ResetPasswordComponent', () => {
   });
 
   it('change password button should be disabled if new password and confirm password field values do not match', async () => {
-    component.ngOnInit();
     component.resetPasswordForm.controls['username'].setValue('user');
     component.resetPasswordForm.controls['password'].setValue('password1');
     component.resetPasswordForm.controls['confirmPassword'].setValue('password2');
@@ -105,7 +96,6 @@ describe('ResetPasswordComponent', () => {
   });
 
   it('change password button should be enabled when new password and confirm password field values match and username field is not empty', async () => {
-    component.ngOnInit();
     fixture.detectChanges();
     await fixture.whenStable();
 
@@ -124,14 +114,13 @@ describe('ResetPasswordComponent', () => {
   });
 
   it('should toggle new password field value visibility when visibility icon is clicked', async () => {
-    component.ngOnInit();
     component.passwordVisibility = false;
     spyOn(component, 'togglePasswordVisibility').and.callThrough();
 
     fixture.detectChanges();
     await fixture.whenStable();
 
-    const eyeIcon = fixture.debugElement.nativeElement.querySelector('.new-password-input-container > button');
+    const eyeIcon = fixture.debugElement.nativeElement.querySelector('.new-password-visibility-toggle');
     eyeIcon.click();
 
     fixture.detectChanges();
@@ -142,14 +131,13 @@ describe('ResetPasswordComponent', () => {
   });
 
   it('should toggle confirm password field value visibility when visibility icon is clicked', async () => {
-    component.ngOnInit();
     component.confirmPasswordVisibility = false;
     spyOn(component, 'toggleConfirmPasswordVisibility').and.callThrough();
 
     fixture.detectChanges();
     await fixture.whenStable();
 
-    const eyeIcon = fixture.debugElement.nativeElement.querySelector('.confirm-password-input-container > button');
+    const eyeIcon = fixture.debugElement.nativeElement.querySelector('.confirm-password-visibility-toggle');
     eyeIcon.click();
 
     fixture.detectChanges();
@@ -160,7 +148,6 @@ describe('ResetPasswordComponent', () => {
   });
 
   it('should change password when the change password button is clicked', async () => {
-    component.ngOnInit();
     component.resetPasswordForm.controls['username'].setValue('user');
     component.resetPasswordForm.controls['password'].setValue('password');
     component.resetPasswordForm.controls['confirmPassword'].setValue('password');

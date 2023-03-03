@@ -66,7 +66,6 @@ export class ResetPasswordComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe((data) => {
       key = data.key;
       id = data.id;
-      // userName = data.userName;
       userName = this.resetPasswordForm.controls.username.value;
     });
 
