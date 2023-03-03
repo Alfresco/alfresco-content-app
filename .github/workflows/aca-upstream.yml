@@ -1,6 +1,8 @@
 name: "ACA upstream"
 
 on:
+  schedule:
+    - cron: "0 12 * * *"
   workflow_call:
   workflow_dispatch:
     inputs:
@@ -36,4 +38,4 @@ jobs:
           shell: bash
           run: |
             npm install github-api
-            ./scripts/travis/update/update-project.sh -p $TRAVIS_BUILD_NUMBER -t $GH_TOKEN -v alpha -c $TRAVIS_COMMIT -r ${{ inputs.repo_to_update }}
+            ./scripts/travis/update/update-project.sh -p $TRAVIS_BUILD_NUMBER -t $GH_TOKEN -v alpha -c $TRAVIS_COMMIT -r ${{ inputs.repo_to_update || 'alfresco-applications' }}
