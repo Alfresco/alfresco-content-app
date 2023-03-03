@@ -152,4 +152,5 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           npm_registry_address: ${{ vars.NPM_REGISTRY_ADDRESS }}
           npm_registry_token: ${{ secrets.NPM_REGISTRY_TOKEN }}
+          npm_tag: ${{ env.TAG_NPM }}
           dry-run: ${{ inputs.dry-run-release }}

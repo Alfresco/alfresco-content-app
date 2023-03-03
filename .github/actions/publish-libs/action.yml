@@ -18,6 +18,10 @@ inputs:
     description: 'NPM registry token'
     required: true
     type: string
+  npm_tag:
+    description: 'NPM tag'
+    required: true
+    type: string
   dry-run:
     description: dry run flag
     required: true
@@ -39,7 +43,7 @@ runs:
           NEW_LIBRARY_VERSION="${VERSION_IN_PACKAGE_JSON}-${{ github.run_id }}"
         fi
 
-        echo -e "Branch is '${{ inputs.branch_name }}, therefore publish with '$TAG_NPM' tag\n"
+        echo -e "Branch is '${{ inputs.branch_name }}, therefore publish with '${{ inputs.npm_tag }}' tag\n"
 
         export PROJECTS=(
           'aca-shared'
@@ -75,12 +79,12 @@ runs:
 
           if [[ ${{ inputs.dry-run }} == false ]]; then
             echo -e "Publish with dry mode for project to GH registry: $PROJECT\n"
-            echo -e "npm publish --dry-run --tag $TAG_NPM \n"
-            npm publish --dry-run --tag $TAG_NPM
+            echo -e "npm publish --dry-run --tag ${{ inputs.npm_tag }} \n"
+            npm publish --dry-run --tag ${{ inputs.npm_tag }}
           else
             echo -e "======== Publishing project to GH registry: $PROJECT ========\n"
-            echo -e "npm publish --tag $TAG_NPM\n"
-            npm publish --tag $TAG_NPM
+            echo -e "npm publish --tag ${{ inputs.npm_tag }}\n"
+            npm publish --tag ${{ inputs.npm_tag }}
           fi
         done
       env:
@@ -100,12 +104,12 @@ runs:
 
           if [[ ${{ inputs.dry-run }} == false ]]; then
             echo -e "Publish with dry mode for project to NPM registry: $PROJECT\n"
-            echo -e "npm publish --dry-run --tag $TAG_NPM \n"
-            npm publish --dry-run --tag $TAG_NPM
+            echo -e "npm publish --dry-run --tag ${{ inputs.npm_tag }} \n"
+            npm publish --dry-run --tag ${{ inputs.npm_tag }}
           else
             echo -e "======== Publishing project to NPM registry: $PROJECT ========\n"
-            echo -e "npm publish --tag $TAG_NPM\n"
-            npm publish --tag $TAG_NPM
+            echo -e "npm publish --tag ${{ inputs.npm_tag }}\n"
+            npm publish --tag ${{ inputs.npm_tag }}
           fi
         done
       env:
