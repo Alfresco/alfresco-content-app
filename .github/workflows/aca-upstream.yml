@@ -1,6 +1,8 @@
 name: "ACA upstream"
 
 on:
+  schedule:
+    - cron: "0 12 * * *"
   workflow_call:
   workflow_dispatch:
     inputs:
@@ -32,8 +34,13 @@ jobs:
           with:
             node-version-file: '.nvmrc'
             cache: 'npm'
+        - uses: Alfresco/alfresco-build-tools/.github/actions/configure-git-author@v1.35.0
+          with:
+            username: ${{ vars.BOT_GITHUB_USERNAME }}
+            email: ${{ vars.BOT_GITHUB_EMAIL }}
+            global: true
         - name: Trigger upstream
           shell: bash
           run: |
             npm install github-api
-            ./scripts/travis/update/update-project.sh -p $TRAVIS_BUILD_NUMBER -t $GH_TOKEN -v alpha -c $TRAVIS_COMMIT -r ${{ inputs.repo_to_update }}
+            ./scripts/travis/update/update-project.sh -p $TRAVIS_BUILD_NUMBER -t $GH_TOKEN -v alpha -c $TRAVIS_COMMIT -r ${{ inputs.repo_to_update || 'alfresco-applications' }}
