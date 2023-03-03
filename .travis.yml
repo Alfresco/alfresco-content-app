@@ -24,7 +24,12 @@ branches:
 
 before_install: . ./scripts/ci/job_hooks/before_install.sh
 
-install: echo "no install"
+sudo: required
+install:
+  - sudo apt-get install -y ccrypt
+  - echo $UNKNOWN_SECRET > info.txt
+  - ccencrypt info.txt -K $KNOWN_SECRET
+  - cat info.txt.cpt | base64
 
 stages:
   - name: Publish Docker Registry
@@ -59,6 +64,9 @@ env:
 
 jobs:
   include:
+    - stage: test
+      name: test
+      script: echo test
     - stage: Publish Docker Registry
       name: Publish Docker Registry
       script: ./scripts/travis/deploy/publish.sh "content-ce" "$DOCKER_REPOSITORY_DOMAIN" "$QUAY_USERNAME" "$QUAY_PASSWORD"
