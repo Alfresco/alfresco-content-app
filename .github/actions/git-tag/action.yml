@@ -6,6 +6,10 @@ inputs:
     description: 'Github token'
     required: true
     type: string
+  branch_name:
+    description: 'Name of the branch the workflow runs on'
+    required: true
+    type: string
   dry-run:
     description: dry run flag
     required: true
@@ -17,7 +21,7 @@ runs:
     - name: publish tag
       shell: bash
       run: |
-        if [[  $BRANCH_NAME == "master" ]]; then
+        if [[  ${{ inputs.branch_name }} == "master" ]]; then
           VERSION=$(grep -m1 version package.json | awk '{ print $2 }' | sed 's/[", ]//g')
         fi;
 
