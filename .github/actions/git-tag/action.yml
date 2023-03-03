@@ -23,8 +23,6 @@ runs:
 
         echo "git tag -a ${VERSION} -m ${VERSION}"
         if [[ ${{ inputs.dry-run }} == false ]]; then
-          git config --local user.name "alfresco-build"
-          git config --local user.email "build@alfresco.com"
           git tag -a ${VERSION} -m "${VERSION} [ci skip] "
           git remote rm origin
           GITHUB_REPO=https://${{ inputs.github_token }}:x-oauth-basic@github.com/Alfresco/alfresco-content-app.git

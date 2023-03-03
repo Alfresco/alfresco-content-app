@@ -117,6 +117,11 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'npm'
       - uses: ./.github/actions/setup
+      - uses: Alfresco/alfresco-build-tools/.github/actions/configure-git-author@v1.35.0
+        with:
+          username: ${{ vars.BOT_GITHUB_USERNAME }}
+          email: ${{ vars.BOT_GITHUB_EMAIL }}
+          global: true
       - name: publish
         uses: ./.github/actions/git-tag
         with:
