@@ -1,5 +1,5 @@
-name: "Publish Image to domain"
-description: "Publish Image to quay.io or dockerhub or another domain - only publish the version on master - elsewhere version and branch"
+name: "Publish Docker Images"
+description: "Publish Docker image to quay.io or dockerhub or another domain - only publish the version on master - elsewhere version and branch"
 
 inputs:
   domain:

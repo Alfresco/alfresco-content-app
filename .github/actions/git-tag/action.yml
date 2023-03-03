@@ -1,5 +1,5 @@
-name: "Publish new tag in a repo"
-description: "Publish new tag in a repo"
+name: "Publish GitHub Tag"
+description: "Publish GitHub Tag"
 
 inputs:
   github_token:

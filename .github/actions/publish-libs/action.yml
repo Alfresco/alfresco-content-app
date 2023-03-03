@@ -1,5 +1,5 @@
-name: "Publish ACA libs to npm and GH registry"
-description: "Publish ACA libs to npm and GH registry"
+name: "Publish ACA libs to NPM and GH registry"
+description: "Publish ACA libs to NPM and GH registry"
 
 inputs:
   github_token:
