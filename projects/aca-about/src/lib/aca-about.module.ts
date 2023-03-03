@@ -25,16 +25,16 @@
 import { ModuleWithProviders, NgModule, Provider } from '@angular/core';
 import { AboutComponent } from './about.component';
 import { CommonModule } from '@angular/common';
-import { CoreModule } from '@alfresco/adf-core';
 import { SharedModule, PageLayoutModule } from '@alfresco/aca-shared';
 
 import { ExtensionService, provideExtensionConfig } from '@alfresco/adf-extensions';
 import { DEV_MODE_TOKEN } from './dev-mode.tokens';
 import { PACKAGE_JSON } from './package-json.token';
-import { RouterModule } from '@angular/router';
+import { AboutModule } from '@alfresco/adf-core';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, CoreModule.forChild(), SharedModule, PageLayoutModule],
+  imports: [CommonModule, TranslateModule, SharedModule, PageLayoutModule, AboutModule],
   declarations: [AboutComponent],
   providers: [provideExtensionConfig(['about.plugin.json'])]
 })
