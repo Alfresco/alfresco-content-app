@@ -55,10 +55,11 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'npm'
       - uses: ./.github/actions/setup
+
   publish-docker-registry:
     needs: [setup]
     if: github.event.pull_request.merged || ${{ inputs.dry-run-release }}
-    name: "Publish to  registry"
+    name: "Publish to registry"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -78,6 +79,7 @@ jobs:
           username: ${{ secrets.QUAY_USERNAME }}
           password: ${{ secrets.QUAY_PASSWORD }}
           dry-run: ${{ inputs.dry-run-release }}
+
   publish-to-dockerhub:
     needs: [setup]
     if: github.event.pull_request.merged || ${{ inputs.dry-run-release }}
@@ -101,9 +103,10 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           dry-run: ${{ inputs.dry-run-release }}
+
   publish-git-tag:
     needs: [setup]
-    if: (github.event.pull_request.merged && $BRANCH_NAME == "master")|| ${{ inputs.dry-run-release }}
+    if: (github.event.pull_request.merged && $BRANCH_NAME == "master") || ${{ inputs.dry-run-release }}
     name: "Publish git tag"
     runs-on: ubuntu-latest
     steps:
@@ -128,9 +131,10 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch_name: ${{ env.BRANCH_NAME }}
           dry-run: ${{ inputs.dry-run-release }}
+
   publish-libs:
     needs: [setup]
-    if: github.event.pull_request.merged || ${{ inputs.dry-run-release }}
+    if: (github.event.pull_request.merged && $BRANCH_NAME == "master") || ${{ inputs.dry-run-release }}
     name: "Publish libs to npm and gh registry"
     runs-on: ubuntu-latest
     steps:
