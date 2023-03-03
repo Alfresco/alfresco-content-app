@@ -42,7 +42,6 @@ PROJECTS=(
     'aca-shared'
     'aca-folder-rules'
     'adf-office-services-ext'
-    'aca-about'
     'aca-preview'
     'aca-viewer'
     'aca-content'

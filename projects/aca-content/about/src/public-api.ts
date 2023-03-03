@@ -23,6 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './lib/about.component';
-export * from './lib/aca-about.module';
-export * from './lib/package-json.token';
+export * from './about.component';
+export * from './aca-about.module';
+export * from './dev-mode.tokens';
+export * from './package-json.token';

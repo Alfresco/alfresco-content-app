@@ -80,7 +80,6 @@ update() {
 
     update_dependency "@alfresco/aca-shared"
     update_dependency "@alfresco/aca-content"
-    update_dependency "@alfresco/aca-about"
     update_dependency "@alfresco/aca-preview"
     update_dependency "@alfresco/aca-viewer"
     update_dependency "@alfresco/aca-folder-rules"

@@ -25,7 +25,7 @@
 
 import { NgModule } from '@angular/core';
 import { AosExtensionModule } from '@alfresco/adf-office-services-ext';
-import { AcaAboutModule } from '@alfresco/aca-about';
+import { AcaAboutModule } from '@alfresco/aca-content/about';
 import { AcaFolderRulesModule } from '@alfresco/aca-folder-rules';
 import { environment } from '../environments/environment';
 import packageJson from 'package.json';
