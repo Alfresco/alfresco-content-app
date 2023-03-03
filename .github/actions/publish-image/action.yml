@@ -29,7 +29,7 @@ runs:
             TAG_VERSION=$(grep -m1 version package.json | awk '{ print $2 }' | sed 's/[", ]//g')
         else
             TAG_VERSION=$BRANCH_NAME-${{ github.run_id }}
-        fi;
+        fi
         echo "TAG_VERSION=$TAG_VERSION" >> $GITHUB_ENV
     - name: Publish image
       shell: bash

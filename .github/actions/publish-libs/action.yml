@@ -25,11 +25,10 @@ runs:
     - name: update libs version
       shell: bash
       run: |
-        DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-        ROOT_DIR=${DIR}/../../..
-        DIST_DIR=${ROOT_DIR}/dist/@alfresco
-        PROJECTS_DIR=${ROOT_DIR}/projects
-        VERSION_IN_PACKAGE_JSON=`node -p "require('$ROOT_DIR/package.json')".version;`;
+        ROOT_DIR=./../../..
+        export DIST_DIR=./dist/@alfresco
+        PROJECTS_DIR=./projects
+        VERSION_IN_PACKAGE_JSON=$(node -p "require('$ROOT_DIR/package.json').version;")
 
         if [[ $TRAVIS_BRANCH =~ ^master.*?$ ]] ; then
           NEW_LIBRARY_VERSION=VERSION_IN_PACKAGE_JSON
@@ -40,23 +39,21 @@ runs:
         echo -e "Branch is '$BRANCH_NAME', therefore publish with '$TAG_NPM' tag\n"
 
         export PROJECTS=(
-            'aca-shared'
-            'aca-folder-rules'
-            'adf-office-services-ext'
-            'aca-about'
-            'aca-preview'
-            'aca-viewer'
-            'aca-content'
+          'aca-shared'
+          'aca-folder-rules'
+          'adf-office-services-ext'
+          'aca-about'
+          'aca-preview'
+          'aca-viewer'
+          'aca-content'
         );
 
-        for PROJECT in "${PROJECTS[@]}"
-        do
-            echo "Update ${PROJECT} version to ${NEW_LIBRARY_VERSION}"
-
-            cd $PROJECTS_DIR/${PROJECT}
-            if [[ ${{ inputs.dry-run }} == false ]]; then
-              npm version ${NEW_LIBRARY_VERSION};
-            fi;
+        for PROJECT in "${PROJECTS[@]}"; do
+          echo "Update ${PROJECT} version to ${NEW_LIBRARY_VERSION}"
+          cd $PROJECTS_DIR/${PROJECT}
+          if [[ ${{ inputs.dry-run }} == false ]]; then
+            npm version ${NEW_LIBRARY_VERSION}
+          fi
         done
 
         echo -e "\n\nBuild projects"

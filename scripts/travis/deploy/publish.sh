@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash -e
 
 DOMAIN="$1"
 USERNAME="$2"
