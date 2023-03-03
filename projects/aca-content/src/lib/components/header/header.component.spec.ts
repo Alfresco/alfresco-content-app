@@ -31,7 +31,7 @@ import { ContentActionRef } from '@alfresco/adf-extensions';
 import { Store } from '@ngrx/store';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { AppExtensionService, SharedToolbarModule } from '@alfresco/aca-shared';
-import { CoreModule } from '@alfresco/adf-core';
+import { CoreModule, SidenavLayoutComponent } from '@alfresco/adf-core';
 import { AppSearchInputModule } from '../search/search-input.module';
 import { By } from '@angular/platform-browser';
 
@@ -94,6 +94,18 @@ describe('AppHeaderComponent', () => {
     tick();
     expect(component.actions).toEqual(actions);
   }));
+
+  it('should minimize sidenav on toggle sidenav click', () => {
+    const layout = TestBed.createComponent(SidenavLayoutComponent);
+    const mockData: any = { layout: layout.componentInstance, isMenuMinimized: true };
+    component.data = mockData;
+
+    const toggleMenuSpy = spyOn(component.data.layout, 'toggleMenu');
+    component.onToggleSidenav(true);
+
+    expect(toggleMenuSpy).toHaveBeenCalled();
+    expect(component.isSidenavExpanded).toBe(false);
+  });
 
   describe('Search input', () => {
     beforeEach(() => {
