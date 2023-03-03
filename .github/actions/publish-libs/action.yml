@@ -25,10 +25,9 @@ runs:
     - name: update libs version
       shell: bash
       run: |
-        ROOT_DIR=./../../..
         export DIST_DIR=./dist/@alfresco
         PROJECTS_DIR=./projects
-        VERSION_IN_PACKAGE_JSON=$(node -p "require('$ROOT_DIR/package.json').version;")
+        VERSION_IN_PACKAGE_JSON=$(node -p "require('./package.json').version;")
 
         if [[ $TRAVIS_BRANCH =~ ^master.*?$ ]] ; then
           NEW_LIBRARY_VERSION=VERSION_IN_PACKAGE_JSON
@@ -50,15 +49,12 @@ runs:
 
         for PROJECT in "${PROJECTS[@]}"; do
           echo "Update ${PROJECT} version to ${NEW_LIBRARY_VERSION}"
-          cd $PROJECTS_DIR/${PROJECT}
           if [[ ${{ inputs.dry-run }} == false ]]; then
-            npm version ${NEW_LIBRARY_VERSION}
+            (cd cd $PROJECTS_DIR/${PROJECT} && npm version --allow-same-version --no-git-tag-version --force ${NEW_LIBRARY_VERSION})
           fi
         done
 
         echo -e "\n\nBuild projects"
-        cd ${ROOT_DIR}
-
         npm run build-libs
     - uses: actions/setup-node@v3
       name: setup GH registry
