@@ -33,25 +33,4 @@ runs:
         echo "TAG_VERSION=$TAG_VERSION" >> $GITHUB_ENV
     - name: Publish image
       shell: bash
-      run: |
-        DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-        cd $DIR/../../../
-
-        npm ci && npm run build.release
-
-        echo "Running the docker with tag" $TAG_VERSION
-        DOCKER_PROJECT_ARGS="PROJECT_NAME=content-ce"
-        DOCKER_REPOSITORY="${{ inputs.domain }}/${{ github.repository }}"
-
-        # Publish Image to quay.io or dockerhub or another domain - only publish the version on master - elsewhere version and branch
-        if [[ $BRANCH_NAME == "master" ]]; then
-          echo "npx @alfresco/adf-cli docker-publish --loginCheck --loginUsername '${{ inputs.username }}' --loginPassword '${{ inputs.password }}' --loginRepo '${{ inputs.domain }}' --dockerRepo '$DOCKER_REPOSITORY' --buildArgs  $DOCKER_PROJECT_ARGS  --dockerTags '$TAG_VERSION' "
-          if [[ ${{ inputs.dry-run }} == false ]]; then
-            npx       @alfresco/adf-cli docker-publish --loginCheck --loginUsername "${{ inputs.username }}" --loginPassword "${{ inputs.password }}" --loginRepo "${{ inputs.domain }}" --dockerRepo "$DOCKER_REPOSITORY" --buildArgs "$DOCKER_PROJECT_ARGS" --dockerTags "$TAG_VERSION" --pathProject "$(pwd)"
-          fi;
-        else
-          echo "npx @alfresco/adf-cli docker-publish --loginCheck --loginUsername '${{ inputs.username }}' --loginPassword '${{ inputs.password }}' --loginRepo '${{ inputs.domain }}' --dockerRepo '$DOCKER_REPOSITORY' --buildArgs  $DOCKER_PROJECT_ARGS  --dockerTags '$TAG_VERSION,$BRANCH_NAME' "
-          if [[ ${{ inputs.dry-run }} == false ]]; then
-            npx       @alfresco/adf-cli docker-publish --loginCheck --loginUsername "${{ inputs.username }}" --loginPassword "${{ inputs.password }}" --loginRepo "${{ inputs.domain }}" --dockerRepo "$DOCKER_REPOSITORY" --buildArgs "$DOCKER_PROJECT_ARGS" --dockerTags "$TAG_VERSION,$BRANCH_NAME" --pathProject "$(pwd)"
-          fi;
-        fi;
+      run: ./scripts/travis/deploy/publish.sh ${{ inputs.domain }} ${{ inputs.username }} ${{ inputs.password }} $TAG_VERSION $BRANCH_NAME ${{ inputs.dry-run }}
