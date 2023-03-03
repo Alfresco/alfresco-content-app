@@ -126,7 +126,7 @@ jobs:
         uses: ./.github/actions/git-tag
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch_name: $BRANCH_NAME
+          branch_name: ${{ env.BRANCH_NAME }}
           dry-run: ${{ inputs.dry-run-release }}
   publish-libs:
     needs: [setup]
