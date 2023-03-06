@@ -14,14 +14,12 @@ DOCKER_PROJECT_ARGS="PROJECT_NAME=content-ce"
 DOCKER_REPOSITORY="$DOMAIN/$REPO_SLUG"
 
 # Publish Image to quay.io or dockerhub or another domain - only publish the version on master - elsewhere version and branch
-if [[ $TRAVIS_BRANCH == "master" ]]; then
-    echo "npx @alfresco/adf-cli docker-publish --loginCheck --loginUsername '$USERNAME' --loginPassword '$PASSWORD' --loginRepo '$DOMAIN' --dockerRepo '$DOCKER_REPOSITORY' --buildArgs  $DOCKER_PROJECT_ARGS  --dockerTags '$TAG_VERSION' "
-     if [[ $DRY_RUN == false ]]; then
-        npx       @alfresco/adf-cli docker-publish --loginCheck --loginUsername "$USERNAME" --loginPassword "$PASSWORD" --loginRepo "$DOMAIN" --dockerRepo "$DOCKER_REPOSITORY" --buildArgs "$DOCKER_PROJECT_ARGS" --dockerTags "$TAG_VERSION" --pathProject "$(pwd)"
-      fi;
+if [[ "$BRANCH_NAME" == "master" ]]; then
+  if [[ "$DRY_RUN" == "false" ]]; then
+    npx @alfresco/adf-cli docker-publish --loginCheck --loginUsername "$USERNAME" --loginPassword "$PASSWORD" --loginRepo "$DOMAIN" --dockerRepo "$DOCKER_REPOSITORY" --buildArgs "$DOCKER_PROJECT_ARGS" --dockerTags "$TAG_VERSION" --pathProject "$(pwd)"
+  fi;
 else
-    echo "npx @alfresco/adf-cli docker-publish --loginCheck --loginUsername '$USERNAME' --loginPassword '$PASSWORD' --loginRepo '$DOMAIN' --dockerRepo '$DOCKER_REPOSITORY' --buildArgs  $DOCKER_PROJECT_ARGS  --dockerTags '$TAG_VERSION,$BRANCH_NAME' "
-     if [[ $DRY_RUN == false ]]; then
-      npx       @alfresco/adf-cli docker-publish --loginCheck --loginUsername "$USERNAME" --loginPassword "$PASSWORD" --loginRepo "$DOMAIN" --dockerRepo "$DOCKER_REPOSITORY" --buildArgs "$DOCKER_PROJECT_ARGS" --dockerTags "$TAG_VERSION,$BRANCH_NAME" --pathProject "$(pwd)"
-    fi;
+  if [[ "$DRY_RUN "== "false" ]]; then
+    npx @alfresco/adf-cli docker-publish --loginCheck --loginUsername "$USERNAME" --loginPassword "$PASSWORD" --loginRepo "$DOMAIN" --dockerRepo "$DOCKER_REPOSITORY" --buildArgs "$DOCKER_PROJECT_ARGS" --dockerTags "$TAG_VERSION,$BRANCH_NAME" --pathProject "$(pwd)"
+  fi;
 fi;

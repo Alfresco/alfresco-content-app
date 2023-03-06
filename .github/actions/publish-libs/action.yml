@@ -2,16 +2,24 @@ name: "Publish ACA libs to NPM and GH registry"
 description: "Publish ACA libs to NPM and GH registry"
 
 inputs:
+  branch_name:
+    description: 'Name of the branch the workflow runs on'
+    required: true
+    type: string
   github_token:
     description: 'Github token'
     required: true
     type: string
-  npm-registry-address:
+  npm_registry_address:
     description: 'NPM registry address'
     required: true
     type: string
-  npm-registry-token:
+  npm_registry_token:
     description: 'NPM registry token'
+    required: true
+    type: string
+  npm_tag:
+    description: 'NPM tag'
     required: true
     type: string
   dry-run:
@@ -22,21 +30,22 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - run: npm ci
+      shell: bash
     - name: update libs version
       shell: bash
       run: |
-        ROOT_DIR=./../../..
         export DIST_DIR=./dist/@alfresco
         PROJECTS_DIR=./projects
-        VERSION_IN_PACKAGE_JSON=$(node -p "require('$ROOT_DIR/package.json').version;")
+        VERSION_IN_PACKAGE_JSON=$(node -p "require('./package.json').version;")
 
-        if [[ $TRAVIS_BRANCH =~ ^master.*?$ ]] ; then
+        if [[ ${{ inputs.branch_name }} =~ ^master.*?$ ]] ; then
           NEW_LIBRARY_VERSION=VERSION_IN_PACKAGE_JSON
         else
           NEW_LIBRARY_VERSION="${VERSION_IN_PACKAGE_JSON}-${{ github.run_id }}"
         fi
 
-        echo -e "Branch is '$BRANCH_NAME', therefore publish with '$TAG_NPM' tag\n"
+        echo -e "Branch is '${{ inputs.branch_name }}, therefore publish with '${{ inputs.npm_tag }}' tag\n"
 
         export PROJECTS=(
           'aca-shared'
@@ -50,15 +59,12 @@ runs:
 
         for PROJECT in "${PROJECTS[@]}"; do
           echo "Update ${PROJECT} version to ${NEW_LIBRARY_VERSION}"
-          cd $PROJECTS_DIR/${PROJECT}
           if [[ ${{ inputs.dry-run }} == false ]]; then
-            npm version ${NEW_LIBRARY_VERSION}
+            (cd cd $PROJECTS_DIR/${PROJECT} && npm version --allow-same-version --no-git-tag-version --force ${NEW_LIBRARY_VERSION})
           fi
         done
 
         echo -e "\n\nBuild projects"
-        cd ${ROOT_DIR}
-
         npm run build-libs
     - uses: actions/setup-node@v3
       name: setup GH registry
@@ -75,12 +81,12 @@ runs:
 
           if [[ ${{ inputs.dry-run }} == false ]]; then
             echo -e "Publish with dry mode for project to GH registry: $PROJECT\n"
-            echo -e "npm publish --dry-run --tag $TAG_NPM \n"
-            npm publish --dry-run --tag $TAG_NPM
+            echo -e "npm publish --dry-run --tag ${{ inputs.npm_tag }} \n"
+            npm publish --dry-run --tag ${{ inputs.npm_tag }}
           else
             echo -e "======== Publishing project to GH registry: $PROJECT ========\n"
-            echo -e "npm publish --tag $TAG_NPM\n"
-            npm publish --tag $TAG_NPM
+            echo -e "npm publish --tag ${{ inputs.npm_tag }}\n"
+            npm publish --tag ${{ inputs.npm_tag }}
           fi
         done
       env:
@@ -89,7 +95,7 @@ runs:
       name: setup NPM registry
       with:
         node-version-file: '.nvmrc'
-        registry-url: ${{ inputs.npm-registry-address }}
+        registry-url: ${{ inputs.npm_registry_address }}
         scope: '@alfresco'
     - name: publish tag to NPM registry
       shell: bash
@@ -100,13 +106,13 @@ runs:
 
           if [[ ${{ inputs.dry-run }} == false ]]; then
             echo -e "Publish with dry mode for project to NPM registry: $PROJECT\n"
-            echo -e "npm publish --dry-run --tag $TAG_NPM \n"
-            npm publish --dry-run --tag $TAG_NPM
+            echo -e "npm publish --dry-run --tag ${{ inputs.npm_tag }} \n"
+            npm publish --dry-run --tag ${{ inputs.npm_tag }}
           else
             echo -e "======== Publishing project to NPM registry: $PROJECT ========\n"
-            echo -e "npm publish --tag $TAG_NPM\n"
-            npm publish --tag $TAG_NPM
+            echo -e "npm publish --tag ${{ inputs.npm_tag }}\n"
+            npm publish --tag ${{ inputs.npm_tag }}
           fi
         done
       env:
-          NODE_AUTH_TOKEN: ${{ inputs.npm-registry-token }}
+          NODE_AUTH_TOKEN: ${{ inputs.npm_registry_token }}

@@ -22,14 +22,16 @@ runs:
       shell: bash
       run: |
         if [[  ${{ inputs.branch_name }} == "master" ]]; then
-          VERSION=$(grep -m1 version package.json | awk '{ print $2 }' | sed 's/[", ]//g')
+          VERSION=$(jq -cr '.version' < package.json)
+
+          echo "git tag -a ${VERSION} -m ${VERSION}"
+          if [[ ${{ inputs.dry-run }} == false ]]; then
+            git tag -a ${VERSION} -m "${VERSION} [ci skip] "
+            git remote rm origin
+            GITHUB_REPO=https://${{ inputs.github_token }}:x-oauth-basic@github.com/Alfresco/alfresco-content-app.git
+            git remote add origin $GITHUB_REPO
+            git push origin --tags
+          fi;
+
         fi;
 
-        echo "git tag -a ${VERSION} -m ${VERSION}"
-        if [[ ${{ inputs.dry-run }} == false ]]; then
-          git tag -a ${VERSION} -m "${VERSION} [ci skip] "
-          git remote rm origin
-          GITHUB_REPO=https://${{ inputs.github_token }}:x-oauth-basic@github.com/Alfresco/alfresco-content-app.git
-          git remote add origin $GITHUB_REPO
-          git push origin --tags
-        fi;

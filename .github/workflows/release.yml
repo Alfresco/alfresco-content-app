@@ -2,7 +2,6 @@ name: "Release"
 
 on:
   workflow_dispatch:
-  workflow_call:
     inputs:
       dry-run-release:
         description: 'enable dry-run'
@@ -40,32 +39,16 @@ env:
   APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI: "{protocol}//{hostname}{:port}/assets/silent-refresh.html"
 
 jobs:
-  setup:
-    if: github.event.pull_request.merged || ${{ inputs.dry-run-release }}
-    name: "Setup"
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 2
-      - name: node
-        uses: actions/setup-node@v3
-        with:
-          node-version-file: '.nvmrc'
-          cache: 'npm'
-      - uses: ./.github/actions/setup
   publish-docker-registry:
-    needs: [setup]
-    if: github.event.pull_request.merged || ${{ inputs.dry-run-release }}
-    name: "Publish to  registry"
+    if: github.event.pull_request.merged || inputs.dry-run-release
+    name: "Publish to registry"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
         with:
           fetch-depth: 2
-      - name: node
+      - name: Setup node
         uses: actions/setup-node@v3
         with:
           node-version-file: '.nvmrc'
@@ -74,13 +57,14 @@ jobs:
       - name: publish
         uses: ./.github/actions/publish-image
         with:
+          branch_name: ${{ env.BRANCH_NAME }}
           domain: quay.io
           username: ${{ secrets.QUAY_USERNAME }}
           password: ${{ secrets.QUAY_PASSWORD }}
           dry-run: ${{ inputs.dry-run-release }}
+
   publish-to-dockerhub:
-    needs: [setup]
-    if: github.event.pull_request.merged || ${{ inputs.dry-run-release }}
+    if: github.event.pull_request.merged || inputs.dry-run-release
     name: "Publish to Dockerhub"
     runs-on: ubuntu-latest
     steps:
@@ -88,7 +72,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 2
-      - name: node
+      - name: Setup node
         uses: actions/setup-node@v3
         with:
           node-version-file: '.nvmrc'
@@ -97,13 +81,14 @@ jobs:
       - name: publish
         uses: ./.github/actions/publish-image
         with:
+          branch_name: ${{ env.BRANCH_NAME }}
           domain: docker.io
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           dry-run: ${{ inputs.dry-run-release }}
+
   publish-git-tag:
-    needs: [setup]
-    if: (github.event.pull_request.merged && $BRANCH_NAME == "master")|| ${{ inputs.dry-run-release }}
+    if: (github.event.pull_request.merged && github.ref_name == 'master') || inputs.dry-run-release
     name: "Publish git tag"
     runs-on: ubuntu-latest
     steps:
@@ -111,7 +96,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 2
-      - name: node
+      - name: Setup node
         uses: actions/setup-node@v3
         with:
           node-version-file: '.nvmrc'
@@ -128,9 +113,9 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch_name: ${{ env.BRANCH_NAME }}
           dry-run: ${{ inputs.dry-run-release }}
+
   publish-libs:
-    needs: [setup]
-    if: github.event.pull_request.merged || ${{ inputs.dry-run-release }}
+    if: (github.event.pull_request.merged && github.ref_name == 'master') || inputs.dry-run-release
     name: "Publish libs to npm and gh registry"
     runs-on: ubuntu-latest
     steps:
@@ -138,11 +123,18 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 2
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
       - uses: ./.github/actions/setup
       - name: publish
         uses: ./.github/actions/publish-libs
         with:
+          branch_name: ${{ env.BRANCH_NAME }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          npm-registry-address: ${{ vars.NPM_REGISTRY_ADDRESS }}
-          npm-registry-token: ${{ secrets.NPM_REGISTRY_TOKEN }}
+          npm_registry_address: ${{ vars.NPM_REGISTRY_ADDRESS }}
+          npm_registry_token: ${{ secrets.NPM_REGISTRY_TOKEN }}
+          npm_tag: ${{ env.TAG_NPM }}
           dry-run: ${{ inputs.dry-run-release }}
