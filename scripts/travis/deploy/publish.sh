@@ -19,7 +19,7 @@ if [[ "$BRANCH_NAME" == "master" ]]; then
     npx @alfresco/adf-cli docker-publish --loginCheck --loginUsername "$USERNAME" --loginPassword "$PASSWORD" --loginRepo "$DOMAIN" --dockerRepo "$DOCKER_REPOSITORY" --buildArgs "$DOCKER_PROJECT_ARGS" --dockerTags "$TAG_VERSION" --pathProject "$(pwd)"
   fi;
 else
-  if [[ $DRY_RUN == false ]]; then
+  if [[ "$DRY_RUN "== "false" ]]; then
     npx @alfresco/adf-cli docker-publish --loginCheck --loginUsername "$USERNAME" --loginPassword "$PASSWORD" --loginRepo "$DOMAIN" --dockerRepo "$DOCKER_REPOSITORY" --buildArgs "$DOCKER_PROJECT_ARGS" --dockerTags "$TAG_VERSION,$BRANCH_NAME" --pathProject "$(pwd)"
   fi;
 fi;
