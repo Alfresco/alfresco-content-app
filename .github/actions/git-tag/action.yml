@@ -22,7 +22,7 @@ runs:
       shell: bash
       run: |
         if [[  ${{ inputs.branch_name }} == "master" ]]; then
-          VERSION=$(grep -m1 version package.json | awk '{ print $2 }' | sed 's/[", ]//g')
+          VERSION=$(jq -cr '.version' < package.json)
 
           echo "git tag -a ${VERSION} -m ${VERSION}"
           if [[ ${{ inputs.dry-run }} == false ]]; then
