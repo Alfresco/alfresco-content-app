@@ -40,8 +40,7 @@ env:
 
 jobs:
   publish-docker-registry:
-    if: github.event.pull_request.merged || inputs.dry-run-release
-    name: "Publish to registry"
+    name: "Publish to Quay"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
