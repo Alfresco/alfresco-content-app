@@ -108,7 +108,7 @@ jobs:
 
   publish-git-tag:
     needs: [setup]
-    if: (github.event.pull_request.merged && $BRANCH_NAME == "master") || ${{ inputs.dry-run-release }}
+    if: (github.event.pull_request.merged && env.BRANCH_NAME == "master") || inputs.dry-run-release
     name: "Publish git tag"
     runs-on: ubuntu-latest
     steps:
