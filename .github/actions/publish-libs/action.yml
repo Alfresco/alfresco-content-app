@@ -30,6 +30,8 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - run: npm ci
+      shell: bash
     - name: update libs version
       shell: bash
       run: |
