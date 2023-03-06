@@ -59,7 +59,7 @@ runs:
 
         for PROJECT in "${PROJECTS[@]}"; do
           echo "Update ${PROJECT} version to ${NEW_LIBRARY_VERSION}"
-          if [[ ${{ inputs.dry-run }} == false ]]; then
+          if [[ "${{ inputs.dry-run }}" == "false" ]]; then
             (cd cd $PROJECTS_DIR/${PROJECT} && npm version --allow-same-version --no-git-tag-version --force ${NEW_LIBRARY_VERSION})
           fi
         done
@@ -79,7 +79,7 @@ runs:
         do
           cd $DIST_DIR/${PROJECT}
 
-          if [[ ${{ inputs.dry-run }} == false ]]; then
+          if [[ "${{ inputs.dry-run }}" == "false" ]]; then
             echo -e "Publish with dry mode for project to GH registry: $PROJECT\n"
             echo -e "npm publish --dry-run --tag ${{ inputs.npm_tag }} \n"
             npm publish --dry-run --tag ${{ inputs.npm_tag }}
@@ -104,7 +104,7 @@ runs:
         do
           cd $DIST_DIR/${PROJECT}
 
-          if [[ ${{ inputs.dry-run }} == false ]]; then
+          if [[ "${{ inputs.dry-run }}" == "false" ]]; then
             echo -e "Publish with dry mode for project to NPM registry: $PROJECT\n"
             echo -e "npm publish --dry-run --tag ${{ inputs.npm_tag }} \n"
             npm publish --dry-run --tag ${{ inputs.npm_tag }}
