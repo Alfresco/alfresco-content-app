@@ -14,7 +14,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - uses: Alfresco/alfresco-build-tools/.github/actions/get-commit-message@v1.35.0
     - uses: ./.github/actions/setup
     - name: setup S3 caching
       shell: bash
