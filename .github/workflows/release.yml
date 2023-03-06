@@ -2,7 +2,6 @@ name: "Release"
 
 on:
   workflow_dispatch:
-  workflow_call:
     inputs:
       dry-run-release:
         description: 'enable dry-run'

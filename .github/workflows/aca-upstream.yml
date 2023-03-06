@@ -3,7 +3,6 @@ name: "ACA upstream"
 on:
   schedule:
     - cron: "0 12 * * *"
-  workflow_call:
   workflow_dispatch:
     inputs:
       repo_to_update:
