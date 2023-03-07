@@ -15,6 +15,10 @@ on:
       - master
       - develop-patch*
       - master-patch*
+  push:
+    branches:
+      - master
+      - master-patch-*
 
 env:
   APP_CONFIG_ECM_HOST: ${{ secrets.PIPELINE_ENV_URL }}
