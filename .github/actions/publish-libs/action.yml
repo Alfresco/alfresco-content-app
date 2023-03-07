@@ -60,7 +60,7 @@ runs:
         for PROJECT in "${PROJECTS[@]}"; do
           echo "Update \"$PROJECT\" to version \"$NEW_LIBRARY_VERSION\""
           if [[ "${{ inputs.dry-run }}" != "true" ]]; then
-            (cd cd $PROJECTS_DIR/${PROJECT} && npm version --allow-same-version --no-git-tag-version --force "$NEW_LIBRARY_VERSION")
+            (cd $PROJECTS_DIR/${PROJECT} && npm version --allow-same-version --no-git-tag-version --force "$NEW_LIBRARY_VERSION")
           fi
         done
 
