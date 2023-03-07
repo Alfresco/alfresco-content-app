@@ -30,25 +30,14 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - run: npm ci
+    - uses: ./.github/actions/update-library-versions
+      name: Update Library Versions
+      with:
+        dry-run: ${{ inputs.dry-run }}
+
+    - name: Build Libraries
       shell: bash
-    - name: Update Library Versions
-      shell: bash
-      run: |
-        VERSION_IN_PACKAGE_JSON=$(jq -cr '.version' < package.json)
-
-        if [[ ${{ inputs.branch_name }} =~ ^master.*?$ ]] ; then
-          NEW_LIBRARY_VERSION="$VERSION_IN_PACKAGE_JSON"
-        else
-          NEW_LIBRARY_VERSION="${VERSION_IN_PACKAGE_JSON}-${{ github.run_id }}"
-        fi
-
-        echo -e "Branch is '${{ inputs.branch_name }}, therefore publish with '${{ inputs.npm_tag }}' tag\n"
-
-        ./scripts/gh/update-lib-versions.sh "$NEW_LIBRARY_VERSION" "${{ inputs.dry-run }}"
-
-        echo "Building projects"
-        npm run build-libs
+      run: npm ci && npm run build-libs
 
     - uses: actions/setup-node@v3
       name: setup GH registry
@@ -56,11 +45,14 @@ runs:
         node-version-file: '.nvmrc'
         registry-url: 'https://npm.pkg.github.com'
         scope: '@alfresco'
+
     - name: Publish to GH registry
       shell: bash
-      run: ./scripts/gh/npm-publish.sh "${{ inputs.npm_tag }}" "${{ inputs.dry-run }}"
+      run: ./scripts/gh/npm-publish.sh "$TAG" "$DRY_RUN"
       env:
-          NODE_AUTH_TOKEN: ${{ inputs.github_token }}
+        NODE_AUTH_TOKEN: ${{ inputs.github_token }}
+        TAG: ${{ inputs.npm_tag }}
+        DRY_RUN: ${{ inputs.dry-run }}
 
     - uses: actions/setup-node@v3
       name: setup NPM registry
@@ -68,8 +60,11 @@ runs:
         node-version-file: '.nvmrc'
         registry-url: 'https://${{ inputs.npm_registry_address }}'
         scope: '@alfresco'
+
     - name: Publish to NPM registry
       shell: bash
-      run: ./scripts/gh/npm-publish.sh "${{ inputs.npm_tag }}" "${{ inputs.dry-run }}"
+      run: ./scripts/gh/npm-publish.sh "$TAG" "$DRY_RUN"
       env:
-          NODE_AUTH_TOKEN: ${{ inputs.npm_registry_token }}
+        NODE_AUTH_TOKEN: ${{ inputs.npm_registry_token }}
+        TAG: ${{ inputs.npm_tag }}
+        DRY_RUN: ${{ inputs.dry-run }}
