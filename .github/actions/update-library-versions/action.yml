@@ -26,6 +26,3 @@ runs:
         fi
 
         ./scripts/gh/update-lib-versions.sh "$NEW_LIBRARY_VERSION" "${{ inputs.dry-run }}"
-
-        echo "Building projects"
-        npm run build-libs
