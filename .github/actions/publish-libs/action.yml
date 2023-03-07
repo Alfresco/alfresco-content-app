@@ -32,11 +32,9 @@ runs:
   steps:
     - run: npm ci
       shell: bash
-    - name: update libs version
+    - name: Update Library Versions
       shell: bash
       run: |
-        DIST_DIR="./dist/@alfresco"
-        PROJECTS_DIR="./projects"
         VERSION_IN_PACKAGE_JSON=$(jq -cr '.version' < package.json)
 
         if [[ ${{ inputs.branch_name }} =~ ^master.*?$ ]] ; then
@@ -47,97 +45,31 @@ runs:
 
         echo -e "Branch is '${{ inputs.branch_name }}, therefore publish with '${{ inputs.npm_tag }}' tag\n"
 
-        export PROJECTS=(
-          'aca-shared'
-          'aca-folder-rules'
-          'adf-office-services-ext'
-          'aca-about'
-          'aca-preview'
-          'aca-viewer'
-          'aca-content'
-        );
+        ./scripts/gh/update-lib-versions.sh "$NEW_LIBRARY_VERSION" "${{ inputs.dry-run }}"
 
-        for PROJECT in ${PROJECTS[@]}
-        do
-          echo "Update \"$PROJECT\" to version \"$NEW_LIBRARY_VERSION\""
-          if [[ "${{ inputs.dry-run }}" != "true" ]]; then
-            (cd $PROJECTS_DIR/${PROJECT} && npm version --allow-same-version --no-git-tag-version --force "$NEW_LIBRARY_VERSION")
-          fi
-        done
-
-        echo -e "\n\nBuild projects"
+        echo "Building projects"
         npm run build-libs
+
     - uses: actions/setup-node@v3
       name: setup GH registry
       with:
         node-version-file: '.nvmrc'
         registry-url: 'https://npm.pkg.github.com'
         scope: '@alfresco'
-    - name: publish tag to GH registry
+    - name: Publish to GH registry
       shell: bash
-      run: |
-        DIST_DIR="./dist/@alfresco"
-
-        export PROJECTS=(
-          'aca-shared'
-          'aca-folder-rules'
-          'adf-office-services-ext'
-          'aca-about'
-          'aca-preview'
-          'aca-viewer'
-          'aca-content'
-        );
-
-        for PROJECT in ${PROJECTS[@]}
-        do
-          cd $DIST_DIR/${PROJECT}
-
-          if [[ "${{ inputs.dry-run }}" == "true" ]]; then
-            echo -e "Publish with dry mode for project to GH registry: $PROJECT\n"
-            echo -e "npm publish --dry-run --tag ${{ inputs.npm_tag }} \n"
-            npm publish --dry-run --tag ${{ inputs.npm_tag }}
-          else
-            echo -e "======== Publishing project to GH registry: $PROJECT ========\n"
-            echo -e "npm publish --tag ${{ inputs.npm_tag }}\n"
-            npm publish --tag ${{ inputs.npm_tag }}
-          fi
-        done
+      run: ./scripts/gh/npm-publish.sh "${{ inputs.npm_tag }}" "${{ inputs.dry-run }}"
       env:
           NODE_AUTH_TOKEN: ${{ inputs.github_token }}
+
     - uses: actions/setup-node@v3
       name: setup NPM registry
       with:
         node-version-file: '.nvmrc'
         registry-url: ${{ inputs.npm_registry_address }}
         scope: '@alfresco'
-    - name: publish tag to NPM registry
+    - name: Publish to NPM registry
       shell: bash
-      run: |
-        DIST_DIR="./dist/@alfresco"
-
-        export PROJECTS=(
-          'aca-shared'
-          'aca-folder-rules'
-          'adf-office-services-ext'
-          'aca-about'
-          'aca-preview'
-          'aca-viewer'
-          'aca-content'
-        );
-
-        for PROJECT in ${PROJECTS[@]}
-        do
-          cd $DIST_DIR/${PROJECT}
-
-          if [[ "${{ inputs.dry-run }}" == "true" ]]; then
-            echo -e "Publish with dry mode for project to NPM registry: $PROJECT\n"
-            echo -e "npm publish --dry-run --tag ${{ inputs.npm_tag }} \n"
-            npm publish --dry-run --tag ${{ inputs.npm_tag }}
-          else
-            echo -e "======== Publishing project to NPM registry: $PROJECT ========\n"
-            echo -e "npm publish --tag ${{ inputs.npm_tag }}\n"
-            npm publish --tag ${{ inputs.npm_tag }}
-          fi
-        done
+      run: ./scripts/gh/npm-publish.sh "${{ inputs.npm_tag }}" "${{ inputs.dry-run }}"
       env:
           NODE_AUTH_TOKEN: ${{ inputs.npm_registry_token }}

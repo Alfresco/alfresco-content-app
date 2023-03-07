@@ -136,7 +136,7 @@ jobs:
         uses: ./.github/actions/publish-libs
         with:
           branch_name: ${{ env.BRANCH_NAME }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.BOT_GITHUB_TOKEN }}
           npm_registry_address: ${{ vars.NPM_REGISTRY_ADDRESS }}
           npm_registry_token: ${{ secrets.NPM_REGISTRY_TOKEN }}
           npm_tag: ${{ env.TAG_NPM }}
