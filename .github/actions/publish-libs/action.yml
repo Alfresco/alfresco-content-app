@@ -32,11 +32,9 @@ runs:
   steps:
     - run: npm ci
       shell: bash
-    - name: update libs version
+    - name: Update Library Versions
       shell: bash
       run: |
-        DIST_DIR="./dist/@alfresco"
-        PROJECTS_DIR="./projects"
         VERSION_IN_PACKAGE_JSON=$(jq -cr '.version' < package.json)
 
         if [[ ${{ inputs.branch_name }} =~ ^master.*?$ ]] ; then
@@ -47,26 +45,11 @@ runs:
 
         echo -e "Branch is '${{ inputs.branch_name }}, therefore publish with '${{ inputs.npm_tag }}' tag\n"
 
-        export PROJECTS=(
-          'aca-shared'
-          'aca-folder-rules'
-          'adf-office-services-ext'
-          'aca-about'
-          'aca-preview'
-          'aca-viewer'
-          'aca-content'
-        );
+        ./scripts/gh/update-lib-versions.sh "$NEW_LIBRARY_VERSION" "${{ inputs.dry-run }}"
 
-        for PROJECT in ${PROJECTS[@]}
-        do
-          echo "Update \"$PROJECT\" to version \"$NEW_LIBRARY_VERSION\""
-          if [[ "${{ inputs.dry-run }}" != "true" ]]; then
-            (cd $PROJECTS_DIR/${PROJECT} && npm version --allow-same-version --no-git-tag-version --force "$NEW_LIBRARY_VERSION")
-          fi
-        done
-
-        echo -e "\n\nBuild projects"
+        echo "Building projects"
         npm run build-libs
+
     - uses: actions/setup-node@v3
       name: setup GH registry
       with:
