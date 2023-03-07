@@ -95,8 +95,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 2
       - name: Setup node
         uses: actions/setup-node@v3
         with:
@@ -116,7 +114,7 @@ jobs:
           dry-run: ${{ inputs.dry-run-release }}
 
   publish-libs:
-    name: "Publish libs to npm and gh registry"
+    name: "Publish libs to NPM and GitHub registry"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
