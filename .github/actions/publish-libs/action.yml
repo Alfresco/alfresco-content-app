@@ -57,7 +57,8 @@ runs:
           'aca-content'
         );
 
-        for PROJECT in "${PROJECTS[@]}"; do
+        for PROJECT in ${PROJECTS[@]}
+        do
           echo "Update \"$PROJECT\" to version \"$NEW_LIBRARY_VERSION\""
           if [[ "${{ inputs.dry-run }}" != "true" ]]; then
             (cd $PROJECTS_DIR/${PROJECT} && npm version --allow-same-version --no-git-tag-version --force "$NEW_LIBRARY_VERSION")
@@ -75,7 +76,7 @@ runs:
     - name: publish tag to GH registry
       shell: bash
       run: |
-        for PROJECT in "${PROJECTS[@]}"
+        for PROJECT in ${PROJECTS[@]}
         do
           cd $DIST_DIR/${PROJECT}
 
@@ -100,7 +101,7 @@ runs:
     - name: publish tag to NPM registry
       shell: bash
       run: |
-        for PROJECT in "${PROJECTS[@]}"
+        for PROJECT in ${PROJECTS[@]}
         do
           cd $DIST_DIR/${PROJECT}
 
