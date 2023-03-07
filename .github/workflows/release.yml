@@ -116,6 +116,8 @@ jobs:
   publish-libs:
     name: "Publish libs to NPM and GitHub registry"
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
     steps:
       - name: Checkout
         uses: actions/checkout@v3
