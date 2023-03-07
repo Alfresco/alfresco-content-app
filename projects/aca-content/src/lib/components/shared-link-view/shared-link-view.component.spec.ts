@@ -31,7 +31,7 @@ import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { SetSelectedNodesAction } from '@alfresco/aca-shared/store';
-import { AppExtensionService } from '@alfresco/aca-shared';
+import { AppExtensionService, AppService } from '@alfresco/aca-shared';
 
 describe('SharedLinkViewComponent', () => {
   let component: SharedLinkViewComponent;
@@ -56,7 +56,8 @@ describe('SharedLinkViewComponent', () => {
             snapshot: { data: { preferencePrefix: 'prefix' } },
             params: of({ id: '123' })
           }
-        }
+        },
+        AppService
       ],
       schemas: [NO_ERRORS_SCHEMA]
     });
