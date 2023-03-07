@@ -76,11 +76,21 @@ runs:
     - name: publish tag to GH registry
       shell: bash
       run: |
+        export PROJECTS=(
+          'aca-shared'
+          'aca-folder-rules'
+          'adf-office-services-ext'
+          'aca-about'
+          'aca-preview'
+          'aca-viewer'
+          'aca-content'
+        );
+
         for PROJECT in ${PROJECTS[@]}
         do
           cd $DIST_DIR/${PROJECT}
 
-          if [[ "${{ inputs.dry-run }}" != "true" ]]; then
+          if [[ "${{ inputs.dry-run }}" == "true" ]]; then
             echo -e "Publish with dry mode for project to GH registry: $PROJECT\n"
             echo -e "npm publish --dry-run --tag ${{ inputs.npm_tag }} \n"
             npm publish --dry-run --tag ${{ inputs.npm_tag }}
@@ -101,11 +111,21 @@ runs:
     - name: publish tag to NPM registry
       shell: bash
       run: |
+        export PROJECTS=(
+          'aca-shared'
+          'aca-folder-rules'
+          'adf-office-services-ext'
+          'aca-about'
+          'aca-preview'
+          'aca-viewer'
+          'aca-content'
+        );
+
         for PROJECT in ${PROJECTS[@]}
         do
           cd $DIST_DIR/${PROJECT}
 
-          if [[ "${{ inputs.dry-run }}" != "true" ]]; then
+          if [[ "${{ inputs.dry-run }}" == "true" ]]; then
             echo -e "Publish with dry mode for project to NPM registry: $PROJECT\n"
             echo -e "npm publish --dry-run --tag ${{ inputs.npm_tag }} \n"
             npm publish --dry-run --tag ${{ inputs.npm_tag }}
