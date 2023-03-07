@@ -25,6 +25,10 @@
     "inspect.bundle": "ng build content-ce --configuration production --stats-json && npx webpack-bundle-analyzer dist/content-ce/stats.json",
     "prepare": "husky install"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Alfresco/alfresco-content-app.git"
+  },
   "private": true,
   "dependencies": {
     "@alfresco/adf-content-services": "6.0.0-A.3",
