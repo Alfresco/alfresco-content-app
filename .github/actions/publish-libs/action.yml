@@ -35,8 +35,8 @@ runs:
     - name: update libs version
       shell: bash
       run: |
-        export DIST_DIR=./dist/@alfresco
-        PROJECTS_DIR=./projects
+        DIST_DIR="./dist/@alfresco"
+        PROJECTS_DIR="./projects"
         VERSION_IN_PACKAGE_JSON=$(jq -cr '.version' < package.json)
 
         if [[ ${{ inputs.branch_name }} =~ ^master.*?$ ]] ; then
@@ -76,6 +76,8 @@ runs:
     - name: publish tag to GH registry
       shell: bash
       run: |
+        DIST_DIR="./dist/@alfresco"
+
         export PROJECTS=(
           'aca-shared'
           'aca-folder-rules'
@@ -111,6 +113,8 @@ runs:
     - name: publish tag to NPM registry
       shell: bash
       run: |
+        DIST_DIR="./dist/@alfresco"
+
         export PROJECTS=(
           'aca-shared'
           'aca-folder-rules'
