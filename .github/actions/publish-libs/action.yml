@@ -33,6 +33,7 @@ runs:
     - uses: ./.github/actions/update-library-versions
       name: Update Library Versions
       with:
+        branch_name: ${{ env.BRANCH_NAME }}
         dry-run: ${{ inputs.dry-run }}
 
     - name: Build Libraries
