@@ -41,7 +41,6 @@ env:
   APP_CONFIG_OAUTH2_REDIRECT_LOGIN: /
   APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI: "{protocol}//{hostname}{:port}/assets/silent-refresh.html"
   REPO_SLUG: "alfresco/alfresco-content-app"
-  NPM_REGISTRY_ADDRESS: ${{ secrets.NPM_REGISTRY_ADDRESS }}
 
 jobs:
   publish-docker-registry:
@@ -112,6 +111,7 @@ jobs:
       - name: publish
         uses: ./.github/actions/git-tag
         with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           branch_name: ${{ env.BRANCH_NAME }}
           dry-run: ${{ inputs.dry-run-release }}
 
@@ -135,5 +135,8 @@ jobs:
         uses: ./.github/actions/publish-libs
         with:
           branch_name: ${{ env.BRANCH_NAME }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          npm_registry_address: ${{ vars.NPM_REGISTRY_ADDRESS }}
+          npm_registry_token: ${{ secrets.NPM_REGISTRY_TOKEN }}
           npm_tag: ${{ env.TAG_NPM }}
           dry-run: ${{ inputs.dry-run-release }}
