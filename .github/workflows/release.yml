@@ -37,6 +37,7 @@ env:
   APP_CONFIG_OAUTH2_REDIRECT_LOGOUT: /
   APP_CONFIG_OAUTH2_REDIRECT_LOGIN: /
   APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI: "{protocol}//{hostname}{:port}/assets/silent-refresh.html"
+  REPO_SLUG: "alfresco/alfresco-content-app"
 
 jobs:
   publish-docker-registry:

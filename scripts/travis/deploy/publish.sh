@@ -1,11 +1,12 @@
 #!/bin/bash -e
 
 DOMAIN="$1"
-USERNAME="$2"
-PASSWORD="$3"
-TAG_VERSION="$4"
-BRANCH_NAME="$5"
-DRY_RUN="$6"
+REPO_SLUG="$2"
+USERNAME="$3"
+PASSWORD="$4"
+TAG_VERSION="$5"
+BRANCH_NAME="$6"
+DRY_RUN="$7"
 
 npm ci && npm run build.release
 
