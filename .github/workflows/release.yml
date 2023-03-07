@@ -90,11 +90,13 @@ jobs:
           dry-run: ${{ inputs.dry-run-release }}
 
   publish-git-tag:
-    name: "Publish git tag"
+    name: "Publish Git Tag"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Setup node
         uses: actions/setup-node@v3
         with:
