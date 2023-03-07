@@ -66,7 +66,7 @@ runs:
       name: setup NPM registry
       with:
         node-version-file: '.nvmrc'
-        registry-url: ${{ inputs.npm_registry_address }}
+        registry-url: 'https://${{ inputs.npm_registry_address }}'
         scope: '@alfresco'
     - name: Publish to NPM registry
       shell: bash
