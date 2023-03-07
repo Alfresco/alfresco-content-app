@@ -37,10 +37,10 @@ runs:
       run: |
         export DIST_DIR=./dist/@alfresco
         PROJECTS_DIR=./projects
-        VERSION_IN_PACKAGE_JSON=$(node -p "require('./package.json').version;")
+        VERSION_IN_PACKAGE_JSON=$(jq -cr '.version' < package.json)
 
         if [[ ${{ inputs.branch_name }} =~ ^master.*?$ ]] ; then
-          NEW_LIBRARY_VERSION=VERSION_IN_PACKAGE_JSON
+          NEW_LIBRARY_VERSION="$VERSION_IN_PACKAGE_JSON"
         else
           NEW_LIBRARY_VERSION="${VERSION_IN_PACKAGE_JSON}-${{ github.run_id }}"
         fi
@@ -58,9 +58,9 @@ runs:
         );
 
         for PROJECT in "${PROJECTS[@]}"; do
-          echo "Update ${PROJECT} version to ${NEW_LIBRARY_VERSION}"
+          echo "Update \"$PROJECT\" to version \"$NEW_LIBRARY_VERSION\""
           if [[ "${{ inputs.dry-run }}" != "true" ]]; then
-            (cd cd $PROJECTS_DIR/${PROJECT} && npm version --allow-same-version --no-git-tag-version --force ${NEW_LIBRARY_VERSION})
+            (cd cd $PROJECTS_DIR/${PROJECT} && npm version --allow-same-version --no-git-tag-version --force "$NEW_LIBRARY_VERSION")
           fi
         done
 
