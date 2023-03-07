@@ -15,13 +15,15 @@ runs:
         echo "SMART_RUNNER_DIRECTORY=.protractor-smartrunner" >> $GITHUB_ENV
         echo "BASE_HASH=.protractor-smartrunner" >> $GITHUB_ENV
         echo "HEAD_HASH=HEAD" >> $GITHUB_ENV
+
     - uses: Alfresco/alfresco-build-tools/.github/actions/get-branch-name@v1.35.0
     - name: set TAG_NPM
       shell: bash
       run: |
+        TAG_NPM="alpha"
         VERSION_IN_PACKAGE_JSON=$(node -p "require('./package.json')".version)
         echo "version in package.json=${VERSION_IN_PACKAGE_JSON}"
-        if [[ $BRANCH_NAME =~ ^master(-patch.*)?$ ]]; then
+        if [[ ${{ inputs.branch_name }} =~ ^master(-patch.*)?$ ]]; then
             # Pre-release versions
             if [[ $VERSION_IN_PACKAGE_JSON =~ ^[0-9]*\.[0-9]*\.[0-9]*-A\.[0-9]*$ ]];
             then
@@ -31,7 +33,7 @@ runs:
                 TAG_NPM=latest
             fi
         fi
-        if [[ $BRANCH_NAME =~ ^develop(-patch.*)?$ ]]; then
+        if [[ ${{ inputs.branch_name }} =~ ^develop(-patch.*)?$ ]]; then
             TAG_NPM=alpha
         fi
         echo "TAG_NPM=${TAG_NPM}" >> $GITHUB_ENV
