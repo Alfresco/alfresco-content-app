@@ -2,10 +2,6 @@ name: "Publish GitHub Tag"
 description: "Publish GitHub Tag"
 
 inputs:
-  github_token:
-    description: 'Github token'
-    required: true
-    type: string
   branch_name:
     description: 'Name of the branch the workflow runs on'
     required: true
@@ -31,7 +27,7 @@ runs:
               if [[ "${{ inputs.dry-run }}" != "true" ]]; then
                 git tag -a ${VERSION} -m "${VERSION} [ci skip] "
                 git remote rm origin
-                GITHUB_REPO=https://${{ inputs.github_token }}:x-oauth-basic@github.com/Alfresco/alfresco-content-app.git
+                GITHUB_REPO=https://${{ secrets.GITHUB_TOKEN }}:x-oauth-basic@github.com/Alfresco/alfresco-content-app.git
                 git remote add origin $GITHUB_REPO
                 git push origin --tags
               fi

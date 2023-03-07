@@ -6,18 +6,6 @@ inputs:
     description: 'Name of the branch the workflow runs on'
     required: true
     type: string
-  github_token:
-    description: 'Github token'
-    required: true
-    type: string
-  npm_registry_address:
-    description: 'NPM registry address'
-    required: true
-    type: string
-  npm_registry_token:
-    description: 'NPM registry token'
-    required: true
-    type: string
   npm_tag:
     description: 'NPM tag'
     required: true
@@ -67,12 +55,14 @@ runs:
 
         echo -e "\n\nBuild projects"
         npm run build-libs
+
     - uses: actions/setup-node@v3
       name: setup GH registry
       with:
         node-version-file: '.nvmrc'
         registry-url: 'https://npm.pkg.github.com'
         scope: '@alfresco'
+
     - name: publish tag to GH registry
       shell: bash
       run: |
@@ -103,14 +93,15 @@ runs:
           fi
         done
       env:
-          NODE_AUTH_TOKEN: ${{ inputs.github_token }}
+        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     - uses: actions/setup-node@v3
       name: setup NPM registry
       with:
         node-version-file: '.nvmrc'
-        registry-url: ${{ inputs.npm_registry_address }}
+        registry-url: 'https://${{ vars.NPM_REGISTRY_ADDRESS }}'
         scope: '@alfresco'
-    - name: publish tag to NPM registry
+    - name: Publish to NPM registry
       shell: bash
       run: |
         DIST_DIR="./dist/@alfresco"
@@ -140,4 +131,4 @@ runs:
           fi
         done
       env:
-          NODE_AUTH_TOKEN: ${{ inputs.npm_registry_token }}
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_REGISTRY_TOKEN }}
