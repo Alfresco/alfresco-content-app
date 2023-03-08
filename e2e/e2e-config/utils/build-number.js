@@ -1,10 +1,10 @@
 const buildNumber = () => {
-    let buildNumber = process.env.TRAVIS_BUILD_NUMBER;
+    let buildNumber = process.env.GH_BUILD_NUMBER;
     if (!buildNumber) {
-        process.env.TRAVIS_BUILD_NUMBER = Date.now();
+        process.env.GH_BUILD_NUMBER = Date.now();
     }
 
-    return process.env.TRAVIS_BUILD_NUMBER;
+    return process.env.GH_BUILD_NUMBER;
 }
 
 module.exports = buildNumber;

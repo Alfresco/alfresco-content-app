@@ -3,7 +3,6 @@ e2e-output
 dist
 coverage
 .github
-.travis
 .vscode
 scripts
 app/src/assets/i18n
