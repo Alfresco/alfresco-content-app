@@ -6,9 +6,10 @@
  * agreement is prohibited.
  */
 
-import { EcmUserModel, IdentityUserModel, PeopleContentService, IdentityUserService, AuthenticationService, UserInfoMode } from '@alfresco/adf-core';
+import { IdentityUserModel, IdentityUserService, AuthenticationService, UserInfoMode } from '@alfresco/adf-core';
 import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { EcmUserModel, PeopleContentService } from '@alfresco/adf-content-services';
 
 @Component({
   selector: 'app-user-info',

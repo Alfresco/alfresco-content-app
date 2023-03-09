@@ -121,7 +121,6 @@ import { AppTrashcanModule } from './components/trashcan/trashcan.module';
 import { AppSharedLinkViewModule } from './components/shared-link-view/shared-link-view.module';
 import { AcaFolderRulesModule } from '@alfresco/aca-folder-rules';
 import { TagsColumnComponent } from './components/dl-custom-components/tags-column/tags-column.component';
-import { UserInfoComponent } from './components/common/user-info/user-info.component';
 import { ContentManagementService } from './services/content-management.service';
 
 registerLocaleData(localeFr);
