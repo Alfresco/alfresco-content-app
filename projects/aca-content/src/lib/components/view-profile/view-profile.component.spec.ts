@@ -12,6 +12,7 @@ import { AppTestingModule } from '../../testing/app-testing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { MatDividerModule } from '@angular/material/divider';
 
 describe('ViewProfileComponent', () => {
   let fixture: ComponentFixture<ViewProfileComponent>;
@@ -20,7 +21,7 @@ describe('ViewProfileComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, AppConfigModule, FormsModule, ReactiveFormsModule],
+      imports: [AppTestingModule, AppConfigModule, FormsModule, ReactiveFormsModule, MatDividerModule],
       declarations: [ViewProfileComponent]
     });
 

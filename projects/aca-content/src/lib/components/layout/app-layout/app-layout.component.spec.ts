@@ -25,7 +25,8 @@
 
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { AppConfigService, FileModel, UploadService, UserPreferencesService } from '@alfresco/adf-core';
+import { AppConfigService, UserPreferencesService } from '@alfresco/adf-core';
+import { FileModel, UploadService } from '@alfresco/adf-content-services';
 import { AppLayoutComponent } from './app-layout.component';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { Store } from '@ngrx/store';

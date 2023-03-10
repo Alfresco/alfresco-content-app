@@ -53,11 +53,18 @@ import { AppHookService, ContentApiService } from '@alfresco/aca-shared';
 import { Store } from '@ngrx/store';
 import { ContentManagementService } from './content-management.service';
 import { NodeActionsService } from './node-actions.service';
-import { TranslationService, NodesApiService, FileModel, NotificationService } from '@alfresco/adf-core';
+import { TranslationService, NotificationService } from '@alfresco/adf-core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
 import { NodeEntry, Node, VersionPaging, MinimalNodeEntity } from '@alfresco/js-api';
-import { NewVersionUploaderDataAction, NewVersionUploaderService, NodeAspectService, ViewVersion } from '@alfresco/adf-content-services';
+import {
+  NewVersionUploaderDataAction,
+  NewVersionUploaderService,
+  NodeAspectService,
+  ViewVersion,
+  NodesApiService,
+  FileModel
+} from '@alfresco/adf-content-services';
 
 describe('ContentManagementService', () => {
   let dialog: MatDialog;

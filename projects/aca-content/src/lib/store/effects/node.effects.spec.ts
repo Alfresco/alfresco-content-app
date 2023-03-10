@@ -50,7 +50,7 @@ import {
   ManagePermissionsAction,
   ShowLoaderAction
 } from '@alfresco/aca-shared/store';
-import { RenditionViewerService } from '@alfresco/adf-content-services';
+import { RenditionService } from '@alfresco/adf-content-services';
 import { ViewerEffects } from './viewer.effects';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
@@ -58,19 +58,19 @@ import { of } from 'rxjs';
 describe('NodeEffects', () => {
   let store: Store<any>;
   let contentService: ContentManagementService;
-  let renditionViewerService: RenditionViewerService;
+  let renditionViewerService: RenditionService;
   let viewerEffects: ViewerEffects;
   let router: Router;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule, SharedStoreModule, EffectsModule.forRoot([NodeEffects, ViewerEffects])],
-      providers: [RenditionViewerService]
+      providers: [RenditionService]
     });
 
     store = TestBed.inject(Store);
     contentService = TestBed.inject(ContentManagementService);
-    renditionViewerService = TestBed.inject(RenditionViewerService);
+    renditionViewerService = TestBed.inject(RenditionService);
     viewerEffects = TestBed.inject(ViewerEffects);
     router = TestBed.inject(Router);
   });

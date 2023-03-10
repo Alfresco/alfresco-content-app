@@ -30,11 +30,11 @@ import {
   TranslationService,
   TranslationMock,
   AuthenticationService,
-  DiscoveryApiService,
   AlfrescoApiService,
   PipeModule,
   AlfrescoApiServiceMock
 } from '@alfresco/adf-core';
+import { DiscoveryApiService } from '@alfresco/adf-content-services';
 import { RepositoryInfo } from '@alfresco/js-api';
 import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
