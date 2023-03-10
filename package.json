@@ -23,7 +23,8 @@
     "e2e": "npm run update-webdriver && protractor $SUITE",
     "spellcheck": "cspell '{src,e2e,projects}/**/*.ts'",
     "inspect.bundle": "ng build content-ce --configuration production --stats-json && npx webpack-bundle-analyzer dist/content-ce/stats.json",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "stylelint": "stylelint \"{app,projects}/**/*.scss\""
   },
   "repository": {
     "type": "git",
@@ -123,6 +124,8 @@
     "protractor-screenshoter-plugin": "0.10.3",
     "protractor-smartrunner": "^2.0.0-beta6",
     "selenium-webdriver": "^4.1.1",
+    "stylelint": "^15.2.0",
+    "stylelint-config-standard-scss": "^7.0.1",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "4.1.1",
     "typescript": "4.7.4",
