@@ -1,27 +1,7 @@
 @mixin ay11-theme() {
-  .adf-pagination {
-    &__perpage-block,
-    &__actualinfo-block {
-
-      .mat-icon-button {
-        left: 3px;
-
-        &:focus-visible {
-          outline: none;
-        }
-
-        &.cdk-keyboard-focused {
-          .mat-icon {
-            @include rounded-outline();
-          }
-        }
-      }
-    }
-  }
-
   .mat-icon-button, .mat-button, .mat-checkbox, .mat-raised-button {
     &:focus-visible {
-      @include rounded-outline();
+      @include rounded-outline;
     }
 
     .mat-ripple-element {
@@ -34,7 +14,7 @@
       }
 
       .mat-checkbox-ripple {
-        @include rounded-outline();
+        @include rounded-outline;
 
         height: 22px;
         width: 22px;
@@ -49,16 +29,16 @@
   }
 
   .mat-list-base .mat-list-option {
+    .mat-list-item-content {
+      @include rounded-border(transparent);
+    }
+
     &:focus-visible {
       background-color: white;
 
       .mat-list-item-content {
-        @include rounded-border();
+        @include rounded-border;
       }
-    }
-
-    .mat-list-item-content {
-      @include rounded-border(transparent);
     }
   }
 
@@ -66,20 +46,24 @@
     .mat-icon-button {
       outline: none;
       line-height: 36px !important;
+
       @include rounded-border(transparent);
 
       &:focus-visible {
-        @include rounded-border();
+        @include rounded-border;
       }
     }
   }
 
   .adf-search-user-button, .app-search-button {
     line-height: 36px !important;
+
     @include rounded-border(transparent);
+
     &:focus-visible {
       outline: none;
-      @include rounded-border();
+
+      @include rounded-border;
     }
   }
 
@@ -91,7 +75,7 @@
     @include rounded-border(transparent);
 
     &:focus-visible {
-      @include rounded-border();
+      @include rounded-border;
 
       background-color: white;
     }
@@ -108,22 +92,12 @@
   .mat-option {
     &.cdk-keyboard-focused {
       .mat-option-ripple {
-        @include rounded-outline();
+        @include rounded-outline;
       }
     }
   }
 
   .mat-slide-toggle {
-    &.mat-primary.mat-checked:not(.mat-disabled) {
-      .mat-slide-toggle-bar {
-        background-color: var(--theme-blue-button-color);
-      }
-
-      .mat-slide-toggle-thumb {
-        background-color: white;
-      }
-    }
-
     .mat-slide-toggle-thumb {
       width: 15px;
       height: 15px;
@@ -149,6 +123,16 @@
         outline: 2px solid var(--theme-blue-button-color);
       }
     }
+
+    &.mat-primary.mat-checked:not(.mat-disabled) {
+      .mat-slide-toggle-bar {
+        background-color: var(--theme-blue-button-color);
+      }
+
+      .mat-slide-toggle-thumb {
+        background-color: white;
+      }
+    }
   }
 
   .mat-stroked-button, .mat-flat-button {
@@ -163,14 +147,6 @@
     }
   }
 
-  .mat-option {
-    &.cdk-keyboard-focused {
-      .mat-option-ripple {
-        @include rounded-outline();
-      }
-    }
-  }
-
   .mat-datetimepicker-calendar-body-active .mat-datetimepicker-calendar-body-cell-content {
     outline: 2px solid var(--theme-datetimepicker-cell-focus-border);
   }
@@ -179,13 +155,13 @@
     background-color: var(--theme-datetimepicker-cell-background) !important;
   }
 
+  .mat-datetimepicker-calendar-body-cell-content.mat-datetimepicker-calendar-body-selected {
+    background-color: var(--theme-datetimepicker-selected-date-background);
+  }
+
   .mat-datetimepicker-calendar-body-active .mat-datetimepicker-calendar-body-cell-content.mat-datetimepicker-calendar-body-selected {
     background-color: var(--theme-datetimepicker-cell-focus-background);
     color: var(--theme-datetimepicker-font-color);
-  }
-
-  .mat-datetimepicker-calendar-body-cell-content.mat-datetimepicker-calendar-body-selected {
-    background-color: var(--theme-datetimepicker-selected-date-background);
   }
 
   .mat-expansion-panel .mat-expansion-panel-header {
@@ -197,7 +173,7 @@
       @include rounded-border(transparent);
 
       &:focus-visible {
-        @include rounded-border();
+        @include rounded-border;
 
         background-color: white;
       }
@@ -205,7 +181,8 @@
 
     &.cdk-keyboard-focused:not([aria-disabled="true"]) {
       background-color: white;
-      @include rounded-border();
+
+      @include rounded-border;
     }
   }
 
@@ -227,5 +204,25 @@
 
   .adf-filter-button {
     margin-left: -2px !important;
+  }
+
+  .adf-pagination {
+    &__perpage-block,
+    &__actualinfo-block {
+      /* stylelint-disable-next-line no-descending-specificity */
+      .mat-icon-button {
+        left: 3px;
+
+        &:focus-visible {
+          outline: none;
+        }
+
+        &.cdk-keyboard-focused {
+          .mat-icon {
+            @include rounded-outline;
+          }
+        }
+      }
+    }
   }
 }
