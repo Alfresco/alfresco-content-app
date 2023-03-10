@@ -685,7 +685,7 @@ describe('Search filters', () => {
       await locationFilter.openDialog();
       expect(await locationFilter.getFiltersValues()).toEqual(expectedLocations);
       await locationFilter.closeDialog();
-      
+
       await searchInput.clickSearchButton();
       await searchInput.searchFor(fileJpgUser1.name);
       await dataTable.waitForBody();
