@@ -28,7 +28,8 @@ import { BrowsingPage, LoginPage, Utils } from '@alfresco/aca-testing-shared';
 describe('Search input', () => {
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
-  const { searchInput } = page.header;
+  const { toolbar } = page;
+  const { searchInput } = page.pageLayoutHeader;
 
   beforeAll(async () => {
     await loginPage.loginWithAdmin();
@@ -39,11 +40,15 @@ describe('Search input', () => {
     await page.clickPersonalFiles();
   });
 
-  it('[C289847] Search input is displayed in the app header', async () => {
+  it('[C289847] Search icon is displayed in  toolbar and clicking on it displays sarch input container', async () => {
+    await toolbar.clickSearchIconButton();
+    await searchInput.clickSearchButton();
+
     expect(await searchInput.isSearchContainerDisplayed()).toBe(true, 'search controls not displayed');
   });
 
   it('[C289848] Search options are displayed when clicking in the search input', async () => {
+    await toolbar.clickSearchIconButton();
     await searchInput.clickSearchButton();
     expect(await searchInput.isOptionsAreaDisplayed()).toBe(true, 'Search options not displayed');
     expect(await searchInput.isFilesOptionEnabled()).toBe(true, 'Files option not enabled');
@@ -55,6 +60,7 @@ describe('Search input', () => {
   });
 
   it('[C289849] Search options are correctly enabled / disabled', async () => {
+    await toolbar.clickSearchIconButton();
     await searchInput.clickSearchButton();
 
     await searchInput.clickFilesOption();

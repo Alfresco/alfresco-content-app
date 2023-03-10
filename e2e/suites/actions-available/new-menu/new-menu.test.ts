@@ -33,7 +33,7 @@ describe('New menu', () => {
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
-  const { dataTable, sidenav } = page;
+  const { sidenav } = page;
   const { menu } = sidenav;
 
   const adminApiActions = new AdminActions();
@@ -67,11 +67,7 @@ describe('New menu', () => {
     await page.clickPersonalFiles();
     await sidenav.openNewMenu();
 
-    expect(await menu.isUploadFileEnabled()).toBe(true, 'Upload File option not enabled');
-    expect(await menu.isUploadFolderEnabled()).toBe(true, 'Upload Folder option not enabled');
-
     expect(await menu.isCreateFolderEnabled()).toBe(true, 'Create Folder option not enabled');
-    expect(await menu.isCreateLibraryEnabled()).toBe(true, 'Create Library option not enabled');
 
     expect(await menu.isCreateFileFromTemplateEnabled()).toBe(true, 'Create file from template is not enabled');
     expect(await menu.isCreateFolderFromTemplateEnabled()).toBe(true, 'Create folder from template is not enabled');
@@ -79,32 +75,9 @@ describe('New menu', () => {
 
   it('[C280393] Actions in File Libraries - user with enough permissions', async () => {
     await page.goToMyLibrariesAndWait();
-    await dataTable.doubleClickOnRowByName(siteUser);
     await sidenav.openNewMenu();
 
-    expect(await menu.isUploadFileEnabled()).toBe(true, 'Upload file is not enabled in File Libraries');
-    expect(await menu.isUploadFolderEnabled()).toBe(true, 'Upload folder is not enabled in File Libraries');
-
-    expect(await menu.isCreateFolderEnabled()).toBe(true, 'Create folder is not enabled');
     expect(await menu.isCreateLibraryEnabled()).toBe(true, 'Create Library option not enabled');
-
-    expect(await menu.isCreateFileFromTemplateEnabled()).toBe(true, 'Create file from template is not enabled');
-    expect(await menu.isCreateFolderFromTemplateEnabled()).toBe(true, 'Create folder from template is not enabled');
-  });
-
-  it('[C280397] Actions in File Libraries - user without enough permissions', async () => {
-    await page.goToMyLibrariesAndWait();
-    await dataTable.doubleClickOnRowByName(siteAdmin);
-    await sidenav.openNewMenu();
-
-    expect(await menu.isUploadFileEnabled()).toBe(false, 'Upload file is not disabled');
-    expect(await menu.isUploadFolderEnabled()).toBe(false, 'Upload folder is not disabled');
-
-    expect(await menu.isCreateFolderEnabled()).toBe(false, 'Create folder is not disabled');
-    expect(await menu.isCreateLibraryEnabled()).toBe(true, 'Create Library option not enabled');
-
-    expect(await menu.isCreateFileFromTemplateEnabled()).toBe(false, 'Create file from template is not disabled');
-    expect(await menu.isCreateFolderFromTemplateEnabled()).toBe(false, 'Create folder from template is not disabled');
   });
 
   it('[C216342] Enabled actions tooltips', async () => {
@@ -113,39 +86,10 @@ describe('New menu', () => {
 
     let tooltip: string;
 
-    tooltip = await menu.getItemTooltip('Upload File');
-    expect(tooltip).toContain('Select files to upload');
-
-    tooltip = await menu.getItemTooltip('Upload Folder');
-    expect(tooltip).toContain('Select folders to upload');
-
     tooltip = await menu.getItemTooltip('Create Folder');
     expect(tooltip).toContain('Create new folder');
 
-    tooltip = await menu.getItemTooltip('Create Library');
-    expect(tooltip).toContain('Create a new File Library');
-
     tooltip = await menu.getItemTooltip('Create file from template');
     expect(tooltip).toContain('Create file from template');
-  });
-
-  it('[C280398] Disabled actions tooltips', async () => {
-    await page.goToMyLibrariesAndWait();
-    await dataTable.doubleClickOnRowByName(siteAdmin);
-    await sidenav.openNewMenu();
-
-    let tooltip: string;
-
-    tooltip = await menu.getItemTooltip('Upload File');
-    expect(tooltip).toContain('Files cannot be uploaded whilst viewing the current items');
-
-    tooltip = await menu.getItemTooltip('Upload Folder');
-    expect(tooltip).toContain('Folders cannot be uploaded whilst viewing the current items');
-
-    tooltip = await menu.getItemTooltip('Create Folder');
-    expect(tooltip).toContain('Folders cannot be created whilst viewing the current items');
-
-    tooltip = await menu.getItemTooltip('Create file from template');
-    expect(tooltip).toContain('Files cannot be created whilst viewing the current items');
   });
 });

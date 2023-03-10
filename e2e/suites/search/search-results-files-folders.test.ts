@@ -52,8 +52,8 @@ describe('Search results - files and folders', () => {
 
   const loginPage = new LoginPage();
   const page = new SearchResultsPage();
-  const { searchInput } = page.header;
-  const { dataTable, breadcrumb } = page;
+  const { searchInput } = page.pageLayoutHeader;
+  const { dataTable, breadcrumb, toolbar } = page;
   const adminApiActions = new AdminActions();
 
   beforeAll(async () => {
@@ -85,6 +85,7 @@ describe('Search results - files and folders', () => {
   });
 
   it('[C307002] Results page title', async () => {
+    await toolbar.clickSearchIconButton();
     await searchInput.clickSearchButton();
     await searchInput.checkFilesAndFolders();
     await searchInput.searchFor(random);
@@ -94,6 +95,7 @@ describe('Search results - files and folders', () => {
   });
 
   it('[C279183] File information', async () => {
+    await toolbar.clickSearchIconButton();
     await searchInput.clickSearchButton();
     await searchInput.checkFilesAndFolders();
     await searchInput.searchFor(random);
@@ -115,6 +117,7 @@ describe('Search results - files and folders', () => {
   });
 
   it('[C306867] Folder information', async () => {
+    await toolbar.clickSearchIconButton();
     await searchInput.clickSearchButton();
     await searchInput.checkFilesAndFolders();
     await searchInput.searchFor(random);
@@ -134,6 +137,7 @@ describe('Search results - files and folders', () => {
   });
 
   it('[C290029] Search file with special characters', async () => {
+    await toolbar.clickSearchIconButton();
     await searchInput.clickSearchButton();
     await searchInput.checkFilesAndFolders();
     await searchInput.searchFor(fileRussian);
@@ -143,6 +147,7 @@ describe('Search results - files and folders', () => {
   });
 
   it('[C279177] Location column redirect - file in user Home', async () => {
+    await toolbar.clickSearchIconButton();
     await searchInput.clickSearchButton();
     await searchInput.checkFilesAndFolders();
     await searchInput.searchFor(file);
