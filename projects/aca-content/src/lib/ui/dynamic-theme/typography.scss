@@ -1,5 +1,6 @@
+/* stylelint-disable scss/no-global-function-names */
 @use '@angular/material' as mat;
-@import '../variables/font-family.scss';
+@import '../variables/font-family';
 
 @function get-mat-typography(
     $base-font-size,
@@ -44,7 +45,7 @@
 
     @if $font-family {
         @each $key, $level in $custom-typography {
-            @if (type-of($level) == 'map') {
+            @if type-of($level) == 'map' {
                 $new-level: map-merge($level, (font-family: $font-family));
                 $custom-typography: map-merge($custom-typography, ($key: $new-level));
             }

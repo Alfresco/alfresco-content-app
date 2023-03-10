@@ -1,5 +1,21 @@
 $top-margin: 12px;
 
+.app-suffix-search-icon-wrapper {
+  height: 6px;
+  margin: 14px 1px;
+  float: left;
+
+  .mat-icon {
+    font-size: 24px;
+    cursor: pointer;
+  }
+
+  .app-clear-icon {
+    font-size: 18px;
+    margin: 3px;
+  }
+}
+
 .app-search-container {
   margin-top: -$top-margin;
   padding-top: 2px;
@@ -41,21 +57,5 @@ $top-margin: 12px;
       font-size: 24px;
       padding-right: 0;
     }
-  }
-}
-
-.app-suffix-search-icon-wrapper {
-  height: 6px;
-  margin: 14px 1px;
-  float: left;
-
-  .mat-icon {
-    font-size: 24px;
-    cursor: pointer;
-  }
-
-  .app-clear-icon {
-    font-size: 18px;
-    margin: 3px;
   }
 }

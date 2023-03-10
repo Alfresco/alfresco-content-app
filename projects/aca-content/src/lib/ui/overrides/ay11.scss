@@ -5,6 +5,7 @@
 
       .mat-icon-button {
         left: 3px;
+
         &:focus-visible {
           outline: none;
         }
@@ -22,15 +23,19 @@
     &:focus-visible {
       @include rounded-outline();
     }
+
     .mat-ripple-element {
       display: none;
     }
+
     &.cdk-keyboard-focused {
       .mat-button-focus-overlay {
         display: none;
       }
+
       .mat-checkbox-ripple {
         @include rounded-outline();
+
         height: 22px;
         width: 22px;
         left: calc(50% - 11px);
@@ -46,10 +51,12 @@
   .mat-list-base .mat-list-option {
     &:focus-visible {
       background-color: white;
+
       .mat-list-item-content {
         @include rounded-border();
       }
     }
+
     .mat-list-item-content {
       @include rounded-border(transparent);
     }
@@ -60,6 +67,7 @@
       outline: none;
       line-height: 36px !important;
       @include rounded-border(transparent);
+
       &:focus-visible {
         @include rounded-border();
       }
@@ -79,11 +87,15 @@
     .mat-menu-ripple {
       display: none;
     }
+
     @include rounded-border(transparent);
+
     &:focus-visible {
       @include rounded-border();
+
       background-color: white;
     }
+
     &.cdk-keyboard-focused:not([disabled]) {
       background-color: white;
     }
@@ -106,6 +118,7 @@
       .mat-slide-toggle-bar {
         background-color: var(--theme-blue-button-color);
       }
+
       .mat-slide-toggle-thumb {
         background-color: white;
       }
@@ -130,6 +143,7 @@
     .mat-slide-toggle-ripple {
       display: none;
     }
+
     &.cdk-keyboard-focused {
       .mat-slide-toggle-bar {
         outline: 2px solid var(--theme-blue-button-color);
@@ -176,15 +190,20 @@
 
   .mat-expansion-panel .mat-expansion-panel-header {
     border: 2px solid transparent;
+
     .mat-button {
       outline: none;
+
       @include rounded-border(transparent);
+
       &:focus-visible {
         @include rounded-border();
+
         background-color: white;
       }
     }
-    &.cdk-keyboard-focused:not([aria-disabled=true]) {
+
+    &.cdk-keyboard-focused:not([aria-disabled="true"]) {
       background-color: white;
       @include rounded-border();
     }

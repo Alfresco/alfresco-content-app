@@ -1,8 +1,9 @@
+/* stylelint-disable scss/no-global-function-names */
 @use '@angular/material' as mat;
+
 $warn: map-get($custom-theme, warn);
 $accent: map-get($custom-theme, accent);
 $primary: map-get($custom-theme, primary);
-
 $foreground: map-get($custom-theme, foreground);
 $background: map-get($custom-theme, background);
 
@@ -12,6 +13,7 @@ $data-table-cell-min-width: 150px;
 $data-table-cell-min-width--no-grow: 120px;
 $data-table-cell-min-width--file-size: 110px !important;
 
+// Upload drag
 $adf-upload-dragging-color: unset;
 $adf-upload-dragging-border: 1px solid #00bcd4;
 $adf-upload-dragging-background: #e0f7fa;
@@ -25,13 +27,14 @@ $blue-save-button-background: #1F74DB;
 $black-heading: #4e4c4c;
 $grey-dropdown-background: #eee;
 $grey-divider: rgba(0,0,0,.22);
-$pagination-background-color: #ffffff;
+$pagination-background-color: #fff;
 $datetimepicker-font-color: rgba(black, 0.87);
 $datetimepicker-selected-date-background: #2254b2;
-$datetimepicker-cell-background-color: #ffffff;
+$datetimepicker-cell-background-color: #fff;
 $datetimepicker-cell-focus-border-color: #1F74DB;
 $datetimepicker-cell-focus-background-color: rgba(33, 33, 33, 0.12);
 
+// CSS Variables
 $defaults: (
   --theme-primary-color: mat.get-color-from-palette($primary),
   --theme-primary-color-default-contrast: mat.get-color-from-palette($primary, default-contrast),
@@ -61,7 +64,7 @@ $defaults: (
   --theme-grey-divider-color: $grey-divider,
   --theme-pagination-background-color: $pagination-background-color,
   --theme-about-panel-border-color: $grey-background,
-  --theme-about-panel-background-color: #ffffff,
+  --theme-about-panel-background-color: #fff,
   --theme-about-panel-title-color: #212121,
   --theme-datetimepicker-font-color: $datetimepicker-font-color,
   --theme-datetimepicker-selected-date-background: $datetimepicker-selected-date-background,

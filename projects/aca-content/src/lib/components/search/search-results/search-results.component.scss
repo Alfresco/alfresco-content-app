@@ -15,12 +15,13 @@ $contrast-gray: #646569;
 
   &__content {
     @include flex-column;
+
     border-left: 1px solid #eee;
   }
 
   &__content-header {
     display: flex;
-    padding: 0 25px 0 25px;
+    padding: 0 25px;
     flex-direction: row;
     align-items: center;
     border-bottom: 1px solid #eee;
@@ -30,6 +31,7 @@ $contrast-gray: #646569;
         background-color: $adf-chip-background;
         color: $contrast-gray;
       }
+
       .adf-search-filter-placeholder {
         color: $contrast-gray;
       }
@@ -63,7 +65,7 @@ $contrast-gray: #646569;
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
-    margin: 5px 5px;
+    margin: 5px;
     padding-right: 24px;
   }
 
@@ -113,7 +115,6 @@ $contrast-gray: #646569;
   }
 
   .adf-datatable {
-
     aca-search-action-menu button {
       width: 0;
     }

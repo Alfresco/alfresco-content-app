@@ -1,3 +1,14 @@
 {
-  "extends": "stylelint-config-standard-scss"
+  "extends": "stylelint-config-standard-scss",
+  "rules": {
+    "color-function-notation": "legacy",
+    "alpha-value-notation": "number",
+    "function-name-case": "lower",
+    "selector-class-pattern": [
+      "^_?(adf|adf-|aca-|app|app-|cdk-||mat-|material-)",
+      {
+        "resolveNestedSelectors": true
+      }
+    ]
+  }
 }
