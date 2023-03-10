@@ -27,16 +27,14 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
 import {
   UserPreferencesService,
-  UploadService,
-  NodesApiService,
   AlfrescoApiService,
   AlfrescoApiServiceMock,
   AuthenticationService,
-  DiscoveryApiService,
   TranslationMock,
   TranslationService,
   PipeModule
 } from '@alfresco/adf-core';
+import { UploadService, NodesApiService, DiscoveryApiService } from '@alfresco/adf-content-services';
 import { AppState, ClosePreviewAction } from '@alfresco/aca-shared/store';
 import { PreviewComponent } from './preview.component';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
