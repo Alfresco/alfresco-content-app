@@ -40,7 +40,7 @@ describe('Search input', () => {
     await page.clickPersonalFiles();
   });
 
-  it('[C289847] Search icon is displayed in  toolbar and clicking on it displays sarch input container', async () => {
+  it('[C289847] Search icon is displayed in  toolbar and clicking on it displays search input container', async () => {
     await toolbar.clickSearchIconButton();
     await searchInput.clickSearchButton();
 
