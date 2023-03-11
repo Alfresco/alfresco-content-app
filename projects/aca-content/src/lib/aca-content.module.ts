@@ -41,8 +41,7 @@ import {
   LibraryNameColumnComponent,
   LibraryRoleColumnComponent,
   LibraryStatusColumnComponent,
-  TrashcanNameColumnComponent,
-  ContentUserInfoComponent
+  TrashcanNameColumnComponent
 } from '@alfresco/adf-content-services';
 import { DocumentBasePageService, ExtensionsDataLoaderGuard, RouterExtensionService, SharedModule } from '@alfresco/aca-shared';
 import * as rules from '@alfresco/aca-shared/rules';
@@ -122,6 +121,7 @@ import { AppSharedLinkViewModule } from './components/shared-link-view/shared-li
 import { AcaFolderRulesModule } from '@alfresco/aca-folder-rules';
 import { TagsColumnComponent } from './components/dl-custom-components/tags-column/tags-column.component';
 import { ContentManagementService } from './services/content-management.service';
+import { UserInfoComponent } from './components/common/user-info/user-info.component';
 
 registerLocaleData(localeFr);
 registerLocaleData(localeDe);
@@ -233,7 +233,7 @@ export class ContentServiceExtensionModule {
       'app.toolbar.viewNode': ViewNodeComponent,
       'app.languagePicker': LanguagePickerComponent,
       'app.logout': LogoutComponent,
-      'app.user': ContentUserInfoComponent,
+      'app.user': UserInfoComponent,
       'app.notification-center': NotificationHistoryComponent
     });
 
