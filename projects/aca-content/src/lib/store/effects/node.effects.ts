@@ -53,7 +53,7 @@ import {
   ShowLoaderAction
 } from '@alfresco/aca-shared/store';
 import { ContentManagementService } from '../../services/content-management.service';
-import { RenditionViewerService } from '@alfresco/adf-content-services';
+import { RenditionService } from '@alfresco/adf-content-services';
 
 @Injectable()
 export class NodeEffects {
@@ -61,7 +61,7 @@ export class NodeEffects {
     private store: Store<AppStore>,
     private actions$: Actions,
     private contentService: ContentManagementService,
-    private renditionViewer: RenditionViewerService
+    private renditionViewer: RenditionService
   ) {}
 
   shareNode$ = createEffect(

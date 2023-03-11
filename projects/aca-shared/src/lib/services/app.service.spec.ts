@@ -31,15 +31,13 @@ import {
   AlfrescoApiService,
   PageTitleService,
   UserPreferencesService,
-  UploadService,
   AlfrescoApiServiceMock,
   TranslationMock,
-  TranslationService,
-  DiscoveryApiService
+  TranslationService
 } from '@alfresco/adf-core';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { HttpClientModule } from '@angular/common/http';
-import { SharedLinksApiService, GroupService, SearchQueryBuilderService } from '@alfresco/adf-content-services';
+import { SharedLinksApiService, GroupService, SearchQueryBuilderService, UploadService, DiscoveryApiService } from '@alfresco/adf-content-services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ContentApiService } from './content-api.service';
 import { RouterExtensionService } from './router.extension.service';

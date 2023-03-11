@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { FileUploadEvent, ShowHeaderMode, UploadService } from '@alfresco/adf-core';
+import { ShowHeaderMode } from '@alfresco/adf-core';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -34,7 +34,7 @@ import { AppExtensionService, ContentApiService, PageComponent } from '@alfresco
 import { SetCurrentFolderAction, isAdmin, AppStore, UploadFileVersionAction, showLoaderSelector } from '@alfresco/aca-shared/store';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { debounceTime, takeUntil } from 'rxjs/operators';
-import { FilterSearch, ShareDataRow } from '@alfresco/adf-content-services';
+import { FilterSearch, ShareDataRow, UploadService, FileUploadEvent } from '@alfresco/adf-content-services';
 import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 import { Observable } from 'rxjs';
 

@@ -27,7 +27,8 @@ import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { DEV_MODE_TOKEN } from './dev-mode.tokens';
 import { Observable } from 'rxjs';
 import { AppExtensionService, ExtensionRef } from '@alfresco/adf-extensions';
-import { AuthenticationService, DiscoveryApiService, RepositoryInfo } from '@alfresco/adf-core';
+import { AuthenticationService, RepositoryInfo } from '@alfresco/adf-core';
+import { DiscoveryApiService } from '@alfresco/adf-content-services';
 import { PACKAGE_JSON } from './package-json.token';
 
 @Component({

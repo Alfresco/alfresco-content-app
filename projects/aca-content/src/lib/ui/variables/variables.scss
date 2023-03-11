@@ -7,31 +7,16 @@ $foreground: map-get($custom-theme, foreground);
 $background: map-get($custom-theme, background);
 
 //Custom variables - ACA specific styling:
-$document-list-selection-color: mat.get-color-from-palette($alfresco-ecm-blue, 500);
-$document-list-background: white;
-$data-table-dividers-wrapper-border: none;
 $data-table-thumbnail-width: 35px;
 $data-table-cell-min-width: 150px;
 $data-table-cell-min-width--no-grow: 120px;
-$data-table-cell-min-width--fileSize: 110px !important;
-$data-table-cell-text-color: mat.get-color-from-palette($foreground, text, 0.54);
-$data-table-cell-link-color: mat.get-color-from-palette($foreground, text);
-$data-table-hover-color: #e3fafd;
-$data-table-selection-color: #e3fafd;
-
-$adf-pagination--border: 1px solid mat.get-color-from-palette($foreground, text, 0.07);
-$adf-pagination__empty--height: 0;
-
-$adf-toolbar-single-row-height: 48px;
-$adf-toolbar-padding: 14px;
+$data-table-cell-min-width--file-size: 110px !important;
 
 $adf-upload-dragging-color: unset;
 $adf-upload-dragging-border: 1px solid #00bcd4;
 $adf-upload-dragging-background: #e0f7fa;
 $adf-upload-dragging-level1-color: unset;
 $adf-upload-dragging-level1-border: none;
-
-$adf-permission-list-width: 100%;
 
 $grey-background: rgba(33, 33, 33, 0.12);
 $grey-text-background: rgba(33, 33, 33, 0.05);

@@ -23,8 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NameColumnComponent } from '@alfresco/adf-content-services';
-import { NodesApiService } from '@alfresco/adf-core';
+import { NameColumnComponent, NodesApiService } from '@alfresco/adf-content-services';
 import { ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
 import { Subject } from 'rxjs';

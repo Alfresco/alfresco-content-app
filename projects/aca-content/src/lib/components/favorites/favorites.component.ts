@@ -25,7 +25,7 @@
 
 import { AppExtensionService, ContentApiService, PageComponent } from '@alfresco/aca-shared';
 import { AppStore } from '@alfresco/aca-shared/store';
-import { UploadService } from '@alfresco/adf-core';
+import { UploadService } from '@alfresco/adf-content-services';
 import { MinimalNodeEntity, MinimalNodeEntryEntity, PathElementEntity, PathInfo } from '@alfresco/js-api';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';

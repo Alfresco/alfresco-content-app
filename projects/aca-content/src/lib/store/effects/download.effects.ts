@@ -24,7 +24,7 @@
  */
 
 import { AppStore, DownloadNodesAction, NodeActionTypes, NodeInfo, getAppSelection, getCurrentVersion } from '@alfresco/aca-shared/store';
-import { DownloadZipDialogComponent } from '@alfresco/adf-core';
+import { DownloadZipDialogComponent } from '@alfresco/adf-content-services';
 import { MinimalNodeEntity, Version } from '@alfresco/js-api';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
