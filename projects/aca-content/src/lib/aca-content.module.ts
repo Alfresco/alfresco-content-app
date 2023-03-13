@@ -203,7 +203,7 @@ export class ContentServiceExtensionModule {
     });
 
     extensions.setComponents({
-     'app.layout.main': ShellLayoutComponent,
+      'app.layout.main': ShellLayoutComponent,
       'app.layout.sidenav': SidenavComponent,
       'app.shell.sibling': UploadFilesDialogComponent,
       'app.components.tabs.metadata': MetadataTabComponent,
