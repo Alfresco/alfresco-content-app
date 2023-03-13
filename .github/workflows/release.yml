@@ -126,6 +126,17 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'npm'
       - uses: ./.github/actions/setup
+      - name: check PR number
+        id: action
+        uses: kamatama41/get-pr-number-action@v0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: save PR number
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          echo "PR_NUMBER=${{ steps.action.outputs.number }}" >> $GITHUB_ENV
       - name: publish
         uses: ./.github/actions/publish-libs
         with:
