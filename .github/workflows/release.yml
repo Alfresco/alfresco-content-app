@@ -8,16 +8,10 @@ on:
         required: false
         type: boolean
         default: true
-  pull_request:
-    types: [closed]
-    branches:
-      - develop
-      - master
-      - develop-patch*
-      - master-patch*
   push:
     branches:
       - master
+      - develop
 
 env:
   APP_CONFIG_ECM_HOST: ${{ secrets.PIPELINE_ENV_URL }}
