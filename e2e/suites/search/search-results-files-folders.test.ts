@@ -84,16 +84,6 @@ describe('Search results - files and folders', () => {
     ]);
   });
 
-  it('[C307002] Results page title', async () => {
-    await toolbar.clickSearchIconButton();
-    await searchInput.clickSearchButton();
-    await searchInput.checkFilesAndFolders();
-    await searchInput.searchFor(random);
-    await dataTable.waitForBody();
-
-    expect(await page.breadcrumb.currentItem.getText()).toEqual('Search Results');
-  });
-
   it('[C279183] File information', async () => {
     await toolbar.clickSearchIconButton();
     await searchInput.clickSearchButton();

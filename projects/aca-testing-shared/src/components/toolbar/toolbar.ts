@@ -33,11 +33,11 @@ export class Toolbar extends Component {
   menu = new Menu();
 
   buttons = this.allByCss('button');
-  createButton = element(By.css(('[id="app.toolbar.create"]')));
-  uploadButton = element(By.css(('[id="app.toolbar.upload"]')));
+  createButton = element(By.css('[id="app.toolbar.create"]'));
+  uploadButton = element(By.css('[id="app.toolbar.upload"]'));
   shareButton = element(By.css('button[data-automation-id="share-action-button"]'));
   viewButton = element(By.css(`button[title='View']`));
-  downloadButton = element(By.css(`button[title='Download']`));
+  downloadButton = element(By.css('[id="app.viewer.download"]'));
   viewDetailsButton = element(By.css(`button[title='View Details']`));
   printButton = element(By.css(`button[title='Print']`));
   fullScreenButton = element(By.css(`button[title='Activate full-screen mode']`));
