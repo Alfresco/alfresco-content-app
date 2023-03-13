@@ -1358,6 +1358,17 @@
                 "allowUpdateOnChange": false,
                 "hideDefaultAction": true
               }
+            },
+            {
+              "mincount": 1,
+              "field": "TAG",
+              "label": "Tags",
+              "settings": {
+                "allowUpdateOnChange": false,
+                "hideDefaultAction": true,
+                "displayAfterField": "SEARCH.CATEGORIES.MODIFIED_DATE",
+                "sorting": "ASCENDING"
+              }
             }
           ]
         },
