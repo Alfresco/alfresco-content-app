@@ -4,9 +4,9 @@ FROM node:16.13-alpine3.14 AS builder
 WORKDIR /usr/src/alfresco
 COPY package.json package.json
 
-RUN mkdir -p ./licenses && \
-  yarn licenses list > ./licenses/licenses.txt && \
-  yarn licenses generate-disclaimer > ./licenses/disclaimer.txt
+# RUN mkdir -p ./licenses && \
+#   yarn licenses list --production > ./licenses/licenses.txt && \
+#   yarn licenses generate-disclaimer --production > ./licenses/disclaimer.txt
 
 # 2. Generate image
 
