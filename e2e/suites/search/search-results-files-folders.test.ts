@@ -73,6 +73,7 @@ describe('Search results - files and folders', () => {
 
   beforeEach(async () => {
     await page.refresh();
+    await page.clickPersonalFilesAndWait();
   });
 
   afterAll(async () => {
