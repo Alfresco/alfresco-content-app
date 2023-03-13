@@ -8,16 +8,10 @@ on:
         required: false
         type: boolean
         default: true
-  pull_request:
-    types: [closed]
-    branches:
-      - develop
-      - master
-      - develop-patch*
-      - master-patch*
   push:
     branches:
       - master
+      - develop
 
 env:
   APP_CONFIG_ECM_HOST: ${{ secrets.PIPELINE_ENV_URL }}
@@ -61,7 +55,7 @@ jobs:
       - name: publish
         uses: ./.github/actions/publish-image
         with:
-          branch_name: ${{ github.base_ref }}
+          branch_name: ${{ env.BRANCH_NAME }}
           domain: quay.io
           username: ${{ secrets.QUAY_USERNAME }}
           password: ${{ secrets.QUAY_PASSWORD }}
@@ -84,7 +78,7 @@ jobs:
       - name: publish
         uses: ./.github/actions/publish-image
         with:
-          branch_name: ${{ github.base_ref }}
+          branch_name: ${{ env.BRANCH_NAME }}
           domain: docker.io
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
@@ -113,7 +107,7 @@ jobs:
         uses: ./.github/actions/git-tag
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch_name: ${{ github.base_ref }}
+          branch_name: ${{ env.BRANCH_NAME }}
           dry-run: ${{ inputs.dry-run-release }}
 
   publish-libs:
@@ -135,7 +129,7 @@ jobs:
       - name: publish
         uses: ./.github/actions/publish-libs
         with:
-          branch_name: ${{ github.base_ref }}
+          branch_name: ${{ env.BRANCH_NAME }}
           github_token: ${{ secrets.BOT_GITHUB_TOKEN }}
           npm_registry_address: ${{ vars.NPM_REGISTRY_ADDRESS }}
           npm_registry_token: ${{ secrets.NPM_REGISTRY_TOKEN }}
