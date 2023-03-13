@@ -7,11 +7,11 @@ $primary: map-get($custom-theme, primary);
 $foreground: map-get($custom-theme, foreground);
 $background: map-get($custom-theme, background);
 
-//Custom variables - ACA specific styling:
+// Custom variables - ACA specific styling:
 $data-table-thumbnail-width: 35px;
 $data-table-cell-min-width: 150px;
-$data-table-cell-min-width--no-grow: 120px;
-$data-table-cell-min-width--file-size: 110px !important;
+$data-table-cell-min-width-no-grow: 120px;
+$data-table-cell-min-width-file-size: 110px !important;
 
 // Upload drag
 $adf-upload-dragging-color: unset;
@@ -19,7 +19,6 @@ $adf-upload-dragging-border: 1px solid #00bcd4;
 $adf-upload-dragging-background: #e0f7fa;
 $adf-upload-dragging-level1-color: unset;
 $adf-upload-dragging-level1-border: none;
-
 $grey-background: rgba(33, 33, 33, 0.12);
 $grey-text-background: rgba(33, 33, 33, 0.05);
 $grey-hover-background: rgba(33, 33, 33, 0.24);
