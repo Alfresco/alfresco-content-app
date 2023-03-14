@@ -5,14 +5,17 @@
   height: 100%;
   overflow-y: hidden;
   background: var(--theme-sidenav-background-color);
+
   &-header {
     padding: 32px 0;
+
     &-title {
       display: flex;
       flex-direction: row;
       align-items: center;
       height: 32px;
       padding: 0 24px;
+
       &-logo {
         img {
           cursor: pointer;
@@ -20,6 +23,7 @@
           vertical-align: middle;
         }
       }
+
       &-text {
         flex: 1;
         color: var(--theme-selected-text-color);
@@ -32,16 +36,20 @@
       }
     }
   }
+
   .section:last-child {
     border-bottom: 0;
   }
+
   .section-sub-actions {
     overflow-y: auto;
+
     .mat-expansion-panel {
       width: 100%;
       background-color: unset;
       box-shadow: none;
       border-radius: 0;
+
       &-header {
         height: 32px;
         padding: 0 32px 0 0;
@@ -49,29 +57,36 @@
         align-items: center;
         border: none;
       }
+      
       &-header:hover {
         background: var(--theme-hover-background-color);
       }
+
       &-header-title {
         display: flex;
         flex-direction: row;
         align-items: center;
       }
+
       &-body {
         padding: 0 0 16px;
         font-size: var(--theme-body-1-font-size);
+
         .mat-button {
           line-height: 32px;
         }
       }
+
       .mat-expansion-indicator {
         display: flex;
         align-content: center;
       }
+
       .mat-expansion-indicator::after {
         transform: rotate(226deg);
       }
     }
+
     .item {
       flex-direction: row;
       display: flex;
@@ -79,27 +94,33 @@
       text-decoration: none;
       width: 100%;
       user-select: none;
+
       &:hover .action-button__label {
         color: var(--theme-selected-text-color);
       }
     }
+
     .action-button {
       color: var(--theme-action-button-text-color);
       height: 32px;
       padding: 0 24px;
       border-radius: 0;
     }
+
     .full-width {
       display: flex;
       width: 100%;
     }
+
     .action-button--active {
       color: var(--theme-selected-text-color) !important;
       background: var(--theme-selected-background-color);
     }
+
     .action-panel-header {
       color: var(--theme-action-button-text-color);
       padding: 0 24px;
+      
       &__label {
         font-size: var(--theme-caption-font-size);
       }
