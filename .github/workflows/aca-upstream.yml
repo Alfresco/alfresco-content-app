@@ -15,31 +15,34 @@ on:
         default: alfresco-applications
 env:
   GH_TOKEN: ${{ secrets.BOT_GITHUB_TOKEN }}
-  TRAVIS_COMMIT: ${{ github.sha }}
-  TRAVIS_BUILD_NUMBER: ${{ github.run_id }}
+  GH_COMMIT: ${{ github.sha }}
+  GH_BUILD_NUMBER: ${{ github.run_id }}
   NODE_OPTIONS: "--max-old-space-size=5120"
 
 jobs:
   trigger_aca_upstream:
-    name: Trigger ACA upstream
+    name: Trigger ACA Upstream
     runs-on: ubuntu-latest
     steps:
-        - name: Checkout repository
+        - name: Checkout Repository
           uses: actions/checkout@v3
           with:
             fetch-depth: 0
-        - name: install NPM
+
+        - name: Setup Node.js
           uses: actions/setup-node@v3
           with:
             node-version-file: '.nvmrc'
             cache: 'npm'
+
         - uses: Alfresco/alfresco-build-tools/.github/actions/configure-git-author@v1.35.0
           with:
             username: ${{ vars.BOT_GITHUB_USERNAME }}
             email: ${{ vars.BOT_GITHUB_EMAIL }}
             global: true
-        - name: Trigger upstream
+
+        - name: Trigger Upstream
           shell: bash
           run: |
             npm install github-api
-            ./scripts/travis/update/update-project.sh -p $TRAVIS_BUILD_NUMBER -t $GH_TOKEN -v alpha -c $TRAVIS_COMMIT -r ${{ inputs.repo_to_update || 'alfresco-applications' }}
+            ./scripts/gh/update/update-project.sh -p $GH_BUILD_NUMBER -t $GH_TOKEN -v alpha -c $GH_COMMIT -r ${{ inputs.repo_to_update || 'alfresco-applications' }}

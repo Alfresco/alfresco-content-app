@@ -37,4 +37,4 @@ runs:
         echo "TAG_VERSION=$TAG_VERSION" >> $GITHUB_ENV
     - name: Publish image
       shell: bash
-      run: ./scripts/travis/deploy/publish.sh "${{ inputs.domain }}" "$REPO_SLUG" "${{ inputs.username }}" "${{ inputs.password }}" "$TAG_VERSION" "${{ inputs.branch_name }}" "${{ inputs.dry-run }}"
+      run: ./scripts/gh/docker-publish.sh "${{ inputs.domain }}" "$REPO_SLUG" "${{ inputs.username }}" "${{ inputs.password }}" "$TAG_VERSION" "${{ inputs.branch_name }}" "${{ inputs.dry-run }}"
