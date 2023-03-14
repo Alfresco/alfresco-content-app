@@ -2,10 +2,10 @@
   "recommendations": [
     "angular.ng-template",
     "streetsidesoftware.code-spell-checker",
-    "ms-azuretools.vscode-docker",
     "editorconfig.editorconfig",
     "davidanson.vscode-markdownlint",
     "esbenp.prettier-vscode",
-    "eamodio.gitlens"
+    "eamodio.gitlens",
+    "stylelint.vscode-stylelint"
   ]
 }

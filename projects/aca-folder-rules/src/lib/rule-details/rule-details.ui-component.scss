@@ -8,10 +8,6 @@
       box-sizing: border-box;
       overflow-x: auto;
 
-      &:not(:nth-child(1)) {
-        border-top: 1px solid var(--theme-border-color);
-      }
-
       &.aca-rule-details__form__name {
         padding-bottom: 0;
       }
@@ -49,6 +45,10 @@
           }
         }
       }
+    }
+
+    &:not(:nth-child(1)) {
+      border-top: 1px solid var(--theme-border-color);
     }
 
     &__conditions {

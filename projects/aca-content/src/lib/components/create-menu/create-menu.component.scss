@@ -1,7 +1,3 @@
-.app-create-menu:focus {
-  outline: none;
-}
-
 .app-create-menu {
   .mat-stroked-button {
     width: 100%;
@@ -26,7 +22,7 @@
     &:not(.app-create-menu-secondary-button) {
       background-color: var(--theme-accent-color);
       color: var(--theme-accent-color-default-contrast);
-      margin-top: 0px;
+      margin-top: 0;
 
       .mat-icon {
         color: var(--theme-accent-color-default-contrast);
@@ -43,25 +39,6 @@
 
     & > .mat-menu-content {
       width: 100%;
-    }
-  }
-
-  &--collapsed {
-    outline: none;
-    color: var(--theme-secondary-text-color);
-    cursor: pointer;
-    margin: 0;
-    border: none;
-    background: none;
-
-    &:not(.app-create-menu-secondary-button) {
-      .app-create-menu--icon {
-        color: var(--theme-accent-color);
-      }
-
-      &:hover {
-        color: var(--theme-accent-color);
-      }
     }
   }
 
@@ -94,4 +71,27 @@
       }
     }
   }
+
+  &--collapsed {
+    outline: none;
+    color: var(--theme-secondary-text-color);
+    cursor: pointer;
+    margin: 0;
+    border: none;
+    background: none;
+
+    &:not(.app-create-menu-secondary-button) {
+      .app-create-menu--icon {
+        color: var(--theme-accent-color);
+      }
+
+      &:hover {
+        color: var(--theme-accent-color);
+      }
+    }
+  }
+}
+
+.app-create-menu:focus {
+  outline: none;
 }

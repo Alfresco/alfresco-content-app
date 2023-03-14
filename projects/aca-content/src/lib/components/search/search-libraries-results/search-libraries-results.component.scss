@@ -5,12 +5,13 @@
 
   &__content {
     @include flex-column;
+
     border-left: 1px solid #eee;
   }
 
   &__content-header {
     display: flex;
-    padding: 0 25px 0 25px;
+    padding: 0 25px;
     flex-direction: row;
     align-items: center;
     border-bottom: 1px solid #eee;
@@ -28,6 +29,7 @@
 
   .content {
     @include flex-row;
+
     flex: unset;
     height: unset;
     padding-top: 8px;
@@ -36,6 +38,7 @@
 
     &__side--left {
       @include flex-column;
+
       height: unset;
     }
   }

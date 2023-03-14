@@ -15,9 +15,9 @@
   overflow: hidden;
 }
 
-@mixin rounded-outline($border-color: var(--theme-blue-button-color), $thickness: 2px, $radius: 4px) {
-  outline: $thickness solid $border-color;
-  border-radius: $radius;
+@mixin rounded-outline() {
+  outline: 2px solid var(--theme-blue-button-color);
+  border-radius: 4px;
 }
 
 @mixin rounded-border($border-color: var(--theme-blue-button-color), $thickness: 2px, $radius: 4px) {

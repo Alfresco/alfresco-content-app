@@ -10,6 +10,7 @@ app-view-profile {
 
   .app-profile-row {
     width: 100%;
+    margin: 2rem 0 0;
   }
 
   .app-profile-title {
@@ -84,13 +85,7 @@ app-view-profile {
     box-shadow: 0 0 2px (--theme-blue-button-color);
   }
 
-  .app-profile-row {
-    width: 100%;
-    margin: 2rem 0 0 0;
-  }
-
   .app-general-edit {
-    margin: 0.7rem;
     background: var(--theme-grey-text-background-color);
     height: 30px;
     margin: 1rem;
@@ -122,7 +117,7 @@ app-view-profile {
   }
 
   .app-general-dropdown {
-    padding: 0rem 1rem;
+    padding: 0 1rem;
   }
 
   .app-general-dropdown-details {

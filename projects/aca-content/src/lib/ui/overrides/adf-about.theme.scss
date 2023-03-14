@@ -17,13 +17,12 @@
       width: 95%;
       border: 1px solid var(--theme-about-panel-border-color);
       background-color: var(--theme-about-panel-background-color);
-      border-radius: 12px;
     }
 
     mat-expansion-panel-header {
       display: flex;
       height: 80px !important;
-      padding: 24px 24px;
+      padding: 24px;
       line-height: 32px;
     }
 

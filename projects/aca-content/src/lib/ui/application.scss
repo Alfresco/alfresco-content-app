@@ -1,3 +1,4 @@
+/* stylelint-disable scss/no-global-function-names */
 @use '@angular/material' as mat;
 @import 'mixins';
 @import 'theme';
@@ -8,6 +9,7 @@ $foreground: map-get($custom-theme, foreground);
 html,
 body {
   @include flex-column;
+
   font-size: 14px;
   font-family: $default-font-family;
   color: mat.get-color-from-palette($foreground, text, 0.87);
@@ -30,6 +32,7 @@ body {
 .adf-container-full-width {
   overflow: hidden;
 }
+
 app-root,
 app-shell,
 app-about,
@@ -38,6 +41,7 @@ aca-search-results,
 ng-component {
   @include flex-column;
 }
+
 @media screen and (max-width: 600px) {
   app-root,
   app-about,
