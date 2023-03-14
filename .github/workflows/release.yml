@@ -37,6 +37,7 @@ env:
   REPO_SLUG: "alfresco/alfresco-content-app"
   NPM_REGISTRY_ADDRESS: ${{ secrets.NPM_REGISTRY_ADDRESS }}
 
+
 jobs:
   publish-docker-registry:
     name: "Publish to Quay"
@@ -126,6 +127,15 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'npm'
       - uses: ./.github/actions/setup
+      - name: check PR number
+        id: action
+        uses: kamatama41/get-pr-number-action@v0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: save PR number
+        shell: bash
+        run: |
+          echo "PR_NUMBER=${{ steps.action.outputs.number }}" >> $GITHUB_ENV
       - name: publish
         uses: ./.github/actions/publish-libs
         with:
