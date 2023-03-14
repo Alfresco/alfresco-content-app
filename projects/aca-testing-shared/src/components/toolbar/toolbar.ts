@@ -46,6 +46,7 @@ export class Toolbar extends Component {
   permanentlyDeleteButton = element(By.css(`button[title='Permanently Delete']`));
   restoreButton = element(By.css(`button[title='Restore']`));
   searchIconButton = element(By.css(`button[title='Search']`));
+  viewerDownloadButton = element(By.css('[id="app.viewer.download"]'));
 
   constructor(ancestor?: string) {
     super('.adf-toolbar', ancestor);
