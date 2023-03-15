@@ -22,8 +22,7 @@
         "NAME": "Enter rule name",
         "DESCRIPTION": "Enter rule description",
         "NO_DESCRIPTION": "No description",
-        "VALUE": "Value",
-        "CHOOSE_FOLDER": "Choose destination folder"
+        "VALUE": "Value"
       },
       "ERROR": {
         "REQUIRED": "This field is required",
