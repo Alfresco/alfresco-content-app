@@ -81,7 +81,7 @@ export class Toolbar extends Component {
   }
 
   async openMoreMenu(): Promise<void> {
-    const btnMoreActions = element(By.css('button[id="app.toolbar.more"]'));
+    const btnMoreActions = element(By.css('button[id="app.viewer.toolbar.more"]'));
     await btnMoreActions.isPresent();
     await BrowserActions.click(btnMoreActions);
 
