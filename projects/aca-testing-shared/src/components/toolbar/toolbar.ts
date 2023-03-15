@@ -80,8 +80,17 @@ export class Toolbar extends Component {
     await BrowserActions.click(this.searchIconButton);
   }
 
-  async openMoreMenu(): Promise<void> {
+  async openViewerMoreMenu(): Promise<void> {
     const btnMoreActions = element(By.css('button[id="app.viewer.toolbar.more"]'));
+    await btnMoreActions.isPresent();
+    await BrowserActions.click(btnMoreActions);
+
+    await this.menu.waitForMenuToOpen();
+    await browser.sleep(500);
+  }
+
+  async openMoreMenu(): Promise<void> {
+    const btnMoreActions = element(By.css('button[id="app.toolbar.more"]'));
     await btnMoreActions.isPresent();
     await BrowserActions.click(btnMoreActions);
 
