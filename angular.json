@@ -238,24 +238,6 @@
             }
           }
         },
-        "lite-serve": {
-          "builder": "@angular-custom-builders/lite-serve:dist-serve",
-          "options": {
-            "publicHost": "http://localhost:4200",
-            "browserTarget": "content-ce:build"
-          },
-          "configurations": {
-            "standalone": {
-              "watch": true
-            }
-          }
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "content-ce:build"
-          }
-        },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -347,15 +329,6 @@
             "production": {
               "devServerTarget": "content-ce:serve:production"
             }
-          }
-        },
-        "e2elite": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "protractor.conf.js",
-            "webdriverUpdate": false,
-            "devServerTarget": "content-ce:lite-serve",
-            "invertGrep": true
           }
         },
         "lint": {
