@@ -194,7 +194,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
             return new CardViewTextItemModel({
               ...cardViewPropertiesModel,
               icon: 'folder',
-              default: this.translate.instant('ACA_FOLDER_RULES.RULE_DETAILS.PLACEHOLDER.CHOOSE_FOLDER'),
+              default: '',
               clickable: true,
               clickCallBack: this.openSelectorDialog.bind(this, paramDef.name),
               value: this.parameters[paramDef.name]
