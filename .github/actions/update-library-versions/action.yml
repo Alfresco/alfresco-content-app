@@ -25,4 +25,4 @@ runs:
           NEW_LIBRARY_VERSION="${VERSION_IN_PACKAGE_JSON}.${{ github.run_id }}"
         fi
 
-        ./scripts/gh/update-lib-versions.sh "$NEW_LIBRARY_VERSION" "${{ inputs.dry-run }}"
+        ${{ github.action_path }}/update-lib-versions.sh "$NEW_LIBRARY_VERSION" "${{ inputs.dry-run }}"

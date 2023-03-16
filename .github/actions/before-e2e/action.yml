@@ -33,6 +33,7 @@ runs:
     - name: Check content UP
       shell: bash
       run: ./node_modules/@alfresco/adf-cli/bin/adf-cli check-cs-env --host $APP_CONFIG_ECM_HOST -u $ADMIN_EMAIL -p $ADMIN_PASSWORD || exit 1
+
     - name: Download artifacts
       uses: ./.github/actions/download-job-artifact
       with:
@@ -41,6 +42,7 @@ runs:
         aws-access-key-id: ${{ inputs.aws-access-key-id }}
         aws-secret-access-key: ${{ inputs.aws-secret-access-key }}
         aws-region: ${{ inputs.aws-region }}
+
     - name: Replace variables in app.config.json
       shell: bash
       run: |
@@ -54,6 +56,7 @@ runs:
             echo -e "\e[31m        \_ ERROR: Variables are still present in the app.config.json file. Some of them might not have default value set.\e[0m";
             exit 5;
         fi
+
     - name: Update webdriver-manager
       shell: bash
       run: |

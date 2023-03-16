@@ -49,7 +49,7 @@ runs:
 
     - name: Publish to GH registry
       shell: bash
-      run: ./scripts/gh/npm-publish.sh "$TAG" "$DRY_RUN"
+      run: ${{ github.action_path }}/npm-publish.sh "$TAG" "$DRY_RUN"
       env:
         NODE_AUTH_TOKEN: ${{ inputs.github_token }}
         TAG: ${{ inputs.npm_tag }}
@@ -64,7 +64,7 @@ runs:
 
     - name: Publish to NPM registry
       shell: bash
-      run: ./scripts/gh/npm-publish.sh "$TAG" "$DRY_RUN"
+      run: ${{ github.action_path }}/npm-publish.sh "$TAG" "$DRY_RUN"
       env:
         NODE_AUTH_TOKEN: ${{ inputs.npm_registry_token }}
         TAG: ${{ inputs.npm_tag }}
