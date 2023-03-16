@@ -93,8 +93,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 2
 
       - name: node
         uses: actions/setup-node@v3
@@ -219,9 +217,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 2
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-commit-message@v1.35.0
+
+      - name: Extract commit message
+        uses: Alfresco/alfresco-build-tools/.github/actions/get-commit-message@v1.35.0
 
       - name: Check previous jobs status
         if: >-

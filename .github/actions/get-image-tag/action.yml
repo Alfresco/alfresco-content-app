@@ -14,8 +14,8 @@ runs:
       shell: bash
       run: |
         if [[ "${{ inputs.branch_name }}" == "master" ]]; then
-            TAG_VERSION="$(jq -cr '.version' < package.json)"
+          TAG_VERSION="$(jq -cr '.version' < package.json)"
         else
-            TAG_VERSION="${{ inputs.branch_name }}-${{ github.run_id }},{{ inputs.branch_name }}"
+          TAG_VERSION="${{ inputs.branch_name }}-${{ github.run_id }},{{ inputs.branch_name }}"
         fi
         echo "TAG_VERSION=$TAG_VERSION" >> $GITHUB_ENV
