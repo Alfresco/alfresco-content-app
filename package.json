@@ -17,7 +17,7 @@
     "build-libs": "ng build aca-shared && ng build adf-office-services-ext && ng build aca-about && ng build aca-viewer && ng build aca-preview && ng build aca-folder-rules && ng build aca-content",
     "test": "ng test",
     "test:ci": "ng test adf-office-services-ext && ng test content-ce --code-coverage",
-    "lint": "ng lint",
+    "lint": "NODE_OPTIONS=--max_old_space_size=4096 ng lint",
     "update-webdriver": "./scripts/update-webdriver.sh",
     "e2e": "npm run update-webdriver && protractor $SUITE",
     "inspect.bundle": "ng build content-ce --configuration production --stats-json && npx webpack-bundle-analyzer dist/content-ce/stats.json",
