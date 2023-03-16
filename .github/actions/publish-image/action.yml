@@ -39,15 +39,14 @@ runs:
         branch_name: ${{ inputs.branch_name }}
 
     - name: Publish
+      if: ${{ github.event.inputs.dry-run != 'true' }}
       shell: bash
       run: |
-        if [[ "${{ inputs.dry-run }}" != "true" ]]; then
-          npm ci && npm run build.release
-          echo "Running the docker with tag $TAG_VERSION"
+        npm ci && npm run build.release
+        echo "Running the docker with tag $TAG_VERSION"
 
-          npx @alfresco/adf-cli docker-publish \
-            --dockerRepo "${{ inputs.registry }}/alfresco/alfresco-content-app" \
-            --buildArgs "PROJECT_NAME=content-ce" \
-            --dockerTags "$TAG_VERSION" \
-            --pathProject "$(pwd)"
-        fi
+        npx @alfresco/adf-cli docker-publish \
+          --dockerRepo "${{ inputs.registry }}/alfresco/alfresco-content-app" \
+          --buildArgs "PROJECT_NAME=content-ce" \
+          --dockerTags "$TAG_VERSION" \
+          --pathProject "$(pwd)"
