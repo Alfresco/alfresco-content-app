@@ -1,9 +1,9 @@
 name: "Publish Docker Images"
-description: "Publish Docker image to quay.io or dockerhub or another domain - only publish the version on master - elsewhere version and branch"
+description: "Publish Docker Image to the provided registry"
 
 inputs:
-  domain:
-    description: 'domain to publish image to'
+  registry:
+    description: 'Docker registry'
     required: true
     type: string
   username:
@@ -26,15 +26,28 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Get docker image tag name
+    - name: Login to Docker Registry
+      uses: docker/login-action@v2
+      with:
+        registry: ${{ inputs.registry }}
+        username: ${{ inputs.username }}
+        password: ${{ inputs.password }}
+
+    - name: Get Tag
+      uses: ./.github/actions/get-image-tag
+      with:
+        branch_name: ${{ inputs.branch_name }}
+
+    - name: Publish
       shell: bash
       run: |
-        if [[ "${{ inputs.branch_name }}" == "master" ]]; then
-            TAG_VERSION=$(jq -cr '.version' < package.json)
-        else
-            TAG_VERSION=${{ inputs.branch_name }}-${{ github.run_id }}
+        if [[ "${{ inputs.dry-run }}" != "true" ]]; then
+          npm ci && npm run build.release
+          echo "Running the docker with tag $TAG_VERSION"
+
+          npx @alfresco/adf-cli docker-publish \
+            --dockerRepo "${{ inputs.registry }}/alfresco/alfresco-content-app" \
+            --buildArgs "PROJECT_NAME=content-ce" \
+            --dockerTags "$TAG_VERSION" \
+            --pathProject "$(pwd)"
         fi
-        echo "TAG_VERSION=$TAG_VERSION" >> $GITHUB_ENV
-    - name: Publish image
-      shell: bash
-      run: ./scripts/gh/docker-publish.sh "${{ inputs.domain }}" "$REPO_SLUG" "${{ inputs.username }}" "${{ inputs.password }}" "$TAG_VERSION" "${{ inputs.branch_name }}" "${{ inputs.dry-run }}"

@@ -1,0 +1,21 @@
+name: "Get Image Tag"
+description: "Generates a tag for Docker image"
+
+inputs:
+  branch_name:
+    description: 'Name of the branch the workflow runs on'
+    required: true
+    type: string
+
+runs:
+  using: "composite"
+  steps:
+    - name: Get docker image tag name
+      shell: bash
+      run: |
+        if [[ "${{ inputs.branch_name }}" == "master" ]]; then
+            TAG_VERSION="$(jq -cr '.version' < package.json)"
+        else
+            TAG_VERSION="${{ inputs.branch_name }}-${{ github.run_id }},{{ inputs.branch_name }}"
+        fi
+        echo "TAG_VERSION=$TAG_VERSION" >> $GITHUB_ENV
