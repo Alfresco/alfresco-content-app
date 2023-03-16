@@ -164,11 +164,6 @@ jobs:
         with:
           options: "--suite=${{ matrix.e2e-suites.name }}"
       - uses: ./.github/actions/after-e2e
-        with:
-          id: ${{ matrix.e2e-suites.id }}
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
 
   e2es-playwright:
     needs: [lint, build, unit-tests]
@@ -203,11 +198,6 @@ jobs:
           options: "e2e/playwright/tests/folder-rules/playwright.config.ts"
           test-runner: playwright
       - uses: ./.github/actions/after-e2e
-        with:
-          id: 15
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
 
   finalize:
     if: ${{ always() }}
