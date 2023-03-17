@@ -5,25 +5,21 @@
  * pursuant to a written agreement and any use of this program without such an
  * agreement is prohibited.
  */
-import { AlfrescoApiService, AppConfigService } from '@alfresco/adf-core';
+import { AlfrescoApiService } from '@alfresco/adf-core';
 import { PeopleApi, Person } from '@alfresco/js-api';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { throwError } from 'rxjs';
 
 @Component({
   selector: 'app-view-profile',
   templateUrl: './view-profile.component.html',
   styleUrls: ['./view-profile.component.scss'],
-  encapsulation: ViewEncapsulation.None,
-  host: { class: 'app-view-profile' }
+  encapsulation: ViewEncapsulation.None
 })
 export class ViewProfileComponent implements OnInit {
-  private _peopleApi: PeopleApi;
-
-  get peopleApi(): PeopleApi {
-    return this._peopleApi ?? (this._peopleApi = new PeopleApi(this.apiService.getInstance()));
-  }
+  peopleApi: PeopleApi;
 
   profileForm: FormGroup;
   personDetails: Person;
@@ -31,29 +27,39 @@ export class ViewProfileComponent implements OnInit {
   generalSectionDropdown = true;
   generalSectionButtonsToggle = true;
 
+  loginSectionDropdown = false;
+  loginSectionButtonsToggle = true;
+  passwordSectionDropdown = false;
+
   contactSectionDropdown = false;
   contactSectionButtonsToggle = true;
 
-  landingPage: string;
-
-  constructor(private apiService: AlfrescoApiService, private appConfigService: AppConfigService) {
-    this.landingPage = this.appConfigService.get('landingPage', '/personal-files');
+  constructor(private router: Router, apiService: AlfrescoApiService) {
+    this.peopleApi = new PeopleApi(apiService.getInstance());
   }
 
   ngOnInit() {
+    this.populateForm(this.personDetails);
     this.peopleApi
       .getPerson('-me-')
-      .then((userInfo) => this.populateForm(userInfo?.entry))
-      .catch((error) => throwError(error));
+      .then((userInfo) => {
+        this.personDetails = userInfo?.entry;
+        this.populateForm(userInfo?.entry);
+      })
+      .catch((error) => {
+        throwError(error);
+      });
   }
 
   populateForm(userInfo: Person) {
-    this.personDetails = userInfo;
     this.profileForm = new FormGroup({
       jobTitle: new FormControl(userInfo?.jobTitle || ''),
       location: new FormControl(userInfo?.location || ''),
       telephone: new FormControl(userInfo?.telephone || '', [Validators.pattern('^([0-9]+-)*[0-9]+$')]),
       mobile: new FormControl(userInfo?.mobile || '', [Validators.pattern('^([0-9]+-)*[0-9]+$')]),
+      oldPassword: new FormControl(''),
+      newPassword: new FormControl(''),
+      verifyPassword: new FormControl(''),
       companyName: new FormControl(userInfo?.company?.organization || ''),
       companyPostCode: new FormControl(userInfo?.company?.postcode || ''),
       companyAddress: new FormControl(userInfo?.company?.address1 || ''),
@@ -62,14 +68,26 @@ export class ViewProfileComponent implements OnInit {
     });
   }
 
+  navigateToPersonalFiles() {
+    this.router.navigate(['/personal-files'], {
+      replaceUrl: true
+    });
+  }
+
   toggleGeneralDropdown() {
     this.generalSectionDropdown = !this.generalSectionDropdown;
-    this.generalSectionButtonsToggle = true;
+
+    if (!this.generalSectionDropdown) {
+      this.generalSectionButtonsToggle = true;
+    }
   }
 
   toggleGeneralButtons() {
     this.generalSectionButtonsToggle = !this.generalSectionButtonsToggle;
-    this.generalSectionDropdown = true;
+
+    if (!this.generalSectionButtonsToggle) {
+      this.generalSectionDropdown = true;
+    }
   }
 
   onSaveGeneralData(event) {
@@ -77,19 +95,48 @@ export class ViewProfileComponent implements OnInit {
     this.updatePersonDetails(event);
   }
 
+  onSaveLoginData() {
+    this.passwordSectionDropdown = !this.passwordSectionDropdown;
+    this.loginSectionButtonsToggle = !this.loginSectionButtonsToggle;
+  }
+
   onSaveCompanyData(event) {
     this.contactSectionButtonsToggle = !this.contactSectionButtonsToggle;
     this.updatePersonDetails(event);
   }
 
+  toggleLoginDropdown() {
+    this.loginSectionDropdown = !this.loginSectionDropdown;
+
+    if (!this.loginSectionDropdown) {
+      this.loginSectionButtonsToggle = true;
+    }
+  }
+
+  toggleLoginButtons() {
+    this.loginSectionButtonsToggle = !this.loginSectionButtonsToggle;
+    this.passwordSectionDropdown = !this.passwordSectionDropdown;
+
+    if (!this.loginSectionButtonsToggle) {
+      this.loginSectionDropdown = true;
+      this.passwordSectionDropdown = true;
+    }
+  }
+
   toggleContactDropdown() {
     this.contactSectionDropdown = !this.contactSectionDropdown;
-    this.contactSectionButtonsToggle = true;
+
+    if (!this.contactSectionDropdown) {
+      this.contactSectionButtonsToggle = true;
+    }
   }
 
   toggleContactButtons() {
     this.contactSectionButtonsToggle = !this.contactSectionButtonsToggle;
-    this.contactSectionDropdown = true;
+
+    if (!this.contactSectionButtonsToggle) {
+      this.contactSectionDropdown = true;
+    }
   }
 
   updatePersonDetails(event) {

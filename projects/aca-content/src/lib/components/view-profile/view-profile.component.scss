@@ -1,46 +1,46 @@
-.app-view-profile {
+app-view-profile {
   letter-spacing: .5px;
 
-  .app-profile-actions {
-    display: flex;
-
-    button {
-      margin: 1rem;
-      margin-left: 0;
-    }
-  }
-
   .app-profile-container {
+    margin-top: 1rem;
     overflow: scroll;
-    height: 100%;
+    height:100%;
     width: 100%;
   }
 
   .app-profile-row {
     width: 100%;
     margin: 2rem 0 0;
-    height: 32px;
-    padding: 32px 0;
-    border-bottom: 1px solid var(--theme-header-border-color);
   }
 
   .app-profile-title {
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    height: 32px;
-    padding: 0 24px;
-    width: 100%;
-    height: 32px;
-    padding: 32px 0;
-    border-bottom: 1px solid var(--theme-header-border-color);
+    margin-left: 2rem;
   }
 
-  .app-profile-row {
+  .app-profile {
+    cursor: pointer;
+  }
+
+  .app-profile-general-row {
     margin: 2rem 0 0 2rem;
     width: 70%;
     border: 1px solid var(--theme-grey-background-color);
     border-radius: 1rem;
+  }
+
+  .app-profile-icon {
+    margin-right: 1rem;
+    margin-top: 1rem;
+    cursor: pointer;
+  }
+
+  .app-profile-general-icon {
+    cursor: pointer;
+  }
+
+  .app-profile-text {
+    letter-spacing: .5px;
   }
 
   .app-profile-general {
@@ -48,21 +48,26 @@
     padding-left: 1rem;
   }
 
+  .app-profile-general-bottom-radius {
+    border-bottom-left-radius:0;
+    border-bottom-right-radius: 0;
+  }
+
   .app-profile-general-section {
     display: flex;
-    width: 100%;
+    width: 60%;
     padding-top: 1rem;
     cursor: pointer;
   }
 
   .app-general-title {
     margin-left: 0.6rem;
-    margin-top: 11px;
+    margin-top: 4px;
     letter-spacing: .5px;
   }
 
   .app-general-edit-btn {
-    width: 60%;
+    width:60%;
     text-align: end;
   }
 
@@ -76,7 +81,7 @@
   .app-selected:focus {
     border: 2px solid var(--theme-blue-button-color) !important;
     border-radius: 6px;
-    outline: none !important;
+    outline : none !important;
     box-shadow: 0 0 2px (--theme-blue-button-color);
   }
 
@@ -117,33 +122,63 @@
 
   .app-general-dropdown-details {
     display: flex;
+  }
 
-    h4 {
-      color: var(--theme-heading-color);
-      width: 20%;
-      font-weight: 400;
-      letter-spacing: .5px;
-    }
+  .app-profile-general-dropdown-heading {
+    color: var(--theme-heading-color);
+    width: 20%;
+    font-weight: 400;
+    letter-spacing: .5px;
+  }
 
-    p {
-      margin-top: 1.3rem;
-      letter-spacing: .5px;
-    }
+  .app-profile-general-dropdown-details {
+    margin-top: 1.3rem;
+    letter-spacing: .5px;
+  }
 
-    input {
-      width: 24%;
-      height: 25px;
-      border: none;
-      margin-top: 1.3rem;
-      background-color: var(--theme-dropdown-color);
+  .app-profile-general-dropdown-input-details {
+    width: 24%;
+    height: 25px;
+    border: none;
+    margin-top: 1.3rem;
+    background-color: var(--theme-dropdown-color);
+  }
 
-      &:focus {
-        border: 2px solid var(--theme-blue-button-color) !important;
-        border-radius: 6px;
-        outline: none !important;
-        box-shadow: 0 0 2px (--theme-blue-button-color);
-      }
-    }
+  .app-profile-login-row {
+    margin: 2rem 0 0 2rem;
+    width: 70%;
+    border: 1px solid var(--theme-grey-background-color);
+    border-radius: 1rem;
+  }
+
+  .app-profile-login {
+    display: flex;
+    padding-left: 1rem;
+  }
+
+  .app-profile-login-dropdown-details {
+    width: 24%;
+    height: 25px;
+    border: none;
+    margin-top: 1.3rem;
+    background-color: var(--theme-dropdown-color) ;
+  }
+
+  .app-profile-login-dropdown-heading-forgot {
+    margin-top: 1.3rem;
+    color: var(--theme-heading-color);
+    margin-left: 16rem;
+  }
+
+  .app-profile-company-row {
+    margin-top: 2rem;
+  }
+
+  .app-profile-contact-row {
+    margin: 2rem 0 5rem 2rem;
+    width: 70%;
+    border: 1px solid var(--theme-grey-background-color);
+    border-radius: 1rem;
   }
 
   .app-error-message {
