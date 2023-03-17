@@ -28,9 +28,9 @@ import { APP_ROUTES, SIDEBAR_LABELS, LoginPage, BrowsingPage, SearchResultsPage,
 describe('Sidebar', () => {
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
-  const { sidenav, header } = page;
+  const { sidenav, toolbar } = page;
   const searchResultsPage = new SearchResultsPage();
-  const { searchInput } = searchResultsPage.header;
+  const { searchInput } = searchResultsPage.pageLayoutHeader;
 
   beforeAll(async () => {
     await loginPage.loginWithAdmin();
@@ -38,7 +38,12 @@ describe('Sidebar', () => {
 
   beforeEach(async () => {
     await Utils.pressEscape();
-    await header.expandSideNav();
+    await sidenav.expandSideNav();
+  });
+
+  afterEach(async () => {
+    await Utils.pressEscape();
+    await page.clickPersonalFiles();
   });
 
   it('[C217149] has "Personal Files" as default', async () => {
@@ -124,62 +129,65 @@ describe('Sidebar', () => {
   });
 
   it('[C269095] default state is expanded', async () => {
-    expect(await header.isSidenavExpanded()).toBe(true, 'Sidebar not expanded');
+    expect(await sidenav.isSidenavExpanded()).toBe(true, 'Sidebar not expanded');
   });
 
   it('[C269096] sidebar toggle', async () => {
-    await header.collapseSideNav();
-    expect(await header.isSidenavExpanded()).toBe(false, 'Sidebar not collapsed');
+    await sidenav.collapseSideNav();
+    expect(await sidenav.isSidenavExpanded()).toBe(false, 'Sidebar not collapsed');
 
-    await header.expandSideNav();
-    expect(await header.isSidenavExpanded()).toBe(true, 'Sidebar not expanded');
+    await sidenav.expandSideNav();
+    expect(await sidenav.isSidenavExpanded()).toBe(true, 'Sidebar not expanded');
   });
 
   it('[C269100] sidebar state is preserved on page refresh', async () => {
-    expect(await header.isSidenavExpanded()).toBe(true, 'Sidebar not expanded');
+    expect(await sidenav.isSidenavExpanded()).toBe(true, 'Sidebar not expanded');
     await page.refresh();
-    expect(await header.isSidenavExpanded()).toBe(true, 'Sidebar not expanded');
+    expect(await sidenav.isSidenavExpanded()).toBe(true, 'Sidebar not expanded');
 
-    await header.collapseSideNav();
-    expect(await header.isSidenavExpanded()).toBe(false, 'Sidebar not collapsed');
+    await sidenav.collapseSideNav();
+    expect(await sidenav.isSidenavExpanded()).toBe(false, 'Sidebar not collapsed');
     await page.refresh();
-    expect(await header.isSidenavExpanded()).toBe(false, 'Sidebar not collapsed');
+    expect(await sidenav.isSidenavExpanded()).toBe(false, 'Sidebar not collapsed');
   });
 
   it('[C269102] sidebar state is preserved after logout / login', async () => {
-    await header.collapseSideNav();
+    await sidenav.collapseSideNav();
     await page.signOut();
     await loginPage.loginWithAdmin();
 
-    expect(await header.isSidenavExpanded()).toBe(false, 'Sidebar not collapsed');
+    expect(await sidenav.isSidenavExpanded()).toBe(false, 'Sidebar not collapsed');
   });
 
   it('[C277223] sidebar is collapsed automatically when Search Results opens', async () => {
+    await toolbar.clickSearchIconButton();
     await searchInput.clickSearchButton();
     /* cspell:disable-next-line */
     await searchInput.searchFor('qwertyuiop');
     await searchResultsPage.waitForResults();
 
-    expect(await header.isSidenavExpanded()).toBe(false, 'Sidebar not collapsed');
+    expect(await sidenav.isSidenavExpanded()).toBe(false, 'Sidebar not collapsed');
   });
 
   it('[C277224] sidenav returns to the default state when navigating away from the Search Results page', async () => {
+    await toolbar.clickSearchIconButton();
     await searchInput.clickSearchButton();
     /* cspell:disable-next-line */
     await searchInput.searchFor('qwertyuiop');
     await searchResultsPage.waitForResults();
     await page.clickFavorites();
 
-    expect(await header.isSidenavExpanded()).toBe(true, 'Sidebar not expanded');
+    expect(await sidenav.isSidenavExpanded()).toBe(true, 'Sidebar not expanded');
   });
 
   it('[C277230] sidenav can be expanded when search results page is displayed', async () => {
+    await toolbar.clickSearchIconButton();
     await searchInput.clickSearchButton();
     /* cspell:disable-next-line */
     await searchInput.searchFor('qwertyuiop');
     await searchResultsPage.waitForResults();
-    await header.expandSideNav();
+    await sidenav.expandSideNav();
 
-    expect(await header.isSidenavExpanded()).toBe(true, 'Sidebar not expanded');
+    expect(await sidenav.isSidenavExpanded()).toBe(true, 'Sidebar not expanded');
   });
 });

@@ -26,11 +26,12 @@ import { ElementFinder, by, element, browser, By } from 'protractor';
 import { Logger, BrowserActions } from '@alfresco/adf-testing';
 import { Menu } from '../menu/menu';
 import { Component } from '../component';
+import { waitElement } from '../../utilities';
 
 export class Sidenav extends Component {
   links = this.component.all(by.css('.item'));
   activeLink = this.byCss('.action-button--active');
-  newButton = element(By.css(('[id="app.toolbar.create"]')));
+  newButton = element(By.css('[id="app.toolbar.create"]'));
   personalFiles = this.byCss(`[data-automation-id='app.navbar.personalFiles']`);
   fileLibraries = this.byCss(`[data-automation-id='app.navbar.libraries.menu']`);
   myLibraries = this.byCss(`[data-automation-id='app.navbar.libraries.files']`, browser);
@@ -39,11 +40,32 @@ export class Sidenav extends Component {
   recentFiles = this.byCss(`[data-automation-id='app.navbar.recentFiles']`);
   favorites = this.byCss(`[data-automation-id='app.navbar.favorites']`);
   trash = this.byCss(`[data-automation-id='app.navbar.trashcan']`);
+  sidenavToggle = this.byCss(`.sidenav-header-title-logo`);
 
   menu: Menu = new Menu();
 
   constructor(ancestor?: string) {
     super('app-sidenav', ancestor);
+  }
+
+  async isSidenavExpanded(): Promise<boolean> {
+    return browser.isElementPresent(by.css(`[data-automation-id='expanded']`));
+  }
+
+  async expandSideNav(): Promise<void> {
+    const expanded = await this.isSidenavExpanded();
+    if (!expanded) {
+      await BrowserActions.click(this.sidenavToggle);
+      await waitElement(`[data-automation-id='expanded']`);
+    }
+  }
+
+  async collapseSideNav(): Promise<void> {
+    const expanded = await this.isSidenavExpanded();
+    if (expanded) {
+      await BrowserActions.click(this.sidenavToggle);
+      await waitElement(`[data-automation-id='collapsed']`);
+    }
   }
 
   async openNewMenu(): Promise<void> {

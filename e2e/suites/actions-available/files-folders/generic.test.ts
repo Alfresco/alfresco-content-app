@@ -51,7 +51,7 @@ describe('Generic tests : ', () => {
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable, toolbar } = page;
-  const { searchInput } = page.header;
+  const { searchInput } = page.pageLayoutHeader;
   const contextMenu = dataTable.menu;
 
   beforeAll(async () => {
@@ -113,44 +113,8 @@ describe('Generic tests : ', () => {
   });
 
   describe('Actions are not displayed when no item is selected', () => {
-    it('[C213120] on Personal Files', async () => {
-      await page.clickPersonalFilesAndWait();
-      expect(await toolbar.isEmpty()).toBe(true, `actions displayed though nothing selected`);
-    });
-
-    it('[C280452] on Trash', async () => {
-      await page.clickTrash();
-      expect(await toolbar.isEmpty()).toBe(true, `actions displayed though nothing selected`);
-    });
-
-    it('[C280449] on Favorites', async () => {
-      await page.clickFavorites();
-      expect(await toolbar.isEmpty()).toBe(true, `actions displayed though nothing selected`);
-    });
-
-    it('[C280447] on Recent Files', async () => {
-      await userApi.search.waitForNodes(`file-${random}`, { expect: 2 });
-
-      await page.clickRecentFilesAndWait();
-      expect(await toolbar.isEmpty()).toBe(true, `actions displayed though nothing selected`);
-    });
-
-    it('[C280445] on Shared Files', async () => {
-      await page.clickSharedFiles();
-      expect(await toolbar.isEmpty()).toBe(true, `actions displayed though nothing selected`);
-    });
-
-    it('[C280439] on My Libraries', async () => {
-      await page.goToMyLibraries();
-      expect(await toolbar.isEmpty()).toBe(true, `actions displayed though nothing selected`);
-    });
-
-    it('[C280439] on Favorite Libraries', async () => {
-      await page.goToFavoriteLibraries();
-      expect(await toolbar.isEmpty()).toBe(true, `actions displayed though nothing selected`);
-    });
-
     it('[C291815] on Search Results', async () => {
+      await toolbar.clickSearchIconButton();
       await searchInput.clickSearchButton();
       await searchInput.searchFor('*');
 

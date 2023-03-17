@@ -140,7 +140,7 @@ describe('Extensions - Viewer', () => {
       await page.dataTable.doubleClickOnRowByName(pdfFile.fileName);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
+      await toolbar.openViewerMoreMenu();
       expect(await toolbar.menu.isMenuItemPresent(customSecondaryAction.title)).toBe(true, 'action is not present');
       expect(await toolbar.menu.getItemIconText(customSecondaryAction.title)).toEqual(customSecondaryAction.icon);
       expect(await toolbar.menu.getItemIdAttribute(customSecondaryAction.title)).toEqual(customSecondaryAction.id);
@@ -150,7 +150,7 @@ describe('Extensions - Viewer', () => {
       await page.dataTable.doubleClickOnRowByName(pdfFile.fileName);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
+      await toolbar.openViewerMoreMenu();
       expect(await BrowserActions.getAttribute(toolbar.menu.getItemById(moveAction.id), 'title')).toEqual(moveAction.title);
     });
 
@@ -158,7 +158,7 @@ describe('Extensions - Viewer', () => {
       await page.dataTable.doubleClickOnRowByName(pdfFile.fileName);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
+      await toolbar.openViewerMoreMenu();
       expect(await toolbar.menu.managePermissionsAction.isPresent()).toBe(false, 'Action is still displayed');
     });
   });
