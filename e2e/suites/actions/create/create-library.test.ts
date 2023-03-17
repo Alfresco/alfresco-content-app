@@ -91,7 +91,7 @@ describe('Create library', () => {
   it('[C280024] Create Library dialog UI', async () => {
     await page.goToMyLibrariesAndWait();
 
-    await page.sidenav.openCreateLibraryDialog();
+    await page.toolbar.openCreateLibraryDialog();
     await createDialog.waitForDialogToOpen();
 
     expect(await createDialog.getDialogTitle()).toMatch('Create Library');
@@ -109,7 +109,7 @@ describe('Create library', () => {
   it('[C280025] Create a public library', async () => {
     await page.goToMyLibrariesAndWait();
 
-    await page.sidenav.openCreateLibraryDialog();
+    await page.toolbar.openCreateLibraryDialog();
     await createDialog.waitForDialogToOpen();
     await createDialog.enterName(site1Name);
     await BrowserActions.click(createDialog.createButton);
@@ -124,7 +124,7 @@ describe('Create library', () => {
   it('[C289880] Create a moderated library', async () => {
     await page.goToMyLibrariesAndWait();
 
-    await page.sidenav.openCreateLibraryDialog();
+    await page.toolbar.openCreateLibraryDialog();
     await createDialog.waitForDialogToOpen();
     await createDialog.enterName(site2Name);
     await BrowserActions.click(createDialog.visibilityModerated);
@@ -140,7 +140,7 @@ describe('Create library', () => {
   it('[C289881] Create a private library', async () => {
     await page.goToMyLibrariesAndWait();
 
-    await page.sidenav.openCreateLibraryDialog();
+    await page.toolbar.openCreateLibraryDialog();
     await createDialog.waitForDialogToOpen();
     await createDialog.enterName(site3Name);
     await BrowserActions.click(createDialog.visibilityPrivate);
@@ -156,7 +156,7 @@ describe('Create library', () => {
   it('[C289882] Create a library with a given ID and description', async () => {
     await page.goToMyLibrariesAndWait();
 
-    await page.sidenav.openCreateLibraryDialog();
+    await page.toolbar.openCreateLibraryDialog();
     await createDialog.waitForDialogToOpen();
     await createDialog.enterName(site4.name);
     await createDialog.enterLibraryId(site4.id);
@@ -175,7 +175,7 @@ describe('Create library', () => {
   it('[C280027] Duplicate library ID', async () => {
     await page.goToMyLibrariesAndWait();
 
-    await page.sidenav.openCreateLibraryDialog();
+    await page.toolbar.openCreateLibraryDialog();
     await createDialog.waitForDialogToOpen();
     await createDialog.enterName(duplicateSite.name);
     await createDialog.enterLibraryId(duplicateSite.id);
@@ -187,7 +187,7 @@ describe('Create library', () => {
   it('[C280028] Create library using the ID of a library from the Trashcan', async () => {
     await page.goToMyLibrariesAndWait();
 
-    await page.sidenav.openCreateLibraryDialog();
+    await page.toolbar.openCreateLibraryDialog();
     await createDialog.waitForDialogToOpen();
     await createDialog.enterName(siteInTrash.name);
     await createDialog.enterLibraryId(siteInTrash.id);
@@ -199,7 +199,7 @@ describe('Create library', () => {
   it('[C280029] Cancel button', async () => {
     await page.goToMyLibrariesAndWait();
 
-    await page.sidenav.openCreateLibraryDialog();
+    await page.toolbar.openCreateLibraryDialog();
     await createDialog.waitForDialogToOpen();
     await createDialog.enterName('test site');
     await createDialog.enterDescription('test description');
@@ -212,7 +212,7 @@ describe('Create library', () => {
     const idWithSpecialChars = ['a*a', 'a"a', 'a<a', 'a>a', `a\\a`, 'a/a', 'a?a', 'a:a', 'a|a'];
 
     await page.goToMyLibrariesAndWait();
-    await page.sidenav.openCreateLibraryDialog();
+    await page.toolbar.openCreateLibraryDialog();
     await createDialog.waitForDialogToOpen();
     await createDialog.enterName('test site');
 
@@ -226,7 +226,7 @@ describe('Create library', () => {
   it('[C280030] Create 2 libraries with same name but different IDs', async () => {
     await page.goToMyLibrariesAndWait();
 
-    await page.sidenav.openCreateLibraryDialog();
+    await page.toolbar.openCreateLibraryDialog();
     await createDialog.waitForDialogToOpen();
     await createDialog.enterName(duplicateSite.name);
     await createDialog.enterLibraryId(`${duplicateSite.id}-2`);

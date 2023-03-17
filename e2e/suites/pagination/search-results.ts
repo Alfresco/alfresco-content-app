@@ -28,12 +28,13 @@ import { BrowsingPage, LoginPage, Utils } from '@alfresco/aca-testing-shared';
 export function searchResultsTests(username: string, random: string) {
   const page = new BrowsingPage();
   const loginPage = new LoginPage();
-  const { dataTable, pagination } = page;
-  const { searchInput } = page.header;
+  const { dataTable, pagination, toolbar } = page;
+  const { searchInput } = page.pageLayoutHeader;
 
   describe('Pagination controls : ', () => {
     beforeAll(async () => {
       await loginPage.loginWith(username);
+      await toolbar.clickSearchIconButton();
       await searchInput.clickSearchButton();
       await searchInput.checkOnlyFiles();
       await searchInput.searchFor(random);

@@ -41,12 +41,13 @@ const PAGE_TITLES = {
 describe('Page titles', () => {
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
+  const { toolbar } = page;
   const username = `user-${Utils.random()}`;
   const apis = new RepoClient(username, username);
   const adminApiActions = new AdminActions();
   const file = `file-${Utils.random()}.txt`;
   let fileId: string;
-  const { searchInput } = page.header;
+  const { searchInput } = page.pageLayoutHeader;
 
   beforeAll(async () => {
     await adminApiActions.createUser({ username });
@@ -125,6 +126,7 @@ describe('Page titles', () => {
     });
 
     it('[C280413] Search Results page', async () => {
+      await toolbar.clickSearchIconButton();
       await searchInput.clickSearchButton();
       await searchInput.searchFor(file);
       expect(await browser.getTitle()).toContain(PAGE_TITLES.SEARCH);

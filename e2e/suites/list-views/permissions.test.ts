@@ -34,8 +34,8 @@ describe('Special permissions', () => {
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
-  const { dataTable } = page;
-  const { searchInput } = page.header;
+  const { dataTable, toolbar } = page;
+  const { searchInput } = page.pageLayoutHeader;
 
   const adminApiActions = new AdminActions();
   const userActions = new UserActions();
@@ -102,6 +102,7 @@ describe('Special permissions', () => {
     });
 
     it('[C290122] on Search Results', async () => {
+      await toolbar.clickSearchIconButton();
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
       await searchInput.searchFor(fileName);
@@ -164,6 +165,7 @@ describe('Special permissions', () => {
     });
 
     it('[C306868] on Search results', async () => {
+      await toolbar.clickSearchIconButton();
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
       await searchInput.searchFor(fileName);

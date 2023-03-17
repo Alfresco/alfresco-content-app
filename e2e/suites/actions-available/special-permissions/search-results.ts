@@ -30,7 +30,7 @@ import * as testUtil from '../test-util';
 export function searchResultsTests() {
   const page = new BrowsingPage();
   const searchResultsPage = new SearchResultsPage();
-  const { searchInput } = page.header;
+  const { searchInput, toolbar } = page.pageLayoutHeader;
 
   describe('available actions : ', () => {
     beforeEach(async () => {
@@ -44,6 +44,7 @@ export function searchResultsTests() {
     describe('on a file', () => {
       beforeEach(async () => {
         await page.clickPersonalFiles();
+        await toolbar.clickSearchIconButton();
         await searchInput.clickSearchButton();
         await searchInput.checkOnlyFiles();
         await searchInput.searchFor(testData.random);
@@ -138,6 +139,7 @@ export function searchResultsTests() {
     describe('on a folder', () => {
       beforeAll(async () => {
         await page.clickPersonalFiles();
+        await toolbar.clickSearchIconButton();
         await searchInput.clickSearchButton();
         await searchInput.checkOnlyFolders();
         await searchInput.searchFor(testData.random);
@@ -159,6 +161,7 @@ export function searchResultsTests() {
       describe('of files', () => {
         beforeAll(async () => {
           await page.clickPersonalFiles();
+          await toolbar.clickSearchIconButton();
           await searchInput.clickSearchButton();
           await searchInput.checkOnlyFiles();
           await searchInput.searchFor(testData.random);
@@ -210,6 +213,7 @@ export function searchResultsTests() {
 
       it('multiple folders - [C291836]', async () => {
         await page.clickPersonalFiles();
+        await toolbar.clickSearchIconButton();
         await searchInput.clickSearchButton();
         await searchInput.checkOnlyFolders();
         await searchInput.searchFor(testData.random);
@@ -224,6 +228,7 @@ export function searchResultsTests() {
 
       it('both files and folders - [C268128]', async () => {
         await page.clickPersonalFiles();
+        await toolbar.clickSearchIconButton();
         await searchInput.clickSearchButton();
         await searchInput.searchFor(`${testData.file.name} or ${testData.folderFav.name}`);
 

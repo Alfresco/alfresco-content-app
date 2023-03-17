@@ -33,9 +33,11 @@ export class Toolbar extends Component {
   menu = new Menu();
 
   buttons = this.allByCss('button');
+  createButton = element(By.css('[id="app.toolbar.create"]'));
+  uploadButton = element(By.css('[id="app.toolbar.upload"]'));
   shareButton = element(By.css('button[data-automation-id="share-action-button"]'));
   viewButton = element(By.css(`button[title='View']`));
-  downloadButton = element(By.css(`button[title='Download']`));
+  downloadButton = element(By.css(`.mat-icon-button[title='Download']`));
   viewDetailsButton = element(By.css(`button[title='View Details']`));
   printButton = element(By.css(`button[title='Print']`));
   fullScreenButton = element(By.css(`button[title='Activate full-screen mode']`));
@@ -43,6 +45,8 @@ export class Toolbar extends Component {
   leaveButton = element(By.css(`button[title='Leave Library']`));
   permanentlyDeleteButton = element(By.css(`button[title='Permanently Delete']`));
   restoreButton = element(By.css(`button[title='Restore']`));
+  searchIconButton = element(By.css(`button[title='Search']`));
+  viewerDownloadButton = element(By.css('[id="app.viewer.download"]'));
 
   constructor(ancestor?: string) {
     super('.adf-toolbar', ancestor);
@@ -72,6 +76,19 @@ export class Toolbar extends Component {
     return this.component.element(by.id(id));
   }
 
+  async clickSearchIconButton() {
+    await BrowserActions.click(this.searchIconButton);
+  }
+
+  async openViewerMoreMenu(): Promise<void> {
+    const btnMoreActions = element(By.css('button[id="app.viewer.toolbar.more"]'));
+    await btnMoreActions.isPresent();
+    await BrowserActions.click(btnMoreActions);
+
+    await this.menu.waitForMenuToOpen();
+    await browser.sleep(500);
+  }
+
   async openMoreMenu(): Promise<void> {
     const btnMoreActions = element(By.css('button[id="app.toolbar.more"]'));
     await btnMoreActions.isPresent();
@@ -95,6 +112,46 @@ export class Toolbar extends Component {
 
   async isPrintPresent() {
     return browser.isElementPresent(this.printButton);
+  }
+
+  async openCreateFolderDialog(): Promise<void> {
+    await this.openCreateMenu();
+    await BrowserActions.click(this.menu.createFolderAction);
+  }
+
+  async openCreateLibraryDialog(): Promise<void> {
+    await this.openCreateMenu();
+    await BrowserActions.click(this.menu.createLibraryAction);
+  }
+
+  async openCreateFileFromTemplateDialog(): Promise<void> {
+    await this.openCreateMenu();
+    await BrowserActions.click(this.menu.createFileFromTemplateAction);
+  }
+
+  async openCreateFolderFromTemplateDialog(): Promise<void> {
+    await this.openCreateMenu();
+    await BrowserActions.click(this.menu.createFolderFromTemplateAction);
+  }
+
+  async openCreateMenu(): Promise<void> {
+    await BrowserActions.click(this.createButton);
+    await this.menu.waitForMenuToOpen();
+  }
+
+  async closeCreateMenu(): Promise<void> {
+    await BrowserActions.click(element(by.css('button[id="app.toolbar.create"]')));
+    await this.menu.waitForMenuToClose();
+  }
+
+  async openUploadMenu(): Promise<void> {
+    await BrowserActions.click(this.uploadButton);
+    await this.menu.waitForMenuToOpen();
+  }
+
+  async closeUploadMenu(): Promise<void> {
+    await BrowserActions.click(element(by.css('button[id="app.toolbar.upload"]')));
+    await this.menu.waitForMenuToClose();
   }
 
   async clickMoreActionsFavorite(): Promise<void> {
