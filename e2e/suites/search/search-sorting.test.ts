@@ -53,8 +53,8 @@ describe('Search sorting', () => {
 
   const loginPage = new LoginPage();
   const page = new SearchResultsPage();
-  const { searchInput } = page.header;
-  const { dataTable } = page;
+  const { searchInput } = page.pageLayoutHeader;
+  const { dataTable, toolbar } = page;
   const adminApiActions = new AdminActions();
 
   beforeAll(async () => {
@@ -75,7 +75,7 @@ describe('Search sorting', () => {
   beforeEach(async () => {
     await Utils.pressEscape();
     await page.clickPersonalFilesAndWait();
-
+    await toolbar.clickSearchIconButton();
     await searchInput.clickSearchButton();
     await searchInput.searchFor(`search sort ${random}`);
     await dataTable.waitForBody();

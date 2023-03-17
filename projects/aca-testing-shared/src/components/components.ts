@@ -25,6 +25,7 @@
 
 export * from './login/login';
 export * from './header/header';
+export * from './pageLayoutHeader/pageLayoutHeader';
 export * from './header/user-info';
 export * from './data-table/data-table';
 export * from './dialog/confirm-dialog';

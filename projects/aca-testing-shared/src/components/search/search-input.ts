@@ -63,9 +63,6 @@ export class SearchInput extends Component {
   async clickSearchButton() {
     await BrowserActions.click(this.searchButton);
 
-    // TODO: Workaround for new Layout having 2 buttons
-    await BrowserActions.click(this.searchButton);
-
     await this.waitForSearchControl();
   }
 
@@ -157,6 +154,11 @@ export class SearchInput extends Component {
   async checkLibraries() {
     await this.clearOptions();
     await this.clickLibrariesOption();
+  }
+
+  async searchForLibrary(text: string) {
+    await BrowserVisibility.waitUntilElementIsClickable(this.searchInput.elementFinder);
+    await this.searchInput.typeText(text);
   }
 
   async searchFor(text: string) {

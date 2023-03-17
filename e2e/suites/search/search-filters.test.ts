@@ -75,8 +75,8 @@ describe('Search filters', () => {
 
   const loginPage = new LoginPage();
   const page = new SearchResultsPage();
-  const { searchInput } = page.header;
-  const { dataTable, filters } = page;
+  const { searchInput } = page.pageLayoutHeader;
+  const { dataTable, filters, toolbar } = page;
 
   const sizeFilter = filters.size;
   const fileTypeFilter = filters.fileType;
@@ -108,7 +108,7 @@ describe('Search filters', () => {
   beforeEach(async () => {
     await Utils.pressEscape();
     await page.clickPersonalFilesAndWait();
-
+    await toolbar.clickSearchIconButton();
     await searchInput.clickSearchButton();
     await searchInput.searchFor(`search-filters-${random}`);
     await dataTable.waitForBody();

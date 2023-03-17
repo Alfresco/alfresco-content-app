@@ -87,7 +87,7 @@ describe('Create file from template', () => {
   const page = new BrowsingPage();
   const selectTemplateDialog = new SelectTemplateDialog();
   const createFromTemplateDialog = new CreateFromTemplateDialog();
-  const { sidenav } = page;
+  const { toolbar } = page;
 
   const templates: NodeContentTree = {
     folders: [
@@ -156,7 +156,7 @@ describe('Create file from template', () => {
 
     describe('Select Template dialog', () => {
       beforeEach(async () => {
-        await sidenav.openCreateFileFromTemplateDialog();
+        await toolbar.openCreateFileFromTemplateDialog();
         await selectTemplateDialog.waitForDialogToOpen();
       });
 
@@ -236,7 +236,7 @@ describe('Create file from template', () => {
     describe('Create from template dialog', () => {
       beforeEach(async () => {
         try {
-          await sidenav.openCreateFileFromTemplateDialog();
+          await toolbar.openCreateFileFromTemplateDialog();
           await selectTemplateDialog.waitForDialogToOpen();
           await selectTemplateDialog.dataTable.selectItem(template1InRootFolder);
           await selectTemplateDialog.clickNext();
@@ -309,7 +309,7 @@ describe('Create file from template', () => {
         try {
           await page.clickPersonalFilesAndWait();
           await page.dataTable.doubleClickOnRowByName(parent);
-          await sidenav.openCreateFileFromTemplateDialog();
+          await toolbar.openCreateFileFromTemplateDialog();
           await selectTemplateDialog.waitForDialogToOpen();
           await selectTemplateDialog.dataTable.selectItem(template1InRootFolder);
           await selectTemplateDialog.clickNext();
@@ -377,7 +377,7 @@ describe('Create file from template', () => {
         try {
           await fileLibrariesPage.goToMyLibrariesAndWait();
           await page.dataTable.doubleClickOnRowByName(siteName);
-          await sidenav.openCreateFileFromTemplateDialog();
+          await toolbar.openCreateFileFromTemplateDialog();
           await selectTemplateDialog.waitForDialogToOpen();
           await selectTemplateDialog.dataTable.selectItem(template1InRootFolder);
           await selectTemplateDialog.clickNext();

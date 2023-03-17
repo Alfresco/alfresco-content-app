@@ -61,7 +61,7 @@ describe('Library actions', () => {
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable, toolbar } = page;
-  const { searchInput } = page.header;
+  const { searchInput } = page.pageLayoutHeader;
 
   const confirmDialog = new ConfirmDialog();
   const adminApiActions = new AdminActions();
@@ -112,9 +112,10 @@ describe('Library actions', () => {
     });
 
     it('[C306959] from Search Results', async () => {
+      await toolbar.clickSearchIconButton();
       await searchInput.clickSearchButton();
       await searchInput.checkLibraries();
-      await searchInput.searchFor(siteSearchPublic1Admin);
+      await searchInput.searchForLibrary(siteSearchPublic1Admin);
       await dataTable.waitForBody();
       await dataTable.selectItem(siteSearchPublic1Admin);
       await BrowserActions.click(toolbar.joinButton);
@@ -145,9 +146,10 @@ describe('Library actions', () => {
     });
 
     it('[C306960] from Search Results', async () => {
+      await toolbar.clickSearchIconButton();
       await searchInput.clickSearchButton();
       await searchInput.checkLibraries();
-      await searchInput.searchFor(siteSearchModerated1Admin);
+      await searchInput.searchForLibrary(siteSearchModerated1Admin);
       await dataTable.waitForBody();
       await dataTable.selectItem(siteSearchModerated1Admin);
       await BrowserActions.click(toolbar.joinButton);
@@ -203,9 +205,10 @@ describe('Library actions', () => {
     });
 
     it('[C306961] from Search Results', async () => {
+      await toolbar.clickSearchIconButton();
       await searchInput.clickSearchButton();
       await searchInput.checkLibraries();
-      await searchInput.searchFor(siteSearchPublic2Admin);
+      await searchInput.searchForLibrary(siteSearchPublic2Admin);
       await dataTable.waitForBody();
 
       await dataTable.selectItem(siteSearchPublic2Admin);
@@ -278,9 +281,10 @@ describe('Library actions', () => {
     });
 
     it('[C306962] from Search Results', async () => {
+      await toolbar.clickSearchIconButton();
       await searchInput.clickSearchButton();
       await searchInput.checkLibraries();
-      await searchInput.searchFor(siteSearchModerated2Admin);
+      await searchInput.searchForLibrary(siteSearchModerated2Admin);
       await dataTable.waitForBody();
 
       await dataTable.selectItem(siteSearchModerated2Admin);
@@ -313,9 +317,10 @@ describe('Library actions', () => {
     });
 
     it('[C306963] from Search Results', async () => {
+      await toolbar.clickSearchIconButton();
       await searchInput.clickSearchButton();
       await searchInput.checkLibraries();
-      await searchInput.searchFor(siteSearchPublic3Admin);
+      await searchInput.searchForLibrary(siteSearchPublic3Admin);
       await dataTable.waitForBody();
 
       await dataTable.selectItem(siteSearchPublic3Admin);
@@ -366,9 +371,10 @@ describe('Library actions', () => {
     });
 
     it('[C306964] from Search Results', async () => {
+      await toolbar.clickSearchIconButton();
       await searchInput.clickSearchButton();
       await searchInput.checkLibraries();
-      await searchInput.searchFor(siteSearchPublic4Admin);
+      await searchInput.searchForLibrary(siteSearchPublic4Admin);
       await dataTable.waitForBody();
 
       await dataTable.selectItem(siteSearchPublic4Admin);
@@ -408,9 +414,10 @@ describe('Library actions', () => {
     });
 
     it('[C306965] from Search Results', async () => {
+      await toolbar.clickSearchIconButton();
       await searchInput.clickSearchButton();
       await searchInput.checkLibraries();
-      await searchInput.searchFor(siteSearchForDelete);
+      await searchInput.searchForLibrary(siteSearchForDelete);
       await dataTable.waitForBody();
 
       await dataTable.selectItem(siteSearchForDelete);

@@ -54,9 +54,9 @@ describe('Upload files', () => {
   beforeEach(async () => {
     await page.clickPersonalFilesAndWait();
     await dataTable.doubleClickOnRowByName(folder1);
-    await page.sidenav.openNewMenu();
-    await page.sidenav.menu.uploadFilesInput.sendKeys(`${__dirname}/upload-file.test.ts`);
-    await page.sidenav.closeNewMenu();
+    await page.toolbar.openUploadMenu();
+    await page.toolbar.menu.uploadFilesInput.sendKeys(`${__dirname}/upload-file.test.ts`);
+    await page.toolbar.closeUploadMenu();
     await page.uploadFilesDialog.uploadDialog.isVisible();
   });
 

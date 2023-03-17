@@ -121,7 +121,7 @@ describe('Version actions', () => {
     });
 
     it('[C586768] Should be possible to download a previous document version', async () => {
-      await viewerPage.toolbar.downloadButton.click();
+      await viewerPage.toolbar.viewerDownloadButton.click();
 
       expect(await Utils.fileExistsOnOS(filesToUpload[0])).toBe(true, 'File not found in download location');
     });
