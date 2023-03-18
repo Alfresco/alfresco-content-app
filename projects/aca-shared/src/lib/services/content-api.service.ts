@@ -61,61 +61,61 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class ContentApiService {
-  _nodesApi: NodesApi;
+  private _nodesApi: NodesApi;
   get nodesApi(): NodesApi {
     this._nodesApi = this._nodesApi ?? new NodesApi(this.api.getInstance());
     return this._nodesApi;
   }
 
-  _trashcanApi: TrashcanApi;
+  private _trashcanApi: TrashcanApi;
   get trashcanApi(): TrashcanApi {
     this._trashcanApi = this._trashcanApi ?? new TrashcanApi(this.api.getInstance());
     return this._trashcanApi;
   }
 
-  _sharedLinksApi: SharedlinksApi;
+  private _sharedLinksApi: SharedlinksApi;
   get sharedLinksApi(): SharedlinksApi {
     this._sharedLinksApi = this._sharedLinksApi ?? new SharedlinksApi(this.api.getInstance());
     return this._sharedLinksApi;
   }
 
-  _discoveryApi: DiscoveryApi;
+  private _discoveryApi: DiscoveryApi;
   get discoveryApi(): DiscoveryApi {
     this._discoveryApi = this._discoveryApi ?? new DiscoveryApi(this.api.getInstance());
     return this._discoveryApi;
   }
 
-  _favoritesApi: FavoritesApi;
+  private _favoritesApi: FavoritesApi;
   get favoritesApi(): FavoritesApi {
     this._favoritesApi = this._favoritesApi ?? new FavoritesApi(this.api.getInstance());
     return this._favoritesApi;
   }
 
-  _contentApi: ContentApi;
+  private _contentApi: ContentApi;
   get contentApi(): ContentApi {
     this._contentApi = this._contentApi ?? new ContentApi(this.api.getInstance());
     return this._contentApi;
   }
 
-  _sitesApi: SitesApi;
+  private _sitesApi: SitesApi;
   get sitesApi(): SitesApi {
     this._sitesApi = this._sitesApi ?? new SitesApi(this.api.getInstance());
     return this._sitesApi;
   }
 
-  _searchApi: SearchApi;
+  private _searchApi: SearchApi;
   get searchApi(): SearchApi {
     this._searchApi = this._searchApi ?? new SearchApi(this.api.getInstance());
     return this._searchApi;
   }
 
-  _peopleApi: PeopleApi;
+  private _peopleApi: PeopleApi;
   get peopleApi(): PeopleApi {
     this._peopleApi = this._peopleApi ?? new PeopleApi(this.api.getInstance());
     return this._peopleApi;
   }
 
-  _versionsApi: VersionsApi;
+  private _versionsApi: VersionsApi;
   get versionsApi(): VersionsApi {
     this._versionsApi = this._versionsApi ?? new VersionsApi(this.api.getInstance());
     return this._versionsApi;
