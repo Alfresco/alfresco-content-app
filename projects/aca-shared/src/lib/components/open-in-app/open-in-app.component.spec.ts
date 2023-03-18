@@ -5,6 +5,8 @@ import { OpenInAppComponent } from './open-in-app.component';
 import { initialState, LibTestingModule } from '../../testing/lib-testing-module';
 import { provideMockStore } from '@ngrx/store/testing';
 import { TranslateModule } from '@ngx-translate/core';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
+import { MatIconModule } from '@angular/material/icon';
 
 describe('OpenInAppComponent', () => {
   let fixture: ComponentFixture<OpenInAppComponent>;
@@ -18,7 +20,7 @@ describe('OpenInAppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [OpenInAppComponent],
-      imports: [LibTestingModule, TranslateModule],
+      imports: [LibTestingModule, TranslateModule, MatIconModule, MatIconTestingModule],
       providers: [
         provideMockStore({ initialState }),
         { provide: MAT_DIALOG_DATA, useValue: { redirectUrl: 'mockRedirectUrl' } },

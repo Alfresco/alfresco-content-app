@@ -26,16 +26,21 @@
 import { Node } from '@alfresco/js-api';
 
 export function isLocked(node: { entry: Node }): boolean {
-  const { entry } = node;
+  if (node?.entry) {
+    const { entry } = node;
 
-  return (
-    (entry && entry.isLocked) ||
-    (entry.properties && (entry.properties['cm:lockType'] === 'READ_ONLY_LOCK' || entry.properties['cm:lockType'] === 'WRITE_LOCK'))
-  );
+    return entry.isLocked || entry.properties?.['cm:lockType'] === 'READ_ONLY_LOCK' || entry.properties?.['cm:lockType'] === 'WRITE_LOCK';
+  } else {
+    return false;
+  }
 }
 
 export function isLibrary(node: { entry: Node | any }): boolean {
-  const { entry } = node;
+  if (node?.entry) {
+    const { entry } = node;
 
-  return (entry.guid && entry.id && entry.preset && entry.title && entry.visibility) || entry.nodeType === 'st:site';
+    return !!(entry.guid && entry.id && entry.preset && entry.title && entry.visibility) || entry.nodeType === 'st:site';
+  } else {
+    return false;
+  }
 }
