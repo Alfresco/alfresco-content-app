@@ -23,10 +23,51 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ToolbarActionComponent } from './toolbar-action.component';
+import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { TranslateModule } from '@ngx-translate/core';
+import { ToolbarButtonType } from '../toolbar-button/toolbar-button.component';
+import { ChangeDetectorRef } from '@angular/core';
+import { ContentActionType } from '@alfresco/adf-extensions';
+import { IconModule } from '@alfresco/adf-core';
 
 describe('ToolbarActionComponent', () => {
-  it('should be defined', () => {
-    expect(ToolbarActionComponent).toBeDefined();
+  let fixture: ComponentFixture<ToolbarActionComponent>;
+  let component: ToolbarActionComponent;
+  let changeDetectorRef: ChangeDetectorRef;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [CommonModule, HttpClientModule, TranslateModule.forRoot(), IconModule],
+      providers: [{ provide: ChangeDetectorRef, useValue: { markForCheck() {} } }],
+      declarations: [ToolbarActionComponent]
+    });
+
+    fixture = TestBed.createComponent(ToolbarActionComponent);
+    component = fixture.componentInstance;
+
+    changeDetectorRef = TestBed.inject(ChangeDetectorRef);
+  });
+
+  it('should be icon button by default', () => {
+    expect(component.type).toBe(ToolbarButtonType.ICON_BUTTON);
+  });
+
+  it('should force update UI on check for the viewer', () => {
+    component = new ToolbarActionComponent(changeDetectorRef);
+    const markForCheck = spyOn(changeDetectorRef, 'markForCheck');
+
+    component.actionRef = {
+      id: '-app.viewer',
+      type: ContentActionType.button,
+      actions: {
+        click: 'ON_CLICK'
+      }
+    };
+
+    component.ngDoCheck();
+    expect(markForCheck).toHaveBeenCalled();
   });
 });
