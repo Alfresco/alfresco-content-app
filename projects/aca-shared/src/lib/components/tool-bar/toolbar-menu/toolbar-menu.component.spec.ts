@@ -28,7 +28,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MaterialModule } from '@alfresco/adf-core';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
-import { ContentActionRef } from '@alfresco/adf-extensions';
+import { ContentActionRef, ContentActionType } from '@alfresco/adf-extensions';
+import { QueryList } from '@angular/core';
 
 describe('ToolbarMenuComponent', () => {
   let fixture: ComponentFixture<ToolbarMenuComponent>;
@@ -50,6 +51,7 @@ describe('ToolbarMenuComponent', () => {
     component = fixture.componentInstance;
     component.matTrigger = jasmine.createSpyObj('MatMenuTrigger', ['closeMenu']);
     component.actionRef = actions;
+
     fixture.detectChanges();
   });
 
@@ -58,5 +60,24 @@ describe('ToolbarMenuComponent', () => {
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
     fixture.detectChanges();
     expect(component.matTrigger.closeMenu).toHaveBeenCalled();
+  });
+
+  it('should populate underlying menu with toolbar items', () => {
+    component.toolbarMenuItems = new QueryList();
+    component.toolbarMenuItems.reset([{ menuItem: {} } as any]);
+    expect(component.toolbarMenuItems.length).toBe(1);
+
+    expect(component.menu._allItems.length).toBe(0);
+    component.ngAfterViewInit();
+    expect(component.menu._allItems.length).toBe(1);
+  });
+
+  it('should track elements by content action id', () => {
+    const contentActionRef: ContentActionRef = {
+      id: 'action1',
+      type: ContentActionType.button
+    };
+
+    expect(component.trackByActionId(0, contentActionRef)).toBe('action1');
   });
 });
