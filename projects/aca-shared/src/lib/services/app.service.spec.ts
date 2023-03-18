@@ -30,24 +30,19 @@ import {
   AppConfigService,
   AlfrescoApiService,
   PageTitleService,
-  UserPreferencesService,
   AlfrescoApiServiceMock,
   TranslationMock,
   TranslationService
 } from '@alfresco/adf-core';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { HttpClientModule } from '@angular/common/http';
-import { SharedLinksApiService, GroupService, SearchQueryBuilderService, UploadService, DiscoveryApiService } from '@alfresco/adf-content-services';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ContentApiService } from './content-api.service';
-import { RouterExtensionService } from './router.extension.service';
-import { OverlayContainer } from '@angular/cdk/overlay';
-import { AppStore, STORE_INITIAL_APP_DATA } from '../../../store/src/states/app.state';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { DiscoveryApiService, SearchQueryBuilderService } from '@alfresco/adf-content-services';
+import { ActivatedRoute } from '@angular/router';
+import { STORE_INITIAL_APP_DATA } from '../../../store/src/states/app.state';
+import { provideMockStore } from '@ngrx/store/testing';
 import { CommonModule } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RepositoryInfo } from '@alfresco/js-api';
-import { AcaMobileAppSwitcherService } from './aca-mobile-app-switcher.service';
 import { MatDialogModule } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -55,34 +50,12 @@ describe('AppService', () => {
   let service: AppService;
   let auth: AuthenticationService;
   let appConfig: AppConfigService;
-  let searchQueryBuilderService: SearchQueryBuilderService;
-  let userPreferencesService: UserPreferencesService;
-  let router: Router;
-  let activatedRoute: ActivatedRoute;
-  let routerExtensionService: RouterExtensionService;
-  let pageTitleService: PageTitleService;
-  let uploadService: UploadService;
-  let contentApiService: ContentApiService;
-  let sharedLinksApiService: SharedLinksApiService;
-  let overlayContainer: OverlayContainer;
-  let alfrescoApiService: AlfrescoApiService;
-  let groupService: GroupService;
-  let storeInitialAppData: any;
-  let store: MockStore<AppStore>;
-  let acaMobileAppSwitcherService: AcaMobileAppSwitcherService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule, TranslateModule.forRoot(), RouterTestingModule.withRoutes([]), MatDialogModule],
+      imports: [CommonModule, HttpClientModule, TranslateModule.forRoot(), RouterTestingModule.withRoutes([]), MatDialogModule],
       providers: [
-        CommonModule,
         SearchQueryBuilderService,
-        UserPreferencesService,
-        RouterExtensionService,
-        UploadService,
-        ContentApiService,
-        SharedLinksApiService,
-        OverlayContainer,
         provideMockStore({}),
         {
           provide: PageTitleService,
@@ -122,42 +95,8 @@ describe('AppService', () => {
     });
 
     appConfig = TestBed.inject(AppConfigService);
-    searchQueryBuilderService = TestBed.inject(SearchQueryBuilderService);
-    userPreferencesService = TestBed.inject(UserPreferencesService);
-    router = TestBed.inject(Router);
-    activatedRoute = TestBed.inject(ActivatedRoute);
-    routerExtensionService = TestBed.inject(RouterExtensionService);
-    pageTitleService = TestBed.inject(PageTitleService);
-    uploadService = TestBed.inject(UploadService);
-    contentApiService = TestBed.inject(ContentApiService);
-    sharedLinksApiService = TestBed.inject(SharedLinksApiService);
-    overlayContainer = TestBed.inject(OverlayContainer);
-    alfrescoApiService = TestBed.inject(AlfrescoApiService);
-    groupService = TestBed.inject(GroupService);
-    storeInitialAppData = TestBed.inject(STORE_INITIAL_APP_DATA);
-    store = TestBed.inject(MockStore);
     auth = TestBed.inject(AuthenticationService);
-    acaMobileAppSwitcherService = TestBed.inject(AcaMobileAppSwitcherService);
-
-    service = new AppService(
-      userPreferencesService,
-      auth,
-      store,
-      router,
-      activatedRoute,
-      appConfig,
-      pageTitleService,
-      alfrescoApiService,
-      uploadService,
-      routerExtensionService,
-      contentApiService,
-      sharedLinksApiService,
-      groupService,
-      overlayContainer,
-      storeInitialAppData,
-      searchQueryBuilderService,
-      acaMobileAppSwitcherService
-    );
+    service = TestBed.inject(AppService);
   });
 
   it('should be ready if [withCredentials] mode is used', (done) => {
@@ -167,26 +106,7 @@ describe('AppService', () => {
       }
     };
 
-    const instance = new AppService(
-      userPreferencesService,
-      auth,
-      store,
-      router,
-      activatedRoute,
-      appConfig,
-      pageTitleService,
-      alfrescoApiService,
-      uploadService,
-      routerExtensionService,
-      contentApiService,
-      sharedLinksApiService,
-      groupService,
-      overlayContainer,
-      storeInitialAppData,
-      searchQueryBuilderService,
-      acaMobileAppSwitcherService
-    );
-
+    const instance = TestBed.inject(AppService);
     expect(instance.withCredentials).toBeTruthy();
 
     instance.ready$.subscribe(() => {
