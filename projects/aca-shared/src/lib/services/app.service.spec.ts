@@ -45,12 +45,11 @@ import { OverlayContainer } from '@angular/cdk/overlay';
 import { AppStore, STORE_INITIAL_APP_DATA } from '../../../store/src/states/app.state';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { CommonModule } from '@angular/common';
-import { TranslateService } from '@ngx-translate/core';
-import { TranslateServiceMock } from '../testing/translation.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RepositoryInfo } from '@alfresco/js-api';
 import { AcaMobileAppSwitcherService } from './aca-mobile-app-switcher.service';
 import { MatDialogModule } from '@angular/material/dialog';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('AppService', () => {
   let service: AppService;
@@ -74,7 +73,7 @@ describe('AppService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule, RouterTestingModule.withRoutes([]), MatDialogModule],
+      imports: [HttpClientModule, TranslateModule.forRoot(), RouterTestingModule.withRoutes([]), MatDialogModule],
       providers: [
         CommonModule,
         SearchQueryBuilderService,
@@ -118,8 +117,7 @@ describe('AppService', () => {
             isLoggedIn: () => false
           }
         },
-        { provide: TranslationService, useClass: TranslationMock },
-        { provide: TranslateService, useClass: TranslateServiceMock }
+        { provide: TranslationService, useClass: TranslationMock }
       ]
     });
 

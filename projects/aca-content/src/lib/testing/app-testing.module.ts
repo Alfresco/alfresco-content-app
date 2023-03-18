@@ -24,7 +24,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateModule } from '@ngx-translate/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {
   TranslationService,
@@ -44,7 +44,6 @@ import { EffectsModule } from '@ngrx/effects';
 import { MaterialModule } from '../material.module';
 import { INITIAL_STATE } from '../store/initial-state';
 import { TranslatePipeMock } from './translate-pipe.directive';
-import { TranslateServiceMock } from '@alfresco/aca-shared';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 
 @NgModule({
@@ -53,6 +52,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
     HttpClientModule,
     RouterTestingModule,
     MaterialModule,
+    TranslateModule.forRoot(),
     StoreModule.forRoot(
       { app: appReducer },
       {
@@ -71,7 +71,6 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
   providers: [
     { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock },
     { provide: TranslationService, useClass: TranslationMock },
-    { provide: TranslateService, useClass: TranslateServiceMock },
     { provide: TranslatePipe, useClass: TranslatePipeMock },
     {
       provide: DiscoveryApiService,

@@ -7,6 +7,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { MatIconModule } from '@angular/material/icon';
+import { SharedModule } from '@alfresco/aca-shared';
 
 describe('OpenInAppComponent', () => {
   let fixture: ComponentFixture<OpenInAppComponent>;
@@ -17,16 +18,15 @@ describe('OpenInAppComponent', () => {
     open: jasmine.createSpy('open')
   };
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [OpenInAppComponent],
-      imports: [LibTestingModule, TranslateModule, MatIconModule, MatIconTestingModule],
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [LibTestingModule, TranslateModule, SharedModule.forRoot(), MatIconModule, MatIconTestingModule],
       providers: [
         provideMockStore({ initialState }),
         { provide: MAT_DIALOG_DATA, useValue: { redirectUrl: 'mockRedirectUrl' } },
         { provide: MatDialogRef, useValue: mockDialogRef }
       ]
-    }).compileComponents();
+    });
 
     fixture = TestBed.createComponent(OpenInAppComponent);
     component = fixture.componentInstance;
