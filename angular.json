@@ -367,6 +367,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
+            "codeCoverage": true,
             "main": "projects/adf-office-services-ext/src/test.ts",
             "tsConfig": "projects/adf-office-services-ext/tsconfig.spec.json",
             "karmaConfig": "projects/adf-office-services-ext/karma.conf.js"
@@ -413,6 +414,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
+            "codeCoverage": true,
             "main": "projects/aca-shared/test.ts",
             "tsConfig": "projects/aca-shared/tsconfig.spec.json",
             "karmaConfig": "projects/aca-shared/karma.conf.js"
@@ -465,6 +467,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
+            "codeCoverage": true,
             "main": "projects/aca-about/src/test.ts",
             "tsConfig": "projects/aca-about/tsconfig.spec.json",
             "karmaConfig": "projects/aca-about/karma.conf.js"
@@ -506,6 +509,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
+            "codeCoverage": true,
             "main": "projects/aca-folder-rules/src/test.ts",
             "tsConfig": "projects/aca-folder-rules/tsconfig.spec.json",
             "karmaConfig": "projects/aca-folder-rules/karma.conf.js"
@@ -554,6 +558,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
+            "codeCoverage": true,
             "main": "projects/aca-content/src/test.ts",
             "tsConfig": "projects/aca-content/tsconfig.spec.json",
             "karmaConfig": "projects/aca-content/karma.conf.js",
@@ -605,6 +610,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
+            "codeCoverage": true,
             "main": "projects/aca-viewer/src/test.ts",
             "tsConfig": "projects/aca-viewer/tsconfig.spec.json",
             "karmaConfig": "projects/aca-viewer/karma.conf.js"
@@ -648,6 +654,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
+            "codeCoverage": true,
             "main": "projects/aca-preview/src/test.ts",
             "tsConfig": "projects/aca-preview/tsconfig.spec.json",
             "karmaConfig": "projects/aca-preview/karma.conf.js"

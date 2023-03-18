@@ -19,11 +19,6 @@ module.exports = () => {
     files: [
       {
         pattern:
-          './node_modules/@angular/material/prebuilt-themes/indigo-pink.css',
-        watched: false
-      },
-      {
-        pattern:
           './node_modules/@alfresco/adf-core/bundles/assets/adf-core/i18n/en.json',
         watched: false,
         served: true,
