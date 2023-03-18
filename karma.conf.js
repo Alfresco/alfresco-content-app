@@ -80,7 +80,7 @@ module.exports = () => {
         base: 'Chrome',
         flags: [
           '--no-sandbox',
-          // '--headless',
+          '--headless',
           '--disable-gpu',
           '--remote-debugging-port=9222'
         ]
