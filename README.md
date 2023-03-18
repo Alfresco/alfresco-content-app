@@ -39,6 +39,28 @@ npm start content-ce -- --configuration=adf
 
 Changing the ADF code results in the recompilation and hot-reloading of the ACA application.
 
+## Unit Tests
+
+Use standard Angular CLI commands to test the projects:
+
+```sh
+ng test <project>
+```
+
+### Code Coverage
+
+The projects are already configured to produce code coverage reports in console and HTML output.
+
+You can view HTML reports in the `./coverage/<project>` folder.
+
+When working with unit testing and code coverage improvement, you can run unit tests in the "live reload" mode:
+
+```sh
+ng test <project> --watch
+```
+
+Upon changing unit tests code, you can track the coverage results either in the console output, or by reloading the HTML report in the browser.
+
 ## Triggering the build to use specific branch of ADF with CI flags
 
 You can create commits with the intention of running the build pipeline using a specific branch of ADF. To achieve this, you need to add a specific CI flag in your commit message:
