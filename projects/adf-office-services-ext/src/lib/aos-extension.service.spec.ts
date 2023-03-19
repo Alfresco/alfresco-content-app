@@ -25,7 +25,7 @@
 
 import { TestBed } from '@angular/core/testing';
 import { AosEditOnlineService } from './aos-extension.service';
-import { AppConfigService, AuthenticationService, CoreModule, NotificationService } from '@alfresco/adf-core';
+import { AppConfigService, AuthenticationService, CoreModule, LogService, NotificationService } from '@alfresco/adf-core';
 import { TranslateModule } from '@ngx-translate/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -34,10 +34,12 @@ describe('AosEditOnlineService', () => {
   let notificationService: NotificationService;
   let authenticationService: AuthenticationService;
   let appConfigService: AppConfigService;
+  let userAgent: jasmine.Spy;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, TranslateModule.forRoot(), CoreModule.forRoot()]
+      imports: [NoopAnimationsModule, TranslateModule.forRoot(), CoreModule.forRoot()],
+      providers: [{ provide: LogService, useValue: { error() {} } }]
     });
 
     aosEditOnlineService = TestBed.inject(AosEditOnlineService);
@@ -47,6 +49,7 @@ describe('AosEditOnlineService', () => {
 
     spyOn(authenticationService, 'getEcmUsername').and.returnValue('user1');
     spyOn(appConfigService, 'get').and.returnValue('http://localhost:3000');
+    userAgent = spyOnProperty(navigator, 'userAgent').and.returnValue('mac');
   });
 
   it('should raise error if file is already locked by another user', () => {
@@ -80,6 +83,7 @@ describe('AosEditOnlineService', () => {
     };
 
     aosEditOnlineService.onActionEditOnlineAos(node);
+    // eslint-disable-next-line @cspell/spellchecker
     expect(openByUrl).toHaveBeenCalledWith('ms-word', 'http://localhost:3000/Company Home/_aos_nodeid/node1/file.docx');
   });
 
@@ -136,7 +140,7 @@ describe('AosEditOnlineService', () => {
 
   it('should raise error for unsupported platform', () => {
     const showError = spyOn(notificationService, 'showError').and.stub();
-    spyOnProperty(navigator, 'userAgent').and.returnValue('unknown');
+    userAgent.and.returnValue('unknown');
 
     const node: any = {
       id: 'node1',
