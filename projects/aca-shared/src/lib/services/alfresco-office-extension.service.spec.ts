@@ -28,10 +28,13 @@ import { AppConfigService } from '@alfresco/adf-core';
 import { AlfrescoOfficeExtensionService } from './alfresco-office-extension.service';
 import { provideMockStore } from '@ngrx/store/testing';
 import { initialState, LibTestingModule } from '../testing/lib-testing-module';
+import { Subject } from 'rxjs';
 
 describe('AlfrescoOfficeExtensionService', () => {
   let appConfig: AppConfigService;
   let service: AlfrescoOfficeExtensionService;
+  let onLoad$: Subject<any>;
+
   const mock = () => {
     let storage: { [key: string]: any } = {};
     return {
@@ -48,14 +51,42 @@ describe('AlfrescoOfficeExtensionService', () => {
       providers: [provideMockStore({ initialState })]
     });
 
-    service = TestBed.inject(AlfrescoOfficeExtensionService);
+    onLoad$ = new Subject();
 
     appConfig = TestBed.inject(AppConfigService);
-    appConfig.config = Object.assign(appConfig.config, {
-      aosPlugin: true
-    });
+    appConfig.onLoad = onLoad$;
+    appConfig.config.aosPlugin = true;
+
+    service = TestBed.inject(AlfrescoOfficeExtensionService);
 
     Object.defineProperty(window, 'localStorage', { value: mock() });
+  });
+
+  it('should enable plugin on load', () => {
+    spyOn(localStorage, 'getItem').and.returnValue(null);
+    spyOn(localStorage, 'setItem');
+
+    onLoad$.next({
+      plugins: {
+        aosPlugin: true
+      }
+    });
+
+    TestBed.inject(AlfrescoOfficeExtensionService);
+    expect(localStorage.setItem).toHaveBeenCalledWith('aosPlugin', 'true');
+  });
+
+  it('should disable plugin on load', () => {
+    spyOn(localStorage, 'removeItem');
+
+    onLoad$.next({
+      plugins: {
+        aosPlugin: false
+      }
+    });
+
+    TestBed.inject(AlfrescoOfficeExtensionService);
+    expect(localStorage.removeItem).toHaveBeenCalledWith('aosPlugin');
   });
 
   it('Should initialize the localStorage with the item aosPlugin true if not present', () => {

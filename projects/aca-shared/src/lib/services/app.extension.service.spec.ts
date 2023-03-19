@@ -39,15 +39,20 @@ import {
   ExtensionConfig,
   NavBarGroupRef
 } from '@alfresco/adf-extensions';
-import { AppConfigService } from '@alfresco/adf-core';
+import { AppConfigService, LogService } from '@alfresco/adf-core';
 import { provideMockStore } from '@ngrx/store/testing';
 import { hasQuickShareEnabled } from '@alfresco/aca-shared/rules';
+import { MatIconRegistry } from '@angular/material/icon';
+import { DomSanitizer } from '@angular/platform-browser';
 
 describe('AppExtensionService', () => {
   let service: AppExtensionService;
   let store: Store<AppStore>;
   let extensions: ExtensionService;
   let appConfigService: AppConfigService;
+  let logService: LogService;
+  let iconRegistry: MatIconRegistry;
+  let sanitizer: DomSanitizer;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -55,6 +60,8 @@ describe('AppExtensionService', () => {
       providers: [provideMockStore({ initialState })]
     });
 
+    iconRegistry = TestBed.inject(MatIconRegistry);
+    sanitizer = TestBed.inject(DomSanitizer);
     appConfigService = TestBed.inject(AppConfigService);
     store = TestBed.inject(Store);
 
@@ -62,6 +69,7 @@ describe('AppExtensionService', () => {
     service.repository.status.isQuickShareEnabled = true;
 
     extensions = TestBed.inject(ExtensionService);
+    logService = TestBed.inject(LogService);
   });
 
   const applyConfig = (config: ExtensionConfig, selection?: boolean) => {
@@ -78,6 +86,40 @@ describe('AppExtensionService', () => {
   };
 
   describe('configs', () => {
+    it('should log an error during setup', async () => {
+      spyOn(extensions, 'load').and.returnValue(Promise.resolve(null));
+      spyOn(logService, 'error').and.stub();
+
+      await service.load();
+      expect(service.config).toBeNull();
+      expect(logService.error).toHaveBeenCalledWith('Extension configuration not found');
+    });
+
+    it('should load content metadata presets', () => {
+      applyConfig({
+        $id: 'test',
+        $name: 'test',
+        $version: '1.0.0',
+        $license: 'MIT',
+        $vendor: 'Good company',
+        $runtime: '1.5.0',
+        features: {
+          'content-metadata-presets': [
+            {
+              id: 'app.content.metadata.kitten-images',
+              'kitten-images': {
+                id: 'app.content.metadata.kittenAspect',
+                'custom:aspect': '*',
+                'exif:exif': ['exif:pixelXDimension', 'exif:pixelYDimension']
+              }
+            }
+          ]
+        }
+      });
+
+      expect(service.contentMetadata).toBeDefined();
+    });
+
     it('should merge two arrays based on [id] keys', () => {
       const left = [
         {
@@ -1074,6 +1116,107 @@ describe('AppExtensionService', () => {
     });
   });
 
+  describe('rules', () => {
+    it('should evaluate rule', () => {
+      extensions.setEvaluators({
+        rule1: () => true
+      });
+
+      expect(service.evaluateRule('rule1')).toBeTrue();
+    });
+
+    it('should not evaluate missing rule and return [false] by default', () => {
+      expect(service.evaluateRule('missing')).toBeFalse();
+    });
+
+    it('should confirm the rule is defined', () => {
+      extensions.setEvaluators({
+        rule1: () => true
+      });
+
+      expect(service.isRuleDefined('rule1')).toBeTrue();
+    });
+
+    it('should not confirm the rule is defined', () => {
+      expect(service.isRuleDefined(null)).toBeFalse();
+      expect(service.isRuleDefined('')).toBeFalse();
+      expect(service.isRuleDefined('missing')).toBeFalse();
+    });
+
+    it('should allow node preview', () => {
+      extensions.setEvaluators({
+        'app.canPreview': () => true
+      });
+
+      service.viewerRules.canPreview = 'app.canPreview';
+      expect(service.canPreviewNode(null)).toBeTrue();
+    });
+
+    it('should allow node preview with no rules', () => {
+      service.viewerRules = {};
+      expect(service.canPreviewNode(null)).toBeTrue();
+    });
+
+    it('should not allow node preview', () => {
+      extensions.setEvaluators({
+        'app.canPreview': () => false
+      });
+
+      service.viewerRules.canPreview = 'app.canPreview';
+      expect(service.canPreviewNode(null)).toBeFalse();
+    });
+
+    it('should allow viewer navigation', () => {
+      extensions.setEvaluators({
+        'app.allowNavigation': () => true
+      });
+
+      service.viewerRules.showNavigation = 'app.allowNavigation';
+      expect(service.canShowViewerNavigation(null)).toBeTrue();
+    });
+
+    it('should allow viewer navigation with no rules', () => {
+      service.viewerRules.showNavigation = null;
+      expect(service.canShowViewerNavigation(null)).toBeTrue();
+    });
+
+    it('should not allow viewer navigation', () => {
+      extensions.setEvaluators({
+        'app.allowNavigation': () => false
+      });
+
+      service.viewerRules.showNavigation = 'app.allowNavigation';
+      expect(service.canShowViewerNavigation(null)).toBeFalse();
+    });
+
+    it('should confirm the viewer extension is disabled explicitly', () => {
+      const extension = {
+        disabled: true
+      };
+
+      expect(service.isViewerExtensionDisabled(extension)).toBeTrue();
+    });
+
+    it('should confirm the viewer extension is disabled via rules', () => {
+      extensions.setEvaluators({
+        'viewer.disabled': () => true
+      });
+
+      const extension = {
+        disabled: false,
+        rules: {
+          disabled: 'viewer.disabled'
+        }
+      };
+
+      expect(service.isViewerExtensionDisabled(extension)).toBeTrue();
+    });
+
+    it('should confirm viewer extension is not disabled by default', () => {
+      expect(service.isViewerExtensionDisabled({})).toBeFalse();
+    });
+  });
+
   describe('rule disable', () => {
     beforeEach(() => {
       extensions.setEvaluators({
@@ -1423,6 +1566,109 @@ describe('AppExtensionService', () => {
         expect(actions.length).toEqual(0);
         done();
       });
+    });
+  });
+
+  describe('custom icons', () => {
+    it('should register custom icons', () => {
+      spyOn(iconRegistry, 'addSvgIconInNamespace').and.stub();
+
+      const rawUrl = './assets/images/ft_ic_ms_excel.svg';
+
+      applyConfig({
+        $id: 'test',
+        $name: 'test',
+        $version: '1.0.0',
+        $license: 'MIT',
+        $vendor: 'Good company',
+        $runtime: '1.5.0',
+        features: {
+          icons: [
+            {
+              id: 'adf:excel_thumbnail',
+              value: rawUrl
+            }
+          ]
+        }
+      });
+
+      const url = sanitizer.bypassSecurityTrustResourceUrl(rawUrl);
+      expect(iconRegistry.addSvgIconInNamespace).toHaveBeenCalledWith('adf', 'excel_thumbnail', url);
+    });
+
+    it('should warn if icon has no url path', () => {
+      const warn = spyOn(logService, 'warn').and.stub();
+
+      applyConfig({
+        $id: 'test',
+        $name: 'test',
+        $version: '1.0.0',
+        $license: 'MIT',
+        $vendor: 'Good company',
+        $runtime: '1.5.0',
+        features: {
+          icons: [
+            {
+              id: 'adf:excel_thumbnail'
+            }
+          ]
+        }
+      });
+
+      expect(warn).toHaveBeenCalledWith('Missing icon value for "adf:excel_thumbnail".');
+    });
+
+    it('should warn if icon has incorrect format', () => {
+      const warn = spyOn(logService, 'warn').and.stub();
+
+      applyConfig({
+        $id: 'test',
+        $name: 'test',
+        $version: '1.0.0',
+        $license: 'MIT',
+        $vendor: 'Good company',
+        $runtime: '1.5.0',
+        features: {
+          icons: [
+            {
+              id: 'incorrect.format',
+              value: './assets/images/ft_ic_ms_excel.svg'
+            }
+          ]
+        }
+      });
+
+      expect(warn).toHaveBeenCalledWith(`Incorrect icon id format.`);
+    });
+  });
+
+  it('should resolve main action', (done) => {
+    extensions.setEvaluators({
+      'action.enabled': () => true
+    });
+
+    applyConfig({
+      $id: 'test',
+      $name: 'test',
+      $version: '1.0.0',
+      $license: 'MIT',
+      $vendor: 'Good company',
+      $runtime: '1.5.0',
+      features: {
+        mainAction: {
+          id: 'action-id',
+          title: 'action-title',
+          type: 'button',
+          rules: {
+            visible: 'action.enabled'
+          }
+        }
+      }
+    });
+
+    service.getMainAction().subscribe((action) => {
+      expect(action.id).toEqual('action-id');
+      done();
     });
   });
 });

@@ -23,28 +23,21 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
-import { NodeEntry } from '@alfresco/js-api';
+import { LockedByComponent } from './locked-by.component';
 
-@Component({
-  selector: 'aca-locked-by',
-  template: `
-    <mat-icon class="locked_by--icon">lock</mat-icon>
-    <span class="locked_by--label">{{ 'APP.LOCKED_BY' | translate }}</span>
-    <span class="locked_by--name">{{ text }}</span>
-  `,
-  styleUrls: ['./locked-by.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
-  host: {
-    class: 'aca-locked-by'
-  }
-})
-export class LockedByComponent {
-  @Input()
-  node: NodeEntry;
+describe('LockedByComponent', () => {
+  it('should evaluate label text', () => {
+    const component = new LockedByComponent();
+    component.node = {
+      entry: {
+        properties: {
+          'cm:lockOwner': {
+            displayName: 'owner-name'
+          }
+        }
+      } as any
+    };
 
-  get text(): string {
-    return this.node?.entry?.properties?.['cm:lockOwner']?.displayName;
-  }
-}
+    expect(component.text).toBe('owner-name');
+  });
+});
