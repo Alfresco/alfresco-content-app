@@ -143,12 +143,14 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   imageResolver(row: ShareDataRow): string | null {
-    if (isLocked(row.node)) {
-      return 'assets/images/baseline-lock-24px.svg';
-    }
+    if (row) {
+      if (isLocked(row.node)) {
+        return 'assets/images/baseline-lock-24px.svg';
+      }
 
-    if (isLibrary(row.node)) {
-      return 'assets/images/baseline-library_books-24px.svg';
+      if (isLibrary(row.node)) {
+        return 'assets/images/baseline-library_books-24px.svg';
+      }
     }
 
     return null;
@@ -181,7 +183,7 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
     return location.href.includes('viewer:view');
   }
 
-  onSortingChanged(event) {
+  onSortingChanged(event: any) {
     this.filterSorting = event.detail.key + '-' + event.detail.direction;
   }
 

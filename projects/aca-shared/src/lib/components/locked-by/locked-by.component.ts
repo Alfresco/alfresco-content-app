@@ -45,8 +45,6 @@ export class LockedByComponent {
   node: NodeEntry;
 
   get text(): string {
-    return (
-      this.node && this.node.entry.properties && this.node.entry.properties['cm:lockOwner'] && this.node.entry.properties['cm:lockOwner'].displayName
-    );
+    return this.node?.entry?.properties?.['cm:lockOwner']?.displayName;
   }
 }

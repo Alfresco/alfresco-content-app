@@ -23,13 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Inject, Injectable, OnDestroy } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { AuthenticationService, AppConfigService, AlfrescoApiService, PageTitleService, UserPreferencesService } from '@alfresco/adf-core';
-import { Observable, BehaviorSubject, Subject } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { GroupService, SearchQueryBuilderService, SharedLinksApiService, UploadService, FileUploadErrorEvent } from '@alfresco/adf-content-services';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { ActivatedRoute, ActivationEnd, NavigationStart, Router } from '@angular/router';
-import { filter, map, takeUntil, tap } from 'rxjs/operators';
+import { filter, map, tap } from 'rxjs/operators';
 import {
   AppState,
   AppStore,
@@ -54,7 +54,7 @@ import { AcaMobileAppSwitcherService } from './aca-mobile-app-switcher.service';
   providedIn: 'root'
 })
 // After moving shell to ADF to core, AppService will implement ShellAppService
-export class AppService implements OnDestroy {
+export class AppService {
   private ready: BehaviorSubject<boolean>;
   ready$: Observable<boolean>;
 
@@ -62,8 +62,6 @@ export class AppService implements OnDestroy {
 
   hideSidenavConditions = ['/preview/'];
   minimizeSidenavConditions = ['search'];
-
-  onDestroy$ = new Subject<boolean>();
 
   /**
    * Whether `withCredentials` mode is enabled.
@@ -110,11 +108,6 @@ export class AppService implements OnDestroy {
     );
   }
 
-  ngOnDestroy(): void {
-    this.onDestroy$.next(true);
-    this.onDestroy$.complete();
-  }
-
   init(): void {
     this.alfrescoApiService.getInstance().on('error', (error: { status: number; response: any }) => {
       if (error.status === 401 && !this.alfrescoApiService.isExcludedErrorListener(error?.response?.req?.url)) {
@@ -146,24 +139,21 @@ export class AppService implements OnDestroy {
         this.store.dispatch(new SetCurrentUrlAction(router.url));
       });
 
-    this.router.events
-      .pipe(
-        filter((event) => event instanceof NavigationStart),
-        takeUntil(this.onDestroy$)
-      )
-      .subscribe(() => {
-        this.store.dispatch(new ResetSelectionAction());
-      });
+    this.router.events.pipe(filter((event) => event instanceof NavigationStart)).subscribe(() => {
+      this.store.dispatch(new ResetSelectionAction());
+    });
 
     this.routerExtensionService.mapExtensionRoutes();
 
     this.uploadService.fileUploadError.subscribe((error) => this.onFileUploadedError(error));
 
-    this.sharedLinksApiService.error.pipe(takeUntil(this.onDestroy$)).subscribe((err: { message: string }) => {
-      this.store.dispatch(new SnackbarErrorAction(err.message));
+    this.sharedLinksApiService.error.subscribe((err: { message: string }) => {
+      if (err?.message) {
+        this.store.dispatch(new SnackbarErrorAction(err.message));
+      }
     });
 
-    this.ready$.pipe(takeUntil(this.onDestroy$)).subscribe((isReady) => {
+    this.ready$.subscribe((isReady) => {
       if (isReady) {
         this.loadRepositoryStatus();
         this.loadUserProfile();
@@ -182,7 +172,9 @@ export class AppService implements OnDestroy {
 
   private loadRepositoryStatus() {
     this.contentApi.getRepositoryInformation().subscribe((response: DiscoveryEntry) => {
-      this.store.dispatch(new SetRepositoryInfoAction(response.entry.repository));
+      if (response?.entry?.repository) {
+        this.store.dispatch(new SetRepositoryInfoAction(response.entry.repository));
+      }
     });
   }
 
@@ -201,7 +193,7 @@ export class AppService implements OnDestroy {
   }
 
   loadAppSettings() {
-    let baseShareUrl = this.config.get<string>('baseShareUrl');
+    let baseShareUrl = this.config.get<string>('baseShareUrl', '');
     if (!baseShareUrl.endsWith('/')) {
       baseShareUrl += '/';
     }
@@ -224,23 +216,23 @@ export class AppService implements OnDestroy {
   onFileUploadedError(error: FileUploadErrorEvent) {
     let message = 'APP.MESSAGES.UPLOAD.ERROR.GENERIC';
 
-    if (error.error.status === 403) {
+    if (error?.error?.status === 403) {
       message = 'APP.MESSAGES.UPLOAD.ERROR.403';
     }
 
-    if (error.error.status === 404) {
+    if (error?.error?.status === 404) {
       message = 'APP.MESSAGES.UPLOAD.ERROR.404';
     }
 
-    if (error.error.status === 409) {
+    if (error?.error?.status === 409) {
       message = 'APP.MESSAGES.UPLOAD.ERROR.CONFLICT';
     }
 
-    if (error.error.status === 500) {
+    if (error?.error?.status === 500) {
       message = 'APP.MESSAGES.UPLOAD.ERROR.500';
     }
 
-    if (error.error.status === 504) {
+    if (error?.error?.status === 504) {
       message = 'APP.MESSAGES.UPLOAD.ERROR.504';
     }
 

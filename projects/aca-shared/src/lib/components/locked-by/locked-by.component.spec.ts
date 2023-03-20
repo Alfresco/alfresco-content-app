@@ -23,24 +23,21 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Node } from '@alfresco/js-api';
+import { LockedByComponent } from './locked-by.component';
 
-export function isLocked(node: { entry: Node }): boolean {
-  if (node?.entry) {
-    const { entry } = node;
+describe('LockedByComponent', () => {
+  it('should evaluate label text', () => {
+    const component = new LockedByComponent();
+    component.node = {
+      entry: {
+        properties: {
+          'cm:lockOwner': {
+            displayName: 'owner-name'
+          }
+        }
+      } as any
+    };
 
-    return entry.isLocked || entry.properties?.['cm:lockType'] === 'READ_ONLY_LOCK' || entry.properties?.['cm:lockType'] === 'WRITE_LOCK';
-  } else {
-    return false;
-  }
-}
-
-export function isLibrary(node: { entry: Node | any }): boolean {
-  if (node?.entry) {
-    const { entry } = node;
-
-    return !!(entry.guid && entry.id && entry.preset && entry.title && entry.visibility) || entry.nodeType === 'st:site';
-  } else {
-    return false;
-  }
-}
+    expect(component.text).toBe('owner-name');
+  });
+});

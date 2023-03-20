@@ -23,21 +23,29 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Injectable } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
+import { AppSharedRuleGuard } from './shared.guard';
 
-@Injectable()
-export class TranslateServiceMock extends TranslateService {
-  constructor() {
-    super(null, null, null, null, null, null, true, null, null);
-  }
+describe('AppSharedRuleGuard', () => {
+  it('should allow activation if quick share is enabled', () => {
+    const store: any = {
+      select: () => of(true)
+    };
+    const guard = new AppSharedRuleGuard(store);
+    const emittedSpy = jasmine.createSpy('emitted');
 
-  get(key: string | Array<string>): Observable<string | any> {
-    return of(key);
-  }
+    guard.canActivate({} as any).subscribe(emittedSpy);
+    expect(emittedSpy).toHaveBeenCalledWith(true);
+  });
 
-  instant(key: string | Array<string>): string | any {
-    return key;
-  }
-}
+  it('should allow child activation if quick share is enabled', () => {
+    const store: any = {
+      select: () => of(true)
+    };
+    const guard = new AppSharedRuleGuard(store);
+    const emittedSpy = jasmine.createSpy('emitted');
+
+    guard.canActivateChild({} as any).subscribe(emittedSpy);
+    expect(emittedSpy).toHaveBeenCalledWith(true);
+  });
+});

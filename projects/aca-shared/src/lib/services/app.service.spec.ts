@@ -30,60 +30,49 @@ import {
   AppConfigService,
   AlfrescoApiService,
   PageTitleService,
-  UserPreferencesService,
   AlfrescoApiServiceMock,
   TranslationMock,
   TranslationService
 } from '@alfresco/adf-core';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { HttpClientModule } from '@angular/common/http';
-import { SharedLinksApiService, GroupService, SearchQueryBuilderService, UploadService, DiscoveryApiService } from '@alfresco/adf-content-services';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ContentApiService } from './content-api.service';
-import { RouterExtensionService } from './router.extension.service';
-import { OverlayContainer } from '@angular/cdk/overlay';
-import { AppStore, STORE_INITIAL_APP_DATA } from '../../../store/src/states/app.state';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import {
+  DiscoveryApiService,
+  FileUploadErrorEvent,
+  GroupService,
+  SearchQueryBuilderService,
+  SharedLinksApiService,
+  UploadService
+} from '@alfresco/adf-content-services';
+import { ActivatedRoute } from '@angular/router';
+import { STORE_INITIAL_APP_DATA } from '../../../store/src/states/app.state';
+import { provideMockStore } from '@ngrx/store/testing';
 import { CommonModule } from '@angular/common';
-import { TranslateService } from '@ngx-translate/core';
-import { TranslateServiceMock } from '../testing/translation.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RepositoryInfo } from '@alfresco/js-api';
-import { AcaMobileAppSwitcherService } from './aca-mobile-app-switcher.service';
 import { MatDialogModule } from '@angular/material/dialog';
+import { TranslateModule } from '@ngx-translate/core';
+import { Store } from '@ngrx/store';
+import { SnackbarErrorAction } from '../../../store/src/actions/snackbar.actions';
+import { ContentApiService } from './content-api.service';
+import { SetRepositoryInfoAction, SetUserProfileAction } from '../../../store/src/actions/app.actions';
 
 describe('AppService', () => {
   let service: AppService;
   let auth: AuthenticationService;
   let appConfig: AppConfigService;
   let searchQueryBuilderService: SearchQueryBuilderService;
-  let userPreferencesService: UserPreferencesService;
-  let router: Router;
-  let activatedRoute: ActivatedRoute;
-  let routerExtensionService: RouterExtensionService;
-  let pageTitleService: PageTitleService;
   let uploadService: UploadService;
-  let contentApiService: ContentApiService;
+  let store: Store;
   let sharedLinksApiService: SharedLinksApiService;
-  let overlayContainer: OverlayContainer;
-  let alfrescoApiService: AlfrescoApiService;
+  let contentApi: ContentApiService;
   let groupService: GroupService;
-  let storeInitialAppData: any;
-  let store: MockStore<AppStore>;
-  let acaMobileAppSwitcherService: AcaMobileAppSwitcherService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule, RouterTestingModule.withRoutes([]), MatDialogModule],
+      imports: [CommonModule, HttpClientModule, TranslateModule.forRoot(), RouterTestingModule.withRoutes([]), MatDialogModule],
       providers: [
-        CommonModule,
         SearchQueryBuilderService,
-        UserPreferencesService,
-        RouterExtensionService,
-        UploadService,
-        ContentApiService,
-        SharedLinksApiService,
-        OverlayContainer,
         provideMockStore({}),
         {
           provide: PageTitleService,
@@ -118,48 +107,19 @@ describe('AppService', () => {
             isLoggedIn: () => false
           }
         },
-        { provide: TranslationService, useClass: TranslationMock },
-        { provide: TranslateService, useClass: TranslateServiceMock }
+        { provide: TranslationService, useClass: TranslationMock }
       ]
     });
 
     appConfig = TestBed.inject(AppConfigService);
-    searchQueryBuilderService = TestBed.inject(SearchQueryBuilderService);
-    userPreferencesService = TestBed.inject(UserPreferencesService);
-    router = TestBed.inject(Router);
-    activatedRoute = TestBed.inject(ActivatedRoute);
-    routerExtensionService = TestBed.inject(RouterExtensionService);
-    pageTitleService = TestBed.inject(PageTitleService);
-    uploadService = TestBed.inject(UploadService);
-    contentApiService = TestBed.inject(ContentApiService);
-    sharedLinksApiService = TestBed.inject(SharedLinksApiService);
-    overlayContainer = TestBed.inject(OverlayContainer);
-    alfrescoApiService = TestBed.inject(AlfrescoApiService);
-    groupService = TestBed.inject(GroupService);
-    storeInitialAppData = TestBed.inject(STORE_INITIAL_APP_DATA);
-    store = TestBed.inject(MockStore);
     auth = TestBed.inject(AuthenticationService);
-    acaMobileAppSwitcherService = TestBed.inject(AcaMobileAppSwitcherService);
-
-    service = new AppService(
-      userPreferencesService,
-      auth,
-      store,
-      router,
-      activatedRoute,
-      appConfig,
-      pageTitleService,
-      alfrescoApiService,
-      uploadService,
-      routerExtensionService,
-      contentApiService,
-      sharedLinksApiService,
-      groupService,
-      overlayContainer,
-      storeInitialAppData,
-      searchQueryBuilderService,
-      acaMobileAppSwitcherService
-    );
+    searchQueryBuilderService = TestBed.inject(SearchQueryBuilderService);
+    uploadService = TestBed.inject(UploadService);
+    store = TestBed.inject(Store);
+    sharedLinksApiService = TestBed.inject(SharedLinksApiService);
+    contentApi = TestBed.inject(ContentApiService);
+    groupService = TestBed.inject(GroupService);
+    service = TestBed.inject(AppService);
   });
 
   it('should be ready if [withCredentials] mode is used', (done) => {
@@ -169,26 +129,7 @@ describe('AppService', () => {
       }
     };
 
-    const instance = new AppService(
-      userPreferencesService,
-      auth,
-      store,
-      router,
-      activatedRoute,
-      appConfig,
-      pageTitleService,
-      alfrescoApiService,
-      uploadService,
-      routerExtensionService,
-      contentApiService,
-      sharedLinksApiService,
-      groupService,
-      overlayContainer,
-      storeInitialAppData,
-      searchQueryBuilderService,
-      acaMobileAppSwitcherService
-    );
-
+    const instance = TestBed.inject(AppService);
     expect(instance.withCredentials).toBeTruthy();
 
     instance.ready$.subscribe(() => {
@@ -203,5 +144,99 @@ describe('AppService', () => {
     });
     auth.onLogin.next();
     await expect(isReady).toEqual(true);
+  });
+
+  it('should reset search to defaults upon logout', async () => {
+    const resetToDefaults = spyOn(searchQueryBuilderService, 'resetToDefaults');
+    auth.onLogout.next(true);
+
+    await expect(resetToDefaults).toHaveBeenCalled();
+  });
+
+  it('should rase notification on share link error', () => {
+    spyOn(store, 'select').and.returnValue(of(''));
+    service.init();
+    const dispatch = spyOn(store, 'dispatch');
+
+    sharedLinksApiService.error.next({ message: 'Error Message', statusCode: 1 });
+    expect(dispatch).toHaveBeenCalledWith(new SnackbarErrorAction('Error Message'));
+  });
+
+  it('should raise notification on upload error', async () => {
+    spyOn(store, 'select').and.returnValue(of(''));
+    service.init();
+    const dispatch = spyOn(store, 'dispatch');
+
+    uploadService.fileUploadError.next(new FileUploadErrorEvent(null, { status: 403 }));
+    expect(dispatch).toHaveBeenCalledWith(new SnackbarErrorAction('APP.MESSAGES.UPLOAD.ERROR.403'));
+    dispatch.calls.reset();
+
+    uploadService.fileUploadError.next(new FileUploadErrorEvent(null, { status: 404 }));
+    expect(dispatch).toHaveBeenCalledWith(new SnackbarErrorAction('APP.MESSAGES.UPLOAD.ERROR.404'));
+    dispatch.calls.reset();
+
+    uploadService.fileUploadError.next(new FileUploadErrorEvent(null, { status: 409 }));
+    expect(dispatch).toHaveBeenCalledWith(new SnackbarErrorAction('APP.MESSAGES.UPLOAD.ERROR.CONFLICT'));
+    dispatch.calls.reset();
+
+    uploadService.fileUploadError.next(new FileUploadErrorEvent(null, { status: 500 }));
+    expect(dispatch).toHaveBeenCalledWith(new SnackbarErrorAction('APP.MESSAGES.UPLOAD.ERROR.500'));
+    dispatch.calls.reset();
+
+    uploadService.fileUploadError.next(new FileUploadErrorEvent(null, { status: 504 }));
+    expect(dispatch).toHaveBeenCalledWith(new SnackbarErrorAction('APP.MESSAGES.UPLOAD.ERROR.504'));
+    dispatch.calls.reset();
+
+    uploadService.fileUploadError.next(new FileUploadErrorEvent(null, { status: 403 }));
+    expect(dispatch).toHaveBeenCalledWith(new SnackbarErrorAction('APP.MESSAGES.UPLOAD.ERROR.403'));
+    dispatch.calls.reset();
+
+    uploadService.fileUploadError.next(new FileUploadErrorEvent(null, {}));
+    expect(dispatch).toHaveBeenCalledWith(new SnackbarErrorAction('APP.MESSAGES.UPLOAD.ERROR.GENERIC'));
+  });
+
+  it('should load custom css', () => {
+    const appendChild = spyOn(document.head, 'appendChild');
+    spyOn(store, 'select').and.returnValue(of('/custom.css'));
+    service.init();
+
+    const cssLinkElement = document.createElement('link');
+    cssLinkElement.setAttribute('rel', 'stylesheet');
+    cssLinkElement.setAttribute('type', 'text/css');
+    cssLinkElement.setAttribute('href', '/custom.css');
+
+    expect(appendChild).toHaveBeenCalledWith(cssLinkElement);
+  });
+
+  it('should load repository status on login', () => {
+    const repository: any = {};
+    spyOn(contentApi, 'getRepositoryInformation').and.returnValue(of({ entry: { repository } }));
+    spyOn(store, 'select').and.returnValue(of(''));
+    service.init();
+
+    const dispatch = spyOn(store, 'dispatch');
+    auth.onLogin.next(true);
+
+    expect(dispatch).toHaveBeenCalledWith(new SetRepositoryInfoAction(repository));
+  });
+
+  it('should load user profile on login', async () => {
+    const person: any = { id: 'person' };
+
+    const group: any = { entry: {} };
+    const groups: any[] = [group];
+
+    spyOn(contentApi, 'getRepositoryInformation').and.returnValue(of({} as any));
+    spyOn(groupService, 'listAllGroupMembershipsForPerson').and.returnValue(Promise.resolve(groups));
+    spyOn(contentApi, 'getPerson').and.returnValue(of({ entry: person }));
+
+    spyOn(store, 'select').and.returnValue(of(''));
+    service.init();
+
+    const dispatch = spyOn(store, 'dispatch');
+    auth.onLogin.next(true);
+
+    await expect(groupService.listAllGroupMembershipsForPerson).toHaveBeenCalled();
+    await expect(dispatch).toHaveBeenCalledWith(new SetUserProfileAction({ person, groups: [group.entry] }));
   });
 });

@@ -196,9 +196,9 @@ export class AppExtensionService implements RuleContext {
       const value = icon.value;
 
       if (!value) {
-        console.warn(`Missing icon value for "${icon.id}".`);
+        this.logger.warn(`Missing icon value for "${icon.id}".`);
       } else if (!ns || !id) {
-        console.warn(`Incorrect icon id format: "${icon.id}".`);
+        this.logger.warn(`Incorrect icon id format.`);
       } else {
         this.matIconRegistry.addSvgIconInNamespace(ns, id, this.sanitizer.bypassSecurityTrustResourceUrl(value));
       }
@@ -290,12 +290,10 @@ export class AppExtensionService implements RuleContext {
     let presets = {};
     presets = this.filterDisabled(mergeObjects(presets, ...elements));
 
-    try {
-      this.appConfig.config['content-metadata'].presets = presets;
-    } catch (error) {
-      this.logger.error(error, '- could not change content-metadata presets from app.config -');
-    }
+    const metadata = this.appConfig.config['content-metadata'] || {};
+    metadata.presets = presets;
 
+    this.appConfig.config['content-metadata'] = metadata;
     return { presets };
   }
 
@@ -310,11 +308,7 @@ export class AppExtensionService implements RuleContext {
       .filter((entry) => this.filterVisible(entry))
       .sort(sortByOrder);
 
-    try {
-      this.appConfig.config['search'] = search;
-    } catch (error) {
-      this.logger.error(error, '- could not change search from app.config -');
-    }
+    this.appConfig.config['search'] = search;
     return search;
   }
 

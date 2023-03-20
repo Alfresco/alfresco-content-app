@@ -24,7 +24,7 @@
  */
 
 /* cspell:disable */
-import { AppConfigService, AuthenticationService, NotificationService } from '@alfresco/adf-core';
+import { AppConfigService, AuthenticationService, LogService, NotificationService } from '@alfresco/adf-core';
 import { Injectable } from '@angular/core';
 import { MinimalNodeEntryEntity } from '@alfresco/js-api';
 import { getFileExtension, supportedExtensions } from '@alfresco/aca-shared/rules';
@@ -38,9 +38,10 @@ export interface IAosEditOnlineService {
 })
 export class AosEditOnlineService implements IAosEditOnlineService {
   constructor(
-    private alfrescoAuthenticationService: AuthenticationService,
+    private authenticationService: AuthenticationService,
     private appConfigService: AppConfigService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private logService: LogService
   ) {}
 
   onActionEditOnlineAos(node: MinimalNodeEntryEntity): void {
@@ -51,10 +52,10 @@ export class AosEditOnlineService implements IAosEditOnlineService {
         // );
         const checkedOut = node.properties['cm:lockType'] === 'WRITE_LOCK' || node.properties['cm:lockType'] === 'READ_ONLY_LOCK';
         const lockOwner = node.properties['cm:lockOwner'];
-        const differentLockOwner = lockOwner.id !== this.alfrescoAuthenticationService.getEcmUsername();
+        const differentLockOwner = lockOwner.id !== this.authenticationService.getEcmUsername();
 
         if (checkedOut && differentLockOwner) {
-          this.onAlreadyLockedNotification(node.id, lockOwner);
+          this.onAlreadyLockedNotification(node.id, lockOwner.id);
         } else {
           this.triggerEditOnlineAos(node);
         }
@@ -77,17 +78,21 @@ export class AosEditOnlineService implements IAosEditOnlineService {
   }
 
   private onAlreadyLockedNotification(nodeId: string, lockOwner: string) {
-    this.notificationService.openSnackMessage(`Document ${nodeId} locked by ${lockOwner}`, 3000);
+    this.logService.error('Document already locked by another user');
+    this.notificationService.showError(`AOS.ERRORS.ALREADY_LOCKED`, null, {
+      nodeId,
+      lockOwner
+    });
   }
 
   private getProtocolForFileExtension(fileExtension: string) {
-    return supportedExtensions[fileExtension];
+    return fileExtension && supportedExtensions[fileExtension];
   }
 
   private triggerEditOnlineAos(node: MinimalNodeEntryEntity): void {
     const aosHost = this.appConfigService.get('aosHost');
     let url: string;
-    const pathElements = (node.path.elements || []).map((segment) => segment.name);
+    const pathElements = (node.path?.elements || []).map((segment) => segment.name);
 
     if (!pathElements.length) {
       url = `${aosHost}/Company Home/_aos_nodeid/${this.getNodeId(node)}/${encodeURIComponent(node.name)}`;
@@ -106,23 +111,25 @@ export class AosEditOnlineService implements IAosEditOnlineService {
     const protocolHandler = this.getProtocolForFileExtension(fileExtension);
 
     if (protocolHandler === undefined) {
-      this.notificationService.openSnackMessage(`No protocol handler found for {fileExtension}`, 3000);
+      this.logService.error('Protocol handler missing');
+      this.notificationService.showError(`AOS.ERRORS.MISSING_PROTOCOL_HANDLER`, null, { nodeName: node.name });
       return;
     }
 
     if (!this.isWindows() && !this.isMacOs()) {
-      this.notificationService.openSnackMessage('Only supported for Windows and Mac', 3000);
+      this.logService.error('Unsupported platform');
+      this.notificationService.showError('AOS.ERRORS.UNSUPPORTED_PLATFORM');
     } else {
-      this.aosTryToLaunchOfficeByMsProtocolHandler(protocolHandler, url);
+      this.openByUrl(protocolHandler, url);
     }
   }
 
-  private aosTryToLaunchOfficeByMsProtocolHandler(protocolHandler: string, url: string) {
-    const protocolUrl = protocolHandler + ':ofe%7Cu%7C' + url;
+  openByUrl(protocolHandler: string, url: string) {
+    const finalUrl = protocolHandler + ':ofe%7Cu%7C' + url;
 
     const iframe = document.createElement('iframe');
     iframe.style.display = 'none';
-    iframe.src = protocolUrl;
+    iframe.src = finalUrl;
 
     document.body.appendChild(iframe);
 

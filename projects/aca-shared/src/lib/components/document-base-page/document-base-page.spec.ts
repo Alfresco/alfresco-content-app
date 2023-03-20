@@ -38,6 +38,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { EffectsModule } from '@ngrx/effects';
+import { Subscription } from 'rxjs';
 
 export const INITIAL_APP_STATE: AppState = {
   appName: 'Alfresco Content Application',
@@ -97,6 +98,14 @@ class TestComponent extends PageComponent {
 
   constructor(store: Store<AppStore>, extensions: AppExtensionService, content: DocumentBasePageService) {
     super(store, extensions, content);
+  }
+
+  addSubscription(entry: Subscription) {
+    this.subscriptions.push(entry);
+  }
+
+  getSubscriptions(): Subscription[] {
+    return this.subscriptions;
   }
 }
 
@@ -340,5 +349,67 @@ describe('Info Drawer state', () => {
         infoDrawerOpened: true
       }
     });
+  });
+
+  it('should not resolve custom image', () => {
+    expect(component.imageResolver(null)).toBe(null);
+  });
+
+  it('should resolve custom image for locked node', () => {
+    const row: any = {
+      node: {
+        entry: {
+          isLocked: true
+        }
+      }
+    };
+
+    expect(component.imageResolver(row)).toBe('assets/images/baseline-lock-24px.svg');
+  });
+
+  it('should resolve custom image for a library', () => {
+    const row: any = {
+      node: {
+        entry: {
+          nodeType: 'st:site'
+        }
+      }
+    };
+
+    expect(component.imageResolver(row)).toBe('assets/images/baseline-library_books-24px.svg');
+  });
+
+  it('should track elements by action id ', () => {
+    const action: any = { id: 'action1' };
+    expect(component.trackByActionId(0, action)).toBe('action1');
+  });
+
+  it('should track elements by id ', () => {
+    const action: any = { id: 'action1' };
+    expect(component.trackById(0, action)).toBe('action1');
+  });
+
+  it('should track elements by column id ', () => {
+    const action: any = { id: 'action1' };
+    expect(component.trackByColumnId(0, action)).toBe('action1');
+  });
+
+  it('should cleanup subscriptions on destroy', () => {
+    const sub = jasmine.createSpyObj('sub', ['unsubscribe']);
+
+    expect(component.getSubscriptions().length).toBe(0);
+
+    component.addSubscription(sub);
+    expect(component.getSubscriptions().length).toBe(1);
+
+    component.ngOnDestroy();
+    expect(sub.unsubscribe).toHaveBeenCalled();
+    expect(component.getSubscriptions().length).toBe(0);
+  });
+
+  it('should update filter sorting', () => {
+    const event = new CustomEvent('sorting-changed', { detail: { key: 'name', direction: 'asc' } });
+    component.onSortingChanged(event);
+    expect(component.filterSorting).toBe('name-asc');
   });
 });

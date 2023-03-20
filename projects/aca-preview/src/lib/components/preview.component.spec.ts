@@ -38,11 +38,11 @@ import { UploadService, NodesApiService, DiscoveryApiService } from '@alfresco/a
 import { AppState, ClosePreviewAction } from '@alfresco/aca-shared/store';
 import { PreviewComponent } from './preview.component';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
-import { ContentApiService, AppHookService, TranslateServiceMock, DocumentBasePageService } from '@alfresco/aca-shared';
+import { ContentApiService, AppHookService, DocumentBasePageService } from '@alfresco/aca-shared';
 import { Store, StoreModule } from '@ngrx/store';
 import { Node, NodePaging, FavoritePaging, SharedLinkPaging, PersonEntry, ResultSetPaging, RepositoryInfo, NodeEntry } from '@alfresco/js-api';
 import { PreviewModule } from '../preview.module';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientModule } from '@angular/common/http';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -115,6 +115,7 @@ describe('PreviewComponent', () => {
         NoopAnimationsModule,
         HttpClientModule,
         RouterTestingModule,
+        TranslateModule.forRoot(),
         StoreModule.forRoot(
           { app: (state) => state },
           {
@@ -133,7 +134,6 @@ describe('PreviewComponent', () => {
       providers: [
         { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock },
         { provide: TranslationService, useClass: TranslationMock },
-        { provide: TranslateService, useClass: TranslateServiceMock },
         { provide: DocumentBasePageService, useVale: new DocumentBasePageServiceMock() },
         {
           provide: DiscoveryApiService,
