@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export type RuleConditionFieldType = 'string' | 'number' | 'date' | 'type' | 'special' | 'equals_comparator';
+export type RuleConditionFieldType = 'string' | 'number' | 'date' | 'type' | 'special';
 
 export interface RuleConditionField {
   name: string;
@@ -50,7 +50,7 @@ export const ruleConditionFields: RuleConditionField[] = [
   {
     name: 'encoding',
     label: 'ACA_FOLDER_RULES.RULE_DETAILS.FIELDS.ENCODING',
-    type: 'equals_comparator'
+    type: 'special'
   },
   {
     name: 'category',

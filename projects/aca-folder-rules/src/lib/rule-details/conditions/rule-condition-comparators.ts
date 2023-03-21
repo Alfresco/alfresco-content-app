@@ -91,11 +91,5 @@ export const ruleConditionComparators: RuleConditionComparator[] = [
     labels: {
       type: 'ACA_FOLDER_RULES.RULE_DETAILS.COMPARATORS.INSTANCE_OF'
     }
-  },
-  {
-    name: 'equals',
-    labels: {
-      equals_comparator: 'ACA_FOLDER_RULES.RULE_DETAILS.COMPARATORS.EQUALS'
-    }
   }
 ];
