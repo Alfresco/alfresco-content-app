@@ -9,7 +9,7 @@
 import { BasePage, ToolbarComponent } from '@alfresco/playwright-shared';
 import { Page } from '@playwright/test';
 import { ManageRulesDialogComponent } from '../components/manage-rules-dialog.component';
-import { ActionsDropdownComponent } from '../components/actions-dropdown.component';
+import { ActionsDropdownComponent as ActionsComponent } from '../components/actions.component';
 import { ConditionComponent } from '../components/conditions.component';
 import { ManageRules } from '../components/manage-rules.component';
 
@@ -22,7 +22,7 @@ export class NodesPage extends BasePage {
 
   public toolbar = new ToolbarComponent(this.page);
   public manageRulesDialog = new ManageRulesDialogComponent(this.page);
-  public actionsDropdown = new ActionsDropdownComponent(this.page);
+  public actionsDropdown = new ActionsComponent(this.page);
   public conditionsDropdown = new ConditionComponent(this.page);
   public manageRules = new ManageRules(this.page);
 }

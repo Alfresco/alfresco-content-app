@@ -1,6 +1,6 @@
 import { test } from '../fixtures/page-initialization';
 import { NodeBodyCreate } from '@alfresco/aca-testing-shared';
-import { ActionType } from '../page-objects/components/actions-dropdown.component';
+import { ActionType } from '../page-objects/components/actions.component';
 import { Comparator, Field } from '../page-objects/components/conditions.component';
 import { expect } from '@playwright/test';
 
@@ -28,8 +28,12 @@ test.describe('Folder Rules Conditions', () => {
 
     await nodesPage.toolbar.clickCreateRuleButton();
     await nodesPage.manageRulesDialog.typeRuleName(randomRuleName);
-    await nodesPage.conditionsDropdown.addCondition(Field.Size, Comparator.Equals, specialChars);
-    await nodesPage.actionsDropdown.selectAction(ActionType.IncrementCounter);
+    await nodesPage.conditionsDropdown.addCondition(Field.Size, Comparator.Equals, specialChars, 0);
+    await nodesPage.conditionsDropdown.addCondition(Field.Size, Comparator.Equals, specialChars, 1);
+    await nodesPage.conditionsDropdown.createConditionGroup();
+    await nodesPage.conditionsDropdown.addConditionGroup(Field.Size, Comparator.Equals, specialChars, 0);
+    await nodesPage.conditionsDropdown.addConditionGroup(Field.Size, Comparator.Equals, specialChars, 1);
+    await nodesPage.actionsDropdown.selectAction(ActionType.IncrementCounter, 0);
     await nodesPage.manageRulesDialog.createRuleButton.click();
 
     await expect.soft(nodesPage.manageRules.getGroupsList(randomRuleName)).toBeVisible();
