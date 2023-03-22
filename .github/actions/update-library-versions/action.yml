@@ -22,7 +22,7 @@ runs:
         if [[ ${{ inputs.branch_name }} =~ ^master.*?$ ]] ; then
           NEW_LIBRARY_VERSION="$VERSION_IN_PACKAGE_JSON"
         else
-          NEW_LIBRARY_VERSION="${VERSION_IN_PACKAGE_JSON}.${PR_NUMBER}"
+          NEW_LIBRARY_VERSION="${VERSION_IN_PACKAGE_JSON}.${{ github.run_id }}"
         fi
 
-        ./scripts/gh/update-lib-versions.sh "$NEW_LIBRARY_VERSION" "${{ inputs.dry-run }}"
+        ${{ github.action_path }}/update-lib-versions.sh "$NEW_LIBRARY_VERSION" "${{ inputs.dry-run }}"
