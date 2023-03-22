@@ -20,6 +20,7 @@ async function globalSetup(config: FullConfig) {
 
   let baseUrl: string;
 
+  await console.log('----------------------------------------------------------------' + use.baseURL);
   if (use.baseURL) {
     baseUrl = use.baseURL;
   } else {
@@ -29,13 +30,14 @@ async function globalSetup(config: FullConfig) {
       baseUrl = E2E_HOST;
     }
   }
-
+  await console.log('----------------------------------------------------------------' + baseUrl);
   const browser = await chromium.launch({
     args: ['--disable-web-security']
   });
   const page = await browser.newPage();
   const loginPage = new LoginPage(page);
 
+  await console.log('----------------------------------------------------------------' + baseUrl);
   fs.mkdirSync(`./storage-state`, { recursive: true });
   await page.goto(baseUrl);
   await loginPage.loginUser({ username: acsAdminUser, password: acsAdminUserPassword }, { withNavigation: false, waitForLoading: true });
