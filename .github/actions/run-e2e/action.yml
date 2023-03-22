@@ -23,7 +23,6 @@ runs:
 
         if [ ${{ inputs.test-runner }} == "playwright" ]; then
           echo "Running playwright tests with options ${{ inputs.options }}"
-          cat $CONTENT_CE_DIST_PATH/app.config.json
           npx playwright test --config ${{ inputs.options }}
         else
           echo "Running protractor tests with options ${{ inputs.options }}"
