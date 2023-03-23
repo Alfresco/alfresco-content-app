@@ -37,6 +37,7 @@ async function globalSetup(config: FullConfig) {
   const loginPage = new LoginPage(page);
 
   fs.mkdirSync(`./storage-state`, { recursive: true });
+  await page.waitForURL(baseUrl);
   await page.goto(baseUrl);
   await loginPage.loginUser({ username: acsAdminUser, password: acsAdminUserPassword }, { withNavigation: false, waitForLoading: true });
   await page.context().storageState({ path: `./storage-state/AdminUserState.json` });
