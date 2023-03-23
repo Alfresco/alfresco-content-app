@@ -45,7 +45,7 @@ export class TagsColumnComponent {
   constructor(private cd: ChangeDetectorRef) {}
 
   getNodeId(row: ShareDataRow): string {
-    return row.id;
+    return (row.node.entry as any).guid || row.id;
   }
 
   onTagsLoaded(): void {

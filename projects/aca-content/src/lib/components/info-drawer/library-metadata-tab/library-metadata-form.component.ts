@@ -23,15 +23,16 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, OnInit, OnChanges, OnDestroy } from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators, FormGroupDirective, NgForm } from '@angular/forms';
-import { QueriesApi, SiteEntry, SitePaging } from '@alfresco/js-api';
+import { Component, Input, OnChanges, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { FormGroupDirective, NgForm, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { QueriesApi, SiteEntry, SitePaging, TagBody, TagEntry, TagPaging } from '@alfresco/js-api';
 import { Store } from '@ngrx/store';
 import { AppStore, UpdateLibraryAction } from '@alfresco/aca-shared/store';
 import { debounceTime, mergeMap, takeUntil } from 'rxjs/operators';
 import { AlfrescoApiService } from '@alfresco/adf-core';
-import { Observable, from, Subject } from 'rxjs';
+import { forkJoin, from, Observable, Subject } from 'rxjs';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { TagsCreatorMode, TagService } from '@alfresco/adf-content-services';
 
 export class InstantErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: UntypedFormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -42,7 +43,9 @@ export class InstantErrorStateMatcher implements ErrorStateMatcher {
 
 @Component({
   selector: 'app-library-metadata-form',
-  templateUrl: './library-metadata-form.component.html'
+  styleUrls: ['./library-metadata-form.component.scss'],
+  templateUrl: './library-metadata-form.component.html',
+  encapsulation: ViewEncapsulation.None
 })
 export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestroy {
   _queriesApi: QueriesApi;
@@ -56,6 +59,7 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
 
   edit: boolean;
   libraryTitleExists = false;
+  tagNameControlVisible = false;
 
   libraryType = [
     { value: 'PUBLIC', label: 'LIBRARY.VISIBILITY.PUBLIC' },
@@ -74,10 +78,27 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
 
   onDestroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private alfrescoApiService: AlfrescoApiService, protected store: Store<AppStore>) {}
+  private _assignedTags: string[] = [];
+  private assignedTagsEntries: TagEntry[] = [];
+  private _tagsCreatorMode = TagsCreatorMode.CREATE_AND_ASSIGN;
+  private _tags: string[] = [];
+
+  constructor(private alfrescoApiService: AlfrescoApiService, protected store: Store<AppStore>, private tagService: TagService) {}
 
   get canUpdateLibrary() {
     return this.node && this.node.entry && this.node.entry.role === 'SiteManager';
+  }
+
+  get assignedTags(): string[] {
+    return this._assignedTags;
+  }
+
+  get tags(): string[] {
+    return this._tags;
+  }
+
+  get tagsCreatorMode(): TagsCreatorMode {
+    return this._tagsCreatorMode;
   }
 
   getVisibilityLabel(value: string) {
@@ -86,6 +107,7 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
 
   toggleEdit() {
     this.edit = !this.edit;
+    this._assignedTags = [...this.tags];
   }
 
   cancel() {
@@ -129,7 +151,13 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
   update() {
     if (this.canUpdateLibrary && this.form.valid) {
       this.store.dispatch(new UpdateLibraryAction(this.form.value));
+      forkJoin(this.saveTags()).subscribe();
     }
+  }
+
+  storeTagsToAssign(tags: string[]) {
+    this._tags = tags;
+    this.form.markAsDirty();
   }
 
   private updateForm(node: SiteEntry) {
@@ -141,6 +169,8 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
       description: entry.description || '',
       visibility: entry.visibility
     });
+
+    this.loadTagsForNode(entry.guid);
   }
 
   private findLibraryByTitle(libraryTitle: string): Observable<SitePaging | { list: { entries: any[] } }> {
@@ -152,5 +182,35 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
         })
         .catch(() => ({ list: { entries: [] } }))
     );
+  }
+
+  private loadTagsForNode(id: string) {
+    this.tagService.getTagsByNodeId(id).subscribe((tagPaging) => {
+      this.assignedTagsEntries = tagPaging.list.entries;
+      this._tags = tagPaging.list.entries.map((tagEntry) => tagEntry.entry.tag);
+      this._assignedTags = [...this._tags];
+    });
+  }
+
+  private saveTags(): { [key: string]: Observable<TagPaging | void> } {
+    const observables: { [key: string]: Observable<TagPaging | void> } = {};
+    if (this.tags) {
+      this.assignedTagsEntries.forEach((tagEntry) => {
+        if (!this.tags.some((tag) => tagEntry.entry.tag === tag)) {
+          observables[`${tagEntry.entry.id}Removing`] = this.tagService.removeTag(this.node.entry.guid, tagEntry.entry.id);
+        }
+      });
+      if (this.tags.length) {
+        observables.tagsAssigning = this.tagService.assignTagsToNode(
+          this.node.entry.guid,
+          this.tags.map((tag) => {
+            const tagBody = new TagBody();
+            tagBody.tag = tag;
+            return tagBody;
+          })
+        );
+      }
+    }
+    return observables;
   }
 }

@@ -71,6 +71,12 @@
         </div>
       </div>
     </div>
+    <mat-expansion-panel class="app-library-tags mat-elevation-z0">
+      <mat-expansion-panel-header>
+        <mat-panel-title>Tags</mat-panel-title>
+      </mat-expansion-panel-header>
+      <p *ngFor="let tag of tags" class="app-metadata-properties-tag">{{ tag }}</p>
+    </mat-expansion-panel>
   </mat-card-content>
 
   <mat-card-actions align="end" *ngIf="!edit && canUpdateLibrary">
@@ -121,6 +127,25 @@
         </mat-error>
       </mat-form-field>
     </form>
+    <div class="app-metadata-properties-tags app-library-tags">
+      <div class="app-metadata-properties-tags-title">
+        <p>Tags</p>
+        <button
+          data-automation-id="tags-dialog-add-button"
+          mat-icon-button
+          [attr.title]="'TAG.TAGS_CREATOR.TOOLTIPS.ADD_TAG' | translate"
+          (click)="tagNameControlVisible = true"
+          [hidden]="tagNameControlVisible">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+      <adf-tags-creator
+        [(tagNameControlVisible)]="tagNameControlVisible"
+        (tagsChange)="storeTagsToAssign($event)"
+        [mode]="tagsCreatorMode"
+        [tags]="assignedTags">
+      </adf-tags-creator>
+    </div>
   </mat-card-content>
 
   <mat-card-actions align="end" *ngIf="edit && canUpdateLibrary">

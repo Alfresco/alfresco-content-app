@@ -1,0 +1,50 @@
+app-library-metadata-form {
+  .mat-expansion-panel-body {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .app-library-tags {
+    margin-left: -16px;
+    margin-right: -16px;
+  }
+
+  .app-metadata-properties-tag {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    margin-top: -14px;
+    margin-bottom: 1em;
+  }
+
+  .app-metadata-properties-tags {
+    padding: 0 10px 0 26px;
+
+    &-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 15px;
+      height: 68px;
+    }
+
+    adf-tags-creator {
+      .adf-tags-creation {
+        padding-right: 0;
+        padding-left: 4px;
+
+        .adf-tag {
+          margin-top: -14px;
+        }
+      }
+
+      &.adf-creator-with-existing-tags-panel {
+        background: var(--adf-theme-background-dialog-color);
+      }
+    }
+
+    [hidden] {
+      visibility: hidden;
+    }
+  }
+}
