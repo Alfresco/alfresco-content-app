@@ -19,7 +19,8 @@ runs:
       shell: bash
       run: |
         ./node_modules/.bin/tsc -p "./e2e/$E2E_TSCONFIG" || exit 1;
-        npx http-server -c-1 $CONTENT_CE_DIST_PATH -p 4200 > /dev/null &\
+        # npx http-server -c-1 $CONTENT_CE_DIST_PATH -p 4200 > /dev/null &\
+        npm start > /dev/null &\
 
         if [ ${{ inputs.test-runner }} == "playwright" ]; then
           echo "Running playwright tests with options ${{ inputs.options }}"
