@@ -480,6 +480,8 @@
         "DETAILS": "Details"
     },
     "LIBRARY": {
+        "TAGS": "Tags",
+        "ADD_TAG_TOOLTIP": "Add tag",
         "DIALOG": {
             "CREATE_TITLE": "Create Library",
             "CREATE": "Create",
