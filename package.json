@@ -73,7 +73,7 @@
     "@angular/compiler-cli": "14.1.2",
     "@angular/language-service": "14.1.2",
     "@cspell/eslint-plugin": "^6.30.0",
-    "@playwright/test": "^1.30.0",
+    "@playwright/test": "^1.31.2",
     "@types/event-emitter": "^0.3.3",
     "@types/jasmine": "~3.6.0",
     "@types/jasminewd2": "^2.0.8",
