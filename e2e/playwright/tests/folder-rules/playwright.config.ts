@@ -26,7 +26,6 @@ export const config: PlaywrightTestConfig = {
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
     storageState: './storage-state/AdminUserState.json',
     actionTimeout: 0,
-    navigationTimeout: 60000,
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: process.env.PLAYWRIGHT_E2E_HOST,
     ignoreHTTPSErrors: true,
