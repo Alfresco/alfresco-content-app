@@ -1,8 +1,7 @@
 import { test } from '../fixtures/page-initialization';
 import { NodeBodyCreate } from '@alfresco/aca-testing-shared';
-import { ActionType } from '../page-objects/components/actions.component';
+import { ActionType } from '../page-objects/components/actions-dropdown.component';
 import { expect } from '@playwright/test';
-import { NodePaging } from '@alfresco/js-api';
 
 test.describe('Folder Rules Actions', () => {
   const randomFolderName = `playwright-folder-${(Math.random() + 1).toString(36).substring(6)}`;

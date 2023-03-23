@@ -1,6 +1,6 @@
 import { test } from '../fixtures/page-initialization';
 import { NodeBodyCreate } from '@alfresco/aca-testing-shared';
-import { ActionType } from '../page-objects/components/actions.component';
+import { ActionType } from '../page-objects/components/actions-dropdown.component';
 import { Comparator, Field } from '../page-objects/components/conditions.component';
 import { expect } from '@playwright/test';
 
