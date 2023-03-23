@@ -25,12 +25,12 @@
 
 import { Component, Input, OnChanges, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormGroupDirective, NgForm, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { QueriesApi, SiteEntry, SitePaging, TagBody, TagEntry, TagPaging } from '@alfresco/js-api';
+import { QueriesApi, SiteEntry, SitePaging, TagBody, TagEntry } from '@alfresco/js-api';
 import { Store } from '@ngrx/store';
 import { AppStore, UpdateLibraryAction } from '@alfresco/aca-shared/store';
 import { debounceTime, mergeMap, takeUntil } from 'rxjs/operators';
 import { AlfrescoApiService } from '@alfresco/adf-core';
-import { forkJoin, from, Observable, Subject } from 'rxjs';
+import { from, Observable, Subject } from 'rxjs';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { TagsCreatorMode, TagService } from '@alfresco/adf-content-services';
 
@@ -150,8 +150,7 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
 
   update() {
     if (this.canUpdateLibrary && this.form.valid) {
-      this.store.dispatch(new UpdateLibraryAction(this.form.value));
-      forkJoin(this.saveTags()).subscribe();
+      this.store.dispatch(new UpdateLibraryAction(this.form.value, this.getRemovedTags(), this.getTagsToAssign()));
     }
   }
 
@@ -192,25 +191,22 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
     });
   }
 
-  private saveTags(): { [key: string]: Observable<TagPaging | void> } {
-    const observables: { [key: string]: Observable<TagPaging | void> } = {};
-    if (this.tags) {
-      this.assignedTagsEntries.forEach((tagEntry) => {
-        if (!this.tags.some((tag) => tagEntry.entry.tag === tag)) {
-          observables[`${tagEntry.entry.id}Removing`] = this.tagService.removeTag(this.node.entry.guid, tagEntry.entry.id);
-        }
-      });
-      if (this.tags.length) {
-        observables.tagsAssigning = this.tagService.assignTagsToNode(
-          this.node.entry.guid,
-          this.tags.map((tag) => {
-            const tagBody = new TagBody();
-            tagBody.tag = tag;
-            return tagBody;
-          })
-        );
-      }
-    }
-    return observables;
+  private getRemovedTags(): string[] {
+    return this.tags
+      ? this.assignedTagsEntries.reduce<string[]>((removedTags, tagEntry) => {
+          if (!this.tags.some((tag) => tagEntry.entry.tag === tag)) {
+            removedTags.push(tagEntry.entry.id);
+          }
+          return removedTags;
+        }, [])
+      : [];
+  }
+
+  private getTagsToAssign(): TagBody[] {
+    return this.tags?.map((tag) => {
+      const tagBody = new TagBody();
+      tagBody.tag = tag;
+      return tagBody;
+    });
   }
 }

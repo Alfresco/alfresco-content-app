@@ -55,7 +55,8 @@ import {
   NewVersionUploaderDialogData,
   NewVersionUploaderData,
   NewVersionUploaderDataAction,
-  NodesApiService
+  NodesApiService,
+  TagService
 } from '@alfresco/adf-content-services';
 import { TranslationService, NotificationService } from '@alfresco/adf-core';
 import {
@@ -66,7 +67,8 @@ import {
   NodeEntry,
   PathInfoEntity,
   SiteBody,
-  SiteEntry
+  SiteEntry,
+  TagBody
 } from '@alfresco/js-api';
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -100,7 +102,8 @@ export class ContentManagementService {
     private nodeAspectService: NodeAspectService,
     private appHookService: AppHookService,
     private newVersionUploaderService: NewVersionUploaderService,
-    private router: Router
+    private router: Router,
+    private tagService: TagService
   ) {}
 
   addFavorite(nodes: Array<MinimalNodeEntity>) {
@@ -333,10 +336,17 @@ export class ContentManagementService {
     });
   }
 
-  updateLibrary(siteId: string, siteBody: SiteBody) {
-    this.contentApi.updateLibrary(siteId, siteBody).subscribe(
-      (siteEntry: SiteEntry) => {
-        this.appHookService.libraryUpdated.next(siteEntry);
+  updateLibrary(siteId: string, siteBody: SiteBody, guid?: string, removedTags?: string[], linkedTags?: TagBody[]) {
+    forkJoin({
+      siteEntry: this.contentApi.updateLibrary(siteId, siteBody),
+      linkedTags: this.tagService.assignTagsToNode(guid, linkedTags),
+      ...removedTags.reduce((observables, tag) => {
+        observables[`${tag}Removing`] = this.tagService.removeTag(guid, tag);
+        return observables;
+      }, {})
+    }).subscribe(
+      (result) => {
+        this.appHookService.libraryUpdated.next(result.siteEntry);
         this.store.dispatch(new SnackbarInfoAction('LIBRARY.SUCCESS.LIBRARY_UPDATED'));
       },
       () => {

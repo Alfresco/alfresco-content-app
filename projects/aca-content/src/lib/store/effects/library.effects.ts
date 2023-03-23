@@ -140,7 +140,7 @@ export class LibraryEffects {
             .pipe(take(1))
             .subscribe((selection) => {
               if (selection && selection.library) {
-                const { id } = selection.library.entry;
+                const { id, guid } = selection.library.entry;
                 const { title, description, visibility } = action.payload;
 
                 const siteBody = {
@@ -149,7 +149,7 @@ export class LibraryEffects {
                   visibility
                 };
 
-                this.content.updateLibrary(id, siteBody);
+                this.content.updateLibrary(id, siteBody, guid, action.removedTags, action.linkedTags);
               }
             });
         })
