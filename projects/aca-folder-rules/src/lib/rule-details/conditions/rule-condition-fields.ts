@@ -50,7 +50,7 @@ export const ruleConditionFields: RuleConditionField[] = [
   {
     name: 'encoding',
     label: 'ACA_FOLDER_RULES.RULE_DETAILS.FIELDS.ENCODING',
-    type: 'string'
+    type: 'special'
   },
   {
     name: 'category',
