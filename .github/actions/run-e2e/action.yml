@@ -43,7 +43,7 @@ runs:
 
         if [ ${{ inputs.test-runner }} == "playwright" ]; then
           echo "Running playwright tests with options ${{ inputs.options }}"
-          # sleep 60
+          sleep 60
           npx playwright test --config ${{ inputs.options }}
         else
           echo "Running protractor tests with options ${{ inputs.options }}"
