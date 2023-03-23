@@ -19,10 +19,31 @@ runs:
       shell: bash
       run: |
         ./node_modules/.bin/tsc -p "./e2e/$E2E_TSCONFIG" || exit 1;
-        npx http-server -c-1 $CONTENT_CE_DIST_PATH -p 4200 > /dev/null &\
+        # npx http-server -c-1 $CONTENT_CE_DIST_PATH -p 4200 > /dev/null &\
+
+        {
+          echo "APP_CONFIG_ECM_HOST={protocol}//{hostname}{:port}"
+          echo "APP_CONFIG_PLUGIN_FOLDER_RULES=true"
+          echo "APP_CONFIG_PLUGIN_AOS=true"
+          echo "APP_CONFIG_PLUGIN_CONTENT_SERVICE=true"
+          echo "APP_CONFIG_ENABLE_MOBILE_APP_SWITCH=false"
+          echo "APP_CONFIG_PROVIDER=ECM"
+          echo "APP_CONFIG_AUTH_TYPE=BASIC"
+          echo "APP_CONFIG_OAUTH2_HOST=http://localhost:4200/auth/realms/alfresco"
+          echo "APP_CONFIG_OAUTH2_CLIENTID=alfresco"
+          echo "APP_CONFIG_SESSION_TIME_FOR_OPEN_APP_DIALOG_DISPLAY_IN_HOURS=12"
+          echo "APP_CONFIG_OAUTH2_IMPLICIT_FLOW=true"
+          echo "APP_CONFIG_OAUTH2_SILENT_LOGIN=true"
+          echo "APP_CONFIG_OAUTH2_REDIRECT_LOGOUT=/"
+          echo "APP_CONFIG_OAUTH2_REDIRECT_LOGIN=/"
+          echo "APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI={protocol}//{hostname}{:port}/assets/silent-refresh.html"
+        } >> .env
+
+        npm start > /dev/null &\
 
         if [ ${{ inputs.test-runner }} == "playwright" ]; then
           echo "Running playwright tests with options ${{ inputs.options }}"
+          sleep 60
           npx playwright test --config ${{ inputs.options }}
         else
           echo "Running protractor tests with options ${{ inputs.options }}"
