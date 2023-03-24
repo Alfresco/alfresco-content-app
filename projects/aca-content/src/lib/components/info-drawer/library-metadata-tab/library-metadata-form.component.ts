@@ -33,6 +33,7 @@ import { AlfrescoApiService } from '@alfresco/adf-core';
 import { from, Observable, Subject } from 'rxjs';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { TagsCreatorMode, TagService } from '@alfresco/adf-content-services';
+import { AppHookService } from '@alfresco/aca-shared';
 
 export class InstantErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: UntypedFormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -82,8 +83,14 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
   private assignedTagsEntries: TagEntry[] = [];
   private _tagsCreatorMode = TagsCreatorMode.CREATE_AND_ASSIGN;
   private _tags: string[] = [];
+  private _saving = false;
 
-  constructor(private alfrescoApiService: AlfrescoApiService, protected store: Store<AppStore>, private tagService: TagService) {}
+  constructor(
+    private alfrescoApiService: AlfrescoApiService,
+    protected store: Store<AppStore>,
+    private tagService: TagService,
+    private appHookService: AppHookService
+  ) {}
 
   get canUpdateLibrary() {
     return this.node && this.node.entry && this.node.entry.role === 'SiteManager';
@@ -99,6 +106,10 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
 
   get tagsCreatorMode(): TagsCreatorMode {
     return this._tagsCreatorMode;
+  }
+
+  get saving(): boolean {
+    return this._saving;
   }
 
   getVisibilityLabel(value: string) {
@@ -137,6 +148,10 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
           this.libraryTitleExists = false;
         }
       });
+
+    this.appHookService.libraryUpdated.pipe(takeUntil(this.onDestroy$)).subscribe({
+      error: () => (this._saving = false)
+    });
   }
 
   ngOnDestroy() {
@@ -150,6 +165,8 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
 
   update() {
     if (this.canUpdateLibrary && this.form.valid) {
+      this._saving = true;
+      this.tagNameControlVisible = false;
       this.store.dispatch(new UpdateLibraryAction(this.form.value, this.getRemovedTags(), this.getTagsToAssign()));
     }
   }

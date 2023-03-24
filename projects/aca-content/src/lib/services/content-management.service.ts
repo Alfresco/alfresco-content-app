@@ -77,6 +77,7 @@ import { forkJoin, Observable, of, zip } from 'rxjs';
 import { catchError, map, mergeMap, take, tap } from 'rxjs/operators';
 import { NodeActionsService } from './node-actions.service';
 import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 interface RestoredNode {
   status: number;
@@ -349,7 +350,8 @@ export class ContentManagementService {
         this.appHookService.libraryUpdated.next(result.siteEntry);
         this.store.dispatch(new SnackbarInfoAction('LIBRARY.SUCCESS.LIBRARY_UPDATED'));
       },
-      () => {
+      (error: HttpErrorResponse) => {
+        this.appHookService.libraryUpdated.error(error);
         this.store.dispatch(new SnackbarErrorAction('LIBRARY.ERRORS.LIBRARY_UPDATE_ERROR'));
       }
     );
