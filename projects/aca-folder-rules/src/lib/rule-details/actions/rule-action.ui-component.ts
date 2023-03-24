@@ -91,6 +91,8 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
 
   isFullWidth = false;
 
+  destinationPath: string;
+
   form = new FormGroup({
     actionDefinitionId: new FormControl('', Validators.required)
   });
@@ -247,6 +249,8 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
             params: this.parameters
           });
           this.onTouch();
+          const nodeObject = selections[0];
+          this.destinationPath = nodeObject.path?.name + '/' + nodeObject?.name;
         }
       },
       (error) => {
