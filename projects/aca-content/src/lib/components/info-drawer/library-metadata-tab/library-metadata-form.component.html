@@ -80,7 +80,7 @@
   </mat-card-content>
 
   <mat-card-actions align="end" *ngIf="!edit && canUpdateLibrary">
-    <button mat-button color="primary" (click)="toggleEdit()">
+    <button mat-button color="primary" (click)="toggleEdit()" data-automation-id="toggle-edit-button">
       {{ 'LIBRARY.DIALOG.EDIT' | translate }}
     </button>
   </mat-card-actions>
@@ -131,7 +131,7 @@
       <div class="app-metadata-properties-tags-title">
         <p>{{ 'LIBRARY.TAGS' | translate }}</p>
         <button
-          data-automation-id="tags-dialog-add-button"
+          data-automation-id="showing-tag-input-button"
           mat-icon-button
           [attr.title]="'LIBRARY.ADD_TAG_TOOLTIP' | translate"
           (click)="tagNameControlVisible = true"
@@ -150,10 +150,10 @@
   </mat-card-content>
 
   <mat-card-actions align="end" *ngIf="edit && canUpdateLibrary">
-    <button mat-button (click)="cancel()">
+    <button mat-button (click)="cancel()" data-automation-id="cancel-button">
       {{ 'LIBRARY.DIALOG.CANCEL' | translate }}
     </button>
-    <button mat-button color="primary" [disabled]="form.invalid || form.pristine" (click)="update()">
+    <button mat-button color="primary" [disabled]="form.invalid || form.pristine" (click)="update()" data-automation-id="update-button">
       {{ 'LIBRARY.DIALOG.UPDATE' | translate }}
     </button>
   </mat-card-actions>
