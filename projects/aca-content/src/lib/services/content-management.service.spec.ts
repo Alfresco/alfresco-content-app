@@ -56,14 +56,15 @@ import { NodeActionsService } from './node-actions.service';
 import { TranslationService, NotificationService } from '@alfresco/adf-core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
-import { NodeEntry, Node, VersionPaging, MinimalNodeEntity } from '@alfresco/js-api';
+import { NodeEntry, Node, VersionPaging, MinimalNodeEntity, SiteBodyCreate, TagBody } from '@alfresco/js-api';
 import {
   NewVersionUploaderDataAction,
   NewVersionUploaderService,
   NodeAspectService,
   ViewVersion,
   NodesApiService,
-  FileModel
+  FileModel,
+  TagService
 } from '@alfresco/adf-content-services';
 
 describe('ContentManagementService', () => {
@@ -79,6 +80,7 @@ describe('ContentManagementService', () => {
   let nodeAspectService: NodeAspectService;
   let appHookService: AppHookService;
   let newVersionUploaderService: NewVersionUploaderService;
+  let tagService: TagService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -96,6 +98,7 @@ describe('ContentManagementService', () => {
     nodeAspectService = TestBed.inject(NodeAspectService);
     appHookService = TestBed.inject(AppHookService);
     newVersionUploaderService = TestBed.inject(NewVersionUploaderService);
+    tagService = TestBed.inject(TagService);
 
     dialog = TestBed.inject(MatDialog);
   });
@@ -1766,6 +1769,51 @@ describe('ContentManagementService', () => {
       contentManagementService.leaveLibrary('', '');
       afterClosed$.next();
       expect(document.querySelector).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('updateLibrary', () => {
+    const siteId = 'some site id';
+    const siteGuid = 'some site guid';
+
+    let site: SiteBodyCreate;
+    let linkedTags: TagBody[];
+
+    beforeEach(() => {
+      site = new SiteBodyCreate();
+      linkedTags = [new TagBody()];
+    });
+
+    it('should call updateLibrary on ContentApiService with correct parameters', () => {
+      spyOn(contentApi, 'updateLibrary');
+
+      contentManagementService.updateLibrary(siteId, site);
+
+      expect(contentApi.updateLibrary).toHaveBeenCalledWith(siteId, site);
+    });
+
+    it('should call assignTagsToNode on TagService with correct parameters', () => {
+      spyOn(tagService, 'assignTagsToNode');
+
+      contentManagementService.updateLibrary(siteId, site, siteGuid, [], linkedTags);
+
+      expect(tagService.assignTagsToNode).toHaveBeenCalledWith(siteGuid, linkedTags);
+    });
+
+    it('should not call assignTagsToNode on TagService if linkedTags is not passed', () => {
+      spyOn(tagService, 'assignTagsToNode');
+
+      contentManagementService.updateLibrary(siteId, site, siteGuid, []);
+
+      expect(tagService.assignTagsToNode).not.toHaveBeenCalled();
+    });
+
+    it('should not call assignTagsToNode on TagService if empty linkedTags is passed', () => {
+      spyOn(tagService, 'assignTagsToNode');
+
+      contentManagementService.updateLibrary(siteId, site, siteGuid, [], []);
+
+      expect(tagService.assignTagsToNode).not.toHaveBeenCalled();
     });
   });
 });

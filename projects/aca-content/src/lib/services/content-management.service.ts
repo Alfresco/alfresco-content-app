@@ -340,8 +340,8 @@ export class ContentManagementService {
   updateLibrary(siteId: string, siteBody: SiteBody, guid?: string, removedTags?: string[], linkedTags?: TagBody[]) {
     forkJoin({
       siteEntry: this.contentApi.updateLibrary(siteId, siteBody),
-      linkedTags: this.tagService.assignTagsToNode(guid, linkedTags),
-      ...removedTags.reduce((observables, tag) => {
+      linkedTags: linkedTags?.length ? this.tagService.assignTagsToNode(guid, linkedTags) : of({}),
+      ...(removedTags || []).reduce((observables, tag) => {
         observables[`${tag}Removing`] = this.tagService.removeTag(guid, tag);
         return observables;
       }, {})
