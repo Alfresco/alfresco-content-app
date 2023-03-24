@@ -56,7 +56,7 @@ import { NodeActionsService } from './node-actions.service';
 import { TranslationService, NotificationService } from '@alfresco/adf-core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
-import { NodeEntry, Node, VersionPaging, MinimalNodeEntity, SiteBodyCreate, TagBody } from '@alfresco/js-api';
+import { NodeEntry, Node, VersionPaging, MinimalNodeEntity, SiteBodyCreate, TagBody, TagPaging, SiteEntry } from '@alfresco/js-api';
 import {
   NewVersionUploaderDataAction,
   NewVersionUploaderService,
@@ -66,6 +66,7 @@ import {
   FileModel,
   TagService
 } from '@alfresco/adf-content-services';
+import { HttpErrorResponse } from '@angular/common/http';
 
 describe('ContentManagementService', () => {
   let dialog: MatDialog;
@@ -1775,45 +1776,156 @@ describe('ContentManagementService', () => {
   describe('updateLibrary', () => {
     const siteId = 'some site id';
     const siteGuid = 'some site guid';
+    const removedTagId = 'some removed tag id';
 
     let site: SiteBodyCreate;
     let linkedTags: TagBody[];
+    let updateLibrary$: Subject<SiteEntry>;
+    let tagsAssigning$: Subject<TagPaging>;
+    let tagsRemoving$: Subject<void>;
 
     beforeEach(() => {
       site = new SiteBodyCreate();
       linkedTags = [new TagBody()];
+      updateLibrary$ = new Subject<SiteEntry>();
+      tagsAssigning$ = new Subject<TagPaging>();
+      tagsRemoving$ = new Subject<void>();
+      spyOn(contentApi, 'updateLibrary').and.returnValue(updateLibrary$);
+      spyOn(tagService, 'assignTagsToNode').and.returnValue(tagsAssigning$);
+      spyOn(tagService, 'removeTag').and.returnValue(tagsRemoving$);
     });
 
     it('should call updateLibrary on ContentApiService with correct parameters', () => {
-      spyOn(contentApi, 'updateLibrary');
-
       contentManagementService.updateLibrary(siteId, site);
-
       expect(contentApi.updateLibrary).toHaveBeenCalledWith(siteId, site);
     });
 
     it('should call assignTagsToNode on TagService with correct parameters', () => {
-      spyOn(tagService, 'assignTagsToNode');
-
       contentManagementService.updateLibrary(siteId, site, siteGuid, [], linkedTags);
-
       expect(tagService.assignTagsToNode).toHaveBeenCalledWith(siteGuid, linkedTags);
     });
 
     it('should not call assignTagsToNode on TagService if linkedTags is not passed', () => {
-      spyOn(tagService, 'assignTagsToNode');
-
       contentManagementService.updateLibrary(siteId, site, siteGuid, []);
-
       expect(tagService.assignTagsToNode).not.toHaveBeenCalled();
     });
 
     it('should not call assignTagsToNode on TagService if empty linkedTags is passed', () => {
-      spyOn(tagService, 'assignTagsToNode');
-
       contentManagementService.updateLibrary(siteId, site, siteGuid, [], []);
-
       expect(tagService.assignTagsToNode).not.toHaveBeenCalled();
+    });
+
+    it('should call removeTag on TagService with correct parameters', () => {
+      contentManagementService.updateLibrary(siteId, site, siteGuid, [removedTagId]);
+      expect(tagService.removeTag).toHaveBeenCalledWith(siteGuid, removedTagId);
+    });
+
+    it('should not call removeTag on TagService if empty removedTags is passed', () => {
+      contentManagementService.updateLibrary(siteId, site, siteGuid);
+      expect(tagService.removeTag).not.toHaveBeenCalled();
+    });
+
+    it('should not call removeTag on TagService if removedTags is not passed', () => {
+      contentManagementService.updateLibrary(siteId, site, siteGuid, []);
+      expect(tagService.removeTag).not.toHaveBeenCalled();
+    });
+
+    it('should emit libraryUpdated event from AppHookService with correct parameters', () => {
+      spyOn(appHookService.libraryUpdated, 'next');
+      const siteEntry = new SiteEntry();
+
+      contentManagementService.updateLibrary(siteId, site, siteGuid, [removedTagId], linkedTags);
+      updateLibrary$.next(siteEntry);
+      updateLibrary$.complete();
+      tagsAssigning$.next(new TagPaging());
+      tagsAssigning$.complete();
+      tagsRemoving$.next();
+      tagsRemoving$.complete();
+      expect(appHookService.libraryUpdated.next).toHaveBeenCalledWith(siteEntry);
+    });
+
+    it('should dispatch SnackbarInfoAction store event with correct parameters', () => {
+      spyOn(store, 'dispatch');
+      const siteEntry = new SiteEntry();
+
+      contentManagementService.updateLibrary(siteId, site, siteGuid, [removedTagId], linkedTags);
+      updateLibrary$.next(siteEntry);
+      updateLibrary$.complete();
+      tagsAssigning$.next(new TagPaging());
+      tagsAssigning$.complete();
+      tagsRemoving$.next(undefined);
+      tagsRemoving$.complete();
+      expect(store.dispatch).toHaveBeenCalledWith(new SnackbarInfoAction('LIBRARY.SUCCESS.LIBRARY_UPDATED'));
+    });
+
+    it('should call error on libraryUpdated event from AppHookService with correct parameters if updating library fails', () => {
+      spyOn(appHookService.libraryUpdated, 'error');
+      const error = new HttpErrorResponse({});
+
+      contentManagementService.updateLibrary(siteId, site, siteGuid, [removedTagId], linkedTags);
+      updateLibrary$.error(error);
+      tagsAssigning$.next(new TagPaging());
+      tagsRemoving$.next();
+      expect(appHookService.libraryUpdated.error).toHaveBeenCalledWith(error);
+    });
+
+    it('should dispatch SnackbarErrorAction store event with correct parameters if updating library fails', () => {
+      spyOn(store, 'dispatch');
+      const error = new HttpErrorResponse({});
+
+      contentManagementService.updateLibrary(siteId, site, siteGuid, [removedTagId], linkedTags);
+      updateLibrary$.error(error);
+      tagsAssigning$.next(new TagPaging());
+      tagsRemoving$.next();
+      expect(store.dispatch).toHaveBeenCalledWith(new SnackbarErrorAction('LIBRARY.ERRORS.LIBRARY_UPDATE_ERROR'));
+    });
+
+    it('should call error on libraryUpdated event from AppHookService with correct parameters if assigning tags to node fails', () => {
+      spyOn(appHookService.libraryUpdated, 'error');
+      const siteEntry = new SiteEntry();
+      const error = new HttpErrorResponse({});
+
+      contentManagementService.updateLibrary(siteId, site, siteGuid, [removedTagId], linkedTags);
+      updateLibrary$.next(siteEntry);
+      tagsAssigning$.error(error);
+      tagsRemoving$.next();
+      expect(appHookService.libraryUpdated.error).toHaveBeenCalledWith(error);
+    });
+
+    it('should dispatch SnackbarErrorAction store event with correct parameters if assigning tags to node fails', () => {
+      spyOn(store, 'dispatch');
+      const siteEntry = new SiteEntry();
+      const error = new HttpErrorResponse({});
+
+      contentManagementService.updateLibrary(siteId, site, siteGuid, [removedTagId], linkedTags);
+      updateLibrary$.next(siteEntry);
+      tagsAssigning$.error(error);
+      tagsRemoving$.next();
+      expect(store.dispatch).toHaveBeenCalledWith(new SnackbarErrorAction('LIBRARY.ERRORS.LIBRARY_UPDATE_ERROR'));
+    });
+
+    it('should call error on libraryUpdated event from AppHookService with correct parameters if removing tags from node fails', () => {
+      spyOn(appHookService.libraryUpdated, 'error');
+      const siteEntry = new SiteEntry();
+      const error = new HttpErrorResponse({});
+
+      contentManagementService.updateLibrary(siteId, site, siteGuid, [removedTagId], linkedTags);
+      updateLibrary$.next(siteEntry);
+      tagsAssigning$.next(new TagPaging());
+      tagsRemoving$.error(error);
+      expect(appHookService.libraryUpdated.error).toHaveBeenCalledWith(error);
+    });
+
+    it('should dispatch SnackbarErrorAction store event with correct parameters if removing tags from node fails', () => {
+      spyOn(store, 'dispatch');
+      const siteEntry = new SiteEntry();
+      const error = new HttpErrorResponse({});
+
+      contentManagementService.updateLibrary(siteId, site, siteGuid, [removedTagId], linkedTags);
+      updateLibrary$.next(siteEntry);
+      tagsAssigning$.next(new TagPaging());
+      tagsRemoving$.error(error);
+      expect(store.dispatch).toHaveBeenCalledWith(new SnackbarErrorAction('LIBRARY.ERRORS.LIBRARY_UPDATE_ERROR'));
     });
   });
 });
