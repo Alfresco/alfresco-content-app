@@ -436,7 +436,7 @@ describe('LibraryMetadataFormComponent', () => {
 
       clickOnUpdate();
       tick(100);
-      expect(findShowingTagInputButton().hasAttribute('hidden')).toBeFalse();
+      expect(tagsCreator.tagNameControlVisible).toBeFalse();
     }));
 
     describe('Setting tags', () => {
