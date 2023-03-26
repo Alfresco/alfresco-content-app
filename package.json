@@ -21,7 +21,10 @@
     "e2e": "npm run update-webdriver && protractor $SUITE",
     "inspect.bundle": "ng build content-ce --configuration production --stats-json && npx webpack-bundle-analyzer dist/content-ce/stats.json",
     "prepare": "husky install",
-    "stylelint": "stylelint \"{app,projects}/**/*.scss\""
+    "stylelint": "stylelint \"{app,projects}/**/*.scss\"",
+    "compodoc:build": "compodoc -p tsconfig.doc.json",
+    "compodoc:build-and-serve": "compodoc -p tsconfig.doc.json -s",
+    "compodoc:serve": "compodoc -s"
   },
   "repository": {
     "type": "git",
@@ -45,6 +48,7 @@
     "@angular/platform-browser": "14.1.2",
     "@angular/platform-browser-dynamic": "14.1.2",
     "@angular/router": "14.1.2",
+    "@compodoc/compodoc": "^1.1.19",
     "@mat-datetimepicker/core": "^9.0.68",
     "@mat-datetimepicker/moment": "^9.0.68",
     "@ngrx/effects": "^14.2.0",

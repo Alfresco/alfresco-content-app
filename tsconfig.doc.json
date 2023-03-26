@@ -1,0 +1,4 @@
+{
+  "include": ["src/**/*.ts", "projects/aca-content/**/*.ts"],
+  "exclude": ["src/**/*.spec.ts", "projects/aca-content/**/*.spec.ts"]
+}
