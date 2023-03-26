@@ -15,14 +15,16 @@
         "plugin:@angular-eslint/ng-cli-compat",
         "plugin:@angular-eslint/ng-cli-compat--formatting-add-on",
         "plugin:@angular-eslint/template/process-inline-templates",
-        "plugin:@cspell/recommended"
+        "plugin:@cspell/recommended",
+        "plugin:jsdoc/recommended"
       ],
       "plugins": [
         "rxjs",
         "unicorn",
         "prettier",
         "ban",
-        "@cspell"
+        "@cspell",
+        "jsdoc"
       ],
       "rules": {
         "ban/ban": [
