@@ -2158,17 +2158,6 @@
           "template": "app.columns.libraryStatus",
           "desktopOnly": true,
           "order": 50
-        },
-        {
-          "id": "app.filer.tags",
-          "template": "app.columns.tags",
-          "key": "tags",
-          "title": "APP.DOCUMENT_LIST.COLUMNS.TAGS",
-          "class": "adf-full-width adf-expand-cell-4",
-          "type": "text",
-          "sortable": false,
-          "desktopOnly": true,
-          "order": 60
         }
       ],
       "favoriteLibraries": [
@@ -2223,17 +2212,6 @@
           "template": "app.columns.libraryStatus",
           "desktopOnly": true,
           "order": 50
-        },
-        {
-          "id": "app.filer.tags",
-          "template": "app.columns.tags",
-          "key": "tags",
-          "title": "APP.DOCUMENT_LIST.COLUMNS.TAGS",
-          "class": "adf-full-width adf-expand-cell-4",
-          "type": "text",
-          "sortable": false,
-          "desktopOnly": true,
-          "order": 60
         }
       ],
       "shared": [
@@ -2572,17 +2550,6 @@
           "template": "app.columns.libraryStatus",
           "desktopOnly": true,
           "order": 50
-        },
-        {
-          "id": "app.filer.tags",
-          "template": "app.columns.tags",
-          "key": "tags",
-          "title": "APP.DOCUMENT_LIST.COLUMNS.TAGS",
-          "class": "adf-full-width adf-expand-cell-4",
-          "type": "text",
-          "sortable": false,
-          "desktopOnly": true,
-          "order": 60
         }
       ]
     }
