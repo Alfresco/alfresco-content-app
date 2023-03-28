@@ -1372,6 +1372,15 @@
                 "hideDefaultAction": true,
                 "facetOrder": 600
               }
+            },
+            {
+              "mincount": 1,
+              "field": "cm:categories",
+              "label": "SEARCH.FACET_FIELDS.CATEGORIES",
+              "settings": {
+                "allowUpdateOnChange": false,
+                "hideDefaultAction": true
+              }
             }
           ]
         },
