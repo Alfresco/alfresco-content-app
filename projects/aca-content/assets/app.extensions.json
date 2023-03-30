@@ -1379,7 +1379,8 @@
               "label": "SEARCH.FACET_FIELDS.CATEGORIES",
               "settings": {
                 "allowUpdateOnChange": false,
-                "hideDefaultAction": true
+                "hideDefaultAction": true,
+                "facetOrder": 700
               }
             }
           ]
