@@ -62,7 +62,7 @@
   },
   "devDependencies": {
     "@alfresco/adf-cli": "6.0.0-A.3.8424",
-    "@alfresco/adf-testing": "6.0.0-A.3.8417",
+    "@alfresco/adf-testing": "6.0.0-A.3.8424",
     "@angular-devkit/build-angular": "14.1.2",
     "@angular-eslint/builder": "^14.1.2",
     "@angular-eslint/eslint-plugin": "^14.1.2",
