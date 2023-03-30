@@ -29,7 +29,7 @@
   },
   "private": true,
   "dependencies": {
-    "@alfresco/adf-content-services": "6.0.0-A.3.8417",
+    "@alfresco/adf-content-services": "6.0.0-A.3.8424",
     "@alfresco/adf-core": "6.0.0-A.3.8424",
     "@alfresco/adf-extensions": "6.0.0-A.3.8424",
     "@alfresco/js-api": "5.5.0-767",
