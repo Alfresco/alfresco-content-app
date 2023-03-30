@@ -20,51 +20,10 @@
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/,
+"label": ".
  */
-
-export type RuleConditionFieldType = 'string' | 'number' | 'date' | 'type' | 'special';
-
-export interface RuleConditionField {
-  name: string;
+export interface MimeType {
   label: string;
-  type: RuleConditionFieldType;
+  value: string;
 }
-
-export const ruleConditionFields: RuleConditionField[] = [
-  {
-    name: 'cm:name',
-    label: 'ACA_FOLDER_RULES.RULE_DETAILS.FIELDS.NAME',
-    type: 'string'
-  },
-  {
-    name: 'size',
-    label: 'ACA_FOLDER_RULES.RULE_DETAILS.FIELDS.SIZE',
-    type: 'number'
-  },
-  {
-    name: 'mimetype',
-    label: 'ACA_FOLDER_RULES.RULE_DETAILS.FIELDS.MIMETYPE',
-    type: 'special'
-  },
-  {
-    name: 'encoding',
-    label: 'ACA_FOLDER_RULES.RULE_DETAILS.FIELDS.ENCODING',
-    type: 'special'
-  },
-  {
-    name: 'category',
-    label: 'ACA_FOLDER_RULES.RULE_DETAILS.FIELDS.HAS_CATEGORY',
-    type: 'special'
-  },
-  {
-    name: 'tag',
-    label: 'ACA_FOLDER_RULES.RULE_DETAILS.FIELDS.HAS_TAG',
-    type: 'special'
-  },
-  {
-    name: 'aspect',
-    label: 'ACA_FOLDER_RULES.RULE_DETAILS.FIELDS.HAS_ASPECT',
-    type: 'special'
-  }
-];

@@ -49,6 +49,7 @@ import { RouterExtensionService } from './router.extension.service';
 import { Store } from '@ngrx/store';
 import { DiscoveryEntry, GroupEntry, Group } from '@alfresco/js-api';
 import { AcaMobileAppSwitcherService } from './aca-mobile-app-switcher.service';
+import { MimeType } from '../../../../aca-folder-rules/src/lib/rule-details/conditions/rule-mime-types';
 
 @Injectable({
   providedIn: 'root'
@@ -69,6 +70,10 @@ export class AppService {
    */
   get withCredentials(): boolean {
     return this.config.get<boolean>('auth.withCredentials', false);
+  }
+
+  get mimeTypes(): MimeType[] {
+    return this.config.get<Array<MimeType>>('mimeTypes');
   }
 
   constructor(

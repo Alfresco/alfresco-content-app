@@ -28,6 +28,8 @@ import { AbstractControl, ControlValueAccessor, FormControl, FormGroup, NG_VALUE
 import { RuleSimpleCondition } from '../../model/rule-simple-condition.model';
 import { RuleConditionField, ruleConditionFields } from './rule-condition-fields';
 import { RuleConditionComparator, ruleConditionComparators } from './rule-condition-comparators';
+import { AppService } from '@alfresco/aca-shared';
+import { MimeType } from './rule-mime-types';
 
 @Component({
   selector: 'aca-rule-simple-condition',
@@ -52,6 +54,8 @@ export class RuleSimpleConditionUiComponent implements ControlValueAccessor, OnD
     parameter: new FormControl()
   });
 
+  mimeTypes: MimeType[] = [];
+
   private _readOnly = false;
   @Input()
   get readOnly(): boolean {
@@ -59,6 +63,10 @@ export class RuleSimpleConditionUiComponent implements ControlValueAccessor, OnD
   }
   set readOnly(isReadOnly: boolean) {
     this.setDisabledState(isReadOnly);
+  }
+
+  constructor(private appService: AppService) {
+    this.mimeTypes = this.appService.mimeTypes;
   }
 
   private formSubscription = this.form.valueChanges.subscribe((value: any) => {
@@ -92,6 +100,10 @@ export class RuleSimpleConditionUiComponent implements ControlValueAccessor, OnD
     return this.form.get('comparator');
   }
 
+  get valueControl(): AbstractControl {
+    return this.form.get('parameter');
+  }
+
   onChange: (condition: RuleSimpleCondition) => void = () => undefined;
   onTouch: () => void = () => undefined;
 
@@ -120,6 +132,11 @@ export class RuleSimpleConditionUiComponent implements ControlValueAccessor, OnD
   onChangeField() {
     if (!this.selectedFieldComparators.find((comparator) => comparator.name === this.comparatorControl.value)) {
       this.comparatorControl.setValue('equals');
+    }
+    if (!this.valueControl.value && this.selectedField?.name === 'mimetype') {
+      this.valueControl.setValue(this.mimeTypes[0]?.value);
+    } else if (this.valueControl.value) {
+      this.valueControl.setValue('');
     }
   }
 
