@@ -1370,9 +1370,7 @@
               "settings": {
                 "allowUpdateOnChange": false,
                 "hideDefaultAction": true,
-                "facetOrder": 600,
-                "bucketSortBy": "LABEL",
-                "bucketSortDirection": "ASCENDING"
+                "facetOrder": 600
               }
             }
           ]
