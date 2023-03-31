@@ -57,8 +57,6 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   changePassword() {
-    //this.passwordChangeSuccess = true;
-    //this.passwordChangeFailure = true;
     let key = '';
     let id = '';
     let userName = '';
@@ -69,7 +67,7 @@ export class ResetPasswordComponent implements OnInit {
       userName = this.resetPasswordForm.controls.username.value;
     });
 
-    let resetPassword = this.peopleApi.resetPassword(userName, {
+    const resetPassword = this.peopleApiInstance.resetPassword(userName, {
       password: this.resetPasswordForm.controls.password.value,
       id,
       key
