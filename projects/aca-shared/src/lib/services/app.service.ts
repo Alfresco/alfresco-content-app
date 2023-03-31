@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Inject, Injectable } from '@angular/core';
+import { Inject, Injectable, OnDestroy } from '@angular/core';
 import { AuthenticationService, AppConfigService, AlfrescoApiService, PageTitleService, UserPreferencesService } from '@alfresco/adf-core';
 import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { GroupService, SearchQueryBuilderService, SharedLinksApiService, UploadService, FileUploadErrorEvent } from '@alfresco/adf-content-services';
@@ -54,7 +54,7 @@ import { AcaMobileAppSwitcherService } from './aca-mobile-app-switcher.service';
   providedIn: 'root'
 })
 // After moving shell to ADF to core, AppService will implement ShellAppService
-export class AppService {
+export class AppService implements OnDestroy {
   private ready: BehaviorSubject<boolean>;
   ready$: Observable<boolean>;
 
