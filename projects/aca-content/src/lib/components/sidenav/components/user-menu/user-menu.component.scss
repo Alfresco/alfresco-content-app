@@ -1,0 +1,24 @@
+.acc-menu-user-details {
+    display: flex;
+    height: 66px;
+
+    &-button {
+        border-radius: 90%;
+        height: 32px;
+        margin-right: 0;
+        min-width: 32px;
+        padding: 0;
+        font-weight: 700;
+        line-height: 32px;
+        text-align: center;
+        vertical-align: middle;
+        background: var(--theme-user-initials-background-color);
+        color: var(--theme-user-intials-text-color);
+        border: none;
+    }
+
+    .acc-menu-button {
+        margin-top: 10px;
+        margin-right: 10px;
+    }
+}

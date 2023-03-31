@@ -93,12 +93,6 @@
         "title": "APP.ACTIONS.MORE",
         "children": [
           {
-            "id": "app.header.user",
-            "type": "custom",
-            "component": "app.user",
-            "order": 100
-          },
-          {
             "id": "app.languagePicker",
             "order": 100,
             "type": "custom",

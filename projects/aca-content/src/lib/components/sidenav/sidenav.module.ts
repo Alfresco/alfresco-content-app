@@ -37,6 +37,7 @@ import { ButtonMenuComponent } from './components/button-menu.component';
 import { ActionDirective } from './directives/action.directive';
 import { SidenavHeaderComponent } from './components/sidenav-header.component';
 import { SharedToolbarModule } from '@alfresco/aca-shared';
+import { UserMenuComponent } from './components/user-menu/user-menu.component';
 
 @NgModule({
   imports: [CoreModule.forChild(), ExtensionsModule.forChild(), RouterModule, AppCreateMenuModule, SharedToolbarModule],
@@ -48,7 +49,8 @@ import { SharedToolbarModule } from '@alfresco/aca-shared';
     ExpandMenuComponent,
     ButtonMenuComponent,
     SidenavComponent,
-    SidenavHeaderComponent
+    SidenavHeaderComponent,
+    UserMenuComponent
   ],
   exports: [
     MenuPanelDirective,
@@ -57,7 +59,7 @@ import { SharedToolbarModule } from '@alfresco/aca-shared';
     ActionDirective,
     ExpandMenuComponent,
     ButtonMenuComponent,
-    SidenavComponent
+    SidenavComponent,
   ]
 })
 export class AppSidenavModule {}

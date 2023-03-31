@@ -60,7 +60,11 @@ export class SidenavHeaderComponent implements OnInit, OnDestroy {
       .getHeaderActions()
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((actions) => {
-        this.actions = actions;
+        let data = [];
+            data = actions;
+            this.actions = data.filter((element)=>{
+              return element.id == "app.header.notification-center";
+            });
       });
   }
 
