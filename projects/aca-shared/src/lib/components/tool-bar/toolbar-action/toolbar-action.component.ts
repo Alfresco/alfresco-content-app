@@ -37,6 +37,12 @@ import { ThemePalette } from '@angular/material/core';
 })
 export class ToolbarActionComponent implements DoCheck {
   @Input()
+  data: {
+    buttonType?: ToolbarButtonType;
+    color?: string;
+  };
+
+  @Input()
   type: ToolbarButtonType = ToolbarButtonType.ICON_BUTTON;
 
   @Input()

@@ -375,6 +375,10 @@
         "order": 90,
         "title": "SEARCH.BUTTON.TOOLTIP",
         "icon": "search",
+        "type": "button",
+        "data": {
+          "buttonType": "icon-button"
+        },
         "actions": {
           "click": "SEARCH"
         },

@@ -4,7 +4,7 @@
   </ng-container>
 
   <ng-container *ngSwitchCase="'button'">
-    <app-toolbar-button [type]="type" [actionRef]="actionRef" [color]="color"> </app-toolbar-button>
+    <app-toolbar-button [type]="data?.buttonType || type" [actionRef]="actionRef" [color]="color" [data]="actionRef.data"> </app-toolbar-button>
   </ng-container>
 
   <adf-toolbar-divider *ngSwitchCase="'separator'" [id]="actionRef.id"></adf-toolbar-divider>

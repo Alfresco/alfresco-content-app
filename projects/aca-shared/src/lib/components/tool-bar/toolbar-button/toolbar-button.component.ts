@@ -29,6 +29,7 @@ import { ThemePalette } from '@angular/material/core';
 
 export enum ToolbarButtonType {
   ICON_BUTTON = 'icon-button',
+  FLAT_BUTTON = 'flat-button',
   MENU_ITEM = 'menu-item'
 }
 
@@ -39,6 +40,12 @@ export enum ToolbarButtonType {
   host: { class: 'app-toolbar-button' }
 })
 export class ToolbarButtonComponent {
+  @Input()
+  data: {
+    buttonType?: ToolbarButtonType;
+    color?: string;
+  };
+
   @Input()
   type: ToolbarButtonType = ToolbarButtonType.ICON_BUTTON;
 
