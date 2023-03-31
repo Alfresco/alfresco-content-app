@@ -28,7 +28,7 @@ import { AbstractControl, ControlValueAccessor, FormControl, FormGroup, NG_VALUE
 import { RuleSimpleCondition } from '../../model/rule-simple-condition.model';
 import { RuleConditionField, ruleConditionFields } from './rule-condition-fields';
 import { RuleConditionComparator, ruleConditionComparators } from './rule-condition-comparators';
-import { AppService } from '@alfresco/aca-shared';
+import { AppConfigService } from '@alfresco/adf-core';
 import { MimeType } from './rule-mime-types';
 
 @Component({
@@ -65,8 +65,8 @@ export class RuleSimpleConditionUiComponent implements ControlValueAccessor, OnD
     this.setDisabledState(isReadOnly);
   }
 
-  constructor(private appService: AppService) {
-    this.mimeTypes = this.appService.mimeTypes;
+  constructor(private config: AppConfigService) {
+    this.mimeTypes = this.config.get<Array<MimeType>>('mimeTypes');
   }
 
   private formSubscription = this.form.valueChanges.subscribe((value: any) => {
