@@ -22,15 +22,15 @@ $adf-upload-dragging-level1-border: none;
 $grey-background: rgba(33, 33, 33, 0.12);
 $grey-text-background: rgba(33, 33, 33, 0.05);
 $grey-hover-background: rgba(33, 33, 33, 0.24);
-$blue-save-button-background: #1F74DB;
+$blue-save-button-background: #1f74db;
 $black-heading: #4e4c4c;
 $grey-dropdown-background: #eee;
-$grey-divider: rgba(0,0,0,.22);
+$grey-divider: rgba(0, 0, 0, 0.22);
 $pagination-background-color: #fff;
 $datetimepicker-font-color: rgba(black, 0.87);
 $datetimepicker-selected-date-background: #2254b2;
 $datetimepicker-cell-background-color: #fff;
-$datetimepicker-cell-focus-border-color: #1F74DB;
+$datetimepicker-cell-focus-border-color: #1f74db;
 $datetimepicker-cell-focus-background-color: rgba(33, 33, 33, 0.12);
 
 // CSS Variables
@@ -52,7 +52,7 @@ $defaults: (
   --theme-secondary-text-color: mat.get-color-from-palette($foreground, secondary-text),
   --theme-divider-color: mat.get-color-from-palette($foreground, divider, 0.07),
   --theme-dialog-background-color: mat.get-color-from-palette($background, dialog),
-
+  --theme-header-text-color: mat.get-color-from-palette($foreground, text, 0.87),
   --new-button-font-size: 0.9rem,
   --theme-grey-text-background-color: $grey-text-background,
   --theme-grey-background-color: $grey-background,
