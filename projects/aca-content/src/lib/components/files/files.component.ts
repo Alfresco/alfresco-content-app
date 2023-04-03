@@ -29,7 +29,7 @@ import { Store } from '@ngrx/store';
 import { MinimalNodeEntity, MinimalNodeEntryEntity, PathElement, PathElementEntity } from '@alfresco/js-api';
 import { ContentManagementService } from '../../services/content-management.service';
 import { NodeActionsService } from '../../services/node-actions.service';
-import { AppExtensionService, ContentApiService, PageComponent } from '@alfresco/aca-shared';
+import { AcaFileAutoDownloadService, AppExtensionService, ContentApiService, PageComponent } from '@alfresco/aca-shared';
 import { SetCurrentFolderAction, isAdmin, AppStore, UploadFileVersionAction, showLoaderSelector } from '@alfresco/aca-shared/store';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { debounceTime, takeUntil } from 'rxjs/operators';
@@ -61,9 +61,10 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     private uploadService: UploadService,
     content: ContentManagementService,
     extensions: AppExtensionService,
-    private breakpointObserver: BreakpointObserver
+    private breakpointObserver: BreakpointObserver,
+    fileAutoDownloadService: AcaFileAutoDownloadService
   ) {
-    super(store, extensions, content);
+    super(store, extensions, content, fileAutoDownloadService);
   }
 
   ngOnInit() {

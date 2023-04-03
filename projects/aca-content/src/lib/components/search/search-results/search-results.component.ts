@@ -40,7 +40,7 @@ import {
 import { ContentManagementService } from '../../../services/content-management.service';
 import { TranslationService } from '@alfresco/adf-core';
 import { combineLatest, Observable } from 'rxjs';
-import { AppExtensionService, PageComponent } from '@alfresco/aca-shared';
+import { AcaFileAutoDownloadService, AppExtensionService, PageComponent } from '@alfresco/aca-shared';
 import { SearchSortingDefinition } from '@alfresco/adf-content-services/lib/search/models/search-sorting-definition.interface';
 import { takeUntil } from 'rxjs/operators';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
@@ -70,9 +70,10 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
     content: ContentManagementService,
     private translationService: TranslationService,
     private router: Router,
-    private breakpointObserver: BreakpointObserver
+    private breakpointObserver: BreakpointObserver,
+    fileAutoDownloadService: AcaFileAutoDownloadService
   ) {
-    super(store, extensions, content);
+    super(store, extensions, content, fileAutoDownloadService);
 
     queryBuilder.paging = {
       skipCount: 0,

@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AppExtensionService, ContentApiService, PageComponent } from '@alfresco/aca-shared';
+import { AcaFileAutoDownloadService, AppExtensionService, ContentApiService, PageComponent } from '@alfresco/aca-shared';
 import { AppStore } from '@alfresco/aca-shared/store';
 import { UploadService } from '@alfresco/adf-content-services';
 import { MinimalNodeEntity, MinimalNodeEntryEntity, PathElementEntity, PathInfo } from '@alfresco/js-api';
@@ -49,9 +49,10 @@ export class FavoritesComponent extends PageComponent implements OnInit {
     private contentApi: ContentApiService,
     content: ContentManagementService,
     private uploadService: UploadService,
-    private breakpointObserver: BreakpointObserver
+    private breakpointObserver: BreakpointObserver,
+    fileAutoDownloadService: AcaFileAutoDownloadService
   ) {
-    super(store, extensions, content);
+    super(store, extensions, content, fileAutoDownloadService);
   }
 
   ngOnInit() {

@@ -31,7 +31,7 @@ import { AppStore } from '@alfresco/aca-shared/store';
 import { UploadService } from '@alfresco/adf-content-services';
 import { debounceTime } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { AppExtensionService, PageComponent } from '@alfresco/aca-shared';
+import { AcaFileAutoDownloadService, AppExtensionService, PageComponent } from '@alfresco/aca-shared';
 import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 
 @Component({
@@ -48,9 +48,10 @@ export class RecentFilesComponent extends PageComponent implements OnInit {
     content: ContentManagementService,
     private uploadService: UploadService,
     private breakpointObserver: BreakpointObserver,
-    private router: Router
+    private router: Router,
+    fileAutoDownloadService: AcaFileAutoDownloadService
   ) {
-    super(store, extensions, content);
+    super(store, extensions, content, fileAutoDownloadService);
   }
 
   ngOnInit() {
