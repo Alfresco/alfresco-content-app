@@ -17,7 +17,7 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AuthenticationService } from '@alfresco/adf-core';
-import { EcmCompanyModel, PeopleContentService } from '@alfresco/adf-content-services';
+import { PeopleContentService } from '@alfresco/adf-content-services';
 import { UserInfoComponent } from './user-info.component';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { of } from 'rxjs';
