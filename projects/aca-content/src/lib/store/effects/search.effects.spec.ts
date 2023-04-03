@@ -29,7 +29,7 @@ import { SearchEffects } from './search.effects';
 import { EffectsModule } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
-import { SearchOptionIds, SearchByTermAction } from '@alfresco/aca-shared/store';
+import { SearchOptionIds, SearchByTermAction, SearchAction } from '@alfresco/aca-shared/store';
 
 describe('SearchEffects', () => {
   let store: Store<any>;
@@ -76,6 +76,17 @@ describe('SearchEffects', () => {
       tick();
 
       expect(router.navigateByUrl).toHaveBeenCalledWith('/search;q=%2528test%2529');
+    }));
+  });
+
+  describe('search$', () => {
+    it('should navigate to search when the toolbar search icon is clicked', fakeAsync(() => {
+      const routerNavigate = spyOn(router, 'navigate');
+      store.dispatch(new SearchAction());
+
+      tick();
+
+      expect(routerNavigate).toHaveBeenCalledWith(['/search']);
     }));
   });
 });
