@@ -28,7 +28,7 @@ import { RuleSimpleConditionUiComponent } from './rule-simple-condition.ui-compo
 import { CoreTestingModule } from '@alfresco/adf-core';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
-import { simpleConditionUnknownFieldMock } from '../../mock/conditions.mock';
+import { mimeTypeMock, simpleConditionUnknownFieldMock } from '../../mock/conditions.mock';
 
 describe('RuleSimpleConditionUiComponent', () => {
   let fixture: ComponentFixture<RuleSimpleConditionUiComponent>;
@@ -75,6 +75,19 @@ describe('RuleSimpleConditionUiComponent', () => {
     expect(getComputedStyle(comparatorFormField).display).toBe('none');
   });
 
+  it('should hide the comparator select box if the type of the field is mimeType', () => {
+    fixture.detectChanges();
+    const comparatorFormField = getByDataAutomationId('comparator-form-field').nativeElement;
+
+    expect(fixture.componentInstance.isComparatorHidden).toBeFalsy();
+    expect(getComputedStyle(comparatorFormField).display).not.toBe('none');
+
+    changeMatSelectValue('field-select', 'mimetype');
+
+    expect(fixture.componentInstance.isComparatorHidden).toBeTruthy();
+    expect(getComputedStyle(comparatorFormField).display).toBe('none');
+  });
+
   it('should set the comparator to equals if the field is set to a type with different comparators', () => {
     const onChangeFieldSpy = spyOn(fixture.componentInstance, 'onChangeField').and.callThrough();
     fixture.detectChanges();
@@ -84,7 +97,7 @@ describe('RuleSimpleConditionUiComponent', () => {
     changeMatSelectValue('field-select', 'mimetype');
 
     expect(onChangeFieldSpy).toHaveBeenCalledTimes(1);
-    expect(getByDataAutomationId('comparator-select').componentInstance.value).toBe('contains');
+    expect(getByDataAutomationId('comparator-select').componentInstance.value).toBe('equals');
     changeMatSelectValue('field-select', 'size');
 
     expect(onChangeFieldSpy).toHaveBeenCalledTimes(2);
@@ -115,5 +128,12 @@ describe('RuleSimpleConditionUiComponent', () => {
 
     const unknownOptionMatOption = getByDataAutomationId('unknown-field-option');
     expect(unknownOptionMatOption).toBeNull();
+  });
+
+  it('should provide select option when mimeType is selected', () => {
+    fixture.componentInstance.writeValue(mimeTypeMock);
+    fixture.detectChanges();
+
+    expect(getByDataAutomationId('simple-condition-value-select')).toBeTruthy();
   });
 });

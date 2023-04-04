@@ -32,6 +32,12 @@ const simpleConditionMock: RuleSimpleCondition = {
   parameter: ''
 };
 
+export const mimeTypeMock: RuleSimpleCondition = {
+  field: 'mimetype',
+  comparator: 'equals',
+  parameter: ''
+};
+
 export const simpleConditionUnknownFieldMock: RuleSimpleCondition = {
   field: 'unknown-field',
   comparator: 'equals',
