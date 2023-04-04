@@ -100,7 +100,7 @@ export class RuleSimpleConditionUiComponent implements ControlValueAccessor, OnD
     return this.form.get('comparator');
   }
 
-  private get parameterControl(): AbstractControl {
+  private get parameterControl(): AbstractControl<string> {
     return this.form.get('parameter');
   }
 
