@@ -28,7 +28,7 @@ import { RuleSimpleConditionUiComponent } from './rule-simple-condition.ui-compo
 import { CoreTestingModule } from '@alfresco/adf-core';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
-import { mimeTypeMock, simpleConditionUnknownFieldMock } from '../../mock/conditions.mock';
+import { categoryMock, mimeTypeMock, simpleConditionUnknownFieldMock } from '../../mock/conditions.mock';
 
 describe('RuleSimpleConditionUiComponent', () => {
   let fixture: ComponentFixture<RuleSimpleConditionUiComponent>;
@@ -130,10 +130,23 @@ describe('RuleSimpleConditionUiComponent', () => {
     expect(unknownOptionMatOption).toBeNull();
   });
 
-  it('should provide select option when mimeType is selected', () => {
+  it('should provide select option when mimeType is selected and value filled', () => {
     fixture.componentInstance.writeValue(mimeTypeMock);
     fixture.detectChanges();
 
     expect(getByDataAutomationId('simple-condition-value-select')).toBeTruthy();
+    expect(getByDataAutomationId('simple-condition-value-select').nativeElement.value).not.toBe('');
+  });
+
+  it('should set value to empty when any condition is selected after mimeType', () => {
+    fixture.componentInstance.writeValue(mimeTypeMock);
+    fixture.detectChanges();
+
+    expect(getByDataAutomationId('simple-condition-value-select')).toBeTruthy();
+
+    fixture.componentInstance.writeValue(categoryMock);
+    fixture.detectChanges();
+
+    expect(getByDataAutomationId('value-input').nativeElement.value).toBe('');
   });
 });
