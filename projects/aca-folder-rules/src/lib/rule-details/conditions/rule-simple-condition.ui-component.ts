@@ -26,7 +26,7 @@
 import { Component, forwardRef, Input, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { RuleSimpleCondition } from '../../model/rule-simple-condition.model';
-import { RuleConditionField, ruleConditionFields } from './rule-condition-fields';
+import { comparatorHiddenForConditionFieldType, RuleConditionField, ruleConditionFields } from './rule-condition-fields';
 import { RuleConditionComparator, ruleConditionComparators } from './rule-condition-comparators';
 import { AppConfigService } from '@alfresco/adf-core';
 import { MimeType } from './rule-mime-types';
@@ -94,13 +94,13 @@ export class RuleSimpleConditionUiComponent implements ControlValueAccessor, OnD
     return ruleConditionComparators.filter((comparator) => Object.keys(comparator.labels).includes(this.selectedField.type));
   }
   get isComparatorHidden(): boolean {
-    return this.selectedField?.type === 'special';
+    return comparatorHiddenForConditionFieldType.includes(this.selectedField?.type);
   }
   get comparatorControl(): AbstractControl {
     return this.form.get('comparator');
   }
 
-  get valueControl(): AbstractControl {
+  private get parameterControl(): AbstractControl {
     return this.form.get('parameter');
   }
 
@@ -133,10 +133,10 @@ export class RuleSimpleConditionUiComponent implements ControlValueAccessor, OnD
     if (!this.selectedFieldComparators.find((comparator) => comparator.name === this.comparatorControl.value)) {
       this.comparatorControl.setValue('equals');
     }
-    if (!this.valueControl.value && this.selectedField?.name === 'mimetype') {
-      this.valueControl.setValue(this.mimeTypes[0]?.value);
-    } else if (this.valueControl.value) {
-      this.valueControl.setValue('');
+    if (!this.parameterControl.value && this.selectedField?.type === 'mimeType') {
+      this.parameterControl.setValue(this.mimeTypes[0]?.value);
+    } else if (this.parameterControl.value) {
+      this.parameterControl.setValue('');
     }
   }
 

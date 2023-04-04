@@ -840,7 +840,7 @@
     },
     {
       "value": "application/vnd.stardivision.chart",
-      "label": "StaChart 5.x"
+      "label": "StarChart 5.x"
     },
     {
       "value": "application/vnd.stardivision.calc",

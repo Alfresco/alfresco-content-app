@@ -22,7 +22,7 @@
   </mat-form-field>
 
   <mat-form-field class="aca-rule-simple-condition__form__parameter-input">
-    <mat-select formControlName="parameter" data-automation-id="value-select" *ngIf="selectedField?.name === 'mimetype'; else valueInput">
+    <mat-select formControlName="parameter" *ngIf="selectedField?.type === 'mimeType'; else valueInput">
       <mat-option *ngFor="let mimeType of mimeTypes"
         [value]="mimeType.value">
         {{ mimeType.label }}

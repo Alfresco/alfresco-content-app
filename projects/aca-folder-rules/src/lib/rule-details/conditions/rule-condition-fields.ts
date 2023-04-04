@@ -23,13 +23,15 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export type RuleConditionFieldType = 'string' | 'number' | 'date' | 'type' | 'special';
+export type RuleConditionFieldType = 'string' | 'number' | 'date' | 'type' | 'special' | 'mimeType';
 
 export interface RuleConditionField {
   name: string;
   label: string;
   type: RuleConditionFieldType;
 }
+
+export const comparatorHiddenForConditionFieldType: string[] = ['special', 'mimeType'];
 
 export const ruleConditionFields: RuleConditionField[] = [
   {
@@ -45,7 +47,7 @@ export const ruleConditionFields: RuleConditionField[] = [
   {
     name: 'mimetype',
     label: 'ACA_FOLDER_RULES.RULE_DETAILS.FIELDS.MIMETYPE',
-    type: 'special'
+    type: 'mimeType'
   },
   {
     name: 'encoding',
