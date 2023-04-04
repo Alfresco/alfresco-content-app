@@ -541,7 +541,8 @@
             "FILE_TYPE": "File type",
             "CREATOR": "Creator",
             "MODIFIER": "Modifier",
-            "LOCATION": "Location"
+            "LOCATION": "Location",
+            "CATEGORIES": "Categories"
         },
         "CATEGORIES": {
             "MODIFIED_DATE": "Modified date",
