@@ -29,6 +29,7 @@ import { CoreTestingModule } from '@alfresco/adf-core';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { categoryMock, mimeTypeMock, simpleConditionUnknownFieldMock } from '../../mock/conditions.mock';
+import { MimeType } from './rule-mime-types';
 
 describe('RuleSimpleConditionUiComponent', () => {
   let fixture: ComponentFixture<RuleSimpleConditionUiComponent>;
@@ -131,11 +132,33 @@ describe('RuleSimpleConditionUiComponent', () => {
   });
 
   it('should provide select option when mimeType is selected and value filled', () => {
+    const mockMimeTypes: MimeType[] = [
+      {
+        value: 'video/3gpp',
+        label: '3G Video'
+      },
+      {
+        value: 'video/3gpp2',
+        label: '3G2 Video'
+      },
+      {
+        value: 'application/vnd.alfresco.ai.features.v1+json',
+        label: 'AI-Features'
+      },
+      {
+        value: 'application/vnd.alfresco.ai.labels.v1+json',
+        label: 'AI-Labels'
+      }
+    ];
+
     fixture.componentInstance.writeValue(mimeTypeMock);
+    fixture.componentInstance.mimeTypes = mockMimeTypes;
+
+    fixture.componentInstance.onChangeField();
     fixture.detectChanges();
 
     expect(getByDataAutomationId('simple-condition-value-select')).toBeTruthy();
-    expect(getByDataAutomationId('simple-condition-value-select').nativeElement.value).not.toBe('');
+    expect(fixture.componentInstance.form.get('parameter').value).toEqual(mockMimeTypes[0].value);
   });
 
   it('should set value to empty when any condition is selected after mimeType', () => {
