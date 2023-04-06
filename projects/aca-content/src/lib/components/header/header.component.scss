@@ -2,6 +2,10 @@
   box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.02), 0 6px 10px 0 rgba(0, 0, 0, 0.014), 0 1px 18px 0 rgba(0, 0, 0, 0.012);
   z-index: 2;
 
+  adf-layout-header .mat-toolbar-single-row {
+    color: var(--theme-header-text-color) !important;
+  }
+
   .mat-toolbar {
     background-image: var(--header-background-image) !important;
     background-repeat: no-repeat !important;

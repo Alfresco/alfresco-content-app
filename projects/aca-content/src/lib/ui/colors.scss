@@ -24,10 +24,10 @@ $aca-primary-blue: (
     700: white,
     800: $white-87-opacity,
     900: $white-87-opacity,
-    A100: $black-87-opacity,
+    A100: white,
     A200: white,
     A400: white,
-    A700: white,
+    A700: white
   )
 );
 $aca-accent-green: (
@@ -59,7 +59,7 @@ $aca-accent-green: (
     A100: $black-87-opacity,
     A200: white,
     A400: white,
-    A700: white,
+    A700: white
   )
 );
 $aca-warn: (
@@ -91,6 +91,6 @@ $aca-warn: (
     A100: $black-87-opacity,
     A200: white,
     A400: white,
-    A700: white,
+    A700: white
   )
 );
