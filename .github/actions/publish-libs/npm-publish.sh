@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../.." && pwd )"
+ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../.." && pwd )"
 DIST_DIR="$ROOT_DIR/dist/@alfresco"
 TAG=$1
 DRY_RUN=$2
