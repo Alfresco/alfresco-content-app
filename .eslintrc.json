@@ -22,7 +22,8 @@
         "unicorn",
         "prettier",
         "ban",
-        "@cspell"
+        "@cspell",
+        "license-header"
       ],
       "rules": {
         "ban/ban": [
@@ -35,6 +36,7 @@
           { "name": ["test", "only"], "message": "Calls to test.only is not allowed" },
           { "name": ["describe", "only"], "message": "Calls to describe.only is not allowed" }
         ],
+        "license-header/header": ["error", "./license-header-aca.txt"],
         "prettier/prettier": "error",
         "no-shadow": "off",
         "@typescript-eslint/no-shadow": "error",
