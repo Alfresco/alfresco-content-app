@@ -135,8 +135,8 @@ If you don't want to include a polyfill, you can use an empty module like this:
 
 **Need to update:**
 
-router-store to 			^14.0.0
+@ngrx/router-store    			  ^14.0.0
 
-mat-datetimepicker/core		^9.0.68
+@mat-datetimepicker/core		  ^9.0.68
 
-mat-datetimepicker/moment		^9.0.68
+@mat-datetimepicker/moment		^9.0.68
