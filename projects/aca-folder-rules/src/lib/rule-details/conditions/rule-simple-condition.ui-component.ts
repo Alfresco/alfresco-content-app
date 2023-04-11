@@ -26,8 +26,10 @@
 import { Component, forwardRef, Input, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { RuleSimpleCondition } from '../../model/rule-simple-condition.model';
-import { RuleConditionField, ruleConditionFields } from './rule-condition-fields';
+import { comparatorHiddenForConditionFieldType, RuleConditionField, ruleConditionFields } from './rule-condition-fields';
 import { RuleConditionComparator, ruleConditionComparators } from './rule-condition-comparators';
+import { AppConfigService } from '@alfresco/adf-core';
+import { MimeType } from './rule-mime-types';
 
 @Component({
   selector: 'aca-rule-simple-condition',
@@ -52,6 +54,8 @@ export class RuleSimpleConditionUiComponent implements ControlValueAccessor, OnD
     parameter: new FormControl()
   });
 
+  mimeTypes: MimeType[] = [];
+
   private _readOnly = false;
   @Input()
   get readOnly(): boolean {
@@ -59,6 +63,10 @@ export class RuleSimpleConditionUiComponent implements ControlValueAccessor, OnD
   }
   set readOnly(isReadOnly: boolean) {
     this.setDisabledState(isReadOnly);
+  }
+
+  constructor(private config: AppConfigService) {
+    this.mimeTypes = this.config.get<Array<MimeType>>('mimeTypes');
   }
 
   private formSubscription = this.form.valueChanges.subscribe((value: any) => {
@@ -86,10 +94,14 @@ export class RuleSimpleConditionUiComponent implements ControlValueAccessor, OnD
     return ruleConditionComparators.filter((comparator) => Object.keys(comparator.labels).includes(this.selectedField.type));
   }
   get isComparatorHidden(): boolean {
-    return this.selectedField?.type === 'special';
+    return comparatorHiddenForConditionFieldType.includes(this.selectedField?.type);
   }
   get comparatorControl(): AbstractControl {
     return this.form.get('comparator');
+  }
+
+  private get parameterControl(): AbstractControl<string> {
+    return this.form.get('parameter');
   }
 
   onChange: (condition: RuleSimpleCondition) => void = () => undefined;
@@ -120,6 +132,11 @@ export class RuleSimpleConditionUiComponent implements ControlValueAccessor, OnD
   onChangeField() {
     if (!this.selectedFieldComparators.find((comparator) => comparator.name === this.comparatorControl.value)) {
       this.comparatorControl.setValue('equals');
+    }
+    if (!this.parameterControl.value && this.selectedField?.type === 'mimeType') {
+      this.parameterControl.setValue(this.mimeTypes[0]?.value);
+    } else if (this.parameterControl.value) {
+      this.parameterControl.setValue('');
     }
   }
 
