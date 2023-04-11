@@ -23,6 +23,7 @@
     "paths": {
       "@alfresco/adf-testing": ["../alfresco-ng2-components/lib/testing"],
       "@alfresco/adf-testing/shared": ["../alfresco-ng2-components/lib/testing/src/lib/shared"],
+      "@alfresco/playwright-shared": ["e2e/playwright/shared/index.ts"],
       "@alfresco/adf-core": ["../alfresco-ng2-components/lib/core"],
       "@alfresco/adf-core/*": ["../alfresco-ng2-components/lib/core/*/public-api.ts"],
       "@alfresco/adf-core/shell": ["../alfresco-ng2-components/lib/core/shell/src/index.ts"],
