@@ -1,4 +1,5 @@
-{
+path = require("path");
+module.exports = {
   "extends": "../../.eslintrc.json",
   "ignorePatterns": [
     "!**/*"
@@ -10,8 +11,8 @@
       ],
       "parserOptions": {
         "project": [
-          "projects/adf-office-services-ext/tsconfig.lib.json",
-          "projects/adf-office-services-ext/tsconfig.spec.json"
+          path.join(__dirname, "tsconfig.lib.json"),
+          path.join(__dirname, "tsconfig.spec.json")
         ],
         "createDefaultProgram": true
       },
