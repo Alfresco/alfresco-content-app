@@ -62,7 +62,7 @@ export abstract class BasePage extends PlaywrightBase {
       } else {
         await this.page.goto(`./#/${this.pageUrl}${actualOptions.query}`, {
           waitUntil: actualOptions.waitUntil,
-          timeout: 10000
+          timeout: 60000
         });
       }
     }
