@@ -3,7 +3,7 @@
   "$id": "0455ca6c-cc7a-43ae-bbf7-35795413d2dd",
   "$name": "Folder Rules Plugin",
   "$version": "0.0.1",
-  "$vendor": "Alfresco Software, Ltd.",
+  "$vendor": "Hyland Software, Inc. and its affiliates",
   "$license": "LGPL-3.0",
 
   "features": {

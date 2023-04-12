@@ -3,7 +3,7 @@
   "$id": "14157f82-6489-4187-9b68-1a5e38fadeca",
   "$name": "About Plugin",
   "$version": "0.0.1",
-  "$vendor": "Alfresco Software, Ltd.",
+  "$vendor": "Hyland Software, Inc. and its affiliates",
   "$license": "LGPL-3.0",
 
   "actions": [

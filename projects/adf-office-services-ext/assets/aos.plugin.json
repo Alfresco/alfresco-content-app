@@ -4,7 +4,7 @@
   "$version": "0.0.10",
   "$name": "Edit in Office",
   "$description": "Extension that provides Office Edit Online Action",
-  "$vendor": "Alfresco Software, Ltd.",
+  "$vendor": "Hyland Software, Inc. and its affiliates",
   "$license": "LGPL-3.0",
 
   "actions": [
