@@ -19,7 +19,7 @@
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
 import { LoginPage, BrowsingPage, Utils, AdminActions, RepoClient, SITE_VISIBILITY } from '@alfresco/aca-testing-shared';
