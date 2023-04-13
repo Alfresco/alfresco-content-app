@@ -22,10 +22,10 @@ Upgrade ACA app built with ADF v4.11 to a one supporting ADF v5.0, you need to u
 
 To update ANGULAR version from 10.0 to 11.0 by running the below update commands
 
-    • ng update @angular/core@11 @angular/cli@11 –force
-    
-    • npm i
-      
+```sh
+ng update @angular/core@11 @angular/cli@11 –force
+npm i
+```      
       
 Below are the some updates when you upgrade to v11.0
 
@@ -39,9 +39,10 @@ Below are the some updates when you upgrade to v11.0
 
 To update ANGULAR version from 11.0 to 12.0 by running the below update commands
 
-    • ng update @angular/core@12 @angular/cli@12 –force
-    
-    • npm i
+```sh
+ng update @angular/core@12 @angular/cli@12 –force
+npm i
+```
     
 Below are the some updates when you upgrade to v12.0
 
@@ -67,9 +68,10 @@ Below are the some updates when you upgrade to v12.0
 
 To update ANGULAR version from 12.0 to 13.0 by running the below update commands
 
-    • ng update @angular/core@13 @angular/cli@13 –force
-    
-    • npm i
+```sh
+ng update @angular/core@13 @angular/cli@13 –force
+npm i
+```
     
 Below are the some updates when you upgrade to v13.0
 
@@ -91,9 +93,10 @@ Below are the some updates when you upgrade to v13.0
 
 To update ANGULAR version from 13.0 to 14.0 by running the below update commands
 
-    • ng update @angular/core@14 @angular/cli@14 –force
-    
-    • npm i
+```sh
+ng update @angular/core@14 @angular/cli@14 –force
+npm i
+```
     
 Below are the some updates when you upgrade to v14.0
 
@@ -112,10 +115,10 @@ Make sure you have install dev dependency for the below dependecies
 
 inquirer, winston
 
+```sh
 npm install --save-dev inquirer@^8.0.0
-
 npm install --save-dev winston@^3.8.2
-
+```
 
 BREAKING CHANGE: webpack < 5 used to include polyfills for node.js core modules by default.
 
