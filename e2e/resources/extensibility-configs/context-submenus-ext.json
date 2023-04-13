@@ -3,7 +3,7 @@
   "$id": "app.core",
   "$name": "app.core",
   "$version": "1.0.0",
-  "$vendor": "Alfresco Software, Ltd.",
+  "$vendor": "Hyland Software, Inc. and its affiliates",
   "$license": "LGPL-3.0",
   "$runtime": "1.7.0",
   "$description": "Core application extensions and features",

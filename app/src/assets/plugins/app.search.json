@@ -3,7 +3,7 @@
     "$id": "app.debug-search.plugin",
     "$version": "1.0.0",
     "$name": "app.debug-search.plugin",
-    "$vendor": "Alfresco Software, Ltd.",
+    "$vendor": "Hyland Software, Inc. and its affiliates",
     "$license": "LGPL-3.0",
     "$runtime": "1.5.0",
     "$description": "Plugin for debugging and testing purposes",
