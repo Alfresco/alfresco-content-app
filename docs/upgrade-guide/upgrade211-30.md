@@ -10,12 +10,12 @@ Title: Upgrading from ACA v2.11 to v3.0
 
 This guide explains how to upgrade your ACA v2.11 app to work with ADF v5.0.
 Do not skip this task, if you want your application to be updated to a most recent version of ADF(v5.0). Upgrades of multiple versions of ACA cannot be done in one step only, but should follow the chain of sequential updates.
-Note: the steps described below might involve making changes to your code. If you are working with a versioning system then you should commit any changes you are currently working on. If you aren't using versioning then be sure to make a backup copy of your project before going ahead with the upgrade.
-You can't run ng update to update ANGULAR applications more than one major version at a time.
+
+**Note:** the steps described below might involve making changes to your code. If you are working with a versioning system then you should commit any changes you are currently working on. If you aren't using versioning then be sure to make a backup copy of your project before going ahead with the upgrade. You can't run ng update to update ANGULAR applications more than one major version at a time.
 
 Library updates:
 
-Upgrade ACA app built with ADF v4.11 to a one supporting ADF v5.0, you need to upgrade ANGULAR version v14. You need to upgrade ANGULAR versions from v10 to v14 step by step (single major version at a time). In terms to support ADF v5.0 you have to follow the below commands.
+Upgrade ACA app built with ADF v4.11 to a one supporting ADF v5.0, you need to upgrade ANGULAR version v14. You need to upgrade ANGULAR versions from v10 to v14 step by step (single major version at a time). In terms to support ADF v5.0 you have to follow the below commands. There are no such ADF specific changes required in order to compatible with ADF v5.0 (No breaking changes in ADF v5.0)
 
 
 **Upgrade to v11:**
@@ -138,8 +138,30 @@ If you don't want to include a polyfill, you can use an empty module like this:
 
 **Need to update:**
 
-@ngrx/router-store    			  ^14.0.0
+@ngrx/router-store    			        ^14.0.0
 
-@mat-datetimepicker/core		  ^9.0.68
+@mat-datetimepicker/core		        ^9.0.68
 
-@mat-datetimepicker/moment		^9.0.68
+@mat-datetimepicker/moment              ^9.0.68
+
+@angular/flex-layout"                   ^14.0.0-beta.40
+
+@angular/cdk                            14.2.7
+
+@ngx-translate/core                     ^14.0.02
+
+@angular-eslint/builder			        ^14.0.3
+
+@angular-eslint/eslint-plugin			^14.0.3
+
+@angular-eslint/eslint-plugin-template	^14.0.3
+
+@angular/schematics				        14.0.3
+
+@angular-eslint/template-parser		    ^14.0.3
+
+moment                            2.29.4
+
+rxjs                              6.6.6
+ 
+zone.js                           0.11.7
