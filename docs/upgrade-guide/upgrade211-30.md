@@ -11,16 +11,16 @@ Title: Upgrading from ACA v2.11 to v3.0
 This guide explains how to upgrade your ACA v2.11 app to work with ADF v5.0.
 Do not skip this task, if you want your application to be updated to a most recent version of ADF(v5.0). Upgrades of multiple versions of ACA cannot be done in one step only, but should follow the chain of sequential updates.
 Note: the steps described below might involve making changes to your code. If you are working with a versioning system then you should commit any changes you are currently working on. If you aren't using versioning then be sure to make a backup copy of your project before going ahead with the upgrade.
-You can't run ng update to update Angular applications more than one major version at a time.
+You can't run ng update to update ANGULAR applications more than one major version at a time.
 
 Library updates:
 
-Upgrade ACA app built with ADF v4.11 to a one supporting ADF v5.0, you need to upgrade angular version v14. You need to upgrade angular versions from v10 to v14 step by step(single major version at a time). In terms to support ADF v5.0 you have to follow the below commands.
+Upgrade ACA app built with ADF v4.11 to a one supporting ADF v5.0, you need to upgrade ANGULAR version v14. You need to upgrade ANGULAR versions from v10 to v14 step by step (single major version at a time). In terms to support ADF v5.0 you have to follow the below commands.
 
 
 **Upgrade to v11:**
 
-To update angular version from 10.0 to 11.0 by running the below update commands
+To update ANGULAR version from 10.0 to 11.0 by running the below update commands
 
     • ng update @angular/core@11 @angular/cli@11 –force
     
@@ -29,7 +29,7 @@ To update angular version from 10.0 to 11.0 by running the below update commands
       
 Below are the some updates when you upgrade to v11.0
 
-    • Angular now requires TypeScript 4.0. ng update will migrate you automatically.
+    • ANGULAR now requires TypeScript 4.0. ng update will migrate you automatically.
     
     • Support for IE9, IE10, and IE mobile has been removed.
 
@@ -37,7 +37,7 @@ Below are the some updates when you upgrade to v11.0
 
 **Upgrade to v12:**
 
-To update angular version from 11.0 to 12.0 by running the below update commands
+To update ANGULAR version from 11.0 to 12.0 by running the below update commands
 
     • ng update @angular/core@12 @angular/cli@12 –force
     
@@ -45,11 +45,11 @@ To update angular version from 11.0 to 12.0 by running the below update commands
     
 Below are the some updates when you upgrade to v12.0
 
-    • Angular now requires TypeScript 4.2. ng update will update you automatically.
+    • ANGULAR now requires TypeScript 4.2. ng update will update you automatically.
     
     • IE11 support has been deprecated.
     
-    • You can no longer use Angular with Node.js version 10 or older.
+    • You can no longer use ANGULAR with Node.js version 10 or older.
     
     • Update zone.js to version 0.11.4. ng update will update this dependency automatically.
     
@@ -65,7 +65,7 @@ Below are the some updates when you upgrade to v12.0
 
 **Upgrade to v13:**
 
-To update angular version from 12.0 to 13.0 by running the below update commands
+To update ANGULAR version from 12.0 to 13.0 by running the below update commands
 
     • ng update @angular/core@13 @angular/cli@13 –force
     
@@ -73,23 +73,23 @@ To update angular version from 12.0 to 13.0 by running the below update commands
     
 Below are the some updates when you upgrade to v13.0
 
-    • Angular now uses TypeScript 4.4.
+    • ANGULAR now uses TypeScript 4.4.
     
     • Make sure you are using Node 12.20.0 or later
     
     • Use [routerLink]="" in templates to [routerLink]="[]" because these links are likely intended to route to the current page with updated fragment/query params.
     
-    • As of Angular version 13, `entryComponents` are no longer necessary.
+    • As of ANGULAR version 13, `entryComponents` are no longer necessary.
     
     • Remove polyfills required only for Internet Explorer which is no longer supported.
     
-    • Remove no longer valid Angular schematic options from `angular.json`.
+    • Remove no longer valid ANGULAR schematic options from `angular.json`.
 
 
 
 **Upgrade to v14:**
 
-To update angular version from 13.0 to 14.0 by running the below update commands
+To update ANGULAR version from 13.0 to 14.0 by running the below update commands
 
     • ng update @angular/core@14 @angular/cli@14 –force
     
@@ -97,11 +97,11 @@ To update angular version from 13.0 to 14.0 by running the below update commands
     
 Below are the some updates when you upgrade to v14.0
 
-    • Angular now uses TypeScript 4.6
+    • ANGULAR now uses TypeScript 4.6
     
     • Make sure you are using Node 14.15.0 or later
     
-    • Update Angular packages 'dependencies' and 'devDependencies' version prefix to '^' instead of '~'.
+    • Update ANGULAR packages 'dependencies' and 'devDependencies' version prefix to '^' instead of '~'.
     
     • Remove 'package.json' files from library projects secondary entrypoints.
     
