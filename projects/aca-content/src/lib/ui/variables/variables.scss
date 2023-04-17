@@ -26,7 +26,6 @@ $blue-save-button-background: #1f74db;
 $black-heading: #4e4c4c;
 $grey-dropdown-background: #eee;
 $grey-divider: rgba(0, 0, 0, 0.22);
-$pagination-background-color: #fff;
 $datetimepicker-font-color: rgba(black, 0.87);
 $datetimepicker-selected-date-background: #2254b2;
 $datetimepicker-cell-background-color: #fff;
@@ -61,7 +60,7 @@ $defaults: (
   --theme-heading-color: $black-heading,
   --theme-dropdown-color: $grey-dropdown-background,
   --theme-grey-divider-color: $grey-divider,
-  --theme-pagination-background-color: $pagination-background-color,
+  --theme-pagination-background-color: mat.get-color-from-palette($background, background),
   --theme-about-panel-border-color: $grey-background,
   --theme-about-panel-background-color: #fff,
   --theme-about-panel-title-color: #212121,
