@@ -28,14 +28,14 @@ import { CoreModule } from '@alfresco/adf-core';
 import { ResetPasswordComponent } from './reset-password.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 
-fdescribe('ResetPasswordComponent', () => {
+describe('ResetPasswordComponent', () => {
   let component: ResetPasswordComponent;
   let fixture: ComponentFixture<ResetPasswordComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule, CoreModule.forChild()],
-      declarations: [ResetPasswordComponent],
+      declarations: [ResetPasswordComponent]
     });
 
     fixture = TestBed.createComponent(ResetPasswordComponent);
