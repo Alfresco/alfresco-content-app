@@ -16,80 +16,15 @@ Library updates:
 Upgrade the ACA app built with ADF v4.11 to one supporting ADF v5.0, you need to upgrade to Angular version v14. You need to upgrade Angular versions from v10 to v14 step by step (single major version at a time). In terms to support ADF v5.0, you have to follow the below commands. There are no such ADF-specific changes required to be compatible with ADF v5.0 (No breaking changes in ADF v5.0)
 
 
-**Upgrade to v11:**
+This is a major release of the Alfresco Content Application containing upgrade to Angular 14.
+For a complete list of changes, supported browsers and new feature please refer to the official documentation
 
-To update the Angular version from 10.0 to 11.0 by running the below update commands
-
-```sh
-ng update @angular/core@11 @angular/cli@11 –force
-npm i
-```      
-      
-Below are some updates when you upgrade to v11.0
-
-    • Angular now requires TypeScript 4.0. ng update will migrate you automatically.
-    • Support for IE9, IE10, and IE mobile has been removed.
-
-
-
-**Upgrade to v12:**
-
-To update the Angular version from 11.0 to 12.0 by running the below update commands
-
-```sh
-ng update @angular/core@12 @angular/cli@12 –force
-npm i
-```
-    
-Below are some updates when you upgrade to v12.0
-
-    • Angular now requires TypeScript 4.2. ng update will update you automatically.
-    • IE11 support has been deprecated.
-    • You can no longer use Angular with Node.js version 10 or older.
-    • Update zone.js to version 0.11.4. ng update will update this dependency automatically.
-    • Remove the 'emitDecoratorMetadata' TypeScript compiler option.
-    • Remove deprecated ViewEngine-based i18n build and extract options.
-    • Updates Web Worker consumer usage to use the new syntax supported directly by Webpack 5.
-    • `XhrFactory` has been moved from `@angular/common/http` to `@angular/common`.
-
-
-**Upgrade to v13:**
-
-To update the Angular version from 12.0 to 13.0 by running the below update commands
-
-```sh
-ng update @angular/core@13 @angular/cli@13 –force
-npm i
-```
-    
-Below are some updates when you upgrade to v13.0
-
-    • Angular now uses TypeScript 4.4.
-    • Make sure you are using Node 12.20.0 or later
-    • Use [routerLink]="" in templates to [routerLink]="[]" because these links are likely intended to route to the current page with updated 
-    fragment/query params.
-    • As of Angular version 13, `entryComponents` are no longer necessary.
-    • Remove polyfills required only for Internet Explorer which is no longer supported.
-    • Remove no longer valid Angular schematic options from `angular.json`.
-
-
-
-**Upgrade to v14:**
-
-To update the Angular version from 13.0 to 14.0 by running the below update commands
-
-```sh
-ng update @angular/core@14 @angular/cli@14 –force
-npm i
-```
-    
-Below are some updates when you upgrade to v14.0
-
-    • Angular now uses TypeScript 4.6
-    • Make sure you are using Node 14.15.0 or later
-    • Update Angular packages 'dependencies' and 'devDependencies' version prefix to '^' instead of '~'.
-    • Remove 'package.json' files from the library project's secondary entry points.
-    • Update TypeScript compilation target to 'ES2020'.
+| Angular version | link |
+| --- | --- |
+| v11 | [Changes & Deprecations](https://v11.angular.io/guide/updating-to-version-11)|
+| v12 | [Changes & Deprecations](https://v12.angular.io/guide/updating-to-version-12)|
+| v13 | [Changes & Deprecations](https://v13.angular.io/guide/update-to-latest-version)|
+| v14 | [Changes & Deprecations](https://angular.io/guide/update-to-latest-version) |
 
 Make sure you have installed dev dependency for the below dependencies
 
