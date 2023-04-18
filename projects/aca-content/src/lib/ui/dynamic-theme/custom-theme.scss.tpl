@@ -37,11 +37,19 @@ $custom-theme: mat-light-theme(
 @if $background-color {
   $custom-background: get-custom-background-color($background-color, $custom-theme);
   $custom-theme: map_merge($custom-theme, (background: $custom-background));
+
+  $color: map_get($custom-theme, color);
+  $new-color: map_merge($color, (background: $custom-background));
+  $custom-theme: map_merge($custom-theme, (color: $new-color));
 }
 
 @if $text-color {
   $custom-foreground: get-custom-text-color($text-color, $custom-theme);
   $custom-theme: map_merge($custom-theme, (foreground: $custom-foreground));
+
+  $color: map_get($custom-theme, color);
+  $new-color: map_merge($color, (foreground: $custom-foreground));
+  $custom-theme: map_merge($custom-theme, (color: $new-color));
 }
 
 @mixin custom-theme($theme) {
