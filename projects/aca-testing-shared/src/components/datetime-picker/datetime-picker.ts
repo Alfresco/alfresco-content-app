@@ -25,14 +25,17 @@
 import { by, browser } from 'protractor';
 import { Component } from '../component';
 import { isPresentAndDisplayed, waitForStaleness } from '../../utilities/utils';
-const moment = require('moment');
 import { BrowserActions } from '@alfresco/adf-testing';
 
 export class DateTimePicker extends Component {
   calendar = this.byCss('.mat-datetimepicker-popup', browser);
+  headerTime = this.byCss('.mat-datetimepicker-calendar-header-time');
   headerDate = this.byCss('.mat-datetimepicker-calendar-header-date');
   headerYear = this.byCss('.mat-datetimepicker-calendar-header-year');
   dayPicker = this.byCss('mat-datetimepicker-month-view');
+  hourPicker = this.byCss('.mat-datetimepicker-clock-hours');
+  minutePicker = this.byCss('.mat-datetimepicker-clock-minutes');
+  nextMonthBtn = this.byCss('.mat-datetimepicker-calendar-next-button');
   rootElemLocator = by.css('.mat-datetimepicker-popup');
 
   constructor(ancestor?: string) {
@@ -49,15 +52,43 @@ export class DateTimePicker extends Component {
     return isPresentAndDisplayed(element);
   }
 
-  async setDefaultDay(): Promise<string> {
-    const today = moment();
-    const tomorrow = today.add(1, 'day');
-    const dayOfTomorrow = tomorrow.date();
+  async pickDateTime(): Promise<string> {
+    const today = new Date()
+    const nextAvailableDay = new Date();
+    nextAvailableDay.setDate(today.getDate() + 2);
+    if (nextAvailableDay.getMonth() !== today.getMonth()) {
+      await BrowserActions.click(this.nextMonthBtn);
+    }
+    await this.selectDay(nextAvailableDay.getDate());
+    await this.selectHour(nextAvailableDay.getHours());
+
+    // getting data from header here since date picker will close after selecting minutes
     const date = await this.headerDate.getText();
     const year = await this.headerYear.getText();
-    const firstActiveDay = '.mat-datetimepicker-calendar-body-active .mat-datetimepicker-calendar-body-cell-content';
-    const elem = this.dayPicker.element(by.cssContainingText(firstActiveDay, `${dayOfTomorrow}`));
-    await BrowserActions.click(elem);
-    return `${date} ${year}`;
+    let time = await this.headerTime.getText();
+    const parts = time.split(':');
+    parts[1] = '00';
+    time = parts.join(':');
+
+    await this.selectMinute(0);
+    return `${date} ${year} ${time}`;
+  }
+
+  async selectDay(day: number): Promise<void> {
+    const firstActiveDay = '.mat-datetimepicker-calendar-body-cell-content';
+    const firstActiveDayElem = this.dayPicker.element(by.cssContainingText(firstActiveDay, `${day}`));
+    await BrowserActions.click(firstActiveDayElem);
+  }
+
+  async selectHour(hour: number): Promise<void> {
+    const clockCellClass = '.mat-datetimepicker-clock-cell';
+    const selectedHourElem = this.hourPicker.element(by.cssContainingText(clockCellClass, `${hour}`));
+    await BrowserActions.click(selectedHourElem);
+  }
+
+  async selectMinute(minute: number): Promise<void> {
+    const clockCellClass = '.mat-datetimepicker-clock-cell';
+    const selectedMinuteElem = this.minutePicker.element(by.cssContainingText(clockCellClass, `${minute}`));
+    await BrowserActions.click(selectedMinuteElem);
   }
 }
