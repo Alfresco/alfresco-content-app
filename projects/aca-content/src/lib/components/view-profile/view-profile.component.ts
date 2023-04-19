@@ -21,6 +21,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
+
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { PeopleApi, Person } from '@alfresco/js-api';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
