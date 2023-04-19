@@ -37,6 +37,12 @@ runs:
           echo "APP_CONFIG_OAUTH2_REDIRECT_LOGOUT=/"
           echo "APP_CONFIG_OAUTH2_REDIRECT_LOGIN=/"
           echo "APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI={protocol}//{hostname}{:port}/assets/silent-refresh.html"
+          echo "APP_CONFIG_ENABLE_DOWNLOAD_PROMPT=true"
+          echo "APP_CONFIG_ENABLE_DOWNLOAD_PROMPT_REMINDERS=true"
+          echo "APP_CONFIG_DOWNLOAD_PROMPT_DELAY=50"
+          echo "APP_CONFIG_DOWNLOAD_PROMPT_REMINDER_DELAY=30"
+          echo "APP_CONFIG_ENABLE_FILE_AUTO_DOWNLOAD=true"
+          echo "APP_CONFIG_FILE_AUTO_DOWNLOAD_SIZE_THRESHOLD_IN_MB=15"
         } >> .env
 
         npm start > /dev/null &\
