@@ -1,5 +1,10 @@
 {
   "AOS": {
-    "ACTION_TITLE": "在 Microsoft Office™ 中编辑"
+    "ACTION_TITLE": "在 Microsoft Office™ 中编辑",
+    "ERRORS": {
+      "UNSUPPORTED_PLATFORM": "仅支持 Windows 和 MacOS 平台",
+      "ALREADY_LOCKED": "文档 '{{ nodeId }}' 被 '{{ lockOwner }}' 锁定",
+      "MISSING_PROTOCOL_HANDLER": "找不到 '{{ nodeName }}' 的协议处理程序"
+    }
   }
 }

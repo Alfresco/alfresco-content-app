@@ -1,5 +1,10 @@
 {
   "AOS": {
-    "ACTION_TITLE": "Redigera i Microsoft Office™"
+    "ACTION_TITLE": "Redigera i Microsoft Office™",
+    "ERRORS": {
+      "UNSUPPORTED_PLATFORM": "Stöds endast för Windows- och MacOS-plattformar",
+      "ALREADY_LOCKED": "Dokumentet '{{ nodeId }}' är låst av '{{ lockOwner }}'",
+      "MISSING_PROTOCOL_HANDLER": "Ingen protokollhanterare hittades för '{{ nodeName }}'"
+    }
   }
 }

@@ -43,12 +43,12 @@
         "NO_SCRIPT": "Ei mitään"
       },
       "COMPARATORS": {
-        "EQUALS": "(=) On yhtä suuri kuin",
+        "EQUALS": "(=) Yhtä suuri kuin",
         "CONTAINS": "Sisältää",
         "STARTS_WITH": "Alkaa merkillä",
         "ENDS_WITH": "Loppuu merkkiin",
-        "GREATER_THAN": "(>) On suurempi kuin",
-        "LESS_THAN": "(<) On pienempi kuin",
+        "GREATER_THAN": "(>) Suurempi kuin",
+        "LESS_THAN": "(<) Pienempi kuin",
         "GREATER_THAN_OR_EQUAL": "(>=) Suurempi tai yhtä suuri kuin",
         "LESS_THAN_OR_EQUAL": "(<=) Vähemmän tai yhtä paljon",
         "ON": "(=) Tänä ajankohtana",

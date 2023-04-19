@@ -40,7 +40,7 @@
         "IS_ASYNCHRONOUS": "Esegui regola in background",
         "DISABLE_RULE": "Disabilita regola",
         "ERROR_SCRIPT": "Esegui script in caso di errori",
-        "NO_SCRIPT": "Nessuno"
+        "NO_SCRIPT": "Nessuna"
       },
       "COMPARATORS": {
         "EQUALS": "(=) Uguale a",

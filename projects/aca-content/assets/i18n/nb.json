@@ -1,6 +1,6 @@
 {
   "APP": {
-    "COPYRIGHT": "© 2017 - 2022 Alfresco Software, Inc. Med enerett.",
+    "COPYRIGHT": "© 2005-2023 Hyland Software, Inc. og samarbeidspartnere. Alle rettigheter forbeholdt.",
     "ABOUT": {
       "VERSION": "Versjon:",
       "PLUGINS": {
@@ -475,8 +475,8 @@
   },
   "INFO_PANEL": {
     "TABS": {
-
-        },
+    
+    },
     "DETAILS": "Detaljer"
   },
   "LIBRARY": {
@@ -541,7 +541,8 @@
       "FILE_TYPE": "Filtype",
       "CREATOR": "Oppretter",
       "MODIFIER": "Modifikator",
-      "LOCATION": "Sted"
+      "LOCATION": "Sted",
+      "CATEGORIES": "Kategorier"
     },
     "CATEGORIES": {
       "MODIFIED_DATE": "Endringsdato",

@@ -1,5 +1,10 @@
 {
   "AOS": {
-    "ACTION_TITLE": "Modifier dans Microsoft Office™"
+    "ACTION_TITLE": "Modifier dans Microsoft Office™",
+    "ERRORS": {
+      "UNSUPPORTED_PLATFORM": "Seulement prise en charge sur les plateformes Windows et MacOS",
+      "ALREADY_LOCKED": "Le document '{{ nodeId }}' est verrouillé par '{{ lockOwner }}'",
+      "MISSING_PROTOCOL_HANDLER": "Aucun gestionnaire de protocole trouvé pour '{{ nodeName }}'"
+    }
   }
 }

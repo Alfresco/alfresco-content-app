@@ -1,6 +1,6 @@
 {
   "APP": {
-    "COPYRIGHT": "© 2017 - 2022 Alfresco Software, Inc。保留所有权利。",
+    "COPYRIGHT": "© 2005-2023 Hyland Software, Inc. 及其附属公司。保留所有权利。",
     "ABOUT": {
       "VERSION": "版本：",
       "PLUGINS": {
@@ -475,8 +475,8 @@
   },
   "INFO_PANEL": {
     "TABS": {
-
-        },
+    
+    },
     "DETAILS": "详细信息"
   },
   "LIBRARY": {
@@ -541,7 +541,8 @@
       "FILE_TYPE": "文件类型",
       "CREATOR": "创建者",
       "MODIFIER": "修改者",
-      "LOCATION": "位置"
+      "LOCATION": "位置",
+      "CATEGORIES": "类别"
     },
     "CATEGORIES": {
       "MODIFIED_DATE": "修改日期",

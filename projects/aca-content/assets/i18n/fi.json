@@ -1,6 +1,6 @@
 {
   "APP": {
-    "COPYRIGHT": "© 2017 - 2022 Alfresco Software, Inc. Kaikki oikeudet pidätetään.",
+    "COPYRIGHT": "© 2005- 2023 Hyland Software, Inc. ja sen tytäryhtiöt. Kaikki oikeudet pidätetään.",
     "ABOUT": {
       "VERSION": "Versio:",
       "PLUGINS": {
@@ -184,7 +184,7 @@
         "TITLE": "Roskakori",
         "SIDENAV_LINK": {
           "LABEL": "Roskakori",
-          "TOOLTIP": "Näytä roskakoriin siirretyt poistetut tiedostot"
+          "TOOLTIP": "Näytä roskakoriin siirretyt, poistetut tiedostot"
         },
         "EMPTY_STATE": {
           "TITLE": "Roskakori on tyhjä",
@@ -265,7 +265,7 @@
         "NO_LABEL": "Säilytä"
       },
       "CONFIRM_LEAVE": {
-        "TITLE": "Poistutaanko tästä kirjastosta?",
+        "TITLE": "Poistutko tästä kirjastosta?",
         "MESSAGE": "Jos poistut kirjastosta, menetät käyttöoikeutesi siihen.",
         "YES_LABEL": "OK",
         "NO_LABEL": "Peruuta"
@@ -300,7 +300,7 @@
       "ERRORS": {
         "CANNOT_NAVIGATE_LOCATION": "Tämän sijainnin avaaminen ei onnistu",
         "MISSING_CONTENT": "Tätä kohdetta ei ole enää olemassa tai sinulla ei ole oikeuksia sen tarkasteluun.",
-        "GENERIC": "Toiminto ei onnistunut. Yritä uudelleen tai ota yhteyttä IT-tukeesi.",
+        "GENERIC": "Toiminto ei onnistunut. Yritä uudelleen tai ota yhteyttä IT-tukeen.",
         "CONFLICT": "Tämä nimi on jo käytössä. Käytä toista nimeä.",
         "NODE_MOVE": "Siirtäminen epäonnistui, koska samanniminen tiedosto on jo olemassa.",
         "EXISTENT_FOLDER": "Samanniminen kansio on jo olemassa. Käytä toista nimeä.",
@@ -475,8 +475,8 @@
   },
   "INFO_PANEL": {
     "TABS": {
-
-        },
+    
+    },
     "DETAILS": "Tiedot"
   },
   "LIBRARY": {
@@ -541,7 +541,8 @@
       "FILE_TYPE": "Tiedostotyyppi",
       "CREATOR": "Tekijä",
       "MODIFIER": "Muokkaaja",
-      "LOCATION": "Sijainti"
+      "LOCATION": "Sijainti",
+      "CATEGORIES": "Luokat"
     },
     "CATEGORIES": {
       "MODIFIED_DATE": "Muokkauspäivämäärä",

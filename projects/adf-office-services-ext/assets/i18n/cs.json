@@ -1,5 +1,10 @@
 {
   "AOS": {
-    "ACTION_TITLE": "Upraveno v: Microsoft Office™"
+    "ACTION_TITLE": "Upraveno v: Microsoft Office™",
+    "ERRORS": {
+      "UNSUPPORTED_PLATFORM": "Podporováno pouze pro platformy Windows a MacOS",
+      "ALREADY_LOCKED": "Dokument ,{{ nodeId }}‘ uzamkl uživatel ,{{ lockOwner }}‘",
+      "MISSING_PROTOCOL_HANDLER": "Pro ,{{ nodeName }}‘ nebyla nalezena žádná obslužná rutina protokolu"
+    }
   }
 }

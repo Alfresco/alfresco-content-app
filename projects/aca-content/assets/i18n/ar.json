@@ -1,6 +1,6 @@
 {
   "APP": {
-    "COPYRIGHT": "© 2017 - 2022 Alfresco Software, Inc. All rights reserved.",
+    "COPYRIGHT": "© 2005-2023 Hyland Software, Inc. والشركات التابعة لها. كل الحقوق محفوظة.",
     "ABOUT": {
       "VERSION": "الإصدار:",
       "PLUGINS": {
@@ -475,7 +475,7 @@
   },
   "INFO_PANEL": {
     "TABS": {
-    
+
     },
     "DETAILS": "التفاصيل"
   },
@@ -541,7 +541,8 @@
       "FILE_TYPE": "نوع الملف",
       "CREATOR": "المنشئ",
       "MODIFIER": "المعدل",
-      "LOCATION": "مكان"
+      "LOCATION": "مكان",
+      "CATEGORIES": "فئات"
     },
     "CATEGORIES": {
       "MODIFIED_DATE": "تاريخ التعديل",
