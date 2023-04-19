@@ -197,7 +197,7 @@ describe('Share a file', () => {
 
         await BrowserActions.click(shareDialog.datetimePickerButton);
         expect(await shareDialog.dateTimePicker.isCalendarOpen()).toBe(true, 'Calendar not opened');
-        const date = await shareDialog.dateTimePicker.setDefaultDay();
+        const date = await shareDialog.dateTimePicker.pickDateTime();
         await shareDialog.dateTimePicker.waitForDateTimePickerToClose();
 
         const setDate = `${date}`.replace(',', '');
