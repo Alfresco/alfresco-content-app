@@ -1,5 +1,10 @@
 {
   "AOS": {
-    "ACTION_TITLE": "Muokkaa Microsoft Office™ -sovelluksessa"
+    "ACTION_TITLE": "Muokkaa Microsoft Office™ -sovelluksessa",
+    "ERRORS": {
+      "UNSUPPORTED_PLATFORM": "Tuetaan vain Windows- ja MacOS-alustoilla",
+      "ALREADY_LOCKED": "Asiakirja '{{ nodeId }}' on lukittu, lukinnut '{{ lockOwner }}'",
+      "MISSING_PROTOCOL_HANDLER": "Protokollan käsittelijää ei löydy kohteelle '{{ nodeName }}'"
+    }
   }
 }

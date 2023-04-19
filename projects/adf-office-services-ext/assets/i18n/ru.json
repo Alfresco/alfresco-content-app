@@ -1,5 +1,10 @@
 {
   "AOS": {
-    "ACTION_TITLE": "Редактировать в Microsoft Office™"
+    "ACTION_TITLE": "Редактировать в Microsoft Office™",
+    "ERRORS": {
+      "UNSUPPORTED_PLATFORM": "Поддерживается только для платформ Windows и MacOS",
+      "ALREADY_LOCKED": "Документ '{{ nodeId }}' блокирован пользователем '{{ lockOwner }}'",
+      "MISSING_PROTOCOL_HANDLER": "Не найден обработчик протокола для '{{ nodeName }}'"
+    }
   }
 }

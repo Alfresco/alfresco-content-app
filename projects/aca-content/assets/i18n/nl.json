@@ -1,6 +1,6 @@
 {
   "APP": {
-    "COPYRIGHT": "© 2017 - 2022 Alfresco Software, Inc. Alle rechten voorbehouden.",
+    "COPYRIGHT": "© 2005-2023 Hyland Software, Inc. en haar gelieerde bedrijven. Alle rechten voorbehouden.",
     "ABOUT": {
       "VERSION": "Versie:",
       "PLUGINS": {
@@ -475,8 +475,8 @@
   },
   "INFO_PANEL": {
     "TABS": {
-
-        },
+    
+    },
     "DETAILS": "Gegevens"
   },
   "LIBRARY": {
@@ -541,7 +541,8 @@
       "FILE_TYPE": "Bestandstype",
       "CREATOR": "Maker",
       "MODIFIER": "Gewijzigd door",
-      "LOCATION": "Locatie"
+      "LOCATION": "Locatie",
+      "CATEGORIES": "Categorieën"
     },
     "CATEGORIES": {
       "MODIFIED_DATE": "Datum gewijzigd",

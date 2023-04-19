@@ -1,6 +1,6 @@
 {
   "APP": {
-    "COPYRIGHT": "© 2017 - 2022 Alfresco Software, Inc. All rights reserved.",
+    "COPYRIGHT": "© 2005-2023 Hyland Software, Inc. a její přidružené společnosti. Všechna práva vyhrazena.",
     "ABOUT": {
       "VERSION": "Verze:",
       "PLUGINS": {
@@ -475,8 +475,8 @@
   },
   "INFO_PANEL": {
     "TABS": {
-
-        },
+    
+    },
     "DETAILS": "Podrobnosti"
   },
   "LIBRARY": {
@@ -541,7 +541,8 @@
       "FILE_TYPE": "Typ souboru",
       "CREATOR": "Autor",
       "MODIFIER": "Upravující",
-      "LOCATION": "Umístění"
+      "LOCATION": "Umístění",
+      "CATEGORIES": "Kategorie"
     },
     "CATEGORIES": {
       "MODIFIED_DATE": "Datum úpravy",

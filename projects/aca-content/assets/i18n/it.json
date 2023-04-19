@@ -1,6 +1,6 @@
 {
   "APP": {
-    "COPYRIGHT": "© 2017 - 2022 Alfresco Software, Inc. Tutti i diritti riservati.",
+    "COPYRIGHT": "© 2005-2023 Hyland Software, Inc. e sue affiliate. Tutti i diritti riservati.",
     "ABOUT": {
       "VERSION": "Versione:",
       "PLUGINS": {
@@ -475,8 +475,8 @@
   },
   "INFO_PANEL": {
     "TABS": {
-
-        },
+    
+    },
     "DETAILS": "Dettagli"
   },
   "LIBRARY": {
@@ -541,7 +541,8 @@
       "FILE_TYPE": "Tipo di file",
       "CREATOR": "Creatore",
       "MODIFIER": "Modificatore",
-      "LOCATION": "Posizione"
+      "LOCATION": "Posizione",
+      "CATEGORIES": "Categorie"
     },
     "CATEGORIES": {
       "MODIFIED_DATE": "Data di modifica",

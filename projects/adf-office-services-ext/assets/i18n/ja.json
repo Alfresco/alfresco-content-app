@@ -1,5 +1,10 @@
 {
   "AOS": {
-    "ACTION_TITLE": "Microsoft Office™ で編集"
+    "ACTION_TITLE": "Microsoft Office™ で編集",
+    "ERRORS": {
+      "UNSUPPORTED_PLATFORM": "WindowsおよびMacOSプラットフォームのみ対応",
+      "ALREADY_LOCKED": "ドキュメント'{{ nodeId }}'は、'{{ lockOwner }}'によってロックされています",
+      "MISSING_PROTOCOL_HANDLER": "'{{ nodeName }}'のプロトコルハンドラーが見つかりませんでした"
+    }
   }
 }

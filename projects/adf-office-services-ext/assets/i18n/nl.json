@@ -1,5 +1,10 @@
 {
   "AOS": {
-    "ACTION_TITLE": "Bewerken in Microsoft Office™"
+    "ACTION_TITLE": "Bewerken in Microsoft Office™",
+    "ERRORS": {
+      "UNSUPPORTED_PLATFORM": "Alleen ondersteund voor Windows- en MacOS-platforms",
+      "ALREADY_LOCKED": "Document '{{ nodeId }}' is vergrendeld door '{{ lockOwner }}'",
+      "MISSING_PROTOCOL_HANDLER": "Geen protocolhandler gevonden voor '{{ nodeName }}'"
+    }
   }
 }

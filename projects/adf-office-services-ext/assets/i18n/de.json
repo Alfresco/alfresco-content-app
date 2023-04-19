@@ -1,5 +1,10 @@
 {
   "AOS": {
-    "ACTION_TITLE": "In Microsoft Office™ bearbeiten"
+    "ACTION_TITLE": "In Microsoft Office™ bearbeiten",
+    "ERRORS": {
+      "UNSUPPORTED_PLATFORM": "Nur für die Plattformen Windows und MacOS unterstützt",
+      "ALREADY_LOCKED": "Dokument '{{ nodeId }}' ist gesperrt durch '{{ lockOwner }}'",
+      "MISSING_PROTOCOL_HANDLER": "Kein Protokoll-Handler für '{{ nodeName }}' gefunden"
+    }
   }
 }

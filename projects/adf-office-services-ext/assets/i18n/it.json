@@ -1,5 +1,10 @@
 {
   "AOS": {
-    "ACTION_TITLE": "Modifica in Microsoft Office™"
+    "ACTION_TITLE": "Modifica in Microsoft Office™",
+    "ERRORS": {
+      "UNSUPPORTED_PLATFORM": "Supportato solo nelle piattaforme Windows e MacOS",
+      "ALREADY_LOCKED": "Il documento '{{ nodeId }}' è bloccato da '{{ lockOwner }}'",
+      "MISSING_PROTOCOL_HANDLER": "Impossibile trovare un gestore di protocollo per '{{ nodeName }}'"
+    }
   }
 }

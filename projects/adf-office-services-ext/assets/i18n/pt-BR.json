@@ -1,5 +1,10 @@
 {
   "AOS": {
-    "ACTION_TITLE": "Editar no Microsoft Office™"
+    "ACTION_TITLE": "Editar no Microsoft Office™",
+    "ERRORS": {
+      "UNSUPPORTED_PLATFORM": "Somente suportado para plataformas Windows e MacOS",
+      "ALREADY_LOCKED": "O documento '{{ nodeId }}' está bloqueado por '{{ lockOwner }}'",
+      "MISSING_PROTOCOL_HANDLER": "Nenhum manipulador de protocolo encontrado para '{{ nodeName }}'"
+    }
   }
 }
