@@ -28,7 +28,10 @@ import { waitForPresence, waitElement } from '../../utilities/utils';
 import { BrowserActions, BrowserVisibility, TestElement } from '@alfresco/adf-testing';
 
 export class SearchInput extends Component {
-  searchButton = this.component.element(by.css('.app-search-button'));
+  get searchButton() {
+    return browser.element(by.css('.app-search-button'));
+  }
+
   searchContainer = browser.element(by.css('.app-search-container'));
   searchControl = browser.element(by.css('.app-search-control'));
 
@@ -58,6 +61,7 @@ export class SearchInput extends Component {
 
   async clickSearchButton() {
     await BrowserActions.click(this.searchButton);
+
     await this.waitForSearchControl();
   }
 
@@ -151,28 +155,33 @@ export class SearchInput extends Component {
     await this.clickLibrariesOption();
   }
 
+  async searchForLibrary(text: string) {
+    await BrowserVisibility.waitUntilElementIsClickable(this.searchInput.elementFinder);
+    await this.searchInput.typeText(text);
+  }
+
   async searchFor(text: string) {
     await BrowserVisibility.waitUntilElementIsClickable(this.searchInput.elementFinder);
     await this.searchInput.typeText(text);
     await BrowserActions.click(this.searchButton);
   }
 
-  async searchByURL(text: string){
+  async searchByURL(text: string) {
     const query = Buffer.from(text, 'utf-8').toString();
     await BrowserActions.getUrl(`#/search;q=${query}`);
   }
 
   async searchUntilResult(text: string, methodType: 'URL' | 'UI', waitPerSearch: number = 2000, timeout: number = 20000) {
-    const attempts = Math.round(timeout/waitPerSearch);
+    const attempts = Math.round(timeout / waitPerSearch);
     let loopCount = 0;
     let myPromise = new Promise((resolve, reject) => {
       const check = async () => {
-          loopCount++;
-          loopCount >= attempts ? reject('File not found') : methodType === 'UI' ? await this.searchFor(text) : await this.searchByURL(text);
-          await this.searchResult.isPresent(waitPerSearch) ? resolve('File found') : setTimeout(check, waitPerSearch);
-      }
+        loopCount++;
+        loopCount >= attempts ? reject('File not found') : methodType === 'UI' ? await this.searchFor(text) : await this.searchByURL(text);
+        (await this.searchResult.isPresent(waitPerSearch)) ? resolve('File found') : setTimeout(check, waitPerSearch);
+      };
       return check();
-  });
-  return myPromise;
+    });
+    return myPromise;
   }
 }

@@ -22,16 +22,16 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, element, browser } from 'protractor';
+import { ElementFinder, by, element, browser, By } from 'protractor';
 import { Logger, BrowserActions } from '@alfresco/adf-testing';
-import { SIDEBAR_LABELS, BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Menu } from '../menu/menu';
 import { Component } from '../component';
+import { waitElement } from '../../utilities';
 
 export class Sidenav extends Component {
   links = this.component.all(by.css('.item'));
   activeLink = this.byCss('.action-button--active');
-  newButton = this.allByCss('[data-automation-id="create-button"]');
+  newButton = element(By.css('[id="app.toolbar.create"]'));
   personalFiles = this.byCss(`[data-automation-id='app.navbar.personalFiles']`);
   fileLibraries = this.byCss(`[data-automation-id='app.navbar.libraries.menu']`);
   myLibraries = this.byCss(`[data-automation-id='app.navbar.libraries.files']`, browser);
@@ -40,6 +40,7 @@ export class Sidenav extends Component {
   recentFiles = this.byCss(`[data-automation-id='app.navbar.recentFiles']`);
   favorites = this.byCss(`[data-automation-id='app.navbar.favorites']`);
   trash = this.byCss(`[data-automation-id='app.navbar.trashcan']`);
+  sidenavToggle = this.byCss(`.sidenav-header-title-logo`);
 
   menu: Menu = new Menu();
 
@@ -47,27 +48,33 @@ export class Sidenav extends Component {
     super('app-sidenav', ancestor);
   }
 
-  private async expandMenu(name: string): Promise<void> {
-    try {
-      if (await element(by.cssContainingText('.mat-expanded', name)).isPresent()) {
-        return Promise.resolve();
-      } else {
-        const link = this.getLink(name);
-        await BrowserActions.click(link);
-        await element(by.css('.mat-expansion-panel-body')).isPresent();
-      }
-    } catch (e) {
-      Logger.error(`---- sidebar navigation catch expandMenu: failed to expand ${name} menu : `, e);
+  async isSidenavExpanded(): Promise<boolean> {
+    return browser.isElementPresent(by.css(`[data-automation-id='expanded']`));
+  }
+
+  async expandSideNav(): Promise<void> {
+    const expanded = await this.isSidenavExpanded();
+    if (!expanded) {
+      await BrowserActions.click(this.sidenavToggle);
+      await waitElement(`[data-automation-id='expanded']`);
+    }
+  }
+
+  async collapseSideNav(): Promise<void> {
+    const expanded = await this.isSidenavExpanded();
+    if (expanded) {
+      await BrowserActions.click(this.sidenavToggle);
+      await waitElement(`[data-automation-id='collapsed']`);
     }
   }
 
   async openNewMenu(): Promise<void> {
-    await BrowserActions.click(this.newButton.first());
+    await BrowserActions.click(this.newButton);
     await this.menu.waitForMenuToOpen();
   }
 
   async closeNewMenu(): Promise<void> {
-    await BrowserActions.click(element(by.css('button[data-automation-id="create-button"] span span')));
+    await BrowserActions.click(element(by.css('button[id="app.toolbar.create"] span span')));
     await this.menu.waitForMenuToClose();
   }
 
@@ -130,11 +137,6 @@ export class Sidenav extends Component {
 
   async getLinkTooltip(name: string): Promise<string> {
     const link = this.getLinkLabel(name);
-    const condition = () => link.getAttribute('title').then((value) => value && value.length > 0);
-
-    await browser.actions().mouseMove(link).perform();
-    await browser.wait(condition, BROWSER_WAIT_TIMEOUT);
-
     return link.getAttribute('title');
   }
 
@@ -145,13 +147,5 @@ export class Sidenav extends Component {
     } catch (error) {
       Logger.error(`---- clickLink catch : sidebar navigation failed to click on - ${name} : `, error);
     }
-  }
-
-  async isFileLibrariesMenuExpanded(): Promise<boolean> {
-    return element(by.cssContainingText('.mat-expanded', SIDEBAR_LABELS.FILE_LIBRARIES)).isPresent();
-  }
-
-  async expandFileLibraries(): Promise<void> {
-    await this.expandMenu(SIDEBAR_LABELS.FILE_LIBRARIES);
   }
 }

@@ -1,11 +1,12 @@
 /*!
- * Copyright © 2005-2023 Hyland Software, Inc. and its affiliates. All rights reserved.
- *
+ * @license
  * Alfresco Example Content Application
+ *
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
- * the paid license agreement will prevail. Otherwise, the software is
+ * the paid license agreement will prevail.  Otherwise, the software is
  * provided under the following open source license terms:
  *
  * The Alfresco Example Content Application is free software: you can redistribute it and/or modify
@@ -15,7 +16,7 @@
  *
  * The Alfresco Example Content Application is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
@@ -24,25 +25,23 @@
 
 import { by, browser } from 'protractor';
 import { Component } from '../component';
-import { UserInfo } from './user-info';
 import { Menu } from '../menu/menu';
-import { Toolbar } from './../toolbar/toolbar';
+import { Toolbar } from '../toolbar/toolbar';
 import { SearchInput } from '../search/search-input';
 import { waitElement } from '../../utilities/utils';
 import { BrowserActions } from '@alfresco/adf-testing';
 
-export class Header extends Component {
+export class PageLayoutHeader extends Component {
   logoLink = this.byCss('.app-menu__title');
   moreActions = browser.element(by.id('app.header.more'));
   sidenavToggle = this.byCss(`.sidenav-header-title-logo`);
 
-  userInfo = new UserInfo();
   menu = new Menu();
   toolbar = new Toolbar();
   searchInput = new SearchInput();
 
   constructor(ancestor?: string) {
-    super('app-sidenav-header', ancestor);
+    super('aca-page-layout', ancestor);
   }
 
   async openMoreMenu(): Promise<void> {

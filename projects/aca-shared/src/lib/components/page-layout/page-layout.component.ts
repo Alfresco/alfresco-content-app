@@ -22,17 +22,35 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewEncapsulation, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, ViewEncapsulation, Input, OnDestroy } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { AppService } from '../../services/app.service';
 
 @Component({
   selector: 'aca-page-layout',
   templateUrl: './page-layout.component.html',
   styleUrls: ['./page-layout.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  host: { class: 'aca-page-layout' },
-  changeDetection: ChangeDetectionStrategy.OnPush
+  host: { class: 'aca-page-layout' }
 })
-export class PageLayoutComponent {
+export class PageLayoutComponent implements OnDestroy {
   @Input()
   hasError = false;
+
+  private onDestroy$ = new Subject<boolean>();
+  appNavNarMode$: Observable<'collapsed' | 'expanded'>;
+
+  constructor(private appService: AppService) {
+    this.appNavNarMode$ = appService.appNavNarMode$.pipe(takeUntil(this.onDestroy$));
+  }
+
+  toggleClick() {
+    this.appService.toggleAppNavBar$.next();
+  }
+
+  ngOnDestroy() {
+    this.onDestroy$.next(true);
+    this.onDestroy$.complete();
+  }
 }

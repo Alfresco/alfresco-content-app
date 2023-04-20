@@ -42,9 +42,7 @@ import { CommonModule } from '@angular/common';
 export const initialState = {
   app: {
     appName: 'Alfresco Content Application',
-    headerColor: '#ffffff',
     logoPath: 'assets/images/alfresco-logo-white.svg',
-    headerImagePath: 'assets/images/mastHead-bg-shapesPattern.svg',
     sharedUrl: '',
     user: {
       isAdmin: null,

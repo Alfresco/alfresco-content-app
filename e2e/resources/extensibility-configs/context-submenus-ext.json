@@ -196,33 +196,27 @@
             "route": "personal-files"
           },
           {
-            "id": "app.navbar.libraries.menu",
+            "id": "app.navbar.libraries.files",
             "order": 200,
-            "icon": "library_books",
-            "title": "APP.BROWSE.LIBRARIES.SIDENAV_LINK.LABEL",
-            "description": "APP.BROWSE.LIBRARIES.SIDENAV_LINK.TOOLTIP",
-            "children": [
-              {
-                "id": "app.navbar.libraries.favorite",
-                "order": 100,
-                "title": "APP.BROWSE.LIBRARIES.MENU.FAVORITE_LIBRARIES.SIDENAV_LINK.LABEL",
-                "description": "APP.BROWSE.LIBRARIES.MENU.FAVORITE_LIBRARIES.SIDENAV_LINK.TOOLTIP",
-                "route": "favorite/libraries"
-              },
-              {
-                "id": "app.navbar.libraries.files",
-                "order": 200,
-                "title": "APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.SIDENAV_LINK.LABEL",
-                "description": "APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.SIDENAV_LINK.TOOLTIP",
-                "route": "libraries"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "id": "app.navbar.secondary",
-        "items": [
+            "title": "APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.SIDENAV_LINK.LABEL",
+            "description": "APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.SIDENAV_LINK.TOOLTIP",
+            "route": "libraries"
+          },
+          {
+            "id": "app.navbar.libraries.favorite",
+            "order": 100,
+            "title": "APP.BROWSE.LIBRARIES.MENU.FAVORITE_LIBRARIES.SIDENAV_LINK.LABEL",
+            "description": "APP.BROWSE.LIBRARIES.MENU.FAVORITE_LIBRARIES.SIDENAV_LINK.TOOLTIP",
+            "route": "favorite/libraries"
+          },
+          {
+            "id": "app.navbar.recentFiles",
+            "order": 200,
+            "icon": "schedule",
+            "title": "APP.BROWSE.RECENT.SIDENAV_LINK.LABEL",
+            "description": "APP.BROWSE.RECENT.SIDENAV_LINK.TOOLTIP",
+            "route": "recent-files"
+          },
           {
             "id": "app.navbar.shared",
             "order": 100,
@@ -233,14 +227,6 @@
             "rules": {
               "visible": "repository.isQuickShareEnabled"
             }
-          },
-          {
-            "id": "app.navbar.recentFiles",
-            "order": 200,
-            "icon": "schedule",
-            "title": "APP.BROWSE.RECENT.SIDENAV_LINK.LABEL",
-            "description": "APP.BROWSE.RECENT.SIDENAV_LINK.TOOLTIP",
-            "route": "recent-files"
           },
           {
             "id": "app.navbar.favorites",

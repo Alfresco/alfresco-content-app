@@ -67,12 +67,20 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   nodeResult: NodePaging;
   showHeader = ShowHeaderMode.Data;
   filterSorting = 'name-asc';
+  createActions: Array<ContentActionRef> = [];
 
   protected subscriptions: Subscription[] = [];
 
   protected constructor(protected store: Store<AppStore>, protected extensions: AppExtensionService, protected content: DocumentBasePageService) {}
 
   ngOnInit() {
+    this.extensions
+      .getCreateActions()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((actions) => {
+        this.createActions = actions;
+      });
+
     this.sharedPreviewUrl$ = this.store.select(getSharedUrl);
     this.infoDrawerOpened$ = this.store.select(isInfoDrawerOpened).pipe(map((infoDrawerState) => !this.isOutletPreviewUrl() && infoDrawerState));
 

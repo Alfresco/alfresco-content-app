@@ -22,21 +22,18 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { IdentityUserModel, IdentityUserService, AuthenticationService, UserInfoMode } from '@alfresco/adf-core';
+import { IdentityUserService, AuthenticationService } from '@alfresco/adf-core';
 import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { EcmUserModel, PeopleContentService } from '@alfresco/adf-content-services';
+import { PeopleContentService } from '@alfresco/adf-content-services';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-user-info',
   templateUrl: './user-info.component.html'
 })
 export class UserInfoComponent implements OnInit {
-  mode: UserInfoMode;
-  ecmUser$: Observable<EcmUserModel>;
-  identityUser$: Observable<IdentityUserModel>;
-  selectedIndex: number;
-  userInfoMode = UserInfoMode;
+  displayName$: Observable<string>;
 
   constructor(
     private peopleContentService: PeopleContentService,
@@ -51,15 +48,12 @@ export class UserInfoComponent implements OnInit {
   getUserInfo() {
     if (this.authService.isOauth()) {
       this.loadIdentityUserInfo();
-      this.mode = UserInfoMode.SSO;
 
       if (this.authService.isECMProvider() && this.authService.isEcmLoggedIn()) {
-        this.mode = UserInfoMode.CONTENT_SSO;
         this.loadEcmUserInfo();
       }
     } else if (this.isEcmLoggedIn()) {
       this.loadEcmUserInfo();
-      this.mode = UserInfoMode.CONTENT;
     }
   }
 
@@ -71,11 +65,21 @@ export class UserInfoComponent implements OnInit {
   }
 
   private loadEcmUserInfo(): void {
-    this.ecmUser$ = this.peopleContentService.getCurrentUserInfo();
+    this.displayName$ = this.peopleContentService.getCurrentUserInfo().pipe(map((model) => this.parseDisplayName(model)));
   }
 
   private loadIdentityUserInfo() {
-    this.identityUser$ = of(this.identityUserService.getCurrentUserInfo());
+    this.displayName$ = of(this.identityUserService.getCurrentUserInfo()).pipe(map((model) => this.parseDisplayName(model)));
+  }
+
+  private parseDisplayName(model: { firstName?: string; email?: string }): string {
+    let result = model.firstName;
+
+    if (model.email) {
+      result = `${model.firstName} (${model.email})`;
+    }
+
+    return result;
   }
 
   private isEcmLoggedIn() {

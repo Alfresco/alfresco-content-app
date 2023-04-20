@@ -27,9 +27,9 @@ import * as testData from './test-data-permissions';
 import * as testUtil from '../test-util';
 
 const page = new BrowsingPage();
-const { dataTable } = page;
+const { dataTable, toolbar } = page;
 const searchResultsPage = new SearchResultsPage();
-const { searchInput } = searchResultsPage.header;
+const { searchInput } = searchResultsPage.pageLayoutHeader;
 
 export function collaboratorTests(siteName?: string) {
   describe('available actions : ', () => {
@@ -73,6 +73,7 @@ export function collaboratorTests(siteName?: string) {
     });
 
     it('on Search Results - [C297653]', async () => {
+      await toolbar.clickSearchIconButton();
       await searchInput.clickSearchButton();
       await searchInput.searchFor(testData.fileSharedFav.name);
 
@@ -140,6 +141,7 @@ export function collaboratorTests(siteName?: string) {
       });
 
       it('file opened from Search Results - [C306992]', async () => {
+        await toolbar.clickSearchIconButton();
         await searchInput.clickSearchButton();
         await searchInput.searchFor(testData.fileDocxSharedFav.name);
         await searchResultsPage.waitForResults();
@@ -203,6 +205,7 @@ export function filesLockedByCurrentUser(siteName?: string) {
     });
 
     it('on Search Results - [C297660]', async () => {
+      await toolbar.clickSearchIconButton();
       await searchInput.clickSearchButton();
       await searchInput.searchFor(testData.fileLockedByUser);
       await searchResultsPage.waitForResults();
@@ -244,6 +247,7 @@ export function filesLockedByCurrentUser(siteName?: string) {
       });
 
       it('file opened from Search Results - [C306993]', async () => {
+        await toolbar.clickSearchIconButton();
         await searchInput.clickSearchButton();
         await searchInput.searchFor(testData.fileLockedByUser);
         await searchResultsPage.waitForResults();
@@ -268,7 +272,7 @@ export function filesLockedByOtherUser(siteName?: string) {
     });
 
     it('on File Libraries - [C297664]', async () => {
-      await page.clickFileLibrariesAndWait();
+      await page.goToMyLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
 
@@ -309,6 +313,7 @@ export function filesLockedByOtherUser(siteName?: string) {
     });
 
     it('on Search Results - [C297667]', async () => {
+      await toolbar.clickSearchIconButton();
       await searchInput.clickSearchButton();
       await searchInput.searchFor(testData.fileLockedByUser);
       await searchResultsPage.waitForResults();
@@ -321,7 +326,7 @@ export function filesLockedByOtherUser(siteName?: string) {
 
     describe('available actions in the viewer : ', () => {
       it('file opened from File Libraries - [C297671]', async () => {
-        await page.clickFileLibrariesAndWait();
+        await page.goToMyLibrariesAndWait();
         await dataTable.doubleClickOnRowByName(siteName);
         await dataTable.waitForHeader();
 
@@ -350,6 +355,7 @@ export function filesLockedByOtherUser(siteName?: string) {
       });
 
       it('file opened from Search Results - [C306994]', async () => {
+        await toolbar.clickSearchIconButton();
         await searchInput.clickSearchButton();
         await searchInput.searchFor(testData.fileLockedByUser);
         await searchResultsPage.waitForResults();

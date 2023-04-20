@@ -29,8 +29,8 @@ import * as testUtil from '../test-util';
 export function viewerTests(siteName?: string) {
   const page = new BrowsingPage();
   const searchResultsPage = new SearchResultsPage();
-  const { dataTable } = page;
-  const { searchInput } = page.header;
+  const { dataTable, toolbar } = page;
+  const { searchInput } = page.pageLayoutHeader;
 
   describe('available actions : ', () => {
     beforeEach(async () => {
@@ -227,6 +227,7 @@ export function viewerTests(siteName?: string) {
 
     describe('file opened from Search Results', () => {
       beforeAll(async () => {
+        await toolbar.clickSearchIconButton();
         await searchInput.clickSearchButton();
         await searchInput.checkOnlyFiles();
         await searchInput.searchFor(testData.random);

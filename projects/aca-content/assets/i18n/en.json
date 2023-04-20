@@ -1,6 +1,7 @@
 {
     "APP": {
       "COPYRIGHT": "© 2005-2023 Hyland Software, Inc. and its affiliates. All rights reserved.",
+      "TITLE": "Workspace",
       "ABOUT": {
         "VERSION": "Version:",
         "PLUGINS": {
@@ -102,7 +103,21 @@
                 "CREATE_LIBRARY": "Create a new File Library"
             }
         },
+        "HEADER": {
+            "BUTTONS": {
+                "CREATE": "Create",
+                "CREATE_TOOLTIP": "Create content",
+                "UPLOAD": "Upload",
+                "UPLOAD_TOOLTIP": "Upload content"
+            }
+        },
         "BROWSE": {
+            "FILE": {
+                "SIDENAV_LINK": {
+                    "LABEL": "Files",
+                    "TOOLTIP": "Files"
+                }
+            },
             "PERSONAL": {
                 "TITLE": "Personal Files",
                 "SIDENAV_LINK": {
@@ -409,7 +424,13 @@
                 "EXPAND": "Expand",
                 "CLOSE_LIBRARY": "Close Library"
             }
-        }
+        },
+        "TOOLTIPS": {
+            "COLLAPSE_NAVIGATION": "Collapse navigation menu",
+            "OPTIONS_SETTINGS": "Options and settings",
+            "MY_PROFILE": "My profile",
+            "EXPAND_NAVIGATION": "Expand navigation"
+          }
     },
     "NODE_SELECTOR": {
         "COPY_ITEM": "Copy '{{ name }}' to...",

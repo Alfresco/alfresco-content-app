@@ -31,6 +31,11 @@ $datetimepicker-selected-date-background: #2254b2;
 $datetimepicker-cell-background-color: #fff;
 $datetimepicker-cell-focus-border-color: #1f74db;
 $datetimepicker-cell-focus-background-color: rgba(33, 33, 33, 0.12);
+$sidenav-background-color: #f8f8f8;
+$selected-text-color: #212121;
+$selected-background-color: rgba(31, 116, 219, 0.24);
+$action-button-text-color: rgba(33, 35, 40, 0.7);
+$page-layout-header-background-color: #fff;
 
 // CSS Variables
 $defaults: (
@@ -44,7 +49,6 @@ $defaults: (
   --theme-title-color: mat.get-color-from-palette($foreground, text, 0.87),
   --theme-text-disabled-color: mat.get-color-from-palette($foreground, text, 0.38),
   --theme-border-color: mat.get-color-from-palette($foreground, text, 0.07),
-  --header-background-image: url('/assets/images/mastHead-bg-shapesPattern.svg'),
   --theme-card-background-color: mat.get-color-from-palette($background, card),
   --theme-foreground-text-color: mat.get-color-from-palette($foreground, text, 0.72),
   --theme-foreground-text-bold-color: mat.get-color-from-palette($foreground, text, 0.87),
@@ -68,7 +72,14 @@ $defaults: (
   --theme-datetimepicker-selected-date-background: $datetimepicker-selected-date-background,
   --theme-datetimepicker-cell-background: $datetimepicker-cell-background-color,
   --theme-datetimepicker-cell-focus-border: $datetimepicker-cell-focus-border-color,
-  --theme-datetimepicker-cell-focus-background: $datetimepicker-cell-focus-background-color
+  --theme-datetimepicker-cell-focus-background: $datetimepicker-cell-focus-background-color,
+  --theme-sidenav-background-color: $sidenav-background-color,
+  --theme-selected-text-color: $selected-text-color,
+  --theme-selected-background-color: $selected-background-color,
+  --theme-hover-background-color: $grey-text-background,
+  --theme-action-button-text-color: $action-button-text-color,
+  --theme-header-border-color: $grey-background,
+  --theme-page-layout-header-background-color: $page-layout-header-background-color,
 );
 
 // propagates SCSS variables into the CSS variables scope

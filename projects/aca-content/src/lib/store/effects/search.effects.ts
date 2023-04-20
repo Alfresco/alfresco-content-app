@@ -25,12 +25,24 @@
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { SearchActionTypes, SearchByTermAction, SearchOptionIds } from '@alfresco/aca-shared/store';
+import { SearchAction, SearchActionTypes, SearchByTermAction, SearchOptionIds } from '@alfresco/aca-shared/store';
 import { Router } from '@angular/router';
+import { SearchNavigationService } from '../../components/search/search-navigation.service';
 
 @Injectable()
 export class SearchEffects {
-  constructor(private actions$: Actions, private router: Router) {}
+  constructor(private actions$: Actions, private router: Router, private searchNavigationService: SearchNavigationService) {}
+
+  search$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType<SearchAction>(SearchActionTypes.Search),
+        map(() => {
+          this.searchNavigationService.navigateToSearch();
+        })
+      ),
+    { dispatch: false }
+  );
 
   searchByTerm$ = createEffect(
     () =>

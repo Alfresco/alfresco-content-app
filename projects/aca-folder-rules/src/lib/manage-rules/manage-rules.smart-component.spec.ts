@@ -28,7 +28,7 @@ import { DebugElement, Predicate } from '@angular/core';
 import { CoreTestingModule } from '@alfresco/adf-core';
 import { FolderRulesService } from '../services/folder-rules.service';
 import { ActivatedRoute } from '@angular/router';
-import { of } from 'rxjs';
+import { BehaviorSubject, of, Subject } from 'rxjs';
 import {
   inheritedRuleSetMock,
   inheritedRuleSetWithEmptyRulesMock,
@@ -43,6 +43,7 @@ import { ActionsService } from '../services/actions.service';
 import { FolderRuleSetsService } from '../services/folder-rule-sets.service';
 import { ruleMock, ruleSettingsMock } from '../mock/rules.mock';
 import { Store } from '@ngrx/store';
+import { AppService } from '@alfresco/aca-shared';
 
 describe('ManageRulesSmartComponent', () => {
   let fixture: ComponentFixture<ManageRulesSmartComponent>;
@@ -57,6 +58,13 @@ describe('ManageRulesSmartComponent', () => {
     TestBed.configureTestingModule({
       imports: [CoreTestingModule, AcaFolderRulesModule],
       providers: [
+        {
+          provide: AppService,
+          useValue: {
+            appNavNarMode$: new BehaviorSubject('expanded'),
+            toggleAppNavBar$: new Subject()
+          }
+        },
         FolderRuleSetsService,
         FolderRulesService,
         { provide: Store, useValue: { dispatch: () => {} } },

@@ -27,9 +27,6 @@
       <mat-panel-title>
         <div class="item">
           <button
-            [ngClass]="{
-              'action-button--active': acaExpansionPanel.hasActiveLinks()
-            }"
             [attr.aria-label]="item.title | translate"
             [id]="item.id"
             [attr.title]="item.description | translate"

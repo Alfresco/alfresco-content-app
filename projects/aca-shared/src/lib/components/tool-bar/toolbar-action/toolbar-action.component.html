@@ -4,13 +4,13 @@
   </ng-container>
 
   <ng-container *ngSwitchCase="'button'">
-    <app-toolbar-button [type]="type" [actionRef]="actionRef" [color]="color"> </app-toolbar-button>
+    <app-toolbar-button [type]="data?.buttonType || type" [actionRef]="actionRef" [color]="color" [data]="actionRef.data"> </app-toolbar-button>
   </ng-container>
 
   <adf-toolbar-divider *ngSwitchCase="'separator'" [id]="actionRef.id"></adf-toolbar-divider>
 
   <ng-container *ngSwitchCase="'menu'">
-    <app-toolbar-menu [actionRef]="actionRef" [color]="color"> </app-toolbar-menu>
+    <app-toolbar-menu [actionRef]="actionRef" [color]="color" [data]="actionRef.data"></app-toolbar-menu>
   </ng-container>
 
   <ng-container *ngSwitchCase="'custom'">

@@ -46,9 +46,9 @@ describe('Single click on item name', () => {
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
-  const { dataTable, breadcrumb } = page;
+  const { dataTable, breadcrumb, toolbar } = page;
   const viewer = new Viewer();
-  const { searchInput } = page.header;
+  const { searchInput } = page.pageLayoutHeader;
 
   const adminApiActions = new AdminActions();
   const userActions = new UserActions();
@@ -116,7 +116,7 @@ describe('Single click on item name', () => {
 
   describe('on File Libraries', () => {
     beforeEach(async () => {
-      await page.clickFileLibrariesAndWait();
+      await page.goToMyLibrariesAndWait();
     });
 
     it('[C284901] Hyperlink appears when mouse over a library', async () => {
@@ -206,6 +206,7 @@ describe('Single click on item name', () => {
 
   describe('on Search Results', () => {
     beforeEach(async () => {
+      await toolbar.clickSearchIconButton();
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
     });

@@ -55,7 +55,7 @@ describe('Create folder', () => {
 
   async function openCreateFolderDialog(name: string) {
     await page.dataTable.doubleClickOnRowByName(name);
-    await page.sidenav.openCreateFolderDialog();
+    await page.toolbar.openCreateFolderDialog();
     await createDialog.waitForDialogToOpen();
   }
 

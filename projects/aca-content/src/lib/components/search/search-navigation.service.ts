@@ -22,16 +22,33 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
-import { TranslateModule } from '@ngx-translate/core';
-import { MainActionComponent } from './main-action.component';
-import { MatIconModule } from '@angular/material/icon';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
-@NgModule({
-  imports: [CommonModule, MatButtonModule, MatIconModule, TranslateModule.forChild()],
-  exports: [MainActionComponent],
-  declarations: [MainActionComponent]
+@Injectable({
+  providedIn: 'root'
 })
-export class MainActionModule {}
+export class SearchNavigationService {
+  private _previousRoute = '';
+
+  get previousRoute(): string {
+    return this._previousRoute;
+  }
+
+  constructor(private router: Router) {}
+
+  saveRoute(route: string): void {
+    this._previousRoute = route;
+  }
+
+  navigateBack(): void {
+    if (this.previousRoute) {
+      this.router.navigate([this.previousRoute]);
+    }
+  }
+
+  navigateToSearch(): void {
+    this.saveRoute(this.router.url);
+    this.router.navigate(['/search']);
+  }
+}

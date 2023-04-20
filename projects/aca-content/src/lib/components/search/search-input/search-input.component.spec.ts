@@ -31,12 +31,14 @@ import { SearchByTermAction, SearchActionTypes, SnackbarErrorAction, SnackbarAct
 import { AppHookService } from '@alfresco/aca-shared';
 import { map } from 'rxjs/operators';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
+import { SearchNavigationService } from '../search-navigation.service';
 
 describe('SearchInputComponent', () => {
   let fixture: ComponentFixture<SearchInputComponent>;
   let component: SearchInputComponent;
   let actions$: Actions;
   let appHookService: AppHookService;
+  let searchInputService: SearchNavigationService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -49,12 +51,20 @@ describe('SearchInputComponent', () => {
     actions$ = TestBed.inject(Actions);
     fixture = TestBed.createComponent(SearchInputComponent);
     appHookService = TestBed.inject(AppHookService);
+    searchInputService = TestBed.inject(SearchNavigationService);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
-  it('should change flag on library400Error event', () => {
+  afterEach(() => {
+    fixture.destroy();
+  });
+
+  it('should change flag on library400Error event', async () => {
+    fixture.detectChanges();
+    await fixture.whenStable();
+
     expect(component.has400LibraryError).toBe(false);
+
     appHookService.library400Error.next();
 
     expect(component.has400LibraryError).toBe(true);
@@ -64,9 +74,13 @@ describe('SearchInputComponent', () => {
     expect(component.hasLibraryConstraint()).toBe(false);
   });
 
-  it('should have library constraint on 400 error received', () => {
+  it('should have library constraint on 400 error received', async () => {
+    fixture.detectChanges();
+    await fixture.whenStable();
+
     const libItem = component.searchOptions.find((item) => item.key.toLowerCase().indexOf('libraries') > 0);
     libItem.value = true;
+
     appHookService.library400Error.next();
 
     expect(component.hasLibraryConstraint()).toBe(true);
@@ -190,6 +204,25 @@ describe('SearchInputComponent', () => {
       const foldersItem = component.searchOptions.find((item) => item.key.toLowerCase().indexOf('folders') > 0);
       foldersItem.value = true;
       expect(component.isContentChecked()).toBe(true);
+    });
+  });
+
+  describe('exitSearch()', () => {
+    it('should exit search on click of close icon', async () => {
+      spyOn(component, 'exitSearch').and.callThrough();
+      spyOn(searchInputService, 'navigateBack').and.callThrough();
+
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const closeIcon = fixture.debugElement.nativeElement.querySelector('.app-close-icon');
+      closeIcon.click();
+
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      expect(component.exitSearch).toHaveBeenCalled();
+      expect(searchInputService.navigateBack).toHaveBeenCalledWith();
     });
   });
 });

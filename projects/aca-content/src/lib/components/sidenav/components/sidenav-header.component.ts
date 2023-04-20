@@ -22,55 +22,36 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewEncapsulation, Output, EventEmitter, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
+import { AppStore, getAppName, getLogoPath } from '@alfresco/aca-shared/store';
+import { AppConfigService } from '@alfresco/adf-core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
-import { AppStore, getHeaderColor, getAppName, getLogoPath, getHeaderImagePath, getHeaderTextColor } from '@alfresco/aca-shared/store';
 import { AppExtensionService } from '@alfresco/aca-shared';
 import { takeUntil } from 'rxjs/operators';
-import { AppConfigService, SidenavLayoutComponent } from '@alfresco/adf-core';
-import { isContentServiceEnabled } from '@alfresco/aca-shared/rules';
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss'],
+  selector: 'app-sidenav-header',
+  templateUrl: `./sidenav-header.component.html`,
   encapsulation: ViewEncapsulation.None,
-  host: { class: 'app-header' }
+  host: { class: 'app-sidenav-header' }
 })
-export class AppHeaderComponent implements OnInit, OnDestroy {
-  private onDestroy$: Subject<boolean> = new Subject<boolean>();
-
-  @Output()
-  toggleClicked = new EventEmitter();
-
-  @Input() expandedSidenav = true;
-
-  @Input() data: { layout?: SidenavLayoutComponent; isMenuMinimized?: boolean } = {};
-
-  get isSidenavExpanded(): boolean {
-    return !this.data.isMenuMinimized ?? this.expandedSidenav;
-  }
+export class SidenavHeaderComponent implements OnInit, OnDestroy {
+  private onDestroy$ = new Subject<boolean>();
 
   appName$: Observable<string>;
-  headerColor$: Observable<any>;
-  headerTextColor$: Observable<string>;
   logo$: Observable<string>;
   landingPage: string;
-
   actions: Array<ContentActionRef> = [];
 
-  constructor(public store: Store<AppStore>, private appExtensions: AppExtensionService, private appConfigService: AppConfigService) {
-    this.headerColor$ = store.select(getHeaderColor);
-    this.headerTextColor$ = store.select(getHeaderTextColor);
+  @Output()
+  toggleNavBar = new EventEmitter();
+
+  constructor(public store: Store<AppStore>, private appConfigService: AppConfigService, private appExtensions: AppExtensionService) {
     this.appName$ = store.select(getAppName);
     this.logo$ = store.select(getLogoPath);
     this.landingPage = this.appConfigService.get('landingPage', '/personal-files');
-
-    store.select(getHeaderImagePath).subscribe((path) => {
-      document.body.style.setProperty('--header-background-image', `url('${path}')`);
-    });
   }
 
   ngOnInit() {
@@ -80,18 +61,6 @@ export class AppHeaderComponent implements OnInit, OnDestroy {
       .subscribe((actions) => {
         this.actions = actions;
       });
-
-    this.headerTextColor$.subscribe((color) => {
-      document.documentElement.style.setProperty('--adf-header-text-color', color);
-    });
-  }
-
-  onToggleSidenav(_event: boolean): void {
-    this.data.layout.toggleMenu();
-  }
-
-  isContentServiceEnabled(): boolean {
-    return isContentServiceEnabled();
   }
 
   ngOnDestroy() {

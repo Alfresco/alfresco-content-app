@@ -41,7 +41,7 @@ describe('Search results general', () => {
 
   const loginPage = new LoginPage();
   const page = new SearchResultsPage();
-  const { searchInput } = page.header;
+  const { searchInput, toolbar } = page.pageLayoutHeader;
   const dataTable = page.dataTable;
   const adminApiActions = new AdminActions();
 
@@ -66,7 +66,13 @@ describe('Search results general', () => {
     await page.refresh();
   });
 
+  afterEach(async () => {
+    await Utils.pressEscape();
+    await page.clickPersonalFiles();
+  });
+
   it('[C290005] Only files are returned when Files option is the only one checked', async () => {
+    await toolbar.clickSearchIconButton();
     await searchInput.clickSearchButton();
     await searchInput.checkOnlyFiles();
     await searchInput.searchFor(random);
@@ -78,6 +84,7 @@ describe('Search results general', () => {
   });
 
   it('[C290006] Only folders are returned when Folders option is the only one checked', async () => {
+    await toolbar.clickSearchIconButton();
     await searchInput.clickSearchButton();
     await searchInput.checkOnlyFolders();
     await searchInput.searchFor(random);
@@ -89,6 +96,7 @@ describe('Search results general', () => {
   });
 
   it('[C290007] Files and folders are returned when both Files and Folders options are checked', async () => {
+    await toolbar.clickSearchIconButton();
     await searchInput.clickSearchButton();
     await searchInput.checkFilesAndFolders();
     await searchInput.searchFor(random);
@@ -100,9 +108,10 @@ describe('Search results general', () => {
   });
 
   it('[C290008] Only libraries are returned when Libraries option is checked', async () => {
+    await toolbar.clickSearchIconButton();
     await searchInput.clickSearchButton();
     await searchInput.checkLibraries();
-    await searchInput.searchFor(random);
+    await searchInput.searchForLibrary(random);
     await page.waitForResults();
 
     expect(await dataTable.isItemPresent(file)).toBe(false, `${file} is displayed`);
@@ -111,6 +120,7 @@ describe('Search results general', () => {
   });
 
   it('[C279162] Results are updated automatically when changing the search term', async () => {
+    await toolbar.clickSearchIconButton();
     await searchInput.clickSearchButton();
     await searchInput.searchFor(file);
     await page.waitForResults();
@@ -120,15 +130,17 @@ describe('Search results general', () => {
 
     await searchInput.clickSearchButton();
     await searchInput.searchFor(folder);
+    await page.waitForResults();
 
     expect(await dataTable.isItemPresent(file)).toBe(false, `${file} is displayed`);
     expect(await dataTable.isItemPresent(folder)).toBe(true, `${folder} is not displayed`);
   });
 
   it('[C279178] Results are returned when accessing an URL containing a search query', async () => {
+    await toolbar.clickSearchIconButton();
     await searchInput.clickSearchButton();
     await searchInput.checkLibraries();
-    await searchInput.searchFor(site);
+    await searchInput.searchForLibrary(site);
     await page.waitForResults();
 
     expect(await dataTable.isItemPresent(site)).toBe(true, `${site} not displayed`);

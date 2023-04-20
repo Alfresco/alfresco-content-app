@@ -22,31 +22,36 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { CoreModule } from '@alfresco/adf-core';
-import { AppLayoutComponent } from './app-layout/app-layout.component';
-import { ContentModule } from '@alfresco/adf-content-services';
-import { RouterModule } from '@angular/router';
-import { AppSidenavModule } from '../sidenav/sidenav.module';
-import { AppCommonModule } from '../common/common.module';
-import { AppHeaderModule } from '../header/header.module';
-import { HttpClientModule } from '@angular/common/http';
-import { PageLayoutModule } from '@alfresco/aca-shared';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { PageLayoutComponent } from './page-layout.component';
+import { AppService } from '../../services/app.service';
+import { BehaviorSubject, Subject } from 'rxjs';
 
-@NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    CoreModule.forChild(),
-    ContentModule.forChild(),
-    AppCommonModule,
-    AppSidenavModule,
-    AppHeaderModule,
-    HttpClientModule,
-    PageLayoutModule
-  ],
-  declarations: [AppLayoutComponent],
-  exports: [AppLayoutComponent, PageLayoutModule]
-})
-export class AppLayoutModule {}
+describe('PageLayoutComponent', () => {
+  let fixture: ComponentFixture<PageLayoutComponent>;
+  let component: PageLayoutComponent;
+  const appServiceMock = {
+    toggleAppNavBar$: new Subject(),
+    appNavNarMode$: new BehaviorSubject<'collapsed' | 'expanded'>('expanded')
+  };
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [PageLayoutComponent],
+      providers: [
+        {
+          provide: AppService,
+          useValue: appServiceMock
+        }
+      ]
+    });
+    fixture = TestBed.createComponent(PageLayoutComponent);
+    component = fixture.componentInstance;
+  });
+
+  it('should toggle the appService toggleAppNavBar$ Subject', () => {
+    spyOn(appServiceMock.toggleAppNavBar$, 'next');
+    component.toggleClick();
+    expect(appServiceMock.toggleAppNavBar$.next).toHaveBeenCalled();
+  });
+});

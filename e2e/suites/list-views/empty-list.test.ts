@@ -28,8 +28,8 @@ describe('Empty list views', () => {
   const username = `user-${Utils.random()}`;
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
-  const { dataTable, pagination } = page;
-  const { searchInput } = page.header;
+  const { dataTable, pagination, toolbar } = page;
+  const { searchInput } = page.pageLayoutHeader;
   const adminApiActions = new AdminActions();
 
   beforeAll(async () => {
@@ -134,6 +134,7 @@ describe('Empty list views', () => {
   });
 
   it('[C290123] Search results - pagination controls not displayed', async () => {
+    await toolbar.clickSearchIconButton();
     await searchInput.clickSearchButton();
     /* cspell:disable-next-line */
     await searchInput.searchFor('qwertyuiop');
@@ -148,10 +149,12 @@ describe('Empty list views', () => {
   });
 
   it('[C290020] Empty Search results - Libraries', async () => {
+    await page.goToMyLibraries();
+    await toolbar.clickSearchIconButton();
     await searchInput.clickSearchButton();
     await searchInput.checkLibraries();
     /* cspell:disable-next-line */
-    await searchInput.searchFor('qwertyuiop');
+    await searchInput.searchForLibrary('qwertyuiop');
     await dataTable.waitForBody();
 
     expect(await dataTable.isEmpty()).toBe(true, 'list is not empty');
@@ -159,6 +162,8 @@ describe('Empty list views', () => {
   });
 
   it('[C290031] Empty Search results - Files / Folders', async () => {
+    await page.clickPersonalFiles();
+    await toolbar.clickSearchIconButton();
     await searchInput.clickSearchButton();
     await searchInput.checkFilesAndFolders();
     /* cspell:disable-next-line */

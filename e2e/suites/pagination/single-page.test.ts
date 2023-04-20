@@ -43,8 +43,8 @@ describe('Pagination on single page', () => {
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
-  const { pagination } = page;
-  const { searchInput } = page.header;
+  const { pagination, toolbar } = page;
+  const { searchInput } = page.pageLayoutHeader;
   const searchResultsPage = new SearchResultsPage();
 
   beforeAll(async () => {
@@ -115,6 +115,7 @@ describe('Pagination on single page', () => {
   });
 
   it('[C290124] page selector not displayed on Search results', async () => {
+    await toolbar.clickSearchIconButton();
     await searchInput.clickSearchButton();
     await searchInput.searchFor(file);
     await searchResultsPage.waitForResults();

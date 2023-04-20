@@ -32,16 +32,13 @@
   },
   "locale": "en",
   "application": {
-    "name": "Alfresco Content Application",
+    "name": "Workspace",
     "version": "4.0.0-A.3",
-    "logo": "assets/images/alfresco-logo-flower.svg",
-    "headerImagePath": "assets/images/mastHead-bg-shapesPattern.svg",
+    "logo": "assets/images/app-logo.svg",
     "copyright": "APP.COPYRIGHT"
   },
   "viewer.maxRetries": 1,
   "sharedLinkDateTimePickerType": "datetime",
-  "headerColor": "#ffffff",
-  "headerTextColor": "#000000",
   "customCssPath": "",
   "webFontPath": "",
   "pagination": {

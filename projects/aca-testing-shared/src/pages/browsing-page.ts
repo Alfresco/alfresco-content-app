@@ -22,7 +22,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Header, DataTable, Pagination, Toolbar, Breadcrumb, Sidenav } from '../components/components';
+import { Header, DataTable, Pagination, Toolbar, Breadcrumb, Sidenav, PageLayoutHeader } from '../components/components';
 import { SIDEBAR_LABELS } from './../configs';
 import { Page } from './page';
 
@@ -31,6 +31,7 @@ export class BrowsingPage extends Page {
   sidenav = new Sidenav(this.appRoot);
   toolbar = new Toolbar(this.appRoot);
   breadcrumb = new Breadcrumb(this.appRoot);
+  pageLayoutHeader = new PageLayoutHeader(this.appRoot);
   dataTable = new DataTable(this.appRoot);
   pagination = new Pagination(this.appRoot);
 
@@ -43,19 +44,7 @@ export class BrowsingPage extends Page {
     await this.dataTable.waitForHeader();
   }
 
-  async clickFileLibraries(): Promise<void> {
-    await this.sidenav.clickLink(SIDEBAR_LABELS.FILE_LIBRARIES);
-  }
-
-  async clickFileLibrariesAndWait(): Promise<void> {
-    await this.clickFileLibraries();
-    await this.dataTable.waitForHeader();
-  }
-
   async goToFavoriteLibraries(): Promise<void> {
-    if (!(await this.sidenav.isFileLibrariesMenuExpanded())) {
-      await this.sidenav.expandFileLibraries();
-    }
     await this.sidenav.clickLink(SIDEBAR_LABELS.FAVORITE_LIBRARIES);
   }
 
@@ -65,9 +54,6 @@ export class BrowsingPage extends Page {
   }
 
   async goToMyLibraries(): Promise<void> {
-    if (!(await this.sidenav.isFileLibrariesMenuExpanded())) {
-      await this.sidenav.expandFileLibraries();
-    }
     await this.sidenav.clickLink(SIDEBAR_LABELS.MY_LIBRARIES);
   }
 

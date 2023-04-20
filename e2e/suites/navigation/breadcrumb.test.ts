@@ -136,12 +136,12 @@ describe('Breadcrumb', () => {
   });
 
   it('[C260967] File Libraries breadcrumb for a folder hierarchy', async () => {
-    await page.clickFileLibrariesAndWait();
+    await page.goToMyLibrariesAndWait();
     await page.dataTable.doubleClickOnRowByName(siteName);
     await page.dataTable.doubleClickOnRowByName(parentFromSite);
     await page.dataTable.doubleClickOnRowByName(subFolder1FromSite);
     await page.dataTable.doubleClickOnRowByName(subFolder2FromSite);
-    const expectedItems = ['Favorite Libraries', siteName, parentFromSite, subFolder1FromSite, subFolder2FromSite];
+    const expectedItems = ['My Libraries', siteName, parentFromSite, subFolder1FromSite, subFolder2FromSite];
     expect(await breadcrumb.getAllItems()).toEqual(expectedItems);
   });
 

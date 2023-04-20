@@ -30,12 +30,9 @@ export const STORE_INITIAL_APP_DATA = new InjectionToken<AppState>('STORE_INITIA
 
 export interface AppState {
   appName: string;
-  headerColor: string;
-  headerTextColor: string;
   logoPath: string;
   customCssPath: string;
   webFontPath: string;
-  headerImagePath: string;
   sharedUrl: string;
   currentNodeVersion: VersionEntry;
   selection: SelectionState;

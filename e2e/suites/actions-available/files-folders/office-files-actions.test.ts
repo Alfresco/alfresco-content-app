@@ -43,8 +43,8 @@ describe('Office Files - available actions : ', () => {
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
-  const { dataTable } = page;
-  const { searchInput } = page.header;
+  const { dataTable, toolbar } = page;
+  const { searchInput } = page.pageLayoutHeader;
   const searchResultsPage = new SearchResultsPage();
 
   beforeAll(async () => {
@@ -246,6 +246,7 @@ describe('Office Files - available actions : ', () => {
   describe('on Search Results : ', () => {
     beforeEach(async () => {
       await page.clickPersonalFiles();
+      await toolbar.clickSearchIconButton();
       await searchInput.clickSearchButton();
       await searchInput.searchFor(random);
       await searchResultsPage.waitForResults();

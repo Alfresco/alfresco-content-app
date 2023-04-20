@@ -123,6 +123,7 @@ describe('Unshare a file from Search Results', () => {
   });
 
   it('[C306995] Unshare dialog UI', async () => {
+    await toolbar.clickSearchIconButton();
     await searchInput.clickSearchButton();
     await searchInput.checkFilesAndFolders();
     await searchInput.searchFor(file1);
@@ -143,6 +144,7 @@ describe('Unshare a file from Search Results', () => {
   });
 
   it('[C306996] Unshare a file', async () => {
+    await toolbar.clickSearchIconButton();
     await searchInput.clickSearchButton();
     await searchInput.checkFilesAndFolders();
     await searchInput.searchFor(file2);
@@ -169,6 +171,7 @@ describe('Unshare a file from Search Results', () => {
   });
 
   it('[C306997] Cancel the Unshare action', async () => {
+    await toolbar.clickSearchIconButton();
     await searchInput.clickSearchButton();
     await searchInput.checkFilesAndFolders();
     await searchInput.searchFor(file3);
@@ -192,6 +195,7 @@ describe('Unshare a file from Search Results', () => {
   });
 
   it('[C306999] Unshare a file from the context menu', async () => {
+    await toolbar.clickSearchIconButton();
     await searchInput.clickSearchButton();
     await searchInput.checkFilesAndFolders();
     await searchInput.searchFor(file4);
@@ -219,6 +223,7 @@ describe('Unshare a file from Search Results', () => {
   });
 
   it('[C306998] Consumer - on Search Results - file shared by other user', async () => {
+    await toolbar.clickSearchIconButton();
     await searchInput.clickSearchButton();
     await searchInput.checkFilesAndFolders();
     await searchInput.searchFor(fileSite1);
@@ -238,6 +243,7 @@ describe('Unshare a file from Search Results', () => {
   });
 
   it('[C307000] Consumer - on Search Results - file shared by the user', async () => {
+    await toolbar.clickSearchIconButton();
     await searchInput.clickSearchButton();
     await searchInput.checkFilesAndFolders();
     await searchInput.searchFor(fileSite2);

@@ -86,18 +86,18 @@
         "order": 50
       },
       {
-        "id": "app.header.user",
-        "type": "custom",
-        "component": "app.user",
-        "order": 100
-      },
-      {
         "id": "app.header.more",
         "type": "menu",
         "order": 10000,
-        "icon": "more_vert",
+        "icon": "apps",
         "title": "APP.ACTIONS.MORE",
         "children": [
+          {
+            "id": "app.header.user",
+            "type": "custom",
+            "component": "app.user",
+            "order": 100
+          },
           {
             "id": "app.languagePicker",
             "order": 100,
@@ -133,44 +133,6 @@
     ],
     "create": [
       {
-        "id": "app.create.uploadFile",
-        "order": 100,
-        "icon": "file_upload",
-        "title": "APP.NEW_MENU.MENU_ITEMS.UPLOAD_FILE",
-        "description": "APP.NEW_MENU.TOOLTIPS.UPLOAD_FILES",
-        "description-disabled": "APP.NEW_MENU.TOOLTIPS.UPLOAD_FILES_NOT_ALLOWED",
-        "actions": {
-          "click": "UPLOAD_FILES"
-        },
-        "rules": {
-          "enabled": "app.navigation.folder.canUpload",
-          "visible": "app.isContentServiceEnabled"
-        }
-      },
-      {
-        "id": "app.create.uploadFolder",
-        "order": 200,
-        "icon": "file_upload",
-        "title": "APP.NEW_MENU.MENU_ITEMS.UPLOAD_FOLDER",
-        "description": "APP.NEW_MENU.TOOLTIPS.UPLOAD_FOLDERS",
-        "description-disabled": "APP.NEW_MENU.TOOLTIPS.UPLOAD_FOLDERS_NOT_ALLOWED",
-        "actions": {
-          "click": "UPLOAD_FOLDER"
-        },
-        "rules": {
-          "enabled": "app.navigation.folder.canUpload",
-          "visible": "app.isContentServiceEnabled"
-        }
-      },
-      {
-        "id": "app.create.separator.1",
-        "type": "separator",
-        "order": 300,
-        "rules": {
-          "visible": "app.isContentServiceEnabled"
-        }
-      },
-      {
         "id": "app.create.folder",
         "order": 400,
         "icon": "create_new_folder",
@@ -181,8 +143,7 @@
           "click": "CREATE_FOLDER"
         },
         "rules": {
-          "enabled": "app.navigation.folder.canCreate",
-          "visible": "app.isContentServiceEnabled"
+          "visible": "app.navigation.folder.canCreate"
         }
       },
       {
@@ -195,15 +156,7 @@
           "click": "CREATE_LIBRARY"
         },
         "rules": {
-          "visible": "app.isContentServiceEnabled"
-        }
-      },
-      {
-        "id": "app.create.separator.2",
-        "type": "separator",
-        "order": 650,
-        "rules": {
-          "visible": "app.isContentServiceEnabled"
+          "visible": "app.canCreateLibrary"
         }
       },
       {
@@ -217,8 +170,7 @@
           "click": "FILE_FROM_TEMPLATE"
         },
         "rules": {
-          "enabled": "app.navigation.folder.canUpload",
-          "visible": "app.isContentServiceEnabled"
+          "visible": "app.navigation.folder.canUpload"
         }
       },
       {
@@ -232,8 +184,7 @@
           "click": "FOLDER_FROM_TEMPLATE"
         },
         "rules": {
-          "enabled": "app.navigation.folder.canUpload",
-          "visible": "app.isContentServiceEnabled"
+          "visible": "app.navigation.folder.canUpload"
         }
       }
     ],
@@ -242,32 +193,23 @@
         "id": "app.navbar.primary",
         "items": [
           {
-            "id": "app.navbar.personalFiles",
+            "id": "app.navbar.menu",
             "order": 100,
-            "icon": "folder",
-            "title": "APP.BROWSE.PERSONAL.SIDENAV_LINK.LABEL",
-            "description": "APP.BROWSE.PERSONAL.SIDENAV_LINK.TOOLTIP",
-            "route": "personal-files",
-            "rules": {
-              "visible": "app.isContentServiceEnabled"
-            }
-          },
-          {
-            "id": "app.navbar.libraries.menu",
-            "order": 200,
-            "icon": "library_books",
-            "title": "APP.BROWSE.LIBRARIES.SIDENAV_LINK.LABEL",
-            "description": "APP.BROWSE.LIBRARIES.SIDENAV_LINK.TOOLTIP",
+            "title": "APP.BROWSE.FILE.SIDENAV_LINK.LABEL",
+            "description": "APP.BROWSE.FILE.SIDENAV_LINK.TOOLTIP",
             "rules": {
               "visible": "app.isContentServiceEnabled"
             },
             "children": [
               {
-                "id": "app.navbar.libraries.favorite",
+                "id": "app.navbar.personalFiles",
                 "order": 100,
-                "title": "APP.BROWSE.LIBRARIES.MENU.FAVORITE_LIBRARIES.SIDENAV_LINK.LABEL",
-                "description": "APP.BROWSE.LIBRARIES.MENU.FAVORITE_LIBRARIES.SIDENAV_LINK.TOOLTIP",
-                "route": "favorite/libraries"
+                "title": "APP.BROWSE.PERSONAL.SIDENAV_LINK.LABEL",
+                "description": "APP.BROWSE.PERSONAL.SIDENAV_LINK.TOOLTIP",
+                "route": "personal-files",
+                "rules": {
+                  "visible": "app.isContentServiceEnabled"
+                }
               },
               {
                 "id": "app.navbar.libraries.files",
@@ -275,56 +217,175 @@
                 "title": "APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.SIDENAV_LINK.LABEL",
                 "description": "APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.SIDENAV_LINK.TOOLTIP",
                 "route": "libraries"
+              },
+              {
+                "id": "app.navbar.libraries.favorite",
+                "order": 300,
+                "title": "APP.BROWSE.LIBRARIES.MENU.FAVORITE_LIBRARIES.SIDENAV_LINK.LABEL",
+                "description": "APP.BROWSE.LIBRARIES.MENU.FAVORITE_LIBRARIES.SIDENAV_LINK.TOOLTIP",
+                "route": "favorite/libraries"
+              },
+              {
+                "id": "app.navbar.recentFiles",
+                "order": 400,
+                "title": "APP.BROWSE.RECENT.SIDENAV_LINK.LABEL",
+                "description": "APP.BROWSE.RECENT.SIDENAV_LINK.TOOLTIP",
+                "route": "recent-files"
+              },
+              {
+                "id": "app.navbar.favorites",
+                "order": 500,
+                "title": "APP.BROWSE.FAVORITES.SIDENAV_LINK.LABEL",
+                "description": "APP.BROWSE.FAVORITES.SIDENAV_LINK.TOOLTIP",
+                "route": "favorites"
+              },
+              {
+                "id": "app.navbar.shared",
+                "order": 600,
+                "title": "APP.BROWSE.SHARED.SIDENAV_LINK.LABEL",
+                "description": "APP.BROWSE.SHARED.SIDENAV_LINK.TOOLTIP",
+                "route": "shared"
+              },
+              {
+                "id": "app.navbar.trashcan",
+                "order": 700,
+                "title": "APP.BROWSE.TRASHCAN.SIDENAV_LINK.LABEL",
+                "description": "APP.BROWSE.TRASHCAN.SIDENAV_LINK.TOOLTIP",
+                "route": "trashcan"
               }
             ]
-          }
-        ]
-      },
-      {
-        "id": "app.navbar.secondary",
-        "rules": {
-          "visible": "app.isContentServiceEnabled"
-        },
-        "items": [
-          {
-            "id": "app.navbar.shared",
-            "order": 100,
-            "icon": "people",
-            "title": "APP.BROWSE.SHARED.SIDENAV_LINK.LABEL",
-            "description": "APP.BROWSE.SHARED.SIDENAV_LINK.TOOLTIP",
-            "route": "shared",
-            "rules": {
-              "visible": "repository.isQuickShareEnabled"
-            }
-          },
-          {
-            "id": "app.navbar.recentFiles",
-            "order": 200,
-            "icon": "schedule",
-            "title": "APP.BROWSE.RECENT.SIDENAV_LINK.LABEL",
-            "description": "APP.BROWSE.RECENT.SIDENAV_LINK.TOOLTIP",
-            "route": "recent-files"
-          },
-          {
-            "id": "app.navbar.favorites",
-            "order": 300,
-            "icon": "star",
-            "title": "APP.BROWSE.FAVORITES.SIDENAV_LINK.LABEL",
-            "description": "APP.BROWSE.FAVORITES.SIDENAV_LINK.TOOLTIP",
-            "route": "favorites"
-          },
-          {
-            "id": "app.navbar.trashcan",
-            "order": 400,
-            "icon": "delete",
-            "title": "APP.BROWSE.TRASHCAN.SIDENAV_LINK.LABEL",
-            "description": "APP.BROWSE.TRASHCAN.SIDENAV_LINK.TOOLTIP",
-            "route": "trashcan"
           }
         ]
       }
     ],
     "toolbar": [
+      {
+        "id": "app.toolbar.create",
+        "type": "menu",
+        "order": 10,
+        "title": "APP.HEADER.BUTTONS.CREATE",
+        "description": "APP.HEADER.BUTTONS.CREATE_TOOLTIP",
+        "data": {
+          "menuType": "button"
+        },
+        "children": [
+          {
+            "id": "app.create.folder",
+            "order": 100,
+            "icon": "create_new_folder",
+            "title": "APP.NEW_MENU.MENU_ITEMS.CREATE_FOLDER",
+            "description": "APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER",
+            "description-disabled": "APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER_NOT_ALLOWED",
+            "actions": {
+              "click": "CREATE_FOLDER"
+            },
+            "rules": {
+              "visible": "app.navigation.folder.canCreate"
+            }
+          },
+          {
+            "id": "app.create.library",
+            "order": 200,
+            "title": "APP.NEW_MENU.MENU_ITEMS.CREATE_LIBRARY",
+            "description": "APP.NEW_MENU.TOOLTIPS.CREATE_LIBRARY",
+            "icon": "create_new_folder",
+            "actions": {
+              "click": "CREATE_LIBRARY"
+            },
+            "rules": {
+              "visible": "app.canCreateLibrary"
+            }
+          },
+          {
+            "id": "app.create.fileFromTemplate",
+            "order": 300,
+            "icon": "description",
+            "title": "APP.NEW_MENU.MENU_ITEMS.FILE_TEMPLATE",
+            "description": "APP.NEW_MENU.MENU_ITEMS.FILE_TEMPLATE",
+            "description-disabled": "APP.NEW_MENU.TOOLTIPS.CREATE_FILE_NOT_ALLOWED",
+            "actions": {
+              "click": "FILE_FROM_TEMPLATE"
+            },
+            "rules": {
+              "visible": "app.navigation.folder.canUpload"
+            }
+          },
+          {
+            "id": "app.create.folderFromTemplate",
+            "order": 400,
+            "icon": "create_new_folder",
+            "title": "APP.NEW_MENU.MENU_ITEMS.FOLDER_TEMPLATE",
+            "description": "APP.NEW_MENU.MENU_ITEMS.FOLDER_TEMPLATE",
+            "description-disabled": "APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER_NOT_ALLOWED",
+            "actions": {
+              "click": "FOLDER_FROM_TEMPLATE"
+            },
+            "rules": {
+              "visible": "app.navigation.folder.canUpload"
+            }
+          }
+        ]
+      },
+      {
+        "id": "app.toolbar.upload",
+        "type": "menu",
+        "order": 20,
+        "title": "APP.HEADER.BUTTONS.UPLOAD",
+        "description": "APP.HEADER.BUTTONS.UPLOAD_TOOLTIP",
+        "data": {
+          "menuType": "flat-button",
+          "color": "primary"
+        },
+        "children": [
+          {
+            "id": "app.create.uploadFile",
+            "order": 100,
+            "icon": "file_upload",
+            "title": "APP.NEW_MENU.MENU_ITEMS.UPLOAD_FILE",
+            "description": "APP.NEW_MENU.TOOLTIPS.UPLOAD_FILES",
+            "actions": {
+              "click": "UPLOAD_FILES"
+            },
+            "rules": {
+              "visible": "app.isUploadSupported"
+            }
+          },
+          {
+            "id": "app.create.uploadFolder",
+            "order": 200,
+            "icon": "file_upload",
+            "title": "APP.NEW_MENU.MENU_ITEMS.UPLOAD_FOLDER",
+            "description": "APP.NEW_MENU.TOOLTIPS.UPLOAD_FOLDERS",
+            "actions": {
+              "click": "UPLOAD_FOLDER"
+            },
+            "rules": {
+              "visible": "app.isUploadSupported"
+            }
+          }
+        ]
+      },
+      {
+        "id": "app.toolbar.search.separator",
+        "type": "separator",
+        "order": 89
+      },
+      {
+        "id": "app.toolbar.search",
+        "order": 90,
+        "title": "SEARCH.BUTTON.TOOLTIP",
+        "icon": "search",
+        "type": "button",
+        "data": {
+          "buttonType": "icon-button"
+        },
+        "actions": {
+          "click": "SEARCH"
+        },
+        "rules": {
+          "visible": "app.isSearchSupported"
+        }
+      },
       {
         "id": "app.toolbar.share",
         "type": "custom",
@@ -435,7 +496,7 @@
         "type": "menu",
         "order": 10000,
         "icon": "more_vert",
-        "title": "APP.ACTIONS.MORE",
+        "description": "APP.ACTIONS.MORE",
         "children": [
           {
             "id": "app.toolbar.toggleLock",

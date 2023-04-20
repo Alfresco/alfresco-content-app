@@ -22,9 +22,9 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Inject, Injectable } from '@angular/core';
+import { Inject, Injectable, OnDestroy } from '@angular/core';
 import { AuthenticationService, AppConfigService, AlfrescoApiService, PageTitleService, UserPreferencesService } from '@alfresco/adf-core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { GroupService, SearchQueryBuilderService, SharedLinksApiService, UploadService, FileUploadErrorEvent } from '@alfresco/adf-content-services';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { ActivatedRoute, ActivationEnd, NavigationStart, Router } from '@angular/router';
@@ -53,14 +53,19 @@ import { AcaMobileAppSwitcherService } from './aca-mobile-app-switcher.service';
   providedIn: 'root'
 })
 // After moving shell to ADF to core, AppService will implement ShellAppService
-export class AppService {
+export class AppService implements OnDestroy {
   private ready: BehaviorSubject<boolean>;
   ready$: Observable<boolean>;
 
   pageHeading$: Observable<string>;
 
+  appNavNarMode$: Subject<'collapsed' | 'expanded'> = new BehaviorSubject('expanded');
+  toggleAppNavBar$ = new Subject();
+
   hideSidenavConditions = ['/preview/'];
-  minimizeSidenavConditions = ['search'];
+  minimizeSidenavConditions = ['search', 'about', 'profile'];
+
+  onDestroy$ = new Subject<boolean>();
 
   /**
    * Whether `withCredentials` mode is enabled.
@@ -105,6 +110,11 @@ export class AppService {
       map((event: ActivationEnd) => event.snapshot?.data?.title ?? ''),
       tap((title) => this.pageTitle.setTitle(title))
     );
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy$.next(true);
+    this.onDestroy$.complete();
   }
 
   init(): void {
@@ -200,10 +210,7 @@ export class AppService {
     const state: AppState = {
       ...this.initialAppState,
       appName: this.config.get<string>('application.name'),
-      headerColor: this.config.get<string>('headerColor'),
-      headerTextColor: this.config.get<string>('headerTextColor', '#000000'),
       logoPath: this.config.get<string>('application.logo'),
-      headerImagePath: this.config.get<string>('application.headerImagePath'),
       customCssPath: this.config.get<string>('customCssPath'),
       webFontPath: this.config.get<string>('webFontPath'),
       sharedUrl: baseShareUrl

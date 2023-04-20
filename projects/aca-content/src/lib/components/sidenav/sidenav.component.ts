@@ -28,7 +28,8 @@ import { Store } from '@ngrx/store';
 import { AppStore, getSideNavState } from '@alfresco/aca-shared/store';
 import { Subject } from 'rxjs';
 import { takeUntil, distinctUntilChanged, debounceTime } from 'rxjs/operators';
-import { AppExtensionService } from '@alfresco/aca-shared';
+import { AppExtensionService, AppService } from '@alfresco/aca-shared';
+import { SidenavLayoutComponent } from '@alfresco/adf-core';
 
 @Component({
   selector: 'app-sidenav',
@@ -39,12 +40,15 @@ import { AppExtensionService } from '@alfresco/aca-shared';
 })
 export class SidenavComponent implements OnInit, OnDestroy {
   @Input()
-  mode: 'collapsed' | 'expanded' = 'expanded';
+  data: {
+    layout?: SidenavLayoutComponent;
+    mode?: 'collapsed' | 'expanded';
+  } = {};
 
   groups: Array<NavBarGroupRef> = [];
   private onDestroy$ = new Subject<boolean>();
 
-  constructor(private store: Store<AppStore>, private extensions: AppExtensionService) {}
+  constructor(private store: Store<AppStore>, private extensions: AppExtensionService, private appService: AppService) {}
 
   ngOnInit() {
     this.store
@@ -53,6 +57,9 @@ export class SidenavComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.groups = this.extensions.getApplicationNavigation(this.extensions.navbar);
       });
+
+    this.appService.appNavNarMode$.next(this.data.mode);
+    this.appService.toggleAppNavBar$.pipe(takeUntil(this.onDestroy$)).subscribe(() => this.toggleNavBar());
   }
 
   trackByGroupId(_: number, obj: NavBarGroupRef): string {
@@ -61,6 +68,15 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
   trackByLinkId(_: number, obj: NavBarLinkRef): string {
     return obj.id;
+  }
+
+  toggleClick() {
+    this.toggleNavBar();
+  }
+
+  private toggleNavBar() {
+    this.data.layout.toggleMenu();
+    this.appService.appNavNarMode$.next(this.data.layout.isMenuMinimized ? 'collapsed' : 'expanded');
   }
 
   ngOnDestroy() {

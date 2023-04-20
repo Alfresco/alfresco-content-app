@@ -1,9 +1,9 @@
-<div
-  class="app-search-container searchMenuTrigger"
+<div class="app-search-container searchMenuTrigger"
   [matMenuTriggerFor]="searchOptionsMenu"
   (menuOpened)="onMenuOpened()"
   (menuClosed)="syncInputValues()"
 >
+
   <button mat-icon-button class="app-search-button" (click)="searchByOption()" [title]="'SEARCH.BUTTON.TOOLTIP' | translate">
     <mat-icon [attr.aria-label]="'SEARCH.BUTTON.ARIA-LABEL' | translate">search</mat-icon>
   </button>
@@ -20,6 +20,10 @@
     <div matSuffix class="app-suffix-search-icon-wrapper">
       <mat-icon>arrow_drop_down</mat-icon>
     </div>
+
+    <button mat-icon-button matSuffix class="app-suffix-search-icon-wrapper app-close-icon" (click)="exitSearch()">
+      <mat-icon>close</mat-icon>
+    </button>
   </mat-form-field>
 </div>
 

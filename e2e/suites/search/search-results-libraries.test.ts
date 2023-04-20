@@ -69,7 +69,7 @@ describe('Search results - libraries', () => {
 
   const loginPage = new LoginPage();
   const page = new SearchResultsPage();
-  const { searchInput } = page.header;
+  const { searchInput, toolbar } = page.pageLayoutHeader;
   const dataTable = page.dataTable;
   const adminApiActions = new AdminActions();
 
@@ -136,9 +136,10 @@ describe('Search results - libraries', () => {
   });
 
   it('[C290012] Search library - full name match', async () => {
+    await toolbar.clickSearchIconButton();
     await searchInput.clickSearchButton();
     await searchInput.checkLibraries();
-    await searchInput.searchFor(site1.name);
+    await searchInput.searchForLibrary(site1.name);
     await dataTable.waitForBody();
 
     expect(await dataTable.isItemPresent(site1.name)).toBe(true, `${site1.name} not displayed`);
@@ -148,9 +149,10 @@ describe('Search results - libraries', () => {
   });
 
   it('[C290013] Search library - partial name match', async () => {
+    await toolbar.clickSearchIconButton();
     await searchInput.clickSearchButton();
     await searchInput.checkLibraries();
-    await searchInput.searchFor(`lib-${random}`);
+    await searchInput.searchForLibrary(`lib-${random}`);
     await dataTable.waitForBody();
 
     expect(await dataTable.isItemPresent(site1.name)).toBe(true, `${site1.name} not displayed`);
@@ -160,9 +162,10 @@ describe('Search results - libraries', () => {
   });
 
   it('[C290014] Search library - description match', async () => {
+    await toolbar.clickSearchIconButton();
     await searchInput.clickSearchButton();
     await searchInput.checkLibraries();
-    await searchInput.searchFor(site4.description);
+    await searchInput.searchForLibrary(site4.description);
     await dataTable.waitForBody();
 
     expect(await dataTable.isItemPresent(site1.name)).toBe(false, `${site1.name} displayed`);
@@ -172,18 +175,20 @@ describe('Search results - libraries', () => {
   });
 
   it('[C290015] Results page title', async () => {
+    await toolbar.clickSearchIconButton();
     await searchInput.clickSearchButton();
     await searchInput.checkLibraries();
-    await searchInput.searchFor(random);
+    await searchInput.searchForLibrary(random);
     await dataTable.waitForBody();
 
     expect(await page.breadcrumb.currentItem.getText()).toEqual('Libraries found...');
   });
 
   it('[C290016] Results page columns', async () => {
+    await toolbar.clickSearchIconButton();
     await searchInput.clickSearchButton();
     await searchInput.checkLibraries();
-    await searchInput.searchFor(site1.name);
+    await searchInput.searchForLibrary(site1.name);
     await dataTable.waitForBody();
 
     const expectedColumns = ['Name', 'Description', 'My Role', 'Visibility'];
@@ -193,9 +198,10 @@ describe('Search results - libraries', () => {
   });
 
   it('[C290017] Library visibility is correctly displayed', async () => {
+    await toolbar.clickSearchIconButton();
     await searchInput.clickSearchButton();
     await searchInput.checkLibraries();
-    await searchInput.searchFor(`user-site-${random}`);
+    await searchInput.searchForLibrary(`user-site-${random}`);
     await dataTable.waitForBody();
 
     const expectedSitesVisibility = {
@@ -212,9 +218,10 @@ describe('Search results - libraries', () => {
   });
 
   it('[C290018] User role is correctly displayed', async () => {
+    await toolbar.clickSearchIconButton();
     await searchInput.clickSearchButton();
     await searchInput.checkLibraries();
-    await searchInput.searchFor(`admin-${random}-site`);
+    await searchInput.searchForLibrary(`admin-${random}-site`);
     await dataTable.waitForBody();
 
     const expectedSitesRoles = {
@@ -232,18 +239,20 @@ describe('Search results - libraries', () => {
   });
 
   it('[C290019] Private sites are not displayed when user is not a member', async () => {
+    await toolbar.clickSearchIconButton();
     await searchInput.clickSearchButton();
     await searchInput.checkLibraries();
-    await searchInput.searchFor(`admin-${random}-site`);
+    await searchInput.searchForLibrary(`admin-${random}-site`);
     await dataTable.waitForBody();
 
     expect(await dataTable.isItemPresent(adminPrivate)).toBe(false, `${adminPrivate} is displayed`);
   });
 
   it('[C290028] Search libraries with special characters', async () => {
+    await toolbar.clickSearchIconButton();
     await searchInput.clickSearchButton();
     await searchInput.checkLibraries();
-    await searchInput.searchFor(siteRussian.name);
+    await searchInput.searchForLibrary(siteRussian.name);
     await dataTable.waitForBody();
 
     expect(await dataTable.isItemPresent(siteRussian.name)).toBe(true, `${siteRussian.name} not displayed`);

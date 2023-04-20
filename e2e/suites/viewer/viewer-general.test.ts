@@ -49,9 +49,9 @@ describe('Viewer general', () => {
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
-  const { dataTable } = page;
+  const { dataTable, toolbar } = page;
   const viewer = new Viewer();
-  const { searchInput } = page.header;
+  const { searchInput } = page.pageLayoutHeader;
 
   const adminApiActions = new AdminActions();
   const userActions = new UserActions();
@@ -182,6 +182,7 @@ describe('Viewer general', () => {
   });
 
   it('[C279175] Viewer opens for a file from Search Results', async () => {
+    await toolbar.clickSearchIconButton();
     await searchInput.clickSearchButton();
     await searchInput.checkFilesAndFolders();
     await searchInput.searchFor(xlsxFile);

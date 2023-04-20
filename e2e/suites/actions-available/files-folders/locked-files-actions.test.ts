@@ -44,8 +44,8 @@ describe('Locked Files - available actions : ', () => {
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
-  const { dataTable } = page;
-  const { searchInput } = page.header;
+  const { dataTable, toolbar } = page;
+  const { searchInput } = page.pageLayoutHeader;
   const searchResultsPage = new SearchResultsPage();
 
   beforeAll(async () => {
@@ -264,6 +264,7 @@ describe('Locked Files - available actions : ', () => {
   describe('on Search Results : ', () => {
     beforeEach(async () => {
       await page.clickPersonalFiles();
+      await toolbar.clickSearchIconButton();
       await searchInput.clickSearchButton();
       await searchInput.checkOnlyFiles();
       await searchInput.searchFor(random);
