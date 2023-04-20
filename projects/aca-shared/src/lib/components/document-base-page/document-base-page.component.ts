@@ -45,6 +45,7 @@ import {
 } from '@alfresco/aca-shared/store';
 import { AppExtensionService } from '../../services/app.extension.service';
 import { isLibrary, isLocked } from '../../utils/node.utils';
+import { AcaFileAutoDownloadService } from '../../services/aca-file-auto-download.service';
 
 /* eslint-disable @angular-eslint/directive-class-suffix */
 @Directive()
@@ -71,7 +72,12 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
 
   protected subscriptions: Subscription[] = [];
 
-  protected constructor(protected store: Store<AppStore>, protected extensions: AppExtensionService, protected content: DocumentBasePageService) {}
+  protected constructor(
+    protected store: Store<AppStore>,
+    protected extensions: AppExtensionService,
+    protected content: DocumentBasePageService,
+    private fileAutoDownloadService: AcaFileAutoDownloadService = null
+  ) {}
 
   ngOnInit() {
     this.extensions
@@ -133,15 +139,19 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
 
   showPreview(node: MinimalNodeEntity, extras?: ViewNodeExtras) {
     if (node && node.entry) {
-      let id: string;
-
-      if (node.entry.nodeType === 'app:filelink') {
-        id = node.entry.properties['cm:destination'];
+      if (this.fileAutoDownloadService?.shouldFileAutoDownload(node.entry?.content?.sizeInBytes)) {
+        this.fileAutoDownloadService.autoDownloadFile(node);
       } else {
-        id = (node as any).entry.nodeId || (node as any).entry.guid || node.entry.id;
-      }
+        let id: string;
 
-      this.store.dispatch(new ViewNodeAction(id, extras));
+        if (node.entry.nodeType === 'app:filelink') {
+          id = node.entry.properties['cm:destination'];
+        } else {
+          id = (node as any).entry.nodeId || (node as any).entry.guid || node.entry.id;
+        }
+
+        this.store.dispatch(new ViewNodeAction(id, extras));
+      }
     }
   }
 

@@ -1184,5 +1184,13 @@
                  "cm:taggable", "app:inlineeditable", "cm:geographic", "exif:exif",
                  "audio:audio", "cm:indexControl", "dp:restrictable", "smf:customConfigSmartFolder", "smf:systemConfigSmartFolder"],
     "ai": ["ai:products", "ai:dates", "ai:places", "ai:events", "ai:organizations", "ai:people", "ai:things", "ai:quantities", "ai:creativeWorks", "ai:labels", "ai:textLines"]
+  },
+  "viewer": {
+    "enableDownloadPrompt":  ${APP_CONFIG_ENABLE_DOWNLOAD_PROMPT},
+    "enableDownloadPromptReminder": ${APP_CONFIG_ENABLE_DOWNLOAD_PROMPT_REMINDERS},
+    "downloadPromptDelay": ${APP_CONFIG_DOWNLOAD_PROMPT_DELAY},
+    "downloadPromptReminderDelay": ${APP_CONFIG_DOWNLOAD_PROMPT_REMINDER_DELAY},
+    "enableFileAutoDownload": ${APP_CONFIG_ENABLE_FILE_AUTO_DOWNLOAD},
+    "fileAutoDownloadSizeThresholdInMB": ${APP_CONFIG_FILE_AUTO_DOWNLOAD_SIZE_THRESHOLD_IN_MB}
   }
 }

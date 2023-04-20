@@ -28,6 +28,7 @@ import { AppStore, ViewNodeAction, getAppSelection } from '@alfresco/aca-shared/
 import { Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { SharedLinkEntry } from '@alfresco/js-api';
+import { AcaFileAutoDownloadService } from '@alfresco/aca-shared';
 
 @Component({
   selector: 'app-view-node',
@@ -53,22 +54,26 @@ import { SharedLinkEntry } from '@alfresco/js-api';
 export class ViewNodeComponent {
   @Input() data: { title?: string; menuButton?: boolean; iconButton?: boolean };
 
-  constructor(private store: Store<AppStore>, private router: Router) {}
+  constructor(private store: Store<AppStore>, private router: Router, private fileAutoDownloadService: AcaFileAutoDownloadService) {}
 
   onClick() {
     this.store
       .select(getAppSelection)
       .pipe(take(1))
       .subscribe((selection) => {
-        let id: string;
-
-        if (selection.file.entry.nodeType === 'app:filelink') {
-          id = selection.file.entry.properties['cm:destination'];
+        if (this.fileAutoDownloadService.shouldFileAutoDownload(selection.file.entry?.content?.sizeInBytes)) {
+          this.fileAutoDownloadService.autoDownloadFile(selection.file);
         } else {
-          id = (selection.file as SharedLinkEntry).entry.nodeId || (selection.file as any).entry.guid || selection.file.entry.id;
-        }
+          let id: string;
 
-        this.store.dispatch(new ViewNodeAction(id, { location: this.router.url }));
+          if (selection.file.entry.nodeType === 'app:filelink') {
+            id = selection.file.entry.properties['cm:destination'];
+          } else {
+            id = (selection.file as SharedLinkEntry).entry.nodeId || (selection.file as any).entry.guid || selection.file.entry.id;
+          }
+
+          this.store.dispatch(new ViewNodeAction(id, { location: this.router.url }));
+        }
       });
   }
 }

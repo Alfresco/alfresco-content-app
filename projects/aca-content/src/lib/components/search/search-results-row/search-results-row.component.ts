@@ -30,6 +30,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { NodesApiService } from '@alfresco/adf-content-services';
 import { takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { AcaFileAutoDownloadService } from '@alfresco/aca-shared';
 
 @Component({
   selector: 'aca-search-results-row',
@@ -49,7 +50,12 @@ export class SearchResultsRowComponent implements OnInit, OnDestroy {
   name$ = new BehaviorSubject<string>('');
   title$ = new BehaviorSubject<string>('');
 
-  constructor(private store: Store<any>, private nodesApiService: NodesApiService, private router: Router) {}
+  constructor(
+    private store: Store<any>,
+    private nodesApiService: NodesApiService,
+    private router: Router,
+    private fileAutoDownloadService: AcaFileAutoDownloadService
+  ) {}
 
   ngOnInit() {
     this.updateValues();
@@ -93,7 +99,11 @@ export class SearchResultsRowComponent implements OnInit, OnDestroy {
 
   showPreview(event: Event) {
     event.stopPropagation();
-    this.store.dispatch(new ViewNodeAction(this.node.entry.id, { location: this.router.url }));
+    if (this.fileAutoDownloadService.shouldFileAutoDownload(this.node.entry.content.sizeInBytes)) {
+      this.fileAutoDownloadService.autoDownloadFile(this.node);
+    } else {
+      this.store.dispatch(new ViewNodeAction(this.node.entry.id, { location: this.router.url }));
+    }
   }
 
   navigate(event: Event) {
