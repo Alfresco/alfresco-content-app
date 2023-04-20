@@ -33,7 +33,7 @@
   "locale": "en",
   "application": {
     "name": "Workspace",
-    "version": "4.0.0-A.2",
+    "version": "4.0.0-A.3",
     "logo": "assets/images/app-logo.svg",
     "copyright": "APP.COPYRIGHT"
   },
