@@ -1,6 +1,7 @@
-.acc-menu-user-details {
+.aca-menu-user-details {
     display: flex;
     height: 66px;
+    align-items: center;
 
     &-button {
         border-radius: 90%;
@@ -17,8 +18,8 @@
         border: none;
     }
 
-    .acc-menu-button {
-        margin-top: 10px;
-        margin-right: 10px;
+    &-name-email {
+        line-height: 24px;
+        margin-left: 10px;
     }
 }

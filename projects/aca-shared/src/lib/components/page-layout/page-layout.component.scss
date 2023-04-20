@@ -22,6 +22,31 @@
       font-weight: 400;
       letter-spacing: 0.15px;
     }
+
+    .aca-toolbar-action {
+      .app-toolbar-menu {
+        .mat-button{
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: 6px;
+          flex: none;
+          height: 32px;
+          background: var(--theme-create-button-background-color);
+          color: var(--theme-selected-text-color);
+        }
+
+        .mat-flat-button {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: 6px;
+          flex: none;
+          height: 32px;
+          color: white;
+        }
+      }
+    }
   }
 
   .aca-page-layout-content {

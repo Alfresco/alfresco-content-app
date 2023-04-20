@@ -21,7 +21,7 @@ import { AppExtensionService } from '@alfresco/aca-shared'
 
 export class UserMenuComponent implements OnInit {
   moreActionItems: any[];
-  displayName$: Observable<{ firstName: string, initials: string }>;
+  displayName$: Observable<{ firstName: string, initials: string, email: string }>;
   private onDestroy$ = new Subject<boolean>();
 
   constructor(
@@ -70,8 +70,8 @@ export class UserMenuComponent implements OnInit {
     this.displayName$ = of(this.identityUserService.getCurrentUserInfo()).pipe(map((model) => this.parseDisplayName(model)));
   }
 
-  private parseDisplayName(model: { firstName?: string; lastName?: string; email?: string }): { firstName: string, initials: string } {
-    let result = { firstName: '', initials: '' };
+  private parseDisplayName(model: { firstName?: string; lastName?: string; email?: string }): { firstName: string, initials: string, email: string } {
+    let result = { firstName: '', initials: '', email: '' };
     if (model.firstName) {
       result.firstName = model.firstName;
       result.initials += model.firstName.charAt(0).toUpperCase();
@@ -81,7 +81,7 @@ export class UserMenuComponent implements OnInit {
       result.initials += model.lastName.charAt(0).toUpperCase();
     }
     if (model.email) {
-      result.firstName += `(${model.email})`;
+      result.email += `${model.email}`;
      
     }
     return result;
