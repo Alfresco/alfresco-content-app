@@ -6,6 +6,8 @@
     "davidanson.vscode-markdownlint",
     "esbenp.prettier-vscode",
     "eamodio.gitlens",
-    "stylelint.vscode-stylelint"
+    "stylelint.vscode-stylelint",
+    "nrwl.angular-console",
+    "dbaeumer.vscode-eslint"
   ]
 }

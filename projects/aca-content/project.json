@@ -1,0 +1,59 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "aca-content",
+  "projectType": "library",
+  "sourceRoot": "projects/aca-content/src",
+  "prefix": "lib",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "project": "projects/aca-content/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "projects/aca-content/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "projects/aca-content/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production",
+      "outputs": [
+        "{workspaceRoot}/dist/@alfresco/aca-content"
+      ]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "codeCoverage": true,
+        "main": "projects/aca-content/src/test.ts",
+        "tsConfig": "projects/aca-content/tsconfig.spec.json",
+        "karmaConfig": "projects/aca-content/karma.conf.js",
+        "styles": [
+          "projects/aca-content/src/lib/ui/application.scss"
+        ]
+      },
+      "configurations": {
+        "adfprod": {
+          "tsConfig": "projects/aca-content/tsconfig.spec.adf.json"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": [
+          "projects/aca-content/**/*.ts",
+          "projects/aca-content/**/*.html"
+        ],
+        "cache": true,
+        "cacheLocation": ".eslintcache",
+        "ignorePath": ".eslintignore"
+      },
+      "outputs": [
+        "{options.outputFile}"
+      ]
+    }
+  }
+}

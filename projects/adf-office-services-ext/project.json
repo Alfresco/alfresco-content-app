@@ -1,0 +1,54 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "adf-office-services-ext",
+  "sourceRoot": "projects/adf-office-services-ext/src",
+  "projectType": "library",
+  "prefix": "lib",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "tsConfig": "projects/adf-office-services-ext/tsconfig.lib.json",
+        "project": "projects/adf-office-services-ext/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "projects/adf-office-services-ext/tsconfig.lib.prod.json"
+        }
+      },
+      "defaultConfiguration": "production",
+      "outputs": [
+        "{workspaceRoot}/dist/@alfresco/adf-office-services-ext"
+      ]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "codeCoverage": true,
+        "main": "projects/adf-office-services-ext/src/test.ts",
+        "tsConfig": "projects/adf-office-services-ext/tsconfig.spec.json",
+        "karmaConfig": "projects/adf-office-services-ext/karma.conf.js"
+      },
+      "configurations": {
+        "adfprod": {
+          "tsConfig": "projects/adf-office-services-ext/tsconfig.spec.adf.json"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": [
+          "projects/adf-office-services-ext/**/*.ts",
+          "projects/adf-office-services-ext/**/*.html"
+        ],
+        "cache": true,
+        "cacheLocation": ".eslintcache",
+        "ignorePath": ".eslintignore"
+      },
+      "outputs": [
+        "{options.outputFile}"
+      ]
+    }
+  }
+}

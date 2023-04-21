@@ -1,0 +1,54 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "aca-shared",
+  "sourceRoot": "projects/aca-shared/src",
+  "projectType": "library",
+  "prefix": "lib",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "tsConfig": "projects/aca-shared/tsconfig.lib.json",
+        "project": "projects/aca-shared/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "projects/aca-shared/tsconfig.lib.prod.json"
+        }
+      },
+      "defaultConfiguration": "production",
+      "outputs": [
+        "{workspaceRoot}/dist/@alfresco/aca-shared"
+      ]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "codeCoverage": true,
+        "main": "projects/aca-shared/test.ts",
+        "tsConfig": "projects/aca-shared/tsconfig.spec.json",
+        "karmaConfig": "projects/aca-shared/karma.conf.js"
+      },
+      "configurations": {
+        "adfprod": {
+          "tsConfig": "projects/aca-shared/tsconfig.spec.adf.json"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": [
+          "projects/aca-shared/**/*.ts",
+          "projects/aca-shared/**/*.html"
+        ],
+        "cache": true,
+        "cacheLocation": ".eslintcache",
+        "ignorePath": ".eslintignore"
+      },
+      "outputs": [
+        "{options.outputFile}"
+      ]
+    }
+  }
+}

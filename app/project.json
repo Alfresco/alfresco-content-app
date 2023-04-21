@@ -1,0 +1,306 @@
+{
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "name": "content-ce",
+  "sourceRoot": "app/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:browser",
+      "options": {
+        "outputPath": "dist/content-ce",
+        "index": "app/src/index.html",
+        "main": "app/src/main.ts",
+        "tsConfig": "app/tsconfig.app.json",
+        "polyfills": "app/src/polyfills.ts",
+        "allowedCommonJsDependencies": [
+          "moment-es6",
+          "minimatch",
+          "moment",
+          "cropperjs"
+        ],
+        "stylePreprocessorOptions": {
+          "includePaths": [
+            "projects/aca-content/src/lib/ui",
+            "node_modules"
+          ]
+        },
+        "assets": [
+          {
+            "glob": "LICENSE",
+            "input": ".",
+            "output": "/"
+          },
+          "app/src/assets",
+          "app/src/favicon-96x96.png",
+          {
+            "input": "app/.tmp",
+            "output": "/",
+            "glob": "app.config.json"
+          },
+          {
+            "glob": "**/*",
+            "input": "node_modules/@alfresco/adf-core/bundles/assets",
+            "output": "/assets"
+          },
+          {
+            "glob": "**/*",
+            "input": "node_modules/@alfresco/adf-content-services/bundles/assets",
+            "output": "/assets"
+          },
+          {
+            "glob": "pdf.worker.min.js",
+            "input": "node_modules/pdfjs-dist/build",
+            "output": "/"
+          },
+          {
+            "glob": "extension.schema.json",
+            "input": ".",
+            "output": "./assets"
+          },
+          {
+            "glob": "**/*",
+            "input": "node_modules/@alfresco/adf-office-services-ext/assets",
+            "output": "./assets/adf-office-services-ext"
+          },
+          {
+            "glob": "**/*",
+            "input": "projects/adf-office-services-ext/assets",
+            "output": "./assets/adf-office-services-ext"
+          },
+          {
+            "glob": "aos.plugin.json",
+            "input": "projects/adf-office-services-ext/assets",
+            "output": "./assets/plugins"
+          },
+          {
+            "glob": "about.plugin.json",
+            "input": "projects/aca-about/assets",
+            "output": "./assets/plugins"
+          },
+          {
+            "glob": "folder-rules.plugin.json",
+            "input": "projects/aca-folder-rules/assets",
+            "output": "./assets/plugins"
+          },
+          {
+            "glob": "**/*",
+            "input": "projects/aca-folder-rules/assets",
+            "output": "./assets/aca-folder-rules"
+          },
+          {
+            "glob": "**/*",
+            "input": "projects/aca-content/assets",
+            "output": "./assets"
+          }
+        ],
+        "styles": [
+          "app/src/assets/fonts/material-icons/material-icons.css",
+          "app/src/assets/fonts/OpenSans/OpenSans.css",
+          "node_modules/cropperjs/dist/cropper.min.css",
+          "node_modules/pdfjs-dist/web/pdf_viewer.css",
+          "projects/aca-content/src/lib/ui/application.scss",
+          "app/src/styles.scss"
+        ],
+        "scripts": [
+          "node_modules/pdfjs-dist/build/pdf.js",
+          "node_modules/pdfjs-dist/web/pdf_viewer.js",
+          "node_modules/moment/min/moment.min.js"
+        ],
+        "vendorChunk": true,
+        "extractLicenses": false,
+        "buildOptimizer": false,
+        "sourceMap": true,
+        "optimization": false,
+        "namedChunks": true
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false,
+          "buildOptimizer": true,
+          "fileReplacements": [
+            {
+              "replace": "app/src/environments/environment.ts",
+              "with": "app/src/environments/environment.prod.ts"
+            }
+          ],
+          "budgets": [
+            {
+              "type": "bundle",
+              "name": "main",
+              "maximumWarning": "2mb",
+              "maximumError": "5mb"
+            },
+            {
+              "type": "bundle",
+              "name": "vendor",
+              "maximumWarning": "10mb",
+              "maximumError": "15mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "6kb"
+            }
+          ]
+        },
+        "release": {
+          "fileReplacements": [
+            {
+              "replace": "app/src/environments/environment.ts",
+              "with": "app/src/environments/environment.release.ts"
+            }
+          ]
+        },
+        "e2e": {
+          "budgets": [
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "6kb"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false,
+          "buildOptimizer": true,
+          "fileReplacements": [
+            {
+              "replace": "app/src/environments/environment.ts",
+              "with": "app/src/environments/environment.e2e.ts"
+            }
+          ]
+        },
+        "adf": {
+          "tsConfig": "app/tsconfig.app.adf.json",
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "buildOptimizer": false,
+          "sourceMap": true,
+          "optimization": false,
+          "namedChunks": true
+        },
+        "adfprod": {
+          "tsConfig": "app/tsconfig.app.adf.json",
+          "outputHashing": "all",
+          "fileReplacements": [
+            {
+              "replace": "app/src/environments/environment.ts",
+              "with": "app/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      },
+      "defaultConfiguration": "",
+      "outputs": [
+        "{options.outputPath}"
+      ]
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "options": {
+        "browserTarget": "content-ce:build",
+        "port": 4200,
+        "disableHostCheck": true,
+        "open": true,
+        "proxyConfig": "app/proxy.conf.js"
+      },
+      "configurations": {
+        "production": {
+          "browserTarget": "content-ce:build:production"
+        },
+        "e2e": {
+          "browserTarget": "content-ce:build:e2e"
+        },
+        "release": {
+          "browserTarget": "content-ce:build:release"
+        },
+        "adf": {
+          "browserTarget": "content-ce:build:adf"
+        }
+      }
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "app/src/test.ts",
+        "karmaConfig": "./karma.conf.js",
+        "sourceMap": true,
+        "polyfills": "app/src/polyfills.ts",
+        "stylePreprocessorOptions": {
+          "includePaths": [
+            "projects/aca-content/src/lib/ui/application.scss",
+            "node_modules"
+          ]
+        },
+        "tsConfig": "app/tsconfig.spec.json",
+        "scripts": [
+          "node_modules/pdfjs-dist/build/pdf.js",
+          "node_modules/pdfjs-dist/web/pdf_viewer.js",
+          "node_modules/moment/min/moment.min.js"
+        ],
+        "styles": [
+          "app/src/assets/fonts/material-icons/material-icons.css",
+          "app/src/assets/fonts/OpenSans/OpenSans.css",
+          "app/src/styles.scss",
+          "projects/aca-content/src/lib/ui/application.scss"
+        ],
+        "assets": [
+          "app/src/assets",
+          "app/src/favicon-96x96.png",
+          "projects/aca-content/assets",
+          {
+            "input": "app/.tmp",
+            "output": "/",
+            "glob": "app.config.json"
+          },
+          {
+            "glob": "**/*",
+            "input": "node_modules/@alfresco/adf-core/prebuilt-themes",
+            "output": "/assets/prebuilt-themes"
+          },
+          {
+            "glob": "**/*",
+            "input": "node_modules/@alfresco/adf-core/bundles/assets",
+            "output": "/assets"
+          },
+          {
+            "glob": "**/*",
+            "input": "node_modules/@alfresco/adf-content-services/bundles/assets",
+            "output": "/assets"
+          },
+          {
+            "glob": "pdf.worker.min.js",
+            "input": "node_modules/pdfjs-dist/build",
+            "output": "/"
+          }
+        ]
+      },
+      "configurations": {
+        "adfprod": {
+          "tsConfig": "app/tsconfig.spec.adf.json"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": [
+          "app/**/*.ts",
+          "app/**/*.html"
+        ],
+        "cache": true,
+        "cacheLocation": ".eslintcache",
+        "ignorePath": ".eslintignore"
+      },
+      "outputs": [
+        "{options.outputFile}"
+      ]
+    }
+  }
+}
