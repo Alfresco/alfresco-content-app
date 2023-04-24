@@ -106,9 +106,9 @@
     "HEADER": {
       "BUTTONS": {
         "CREATE": "Utwórz",
-        "CREATE_TOOLTIP": "Utwórz zawartości",
+        "CREATE_TOOLTIP": "Utwórz zawartość",
         "UPLOAD": "Prześlij",
-        "UPLOAD_TOOLTIP": "Przekaż zawartość"
+        "UPLOAD_TOOLTIP": "Prześlij zawartość"
       }
     },
     "BROWSE": {
