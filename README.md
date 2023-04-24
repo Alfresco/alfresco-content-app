@@ -65,10 +65,15 @@ Changing the ADF code results in the recompilation and hot-reloading of the ACA 
 
 ## Unit Tests
 
-Use standard Angular CLI commands to test the projects:
+Use following command to test the projects:
 
 ```sh
-ng test <project>
+nx affected:test <project>
+```
+or 
+
+```sh
+nx test <project>
 ```
 
 ### Code Coverage
@@ -80,7 +85,7 @@ You can view HTML reports in the `./coverage/<project>` folder.
 When working with unit testing and code coverage improvement, you can run unit tests in the "live reload" mode:
 
 ```sh
-ng test <project> --watch
+nx test <project> -- --watch
 ```
 
 Upon changing unit tests code, you can track the coverage results either in the console output, or by reloading the HTML report in the browser.
