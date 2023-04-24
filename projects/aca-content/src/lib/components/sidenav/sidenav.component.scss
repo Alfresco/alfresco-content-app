@@ -79,6 +79,11 @@
 
         .mat-button {
           line-height: 32px;
+          align-items: center;
+
+          .mat-button-wrapper {
+            display: flex;
+          }
         }
       }
 
