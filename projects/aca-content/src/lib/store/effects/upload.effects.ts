@@ -47,7 +47,7 @@ export class UploadEffects {
   private fileInput: HTMLInputElement;
   private folderInput: HTMLInputElement;
   private fileVersionInput: HTMLInputElement;
-  private readonly createMenuButtonSelector = 'app-create-menu button';
+  private readonly uploadMenuButtonSelector = 'app-toolbar-menu button[title="Upload content"]';
 
   constructor(
     private store: Store<AppStore>,
@@ -91,7 +91,7 @@ export class UploadEffects {
       this.actions$.pipe(
         ofType<UploadFilesAction>(UploadActionTypes.UploadFiles),
         map(() => {
-          this.registerFocusingElementAfterModalClose(this.fileInput, this.createMenuButtonSelector);
+          this.registerFocusingElementAfterModalClose(this.fileInput, this.uploadMenuButtonSelector);
           this.fileInput.click();
         })
       ),
@@ -103,7 +103,7 @@ export class UploadEffects {
       this.actions$.pipe(
         ofType<UploadFolderAction>(UploadActionTypes.UploadFolder),
         map(() => {
-          this.registerFocusingElementAfterModalClose(this.folderInput, this.createMenuButtonSelector);
+          this.registerFocusingElementAfterModalClose(this.folderInput, this.uploadMenuButtonSelector);
           this.folderInput.click();
         })
       ),

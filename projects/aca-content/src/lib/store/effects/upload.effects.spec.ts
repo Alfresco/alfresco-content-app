@@ -59,76 +59,76 @@ describe('UploadEffects', () => {
   });
 
   describe('uploadFiles$', () => {
-    let createMenuButton: HTMLButtonElement;
+    let uploadMenuButton: HTMLButtonElement;
     const focusedClass = 'cdk-program-focused';
 
     beforeEach(() => {
-      createMenuButton = document.createElement('button');
-      document.body.appendChild(createMenuButton);
+      uploadMenuButton = document.createElement('button');
+      document.body.appendChild(uploadMenuButton);
       store.dispatch(new UploadFilesAction({}));
-      spyOn(document, 'querySelector').withArgs('app-create-menu button').and.returnValue(createMenuButton);
+      spyOn(document, 'querySelector').withArgs('app-toolbar-menu button[title="Upload content"]').and.returnValue(uploadMenuButton);
     });
 
-    it('should call focus function on create menu button', () => {
-      spyOn(createMenuButton, 'focus');
+    it('should call focus function on upload menu button', () => {
+      spyOn(uploadMenuButton, 'focus');
       window.dispatchEvent(new FocusEvent('focus'));
-      expect(createMenuButton.focus).toHaveBeenCalledWith();
+      expect(uploadMenuButton.focus).toHaveBeenCalledWith();
     });
 
-    it('should not call focus function on create menu button if handler for focus of window is not fired', () => {
-      spyOn(createMenuButton, 'focus');
-      expect(createMenuButton.focus).not.toHaveBeenCalled();
+    it('should not call focus function on upload menu button if handler for focus of window is not fired', () => {
+      spyOn(uploadMenuButton, 'focus');
+      expect(uploadMenuButton.focus).not.toHaveBeenCalled();
     });
 
-    it('should add cdk-program-focused class to create menu button', () => {
+    it('should add cdk-program-focused class to upload menu button', () => {
       window.dispatchEvent(new FocusEvent('focus'));
-      createMenuButton.dispatchEvent(new FocusEvent('focus'));
-      expect(createMenuButton).toHaveClass(focusedClass);
+      uploadMenuButton.dispatchEvent(new FocusEvent('focus'));
+      expect(uploadMenuButton).toHaveClass(focusedClass);
     });
 
-    it('should not add cdk-program-focused class to create menu button if handler for focus of window is not fired', () => {
-      expect(createMenuButton).not.toHaveClass(focusedClass);
+    it('should not add cdk-program-focused class to upload menu button if handler for focus of window is not fired', () => {
+      expect(uploadMenuButton).not.toHaveClass(focusedClass);
     });
 
     afterEach(() => {
-      createMenuButton.remove();
+      uploadMenuButton.remove();
     });
   });
 
   describe('uploadFolder$', () => {
-    let createMenuButton: HTMLButtonElement;
+    let uploadMenuButton: HTMLButtonElement;
     const focusedClass = 'cdk-program-focused';
 
     beforeEach(() => {
-      createMenuButton = document.createElement('button');
-      document.body.appendChild(createMenuButton);
+      uploadMenuButton = document.createElement('button');
+      document.body.appendChild(uploadMenuButton);
       store.dispatch(new UploadFolderAction({}));
-      spyOn(document, 'querySelector').withArgs('app-create-menu button').and.returnValue(createMenuButton);
+      spyOn(document, 'querySelector').withArgs('app-toolbar-menu button[title="Upload content"]').and.returnValue(uploadMenuButton);
     });
 
-    it('should call focus function on create menu button', () => {
-      spyOn(createMenuButton, 'focus');
+    it('should call focus function on upload menu button', () => {
+      spyOn(uploadMenuButton, 'focus');
       window.dispatchEvent(new FocusEvent('focus'));
-      expect(createMenuButton.focus).toHaveBeenCalledWith();
+      expect(uploadMenuButton.focus).toHaveBeenCalledWith();
     });
 
-    it('should not call focus function on create menu button if handler for focus of window is not fired', () => {
-      spyOn(createMenuButton, 'focus');
-      expect(createMenuButton.focus).not.toHaveBeenCalled();
+    it('should not call focus function on upload menu button if handler for focus of window is not fired', () => {
+      spyOn(uploadMenuButton, 'focus');
+      expect(uploadMenuButton.focus).not.toHaveBeenCalled();
     });
 
-    it('should add cdk-program-focused class to create menu button', () => {
+    it('should add cdk-program-focused class to upload menu button', () => {
       window.dispatchEvent(new FocusEvent('focus'));
-      createMenuButton.dispatchEvent(new FocusEvent('focus'));
-      expect(createMenuButton).toHaveClass(focusedClass);
+      uploadMenuButton.dispatchEvent(new FocusEvent('focus'));
+      expect(uploadMenuButton).toHaveClass(focusedClass);
     });
 
-    it('should not add cdk-program-focused class to create menu button if handler for focus of window is not fired', () => {
-      expect(createMenuButton).not.toHaveClass(focusedClass);
+    it('should not add cdk-program-focused class to upload menu button if handler for focus of window is not fired', () => {
+      expect(uploadMenuButton).not.toHaveClass(focusedClass);
     });
 
     afterEach(() => {
-      createMenuButton.remove();
+      uploadMenuButton.remove();
     });
   });
 

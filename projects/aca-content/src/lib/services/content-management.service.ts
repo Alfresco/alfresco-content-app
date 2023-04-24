@@ -85,7 +85,7 @@ interface RestoredNode {
   providedIn: 'root'
 })
 export class ContentManagementService {
-  private readonly createMenuButtonSelector = 'app-create-menu button';
+  private readonly createMenuButtonSelector = 'app-toolbar-menu button[title="Create content"]';
 
   constructor(
     private nodesApiService: NodesApiService,
