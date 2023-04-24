@@ -1,6 +1,7 @@
 {
   "APP": {
-    "COPYRIGHT": "© 2005-2023 Hyland Software, Inc. a její přidružené společnosti. Všechna práva vyhrazena.",
+    "COPYRIGHT": "2005-2023 Hyland Software, Inc. a její přidružené společnosti. Všechna práva vyhrazena.",
+    "TITLE": "Workspace",
     "ABOUT": {
       "VERSION": "Verze:",
       "PLUGINS": {
@@ -102,7 +103,21 @@
         "CREATE_LIBRARY": "Vytvořit novou knihovnu souborů"
       }
     },
+    "HEADER": {
+      "BUTTONS": {
+        "CREATE": "Vytvořit",
+        "CREATE_TOOLTIP": "Vytvořit obsah",
+        "UPLOAD": "Odeslat",
+        "UPLOAD_TOOLTIP": "Odeslat obsah"
+      }
+    },
     "BROWSE": {
+      "FILE": {
+        "SIDENAV_LINK": {
+          "LABEL": "Soubory",
+          "TOOLTIP": "Soubory"
+        }
+      },
       "PERSONAL": {
         "TITLE": "Osobní soubory",
         "SIDENAV_LINK": {
@@ -409,6 +424,12 @@
         "EXPAND": "Rozbalit",
         "CLOSE_LIBRARY": "Close Library"
       }
+    },
+    "TOOLTIPS": {
+      "COLLAPSE_NAVIGATION": "Sbalit navigační nabídku",
+      "OPTIONS_SETTINGS": "Možnosti a nastavení",
+      "MY_PROFILE": "Můj profil",
+      "EXPAND_NAVIGATION": "Rozbalit navigační nabídku"
     }
   },
   "NODE_SELECTOR": {

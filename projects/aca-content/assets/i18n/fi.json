@@ -1,6 +1,7 @@
 {
   "APP": {
     "COPYRIGHT": "© 2005- 2023 Hyland Software, Inc. ja sen tytäryhtiöt. Kaikki oikeudet pidätetään.",
+    "TITLE": "Workspace",
     "ABOUT": {
       "VERSION": "Versio:",
       "PLUGINS": {
@@ -102,7 +103,21 @@
         "CREATE_LIBRARY": "Luo uusi tiedostokirjasto"
       }
     },
+    "HEADER": {
+      "BUTTONS": {
+        "CREATE": "Luo",
+        "CREATE_TOOLTIP": "Sisällön luominen",
+        "UPLOAD": "Lataa",
+        "UPLOAD_TOOLTIP": "Lataa sisältöä"
+      }
+    },
     "BROWSE": {
+      "FILE": {
+        "SIDENAV_LINK": {
+          "LABEL": "Tiedostot",
+          "TOOLTIP": "Tiedostot"
+        }
+      },
       "PERSONAL": {
         "TITLE": "Omat tiedostot",
         "SIDENAV_LINK": {
@@ -409,6 +424,12 @@
         "EXPAND": "Laajenna",
         "CLOSE_LIBRARY": "Sulje kirjasto"
       }
+    },
+    "TOOLTIPS": {
+      "COLLAPSE_NAVIGATION": "Kutista siirtymisvalikko",
+      "OPTIONS_SETTINGS": "Asetukset ja vaihtoehdot",
+      "MY_PROFILE": "Oma profiili",
+      "EXPAND_NAVIGATION": "Laajenna siirtymisvalikko"
     }
   },
   "NODE_SELECTOR": {

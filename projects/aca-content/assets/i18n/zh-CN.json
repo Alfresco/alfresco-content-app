@@ -1,6 +1,7 @@
 {
   "APP": {
     "COPYRIGHT": "© 2005-2023 Hyland Software, Inc. 及其附属公司。保留所有权利。",
+    "TITLE": "Workspace",
     "ABOUT": {
       "VERSION": "版本：",
       "PLUGINS": {
@@ -102,7 +103,21 @@
         "CREATE_LIBRARY": "创建一个新的文件库"
       }
     },
+    "HEADER": {
+      "BUTTONS": {
+        "CREATE": "创建",
+        "CREATE_TOOLTIP": "创建内容",
+        "UPLOAD": "上传",
+        "UPLOAD_TOOLTIP": "上传内容"
+      }
+    },
     "BROWSE": {
+      "FILE": {
+        "SIDENAV_LINK": {
+          "LABEL": "文件",
+          "TOOLTIP": "文件"
+        }
+      },
       "PERSONAL": {
         "TITLE": "个人文件",
         "SIDENAV_LINK": {
@@ -409,6 +424,12 @@
         "EXPAND": "展开",
         "CLOSE_LIBRARY": "关闭库"
       }
+    },
+    "TOOLTIPS": {
+      "COLLAPSE_NAVIGATION": "折叠导航菜单",
+      "OPTIONS_SETTINGS": "选项和设置",
+      "MY_PROFILE": "我的个人档案",
+      "EXPAND_NAVIGATION": "展开导航菜单"
     }
   },
   "NODE_SELECTOR": {

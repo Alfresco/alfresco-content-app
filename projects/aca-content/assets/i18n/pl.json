@@ -1,6 +1,7 @@
 {
   "APP": {
     "COPYRIGHT": "© 2005-2023 Hyland Software, Inc. i jej podmioty stowarzyszone. Wszelkie prawa zastrzeżone.",
+    "TITLE": "Workspace",
     "ABOUT": {
       "VERSION": "Wersja:",
       "PLUGINS": {
@@ -43,7 +44,7 @@
       "APPLICATION-SETTINGS": "Ustawienia aplikacji",
       "REPOSITORY-SETTINGS": "Ustawienia repozytorium",
       "INVALID-VALUE-FORMAT": "Nieprawidłowy format wartości",
-      "REQUIRED-FIELD": "To pole jest wymagane",
+      "REQUIRED-FIELD": "To pole jest wymagane.",
       "RESET": "Resetuj",
       "APPLY": "Zastosuj"
     },
@@ -102,7 +103,21 @@
         "CREATE_LIBRARY": "Utwórz nową bibliotekę plików"
       }
     },
+    "HEADER": {
+      "BUTTONS": {
+        "CREATE": "Utwórz",
+        "CREATE_TOOLTIP": "Utwórz zawartość",
+        "UPLOAD": "Prześlij",
+        "UPLOAD_TOOLTIP": "Prześlij zawartość"
+      }
+    },
     "BROWSE": {
+      "FILE": {
+        "SIDENAV_LINK": {
+          "LABEL": "Pliki",
+          "TOOLTIP": "Pliki"
+        }
+      },
       "PERSONAL": {
         "TITLE": "Pliki osobiste",
         "SIDENAV_LINK": {
@@ -409,6 +424,12 @@
         "EXPAND": "Rozwiń",
         "CLOSE_LIBRARY": "Zamknij bibliotekę"
       }
+    },
+    "TOOLTIPS": {
+      "COLLAPSE_NAVIGATION": "Zwiń menu nawigacji",
+      "OPTIONS_SETTINGS": "Opcje i ustawienia",
+      "MY_PROFILE": "Mój profil",
+      "EXPAND_NAVIGATION": "Rozwiń menu nawigacji"
     }
   },
   "NODE_SELECTOR": {

@@ -1,6 +1,7 @@
 {
   "APP": {
     "COPYRIGHT": "© 2005-2023 Hyland Software, Inc. والشركات التابعة لها. كل الحقوق محفوظة.",
+    "TITLE": "Workspace",
     "ABOUT": {
       "VERSION": "الإصدار:",
       "PLUGINS": {
@@ -102,7 +103,21 @@
         "CREATE_LIBRARY": "إنشاء مكتبة ملفات جديدة"
       }
     },
+    "HEADER": {
+      "BUTTONS": {
+        "CREATE": "إنشاء",
+        "CREATE_TOOLTIP": "إنشاء محتوى",
+        "UPLOAD": "تحميل",
+        "UPLOAD_TOOLTIP": "تحميل المحتوى"
+      }
+    },
     "BROWSE": {
+      "FILE": {
+        "SIDENAV_LINK": {
+          "LABEL": "ملفات",
+          "TOOLTIP": "ملفات"
+        }
+      },
       "PERSONAL": {
         "TITLE": "الملفات الشخصية",
         "SIDENAV_LINK": {
@@ -409,6 +424,12 @@
         "EXPAND": "يوسع",
         "CLOSE_LIBRARY": "أغلق المكتبة"
       }
+    },
+    "TOOLTIPS": {
+      "COLLAPSE_NAVIGATION": "طي قائمة التنقل",
+      "OPTIONS_SETTINGS": "الخيارات والإعدادات",
+      "MY_PROFILE": "ملف التعريف الخاص بي",
+      "EXPAND_NAVIGATION": "توسيع قائمة التنقل"
     }
   },
   "NODE_SELECTOR": {
@@ -475,7 +496,7 @@
   },
   "INFO_PANEL": {
     "TABS": {
-
+    
     },
     "DETAILS": "التفاصيل"
   },

@@ -1,6 +1,7 @@
 {
   "APP": {
     "COPYRIGHT": "© 2005-2023 Hyland Software, Inc. and its affiliates. All rights reserved.",
+    "TITLE": "Workspace",
     "ABOUT": {
       "VERSION": "バージョン:",
       "PLUGINS": {
@@ -102,7 +103,21 @@
         "CREATE_LIBRARY": "新しいファイルライブラリを作成します"
       }
     },
+    "HEADER": {
+      "BUTTONS": {
+        "CREATE": "作成",
+        "CREATE_TOOLTIP": "コンテンツの作成",
+        "UPLOAD": "アップロード",
+        "UPLOAD_TOOLTIP": "コンテンツのアップロード"
+      }
+    },
     "BROWSE": {
+      "FILE": {
+        "SIDENAV_LINK": {
+          "LABEL": "ファイル",
+          "TOOLTIP": "ファイル"
+        }
+      },
       "PERSONAL": {
         "TITLE": "個人用ファイル",
         "SIDENAV_LINK": {
@@ -409,6 +424,12 @@
         "EXPAND": "展開",
         "CLOSE_LIBRARY": "ライブラリを閉じる"
       }
+    },
+    "TOOLTIPS": {
+      "COLLAPSE_NAVIGATION": "ナビゲーションメニューを折りたたむ",
+      "OPTIONS_SETTINGS": "オプションと設定",
+      "MY_PROFILE": "あなたのプロフィール",
+      "EXPAND_NAVIGATION": "ないビゲーションメニューを展開する"
     }
   },
   "NODE_SELECTOR": {
