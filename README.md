@@ -68,11 +68,6 @@ Changing the ADF code results in the recompilation and hot-reloading of the ACA 
 Use following command to test the projects:
 
 ```sh
-nx affected:test <project>
-```
-or 
-
-```sh
 nx test <project>
 ```
 
