@@ -14,7 +14,6 @@
     "prebuild": "mkdir -p ./app/.tmp && cp ./app/src/app.config.json.tpl ./app/.tmp/app.config.json",
     "build": "nx build content-ce",
     "build.release": "npm run build -- --configuration=production,release",
-    "build-libs": "nx build aca-shared && nx build adf-office-services-ext && nx build aca-about && nx build aca-viewer && nx build aca-preview && nx build aca-folder-rules && nx build aca-content",
     "test": "nx test",
     "lint": "NODE_OPTIONS=--max_old_space_size=4096 nx run-many --all --target=lint",
     "update-webdriver": "./scripts/update-webdriver.sh",

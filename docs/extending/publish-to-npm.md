@@ -17,10 +17,10 @@ ng generate @schematics/angular:library aca-new-lib
 
 ### Build library
 
-In order to publish new library, we need to build it first. You need to add build of your library to `build-libs` command in `package.json`
+In order to publish new library, we need to build it first. Building is done by following command from `package.json`
 
 ```sh
-"build-libs": "ng build aca-shared && ng build aca-new-lib",
+"build": "nx build content-ce"
 ```
 
 ### Update publish script
