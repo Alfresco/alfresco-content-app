@@ -16,7 +16,7 @@
     "build.release": "npm run build -- --configuration=production,release",
     "build-libs": "nx build aca-shared && nx build adf-office-services-ext && nx build aca-about && nx build aca-viewer && nx build aca-preview && nx build aca-folder-rules && nx build aca-content",
     "test": "nx test",
-    "lint": "NODE_OPTIONS=--max_old_space_size=4096 nx lint",
+    "lint": "NODE_OPTIONS=--max_old_space_size=4096 nx run-many --all --target=lint",
     "update-webdriver": "./scripts/update-webdriver.sh",
     "e2e": "npm run update-webdriver && protractor $SUITE",
     "inspect.bundle": "nx build content-ce --configuration production --stats-json && npx webpack-bundle-analyzer dist/content-ce/stats.json",
