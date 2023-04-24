@@ -7,11 +7,15 @@
           "build",
           "test",
           "lint"
-        ]
+        ],
+        "cacheDirectory": "nxcache"
       }
     }
   },
   "defaultBase": "develop",
+  "affected": {
+    "defaultBase": "develop"
+  },
   "namedInputs": {
     "sharedGlobals": [],
     "default": [
