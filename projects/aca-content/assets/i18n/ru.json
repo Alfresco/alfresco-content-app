@@ -1,6 +1,7 @@
 {
   "APP": {
     "COPYRIGHT": "© 2005-2023 Hyland Software, Inc. и ее филиалы. Все права защищены.",
+    "TITLE": "Workspace",
     "ABOUT": {
       "VERSION": "Версия:",
       "PLUGINS": {
@@ -102,7 +103,21 @@
         "CREATE_LIBRARY": "Создать новую библиотеку файлов"
       }
     },
+    "HEADER": {
+      "BUTTONS": {
+        "CREATE": "Создать",
+        "CREATE_TOOLTIP": "Создать контент",
+        "UPLOAD": "Загрузить",
+        "UPLOAD_TOOLTIP": "Загрузить файл"
+      }
+    },
     "BROWSE": {
+      "FILE": {
+        "SIDENAV_LINK": {
+          "LABEL": "Файлы",
+          "TOOLTIP": "Файлы"
+        }
+      },
       "PERSONAL": {
         "TITLE": "Личные файлы",
         "SIDENAV_LINK": {
@@ -409,6 +424,12 @@
         "EXPAND": "Развернуть",
         "CLOSE_LIBRARY": "Закрыть библиотеку"
       }
+    },
+    "TOOLTIPS": {
+      "COLLAPSE_NAVIGATION": "Свернуть меню навигации",
+      "OPTIONS_SETTINGS": "Параметры и настройки",
+      "MY_PROFILE": "Мой профиль",
+      "EXPAND_NAVIGATION": "Развернуть меню навигации"
     }
   },
   "NODE_SELECTOR": {

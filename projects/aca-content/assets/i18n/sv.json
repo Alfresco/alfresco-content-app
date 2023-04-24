@@ -1,6 +1,7 @@
 {
   "APP": {
     "COPYRIGHT": "© 2005-2023 Hyland Software, Inc. och dess dotterbolag. Alla rättigheter förbehålles.",
+    "TITLE": "Workspace",
     "ABOUT": {
       "VERSION": "Version:",
       "PLUGINS": {
@@ -102,7 +103,21 @@
         "CREATE_LIBRARY": "Skapa ett nytt filbibliotek"
       }
     },
+    "HEADER": {
+      "BUTTONS": {
+        "CREATE": "Skapa",
+        "CREATE_TOOLTIP": "Skapa innehåll",
+        "UPLOAD": "Ladda upp",
+        "UPLOAD_TOOLTIP": "Ladda upp innehåll"
+      }
+    },
     "BROWSE": {
+      "FILE": {
+        "SIDENAV_LINK": {
+          "LABEL": "Filer",
+          "TOOLTIP": "Filer"
+        }
+      },
       "PERSONAL": {
         "TITLE": "Personliga filer",
         "SIDENAV_LINK": {
@@ -409,6 +424,12 @@
         "EXPAND": "Expandera",
         "CLOSE_LIBRARY": "Stäng bibliotek"
       }
+    },
+    "TOOLTIPS": {
+      "COLLAPSE_NAVIGATION": "Dölj navigeringsmenyn",
+      "OPTIONS_SETTINGS": "Alternativ och inställningar",
+      "MY_PROFILE": "Min profil",
+      "EXPAND_NAVIGATION": "Visa navigeringsmenyn"
     }
   },
   "NODE_SELECTOR": {
