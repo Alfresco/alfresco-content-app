@@ -20,7 +20,7 @@ The idea behind this task is to create a brand new ACA extension with the same n
 
 From the root folder of the ACA project, launch the command below from a terminal. Please be sure that you are going to use the same name as the existing extension (in this case my-extension).
 
-    ng generate library my-extension
+    nx generate library my-extension
 
 In case of errors, add the following line to the `tsconfig.json` file.  
 
@@ -30,7 +30,7 @@ Once done, delete the full content of the `projects/my-extension` folder and rep
 
 To complete the creation, build the extension launching the following command.
 
-    ng build my-extension
+    nx build my-extension
 
 In case of errors, add the following configuration to the `tsconfig.json` file.  
 
