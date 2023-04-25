@@ -66,7 +66,7 @@ describe('UploadEffects', () => {
       uploadMenuButton = document.createElement('button');
       document.body.appendChild(uploadMenuButton);
       store.dispatch(new UploadFilesAction({}));
-      spyOn(document, 'querySelector').withArgs('app-toolbar-menu button[title="Upload content"]').and.returnValue(uploadMenuButton);
+      spyOn(document, 'querySelector').withArgs('app-toolbar-menu button[id="app.toolbar.upload"]').and.returnValue(uploadMenuButton);
     });
 
     it('should call focus function on upload menu button', () => {
@@ -103,7 +103,7 @@ describe('UploadEffects', () => {
       uploadMenuButton = document.createElement('button');
       document.body.appendChild(uploadMenuButton);
       store.dispatch(new UploadFolderAction({}));
-      spyOn(document, 'querySelector').withArgs('app-toolbar-menu button[title="Upload content"]').and.returnValue(uploadMenuButton);
+      spyOn(document, 'querySelector').withArgs('app-toolbar-menu button[id="app.toolbar.upload"]').and.returnValue(uploadMenuButton);
     });
 
     it('should call focus function on upload menu button', () => {

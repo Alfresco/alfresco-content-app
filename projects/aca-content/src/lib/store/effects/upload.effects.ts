@@ -47,7 +47,7 @@ export class UploadEffects {
   private fileInput: HTMLInputElement;
   private folderInput: HTMLInputElement;
   private fileVersionInput: HTMLInputElement;
-  private readonly uploadMenuButtonSelector = 'app-toolbar-menu button[title="Upload content"]';
+  private readonly uploadMenuButtonSelector = 'app-toolbar-menu button[id="app.toolbar.upload"]';
 
   constructor(
     private store: Store<AppStore>,
