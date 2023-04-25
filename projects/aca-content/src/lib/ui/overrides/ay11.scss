@@ -1,5 +1,8 @@
 @mixin ay11-theme() {
-  .mat-icon-button, .mat-button, .mat-checkbox, .mat-raised-button {
+  .mat-icon-button,
+  .mat-button,
+  .mat-checkbox,
+  .mat-raised-button {
     &:focus-visible {
       @include rounded-outline;
     }
@@ -55,7 +58,8 @@
     }
   }
 
-  .adf-search-user-button, .app-search-button {
+  .adf-search-user-button,
+  .app-search-button {
     line-height: 36px !important;
 
     @include rounded-border(transparent);
@@ -135,14 +139,12 @@
     }
   }
 
-  .mat-stroked-button, .mat-flat-button {
+  .mat-stroked-button,
+  .mat-flat-button {
     &.cdk-keyboard-focused {
       .mat-button-ripple.mat-ripple {
         outline: 2px solid var(--theme-blue-button-color);
-        top: -4px;
-        left: -4px;
-        bottom: -4px;
-        right: -4px;
+        inset: -4px;
       }
     }
   }
@@ -179,7 +181,7 @@
       }
     }
 
-    &.cdk-keyboard-focused:not([aria-disabled="true"]) {
+    &.cdk-keyboard-focused:not([aria-disabled='true']) {
       background-color: white;
 
       @include rounded-border;
@@ -189,7 +191,8 @@
   .adf-error-snackbar {
     background-color: #ba1b1b;
 
-    .mat-simple-snackbar, .mat-simple-snackbar-action {
+    .mat-simple-snackbar,
+    .mat-simple-snackbar-action {
       color: white;
     }
   }
@@ -197,7 +200,8 @@
   .adf-info-snackbar {
     background-color: var(--theme-blue-button-color);
 
-    .mat-simple-snackbar, .mat-simple-snackbar-action {
+    .mat-simple-snackbar,
+    .mat-simple-snackbar-action {
       color: white;
     }
   }
