@@ -6,6 +6,7 @@
 /.tmp
 /app/.tmp
 /out-tsc
+/nxcache
 
 # dependencies
 /node_modules

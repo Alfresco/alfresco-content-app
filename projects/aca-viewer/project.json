@@ -1,0 +1,51 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "aca-viewer",
+  "projectType": "library",
+  "sourceRoot": "projects/aca-viewer/src",
+  "prefix": "lib",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "project": "projects/aca-viewer/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "projects/aca-viewer/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "projects/aca-viewer/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production",
+      "outputs": [
+        "{workspaceRoot}/dist/@alfresco/aca-viewer"
+      ]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "codeCoverage": true,
+        "main": "projects/aca-viewer/src/test.ts",
+        "tsConfig": "projects/aca-viewer/tsconfig.spec.json",
+        "karmaConfig": "projects/aca-viewer/karma.conf.js"
+      }
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": [
+          "projects/aca-viewer/**/*.ts",
+          "projects/aca-viewer/**/*.html"
+        ],
+        "cache": true,
+        "cacheLocation": ".eslintcache",
+        "ignorePath": ".eslintignore"
+      },
+      "outputs": [
+        "{options.outputFile}"
+      ]
+    }
+  }
+}

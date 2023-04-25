@@ -21,7 +21,7 @@ nav: ja
 
 ACA プロジェクトのルートフォルダから、ターミナルで以下のコマンドを起動します。その際、既存の拡張機能 (ここでは my-extension) と同じ名前を使用することを確認してください。
 
-    ng generate library my-extension
+    nx generate library my-extension
 
 エラーが発生した場合は、`tsconfig.json` ファイルに以下の行を追加してください。
 
@@ -31,7 +31,7 @@ ACA プロジェクトのルートフォルダから、ターミナルで以下�
 
 作成を完了するには、次のコマンドを起動して拡張機能を構築します。
 
-    ng build my-extension
+    nx build my-extension
 
 エラーが発生した場合は、`tsconfig.json` ファイルに以下の設定を追加してください。
 

@@ -39,7 +39,7 @@ runs:
           echo "APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI={protocol}//{hostname}{:port}/assets/silent-refresh.html"
         } >> .env
 
-        npm start > /dev/null &\
+        npm start content-ce > /dev/null &\
 
         if [ ${{ inputs.test-runner }} == "playwright" ]; then
           echo "Running playwright tests with options ${{ inputs.options }}"
