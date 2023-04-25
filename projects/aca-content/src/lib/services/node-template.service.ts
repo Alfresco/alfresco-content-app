@@ -166,6 +166,6 @@ export class NodeTemplateService {
   }
 
   private static focusCreateMenuButton(): void {
-    document.querySelector<HTMLElement>('app-create-menu button').focus();
+    document.querySelector<HTMLElement>('app-toolbar-menu button[id="app.toolbar.create"]').focus();
   }
 }
