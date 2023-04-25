@@ -30,7 +30,7 @@
   "private": true,
   "dependencies": {
     "@alfresco/adf-content-services": "6.0.0-A.4.4784685390",
-    "@alfresco/adf-core": "6.0.0-A.4.4784685390",
+    "@alfresco/adf-core": "6.0.0-A.4.4797031705",
     "@alfresco/adf-extensions": "6.0.0-A.4.4797031705",
     "@alfresco/js-api": "5.6.0-870",
     "@angular/animations": "14.1.2",
