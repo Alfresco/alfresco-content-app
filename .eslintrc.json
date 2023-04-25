@@ -12,8 +12,8 @@
         "createDefaultProgram": true
       },
       "extends": [
-        "plugin:@angular-eslint/ng-cli-compat",
-        "plugin:@angular-eslint/ng-cli-compat--formatting-add-on",
+        "plugin:@nrwl/nx/typescript",
+        "plugin:@nrwl/nx/angular",
         "plugin:@angular-eslint/template/process-inline-templates",
         "plugin:@cspell/recommended"
       ],
@@ -164,6 +164,11 @@
         ],
         "unicorn/filename-case": "error"
       }
+    },
+    {
+      "files": ["*.js"],
+      "extends": ["plugin:@nrwl/nx/javascript"],
+      "rules": {}
     },
     {
       "files": [
