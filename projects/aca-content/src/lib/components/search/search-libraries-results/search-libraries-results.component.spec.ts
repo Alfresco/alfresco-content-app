@@ -29,6 +29,8 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { SearchLibrariesResultsComponent } from './search-libraries-results.component';
 import { SearchLibrariesQueryBuilderService } from './search-libraries-query-builder.service';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { AppService } from '@alfresco/aca-shared';
 
 describe('SearchLibrariesResultsComponent', () => {
   let component: SearchLibrariesResultsComponent;
@@ -41,7 +43,16 @@ describe('SearchLibrariesResultsComponent', () => {
       imports: [AppTestingModule, AppConfigModule],
       declarations: [DataTableComponent, DocumentListComponent, SearchLibrariesResultsComponent],
       schemas: [NO_ERRORS_SCHEMA],
-      providers: [SearchLibrariesQueryBuilderService]
+      providers: [
+        {
+          provide: AppService,
+          useValue: {
+            appNavNarMode$: new BehaviorSubject('collapsed'),
+            toggleAppNavBar$: new Subject()
+          }
+        },
+        SearchLibrariesQueryBuilderService
+      ]
     });
 
     fixture = TestBed.createComponent(SearchLibrariesResultsComponent);

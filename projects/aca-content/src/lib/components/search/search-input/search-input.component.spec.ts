@@ -28,10 +28,11 @@ import { SearchInputComponent } from './search-input.component';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { Actions, ofType } from '@ngrx/effects';
 import { SearchByTermAction, SearchActionTypes, SnackbarErrorAction, SnackbarActionTypes } from '@alfresco/aca-shared/store';
-import { AppHookService } from '@alfresco/aca-shared';
+import { AppHookService, AppService } from '@alfresco/aca-shared';
 import { map } from 'rxjs/operators';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { SearchNavigationService } from '../search-navigation.service';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 describe('SearchInputComponent', () => {
   let fixture: ComponentFixture<SearchInputComponent>;
@@ -44,7 +45,16 @@ describe('SearchInputComponent', () => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule],
       declarations: [SearchInputComponent],
-      providers: [SearchQueryBuilderService],
+      providers: [
+        {
+          provide: AppService,
+          useValue: {
+            appNavNarMode$: new BehaviorSubject('collapsed'),
+            toggleAppNavBar$: new Subject()
+          }
+        },
+        SearchQueryBuilderService
+      ],
       schemas: [NO_ERRORS_SCHEMA]
     });
 

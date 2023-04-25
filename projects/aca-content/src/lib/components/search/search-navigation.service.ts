@@ -24,6 +24,7 @@
 
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -35,7 +36,7 @@ export class SearchNavigationService {
     return this._previousRoute;
   }
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private location: Location) {}
 
   saveRoute(route: string): void {
     this._previousRoute = route;
@@ -44,6 +45,8 @@ export class SearchNavigationService {
   navigateBack(): void {
     if (this.previousRoute) {
       this.router.navigate([this.previousRoute]);
+    } else {
+      this.location.back();
     }
   }
 
