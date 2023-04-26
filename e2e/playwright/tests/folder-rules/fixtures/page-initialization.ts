@@ -42,6 +42,7 @@ export const test = base.extend<Pages & Api>({
   nodesPage: async ({ page }, use) => {
     await use(new NodesPage(page));
   },
+  // eslint-disable-next-line no-empty-pattern
   apiClient: async ({}, use) => {
     const apiClient = new ApiClientFactory();
     await apiClient.setUpAcaBackend('admin');

@@ -5,7 +5,7 @@ const buildNumber = require('./build-number');
 const outputDir = path.resolve(__dirname, '../../../e2e-output/');
 
 async function saveScreenshots(retryCount) {
-  const folderName = process.env.TRAVIS_JOB_NAME.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+  const folderName = process.env.GITHUB_JOB;
   console.log(`Start uploading report in ${folderName}`);
 
   let alfrescoJsApi = new AlfrescoApi({

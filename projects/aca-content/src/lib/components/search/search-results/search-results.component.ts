@@ -85,6 +85,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
     combineLatest([this.route.params, this.queryBuilder.configUpdated])
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(([params, searchConfig]) => {
+        // eslint-disable-next-line no-prototype-builtins
         this.searchedWord = params.hasOwnProperty(this.queryParamName) ? params[this.queryParamName] : null;
         const query = this.formatSearchQuery(this.searchedWord, searchConfig['aca:fields']);
         if (query) {
@@ -128,6 +129,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
 
     if (this.route) {
       this.route.params.forEach((params: Params) => {
+        // eslint-disable-next-line no-prototype-builtins
         this.searchedWord = params.hasOwnProperty(this.queryParamName) ? params[this.queryParamName] : null;
         if (this.searchedWord) {
           this.queryBuilder.update();

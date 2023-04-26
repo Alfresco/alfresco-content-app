@@ -154,9 +154,8 @@ export class ContentApiService {
     };
     const queryOptions = Object.assign(defaults, options || {});
 
-    // @ts-ignore
     return from(
-      new Promise((resolve, reject) => {
+      new Promise<Node>((resolve, reject) => {
         this.nodesApi.getNode(nodeId, queryOptions).then(
           (nodeEntry: NodeEntry) => {
             resolve(nodeEntry.entry);

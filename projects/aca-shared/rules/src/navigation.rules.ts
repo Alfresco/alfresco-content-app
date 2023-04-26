@@ -136,8 +136,8 @@ export const isNotRecentFiles = (context: RuleContext): boolean => !isRecentFile
  * JSON ref: `app.navigation.isSearchResults`
  */
 export function isSearchResults(
-  context: RuleContext /*,
-  ...args: RuleParameter[]*/
+  context: RuleContext
+  // ...args: RuleParameter[]
 ): boolean {
   const { url } = context.navigation;
   return url && url.startsWith('/search');

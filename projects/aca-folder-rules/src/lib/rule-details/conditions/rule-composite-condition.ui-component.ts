@@ -128,6 +128,7 @@ export class RuleCompositeConditionUiComponent implements ControlValueAccessor, 
   }
 
   isFormControlSimpleCondition(control: FormControl): boolean {
+    // eslint-disable-next-line no-prototype-builtins
     return control.value.hasOwnProperty('field');
   }
 
