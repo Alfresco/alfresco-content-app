@@ -95,7 +95,7 @@ export const isContentServiceEnabled = (): boolean => localStorage && localStora
  * JSON ref: `app.isSearchSupported`
  */
 export const isSearchSupported = (context: RuleContext): boolean =>
-  [navigation.isNotSearchResults(context) /*, !hasSelection(context)*/].every(Boolean);
+  [navigation.isNotSearchResults(context) /* , !hasSelection(context)*/].every(Boolean);
 
 /**
  * Checks if upload action is supported for the given context
@@ -617,6 +617,7 @@ export function canOpenWithOffice(context: RuleContext): boolean {
 
   // workaround for Shared files
   if (context.navigation && context.navigation.url && context.navigation.url.startsWith('/shared')) {
+    // eslint-disable-next-line no-prototype-builtins
     if (file.entry.hasOwnProperty('allowableOperationsOnTarget')) {
       return context.permissions.check(file, ['update'], {
         target: 'allowableOperationsOnTarget'

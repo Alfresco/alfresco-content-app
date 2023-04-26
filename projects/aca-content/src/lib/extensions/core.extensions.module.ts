@@ -29,7 +29,6 @@ import { ExtensionsModule } from '@alfresco/adf-extensions';
 import { AppExtensionService } from '@alfresco/aca-shared';
 import { ContentServiceExtensionService } from '../services/content-service-extension.service';
 
-// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 export function setupExtensions(service: AppExtensionService): () => void {
   return () => service.load();
 }

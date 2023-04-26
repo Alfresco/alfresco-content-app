@@ -64,7 +64,7 @@ describe('AosEffects', () => {
     const action = new AosAction(payload);
     aosActions$ = of(action);
 
-    effects.openOffice$.subscribe();
+    effects.openOffice$.subscribe(() => {});
 
     expect(onActionEditOnlineAosSpy).toHaveBeenCalledWith(payload);
   });

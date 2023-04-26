@@ -103,6 +103,7 @@ export class SearchLibrariesResultsComponent extends PageComponent implements On
 
     if (this.route) {
       this.route.params.forEach((params: Params) => {
+        // eslint-disable-next-line no-prototype-builtins
         this.searchedWord = params.hasOwnProperty(this.queryParamName) ? params[this.queryParamName] : null;
         const query = this.formatSearchQuery(this.searchedWord);
 
