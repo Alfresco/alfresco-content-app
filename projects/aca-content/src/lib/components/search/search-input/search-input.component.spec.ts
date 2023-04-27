@@ -70,8 +70,8 @@ describe('SearchInputComponent', () => {
     fixture.destroy();
   });
 
-  it('should collapse the sidenav when the input value is clicked', () => {
-    spyOn(appServiceMock.appNavNarMode$, 'next').and.callThrough();
+  it('sidenav should be collapsed by default', () => {
+    spyOn(appServiceMock.appNavNarMode$, 'next');
     component.ngOnInit();
 
     expect(appServiceMock.appNavNarMode$.next).toHaveBeenCalledWith('collapsed');
@@ -244,8 +244,8 @@ describe('SearchInputComponent', () => {
     });
   });
 
-  it('should expand the sidenav when the close button is clicked', () => {
-    spyOn(appServiceMock.appNavNarMode$, 'next').and.callThrough();
+  it('sidenav should be expanded after the component is Destroy', () => {
+    spyOn(appServiceMock.appNavNarMode$, 'next');
     component.ngOnDestroy();
 
     expect(appServiceMock.appNavNarMode$.next).toHaveBeenCalledWith('expanded');

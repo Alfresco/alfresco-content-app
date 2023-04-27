@@ -93,7 +93,6 @@ export class SearchInputComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.appService.appNavNarMode$.next('collapsed');
     this.showInputValue();
 
     this.router.events
