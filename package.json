@@ -71,7 +71,7 @@
   },
   "devDependencies": {
     "@alfresco/adf-cli": "6.0.0-A.4.4808930974",
-    "@alfresco/adf-testing": "6.0.0-A.4.4806063477",
+    "@alfresco/adf-testing": "6.0.0-A.4.4808930974",
     "@angular-devkit/build-angular": "14.2.11",
     "@angular-devkit/core": "14.1.2",
     "@angular-devkit/schematics": "14.1.2",
