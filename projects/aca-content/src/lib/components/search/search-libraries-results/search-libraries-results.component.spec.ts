@@ -37,6 +37,10 @@ describe('SearchLibrariesResultsComponent', () => {
   let fixture: ComponentFixture<SearchLibrariesResultsComponent>;
 
   const emptyPage = { list: { pagination: { totalItems: 0 }, entries: [] } };
+  const appServiceMock = {
+    appNavNarMode$: new BehaviorSubject('collapsed'),
+    toggleAppNavBar$: new Subject()
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -46,10 +50,7 @@ describe('SearchLibrariesResultsComponent', () => {
       providers: [
         {
           provide: AppService,
-          useValue: {
-            appNavNarMode$: new BehaviorSubject('collapsed'),
-            toggleAppNavBar$: new Subject()
-          }
+          useValue: appServiceMock
         },
         SearchLibrariesQueryBuilderService
       ]
@@ -64,5 +65,11 @@ describe('SearchLibrariesResultsComponent', () => {
     fixture.detectChanges();
 
     expect(component.onSearchResultLoaded).toHaveBeenCalledWith(emptyPage);
+  });
+
+  it('should click on search sidenav should collapsed', () => {
+    spyOn(appServiceMock.appNavNarMode$, 'next').and.callThrough();
+
+    expect(appServiceMock.appNavNarMode$.next).toHaveBeenCalledWith('collapsed');
   });
 });

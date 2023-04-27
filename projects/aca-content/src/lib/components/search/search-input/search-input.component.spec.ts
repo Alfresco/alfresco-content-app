@@ -40,6 +40,10 @@ describe('SearchInputComponent', () => {
   let actions$: Actions;
   let appHookService: AppHookService;
   let searchInputService: SearchNavigationService;
+  const appServiceMock = {
+    appNavNarMode$: new BehaviorSubject('collapsed'),
+    toggleAppNavBar$: new Subject()
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -48,10 +52,7 @@ describe('SearchInputComponent', () => {
       providers: [
         {
           provide: AppService,
-          useValue: {
-            appNavNarMode$: new BehaviorSubject('collapsed'),
-            toggleAppNavBar$: new Subject()
-          }
+          useValue: appServiceMock
         },
         SearchQueryBuilderService
       ],
@@ -67,6 +68,12 @@ describe('SearchInputComponent', () => {
 
   afterEach(() => {
     fixture.destroy();
+  });
+
+  it('should collapse the sidenav when the input value is clicked', () => {
+    spyOn(appServiceMock.appNavNarMode$, 'next').and.callThrough();
+
+    expect(appServiceMock.appNavNarMode$.next).toHaveBeenCalledWith('collapsed');
   });
 
   it('should change flag on library400Error event', async () => {

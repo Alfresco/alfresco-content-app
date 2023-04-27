@@ -62,4 +62,12 @@ describe('SearchNavigationService', () => {
 
     expect(routerNavigate).toHaveBeenCalledWith(['/search']);
   });
+
+  it('should navigate back to the previous route when the "navigationBack" button is clicked', () => {
+    const routerNavigate = spyOn(router, 'navigate');
+    service.saveRoute('');
+    service.navigateBack();
+
+    expect(routerNavigate).toHaveBeenCalledWith('/personal-files');
+  });
 });
