@@ -68,6 +68,6 @@ describe('SearchNavigationService', () => {
     service.saveRoute('');
     service.navigateBack();
 
-    expect(routerNavigate).toHaveBeenCalledWith('/personal-files');
+    expect(routerNavigate).toHaveBeenCalledWith(['/personal-files']);
   });
 });

@@ -72,6 +72,7 @@ describe('SearchInputComponent', () => {
 
   it('should collapse the sidenav when the input value is clicked', () => {
     spyOn(appServiceMock.appNavNarMode$, 'next').and.callThrough();
+    component.ngOnInit();
 
     expect(appServiceMock.appNavNarMode$.next).toHaveBeenCalledWith('collapsed');
   });
@@ -241,5 +242,12 @@ describe('SearchInputComponent', () => {
       expect(component.exitSearch).toHaveBeenCalled();
       expect(searchInputService.navigateBack).toHaveBeenCalledWith();
     });
+  });
+
+  it('should expand the sidenav when the close button is clicked', () => {
+    spyOn(appServiceMock.appNavNarMode$, 'next').and.callThrough();
+    component.ngOnDestroy();
+
+    expect(appServiceMock.appNavNarMode$.next).toHaveBeenCalledWith('expanded');
   });
 });

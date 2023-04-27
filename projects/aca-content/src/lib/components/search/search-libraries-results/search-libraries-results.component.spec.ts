@@ -69,6 +69,7 @@ describe('SearchLibrariesResultsComponent', () => {
 
   it('should click on search sidenav should collapsed', () => {
     spyOn(appServiceMock.appNavNarMode$, 'next').and.callThrough();
+    component.ngOnInit();
 
     expect(appServiceMock.appNavNarMode$.next).toHaveBeenCalledWith('collapsed');
   });
