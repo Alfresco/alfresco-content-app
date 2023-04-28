@@ -30,7 +30,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ContentManagementService } from '../../../services/content-management.service';
 import { SearchLibrariesQueryBuilderService } from './search-libraries-query-builder.service';
-import { AppExtensionService, AppHookService, PageComponent } from '@alfresco/aca-shared';
+import { AppExtensionService, AppHookService, AppService, PageComponent } from '@alfresco/aca-shared';
 import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 
 @Component({
@@ -52,6 +52,7 @@ export class SearchLibrariesResultsComponent extends PageComponent implements On
     private librariesQueryBuilder: SearchLibrariesQueryBuilderService,
     private route: ActivatedRoute,
     private appHookService: AppHookService,
+    private appService: AppService,
     store: Store<AppStore>,
     extensions: AppExtensionService,
     content: ContentManagementService
@@ -65,6 +66,7 @@ export class SearchLibrariesResultsComponent extends PageComponent implements On
   }
 
   ngOnInit() {
+    this.appService.appNavNarMode$.next('collapsed');
     super.ngOnInit();
 
     this.columns = this.extensions.documentListPresets.searchLibraries || [];

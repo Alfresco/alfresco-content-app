@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AppHookService } from '@alfresco/aca-shared';
+import { AppHookService, AppService } from '@alfresco/aca-shared';
 import { AppStore, SearchByTermAction, SearchOptionIds, SearchOptionModel, SnackbarErrorAction } from '@alfresco/aca-shared/store';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { AppConfigService } from '@alfresco/adf-core';
@@ -86,6 +86,7 @@ export class SearchInputComponent implements OnInit, OnDestroy {
     private router: Router,
     private store: Store<AppStore>,
     private appHookService: AppHookService,
+    private appService: AppService,
     public searchInputService: SearchNavigationService
   ) {
     this.searchOnChange = this.config.get<boolean>('search.aca:triggeredOnChange', true);
@@ -113,6 +114,7 @@ export class SearchInputComponent implements OnInit, OnDestroy {
   }
 
   showInputValue() {
+    this.appService.appNavNarMode$.next('collapsed');
     this.has400LibraryError = false;
     this.searchedWord = this.getUrlSearchTerm();
 
@@ -122,6 +124,7 @@ export class SearchInputComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.appService.appNavNarMode$.next('expanded');
     this.onDestroy$.next(true);
     this.onDestroy$.complete();
     this.removeContentFilters();

@@ -29,19 +29,31 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { SearchLibrariesResultsComponent } from './search-libraries-results.component';
 import { SearchLibrariesQueryBuilderService } from './search-libraries-query-builder.service';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { AppService } from '@alfresco/aca-shared';
 
 describe('SearchLibrariesResultsComponent', () => {
   let component: SearchLibrariesResultsComponent;
   let fixture: ComponentFixture<SearchLibrariesResultsComponent>;
 
   const emptyPage = { list: { pagination: { totalItems: 0 }, entries: [] } };
+  const appServiceMock = {
+    appNavNarMode$: new BehaviorSubject('collapsed'),
+    toggleAppNavBar$: new Subject()
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule, AppConfigModule],
       declarations: [DataTableComponent, DocumentListComponent, SearchLibrariesResultsComponent],
       schemas: [NO_ERRORS_SCHEMA],
-      providers: [SearchLibrariesQueryBuilderService]
+      providers: [
+        {
+          provide: AppService,
+          useValue: appServiceMock
+        },
+        SearchLibrariesQueryBuilderService
+      ]
     });
 
     fixture = TestBed.createComponent(SearchLibrariesResultsComponent);
@@ -53,5 +65,12 @@ describe('SearchLibrariesResultsComponent', () => {
     fixture.detectChanges();
 
     expect(component.onSearchResultLoaded).toHaveBeenCalledWith(emptyPage);
+  });
+
+  it('should collapsed sidenav by default', () => {
+    spyOn(appServiceMock.appNavNarMode$, 'next');
+    component.ngOnInit();
+
+    expect(appServiceMock.appNavNarMode$.next).toHaveBeenCalledWith('collapsed');
   });
 });
