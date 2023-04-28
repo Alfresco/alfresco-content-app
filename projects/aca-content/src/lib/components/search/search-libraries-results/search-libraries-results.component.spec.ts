@@ -67,7 +67,7 @@ describe('SearchLibrariesResultsComponent', () => {
     expect(component.onSearchResultLoaded).toHaveBeenCalledWith(emptyPage);
   });
 
-  it('sidenav should be collapsed by default', () => {
+  it('should collapsed sidenav by default', () => {
     spyOn(appServiceMock.appNavNarMode$, 'next');
     component.ngOnInit();
 

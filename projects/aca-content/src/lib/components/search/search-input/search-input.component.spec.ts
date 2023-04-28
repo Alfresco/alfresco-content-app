@@ -70,7 +70,7 @@ describe('SearchInputComponent', () => {
     fixture.destroy();
   });
 
-  it('sidenav should be collapsed by default', () => {
+  it('should collapsed sidenav by default', () => {
     spyOn(appServiceMock.appNavNarMode$, 'next');
     component.ngOnInit();
 
@@ -244,7 +244,7 @@ describe('SearchInputComponent', () => {
     });
   });
 
-  it('sidenav should be expanded after the component is Destroy', () => {
+  it('should sidenav expanded after the component is destroy', () => {
     spyOn(appServiceMock.appNavNarMode$, 'next');
     component.ngOnDestroy();
 
