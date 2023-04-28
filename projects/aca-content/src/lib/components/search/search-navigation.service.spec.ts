@@ -63,7 +63,7 @@ describe('SearchNavigationService', () => {
     expect(routerNavigate).toHaveBeenCalledWith(['/search']);
   });
 
-  it('should navigate back to the previous route when call the navigationBack function', () => {
+  it('should navigate back to the previous route when call the navigateBack function', () => {
     const routerNavigate = spyOn(router, 'navigate');
     service.saveRoute('');
     service.navigateBack();
