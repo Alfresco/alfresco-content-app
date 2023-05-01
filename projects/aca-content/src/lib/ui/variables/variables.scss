@@ -37,6 +37,8 @@ $selected-background-color: rgba(31, 116, 219, 0.24);
 $action-button-text-color: rgba(33, 35, 40, 0.7);
 $page-layout-header-background-color: #fff;
 $aca-toolbar-button-background-color: rgba(33, 33, 33, 0.05);
+$acc-user-initials-background: rgba(33, 33, 33, 0.12);
+$acc-user-initials-text-color: #212121;
 
 // CSS Variables
 $defaults: (
@@ -82,6 +84,8 @@ $defaults: (
   --theme-header-border-color: $grey-background,
   --theme-page-layout-header-background-color: $page-layout-header-background-color,
   --theme-app-toolbar-button-background-color: $aca-toolbar-button-background-color
+  --theme-user-initials-background-color: $acc-user-initials-background,
+  --theme-user-intials-text-color: $acc-user-initials-text-color
 );
 
 // propagates SCSS variables into the CSS variables scope

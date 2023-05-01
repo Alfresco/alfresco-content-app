@@ -118,6 +118,7 @@ import { UserInfoComponent } from './components/common/user-info/user-info.compo
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { ContentManagementService } from './services/content-management.service';
 import { ShellLayoutComponent, SHELL_NAVBAR_MIN_WIDTH } from '@alfresco/adf-core/shell';
+import { UserMenuComponent } from './components/sidenav/user-menu/user-menu.component';
 
 registerLocaleData(localeFr);
 registerLocaleData(localeDe);
@@ -229,7 +230,8 @@ export class ContentServiceExtensionModule {
       'app.languagePicker': LanguagePickerComponent,
       'app.logout': LogoutComponent,
       'app.user': UserInfoComponent,
-      'app.notification-center': NotificationHistoryComponent
+      'app.notification-center': NotificationHistoryComponent,
+      'app.user.menu': UserMenuComponent
     });
 
     extensions.setEvaluators({

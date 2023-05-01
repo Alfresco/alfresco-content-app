@@ -24,10 +24,7 @@
   ],
 
   "features": {
-    "header": [
-      {
-        "id": "app.header.more",
-        "children": [
+    "moreMenu": [
           {
             "id": "app.header.about",
             "order": 100,
@@ -39,7 +36,5 @@
             }
           }
         ]
-      }
-    ]
   }
 }
