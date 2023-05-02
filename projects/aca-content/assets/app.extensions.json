@@ -86,7 +86,7 @@
         "order": 50
       },
       {
-        "id": "app.header.user",
+        "id": "app.header.more",
         "type": "custom",
         "component": "app.user.menu",
         "order": 100

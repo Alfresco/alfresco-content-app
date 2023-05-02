@@ -33,7 +33,7 @@ import { BrowserActions } from '@alfresco/adf-testing';
 
 export class PageLayoutHeader extends Component {
   logoLink = this.byCss('.app-menu__title');
-  moreActions = browser.element(by.id('app.header.user'));
+  moreActions = browser.element(by.id('app.header.more'));
   sidenavToggle = this.byCss(`.sidenav-header-title-logo`);
 
   menu = new Menu();
