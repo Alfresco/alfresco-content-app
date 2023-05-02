@@ -1040,6 +1040,65 @@ describe('AppExtensionService', () => {
     });
   });
 
+  describe('getMoreActions', () => {
+    it('should load user actions from the config', (done) => {
+      applyConfig({
+        $id: 'test',
+        $name: 'test',
+        $version: '1.0.0',
+        $license: 'MIT',
+        $vendor: 'Good company',
+        $runtime: '1.5.0',
+        features: {
+          moreMenu: [
+            {
+              id: 'more.action.separator.1',
+              order: 1,
+              type: ContentActionType.default
+            }
+          ]
+        }
+      });
+
+      service.getMoreActions().subscribe((moreActions) => {
+        expect(moreActions.length).toBe(1);
+        done();
+      });
+    });
+
+    it('should sort more actions by order', (done) => {
+      applyConfig({
+        $id: 'test',
+        $name: 'test',
+        $version: '1.0.0',
+        $license: 'MIT',
+        $vendor: 'Good company',
+        $runtime: '1.5.0',
+        features: {
+          moreMenu: [
+            {
+              id: 'more.action.1',
+              order: 2,
+              type: ContentActionType.button
+            },
+            {
+              id: 'more.action.2',
+              order: 1,
+              type: ContentActionType.button
+            }
+          ]
+        }
+      });
+
+      service.getMoreActions().subscribe((moreActions) => {
+        expect(moreActions.length).toBe(2);
+        expect(moreActions[0].id).toBe('more.action.2');
+        expect(moreActions[1].id).toBe('more.action.1');
+        done();
+      });
+    });
+  });
+
   describe('search', () => {
     beforeEach(() => {
       extensions.setEvaluators({
