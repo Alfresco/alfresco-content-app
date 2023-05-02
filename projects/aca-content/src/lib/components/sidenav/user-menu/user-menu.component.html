@@ -1,0 +1,20 @@
+<button mat-button class="aca-menu-user-details-button" [matMenuTriggerFor]="menu">
+  <div>{{ (displayName$ | async)?.initials }}</div>
+</button>
+
+<mat-menu #menu="matMenu" xPosition="before">
+  <div mat-menu-item class="aca-menu-user-details" [routerLink]="['/profile']"
+    title="{{'APP.TOOLTIPS.MY_PROFILE' | translate}}">
+    <button class="aca-menu-user-details-button">
+      <div>{{ (displayName$ | async)?.initials }}</div>
+    </button>
+    <div class="aca-menu-user-details-name-email">
+      <div>{{ (displayName$ | async)?.firstName }}</div>
+      <div>{{ (displayName$ | async)?.email }}</div>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <ng-container *ngFor="let actionRef of actions; trackBy: trackByActionId">
+    <app-toolbar-menu-item [actionRef]="actionRef"></app-toolbar-menu-item>
+  </ng-container>
+</mat-menu>

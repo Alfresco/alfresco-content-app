@@ -72,6 +72,7 @@ export class AppExtensionService implements RuleContext {
   settingGroups: Array<SettingsGroupRef> = [];
 
   private _headerActions = new BehaviorSubject<Array<ContentActionRef>>([]);
+  private _moreActions = new BehaviorSubject<Array<ContentActionRef>>([]);
   private _toolbarActions = new BehaviorSubject<Array<ContentActionRef>>([]);
   private _viewerToolbarActions = new BehaviorSubject<Array<ContentActionRef>>([]);
   private _sharedLinkViewerToolbarActions = new BehaviorSubject<Array<ContentActionRef>>([]);
@@ -150,6 +151,7 @@ export class AppExtensionService implements RuleContext {
     this.settingGroups = this.loader.getElements<SettingsGroupRef>(config, 'settings');
 
     this._headerActions.next(this.loader.getContentActions(config, 'features.header'));
+    this._moreActions.next(this.loader.getContentActions(config, 'features.moreMenu'));
     this._sidebarActions.next(this.loader.getContentActions(config, 'features.sidebar.toolbar'));
     this._toolbarActions.next(this.loader.getContentActions(config, 'features.toolbar'));
     this._viewerToolbarActions.next(this.loader.getContentActions(config, 'features.viewer.toolbarActions'));
@@ -448,6 +450,21 @@ export class AppExtensionService implements RuleContext {
 
             return action;
           })
+          .map((action) => this.setActionDisabledFromRule(action))
+          .sort(sortByOrder)
+          .reduce(reduceEmptyMenus, [])
+          .reduce(reduceSeparators, [])
+      )
+    );
+  }
+
+  getMoreActions(): Observable<Array<ContentActionRef>> {
+    return this._moreActions.pipe(
+      map((moreActions) =>
+        moreActions
+          .filter((action) => this.filterVisible(action))
+          .map((action) => this.copyAction(action))
+          .map((action) => this.buildMenu(action))
           .map((action) => this.setActionDisabledFromRule(action))
           .sort(sortByOrder)
           .reduce(reduceEmptyMenus, [])
