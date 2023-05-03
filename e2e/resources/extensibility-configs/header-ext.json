@@ -46,66 +46,32 @@
   "features": {
     "header": [
       {
-        "id": "app.header.user",
+        "id": "app.user.menu",
         "type": "custom",
-        "component": "app.user",
+        "component": "app.user.menu",
         "order": 100
+      }
+    ],
+    "moreMenu": [
+      {
+        "id": "app.languagePicker",
+        "order": 100,
+        "type": "custom",
+        "component": "app.languagePicker"
       },
       {
-        "id": "app.header.more",
-        "type": "menu",
-        "order": 10000,
-        "icon": "more_vert",
-        "title": "APP.ACTIONS.MORE",
-        "children": [
-          {
-            "id": "app.languagePicker",
-            "order": 100,
-            "type": "custom",
-            "component": "app.languagePicker"
-          },
-          {
-            "id": "logout.separator",
-            "type": "separator",
-            "order": 199
-          },
-          {
-            "id": "settings",
-            "title": "App settings",
-            "description": "Application settings",
-            "icon": "settings",
-            "disabled": true,
-            "order": 10,
-            "actions": {
-              "click": "app.actions.settings"
-            },
-            "rules": {
-              "visible": "app.navigation.isNotTrashcan"
-            }
-          },
-          {
-            "id": "button",
-            "title": "New Button",
-            "description": "new button description",
-            "icon": "alarm_on",
-            "order": 20,
-            "actions": {
-              "click": "app.actions.settings"
-            },
-            "rules": {
-              "visible": "app.navigation.isNotTrashcan"
-            }
-          },
-          {
-            "id": "app.logout",
-            "order": 200,
-            "type": "custom",
-            "component": "app.logout",
-            "rules": {
-              "visible": "app.canShowLogout"
-            }
-          }
-        ]
+        "id": "logout.separator",
+        "type": "separator",
+        "order": 199
+      },
+      {
+        "id": "app.logout",
+        "order": 200,
+        "type": "custom",
+        "component": "app.logout",
+        "rules": {
+          "visible": "app.canShowLogout"
+        }
       }
     ],
     "icons": [
