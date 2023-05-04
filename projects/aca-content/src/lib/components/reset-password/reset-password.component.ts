@@ -1,9 +1,25 @@
-/*
- * Copyright © 2005 - 2021 Alfresco Software, Ltd. All rights reserved.
+/*!
+ * Copyright © 2005-2023 Hyland Software, Inc. and its affiliates. All rights reserved.
  *
- * License rights for this program may be obtained from Alfresco Software, Ltd.
- * pursuant to a written agreement and any use of this program without such an
- * agreement is prohibited.
+ * Alfresco Example Content Application
+ *
+ * This file is part of the Alfresco Example Content Application.
+ * If the software was purchased under a paid Alfresco license, the terms of
+ * the paid license agreement will prevail. Otherwise, the software is
+ * provided under the following open source license terms:
+ *
+ * The Alfresco Example Content Application is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * The Alfresco Example Content Application is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
 import { AlfrescoApiService } from '@alfresco/adf-core';
@@ -25,6 +41,7 @@ export class ResetPasswordComponent implements OnInit {
   passwordChanged: boolean;
   passwordChangeSuccess: boolean;
   passwordChangeFailure: boolean;
+  passwordResetStatus: any;
 
   constructor(private activatedRoute: ActivatedRoute, private apiService: AlfrescoApiService, private router: Router) {}
 
@@ -74,11 +91,11 @@ export class ResetPasswordComponent implements OnInit {
     } as PasswordResetBody);
 
     resetPassword.then((value) => {
-      console.log('resolved', value);
+      this.passwordResetStatus = value;
       this.passwordChangeSuccess = true;
     });
     resetPassword.catch((error) => {
-      console.log('rejected', error);
+      this.passwordResetStatus = error;
       this.passwordChangeFailure = true;
     });
   }
