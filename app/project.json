@@ -74,7 +74,7 @@
           },
           {
             "glob": "about.plugin.json",
-            "input": "projects/aca-content/about/assets",
+            "input": "projects/aca-about/assets",
             "output": "./assets/plugins"
           },
           {

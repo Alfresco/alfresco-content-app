@@ -10,6 +10,7 @@ if [[ -z "$VERSION" ]]; then
 fi
 
 export PROJECTS=(
+  'aca-about'
   'aca-content'
   'aca-folder-rules'
   'adf-office-services-ext'
