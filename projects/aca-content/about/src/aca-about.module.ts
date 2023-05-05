@@ -32,9 +32,10 @@ import { DEV_MODE_TOKEN } from './dev-mode.tokens';
 import { PACKAGE_JSON } from './package-json.token';
 import { AboutModule } from '@alfresco/adf-core';
 import { TranslateModule } from '@ngx-translate/core';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
-  imports: [CommonModule, TranslateModule, SharedModule, PageLayoutModule, AboutModule],
+  imports: [CommonModule, RouterModule, TranslateModule, SharedModule, PageLayoutModule, AboutModule],
   declarations: [AboutComponent],
   providers: [provideExtensionConfig(['about.plugin.json'])]
 })
