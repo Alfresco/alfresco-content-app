@@ -22,14 +22,6 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NgModule } from '@angular/core';
-import { AosExtensionModule } from '@alfresco/adf-office-services-ext';
-import { AcaAboutModule } from '@alfresco/aca-about';
-import { AcaFolderRulesModule } from '@alfresco/aca-folder-rules';
-import { environment } from '../environments/environment';
-import packageJson from 'package.json';
-
-@NgModule({
-  imports: [AosExtensionModule, AcaAboutModule.forRoot(environment.production, packageJson), AcaFolderRulesModule]
-})
-export class AppExtensionsModule {}
+export * from './lib/about.component';
+export * from './lib/aca-about.module';
+export * from './lib/package-json.token';
