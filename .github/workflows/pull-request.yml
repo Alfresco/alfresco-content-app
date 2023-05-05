@@ -174,6 +174,7 @@ jobs:
       - uses: ./.github/actions/run-e2e
         with:
           options: "--suite=${{ matrix.e2e-suites.name }}"
+          artifact-name: ${{ matrix.e2e-suites.name }}
       - uses: ./.github/actions/after-e2e
 
   e2es-playwright:
@@ -207,6 +208,7 @@ jobs:
       - uses: ./.github/actions/run-e2e
         with:
           options: "e2e/playwright/tests/folder-rules/playwright.config.ts"
+          artifact-name: folder-rules
           test-runner: playwright
       - uses: ./.github/actions/after-e2e
 
