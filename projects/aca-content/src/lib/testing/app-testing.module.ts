@@ -44,6 +44,8 @@ import { MaterialModule } from '../material.module';
 import { INITIAL_STATE } from '../store/initial-state';
 import { TranslatePipeMock } from './translate-pipe.directive';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { ContentManagementService } from '../services/content-management.service';
+import { DocumentBasePageService } from '@alfresco/aca-shared';
 
 @NgModule({
   imports: [
@@ -71,6 +73,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
     { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock },
     { provide: TranslationService, useClass: TranslationMock },
     { provide: TranslatePipe, useClass: TranslatePipeMock },
+    { provide: DocumentBasePageService, useExisting: ContentManagementService },
     {
       provide: DiscoveryApiService,
       useValue: {
