@@ -22,7 +22,6 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { SiteEntry, FavoritePaging, Pagination } from '@alfresco/js-api';
 import { AppHookService, ContentApiService, PageComponent } from '@alfresco/aca-shared';
@@ -41,13 +40,11 @@ export class FavoriteLibrariesComponent extends PageComponent implements OnInit 
   });
   isLoading = false;
   list: FavoritePaging;
-  isSmallScreen = false;
   columns: DocumentListPresetRef[] = [];
 
   constructor(
     private appHookService: AppHookService,
     private contentApiService: ContentApiService,
-    private breakpointObserver: BreakpointObserver,
     private preferences: UserPreferencesService,
     private changeDetectorRef: ChangeDetectorRef
   ) {
@@ -64,11 +61,7 @@ export class FavoriteLibrariesComponent extends PageComponent implements OnInit 
       this.appHookService.libraryUpdated.subscribe(() => this.reloadList()),
       this.appHookService.libraryJoined.subscribe(() => this.reloadList()),
       this.appHookService.libraryLeft.subscribe(() => this.reloadList()),
-      this.appHookService.favoriteLibraryToggle.subscribe(() => this.reloadList()),
-
-      this.breakpointObserver.observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape]).subscribe((result) => {
-        this.isSmallScreen = result.matches;
-      })
+      this.appHookService.favoriteLibraryToggle.subscribe(() => this.reloadList())
     ]);
     this.columns = this.extensions.documentListPresets.favoriteLibraries || [];
   }

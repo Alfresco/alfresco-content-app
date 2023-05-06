@@ -23,7 +23,6 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { MinimalNodeEntity } from '@alfresco/js-api';
 import { UploadService } from '@alfresco/adf-content-services';
 import { debounceTime } from 'rxjs/operators';
@@ -35,11 +34,9 @@ import { DocumentListPresetRef } from '@alfresco/adf-extensions';
   templateUrl: './recent-files.component.html'
 })
 export class RecentFilesComponent extends PageComponent implements OnInit {
-  isSmallScreen = false;
-
   columns: DocumentListPresetRef[] = [];
 
-  constructor(private uploadService: UploadService, private breakpointObserver: BreakpointObserver, private router: Router) {
+  constructor(private uploadService: UploadService, private router: Router) {
     super();
   }
 
@@ -48,11 +45,7 @@ export class RecentFilesComponent extends PageComponent implements OnInit {
 
     this.subscriptions = this.subscriptions.concat([
       this.uploadService.fileUploadComplete.pipe(debounceTime(300)).subscribe(() => this.onFileUploadedEvent()),
-      this.uploadService.fileUploadDeleted.pipe(debounceTime(300)).subscribe(() => this.onFileUploadedEvent()),
-
-      this.breakpointObserver.observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape]).subscribe((result) => {
-        this.isSmallScreen = result.matches;
-      })
+      this.uploadService.fileUploadDeleted.pipe(debounceTime(300)).subscribe(() => this.onFileUploadedEvent())
     ]);
 
     this.columns = this.extensions.documentListPresets.recent || [];

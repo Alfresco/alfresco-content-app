@@ -24,7 +24,6 @@
 
 import { NavigateLibraryAction } from '@alfresco/aca-shared/store';
 import { NodePaging, Pagination, SiteEntry } from '@alfresco/js-api';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { SearchLibrariesQueryBuilderService } from './search-libraries-query-builder.service';
@@ -37,7 +36,6 @@ import { DocumentListPresetRef } from '@alfresco/adf-extensions';
   styleUrls: ['./search-libraries-results.component.scss']
 })
 export class SearchLibrariesResultsComponent extends PageComponent implements OnInit {
-  isSmallScreen = false;
   searchedWord: string;
   queryParamName = 'q';
   data: NodePaging;
@@ -46,7 +44,6 @@ export class SearchLibrariesResultsComponent extends PageComponent implements On
   columns: DocumentListPresetRef[] = [];
 
   constructor(
-    private breakpointObserver: BreakpointObserver,
     private librariesQueryBuilder: SearchLibrariesQueryBuilderService,
     private route: ActivatedRoute,
     private appHookService: AppHookService,
@@ -91,10 +88,6 @@ export class SearchLibrariesResultsComponent extends PageComponent implements On
             this.appHookService.library400Error.next();
           }
         } catch (e) {}
-      }),
-
-      this.breakpointObserver.observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape]).subscribe((result) => {
-        this.isSmallScreen = result.matches;
       })
     );
 

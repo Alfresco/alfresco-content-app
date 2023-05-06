@@ -23,35 +23,19 @@
  */
 
 import { getUserProfile } from '@alfresco/aca-shared/store';
-import { DocumentListPresetRef, ProfileState } from '@alfresco/adf-extensions';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 import { PageComponent } from '@alfresco/aca-shared';
 
 @Component({
   templateUrl: './trashcan.component.html'
 })
 export class TrashcanComponent extends PageComponent implements OnInit {
-  isSmallScreen = false;
-  user$: Observable<ProfileState>;
-
+  user$ = this.store.select(getUserProfile);
   columns: DocumentListPresetRef[] = [];
-
-  constructor(private breakpointObserver: BreakpointObserver) {
-    super();
-    this.user$ = this.store.select(getUserProfile);
-  }
 
   ngOnInit() {
     super.ngOnInit();
-
-    this.subscriptions.push(
-      this.breakpointObserver.observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape]).subscribe((result) => {
-        this.isSmallScreen = result.matches;
-      })
-    );
-
     this.columns = this.extensions.documentListPresets.trashcan || [];
   }
 }

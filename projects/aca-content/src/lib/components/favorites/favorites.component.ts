@@ -25,7 +25,6 @@
 import { ContentApiService, PageComponent } from '@alfresco/aca-shared';
 import { UploadService } from '@alfresco/adf-content-services';
 import { MinimalNodeEntity, MinimalNodeEntryEntity, PathElementEntity, PathInfo } from '@alfresco/js-api';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { debounceTime, map } from 'rxjs/operators';
@@ -35,16 +34,9 @@ import { DocumentListPresetRef } from '@alfresco/adf-extensions';
   templateUrl: './favorites.component.html'
 })
 export class FavoritesComponent extends PageComponent implements OnInit {
-  isSmallScreen = false;
-
   columns: DocumentListPresetRef[] = [];
 
-  constructor(
-    private router: Router,
-    private contentApi: ContentApiService,
-    private uploadService: UploadService,
-    private breakpointObserver: BreakpointObserver
-  ) {
+  constructor(private router: Router, private contentApi: ContentApiService, private uploadService: UploadService) {
     super();
   }
 
@@ -52,12 +44,8 @@ export class FavoritesComponent extends PageComponent implements OnInit {
     super.ngOnInit();
 
     this.subscriptions = this.subscriptions.concat([
-      this.uploadService.fileUploadComplete.pipe(debounceTime(300)).subscribe((_) => this.reload()),
-      this.uploadService.fileUploadDeleted.pipe(debounceTime(300)).subscribe((_) => this.reload()),
-
-      this.breakpointObserver.observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape]).subscribe((result) => {
-        this.isSmallScreen = result.matches;
-      })
+      this.uploadService.fileUploadComplete.pipe(debounceTime(300)).subscribe(() => this.reload()),
+      this.uploadService.fileUploadDeleted.pipe(debounceTime(300)).subscribe(() => this.reload())
     ]);
 
     this.columns = this.extensions.documentListPresets.favorites;

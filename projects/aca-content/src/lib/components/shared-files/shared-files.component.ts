@@ -23,7 +23,6 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { debounceTime } from 'rxjs/operators';
 import { UploadService } from '@alfresco/adf-content-services';
 import { Router } from '@angular/router';
@@ -34,16 +33,9 @@ import { DocumentListPresetRef } from '@alfresco/adf-extensions';
   templateUrl: './shared-files.component.html'
 })
 export class SharedFilesComponent extends PageComponent implements OnInit {
-  isSmallScreen = false;
-
   columns: DocumentListPresetRef[] = [];
 
-  constructor(
-    private appHookService: AppHookService,
-    private uploadService: UploadService,
-    private breakpointObserver: BreakpointObserver,
-    private router: Router
-  ) {
+  constructor(private appHookService: AppHookService, private uploadService: UploadService, private router: Router) {
     super();
   }
 
@@ -52,13 +44,8 @@ export class SharedFilesComponent extends PageComponent implements OnInit {
 
     this.subscriptions = this.subscriptions.concat([
       this.appHookService.linksUnshared.pipe(debounceTime(300)).subscribe(() => this.reload()),
-
-      this.uploadService.fileUploadComplete.pipe(debounceTime(300)).subscribe((_) => this.reload()),
-      this.uploadService.fileUploadDeleted.pipe(debounceTime(300)).subscribe((_) => this.reload()),
-
-      this.breakpointObserver.observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape]).subscribe((result) => {
-        this.isSmallScreen = result.matches;
-      })
+      this.uploadService.fileUploadComplete.pipe(debounceTime(300)).subscribe(() => this.reload()),
+      this.uploadService.fileUploadDeleted.pipe(debounceTime(300)).subscribe(() => this.reload())
     ]);
 
     this.columns = this.extensions.documentListPresets.shared || [];

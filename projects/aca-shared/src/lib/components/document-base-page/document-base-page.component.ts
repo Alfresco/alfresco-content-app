@@ -46,6 +46,7 @@ import {
 import { AppExtensionService } from '../../services/app.extension.service';
 import { isLibrary, isLocked } from '../../utils/node.utils';
 import { AcaFileAutoDownloadService } from '../../services/aca-file-auto-download.service';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 /* eslint-disable @angular-eslint/directive-class-suffix */
 @Directive()
@@ -69,10 +70,12 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   showHeader = ShowHeaderMode.Data;
   filterSorting = 'name-asc';
   createActions: Array<ContentActionRef> = [];
+  isSmallScreen = false;
 
   protected extensions = inject(AppExtensionService);
   protected content = inject(DocumentBasePageService);
   protected store = inject<Store<AppStore>>(Store<AppStore>);
+  protected breakpointObserver = inject(BreakpointObserver);
   private fileAutoDownloadService = inject(AcaFileAutoDownloadService, { optional: true });
 
   protected subscriptions: Subscription[] = [];
@@ -117,6 +120,13 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((node) => {
         this.canUpload = node && this.content.canUploadContent(node);
+      });
+
+    this.breakpointObserver
+      .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((result) => {
+        this.isSmallScreen = result.matches;
       });
   }
 

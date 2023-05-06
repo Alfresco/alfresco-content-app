@@ -29,7 +29,6 @@ import { MinimalNodeEntity, MinimalNodeEntryEntity, PathElement, PathElementEnti
 import { NodeActionsService } from '../../services/node-actions.service';
 import { ContentApiService, PageComponent } from '@alfresco/aca-shared';
 import { SetCurrentFolderAction, isAdmin, UploadFileVersionAction, showLoaderSelector } from '@alfresco/aca-shared/store';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { FilterSearch, ShareDataRow, UploadService, FileUploadEvent } from '@alfresco/adf-content-services';
 import { DocumentListPresetRef } from '@alfresco/adf-extensions';
@@ -40,7 +39,6 @@ import { Observable } from 'rxjs';
 })
 export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   isValidPath = true;
-  isSmallScreen = false;
   isAdmin = false;
   selectedNode: MinimalNodeEntity;
   queryParams = null;
@@ -55,8 +53,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private contentApi: ContentApiService,
     private nodeActionsService: NodeActionsService,
-    private uploadService: UploadService,
-    private breakpointObserver: BreakpointObserver
+    private uploadService: UploadService
   ) {
     super();
   }
@@ -96,11 +93,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     this.subscriptions = this.subscriptions.concat([
       nodeActionsService.contentCopied.subscribe((nodes) => this.onContentCopied(nodes)),
       uploadService.fileUploadComplete.pipe(debounceTime(300)).subscribe((file) => this.onFileUploadedEvent(file)),
-      uploadService.fileUploadDeleted.pipe(debounceTime(300)).subscribe((file) => this.onFileUploadedEvent(file)),
-
-      this.breakpointObserver.observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape]).subscribe((result) => {
-        this.isSmallScreen = result.matches;
-      })
+      uploadService.fileUploadDeleted.pipe(debounceTime(300)).subscribe((file) => this.onFileUploadedEvent(file))
     ]);
 
     this.store

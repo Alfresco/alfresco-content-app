@@ -24,7 +24,6 @@
 
 import { NavigateLibraryAction } from '@alfresco/aca-shared/store';
 import { SiteEntry } from '@alfresco/js-api';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
 import { AppHookService, PageComponent } from '@alfresco/aca-shared';
 import { DocumentListPresetRef } from '@alfresco/adf-extensions';
@@ -33,11 +32,9 @@ import { DocumentListPresetRef } from '@alfresco/adf-extensions';
   templateUrl: './libraries.component.html'
 })
 export class LibrariesComponent extends PageComponent implements OnInit {
-  isSmallScreen = false;
-
   columns: DocumentListPresetRef[] = [];
 
-  constructor(private appHookService: AppHookService, private breakpointObserver: BreakpointObserver) {
+  constructor(private appHookService: AppHookService) {
     super();
   }
 
@@ -47,11 +44,7 @@ export class LibrariesComponent extends PageComponent implements OnInit {
     this.subscriptions.push(
       this.appHookService.libraryDeleted.subscribe(() => this.reload()),
       this.appHookService.libraryUpdated.subscribe(() => this.reload()),
-      this.appHookService.libraryLeft.subscribe(() => this.reload()),
-
-      this.breakpointObserver.observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape]).subscribe((result) => {
-        this.isSmallScreen = result.matches;
-      })
+      this.appHookService.libraryLeft.subscribe(() => this.reload())
     );
 
     this.columns = this.extensions.documentListPresets.libraries || [];
