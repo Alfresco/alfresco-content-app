@@ -33,7 +33,7 @@ import { ContentActionRef, ViewerExtensionRef } from '@alfresco/adf-extensions';
 import { SearchRequest } from '@alfresco/js-api';
 import { from } from 'rxjs';
 import { Actions, ofType } from '@ngrx/effects';
-import { NodesApiService, UploadService } from '@alfresco/adf-content-services';
+import { NodesApiService } from '@alfresco/adf-content-services';
 
 @Component({
   selector: 'app-preview',
@@ -90,7 +90,6 @@ export class PreviewComponent extends PageComponent implements OnInit, OnDestroy
     private route: ActivatedRoute,
     private router: Router,
     private nodesApiService: NodesApiService,
-    private uploadService: UploadService,
     private actions$: Actions,
     private location: Location,
     private appHookService: AppHookService

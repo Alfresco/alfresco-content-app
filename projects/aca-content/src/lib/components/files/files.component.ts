@@ -30,7 +30,7 @@ import { NodeActionsService } from '../../services/node-actions.service';
 import { ContentApiService, PageComponent } from '@alfresco/aca-shared';
 import { SetCurrentFolderAction, isAdmin, UploadFileVersionAction, showLoaderSelector } from '@alfresco/aca-shared/store';
 import { debounceTime, takeUntil } from 'rxjs/operators';
-import { FilterSearch, ShareDataRow, UploadService, FileUploadEvent } from '@alfresco/adf-content-services';
+import { FilterSearch, ShareDataRow, FileUploadEvent } from '@alfresco/adf-content-services';
 import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 
 @Component({
@@ -51,8 +51,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private contentApi: ContentApiService,
-    private nodeActionsService: NodeActionsService,
-    private uploadService: UploadService
+    private nodeActionsService: NodeActionsService
   ) {
     super();
   }
