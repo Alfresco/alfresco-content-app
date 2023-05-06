@@ -25,12 +25,10 @@
 import { ShowHeaderMode } from '@alfresco/adf-core';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Store } from '@ngrx/store';
 import { MinimalNodeEntity, MinimalNodeEntryEntity, PathElement, PathElementEntity } from '@alfresco/js-api';
-import { ContentManagementService } from '../../services/content-management.service';
 import { NodeActionsService } from '../../services/node-actions.service';
-import { AcaFileAutoDownloadService, AppExtensionService, ContentApiService, PageComponent } from '@alfresco/aca-shared';
-import { SetCurrentFolderAction, isAdmin, AppStore, UploadFileVersionAction, showLoaderSelector } from '@alfresco/aca-shared/store';
+import { ContentApiService, PageComponent } from '@alfresco/aca-shared';
+import { SetCurrentFolderAction, isAdmin, UploadFileVersionAction, showLoaderSelector } from '@alfresco/aca-shared/store';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { FilterSearch, ShareDataRow, UploadService, FileUploadEvent } from '@alfresco/adf-content-services';
@@ -56,15 +54,11 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private contentApi: ContentApiService,
-    store: Store<AppStore>,
     private nodeActionsService: NodeActionsService,
     private uploadService: UploadService,
-    content: ContentManagementService,
-    extensions: AppExtensionService,
-    private breakpointObserver: BreakpointObserver,
-    fileAutoDownloadService: AcaFileAutoDownloadService
+    private breakpointObserver: BreakpointObserver
   ) {
-    super(store, extensions, content, fileAutoDownloadService);
+    super();
   }
 
   ngOnInit() {

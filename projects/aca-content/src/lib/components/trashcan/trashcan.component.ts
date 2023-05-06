@@ -22,14 +22,12 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AppStore, getUserProfile } from '@alfresco/aca-shared/store';
+import { getUserProfile } from '@alfresco/aca-shared/store';
 import { DocumentListPresetRef, ProfileState } from '@alfresco/adf-extensions';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { ContentManagementService } from '../../services/content-management.service';
-import { AppExtensionService, PageComponent } from '@alfresco/aca-shared';
+import { PageComponent } from '@alfresco/aca-shared';
 
 @Component({
   templateUrl: './trashcan.component.html'
@@ -40,13 +38,8 @@ export class TrashcanComponent extends PageComponent implements OnInit {
 
   columns: DocumentListPresetRef[] = [];
 
-  constructor(
-    content: ContentManagementService,
-    extensions: AppExtensionService,
-    store: Store<AppStore>,
-    private breakpointObserver: BreakpointObserver
-  ) {
-    super(store, extensions, content);
+  constructor(private breakpointObserver: BreakpointObserver) {
+    super();
     this.user$ = this.store.select(getUserProfile);
   }
 

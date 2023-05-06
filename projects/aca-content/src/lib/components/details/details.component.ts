@@ -24,10 +24,8 @@
 
 import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AppExtensionService, ContentApiService, PageComponent } from '@alfresco/aca-shared';
-import { AppStore, NavigateToPreviousPage, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
-import { Store } from '@ngrx/store';
-import { ContentManagementService } from '../../services/content-management.service';
+import { ContentApiService, PageComponent } from '@alfresco/aca-shared';
+import { NavigateToPreviousPage, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -42,14 +40,8 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
   onDestroy$ = new Subject<boolean>();
   activeTab = 1;
 
-  constructor(
-    private route: ActivatedRoute,
-    private contentApi: ContentApiService,
-    store: Store<AppStore>,
-    content: ContentManagementService,
-    extensions: AppExtensionService
-  ) {
-    super(store, extensions, content);
+  constructor(private route: ActivatedRoute, private contentApi: ContentApiService) {
+    super();
   }
 
   ngOnInit(): void {

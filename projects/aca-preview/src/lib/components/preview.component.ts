@@ -27,9 +27,8 @@ import { Location } from '@angular/common';
 import { ActivatedRoute, Router, UrlTree, UrlSegmentGroup, UrlSegment, PRIMARY_OUTLET } from '@angular/router';
 import { debounceTime, map, takeUntil } from 'rxjs/operators';
 import { UserPreferencesService, ObjectUtils } from '@alfresco/adf-core';
-import { Store } from '@ngrx/store';
-import { AppStore, ClosePreviewAction, ViewerActionTypes, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
-import { PageComponent, AppExtensionService, AppHookService, ContentApiService, DocumentBasePageService } from '@alfresco/aca-shared';
+import { ClosePreviewAction, ViewerActionTypes, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
+import { PageComponent, AppHookService, ContentApiService } from '@alfresco/aca-shared';
 import { ContentActionRef, ViewerExtensionRef } from '@alfresco/adf-extensions';
 import { SearchRequest } from '@alfresco/js-api';
 import { from } from 'rxjs';
@@ -94,12 +93,9 @@ export class PreviewComponent extends PageComponent implements OnInit, OnDestroy
     private uploadService: UploadService,
     private actions$: Actions,
     private location: Location,
-    store: Store<AppStore>,
-    extensions: AppExtensionService,
-    content: DocumentBasePageService,
     private appHookService: AppHookService
   ) {
-    super(store, extensions, content);
+    super();
   }
 
   ngOnInit() {

@@ -24,10 +24,8 @@
 
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { SiteEntry, FavoritePaging, Pagination } from '@alfresco/js-api';
-import { ContentManagementService } from '../../services/content-management.service';
-import { AppExtensionService, AppHookService, ContentApiService, PageComponent } from '@alfresco/aca-shared';
+import { AppHookService, ContentApiService, PageComponent } from '@alfresco/aca-shared';
 import { NavigateLibraryAction } from '@alfresco/aca-shared/store';
 import { UserPreferencesService } from '@alfresco/adf-core';
 import { DocumentListPresetRef } from '@alfresco/adf-extensions';
@@ -47,16 +45,13 @@ export class FavoriteLibrariesComponent extends PageComponent implements OnInit 
   columns: DocumentListPresetRef[] = [];
 
   constructor(
-    content: ContentManagementService,
-    store: Store<any>,
-    extensions: AppExtensionService,
     private appHookService: AppHookService,
     private contentApiService: ContentApiService,
     private breakpointObserver: BreakpointObserver,
     private preferences: UserPreferencesService,
     private changeDetectorRef: ChangeDetectorRef
   ) {
-    super(store, extensions, content);
+    super();
   }
 
   ngOnInit() {

@@ -25,7 +25,7 @@
 import { DocumentListComponent, ShareDataRow } from '@alfresco/adf-content-services';
 import { ShowHeaderMode } from '@alfresco/adf-core';
 import { ContentActionRef, DocumentListPresetRef, SelectionState } from '@alfresco/adf-extensions';
-import { OnDestroy, OnInit, OnChanges, ViewChild, SimpleChanges, Directive } from '@angular/core';
+import { OnDestroy, OnInit, OnChanges, ViewChild, SimpleChanges, Directive, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { MinimalNodeEntity, MinimalNodeEntryEntity, NodePaging } from '@alfresco/js-api';
 import { Observable, Subject, Subscription } from 'rxjs';
@@ -70,14 +70,12 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   filterSorting = 'name-asc';
   createActions: Array<ContentActionRef> = [];
 
-  protected subscriptions: Subscription[] = [];
+  protected extensions = inject(AppExtensionService);
+  protected content = inject(DocumentBasePageService);
+  protected store = inject<Store<AppStore>>(Store<AppStore>);
+  private fileAutoDownloadService = inject(AcaFileAutoDownloadService, { optional: true });
 
-  protected constructor(
-    protected store: Store<AppStore>,
-    protected extensions: AppExtensionService,
-    protected content: DocumentBasePageService,
-    private fileAutoDownloadService: AcaFileAutoDownloadService = null
-  ) {}
+  protected subscriptions: Subscription[] = [];
 
   ngOnInit() {
     this.extensions
