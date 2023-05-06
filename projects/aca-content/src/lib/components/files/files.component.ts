@@ -24,7 +24,7 @@
 
 import { ShowHeaderMode } from '@alfresco/adf-core';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { MinimalNodeEntity, MinimalNodeEntryEntity, PathElement, PathElementEntity } from '@alfresco/js-api';
 import { NodeActionsService } from '../../services/node-actions.service';
 import { ContentApiService, PageComponent } from '@alfresco/aca-shared';
@@ -47,12 +47,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
   columns: DocumentListPresetRef[] = [];
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private contentApi: ContentApiService,
-    private nodeActionsService: NodeActionsService
-  ) {
+  constructor(private route: ActivatedRoute, private contentApi: ContentApiService, private nodeActionsService: NodeActionsService) {
     super();
   }
 

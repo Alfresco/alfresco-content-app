@@ -24,7 +24,6 @@
 
 import { Component, OnInit } from '@angular/core';
 import { debounceTime } from 'rxjs/operators';
-import { Router } from '@angular/router';
 import { MinimalNodeEntity } from '@alfresco/js-api';
 import { AppHookService, PageComponent } from '@alfresco/aca-shared';
 import { DocumentListPresetRef } from '@alfresco/adf-extensions';
@@ -34,7 +33,7 @@ import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 export class SharedFilesComponent extends PageComponent implements OnInit {
   columns: DocumentListPresetRef[] = [];
 
-  constructor(private appHookService: AppHookService, private router: Router) {
+  constructor(private appHookService: AppHookService) {
     super();
   }
 

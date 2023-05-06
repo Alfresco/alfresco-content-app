@@ -25,7 +25,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MinimalNodeEntity } from '@alfresco/js-api';
 import { debounceTime } from 'rxjs/operators';
-import { Router } from '@angular/router';
 import { PageComponent } from '@alfresco/aca-shared';
 import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 
@@ -35,7 +34,7 @@ import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 export class RecentFilesComponent extends PageComponent implements OnInit {
   columns: DocumentListPresetRef[] = [];
 
-  constructor(private router: Router) {
+  constructor() {
     super();
   }
 

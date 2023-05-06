@@ -47,6 +47,7 @@ import { AppExtensionService } from '../../services/app.extension.service';
 import { isLibrary, isLocked } from '../../utils/node.utils';
 import { AcaFileAutoDownloadService } from '../../services/aca-file-auto-download.service';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Router } from '@angular/router';
 
 /* eslint-disable @angular-eslint/directive-class-suffix */
 @Directive()
@@ -77,6 +78,7 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   protected store = inject<Store<AppStore>>(Store<AppStore>);
   protected breakpointObserver = inject(BreakpointObserver);
   protected uploadService = inject(UploadService);
+  protected router = inject(Router);
   private fileAutoDownloadService = inject(AcaFileAutoDownloadService, { optional: true });
 
   protected subscriptions: Subscription[] = [];

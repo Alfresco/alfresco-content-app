@@ -24,7 +24,7 @@
 
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MinimalNodeEntity, Pagination, ResultSetPaging } from '@alfresco/js-api';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import {
   infoDrawerPreview,
@@ -57,12 +57,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
   sorting = ['name', 'asc'];
   isLoading = false;
 
-  constructor(
-    private queryBuilder: SearchQueryBuilderService,
-    private route: ActivatedRoute,
-    private translationService: TranslationService,
-    private router: Router
-  ) {
+  constructor(private queryBuilder: SearchQueryBuilderService, private route: ActivatedRoute, private translationService: TranslationService) {
     super();
 
     queryBuilder.paging = {

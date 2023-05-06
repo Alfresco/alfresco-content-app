@@ -24,7 +24,7 @@
 
 import { Component, OnInit, OnDestroy, ViewEncapsulation, HostListener } from '@angular/core';
 import { Location } from '@angular/common';
-import { ActivatedRoute, Router, UrlTree, UrlSegmentGroup, UrlSegment, PRIMARY_OUTLET } from '@angular/router';
+import { ActivatedRoute, UrlTree, UrlSegmentGroup, UrlSegment, PRIMARY_OUTLET } from '@angular/router';
 import { debounceTime, map, takeUntil } from 'rxjs/operators';
 import { UserPreferencesService, ObjectUtils } from '@alfresco/adf-core';
 import { ClosePreviewAction, ViewerActionTypes, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
@@ -88,7 +88,6 @@ export class PreviewComponent extends PageComponent implements OnInit, OnDestroy
     private contentApi: ContentApiService,
     private preferences: UserPreferencesService,
     private route: ActivatedRoute,
-    private router: Router,
     private nodesApiService: NodesApiService,
     private actions$: Actions,
     private location: Location,

@@ -25,7 +25,6 @@
 import { ContentApiService, PageComponent } from '@alfresco/aca-shared';
 import { MinimalNodeEntity, MinimalNodeEntryEntity, PathElementEntity, PathInfo } from '@alfresco/js-api';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { debounceTime, map } from 'rxjs/operators';
 import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 
@@ -35,7 +34,7 @@ import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 export class FavoritesComponent extends PageComponent implements OnInit {
   columns: DocumentListPresetRef[] = [];
 
-  constructor(private router: Router, private contentApi: ContentApiService) {
+  constructor(private contentApi: ContentApiService) {
     super();
   }
 
