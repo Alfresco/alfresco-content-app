@@ -36,7 +36,7 @@ import {
   SnackbarErrorAction
 } from '@alfresco/aca-shared/store';
 import { TranslationService } from '@alfresco/adf-core';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest } from 'rxjs';
 import { PageComponent } from '@alfresco/aca-shared';
 import { SearchSortingDefinition } from '@alfresco/adf-content-services/lib/search/models/search-sorting-definition.interface';
 import { takeUntil } from 'rxjs/operators';
@@ -48,8 +48,8 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./search-results.component.scss']
 })
 export class SearchResultsComponent extends PageComponent implements OnInit {
-  showFacetFilter$: Observable<boolean>;
-  infoDrawerPreview$: Observable<boolean>;
+  showFacetFilter$ = this.store.select(showFacetFilter);
+  infoDrawerPreview$ = this.store.select(infoDrawerPreview);
 
   searchedWord: string;
   queryParamName = 'q';
@@ -70,8 +70,6 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
       maxItems: 25
     };
 
-    this.showFacetFilter$ = this.store.select(showFacetFilter);
-    this.infoDrawerPreview$ = this.store.select(infoDrawerPreview);
     combineLatest([this.route.params, this.queryBuilder.configUpdated])
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(([params, searchConfig]) => {

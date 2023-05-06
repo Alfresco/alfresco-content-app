@@ -32,7 +32,6 @@ import { SetCurrentFolderAction, isAdmin, UploadFileVersionAction, showLoaderSel
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { FilterSearch, ShareDataRow, UploadService, FileUploadEvent } from '@alfresco/adf-content-services';
 import { DocumentListPresetRef } from '@alfresco/adf-extensions';
-import { Observable } from 'rxjs';
 
 @Component({
   templateUrl: './files.component.html'
@@ -43,7 +42,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   selectedNode: MinimalNodeEntity;
   queryParams = null;
 
-  showLoader$: Observable<boolean>;
+  showLoader$ = this.store.select(showLoaderSelector);
   private nodePath: PathElement[];
 
   columns: DocumentListPresetRef[] = [];
@@ -61,17 +60,15 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   ngOnInit() {
     super.ngOnInit();
 
-    const { route, nodeActionsService, uploadService } = this;
-    const { data } = route.snapshot;
+    const { data } = this.route.snapshot;
 
     this.title = data.title;
 
-    this.showLoader$ = this.store.select(showLoaderSelector);
-    route.queryParamMap.subscribe((queryMap: Params) => {
+    this.route.queryParamMap.subscribe((queryMap: Params) => {
       this.queryParams = queryMap.params;
     });
 
-    route.params.subscribe(({ folderId }: Params) => {
+    this.route.params.subscribe(({ folderId }: Params) => {
       const nodeId = folderId || data.defaultNodeId;
 
       this.contentApi.getNode(nodeId).subscribe(
@@ -91,9 +88,9 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     });
 
     this.subscriptions = this.subscriptions.concat([
-      nodeActionsService.contentCopied.subscribe((nodes) => this.onContentCopied(nodes)),
-      uploadService.fileUploadComplete.pipe(debounceTime(300)).subscribe((file) => this.onFileUploadedEvent(file)),
-      uploadService.fileUploadDeleted.pipe(debounceTime(300)).subscribe((file) => this.onFileUploadedEvent(file))
+      this.nodeActionsService.contentCopied.subscribe((nodes) => this.onContentCopied(nodes)),
+      this.uploadService.fileUploadComplete.pipe(debounceTime(300)).subscribe((file) => this.onFileUploadedEvent(file)),
+      this.uploadService.fileUploadDeleted.pipe(debounceTime(300)).subscribe((file) => this.onFileUploadedEvent(file))
     ]);
 
     this.store

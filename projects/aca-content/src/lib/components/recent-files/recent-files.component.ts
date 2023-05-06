@@ -44,8 +44,8 @@ export class RecentFilesComponent extends PageComponent implements OnInit {
     super.ngOnInit();
 
     this.subscriptions = this.subscriptions.concat([
-      this.uploadService.fileUploadComplete.pipe(debounceTime(300)).subscribe(() => this.onFileUploadedEvent()),
-      this.uploadService.fileUploadDeleted.pipe(debounceTime(300)).subscribe(() => this.onFileUploadedEvent())
+      this.uploadService.fileUploadComplete.pipe(debounceTime(300)).subscribe(() => this.reload()),
+      this.uploadService.fileUploadDeleted.pipe(debounceTime(300)).subscribe(() => this.reload())
     ]);
 
     this.columns = this.extensions.documentListPresets.recent || [];
@@ -59,9 +59,5 @@ export class RecentFilesComponent extends PageComponent implements OnInit {
 
   handleNodeClick(event: Event) {
     this.onNodeDoubleClick((event as CustomEvent).detail?.node);
-  }
-
-  private onFileUploadedEvent() {
-    this.reload();
   }
 }
