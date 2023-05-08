@@ -13,7 +13,6 @@ fi
 export PROJECTS=(
   'aca-content'
   'aca-folder-rules'
-  'adf-office-services-ext'
   'aca-preview'
   'aca-shared'
   'aca-viewer'

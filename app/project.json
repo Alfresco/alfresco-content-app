@@ -59,17 +59,17 @@
           },
           {
             "glob": "**/*",
-            "input": "node_modules/@alfresco/adf-office-services-ext/assets",
-            "output": "./assets/adf-office-services-ext"
+            "input": "node_modules/@alfresco/aca-content/ms-office/assets",
+            "output": "./assets/ms-office"
           },
           {
             "glob": "**/*",
-            "input": "projects/adf-office-services-ext/assets",
-            "output": "./assets/adf-office-services-ext"
+            "input": "projects/aca-content/ms-office/assets",
+            "output": "./assets/ms-office"
           },
           {
             "glob": "aos.plugin.json",
-            "input": "projects/adf-office-services-ext/assets",
+            "input": "projects/aca-content/ms-office/assets",
             "output": "./assets/plugins"
           },
           {
