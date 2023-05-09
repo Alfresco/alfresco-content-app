@@ -11,6 +11,7 @@
       "input": "./src/lib/ui/",
       "output": "ui"
     },
+    "about/assets",
     "assets"
   ]
 }

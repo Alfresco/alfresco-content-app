@@ -1,5 +1,5 @@
 {
-  "$schema": "../../../extension.schema.json",
+  "$schema": "../../../../extension.schema.json",
   "$id": "14157f82-6489-4187-9b68-1a5e38fadeca",
   "$name": "About Plugin",
   "$version": "0.0.1",
