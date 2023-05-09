@@ -459,18 +459,7 @@ export class AppExtensionService implements RuleContext {
   }
 
   getMoreActions(): Observable<Array<ContentActionRef>> {
-    return this._moreActions.pipe(
-      map((moreActions) =>
-        moreActions
-          .filter((action) => this.filterVisible(action))
-          .map((action) => this.copyAction(action))
-          .map((action) => this.buildMenu(action))
-          .map((action) => this.setActionDisabledFromRule(action))
-          .sort(sortByOrder)
-          .reduce(reduceEmptyMenus, [])
-          .reduce(reduceSeparators, [])
-      )
-    );
+    return this._moreActions.pipe(map((moreActions) => this.getAllowedActions(moreActions)));
   }
 
   getAllowedContextMenuActions(): Observable<Array<ContentActionRef>> {

@@ -65,6 +65,33 @@
         "order": 199
       },
       {
+        "id": "settings",
+        "title": "App settings",
+        "description": "Application settings",
+        "icon": "settings",
+        "disabled": true,
+        "order": 10,
+        "actions": {
+          "click": "app.actions.settings"
+        },
+        "rules": {
+          "visible": "app.navigation.isNotTrashcan"
+        }
+      },
+      {
+        "id": "button",
+        "title": "New Button",
+        "description": "new button description",
+        "icon": "alarm_on",
+        "order": 20,
+        "actions": {
+          "click": "app.actions.settings"
+        },
+        "rules": {
+          "visible": "app.navigation.isNotTrashcan"
+        }
+      },
+      {
         "id": "app.logout",
         "order": 200,
         "type": "custom",
