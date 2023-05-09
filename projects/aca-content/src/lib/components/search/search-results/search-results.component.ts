@@ -24,11 +24,9 @@
 
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MinimalNodeEntity, Pagination, ResultSetPaging } from '@alfresco/js-api';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
-import { Store } from '@ngrx/store';
 import {
-  AppStore,
   infoDrawerPreview,
   NavigateToFolder,
   SetInfoDrawerPreviewStateAction,
@@ -37,13 +35,11 @@ import {
   ShowInfoDrawerPreviewAction,
   SnackbarErrorAction
 } from '@alfresco/aca-shared/store';
-import { ContentManagementService } from '../../../services/content-management.service';
 import { TranslationService } from '@alfresco/adf-core';
-import { combineLatest, Observable } from 'rxjs';
-import { AcaFileAutoDownloadService, AppExtensionService, PageComponent } from '@alfresco/aca-shared';
+import { combineLatest } from 'rxjs';
+import { PageComponent } from '@alfresco/aca-shared';
 import { SearchSortingDefinition } from '@alfresco/adf-content-services/lib/search/models/search-sorting-definition.interface';
 import { takeUntil } from 'rxjs/operators';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
   selector: 'aca-search-results',
@@ -52,36 +48,23 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
   styleUrls: ['./search-results.component.scss']
 })
 export class SearchResultsComponent extends PageComponent implements OnInit {
-  showFacetFilter$: Observable<boolean>;
-  infoDrawerPreview$: Observable<boolean>;
+  showFacetFilter$ = this.store.select(showFacetFilter);
+  infoDrawerPreview$ = this.store.select(infoDrawerPreview);
 
   searchedWord: string;
   queryParamName = 'q';
   data: ResultSetPaging;
   sorting = ['name', 'asc'];
   isLoading = false;
-  isSmallScreen = false;
 
-  constructor(
-    private queryBuilder: SearchQueryBuilderService,
-    private route: ActivatedRoute,
-    store: Store<AppStore>,
-    extensions: AppExtensionService,
-    content: ContentManagementService,
-    private translationService: TranslationService,
-    private router: Router,
-    private breakpointObserver: BreakpointObserver,
-    fileAutoDownloadService: AcaFileAutoDownloadService
-  ) {
-    super(store, extensions, content, fileAutoDownloadService);
+  constructor(private queryBuilder: SearchQueryBuilderService, private route: ActivatedRoute, private translationService: TranslationService) {
+    super();
 
     queryBuilder.paging = {
       skipCount: 0,
       maxItems: 25
     };
 
-    this.showFacetFilter$ = store.select(showFacetFilter);
-    this.infoDrawerPreview$ = store.select(infoDrawerPreview);
     combineLatest([this.route.params, this.queryBuilder.configUpdated])
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(([params, searchConfig]) => {
@@ -91,13 +74,6 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
         if (query) {
           this.queryBuilder.userQuery = decodeURIComponent(query);
         }
-      });
-
-    this.breakpointObserver
-      .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((result) => {
-        this.isSmallScreen = result.matches;
       });
   }
 

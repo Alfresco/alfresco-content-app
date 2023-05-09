@@ -22,12 +22,9 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { SiteEntry, FavoritePaging, Pagination } from '@alfresco/js-api';
-import { ContentManagementService } from '../../services/content-management.service';
-import { AppExtensionService, AppHookService, ContentApiService, PageComponent } from '@alfresco/aca-shared';
+import { AppHookService, ContentApiService, PageComponent } from '@alfresco/aca-shared';
 import { NavigateLibraryAction } from '@alfresco/aca-shared/store';
 import { UserPreferencesService } from '@alfresco/adf-core';
 import { DocumentListPresetRef } from '@alfresco/adf-extensions';
@@ -43,20 +40,15 @@ export class FavoriteLibrariesComponent extends PageComponent implements OnInit 
   });
   isLoading = false;
   list: FavoritePaging;
-  isSmallScreen = false;
   columns: DocumentListPresetRef[] = [];
 
   constructor(
-    content: ContentManagementService,
-    store: Store<any>,
-    extensions: AppExtensionService,
     private appHookService: AppHookService,
     private contentApiService: ContentApiService,
-    private breakpointObserver: BreakpointObserver,
     private preferences: UserPreferencesService,
     private changeDetectorRef: ChangeDetectorRef
   ) {
-    super(store, extensions, content);
+    super();
   }
 
   ngOnInit() {
@@ -69,11 +61,7 @@ export class FavoriteLibrariesComponent extends PageComponent implements OnInit 
       this.appHookService.libraryUpdated.subscribe(() => this.reloadList()),
       this.appHookService.libraryJoined.subscribe(() => this.reloadList()),
       this.appHookService.libraryLeft.subscribe(() => this.reloadList()),
-      this.appHookService.favoriteLibraryToggle.subscribe(() => this.reloadList()),
-
-      this.breakpointObserver.observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape]).subscribe((result) => {
-        this.isSmallScreen = result.matches;
-      })
+      this.appHookService.favoriteLibraryToggle.subscribe(() => this.reloadList())
     ]);
     this.columns = this.extensions.documentListPresets.favoriteLibraries || [];
   }

@@ -54,7 +54,7 @@ import { NodesApiService, UploadService } from '@alfresco/adf-content-services';
   host: { class: 'app-viewer' }
 })
 export class AcaViewerComponent implements OnInit, OnDestroy {
-  _versionsApi: VersionsApi;
+  private _versionsApi: VersionsApi;
   get versionsApi(): VersionsApi {
     this._versionsApi = this._versionsApi ?? new VersionsApi(this.apiService.getInstance());
     return this._versionsApi;

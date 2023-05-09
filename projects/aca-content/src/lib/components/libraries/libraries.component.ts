@@ -22,31 +22,20 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AppStore, NavigateLibraryAction } from '@alfresco/aca-shared/store';
+import { NavigateLibraryAction } from '@alfresco/aca-shared/store';
 import { SiteEntry } from '@alfresco/js-api';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { ContentManagementService } from '../../services/content-management.service';
-import { AppExtensionService, AppHookService, PageComponent } from '@alfresco/aca-shared';
+import { AppHookService, PageComponent } from '@alfresco/aca-shared';
 import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 
 @Component({
   templateUrl: './libraries.component.html'
 })
 export class LibrariesComponent extends PageComponent implements OnInit {
-  isSmallScreen = false;
-
   columns: DocumentListPresetRef[] = [];
 
-  constructor(
-    content: ContentManagementService,
-    store: Store<AppStore>,
-    extensions: AppExtensionService,
-    private appHookService: AppHookService,
-    private breakpointObserver: BreakpointObserver
-  ) {
-    super(store, extensions, content);
+  constructor(private appHookService: AppHookService) {
+    super();
   }
 
   ngOnInit() {
@@ -55,11 +44,7 @@ export class LibrariesComponent extends PageComponent implements OnInit {
     this.subscriptions.push(
       this.appHookService.libraryDeleted.subscribe(() => this.reload()),
       this.appHookService.libraryUpdated.subscribe(() => this.reload()),
-      this.appHookService.libraryLeft.subscribe(() => this.reload()),
-
-      this.breakpointObserver.observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape]).subscribe((result) => {
-        this.isSmallScreen = result.matches;
-      })
+      this.appHookService.libraryLeft.subscribe(() => this.reload())
     );
 
     this.columns = this.extensions.documentListPresets.libraries || [];

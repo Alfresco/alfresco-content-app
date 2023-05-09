@@ -23,34 +23,18 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { ContentManagementService } from '../../services/content-management.service';
-import { Store } from '@ngrx/store';
 import { debounceTime } from 'rxjs/operators';
-import { UploadService } from '@alfresco/adf-content-services';
-import { Router } from '@angular/router';
 import { MinimalNodeEntity } from '@alfresco/js-api';
-import { AcaFileAutoDownloadService, AppExtensionService, AppHookService, PageComponent } from '@alfresco/aca-shared';
+import { AppHookService, PageComponent } from '@alfresco/aca-shared';
 import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 @Component({
   templateUrl: './shared-files.component.html'
 })
 export class SharedFilesComponent extends PageComponent implements OnInit {
-  isSmallScreen = false;
-
   columns: DocumentListPresetRef[] = [];
 
-  constructor(
-    store: Store<any>,
-    extensions: AppExtensionService,
-    content: ContentManagementService,
-    private appHookService: AppHookService,
-    private uploadService: UploadService,
-    private breakpointObserver: BreakpointObserver,
-    private router: Router,
-    fileAutoDownloadService: AcaFileAutoDownloadService
-  ) {
-    super(store, extensions, content, fileAutoDownloadService);
+  constructor(private appHookService: AppHookService) {
+    super();
   }
 
   ngOnInit() {
@@ -58,13 +42,8 @@ export class SharedFilesComponent extends PageComponent implements OnInit {
 
     this.subscriptions = this.subscriptions.concat([
       this.appHookService.linksUnshared.pipe(debounceTime(300)).subscribe(() => this.reload()),
-
-      this.uploadService.fileUploadComplete.pipe(debounceTime(300)).subscribe((_) => this.reload()),
-      this.uploadService.fileUploadDeleted.pipe(debounceTime(300)).subscribe((_) => this.reload()),
-
-      this.breakpointObserver.observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape]).subscribe((result) => {
-        this.isSmallScreen = result.matches;
-      })
+      this.uploadService.fileUploadComplete.pipe(debounceTime(300)).subscribe(() => this.reload()),
+      this.uploadService.fileUploadDeleted.pipe(debounceTime(300)).subscribe(() => this.reload())
     ]);
 
     this.columns = this.extensions.documentListPresets.shared || [];

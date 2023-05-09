@@ -24,63 +24,45 @@
 
 import { ShowHeaderMode } from '@alfresco/adf-core';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { ActivatedRoute, Params } from '@angular/router';
 import { MinimalNodeEntity, MinimalNodeEntryEntity, PathElement, PathElementEntity } from '@alfresco/js-api';
-import { ContentManagementService } from '../../services/content-management.service';
 import { NodeActionsService } from '../../services/node-actions.service';
-import { AcaFileAutoDownloadService, AppExtensionService, ContentApiService, PageComponent } from '@alfresco/aca-shared';
-import { SetCurrentFolderAction, isAdmin, AppStore, UploadFileVersionAction, showLoaderSelector } from '@alfresco/aca-shared/store';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { ContentApiService, PageComponent } from '@alfresco/aca-shared';
+import { SetCurrentFolderAction, isAdmin, UploadFileVersionAction, showLoaderSelector } from '@alfresco/aca-shared/store';
 import { debounceTime, takeUntil } from 'rxjs/operators';
-import { FilterSearch, ShareDataRow, UploadService, FileUploadEvent } from '@alfresco/adf-content-services';
+import { FilterSearch, ShareDataRow, FileUploadEvent } from '@alfresco/adf-content-services';
 import { DocumentListPresetRef } from '@alfresco/adf-extensions';
-import { Observable } from 'rxjs';
 
 @Component({
   templateUrl: './files.component.html'
 })
 export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   isValidPath = true;
-  isSmallScreen = false;
   isAdmin = false;
   selectedNode: MinimalNodeEntity;
   queryParams = null;
 
-  showLoader$: Observable<boolean>;
+  showLoader$ = this.store.select(showLoaderSelector);
   private nodePath: PathElement[];
 
   columns: DocumentListPresetRef[] = [];
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private contentApi: ContentApiService,
-    store: Store<AppStore>,
-    private nodeActionsService: NodeActionsService,
-    private uploadService: UploadService,
-    content: ContentManagementService,
-    extensions: AppExtensionService,
-    private breakpointObserver: BreakpointObserver,
-    fileAutoDownloadService: AcaFileAutoDownloadService
-  ) {
-    super(store, extensions, content, fileAutoDownloadService);
+  constructor(private route: ActivatedRoute, private contentApi: ContentApiService, private nodeActionsService: NodeActionsService) {
+    super();
   }
 
   ngOnInit() {
     super.ngOnInit();
 
-    const { route, nodeActionsService, uploadService } = this;
-    const { data } = route.snapshot;
+    const { data } = this.route.snapshot;
 
     this.title = data.title;
 
-    this.showLoader$ = this.store.select(showLoaderSelector);
-    route.queryParamMap.subscribe((queryMap: Params) => {
+    this.route.queryParamMap.subscribe((queryMap: Params) => {
       this.queryParams = queryMap.params;
     });
 
-    route.params.subscribe(({ folderId }: Params) => {
+    this.route.params.subscribe(({ folderId }: Params) => {
       const nodeId = folderId || data.defaultNodeId;
 
       this.contentApi.getNode(nodeId).subscribe(
@@ -100,13 +82,9 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     });
 
     this.subscriptions = this.subscriptions.concat([
-      nodeActionsService.contentCopied.subscribe((nodes) => this.onContentCopied(nodes)),
-      uploadService.fileUploadComplete.pipe(debounceTime(300)).subscribe((file) => this.onFileUploadedEvent(file)),
-      uploadService.fileUploadDeleted.pipe(debounceTime(300)).subscribe((file) => this.onFileUploadedEvent(file)),
-
-      this.breakpointObserver.observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape]).subscribe((result) => {
-        this.isSmallScreen = result.matches;
-      })
+      this.nodeActionsService.contentCopied.subscribe((nodes) => this.onContentCopied(nodes)),
+      this.uploadService.fileUploadComplete.pipe(debounceTime(300)).subscribe((file) => this.onFileUploadedEvent(file)),
+      this.uploadService.fileUploadDeleted.pipe(debounceTime(300)).subscribe((file) => this.onFileUploadedEvent(file))
     ]);
 
     this.store

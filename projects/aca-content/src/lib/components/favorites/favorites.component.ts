@@ -22,49 +22,28 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AcaFileAutoDownloadService, AppExtensionService, ContentApiService, PageComponent } from '@alfresco/aca-shared';
-import { AppStore } from '@alfresco/aca-shared/store';
-import { UploadService } from '@alfresco/adf-content-services';
+import { ContentApiService, PageComponent } from '@alfresco/aca-shared';
 import { MinimalNodeEntity, MinimalNodeEntryEntity, PathElementEntity, PathInfo } from '@alfresco/js-api';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
 import { debounceTime, map } from 'rxjs/operators';
-import { ContentManagementService } from '../../services/content-management.service';
 import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 
 @Component({
   templateUrl: './favorites.component.html'
 })
 export class FavoritesComponent extends PageComponent implements OnInit {
-  isSmallScreen = false;
-
   columns: DocumentListPresetRef[] = [];
 
-  constructor(
-    private router: Router,
-    store: Store<AppStore>,
-    extensions: AppExtensionService,
-    private contentApi: ContentApiService,
-    content: ContentManagementService,
-    private uploadService: UploadService,
-    private breakpointObserver: BreakpointObserver,
-    fileAutoDownloadService: AcaFileAutoDownloadService
-  ) {
-    super(store, extensions, content, fileAutoDownloadService);
+  constructor(private contentApi: ContentApiService) {
+    super();
   }
 
   ngOnInit() {
     super.ngOnInit();
 
     this.subscriptions = this.subscriptions.concat([
-      this.uploadService.fileUploadComplete.pipe(debounceTime(300)).subscribe((_) => this.reload()),
-      this.uploadService.fileUploadDeleted.pipe(debounceTime(300)).subscribe((_) => this.reload()),
-
-      this.breakpointObserver.observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape]).subscribe((result) => {
-        this.isSmallScreen = result.matches;
-      })
+      this.uploadService.fileUploadComplete.pipe(debounceTime(300)).subscribe(() => this.reload()),
+      this.uploadService.fileUploadDeleted.pipe(debounceTime(300)).subscribe(() => this.reload())
     ]);
 
     this.columns = this.extensions.documentListPresets.favorites;

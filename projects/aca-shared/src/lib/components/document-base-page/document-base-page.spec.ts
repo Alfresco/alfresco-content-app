@@ -24,20 +24,20 @@
 
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { PageComponent } from './document-base-page.component';
-import { ReloadDocumentListAction, SetSelectedNodesAction, AppState, AppStore, ViewNodeAction } from '@alfresco/aca-shared/store';
+import { ReloadDocumentListAction, SetSelectedNodesAction, AppState, ViewNodeAction } from '@alfresco/aca-shared/store';
 import { AppExtensionService } from '@alfresco/aca-shared';
-import { MinimalNodeEntity, Node, NodePaging } from '@alfresco/js-api';
+import { MinimalNodeEntity, NodePaging, RepositoryInfo } from '@alfresco/js-api';
 import { DocumentBasePageService } from './document-base-page.service';
 import { Store, StoreModule } from '@ngrx/store';
 import { Component, Injectable } from '@angular/core';
-import { DocumentListComponent } from '@alfresco/adf-content-services';
+import { DiscoveryApiService, DocumentListComponent } from '@alfresco/adf-content-services';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MaterialModule, PipeModule } from '@alfresco/adf-core';
 import { HttpClientModule } from '@angular/common/http';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { EffectsModule } from '@ngrx/effects';
-import { Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, of } from 'rxjs';
 
 export const INITIAL_APP_STATE: AppState = {
   appName: 'Alfresco Content Application',
@@ -77,10 +77,10 @@ export const INITIAL_APP_STATE: AppState = {
 
 @Injectable()
 class DocumentBasePageServiceMock extends DocumentBasePageService {
-  canUpdateNode(_node: MinimalNodeEntity): boolean {
+  canUpdateNode(): boolean {
     return true;
   }
-  canUploadContent(_node: Node): boolean {
+  canUploadContent(): boolean {
     return true;
   }
 }
@@ -92,8 +92,8 @@ class DocumentBasePageServiceMock extends DocumentBasePageService {
 class TestComponent extends PageComponent {
   node: any;
 
-  constructor(store: Store<AppStore>, extensions: AppExtensionService, content: DocumentBasePageService) {
-    super(store, extensions, content);
+  constructor() {
+    super();
   }
 
   addSubscription(entry: Subscription) {
@@ -137,6 +137,13 @@ describe('PageComponent', () => {
         {
           provide: DocumentBasePageService,
           useClass: DocumentBasePageServiceMock
+        },
+        {
+          provide: DiscoveryApiService,
+          useValue: {
+            ecmProductInfo$: new BehaviorSubject<RepositoryInfo | null>(null),
+            getEcmProductInfo: (): Observable<RepositoryInfo> => of(new RepositoryInfo({ version: '10.0.0' }))
+          }
         },
         AppExtensionService
       ]
@@ -283,11 +290,18 @@ describe('Info Drawer state', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, HttpClientModule, RouterTestingModule],
+      imports: [NoopAnimationsModule, HttpClientModule, RouterTestingModule, MaterialModule],
       declarations: [TestComponent],
       providers: [
         { provide: DocumentBasePageService, useClass: DocumentBasePageServiceMock },
         AppExtensionService,
+        {
+          provide: DiscoveryApiService,
+          useValue: {
+            ecmProductInfo$: new BehaviorSubject<RepositoryInfo | null>(null),
+            getEcmProductInfo: (): Observable<RepositoryInfo> => of(new RepositoryInfo({ version: '10.0.0' }))
+          }
+        },
         provideMockStore({
           initialState: { app: appState }
         })

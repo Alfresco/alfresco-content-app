@@ -22,15 +22,12 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NavigateLibraryAction, AppStore } from '@alfresco/aca-shared/store';
+import { NavigateLibraryAction } from '@alfresco/aca-shared/store';
 import { NodePaging, Pagination, SiteEntry } from '@alfresco/js-api';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { ContentManagementService } from '../../../services/content-management.service';
 import { SearchLibrariesQueryBuilderService } from './search-libraries-query-builder.service';
-import { AppExtensionService, AppHookService, AppService, PageComponent } from '@alfresco/aca-shared';
+import { AppHookService, AppService, PageComponent } from '@alfresco/aca-shared';
 import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 
 @Component({
@@ -39,7 +36,6 @@ import { DocumentListPresetRef } from '@alfresco/adf-extensions';
   styleUrls: ['./search-libraries-results.component.scss']
 })
 export class SearchLibrariesResultsComponent extends PageComponent implements OnInit {
-  isSmallScreen = false;
   searchedWord: string;
   queryParamName = 'q';
   data: NodePaging;
@@ -48,16 +44,12 @@ export class SearchLibrariesResultsComponent extends PageComponent implements On
   columns: DocumentListPresetRef[] = [];
 
   constructor(
-    private breakpointObserver: BreakpointObserver,
     private librariesQueryBuilder: SearchLibrariesQueryBuilderService,
     private route: ActivatedRoute,
     private appHookService: AppHookService,
-    private appService: AppService,
-    store: Store<AppStore>,
-    extensions: AppExtensionService,
-    content: ContentManagementService
+    private appService: AppService
   ) {
-    super(store, extensions, content);
+    super();
 
     librariesQueryBuilder.paging = {
       skipCount: 0,
@@ -96,10 +88,6 @@ export class SearchLibrariesResultsComponent extends PageComponent implements On
             this.appHookService.library400Error.next();
           }
         } catch (e) {}
-      }),
-
-      this.breakpointObserver.observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape]).subscribe((result) => {
-        this.isSmallScreen = result.matches;
       })
     );
 

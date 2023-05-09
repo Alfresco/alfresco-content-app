@@ -22,10 +22,10 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { DocumentListComponent, ShareDataRow } from '@alfresco/adf-content-services';
+import { DocumentListComponent, ShareDataRow, UploadService } from '@alfresco/adf-content-services';
 import { ShowHeaderMode } from '@alfresco/adf-core';
 import { ContentActionRef, DocumentListPresetRef, SelectionState } from '@alfresco/adf-extensions';
-import { OnDestroy, OnInit, OnChanges, ViewChild, SimpleChanges, Directive } from '@angular/core';
+import { OnDestroy, OnInit, OnChanges, ViewChild, SimpleChanges, Directive, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { MinimalNodeEntity, MinimalNodeEntryEntity, NodePaging } from '@alfresco/js-api';
 import { Observable, Subject, Subscription } from 'rxjs';
@@ -46,6 +46,8 @@ import {
 import { AppExtensionService } from '../../services/app.extension.service';
 import { isLibrary, isLocked } from '../../utils/node.utils';
 import { AcaFileAutoDownloadService } from '../../services/aca-file-auto-download.service';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Router } from '@angular/router';
 
 /* eslint-disable @angular-eslint/directive-class-suffix */
 @Directive()
@@ -69,15 +71,17 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   showHeader = ShowHeaderMode.Data;
   filterSorting = 'name-asc';
   createActions: Array<ContentActionRef> = [];
+  isSmallScreen = false;
+
+  protected extensions = inject(AppExtensionService);
+  protected content = inject(DocumentBasePageService);
+  protected store = inject<Store<AppStore>>(Store<AppStore>);
+  protected breakpointObserver = inject(BreakpointObserver);
+  protected uploadService = inject(UploadService);
+  protected router = inject(Router);
+  private fileAutoDownloadService = inject(AcaFileAutoDownloadService, { optional: true });
 
   protected subscriptions: Subscription[] = [];
-
-  protected constructor(
-    protected store: Store<AppStore>,
-    protected extensions: AppExtensionService,
-    protected content: DocumentBasePageService,
-    private fileAutoDownloadService: AcaFileAutoDownloadService = null
-  ) {}
 
   ngOnInit() {
     this.extensions
@@ -119,6 +123,13 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((node) => {
         this.canUpload = node && this.content.canUploadContent(node);
+      });
+
+    this.breakpointObserver
+      .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((result) => {
+        this.isSmallScreen = result.matches;
       });
   }
 

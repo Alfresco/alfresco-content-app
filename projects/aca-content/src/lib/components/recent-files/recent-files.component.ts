@@ -23,47 +23,27 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { MinimalNodeEntity } from '@alfresco/js-api';
-import { ContentManagementService } from '../../services/content-management.service';
-import { Store } from '@ngrx/store';
-import { AppStore } from '@alfresco/aca-shared/store';
-import { UploadService } from '@alfresco/adf-content-services';
 import { debounceTime } from 'rxjs/operators';
-import { Router } from '@angular/router';
-import { AcaFileAutoDownloadService, AppExtensionService, PageComponent } from '@alfresco/aca-shared';
+import { PageComponent } from '@alfresco/aca-shared';
 import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 
 @Component({
   templateUrl: './recent-files.component.html'
 })
 export class RecentFilesComponent extends PageComponent implements OnInit {
-  isSmallScreen = false;
-
   columns: DocumentListPresetRef[] = [];
 
-  constructor(
-    store: Store<AppStore>,
-    extensions: AppExtensionService,
-    content: ContentManagementService,
-    private uploadService: UploadService,
-    private breakpointObserver: BreakpointObserver,
-    private router: Router,
-    fileAutoDownloadService: AcaFileAutoDownloadService
-  ) {
-    super(store, extensions, content, fileAutoDownloadService);
+  constructor() {
+    super();
   }
 
   ngOnInit() {
     super.ngOnInit();
 
     this.subscriptions = this.subscriptions.concat([
-      this.uploadService.fileUploadComplete.pipe(debounceTime(300)).subscribe(() => this.onFileUploadedEvent()),
-      this.uploadService.fileUploadDeleted.pipe(debounceTime(300)).subscribe(() => this.onFileUploadedEvent()),
-
-      this.breakpointObserver.observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape]).subscribe((result) => {
-        this.isSmallScreen = result.matches;
-      })
+      this.uploadService.fileUploadComplete.pipe(debounceTime(300)).subscribe(() => this.reload()),
+      this.uploadService.fileUploadDeleted.pipe(debounceTime(300)).subscribe(() => this.reload())
     ]);
 
     this.columns = this.extensions.documentListPresets.recent || [];
@@ -77,9 +57,5 @@ export class RecentFilesComponent extends PageComponent implements OnInit {
 
   handleNodeClick(event: Event) {
     this.onNodeDoubleClick((event as CustomEvent).detail?.node);
-  }
-
-  private onFileUploadedEvent() {
-    this.reload();
   }
 }
