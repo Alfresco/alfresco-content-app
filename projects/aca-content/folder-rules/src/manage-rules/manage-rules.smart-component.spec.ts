@@ -23,7 +23,8 @@
  */
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AcaFolderRulesModule, ManageRulesSmartComponent } from '@alfresco/aca-content/folder-rules';
+import { AcaFolderRulesModule } from '../folder-rules.module';
+import { ManageRulesSmartComponent } from './manage-rules.smart-component';
 import { DebugElement, Predicate } from '@angular/core';
 import { CoreTestingModule } from '@alfresco/adf-core';
 import { FolderRulesService } from '../services/folder-rules.service';
