@@ -24,7 +24,8 @@
       align-items: baseline;
       gap: 8px;
 
-      & > label, & > .label {
+      & > label,
+      & > .label {
         font-weight: bold;
         width: 20%;
         min-width: 100px;
@@ -75,12 +76,15 @@
       }
     }
 
-    &.read-only, .mat-form-field-disabled {
-      .mat-form-field-underline, .mat-select-arrow-wrapper {
+    &.read-only,
+    .mat-form-field-disabled {
+      .mat-form-field-underline,
+      .mat-select-arrow-wrapper {
         display: none;
       }
 
-      *:disabled, .mat-select-disabled .mat-select-value {
+      *:disabled,
+      .mat-select-disabled .mat-select-value {
         color: inherit;
       }
     }

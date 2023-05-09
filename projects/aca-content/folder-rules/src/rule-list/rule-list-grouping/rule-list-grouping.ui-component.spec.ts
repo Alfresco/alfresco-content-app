@@ -28,7 +28,7 @@ import { ruleListGroupingItemsMock, rulesMock } from '../../mock/rules.mock';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { CoreTestingModule } from '@alfresco/adf-core';
-import { AcaFolderRulesModule } from '@alfresco/aca-folder-rules';
+import { AcaFolderRulesModule } from '@alfresco/aca-content/folder-rules';
 
 describe('RuleListGroupingUiComponent', () => {
   let component: RuleListGroupingUiComponent;

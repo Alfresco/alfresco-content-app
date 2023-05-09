@@ -96,7 +96,6 @@ jobs:
         unit-tests:
           - name: "aca-content"
           - name: "aca-shared"
-          - name: "aca-folder-rules"
           - name: "aca-preview"
     steps:
       - name: Checkout

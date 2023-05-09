@@ -82,7 +82,7 @@ const routes: Routes = [
 })
 export class AcaFolderRulesModule {
   constructor(translation: TranslationService, extensions: ExtensionService) {
-    translation.addTranslationFolder('aca-folder-rules', 'assets/aca-folder-rules');
+    translation.addTranslationFolder('folder-rules', 'assets/folder-rules');
 
     extensions.setEvaluators({
       'rules.canManageFolderRules': rules.canManageFolderRules

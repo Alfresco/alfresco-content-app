@@ -79,13 +79,13 @@
           },
           {
             "glob": "folder-rules.plugin.json",
-            "input": "projects/aca-folder-rules/assets",
+            "input": "projects/aca-content/folder-rules/assets",
             "output": "./assets/plugins"
           },
           {
             "glob": "**/*",
-            "input": "projects/aca-folder-rules/assets",
-            "output": "./assets/aca-folder-rules"
+            "input": "projects/aca-content/folder-rules/assets",
+            "output": "./assets/folder-rules"
           },
           {
             "glob": "**/*",
