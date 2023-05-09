@@ -1,14 +1,14 @@
-<button mat-button class="aca-menu-user-details-button" [matMenuTriggerFor]="menu">
+<button mat-button class="aca-user-menu-button" [matMenuTriggerFor]="menu">
   <div>{{ (displayName$ | async)?.initials }}</div>
 </button>
 
 <mat-menu #menu="matMenu" xPosition="before">
-  <div mat-menu-item class="aca-menu-user-details" [routerLink]="['/profile']"
+  <div mat-menu-item class="aca-user-menu" [routerLink]="['/profile']"
     title="{{'APP.TOOLTIPS.MY_PROFILE' | translate}}">
-    <button class="aca-menu-user-details-button">
+    <button class="aca-user-menu-button">
       <div>{{ (displayName$ | async)?.initials }}</div>
     </button>
-    <div class="aca-menu-user-details-name-email">
+    <div class="aca-user-menu-name-email">
       <div>{{ (displayName$ | async)?.firstName }}</div>
       <div>{{ (displayName$ | async)?.email }}</div>
     </div>

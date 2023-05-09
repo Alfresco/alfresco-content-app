@@ -33,7 +33,7 @@ import { BrowserActions } from '@alfresco/adf-testing';
 
 export class Header extends Component {
   logoLink = this.byCss('.app-menu__title');
-  moreActions = this.byCss('.aca-menu-user-details-button');
+  moreActions = this.byCss('.aca-user-menu-button');
   sidenavToggle = this.byCss(`.sidenav-header-title-logo`);
 
   userInfo = new UserInfo();
