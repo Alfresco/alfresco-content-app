@@ -19,6 +19,7 @@
       (ngModelChange)="inputChange($event)"
       (keyup.enter)="searchSubmit($event)"
       [placeholder]="'SEARCH.INPUT.PLACEHOLDER' | translate"
+      autocomplete="off"
     />
     <div matSuffix class="app-suffix-search-icon-wrapper">
       <mat-icon *ngIf="searchTerm.length" (click)="clear()" class="app-clear-icon">clear</mat-icon>
