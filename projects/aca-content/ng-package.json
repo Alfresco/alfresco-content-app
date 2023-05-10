@@ -12,6 +12,7 @@
       "output": "ui"
     },
     "about/assets",
+    "ms-office/assets",
     "assets"
   ]
 }

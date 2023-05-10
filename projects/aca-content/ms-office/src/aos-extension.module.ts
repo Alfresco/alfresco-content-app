@@ -22,8 +22,23 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './lib/aos-extension.service';
-export * from './lib/actions/aos.actions';
-export * from './lib/effects/aos.effects';
+import { ExtensionService, provideExtensionConfig } from '@alfresco/adf-extensions';
+import { NgModule } from '@angular/core';
+import { EffectsModule } from '@ngrx/effects';
+import { AosEffects } from './effects/aos.effects';
+import { TranslationService } from '@alfresco/adf-core';
+import { AlfrescoOfficeExtensionService } from '@alfresco/aca-shared';
+import { canOpenWithOffice } from '@alfresco/aca-shared/rules';
 
-export * from './lib/aos-extension.module';
+@NgModule({
+  imports: [EffectsModule.forFeature([AosEffects])],
+  providers: [provideExtensionConfig(['aos.plugin.json'])]
+})
+export class AosExtensionModule {
+  constructor(extensions: ExtensionService, translation: TranslationService, aosService: AlfrescoOfficeExtensionService) {
+    translation.addTranslationFolder('ms-office', 'assets/ms-office');
+    extensions.setEvaluators({
+      'aos.canOpenWithOffice': (context) => aosService.isAosPluginEnabled() && canOpenWithOffice(context)
+    });
+  }
+}

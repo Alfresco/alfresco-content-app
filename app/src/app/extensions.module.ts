@@ -23,7 +23,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { AosExtensionModule } from '@alfresco/adf-office-services-ext';
+import { AosExtensionModule } from '@alfresco/aca-content/ms-office';
 import { AcaAboutModule } from '@alfresco/aca-content/about';
 import { AcaFolderRulesModule } from '@alfresco/aca-folder-rules';
 import { environment } from '../environments/environment';

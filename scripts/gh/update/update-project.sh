@@ -83,7 +83,6 @@ update() {
     update_dependency "@alfresco/aca-preview"
     update_dependency "@alfresco/aca-viewer"
     update_dependency "@alfresco/aca-folder-rules"
-    update_dependency "@alfresco/adf-office-services-ext"
 
     if [ "$BRANCH_CREATED" = true ]; then
         git push origin $BRANCH_TO_CREATE

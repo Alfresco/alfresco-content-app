@@ -1,7 +1,0 @@
-{
-  "dest": "../../dist/@alfresco/adf-office-services-ext",
-  "lib": {
-    "entryFile": "src/public-api.ts"
-  },
-  "assets": ["assets"]
-}

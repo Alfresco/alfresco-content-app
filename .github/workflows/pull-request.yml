@@ -95,7 +95,6 @@ jobs:
       matrix:
         unit-tests:
           - name: "aca-content"
-          - name: "adf-office-services-ext"
           - name: "aca-shared"
           - name: "aca-folder-rules"
           - name: "aca-preview"

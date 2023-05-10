@@ -2,7 +2,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "aca-content",
   "projectType": "library",
-  "sourceRoot": "projects/aca-content/src",
+  "sourceRoot": "projects/aca-content",
   "prefix": "lib",
   "targets": {
     "build": {
@@ -27,7 +27,7 @@
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
         "codeCoverage": true,
-        "main": "projects/aca-content/src/test.ts",
+        "main": "projects/aca-content/test.ts",
         "tsConfig": "projects/aca-content/tsconfig.spec.json",
         "karmaConfig": "projects/aca-content/karma.conf.js",
         "styles": [
