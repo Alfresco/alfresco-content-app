@@ -24,7 +24,7 @@
 
 import { PeopleContentService } from '@alfresco/adf-content-services';
 import { AuthenticationService, IdentityUserService } from '@alfresco/adf-core';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Observable, of, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { AppExtensionService } from '@alfresco/aca-shared';
@@ -33,7 +33,8 @@ import { ContentActionRef } from '@alfresco/adf-extensions';
 @Component({
   selector: 'aca-user-menu',
   templateUrl: './user-menu.component.html',
-  styleUrls: ['./user-menu.component.scss']
+  styleUrls: ['./user-menu.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class UserMenuComponent implements OnInit {
   displayName$: Observable<{ firstName: string; initials: string; email: string }>;
