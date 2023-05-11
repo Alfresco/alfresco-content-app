@@ -253,7 +253,11 @@
         "assets": [
           "app/src/assets",
           "app/src/favicon-96x96.png",
-          "projects/aca-content/assets",
+          {
+            "glob": "**/*",
+            "input": "projects/aca-content/assets",
+            "output": "/assets"
+          },
           {
             "input": "app/.tmp",
             "output": "/",
