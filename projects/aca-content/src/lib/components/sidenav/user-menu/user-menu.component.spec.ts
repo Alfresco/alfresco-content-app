@@ -126,22 +126,17 @@ describe('UserMenuComponent', () => {
     expect(result.initials).toEqual('');
   });
 
-  it('should return an object with the correct firstName and initials when the input model has only the firstName property', () => {
+  it('should return an object with the correct initials when the input model has only the firstName property', () => {
     const result = component.parseDisplayName({ firstName: 'John' });
     expect(result.initials).toEqual('J');
   });
 
-  it('should return an object with the correct firstName and initials when the input model has only the lastName property', () => {
+  it('should return an object with the correct initials when the input model has only the lastName property', () => {
     const result = component.parseDisplayName({ lastName: 'Doe' });
     expect(result.initials).toEqual('D');
   });
 
-  it('should return an object with the correct firstName, initials, and lastName concatenated when the input model has both firstName and lastName properties', () => {
-    const result = component.parseDisplayName({ firstName: 'John', lastName: 'Doe' });
-    expect(result.initials).toEqual('JD');
-  });
-
-  it('should return an object with all properties correctly parsed when the input model has all three properties', () => {
+  it('should return an object with the correct initials concatenated when the input model has both firstName and lastName properties', () => {
     const result = component.parseDisplayName({ firstName: 'John', lastName: 'Doe' });
     expect(result.initials).toEqual('JD');
   });
