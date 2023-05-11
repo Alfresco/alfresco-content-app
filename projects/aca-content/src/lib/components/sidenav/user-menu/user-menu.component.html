@@ -1,0 +1,9 @@
+<button mat-button class="aca-user-menu-button" [matMenuTriggerFor]="menu">
+  <div>{{ (displayName$ | async)?.initials }}</div>
+</button>
+
+<mat-menu #menu="matMenu" xPosition="before">
+  <ng-container *ngFor="let item of data.items">
+    <app-toolbar-menu-item [actionRef]="item"></app-toolbar-menu-item>
+  </ng-container>
+</mat-menu>

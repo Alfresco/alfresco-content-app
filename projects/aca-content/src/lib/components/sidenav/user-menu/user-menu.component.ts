@@ -22,20 +22,25 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { IdentityUserService, AuthenticationService } from '@alfresco/adf-core';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Observable, of } from 'rxjs';
 import { PeopleContentService } from '@alfresco/adf-content-services';
+import { AuthenticationService, IdentityUserService } from '@alfresco/adf-core';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ContentActionRef } from '@alfresco/adf-extensions';
 
 @Component({
-  selector: 'app-user-info',
-  templateUrl: './user-info.component.html',
-  styleUrls: ['./user-info.component.scss'],
+  selector: 'aca-user-menu',
+  templateUrl: './user-menu.component.html',
+  styleUrls: ['./user-menu.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class UserInfoComponent implements OnInit {
-  displayName$: Observable<{ firstName: string; initials: string; email: string }>;
+export class UserMenuComponent implements OnInit {
+  displayName$: Observable<{ firstName: string; initials: string }>;
+  @Input()
+  actionRef: ContentActionRef;
+  @Input()
+  data: { items: any[] };
 
   constructor(
     private peopleContentService: PeopleContentService,
@@ -45,6 +50,9 @@ export class UserInfoComponent implements OnInit {
 
   ngOnInit() {
     this.getUserInfo();
+    if (this.data && this.data.items) {
+      this.data.items.sort((a, b) => a.order - b.order);
+    }
   }
 
   getUserInfo() {
@@ -74,18 +82,13 @@ export class UserInfoComponent implements OnInit {
     this.displayName$ = of(this.identityUserService.getCurrentUserInfo()).pipe(map((model) => this.parseDisplayName(model)));
   }
 
-  parseDisplayName(model: { firstName?: string; lastName?: string; email?: string }): { firstName: string; initials: string; email: string } {
-    const result = { firstName: '', initials: '', email: '' };
+  parseDisplayName(model: { firstName?: string; lastName?: string }): { firstName: string; initials: string } {
+    const result = { firstName: '', initials: '' };
     if (model.firstName) {
-      result.firstName = model.firstName;
       result.initials = model.firstName.charAt(0).toUpperCase();
     }
     if (model.lastName) {
-      result.firstName += ' ' + model.lastName;
       result.initials += model.lastName.charAt(0).toUpperCase();
-    }
-    if (model.email) {
-      result.email = `${model.email}`;
     }
     return result;
   }
