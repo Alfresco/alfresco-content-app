@@ -46,66 +46,79 @@
   "features": {
     "header": [
       {
-        "id": "app.header.user",
+        "id": "app.header.notification-center",
         "type": "custom",
-        "component": "app.user",
-        "order": 100
+        "component": "app.notification-center",
+        "order": 50
       },
       {
         "id": "app.header.more",
-        "type": "menu",
+        "type": "custom",
         "order": 10000,
-        "icon": "more_vert",
+        "component": "app.user.menu",
         "title": "APP.ACTIONS.MORE",
-        "children": [
-          {
-            "id": "app.languagePicker",
-            "order": 100,
-            "type": "custom",
-            "component": "app.languagePicker"
-          },
-          {
-            "id": "logout.separator",
-            "type": "separator",
-            "order": 199
-          },
-          {
-            "id": "settings",
-            "title": "App settings",
-            "description": "Application settings",
-            "icon": "settings",
-            "disabled": true,
-            "order": 10,
-            "actions": {
-              "click": "app.actions.settings"
+        "data": {
+          "items": [
+            {
+              "id": "app.header.user",
+              "type": "custom",
+              "component": "app.user",
+              "order": 100
             },
-            "rules": {
-              "visible": "app.navigation.isNotTrashcan"
-            }
-          },
-          {
-            "id": "button",
-            "title": "New Button",
-            "description": "new button description",
-            "icon": "alarm_on",
-            "order": 20,
-            "actions": {
-              "click": "app.actions.settings"
+            {
+              "id": "user.separator",
+              "type": "separator",
+              "order": 100
             },
-            "rules": {
-              "visible": "app.navigation.isNotTrashcan"
+            {
+              "id": "app.languagePicker",
+              "order": 100,
+              "type": "custom",
+              "component": "app.languagePicker"
+            },
+            {
+              "id": "settings",
+              "title": "App settings",
+              "description": "Application settings",
+              "icon": "settings",
+              "disabled": true,
+              "order": 10,
+              "actions": {
+                "click": "app.actions.settings"
+              },
+              "rules": {
+                "visible": "app.navigation.isNotTrashcan"
+              }
+            },
+            {
+              "id": "button",
+              "title": "New Button",
+              "description": "new button description",
+              "icon": "alarm_on",
+              "order": 20,
+              "actions": {
+                "click": "app.actions.settings"
+              },
+              "rules": {
+                "visible": "app.navigation.isNotTrashcan"
+              }
+            },
+            {
+              "id": "logout.separator",
+              "type": "separator",
+              "order": 199
+            },
+            {
+              "id": "app.logout",
+              "order": 200,
+              "type": "custom",
+              "component": "app.logout",
+              "rules": {
+                "visible": "app.canShowLogout"
+              }
             }
-          },
-          {
-            "id": "app.logout",
-            "order": 200,
-            "type": "custom",
-            "component": "app.logout",
-            "rules": {
-              "visible": "app.canShowLogout"
-            }
-          }
-        ]
+          ]
+        }
       }
     ],
     "icons": [
