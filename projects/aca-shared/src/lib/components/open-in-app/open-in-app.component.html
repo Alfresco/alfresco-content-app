@@ -1,8 +1,14 @@
-<div class="container">
+<div class="open-in-app-container">
   <button mat-button (click)="openInApp()" data-automation-id="open-in-app-button" class="open-in-app">
     <span>{{ 'APP.DIALOGS.MOBILE_APP.MOBILE_APP_BUTTON_LABEL' | translate }}</span>
   </button>
   <button mat-button (click)="onCloseDialog()">
     <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<div class="download-app-container" *ngIf="appStoreUrl">
+  <button mat-button class="download-app-button" (click)="downloadIosApp()">
+    <span>{{ 'APP.DIALOGS.MOBILE_APP.DOWNLOAD_APP_BUTTON_LABEL' | translate }}</span>
   </button>
 </div>

@@ -33,6 +33,7 @@ export interface MobileAppSwitchConfigurationOptions {
   androidUrlPart1: string;
   androidUrlPart2: string;
   sessionTimeForOpenAppDialogDisplay: string;
+  appStoreUrl: string;
 }
 @Injectable({
   providedIn: 'root'
@@ -40,6 +41,7 @@ export interface MobileAppSwitchConfigurationOptions {
 export class AcaMobileAppSwitcherService {
   private mobileAppSwitchConfig: MobileAppSwitchConfigurationOptions;
   public redirectUrl: string;
+  public appStoreUrl: string;
 
   constructor(private config: AppConfigService, private dialog: MatDialog) {
     this.mobileAppSwitchConfig = this.config.get<MobileAppSwitchConfigurationOptions>('mobileAppSwitch');
@@ -84,19 +86,21 @@ export class AcaMobileAppSwitcherService {
 
     if (isIOS === true) {
       this.redirectUrl = this.mobileAppSwitchConfig.iphoneUrl + currentUrl;
+      this.appStoreUrl = this.mobileAppSwitchConfig.appStoreUrl;
     } else if (isAndroid === true) {
       this.redirectUrl = this.mobileAppSwitchConfig.androidUrlPart1 + currentUrl + this.mobileAppSwitchConfig.androidUrlPart2;
     }
 
     if (this.redirectUrl !== undefined && this.redirectUrl !== null) {
-      this.openDialog(this.redirectUrl);
+      this.openDialog(this.redirectUrl, this.appStoreUrl);
     }
   }
 
-  openDialog(redirectUrl: string): void {
+  openDialog(redirectUrl: string, appStoreUrl?: string): void {
     this.dialog.open(OpenInAppComponent, {
       data: {
-        redirectUrl
+        redirectUrl,
+        appStoreUrl
       },
       hasBackdrop: false,
       width: 'auto',
