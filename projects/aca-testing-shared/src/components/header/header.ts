@@ -33,7 +33,7 @@ import { BrowserActions } from '@alfresco/adf-testing';
 
 export class Header extends Component {
   logoLink = this.byCss('.app-menu__title');
-  moreActions = this.byCss(`.userMenuButton`);
+  userMenuButton = this.byCss(`.aca-user-menu-button`);
   sidenavToggle = this.byCss(`.sidenav-header-title-logo`);
 
   userInfo = new UserInfo();
@@ -46,12 +46,12 @@ export class Header extends Component {
   }
 
   async openMoreMenu(): Promise<void> {
-    await BrowserActions.click(this.moreActions);
+    await BrowserActions.click(this.userMenuButton);
     await this.menu.waitForMenuToOpen();
   }
 
   async closeMoreMenu(): Promise<void> {
-    await BrowserActions.click(this.moreActions);
+    await BrowserActions.click(this.userMenuButton);
     await this.menu.waitForMenuToClose();
   }
 

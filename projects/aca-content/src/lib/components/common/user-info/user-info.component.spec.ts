@@ -29,7 +29,7 @@ import { UserInfoComponent } from './user-info.component';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { of } from 'rxjs';
 
-describe('parseDisplayName', () => {
+describe('UserInfoComponent', () => {
   let component: UserInfoComponent;
   let fixture: ComponentFixture<UserInfoComponent>;
   let authServiceStub: Partial<AuthenticationService>;
