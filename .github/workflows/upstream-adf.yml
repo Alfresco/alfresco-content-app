@@ -1,0 +1,208 @@
+name: Upstream adf
+on:
+  schedule:
+    - cron: '0 */3 * * *' # “At minute 0 past every 3rd hour.”
+  workflow_dispatch:
+
+env:
+  GH_TOKEN: ${{ secrets.BOT_GITHUB_TOKEN }}
+
+jobs:
+  upstream:
+    runs-on: ubuntu-latest
+    outputs:
+      hasNewVersion: ${{ steps.fetchLatestPkg.outputs.hasNewVersion }}
+      hasNewADFVersion: ${{ steps.fetchLatestPkg.outputs.hasNewADFVersion }}
+      latestADFVersion: ${{ steps.fetchLatestPkg.outputs.latestADFVersion }}
+      hasNewJSVersion: ${{ steps.fetchLatestPkg.outputs.hasNewJSVersion }}
+      latestJSVersion: ${{ steps.fetchLatestPkg.outputs.latestJSVersion }}
+      hasNewVersionWithoutPR: ${{ steps.checkPrAlreadyExist.outputs.hasNewVersionWithoutPR }}
+    steps:
+      - id: checkoutRepo
+        name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+      - id: fetchLatestPkg
+        name: Fetch the latest package version
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.BOT_GITHUB_TOKEN }}
+          script: |
+            const getLatestVersionOf = require('./scripts/gh/update/latest-version-of.js');
+            const { hasNewVersion: hasNewADFVersion , remoteVersion: latestADFVersion } = await getLatestVersionOf({github, dependencyName: 'adf-core'})
+            console.log('hasNewADFVersion', hasNewADFVersion)
+            console.log('latestADFVersion', latestADFVersion.name)
+
+            const { hasNewVersion: hasNewJSVersion, remoteVersion: latestJSVersion } = await getLatestVersionOf({github, dependencyName: 'js-api'});
+            console.log('hasNewJSVersion', hasNewJSVersion)
+            console.log('latestJSVersion', latestJSVersion.name)
+            if (hasNewADFVersion === 'true' || hasNewJSVersion  === 'true' ) {
+              core.setOutput('hasNewVersion', 'true');
+              if (hasNewADFVersion === 'true') {
+                core.setOutput('hasNewADFVersion', 'true');
+                core.setOutput('latestADFVersion', latestADFVersion.name);
+              }
+              if (hasNewJSVersion === 'true') {
+                core.setOutput('hasNewJSVersion', 'true');
+                core.setOutput('latestJSVersion', latestJSVersion.name);
+              }
+            } else {
+              core.setOutput('hasNewVersion', 'false');
+              console.log('No new version available, skipping upstream!')
+            }
+      - name: Check value after
+        run: |
+          echo "The value hasNewVersion is: ${{ steps.fetchLatestPkg.outputs.hasNewVersion }}"
+          echo "The value hasNewADFVersion is: ${{ steps.fetchLatestPkg.outputs.hasNewADFVersion }}"
+          echo "The value latestADFVersion is: ${{ steps.fetchLatestPkg.outputs.latestADFVersion }}"
+          echo "The value hasNewJSVersion is: ${{ steps.fetchLatestPkg.outputs.hasNewJSVersion }}"
+          echo "The value latestJSVersion is: ${{ steps.fetchLatestPkg.outputs.latestJSVersion }}"
+      - id: checkPrAlreadyExist
+        name: Check if PR with latest already exist
+        if: ${{ steps.fetchLatestPkg.outputs.hasNewVersion == 'true' }}
+        uses: actions/github-script@v6
+        env:
+          HAS_NEW_ADF_VERSION: ${{ steps.fetchLatestPkg.outputs.hasNewADFVersion }}
+          LATEST_ADF_VERSION: ${{ steps.fetchLatestPkg.outputs.latestADFVersion }}
+          HAS_NEW_JS_VERSION: ${{ steps.fetchLatestPkg.outputs.hasNewJSVersion }}
+          LATEST_JS_VERSION: ${{ steps.fetchLatestPkg.outputs.latestJSVersion }}
+        with:
+          github-token: ${{ secrets.BOT_GITHUB_TOKEN }}
+          script: |
+            // verify if there is already an Upstream PR pending
+            const hasNewADFVersion = process.env.HAS_NEW_ADF_VERSION;
+            const latestADFVersion = process.env.LATEST_ADF_VERSION;
+            const hasNewJSVersion = process.env.HAS_NEW_JS_VERSION;
+            const latestJSVersion = process.env.LATEST_JS_VERSION;
+            const checkPRAlreadyExist = require('./scripts/gh/update/check-pr-already-exists.js');
+            let isPRWithLatestADFAlreadyAvailable = false;
+            let isPRWithLatestJSAlreadyAvailable = false;
+            if (hasNewADFVersion === 'true') {
+              isPRWithLatestADFAlreadyAvailable = await checkPRAlreadyExist({github, context, version: latestADFVersion});
+              console.log('isPRWithLatestADFAlreadyAvailable', isPRWithLatestADFAlreadyAvailable);
+            }
+            if (hasNewJSVersion === 'true') {
+              isPRWithLatestJSAlreadyAvailable = await checkPRAlreadyExist({github, context, version: latestADFVersion});
+              console.log('isPRWithLatestJSAlreadyAvailable', isPRWithLatestJSAlreadyAvailable);
+            }
+            if (isPRWithLatestADFAlreadyAvailable || isPRWithLatestJSAlreadyAvailable) {
+              console.log('Warning: Upstream PR already exist, stop the migration execution!');
+              core.setOutput('hasNewVersionWithoutPR', 'false');
+            } else {
+              core.setOutput('hasNewVersionWithoutPR', 'true');
+            }
+  migrate:
+    if: ${{ needs.upstream.outputs.hasNewVersionWithoutPR == 'true' }}
+    runs-on: ubuntu-latest
+    needs: upstream
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.BOT_GITHUB_TOKEN }}
+          fetch-depth: 1
+      - name: setup NPM
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+      - name: Run install
+        run: |
+          npm ci --ignore-scripts
+      - name: Migration
+        shell: bash
+        env:
+          IS_ADF_AFFECTED: ${{ needs.upstream.outputs.hasNewADFVersion }}
+          IS_JS_AFFECTED: ${{ needs.upstream.outputs.hasNewJSVersion }}
+          PACKAGE_VERSION_ADF: ${{ needs.upstream.outputs.latestADFVersion }}
+          PACKAGE_VERSION_JS: ${{ needs.upstream.outputs.latestJSVersion }}
+          BRANCH_TO_CREATE: "upstream-dependencies"
+        run: |
+          migrateDependenciesADF() {
+              echo "Update ADF dependencies to: ${PACKAGE_VERSION_ADF}"
+              echo "Calling migration ADF"
+              npx nx migrate @alfresco/adf-extensions@${PACKAGE_VERSION_ADF}
+              npx nx migrate @alfresco/adf-core@${PACKAGE_VERSION_ADF}
+              npx nx migrate @alfresco/adf-content-services@${PACKAGE_VERSION_ADF}
+              npx nx migrate @alfresco/adf-cli@${PACKAGE_VERSION_ADF}
+              npx nx migrate @alfresco/adf-testing@${PACKAGE_VERSION_ADF}
+              echo "Migration ADF done"
+          }
+          migrateDependenciesJS() {
+              echo "Update JS dependencies to: ${PACKAGE_VERSION_JS}"
+              echo "Calling migration JS"
+              npx nx migrate @alfresco/js-api@${PACKAGE_VERSION_JS}
+              echo "Migration JS done"
+          }
+          regeneratePackageLock() {
+            echo "Regenerate lock"
+            npm i --package-lock-only
+            echo "Package-lock done."
+          }
+          if git checkout ${BRANCH_TO_CREATE} 2>/dev/null ; then
+            git reset --hard origin/develop
+            echo "Reset branch"
+          fi
+          if [[ "$IS_ADF_AFFECTED" == "true" ]]; then
+            migrateDependenciesADF
+          fi
+          if [[ "$IS_JS_AFFECTED" == "true" ]]; then
+            migrateDependenciesJS
+          fi
+          regeneratePackageLock
+      - name: Commit Code
+        if: ${{ needs.upstream.outputs.hasNewVersion == 'true'  }}
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "[ci:force][auto-commit] Update dependencies ADF:${{ needs.upstream.outputs.latestADFVersion }}  JS:${{ needs.upstream.outputs.latestJSVersion }}"
+          branch: upstream-dependencies
+          push_options: '--force'
+          create_branch: true
+
+      - name: Create a Pull request
+        uses: actions/github-script@v6
+        env:
+          PACKAGE_VERSION_ADF: ${{ needs.upstream.outputs.latestADFVersion }}
+          PACKAGE_VERSION_JS: ${{ needs.upstream.outputs.latestJSVersion }}
+        with:
+          github-token: ${{ secrets.BOT_GITHUB_TOKEN }}
+          script: |
+            const { PACKAGE_VERSION_ADF } = process.env
+            const { PACKAGE_VERSION_JS } = process.env
+            const BRANCH_TO_CREATE = 'upstream-dependencies';
+            let title = `GH Auto: Upstream dependencies ADF:${PACKAGE_VERSION_ADF} JS-API:${PACKAGE_VERSION_JS} using Tag:${PACKAGE_VERSION_ADF}`;
+            if (PACKAGE_VERSION_ADF === 'next' || PACKAGE_VERSION_ADF === 'latest') {
+              title = `GH Auto: Upstream dependencies ADF and JS-API using Tag:${PACKAGE_VERSION_ADF}`;
+            }
+            const { data: prs } = await github.rest.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              head: `${context.repo.owner}:${BRANCH_TO_CREATE}`,
+              base: 'develop'
+            });
+            if (prs.length < 1) {
+                const payloadPullRequest = {
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  title: title,
+                  head: `${context.repo.owner}:${BRANCH_TO_CREATE}`,
+                  base: 'develop',
+                  body: `Automatic PR`
+                };
+                console.log('Payload: ',payloadPullRequest);
+                const { data: pr } = await github.rest.pulls.create(payloadPullRequest);
+                return pr.number;
+            } else {
+                const upstreamPrOpen = prs[0];
+                // override the title to contains the latest adf dep number
+                const payloadUpdatePullRequest = {
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  pull_number: upstreamPrOpen.number,
+                  title: title,
+                };
+                await github.rest.pulls.update(payloadUpdatePullRequest);
+                return upstreamPrOpen.number;
+            }
