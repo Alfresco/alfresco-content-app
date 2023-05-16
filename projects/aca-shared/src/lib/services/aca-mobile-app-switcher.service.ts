@@ -103,9 +103,9 @@ export class AcaMobileAppSwitcherService {
         appStoreUrl
       },
       hasBackdrop: false,
-      width: 'auto',
+      width: '100%',
       role: 'dialog',
-      position: { bottom: '20px' }
+      position: { bottom: '0' }
     });
   }
 

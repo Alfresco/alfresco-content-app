@@ -1,9 +1,13 @@
+<div class="alfresco-mobile-application-container">
+    <span>{{ 'APP.DIALOGS.MOBILE_APP.OPEN_ALFRESCO_MOBILE_APP' | translate }}</span>
+    <button mat-button class="cross-button" (click)="onCloseDialog()">
+      <mat-icon>close</mat-icon>
+    </button>
+</div>
+
 <div class="open-in-app-container">
   <button mat-button (click)="openInApp()" data-automation-id="open-in-app-button" class="open-in-app">
     <span>{{ 'APP.DIALOGS.MOBILE_APP.MOBILE_APP_BUTTON_LABEL' | translate }}</span>
-  </button>
-  <button mat-button (click)="onCloseDialog()">
-    <mat-icon>close</mat-icon>
   </button>
 </div>
 

@@ -1,16 +1,11 @@
 .open-in-app-container {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 5px;
-  border-radius: 22px;
+  place-content: center;
+  padding: 8px 24px;
+  border-radius: 8px;
   background-color: var(--theme-blue-button-color);
   color: var(--theme-about-panel-background-color);
-}
-
-.mat-dialog-container {
-  box-shadow: none;
+  margin-top: 12px;
 }
 
 .open-in-app.mat-button {
@@ -23,12 +18,27 @@
 }
 
 .download-app-container {
-  margin-top: 16px;
+  display: flex;
+  place-content: center;
+  margin-top: 12px;
+}
+
+.alfresco-mobile-application-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  padding: 6px 0;
+}
+
+.mat-button.cross-button {
+  padding-right: 0;
 }
 
 .mat-button.download-app-button {
   background: var(--theme-dialog-background-color);
   color: var(--theme-blue-button-color);
-  font-size: 16px;
+  font-size: 14px;
   padding-left: 40px;
 }
