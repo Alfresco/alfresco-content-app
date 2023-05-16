@@ -28,7 +28,18 @@ import { MinimalNodeEntity } from '@alfresco/js-api';
 import { AppHookService, PageComponent } from '@alfresco/aca-shared';
 import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 @Component({
-  templateUrl: './shared-files.component.html'
+  templateUrl: './shared-files.component.html',
+  styles: [
+    `
+      .sidebar {
+        display: block;
+        height: 100%;
+        overflow-y: scroll;
+        max-width: 350px;
+        width: 350px;
+      }
+    `
+  ]
 })
 export class SharedFilesComponent extends PageComponent implements OnInit {
   columns: DocumentListPresetRef[] = [];

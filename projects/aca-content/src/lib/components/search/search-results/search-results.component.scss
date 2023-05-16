@@ -127,3 +127,11 @@ $contrast-gray: #646569;
     }
   }
 }
+
+.sidebar {
+  display: block;
+  height: 100%;
+  overflow-y: scroll;
+  max-width: 350px;
+  width: 350px;
+}
