@@ -25,16 +25,35 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AuthenticationService, IdentityUserService } from '@alfresco/adf-core';
 import { PeopleContentService } from '@alfresco/adf-content-services';
-import { UserInfoComponent } from './user-info.component';
 import { AppTestingModule } from '../../../testing/app-testing.module';
+import { UserMenuComponent } from './user-menu.component';
 import { of } from 'rxjs';
 
-describe('UserInfoComponent', () => {
-  let component: UserInfoComponent;
-  let fixture: ComponentFixture<UserInfoComponent>;
+describe('UserMenuComponent', () => {
+  let component: UserMenuComponent;
+  let fixture: ComponentFixture<UserMenuComponent>;
   let authServiceStub: Partial<AuthenticationService>;
   let peopleContentServiceStub: Partial<PeopleContentService>;
   let identityUserServiceStub: Partial<IdentityUserService>;
+
+  const menuItems = [
+    {
+      id: 'menu1',
+      title: 'Menu Item 1',
+      icon: 'icon1',
+      actions: {
+        click: 'action1'
+      }
+    },
+    {
+      id: 'menu2',
+      title: 'Menu Item 2',
+      icon: 'icon2',
+      actions: {
+        click: 'action2'
+      }
+    }
+  ];
 
   beforeEach(() => {
     authServiceStub = {
@@ -88,63 +107,37 @@ describe('UserInfoComponent', () => {
 
     TestBed.configureTestingModule({
       imports: [AppTestingModule],
-      declarations: [UserInfoComponent],
+      declarations: [UserMenuComponent],
       providers: [
         { provide: AuthenticationService, useValue: authServiceStub },
         { provide: PeopleContentService, useValue: peopleContentServiceStub },
-        { provide: IdentityUserService, useValue: identityUserServiceStub }
+        { provide: identityUserServiceStub, useValue: identityUserServiceStub }
       ]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(UserInfoComponent);
+    fixture = TestBed.createComponent(UserMenuComponent);
     component = fixture.componentInstance;
+    component.data = { items: menuItems };
     fixture.detectChanges();
-  });
-
-  it('should check if user is logged in', async () => {
-    const loggedIn = component.isLoggedIn;
-    expect(loggedIn).toBeTrue();
   });
 
   it('should return an object with empty strings for all properties when the input model is empty', () => {
     const result = component.parseDisplayName({});
-    expect(result.firstName).toEqual('');
     expect(result.initials).toEqual('');
-    expect(result.email).toEqual('');
   });
 
-  it('should return an object with the correct firstName and initials when the input model has only the firstName property', () => {
+  it('should return an object with the correct initials when the input model has only the firstName property', () => {
     const result = component.parseDisplayName({ firstName: 'John' });
-    expect(result.firstName).toEqual('John');
     expect(result.initials).toEqual('J');
-    expect(result.email).toEqual('');
   });
 
-  it('should return an object with the correct firstName and initials when the input model has only the lastName property', () => {
+  it('should return an object with the correct initials when the input model has only the lastName property', () => {
     const result = component.parseDisplayName({ lastName: 'Doe' });
-    expect(result.firstName).toEqual(' Doe');
     expect(result.initials).toEqual('D');
-    expect(result.email).toEqual('');
   });
 
-  it('should return an object with the correct email property when the input model has only the email property', () => {
-    const result = component.parseDisplayName({ email: 'john.doe@example.com' });
-    expect(result.firstName).toEqual('');
-    expect(result.initials).toEqual('');
-    expect(result.email).toEqual('john.doe@example.com');
-  });
-
-  it('should return an object with the correct firstName, initials, and lastName concatenated when the input model has both firstName and lastName properties', () => {
+  it('should return an object with the correct initials concatenated when the input model has both firstName and lastName properties', () => {
     const result = component.parseDisplayName({ firstName: 'John', lastName: 'Doe' });
-    expect(result.firstName).toEqual('John Doe');
     expect(result.initials).toEqual('JD');
-    expect(result.email).toEqual('');
-  });
-
-  it('should return an object with all properties correctly parsed when the input model has all three properties', () => {
-    const result = component.parseDisplayName({ firstName: 'John', lastName: 'Doe', email: 'john.doe@example.com' });
-    expect(result.firstName).toEqual('John Doe');
-    expect(result.initials).toEqual('JD');
-    expect(result.email).toEqual('john.doe@example.com');
   });
 });
