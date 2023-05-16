@@ -1,6 +1,7 @@
 @import '../../../ui/mixins';
 
 $adf-chip-background: #efefef;
+$adf-facets-background: white;
 $contrast-gray: #646569;
 
 .adf-search-results {
@@ -24,6 +25,7 @@ $contrast-gray: #646569;
     padding: 0 25px;
     flex-direction: row;
     align-items: center;
+    border-top: 1px solid #eee;
     border-bottom: 1px solid #eee;
 
     .adf-search-filter-chip {
@@ -91,22 +93,31 @@ $contrast-gray: #646569;
     place-content: flex-start space-between;
     align-items: flex-start;
     padding: 16px 12px;
+    background-color: $adf-facets-background;
 
-    &__button {
-      padding: 0 12px;
+    &__filter-set {
+      p {
+        padding: 0 16px;
+      }
     }
 
     &__divider {
       height: 100%;
     }
 
-    &__filter {
+    &__advanced-filters {
+      width: 100%;
       padding: 0 12px;
-      flex: 1 1 auto;
+
+      &--header {
+        display: flex;
+        justify-content: space-between;
+      }
     }
 
     &__reset-action {
       line-height: 33px;
+      font-weight: lighter;
     }
 
     &__sort-picker {
