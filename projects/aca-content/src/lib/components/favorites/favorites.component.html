@@ -16,11 +16,11 @@
         acaDocumentList
         acaContextActions
         [display]="documentDisplayMode$ | async"
-        currentFolderId="-favorites-"
-        selectionMode="multiple"
+        [currentFolderId]="'-favorites-'"
+        [selectionMode]="'multiple'"
         [navigate]="false"
         [sorting]="['modifiedAt', 'desc']"
-        sortingMode="client"
+        [sortingMode]="'client'"
         [imageResolver]="imageResolver"
         (node-dblclick)="handleNodeClick($event)"
         (name-click)="handleNodeClick($event)"

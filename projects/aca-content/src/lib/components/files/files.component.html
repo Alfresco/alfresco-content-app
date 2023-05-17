@@ -21,7 +21,8 @@
           acaDocumentList
           acaContextActions
           [display]="documentDisplayMode$ | async"
-          selectionMode="multiple"
+          [selectionMode]="'multiple'"
+          [multiselect]="true"
           [currentFolderId]="node?.id"
           [loading]="true"
           [showHeader]="showHeader"

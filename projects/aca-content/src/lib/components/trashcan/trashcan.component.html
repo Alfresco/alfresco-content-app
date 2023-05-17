@@ -16,10 +16,11 @@
         acaDocumentList
         acaContextActions
         [display]="documentDisplayMode$ | async"
-        currentFolderId="-trashcan-"
-        selectionMode="multiple"
+        [currentFolderId]="'-trashcan-'"
+        [selectionMode]="'multiple'"
+        [multiselect]="true"
         [navigate]="false"
-        sortingMode="client"
+        [sortingMode]="'client'"
         [imageResolver]="imageResolver"
         [sorting]="['archivedAt', 'desc']"
       >
