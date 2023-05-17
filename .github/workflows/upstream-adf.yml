@@ -118,12 +118,12 @@ jobs:
         run: |
           migrateDependenciesADF() {
               echo "Update ADF dependencies to: ${PACKAGE_VERSION_ADF}"
-              ./scripts/update-version.sh -v ${PACKAGE_VERSION_ADF}
+              ./scripts/update-version.sh -v ${PACKAGE_VERSION_ADF} -vj latest
               echo "Migration ADF done"
           }
           migrateDependenciesJS() {
               echo "Update JS dependencies to: ${PACKAGE_VERSION_JS}"
-              ./scripts/update-version.sh -vj ${PACKAGE_VERSION_JS}
+              ./scripts/update-version.sh -v latest -vj ${PACKAGE_VERSION_JS}
               echo "Migration JS done"
           }
           if git checkout ${BRANCH_TO_CREATE} 2>/dev/null ; then
