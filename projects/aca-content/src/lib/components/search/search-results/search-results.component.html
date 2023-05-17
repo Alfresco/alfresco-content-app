@@ -14,21 +14,26 @@
       <div class="adf-search-results">
         <div class="adf-search-results__content">
           <mat-progress-bar *ngIf="isLoading" color="primary" mode="indeterminate" aria-live="polite"> </mat-progress-bar>
-          <div class="adf-search-results__content-header content">
-            <adf-search-form class="content__side--left"></adf-search-form>
-
-            <mat-divider [vertical]="true" class="content__divider"></mat-divider>
-
-            <adf-search-filter-chips class="content__filter"></adf-search-filter-chips>
-
-            <button
-              mat-button
-              adf-reset-search
-              class="content__reset-action"
-              title="{{'APP.BROWSE.SEARCH.RESET_ACTION' | translate }}"
-              [attr.aria-label]="'APP.BROWSE.SEARCH.RESET_ACTION' | translate ">
-              <mat-icon> refresh </mat-icon>
-            </button>
+          <div class="adf-search-results__content-header aca-content">
+            <div class="aca-content__filter-set">
+              <p>{{ 'APP.BROWSE.SEARCH.FILTER_SET' | translate }}</p>
+              <adf-search-form></adf-search-form>
+            </div>
+            <mat-divider [vertical]="true" class="aca-content__divider"></mat-divider>
+            <div class="aca-content__advanced-filters">
+              <div class="aca-content__advanced-filters--header">
+                <p>{{ 'APP.BROWSE.SEARCH.ADVANCED_FILTERS' | translate }}</p>
+                <button
+                  mat-button
+                  adf-reset-search
+                  class="aca-content__reset-action"
+                  title="{{ 'APP.BROWSE.SEARCH.RESET_ACTION' | translate }}"
+                  [attr.aria-label]="'APP.BROWSE.SEARCH.RESET_ACTION' | translate ">
+                  {{ 'APP.BROWSE.SEARCH.RESET' | translate }}
+                </button>
+              </div>
+              <adf-search-filter-chips></adf-search-filter-chips>
+            </div>
           </div>
 
           <adf-document-list
