@@ -16,11 +16,11 @@
         acaDocumentList
         acaContextActions
         [display]="documentDisplayMode$ | async"
-        currentFolderId="-sharedlinks-"
-        selectionMode="multiple"
+        [currentFolderId]="'-sharedlinks-'"
+        [selectionMode]="'multiple'"
         [sorting]="['modifiedAt', 'desc']"
         [imageResolver]="imageResolver"
-        sortingMode="client"
+        [sortingMode]="'client'"
         (node-dblclick)="handleNodeClick($event)"
         (name-click)="handleNodeClick($event)"
       >
