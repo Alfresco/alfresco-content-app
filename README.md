@@ -1,13 +1,20 @@
-<p align="left"> <img title="Alfresco" src="alfresco.png" alt="Alfresco - Simply a better way to create amazing digital experiences"></p>
-
 # Alfresco Content Application
+
+Please refer to the public [documentation](https://alfresco-content-app.netlify.com/) for more details
 
 ## Requirements
 
 | Name | Version |
 | --- | --- |
-| Node.js | 14.x |
-| Npm | 6.x |
+| Node.js | 18.x |
+| Npm | 9.x |
+
+## Compatibility
+
+| ACA | ACS | Node | ADF | Angular |
+| --- | --- | --- | --- | --- |
+| 4.1 | 7.4 | 18.x | 6.1.0 | 14.x |
+| 4.0 | 7.4 | 14.x | 6.0.0 | 14.x |
 
 ## Running
 
@@ -113,7 +120,3 @@ When having this CI flag present in the commit message, the CI attempts to check
     with an error message
 
     ![travis stage](./assets/link-adf-travis-console.png)
-
-## See Also
-
-Please refer to the [Public documentation](https://alfresco-content-app.netlify.com/) for more details
