@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Location } from '@angular/common';
 import { FolderRulesService } from '../services/folder-rules.service';
 import { Observable, Subject, Subscription } from 'rxjs';
@@ -47,6 +47,7 @@ import { ActionParameterConstraint } from '../model/action-parameter-constraint.
   templateUrl: 'manage-rules.smart-component.html',
   styleUrls: ['manage-rules.smart-component.scss'],
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.Default,
   host: { class: 'aca-manage-rules' }
 })
 export class ManageRulesSmartComponent implements OnInit, OnDestroy {

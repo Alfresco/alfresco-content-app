@@ -233,8 +233,8 @@ export class FolderRuleSetsService {
 
   refreshMainRuleSet(ruleToSelect: Rule = null) {
     this.getMainRuleSet(this.currentFolder.id).subscribe((mainRuleSet: RuleSet) => {
-      this.mainRuleSet = mainRuleSet;
-      this.mainRuleSetSource.next(mainRuleSet);
+      this.mainRuleSet = { ...mainRuleSet };
+      this.mainRuleSetSource.next(this.mainRuleSet);
       if (mainRuleSet) {
         const ruleToSelectInRuleSet = ruleToSelect ? mainRuleSet.rules.find((rule: Rule) => rule.id === ruleToSelect.id) : mainRuleSet.rules[0];
         this.folderRulesService.selectRule(ruleToSelectInRuleSet);

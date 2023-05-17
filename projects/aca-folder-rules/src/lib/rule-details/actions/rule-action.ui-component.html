@@ -16,7 +16,7 @@
   <adf-card-view
     data-automation-id="rule-action-card-view"
     [properties]="cardViewItems"
-    [ngStyle]="cardViewStyle"
+    [ngClass]="{ 'aca-rule-action-full-width': isFullWidth }"
     [editable]="!readOnly">
   </adf-card-view>
 

@@ -162,7 +162,7 @@ export class FolderRulesService {
   }
 
   private formatRules(res): Rule[] {
-    return res.list.entries.map((entry) => this.formatRule(entry.entry));
+    return [...res.list.entries.map((entry) => this.formatRule(entry.entry))];
   }
 
   private formatRule(obj): Rule {

@@ -46,12 +46,17 @@ import { TranslateModule } from '@ngx-translate/core';
 export class CustomNameColumnComponent extends NameColumnComponent implements OnInit, OnDestroy {
   private onDestroy$$ = new Subject<boolean>();
 
+  isFile: boolean;
+  isFileWriteLocked: boolean;
+
   constructor(element: ElementRef, private cd: ChangeDetectorRef, private actions$: Actions, private nodesService: NodesApiService) {
     super(element, nodesService);
   }
 
   ngOnInit() {
     this.updateValue();
+    this.isFile = this.node && this.node.entry && !this.node.entry.isFolder;
+    this.isFileWriteLocked = isLocked(this.node);
 
     this.nodesService.nodeUpdated.pipe(takeUntil(this.onDestroy$$)).subscribe((node: any) => {
       const row = this.context.row;
@@ -65,6 +70,9 @@ export class CustomNameColumnComponent extends NameColumnComponent implements On
           row.node = { entry };
           this.updateValue();
         }
+
+        this.isFile = this.node && this.node.entry && !this.node.entry.isFolder;
+        this.isFileWriteLocked = isLocked(this.node);
       }
     });
 
@@ -75,6 +83,7 @@ export class CustomNameColumnComponent extends NameColumnComponent implements On
         takeUntil(this.onDestroy$$)
       )
       .subscribe(() => {
+        this.isFileWriteLocked = isLocked(this.node);
         this.cd.detectChanges();
       });
   }
@@ -89,13 +98,5 @@ export class CustomNameColumnComponent extends NameColumnComponent implements On
 
     this.onDestroy$$.next(true);
     this.onDestroy$$.complete();
-  }
-
-  get isFile(): boolean {
-    return this.node && this.node.entry && !this.node.entry.isFolder;
-  }
-
-  get isFileWriteLocked(): boolean {
-    return isLocked(this.node);
   }
 }
