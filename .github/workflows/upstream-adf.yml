@@ -126,14 +126,20 @@ jobs:
               ./scripts/update-version.sh -v latest -vj ${PACKAGE_VERSION_JS}
               echo "Migration JS done"
           }
+          migrateAllDependencies() {
+              echo "Update ADF dependencies to: ${PACKAGE_VERSION_JS} and JS dependencies to: ${PACKAGE_VERSION_JS}"
+              ./scripts/update-version.sh -v ${PACKAGE_VERSION_ADF} -vj ${PACKAGE_VERSION_JS}
+              echo "Migration done"
+          }
           if git checkout ${BRANCH_TO_CREATE} 2>/dev/null ; then
             git reset --hard origin/develop
             echo "Reset branch"
           fi
-          if [[ "$IS_ADF_AFFECTED" == "true" ]]; then
+          if [[ "$IS_ADF_AFFECTED" == "true" ]] && [[ "$IS_JS_AFFECTED" == "true" ]]; then
+            migrateAllDependencies
+          elif [[ "$IS_ADF_AFFECTED" == "true" ]]; then
             migrateDependenciesADF
-          fi
-          if [[ "$IS_JS_AFFECTED" == "true" ]]; then
+          elif [[ "$IS_JS_AFFECTED" == "true" ]]; then
             migrateDependenciesJS
           fi
       - name: Commit Code
