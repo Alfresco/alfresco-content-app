@@ -107,9 +107,6 @@ jobs:
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
-      - name: Run install
-        run: |
-          npm ci --ignore-scripts
       - name: Migration
         shell: bash
         env:
@@ -121,24 +118,13 @@ jobs:
         run: |
           migrateDependenciesADF() {
               echo "Update ADF dependencies to: ${PACKAGE_VERSION_ADF}"
-              echo "Calling migration ADF"
-              npx nx migrate @alfresco/adf-extensions@${PACKAGE_VERSION_ADF}
-              npx nx migrate @alfresco/adf-core@${PACKAGE_VERSION_ADF}
-              npx nx migrate @alfresco/adf-content-services@${PACKAGE_VERSION_ADF}
-              npx nx migrate @alfresco/adf-cli@${PACKAGE_VERSION_ADF}
-              npx nx migrate @alfresco/adf-testing@${PACKAGE_VERSION_ADF}
+              ./scripts/update-version.sh -v ${PACKAGE_VERSION_ADF}
               echo "Migration ADF done"
           }
           migrateDependenciesJS() {
               echo "Update JS dependencies to: ${PACKAGE_VERSION_JS}"
-              echo "Calling migration JS"
-              npx nx migrate @alfresco/js-api@${PACKAGE_VERSION_JS}
+              ./scripts/update-version.sh -vj ${PACKAGE_VERSION_JS}
               echo "Migration JS done"
-          }
-          regeneratePackageLock() {
-            echo "Regenerate lock"
-            npm i --package-lock-only
-            echo "Package-lock done."
           }
           if git checkout ${BRANCH_TO_CREATE} 2>/dev/null ; then
             git reset --hard origin/develop
@@ -150,7 +136,6 @@ jobs:
           if [[ "$IS_JS_AFFECTED" == "true" ]]; then
             migrateDependenciesJS
           fi
-          regeneratePackageLock
       - name: Commit Code
         if: ${{ needs.upstream.outputs.hasNewVersion == 'true'  }}
         uses: stefanzweifel/git-auto-commit-action@v4
