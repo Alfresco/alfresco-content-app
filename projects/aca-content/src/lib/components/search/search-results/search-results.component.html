@@ -14,19 +14,19 @@
       <div class="adf-search-results">
         <div class="adf-search-results__content">
           <mat-progress-bar *ngIf="isLoading" color="primary" mode="indeterminate" aria-live="polite"> </mat-progress-bar>
-          <div class="adf-search-results__content-header content">
-            <div class="content__filter-set">
+          <div class="adf-search-results__content-header aca-content">
+            <div class="aca-content__filter-set">
               <p>{{ 'APP.BROWSE.SEARCH.FILTER_SET' | translate }}</p>
               <adf-search-form></adf-search-form>
             </div>
-            <mat-divider [vertical]="true" class="content__divider"></mat-divider>
-            <div class="content__advanced-filters">
-              <div class="content__advanced-filters--header">
+            <mat-divider [vertical]="true" class="aca-content__divider"></mat-divider>
+            <div class="aca-content__advanced-filters">
+              <div class="aca-content__advanced-filters--header">
                 <p>{{ 'APP.BROWSE.SEARCH.ADVANCED_FILTERS' | translate }}</p>
                 <button
                   mat-button
                   adf-reset-search
-                  class="content__reset-action"
+                  class="aca-content__reset-action"
                   title="{{ 'APP.BROWSE.SEARCH.RESET_ACTION' | translate }}"
                   [attr.aria-label]="'APP.BROWSE.SEARCH.RESET_ACTION' | translate ">
                   {{ 'APP.BROWSE.SEARCH.RESET' | translate }}
