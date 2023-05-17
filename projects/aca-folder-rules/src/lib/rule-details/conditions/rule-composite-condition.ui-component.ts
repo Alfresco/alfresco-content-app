@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, forwardRef, HostBinding, Input, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { Component, forwardRef, HostBinding, Input, OnChanges, OnDestroy, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { RuleCompositeCondition } from '../../model/rule-composite-condition.model';
 import { ControlValueAccessor, FormArray, FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { RuleSimpleCondition } from '../../model/rule-simple-condition.model';
@@ -41,7 +41,7 @@ import { RuleSimpleCondition } from '../../model/rule-simple-condition.model';
     }
   ]
 })
-export class RuleCompositeConditionUiComponent implements ControlValueAccessor, OnDestroy {
+export class RuleCompositeConditionUiComponent implements ControlValueAccessor, OnDestroy, OnChanges {
   @HostBinding('class.secondaryBackground')
   @Input()
   secondaryBackground = false;
@@ -58,26 +58,17 @@ export class RuleCompositeConditionUiComponent implements ControlValueAccessor, 
 
   readonly isOrImplemented = false;
 
-  private _readOnly = false;
   @Input()
-  get readOnly(): boolean {
-    return this._readOnly;
-  }
-  set readOnly(isReadOnly: boolean) {
-    this.setDisabledState(isReadOnly);
-  }
+  public readOnly = false;
 
   private formSubscription = this.form.valueChanges.subscribe((value: any) => {
     this.onChange(value);
     this.onTouch();
   });
 
-  get invertedControl(): FormControl {
-    return this.form.get('inverted') as FormControl;
-  }
-  get booleanModeControl(): FormControl {
-    return this.form.get('booleanMode') as FormControl;
-  }
+  public invertedControl = this.form.get('inverted') as FormControl;
+  public booleanModeControl = this.form.get('booleanMode') as FormControl;
+
   get compositeConditionsFormArray(): FormArray {
     return this.form.get('compositeConditions') as FormArray;
   }
@@ -111,20 +102,12 @@ export class RuleCompositeConditionUiComponent implements ControlValueAccessor, 
 
   setDisabledState(isDisabled: boolean) {
     if (isDisabled) {
-      this._readOnly = true;
+      this.readOnly = true;
       this.form.disable();
     } else {
-      this._readOnly = false;
+      this.readOnly = false;
       this.form.enable();
     }
-  }
-
-  setInverted(value: boolean) {
-    this.invertedControl.setValue(value);
-  }
-
-  setBooleanMode(value: 'and' | 'or') {
-    this.booleanModeControl.setValue(value);
   }
 
   isFormControlSimpleCondition(control: FormControl): boolean {
@@ -159,5 +142,13 @@ export class RuleCompositeConditionUiComponent implements ControlValueAccessor, 
 
   ngOnDestroy() {
     this.formSubscription.unsubscribe();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    const readOnly = changes['readOnly'].currentValue;
+    if (readOnly !== undefined && readOnly !== null) {
+      this.readOnly = readOnly;
+      this.setDisabledState(readOnly);
+    }
   }
 }

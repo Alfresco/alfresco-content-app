@@ -42,6 +42,8 @@ import { RuleTrigger } from '../../model/rule.model';
 export class RuleTriggersUiComponent implements ControlValueAccessor {
   readonly triggerOptions: RuleTrigger[] = ['inbound', 'update', 'outbound'];
 
+  public selectedTriggers: { [key: string]: boolean } = {};
+
   value: RuleTrigger[] = ['inbound'];
   readOnly = false;
 
@@ -50,6 +52,7 @@ export class RuleTriggersUiComponent implements ControlValueAccessor {
 
   writeValue(triggers: RuleTrigger[]) {
     this.value = triggers;
+    this.value.forEach((trigger) => (this.selectedTriggers[trigger] = true));
   }
 
   registerOnChange(fn: () => void) {
@@ -64,10 +67,6 @@ export class RuleTriggersUiComponent implements ControlValueAccessor {
     this.readOnly = isDisabled;
   }
 
-  isTriggerChecked(trigger: RuleTrigger): boolean {
-    return this.value.includes(trigger);
-  }
-
   onTriggerChange(trigger: RuleTrigger, checked: boolean) {
     if (checked) {
       this.value.push(trigger);
@@ -77,11 +76,8 @@ export class RuleTriggersUiComponent implements ControlValueAccessor {
         1
       );
     }
+    this.selectedTriggers[trigger] = checked;
     this.onTouch();
     this.onChange([...this.value]);
-  }
-
-  isTriggerSelected(trigger: RuleTrigger): boolean {
-    return this.value.includes(trigger);
   }
 }

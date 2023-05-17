@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, ViewEncapsulation, OnInit } from '@angular/core';
 import { NodeEntry } from '@alfresco/js-api';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatIconModule } from '@angular/material/icon';
@@ -43,11 +43,13 @@ import { MatIconModule } from '@angular/material/icon';
     class: 'aca-locked-by'
   }
 })
-export class LockedByComponent {
+export class LockedByComponent implements OnInit {
   @Input()
   node: NodeEntry;
 
-  get text(): string {
-    return this.node?.entry?.properties?.['cm:lockOwner']?.displayName;
+  public text: string;
+
+  ngOnInit(): void {
+    this.text = this.node?.entry?.properties?.['cm:lockOwner']?.displayName;
   }
 }

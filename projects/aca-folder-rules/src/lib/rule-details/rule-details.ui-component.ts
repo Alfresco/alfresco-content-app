@@ -23,7 +23,7 @@
  */
 
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewEncapsulation } from '@angular/core';
-import { AbstractControl, UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { distinctUntilChanged, map, takeUntil } from 'rxjs/operators';
 import { Rule, RuleForForm } from '../model/rule.model';
@@ -41,21 +41,11 @@ import { ActionParameterConstraint } from '../model/action-parameter-constraint.
   host: { class: 'aca-rule-details' }
 })
 export class RuleDetailsUiComponent implements OnInit, OnDestroy {
-  private _readOnly = false;
   @Input()
-  get readOnly(): boolean {
-    return this._readOnly;
-  }
-  set readOnly(value: boolean) {
-    this._readOnly = value;
-    if (this.form?.disable) {
-      if (value) {
-        this.form.disable();
-      } else {
-        this.form.enable();
-      }
-    }
-  }
+  readOnly: boolean;
+
+  descriptionPlaceHolder: string;
+
   private _initialValue: RuleForForm = FolderRulesService.emptyRuleForForm;
   @Input()
   get value(): Partial<Rule> {
@@ -107,6 +97,7 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
   private onDestroy$ = new Subject();
   form: UntypedFormGroup;
 
+  errorScriptConstraint: ActionParameterConstraint;
   get name(): UntypedFormControl {
     return this.form.get('name') as UntypedFormControl;
   }
@@ -116,16 +107,13 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
   get triggers(): UntypedFormControl {
     return this.form.get('triggers') as UntypedFormControl;
   }
+
   get conditions(): UntypedFormControl {
     return this.form.get('conditions') as UntypedFormControl;
   }
 
   get showOptionsSection(): boolean {
     return !this.readOnly || this.value.isAsynchronous || this.value.isInheritable;
-  }
-
-  get errorScriptConstraint(): ActionParameterConstraint {
-    return this.parameterConstraints.find((parameterConstraint: ActionParameterConstraint) => parameterConstraint.name === 'script-ref');
   }
 
   ngOnInit() {
@@ -151,7 +139,6 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
         errorScript: this.value.errorScript
       })
     });
-    this.readOnly = this._readOnly;
 
     this.form.statusChanges
       .pipe(
@@ -167,39 +154,23 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
     this.form.valueChanges.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
       this.formValueChanged.emit(this.value);
     });
-  }
 
+    if (this.readOnly) {
+      this.form.disable();
+    } else {
+      this.form.enable();
+    }
+
+    this.descriptionPlaceHolder = this.readOnly
+      ? 'ACA_FOLDER_RULES.RULE_DETAILS.PLACEHOLDER.NO_DESCRIPTION'
+      : 'ACA_FOLDER_RULES.RULE_DETAILS.PLACEHOLDER.DESCRIPTION';
+
+    this.errorScriptConstraint = this.parameterConstraints.find(
+      (parameterConstraint: ActionParameterConstraint) => parameterConstraint.name === 'script-ref'
+    );
+  }
   ngOnDestroy() {
     this.onDestroy$.next();
     this.onDestroy$.complete();
-  }
-
-  getErrorMessage(control: AbstractControl): string {
-    if (this.readOnly) {
-      return '';
-    }
-    if (control.hasError('required')) {
-      return control === this.triggers
-        ? 'ACA_FOLDER_RULES.RULE_DETAILS.ERROR.INSUFFICIENT_TRIGGERS_SELECTED'
-        : 'ACA_FOLDER_RULES.RULE_DETAILS.ERROR.REQUIRED';
-    } else if (control.hasError('ruleCompositeConditionInvalid')) {
-      return 'ACA_FOLDER_RULES.RULE_DETAILS.ERROR.RULE_COMPOSITE_CONDITION_INVALID';
-    }
-    return '';
-  }
-
-  getPlaceholder(fieldName: string): string {
-    let str = 'ACA_FOLDER_RULES.RULE_DETAILS.PLACEHOLDER.';
-    switch (fieldName) {
-      case 'name':
-        str += 'NAME';
-        break;
-      case 'description':
-        str += this.readOnly ? 'NO_DESCRIPTION' : 'DESCRIPTION';
-        break;
-      default:
-        return '';
-    }
-    return str;
   }
 }

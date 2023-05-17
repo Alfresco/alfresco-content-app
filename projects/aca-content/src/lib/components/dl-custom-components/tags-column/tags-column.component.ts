@@ -22,16 +22,15 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ShareDataRow, TagModule } from '@alfresco/adf-content-services';
-import { ChangeDetectorRef, Component, Input, ViewEncapsulation } from '@angular/core';
+import { TagModule } from '@alfresco/adf-content-services';
+import { ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 
 @Component({
   standalone: true,
   imports: [TagModule],
   selector: 'aca-tags-column',
   template: `
-    <adf-tag-node-list [showDelete]="false" [limitTagsDisplayed]="true" [nodeId]="getNodeId(context.row)" (results)="onTagsLoaded()">
-    </adf-tag-node-list>
+    <adf-tag-node-list [showDelete]="false" [limitTagsDisplayed]="true" [nodeId]="nodeId" (results)="onTagsLoaded()"> </adf-tag-node-list>
   `,
   styleUrls: ['./tags-column.component.scss'],
   encapsulation: ViewEncapsulation.None,
@@ -39,14 +38,16 @@ import { ChangeDetectorRef, Component, Input, ViewEncapsulation } from '@angular
     class: 'adf-datatable-content-cell aca-tags-name-column'
   }
 })
-export class TagsColumnComponent {
+export class TagsColumnComponent implements OnInit {
   @Input()
   context: any;
 
+  nodeId: string;
+
   constructor(private cd: ChangeDetectorRef) {}
 
-  getNodeId(row: ShareDataRow): string {
-    return row.id;
+  ngOnInit(): void {
+    this.nodeId = this.context?.row?.id;
   }
 
   onTagsLoaded(): void {

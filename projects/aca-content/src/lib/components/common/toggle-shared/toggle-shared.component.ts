@@ -22,8 +22,8 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, Input } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { SelectionState } from '@alfresco/adf-extensions';
 import { AppStore, ShareNodeAction, getAppSelection } from '@alfresco/aca-shared/store';
@@ -32,6 +32,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   standalone: true,
@@ -39,18 +40,32 @@ import { MatButtonModule } from '@angular/material/button';
   selector: 'app-toggle-shared',
   templateUrl: './toggle-shared.component.html'
 })
-export class ToggleSharedComponent implements OnInit {
+export class ToggleSharedComponent implements OnInit, OnDestroy {
   @Input()
   data: {
     iconButton?: string;
   };
 
   selection$: Observable<SelectionState>;
+  selectionState: SelectionState;
+  selectionLabel = '';
+
+  onDestroy$ = new Subject<boolean>();
 
   constructor(private store: Store<AppStore>) {}
 
   ngOnInit() {
     this.selection$ = this.store.select(getAppSelection);
+    this.selection$.pipe(takeUntil(this.onDestroy$)).subscribe((selectionState) => {
+      this.selectionState = selectionState;
+
+      this.selectionLabel = this.isShared(this.selectionState) ? 'APP.ACTIONS.SHARE_EDIT' : 'APP.ACTIONS.SHARE';
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy$.next(true);
+    this.onDestroy$.complete();
   }
 
   isShared(selection: SelectionState) {
@@ -68,9 +83,5 @@ export class ToggleSharedComponent implements OnInit {
         focusedElementOnCloseSelector
       })
     );
-  }
-
-  getLabel(selection: SelectionState): string {
-    return this.isShared(selection) ? 'APP.ACTIONS.SHARE_EDIT' : 'APP.ACTIONS.SHARE';
   }
 }

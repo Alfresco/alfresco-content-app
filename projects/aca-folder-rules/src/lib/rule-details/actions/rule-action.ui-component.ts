@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, forwardRef, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, forwardRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
 import { ActionDefinitionTransformed, RuleAction } from '../../model/rule-action.model';
 import { CardViewItem } from '@alfresco/adf-core/lib/card-view/interfaces/card-view-item.interface';
@@ -57,7 +57,7 @@ import { TranslateService } from '@ngx-translate/core';
     CardViewUpdateService
   ]
 })
-export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDestroy {
+export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnChanges, OnDestroy {
   @Input()
   nodeId = '';
 
@@ -70,14 +70,8 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
     this._actionDefinitions = value.sort((a, b) => a.title.localeCompare(b.title));
   }
 
-  private _readOnly = false;
   @Input()
-  get readOnly(): boolean {
-    return this._readOnly;
-  }
-  set readOnly(isReadOnly: boolean) {
-    this.setDisabledState(isReadOnly);
-  }
+  readOnly = false;
 
   private _parameterConstraints = [];
   @Input()
@@ -156,6 +150,14 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
       });
       this.onTouch();
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    const readOnly = changes['readOnly']?.currentValue;
+    if (readOnly !== undefined && readOnly !== null) {
+      this.readOnly = readOnly;
+      this.setDisabledState(readOnly);
+    }
   }
 
   ngOnDestroy() {
@@ -272,10 +274,10 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnDe
 
   setDisabledState(isDisabled: boolean) {
     if (isDisabled) {
-      this._readOnly = true;
+      this.readOnly = true;
       this.form.disable();
     } else {
-      this._readOnly = false;
+      this.readOnly = false;
       this.form.enable();
     }
   }

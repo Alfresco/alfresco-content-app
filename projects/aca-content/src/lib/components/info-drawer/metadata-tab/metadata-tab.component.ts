@@ -52,6 +52,8 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
 
   displayAspect$: Observable<string>;
 
+  canUpdateNode = false;
+
   constructor(
     private permission: NodePermissionService,
     protected extensions: AppExtensionService,
@@ -66,18 +68,13 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
     this.displayAspect$ = this.store.select(infoDrawerMetadataAspect);
   }
 
-  get canUpdateNode(): boolean {
-    if (this.node && !isLocked({ entry: this.node })) {
-      return this.permission.check(this.node, ['update']);
-    }
-
-    return false;
-  }
-
   ngOnInit() {
     this.contentMetadataService.error.pipe(takeUntil(this.onDestroy$)).subscribe((err: { message: string }) => {
       this.notificationService.showError(err.message);
     });
+    if (this.node && !isLocked({ entry: this.node })) {
+      this.canUpdateNode = this.permission.check(this.node, ['update']);
+    }
   }
 
   ngOnDestroy() {
