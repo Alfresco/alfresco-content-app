@@ -2,7 +2,6 @@
 
 $adf-chip-background: #efefef;
 $contrast-gray: #646569;
-$facets-section-gray-border: #eee;
 
 .adf-search-results {
   @include flex-row;
@@ -17,7 +16,7 @@ $facets-section-gray-border: #eee;
   &__content {
     @include flex-column;
 
-    border-left: 1px solid $facets-section-gray-border;
+    border-left: 1px solid var(--theme-border-color);
   }
 
   &__content-header {
@@ -25,8 +24,8 @@ $facets-section-gray-border: #eee;
     padding: 0 25px;
     flex-direction: row;
     align-items: center;
-    border-top: 1px solid $facets-section-gray-border;
-    border-bottom: 1px solid $facets-section-gray-border;
+    border-top: 1px solid var(--theme-border-color);
+    border-bottom: 1px solid var(--theme-border-color);
 
     .adf-search-filter-chip {
       &.mat-chip {
