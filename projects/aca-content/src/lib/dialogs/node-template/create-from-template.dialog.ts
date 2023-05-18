@@ -45,6 +45,7 @@ import { MatButtonModule } from '@angular/material/button';
 export class CreateFromTemplateDialogComponent implements OnInit {
   public form: UntypedFormGroup;
 
+  title = '';
   constructor(
     private translationService: TranslationService,
     private store: Store<AppStore>,
@@ -59,6 +60,12 @@ export class CreateFromTemplateDialogComponent implements OnInit {
       title: [this.data.properties ? this.data.properties['cm:title'] : '', Validators.maxLength(256)],
       description: [this.data.properties ? this.data.properties['cm:description'] : '', Validators.maxLength(512)]
     });
+
+    if (this.data.isFolder) {
+      this.title = this.translationService.instant('NODE_FROM_TEMPLATE.FOLDER_DIALOG_TITLE', { template: this.data.name });
+    } else {
+      this.title = this.translationService.instant('NODE_FROM_TEMPLATE.FILE_DIALOG_TITLE', { template: this.data.name });
+    }
   }
 
   onSubmit() {
@@ -71,14 +78,6 @@ export class CreateFromTemplateDialogComponent implements OnInit {
     };
     const data: Node = Object.assign({}, this.data, update);
     this.store.dispatch(new CreateFromTemplate(data));
-  }
-
-  title(): string {
-    if (this.data.isFolder) {
-      return this.translationService.instant('NODE_FROM_TEMPLATE.FOLDER_DIALOG_TITLE', { template: this.data.name });
-    }
-
-    return this.translationService.instant('NODE_FROM_TEMPLATE.FILE_DIALOG_TITLE', { template: this.data.name });
   }
 
   close() {

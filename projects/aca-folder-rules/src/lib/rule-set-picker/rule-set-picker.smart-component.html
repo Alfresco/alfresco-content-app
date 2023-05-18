@@ -23,7 +23,7 @@
     </ng-container>
 
     <ng-template #rulesLoaded>
-      <ng-container *ngIf="hasOwnedRules(mainRuleSet$ | async); else noOwnedRules">
+      <ng-container *ngIf="hasOwnedRules; else noOwnedRules">
         <div class="aca-rule-set-picker__content__rule-list__header">
           {{ 'ACA_FOLDER_RULES.LINK_RULES_DIALOG.LIST_OF_RULES_TO_LINK' | translate }}
         </div>
@@ -52,7 +52,7 @@
 
   <button
     mat-flat-button color="primary"
-    [disabled]="!hasOwnedRules(mainRuleSet$ | async) || isBusy"
+    [disabled]="!hasOwnedRules || isBusy"
     (click)="onSubmit()">
     {{ 'ACA_FOLDER_RULES.LINK_RULES_DIALOG.SUBMIT' | translate }}
   </button>

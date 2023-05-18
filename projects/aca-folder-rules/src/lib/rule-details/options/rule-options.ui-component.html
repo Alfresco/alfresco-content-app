@@ -18,14 +18,10 @@
         data-automation-id="rule-option-select-errorScript">
 
         <mat-option value="">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.OPTIONS.NO_SCRIPT' | translate }}</mat-option>
-
-        <ng-template ngFor [ngForOf]="errorScriptOptions" let-option>
-          <mat-option
+          <mat-option *ngFor="let option of errorScriptOptions"
             [value]="option.value">
             {{ option.label }}
           </mat-option>
-        </ng-template>
-
       </mat-select>
 
     </mat-form-field>

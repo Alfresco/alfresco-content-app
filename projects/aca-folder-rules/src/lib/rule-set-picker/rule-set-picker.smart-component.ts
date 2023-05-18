@@ -22,13 +22,13 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Inject, ViewEncapsulation } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FolderRuleSetsService } from '../services/folder-rule-sets.service';
 import { Node } from '@alfresco/js-api';
 import { RuleSet } from '../model/rule-set.model';
-import { BehaviorSubject, combineLatest, from, of } from 'rxjs';
-import { finalize, map, switchMap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, from, of, Subject } from 'rxjs';
+import { finalize, map, switchMap, takeUntil } from 'rxjs/operators';
 import { NotificationService } from '@alfresco/adf-core';
 
 export interface RuleSetPickerOptions {
@@ -45,11 +45,12 @@ export interface RuleSetPickerOptions {
   host: { class: 'aca-rule-set-picker' },
   providers: [FolderRuleSetsService]
 })
-export class RuleSetPickerSmartComponent {
+export class RuleSetPickerSmartComponent implements OnInit, OnDestroy {
   nodeId = '-root-';
   defaultNodeId = '-root-';
   isBusy = false;
   existingRuleSet: RuleSet = null;
+  hasOwnedRules = false;
 
   private selectedNodeId = '';
   private folderLoading$ = new BehaviorSubject<boolean>(true);
@@ -58,6 +59,8 @@ export class RuleSetPickerSmartComponent {
   rulesLoading$ = combineLatest(this.folderRuleSetsService.isLoading$, this.folderLoading$).pipe(
     map(([rulesLoading, folderLoading]) => rulesLoading || folderLoading)
   );
+
+  onDestroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: RuleSetPickerOptions,
@@ -70,8 +73,15 @@ export class RuleSetPickerSmartComponent {
     this.existingRuleSet = this.data?.existingRuleSet ?? null;
   }
 
-  hasOwnedRules(ruleSet: RuleSet): boolean {
-    return ruleSet?.rules.length > 0 && FolderRuleSetsService.isOwnedRuleSet(ruleSet, this.selectedNodeId);
+  ngOnInit(): void {
+    this.mainRuleSet$.pipe(takeUntil(this.onDestroy$)).subscribe((mainRuleSet) => {
+      this.hasOwnedRules = mainRuleSet?.rules.length > 0 && FolderRuleSetsService.isOwnedRuleSet(mainRuleSet, this.selectedNodeId);
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy$.next(true);
+    this.onDestroy$.complete();
   }
 
   onNodeSelect(nodes: Node[]) {

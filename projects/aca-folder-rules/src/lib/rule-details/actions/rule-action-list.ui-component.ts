@@ -56,9 +56,7 @@ export class RuleActionListUiComponent implements ControlValueAccessor, OnDestro
   formArray = new FormArray([]);
   private formArraySubscription: Subscription;
 
-  get formControls(): FormControl[] {
-    return this.formArray.controls as FormControl[];
-  }
+  formControls: FormControl[] = [];
 
   onChange: (actions: RuleAction[]) => void = () => undefined;
   onTouch: () => void = () => undefined;
@@ -73,6 +71,7 @@ export class RuleActionListUiComponent implements ControlValueAccessor, OnDestro
       ];
     }
     this.formArray = new FormArray(actions.map((action: RuleAction) => new FormControl(action)));
+    this.formControls = this.formArray.controls as FormControl[];
     this.formArraySubscription?.unsubscribe();
     this.formArraySubscription = this.formArray.valueChanges.subscribe((value: any) => {
       this.onChange(value);
@@ -94,6 +93,7 @@ export class RuleActionListUiComponent implements ControlValueAccessor, OnDestro
       params: {}
     };
     this.formArray.push(new FormControl(newAction, [Validators.required, ruleActionValidator(this.actionDefinitions)]));
+    this.formControls = this.formArray.controls as FormControl[];
   }
 
   ngOnDestroy() {
@@ -103,5 +103,6 @@ export class RuleActionListUiComponent implements ControlValueAccessor, OnDestro
   removeAction(control: FormControl) {
     const index = this.formArray.value.indexOf(control.value);
     this.formArray.removeAt(index);
+    this.formControls = this.formArray.controls as FormControl[];
   }
 }

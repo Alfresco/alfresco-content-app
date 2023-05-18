@@ -66,6 +66,10 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
   actionsLoading$: Observable<boolean>;
   actionDefinitions$: Observable<ActionDefinitionTransformed[]>;
   parameterConstraints$: Observable<ActionParameterConstraint[]>;
+  canEditMainRule = false;
+  canEditSelectedRule = false;
+  isMainRuleSetNotEmpty = false;
+  isInheritedRuleSetsNotEmpty = false;
 
   private destroyed$ = new Subject<void>();
   private _actionDefinitionsSub: Subscription;
@@ -111,6 +115,19 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
     this._actionDefinitionsSub = this.actionDefinitions$.subscribe((actionDefinitions: ActionDefinitionTransformed[]) =>
       this.actionsService.loadActionParameterConstraints(actionDefinitions)
     );
+
+    this.mainRuleSet$.pipe(takeUntil(this.destroyed$)).subscribe((ruleSet) => {
+      this.canEditMainRule = this.canEditRule(ruleSet);
+      this.isMainRuleSetNotEmpty = !!ruleSet;
+    });
+
+    this.inheritedRuleSets$.pipe(takeUntil(this.destroyed$)).subscribe((inheritedRuleSet) => {
+      this.isInheritedRuleSetsNotEmpty = inheritedRuleSet.some((ruleSet) => ruleSet.rules.some((rule: Rule) => rule.isEnabled));
+    });
+
+    this.selectedRuleSet$.pipe(takeUntil(this.destroyed$)).subscribe((ruleSet) => {
+      this.canEditSelectedRule = this.canEditRule(ruleSet);
+    });
   }
 
   ngOnDestroy() {
@@ -251,13 +268,5 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
           }
         }
       });
-  }
-
-  isMainRuleSetNotEmpty(mainRuleSet: RuleSet): boolean {
-    return !!mainRuleSet;
-  }
-
-  isInheritedRuleSetsNotEmpty(inheritedRuleSets: RuleSet[]): boolean {
-    return inheritedRuleSets.some((ruleSet) => ruleSet.rules.some((rule: Rule) => rule.isEnabled));
   }
 }
