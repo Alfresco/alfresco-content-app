@@ -46,6 +46,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   private nodePath: PathElement[];
 
   columns: DocumentListPresetRef[] = [];
+  isFilterHeaderActive = false;
 
   constructor(private route: ActivatedRoute, private contentApi: ContentApiService, private nodeActionsService: NodeActionsService) {
     super();
@@ -306,9 +307,11 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   onFilterSelected(activeFilters: FilterSearch[]) {
     if (activeFilters.length) {
       this.showHeader = ShowHeaderMode.Always;
+      this.isFilterHeaderActive = true;
       this.navigateToFilter(activeFilters);
     } else {
       this.router.navigate(['.'], { relativeTo: this.route });
+      this.isFilterHeaderActive = false;
       this.showHeader = ShowHeaderMode.Data;
       this.onAllFilterCleared();
     }
@@ -327,10 +330,6 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     });
 
     this.router.navigate([], { relativeTo: this.route, queryParams: objectFromMap });
-  }
-
-  isFilterHeaderActive(): boolean {
-    return this.showHeader === ShowHeaderMode.Always;
   }
 
   onError() {

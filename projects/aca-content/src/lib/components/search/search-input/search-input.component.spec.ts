@@ -91,7 +91,7 @@ describe('SearchInputComponent', () => {
   });
 
   it('should have no library constraint by default', () => {
-    expect(component.hasLibraryConstraint()).toBe(false);
+    expect(component.evaluateLibrariesConstraint()).toBe(false);
   });
 
   it('should have library constraint on 400 error received', async () => {
@@ -103,7 +103,7 @@ describe('SearchInputComponent', () => {
 
     appHookService.library400Error.next();
 
-    expect(component.hasLibraryConstraint()).toBe(true);
+    expect(component.evaluateLibrariesConstraint()).toBe(true);
   });
 
   describe('onSearchSubmit()', () => {

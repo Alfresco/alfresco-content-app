@@ -2,7 +2,7 @@
   <ng-container *ngIf="!data.iconButton">
     <button mat-menu-item data-automation-id="share-action-button" (click)="editSharedNode(selectionState, '.adf-context-menu-source')">
       <mat-icon>link</mat-icon>
-      <ng-container *ngIf="isShared(selectionState); else not_shared">
+      <ng-container *ngIf="isShared; else not_shared">
         <span>{{ 'APP.ACTIONS.SHARE_EDIT' | translate }}</span>
       </ng-container>
     </button>
