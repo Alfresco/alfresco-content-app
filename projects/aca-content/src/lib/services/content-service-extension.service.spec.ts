@@ -42,7 +42,7 @@ describe('ContentServiceExtensionService', () => {
     appConfig = TestBed.inject(AppConfigService);
     appConfig.config = Object.assign(appConfig.config, {
       plugins: {
-        contentService: true
+        contentService: 'true'
       }
     });
 

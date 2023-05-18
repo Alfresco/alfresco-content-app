@@ -15,7 +15,7 @@
   },
   "plugins": {
     "aosPlugin": "${APP_CONFIG_PLUGIN_AOS}",
-    "contentService": ${APP_CONFIG_PLUGIN_CONTENT_SERVICE},
+    "contentService": "${APP_CONFIG_PLUGIN_CONTENT_SERVICE}",
     "folderRules": ${APP_CONFIG_PLUGIN_FOLDER_RULES}
   },
   "oauth2": {

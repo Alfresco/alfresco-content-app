@@ -36,10 +36,10 @@ export class ContentServiceExtensionService {
 
   updateContentServiceAvailability() {
     this.appConfigService.onLoad.pipe(take(1)).subscribe((config) => {
-      if (config.plugins && config.plugins.contentService === false) {
-        this.disableContentServices();
-      } else {
+      if (config?.plugins?.contentService === 'true') {
         this.enableContentServices();
+      } else {
+        this.disableContentServices();
       }
     });
   }
@@ -51,7 +51,7 @@ export class ContentServiceExtensionService {
   }
 
   private enableContentServices() {
-    if (localStorage && localStorage.getItem('contentService') === 'false') {
+    if (localStorage) {
       localStorage.setItem('contentService', 'true');
     }
   }
