@@ -31,7 +31,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { forkJoin, from, of, Subject } from 'rxjs';
 import { catchError, mergeMap, takeUntil } from 'rxjs/operators';
-import { AppExtensionService } from '@alfresco/aca-shared';
+import { AppExtensionService, AppService } from '@alfresco/aca-shared';
 
 @Component({
   selector: 'app-shared-link-view',
@@ -50,7 +50,8 @@ export class SharedLinkViewComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private store: Store<AppStore>,
     private extensions: AppExtensionService,
-    private alfrescoApiService: AlfrescoApiService
+    private alfrescoApiService: AlfrescoApiService,
+    private appService: AppService
   ) {
     this.sharedLinksApi = new SharedlinksApi(this.alfrescoApiService.getInstance());
   }
@@ -65,6 +66,7 @@ export class SharedLinkViewComponent implements OnInit, OnDestroy {
       .subscribe(([sharedEntry, sharedId]: [SharedLinkEntry, string]) => {
         if (sharedEntry) {
           this.store.dispatch(new SetSelectedNodesAction([sharedEntry as any]));
+          this.appService.getMobileAppDialog();
         }
         this.sharedLinkId = sharedId;
       });

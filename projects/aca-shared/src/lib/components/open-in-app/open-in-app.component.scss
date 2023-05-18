@@ -3,7 +3,7 @@
   place-content: center;
   padding: 8px 24px;
   border-radius: 8px;
-  background-color: var(--theme-blue-button-color);
+  background-color: #0055b8;
   color: var(--theme-about-panel-background-color);
   margin-top: 12px;
 }
@@ -15,6 +15,15 @@
 
 .open-in-app.mat-button.cdk-program-focused .mat-button-focus-overlay {
   opacity: 0;
+}
+
+.cross-button.mat-button.cdk-program-focused .mat-button-focus-overlay {
+  opacity: 0;
+}
+
+.cross-button.mat-button:focus-visible {
+  outline: none;
+  border-radius: unset;
 }
 
 .download-app-container {
@@ -36,9 +45,18 @@
   padding-right: 0;
 }
 
+.mat-icon.cross-icon {
+  font-weight: bold;
+  font-size: 21px;
+  height: 21px;
+}
+
 .mat-button.download-app-button {
   background: var(--theme-dialog-background-color);
   color: var(--theme-blue-button-color);
   font-size: 14px;
-  padding-left: 40px;
+}
+
+.mat-dialog-container {
+  padding: 8px 24px 24px;
 }

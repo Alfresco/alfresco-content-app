@@ -24,7 +24,7 @@
 
 import { AppConfigService } from '@alfresco/adf-core';
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { OpenInAppComponent } from '../components/open-in-app/open-in-app.component';
 
 export interface MobileAppSwitchConfigurationOptions {
@@ -42,6 +42,7 @@ export class AcaMobileAppSwitcherService {
   private mobileAppSwitchConfig: MobileAppSwitchConfigurationOptions;
   public redirectUrl: string;
   public appStoreUrl: string;
+  dialogRef: MatDialogRef<OpenInAppComponent>;
 
   constructor(private config: AppConfigService, private dialog: MatDialog) {
     this.mobileAppSwitchConfig = this.config.get<MobileAppSwitchConfigurationOptions>('mobileAppSwitch');
@@ -97,7 +98,7 @@ export class AcaMobileAppSwitcherService {
   }
 
   openDialog(redirectUrl: string, appStoreUrl?: string): void {
-    this.dialog.open(OpenInAppComponent, {
+    this.dialogRef = this.dialog.open(OpenInAppComponent, {
       data: {
         redirectUrl,
         appStoreUrl
@@ -115,5 +116,9 @@ export class AcaMobileAppSwitcherService {
 
   getCurrentUrl(): string {
     return window.location.href;
+  }
+
+  closeDialog(): void {
+    this.dialog.closeAll();
   }
 }

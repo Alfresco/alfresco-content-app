@@ -103,6 +103,10 @@ export class AppService implements OnDestroy {
 
     this.authenticationService.onLogout.subscribe(() => {
       searchQueryBuilderService.resetToDefaults();
+      acaMobileAppSwitcherService.clearSessionExpireTime();
+      if (acaMobileAppSwitcherService.dialogRef !== null && acaMobileAppSwitcherService.dialogRef !== undefined) {
+        acaMobileAppSwitcherService.closeDialog();
+      }
     });
 
     this.pageHeading$ = this.router.events.pipe(
@@ -164,17 +168,11 @@ export class AppService implements OnDestroy {
       if (isReady) {
         this.loadRepositoryStatus();
         this.loadUserProfile();
+        this.getMobileAppDialog();
       }
     });
 
     this.overlayContainer.getContainerElement().setAttribute('role', 'region');
-
-    const isMobileSwitchEnabled: boolean = this.config.get<boolean>('mobileAppSwitch.enabled', false);
-    if (isMobileSwitchEnabled) {
-      this.acaMobileAppSwitcherService.resolveExistenceOfDialog();
-    } else {
-      this.acaMobileAppSwitcherService.clearSessionExpireTime();
-    }
   }
 
   private loadRepositoryStatus() {
@@ -265,5 +263,14 @@ export class AppService implements OnDestroy {
     cssLinkElement.setAttribute('type', 'text/css');
     cssLinkElement.setAttribute('href', url);
     document.head.appendChild(cssLinkElement);
+  }
+
+  public getMobileAppDialog(): void {
+    const isMobileSwitchEnabled: boolean = this.config.get<boolean>('mobileAppSwitch.enabled', false);
+    if (isMobileSwitchEnabled) {
+      this.acaMobileAppSwitcherService.resolveExistenceOfDialog();
+    } else {
+      this.acaMobileAppSwitcherService.clearSessionExpireTime();
+    }
   }
 }
