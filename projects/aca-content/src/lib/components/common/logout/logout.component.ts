@@ -22,9 +22,10 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppStore, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'aca-logout',
@@ -35,10 +36,37 @@ import { AppStore, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
     </button>
   `
 })
-export class LogoutComponent {
-  constructor(private store: Store<AppStore>) {}
+export class LogoutComponent implements OnInit {
+  public readonly LAST_VISITED_LOCATION_KEY = 'lastVisitedLocation';
+  constructor(private store: Store<AppStore>, private router: Router) {}
+
+  ngOnInit() {
+    this.navigateToLastVisitedLocation();
+  }
 
   onLogoutEvent() {
     this.store.dispatch(new SetSelectedNodesAction([]));
+    const lastVisitedLocation = this.router.url;
+    this.saveLastVisitedLocation(lastVisitedLocation);
+  }
+
+  navigateToLastVisitedLocation() {
+    const lastVisitedLocation = this.getLastVisitedLocation();
+    if (lastVisitedLocation) {
+      this.router.navigateByUrl(lastVisitedLocation);
+    } else {
+      this.navigateToLandingPage();
+    }
+  }
+
+  navigateToLandingPage() {
+    this.router.navigateByUrl('/personal-files');
+  }
+
+  saveLastVisitedLocation(location: string) {
+    localStorage.setItem(this.LAST_VISITED_LOCATION_KEY, location);
+  }
+  getLastVisitedLocation(): string {
+    return localStorage.getItem(this.LAST_VISITED_LOCATION_KEY);
   }
 }

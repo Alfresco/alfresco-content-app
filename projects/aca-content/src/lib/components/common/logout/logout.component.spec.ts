@@ -27,12 +27,13 @@ import { AppTestingModule } from '../../../testing/app-testing.module';
 import { LogoutComponent } from './logout.component';
 import { Store } from '@ngrx/store';
 import { SetSelectedNodesAction } from '@alfresco/aca-shared/store';
+import { Router } from '@angular/router';
 
 describe('LogoutComponent', () => {
   let fixture: ComponentFixture<LogoutComponent>;
   let component: LogoutComponent;
   let store;
-
+  let router: Router;
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule],
@@ -43,11 +44,17 @@ describe('LogoutComponent', () => {
           useValue: {
             dispatch: jasmine.createSpy('dispatch')
           }
+        },
+        {
+          provide: Router,
+          useValue: {
+            navigateByUrl: jasmine.createSpy('navigateByUrl')
+          }
         }
       ]
     });
-
     store = TestBed.inject(Store);
+    router = TestBed.inject(Router);
     fixture = TestBed.createComponent(LogoutComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -55,7 +62,33 @@ describe('LogoutComponent', () => {
 
   it('should reset selected nodes from store', () => {
     component.onLogoutEvent();
-
     expect(store.dispatch).toHaveBeenCalledWith(new SetSelectedNodesAction([]));
+  });
+
+  it('should navigate to last visited location if available', () => {
+    const lastVisitedLocation = '/some-location';
+    spyOn(component, 'getLastVisitedLocation').and.returnValue(lastVisitedLocation);
+    component.navigateToLastVisitedLocation();
+    expect(router.navigateByUrl).toHaveBeenCalledWith(lastVisitedLocation);
+  });
+
+  it('should navigate to landing page if no last visited location', () => {
+    spyOn(component, 'getLastVisitedLocation').and.returnValue(null);
+    component.navigateToLastVisitedLocation();
+    expect(router.navigateByUrl).toHaveBeenCalledWith('/personal-files');
+  });
+
+  it('should save last visited location in localStorage', () => {
+    const location = '/some-location';
+    component.saveLastVisitedLocation(location);
+    const storedLocation = localStorage.getItem(component['LAST_VISITED_LOCATION_KEY']);
+    expect(storedLocation).toBe(location);
+  });
+
+  it('should retrieve last visited location from localStorage', () => {
+    const location = '/some-location';
+    localStorage.setItem(component['LAST_VISITED_LOCATION_KEY'], location);
+    const lastVisitedLocation = component.getLastVisitedLocation();
+    expect(lastVisitedLocation).toBe(location);
   });
 });
