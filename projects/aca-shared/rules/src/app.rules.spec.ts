@@ -549,23 +549,6 @@ describe('app.evaluators', () => {
     });
   });
 
-  describe('isContentServiceEnabled', () => {
-    it('should return true when local storage has contentService set to true', () => {
-      localStorage.setItem('contentService', 'true');
-      expect(app.isContentServiceEnabled()).toBe(true);
-    });
-
-    it('should return false when local storage has contentService set to false', () => {
-      localStorage.setItem('contentService', 'false');
-      expect(app.isContentServiceEnabled()).toBe(false);
-    });
-
-    it('should return true when contentService is not defined in local storage', () => {
-      localStorage.clear();
-      expect(app.isContentServiceEnabled()).toBe(true);
-    });
-  });
-
   describe('canOpenWithOffice', () => {
     it('should return [false] if using SSO', () => {
       const context: any = {

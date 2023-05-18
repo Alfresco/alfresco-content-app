@@ -45,7 +45,7 @@ export class NodeTemplateService {
   private currentTemplateConfig: TemplateDialogConfig = null;
   private rootNode: ResultNode;
 
-  _searchApi: SearchApi;
+  private _searchApi: SearchApi;
   get searchApi(): SearchApi {
     this._searchApi = this._searchApi ?? new SearchApi(this.alfrescoApiService.getInstance());
     return this._searchApi;

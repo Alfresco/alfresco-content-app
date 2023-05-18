@@ -88,7 +88,8 @@ export interface AcaRuleContext extends RuleContext {
  * Checks if the content plugin is enabled.
  * JSON ref: `app.isContentServiceEnabled`
  */
-export const isContentServiceEnabled = (): boolean => localStorage && localStorage.getItem('contentService') !== 'false';
+export const isContentServiceEnabled = (context: AcaRuleContext): boolean =>
+  context.appConfig.get<string>('plugins.contentService', 'false') === 'true';
 
 /**
  * Checks if Search is supported for active view
@@ -103,8 +104,8 @@ export const isSearchSupported = (context: RuleContext): boolean =>
  *
  * @param content Rule execution context
  */
-export const isUploadSupported = (context: RuleContext): boolean =>
-  [isContentServiceEnabled(), navigation.isPersonalFiles(context) || navigation.isLibraryContent(context), canUpload(context)].every(Boolean);
+export const isUploadSupported = (context: AcaRuleContext): boolean =>
+  [isContentServiceEnabled(context), navigation.isPersonalFiles(context) || navigation.isLibraryContent(context), canUpload(context)].every(Boolean);
 /**
  * Checks if user can copy selected node.
  * JSON ref: `app.canCopyNode`
@@ -240,8 +241,8 @@ export const hasSelection = (context: RuleContext): boolean => !context.selectio
  * Checks if user can create a new folder with current path.
  * JSON ref: `app.navigation.folder.canCreate`
  */
-export function canCreateFolder(context: RuleContext): boolean {
-  if (isContentServiceEnabled() && (navigation.isPersonalFiles(context) || navigation.isLibraryContent(context))) {
+export function canCreateFolder(context: AcaRuleContext): boolean {
+  if (isContentServiceEnabled(context) && (navigation.isPersonalFiles(context) || navigation.isLibraryContent(context))) {
     const { currentFolder } = context.navigation;
 
     if (currentFolder) {
@@ -257,14 +258,15 @@ export function canCreateFolder(context: RuleContext): boolean {
  *
  * @param context Rule execution context
  */
-export const canCreateLibrary = (context: RuleContext): boolean => [isContentServiceEnabled(), navigation.isLibraries(context)].every(Boolean);
+export const canCreateLibrary = (context: AcaRuleContext): boolean =>
+  [isContentServiceEnabled(context), navigation.isLibraries(context)].every(Boolean);
 
 /**
  * Checks if user can upload content to current folder.
  * JSON ref: `app.navigation.folder.canUpload`
  */
-export function canUpload(context: RuleContext): boolean {
-  if (isContentServiceEnabled() && (navigation.isPersonalFiles(context) || navigation.isLibraryContent(context))) {
+export function canUpload(context: AcaRuleContext): boolean {
+  if (isContentServiceEnabled(context) && (navigation.isPersonalFiles(context) || navigation.isLibraryContent(context))) {
     const { currentFolder } = context.navigation;
 
     if (currentFolder) {
