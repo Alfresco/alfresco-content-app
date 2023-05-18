@@ -7,14 +7,14 @@
   "authType": "${APP_CONFIG_AUTH_TYPE}",
   "loginRoute": "login",
   "mobileAppSwitch": {
-    "enabled" : ${APP_CONFIG_ENABLE_MOBILE_APP_SWITCH},
+    "enabled" : "${APP_CONFIG_ENABLE_MOBILE_APP_SWITCH}",
     "iphoneUrl": "iosamw://",
     "androidUrlPart1": "intent:///",
     "androidUrlPart2": "#Intent;scheme=androidamw;package=com.alfresco.content.app;end",
     "sessionTimeForOpenAppDialogDisplay": "${APP_CONFIG_SESSION_TIME_FOR_OPEN_APP_DIALOG_DISPLAY_IN_HOURS}"
   },
   "plugins": {
-    "aosPlugin": ${APP_CONFIG_PLUGIN_AOS},
+    "aosPlugin": "${APP_CONFIG_PLUGIN_AOS}",
     "contentService": ${APP_CONFIG_PLUGIN_CONTENT_SERVICE},
     "folderRules": ${APP_CONFIG_PLUGIN_FOLDER_RULES}
   },

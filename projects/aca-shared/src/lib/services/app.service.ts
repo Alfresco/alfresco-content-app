@@ -142,11 +142,9 @@ export class AppService implements OnDestroy {
 
     const { router } = this;
 
-    this.router.events
-      .pipe(filter((event) => event instanceof ActivationEnd && event.snapshot.children.length === 0))
-      .subscribe((_event: ActivationEnd) => {
-        this.store.dispatch(new SetCurrentUrlAction(router.url));
-      });
+    this.router.events.pipe(filter((event) => event instanceof ActivationEnd && event.snapshot.children.length === 0)).subscribe(() => {
+      this.store.dispatch(new SetCurrentUrlAction(router.url));
+    });
 
     this.router.events.pipe(filter((event) => event instanceof NavigationStart)).subscribe(() => {
       this.store.dispatch(new ResetSelectionAction());
@@ -171,7 +169,7 @@ export class AppService implements OnDestroy {
 
     this.overlayContainer.getContainerElement().setAttribute('role', 'region');
 
-    const isMobileSwitchEnabled: boolean = this.config.get<boolean>('mobileAppSwitch.enabled', false);
+    const isMobileSwitchEnabled = this.config.get<string>('mobileAppSwitch.enabled', 'false') === 'true';
     if (isMobileSwitchEnabled) {
       this.acaMobileAppSwitcherService.resolveExistenceOfDialog();
     } else {

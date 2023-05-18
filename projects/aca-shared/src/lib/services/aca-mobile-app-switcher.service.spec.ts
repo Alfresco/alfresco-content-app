@@ -45,7 +45,7 @@ describe('AcaMobileAppSwitcherService', () => {
     });
     appConfig = TestBed.inject(AppConfigService);
     appConfig.config.mobileAppSwitch = {
-      enabled: true,
+      enabled: 'true',
       iphoneUrl: 'iosamw://',
       androidUrlPart1: 'intent:///',
       androidUrlPart2: '#Intent;scheme=androidamw;package=com.alfresco.content.app;end',

@@ -34,10 +34,10 @@ export class AlfrescoOfficeExtensionService {
     this.appConfigService.onLoad
       .pipe(
         take(1),
-        map((appConfig) => appConfig.plugins && appConfig.plugins.aosPlugin)
+        map((appConfig) => appConfig.plugins?.aosPlugin)
       )
       .subscribe((aosPlugin) => {
-        if (aosPlugin) {
+        if (aosPlugin === 'true') {
           this.enablePlugin();
         } else {
           this.disablePlugin();
@@ -55,7 +55,7 @@ export class AlfrescoOfficeExtensionService {
     localStorage.removeItem('aosPlugin');
   }
 
-  isAosPluginEnabled() {
+  isAosPluginEnabled(): boolean {
     return localStorage && localStorage.getItem('aosPlugin') === 'true';
   }
 }

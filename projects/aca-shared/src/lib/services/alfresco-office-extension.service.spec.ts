@@ -54,7 +54,7 @@ describe('AlfrescoOfficeExtensionService', () => {
 
     appConfig = TestBed.inject(AppConfigService);
     appConfig.onLoad = onLoad$;
-    appConfig.config.aosPlugin = true;
+    appConfig.config.aosPlugin = 'true';
 
     service = TestBed.inject(AlfrescoOfficeExtensionService);
 
@@ -67,7 +67,7 @@ describe('AlfrescoOfficeExtensionService', () => {
 
     onLoad$.next({
       plugins: {
-        aosPlugin: true
+        aosPlugin: 'true'
       }
     });
 
@@ -80,7 +80,7 @@ describe('AlfrescoOfficeExtensionService', () => {
 
     onLoad$.next({
       plugins: {
-        aosPlugin: false
+        aosPlugin: 'false'
       }
     });
 
