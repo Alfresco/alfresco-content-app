@@ -580,7 +580,11 @@ export const showInfoSelectionButton = (context: RuleContext): boolean => naviga
  *
  * @param context Rule execution context
  */
-export function canOpenWithOffice(context: RuleContext): boolean {
+export function canOpenWithOffice(context: AcaRuleContext): boolean {
+  if (context.appConfig.get<string>('plugins.aosPlugin', 'false') !== 'true') {
+    return false;
+  }
+
   if (context.navigation && context.navigation.url && context.navigation.url.startsWith('/trashcan')) {
     return false;
   }

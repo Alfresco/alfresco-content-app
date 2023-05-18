@@ -59,7 +59,6 @@ export * from './lib/services/node-permission.service';
 export * from './lib/services/app.extension.service';
 export * from './lib/services/router.extension.service';
 export * from './lib/services/app-hook.service';
-export * from './lib/services/alfresco-office-extension.service';
 export * from './lib/services/aca-file-auto-download.service';
 
 export * from './lib/utils/node.utils';

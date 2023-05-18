@@ -27,7 +27,6 @@ import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { AosEffects } from './effects/aos.effects';
 import { TranslationService } from '@alfresco/adf-core';
-import { AlfrescoOfficeExtensionService } from '@alfresco/aca-shared';
 import { canOpenWithOffice } from '@alfresco/aca-shared/rules';
 
 @NgModule({
@@ -35,10 +34,11 @@ import { canOpenWithOffice } from '@alfresco/aca-shared/rules';
   providers: [provideExtensionConfig(['aos.plugin.json'])]
 })
 export class AosExtensionModule {
-  constructor(extensions: ExtensionService, translation: TranslationService, aosService: AlfrescoOfficeExtensionService) {
+  constructor(extensions: ExtensionService, translation: TranslationService) {
     translation.addTranslationFolder('ms-office', 'assets/ms-office');
+
     extensions.setEvaluators({
-      'aos.canOpenWithOffice': (context) => aosService.isAosPluginEnabled() && canOpenWithOffice(context)
+      'aos.canOpenWithOffice': canOpenWithOffice
     });
   }
 }
