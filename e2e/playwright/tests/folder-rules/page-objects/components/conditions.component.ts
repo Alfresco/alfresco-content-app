@@ -45,22 +45,33 @@ export class ConditionComponent extends ManageRulesDialogComponent {
     super(page);
   }
 
-  private async selectField(fields: Partial<Field>): Promise<void> {
-    await this.fieldDropDown.click();
+  private async selectField(fields: Partial<Field>, index: number): Promise<void> {
+    await this.fieldDropDown.nth(index).click();
     const option = this.getOptionLocator(fields);
     await option.click();
   }
 
-  private async selectComparator(comparators: Partial<Comparator>): Promise<void> {
-    await this.comparatorDropDown.click();
+  private async selectComparator(comparators: Partial<Comparator>, index: number): Promise<void> {
+    await this.comparatorDropDown.nth(index).click();
     const option = this.getOptionLocator(comparators);
     await option.click();
   }
 
-  async addCondition(fields: Partial<Field>, comparators: Partial<Comparator>, value: string): Promise<void> {
+  async addCondition(fields: Partial<Field>, comparators: Partial<Comparator>, value: string, index: number): Promise<void> {
     await this.addConditionButton.click();
-    await this.selectField(fields);
-    await this.selectComparator(comparators);
-    await this.typeConditionValue(value);
+    await this.selectField(fields, index);
+    await this.selectComparator(comparators, index);
+    await this.typeConditionValue(value, index);
+  }
+
+  async createConditionGroup(): Promise<void> {
+    await this.addConditionGroupButton.click();
+  }
+
+  async addConditionGroup(fields: Partial<Field>, comparators: Partial<Comparator>, value: string, index: number): Promise<void> {
+    await this.addConditionButton.nth(0).click();
+    await this.selectField(fields, index);
+    await this.selectComparator(comparators, index);
+    await this.typeConditionValue(value, index);
   }
 }

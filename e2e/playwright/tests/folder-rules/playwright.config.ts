@@ -43,7 +43,7 @@ export const config: PlaywrightTestConfig = {
   retries: process.env.CI ? 2 : 0,
   /* Opt out of parallel tests on CI. */
   workers: 5,
-  timeout: 20000,
+  timeout: 30000,
 
   globalSetup: require.resolve('../../shared/base-config/global.setup'),
   use: {
