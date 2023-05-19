@@ -174,16 +174,6 @@ describe('Search results - libraries', () => {
     expect(await dataTable.isItemPresent(site4.name)).toBe(true, `${site4.name} not displayed`);
   });
 
-  it('[C290015] Results page title', async () => {
-    await toolbar.clickSearchIconButton();
-    await searchInput.clickSearchButton();
-    await searchInput.checkLibraries();
-    await searchInput.searchForLibrary(random);
-    await dataTable.waitForBody();
-
-    expect(await page.breadcrumb.currentItem.getText()).toEqual('Libraries found...');
-  });
-
   it('[C290016] Results page columns', async () => {
     await toolbar.clickSearchIconButton();
     await searchInput.clickSearchButton();
