@@ -24,7 +24,11 @@
 
 import { AcaRuleContext, hasFolderSelected, canEditFolder, isNotFavorites } from '@alfresco/aca-shared/rules';
 
-export const isFolderRulesEnabled = (context: AcaRuleContext) => context.appConfig.get<string>('plugins.folderRules', 'false') === 'true';
+export const isFolderRulesEnabled = (context: AcaRuleContext) => {
+  const flag = context.appConfig.get<boolean | string>('plugins.folderRules');
+  return flag === true || flag === 'true';
+};
+
 export const isFolderRulesAllowed = (context: AcaRuleContext) =>
   isFolderRulesEnabled(context) && canEditFolder(context) && hasFolderSelected(context) && isNotFavorites(context);
 
