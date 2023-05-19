@@ -4,7 +4,8 @@
   "ignorePaths": [
     ".*",
     "CODEOWNERS",
-    "package.json"
+    "package.json",
+    "app/src/app.config.json.tpl"
   ],
   "words": [
     "Hyland",

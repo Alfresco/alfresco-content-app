@@ -1,5 +1,5 @@
 {
-  "$schema": "../node_modules/@alfresco/adf-core/app.config.schema.json",
+  "$schema": "../../node_modules/@alfresco/adf-core/app.config.schema.json",
   "ecmHost": "${APP_CONFIG_ECM_HOST}",
   "aosHost": "${APP_CONFIG_ECM_HOST}/alfresco/aos",
   "baseShareUrl": "${APP_CONFIG_ECM_HOST}/#/preview/s",
