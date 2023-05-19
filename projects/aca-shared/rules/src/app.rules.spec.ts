@@ -550,8 +550,13 @@ describe('app.evaluators', () => {
   });
 
   describe('canOpenWithOffice', () => {
+    const appConfig = {
+      get: (key: string) => key
+    };
+
     it('should return [false] if using SSO', () => {
       const context: any = {
+        appConfig,
         auth: {
           isOauth: () => true
         }
@@ -562,6 +567,7 @@ describe('app.evaluators', () => {
 
     it('should return [false] if no selection present', () => {
       const context: any = {
+        appConfig,
         selection: null
       };
 
@@ -570,6 +576,7 @@ describe('app.evaluators', () => {
 
     it('should return [false] if no file selected', () => {
       const context: any = {
+        appConfig,
         selection: {
           file: null
         }
@@ -580,6 +587,7 @@ describe('app.evaluators', () => {
 
     it('should return [false] if selected file has no entry', () => {
       const context: any = {
+        appConfig,
         selection: {
           file: {
             entry: null
@@ -592,6 +600,7 @@ describe('app.evaluators', () => {
 
     it('should return [false] if selected file has no properties', () => {
       const context: any = {
+        appConfig,
         selection: {
           file: {
             entry: {
@@ -606,6 +615,7 @@ describe('app.evaluators', () => {
 
     it('should return [false] if selected file is locked', () => {
       const context: any = {
+        appConfig,
         selection: {
           file: {
             entry: {
@@ -621,6 +631,7 @@ describe('app.evaluators', () => {
 
     it('should return [false] if selected file has no extension', () => {
       const context: any = {
+        appConfig,
         selection: {
           file: {
             entry: {
@@ -637,6 +648,7 @@ describe('app.evaluators', () => {
 
     it('should return [false] if extension is not supported', () => {
       const context: any = {
+        appConfig,
         selection: {
           file: {
             entry: {
@@ -653,6 +665,7 @@ describe('app.evaluators', () => {
 
     it('should return [false] if selected file has write lock', () => {
       const context: any = {
+        appConfig,
         selection: {
           file: {
             entry: {
@@ -671,6 +684,7 @@ describe('app.evaluators', () => {
 
     it('should return [false] if selected file has read-only lock', () => {
       const context: any = {
+        appConfig,
         selection: {
           file: {
             entry: {
@@ -689,6 +703,7 @@ describe('app.evaluators', () => {
 
     it('should return [false] if current user is not lock owner', () => {
       const context: any = {
+        appConfig,
         profile: {
           id: 'user1'
         },
@@ -713,6 +728,7 @@ describe('app.evaluators', () => {
 
     it('should return [false] if current user is lock owner', () => {
       const context: any = {
+        appConfig,
         profile: {
           id: 'user1'
         },
@@ -737,6 +753,7 @@ describe('app.evaluators', () => {
 
     it('should return [false] if permissions check is false', () => {
       const context: any = {
+        appConfig,
         selection: {
           file: {
             entry: {
@@ -756,6 +773,9 @@ describe('app.evaluators', () => {
 
     it('should return [true] if all checks succeed', () => {
       const context: any = {
+        appConfig: {
+          get: () => true
+        },
         selection: {
           file: {
             entry: {

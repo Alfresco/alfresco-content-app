@@ -583,8 +583,9 @@ export const showInfoSelectionButton = (context: RuleContext): boolean => naviga
  * @param context Rule execution context
  */
 export function canOpenWithOffice(context: AcaRuleContext): boolean {
-  const flag = context.appConfig.get<boolean | string>('plugins.aosPlugin');
-  if (flag === false || flag !== 'true') {
+  const flag = `${context.appConfig.get<boolean | string>('plugins.aosPlugin', false)}`;
+
+  if (flag !== 'true') {
     return false;
   }
 
