@@ -169,12 +169,17 @@ export class AppService implements OnDestroy {
 
     this.overlayContainer.getContainerElement().setAttribute('role', 'region');
 
-    const isMobileSwitchEnabled = this.config.get<string>('mobileAppSwitch.enabled', 'false') === 'true';
-    if (isMobileSwitchEnabled) {
+    const isEnabled = this.isMobileSwitchEnabled();
+    if (isEnabled) {
       this.acaMobileAppSwitcherService.resolveExistenceOfDialog();
     } else {
       this.acaMobileAppSwitcherService.clearSessionExpireTime();
     }
+  }
+
+  private isMobileSwitchEnabled(): boolean {
+    const flag = this.config.get<boolean | string>('mobileAppSwitch.enabled');
+    return flag === true || flag === 'true';
   }
 
   private loadRepositoryStatus() {
