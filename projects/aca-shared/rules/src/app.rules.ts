@@ -88,8 +88,10 @@ export interface AcaRuleContext extends RuleContext {
  * Checks if the content plugin is enabled.
  * JSON ref: `app.isContentServiceEnabled`
  */
-export const isContentServiceEnabled = (context: AcaRuleContext): boolean =>
-  context.appConfig.get<string>('plugins.contentService', 'false') === 'true';
+export const isContentServiceEnabled = (context: AcaRuleContext): boolean => {
+  const flag = context.appConfig.get<boolean | string>('plugins.contentService');
+  return flag === true || flag === 'true';
+};
 
 /**
  * Checks if Search is supported for active view
