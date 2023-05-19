@@ -30,26 +30,26 @@ jobs:
           github-token: ${{ secrets.BOT_GITHUB_TOKEN }}
           script: |
             const getLatestVersionOf = require('./scripts/gh/update/latest-version-of.js');
-            const { hasNewVersion: hasNewADFVersion , remoteVersion: latestADFVersion } = await getLatestVersionOf({github, dependencyName: 'adf-core'})
-            console.log('hasNewADFVersion', hasNewADFVersion)
-            console.log('latestADFVersion', latestADFVersion.name)
+            const { hasNewVersion: hasNewADFVersion , remoteVersion: latestADFVersion } = await getLatestVersionOf({github, dependencyName: 'adf-core'});
+            console.log('hasNewADFVersion', hasNewADFVersion);
+            console.log('latestADFVersion', latestADFVersion?.name);
 
             const { hasNewVersion: hasNewJSVersion, remoteVersion: latestJSVersion } = await getLatestVersionOf({github, dependencyName: 'js-api'});
-            console.log('hasNewJSVersion', hasNewJSVersion)
-            console.log('latestJSVersion', latestJSVersion.name)
+            console.log('hasNewJSVersion', hasNewJSVersion);
+            console.log('latestJSVersion', latestJSVersion?.name);
             if (hasNewADFVersion === 'true' || hasNewJSVersion  === 'true' ) {
               core.setOutput('hasNewVersion', 'true');
               if (hasNewADFVersion === 'true') {
                 core.setOutput('hasNewADFVersion', 'true');
-                core.setOutput('latestADFVersion', latestADFVersion.name);
+                core.setOutput('latestADFVersion', latestADFVersion?.name);
               }
               if (hasNewJSVersion === 'true') {
                 core.setOutput('hasNewJSVersion', 'true');
-                core.setOutput('latestJSVersion', latestJSVersion.name);
+                core.setOutput('latestJSVersion', latestJSVersion?.name);
               }
             } else {
               core.setOutput('hasNewVersion', 'false');
-              console.log('No new version available, skipping upstream!')
+              console.log('No new version available, skipping upstream!');
             }
       - name: Check value after
         run: |
@@ -159,8 +159,8 @@ jobs:
         with:
           github-token: ${{ secrets.BOT_GITHUB_TOKEN }}
           script: |
-            const { PACKAGE_VERSION_ADF } = process.env
-            const { PACKAGE_VERSION_JS } = process.env
+            const { PACKAGE_VERSION_ADF } = process.env;
+            const { PACKAGE_VERSION_JS } = process.env;
             const BRANCH_TO_CREATE = 'upstream-dependencies';
             let title = `GH Auto: Upstream dependencies ADF:${PACKAGE_VERSION_ADF} JS-API:${PACKAGE_VERSION_JS} using Tag:${PACKAGE_VERSION_ADF}`;
             if (PACKAGE_VERSION_ADF === 'next' || PACKAGE_VERSION_ADF === 'latest') {
