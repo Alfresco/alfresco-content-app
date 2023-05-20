@@ -27,7 +27,6 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { UserPreferencesService, AppConfigService, PaginationComponent, PaginationModel, CoreTestingModule } from '@alfresco/adf-core';
 import { initialState, LibTestingModule } from '../testing/lib-testing-module';
 import { SharedDirectivesModule } from './shared.directives.module';
-import { TranslateModule } from '@ngx-translate/core';
 import { provideMockStore } from '@ngrx/store/testing';
 
 describe('PaginationDirective', () => {
@@ -39,7 +38,7 @@ describe('PaginationDirective', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), LibTestingModule, SharedDirectivesModule, CoreTestingModule],
+      imports: [LibTestingModule, SharedDirectivesModule, CoreTestingModule],
       providers: [provideMockStore({ initialState })]
     });
 

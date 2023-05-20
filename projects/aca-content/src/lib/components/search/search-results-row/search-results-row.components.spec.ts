@@ -25,7 +25,6 @@
 import { NodeEntry } from '@alfresco/js-api';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CoreModule } from '@angular/flex-layout';
-import { TranslateModule } from '@ngx-translate/core';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { AppSearchResultsModule } from '../search-results.module';
 import { SearchResultsRowComponent } from './search-results-row.component';
@@ -45,7 +44,7 @@ describe('SearchResultsRowComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), CoreModule, AppTestingModule, AppSearchResultsModule]
+      imports: [CoreModule, AppTestingModule, AppSearchResultsModule]
     });
 
     fixture = TestBed.createComponent(SearchResultsRowComponent);

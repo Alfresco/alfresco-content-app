@@ -26,7 +26,6 @@ import { ButtonMenuComponent } from './button-menu.component';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { Router } from '@angular/router';
-import { TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
 import { AppSidenavModule } from '../sidenav.module';
 
 describe('ButtonMenuComponent', () => {
@@ -36,13 +35,7 @@ describe('ButtonMenuComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        AppTestingModule,
-        AppSidenavModule,
-        TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
-        })
-      ]
+      imports: [AppTestingModule, AppSidenavModule]
     });
 
     fixture = TestBed.createComponent(ButtonMenuComponent);

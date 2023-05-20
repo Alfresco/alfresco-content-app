@@ -87,6 +87,7 @@ export const initialState = {
     }),
     PipeModule
   ],
+  exports: [TranslateModule],
   providers: [
     { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock },
     { provide: TranslationService, useClass: TranslationMock }

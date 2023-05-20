@@ -31,7 +31,6 @@ import { NavigateToFolder, SnackbarErrorAction } from '@alfresco/aca-shared/stor
 import { Pagination, SearchRequest } from '@alfresco/js-api';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { AppService } from '@alfresco/aca-shared';
@@ -50,7 +49,7 @@ describe('SearchComponent', () => {
   beforeEach(() => {
     params = new BehaviorSubject({ q: 'TYPE: "cm:folder" AND %28=cm: name: email OR cm: name: budget%29' });
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), AppTestingModule, CoreModule.forRoot(), AppSearchResultsModule],
+      imports: [AppTestingModule, CoreModule.forRoot(), AppSearchResultsModule],
       providers: [
         {
           provide: AppService,
