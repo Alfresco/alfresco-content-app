@@ -122,7 +122,7 @@ describe('Remember sorting', () => {
       firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
     };
 
-    await expect(expectedSortData).not.toEqual(initialSortState, 'Initial sort did not work');
+    expect(expectedSortData).not.toEqual(initialSortState);
 
     await browsingPage.clickFavorites();
     await browsingPage.clickPersonalFilesAndWait();
@@ -133,7 +133,7 @@ describe('Remember sorting', () => {
       firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
     };
 
-    await expect(actualSortData).toEqual(expectedSortData, 'Order is different - sorting was not retained');
+    expect(actualSortData).toEqual(expectedSortData);
   });
 
   it('[C261137] Size sort order is retained when user logs out and logs back in', async () => {
@@ -147,7 +147,7 @@ describe('Remember sorting', () => {
       firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
     };
 
-    await expect(expectedSortData).not.toEqual(initialSortState, 'Initial sort did not work');
+    expect(expectedSortData).not.toEqual(initialSortState);
 
     await browsingPage.signOut();
     await loginPage.loginWith(user1);
@@ -158,7 +158,7 @@ describe('Remember sorting', () => {
       firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
     };
 
-    await expect(actualSortData).toEqual(expectedSortData, 'Order is different - sorting was not retained');
+    expect(actualSortData).toEqual(expectedSortData);
   });
 
   describe('Folder actions', () => {
@@ -196,7 +196,7 @@ describe('Remember sorting', () => {
         firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
       };
 
-      await expect(actualSortData).toEqual(expectedSortData, 'Order is different - sorting was not retained');
+      expect(actualSortData).toEqual(expectedSortData);
     });
 
     it('[C261139] Sort order is retained when moving a file', async () => {
@@ -218,7 +218,7 @@ describe('Remember sorting', () => {
         firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
       };
 
-      await expect(actualSortData).toEqual(expectedSortData, 'Order is different - sorting was not retained');
+      expect(actualSortData).toEqual(expectedSortData);
     });
   });
 
@@ -243,7 +243,7 @@ describe('Remember sorting', () => {
       firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
     };
 
-    await expect(actualSortData).toEqual(expectedSortData, 'Order is different - sorting was not retained');
+    expect(actualSortData).toEqual(expectedSortData);
   });
 
   it('[C261153] Sort order should be remembered separately on each list view', async () => {
@@ -268,7 +268,7 @@ describe('Remember sorting', () => {
       firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
     };
 
-    await expect(favouritesSortData).not.toEqual(personalFilesSortData, 'Order is the same - sorting was retained');
+    expect(favouritesSortData).not.toEqual(personalFilesSortData);
 
     await browsingPage.clickPersonalFilesAndWait();
 
@@ -278,7 +278,7 @@ describe('Remember sorting', () => {
       firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
     };
 
-    await expect(personalFilesSortDataAfterFavSort).toEqual(personalFilesSortData, 'Order is different - sorting was not retained');
+    expect(personalFilesSortDataAfterFavSort).toEqual(personalFilesSortData);
   });
 
   it('[C261147] Sort order is retained when user changes the page from pagination', async () => {
@@ -300,7 +300,7 @@ describe('Remember sorting', () => {
       firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
     };
 
-    await expect(currentPersonalFilesSortDataPage2).toEqual(expectedPersonalFilesSortDataPage2, 'Order is different- sorting was not retained');
+    expect(currentPersonalFilesSortDataPage2).toEqual(expectedPersonalFilesSortDataPage2);
 
     await dataTable.sortBy('Name', 'desc');
     await dataTable.waitForFirstElementToChange(currentPersonalFilesSortDataPage2.firstElement);
@@ -318,7 +318,7 @@ describe('Remember sorting', () => {
       firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
     };
 
-    await expect(expectedPersonalFilesSortDataPage2).toEqual(currentPersonalFilesSortDataPage2, 'Order is different - sorting was not retained');
+    expect(expectedPersonalFilesSortDataPage2).toEqual(currentPersonalFilesSortDataPage2);
   });
 
   it('[C261150] Sort order is not retained between different users', async () => {
@@ -341,7 +341,7 @@ describe('Remember sorting', () => {
       firstElement: await documentListPage.dataTable.getFirstElementDetail('Name')
     };
 
-    await expect(actualSortData).not.toEqual(expectedSortData, 'Order is the same - sorting was retained');
+    expect(actualSortData).not.toEqual(expectedSortData);
 
     await browsingPage.signOut();
   });

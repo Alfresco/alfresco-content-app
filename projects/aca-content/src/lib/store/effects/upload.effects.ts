@@ -44,9 +44,9 @@ import { UploadService, FileModel } from '@alfresco/adf-content-services';
 
 @Injectable()
 export class UploadEffects {
-  private fileInput: HTMLInputElement;
-  private folderInput: HTMLInputElement;
-  private fileVersionInput: HTMLInputElement;
+  private readonly fileInput: HTMLInputElement;
+  private readonly folderInput: HTMLInputElement;
+  private readonly fileVersionInput: HTMLInputElement;
   private readonly uploadMenuButtonSelector = 'app-toolbar-menu button[id="app.toolbar.upload"]';
 
   constructor(

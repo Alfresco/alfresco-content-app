@@ -23,7 +23,7 @@
  */
 
 import { HomeComponent } from './home.component';
-import { AppConfigService, AppConfigServiceMock, setupTestBed } from '@alfresco/adf-core';
+import { AppConfigService, AppConfigServiceMock } from '@alfresco/adf-core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
@@ -34,12 +34,11 @@ describe('HomeComponent', () => {
   let fixture: ComponentFixture<HomeComponent>;
   let router: Router;
 
-  setupTestBed({
-    imports: [HttpClientModule, RouterTestingModule],
-    providers: [{ provide: AppConfigService, useClass: AppConfigServiceMock }]
-  });
-
   beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientModule, RouterTestingModule],
+      providers: [{ provide: AppConfigService, useClass: AppConfigServiceMock }]
+    });
     fixture = TestBed.createComponent(HomeComponent);
     router = TestBed.inject(Router);
     appConfig = TestBed.inject(AppConfigService);

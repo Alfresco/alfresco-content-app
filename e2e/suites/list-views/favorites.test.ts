@@ -96,10 +96,10 @@ describe('Favorites', () => {
   });
 
   it('[C213226] displays the favorite files and folders', async () => {
-    await expect(await dataTable.getRowsCount()).toEqual(4, 'Incorrect number of items displayed');
-    await expect(await dataTable.isItemPresent(fileName1)).toBe(true, `${fileName1} not displayed`);
-    await expect(await dataTable.isItemPresent(fileName2)).toBe(true, `${fileName2} not displayed`);
-    await expect(await dataTable.isItemPresent(favFolderName)).toBe(true, `${favFolderName} not displayed`);
+    expect(await dataTable.getRowsCount()).toEqual(4, 'Incorrect number of items displayed');
+    expect(await dataTable.isItemPresent(fileName1)).toBe(true, `${fileName1} not displayed`);
+    expect(await dataTable.isItemPresent(fileName2)).toBe(true, `${fileName2} not displayed`);
+    expect(await dataTable.isItemPresent(favFolderName)).toBe(true, `${favFolderName} not displayed`);
   });
 
   it(`[C213228] deleted favorite file does not appear`, async () => {
@@ -124,12 +124,12 @@ describe('Favorites', () => {
 
   it('[C213650] Location column redirect - item in user Home', async () => {
     await dataTable.clickItemLocation(favFolderName);
-    await expect(await breadcrumb.getAllItems()).toEqual(['Personal Files']);
+    expect(await breadcrumb.getAllItems()).toEqual(['Personal Files']);
   });
 
   it('[C280484] Location column redirect - file in folder', async () => {
     await dataTable.clickItemLocation(fileName2);
-    await expect(await breadcrumb.getAllItems()).toEqual(['Personal Files', parentFolder]);
+    expect(await breadcrumb.getAllItems()).toEqual(['Personal Files', parentFolder]);
   });
 
   it('[C280485] Location column redirect - file in site', async () => {

@@ -24,20 +24,19 @@
 
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AppNodeVersionFormComponent } from './node-version-form.component';
-import { setupTestBed, CoreModule } from '@alfresco/adf-core';
-import { TestBed } from '@angular/core/testing';
+import { CoreModule } from '@alfresco/adf-core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 
 describe('AppNodeVersionFormComponent', () => {
-  let fixture;
-  let component;
-
-  setupTestBed({
-    imports: [TranslateModule.forRoot(), CoreModule.forRoot(), NoopAnimationsModule],
-    declarations: [AppNodeVersionFormComponent]
-  });
+  let fixture: ComponentFixture<AppNodeVersionFormComponent>;
+  let component: AppNodeVersionFormComponent;
 
   beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [TranslateModule.forRoot(), CoreModule.forRoot(), NoopAnimationsModule],
+      declarations: [AppNodeVersionFormComponent]
+    });
     fixture = TestBed.createComponent(AppNodeVersionFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -56,7 +55,7 @@ describe('AppNodeVersionFormComponent', () => {
     };
     spyOn(component.update, 'emit');
 
-    component.form.valueChanges.next(formData);
+    (component.form.valueChanges as any).next(formData);
     expect(component.update.emit).toHaveBeenCalledWith(formData);
   });
 

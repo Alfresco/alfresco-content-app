@@ -101,7 +101,7 @@ describe('Upload new version', () => {
 
   beforeAll(async () => {
     await adminActions.createUser({ username });
-    userActions.login(username, username);
+    await userActions.login(username, username);
 
     parentPFId = await apis.user.createFolder(parentPF);
     parentSFId = await apis.user.createFolder(parentSF);
@@ -111,7 +111,7 @@ describe('Upload new version', () => {
   });
 
   afterAll(async () => {
-    userActions.login(username, username);
+    await userActions.login(username, username);
     await userActions.deleteNodes([parentPFId, parentSFId, parentRFId, parentFavId, parentSearchId]);
   });
 
@@ -126,7 +126,7 @@ describe('Upload new version', () => {
       fileLockedSearch1Id = await apis.user.createFile(fileLockedSearch1, parentSearchId);
       fileLockedSearch2Id = await apis.user.createFile(fileLockedSearch2, parentSearchId);
 
-      userActions.lockNodes([fileLockedSearch1Id, fileLockedSearch2Id]);
+      await userActions.lockNodes([fileLockedSearch1Id, fileLockedSearch2Id]);
 
       await apis.user.search.waitForNodes(searchRandom, { expect: 6 });
 

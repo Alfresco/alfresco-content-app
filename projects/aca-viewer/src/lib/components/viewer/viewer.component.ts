@@ -199,7 +199,7 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
       this.displayNode(file.data.entry.id);
     });
 
-    this.previewLocation = this.router.url.substr(0, this.router.url.indexOf('/', 1)).replace(/\//g, '');
+    this.previewLocation = this.router.url.substring(0, this.router.url.indexOf('/', 1)).replace(/\//g, '');
   }
 
   onViewerVisibilityChanged() {

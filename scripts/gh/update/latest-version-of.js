@@ -9,23 +9,23 @@ module.exports = async ({github, dependencyName}) => {
 
   const localVersion = pkg.dependencies[dependencyFullName];
 
-  const { data: availablePakages } = await github.rest.packages.getAllPackageVersionsForPackageOwnedByOrg({
+  const { data: availablePackages } = await github.rest.packages.getAllPackageVersionsForPackageOwnedByOrg({
       package_type: 'npm',
       package_name: dependencyName,
       org: organization
   });
 
-  const latestPkgToUpdate = availablePakages[0];
+  const latestPkgToUpdate = availablePackages[0];
 
   if (localVersion === latestPkgToUpdate?.name) {
       return { hasNewVersion: 'false' };
   } else {
-      const findLocalVerionOnRemote = availablePakages.find((item) => item.name === localVersion);
+      const findLocalVersionOnRemote = availablePackages.find((item) => item.name === localVersion);
       let rangeInDays = 'N/A'
-      if (findLocalVerionOnRemote !== undefined) {
-          var creationLocal = new Date(findLocalVerionOnRemote.created_at);
-          var creationLatest = new Date(latestPkgToUpdate.created_at,);
-          rangeInDays = inDays(creationLocal, creationLatest);
+      if (findLocalVersionOnRemote !== undefined) {
+        const creationLocal = new Date(findLocalVersionOnRemote.created_at);
+        const creationLatest = new Date(latestPkgToUpdate.created_at);
+        rangeInDays = inDays(creationLocal, creationLatest);
       }
       return { hasNewVersion: 'true', remoteVersion: { name: latestPkgToUpdate?.name, rangeInDays } , localVersion};
   }

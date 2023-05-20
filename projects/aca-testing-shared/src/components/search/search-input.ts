@@ -24,7 +24,7 @@
 
 import { browser, by } from 'protractor';
 import { Component } from '../component';
-import { waitForPresence, waitElement } from '../../utilities/utils';
+import { waitElement, waitForPresence } from '../../utilities/utils';
 import { BrowserActions, BrowserVisibility, TestElement } from '@alfresco/adf-testing';
 
 export class SearchInput extends Component {
@@ -174,7 +174,7 @@ export class SearchInput extends Component {
   async searchUntilResult(text: string, methodType: 'URL' | 'UI', waitPerSearch: number = 2000, timeout: number = 20000) {
     const attempts = Math.round(timeout / waitPerSearch);
     let loopCount = 0;
-    let myPromise = new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       const check = async () => {
         loopCount++;
         loopCount >= attempts ? reject('File not found') : methodType === 'UI' ? await this.searchFor(text) : await this.searchByURL(text);
@@ -182,6 +182,5 @@ export class SearchInput extends Component {
       };
       return check();
     });
-    return myPromise;
   }
 }

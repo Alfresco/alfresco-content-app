@@ -42,7 +42,7 @@ import {
   LibraryStatusColumnComponent,
   TrashcanNameColumnComponent
 } from '@alfresco/adf-content-services';
-import { DocumentBasePageService, ExtensionsDataLoaderGuard, PageLayoutModule, RouterExtensionService, SharedModule } from '@alfresco/aca-shared';
+import { DocumentBasePageService, ExtensionsDataLoaderGuard, PageLayoutModule, SharedModule } from '@alfresco/aca-shared';
 import * as rules from '@alfresco/aca-shared/rules';
 
 import { FilesComponent } from './components/files/files.component';
@@ -196,7 +196,7 @@ registerLocaleData(localeSv);
   ]
 })
 export class ContentServiceExtensionModule {
-  constructor(public extensions: ExtensionService, public routeExtensionService: RouterExtensionService) {
+  constructor(public extensions: ExtensionService) {
     extensions.setAuthGuards({
       'app.auth': AuthGuardEcm,
       'app.extensions.dataLoaderGuard': ExtensionsDataLoaderGuard

@@ -35,7 +35,7 @@ export interface OpenInAppDialogOptions {
   encapsulation: ViewEncapsulation.None
 })
 export class OpenInAppComponent {
-  private redirectUrl: string;
+  private readonly redirectUrl: string;
   public window: Window & typeof globalThis = window;
 
   constructor(

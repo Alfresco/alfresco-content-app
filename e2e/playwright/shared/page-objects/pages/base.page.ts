@@ -33,12 +33,12 @@ export interface NavigateOptions {
   remoteUrl?: string;
 }
 export abstract class BasePage extends PlaywrightBase {
-  private pageUrl: string;
-  private urlRequest: RegExp;
+  private readonly pageUrl: string;
+  private readonly urlRequest: RegExp;
   public snackBar: SnackBarComponent;
   public spinner: SpinnerComponent;
 
-  constructor(page: Page, pageUrl: string, urlRequest?: RegExp) {
+  protected constructor(page: Page, pageUrl: string, urlRequest?: RegExp) {
     super(page);
     this.pageUrl = pageUrl;
     this.urlRequest = urlRequest;

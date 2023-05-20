@@ -27,7 +27,7 @@ import { isPresentAndDisplayed, Utils } from '../../../utilities/utils';
 import { BrowserActions, TestElement } from '@alfresco/adf-testing';
 
 export class GenericFilter {
-  private filterName: string;
+  private readonly filterName: string;
 
   constructor(filterName: string) {
     this.filterName = filterName;

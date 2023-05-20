@@ -11,7 +11,7 @@ module.exports = async ({github, context, version}) => {
   if (prs?.length > 0) {
     const title = prs[0].title;
     const result = title.match(version);
-    return result?.length > 0 ? true : false;
+    return result?.length > 0;
   }
   return false;
 }

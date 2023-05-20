@@ -38,7 +38,7 @@ describe('General', () => {
 
   describe('on session expire', () => {
     beforeAll(async () => {
-      adminActions.login();
+      await adminActions.login();
       folderId = (await adminActions.nodes.createFolder(folder)).entry.id;
     });
 

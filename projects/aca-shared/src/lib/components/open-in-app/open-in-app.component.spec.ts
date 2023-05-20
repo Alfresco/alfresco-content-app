@@ -23,7 +23,7 @@
  */
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
 import { OpenInAppComponent } from './open-in-app.component';
 import { initialState, LibTestingModule } from '../../testing/lib-testing-module';
@@ -59,14 +59,13 @@ describe('OpenInAppComponent', () => {
 
   it('should redirect to app when click on `Open in App` button` ', async () => {
     let currentLocation: string | string[];
-    const windowStub: Window & typeof globalThis = {
+    component.window = {
       location: {
         set href(value: string | string[]) {
           currentLocation = value;
         }
       }
     } as Window & typeof globalThis;
-    component.window = windowStub;
     const saveButton = fixture.debugElement.query(By.css('[data-automation-id="open-in-app-button"]')).nativeElement;
     saveButton.dispatchEvent(new Event('click'));
     fixture.detectChanges();

@@ -85,11 +85,11 @@ describe('Personal Files', () => {
     });
 
     it('[C217143] has default sorted column', async () => {
-      await expect(await dataTable.getSortedColumnHeaderText()).toBe('Name');
+      expect(await dataTable.getSortedColumnHeaderText()).toBe('Name');
     });
 
     it('[C213242] has user created content', async () => {
-      await expect(await dataTable.isItemPresent(userFolder)).toBe(true, 'user folder not displayed');
+      expect(await dataTable.isItemPresent(userFolder)).toBe(true, 'user folder not displayed');
     });
 
     it('[C213244] navigates to folder', async () => {

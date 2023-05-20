@@ -180,7 +180,7 @@ export class ViewerEffects {
 
     let previewLocation = this.router.url;
     if (previewLocation.lastIndexOf('/') > 0) {
-      previewLocation = previewLocation.substr(0, this.router.url.indexOf('/', 1));
+      previewLocation = previewLocation.substring(0, this.router.url.indexOf('/', 1));
     }
     previewLocation = previewLocation.replace(/\//g, '');
 

@@ -71,15 +71,15 @@ describe('Upload files', () => {
   it('[T14752064] Close the upload dialog ', async () => {
     await page.uploadFilesDialog.closeUploadButton.click();
     await page.uploadFilesDialog.uploadDialog.isPresent();
-    await expect(await page.uploadFilesDialog.uploadDialog.isVisible()).toBe(false);
+    expect(await page.uploadFilesDialog.uploadDialog.isVisible()).toBe(false);
   });
 
   it('[T14752051] Minimize / maximize the upload dialog ', async () => {
     await page.uploadFilesDialog.minimizeButton.click();
-    await expect(await page.uploadFilesDialog.uploadedFiles.waitNotVisible()).toBe(true);
+    expect(await page.uploadFilesDialog.uploadedFiles.waitNotVisible()).toBe(true);
 
     await page.uploadFilesDialog.maximizeButton.click();
-    await expect(await page.uploadFilesDialog.uploadedFiles.waitVisible()).toBe(true);
+    expect(await page.uploadFilesDialog.uploadedFiles.waitVisible()).toBe(true);
   });
 
   it('[T14752053] Upload history is expunged on browser login/logout ', async () => {
@@ -87,12 +87,12 @@ describe('Upload files', () => {
     await loginPage.loginWith(username);
     const isUploadDialogVisible = await page.uploadFilesDialog.uploadDialog.isVisible();
 
-    await expect(isUploadDialogVisible).toBe(false);
+    expect(isUploadDialogVisible).toBe(false);
   });
 
   it('[T14752052] Upload dialog remains fixed in the browser when user performs other actions in parallel ', async () => {
-    await expect(page.uploadFilesDialog.uploadDialog.isVisible()).toBe(true);
+    expect(page.uploadFilesDialog.uploadDialog.isVisible()).toBe(true);
     await page.clickPersonalFiles();
-    await expect(page.uploadFilesDialog.uploadDialog.isVisible()).toBe(true);
+    expect(page.uploadFilesDialog.uploadDialog.isVisible()).toBe(true);
   });
 });

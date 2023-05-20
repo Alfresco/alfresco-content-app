@@ -45,7 +45,7 @@ describe('Edit offline', () => {
 
   beforeAll(async () => {
     await adminApiActions.createUser({ username });
-    userActions.login(username, username);
+    await userActions.login(username, username);
   });
 
   describe('on Personal Files', () => {
@@ -76,7 +76,7 @@ describe('Edit offline', () => {
     });
 
     afterAll(async () => {
-      userActions.login(username, username);
+      await userActions.login(username, username);
       await userActions.deleteNodes([parentPFId]);
     });
 

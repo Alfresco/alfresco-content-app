@@ -29,7 +29,7 @@ export abstract class PlaywrightBase {
   public page: Page;
   public logger: LoggerLike;
 
-  constructor(page: Page) {
+  protected constructor(page: Page) {
     this.page = page;
     this.logger = new GenericLogger(process.env.PLAYWRIGHT_CUSTOM_LOG_LEVEL);
   }
