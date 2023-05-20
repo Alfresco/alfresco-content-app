@@ -142,14 +142,14 @@ describe('AppService', () => {
       isReady = value;
     });
     auth.onLogin.next();
-    expect(isReady).toEqual(true);
+    await expect(isReady).toEqual(true);
   });
 
   it('should reset search to defaults upon logout', async () => {
     const resetToDefaults = spyOn(searchQueryBuilderService, 'resetToDefaults');
     auth.onLogout.next(true);
 
-    expect(resetToDefaults).toHaveBeenCalled();
+    await expect(resetToDefaults).toHaveBeenCalled();
   });
 
   it('should rase notification on share link error', () => {
@@ -235,7 +235,7 @@ describe('AppService', () => {
     const dispatch = spyOn(store, 'dispatch');
     auth.onLogin.next(true);
 
-    expect(groupService.listAllGroupMembershipsForPerson).toHaveBeenCalled();
-    expect(dispatch).toHaveBeenCalledWith(new SetUserProfileAction({ person, groups: [group.entry] }));
+    await expect(groupService.listAllGroupMembershipsForPerson).toHaveBeenCalled();
+    await expect(dispatch).toHaveBeenCalledWith(new SetUserProfileAction({ person, groups: [group.entry] }));
   });
 });
