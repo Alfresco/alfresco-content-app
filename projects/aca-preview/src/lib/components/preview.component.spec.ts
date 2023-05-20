@@ -39,7 +39,7 @@ import { PreviewComponent } from './preview.component';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { ContentApiService, AppHookService, DocumentBasePageService } from '@alfresco/aca-shared';
 import { Store, StoreModule } from '@ngrx/store';
-import { Node, NodePaging, FavoritePaging, SharedLinkPaging, PersonEntry, ResultSetPaging, RepositoryInfo, NodeEntry } from '@alfresco/js-api';
+import { Node, NodePaging, FavoritePaging, SharedLinkPaging, PersonEntry, ResultSetPaging, RepositoryInfo } from '@alfresco/js-api';
 import { PreviewModule } from '../preview.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -48,10 +48,10 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { EffectsModule } from '@ngrx/effects';
 
 class DocumentBasePageServiceMock extends DocumentBasePageService {
-  canUpdateNode(_node: NodeEntry): boolean {
+  canUpdateNode(): boolean {
     return true;
   }
-  canUploadContent(_node: Node): boolean {
+  canUploadContent(): boolean {
     return true;
   }
 }

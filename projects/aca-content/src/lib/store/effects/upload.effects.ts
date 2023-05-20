@@ -132,7 +132,7 @@ export class UploadEffects {
     this.contentService
       .getNodeInfo()
       .pipe(
-        catchError((_) => {
+        catchError(() => {
           this.store.dispatch(new SnackbarErrorAction('VERSION.ERROR.GENERIC'));
           return of(null);
         })

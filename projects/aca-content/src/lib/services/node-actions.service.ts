@@ -25,7 +25,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable, Subject, of, zip, from } from 'rxjs';
-import { AlfrescoApiService, DataColumn, TranslationService, ThumbnailService } from '@alfresco/adf-core';
+import { AlfrescoApiService, TranslationService, ThumbnailService } from '@alfresco/adf-core';
 import {
   DocumentListService,
   ContentNodeSelectorComponent,
@@ -565,7 +565,7 @@ export class NodeActionsService {
     return !node.isFile && node.nodeType !== 'app:folderlink';
   }
 
-  private imageResolver(row: ShareDataRow, _: DataColumn): string | null {
+  private imageResolver(row: ShareDataRow): string | null {
     const entry: MinimalNodeEntryEntity = row.node.entry;
     if (!this.contentService.hasAllowableOperations(entry, 'update')) {
       return this.thumbnailService.getMimeTypeIcon('disable/folder');

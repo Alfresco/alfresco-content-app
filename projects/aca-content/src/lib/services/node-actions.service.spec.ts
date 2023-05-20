@@ -876,7 +876,7 @@ describe('NodeActionsService', () => {
 
       it('should try to move children nodes of a folder to already existing folder with same name', () => {
         const parentFolderToMove = new TestNode('parent-folder', !isFile, 'conflicting-name');
-        const moveNodeSpy = spyOn(documentListService, 'moveNode').and.callFake((nodeId: string, _targetParentId: string) => {
+        const moveNodeSpy = spyOn(documentListService, 'moveNode').and.callFake((nodeId: string) => {
           if (nodeId === parentFolderToMove.entry.id) {
             return throwError(conflictError);
           }

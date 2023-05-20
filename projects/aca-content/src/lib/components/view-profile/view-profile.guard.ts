@@ -23,7 +23,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot } from '@angular/router';
+import { CanActivate } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthenticationService } from '@alfresco/adf-core';
 
@@ -33,11 +33,11 @@ import { AuthenticationService } from '@alfresco/adf-core';
 export class ViewProfileRuleGuard implements CanActivate {
   constructor(private authService: AuthenticationService) {}
 
-  canActivate(_: ActivatedRouteSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+  canActivate(): Observable<boolean> | Promise<boolean> | boolean {
     return this.isEcmLoggedIn() || this.authService.isOauth();
   }
 
-  private isEcmLoggedIn() {
+  private isEcmLoggedIn(): boolean {
     return this.authService.isEcmLoggedIn() || (this.authService.isECMProvider() && this.authService.isKerberosEnabled());
   }
 }
