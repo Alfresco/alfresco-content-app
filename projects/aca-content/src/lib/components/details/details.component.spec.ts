@@ -27,7 +27,7 @@ import { AppTestingModule } from '../../testing/app-testing.module';
 import { DetailsComponent } from './details.component';
 import { MetadataTabComponent } from '../info-drawer/metadata-tab/metadata-tab.component';
 import { CommentsTabComponent } from '../info-drawer/comments-tab/comments-tab.component';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { of, Subject } from 'rxjs';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Store } from '@ngrx/store';
@@ -36,16 +36,14 @@ import { AppExtensionService } from '@alfresco/adf-extensions';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { NodeEntry } from '@alfresco/js-api';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('DetailsComponent', () => {
   let component: DetailsComponent;
   let fixture: ComponentFixture<DetailsComponent>;
   let contentApiService: ContentApiService;
-  let store;
-  const router: any = {
-    url: '',
-    navigate: jasmine.createSpy('navigate')
-  };
+  let store: Store;
+
   const mockStream = new Subject();
   const storeMock = {
     dispatch: jasmine.createSpy('dispatch'),
@@ -59,10 +57,7 @@ describe('DetailsComponent', () => {
       providers: [
         ContentManagementService,
         AppExtensionService,
-        {
-          provide: Router,
-          useValue: router
-        },
+        RouterTestingModule,
         { provide: Store, useValue: storeMock },
         {
           provide: ActivatedRoute,

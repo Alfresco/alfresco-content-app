@@ -28,6 +28,7 @@ import { PeopleContentService } from '@alfresco/adf-content-services';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { UserMenuComponent } from './user-menu.component';
 import { of } from 'rxjs';
+import { SharedToolbarModule } from '@alfresco/aca-shared';
 
 describe('UserMenuComponent', () => {
   let component: UserMenuComponent;
@@ -106,7 +107,7 @@ describe('UserMenuComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [AppTestingModule],
+      imports: [AppTestingModule, SharedToolbarModule],
       declarations: [UserMenuComponent],
       providers: [
         { provide: AuthenticationService, useValue: authServiceStub },
