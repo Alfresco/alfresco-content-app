@@ -476,16 +476,6 @@
       "CANCEL": "Cancelar",
       "UPLOAD": "Cargar"
     },
-    "FORM": {
-      "SUBTITLE": "¿Qué nivel de cambios se hicieron a esta versión?",
-      "VERSION": {
-        "MINOR": "Menor (#.1)",
-        "MAJOR": "Mayor (2.0)"
-      },
-      "COMMENT": {
-        "PLACEHOLDER": "Añadir notas describiendo lo que se cambió"
-      }
-    },
     "SELECTION": {
       "EMPTY": "Por favor, seleccione un documento para ver sus versiones.",
       "NO_PERMISSION": "No tiene permiso para gestionar las versiones de este contenido."
@@ -496,7 +486,7 @@
   },
   "INFO_PANEL": {
     "TABS": {
-    
+
     },
     "DETAILS": "Detalles"
   },

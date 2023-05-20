@@ -479,16 +479,6 @@
             "CANCEL": "Cancel",
             "UPLOAD": "Upload"
         },
-        "FORM": {
-            "SUBTITLE": "What level of changes were made to this version?",
-            "VERSION": {
-                "MINOR": "Minor (#.1)",
-                "MAJOR": "Major (2.0)"
-            },
-            "COMMENT": {
-                "PLACEHOLDER": "Add notes describing what changed"
-            }
-        },
         "SELECTION": {
             "EMPTY": "Please choose a document to see the versions of it.",
             "NO_PERMISSION": "You don't have permission to manage the versions of this content."

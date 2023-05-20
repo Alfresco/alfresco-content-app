@@ -64,7 +64,6 @@ import { AppCommonModule } from './components/common/common.module';
 import { AppSearchInputModule } from './components/search/search-input.module';
 import { DocumentListCustomComponentsModule } from './components/dl-custom-components/document-list-custom-components.module';
 import { AppSearchResultsModule } from './components/search/search-results.module';
-import { AppNodeVersionModule } from './components/node-version/node-version.module';
 import { FavoritesComponent } from './components/favorites/favorites.component';
 import { RecentFilesComponent } from './components/recent-files/recent-files.component';
 import { SharedFilesComponent } from './components/shared-files/shared-files.component';
@@ -161,7 +160,6 @@ registerLocaleData(localeSv);
     DocumentListCustomComponentsModule,
     AppSearchInputModule,
     AppSearchResultsModule,
-    AppNodeVersionModule,
     HammerModule,
     ViewProfileModule,
     AppTrashcanModule,

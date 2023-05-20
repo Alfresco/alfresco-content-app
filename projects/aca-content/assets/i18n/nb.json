@@ -476,16 +476,6 @@
       "CANCEL": "Avbryt",
       "UPLOAD": "Last opp"
     },
-    "FORM": {
-      "SUBTITLE": "Hvor omfattende endringer ble gjort i denne versjonen?",
-      "VERSION": {
-        "MINOR": "Små (#.1)",
-        "MAJOR": "Store (2.0)"
-      },
-      "COMMENT": {
-        "PLACEHOLDER": "Legg til merknader som beskriver hva som er endret"
-      }
-    },
     "SELECTION": {
       "EMPTY": "Velg et dokument for å se versjonene av det.",
       "NO_PERMISSION": "Du har ikke tillatelse til å administrere versjonene av dette innholdet."
@@ -496,7 +486,7 @@
   },
   "INFO_PANEL": {
     "TABS": {
-    
+
     },
     "DETAILS": "Detaljer"
   },

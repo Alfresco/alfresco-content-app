@@ -476,16 +476,6 @@
       "CANCEL": "Abbrechen",
       "UPLOAD": "Hochladen"
     },
-    "FORM": {
-      "SUBTITLE": "Welches Ausmaß haben die an dieser Version vorgenommenen Änderungen?",
-      "VERSION": {
-        "MINOR": "Nebenversion (x.1)",
-        "MAJOR": "Hauptversion (2.0)"
-      },
-      "COMMENT": {
-        "PLACEHOLDER": "Fügen Sie eine Beschreibung der Änderungen hinzu"
-      }
-    },
     "SELECTION": {
       "EMPTY": "Wählen Sie ein Dokument aus, um die Versionen davon anzuzeigen.",
       "NO_PERMISSION": "Sie verfügen nicht über die nötigen Benutzerrechte, um Versionen dieser Inhalte anzuzeigen."
@@ -496,7 +486,7 @@
   },
   "INFO_PANEL": {
     "TABS": {
-    
+
     },
     "DETAILS": "Details"
   },
