@@ -25,15 +25,7 @@
 import { HammerModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {
-  TRANSLATION_PROVIDER,
-  CoreModule,
-  AppConfigService,
-  DebugAppConfigService,
-  AuthGuardEcm,
-  LanguagePickerComponent,
-  NotificationHistoryComponent
-} from '@alfresco/adf-core';
+import { TRANSLATION_PROVIDER, CoreModule, AuthGuardEcm, LanguagePickerComponent, NotificationHistoryComponent } from '@alfresco/adf-core';
 import {
   ContentModule,
   ContentVersionService,
@@ -179,7 +171,6 @@ registerLocaleData(localeSv);
     UploadFilesDialogComponent
   ],
   providers: [
-    { provide: AppConfigService, useClass: DebugAppConfigService },
     { provide: ContentVersionService, useClass: ContentUrlService },
     { provide: DocumentBasePageService, useExisting: ContentManagementService },
     {
