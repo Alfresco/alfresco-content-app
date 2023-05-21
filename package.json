@@ -87,7 +87,7 @@
     "@nrwl/angular": "15.9.2",
     "@nrwl/eslint-plugin-nx": "^15.9.2",
     "@nrwl/workspace": "15.9.2",
-    "@playwright/test": "^1.31.2",
+    "@playwright/test": "^1.34.0",
     "@schematics/angular": "14.1.2",
     "@types/event-emitter": "^0.3.3",
     "@types/jasmine": "~3.6.0",
