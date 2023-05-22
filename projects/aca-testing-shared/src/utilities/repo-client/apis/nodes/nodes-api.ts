@@ -23,8 +23,8 @@
  */
 
 import { RepoApi } from '../repo-api';
-import { NodeContentTree, flattenNodeContentTree } from './node-content-tree';
-import { NodesApi as AdfNodeApi, NodeEntry, NodeChildAssociationPaging } from '@alfresco/js-api';
+import { flattenNodeContentTree, NodeContentTree } from './node-content-tree';
+import { NodeChildAssociationPaging, NodeEntry, NodesApi as AdfNodeApi } from '@alfresco/js-api';
 import { Utils } from '../../../../utilities/utils';
 
 export class NodesApi extends RepoApi {
@@ -166,8 +166,7 @@ export class NodesApi extends RepoApi {
     try {
       await names.reduce(async (previous, current) => {
         await previous;
-        const req = await this.deleteNodeByPath(`${relativePath}/${current}`, permanent);
-        return req;
+        return await this.deleteNodeByPath(`${relativePath}/${current}`, permanent);
       }, Promise.resolve());
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.deleteNodes.name}`, error);

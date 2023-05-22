@@ -39,7 +39,7 @@ export class TestRuleContext implements RuleContext {
     isEmpty: true
   };
 
-  getEvaluator(_key: string): RuleEvaluator {
+  getEvaluator(): RuleEvaluator {
     return undefined;
   }
 }

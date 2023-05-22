@@ -476,16 +476,6 @@
       "CANCEL": "Zrušit",
       "UPLOAD": "Odeslat"
     },
-    "FORM": {
-      "SUBTITLE": "Jaká úroveň změn proběhla v této verzi?",
-      "VERSION": {
-        "MINOR": "Menší (x.1)",
-        "MAJOR": "Hlavní (2.0)"
-      },
-      "COMMENT": {
-        "PLACEHOLDER": "Přidejte poznámky popisující dané změny"
-      }
-    },
     "SELECTION": {
       "EMPTY": "Zvolte dokument, u kterého chcete vidět jeho verze.",
       "NO_PERMISSION": "Nemáte potřebná oprávnění pro správu verzí tohoto obsahu."
@@ -496,7 +486,7 @@
   },
   "INFO_PANEL": {
     "TABS": {
-    
+
     },
     "DETAILS": "Podrobnosti"
   },

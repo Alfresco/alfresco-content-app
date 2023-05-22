@@ -81,14 +81,13 @@ export class SearchLibrariesQueryBuilderService {
   buildQuery(): LibrarySearchQuery {
     const query = this.userQuery;
     if (query && query.length > 1) {
-      const resultQuery = {
+      return {
         term: query,
         opts: {
           skipCount: this.paging && this.paging.skipCount,
           maxItems: this.paging && this.paging.maxItems
         }
       };
-      return resultQuery;
     }
     return null;
   }

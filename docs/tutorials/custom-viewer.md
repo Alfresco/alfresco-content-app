@@ -59,7 +59,7 @@ export class YourExtensionViewerComponent implements ViewerExtensionInterface {
   node: Node;
   
   
-  ....YOUR CUSTOM LOGIC
+  // ....YOUR CUSTOM LOGIC
 }
 ```
 

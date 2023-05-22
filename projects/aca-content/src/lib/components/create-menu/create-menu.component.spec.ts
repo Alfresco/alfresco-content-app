@@ -24,26 +24,34 @@
 
 import { CreateMenuComponent } from './create-menu.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CoreModule } from '@alfresco/adf-core';
 import { AppCreateMenuModule } from './create-menu.module';
 import { OverlayContainer, OverlayModule } from '@angular/cdk/overlay';
 import { AppExtensionService } from '@alfresco/aca-shared';
-import { ContentActionType } from '@alfresco/adf-extensions';
 import { By } from '@angular/platform-browser';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { of } from 'rxjs';
-import { getContentActionRef } from '../../testing/content-action-ref';
+import { ContentActionRef, ContentActionType } from '@alfresco/adf-extensions';
 
 describe('CreateMenuComponent', () => {
   let fixture: ComponentFixture<CreateMenuComponent>;
   let extensionService: AppExtensionService;
   let getCreateActionsSpy: jasmine.Spy;
 
+  const getContentActionRef = (): ContentActionRef => ({
+    id: 'id',
+    type: ContentActionType.button,
+    title: 'ACTION_TITLE',
+    disabled: false,
+    actions: {
+      click: 'ACTION_CLICK'
+    }
+  });
+
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, CoreModule.forRoot(), AppCreateMenuModule, OverlayModule, MatMenuModule, MatButtonModule]
+      imports: [AppTestingModule, AppCreateMenuModule, OverlayModule, MatMenuModule, MatButtonModule]
     });
 
     extensionService = TestBed.inject(AppExtensionService);

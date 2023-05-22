@@ -476,16 +476,6 @@
       "CANCEL": "取消",
       "UPLOAD": "上传"
     },
-    "FORM": {
-      "SUBTITLE": "对此版本进行了多大程度的变更？",
-      "VERSION": {
-        "MINOR": "次要 (#.1)",
-        "MAJOR": "主要 (2.0)"
-      },
-      "COMMENT": {
-        "PLACEHOLDER": "添加注释，描述变更内容"
-      }
-    },
     "SELECTION": {
       "EMPTY": "请选定一个文件去看它的版本。",
       "NO_PERMISSION": "您没有权限管理此内容的版本。"
@@ -496,7 +486,7 @@
   },
   "INFO_PANEL": {
     "TABS": {
-    
+
     },
     "DETAILS": "详细信息"
   },

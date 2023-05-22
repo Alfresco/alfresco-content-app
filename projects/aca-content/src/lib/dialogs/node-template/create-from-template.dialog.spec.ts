@@ -30,7 +30,6 @@ import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/materia
 import { Store } from '@ngrx/store';
 import { CreateFromTemplate } from '@alfresco/aca-shared/store';
 import { Node } from '@alfresco/js-api';
-import { TranslateModule } from '@ngx-translate/core';
 
 const text = (length: number) => new Array(length).fill(Math.random().toString().substring(2, 3)).join('');
 
@@ -52,7 +51,7 @@ describe('CreateFileFromTemplateDialogComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), CoreModule.forRoot(), AppTestingModule, MatDialogModule],
+      imports: [CoreModule.forRoot(), AppTestingModule, MatDialogModule],
       declarations: [CreateFromTemplateDialogComponent],
       providers: [
         {

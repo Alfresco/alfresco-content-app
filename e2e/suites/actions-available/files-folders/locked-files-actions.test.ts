@@ -50,7 +50,7 @@ describe('Locked Files - available actions : ', () => {
 
   beforeAll(async () => {
     await adminApiActions.createUser({ username });
-    userActions.login(username, username);
+    await userActions.login(username, username);
 
     parentId = await userApi.createFolder(parentName);
 

@@ -33,7 +33,7 @@ describe('AppSharedRuleGuard', () => {
     const guard = new AppSharedRuleGuard(store);
     const emittedSpy = jasmine.createSpy('emitted');
 
-    guard.canActivate({} as any).subscribe(emittedSpy);
+    guard.canActivate().subscribe(emittedSpy);
     expect(emittedSpy).toHaveBeenCalledWith(true);
   });
 
@@ -44,7 +44,7 @@ describe('AppSharedRuleGuard', () => {
     const guard = new AppSharedRuleGuard(store);
     const emittedSpy = jasmine.createSpy('emitted');
 
-    guard.canActivateChild({} as any).subscribe(emittedSpy);
+    guard.canActivateChild().subscribe(emittedSpy);
     expect(emittedSpy).toHaveBeenCalledWith(true);
   });
 });

@@ -124,7 +124,7 @@ describe('File Libraries', () => {
       const sitesList = await dataTable.getSitesNameAndVisibility();
 
       for (const site of Object.keys(expectedSitesVisibility)) {
-        await expect(sitesList[site]).toEqual(expectedSitesVisibility[site]);
+        expect(sitesList[site]).toEqual(expectedSitesVisibility[site]);
       }
     });
 
@@ -139,14 +139,14 @@ describe('File Libraries', () => {
       const sitesList = await dataTable.getSitesNameAndRole();
 
       for (const site of Object.keys(expectedSitesRoles)) {
-        await expect(sitesList[site]).toEqual(expectedSitesRoles[site]);
+        expect(sitesList[site]).toEqual(expectedSitesRoles[site]);
       }
     });
 
     it('[C217098] Site ID is displayed when two sites have the same name', async () => {
       const expectedSites = [`${siteName} (${siteId1})`, `${siteName} (${siteId2})`];
       const actualSites = await dataTable.getCellsContainingName(siteName);
-      await expect(actualSites.sort()).toEqual(expectedSites.sort());
+      expect(actualSites.sort()).toEqual(expectedSites.sort());
     });
 
     it('[C217096] Tooltip for sites without description', async () => {

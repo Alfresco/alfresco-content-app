@@ -31,13 +31,13 @@ import { AosEditOnlineService, IAosEditOnlineService } from '../aos-extension.se
 import { AosEffects } from './aos.effects';
 
 class AosEditOnlineServiceMock implements IAosEditOnlineService {
-  onActionEditOnlineAos(_node: MinimalNodeEntryEntity): void {}
+  onActionEditOnlineAos(): void {}
 }
 
 describe('AosEffects', () => {
   let aosActions$: Observable<AosAction>;
   let effects: AosEffects;
-  let aosEditOnlineServiceMock: AosEditOnlineServiceMock;
+  let aosEditOnlineService: AosEditOnlineService;
 
   beforeEach(() => {
     aosActions$ = new Observable<AosAction>();
@@ -54,11 +54,11 @@ describe('AosEffects', () => {
     });
 
     effects = TestBed.inject(AosEffects);
-    aosEditOnlineServiceMock = TestBed.inject(AosEditOnlineService);
+    aosEditOnlineService = TestBed.inject(AosEditOnlineService);
   });
 
   it('should call onActionEditOnlineAos on AOS_ACTION', () => {
-    const onActionEditOnlineAosSpy = spyOn(aosEditOnlineServiceMock, 'onActionEditOnlineAos');
+    const onActionEditOnlineAosSpy = spyOn(aosEditOnlineService, 'onActionEditOnlineAos');
 
     const payload = new MinimalNodeEntryEntity();
     const action = new AosAction(payload);

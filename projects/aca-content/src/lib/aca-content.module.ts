@@ -25,15 +25,7 @@
 import { HammerModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {
-  TRANSLATION_PROVIDER,
-  CoreModule,
-  AppConfigService,
-  DebugAppConfigService,
-  AuthGuardEcm,
-  LanguagePickerComponent,
-  NotificationHistoryComponent
-} from '@alfresco/adf-core';
+import { TRANSLATION_PROVIDER, CoreModule, AuthGuardEcm, LanguagePickerComponent, NotificationHistoryComponent } from '@alfresco/adf-core';
 import {
   ContentModule,
   ContentVersionService,
@@ -42,7 +34,7 @@ import {
   LibraryStatusColumnComponent,
   TrashcanNameColumnComponent
 } from '@alfresco/adf-content-services';
-import { DocumentBasePageService, ExtensionsDataLoaderGuard, PageLayoutModule, RouterExtensionService, SharedModule } from '@alfresco/aca-shared';
+import { DocumentBasePageService, ExtensionsDataLoaderGuard, PageLayoutModule, SharedModule } from '@alfresco/aca-shared';
 import * as rules from '@alfresco/aca-shared/rules';
 
 import { FilesComponent } from './components/files/files.component';
@@ -64,7 +56,6 @@ import { AppCommonModule } from './components/common/common.module';
 import { AppSearchInputModule } from './components/search/search-input.module';
 import { DocumentListCustomComponentsModule } from './components/dl-custom-components/document-list-custom-components.module';
 import { AppSearchResultsModule } from './components/search/search-results.module';
-import { AppNodeVersionModule } from './components/node-version/node-version.module';
 import { FavoritesComponent } from './components/favorites/favorites.component';
 import { RecentFilesComponent } from './components/recent-files/recent-files.component';
 import { SharedFilesComponent } from './components/shared-files/shared-files.component';
@@ -73,23 +64,7 @@ import { DetailsComponent } from './components/details/details.component';
 import { ContentUrlService } from './services/content-url.service';
 import { HomeComponent } from './components/home/home.component';
 
-import { CommonModule, registerLocaleData } from '@angular/common';
-import localeFr from '@angular/common/locales/fr';
-import localeDe from '@angular/common/locales/de';
-import localeIt from '@angular/common/locales/it';
-import localeEs from '@angular/common/locales/es';
-import localeJa from '@angular/common/locales/ja';
-import localeNl from '@angular/common/locales/nl';
-import localePt from '@angular/common/locales/pt';
-import localeNb from '@angular/common/locales/nb';
-import localeRu from '@angular/common/locales/ru';
-import localeCh from '@angular/common/locales/zh';
-import localeAr from '@angular/common/locales/ar';
-import localeCs from '@angular/common/locales/cs';
-import localePl from '@angular/common/locales/pl';
-import localeFi from '@angular/common/locales/fi';
-import localeDa from '@angular/common/locales/da';
-import localeSv from '@angular/common/locales/sv';
+import { CommonModule } from '@angular/common';
 import { LocationLinkComponent } from './components/common/location-link/location-link.component';
 import { LogoutComponent } from './components/common/logout/logout.component';
 import { ToggleSharedComponent } from './components/common/toggle-shared/toggle-shared.component';
@@ -120,23 +95,6 @@ import { ContentManagementService } from './services/content-management.service'
 import { ShellLayoutComponent, SHELL_NAVBAR_MIN_WIDTH } from '@alfresco/adf-core/shell';
 import { UserMenuComponent } from './components/sidenav/user-menu/user-menu.component';
 
-registerLocaleData(localeFr);
-registerLocaleData(localeDe);
-registerLocaleData(localeIt);
-registerLocaleData(localeEs);
-registerLocaleData(localeJa);
-registerLocaleData(localeNl);
-registerLocaleData(localePt);
-registerLocaleData(localeNb);
-registerLocaleData(localeRu);
-registerLocaleData(localeCh);
-registerLocaleData(localeAr);
-registerLocaleData(localeCs);
-registerLocaleData(localePl);
-registerLocaleData(localeFi);
-registerLocaleData(localeDa);
-registerLocaleData(localeSv);
-
 @NgModule({
   imports: [
     CommonModule,
@@ -161,7 +119,6 @@ registerLocaleData(localeSv);
     DocumentListCustomComponentsModule,
     AppSearchInputModule,
     AppSearchResultsModule,
-    AppNodeVersionModule,
     HammerModule,
     ViewProfileModule,
     AppTrashcanModule,
@@ -181,7 +138,6 @@ registerLocaleData(localeSv);
     UploadFilesDialogComponent
   ],
   providers: [
-    { provide: AppConfigService, useClass: DebugAppConfigService },
     { provide: ContentVersionService, useClass: ContentUrlService },
     { provide: DocumentBasePageService, useExisting: ContentManagementService },
     {
@@ -196,7 +152,7 @@ registerLocaleData(localeSv);
   ]
 })
 export class ContentServiceExtensionModule {
-  constructor(public extensions: ExtensionService, public routeExtensionService: RouterExtensionService) {
+  constructor(public extensions: ExtensionService) {
     extensions.setAuthGuards({
       'app.auth': AuthGuardEcm,
       'app.extensions.dataLoaderGuard': ExtensionsDataLoaderGuard

@@ -26,10 +26,10 @@ import { Locator, Page } from '@playwright/test';
 import { PlaywrightBase } from '../playwright-base';
 
 export abstract class BaseComponent extends PlaywrightBase {
-  private rootElement: string;
+  private readonly rootElement: string;
   private overlayElement = this.page.locator('.cdk-overlay-backdrop-showing');
 
-  constructor(page: Page, rootElement: string) {
+  protected constructor(page: Page, rootElement: string) {
     super(page);
     this.rootElement = rootElement;
   }

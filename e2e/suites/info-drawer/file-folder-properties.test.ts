@@ -253,7 +253,7 @@ describe('File / Folder properties', () => {
       await BrowserActions.click(page.toolbar.viewDetailsButton);
       await infoDrawer.waitForInfoDrawerToOpen();
       await infoDrawer.expandDetailsButton.click();
-      await expect(await infoDrawer.expandedDetailsPermissionsTab.isPresent()).toBe(true, 'Permissions tab is not displayed');
+      expect(await infoDrawer.expandedDetailsPermissionsTab.isPresent()).toBe(true, 'Permissions tab is not displayed');
 
       await page.clickPersonalFilesAndWait();
       await dataTable.selectItem(parent);
@@ -262,7 +262,7 @@ describe('File / Folder properties', () => {
       const expectedSelectedTabTitle = 'permissions';
       const actualSelectedTabTitle = await infoDrawer.selectedTab.getText();
 
-      await expect(actualSelectedTabTitle.toLowerCase()).toEqual(expectedSelectedTabTitle);
+      expect(actualSelectedTabTitle.toLowerCase()).toEqual(expectedSelectedTabTitle);
     });
   });
 });

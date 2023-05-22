@@ -23,7 +23,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot } from '@angular/router';
+import { CanActivate } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppStore, isQuickShareEnabled } from '@alfresco/aca-shared/store';
@@ -38,11 +38,11 @@ export class AppSharedRuleGuard implements CanActivate {
     this.isQuickShareEnabled$ = store.select(isQuickShareEnabled);
   }
 
-  canActivate(_: ActivatedRouteSnapshot): Observable<boolean> {
+  canActivate(): Observable<boolean> {
     return this.isQuickShareEnabled$;
   }
 
-  canActivateChild(route: ActivatedRouteSnapshot): Observable<boolean> {
-    return this.canActivate(route);
+  canActivateChild(): Observable<boolean> {
+    return this.canActivate();
   }
 }

@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Injectable, Injector, ComponentRef } from '@angular/core';
+import { ComponentRef, Injectable, Injector } from '@angular/core';
 import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { ContextMenuOverlayRef } from './context-menu-overlay';
@@ -97,7 +97,7 @@ export class ContextMenuService {
         }
       ]);
 
-    const overlayConfig = new OverlayConfig({
+    return new OverlayConfig({
       hasBackdrop: config.hasBackdrop,
       backdropClass: config.backdropClass,
       panelClass: config.panelClass,
@@ -105,7 +105,5 @@ export class ContextMenuService {
       positionStrategy,
       direction: this.direction
     });
-
-    return overlayConfig;
   }
 }

@@ -119,7 +119,7 @@ describe('Recent Files', () => {
 
   it('[C213176] Location column redirect - file in user Home', async () => {
     await dataTable.clickItemLocation(fileName2);
-    await expect(await breadcrumb.getAllItems()).toEqual(['Personal Files']);
+    expect(await breadcrumb.getAllItems()).toEqual(['Personal Files']);
   });
 
   it('[C280486] Location column redirect - file in folder', async () => {

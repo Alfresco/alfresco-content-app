@@ -23,7 +23,7 @@
  */
 
 import { ContentServiceExtensionService } from './content-service-extension.service';
-import { AppConfigService, AppConfigServiceMock, setupTestBed } from '@alfresco/adf-core';
+import { AppConfigService, AppConfigServiceMock } from '@alfresco/adf-core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { HttpClientModule } from '@angular/common/http';
@@ -32,12 +32,11 @@ describe('ContentServiceExtensionService', () => {
   let service: ContentServiceExtensionService;
   let appConfig: AppConfigService;
 
-  setupTestBed({
-    imports: [HttpClientModule],
-    providers: [{ provide: AppConfigService, useClass: AppConfigServiceMock }]
-  });
-
   beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientModule],
+      providers: [{ provide: AppConfigService, useClass: AppConfigServiceMock }]
+    });
     service = TestBed.inject(ContentServiceExtensionService);
     appConfig = TestBed.inject(AppConfigService);
     appConfig.config = Object.assign(appConfig.config, {

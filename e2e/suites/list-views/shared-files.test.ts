@@ -121,7 +121,7 @@ describe('Shared Files', () => {
 
   it('[C213666] Location column redirect - file in user Home', async () => {
     await dataTable.clickItemLocation(file4User);
-    await expect(await breadcrumb.getAllItems()).toEqual(['Personal Files']);
+    expect(await breadcrumb.getAllItems()).toEqual(['Personal Files']);
   });
 
   it('[C280490] Location column redirect - file in folder', async () => {

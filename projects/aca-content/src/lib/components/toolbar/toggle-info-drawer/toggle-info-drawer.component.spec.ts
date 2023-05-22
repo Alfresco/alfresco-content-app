@@ -25,7 +25,6 @@
 import { ToggleInfoDrawerComponent } from './toggle-info-drawer.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CoreModule } from '@angular/flex-layout';
-import { TranslateModule } from '@ngx-translate/core';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -40,7 +39,7 @@ describe('ToggleInfoDrawerComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), CoreModule, AppTestingModule],
+      imports: [CoreModule, AppTestingModule],
       providers: [{ provide: Store, useValue: storeMock }]
     });
 

@@ -26,24 +26,17 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { ContextMenuItemComponent } from './context-menu-item.component';
 import { ContextMenuModule } from './context-menu.module';
-import { TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
 import { AppExtensionService } from '@alfresco/aca-shared';
 
 describe('ContextMenuComponent', () => {
   let fixture: ComponentFixture<ContextMenuItemComponent>;
   let component: ContextMenuItemComponent;
-  let extensionsService;
+  let extensionsService: AppExtensionService;
   let contextItem;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        AppTestingModule,
-        ContextMenuModule,
-        TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
-        })
-      ],
+      imports: [AppTestingModule, ContextMenuModule],
       providers: [AppExtensionService]
     });
 

@@ -142,11 +142,9 @@ export class AppService implements OnDestroy {
 
     const { router } = this;
 
-    this.router.events
-      .pipe(filter((event) => event instanceof ActivationEnd && event.snapshot.children.length === 0))
-      .subscribe((_event: ActivationEnd) => {
-        this.store.dispatch(new SetCurrentUrlAction(router.url));
-      });
+    this.router.events.pipe(filter((event) => event instanceof ActivationEnd && event.snapshot.children.length === 0)).subscribe(() => {
+      this.store.dispatch(new SetCurrentUrlAction(router.url));
+    });
 
     this.router.events.pipe(filter((event) => event instanceof NavigationStart)).subscribe(() => {
       this.store.dispatch(new ResetSelectionAction());

@@ -33,8 +33,6 @@ import { of } from 'rxjs';
 
 describe('ActionsService', () => {
   let actionsService: ActionsService;
-  let apiCallSpy;
-  const params = [{}, {}, {}, {}, {}, ['application/json'], ['application/json']];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -67,10 +65,11 @@ describe('ActionsService', () => {
   });
 
   it('loadParameterConstraints should send GET request and return formatted observable', async () => {
+    const params = [{}, {}, {}, {}, {}, ['application/json'], ['application/json']];
     const constraintName = dummyConstraints[0].name;
     const formattedConstraints = dummyConstraints[0].constraints;
 
-    apiCallSpy = spyOn<any>(actionsService, 'publicApiCall')
+    const apiCallSpy = spyOn<any>(actionsService, 'publicApiCall')
       .withArgs(`/action-parameter-constraints/${constraintName}`, 'GET', params)
       .and.returnValue(of(rawConstraints));
 
@@ -81,7 +80,7 @@ describe('ActionsService', () => {
   });
 
   it('loadActionParameterConstraints should load the data into the observable', async () => {
-    spyOn<any>(actionsService, 'getParameterConstraints').and.returnValue(of(dummyConstraints[0].constraints));
+    spyOn(actionsService, 'getParameterConstraints').and.returnValue(of(dummyConstraints[0].constraints));
 
     const constraintsPromise = actionsService.parameterConstraints$.pipe(take(2)).toPromise();
 

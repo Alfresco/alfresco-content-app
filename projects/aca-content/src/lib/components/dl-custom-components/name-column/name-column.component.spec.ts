@@ -26,13 +26,13 @@ import { CustomNameColumnComponent } from './name-column.component';
 import { DocumentListCustomComponentsModule } from '../document-list-custom-components.module';
 import { Actions } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CoreModule } from '@alfresco/adf-core';
 import { TranslateModule } from '@ngx-translate/core';
 
 describe('CustomNameColumnComponent', () => {
-  let fixture;
-  let component;
+  let fixture: ComponentFixture<CustomNameColumnComponent>;
+  let component: CustomNameColumnComponent;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

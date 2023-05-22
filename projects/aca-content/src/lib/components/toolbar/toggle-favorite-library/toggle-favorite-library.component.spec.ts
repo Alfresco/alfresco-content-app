@@ -30,7 +30,6 @@ import { Store } from '@ngrx/store';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
 import { AppHookService, ContentApiService } from '@alfresco/aca-shared';
 
 describe('ToggleFavoriteLibraryComponent', () => {
@@ -46,7 +45,7 @@ describe('ToggleFavoriteLibraryComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), CoreModule.forRoot(), AppTestingModule],
+      imports: [CoreModule.forRoot(), AppTestingModule],
       declarations: [ToggleFavoriteLibraryComponent],
       providers: [
         {

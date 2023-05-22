@@ -26,10 +26,10 @@ import { MetadataTabComponent } from './metadata-tab.component';
 import { Node } from '@alfresco/js-api';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../../../testing/app-testing.module';
-import { AppConfigService, setupTestBed, CoreModule } from '@alfresco/adf-core';
+import { AppConfigService, CoreModule } from '@alfresco/adf-core';
 import { ContentMetadataModule } from '@alfresco/adf-content-services';
 import { Store } from '@ngrx/store';
-import { SetInfoDrawerMetadataAspectAction, AppState } from '@alfresco/aca-shared/store';
+import { AppState, SetInfoDrawerMetadataAspectAction } from '@alfresco/aca-shared/store';
 import { By } from '@angular/platform-browser';
 import { AppExtensionService } from '@alfresco/aca-shared';
 
@@ -46,9 +46,11 @@ describe('MetadataTabComponent', () => {
     custom: []
   };
 
-  setupTestBed({
-    imports: [CoreModule, AppTestingModule, ContentMetadataModule],
-    declarations: [MetadataTabComponent]
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [CoreModule, AppTestingModule, ContentMetadataModule],
+      declarations: [MetadataTabComponent]
+    });
   });
 
   afterEach(() => {
@@ -87,45 +89,37 @@ describe('MetadataTabComponent', () => {
     });
 
     it('should return true if node is not locked and has update permission', () => {
-      const node = {
+      component.node = {
         isLocked: false,
         allowableOperations: ['update']
       } as Node;
-
-      component.node = node;
       expect(component.canUpdateNode).toBe(true);
     });
 
     it('should return false if node is locked', () => {
-      const node = {
+      component.node = {
         isLocked: true,
         allowableOperations: ['update']
       } as Node;
-
-      component.node = node;
       expect(component.canUpdateNode).toBe(false);
     });
 
     it('should return false if node has no update permission', () => {
-      const node = {
+      component.node = {
         isLocked: false,
         allowableOperations: ['other']
       } as Node;
-
-      component.node = node;
       expect(component.canUpdateNode).toBe(false);
     });
 
     it('should return false if node has read only property', () => {
-      const node = {
+      component.node = {
         isLocked: false,
         allowableOperations: ['update'],
         properties: {
           'cm:lockType': 'WRITE_LOCK'
         }
       } as Node;
-
-      component.node = node;
       expect(component.canUpdateNode).toBe(false);
     });
   });

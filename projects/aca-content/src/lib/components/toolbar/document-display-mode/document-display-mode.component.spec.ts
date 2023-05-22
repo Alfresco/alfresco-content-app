@@ -25,7 +25,6 @@
 import { DocumentDisplayModeComponent } from './document-display-mode.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CoreModule } from '@angular/flex-layout';
-import { TranslateModule } from '@ngx-translate/core';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { of } from 'rxjs';
 
@@ -35,7 +34,7 @@ describe('DocumentDisplayModeComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), CoreModule, AppTestingModule]
+      imports: [CoreModule, AppTestingModule]
     });
 
     fixture = TestBed.createComponent(DocumentDisplayModeComponent);
