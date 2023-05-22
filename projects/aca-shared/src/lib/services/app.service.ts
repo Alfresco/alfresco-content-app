@@ -168,7 +168,7 @@ export class AppService implements OnDestroy {
       if (isReady) {
         this.loadRepositoryStatus();
         this.loadUserProfile();
-        this.getMobileAppDialog();
+        this.openMobileAppDialog();
       }
     });
 
@@ -265,7 +265,7 @@ export class AppService implements OnDestroy {
     document.head.appendChild(cssLinkElement);
   }
 
-  public getMobileAppDialog(): void {
+  public openMobileAppDialog(): void {
     const isMobileSwitchEnabled: boolean = this.config.get<boolean>('mobileAppSwitch.enabled', false);
     if (isMobileSwitchEnabled) {
       this.acaMobileAppSwitcherService.resolveExistenceOfDialog();

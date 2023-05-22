@@ -24,7 +24,6 @@
 
 import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { AcaMobileAppSwitcherService } from '../../services/aca-mobile-app-switcher.service';
 
 export interface OpenInAppDialogOptions {
   redirectUrl: string;
@@ -44,8 +43,7 @@ export class OpenInAppComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: OpenInAppDialogOptions,
-    private dialog: MatDialogRef<OpenInAppComponent>,
-    private acaMobileAppSwitcherService: AcaMobileAppSwitcherService
+    private dialog: MatDialogRef<OpenInAppComponent>
   ) {
     if (data) {
       this.redirectUrl = data.redirectUrl;
@@ -67,6 +65,5 @@ export class OpenInAppComponent {
     const time: number = new Date().getTime();
     sessionStorage.setItem('mobile_notification_expires_in', time.toString());
     this.dialog.close();
-    this.acaMobileAppSwitcherService.isDialogEnable = false;
   }
 }

@@ -66,7 +66,7 @@ export class SharedLinkViewComponent implements OnInit, OnDestroy {
       .subscribe(([sharedEntry, sharedId]: [SharedLinkEntry, string]) => {
         if (sharedEntry) {
           this.store.dispatch(new SetSelectedNodesAction([sharedEntry as any]));
-          this.appService.getMobileAppDialog();
+          this.appService.openMobileAppDialog();
         }
         this.sharedLinkId = sharedId;
       });

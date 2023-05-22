@@ -43,7 +43,6 @@ export class AcaMobileAppSwitcherService {
   public redirectUrl: string;
   public appStoreUrl: string;
   dialogRef: MatDialogRef<OpenInAppComponent>;
-  isDialogEnable = false;
 
   constructor(private config: AppConfigService, private dialog: MatDialog) {
     this.mobileAppSwitchConfig = this.config.get<MobileAppSwitchConfigurationOptions>('mobileAppSwitch');
@@ -99,7 +98,7 @@ export class AcaMobileAppSwitcherService {
   }
 
   openDialog(redirectUrl: string, appStoreUrl?: string): void {
-    if (!this.isDialogEnable) {
+    if (this.dialogRef === null || this.dialogRef === undefined) {
       this.dialogRef = this.dialog.open(OpenInAppComponent, {
         data: {
           redirectUrl,
@@ -110,7 +109,6 @@ export class AcaMobileAppSwitcherService {
         role: 'dialog',
         position: { bottom: '0' }
       });
-      this.isDialogEnable = true;
     }
   }
 
@@ -124,6 +122,6 @@ export class AcaMobileAppSwitcherService {
 
   closeDialog(): void {
     this.dialog.closeAll();
-    this.isDialogEnable = false;
+    this.dialogRef = null;
   }
 }
