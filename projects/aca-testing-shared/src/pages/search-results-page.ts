@@ -30,9 +30,6 @@ import { BrowserActions } from '@alfresco/adf-testing';
 
 export class SearchResultsPage extends BrowsingPage {
   root = this.byCss('aca-search-results');
-  chipList = this.root.element(by.css('.adf-search-chip-list'));
-  infoText = this.root.element(by.css('.adf-search-results--info-text'));
-
   sortingPicker = new SearchSortingPicker('aca-search-results');
   filters = new SearchFilters('aca-search-results');
 

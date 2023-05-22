@@ -28,8 +28,6 @@ import { BrowserActions } from '@alfresco/adf-testing';
 import { Menu } from '../menu/menu';
 
 export class ManageVersionsDialog extends GenericDialog {
-  closeButton = this.childElement(by.cssContainingText('.mat-button', 'Close'));
-
   menu = new Menu();
 
   constructor() {

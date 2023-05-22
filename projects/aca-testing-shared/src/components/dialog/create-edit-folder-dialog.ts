@@ -33,7 +33,6 @@ export class CreateOrEditFolderDialog extends GenericDialog {
   updateButton = this.childElement(by.cssContainingText('.mat-dialog-actions button', 'Update'));
 
   nameInput = this.rootElem.element(by.id('adf-folder-name-input'));
-  titleInput = this.rootElem.element(by.id('adf-folder-title-input'));
   descriptionTextArea = this.rootElem.element(by.id('adf-folder-description-input'));
   validationMessage = this.rootElem.element(by.css('.mat-hint span'));
 

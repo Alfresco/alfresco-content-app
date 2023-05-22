@@ -28,8 +28,6 @@ import { isPresentAndDisplayed } from '../../utilities/utils';
 import { BrowserActions, BrowserVisibility } from '@alfresco/adf-testing';
 
 export type SortByType = 'Relevance' | 'Title' | 'Filename' | 'Modified date' | 'Modifier' | 'Created date' | 'Size' | 'Type';
-export type SortOrderType = 'ASC' | 'DESC' | '';
-
 export class SearchSortingPicker extends Component {
   actionMenu = browser.element(by.css('aca-search-action-menu > button'));
   sortOrderButton = browser.element(by.css('#aca-button-sorting-menu'));
