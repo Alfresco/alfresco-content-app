@@ -137,12 +137,6 @@ export class Toolbar extends Component {
     await BrowserActions.click(this.createButton);
     await this.menu.waitForMenuToOpen();
   }
-
-  async closeCreateMenu(): Promise<void> {
-    await BrowserActions.click(element(by.css('button[id="app.toolbar.create"]')));
-    await this.menu.waitForMenuToClose();
-  }
-
   async openUploadMenu(): Promise<void> {
     await BrowserActions.click(this.uploadButton);
     await this.menu.waitForMenuToOpen();

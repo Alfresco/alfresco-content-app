@@ -22,7 +22,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { browser, protractor, ElementFinder, ExpectedConditions as EC, by, logging, until, WebElement } from 'protractor';
+import { browser, protractor, ElementFinder, ExpectedConditions as EC, by, until, WebElement } from 'protractor';
 import { BrowserVisibility, Logger } from '@alfresco/adf-testing';
 import { BROWSER_WAIT_TIMEOUT } from '../configs';
 import * as path from 'path';
@@ -185,10 +185,6 @@ export class Utils {
 
   static async releaseKeyPressed(): Promise<void> {
     await browser.actions().sendKeys(protractor.Key.NULL).perform();
-  }
-
-  static async getBrowserLog(): Promise<logging.Entry[]> {
-    return browser.manage().logs().get('browser');
   }
 
   static formatDate(date: string): string {

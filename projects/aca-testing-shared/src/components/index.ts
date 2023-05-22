@@ -28,7 +28,6 @@ export * from './data-table/data-table';
 export * from './datetime-picker/datetime-picker';
 export * from './dialog';
 export * from './header/header';
-export * from './header/user-info';
 export * from './info-drawer';
 export * from './login/login';
 export * from './menu/menu';

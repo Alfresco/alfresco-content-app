@@ -24,7 +24,6 @@
 
 import { by, browser } from 'protractor';
 import { Component } from '../component';
-import { UserInfo } from './user-info';
 import { Menu } from '../menu/menu';
 import { Toolbar } from './../toolbar/toolbar';
 import { SearchInput } from '../search/search-input';
@@ -32,11 +31,9 @@ import { waitElement } from '../../utilities/utils';
 import { BrowserActions } from '@alfresco/adf-testing';
 
 export class Header extends Component {
-  logoLink = this.byCss('.app-menu__title');
   userMenuButton = this.byCss(`.aca-user-menu-button`);
   sidenavToggle = this.byCss(`.sidenav-header-title-logo`);
 
-  userInfo = new UserInfo();
   menu = new Menu();
   toolbar = new Toolbar();
   searchInput = new SearchInput();
@@ -64,14 +61,6 @@ export class Header extends Component {
     if (!expanded) {
       await BrowserActions.click(this.sidenavToggle);
       await waitElement(`[data-automation-id='expanded']`);
-    }
-  }
-
-  async collapseSideNav(): Promise<void> {
-    const expanded = await this.isSidenavExpanded();
-    if (expanded) {
-      await BrowserActions.click(this.sidenavToggle);
-      await waitElement(`[data-automation-id='collapsed']`);
     }
   }
 }

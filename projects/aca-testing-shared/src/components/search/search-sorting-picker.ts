@@ -51,11 +51,6 @@ export class SearchSortingPicker extends Component {
   async isSortOrderButtonDisplayed(): Promise<boolean> {
     return isPresentAndDisplayed(this.actionMenu);
   }
-
-  async isSortByOptionDisplayed(): Promise<boolean> {
-    return isPresentAndDisplayed(this.sortOrderButton);
-  }
-
   async isSortByDropdownExpanded(): Promise<boolean> {
     return isPresentAndDisplayed(this.sortByDropdownExpanded);
   }

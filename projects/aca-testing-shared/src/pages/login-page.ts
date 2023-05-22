@@ -63,12 +63,4 @@ export class LoginPage extends Page {
   async loginWithAdmin() {
     await this.loginWith(browser.params.ADMIN_USERNAME, browser.params.ADMIN_PASSWORD);
   }
-
-  async tryLoginWith(username: string, password?: string) {
-    const pass = password || username;
-    await this.load();
-    await this.login.enterCredentials(username, pass);
-    await BrowserActions.click(this.login.submitButton);
-    await waitForPresence(this.login.errorMessage);
-  }
 }

@@ -127,13 +127,6 @@ export class SearchInput extends Component {
   async isClearSearchButtonPresent() {
     return browser.isElementPresent(this.clearSearchButton);
   }
-
-  async clickClearSearchButton() {
-    if (await this.isClearSearchButtonPresent()) {
-      await BrowserActions.click(this.clearSearchButton);
-    }
-  }
-
   async checkOnlyFiles() {
     await this.clearOptions();
     await this.clickFilesOption();

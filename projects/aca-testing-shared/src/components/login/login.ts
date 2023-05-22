@@ -29,7 +29,6 @@ export class LoginComponent extends Component {
   usernameInput = this.byCss('input#username');
   passwordInput = this.byCss('input#password');
   submitButton = this.byCss('button#login-button');
-  errorMessage = this.byCss('.adf-login-error-message');
   copyright = this.byCss('.adf-copyright');
   passwordVisibility = this.byCss('.adf-login-password-icon');
 

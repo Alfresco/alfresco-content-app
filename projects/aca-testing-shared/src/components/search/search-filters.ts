@@ -27,10 +27,8 @@ import { Component } from '../component';
 import { SizeFilter } from './filters/size-filter';
 import { CreatedDateFilter } from './filters/created-date-filter';
 import { FacetFilter } from './filters/facet-filter';
-import { isPresentAndDisplayed } from '../../utilities/utils';
 
 export class SearchFilters extends Component {
-  mainPanel = browser.element(by.css('adf-search-filter'));
   resetAllButton = browser.element(by.css('button[adf-reset-search]'));
 
   size = new SizeFilter();
@@ -43,9 +41,5 @@ export class SearchFilters extends Component {
 
   constructor(ancestor?: string) {
     super('adf-search-filter', ancestor);
-  }
-
-  async isSearchFiltersPanelDisplayed(): Promise<boolean> {
-    return isPresentAndDisplayed(this.mainPanel);
   }
 }

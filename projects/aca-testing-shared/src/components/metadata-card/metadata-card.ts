@@ -26,16 +26,11 @@ import { Component } from '../component';
 import { waitForPresence } from '../../utilities/utils';
 
 export class MetadataCard extends Component {
-  footer = this.byCss('.adf-content-metadata-card-footer');
   expandButton = this.byCss('[data-automation-id="meta-data-card-toggle-expand"]');
   expansionPanels = this.allByCss('.adf-metadata-grouped-properties-container mat-expansion-panel');
 
   constructor(ancestor?: string) {
     super('adf-content-metadata-card', ancestor);
-  }
-
-  async isExpandPresent() {
-    return this.expandButton.isPresent();
   }
 
   async waitForFirstExpansionPanel() {

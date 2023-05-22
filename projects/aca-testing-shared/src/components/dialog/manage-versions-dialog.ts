@@ -36,11 +36,6 @@ export class ManageVersionsDialog extends GenericDialog {
     super('.adf-new-version-uploader-dialog');
   }
 
-  async clickClose(): Promise<void> {
-    await BrowserActions.click(this.closeButton);
-    await this.waitForDialogToClose();
-  }
-
   async clickActionButton(version: string): Promise<void> {
     await BrowserActions.click(this.childElement(by.id(`adf-version-list-action-menu-button-${version}`)));
     await this.menu.waitForMenuToOpen();
