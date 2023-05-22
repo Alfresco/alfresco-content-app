@@ -51,6 +51,9 @@ testem.log
 .protractor-fail-fast
 .protractor-smartrunner
 /protractorFailuresReport
+/storage-state
+/e2e-playwright/storage-state
+
 
 # System Files
 .DS_Store
