@@ -24,10 +24,12 @@
 
 import { PlaywrightTestConfig, devices } from '@playwright/test';
 
+// Run from VSCode  ;
+// require('dotenv').config({ path: '../.env' });
 require('dotenv').config();
 
 export const config: PlaywrightTestConfig = {
-  testDir: './',
+  testDir: './test/tests',
   expect: {
     /**
      * Maximum time expect() should wait for the condition to be met.
@@ -43,9 +45,9 @@ export const config: PlaywrightTestConfig = {
   retries: process.env.CI ? 2 : 0,
   /* Opt out of parallel tests on CI. */
   workers: 5,
-  timeout: 20000,
+  timeout: 35000,
 
-  globalSetup: require.resolve('../../shared/base-config/global.setup'),
+  globalSetup: require.resolve('./shared/base-config/global.setup'),
   use: {
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
     storageState: './storage-state/AdminUserState.json',

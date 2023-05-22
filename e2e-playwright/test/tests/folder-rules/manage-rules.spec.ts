@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { test } from '../fixtures/page-initialization';
+import { test } from '../../fixtures/page-initialization';
 
 test.describe('Rules - Manage Rules', () => {
   const randomName = `playwright-folder-${(Math.random() + 1).toString(36).substring(6)}`;
