@@ -23,7 +23,6 @@
  */
 
 import { test } from '../fixtures/page-initialization';
-import { NodeBodyCreate } from '@alfresco/aca-testing-shared';
 import { ActionType } from '../page-objects/components/actions-dropdown.component';
 import { Comparator, Field } from '../page-objects/components/conditions.component';
 import { expect } from '@playwright/test';
@@ -36,7 +35,8 @@ test.describe('Folder Rules Conditions', () => {
   let folderId: string;
 
   test.beforeAll(async ({ apiClient }) => {
-    folderId = (await apiClient.nodes.createNode('-my-', new NodeBodyCreate(randomFolderName, 'cm:folder'))).entry.id;
+    const node = await apiClient.nodes.createNode('-my-', { name: randomFolderName, nodeType: 'cm:folder', relativePath: '/' });
+    folderId = node.entry.id;
   });
 
   test.beforeEach(async ({ personalFiles }) => {

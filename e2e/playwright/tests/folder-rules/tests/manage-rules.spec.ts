@@ -23,7 +23,6 @@
  */
 
 import { test } from '../fixtures/page-initialization';
-import { NodeBodyCreate } from '@alfresco/aca-testing-shared';
 
 test.describe('Rules - Manage Rules', () => {
   const randomName = `playwright-folder-${(Math.random() + 1).toString(36).substring(6)}`;
@@ -32,7 +31,8 @@ test.describe('Rules - Manage Rules', () => {
   let folderId: string;
 
   test.beforeAll(async ({ apiClient }) => {
-    folderId = (await apiClient.nodes.createNode('-my-', new NodeBodyCreate(randomName, 'cm:folder'))).entry.id;
+    const node = await apiClient.nodes.createNode('-my-', { name: randomName, nodeType: 'cm:folder', relativePath: '/' });
+    folderId = node.entry.id;
     await apiClient.createRandomRule(folderId, randomRuleName);
   });
 
