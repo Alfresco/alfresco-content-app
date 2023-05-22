@@ -24,7 +24,7 @@
 
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { PeopleApi, Person } from '@alfresco/js-api';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable, Subject, throwError } from 'rxjs';
@@ -37,7 +37,7 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./view-profile.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class ViewProfileComponent implements OnInit {
+export class ViewProfileComponent implements OnInit, OnDestroy {
   peopleApi: PeopleApi;
 
   profileForm: FormGroup;
@@ -196,5 +196,10 @@ export class ViewProfileComponent implements OnInit {
 
   isSaveButtonDisabled(): boolean {
     return this.profileForm.invalid;
+  }
+
+  ngOnDestroy() {
+    this.onDestroy$.next(true);
+    this.onDestroy$.complete();
   }
 }
