@@ -81,7 +81,6 @@ export class ActionsDropdownComponent extends BaseComponent {
 
   async dropdownSelection(selectValue: string, locator: string, index: number): Promise<void> {
     await this.ruleActionLocator.nth(index).locator(locator).click();
-    // const option = this.getOptionLocator(selectValue);
     await this.getOptionLocator(selectValue).nth(0).click();
   }
 

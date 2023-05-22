@@ -44,8 +44,8 @@ test.describe('Rules - Manage Rules', () => {
     await apiClient.nodes.deleteNode(folderId);
   });
 
-  // test('Disable an existing rule', async ({ personalFiles, nodesPage }) => {
-  //   await personalFiles.dataTable.performActionFromExpandableMenu(randomName, 'Manage rules');
-  //   await nodesPage.manageRules.disableRuleToggle.click();
-  // });
+  test('Disable an existing rule', async ({ personalFiles, nodesPage }) => {
+    await personalFiles.dataTable.performActionFromExpandableMenu(randomName, 'Manage rules');
+    await nodesPage.manageRules.disableRuleToggle.click();
+  });
 });
