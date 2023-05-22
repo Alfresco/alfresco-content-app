@@ -27,7 +27,9 @@ import { PeopleApi, Person } from '@alfresco/js-api';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { throwError } from 'rxjs';
+import { Observable, Subject, throwError } from 'rxjs';
+import { AppService } from '@alfresco/aca-shared';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-view-profile',
@@ -50,9 +52,12 @@ export class ViewProfileComponent implements OnInit {
 
   contactSectionDropdown = false;
   contactSectionButtonsToggle = true;
+  appNavNarMode$: Observable<'collapsed' | 'expanded'>;
+  private onDestroy$ = new Subject<boolean>();
 
-  constructor(private router: Router, apiService: AlfrescoApiService) {
+  constructor(private router: Router, apiService: AlfrescoApiService, private appService: AppService) {
     this.peopleApi = new PeopleApi(apiService.getInstance());
+    this.appNavNarMode$ = appService.appNavNarMode$.pipe(takeUntil(this.onDestroy$));
   }
 
   ngOnInit() {
@@ -66,6 +71,10 @@ export class ViewProfileComponent implements OnInit {
       .catch((error) => {
         throwError(error);
       });
+  }
+
+  toggleClick() {
+    this.appService.toggleAppNavBar$.next();
   }
 
   populateForm(userInfo: Person) {
