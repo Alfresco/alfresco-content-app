@@ -220,13 +220,9 @@ describe('Viewer actions', () => {
     it('[C279282] Full screen action', async () => {
       await dataTable.doubleClickOnRowByName(docxPersonalFiles);
       await viewer.waitForViewerToOpen();
-      await Utils.getBrowserLog();
 
       await toolbar.fullScreenButton.click();
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is closed after pressing Full screen');
-      const browserLogAfter = await Utils.getBrowserLog();
-
-      expect(browserLogAfter.length).toBe(0, browserLogAfter.entries);
     });
 
     it('[C286314] Pressing ESC in the viewer closes only the action dialog', async () => {

@@ -28,10 +28,6 @@ import { Component } from '../component';
 import { waitForPresence, waitForStaleness, typeText } from '../../utilities/utils';
 
 export class LibraryMetadata extends Component {
-  metadataTabContent = this.byCss('.mat-card-content');
-  metadataTabAction = this.byCss('.mat-card-actions .mat-button');
-  fieldLabelWrapper = this.byCss('.mat-form-field-label-wrapper');
-  fieldInput = this.byCss('.mat-input-element');
   visibilityDropDown = this.component.element(by.css('.mat-select'));
   visibilityPublic = this.byCssText('.mat-option .mat-option-text', 'Public', browser);
   visibilityPrivate = this.byCssText('.mat-option .mat-option-text', 'Private', browser);

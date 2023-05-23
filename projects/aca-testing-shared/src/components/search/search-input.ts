@@ -42,8 +42,6 @@ export class SearchInput extends Component {
   searchFilesOption = this.searchOptionsArea.element(by.cssContainingText('.mat-checkbox', 'Files'));
   searchFoldersOption = this.searchOptionsArea.element(by.cssContainingText('.mat-checkbox', 'Folders'));
   searchLibrariesOption = this.searchOptionsArea.element(by.cssContainingText('.mat-checkbox', 'Libraries'));
-  clearSearchButton = this.searchContainer.$('.app-clear-icon');
-
   constructor(ancestor?: string) {
     super('aca-search-input', ancestor);
   }
@@ -123,17 +121,6 @@ export class SearchInput extends Component {
       await this.clickLibrariesOption();
     }
   }
-
-  async isClearSearchButtonPresent() {
-    return browser.isElementPresent(this.clearSearchButton);
-  }
-
-  async clickClearSearchButton() {
-    if (await this.isClearSearchButtonPresent()) {
-      await BrowserActions.click(this.clearSearchButton);
-    }
-  }
-
   async checkOnlyFiles() {
     await this.clearOptions();
     await this.clickFilesOption();

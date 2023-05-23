@@ -24,7 +24,6 @@
 
 import { ElementFinder, ElementArrayFinder, by, browser } from 'protractor';
 import { GenericFilter } from './generic-filter';
-import { BrowserActions } from '@alfresco/adf-testing';
 
 export class FacetFilter extends GenericFilter {
   private readonly locators = {
@@ -58,21 +57,6 @@ export class FacetFilter extends GenericFilter {
       return option.getText();
     });
   }
-
-  async resetPanel(): Promise<void> {
-    if ((await this.selectedFacets.count()) > 0) {
-      await this.openDialog();
-      await this.selectedFacets.each(async (elem) => {
-        await BrowserActions.click(elem);
-      });
-    }
-    await this.openDialog();
-  }
-
-  async isFilterFacetsDisplayed(): Promise<boolean> {
-    return this.facetsFilter.isDisplayed();
-  }
-
   async isFilterCategoryInputDisplayed(): Promise<boolean> {
     return this.filterCategoryInput.isDisplayed();
   }

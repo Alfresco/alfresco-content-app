@@ -89,12 +89,4 @@ export class CreateLibraryDialog extends GenericDialog {
   async isPublicChecked(): Promise<boolean> {
     return this.isChecked(this.visibilityPublic);
   }
-
-  async isModeratedChecked(): Promise<boolean> {
-    return this.isChecked(this.visibilityModerated);
-  }
-
-  async isPrivateChecked(): Promise<boolean> {
-    return this.isChecked(this.visibilityPrivate);
-  }
 }

@@ -23,7 +23,6 @@
  */
 
 export * from './favorites/favorites-api';
-export * from './nodes/node-body-create';
 export * from './nodes/node-content-tree';
 export * from './nodes/nodes-api';
 export * from './people/people-api-models';

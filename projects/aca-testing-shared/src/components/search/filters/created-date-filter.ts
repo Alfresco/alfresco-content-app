@@ -38,19 +38,9 @@ export class CreatedDateFilter extends GenericFilter {
   toField: ElementFinder = this.filterDialogOpened.element(by.cssContainingText('.adf-search-date-range .mat-form-field', 'To'));
   toInput: ElementFinder = this.toField.element(by.css(`[data-automation-id='date-range-to-input']`));
   toFieldError: ElementFinder = this.toField.element(by.css(`[data-automation-id='date-range-to-error']`));
-
-  async isFromFieldDisplayed(): Promise<boolean> {
-    return isPresentAndDisplayed(this.fromField);
-  }
-
   async isFromErrorDisplayed(): Promise<boolean> {
     return isPresentAndDisplayed(this.fromFieldError);
   }
-
-  async isToFieldDisplayed(): Promise<boolean> {
-    return isPresentAndDisplayed(this.toField);
-  }
-
   async isToErrorDisplayed(): Promise<boolean> {
     return isPresentAndDisplayed(this.toFieldError);
   }
@@ -78,17 +68,6 @@ export class CreatedDateFilter extends GenericFilter {
       return '';
     }
   }
-
-  async resetPanel(): Promise<void> {
-    const fromValue = await this.getFromValue();
-    const toValue = await this.getToValue();
-    if (fromValue.length > 0 || toValue.length > 0) {
-      await this.openDialog();
-      await this.clickResetButton();
-      await this.closeDialog();
-    }
-  }
-
   async enterFromDate(date: string): Promise<void> {
     await this.openDialog();
     await BrowserActions.clearWithBackSpace(this.fromInput);

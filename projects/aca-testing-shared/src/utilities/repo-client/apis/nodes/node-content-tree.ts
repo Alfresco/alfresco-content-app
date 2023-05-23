@@ -22,7 +22,10 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NodeBodyCreate, NODE_TYPE_FILE, NODE_TYPE_FOLDER, NODE_TITLE, NODE_DESCRIPTION } from './node-body-create';
+const NODE_TYPE_FILE = 'cm:content';
+const NODE_TYPE_FOLDER = 'cm:folder';
+const NODE_TITLE = 'cm:title';
+const NODE_DESCRIPTION = 'cm:description';
 
 export interface NodeContentTree {
   name?: string;
@@ -30,6 +33,14 @@ export interface NodeContentTree {
   folders?: (string | NodeContentTree)[];
   title?: string;
   description?: string;
+}
+
+export interface NodeBodyCreate {
+  name: string;
+  nodeType: string;
+  relativePath: string;
+  aspectNames?: string[];
+  properties?: any[];
 }
 
 export function flattenNodeContentTree(content: NodeContentTree, relativePath: string = '/'): NodeBodyCreate[] {

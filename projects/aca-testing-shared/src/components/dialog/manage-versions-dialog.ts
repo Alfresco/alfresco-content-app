@@ -28,17 +28,10 @@ import { BrowserActions } from '@alfresco/adf-testing';
 import { Menu } from '../menu/menu';
 
 export class ManageVersionsDialog extends GenericDialog {
-  closeButton = this.childElement(by.cssContainingText('.mat-button', 'Close'));
-
   menu = new Menu();
 
   constructor() {
     super('.adf-new-version-uploader-dialog');
-  }
-
-  async clickClose(): Promise<void> {
-    await BrowserActions.click(this.closeButton);
-    await this.waitForDialogToClose();
   }
 
   async clickActionButton(version: string): Promise<void> {

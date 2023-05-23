@@ -32,24 +32,16 @@ export class Menu extends Component {
 
   uploadFilesInput = this.byId('app-upload-files', browser);
   submenus = browser.element.all(by.css('app-context-menu-item .mat-menu-item'));
-
-  uploadFileAction = this.byId('app.create.uploadFile');
-  uploadFolderAction = this.byId('app.create.uploadFolder');
   createFolderAction = this.byId('app.create.folder');
   createLibraryAction = this.byId('app.create.library');
   createFileFromTemplateAction = this.byId('app.create.fileFromTemplate');
   createFolderFromTemplateAction = this.byId('app.create.folderFromTemplate');
 
   cancelEditingAction = this.byCss(`.mat-menu-item[title='Cancel Editing']`);
-  cancelJoinAction = this.byCssText('.mat-menu-item', 'Cancel Join');
   copyAction = this.byTitleAttr('Copy');
-  downloadAction = this.byCssText('.mat-menu-item', 'Download');
   editFolderAction = this.byCss(`.mat-menu-item[id$='editFolder']`);
   editOfflineAction = this.byCss(`.mat-menu-item[title='Edit Offline']`);
-  joinAction = this.byCssText('.mat-menu-item', 'Join');
-  leaveAction = this.byCssText('.mat-menu-item', 'Leave');
   managePermissionsAction = this.byCssText('.mat-menu-item', 'Permissions');
-  restoreAction = this.byCssText('.mat-menu-item', 'Restore');
   shareAction = this.byCssText('.mat-menu-item', 'Share');
   shareEditAction = this.byCssText('.mat-menu-item', 'Shared Link Settings');
 
@@ -77,10 +69,6 @@ export class Menu extends Component {
 
   private getItemByLabel(menuItem: string): ElementFinder {
     return this.byCssText('.mat-menu-item', menuItem);
-  }
-
-  private getSubItemByLabel(subMenuItem: string): ElementFinder {
-    return this.byCssText('app-context-menu-item .mat-menu-item', subMenuItem);
   }
 
   getItemById(id: string): ElementFinder {
@@ -154,15 +142,6 @@ export class Menu extends Component {
     }
   }
 
-  async clickSubMenuItem(subMenuItem: string): Promise<void> {
-    try {
-      const elem = this.getSubItemByLabel(subMenuItem);
-      await BrowserActions.click(elem);
-    } catch (e) {
-      Logger.error('___click submenu item catch___', e);
-    }
-  }
-
   async isMenuItemPresent(title: string): Promise<boolean> {
     return browser.element(by.cssContainingText('.mat-menu-item', title)).isPresent();
   }
@@ -191,14 +170,6 @@ export class Menu extends Component {
 
   async isCreateLibraryEnabled(): Promise<boolean> {
     return isPresentAndEnabled(this.createLibraryAction);
-  }
-
-  async isUploadFileEnabled(): Promise<boolean> {
-    return isPresentAndEnabled(this.uploadFileAction);
-  }
-
-  async isUploadFolderEnabled(): Promise<boolean> {
-    return isPresentAndEnabled(this.uploadFolderAction);
   }
 
   async isCreateFileFromTemplateEnabled(): Promise<boolean> {

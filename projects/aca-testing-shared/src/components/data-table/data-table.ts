@@ -23,7 +23,7 @@
  */
 
 import { browser, by, ElementArrayFinder, ElementFinder, protractor } from 'protractor';
-import { BrowserActions, BrowserVisibility, Logger } from '@alfresco/adf-testing';
+import { BrowserVisibility, Logger } from '@alfresco/adf-testing';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
 import { Menu } from '../menu/menu';
@@ -214,14 +214,6 @@ export class DataTable extends Component {
     if (await this.hasLockOwnerInfo(itemName, location)) {
       const row = this.getRowByName(itemName, location);
       return row.$(DataTable.selectors.lockOwner).$('.locked_by--name').getText();
-    }
-    return '';
-  }
-
-  async getLockOwnerToolTip(itemName: string, location: string = ''): Promise<string> {
-    if (await this.hasLockIcon(itemName, location)) {
-      const row = this.getRowByName(itemName, location);
-      return BrowserActions.getAttribute(row.element(by.css('img[src*="lock"]')), 'alt');
     }
     return '';
   }

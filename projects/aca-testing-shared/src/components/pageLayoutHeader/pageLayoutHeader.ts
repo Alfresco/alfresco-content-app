@@ -23,54 +23,17 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { by, browser } from 'protractor';
 import { Component } from '../component';
 import { Menu } from '../menu/menu';
 import { Toolbar } from '../toolbar/toolbar';
 import { SearchInput } from '../search/search-input';
-import { waitElement } from '../../utilities/utils';
-import { BrowserActions } from '@alfresco/adf-testing';
 
 export class PageLayoutHeader extends Component {
-  logoLink = this.byCss('.app-menu__title');
-  moreActions = browser.element(by.id('app.header.more'));
-  sidenavToggle = this.byCss(`.sidenav-header-title-logo`);
-
   menu = new Menu();
   toolbar = new Toolbar();
   searchInput = new SearchInput();
 
   constructor(ancestor?: string) {
     super('aca-page-layout', ancestor);
-  }
-
-  async openMoreMenu(): Promise<void> {
-    await BrowserActions.click(this.moreActions);
-    await this.menu.waitForMenuToOpen();
-  }
-
-  async closeMoreMenu(): Promise<void> {
-    await BrowserActions.click(this.moreActions);
-    await this.menu.waitForMenuToClose();
-  }
-
-  async isSidenavExpanded(): Promise<boolean> {
-    return browser.isElementPresent(by.css(`[data-automation-id='expanded']`));
-  }
-
-  async expandSideNav(): Promise<void> {
-    const expanded = await this.isSidenavExpanded();
-    if (!expanded) {
-      await BrowserActions.click(this.sidenavToggle);
-      await waitElement(`[data-automation-id='expanded']`);
-    }
-  }
-
-  async collapseSideNav(): Promise<void> {
-    const expanded = await this.isSidenavExpanded();
-    if (expanded) {
-      await BrowserActions.click(this.sidenavToggle);
-      await waitElement(`[data-automation-id='collapsed']`);
-    }
   }
 }

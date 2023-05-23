@@ -30,7 +30,6 @@ import { waitElement } from '../../utilities';
 
 export class Sidenav extends Component {
   links = this.component.all(by.css('.item'));
-  activeLink = this.byCss('.action-button--active');
   newButton = element(By.css('[id="app.toolbar.create"]'));
   personalFiles = this.byCss(`[data-automation-id='app.navbar.personalFiles']`);
   fileLibraries = this.byCss(`[data-automation-id='app.navbar.libraries.menu']`);
@@ -82,36 +81,10 @@ export class Sidenav extends Component {
     await this.openNewMenu();
     await BrowserActions.click(this.menu.createFolderAction);
   }
-
-  async openCreateLibraryDialog(): Promise<void> {
-    await this.openNewMenu();
-    await BrowserActions.click(this.menu.createLibraryAction);
-  }
-
-  async openCreateFileFromTemplateDialog(): Promise<void> {
-    await this.openNewMenu();
-    await BrowserActions.click(this.menu.createFileFromTemplateAction);
-  }
-
-  async openCreateFolderFromTemplateDialog(): Promise<void> {
-    await this.openNewMenu();
-    await BrowserActions.click(this.menu.createFolderFromTemplateAction);
-  }
-
   async isActive(name: string): Promise<boolean> {
     const cssClass = await this.getLinkLabel(name).getAttribute('class');
     return cssClass.includes('action-button--active');
   }
-
-  async childIsActive(name: string): Promise<boolean> {
-    const childClass = await this.getLinkLabel(name).element(by.css('span')).getAttribute('class');
-    return childClass.includes('action-button--active');
-  }
-
-  getLink(name: string): ElementFinder {
-    return this.getLinkLabel(name).element(by.xpath('..'));
-  }
-
   private getLinkLabel(name: string): ElementFinder {
     switch (name) {
       case 'Personal Files':

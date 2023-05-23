@@ -36,10 +36,7 @@ export abstract class Page {
   overlay = this.byCss('.cdk-overlay-container');
   snackBar = this.byCss(`[data-automation-id='adf-snackbar-message-content-action-button']`);
   dialogContainer = this.byCss('.mat-dialog-container');
-  snackBarContainer = this.byCss('.mat-snack-bar-container');
-  snackBarAction = this.byCss(`[data-automation-id='adf-snackbar-message-content-action-button']`);
   genericError = this.byCss('aca-generic-error');
-  genericErrorIcon = this.byCss('aca-generic-error .mat-icon');
   genericErrorTitle = this.byCss('.generic-error__title');
 
   uploadFilesDialog = new UploadFilesDialog();

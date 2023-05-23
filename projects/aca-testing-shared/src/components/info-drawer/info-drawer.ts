@@ -36,12 +36,9 @@ export class InfoDrawer extends Component {
   propertiesTab = new ContentMetadata('adf-info-drawer');
   header = this.byCss('.adf-info-drawer-layout-header');
   headerTitle = this.byCss('.adf-info-drawer-layout-header-title');
-  tabLabel = this.byCss('.mat-tab-label-content');
   tabLabelsList = this.allByCss('.mat-tab-label-content');
   tabActiveLabel = this.byCss('.mat-tab-label-active');
   tabActiveContent = this.byCss('.mat-tab-body-active .mat-tab-body-content adf-dynamic-tab');
-  nextButton = this.byCss('.mat-tab-header-pagination-after .mat-tab-header-pagination-chevron');
-  previousButton = this.byCss('.mat-tab-header-pagination-before .mat-tab-header-pagination-chevron');
   expandDetailsButton = TestElement.byCss(`button[title='Expand']`);
   selectedTab = TestElement.byCss(`.mat-tab-list [aria-selected='true'] div`);
   expandedDetailsPermissionsTab = TestElement.byText('.acs-details-container .mat-tab-label-content', 'Permissions');
@@ -104,16 +101,8 @@ export class InfoDrawer extends Component {
     return this.headerTitle.getText();
   }
 
-  async isAboutTabDisplayed() {
-    return this.isTabDisplayed('About');
-  }
-
   async isPropertiesTabDisplayed() {
     return this.isTabDisplayed('Properties');
-  }
-
-  async isPropertiesTabActive() {
-    return (await this.getActiveTabTitle()) === 'PROPERTIES';
   }
 
   async isCommentsTabDisplayed() {

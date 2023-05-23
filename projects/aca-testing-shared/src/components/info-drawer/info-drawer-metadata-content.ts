@@ -29,9 +29,6 @@ import { BrowserActions, BrowserVisibility } from '@alfresco/adf-testing';
 
 export class ContentMetadata extends Component {
   expandedPanel = this.byCss('.mat-expansion-panel.mat-expanded');
-  propertyList = this.byCss('.adf-property-list');
-  propertyListElements = this.allByCss('.adf-property');
-  propertyValue = this.byCss('.adf-property-value');
   editPropertiesButton = this.byCss(`button[title='Edit']`);
   lessInfoButton = this.byCssText(`[data-automation-id='meta-data-card-toggle-expand']`, 'Less information');
   moreInfoButton = this.byCssText(`[data-automation-id='meta-data-card-toggle-expand']`, 'More information');

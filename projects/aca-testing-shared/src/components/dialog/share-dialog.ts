@@ -88,12 +88,6 @@ export class ShareDialog extends GenericDialog {
     return toggleClass.includes('checked');
   }
 
-  async closeDatetimePicker(): Promise<void> {
-    if (await this.dateTimePicker.isCalendarOpen()) {
-      await BrowserActions.click(this.datetimePickerButton);
-    }
-  }
-
   async getExpireDate(): Promise<string> {
     return BrowserActions.getInputValue(this.expireInput);
   }
