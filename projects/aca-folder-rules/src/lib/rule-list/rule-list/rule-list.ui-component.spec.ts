@@ -52,7 +52,7 @@ describe('RuleListUiComponent', () => {
   });
 
   it('should show "Rules from current folder" as a title if the main rule set is owned', () => {
-    component.mainRuleSet$ = ownedRuleSetMock;
+    component.mainRuleSet = ownedRuleSetMock;
     fixture.detectChanges();
 
     const mainRuleSetTitleElement = debugElement.query(By.css(`[data-automation-id="main-rule-set-title"]`));
@@ -60,7 +60,7 @@ describe('RuleListUiComponent', () => {
   });
 
   it('should show "Rules from linked folder" as a title if the main rule set is linked', () => {
-    component.mainRuleSet$ = ruleSetWithLinkMock;
+    component.mainRuleSet = ruleSetWithLinkMock;
     fixture.detectChanges();
 
     const mainRuleSetTitleElement = debugElement.query(By.css(`[data-automation-id="main-rule-set-title"]`));
