@@ -26,6 +26,7 @@
     "affected:lint": "nx affected:lint",
     "affected:dep-graph": "nx affected:dep-graph",
     "affected": "nx affected",
+    "playwright": "npx playwright test --config=e2e-playwright/",
     "print-affected:app": "nx print-affected --type=app --select=projects",
     "print-affected:projects": "nx print-affected --type=lib --select=projects",
     "print-affected:build": "nx print-affected --target=build --select=tasks.target.project",

@@ -24,8 +24,6 @@
 
 import { PlaywrightTestConfig, devices } from '@playwright/test';
 
-// Run from VSCode  ;
-// require('dotenv').config({ path: '../.env' });
 require('dotenv').config();
 
 export const config: PlaywrightTestConfig = {
