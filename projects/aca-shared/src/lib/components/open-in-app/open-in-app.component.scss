@@ -11,10 +11,15 @@
 .open-in-app.mat-button {
   overflow-x: hidden;
   font-size: 16px;
+  width: 100%;
 }
 
 .open-in-app.mat-button.cdk-program-focused .mat-button-focus-overlay {
   opacity: 0;
+}
+
+.open-in-app.mat-button.cdk-touch-focused {
+  background-color: var(--theme-primary-color);
 }
 
 .cross-button.mat-button.cdk-program-focused .mat-button-focus-overlay {

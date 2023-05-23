@@ -82,7 +82,8 @@ export class AcaMobileAppSwitcherService {
   identifyBrowserAndSetRedirectURL(): void {
     const ua: string = navigator.userAgent.toLowerCase();
     const isAndroid: boolean = ua.indexOf('android') > -1;
-    const isIOS: boolean = ua.indexOf('iphone') > -1 || ua.indexOf('ipad') > -1 || ua.indexOf('ipod') > -1;
+    const iPadInSafari = /Macintosh/i.test(ua) && navigator.maxTouchPoints && navigator.maxTouchPoints > 1;
+    const isIOS: boolean = ua.indexOf('iphone') > -1 || ua.indexOf('ipad') > -1 || ua.indexOf('ipod') > -1 || iPadInSafari;
     const currentUrl: string = this.getCurrentUrl();
 
     if (isIOS === true) {
