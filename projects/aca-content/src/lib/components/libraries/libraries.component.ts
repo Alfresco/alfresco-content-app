@@ -23,7 +23,7 @@
  */
 
 import { NavigateLibraryAction } from '@alfresco/aca-shared/store';
-import { SiteEntry } from '@alfresco/js-api';
+import { MinimalNodeEntity, SiteEntry } from '@alfresco/js-api';
 import { Component, OnInit } from '@angular/core';
 import { AppHookService, PageComponent } from '@alfresco/aca-shared';
 import { DocumentListPresetRef } from '@alfresco/adf-extensions';
@@ -33,6 +33,8 @@ import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 })
 export class LibrariesComponent extends PageComponent implements OnInit {
   columns: DocumentListPresetRef[] = [];
+
+  protected readonly MinimalNodeEntity = MinimalNodeEntity;
 
   constructor(private appHookService: AppHookService) {
     super();

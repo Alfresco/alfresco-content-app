@@ -61,14 +61,8 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
   @Input()
   nodeId = '';
 
-  private _actionDefinitions: ActionDefinitionTransformed[];
   @Input()
-  get actionDefinitions(): ActionDefinitionTransformed[] {
-    return this._actionDefinitions;
-  }
-  set actionDefinitions(value: ActionDefinitionTransformed[]) {
-    this._actionDefinitions = value.sort((a, b) => a.title.localeCompare(b.title));
-  }
+  actionDefinitions: ActionDefinitionTransformed[];
 
   @Input()
   readOnly = false;
@@ -129,6 +123,8 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
   }
 
   ngOnInit() {
+    this.actionDefinitions = this.actionDefinitions.sort((a, b) => a.title.localeCompare(b.title));
+
     this.form.valueChanges.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
       this.setDefaultParameters();
       this.setCardViewProperties();

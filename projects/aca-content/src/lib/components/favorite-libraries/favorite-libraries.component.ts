@@ -23,7 +23,7 @@
  */
 
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { SiteEntry, FavoritePaging, Pagination } from '@alfresco/js-api';
+import { SiteEntry, FavoritePaging, Pagination, NodePaging } from '@alfresco/js-api';
 import { AppHookService, ContentApiService, PageComponent } from '@alfresco/aca-shared';
 import { NavigateLibraryAction } from '@alfresco/aca-shared/store';
 import { UserPreferencesService } from '@alfresco/adf-core';
@@ -41,6 +41,8 @@ export class FavoriteLibrariesComponent extends PageComponent implements OnInit 
   isLoading = false;
   list: FavoritePaging;
   columns: DocumentListPresetRef[] = [];
+
+  protected readonly NodePaging = NodePaging;
 
   constructor(
     private appHookService: AppHookService,
