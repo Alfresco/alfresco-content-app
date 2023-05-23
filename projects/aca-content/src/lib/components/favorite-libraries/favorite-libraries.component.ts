@@ -30,18 +30,7 @@ import { UserPreferencesService } from '@alfresco/adf-core';
 import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 
 @Component({
-  templateUrl: './favorite-libraries.component.html',
-  styles: [
-    `
-      .sidebar {
-        display: block;
-        height: 100%;
-        overflow-y: scroll;
-        max-width: 350px;
-        width: 350px;
-      }
-    `
-  ]
+  templateUrl: './favorite-libraries.component.html'
 })
 export class FavoriteLibrariesComponent extends PageComponent implements OnInit {
   pagination: Pagination = new Pagination({

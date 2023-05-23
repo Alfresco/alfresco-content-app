@@ -29,18 +29,7 @@ import { AppHookService, PageComponent } from '@alfresco/aca-shared';
 import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 
 @Component({
-  templateUrl: './libraries.component.html',
-  styles: [
-    `
-      .sidebar {
-        display: block;
-        height: 100%;
-        overflow-y: scroll;
-        max-width: 350px;
-        width: 350px;
-      }
-    `
-  ]
+  templateUrl: './libraries.component.html'
 })
 export class LibrariesComponent extends PageComponent implements OnInit {
   columns: DocumentListPresetRef[] = [];

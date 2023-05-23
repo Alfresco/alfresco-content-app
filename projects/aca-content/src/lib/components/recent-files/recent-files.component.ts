@@ -29,18 +29,7 @@ import { PageComponent } from '@alfresco/aca-shared';
 import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 
 @Component({
-  templateUrl: './recent-files.component.html',
-  styles: [
-    `
-      .sidebar {
-        display: block;
-        height: 100%;
-        overflow-y: scroll;
-        max-width: 350px;
-        width: 350px;
-      }
-    `
-  ]
+  templateUrl: './recent-files.component.html'
 })
 export class RecentFilesComponent extends PageComponent implements OnInit {
   columns: DocumentListPresetRef[] = [];

@@ -34,18 +34,7 @@ import { FilterSearch, ShareDataRow, FileUploadEvent } from '@alfresco/adf-conte
 import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 
 @Component({
-  templateUrl: './files.component.html',
-  styles: [
-    `
-      .sidebar {
-        display: block;
-        height: 100%;
-        overflow-y: scroll;
-        max-width: 350px;
-        width: 350px;
-      }
-    `
-  ]
+  templateUrl: './files.component.html'
 })
 export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   isValidPath = true;

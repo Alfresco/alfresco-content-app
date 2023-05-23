@@ -29,18 +29,7 @@ import { debounceTime, map } from 'rxjs/operators';
 import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 
 @Component({
-  templateUrl: './favorites.component.html',
-  styles: [
-    `
-      .sidebar {
-        display: block;
-        height: 100%;
-        overflow-y: scroll;
-        max-width: 350px;
-        width: 350px;
-      }
-    `
-  ]
+  templateUrl: './favorites.component.html'
 })
 export class FavoritesComponent extends PageComponent implements OnInit {
   columns: DocumentListPresetRef[] = [];
