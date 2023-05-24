@@ -36,7 +36,7 @@ describe('LockedByComponent', () => {
         }
       } as any
     };
-
+    component.ngOnInit();
     expect(component.text).toBe('owner-name');
   });
 });
