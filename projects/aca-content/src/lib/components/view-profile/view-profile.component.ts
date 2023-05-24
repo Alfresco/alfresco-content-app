@@ -24,10 +24,12 @@
 
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { PeopleApi, Person } from '@alfresco/js-api';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { throwError } from 'rxjs';
+import { Observable, Subject, throwError } from 'rxjs';
+import { AppService } from '@alfresco/aca-shared';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-view-profile',
@@ -35,7 +37,7 @@ import { throwError } from 'rxjs';
   styleUrls: ['./view-profile.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class ViewProfileComponent implements OnInit {
+export class ViewProfileComponent implements OnInit, OnDestroy {
   peopleApi: PeopleApi;
 
   profileForm: FormGroup;
@@ -50,9 +52,12 @@ export class ViewProfileComponent implements OnInit {
 
   contactSectionDropdown = false;
   contactSectionButtonsToggle = true;
+  appNavNarMode$: Observable<'collapsed' | 'expanded'>;
+  private onDestroy$ = new Subject<boolean>();
 
-  constructor(private router: Router, apiService: AlfrescoApiService) {
+  constructor(private router: Router, apiService: AlfrescoApiService, private appService: AppService) {
     this.peopleApi = new PeopleApi(apiService.getInstance());
+    this.appNavNarMode$ = appService.appNavNarMode$.pipe(takeUntil(this.onDestroy$));
   }
 
   ngOnInit() {
@@ -66,6 +71,10 @@ export class ViewProfileComponent implements OnInit {
       .catch((error) => {
         throwError(error);
       });
+  }
+
+  toggleClick() {
+    this.appService.toggleAppNavBar$.next();
   }
 
   populateForm(userInfo: Person) {
@@ -187,5 +196,10 @@ export class ViewProfileComponent implements OnInit {
 
   isSaveButtonDisabled(): boolean {
     return this.profileForm.invalid;
+  }
+
+  ngOnDestroy() {
+    this.onDestroy$.next(true);
+    this.onDestroy$.complete();
   }
 }

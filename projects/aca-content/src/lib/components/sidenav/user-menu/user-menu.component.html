@@ -1,4 +1,5 @@
-<button mat-button class="aca-user-menu-button" [matMenuTriggerFor]="menu">
+<button mat-button class="aca-user-menu-button" [matMenuTriggerFor]="menu"
+title="{{'APP.TOOLTIPS.OPTIONS_SETTINGS' | translate}}">
   <div>{{ (displayName$ | async)?.initials }}</div>
 </button>
 

@@ -30,16 +30,28 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { MatDividerModule } from '@angular/material/divider';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { AppService } from '@alfresco/aca-shared';
 
 describe('ViewProfileComponent', () => {
   let fixture: ComponentFixture<ViewProfileComponent>;
   let component: ViewProfileComponent;
   let router: Router;
+  const appServiceMock = {
+    toggleAppNavBar$: new Subject(),
+    appNavNarMode$: new BehaviorSubject<'collapsed' | 'expanded'>('expanded')
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule, AppConfigModule, FormsModule, ReactiveFormsModule, MatDividerModule],
-      declarations: [ViewProfileComponent]
+      declarations: [ViewProfileComponent],
+      providers: [
+        {
+          provide: AppService,
+          useValue: appServiceMock
+        }
+      ]
     });
 
     fixture = TestBed.createComponent(ViewProfileComponent);
@@ -51,6 +63,12 @@ describe('ViewProfileComponent', () => {
   it('should company dropdown remains close', async () => {
     expect(component.loginSectionDropdown).toBe(false);
     expect(component.contactSectionDropdown).toBe(false);
+  });
+
+  it('should toggle the appService toggleAppNavBar$ Subject', () => {
+    spyOn(appServiceMock.toggleAppNavBar$, 'next');
+    component.toggleClick();
+    expect(appServiceMock.toggleAppNavBar$.next).toHaveBeenCalled();
   });
 
   it('should save button is disabled if form has invalid mobile number', () => {
