@@ -23,14 +23,14 @@
  */
 
 import { MetadataTabComponent } from './metadata-tab.component';
-import { Node } from '@alfresco/js-api';
+import { MinimalNodeEntryEntity, Node } from '@alfresco/js-api';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { AppConfigService, CoreModule } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
 import { AppState, SetInfoDrawerMetadataAspectAction } from '@alfresco/aca-shared/store';
 import { By } from '@angular/platform-browser';
-import { AppExtensionService } from '@alfresco/aca-shared';
+import { AppExtensionService, NodePermissionService } from '@alfresco/aca-shared';
 
 describe('MetadataTabComponent', () => {
   let fixture: ComponentFixture<MetadataTabComponent>;
@@ -38,16 +38,27 @@ describe('MetadataTabComponent', () => {
   let store: Store<AppState>;
   let appConfig: AppConfigService;
   let extensions: AppExtensionService;
+  let nodePermissionService: NodePermissionService;
+
   const presets = {
     default: {
       includeAll: true
     },
     custom: []
   };
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [CoreModule, AppTestingModule, MetadataTabComponent]
+    });
+    nodePermissionService = TestBed.inject(NodePermissionService);
+    spyOn(nodePermissionService, 'check').and.callFake((source: MinimalNodeEntryEntity, permissions: string[]) => {
+      let isAllowed = false;
+      permissions.forEach((permission) => {
+        if (source.allowableOperations.includes(permission)) {
+          isAllowed = true;
+        }
+      });
+      return isAllowed;
     });
   });
 
@@ -86,11 +97,12 @@ describe('MetadataTabComponent', () => {
       component = fixture.componentInstance;
     });
 
-    it('should return true if node is not locked and has update permission', () => {
+    it('should return true if node is not locked and has update permission', async () => {
       component.node = {
         isLocked: false,
         allowableOperations: ['update']
       } as Node;
+      component.ngOnInit();
       expect(component.canUpdateNode).toBe(true);
     });
 
@@ -99,6 +111,7 @@ describe('MetadataTabComponent', () => {
         isLocked: true,
         allowableOperations: ['update']
       } as Node;
+      component.ngOnInit();
       expect(component.canUpdateNode).toBe(false);
     });
 
@@ -107,6 +120,7 @@ describe('MetadataTabComponent', () => {
         isLocked: false,
         allowableOperations: ['other']
       } as Node;
+      component.ngOnInit();
       expect(component.canUpdateNode).toBe(false);
     });
 
@@ -118,6 +132,7 @@ describe('MetadataTabComponent', () => {
           'cm:lockType': 'WRITE_LOCK'
         }
       } as Node;
+      component.ngOnInit();
       expect(component.canUpdateNode).toBe(false);
     });
   });

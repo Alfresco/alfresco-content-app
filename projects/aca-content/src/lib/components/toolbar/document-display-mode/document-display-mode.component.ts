@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppStore, ToggleDocumentDisplayMode, getDocumentDisplayMode } from '@alfresco/aca-shared/store';
@@ -48,14 +48,16 @@ import { takeUntil } from 'rxjs/operators';
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-document-display-mode' }
 })
-export class DocumentDisplayModeComponent implements OnDestroy {
+export class DocumentDisplayModeComponent implements OnInit, OnDestroy {
   displayMode$: Observable<string>;
   displayModeTitle: string;
 
   onDestroy$ = new Subject<boolean>();
 
-  constructor(private store: Store<AppStore>) {
-    this.displayMode$ = store.select(getDocumentDisplayMode);
+  constructor(private store: Store<AppStore>) {}
+
+  ngOnInit(): void {
+    this.displayMode$ = this.store.select(getDocumentDisplayMode);
     this.displayMode$.pipe(takeUntil(this.onDestroy$)).subscribe((displayMode) => {
       this.displayModeTitle = displayMode === 'list' ? 'APP.ACTIONS.LIST_MODE' : 'APP.ACTIONS.GALLERY_MODE';
     });
@@ -64,10 +66,6 @@ export class DocumentDisplayModeComponent implements OnDestroy {
   ngOnDestroy(): void {
     this.onDestroy$.next(true);
     this.onDestroy$.complete();
-  }
-
-  getTitle(displayMode: string): string {
-    return displayMode === 'list' ? 'APP.ACTIONS.LIST_MODE' : 'APP.ACTIONS.GALLERY_MODE';
   }
 
   onClick() {

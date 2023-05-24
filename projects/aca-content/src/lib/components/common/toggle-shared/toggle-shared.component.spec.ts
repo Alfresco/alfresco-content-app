@@ -56,14 +56,14 @@ describe('ToggleSharedComponent', () => {
   it('should return false when entry is not shared', () => {
     component.ngOnInit();
 
-    expect(component.isShared({ first: { entry } })).toBe(false);
+    expect(component.isShared).toBe(false);
   });
 
   it('should return true when entry is shared', () => {
     entry.properties['qshare:sharedId'] = 'some-id';
     component.ngOnInit();
 
-    expect(component.isShared({ first: { entry } })).toBe(true);
+    expect(component.isShared).toBe(true);
   });
 
   it('should dispatch `SHARE_NODE` action on share', () => {
@@ -74,7 +74,7 @@ describe('ToggleSharedComponent', () => {
 
   it('should get action label for unshared file', () => {
     component.ngOnInit();
-    const label = component.getLabel({ first: { entry } });
+    const label = component.selectionLabel;
 
     expect(label).toBe('APP.ACTIONS.SHARE');
   });
@@ -82,7 +82,7 @@ describe('ToggleSharedComponent', () => {
   it('should get action label for shared file', () => {
     entry.properties['qshare:sharedId'] = 'some-id';
     component.ngOnInit();
-    const label = component.getLabel({ first: { entry } });
+    const label = component.selectionLabel;
 
     expect(label).toBe('APP.ACTIONS.SHARE_EDIT');
   });
