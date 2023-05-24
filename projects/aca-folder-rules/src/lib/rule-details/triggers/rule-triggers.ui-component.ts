@@ -42,7 +42,9 @@ import { RuleTrigger } from '../../model/rule.model';
 export class RuleTriggersUiComponent implements ControlValueAccessor {
   readonly triggerOptions: RuleTrigger[] = ['inbound', 'update', 'outbound'];
 
-  public selectedTriggers: { [key: string]: boolean } = {};
+  public selectedTriggers: { [key: string]: boolean } = {
+    inbound: true
+  };
 
   value: RuleTrigger[] = ['inbound'];
   readOnly = false;
@@ -52,6 +54,7 @@ export class RuleTriggersUiComponent implements ControlValueAccessor {
 
   writeValue(triggers: RuleTrigger[]) {
     this.value = triggers;
+    this.selectedTriggers = {};
     this.value.forEach((trigger) => (this.selectedTriggers[trigger] = true));
   }
 
