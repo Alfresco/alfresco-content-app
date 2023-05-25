@@ -47,9 +47,7 @@ export class OpenInAppComponent {
   ) {
     if (data) {
       this.redirectUrl = data.redirectUrl;
-      if (data.appStoreUrl) {
-        this.appStoreUrl = data.appStoreUrl;
-      }
+      this.appStoreUrl = data.appStoreUrl;
     }
   }
 

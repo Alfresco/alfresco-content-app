@@ -31,11 +31,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
-import { OpenInAppModule } from './components/open-in-app/open-in-app.module';
 
 @NgModule({
-  imports: [ContextActionsModule, MatButtonModule, MatIconModule, MatDialogModule, TranslateModule, OpenInAppModule],
-  exports: [ContextActionsModule, MatButtonModule, MatIconModule, MatDialogModule, TranslateModule, OpenInAppModule]
+  imports: [ContextActionsModule, MatButtonModule, MatIconModule, MatDialogModule, TranslateModule],
+  exports: [ContextActionsModule, MatButtonModule, MatIconModule, MatDialogModule, TranslateModule]
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders<SharedModule> {
