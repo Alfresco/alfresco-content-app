@@ -23,7 +23,6 @@
  */
 
 import { NgModule } from '@angular/core';
-import { AppCreateMenuModule } from '../create-menu/create-menu.module';
 import { CoreModule } from '@alfresco/adf-core';
 import { RouterModule } from '@angular/router';
 import { ExtensionsModule } from '@alfresco/adf-extensions';
@@ -39,7 +38,7 @@ import { SharedToolbarModule } from '@alfresco/aca-shared';
 import { UserMenuComponent } from './user-menu/user-menu.component';
 
 @NgModule({
-  imports: [CoreModule.forChild(), ExtensionsModule.forChild(), RouterModule, AppCreateMenuModule, SharedToolbarModule],
+  imports: [CoreModule.forChild(), ExtensionsModule.forChild(), RouterModule, SharedToolbarModule],
   declarations: [
     MenuPanelDirective,
     ExpansionPanelDirective,

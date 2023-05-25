@@ -86,7 +86,7 @@ app-view-profile {
     border: 2px solid var(--theme-blue-button-color) !important;
     border-radius: 6px;
     outline: none !important;
-    box-shadow: 0 0 2px (--theme-blue-button-color);
+    box-shadow: 0 0 2px var(--theme-blue-button-color);
   }
 
   .app-general-edit {
