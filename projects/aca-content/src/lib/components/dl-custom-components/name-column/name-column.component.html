@@ -6,6 +6,7 @@
 >
   <span
     role="link"
+    tabindex=0
     [attr.aria-label]="
       (isFile ? 'CUSTOM_NAME_COLUMN.ACCESSIBILITY.FILE_LINK_ARIA_LABEL' : 'CUSTOM_NAME_COLUMN.ACCESSIBILITY.FOLDER_LINK_ARIA_LABEL')
         | translate: { name: displayText$ | async }
