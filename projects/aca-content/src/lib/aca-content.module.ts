@@ -50,7 +50,6 @@ import { DirectivesModule } from './directives/directives.module';
 import { ContextMenuModule } from './components/context-menu/context-menu.module';
 import { ExtensionService, ExtensionsModule } from '@alfresco/adf-extensions';
 import { AppToolbarModule } from './components/toolbar/toolbar.module';
-import { AppCreateMenuModule } from './components/create-menu/create-menu.module';
 import { AppSidenavModule } from './components/sidenav/sidenav.module';
 import { AppCommonModule } from './components/common/common.module';
 import { AppSearchInputModule } from './components/search/search-input.module';
@@ -115,7 +114,6 @@ import { UserMenuComponent } from './components/sidenav/user-menu/user-menu.comp
     AppInfoDrawerModule,
     AppToolbarModule,
     AppSidenavModule,
-    AppCreateMenuModule,
     DocumentListCustomComponentsModule,
     AppSearchInputModule,
     AppSearchResultsModule,
