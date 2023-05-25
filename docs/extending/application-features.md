@@ -8,7 +8,6 @@ This section contains application-specific features that may vary depending on t
 
 The ACA supports the following set of extension points:
 
-- Create menu
 - Navigation Bar
 - Toolbar
 - Context Menu
@@ -78,7 +77,7 @@ You can define content actions in the `app.extensions.json` file using the struc
 
 ## Create Menu
 
-Provides extension endpoint for the "NEW" menu options.
+Provides extension endpoint for the contextual "Create" toolbar menus.
 
 You can populate the menu with an extra entries like in the example below:
 
