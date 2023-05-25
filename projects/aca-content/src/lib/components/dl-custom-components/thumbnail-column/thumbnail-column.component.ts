@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, ViewEncapsulation, inject } from '@angular/core';
 import { TranslationService } from '@alfresco/adf-core';
 
 @Component({
@@ -30,18 +30,39 @@ import { TranslationService } from '@alfresco/adf-core';
   templateUrl: './thumbnail-column.component.html',
   encapsulation: ViewEncapsulation.None
 })
-export class ThumbnailColumnComponent {
+export class ThumbnailColumnComponent implements OnChanges {
+  private translation = inject(TranslationService);
+
   @Input()
   context: any;
 
-  constructor(private translation: TranslationService) {}
+  public thumbnailUrl?: string;
+  public tooltip?: string;
 
-  getThumbnail({ data, row, col }): string {
+  get isSelected(): boolean {
+    return !!this.context.row.isSelected;
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.context) {
+      const context = changes.context.currentValue;
+
+      if (context) {
+        this.thumbnailUrl = this.getThumbnail(context);
+        this.tooltip = this.getToolTip(context);
+      } else {
+        this.thumbnailUrl = null;
+        this.tooltip = null;
+      }
+    }
+  }
+
+  private getThumbnail({ data, row, col }): string {
     return data.getValue(row, col);
   }
 
-  getToolTip({ row }): string {
-    const user = row.node?.entry?.properties && row.node.entry.properties['cm:lockOwner'] && row.node.entry.properties['cm:lockOwner'].displayName;
-    return user ? `${this.translation.instant('APP.LOCKED_BY')} ${user}` : '';
+  private getToolTip({ row }): string {
+    const displayName = row.node?.entry?.properties?.['cm:lockOwner']?.displayName;
+    return displayName ? `${this.translation.instant('APP.LOCKED_BY')} ${displayName}` : '';
   }
 }
