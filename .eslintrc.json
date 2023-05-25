@@ -314,7 +314,7 @@
       "files": [
         "*.html"
       ],
-      "extends": ["plugin:@nrwl/nx/angular-template"],
+      "extends": ["plugin:@nrwl/nx/angular-template", "plugin:@angular-eslint/template/accessibility"],
       "rules": {
         "@angular-eslint/template/no-autofocus": "error",
         "@angular-eslint/template/no-negated-async": "off",
