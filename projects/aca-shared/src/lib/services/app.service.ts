@@ -104,9 +104,7 @@ export class AppService implements OnDestroy {
     this.authenticationService.onLogout.subscribe(() => {
       searchQueryBuilderService.resetToDefaults();
       acaMobileAppSwitcherService.clearSessionExpireTime();
-      if (acaMobileAppSwitcherService.dialogRef !== null && acaMobileAppSwitcherService.dialogRef !== undefined) {
-        acaMobileAppSwitcherService.closeDialog();
-      }
+      acaMobileAppSwitcherService.closeDialog();
     });
 
     this.pageHeading$ = this.router.events.pipe(
