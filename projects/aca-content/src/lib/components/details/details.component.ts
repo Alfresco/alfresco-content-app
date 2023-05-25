@@ -22,11 +22,10 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, OnDestroy, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ContentApiService, PageComponent } from '@alfresco/aca-shared';
 import { NavigateToPreviousPage, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
-import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-details-manager',
@@ -35,20 +34,18 @@ import { Subject } from 'rxjs';
   encapsulation: ViewEncapsulation.None
 })
 export class DetailsComponent extends PageComponent implements OnInit, OnDestroy {
+  private route = inject(ActivatedRoute);
+  private contentApi = inject(ContentApiService);
+
   nodeId: string;
   isLoading: boolean;
-  onDestroy$ = new Subject<boolean>();
   activeTab = 1;
-
-  constructor(private route: ActivatedRoute, private contentApi: ContentApiService) {
-    super();
-  }
 
   ngOnInit(): void {
     super.ngOnInit();
+
     this.isLoading = true;
-    const { route } = this;
-    const { data } = route.snapshot;
+    const { data } = this.route.snapshot;
     this.title = data.title;
 
     this.route.params.subscribe((params) => {
@@ -82,8 +79,6 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
   }
 
   ngOnDestroy(): void {
-    this.store.dispatch(new SetSelectedNodesAction([]));
-    this.onDestroy$.next();
-    this.onDestroy$.complete();
+    super.ngOnDestroy();
   }
 }
