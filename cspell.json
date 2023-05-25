@@ -38,7 +38,8 @@
     "superadmin",
     "textitem",
     "thumbnailed",
-    "versionable"
+    "versionable",
+    "sfdc"
   ],
   "dictionaries": [
     "html",
