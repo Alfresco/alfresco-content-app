@@ -16,7 +16,7 @@
         acaDocumentList
         acaContextActions
         [display]="documentDisplayMode$ | async"
-        [node]="list | cast : NodePaging"
+        [node]="$any(list)"
         [loading]="isLoading"
         [selectionMode]="'single'"
         [navigate]="false"

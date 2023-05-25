@@ -44,7 +44,7 @@
             [sortingMode]="'server'"
             [sorting]="sorting"
             [imageResolver]="imageResolver"
-            [node]="data | cast : NodePaging"
+            [node]="$any(data)"
             (node-dblclick)="handleNodeClick($event)"
           >
             <data-columns>
