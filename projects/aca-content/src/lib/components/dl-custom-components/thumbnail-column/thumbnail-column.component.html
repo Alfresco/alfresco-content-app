@@ -1,7 +1,2 @@
-<mat-icon class="adf-datatable-selected" *ngIf="context.row.isSelected" svgIcon="selected"></mat-icon>
-
-<img *ngIf="!context.row.isSelected"
-     class="adf-datatable-center-img-ie"
-     src="{{ getThumbnail(context) }}"
-     [alt]="getToolTip(context)"
-     [matTooltip]="getToolTip(context)">
+<mat-icon class="adf-datatable-selected" *ngIf="isSelected" svgIcon="selected"></mat-icon>
+<img *ngIf="!isSelected" class="adf-datatable-center-img-ie" [src]="thumbnailUrl" [alt]="tooltip" [matTooltip]="tooltip" />
