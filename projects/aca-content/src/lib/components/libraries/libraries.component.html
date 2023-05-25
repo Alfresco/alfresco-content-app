@@ -70,7 +70,7 @@
     </div>
 
     <div class="aca-sidebar" *ngIf="infoDrawerOpened$ | async">
-      <aca-info-drawer [node]="$any(selection.library)"></aca-info-drawer>
+      <aca-info-drawer [node]="$any(selection).library"></aca-info-drawer>
     </div>
   </aca-page-layout-content>
 </aca-page-layout>
