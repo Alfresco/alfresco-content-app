@@ -28,7 +28,7 @@
 </div>
 
 <mat-menu #searchOptionsMenu="matMenu" [overlapTrigger]="true" class="app-search-options-menu">
-  <div (keydown.tab)="$event.stopPropagation()" (keydown.shift.tab)="$event.stopPropagation()">
+  <div (keydown.tab)="$event.stopPropagation()" (keydown.shift.tab)="$event.stopPropagation()" tabindex=0>
     <div cdkTrapFocus>
       <app-search-input-control
         #searchInputControl
