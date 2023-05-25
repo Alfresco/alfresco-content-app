@@ -29,7 +29,7 @@ import { BrowserActions, BrowserVisibility, TestElement } from '@alfresco/adf-te
 
 export class SearchInput extends Component {
   get searchButton() {
-    return browser.element(by.css('.app-search-button'));
+    return browser.element(by.css('aca-search-input .app-search-button'));
   }
 
   searchContainer = browser.element(by.css('.app-search-container'));
