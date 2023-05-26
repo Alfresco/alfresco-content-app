@@ -23,7 +23,6 @@
  */
 
 import { CustomNameColumnComponent } from './name-column.component';
-import { DocumentListCustomComponentsModule } from '../document-list-custom-components.module';
 import { Actions } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -39,7 +38,7 @@ describe('CustomNameColumnComponent', () => {
       imports: [
         TranslateModule.forRoot(),
         CoreModule.forRoot(),
-        DocumentListCustomComponentsModule,
+        CustomNameColumnComponent,
         StoreModule.forRoot({ app: () => {} }, { initialState: {} })
       ],
       providers: [Actions]

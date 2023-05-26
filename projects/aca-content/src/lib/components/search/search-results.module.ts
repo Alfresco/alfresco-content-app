@@ -41,6 +41,7 @@ import { DocumentListCustomComponentsModule } from '../dl-custom-components/docu
 import { AppSearchInputModule } from './search-input.module';
 import { LocationLinkComponent } from '../common/location-link/location-link.component';
 import { ThumbnailColumnComponent } from '../dl-custom-components/thumbnail-column/thumbnail-column.component';
+import { TagsColumnComponent } from '../dl-custom-components/tags-column/tags-column.component';
 
 @NgModule({
   imports: [
@@ -58,7 +59,8 @@ import { ThumbnailColumnComponent } from '../dl-custom-components/thumbnail-colu
     DocumentListCustomComponentsModule,
     AppSearchInputModule,
     LocationLinkComponent,
-    ThumbnailColumnComponent
+    ThumbnailColumnComponent,
+    TagsColumnComponent
   ],
   declarations: [SearchResultsComponent, SearchLibrariesResultsComponent, SearchResultsRowComponent, SearchActionMenuComponent],
   exports: [SearchResultsComponent, SearchLibrariesResultsComponent, SearchResultsRowComponent, SearchActionMenuComponent]

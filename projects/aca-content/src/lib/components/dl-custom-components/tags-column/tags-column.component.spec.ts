@@ -25,6 +25,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TagsColumnComponent } from './tags-column.component';
 import { ChangeDetectorRef } from '@angular/core';
+import { AppTestingModule } from '../../../testing/app-testing.module';
 
 describe('TagsColumnComponent', () => {
   let fixture: ComponentFixture<TagsColumnComponent>;
@@ -33,7 +34,7 @@ describe('TagsColumnComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TagsColumnComponent],
+      imports: [AppTestingModule, TagsColumnComponent],
       providers: [{ provide: ChangeDetectorRef, useValue: { detectChanges() {} } }]
     });
 
