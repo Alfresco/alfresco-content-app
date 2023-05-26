@@ -99,7 +99,7 @@ export class AcaMobileAppSwitcherService {
   }
 
   openDialog(redirectUrl: string, appStoreUrl?: string): void {
-    if (this.dialogRef === null || this.dialogRef === undefined) {
+    if (!this.dialogRef) {
       this.dialogRef = this.dialog.open(OpenInAppComponent, {
         data: {
           redirectUrl,
@@ -122,7 +122,7 @@ export class AcaMobileAppSwitcherService {
   }
 
   closeDialog(): void {
-    if (this.dialogRef !== null && this.dialogRef !== undefined) {
+    if (this.dialogRef) {
       this.dialog.closeAll();
       this.dialogRef = null;
     }

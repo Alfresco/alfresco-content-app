@@ -1,69 +1,71 @@
-.open-in-app-container {
-  display: flex;
-  place-content: center;
-  padding: 0;
-  border-radius: 8px;
-  background-color: var(--theme-primary-color);
-  color: var(--theme-about-panel-background-color);
-  margin-top: 12px;
-}
-
-.open-in-app.mat-button {
-  overflow-x: hidden;
-  font-size: 16px;
-  width: 100%;
-  padding: 0;
-  height: 48px;
-}
-
-.open-in-app.mat-button.cdk-program-focused .mat-button-focus-overlay {
-  opacity: 0;
-}
-
-.open-in-app.cdk-touch-focused {
-  background-color: var(--theme-primary-color);
-}
-
-.cross-button.mat-button.cdk-program-focused .mat-button-focus-overlay {
-  opacity: 0;
-}
-
-.download-app-container {
-  display: flex;
-  place-content: center;
-  margin-top: 12px;
-}
-
-.alfresco-mobile-application-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 14px;
-  padding: 6px 0;
-}
-
-.mat-button.cross-button {
-  padding-right: 0;
-
-  &:focus-visible {
-    outline: none;
-    border-radius: unset;
+aca-open-in-app {
+  .open-in-app-container {
+    display: flex;
+    place-content: center;
+    padding: 0;
+    border-radius: 8px;
+    background-color: var(--theme-primary-color);
+    color: var(--theme-about-panel-background-color);
+    margin-top: 12px;
   }
-}
 
-.mat-icon.cross-icon {
-  font-weight: bold;
-  font-size: 21px;
-  height: 21px;
-}
+  .open-in-app.mat-button {
+    overflow-x: hidden;
+    font-size: 16px;
+    width: 100%;
+    padding: 0;
+    height: 48px;
+  }
 
-.download-app-button {
-  background: var(--theme-dialog-background-color);
-  color: var(--theme-primary-color);
-  font-size: 14px;
-}
+  .open-in-app.mat-button.cdk-program-focused .mat-button-focus-overlay {
+    opacity: 0;
+  }
 
-.mat-dialog-container {
-  padding: 8px 24px 24px;
+  .open-in-app.cdk-touch-focused {
+    background-color: var(--theme-primary-color);
+  }
+
+  .cross-button.mat-button.cdk-program-focused .mat-button-focus-overlay {
+    opacity: 0;
+  }
+
+  .download-app-container {
+    display: flex;
+    place-content: center;
+    margin-top: 12px;
+  }
+
+  .alfresco-mobile-application-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    padding: 6px 0;
+  }
+
+  .mat-button.cross-button {
+    padding-right: 0;
+
+    &:focus-visible {
+      outline: none;
+      border-radius: unset;
+    }
+  }
+
+  .mat-icon.cross-icon {
+    font-weight: bold;
+    font-size: 21px;
+    height: 21px;
+  }
+
+  .download-app-button {
+    background: var(--theme-dialog-background-color);
+    color: var(--theme-primary-color);
+    font-size: 14px;
+  }
+
+  .mat-dialog-container {
+    padding: 8px 24px 24px;
+  }
 }
