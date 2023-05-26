@@ -31,7 +31,6 @@ export * from './lib/components/page-layout/page-layout.module';
 export * from './lib/components/locked-by/locked-by.component';
 export * from './lib/components/locked-by/locked-by.module';
 export * from './lib/components/generic-error/generic-error.component';
-export * from './lib/components/generic-error/generic-error.module';
 export * from './lib/components/tool-bar/shared-toolbar.module';
 export * from './lib/components/tool-bar/toolbar-action/toolbar-action.component';
 export * from './lib/components/tool-bar/toolbar-button/toolbar-button.component';
