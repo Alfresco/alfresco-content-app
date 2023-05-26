@@ -22,16 +22,19 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, ChangeDetectionStrategy, OnInit, ViewEncapsulation, HostListener } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, OnInit, ViewEncapsulation, HostListener, inject } from '@angular/core';
 import { PathInfo, MinimalNodeEntity } from '@alfresco/js-api';
 import { Observable, BehaviorSubject, of } from 'rxjs';
-
 import { Store } from '@ngrx/store';
-import { AppStore, NavigateToParentFolder } from '@alfresco/aca-shared/store';
+import { NavigateToParentFolder } from '@alfresco/aca-shared/store';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { TranslationService } from '@alfresco/adf-core';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, TranslateModule],
   selector: 'aca-location-link',
   template: `
     <a
@@ -50,6 +53,10 @@ import { TranslationService } from '@alfresco/adf-core';
   }
 })
 export class LocationLinkComponent implements OnInit {
+  private store = inject(Store);
+  private contentApi = inject(ContentApiService);
+  private translationService = inject(TranslationService);
+
   private _path: PathInfo;
 
   nodeLocation$ = new BehaviorSubject(this.translationService.instant('APP.BROWSE.SEARCH.UNKNOWN_LOCATION'));
@@ -65,8 +72,6 @@ export class LocationLinkComponent implements OnInit {
   onMouseEnter() {
     this.getTooltip(this._path);
   }
-
-  constructor(private store: Store<AppStore>, private contentApi: ContentApiService, private translationService: TranslationService) {}
 
   goToLocation() {
     if (this.context) {
