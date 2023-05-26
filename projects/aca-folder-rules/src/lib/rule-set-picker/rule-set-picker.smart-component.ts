@@ -60,7 +60,7 @@ export class RuleSetPickerSmartComponent implements OnInit, OnDestroy {
     map(([rulesLoading, folderLoading]) => rulesLoading || folderLoading)
   );
 
-  onDestroy$: Subject<boolean> = new Subject();
+  onDestroy$ = new Subject<void>();
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: RuleSetPickerOptions,

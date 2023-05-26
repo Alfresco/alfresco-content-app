@@ -51,7 +51,7 @@ export class ToggleSharedComponent implements OnInit, OnDestroy {
   selectionLabel = '';
   isShared = false;
 
-  onDestroy$ = new Subject();
+  onDestroy$ = new Subject<void>();
 
   constructor(private store: Store<AppStore>) {}
 

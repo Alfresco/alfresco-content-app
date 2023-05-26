@@ -52,7 +52,7 @@ export class DocumentDisplayModeComponent implements OnInit, OnDestroy {
   displayMode$: Observable<string>;
   displayModeTitle: string;
 
-  onDestroy$ = new Subject();
+  onDestroy$ = new Subject<void>();
 
   constructor(private store: Store<AppStore>) {}
 
