@@ -235,7 +235,6 @@
                 }
             },
             "SEARCH_LIBRARIES": {
-              "TITLE": "Libraries found...",
               "FOUND_RESULTS": "{{ number }} results",
               "FOUND_ONE_RESULT": "{{ number }} result"
             }
