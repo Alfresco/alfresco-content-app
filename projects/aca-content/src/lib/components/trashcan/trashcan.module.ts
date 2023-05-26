@@ -33,6 +33,7 @@ import { DirectivesModule } from '../../directives/directives.module';
 import { ContextMenuModule } from '../context-menu/context-menu.module';
 import { AppSearchInputModule } from '../search/search-input.module';
 import { PageLayoutModule } from '@alfresco/aca-shared';
+import { ExtensionsModule } from '@alfresco/adf-extensions';
 
 @NgModule({
   imports: [
@@ -44,7 +45,8 @@ import { PageLayoutModule } from '@alfresco/aca-shared';
     AppToolbarModule,
     ContextMenuModule,
     PageLayoutModule,
-    AppSearchInputModule
+    AppSearchInputModule,
+    ExtensionsModule
   ],
   declarations: [TrashcanComponent],
   exports: [TrashcanComponent]

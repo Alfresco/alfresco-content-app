@@ -26,6 +26,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
 import { ContentModule } from '@alfresco/adf-content-services';
+import { ExtensionsModule } from '@alfresco/adf-extensions';
 import { LockedByModule, PageLayoutModule } from '@alfresco/aca-shared';
 import { SearchResultsComponent } from './search-results/search-results.component';
 import { SearchResultsRowComponent } from './search-results-row/search-results-row.component';
@@ -38,12 +39,14 @@ import { ContextMenuModule } from '../context-menu/context-menu.module';
 import { SearchActionMenuComponent } from './search-action-menu/search-action-menu.component';
 import { DocumentListCustomComponentsModule } from '../dl-custom-components/document-list-custom-components.module';
 import { AppSearchInputModule } from './search-input.module';
+import { LocationLinkComponent } from '../common/location-link/location-link.component';
 
 @NgModule({
   imports: [
     CommonModule,
     CoreModule.forChild(),
     ContentModule.forChild(),
+    ExtensionsModule,
     AppCommonModule,
     AppInfoDrawerModule,
     AppToolbarModule,
@@ -52,7 +55,8 @@ import { AppSearchInputModule } from './search-input.module';
     ContextMenuModule,
     LockedByModule,
     DocumentListCustomComponentsModule,
-    AppSearchInputModule
+    AppSearchInputModule,
+    LocationLinkComponent
   ],
   declarations: [SearchResultsComponent, SearchLibrariesResultsComponent, SearchResultsRowComponent, SearchActionMenuComponent],
   exports: [SearchResultsComponent, SearchLibrariesResultsComponent, SearchResultsRowComponent, SearchActionMenuComponent]

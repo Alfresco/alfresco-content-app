@@ -34,7 +34,7 @@ import {
   LibraryStatusColumnComponent,
   TrashcanNameColumnComponent
 } from '@alfresco/adf-content-services';
-import { DocumentBasePageService, ExtensionsDataLoaderGuard, PageLayoutModule, SharedModule } from '@alfresco/aca-shared';
+import { DocumentBasePageService, ExtensionsDataLoaderGuard, PageLayoutModule, SharedModule, GenericErrorModule } from '@alfresco/aca-shared';
 import * as rules from '@alfresco/aca-shared/rules';
 
 import { FilesComponent } from './components/files/files.component';
@@ -121,7 +121,8 @@ import { UserMenuComponent } from './components/sidenav/user-menu/user-menu.comp
     ViewProfileModule,
     AppTrashcanModule,
     AppSharedLinkViewModule,
-    AcaFolderRulesModule
+    AcaFolderRulesModule,
+    GenericErrorModule
   ],
   declarations: [
     FilesComponent,
