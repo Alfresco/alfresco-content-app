@@ -123,7 +123,9 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
   }
 
   ngOnInit() {
-    this.actionDefinitions = this.actionDefinitions.sort((a, b) => a.title.localeCompare(b.title));
+    this.actionDefinitions = this.actionDefinitions.sort((firstActionDefinition, secondActionDefinition) =>
+      firstActionDefinition.title.localeCompare(secondActionDefinition.title)
+    );
 
     this.form.valueChanges.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
       this.setDefaultParameters();
