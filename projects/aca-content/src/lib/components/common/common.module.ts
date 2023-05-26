@@ -45,9 +45,10 @@ import { RouterModule } from '@angular/router';
     RouterModule,
     LanguagePickerComponent,
     LocationLinkComponent,
-    LogoutComponent
+    LogoutComponent,
+    ToggleSharedComponent
   ],
-  declarations: [ToggleSharedComponent, UserInfoComponent],
-  exports: [ExtensionsModule, GenericErrorModule, ToggleSharedComponent, UserInfoComponent]
+  declarations: [UserInfoComponent],
+  exports: [ExtensionsModule, GenericErrorModule, UserInfoComponent]
 })
 export class AppCommonModule {}
