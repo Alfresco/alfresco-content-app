@@ -40,6 +40,7 @@ import { SearchActionMenuComponent } from './search-action-menu/search-action-me
 import { DocumentListCustomComponentsModule } from '../dl-custom-components/document-list-custom-components.module';
 import { AppSearchInputModule } from './search-input.module';
 import { LocationLinkComponent } from '../common/location-link/location-link.component';
+import { ThumbnailColumnComponent } from '../dl-custom-components/thumbnail-column/thumbnail-column.component';
 
 @NgModule({
   imports: [
@@ -56,7 +57,8 @@ import { LocationLinkComponent } from '../common/location-link/location-link.com
     LockedByModule,
     DocumentListCustomComponentsModule,
     AppSearchInputModule,
-    LocationLinkComponent
+    LocationLinkComponent,
+    ThumbnailColumnComponent
   ],
   declarations: [SearchResultsComponent, SearchLibrariesResultsComponent, SearchResultsRowComponent, SearchActionMenuComponent],
   exports: [SearchResultsComponent, SearchLibrariesResultsComponent, SearchResultsRowComponent, SearchActionMenuComponent]
