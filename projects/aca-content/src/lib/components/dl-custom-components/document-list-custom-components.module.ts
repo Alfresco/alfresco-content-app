@@ -33,8 +33,16 @@ import { ThumbnailColumnComponent } from './thumbnail-column/thumbnail-column.co
 import { TagsColumnComponent } from './tags-column/tags-column.component';
 
 @NgModule({
-  imports: [BrowserModule, CoreModule.forChild(), ContentModule.forChild(), MaterialModule, LockedByModule, ThumbnailColumnComponent],
-  declarations: [CustomNameColumnComponent, TagsColumnComponent],
-  exports: [CustomNameColumnComponent, TagsColumnComponent]
+  imports: [
+    BrowserModule,
+    CoreModule.forChild(),
+    ContentModule.forChild(),
+    MaterialModule,
+    LockedByModule,
+    ThumbnailColumnComponent,
+    CustomNameColumnComponent
+  ],
+  declarations: [TagsColumnComponent],
+  exports: [TagsColumnComponent]
 })
 export class DocumentListCustomComponentsModule {}
