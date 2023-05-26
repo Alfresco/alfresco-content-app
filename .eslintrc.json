@@ -315,10 +315,12 @@
         "*.html"
       ],
       "extends": ["plugin:@nrwl/nx/angular-template", "plugin:@angular-eslint/template/accessibility"],
+      "parser": "@angular-eslint/template-parser",
       "rules": {
         "@angular-eslint/template/no-negated-async": "off",
         "@angular-eslint/template/no-positive-tabindex": "error",
-        "@angular-eslint/template/eqeqeq": "error"
+        "@angular-eslint/template/eqeqeq": "error",
+        "@angular-eslint/template/no-call-expression": "warn"
       }
     },
     {
