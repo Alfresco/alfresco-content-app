@@ -24,4 +24,4 @@
 
 import { InjectionToken } from '@angular/core';
 
-export const DEV_MODE_TOKEN = new InjectionToken<any>('devMode');
+export const DEV_MODE_TOKEN = new InjectionToken<boolean>('devMode');

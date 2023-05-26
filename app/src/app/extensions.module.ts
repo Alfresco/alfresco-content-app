@@ -24,12 +24,16 @@
 
 import { NgModule } from '@angular/core';
 import { AosExtensionModule } from '@alfresco/aca-content/ms-office';
-import { AcaAboutModule } from '@alfresco/aca-content/about';
+import { AcaAboutModule, DEV_MODE_TOKEN, PACKAGE_JSON } from '@alfresco/aca-content/about';
 import { AcaFolderRulesModule } from '@alfresco/aca-folder-rules';
 import { environment } from '../environments/environment';
 import packageJson from 'package.json';
 
 @NgModule({
-  imports: [AosExtensionModule, AcaAboutModule.forRoot(environment.production, packageJson), AcaFolderRulesModule]
+  imports: [AosExtensionModule, AcaAboutModule, AcaFolderRulesModule],
+  providers: [
+    { provide: PACKAGE_JSON, useValue: packageJson },
+    { provide: DEV_MODE_TOKEN, useValue: !environment.production }
+  ]
 })
 export class AppExtensionsModule {}
