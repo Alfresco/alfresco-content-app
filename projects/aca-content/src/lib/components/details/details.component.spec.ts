@@ -52,8 +52,8 @@ describe('DetailsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule],
-      declarations: [DetailsComponent, CommentsTabComponent, MetadataTabComponent],
+      imports: [AppTestingModule, CommentsTabComponent],
+      declarations: [DetailsComponent, MetadataTabComponent],
       providers: [
         ContentManagementService,
         AppExtensionService,
