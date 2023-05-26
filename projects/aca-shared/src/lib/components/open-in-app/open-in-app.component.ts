@@ -27,6 +27,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 export interface OpenInAppDialogOptions {
   redirectUrl: string;
+  appStoreUrl: string;
 }
 @Component({
   selector: 'aca-open-in-app',
@@ -35,7 +36,8 @@ export interface OpenInAppDialogOptions {
   encapsulation: ViewEncapsulation.None
 })
 export class OpenInAppComponent {
-  private readonly redirectUrl: string;
+  private redirectUrl: string;
+  public appStoreUrl: string;
   public window: Window & typeof globalThis = window;
 
   constructor(
@@ -45,11 +47,16 @@ export class OpenInAppComponent {
   ) {
     if (data) {
       this.redirectUrl = data.redirectUrl;
+      this.appStoreUrl = data.appStoreUrl;
     }
   }
 
   openInApp(): void {
     this.window.location.href = this.redirectUrl;
+  }
+
+  downloadIosApp(): void {
+    this.window.location.href = this.appStoreUrl;
   }
 
   onCloseDialog(): void {

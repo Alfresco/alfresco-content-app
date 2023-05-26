@@ -45,7 +45,7 @@ describe('OpenInAppComponent', () => {
       imports: [LibTestingModule, SharedModule.forRoot(), MatIconTestingModule],
       providers: [
         provideMockStore({ initialState }),
-        { provide: MAT_DIALOG_DATA, useValue: { redirectUrl: 'mockRedirectUrl' } },
+        { provide: MAT_DIALOG_DATA, useValue: { redirectUrl: 'mockRedirectUrl', appStoreUrl: 'mockAppStoreUrl' } },
         { provide: MatDialogRef, useValue: mockDialogRef }
       ]
     });
@@ -77,5 +77,23 @@ describe('OpenInAppComponent', () => {
     component.onCloseDialog();
     expect(sessionStorage.getItem('mobile_notification_expires_in')).not.toBeNull();
     expect(mockDialogRef.close).toHaveBeenCalled();
+  });
+
+  it('should redirect to App Store for downloading the app in case of Ios device', async () => {
+    let currentLocation: string | string[];
+    const windowStub: Window & typeof globalThis = {
+      location: {
+        set href(value: string | string[]) {
+          currentLocation = value;
+        }
+      }
+    } as Window & typeof globalThis;
+    component.window = windowStub;
+    const downloadAppButton = fixture.debugElement.query(By.css('[data-automation-id="download-app-button"]')).nativeElement;
+    downloadAppButton.dispatchEvent(new Event('click'));
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(currentLocation).toBe('mockAppStoreUrl');
   });
 });

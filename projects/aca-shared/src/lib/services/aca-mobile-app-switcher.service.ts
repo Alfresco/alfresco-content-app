@@ -24,7 +24,7 @@
 
 import { AppConfigService } from '@alfresco/adf-core';
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { OpenInAppComponent } from '../components/open-in-app/open-in-app.component';
 
 export interface MobileAppSwitchConfigurationOptions {
@@ -33,6 +33,7 @@ export interface MobileAppSwitchConfigurationOptions {
   androidUrlPart1: string;
   androidUrlPart2: string;
   sessionTimeForOpenAppDialogDisplay: string;
+  appStoreUrl: string;
 }
 @Injectable({
   providedIn: 'root'
@@ -40,6 +41,8 @@ export interface MobileAppSwitchConfigurationOptions {
 export class AcaMobileAppSwitcherService {
   private mobileAppSwitchConfig: MobileAppSwitchConfigurationOptions;
   public redirectUrl: string;
+  public appStoreUrl: string;
+  private dialogRef: MatDialogRef<OpenInAppComponent>;
 
   constructor(private config: AppConfigService, private dialog: MatDialog) {
     this.mobileAppSwitchConfig = this.config.get<MobileAppSwitchConfigurationOptions>('mobileAppSwitch');
@@ -79,30 +82,35 @@ export class AcaMobileAppSwitcherService {
   identifyBrowserAndSetRedirectURL(): void {
     const ua: string = navigator.userAgent.toLowerCase();
     const isAndroid: boolean = ua.indexOf('android') > -1;
-    const isIOS: boolean = ua.indexOf('iphone') > -1 || ua.indexOf('ipad') > -1 || ua.indexOf('ipod') > -1;
+    const isIPadInSafari = /Macintosh/i.test(ua) && navigator.maxTouchPoints && navigator.maxTouchPoints > 1;
+    const isIOS: boolean = ua.indexOf('iphone') > -1 || ua.indexOf('ipad') > -1 || ua.indexOf('ipod') > -1 || isIPadInSafari;
     const currentUrl: string = this.getCurrentUrl();
 
     if (isIOS === true) {
       this.redirectUrl = this.mobileAppSwitchConfig.iphoneUrl + currentUrl;
+      this.appStoreUrl = this.mobileAppSwitchConfig.appStoreUrl;
     } else if (isAndroid === true) {
       this.redirectUrl = this.mobileAppSwitchConfig.androidUrlPart1 + currentUrl + this.mobileAppSwitchConfig.androidUrlPart2;
     }
 
     if (this.redirectUrl !== undefined && this.redirectUrl !== null) {
-      this.openDialog(this.redirectUrl);
+      this.openDialog(this.redirectUrl, this.appStoreUrl);
     }
   }
 
-  openDialog(redirectUrl: string): void {
-    this.dialog.open(OpenInAppComponent, {
-      data: {
-        redirectUrl
-      },
-      hasBackdrop: false,
-      width: 'auto',
-      role: 'dialog',
-      position: { bottom: '20px' }
-    });
+  openDialog(redirectUrl: string, appStoreUrl?: string): void {
+    if (!this.dialogRef) {
+      this.dialogRef = this.dialog.open(OpenInAppComponent, {
+        data: {
+          redirectUrl,
+          appStoreUrl
+        },
+        hasBackdrop: false,
+        width: '100%',
+        role: 'dialog',
+        position: { bottom: '0' }
+      });
+    }
   }
 
   clearSessionExpireTime(): void {
@@ -111,5 +119,12 @@ export class AcaMobileAppSwitcherService {
 
   getCurrentUrl(): string {
     return window.location.href;
+  }
+
+  closeDialog(): void {
+    if (this.dialogRef) {
+      this.dialog.closeAll();
+      this.dialogRef = null;
+    }
   }
 }

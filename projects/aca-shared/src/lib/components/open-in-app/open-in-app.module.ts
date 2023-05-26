@@ -22,25 +22,17 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ModuleWithProviders, NgModule } from '@angular/core';
-import { ContentApiService } from './services/content-api.service';
-import { NodePermissionService } from './services/node-permission.service';
-import { AppService } from './services/app.service';
-import { ContextActionsModule } from './directives/contextmenu/contextmenu.module';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatDialogModule } from '@angular/material/dialog';
+import { BrowserModule } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
+import { OpenInAppComponent } from './open-in-app.component';
 
 @NgModule({
-  imports: [ContextActionsModule, MatButtonModule, MatIconModule, MatDialogModule, TranslateModule],
-  exports: [ContextActionsModule, MatButtonModule, MatIconModule, MatDialogModule, TranslateModule]
+  imports: [CommonModule, MatIconModule, TranslateModule, MatButtonModule, BrowserModule],
+  declarations: [OpenInAppComponent],
+  exports: [OpenInAppComponent]
 })
-export class SharedModule {
-  static forRoot(): ModuleWithProviders<SharedModule> {
-    return {
-      ngModule: SharedModule,
-      providers: [ContentApiService, NodePermissionService, AppService]
-    };
-  }
-}
+export class OpenInAppModule {}

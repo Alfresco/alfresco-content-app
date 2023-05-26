@@ -286,7 +286,9 @@
                 "NO_LABEL": "Cancel"
             },
             "MOBILE_APP": {
-              "MOBILE_APP_BUTTON_LABEL": "Open in App"
+              "MOBILE_APP_BUTTON_LABEL": "Open in App",
+              "DOWNLOAD_APP_BUTTON_LABEL": "Don't have the app? Download now.",
+              "OPEN_ALFRESCO_MOBILE_APP": "Open using Alfresco Mobile application?"
             }
         },
         "DOCUMENT_LIST": {

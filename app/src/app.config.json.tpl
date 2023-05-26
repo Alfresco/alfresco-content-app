@@ -11,7 +11,8 @@
     "iphoneUrl": "iosamw://",
     "androidUrlPart1": "intent:///",
     "androidUrlPart2": "#Intent;scheme=androidamw;package=com.alfresco.content.app;end",
-    "sessionTimeForOpenAppDialogDisplay": "${APP_CONFIG_SESSION_TIME_FOR_OPEN_APP_DIALOG_DISPLAY_IN_HOURS}"
+    "sessionTimeForOpenAppDialogDisplay": "${APP_CONFIG_SESSION_TIME_FOR_OPEN_APP_DIALOG_DISPLAY_IN_HOURS}",
+    "appStoreUrl": "https://apps.apple.com/us/app/alfresco-mobile-workspace/id1514434480"
   },
   "plugins": {
     "aosPlugin": ${APP_CONFIG_PLUGIN_AOS},

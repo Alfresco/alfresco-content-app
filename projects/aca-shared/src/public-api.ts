@@ -41,6 +41,8 @@ export * from './lib/components/info-drawer/info-drawer.component';
 export * from './lib/components/info-drawer/shared-info-drawer.module';
 export * from './lib/components/document-base-page/document-base-page.component';
 export * from './lib/components/document-base-page/document-base-page.service';
+export * from './lib/components/open-in-app/open-in-app.component';
+export * from './lib/components/open-in-app/open-in-app.module';
 
 export * from './lib/directives/contextmenu/contextmenu.directive';
 export * from './lib/directives/contextmenu/contextmenu.module';
