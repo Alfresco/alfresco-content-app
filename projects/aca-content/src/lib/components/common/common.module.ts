@@ -36,16 +36,16 @@ import { UserInfoComponent } from './user-info/user-info.component';
 import { RouterModule } from '@angular/router';
 
 @NgModule({
-  imports: [CommonModule, CoreModule.forChild(), ContentModule.forChild(), ExtensionsModule, GenericErrorModule, RouterModule],
-  declarations: [LocationLinkComponent, ToggleSharedComponent, LanguagePickerComponent, LogoutComponent, UserInfoComponent],
-  exports: [
+  imports: [
+    CommonModule,
+    CoreModule.forChild(),
+    ContentModule.forChild(),
     ExtensionsModule,
-    LocationLinkComponent,
     GenericErrorModule,
-    ToggleSharedComponent,
-    LanguagePickerComponent,
-    LogoutComponent,
-    UserInfoComponent
-  ]
+    RouterModule,
+    LanguagePickerComponent
+  ],
+  declarations: [LocationLinkComponent, ToggleSharedComponent, LogoutComponent, UserInfoComponent],
+  exports: [ExtensionsModule, LocationLinkComponent, GenericErrorModule, ToggleSharedComponent, LogoutComponent, UserInfoComponent]
 })
 export class AppCommonModule {}
