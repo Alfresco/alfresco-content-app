@@ -47,7 +47,6 @@ import { MaterialModule } from './material.module';
 import { CoreExtensionsModule } from './extensions/core.extensions.module';
 import { AppInfoDrawerModule } from './components/info-drawer/info.drawer.module';
 import { DirectivesModule } from './directives/directives.module';
-import { ContextMenuModule } from './components/context-menu/context-menu.module';
 import { ExtensionService, ExtensionsModule } from '@alfresco/adf-extensions';
 import { AppToolbarModule } from './components/toolbar/toolbar.module';
 import { AppSidenavModule } from './components/sidenav/sidenav.module';
@@ -93,6 +92,7 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { ContentManagementService } from './services/content-management.service';
 import { ShellLayoutComponent, SHELL_NAVBAR_MIN_WIDTH } from '@alfresco/adf-core/shell';
 import { UserMenuComponent } from './components/sidenav/user-menu/user-menu.component';
+import { ContextMenuComponent } from './components/context-menu/context-menu.component';
 
 @NgModule({
   imports: [
@@ -110,7 +110,7 @@ import { UserMenuComponent } from './components/sidenav/user-menu/user-menu.comp
     ...APP_COMMON_DIRECTIVES,
     PageLayoutModule,
     DirectivesModule,
-    ContextMenuModule,
+    ContextMenuComponent,
     AppInfoDrawerModule,
     AppToolbarModule,
     AppSidenavModule,

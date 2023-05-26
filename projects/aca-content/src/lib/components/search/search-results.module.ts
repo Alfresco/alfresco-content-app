@@ -34,12 +34,12 @@ import { SearchLibrariesResultsComponent } from './search-libraries-results/sear
 import { AppInfoDrawerModule } from '../info-drawer/info.drawer.module';
 import { AppToolbarModule } from '../toolbar/toolbar.module';
 import { DirectivesModule } from '../../directives/directives.module';
-import { ContextMenuModule } from '../context-menu/context-menu.module';
 import { SearchActionMenuComponent } from './search-action-menu/search-action-menu.component';
 import { AppSearchInputModule } from './search-input.module';
 import { LocationLinkComponent } from '../common/location-link/location-link.component';
 import { ThumbnailColumnComponent } from '../dl-custom-components/thumbnail-column/thumbnail-column.component';
 import { TagsColumnComponent } from '../dl-custom-components/tags-column/tags-column.component';
+import { ContextMenuComponent } from '../context-menu/context-menu.component';
 
 @NgModule({
   imports: [
@@ -51,7 +51,7 @@ import { TagsColumnComponent } from '../dl-custom-components/tags-column/tags-co
     AppToolbarModule,
     DirectivesModule,
     PageLayoutModule,
-    ContextMenuModule,
+    ContextMenuComponent,
     LockedByComponent,
     AppSearchInputModule,
     LocationLinkComponent,

@@ -29,10 +29,10 @@ import { TrashcanComponent } from './trashcan.component';
 import { ContentModule } from '@alfresco/adf-content-services';
 import { AppToolbarModule } from '../toolbar/toolbar.module';
 import { DirectivesModule } from '../../directives/directives.module';
-import { ContextMenuModule } from '../context-menu/context-menu.module';
 import { AppSearchInputModule } from '../search/search-input.module';
 import { PageLayoutModule } from '@alfresco/aca-shared';
 import { ExtensionsModule } from '@alfresco/adf-extensions';
+import { ContextMenuComponent } from '../context-menu/context-menu.component';
 
 @NgModule({
   imports: [
@@ -41,7 +41,7 @@ import { ExtensionsModule } from '@alfresco/adf-extensions';
     ContentModule.forChild(),
     DirectivesModule,
     AppToolbarModule,
-    ContextMenuModule,
+    ContextMenuComponent,
     PageLayoutModule,
     AppSearchInputModule,
     ExtensionsModule

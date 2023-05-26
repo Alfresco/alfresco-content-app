@@ -27,6 +27,7 @@ import { fromEvent, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 @Directive({
+  standalone: true,
   selector: '[acaContextMenuOutsideEvent]'
 })
 export class OutsideEventDirective implements OnInit, OnDestroy {

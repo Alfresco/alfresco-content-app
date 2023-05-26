@@ -25,8 +25,8 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { ContextMenuItemComponent } from './context-menu-item.component';
-import { ContextMenuModule } from './context-menu.module';
 import { AppExtensionService } from '@alfresco/aca-shared';
+import { ContextMenuComponent } from './context-menu.component';
 
 describe('ContextMenuComponent', () => {
   let fixture: ComponentFixture<ContextMenuItemComponent>;
@@ -36,8 +36,7 @@ describe('ContextMenuComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, ContextMenuModule],
-      providers: [AppExtensionService]
+      imports: [AppTestingModule, ContextMenuComponent]
     });
 
     fixture = TestBed.createComponent(ContextMenuItemComponent);
