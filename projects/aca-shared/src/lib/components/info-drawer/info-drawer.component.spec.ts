@@ -60,8 +60,7 @@ describe('InfoDrawerComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [LibTestingModule, SharedToolbarModule],
-      declarations: [InfoDrawerComponent],
+      imports: [LibTestingModule, SharedToolbarModule, InfoDrawerComponent],
       providers: [
         { provide: AppExtensionService, useValue: extensionServiceMock },
         { provide: Store, useValue: storeMock }

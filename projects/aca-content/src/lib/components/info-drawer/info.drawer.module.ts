@@ -28,11 +28,11 @@ import { MetadataTabComponent } from './metadata-tab/metadata-tab.component';
 import { LibraryMetadataTabComponent } from './library-metadata-tab/library-metadata-tab.component';
 import { LibraryMetadataFormComponent } from './library-metadata-tab/library-metadata-form.component';
 import { VersionsTabComponent } from './versions-tab/versions-tab.component';
-import { SharedInfoDrawerModule } from '@alfresco/aca-shared';
+import { InfoDrawerComponent } from '@alfresco/aca-shared';
 
 @NgModule({
   imports: [
-    SharedInfoDrawerModule,
+    InfoDrawerComponent,
     CommentsTabComponent,
     LibraryMetadataFormComponent,
     LibraryMetadataTabComponent,
@@ -40,7 +40,7 @@ import { SharedInfoDrawerModule } from '@alfresco/aca-shared';
     VersionsTabComponent
   ],
   exports: [
-    SharedInfoDrawerModule,
+    InfoDrawerComponent,
     CommentsTabComponent,
     LibraryMetadataFormComponent,
     LibraryMetadataTabComponent,

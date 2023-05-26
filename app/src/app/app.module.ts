@@ -88,7 +88,7 @@ registerLocaleData(localeSv);
     BrowserModule,
     TranslateModule.forRoot(),
     CoreModule.forRoot(),
-    SharedModule.forRoot(),
+    SharedModule,
     CoreExtensionsModule.forRoot(),
     AppLoginModule,
     environment.e2e ? NoopAnimationsModule : BrowserAnimationsModule,

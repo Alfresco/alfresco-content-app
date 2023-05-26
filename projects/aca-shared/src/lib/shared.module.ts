@@ -22,10 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ModuleWithProviders, NgModule } from '@angular/core';
-import { ContentApiService } from './services/content-api.service';
-import { NodePermissionService } from './services/node-permission.service';
-import { AppService } from './services/app.service';
+import { NgModule } from '@angular/core';
 import { ContextActionsModule } from './directives/contextmenu/contextmenu.module';
 import { OpenInAppComponent } from './components/open-in-app/open-in-app.component';
 import { MatButtonModule } from '@angular/material/button';
@@ -38,11 +35,4 @@ import { TranslateModule } from '@ngx-translate/core';
   exports: [ContextActionsModule, MatButtonModule, MatIconModule, MatDialogModule, TranslateModule],
   declarations: [OpenInAppComponent]
 })
-export class SharedModule {
-  static forRoot(): ModuleWithProviders<SharedModule> {
-    return {
-      ngModule: SharedModule,
-      providers: [ContentApiService, NodePermissionService, AppService]
-    };
-  }
-}
+export class SharedModule {}

@@ -36,7 +36,6 @@ export * from './lib/components/tool-bar/toolbar-button/toolbar-button.component
 export * from './lib/components/tool-bar/toolbar-menu/toolbar-menu.component';
 export * from './lib/components/tool-bar/toolbar-menu-item/toolbar-menu-item.component';
 export * from './lib/components/info-drawer/info-drawer.component';
-export * from './lib/components/info-drawer/shared-info-drawer.module';
 export * from './lib/components/document-base-page/document-base-page.component';
 export * from './lib/components/document-base-page/document-base-page.service';
 

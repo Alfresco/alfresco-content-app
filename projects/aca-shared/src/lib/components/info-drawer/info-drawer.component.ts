@@ -24,7 +24,7 @@
 
 import { Component, HostListener, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { MinimalNodeEntity, MinimalNodeEntryEntity, SiteEntry } from '@alfresco/js-api';
-import { ContentActionRef, SidebarTabRef } from '@alfresco/adf-extensions';
+import { ContentActionRef, ExtensionsModule, SidebarTabRef } from '@alfresco/adf-extensions';
 import { Store } from '@ngrx/store';
 import { SetInfoDrawerStateAction, ToggleInfoDrawerAction, infoDrawerPreview } from '@alfresco/aca-shared/store';
 import { AppExtensionService } from '../../services/app.extension.service';
@@ -32,7 +32,14 @@ import { ContentApiService } from '../../services/content-api.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { ThemePalette } from '@angular/material/core';
+import { CommonModule } from '@angular/common';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { InfoDrawerModule, ToolbarModule } from '@alfresco/adf-core';
+import { SharedToolbarModule } from '../tool-bar/shared-toolbar.module';
+import { TranslateModule } from '@ngx-translate/core';
 @Component({
+  standalone: true,
+  imports: [CommonModule, TranslateModule, MatProgressBarModule, InfoDrawerModule, SharedToolbarModule, ExtensionsModule, ToolbarModule],
   selector: 'aca-info-drawer',
   templateUrl: './info-drawer.component.html'
 })

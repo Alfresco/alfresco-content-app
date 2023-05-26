@@ -27,7 +27,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ContentDirectiveModule, ContentModule } from '@alfresco/adf-content-services';
-import { SharedDirectivesModule, SharedToolbarModule, SharedInfoDrawerModule } from '@alfresco/aca-shared';
+import { SharedDirectivesModule, SharedToolbarModule, InfoDrawerComponent } from '@alfresco/aca-shared';
 import { ExtensionsModule } from '@alfresco/adf-extensions';
 import { PreviewComponent } from './components/preview.component';
 
@@ -52,8 +52,8 @@ const routes: Routes = [
     ContentDirectiveModule,
     SharedDirectivesModule,
     ContentDirectiveModule,
-    SharedInfoDrawerModule,
-    SharedToolbarModule
+    SharedToolbarModule,
+    InfoDrawerComponent
   ],
   declarations: [PreviewComponent],
   exports: [PreviewComponent]
