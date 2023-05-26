@@ -37,7 +37,6 @@ import { AppCommonModule } from '../common/common.module';
 import { DirectivesModule } from '../../directives/directives.module';
 import { ContextMenuModule } from '../context-menu/context-menu.module';
 import { SearchActionMenuComponent } from './search-action-menu/search-action-menu.component';
-import { DocumentListCustomComponentsModule } from '../dl-custom-components/document-list-custom-components.module';
 import { AppSearchInputModule } from './search-input.module';
 import { LocationLinkComponent } from '../common/location-link/location-link.component';
 import { ThumbnailColumnComponent } from '../dl-custom-components/thumbnail-column/thumbnail-column.component';
@@ -56,7 +55,6 @@ import { TagsColumnComponent } from '../dl-custom-components/tags-column/tags-co
     PageLayoutModule,
     ContextMenuModule,
     LockedByComponent,
-    DocumentListCustomComponentsModule,
     AppSearchInputModule,
     LocationLinkComponent,
     ThumbnailColumnComponent,
