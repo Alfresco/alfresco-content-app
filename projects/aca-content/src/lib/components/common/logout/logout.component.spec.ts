@@ -31,12 +31,11 @@ import { SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 describe('LogoutComponent', () => {
   let fixture: ComponentFixture<LogoutComponent>;
   let component: LogoutComponent;
-  let store;
+  let store: Store;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule],
-      declarations: [LogoutComponent],
+      imports: [AppTestingModule, LogoutComponent],
       providers: [
         {
           provide: Store,
