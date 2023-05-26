@@ -55,7 +55,7 @@ export class CustomNameColumnComponent extends NameColumnComponent implements On
 
   ngOnInit() {
     this.updateValue();
-    this.isFile = this.node && this.node.entry && !this.node.entry.isFolder;
+    this.isFile = this.node?.entry && !this.node.entry.isFolder;
     this.isFileWriteLocked = isLocked(this.node);
 
     this.nodesService.nodeUpdated.pipe(takeUntil(this.onDestroy$$)).subscribe((node: any) => {
@@ -71,7 +71,7 @@ export class CustomNameColumnComponent extends NameColumnComponent implements On
           this.updateValue();
         }
 
-        this.isFile = this.node && this.node.entry && !this.node.entry.isFolder;
+        this.isFile = this.node?.entry && !this.node.entry.isFolder;
         this.isFileWriteLocked = isLocked(this.node);
       }
     });

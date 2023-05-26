@@ -52,13 +52,7 @@ describe('MetadataTabComponent', () => {
     });
     nodePermissionService = TestBed.inject(NodePermissionService);
     spyOn(nodePermissionService, 'check').and.callFake((source: MinimalNodeEntryEntity, permissions: string[]) => {
-      let isAllowed = false;
-      permissions.forEach((permission) => {
-        if (source.allowableOperations.includes(permission)) {
-          isAllowed = true;
-        }
-      });
-      return isAllowed;
+      return permissions.some((permission) => source.allowableOperations.includes(permission));
     });
   });
 

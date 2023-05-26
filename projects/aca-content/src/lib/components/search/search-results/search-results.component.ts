@@ -196,7 +196,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
   }
 
   getNumberOfResults() {
-    if (this.data && this.data.list && this.data.list.pagination) {
+    if (this.data?.list?.pagination) {
       return this.data.list.pagination.totalItems;
     }
     return 0;

@@ -60,7 +60,7 @@ export class RuleSetPickerSmartComponent implements OnInit, OnDestroy {
     map(([rulesLoading, folderLoading]) => rulesLoading || folderLoading)
   );
 
-  onDestroy$: Subject<boolean> = new Subject<boolean>();
+  onDestroy$: Subject<boolean> = new Subject();
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: RuleSetPickerOptions,
@@ -80,7 +80,7 @@ export class RuleSetPickerSmartComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.onDestroy$.next(true);
+    this.onDestroy$.next();
     this.onDestroy$.complete();
   }
 

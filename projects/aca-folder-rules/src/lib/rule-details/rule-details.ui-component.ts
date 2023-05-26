@@ -169,6 +169,7 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
       (parameterConstraint: ActionParameterConstraint) => parameterConstraint.name === 'script-ref'
     );
   }
+
   ngOnDestroy() {
     this.onDestroy$.next();
     this.onDestroy$.complete();

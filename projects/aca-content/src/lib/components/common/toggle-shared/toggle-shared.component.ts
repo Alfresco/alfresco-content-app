@@ -51,7 +51,7 @@ export class ToggleSharedComponent implements OnInit, OnDestroy {
   selectionLabel = '';
   isShared = false;
 
-  onDestroy$ = new Subject<boolean>();
+  onDestroy$ = new Subject();
 
   constructor(private store: Store<AppStore>) {}
 
@@ -60,23 +60,16 @@ export class ToggleSharedComponent implements OnInit, OnDestroy {
     this.selection$.pipe(takeUntil(this.onDestroy$)).subscribe((selectionState) => {
       this.selectionState = selectionState;
 
-      // workaround for shared files
-      if (this.selectionState.first && this.selectionState.first.entry && (this.selectionState.first.entry as any).sharedByUser) {
-        this.isShared = true;
-      } else {
-        this.isShared =
-          this.selectionState.first &&
-          this.selectionState.first.entry &&
-          this.selectionState.first.entry.properties &&
-          !!this.selectionState.first.entry.properties['qshare:sharedId'];
-      }
+      this.isShared =
+        (this.selectionState.first && this.selectionState.first.entry && (this.selectionState.first.entry as any).sharedByUser) ||
+        !!this.selectionState?.first?.entry?.properties?.['qshare:sharedId'];
 
       this.selectionLabel = this.isShared ? 'APP.ACTIONS.SHARE_EDIT' : 'APP.ACTIONS.SHARE';
     });
   }
 
   ngOnDestroy(): void {
-    this.onDestroy$.next(true);
+    this.onDestroy$.next();
     this.onDestroy$.complete();
   }
   editSharedNode(selection: SelectionState, focusedElementOnCloseSelector: string) {

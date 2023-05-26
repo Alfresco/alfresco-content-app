@@ -133,7 +133,7 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
           this.libraryTitleExists = false;
         }
       });
-    this.canUpdateLibrary = this.node && this.node.entry && this.node.entry.role === 'SiteManager';
+    this.canUpdateLibrary = this.node?.entry?.role === 'SiteManager';
     this.visibilityLabel = this.libraryType.find((type) => type.value === this.form.controls['visibility'].value).label;
   }
 

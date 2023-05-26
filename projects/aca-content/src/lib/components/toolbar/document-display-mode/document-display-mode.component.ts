@@ -52,7 +52,7 @@ export class DocumentDisplayModeComponent implements OnInit, OnDestroy {
   displayMode$: Observable<string>;
   displayModeTitle: string;
 
-  onDestroy$ = new Subject<boolean>();
+  onDestroy$ = new Subject();
 
   constructor(private store: Store<AppStore>) {}
 
@@ -64,7 +64,7 @@ export class DocumentDisplayModeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.onDestroy$.next(true);
+    this.onDestroy$.next();
     this.onDestroy$.complete();
   }
 
