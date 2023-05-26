@@ -27,7 +27,7 @@ import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
 import { ContentModule } from '@alfresco/adf-content-services';
 import { ExtensionsModule } from '@alfresco/adf-extensions';
-import { LockedByModule, PageLayoutModule } from '@alfresco/aca-shared';
+import { LockedByComponent, PageLayoutModule } from '@alfresco/aca-shared';
 import { SearchResultsComponent } from './search-results/search-results.component';
 import { SearchResultsRowComponent } from './search-results-row/search-results-row.component';
 import { SearchLibrariesResultsComponent } from './search-libraries-results/search-libraries-results.component';
@@ -55,7 +55,7 @@ import { TagsColumnComponent } from '../dl-custom-components/tags-column/tags-co
     DirectivesModule,
     PageLayoutModule,
     ContextMenuModule,
-    LockedByModule,
+    LockedByComponent,
     DocumentListCustomComponentsModule,
     AppSearchInputModule,
     LocationLinkComponent,

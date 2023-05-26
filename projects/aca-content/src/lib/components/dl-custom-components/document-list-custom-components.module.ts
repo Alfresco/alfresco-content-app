@@ -24,11 +24,11 @@
 
 import { NgModule } from '@angular/core';
 import { CustomNameColumnComponent } from './name-column/name-column.component';
-import { LockedByModule } from '@alfresco/aca-shared';
+import { LockedByComponent } from '@alfresco/aca-shared';
 import { ThumbnailColumnComponent } from './thumbnail-column/thumbnail-column.component';
 import { TagsColumnComponent } from './tags-column/tags-column.component';
 
 @NgModule({
-  imports: [LockedByModule, ThumbnailColumnComponent, CustomNameColumnComponent, TagsColumnComponent]
+  imports: [LockedByComponent, ThumbnailColumnComponent, CustomNameColumnComponent, TagsColumnComponent]
 })
 export class DocumentListCustomComponentsModule {}

@@ -24,8 +24,12 @@
 
 import { Component, Input, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { NodeEntry } from '@alfresco/js-api';
+import { TranslateModule } from '@ngx-translate/core';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
+  standalone: true,
+  imports: [TranslateModule, MatIconModule],
   selector: 'aca-locked-by',
   template: `
     <mat-icon class="locked_by--icon">lock</mat-icon>

@@ -28,13 +28,13 @@ import { Actions, ofType } from '@ngrx/effects';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { NodeActionTypes } from '@alfresco/aca-shared/store';
-import { LockedByModule, isLocked } from '@alfresco/aca-shared';
+import { LockedByComponent, isLocked } from '@alfresco/aca-shared';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, TranslateModule, LockedByModule, ContentPipeModule],
+  imports: [CommonModule, TranslateModule, LockedByComponent, ContentPipeModule],
   selector: 'aca-custom-name-column',
   templateUrl: './name-column.component.html',
   styleUrls: ['./name-column.component.scss'],
