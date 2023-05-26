@@ -122,11 +122,11 @@ import { UserMenuComponent } from './components/sidenav/user-menu/user-menu.comp
     AppTrashcanModule,
     AppSharedLinkViewModule,
     AcaFolderRulesModule,
-    GenericErrorComponent
+    GenericErrorComponent,
+    DetailsComponent
   ],
   declarations: [
     FilesComponent,
-    DetailsComponent,
     LibrariesComponent,
     FavoriteLibrariesComponent,
     FavoritesComponent,

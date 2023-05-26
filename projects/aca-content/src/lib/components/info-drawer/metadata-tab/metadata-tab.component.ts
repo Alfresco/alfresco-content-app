@@ -29,10 +29,13 @@ import { AppStore, infoDrawerMetadataAspect } from '@alfresco/aca-shared/store';
 import { AppConfigService, NotificationService } from '@alfresco/adf-core';
 import { Observable, Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { ContentMetadataService } from '@alfresco/adf-content-services';
+import { ContentMetadataModule, ContentMetadataService } from '@alfresco/adf-content-services';
 import { takeUntil } from 'rxjs/operators';
+import { CommonModule } from '@angular/common';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, ContentMetadataModule],
   selector: 'app-metadata-tab',
   template: `
     <adf-content-metadata-card [readOnly]="!canUpdateNode" [preset]="'custom'" [node]="node" [displayAspect]="displayAspect$ | async">

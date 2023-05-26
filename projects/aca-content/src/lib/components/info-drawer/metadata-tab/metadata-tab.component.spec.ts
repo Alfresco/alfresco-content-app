@@ -27,7 +27,6 @@ import { Node } from '@alfresco/js-api';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { AppConfigService, CoreModule } from '@alfresco/adf-core';
-import { ContentMetadataModule } from '@alfresco/adf-content-services';
 import { Store } from '@ngrx/store';
 import { AppState, SetInfoDrawerMetadataAspectAction } from '@alfresco/aca-shared/store';
 import { By } from '@angular/platform-browser';
@@ -48,8 +47,7 @@ describe('MetadataTabComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CoreModule, AppTestingModule, ContentMetadataModule],
-      declarations: [MetadataTabComponent]
+      imports: [CoreModule, AppTestingModule, MetadataTabComponent]
     });
   });
 

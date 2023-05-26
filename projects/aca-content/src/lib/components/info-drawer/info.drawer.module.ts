@@ -49,9 +49,19 @@ import { SharedInfoDrawerModule } from '@alfresco/aca-shared';
     DirectivesModule,
     A11yModule,
     SharedInfoDrawerModule,
-    CommentsTabComponent
+    CommentsTabComponent,
+    LibraryMetadataFormComponent,
+    LibraryMetadataTabComponent,
+    MetadataTabComponent,
+    VersionsTabComponent
   ],
-  declarations: [MetadataTabComponent, VersionsTabComponent, LibraryMetadataTabComponent, LibraryMetadataFormComponent],
-  exports: [MetadataTabComponent, VersionsTabComponent, LibraryMetadataTabComponent, LibraryMetadataFormComponent, SharedInfoDrawerModule]
+  exports: [
+    SharedInfoDrawerModule,
+    CommentsTabComponent,
+    LibraryMetadataFormComponent,
+    LibraryMetadataTabComponent,
+    MetadataTabComponent,
+    VersionsTabComponent
+  ]
 })
 export class AppInfoDrawerModule {}

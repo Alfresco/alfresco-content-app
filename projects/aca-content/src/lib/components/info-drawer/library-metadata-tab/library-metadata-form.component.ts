@@ -23,14 +23,22 @@
  */
 
 import { Component, Input, OnInit, OnChanges, OnDestroy } from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators, FormGroupDirective, NgForm } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators, FormGroupDirective, NgForm, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { QueriesApi, SiteEntry, SitePaging } from '@alfresco/js-api';
 import { Store } from '@ngrx/store';
 import { AppStore, UpdateLibraryAction } from '@alfresco/aca-shared/store';
 import { debounceTime, mergeMap, takeUntil } from 'rxjs/operators';
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { Observable, from, Subject } from 'rxjs';
-import { ErrorStateMatcher } from '@angular/material/core';
+import { ErrorStateMatcher, MatOptionModule } from '@angular/material/core';
+import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { TranslateModule } from '@ngx-translate/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { A11yModule } from '@angular/cdk/a11y';
+import { MatButtonModule } from '@angular/material/button';
 
 export class InstantErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: UntypedFormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -40,11 +48,25 @@ export class InstantErrorStateMatcher implements ErrorStateMatcher {
 }
 
 @Component({
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatCardModule,
+    TranslateModule,
+    MatFormFieldModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatSelectModule,
+    MatOptionModule,
+    MatInputModule,
+    A11yModule,
+    MatButtonModule
+  ],
   selector: 'app-library-metadata-form',
   templateUrl: './library-metadata-form.component.html'
 })
 export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestroy {
-  _queriesApi: QueriesApi;
+  private _queriesApi: QueriesApi;
   get queriesApi(): QueriesApi {
     this._queriesApi = this._queriesApi ?? new QueriesApi(this.alfrescoApiService.getInstance());
     return this._queriesApi;

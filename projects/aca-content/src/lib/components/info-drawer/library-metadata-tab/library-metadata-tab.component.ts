@@ -24,8 +24,11 @@
 
 import { Component, Input } from '@angular/core';
 import { SiteEntry } from '@alfresco/js-api';
+import { LibraryMetadataFormComponent } from './library-metadata-form.component';
 
 @Component({
+  standalone: true,
+  imports: [LibraryMetadataFormComponent],
   selector: 'app-library-metadata-tab',
   template: '<app-library-metadata-form [node]="node"></app-library-metadata-form>',
   host: { class: 'app-metadata-tab' }
