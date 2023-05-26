@@ -27,7 +27,6 @@ import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
 import { TrashcanComponent } from './trashcan.component';
 import { ContentModule } from '@alfresco/adf-content-services';
-import { AppCommonModule } from '../common/common.module';
 import { AppToolbarModule } from '../toolbar/toolbar.module';
 import { DirectivesModule } from '../../directives/directives.module';
 import { ContextMenuModule } from '../context-menu/context-menu.module';
@@ -41,7 +40,6 @@ import { ExtensionsModule } from '@alfresco/adf-extensions';
     CoreModule.forChild(),
     ContentModule.forChild(),
     DirectivesModule,
-    AppCommonModule,
     AppToolbarModule,
     ContextMenuModule,
     PageLayoutModule,

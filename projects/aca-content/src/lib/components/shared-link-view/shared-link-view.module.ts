@@ -27,7 +27,6 @@ import { SharedLinkViewComponent } from './shared-link-view.component';
 import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
 import { DirectivesModule } from '../../directives/directives.module';
-import { AppCommonModule } from '../common/common.module';
 import { AppToolbarModule } from '../toolbar/toolbar.module';
 import { AppInfoDrawerModule } from '../info-drawer/info.drawer.module';
 import { CoreExtensionsModule } from '../../extensions/core.extensions.module';
@@ -38,7 +37,6 @@ import { ContentModule } from '@alfresco/adf-content-services';
     CommonModule,
     CoreModule.forChild(),
     DirectivesModule,
-    AppCommonModule,
     AppToolbarModule,
     CoreExtensionsModule.forChild(),
     AppInfoDrawerModule,

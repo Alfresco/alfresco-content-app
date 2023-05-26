@@ -35,11 +35,10 @@ import { DirectivesModule } from '../../directives/directives.module';
 import { ToggleFavoriteLibraryComponent } from './toggle-favorite-library/toggle-favorite-library.component';
 import { ToggleEditOfflineComponent } from './toggle-edit-offline/toggle-edit-offline.component';
 import { ViewNodeComponent } from './view-node/view-node.component';
-import { AppCommonModule } from '../common/common.module';
 import { SharedToolbarModule } from '@alfresco/aca-shared';
 
 @NgModule({
-  imports: [CommonModule, CoreModule.forChild(), AppCommonModule, ExtensionsModule, SharedToolbarModule, DirectivesModule],
+  imports: [CommonModule, CoreModule.forChild(), ExtensionsModule, SharedToolbarModule, DirectivesModule],
   declarations: [
     DocumentDisplayModeComponent,
     ToggleFavoriteComponent,

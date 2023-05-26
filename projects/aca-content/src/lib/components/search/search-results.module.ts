@@ -33,7 +33,6 @@ import { SearchResultsRowComponent } from './search-results-row/search-results-r
 import { SearchLibrariesResultsComponent } from './search-libraries-results/search-libraries-results.component';
 import { AppInfoDrawerModule } from '../info-drawer/info.drawer.module';
 import { AppToolbarModule } from '../toolbar/toolbar.module';
-import { AppCommonModule } from '../common/common.module';
 import { DirectivesModule } from '../../directives/directives.module';
 import { ContextMenuModule } from '../context-menu/context-menu.module';
 import { SearchActionMenuComponent } from './search-action-menu/search-action-menu.component';
@@ -48,7 +47,6 @@ import { TagsColumnComponent } from '../dl-custom-components/tags-column/tags-co
     CoreModule.forChild(),
     ContentModule.forChild(),
     ExtensionsModule,
-    AppCommonModule,
     AppInfoDrawerModule,
     AppToolbarModule,
     DirectivesModule,

@@ -29,7 +29,18 @@ import { LanguagePickerComponent } from './language-picker/language-picker.compo
 import { LogoutComponent } from './logout/logout.component';
 import { UserInfoComponent } from './user-info/user-info.component';
 
+/**
+ * @deprecated Use `APP_COMMON_DIRECTIVES` instead
+ */
 @NgModule({
   imports: [LanguagePickerComponent, LocationLinkComponent, LogoutComponent, ToggleSharedComponent, UserInfoComponent]
 })
 export class AppCommonModule {}
+
+export const APP_COMMON_DIRECTIVES = [
+  LanguagePickerComponent,
+  LocationLinkComponent,
+  LogoutComponent,
+  ToggleSharedComponent,
+  UserInfoComponent
+] as const;

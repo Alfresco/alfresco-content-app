@@ -30,7 +30,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { CoreExtensionsModule } from '../../extensions/core.extensions.module';
-import { AppCommonModule } from '../common/common.module';
 import { ContextMenuItemComponent } from './context-menu-item.component';
 import { OutsideEventDirective } from './context-menu-outside-event.directive';
 import { ContextMenuComponent } from './context-menu.component';
@@ -44,7 +43,6 @@ import { ContextActionsModule } from '@alfresco/aca-shared';
     MatButtonModule,
     CoreExtensionsModule.forChild(),
     CoreModule.forChild(),
-    AppCommonModule,
     ExtensionsModule,
     ContextActionsModule
   ],
