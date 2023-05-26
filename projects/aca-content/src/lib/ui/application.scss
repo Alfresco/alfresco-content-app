@@ -51,3 +51,11 @@ ng-component {
     height: 100vh;
   }
 }
+
+.aca-sidebar {
+  display: block;
+  height: 100%;
+  overflow-y: scroll;
+  max-width: 350px;
+  width: 350px;
+}
