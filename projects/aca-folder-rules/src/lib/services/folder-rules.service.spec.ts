@@ -36,7 +36,6 @@ import {
   rulesMock
 } from '../mock/rules.mock';
 import { ruleSetMock } from '../mock/rule-sets.mock';
-import { expect } from '@angular/flex-layout/_private-utils/testing';
 import { owningFolderIdMock } from '../mock/node.mock';
 import { take } from 'rxjs/operators';
 
