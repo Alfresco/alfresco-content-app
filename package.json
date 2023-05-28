@@ -98,7 +98,7 @@
     "@typescript-eslint/eslint-plugin": "^5.59.0",
     "@typescript-eslint/parser": "^5.48.2",
     "ajv-cli": "^4.2.0",
-    "cypress": "^12.10.0",
+    "cypress": "^12.13.0",
     "dotenv": "8.2.0",
     "dotenv-expand": "^5.1.0",
     "envsub": "^4.1.0",
