@@ -131,7 +131,7 @@
     "protractor-screenshoter-plugin": "0.10.3",
     "protractor-smartrunner": "^2.0.0-beta6",
     "selenium-webdriver": "^4.1.1",
-    "stylelint": "^15.2.0",
+    "stylelint": "^15.6.2",
     "stylelint-config-standard-scss": "^7.0.1",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "4.2.0",
