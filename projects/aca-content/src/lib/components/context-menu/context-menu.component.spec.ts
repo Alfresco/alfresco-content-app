@@ -25,7 +25,6 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { ContextMenuComponent } from './context-menu.component';
-import { ContextMenuModule } from './context-menu.module';
 import { ContextMenuOverlayRef } from './context-menu-overlay';
 import { ContentActionType } from '@alfresco/adf-extensions';
 
@@ -50,7 +49,7 @@ describe('ContextMenuComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ContextMenuModule, AppTestingModule],
+      imports: [ContextMenuComponent, AppTestingModule],
       providers: [
         {
           provide: ContextMenuOverlayRef,

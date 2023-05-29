@@ -23,10 +23,17 @@
  */
 
 import { Component, Input, ViewEncapsulation } from '@angular/core';
-import { ContentActionRef } from '@alfresco/adf-extensions';
+import { ContentActionRef, ExtensionsModule } from '@alfresco/adf-extensions';
 import { AppExtensionService } from '@alfresco/aca-shared';
+import { CommonModule } from '@angular/common';
+import { MatMenuModule } from '@angular/material/menu';
+import { TranslateModule } from '@ngx-translate/core';
+import { IconModule } from '@alfresco/adf-core';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, TranslateModule, MatMenuModule, IconModule, MatDividerModule, ExtensionsModule],
   selector: 'app-context-menu-item',
   templateUrl: './context-menu-item.component.html',
   encapsulation: ViewEncapsulation.None,

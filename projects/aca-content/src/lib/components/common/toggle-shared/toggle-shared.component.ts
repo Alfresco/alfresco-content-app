@@ -27,8 +27,15 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { SelectionState } from '@alfresco/adf-extensions';
 import { AppStore, ShareNodeAction, getAppSelection } from '@alfresco/aca-shared/store';
+import { CommonModule } from '@angular/common';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
+import { TranslateModule } from '@ngx-translate/core';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, MatMenuModule, MatIconModule, TranslateModule, MatButtonModule],
   selector: 'app-toggle-shared',
   templateUrl: './toggle-shared.component.html'
 })

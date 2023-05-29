@@ -25,24 +25,23 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { DetailsComponent } from './details.component';
-import { MetadataTabComponent } from '../info-drawer/metadata-tab/metadata-tab.component';
-import { CommentsTabComponent } from '../info-drawer/comments-tab/comments-tab.component';
 import { ActivatedRoute } from '@angular/router';
 import { of, Subject } from 'rxjs';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { ContentManagementService } from '../../services/content-management.service';
-import { AppExtensionService } from '@alfresco/adf-extensions';
 import { ContentApiService } from '@alfresco/aca-shared';
-import { SetSelectedNodesAction } from '@alfresco/aca-shared/store';
+import { STORE_INITIAL_APP_DATA, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { NodeEntry } from '@alfresco/js-api';
 import { RouterTestingModule } from '@angular/router/testing';
+import { AuthenticationService, PageTitleService } from '@alfresco/adf-core';
+import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 
 describe('DetailsComponent', () => {
   let component: DetailsComponent;
   let fixture: ComponentFixture<DetailsComponent>;
   let contentApiService: ContentApiService;
   let store: Store;
+  let node: NodeEntry;
 
   const mockStream = new Subject();
   const storeMock = {
@@ -52,18 +51,32 @@ describe('DetailsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule],
-      declarations: [DetailsComponent, CommentsTabComponent, MetadataTabComponent],
+      imports: [AppTestingModule, DetailsComponent],
       providers: [
-        ContentManagementService,
-        AppExtensionService,
         RouterTestingModule,
+        SearchQueryBuilderService,
         { provide: Store, useValue: storeMock },
         {
           provide: ActivatedRoute,
           useValue: {
             snapshot: { data: { preferencePrefix: 'prefix' } },
             params: of({ nodeId: 'someId', activeTab: 'permissions' })
+          }
+        },
+        {
+          provide: PageTitleService,
+          useValue: {}
+        },
+        {
+          provide: STORE_INITIAL_APP_DATA,
+          useValue: {}
+        },
+        {
+          provide: AuthenticationService,
+          useValue: {
+            onLogin: new Subject<any>(),
+            onLogout: new Subject<any>(),
+            isLoggedIn: () => true
           }
         }
       ],
@@ -74,7 +87,22 @@ describe('DetailsComponent', () => {
     component = fixture.componentInstance;
     contentApiService = TestBed.inject(ContentApiService);
     store = TestBed.inject(Store);
-    spyOn(contentApiService, 'getNode').and.returnValue(of({ entry: { id: 'libraryId' } } as NodeEntry));
+
+    node = {
+      entry: {
+        id: 'libraryId',
+        name: 'my library',
+        isFile: false,
+        isFolder: false,
+        modifiedAt: new Date(),
+        createdAt: new Date(),
+        nodeType: '',
+        createdByUser: { id: '', displayName: '' },
+        modifiedByUser: { id: '', displayName: '' },
+        aspectNames: []
+      }
+    };
+    spyOn(contentApiService, 'getNode').and.returnValue(of(node));
   });
 
   afterEach(() => {
@@ -98,6 +126,6 @@ describe('DetailsComponent', () => {
 
   it('should dispatch node selection', () => {
     fixture.detectChanges();
-    expect(store.dispatch).toHaveBeenCalledWith(new SetSelectedNodesAction([{ entry: { id: 'libraryId' } } as NodeEntry]));
+    expect(store.dispatch).toHaveBeenCalledWith(new SetSelectedNodesAction([node]));
   });
 });

@@ -42,7 +42,7 @@ describe('OpenInAppComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [LibTestingModule, SharedModule.forRoot(), MatIconTestingModule],
+      imports: [LibTestingModule, SharedModule, MatIconTestingModule],
       providers: [
         provideMockStore({ initialState }),
         { provide: MAT_DIALOG_DATA, useValue: { redirectUrl: 'mockRedirectUrl', appStoreUrl: 'mockAppStoreUrl' } },

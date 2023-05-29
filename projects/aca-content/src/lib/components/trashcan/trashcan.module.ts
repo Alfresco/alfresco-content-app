@@ -27,12 +27,12 @@ import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
 import { TrashcanComponent } from './trashcan.component';
 import { ContentModule } from '@alfresco/adf-content-services';
-import { AppCommonModule } from '../common/common.module';
 import { AppToolbarModule } from '../toolbar/toolbar.module';
 import { DirectivesModule } from '../../directives/directives.module';
-import { ContextMenuModule } from '../context-menu/context-menu.module';
 import { AppSearchInputModule } from '../search/search-input.module';
 import { PageLayoutModule } from '@alfresco/aca-shared';
+import { ExtensionsModule } from '@alfresco/adf-extensions';
+import { ContextMenuComponent } from '../context-menu/context-menu.component';
 
 @NgModule({
   imports: [
@@ -40,11 +40,11 @@ import { PageLayoutModule } from '@alfresco/aca-shared';
     CoreModule.forChild(),
     ContentModule.forChild(),
     DirectivesModule,
-    AppCommonModule,
     AppToolbarModule,
-    ContextMenuModule,
+    ContextMenuComponent,
     PageLayoutModule,
-    AppSearchInputModule
+    AppSearchInputModule,
+    ExtensionsModule
   ],
   declarations: [TrashcanComponent],
   exports: [TrashcanComponent]

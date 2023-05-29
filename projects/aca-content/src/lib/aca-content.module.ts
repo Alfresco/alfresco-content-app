@@ -34,7 +34,7 @@ import {
   LibraryStatusColumnComponent,
   TrashcanNameColumnComponent
 } from '@alfresco/adf-content-services';
-import { DocumentBasePageService, ExtensionsDataLoaderGuard, PageLayoutModule, SharedModule } from '@alfresco/aca-shared';
+import { DocumentBasePageService, ExtensionsDataLoaderGuard, PageLayoutModule, SharedModule, GenericErrorComponent } from '@alfresco/aca-shared';
 import * as rules from '@alfresco/aca-shared/rules';
 
 import { FilesComponent } from './components/files/files.component';
@@ -47,11 +47,10 @@ import { MaterialModule } from './material.module';
 import { CoreExtensionsModule } from './extensions/core.extensions.module';
 import { AppInfoDrawerModule } from './components/info-drawer/info.drawer.module';
 import { DirectivesModule } from './directives/directives.module';
-import { ContextMenuModule } from './components/context-menu/context-menu.module';
 import { ExtensionService, ExtensionsModule } from '@alfresco/adf-extensions';
 import { AppToolbarModule } from './components/toolbar/toolbar.module';
 import { AppSidenavModule } from './components/sidenav/sidenav.module';
-import { AppCommonModule } from './components/common/common.module';
+import { APP_COMMON_DIRECTIVES } from './components/common/common.module';
 import { AppSearchInputModule } from './components/search/search-input.module';
 import { DocumentListCustomComponentsModule } from './components/dl-custom-components/document-list-custom-components.module';
 import { AppSearchResultsModule } from './components/search/search-results.module';
@@ -93,6 +92,7 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { ContentManagementService } from './services/content-management.service';
 import { ShellLayoutComponent, SHELL_NAVBAR_MIN_WIDTH } from '@alfresco/adf-core/shell';
 import { UserMenuComponent } from './components/sidenav/user-menu/user-menu.component';
+import { ContextMenuComponent } from './components/context-menu/context-menu.component';
 
 @NgModule({
   imports: [
@@ -107,10 +107,10 @@ import { UserMenuComponent } from './components/sidenav/user-menu/user-menu.comp
     SharedModule,
     MaterialModule,
     AppStoreModule,
-    AppCommonModule,
+    ...APP_COMMON_DIRECTIVES,
     PageLayoutModule,
     DirectivesModule,
-    ContextMenuModule,
+    ContextMenuComponent,
     AppInfoDrawerModule,
     AppToolbarModule,
     AppSidenavModule,
@@ -121,11 +121,12 @@ import { UserMenuComponent } from './components/sidenav/user-menu/user-menu.comp
     ViewProfileModule,
     AppTrashcanModule,
     AppSharedLinkViewModule,
-    AcaFolderRulesModule
+    AcaFolderRulesModule,
+    GenericErrorComponent,
+    DetailsComponent
   ],
   declarations: [
     FilesComponent,
-    DetailsComponent,
     LibrariesComponent,
     FavoriteLibrariesComponent,
     FavoritesComponent,

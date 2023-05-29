@@ -22,30 +22,25 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { CoreModule } from '@alfresco/adf-core';
-import { ExtensionsModule } from '@alfresco/adf-extensions';
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { GenericErrorModule } from '@alfresco/aca-shared';
 import { LocationLinkComponent } from './location-link/location-link.component';
 import { ToggleSharedComponent } from './toggle-shared/toggle-shared.component';
 import { LanguagePickerComponent } from './language-picker/language-picker.component';
 import { LogoutComponent } from './logout/logout.component';
-import { ContentModule } from '@alfresco/adf-content-services';
 import { UserInfoComponent } from './user-info/user-info.component';
-import { RouterModule } from '@angular/router';
 
+/**
+ * @deprecated Use `APP_COMMON_DIRECTIVES` instead
+ */
 @NgModule({
-  imports: [CommonModule, CoreModule.forChild(), ContentModule.forChild(), ExtensionsModule, GenericErrorModule, RouterModule],
-  declarations: [LocationLinkComponent, ToggleSharedComponent, LanguagePickerComponent, LogoutComponent, UserInfoComponent],
-  exports: [
-    ExtensionsModule,
-    LocationLinkComponent,
-    GenericErrorModule,
-    ToggleSharedComponent,
-    LanguagePickerComponent,
-    LogoutComponent,
-    UserInfoComponent
-  ]
+  imports: [LanguagePickerComponent, LocationLinkComponent, LogoutComponent, ToggleSharedComponent, UserInfoComponent]
 })
 export class AppCommonModule {}
+
+export const APP_COMMON_DIRECTIVES = [
+  LanguagePickerComponent,
+  LocationLinkComponent,
+  LogoutComponent,
+  ToggleSharedComponent,
+  UserInfoComponent
+] as const;

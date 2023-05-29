@@ -25,8 +25,12 @@
 import { Component, Input } from '@angular/core';
 import { MinimalNodeEntryEntity } from '@alfresco/js-api';
 import { NodePermissionService, isLocked } from '@alfresco/aca-shared';
+import { MatCardModule } from '@angular/material/card';
+import { NodeCommentsModule } from '@alfresco/adf-content-services';
 
 @Component({
+  standalone: true,
+  imports: [MatCardModule, NodeCommentsModule],
   selector: 'app-comments-tab',
   template: `<mat-card><adf-node-comments [readOnly]="!canUpdateNode" [nodeId]="node?.id"></adf-node-comments></mat-card>`
 })

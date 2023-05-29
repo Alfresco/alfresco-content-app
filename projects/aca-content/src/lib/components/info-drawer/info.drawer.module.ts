@@ -22,42 +22,30 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ContentMetadataModule, ContentModule, VersionManagerModule } from '@alfresco/adf-content-services';
-import { CoreModule } from '@alfresco/adf-core';
-import { ExtensionsModule } from '@alfresco/adf-extensions';
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { DirectivesModule } from '../../directives/directives.module';
-import { MaterialModule } from '../../material.module';
 import { CommentsTabComponent } from './comments-tab/comments-tab.component';
 import { MetadataTabComponent } from './metadata-tab/metadata-tab.component';
 import { LibraryMetadataTabComponent } from './library-metadata-tab/library-metadata-tab.component';
 import { LibraryMetadataFormComponent } from './library-metadata-tab/library-metadata-form.component';
 import { VersionsTabComponent } from './versions-tab/versions-tab.component';
-import { A11yModule } from '@angular/cdk/a11y';
-import { SharedInfoDrawerModule } from '@alfresco/aca-shared';
+import { InfoDrawerComponent } from '@alfresco/aca-shared';
 
 @NgModule({
   imports: [
-    CommonModule,
-    MaterialModule,
-    CoreModule.forChild(),
-    ContentModule.forChild(),
-    ExtensionsModule,
-    ContentMetadataModule,
-    VersionManagerModule,
-    DirectivesModule,
-    A11yModule,
-    SharedInfoDrawerModule
-  ],
-  declarations: [MetadataTabComponent, CommentsTabComponent, VersionsTabComponent, LibraryMetadataTabComponent, LibraryMetadataFormComponent],
-  exports: [
-    MetadataTabComponent,
+    InfoDrawerComponent,
     CommentsTabComponent,
-    VersionsTabComponent,
-    LibraryMetadataTabComponent,
     LibraryMetadataFormComponent,
-    SharedInfoDrawerModule
+    LibraryMetadataTabComponent,
+    MetadataTabComponent,
+    VersionsTabComponent
+  ],
+  exports: [
+    InfoDrawerComponent,
+    CommentsTabComponent,
+    LibraryMetadataFormComponent,
+    LibraryMetadataTabComponent,
+    MetadataTabComponent,
+    VersionsTabComponent
   ]
 })
 export class AppInfoDrawerModule {}

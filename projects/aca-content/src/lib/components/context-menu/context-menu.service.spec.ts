@@ -29,27 +29,29 @@ import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { CoreModule, UserPreferencesService } from '@alfresco/adf-core';
 import { ContextMenuService } from './context-menu.service';
-import { ContextMenuModule } from './context-menu.module';
 import { TranslateModule } from '@ngx-translate/core';
+import { ContextMenuComponent } from './context-menu.component';
+import { ContextmenuOverlayConfig } from './interfaces';
 
 describe('ContextMenuService', () => {
-  let contextMenuService;
-  let overlay;
-  let injector;
-  let userPreferencesService;
-  const overlayConfig = {
+  let contextMenuService: ContextMenuService;
+  let overlay: Overlay;
+  let injector: Injector;
+  let userPreferencesService: UserPreferencesService;
+
+  const overlayConfig: ContextmenuOverlayConfig = {
     hasBackdrop: false,
     backdropClass: '',
     panelClass: 'test-panel',
     source: {
       x: 1,
       y: 1
-    }
+    } as any
   };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), CoreModule.forRoot(), ContextMenuModule],
+      imports: [TranslateModule.forRoot(), CoreModule.forRoot(), ContextMenuComponent],
       providers: [Overlay, { provide: Store, useValue: { select: () => of() } }, UserPreferencesService]
     });
 

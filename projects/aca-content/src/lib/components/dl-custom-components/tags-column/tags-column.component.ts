@@ -22,10 +22,12 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ShareDataRow } from '@alfresco/adf-content-services';
+import { ShareDataRow, TagModule } from '@alfresco/adf-content-services';
 import { ChangeDetectorRef, Component, Input, ViewEncapsulation } from '@angular/core';
 
 @Component({
+  standalone: true,
+  imports: [TagModule],
   selector: 'aca-tags-column',
   template: `
     <adf-tag-node-list [showDelete]="false" [limitTagsDisplayed]="true" [nodeId]="getNodeId(context.row)" (results)="onTagsLoaded()">

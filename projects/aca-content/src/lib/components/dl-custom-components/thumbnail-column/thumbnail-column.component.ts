@@ -24,8 +24,13 @@
 
 import { Component, Input, OnChanges, SimpleChanges, ViewEncapsulation, inject } from '@angular/core';
 import { TranslationService } from '@alfresco/adf-core';
+import { NgIf } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
+  standalone: true,
+  imports: [NgIf, MatIconModule, MatTooltipModule],
   selector: 'aca-custom-thumbnail-column',
   templateUrl: './thumbnail-column.component.html',
   encapsulation: ViewEncapsulation.None

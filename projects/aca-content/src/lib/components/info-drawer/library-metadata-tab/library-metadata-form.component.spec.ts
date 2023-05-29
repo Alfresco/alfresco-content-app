@@ -37,8 +37,7 @@ describe('LibraryMetadataFormComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule],
-      declarations: [LibraryMetadataFormComponent],
+      imports: [AppTestingModule, LibraryMetadataFormComponent],
       providers: [
         {
           provide: Store,

@@ -87,8 +87,7 @@ describe('UserInfoComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [AppTestingModule],
-      declarations: [UserInfoComponent],
+      imports: [AppTestingModule, UserInfoComponent],
       providers: [
         { provide: AuthenticationService, useValue: authServiceStub },
         { provide: PeopleContentService, useValue: peopleContentServiceStub },

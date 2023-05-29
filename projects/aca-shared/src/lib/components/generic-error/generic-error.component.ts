@@ -23,8 +23,12 @@
  */
 
 import { Component, ViewEncapsulation, ChangeDetectionStrategy, Input } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
+  standalone: true,
+  imports: [MatIconModule, TranslateModule],
   selector: 'aca-generic-error',
   templateUrl: './generic-error.component.html',
   styleUrls: ['./generic-error.component.scss'],

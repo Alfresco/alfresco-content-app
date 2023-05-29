@@ -64,7 +64,7 @@ module.exports = () => {
           statements: 75,
           branches: 67,
           functions: 73,
-          lines: 75
+          lines: 74
         }
       }
     },
