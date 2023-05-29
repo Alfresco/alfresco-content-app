@@ -24,7 +24,7 @@
 
 import { DocumentDisplayModeComponent } from './document-display-mode.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CoreModule } from '@angular/flex-layout';
+import { CoreModule } from '@alfresco/adf-core';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { of } from 'rxjs';
 
