@@ -28,10 +28,11 @@ import { SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { DirectiveModule } from '@alfresco/adf-core';
 
 @Component({
   standalone: true,
-  imports: [TranslateModule, MatIconModule, MatMenuModule],
+  imports: [TranslateModule, MatIconModule, MatMenuModule, DirectiveModule],
   selector: 'aca-logout',
   template: `
     <button mat-menu-item (click)="onLogoutEvent()" adf-logout>
