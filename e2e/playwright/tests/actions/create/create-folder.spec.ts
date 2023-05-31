@@ -22,9 +22,22 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './global-variables';
-export * from './playwright-base';
-export * from './components';
-export * from './components/dataTable';
-export * from './pages';
-export * from './pages/personal-files.page';
+import { test } from '../../../shared/fixtures/page-initialization';
+import { expect } from '@playwright/test';
+
+test.describe('Create actions', () => {
+  const randomFolderName = `playwright-folder-${(Math.random() + 1).toString(36).substring(6)}`;
+
+  test.beforeEach(async ({ personalFiles }) => {
+    await personalFiles.navigate({ waitUntil: 'domcontentloaded' });
+  });
+
+  test('Create a folder with name only', async ({ personalFiles }) => {
+    await personalFiles.acaHeader.createButton.click();
+    await personalFiles.matMenu.createFolder.click();
+    await personalFiles.folderDialog.folderNameInputLocator.type(randomFolderName, { delay: 50 });
+    await personalFiles.folderDialog.createButton.click();
+
+    await expect(personalFiles.dataTable.getRowByName(randomFolderName)).toBeVisible();
+  });
+});

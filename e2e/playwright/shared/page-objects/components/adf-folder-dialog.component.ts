@@ -22,9 +22,16 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './global-variables';
-export * from './playwright-base';
-export * from './components';
-export * from './components/dataTable';
-export * from './pages';
-export * from './pages/personal-files.page';
+import { BaseComponent } from './base.component';
+import { Page } from '@playwright/test';
+
+export class AdfFolderDialogComponent extends BaseComponent {
+  private static rootElement = 'adf-folder-dialog';
+
+  public folderNameInputLocator = this.getChild('[id="adf-folder-name-input"]');
+  public createButton = this.getChild('[id="adf-folder-create-button"]');
+
+  constructor(page: Page) {
+    super(page, AdfFolderDialogComponent.rootElement);
+  }
+}

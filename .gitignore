@@ -51,6 +51,7 @@ testem.log
 .protractor-fail-fast
 .protractor-smartrunner
 /protractorFailuresReport
+/storage-state
 
 # System Files
 .DS_Store

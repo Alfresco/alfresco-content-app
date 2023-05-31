@@ -22,9 +22,26 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './global-variables';
-export * from './playwright-base';
-export * from './components';
-export * from './components/dataTable';
-export * from './pages';
-export * from './pages/personal-files.page';
+import { PersonalFilesPage } from '../page-objects';
+import { test as base } from '@playwright/test';
+import { ApiClientFactory } from '@alfresco/playwright-shared';
+
+interface Pages {
+  personalFiles: PersonalFilesPage;
+}
+
+interface Api {
+  apiClient: ApiClientFactory;
+}
+
+export const test = base.extend<Pages & Api>({
+  personalFiles: async ({ page }, use) => {
+    await use(new PersonalFilesPage(page));
+  },
+  // eslint-disable-next-line no-empty-pattern
+  apiClient: async ({}, use) => {
+    const apiClient = new ApiClientFactory();
+    await apiClient.setUpAcaBackend('admin');
+    await use(apiClient);
+  }
+});

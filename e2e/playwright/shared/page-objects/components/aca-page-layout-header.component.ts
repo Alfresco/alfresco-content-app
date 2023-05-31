@@ -22,9 +22,14 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './global-variables';
-export * from './playwright-base';
-export * from './components';
-export * from './components/dataTable';
-export * from './pages';
-export * from './pages/personal-files.page';
+import { BaseComponent } from './base.component';
+import { Page } from '@playwright/test';
+
+export class AcaPageLayoutHeader extends BaseComponent {
+  private static rootElement = 'adf-toolbar';
+  public createButton = this.getChild('[id="app.toolbar.create"]');
+
+  constructor(page: Page) {
+    super(page, AcaPageLayoutHeader.rootElement);
+  }
+}
