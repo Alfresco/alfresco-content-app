@@ -1099,6 +1099,19 @@
             "maxDate": "today"
           }
         }
+      },
+      {
+        "id": "logic",
+        "name": "SEARCH.CATEGORIES.LOGIC",
+        "enabled": true,
+        "component": {
+          "selector": "logical-filter",
+          "settings": {
+            "allowUpdateOnChange": false,
+            "hideDefaultAction": true,
+            "field": "cm:name,cm:title,cm:description,TEXT,TAG"
+          }
+        }
       }
     ],
     "highlight": {

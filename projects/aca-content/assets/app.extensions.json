@@ -1529,6 +1529,19 @@
                 "maxDate": "today"
               }
             }
+          },
+          {
+            "id": "logic",
+            "name": "SEARCH.CATEGORIES.LOGIC",
+            "enabled": true,
+            "component": {
+              "selector": "logical-filter",
+              "settings": {
+                "allowUpdateOnChange": false,
+                "hideDefaultAction": true,
+                "field": "cm:name,cm:title,cm:description,TEXT,TAG"
+              }
+            }
           }
         ]
       },
@@ -1653,6 +1666,19 @@
                 "field": "cm:created",
                 "dateFormat": "DD-MMM-YY",
                 "maxDate": "today"
+              }
+            }
+          },
+          {
+            "id": "logic",
+            "name": "SEARCH.CATEGORIES.LOGIC",
+            "enabled": true,
+            "component": {
+              "selector": "logical-filter",
+              "settings": {
+                "allowUpdateOnChange": false,
+                "hideDefaultAction": true,
+                "field": "cm:name,cm:title,cm:description,TEXT,TAG"
               }
             }
           },
@@ -1835,6 +1861,19 @@
                 "hideDefaultAction": true,
                 "field": "cm:to",
                 "dateFormat": "DD-MMM-YY"
+              }
+            }
+          },
+          {
+            "id": "logic",
+            "name": "SEARCH.CATEGORIES.LOGIC",
+            "enabled": true,
+            "component": {
+              "selector": "logical-filter",
+              "settings": {
+                "allowUpdateOnChange": false,
+                "hideDefaultAction": true,
+                "field": "cm:name,cm:title,cm:description,TEXT,TAG"
               }
             }
           }
