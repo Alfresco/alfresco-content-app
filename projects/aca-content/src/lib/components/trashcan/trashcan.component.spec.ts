@@ -22,10 +22,8 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { AlfrescoApiService, DataTableComponent, AppConfigModule } from '@alfresco/adf-core';
-import { DocumentListComponent, NodeFavoriteDirective } from '@alfresco/adf-content-services';
+import { AlfrescoApiService } from '@alfresco/adf-core';
 import { TrashcanComponent } from './trashcan.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 
@@ -36,9 +34,8 @@ describe('TrashcanComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, AppConfigModule],
-      declarations: [DataTableComponent, NodeFavoriteDirective, DocumentListComponent, TrashcanComponent],
-      schemas: [NO_ERRORS_SCHEMA]
+      imports: [AppTestingModule, TrashcanComponent]
+      // schemas: [NO_ERRORS_SCHEMA]
     });
 
     fixture = TestBed.createComponent(TrashcanComponent);
