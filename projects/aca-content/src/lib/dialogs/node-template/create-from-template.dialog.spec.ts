@@ -25,8 +25,8 @@
 import { CreateFromTemplateDialogComponent } from './create-from-template.dialog';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { CoreModule, TranslationMock } from '@alfresco/adf-core';
-import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { TranslationMock } from '@alfresco/adf-core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { CreateFromTemplate } from '@alfresco/aca-shared/store';
 import { Node } from '@alfresco/js-api';
@@ -51,8 +51,8 @@ describe('CreateFileFromTemplateDialogComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CoreModule.forRoot(), AppTestingModule, MatDialogModule],
-      declarations: [CreateFromTemplateDialogComponent],
+      imports: [AppTestingModule, CreateFromTemplateDialogComponent],
+      declarations: [],
       providers: [
         {
           provide: MatDialogRef,

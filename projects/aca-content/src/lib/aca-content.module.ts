@@ -123,7 +123,8 @@ import { ContextMenuComponent } from './components/context-menu/context-menu.com
     AppSharedLinkViewModule,
     AcaFolderRulesModule,
     GenericErrorComponent,
-    DetailsComponent
+    DetailsComponent,
+    CreateFromTemplateDialogComponent
   ],
   declarations: [
     FilesComponent,
@@ -132,7 +133,6 @@ import { ContextMenuComponent } from './components/context-menu/context-menu.com
     FavoritesComponent,
     RecentFilesComponent,
     SharedFilesComponent,
-    CreateFromTemplateDialogComponent,
     HomeComponent,
     UploadFilesDialogComponent
   ],
