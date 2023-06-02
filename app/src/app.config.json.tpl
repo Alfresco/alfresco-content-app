@@ -1018,6 +1018,19 @@
     ],
     "categories": [
       {
+        "id": "logic",
+        "name": "SEARCH.CATEGORIES.LOGIC",
+        "enabled": true,
+        "component": {
+          "selector": "logical-filter",
+          "settings": {
+            "allowUpdateOnChange": false,
+            "hideDefaultAction": true,
+            "field": "cm:name,cm:title,cm:description,TEXT,TAG"
+          }
+        }
+      },
+      {
         "id": "queryName",
         "name": "SEARCH.SEARCH_HEADER.FILTERS.NAME.TITLE",
         "columnKey": "name",
@@ -1097,19 +1110,6 @@
             "field": "cm:created",
             "dateFormat": "DD-MMM-YY",
             "maxDate": "today"
-          }
-        }
-      },
-      {
-        "id": "logic",
-        "name": "SEARCH.CATEGORIES.LOGIC",
-        "enabled": true,
-        "component": {
-          "selector": "logical-filter",
-          "settings": {
-            "allowUpdateOnChange": false,
-            "hideDefaultAction": true,
-            "field": "cm:name,cm:title,cm:description,TEXT,TAG"
           }
         }
       }

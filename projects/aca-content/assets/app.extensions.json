@@ -1486,6 +1486,19 @@
         },
         "categories": [
           {
+            "id": "logic",
+            "name": "SEARCH.CATEGORIES.LOGIC",
+            "enabled": true,
+            "component": {
+              "selector": "logical-filter",
+              "settings": {
+                "allowUpdateOnChange": false,
+                "hideDefaultAction": true,
+                "field": "cm:name,cm:title,cm:description,TEXT,TAG"
+              }
+            }
+          },
+          {
             "id": "size",
             "name": "SEARCH.CATEGORIES.SIZE",
             "enabled": true,
@@ -1527,19 +1540,6 @@
                 "field": "cm:created",
                 "dateFormat": "DD-MMM-YY",
                 "maxDate": "today"
-              }
-            }
-          },
-          {
-            "id": "logic",
-            "name": "SEARCH.CATEGORIES.LOGIC",
-            "enabled": true,
-            "component": {
-              "selector": "logical-filter",
-              "settings": {
-                "allowUpdateOnChange": false,
-                "hideDefaultAction": true,
-                "field": "cm:name,cm:title,cm:description,TEXT,TAG"
               }
             }
           }
@@ -1655,6 +1655,19 @@
         },
         "categories": [
           {
+            "id": "logic",
+            "name": "SEARCH.CATEGORIES.LOGIC",
+            "enabled": true,
+            "component": {
+              "selector": "logical-filter",
+              "settings": {
+                "allowUpdateOnChange": false,
+                "hideDefaultAction": true,
+                "field": "cm:name,cm:title,cm:description,TEXT,TAG"
+              }
+            }
+          },
+          {
             "id": "createdDateRange",
             "name": "SEARCH.CATEGORIES.CREATED_DATE",
             "enabled": true,
@@ -1666,19 +1679,6 @@
                 "field": "cm:created",
                 "dateFormat": "DD-MMM-YY",
                 "maxDate": "today"
-              }
-            }
-          },
-          {
-            "id": "logic",
-            "name": "SEARCH.CATEGORIES.LOGIC",
-            "enabled": true,
-            "component": {
-              "selector": "logical-filter",
-              "settings": {
-                "allowUpdateOnChange": false,
-                "hideDefaultAction": true,
-                "field": "cm:name,cm:title,cm:description,TEXT,TAG"
               }
             }
           },
@@ -1822,6 +1822,19 @@
         },
         "categories": [
           {
+            "id": "logic",
+            "name": "SEARCH.CATEGORIES.LOGIC",
+            "enabled": true,
+            "component": {
+              "selector": "logical-filter",
+              "settings": {
+                "allowUpdateOnChange": false,
+                "hideDefaultAction": true,
+                "field": "cm:name,cm:title,cm:description,TEXT,TAG"
+              }
+            }
+          },
+          {
             "id": "createdDateRange",
             "name": "SEARCH.CATEGORIES.CREATED_DATE",
             "enabled": true,
@@ -1861,19 +1874,6 @@
                 "hideDefaultAction": true,
                 "field": "cm:to",
                 "dateFormat": "DD-MMM-YY"
-              }
-            }
-          },
-          {
-            "id": "logic",
-            "name": "SEARCH.CATEGORIES.LOGIC",
-            "enabled": true,
-            "component": {
-              "selector": "logical-filter",
-              "settings": {
-                "allowUpdateOnChange": false,
-                "hideDefaultAction": true,
-                "field": "cm:name,cm:title,cm:description,TEXT,TAG"
               }
             }
           }
