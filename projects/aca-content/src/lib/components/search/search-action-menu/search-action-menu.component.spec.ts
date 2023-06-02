@@ -27,6 +27,7 @@ import { SearchSortingDefinition } from '@alfresco/adf-content-services/lib/sear
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { SearchActionMenuComponent } from './search-action-menu.component';
+import { MatMenuModule } from '@angular/material/menu';
 
 const mockSortingData: SearchSortingDefinition[] = [
   {
@@ -52,7 +53,7 @@ describe('SearchActionMenuComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule],
+      imports: [AppTestingModule, MatMenuModule],
       declarations: [SearchActionMenuComponent],
       providers: [SearchQueryBuilderService]
     });

@@ -35,6 +35,8 @@ import { RouterEffects } from '@alfresco/aca-shared/store';
 import { of, throwError } from 'rxjs';
 import { LibraryEffects } from '../../store/effects';
 import { NodeEntry } from '@alfresco/js-api';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('FavoriteLibrariesComponent', () => {
   let fixture: ComponentFixture<FavoriteLibrariesComponent>;
@@ -57,7 +59,7 @@ describe('FavoriteLibrariesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, EffectsModule.forRoot([RouterEffects, LibraryEffects]), AppConfigModule],
+      imports: [AppTestingModule, EffectsModule.forRoot([RouterEffects, LibraryEffects]), AppConfigModule, MatDialogModule, MatSnackBarModule],
       declarations: [DataTableComponent, NodeFavoriteDirective, DocumentListComponent, FavoriteLibrariesComponent],
       schemas: [NO_ERRORS_SCHEMA]
     });

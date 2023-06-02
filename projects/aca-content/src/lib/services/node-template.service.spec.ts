@@ -28,7 +28,7 @@ import { AppStore, SnackbarErrorAction } from '@alfresco/aca-shared/store';
 import { TemplateEffects } from '../store/effects/template.effects';
 import { AppTestingModule } from '../testing/app-testing.module';
 import { Store } from '@ngrx/store';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { NodeTemplateService } from './node-template.service';
 import { ResultSetPaging } from '@alfresco/js-api';
 
@@ -47,7 +47,7 @@ describe('NodeTemplateService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, EffectsModule.forRoot([TemplateEffects])],
+      imports: [AppTestingModule, EffectsModule.forRoot([TemplateEffects]), MatDialogModule],
       providers: [NodeTemplateService]
     });
 

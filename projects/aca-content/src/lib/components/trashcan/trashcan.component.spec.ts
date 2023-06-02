@@ -35,7 +35,6 @@ describe('TrashcanComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule, TrashcanComponent]
-      // schemas: [NO_ERRORS_SCHEMA]
     });
 
     fixture = TestBed.createComponent(TrashcanComponent);

@@ -31,6 +31,8 @@ import { SearchLibrariesQueryBuilderService } from './search-libraries-query-bui
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { AppService } from '@alfresco/aca-shared';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('SearchLibrariesResultsComponent', () => {
   let component: SearchLibrariesResultsComponent;
@@ -44,7 +46,7 @@ describe('SearchLibrariesResultsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, AppConfigModule],
+      imports: [AppTestingModule, AppConfigModule, MatDialogModule, MatSnackBarModule],
       declarations: [DataTableComponent, DocumentListComponent, SearchLibrariesResultsComponent],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [

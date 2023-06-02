@@ -29,6 +29,7 @@ import { AppTestingModule } from '../../../testing/app-testing.module';
 import { UserMenuComponent } from './user-menu.component';
 import { of } from 'rxjs';
 import { SharedToolbarModule } from '@alfresco/aca-shared';
+import { MatMenuModule } from '@angular/material/menu';
 
 describe('UserMenuComponent', () => {
   let component: UserMenuComponent;
@@ -107,7 +108,7 @@ describe('UserMenuComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, SharedToolbarModule],
+      imports: [AppTestingModule, SharedToolbarModule, MatMenuModule],
       declarations: [UserMenuComponent],
       providers: [
         { provide: AuthenticationService, useValue: authServiceStub },

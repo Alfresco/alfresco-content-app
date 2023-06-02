@@ -31,6 +31,8 @@ import { AppTestingModule } from '../../testing/app-testing.module';
 import { Router } from '@angular/router';
 import { NodePaging, SearchApi } from '@alfresco/js-api';
 import { of } from 'rxjs';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('RecentFilesComponent', () => {
   let fixture: ComponentFixture<RecentFilesComponent>;
@@ -40,7 +42,7 @@ describe('RecentFilesComponent', () => {
     const searchApi = jasmine.createSpyObj('SearchApi', ['search']);
 
     const testBed = TestBed.configureTestingModule({
-      imports: [AppTestingModule, AppConfigModule],
+      imports: [AppTestingModule, AppConfigModule, MatDialogModule, MatSnackBarModule],
       declarations: [DataTableComponent, NodeFavoriteDirective, DocumentListComponent, RecentFilesComponent],
       providers: [
         { provide: SearchApi, useValue: searchApi },

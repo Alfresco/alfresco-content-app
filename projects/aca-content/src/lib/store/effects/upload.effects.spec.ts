@@ -31,6 +31,8 @@ import { NgZone } from '@angular/core';
 import { UploadService, FileUploadCompleteEvent, FileModel } from '@alfresco/adf-content-services';
 import { UnlockWriteAction, UploadFilesAction, UploadFileVersionAction, UploadFolderAction } from '@alfresco/aca-shared/store';
 import { ContentManagementService } from '../../services/content-management.service';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('UploadEffects', () => {
   let store: Store<any>;
@@ -41,7 +43,7 @@ describe('UploadEffects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, EffectsModule.forRoot([UploadEffects])]
+      imports: [AppTestingModule, EffectsModule.forRoot([UploadEffects]), MatDialogModule, MatSnackBarModule]
     });
 
     zone = TestBed.inject(NgZone);

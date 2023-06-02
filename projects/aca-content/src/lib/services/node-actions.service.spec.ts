@@ -23,7 +23,7 @@
  */
 
 import { TestBed } from '@angular/core/testing';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { of, throwError, Subject, Observable } from 'rxjs';
 import { AlfrescoApiService, TranslationService } from '@alfresco/adf-core';
 import { DocumentListService, NodeAction } from '@alfresco/adf-content-services';
@@ -96,7 +96,7 @@ describe('NodeActionsService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule]
+      imports: [AppTestingModule, MatDialogModule]
     });
 
     spyOnSuccess = jasmine.createSpy('spyOnSuccess');

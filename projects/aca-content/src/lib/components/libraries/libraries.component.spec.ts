@@ -32,6 +32,8 @@ import { AppTestingModule } from '../../testing/app-testing.module';
 import { EffectsModule } from '@ngrx/effects';
 import { LibraryEffects } from '../../store/effects';
 import { ContentApiService } from '@alfresco/aca-shared';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('LibrariesComponent', () => {
   let fixture: ComponentFixture<LibrariesComponent>;
@@ -52,7 +54,7 @@ describe('LibrariesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, EffectsModule.forRoot([LibraryEffects]), AppConfigModule],
+      imports: [AppTestingModule, EffectsModule.forRoot([LibraryEffects]), AppConfigModule, MatDialogModule, MatSnackBarModule],
       declarations: [DataTableComponent, NodeFavoriteDirective, DocumentListComponent, LibrariesComponent],
       schemas: [NO_ERRORS_SCHEMA]
     });

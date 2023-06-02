@@ -41,7 +41,6 @@ import { StoreModule } from '@ngrx/store';
 import { appReducer } from '../store/reducers/app.reducer';
 import { RouterTestingModule } from '@angular/router/testing';
 import { EffectsModule } from '@ngrx/effects';
-import { MaterialModule } from '../material.module';
 import { INITIAL_STATE } from '../store/initial-state';
 import { BehaviorSubject, Observable, Subject, of } from 'rxjs';
 import { ContentManagementService } from '../services/content-management.service';
@@ -53,7 +52,6 @@ import { STORE_INITIAL_APP_DATA } from '@alfresco/aca-shared/store';
     NoopAnimationsModule,
     HttpClientModule,
     RouterTestingModule,
-    MaterialModule,
     TranslateModule.forRoot(),
     StoreModule.forRoot(
       { app: appReducer },
@@ -68,7 +66,7 @@ import { STORE_INITIAL_APP_DATA } from '@alfresco/aca-shared/store';
     EffectsModule.forRoot([]),
     PipeModule
   ],
-  exports: [RouterTestingModule, MaterialModule, PipeModule, TranslateModule],
+  exports: [RouterTestingModule, PipeModule, TranslateModule],
   providers: [
     SearchQueryBuilderService,
     { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock },

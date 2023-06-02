@@ -32,6 +32,8 @@ import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { SharedLinkPaging } from '@alfresco/js-api';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('SharedFilesComponent', () => {
   let fixture: ComponentFixture<SharedFilesComponent>;
@@ -39,7 +41,7 @@ describe('SharedFilesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, AppConfigModule],
+      imports: [AppTestingModule, AppConfigModule, MatDialogModule, MatSnackBarModule],
       declarations: [DataTableComponent, NodeFavoriteDirective, DocumentListComponent, SharedFilesComponent],
       providers: [
         {

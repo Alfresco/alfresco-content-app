@@ -31,6 +31,8 @@ import { of } from 'rxjs';
 import { FavoritesComponent } from './favorites.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { ContentApiService } from '@alfresco/aca-shared';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('FavoritesComponent', () => {
   let fixture: ComponentFixture<FavoritesComponent>;
@@ -41,7 +43,7 @@ describe('FavoritesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, AppConfigModule],
+      imports: [AppTestingModule, AppConfigModule, MatDialogModule, MatSnackBarModule],
       declarations: [DataTableComponent, NodeFavoriteDirective, DocumentListComponent, FavoritesComponent],
       providers: [
         {
