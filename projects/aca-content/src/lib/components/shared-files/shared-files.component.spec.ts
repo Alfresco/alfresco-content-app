@@ -24,7 +24,7 @@
 
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { DataTableComponent, AppConfigModule } from '@alfresco/adf-core';
+import { DataTableComponent } from '@alfresco/adf-core';
 import { CustomResourcesService, DocumentListComponent, NodeFavoriteDirective } from '@alfresco/adf-content-services';
 import { SharedFilesComponent } from './shared-files.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
@@ -41,7 +41,7 @@ describe('SharedFilesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, AppConfigModule, MatDialogModule, MatSnackBarModule],
+      imports: [AppTestingModule, MatDialogModule, MatSnackBarModule],
       declarations: [DataTableComponent, NodeFavoriteDirective, DocumentListComponent, SharedFilesComponent],
       providers: [
         {

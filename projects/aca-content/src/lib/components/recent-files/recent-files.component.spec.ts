@@ -24,7 +24,7 @@
 
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { DataTableComponent, AppConfigModule } from '@alfresco/adf-core';
+import { DataTableComponent } from '@alfresco/adf-core';
 import { CustomResourcesService, DocumentListComponent, NodeFavoriteDirective } from '@alfresco/adf-content-services';
 import { RecentFilesComponent } from './recent-files.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
@@ -42,7 +42,7 @@ describe('RecentFilesComponent', () => {
     const searchApi = jasmine.createSpyObj('SearchApi', ['search']);
 
     const testBed = TestBed.configureTestingModule({
-      imports: [AppTestingModule, AppConfigModule, MatDialogModule, MatSnackBarModule],
+      imports: [AppTestingModule, MatDialogModule, MatSnackBarModule],
       declarations: [DataTableComponent, NodeFavoriteDirective, DocumentListComponent, RecentFilesComponent],
       providers: [
         { provide: SearchApi, useValue: searchApi },

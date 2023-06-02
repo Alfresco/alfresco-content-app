@@ -25,7 +25,7 @@
 import { TestBed, fakeAsync, tick, ComponentFixture } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA, SimpleChange, SimpleChanges } from '@angular/core';
 import { Router, ActivatedRoute, convertToParamMap } from '@angular/router';
-import { DataTableComponent, AppConfigModule, DataTableModule, PaginationModule } from '@alfresco/adf-core';
+import { DataTableComponent, DataTableModule, PaginationModule } from '@alfresco/adf-core';
 import {
   DocumentListComponent,
   DocumentListService,
@@ -72,7 +72,7 @@ describe('FilesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, DataTableModule, PaginationModule, SharedDirectivesModule, DirectivesModule, AppConfigModule],
+      imports: [AppTestingModule, DataTableModule, PaginationModule, SharedDirectivesModule, DirectivesModule],
       declarations: [FilesComponent, DataTableComponent, NodeFavoriteDirective, DocumentListComponent],
       providers: [
         {
