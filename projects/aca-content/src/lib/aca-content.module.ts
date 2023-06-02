@@ -40,7 +40,6 @@ import * as rules from '@alfresco/aca-shared/rules';
 import { FilesComponent } from './components/files/files.component';
 import { LibrariesComponent } from './components/libraries/libraries.component';
 import { FavoriteLibrariesComponent } from './components/favorite-libraries/favorite-libraries.component';
-import { ViewProfileModule } from './components/view-profile/view-profile.module';
 
 import { AppStoreModule } from './store/app-store.module';
 import { MaterialModule } from './material.module';
@@ -93,6 +92,7 @@ import { ContentManagementService } from './services/content-management.service'
 import { ShellLayoutComponent, SHELL_NAVBAR_MIN_WIDTH } from '@alfresco/adf-core/shell';
 import { UserMenuComponent } from './components/sidenav/user-menu/user-menu.component';
 import { ContextMenuComponent } from './components/context-menu/context-menu.component';
+import { ViewProfileComponent } from './components/view-profile/view-profile.component';
 
 @NgModule({
   imports: [
@@ -118,7 +118,7 @@ import { ContextMenuComponent } from './components/context-menu/context-menu.com
     AppSearchInputModule,
     AppSearchResultsModule,
     HammerModule,
-    ViewProfileModule,
+    ViewProfileComponent,
     AppTrashcanModule,
     AppSharedLinkViewModule,
     AcaFolderRulesModule,

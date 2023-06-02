@@ -23,13 +23,10 @@
  */
 
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { AppConfigModule } from '@alfresco/adf-core';
 import { ViewProfileComponent } from './view-profile.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { MatDividerModule } from '@angular/material/divider';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { AppService } from '@alfresco/aca-shared';
 
@@ -44,8 +41,7 @@ describe('ViewProfileComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, AppConfigModule, FormsModule, ReactiveFormsModule, MatDividerModule],
-      declarations: [ViewProfileComponent],
+      imports: [AppTestingModule, ViewProfileComponent],
       providers: [
         {
           provide: AppService,
