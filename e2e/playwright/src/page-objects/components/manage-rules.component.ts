@@ -23,7 +23,7 @@
  */
 
 import { Locator, Page } from '@playwright/test';
-import { BaseComponent } from 'e2e/playwright/src';
+import { BaseComponent } from '../components';
 
 export class ManageRules extends BaseComponent {
   private static rootElement = '.aca-manage-rules';

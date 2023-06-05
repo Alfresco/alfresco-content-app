@@ -24,7 +24,7 @@
 
 import { PersonalFilesPage, NodesPage } from '../page-objects';
 import { test as base } from '@playwright/test';
-import { ApiClientFactory } from 'e2e/playwright/src';
+import { ApiClientFactory } from '../../src';
 
 interface Pages {
   personalFiles: PersonalFilesPage;

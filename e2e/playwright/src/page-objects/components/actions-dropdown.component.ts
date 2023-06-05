@@ -23,7 +23,7 @@
  */
 
 import { Locator, Page } from '@playwright/test';
-import { BaseComponent } from 'e2e/playwright/src';
+import { BaseComponent } from '../components';
 
 export enum ActionType {
   AddAspect = 'Add aspect',
