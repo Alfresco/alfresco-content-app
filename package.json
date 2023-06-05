@@ -101,7 +101,7 @@
     "dotenv": "8.2.0",
     "dotenv-expand": "^5.1.0",
     "envsub": "^4.1.0",
-    "eslint": "^8.40.0",
+    "eslint": "^8.42.0",
     "eslint-plugin-ban": "^1.6.0",
     "eslint-plugin-import": "2.27.5",
     "eslint-plugin-jsdoc": "43.2.0",
