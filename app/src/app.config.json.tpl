@@ -39,7 +39,6 @@
     "copyright": "APP.COPYRIGHT"
   },
   "viewer.maxRetries": 1,
-  "sharedLinkDateTimePickerType": "datetime",
   "customCssPath": "",
   "webFontPath": "",
   "pagination": {
