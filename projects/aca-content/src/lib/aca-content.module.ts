@@ -40,7 +40,6 @@ import * as rules from '@alfresco/aca-shared/rules';
 import { FilesComponent } from './components/files/files.component';
 import { LibrariesComponent } from './components/libraries/libraries.component';
 import { FavoriteLibrariesComponent } from './components/favorite-libraries/favorite-libraries.component';
-import { ViewProfileModule } from './components/view-profile/view-profile.module';
 
 import { AppStoreModule } from './store/app-store.module';
 import { MaterialModule } from './material.module';
@@ -83,7 +82,6 @@ import { ViewNodeComponent } from './components/toolbar/view-node/view-node.comp
 import { CONTENT_ROUTES } from './aca-content.routes';
 import { RouterModule } from '@angular/router';
 import { UploadFilesDialogComponent } from './components/upload-files-dialog/upload-files-dialog.component';
-import { AppTrashcanModule } from './components/trashcan/trashcan.module';
 import { AppSharedLinkViewModule } from './components/shared-link-view/shared-link-view.module';
 import { AcaFolderRulesModule } from '@alfresco/aca-folder-rules';
 import { TagsColumnComponent } from './components/dl-custom-components/tags-column/tags-column.component';
@@ -93,6 +91,8 @@ import { ContentManagementService } from './services/content-management.service'
 import { ShellLayoutComponent, SHELL_NAVBAR_MIN_WIDTH } from '@alfresco/adf-core/shell';
 import { UserMenuComponent } from './components/sidenav/user-menu/user-menu.component';
 import { ContextMenuComponent } from './components/context-menu/context-menu.component';
+import { ViewProfileComponent } from './components/view-profile/view-profile.component';
+import { TrashcanComponent } from './components/trashcan/trashcan.component';
 
 @NgModule({
   imports: [
@@ -118,12 +118,13 @@ import { ContextMenuComponent } from './components/context-menu/context-menu.com
     AppSearchInputModule,
     AppSearchResultsModule,
     HammerModule,
-    ViewProfileModule,
-    AppTrashcanModule,
+    ViewProfileComponent,
+    TrashcanComponent,
     AppSharedLinkViewModule,
     AcaFolderRulesModule,
     GenericErrorComponent,
-    DetailsComponent
+    DetailsComponent,
+    CreateFromTemplateDialogComponent
   ],
   declarations: [
     FilesComponent,
@@ -132,7 +133,6 @@ import { ContextMenuComponent } from './components/context-menu/context-menu.com
     FavoritesComponent,
     RecentFilesComponent,
     SharedFilesComponent,
-    CreateFromTemplateDialogComponent,
     HomeComponent,
     UploadFilesDialogComponent
   ],

@@ -31,27 +31,27 @@ import {
   AuthenticationService,
   AlfrescoApiService,
   PipeModule,
-  AlfrescoApiServiceMock
+  AlfrescoApiServiceMock,
+  PageTitleService
 } from '@alfresco/adf-core';
-import { DiscoveryApiService } from '@alfresco/adf-content-services';
+import { DiscoveryApiService, SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { RepositoryInfo } from '@alfresco/js-api';
 import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { appReducer } from '../store/reducers/app.reducer';
 import { RouterTestingModule } from '@angular/router/testing';
 import { EffectsModule } from '@ngrx/effects';
-import { MaterialModule } from '../material.module';
 import { INITIAL_STATE } from '../store/initial-state';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, of } from 'rxjs';
 import { ContentManagementService } from '../services/content-management.service';
 import { DocumentBasePageService } from '@alfresco/aca-shared';
+import { STORE_INITIAL_APP_DATA } from '@alfresco/aca-shared/store';
 
 @NgModule({
   imports: [
     NoopAnimationsModule,
     HttpClientModule,
     RouterTestingModule,
-    MaterialModule,
     TranslateModule.forRoot(),
     StoreModule.forRoot(
       { app: appReducer },
@@ -66,8 +66,9 @@ import { DocumentBasePageService } from '@alfresco/aca-shared';
     EffectsModule.forRoot([]),
     PipeModule
   ],
-  exports: [RouterTestingModule, MaterialModule, PipeModule, TranslateModule],
+  exports: [RouterTestingModule, PipeModule, TranslateModule],
   providers: [
+    SearchQueryBuilderService,
     { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock },
     { provide: TranslationService, useClass: TranslationMock },
     { provide: DocumentBasePageService, useExisting: ContentManagementService },
@@ -85,8 +86,19 @@ import { DocumentBasePageService } from '@alfresco/aca-shared';
         getRedirect: (): string | null => null,
         setRedirect() {},
         isOauth: (): boolean => false,
-        isOAuthWithoutSilentLogin: (): boolean => false
+        isOAuthWithoutSilentLogin: (): boolean => false,
+        onLogin: new Subject<any>(),
+        onLogout: new Subject<any>(),
+        isLoggedIn: () => true
       }
+    },
+    {
+      provide: PageTitleService,
+      useValue: {}
+    },
+    {
+      provide: STORE_INITIAL_APP_DATA,
+      useValue: {}
     }
   ]
 })

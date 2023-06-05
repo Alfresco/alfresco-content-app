@@ -22,9 +22,13 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { AppConfigModule, LoginModule } from '@alfresco/adf-core';
 import { Component } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
+  standalone: true,
+  imports: [LoginModule, AppConfigModule, TranslateModule],
   templateUrl: './login.component.html'
 })
 export class LoginComponent {}

@@ -25,13 +25,21 @@
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { PeopleApi, Person } from '@alfresco/js-api';
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable, Subject, throwError } from 'rxjs';
 import { AppService } from '@alfresco/aca-shared';
 import { takeUntil } from 'rxjs/operators';
+import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { TranslateModule } from '@ngx-translate/core';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, TranslateModule, ReactiveFormsModule, MatButtonModule, MatIconModule, MatDividerModule, MatFormFieldModule],
   selector: 'app-view-profile',
   templateUrl: './view-profile.component.html',
   styleUrls: ['./view-profile.component.scss'],

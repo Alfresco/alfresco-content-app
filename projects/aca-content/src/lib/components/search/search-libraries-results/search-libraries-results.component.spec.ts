@@ -24,13 +24,15 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../../../testing/app-testing.module';
-import { AppConfigModule, DataTableComponent } from '@alfresco/adf-core';
+import { DataTableComponent } from '@alfresco/adf-core';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { SearchLibrariesResultsComponent } from './search-libraries-results.component';
 import { SearchLibrariesQueryBuilderService } from './search-libraries-query-builder.service';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { AppService } from '@alfresco/aca-shared';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('SearchLibrariesResultsComponent', () => {
   let component: SearchLibrariesResultsComponent;
@@ -44,7 +46,7 @@ describe('SearchLibrariesResultsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, AppConfigModule],
+      imports: [AppTestingModule, MatDialogModule, MatSnackBarModule],
       declarations: [DataTableComponent, DocumentListComponent, SearchLibrariesResultsComponent],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
