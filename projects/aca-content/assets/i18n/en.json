@@ -568,7 +568,8 @@
             },
             "CREATED_DATE": "Created date",
             "EFFECTIVITY_FROM": "Effectivity from",
-            "EFFECTIVITY_TO": "Effectivity to"
+            "EFFECTIVITY_TO": "Effectivity to",
+            "LOGIC": "Logic"
         },
         "FACET_QUERIES": {
             "TODAY": "Today",
