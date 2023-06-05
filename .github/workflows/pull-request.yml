@@ -214,7 +214,7 @@ jobs:
         run: npx playwright install chromium
       - uses: ./.github/actions/run-e2e
         with:
-          options: "playwright.config.ts tests/${{ matrix.e2e-suites.name }}"
+          options: "e2e/playwright/playwright.config.ts tests/${{ matrix.e2e-suites.name }}"
           artifact-name: folder-rules
           test-runner: playwright
       - uses: ./.github/actions/after-e2e
