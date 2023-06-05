@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { BasePage } from 'e2e/playwright/src';
+import { BasePage } from '../pages';
 import { Page } from '@playwright/test';
 import { ManageRulesDialogComponent } from '../components/manage-rules-dialog.component';
 import { ActionsDropdownComponent } from '../components/actions-dropdown.component';

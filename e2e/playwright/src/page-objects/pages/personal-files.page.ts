@@ -22,7 +22,8 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { BasePage, DataTableComponent } from 'e2e/playwright/src';
+import { BasePage } from '../pages';
+import { DataTableComponent } from '../components/data-table';
 import { Page } from '@playwright/test';
 import { AcaPageLayoutHeader } from '../components/aca-page-layout-header.component';
 import { MatMenuComponent } from '../components/mat-menu.component';
