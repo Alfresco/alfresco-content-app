@@ -1,9 +1,6 @@
 /* stylelint-disable scss/no-global-function-names */
 @use '@angular/material' as mat;
 
-$warn: map-get($custom-theme, warn);
-$accent: map-get($custom-theme, accent);
-$primary: map-get($custom-theme, primary);
 $foreground: map-get($custom-theme, foreground);
 $background: map-get($custom-theme, background);
 
@@ -42,11 +39,6 @@ $aca-user-initials-text-color: #212121;
 
 // CSS Variables
 $defaults: (
-  --theme-primary-color: mat.get-color-from-palette($primary),
-  --theme-primary-color-default-contrast: mat.get-color-from-palette($primary, default-contrast),
-  --theme-warn-color: mat.get-color-from-palette($warn),
-  --theme-accent-color: mat.get-color-from-palette($accent),
-  --theme-background-color: mat.get-color-from-palette($background, background),
   --theme-text-color: mat.get-color-from-palette($foreground, text, 0.54),
   --theme-text-bold-color: mat.get-color-from-palette($foreground, text, 0.87),
   --theme-title-color: mat.get-color-from-palette($foreground, text, 0.87),
