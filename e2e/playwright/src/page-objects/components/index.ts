@@ -22,16 +22,8 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Locator, Page } from '@playwright/test';
-import { BaseComponent } from '@alfresco/playwright-shared';
-
-export class ManageRules extends BaseComponent {
-  private static rootElement = '.aca-manage-rules';
-
-  public getGroupsList = (optionName: string): Locator => this.getChild('.aca-rule-list-item__header', { hasText: optionName });
-  public disableRuleToggle = this.getChild('.aca-manage-rules__container .mat-slide-toggle-bar').first();
-
-  constructor(page: Page) {
-    super(page, ManageRules.rootElement);
-  }
-}
+export * from './base.component';
+export * from './snack-bar.component';
+export * from './spinner.component';
+export * from './toolbar/toolbar.component';
+export * from './pagination/pagination.component';

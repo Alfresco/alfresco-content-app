@@ -24,8 +24,8 @@
 
 import { Locator, Page } from '@playwright/test';
 import { BaseComponent } from '../base.component';
-import { MatMenuComponent } from './mat-menu.component';
-import { PaginationActionsType, PaginationComponent } from '../pagination.component';
+import { MatMenuComponent } from '../mat-menu.component';
+import { PaginationActionsType, PaginationComponent } from '../pagination/pagination.component';
 
 export class DataTableComponent extends BaseComponent {
   private static rootElement = 'adf-datatable';

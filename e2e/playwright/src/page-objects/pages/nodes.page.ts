@@ -22,15 +22,24 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { BasePage, DataTableComponent } from '@alfresco/playwright-shared';
+import { BasePage } from 'e2e/playwright/src';
 import { Page } from '@playwright/test';
+import { ManageRulesDialogComponent } from '../components/manage-rules-dialog.component';
+import { ActionsDropdownComponent } from '../components/actions-dropdown.component';
+import { ConditionComponent } from '../components/conditions.component';
+import { ManageRules } from '../components/manage-rules.component';
+import { ToolbarComponent } from '../components/toolbar/toolbar.component';
 
-export class PersonalFilesPage extends BasePage {
-  private static pageUrl = 'personal-files';
+export class NodesPage extends BasePage {
+  private static pageUrl = 'nodes';
 
   constructor(page: Page) {
-    super(page, PersonalFilesPage.pageUrl);
+    super(page, NodesPage.pageUrl);
   }
 
-  public dataTable = new DataTableComponent(this.page);
+  public toolbar = new ToolbarComponent(this.page);
+  public manageRulesDialog = new ManageRulesDialogComponent(this.page);
+  public actionsDropdown = new ActionsDropdownComponent(this.page);
+  public conditionsDropdown = new ConditionComponent(this.page);
+  public manageRules = new ManageRules(this.page);
 }

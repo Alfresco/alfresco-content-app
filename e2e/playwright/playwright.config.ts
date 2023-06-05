@@ -27,7 +27,7 @@ import { PlaywrightTestConfig, devices } from '@playwright/test';
 require('dotenv').config();
 
 export const config: PlaywrightTestConfig = {
-  testDir: './',
+  testDir: './e2e/playwright/src/tests',
   expect: {
     /**
      * Maximum time expect() should wait for the condition to be met.
@@ -45,7 +45,7 @@ export const config: PlaywrightTestConfig = {
   workers: 5,
   timeout: 40000,
 
-  globalSetup: require.resolve('../../shared/base-config/global.setup'),
+  globalSetup: require.resolve('./e2e/playwright/src/base-config/global.setup'),
   use: {
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
     storageState: './storage-state/AdminUserState.json',

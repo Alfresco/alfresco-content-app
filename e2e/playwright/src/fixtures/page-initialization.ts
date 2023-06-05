@@ -22,18 +22,30 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Page } from '@playwright/test';
-import { BaseComponent } from './base.component';
+import { PersonalFilesPage, NodesPage } from '../page-objects';
+import { test as base } from '@playwright/test';
+import { ApiClientFactory } from 'e2e/playwright/src';
 
-export class MatMenuComponent extends BaseComponent {
-  private static rootElement = '.mat-menu-content';
-
-  constructor(page: Page) {
-    super(page, MatMenuComponent.rootElement);
-  }
-
-  public getMenuItemsLocator = this.getChild('button');
-  public getMenuItemTextLocator = this.getChild('[data-automation-id="menu-item-title"]');
-
-  public getButtonByText = (text: string) => this.getChild('button', { hasText: text });
+interface Pages {
+  personalFiles: PersonalFilesPage;
+  nodesPage: NodesPage;
 }
+
+interface Api {
+  apiClient: ApiClientFactory;
+}
+
+export const test = base.extend<Pages & Api>({
+  personalFiles: async ({ page }, use) => {
+    await use(new PersonalFilesPage(page));
+  },
+  nodesPage: async ({ page }, use) => {
+    await use(new NodesPage(page));
+  },
+  // eslint-disable-next-line no-empty-pattern
+  apiClient: async ({}, use) => {
+    const apiClient = new ApiClientFactory();
+    await apiClient.setUpAcaBackend('admin');
+    await use(apiClient);
+  }
+});

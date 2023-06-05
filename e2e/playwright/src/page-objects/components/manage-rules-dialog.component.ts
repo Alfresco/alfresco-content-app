@@ -22,17 +22,29 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { BaseComponent } from 'e2e/playwright/src';
 import { Page } from '@playwright/test';
-import { BaseComponent } from '../base.component';
 
-export class MatMenuComponent extends BaseComponent {
-  private static rootElement = '.mat-menu-content';
+export class ManageRulesDialogComponent extends BaseComponent {
+  private static rootElement = 'aca-edit-rule-dialog';
+
+  public createRuleButton = this.getChild('[data-automation-id="edit-rule-dialog-submit"]');
+  private ruleNameInputLocator = this.getChild('[id="rule-details-name-input"]');
+  public addConditionButton = this.getChild('[data-automation-id="add-condition-button"]');
+  public addConditionGroupButton = this.getChild('[data-automation-id="add-group-button"]');
+  public fieldDropDown = this.getChild('[data-automation-id="field-select"]');
+  public comparatorDropDown = this.getChild('[data-automation-id="comparator-select"]');
+  private valueField = this.getChild('[data-automation-id="value-input"]');
 
   constructor(page: Page) {
-    super(page, MatMenuComponent.rootElement);
+    super(page, ManageRulesDialogComponent.rootElement);
   }
 
-  public getMenuItemsLocator = this.getChild('button');
+  async typeRuleName(ruleName: string): Promise<void> {
+    await this.ruleNameInputLocator.type(ruleName, { delay: 50 });
+  }
 
-  public getButtonByText = (text: string) => this.getChild('button', { hasText: text });
+  async typeConditionValue(ruleName: string, index: number): Promise<void> {
+    await this.valueField.nth(index).type(ruleName, { delay: 50 });
+  }
 }

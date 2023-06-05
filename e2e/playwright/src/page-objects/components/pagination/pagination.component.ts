@@ -22,9 +22,9 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { BaseComponent } from './base.component';
+import { BaseComponent } from '../base.component';
 import { Page } from '@playwright/test';
-import { MatMenuComponent } from './mat-menu.component';
+import { MatMenuComponent } from '../mat-menu.component';
 
 export enum PaginationActionsType {
   PageSizeSelector = 'Page size selector',

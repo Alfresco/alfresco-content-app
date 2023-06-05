@@ -23,7 +23,7 @@
  */
 
 import { Locator, Page } from '@playwright/test';
-import { BaseComponent } from '@alfresco/playwright-shared';
+import { BaseComponent } from 'e2e/playwright/src';
 
 export enum ActionType {
   AddAspect = 'Add aspect',

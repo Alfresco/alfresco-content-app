@@ -22,5 +22,10 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
+export * from './global-variables';
+export * from './playwright-base';
+export * from './components';
+export * from './components/data-table';
+export * from './pages';
 export * from './pages/personal-files.page';
 export * from './pages/nodes.page';

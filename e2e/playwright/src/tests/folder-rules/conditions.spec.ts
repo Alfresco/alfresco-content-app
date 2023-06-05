@@ -22,17 +22,15 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { test } from '../fixtures/page-initialization';
-import { ActionType } from '../page-objects/components/actions-dropdown.component';
+import { test } from '../../fixtures/page-initialization';
+import { ActionType } from '../../page-objects/components/actions-dropdown.component';
+import { Comparator, Field } from '../../page-objects/components/conditions.component';
 import { expect } from '@playwright/test';
 
-test.describe('Folder Rules Actions', () => {
+test.describe('Folder Rules Conditions', () => {
   const randomFolderName = `playwright-folder-${(Math.random() + 1).toString(36).substring(6)}`;
   const randomRuleName = `playwright-rule-${(Math.random() + 1).toString(36).substring(6)}`;
-  const checkInValue = 'check In Value';
-  const actionValue = ' A site which contains sfdc content [sfdc:site] ';
-  const autoDeclareOptionsValue = 'For all major and minor versions [ALL]';
-  const simpleWorkFlow = 'accept reject';
+  const specialChars = '!@£$%^&*()~#/';
 
   let folderId: string;
 
@@ -42,30 +40,24 @@ test.describe('Folder Rules Actions', () => {
   });
 
   test.beforeEach(async ({ personalFiles }) => {
-    await personalFiles.navigate({ waitUntil: 'domcontentloaded' });
+    await personalFiles.navigate();
   });
 
   test.afterAll(async ({ apiClient }) => {
     await apiClient.nodes.deleteNode(folderId);
   });
 
-  test('Create a rule with actions', async ({ personalFiles, nodesPage }) => {
+  test('Create a rule with condition', async ({ personalFiles, nodesPage }) => {
     await personalFiles.dataTable.performActionFromExpandableMenu(randomFolderName, 'Manage rules');
 
     await nodesPage.toolbar.clickCreateRuleButton();
     await nodesPage.manageRulesDialog.typeRuleName(randomRuleName);
-
-    await nodesPage.actionsDropdown.selectAction(ActionType.HideRecord, 0);
-    await nodesPage.actionsDropdown.selectAction(ActionType.IncrementCounter, 1);
-    await nodesPage.actionsDropdown.selectAction(ActionType.CheckIn, 2);
-    await nodesPage.actionsDropdown.insertCheckInActionValues(checkInValue, 2);
-    await nodesPage.actionsDropdown.selectAction(ActionType.AddAspect, 3);
-    await nodesPage.actionsDropdown.insertAddAspectActionValues(actionValue, 3);
-    await nodesPage.actionsDropdown.selectAction(ActionType.AutoDeclareOptions, 4);
-    await nodesPage.actionsDropdown.insertAutoDeclareOptionsActionValues(autoDeclareOptionsValue, 4);
-    await nodesPage.actionsDropdown.selectAction(ActionType.SimpleWorkflow, 5);
-    await nodesPage.actionsDropdown.insertSimpleWorkflowActionValues(simpleWorkFlow, 5);
-
+    await nodesPage.conditionsDropdown.addCondition(Field.Size, Comparator.Equals, specialChars, 0);
+    await nodesPage.conditionsDropdown.addCondition(Field.Size, Comparator.Equals, specialChars, 1);
+    await nodesPage.conditionsDropdown.createConditionGroup();
+    await nodesPage.conditionsDropdown.addConditionGroup(Field.Size, Comparator.Equals, specialChars, 0);
+    await nodesPage.conditionsDropdown.addConditionGroup(Field.Size, Comparator.Equals, specialChars, 1);
+    await nodesPage.actionsDropdown.selectAction(ActionType.IncrementCounter, 0);
     await nodesPage.manageRulesDialog.createRuleButton.click();
 
     await expect.soft(nodesPage.manageRules.getGroupsList(randomRuleName)).toBeVisible();

@@ -22,30 +22,14 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { PersonalFilesPage, NodesPage } from '../page-objects';
-import { test as base } from '@playwright/test';
-import { ApiClientFactory } from '@alfresco/playwright-shared';
+import { BaseComponent } from './base.component';
+import { Page } from '@playwright/test';
 
-interface Pages {
-  personalFiles: PersonalFilesPage;
-  nodesPage: NodesPage;
-}
+export class AcaPageLayoutHeader extends BaseComponent {
+  private static rootElement = 'adf-toolbar';
+  public createButton = this.getChild('[id="app.toolbar.create"]');
 
-interface Api {
-  apiClient: ApiClientFactory;
-}
-
-export const test = base.extend<Pages & Api>({
-  personalFiles: async ({ page }, use) => {
-    await use(new PersonalFilesPage(page));
-  },
-  nodesPage: async ({ page }, use) => {
-    await use(new NodesPage(page));
-  },
-  // eslint-disable-next-line no-empty-pattern
-  apiClient: async ({}, use) => {
-    const apiClient = new ApiClientFactory();
-    await apiClient.setUpAcaBackend('admin');
-    await use(apiClient);
+  constructor(page: Page) {
+    super(page, AcaPageLayoutHeader.rootElement);
   }
-});
+}

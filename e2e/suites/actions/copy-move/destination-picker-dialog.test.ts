@@ -136,7 +136,6 @@ describe('Destination picker dialog : ', () => {
 
   afterEach(async () => {
     await page.closeOpenDialogs();
-    await page.dataTable.clearSelection();
   });
 
   describe('general', () => {
