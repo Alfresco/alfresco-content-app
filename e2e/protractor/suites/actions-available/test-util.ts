@@ -37,9 +37,7 @@ export async function checkContextMenu(item: string, expectedContextMenu: string
   await contextMenu.waitForMenuToOpen();
 
   const actualActions = await contextMenu.getMenuItems();
-  for (const action of expectedContextMenu) {
-    expect(actualActions.includes(action)).toBe(true, `Expected to contain ${action}`);
-  }
+  expect(actualActions).toEqual(expectedContextMenu);
 
   await Utils.pressEscape();
   await menu.waitForMenuToClose();
@@ -49,9 +47,7 @@ export async function checkToolbarPrimary(item: string, expectedToolbarPrimary: 
   await dataTable.selectItem(item);
 
   const actualPrimaryActions = await toolbar.getButtons();
-  for (const action of expectedToolbarPrimary) {
-    expect(actualPrimaryActions.includes(action)).toBe(true, `Expected to contain ${action}`);
-  }
+  expect(actualPrimaryActions).toEqual(expectedToolbarPrimary);
 }
 
 export async function checkToolbarMoreActions(item: string, expectedToolbarMore: string[]): Promise<void> {
@@ -59,9 +55,7 @@ export async function checkToolbarMoreActions(item: string, expectedToolbarMore:
   await toolbar.openMoreMenu();
 
   const actualMoreActions = await toolbar.menu.getMenuItems();
-  for (const action of expectedToolbarMore) {
-    expect(actualMoreActions.includes(action)).toBe(true, `Expected to contain ${action}`);
-  }
+  expect(actualMoreActions).toEqual(expectedToolbarMore);
 
   await toolbar.closeMoreMenu();
 }
@@ -70,16 +64,12 @@ export async function checkToolbarActions(item: string, expectedToolbarPrimary: 
   await dataTable.selectItem(item);
 
   const actualPrimaryActions = await toolbar.getButtons();
-  for (const action of expectedToolbarPrimary) {
-    expect(actualPrimaryActions.includes(action)).toBe(true, `Expected to contain ${action}`);
-  }
+  expect(actualPrimaryActions).toEqual(expectedToolbarPrimary);
 
   await toolbar.openMoreMenu();
 
   const actualMoreActions = await toolbar.menu.getMenuItems();
-  for (const action of expectedToolbarMore) {
-    expect(actualMoreActions.includes(action)).toBe(true, `Expected to contain ${action}`);
-  }
+  expect(actualMoreActions).toEqual(expectedToolbarMore);
 
   await toolbar.closeMoreMenu();
 }
@@ -90,9 +80,7 @@ export async function checkMultipleSelContextMenu(items: string[], expectedConte
   await contextMenu.waitForMenuToOpen();
 
   const actualActions = await contextMenu.getMenuItems();
-  for (const action of expectedContextMenu) {
-    expect(actualActions.includes(action)).toBe(true, `Expected to contain ${action}`);
-  }
+  expect(actualActions).toEqual(expectedContextMenu);
 
   await Utils.pressEscape();
   await menu.waitForMenuToClose();
@@ -102,9 +90,7 @@ export async function checkMultipleSelToolbarPrimary(items: string[], expectedTo
   await dataTable.selectMultipleItems(items);
 
   const actualPrimaryActions = await toolbar.getButtons();
-  for (const action of expectedToolbarPrimary) {
-    expect(actualPrimaryActions.includes(action)).toBe(true, `Expected to contain ${action}`);
-  }
+  expect(actualPrimaryActions).toEqual(expectedToolbarPrimary);
 }
 
 export async function checkMultipleSelToolbarActions(
@@ -115,16 +101,12 @@ export async function checkMultipleSelToolbarActions(
   await dataTable.selectMultipleItems(items);
 
   const actualPrimaryActions = await toolbar.getButtons();
-  for (const action of expectedToolbarPrimary) {
-    expect(actualPrimaryActions.includes(action)).toBe(true, `Expected to contain ${action}`);
-  }
+  expect(actualPrimaryActions).toEqual(expectedToolbarPrimary);
 
   await toolbar.openMoreMenu();
 
   const actualMoreActions = await toolbar.menu.getMenuItems();
-  for (const action of expectedToolbarMore) {
-    expect(actualMoreActions.includes(action)).toBe(true, `Expected to contain ${action}`);
-  }
+  expect(actualMoreActions).toEqual(expectedToolbarMore);
 
   await toolbar.closeMoreMenu();
 }
@@ -137,16 +119,12 @@ export async function checkViewerActions(item: string, expectedToolbarPrimary: s
   let actualPrimaryActions = await viewerToolbar.getButtons();
   actualPrimaryActions = removeClosePreviousNextOldInfo(actualPrimaryActions);
 
-  for (const action of expectedToolbarPrimary) {
-    expect(actualPrimaryActions.includes(action)).toBe(true, `Expected to contain ${action}`);
-  }
+  expect(actualPrimaryActions).toEqual(expectedToolbarPrimary);
 
   await viewerToolbar.openMoreMenu();
 
   const actualMoreActions = await viewerToolbar.menu.getMenuItems();
-  for (const action of expectedToolbarMore) {
-    expect(actualMoreActions.includes(action)).toBe(true, `Expected to contain ${action}`);
-  }
+  expect(actualMoreActions).toEqual(expectedToolbarMore);
 
   await Utils.pressEscape();
   await menu.waitForMenuToClose();
