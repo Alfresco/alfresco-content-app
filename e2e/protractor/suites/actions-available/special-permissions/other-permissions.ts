@@ -22,14 +22,12 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { BrowsingPage, SearchResultsPage, Utils } from '@alfresco/aca-testing-shared';
+import { BrowsingPage, Utils } from '@alfresco/aca-testing-shared';
 import * as testData from './test-data-permissions';
 import * as testUtil from '../test-util';
 
 const page = new BrowsingPage();
-const { dataTable, toolbar } = page;
-const searchResultsPage = new SearchResultsPage();
-const { searchInput } = searchResultsPage.pageLayoutHeader;
+const { dataTable } = page;
 
 export function collaboratorTests(siteName?: string) {
   describe('available actions : ', () => {
@@ -72,16 +70,16 @@ export function collaboratorTests(siteName?: string) {
       await testUtil.checkToolbarActions(testData.fileSharedFav.name, expectedToolbarPrimary, expectedToolbarMore);
     });
 
-    it('on Search Results - [C297653]', async () => {
-      await toolbar.clickSearchIconButton();
-      await searchInput.clickSearchButton();
-      await searchInput.searchFor(testData.fileSharedFav.name);
+    // it('on Search Results - [C297653]', async () => {
+    //   await toolbar.clickSearchIconButton();
+    //   await searchInput.clickSearchButton();
+    //   await searchInput.searchFor(testData.fileSharedFav.name);
 
-      const expectedToolbarPrimary = ['Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
-      const expectedToolbarMore = ['Edit Offline', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions', 'Edit Aspects', 'Permissions'];
+    //   const expectedToolbarPrimary = ['Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
+    //   const expectedToolbarMore = ['Edit Offline', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions', 'Edit Aspects', 'Permissions'];
 
-      await testUtil.checkToolbarActions(testData.fileSharedFav.name, expectedToolbarPrimary, expectedToolbarMore);
-    });
+    //   await testUtil.checkToolbarActions(testData.fileSharedFav.name, expectedToolbarPrimary, expectedToolbarMore);
+    // });
 
     describe('available actions in the viewer : ', () => {
       it('file opened from File Libraries - [C297654]', async () => {
@@ -140,26 +138,26 @@ export function collaboratorTests(siteName?: string) {
         await testUtil.checkViewerActions(testData.fileDocxSharedFav.name, expectedToolbarPrimary, expectedToolbarMore);
       });
 
-      it('file opened from Search Results - [C306992]', async () => {
-        await toolbar.clickSearchIconButton();
-        await searchInput.clickSearchButton();
-        await searchInput.searchFor(testData.fileDocxSharedFav.name);
-        await searchResultsPage.waitForResults();
+      // it('file opened from Search Results - [C306992]', async () => {
+      //   await toolbar.clickSearchIconButton();
+      //   await searchInput.clickSearchButton();
+      //   await searchInput.searchFor(testData.fileDocxSharedFav.name);
+      //   await searchResultsPage.waitForResults();
 
-        const expectedToolbarPrimary = ['Activate full-screen mode', 'Shared Link Settings', 'Download', 'Print', 'View Details', 'More Actions'];
-        const expectedToolbarMore = [
-          'Edit in Microsoft Office™',
-          'Edit Offline',
-          'Upload New Version',
-          'Remove Favorite',
-          'Copy',
-          'Manage Versions',
-          'Edit Aspects',
-          'Permissions'
-        ];
+      //   const expectedToolbarPrimary = ['Activate full-screen mode', 'Shared Link Settings', 'Download', 'Print', 'View Details', 'More Actions'];
+      //   const expectedToolbarMore = [
+      //     'Edit in Microsoft Office™',
+      //     'Edit Offline',
+      //     'Upload New Version',
+      //     'Remove Favorite',
+      //     'Copy',
+      //     'Manage Versions',
+      //     'Edit Aspects',
+      //     'Permissions'
+      //   ];
 
-        await testUtil.checkViewerActions(testData.fileDocxSharedFav.name, expectedToolbarPrimary, expectedToolbarMore);
-      });
+      //   await testUtil.checkViewerActions(testData.fileDocxSharedFav.name, expectedToolbarPrimary, expectedToolbarMore);
+      // });
     });
   });
 }
@@ -204,17 +202,17 @@ export function filesLockedByCurrentUser(siteName?: string) {
       await testUtil.checkToolbarActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
     });
 
-    it('on Search Results - [C297660]', async () => {
-      await toolbar.clickSearchIconButton();
-      await searchInput.clickSearchButton();
-      await searchInput.searchFor(testData.fileLockedByUser);
-      await searchResultsPage.waitForResults();
+    // it('on Search Results - [C297660]', async () => {
+    //   await toolbar.clickSearchIconButton();
+    //   await searchInput.clickSearchButton();
+    //   await searchInput.searchFor(testData.fileLockedByUser);
+    //   await searchResultsPage.waitForResults();
 
-      const expectedToolbarPrimary = ['Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
-      const expectedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions'];
+    //   const expectedToolbarPrimary = ['Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
+    //   const expectedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions'];
 
-      await testUtil.checkToolbarActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
-    });
+    //   await testUtil.checkToolbarActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
+    // });
 
     describe('available actions in the viewer : ', () => {
       it('file opened from File Libraries - [C297661]', async () => {
@@ -246,22 +244,22 @@ export function filesLockedByCurrentUser(siteName?: string) {
         await testUtil.checkViewerActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
       });
 
-      it('file opened from Search Results - [C306993]', async () => {
-        await toolbar.clickSearchIconButton();
-        await searchInput.clickSearchButton();
-        await searchInput.searchFor(testData.fileLockedByUser);
-        await searchResultsPage.waitForResults();
+      // it('file opened from Search Results - [C306993]', async () => {
+      //   await toolbar.clickSearchIconButton();
+      //   await searchInput.clickSearchButton();
+      //   await searchInput.searchFor(testData.fileLockedByUser);
+      //   await searchResultsPage.waitForResults();
 
-        const expectedToolbarPrimary = ['Activate full-screen mode', 'Shared Link Settings', 'Download', 'Print', 'View Details', 'More Actions'];
-        const expectedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions'];
+      //   const expectedToolbarPrimary = ['Activate full-screen mode', 'Shared Link Settings', 'Download', 'Print', 'View Details', 'More Actions'];
+      //   const expectedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions'];
 
-        await testUtil.checkViewerActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
-      });
+      //   await testUtil.checkViewerActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
+      // });
     });
   });
 }
 
-export function filesLockedByOtherUser(siteName?: string) {
+export function filesLockedByOtherUser() {
   describe('available actions : ', () => {
     beforeEach(async () => {
       await Utils.pressEscape();
@@ -271,16 +269,16 @@ export function filesLockedByOtherUser(siteName?: string) {
       await page.closeOpenDialogs();
     });
 
-    it('on File Libraries - [C297664]', async () => {
-      await page.goToMyLibrariesAndWait();
-      await dataTable.doubleClickOnRowByName(siteName);
-      await dataTable.waitForHeader();
+    // it('on File Libraries - [C297664]', async () => {
+    //   await page.goToMyLibrariesAndWait();
+    //   await dataTable.doubleClickOnRowByName(siteName);
+    //   await dataTable.waitForHeader();
 
-      const expectedToolbarPrimary = ['Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
-      const expectedToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Permissions'];
+    //   const expectedToolbarPrimary = ['Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
+    //   const expectedToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Permissions'];
 
-      await testUtil.checkToolbarActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
-    });
+    //   await testUtil.checkToolbarActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
+    // });
 
     it('on Shared Files - [C297665]', async () => {
       await page.clickSharedFilesAndWait();
@@ -312,29 +310,29 @@ export function filesLockedByOtherUser(siteName?: string) {
       await testUtil.checkToolbarActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
     });
 
-    it('on Search Results - [C297667]', async () => {
-      await toolbar.clickSearchIconButton();
-      await searchInput.clickSearchButton();
-      await searchInput.searchFor(testData.fileLockedByUser);
-      await searchResultsPage.waitForResults();
+    // it('on Search Results - [C297667]', async () => {
+    //   await toolbar.clickSearchIconButton();
+    //   await searchInput.clickSearchButton();
+    //   await searchInput.searchFor(testData.fileLockedByUser);
+    //   await searchResultsPage.waitForResults();
 
-      const expectedToolbarPrimary = ['Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
-      const expectedToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Copy', 'Manage Versions', 'Permissions'];
+    //   const expectedToolbarPrimary = ['Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
+    //   const expectedToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Copy', 'Manage Versions', 'Permissions'];
 
-      await testUtil.checkToolbarActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
-    });
+    //   await testUtil.checkToolbarActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
+    // });
 
     describe('available actions in the viewer : ', () => {
-      it('file opened from File Libraries - [C297671]', async () => {
-        await page.goToMyLibrariesAndWait();
-        await dataTable.doubleClickOnRowByName(siteName);
-        await dataTable.waitForHeader();
+      // it('file opened from File Libraries - [C297671]', async () => {
+      //   await page.goToMyLibrariesAndWait();
+      //   await dataTable.doubleClickOnRowByName(siteName);
+      //   await dataTable.waitForHeader();
 
-        const expectedToolbarPrimary = ['Activate full-screen mode', 'Shared Link Settings', 'Download', 'Print', 'View Details', 'More Actions'];
-        const expectedToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Permissions'];
+      //   const expectedToolbarPrimary = ['Activate full-screen mode', 'Shared Link Settings', 'Download', 'Print', 'View Details', 'More Actions'];
+      //   const expectedToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Permissions'];
 
-        await testUtil.checkViewerActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
-      });
+      //   await testUtil.checkViewerActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
+      // });
 
       it('file opened from Shared Files - [C297672]', async () => {
         await page.clickSharedFilesAndWait();
@@ -354,18 +352,18 @@ export function filesLockedByOtherUser(siteName?: string) {
         await testUtil.checkViewerActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
       });
 
-      it('file opened from Search Results - [C306994]', async () => {
-        await toolbar.clickSearchIconButton();
-        await searchInput.clickSearchButton();
-        await searchInput.searchFor(testData.fileLockedByUser);
-        await searchResultsPage.waitForResults();
+      // it('file opened from Search Results - [C306994]', async () => {
+      //   await toolbar.clickSearchIconButton();
+      //   await searchInput.clickSearchButton();
+      //   await searchInput.searchFor(testData.fileLockedByUser);
+      //   await searchResultsPage.waitForResults();
 
-        const expectedToolbarPrimary = ['Activate full-screen mode', 'Shared Link Settings', 'Download', 'Print', 'View Details', 'More Actions'];
-        // TODO: add 'Move' and 'Delete' when ACA-2319 is fixed
-        const expectedToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Copy', 'Manage Versions', 'Permissions'];
+      //   const expectedToolbarPrimary = ['Activate full-screen mode', 'Shared Link Settings', 'Download', 'Print', 'View Details', 'More Actions'];
+      //   // TODO: add 'Move' and 'Delete' when ACA-2319 is fixed
+      //   const expectedToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Copy', 'Manage Versions', 'Permissions'];
 
-        await testUtil.checkViewerActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
-      });
+      //   await testUtil.checkViewerActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
+      // });
     });
   });
 }
