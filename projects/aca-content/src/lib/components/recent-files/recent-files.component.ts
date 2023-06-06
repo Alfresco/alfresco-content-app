@@ -22,14 +22,15 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MinimalNodeEntity } from '@alfresco/js-api';
 import { debounceTime } from 'rxjs/operators';
 import { PageComponent } from '@alfresco/aca-shared';
 import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 
 @Component({
-  templateUrl: './recent-files.component.html'
+  templateUrl: './recent-files.component.html',
+  encapsulation: ViewEncapsulation.None
 })
 export class RecentFilesComponent extends PageComponent implements OnInit {
   columns: DocumentListPresetRef[] = [];

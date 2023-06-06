@@ -24,12 +24,13 @@
 
 import { NavigateLibraryAction } from '@alfresco/aca-shared/store';
 import { SiteEntry } from '@alfresco/js-api';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { AppHookService, PageComponent } from '@alfresco/aca-shared';
 import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 
 @Component({
-  templateUrl: './libraries.component.html'
+  templateUrl: './libraries.component.html',
+  encapsulation: ViewEncapsulation.None
 })
 export class LibrariesComponent extends PageComponent implements OnInit {
   columns: DocumentListPresetRef[] = [];

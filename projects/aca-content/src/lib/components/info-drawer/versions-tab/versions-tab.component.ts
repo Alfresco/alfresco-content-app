@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, ViewEncapsulation } from '@angular/core';
 import { MinimalNodeEntryEntity } from '@alfresco/js-api';
 import { CommonModule } from '@angular/common';
 import { VersionManagerModule } from '@alfresco/adf-content-services';
@@ -50,7 +50,8 @@ import { TranslateModule } from '@ngx-translate/core';
         {{ 'VERSION.SELECTION.EMPTY' | translate }}
       </div>
     </ng-template>
-  `
+  `,
+  encapsulation: ViewEncapsulation.None
 })
 export class VersionsTabComponent implements OnInit, OnChanges {
   @Input()

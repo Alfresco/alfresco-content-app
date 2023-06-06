@@ -6,6 +6,14 @@
   "plugins": ["@nrwl/nx"],
   "overrides": [
     {
+      "files": ["*.ts"],
+      "plugins": ["@alfresco/eslint-angular"],
+      "excludedFiles": ["*.spec.ts"],
+      "rules": {
+        "@alfresco/eslint-angular/use-none-component-view-encapsulation": "error"
+      }
+    },
+    {
       "files": [
         "*.ts"
       ],

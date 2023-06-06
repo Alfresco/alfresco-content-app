@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { SiteEntry, FavoritePaging, Pagination } from '@alfresco/js-api';
 import { AppHookService, ContentApiService, PageComponent } from '@alfresco/aca-shared';
 import { NavigateLibraryAction } from '@alfresco/aca-shared/store';
@@ -30,7 +30,8 @@ import { UserPreferencesService } from '@alfresco/adf-core';
 import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 
 @Component({
-  templateUrl: './favorite-libraries.component.html'
+  templateUrl: './favorite-libraries.component.html',
+  encapsulation: ViewEncapsulation.None
 })
 export class FavoriteLibrariesComponent extends PageComponent implements OnInit {
   pagination: Pagination = new Pagination({

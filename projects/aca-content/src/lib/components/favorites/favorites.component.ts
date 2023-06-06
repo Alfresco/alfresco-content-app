@@ -24,12 +24,13 @@
 
 import { ContentApiService, PageComponent } from '@alfresco/aca-shared';
 import { MinimalNodeEntity, MinimalNodeEntryEntity, PathElementEntity, PathInfo } from '@alfresco/js-api';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { debounceTime, map } from 'rxjs/operators';
 import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 
 @Component({
-  templateUrl: './favorites.component.html'
+  templateUrl: './favorites.component.html',
+  encapsulation: ViewEncapsulation.None
 })
 export class FavoritesComponent extends PageComponent implements OnInit {
   columns: DocumentListPresetRef[] = [];
