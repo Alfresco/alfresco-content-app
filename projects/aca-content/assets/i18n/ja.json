@@ -268,8 +268,6 @@
       "LEAVE": "ライブラリから脱退",
       "EDIT_OFFLINE": "オフライン編集",
       "EDIT_OFFLINE_CANCEL": "編集のキャンセル",
-      "LIST_MODE": "リストを表示",
-      "GALLERY_MODE": "ギャラリーを表示",
       "CHANGE_ASPECT": "アスペクトを編集"
     },
     "DIALOGS": {
