@@ -82,8 +82,6 @@
       "TITLE": "Détails"
     },
     "NEW_MENU": {
-      "LABEL": "Nouveau",
-      "TOOLTIP": "Ajouter de nouveaux fichiers et dossiers ou créer une nouvelle bibliothèque de fichiers",
       "MENU_ITEMS": {
         "CREATE_FOLDER": "Créer un dossier",
         "UPLOAD_FILE": "Importer le fichier",
@@ -215,6 +213,9 @@
         "DUBLIN_CORE": "Dublin Core",
         "EFFECTIVITY": "Validité",
         "TITLE": "Résultats de la recherche",
+        "FILTER_SET": "Ensemble de filtres :",
+        "ADVANCED_FILTERS": "Filtres avancés :",
+        "RESET": "Réinitialiser",
         "RESET_ACTION": "Réinitialiser les filtres de recherche",
         "FOUND_RESULTS": "{{ number }} résultats trouvés",
         "FOUND_ONE_RESULT": "{{ number }} résultat trouvé",
@@ -234,7 +235,6 @@
         }
       },
       "SEARCH_LIBRARIES": {
-        "TITLE": "Bibliothèques trouvées...",
         "FOUND_RESULTS": "{{ number }} résultats",
         "FOUND_ONE_RESULT": "{{ number }} résultat"
       }
@@ -286,7 +286,9 @@
         "NO_LABEL": "Annuler"
       },
       "MOBILE_APP": {
-        "MOBILE_APP_BUTTON_LABEL": "Ouvrir dans l'application"
+        "MOBILE_APP_BUTTON_LABEL": "Ouvrir dans l'application",
+        "DOWNLOAD_APP_BUTTON_LABEL": "Vous n'avez pas l'application ? Téléchargez-la maintenant.",
+        "OPEN_ALFRESCO_MOBILE_APP": "Ouvrir avec l'application Alfresco Mobile ?"
       }
     },
     "DOCUMENT_LIST": {
@@ -429,7 +431,7 @@
       "COLLAPSE_NAVIGATION": "Réduire le menu de navigation",
       "OPTIONS_SETTINGS": "Options et paramètres",
       "MY_PROFILE": "Mon profil",
-      "EXPAND_NAVIGATION": "Élargir le menu de navigation"
+      "EXPAND_NAVIGATION": "Agrandir le menu de navigation"
     }
   },
   "NODE_SELECTOR": {
@@ -486,7 +488,7 @@
   },
   "INFO_PANEL": {
     "TABS": {
-
+    
     },
     "DETAILS": "Détails"
   },
