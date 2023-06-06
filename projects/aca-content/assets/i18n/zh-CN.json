@@ -268,8 +268,6 @@
       "LEAVE": "离开库",
       "EDIT_OFFLINE": "离线编辑",
       "EDIT_OFFLINE_CANCEL": "取消编辑",
-      "LIST_MODE": "查看列表",
-      "GALLERY_MODE": "查看图库",
       "CHANGE_ASPECT": "编辑纵横比"
     },
     "DIALOGS": {
