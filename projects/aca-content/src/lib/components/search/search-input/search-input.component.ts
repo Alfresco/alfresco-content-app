@@ -49,6 +49,7 @@ export class SearchInputComponent implements OnInit, OnDestroy {
   hasNewChange = false;
   navigationTimer: any;
   has400LibraryError = false;
+  hasLibrariesConstraint = false;
   searchOnChange: boolean;
 
   searchedWord: string = null;
@@ -106,6 +107,7 @@ export class SearchInputComponent implements OnInit, OnDestroy {
 
     this.appHookService.library400Error.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
       this.has400LibraryError = true;
+      this.hasLibrariesConstraint = this.evaluateLibrariesConstraint();
     });
   }
 
@@ -116,6 +118,7 @@ export class SearchInputComponent implements OnInit, OnDestroy {
   showInputValue() {
     this.appService.appNavNarMode$.next('collapsed');
     this.has400LibraryError = false;
+    this.hasLibrariesConstraint = this.evaluateLibrariesConstraint();
     this.searchedWord = this.getUrlSearchTerm();
 
     if (this.searchInputControl) {
@@ -162,6 +165,7 @@ export class SearchInputComponent implements OnInit, OnDestroy {
     }
 
     this.has400LibraryError = false;
+    this.hasLibrariesConstraint = this.evaluateLibrariesConstraint();
     this.searchedWord = searchTerm;
 
     if (this.hasOneChange) {
@@ -187,6 +191,7 @@ export class SearchInputComponent implements OnInit, OnDestroy {
     this.syncInputValues();
     this.has400LibraryError = false;
     if (this.isLibrariesChecked()) {
+      this.hasLibrariesConstraint = this.evaluateLibrariesConstraint();
       if (this.onLibrariesSearchResults && this.isSameSearchTerm()) {
         this.queryLibrariesBuilder.update();
       } else if (this.searchedWord) {
@@ -238,7 +243,7 @@ export class SearchInputComponent implements OnInit, OnDestroy {
     return this.isFilesChecked() || this.isFoldersChecked();
   }
 
-  hasLibraryConstraint(): boolean {
+  evaluateLibrariesConstraint(): boolean {
     if (this.isLibrariesChecked()) {
       return this.has400LibraryError || this.searchInputControl.isTermTooShort();
     }

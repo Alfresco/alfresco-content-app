@@ -52,6 +52,9 @@ export class EditRuleDialogUiComponent {
   formValue: Partial<Rule>;
   @Output() submitted = new EventEmitter<Partial<Rule>>();
 
+  title = 'ACA_FOLDER_RULES.EDIT_RULE_DIALOG.' + (this.isUpdateMode ? 'UPDATE_TITLE' : 'CREATE_TITLE');
+  submitLabel = 'ACA_FOLDER_RULES.EDIT_RULE_DIALOG.' + (this.isUpdateMode ? 'UPDATE' : 'CREATE');
+
   constructor(@Inject(MAT_DIALOG_DATA) public data: EditRuleDialogOptions) {
     this.model = this.data?.model || {};
     this.nodeId = this.data?.nodeId;
@@ -62,15 +65,6 @@ export class EditRuleDialogUiComponent {
   get isUpdateMode(): boolean {
     return !!this.data?.model?.id;
   }
-
-  get title(): string {
-    return 'ACA_FOLDER_RULES.EDIT_RULE_DIALOG.' + (this.isUpdateMode ? 'UPDATE_TITLE' : 'CREATE_TITLE');
-  }
-
-  get submitLabel(): string {
-    return 'ACA_FOLDER_RULES.EDIT_RULE_DIALOG.' + (this.isUpdateMode ? 'UPDATE' : 'CREATE');
-  }
-
   onSubmit() {
     this.submitted.emit(this.formValue);
   }

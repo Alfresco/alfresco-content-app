@@ -8,8 +8,8 @@
           <input
             id="rule-details-name-input"
             matInput type="text" formControlName="name" data-automation-id="rule-details-name-input"
-            [placeholder]="getPlaceholder('name') | translate">
-          <mat-error>{{ getErrorMessage(name) | translate }}</mat-error>
+            [placeholder]="'ACA_FOLDER_RULES.RULE_DETAILS.PLACEHOLDER.NAME' | translate">
+          <mat-error>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.ERROR.REQUIRED' | translate }}</mat-error>
         </mat-form-field>
       </div>
     </div>
@@ -21,7 +21,7 @@
         <textarea
           id="rule-details-description-textarea"
           matInput formControlName="description" data-automation-id="rule-details-description-textarea"
-          [placeholder]="getPlaceholder('description') | translate">
+          [placeholder]="descriptionPlaceHolder | translate">
         </textarea>
         </mat-form-field>
       </div>
@@ -32,13 +32,13 @@
     <div class="label">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.WHEN' | translate }}</div>
     <div>
       <aca-rule-triggers formControlName="triggers" data-automation-id="rule-details-triggers-component"></aca-rule-triggers>
-      <mat-error class="rule-details-error">{{ getErrorMessage(triggers) | translate }}</mat-error>
+      <mat-error class="rule-details-error" *ngIf="triggers.hasError('required')">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.ERROR.INSUFFICIENT_TRIGGERS_SELECTED' | translate }}</mat-error>
     </div>
   </div>
 
   <div class="aca-rule-details__form__conditions">
     <aca-rule-composite-condition formControlName="conditions"></aca-rule-composite-condition>
-    <mat-error class="rule-details-error">{{ getErrorMessage(conditions) | translate }}</mat-error>
+    <mat-error class="rule-details-error" *ngIf="conditions.hasError('ruleCompositeConditionInvalid')">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.ERROR.RULE_COMPOSITE_CONDITION_INVALID' | translate }}</mat-error>
   </div>
 
   <div class="aca-rule-details__form__row aca-rule-details__form__actions">

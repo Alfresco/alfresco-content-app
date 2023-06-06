@@ -37,7 +37,7 @@
         (searchChange)="onSearchChange($event)"
       >
       </app-search-input-control>
-      <mat-hint *ngIf="hasLibraryConstraint()" class="app-search-hint">{{ 'SEARCH.INPUT.HINT' | translate }}</mat-hint>
+      <mat-hint *ngIf="hasLibrariesConstraint" class="app-search-hint">{{ 'SEARCH.INPUT.HINT' | translate }}</mat-hint>
 
       <div id="search-options">
         <mat-checkbox

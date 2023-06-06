@@ -9,9 +9,8 @@
 
     <mat-form-field *ngIf="i === 0">
       <mat-select
-        [value]="invertedControl.value"
-        [disabled]="readOnly"
-        (selectionChange)="setInverted($event.value)">
+        [formControl]="invertedControl"
+        [disabled]="readOnly">
         <mat-option [value]="false">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LOGIC_OPERATORS.IF' | translate }}</mat-option>
         <mat-option [value]="true">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LOGIC_OPERATORS.NOT_IF' | translate }}</mat-option>
       </mat-select>
@@ -19,9 +18,8 @@
 
     <mat-form-field *ngIf="i > 0">
       <mat-select
-        [value]="booleanModeControl.value"
         [disabled]="!isOrImplemented || i > 1 || readOnly"
-        (selectionChange)="setBooleanMode($event.value)">
+        [formControl]="booleanModeControl">
         <mat-option value="and">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LOGIC_OPERATORS.AND' | translate }}</mat-option>
         <mat-option value="or">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LOGIC_OPERATORS.OR' | translate }}</mat-option>
       </mat-select>

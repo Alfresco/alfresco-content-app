@@ -5,7 +5,7 @@
     matRipple matRippleColor="hsla(0,0%,0%,0.05)"
     tabindex="0"
     [rule]="item.rule"
-    [isSelected]="isSelected(item.rule)"
+    [isSelected]="item.rule.id === this.selectedRule?.id"
     [showEnabledToggle]="showEnabledToggles"
     (click)="onRuleClicked(item.rule)"
     (enabledChanged)="onEnabledChanged(item.rule, $event)">

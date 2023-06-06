@@ -22,10 +22,11 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewEncapsulation } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppStore, ToggleDocumentDisplayMode, getDocumentDisplayMode } from '@alfresco/aca-shared/store';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-document-display-mode',
@@ -33,8 +34,8 @@ import { AppStore, ToggleDocumentDisplayMode, getDocumentDisplayMode } from '@al
     <ng-container *ngIf="displayMode$ | async as displayMode">
       <button
         id="app-document-display-mode-button"
-        [attr.title]="getTitle(displayMode) | translate"
-        [attr.aria-label]="getTitle(displayMode) | translate"
+        [attr.title]="displayModeTitle | translate"
+        [attr.aria-label]="displayModeTitle | translate"
         mat-icon-button
         color="primary"
         (click)="onClick()"
@@ -47,15 +48,24 @@ import { AppStore, ToggleDocumentDisplayMode, getDocumentDisplayMode } from '@al
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-document-display-mode' }
 })
-export class DocumentDisplayModeComponent {
+export class DocumentDisplayModeComponent implements OnInit, OnDestroy {
   displayMode$: Observable<string>;
+  displayModeTitle: string;
 
-  constructor(private store: Store<AppStore>) {
-    this.displayMode$ = store.select(getDocumentDisplayMode);
+  onDestroy$ = new Subject<void>();
+
+  constructor(private store: Store<AppStore>) {}
+
+  ngOnInit(): void {
+    this.displayMode$ = this.store.select(getDocumentDisplayMode);
+    this.displayMode$.pipe(takeUntil(this.onDestroy$)).subscribe((displayMode) => {
+      this.displayModeTitle = displayMode === 'list' ? 'APP.ACTIONS.LIST_MODE' : 'APP.ACTIONS.GALLERY_MODE';
+    });
   }
 
-  getTitle(displayMode: string): string {
-    return displayMode === 'list' ? 'APP.ACTIONS.LIST_MODE' : 'APP.ACTIONS.GALLERY_MODE';
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 
   onClick() {

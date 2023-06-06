@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Location } from '@angular/common';
 import { FolderRulesService } from '../services/folder-rules.service';
 import { Observable, Subject, Subscription } from 'rxjs';
@@ -47,6 +47,7 @@ import { ActionParameterConstraint } from '../model/action-parameter-constraint.
   templateUrl: 'manage-rules.smart-component.html',
   styleUrls: ['manage-rules.smart-component.scss'],
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.Default,
   host: { class: 'aca-manage-rules' }
 })
 export class ManageRulesSmartComponent implements OnInit, OnDestroy {
@@ -65,6 +66,10 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
   actionsLoading$: Observable<boolean>;
   actionDefinitions$: Observable<ActionDefinitionTransformed[]>;
   parameterConstraints$: Observable<ActionParameterConstraint[]>;
+  canEditMainRule = false;
+  canEditSelectedRule = false;
+  isMainRuleSetNotEmpty = false;
+  isInheritedRuleSetsNotEmpty = false;
 
   private destroyed$ = new Subject<void>();
   private _actionDefinitionsSub: Subscription;
@@ -110,6 +115,19 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
     this._actionDefinitionsSub = this.actionDefinitions$.subscribe((actionDefinitions: ActionDefinitionTransformed[]) =>
       this.actionsService.loadActionParameterConstraints(actionDefinitions)
     );
+
+    this.mainRuleSet$.pipe(takeUntil(this.destroyed$)).subscribe((ruleSet) => {
+      this.canEditMainRule = this.canEditRule(ruleSet);
+      this.isMainRuleSetNotEmpty = !!ruleSet;
+    });
+
+    this.inheritedRuleSets$.pipe(takeUntil(this.destroyed$)).subscribe((inheritedRuleSet) => {
+      this.isInheritedRuleSetsNotEmpty = inheritedRuleSet.some((ruleSet) => ruleSet.rules.some((rule: Rule) => rule.isEnabled));
+    });
+
+    this.selectedRuleSet$.pipe(takeUntil(this.destroyed$)).subscribe((ruleSet) => {
+      this.canEditSelectedRule = this.canEditRule(ruleSet);
+    });
   }
 
   ngOnDestroy() {
@@ -250,13 +268,5 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
           }
         }
       });
-  }
-
-  isMainRuleSetNotEmpty(mainRuleSet: RuleSet): boolean {
-    return !!mainRuleSet;
-  }
-
-  isInheritedRuleSetsNotEmpty(inheritedRuleSets: RuleSet[]): boolean {
-    return inheritedRuleSets.some((ruleSet) => ruleSet.rules.some((rule: Rule) => rule.isEnabled));
   }
 }

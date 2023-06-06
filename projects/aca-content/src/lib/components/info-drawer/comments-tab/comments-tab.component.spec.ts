@@ -83,22 +83,26 @@ describe('CommentsTabComponent', () => {
       expect(component.canUpdateNode).toBe(false);
     });
 
-    it('should check [update] permission if node selected is a not locked file', () => {
+    it('should check [update] permission if node selected is a not locked file', async () => {
       component.node = {
         id: 'test-node-id',
         isFile: true,
         isFolder: false
       } as Node;
+      fixture.detectChanges();
+      await fixture.whenStable();
       expect(component.canUpdateNode).toBe(true);
       expect(checked).toContain('update');
     });
 
-    it('should check [update] permission if node selected is a folder', () => {
+    it('should check [update] permission if node selected is a folder', async () => {
       component.node = {
         id: 'test-node-id',
         isFile: false,
         isFolder: true
       } as Node;
+      fixture.detectChanges();
+      await fixture.whenStable();
       expect(component.canUpdateNode).toBe(true);
       expect(checked).toContain('update');
     });

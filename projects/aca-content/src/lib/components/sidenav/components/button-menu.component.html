@@ -25,7 +25,7 @@
     [attr.aria-label]="item.title | translate"
     class="action-button"
     [ngClass]="{
-      'action-button--active': acaMenuPanel.hasActiveLinks()
+      'action-button--active': acaMenuPanel.hasActiveChildren
     }"
   >
     <adf-icon [value]="item.icon"></adf-icon>

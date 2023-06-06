@@ -47,7 +47,7 @@
               </button>
 
               <button
-                *ngIf="canEditRule(mainRuleSet$ | async)"
+                *ngIf="canEditMainRule"
                 data-automation-id="manage-rules-create-button"
                 mat-flat-button color="primary"
                 (click)="openCreateUpdateRuleDialog()">
@@ -58,7 +58,7 @@
           </adf-toolbar>
           <mat-divider></mat-divider>
 
-          <div class="aca-manage-rules__container" *ngIf="isMainRuleSetNotEmpty(mainRuleSet$ | async) || isInheritedRuleSetsNotEmpty(inheritedRuleSets$ | async); else emptyContent">
+          <div class="aca-manage-rules__container" *ngIf="isMainRuleSetNotEmpty || isInheritedRuleSetsNotEmpty; else emptyContent">
             <aca-rule-list
               [mainRuleSet]="mainRuleSet$ | async"
               [folderId]="nodeId"
@@ -87,7 +87,7 @@
                 </div>
 
                 <div class="aca-manage-rules__container__rule-details__header__buttons">
-                  <ng-container *ngIf="canEditRule(selectedRuleSet$ | async); else goToFolderButton">
+                  <ng-container *ngIf="canEditSelectedRule; else goToFolderButton">
                     <button mat-stroked-button (click)="onRuleDeleteButtonClicked(selectedRule)" id="delete-rule-btn">
                       <mat-icon>delete_outline</mat-icon>
                     </button>

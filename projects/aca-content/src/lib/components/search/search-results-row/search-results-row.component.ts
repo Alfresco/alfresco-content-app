@@ -50,6 +50,8 @@ export class SearchResultsRowComponent implements OnInit, OnDestroy {
   name$ = new BehaviorSubject<string>('');
   title$ = new BehaviorSubject<string>('');
 
+  isFile = false;
+
   constructor(
     private store: Store<any>,
     private nodesApiService: NodesApiService,
@@ -77,6 +79,7 @@ export class SearchResultsRowComponent implements OnInit, OnDestroy {
 
   private updateValues() {
     this.node = this.context.row.node;
+    this.isFile = this.node.entry.isFile;
 
     const { name, properties } = this.node.entry;
     const title = properties ? properties['cm:title'] : '';
@@ -91,10 +94,6 @@ export class SearchResultsRowComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.onDestroy$.next(true);
     this.onDestroy$.complete();
-  }
-
-  get isFile(): boolean {
-    return this.node.entry.isFile;
   }
 
   showPreview(event: Event) {

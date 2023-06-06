@@ -19,7 +19,7 @@
       mat-menu-item
       data-automation-id="rule-action-list-remove-action-button"
       [title]="'ACA_FOLDER_RULES.RULE_DETAILS.ACTION_BUTTONS.REMOVE' | translate"
-      [disabled]="formArray.controls.length <= 1"
+      [disabled]="formControls.length <= 1"
       (click)="removeAction(control)">
       <mat-icon>delete</mat-icon>
       <span>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.ACTION_BUTTONS.REMOVE' | translate }}</span>

@@ -56,6 +56,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
   data: ResultSetPaging;
   sorting = ['name', 'asc'];
   isLoading = false;
+  totalResults: number;
 
   constructor(private queryBuilder: SearchQueryBuilderService, private route: ActivatedRoute, private translationService: TranslationService) {
     super();
@@ -191,6 +192,14 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
 
   onSearchResultLoaded(nodePaging: ResultSetPaging) {
     this.data = nodePaging;
+    this.totalResults = this.getNumberOfResults();
+  }
+
+  getNumberOfResults() {
+    if (this.data?.list?.pagination) {
+      return this.data.list.pagination.totalItems;
+    }
+    return 0;
   }
 
   onPaginationChanged(pagination: Pagination) {

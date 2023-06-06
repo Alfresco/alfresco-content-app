@@ -92,15 +92,12 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
   });
 
   matcher = new InstantErrorStateMatcher();
+  canUpdateLibrary = false;
+  visibilityLabel = '';
 
   onDestroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private alfrescoApiService: AlfrescoApiService, protected store: Store<AppStore>) {}
-
-  get canUpdateLibrary() {
-    return this.node && this.node.entry && this.node.entry.role === 'SiteManager';
-  }
-
   getVisibilityLabel(value: string) {
     return this.libraryType.find((type) => type.value === value).label;
   }
@@ -136,6 +133,8 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
           this.libraryTitleExists = false;
         }
       });
+    this.canUpdateLibrary = this.node?.entry?.role === 'SiteManager';
+    this.visibilityLabel = this.libraryType.find((type) => type.value === this.form.controls['visibility'].value).label;
   }
 
   ngOnDestroy() {

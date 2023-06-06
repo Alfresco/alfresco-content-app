@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, forwardRef, HostBinding, Input, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { Component, forwardRef, HostBinding, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { RuleOptions } from '../../model/rule.model';
@@ -42,7 +42,7 @@ import { ActionParameterConstraint, ConstraintValue } from '../../model/action-p
     }
   ]
 })
-export class RuleOptionsUiComponent implements ControlValueAccessor, OnDestroy {
+export class RuleOptionsUiComponent implements ControlValueAccessor, OnInit, OnDestroy {
   form = new FormGroup({
     isDisabled: new FormControl(),
     isInheritable: new FormControl(),
@@ -51,6 +51,8 @@ export class RuleOptionsUiComponent implements ControlValueAccessor, OnDestroy {
   });
 
   formSubscription = this.form.valueChanges.subscribe((value: any) => {
+    this.isAsynchronousChecked = value.isAsynchronous;
+    this.isInheritableChecked = value.isInheritable;
     this.onChange({
       isEnabled: !value.isDisabled,
       isInheritable: value.isInheritable,
@@ -71,16 +73,10 @@ export class RuleOptionsUiComponent implements ControlValueAccessor, OnDestroy {
   onChange: (options: RuleOptions) => void = () => undefined;
   onTouch: () => void = () => undefined;
 
-  get isAsynchronousChecked(): boolean {
-    return this.form.get('isAsynchronous').value;
-  }
-  get isInheritableChecked(): boolean {
-    return this.form.get('isInheritable').value;
-  }
+  isAsynchronousChecked = false;
+  isInheritableChecked = false;
 
-  get errorScriptOptions(): ConstraintValue[] {
-    return this.errorScriptConstraint?.constraints ?? [];
-  }
+  errorScriptOptions: ConstraintValue[] = [];
 
   writeValue(options: RuleOptions) {
     const isAsynchronousFormControl = this.form.get('isAsynchronous');
@@ -114,6 +110,10 @@ export class RuleOptionsUiComponent implements ControlValueAccessor, OnDestroy {
       this.form.enable();
       this.readOnly = false;
     }
+  }
+
+  ngOnInit(): void {
+    this.errorScriptOptions = this.errorScriptConstraint?.constraints ?? [];
   }
 
   ngOnDestroy() {

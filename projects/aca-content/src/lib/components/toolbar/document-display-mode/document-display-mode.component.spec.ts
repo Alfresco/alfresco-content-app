@@ -27,22 +27,25 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CoreModule } from '@alfresco/adf-core';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { of } from 'rxjs';
+import { provideMockStore } from '@ngrx/store/testing';
+import { Store } from '@ngrx/store';
 
 describe('DocumentDisplayModeComponent', () => {
-  let component: DocumentDisplayModeComponent;
   let fixture: ComponentFixture<DocumentDisplayModeComponent>;
+  let store: Store;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CoreModule, AppTestingModule]
+      imports: [CoreModule, AppTestingModule],
+      providers: [provideMockStore()]
     });
 
     fixture = TestBed.createComponent(DocumentDisplayModeComponent);
-    component = fixture.componentInstance;
+    store = TestBed.inject(Store);
   });
 
   it('should show the list button when list', async () => {
-    component.displayMode$ = of('list');
+    spyOn(store, 'select').and.returnValue(of('list'));
     fixture.detectChanges();
     await fixture.whenStable();
 
@@ -50,11 +53,10 @@ describe('DocumentDisplayModeComponent', () => {
     expect(displayButton.title).toBe('APP.ACTIONS.LIST_MODE');
   });
 
-  it('should show the gallery button when list', async () => {
-    component.displayMode$ = of('gallery');
+  it('should show the gallery button when gallery', async () => {
+    spyOn(store, 'select').and.returnValue(of('gallery'));
     fixture.detectChanges();
     await fixture.whenStable();
-
     const displayButton: HTMLButtonElement = fixture.nativeElement.querySelector('#app-document-display-mode-button');
     expect(displayButton.title).toBe('APP.ACTIONS.GALLERY_MODE');
   });
