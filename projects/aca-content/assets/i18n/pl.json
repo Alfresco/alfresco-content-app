@@ -82,8 +82,6 @@
       "TITLE": "Szczegóły"
     },
     "NEW_MENU": {
-      "LABEL": "Nowy",
-      "TOOLTIP": "Dodaj nowe pliki i foldery lub utwórz nową bibliotekę plików",
       "MENU_ITEMS": {
         "CREATE_FOLDER": "Utwórz Folder",
         "UPLOAD_FILE": "Prześlij plik",
@@ -215,6 +213,9 @@
         "DUBLIN_CORE": "Dublin Core",
         "EFFECTIVITY": "Obowiązywanie",
         "TITLE": "Wyniki wyszukiwania",
+        "FILTER_SET": "Zestaw filtrów:",
+        "ADVANCED_FILTERS": "Zaawansowane filtry:",
+        "RESET": "Resetuj",
         "RESET_ACTION": "Resetuj filtry wyszukiwania",
         "FOUND_RESULTS": "Znaleziono wyników: {{ number }}",
         "FOUND_ONE_RESULT": "Znaleziono wyników: {{ number }}",
@@ -234,7 +235,6 @@
         }
       },
       "SEARCH_LIBRARIES": {
-        "TITLE": "Znaleziono biblioteki...",
         "FOUND_RESULTS": "Wyniki: {{ number }}",
         "FOUND_ONE_RESULT": "Wynik: {{ number }}"
       }
@@ -286,7 +286,9 @@
         "NO_LABEL": "Anuluj"
       },
       "MOBILE_APP": {
-        "MOBILE_APP_BUTTON_LABEL": "Otwórz w aplikacji"
+        "MOBILE_APP_BUTTON_LABEL": "Otwórz w aplikacji",
+        "DOWNLOAD_APP_BUTTON_LABEL": "Nie masz aplikacji? Pobierz teraz.",
+        "OPEN_ALFRESCO_MOBILE_APP": "Otworzyć za pomocą aplikacji Alfresco Mobile?"
       }
     },
     "DOCUMENT_LIST": {
@@ -445,8 +447,8 @@
   "NODE_FROM_TEMPLATE": {
     "CANCEL": "Anuluj",
     "CREATE": "Utwórz",
-    "FOLDER_DIALOG_TITLE": "Utwórz nowy folder w oparciu o <span class=\"bold\">'{{ szablon }}'</span>",
-    "FILE_DIALOG_TITLE": "Utwórz nowy dokument w oparciu o <span class=\"bold\">'{{ szablon }}'</span>",
+    "FOLDER_DIALOG_TITLE": "Utwórz nowy folder w oparciu o <span class=\"bold\">'{{ template }}'</span>",
+    "FILE_DIALOG_TITLE": "Utwórz nowy dokument w oparciu o <span class=\"bold\">'{{ template }}'</span>",
     "FORM": {
       "PLACEHOLDER": {
         "NAME": "Nazwa",
@@ -486,7 +488,7 @@
   },
   "INFO_PANEL": {
     "TABS": {
-
+    
     },
     "DETAILS": "Szczegóły"
   },

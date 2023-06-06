@@ -82,8 +82,6 @@
       "TITLE": "التفاصيل"
     },
     "NEW_MENU": {
-      "LABEL": "جديد",
-      "TOOLTIP": "إضافة ملفات ومجلدات جديدة، أو إنشاء مكتبة ملفات جديدة",
       "MENU_ITEMS": {
         "CREATE_FOLDER": "إنشاء مجلد",
         "UPLOAD_FILE": "تحميل ملف",
@@ -106,7 +104,7 @@
     "HEADER": {
       "BUTTONS": {
         "CREATE": "إنشاء",
-        "CREATE_TOOLTIP": "إنشاء محتوى",
+        "CREATE_TOOLTIP": "إنشاء المحتوى",
         "UPLOAD": "تحميل",
         "UPLOAD_TOOLTIP": "تحميل المحتوى"
       }
@@ -215,6 +213,9 @@
         "DUBLIN_CORE": "Dublin core",
         "EFFECTIVITY": "السريان",
         "TITLE": "نتائج البحث",
+        "FILTER_SET": "مجموعة الفلاتر:",
+        "ADVANCED_FILTERS": "فلاتر متقدمة:",
+        "RESET": "إعادة تعيين",
         "RESET_ACTION": "إعادة تعيين عوامل تصفية البحث",
         "FOUND_RESULTS": "تم العثور على {{ number }} نتائج",
         "FOUND_ONE_RESULT": "تم العثور على {{ number }} نتيجة",
@@ -234,7 +235,6 @@
         }
       },
       "SEARCH_LIBRARIES": {
-        "TITLE": "المكتبات التي تم العثور عليها...",
         "FOUND_RESULTS": "{{ number }} نتائج",
         "FOUND_ONE_RESULT": "{{ number }} نتيجة"
       }
@@ -286,7 +286,9 @@
         "NO_LABEL": "إلغاء"
       },
       "MOBILE_APP": {
-        "MOBILE_APP_BUTTON_LABEL": "فتح في التطبيق"
+        "MOBILE_APP_BUTTON_LABEL": "فتح في التطبيق",
+        "DOWNLOAD_APP_BUTTON_LABEL": "ليس لديك التطبيق؟ قم بالتحميل الان.",
+        "OPEN_ALFRESCO_MOBILE_APP": "فتح باستخدام تطبيق Alfresco Mobile؟"
       }
     },
     "DOCUMENT_LIST": {
@@ -429,7 +431,7 @@
       "COLLAPSE_NAVIGATION": "طي قائمة التنقل",
       "OPTIONS_SETTINGS": "الخيارات والإعدادات",
       "MY_PROFILE": "ملف التعريف الخاص بي",
-      "EXPAND_NAVIGATION": "توسيع قائمة التنقل"
+      "EXPAND_NAVIGATION": "قم بتوسيع قائمة التنقل"
     }
   },
   "NODE_SELECTOR": {
@@ -487,9 +489,9 @@
   "INFO_PANEL": {
     "TABS": {
 
-    },
-    "DETAILS": "التفاصيل"
   },
+      "DETAILS": "التفاصيل"
+    },
   "LIBRARY": {
     "DIALOG": {
       "CREATE_TITLE": "إنشاء مكتبة",
