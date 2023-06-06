@@ -23,7 +23,6 @@
  */
 
 import { NgModule } from '@angular/core';
-import { DocumentDisplayModeComponent } from './document-display-mode/document-display-mode.component';
 import { ToggleFavoriteComponent } from './toggle-favorite/toggle-favorite.component';
 import { ToggleInfoDrawerComponent } from './toggle-info-drawer/toggle-info-drawer.component';
 import { CommonModule } from '@angular/common';
@@ -40,7 +39,6 @@ import { SharedToolbarModule } from '@alfresco/aca-shared';
 @NgModule({
   imports: [CommonModule, CoreModule.forChild(), ExtensionsModule, SharedToolbarModule, DirectivesModule],
   declarations: [
-    DocumentDisplayModeComponent,
     ToggleFavoriteComponent,
     ToggleInfoDrawerComponent,
     ToggleJoinLibraryButtonComponent,
@@ -50,7 +48,6 @@ import { SharedToolbarModule } from '@alfresco/aca-shared';
     ViewNodeComponent
   ],
   exports: [
-    DocumentDisplayModeComponent,
     ToggleFavoriteComponent,
     ToggleInfoDrawerComponent,
     ToggleJoinLibraryButtonComponent,

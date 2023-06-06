@@ -71,7 +71,6 @@ import { LibraryMetadataTabComponent } from './components/info-drawer/library-me
 import { MetadataTabComponent } from './components/info-drawer/metadata-tab/metadata-tab.component';
 import { VersionsTabComponent } from './components/info-drawer/versions-tab/versions-tab.component';
 import { PreviewComponent } from '@alfresco/aca-preview';
-import { DocumentDisplayModeComponent } from './components/toolbar/document-display-mode/document-display-mode.component';
 import { ToggleEditOfflineComponent } from './components/toolbar/toggle-edit-offline/toggle-edit-offline.component';
 import { ToggleFavoriteLibraryComponent } from './components/toolbar/toggle-favorite-library/toggle-favorite-library.component';
 import { ToggleFavoriteComponent } from './components/toolbar/toggle-favorite/toggle-favorite.component';
@@ -170,7 +169,6 @@ export class ContentServiceExtensionModule {
       'app.toolbar.toggleFavorite': ToggleFavoriteComponent,
       'app.toolbar.toggleFavoriteLibrary': ToggleFavoriteLibraryComponent,
       'app.toolbar.toggleJoinLibrary': ToggleJoinLibraryButtonComponent,
-      'app.toolbar.cardView': DocumentDisplayModeComponent,
       'app.menu.toggleJoinLibrary': ToggleJoinLibraryMenuComponent,
       'app.shared-link.toggleSharedLink': ToggleSharedComponent,
       'app.columns.name': CustomNameColumnComponent,
