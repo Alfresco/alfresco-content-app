@@ -34,7 +34,14 @@ import {
   LibraryStatusColumnComponent,
   TrashcanNameColumnComponent
 } from '@alfresco/adf-content-services';
-import { DocumentBasePageService, ExtensionsDataLoaderGuard, PageLayoutModule, SharedModule, GenericErrorComponent } from '@alfresco/aca-shared';
+import {
+  DocumentBasePageService,
+  ExtensionsDataLoaderGuard,
+  PageLayoutModule,
+  SharedModule,
+  GenericErrorComponent,
+  OpenInAppModule
+} from '@alfresco/aca-shared';
 import * as rules from '@alfresco/aca-shared/rules';
 
 import { FilesComponent } from './components/files/files.component';
@@ -123,7 +130,8 @@ import { TrashcanComponent } from './components/trashcan/trashcan.component';
     AcaFolderRulesModule,
     GenericErrorComponent,
     DetailsComponent,
-    CreateFromTemplateDialogComponent
+    CreateFromTemplateDialogComponent,
+    OpenInAppModule
   ],
   declarations: [
     FilesComponent,
