@@ -25,7 +25,9 @@
 
 import { Page } from '@playwright/test';
 import { BasePage } from './base.page';
-import { DataTableComponent } from '../components';
+import { DataTableComponent, MatMenuComponent } from '../components';
+import { AcaHeader } from '../components/aca-header.component';
+import { AdfFolderDialogComponent } from '../components/dialogs';
 
 export class PersonalFilesPage extends BasePage {
   private static pageUrl = 'personal-files';
@@ -34,5 +36,8 @@ export class PersonalFilesPage extends BasePage {
     super(page, PersonalFilesPage.pageUrl);
   }
 
+  public acaHeader = new AcaHeader(this.page);
+  public matMenu = new MatMenuComponent(this.page);
+  public folderDialog = new AdfFolderDialogComponent(this.page);
   public dataTable = new DataTableComponent(this.page);
 }

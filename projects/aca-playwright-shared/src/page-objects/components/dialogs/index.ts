@@ -22,13 +22,4 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './snackBar/snack-bar.component';
-export * from './dataTable';
-export * from './dialogs';
-export * from './manageRules';
-export * from './base.component';
-export * from './spinner.component';
-export * from './actions-dropdown.component';
-export * from './conditions.component';
-export * from './pagination.component';
-
+export * from './adf-folder-dialog.component';

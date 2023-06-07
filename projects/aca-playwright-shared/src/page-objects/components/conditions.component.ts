@@ -61,17 +61,13 @@ export class ConditionComponent extends ManageRulesDialogComponent {
     await this.addConditionButton.click();
     await this.selectField(fields, index);
     await this.selectComparator(comparators, index);
-    await this.typeConditionValue(value, index);
-  }
-
-  async createConditionGroup(): Promise<void> {
-    await this.addConditionGroupButton.click();
+    await this.valueField.nth(index).type(value);
   }
 
   async addConditionGroup(fields: Partial<Field>, comparators: Partial<Comparator>, value: string, index: number): Promise<void> {
     await this.addConditionButton.nth(0).click();
     await this.selectField(fields, index);
     await this.selectComparator(comparators, index);
-    await this.typeConditionValue(value, index);
+    await this.valueField.nth(index).type(value);
   }
 }

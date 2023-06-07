@@ -53,7 +53,7 @@ test.describe('Folder Rules Actions', () => {
     await personalFiles.dataTable.performActionFromExpandableMenu(randomFolderName, 'Manage rules');
 
     await nodesPage.toolbar.clickCreateRuleButton();
-    await nodesPage.manageRulesDialog.typeRuleName(randomRuleName);
+    await nodesPage.manageRulesDialog.ruleNameInputLocator.type(randomRuleName);
 
     await nodesPage.actionsDropdown.selectAction(ActionType.HideRecord, 0);
     await nodesPage.actionsDropdown.selectAction(ActionType.IncrementCounter, 1);

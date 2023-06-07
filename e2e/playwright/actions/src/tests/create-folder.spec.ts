@@ -22,13 +22,23 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './snackBar/snack-bar.component';
-export * from './dataTable';
-export * from './dialogs';
-export * from './manageRules';
-export * from './base.component';
-export * from './spinner.component';
-export * from './actions-dropdown.component';
-export * from './conditions.component';
-export * from './pagination.component';
+import { expect } from '@playwright/test';
+import { getUserState, test } from '@alfresco/playwright-shared';
 
+test.use({ storageState: getUserState('hruser') });
+test.describe('Create actions', () => {
+  const randomFolderName = `playwright-folder-${(Math.random() + 1).toString(36).substring(6)}`;
+
+  test.beforeEach(async ({ personalFiles }) => {
+    await personalFiles.navigate();
+  });
+
+  test('Create a folder with name only', async ({ personalFiles }) => {
+    await personalFiles.acaHeader.createButton.click();
+    await personalFiles.matMenu.createFolder.click();
+    await personalFiles.folderDialog.folderNameInputLocator.fill(randomFolderName);
+    await personalFiles.folderDialog.createButton.click();
+
+    await expect(personalFiles.dataTable.getRowByName(randomFolderName)).toBeVisible();
+  });
+});

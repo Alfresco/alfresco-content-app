@@ -29,22 +29,15 @@ export class ManageRulesDialogComponent extends BaseComponent {
   private static rootElement = 'aca-edit-rule-dialog';
 
   public createRuleButton = this.getChild('[data-automation-id="edit-rule-dialog-submit"]');
-  private ruleNameInputLocator = this.getChild('[id="rule-details-name-input"]');
+  public ruleNameInputLocator = this.getChild('[id="rule-details-name-input"]');
   public addConditionButton = this.getChild('[data-automation-id="add-condition-button"]');
   public addConditionGroupButton = this.getChild('[data-automation-id="add-group-button"]');
   public fieldDropDown = this.getChild('[data-automation-id="field-select"]');
   public comparatorDropDown = this.getChild('[data-automation-id="comparator-select"]');
-  private valueField = this.getChild('[data-automation-id="value-input"]');
+  public valueField = this.getChild('[data-automation-id="value-input"]');
 
   constructor(page: Page) {
     super(page, ManageRulesDialogComponent.rootElement);
   }
 
-  async typeRuleName(ruleName: string): Promise<void> {
-    await this.ruleNameInputLocator.type(ruleName, { delay: 50 });
-  }
-
-  async typeConditionValue(ruleName: string, index: number): Promise<void> {
-    await this.valueField.nth(index).type(ruleName, { delay: 50 });
-  }
 }

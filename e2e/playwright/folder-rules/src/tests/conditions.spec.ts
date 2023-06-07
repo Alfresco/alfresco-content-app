@@ -50,10 +50,10 @@ test.describe('Folder Rules Conditions', () => {
     await personalFiles.dataTable.performActionFromExpandableMenu(randomFolderName, 'Manage rules');
 
     await nodesPage.toolbar.clickCreateRuleButton();
-    await nodesPage.manageRulesDialog.typeRuleName(randomRuleName);
+    await nodesPage.manageRulesDialog.ruleNameInputLocator.type(randomRuleName);
     await nodesPage.conditionsDropdown.addCondition(Field.Size, Comparator.Equals, specialChars, 0);
     await nodesPage.conditionsDropdown.addCondition(Field.Size, Comparator.Equals, specialChars, 1);
-    await nodesPage.conditionsDropdown.createConditionGroup();
+    await nodesPage.conditionsDropdown.addConditionGroupButton.click();
     await nodesPage.conditionsDropdown.addConditionGroup(Field.Size, Comparator.Equals, specialChars, 0);
     await nodesPage.conditionsDropdown.addConditionGroup(Field.Size, Comparator.Equals, specialChars, 1);
     await nodesPage.actionsDropdown.selectAction(ActionType.IncrementCounter, 0);

@@ -34,6 +34,6 @@ export class MatMenuComponent extends BaseComponent {
 
   public getMenuItemsLocator = this.getChild('button');
   public getMenuItemTextLocator = this.getChild('[data-automation-id="menu-item-title"]');
-
+  public createFolder = this.getChild('[id="app.create.folder"]');
   public getButtonByText = (text: string) => this.getChild('button', { hasText: text });
 }
