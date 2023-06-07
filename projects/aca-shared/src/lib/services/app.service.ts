@@ -166,7 +166,9 @@ export class AppService implements OnDestroy {
       if (isReady) {
         this.loadRepositoryStatus();
         this.loadUserProfile();
-        this.openMobileAppDialog();
+        setTimeout(() => {
+          this.openMobileAppDialog();
+        });
       }
     });
 
