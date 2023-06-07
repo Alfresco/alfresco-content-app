@@ -569,13 +569,6 @@
             "EFFECTIVITY_TO": "Effectivity to",
             "LOGIC": "Logic"
         },
-        "FACET_QUERIES": {
-            "TODAY": "Today",
-            "THIS_WEEK": "This week",
-            "THIS_MONTH": "This month",
-            "LAST_6_MONTHS": "In the last 6 months",
-            "THIS_YEAR": "This year"
-        },
         "SEARCH_HEADER" : {
           "TITLE":"Filter",
           "TYPE": "Type",

@@ -1393,16 +1393,6 @@
           "fields": [
             {
               "mincount": 1,
-              "field": "content.mimetype",
-              "label": "SEARCH.FACET_FIELDS.FILE_TYPE",
-              "settings": {
-                "allowUpdateOnChange": false,
-                "hideDefaultAction": true,
-                "facetOrder": 100
-              }
-            },
-            {
-              "mincount": 1,
               "field": "creator",
               "label": "SEARCH.FACET_FIELDS.CREATOR",
               "settings": {
@@ -1420,69 +1410,8 @@
                 "hideDefaultAction": true,
                 "facetOrder": 300
               }
-            },
-            {
-              "mincount": 1,
-              "field": "SITE",
-              "label": "SEARCH.FACET_FIELDS.LOCATION",
-              "settings": {
-                "allowUpdateOnChange": false,
-                "hideDefaultAction": true,
-                "facetOrder": 400
-              }
-            },
-            {
-              "mincount": 1,
-              "field": "TAG",
-              "label": "Tags",
-              "settings": {
-                "allowUpdateOnChange": false,
-                "hideDefaultAction": true,
-                "facetOrder": 600
-              }
-            },
-            {
-              "mincount": 1,
-              "field": "cm:categories",
-              "label": "SEARCH.FACET_FIELDS.CATEGORIES",
-              "settings": {
-                "allowUpdateOnChange": false,
-                "hideDefaultAction": true,
-                "facetOrder": 700
-              }
             }
           ]
-        },
-        "facetQueries": {
-          "label": "SEARCH.CATEGORIES.MODIFIED_DATE",
-          "expanded": true,
-          "queries": [
-            {
-              "label": "SEARCH.FACET_QUERIES.TODAY",
-              "query": "cm:modified:[TODAY to TODAY]"
-            },
-            {
-              "label": "SEARCH.FACET_QUERIES.THIS_WEEK",
-              "query": "cm:modified:[NOW/DAY-7DAYS TO NOW/DAY+1DAY]"
-            },
-            {
-              "label": "SEARCH.FACET_QUERIES.THIS_MONTH",
-              "query": "cm:modified:[NOW/DAY-1MONTH TO NOW/DAY+1DAY]"
-            },
-            {
-              "label": "SEARCH.FACET_QUERIES.LAST_6_MONTHS",
-              "query": "cm:modified:[NOW/DAY-6MONTHS TO NOW/DAY+1DAY]"
-            },
-            {
-              "label": "SEARCH.FACET_QUERIES.THIS_YEAR",
-              "query": "cm:modified:[NOW/DAY-1YEAR TO NOW/DAY+1DAY]"
-            }
-          ],
-          "settings": {
-            "allowUpdateOnChange": false,
-            "hideDefaultAction": true,
-            "facetOrder": 500
-          }
         },
         "categories": [
           {
@@ -1540,6 +1469,69 @@
                 "field": "cm:created",
                 "dateFormat": "DD-MMM-YY",
                 "maxDate": "today"
+              }
+            }
+          },
+          {
+            "id": "modifiedDateRange",
+            "name": "SEARCH.CATEGORIES.MODIFIED_DATE",
+            "enabled": true,
+            "component": {
+              "selector": "date-range",
+              "settings": {
+                "allowUpdateOnChange": false,
+                "hideDefaultAction": true,
+                "field": "cm:modified",
+                "dateFormat": "DD-MMM-YY",
+                "maxDate": "today"
+              }
+            }
+          },
+          {
+            "id": "fileType",
+            "name": "SEARCH.FACET_FIELDS.FILE_TYPE",
+            "component": {
+              "selector": "",
+              "settings": {
+                "allowUpdateOnChange": false,
+                "hideDefaultAction": true,
+                "field": "content.mimetype"
+              }
+            }
+          },
+          {
+            "id": "location",
+            "name": "SEARCH.FACET_FIELDS.LOCATION",
+            "component": {
+              "selector": "",
+              "settings": {
+                "allowUpdateOnChange": false,
+                "hideDefaultAction": true,
+                "field": "SITE"
+              }
+            }
+          },
+          {
+            "id": "tag",
+            "name": "Tags",
+            "component": {
+              "selector": "",
+              "settings": {
+                "allowUpdateOnChange": false,
+                "hideDefaultAction": true,
+                "field": "TAG"
+              }
+            }
+          },
+          {
+            "id": "categories",
+            "name": "SEARCH.FACET_FIELDS.CATEGORIES",
+            "component": {
+              "selector": "",
+              "settings": {
+                "allowUpdateOnChange": false,
+                "hideDefaultAction": true,
+                "field": "cm:categories"
               }
             }
           }
@@ -1787,38 +1779,7 @@
                 "hideDefaultAction": true
               }
             }
-
           ]
-        },
-        "facetQueries": {
-          "label": "SEARCH.CATEGORIES.MODIFIED_DATE",
-          "expanded": true,
-          "queries": [
-            {
-              "label": "SEARCH.FACET_QUERIES.TODAY",
-              "query": "cm:modified:[TODAY to TODAY]"
-            },
-            {
-              "label": "SEARCH.FACET_QUERIES.THIS_WEEK",
-              "query": "cm:modified:[NOW/DAY-7DAYS TO NOW/DAY+1DAY]"
-            },
-            {
-              "label": "SEARCH.FACET_QUERIES.THIS_MONTH",
-              "query": "cm:modified:[NOW/DAY-1MONTH TO NOW/DAY+1DAY]"
-            },
-            {
-              "label": "SEARCH.FACET_QUERIES.LAST_6_MONTHS",
-              "query": "cm:modified:[NOW/DAY-6MONTHS TO NOW/DAY+1DAY]"
-            },
-            {
-              "label": "SEARCH.FACET_QUERIES.THIS_YEAR",
-              "query": "cm:modified:[NOW/DAY-1YEAR TO NOW/DAY+1DAY]"
-            }
-          ],
-          "settings": {
-            "allowUpdateOnChange": false,
-            "hideDefaultAction": true
-          }
         },
         "categories": [
           {
@@ -1844,6 +1805,21 @@
                 "allowUpdateOnChange": false,
                 "hideDefaultAction": true,
                 "field": "cm:created",
+                "dateFormat": "DD-MMM-YY",
+                "maxDate": "today"
+              }
+            }
+          },
+          {
+            "id": "modifiedDateRange",
+            "name": "SEARCH.CATEGORIES.MODIFIED_DATE",
+            "enabled": true,
+            "component": {
+              "selector": "date-range",
+              "settings": {
+                "allowUpdateOnChange": false,
+                "hideDefaultAction": true,
+                "field": "cm:modified",
                 "dateFormat": "DD-MMM-YY",
                 "maxDate": "today"
               }
