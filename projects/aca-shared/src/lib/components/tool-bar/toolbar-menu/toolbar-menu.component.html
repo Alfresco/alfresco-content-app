@@ -17,6 +17,7 @@
   <ng-container *ngSwitchCase="'flat-button'">
     <button
       [id]="actionRef.id"
+      [ngClass]="{'secondary-button-color': !data?.color}"
       [color]="data?.color || color"
       mat-flat-button
       [attr.aria-label]="actionRef.description || actionRef.title | translate"

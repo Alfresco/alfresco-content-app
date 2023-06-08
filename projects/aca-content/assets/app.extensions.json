@@ -273,13 +273,14 @@
         "title": "APP.HEADER.BUTTONS.CREATE",
         "description": "APP.HEADER.BUTTONS.CREATE_TOOLTIP",
         "data": {
-          "menuType": "button"
+          "menuType": "flat-button",
+          "color": "primary"
         },
         "children": [
           {
             "id": "app.create.folder",
             "order": 100,
-            "icon": "create_new_folder",
+            "icon": "adf:create_new_folder",
             "title": "APP.NEW_MENU.MENU_ITEMS.CREATE_FOLDER",
             "description": "APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER",
             "description-disabled": "APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER_NOT_ALLOWED",
@@ -295,7 +296,7 @@
             "order": 200,
             "title": "APP.NEW_MENU.MENU_ITEMS.CREATE_LIBRARY",
             "description": "APP.NEW_MENU.TOOLTIPS.CREATE_LIBRARY",
-            "icon": "create_new_folder",
+            "icon": "adf:create_library",
             "actions": {
               "click": "CREATE_LIBRARY"
             },
@@ -306,7 +307,7 @@
           {
             "id": "app.create.fileFromTemplate",
             "order": 300,
-            "icon": "description",
+            "icon": "adf:file_from_template",
             "title": "APP.NEW_MENU.MENU_ITEMS.FILE_TEMPLATE",
             "description": "APP.NEW_MENU.MENU_ITEMS.FILE_TEMPLATE",
             "description-disabled": "APP.NEW_MENU.TOOLTIPS.CREATE_FILE_NOT_ALLOWED",
@@ -320,7 +321,7 @@
           {
             "id": "app.create.folderFromTemplate",
             "order": 400,
-            "icon": "create_new_folder",
+            "icon": "adf:create_new_folder",
             "title": "APP.NEW_MENU.MENU_ITEMS.FOLDER_TEMPLATE",
             "description": "APP.NEW_MENU.MENU_ITEMS.FOLDER_TEMPLATE",
             "description-disabled": "APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER_NOT_ALLOWED",

@@ -24,22 +24,9 @@
     }
 
     .aca-toolbar-action {
-      .app-toolbar-menu {
-        .mat-button {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          border-radius: 6px;
-          height: 32px;
-          background: var(--theme-app-toolbar-button-background-color);
-          color: var(--theme-selected-text-color);
-          line-height: 32px;
-
-          .mat-button-wrapper {
-            display: flex;
-          }
-        }
-
+      .app-toolbar-menu,
+      .app-toolbar-button {
+        .mat-button,
         .mat-flat-button {
           display: flex;
           justify-content: center;
@@ -51,6 +38,11 @@
           .mat-button-wrapper {
             display: flex;
           }
+        }
+
+        .secondary-button-color {
+          background: var(--theme-app-toolbar-button-background-color);
+          color: var(--theme-selected-text-color);
         }
       }
     }

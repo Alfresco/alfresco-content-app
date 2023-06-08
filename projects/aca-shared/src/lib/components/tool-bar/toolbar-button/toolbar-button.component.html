@@ -16,6 +16,7 @@
     <button
       [id]="actionRef.id"
       [color]="data?.color || color"
+      [ngClass]="{'secondary-button-color': !data?.color}"
       mat-flat-button
       [attr.aria-label]="actionRef.description || actionRef.title | translate"
       [attr.title]="actionRef.description || actionRef.title | translate"
