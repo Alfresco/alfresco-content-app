@@ -6,13 +6,14 @@ Title: Node Version Manager
 
 Nvm is a version manager for Node.js. You can use it to install and switch to correct Node.js version.
 
-## Installation 
+## Installation
 
 To install nvm you can run following:
 
 ```sh
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
 ```
+
 for other installation options and troubleshooting instructions please follow [nvm installation docs](https://github.com/nvm-sh/nvm#install--update-script).
 
 ## Usage

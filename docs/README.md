@@ -38,27 +38,31 @@ The documentation is divided into the following sections:
 
 ## Compatibility
 
-| ACA Version | Built with | Tested on |
-| ----------- | ---------- | --------- |
-| ACA 3.1.0    | ADF 5.1.0  | ACS 7.3   |
-| ACA 3.0.0    | ADF 5.0.0  | ACS 7.3   |
-| ACA 2.4.0    | ADF 4.4.0  | ACS 6.2   |
-| ACA 2.3.0    | ADF 4.3.0  | ACS 6.2   |
-| ACA 2.2.0    | ADF 4.2.0  | ACS 6.2   |
-| ACA 2.1.0    | ADF 4.1.0  | ACS 6.2   |
-| ACA 1.12    | ADF 3.9.0  | ACS 6.2   |
-| ACA 1.11    | ADF 3.8.0  | ACS 6.2   |
-| ACA 1.10    | ADF 3.7.0  | ACS 6.2   |
-| ACA 1.9     | ADF 3.6.0  | ACS 6.2   |
-| ACA 1.8     | ADF 3.3.0  | ACS 6.1   |
-| ACA 1.7     | ADF 3.0.0  | ACS 6.1   |
-| ACA 1.6     | ADF 2.6.1  | ACS 6.1   |
-| ACA 1.5     | ADF 2.6.0  | ACS 6.0   |
-| ACA 1.4     | ADF 2.5.0  | ACS 6.0   |
-| ACA 1.3     | ADF 2.4.0  | ACS 6.0   |
-| ACA 1.2     | ADF 2.3.0  | ACS 5.2   |
-| ACA 1.1     | ADF 2.2.0  | ACS 5.2   |
-| ACA 1.0     | ADF 2.0.0  | ACS 5.2   |
+| ACA  | ADF | ACS | Node | Angular |
+| ---- | --- | --- | ---- | ------- |
+| 4.1  | 6.1 | 7.4 | 18.x | 14.x    |
+| 4.0  | 6.1 | 7.4 | 14.x | 14.x    |
+| 3.1  | 5.1 | 7.3 |      |         |
+| 3.0  | 5.0 | 7.3 |      |         |
+| 2.4  | 4.4 | 6.2 |      |         |
+| 2.3  | 4.3 | 6.2 |      |         |
+| 2.2  | 4.2 | 6.2 |      |         |
+| 2.1  | 4.1 | 6.2 |      |         |
+| 1.12 | 3.9 | 6.2 |      |         |
+| 1.11 | 3.8 | 6.2 |      |         |
+| 1.10 | 3.7 | 6.2 |      |         |
+| 1.9  | 3.6 | 6.2 |      |         |
+| 1.8  | 3.3 | 6.1 |      |         |
+| 1.7  | 3.0 | 6.1 |      |         |
+| 1.6  | 2.6 | 6.1 |      |         |
+| 1.5  | 2.6 | 6.0 |      |         |
+| 1.4  | 2.5 | 6.0 |      |         |
+| 1.3  | 2.4 | 6.0 |      |         |
+| 1.2  | 2.3 | 5.2 |      |         |
+| 1.1  | 2.2 | 5.2 |      |         |
+| 1.0  | 2.0 | 5.2 |      |         |
+
+> See <https://angular.io/guide/versions> for more details on Angular and Node.js compatibility
 
 ## Available Features
 
