@@ -49,7 +49,7 @@ async function globalSetup(config: FullConfig<CustomConfig>) {
         await page.context().storageState({ path: `${paths.userStates}/${user}UserState.json` });
         await browser.close();
       } else {
-        throw new Error(`Add credentials for ${user[user].username} to you .env file!`);
+        throw new Error(`Add credentials for ${user} to you .env file!`);
       }
     }
   }
