@@ -22,11 +22,13 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { PlaywrightTestConfig, devices } from '@playwright/test';
+import { PlaywrightTestConfig, ReporterDescription, devices } from '@playwright/test';
 import { timeouts } from '../utils';
 
 require('@alfresco/adf-cli/tooling').dotenvConfig();
 const { env } = process;
+
+const report: ReporterDescription[] = (env.CI) ? [['github']] : [['html']];
 
 export const getGlobalConfig: PlaywrightTestConfig = {
   timeout: timeouts.globalTest,
@@ -45,8 +47,8 @@ export const getGlobalConfig: PlaywrightTestConfig = {
   /* Retry on CI only */
   retries: env.CI ? 2 : 0,
   /* Opt out of parallel tests on CI. */
-  workers: 5,
-
+  workers: 3,
+  reporter: [['list'], ...report],
   globalSetup: require.resolve('./global.setup'),
   use: {
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
