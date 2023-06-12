@@ -8,6 +8,7 @@
     {
       "files": ["*.ts"],
       "plugins": ["@alfresco/eslint-angular"],
+      "extends": ["plugin:@angular-eslint/template/process-inline-templates"],
       "excludedFiles": ["*.spec.ts"],
       "rules": {
         "@alfresco/eslint-angular/use-none-component-view-encapsulation": "error"
@@ -23,7 +24,6 @@
       "extends": [
         "plugin:@nrwl/nx/typescript",
         "plugin:@nrwl/nx/angular",
-        "plugin:@angular-eslint/template/process-inline-templates",
         "plugin:@cspell/recommended"
       ],
       "plugins": [
