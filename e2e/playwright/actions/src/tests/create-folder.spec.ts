@@ -27,18 +27,24 @@ import { getUserState, test } from '@alfresco/playwright-shared';
 
 test.use({ storageState: getUserState('hruser') });
 test.describe('Create actions', () => {
-  const randomFolderName = `playwright-folder-${(Math.random() + 1).toString(36).substring(6)}`;
+  let randomFolderName: string;
 
   test.beforeEach(async ({ personalFiles }) => {
+    randomFolderName = `playwright-folder-${(Math.random() + 1).toString(36).substring(6)}`;
     await personalFiles.navigate();
   });
 
-  test('Create a folder with name only', async ({ personalFiles }) => {
+  test.afterEach(async ({ personalFiles }) => {
+    await personalFiles.dataTable.performActionFromExpandableMenu(randomFolderName, 'Delete');
+  });
+
+  test('[C216341] Create a folder with name only', async ({ personalFiles }) => {
     await personalFiles.acaHeader.createButton.click();
     await personalFiles.matMenu.createFolder.click();
     await personalFiles.folderDialog.folderNameInputLocator.fill(randomFolderName);
     await personalFiles.folderDialog.createButton.click();
 
+    await personalFiles.dataTable.goThroughPagesLookingForRowWithName(randomFolderName);
     await expect(personalFiles.dataTable.getRowByName(randomFolderName)).toBeVisible();
   });
 });
