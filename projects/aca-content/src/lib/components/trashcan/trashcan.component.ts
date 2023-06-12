@@ -24,7 +24,7 @@
 
 import { getUserProfile } from '@alfresco/aca-shared/store';
 import { DocumentListPresetRef, ExtensionsModule } from '@alfresco/adf-extensions';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { PageComponent, PageLayoutModule, SharedToolbarModule } from '@alfresco/aca-shared';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
@@ -48,7 +48,8 @@ import { DirectivesModule } from '../../directives/directives.module';
     DataTableModule,
     ExtensionsModule
   ],
-  templateUrl: './trashcan.component.html'
+  templateUrl: './trashcan.component.html',
+  encapsulation: ViewEncapsulation.None
 })
 export class TrashcanComponent extends PageComponent implements OnInit {
   user$ = this.store.select(getUserProfile);
