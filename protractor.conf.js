@@ -66,7 +66,7 @@ exports.config = {
   suites: {
     copyMoveActions: './e2e/protractor/suites/actions/copy-move/**/**/*test.ts',
     createActions: './e2e/protractor/suites/actions/create/**/**/*test.ts',
-    deleteActions: './e2e/suites/actions/delete/**/**/*test.ts',
+    deleteActions: './e2e/protractor/suites/actions/delete/**/**/*test.ts',
     editActions: './e2e/protractor/suites/actions/edit/**/**/*test.ts',
     favoriteActions: './e2e/protractor/suites/actions/favorite/**/**/*test.ts',
     libraryActions: './e2e/protractor/suites/actions/library/**/**/*test.ts',

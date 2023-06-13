@@ -25,7 +25,7 @@
 import { expect } from '@playwright/test';
 import { ActionType, getUserState, test } from '@alfresco/playwright-shared';
 
-test.use({ storageState: getUserState('superadmin') });
+test.use({ storageState: getUserState('admin') });
 test.describe('Folder Rules Actions', () => {
   const randomFolderName = `playwright-folder-${(Math.random() + 1).toString(36).substring(6)}`;
   const randomRuleName = `playwright-rule-${(Math.random() + 1).toString(36).substring(6)}`;
