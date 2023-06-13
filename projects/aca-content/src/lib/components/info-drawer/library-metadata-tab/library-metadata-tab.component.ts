@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { SiteEntry } from '@alfresco/js-api';
 import { LibraryMetadataFormComponent } from './library-metadata-form.component';
 
@@ -31,7 +31,8 @@ import { LibraryMetadataFormComponent } from './library-metadata-form.component'
   imports: [LibraryMetadataFormComponent],
   selector: 'app-library-metadata-tab',
   template: '<app-library-metadata-form [node]="node"></app-library-metadata-form>',
-  host: { class: 'app-metadata-tab' }
+  host: { class: 'app-metadata-tab' },
+  encapsulation: ViewEncapsulation.None
 })
 export class LibraryMetadataTabComponent {
   @Input()

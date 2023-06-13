@@ -24,7 +24,7 @@
 
 import { NavigateLibraryAction } from '@alfresco/aca-shared/store';
 import { NodePaging, Pagination, SiteEntry } from '@alfresco/js-api';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { SearchLibrariesQueryBuilderService } from './search-libraries-query-builder.service';
 import { AppHookService, AppService, PageComponent } from '@alfresco/aca-shared';
@@ -33,7 +33,8 @@ import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 @Component({
   selector: 'aca-search-results',
   templateUrl: './search-libraries-results.component.html',
-  styleUrls: ['./search-libraries-results.component.scss']
+  styleUrls: ['./search-libraries-results.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class SearchLibrariesResultsComponent extends PageComponent implements OnInit {
   searchedWord: string;

@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, HostListener, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnChanges, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { MinimalNodeEntity, MinimalNodeEntryEntity, SiteEntry } from '@alfresco/js-api';
 import { ContentActionRef, ExtensionsModule, SidebarTabRef } from '@alfresco/adf-extensions';
 import { Store } from '@ngrx/store';
@@ -37,11 +37,13 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { InfoDrawerModule, ToolbarModule } from '@alfresco/adf-core';
 import { SharedToolbarModule } from '../tool-bar/shared-toolbar.module';
 import { TranslateModule } from '@ngx-translate/core';
+
 @Component({
   standalone: true,
   imports: [CommonModule, TranslateModule, MatProgressBarModule, InfoDrawerModule, SharedToolbarModule, ExtensionsModule, ToolbarModule],
   selector: 'aca-info-drawer',
-  templateUrl: './info-drawer.component.html'
+  templateUrl: './info-drawer.component.html',
+  encapsulation: ViewEncapsulation.None
 })
 export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
   @Input()

@@ -23,7 +23,7 @@
  */
 
 import { LanguageMenuModule } from '@alfresco/adf-core';
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { TranslateModule } from '@ngx-translate/core';
@@ -40,6 +40,7 @@ import { TranslateModule } from '@ngx-translate/core';
     <mat-menu #langMenu="matMenu">
       <adf-language-menu></adf-language-menu>
     </mat-menu>
-  `
+  `,
+  encapsulation: ViewEncapsulation.None
 })
 export class LanguagePickerComponent {}

@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, OnInit, OnChanges, OnDestroy } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { UntypedFormGroup, UntypedFormControl, Validators, FormGroupDirective, NgForm, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { QueriesApi, SiteEntry, SitePaging } from '@alfresco/js-api';
 import { Store } from '@ngrx/store';
@@ -63,7 +63,8 @@ export class InstantErrorStateMatcher implements ErrorStateMatcher {
     MatButtonModule
   ],
   selector: 'app-library-metadata-form',
-  templateUrl: './library-metadata-form.component.html'
+  templateUrl: './library-metadata-form.component.html',
+  encapsulation: ViewEncapsulation.None
 })
 export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestroy {
   private _queriesApi: QueriesApi;

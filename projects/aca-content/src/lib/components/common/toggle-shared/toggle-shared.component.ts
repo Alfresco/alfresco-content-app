@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { SelectionState } from '@alfresco/adf-extensions';
@@ -38,7 +38,8 @@ import { takeUntil } from 'rxjs/operators';
   standalone: true,
   imports: [CommonModule, MatMenuModule, MatIconModule, TranslateModule, MatButtonModule],
   selector: 'app-toggle-shared',
-  templateUrl: './toggle-shared.component.html'
+  templateUrl: './toggle-shared.component.html',
+  encapsulation: ViewEncapsulation.None
 })
 export class ToggleSharedComponent implements OnInit, OnDestroy {
   @Input()
