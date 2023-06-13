@@ -22,7 +22,17 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { RepoClient, Utils, AdminActions, UserActions, LoginPage, SearchResultsPage, BrowsingPage } from '@alfresco/aca-testing-shared';
+import {
+  RepoClient,
+  Utils,
+  AdminActions,
+  UserActions,
+  LoginPage,
+  SearchResultsPage,
+  BrowsingPage,
+  APP_ROUTES,
+  navigate
+} from '@alfresco/aca-testing-shared';
 import * as testData from './test-data';
 import * as testUtil from '../test-util';
 
@@ -43,7 +53,7 @@ describe('Folders - available actions : ', () => {
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
-  const { dataTable, toolbar } = page;
+  const { dataTable } = page;
   const { searchInput } = page.pageLayoutHeader;
   const searchResultsPage = new SearchResultsPage();
 
@@ -150,7 +160,7 @@ describe('Folders - available actions : ', () => {
     describe('on a folder', () => {
       beforeAll(async () => {
         await page.clickPersonalFiles();
-        await toolbar.clickSearchIconButton();
+        await navigate(APP_ROUTES.SEARCH);
         await searchInput.clickSearchButton();
         await searchInput.searchFor(random);
         await searchResultsPage.waitForResults();
@@ -170,7 +180,7 @@ describe('Folders - available actions : ', () => {
     describe('on multiple selection', () => {
       it('[C291821] multiple folders', async () => {
         await page.clickPersonalFiles();
-        await toolbar.clickSearchIconButton();
+        await navigate(APP_ROUTES.SEARCH);
         await searchInput.clickSearchButton();
         await searchInput.searchFor(random);
         await searchResultsPage.waitForResults();
@@ -185,7 +195,7 @@ describe('Folders - available actions : ', () => {
 
       it('[C291822] both files and folders', async () => {
         await page.clickPersonalFiles();
-        await toolbar.clickSearchIconButton();
+        await navigate(APP_ROUTES.SEARCH);
         await searchInput.clickSearchButton();
         await searchInput.searchFor(`${testData.file.name} or ${testData.folderFav.name}`);
         await searchResultsPage.waitForResults();
