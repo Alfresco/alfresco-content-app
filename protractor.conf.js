@@ -1,6 +1,6 @@
 // Protractor configuration file, see link for more information
 // https://github.com/angular/protractor/blob/master/lib/config.ts
-import { browser } from 'protractor';
+
 require('dotenv').config({path: process.env.ENV_FILE});
 const path = require('path');
 const {SpecReporter} = require('jasmine-spec-reporter');
@@ -140,8 +140,6 @@ exports.config = {
     showColors: true,
     defaultTimeoutInterval: 200000,
     includeStackTrace: true,
-    // print: function () {
-    // },
     ...(process.env.CI ? smartRunnerFactory.applyExclusionFilter() : {})
   },
 
@@ -189,17 +187,20 @@ exports.config = {
       paths: tsConfig.compilerOptions.paths
     });
 
+    // eslint-disable-next-line no-undef
     browser.manage().window().setSize(width, height);
 
-    // jasmine.getEnv().addReporter(
-    //   new SpecReporter({
-    //     spec: {
-    //       displayStacktrace: 'raw',
-    //       displayDuration: true
-    //     }
-    //   })
-    // );
+    // eslint-disable-next-line no-undef
+    jasmine.getEnv().addReporter(
+      new SpecReporter({
+        spec: {
+          displayStacktrace: 'raw',
+          displayDuration: true
+        }
+      })
+    );
 
+    // eslint-disable-next-line no-undef
     browser.driver.sendChromiumCommand('Page.setDownloadBehavior', {
       behavior: 'allow',
       downloadPath: downloadFolder
