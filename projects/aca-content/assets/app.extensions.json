@@ -1410,16 +1410,6 @@
                 "hideDefaultAction": true,
                 "facetOrder": 300
               }
-            },
-            {
-              "mincount": 1,
-              "field": "SITE",
-              "label": "SEARCH.FACET_FIELDS.LOCATION",
-              "settings": {
-                "allowUpdateOnChange": false,
-                "hideDefaultAction": true,
-                "facetOrder": 400
-              }
             }
           ]
         },
