@@ -1,18 +1,18 @@
 // Protractor configuration file, see link for more information
 // https://github.com/angular/protractor/blob/master/lib/config.ts
-
+import { browser } from 'protractor';
 require('dotenv').config({path: process.env.ENV_FILE});
 const path = require('path');
 const {SpecReporter} = require('jasmine-spec-reporter');
 const retry = require('protractor-retry-angular-cli').retry;
-const {saveScreenshots} = require('./e2e/e2e-config/utils/upload-output');
-const smartRunnerFactory = require('./e2e/smartrunner-factory');
+const {saveScreenshots} = require('./e2e/protractor/e2e-config/utils/upload-output');
+const smartRunnerFactory = require('./e2e/protractor/smartrunner-factory');
 const argv = require('yargs').argv;
 
 const projectRoot = path.resolve(__dirname);
 const downloadFolder = path.join(__dirname, 'e2e-downloads');
 const screenshotsFolder = path.resolve(__dirname, 'e2e-output');
-const e2eFolder = path.resolve(projectRoot, 'e2e');
+const e2eFolder = path.resolve(projectRoot, 'e2e/protractor');
 const E2E_HOST = process.env.E2E_HOST || 'http://localhost:4200';
 const BROWSER_RUN = !!process.env.BROWSER_RUN;
 const width = 1366;
@@ -50,43 +50,43 @@ exports.config = {
   },
 
   specs: [
-    './e2e/suites/actions/**/**/*test.ts',
-    './e2e/suites/actions-available/**/**/*test.ts',
-    './e2e/suites/application/**/*test.ts',
-    './e2e/suites/authentication/**/*test.ts',
-    './e2e/suites/extensions/**/*test.ts',
-    './e2e/suites/info-drawer/**/*test.ts',
-    './e2e/suites/list-views/**/*test.ts',
-    './e2e/suites/navigation/**/*test.ts',
-    './e2e/suites/pagination/**/*test.ts',
-    './e2e/suites/search/**/*test.ts',
-    './e2e/suites/viewer/**/*test.ts'
+    './e2e/protractor/suites/actions/**/**/*test.ts',
+    './e2e/protractor/suites/actions-available/**/**/*test.ts',
+    './e2e/protractor/suites/application/**/*test.ts',
+    './e2e/protractor/suites/authentication/**/*test.ts',
+    './e2e/protractor/suites/extensions/**/*test.ts',
+    './e2e/protractor/suites/info-drawer/**/*test.ts',
+    './e2e/protractor/suites/list-views/**/*test.ts',
+    './e2e/protractor/suites/navigation/**/*test.ts',
+    './e2e/protractor/suites/pagination/**/*test.ts',
+    './e2e/protractor/suites/search/**/*test.ts',
+    './e2e/protractor/suites/viewer/**/*test.ts'
   ],
 
   suites: {
-    copyMoveActions: './e2e/suites/actions/copy-move/**/**/*test.ts',
-    createActions: './e2e/suites/actions/create/**/**/*test.ts',
+    copyMoveActions: './e2e/protractor/suites/actions/copy-move/**/**/*test.ts',
+    createActions: './e2e/protractor/suites/actions/create/**/**/*test.ts',
     deleteActions: './e2e/suites/actions/delete/**/**/*test.ts',
-    editActions: './e2e/suites/actions/edit/**/**/*test.ts',
-    favoriteActions: './e2e/suites/actions/favorite/**/**/*test.ts',
-    libraryActions: './e2e/suites/actions/library/**/**/*test.ts',
-    shareActions: './e2e/suites/actions/share/**/**/*test.ts',
-    uploadDownloadActions: './e2e/suites/actions/upload-download/**/**/*test.ts',
+    editActions: './e2e/protractor/suites/actions/edit/**/**/*test.ts',
+    favoriteActions: './e2e/protractor/suites/actions/favorite/**/**/*test.ts',
+    libraryActions: './e2e/protractor/suites/actions/library/**/**/*test.ts',
+    shareActions: './e2e/protractor/suites/actions/share/**/**/*test.ts',
+    uploadDownloadActions: './e2e/protractor/suites/actions/upload-download/**/**/*test.ts',
 
-    actionsAvailableFilesFolders: './e2e/suites/actions-available/files-folders/**/**/*test.ts',
-    actionsAvailableLibraries: './e2e/suites/actions-available/libraries/**/**/*test.ts',
-    actionsAvailableSpecialPermissions: './e2e/suites/actions-available/special-permissions/**/**/*test.ts',
-    actionsAvailableNewMenu: './e2e/suites/actions-available/new-menu/**/**/*test.ts',
+    actionsAvailableFilesFolders: './e2e/protractor/suites/actions-available/files-folders/**/**/*test.ts',
+    actionsAvailableLibraries: './e2e/protractor/suites/actions-available/libraries/**/**/*test.ts',
+    actionsAvailableSpecialPermissions: './e2e/protractor/suites/actions-available/special-permissions/**/**/*test.ts',
+    actionsAvailableNewMenu: './e2e/protractor/suites/actions-available/new-menu/**/**/*test.ts',
 
-    application: './e2e/suites/application/**/*test.ts',
-    authentication: './e2e/suites/authentication/**/*test.ts',
-    extensions: './e2e/suites/extensions/**/*test.ts',
-    infoDrawer: './e2e/suites/info-drawer/**/*test.ts',
-    listViews: './e2e/suites/list-views/**/*test.ts',
-    navigation: './e2e/suites/navigation/**/*test.ts',
-    pagination: './e2e/suites/pagination/**/*test.ts',
-    search: './e2e/suites/search/**/*test.ts',
-    viewer: './e2e/suites/viewer/**/*test.ts'
+    application: './e2e/protractor/suites/application/**/*test.ts',
+    authentication: './e2e/protractor/suites/authentication/**/*test.ts',
+    extensions: './e2e/protractor/suites/extensions/**/*test.ts',
+    infoDrawer: './e2e/protractor/suites/info-drawer/**/*test.ts',
+    listViews: './e2e/protractor/suites/list-views/**/*test.ts',
+    navigation: './e2e/protractor/suites/navigation/**/*test.ts',
+    pagination: './e2e/protractor/suites/pagination/**/*test.ts',
+    search: './e2e/protractor/suites/search/**/*test.ts',
+    viewer: './e2e/protractor/suites/viewer/**/*test.ts'
   },
 
   SELENIUM_PROMISE_MANAGER: false,
@@ -140,8 +140,8 @@ exports.config = {
     showColors: true,
     defaultTimeoutInterval: 200000,
     includeStackTrace: true,
-    print: function () {
-    },
+    // print: function () {
+    // },
     ...(process.env.CI ? smartRunnerFactory.applyExclusionFilter() : {})
   },
 
@@ -191,14 +191,14 @@ exports.config = {
 
     browser.manage().window().setSize(width, height);
 
-    jasmine.getEnv().addReporter(
-      new SpecReporter({
-        spec: {
-          displayStacktrace: 'raw',
-          displayDuration: true
-        }
-      })
-    );
+    // jasmine.getEnv().addReporter(
+    //   new SpecReporter({
+    //     spec: {
+    //       displayStacktrace: 'raw',
+    //       displayDuration: true
+    //     }
+    //   })
+    // );
 
     browser.driver.sendChromiumCommand('Page.setDownloadBehavior', {
       behavior: 'allow',
