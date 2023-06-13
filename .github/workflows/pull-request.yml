@@ -177,7 +177,7 @@ jobs:
 
   e2es-playwright:
     needs: [lint, build, unit-tests]
-    name: 'E2e test suites: Folder Rules - Playwright'
+    name: 'E2e test suites: Playwright'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -214,7 +214,7 @@ jobs:
       - uses: ./.github/actions/run-e2e
         with:
           options: "e2e/playwright/${{ matrix.e2e-suites.name }}/playwright.config.ts"
-          artifact-name: folder-rules
+          artifact-name: ${{ matrix.e2e-suites.name }}
           test-runner: playwright
       - uses: ./.github/actions/after-e2e
 
