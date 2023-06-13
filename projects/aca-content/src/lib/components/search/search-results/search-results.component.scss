@@ -1,8 +1,5 @@
 @import '../../../ui/mixins';
 
-$adf-chip-background: #efefef;
-$contrast-gray: #646569;
-
 .adf-search-results {
   @include flex-row;
 
@@ -29,12 +26,21 @@ $contrast-gray: #646569;
 
     .adf-search-filter-chip {
       &.mat-chip {
-        background-color: $adf-chip-background;
-        color: $contrast-gray;
+        background-color: var(--theme-dropdown-color);
+        color: var(--theme-selected-text-color);
+
+        &:hover,
+        &:focus {
+          background-color: var(--theme-grey-background-hover);
+        }
+
+        mat-icon {
+          color: #757575;
+        }
       }
 
       .adf-search-filter-placeholder {
-        color: $contrast-gray;
+        color: var(--theme-selected-text-color);
       }
     }
   }

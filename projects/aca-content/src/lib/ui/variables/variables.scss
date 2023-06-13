@@ -22,20 +22,17 @@ $grey-hover-background: rgba(33, 33, 33, 0.24);
 $blue-save-button-background: #1f74db;
 $black-heading: #4e4c4c;
 $grey-dropdown-background: #eee;
+$grey-background-hover: #e0e0e0;
 $grey-divider: rgba(0, 0, 0, 0.22);
 $datetimepicker-font-color: rgba(black, 0.87);
 $datetimepicker-selected-date-background: #2254b2;
 $datetimepicker-cell-background-color: #fff;
 $datetimepicker-cell-focus-border-color: #1f74db;
-$datetimepicker-cell-focus-background-color: rgba(33, 33, 33, 0.12);
 $sidenav-background-color: #f8f8f8;
 $selected-text-color: #212121;
 $selected-background-color: rgba(31, 116, 219, 0.24);
 $action-button-text-color: rgba(33, 35, 40, 0.7);
 $page-layout-header-background-color: #fff;
-$aca-toolbar-button-background-color: rgba(33, 33, 33, 0.05);
-$aca-user-initials-background: rgba(33, 33, 33, 0.12);
-$aca-user-initials-text-color: #212121;
 
 // CSS Variables
 $defaults: (
@@ -58,6 +55,7 @@ $defaults: (
   --theme-blue-button-color: $blue-save-button-background,
   --theme-heading-color: $black-heading,
   --theme-dropdown-color: $grey-dropdown-background,
+  --theme-grey-background-hover: $grey-background-hover,
   --theme-grey-divider-color: $grey-divider,
   --theme-pagination-background-color: mat.get-color-from-palette($background, background),
   --theme-about-panel-border-color: $grey-background,
@@ -67,17 +65,12 @@ $defaults: (
   --theme-datetimepicker-selected-date-background: $datetimepicker-selected-date-background,
   --theme-datetimepicker-cell-background: $datetimepicker-cell-background-color,
   --theme-datetimepicker-cell-focus-border: $datetimepicker-cell-focus-border-color,
-  --theme-datetimepicker-cell-focus-background: $datetimepicker-cell-focus-background-color,
   --theme-sidenav-background-color: $sidenav-background-color,
   --theme-selected-text-color: $selected-text-color,
   --theme-selected-background-color: $selected-background-color,
   --theme-hover-background-color: $grey-text-background,
   --theme-action-button-text-color: $action-button-text-color,
-  --theme-header-border-color: $grey-background,
-  --theme-page-layout-header-background-color: $page-layout-header-background-color,
-  --theme-app-toolbar-button-background-color: $aca-toolbar-button-background-color,
-  --theme-user-initials-background-color: $aca-user-initials-background,
-  --theme-user-intials-text-color: $aca-user-initials-text-color
+  --theme-page-layout-header-background-color: $page-layout-header-background-color
 );
 
 // propagates SCSS variables into the CSS variables scope
