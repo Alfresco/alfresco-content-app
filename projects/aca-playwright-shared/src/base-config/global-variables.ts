@@ -30,10 +30,6 @@ export const users = {
     username: env.SUPERADMIN_EMAIL,
     password: env.SUPERADMIN_PASSWORD
   },
-  identity: {
-    username: env.IDENTITY_USER_EMAIL,
-    password: env.IDENTITY_USER_PASSWORD
-  },
   hruser: {
     username: env.HR_USER,
     password: env.HR_USER_PASSWORD
