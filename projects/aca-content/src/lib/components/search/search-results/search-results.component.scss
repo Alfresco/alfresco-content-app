@@ -25,6 +25,13 @@
     border-bottom: 1px solid var(--theme-border-color);
 
     .adf-search-filter-chip {
+      &[disabled] {
+        &.mat-chip {
+          background-color: var(--theme-disabled-chip-background-color);
+          color: var(--theme-search-chip-icon-color);
+        }
+      }
+
       &.mat-chip {
         background-color: var(--theme-dropdown-color);
         color: var(--theme-selected-text-color);
@@ -35,7 +42,7 @@
         }
 
         mat-icon {
-          color: #757575;
+          color: var(--theme-search-chip-icon-color);
         }
       }
 
