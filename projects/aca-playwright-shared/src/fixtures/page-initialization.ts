@@ -45,7 +45,7 @@ export const test = base.extend<Pages & Api>({
   // eslint-disable-next-line no-empty-pattern
   superAdminApiClient: async ({ }, use) => {
     const apiClient = new ApiClientFactory();
-    await apiClient.setUpAcaBackend('superadmin');
+    await apiClient.setUpAcaBackend('admin');
     await use(apiClient);
   }
 });
