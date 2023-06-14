@@ -13,14 +13,6 @@ env:
   APP_CONFIG_ECM_HOST: ${{ secrets.PIPELINE_ENV_URL }}
   ADMIN_EMAIL: ${{ secrets.PIPELINE_ADMIN_USERNAME }}
   ADMIN_PASSWORD: ${{ secrets.PIPELINE_ADMIN_PASSWORD }}
-  HR_USER: ${{ secrets.PIPELINE_HR_USERNAME }}
-  HR_USER_PASSWORD: ${{ secrets.PIPELINE_HR_PASSWORD }}
-  SUPERADMIN_EMAIL: ${{ secrets.PIPELINE_SUPERADMIN_USERNAME }}
-  SUPERADMIN_PASSWORD: ${{ secrets.PIPELINE_SUPERADMIN_PASSWORD }}
-  CONTENT_IDENTITY_USERNAME: contentidentityuser
-  CONTENT_IDENTITY_PASSWORD: password
-  SALES_USER: ${{ secrets.SALES_USER }}
-  SALES_USER_PASSWORD: ${{ secrets.SALES_USER_PASSWORD }}
   SCREENSHOT_USERNAME: ${{ secrets.SCREENSHOT_USERNAME }}
   SCREENSHOT_PASSWORD: ${{ secrets.SCREENSHOT_PASSWORD}}
   AWS_REGION: "eu-west-2"
@@ -221,7 +213,7 @@ jobs:
         run: npx playwright install chromium
       - uses: ./.github/actions/run-e2e
         with:
-          options: "e2e/playwright/${{ matrix.e2e-suites.name }}/playwright.config.ts"
+          options: "${{ matrix.e2e-suites.name }}"
           artifact-name: ${{ matrix.e2e-suites.name }}
           test-runner: playwright
       - uses: ./.github/actions/after-e2e

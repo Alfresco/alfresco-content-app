@@ -35,7 +35,7 @@ const config: PlaywrightTestConfig<CustomConfig> = {
       name: 'Actions',
       testDir: './src/tests',
       use: {
-        users: ['hruser']
+        users: ['contentIdentity']
       }
     }
   ]

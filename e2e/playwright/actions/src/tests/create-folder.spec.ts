@@ -25,7 +25,7 @@
 import { expect } from '@playwright/test';
 import { getUserState, test } from '@alfresco/playwright-shared';
 
-test.use({ storageState: getUserState('admin') });
+test.use({ storageState: getUserState('contentIdentity') });
 test.describe('Create actions', () => {
   let randomFolderName: string;
 
