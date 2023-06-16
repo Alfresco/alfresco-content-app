@@ -46,7 +46,7 @@
   </ng-container>
 </ng-container>
 
-<mat-menu #menu="matMenu" [overlapTrigger]="false">
+<mat-menu #menu="matMenu" [overlapTrigger]="false" [xPosition]="'before'">
   <ng-container *ngFor="let child of actionRef.children; trackBy: trackByActionId">
     <ng-container [ngSwitch]="child.type">
       <ng-container *ngSwitchCase="'custom'">
