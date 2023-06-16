@@ -219,7 +219,7 @@ jobs:
       - name: before playwright
         shell: bash
         run: npx playwright install chromium
-      - uses: ./.github/actions/run-e2e
+      - uses: ./.github/actions/run-e2e-playwright
         with:
           options: "${{ matrix.e2e-suites.name }}"
           artifact-name: ${{ matrix.e2e-suites.name }}
