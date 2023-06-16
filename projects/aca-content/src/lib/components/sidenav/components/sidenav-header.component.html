@@ -5,9 +5,9 @@
       (click)="toggleNavBar.emit()"
       (keypress)="toggleNavBar.emit()">
       <img
-      src="{{ logo$ | async }}"
-      title="{{'APP.TOOLTIPS.COLLAPSE_NAVIGATION' | translate}}"
-      alt="{{ 'CORE.HEADER.LOGO_ARIA' | translate }}" />
+        src="{{ logo$ | async }}"
+        title="{{'APP.TOOLTIPS.COLLAPSE_NAVIGATION' | translate}}"
+        alt="{{ 'CORE.HEADER.LOGO_ARIA' | translate }}" />
     </div>
 
     <div class="sidenav-header-title-text" [routerLink]="landingPage">
