@@ -23,7 +23,7 @@
  */
 
 import { ShowHeaderMode } from '@alfresco/adf-core';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { MinimalNodeEntity, MinimalNodeEntryEntity, PathElement, PathElementEntity } from '@alfresco/js-api';
 import { NodeActionsService } from '../../services/node-actions.service';
@@ -34,7 +34,8 @@ import { FilterSearch, ShareDataRow, FileUploadEvent } from '@alfresco/adf-conte
 import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 
 @Component({
-  templateUrl: './files.component.html'
+  templateUrl: './files.component.html',
+  encapsulation: ViewEncapsulation.None
 })
 export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   isValidPath = true;

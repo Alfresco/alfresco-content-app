@@ -1502,23 +1502,28 @@
           {
             "id": "location",
             "name": "SEARCH.FACET_FIELDS.LOCATION",
+            "enabled": true,
             "component": {
-              "selector": "",
+              "selector": "autocomplete-chips",
               "settings": {
                 "allowUpdateOnChange": false,
                 "hideDefaultAction": true,
-                "field": "SITE"
+                "allowOnlyPredefinedValues": false,
+                "field": "SITE",
+                "options": [ "_REPOSITORY_" ]
               }
             }
           },
           {
             "id": "tag",
             "name": "Tags",
+            "enabled": true,
             "component": {
-              "selector": "",
+              "selector": "autocomplete-chips",
               "settings": {
                 "allowUpdateOnChange": false,
                 "hideDefaultAction": true,
+                "allowOnlyPredefinedValues": true,
                 "field": "TAG"
               }
             }

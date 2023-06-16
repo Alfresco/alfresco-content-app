@@ -1,8 +1,5 @@
 @import '../../../ui/mixins';
 
-$adf-chip-background: #efefef;
-$contrast-gray: #646569;
-
 .adf-search-results {
   @include flex-row;
 
@@ -28,13 +25,29 @@ $contrast-gray: #646569;
     border-bottom: 1px solid var(--theme-border-color);
 
     .adf-search-filter-chip {
+      &[disabled] {
+        &.mat-chip {
+          background-color: var(--theme-disabled-chip-background-color);
+          color: var(--theme-search-chip-icon-color);
+        }
+      }
+
       &.mat-chip {
-        background-color: $adf-chip-background;
-        color: $contrast-gray;
+        background-color: var(--theme-dropdown-color);
+        color: var(--theme-selected-text-color);
+
+        &:hover,
+        &:focus {
+          background-color: var(--theme-grey-background-hover);
+        }
+
+        mat-icon {
+          color: var(--theme-search-chip-icon-color);
+        }
       }
 
       .adf-search-filter-placeholder {
-        color: $contrast-gray;
+        color: var(--theme-selected-text-color);
       }
     }
   }

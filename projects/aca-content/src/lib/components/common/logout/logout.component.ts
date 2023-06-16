@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { TranslateModule } from '@ngx-translate/core';
@@ -39,7 +39,8 @@ import { DirectiveModule } from '@alfresco/adf-core';
       <mat-icon>exit_to_app</mat-icon>
       <span>{{ 'APP.SIGN_OUT' | translate }}</span>
     </button>
-  `
+  `,
+  encapsulation: ViewEncapsulation.None
 })
 export class LogoutComponent {
   constructor(private store: Store) {}
