@@ -30,7 +30,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FolderRuleSetsService } from '../services/folder-rule-sets.service';
 import { of } from 'rxjs';
 import { ownedRuleSetMock, ruleSetWithLinkMock, ruleSetWithNoRulesToLinkMock, ruleSetWithOwnedRulesToLinkMock } from '../mock/rule-sets.mock';
-import { ContentApiService } from '../../../../aca-shared/src/public-api';
+import { ContentApiService } from '@alfresco/aca-shared';
 import { By } from '@angular/platform-browser';
 
 describe('RuleSetPickerSmartComponent', () => {
