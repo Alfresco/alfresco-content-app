@@ -35,7 +35,7 @@ const config: PlaywrightTestConfig<CustomConfig> = {
       name: 'Folder Rules',
       testDir: './src/tests',
       use: {
-        users: ['contentIdentity']
+        users: ['admin']
       }
     }
   ]
