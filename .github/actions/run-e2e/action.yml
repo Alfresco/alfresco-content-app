@@ -48,7 +48,7 @@ runs:
         if [ ${{ inputs.test-runner }} == "playwright" ]; then
           echo "Running playwright tests with options ${{ inputs.options }}"
           sleep 90
-          nx run ${{ inputs.options }}-e2e:e2e
+          npx nx run ${{ inputs.options }}-e2e:e2e
         else
           echo "Running protractor tests with options ${{ inputs.options }}"
           echo "./node_modules/.bin/protractor \"./protractor.conf.js\" ${{ inputs.options }} || exit 1"
