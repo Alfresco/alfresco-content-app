@@ -25,11 +25,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RuleSetPickerOptions, RuleSetPickerSmartComponent } from './rule-set-picker.smart-component';
 import { CoreTestingModule } from '@alfresco/adf-core';
-import { folderToLinkMock } from '../mock/node.mock';
+import { folderToLinkMock, otherFolderMock } from '../mock/node.mock';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FolderRuleSetsService } from '../services/folder-rule-sets.service';
 import { of } from 'rxjs';
-import { ruleSetWithLinkMock, ruleSetWithNoRulesToLinkMock, ruleSetWithOwnedRulesToLinkMock } from '../mock/rule-sets.mock';
+import { ownedRuleSetMock, ruleSetWithLinkMock, ruleSetWithNoRulesToLinkMock, ruleSetWithOwnedRulesToLinkMock } from '../mock/rule-sets.mock';
+import { ContentApiService } from '@alfresco/aca-shared';
 import { By } from '@angular/platform-browser';
 
 describe('RuleSetPickerSmartComponent', () => {
@@ -38,6 +39,7 @@ describe('RuleSetPickerSmartComponent', () => {
   let folderRuleSetsService: FolderRuleSetsService;
 
   let loadRuleSetsSpy: jasmine.Spy;
+  let callApiSpy: jasmine.Spy;
 
   const dialogRef = {
     close: jasmine.createSpy('close'),
@@ -54,7 +56,18 @@ describe('RuleSetPickerSmartComponent', () => {
       imports: [CoreTestingModule],
       providers: [
         { provide: MatDialogRef, useValue: dialogRef },
-        { provide: MAT_DIALOG_DATA, useValue: dialogOptions }
+        { provide: MAT_DIALOG_DATA, useValue: dialogOptions },
+        {
+          provide: ContentApiService,
+          useValue: {
+            getNode: () => {
+              return of({ entry: folderToLinkMock });
+            },
+            getNodeInfo: () => {
+              return of(otherFolderMock);
+            }
+          }
+        }
       ]
     });
 
@@ -63,7 +76,19 @@ describe('RuleSetPickerSmartComponent', () => {
     component = fixture.componentInstance;
     component['folderRuleSetsService'] = folderRuleSetsService;
 
-    loadRuleSetsSpy = spyOn(folderRuleSetsService, 'loadRuleSets');
+    loadRuleSetsSpy = spyOn(folderRuleSetsService, 'loadRuleSets').and.callThrough();
+    callApiSpy = spyOn<any>(folderRuleSetsService, 'callApi');
+    callApiSpy
+      .withArgs(`/nodes/${dialogOptions.nodeId}/rule-sets?include=isLinkedTo,owningFolder,linkedToBy&skipCount=0&maxItems=100`, 'GET')
+      .and.returnValue(Promise.resolve(ownedRuleSetMock))
+      .withArgs(`/nodes/${dialogOptions.nodeId}/rule-sets/-default-?include=isLinkedTo,owningFolder,linkedToBy`, 'GET')
+      .and.returnValue(Promise.resolve(ownedRuleSetMock))
+      .withArgs(`/nodes/${folderToLinkMock.id}?include=path%2Cproperties%2CallowableOperations%2Cpermissions`, 'GET')
+      .and.returnValue(Promise.resolve({ entry: folderToLinkMock }));
+  });
+
+  afterEach(() => {
+    fixture.destroy();
   });
 
   it('should load the rule sets of a node once it has been selected', () => {

@@ -11,7 +11,6 @@ fi
 
 export PROJECTS=(
   'aca-content'
-  'aca-folder-rules'
   'aca-preview'
   'aca-shared'
   'aca-viewer'

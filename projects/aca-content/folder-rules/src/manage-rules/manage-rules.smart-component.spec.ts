@@ -23,7 +23,8 @@
  */
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AcaFolderRulesModule, ManageRulesSmartComponent } from '@alfresco/aca-folder-rules';
+import { AcaFolderRulesModule } from '../folder-rules.module';
+import { ManageRulesSmartComponent } from './manage-rules.smart-component';
 import { DebugElement, Predicate } from '@angular/core';
 import { CoreTestingModule } from '@alfresco/adf-core';
 import { FolderRulesService } from '../services/folder-rules.service';
@@ -37,7 +38,7 @@ import {
   ruleSetWithLinkMock
 } from '../mock/rule-sets.mock';
 import { By } from '@angular/platform-browser';
-import { owningFolderIdMock, owningFolderMock } from '../mock/node.mock';
+import { getOwningFolderEntryMock, owningFolderIdMock, owningFolderMock } from '../mock/node.mock';
 import { MatDialog } from '@angular/material/dialog';
 import { ActionsService } from '../services/actions.service';
 import { FolderRuleSetsService } from '../services/folder-rule-sets.service';
@@ -53,6 +54,7 @@ describe('ManageRulesSmartComponent', () => {
   let folderRuleSetsService: FolderRuleSetsService;
   let folderRulesService: FolderRulesService;
   let actionsService: ActionsService;
+  let callApiSpy: jasmine.Spy;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -81,6 +83,19 @@ describe('ManageRulesSmartComponent', () => {
     actionsService = TestBed.inject(ActionsService);
 
     spyOn(actionsService, 'loadActionDefinitions').and.stub();
+    spyOn(folderRulesService, 'getRuleSettings').and.returnValue(Promise.resolve(ruleSettingsMock));
+    callApiSpy = spyOn<any>(folderRuleSetsService, 'callApi');
+    callApiSpy
+      .withArgs(`/nodes/${owningFolderIdMock}/rule-sets?include=isLinkedTo,owningFolder,linkedToBy&skipCount=0&maxItems=100`, 'GET')
+      .and.returnValue(Promise.resolve(ownedRuleSetMock))
+      .withArgs(`/nodes/${owningFolderIdMock}/rule-sets/-default-?include=isLinkedTo,owningFolder,linkedToBy`, 'GET')
+      .and.returnValue(Promise.resolve(ownedRuleSetMock))
+      .withArgs(`/nodes/${owningFolderIdMock}?include=path%2Cproperties%2CallowableOperations%2Cpermissions`, 'GET')
+      .and.returnValue(Promise.resolve(getOwningFolderEntryMock));
+  });
+
+  afterEach(() => {
+    fixture.destroy();
   });
 
   it('should show a list of rule sets and rules', () => {

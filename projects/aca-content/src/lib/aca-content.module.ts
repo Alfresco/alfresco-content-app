@@ -89,7 +89,7 @@ import { CONTENT_ROUTES } from './aca-content.routes';
 import { RouterModule } from '@angular/router';
 import { UploadFilesDialogComponent } from './components/upload-files-dialog/upload-files-dialog.component';
 import { AppSharedLinkViewModule } from './components/shared-link-view/shared-link-view.module';
-import { AcaFolderRulesModule } from '@alfresco/aca-folder-rules';
+import { AcaFolderRulesModule } from '@alfresco/aca-content/folder-rules';
 import { TagsColumnComponent } from './components/dl-custom-components/tags-column/tags-column.component';
 import { UserInfoComponent } from './components/common/user-info/user-info.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
