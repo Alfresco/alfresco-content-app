@@ -4,9 +4,10 @@
       tabindex=0
       (click)="toggleNavBar.emit()"
       (keypress)="toggleNavBar.emit()">
-        <adf-icon value="adf:side-nav-collapse"
-        title="{{'APP.TOOLTIPS.COLLAPSE_NAVIGATION' | translate}}"
-        ></adf-icon>
+      <img
+      src="{{ logo$ | async }}"
+      title="{{'APP.TOOLTIPS.COLLAPSE_NAVIGATION' | translate}}"
+      alt="{{ 'CORE.HEADER.LOGO_ARIA' | translate }}" />
     </div>
 
     <div class="sidenav-header-title-text" [routerLink]="landingPage">
