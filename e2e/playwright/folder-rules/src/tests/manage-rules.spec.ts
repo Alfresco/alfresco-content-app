@@ -45,7 +45,7 @@ test.describe('Rules - Manage Rules', () => {
     await superAdminApiClient.nodes.deleteNode(folderId);
   });
 
-  test('Disable an existing rule', async ({ personalFiles, nodesPage }) => {
+  test('[C691651] Disable an existing rule', async ({ personalFiles, nodesPage }) => {
     await personalFiles.dataTable.performActionFromExpandableMenu(randomName, 'Manage rules');
     await nodesPage.manageRules.disableRuleToggle.click();
   });

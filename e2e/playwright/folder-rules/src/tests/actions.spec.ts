@@ -49,7 +49,7 @@ test.describe('Folder Rules Actions', () => {
     await superAdminApiClient.nodes.deleteNode(folderId);
   });
 
-  test('Create a rule with actions', async ({ personalFiles, nodesPage }) => {
+  test('[C691637] Create a rule with actions', async ({ personalFiles, nodesPage }) => {
     await personalFiles.dataTable.performActionFromExpandableMenu(randomFolderName, 'Manage rules');
 
     await nodesPage.toolbar.clickCreateRuleButton();

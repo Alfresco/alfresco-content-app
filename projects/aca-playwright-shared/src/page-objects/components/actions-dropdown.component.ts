@@ -76,7 +76,7 @@ export class ActionsDropdownComponent extends BaseComponent {
     }
     await this.actionDropdownLocator.nth(index).click();
     const option = this.getOptionLocator(action);
-    await option.nth(0).click();
+    await option.click();
   }
 
   async dropdownSelection(selectValue: string, locator: string, index: number): Promise<void> {

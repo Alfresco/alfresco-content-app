@@ -46,7 +46,7 @@ test.describe('Folder Rules Conditions', () => {
     await superAdminApiClient.nodes.deleteNode(folderId);
   });
 
-  test('Create a rule with condition', async ({ personalFiles, nodesPage }) => {
+  test('[C691638] Create a rule with condition', async ({ personalFiles, nodesPage }) => {
     await personalFiles.dataTable.performActionFromExpandableMenu(randomFolderName, 'Manage rules');
 
     await nodesPage.toolbar.clickCreateRuleButton();
