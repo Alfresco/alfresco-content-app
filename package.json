@@ -123,7 +123,7 @@
     "karma-jasmine-html-reporter": "^2.0.0",
     "karma-mocha-reporter": "^2.2.5",
     "lint-staged": "^13.1.0",
-    "ng-packagr": "^14.2.2",
+    "ng-packagr": "^16.1.0",
     "node-stream-zip": "^1.14.0",
     "nx": "15.9.2",
     "prettier": "2.8.8",
