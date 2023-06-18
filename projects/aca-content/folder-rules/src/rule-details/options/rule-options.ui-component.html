@@ -1,0 +1,46 @@
+<ng-container [formGroup]="form">
+  <div class="aca-rule-options__option" *ngIf="!readOnly || isAsynchronousChecked">
+    <mat-checkbox
+      formControlName="isAsynchronous"
+      (change)="toggleErrorScriptDropdown($event)"
+      data-automation-id="rule-option-checkbox-asynchronous">
+      {{ 'ACA_FOLDER_RULES.RULE_DETAILS.OPTIONS.IS_ASYNCHRONOUS' | translate }}
+    </mat-checkbox>
+
+    <mat-form-field
+      data-automation-id="rule-option-form-field-errorScript"
+      floatLabel="always"
+      [ngClass]="{ 'hide-error-script-dropdown': hideErrorScriptDropdown }">
+
+      <mat-select
+        formControlName="errorScript"
+        placeholder="{{ 'ACA_FOLDER_RULES.RULE_DETAILS.OPTIONS.ERROR_SCRIPT' | translate}}"
+        data-automation-id="rule-option-select-errorScript">
+
+        <mat-option value="">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.OPTIONS.NO_SCRIPT' | translate }}</mat-option>
+          <mat-option *ngFor="let option of errorScriptOptions"
+            [value]="option.value">
+            {{ option.label }}
+          </mat-option>
+      </mat-select>
+
+    </mat-form-field>
+  </div>
+
+
+  <div class="aca-rule-options__option" *ngIf="!readOnly || isInheritableChecked">
+    <mat-checkbox
+      formControlName="isInheritable"
+      data-automation-id="rule-option-checkbox-inheritable">
+      {{ 'ACA_FOLDER_RULES.RULE_DETAILS.OPTIONS.IS_INHERITABLE' | translate }}
+    </mat-checkbox>
+  </div>
+
+  <div class="aca-rule-options__option" *ngIf="!readOnly">
+    <mat-checkbox
+      formControlName="isDisabled"
+      data-automation-id="rule-option-checkbox-disabled">
+      {{ 'ACA_FOLDER_RULES.RULE_DETAILS.OPTIONS.DISABLE_RULE' | translate }}
+    </mat-checkbox>
+  </div>
+</ng-container>

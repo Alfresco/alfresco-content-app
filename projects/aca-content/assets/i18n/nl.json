@@ -82,8 +82,6 @@
       "TITLE": "Gegevens"
     },
     "NEW_MENU": {
-      "LABEL": "Nieuw",
-      "TOOLTIP": "Nieuwe bestanden en mappen toevoegen, of een nieuwe bestandsbibliotheek maken",
       "MENU_ITEMS": {
         "CREATE_FOLDER": "Map maken",
         "UPLOAD_FILE": "Bestand uploaden",
@@ -215,6 +213,9 @@
         "DUBLIN_CORE": "Dublin Core",
         "EFFECTIVITY": "Effectiviteit",
         "TITLE": "Zoekresultaten",
+        "FILTER_SET": "Ingesteld filter:",
+        "ADVANCED_FILTERS": "Geavanceerde filters:",
+        "RESET": "Opnieuw instellen",
         "RESET_ACTION": "Zoekfilters opnieuw instellen",
         "FOUND_RESULTS": "{{ number }} resultaten gevonden",
         "FOUND_ONE_RESULT": "{{ number }} resultaat gevonden",
@@ -234,7 +235,6 @@
         }
       },
       "SEARCH_LIBRARIES": {
-        "TITLE": "Bibliotheken gevonden...",
         "FOUND_RESULTS": "{{ number }} resultaten",
         "FOUND_ONE_RESULT": "{{ number }} resultaat"
       }
@@ -268,8 +268,6 @@
       "LEAVE": "Bibliotheek verlaten",
       "EDIT_OFFLINE": "Offline bewerken",
       "EDIT_OFFLINE_CANCEL": "Bewerken annuleren",
-      "LIST_MODE": "Lijst weergeven",
-      "GALLERY_MODE": "Galerie weergeven",
       "CHANGE_ASPECT": "Aspecten bewerken"
     },
     "DIALOGS": {
@@ -286,7 +284,9 @@
         "NO_LABEL": "Annuleren"
       },
       "MOBILE_APP": {
-        "MOBILE_APP_BUTTON_LABEL": "Openen in app"
+        "MOBILE_APP_BUTTON_LABEL": "Openen in app",
+        "DOWNLOAD_APP_BUTTON_LABEL": "Hebt u de app niet? Download hem nu.",
+        "OPEN_ALFRESCO_MOBILE_APP": "Openen met Alfresco Mobile-app?"
       }
     },
     "DOCUMENT_LIST": {
@@ -486,7 +486,7 @@
   },
   "INFO_PANEL": {
     "TABS": {
-
+    
     },
     "DETAILS": "Gegevens"
   },

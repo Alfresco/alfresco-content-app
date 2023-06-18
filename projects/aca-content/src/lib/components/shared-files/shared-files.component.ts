@@ -22,13 +22,15 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { debounceTime } from 'rxjs/operators';
 import { MinimalNodeEntity } from '@alfresco/js-api';
 import { AppHookService, PageComponent } from '@alfresco/aca-shared';
 import { DocumentListPresetRef } from '@alfresco/adf-extensions';
+
 @Component({
-  templateUrl: './shared-files.component.html'
+  templateUrl: './shared-files.component.html',
+  encapsulation: ViewEncapsulation.None
 })
 export class SharedFilesComponent extends PageComponent implements OnInit {
   columns: DocumentListPresetRef[] = [];

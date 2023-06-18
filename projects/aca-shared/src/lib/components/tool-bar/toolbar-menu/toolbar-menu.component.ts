@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, ViewEncapsulation, HostListener, ViewChild, ViewChildren, QueryList, AfterViewInit } from '@angular/core';
+import { Component, Input, ViewEncapsulation, HostListener, ViewChild, ViewChildren, QueryList, AfterViewInit, OnInit } from '@angular/core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
 import { ThemePalette } from '@angular/material/core';
@@ -34,7 +34,7 @@ import { ToolbarMenuItemComponent } from '../toolbar-menu-item/toolbar-menu-item
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-toolbar-menu' }
 })
-export class ToolbarMenuComponent implements AfterViewInit {
+export class ToolbarMenuComponent implements OnInit, AfterViewInit {
   @Input()
   actionRef: ContentActionRef;
 
@@ -56,13 +56,15 @@ export class ToolbarMenuComponent implements AfterViewInit {
     color?: string;
   };
 
-  get type(): string {
-    return this.data?.menuType || 'default';
-  }
+  type = 'default';
 
   @HostListener('document:keydown.Escape')
   handleKeydownEscape() {
     this.matTrigger.closeMenu();
+  }
+
+  ngOnInit(): void {
+    this.type = this.data?.menuType || 'default';
   }
 
   ngAfterViewInit(): void {

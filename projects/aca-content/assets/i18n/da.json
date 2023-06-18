@@ -82,8 +82,6 @@
       "TITLE": "Detaljer"
     },
     "NEW_MENU": {
-      "LABEL": "Ny(t)",
-      "TOOLTIP": "Tilføj nye filer og mapper, eller opret et nyt filbibliotek",
       "MENU_ITEMS": {
         "CREATE_FOLDER": "Opret mappe",
         "UPLOAD_FILE": "Upload fil",
@@ -215,6 +213,9 @@
         "DUBLIN_CORE": "Dublin-kerne",
         "EFFECTIVITY": "Gældende periode",
         "TITLE": "Søgeresultater",
+        "FILTER_SET": "Filter indstillet:",
+        "ADVANCED_FILTERS": "Avancerede filtre:",
+        "RESET": "Nulstil",
         "RESET_ACTION": "Nulstil søgefiltre",
         "FOUND_RESULTS": "{{ number }} resultater fundet",
         "FOUND_ONE_RESULT": "{{ number }} resultat fundet",
@@ -234,7 +235,6 @@
         }
       },
       "SEARCH_LIBRARIES": {
-        "TITLE": "Fundne biblioteker...",
         "FOUND_RESULTS": "{{ number }} resultater",
         "FOUND_ONE_RESULT": "{{ number }} resultat"
       }
@@ -268,8 +268,6 @@
       "LEAVE": "Forlad bibliotek",
       "EDIT_OFFLINE": "Rediger offline",
       "EDIT_OFFLINE_CANCEL": "Annuller redigering",
-      "LIST_MODE": "Vis liste",
-      "GALLERY_MODE": "Vis galleri",
       "CHANGE_ASPECT": "Rediger udseende"
     },
     "DIALOGS": {
@@ -286,7 +284,9 @@
         "NO_LABEL": "Annuller"
       },
       "MOBILE_APP": {
-        "MOBILE_APP_BUTTON_LABEL": "Åbn i app"
+        "MOBILE_APP_BUTTON_LABEL": "Åbn i app",
+        "DOWNLOAD_APP_BUTTON_LABEL": "Har du ikke appen? Download den nu.",
+        "OPEN_ALFRESCO_MOBILE_APP": "Åbn med Alfresco Mobile-applikationen?"
       }
     },
     "DOCUMENT_LIST": {
@@ -429,7 +429,7 @@
       "COLLAPSE_NAVIGATION": "Luk navigationsmenuen",
       "OPTIONS_SETTINGS": "Valgmuligheder og indstillinger",
       "MY_PROFILE": "Min profil",
-      "EXPAND_NAVIGATION": "Udvid navigationsmenuen"
+      "EXPAND_NAVIGATION": "Udvid navigationsmenu"
     }
   },
   "NODE_SELECTOR": {
@@ -486,7 +486,7 @@
   },
   "INFO_PANEL": {
     "TABS": {
-
+    
     },
     "DETAILS": "Detaljer"
   },

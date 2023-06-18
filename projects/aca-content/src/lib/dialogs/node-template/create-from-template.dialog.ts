@@ -23,20 +23,29 @@
  */
 
 import { Component, ViewEncapsulation, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { Node } from '@alfresco/js-api';
-import { UntypedFormBuilder, UntypedFormGroup, Validators, UntypedFormControl, ValidationErrors } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, UntypedFormControl, ValidationErrors, ReactiveFormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppStore, CreateFromTemplate } from '@alfresco/aca-shared/store';
 import { TranslationService } from '@alfresco/adf-core';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, TranslateModule, MatDialogModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule],
   templateUrl: './create-from-template.dialog.html',
   styleUrls: ['./create-from-template.dialog.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class CreateFromTemplateDialogComponent implements OnInit {
   public form: UntypedFormGroup;
+
+  title = '';
 
   constructor(
     private translationService: TranslationService,
@@ -52,6 +61,11 @@ export class CreateFromTemplateDialogComponent implements OnInit {
       title: [this.data.properties ? this.data.properties['cm:title'] : '', Validators.maxLength(256)],
       description: [this.data.properties ? this.data.properties['cm:description'] : '', Validators.maxLength(512)]
     });
+
+    this.title = this.translationService.instant(
+      this.data.isFolder ? 'NODE_FROM_TEMPLATE.FOLDER_DIALOG_TITLE' : 'NODE_FROM_TEMPLATE.FILE_DIALOG_TITLE',
+      { template: this.data.name }
+    );
   }
 
   onSubmit() {
@@ -64,14 +78,6 @@ export class CreateFromTemplateDialogComponent implements OnInit {
     };
     const data: Node = Object.assign({}, this.data, update);
     this.store.dispatch(new CreateFromTemplate(data));
-  }
-
-  title(): string {
-    if (this.data.isFolder) {
-      return this.translationService.instant('NODE_FROM_TEMPLATE.FOLDER_DIALOG_TITLE', { template: this.data.name });
-    }
-
-    return this.translationService.instant('NODE_FROM_TEMPLATE.FILE_DIALOG_TITLE', { template: this.data.name });
   }
 
   close() {

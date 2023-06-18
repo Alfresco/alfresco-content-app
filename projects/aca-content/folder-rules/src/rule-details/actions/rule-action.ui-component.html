@@ -1,0 +1,23 @@
+<form class="aca-rule-action__form" [formGroup]="form">
+
+  <mat-form-field>
+    <mat-select
+      formControlName="actionDefinitionId"
+      data-automation-id="rule-action-select"
+      [placeholder]="'ACA_FOLDER_RULES.RULE_DETAILS.ACTION_SELECT_PLACEHOLDER' | translate">
+      <mat-option
+        *ngFor="let actionDefinition of actionDefinitions"
+        [value]="actionDefinition.id">
+        {{ actionDefinition.title }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <adf-card-view
+    data-automation-id="rule-action-card-view"
+    [properties]="cardViewItems"
+    [ngClass]="{ 'aca-rule-action-full-width': isFullWidth }"
+    [editable]="!readOnly">
+  </adf-card-view>
+
+</form>

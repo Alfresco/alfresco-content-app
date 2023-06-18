@@ -1,0 +1,15 @@
+.aca-rule-action {
+  &__form {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+
+    adf-card-view .adf-property-list .adf-property adf-card-view-item-dispatcher adf-card-view-textitem .mat-form-field .mat-form-field-infix {
+      width: 280px;
+    }
+  }
+
+  &-full-width {
+    width: 100%;
+  }
+}

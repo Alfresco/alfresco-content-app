@@ -1,0 +1,140 @@
+<aca-page-layout>
+
+  <aca-page-layout-header>
+    <adf-toolbar class="adf-toolbar--inline">
+      <button mat-icon-button (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    </adf-toolbar>
+    <adf-breadcrumb root="{{'ACA_FOLDER_RULES.ACTIONS.MANAGE_RULES' | translate}}"></adf-breadcrumb>
+  </aca-page-layout-header>
+
+  <aca-page-layout-content>
+    <div class="main-content">
+
+      <ng-container *ngIf="((ruleSetsLoading$ | async) && (inheritedRuleSets$ | async).length === 0) || (actionsLoading$ | async); else onLoaded">
+        <mat-progress-bar color="primary" mode="indeterminate"></mat-progress-bar>
+      </ng-container>
+
+      <ng-template #onLoaded>
+        <ng-container *ngIf="folderInfo$ | async; else genericError">
+          <adf-toolbar class="adf-toolbar--inline aca-manage-rules__actions-bar">
+
+            <adf-toolbar-title class="aca-manage-rules__actions-bar__title">
+              <mat-icon class="icon-aligner">folder</mat-icon>
+              <adf-breadcrumb root="{{ (folderInfo$ | async).name }}:{{'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.BREADCRUMB.RULES' | translate}}"
+                              class="aca-manage-rules__actions-bar__title__breadcrumb"></adf-breadcrumb>
+            </adf-toolbar-title>
+
+            <mat-slide-toggle
+              data-automation-id="manage-rules-inheritance-toggle-button"
+              [checked]="isInheritanceEnabled"
+              (change)="onInheritanceToggleChange($event)"
+              [disabled]="isInheritanceToggleDisabled"
+              [labelPosition]="'before'">
+              {{ 'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.ACTIONS.INHERIT_RULES' | translate }}
+            </mat-slide-toggle>
+
+            <mat-divider vertical class="vertical-divider"></mat-divider>
+
+            <div class="aca-manage-rules__actions-bar__buttons">
+              <button
+                *ngIf="!(mainRuleSet$ | async)"
+                data-automation-id="manage-rules-link-button"
+                mat-stroked-button
+                (click)="openLinkRulesDialog()">
+                {{ 'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.ACTIONS.LINK_RULES' | translate }}
+              </button>
+
+              <button
+                *ngIf="canEditMainRule"
+                data-automation-id="manage-rules-create-button"
+                mat-flat-button color="primary"
+                (click)="openCreateUpdateRuleDialog()">
+                {{ 'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.ACTIONS.CREATE_RULE' | translate }}
+              </button>
+            </div>
+
+          </adf-toolbar>
+          <mat-divider></mat-divider>
+
+          <div class="aca-manage-rules__container" *ngIf="isMainRuleSetNotEmpty || isInheritedRuleSetsNotEmpty; else emptyContent">
+            <aca-rule-list
+              [mainRuleSet]="mainRuleSet$ | async"
+              [folderId]="nodeId"
+              [inheritedRuleSets]="inheritedRuleSets$ | async"
+              [hasMoreRuleSets]="hasMoreRuleSets$ | async"
+              [ruleSetsLoading]="ruleSetsLoading$ | async"
+              [selectedRule]="selectedRule$ | async"
+              (loadMoreRuleSets)="onLoadMoreRuleSets()"
+              (loadMoreRules)="onLoadMoreRules($event)"
+              (selectRule)="onSelectRule($event)"
+              (ruleEnabledChanged)="onRuleEnabledToggle($event[0], $event[1])"
+              (ruleSetEditLinkClicked)="openLinkRulesDialog($event)"
+              (ruleSetUnlinkClicked)="onRuleSetUnlinkClicked($event)">
+            </aca-rule-list>
+
+            <div class="aca-manage-rules__container__rule-details">
+
+              <div class="aca-manage-rules__container__rule-details__header" *ngIf="(selectedRule$ | async) as selectedRule">
+                <div class="aca-manage-rules__container__rule-details__header__title">
+                  <div class="aca-manage-rules__container__rule-details__header__title__name">
+                    {{ selectedRule.name }}
+                  </div>
+                  <div class="aca-manage-rules__container__rule-details__header__title__description">
+                    {{ selectedRule.description }}
+                  </div>
+                </div>
+
+                <div class="aca-manage-rules__container__rule-details__header__buttons">
+                  <ng-container *ngIf="canEditSelectedRule; else goToFolderButton">
+                    <button mat-stroked-button (click)="onRuleDeleteButtonClicked(selectedRule)" id="delete-rule-btn">
+                      <mat-icon>delete_outline</mat-icon>
+                    </button>
+                    <button mat-stroked-button (click)="openCreateUpdateRuleDialog(selectedRule)" id="edit-rule-btn">
+                      {{ 'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.ACTIONS.EDIT_RULE' | translate }}
+                    </button>
+                  </ng-container>
+
+                  <ng-template #goToFolderButton>
+                    <button mat-stroked-button [routerLink]="['/nodes', (selectedRuleSet$ | async).owningFolder.id, 'rules']">
+                      {{ 'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.ACTIONS.SEE_IN_FOLDER' | translate }}
+                    </button>
+                  </ng-template>
+                </div>
+              </div>
+
+              <div class="aca-manage-rules__container__rule-details__content" *ngIf="(selectedRule$ | async) as selectedRule">
+                <aca-rule-details
+                  [actionDefinitions]="actionDefinitions$ | async"
+                  [readOnly]="true"
+                  [preview]="true"
+                  [value]="selectedRule"
+                  [nodeId]="nodeId">
+                </aca-rule-details>
+              </div>
+            </div>
+          </div>
+
+          <ng-template #emptyContent>
+            <adf-empty-content
+              icon="library_books"
+              [title]="'ACA_FOLDER_RULES.MANAGE_RULES.EMPTY_RULES_LIST.TITLE' | translate"
+              [subtitle]="'ACA_FOLDER_RULES.MANAGE_RULES.EMPTY_RULES_LIST.SUBTITLE' | translate"
+            >
+            </adf-empty-content>
+          </ng-template>
+        </ng-container>
+
+        <ng-template #genericError>
+          <aca-page-layout-error>
+            <aca-generic-error></aca-generic-error>
+          </aca-page-layout-error>
+        </ng-template>
+
+      </ng-template>
+
+    </div>
+  </aca-page-layout-content>
+
+</aca-page-layout>

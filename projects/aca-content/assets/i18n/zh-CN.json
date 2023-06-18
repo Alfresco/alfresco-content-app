@@ -82,8 +82,6 @@
       "TITLE": "详细信息"
     },
     "NEW_MENU": {
-      "LABEL": "新建",
-      "TOOLTIP": "添加新文件或文件夹，或者创建新文件库",
       "MENU_ITEMS": {
         "CREATE_FOLDER": "创建文件夹",
         "UPLOAD_FILE": "上传文件",
@@ -215,6 +213,9 @@
         "DUBLIN_CORE": "都柏林核心",
         "EFFECTIVITY": "有效性",
         "TITLE": "搜索结果",
+        "FILTER_SET": "筛选器集:",
+        "ADVANCED_FILTERS": "高级筛选器:",
+        "RESET": "重置",
         "RESET_ACTION": "重置搜索筛选器",
         "FOUND_RESULTS": "找到 {{ number }} 个结果",
         "FOUND_ONE_RESULT": "找到 {{ number }} 个结果",
@@ -234,7 +235,6 @@
         }
       },
       "SEARCH_LIBRARIES": {
-        "TITLE": "库找到...",
         "FOUND_RESULTS": "{{ number }} 个结果",
         "FOUND_ONE_RESULT": "{{ number }} 个结果"
       }
@@ -268,8 +268,6 @@
       "LEAVE": "离开库",
       "EDIT_OFFLINE": "离线编辑",
       "EDIT_OFFLINE_CANCEL": "取消编辑",
-      "LIST_MODE": "查看列表",
-      "GALLERY_MODE": "查看图库",
       "CHANGE_ASPECT": "编辑纵横比"
     },
     "DIALOGS": {
@@ -286,7 +284,9 @@
         "NO_LABEL": "取消"
       },
       "MOBILE_APP": {
-        "MOBILE_APP_BUTTON_LABEL": "在 App 中打开"
+        "MOBILE_APP_BUTTON_LABEL": "在 App 中打开",
+        "DOWNLOAD_APP_BUTTON_LABEL": "没有这个 App? 现在就下载。",
+        "OPEN_ALFRESCO_MOBILE_APP": "使用 Alfresco 移动应用程序打开？"
       }
     },
     "DOCUMENT_LIST": {
@@ -486,7 +486,7 @@
   },
   "INFO_PANEL": {
     "TABS": {
-
+    
     },
     "DETAILS": "详细信息"
   },

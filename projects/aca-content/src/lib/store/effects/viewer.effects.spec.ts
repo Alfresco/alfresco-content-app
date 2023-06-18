@@ -29,6 +29,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { ViewFileAction, ViewNodeAction, SetSelectedNodesAction, SetCurrentFolderAction } from '@alfresco/aca-shared/store';
+import { MatDialogModule } from '@angular/material/dialog';
 
 describe('ViewerEffects', () => {
   let store: Store<any>;
@@ -36,7 +37,7 @@ describe('ViewerEffects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, EffectsModule.forRoot([ViewerEffects])]
+      imports: [AppTestingModule, EffectsModule.forRoot([ViewerEffects]), MatDialogModule]
     });
 
     store = TestBed.inject(Store);

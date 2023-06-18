@@ -29,7 +29,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { ContextMenu } from '@alfresco/aca-shared/store';
 import { ContextMenuService } from '../../components/context-menu/context-menu.service';
-import { OverlayRef } from '@angular/cdk/overlay';
+import { OverlayModule, OverlayRef } from '@angular/cdk/overlay';
 import { ContextMenuOverlayRef } from '../../components/context-menu/context-menu-overlay';
 
 describe('ContextMenuEffects', () => {
@@ -39,7 +39,7 @@ describe('ContextMenuEffects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, EffectsModule.forRoot([ContextMenuEffects])],
+      imports: [AppTestingModule, EffectsModule.forRoot([ContextMenuEffects]), OverlayModule],
       providers: [ContextMenuService]
     });
 

@@ -8,8 +8,8 @@ The Content App is based on [Angular CLI](https://cli.angular.io), and you can u
 
 ## Prerequisites for building
 
-- [Node.js](https://nodejs.org/en/) 14.x
-- NPM 6.x
+- [Node.js](https://nodejs.org/en/) 18.x
+- NPM 9.x
 - (optional) [Angular CLI](https://cli.angular.io/) 14.x or later
 
 > The Angular CLI libraries are already part of the setup.

@@ -23,7 +23,7 @@
       <div class="app-general-edit-btn" *ngIf="!generalSectionButtonsToggle">
         <button mat-raised-button class="app-general-cancel-btn" id="general-cancel-button"
           (click)="toggleGeneralButtons()">{{'APP.EDIT_PROFILE.CANCEL' | translate}}</button>
-        <button mat-raised-button class="app-general-save-btn" id="general-save-button" [disabled]="isSaveButtonDisabled()"
+        <button mat-raised-button class="app-general-save-btn" id="general-save-button" [disabled]="profileForm.invalid"
           (click)="onSaveGeneralData(profileForm)">{{'APP.EDIT_PROFILE.SAVE' | translate}}</button>
       </div>
     </div>
@@ -92,7 +92,7 @@
       <div class="app-general-edit-btn" *ngIf="!contactSectionButtonsToggle">
         <button mat-raised-button class="app-general-cancel-btn" id="contact-cancel-button"
           (click)="toggleContactButtons()">{{'APP.EDIT_PROFILE.CANCEL' | translate}}</button>
-        <button mat-raised-button  class="app-general-save-btn" id="contact-save-button" [disabled]="isSaveButtonDisabled()"
+        <button mat-raised-button  class="app-general-save-btn" id="contact-save-button" [disabled]="profileForm.invalid"
           (click)="onSaveCompanyData(profileForm)">{{'APP.EDIT_PROFILE.SAVE' | translate}}</button>
       </div>
     </div>

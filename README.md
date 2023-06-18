@@ -11,10 +11,14 @@ Please refer to the public [documentation](https://alfresco-content-app.netlify.
 
 ## Compatibility
 
-| ACA | ACS | Node | ADF | Angular |
-| --- | --- | --- | --- | --- |
-| 4.1 | 7.4 | 18.x | 6.1.0 | 14.x |
-| 4.0 | 7.4 | 14.x | 6.0.0 | 14.x |
+| ACA  | ADF | ACS | Node | Angular |
+| ---- | --- | --- | ---- | ------- |
+| 4.1  | 6.1 | 7.4 | 18.x | 14.x    |
+| 4.0  | 6.1 | 7.4 | 14.x | 14.x    |
+| 3.1  | 5.1 | 7.3 |      |         |
+| 3.0  | 5.0 | 7.3 |      |         |
+
+> See <https://angular.io/guide/versions> for more details on Angular and Node.js compatibility
 
 ## Running
 
@@ -48,7 +52,6 @@ APP_CONFIG_DOWNLOAD_PROMPT_DELAY=<time>
 APP_CONFIG_DOWNLOAD_PROMPT_REMINDER_DELAY=<time>
 APP_CONFIG_ENABLE_FILE_AUTO_DOWNLOAD=true
 APP_CONFIG_FILE_AUTO_DOWNLOAD_SIZE_THRESHOLD_IN_MB=<file-size>
-
 ```
 
 Where `<URL>` is the address of the ACS.

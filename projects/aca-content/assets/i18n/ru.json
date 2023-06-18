@@ -82,8 +82,6 @@
       "TITLE": "Сведения"
     },
     "NEW_MENU": {
-      "LABEL": "Создать",
-      "TOOLTIP": "Добавить новые файлы или папки",
       "MENU_ITEMS": {
         "CREATE_FOLDER": "Создать папку",
         "UPLOAD_FILE": "Загрузить файл",
@@ -215,6 +213,9 @@
         "DUBLIN_CORE": "Дублинское ядро",
         "EFFECTIVITY": "Эффективность",
         "TITLE": "Результаты поиска",
+        "FILTER_SET": "Используется фильтр:",
+        "ADVANCED_FILTERS": "Дополнительные фильтры:",
+        "RESET": "Сброс",
         "RESET_ACTION": "Сбросить фильтры поиска",
         "FOUND_RESULTS": "Найдено результатов: {{ number }}",
         "FOUND_ONE_RESULT": "Найден результат: {{ number }}",
@@ -234,7 +235,6 @@
         }
       },
       "SEARCH_LIBRARIES": {
-        "TITLE": "Найденные библиотеки...",
         "FOUND_RESULTS": "Результатов: {{ number }}",
         "FOUND_ONE_RESULT": "Результат: {{ number }}"
       }
@@ -268,8 +268,6 @@
       "LEAVE": "Покинуть библиотеку",
       "EDIT_OFFLINE": "Редактировать в автономном режиме",
       "EDIT_OFFLINE_CANCEL": "Отменить редактирование",
-      "LIST_MODE": "Просмотреть список",
-      "GALLERY_MODE": "Просмотреть галерею",
       "CHANGE_ASPECT": "Редактировать аспекты"
     },
     "DIALOGS": {
@@ -286,7 +284,9 @@
         "NO_LABEL": "Отмена"
       },
       "MOBILE_APP": {
-        "MOBILE_APP_BUTTON_LABEL": "Открыть в приложении"
+        "MOBILE_APP_BUTTON_LABEL": "Открыть в приложении",
+        "DOWNLOAD_APP_BUTTON_LABEL": "У вас не установлено приложение? Скачайте его прямо сейчас.",
+        "OPEN_ALFRESCO_MOBILE_APP": "Открыть, используя приложение Alfresco Mobile?"
       }
     },
     "DOCUMENT_LIST": {
@@ -445,8 +445,8 @@
   "NODE_FROM_TEMPLATE": {
     "CANCEL": "Отмена",
     "CREATE": "Создать",
-    "FOLDER_DIALOG_TITLE": "Создать новую папку из <span class=\"bold\">'{{ шаблона }}'</span>",
-    "FILE_DIALOG_TITLE": "Создать новый документ из <span class=\"bold\">'{{ шаблона }}'</span>",
+    "FOLDER_DIALOG_TITLE": "Создать новую папку из <span class=\"bold\">'{{ template }}'</span>",
+    "FILE_DIALOG_TITLE": "Создать новый документ из <span class=\"bold\">'{{ template }}'</span>",
     "FORM": {
       "PLACEHOLDER": {
         "NAME": "Имя",

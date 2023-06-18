@@ -1,0 +1,68 @@
+<form class="aca-rule-composite-condition__form" [formGroup]="form">
+  <div *ngIf="hasNoConditions" class="aca-rule-composite-condition__form__no-conditions" data-automation-id="no-conditions">
+    {{ 'ACA_FOLDER_RULES.RULE_DETAILS.' + (childCondition ? 'NO_CONDITIONS_IN_GROUP' : 'NO_CONDITIONS') | translate }}
+  </div>
+
+  <div
+    class="aca-rule-composite-condition__form__row"
+    *ngFor="let control of conditionFormControls; let i = index">
+
+    <mat-form-field *ngIf="i === 0">
+      <mat-select
+        [formControl]="invertedControl"
+        [disabled]="readOnly">
+        <mat-option [value]="false">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LOGIC_OPERATORS.IF' | translate }}</mat-option>
+        <mat-option [value]="true">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LOGIC_OPERATORS.NOT_IF' | translate }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field *ngIf="i > 0">
+      <mat-select
+        [disabled]="!isOrImplemented || i > 1 || readOnly"
+        [formControl]="booleanModeControl">
+        <mat-option value="and">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LOGIC_OPERATORS.AND' | translate }}</mat-option>
+        <mat-option value="or">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LOGIC_OPERATORS.OR' | translate }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <aca-rule-composite-condition
+      *ngIf="!isFormControlSimpleCondition(control)"
+      [secondaryBackground]="!secondaryBackground"
+      [childCondition]="true"
+      [formControl]="control"
+      [readOnly]="readOnly">
+    </aca-rule-composite-condition>
+
+    <aca-rule-simple-condition
+      *ngIf="isFormControlSimpleCondition(control)"
+      [formControl]="control"
+      [readOnly]="readOnly">
+    </aca-rule-simple-condition>
+
+    <button mat-icon-button [matMenuTriggerFor]="menu" *ngIf="!readOnly" data-automation-id="condition-actions-button">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+
+    <mat-menu #menu="matMenu">
+      <button
+        mat-menu-item
+        [title]="'ACA_FOLDER_RULES.RULE_DETAILS.CONDITION_BUTTONS.REMOVE' | translate"
+        (click)="removeCondition(control)">
+        <mat-icon>delete</mat-icon>
+        <span>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.CONDITION_BUTTONS.REMOVE' | translate }}</span>
+      </button>
+    </mat-menu>
+
+  </div>
+
+  <div class="aca-rule-composite-condition__form__actions" *ngIf="!readOnly" data-automation-id="add-actions">
+    <button mat-button (click)="addSimpleCondition()" data-automation-id="add-condition-button">
+      <mat-icon>add</mat-icon>
+      <span>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.CONDITION_BUTTONS.ADD_CONDITION' | translate }}</span>
+    </button>
+    <button mat-button (click)="addCompositeCondition()" data-automation-id="add-group-button">
+      <mat-icon>add</mat-icon>
+      <span>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.CONDITION_BUTTONS.ADD_GROUP' | translate }}</span>
+    </button>
+  </div>
+</form>

@@ -22,23 +22,25 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { DirectiveModule } from '@alfresco/adf-core';
 
 @Component({
   standalone: true,
-  imports: [TranslateModule, MatIconModule, MatMenuModule],
+  imports: [TranslateModule, MatIconModule, MatMenuModule, DirectiveModule],
   selector: 'aca-logout',
   template: `
     <button mat-menu-item (click)="onLogoutEvent()" adf-logout>
       <mat-icon>exit_to_app</mat-icon>
       <span>{{ 'APP.SIGN_OUT' | translate }}</span>
     </button>
-  `
+  `,
+  encapsulation: ViewEncapsulation.None
 })
 export class LogoutComponent {
   constructor(private store: Store) {}

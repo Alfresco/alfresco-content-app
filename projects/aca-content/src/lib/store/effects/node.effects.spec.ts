@@ -53,6 +53,8 @@ import { RenditionService } from '@alfresco/adf-content-services';
 import { ViewerEffects } from './viewer.effects';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('NodeEffects', () => {
   let store: Store<any>;
@@ -63,7 +65,7 @@ describe('NodeEffects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, SharedStoreModule, EffectsModule.forRoot([NodeEffects, ViewerEffects])],
+      imports: [AppTestingModule, SharedStoreModule, EffectsModule.forRoot([NodeEffects, ViewerEffects]), MatDialogModule, MatSnackBarModule],
       providers: [RenditionService]
     });
 

@@ -82,8 +82,6 @@
       "TITLE": "Dettagli"
     },
     "NEW_MENU": {
-      "LABEL": "Nuovo",
-      "TOOLTIP": "Aggiungi nuovi file o cartelle oppure crea una nuova libreria di file",
       "MENU_ITEMS": {
         "CREATE_FOLDER": "Crea cartella",
         "UPLOAD_FILE": "Carica file",
@@ -215,6 +213,9 @@
         "DUBLIN_CORE": "Dublin core",
         "EFFECTIVITY": "Validità",
         "TITLE": "Risultati della ricerca",
+        "FILTER_SET": "Set di filtri:",
+        "ADVANCED_FILTERS": "Filtri avanzati:",
+        "RESET": "Reimposta",
         "RESET_ACTION": "Reimposta filtri di ricerca",
         "FOUND_RESULTS": "{{ number }} risultati trovati",
         "FOUND_ONE_RESULT": "{{ number }} risultato trovato",
@@ -234,7 +235,6 @@
         }
       },
       "SEARCH_LIBRARIES": {
-        "TITLE": "Librerie trovate...",
         "FOUND_RESULTS": "{{ number }} risultati",
         "FOUND_ONE_RESULT": "{{ number }} risultato"
       }
@@ -268,8 +268,6 @@
       "LEAVE": "Esci dalla libreria",
       "EDIT_OFFLINE": "Modifica offline",
       "EDIT_OFFLINE_CANCEL": "Annulla modifica",
-      "LIST_MODE": "Visualizza elenco",
-      "GALLERY_MODE": "Visualizza raccolta",
       "CHANGE_ASPECT": "Modifica aspetti"
     },
     "DIALOGS": {
@@ -286,7 +284,9 @@
         "NO_LABEL": "Annulla"
       },
       "MOBILE_APP": {
-        "MOBILE_APP_BUTTON_LABEL": "Apri nell'App"
+        "MOBILE_APP_BUTTON_LABEL": "Apri nell'App",
+        "DOWNLOAD_APP_BUTTON_LABEL": "Non si dispone dell'app? Scaricarla ora.",
+        "OPEN_ALFRESCO_MOBILE_APP": "Aprire con l'applicazione Alfresco Mobile?"
       }
     },
     "DOCUMENT_LIST": {
@@ -429,7 +429,7 @@
       "COLLAPSE_NAVIGATION": "Comprimi il menu di navigazione",
       "OPTIONS_SETTINGS": "Opzioni e impostazioni",
       "MY_PROFILE": "Il mio profilo",
-      "EXPAND_NAVIGATION": "Espandi il menu di navigazione"
+      "EXPAND_NAVIGATION": "Espande il menu di navigazione"
     }
   },
   "NODE_SELECTOR": {
@@ -486,7 +486,7 @@
   },
   "INFO_PANEL": {
     "TABS": {
-
+    
     },
     "DETAILS": "Dettagli"
   },

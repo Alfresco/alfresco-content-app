@@ -82,8 +82,6 @@
       "TITLE": "Tiedot"
     },
     "NEW_MENU": {
-      "LABEL": "Uusi",
-      "TOOLTIP": "Lisää uusia tiedostoja ja kansioita tai luo uusi tiedostokirjasto",
       "MENU_ITEMS": {
         "CREATE_FOLDER": "Luo kansio",
         "UPLOAD_FILE": "Lataa tiedosto",
@@ -106,7 +104,7 @@
     "HEADER": {
       "BUTTONS": {
         "CREATE": "Luo",
-        "CREATE_TOOLTIP": "Sisällön luominen",
+        "CREATE_TOOLTIP": "Luo sisältöä",
         "UPLOAD": "Lataa",
         "UPLOAD_TOOLTIP": "Lataa sisältöä"
       }
@@ -215,6 +213,9 @@
         "DUBLIN_CORE": "Dublin core",
         "EFFECTIVITY": "Voimassaolo",
         "TITLE": "Hakutulosta",
+        "FILTER_SET": "Asetettu suodatin:",
+        "ADVANCED_FILTERS": "Edistyneet suodattimet:",
+        "RESET": "Nollaa",
         "RESET_ACTION": "Nollaa hakusuodattimet",
         "FOUND_RESULTS": "Löytyi {{ number }} tulosta",
         "FOUND_ONE_RESULT": "Löytyi {{ number }} tulos",
@@ -234,7 +235,6 @@
         }
       },
       "SEARCH_LIBRARIES": {
-        "TITLE": "Löydetyt kirjastot...",
         "FOUND_RESULTS": "{{ number }} tulosta",
         "FOUND_ONE_RESULT": "{{ number }} tulos"
       }
@@ -268,8 +268,6 @@
       "LEAVE": "Poistu kirjastosta",
       "EDIT_OFFLINE": "Muokkaa offline-tilassa",
       "EDIT_OFFLINE_CANCEL": "Peruuta muokkaus",
-      "LIST_MODE": "Tarkastele luetteloa",
-      "GALLERY_MODE": "Tarkastele galleriaa",
       "CHANGE_ASPECT": "Muokkaa ominaisuusjoukkoja"
     },
     "DIALOGS": {
@@ -286,7 +284,9 @@
         "NO_LABEL": "Peruuta"
       },
       "MOBILE_APP": {
-        "MOBILE_APP_BUTTON_LABEL": "Avaa sovelluksessa"
+        "MOBILE_APP_BUTTON_LABEL": "Avaa sovelluksessa",
+        "DOWNLOAD_APP_BUTTON_LABEL": "Eikö sinulla ole sovellusta? Lataa se heti.",
+        "OPEN_ALFRESCO_MOBILE_APP": "Avaa Alfresco-mobiilisovelluksella?"
       }
     },
     "DOCUMENT_LIST": {
@@ -486,7 +486,7 @@
   },
   "INFO_PANEL": {
     "TABS": {
-
+    
     },
     "DETAILS": "Tiedot"
   },

@@ -22,8 +22,8 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, Input } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { SelectionState } from '@alfresco/adf-extensions';
 import { AppStore, ShareNodeAction, getAppSelection } from '@alfresco/aca-shared/store';
@@ -32,45 +32,52 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   standalone: true,
   imports: [CommonModule, MatMenuModule, MatIconModule, TranslateModule, MatButtonModule],
   selector: 'app-toggle-shared',
-  templateUrl: './toggle-shared.component.html'
+  templateUrl: './toggle-shared.component.html',
+  encapsulation: ViewEncapsulation.None
 })
-export class ToggleSharedComponent implements OnInit {
+export class ToggleSharedComponent implements OnInit, OnDestroy {
   @Input()
   data: {
     iconButton?: string;
   };
 
   selection$: Observable<SelectionState>;
+  selectionState: SelectionState;
+  selectionLabel = '';
+  isShared = false;
+
+  onDestroy$ = new Subject<void>();
 
   constructor(private store: Store<AppStore>) {}
 
   ngOnInit() {
     this.selection$ = this.store.select(getAppSelection);
+    this.selection$.pipe(takeUntil(this.onDestroy$)).subscribe((selectionState) => {
+      this.selectionState = selectionState;
+
+      this.isShared =
+        (this.selectionState.first && this.selectionState.first.entry && (this.selectionState.first.entry as any).sharedByUser) ||
+        !!this.selectionState?.first?.entry?.properties?.['qshare:sharedId'];
+
+      this.selectionLabel = this.isShared ? 'APP.ACTIONS.SHARE_EDIT' : 'APP.ACTIONS.SHARE';
+    });
   }
 
-  isShared(selection: SelectionState) {
-    // workaround for shared files
-    if (selection.first && selection.first.entry && (selection.first.entry as any).sharedByUser) {
-      return true;
-    }
-
-    return selection.first && selection.first.entry && selection.first.entry.properties && !!selection.first.entry.properties['qshare:sharedId'];
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
-
   editSharedNode(selection: SelectionState, focusedElementOnCloseSelector: string) {
     this.store.dispatch(
       new ShareNodeAction(selection.first, {
         focusedElementOnCloseSelector
       })
     );
-  }
-
-  getLabel(selection: SelectionState): string {
-    return this.isShared(selection) ? 'APP.ACTIONS.SHARE_EDIT' : 'APP.ACTIONS.SHARE';
   }
 }

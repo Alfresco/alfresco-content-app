@@ -22,12 +22,13 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppConfigService } from '@alfresco/adf-core';
 
 @Component({
-  template: ''
+  template: '',
+  encapsulation: ViewEncapsulation.None
 })
 export class HomeComponent implements OnInit {
   readonly DEFAULT_LANDING_PAGE = '/personal-files';

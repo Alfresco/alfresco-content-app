@@ -6,6 +6,15 @@
   "plugins": ["@nrwl/nx"],
   "overrides": [
     {
+      "files": ["*.ts"],
+      "plugins": ["@alfresco/eslint-angular"],
+      "extends": ["plugin:@angular-eslint/template/process-inline-templates"],
+      "excludedFiles": ["*.spec.ts"],
+      "rules": {
+        "@alfresco/eslint-angular/use-none-component-view-encapsulation": "error"
+      }
+    },
+    {
       "files": [
         "*.ts"
       ],
@@ -15,7 +24,6 @@
       "extends": [
         "plugin:@nrwl/nx/typescript",
         "plugin:@nrwl/nx/angular",
-        "plugin:@angular-eslint/template/process-inline-templates",
         "plugin:@cspell/recommended"
       ],
       "plugins": [
@@ -315,10 +323,12 @@
         "*.html"
       ],
       "extends": ["plugin:@nrwl/nx/angular-template", "plugin:@angular-eslint/template/accessibility"],
+      "parser": "@angular-eslint/template-parser",
       "rules": {
         "@angular-eslint/template/no-negated-async": "off",
         "@angular-eslint/template/no-positive-tabindex": "error",
-        "@angular-eslint/template/eqeqeq": "error"
+        "@angular-eslint/template/eqeqeq": "error",
+        "@angular-eslint/template/no-call-expression": "warn"
       }
     },
     {

@@ -3,10 +3,27 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "../../out-tsc/lib",
+    "target": "es2020",
+    "moduleResolution": "node",
+    "sourceMap": true,
     "declaration": true,
     "declarationMap": true,
     "inlineSources": true,
-    "types": []
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "types": [],
+    "lib": [
+      "dom",
+      "es2020"
+    ]
+  },
+  "angularCompilerOptions": {
+    "skipTemplateCodegen": true,
+    "strictMetadataEmit": true,
+    "enableResourceInlining": true,
+    "fullTemplateTypeCheck": true,
+    "strictInjectionParameters": true
   },
   "exclude": [
     "test.ts",

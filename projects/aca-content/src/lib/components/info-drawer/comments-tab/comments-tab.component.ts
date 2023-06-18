@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { MinimalNodeEntryEntity } from '@alfresco/js-api';
 import { NodePermissionService, isLocked } from '@alfresco/aca-shared';
 import { MatCardModule } from '@angular/material/card';
@@ -32,22 +32,23 @@ import { NodeCommentsModule } from '@alfresco/adf-content-services';
   standalone: true,
   imports: [MatCardModule, NodeCommentsModule],
   selector: 'app-comments-tab',
-  template: `<mat-card><adf-node-comments [readOnly]="!canUpdateNode" [nodeId]="node?.id"></adf-node-comments></mat-card>`
+  template: `<mat-card><adf-node-comments [readOnly]="!canUpdateNode" [nodeId]="node?.id"></adf-node-comments></mat-card>`,
+  encapsulation: ViewEncapsulation.None
 })
-export class CommentsTabComponent {
+export class CommentsTabComponent implements OnInit {
   @Input()
   node: MinimalNodeEntryEntity;
 
+  canUpdateNode = false;
+
   constructor(private permission: NodePermissionService) {}
 
-  get canUpdateNode(): boolean {
+  ngOnInit(): void {
     if (!this.node) {
-      return false;
+      this.canUpdateNode = false;
     }
-
     if (this.node.isFolder || (this.node.isFile && !isLocked({ entry: this.node }))) {
-      return this.permission.check(this.node, ['update']);
+      this.canUpdateNode = this.permission.check(this.node, ['update']);
     }
-    return false;
   }
 }

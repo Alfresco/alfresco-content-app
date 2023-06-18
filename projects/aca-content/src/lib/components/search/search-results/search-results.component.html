@@ -95,7 +95,7 @@
             </adf-custom-empty-content-template>
           </adf-document-list>
 
-          <adf-pagination *ngIf="!documentList.isEmpty()" acaPagination [target]="documentList" (change)="onPaginationChanged($event)">
+          <adf-pagination *ngIf="totalResults > 0" acaPagination [target]="documentList" (change)="onPaginationChanged($event)">
           </adf-pagination>
         </div>
       </div>

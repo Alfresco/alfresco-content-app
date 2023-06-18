@@ -26,7 +26,7 @@ import { CustomNameColumnComponent } from './name-column.component';
 import { Actions } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CoreModule } from '@alfresco/adf-core';
+import { HttpClientModule } from '@angular/common/http';
 import { TranslateModule } from '@ngx-translate/core';
 
 describe('CustomNameColumnComponent', () => {
@@ -35,12 +35,7 @@ describe('CustomNameColumnComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        TranslateModule.forRoot(),
-        CoreModule.forRoot(),
-        CustomNameColumnComponent,
-        StoreModule.forRoot({ app: () => {} }, { initialState: {} })
-      ],
+      imports: [HttpClientModule, TranslateModule.forRoot(), CustomNameColumnComponent, StoreModule.forRoot({ app: () => {} }, { initialState: {} })],
       providers: [Actions]
     });
 

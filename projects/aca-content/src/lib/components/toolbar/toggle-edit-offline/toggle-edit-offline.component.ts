@@ -32,11 +32,7 @@ import { AlfrescoApiService } from '@alfresco/adf-core';
 @Component({
   selector: 'app-toggle-edit-offline',
   template: `
-    <button
-      mat-menu-item
-      [attr.title]="(isNodeLocked ? 'APP.ACTIONS.EDIT_OFFLINE_CANCEL' : 'APP.ACTIONS.EDIT_OFFLINE') | translate"
-      (click)="onClick()"
-    >
+    <button mat-menu-item [attr.title]="nodeTitle | translate" (click)="onClick()">
       <ng-container *ngIf="isNodeLocked">
         <mat-icon>cancel</mat-icon>
         <span>{{ 'APP.ACTIONS.EDIT_OFFLINE_CANCEL' | translate }}</span>
@@ -54,6 +50,8 @@ import { AlfrescoApiService } from '@alfresco/adf-core';
 export class ToggleEditOfflineComponent implements OnInit {
   private nodesApi: NodesApi;
   selection: MinimalNodeEntity;
+  nodeTitle = '';
+  isNodeLocked = false;
 
   constructor(private store: Store<AppStore>, private alfrescoApiService: AlfrescoApiService) {
     this.nodesApi = new NodesApi(this.alfrescoApiService.getInstance());
@@ -62,11 +60,9 @@ export class ToggleEditOfflineComponent implements OnInit {
   ngOnInit() {
     this.store.select(getAppSelection).subscribe(({ file }) => {
       this.selection = file;
+      this.isNodeLocked = this.selection && isLocked(this.selection);
+      this.nodeTitle = this.isNodeLocked ? 'APP.ACTIONS.EDIT_OFFLINE_CANCEL' : 'APP.ACTIONS.EDIT_OFFLINE';
     });
-  }
-
-  get isNodeLocked(): boolean {
-    return !!(this.selection && isLocked(this.selection));
   }
 
   async onClick() {

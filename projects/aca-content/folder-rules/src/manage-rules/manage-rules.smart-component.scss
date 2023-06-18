@@ -1,0 +1,103 @@
+.aca-manage-rules {
+  &__actions-bar {
+    padding: 0 30px;
+    display: flex;
+    align-items: center;
+
+    &__title {
+      align-items: center;
+      width: unset !important;
+      flex: 1;
+
+      &__breadcrumb {
+        margin-left: 18px;
+      }
+    }
+
+    &__buttons {
+      display: flex;
+      align-items: stretch;
+      gap: 12px;
+    }
+
+    .mat-slide-toggle-label {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--adf-breadcrumb-item-active-color);
+    }
+
+    .vertical-divider {
+      height: 50%;
+      margin: 0 12px;
+    }
+  }
+
+  &__container {
+    display: grid;
+    grid-template-columns: minmax(250px, 1fr) 3fr;
+    padding: 20px;
+    gap: 12px;
+    overflow-y: auto;
+    flex: 1;
+
+    &__rule-details {
+      border: 1px solid var(--theme-border-color);
+      border-radius: 12px;
+      overflow-y: auto;
+
+      &__header {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        overflow-x: auto;
+        justify-content: space-between;
+        padding: 12px 20px;
+        border-bottom: 1px solid var(--theme-border-color);
+        background-color: var(--theme-background-color);
+        column-gap: 20px;
+
+        &__title {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          word-wrap: break-word;
+          min-width: 100px;
+
+          &__name {
+            font-size: 1.2em;
+            font-weight: bold;
+          }
+
+          &__description {
+            font-size: 0.8em;
+            font-style: italic;
+          }
+        }
+
+        &__buttons {
+          display: flex;
+          flex-direction: row;
+          align-items: stretch;
+          gap: 4px;
+
+          button {
+            color: var(--theme-text-color);
+
+            &#delete-rule-btn {
+              padding: 0 8px;
+              min-width: unset;
+            }
+
+            .mat-icon {
+              // Something pops out of this button for some reason so this is necessary
+              overflow: hidden !important;
+            }
+          }
+        }
+      }
+    }
+  }
+}

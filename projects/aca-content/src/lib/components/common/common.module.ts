@@ -22,20 +22,11 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NgModule } from '@angular/core';
 import { LocationLinkComponent } from './location-link/location-link.component';
 import { ToggleSharedComponent } from './toggle-shared/toggle-shared.component';
 import { LanguagePickerComponent } from './language-picker/language-picker.component';
 import { LogoutComponent } from './logout/logout.component';
 import { UserInfoComponent } from './user-info/user-info.component';
-
-/**
- * @deprecated Use `APP_COMMON_DIRECTIVES` instead
- */
-@NgModule({
-  imports: [LanguagePickerComponent, LocationLinkComponent, LogoutComponent, ToggleSharedComponent, UserInfoComponent]
-})
-export class AppCommonModule {}
 
 export const APP_COMMON_DIRECTIVES = [
   LanguagePickerComponent,

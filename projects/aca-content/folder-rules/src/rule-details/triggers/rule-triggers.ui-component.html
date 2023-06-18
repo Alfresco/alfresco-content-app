@@ -1,0 +1,18 @@
+<div *ngFor="let trigger of triggerOptions">
+  <ng-container *ngIf="readOnly; else checkbox">
+    <div
+      *ngIf="selectedTriggers[trigger]"
+      [attr.data-automation-id]="'rule-trigger-value-' + trigger | lowercase">
+      {{ 'ACA_FOLDER_RULES.RULE_DETAILS.TRIGGERS.' + trigger | uppercase | translate }}
+    </div>
+  </ng-container>
+
+  <ng-template #checkbox>
+    <mat-checkbox
+      [attr.data-automation-id]="'rule-trigger-checkbox-' + trigger | lowercase"
+      [checked]="selectedTriggers[trigger]"
+      (change)="onTriggerChange(trigger, $event.checked)">
+      {{ 'ACA_FOLDER_RULES.RULE_DETAILS.TRIGGERS.' + trigger | uppercase | translate }}
+    </mat-checkbox>
+  </ng-template>
+</div>

@@ -82,8 +82,6 @@
       "TITLE": "Details"
     },
     "NEW_MENU": {
-      "LABEL": "Neu",
-      "TOOLTIP": "Neue Dateien und Ordner hinzufügen oder neue Dateibibliothek erstellen",
       "MENU_ITEMS": {
         "CREATE_FOLDER": "Ordner erstellen",
         "UPLOAD_FILE": "Datei hochladen",
@@ -215,6 +213,9 @@
         "DUBLIN_CORE": "Dublin Core",
         "EFFECTIVITY": "Effektivität",
         "TITLE": "Ergebnisse durchsuchen",
+        "FILTER_SET": "Filter-Satz:",
+        "ADVANCED_FILTERS": "Erweiterte Filter:",
+        "RESET": "Zurücksetzen",
         "RESET_ACTION": "Suchfilter zurücksetzen",
         "FOUND_RESULTS": "{{ number }} Ergebnisse gefunden",
         "FOUND_ONE_RESULT": "{{ number }} Ergebnisse gefunden",
@@ -234,7 +235,6 @@
         }
       },
       "SEARCH_LIBRARIES": {
-        "TITLE": "Bibliotheken gefunden...",
         "FOUND_RESULTS": "{{ number }} Ergebnisse",
         "FOUND_ONE_RESULT": "{{ number }} Ergebnis"
       }
@@ -268,8 +268,6 @@
       "LEAVE": "Bibliothek verlassen",
       "EDIT_OFFLINE": "Offline bearbeiten",
       "EDIT_OFFLINE_CANCEL": "Bearbeitung abbrechen",
-      "LIST_MODE": "Liste anzeigen",
-      "GALLERY_MODE": "Galerie anzeigen",
       "CHANGE_ASPECT": "Aspekte bearbeiten"
     },
     "DIALOGS": {
@@ -286,7 +284,9 @@
         "NO_LABEL": "Abbrechen"
       },
       "MOBILE_APP": {
-        "MOBILE_APP_BUTTON_LABEL": "In der App öffnen"
+        "MOBILE_APP_BUTTON_LABEL": "In der App öffnen",
+        "DOWNLOAD_APP_BUTTON_LABEL": "Sie haben die App noch nicht? Jetzt herunterladen.",
+        "OPEN_ALFRESCO_MOBILE_APP": "Mit der Alfresco Mobile-Anwendung öffnen?"
       }
     },
     "DOCUMENT_LIST": {
@@ -486,7 +486,7 @@
   },
   "INFO_PANEL": {
     "TABS": {
-
+    
     },
     "DETAILS": "Details"
   },

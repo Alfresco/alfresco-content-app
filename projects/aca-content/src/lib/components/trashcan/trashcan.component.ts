@@ -23,12 +23,33 @@
  */
 
 import { getUserProfile } from '@alfresco/aca-shared/store';
-import { DocumentListPresetRef } from '@alfresco/adf-extensions';
-import { Component, OnInit } from '@angular/core';
-import { PageComponent } from '@alfresco/aca-shared';
+import { DocumentListPresetRef, ExtensionsModule } from '@alfresco/adf-extensions';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { PageComponent, PageLayoutModule, SharedToolbarModule } from '@alfresco/aca-shared';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
+import { BreadcrumbModule, DocumentListModule } from '@alfresco/adf-content-services';
+import { DataTableModule, PaginationModule, TemplateModule, ToolbarModule } from '@alfresco/adf-core';
+import { DirectivesModule } from '../../directives/directives.module';
 
 @Component({
-  templateUrl: './trashcan.component.html'
+  standalone: true,
+  imports: [
+    CommonModule,
+    TranslateModule,
+    PageLayoutModule,
+    BreadcrumbModule,
+    ToolbarModule,
+    SharedToolbarModule,
+    DocumentListModule,
+    TemplateModule,
+    DirectivesModule,
+    PaginationModule,
+    DataTableModule,
+    ExtensionsModule
+  ],
+  templateUrl: './trashcan.component.html',
+  encapsulation: ViewEncapsulation.None
 })
 export class TrashcanComponent extends PageComponent implements OnInit {
   user$ = this.store.select(getUserProfile);

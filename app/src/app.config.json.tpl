@@ -39,7 +39,6 @@
     "copyright": "APP.COPYRIGHT"
   },
   "viewer.maxRetries": 1,
-  "sharedLinkDateTimePickerType": "datetime",
   "customCssPath": "",
   "webFontPath": "",
   "pagination": {
@@ -65,77 +64,6 @@
     "preserveState": true,
     "expandedSidenav": true
   },
-  "languages": [
-    {
-      "key": "de",
-      "label": "Deutsch"
-    },
-    {
-      "key": "en",
-      "label": "English"
-    },
-    {
-      "key": "es",
-      "label": "Español"
-    },
-    {
-      "key": "fr",
-      "label": "Français"
-    },
-    {
-      "key": "it",
-      "label": "Italiano"
-    },
-    {
-      "key": "ja",
-      "label": "日本語"
-    },
-    {
-      "key": "nb",
-      "label": "Bokmål"
-    },
-    {
-      "key": "nl",
-      "label": "Nederlands"
-    },
-    {
-      "key": "pt-BR",
-      "label": "Português (Brasil)"
-    },
-    {
-      "key": "ru",
-      "label": "Русский"
-    },
-    {
-      "key": "zh-CN",
-      "label": "中文简体"
-    },
-    {
-      "key": "cs",
-      "label": "Čeština"
-    },
-    {
-      "key": "da",
-      "label": "Dansk"
-    },
-    {
-      "key": "fi",
-      "label": "Suomi"
-    },
-    {
-      "key": "pl",
-      "label": "Polski"
-    },
-    {
-      "key": "sv",
-      "label": "Svenska"
-    },
-    {
-      "key": "ar",
-      "label": "العربية",
-      "direction": "rtl"
-    }
-  ],
   "mimeTypes": [
     {
       "value": "video/3gpp",
@@ -1017,6 +945,19 @@
       "TAG"
     ],
     "categories": [
+      {
+        "id": "logic",
+        "name": "SEARCH.CATEGORIES.LOGIC",
+        "enabled": true,
+        "component": {
+          "selector": "logical-filter",
+          "settings": {
+            "allowUpdateOnChange": false,
+            "hideDefaultAction": true,
+            "field": "cm:name,cm:title,cm:description,TEXT,TAG"
+          }
+        }
+      },
       {
         "id": "queryName",
         "name": "SEARCH.SEARCH_HEADER.FILTERS.NAME.TITLE",

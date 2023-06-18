@@ -34,13 +34,19 @@ import {
   LibraryStatusColumnComponent,
   TrashcanNameColumnComponent
 } from '@alfresco/adf-content-services';
-import { DocumentBasePageService, ExtensionsDataLoaderGuard, PageLayoutModule, SharedModule, GenericErrorComponent } from '@alfresco/aca-shared';
+import {
+  DocumentBasePageService,
+  ExtensionsDataLoaderGuard,
+  PageLayoutModule,
+  SharedModule,
+  GenericErrorComponent,
+  OpenInAppModule
+} from '@alfresco/aca-shared';
 import * as rules from '@alfresco/aca-shared/rules';
 
 import { FilesComponent } from './components/files/files.component';
 import { LibrariesComponent } from './components/libraries/libraries.component';
 import { FavoriteLibrariesComponent } from './components/favorite-libraries/favorite-libraries.component';
-import { ViewProfileModule } from './components/view-profile/view-profile.module';
 
 import { AppStoreModule } from './store/app-store.module';
 import { MaterialModule } from './material.module';
@@ -72,7 +78,6 @@ import { LibraryMetadataTabComponent } from './components/info-drawer/library-me
 import { MetadataTabComponent } from './components/info-drawer/metadata-tab/metadata-tab.component';
 import { VersionsTabComponent } from './components/info-drawer/versions-tab/versions-tab.component';
 import { PreviewComponent } from '@alfresco/aca-preview';
-import { DocumentDisplayModeComponent } from './components/toolbar/document-display-mode/document-display-mode.component';
 import { ToggleEditOfflineComponent } from './components/toolbar/toggle-edit-offline/toggle-edit-offline.component';
 import { ToggleFavoriteLibraryComponent } from './components/toolbar/toggle-favorite-library/toggle-favorite-library.component';
 import { ToggleFavoriteComponent } from './components/toolbar/toggle-favorite/toggle-favorite.component';
@@ -83,9 +88,8 @@ import { ViewNodeComponent } from './components/toolbar/view-node/view-node.comp
 import { CONTENT_ROUTES } from './aca-content.routes';
 import { RouterModule } from '@angular/router';
 import { UploadFilesDialogComponent } from './components/upload-files-dialog/upload-files-dialog.component';
-import { AppTrashcanModule } from './components/trashcan/trashcan.module';
 import { AppSharedLinkViewModule } from './components/shared-link-view/shared-link-view.module';
-import { AcaFolderRulesModule } from '@alfresco/aca-folder-rules';
+import { AcaFolderRulesModule } from '@alfresco/aca-content/folder-rules';
 import { TagsColumnComponent } from './components/dl-custom-components/tags-column/tags-column.component';
 import { UserInfoComponent } from './components/common/user-info/user-info.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
@@ -93,6 +97,8 @@ import { ContentManagementService } from './services/content-management.service'
 import { ShellLayoutComponent, SHELL_NAVBAR_MIN_WIDTH } from '@alfresco/adf-core/shell';
 import { UserMenuComponent } from './components/sidenav/user-menu/user-menu.component';
 import { ContextMenuComponent } from './components/context-menu/context-menu.component';
+import { ViewProfileComponent } from './components/view-profile/view-profile.component';
+import { TrashcanComponent } from './components/trashcan/trashcan.component';
 
 @NgModule({
   imports: [
@@ -118,12 +124,14 @@ import { ContextMenuComponent } from './components/context-menu/context-menu.com
     AppSearchInputModule,
     AppSearchResultsModule,
     HammerModule,
-    ViewProfileModule,
-    AppTrashcanModule,
+    ViewProfileComponent,
+    TrashcanComponent,
     AppSharedLinkViewModule,
     AcaFolderRulesModule,
     GenericErrorComponent,
-    DetailsComponent
+    DetailsComponent,
+    CreateFromTemplateDialogComponent,
+    OpenInAppModule
   ],
   declarations: [
     FilesComponent,
@@ -132,7 +140,6 @@ import { ContextMenuComponent } from './components/context-menu/context-menu.com
     FavoritesComponent,
     RecentFilesComponent,
     SharedFilesComponent,
-    CreateFromTemplateDialogComponent,
     HomeComponent,
     UploadFilesDialogComponent
   ],
@@ -170,7 +177,6 @@ export class ContentServiceExtensionModule {
       'app.toolbar.toggleFavorite': ToggleFavoriteComponent,
       'app.toolbar.toggleFavoriteLibrary': ToggleFavoriteLibraryComponent,
       'app.toolbar.toggleJoinLibrary': ToggleJoinLibraryButtonComponent,
-      'app.toolbar.cardView': DocumentDisplayModeComponent,
       'app.menu.toggleJoinLibrary': ToggleJoinLibraryMenuComponent,
       'app.shared-link.toggleSharedLink': ToggleSharedComponent,
       'app.columns.name': CustomNameColumnComponent,

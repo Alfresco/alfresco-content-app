@@ -1,0 +1,33 @@
+<div class="aca-rule-action-list__item  " *ngFor="let control of formControls">
+  <aca-rule-action
+    [actionDefinitions]="actionDefinitions"
+    [parameterConstraints]="parameterConstraints"
+    [readOnly]="readOnly"
+    [formControl]="control"
+    [nodeId]="nodeId">
+  </aca-rule-action>
+
+  <button
+    mat-icon-button
+    data-automation-id="rule-action-list-action-menu"
+    *ngIf="!readOnly" [matMenuTriggerFor]="menu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+
+  <mat-menu #menu>
+    <button
+      mat-menu-item
+      data-automation-id="rule-action-list-remove-action-button"
+      [title]="'ACA_FOLDER_RULES.RULE_DETAILS.ACTION_BUTTONS.REMOVE' | translate"
+      [disabled]="formControls.length <= 1"
+      (click)="removeAction(control)">
+      <mat-icon>delete</mat-icon>
+      <span>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.ACTION_BUTTONS.REMOVE' | translate }}</span>
+    </button>
+  </mat-menu>
+</div>
+
+<button mat-button data-automation-id="rule-action-list-add-action-button" (click)="addAction()" *ngIf="!readOnly">
+  <mat-icon>add</mat-icon>
+  <span>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.ACTION_BUTTONS.ADD_ACTION' | translate }}</span>
+</button>

@@ -82,8 +82,6 @@
       "TITLE": "Detaljer"
     },
     "NEW_MENU": {
-      "LABEL": "Ny",
-      "TOOLTIP": "Lägg till nya filer och mappar eller skapa ett nytt filbibliotek",
       "MENU_ITEMS": {
         "CREATE_FOLDER": "Skapa mapp",
         "UPLOAD_FILE": "Ladda upp fil",
@@ -215,6 +213,9 @@
         "DUBLIN_CORE": "Dublin core",
         "EFFECTIVITY": "Giltighet",
         "TITLE": "Sökresultat",
+        "FILTER_SET": "Filteruppsättning:",
+        "ADVANCED_FILTERS": "Avancerade filter:",
+        "RESET": "Återställ",
         "RESET_ACTION": "Återställ sökfilter",
         "FOUND_RESULTS": "{{ number }} resultat hittades",
         "FOUND_ONE_RESULT": "{{ number }} resultat hittades",
@@ -234,7 +235,6 @@
         }
       },
       "SEARCH_LIBRARIES": {
-        "TITLE": "Bibliotek hittade...",
         "FOUND_RESULTS": "{{ number }} resultat",
         "FOUND_ONE_RESULT": "{{ number }} resultat"
       }
@@ -268,8 +268,6 @@
       "LEAVE": "Lämna bibliotek",
       "EDIT_OFFLINE": "Redigera offline",
       "EDIT_OFFLINE_CANCEL": "Avbryt redigering",
-      "LIST_MODE": "Visa lista",
-      "GALLERY_MODE": "Visa galleri",
       "CHANGE_ASPECT": "Redigera aspekter"
     },
     "DIALOGS": {
@@ -286,7 +284,9 @@
         "NO_LABEL": "Avbryt"
       },
       "MOBILE_APP": {
-        "MOBILE_APP_BUTTON_LABEL": "Öppna i appen"
+        "MOBILE_APP_BUTTON_LABEL": "Öppna i appen",
+        "DOWNLOAD_APP_BUTTON_LABEL": "Har du inte appen? Ladda ner nu.",
+        "OPEN_ALFRESCO_MOBILE_APP": "Öppna med Alfresco Mobile-applikation?"
       }
     },
     "DOCUMENT_LIST": {
@@ -429,7 +429,7 @@
       "COLLAPSE_NAVIGATION": "Dölj navigeringsmenyn",
       "OPTIONS_SETTINGS": "Alternativ och inställningar",
       "MY_PROFILE": "Min profil",
-      "EXPAND_NAVIGATION": "Visa navigeringsmenyn"
+      "EXPAND_NAVIGATION": "Expandera navigeringsmenyn"
     }
   },
   "NODE_SELECTOR": {
@@ -486,7 +486,7 @@
   },
   "INFO_PANEL": {
     "TABS": {
-
+    
     },
     "DETAILS": "Detaljer"
   },

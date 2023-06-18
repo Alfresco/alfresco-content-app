@@ -13,6 +13,14 @@ env:
   APP_CONFIG_ECM_HOST: ${{ secrets.PIPELINE_ENV_URL }}
   ADMIN_EMAIL: ${{ secrets.PIPELINE_ADMIN_USERNAME }}
   ADMIN_PASSWORD: ${{ secrets.PIPELINE_ADMIN_PASSWORD }}
+  HR_USER: ${{ secrets.HR_USER }}
+  HR_USER_PASSWORD: ${{ secrets.HR_USER_PASSWORD }}
+  SUPERADMIN_EMAIL: ${{ secrets.SUPERADMIN_EMAIL }}
+  SUPERADMIN_PASSWORD: ${{ secrets.SUPERADMIN_PASSWORD }}
+  IDENTITY_USER_EMAIL: ${{ secrets.IDENTITY_USER_EMAIL }}
+  IDENTITY_USER_PASSWORD: ${{ secrets.IDENTITY_USER_PASSWORD }}
+  CONTENT_IDENTITY_USERNAME: ${{ secrets.CONTENT_IDENTITY_USERNAME }}
+  CONTENT_IDENTITY_PASSWORD: ${{ secrets.CONTENT_IDENTITY_PASSWORD }}
   SCREENSHOT_USERNAME: ${{ secrets.SCREENSHOT_USERNAME }}
   SCREENSHOT_PASSWORD: ${{ secrets.SCREENSHOT_PASSWORD}}
   AWS_REGION: "eu-west-2"
@@ -96,7 +104,6 @@ jobs:
         unit-tests:
           - name: "aca-content"
           - name: "aca-shared"
-          - name: "aca-folder-rules"
           - name: "aca-preview"
     steps:
       - name: Checkout
@@ -178,8 +185,16 @@ jobs:
 
   e2es-playwright:
     needs: [lint, build, unit-tests]
-    name: 'E2e test suites: Folder Rules - Playwright'
+    name: 'E2e test suites: Playwright'
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        e2e-suites:
+          - name: "actions"
+            id: 1
+          - name: "folder-rules"
+            id: 2
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -204,10 +219,10 @@ jobs:
       - name: before playwright
         shell: bash
         run: npx playwright install chromium
-      - uses: ./.github/actions/run-e2e
+      - uses: ./.github/actions/run-e2e-playwright
         with:
-          options: "e2e/playwright/tests/folder-rules/playwright.config.ts"
-          artifact-name: folder-rules
+          options: "${{ matrix.e2e-suites.name }}"
+          artifact-name: ${{ matrix.e2e-suites.name }}
           test-runner: playwright
       - uses: ./.github/actions/after-e2e
 

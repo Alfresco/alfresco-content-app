@@ -1,0 +1,92 @@
+.aca-rule-details {
+  &__form {
+    position: relative;
+
+    & > div {
+      padding: 8px 20px;
+      width: 100%;
+      box-sizing: border-box;
+      overflow-x: auto;
+
+      &.aca-rule-details__form__name {
+        padding-bottom: 0;
+      }
+
+      &.aca-rule-details__form__description {
+        padding-top: 0;
+        border: none;
+        align-items: flex-start;
+      }
+    }
+
+    &__row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+
+      & > label,
+      & > .label {
+        font-weight: bold;
+        width: 20%;
+        min-width: 100px;
+        max-width: 150px;
+        padding: 0.75em 0;
+      }
+
+      & > div {
+        flex-grow: 1;
+
+        mat-form-field {
+          width: 100%;
+          max-width: 400px;
+          font-size: inherit;
+
+          .mat-form-field-infix {
+            border: none;
+          }
+        }
+      }
+    }
+
+    &:not(:nth-child(1)) {
+      border-top: 1px solid var(--theme-border-color);
+    }
+
+    &__conditions {
+      width: 100%;
+
+      & > .rule-details-error {
+        margin-left: 16px;
+        color: inherit;
+      }
+    }
+
+    textarea {
+      min-height: 4em;
+    }
+
+    .rule-details-error {
+      font-size: 75%;
+      height: 1em;
+    }
+
+    &__actions {
+      .aca-rule-action-list {
+        flex: 1;
+      }
+    }
+
+    &.read-only,
+    .mat-form-field-disabled {
+      .mat-form-field-underline,
+      .mat-select-arrow-wrapper {
+        display: none;
+      }
+
+      *:disabled,
+      .mat-select-disabled .mat-select-value {
+        color: inherit;
+      }
+    }
+  }
+}

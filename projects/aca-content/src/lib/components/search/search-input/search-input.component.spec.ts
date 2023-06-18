@@ -33,6 +33,8 @@ import { map } from 'rxjs/operators';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { SearchNavigationService } from '../search-navigation.service';
 import { BehaviorSubject, Subject } from 'rxjs';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatMenuModule } from '@angular/material/menu';
 
 describe('SearchInputComponent', () => {
   let fixture: ComponentFixture<SearchInputComponent>;
@@ -47,7 +49,7 @@ describe('SearchInputComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule],
+      imports: [AppTestingModule, MatSnackBarModule, MatMenuModule],
       declarations: [SearchInputComponent],
       providers: [
         {
@@ -89,7 +91,7 @@ describe('SearchInputComponent', () => {
   });
 
   it('should have no library constraint by default', () => {
-    expect(component.hasLibraryConstraint()).toBe(false);
+    expect(component.evaluateLibrariesConstraint()).toBe(false);
   });
 
   it('should have library constraint on 400 error received', async () => {
@@ -101,7 +103,7 @@ describe('SearchInputComponent', () => {
 
     appHookService.library400Error.next();
 
-    expect(component.hasLibraryConstraint()).toBe(true);
+    expect(component.evaluateLibrariesConstraint()).toBe(true);
   });
 
   describe('onSearchSubmit()', () => {

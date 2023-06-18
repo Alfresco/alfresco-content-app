@@ -82,8 +82,6 @@
       "TITLE": "Detalhes"
     },
     "NEW_MENU": {
-      "LABEL": "Novo",
-      "TOOLTIP": "Adicionar novos arquivos e pastas ou criar uma Biblioteca de Arquivos",
       "MENU_ITEMS": {
         "CREATE_FOLDER": "Criar pasta",
         "UPLOAD_FILE": "Carregar arquivo",
@@ -215,6 +213,9 @@
         "DUBLIN_CORE": "Dublin core",
         "EFFECTIVITY": "Efetividade",
         "TITLE": "Resultados da pesquisa",
+        "FILTER_SET": "Conjunto de filtros:",
+        "ADVANCED_FILTERS": "Filtros avançados:",
+        "RESET": "Redefinir",
         "RESET_ACTION": "Redefinir filtros de pesquisa",
         "FOUND_RESULTS": "{{ number }} resultados encontrados",
         "FOUND_ONE_RESULT": "{{ number }} resultados encontrados",
@@ -234,7 +235,6 @@
         }
       },
       "SEARCH_LIBRARIES": {
-        "TITLE": "Bibliotecas encontradas...",
         "FOUND_RESULTS": "{{ number }} resultados",
         "FOUND_ONE_RESULT": "{{ number }} resultados"
       }
@@ -268,8 +268,6 @@
       "LEAVE": "Sair da biblioteca",
       "EDIT_OFFLINE": "Editar offline",
       "EDIT_OFFLINE_CANCEL": "Cancelar a edição",
-      "LIST_MODE": "Exibir lista",
-      "GALLERY_MODE": "Exibir galeria",
       "CHANGE_ASPECT": "Editar aspectos"
     },
     "DIALOGS": {
@@ -286,7 +284,9 @@
         "NO_LABEL": "Cancelar"
       },
       "MOBILE_APP": {
-        "MOBILE_APP_BUTTON_LABEL": "Abrir no aplicativo"
+        "MOBILE_APP_BUTTON_LABEL": "Abrir no aplicativo",
+        "DOWNLOAD_APP_BUTTON_LABEL": "Não tem o aplicativo? Baixe-o agora.",
+        "OPEN_ALFRESCO_MOBILE_APP": "Abrir usando o aplicativo móvel Alfresco?"
       }
     },
     "DOCUMENT_LIST": {
@@ -429,7 +429,7 @@
       "COLLAPSE_NAVIGATION": "Recolher menu de navegação",
       "OPTIONS_SETTINGS": "Opções e configurações",
       "MY_PROFILE": "Meu perfil",
-      "EXPAND_NAVIGATION": "Expandir painel de navegação"
+      "EXPAND_NAVIGATION": "Expandir menu de navegação"
     }
   },
   "NODE_SELECTOR": {
@@ -486,7 +486,7 @@
   },
   "INFO_PANEL": {
     "TABS": {
-
+    
     },
     "DETAILS": "Detalhes"
   },

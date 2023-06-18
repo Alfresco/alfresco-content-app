@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { DEV_MODE_TOKEN } from './dev-mode.tokens';
 import { AppExtensionService } from '@alfresco/adf-extensions';
 import { AboutModule, AppConfigService, AuthenticationService, RepositoryInfo } from '@alfresco/adf-core';
@@ -40,7 +40,8 @@ import { MatButtonModule } from '@angular/material/button';
   imports: [CommonModule, TranslateModule, AboutModule, PageLayoutModule, RouterModule, MatIconModule, MatButtonModule],
   selector: 'app-about-page',
   templateUrl: './about.component.html',
-  styleUrls: ['./about.component.scss']
+  styleUrls: ['./about.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class AboutComponent implements OnInit {
   private authService = inject(AuthenticationService);

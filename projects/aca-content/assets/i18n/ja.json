@@ -82,8 +82,6 @@
       "TITLE": "詳細"
     },
     "NEW_MENU": {
-      "LABEL": "新規",
-      "TOOLTIP": "新しいフィールドやフォルダを追加したり、新しいファイルライブラリを作成できます。",
       "MENU_ITEMS": {
         "CREATE_FOLDER": "フォルダの作成",
         "UPLOAD_FILE": "ファイルのアップロード",
@@ -215,6 +213,9 @@
         "DUBLIN_CORE": "Dublin core",
         "EFFECTIVITY": "有効性",
         "TITLE": "検索結果",
+        "FILTER_SET": "フィルタセット：",
+        "ADVANCED_FILTERS": "高度なフィルタ：",
+        "RESET": "リセット",
         "RESET_ACTION": "検索フィルタのリセット",
         "FOUND_RESULTS": "{{ number }} 件見つかりました",
         "FOUND_ONE_RESULT": "{{ number }} 件見つかりました",
@@ -234,7 +235,6 @@
         }
       },
       "SEARCH_LIBRARIES": {
-        "TITLE": "ライブラリが見つかりました...",
         "FOUND_RESULTS": "検索結果: {{ number }} 件",
         "FOUND_ONE_RESULT": "検索結果: {{ number }} 件"
       }
@@ -268,8 +268,6 @@
       "LEAVE": "ライブラリから脱退",
       "EDIT_OFFLINE": "オフライン編集",
       "EDIT_OFFLINE_CANCEL": "編集のキャンセル",
-      "LIST_MODE": "リストを表示",
-      "GALLERY_MODE": "ギャラリーを表示",
       "CHANGE_ASPECT": "アスペクトを編集"
     },
     "DIALOGS": {
@@ -286,7 +284,9 @@
         "NO_LABEL": "キャンセル"
       },
       "MOBILE_APP": {
-        "MOBILE_APP_BUTTON_LABEL": "アプリで開く"
+        "MOBILE_APP_BUTTON_LABEL": "アプリで開く",
+        "DOWNLOAD_APP_BUTTON_LABEL": "アプリがない場合は、今すぐダウンロードしてください。",
+        "OPEN_ALFRESCO_MOBILE_APP": "Alfresco Mobileアプリケーションを使用して開きますか？"
       }
     },
     "DOCUMENT_LIST": {
@@ -429,7 +429,7 @@
       "COLLAPSE_NAVIGATION": "ナビゲーションメニューを折りたたむ",
       "OPTIONS_SETTINGS": "オプションと設定",
       "MY_PROFILE": "あなたのプロフィール",
-      "EXPAND_NAVIGATION": "ないビゲーションメニューを展開する"
+      "EXPAND_NAVIGATION": "ナビゲーションメニューを展開します"
     }
   },
   "NODE_SELECTOR": {
@@ -486,7 +486,7 @@
   },
   "INFO_PANEL": {
     "TABS": {
-
+    
     },
     "DETAILS": "詳細"
   },

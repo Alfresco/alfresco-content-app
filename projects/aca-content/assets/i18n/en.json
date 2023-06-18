@@ -268,8 +268,6 @@
             "LEAVE": "Leave Library",
             "EDIT_OFFLINE": "Edit Offline",
             "EDIT_OFFLINE_CANCEL": "Cancel Editing",
-            "LIST_MODE": "View list",
-            "GALLERY_MODE": "View gallery",
             "CHANGE_ASPECT": "Edit Aspects"
         },
         "DIALOGS": {
@@ -568,14 +566,8 @@
             },
             "CREATED_DATE": "Created date",
             "EFFECTIVITY_FROM": "Effectivity from",
-            "EFFECTIVITY_TO": "Effectivity to"
-        },
-        "FACET_QUERIES": {
-            "TODAY": "Today",
-            "THIS_WEEK": "This week",
-            "THIS_MONTH": "This month",
-            "LAST_6_MONTHS": "In the last 6 months",
-            "THIS_YEAR": "This year"
+            "EFFECTIVITY_TO": "Effectivity to",
+            "LOGIC": "Logic"
         },
         "SEARCH_HEADER" : {
           "TITLE":"Filter",
