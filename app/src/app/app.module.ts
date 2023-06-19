@@ -65,6 +65,7 @@ import { ShellModule, SHELL_APP_SERVICE, SHELL_AUTH_TOKEN } from '@alfresco/adf-
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { APP_ROUTES } from './app.routes';
 import { LoginComponent } from './components/login/login.component';
+import { MatIconRegistry } from '@angular/material/icon';
 
 registerLocaleData(localeFr);
 registerLocaleData(localeDe);
@@ -132,4 +133,8 @@ registerLocaleData(localeSv);
   declarations: [AppComponent],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+  constructor(matIconRegistry: MatIconRegistry) {
+    matIconRegistry.setDefaultFontSetClass('material-icons-outlined');
+  }
+}
