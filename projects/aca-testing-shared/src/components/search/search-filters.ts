@@ -27,6 +27,7 @@ import { Component } from '../component';
 import { SizeFilter } from './filters/size-filter';
 import { CreatedDateFilter } from './filters/created-date-filter';
 import { FacetFilter } from './filters/facet-filter';
+import { AutocompleteChipsFilter } from './filters/autocomplete-chips-filter';
 
 export class SearchFilters extends Component {
   resetAllButton = browser.element(by.css('button[adf-reset-search]'));
@@ -36,7 +37,7 @@ export class SearchFilters extends Component {
   fileType = new FacetFilter('File type');
   creator = new FacetFilter('Creator');
   modifier = new FacetFilter('Modifier');
-  location = new FacetFilter('Location');
+  location = new AutocompleteChipsFilter('Location');
   modifiedDate = new FacetFilter('Modified date');
 
   constructor(ancestor?: string) {
