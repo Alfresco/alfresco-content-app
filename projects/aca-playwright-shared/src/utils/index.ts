@@ -26,3 +26,4 @@ export * from './paths';
 export * from './timeouts';
 export * from './exclude-tests';
 export * from './state-helper';
+export * from './folder-errors';

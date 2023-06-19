@@ -29,9 +29,15 @@ export class AdfFolderDialogComponent extends BaseComponent {
   private static rootElement = 'adf-folder-dialog';
 
   public folderNameInputLocator = this.getChild('[id="adf-folder-name-input"]');
+  public folderNameInputHint = this.getChild('mat-hint');
+  public folderTitleInput = this.getChild('[id="adf-folder-title-input"]');
+  public folderDescriptionInput = this.getChild('[id="adf-folder-description-input"]');
   public createButton = this.getChild('[id="adf-folder-create-button"]');
+  public cancelButton = this.getChild('[id="adf-folder-cancel-button"]');
 
   constructor(page: Page) {
     super(page, AdfFolderDialogComponent.rootElement);
   }
+
+  public getLabelText = (text: string) => this.getChild('label', { hasText: text });
 }
