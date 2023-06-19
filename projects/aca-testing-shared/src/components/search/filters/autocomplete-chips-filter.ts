@@ -22,11 +22,37 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './filters/autocomplete-chips-filter';
-export * from './filters/created-date-filter';
-export * from './filters/facet-filter';
-export * from './filters/generic-filter';
-export * from './filters/size-filter';
-export * from './search-filters';
-export * from './search-input';
-export * from './search-sorting-picker';
+import { browser, by, ElementArrayFinder, ElementFinder, protractor } from 'protractor';
+import { GenericFilter } from './generic-filter';
+
+export class AutocompleteChipsFilter extends GenericFilter {
+  private readonly locators = {
+    selectedOption: '.mat-chip span',
+    input: '.mat-menu-content input',
+  };
+
+  constructor(filterName: string) {
+      super(filterName);
+  }
+
+  selectedOptions: ElementArrayFinder = this.filterDialogOpened.all(by.css(this.locators.selectedOption));
+
+  get filterInput(): ElementFinder {
+    return this.filterDialogOpened.element(by.css(this.locators.input));
+  }
+
+  async getFiltersSelectedValues(): Promise<string[]> {
+    return this.selectedOptions.map((option) => {
+      return option.getText();
+    });
+  }
+
+  async isFilterAutocompleteInputDisplayed(): Promise<boolean> {
+    return this.filterInput.isDisplayed();
+  }
+
+  async setAutocompleteInputValue(value: string): Promise<void> {
+    await this.filterInput.sendKeys(value);
+    await browser.actions().sendKeys(protractor.Key.ENTER).perform();
+  }
+}

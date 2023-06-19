@@ -482,8 +482,7 @@ describe('Search filters', () => {
       await locationFilter.openDialog();
       expect(await locationFilter.isDialogPresent()).toBe(true, 'Location filter panel not expanded');
 
-      expect(await locationFilter.getFiltersValues()).toEqual(expectedLocations, 'Incorrect Location filters facets');
-      expect(await locationFilter.isFilterCategoryInputDisplayed()).toBe(true, 'Location filter categories not displayed');
+      expect(await locationFilter.isFilterAutocompleteInputDisplayed()).toBe(true, 'Location filter categories not displayed');
 
       await locationFilter.closeDialog();
       expect(await locationFilter.isDialogPresent()).toBe(false, 'Location filter panel is expanded');
@@ -491,7 +490,7 @@ describe('Search filters', () => {
 
     it('[C279231] Results are filtered by Location', async () => {
       await locationFilter.openDialog();
-      await locationFilter.checkCategory(site);
+      await locationFilter.setAutocompleteInputValue(site);
       await locationFilter.clickApplyButton();
 
       expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(false, 'PDF file is displayed');
@@ -499,17 +498,17 @@ describe('Search filters', () => {
       expect(await locationFilter.getChipTitle()).toEqual(site, 'Incorrect location filter selected');
 
       await locationFilter.openDialog();
-      await locationFilter.checkCategory('_REPOSITORY_');
+      await locationFilter.setAutocompleteInputValue('_REPOSITORY_');
       await locationFilter.clickApplyButton();
 
       expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(true, 'PDF file not displayed');
       expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(true, 'JPG file not displayed');
-      expect(await locationFilter.getChipTitle()).toEqual(`_REPOSITORY_, ${site}`, 'Incorrect location filter selected');
+      expect(await locationFilter.getChipTitle()).toEqual(`${site}, _REPOSITORY_`, 'Incorrect location filter selected');
     });
 
     it('[C279232] Clear the Location filter options', async () => {
       await locationFilter.openDialog();
-      await locationFilter.checkCategory(site);
+      await locationFilter.setAutocompleteInputValue(site);
       await locationFilter.clickApplyButton();
 
       expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(false, 'PDF file is displayed');
@@ -517,7 +516,7 @@ describe('Search filters', () => {
 
       expect(await locationFilter.getChipTitle()).toEqual(`${site}`, 'Incorrect location filter selected');
       await locationFilter.openDialog();
-      expect(await locationFilter.getFiltersCheckedValues()).toEqual([`${site} (1)`]);
+      expect(await locationFilter.getFiltersSelectedValues()).toEqual([`${site}`]);
       await locationFilter.clickResetButton();
 
       expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(true, 'PDF file not displayed');
@@ -527,9 +526,9 @@ describe('Search filters', () => {
 
     it('[C279233] Search for a specific location', async () => {
       await locationFilter.openDialog();
-      expect(await locationFilter.getFiltersValues()).toEqual(expectedLocations, 'Incorrect Location filters facets');
-      await locationFilter.filterCategoriesBy(site);
-      expect(await locationFilter.getFiltersValues()).toEqual([`${site} (1)`], 'Incorrect Location filters facets');
+      expect(await locationFilter.getFiltersSelectedValues()).toEqual([], 'Incorrect Location filters facets');
+      await locationFilter.setAutocompleteInputValue(site);
+      expect(await locationFilter.getFiltersSelectedValues()).toEqual([`${site}`], 'Incorrect Location filters facets');
     });
   });
 
@@ -621,7 +620,7 @@ describe('Search filters', () => {
       await creatorFilter.clickApplyButton();
 
       await locationFilter.openDialog();
-      await locationFilter.checkCategory(site);
+      await locationFilter.setAutocompleteInputValue(site);
       await locationFilter.clickApplyButton();
 
       expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(false, 'PDF file is displayed');
@@ -682,7 +681,7 @@ describe('Search filters', () => {
       await modifierFilter.closeDialog();
 
       await locationFilter.openDialog();
-      expect(await locationFilter.getFiltersValues()).toEqual(expectedLocations);
+      expect(await locationFilter.getFiltersSelectedValues()).toEqual(expectedLocations);
       await locationFilter.closeDialog();
 
       await searchInput.clickSearchButton();
@@ -702,7 +701,7 @@ describe('Search filters', () => {
       await modifierFilter.closeDialog();
 
       await locationFilter.openDialog();
-      expect(await locationFilter.getFiltersValues()).toEqual([`${site} (1)`]);
+      expect(await locationFilter.getFiltersSelectedValues()).toEqual([`${site}`]);
       await locationFilter.closeDialog();
     });
   });
