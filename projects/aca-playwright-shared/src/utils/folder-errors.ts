@@ -22,17 +22,10 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Page } from '@playwright/test';
-import { BaseComponent } from '../base.component';
-
-export class SnackBarComponent extends BaseComponent {
-  private static rootElement = 'adf-snackbar-content';
-
-  public message = this.getChild(' [data-automation-id=\'adf-snackbar-message-content\']').first();
-  public getByMessageLocator = (message: string) => this.getChild(`[data-automation-id='adf-snackbar-message-content']`,
-      { hasText: message }).first();
-
-  constructor(page: Page, rootElement = SnackBarComponent.rootElement) {
-    super(page, rootElement);
-  }
+export const folderErrors = {
+  folderNameIsRequired: 'Folder name is required',
+  folderNameCantEndWithAPeriod: `Folder name can't end with a period .`,
+  folderNameCantContainTheseCharacters: `Folder name can't contain these characters`,
+  folderNameCantContainOnlySpaces: `Folder name can't contain only spaces`,
+  thereIsAlreadyAFolderWithThisName: `There's already a folder with this name. Try a different name.`
 }
