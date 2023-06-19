@@ -94,7 +94,6 @@
           }
         ],
         "styles": [
-          "app/src/assets/fonts/material-icons/material-icons.css",
           "app/src/assets/fonts/OpenSans/OpenSans.css",
           "node_modules/cropperjs/dist/cropper.min.css",
           "node_modules/pdfjs-dist/web/pdf_viewer.css",
