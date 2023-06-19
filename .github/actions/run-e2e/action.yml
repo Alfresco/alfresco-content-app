@@ -41,6 +41,8 @@ runs:
           echo "APP_CONFIG_OAUTH2_REDIRECT_LOGOUT=/"
           echo "APP_CONFIG_OAUTH2_REDIRECT_LOGIN=/"
           echo "APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI={protocol}//{hostname}{:port}/assets/silent-refresh.html"
+          echo "MAXINSTANCES=2"
+          echo "RETRY_COUNT=2"
         } >> .env
 
         npm start > /dev/null &\
