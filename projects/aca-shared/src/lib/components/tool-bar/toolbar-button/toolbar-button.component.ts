@@ -30,6 +30,7 @@ import { ThemePalette } from '@angular/material/core';
 export enum ToolbarButtonType {
   ICON_BUTTON = 'icon-button',
   FLAT_BUTTON = 'flat-button',
+  STROKED_BUTTON = 'stroked-button',
   MENU_ITEM = 'menu-item'
 }
 
