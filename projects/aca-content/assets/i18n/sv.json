@@ -566,14 +566,8 @@
       },
       "CREATED_DATE": "Skapad datum",
       "EFFECTIVITY_FROM": "Giltighet från",
-      "EFFECTIVITY_TO": "Giltighet till"
-    },
-    "FACET_QUERIES": {
-      "TODAY": "I dag",
-      "THIS_WEEK": "Denna vecka",
-      "THIS_MONTH": "Denna månad",
-      "LAST_6_MONTHS": "Under de senaste 6 månaderna",
-      "THIS_YEAR": "Detta år"
+      "EFFECTIVITY_TO": "Giltighet till",
+      "LOGIC": "Logik"
     },
     "SEARCH_HEADER": {
       "TITLE": "Filter",

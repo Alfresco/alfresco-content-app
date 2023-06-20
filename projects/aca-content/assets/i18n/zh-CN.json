@@ -566,14 +566,8 @@
       },
       "CREATED_DATE": "创建日期",
       "EFFECTIVITY_FROM": "有效开始",
-      "EFFECTIVITY_TO": "有效结束"
-    },
-    "FACET_QUERIES": {
-      "TODAY": "今天",
-      "THIS_WEEK": "本周",
-      "THIS_MONTH": "本月",
-      "LAST_6_MONTHS": "最近 6 个月",
-      "THIS_YEAR": "今年"
+      "EFFECTIVITY_TO": "有效结束",
+      "LOGIC": "登录"
     },
     "SEARCH_HEADER": {
       "TITLE": "筛选",

@@ -566,14 +566,8 @@
       },
       "CREATED_DATE": "Datum gemaakt",
       "EFFECTIVITY_FROM": "Effectiviteit vanaf",
-      "EFFECTIVITY_TO": "Effectiviteit tot"
-    },
-    "FACET_QUERIES": {
-      "TODAY": "Vandaag",
-      "THIS_WEEK": "Deze week",
-      "THIS_MONTH": "Deze maand",
-      "LAST_6_MONTHS": "In de afgelopen 6 maanden",
-      "THIS_YEAR": "Dit jaar"
+      "EFFECTIVITY_TO": "Effectiviteit tot",
+      "LOGIC": "Logica"
     },
     "SEARCH_HEADER": {
       "TITLE": "Filteren",

@@ -566,14 +566,8 @@
       },
       "CREATED_DATE": "作成日",
       "EFFECTIVITY_FROM": "有効性の開始",
-      "EFFECTIVITY_TO": "有効性の終了"
-    },
-    "FACET_QUERIES": {
-      "TODAY": "今日",
-      "THIS_WEEK": "今週",
-      "THIS_MONTH": "今月",
-      "LAST_6_MONTHS": "過去 6 か月",
-      "THIS_YEAR": "今年"
+      "EFFECTIVITY_TO": "有効性の終了",
+      "LOGIC": "ロジック"
     },
     "SEARCH_HEADER": {
       "TITLE": "フィルタ",
