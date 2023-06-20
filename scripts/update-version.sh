@@ -7,6 +7,7 @@ eval libs=( "@alfresco/adf-core"
     "@alfresco/adf-extensions"
     "@alfresco/adf-testing"
     "@alfresco/adf-cli"
+    "@alfresco/eslint-plugin-eslint-angular"
 )
 
 cd ${DIR}/..
