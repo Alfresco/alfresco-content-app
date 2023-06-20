@@ -122,7 +122,7 @@ jobs:
       - run: npm ci
       - run: npm test ${{ matrix.unit-tests.name }} -- --browsers=ChromeHeadless --watch=false $TEST_OPTS
 
-  e2es-part1:
+  e2es:
     needs: [lint, build, unit-tests]
     name: 'E2e test suites: ${{ matrix.e2e-suites.name }}'
     runs-on: ubuntu-latest
@@ -140,59 +140,24 @@ jobs:
             id: 4
           - name: "pagination"
             id: 5
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 2
-
-      - name: node
-        uses: actions/setup-node@v3
-        with:
-          node-version-file: '.nvmrc'
-          cache: 'npm'
-      - uses: ./.github/actions/before-install
-      - run: npm ci
-      - uses: ./.github/actions/before-e2e
-        with:
-          from: "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2"
-          to: $CONTENT_CE_DIST_PATH
-          id: ${{ matrix.e2e-suites.id }}
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
-      - uses: ./.github/actions/run-e2e
-        with:
-          options: "--suite=${{ matrix.e2e-suites.name }}"
-          artifact-name: ${{ matrix.e2e-suites.name }}
-      - uses: ./.github/actions/after-e2e
-
-  e2es-part2:
-    needs: [lint, build, unit-tests]
-    name: 'E2e test suites: ${{ matrix.e2e-suites.name }}'
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        e2e-suites:
           - name: "actionsAvailableFilesFolders"
-            id: 1
-          - name: "actionsAvailableLibraries,actionsAvailableNewMenu"
-            id: 2
-          - name: "actionsAvailableSpecialPermissions"
-            id: 3
-          - name: "copyMoveActions"
-            id: 4
-          - name: "createActions"
-            id: 5
-          - name: "deleteActions"
             id: 6
-          - name: "editActions,favoriteActions"
+          - name: "actionsAvailableLibraries,actionsAvailableNewMenu"
             id: 7
-          - name: "libraryActions"
+          - name: "actionsAvailableSpecialPermissions"
             id: 8
-          - name: "uploadDownloadActions"
+          - name: "copyMoveActions"
             id: 9
+          - name: "createActions"
+            id: 10
+          - name: "deleteActions"
+            id: 11
+          - name: "editActions,favoriteActions"
+            id: 12
+          - name: "libraryActions"
+            id: 13
+          - name: "uploadDownloadActions"
+            id: 14
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -265,7 +230,7 @@ jobs:
 
   finalize:
     if: ${{ always() }}
-    needs: [lint, build, unit-tests, e2es-part1, e2es-part2, e2es-playwright]
+    needs: [lint, build, unit-tests, e2es, e2es-playwright]
     name: 'Finalize'
     runs-on: ubuntu-latest
     steps:
@@ -293,5 +258,4 @@ jobs:
             echo -e "\e[31mPRs are not mergeable with conditional build. This build was run with custom ADF branch: $BRANCH \e[0m"
             exit 1
           fi;
-
 

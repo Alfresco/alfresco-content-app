@@ -102,6 +102,8 @@ exports.config = {
 
     shardTestFiles: MAXINSTANCES > 1,
 
+    MaxSession: MAXINSTANCES,
+
     chromeOptions: {
       prefs: {
         credentials_enable_service: false,
