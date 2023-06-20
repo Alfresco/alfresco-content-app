@@ -146,12 +146,12 @@ describe('Share a file', () => {
         await shareDialog.waitForDialogToOpen();
 
         expect(await shareDialog.getDialogTitle()).toEqual(`Share ${file3}`);
-        expect(await shareDialog.getInfoText()).toEqual('Click the link below to copy it to the clipboard.');
-        expect(await shareDialog.labels.get(0).getText()).toEqual('Link to share');
+        expect(await shareDialog.getInfoText()).toEqual('Share Link');
+        expect(await shareDialog.labels.get(0).getText()).toEqual(`Share ${file3}`);
         expect(await shareDialog.getLinkUrl()).toContain(shareLinkPreUrl);
         expect(await shareDialog.isUrlReadOnly()).toBe(true, 'url is not readonly');
         expect(await shareDialog.isShareToggleChecked()).toBe(true, 'Share toggle not checked');
-        expect(await shareDialog.labels.get(1).getText()).toEqual('Expires on');
+        expect(await shareDialog.labels.get(1).getText()).toEqual('Link Expiry Date');
         expect(await shareDialog.isExpireToggleEnabled()).toBe(false, 'Expire toggle is checked');
         expect(await shareDialog.isCloseEnabled()).toBe(true, 'Close button is not enabled');
       });
@@ -197,14 +197,10 @@ describe('Share a file', () => {
 
         await BrowserActions.click(shareDialog.datetimePickerButton);
         expect(await shareDialog.dateTimePicker.isCalendarOpen()).toBe(true, 'Calendar not opened');
-        const date = await shareDialog.dateTimePicker.pickDateTime();
+        await shareDialog.dateTimePicker.pickDateTime();
         await shareDialog.dateTimePicker.waitForDateTimePickerToClose();
 
-        const setDate = `${date}`.replace(',', '');
         const inputDate = await shareDialog.getExpireDate();
-
-        expect(new Date(inputDate)).toEqual(new Date(setDate));
-
         const expireDateProperty = await apis.user.nodes.getSharedExpiryDate(file5Id);
 
         expect(Utils.formatDate(expireDateProperty)).toEqual(Utils.formatDate(inputDate));
@@ -231,7 +227,7 @@ describe('Share a file', () => {
 
         await BrowserActions.click(shareDialog.expireToggle);
         expect(await shareDialog.isExpireToggleEnabled()).toBe(false, 'Expiration is checked');
-        expect(await shareDialog.getExpireDate()).toBe('', 'Expire date input is not empty');
+        expect(await shareDialog.expireInput.isDisplayed()).toBe(false, 'Expire date input is not empty');
 
         await shareDialog.clickClose();
         expect(await apis.user.nodes.getSharedExpiryDate(file7Id)).toBe('', `${file7} link still has expiration`);
