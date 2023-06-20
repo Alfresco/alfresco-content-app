@@ -486,10 +486,10 @@
   },
   "INFO_PANEL": {
     "TABS": {
-
-  },
-      "DETAILS": "التفاصيل"
+    
     },
+    "DETAILS": "التفاصيل"
+  },
   "LIBRARY": {
     "DIALOG": {
       "CREATE_TITLE": "إنشاء مكتبة",
@@ -566,14 +566,8 @@
       },
       "CREATED_DATE": "تاريخ الإنشاء",
       "EFFECTIVITY_FROM": "فعالية من",
-      "EFFECTIVITY_TO": "فعالية ل"
-    },
-    "FACET_QUERIES": {
-      "TODAY": "اليوم",
-      "THIS_WEEK": "هذا الأسبوع",
-      "THIS_MONTH": "هذا الشهر",
-      "LAST_6_MONTHS": "في آخر 6 أشهر",
-      "THIS_YEAR": "هذا العام"
+      "EFFECTIVITY_TO": "فعالية ل",
+      "LOGIC": "منطق"
     },
     "SEARCH_HEADER": {
       "TITLE": "عامل التصفية",

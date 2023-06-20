@@ -566,14 +566,8 @@
       },
       "CREATED_DATE": "Datum vytvoření",
       "EFFECTIVITY_FROM": "Platnost od",
-      "EFFECTIVITY_TO": "Platnost do"
-    },
-    "FACET_QUERIES": {
-      "TODAY": "Dnes",
-      "THIS_WEEK": "Tento týden",
-      "THIS_MONTH": "Tento měsíc",
-      "LAST_6_MONTHS": "Za posledních 6 měsíců",
-      "THIS_YEAR": "Letos"
+      "EFFECTIVITY_TO": "Platnost do",
+      "LOGIC": "Logika"
     },
     "SEARCH_HEADER": {
       "TITLE": "Filtr",

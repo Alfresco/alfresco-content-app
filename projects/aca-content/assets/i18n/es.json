@@ -566,14 +566,8 @@
       },
       "CREATED_DATE": "Fecha de creación",
       "EFFECTIVITY_FROM": "Válido desde",
-      "EFFECTIVITY_TO": "Válido hasta"
-    },
-    "FACET_QUERIES": {
-      "TODAY": "Hoy",
-      "THIS_WEEK": "Esta semana",
-      "THIS_MONTH": "Este mes",
-      "LAST_6_MONTHS": "En los últimos 6 meses",
-      "THIS_YEAR": "Este año"
+      "EFFECTIVITY_TO": "Válido hasta",
+      "LOGIC": "Lógica"
     },
     "SEARCH_HEADER": {
       "TITLE": "Filtro",

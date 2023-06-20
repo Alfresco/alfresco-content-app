@@ -566,14 +566,8 @@
       },
       "CREATED_DATE": "Data utworzenia",
       "EFFECTIVITY_FROM": "Data początku obowiązywania",
-      "EFFECTIVITY_TO": "Data końca obowiązywania"
-    },
-    "FACET_QUERIES": {
-      "TODAY": "Dzisiaj",
-      "THIS_WEEK": "W tym tygodniu",
-      "THIS_MONTH": "W tym miesiącu",
-      "LAST_6_MONTHS": "W ciągu ostatnich 6 miesięcy",
-      "THIS_YEAR": "W tym roku"
+      "EFFECTIVITY_TO": "Data końca obowiązywania",
+      "LOGIC": "Logika"
     },
     "SEARCH_HEADER": {
       "TITLE": "Filtr",

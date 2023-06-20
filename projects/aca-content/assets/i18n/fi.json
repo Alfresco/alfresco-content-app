@@ -566,14 +566,8 @@
       },
       "CREATED_DATE": "Luontipäivämäärä",
       "EFFECTIVITY_FROM": "Voimassaolon alku",
-      "EFFECTIVITY_TO": "Voimassaolon loppu"
-    },
-    "FACET_QUERIES": {
-      "TODAY": "Tänään",
-      "THIS_WEEK": "Tällä viikolla",
-      "THIS_MONTH": "Tässä kuussa",
-      "LAST_6_MONTHS": "Viimeisen 6 kuukauden aikana",
-      "THIS_YEAR": "Tänä vuonna"
+      "EFFECTIVITY_TO": "Voimassaolon loppu",
+      "LOGIC": "Logiikka"
     },
     "SEARCH_HEADER": {
       "TITLE": "Suodatin",

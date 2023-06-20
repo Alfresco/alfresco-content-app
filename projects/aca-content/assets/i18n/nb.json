@@ -566,14 +566,8 @@
       },
       "CREATED_DATE": "Opprettelsesdato",
       "EFFECTIVITY_FROM": "Effektivitet fra",
-      "EFFECTIVITY_TO": "Effektivitet til"
-    },
-    "FACET_QUERIES": {
-      "TODAY": "I dag",
-      "THIS_WEEK": "Denne uken",
-      "THIS_MONTH": "Denne måned",
-      "LAST_6_MONTHS": "i de siste 6 månedene",
-      "THIS_YEAR": "Dette året"
+      "EFFECTIVITY_TO": "Effektivitet til",
+      "LOGIC": "Logikk"
     },
     "SEARCH_HEADER": {
       "TITLE": "Filter",
