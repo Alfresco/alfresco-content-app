@@ -168,7 +168,7 @@ export class AppService implements OnDestroy {
         this.loadUserProfile();
         setTimeout(() => {
           this.openMobileAppDialog();
-        }, 10000);
+        });
       }
     });
 
