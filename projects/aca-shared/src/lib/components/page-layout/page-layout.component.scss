@@ -24,15 +24,13 @@
     }
 
     .aca-toolbar-action {
-      .app-toolbar-menu {
-        .mat-button-base {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          border-radius: 6px;
-          height: 32px;
-          line-height: 32px;
-        }
+      .mat-button-base {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 6px;
+        height: 32px;
+        line-height: 32px;
       }
     }
   }
