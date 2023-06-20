@@ -39,7 +39,7 @@ export class ShareDialog extends GenericDialog {
   urlAction = this.childElement(by.css('.adf-input-action'));
   expireToggle = this.childElement(by.css(`[data-automation-id='adf-expire-toggle']`));
   expireInput = this.childElement(by.css('input[formcontrolname="time"]'));
-  datetimePickerButton = this.childElement(by.css('.mat-datetimepicker-toggle'));
+  datetimePickerButton = this.childElement(by.css('.mat-datepicker-toggle'));
 
   closeButton = this.childElement(by.css(`[data-automation-id='adf-share-dialog-close']`));
 

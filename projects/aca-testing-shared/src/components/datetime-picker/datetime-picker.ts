@@ -28,18 +28,18 @@ import { isPresentAndDisplayed, waitForStaleness } from '../../utilities/utils';
 import { BrowserActions } from '@alfresco/adf-testing';
 
 export class DateTimePicker extends Component {
-  calendar = this.byCss('.mat-datetimepicker-popup', browser);
+  calendar = this.byCss('.mat-datepicker-popup', browser);
   headerTime = this.byCss('.mat-datetimepicker-calendar-header-time');
   headerDate = this.byCss('.mat-datetimepicker-calendar-header-date');
   headerYear = this.byCss('.mat-datetimepicker-calendar-header-year');
-  dayPicker = this.byCss('mat-datetimepicker-month-view');
+  dayPicker = this.byCss('mat-month-view');
   hourPicker = this.byCss('.mat-datetimepicker-clock-hours');
   minutePicker = this.byCss('.mat-datetimepicker-clock-minutes');
-  nextMonthBtn = this.byCss('.mat-datetimepicker-calendar-next-button');
-  rootElemLocator = by.css('.mat-datetimepicker-popup');
+  nextMonthBtn = this.byCss('.mat-calendar-next-button');
+  rootElemLocator = by.css('.mat-datepicker-popup');
 
   constructor(ancestor?: string) {
-    super('.mat-datetimepicker-popup', ancestor);
+    super('.mat-datepicker-popup', ancestor);
   }
 
   async waitForDateTimePickerToClose(): Promise<void> {
@@ -52,7 +52,7 @@ export class DateTimePicker extends Component {
     return isPresentAndDisplayed(element);
   }
 
-  async pickDateTime(): Promise<string> {
+  async pickDateTime(): Promise<void> {
     const today = new Date()
     const nextAvailableDay = new Date();
     nextAvailableDay.setDate(today.getDate() + 2);
@@ -60,22 +60,10 @@ export class DateTimePicker extends Component {
       await BrowserActions.click(this.nextMonthBtn);
     }
     await this.selectDay(nextAvailableDay.getDate());
-    await this.selectHour(nextAvailableDay.getHours());
-
-    // getting data from header here since date picker will close after selecting minutes
-    const date = await this.headerDate.getText();
-    const year = await this.headerYear.getText();
-    let time = await this.headerTime.getText();
-    const parts = time.split(':');
-    parts[1] = '00';
-    time = parts.join(':');
-
-    await this.selectMinute(0);
-    return `${date} ${year} ${time}`;
   }
 
   async selectDay(day: number): Promise<void> {
-    const firstActiveDay = '.mat-datetimepicker-calendar-body-cell-content';
+    const firstActiveDay = '.mat-calendar-body-cell-content';
     const firstActiveDayElem = this.dayPicker.element(by.cssContainingText(firstActiveDay, `${day}`));
     await BrowserActions.click(firstActiveDayElem);
   }
