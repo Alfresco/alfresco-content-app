@@ -486,7 +486,7 @@
   },
   "INFO_PANEL": {
     "TABS": {
-
+    
     },
     "DETAILS": "Сведения"
   },
@@ -566,14 +566,8 @@
       },
       "CREATED_DATE": "Дата создания",
       "EFFECTIVITY_FROM": "Действует с",
-      "EFFECTIVITY_TO": "Действует до"
-    },
-    "FACET_QUERIES": {
-      "TODAY": "Сегодня",
-      "THIS_WEEK": "На этой неделе",
-      "THIS_MONTH": "В этом месяце",
-      "LAST_6_MONTHS": "За последние 6 месяцев",
-      "THIS_YEAR": "В этом году"
+      "EFFECTIVITY_TO": "Действует до",
+      "LOGIC": "Логика"
     },
     "SEARCH_HEADER": {
       "TITLE": "Фильтр",

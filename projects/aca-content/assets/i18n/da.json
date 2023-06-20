@@ -566,14 +566,8 @@
       },
       "CREATED_DATE": "Oprettelsesdato",
       "EFFECTIVITY_FROM": "Gældende periode fra",
-      "EFFECTIVITY_TO": "Gældende periode til"
-    },
-    "FACET_QUERIES": {
-      "TODAY": "I dag",
-      "THIS_WEEK": "I denne uge",
-      "THIS_MONTH": "I denne måned",
-      "LAST_6_MONTHS": "I de sidste 6 måneder",
-      "THIS_YEAR": "I år"
+      "EFFECTIVITY_TO": "Gældende periode til",
+      "LOGIC": "Logik"
     },
     "SEARCH_HEADER": {
       "TITLE": "Filter",
