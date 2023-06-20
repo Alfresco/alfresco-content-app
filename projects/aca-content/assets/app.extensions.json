@@ -280,7 +280,7 @@
           {
             "id": "app.create.folder",
             "order": 100,
-            "icon": "create_new_folder_outline",
+            "icon": "create_new_folder",
             "title": "APP.NEW_MENU.MENU_ITEMS.CREATE_FOLDER",
             "description": "APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER",
             "description-disabled": "APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER_NOT_ALLOWED",
@@ -296,7 +296,7 @@
             "order": 200,
             "title": "APP.NEW_MENU.MENU_ITEMS.CREATE_LIBRARY",
             "description": "APP.NEW_MENU.TOOLTIPS.CREATE_LIBRARY",
-            "icon": "library_add_outline",
+            "icon": "create_new_folder",
             "actions": {
               "click": "CREATE_LIBRARY"
             },
@@ -307,7 +307,7 @@
           {
             "id": "app.create.fileFromTemplate",
             "order": 300,
-            "icon": "description_outline",
+            "icon": "description",
             "title": "APP.NEW_MENU.MENU_ITEMS.FILE_TEMPLATE",
             "description": "APP.NEW_MENU.MENU_ITEMS.FILE_TEMPLATE",
             "description-disabled": "APP.NEW_MENU.TOOLTIPS.CREATE_FILE_NOT_ALLOWED",
@@ -321,7 +321,7 @@
           {
             "id": "app.create.folderFromTemplate",
             "order": 400,
-            "icon": "create_new_folder_outline",
+            "icon": "create_new_folder",
             "title": "APP.NEW_MENU.MENU_ITEMS.FOLDER_TEMPLATE",
             "description": "APP.NEW_MENU.MENU_ITEMS.FOLDER_TEMPLATE",
             "description-disabled": "APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER_NOT_ALLOWED",
