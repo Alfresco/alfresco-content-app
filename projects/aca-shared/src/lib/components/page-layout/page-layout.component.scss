@@ -25,32 +25,13 @@
 
     .aca-toolbar-action {
       .app-toolbar-menu {
-        .mat-button {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          border-radius: 6px;
-          height: 32px;
-          background: var(--theme-grey-text-background-color);
-          color: var(--theme-selected-text-color);
-          line-height: 32px;
-
-          .mat-button-wrapper {
-            display: flex;
-          }
-        }
-
-        .mat-flat-button {
+        .mat-button-base {
           display: flex;
           justify-content: center;
           align-items: center;
           border-radius: 6px;
           height: 32px;
           line-height: 32px;
-
-          .mat-button-wrapper {
-            display: flex;
-          }
         }
       }
     }

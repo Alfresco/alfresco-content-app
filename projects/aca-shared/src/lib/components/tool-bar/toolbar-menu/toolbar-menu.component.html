@@ -10,7 +10,7 @@
       [disabled]="actionRef.disabled"
       #matTrigger="matMenuTrigger"
     >
-      <span *ngIf="actionRef.title" data-automation-id="mat-button-menu-item-title">{{ actionRef.title | translate }}</span>
+      <span *ngIf="actionRef.title">{{ actionRef.title | translate }}</span>
     </button>
   </ng-container>
 
@@ -25,7 +25,22 @@
       [disabled]="actionRef.disabled"
       #matTrigger="matMenuTrigger"
     >
-      <span *ngIf="actionRef.title" data-automation-id="mat-flat-button-menu-item-title">{{ actionRef.title | translate }}</span>
+      <span *ngIf="actionRef.title">{{ actionRef.title | translate }}</span>
+    </button>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'stroked-button'">
+    <button
+      [id]="actionRef.id"
+      [color]="data?.color || color"
+      mat-stroked-button
+      [attr.aria-label]="actionRef.description || actionRef.title | translate"
+      [attr.title]="actionRef.description || actionRef.title | translate"
+      [matMenuTriggerFor]="menu"
+      [disabled]="actionRef.disabled"
+      #matTrigger="matMenuTrigger"
+    >
+      <span *ngIf="actionRef.title">{{ actionRef.title | translate }}</span>
     </button>
   </ng-container>
 
@@ -45,7 +60,7 @@
   </ng-container>
 </ng-container>
 
-<mat-menu #menu="matMenu" [overlapTrigger]="false">
+<mat-menu #menu="matMenu" [overlapTrigger]="false" [xPosition]="'before'">
   <ng-container *ngFor="let child of actionRef.children; trackBy: trackByActionId">
     <ng-container [ngSwitch]="child.type">
       <ng-container *ngSwitchCase="'custom'">

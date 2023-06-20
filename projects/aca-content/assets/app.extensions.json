@@ -273,7 +273,7 @@
         "title": "APP.HEADER.BUTTONS.CREATE",
         "description": "APP.HEADER.BUTTONS.CREATE_TOOLTIP",
         "data": {
-          "menuType": "button"
+          "menuType": "stroked-button"
         },
         "children": [
           {
