@@ -43,7 +43,7 @@ export function viewerTests(siteName?: string) {
 
     describe('file opened from File Libraries', () => {
       beforeAll(async () => {
-        await page.goToMyLibrariesAndWait();
+        await page.goToMyLibraries();
         await dataTable.doubleClickOnRowByName(siteName);
         await dataTable.waitForHeader();
       });

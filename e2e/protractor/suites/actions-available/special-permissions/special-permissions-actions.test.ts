@@ -211,6 +211,6 @@ describe('Special permissions : ', () => {
       await loginPage.loginWith(userManager);
     });
 
-    filesLockedByOtherUser();
+    filesLockedByOtherUser(sitePrivate);
   });
 });

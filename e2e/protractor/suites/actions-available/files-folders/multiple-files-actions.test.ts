@@ -22,17 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  RepoClient,
-  Utils,
-  AdminActions,
-  UserActions,
-  LoginPage,
-  SearchResultsPage,
-  BrowsingPage,
-  APP_ROUTES,
-  navigate
-} from '@alfresco/aca-testing-shared';
+import { RepoClient, Utils, AdminActions, UserActions, LoginPage, BrowsingPage, SearchResultsPage } from '@alfresco/aca-testing-shared';
 import * as testData from './test-data';
 import * as testUtil from '../test-util';
 
@@ -61,7 +51,7 @@ describe('Multiple Files - available actions : ', () => {
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
-  const { dataTable } = page;
+  const { dataTable, toolbar } = page;
   const { searchInput } = page.pageLayoutHeader;
   const searchResultsPage = new SearchResultsPage();
 
@@ -171,7 +161,7 @@ describe('Multiple Files - available actions : ', () => {
   describe('on Search Results : ', () => {
     beforeEach(async () => {
       await page.clickPersonalFiles();
-      await navigate(APP_ROUTES.SEARCH);
+      await toolbar.clickSearchIconButton();
       await searchInput.clickSearchButton();
       await searchInput.checkOnlyFiles();
       await searchInput.searchFor(random);

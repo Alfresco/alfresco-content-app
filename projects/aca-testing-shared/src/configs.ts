@@ -41,8 +41,7 @@ export const APP_ROUTES = {
   PERSONAL_FILES: '/personal-files',
   RECENT_FILES: '/recent-files',
   SHARED_FILES: '/shared',
-  TRASHCAN: '/trashcan',
-  SEARCH: '/search'
+  TRASHCAN: '/trashcan'
 };
 
 // Sidebar labels

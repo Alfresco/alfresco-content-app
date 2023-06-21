@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { RepoClient, Utils, AdminActions, LoginPage, BrowsingPage, APP_ROUTES, navigate, NodeContentTree } from '@alfresco/aca-testing-shared';
+import { LoginPage, BrowsingPage, RepoClient, NodeContentTree, Utils, AdminActions } from '@alfresco/aca-testing-shared';
 import { BrowserActions } from '@alfresco/adf-testing';
 
 describe('Generic tests : ', () => {
@@ -114,7 +114,7 @@ describe('Generic tests : ', () => {
 
   describe('Actions are not displayed when no item is selected', () => {
     it('[C291815] on Search Results', async () => {
-      await navigate(APP_ROUTES.SEARCH);
+      await toolbar.clickSearchIconButton();
       await searchInput.clickSearchButton();
       await searchInput.searchFor('*');
 
