@@ -137,16 +137,12 @@ export async function checkViewerActions(item: string, expectedToolbarPrimary: s
   let actualPrimaryActions = await viewerToolbar.getButtons();
   actualPrimaryActions = removeClosePreviousNextOldInfo(actualPrimaryActions);
 
-  for (const action of expectedToolbarPrimary) {
-    expect(actualPrimaryActions.includes(action)).toBe(true, `Expected to contain ${action}`);
-  }
+  expect(actualPrimaryActions).toEqual(expectedToolbarPrimary);
 
   await viewerToolbar.openMoreMenu();
 
   const actualMoreActions = await viewerToolbar.menu.getMenuItems();
-  for (const action of expectedToolbarMore) {
-    expect(actualMoreActions.includes(action)).toBe(true, `Expected to contain ${action}`);
-  }
+  expect(actualMoreActions).toEqual(expectedToolbarMore);
 
   await Utils.pressEscape();
   await menu.waitForMenuToClose();
