@@ -46,7 +46,7 @@ runs:
         echo "Running the docker with tag $TAG_VERSION"
 
         npx @alfresco/adf-cli docker-publish \
-          --dockerRepo "${{ inputs.registry }}/alfresco/alfresco-content-app" \
+          --dockerRepo "${{ inputs.registry }}/alfresco/dev" \
           --buildArgs "PROJECT_NAME=content-ce" \
           --dockerTags "$TAG_VERSION" \
           --pathProject "$(pwd)"
