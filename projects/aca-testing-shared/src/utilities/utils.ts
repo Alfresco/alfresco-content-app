@@ -29,6 +29,7 @@ import * as path from 'path';
 import * as fs from 'fs';
 
 const StreamZip = require('node-stream-zip');
+const crypto = require('crypto');
 
 export async function typeText(element: ElementFinder, text: string): Promise<void> {
   await element.clear();
@@ -82,7 +83,7 @@ export class Utils {
     lighter track cinema tread tick climate lend summit singer radical flower visual negotiation promises cooperative live';
 
   static random(): string {
-    return Math.random().toString(36).substring(5, 10).toLowerCase();
+    return crypto.getRandomValues(new Uint32Array(1))[0].toString(36).substring(0, 5).toLowerCase();
   }
 
   static async clearLocalStorage(): Promise<void> {
