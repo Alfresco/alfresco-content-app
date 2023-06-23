@@ -64,6 +64,7 @@ export class InstantErrorStateMatcher implements ErrorStateMatcher {
   ],
   selector: 'app-library-metadata-form',
   templateUrl: './library-metadata-form.component.html',
+  styleUrls: ['./library-metadata-form.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestroy {
