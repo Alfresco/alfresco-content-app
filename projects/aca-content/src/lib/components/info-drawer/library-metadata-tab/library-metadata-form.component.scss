@@ -1,0 +1,20 @@
+app-library-metadata-form {
+  .mat-form-field-infix {
+    position: relative;
+    width: 180px;
+
+    .mat-form-field-label-wrapper {
+      position: absolute;
+      width: 100%;
+      pointer-events: none;
+
+      .mat-form-field-label {
+        position: absolute;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        transform-origin: 0 0;
+      }
+    }
+  }
+}
