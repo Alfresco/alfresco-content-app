@@ -6,8 +6,7 @@
     "paths": {
       "@alfresco/aca-shared": ["dist/@alfresco/aca-shared"],
       "@alfresco/aca-shared/store": ["dist/@alfresco/aca-shared/store"],
-      "@alfresco/aca-shared/rules": ["dist/@alfresco/aca-shared/rules"],
-      "@alfresco/aca-preview": ["dist/@alfresco/aca-preview"]
+      "@alfresco/aca-shared/rules": ["dist/@alfresco/aca-shared/rules"]
     },
   },
   "angularCompilerOptions": {

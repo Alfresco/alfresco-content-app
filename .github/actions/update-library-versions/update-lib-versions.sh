@@ -11,7 +11,6 @@ fi
 
 export PROJECTS=(
   'aca-content'
-  'aca-preview'
   'aca-shared'
 );
 

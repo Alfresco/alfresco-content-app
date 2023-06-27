@@ -106,7 +106,6 @@ jobs:
         unit-tests:
           - name: "aca-content"
           - name: "aca-shared"
-          - name: "aca-preview"
     steps:
       - name: Checkout
         uses: actions/checkout@v3
