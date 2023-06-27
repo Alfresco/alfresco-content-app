@@ -273,7 +273,8 @@
         "title": "APP.HEADER.BUTTONS.CREATE",
         "description": "APP.HEADER.BUTTONS.CREATE_TOOLTIP",
         "data": {
-          "menuType": "stroked-button"
+          "menuType": "flat-button",
+          "color": "primary"
         },
         "children": [
           {
@@ -340,8 +341,7 @@
         "title": "APP.HEADER.BUTTONS.UPLOAD",
         "description": "APP.HEADER.BUTTONS.UPLOAD_TOOLTIP",
         "data": {
-          "menuType": "flat-button",
-          "color": "primary"
+          "menuType": "stroked-button"
         },
         "children": [
           {
