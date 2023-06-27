@@ -7,7 +7,6 @@
       "@alfresco/aca-shared": ["dist/@alfresco/aca-shared"],
       "@alfresco/aca-shared/store": ["dist/@alfresco/aca-shared/store"],
       "@alfresco/aca-shared/rules": ["dist/@alfresco/aca-shared/rules"],
-      "@alfresco/aca-viewer": ["dist/@alfresco/aca-viewer"],
       "@alfresco/aca-preview": ["dist/@alfresco/aca-preview"]
     },
   },

@@ -14,7 +14,6 @@ export PROJECTS=(
   'aca-content'
   'aca-preview'
   'aca-shared'
-  'aca-viewer'
 );
 
 for PROJECT in ${PROJECTS[@]}
