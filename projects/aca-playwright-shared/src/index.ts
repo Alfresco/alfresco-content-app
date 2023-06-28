@@ -28,3 +28,4 @@ export * from './models';
 export * from './page-objects';
 export * from './fixtures/page-initialization';
 export * from './utils';
+export * from './resources/test-files';

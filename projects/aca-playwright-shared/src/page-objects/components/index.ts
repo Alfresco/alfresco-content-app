@@ -31,4 +31,5 @@ export * from './spinner.component';
 export * from './actions-dropdown.component';
 export * from './conditions.component';
 export * from './pagination.component';
+export * from './viewer.component';
 

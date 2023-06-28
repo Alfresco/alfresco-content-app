@@ -155,6 +155,17 @@ export class DataTableComponent extends BaseComponent {
     }
   }
 
+  /**
+   * This method is used when we want to perform double click on the dataTable row to open a file or folder
+   *
+   * @param name of the data table element with which we want to double click
+   */
+    async performClickFolderOrFileToOpen(name: string): Promise<void> {
+      await this.goThroughPagesLookingForRowWithName(name);
+      await this.getCellLinkByName(name).click();
+      await this.spinnerWaitForReload();
+    }
+
   async getActionLocatorFromExpandableMenu(name: string | number, action: string): Promise<Locator> {
     await this.getRowByName(name).click({ button: 'right' });
     return this.contextMenuActions.getButtonByText(action);

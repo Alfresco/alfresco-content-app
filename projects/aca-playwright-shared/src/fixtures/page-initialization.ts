@@ -24,7 +24,7 @@
 
 
 import { test as base } from '@playwright/test';
-import { ApiClientFactory, NodesPage, PersonalFilesPage } from '../';
+import { ApiClientFactory, FileActionsApi, NodesPage, PersonalFilesPage } from '../';
 
 interface Pages {
   personalFiles: PersonalFilesPage;
@@ -33,6 +33,7 @@ interface Pages {
 
 interface Api {
   superAdminApiClient: ApiClientFactory;
+  fileAction: FileActionsApi;
 }
 
 export const test = base.extend<Pages & Api>({
@@ -47,5 +48,9 @@ export const test = base.extend<Pages & Api>({
     const apiClient = new ApiClientFactory();
     await apiClient.setUpAcaBackend('admin');
     await use(apiClient);
+  },
+  // eslint-disable-next-line no-empty-pattern
+  fileAction: async ({ }, use) => {
+    await use(await FileActionsApi.initialize('admin'));
   }
 });

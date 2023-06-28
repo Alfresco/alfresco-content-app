@@ -22,6 +22,31 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './rules-api';
-export * from './api-client-factory';
-export * from './file-actions';
+import { Page } from '@playwright/test';
+import { BaseComponent } from './base.component';
+
+
+export class ViewerComponent extends BaseComponent {
+  private static rootElement = 'adf-viewer';
+
+  // private getOptionLocator = (optionName: string): Locator => this.page.locator('.mat-select-panel .mat-option-text', { hasText: optionName });
+  private viewerLocator = this.getChild('.adf-viewer-render-layout-content');
+  private btnMoreActions = this.getChild('button[id="app.viewer.toolbar.more"]');
+  private viewButtonLocator = this.getChild('button[title="View"]');
+
+  constructor(page: Page) {
+    super(page, ViewerComponent.rootElement);
+  }
+
+  async isViewerOpened(): Promise<boolean> {
+    return await this.viewerLocator.isVisible();
+  }
+
+  async openMenuOption(): Promise<void> {
+    await this.btnMoreActions.click();
+  }
+
+  async clickViewButton(): Promise<void> {
+    await this.viewButtonLocator.click();
+  }
+}
