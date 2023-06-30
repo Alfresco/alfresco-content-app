@@ -103,7 +103,7 @@ export class AppService implements OnDestroy {
 
     this.authenticationService.onLogout.subscribe(() => {
       searchQueryBuilderService.resetToDefaults();
-      acaMobileAppSwitcherService.clearSessionExpireTime();
+      acaMobileAppSwitcherService.removeClosingDialogTime();
       acaMobileAppSwitcherService.closeDialog();
     });
 
@@ -270,7 +270,7 @@ export class AppService implements OnDestroy {
     if (isMobileSwitchEnabled) {
       this.acaMobileAppSwitcherService.resolveExistenceOfDialog();
     } else {
-      this.acaMobileAppSwitcherService.clearSessionExpireTime();
+      this.acaMobileAppSwitcherService.removeClosingDialogTime();
     }
   }
 }

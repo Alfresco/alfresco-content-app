@@ -49,7 +49,7 @@ describe('AcaMobileAppSwitcherService', () => {
       iphoneUrl: 'iosamw://',
       androidUrlPart1: 'intent:///',
       androidUrlPart2: '#Intent;scheme=androidamw;package=com.alfresco.content.app;end',
-      sessionTimeForOpenAppDialogDisplay: 12
+      displayOpenAppDialogAfterHours: 12
     };
     service = TestBed.inject(AcaMobileAppSwitcherService);
     sessionStorage.clear();
@@ -79,7 +79,7 @@ describe('AcaMobileAppSwitcherService', () => {
 
   it('should not display `openInApp` dialog box after closing the same and time difference less than session time', () => {
     const time: number = new Date().getTime();
-    sessionStorage.setItem('mobile_notification_expires_in', time.toString());
+    sessionStorage.setItem('time_of_closing_open_in_app_dialog', time.toString());
     const identifyBrowserAndSetRedirectURLSpy: jasmine.Spy<() => void> = spyOn(service, 'identifyBrowserAndSetRedirectURL');
     service.verifySessionExistsForDialog();
     expect(identifyBrowserAndSetRedirectURLSpy).not.toHaveBeenCalled();
