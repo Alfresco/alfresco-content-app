@@ -61,7 +61,7 @@ export class OpenInAppComponent {
 
   onCloseDialog(): void {
     const time: number = new Date().getTime();
-    sessionStorage.setItem('mobile_notification_expires_in', time.toString());
+    sessionStorage.setItem('time_of_closing_open_in_app_dialog', time.toString());
     this.dialog.close();
   }
 }

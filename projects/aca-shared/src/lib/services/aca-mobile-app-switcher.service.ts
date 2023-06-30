@@ -32,7 +32,7 @@ export interface MobileAppSwitchConfigurationOptions {
   iphoneUrl: string;
   androidUrlPart1: string;
   androidUrlPart2: string;
-  sessionTimeForOpenAppDialogDisplay: string;
+  displayOpenAppDialogAfterHours: string;
   appStoreUrl: string;
 }
 @Injectable({
@@ -63,15 +63,14 @@ export class AcaMobileAppSwitcherService {
   }
 
   verifySessionExistsForDialog(): void {
-    const sessionTime: string = sessionStorage.getItem('mobile_notification_expires_in');
-    if (sessionTime !== null) {
+    const closingDialogTime: string = sessionStorage.getItem('time_of_closing_open_in_app_dialog');
+    if (closingDialogTime !== null) {
       const currentTime: number = new Date().getTime();
-      const sessionConvertedTime: number = parseFloat(sessionTime);
-      const timeDifference: number = (currentTime - sessionConvertedTime) / (1000 * 60 * 60);
-      const sessionTimeForOpenAppDialogDisplay: number = parseFloat(this.mobileAppSwitchConfig.sessionTimeForOpenAppDialogDisplay);
+      const timeDifferenceSinceClosingDialog: number = (currentTime - parseFloat(closingDialogTime)) / (1000 * 60 * 60);
+      const displayOpenAppDialogAfterHours: number = parseFloat(this.mobileAppSwitchConfig.displayOpenAppDialogAfterHours);
 
-      if (timeDifference > sessionTimeForOpenAppDialogDisplay) {
-        this.clearSessionExpireTime();
+      if (timeDifferenceSinceClosingDialog > displayOpenAppDialogAfterHours) {
+        this.removeClosingDialogTime();
         this.identifyBrowserAndSetRedirectURL();
       }
     } else {
@@ -113,8 +112,8 @@ export class AcaMobileAppSwitcherService {
     }
   }
 
-  clearSessionExpireTime(): void {
-    sessionStorage.removeItem('mobile_notification_expires_in');
+  removeClosingDialogTime(): void {
+    sessionStorage.removeItem('time_of_closing_open_in_app_dialog');
   }
 
   getCurrentUrl(): string {

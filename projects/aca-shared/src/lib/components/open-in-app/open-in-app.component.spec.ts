@@ -72,10 +72,10 @@ describe('OpenInAppComponent', () => {
     expect(currentLocation).toBe('mockRedirectUrl');
   });
 
-  it('should set the value `mobile_notification_expires_in` in session storage on dialog close', async () => {
+  it('should set the value `time_of_closing_open_in_app_dialog` in session storage on dialog close', async () => {
     sessionStorage.clear();
     component.onCloseDialog();
-    expect(sessionStorage.getItem('mobile_notification_expires_in')).not.toBeNull();
+    expect(sessionStorage.getItem('time_of_closing_open_in_app_dialog')).not.toBeNull();
     expect(mockDialogRef.close).toHaveBeenCalled();
   });
 
