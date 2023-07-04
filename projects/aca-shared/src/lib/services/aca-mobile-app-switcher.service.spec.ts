@@ -49,7 +49,7 @@ describe('AcaMobileAppSwitcherService', () => {
       iphoneUrl: 'iosamw://',
       androidUrlPart1: 'intent:///',
       androidUrlPart2: '#Intent;scheme=androidamw;package=com.alfresco.content.app;end',
-      displayOpenAppDialogAfterHours: 12
+      openInAppDialogTimeout: 12
     };
     service = TestBed.inject(AcaMobileAppSwitcherService);
     sessionStorage.clear();

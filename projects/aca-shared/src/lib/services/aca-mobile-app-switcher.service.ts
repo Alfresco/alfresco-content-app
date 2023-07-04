@@ -32,7 +32,7 @@ export interface MobileAppSwitchConfigurationOptions {
   iphoneUrl: string;
   androidUrlPart1: string;
   androidUrlPart2: string;
-  displayOpenAppDialogAfterHours: string;
+  openInAppDialogTimeout: string;
   appStoreUrl: string;
 }
 @Injectable({
@@ -67,10 +67,10 @@ export class AcaMobileAppSwitcherService {
     if (closingDialogTime !== null) {
       const currentTime: number = new Date().getTime();
       const timeDifferenceSinceClosingDialog: number = (currentTime - parseFloat(closingDialogTime)) / (1000 * 60 * 60);
-      const displayOpenAppDialogAfterHours: number = parseFloat(this.mobileAppSwitchConfig.displayOpenAppDialogAfterHours);
+      const openInAppDialogTimeout: number = parseFloat(this.mobileAppSwitchConfig.openInAppDialogTimeout);
 
-      if (timeDifferenceSinceClosingDialog > displayOpenAppDialogAfterHours) {
-        this.removeClosingDialogTime();
+      if (timeDifferenceSinceClosingDialog > openInAppDialogTimeout) {
+        this.clearSessionTimeout();
         this.identifyBrowserAndSetRedirectURL();
       }
     } else {
@@ -112,7 +112,7 @@ export class AcaMobileAppSwitcherService {
     }
   }
 
-  removeClosingDialogTime(): void {
+  clearSessionTimeout(): void {
     sessionStorage.removeItem('time_of_closing_open_in_app_dialog');
   }
 
