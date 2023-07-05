@@ -23,25 +23,22 @@
  */
 
 import { AppConfigService } from '@alfresco/adf-core';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { OpenInAppComponent } from '../components/open-in-app/open-in-app.component';
 
-export interface MobileAppSwitchConfigurationOptions {
-  enabled: string;
-  appStoreUrl: string;
-}
 @Injectable({
   providedIn: 'root'
 })
 export class AcaMobileAppSwitcherService {
-  private mobileAppSwitchConfig: MobileAppSwitchConfigurationOptions;
   public redirectUrl: string;
-  public appStoreUrl: string;
   private dialogRef: MatDialogRef<OpenInAppComponent>;
+  private config = inject(AppConfigService);
+  private dialog = inject(MatDialog);
 
-  constructor(private config: AppConfigService, private dialog: MatDialog) {
-    this.mobileAppSwitchConfig = this.config.get<MobileAppSwitchConfigurationOptions>('mobileAppSwitch');
+  get appStoreUrl(): string {
+    const defaultValue = 'https://apps.apple.com/us/app/alfresco-mobile-workspace/id1514434480';
+    return this.config.get<string>('mobileAppSwitch.appStoreUrl', defaultValue);
   }
 
   get sessionTimeout(): number {
@@ -98,7 +95,6 @@ export class AcaMobileAppSwitcherService {
 
     if (isIOS === true) {
       this.redirectUrl = this.getIPhoneRedirectUrl(currentUrl);
-      this.appStoreUrl = this.mobileAppSwitchConfig.appStoreUrl;
     } else if (isAndroid === true) {
       this.redirectUrl = this.getAndroidRedirectUrl(currentUrl);
     }
