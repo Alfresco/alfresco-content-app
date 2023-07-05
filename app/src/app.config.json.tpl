@@ -11,7 +11,7 @@
   },
   "plugins": {
     "aosPlugin": true,
-    "contentService": ${APP_CONFIG_PLUGIN_CONTENT_SERVICE},
+    "contentService": true,
     "folderRules": ${APP_CONFIG_PLUGIN_FOLDER_RULES}
   },
   "oauth2": {
