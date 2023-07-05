@@ -16,15 +16,15 @@
   },
   "oauth2": {
     "host": "${APP_CONFIG_OAUTH2_HOST}",
-    "clientId": "${APP_CONFIG_OAUTH2_CLIENTID}",
+    "clientId": "alfresco",
     "scope": "openid",
     "secret": "",
-    "implicitFlow": ${APP_CONFIG_OAUTH2_IMPLICIT_FLOW},
-    "silentLogin": ${APP_CONFIG_OAUTH2_SILENT_LOGIN},
+    "implicitFlow": true,
+    "silentLogin": true,
     "publicUrls": ["**/preview/s/*", "**/settings", "**/blank"],
-    "redirectSilentIframeUri": "${APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI}",
-    "redirectUri": "${APP_CONFIG_OAUTH2_REDIRECT_LOGIN}",
-    "redirectUriLogout": "${APP_CONFIG_OAUTH2_REDIRECT_LOGOUT}"
+    "redirectSilentIframeUri": "{protocol}//{hostname}{:port}/assets/silent-refresh.html",
+    "redirectUri": "/",
+    "redirectUriLogout": "/"
   },
   "locale": "en",
   "application": {

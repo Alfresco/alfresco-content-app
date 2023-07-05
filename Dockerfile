@@ -27,13 +27,6 @@ ENV APP_CONFIG_OAUTH2_HOST="{protocol}//{hostname}{:port}/auth/realms/alfresco"
 ENV APP_CONFIG_BPM_HOST="{protocol}//{hostname}{:port}"
 ENV APP_CONFIG_ECM_HOST="{protocol}//{hostname}{:port}"
 
-ENV APP_CONFIG_OAUTH2_CLIENTID="alfresco"
-ENV APP_CONFIG_OAUTH2_IMPLICIT_FLOW=true
-ENV APP_CONFIG_OAUTH2_SILENT_LOGIN=true
-ENV APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI="{protocol}//{hostname}{:port}/assets/silent-refresh.html"
-ENV APP_CONFIG_OAUTH2_REDIRECT_LOGIN="/"
-ENV APP_CONFIG_OAUTH2_REDIRECT_LOGOUT="/"
-
 COPY docker/default.conf.template /etc/nginx/templates/
 
 COPY dist/$PROJECT_NAME /usr/share/nginx/html/
