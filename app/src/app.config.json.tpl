@@ -7,29 +7,24 @@
   "authType": "${APP_CONFIG_AUTH_TYPE}",
   "loginRoute": "login",
   "mobileAppSwitch": {
-    "enabled" : ${APP_CONFIG_ENABLE_MOBILE_APP_SWITCH},
-    "iphoneUrl": "iosamw://",
-    "androidUrlPart1": "intent:///",
-    "androidUrlPart2": "#Intent;scheme=androidamw;package=com.alfresco.content.app;end",
-    "sessionTimeForOpenAppDialogDisplay": "${APP_CONFIG_SESSION_TIME_FOR_OPEN_APP_DIALOG_DISPLAY_IN_HOURS}",
-    "appStoreUrl": "https://apps.apple.com/us/app/alfresco-mobile-workspace/id1514434480"
+    "enabled": true
   },
   "plugins": {
-    "aosPlugin": ${APP_CONFIG_PLUGIN_AOS},
-    "contentService": ${APP_CONFIG_PLUGIN_CONTENT_SERVICE},
-    "folderRules": ${APP_CONFIG_PLUGIN_FOLDER_RULES}
+    "aosPlugin": true,
+    "contentService": true,
+    "folderRules": true
   },
   "oauth2": {
     "host": "${APP_CONFIG_OAUTH2_HOST}",
-    "clientId": "${APP_CONFIG_OAUTH2_CLIENTID}",
+    "clientId": "alfresco",
     "scope": "openid",
     "secret": "",
-    "implicitFlow": ${APP_CONFIG_OAUTH2_IMPLICIT_FLOW},
-    "silentLogin": ${APP_CONFIG_OAUTH2_SILENT_LOGIN},
+    "implicitFlow": true,
+    "silentLogin": true,
     "publicUrls": ["**/preview/s/*", "**/settings", "**/blank"],
-    "redirectSilentIframeUri": "${APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI}",
-    "redirectUri": "${APP_CONFIG_OAUTH2_REDIRECT_LOGIN}",
-    "redirectUriLogout": "${APP_CONFIG_OAUTH2_REDIRECT_LOGOUT}"
+    "redirectSilentIframeUri": "{protocol}//{hostname}{:port}/assets/silent-refresh.html",
+    "redirectUri": "/",
+    "redirectUriLogout": "/"
   },
   "locale": "en",
   "application": {
@@ -1128,11 +1123,11 @@
     "ai": ["ai:products", "ai:dates", "ai:places", "ai:events", "ai:organizations", "ai:people", "ai:things", "ai:quantities", "ai:creativeWorks", "ai:labels", "ai:textLines"]
   },
   "viewer": {
-    "enableDownloadPrompt":  ${APP_CONFIG_ENABLE_DOWNLOAD_PROMPT},
-    "enableDownloadPromptReminder": ${APP_CONFIG_ENABLE_DOWNLOAD_PROMPT_REMINDERS},
-    "downloadPromptDelay": ${APP_CONFIG_DOWNLOAD_PROMPT_DELAY},
-    "downloadPromptReminderDelay": ${APP_CONFIG_DOWNLOAD_PROMPT_REMINDER_DELAY},
-    "enableFileAutoDownload": ${APP_CONFIG_ENABLE_FILE_AUTO_DOWNLOAD},
-    "fileAutoDownloadSizeThresholdInMB": ${APP_CONFIG_FILE_AUTO_DOWNLOAD_SIZE_THRESHOLD_IN_MB}
+    "enableDownloadPrompt": true,
+    "enableDownloadPromptReminder": true,
+    "downloadPromptDelay": 50,
+    "downloadPromptReminderDelay": 30,
+    "enableFileAutoDownload": true,
+    "fileAutoDownloadSizeThresholdInMB": 15
   }
 }
