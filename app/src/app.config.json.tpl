@@ -7,7 +7,7 @@
   "authType": "${APP_CONFIG_AUTH_TYPE}",
   "loginRoute": "login",
   "mobileAppSwitch": {
-    "enabled" : ${APP_CONFIG_ENABLE_MOBILE_APP_SWITCH}
+    "enabled": true
   },
   "plugins": {
     "aosPlugin": ${APP_CONFIG_PLUGIN_AOS},

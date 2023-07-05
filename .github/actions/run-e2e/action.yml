@@ -30,7 +30,6 @@ runs:
           echo "APP_CONFIG_PLUGIN_FOLDER_RULES=true"
           echo "APP_CONFIG_PLUGIN_AOS=true"
           echo "APP_CONFIG_PLUGIN_CONTENT_SERVICE=true"
-          echo "APP_CONFIG_ENABLE_MOBILE_APP_SWITCH=false"
           echo "APP_CONFIG_PROVIDER=ECM"
           echo "APP_CONFIG_AUTH_TYPE=BASIC"
           echo "APP_CONFIG_OAUTH2_HOST=http://localhost:4200/auth/realms/alfresco"
