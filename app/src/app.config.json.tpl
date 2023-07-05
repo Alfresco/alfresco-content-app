@@ -15,7 +15,7 @@
     "folderRules": true
   },
   "oauth2": {
-    "host": "${APP_CONFIG_OAUTH2_HOST}",
+    "host": "{protocol}//{hostname}{:port}/auth/realms/alfresco",
     "clientId": "alfresco",
     "scope": "openid",
     "secret": "",

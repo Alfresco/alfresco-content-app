@@ -27,7 +27,6 @@ runs:
 
         {
           echo "APP_CONFIG_ECM_HOST={protocol}//{hostname}{:port}"
-          echo "APP_CONFIG_OAUTH2_HOST=http://localhost:4200/auth/realms/alfresco"
         } >> .env
 
         npm start > /dev/null &\
