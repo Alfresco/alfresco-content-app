@@ -24,6 +24,7 @@
 
 import { Page } from '@playwright/test';
 import { BaseComponent } from './base.component';
+import { AcaHeader } from './aca-header.component';
 
 
 export class ViewerComponent extends BaseComponent {
@@ -31,8 +32,12 @@ export class ViewerComponent extends BaseComponent {
 
   // private getOptionLocator = (optionName: string): Locator => this.page.locator('.mat-select-panel .mat-option-text', { hasText: optionName });
   private viewerLocator = this.getChild('.adf-viewer-render-layout-content');
-  private btnMoreActions = this.getChild('button[id="app.viewer.toolbar.more"]');
+  private moreActionsButtonLocator = this.getChild('button[id="app.viewer.toolbar.more"]');
   private viewButtonLocator = this.getChild('button[title="View"]');
+  public closeButtonLocator = this.getChild('.adf-viewer-close-button');
+  public fileTitleButtonLocator = this.getChild('.adf-viewer__file-title');
+
+  toolbar = new AcaHeader(this.page);
 
   constructor(page: Page) {
     super(page, ViewerComponent.rootElement);
@@ -43,10 +48,23 @@ export class ViewerComponent extends BaseComponent {
   }
 
   async openMenuOption(): Promise<void> {
-    await this.btnMoreActions.click();
+    await this.moreActionsButtonLocator.click();
   }
 
   async clickViewButton(): Promise<void> {
     await this.viewButtonLocator.click();
+  }
+
+  async isCloseButtonDisplayed(): Promise<boolean> {
+    await this.closeButtonLocator.waitFor({ state: 'visible', timeout: 2000 });
+    return await this.closeButtonLocator.isEnabled({ timeout :2000 });
+  }
+
+  async isFileTitleDisplayed(): Promise<boolean> {
+    return await this.fileTitleButtonLocator.isVisible();
+  }
+
+  async getCloseButtonTooltip(): Promise<string> {
+    return await this.closeButtonLocator.getAttribute('title');
   }
 }

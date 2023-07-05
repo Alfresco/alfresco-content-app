@@ -28,12 +28,15 @@ import { getUserState, test, TEST_FILES } from '@alfresco/playwright-shared';
 test.use({ storageState: getUserState('admin') });
 test.describe('viewer file', () => {
   const randomFolderName = `playwright-folder-${(Math.random() + 1).toString(36).substring(6)}`;
+  const randomDocxName = TEST_FILES.DOCX.name + (Math.random() + 1).toString(36).substring(6);
   let folderId: string;
+  let testFileId: string;
 
-  test.beforeEach(async ({ superAdminApiClient, fileAction }) => {
+  test.beforeAll(async ({ superAdminApiClient, fileAction }) => {
     const node = await superAdminApiClient.nodes.createNode('-my-', { name: randomFolderName, nodeType: 'cm:folder', relativePath: '/' });
     folderId = node.entry.id;
-    await fileAction.uploadFile(TEST_FILES.DOCX.path, TEST_FILES.DOCX.name, folderId);
+    const fileDoc = await fileAction.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId);
+    testFileId = fileDoc.entry.id;
   });
 
   test.beforeEach(async ({ personalFiles }) => {
@@ -46,8 +49,54 @@ test.describe('viewer file', () => {
     await superAdminApiClient.nodes.deleteNode(folderId);
   });
 
-  test('[] view display', async ({ personalFiles }) => {
-    await personalFiles.dataTable.performClickFolderOrFileToOpen(TEST_FILES.DOCX.name);
+  test('[C279269] Viewer opens on double clicking on a file from Personal Files', async ({ personalFiles }) => {
+    await personalFiles.dataTable.performClickFolderOrFileToOpen(randomDocxName);
+    expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+  });
+
+  test('[C279270] Viewer opens when clicking the View action for a file', async ({ personalFiles }) => {
+    await personalFiles.dataTable.selectItem(randomDocxName);
+    await personalFiles.acaHeader.viewButton.click();
+    await personalFiles.dataTable.spinnerWaitForReload();
+    expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+  });
+
+  test('[C279283] The viewer general elements are displayed', async ({ personalFiles }) => {
+    await personalFiles.dataTable.performClickFolderOrFileToOpen(randomDocxName);
     expect(await personalFiles.viewer.isViewerOpened()).toBe(true);
+    await personalFiles.dataTable.spinnerWaitForReload();
+    expect(await personalFiles.viewer.isCloseButtonDisplayed(), 'Close button is not displayed').toBe(true);
+    expect(await personalFiles.viewer.isFileTitleDisplayed(), 'File title is not displayed').toBe(true);
+  });
+
+  test('[C279271] Close the viewer', async ({ personalFiles }) => {
+    await personalFiles.dataTable.performClickFolderOrFileToOpen(randomDocxName);
+    expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+    await personalFiles.viewer.closeButtonLocator.click();
+    expect(await personalFiles.viewer.isViewerOpened(), 'Viewer did not close').toBe(false);
+  });
+
+  test('[C284632] Close button tooltip', async ({ personalFiles }) => {
+    await personalFiles.dataTable.performClickFolderOrFileToOpen(randomDocxName);
+    expect(await personalFiles.viewer.getCloseButtonTooltip()).toEqual('Close');
+  });
+
+  test('[C279285] Viewer opens when accessing the preview URL for a file', async ({ personalFiles, baseURL }) => {
+    const previewURL = `personal-files/${folderId}/(viewer:view/${testFileId})`;
+    await personalFiles.navigate({ remoteUrl: baseURL + previewURL });
+    await personalFiles.dataTable.spinnerWaitForReload();
+    expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+    expect(await personalFiles.viewer.fileTitleButtonLocator.innerText()).toEqual(randomDocxName);
+  });
+
+  test('[C284636] Viewer opens for a file from Recent Files', async ({ personalFiles, recentFilesPage }) => {
+    await personalFiles.dataTable.performClickFolderOrFileToOpen(randomDocxName);
+    expect(await personalFiles.viewer.getCloseButtonTooltip()).toEqual('Close');
+    await recentFilesPage.navigate();
+    await recentFilesPage.reload();
+    await recentFilesPage.dataTable.performClickFolderOrFileToOpen(randomDocxName);
+    expect(await recentFilesPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+    expect(await recentFilesPage.viewer.isCloseButtonDisplayed(), 'Close button is not displayed').toBe(true);
+    expect(await recentFilesPage.viewer.isFileTitleDisplayed(), 'File title is not displayed').toBe(true);
   });
 });

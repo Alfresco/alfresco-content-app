@@ -22,38 +22,23 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { test as base } from '@playwright/test';
-import { ApiClientFactory, FileActionsApi, NodesPage, PersonalFilesPage, RecentFilesPage } from '../';
 
-interface Pages {
-  personalFiles: PersonalFilesPage;
-  nodesPage: NodesPage;
-  recentFilesPage: RecentFilesPage;
-}
+import { Page } from '@playwright/test';
+import { BasePage } from './base.page';
+import { DataTableComponent, MatMenuComponent, ViewerComponent } from '../components';
+import { AcaHeader } from '../components/aca-header.component';
+import { AdfFolderDialogComponent } from '../components/dialogs';
 
-interface Api {
-  superAdminApiClient: ApiClientFactory;
-  fileAction: FileActionsApi;
-}
+export class RecentFilesPage extends BasePage {
+  private static pageUrl = 'recent-files';
 
-export const test = base.extend<Pages & Api>({
-  personalFiles: async ({ page }, use) => {
-    await use(new PersonalFilesPage(page));
-  },
-  nodesPage: async ({ page }, use) => {
-    await use(new NodesPage(page));
-  },
-  recentFilesPage: async ({ page }, use) => {
-    await use(new RecentFilesPage(page));
-  },
-  // eslint-disable-next-line no-empty-pattern
-  superAdminApiClient: async ({ }, use) => {
-    const apiClient = new ApiClientFactory();
-    await apiClient.setUpAcaBackend('admin');
-    await use(apiClient);
-  },
-  // eslint-disable-next-line no-empty-pattern
-  fileAction: async ({ }, use) => {
-    await use(await FileActionsApi.initialize('admin'));
+  constructor(page: Page) {
+    super(page, RecentFilesPage.pageUrl);
   }
-});
+
+  public acaHeader = new AcaHeader(this.page);
+  public matMenu = new MatMenuComponent(this.page);
+  public folderDialog = new AdfFolderDialogComponent(this.page);
+  public dataTable = new DataTableComponent(this.page);
+  public viewer = new ViewerComponent(this.page);
+}

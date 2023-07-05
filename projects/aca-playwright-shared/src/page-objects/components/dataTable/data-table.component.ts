@@ -191,4 +191,17 @@ export class DataTableComponent extends BaseComponent {
       await this.spinnerWaitForReload();
     }
   }
+
+  async selectItem(name: string): Promise<void> {
+    const isSelected = await this.hasCheckMarkIcon(name);
+    if (!isSelected) {
+        const row = await this.getRowByName(name);
+        await row.locator('.mat-checkbox[id*="mat-checkbox"]').check();
+    }
+  }
+
+  async hasCheckMarkIcon(itemName: string): Promise<boolean> {
+    const row = this.getRowByName(itemName);
+    return await row.locator('.mat-checkbox[class*="checked"]').isVisible();
+  }
 }

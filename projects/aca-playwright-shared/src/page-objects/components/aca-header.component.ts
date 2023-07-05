@@ -28,6 +28,7 @@
  export class AcaHeader extends BaseComponent {
    private static rootElement = 'adf-toolbar';
    public createButton = this.getChild('[id="app.toolbar.create"]');
+   public viewButton = this.getChild('button[title="View"]');
 
    constructor(page: Page) {
      super(page, AcaHeader.rootElement);

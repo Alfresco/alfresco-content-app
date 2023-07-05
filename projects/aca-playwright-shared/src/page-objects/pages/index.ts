@@ -26,3 +26,4 @@ export * from './base.page';
 export * from './login.page';
 export * from './nodes.page';
 export * from './personal-files.page';
+export * from './recent-files.page';
