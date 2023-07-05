@@ -35,7 +35,6 @@ runs:
           echo "APP_CONFIG_AUTH_TYPE=BASIC"
           echo "APP_CONFIG_OAUTH2_HOST=http://localhost:4200/auth/realms/alfresco"
           echo "APP_CONFIG_OAUTH2_CLIENTID=alfresco"
-          echo "APP_CONFIG_SESSION_TIME_FOR_OPEN_APP_DIALOG_DISPLAY_IN_HOURS=12"
           echo "APP_CONFIG_OAUTH2_IMPLICIT_FLOW=true"
           echo "APP_CONFIG_OAUTH2_SILENT_LOGIN=true"
           echo "APP_CONFIG_OAUTH2_REDIRECT_LOGOUT=/"
