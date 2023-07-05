@@ -50,7 +50,7 @@ export interface AcaBackend {
 }
 
 const config = {
-  authType: process.env.APP_CONFIG_AUTH_TYPE,
+  authType: 'BASIC',
   hostBpm: process.env.APP_CONFIG_BPM_HOST,
   hostEcm: process.env.APP_CONFIG_ECM_HOST,
   provider: 'ECM',

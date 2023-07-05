@@ -4,7 +4,7 @@
   "aosHost": "${APP_CONFIG_ECM_HOST}/alfresco/aos",
   "baseShareUrl": "${APP_CONFIG_ECM_HOST}/#/preview/s",
   "providers": "ECM",
-  "authType": "${APP_CONFIG_AUTH_TYPE}",
+  "authType": "BASIC",
   "loginRoute": "login",
   "mobileAppSwitch": {
     "enabled": true

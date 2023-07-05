@@ -25,7 +25,6 @@ env:
   SCREENSHOT_PASSWORD: ${{ secrets.SCREENSHOT_PASSWORD}}
   AWS_REGION: "eu-west-2"
   CONTENT_CE_DIST_PATH: "./dist/content-ce"
-  APP_CONFIG_AUTH_TYPE: BASIC
   APP_CONFIG_OAUTH2_HOST: http://localhost:4200/auth/realms/alfresco
   PLAYWRIGHT_E2E_HOST: ${{ secrets.PLAYWRIGHT_E2E_HOST }}
   GH_BUILD_NUMBER: ${{ github.run_id }}

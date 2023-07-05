@@ -26,7 +26,6 @@ Create an `.env` file in the project root folder with the following content
 
 ```yml
 APP_CONFIG_ECM_HOST="<URL>"
-APP_CONFIG_AUTH_TYPE=BASIC
 APP_CONFIG_OAUTH2_HOST=http://localhost:4200/auth/realms/alfresco
 ```
 
