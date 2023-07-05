@@ -58,7 +58,7 @@ describe('AcaMobileAppSwitcherService', () => {
   it('should set the redirectUrl to `iphoneUrl`', () => {
     spyOnProperty(window.navigator, 'userAgent').and.returnValue('iphone');
     const url: string = window.location.href;
-    const iphoneUrl: string = appConfig.config.mobileAppSwitch.iphoneUrl + url;
+    const iphoneUrl = service.getIPhoneRedirectUrl(url);
     service.identifyBrowserAndSetRedirectURL();
     expect(service.redirectUrl).toEqual(iphoneUrl);
   });
@@ -86,8 +86,7 @@ describe('AcaMobileAppSwitcherService', () => {
   });
 
   it('should check if `openInApp` dialog box is getting opened with `iphone` url', () => {
-    const url: string = window.location.href;
-    service.redirectUrl = appConfig.config.mobileAppSwitch.iphoneUrl + url;
+    service.redirectUrl = service.getIPhoneRedirectUrl(window.location.href);
     service.identifyBrowserAndSetRedirectURL();
     expect(mockDialogRef.open).toHaveBeenCalled();
   });

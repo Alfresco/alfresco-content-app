@@ -29,7 +29,6 @@ import { OpenInAppComponent } from '../components/open-in-app/open-in-app.compon
 
 export interface MobileAppSwitchConfigurationOptions {
   enabled: string;
-  iphoneUrl: string;
   androidUrlPart1: string;
   androidUrlPart2: string;
   sessionTimeForOpenAppDialogDisplay: string;
@@ -46,6 +45,11 @@ export class AcaMobileAppSwitcherService {
 
   constructor(private config: AppConfigService, private dialog: MatDialog) {
     this.mobileAppSwitchConfig = this.config.get<MobileAppSwitchConfigurationOptions>('mobileAppSwitch');
+  }
+
+  getIPhoneRedirectUrl(url: string) {
+    const prefix = this.config.get<string>('mobileAppSwitch.iphoneUrl', 'iosamw://');
+    return prefix + url;
   }
 
   resolveExistenceOfDialog(): void {
@@ -87,7 +91,7 @@ export class AcaMobileAppSwitcherService {
     const currentUrl: string = this.getCurrentUrl();
 
     if (isIOS === true) {
-      this.redirectUrl = this.mobileAppSwitchConfig.iphoneUrl + currentUrl;
+      this.redirectUrl = this.getIPhoneRedirectUrl(currentUrl);
       this.appStoreUrl = this.mobileAppSwitchConfig.appStoreUrl;
     } else if (isAndroid === true) {
       this.redirectUrl = this.mobileAppSwitchConfig.androidUrlPart1 + currentUrl + this.mobileAppSwitchConfig.androidUrlPart2;
