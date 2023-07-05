@@ -10,7 +10,7 @@
     "enabled": true
   },
   "plugins": {
-    "aosPlugin": ${APP_CONFIG_PLUGIN_AOS},
+    "aosPlugin": true,
     "contentService": ${APP_CONFIG_PLUGIN_CONTENT_SERVICE},
     "folderRules": ${APP_CONFIG_PLUGIN_FOLDER_RULES}
   },
