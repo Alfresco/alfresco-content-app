@@ -47,9 +47,15 @@ export class AcaMobileAppSwitcherService {
     this.mobileAppSwitchConfig = this.config.get<MobileAppSwitchConfigurationOptions>('mobileAppSwitch');
   }
 
-  getIPhoneRedirectUrl(url: string) {
+  getIPhoneRedirectUrl(url: string): string {
     const prefix = this.config.get<string>('mobileAppSwitch.iphoneUrl', 'iosamw://');
     return prefix + url;
+  }
+
+  getAndroidRedirectUrl(url: string): string {
+    const prefix = this.config.get<string>('mobileAppSwitch.androidUrlPart1', 'intent:///');
+    const suffix = this.config.get<string>('mobileAppSwitch.androidUrlPart2', '#Intent;scheme=androidamw;package=com.alfresco.content.app;end');
+    return prefix + url + suffix;
   }
 
   resolveExistenceOfDialog(): void {
@@ -94,7 +100,7 @@ export class AcaMobileAppSwitcherService {
       this.redirectUrl = this.getIPhoneRedirectUrl(currentUrl);
       this.appStoreUrl = this.mobileAppSwitchConfig.appStoreUrl;
     } else if (isAndroid === true) {
-      this.redirectUrl = this.mobileAppSwitchConfig.androidUrlPart1 + currentUrl + this.mobileAppSwitchConfig.androidUrlPart2;
+      this.redirectUrl = this.getAndroidRedirectUrl(currentUrl);
     }
 
     if (this.redirectUrl !== undefined && this.redirectUrl !== null) {
