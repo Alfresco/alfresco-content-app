@@ -23,29 +23,37 @@
  */
 
 import { AppConfigService } from '@alfresco/adf-core';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { OpenInAppComponent } from '../components/open-in-app/open-in-app.component';
 
-export interface MobileAppSwitchConfigurationOptions {
-  enabled: string;
-  iphoneUrl: string;
-  androidUrlPart1: string;
-  androidUrlPart2: string;
-  sessionTimeForOpenAppDialogDisplay: string;
-  appStoreUrl: string;
-}
 @Injectable({
   providedIn: 'root'
 })
 export class AcaMobileAppSwitcherService {
-  private mobileAppSwitchConfig: MobileAppSwitchConfigurationOptions;
   public redirectUrl: string;
-  public appStoreUrl: string;
   private dialogRef: MatDialogRef<OpenInAppComponent>;
+  private config = inject(AppConfigService);
+  private dialog = inject(MatDialog);
 
-  constructor(private config: AppConfigService, private dialog: MatDialog) {
-    this.mobileAppSwitchConfig = this.config.get<MobileAppSwitchConfigurationOptions>('mobileAppSwitch');
+  get appStoreUrl(): string {
+    const defaultValue = 'https://apps.apple.com/us/app/alfresco-mobile-workspace/id1514434480';
+    return this.config.get<string>('mobileAppSwitch.appStoreUrl', defaultValue);
+  }
+
+  get sessionTimeout(): number {
+    return this.config.get<number>('mobileAppSwitch.sessionTimeout', 12);
+  }
+
+  getIPhoneRedirectUrl(url: string): string {
+    const prefix = this.config.get<string>('mobileAppSwitch.iphoneUrl', 'iosamw://');
+    return prefix + url;
+  }
+
+  getAndroidRedirectUrl(url: string): string {
+    const prefix = this.config.get<string>('mobileAppSwitch.androidUrlPart1', 'intent:///');
+    const suffix = this.config.get<string>('mobileAppSwitch.androidUrlPart2', '#Intent;scheme=androidamw;package=com.alfresco.content.app;end');
+    return prefix + url + suffix;
   }
 
   resolveExistenceOfDialog(): void {
@@ -68,9 +76,8 @@ export class AcaMobileAppSwitcherService {
       const currentTime: number = new Date().getTime();
       const sessionConvertedTime: number = parseFloat(sessionTime);
       const timeDifference: number = (currentTime - sessionConvertedTime) / (1000 * 60 * 60);
-      const sessionTimeForOpenAppDialogDisplay: number = parseFloat(this.mobileAppSwitchConfig.sessionTimeForOpenAppDialogDisplay);
 
-      if (timeDifference > sessionTimeForOpenAppDialogDisplay) {
+      if (timeDifference > this.sessionTimeout) {
         this.clearSessionExpireTime();
         this.identifyBrowserAndSetRedirectURL();
       }
@@ -87,10 +94,9 @@ export class AcaMobileAppSwitcherService {
     const currentUrl: string = this.getCurrentUrl();
 
     if (isIOS === true) {
-      this.redirectUrl = this.mobileAppSwitchConfig.iphoneUrl + currentUrl;
-      this.appStoreUrl = this.mobileAppSwitchConfig.appStoreUrl;
+      this.redirectUrl = this.getIPhoneRedirectUrl(currentUrl);
     } else if (isAndroid === true) {
-      this.redirectUrl = this.mobileAppSwitchConfig.androidUrlPart1 + currentUrl + this.mobileAppSwitchConfig.androidUrlPart2;
+      this.redirectUrl = this.getAndroidRedirectUrl(currentUrl);
     }
 
     if (this.redirectUrl !== undefined && this.redirectUrl !== null) {
