@@ -3,8 +3,8 @@
   "ecmHost": "${APP_CONFIG_ECM_HOST}",
   "aosHost": "${APP_CONFIG_ECM_HOST}/alfresco/aos",
   "baseShareUrl": "${APP_CONFIG_ECM_HOST}/#/preview/s",
-  "providers": "${APP_CONFIG_PROVIDER}",
-  "authType": "${APP_CONFIG_AUTH_TYPE}",
+  "providers": "ECM",
+  "authType": "BASIC",
   "loginRoute": "login",
   "mobileAppSwitch": {
     "enabled": true
@@ -15,7 +15,7 @@
     "folderRules": true
   },
   "oauth2": {
-    "host": "${APP_CONFIG_OAUTH2_HOST}",
+    "host": "{protocol}//{hostname}{:port}/auth/realms/alfresco",
     "clientId": "alfresco",
     "scope": "openid",
     "secret": "",

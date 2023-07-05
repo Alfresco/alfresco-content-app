@@ -17,13 +17,7 @@ RUN apk update && apk upgrade
 USER 101
 
 ARG PROJECT_NAME
-ARG PROVIDER="ECM"
-ARG AUTH_TYPE="BASIC"
 
-ENV APP_CONFIG_PROVIDER=$PROVIDER
-ENV APP_CONFIG_AUTH_TYPE=$AUTH_TYPE
-
-ENV APP_CONFIG_OAUTH2_HOST="{protocol}//{hostname}{:port}/auth/realms/alfresco"
 ENV APP_CONFIG_BPM_HOST="{protocol}//{hostname}{:port}"
 ENV APP_CONFIG_ECM_HOST="{protocol}//{hostname}{:port}"
 
