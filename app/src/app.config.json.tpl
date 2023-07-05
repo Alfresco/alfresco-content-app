@@ -12,7 +12,7 @@
   "plugins": {
     "aosPlugin": true,
     "contentService": true,
-    "folderRules": ${APP_CONFIG_PLUGIN_FOLDER_RULES}
+    "folderRules": true
   },
   "oauth2": {
     "host": "${APP_CONFIG_OAUTH2_HOST}",
