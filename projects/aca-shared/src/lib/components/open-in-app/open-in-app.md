@@ -9,7 +9,7 @@ Configuring via `app.config.json`:
     "iphoneUrl": "iosamw://",
     "androidUrlPart1": "intent:///",
     "androidUrlPart2": "#Intent;scheme=androidamw;package=com.alfresco.content.app;end",
-    "sessionTimeForOpenAppDialogDisplay": "12",
+    "sessionTimeout": 12,
     "appStoreUrl": "https://apps.apple.com/us/app/alfresco-mobile-workspace/id1514434480"
   }
 }

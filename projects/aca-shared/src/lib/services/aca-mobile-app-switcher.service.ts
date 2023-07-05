@@ -29,9 +29,6 @@ import { OpenInAppComponent } from '../components/open-in-app/open-in-app.compon
 
 export interface MobileAppSwitchConfigurationOptions {
   enabled: string;
-  androidUrlPart1: string;
-  androidUrlPart2: string;
-  sessionTimeForOpenAppDialogDisplay: string;
   appStoreUrl: string;
 }
 @Injectable({
@@ -45,6 +42,10 @@ export class AcaMobileAppSwitcherService {
 
   constructor(private config: AppConfigService, private dialog: MatDialog) {
     this.mobileAppSwitchConfig = this.config.get<MobileAppSwitchConfigurationOptions>('mobileAppSwitch');
+  }
+
+  get sessionTimeout(): number {
+    return this.config.get<number>('mobileAppSwitch.sessionTimeout', 12);
   }
 
   getIPhoneRedirectUrl(url: string): string {
@@ -78,9 +79,8 @@ export class AcaMobileAppSwitcherService {
       const currentTime: number = new Date().getTime();
       const sessionConvertedTime: number = parseFloat(sessionTime);
       const timeDifference: number = (currentTime - sessionConvertedTime) / (1000 * 60 * 60);
-      const sessionTimeForOpenAppDialogDisplay: number = parseFloat(this.mobileAppSwitchConfig.sessionTimeForOpenAppDialogDisplay);
 
-      if (timeDifference > sessionTimeForOpenAppDialogDisplay) {
+      if (timeDifference > this.sessionTimeout) {
         this.clearSessionExpireTime();
         this.identifyBrowserAndSetRedirectURL();
       }
