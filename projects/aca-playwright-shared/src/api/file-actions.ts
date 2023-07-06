@@ -45,43 +45,4 @@ export class FileActionsApi extends ApiClientFactory {
             }
         );
     }
-
-    async createEmptyFiles(emptyFileNames: string[], parentFolderId): Promise<NodeEntry> {
-        const filesRequest = [];
-
-        // eslint-disable-next-line @typescript-eslint/prefer-for-of
-        for (let i = 0; i < emptyFileNames.length; i++) {
-            const jsonItem = {};
-            jsonItem['name'] = emptyFileNames[i];
-            jsonItem['nodeType'] = 'cm:content';
-            filesRequest.push(jsonItem);
-        }
-
-        return this.apiService.nodes.createNode(parentFolderId, filesRequest as any, {});
-    }
-
-    async createFolder(folderName: string, parentFolderId: string): Promise<NodeEntry> {
-        logger.info(`${this.logPrefix} Creating folder ${folderName} in ${parentFolderId}`);
-        return this.apiService.nodes.createNode(parentFolderId, {
-            name: folderName,
-            nodeType: 'cm:folder'
-        }, {});
-    }
-
-    async uploadFolder(sourcePath, folder) {
-        const files = fs.readdirSync(sourcePath);
-        let uploadedFiles;
-        const promises = [];
-
-        if (files && files.length > 0) {
-            for (const fileName of files) {
-                const pathFile = path.join(sourcePath, fileName);
-                promises.push(this.uploadFile(pathFile, fileName, folder));
-            }
-            uploadedFiles = await Promise.all(promises);
-        }
-
-        return uploadedFiles;
-    }
-
 }

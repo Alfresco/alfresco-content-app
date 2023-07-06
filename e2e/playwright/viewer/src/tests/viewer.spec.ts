@@ -81,9 +81,9 @@ test.describe('viewer file', () => {
     expect(await personalFiles.viewer.getCloseButtonTooltip()).toEqual('Close');
   });
 
-  test('[C279285] Viewer opens when accessing the preview URL for a file', async ({ personalFiles, baseURL }) => {
-    const previewURL = `personal-files/${folderId}/(viewer:view/${testFileId})`;
-    await personalFiles.navigate({ remoteUrl: baseURL + previewURL });
+  test('[C279285] Viewer opens when accessing the preview URL for a file', async ({ personalFiles }) => {
+    const previewURL = `#/personal-files/${folderId}/(viewer:view/${testFileId})`;
+    await personalFiles.navigate({ remoteUrl: previewURL });
     await personalFiles.dataTable.spinnerWaitForReload();
     expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
     expect(await personalFiles.viewer.fileTitleButtonLocator.innerText()).toEqual(randomDocxName);
