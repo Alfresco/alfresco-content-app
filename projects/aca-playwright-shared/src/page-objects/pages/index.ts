@@ -26,6 +26,7 @@ export * from './base.page';
 export * from './login.page';
 export * from './nodes.page';
 export * from './personal-files.page';
+export * from './my-libraries.page';
 export * from './recent-files.page';
 export * from './shared.page';
 export * from './search.page';

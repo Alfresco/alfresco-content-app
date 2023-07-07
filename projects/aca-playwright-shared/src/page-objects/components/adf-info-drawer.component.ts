@@ -25,14 +25,12 @@
 import { BaseComponent } from './base.component';
 import { Page } from '@playwright/test';
 
-export class AcaHeader extends BaseComponent {
-  private static rootElement = 'adf-toolbar';
-  public createButton = this.getChild('[id="app.toolbar.create"]');
-  public viewButton = this.getChild('button[title="View"]');
-  public searchButton = this.getChild('button[title="Search"]');
-  public viewDetails = this.getChild('[title="View Details"]');
+export class AdfInfoDrawerComponent extends BaseComponent {
+  private static rootElement = 'adf-info-drawer';
 
   constructor(page: Page) {
-    super(page, AcaHeader.rootElement);
+    super(page, AdfInfoDrawerComponent.rootElement);
   }
+
+  public getFieldData = (labelText: string) => this.getChild('.mat-form-field-wrapper', { hasText: labelText });
 }

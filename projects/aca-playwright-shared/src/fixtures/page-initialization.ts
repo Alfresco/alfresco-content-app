@@ -32,12 +32,14 @@ import {
   SharedPage,
   SearchPage,
   FavoritesPage,
-  FavoritesPageApi
+  FavoritesPageApi,
+  MyLibrariesPage
 } from '../';
 
 interface Pages {
   personalFiles: PersonalFilesPage;
   nodesPage: NodesPage;
+  myLibrariesPage: MyLibrariesPage;
   recentFilesPage: RecentFilesPage;
   sharedPage: SharedPage;
   searchPage: SearchPage;
@@ -80,5 +82,8 @@ export const test = base.extend<Pages & Api>({
   // eslint-disable-next-line no-empty-pattern
   favoritesPageAction: async ({}, use) => {
     await use(await FavoritesPageApi.initialize('admin'));
+  },
+  myLibrariesPage: async ({ page }, use) => {
+    await use(new MyLibrariesPage(page));
   }
 });
