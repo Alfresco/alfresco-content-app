@@ -40,5 +40,5 @@ export const test = base.extend<Pages>({
   },
   myLibrariesPage: async ({ page }, use) => {
     await use(new MyLibrariesPage(page));
-  }
+  },
 });
