@@ -24,11 +24,12 @@
 
 
 import { test as base } from '@playwright/test';
-import { ApiClientFactory, NodesPage, PersonalFilesPage } from '../';
+import { ApiClientFactory, MyLibrariesPage, NodesPage, PersonalFilesPage } from '../';
 
 interface Pages {
   personalFiles: PersonalFilesPage;
   nodesPage: NodesPage;
+  myLibrariesPage: MyLibrariesPage;
 }
 
 interface Api {
@@ -47,5 +48,8 @@ export const test = base.extend<Pages & Api>({
     const apiClient = new ApiClientFactory();
     await apiClient.setUpAcaBackend('admin');
     await use(apiClient);
-  }
+  },
+  myLibrariesPage: async ({ page }, use) => {
+    await use(new MyLibrariesPage(page));
+  },
 });
