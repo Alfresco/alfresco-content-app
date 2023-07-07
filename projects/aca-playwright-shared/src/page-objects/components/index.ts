@@ -36,6 +36,4 @@ export * from './adf-info-drawer.component';
 export * from './viewer.component';
 export * from './search/search-input.component';
 export * from './search/search-overlay.components';
-export * from './breadcrumb';
-export * from './adf-info-drawer.component';
 
