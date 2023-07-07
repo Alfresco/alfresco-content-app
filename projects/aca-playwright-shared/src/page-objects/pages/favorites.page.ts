@@ -22,11 +22,22 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './base.page';
-export * from './login.page';
-export * from './nodes.page';
-export * from './personal-files.page';
-export * from './recent-files.page';
-export * from './shared.page';
-export * from './search.page';
-export * from './favorites.page';
+import { Page } from '@playwright/test';
+import { BasePage } from './base.page';
+import { DataTableComponent, MatMenuComponent, ViewerComponent } from '../components';
+import { AcaHeader } from '../components/aca-header.component';
+import { AdfFolderDialogComponent } from '../components/dialogs';
+
+export class FavoritesPage extends BasePage {
+  private static pageUrl = 'favorites';
+
+  constructor(page: Page) {
+    super(page, FavoritesPage.pageUrl);
+  }
+
+  public acaHeader = new AcaHeader(this.page);
+  public matMenu = new MatMenuComponent(this.page);
+  public folderDialog = new AdfFolderDialogComponent(this.page);
+  public dataTable = new DataTableComponent(this.page);
+  public viewer = new ViewerComponent(this.page);
+}

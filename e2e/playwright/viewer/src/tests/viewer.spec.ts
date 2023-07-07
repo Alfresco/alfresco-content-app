@@ -30,13 +30,15 @@ test.describe('viewer file', () => {
   const randomFolderName = `playwright-folder-${(Math.random() + 1).toString(36).substring(6)}`;
   const randomDocxName = TEST_FILES.DOCX.name + (Math.random() + 1).toString(36).substring(6);
   let folderId: string;
-  let testFileId: string;
+  let fileDocxId: string;
 
-  test.beforeAll(async ({ superAdminApiClient, fileAction }) => {
+  test.beforeAll(async ({ superAdminApiClient, fileAction, shareAction, favoritesPageAction: favoritesPageAction }) => {
     const node = await superAdminApiClient.nodes.createNode('-my-', { name: randomFolderName, nodeType: 'cm:folder', relativePath: '/' });
-    folderId = node.entry.id;
+    folderId = await node.entry.id;
     const fileDoc = await fileAction.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId);
-    testFileId = fileDoc.entry.id;
+    fileDocxId = await fileDoc.entry.id;
+    await shareAction.shareFileById(fileDocxId);
+    await favoritesPageAction.addFavoriteById('file', fileDocxId);
   });
 
   test.beforeEach(async ({ personalFiles }) => {
@@ -82,7 +84,7 @@ test.describe('viewer file', () => {
   });
 
   test('[C279285] Viewer opens when accessing the preview URL for a file', async ({ personalFiles }) => {
-    const previewURL = `#/personal-files/${folderId}/(viewer:view/${testFileId})`;
+    const previewURL = `#/personal-files/${folderId}/(viewer:view/${fileDocxId})`;
     await personalFiles.navigate({ remoteUrl: previewURL });
     await personalFiles.dataTable.spinnerWaitForReload();
     expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
@@ -98,5 +100,36 @@ test.describe('viewer file', () => {
     expect(await recentFilesPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
     expect(await recentFilesPage.viewer.isCloseButtonDisplayed(), 'Close button is not displayed').toBe(true);
     expect(await recentFilesPage.viewer.isFileTitleDisplayed(), 'File title is not displayed').toBe(true);
+  });
+
+  test('[C284635] Viewer opens for a file from Shared Files', async ({ sharedPage }) => {
+    await sharedPage.navigate();
+    await sharedPage.reload();
+    await sharedPage.dataTable.performClickFolderOrFileToOpen(randomDocxName);
+    expect(await sharedPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+    expect(await sharedPage.viewer.isCloseButtonDisplayed(), 'Close button is not displayed').toBe(true);
+    expect(await sharedPage.viewer.isFileTitleDisplayed(), 'File title is not displayed').toBe(true);
+  });
+
+  test('[C284634] Viewer opens for a file from Favorites', async ({ favoritePage }) => {
+    await favoritePage.navigate({ waitUntil: 'domcontentloaded' });
+    await favoritePage.dataTable.goThroughPagesLookingForRowWithName(randomDocxName);
+    await favoritePage.dataTable.performClickFolderOrFileToOpen(randomDocxName);
+    expect(await favoritePage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+    expect(await favoritePage.viewer.isCloseButtonDisplayed(), 'Close button is not displayed').toBe(true);
+    expect(await favoritePage.viewer.isFileTitleDisplayed(), 'File title is not displayed').toBe(true);
+  });
+
+  test('[C279175] Viewer opens for a file from Search Results', async ({ personalFiles, searchPage }) => {
+    await personalFiles.acaHeader.searchButton.click();
+    await searchPage.searchInput.searchButton.click();
+    await searchPage.searchOverlay.checkFilesAndFolders();
+    await searchPage.searchOverlay.searchFor(randomDocxName);
+    await searchPage.reload({ waitUntil: 'domcontentloaded' });
+
+    await searchPage.searchInput.performDoubleClickFolderOrFileToOpen(randomDocxName);
+    expect(await searchPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+    expect(await searchPage.viewer.isCloseButtonDisplayed(), 'Close button is not displayed').toBe(true);
+    expect(await searchPage.viewer.isFileTitleDisplayed(), 'File title is not displayed').toBe(true);
   });
 });

@@ -22,38 +22,38 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import * as fs from 'fs';
 import { ApiClientFactory } from './api-client-factory';
+import { FavoriteEntry } from '@alfresco/js-api';
 import { users } from '../base-config/global-variables';
 
-export class FileActionsApi extends ApiClientFactory {
-    private apiService: ApiClientFactory;
+export class FavoritesPageApi extends ApiClientFactory {
+  private apiService: ApiClientFactory;
 
-    constructor() {
-      super();
-        this.apiService = new ApiClientFactory();
-    }
-
-    static async initialize(
-        userProfile: keyof typeof users
-    ): Promise<FileActionsApi> {
-        const classObj = new FileActionsApi();
+  constructor() {
+    super();
+      this.apiService = new ApiClientFactory();
+  }
+  static async initialize(
+    userProfile: keyof typeof users
+    ): Promise<FavoritesPageApi> {
+        const classObj = new FavoritesPageApi();
         await classObj.apiService.setUpAcaBackend(userProfile);
         return classObj;
     }
-
-    async uploadFile(fileLocation: string, fileName: string, parentFolderId: string): Promise<any> {
-        const file = fs.createReadStream(fileLocation);
-        return this.apiService.upload.uploadFile(
-            file,
-            '',
-            parentFolderId,
-            null,
-            {
-                name: fileName,
-                nodeType: 'cm:content',
-                renditions: 'doclib'
-            }
-        );
-    }
+  async addFavoriteById(nodeType: 'file' | 'folder' | 'site', id: string): Promise<FavoriteEntry | null> {
+    let guid;
+      if (nodeType === 'site') {
+        guid = (await this.sites.getSite(id)).entry.guid;
+      } else {
+        guid = id;
+      }
+      const data = {
+        target: {
+          [nodeType]: {
+            guid: guid
+          }
+        }
+      };
+      return await this.apiService.favorites.createFavorite('-me-', data);
+  }
 }

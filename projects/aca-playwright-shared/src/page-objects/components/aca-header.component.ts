@@ -29,6 +29,7 @@
    private static rootElement = 'adf-toolbar';
    public createButton = this.getChild('[id="app.toolbar.create"]');
    public viewButton = this.getChild('button[title="View"]');
+   public searchButton = this.getChild('button[title="Search"]');
 
    constructor(page: Page) {
      super(page, AcaHeader.rootElement);

@@ -22,11 +22,28 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './base.page';
-export * from './login.page';
-export * from './nodes.page';
-export * from './personal-files.page';
-export * from './recent-files.page';
-export * from './shared.page';
-export * from './search.page';
-export * from './favorites.page';
+import { Locator, Page } from '@playwright/test';
+import { BaseComponent } from '.././base.component';
+
+export class SearchInputComponent extends BaseComponent {
+  private static rootElement = 'aca-page-layout';
+  public searchButton = this.getChild('aca-search-input .app-search-button');
+
+  /**
+   * Method used in cases where user have possibility to navigate "inside" the element (it's clickable and has link attribute).
+   * Perform action .click() to navigate inside it
+   *
+   * @returns reference to cell element which contains link.
+   */
+  getCellLinkByName = (name: string): Locator => this.getChild('.adf-datatable-row[role="row"]', { hasText: name });
+
+  constructor(page: Page, rootElement = SearchInputComponent.rootElement) {
+    super(page, rootElement);
+  }
+
+  async performDoubleClickFolderOrFileToOpen(name: string): Promise<void> {
+    await this.getCellLinkByName(name).dblclick();
+    await this.spinnerWaitForReload();
+  }
+
+}

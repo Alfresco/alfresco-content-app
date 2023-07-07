@@ -23,17 +23,23 @@
  */
 
 import { test as base } from '@playwright/test';
-import { ApiClientFactory, FileActionsApi, NodesPage, PersonalFilesPage, RecentFilesPage } from '../';
+import { ApiClientFactory, FileActionsApi, NodesPage, PersonalFilesPage, RecentFilesPage, SharedLinksApi, SharedPage, SearchPage, FavoritesPage, FavoritesPageApi } from '../';
+
 
 interface Pages {
   personalFiles: PersonalFilesPage;
   nodesPage: NodesPage;
   recentFilesPage: RecentFilesPage;
+  sharedPage: SharedPage;
+  searchPage: SearchPage;
+  favoritePage: FavoritesPage;
 }
 
 interface Api {
   superAdminApiClient: ApiClientFactory;
   fileAction: FileActionsApi;
+  shareAction: SharedLinksApi;
+  favoritesPageAction: FavoritesPageApi;
 }
 
 export const test = base.extend<Pages & Api>({
@@ -46,6 +52,15 @@ export const test = base.extend<Pages & Api>({
   recentFilesPage: async ({ page }, use) => {
     await use(new RecentFilesPage(page));
   },
+  sharedPage: async ({ page }, use) => {
+    await use(new SharedPage(page));
+  },
+  searchPage: async ({ page }, use) => {
+    await use(new SearchPage(page));
+  },
+  favoritePage: async ({ page }, use) => {
+    await use(new FavoritesPage(page));
+  },
   // eslint-disable-next-line no-empty-pattern
   superAdminApiClient: async ({ }, use) => {
     const apiClient = new ApiClientFactory();
@@ -55,5 +70,13 @@ export const test = base.extend<Pages & Api>({
   // eslint-disable-next-line no-empty-pattern
   fileAction: async ({ }, use) => {
     await use(await FileActionsApi.initialize('admin'));
+  },
+  // eslint-disable-next-line no-empty-pattern
+  shareAction: async ({ }, use) => {
+    await use(await SharedLinksApi.initialize('admin'));
+  },
+  // eslint-disable-next-line no-empty-pattern
+  favoritesPageAction: async ({ }, use) => {
+    await use(await FavoritesPageApi.initialize('admin'));
   }
 });
