@@ -24,7 +24,7 @@
 
 
 import { test as base } from '@playwright/test';
-import { NodesPage, PersonalFilesPage } from '../';
+import {MyLibrariesPage, NodesPage, PersonalFilesPage} from '../';
 
 interface Pages {
   personalFiles: PersonalFilesPage;
@@ -41,5 +41,5 @@ export const test = base.extend<Pages>({
   },
   myLibrariesPage: async ({ page }, use) => {
     await use(new MyLibrariesPage(page));
-  }
+  },
 });
