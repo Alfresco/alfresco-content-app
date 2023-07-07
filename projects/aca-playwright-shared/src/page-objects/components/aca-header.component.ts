@@ -30,6 +30,7 @@ export class AcaHeader extends BaseComponent {
   public viewDetails = this.getChild('[title="View Details"]');
   public viewButton = this.getChild('button[title="View"]');
   public searchButton = this.getChild('button[title="Search"]');
+  public viewDetails = this.getChild('[title="View Details"]');
 
   constructor(page: Page) {
     super(page, AcaHeader.rootElement);
