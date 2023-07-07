@@ -89,5 +89,5 @@ export const test = base.extend<Pages & Api>({
   },
   myLibrariesPage: async ({ page }, use) => {
     await use(new MyLibrariesPage(page));
-  }
+  },
 });
