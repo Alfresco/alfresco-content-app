@@ -23,8 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, getUserState, test } from '@alfresco/playwright-shared';
-import { libraryErrors } from '../../../../../projects/aca-playwright-shared/src/utils/library-errors';
+import { libraryErrors, ApiClientFactory, getUserState, test } from '@alfresco/playwright-shared';
 import { SiteBodyCreate } from '@alfresco/js-api';
 
 test.use({ storageState: getUserState('hruser') });
