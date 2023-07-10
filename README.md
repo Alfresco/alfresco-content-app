@@ -25,7 +25,7 @@ Please refer to the public [documentation](https://alfresco-content-app.netlify.
 Create an `.env` file in the project root folder with the following content
 
 ```yml
-APP_CONFIG_ECM_HOST="<URL>"
+BASE_URL="<URL>"
 ```
 
 Where `<URL>` is the address of the ACS.

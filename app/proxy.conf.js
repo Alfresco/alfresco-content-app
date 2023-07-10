@@ -1,10 +1,10 @@
 require('@alfresco/adf-cli/tooling').dotenvConfig({ path: process.env.ENV_FILE });
 
-const APP_CONFIG_ECM_HOST = process.env.APP_CONFIG_ECM_HOST;
+const { BASE_URL } = process.env;
 
 module.exports = {
     "/alfresco": {
-        "target": APP_CONFIG_ECM_HOST,
+        "target": BASE_URL,
         "secure": false,
         "pathRewrite": {
             "^/alfresco/alfresco": ""
@@ -13,7 +13,7 @@ module.exports = {
         'logLevel': 'debug',
         onProxyReq: function(request) {
           if(request["method"] !== "GET")
-          request.setHeader("origin", APP_CONFIG_ECM_HOST);
+          request.setHeader("origin", BASE_URL);
         },
         // workaround for REPO-2260
         onProxyRes: function (proxyRes) {

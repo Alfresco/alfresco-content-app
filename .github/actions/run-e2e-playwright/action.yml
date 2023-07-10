@@ -22,12 +22,6 @@ runs:
     - name: Setup and run with options
       shell: bash
       run: |
-        # npx http-server -c-1 $CONTENT_CE_DIST_PATH -p 4200 > /dev/null &\
-
-        {
-          echo "APP_CONFIG_ECM_HOST={protocol}//{hostname}{:port}"
-        } >> .env
-
         npm start > /dev/null &\
 
         echo "Running playwright tests with options ${{ inputs.options }}"

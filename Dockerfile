@@ -18,8 +18,6 @@ USER 101
 
 ARG PROJECT_NAME
 
-ENV APP_CONFIG_ECM_HOST="{protocol}//{hostname}{:port}"
-
 COPY docker/default.conf.template /etc/nginx/templates/
 
 COPY dist/$PROJECT_NAME /usr/share/nginx/html/

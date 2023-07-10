@@ -11,7 +11,6 @@ concurrency:
 
 env:
   BASE_URL: ${{ secrets.PIPELINE_ENV_URL }}
-  APP_CONFIG_ECM_HOST: ${{ secrets.PIPELINE_ENV_URL }}
   ADMIN_EMAIL: ${{ secrets.PIPELINE_ADMIN_USERNAME }}
   ADMIN_PASSWORD: ${{ secrets.PIPELINE_ADMIN_PASSWORD }}
   HR_USER: ${{ secrets.HR_USER }}
