@@ -23,8 +23,17 @@
  */
 
 import { test as base } from '@playwright/test';
-import { ApiClientFactory, FileActionsApi, NodesPage, PersonalFilesPage, RecentFilesPage, SharedLinksApi, SharedPage, SearchPage, FavoritesPage, FavoritesPageApi } from '../';
-
+import {
+  FileActionsApi,
+  NodesPage,
+  PersonalFilesPage,
+  RecentFilesPage,
+  SharedLinksApi,
+  SharedPage,
+  SearchPage,
+  FavoritesPage,
+  FavoritesPageApi
+} from '../';
 
 interface Pages {
   personalFiles: PersonalFilesPage;
@@ -36,7 +45,6 @@ interface Pages {
 }
 
 interface Api {
-  superAdminApiClient: ApiClientFactory;
   fileAction: FileActionsApi;
   shareAction: SharedLinksApi;
   favoritesPageAction: FavoritesPageApi;
@@ -62,21 +70,15 @@ export const test = base.extend<Pages & Api>({
     await use(new FavoritesPage(page));
   },
   // eslint-disable-next-line no-empty-pattern
-  superAdminApiClient: async ({ }, use) => {
-    const apiClient = new ApiClientFactory();
-    await apiClient.setUpAcaBackend('admin');
-    await use(apiClient);
-  },
-  // eslint-disable-next-line no-empty-pattern
-  fileAction: async ({ }, use) => {
+  fileAction: async ({}, use) => {
     await use(await FileActionsApi.initialize('admin'));
   },
   // eslint-disable-next-line no-empty-pattern
-  shareAction: async ({ }, use) => {
+  shareAction: async ({}, use) => {
     await use(await SharedLinksApi.initialize('admin'));
   },
   // eslint-disable-next-line no-empty-pattern
-  favoritesPageAction: async ({ }, use) => {
+  favoritesPageAction: async ({}, use) => {
     await use(await FavoritesPageApi.initialize('admin'));
   }
 });

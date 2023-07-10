@@ -23,10 +23,11 @@
  */
 
 import { expect } from '@playwright/test';
-import { ActionType, getUserState, test } from '@alfresco/playwright-shared';
+import { ActionType, ApiClientFactory, getUserState, test } from '@alfresco/playwright-shared';
 
-test.use({ storageState: getUserState('admin') });
+test.use({ storageState: getUserState('hruser') });
 test.describe('Folder Rules Actions', () => {
+  const apiClientFactory = new ApiClientFactory();
   const randomFolderName = `playwright-folder-${(Math.random() + 1).toString(36).substring(6)}`;
   const randomRuleName = `playwright-rule-${(Math.random() + 1).toString(36).substring(6)}`;
   const checkInValue = 'check In Value';
@@ -36,8 +37,9 @@ test.describe('Folder Rules Actions', () => {
 
   let folderId: string;
 
-  test.beforeAll(async ({ superAdminApiClient }) => {
-    const node = await superAdminApiClient.nodes.createNode('-my-', { name: randomFolderName, nodeType: 'cm:folder', relativePath: '/' });
+  test.beforeAll(async () => {
+    await apiClientFactory.setUpAcaBackend('hruser');
+    const node = await apiClientFactory.nodes.createNode('-my-', { name: randomFolderName, nodeType: 'cm:folder' });
     folderId = node.entry.id;
   });
 
@@ -45,8 +47,8 @@ test.describe('Folder Rules Actions', () => {
     await personalFiles.navigate({ waitUntil: 'domcontentloaded' });
   });
 
-  test.afterAll(async ({ superAdminApiClient }) => {
-    await superAdminApiClient.nodes.deleteNode(folderId);
+  test.afterAll(async () => {
+    await apiClientFactory.nodes.deleteNode(folderId);
   });
 
   test('[C691637] Create a rule with actions', async ({ personalFiles, nodesPage }) => {

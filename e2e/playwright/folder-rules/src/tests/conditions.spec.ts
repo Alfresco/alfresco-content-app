@@ -23,18 +23,20 @@
  */
 
 import { expect } from '@playwright/test';
-import { ActionType, Comparator, Field, getUserState, test } from '@alfresco/playwright-shared';
+import { ActionType, ApiClientFactory, Comparator, Field, getUserState, test } from '@alfresco/playwright-shared';
 
-test.use({ storageState: getUserState('admin') });
+test.use({ storageState: getUserState('hruser') });
 test.describe('Folder Rules Conditions', () => {
+  const apiClientFactory = new ApiClientFactory();
   const randomFolderName = `playwright-folder-${(Math.random() + 1).toString(36).substring(6)}`;
   const randomRuleName = `playwright-rule-${(Math.random() + 1).toString(36).substring(6)}`;
   const specialChars = '!@£$%^&*()~#/';
 
   let folderId: string;
 
-  test.beforeAll(async ({ superAdminApiClient }) => {
-    const node = await superAdminApiClient.nodes.createNode('-my-', { name: randomFolderName, nodeType: 'cm:folder', relativePath: '/' });
+  test.beforeAll(async () => {
+    await apiClientFactory.setUpAcaBackend('hruser');
+    const node = await apiClientFactory.nodes.createNode('-my-', { name: randomFolderName, nodeType: 'cm:folder' });
     folderId = node.entry.id;
   });
 
@@ -42,8 +44,8 @@ test.describe('Folder Rules Conditions', () => {
     await personalFiles.navigate();
   });
 
-  test.afterAll(async ({ superAdminApiClient }) => {
-    await superAdminApiClient.nodes.deleteNode(folderId);
+  test.afterAll(async () => {
+    await apiClientFactory.nodes.deleteNode(folderId);
   });
 
   test('[C691638] Create a rule with condition', async ({ personalFiles, nodesPage }) => {
