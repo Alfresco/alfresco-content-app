@@ -9,7 +9,6 @@
     "validate-app-config": "ajv validate -s ./node_modules/@alfresco/adf-core/app.config.schema.json -d ./app/.tmp/app.config.json --errors=text --verbose",
     "start": "nx serve content-ce",
     "start:prod": "npm run validate-app-config && node --max-old-space-size=8192 nx serve content-ce --configuration production",
-    "prebuild": "mkdir -p ./app/.tmp && cp app/src/app.config.json ./app/.tmp/app.config.json",
     "build": "nx build content-ce",
     "build.release": "npm run build -- --configuration=production,release",
     "test": "nx test",
