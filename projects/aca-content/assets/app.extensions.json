@@ -1452,14 +1452,12 @@
             }
           },
           {
-            "id": "createdDateRange",
+            "id": "createdModifiedDateRange",
             "name": "SEARCH.CATEGORIES.DATE",
             "enabled": true,
             "component": {
               "selector": "date-range-advanced",
               "settings": {
-                "allowUpdateOnChange": false,
-                "hideDefaultAction": true,
                 "field": "cm:created,cm:modified",
                 "dateFormat": "dd-MMM-yy",
                 "maxDate": "today",
@@ -1644,14 +1642,11 @@
             "component": {
               "selector": "date-range-advanced",
               "settings": {
-                "allowUpdateOnChange": false,
-                "hideDefaultAction": true,
                 "field": "cm:created",
                 "dateFormat": "dd-MMM-yy",
                 "maxDate": "today",
                 "displayedLabelsByField": {
-                  "cm:created": "SEARCH.CATEGORIES.DATE_TABS.CREATED",
-                  "cm:modified": "SEARCH.CATEGORIES.DATE_TABS.MODIFIED"
+                  "cm:created": "SEARCH.CATEGORIES.DATE_TABS.CREATED"
                 }
               }
             }
@@ -1778,7 +1773,7 @@
             }
           },
           {
-            "id": "createdDateRange",
+            "id": "createdModifiedDateRange",
             "name": "SEARCH.CATEGORIES.DATE",
             "enabled": true,
             "component": {
