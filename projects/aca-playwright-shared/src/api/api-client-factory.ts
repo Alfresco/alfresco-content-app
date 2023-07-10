@@ -49,10 +49,12 @@ export interface AcaBackend {
   tearDown(): Promise<any>;
 }
 
+const { BASE_URL } = process.env;
+
 const config = {
   authType: 'BASIC',
-  hostBpm: process.env.APP_CONFIG_BPM_HOST,
-  hostEcm: process.env.APP_CONFIG_ECM_HOST,
+  hostBpm: BASE_URL,
+  hostEcm: BASE_URL,
   provider: 'ECM',
   contextRoot: 'alfresco'
 };

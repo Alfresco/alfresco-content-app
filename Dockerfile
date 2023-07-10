@@ -18,7 +18,6 @@ USER 101
 
 ARG PROJECT_NAME
 
-ENV APP_CONFIG_BPM_HOST="{protocol}//{hostname}{:port}"
 ENV APP_CONFIG_ECM_HOST="{protocol}//{hostname}{:port}"
 
 COPY docker/default.conf.template /etc/nginx/templates/
