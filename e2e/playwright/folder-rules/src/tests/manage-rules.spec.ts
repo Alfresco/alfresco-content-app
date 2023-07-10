@@ -22,27 +22,29 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { getUserState, test } from '@alfresco/playwright-shared';
+import { ApiClientFactory, getUserState, test } from '@alfresco/playwright-shared';
 
-test.use({ storageState: getUserState('admin') });
+test.use({ storageState: getUserState('hruser') });
 test.describe('Rules - Manage Rules', () => {
+  const apiClientFactory = new ApiClientFactory();
   const randomName = `playwright-folder-${(Math.random() + 1).toString(36).substring(6)}`;
   const randomRuleName = `playwright-rule-${(Math.random() + 1).toString(36).substring(6)}`;
 
   let folderId: string;
 
-  test.beforeAll(async ({ superAdminApiClient }) => {
-    const node = await superAdminApiClient.nodes.createNode('-my-', { name: randomName, nodeType: 'cm:folder', relativePath: '/' });
+  test.beforeAll(async () => {
+    await apiClientFactory.setUpAcaBackend('hruser');
+    const node = await apiClientFactory.nodes.createNode('-my-', { name: randomName, nodeType: 'cm:folder' });
     folderId = node.entry.id;
-    await superAdminApiClient.createRandomRule(folderId, randomRuleName);
+    await apiClientFactory.createRandomRule(folderId, randomRuleName);
   });
 
   test.beforeEach(async ({ personalFiles }) => {
     await personalFiles.navigate();
   });
 
-  test.afterAll(async ({ superAdminApiClient }) => {
-    await superAdminApiClient.nodes.deleteNode(folderId);
+  test.afterAll(async () => {
+    await apiClientFactory.nodes.deleteNode(folderId);
   });
 
   test('[C691651] Disable an existing rule', async ({ personalFiles, nodesPage }) => {
