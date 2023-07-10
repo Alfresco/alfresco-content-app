@@ -31,29 +31,22 @@ export class FavoritesPageApi extends ApiClientFactory {
 
   constructor() {
     super();
-      this.apiService = new ApiClientFactory();
+    this.apiService = new ApiClientFactory();
   }
-  static async initialize(
-    userProfile: keyof typeof users
-    ): Promise<FavoritesPageApi> {
-        const classObj = new FavoritesPageApi();
-        await classObj.apiService.setUpAcaBackend(userProfile);
-        return classObj;
-    }
+  static async initialize(userProfile: keyof typeof users): Promise<FavoritesPageApi> {
+    const classObj = new FavoritesPageApi();
+    await classObj.apiService.setUpAcaBackend(userProfile);
+    return classObj;
+  }
   async addFavoriteById(nodeType: 'file' | 'folder' | 'site', id: string): Promise<FavoriteEntry | null> {
-    let guid;
-      if (nodeType === 'site') {
-        guid = (await this.sites.getSite(id)).entry.guid;
-      } else {
-        guid = id;
-      }
-      const data = {
-        target: {
-          [nodeType]: {
-            guid: guid
-          }
+    let guid = nodeType === 'site' ? (await this.sites.getSite(id)).entry.guid : id;
+    const data = {
+      target: {
+        [nodeType]: {
+          guid: guid
         }
-      };
-      return await this.apiService.favorites.createFavorite('-me-', data);
+      }
+    };
+    return await this.apiService.favorites.createFavorite('-me-', data);
   }
 }

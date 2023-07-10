@@ -42,6 +42,7 @@ export class SearchInputComponent extends BaseComponent {
   }
 
   async performDoubleClickFolderOrFileToOpen(name: string): Promise<void> {
+    await this.getCellLinkByName(name).waitFor({ state:'visible', timeout: 2000 })
     await this.getCellLinkByName(name).dblclick();
     await this.spinnerWaitForReload();
   }
