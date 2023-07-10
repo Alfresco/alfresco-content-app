@@ -23,17 +23,19 @@
  */
 
 import { expect } from '@playwright/test';
-import { getUserState, test, TEST_FILES } from '@alfresco/playwright-shared';
+import { ApiClientFactory, getUserState, test, TEST_FILES } from '@alfresco/playwright-shared';
 
 test.use({ storageState: getUserState('admin') });
 test.describe('viewer file', () => {
+  const apiClientFactory = new ApiClientFactory();
   const randomFolderName = `playwright-folder-${(Math.random() + 1).toString(36).substring(6)}`;
   const randomDocxName = TEST_FILES.DOCX.name + (Math.random() + 1).toString(36).substring(6);
   let folderId: string;
   let fileDocxId: string;
 
-  test.beforeAll(async ({ superAdminApiClient, fileAction, shareAction, favoritesPageAction: favoritesPageAction }) => {
-    const node = await superAdminApiClient.nodes.createNode('-my-', { name: randomFolderName, nodeType: 'cm:folder', relativePath: '/' });
+  test.beforeAll(async ({ fileAction, shareAction, favoritesPageAction: favoritesPageAction }) => {
+    await apiClientFactory.setUpAcaBackend('admin');
+    const node = await apiClientFactory.nodes.createNode('-my-', { name: randomFolderName, nodeType: 'cm:folder', relativePath: '/' });
     folderId = await node.entry.id;
     const fileDoc = await fileAction.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId);
     fileDocxId = await fileDoc.entry.id;
@@ -47,8 +49,8 @@ test.describe('viewer file', () => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(randomFolderName);
   });
 
-  test.afterAll(async ({ superAdminApiClient }) => {
-    await superAdminApiClient.nodes.deleteNode(folderId);
+  test.afterAll(async () => {
+    await apiClientFactory.nodes.deleteNode(folderId);
   });
 
   test('[C279269] Viewer opens on double clicking on a file from Personal Files', async ({ personalFiles }) => {
