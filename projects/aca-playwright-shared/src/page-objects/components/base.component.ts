@@ -24,6 +24,7 @@
 
 import { Locator, Page } from '@playwright/test';
 import { PlaywrightBase } from '../playwright-base';
+import { timeouts } from '../../utils';
 
 export abstract class BaseComponent extends PlaywrightBase {
   private readonly rootElement: string;
@@ -55,8 +56,8 @@ export abstract class BaseComponent extends PlaywrightBase {
 
   async spinnerWaitForReload(): Promise<void> {
     try {
-      await this.page.locator('mat-progress-spinner').waitFor({ state: 'attached', timeout: 2000 });
-      await this.page.locator('mat-progress-spinner').waitFor({ state: 'detached', timeout: 2000 });
+      await this.page.locator('mat-progress-spinner').waitFor({ state: 'attached', timeout: timeouts.short });
+      await this.page.locator('mat-progress-spinner').waitFor({ state: 'detached', timeout: timeouts.normal });
     } catch (e) {
       this.logger.info('Spinner was not present');
     }
