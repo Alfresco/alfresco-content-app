@@ -46,3 +46,35 @@ docker run --rm -it --user 1000:1000 --publish 8081:8080 alfresco/alfresco-conte
 ```
 
 Navigate to `http://localhost:8081`.
+
+## Docker Variables
+
+There is a number of environment variables that you can define to override the default configuration:
+
+**Example**
+
+```shell
+docker run --rm -it \
+  --env APP_CONFIG_AUTH_TYPE="OAUTH" \
+  --env APP_CONFIG_ECM_HOST="https://some.host.com" \
+  --user 1000:1000 \
+  --publish $HOST_PORT:$CONTAINER_PORT $DOCKER_IMAGE_REPO
+```
+
+### Configuration Mapping
+
+| Name                                         | Config Path                      |
+|----------------------------------------------|----------------------------------|
+| APP_CONFIG_AUTH_TYPE                         | `authType`                       |
+| APP_CONFIG_PROVIDER                          | `providers`                      |
+| APP_CONFIG_IDENTITY_HOST                     | `identityHost`                   |
+| APP_CONFIG_BPM_HOST                          | `bpmHost`                        |
+| APP_CONFIG_ECM_HOST                          | `ecmHost`                        |
+| APP_BASE_SHARE_URL                           | `baseShareUrl`                   |
+| APP_CONFIG_OAUTH2_HOST                       | `oauth2.host`                    |
+| APP_CONFIG_OAUTH2_CLIENTID                   | `oauth2.clientId`                |
+| APP_CONFIG_OAUTH2_IMPLICIT_FLOW              | `oauth2.implicitFlow`            |
+| APP_CONFIG_OAUTH2_SILENT_LOGIN               | `oauth2.silentLogin`             |
+| APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI | `oauth2.redirectSilentIframeUri` |
+| APP_CONFIG_OAUTH2_REDIRECT_LOGIN             | `oauth2.redirectUri`             |
+| APP_CONFIG_OAUTH2_REDIRECT_LOGOUT            | `oauth2.redirectUriLogout`       |
