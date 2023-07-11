@@ -23,12 +23,6 @@ runs:
       shell: bash
       run: |
         ./node_modules/.bin/tsc -p "./e2e/protractor/$E2E_TSCONFIG" || exit 1;
-        # npx http-server -c-1 $CONTENT_CE_DIST_PATH -p 4200 > /dev/null &\
-
-        {
-          echo "APP_CONFIG_ECM_HOST={protocol}//{hostname}{:port}"
-        } >> .env
-
         npm start > /dev/null &\
 
         if [ ${{ inputs.test-runner }} == "playwright" ]; then
