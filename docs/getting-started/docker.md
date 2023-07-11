@@ -58,7 +58,7 @@ docker run --rm -it \
   --env APP_CONFIG_AUTH_TYPE="OAUTH" \
   --env APP_CONFIG_ECM_HOST="https://some.host.com" \
   --user 1000:1000 \
-  --publish $HOST_PORT:$CONTAINER_PORT $DOCKER_IMAGE_REPO
+  --publish 8081:8080 alfresco/alfresco-content-app
 ```
 
 ### Configuration Mapping
