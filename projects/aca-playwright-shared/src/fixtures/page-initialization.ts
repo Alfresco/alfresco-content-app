@@ -24,14 +24,35 @@
 
 import { test as base } from '@playwright/test';
 import {MyLibrariesPage, NodesPage, PersonalFilesPage} from '../';
+import {
+  FileActionsApi,
+  NodesPage,
+  PersonalFilesPage,
+  RecentFilesPage,
+  SharedLinksApi,
+  SharedPage,
+  SearchPage,
+  FavoritesPage,
+  FavoritesPageApi
+} from '../';
 
 interface Pages {
   personalFiles: PersonalFilesPage;
   nodesPage: NodesPage;
   myLibrariesPage: MyLibrariesPage;
+  recentFilesPage: RecentFilesPage;
+  sharedPage: SharedPage;
+  searchPage: SearchPage;
+  favoritePage: FavoritesPage;
 }
 
-export const test = base.extend<Pages>({
+interface Api {
+  fileAction: FileActionsApi;
+  shareAction: SharedLinksApi;
+  favoritesPageAction: FavoritesPageApi;
+}
+
+export const test = base.extend<Pages & Api>({
   personalFiles: async ({ page }, use) => {
     await use(new PersonalFilesPage(page));
   },
@@ -40,5 +61,29 @@ export const test = base.extend<Pages>({
   },
   myLibrariesPage: async ({ page }, use) => {
     await use(new MyLibrariesPage(page));
+  },
+  recentFilesPage: async ({ page }, use) => {
+    await use(new RecentFilesPage(page));
+  },
+  sharedPage: async ({ page }, use) => {
+    await use(new SharedPage(page));
+  },
+  searchPage: async ({ page }, use) => {
+    await use(new SearchPage(page));
+  },
+  favoritePage: async ({ page }, use) => {
+    await use(new FavoritesPage(page));
+  },
+  // eslint-disable-next-line no-empty-pattern
+  fileAction: async ({}, use) => {
+    await use(await FileActionsApi.initialize('admin'));
+  },
+  // eslint-disable-next-line no-empty-pattern
+  shareAction: async ({}, use) => {
+    await use(await SharedLinksApi.initialize('admin'));
+  },
+  // eslint-disable-next-line no-empty-pattern
+  favoritesPageAction: async ({}, use) => {
+    await use(await FavoritesPageApi.initialize('admin'));
   }
 });

@@ -35,7 +35,9 @@ import {
   SecurityGroupsApi,
   SecurityMarksApi,
   SitesApi,
-  UploadApi
+  UploadApi,
+  SharedlinksApi,
+  FavoritesApi
 } from '@alfresco/js-api';
 import { logger } from '@alfresco/adf-cli/scripts/logger';
 import { ActionTypes, Rule } from './rules-api';
@@ -45,6 +47,8 @@ export interface AcaBackend {
   sites: SitesApi;
   upload: UploadApi;
   nodes: NodesApi;
+  share: SharedlinksApi;
+  favorites: FavoritesApi;
 
   tearDown(): Promise<any>;
 }
@@ -73,6 +77,8 @@ export class ApiClientFactory {
   public securityGroupsApi: SecurityGroupsApi;
   public securityMarksApi: SecurityMarksApi;
   public contentClient: ContentClient;
+  public share: SharedlinksApi;
+  public favorites: FavoritesApi;
 
   constructor() {
     this.alfrescoApi = new AlfrescoApi(config);
@@ -92,6 +98,8 @@ export class ApiClientFactory {
     this.search = new SearchApi(this.alfrescoApi);
     this.securityGroupsApi = new SecurityGroupsApi(this.alfrescoApi);
     this.securityMarksApi = new SecurityMarksApi(this.alfrescoApi);
+    this.share = new SharedlinksApi(this.alfrescoApi);
+    this.favorites = new FavoritesApi(this.alfrescoApi);
 
     return this;
   }

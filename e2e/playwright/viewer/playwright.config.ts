@@ -22,10 +22,23 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './api';
-export * from './base-config';
-export * from './models';
-export * from './page-objects';
-export * from './fixtures/page-initialization';
-export * from './utils';
-export * from './resources/test-files';
+import { PlaywrightTestConfig } from '@playwright/test';
+import { CustomConfig, getGlobalConfig, getExcludedTestsRegExpArray } from '@alfresco/playwright-shared';
+import EXCLUDED_JSON from './exclude.tests.json';
+
+const config: PlaywrightTestConfig<CustomConfig> = {
+  ...getGlobalConfig,
+
+  grepInvert: getExcludedTestsRegExpArray(EXCLUDED_JSON, 'Viewer'),
+  projects: [
+    {
+      name: 'Viewer',
+      testDir: './src/tests',
+      use: {
+        users: ['hruser', 'admin']
+      }
+    }
+  ]
+};
+
+export default config;
