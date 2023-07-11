@@ -153,10 +153,12 @@ test.describe('Create Libraries ', () => {
     await expect(libraryTable.getCellLinkByName(randomLibraryName).and(myLibrariesPage.page.getByTitle(randomLibraryDescription))).toBeVisible();
     await libraryTable.getRowByName(randomLibraryName).click();
     await libraryViewDetails.click();
-    await expect(libraryDetails.getFieldData('Name').and(libraryDetails.getFieldData(randomLibraryName))).toBeVisible();
-    await expect(libraryDetails.getFieldData('Library ID').and(libraryDetails.getFieldData(randomLibraryId))).toBeVisible();
-    await expect(libraryDetails.getFieldData('Visibility').and(libraryDetails.getFieldData(publicVisibility))).toBeVisible();
-    await expect(libraryDetails.getFieldData(libraryDescriptionLebel).and(libraryDetails.getFieldData(randomLibraryDescription))).toBeVisible();
+    await expect(libraryDetails.getNameField('Name').and(libraryDetails.getNameField(randomLibraryName))).toBeVisible();
+    await expect(libraryDetails.getIdField('Library ID').and(libraryDetails.getIdField(randomLibraryId))).toBeVisible();
+    await expect(libraryDetails.getVisibilityField('Visibility').and(libraryDetails.getVisibilityField(publicVisibility))).toBeVisible();
+    await expect(
+      libraryDetails.getDescriptionField(libraryDescriptionLebel).and(libraryDetails.getDescriptionField(randomLibraryDescription))
+    ).toBeVisible();
 
     await apiClientFactory.sites.deleteSite(randomLibraryId, { permanent: true });
   });
