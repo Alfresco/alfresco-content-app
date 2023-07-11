@@ -19,13 +19,34 @@
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './api';
-export * from './base-config';
-export * from './models';
-export * from './page-objects';
-export * from './fixtures/page-initialization';
-export * from './utils';
-export * from './resources/test-files';
+import { ApiClientFactory } from './api-client-factory';
+import { FavoriteEntry } from '@alfresco/js-api';
+import { users } from '../base-config/global-variables';
+
+export class FavoritesPageApi extends ApiClientFactory {
+  private apiService: ApiClientFactory;
+
+  constructor() {
+    super();
+    this.apiService = new ApiClientFactory();
+  }
+  static async initialize(userProfile: keyof typeof users): Promise<FavoritesPageApi> {
+    const classObj = new FavoritesPageApi();
+    await classObj.apiService.setUpAcaBackend(userProfile);
+    return classObj;
+  }
+  async addFavoriteById(nodeType: 'file' | 'folder' | 'site', id: string): Promise<FavoriteEntry | null> {
+    let guid = nodeType === 'site' ? (await this.sites.getSite(id)).entry.guid : id;
+    const data = {
+      target: {
+        [nodeType]: {
+          guid: guid
+        }
+      }
+    };
+    return await this.apiService.favorites.createFavorite('-me-', data);
+  }
+}

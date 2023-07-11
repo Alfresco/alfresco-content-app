@@ -23,7 +23,6 @@
  */
 
 import { AdminActions, UserActions, LoginPage, BrowsingPage, FILES, SITE_VISIBILITY, RepoClient, Utils, Viewer } from '@alfresco/aca-testing-shared';
-import { BrowserActions } from '@alfresco/adf-testing';
 
 describe('Viewer general', () => {
   const username = `user-${Utils.random()}`;
@@ -49,9 +48,8 @@ describe('Viewer general', () => {
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
-  const { dataTable, toolbar } = page;
+  const { dataTable } = page;
   const viewer = new Viewer();
-  const { searchInput } = page.pageLayoutHeader;
 
   const adminApiActions = new AdminActions();
   const userActions = new UserActions();
@@ -98,45 +96,6 @@ describe('Viewer general', () => {
     await apis.user.sites.deleteSite(siteUser);
   });
 
-  it('[C279269] Viewer opens on double clicking on a file from Personal Files', async () => {
-    await dataTable.doubleClickOnRowByName(xlsxFile);
-    expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
-  });
-
-  it('[C279270] Viewer opens when clicking the View action for a file', async () => {
-    await dataTable.selectItem(xlsxFile);
-    await BrowserActions.click(page.toolbar.viewButton);
-
-    expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
-  });
-
-  it('[C279283] The viewer general elements are displayed', async () => {
-    await dataTable.doubleClickOnRowByName(xlsxFile);
-    expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
-    expect(await viewer.isViewerToolbarDisplayed()).toBe(true, 'Toolbar not displayed');
-    expect(await viewer.isCloseButtonDisplayed()).toBe(true, 'Close button is not displayed');
-    expect(await viewer.isFileTitleDisplayed()).toBe(true, 'File title is not displayed');
-  });
-
-  it('[C279271] Close the viewer', async () => {
-    await dataTable.doubleClickOnRowByName(xlsxFile);
-    expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
-    await BrowserActions.click(viewer.closeButton);
-    expect(await viewer.isViewerOpened()).toBe(false, 'Viewer did not close');
-  });
-
-  it('[C284632] Close button tooltip', async () => {
-    await dataTable.doubleClickOnRowByName(xlsxFile);
-    expect(await viewer.getCloseButtonTooltip()).toEqual('Close');
-  });
-
-  it('[C279285] Viewer opens when accessing the preview URL for a file', async () => {
-    const previewURL = `personal-files/${parentId}/(viewer:view/${xlsxFileId})`;
-    await page.load(previewURL);
-    expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
-    expect(await viewer.getFileTitle()).toEqual(xlsxFile);
-  });
-
   it('[C279287] Viewer does not open when accessing the preview URL for a file without permissions', async () => {
     const previewURL = `libraries/${docLibId}/(viewer:view/${fileAdminId})`;
     await page.load(previewURL);
@@ -148,47 +107,6 @@ describe('Viewer general', () => {
     await dataTable.doubleClickOnRowByName(siteUser);
     await dataTable.waitForHeader();
     await dataTable.doubleClickOnRowByName(fileInSite);
-    expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
-    expect(await viewer.isViewerToolbarDisplayed()).toBe(true, 'Toolbar not displayed');
-    expect(await viewer.isCloseButtonDisplayed()).toBe(true, 'Close button is not displayed');
-    expect(await viewer.isFileTitleDisplayed()).toBe(true, 'File title is not displayed');
-  });
-
-  it('[C284636] Viewer opens for a file from Recent Files', async () => {
-    await page.clickRecentFilesAndWait();
-    await dataTable.doubleClickOnRowByName(xlsxFile);
-    expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
-    expect(await viewer.isViewerToolbarDisplayed()).toBe(true, 'Toolbar not displayed');
-    expect(await viewer.isCloseButtonDisplayed()).toBe(true, 'Close button is not displayed');
-    expect(await viewer.isFileTitleDisplayed()).toBe(true, 'File title is not displayed');
-  });
-
-  it('[C284635] Viewer opens for a file from Shared Files', async () => {
-    await page.clickSharedFilesAndWait();
-    await dataTable.doubleClickOnRowByName(xlsxFile);
-    expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
-    expect(await viewer.isViewerToolbarDisplayed()).toBe(true, 'Toolbar not displayed');
-    expect(await viewer.isCloseButtonDisplayed()).toBe(true, 'Close button is not displayed');
-    expect(await viewer.isFileTitleDisplayed()).toBe(true, 'File title is not displayed');
-  });
-
-  it('[C284634] Viewer opens for a file from Favorites', async () => {
-    await page.clickFavoritesAndWait();
-    await dataTable.doubleClickOnRowByName(xlsxFile);
-    expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
-    expect(await viewer.isViewerToolbarDisplayed()).toBe(true, 'Toolbar not displayed');
-    expect(await viewer.isCloseButtonDisplayed()).toBe(true, 'Close button is not displayed');
-    expect(await viewer.isFileTitleDisplayed()).toBe(true, 'File title is not displayed');
-  });
-
-  it('[C279175] Viewer opens for a file from Search Results', async () => {
-    await toolbar.clickSearchIconButton();
-    await searchInput.clickSearchButton();
-    await searchInput.checkFilesAndFolders();
-    await searchInput.searchFor(xlsxFile);
-    await dataTable.waitForBody();
-
-    await dataTable.doubleClickOnRowByName(xlsxFile);
     expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
     expect(await viewer.isViewerToolbarDisplayed()).toBe(true, 'Toolbar not displayed');
     expect(await viewer.isCloseButtonDisplayed()).toBe(true, 'Close button is not displayed');

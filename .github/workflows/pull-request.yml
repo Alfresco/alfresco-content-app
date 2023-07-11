@@ -176,6 +176,8 @@ jobs:
             id: 1
           - name: "folder-rules"
             id: 2
+          - name: "viewer"
+            id: 3
     steps:
       - name: Checkout
         uses: actions/checkout@v3

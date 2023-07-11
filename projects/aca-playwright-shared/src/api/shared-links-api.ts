@@ -19,13 +19,37 @@
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './api';
-export * from './base-config';
-export * from './models';
-export * from './page-objects';
-export * from './fixtures/page-initialization';
-export * from './utils';
-export * from './resources/test-files';
+import { ApiClientFactory } from './api-client-factory';
+import { SharedLinkEntry } from '@alfresco/js-api';
+import { users } from '../base-config/global-variables';
+
+export class SharedLinksApi extends ApiClientFactory {
+  private apiService: ApiClientFactory;
+
+  constructor() {
+    super();
+      this.apiService = new ApiClientFactory();
+  }
+  static async initialize(
+    userProfile: keyof typeof users
+    ): Promise<SharedLinksApi> {
+        const classObj = new SharedLinksApi();
+        await classObj.apiService.setUpAcaBackend(userProfile);
+        return classObj;
+    }
+
+  async shareFileById(id: string, expireDate?: Date): Promise<SharedLinkEntry | null> {
+    try {
+      const data = {
+        nodeId: id,
+        expiresAt: expireDate
+      };
+      return await this.apiService.share.createSharedLink(data);
+    } catch (error) {
+      return null;
+    }
+  }
+}

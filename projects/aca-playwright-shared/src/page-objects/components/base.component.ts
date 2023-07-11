@@ -50,13 +50,13 @@ export abstract class BaseComponent extends PlaywrightBase {
   async closeAdditionalOverlayElementIfVisible(): Promise<void> {
     if (await this.overlayElement.isVisible()) {
       await this.page.keyboard.press('Escape');
-      await this.overlayElement.waitFor({ state: 'detached', timeout: 5000 });
+      await this.overlayElement.waitFor({ state: 'detached', timeout: timeouts.medium });
     }
   }
 
   async spinnerWaitForReload(): Promise<void> {
     try {
-      await this.page.locator('mat-progress-spinner').waitFor({ state: 'attached', timeout: timeouts.short });
+      await this.page.locator('mat-progress-spinner').waitFor({ state: 'attached', timeout: timeouts.normal });
       await this.page.locator('mat-progress-spinner').waitFor({ state: 'detached', timeout: timeouts.normal });
     } catch (e) {
       this.logger.info('Spinner was not present');

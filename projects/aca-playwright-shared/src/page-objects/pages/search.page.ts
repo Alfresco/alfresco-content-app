@@ -22,10 +22,24 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './api';
-export * from './base-config';
-export * from './models';
-export * from './page-objects';
-export * from './fixtures/page-initialization';
-export * from './utils';
-export * from './resources/test-files';
+import { Page } from '@playwright/test';
+import { BasePage } from './base.page';
+import { DataTableComponent, MatMenuComponent, ViewerComponent, SearchInputComponent, SearchOverlayComponent } from '../components';
+import { AcaHeader } from '../components/aca-header.component';
+import { AdfFolderDialogComponent } from '../components/dialogs';
+
+export class SearchPage extends BasePage {
+  private static pageUrl = 'search';
+
+  constructor(page: Page) {
+    super(page, SearchPage.pageUrl);
+  }
+
+  public acaHeader = new AcaHeader(this.page);
+  public matMenu = new MatMenuComponent(this.page);
+  public folderDialog = new AdfFolderDialogComponent(this.page);
+  public dataTable = new DataTableComponent(this.page);
+  public viewer = new ViewerComponent(this.page);
+  public searchInput = new SearchInputComponent(this.page);
+  public searchOverlay = new SearchOverlayComponent(this.page);
+}
