@@ -17,6 +17,8 @@
   - [CORS](/getting-started/cors)
   - [Configuration](/configuration/)
   - [Navigation](/getting-started/navigation)
+  - [Local ADF](/getting-started/using-local-adf)
+  - [Docker Support](/getting-started/docker)
 - [Extending](/extending/)
   - [Extensibility features](/extending/extensibility-features)
   - [Extension format](/extending/extension-format)

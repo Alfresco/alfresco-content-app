@@ -16,3 +16,5 @@ Learn how to start developing with the Alfresco Content Application.
 - [CORS](/getting-started/cors)
 - [Single Sign-On](/getting-started/sso)
 - [Navigation](/getting-started/navigation)
+- [Using local ADF](/getting-started/using-local-adf)
+- [Docker Support](/getting-started/docker)

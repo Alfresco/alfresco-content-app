@@ -16,13 +16,11 @@ USER root
 RUN apk update && apk upgrade
 USER 101
 
-ARG PROJECT_NAME
-
 COPY docker/default.conf.template /etc/nginx/templates/
 
-COPY dist/$PROJECT_NAME /usr/share/nginx/html/
-COPY dist/$PROJECT_NAME/app.config.json /etc/nginx/templates/app.config.json.template
-COPY dist/$PROJECT_NAME/assets/app.extensions.json /etc/nginx/templates/app.extensions.json.template
+COPY dist/content-ce /usr/share/nginx/html/
+COPY dist/content-ce/app.config.json /etc/nginx/templates/app.config.json.template
+COPY dist/content-ce/assets/app.extensions.json /etc/nginx/templates/app.extensions.json.template
 COPY --from=builder /usr/src/alfresco/licenses /usr/share/nginx/html/
 
 USER root
