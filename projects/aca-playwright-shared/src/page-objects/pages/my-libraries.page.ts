@@ -39,6 +39,11 @@ export class MyLibrariesPage extends BasePage {
   public libraryDialog = new AdfLibraryDialogComponent(this.page);
   public dataTable = new DataTableComponent(this.page);
   public breadcrumb = new AdfBreadcrumbComponent(this.page);
-  public viewDetails = new AdfInfoDrawerComponent (this.page);
+  public libraryDetails = new AdfInfoDrawerComponent (this.page);
+
+  async selectCreateLibrary(): Promise<void> {
+    await this.acaHeader.createButton.click();
+    await this.matMenu.createLibrary.click();
+  }
 
 }
