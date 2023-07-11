@@ -25,6 +25,7 @@
 import { expect } from '@playwright/test';
 import { GeneralUtils, ApiClientFactory, getUserState, test, libraryErrors } from '@alfresco/playwright-shared';
 import { SiteBodyCreate } from '@alfresco/js-api';
+import { GeneralUtils } from '../../../../../projects/aca-playwright-shared/src/utils/general-utils';
 
 test.use({ storageState: getUserState('hruser') });
 test.describe('Create Libraries ', () => {
