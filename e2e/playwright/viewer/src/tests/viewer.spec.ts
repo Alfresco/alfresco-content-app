@@ -45,7 +45,6 @@ test.describe('viewer file', () => {
 
   test.beforeEach(async ({ personalFiles }) => {
     await personalFiles.navigate({ waitUntil: 'domcontentloaded' });
-    await personalFiles.dataTable.goThroughPagesLookingForRowWithName(randomFolderName);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(randomFolderName);
   });
 
@@ -115,7 +114,6 @@ test.describe('viewer file', () => {
 
   test('[C284634] Viewer opens for a file from Favorites', async ({ favoritePage }) => {
     await favoritePage.navigate({ waitUntil: 'domcontentloaded' });
-    await favoritePage.dataTable.goThroughPagesLookingForRowWithName(randomDocxName);
     await favoritePage.dataTable.performClickFolderOrFileToOpen(randomDocxName);
     expect(await favoritePage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
     expect(await favoritePage.viewer.isCloseButtonDisplayed(), 'Close button is not displayed').toBe(true);
