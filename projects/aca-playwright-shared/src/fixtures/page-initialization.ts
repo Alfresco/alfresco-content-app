@@ -22,7 +22,6 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 import { test as base } from '@playwright/test';
 import {MyLibrariesPage, NodesPage, PersonalFilesPage} from '../';
 
