@@ -34,7 +34,7 @@ You need to set some environment variables to be able to run the local dev serve
 
 ```yml
 # App config settings
-APP_CONFIG_ECM_HOST="<URL>"
+BASE_URL="<URL>"
 ```
 
 ## Proxy settings

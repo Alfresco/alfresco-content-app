@@ -33,9 +33,9 @@
           "app/src/assets",
           "app/src/favicon-96x96.png",
           {
-            "input": "app/.tmp",
-            "output": "/",
-            "glob": "app.config.json"
+            "glob": "app.config.json",
+            "input": "app/src",
+            "output": "/"
           },
           {
             "glob": "**/*",
