@@ -75,6 +75,7 @@ export class ActionsDropdownComponent extends BaseComponent {
       await this.addActionButtonLocator.click();
     }
     await this.actionDropdownLocator.nth(index).click();
+    await this.spinnerWaitForReload();
     const option = this.getOptionLocator(action);
     await option.click();
   }
