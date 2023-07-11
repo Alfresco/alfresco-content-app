@@ -51,12 +51,8 @@ export class AdfLibraryDialogComponent extends BaseComponent {
       await this.getLabelText('Name *').fill(nameInput);
       await this.getLabelText('Library ID *').clear();
       await this.getLabelText('Library ID *').fill(libraryIdInput);
-      if (descriptionInput) {
-      await this.getLabelText('Description').fill(descriptionInput);
-      }
-      if (visibility) {
-      await this.getLabelText(visibility).click();
-      }
+      if (descriptionInput) { await this.getLabelText('Description').fill(descriptionInput); }
+      if (visibility) { await this.getLabelText(visibility).click(); }
       await this.createButton.click();
     }
 }

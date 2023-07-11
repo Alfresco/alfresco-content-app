@@ -70,125 +70,140 @@ test.describe('Create Libraries ', () => {
   });
 
   test('[C280024] Create Library dialog UI', async ({ myLibrariesPage }) => {
-    await myLibrariesPage.acaHeader.createButton.click();
-    await myLibrariesPage.matMenu.createLibrary.click();
+    const libraryDialog = myLibrariesPage.libraryDialog;
 
-    await expect(myLibrariesPage.libraryDialog.getDialogTitle(libraryDialogTitle)).toBeVisible();
-    await expect(myLibrariesPage.libraryDialog.getLabelText(libraryNameLebel)).toBeVisible();
-    await expect(myLibrariesPage.libraryDialog.getLabelText(libraryIdLebel)).toBeVisible();
-    await expect(myLibrariesPage.libraryDialog.getLabelText(libraryDescriptionLebel)).toBeVisible();
-    await expect(myLibrariesPage.libraryDialog.getLabelText(publicVisibility)).toBeVisible();
-    await expect(myLibrariesPage.libraryDialog.getLabelText(publicVisibility)).toBeChecked();
-    await expect(myLibrariesPage.libraryDialog.getLabelText(privateVisibility)).toBeVisible();
-    await expect(myLibrariesPage.libraryDialog.getLabelText(moderatedVisibility)).toBeVisible();
-    await expect(myLibrariesPage.libraryDialog.cancelButton).toBeEnabled();
-    await expect(myLibrariesPage.libraryDialog.createButton).toBeDisabled();
+    await myLibrariesPage.selectCreateLibrary();
+
+    await expect(libraryDialog.getDialogTitle(libraryDialogTitle)).toBeVisible();
+    await expect(libraryDialog.getLabelText(libraryNameLebel)).toBeVisible();
+    await expect(libraryDialog.getLabelText(libraryIdLebel)).toBeVisible();
+    await expect(libraryDialog.getLabelText(libraryDescriptionLebel)).toBeVisible();
+    await expect(libraryDialog.getLabelText(publicVisibility)).toBeVisible();
+    await expect(libraryDialog.getLabelText(publicVisibility)).toBeChecked();
+    await expect(libraryDialog.getLabelText(privateVisibility)).toBeVisible();
+    await expect(libraryDialog.getLabelText(moderatedVisibility)).toBeVisible();
+    await expect(libraryDialog.cancelButton).toBeEnabled();
+    await expect(libraryDialog.createButton).toBeDisabled();
   });
 
   test('[C280025] Create a public library', async ({ myLibrariesPage }) => {
-    await myLibrariesPage.acaHeader.createButton.click();
-    await myLibrariesPage.matMenu.createLibrary.click();
-    await myLibrariesPage.libraryDialog.getLabelText(libraryNameLebel).fill(randomLibraryName);
-    await expect(myLibrariesPage.libraryDialog.getLabelText(libraryNameLebel)).toHaveValue(randomLibraryName);
-    await expect(myLibrariesPage.libraryDialog.getLabelText(libraryIdLebel)).toHaveValue(randomLibraryName);
-    await myLibrariesPage.libraryDialog.createButton.click();
-    await expect(myLibrariesPage.breadcrumb.getBreadcrumbItem(randomLibraryName)).toBeVisible();
+    const libraryDialog = myLibrariesPage.libraryDialog;
+    const libraryTable = myLibrariesPage.dataTable;
+    const libraryBreadcrumb = myLibrariesPage.breadcrumb;
+
+    await myLibrariesPage.selectCreateLibrary();
+    await libraryDialog.getLabelText(libraryNameLebel).fill(randomLibraryName);
+    await expect(libraryDialog.getLabelText(libraryNameLebel)).toHaveValue(randomLibraryName);
+    await expect(libraryDialog.getLabelText(libraryIdLebel)).toHaveValue(randomLibraryName);
+    await libraryDialog.createButton.click();
+    await expect(libraryBreadcrumb.getBreadcrumbItem(randomLibraryName)).toBeVisible();
 
     await myLibrariesPage.navigate();
-    await myLibrariesPage.dataTable.goThroughPagesLookingForRowWithName(randomLibraryName);
-    await expect(myLibrariesPage.dataTable.getCellByColumnNameAndRowItem(randomLibraryName, publicVisibility)).toBeVisible();
+    await libraryTable.goThroughPagesLookingForRowWithName(randomLibraryName);
+    await expect(libraryTable.getCellByColumnNameAndRowItem(randomLibraryName, publicVisibility)).toBeVisible();
 
-    await myLibrariesPage.dataTable.performActionFromExpandableMenu(randomLibraryName, deleteAction);
+    await libraryTable.performActionFromExpandableMenu(randomLibraryName, deleteAction);
   });
 
   test('[C289880] Create a moderated library', async ({ myLibrariesPage }) => {
-    await myLibrariesPage.acaHeader.createButton.click();
-    await myLibrariesPage.matMenu.createLibrary.click();
-    await myLibrariesPage.libraryDialog.createLibraryWithNameAndId(randomLibraryName, randomLibraryId, null, moderatedVisibility);
-    await expect(myLibrariesPage.breadcrumb.getBreadcrumbItem(randomLibraryName)).toBeVisible();
+    const libraryDialog = myLibrariesPage.libraryDialog;
+    const libraryTable = myLibrariesPage.dataTable;
+    const libraryBreadcrumb = myLibrariesPage.breadcrumb;
+
+    await myLibrariesPage.selectCreateLibrary();
+    await libraryDialog.createLibraryWithNameAndId(randomLibraryName, randomLibraryId, null, moderatedVisibility);
+    await expect(libraryBreadcrumb.getBreadcrumbItem(randomLibraryName)).toBeVisible();
 
     await myLibrariesPage.navigate();
-    await myLibrariesPage.dataTable.goThroughPagesLookingForRowWithName(randomLibraryName);
-    await expect(myLibrariesPage.dataTable.getCellByColumnNameAndRowItem(randomLibraryName, moderatedVisibility)).toBeVisible();
+    await libraryTable.goThroughPagesLookingForRowWithName(randomLibraryName);
+    await expect(libraryTable.getCellByColumnNameAndRowItem(randomLibraryName, moderatedVisibility)).toBeVisible();
 
-    await myLibrariesPage.dataTable.performActionFromExpandableMenu(randomLibraryName, deleteAction);
+    await libraryTable.performActionFromExpandableMenu(randomLibraryName, deleteAction);
   });
 
   test('[C289881] Create a private library', async ({ myLibrariesPage }) => {
-    await myLibrariesPage.acaHeader.createButton.click();
-    await myLibrariesPage.matMenu.createLibrary.click();
-    await myLibrariesPage.libraryDialog.createLibraryWithNameAndId(randomLibraryName, randomLibraryId, null, privateVisibility);
-    await expect(myLibrariesPage.breadcrumb.getBreadcrumbItem(randomLibraryName)).toBeVisible();
+    const libraryDialog = myLibrariesPage.libraryDialog;
+    const libraryTable = myLibrariesPage.dataTable;
+    const libraryBreadcrumb = myLibrariesPage.breadcrumb;
+
+    await myLibrariesPage.selectCreateLibrary();
+    await libraryDialog.createLibraryWithNameAndId(randomLibraryName, randomLibraryId, null, privateVisibility);
+    await expect(libraryBreadcrumb.getBreadcrumbItem(randomLibraryName)).toBeVisible();
 
     await myLibrariesPage.navigate();
-    await myLibrariesPage.dataTable.goThroughPagesLookingForRowWithName(randomLibraryName);
-    await expect(myLibrariesPage.dataTable.getCellByColumnNameAndRowItem(randomLibraryName, privateVisibility)).toBeVisible();
+    await libraryTable.goThroughPagesLookingForRowWithName(randomLibraryName);
+    await expect(libraryTable.getCellByColumnNameAndRowItem(randomLibraryName, privateVisibility)).toBeVisible();
 
-    await myLibrariesPage.dataTable.performActionFromExpandableMenu(randomLibraryName, deleteAction);
+    await libraryTable.performActionFromExpandableMenu(randomLibraryName, deleteAction);
   });
 
   test('[C289882] Create a library with a given ID and description', async ({ myLibrariesPage }) => {
-    await myLibrariesPage.acaHeader.createButton.click();
-    await myLibrariesPage.matMenu.createLibrary.click();
-    await myLibrariesPage.libraryDialog.createLibraryWithNameAndId(randomLibraryName, randomLibraryId, randomLibraryDescription);
-    await expect(myLibrariesPage.breadcrumb.getBreadcrumbItem(randomLibraryName)).toBeVisible();
+    const libraryDialog = myLibrariesPage.libraryDialog;
+    const libraryTable = myLibrariesPage.dataTable;
+    const libraryBreadcrumb = myLibrariesPage.breadcrumb;
+    const libraryViewDetails = myLibrariesPage.acaHeader.viewDetails;
+    const libraryDetails = myLibrariesPage.libraryDetails;
+
+    await myLibrariesPage.selectCreateLibrary();
+    await libraryDialog.createLibraryWithNameAndId(randomLibraryName, randomLibraryId, randomLibraryDescription);
+    await expect(libraryBreadcrumb.getBreadcrumbItem(randomLibraryName)).toBeVisible();
 
     await myLibrariesPage.navigate();
-    await myLibrariesPage.dataTable.goThroughPagesLookingForRowWithName(randomLibraryName);
-    await expect(
-      myLibrariesPage.dataTable.getCellLinkByName(randomLibraryName).and(myLibrariesPage.page.getByTitle(randomLibraryDescription))
-    ).toBeVisible();
-    await myLibrariesPage.dataTable.getRowByName(randomLibraryName).click();
-    await myLibrariesPage.acaHeader.viewDetails.click();
-    await expect(myLibrariesPage.viewDetails.getFieldData('Name').and(myLibrariesPage.viewDetails.getFieldData(randomLibraryName))).toBeVisible();
-    await expect(myLibrariesPage.viewDetails.getFieldData('Library ID').and(myLibrariesPage.viewDetails.getFieldData(randomLibraryId))).toBeVisible();
-    await expect(
-      myLibrariesPage.viewDetails.getFieldData('Visibility').and(myLibrariesPage.viewDetails.getFieldData(publicVisibility))
-    ).toBeVisible();
-    await expect(
-      myLibrariesPage.viewDetails.getFieldData(libraryDescriptionLebel).and(myLibrariesPage.viewDetails.getFieldData(randomLibraryDescription))
-    ).toBeVisible();
+    await libraryTable.goThroughPagesLookingForRowWithName(randomLibraryName);
+    await expect(libraryTable.getCellLinkByName(randomLibraryName).and(myLibrariesPage.page.getByTitle(randomLibraryDescription))).toBeVisible();
+    await libraryTable.getRowByName(randomLibraryName).click();
+    await libraryViewDetails.click();
+    await expect(libraryDetails.getFieldData('Name').and(libraryDetails.getFieldData(randomLibraryName))).toBeVisible();
+    await expect(libraryDetails.getFieldData('Library ID').and(libraryDetails.getFieldData(randomLibraryId))).toBeVisible();
+    await expect(libraryDetails.getFieldData('Visibility').and(libraryDetails.getFieldData(publicVisibility))).toBeVisible();
+    await expect(libraryDetails.getFieldData(libraryDescriptionLebel).and(libraryDetails.getFieldData(randomLibraryDescription))).toBeVisible();
 
     await apiClientFactory.sites.deleteSite(randomLibraryId, { permanent: true });
   });
 
   test('[C280027] Duplicate library ID', async ({ myLibrariesPage }) => {
-    await myLibrariesPage.acaHeader.createButton.click();
-    await myLibrariesPage.matMenu.createLibrary.click();
-    await myLibrariesPage.libraryDialog.getLabelText(libraryNameLebel).fill(randomLibraryName);
-    await myLibrariesPage.libraryDialog.getLabelText(libraryIdLebel).clear();
-    await myLibrariesPage.libraryDialog.getLabelText(libraryIdLebel).fill(commonLibraryId);
+    const libraryDialog = myLibrariesPage.libraryDialog;
 
-    await expect(myLibrariesPage.libraryDialog.createButton).toBeDisabled();
-    await expect(myLibrariesPage.libraryDialog.getMatError(libraryErrors.libraryIdIsNotAvailable)).toBeVisible();
+    await myLibrariesPage.selectCreateLibrary();
+    await libraryDialog.getLabelText(libraryNameLebel).fill(randomLibraryName);
+    await libraryDialog.getLabelText(libraryIdLebel).clear();
+    await libraryDialog.getLabelText(libraryIdLebel).fill(commonLibraryId);
+
+    await expect(libraryDialog.createButton).toBeDisabled();
+    await expect(libraryDialog.getMatError(libraryErrors.libraryIdIsNotAvailable)).toBeVisible();
   });
 
   test('[C280028] Create library using the ID of a library from the Trashcan', async ({ myLibrariesPage }) => {
-    await myLibrariesPage.acaHeader.createButton.click();
-    await myLibrariesPage.matMenu.createLibrary.click();
-    await myLibrariesPage.libraryDialog.getLabelText(libraryNameLebel).fill(randomLibraryName);
-    await myLibrariesPage.libraryDialog.getLabelText(libraryIdLebel).clear();
-    await myLibrariesPage.libraryDialog.getLabelText(libraryIdLebel).fill(commonTrashLibraryId);
+    const libraryDialog = myLibrariesPage.libraryDialog;
 
-    await expect(myLibrariesPage.libraryDialog.createButton).toBeEnabled();
-    await myLibrariesPage.libraryDialog.createButton.click();
-    await expect(myLibrariesPage.libraryDialog.createButton).toBeDisabled();
-    await expect(myLibrariesPage.libraryDialog.getMatError(libraryErrors.libraryIdIsAlreadyUsed)).toBeVisible();
+    await myLibrariesPage.selectCreateLibrary();
+    await libraryDialog.getLabelText(libraryNameLebel).fill(randomLibraryName);
+    await libraryDialog.getLabelText(libraryIdLebel).clear();
+    await libraryDialog.getLabelText(libraryIdLebel).fill(commonTrashLibraryId);
+
+    await expect(libraryDialog.createButton).toBeEnabled();
+    await libraryDialog.createButton.click();
+    await expect(libraryDialog.createButton).toBeDisabled();
+    await expect(libraryDialog.getMatError(libraryErrors.libraryIdIsAlreadyUsed)).toBeVisible();
   });
 
   test('[C280029] Cancel button', async ({ myLibrariesPage }) => {
-    await myLibrariesPage.acaHeader.createButton.click();
-    await myLibrariesPage.matMenu.createLibrary.click();
-    await expect(myLibrariesPage.libraryDialog.getDialogTitle(libraryDialogTitle)).toBeVisible();
-    await myLibrariesPage.libraryDialog.getLabelText(libraryNameLebel).fill(randomLibraryName);
-    await myLibrariesPage.libraryDialog.cancelButton.click();
+    const libraryDialog = myLibrariesPage.libraryDialog;
+    const libraryTable = myLibrariesPage.dataTable;
+    const libraryBreadcrumb = myLibrariesPage.breadcrumb;
 
-    await expect(myLibrariesPage.libraryDialog.getDialogTitle(libraryDialogTitle)).toBeHidden();
-    await expect(myLibrariesPage.breadcrumb.getBreadcrumbItem(randomLibraryName)).toHaveCount(0);
-    await expect(myLibrariesPage.dataTable.getRowByName(randomLibraryName)).toHaveCount(0);
+    await myLibrariesPage.selectCreateLibrary();
+    await expect(libraryDialog.getDialogTitle(libraryDialogTitle)).toBeVisible();
+    await libraryDialog.getLabelText(libraryNameLebel).fill(randomLibraryName);
+    await libraryDialog.cancelButton.click();
+
+    await expect(libraryDialog.getDialogTitle(libraryDialogTitle)).toBeHidden();
+    await expect(libraryBreadcrumb.getBreadcrumbItem(randomLibraryName)).toHaveCount(0);
+    await expect(libraryTable.getRowByName(randomLibraryName)).toHaveCount(0);
   });
 
   test('[C280026] Library ID cannot contain special characters', async ({ myLibrariesPage }) => {
+    const libraryDialog = myLibrariesPage.libraryDialog;
     const idsWithSpecialChars = [
       'a!a',
       'a@a',
@@ -208,34 +223,36 @@ test.describe('Create Libraries ', () => {
       'a:a',
       'a|a'
     ];
-    await myLibrariesPage.acaHeader.createButton.click();
-    await myLibrariesPage.matMenu.createLibrary.click();
-    await myLibrariesPage.libraryDialog.getLabelText(libraryNameLebel).fill(randomLibraryName);
+
+    await myLibrariesPage.selectCreateLibrary();
+    await libraryDialog.getLabelText(libraryNameLebel).fill(randomLibraryName);
 
     for (const specialLibraryId of idsWithSpecialChars) {
-      await myLibrariesPage.libraryDialog.getLabelText(libraryIdLebel).clear();
-      await myLibrariesPage.libraryDialog.getLabelText(libraryIdLebel).fill(specialLibraryId);
-      await expect(myLibrariesPage.libraryDialog.getLabelText(libraryIdLebel)).toHaveValue(specialLibraryId);
-      await expect(myLibrariesPage.libraryDialog.getMatError(libraryErrors.useNumbersAndLettersOnly)).toBeVisible();
-      await expect(myLibrariesPage.libraryDialog.createButton).toBeDisabled();
+      await libraryDialog.getLabelText(libraryIdLebel).clear();
+      await libraryDialog.getLabelText(libraryIdLebel).fill(specialLibraryId);
+      await expect(libraryDialog.getLabelText(libraryIdLebel)).toHaveValue(specialLibraryId);
+      await expect(libraryDialog.getMatError(libraryErrors.useNumbersAndLettersOnly)).toBeVisible();
+      await expect(libraryDialog.createButton).toBeDisabled();
     }
   });
 
   test('[C280030] Create 2 libraries with same name but different IDs', async ({ myLibrariesPage }) => {
+    const libraryDialog = myLibrariesPage.libraryDialog;
+    const libraryTable = myLibrariesPage.dataTable;
+    const libraryBreadcrumb = myLibrariesPage.breadcrumb;
     const libraryName = commonLibraryName + ' (' + commonLibraryId + ')';
     const libraryName2 = commonLibraryName + ' (' + randomLibraryId + ')';
 
-    await myLibrariesPage.acaHeader.createButton.click();
-    await myLibrariesPage.matMenu.createLibrary.click();
-    await myLibrariesPage.libraryDialog.createLibraryWithNameAndId(commonLibraryName, randomLibraryId);
+    await myLibrariesPage.selectCreateLibrary();
+    await libraryDialog.createLibraryWithNameAndId(commonLibraryName, randomLibraryId);
 
-    await expect(myLibrariesPage.breadcrumb.getBreadcrumbItem(commonLibraryName)).toBeVisible();
+    await expect(libraryBreadcrumb.getBreadcrumbItem(commonLibraryName)).toBeVisible();
 
     await myLibrariesPage.navigate();
-    await myLibrariesPage.dataTable.goThroughPagesLookingForRowWithName(libraryName);
-    await expect(myLibrariesPage.dataTable.getRowByName(libraryName)).toBeVisible();
-    await myLibrariesPage.dataTable.goThroughPagesLookingForRowWithName(libraryName2);
-    await expect(myLibrariesPage.dataTable.getRowByName(libraryName2)).toBeVisible();
+    await libraryTable.goThroughPagesLookingForRowWithName(libraryName);
+    await expect(libraryTable.getRowByName(libraryName)).toBeVisible();
+    await libraryTable.goThroughPagesLookingForRowWithName(libraryName2);
+    await expect(libraryTable.getRowByName(libraryName2)).toBeVisible();
 
     await apiClientFactory.sites.deleteSite(randomLibraryId, { permanent: true });
   });
