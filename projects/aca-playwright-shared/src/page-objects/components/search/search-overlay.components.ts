@@ -22,10 +22,29 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './api';
-export * from './base-config';
-export * from './models';
-export * from './page-objects';
-export * from './fixtures/page-initialization';
-export * from './utils';
-export * from './resources/test-files';
+import { Page } from '@playwright/test';
+import { BaseComponent } from '.././base.component';
+
+export class SearchOverlayComponent extends BaseComponent {
+  private static rootElement = '.cdk-overlay-pane';
+
+  public searchFilesOption = this.getChild('label[for="content-input"]');
+  public searchFoldersOption = this.getChild('label[for="folder-input"]');
+  public searchLibrariesOption = this.getChild('label[for="libraries-input"]');
+  public searchInput = this.getChild('input[id="app-control-input"]');
+  public searchButton = this.getChild('.app-search-button');
+
+  constructor(page: Page, rootElement = SearchOverlayComponent.rootElement) {
+    super(page, rootElement);
+  }
+
+  async checkFilesAndFolders(): Promise<void> {
+    await this.searchFilesOption.click();
+    await this.searchFoldersOption.click();
+  }
+
+  async searchFor(input: string): Promise<void> {
+    await this.searchInput.fill(input);
+    await this.searchButton.click();
+  }
+}
