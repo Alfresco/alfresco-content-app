@@ -27,7 +27,6 @@ import { CommonModule } from '@angular/common';
 import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
 import { ExtensionsModule } from '@alfresco/adf-extensions';
 import { AppExtensionService } from '@alfresco/aca-shared';
-import { ContentServiceExtensionService } from '../services/content-service-extension.service';
 
 export function setupExtensions(service: AppExtensionService): () => void {
   return () => service.load();
@@ -44,7 +43,7 @@ export class CoreExtensionsModule {
         {
           provide: APP_INITIALIZER,
           useFactory: setupExtensions,
-          deps: [AppExtensionService, ContentServiceExtensionService],
+          deps: [AppExtensionService],
           multi: true
         }
       ]
