@@ -25,7 +25,7 @@
 import { expect } from '@playwright/test';
 import { ApiClientFactory, getUserState, test, TEST_FILES } from '@alfresco/playwright-shared';
 
-test.use({ storageState: getUserState('admin') });
+test.use({ storageState: getUserState('hruser') });
 test.describe('viewer file', () => {
   const apiClientFactory = new ApiClientFactory();
   const randomFolderName = `playwright-folder-${(Math.random() + 1).toString(36).substring(6)}`;
@@ -34,7 +34,7 @@ test.describe('viewer file', () => {
   let fileDocxId: string;
 
   test.beforeAll(async ({ fileAction, shareAction, favoritesPageAction: favoritesPageAction }) => {
-    await apiClientFactory.setUpAcaBackend('admin');
+    await apiClientFactory.setUpAcaBackend('hruser');
     const node = await apiClientFactory.nodes.createNode('-my-', { name: randomFolderName, nodeType: 'cm:folder', relativePath: '/' });
     folderId = await node.entry.id;
     const fileDoc = await fileAction.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId);
