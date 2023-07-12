@@ -45,6 +45,7 @@ test.describe('viewer file', () => {
 
   test.beforeEach(async ({ personalFiles }) => {
     await personalFiles.navigate({ waitUntil: 'domcontentloaded' });
+    await personalFiles.dataTable.goThroughPagesLookingForRowWithName(randomFolderName);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(randomFolderName);
   });
 
@@ -76,10 +77,10 @@ test.describe('viewer file', () => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(randomDocxName);
     expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
     await personalFiles.viewer.closeButtonLocator.click();
-    expect(await personalFiles.viewer.isViewerOpened(), 'Viewer did not close').toBe(false);
+    expect(await personalFiles.viewer.viewerLocator.isVisible(), 'Viewer did not close').toBe(false);
   });
 
-  test('[C284632] Close button tooltip', async ({ personalFiles }) => {
+  test('[C284632] Close button tooltip on viewer', async ({ personalFiles }) => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(randomDocxName);
     expect(await personalFiles.viewer.getCloseButtonTooltip()).toEqual('Close');
   });
@@ -96,7 +97,7 @@ test.describe('viewer file', () => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(randomDocxName);
     expect(await personalFiles.viewer.getCloseButtonTooltip()).toEqual('Close');
     await recentFilesPage.navigate();
-    await recentFilesPage.reload();
+    // await recentFilesPage.reload();
     await recentFilesPage.dataTable.performClickFolderOrFileToOpen(randomDocxName);
     expect(await recentFilesPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
     expect(await recentFilesPage.viewer.isCloseButtonDisplayed(), 'Close button is not displayed').toBe(true);
@@ -105,7 +106,7 @@ test.describe('viewer file', () => {
 
   test('[C284635] Viewer opens for a file from Shared Files', async ({ sharedPage }) => {
     await sharedPage.navigate();
-    await sharedPage.reload();
+    // await sharedPage.reload();
     await sharedPage.dataTable.performClickFolderOrFileToOpen(randomDocxName);
     expect(await sharedPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
     expect(await sharedPage.viewer.isCloseButtonDisplayed(), 'Close button is not displayed').toBe(true);
@@ -114,6 +115,7 @@ test.describe('viewer file', () => {
 
   test('[C284634] Viewer opens for a file from Favorites', async ({ favoritePage }) => {
     await favoritePage.navigate({ waitUntil: 'domcontentloaded' });
+    await favoritePage.dataTable.goThroughPagesLookingForRowWithName(randomDocxName);
     await favoritePage.dataTable.performClickFolderOrFileToOpen(randomDocxName);
     expect(await favoritePage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
     expect(await favoritePage.viewer.isCloseButtonDisplayed(), 'Close button is not displayed').toBe(true);

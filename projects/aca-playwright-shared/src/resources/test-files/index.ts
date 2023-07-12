@@ -19,4 +19,10 @@ export const TEST_FILES = {
         name: 'file-pdf',
         data: 'Lorem ipsum dolor sit amet'
     },
+    DOCX_PROTECTED: {
+      path: resolve(__dirname, 'file-pdf-protected.pdf'),
+      name: 'file-pdf-protected',
+      data: 'Lorem ipsum dolor sit amet',
+      password: "0000"
+  },
 };

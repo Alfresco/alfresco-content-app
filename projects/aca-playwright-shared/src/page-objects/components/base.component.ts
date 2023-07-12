@@ -56,8 +56,8 @@ export abstract class BaseComponent extends PlaywrightBase {
 
   async spinnerWaitForReload(): Promise<void> {
     try {
-      await this.page.locator('mat-progress-spinner').waitFor({ state: 'attached', timeout: timeouts.normal });
-      await this.page.locator('mat-progress-spinner').waitFor({ state: 'detached', timeout: timeouts.normal });
+      await this.page.locator('mat-progress-spinner').waitFor({ state: 'attached', timeout: timeouts.medium });
+      await this.page.locator('mat-progress-spinner').waitFor({ state: 'detached', timeout: timeouts.medium });
     } catch (e) {
       this.logger.info('Spinner was not present');
     }
