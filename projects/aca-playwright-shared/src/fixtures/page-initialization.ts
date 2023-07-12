@@ -24,6 +24,7 @@
 
 import { test as base } from '@playwright/test';
 import {
+  MyLibrariesPage,
   FileActionsApi,
   NodesPage,
   PersonalFilesPage,
