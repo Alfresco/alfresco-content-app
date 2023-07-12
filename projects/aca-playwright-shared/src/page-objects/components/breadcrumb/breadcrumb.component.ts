@@ -32,5 +32,5 @@ export class AdfBreadcrumbComponent extends BaseComponent {
     super(page, AdfBreadcrumbComponent.rootElement);
   }
 
-  public getBreadcrumbItem = (text: string) => this.getChild('.adf-breadcrumb-item', { hasText: text });
+  public getBreadcrumbItem = (text: string) => this.getChild('.adf-breadcrumb-item-current', { hasText: text });
 }

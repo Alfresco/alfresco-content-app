@@ -22,10 +22,8 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './paths';
-export * from './timeouts';
-export * from './exclude-tests';
-export * from './state-helper';
-export * from './folder-errors';
-export * from './general-utils';
-export * from './library-errors';
+export const libraryErrors = {
+  libraryIdIsNotAvailable: `This Library ID isn't available. Try a different Library ID.`,
+  libraryIdIsAlreadyUsed: `This Library ID is already used. Check the trashcan.`,
+  useNumbersAndLettersOnly: `Use numbers and letters only`
+}

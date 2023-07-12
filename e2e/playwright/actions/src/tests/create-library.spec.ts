@@ -23,7 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { GeneralUtils, ApiClientFactory, getUserState, test } from '@alfresco/playwright-shared';
+import { GeneralUtils, ApiClientFactory, getUserState, test, libraryErrors } from '@alfresco/playwright-shared';
 import { SiteBodyCreate } from '@alfresco/js-api';
 
 test.use({ storageState: getUserState('hruser') });
@@ -152,12 +152,10 @@ test.describe('Create Libraries ', () => {
     await expect(libraryTable.getCellLinkByName(randomLibraryName).and(myLibrariesPage.page.getByTitle(randomLibraryDescription))).toBeVisible();
     await libraryTable.getRowByName(randomLibraryName).click();
     await libraryViewDetails.click();
-    await expect(libraryDetails.getNameField('Name').and(libraryDetails.getNameField(randomLibraryName))).toBeVisible();
-    await expect(libraryDetails.getIdField('Library ID').and(libraryDetails.getIdField(randomLibraryId))).toBeVisible();
-    await expect(libraryDetails.getVisibilityField('Visibility').and(libraryDetails.getVisibilityField(publicVisibility))).toBeVisible();
-    await expect(
-      libraryDetails.getDescriptionField(libraryDescriptionLebel).and(libraryDetails.getDescriptionField(randomLibraryDescription))
-    ).toBeVisible();
+    await expect(libraryDetails.getNameField('Name').getByText(randomLibraryName)).toBeVisible();
+    await expect(libraryDetails.getIdField('Library ID').getByText(randomLibraryId)).toBeVisible();
+    await expect(libraryDetails.getVisibilityField('Visibility').getByText(publicVisibility)).toBeVisible();
+    await expect(libraryDetails.getDescriptionField(libraryDescriptionLebel).getByText(randomLibraryDescription)).toBeVisible();
 
     await apiClientFactory.sites.deleteSite(randomLibraryId, { permanent: true });
   });
@@ -171,7 +169,7 @@ test.describe('Create Libraries ', () => {
     await libraryDialog.getLabelText(libraryIdLebel).fill(commonLibraryId);
 
     await expect(libraryDialog.createButton).toBeDisabled();
-    await expect(libraryDialog.getMatError(`This Library ID isn't available. Try a different Library ID.`)).toBeVisible();
+    await expect(libraryDialog.getMatError()).toContainText(libraryErrors.libraryIdIsNotAvailable);
   });
 
   test('[C280028] Create library using the ID of a library from the Trashcan', async ({ myLibrariesPage }) => {
@@ -185,7 +183,7 @@ test.describe('Create Libraries ', () => {
     await expect(libraryDialog.createButton).toBeEnabled();
     await libraryDialog.createButton.click();
     await expect(libraryDialog.createButton).toBeDisabled();
-    await expect(libraryDialog.getMatError(`This Library ID is already used. Check the trashcan.`)).toBeVisible();
+    await expect(libraryDialog.getMatError()).toContainText(libraryErrors.libraryIdIsAlreadyUsed);
   });
 
   test('[C280029] Cancel button', async ({ myLibrariesPage }) => {
@@ -232,7 +230,7 @@ test.describe('Create Libraries ', () => {
       await libraryDialog.getLabelText(libraryIdLebel).clear();
       await libraryDialog.getLabelText(libraryIdLebel).fill(specialLibraryId);
       await expect(libraryDialog.getLabelText(libraryIdLebel)).toHaveValue(specialLibraryId);
-      await expect(libraryDialog.getMatError(`Use numbers and letters only`)).toBeVisible();
+      await expect(libraryDialog.getMatError()).toContainText(libraryErrors.useNumbersAndLettersOnly);
       await expect(libraryDialog.createButton).toBeDisabled();
     }
   });
