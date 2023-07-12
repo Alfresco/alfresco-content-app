@@ -24,12 +24,6 @@
 
 import { BaseComponent } from './base.component';
 import { Page } from '@playwright/test';
-
- export class AcaHeader extends BaseComponent {
-   private static rootElement = 'adf-toolbar';
-   public createButton = this.getChild('[id="app.toolbar.create"]');
-   public viewDetails = this.getChild('[title="View Details"]');
-
 export class AcaHeader extends BaseComponent {
   private static rootElement = 'adf-toolbar';
   public createButton = this.getChild('[id="app.toolbar.create"]');

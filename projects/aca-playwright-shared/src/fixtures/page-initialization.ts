@@ -23,8 +23,8 @@
  */
 
 import { test as base } from '@playwright/test';
-import {MyLibrariesPage, NodesPage, PersonalFilesPage} from '../';
 import {
+  MyLibrariesPage,
   FileActionsApi,
   NodesPage,
   PersonalFilesPage,
