@@ -17,6 +17,7 @@ RUN apk update && apk upgrade
 USER 101
 
 COPY docker/default.conf.template /etc/nginx/templates/
+COPY docker/docker-entrypoint.d/* /docker-entrypoint.d/
 
 COPY dist/content-ce /usr/share/nginx/html/
 COPY dist/content-ce/app.config.json /etc/nginx/templates/app.config.json.template

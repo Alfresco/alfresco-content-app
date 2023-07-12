@@ -8,4 +8,7 @@ docker rmi -f $DOCKER_IMAGE_REPO
 docker build -t $DOCKER_IMAGE_REPO .
 
 echo "http://localhost:${HOST_PORT}"
-docker run --rm -it --user 1000:1000 --publish $HOST_PORT:$CONTAINER_PORT $DOCKER_IMAGE_REPO
+
+docker run --rm -it \
+  --user 1000:1000 \
+  --publish $HOST_PORT:$CONTAINER_PORT $DOCKER_IMAGE_REPO
