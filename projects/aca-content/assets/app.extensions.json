@@ -1436,13 +1436,7 @@
               "settings": {
                 "allowUpdateOnChange": false,
                 "hideDefaultAction": true,
-                "fileExtensions": [{
-                  "extension": "DOC",
-                  "mimeType": "application/msword"
-                }, {
-                  "extension": "DOCX",
-                  "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                }, "ODT", "TXT", "PDF", "image/jpeg", "image/png", "SVG", "PPS", "PPT", "CSV", "XLS", "XLSX", "JSON"]
+                "fileExtensions": ["DOC", "DOCX", "ODT", "TXT", "PDF", "JPG","JPEG", "PNG", "SVG", "PPS", "PPT", "CSV", "XLS", "XLSX", "JSON"]
               }
             }
           },
