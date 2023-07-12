@@ -61,6 +61,10 @@ export const getGlobalConfig: PlaywrightTestConfig = {
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'retain-on-failure',
     video: 'retain-on-failure',
+    viewport: {
+      height: 900,
+      width: 1400,
+  },
     screenshot: 'only-on-failure',
     launchOptions: {
       devtools: false,
