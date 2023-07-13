@@ -71,14 +71,14 @@ export const test = base.extend<Pages & Api>({
   },
   // eslint-disable-next-line no-empty-pattern
   fileAction: async ({}, use) => {
-    await use(await FileActionsApi.initialize('hruser'));
+    await use(await FileActionsApi.initialize('admin'));
   },
   // eslint-disable-next-line no-empty-pattern
   shareAction: async ({}, use) => {
-    await use(await SharedLinksApi.initialize('hruser'));
+    await use(await SharedLinksApi.initialize('admin'));
   },
   // eslint-disable-next-line no-empty-pattern
   favoritesPageAction: async ({}, use) => {
-    await use(await FavoritesPageApi.initialize('hruser'));
+    await use(await FavoritesPageApi.initialize('admin'));
   }
 });

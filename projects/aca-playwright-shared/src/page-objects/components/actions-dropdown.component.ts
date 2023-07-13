@@ -52,10 +52,10 @@ export enum ActionType {
 export class ActionsDropdownComponent extends BaseComponent {
   private static rootElement = 'aca-rule-action-list';
 
-  private getOptionLocator = (optionName: string): Locator => this.page.locator('.mat-select-panel .mat-option-text', { hasText: optionName });
+  private getOptionLocator = (optionName: string): Locator => this.page.locator('.mat-select-panel .mat-option-text', { hasText: optionName }).first();
   private ruleActionLocator = this.getChild('aca-rule-action [data-automation-id="rule-action-card-view"]');
   private addActionButtonLocator = this.getChild('[data-automation-id="rule-action-list-add-action-button"]');
-  private actionDropdownLocator = this.getChild('[data-automation-id="rule-action-select"]');
+  private actionDropdownLocator = this.page.locator('//mat-select//span[text()="Select an action"]');
   private actionAspectNameLocator = '[data-automation-id="header-aspect-name"] mat-select';
   private actionCheckInInputLocator = '[data-automation-id="header-description"] input';
   private actionAutoDeclareLocator = '[data-automation-id="header-version"] mat-select';
@@ -74,15 +74,16 @@ export class ActionsDropdownComponent extends BaseComponent {
     if (index > 0) {
       await this.addActionButtonLocator.click();
     }
-    await this.actionDropdownLocator.nth(index).click();
-    await this.spinnerWaitForReload();
+    await this.actionDropdownLocator.isVisible();
+    await this.actionDropdownLocator.click();
     const option = this.getOptionLocator(action);
-    await option.nth(0).click();
+    await option.isVisible();
+    await option.click();
   }
 
   async dropdownSelection(selectValue: string, locator: string, index: number): Promise<void> {
     await this.ruleActionLocator.nth(index).locator(locator).click();
-    await this.getOptionLocator(selectValue).nth(0).click();
+    await this.getOptionLocator(selectValue).click();
   }
 
   async insertCheckInActionValues(checkInValue: string, index: number): Promise<void> {
