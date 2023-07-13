@@ -11,8 +11,6 @@
   - [Version Manager](/features/version-manager)
   - [Search results](/features/search-results)
 - [Getting started](/getting-started/)
-  - [Prerequisites](/getting-started/prerequisites)
-  - [Building from source](/getting-started/building-from-source)
   - [Internationalization (i18n)](/getting-started/internationalization)
   - [CORS](/getting-started/cors)
   - [Configuration](/configuration/)
