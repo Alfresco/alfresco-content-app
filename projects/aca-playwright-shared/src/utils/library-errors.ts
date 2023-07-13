@@ -23,7 +23,7 @@
  */
 
 export const libraryErrors = {
-  libraryIdIsNotAvailable: `This Library ID isn't available. Try a different Library ID.`,
-  libraryIdIsAlreadyUsed: `This Library ID is already used. Check the trashcan.`,
-  useNumbersAndLettersOnly: `Use numbers and letters only`
+  libraryIdIsNotAvailable: "This Library ID isn't available. Try a different Library ID.",
+  libraryIdIsAlreadyUsed: "This Library ID is already used. Check the trashcan.",
+  useNumbersAndLettersOnly: "Use numbers and letters only"
 }
