@@ -173,14 +173,13 @@ export class DataTableComponent extends BaseComponent {
 
   async goThroughPagesLookingForRowWithName(name: string | number): Promise<void> {
     await this.spinnerWaitForReload();
+    if (await this.getRowByName(name).isVisible()) {
+      return null;
+    }
     if(!(await this.pagination.currentPageLocator.isVisible())){
       this.page.reload();
       await this.pagination.currentPageLocator.waitFor({state:'visible'})
     }
-    if (await this.getRowByName(name).isVisible()) {
-      return null;
-    }
-
     if ((await this.pagination.currentPageLocator.textContent()) !== ' Page 1 ') {
       await this.pagination.navigateToPage(1);
     }
@@ -207,5 +206,14 @@ export class DataTableComponent extends BaseComponent {
   async hasCheckMarkIcon(itemName: string): Promise<boolean> {
     const row = this.getRowByName(itemName);
     return await row.locator('.mat-checkbox[class*="checked"]').isVisible();
+  }
+
+  async makeFileAsRecentFile(fileName: string): Promise<void> {
+    await this.page.reload({ waitUntil: 'domcontentloaded' })
+    await this.performClickFolderOrFileToOpen(fileName);
+    await this.page.keyboard.press("Escape");
+    await this.performClickFolderOrFileToOpen(fileName);
+    await this.page.keyboard.press("Escape");
+    await this.performClickFolderOrFileToOpen(fileName);
   }
 }

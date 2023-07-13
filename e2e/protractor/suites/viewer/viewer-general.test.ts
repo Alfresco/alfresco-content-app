@@ -112,4 +112,13 @@ describe('Viewer general', () => {
     expect(await viewer.isCloseButtonDisplayed()).toBe(true, 'Close button is not displayed');
     expect(await viewer.isFileTitleDisplayed()).toBe(true, 'File title is not displayed');
   });
+
+  it('[C284636] Viewer opens for a file from Recent Files', async () => {
+    await page.clickRecentFilesAndWait();
+    await dataTable.doubleClickOnRowByName(xlsxFile);
+    expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
+    expect(await viewer.isViewerToolbarDisplayed()).toBe(true, 'Toolbar not displayed');
+    expect(await viewer.isCloseButtonDisplayed()).toBe(true, 'Close button is not displayed');
+    expect(await viewer.isFileTitleDisplayed()).toBe(true, 'File title is not displayed');
+  });
 });
