@@ -37,7 +37,7 @@ export class AdfLibraryDialogComponent extends BaseComponent {
 
   public getLabelText = (text: string) => this.getChild('label', { hasText: text });
   public getDialogTitle = (text: string) => this.getChild('.mat-dialog-title', { hasText: text });
-  public getMatError = () => this.getChild('mat-error');
+  public getMatError = (text: string) => this.getChild('.mat-error', { hasText: text });
 
     /**
    * This method is used when we want to fill in Create Library Dialog and choose Create button

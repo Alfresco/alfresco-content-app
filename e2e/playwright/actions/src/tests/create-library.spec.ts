@@ -23,7 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { GeneralUtils, ApiClientFactory, getUserState, test, libraryErrors } from '@alfresco/playwright-shared';
+import { GeneralUtils, ApiClientFactory, getUserState, test, libraryErrors, timeouts } from '@alfresco/playwright-shared';
 import { SiteBodyCreate } from '@alfresco/js-api';
 
 test.use({ storageState: getUserState('hruser') });
@@ -170,7 +170,7 @@ test.describe('Create Libraries ', () => {
     await expect(libraryDialog.getLabelText(libraryIdLebel)).toHaveValue(commonLibraryId);
 
     await expect(libraryDialog.createButton).toBeDisabled();
-    await expect(libraryDialog.getMatError()).toHaveText(libraryErrors.libraryIdIsNotAvailable);
+    await expect(libraryDialog.getMatError(libraryErrors.libraryIdIsNotAvailable)).toBeVisible({ timeout: timeouts.big });
   });
 
   test('[C280028] Create library using the ID of a library from the Trashcan', async ({ myLibrariesPage }) => {
@@ -184,7 +184,7 @@ test.describe('Create Libraries ', () => {
     await expect(libraryDialog.createButton).toBeEnabled();
     await libraryDialog.createButton.click();
     await expect(libraryDialog.createButton).toBeDisabled();
-    await expect(libraryDialog.getMatError()).toHaveText(libraryErrors.libraryIdIsAlreadyUsed);
+    await expect(libraryDialog.getMatError(libraryErrors.libraryIdIsAlreadyUsed)).toBeVisible({ timeout: timeouts.big });
   });
 
   test('[C280029] Cancel button', async ({ myLibrariesPage }) => {
@@ -231,7 +231,7 @@ test.describe('Create Libraries ', () => {
       await libraryDialog.getLabelText(libraryIdLebel).clear();
       await libraryDialog.getLabelText(libraryIdLebel).fill(specialLibraryId);
       await expect(libraryDialog.getLabelText(libraryIdLebel)).toHaveValue(specialLibraryId);
-      await expect(libraryDialog.getMatError()).toHaveText(libraryErrors.useNumbersAndLettersOnly);
+      await expect(libraryDialog.getMatError(libraryErrors.useNumbersAndLettersOnly)).toBeVisible({ timeout: timeouts.big });
       await expect(libraryDialog.createButton).toBeDisabled();
     }
   });
