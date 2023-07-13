@@ -3,9 +3,11 @@ Title: Getting started
 Github only: true
 ---
 
-# Getting started
+# Getting Started
 
 Learn how to start developing with the Alfresco Content Application.
+
+> For Microsoft Windows, please refer to [Windows Support](/getting-started/windows) article.
 
 ## Prerequisites
 
@@ -55,3 +57,4 @@ npm start
 - [Navigation](/getting-started/navigation)
 - [Using local ADF](/getting-started/using-local-adf)
 - [Docker Support](/getting-started/docker)
+- [Windows Support](/getting-started/windows)
