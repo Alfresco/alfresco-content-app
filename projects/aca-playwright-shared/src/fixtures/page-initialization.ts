@@ -33,8 +33,7 @@ import {
   SharedPage,
   SearchPage,
   FavoritesPage,
-  FavoritesPageApi,
-  MyLibrariesPage
+  FavoritesPageApi
 } from '../';
 
 interface Pages {
@@ -59,9 +58,6 @@ export const test = base.extend<Pages & Api>({
   },
   nodesPage: async ({ page }, use) => {
     await use(new NodesPage(page));
-  },
-  myLibrariesPage: async ({ page }, use) => {
-    await use(new MyLibrariesPage(page));
   },
   recentFilesPage: async ({ page }, use) => {
     await use(new RecentFilesPage(page));

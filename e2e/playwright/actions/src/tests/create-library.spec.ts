@@ -167,9 +167,10 @@ test.describe('Create Libraries ', () => {
     await libraryDialog.getLabelText(libraryNameLebel).fill(randomLibraryName);
     await libraryDialog.getLabelText(libraryIdLebel).clear();
     await libraryDialog.getLabelText(libraryIdLebel).fill(commonLibraryId);
+    await expect(libraryDialog.getLabelText(libraryIdLebel)).toHaveValue(commonLibraryId);
 
     await expect(libraryDialog.createButton).toBeDisabled();
-    await expect(libraryDialog.getMatError()).toContainText(libraryErrors.libraryIdIsNotAvailable);
+    await expect(libraryDialog.getMatError()).toHaveText(libraryErrors.libraryIdIsNotAvailable);
   });
 
   test('[C280028] Create library using the ID of a library from the Trashcan', async ({ myLibrariesPage }) => {
@@ -183,7 +184,7 @@ test.describe('Create Libraries ', () => {
     await expect(libraryDialog.createButton).toBeEnabled();
     await libraryDialog.createButton.click();
     await expect(libraryDialog.createButton).toBeDisabled();
-    await expect(libraryDialog.getMatError()).toContainText(libraryErrors.libraryIdIsAlreadyUsed);
+    await expect(libraryDialog.getMatError()).toHaveText(libraryErrors.libraryIdIsAlreadyUsed);
   });
 
   test('[C280029] Cancel button', async ({ myLibrariesPage }) => {
@@ -230,7 +231,7 @@ test.describe('Create Libraries ', () => {
       await libraryDialog.getLabelText(libraryIdLebel).clear();
       await libraryDialog.getLabelText(libraryIdLebel).fill(specialLibraryId);
       await expect(libraryDialog.getLabelText(libraryIdLebel)).toHaveValue(specialLibraryId);
-      await expect(libraryDialog.getMatError()).toContainText(libraryErrors.useNumbersAndLettersOnly);
+      await expect(libraryDialog.getMatError()).toHaveText(libraryErrors.useNumbersAndLettersOnly);
       await expect(libraryDialog.createButton).toBeDisabled();
     }
   });
