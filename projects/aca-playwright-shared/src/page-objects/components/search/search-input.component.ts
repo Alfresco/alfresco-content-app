@@ -44,18 +44,17 @@ export class SearchInputComponent extends BaseComponent {
 
   async performDoubleClickFolderOrFileToOpen(name: string): Promise<void> {
     await this.waitForSearchForResult(name);
-    await this.getCellLinkByName(name).waitFor({ state:'visible', timeout: timeouts.normal });
+    await this.getCellLinkByName(name).waitFor({ state: 'visible', timeout: timeouts.normal });
     await this.getCellLinkByName(name).dblclick();
     await this.spinnerWaitForReload();
   }
 
   async waitForSearchForResult(name: string): Promise<void> {
-    const retry = 0;
-    do{
-      if(await this.getCellLinkByName(name).isVisible())
-        return null;
+    let retry = 0;
+    do {
+      if (await this.getCellLinkByName(name).isVisible()) return null;
       await this.page.reload({ waitUntil: 'domcontentloaded' });
       await this.spinnerWaitForReload();
-    }while(retry<10);
+    } while (retry++ < 5);
   }
 }

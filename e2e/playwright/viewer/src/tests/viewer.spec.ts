@@ -92,8 +92,7 @@ test.describe('viewer file', () => {
     expect(await personalFiles.viewer.fileTitleButtonLocator.innerText()).toEqual(randomDocxName);
   });
 
-  test('[C284636] Viewer opens for a file from Recent Files', async ({ personalFiles, recentFilesPage }) => {
-    await personalFiles.dataTable.makeFileAsRecentFile(randomDocxName);
+  test('[C284636] Viewer opens for a file from Recent Files', async ({ recentFilesPage }) => {
     await recentFilesPage.navigate({ waitUntil: 'domcontentloaded' });
     await recentFilesPage.dataTable.performClickFolderOrFileToOpen(randomDocxName);
     expect(await recentFilesPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);

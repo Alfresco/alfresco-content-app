@@ -160,11 +160,11 @@ export class DataTableComponent extends BaseComponent {
    *
    * @param name of the data table element with which we want to double click
    */
-    async performClickFolderOrFileToOpen(name: string): Promise<void> {
-      await this.goThroughPagesLookingForRowWithName(name);
-      await this.getCellLinkByName(name).click();
-      await this.spinnerWaitForReload();
-    }
+  async performClickFolderOrFileToOpen(name: string): Promise<void> {
+    await this.goThroughPagesLookingForRowWithName(name);
+    await this.getCellLinkByName(name).click();
+    await this.spinnerWaitForReload();
+  }
 
   async getActionLocatorFromExpandableMenu(name: string | number, action: string): Promise<Locator> {
     await this.getRowByName(name).click({ button: 'right' });
@@ -176,9 +176,9 @@ export class DataTableComponent extends BaseComponent {
     if (await this.getRowByName(name).isVisible()) {
       return null;
     }
-    if(!(await this.pagination.currentPageLocator.isVisible())){
+    if (!(await this.pagination.currentPageLocator.isVisible())) {
       this.page.reload();
-      await this.pagination.currentPageLocator.waitFor({state:'visible'})
+      await this.pagination.currentPageLocator.waitFor({ state: 'visible' });
     }
     if ((await this.pagination.currentPageLocator.textContent()) !== ' Page 1 ') {
       await this.pagination.navigateToPage(1);
@@ -198,22 +198,13 @@ export class DataTableComponent extends BaseComponent {
   async selectItem(name: string): Promise<void> {
     const isSelected = await this.hasCheckMarkIcon(name);
     if (!isSelected) {
-        const row = await this.getRowByName(name);
-        await row.locator('.mat-checkbox[id*="mat-checkbox"]').check();
+      const row = await this.getRowByName(name);
+      await row.locator('.mat-checkbox[id*="mat-checkbox"]').check();
     }
   }
 
   async hasCheckMarkIcon(itemName: string): Promise<boolean> {
     const row = this.getRowByName(itemName);
     return await row.locator('.mat-checkbox[class*="checked"]').isVisible();
-  }
-
-  async makeFileAsRecentFile(fileName: string): Promise<void> {
-    await this.page.reload({ waitUntil: 'domcontentloaded' })
-    await this.performClickFolderOrFileToOpen(fileName);
-    await this.page.keyboard.press("Escape");
-    await this.performClickFolderOrFileToOpen(fileName);
-    await this.page.keyboard.press("Escape");
-    await this.performClickFolderOrFileToOpen(fileName);
   }
 }
