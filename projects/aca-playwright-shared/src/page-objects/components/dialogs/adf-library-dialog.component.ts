@@ -24,7 +24,7 @@
 
 import { timeouts } from '../../../utils';
 import { BaseComponent } from '../base.component';
-import { Page } from '@playwright/test';
+import { Locator, Page } from '@playwright/test';
 
 export class AdfLibraryDialogComponent extends BaseComponent {
   private static rootElement = 'adf-library-dialog';
@@ -38,7 +38,7 @@ export class AdfLibraryDialogComponent extends BaseComponent {
 
   public getLabelText = (text: string) => this.getChild('label', { hasText: text });
   public getDialogTitle = (text: string) => this.getChild('.mat-dialog-title', { hasText: text });
-  public getMatError = (text: string) => this.getChild('.mat-error', { hasText: text });
+  public getErrorByText = (text: string): Locator => this.page.locator('mat-error', {hasText: text});
 
     /**
    * This method is used when we want to fill in Create Library Dialog and choose Create button
@@ -58,7 +58,7 @@ export class AdfLibraryDialogComponent extends BaseComponent {
     }
 
     async isErrorMessageDisplayed(errorText: string): Promise<boolean> {
-      await this.getMatError(errorText).waitFor({ state: 'visible', timeout: timeouts.large });
-      return await this.getMatError(errorText).isVisible();
+      await this.getErrorByText(errorText).waitFor({ state: 'visible', timeout: timeouts.large });
+      return await this.getErrorByText(errorText).isVisible();
     }
 }
