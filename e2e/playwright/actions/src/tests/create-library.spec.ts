@@ -168,6 +168,7 @@ test.describe('Create Libraries ', () => {
     await libraryDialog.getLabelText(libraryNameLebel).fill(randomLibraryName);
     await libraryDialog.getLabelText(libraryIdLebel).clear();
     await libraryDialog.getLabelText(libraryIdLebel).fill(commonLibraryId);
+    await libraryDialog.page.keyboard.press('Tab');
     await expect(libraryDialog.getLabelText(libraryIdLebel)).toHaveValue(commonLibraryId);
 
     await expect(libraryDialog.createButton).toBeDisabled();
@@ -181,6 +182,7 @@ test.describe('Create Libraries ', () => {
     await libraryDialog.getLabelText(libraryNameLebel).fill(randomLibraryName);
     await libraryDialog.getLabelText(libraryIdLebel).clear();
     await libraryDialog.getLabelText(libraryIdLebel).fill(commonTrashLibraryId);
+    await libraryDialog.page.keyboard.press('Tab');
 
     await expect(libraryDialog.createButton).toBeEnabled();
     await libraryDialog.createButton.click();
@@ -231,6 +233,7 @@ test.describe('Create Libraries ', () => {
     for (const specialLibraryId of idsWithSpecialChars) {
       await libraryDialog.getLabelText(libraryIdLebel).clear();
       await libraryDialog.getLabelText(libraryIdLebel).fill(specialLibraryId);
+      await libraryDialog.page.keyboard.press('Tab');
       await expect(libraryDialog.getLabelText(libraryIdLebel)).toHaveValue(specialLibraryId);
       expect(await libraryDialog.isErrorMessageDisplayed(libraryErrors.useNumbersAndLettersOnly), errorMessageNotPresent).toBe(true);
       await expect(libraryDialog.createButton).toBeDisabled();
