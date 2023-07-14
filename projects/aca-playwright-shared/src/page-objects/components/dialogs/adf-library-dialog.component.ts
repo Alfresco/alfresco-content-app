@@ -58,7 +58,7 @@ export class AdfLibraryDialogComponent extends BaseComponent {
     }
 
     async isErrorMessageDisplayed(errorText: string): Promise<boolean> {
-      await this.getMatError(errorText).waitFor({ state: 'visible', timeout: timeouts.big });
+      await this.getMatError(errorText).waitFor({ state: 'visible', timeout: timeouts.large });
       return await this.getMatError(errorText).isVisible();
     }
 }
