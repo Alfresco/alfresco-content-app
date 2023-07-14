@@ -22,6 +22,7 @@
   * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
   */
 
+import { timeouts } from '../../../utils';
 import { BaseComponent } from '../base.component';
 import { Page } from '@playwright/test';
 
@@ -54,5 +55,10 @@ export class AdfLibraryDialogComponent extends BaseComponent {
       if (descriptionInput) { await this.getLabelText('Description').fill(descriptionInput); }
       if (visibility) { await this.getLabelText(visibility).click(); }
       await this.createButton.click();
+    }
+
+    async isErrorMessageDisplayed(errorText: string): Promise<boolean> {
+      await this.getMatError(errorText).waitFor({ state: 'visible', timeout: timeouts.big });
+      return await this.getMatError(errorText).isVisible();
     }
 }

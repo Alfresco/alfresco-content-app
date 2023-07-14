@@ -40,6 +40,7 @@ test.describe('Create Libraries ', () => {
   const moderatedVisibility = 'Moderated';
   const privateVisibility = 'Private';
   const deleteAction = 'Delete';
+  const errorMessageNotPresent = 'Error message is not displayed';
 
   const commonLibraryName = `playwright-library-${GeneralUtils.random()}`;
   const commonLibraryId = `libraryId-${GeneralUtils.random()}`;
@@ -170,7 +171,7 @@ test.describe('Create Libraries ', () => {
     await expect(libraryDialog.getLabelText(libraryIdLebel)).toHaveValue(commonLibraryId);
 
     await expect(libraryDialog.createButton).toBeDisabled();
-    await expect(libraryDialog.getMatError(libraryErrors.libraryIdIsNotAvailable)).toBeVisible();
+    expect(await libraryDialog.isErrorMessageDisplayed(libraryErrors.libraryIdIsNotAvailable), errorMessageNotPresent).toBe(true);
   });
 
   test('[C280028] Create library using the ID of a library from the Trashcan', async ({ myLibrariesPage }) => {
@@ -184,7 +185,7 @@ test.describe('Create Libraries ', () => {
     await expect(libraryDialog.createButton).toBeEnabled();
     await libraryDialog.createButton.click();
     await expect(libraryDialog.createButton).toBeDisabled();
-    await expect(libraryDialog.getMatError(libraryErrors.libraryIdIsAlreadyUsed)).toBeVisible();
+    expect(await libraryDialog.isErrorMessageDisplayed(libraryErrors.libraryIdIsAlreadyUsed), errorMessageNotPresent).toBe(true);
   });
 
   test('[C280029] Cancel button', async ({ myLibrariesPage }) => {
@@ -231,7 +232,7 @@ test.describe('Create Libraries ', () => {
       await libraryDialog.getLabelText(libraryIdLebel).clear();
       await libraryDialog.getLabelText(libraryIdLebel).fill(specialLibraryId);
       await expect(libraryDialog.getLabelText(libraryIdLebel)).toHaveValue(specialLibraryId);
-      await expect(libraryDialog.getMatError(libraryErrors.useNumbersAndLettersOnly)).toBeVisible();
+      expect(await libraryDialog.isErrorMessageDisplayed(libraryErrors.useNumbersAndLettersOnly), errorMessageNotPresent).toBe(true);
       await expect(libraryDialog.createButton).toBeDisabled();
     }
   });
