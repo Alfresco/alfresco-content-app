@@ -24,12 +24,11 @@
 
 import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { DEV_MODE_TOKEN } from './dev-mode.tokens';
-import { AppExtensionService } from '@alfresco/adf-extensions';
 import { AboutModule, AppConfigService, AuthenticationService, RepositoryInfo } from '@alfresco/adf-core';
 import { DiscoveryApiService } from '@alfresco/adf-content-services';
 import { PACKAGE_JSON } from './package-json.token';
 import { TranslateModule } from '@ngx-translate/core';
-import { PageLayoutModule } from '@alfresco/aca-shared';
+import { AppExtensionService, PageLayoutModule } from '@alfresco/aca-shared';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
