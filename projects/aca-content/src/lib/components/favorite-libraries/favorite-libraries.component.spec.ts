@@ -23,10 +23,8 @@
  */
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlfrescoApiService, DataTableComponent, UserPreferencesService } from '@alfresco/adf-core';
-import { DocumentListComponent, NodeFavoriteDirective } from '@alfresco/adf-content-services';
+import { AlfrescoApiService, UserPreferencesService } from '@alfresco/adf-core';
 import { FavoriteLibrariesComponent } from './favorite-libraries.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { AppHookService, ContentApiService } from '@alfresco/aca-shared';
@@ -35,8 +33,6 @@ import { RouterEffects } from '@alfresco/aca-shared/store';
 import { of, throwError } from 'rxjs';
 import { LibraryEffects } from '../../store/effects';
 import { NodeEntry } from '@alfresco/js-api';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('FavoriteLibrariesComponent', () => {
   let fixture: ComponentFixture<FavoriteLibrariesComponent>;
@@ -59,9 +55,7 @@ describe('FavoriteLibrariesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, EffectsModule.forRoot([RouterEffects, LibraryEffects]), MatDialogModule, MatSnackBarModule],
-      declarations: [DataTableComponent, NodeFavoriteDirective, DocumentListComponent, FavoriteLibrariesComponent],
-      schemas: [NO_ERRORS_SCHEMA]
+      imports: [AppTestingModule, EffectsModule.forRoot([RouterEffects, LibraryEffects]), FavoriteLibrariesComponent]
     });
 
     fixture = TestBed.createComponent(FavoriteLibrariesComponent);
