@@ -27,8 +27,7 @@ import { PaginationDirective } from './pagination.directive';
 import { ContextActionsModule } from './contextmenu/contextmenu.module';
 
 @NgModule({
-  imports: [ContextActionsModule],
-  declarations: [PaginationDirective],
+  imports: [ContextActionsModule, PaginationDirective],
   exports: [PaginationDirective, ContextActionsModule]
 })
 export class SharedDirectivesModule {}

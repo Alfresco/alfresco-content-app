@@ -33,8 +33,7 @@ describe('SearchInputControlComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule],
-      declarations: [SearchInputControlComponent],
+      imports: [AppTestingModule, SearchInputControlComponent],
       schemas: [NO_ERRORS_SCHEMA]
     });
 

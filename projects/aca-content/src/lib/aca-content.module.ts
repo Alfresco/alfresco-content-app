@@ -58,9 +58,8 @@ import { ExtensionService, ExtensionsModule } from '@alfresco/adf-extensions';
 import { APP_TOOLBAR_DIRECTIVES } from './components/toolbar/toolbar.module';
 import { APP_SIDENAV_DIRECTIVES } from './components/sidenav/sidenav.module';
 import { APP_COMMON_DIRECTIVES } from './components/common/common.module';
-import { AppSearchInputModule } from './components/search/search-input.module';
+import { APP_SEARCH_DIRECTIVES } from './components/search';
 import { DocumentListCustomComponentsModule } from './components/dl-custom-components/document-list-custom-components.module';
-import { AppSearchResultsModule } from './components/search/search-results.module';
 import { FavoritesComponent } from './components/favorites/favorites.component';
 import { RecentFilesComponent } from './components/recent-files/recent-files.component';
 import { SharedFilesComponent } from './components/shared-files/shared-files.component';
@@ -68,7 +67,6 @@ import { CreateFromTemplateDialogComponent } from './dialogs/node-template/creat
 import { DetailsComponent } from './components/details/details.component';
 import { ContentUrlService } from './services/content-url.service';
 import { HomeComponent } from './components/home/home.component';
-
 import { CommonModule } from '@angular/common';
 import { LocationLinkComponent } from './components/common/location-link/location-link.component';
 import { LogoutComponent } from './components/common/logout/logout.component';
@@ -117,14 +115,13 @@ import { TrashcanComponent } from './components/trashcan/trashcan.component';
     ...APP_COMMON_DIRECTIVES,
     ...APP_TOOLBAR_DIRECTIVES,
     ...APP_SIDENAV_DIRECTIVES,
+    ...APP_SEARCH_DIRECTIVES,
     PageLayoutModule,
     DirectivesModule,
     ContextMenuComponent,
     AppInfoDrawerModule,
     SharedToolbarModule,
     DocumentListCustomComponentsModule,
-    AppSearchInputModule,
-    AppSearchResultsModule,
     HammerModule,
     ViewProfileComponent,
     TrashcanComponent,

@@ -28,8 +28,7 @@ import { SharedDirectivesModule } from '@alfresco/aca-shared';
 import { ContentDirectiveModule } from '@alfresco/adf-content-services';
 
 @NgModule({
-  imports: [SharedDirectivesModule, ContentDirectiveModule],
-  declarations: [DocumentListDirective],
+  imports: [SharedDirectivesModule, ContentDirectiveModule, DocumentListDirective],
   exports: [DocumentListDirective, SharedDirectivesModule, ContentDirectiveModule]
 })
 export class DirectivesModule {}

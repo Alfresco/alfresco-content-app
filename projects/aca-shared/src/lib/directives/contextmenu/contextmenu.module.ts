@@ -29,7 +29,7 @@ import { ContextActionsDirective } from './contextmenu.directive';
  * @deprecated in 1.11.0, use SharedDirectivesModule instead.
  */
 @NgModule({
-  declarations: [ContextActionsDirective],
+  imports: [ContextActionsDirective],
   exports: [ContextActionsDirective]
 })
 export class ContextActionsModule {}

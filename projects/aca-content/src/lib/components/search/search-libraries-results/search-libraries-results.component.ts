@@ -27,10 +27,42 @@ import { NodePaging, Pagination, SiteEntry } from '@alfresco/js-api';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { SearchLibrariesQueryBuilderService } from './search-libraries-query-builder.service';
-import { AppHookService, AppService, PageComponent } from '@alfresco/aca-shared';
-import { DocumentListPresetRef } from '@alfresco/adf-extensions';
+import {
+  AppHookService,
+  AppService,
+  ContextActionsDirective,
+  InfoDrawerComponent,
+  PageComponent,
+  PageLayoutModule,
+  SharedToolbarModule
+} from '@alfresco/aca-shared';
+import { DocumentListPresetRef, ExtensionsModule } from '@alfresco/adf-extensions';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
+import { SearchInputComponent } from '../search-input/search-input.component';
+import { DataTableModule, PaginationModule, ToolbarModule } from '@alfresco/adf-core';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { DocumentListModule } from '@alfresco/adf-content-services';
+import { DocumentListDirective } from '../../../directives/document-list.directive';
 
 @Component({
+  standalone: true,
+  imports: [
+    CommonModule,
+    TranslateModule,
+    PageLayoutModule,
+    SearchInputComponent,
+    ToolbarModule,
+    SharedToolbarModule,
+    MatProgressBarModule,
+    DocumentListModule,
+    DataTableModule,
+    ExtensionsModule,
+    PaginationModule,
+    InfoDrawerComponent,
+    ContextActionsDirective,
+    DocumentListDirective
+  ],
   selector: 'aca-search-results',
   templateUrl: './search-libraries-results.component.html',
   styleUrls: ['./search-libraries-results.component.scss'],
