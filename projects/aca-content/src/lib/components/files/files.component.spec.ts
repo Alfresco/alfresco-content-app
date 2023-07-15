@@ -38,7 +38,7 @@ import { NodeActionsService } from '../../services/node-actions.service';
 import { FilesComponent } from './files.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { ContentApiService, SharedDirectivesModule } from '@alfresco/aca-shared';
-import { of, throwError } from 'rxjs';
+import { of, Subject, throwError } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { DirectivesModule } from '../../directives/directives.module';
 import { NodeEntry, NodePaging } from '@alfresco/js-api';
@@ -53,7 +53,8 @@ describe('FilesComponent', () => {
   let route: ActivatedRoute;
   let router: any = {
     url: '',
-    navigate: jasmine.createSpy('navigate')
+    navigate: jasmine.createSpy('navigate'),
+    events: new Subject()
   };
 
   let spyContent = null;
@@ -72,8 +73,8 @@ describe('FilesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, DataTableModule, PaginationModule, SharedDirectivesModule, DirectivesModule],
-      declarations: [FilesComponent, DataTableComponent, NodeFavoriteDirective, DocumentListComponent],
+      imports: [AppTestingModule, DataTableModule, PaginationModule, SharedDirectivesModule, DirectivesModule, FilesComponent],
+      declarations: [DataTableComponent, NodeFavoriteDirective, DocumentListComponent],
       providers: [
         {
           provide: Router,

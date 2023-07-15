@@ -25,12 +25,12 @@
 import { getUserProfile } from '@alfresco/aca-shared/store';
 import { DocumentListPresetRef, ExtensionsModule } from '@alfresco/adf-extensions';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { PageComponent, PageLayoutModule, SharedToolbarModule } from '@alfresco/aca-shared';
+import { ContextActionsDirective, PageComponent, PageLayoutModule, PaginationDirective, SharedToolbarModule } from '@alfresco/aca-shared';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { BreadcrumbModule, DocumentListModule } from '@alfresco/adf-content-services';
 import { DataTableModule, PaginationModule, TemplateModule, ToolbarModule } from '@alfresco/adf-core';
-import { DirectivesModule } from '../../directives/directives.module';
+import { DocumentListDirective } from '../../directives/document-list.directive';
 
 @Component({
   standalone: true,
@@ -43,10 +43,12 @@ import { DirectivesModule } from '../../directives/directives.module';
     SharedToolbarModule,
     DocumentListModule,
     TemplateModule,
-    DirectivesModule,
     PaginationModule,
     DataTableModule,
-    ExtensionsModule
+    ExtensionsModule,
+    DocumentListDirective,
+    ContextActionsDirective,
+    PaginationDirective
   ],
   templateUrl: './trashcan.component.html',
   encapsulation: ViewEncapsulation.None

@@ -22,18 +22,49 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ShowHeaderMode } from '@alfresco/adf-core';
+import { DataTableModule, PaginationModule, ShowHeaderMode, ToolbarModule } from '@alfresco/adf-core';
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { MinimalNodeEntity, MinimalNodeEntryEntity, PathElement, PathElementEntity } from '@alfresco/js-api';
 import { NodeActionsService } from '../../services/node-actions.service';
-import { ContentApiService, PageComponent } from '@alfresco/aca-shared';
+import {
+  ContentApiService,
+  ContextActionsDirective,
+  GenericErrorComponent,
+  InfoDrawerComponent,
+  PageComponent,
+  PageLayoutModule,
+  SharedToolbarModule
+} from '@alfresco/aca-shared';
 import { SetCurrentFolderAction, isAdmin, UploadFileVersionAction, showLoaderSelector } from '@alfresco/aca-shared/store';
 import { debounceTime, takeUntil } from 'rxjs/operators';
-import { FilterSearch, ShareDataRow, FileUploadEvent } from '@alfresco/adf-content-services';
-import { DocumentListPresetRef } from '@alfresco/adf-extensions';
+import { FilterSearch, ShareDataRow, FileUploadEvent, BreadcrumbModule, UploadModule, DocumentListModule } from '@alfresco/adf-content-services';
+import { DocumentListPresetRef, ExtensionsModule } from '@alfresco/adf-extensions';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
+import { DocumentListDirective } from '../../directives/document-list.directive';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
+  standalone: true,
+  imports: [
+    CommonModule,
+    TranslateModule,
+    PageLayoutModule,
+    BreadcrumbModule,
+    ToolbarModule,
+    SharedToolbarModule,
+    GenericErrorComponent,
+    UploadModule,
+    DocumentListModule,
+    DocumentListDirective,
+    ContextActionsDirective,
+    DataTableModule,
+    ExtensionsModule,
+    PaginationModule,
+    MatProgressSpinnerModule,
+    InfoDrawerComponent
+  ],
   templateUrl: './files.component.html',
   encapsulation: ViewEncapsulation.None
 })
