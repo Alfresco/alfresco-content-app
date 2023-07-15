@@ -27,20 +27,20 @@ import { SharedLinkViewComponent } from './shared-link-view.component';
 import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
 import { DirectivesModule } from '../../directives/directives.module';
-import { AppToolbarModule } from '../toolbar/toolbar.module';
 import { AppInfoDrawerModule } from '../info-drawer/info.drawer.module';
 import { CoreExtensionsModule } from '../../extensions/core.extensions.module';
 import { ContentModule } from '@alfresco/adf-content-services';
+import { SharedToolbarModule } from '@alfresco/aca-shared';
 
 @NgModule({
   imports: [
     CommonModule,
     CoreModule.forChild(),
     DirectivesModule,
-    AppToolbarModule,
     CoreExtensionsModule.forChild(),
     AppInfoDrawerModule,
-    ContentModule
+    ContentModule,
+    SharedToolbarModule
   ],
   declarations: [SharedLinkViewComponent],
   exports: [SharedLinkViewComponent]

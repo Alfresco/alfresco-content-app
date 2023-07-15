@@ -40,7 +40,8 @@ import {
   PageLayoutModule,
   SharedModule,
   GenericErrorComponent,
-  OpenInAppModule
+  OpenInAppModule,
+  SharedToolbarModule
 } from '@alfresco/aca-shared';
 import * as rules from '@alfresco/aca-shared/rules';
 
@@ -54,7 +55,7 @@ import { CoreExtensionsModule } from './extensions/core.extensions.module';
 import { AppInfoDrawerModule } from './components/info-drawer/info.drawer.module';
 import { DirectivesModule } from './directives/directives.module';
 import { ExtensionService, ExtensionsModule } from '@alfresco/adf-extensions';
-import { AppToolbarModule } from './components/toolbar/toolbar.module';
+import { APP_TOOLBAR_DIRECTIVES } from './components/toolbar/toolbar.module';
 import { AppSidenavModule } from './components/sidenav/sidenav.module';
 import { APP_COMMON_DIRECTIVES } from './components/common/common.module';
 import { AppSearchInputModule } from './components/search/search-input.module';
@@ -114,11 +115,12 @@ import { TrashcanComponent } from './components/trashcan/trashcan.component';
     MaterialModule,
     AppStoreModule,
     ...APP_COMMON_DIRECTIVES,
+    ...APP_TOOLBAR_DIRECTIVES,
     PageLayoutModule,
     DirectivesModule,
     ContextMenuComponent,
     AppInfoDrawerModule,
-    AppToolbarModule,
+    SharedToolbarModule,
     AppSidenavModule,
     DocumentListCustomComponentsModule,
     AppSearchInputModule,

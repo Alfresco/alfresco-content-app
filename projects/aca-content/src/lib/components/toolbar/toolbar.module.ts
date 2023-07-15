@@ -22,7 +22,6 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NgModule } from '@angular/core';
 import { ToggleFavoriteComponent } from './toggle-favorite/toggle-favorite.component';
 import { ToggleInfoDrawerComponent } from './toggle-info-drawer/toggle-info-drawer.component';
 import { ToggleJoinLibraryButtonComponent } from './toggle-join-library/toggle-join-library-button.component';
@@ -30,27 +29,13 @@ import { ToggleJoinLibraryMenuComponent } from './toggle-join-library/toggle-joi
 import { ToggleFavoriteLibraryComponent } from './toggle-favorite-library/toggle-favorite-library.component';
 import { ToggleEditOfflineComponent } from './toggle-edit-offline/toggle-edit-offline.component';
 import { ViewNodeComponent } from './view-node/view-node.component';
-import { SharedToolbarModule } from '@alfresco/aca-shared';
 
-@NgModule({
-  imports: [
-    ToggleFavoriteComponent,
-    ToggleEditOfflineComponent,
-    ToggleInfoDrawerComponent,
-    ToggleJoinLibraryButtonComponent,
-    ToggleJoinLibraryMenuComponent,
-    ToggleFavoriteLibraryComponent,
-    ViewNodeComponent
-  ],
-  exports: [
-    ToggleFavoriteComponent,
-    ToggleInfoDrawerComponent,
-    ToggleJoinLibraryButtonComponent,
-    ToggleJoinLibraryMenuComponent,
-    ToggleFavoriteLibraryComponent,
-    ToggleEditOfflineComponent,
-    ViewNodeComponent,
-    SharedToolbarModule
-  ]
-})
-export class AppToolbarModule {}
+export const APP_TOOLBAR_DIRECTIVES = [
+  ToggleFavoriteComponent,
+  ToggleEditOfflineComponent,
+  ToggleInfoDrawerComponent,
+  ToggleJoinLibraryButtonComponent,
+  ToggleJoinLibraryMenuComponent,
+  ToggleFavoriteLibraryComponent,
+  ViewNodeComponent
+] as const;

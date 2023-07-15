@@ -27,12 +27,11 @@ import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
 import { ContentModule } from '@alfresco/adf-content-services';
 import { ExtensionsModule } from '@alfresco/adf-extensions';
-import { LockedByComponent, PageLayoutModule } from '@alfresco/aca-shared';
+import { LockedByComponent, PageLayoutModule, SharedToolbarModule } from '@alfresco/aca-shared';
 import { SearchResultsComponent } from './search-results/search-results.component';
 import { SearchResultsRowComponent } from './search-results-row/search-results-row.component';
 import { SearchLibrariesResultsComponent } from './search-libraries-results/search-libraries-results.component';
 import { AppInfoDrawerModule } from '../info-drawer/info.drawer.module';
-import { AppToolbarModule } from '../toolbar/toolbar.module';
 import { DirectivesModule } from '../../directives/directives.module';
 import { SearchActionMenuComponent } from './search-action-menu/search-action-menu.component';
 import { AppSearchInputModule } from './search-input.module';
@@ -48,7 +47,6 @@ import { ContextMenuComponent } from '../context-menu/context-menu.component';
     ContentModule.forChild(),
     ExtensionsModule,
     AppInfoDrawerModule,
-    AppToolbarModule,
     DirectivesModule,
     PageLayoutModule,
     ContextMenuComponent,
@@ -56,7 +54,8 @@ import { ContextMenuComponent } from '../context-menu/context-menu.component';
     AppSearchInputModule,
     LocationLinkComponent,
     ThumbnailColumnComponent,
-    TagsColumnComponent
+    TagsColumnComponent,
+    SharedToolbarModule
   ],
   declarations: [SearchResultsComponent, SearchLibrariesResultsComponent, SearchResultsRowComponent, SearchActionMenuComponent],
   exports: [SearchResultsComponent, SearchLibrariesResultsComponent, SearchResultsRowComponent, SearchActionMenuComponent]
