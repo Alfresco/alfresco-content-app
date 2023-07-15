@@ -26,8 +26,15 @@ import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angu
 import { Rule } from '../../model/rule.model';
 import { RuleGroupingItem } from '../../model/rule-grouping-item.model';
 import { RuleSet } from '../../model/rule-set.model';
+import { CommonModule } from '@angular/common';
+import { RuleListItemUiComponent } from '../rule-list-item/rule-list-item.ui-component';
+import { MatRippleModule } from '@angular/material/core';
+import { TranslateModule } from '@ngx-translate/core';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, TranslateModule, RuleListItemUiComponent, MatRippleModule, MatProgressSpinnerModule],
   selector: 'aca-rule-list-grouping',
   templateUrl: 'rule-list-grouping.ui-component.html',
   styleUrls: ['rule-list-grouping.ui-component.scss'],

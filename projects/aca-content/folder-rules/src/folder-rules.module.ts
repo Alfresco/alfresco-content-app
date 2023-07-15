@@ -62,7 +62,10 @@ const routes: Routes = [
     DocumentListModule,
     ExtensionsModule,
     ContentNodeSelectorModule,
-    GenericErrorComponent
+    GenericErrorComponent,
+    RuleListItemUiComponent,
+    RuleListGroupingUiComponent,
+    RuleListUiComponent
   ],
   declarations: [
     EditRuleDialogUiComponent,
@@ -71,9 +74,6 @@ const routes: Routes = [
     RuleActionUiComponent,
     RuleCompositeConditionUiComponent,
     RuleDetailsUiComponent,
-    RuleListGroupingUiComponent,
-    RuleListItemUiComponent,
-    RuleListUiComponent,
     RuleSetPickerSmartComponent,
     RuleSimpleConditionUiComponent,
     RuleTriggersUiComponent,
