@@ -38,7 +38,6 @@ import {
   DocumentBasePageService,
   ExtensionsDataLoaderGuard,
   PageLayoutModule,
-  SharedModule,
   GenericErrorComponent,
   SharedToolbarModule,
   OpenInAppComponent
@@ -105,7 +104,6 @@ import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
     CoreModule.forChild(),
     ExtensionsModule.forChild(),
     CoreExtensionsModule.forChild(),
-    SharedModule,
     AppStoreModule,
     ...APP_COMMON_DIRECTIVES,
     ...APP_TOOLBAR_DIRECTIVES,

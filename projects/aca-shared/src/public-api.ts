@@ -41,9 +41,7 @@ export * from './lib/components/document-base-page/document-base-page.service';
 export * from './lib/components/open-in-app/open-in-app.component';
 
 export * from './lib/directives/contextmenu/contextmenu.directive';
-export * from './lib/directives/contextmenu/contextmenu.module';
 export * from './lib/directives/pagination.directive';
-export * from './lib/directives/shared.directives.module';
 
 export * from './lib/models/types';
 export * from './lib/models/viewer.rules';
@@ -60,5 +58,4 @@ export * from './lib/services/app-hook.service';
 export * from './lib/services/aca-file-auto-download.service';
 
 export * from './lib/utils/node.utils';
-export * from './lib/shared.module';
 export * from './lib/testing/lib-testing-module';
