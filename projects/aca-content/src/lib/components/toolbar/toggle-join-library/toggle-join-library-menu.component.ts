@@ -31,10 +31,11 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { ContentDirectiveModule } from '@alfresco/adf-content-services';
 import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, TranslateModule, ContentDirectiveModule, MatIconModule],
+  imports: [CommonModule, TranslateModule, ContentDirectiveModule, MatIconModule, MatMenuModule],
   selector: 'app-toggle-join-library-menu',
   template: `
     <button
