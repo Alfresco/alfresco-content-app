@@ -44,13 +44,10 @@ import {
   SharedToolbarModule
 } from '@alfresco/aca-shared';
 import * as rules from '@alfresco/aca-shared/rules';
-
 import { FilesComponent } from './components/files/files.component';
 import { LibrariesComponent } from './components/libraries/libraries.component';
 import { FavoriteLibrariesComponent } from './components/favorite-libraries/favorite-libraries.component';
-
 import { AppStoreModule } from './store/app-store.module';
-import { MaterialModule } from './material.module';
 import { CoreExtensionsModule } from './extensions/core.extensions.module';
 import { AppInfoDrawerModule } from './components/info-drawer/info.drawer.module';
 import { ExtensionService, ExtensionsModule } from '@alfresco/adf-extensions';
@@ -96,6 +93,7 @@ import { ContextMenuComponent } from './components/context-menu/context-menu.com
 import { ViewProfileComponent } from './components/view-profile/view-profile.component';
 import { TrashcanComponent } from './components/trashcan/trashcan.component';
 import { SharedLinkViewComponent } from './components/shared-link-view/shared-link-view.component';
+import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 
 @NgModule({
   imports: [
@@ -108,7 +106,6 @@ import { SharedLinkViewComponent } from './components/shared-link-view/shared-li
     ExtensionsModule.forChild(),
     CoreExtensionsModule.forChild(),
     SharedModule,
-    MaterialModule,
     AppStoreModule,
     ...APP_COMMON_DIRECTIVES,
     ...APP_TOOLBAR_DIRECTIVES,
@@ -147,7 +144,11 @@ import { SharedLinkViewComponent } from './components/shared-link-view/shared-li
         source: 'assets'
       }
     },
-    { provide: SHELL_NAVBAR_MIN_WIDTH, useValue: 0 }
+    { provide: SHELL_NAVBAR_MIN_WIDTH, useValue: 0 },
+    {
+      provide: MAT_DIALOG_DEFAULT_OPTIONS,
+      useValue: { closeOnNavigation: true, hasBackdrop: true, autoFocus: true }
+    }
   ]
 })
 export class ContentServiceExtensionModule {
