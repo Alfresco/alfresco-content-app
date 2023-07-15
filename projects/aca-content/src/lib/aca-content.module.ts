@@ -87,7 +87,6 @@ import { ViewNodeComponent } from './components/toolbar/view-node/view-node.comp
 import { CONTENT_ROUTES } from './aca-content.routes';
 import { RouterModule } from '@angular/router';
 import { UploadFilesDialogComponent } from './components/upload-files-dialog/upload-files-dialog.component';
-import { AppSharedLinkViewModule } from './components/shared-link-view/shared-link-view.module';
 import { AcaFolderRulesModule } from '@alfresco/aca-content/folder-rules';
 import { TagsColumnComponent } from './components/dl-custom-components/tags-column/tags-column.component';
 import { UserInfoComponent } from './components/common/user-info/user-info.component';
@@ -98,6 +97,7 @@ import { UserMenuComponent } from './components/sidenav/user-menu/user-menu.comp
 import { ContextMenuComponent } from './components/context-menu/context-menu.component';
 import { ViewProfileComponent } from './components/view-profile/view-profile.component';
 import { TrashcanComponent } from './components/trashcan/trashcan.component';
+import { SharedLinkViewComponent } from './components/shared-link-view/shared-link-view.component';
 
 @NgModule({
   imports: [
@@ -125,7 +125,7 @@ import { TrashcanComponent } from './components/trashcan/trashcan.component';
     HammerModule,
     ViewProfileComponent,
     TrashcanComponent,
-    AppSharedLinkViewModule,
+    SharedLinkViewComponent,
     AcaFolderRulesModule,
     GenericErrorComponent,
     DetailsComponent,
