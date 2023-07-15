@@ -93,7 +93,6 @@ export const initialState = {
       }
     ),
     EffectsModule.forRoot([]),
-    EffectsModule.forRoot([]),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
