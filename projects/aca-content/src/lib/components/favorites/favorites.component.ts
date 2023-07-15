@@ -22,13 +22,42 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ContentApiService, PageComponent } from '@alfresco/aca-shared';
+import {
+  ContentApiService,
+  ContextActionsDirective,
+  InfoDrawerComponent,
+  PageComponent,
+  PageLayoutModule,
+  PaginationDirective,
+  SharedToolbarModule
+} from '@alfresco/aca-shared';
 import { MinimalNodeEntity, MinimalNodeEntryEntity, PathElementEntity, PathInfo } from '@alfresco/js-api';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { debounceTime, map } from 'rxjs/operators';
-import { DocumentListPresetRef } from '@alfresco/adf-extensions';
+import { DocumentListPresetRef, ExtensionsModule } from '@alfresco/adf-extensions';
+import { CommonModule } from '@angular/common';
+import { BreadcrumbModule, DocumentListModule } from '@alfresco/adf-content-services';
+import { DataTableModule, PaginationModule, TemplateModule, ToolbarModule } from '@alfresco/adf-core';
+import { DocumentListDirective } from '../../directives/document-list.directive';
 
 @Component({
+  standalone: true,
+  imports: [
+    CommonModule,
+    PageLayoutModule,
+    BreadcrumbModule,
+    ToolbarModule,
+    SharedToolbarModule,
+    DocumentListModule,
+    DocumentListDirective,
+    ContextActionsDirective,
+    TemplateModule,
+    DataTableModule,
+    ExtensionsModule,
+    PaginationModule,
+    PaginationDirective,
+    InfoDrawerComponent
+  ],
   templateUrl: './favorites.component.html',
   encapsulation: ViewEncapsulation.None
 })

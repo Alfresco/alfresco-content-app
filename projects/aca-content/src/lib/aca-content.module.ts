@@ -131,9 +131,10 @@ import { SharedLinkViewComponent } from './components/shared-link-view/shared-li
     OpenInAppModule,
     SharedFilesComponent,
     FilesComponent,
-    FavoriteLibrariesComponent
+    FavoriteLibrariesComponent,
+    FavoritesComponent
   ],
-  declarations: [LibrariesComponent, FavoritesComponent, RecentFilesComponent, HomeComponent, UploadFilesDialogComponent],
+  declarations: [LibrariesComponent, RecentFilesComponent, HomeComponent, UploadFilesDialogComponent],
   providers: [
     { provide: ContentVersionService, useClass: ContentUrlService },
     { provide: DocumentBasePageService, useExisting: ContentManagementService },
