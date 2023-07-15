@@ -27,6 +27,7 @@ import { Router } from '@angular/router';
 import { AppConfigService } from '@alfresco/adf-core';
 
 @Component({
+  standalone: true,
   template: '',
   encapsulation: ViewEncapsulation.None
 })

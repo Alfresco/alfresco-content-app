@@ -53,7 +53,6 @@ import { AppStoreModule } from './store/app-store.module';
 import { MaterialModule } from './material.module';
 import { CoreExtensionsModule } from './extensions/core.extensions.module';
 import { AppInfoDrawerModule } from './components/info-drawer/info.drawer.module';
-import { DirectivesModule } from './directives/directives.module';
 import { ExtensionService, ExtensionsModule } from '@alfresco/adf-extensions';
 import { APP_TOOLBAR_DIRECTIVES } from './components/toolbar';
 import { APP_SIDENAV_DIRECTIVES } from './components/sidenav';
@@ -116,7 +115,6 @@ import { SharedLinkViewComponent } from './components/shared-link-view/shared-li
     ...APP_SIDENAV_DIRECTIVES,
     ...APP_SEARCH_DIRECTIVES,
     PageLayoutModule,
-    DirectivesModule,
     ContextMenuComponent,
     AppInfoDrawerModule,
     SharedToolbarModule,
@@ -134,9 +132,10 @@ import { SharedLinkViewComponent } from './components/shared-link-view/shared-li
     FavoriteLibrariesComponent,
     FavoritesComponent,
     RecentFilesComponent,
-    LibrariesComponent
+    LibrariesComponent,
+    HomeComponent,
+    UploadFilesDialogComponent
   ],
-  declarations: [HomeComponent, UploadFilesDialogComponent],
   providers: [
     { provide: ContentVersionService, useClass: ContentUrlService },
     { provide: DocumentBasePageService, useExisting: ContentManagementService },
