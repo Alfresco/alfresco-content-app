@@ -38,6 +38,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { CommonModule } from '@angular/common';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 export const initialState = {
   app: {
@@ -77,6 +78,7 @@ export const initialState = {
     CommonModule,
     HttpClientModule,
     RouterTestingModule,
+    MatIconTestingModule,
     StoreModule,
     EffectsModule.forRoot([]),
     TranslateModule.forRoot({

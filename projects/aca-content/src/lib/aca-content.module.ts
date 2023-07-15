@@ -40,8 +40,8 @@ import {
   PageLayoutModule,
   SharedModule,
   GenericErrorComponent,
-  OpenInAppModule,
-  SharedToolbarModule
+  SharedToolbarModule,
+  OpenInAppComponent
 } from '@alfresco/aca-shared';
 import * as rules from '@alfresco/aca-shared/rules';
 import { FilesComponent } from './components/files/files.component';
@@ -123,7 +123,7 @@ import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
     GenericErrorComponent,
     DetailsComponent,
     CreateFromTemplateDialogComponent,
-    OpenInAppModule,
+    OpenInAppComponent,
     SharedFilesComponent,
     FilesComponent,
     FavoriteLibrariesComponent,
