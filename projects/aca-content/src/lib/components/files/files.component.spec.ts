@@ -25,22 +25,13 @@
 import { TestBed, fakeAsync, tick, ComponentFixture } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA, SimpleChange, SimpleChanges } from '@angular/core';
 import { Router, ActivatedRoute, convertToParamMap } from '@angular/router';
-import { DataTableComponent, DataTableModule, PaginationModule } from '@alfresco/adf-core';
-import {
-  DocumentListComponent,
-  DocumentListService,
-  FilterSearch,
-  PathElementEntity,
-  NodeFavoriteDirective,
-  UploadService
-} from '@alfresco/adf-content-services';
+import { DocumentListService, FilterSearch, PathElementEntity, UploadService } from '@alfresco/adf-content-services';
 import { NodeActionsService } from '../../services/node-actions.service';
 import { FilesComponent } from './files.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { ContentApiService, SharedDirectivesModule } from '@alfresco/aca-shared';
+import { ContentApiService } from '@alfresco/aca-shared';
 import { of, Subject, throwError } from 'rxjs';
 import { By } from '@angular/platform-browser';
-import { DirectivesModule } from '../../directives/directives.module';
 import { NodeEntry, NodePaging } from '@alfresco/js-api';
 
 describe('FilesComponent', () => {
@@ -73,8 +64,7 @@ describe('FilesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, DataTableModule, PaginationModule, SharedDirectivesModule, DirectivesModule, FilesComponent],
-      declarations: [DataTableComponent, NodeFavoriteDirective, DocumentListComponent],
+      imports: [AppTestingModule, FilesComponent],
       providers: [
         {
           provide: Router,
