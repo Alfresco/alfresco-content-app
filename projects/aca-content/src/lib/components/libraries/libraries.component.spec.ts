@@ -23,17 +23,13 @@
  */
 
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlfrescoApiService, DataTableComponent } from '@alfresco/adf-core';
-import { DocumentListComponent, NodeFavoriteDirective } from '@alfresco/adf-content-services';
+import { AlfrescoApiService } from '@alfresco/adf-core';
 import { LibrariesComponent } from './libraries.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { EffectsModule } from '@ngrx/effects';
 import { LibraryEffects } from '../../store/effects';
 import { ContentApiService } from '@alfresco/aca-shared';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('LibrariesComponent', () => {
   let fixture: ComponentFixture<LibrariesComponent>;
@@ -54,9 +50,7 @@ describe('LibrariesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, EffectsModule.forRoot([LibraryEffects]), MatDialogModule, MatSnackBarModule],
-      declarations: [DataTableComponent, NodeFavoriteDirective, DocumentListComponent, LibrariesComponent],
-      schemas: [NO_ERRORS_SCHEMA]
+      imports: [AppTestingModule, EffectsModule.forRoot([LibraryEffects]), LibrariesComponent]
     });
 
     fixture = TestBed.createComponent(LibrariesComponent);
@@ -67,7 +61,7 @@ describe('LibrariesComponent', () => {
     alfrescoApi.reset();
     router = TestBed.inject(Router);
 
-    const sitesApi: any = contentApiService['sitesApi'];
+    const sitesApi = contentApiService.sitesApi;
 
     spyOn(sitesApi, 'listSites').and.returnValue(Promise.resolve(page));
     spyOn(sitesApi, 'listSiteMembershipsForPerson').and.returnValue(Promise.resolve({}));
