@@ -22,13 +22,8 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { CoreModule } from '@alfresco/adf-core';
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ContentDirectiveModule, ContentModule } from '@alfresco/adf-content-services';
-import { SharedDirectivesModule, SharedToolbarModule, InfoDrawerComponent } from '@alfresco/aca-shared';
-import { ExtensionsModule } from '@alfresco/adf-extensions';
 import { PreviewComponent } from './components/preview.component';
 
 const routes: Routes = [
@@ -43,19 +38,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    CoreModule.forChild(),
-    ExtensionsModule,
-    ContentModule,
-    ContentDirectiveModule,
-    SharedDirectivesModule,
-    ContentDirectiveModule,
-    SharedToolbarModule,
-    InfoDrawerComponent
-  ],
-  declarations: [PreviewComponent],
+  imports: [RouterModule.forChild(routes), PreviewComponent],
   exports: [PreviewComponent]
 })
 export class PreviewModule {}

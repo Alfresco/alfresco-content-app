@@ -23,19 +23,21 @@
  */
 
 import { Component, OnInit, OnDestroy, ViewEncapsulation, HostListener } from '@angular/core';
-import { Location } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute, UrlTree, UrlSegmentGroup, UrlSegment, PRIMARY_OUTLET } from '@angular/router';
 import { debounceTime, map, takeUntil } from 'rxjs/operators';
-import { UserPreferencesService, ObjectUtils } from '@alfresco/adf-core';
+import { UserPreferencesService, ObjectUtils, ViewerModule } from '@alfresco/adf-core';
 import { ClosePreviewAction, ViewerActionTypes, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
-import { PageComponent, AppHookService, ContentApiService } from '@alfresco/aca-shared';
+import { PageComponent, AppHookService, ContentApiService, InfoDrawerComponent, SharedToolbarModule } from '@alfresco/aca-shared';
 import { ContentActionRef, ViewerExtensionRef } from '@alfresco/adf-extensions';
 import { SearchRequest } from '@alfresco/js-api';
 import { from } from 'rxjs';
 import { Actions, ofType } from '@ngrx/effects';
-import { NodesApiService } from '@alfresco/adf-content-services';
+import { AlfrescoViewerModule, NodesApiService } from '@alfresco/adf-content-services';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, ViewerModule, AlfrescoViewerModule, InfoDrawerComponent, SharedToolbarModule],
   selector: 'app-preview',
   templateUrl: './preview.component.html',
   styleUrls: ['./preview.component.scss'],
