@@ -22,17 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  AdminActions,
-  LoginPage,
-  BrowsingPage,
-  RepoClient,
-  InfoDrawer,
-  Utils,
-  FILES,
-  DATE_TIME_FORMAT,
-  DATE_FORMAT
-} from '@alfresco/aca-testing-shared';
+import { AdminActions, LoginPage, BrowsingPage, RepoClient, InfoDrawer, Utils, FILES, DATE_FORMAT } from '@alfresco/aca-testing-shared';
 import { BrowserActions } from '@alfresco/adf-testing';
 
 const moment = require('moment');
@@ -220,7 +210,7 @@ describe('File / Folder properties', () => {
       const expectedPropValues = [
         properties['exif:pixelXDimension']?.toString(),
         properties['exif:pixelYDimension']?.toString(),
-        moment(properties['exif:dateTimeOriginal']).format(DATE_TIME_FORMAT),
+        moment(properties['exif:dateTimeOriginal']).format(DATE_FORMAT),
         properties['exif:exposureTime']?.toString(),
         properties['exif:fNumber']?.toString(),
         properties['exif:flash'],
