@@ -23,22 +23,10 @@
  */
 
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
 import { PreviewComponent } from './components/preview.component';
 
-const routes: Routes = [
-  {
-    path: '',
-    component: PreviewComponent,
-    data: {
-      title: 'APP.PREVIEW.TITLE',
-      navigateMultiple: true
-    }
-  }
-];
-
 @NgModule({
-  imports: [RouterModule.forChild(routes), PreviewComponent],
+  imports: [PreviewComponent],
   exports: [PreviewComponent]
 })
 export class PreviewModule {}
