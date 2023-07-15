@@ -37,9 +37,8 @@ import { ViewNodeComponent } from './view-node/view-node.component';
 import { SharedToolbarModule } from '@alfresco/aca-shared';
 
 @NgModule({
-  imports: [CommonModule, CoreModule.forChild(), ExtensionsModule, SharedToolbarModule, DirectivesModule],
+  imports: [CommonModule, CoreModule.forChild(), ExtensionsModule, SharedToolbarModule, DirectivesModule, ToggleFavoriteComponent],
   declarations: [
-    ToggleFavoriteComponent,
     ToggleInfoDrawerComponent,
     ToggleJoinLibraryButtonComponent,
     ToggleJoinLibraryMenuComponent,
