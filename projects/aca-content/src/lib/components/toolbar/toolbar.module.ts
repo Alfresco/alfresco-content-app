@@ -45,9 +45,11 @@ import { SharedToolbarModule } from '@alfresco/aca-shared';
     DirectivesModule,
     ToggleFavoriteComponent,
     ToggleEditOfflineComponent,
-    ToggleInfoDrawerComponent
+    ToggleInfoDrawerComponent,
+    ToggleJoinLibraryButtonComponent,
+    ToggleJoinLibraryMenuComponent
   ],
-  declarations: [ToggleJoinLibraryButtonComponent, ToggleJoinLibraryMenuComponent, ToggleFavoriteLibraryComponent, ViewNodeComponent],
+  declarations: [ToggleFavoriteLibraryComponent, ViewNodeComponent],
   exports: [
     ToggleFavoriteComponent,
     ToggleInfoDrawerComponent,
