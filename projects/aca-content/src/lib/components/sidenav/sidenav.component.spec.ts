@@ -36,8 +36,7 @@ describe('SidenavComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule],
-      declarations: [SidenavComponent],
+      imports: [AppTestingModule, SidenavComponent],
       providers: [
         {
           provide: AppService,

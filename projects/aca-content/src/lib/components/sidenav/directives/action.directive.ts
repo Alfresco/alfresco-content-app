@@ -28,6 +28,7 @@ import { Store } from '@ngrx/store';
 import { AppStore } from '@alfresco/aca-shared/store';
 
 @Directive({
+  standalone: true,
   /* eslint-disable-next-line */
   selector: '[action]',
   exportAs: 'action'

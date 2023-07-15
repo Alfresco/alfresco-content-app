@@ -30,6 +30,7 @@ import { MatExpansionPanel } from '@angular/material/expansion';
 import { Store } from '@ngrx/store';
 
 @Directive({
+  standalone: true,
   selector: '[acaExpansionPanel]',
   exportAs: 'acaExpansionPanel'
 })

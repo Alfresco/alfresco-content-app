@@ -56,7 +56,7 @@ import { AppInfoDrawerModule } from './components/info-drawer/info.drawer.module
 import { DirectivesModule } from './directives/directives.module';
 import { ExtensionService, ExtensionsModule } from '@alfresco/adf-extensions';
 import { APP_TOOLBAR_DIRECTIVES } from './components/toolbar/toolbar.module';
-import { AppSidenavModule } from './components/sidenav/sidenav.module';
+import { APP_SIDENAV_DIRECTIVES } from './components/sidenav/sidenav.module';
 import { APP_COMMON_DIRECTIVES } from './components/common/common.module';
 import { AppSearchInputModule } from './components/search/search-input.module';
 import { DocumentListCustomComponentsModule } from './components/dl-custom-components/document-list-custom-components.module';
@@ -116,12 +116,12 @@ import { TrashcanComponent } from './components/trashcan/trashcan.component';
     AppStoreModule,
     ...APP_COMMON_DIRECTIVES,
     ...APP_TOOLBAR_DIRECTIVES,
+    ...APP_SIDENAV_DIRECTIVES,
     PageLayoutModule,
     DirectivesModule,
     ContextMenuComponent,
     AppInfoDrawerModule,
     SharedToolbarModule,
-    AppSidenavModule,
     DocumentListCustomComponentsModule,
     AppSearchInputModule,
     AppSearchResultsModule,
