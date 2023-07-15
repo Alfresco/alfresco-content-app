@@ -24,11 +24,9 @@
 
 import { NgModule } from '@angular/core';
 import { DocumentListDirective } from './document-list.directive';
-import { SharedDirectivesModule } from '@alfresco/aca-shared';
-import { ContentDirectiveModule } from '@alfresco/adf-content-services';
 
 @NgModule({
-  imports: [SharedDirectivesModule, ContentDirectiveModule, DocumentListDirective],
-  exports: [DocumentListDirective, SharedDirectivesModule, ContentDirectiveModule]
+  imports: [DocumentListDirective],
+  exports: [DocumentListDirective]
 })
 export class DirectivesModule {}
