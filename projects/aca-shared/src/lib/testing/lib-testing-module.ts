@@ -40,7 +40,6 @@ import { StoreModule } from '@ngrx/store';
 import { CommonModule } from '@angular/common';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { OverlayModule } from '@angular/cdk/overlay';
-import { STORE_INITIAL_APP_DATA } from '../../../store/src/states/app.state';
 
 export const initialState = {
   app: {
@@ -106,11 +105,7 @@ export const initialState = {
   exports: [TranslateModule],
   providers: [
     { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock },
-    { provide: TranslationService, useClass: TranslationMock },
-    {
-      provide: STORE_INITIAL_APP_DATA,
-      useValue: {}
-    }
+    { provide: TranslationService, useClass: TranslationMock }
   ]
 })
 export class LibTestingModule {}
