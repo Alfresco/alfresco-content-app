@@ -28,7 +28,7 @@ import { AboutModule, AppConfigService, AuthenticationService, RepositoryInfo } 
 import { DiscoveryApiService } from '@alfresco/adf-content-services';
 import { PACKAGE_JSON } from './package-json.token';
 import { TranslateModule } from '@ngx-translate/core';
-import { AppExtensionService, PageLayoutModule } from '@alfresco/aca-shared';
+import { AppExtensionService, PageLayoutComponent, PageLayoutContentComponent, PageLayoutHeaderComponent } from '@alfresco/aca-shared';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
@@ -36,7 +36,17 @@ import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, TranslateModule, AboutModule, PageLayoutModule, RouterModule, MatIconModule, MatButtonModule],
+  imports: [
+    CommonModule,
+    TranslateModule,
+    AboutModule,
+    RouterModule,
+    MatIconModule,
+    MatButtonModule,
+    PageLayoutHeaderComponent,
+    PageLayoutContentComponent,
+    PageLayoutComponent
+  ],
   selector: 'app-about-page',
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.scss'],

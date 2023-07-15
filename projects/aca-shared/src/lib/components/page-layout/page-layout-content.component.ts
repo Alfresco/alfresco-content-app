@@ -25,6 +25,7 @@
 import { Component, ViewEncapsulation, ChangeDetectionStrategy, Input, HostBinding } from '@angular/core';
 
 @Component({
+  standalone: true,
   selector: 'aca-page-layout-content',
   template: `<ng-content></ng-content>`,
   encapsulation: ViewEncapsulation.None,

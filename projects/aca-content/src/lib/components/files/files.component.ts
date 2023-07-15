@@ -33,7 +33,10 @@ import {
   GenericErrorComponent,
   InfoDrawerComponent,
   PageComponent,
-  PageLayoutModule,
+  PageLayoutComponent,
+  PageLayoutContentComponent,
+  PageLayoutErrorComponent,
+  PageLayoutHeaderComponent,
   PaginationDirective,
   ToolbarActionComponent
 } from '@alfresco/aca-shared';
@@ -51,7 +54,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   imports: [
     CommonModule,
     TranslateModule,
-    PageLayoutModule,
     BreadcrumbModule,
     ToolbarModule,
     GenericErrorComponent,
@@ -65,7 +67,11 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatProgressSpinnerModule,
     InfoDrawerComponent,
     ToolbarActionComponent,
-    PaginationDirective
+    PaginationDirective,
+    PageLayoutHeaderComponent,
+    PageLayoutContentComponent,
+    PageLayoutErrorComponent,
+    PageLayoutComponent
   ],
   templateUrl: './files.component.html',
   encapsulation: ViewEncapsulation.None

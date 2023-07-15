@@ -34,13 +34,7 @@ import {
   LibraryStatusColumnComponent,
   TrashcanNameColumnComponent
 } from '@alfresco/adf-content-services';
-import {
-  DocumentBasePageService,
-  ExtensionsDataLoaderGuard,
-  PageLayoutModule,
-  GenericErrorComponent,
-  OpenInAppComponent
-} from '@alfresco/aca-shared';
+import { DocumentBasePageService, ExtensionsDataLoaderGuard, GenericErrorComponent, OpenInAppComponent } from '@alfresco/aca-shared';
 import * as rules from '@alfresco/aca-shared/rules';
 import { FilesComponent } from './components/files/files.component';
 import { LibrariesComponent } from './components/libraries/libraries.component';
@@ -108,7 +102,6 @@ import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
     ...APP_TOOLBAR_DIRECTIVES,
     ...APP_SIDENAV_DIRECTIVES,
     ...APP_SEARCH_DIRECTIVES,
-    PageLayoutModule,
     ContextMenuComponent,
     AppInfoDrawerModule,
     HammerModule,

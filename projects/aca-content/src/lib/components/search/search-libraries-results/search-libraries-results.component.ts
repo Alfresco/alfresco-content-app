@@ -33,7 +33,9 @@ import {
   ContextActionsDirective,
   InfoDrawerComponent,
   PageComponent,
-  PageLayoutModule,
+  PageLayoutComponent,
+  PageLayoutContentComponent,
+  PageLayoutHeaderComponent,
   PaginationDirective,
   ToolbarActionComponent
 } from '@alfresco/aca-shared';
@@ -51,7 +53,6 @@ import { DocumentListDirective } from '../../../directives/document-list.directi
   imports: [
     CommonModule,
     TranslateModule,
-    PageLayoutModule,
     SearchInputComponent,
     ToolbarModule,
     MatProgressBarModule,
@@ -63,7 +64,10 @@ import { DocumentListDirective } from '../../../directives/document-list.directi
     ContextActionsDirective,
     DocumentListDirective,
     ToolbarActionComponent,
-    PaginationDirective
+    PaginationDirective,
+    PageLayoutContentComponent,
+    PageLayoutHeaderComponent,
+    PageLayoutComponent
   ],
   selector: 'aca-search-results',
   templateUrl: './search-libraries-results.component.html',

@@ -41,7 +41,9 @@ import {
   ContextActionsDirective,
   InfoDrawerComponent,
   PageComponent,
-  PageLayoutModule,
+  PageLayoutComponent,
+  PageLayoutContentComponent,
+  PageLayoutHeaderComponent,
   PaginationDirective,
   ToolbarActionComponent
 } from '@alfresco/aca-shared';
@@ -65,7 +67,6 @@ import { SearchResultsRowComponent } from '../search-results-row/search-results-
   imports: [
     CommonModule,
     TranslateModule,
-    PageLayoutModule,
     SearchInputComponent,
     ToolbarModule,
     MatProgressBarModule,
@@ -86,7 +87,10 @@ import { SearchResultsRowComponent } from '../search-results-row/search-results-
     SearchResultsRowComponent,
     PaginationDirective,
     ViewerModule,
-    ToolbarActionComponent
+    ToolbarActionComponent,
+    PageLayoutHeaderComponent,
+    PageLayoutContentComponent,
+    PageLayoutComponent
   ],
   selector: 'aca-search-results',
   templateUrl: './search-results.component.html',
