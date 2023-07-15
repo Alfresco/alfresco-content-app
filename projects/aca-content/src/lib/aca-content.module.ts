@@ -39,7 +39,6 @@ import {
   ExtensionsDataLoaderGuard,
   PageLayoutModule,
   GenericErrorComponent,
-  SharedToolbarModule,
   OpenInAppComponent
 } from '@alfresco/aca-shared';
 import * as rules from '@alfresco/aca-shared/rules';
@@ -112,7 +111,6 @@ import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
     PageLayoutModule,
     ContextMenuComponent,
     AppInfoDrawerModule,
-    SharedToolbarModule,
     HammerModule,
     ViewProfileComponent,
     TrashcanComponent,

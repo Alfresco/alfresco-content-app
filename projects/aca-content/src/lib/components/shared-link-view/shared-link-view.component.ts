@@ -31,13 +31,13 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { forkJoin, from, of, Subject } from 'rxjs';
 import { catchError, mergeMap, takeUntil } from 'rxjs/operators';
-import { AppExtensionService, AppService, SharedToolbarModule } from '@alfresco/aca-shared';
+import { AppExtensionService, AppService, ToolbarActionComponent } from '@alfresco/aca-shared';
 import { CommonModule } from '@angular/common';
 import { AlfrescoViewerModule } from '@alfresco/adf-content-services';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, ViewerModule, AlfrescoViewerModule, SharedToolbarModule],
+  imports: [CommonModule, ViewerModule, AlfrescoViewerModule, ToolbarActionComponent],
   selector: 'app-shared-link-view',
   templateUrl: './shared-link-view.component.html',
   styleUrls: ['shared-link-view.component.scss'],

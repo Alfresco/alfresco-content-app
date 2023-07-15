@@ -24,11 +24,9 @@
 
 import { ToolbarMenuComponent } from './toolbar-menu.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MaterialModule } from '@alfresco/adf-core';
-import { OverlayModule } from '@angular/cdk/overlay';
-import { TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
 import { ContentActionRef, ContentActionType } from '@alfresco/adf-extensions';
 import { QueryList } from '@angular/core';
+import { LibTestingModule } from '@alfresco/aca-shared';
 
 describe('ToolbarMenuComponent', () => {
   let fixture: ComponentFixture<ToolbarMenuComponent>;
@@ -38,13 +36,7 @@ describe('ToolbarMenuComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        MaterialModule,
-        OverlayModule,
-        TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
-        })
-      ]
+      imports: [LibTestingModule, ToolbarMenuComponent]
     });
     fixture = TestBed.createComponent(ToolbarMenuComponent);
     component = fixture.componentInstance;

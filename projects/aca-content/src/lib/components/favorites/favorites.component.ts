@@ -29,7 +29,7 @@ import {
   PageComponent,
   PageLayoutModule,
   PaginationDirective,
-  SharedToolbarModule
+  ToolbarActionComponent
 } from '@alfresco/aca-shared';
 import { MinimalNodeEntity, MinimalNodeEntryEntity, PathElementEntity, PathInfo } from '@alfresco/js-api';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
@@ -47,7 +47,6 @@ import { DocumentListDirective } from '../../directives/document-list.directive'
     PageLayoutModule,
     BreadcrumbModule,
     ToolbarModule,
-    SharedToolbarModule,
     DocumentListModule,
     DocumentListDirective,
     ContextActionsDirective,
@@ -56,7 +55,8 @@ import { DocumentListDirective } from '../../directives/document-list.directive'
     ExtensionsModule,
     PaginationModule,
     PaginationDirective,
-    InfoDrawerComponent
+    InfoDrawerComponent,
+    ToolbarActionComponent
   ],
   templateUrl: './favorites.component.html',
   encapsulation: ViewEncapsulation.None

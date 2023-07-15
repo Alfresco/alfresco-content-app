@@ -32,11 +32,11 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatMenuModule } from '@angular/material/menu';
-import { SharedToolbarModule } from '@alfresco/aca-shared';
+import { ToolbarMenuItemComponent } from '@alfresco/aca-shared';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, TranslateModule, MatButtonModule, MatMenuModule, SharedToolbarModule],
+  imports: [CommonModule, TranslateModule, MatButtonModule, MatMenuModule, ToolbarMenuItemComponent],
   selector: 'aca-user-menu',
   templateUrl: './user-menu.component.html',
   styleUrls: ['./user-menu.component.scss'],

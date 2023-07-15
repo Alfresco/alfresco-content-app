@@ -39,6 +39,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { CommonModule } from '@angular/common';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { STORE_INITIAL_APP_DATA } from '../../../store/src/states/app.state';
 
 export const initialState = {
   app: {
@@ -80,6 +82,18 @@ export const initialState = {
     RouterTestingModule,
     MatIconTestingModule,
     StoreModule,
+    OverlayModule,
+    StoreModule.forRoot(
+      { app: null },
+      {
+        initialState,
+        runtimeChecks: {
+          strictStateImmutability: false,
+          strictActionImmutability: false
+        }
+      }
+    ),
+    EffectsModule.forRoot([]),
     EffectsModule.forRoot([]),
     TranslateModule.forRoot({
       loader: {
@@ -92,7 +106,11 @@ export const initialState = {
   exports: [TranslateModule],
   providers: [
     { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock },
-    { provide: TranslationService, useClass: TranslationMock }
+    { provide: TranslationService, useClass: TranslationMock },
+    {
+      provide: STORE_INITIAL_APP_DATA,
+      useValue: {}
+    }
   ]
 })
 export class LibTestingModule {}

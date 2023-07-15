@@ -24,7 +24,7 @@
 
 import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ContentApiService, PageComponent, PageLayoutModule, SharedToolbarModule } from '@alfresco/aca-shared';
+import { ContentApiService, PageComponent, PageLayoutModule, ToolbarActionComponent } from '@alfresco/aca-shared';
 import { NavigateToPreviousPage, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { Subject } from 'rxjs';
 import { BreadcrumbModule, PermissionManagerModule } from '@alfresco/adf-content-services';
@@ -47,13 +47,13 @@ import { CommentsTabComponent } from '../info-drawer/comments-tab/comments-tab.c
     PermissionManagerModule,
     BreadcrumbModule,
     ToolbarModule,
-    SharedToolbarModule,
     MatIconModule,
     MatTabsModule,
     MatProgressBarModule,
     MatButtonModule,
     MetadataTabComponent,
-    CommentsTabComponent
+    CommentsTabComponent,
+    ToolbarActionComponent
   ],
   selector: 'app-details-manager',
   templateUrl: './details.component.html',

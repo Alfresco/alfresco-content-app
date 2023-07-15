@@ -34,7 +34,8 @@ import {
   InfoDrawerComponent,
   PageComponent,
   PageLayoutModule,
-  SharedToolbarModule
+  PaginationDirective,
+  ToolbarActionComponent
 } from '@alfresco/aca-shared';
 import { SetCurrentFolderAction, isAdmin, UploadFileVersionAction, showLoaderSelector } from '@alfresco/aca-shared/store';
 import { debounceTime, takeUntil } from 'rxjs/operators';
@@ -53,7 +54,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     PageLayoutModule,
     BreadcrumbModule,
     ToolbarModule,
-    SharedToolbarModule,
     GenericErrorComponent,
     UploadModule,
     DocumentListModule,
@@ -63,7 +63,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     ExtensionsModule,
     PaginationModule,
     MatProgressSpinnerModule,
-    InfoDrawerComponent
+    InfoDrawerComponent,
+    ToolbarActionComponent,
+    PaginationDirective
   ],
   templateUrl: './files.component.html',
   encapsulation: ViewEncapsulation.None

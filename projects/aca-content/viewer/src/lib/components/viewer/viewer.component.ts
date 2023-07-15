@@ -22,7 +22,14 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AppExtensionService, AppHookService, ContentApiService, InfoDrawerComponent, SharedToolbarModule } from '@alfresco/aca-shared';
+import {
+  AppExtensionService,
+  AppHookService,
+  ContentApiService,
+  InfoDrawerComponent,
+  ToolbarActionComponent,
+  ToolbarMenuItemComponent
+} from '@alfresco/aca-shared';
 import {
   AppStore,
   ClosePreviewAction,
@@ -49,7 +56,7 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, ViewerModule, AlfrescoViewerModule, InfoDrawerComponent, SharedToolbarModule, AppConfigModule],
+  imports: [CommonModule, ViewerModule, AlfrescoViewerModule, InfoDrawerComponent, AppConfigModule, ToolbarMenuItemComponent, ToolbarActionComponent],
   selector: 'aca-viewer',
   templateUrl: './viewer.component.html',
   styleUrls: ['./viewer.component.scss'],

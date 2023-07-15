@@ -32,7 +32,7 @@ import {
   PageComponent,
   PageLayoutModule,
   PaginationDirective,
-  SharedToolbarModule
+  ToolbarActionComponent
 } from '@alfresco/aca-shared';
 import { DocumentListPresetRef, ExtensionsModule } from '@alfresco/adf-extensions';
 import { CommonModule } from '@angular/common';
@@ -47,7 +47,6 @@ import { DocumentListDirective } from '../../directives/document-list.directive'
     PageLayoutModule,
     BreadcrumbModule,
     ToolbarModule,
-    SharedToolbarModule,
     DocumentListModule,
     DocumentListDirective,
     ContextActionsDirective,
@@ -56,7 +55,8 @@ import { DocumentListDirective } from '../../directives/document-list.directive'
     ExtensionsModule,
     PaginationModule,
     PaginationDirective,
-    InfoDrawerComponent
+    InfoDrawerComponent,
+    ToolbarActionComponent
   ],
   templateUrl: './libraries.component.html',
   encapsulation: ViewEncapsulation.None

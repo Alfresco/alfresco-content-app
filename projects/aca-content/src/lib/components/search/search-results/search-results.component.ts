@@ -43,7 +43,7 @@ import {
   PageComponent,
   PageLayoutModule,
   PaginationDirective,
-  SharedToolbarModule
+  ToolbarActionComponent
 } from '@alfresco/aca-shared';
 import { SearchSortingDefinition } from '@alfresco/adf-content-services/lib/search/models/search-sorting-definition.interface';
 import { takeUntil } from 'rxjs/operators';
@@ -68,7 +68,6 @@ import { SearchResultsRowComponent } from '../search-results-row/search-results-
     PageLayoutModule,
     SearchInputComponent,
     ToolbarModule,
-    SharedToolbarModule,
     MatProgressBarModule,
     SearchModule,
     MatDividerModule,
@@ -86,7 +85,8 @@ import { SearchResultsRowComponent } from '../search-results-row/search-results-
     InfoDrawerComponent,
     SearchResultsRowComponent,
     PaginationDirective,
-    ViewerModule
+    ViewerModule,
+    ToolbarActionComponent
   ],
   selector: 'aca-search-results',
   templateUrl: './search-results.component.html',

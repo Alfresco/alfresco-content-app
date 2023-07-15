@@ -25,14 +25,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ToolbarMenuItemComponent } from './toolbar-menu-item.component';
 import { AppExtensionService } from '../../../services/app.extension.service';
-import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
-import { TranslateModule } from '@ngx-translate/core';
 import { Store } from '@ngrx/store';
-import { IconModule, TranslationMock, TranslationService } from '@alfresco/adf-core';
-import { MatButtonModule } from '@angular/material/button';
 import { of } from 'rxjs';
 import { ContentActionRef, ContentActionType } from '@alfresco/adf-extensions';
+import { LibTestingModule } from '@alfresco/aca-shared';
 
 describe('ToolbarMenuItemComponent', () => {
   let fixture: ComponentFixture<ToolbarMenuItemComponent>;
@@ -41,10 +37,8 @@ describe('ToolbarMenuItemComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CommonModule, HttpClientModule, TranslateModule.forRoot(), IconModule, MatButtonModule],
-      declarations: [ToolbarMenuItemComponent],
+      imports: [LibTestingModule, ToolbarMenuItemComponent],
       providers: [
-        { provide: TranslationService, useClass: TranslationMock },
         { provide: AppExtensionService, useValue: { runActionById() {} } },
         {
           provide: Store,

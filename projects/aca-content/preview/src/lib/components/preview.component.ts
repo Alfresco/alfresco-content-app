@@ -28,7 +28,14 @@ import { ActivatedRoute, UrlTree, UrlSegmentGroup, UrlSegment, PRIMARY_OUTLET } 
 import { debounceTime, map, takeUntil } from 'rxjs/operators';
 import { UserPreferencesService, ObjectUtils, ViewerModule } from '@alfresco/adf-core';
 import { ClosePreviewAction, ViewerActionTypes, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
-import { PageComponent, AppHookService, ContentApiService, InfoDrawerComponent, SharedToolbarModule } from '@alfresco/aca-shared';
+import {
+  PageComponent,
+  AppHookService,
+  ContentApiService,
+  InfoDrawerComponent,
+  ToolbarMenuItemComponent,
+  ToolbarActionComponent
+} from '@alfresco/aca-shared';
 import { ContentActionRef, ViewerExtensionRef } from '@alfresco/adf-extensions';
 import { SearchRequest } from '@alfresco/js-api';
 import { from } from 'rxjs';
@@ -37,7 +44,7 @@ import { AlfrescoViewerModule, NodesApiService } from '@alfresco/adf-content-ser
 
 @Component({
   standalone: true,
-  imports: [CommonModule, ViewerModule, AlfrescoViewerModule, InfoDrawerComponent, SharedToolbarModule],
+  imports: [CommonModule, ViewerModule, AlfrescoViewerModule, InfoDrawerComponent, ToolbarMenuItemComponent, ToolbarActionComponent],
   selector: 'app-preview',
   templateUrl: './preview.component.html',
   styleUrls: ['./preview.component.scss'],

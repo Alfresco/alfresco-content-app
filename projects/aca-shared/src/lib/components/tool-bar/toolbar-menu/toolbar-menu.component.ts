@@ -23,12 +23,18 @@
  */
 
 import { Component, Input, ViewEncapsulation, HostListener, ViewChild, ViewChildren, QueryList, AfterViewInit, OnInit } from '@angular/core';
-import { ContentActionRef } from '@alfresco/adf-extensions';
-import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
+import { ContentActionRef, ExtensionsModule } from '@alfresco/adf-extensions';
+import { MatMenu, MatMenuItem, MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { ThemePalette } from '@angular/material/core';
 import { ToolbarMenuItemComponent } from '../toolbar-menu-item/toolbar-menu-item.component';
+import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { TranslateModule } from '@ngx-translate/core';
+import { IconModule } from '@alfresco/adf-core';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, TranslateModule, MatButtonModule, MatMenuModule, IconModule, ExtensionsModule, ToolbarMenuItemComponent],
   selector: 'app-toolbar-menu',
   templateUrl: './toolbar-menu.component.html',
   encapsulation: ViewEncapsulation.None,

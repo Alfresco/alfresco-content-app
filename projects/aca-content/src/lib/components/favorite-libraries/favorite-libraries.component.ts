@@ -31,7 +31,7 @@ import {
   InfoDrawerComponent,
   PageComponent,
   PageLayoutModule,
-  SharedToolbarModule
+  ToolbarActionComponent
 } from '@alfresco/aca-shared';
 import { NavigateLibraryAction } from '@alfresco/aca-shared/store';
 import { DataTableModule, PaginationModule, TemplateModule, ToolbarModule, UserPreferencesService } from '@alfresco/adf-core';
@@ -47,7 +47,6 @@ import { DocumentListDirective } from '../../directives/document-list.directive'
     PageLayoutModule,
     BreadcrumbModule,
     ToolbarModule,
-    SharedToolbarModule,
     DocumentListModule,
     DocumentListDirective,
     ContextActionsDirective,
@@ -55,7 +54,8 @@ import { DocumentListDirective } from '../../directives/document-list.directive'
     DataTableModule,
     ExtensionsModule,
     PaginationModule,
-    InfoDrawerComponent
+    InfoDrawerComponent,
+    ToolbarActionComponent
   ],
   templateUrl: './favorite-libraries.component.html',
   encapsulation: ViewEncapsulation.None

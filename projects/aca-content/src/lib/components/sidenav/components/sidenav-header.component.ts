@@ -28,7 +28,7 @@ import { Observable, Subject } from 'rxjs';
 import { AppStore, getAppName, getLogoPath } from '@alfresco/aca-shared/store';
 import { AppConfigService } from '@alfresco/adf-core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
-import { AppExtensionService, SharedToolbarModule } from '@alfresco/aca-shared';
+import { AppExtensionService, ToolbarActionComponent } from '@alfresco/aca-shared';
 import { takeUntil } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
@@ -36,7 +36,7 @@ import { RouterModule } from '@angular/router';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, TranslateModule, RouterModule, SharedToolbarModule],
+  imports: [CommonModule, TranslateModule, RouterModule, ToolbarActionComponent],
   selector: 'app-sidenav-header',
   templateUrl: `./sidenav-header.component.html`,
   encapsulation: ViewEncapsulation.None,
