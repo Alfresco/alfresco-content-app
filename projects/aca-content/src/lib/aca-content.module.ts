@@ -56,10 +56,9 @@ import { AppInfoDrawerModule } from './components/info-drawer/info.drawer.module
 import { DirectivesModule } from './directives/directives.module';
 import { ExtensionService, ExtensionsModule } from '@alfresco/adf-extensions';
 import { APP_TOOLBAR_DIRECTIVES } from './components/toolbar/toolbar.module';
-import { APP_SIDENAV_DIRECTIVES } from './components/sidenav/sidenav.module';
+import { APP_SIDENAV_DIRECTIVES } from './components/sidenav';
 import { APP_COMMON_DIRECTIVES } from './components/common/common.module';
 import { APP_SEARCH_DIRECTIVES } from './components/search';
-import { DocumentListCustomComponentsModule } from './components/dl-custom-components/document-list-custom-components.module';
 import { FavoritesComponent } from './components/favorites/favorites.component';
 import { RecentFilesComponent } from './components/recent-files/recent-files.component';
 import { SharedFilesComponent } from './components/shared-files/shared-files.component';
@@ -121,7 +120,6 @@ import { SharedLinkViewComponent } from './components/shared-link-view/shared-li
     ContextMenuComponent,
     AppInfoDrawerModule,
     SharedToolbarModule,
-    DocumentListCustomComponentsModule,
     HammerModule,
     ViewProfileComponent,
     TrashcanComponent,
@@ -130,7 +128,8 @@ import { SharedLinkViewComponent } from './components/shared-link-view/shared-li
     GenericErrorComponent,
     DetailsComponent,
     CreateFromTemplateDialogComponent,
-    OpenInAppModule
+    OpenInAppModule,
+    SharedFilesComponent
   ],
   declarations: [
     FilesComponent,
@@ -138,7 +137,6 @@ import { SharedLinkViewComponent } from './components/shared-link-view/shared-li
     FavoriteLibrariesComponent,
     FavoritesComponent,
     RecentFilesComponent,
-    SharedFilesComponent,
     HomeComponent,
     UploadFilesDialogComponent
   ],
