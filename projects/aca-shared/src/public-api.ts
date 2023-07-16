@@ -58,3 +58,6 @@ export * from './lib/services/aca-file-auto-download.service';
 
 export * from './lib/utils/node.utils';
 export * from './lib/testing/lib-testing-module';
+
+export * from './lib/deprecated/shared.module';
+export * from './lib/deprecated/shared-toolbar.module';
