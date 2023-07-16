@@ -47,8 +47,7 @@ describe('RuleSimpleConditionUiComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CoreTestingModule],
-      declarations: [RuleSimpleConditionUiComponent]
+      imports: [CoreTestingModule, RuleSimpleConditionUiComponent]
     });
 
     fixture = TestBed.createComponent(RuleSimpleConditionUiComponent);

@@ -33,7 +33,7 @@ import { ManageRulesSmartComponent } from './manage-rules/manage-rules.smart-com
 import { RuleCompositeConditionUiComponent } from './rule-details/conditions/rule-composite-condition.ui-component';
 import { RuleDetailsUiComponent } from './rule-details/rule-details.ui-component';
 import { RuleSimpleConditionUiComponent } from './rule-details/conditions/rule-simple-condition.ui-component';
-import { GenericErrorComponent, PageLayoutModule } from '@alfresco/aca-shared';
+import { GenericErrorComponent } from '@alfresco/aca-shared';
 import { BreadcrumbModule, ContentNodeSelectorModule, DocumentListModule } from '@alfresco/adf-content-services';
 import { RuleListItemUiComponent } from './rule-list/rule-list-item/rule-list-item.ui-component';
 import { RuleListGroupingUiComponent } from './rule-list/rule-list-grouping/rule-list-grouping.ui-component';
@@ -57,7 +57,6 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     CoreModule.forChild(),
-    PageLayoutModule,
     BreadcrumbModule,
     DocumentListModule,
     ExtensionsModule,
@@ -65,19 +64,17 @@ const routes: Routes = [
     GenericErrorComponent,
     RuleListItemUiComponent,
     RuleListGroupingUiComponent,
-    RuleListUiComponent
-  ],
-  declarations: [
-    EditRuleDialogUiComponent,
+    RuleListUiComponent,
     ManageRulesSmartComponent,
+    RuleSetPickerSmartComponent,
     RuleActionListUiComponent,
     RuleActionUiComponent,
     RuleCompositeConditionUiComponent,
-    RuleDetailsUiComponent,
-    RuleSetPickerSmartComponent,
     RuleSimpleConditionUiComponent,
+    RuleOptionsUiComponent,
     RuleTriggersUiComponent,
-    RuleOptionsUiComponent
+    RuleDetailsUiComponent,
+    EditRuleDialogUiComponent
   ]
 })
 export class AcaFolderRulesModule {
