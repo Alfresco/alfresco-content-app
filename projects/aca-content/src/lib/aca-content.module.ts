@@ -25,7 +25,7 @@
 import { HammerModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TRANSLATION_PROVIDER, CoreModule, AuthGuardEcm, LanguagePickerComponent, NotificationHistoryComponent } from '@alfresco/adf-core';
+import { TRANSLATION_PROVIDER, AuthGuardEcm, LanguagePickerComponent, NotificationHistoryComponent } from '@alfresco/adf-core';
 import {
   ContentModule,
   ContentVersionService,
@@ -94,7 +94,6 @@ import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
     ReactiveFormsModule,
     ContentModule.forRoot(),
     RouterModule.forChild(CONTENT_ROUTES),
-    CoreModule.forChild(),
     ExtensionsModule.forChild(),
     CoreExtensionsModule.forChild(),
     AppStoreModule,
