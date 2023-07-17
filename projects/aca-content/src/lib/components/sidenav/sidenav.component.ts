@@ -23,15 +23,21 @@
  */
 
 import { Component, Input, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
-import { NavBarGroupRef, NavBarLinkRef } from '@alfresco/adf-extensions';
+import { ExtensionsModule, NavBarGroupRef, NavBarLinkRef } from '@alfresco/adf-extensions';
 import { Store } from '@ngrx/store';
 import { AppStore, getSideNavState } from '@alfresco/aca-shared/store';
 import { Subject } from 'rxjs';
 import { takeUntil, distinctUntilChanged, debounceTime } from 'rxjs/operators';
 import { AppExtensionService, AppService } from '@alfresco/aca-shared';
 import { SidenavLayoutComponent } from '@alfresco/adf-core';
+import { CommonModule } from '@angular/common';
+import { SidenavHeaderComponent } from './components/sidenav-header.component';
+import { MatListModule } from '@angular/material/list';
+import { ExpandMenuComponent } from './components/expand-menu.component';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, SidenavHeaderComponent, MatListModule, ExpandMenuComponent, ExtensionsModule],
   selector: 'app-sidenav',
   templateUrl: './sidenav.component.html',
   styleUrls: ['./sidenav.component.scss'],

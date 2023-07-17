@@ -26,7 +26,7 @@ import { MetadataTabComponent } from './metadata-tab.component';
 import { MinimalNodeEntryEntity, Node } from '@alfresco/js-api';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../../../testing/app-testing.module';
-import { AppConfigService, CoreModule } from '@alfresco/adf-core';
+import { AppConfigService } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
 import { AppState, SetInfoDrawerMetadataAspectAction } from '@alfresco/aca-shared/store';
 import { By } from '@angular/platform-browser';
@@ -48,7 +48,7 @@ describe('MetadataTabComponent', () => {
   };
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CoreModule, AppTestingModule, MetadataTabComponent]
+      imports: [AppTestingModule, MetadataTabComponent]
     });
     nodePermissionService = TestBed.inject(NodePermissionService);
     spyOn(nodePermissionService, 'check').and.callFake((source: MinimalNodeEntryEntity, permissions: string[]) => {

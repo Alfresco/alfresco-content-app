@@ -23,13 +23,16 @@
  */
 
 import { Component } from '@angular/core';
-import { AppSidenavModule } from '../sidenav.module';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subject } from 'rxjs';
+import { ActiveLinkDirective } from './active-link.directive';
+import { ActionDirective } from './action.directive';
 
 @Component({
+  standalone: true,
+  imports: [ActiveLinkDirective, ActionDirective],
   selector: 'app-test-component',
   template: ` <span id="test-element" acaActiveLink="active-link-class" [action]="item"></span> `
 })
@@ -56,8 +59,7 @@ describe('ActionDirective', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, AppSidenavModule],
-      declarations: [TestComponent],
+      imports: [AppTestingModule, ActiveLinkDirective, TestComponent],
       providers: [
         {
           provide: Router,

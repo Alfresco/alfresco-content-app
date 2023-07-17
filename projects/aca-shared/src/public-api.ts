@@ -30,7 +30,6 @@ export * from './lib/components/page-layout/page-layout.component';
 export * from './lib/components/page-layout/page-layout.module';
 export * from './lib/components/locked-by/locked-by.component';
 export * from './lib/components/generic-error/generic-error.component';
-export * from './lib/components/tool-bar/shared-toolbar.module';
 export * from './lib/components/tool-bar/toolbar-action/toolbar-action.component';
 export * from './lib/components/tool-bar/toolbar-button/toolbar-button.component';
 export * from './lib/components/tool-bar/toolbar-menu/toolbar-menu.component';
@@ -39,12 +38,9 @@ export * from './lib/components/info-drawer/info-drawer.component';
 export * from './lib/components/document-base-page/document-base-page.component';
 export * from './lib/components/document-base-page/document-base-page.service';
 export * from './lib/components/open-in-app/open-in-app.component';
-export * from './lib/components/open-in-app/open-in-app.module';
 
 export * from './lib/directives/contextmenu/contextmenu.directive';
-export * from './lib/directives/contextmenu/contextmenu.module';
 export * from './lib/directives/pagination.directive';
-export * from './lib/directives/shared.directives.module';
 
 export * from './lib/models/types';
 export * from './lib/models/viewer.rules';
@@ -61,5 +57,7 @@ export * from './lib/services/app-hook.service';
 export * from './lib/services/aca-file-auto-download.service';
 
 export * from './lib/utils/node.utils';
-export * from './lib/shared.module';
 export * from './lib/testing/lib-testing-module';
+
+export * from './lib/deprecated/shared.module';
+export * from './lib/deprecated/shared-toolbar.module';

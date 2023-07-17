@@ -24,13 +24,10 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ToolbarActionComponent } from './toolbar-action.component';
-import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
-import { TranslateModule } from '@ngx-translate/core';
 import { ToolbarButtonType } from '../toolbar-button/toolbar-button.component';
 import { ChangeDetectorRef } from '@angular/core';
 import { ContentActionType } from '@alfresco/adf-extensions';
-import { IconModule } from '@alfresco/adf-core';
+import { LibTestingModule } from '@alfresco/aca-shared';
 
 describe('ToolbarActionComponent', () => {
   let fixture: ComponentFixture<ToolbarActionComponent>;
@@ -39,9 +36,8 @@ describe('ToolbarActionComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CommonModule, HttpClientModule, TranslateModule.forRoot(), IconModule],
-      providers: [{ provide: ChangeDetectorRef, useValue: { markForCheck() {} } }],
-      declarations: [ToolbarActionComponent]
+      imports: [LibTestingModule, ToolbarActionComponent],
+      providers: [{ provide: ChangeDetectorRef, useValue: { markForCheck() {} } }]
     });
 
     fixture = TestBed.createComponent(ToolbarActionComponent);

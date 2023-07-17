@@ -25,8 +25,6 @@
 import { RuleListUiComponent } from './rule-list.ui-component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CoreTestingModule } from '@alfresco/adf-core';
-import { RuleListGroupingUiComponent } from '../rule-list-grouping/rule-list-grouping.ui-component';
-import { RuleListItemUiComponent } from '../rule-list-item/rule-list-item.ui-component';
 import { ownedRuleSetMock, ruleSetsMock, ruleSetWithLinkMock } from '../../mock/rule-sets.mock';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
@@ -39,8 +37,7 @@ describe('RuleListUiComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CoreTestingModule],
-      declarations: [RuleListUiComponent, RuleListGroupingUiComponent, RuleListItemUiComponent]
+      imports: [CoreTestingModule, RuleListUiComponent]
     });
 
     fixture = TestBed.createComponent(RuleListUiComponent);

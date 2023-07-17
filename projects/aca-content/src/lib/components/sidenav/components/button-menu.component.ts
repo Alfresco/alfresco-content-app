@@ -25,8 +25,18 @@
 import { Component, Input, ViewEncapsulation, OnInit, ChangeDetectorRef } from '@angular/core';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { NavBarLinkRef } from '@alfresco/adf-extensions';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
+import { IconModule } from '@alfresco/adf-core';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
+import { ActiveLinkDirective } from '../directives/active-link.directive';
+import { ActionDirective } from '../directives/action.directive';
+import { MenuPanelDirective } from '../directives/menu-panel.directive';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, TranslateModule, IconModule, MatMenuModule, MatButtonModule, ActiveLinkDirective, ActionDirective, MenuPanelDirective],
   selector: 'app-button-menu',
   templateUrl: './button-menu.component.html',
   host: { class: 'app-button-menu' },

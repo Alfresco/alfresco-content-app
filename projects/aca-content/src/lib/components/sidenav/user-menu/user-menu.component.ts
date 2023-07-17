@@ -28,8 +28,15 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ContentActionRef } from '@alfresco/adf-extensions';
+import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { TranslateModule } from '@ngx-translate/core';
+import { MatMenuModule } from '@angular/material/menu';
+import { ToolbarMenuItemComponent } from '@alfresco/aca-shared';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, TranslateModule, MatButtonModule, MatMenuModule, ToolbarMenuItemComponent],
   selector: 'aca-user-menu',
   templateUrl: './user-menu.component.html',
   styleUrls: ['./user-menu.component.scss'],

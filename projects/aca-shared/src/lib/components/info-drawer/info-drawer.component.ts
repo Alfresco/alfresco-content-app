@@ -35,12 +35,22 @@ import { ThemePalette } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { InfoDrawerModule, ToolbarModule } from '@alfresco/adf-core';
-import { SharedToolbarModule } from '../tool-bar/shared-toolbar.module';
 import { TranslateModule } from '@ngx-translate/core';
+import { A11yModule } from '@angular/cdk/a11y';
+import { ToolbarActionComponent } from '../tool-bar/toolbar-action/toolbar-action.component';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, TranslateModule, MatProgressBarModule, InfoDrawerModule, SharedToolbarModule, ExtensionsModule, ToolbarModule],
+  imports: [
+    CommonModule,
+    TranslateModule,
+    MatProgressBarModule,
+    InfoDrawerModule,
+    ExtensionsModule,
+    ToolbarModule,
+    A11yModule,
+    ToolbarActionComponent
+  ],
   selector: 'aca-info-drawer',
   templateUrl: './info-drawer.component.html',
   encapsulation: ViewEncapsulation.None

@@ -24,10 +24,30 @@
 
 import { Component, forwardRef, HostBinding, Input, OnChanges, OnDestroy, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { RuleCompositeCondition } from '../../model/rule-composite-condition.model';
-import { ControlValueAccessor, FormArray, FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, FormArray, FormControl, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { RuleSimpleCondition } from '../../model/rule-simple-condition.model';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
+import { RuleSimpleConditionUiComponent } from './rule-simple-condition.ui-component';
 
 @Component({
+  standalone: true,
+  imports: [
+    CommonModule,
+    TranslateModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatMenuModule,
+    MatIconModule,
+    RuleSimpleConditionUiComponent
+  ],
   selector: 'aca-rule-composite-condition',
   templateUrl: './rule-composite-condition.ui-component.html',
   styleUrls: ['./rule-composite-condition.ui-component.scss'],

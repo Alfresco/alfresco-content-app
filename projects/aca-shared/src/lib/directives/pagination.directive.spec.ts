@@ -24,9 +24,8 @@
 
 import { PaginationDirective } from './pagination.directive';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { UserPreferencesService, AppConfigService, PaginationComponent, PaginationModel, CoreTestingModule } from '@alfresco/adf-core';
+import { UserPreferencesService, AppConfigService, PaginationComponent, PaginationModel } from '@alfresco/adf-core';
 import { initialState, LibTestingModule } from '../testing/lib-testing-module';
-import { SharedDirectivesModule } from './shared.directives.module';
 import { provideMockStore } from '@ngrx/store/testing';
 
 describe('PaginationDirective', () => {
@@ -38,7 +37,7 @@ describe('PaginationDirective', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [LibTestingModule, SharedDirectivesModule, CoreTestingModule],
+      imports: [LibTestingModule, PaginationDirective],
       providers: [provideMockStore({ initialState })]
     });
 

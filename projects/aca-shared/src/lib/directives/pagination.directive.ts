@@ -27,6 +27,7 @@ import { PaginationComponent, UserPreferencesService, PaginationModel, AppConfig
 import { Subscription } from 'rxjs';
 
 @Directive({
+  standalone: true,
   selector: '[acaPagination]'
 })
 export class PaginationDirective implements OnInit, OnDestroy {

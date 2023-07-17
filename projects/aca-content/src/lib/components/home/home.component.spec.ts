@@ -36,7 +36,7 @@ describe('HomeComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule, RouterTestingModule],
+      imports: [HttpClientModule, RouterTestingModule, HomeComponent],
       providers: [{ provide: AppConfigService, useClass: AppConfigServiceMock }]
     });
     fixture = TestBed.createComponent(HomeComponent);

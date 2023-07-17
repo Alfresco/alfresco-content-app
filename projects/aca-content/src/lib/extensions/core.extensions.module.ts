@@ -22,8 +22,6 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { CoreModule } from '@alfresco/adf-core';
-import { CommonModule } from '@angular/common';
 import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
 import { ExtensionsModule } from '@alfresco/adf-extensions';
 import { AppExtensionService } from '@alfresco/aca-shared';
@@ -33,7 +31,7 @@ export function setupExtensions(service: AppExtensionService): () => void {
 }
 
 @NgModule({
-  imports: [CommonModule, CoreModule.forChild(), ExtensionsModule]
+  imports: [ExtensionsModule]
 })
 export class CoreExtensionsModule {
   static forRoot(): ModuleWithProviders<CoreExtensionsModule> {

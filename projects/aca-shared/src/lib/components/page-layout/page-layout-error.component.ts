@@ -25,6 +25,7 @@
 import { Component, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
+  standalone: true,
   selector: 'aca-page-layout-error',
   template: `<ng-content></ng-content>`,
   encapsulation: ViewEncapsulation.None,

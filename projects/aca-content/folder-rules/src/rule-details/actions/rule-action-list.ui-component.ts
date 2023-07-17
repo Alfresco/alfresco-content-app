@@ -23,13 +23,21 @@
  */
 
 import { Component, forwardRef, Input, OnDestroy, ViewEncapsulation } from '@angular/core';
-import { ControlValueAccessor, FormArray, FormControl, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
+import { ControlValueAccessor, FormArray, FormControl, NG_VALUE_ACCESSOR, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActionDefinitionTransformed, RuleAction } from '../../model/rule-action.model';
 import { Subscription } from 'rxjs';
 import { ruleActionValidator } from '../validators/rule-actions.validator';
 import { ActionParameterConstraint } from '../../model/action-parameter-constraint.model';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
+import { RuleActionUiComponent } from './rule-action.ui-component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, TranslateModule, RuleActionUiComponent, ReactiveFormsModule, MatButtonModule, MatMenuModule, MatIconModule],
   selector: 'aca-rule-action-list',
   templateUrl: './rule-action-list.ui-component.html',
   styleUrls: ['./rule-action-list.ui-component.scss'],

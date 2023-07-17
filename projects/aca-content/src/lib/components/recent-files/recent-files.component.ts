@@ -25,10 +25,42 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MinimalNodeEntity } from '@alfresco/js-api';
 import { debounceTime } from 'rxjs/operators';
-import { PageComponent } from '@alfresco/aca-shared';
-import { DocumentListPresetRef } from '@alfresco/adf-extensions';
+import {
+  ContextActionsDirective,
+  InfoDrawerComponent,
+  PageComponent,
+  PageLayoutComponent,
+  PageLayoutContentComponent,
+  PageLayoutHeaderComponent,
+  PaginationDirective,
+  ToolbarActionComponent
+} from '@alfresco/aca-shared';
+import { DocumentListPresetRef, ExtensionsModule } from '@alfresco/adf-extensions';
+import { CommonModule } from '@angular/common';
+import { BreadcrumbModule, DocumentListModule } from '@alfresco/adf-content-services';
+import { DataTableModule, PaginationModule, TemplateModule, ToolbarModule } from '@alfresco/adf-core';
+import { DocumentListDirective } from '../../directives/document-list.directive';
 
 @Component({
+  standalone: true,
+  imports: [
+    CommonModule,
+    BreadcrumbModule,
+    ToolbarModule,
+    DocumentListModule,
+    DocumentListDirective,
+    ContextActionsDirective,
+    TemplateModule,
+    DataTableModule,
+    ExtensionsModule,
+    PaginationModule,
+    PaginationDirective,
+    InfoDrawerComponent,
+    ToolbarActionComponent,
+    PageLayoutContentComponent,
+    PageLayoutHeaderComponent,
+    PageLayoutComponent
+  ],
   templateUrl: './recent-files.component.html',
   encapsulation: ViewEncapsulation.None
 })

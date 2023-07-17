@@ -26,11 +26,9 @@ import { TestBed } from '@angular/core/testing';
 import { ToggleFavoriteComponent } from './toggle-favorite.component';
 import { Store } from '@ngrx/store';
 import { ExtensionService } from '@alfresco/adf-extensions';
-import { CoreModule } from '@alfresco/adf-core';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { AppTestingModule } from '../../../testing/app-testing.module';
-import { ContentDirectiveModule } from '@alfresco/adf-content-services';
 
 describe('ToggleFavoriteComponent', () => {
   let component: ToggleFavoriteComponent;
@@ -50,8 +48,7 @@ describe('ToggleFavoriteComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CoreModule.forRoot(), ContentDirectiveModule, AppTestingModule],
-      declarations: [ToggleFavoriteComponent],
+      imports: [AppTestingModule, ToggleFavoriteComponent],
       providers: [ExtensionService, { provide: Store, useValue: mockStore }, { provide: Router, useValue: mockRouter }]
     });
 

@@ -23,13 +23,20 @@
  */
 
 import { Component, Inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { FolderRuleSetsService } from '../services/folder-rule-sets.service';
 import { Node } from '@alfresco/js-api';
 import { RuleSet } from '../model/rule-set.model';
 import { BehaviorSubject, combineLatest, from, of, Subject } from 'rxjs';
 import { finalize, map, switchMap, takeUntil } from 'rxjs/operators';
-import { NotificationService } from '@alfresco/adf-core';
+import { NotificationService, TemplateModule } from '@alfresco/adf-core';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { ContentNodeSelectorModule } from '@alfresco/adf-content-services';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { RuleListItemUiComponent } from '../rule-list/rule-list-item/rule-list-item.ui-component';
 
 export interface RuleSetPickerOptions {
   nodeId: string;
@@ -38,6 +45,18 @@ export interface RuleSetPickerOptions {
 }
 
 @Component({
+  standalone: true,
+  imports: [
+    CommonModule,
+    TranslateModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatIconModule,
+    ContentNodeSelectorModule,
+    MatProgressSpinnerModule,
+    RuleListItemUiComponent,
+    TemplateModule
+  ],
   selector: 'aca-rule-set-picker',
   templateUrl: './rule-set-picker.smart-component.html',
   styleUrls: ['./rule-set-picker.smart-component.scss'],

@@ -23,7 +23,7 @@
  */
 
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewEncapsulation } from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { distinctUntilChanged, map, takeUntil } from 'rxjs/operators';
 import { Rule, RuleForForm } from '../model/rule.model';
@@ -32,8 +32,28 @@ import { FolderRulesService } from '../services/folder-rules.service';
 import { ActionDefinitionTransformed } from '../model/rule-action.model';
 import { ruleActionsValidator } from './validators/rule-actions.validator';
 import { ActionParameterConstraint } from '../model/action-parameter-constraint.model';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { RuleTriggersUiComponent } from './triggers/rule-triggers.ui-component';
+import { RuleCompositeConditionUiComponent } from './conditions/rule-composite-condition.ui-component';
+import { RuleActionListUiComponent } from './actions/rule-action-list.ui-component';
+import { RuleOptionsUiComponent } from './options/rule-options.ui-component';
 
 @Component({
+  standalone: true,
+  imports: [
+    CommonModule,
+    TranslateModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    RuleTriggersUiComponent,
+    RuleCompositeConditionUiComponent,
+    RuleActionListUiComponent,
+    RuleOptionsUiComponent
+  ],
   selector: 'aca-rule-details',
   templateUrl: './rule-details.ui-component.html',
   styleUrls: ['./rule-details.ui-component.scss'],

@@ -27,8 +27,12 @@ import { Observable, Subject } from 'rxjs';
 import { delay, takeUntil } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { AppStore, getFileUploadingDialog } from '@alfresco/aca-shared/store';
+import { CommonModule } from '@angular/common';
+import { UploadModule } from '@alfresco/adf-content-services';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, UploadModule],
   selector: 'aca-upload-files-dialog',
   templateUrl: './upload-files-dialog.component.html',
   encapsulation: ViewEncapsulation.None

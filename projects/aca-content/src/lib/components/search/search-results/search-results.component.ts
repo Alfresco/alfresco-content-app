@@ -25,7 +25,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MinimalNodeEntity, Pagination, ResultSetPaging } from '@alfresco/js-api';
 import { ActivatedRoute, Params } from '@angular/router';
-import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
+import { AlfrescoViewerModule, DocumentListModule, SearchModule, SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import {
   infoDrawerPreview,
   NavigateToFolder,
@@ -35,13 +35,63 @@ import {
   ShowInfoDrawerPreviewAction,
   SnackbarErrorAction
 } from '@alfresco/aca-shared/store';
-import { TranslationService } from '@alfresco/adf-core';
+import { DataTableModule, PaginationModule, ToolbarModule, TranslationService, ViewerModule } from '@alfresco/adf-core';
 import { combineLatest } from 'rxjs';
-import { PageComponent } from '@alfresco/aca-shared';
+import {
+  ContextActionsDirective,
+  InfoDrawerComponent,
+  PageComponent,
+  PageLayoutComponent,
+  PageLayoutContentComponent,
+  PageLayoutHeaderComponent,
+  PaginationDirective,
+  ToolbarActionComponent
+} from '@alfresco/aca-shared';
 import { SearchSortingDefinition } from '@alfresco/adf-content-services/lib/search/models/search-sorting-definition.interface';
 import { takeUntil } from 'rxjs/operators';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
+import { SearchInputComponent } from '../search-input/search-input.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatButtonModule } from '@angular/material/button';
+import { DocumentListDirective } from '../../../directives/document-list.directive';
+import { ThumbnailColumnComponent } from '../../dl-custom-components/thumbnail-column/thumbnail-column.component';
+import { SearchActionMenuComponent } from '../search-action-menu/search-action-menu.component';
+import { TagsColumnComponent } from '../../dl-custom-components/tags-column/tags-column.component';
+import { MatIconModule } from '@angular/material/icon';
+import { SearchResultsRowComponent } from '../search-results-row/search-results-row.component';
 
 @Component({
+  standalone: true,
+  imports: [
+    CommonModule,
+    TranslateModule,
+    SearchInputComponent,
+    ToolbarModule,
+    MatProgressBarModule,
+    SearchModule,
+    MatDividerModule,
+    MatButtonModule,
+    DocumentListModule,
+    DocumentListDirective,
+    ContextActionsDirective,
+    DataTableModule,
+    ThumbnailColumnComponent,
+    SearchActionMenuComponent,
+    TagsColumnComponent,
+    PaginationModule,
+    AlfrescoViewerModule,
+    MatIconModule,
+    InfoDrawerComponent,
+    SearchResultsRowComponent,
+    PaginationDirective,
+    ViewerModule,
+    ToolbarActionComponent,
+    PageLayoutHeaderComponent,
+    PageLayoutContentComponent,
+    PageLayoutComponent
+  ],
   selector: 'aca-search-results',
   templateUrl: './search-results.component.html',
   encapsulation: ViewEncapsulation.None,

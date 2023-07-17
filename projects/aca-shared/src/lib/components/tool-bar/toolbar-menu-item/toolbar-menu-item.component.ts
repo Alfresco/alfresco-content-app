@@ -23,11 +23,17 @@
  */
 
 import { Component, Input, ViewChild, ViewEncapsulation } from '@angular/core';
-import { ContentActionRef } from '@alfresco/adf-extensions';
+import { ContentActionRef, ExtensionsModule } from '@alfresco/adf-extensions';
 import { AppExtensionService } from '../../../services/app.extension.service';
-import { MatMenuItem } from '@angular/material/menu';
+import { MatMenuItem, MatMenuModule } from '@angular/material/menu';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
+import { IconModule } from '@alfresco/adf-core';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, TranslateModule, IconModule, MatMenuModule, MatDividerModule, ExtensionsModule],
   selector: 'app-toolbar-menu-item',
   templateUrl: './toolbar-menu-item.component.html',
   styles: [

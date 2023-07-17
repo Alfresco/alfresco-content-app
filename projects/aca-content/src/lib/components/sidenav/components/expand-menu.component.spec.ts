@@ -26,7 +26,6 @@ import { ExpandMenuComponent } from './expand-menu.component';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { Router } from '@angular/router';
-import { AppSidenavModule } from '../sidenav.module';
 
 describe('ExpandMenuComponent', () => {
   let component: ExpandMenuComponent;
@@ -35,7 +34,7 @@ describe('ExpandMenuComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, AppSidenavModule]
+      imports: [AppTestingModule, ExpandMenuComponent]
     });
 
     fixture = TestBed.createComponent(ExpandMenuComponent);
