@@ -30,7 +30,7 @@ import { timeouts } from '../../utils';
 export class ViewerComponent extends BaseComponent {
   private static rootElement = 'adf-viewer';
 
-  public viewerLocator = this.getChild('.adf-viewer-render-layout-content');
+  private viewerLocator = this.getChild('.adf-viewer-render-layout-content');
   public closeButtonLocator = this.getChild('.adf-viewer-close-button');
   public fileTitleButtonLocator = this.getChild('.adf-viewer__file-title');
   public pdfViewerContentPages = this.getChild('.adf-pdf-viewer__content .page');
@@ -51,7 +51,7 @@ export class ViewerComponent extends BaseComponent {
   }
 
   async isViewerOpened(): Promise<boolean> {
-    await this.viewerLocator.waitFor({ state: 'visible', timeout: timeouts.large });
+    await this.waitForViewerToOpen();
     return await this.viewerLocator.isVisible();
   }
 

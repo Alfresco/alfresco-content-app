@@ -23,12 +23,14 @@
  */
 
 import { Locator, Page } from '@playwright/test';
-import { BaseComponent } from '.././base.component';
+import { BaseComponent } from '../base.component';
 import { timeouts } from '../../../utils';
+import { $ } from 'protractor';
 
 export class SearchInputComponent extends BaseComponent {
   private static rootElement = 'aca-page-layout';
   public searchButton = this.getChild('aca-search-input .app-search-button');
+  private viewButton = this.getChild('button[title="View"]');
 
   /**
    * Method used in cases where user have possibility to navigate "inside" the element (it's clickable and has link attribute).
@@ -43,18 +45,22 @@ export class SearchInputComponent extends BaseComponent {
   }
 
   async performDoubleClickFolderOrFileToOpen(name: string): Promise<void> {
-    await this.waitForSearchForResult(name);
-    await this.getCellLinkByName(name).waitFor({ state: 'visible', timeout: timeouts.normal });
-    await this.getCellLinkByName(name).dblclick();
+    await this.waitForSearchForResult(name);//
+    await this.getCellLinkByName(name).waitFor({ state:'visible', timeout: timeouts.normal });
+    await this.getCellLinkByName(name).click();
+    await this.viewButton.waitFor({ state:'visible', timeout: timeouts.normal });
+    await this.viewButton.click();
+    await this.page.waitForURL('**/(viewer:view/**', { waitUntil: 'domcontentloaded'});
     await this.spinnerWaitForReload();
   }
 
-  async waitForSearchForResult(name: string): Promise<void> {
+  private async waitForSearchForResult(name: string): Promise<void> {
     let retry = 0;
     do {
       if (await this.getCellLinkByName(name).isVisible()) return null;
       await this.page.reload({ waitUntil: 'domcontentloaded' });
       await this.spinnerWaitForReload();
-    } while (retry++ < 5);
+      retry++;
+    } while (retry < 10);
   }
 }

@@ -55,7 +55,7 @@ export class ActionsDropdownComponent extends BaseComponent {
   private getOptionLocator = (optionName: string): Locator => this.page.locator('.mat-select-panel .mat-option-text', { hasText: optionName }).first();
   private ruleActionLocator = this.getChild('aca-rule-action [data-automation-id="rule-action-card-view"]');
   private addActionButtonLocator = this.getChild('[data-automation-id="rule-action-list-add-action-button"]');
-  private actionDropdownLocator = this.page.locator('//mat-select//span[text()="Select an action"]');
+  private actionDropdownLocator = this.getChild('[data-automation-id="rule-action-select"]');
   private actionAspectNameLocator = '[data-automation-id="header-aspect-name"] mat-select';
   private actionCheckInInputLocator = '[data-automation-id="header-description"] input';
   private actionAutoDeclareLocator = '[data-automation-id="header-version"] mat-select';

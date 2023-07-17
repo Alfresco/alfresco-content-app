@@ -28,7 +28,7 @@ import { ApiClientFactory, getUserState, test, TEST_FILES, Utils } from '@alfres
 test.use({ storageState: getUserState('hruser') });
 test.describe('viewer file', () => {
   const apiClientFactory = new ApiClientFactory();
-  const randomFolderName = `playwright-folder-$${Utils.random()}`;
+  const randomFolderName = `playwright-folder-${Utils.random()}`;
   const randomDocxName = TEST_FILES.DOCX.name + `-${Utils.random()}`;
   let folderId: string;
   let fileDocxId: string;
@@ -45,7 +45,6 @@ test.describe('viewer file', () => {
 
   test.beforeEach(async ({ personalFiles }) => {
     await personalFiles.navigate({ waitUntil: 'domcontentloaded' });
-    await personalFiles.dataTable.goThroughPagesLookingForRowWithName(randomFolderName);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(randomFolderName);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(randomDocxName);
   });
@@ -58,7 +57,7 @@ test.describe('viewer file', () => {
     expect(await personalFiles.passwordDialog.isDialogOpen(), 'Password dialog not open').toBe(true);
     expect(await personalFiles.passwordDialog.isPasswordInputDisplayed(), 'Password input not displayed').toBe(true);
     expect(await personalFiles.passwordDialog.submitButton.isHidden(), 'Submit button not disabled').toBe(false);
-    expect(await personalFiles.passwordDialog.isCloseEnabled(), 'Close button not enabled').toBe(true);
+    expect(await personalFiles.passwordDialog.isCloseVisible(), 'Close button not enabled').toBe(true);
     expect(await personalFiles.viewer.pdfViewerContentPages.isVisible(), 'Viewer did not close').toBe(false);
   });
 
@@ -83,7 +82,7 @@ test.describe('viewer file', () => {
 
   test('[C268961] Refresh the page while Password dialog is open', async ({ personalFiles }) => {
     await personalFiles.passwordDialog.enterPassword(TEST_FILES.DOCX_PROTECTED.password);
-    await personalFiles.reload();
+    await personalFiles.reload({ waitUntil: 'domcontentloaded' });
     await personalFiles.viewer.waitForViewerToOpen();
 
     expect(await personalFiles.viewer.isPdfViewerContentDisplayed(), 'file content is displayed').toBe(false);

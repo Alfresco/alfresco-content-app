@@ -23,7 +23,7 @@
  */
 
 import { Page } from '@playwright/test';
-import { BaseComponent } from '.././base.component';
+import { BaseComponent } from '../base.component';
 import { timeouts } from '../../../utils';
 
 export class PasswordOverlayDialogComponent extends BaseComponent {
@@ -56,11 +56,11 @@ export class PasswordOverlayDialogComponent extends BaseComponent {
     }
   }
 
-  async isCloseEnabled(): Promise<boolean> {
+  async isCloseVisible(): Promise<boolean> {
     return await this.closeButton.isVisible();
   }
 
-  async isSubmitEnabled(): Promise<boolean> {
+  async isSubmitHidden(): Promise<boolean> {
     return await this.submitButton.isHidden();
   }
 

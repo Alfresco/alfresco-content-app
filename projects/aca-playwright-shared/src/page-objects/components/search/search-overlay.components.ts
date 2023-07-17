@@ -23,7 +23,7 @@
  */
 
 import { Page } from '@playwright/test';
-import { BaseComponent } from '.././base.component';
+import { BaseComponent } from '../base.component';
 
 export class SearchOverlayComponent extends BaseComponent {
   private static rootElement = '.cdk-overlay-pane';
@@ -44,7 +44,8 @@ export class SearchOverlayComponent extends BaseComponent {
   }
 
   async searchFor(input: string): Promise<void> {
+    await this.searchInput.click();
     await this.searchInput.fill(input);
-    await this.searchButton.click();
+    await this.page.keyboard.press('Enter');
   }
 }

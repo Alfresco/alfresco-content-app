@@ -26,6 +26,7 @@ import { Locator, Page } from '@playwright/test';
 import { BaseComponent } from '../base.component';
 import { MatMenuComponent } from './mat-menu.component';
 import { PaginationActionsType, PaginationComponent } from '../pagination.component';
+import { timeouts } from '../../../utils';
 
 export class DataTableComponent extends BaseComponent {
   private static rootElement = 'adf-datatable';
@@ -166,6 +167,11 @@ export class DataTableComponent extends BaseComponent {
     await this.spinnerWaitForReload();
   }
 
+  async waitForFileToVisible(name: string): Promise<void> {
+    await this.spinnerWaitForReload();
+    await this.getCellLinkByName(name).waitFor({ state: 'visible', timeout: timeouts.extraLarge });
+  }
+
   async getActionLocatorFromExpandableMenu(name: string | number, action: string): Promise<Locator> {
     await this.getRowByName(name).click({ button: 'right' });
     return this.contextMenuActions.getButtonByText(action);
@@ -177,7 +183,7 @@ export class DataTableComponent extends BaseComponent {
       return null;
     }
     if (!(await this.pagination.currentPageLocator.isVisible())) {
-      this.page.reload();
+      await this.spinnerWaitForReload();
       await this.pagination.currentPageLocator.waitFor({ state: 'visible' });
     }
     if ((await this.pagination.currentPageLocator.textContent()) !== ' Page 1 ') {

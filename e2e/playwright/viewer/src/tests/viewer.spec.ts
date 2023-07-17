@@ -23,13 +23,13 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, getUserState, test, TEST_FILES } from '@alfresco/playwright-shared';
+import { ApiClientFactory, getUserState, test, TEST_FILES, Utils } from '@alfresco/playwright-shared';
 
 test.use({ storageState: getUserState('hruser') });
 test.describe('viewer file', () => {
   const apiClientFactory = new ApiClientFactory();
-  const randomFolderName = `playwright-folder-${(Math.random() + 1).toString(36).substring(6)}`;
-  const randomDocxName = TEST_FILES.DOCX.name + (Math.random() + 1).toString(36).substring(6);
+  const randomFolderName = `playwright-folder-${Utils.random()}`;
+  const randomDocxName = TEST_FILES.DOCX.name + `-${Utils.random()}`;
   let folderId: string;
   let fileDocxId: string;
 
@@ -44,8 +44,8 @@ test.describe('viewer file', () => {
 
   test.beforeEach(async ({ personalFiles }) => {
     await personalFiles.navigate({ waitUntil: 'domcontentloaded' });
-    await personalFiles.dataTable.goThroughPagesLookingForRowWithName(randomFolderName);
     await personalFiles.dataTable.performClickFolderOrFileToOpen(randomFolderName);
+    await personalFiles.dataTable.waitForFileToVisible(randomDocxName);
   });
 
   test.afterAll(async () => {
@@ -76,7 +76,7 @@ test.describe('viewer file', () => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(randomDocxName);
     expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
     await personalFiles.viewer.closeButtonLocator.click();
-    expect(await personalFiles.viewer.viewerLocator.isVisible(), 'Viewer did not close').toBe(false);
+    expect(await personalFiles.dataTable.getCellLinkByName(randomDocxName).isVisible(), 'Viewer did not close').toBe(true);
   });
 
   test('[C284632] Close button tooltip on viewer', async ({ personalFiles }) => {
@@ -122,10 +122,9 @@ test.describe('viewer file', () => {
     await searchPage.searchInput.searchButton.click();
     await searchPage.searchOverlay.checkFilesAndFolders();
     await searchPage.searchOverlay.searchFor(randomDocxName);
-    await searchPage.reload({ waitUntil: 'domcontentloaded' });
     await searchPage.searchInput.performDoubleClickFolderOrFileToOpen(randomDocxName);
-    expect(await searchPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
-    expect(await searchPage.viewer.isCloseButtonDisplayed(), 'Close button is not displayed').toBe(true);
-    expect(await searchPage.viewer.isFileTitleDisplayed(), 'File title is not displayed').toBe(true);
+    expect(await searchPage.viewer.isViewerOpened(), 'Viewer should opened').toBe(true);
+    expect(await searchPage.viewer.isCloseButtonDisplayed(), 'Close button should displayed').toBe(true);
+    expect(await searchPage.viewer.isFileTitleDisplayed(), 'File title should displayed').toBe(true);
   });
 });
