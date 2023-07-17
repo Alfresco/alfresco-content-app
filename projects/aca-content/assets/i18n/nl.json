@@ -526,7 +526,6 @@
       "CREATE_DATE": "Datum gemaakt"
     },
     "FACET_FIELDS": {
-      "FILE_TYPE": "Bestandstype",
       "CREATOR": "Maker",
       "MODIFIER": "Gewijzigd door",
       "LOCATION": "Locatie",
@@ -534,13 +533,6 @@
     },
     "CATEGORIES": {
       "MODIFIED_DATE": "Datum gewijzigd",
-      "SIZE": "Grootte",
-      "SIZE_OPTIONS": {
-        "SMALL": "Klein",
-        "MEDIUM": "Gemiddeld",
-        "LARGE": "Groot",
-        "HUGE": "Zeer groot"
-      },
       "CREATED_DATE": "Datum gemaakt",
       "EFFECTIVITY_FROM": "Effectiviteit vanaf",
       "EFFECTIVITY_TO": "Effectiviteit tot",
@@ -614,3 +606,4 @@
     }
   }
 }
+

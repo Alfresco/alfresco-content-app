@@ -526,7 +526,6 @@
             "CREATE_DATE": "Created date"
         },
         "FACET_FIELDS": {
-            "FILE_TYPE": "File type",
             "CREATOR": "Creator",
             "MODIFIER": "Modifier",
             "LOCATION": "Location",
@@ -534,13 +533,6 @@
         },
         "CATEGORIES": {
             "MODIFIED_DATE": "Modified date",
-            "SIZE": "Size",
-            "SIZE_OPTIONS": {
-                "SMALL": "Small",
-                "MEDIUM": "Medium",
-                "LARGE": "Large",
-                "HUGE": "Huge"
-            },
             "CREATED_DATE": "Created date",
             "EFFECTIVITY_FROM": "Effectivity from",
             "EFFECTIVITY_TO": "Effectivity to",

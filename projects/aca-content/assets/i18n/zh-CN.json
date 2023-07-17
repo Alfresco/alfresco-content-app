@@ -526,7 +526,6 @@
       "CREATE_DATE": "创建日期"
     },
     "FACET_FIELDS": {
-      "FILE_TYPE": "文件类型",
       "CREATOR": "创建者",
       "MODIFIER": "修改者",
       "LOCATION": "位置",
@@ -534,13 +533,6 @@
     },
     "CATEGORIES": {
       "MODIFIED_DATE": "修改日期",
-      "SIZE": "大小",
-      "SIZE_OPTIONS": {
-        "SMALL": "小",
-        "MEDIUM": "中",
-        "LARGE": "大",
-        "HUGE": "特大"
-      },
       "CREATED_DATE": "创建日期",
       "EFFECTIVITY_FROM": "有效开始",
       "EFFECTIVITY_TO": "有效结束",
@@ -614,3 +606,4 @@
     }
   }
 }
+

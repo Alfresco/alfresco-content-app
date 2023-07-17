@@ -526,7 +526,6 @@
       "CREATE_DATE": "Datum der Erstellung"
     },
     "FACET_FIELDS": {
-      "FILE_TYPE": "Dateityp",
       "CREATOR": "Ersteller",
       "MODIFIER": "Bearbeiter",
       "LOCATION": "Speicherort",
@@ -534,13 +533,6 @@
     },
     "CATEGORIES": {
       "MODIFIED_DATE": "Datum der Änderung",
-      "SIZE": "Größe",
-      "SIZE_OPTIONS": {
-        "SMALL": "Klein",
-        "MEDIUM": "Mittel",
-        "LARGE": "Groß",
-        "HUGE": "Riesig"
-      },
       "CREATED_DATE": "Datum der Erstellung",
       "EFFECTIVITY_FROM": "Effektiv ab",
       "EFFECTIVITY_TO": "Effektiv bis",
@@ -614,3 +606,4 @@
     }
   }
 }
+

@@ -526,7 +526,6 @@
       "CREATE_DATE": "Luontipäivämäärä"
     },
     "FACET_FIELDS": {
-      "FILE_TYPE": "Tiedostotyyppi",
       "CREATOR": "Tekijä",
       "MODIFIER": "Muokkaaja",
       "LOCATION": "Sijainti",
@@ -534,13 +533,6 @@
     },
     "CATEGORIES": {
       "MODIFIED_DATE": "Muokkauspäivämäärä",
-      "SIZE": "Koko",
-      "SIZE_OPTIONS": {
-        "SMALL": "Pieni",
-        "MEDIUM": "Keskikokoinen",
-        "LARGE": "Suuri",
-        "HUGE": "Valtava"
-      },
       "CREATED_DATE": "Luontipäivämäärä",
       "EFFECTIVITY_FROM": "Voimassaolon alku",
       "EFFECTIVITY_TO": "Voimassaolon loppu",
@@ -614,3 +606,4 @@
     }
   }
 }
+

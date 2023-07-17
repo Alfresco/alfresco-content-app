@@ -526,7 +526,6 @@
       "CREATE_DATE": "Datum vytvoření"
     },
     "FACET_FIELDS": {
-      "FILE_TYPE": "Typ souboru",
       "CREATOR": "Autor",
       "MODIFIER": "Upravující",
       "LOCATION": "Umístění",
@@ -534,13 +533,6 @@
     },
     "CATEGORIES": {
       "MODIFIED_DATE": "Datum úpravy",
-      "SIZE": "Velikost",
-      "SIZE_OPTIONS": {
-        "SMALL": "Malá",
-        "MEDIUM": "Střední",
-        "LARGE": "Velká",
-        "HUGE": "Obrovská"
-      },
       "CREATED_DATE": "Datum vytvoření",
       "EFFECTIVITY_FROM": "Platnost od",
       "EFFECTIVITY_TO": "Platnost do",
@@ -614,3 +606,4 @@
     }
   }
 }
+
