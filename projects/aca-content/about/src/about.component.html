@@ -6,7 +6,7 @@
     <h1>{{ 'APP.BROWSE.ABOUT.TITLE' | translate }}</h1>
   </aca-page-layout-header>
 
-  <aca-page-layout-content [scrollable]="true">
+  <aca-page-layout-content class="scrollable">
     <adf-about>
       <adf-about-panel *ngIf="dev" [label]="'ABOUT.SERVER_SETTINGS.TITLE' | translate">
         <ng-template>

@@ -34,9 +34,6 @@ import {
   InfoDrawerComponent,
   PageComponent,
   PageLayoutComponent,
-  PageLayoutContentComponent,
-  PageLayoutErrorComponent,
-  PageLayoutHeaderComponent,
   PaginationDirective,
   ToolbarActionComponent
 } from '@alfresco/aca-shared';
@@ -68,9 +65,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     InfoDrawerComponent,
     ToolbarActionComponent,
     PaginationDirective,
-    PageLayoutHeaderComponent,
-    PageLayoutContentComponent,
-    PageLayoutErrorComponent,
     PageLayoutComponent
   ],
   templateUrl: './files.component.html',
