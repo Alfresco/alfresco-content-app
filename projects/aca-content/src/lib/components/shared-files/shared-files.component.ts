@@ -31,8 +31,6 @@ import {
   InfoDrawerComponent,
   PageComponent,
   PageLayoutComponent,
-  PageLayoutContentComponent,
-  PageLayoutHeaderComponent,
   PaginationDirective,
   ToolbarActionComponent
 } from '@alfresco/aca-shared';
@@ -58,8 +56,6 @@ import { DocumentListDirective } from '../../directives/document-list.directive'
     InfoDrawerComponent,
     PaginationDirective,
     ToolbarActionComponent,
-    PageLayoutContentComponent,
-    PageLayoutHeaderComponent,
     PageLayoutComponent
   ],
   templateUrl: './shared-files.component.html',

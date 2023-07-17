@@ -42,13 +42,7 @@ import { RuleSetPickerSmartComponent } from '../rule-set-picker/rule-set-picker.
 import { MatSlideToggleChange, MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ActionParameterConstraint } from '../model/action-parameter-constraint.model';
 import { TranslateModule } from '@ngx-translate/core';
-import {
-  GenericErrorComponent,
-  PageLayoutComponent,
-  PageLayoutContentComponent,
-  PageLayoutErrorComponent,
-  PageLayoutHeaderComponent
-} from '@alfresco/aca-shared';
+import { GenericErrorComponent, PageLayoutComponent } from '@alfresco/aca-shared';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
@@ -72,9 +66,6 @@ import { RuleDetailsUiComponent } from '../rule-details/rule-details.ui-componen
     RuleListUiComponent,
     RouterModule,
     TemplateModule,
-    PageLayoutErrorComponent,
-    PageLayoutContentComponent,
-    PageLayoutHeaderComponent,
     GenericErrorComponent,
     RuleDetailsUiComponent,
     MatDialogModule

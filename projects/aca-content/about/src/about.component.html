@@ -1,12 +1,12 @@
 <aca-page-layout>
-  <aca-page-layout-header>
+  <div class="aca-page-layout-header">
     <button mat-icon-button [routerLink]="landingPage">
       <mat-icon class="app-profile-icon">arrow_back</mat-icon>
     </button>
     <h1>{{ 'APP.BROWSE.ABOUT.TITLE' | translate }}</h1>
-  </aca-page-layout-header>
+  </div>
 
-  <aca-page-layout-content class="scrollable">
+  <div class="aca-page-layout-content scrollable">
     <adf-about>
       <adf-about-panel *ngIf="dev" [label]="'ABOUT.SERVER_SETTINGS.TITLE' | translate">
         <ng-template>
@@ -32,5 +32,5 @@
         </ng-template>
       </adf-about-panel>
     </adf-about>
-  </aca-page-layout-content>
+  </div>
 </aca-page-layout>

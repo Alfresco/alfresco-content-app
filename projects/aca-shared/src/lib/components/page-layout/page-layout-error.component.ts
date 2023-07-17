@@ -24,6 +24,7 @@
 
 import { Component, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
 
+// @deprecated Use `.aca-page-layout-error` selectors instead
 @Component({
   standalone: true,
   selector: 'aca-page-layout-error',
