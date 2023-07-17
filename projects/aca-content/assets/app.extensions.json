@@ -1510,7 +1510,7 @@
                 "hideDefaultAction": true,
                 "allowOnlyPredefinedValues": false,
                 "field": "SITE",
-                "options": [ "_REPOSITORY_" ]
+                "autocompleteOptions": [ { "value": "_REPOSITORY_"} ]
               }
             }
           },
@@ -1531,11 +1531,13 @@
           {
             "id": "categories",
             "name": "SEARCH.FACET_FIELDS.CATEGORIES",
+            "enabled": true,
             "component": {
-              "selector": "",
+              "selector": "autocomplete-chips",
               "settings": {
                 "allowUpdateOnChange": false,
                 "hideDefaultAction": true,
+                "allowOnlyPredefinedValues": true,
                 "field": "cm:categories"
               }
             }
