@@ -24,23 +24,16 @@
 
 import { ToggleInfoDrawerComponent } from './toggle-info-drawer.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CoreModule } from '@alfresco/adf-core';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { Subject } from 'rxjs';
-import { Store } from '@ngrx/store';
 
 describe('ToggleInfoDrawerComponent', () => {
   let fixture: ComponentFixture<ToggleInfoDrawerComponent>;
   const mockStream = new Subject();
-  const storeMock = {
-    dispatch: jasmine.createSpy('dispatch'),
-    select: () => mockStream
-  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CoreModule, AppTestingModule],
-      providers: [{ provide: Store, useValue: storeMock }]
+      imports: [AppTestingModule, ToggleInfoDrawerComponent]
     });
 
     fixture = TestBed.createComponent(ToggleInfoDrawerComponent);

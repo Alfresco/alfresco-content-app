@@ -27,7 +27,7 @@ import { AppStore, SearchByTermAction, SearchOptionIds, SearchOptionModel, Snack
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { AppConfigService } from '@alfresco/adf-core';
 import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { MatMenuTrigger } from '@angular/material/menu';
+import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { NavigationEnd, PRIMARY_OUTLET, Router, RouterEvent, UrlSegment, UrlSegmentGroup, UrlTree } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
@@ -35,8 +35,31 @@ import { filter, takeUntil } from 'rxjs/operators';
 import { SearchInputControlComponent } from '../search-input-control/search-input-control.component';
 import { SearchNavigationService } from '../search-navigation.service';
 import { SearchLibrariesQueryBuilderService } from '../search-libraries-results/search-libraries-query-builder.service';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { A11yModule } from '@angular/cdk/a11y';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FormsModule } from '@angular/forms';
 
 @Component({
+  standalone: true,
+  imports: [
+    CommonModule,
+    TranslateModule,
+    MatMenuModule,
+    MatButtonModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    A11yModule,
+    MatCheckboxModule,
+    FormsModule,
+    SearchInputControlComponent
+  ],
   selector: 'aca-search-input',
   templateUrl: './search-input.component.html',
   styleUrls: ['./search-input.component.scss'],

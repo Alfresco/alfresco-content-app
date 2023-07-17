@@ -28,8 +28,14 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { isLocked } from '@alfresco/aca-shared';
 import { AlfrescoApiService } from '@alfresco/adf-core';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, TranslateModule, MatMenuModule, MatIconModule],
   selector: 'app-toggle-edit-offline',
   template: `
     <button mat-menu-item [attr.title]="nodeTitle | translate" (click)="onClick()">

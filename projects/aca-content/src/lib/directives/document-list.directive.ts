@@ -34,6 +34,7 @@ import { takeUntil, filter } from 'rxjs/operators';
 import { MinimalNodeEntity } from '@alfresco/js-api';
 
 @Directive({
+  standalone: true,
   selector: '[acaDocumentList]'
 })
 export class DocumentListDirective implements OnInit, OnDestroy {

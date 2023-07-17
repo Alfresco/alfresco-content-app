@@ -23,10 +23,9 @@
  */
 
 import { TestBed } from '@angular/core/testing';
-import { CoreModule } from '@alfresco/adf-core';
-import { TranslateModule } from '@ngx-translate/core';
 import { SearchNavigationService } from './search-navigation.service';
 import { Router } from '@angular/router';
+import { AppTestingModule } from '../../testing/app-testing.module';
 
 describe('SearchNavigationService', () => {
   let service: SearchNavigationService;
@@ -34,7 +33,7 @@ describe('SearchNavigationService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), CoreModule.forRoot()]
+      imports: [AppTestingModule]
     });
     service = TestBed.inject(SearchNavigationService);
     router = TestBed.inject(Router);

@@ -29,8 +29,16 @@ import { Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { SharedLinkEntry } from '@alfresco/js-api';
 import { AcaFileAutoDownloadService } from '@alfresco/aca-shared';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, TranslateModule, MatButtonModule, MatIconModule, MatMenuModule, MatDialogModule],
   selector: 'app-view-node',
   template: `
     <button

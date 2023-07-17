@@ -28,11 +28,6 @@ import { By } from '@angular/platform-browser';
 import { RuleDetailsUiComponent } from './rule-details.ui-component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CoreTestingModule } from '@alfresco/adf-core';
-import { RuleCompositeConditionUiComponent } from './conditions/rule-composite-condition.ui-component';
-import { RuleTriggersUiComponent } from './triggers/rule-triggers.ui-component';
-import { RuleActionListUiComponent } from './actions/rule-action-list.ui-component';
-import { RuleActionUiComponent } from './actions/rule-action.ui-component';
-import { RuleOptionsUiComponent } from './options/rule-options.ui-component';
 import { of, timer } from 'rxjs';
 
 describe('EditRuleDialogSmartComponent', () => {
@@ -45,16 +40,7 @@ describe('EditRuleDialogSmartComponent', () => {
 
   const setupBeforeEach = (dialogOptions: EditRuleDialogOptions = { actionDefinitions$: of([]), parameterConstraints$: of([]) }) => {
     TestBed.configureTestingModule({
-      imports: [CoreTestingModule],
-      declarations: [
-        EditRuleDialogUiComponent,
-        RuleCompositeConditionUiComponent,
-        RuleDetailsUiComponent,
-        RuleTriggersUiComponent,
-        RuleActionListUiComponent,
-        RuleActionUiComponent,
-        RuleOptionsUiComponent
-      ],
+      imports: [CoreTestingModule, EditRuleDialogUiComponent],
       providers: [
         { provide: MatDialogRef, useValue: dialogRef },
         { provide: MAT_DIALOG_DATA, useValue: dialogOptions }

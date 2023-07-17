@@ -33,8 +33,6 @@ import { map } from 'rxjs/operators';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { SearchNavigationService } from '../search-navigation.service';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatMenuModule } from '@angular/material/menu';
 
 describe('SearchInputComponent', () => {
   let fixture: ComponentFixture<SearchInputComponent>;
@@ -49,8 +47,7 @@ describe('SearchInputComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, MatSnackBarModule, MatMenuModule],
-      declarations: [SearchInputComponent],
+      imports: [AppTestingModule, SearchInputComponent],
       providers: [
         {
           provide: AppService,

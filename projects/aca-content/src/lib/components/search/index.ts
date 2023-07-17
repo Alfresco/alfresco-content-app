@@ -22,14 +22,18 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NgModule } from '@angular/core';
-import { DocumentListDirective } from './document-list.directive';
-import { SharedDirectivesModule } from '@alfresco/aca-shared';
-import { ContentDirectiveModule } from '@alfresco/adf-content-services';
+import { SearchActionMenuComponent } from './search-action-menu/search-action-menu.component';
+import { SearchLibrariesResultsComponent } from './search-libraries-results/search-libraries-results.component';
+import { SearchResultsComponent } from './search-results/search-results.component';
+import { SearchResultsRowComponent } from './search-results-row/search-results-row.component';
+import { SearchInputComponent } from './search-input/search-input.component';
+import { SearchInputControlComponent } from './search-input-control/search-input-control.component';
 
-@NgModule({
-  imports: [SharedDirectivesModule, ContentDirectiveModule],
-  declarations: [DocumentListDirective],
-  exports: [DocumentListDirective, SharedDirectivesModule, ContentDirectiveModule]
-})
-export class DirectivesModule {}
+export const APP_SEARCH_DIRECTIVES = [
+  SearchActionMenuComponent,
+  SearchLibrariesResultsComponent,
+  SearchResultsComponent,
+  SearchResultsRowComponent,
+  SearchInputComponent,
+  SearchInputControlComponent
+] as const;

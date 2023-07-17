@@ -41,8 +41,7 @@ describe('RuleTriggerUiComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CoreTestingModule],
-      declarations: [RuleTriggersUiComponent]
+      imports: [CoreTestingModule, RuleTriggersUiComponent]
     });
 
     fixture = TestBed.createComponent(RuleTriggersUiComponent);

@@ -38,6 +38,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { CommonModule } from '@angular/common';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
+import { OverlayModule } from '@angular/cdk/overlay';
 
 export const initialState = {
   app: {
@@ -77,7 +79,19 @@ export const initialState = {
     CommonModule,
     HttpClientModule,
     RouterTestingModule,
+    MatIconTestingModule,
     StoreModule,
+    OverlayModule,
+    StoreModule.forRoot(
+      { app: null },
+      {
+        initialState,
+        runtimeChecks: {
+          strictStateImmutability: false,
+          strictActionImmutability: false
+        }
+      }
+    ),
     EffectsModule.forRoot([]),
     TranslateModule.forRoot({
       loader: {

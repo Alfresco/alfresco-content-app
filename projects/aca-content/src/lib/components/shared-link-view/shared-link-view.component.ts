@@ -23,7 +23,7 @@
  */
 
 import { AppStore, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
-import { AlfrescoApiService } from '@alfresco/adf-core';
+import { AlfrescoApiService, ViewerModule } from '@alfresco/adf-core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { SharedLinkEntry, SharedlinksApi } from '@alfresco/js-api';
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
@@ -31,9 +31,13 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { forkJoin, from, of, Subject } from 'rxjs';
 import { catchError, mergeMap, takeUntil } from 'rxjs/operators';
-import { AppExtensionService, AppService } from '@alfresco/aca-shared';
+import { AppExtensionService, AppService, ToolbarActionComponent } from '@alfresco/aca-shared';
+import { CommonModule } from '@angular/common';
+import { AlfrescoViewerModule } from '@alfresco/adf-content-services';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, ViewerModule, AlfrescoViewerModule, ToolbarActionComponent],
   selector: 'app-shared-link-view',
   templateUrl: './shared-link-view.component.html',
   styleUrls: ['shared-link-view.component.scss'],

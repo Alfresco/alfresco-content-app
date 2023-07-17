@@ -29,6 +29,7 @@ import { Subject } from 'rxjs';
 import { ActionDirective } from './action.directive';
 
 @Directive({
+  standalone: true,
   selector: '[acaActiveLink]',
   exportAs: 'acaActiveLink'
 })

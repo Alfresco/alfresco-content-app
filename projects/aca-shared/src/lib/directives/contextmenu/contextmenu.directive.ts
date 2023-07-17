@@ -29,6 +29,7 @@ import { Store } from '@ngrx/store';
 import { AppStore, ContextMenu } from '@alfresco/aca-shared/store';
 
 @Directive({
+  standalone: true,
   selector: '[acaContextActions]',
   exportAs: 'acaContextActions'
 })

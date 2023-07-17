@@ -28,8 +28,6 @@ import { By } from '@angular/platform-browser';
 import { OpenInAppComponent } from './open-in-app.component';
 import { initialState, LibTestingModule } from '../../testing/lib-testing-module';
 import { provideMockStore } from '@ngrx/store/testing';
-import { MatIconTestingModule } from '@angular/material/icon/testing';
-import { SharedModule } from '@alfresco/aca-shared';
 
 describe('OpenInAppComponent', () => {
   let fixture: ComponentFixture<OpenInAppComponent>;
@@ -42,7 +40,7 @@ describe('OpenInAppComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [LibTestingModule, SharedModule, MatIconTestingModule],
+      imports: [LibTestingModule, OpenInAppComponent],
       providers: [
         provideMockStore({ initialState }),
         { provide: MAT_DIALOG_DATA, useValue: { redirectUrl: 'mockRedirectUrl', appStoreUrl: 'mockAppStoreUrl' } },

@@ -37,7 +37,7 @@ describe('PageLayoutComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PageLayoutComponent],
+      imports: [PageLayoutComponent],
       providers: [
         {
           provide: AppService,

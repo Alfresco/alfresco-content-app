@@ -22,10 +22,6 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NgModule } from '@angular/core';
-import { CoreModule } from '@alfresco/adf-core';
-import { RouterModule } from '@angular/router';
-import { ExtensionsModule } from '@alfresco/adf-extensions';
 import { ExpansionPanelDirective } from './directives/expansion-panel.directive';
 import { MenuPanelDirective } from './directives/menu-panel.directive';
 import { SidenavComponent } from './sidenav.component';
@@ -34,30 +30,16 @@ import { ExpandMenuComponent } from './components/expand-menu.component';
 import { ButtonMenuComponent } from './components/button-menu.component';
 import { ActionDirective } from './directives/action.directive';
 import { SidenavHeaderComponent } from './components/sidenav-header.component';
-import { SharedToolbarModule } from '@alfresco/aca-shared';
 import { UserMenuComponent } from './user-menu/user-menu.component';
 
-@NgModule({
-  imports: [CoreModule.forChild(), ExtensionsModule.forChild(), RouterModule, SharedToolbarModule],
-  declarations: [
-    MenuPanelDirective,
-    ExpansionPanelDirective,
-    ActiveLinkDirective,
-    ActionDirective,
-    ExpandMenuComponent,
-    ButtonMenuComponent,
-    SidenavComponent,
-    SidenavHeaderComponent,
-    UserMenuComponent
-  ],
-  exports: [
-    MenuPanelDirective,
-    ExpansionPanelDirective,
-    ActiveLinkDirective,
-    ActionDirective,
-    ExpandMenuComponent,
-    ButtonMenuComponent,
-    SidenavComponent
-  ]
-})
-export class AppSidenavModule {}
+export const APP_SIDENAV_DIRECTIVES = [
+  ButtonMenuComponent,
+  ActiveLinkDirective,
+  ActionDirective,
+  MenuPanelDirective,
+  ExpandMenuComponent,
+  ExpansionPanelDirective,
+  SidenavHeaderComponent,
+  UserMenuComponent,
+  SidenavComponent
+] as const;

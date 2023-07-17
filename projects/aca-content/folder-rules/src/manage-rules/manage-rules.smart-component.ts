@@ -23,26 +23,62 @@
  */
 
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { Location } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { FolderRulesService } from '../services/folder-rules.service';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { Rule } from '../model/rule.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { NodeInfo } from '@alfresco/aca-shared/store';
 import { delay, takeUntil } from 'rxjs/operators';
 import { EditRuleDialogUiComponent } from '../rule-details/edit-rule-dialog.ui-component';
-import { MatDialog } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from '@alfresco/adf-content-services';
-import { NotificationService } from '@alfresco/adf-core';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { BreadcrumbModule, ConfirmDialogComponent } from '@alfresco/adf-content-services';
+import { NotificationService, TemplateModule, ToolbarModule } from '@alfresco/adf-core';
 import { ActionDefinitionTransformed } from '../model/rule-action.model';
 import { ActionsService } from '../services/actions.service';
 import { FolderRuleSetsService } from '../services/folder-rule-sets.service';
 import { RuleSet } from '../model/rule-set.model';
 import { RuleSetPickerSmartComponent } from '../rule-set-picker/rule-set-picker.smart-component';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { MatSlideToggleChange, MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ActionParameterConstraint } from '../model/action-parameter-constraint.model';
+import { TranslateModule } from '@ngx-translate/core';
+import {
+  GenericErrorComponent,
+  PageLayoutComponent,
+  PageLayoutContentComponent,
+  PageLayoutErrorComponent,
+  PageLayoutHeaderComponent
+} from '@alfresco/aca-shared';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatDividerModule } from '@angular/material/divider';
+import { RuleListUiComponent } from '../rule-list/rule-list/rule-list.ui-component';
+import { RuleDetailsUiComponent } from '../rule-details/rule-details.ui-component';
 
 @Component({
+  standalone: true,
+  imports: [
+    CommonModule,
+    TranslateModule,
+    PageLayoutComponent,
+    ToolbarModule,
+    MatButtonModule,
+    MatIconModule,
+    BreadcrumbModule,
+    MatProgressBarModule,
+    MatSlideToggleModule,
+    MatDividerModule,
+    RuleListUiComponent,
+    RouterModule,
+    TemplateModule,
+    PageLayoutErrorComponent,
+    PageLayoutContentComponent,
+    PageLayoutHeaderComponent,
+    GenericErrorComponent,
+    RuleDetailsUiComponent,
+    MatDialogModule
+  ],
   selector: 'aca-manage-rules',
   templateUrl: 'manage-rules.smart-component.html',
   styleUrls: ['manage-rules.smart-component.scss'],

@@ -45,8 +45,7 @@ describe('RuleOptionsUiComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [FormsModule, ReactiveFormsModule, CoreTestingModule],
-      declarations: [RuleOptionsUiComponent],
+      imports: [FormsModule, ReactiveFormsModule, CoreTestingModule, RuleOptionsUiComponent],
       providers: [{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { floatLabel: 'never' } }]
     });
 

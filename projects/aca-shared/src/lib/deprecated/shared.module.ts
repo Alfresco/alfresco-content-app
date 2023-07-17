@@ -23,26 +23,15 @@
  */
 
 import { NgModule } from '@angular/core';
-import { SharedLinkViewComponent } from './shared-link-view.component';
-import { CommonModule } from '@angular/common';
-import { CoreModule } from '@alfresco/adf-core';
-import { DirectivesModule } from '../../directives/directives.module';
-import { AppToolbarModule } from '../toolbar/toolbar.module';
-import { AppInfoDrawerModule } from '../info-drawer/info.drawer.module';
-import { CoreExtensionsModule } from '../../extensions/core.extensions.module';
-import { ContentModule } from '@alfresco/adf-content-services';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialogModule } from '@angular/material/dialog';
+import { TranslateModule } from '@ngx-translate/core';
+import { ContextActionsDirective } from '../directives/contextmenu/contextmenu.directive';
 
+// @deprecated
 @NgModule({
-  imports: [
-    CommonModule,
-    CoreModule.forChild(),
-    DirectivesModule,
-    AppToolbarModule,
-    CoreExtensionsModule.forChild(),
-    AppInfoDrawerModule,
-    ContentModule
-  ],
-  declarations: [SharedLinkViewComponent],
-  exports: [SharedLinkViewComponent]
+  imports: [MatButtonModule, MatIconModule, MatDialogModule, TranslateModule, ContextActionsDirective],
+  exports: [MatButtonModule, MatIconModule, MatDialogModule, TranslateModule, ContextActionsDirective]
 })
-export class AppSharedLinkViewModule {}
+export class SharedModule {}

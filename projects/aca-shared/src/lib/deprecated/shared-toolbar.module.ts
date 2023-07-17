@@ -23,12 +23,25 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CustomNameColumnComponent } from './name-column/name-column.component';
-import { LockedByComponent } from '@alfresco/aca-shared';
-import { ThumbnailColumnComponent } from './thumbnail-column/thumbnail-column.component';
-import { TagsColumnComponent } from './tags-column/tags-column.component';
+import { CommonModule } from '@angular/common';
+import { CoreModule } from '@alfresco/adf-core';
+import { ExtensionsModule } from '@alfresco/adf-extensions';
+import { ToolbarButtonComponent } from '../components/tool-bar/toolbar-button/toolbar-button.component';
+import { ToolbarActionComponent } from '../components/tool-bar/toolbar-action/toolbar-action.component';
+import { ToolbarMenuItemComponent } from '../components/tool-bar/toolbar-menu-item/toolbar-menu-item.component';
+import { ToolbarMenuComponent } from '../components/tool-bar/toolbar-menu/toolbar-menu.component';
 
+// @deprecated
 @NgModule({
-  imports: [LockedByComponent, ThumbnailColumnComponent, CustomNameColumnComponent, TagsColumnComponent]
+  imports: [
+    CommonModule,
+    CoreModule,
+    ExtensionsModule,
+    ToolbarButtonComponent,
+    ToolbarActionComponent,
+    ToolbarMenuItemComponent,
+    ToolbarMenuComponent
+  ],
+  exports: [ToolbarButtonComponent, ToolbarActionComponent, ToolbarMenuItemComponent, ToolbarMenuComponent]
 })
-export class DocumentListCustomComponentsModule {}
+export class SharedToolbarModule {}

@@ -117,14 +117,6 @@ export const CONTENT_LAYOUT_ROUTES: Route = {
             }
           ]
         },
-        // deprecated, backwards compatibility with ACA 1.8
-        {
-          path: 'preview/:nodeId',
-          loadChildren: () => import('@alfresco/aca-content/preview').then((m) => m.PreviewModule),
-          data: {
-            navigateSource: 'personal-files'
-          }
-        },
         {
           path: 'view/:nodeId',
           outlet: 'viewer',
@@ -177,22 +169,6 @@ export const CONTENT_LAYOUT_ROUTES: Route = {
             }
           ]
         },
-        // deprecated, backwards compatibility with ACA 1.8
-        {
-          path: 'preview/:nodeId',
-          loadChildren: () => import('@alfresco/aca-content/preview').then((m) => m.PreviewModule),
-          data: {
-            navigateSource: 'personal-files'
-          }
-        },
-        // deprecated, backwards compatibility with ACA 1.8
-        {
-          path: ':folderId/preview/:nodeId',
-          loadChildren: () => import('@alfresco/aca-content/preview').then((m) => m.PreviewModule),
-          data: {
-            navigateSource: 'personal-files'
-          }
-        },
         {
           path: 'view/:nodeId',
           outlet: 'viewer',
@@ -230,14 +206,6 @@ export const CONTENT_LAYOUT_ROUTES: Route = {
           data: {
             title: 'APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.TITLE',
             sortingPreferenceKey: 'libraries-files'
-          }
-        },
-        // deprecated, backwards compatibility with ACA 1.8
-        {
-          path: 'preview/:nodeId',
-          loadChildren: () => import('@alfresco/aca-content/preview').then((m) => m.PreviewModule),
-          data: {
-            navigateSource: 'libraries'
           }
         },
         {
@@ -341,16 +309,6 @@ export const CONTENT_LAYOUT_ROUTES: Route = {
             title: 'APP.BROWSE.FAVORITES.TITLE',
             sortingPreferenceKey: 'favorites'
           }
-          // loadChildren:
-          //   './components/favorites/favorites.module#AppFavoritesModule'
-        },
-        // deprecated, backwards compatibility with ACA 1.8
-        {
-          path: 'preview/:nodeId',
-          loadChildren: () => import('@alfresco/aca-content/preview').then((m) => m.PreviewModule),
-          data: {
-            navigateSource: 'favorites'
-          }
         },
         {
           path: 'view/:nodeId',
@@ -392,16 +350,6 @@ export const CONTENT_LAYOUT_ROUTES: Route = {
           data: {
             title: 'APP.BROWSE.RECENT.TITLE'
           }
-          // loadChildren:
-          //   './components/recent-files/recent-files.module#AppRecentFilesModule'
-        },
-        // deprecated, backwards compatibility with ACA 1.8
-        {
-          path: 'preview/:nodeId',
-          loadChildren: () => import('@alfresco/aca-content/preview').then((m) => m.PreviewModule),
-          data: {
-            navigateSource: 'recent-files'
-          }
         },
         {
           path: 'view/:nodeId',
@@ -441,16 +389,6 @@ export const CONTENT_LAYOUT_ROUTES: Route = {
             sortingPreferenceKey: 'shared-files'
           },
           component: SharedFilesComponent
-          // loadChildren:
-          //   './components/shared-files/shared-files.module#AppSharedFilesModule'
-        },
-        // deprecated, backwards compatibility with ACA 1.8
-        {
-          path: 'preview/:nodeId',
-          loadChildren: () => import('@alfresco/aca-content/preview').then((m) => m.PreviewModule),
-          data: {
-            navigateSource: 'shared'
-          }
         },
         {
           path: 'view/:nodeId',
@@ -503,14 +441,6 @@ export const CONTENT_LAYOUT_ROUTES: Route = {
           component: SearchResultsComponent,
           data: {
             title: 'APP.BROWSE.SEARCH.TITLE'
-          }
-        },
-        // deprecated, backwards compatibility with ACA 1.8
-        {
-          path: 'preview/:nodeId',
-          loadChildren: () => import('@alfresco/aca-content/preview').then((m) => m.PreviewModule),
-          data: {
-            navigateSource: 'search'
           }
         },
         {

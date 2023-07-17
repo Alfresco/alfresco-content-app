@@ -25,7 +25,7 @@
 import { HammerModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TRANSLATION_PROVIDER, CoreModule, AuthGuardEcm, LanguagePickerComponent, NotificationHistoryComponent } from '@alfresco/adf-core';
+import { TRANSLATION_PROVIDER, AuthGuardEcm, LanguagePickerComponent, NotificationHistoryComponent } from '@alfresco/adf-core';
 import {
   ContentModule,
   ContentVersionService,
@@ -34,32 +34,19 @@ import {
   LibraryStatusColumnComponent,
   TrashcanNameColumnComponent
 } from '@alfresco/adf-content-services';
-import {
-  DocumentBasePageService,
-  ExtensionsDataLoaderGuard,
-  PageLayoutModule,
-  SharedModule,
-  GenericErrorComponent,
-  OpenInAppModule
-} from '@alfresco/aca-shared';
+import { DocumentBasePageService, ExtensionsDataLoaderGuard, GenericErrorComponent, OpenInAppComponent } from '@alfresco/aca-shared';
 import * as rules from '@alfresco/aca-shared/rules';
-
 import { FilesComponent } from './components/files/files.component';
 import { LibrariesComponent } from './components/libraries/libraries.component';
 import { FavoriteLibrariesComponent } from './components/favorite-libraries/favorite-libraries.component';
-
 import { AppStoreModule } from './store/app-store.module';
-import { MaterialModule } from './material.module';
 import { CoreExtensionsModule } from './extensions/core.extensions.module';
 import { AppInfoDrawerModule } from './components/info-drawer/info.drawer.module';
-import { DirectivesModule } from './directives/directives.module';
 import { ExtensionService, ExtensionsModule } from '@alfresco/adf-extensions';
-import { AppToolbarModule } from './components/toolbar/toolbar.module';
-import { AppSidenavModule } from './components/sidenav/sidenav.module';
-import { APP_COMMON_DIRECTIVES } from './components/common/common.module';
-import { AppSearchInputModule } from './components/search/search-input.module';
-import { DocumentListCustomComponentsModule } from './components/dl-custom-components/document-list-custom-components.module';
-import { AppSearchResultsModule } from './components/search/search-results.module';
+import { APP_TOOLBAR_DIRECTIVES } from './components/toolbar';
+import { APP_SIDENAV_DIRECTIVES } from './components/sidenav';
+import { APP_COMMON_DIRECTIVES } from './components/common';
+import { APP_SEARCH_DIRECTIVES } from './components/search';
 import { FavoritesComponent } from './components/favorites/favorites.component';
 import { RecentFilesComponent } from './components/recent-files/recent-files.component';
 import { SharedFilesComponent } from './components/shared-files/shared-files.component';
@@ -67,7 +54,6 @@ import { CreateFromTemplateDialogComponent } from './dialogs/node-template/creat
 import { DetailsComponent } from './components/details/details.component';
 import { ContentUrlService } from './services/content-url.service';
 import { HomeComponent } from './components/home/home.component';
-
 import { CommonModule } from '@angular/common';
 import { LocationLinkComponent } from './components/common/location-link/location-link.component';
 import { LogoutComponent } from './components/common/logout/logout.component';
@@ -88,7 +74,6 @@ import { ViewNodeComponent } from './components/toolbar/view-node/view-node.comp
 import { CONTENT_ROUTES } from './aca-content.routes';
 import { RouterModule } from '@angular/router';
 import { UploadFilesDialogComponent } from './components/upload-files-dialog/upload-files-dialog.component';
-import { AppSharedLinkViewModule } from './components/shared-link-view/shared-link-view.module';
 import { AcaFolderRulesModule } from '@alfresco/aca-content/folder-rules';
 import { TagsColumnComponent } from './components/dl-custom-components/tags-column/tags-column.component';
 import { UserInfoComponent } from './components/common/user-info/user-info.component';
@@ -99,6 +84,8 @@ import { UserMenuComponent } from './components/sidenav/user-menu/user-menu.comp
 import { ContextMenuComponent } from './components/context-menu/context-menu.component';
 import { ViewProfileComponent } from './components/view-profile/view-profile.component';
 import { TrashcanComponent } from './components/trashcan/trashcan.component';
+import { SharedLinkViewComponent } from './components/shared-link-view/shared-link-view.component';
+import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 
 @NgModule({
   imports: [
@@ -107,39 +94,30 @@ import { TrashcanComponent } from './components/trashcan/trashcan.component';
     ReactiveFormsModule,
     ContentModule.forRoot(),
     RouterModule.forChild(CONTENT_ROUTES),
-    CoreModule.forChild(),
     ExtensionsModule.forChild(),
     CoreExtensionsModule.forChild(),
-    SharedModule,
-    MaterialModule,
     AppStoreModule,
     ...APP_COMMON_DIRECTIVES,
-    PageLayoutModule,
-    DirectivesModule,
+    ...APP_TOOLBAR_DIRECTIVES,
+    ...APP_SIDENAV_DIRECTIVES,
+    ...APP_SEARCH_DIRECTIVES,
     ContextMenuComponent,
     AppInfoDrawerModule,
-    AppToolbarModule,
-    AppSidenavModule,
-    DocumentListCustomComponentsModule,
-    AppSearchInputModule,
-    AppSearchResultsModule,
     HammerModule,
     ViewProfileComponent,
     TrashcanComponent,
-    AppSharedLinkViewModule,
+    SharedLinkViewComponent,
     AcaFolderRulesModule,
     GenericErrorComponent,
     DetailsComponent,
     CreateFromTemplateDialogComponent,
-    OpenInAppModule
-  ],
-  declarations: [
+    OpenInAppComponent,
+    SharedFilesComponent,
     FilesComponent,
-    LibrariesComponent,
     FavoriteLibrariesComponent,
     FavoritesComponent,
     RecentFilesComponent,
-    SharedFilesComponent,
+    LibrariesComponent,
     HomeComponent,
     UploadFilesDialogComponent
   ],
@@ -154,7 +132,11 @@ import { TrashcanComponent } from './components/trashcan/trashcan.component';
         source: 'assets'
       }
     },
-    { provide: SHELL_NAVBAR_MIN_WIDTH, useValue: 0 }
+    { provide: SHELL_NAVBAR_MIN_WIDTH, useValue: 0 },
+    {
+      provide: MAT_DIALOG_DEFAULT_OPTIONS,
+      useValue: { closeOnNavigation: true, hasBackdrop: true, autoFocus: true }
+    }
   ]
 })
 export class ContentServiceExtensionModule {

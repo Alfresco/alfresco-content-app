@@ -25,10 +25,43 @@
 import { NavigateLibraryAction } from '@alfresco/aca-shared/store';
 import { SiteEntry } from '@alfresco/js-api';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { AppHookService, PageComponent } from '@alfresco/aca-shared';
-import { DocumentListPresetRef } from '@alfresco/adf-extensions';
+import {
+  AppHookService,
+  ContextActionsDirective,
+  InfoDrawerComponent,
+  PageComponent,
+  PageLayoutComponent,
+  PageLayoutContentComponent,
+  PageLayoutHeaderComponent,
+  PaginationDirective,
+  ToolbarActionComponent
+} from '@alfresco/aca-shared';
+import { DocumentListPresetRef, ExtensionsModule } from '@alfresco/adf-extensions';
+import { CommonModule } from '@angular/common';
+import { BreadcrumbModule, DocumentListModule } from '@alfresco/adf-content-services';
+import { DataTableModule, PaginationModule, TemplateModule, ToolbarModule } from '@alfresco/adf-core';
+import { DocumentListDirective } from '../../directives/document-list.directive';
 
 @Component({
+  standalone: true,
+  imports: [
+    CommonModule,
+    BreadcrumbModule,
+    ToolbarModule,
+    DocumentListModule,
+    DocumentListDirective,
+    ContextActionsDirective,
+    TemplateModule,
+    DataTableModule,
+    ExtensionsModule,
+    PaginationModule,
+    PaginationDirective,
+    InfoDrawerComponent,
+    ToolbarActionComponent,
+    PageLayoutContentComponent,
+    PageLayoutHeaderComponent,
+    PageLayoutComponent
+  ],
   templateUrl: './libraries.component.html',
   encapsulation: ViewEncapsulation.None
 })

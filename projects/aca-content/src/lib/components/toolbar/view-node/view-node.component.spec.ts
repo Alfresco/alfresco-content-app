@@ -25,11 +25,10 @@
 import { TestBed } from '@angular/core/testing';
 import { ViewNodeComponent } from './view-node.component';
 import { Store } from '@ngrx/store';
-import { CoreModule } from '@alfresco/adf-core';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
-import { TranslateModule } from '@ngx-translate/core';
 import { ViewNodeAction } from '@alfresco/aca-shared/store';
+import { AppTestingModule } from '../../../testing/app-testing.module';
 
 describe('ViewNodeComponent', () => {
   let component: ViewNodeComponent;
@@ -52,8 +51,7 @@ describe('ViewNodeComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), CoreModule.forRoot()],
-      declarations: [ViewNodeComponent],
+      imports: [AppTestingModule, ViewNodeComponent],
       providers: [
         { provide: Store, useValue: mockStore },
         { provide: Router, useValue: mockRouter }

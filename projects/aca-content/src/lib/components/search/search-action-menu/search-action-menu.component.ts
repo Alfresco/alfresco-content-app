@@ -25,8 +25,15 @@
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { SearchSortingDefinition } from '@alfresco/adf-content-services/lib/search/models/search-sorting-definition.interface';
 import { Component, OnInit, Output, ViewEncapsulation, EventEmitter } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, TranslateModule, MatMenuModule, MatIconModule, MatButtonModule],
   selector: 'aca-search-action-menu',
   templateUrl: './search-action-menu.component.html',
   encapsulation: ViewEncapsulation.None

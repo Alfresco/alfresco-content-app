@@ -48,7 +48,7 @@ describe('RuleActionUiComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CoreTestingModule]
+      imports: [CoreTestingModule, RuleActionUiComponent]
     });
 
     fixture = TestBed.createComponent(RuleActionUiComponent);

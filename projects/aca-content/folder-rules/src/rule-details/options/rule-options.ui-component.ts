@@ -23,12 +23,18 @@
  */
 
 import { Component, forwardRef, HostBinding, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { AbstractControl, ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { MatCheckboxChange } from '@angular/material/checkbox';
+import { AbstractControl, ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
 import { RuleOptions } from '../../model/rule.model';
 import { ActionParameterConstraint, ConstraintValue } from '../../model/action-parameter-constraint.model';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, TranslateModule, ReactiveFormsModule, MatCheckboxModule, MatFormFieldModule, MatSelectModule],
   selector: 'aca-rule-options',
   templateUrl: 'rule-options.ui-component.html',
   styleUrls: ['rule-options.ui-component.scss'],
