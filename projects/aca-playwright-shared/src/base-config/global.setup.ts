@@ -42,10 +42,13 @@ async function globalSetup(config: FullConfig<CustomConfig>) {
         const page = await browser.newPage();
         const loginPage = new LoginPage(page);
         await page.goto(use.baseURL);
-        await loginPage.loginUser({ username: users[user].username, password: users[user].password }, {
-          withNavigation: false,
-          waitForLoading: true
-        });
+        await loginPage.loginUser(
+          { username: users[user].username, password: users[user].password },
+          {
+            withNavigation: false,
+            waitForLoading: true
+          }
+        );
         await page.context().storageState({ path: `${paths.userStates}/${user}UserState.json` });
         await browser.close();
       } else {

@@ -28,7 +28,7 @@ import { timeouts } from '../utils';
 require('@alfresco/adf-cli/tooling').dotenvConfig();
 const { env } = process;
 
-const report: ReporterDescription[] = (env.CI) ? [['github']] : [['html']];
+const report: ReporterDescription[] = env.CI ? [['github']] : [['html']];
 
 export const getGlobalConfig: PlaywrightTestConfig = {
   timeout: timeouts.globalTest,
@@ -55,7 +55,7 @@ export const getGlobalConfig: PlaywrightTestConfig = {
     actionTimeout: 0,
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: env.PLAYWRIGHT_E2E_HOST,
-    headless: !!env.PLAYWRIGHT_HEADLESS ? (env.PLAYWRIGHT_HEADLESS === 'true') : !!env.CI,
+    headless: !!env.PLAYWRIGHT_HEADLESS ? env.PLAYWRIGHT_HEADLESS === 'true' : !!env.CI,
     ignoreHTTPSErrors: true,
     bypassCSP: true,
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
@@ -63,8 +63,8 @@ export const getGlobalConfig: PlaywrightTestConfig = {
     video: 'retain-on-failure',
     viewport: {
       height: 900,
-      width: 1400,
-  },
+      width: 1400
+    },
     screenshot: 'only-on-failure',
     launchOptions: {
       devtools: false,
@@ -80,5 +80,5 @@ export const getGlobalConfig: PlaywrightTestConfig = {
         ...devices['Desktop Chrome']
       }
     }
-  ],
+  ]
 };

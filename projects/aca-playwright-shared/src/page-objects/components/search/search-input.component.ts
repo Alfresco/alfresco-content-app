@@ -25,7 +25,6 @@
 import { Locator, Page } from '@playwright/test';
 import { BaseComponent } from '../base.component';
 import { timeouts } from '../../../utils';
-import { $ } from 'protractor';
 
 export class SearchInputComponent extends BaseComponent {
   private static rootElement = 'aca-page-layout';
@@ -45,12 +44,12 @@ export class SearchInputComponent extends BaseComponent {
   }
 
   async performDoubleClickFolderOrFileToOpen(name: string): Promise<void> {
-    await this.waitForSearchForResult(name);//
-    await this.getCellLinkByName(name).waitFor({ state:'visible', timeout: timeouts.normal });
+    await this.waitForSearchForResult(name);
+    await this.getCellLinkByName(name).waitFor({ state: 'visible', timeout: timeouts.normal });
     await this.getCellLinkByName(name).click();
-    await this.viewButton.waitFor({ state:'visible', timeout: timeouts.normal });
+    await this.viewButton.waitFor({ state: 'visible', timeout: timeouts.normal });
     await this.viewButton.click();
-    await this.page.waitForURL('**/(viewer:view/**', { waitUntil: 'domcontentloaded'});
+    await this.page.waitForURL('**/(viewer:view/**', { waitUntil: 'domcontentloaded' });
     await this.spinnerWaitForReload();
   }
 

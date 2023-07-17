@@ -27,33 +27,25 @@ import { ApiClientFactory } from './api-client-factory';
 import { users } from '../base-config/global-variables';
 
 export class FileActionsApi extends ApiClientFactory {
-    private apiService: ApiClientFactory;
+  private apiService: ApiClientFactory;
 
-    constructor() {
-      super();
-        this.apiService = new ApiClientFactory();
-    }
+  constructor() {
+    super();
+    this.apiService = new ApiClientFactory();
+  }
 
-    static async initialize(
-        userProfile: keyof typeof users
-    ): Promise<FileActionsApi> {
-        const classObj = new FileActionsApi();
-        await classObj.apiService.setUpAcaBackend(userProfile);
-        return classObj;
-    }
+  static async initialize(userProfile: keyof typeof users): Promise<FileActionsApi> {
+    const classObj = new FileActionsApi();
+    await classObj.apiService.setUpAcaBackend(userProfile);
+    return classObj;
+  }
 
-    async uploadFile(fileLocation: string, fileName: string, parentFolderId: string): Promise<any> {
-        const file = fs.createReadStream(fileLocation);
-        return this.apiService.upload.uploadFile(
-            file,
-            '',
-            parentFolderId,
-            null,
-            {
-                name: fileName,
-                nodeType: 'cm:content',
-                renditions: 'doclib'
-            }
-        );
-    }
+  async uploadFile(fileLocation: string, fileName: string, parentFolderId: string): Promise<any> {
+    const file = fs.createReadStream(fileLocation);
+    return this.apiService.upload.uploadFile(file, '', parentFolderId, null, {
+      name: fileName,
+      nodeType: 'cm:content',
+      renditions: 'doclib'
+    });
+  }
 }

@@ -52,7 +52,8 @@ export enum ActionType {
 export class ActionsDropdownComponent extends BaseComponent {
   private static rootElement = 'aca-rule-action-list';
 
-  private getOptionLocator = (optionName: string): Locator => this.page.locator('.mat-select-panel .mat-option-text', { hasText: optionName }).first();
+  private getOptionLocator = (optionName: string): Locator =>
+    this.page.locator('.mat-select-panel .mat-option-text', { hasText: optionName }).first();
   private ruleActionLocator = this.getChild('aca-rule-action [data-automation-id="rule-action-card-view"]');
   private addActionButtonLocator = this.getChild('[data-automation-id="rule-action-list-add-action-button"]');
   private actionDropdownLocator = this.getChild('[data-automation-id="rule-action-select"]');

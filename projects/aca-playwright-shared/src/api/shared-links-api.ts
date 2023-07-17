@@ -31,15 +31,13 @@ export class SharedLinksApi extends ApiClientFactory {
 
   constructor() {
     super();
-      this.apiService = new ApiClientFactory();
+    this.apiService = new ApiClientFactory();
   }
-  static async initialize(
-    userProfile: keyof typeof users
-    ): Promise<SharedLinksApi> {
-        const classObj = new SharedLinksApi();
-        await classObj.apiService.setUpAcaBackend(userProfile);
-        return classObj;
-    }
+  static async initialize(userProfile: keyof typeof users): Promise<SharedLinksApi> {
+    const classObj = new SharedLinksApi();
+    await classObj.apiService.setUpAcaBackend(userProfile);
+    return classObj;
+  }
 
   async shareFileById(id: string, expireDate?: Date): Promise<SharedLinkEntry | null> {
     try {
