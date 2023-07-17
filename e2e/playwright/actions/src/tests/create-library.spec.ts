@@ -23,7 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { GeneralUtils, ApiClientFactory, getUserState, test, libraryErrors } from '@alfresco/playwright-shared';
+import { Utils, ApiClientFactory, getUserState, test, libraryErrors } from '@alfresco/playwright-shared';
 import { SiteBodyCreate } from '@alfresco/js-api';
 
 test.use({ storageState: getUserState('hruser') });
@@ -42,10 +42,10 @@ test.describe('Create Libraries ', () => {
   const deleteAction = 'Delete';
   const errorMessageNotPresent = 'Error message is not displayed';
 
-  const commonLibraryName = `playwright-library-${GeneralUtils.random()}`;
-  const commonLibraryId = `libraryId-${GeneralUtils.random()}`;
-  const commonTrashLibraryName = `playwright-library-${GeneralUtils.random()}`;
-  const commonTrashLibraryId = `libraryId-${GeneralUtils.random()}`;
+  const commonLibraryName = `playwright-library-${Utils.random()}`;
+  const commonLibraryId = `libraryId-${Utils.random()}`;
+  const commonTrashLibraryName = `playwright-library-${Utils.random()}`;
+  const commonTrashLibraryId = `libraryId-${Utils.random()}`;
 
   test.beforeAll(async () => {
     await apiClientFactory.setUpAcaBackend('hruser');
@@ -59,9 +59,9 @@ test.describe('Create Libraries ', () => {
   });
 
   test.beforeEach(async ({ myLibrariesPage }) => {
-    randomLibraryName = `playwright-library-${GeneralUtils.random()}`;
-    randomLibraryId = `libraryId-${GeneralUtils.random()}`;
-    randomLibraryDescription = `libraryDescription-${GeneralUtils.random()}`;
+    randomLibraryName = `playwright-library-${Utils.random()}`;
+    randomLibraryId = `libraryId-${Utils.random()}`;
+    randomLibraryDescription = `libraryDescription-${Utils.random()}`;
     await myLibrariesPage.navigate();
   });
 

@@ -22,12 +22,12 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
+const crypto = require('crypto');
 
-export class GeneralUtils {
-
+export class Utils {
 
   static random(): string {
-    return (Math.random() + 1).toString(36).substring(6);
+    return crypto.getRandomValues(new Uint32Array(1))[0].toString(36).substring(0, 5).toLowerCase();
   }
 
 }
