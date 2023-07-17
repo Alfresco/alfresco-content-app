@@ -1510,7 +1510,7 @@
                 "hideDefaultAction": true,
                 "allowOnlyPredefinedValues": false,
                 "field": "SITE",
-                "autocompleteOptions": [ { "value": "_REPOSITORY_"} ]
+                "autocompleteOptions": [ {"value": "_REPOSITORY_"} ]
               }
             }
           },
