@@ -39,8 +39,8 @@ export class PasswordOverlayDialogComponent extends BaseComponent {
   }
 
   async waitForDialogToOpen(): Promise<void> {
-    this.spinnerWaitForReload();
-    await this.passwordInput.waitFor({ state: 'attached', timeout: timeouts.short });
+    await this.spinnerWaitForReload();
+    await this.passwordInput.waitFor({ state: 'attached', timeout: timeouts.large });
     await this.passwordInput.isVisible();
   }
 
