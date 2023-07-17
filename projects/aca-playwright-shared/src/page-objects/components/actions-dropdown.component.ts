@@ -74,8 +74,8 @@ export class ActionsDropdownComponent extends BaseComponent {
     if (index > 0) {
       await this.addActionButtonLocator.click();
     }
-    await this.actionDropdownLocator.isVisible();
-    await this.actionDropdownLocator.click();
+    await this.actionDropdownLocator.nth(index).isVisible();
+    await this.actionDropdownLocator.nth(index).click();
     const option = this.getOptionLocator(action);
     await option.isVisible();
     await option.click();
