@@ -536,7 +536,8 @@
             "CREATED_DATE": "Created date",
             "EFFECTIVITY_FROM": "Effectivity from",
             "EFFECTIVITY_TO": "Effectivity to",
-            "LOGIC": "Logic"
+            "LOGIC": "Logic",
+            "PROPERTIES": "Properties"
         },
         "SEARCH_HEADER" : {
           "TITLE":"Filter",

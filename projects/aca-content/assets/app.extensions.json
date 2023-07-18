@@ -1429,7 +1429,7 @@
           },
           {
             "id": "properties",
-            "name": "Properties",
+            "name": "SEARCH.CATEGORIES.PROPERTIES",
             "enabled": true,
             "component": {
               "selector": "properties",
