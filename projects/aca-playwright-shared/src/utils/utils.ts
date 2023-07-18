@@ -22,6 +22,12 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './adf-folder-dialog.component';
-export * from './adf-library-dialog.component';
+const crypto = require('crypto');
 
+export class Utils {
+
+  static random(): string {
+    return crypto.getRandomValues(new Uint32Array(1))[0].toString(36).substring(0, 5).toLowerCase();
+  }
+
+}

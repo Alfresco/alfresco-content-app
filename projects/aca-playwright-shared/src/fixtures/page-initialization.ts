@@ -24,6 +24,7 @@
 
 import { test as base } from '@playwright/test';
 import {
+  MyLibrariesPage,
   FileActionsApi,
   NodesPage,
   PersonalFilesPage,
@@ -38,6 +39,7 @@ import {
 interface Pages {
   personalFiles: PersonalFilesPage;
   nodesPage: NodesPage;
+  myLibrariesPage: MyLibrariesPage;
   recentFilesPage: RecentFilesPage;
   sharedPage: SharedPage;
   searchPage: SearchPage;
@@ -80,5 +82,8 @@ export const test = base.extend<Pages & Api>({
   // eslint-disable-next-line no-empty-pattern
   favoritesPageAction: async ({}, use) => {
     await use(await FavoritesPageApi.initialize('admin'));
+  },
+  myLibrariesPage: async ({ page }, use) => {
+    await use(new MyLibrariesPage(page));
   }
 });

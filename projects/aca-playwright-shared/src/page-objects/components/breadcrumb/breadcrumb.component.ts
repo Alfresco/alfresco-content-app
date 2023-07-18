@@ -22,16 +22,15 @@
   * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
   */
 
-import { BaseComponent } from './base.component';
+import { BaseComponent } from '../base.component';
 import { Page } from '@playwright/test';
-export class AcaHeader extends BaseComponent {
-  private static rootElement = 'adf-toolbar';
-  public createButton = this.getChild('[id="app.toolbar.create"]');
-  public viewDetails = this.getChild('[title="View Details"]');
-  public viewButton = this.getChild('button[title="View"]');
-  public searchButton = this.getChild('button[title="Search"]');
+
+export class AdfBreadcrumbComponent extends BaseComponent {
+  private static rootElement = 'adf-breadcrumb';
 
   constructor(page: Page) {
-    super(page, AcaHeader.rootElement);
+    super(page, AdfBreadcrumbComponent.rootElement);
   }
+
+  public getBreadcrumbItem = (text: string) => this.getChild('.adf-breadcrumb-item-current', { hasText: text });
 }

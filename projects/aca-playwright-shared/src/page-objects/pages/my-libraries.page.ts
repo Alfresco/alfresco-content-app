@@ -22,6 +22,28 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './adf-folder-dialog.component';
-export * from './adf-library-dialog.component';
 
+import { Page } from '@playwright/test';
+import { BasePage } from './base.page';
+import { AcaHeader } from '../components/aca-header.component';
+import { AdfBreadcrumbComponent, AdfInfoDrawerComponent, AdfLibraryDialogComponent, DataTableComponent, MatMenuComponent } from '../components';
+
+export class MyLibrariesPage extends BasePage {
+  private static pageUrl = 'libraries';
+
+  constructor(page: Page) {
+    super(page, MyLibrariesPage.pageUrl);
+  }
+  public acaHeader = new AcaHeader(this.page);
+  public matMenu = new MatMenuComponent(this.page);
+  public libraryDialog = new AdfLibraryDialogComponent(this.page);
+  public dataTable = new DataTableComponent(this.page);
+  public breadcrumb = new AdfBreadcrumbComponent(this.page);
+  public libraryDetails = new AdfInfoDrawerComponent (this.page);
+
+  async selectCreateLibrary(): Promise<void> {
+    await this.acaHeader.createButton.click();
+    await this.matMenu.createLibrary.click();
+  }
+
+}

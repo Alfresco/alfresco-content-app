@@ -28,6 +28,7 @@ export const timeouts = {
   short: 1000,
   normal: 2000,
   medium: 5000,
+  big: 7500,
   large: 10000,
   extraLarge: 20 * 1000,
   globalTest: 45 * 1000,

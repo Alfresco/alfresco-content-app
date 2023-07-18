@@ -22,6 +22,8 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './adf-folder-dialog.component';
-export * from './adf-library-dialog.component';
-
+export const libraryErrors = {
+  libraryIdIsNotAvailable: "This Library ID isn't available. Try a different Library ID.",
+  libraryIdIsAlreadyUsed: "This Library ID is already used. Check the trashcan.",
+  useNumbersAndLettersOnly: "Use numbers and letters only"
+}

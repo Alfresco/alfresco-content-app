@@ -26,7 +26,7 @@ import { expect } from '@playwright/test';
 import { folderErrors, getUserState, test } from '@alfresco/playwright-shared';
 
 test.use({ storageState: getUserState('hruser') });
-test.describe('Create actions', () => {
+test.describe('Create folders', () => {
   let randomFolderName: string;
   let randomFolderTitle: string;
   let randomFolderDescription: string;
@@ -47,7 +47,7 @@ test.describe('Create actions', () => {
     await personalFiles.dataTable.goThroughPagesLookingForRowWithName(randomFolderName);
     await expect(personalFiles.dataTable.getRowByName(randomFolderName)).toBeVisible();
 
-    await personalFiles.dataTable.performActionFromExpandableMenu(randomFolderName, 'Delete');
+    await personalFiles.dataTable.performActionInExpandableMenu(randomFolderName, 'Delete');
   });
 
   test('[C216340] Create a folder with name, title and description', async ({ personalFiles }) => {
@@ -59,14 +59,12 @@ test.describe('Create actions', () => {
     await personalFiles.folderDialog.createButton.click();
 
     await personalFiles.dataTable.goThroughPagesLookingForRowWithName(randomFolderName);
-    await expect(
-      personalFiles.dataTable
-        .getCellLinkByName(randomFolderName)
-        .and(personalFiles.page.getByTitle(randomFolderTitle))
-        .and(personalFiles.page.getByTitle(randomFolderDescription))
-    ).toBeVisible();
+    await expect(personalFiles.dataTable.getCellLinkByName(randomFolderName)).toHaveAttribute(
+      'title',
+      randomFolderTitle + `\n` + randomFolderDescription
+    );
 
-    await personalFiles.dataTable.performActionFromExpandableMenu(randomFolderName, 'Delete');
+    await personalFiles.dataTable.performActionInExpandableMenu(randomFolderName, 'Delete');
   });
 
   test('[C216345] Create new folder dialog check', async ({ personalFiles }) => {
@@ -152,7 +150,7 @@ test.describe('Create actions', () => {
     await expect(personalFiles.snackBar.getByMessageLocator(folderErrors.thereIsAlreadyAFolderWithThisName)).toBeVisible();
 
     await personalFiles.folderDialog.cancelButton.click();
-    await personalFiles.dataTable.performActionFromExpandableMenu(randomFolderName, 'Delete');
+    await personalFiles.dataTable.performActionInExpandableMenu(randomFolderName, 'Delete');
   });
 
   test('[C216351] Folder created after trimmed ending spaces from a folder name', async ({ personalFiles }) => {
@@ -164,6 +162,6 @@ test.describe('Create actions', () => {
     await personalFiles.dataTable.goThroughPagesLookingForRowWithName(randomFolderName);
     await expect(personalFiles.dataTable.getRowByName(randomFolderName)).toBeVisible();
 
-    await personalFiles.dataTable.performActionFromExpandableMenu(randomFolderName, 'Delete');
+    await personalFiles.dataTable.performActionInExpandableMenu(randomFolderName, 'Delete');
   });
 });
