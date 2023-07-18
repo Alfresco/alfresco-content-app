@@ -1,5 +1,5 @@
 <aca-page-layout [hasError]="!isValidPath">
-  <aca-page-layout-header>
+  <div class="aca-page-layout-header">
     <adf-breadcrumb [root]="title" [folderNode]="node" [maxItems]="isSmallScreen ? 1 : 0" (navigate)="onBreadcrumbNavigate($event)"> </adf-breadcrumb>
 
     <adf-toolbar class="adf-toolbar--inline">
@@ -7,13 +7,13 @@
         <aca-toolbar-action [actionRef]="entry"></aca-toolbar-action>
       </ng-container>
     </adf-toolbar>
-  </aca-page-layout-header>
+  </div>
 
-  <aca-page-layout-error>
+  <div class="aca-page-layout-error">
     <aca-generic-error></aca-generic-error>
-  </aca-page-layout-error>
+  </div>
 
-  <aca-page-layout-content>
+  <div class="aca-page-layout-content">
     <div class="main-content" *ngIf="!(showLoader$ | async)">
       <adf-upload-drag-area [rootFolderId]="node?.id" [disabled]="!canUpload" (updateFileVersion)="onUploadNewVersion($event)">
         <adf-document-list
@@ -97,5 +97,5 @@
     <div class="aca-sidebar" *ngIf="infoDrawerOpened$ | async">
       <aca-info-drawer [node]="selection.last"></aca-info-drawer>
     </div>
-  </aca-page-layout-content>
+  </div>
 </aca-page-layout>

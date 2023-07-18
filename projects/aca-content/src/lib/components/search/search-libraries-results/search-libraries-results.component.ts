@@ -34,8 +34,6 @@ import {
   InfoDrawerComponent,
   PageComponent,
   PageLayoutComponent,
-  PageLayoutContentComponent,
-  PageLayoutHeaderComponent,
   PaginationDirective,
   ToolbarActionComponent
 } from '@alfresco/aca-shared';
@@ -65,8 +63,6 @@ import { DocumentListDirective } from '../../../directives/document-list.directi
     DocumentListDirective,
     ToolbarActionComponent,
     PaginationDirective,
-    PageLayoutContentComponent,
-    PageLayoutHeaderComponent,
     PageLayoutComponent
   ],
   selector: 'aca-search-results',

@@ -24,6 +24,7 @@
 
 import { Component, ViewEncapsulation, ChangeDetectionStrategy, Input, HostBinding } from '@angular/core';
 
+// @deprecated Use `.aca-page-layout-content` CSS selector instead
 @Component({
   standalone: true,
   selector: 'aca-page-layout-content',

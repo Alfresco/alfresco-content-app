@@ -1,15 +1,15 @@
 <aca-page-layout>
 
-  <aca-page-layout-header>
+  <div class="aca-page-layout-header">
     <adf-toolbar class="adf-toolbar--inline">
       <button mat-icon-button (click)="goBack()">
         <mat-icon>arrow_back</mat-icon>
       </button>
     </adf-toolbar>
     <adf-breadcrumb root="{{'ACA_FOLDER_RULES.ACTIONS.MANAGE_RULES' | translate}}"></adf-breadcrumb>
-  </aca-page-layout-header>
+  </div>
 
-  <aca-page-layout-content>
+  <div class="aca-page-layout-content">
     <div class="main-content">
 
       <ng-container *ngIf="((ruleSetsLoading$ | async) && (inheritedRuleSets$ | async).length === 0) || (actionsLoading$ | async); else onLoaded">
@@ -127,14 +127,14 @@
         </ng-container>
 
         <ng-template #genericError>
-          <aca-page-layout-error>
+          <div class="aca-page-layout-error">
             <aca-generic-error></aca-generic-error>
-          </aca-page-layout-error>
+          </div>
         </ng-template>
 
       </ng-template>
 
     </div>
-  </aca-page-layout-content>
+  </div>
 
 </aca-page-layout>

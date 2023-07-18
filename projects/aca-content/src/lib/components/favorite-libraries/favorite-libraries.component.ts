@@ -31,8 +31,6 @@ import {
   InfoDrawerComponent,
   PageComponent,
   PageLayoutComponent,
-  PageLayoutContentComponent,
-  PageLayoutHeaderComponent,
   ToolbarActionComponent
 } from '@alfresco/aca-shared';
 import { NavigateLibraryAction } from '@alfresco/aca-shared/store';
@@ -57,9 +55,7 @@ import { DocumentListDirective } from '../../directives/document-list.directive'
     PaginationModule,
     InfoDrawerComponent,
     ToolbarActionComponent,
-    PageLayoutComponent,
-    PageLayoutContentComponent,
-    PageLayoutHeaderComponent
+    PageLayoutComponent
   ],
   templateUrl: './favorite-libraries.component.html',
   encapsulation: ViewEncapsulation.None

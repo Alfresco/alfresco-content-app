@@ -1,5 +1,5 @@
 <aca-page-layout>
-  <aca-page-layout-header>
+  <div class="aca-page-layout-header">
     <adf-breadcrumb root="APP.BROWSE.TRASHCAN.TITLE"> </adf-breadcrumb>
 
     <adf-toolbar class="adf-toolbar--inline">
@@ -7,9 +7,9 @@
         <aca-toolbar-action [actionRef]="entry"></aca-toolbar-action>
       </ng-container>
     </adf-toolbar>
-  </aca-page-layout-header>
+  </div>
 
-  <aca-page-layout-content>
+  <div class="aca-page-layout-content">
     <div class="main-content">
       <adf-document-list
         #documentList
@@ -77,5 +77,5 @@
 
       <adf-pagination acaPagination [target]="documentList"> </adf-pagination>
     </div>
-  </aca-page-layout-content>
+  </div>
 </aca-page-layout>

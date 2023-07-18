@@ -42,8 +42,6 @@ import {
   InfoDrawerComponent,
   PageComponent,
   PageLayoutComponent,
-  PageLayoutContentComponent,
-  PageLayoutHeaderComponent,
   PaginationDirective,
   ToolbarActionComponent
 } from '@alfresco/aca-shared';
@@ -88,8 +86,6 @@ import { SearchResultsRowComponent } from '../search-results-row/search-results-
     PaginationDirective,
     ViewerModule,
     ToolbarActionComponent,
-    PageLayoutHeaderComponent,
-    PageLayoutContentComponent,
     PageLayoutComponent
   ],
   selector: 'aca-search-results',

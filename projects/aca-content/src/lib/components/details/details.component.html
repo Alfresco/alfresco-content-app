@@ -1,5 +1,5 @@
 <aca-page-layout>
-  <aca-page-layout-header>
+  <div class="aca-page-layout-header">
     <adf-breadcrumb [root]="title" [folderNode]="node" (navigate)="goBack()"> </adf-breadcrumb>
 
     <adf-toolbar class="adf-toolbar--inline">
@@ -7,9 +7,9 @@
         <aca-toolbar-action [actionRef]="entry"></aca-toolbar-action>
       </ng-container>
     </adf-toolbar>
-  </aca-page-layout-header>
+  </div>
 
-  <aca-page-layout-content>
+  <div class="aca-page-layout-content">
     <div class="acs-details-container">
       <div class="acs-details-title">
         <div class="acs-details-breadcrumb" role="heading" aria-level="2" *ngIf="node">
@@ -36,7 +36,7 @@
         </mat-tab>
       </mat-tab-group>
     </div>
-  </aca-page-layout-content>
+  </div>
 </aca-page-layout>
 
 <ng-template #loading>
