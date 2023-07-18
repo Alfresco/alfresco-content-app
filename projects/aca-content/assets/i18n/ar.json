@@ -39,15 +39,6 @@
     "LANGUAGE": "اللغة",
     "SIGN_IN": "تسجيل دخول",
     "SIGN_OUT": "تسجيل خروج",
-    "SETTINGS": {
-      "TITLE": "الإعدادات",
-      "APPLICATION-SETTINGS": "إعدادات التطبيق",
-      "REPOSITORY-SETTINGS": "إعدادات المستودع",
-      "INVALID-VALUE-FORMAT": "تنسيق قيمة غير صالح",
-      "REQUIRED-FIELD": "هذا الحقل مطلوب",
-      "RESET": "إعادة تعيين",
-      "APPLY": "تطبيق"
-    },
     "EDIT_PROFILE": {
       "MY_PROFILE": "ملف التعريف الخاص بي",
       "GENERAL": "عام",
@@ -486,7 +477,7 @@
   },
   "INFO_PANEL": {
     "TABS": {
-    
+
     },
     "DETAILS": "التفاصيل"
   },

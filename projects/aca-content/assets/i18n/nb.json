@@ -39,15 +39,6 @@
     "LANGUAGE": "Språk",
     "SIGN_IN": "Logg på",
     "SIGN_OUT": "Logg ut",
-    "SETTINGS": {
-      "TITLE": "Innstillinger",
-      "APPLICATION-SETTINGS": "Programnavn",
-      "REPOSITORY-SETTINGS": "Datalagerinnstillinger",
-      "INVALID-VALUE-FORMAT": "Ugyldig verdiformat",
-      "REQUIRED-FIELD": "Dette feltet er påkrevd",
-      "RESET": "Tilbakestill",
-      "APPLY": "Bruk"
-    },
     "EDIT_PROFILE": {
       "MY_PROFILE": "Min profil",
       "GENERAL": "Generelt",
@@ -486,7 +477,7 @@
   },
   "INFO_PANEL": {
     "TABS": {
-    
+
     },
     "DETAILS": "Detaljer"
   },

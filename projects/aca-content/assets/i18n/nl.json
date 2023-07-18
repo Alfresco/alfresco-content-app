@@ -39,15 +39,6 @@
     "LANGUAGE": "Taal",
     "SIGN_IN": "Aanmelden",
     "SIGN_OUT": "Afmelden",
-    "SETTINGS": {
-      "TITLE": "Instellingen",
-      "APPLICATION-SETTINGS": "Toepassingsnaam",
-      "REPOSITORY-SETTINGS": "Opslagplaatsinstellingen",
-      "INVALID-VALUE-FORMAT": "Ongeldige indeling van waarde",
-      "REQUIRED-FIELD": "Dit veld is vereist",
-      "RESET": "Opnieuw instellen",
-      "APPLY": "Toepassen"
-    },
     "EDIT_PROFILE": {
       "MY_PROFILE": "Mijn profiel",
       "GENERAL": "Algemeen",
@@ -486,7 +477,7 @@
   },
   "INFO_PANEL": {
     "TABS": {
-    
+
     },
     "DETAILS": "Gegevens"
   },

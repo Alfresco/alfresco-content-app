@@ -39,15 +39,6 @@
         "LANGUAGE": "Language",
         "SIGN_IN": "Sign in",
         "SIGN_OUT": "Sign out",
-        "SETTINGS": {
-            "TITLE": "Settings",
-            "APPLICATION-SETTINGS": "Application Settings",
-            "REPOSITORY-SETTINGS": "Repository Settings",
-            "INVALID-VALUE-FORMAT": "Invalid value format",
-            "REQUIRED-FIELD": "This field is required",
-            "RESET": "Reset",
-            "APPLY": "Apply"
-        },
         "EDIT_PROFILE": {
             "MY_PROFILE": "My Profile",
             "GENERAL": "General",

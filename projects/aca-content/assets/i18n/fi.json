@@ -39,15 +39,6 @@
     "LANGUAGE": "Kieli",
     "SIGN_IN": "Kirjaudu sisään",
     "SIGN_OUT": "Kirjaudu ulos",
-    "SETTINGS": {
-      "TITLE": "Asetukset",
-      "APPLICATION-SETTINGS": "Sovellusasetukset",
-      "REPOSITORY-SETTINGS": "Säilöasetukset",
-      "INVALID-VALUE-FORMAT": "Virheellinen arvon muoto",
-      "REQUIRED-FIELD": "Tämä kenttä on pakollinen",
-      "RESET": "Nollaa",
-      "APPLY": "Käytä"
-    },
     "EDIT_PROFILE": {
       "MY_PROFILE": "Oma profiili",
       "GENERAL": "Yleiset",
@@ -486,7 +477,7 @@
   },
   "INFO_PANEL": {
     "TABS": {
-    
+
     },
     "DETAILS": "Tiedot"
   },

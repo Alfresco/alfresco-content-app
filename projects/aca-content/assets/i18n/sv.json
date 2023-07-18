@@ -39,15 +39,6 @@
     "LANGUAGE": "Språk",
     "SIGN_IN": "Logga in",
     "SIGN_OUT": "Logga ut",
-    "SETTINGS": {
-      "TITLE": "Inställningar",
-      "APPLICATION-SETTINGS": "Applikationsinställningar",
-      "REPOSITORY-SETTINGS": "Arkivinställningar",
-      "INVALID-VALUE-FORMAT": "Ogiltigt värdeformat",
-      "REQUIRED-FIELD": "Det här fältet krävs",
-      "RESET": "Återställ",
-      "APPLY": "Tillämpa"
-    },
     "EDIT_PROFILE": {
       "MY_PROFILE": "Min profil",
       "GENERAL": "Allmänt",
@@ -486,7 +477,7 @@
   },
   "INFO_PANEL": {
     "TABS": {
-    
+
     },
     "DETAILS": "Detaljer"
   },

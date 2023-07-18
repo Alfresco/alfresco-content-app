@@ -39,15 +39,6 @@
     "LANGUAGE": "Язык",
     "SIGN_IN": "Войти",
     "SIGN_OUT": "Выйти",
-    "SETTINGS": {
-      "TITLE": "Параметры",
-      "APPLICATION-SETTINGS": "Параметры приложения",
-      "REPOSITORY-SETTINGS": "Настройки репозитория",
-      "INVALID-VALUE-FORMAT": "Недопустимый формат значения",
-      "REQUIRED-FIELD": "Поле обязательно для заполнения",
-      "RESET": "Сброс",
-      "APPLY": "Применить"
-    },
     "EDIT_PROFILE": {
       "MY_PROFILE": "Мой профиль",
       "GENERAL": "Общее",
@@ -486,7 +477,7 @@
   },
   "INFO_PANEL": {
     "TABS": {
-    
+
     },
     "DETAILS": "Сведения"
   },

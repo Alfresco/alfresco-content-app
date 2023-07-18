@@ -39,15 +39,6 @@
     "LANGUAGE": "Jazyk",
     "SIGN_IN": "Přihlásit se",
     "SIGN_OUT": "Odhlásit se",
-    "SETTINGS": {
-      "TITLE": "Nastavení",
-      "APPLICATION-SETTINGS": "Nastavení aplikace",
-      "REPOSITORY-SETTINGS": "Nastavení úložiště",
-      "INVALID-VALUE-FORMAT": "Neplatný formát hodnoty",
-      "REQUIRED-FIELD": "Toto pole je povinné",
-      "RESET": "Reset",
-      "APPLY": "Použít"
-    },
     "EDIT_PROFILE": {
       "MY_PROFILE": "Můj profil",
       "GENERAL": "Obecné",
@@ -486,7 +477,7 @@
   },
   "INFO_PANEL": {
     "TABS": {
-    
+
     },
     "DETAILS": "Podrobnosti"
   },

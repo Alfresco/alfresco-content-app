@@ -39,15 +39,6 @@
     "LANGUAGE": "语言",
     "SIGN_IN": "登录",
     "SIGN_OUT": "退出",
-    "SETTINGS": {
-      "TITLE": "设置",
-      "APPLICATION-SETTINGS": "应用程序设置",
-      "REPOSITORY-SETTINGS": "存储库设置",
-      "INVALID-VALUE-FORMAT": "值格式无效",
-      "REQUIRED-FIELD": "此字段为必填字段",
-      "RESET": "重置",
-      "APPLY": "应用"
-    },
     "EDIT_PROFILE": {
       "MY_PROFILE": "我的个人档案",
       "GENERAL": "常规",
@@ -486,7 +477,7 @@
   },
   "INFO_PANEL": {
     "TABS": {
-    
+
     },
     "DETAILS": "详细信息"
   },

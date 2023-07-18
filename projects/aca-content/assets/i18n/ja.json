@@ -39,15 +39,6 @@
     "LANGUAGE": "言語",
     "SIGN_IN": "サインイン",
     "SIGN_OUT": "サインアウト",
-    "SETTINGS": {
-      "TITLE": "設定",
-      "APPLICATION-SETTINGS": "アプリケーションの設定",
-      "REPOSITORY-SETTINGS": "リポジトリの設定",
-      "INVALID-VALUE-FORMAT": "無効な値形式",
-      "REQUIRED-FIELD": "このフィールドは必須です",
-      "RESET": "リセット",
-      "APPLY": "適用"
-    },
     "EDIT_PROFILE": {
       "MY_PROFILE": "あなたのプロフィール",
       "GENERAL": "全般",
@@ -486,7 +477,7 @@
   },
   "INFO_PANEL": {
     "TABS": {
-    
+
     },
     "DETAILS": "詳細"
   },

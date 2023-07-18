@@ -39,15 +39,6 @@
     "LANGUAGE": "Idioma",
     "SIGN_IN": "Iniciar sesión",
     "SIGN_OUT": "Cerrar sesión",
-    "SETTINGS": {
-      "TITLE": "Configuración",
-      "APPLICATION-SETTINGS": "﻿Configuración de la aplicación",
-      "REPOSITORY-SETTINGS": "Configuración del repositorio",
-      "INVALID-VALUE-FORMAT": "Formato de valor no válido",
-      "REQUIRED-FIELD": "Este campo es obligatorio",
-      "RESET": "Reiniciar",
-      "APPLY": "Aplicar"
-    },
     "EDIT_PROFILE": {
       "MY_PROFILE": "Mi Perfil",
       "GENERAL": "General",
@@ -486,7 +477,7 @@
   },
   "INFO_PANEL": {
     "TABS": {
-    
+
     },
     "DETAILS": "Detalles"
   },

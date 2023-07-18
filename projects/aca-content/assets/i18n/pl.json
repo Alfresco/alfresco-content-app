@@ -39,15 +39,6 @@
     "LANGUAGE": "Język",
     "SIGN_IN": "Zaloguj się",
     "SIGN_OUT": "Wyloguj się",
-    "SETTINGS": {
-      "TITLE": "Ustawienia",
-      "APPLICATION-SETTINGS": "Ustawienia aplikacji",
-      "REPOSITORY-SETTINGS": "Ustawienia repozytorium",
-      "INVALID-VALUE-FORMAT": "Nieprawidłowy format wartości",
-      "REQUIRED-FIELD": "To pole jest wymagane.",
-      "RESET": "Resetuj",
-      "APPLY": "Zastosuj"
-    },
     "EDIT_PROFILE": {
       "MY_PROFILE": "Mój profil",
       "GENERAL": "Ogólne",
@@ -486,7 +477,7 @@
   },
   "INFO_PANEL": {
     "TABS": {
-    
+
     },
     "DETAILS": "Szczegóły"
   },
