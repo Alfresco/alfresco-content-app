@@ -589,11 +589,6 @@
       }
     }
   },
-  "AVATAR": {
-    "ACCESSIBILITY": {
-      "AVATAR_BUTTON_ARIA_LABEL": "Opcje użytkownika"
-    }
-  },
   "CORE": {
     "METADATA": {
       "ACTIONS": {

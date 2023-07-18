@@ -589,11 +589,6 @@
       }
     }
   },
-  "AVATAR": {
-    "ACCESSIBILITY": {
-      "AVATAR_BUTTON_ARIA_LABEL": "用户选项"
-    }
-  },
   "CORE": {
     "METADATA": {
       "ACTIONS": {

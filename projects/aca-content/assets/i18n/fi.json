@@ -589,11 +589,6 @@
       }
     }
   },
-  "AVATAR": {
-    "ACCESSIBILITY": {
-      "AVATAR_BUTTON_ARIA_LABEL": "Käyttäjän valinnat"
-    }
-  },
   "CORE": {
     "METADATA": {
       "ACTIONS": {
