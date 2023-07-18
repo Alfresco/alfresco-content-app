@@ -33,9 +33,9 @@ test.describe('Create Libraries ', () => {
   let randomLibraryId: string;
   let randomLibraryDescription: string;
   const libraryDialogTitle = 'Create Library';
-  const libraryNameLebel = 'Name *';
-  const libraryIdLebel = 'Library ID *';
-  const libraryDescriptionLebel = 'Description';
+  const libraryNameLabel = 'Name *';
+  const libraryIdLabel = 'Library ID *';
+  const libraryDescriptionLabel = 'Description';
   const publicVisibility = 'Public';
   const moderatedVisibility = 'Moderated';
   const privateVisibility = 'Private';
@@ -75,9 +75,9 @@ test.describe('Create Libraries ', () => {
     await myLibrariesPage.selectCreateLibrary();
 
     await expect(libraryDialog.getDialogTitle(libraryDialogTitle)).toBeVisible();
-    await expect(libraryDialog.getLabelText(libraryNameLebel)).toBeVisible();
-    await expect(libraryDialog.getLabelText(libraryIdLebel)).toBeVisible();
-    await expect(libraryDialog.getLabelText(libraryDescriptionLebel)).toBeVisible();
+    await expect(libraryDialog.getLabelText(libraryNameLabel)).toBeVisible();
+    await expect(libraryDialog.getLabelText(libraryIdLabel)).toBeVisible();
+    await expect(libraryDialog.getLabelText(libraryDescriptionLabel)).toBeVisible();
     await expect(libraryDialog.getLabelText(publicVisibility)).toBeVisible();
     await expect(libraryDialog.getLabelText(publicVisibility)).toBeChecked();
     await expect(libraryDialog.getLabelText(privateVisibility)).toBeVisible();
@@ -92,9 +92,9 @@ test.describe('Create Libraries ', () => {
     const libraryBreadcrumb = myLibrariesPage.breadcrumb;
 
     await myLibrariesPage.selectCreateLibrary();
-    await libraryDialog.getLabelText(libraryNameLebel).fill(randomLibraryName);
-    await expect(libraryDialog.getLabelText(libraryNameLebel)).toHaveValue(randomLibraryName);
-    await expect(libraryDialog.getLabelText(libraryIdLebel)).toHaveValue(randomLibraryName);
+    await libraryDialog.getLabelText(libraryNameLabel).fill(randomLibraryName);
+    await expect(libraryDialog.getLabelText(libraryNameLabel)).toHaveValue(randomLibraryName);
+    await expect(libraryDialog.getLabelText(libraryIdLabel)).toHaveValue(randomLibraryName);
     await libraryDialog.createButton.click();
     await expect(libraryBreadcrumb.getBreadcrumbItem(randomLibraryName)).toBeVisible();
 
@@ -156,7 +156,7 @@ test.describe('Create Libraries ', () => {
     await expect(libraryDetails.getNameField('Name').getByText(randomLibraryName)).toBeVisible();
     await expect(libraryDetails.getIdField('Library ID').getByText(randomLibraryId)).toBeVisible();
     await expect(libraryDetails.getVisibilityField('Visibility').getByText(publicVisibility)).toBeVisible();
-    await expect(libraryDetails.getDescriptionField(libraryDescriptionLebel).getByText(randomLibraryDescription)).toBeVisible();
+    await expect(libraryDetails.getDescriptionField(libraryDescriptionLabel).getByText(randomLibraryDescription)).toBeVisible();
 
     await apiClientFactory.sites.deleteSite(randomLibraryId, { permanent: true });
   });
@@ -165,11 +165,11 @@ test.describe('Create Libraries ', () => {
     const libraryDialog = myLibrariesPage.libraryDialog;
 
     await myLibrariesPage.selectCreateLibrary();
-    await libraryDialog.getLabelText(libraryNameLebel).fill(randomLibraryName);
-    await libraryDialog.getLabelText(libraryIdLebel).clear();
-    await libraryDialog.getLabelText(libraryIdLebel).fill(commonLibraryId);
+    await libraryDialog.getLabelText(libraryNameLabel).fill(randomLibraryName);
+    await libraryDialog.getLabelText(libraryIdLabel).clear();
+    await libraryDialog.getLabelText(libraryIdLabel).fill(commonLibraryId);
     await libraryDialog.page.keyboard.press('Tab');
-    await expect(libraryDialog.getLabelText(libraryIdLebel)).toHaveValue(commonLibraryId);
+    await expect(libraryDialog.getLabelText(libraryIdLabel)).toHaveValue(commonLibraryId);
 
     await expect(libraryDialog.createButton).toBeDisabled();
     expect(await libraryDialog.isErrorMessageDisplayed(libraryErrors.libraryIdIsNotAvailable), errorMessageNotPresent).toBe(true);
@@ -179,9 +179,9 @@ test.describe('Create Libraries ', () => {
     const libraryDialog = myLibrariesPage.libraryDialog;
 
     await myLibrariesPage.selectCreateLibrary();
-    await libraryDialog.getLabelText(libraryNameLebel).fill(randomLibraryName);
-    await libraryDialog.getLabelText(libraryIdLebel).clear();
-    await libraryDialog.getLabelText(libraryIdLebel).fill(commonTrashLibraryId);
+    await libraryDialog.getLabelText(libraryNameLabel).fill(randomLibraryName);
+    await libraryDialog.getLabelText(libraryIdLabel).clear();
+    await libraryDialog.getLabelText(libraryIdLabel).fill(commonTrashLibraryId);
     await libraryDialog.page.keyboard.press('Tab');
 
     await expect(libraryDialog.createButton).toBeEnabled();
@@ -197,7 +197,7 @@ test.describe('Create Libraries ', () => {
 
     await myLibrariesPage.selectCreateLibrary();
     await expect(libraryDialog.getDialogTitle(libraryDialogTitle)).toBeVisible();
-    await libraryDialog.getLabelText(libraryNameLebel).fill(randomLibraryName);
+    await libraryDialog.getLabelText(libraryNameLabel).fill(randomLibraryName);
     await libraryDialog.cancelButton.click();
 
     await expect(libraryDialog.getDialogTitle(libraryDialogTitle)).toBeHidden();
@@ -228,13 +228,13 @@ test.describe('Create Libraries ', () => {
     ];
 
     await myLibrariesPage.selectCreateLibrary();
-    await libraryDialog.getLabelText(libraryNameLebel).fill(randomLibraryName);
+    await libraryDialog.getLabelText(libraryNameLabel).fill(randomLibraryName);
 
     for (const specialLibraryId of idsWithSpecialChars) {
-      await libraryDialog.getLabelText(libraryIdLebel).clear();
-      await libraryDialog.getLabelText(libraryIdLebel).fill(specialLibraryId);
+      await libraryDialog.getLabelText(libraryIdLabel).clear();
+      await libraryDialog.getLabelText(libraryIdLabel).fill(specialLibraryId);
       await libraryDialog.page.keyboard.press('Tab');
-      await expect(libraryDialog.getLabelText(libraryIdLebel)).toHaveValue(specialLibraryId);
+      await expect(libraryDialog.getLabelText(libraryIdLabel)).toHaveValue(specialLibraryId);
       expect(await libraryDialog.isErrorMessageDisplayed(libraryErrors.useNumbersAndLettersOnly), errorMessageNotPresent).toBe(true);
       await expect(libraryDialog.createButton).toBeDisabled();
     }
