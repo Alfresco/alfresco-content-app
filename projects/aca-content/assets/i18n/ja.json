@@ -454,10 +454,6 @@
     "UNSHARE_PERMISSION_ERROR": "このファイルの共有を解除する権限がありません。"
   },
   "VERSION": {
-    "DIALOG_ADF": {
-      "TITLE": "バージョンの管理",
-      "CLOSE": "閉じる"
-    },
     "DIALOG": {
       "TITLE": "新しいバージョンのアップロード",
       "CANCEL": "キャンセル",

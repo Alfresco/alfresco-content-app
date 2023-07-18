@@ -454,10 +454,6 @@
     "UNSHARE_PERMISSION_ERROR": "Sie verfügen nicht über die Berechtigung die Freigabe für diese Datei aufzuheben"
   },
   "VERSION": {
-    "DIALOG_ADF": {
-      "TITLE": "Versionen verwalten",
-      "CLOSE": "Schließen"
-    },
     "DIALOG": {
       "TITLE": "Neue Version hochladen",
       "CANCEL": "Abbrechen",

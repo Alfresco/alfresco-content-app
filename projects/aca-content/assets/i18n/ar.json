@@ -454,10 +454,6 @@
     "UNSHARE_PERMISSION_ERROR": "ليس لديك إذن لإلغاء مشاركة هذا الملف"
   },
   "VERSION": {
-    "DIALOG_ADF": {
-      "TITLE": "إدارة الإصدارات",
-      "CLOSE": "إغلاق"
-    },
     "DIALOG": {
       "TITLE": "تحميل إصدار جديد",
       "CANCEL": "إلغاء",

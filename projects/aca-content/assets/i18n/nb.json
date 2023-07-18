@@ -454,10 +454,6 @@
     "UNSHARE_PERMISSION_ERROR": "Du har ikke tillatelse til å oppheve deling av denne filen"
   },
   "VERSION": {
-    "DIALOG_ADF": {
-      "TITLE": "Håndtere versjoner",
-      "CLOSE": "Lukk"
-    },
     "DIALOG": {
       "TITLE": "Last opp ny versjon",
       "CANCEL": "Avbryt",

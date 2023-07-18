@@ -454,10 +454,6 @@
         "UNSHARE_PERMISSION_ERROR": "You don't have permission to unshare this file"
     },
     "VERSION": {
-        "DIALOG_ADF": {
-            "TITLE": "Manage Versions",
-            "CLOSE": "Close"
-        },
         "DIALOG": {
             "TITLE": "Upload New Version",
             "CANCEL": "Cancel",

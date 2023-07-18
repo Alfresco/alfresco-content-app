@@ -454,10 +454,6 @@
     "UNSHARE_PERMISSION_ERROR": "Vous n'avez pas les droits d'accès pour ne pas partager ce fichier"
   },
   "VERSION": {
-    "DIALOG_ADF": {
-      "TITLE": "Gérer les versions",
-      "CLOSE": "Fermer"
-    },
     "DIALOG": {
       "TITLE": "Importer une nouvelle version",
       "CANCEL": "Annuler",

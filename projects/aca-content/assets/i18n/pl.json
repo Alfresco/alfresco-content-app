@@ -454,10 +454,6 @@
     "UNSHARE_PERMISSION_ERROR": "Nie masz uprawnień, aby cofnąć udostępnianie tego pliku"
   },
   "VERSION": {
-    "DIALOG_ADF": {
-      "TITLE": "Zarządzaj wersjami",
-      "CLOSE": "Zamknij"
-    },
     "DIALOG": {
       "TITLE": "Prześlij nową wersję",
       "CANCEL": "Anuluj",

@@ -454,10 +454,6 @@
     "UNSHARE_PERMISSION_ERROR": "Du har ikke tilladelse til at ophæve delingen af denne fil"
   },
   "VERSION": {
-    "DIALOG_ADF": {
-      "TITLE": "Administrer versioner",
-      "CLOSE": "Luk"
-    },
     "DIALOG": {
       "TITLE": "Upload ny version",
       "CANCEL": "Annuller",

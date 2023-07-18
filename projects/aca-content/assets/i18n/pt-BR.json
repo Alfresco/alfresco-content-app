@@ -454,10 +454,6 @@
     "UNSHARE_PERMISSION_ERROR": "Você não tem permissão para descompartilhar deste arquivo"
   },
   "VERSION": {
-    "DIALOG_ADF": {
-      "TITLE": "Gerenciar versões",
-      "CLOSE": "Fechar"
-    },
     "DIALOG": {
       "TITLE": "Carregar nova versão",
       "CANCEL": "Cancelar",

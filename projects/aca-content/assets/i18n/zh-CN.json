@@ -454,10 +454,6 @@
     "UNSHARE_PERMISSION_ERROR": "您没有权限取消这个文件的共享"
   },
   "VERSION": {
-    "DIALOG_ADF": {
-      "TITLE": "管理版本",
-      "CLOSE": "关闭"
-    },
     "DIALOG": {
       "TITLE": "上传新版本",
       "CANCEL": "取消",

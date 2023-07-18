@@ -454,10 +454,6 @@
     "UNSHARE_PERMISSION_ERROR": "Sinulla ei ole oikeuksia peruuttaa tämän tiedoston jakamista"
   },
   "VERSION": {
-    "DIALOG_ADF": {
-      "TITLE": "Hallitse versioita",
-      "CLOSE": "Sulje"
-    },
     "DIALOG": {
       "TITLE": "Lataa uusi versio",
       "CANCEL": "Peruuta",

@@ -454,10 +454,6 @@
     "UNSHARE_PERMISSION_ERROR": "U hebt geen rechten om het delen van dit bestand ongedaan te maken"
   },
   "VERSION": {
-    "DIALOG_ADF": {
-      "TITLE": "Versies beheren",
-      "CLOSE": "Sluiten"
-    },
     "DIALOG": {
       "TITLE": "Nieuwe versie uploaden",
       "CANCEL": "Annuleren",

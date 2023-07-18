@@ -454,10 +454,6 @@
     "UNSHARE_PERMISSION_ERROR": "No tiene permiso para dejar de compartir este fichero"
   },
   "VERSION": {
-    "DIALOG_ADF": {
-      "TITLE": "Gestionar versiones",
-      "CLOSE": "Cerrar"
-    },
     "DIALOG": {
       "TITLE": "Cargar nueva versión",
       "CANCEL": "Cancelar",

@@ -454,10 +454,6 @@
     "UNSHARE_PERMISSION_ERROR": "Du har inte behörighet att sluta dela den här filen"
   },
   "VERSION": {
-    "DIALOG_ADF": {
-      "TITLE": "Hantera versioner",
-      "CLOSE": "Stäng"
-    },
     "DIALOG": {
       "TITLE": "Ladda upp ny version",
       "CANCEL": "Avbryt",

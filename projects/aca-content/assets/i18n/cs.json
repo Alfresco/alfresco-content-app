@@ -454,10 +454,6 @@
     "UNSHARE_PERMISSION_ERROR": "Nemáte potřebná oprávnění pro zrušení sdílení tohoto souboru"
   },
   "VERSION": {
-    "DIALOG_ADF": {
-      "TITLE": "Spravovat verze",
-      "CLOSE": "Zavřít"
-    },
     "DIALOG": {
       "TITLE": "Odeslat novou verzi",
       "CANCEL": "Zrušit",

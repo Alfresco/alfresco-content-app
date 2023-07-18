@@ -454,10 +454,6 @@
     "UNSHARE_PERMISSION_ERROR": "Non si dispone dell'autorizzazione per rimuovere la condivisione di questo file"
   },
   "VERSION": {
-    "DIALOG_ADF": {
-      "TITLE": "Gestione versioni",
-      "CLOSE": "Chiudi"
-    },
     "DIALOG": {
       "TITLE": "Caricare la nuova versione",
       "CANCEL": "Annulla",
