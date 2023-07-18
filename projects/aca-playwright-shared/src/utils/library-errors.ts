@@ -22,17 +22,8 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { BrowserModule } from '@angular/platform-browser';
-import { TranslateModule } from '@ngx-translate/core';
-import { OpenInAppComponent } from './open-in-app.component';
-
-@NgModule({
-  imports: [CommonModule, MatIconModule, TranslateModule, MatButtonModule, BrowserModule],
-  declarations: [OpenInAppComponent],
-  exports: [OpenInAppComponent]
-})
-export class OpenInAppModule {}
+export const libraryErrors = {
+  libraryIdIsNotAvailable: "This Library ID isn't available. Try a different Library ID.",
+  libraryIdIsAlreadyUsed: "This Library ID is already used. Check the trashcan.",
+  useNumbersAndLettersOnly: "Use numbers and letters only"
+}

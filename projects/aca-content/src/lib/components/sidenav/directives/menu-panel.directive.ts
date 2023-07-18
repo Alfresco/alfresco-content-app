@@ -29,6 +29,7 @@ import { Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 @Directive({
+  standalone: true,
   selector: '[acaMenuPanel]',
   exportAs: 'acaMenuPanel'
 })

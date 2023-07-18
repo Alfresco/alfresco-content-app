@@ -22,27 +22,4 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NgModule } from '@angular/core';
-import { SharedLinkViewComponent } from './shared-link-view.component';
-import { CommonModule } from '@angular/common';
-import { CoreModule } from '@alfresco/adf-core';
-import { DirectivesModule } from '../../directives/directives.module';
-import { AppToolbarModule } from '../toolbar/toolbar.module';
-import { AppInfoDrawerModule } from '../info-drawer/info.drawer.module';
-import { CoreExtensionsModule } from '../../extensions/core.extensions.module';
-import { ContentModule } from '@alfresco/adf-content-services';
-
-@NgModule({
-  imports: [
-    CommonModule,
-    CoreModule.forChild(),
-    DirectivesModule,
-    AppToolbarModule,
-    CoreExtensionsModule.forChild(),
-    AppInfoDrawerModule,
-    ContentModule
-  ],
-  declarations: [SharedLinkViewComponent],
-  exports: [SharedLinkViewComponent]
-})
-export class AppSharedLinkViewModule {}
+export * from './breadcrumb.component';

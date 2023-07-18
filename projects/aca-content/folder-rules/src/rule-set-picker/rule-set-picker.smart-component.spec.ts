@@ -53,7 +53,7 @@ describe('RuleSetPickerSmartComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CoreTestingModule],
+      imports: [CoreTestingModule, RuleSetPickerSmartComponent],
       providers: [
         { provide: MatDialogRef, useValue: dialogRef },
         { provide: MAT_DIALOG_DATA, useValue: dialogOptions },

@@ -37,8 +37,7 @@ describe('RuleListGroupingUiComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CoreTestingModule, AcaFolderRulesModule],
-      declarations: [RuleListGroupingUiComponent]
+      imports: [CoreTestingModule, AcaFolderRulesModule, RuleListGroupingUiComponent]
     });
 
     fixture = TestBed.createComponent(RuleListGroupingUiComponent);

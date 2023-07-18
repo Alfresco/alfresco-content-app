@@ -23,13 +23,12 @@
  */
 
 import { ToggleEditOfflineComponent } from './toggle-edit-offline.component';
-import { CoreModule } from '@alfresco/adf-core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { NodeEntry } from '@alfresco/js-api';
 import { DownloadNodesAction, EditOfflineAction, SnackbarErrorAction } from '@alfresco/aca-shared/store';
-import { TranslateModule } from '@ngx-translate/core';
+import { AppTestingModule } from '../../../testing/app-testing.module';
 
 describe('ToggleEditOfflineComponent', () => {
   let fixture: ComponentFixture<ToggleEditOfflineComponent>;
@@ -41,8 +40,7 @@ describe('ToggleEditOfflineComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), CoreModule.forRoot()],
-      declarations: [ToggleEditOfflineComponent],
+      imports: [AppTestingModule, ToggleEditOfflineComponent],
       providers: [
         {
           provide: Store,

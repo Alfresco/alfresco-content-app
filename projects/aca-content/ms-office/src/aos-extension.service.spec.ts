@@ -24,9 +24,9 @@
 
 import { TestBed } from '@angular/core/testing';
 import { AosEditOnlineService } from './aos-extension.service';
-import { AppConfigService, AuthenticationService, CoreModule, LogService, NotificationService } from '@alfresco/adf-core';
-import { TranslateModule } from '@ngx-translate/core';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { AppConfigService, AuthenticationService, LogService, NotificationService } from '@alfresco/adf-core';
+import { LibTestingModule } from '@alfresco/aca-shared';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('AosEditOnlineService', () => {
   let aosEditOnlineService: AosEditOnlineService;
@@ -37,7 +37,7 @@ describe('AosEditOnlineService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, TranslateModule.forRoot(), CoreModule.forRoot()],
+      imports: [LibTestingModule, MatSnackBarModule],
       providers: [{ provide: LogService, useValue: { error() {} } }]
     });
 

@@ -22,19 +22,16 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { CoreModule, TranslationService } from '@alfresco/adf-core';
-import { ExtensionService, ExtensionsModule, provideExtensionConfig } from '@alfresco/adf-extensions';
+import { TranslationService } from '@alfresco/adf-core';
+import { ExtensionService, provideExtensionConfig } from '@alfresco/adf-extensions';
 import { NgModule } from '@angular/core';
 import * as rules from './folder-rules.rules';
-import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { EditRuleDialogUiComponent } from './rule-details/edit-rule-dialog.ui-component';
 import { ManageRulesSmartComponent } from './manage-rules/manage-rules.smart-component';
 import { RuleCompositeConditionUiComponent } from './rule-details/conditions/rule-composite-condition.ui-component';
 import { RuleDetailsUiComponent } from './rule-details/rule-details.ui-component';
 import { RuleSimpleConditionUiComponent } from './rule-details/conditions/rule-simple-condition.ui-component';
-import { GenericErrorComponent, PageLayoutModule } from '@alfresco/aca-shared';
-import { BreadcrumbModule, ContentNodeSelectorModule, DocumentListModule } from '@alfresco/adf-content-services';
 import { RuleListItemUiComponent } from './rule-list/rule-list-item/rule-list-item.ui-component';
 import { RuleListGroupingUiComponent } from './rule-list/rule-list-grouping/rule-list-grouping.ui-component';
 import { RuleTriggersUiComponent } from './rule-details/triggers/rule-triggers.ui-component';
@@ -54,30 +51,20 @@ const routes: Routes = [
 @NgModule({
   providers: [provideExtensionConfig(['folder-rules.plugin.json'])],
   imports: [
-    CommonModule,
     RouterModule.forChild(routes),
-    CoreModule.forChild(),
-    PageLayoutModule,
-    BreadcrumbModule,
-    DocumentListModule,
-    ExtensionsModule,
-    ContentNodeSelectorModule,
-    GenericErrorComponent
-  ],
-  declarations: [
-    EditRuleDialogUiComponent,
+    RuleListItemUiComponent,
+    RuleListGroupingUiComponent,
+    RuleListUiComponent,
     ManageRulesSmartComponent,
+    RuleSetPickerSmartComponent,
     RuleActionListUiComponent,
     RuleActionUiComponent,
     RuleCompositeConditionUiComponent,
-    RuleDetailsUiComponent,
-    RuleListGroupingUiComponent,
-    RuleListItemUiComponent,
-    RuleListUiComponent,
-    RuleSetPickerSmartComponent,
     RuleSimpleConditionUiComponent,
+    RuleOptionsUiComponent,
     RuleTriggersUiComponent,
-    RuleOptionsUiComponent
+    RuleDetailsUiComponent,
+    EditRuleDialogUiComponent
   ]
 })
 export class AcaFolderRulesModule {

@@ -24,12 +24,43 @@
 
 import { ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { SiteEntry, FavoritePaging, Pagination } from '@alfresco/js-api';
-import { AppHookService, ContentApiService, PageComponent } from '@alfresco/aca-shared';
+import {
+  AppHookService,
+  ContentApiService,
+  ContextActionsDirective,
+  InfoDrawerComponent,
+  PageComponent,
+  PageLayoutComponent,
+  PageLayoutContentComponent,
+  PageLayoutHeaderComponent,
+  ToolbarActionComponent
+} from '@alfresco/aca-shared';
 import { NavigateLibraryAction } from '@alfresco/aca-shared/store';
-import { UserPreferencesService } from '@alfresco/adf-core';
-import { DocumentListPresetRef } from '@alfresco/adf-extensions';
+import { DataTableModule, PaginationModule, TemplateModule, ToolbarModule, UserPreferencesService } from '@alfresco/adf-core';
+import { DocumentListPresetRef, ExtensionsModule } from '@alfresco/adf-extensions';
+import { CommonModule } from '@angular/common';
+import { BreadcrumbModule, DocumentListModule } from '@alfresco/adf-content-services';
+import { DocumentListDirective } from '../../directives/document-list.directive';
 
 @Component({
+  standalone: true,
+  imports: [
+    CommonModule,
+    BreadcrumbModule,
+    ToolbarModule,
+    DocumentListModule,
+    DocumentListDirective,
+    ContextActionsDirective,
+    TemplateModule,
+    DataTableModule,
+    ExtensionsModule,
+    PaginationModule,
+    InfoDrawerComponent,
+    ToolbarActionComponent,
+    PageLayoutComponent,
+    PageLayoutContentComponent,
+    PageLayoutHeaderComponent
+  ],
   templateUrl: './favorite-libraries.component.html',
   encapsulation: ViewEncapsulation.None
 })

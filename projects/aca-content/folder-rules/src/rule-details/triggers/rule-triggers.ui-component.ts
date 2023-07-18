@@ -25,8 +25,13 @@
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Component, forwardRef, ViewEncapsulation } from '@angular/core';
 import { RuleTrigger } from '../../model/rule.model';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, TranslateModule, MatCheckboxModule],
   selector: 'aca-rule-triggers',
   templateUrl: './rule-triggers.ui-component.html',
   encapsulation: ViewEncapsulation.None,

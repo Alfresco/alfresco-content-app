@@ -23,11 +23,16 @@
  */
 
 import { Component, ViewEncapsulation, ChangeDetectionStrategy, Input, DoCheck, ChangeDetectorRef } from '@angular/core';
-import { ContentActionRef } from '@alfresco/adf-extensions';
-import { ToolbarButtonType } from '../toolbar-button/toolbar-button.component';
+import { ContentActionRef, ExtensionsModule } from '@alfresco/adf-extensions';
+import { ToolbarButtonComponent, ToolbarButtonType } from '../toolbar-button/toolbar-button.component';
 import { ThemePalette } from '@angular/material/core';
+import { CommonModule } from '@angular/common';
+import { ToolbarModule } from '@alfresco/adf-core';
+import { ToolbarMenuComponent } from '../toolbar-menu/toolbar-menu.component';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, ExtensionsModule, ToolbarModule, ToolbarButtonComponent, ToolbarMenuComponent],
   selector: 'aca-toolbar-action',
   templateUrl: './toolbar-action.component.html',
   styleUrls: ['./toolbar-action.component.scss'],

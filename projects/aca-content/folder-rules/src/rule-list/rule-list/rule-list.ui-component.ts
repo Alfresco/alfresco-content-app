@@ -27,8 +27,27 @@ import { RuleSet } from '../../model/rule-set.model';
 import { Rule } from '../../model/rule.model';
 import { RuleGroupingItem } from '../../model/rule-grouping-item.model';
 import { FolderRuleSetsService } from '../../services/folder-rule-sets.service';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
+import { MatRippleModule } from '@angular/material/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { RuleListGroupingUiComponent } from '../rule-list-grouping/rule-list-grouping.ui-component';
+import { RouterModule } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
+  standalone: true,
+  imports: [
+    CommonModule,
+    TranslateModule,
+    MatRippleModule,
+    MatIconModule,
+    MatTooltipModule,
+    RuleListGroupingUiComponent,
+    RouterModule,
+    MatButtonModule
+  ],
   selector: 'aca-rule-list',
   templateUrl: './rule-list.ui-component.html',
   styleUrls: ['./rule-list.ui-component.scss'],

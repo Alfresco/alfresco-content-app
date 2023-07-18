@@ -24,8 +24,7 @@
 
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { SearchResultsComponent } from './search-results.component';
-import { AppSearchResultsModule } from '../search-results.module';
-import { AppConfigService, CoreModule, TranslationService } from '@alfresco/adf-core';
+import { AppConfigService, TranslationService } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
 import { NavigateToFolder, SnackbarErrorAction } from '@alfresco/aca-shared/store';
 import { Pagination, SearchRequest } from '@alfresco/js-api';
@@ -49,7 +48,7 @@ describe('SearchComponent', () => {
   beforeEach(() => {
     params = new BehaviorSubject({ q: 'TYPE: "cm:folder" AND %28=cm: name: email OR cm: name: budget%29' });
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, CoreModule.forRoot(), AppSearchResultsModule],
+      imports: [AppTestingModule, SearchResultsComponent],
       providers: [
         {
           provide: AppService,

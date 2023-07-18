@@ -22,17 +22,13 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { DataTableComponent } from '@alfresco/adf-core';
-import { CustomResourcesService, DocumentListComponent, NodeFavoriteDirective } from '@alfresco/adf-content-services';
-import { of } from 'rxjs';
+import { CustomResourcesService } from '@alfresco/adf-content-services';
+import { BehaviorSubject, of, Subject } from 'rxjs';
 import { FavoritesComponent } from './favorites.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { ContentApiService } from '@alfresco/aca-shared';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { AppService, ContentApiService } from '@alfresco/aca-shared';
 
 describe('FavoritesComponent', () => {
   let fixture: ComponentFixture<FavoritesComponent>;
@@ -43,18 +39,16 @@ describe('FavoritesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, MatDialogModule, MatSnackBarModule],
-      declarations: [DataTableComponent, NodeFavoriteDirective, DocumentListComponent, FavoritesComponent],
+      imports: [AppTestingModule, FavoritesComponent],
       providers: [
         {
-          provide: Router,
+          provide: AppService,
           useValue: {
-            url: 'favorites',
-            navigate: () => {}
+            appNavNarMode$: new BehaviorSubject('expanded'),
+            toggleAppNavBar$: new Subject()
           }
         }
-      ],
-      schemas: [NO_ERRORS_SCHEMA]
+      ]
     });
 
     const page: any = {
@@ -81,6 +75,7 @@ describe('FavoritesComponent', () => {
 
     contentApi = TestBed.inject(ContentApiService);
     router = TestBed.inject(Router);
+    spyOnProperty(router, 'url').and.returnValue('favorites');
   });
 
   describe('Node navigation', () => {

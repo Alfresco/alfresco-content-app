@@ -27,14 +27,9 @@ import { PageLayoutContentComponent } from './page-layout-content.component';
 import { PageLayoutErrorComponent } from './page-layout-error.component';
 import { PageLayoutHeaderComponent } from './page-layout-header.component';
 import { PageLayoutComponent } from './page-layout.component';
-import { CommonModule } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
-import { TranslateModule } from '@ngx-translate/core';
-import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
-  imports: [CommonModule, MatIconModule, TranslateModule, MatButtonModule],
-  declarations: [PageLayoutContentComponent, PageLayoutErrorComponent, PageLayoutHeaderComponent, PageLayoutComponent],
+  imports: [PageLayoutComponent, PageLayoutContentComponent, PageLayoutErrorComponent, PageLayoutHeaderComponent],
   exports: [PageLayoutContentComponent, PageLayoutErrorComponent, PageLayoutHeaderComponent, PageLayoutComponent]
 })
 export class PageLayoutModule {}

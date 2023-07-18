@@ -31,8 +31,13 @@ import { NodesApiService } from '@alfresco/adf-content-services';
 import { takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { AcaFileAutoDownloadService } from '@alfresco/aca-shared';
+import { CommonModule } from '@angular/common';
+import { LocationLinkComponent } from '../../common/location-link/location-link.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, LocationLinkComponent, MatDialogModule],
   selector: 'aca-search-results-row',
   templateUrl: './search-results-row.component.html',
   styleUrls: ['./search-results-row.component.scss'],

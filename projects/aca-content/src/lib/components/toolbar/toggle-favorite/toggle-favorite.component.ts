@@ -28,8 +28,15 @@ import { Observable } from 'rxjs';
 import { SelectionState } from '@alfresco/adf-extensions';
 import { AppStore, ReloadDocumentListAction, getAppSelection } from '@alfresco/aca-shared/store';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { ContentDirectiveModule } from '@alfresco/adf-content-services';
+import { MatIconModule } from '@angular/material/icon';
+import { TranslateModule } from '@ngx-translate/core';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, TranslateModule, ContentDirectiveModule, MatIconModule, MatMenuModule],
   selector: 'app-toggle-favorite',
   template: `
     <button mat-menu-item #favorites="adfFavorite" (toggle)="onToggleEvent()" [adf-node-favorite]="(selection$ | async).nodes">

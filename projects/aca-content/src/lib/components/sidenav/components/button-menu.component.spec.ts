@@ -26,7 +26,6 @@ import { ButtonMenuComponent } from './button-menu.component';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { Router } from '@angular/router';
-import { AppSidenavModule } from '../sidenav.module';
 
 describe('ButtonMenuComponent', () => {
   let component: ButtonMenuComponent;
@@ -35,7 +34,7 @@ describe('ButtonMenuComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, AppSidenavModule]
+      imports: [AppTestingModule, ButtonMenuComponent]
     });
 
     fixture = TestBed.createComponent(ButtonMenuComponent);

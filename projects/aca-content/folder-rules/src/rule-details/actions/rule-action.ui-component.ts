@@ -23,11 +23,12 @@
  */
 
 import { Component, forwardRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewEncapsulation } from '@angular/core';
-import { ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
+import { ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActionDefinitionTransformed, RuleAction } from '../../model/rule-action.model';
 import { CardViewItem } from '@alfresco/adf-core/lib/card-view/interfaces/card-view-item.interface';
 import {
   CardViewBoolItemModel,
+  CardViewModule,
   CardViewSelectItemModel,
   CardViewSelectItemOption,
   CardViewTextItemModel,
@@ -40,9 +41,14 @@ import { takeUntil } from 'rxjs/operators';
 import { ActionParameterConstraint, ConstraintValue } from '../../model/action-parameter-constraint.model';
 import { ContentNodeSelectorComponent, ContentNodeSelectorComponentData, NodeAction } from '@alfresco/adf-content-services';
 import { MatDialog } from '@angular/material/dialog';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { CommonModule } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, TranslateModule, ReactiveFormsModule, MatFormFieldModule, MatSelectModule, CardViewModule],
   selector: 'aca-rule-action',
   templateUrl: './rule-action.ui-component.html',
   styleUrls: ['./rule-action.ui-component.scss'],

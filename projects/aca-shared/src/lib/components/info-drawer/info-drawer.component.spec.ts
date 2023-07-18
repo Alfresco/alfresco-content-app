@@ -32,7 +32,6 @@ import { InfoDrawerComponent } from './info-drawer.component';
 import { LibTestingModule } from '../../testing/lib-testing-module';
 import { AppExtensionService } from '../../services/app.extension.service';
 import { ContentApiService } from '../../services/content-api.service';
-import { SharedToolbarModule } from '../tool-bar/shared-toolbar.module';
 
 describe('InfoDrawerComponent', () => {
   let fixture: ComponentFixture<InfoDrawerComponent>;
@@ -60,7 +59,7 @@ describe('InfoDrawerComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [LibTestingModule, SharedToolbarModule, InfoDrawerComponent],
+      imports: [LibTestingModule, InfoDrawerComponent],
       providers: [
         { provide: AppExtensionService, useValue: extensionServiceMock },
         { provide: Store, useValue: storeMock }

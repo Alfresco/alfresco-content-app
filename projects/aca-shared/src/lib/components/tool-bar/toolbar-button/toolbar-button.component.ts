@@ -26,6 +26,11 @@ import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { AppExtensionService } from '../../../services/app.extension.service';
 import { ThemePalette } from '@angular/material/core';
+import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { IconModule } from '@alfresco/adf-core';
+import { TranslateModule } from '@ngx-translate/core';
+import { ToolbarMenuItemComponent } from '../toolbar-menu-item/toolbar-menu-item.component';
 
 export enum ToolbarButtonType {
   ICON_BUTTON = 'icon-button',
@@ -35,6 +40,8 @@ export enum ToolbarButtonType {
 }
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, TranslateModule, MatButtonModule, IconModule, ToolbarMenuItemComponent],
   selector: 'app-toolbar-button',
   templateUrl: './toolbar-button.component.html',
   encapsulation: ViewEncapsulation.None,

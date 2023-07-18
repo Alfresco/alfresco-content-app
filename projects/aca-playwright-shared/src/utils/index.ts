@@ -28,3 +28,4 @@ export * from './exclude-tests';
 export * from './state-helper';
 export * from './folder-errors';
 export * from './utils';
+export * from './library-errors';

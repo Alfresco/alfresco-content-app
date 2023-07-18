@@ -23,13 +23,15 @@
  */
 
 import { NgModule } from '@angular/core';
-import { DocumentListDirective } from './document-list.directive';
-import { SharedDirectivesModule } from '@alfresco/aca-shared';
-import { ContentDirectiveModule } from '@alfresco/adf-content-services';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialogModule } from '@angular/material/dialog';
+import { TranslateModule } from '@ngx-translate/core';
+import { ContextActionsDirective } from '../directives/contextmenu/contextmenu.directive';
 
+// @deprecated
 @NgModule({
-  imports: [SharedDirectivesModule, ContentDirectiveModule],
-  declarations: [DocumentListDirective],
-  exports: [DocumentListDirective, SharedDirectivesModule, ContentDirectiveModule]
+  imports: [MatButtonModule, MatIconModule, MatDialogModule, TranslateModule, ContextActionsDirective],
+  exports: [MatButtonModule, MatIconModule, MatDialogModule, TranslateModule, ContextActionsDirective]
 })
-export class DirectivesModule {}
+export class SharedModule {}

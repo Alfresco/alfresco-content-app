@@ -177,6 +177,11 @@ export class DataTableComponent extends BaseComponent {
     return this.contextMenuActions.getButtonByText(action);
   }
 
+  async performActionInExpandableMenu(name: string | number, action: string): Promise<void> {
+    await this.getRowByName(name).click({ button: 'right' });
+    await this.contextMenuActions.getButtonByText(action).click();
+  }
+
   async goThroughPagesLookingForRowWithName(name: string | number): Promise<void> {
     await this.spinnerWaitForReload();
     if (await this.getRowByName(name).isVisible()) {

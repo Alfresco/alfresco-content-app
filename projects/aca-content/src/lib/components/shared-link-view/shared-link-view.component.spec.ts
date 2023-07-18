@@ -47,8 +47,7 @@ describe('SharedLinkViewComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule],
-      declarations: [SharedLinkViewComponent],
+      imports: [AppTestingModule, SharedLinkViewComponent],
       providers: [
         AppExtensionService,
         { provide: Store, useValue: storeMock },

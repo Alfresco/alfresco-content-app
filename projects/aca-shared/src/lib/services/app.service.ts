@@ -23,7 +23,7 @@
  */
 
 import { Inject, Injectable, OnDestroy } from '@angular/core';
-import { AuthenticationService, AppConfigService, AlfrescoApiService, PageTitleService } from '@alfresco/adf-core';
+import { AuthenticationService, AppConfigService, AlfrescoApiService, PageTitleService, UserPreferencesService } from '@alfresco/adf-core';
 import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { GroupService, SearchQueryBuilderService, SharedLinksApiService, UploadService, FileUploadErrorEvent } from '@alfresco/adf-content-services';
 import { OverlayContainer } from '@angular/cdk/overlay';
@@ -61,6 +61,9 @@ export class AppService implements OnDestroy {
   appNavNarMode$: Subject<'collapsed' | 'expanded'> = new BehaviorSubject('expanded');
   toggleAppNavBar$ = new Subject();
 
+  hideSidenavConditions = ['/preview/'];
+  minimizeSidenavConditions = ['search'];
+
   onDestroy$ = new Subject<boolean>();
 
   /**
@@ -72,6 +75,7 @@ export class AppService implements OnDestroy {
   }
 
   constructor(
+    public preferencesService: UserPreferencesService,
     private authenticationService: AuthenticationService,
     private store: Store<AppStore>,
     private router: Router,
