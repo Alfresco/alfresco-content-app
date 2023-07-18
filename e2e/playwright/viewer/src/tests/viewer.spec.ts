@@ -29,7 +29,7 @@ test.use({ storageState: getUserState('hruser') });
 test.describe('viewer file', () => {
   const apiClientFactory = new ApiClientFactory();
   const randomFolderName = `playwright-folder-${Utils.random()}`;
-  const randomDocxName = TEST_FILES.DOCX.name + `-${Utils.random()}`;
+  const randomDocxName = `${TEST_FILES.DOCX.name}-${Utils.random()}`;
   let folderId: string;
   let fileDocxId: string;
 
