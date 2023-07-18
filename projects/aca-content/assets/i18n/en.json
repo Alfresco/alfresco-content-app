@@ -471,12 +471,6 @@
             "GENERIC": "There was an error versioning the file"
         }
     },
-    "INFO_PANEL": {
-        "TABS": {
-
-        },
-        "DETAILS": "Details"
-    },
     "LIBRARY": {
         "DIALOG": {
             "CREATE_TITLE": "Create Library",

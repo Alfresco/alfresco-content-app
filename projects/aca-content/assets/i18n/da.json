@@ -471,12 +471,6 @@
       "GENERIC": "Der opstod en fejl under versionsangivelse for filen"
     }
   },
-  "INFO_PANEL": {
-    "TABS": {
-
-    },
-    "DETAILS": "Detaljer"
-  },
   "LIBRARY": {
     "DIALOG": {
       "CREATE_TITLE": "Opret bibliotek",

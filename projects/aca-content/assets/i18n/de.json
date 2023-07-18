@@ -471,12 +471,6 @@
       "GENERIC": "Bei der Versionsverwaltung der Datei ist ein Fehler aufgetreten"
     }
   },
-  "INFO_PANEL": {
-    "TABS": {
-
-    },
-    "DETAILS": "Details"
-  },
   "LIBRARY": {
     "DIALOG": {
       "CREATE_TITLE": "Bibliothek erstellen",

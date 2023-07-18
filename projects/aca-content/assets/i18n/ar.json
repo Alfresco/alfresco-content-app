@@ -471,12 +471,6 @@
       "GENERIC": "حدث خطأ في تعيين إصدار الملف"
     }
   },
-  "INFO_PANEL": {
-    "TABS": {
-
-    },
-    "DETAILS": "التفاصيل"
-  },
   "LIBRARY": {
     "DIALOG": {
       "CREATE_TITLE": "إنشاء مكتبة",

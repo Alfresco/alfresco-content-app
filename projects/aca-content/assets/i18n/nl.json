@@ -471,12 +471,6 @@
       "GENERIC": "Er is een fout opgetreden bij het versiebeheer van het bestand"
     }
   },
-  "INFO_PANEL": {
-    "TABS": {
-
-    },
-    "DETAILS": "Gegevens"
-  },
   "LIBRARY": {
     "DIALOG": {
       "CREATE_TITLE": "Bibliotheek maken",
