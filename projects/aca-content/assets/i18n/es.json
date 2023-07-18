@@ -296,10 +296,6 @@
         "DELETED_BY": "Eliminado por",
         "ROLE": "Mi función",
         "TAGS": "Etiquetas"
-      },
-      "TOOLBAR": {
-        "CARDVIEW": "Modo de vista de tarjeta",
-        "LISTVIEW": "Modo de vista de lista"
       }
     },
     "MESSAGES": {

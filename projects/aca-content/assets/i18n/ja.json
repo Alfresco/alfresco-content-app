@@ -296,10 +296,6 @@
         "DELETED_BY": "削除者",
         "ROLE": "あなたの役割",
         "TAGS": "タグ"
-      },
-      "TOOLBAR": {
-        "CARDVIEW": "カード表示モード",
-        "LISTVIEW": "一覧表示モード"
       }
     },
     "MESSAGES": {

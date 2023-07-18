@@ -296,10 +296,6 @@
         "DELETED_BY": "Raderad av",
         "ROLE": "Min roll",
         "TAGS": "Taggar"
-      },
-      "TOOLBAR": {
-        "CARDVIEW": "Kortvyläge",
-        "LISTVIEW": "Listvyläge"
       }
     },
     "MESSAGES": {

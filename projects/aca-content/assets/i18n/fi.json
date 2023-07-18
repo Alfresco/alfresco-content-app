@@ -296,10 +296,6 @@
         "DELETED_BY": "Poistaja:",
         "ROLE": "Oma rooli",
         "TAGS": "Tunnisteet"
-      },
-      "TOOLBAR": {
-        "CARDVIEW": "Korttinäkymätila",
-        "LISTVIEW": "Luettelonäkymätila"
       }
     },
     "MESSAGES": {

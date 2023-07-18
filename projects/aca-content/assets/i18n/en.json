@@ -296,10 +296,6 @@
                 "DELETED_BY": "Deleted by",
                 "ROLE": "My Role",
                 "TAGS": "Tags"
-            },
-            "TOOLBAR": {
-                "CARDVIEW": "Card view mode",
-                "LISTVIEW": "List view mode"
             }
         },
         "MESSAGES": {

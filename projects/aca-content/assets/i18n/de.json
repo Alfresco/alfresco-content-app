@@ -296,10 +296,6 @@
         "DELETED_BY": "Gelöscht von",
         "ROLE": "Meine Rolle",
         "TAGS": "Tags"
-      },
-      "TOOLBAR": {
-        "CARDVIEW": "Kartenansichtsmodus",
-        "LISTVIEW": "Listenansichtsmodus"
       }
     },
     "MESSAGES": {

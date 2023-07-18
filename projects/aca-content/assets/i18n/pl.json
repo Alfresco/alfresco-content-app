@@ -296,10 +296,6 @@
         "DELETED_BY": "Usunięte przez",
         "ROLE": "Moja rola",
         "TAGS": "Znaczniki"
-      },
-      "TOOLBAR": {
-        "CARDVIEW": "Tryb widoku karty",
-        "LISTVIEW": "Tryb widoku listy"
       }
     },
     "MESSAGES": {

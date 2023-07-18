@@ -296,10 +296,6 @@
         "DELETED_BY": "删除人",
         "ROLE": "我的角色",
         "TAGS": "标记"
-      },
-      "TOOLBAR": {
-        "CARDVIEW": "卡查看模式",
-        "LISTVIEW": "列表视图模式"
       }
     },
     "MESSAGES": {
