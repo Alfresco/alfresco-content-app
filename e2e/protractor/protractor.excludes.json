@@ -19,5 +19,11 @@
   "C279221": "temp, will be fixed in https://alfresco.atlassian.net/browse/ACS-4985",
   "C279220": "temp, will be fixed in https://alfresco.atlassian.net/browse/ACS-4985",
   "C325006": "temp, will be fixed in https://alfresco.atlassian.net/browse/ACS-4985",
-  "C213097": "https://alfresco.atlassian.net/browse/ACS-5479"
+  "C213097": "https://alfresco.atlassian.net/browse/ACS-5479",
+
+  "C268958" : "test migrated to playwright https://alfresco.atlassian.net/browse/ACS-5604",
+  "C268959" : "test migrated to playwright https://alfresco.atlassian.net/browse/ACS-5604",
+  "C268960" : "test migrated to playwright https://alfresco.atlassian.net/browse/ACS-5604",
+  "C268961" : "test migrated to playwright https://alfresco.atlassian.net/browse/ACS-5604"
+
 }

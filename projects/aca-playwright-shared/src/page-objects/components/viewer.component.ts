@@ -33,6 +33,7 @@ export class ViewerComponent extends BaseComponent {
   private viewerLocator = this.getChild('.adf-viewer-render-layout-content');
   public closeButtonLocator = this.getChild('.adf-viewer-close-button');
   public fileTitleButtonLocator = this.getChild('.adf-viewer__file-title');
+  public pdfViewerContentPages = this.getChild('.adf-pdf-viewer__content .page');
 
   toolbar = new AcaHeader(this.page);
 
@@ -40,7 +41,17 @@ export class ViewerComponent extends BaseComponent {
     super(page, ViewerComponent.rootElement);
   }
 
+  async isPdfViewerContentDisplayed(): Promise<boolean> {
+    const count = await this.pdfViewerContentPages.count();
+    return count > 0;
+  }
+
+  async waitForViewerToOpen(): Promise<void> {
+    await this.viewerLocator.waitFor({ state: 'visible', timeout: timeouts.medium });
+  }
+
   async isViewerOpened(): Promise<boolean> {
+    await this.waitForViewerToOpen();
     return await this.viewerLocator.isVisible();
   }
 

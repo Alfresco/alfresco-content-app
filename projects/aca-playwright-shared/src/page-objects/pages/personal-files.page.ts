@@ -22,12 +22,11 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 import { Page } from '@playwright/test';
 import { BasePage } from './base.page';
 import { DataTableComponent, MatMenuComponent, ViewerComponent } from '../components';
 import { AcaHeader } from '../components/aca-header.component';
-import { AdfFolderDialogComponent } from '../components/dialogs';
+import { AdfFolderDialogComponent, PasswordOverlayDialogComponent } from '../components/dialogs';
 
 export class PersonalFilesPage extends BasePage {
   private static pageUrl = 'personal-files';
@@ -41,4 +40,5 @@ export class PersonalFilesPage extends BasePage {
   public folderDialog = new AdfFolderDialogComponent(this.page);
   public dataTable = new DataTableComponent(this.page);
   public viewer = new ViewerComponent(this.page);
+  public passwordDialog = new PasswordOverlayDialogComponent(this.page);
 }
