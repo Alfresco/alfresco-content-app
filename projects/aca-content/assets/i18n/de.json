@@ -39,15 +39,6 @@
     "LANGUAGE": "Sprache",
     "SIGN_IN": "Anmelden",
     "SIGN_OUT": "Abmelden",
-    "SETTINGS": {
-      "TITLE": "Einstellungen",
-      "APPLICATION-SETTINGS": "Anwendungseinstellungen",
-      "REPOSITORY-SETTINGS": "Repository-Einstellungen",
-      "INVALID-VALUE-FORMAT": "Wert in ungültigem Format",
-      "REQUIRED-FIELD": "Dieses Feld ist erforderlich",
-      "RESET": "Zurücksetzen",
-      "APPLY": "Anwenden"
-    },
     "EDIT_PROFILE": {
       "MY_PROFILE": "Mein Profil",
       "GENERAL": "Allgemein",
@@ -305,10 +296,6 @@
         "DELETED_BY": "Gelöscht von",
         "ROLE": "Meine Rolle",
         "TAGS": "Tags"
-      },
-      "TOOLBAR": {
-        "CARDVIEW": "Kartenansichtsmodus",
-        "LISTVIEW": "Listenansichtsmodus"
       }
     },
     "MESSAGES": {
@@ -467,10 +454,6 @@
     "UNSHARE_PERMISSION_ERROR": "Sie verfügen nicht über die Berechtigung die Freigabe für diese Datei aufzuheben"
   },
   "VERSION": {
-    "DIALOG_ADF": {
-      "TITLE": "Versionen verwalten",
-      "CLOSE": "Schließen"
-    },
     "DIALOG": {
       "TITLE": "Neue Version hochladen",
       "CANCEL": "Abbrechen",
@@ -483,12 +466,6 @@
     "ERROR": {
       "GENERIC": "Bei der Versionsverwaltung der Datei ist ein Fehler aufgetreten"
     }
-  },
-  "INFO_PANEL": {
-    "TABS": {
-    
-    },
-    "DETAILS": "Details"
   },
   "LIBRARY": {
     "DIALOG": {
@@ -596,11 +573,6 @@
           "TITLE": "Erstellungsdatum (Bereich)"
         }
       }
-    }
-  },
-  "AVATAR": {
-    "ACCESSIBILITY": {
-      "AVATAR_BUTTON_ARIA_LABEL": "Benutzeroptionen"
     }
   },
   "CORE": {

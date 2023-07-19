@@ -39,15 +39,6 @@
     "LANGUAGE": "Språk",
     "SIGN_IN": "Logga in",
     "SIGN_OUT": "Logga ut",
-    "SETTINGS": {
-      "TITLE": "Inställningar",
-      "APPLICATION-SETTINGS": "Applikationsinställningar",
-      "REPOSITORY-SETTINGS": "Arkivinställningar",
-      "INVALID-VALUE-FORMAT": "Ogiltigt värdeformat",
-      "REQUIRED-FIELD": "Det här fältet krävs",
-      "RESET": "Återställ",
-      "APPLY": "Tillämpa"
-    },
     "EDIT_PROFILE": {
       "MY_PROFILE": "Min profil",
       "GENERAL": "Allmänt",
@@ -305,10 +296,6 @@
         "DELETED_BY": "Raderad av",
         "ROLE": "Min roll",
         "TAGS": "Taggar"
-      },
-      "TOOLBAR": {
-        "CARDVIEW": "Kortvyläge",
-        "LISTVIEW": "Listvyläge"
       }
     },
     "MESSAGES": {
@@ -467,10 +454,6 @@
     "UNSHARE_PERMISSION_ERROR": "Du har inte behörighet att sluta dela den här filen"
   },
   "VERSION": {
-    "DIALOG_ADF": {
-      "TITLE": "Hantera versioner",
-      "CLOSE": "Stäng"
-    },
     "DIALOG": {
       "TITLE": "Ladda upp ny version",
       "CANCEL": "Avbryt",
@@ -483,12 +466,6 @@
     "ERROR": {
       "GENERIC": "Det uppstod ett fel med att versionshantera filen"
     }
-  },
-  "INFO_PANEL": {
-    "TABS": {
-    
-    },
-    "DETAILS": "Detaljer"
   },
   "LIBRARY": {
     "DIALOG": {
@@ -596,11 +573,6 @@
           "TITLE": "Skapad datum (område)"
         }
       }
-    }
-  },
-  "AVATAR": {
-    "ACCESSIBILITY": {
-      "AVATAR_BUTTON_ARIA_LABEL": "Användaralternativ"
     }
   },
   "CORE": {

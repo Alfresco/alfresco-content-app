@@ -39,15 +39,6 @@
     "LANGUAGE": "Kieli",
     "SIGN_IN": "Kirjaudu sisään",
     "SIGN_OUT": "Kirjaudu ulos",
-    "SETTINGS": {
-      "TITLE": "Asetukset",
-      "APPLICATION-SETTINGS": "Sovellusasetukset",
-      "REPOSITORY-SETTINGS": "Säilöasetukset",
-      "INVALID-VALUE-FORMAT": "Virheellinen arvon muoto",
-      "REQUIRED-FIELD": "Tämä kenttä on pakollinen",
-      "RESET": "Nollaa",
-      "APPLY": "Käytä"
-    },
     "EDIT_PROFILE": {
       "MY_PROFILE": "Oma profiili",
       "GENERAL": "Yleiset",
@@ -305,10 +296,6 @@
         "DELETED_BY": "Poistaja:",
         "ROLE": "Oma rooli",
         "TAGS": "Tunnisteet"
-      },
-      "TOOLBAR": {
-        "CARDVIEW": "Korttinäkymätila",
-        "LISTVIEW": "Luettelonäkymätila"
       }
     },
     "MESSAGES": {
@@ -467,10 +454,6 @@
     "UNSHARE_PERMISSION_ERROR": "Sinulla ei ole oikeuksia peruuttaa tämän tiedoston jakamista"
   },
   "VERSION": {
-    "DIALOG_ADF": {
-      "TITLE": "Hallitse versioita",
-      "CLOSE": "Sulje"
-    },
     "DIALOG": {
       "TITLE": "Lataa uusi versio",
       "CANCEL": "Peruuta",
@@ -483,12 +466,6 @@
     "ERROR": {
       "GENERIC": "Tiedoston versionhallinnassa tapahtui virhe"
     }
-  },
-  "INFO_PANEL": {
-    "TABS": {
-    
-    },
-    "DETAILS": "Tiedot"
   },
   "LIBRARY": {
     "DIALOG": {
@@ -596,11 +573,6 @@
           "TITLE": "Luontipäivämäärä (vaihteluväli)"
         }
       }
-    }
-  },
-  "AVATAR": {
-    "ACCESSIBILITY": {
-      "AVATAR_BUTTON_ARIA_LABEL": "Käyttäjän valinnat"
     }
   },
   "CORE": {

@@ -39,15 +39,6 @@
     "LANGUAGE": "Taal",
     "SIGN_IN": "Aanmelden",
     "SIGN_OUT": "Afmelden",
-    "SETTINGS": {
-      "TITLE": "Instellingen",
-      "APPLICATION-SETTINGS": "Toepassingsnaam",
-      "REPOSITORY-SETTINGS": "Opslagplaatsinstellingen",
-      "INVALID-VALUE-FORMAT": "Ongeldige indeling van waarde",
-      "REQUIRED-FIELD": "Dit veld is vereist",
-      "RESET": "Opnieuw instellen",
-      "APPLY": "Toepassen"
-    },
     "EDIT_PROFILE": {
       "MY_PROFILE": "Mijn profiel",
       "GENERAL": "Algemeen",
@@ -305,10 +296,6 @@
         "DELETED_BY": "Verwijderd door",
         "ROLE": "Mijn rol",
         "TAGS": "Tags"
-      },
-      "TOOLBAR": {
-        "CARDVIEW": "Kaartweergavemodus",
-        "LISTVIEW": "Lijstweergavemodus"
       }
     },
     "MESSAGES": {
@@ -467,10 +454,6 @@
     "UNSHARE_PERMISSION_ERROR": "U hebt geen rechten om het delen van dit bestand ongedaan te maken"
   },
   "VERSION": {
-    "DIALOG_ADF": {
-      "TITLE": "Versies beheren",
-      "CLOSE": "Sluiten"
-    },
     "DIALOG": {
       "TITLE": "Nieuwe versie uploaden",
       "CANCEL": "Annuleren",
@@ -483,12 +466,6 @@
     "ERROR": {
       "GENERIC": "Er is een fout opgetreden bij het versiebeheer van het bestand"
     }
-  },
-  "INFO_PANEL": {
-    "TABS": {
-    
-    },
-    "DETAILS": "Gegevens"
   },
   "LIBRARY": {
     "DIALOG": {
@@ -596,11 +573,6 @@
           "TITLE": "Datum gemaakt (bereik)"
         }
       }
-    }
-  },
-  "AVATAR": {
-    "ACCESSIBILITY": {
-      "AVATAR_BUTTON_ARIA_LABEL": "Gebruikersopties"
     }
   },
   "CORE": {

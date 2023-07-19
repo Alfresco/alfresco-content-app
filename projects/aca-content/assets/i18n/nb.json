@@ -39,15 +39,6 @@
     "LANGUAGE": "Språk",
     "SIGN_IN": "Logg på",
     "SIGN_OUT": "Logg ut",
-    "SETTINGS": {
-      "TITLE": "Innstillinger",
-      "APPLICATION-SETTINGS": "Programnavn",
-      "REPOSITORY-SETTINGS": "Datalagerinnstillinger",
-      "INVALID-VALUE-FORMAT": "Ugyldig verdiformat",
-      "REQUIRED-FIELD": "Dette feltet er påkrevd",
-      "RESET": "Tilbakestill",
-      "APPLY": "Bruk"
-    },
     "EDIT_PROFILE": {
       "MY_PROFILE": "Min profil",
       "GENERAL": "Generelt",
@@ -305,10 +296,6 @@
         "DELETED_BY": "Slettet av",
         "ROLE": "Min rolle",
         "TAGS": "Tagger"
-      },
-      "TOOLBAR": {
-        "CARDVIEW": "Kortvisningsmodus",
-        "LISTVIEW": "Listevisningsmodus"
       }
     },
     "MESSAGES": {
@@ -467,10 +454,6 @@
     "UNSHARE_PERMISSION_ERROR": "Du har ikke tillatelse til å oppheve deling av denne filen"
   },
   "VERSION": {
-    "DIALOG_ADF": {
-      "TITLE": "Håndtere versjoner",
-      "CLOSE": "Lukk"
-    },
     "DIALOG": {
       "TITLE": "Last opp ny versjon",
       "CANCEL": "Avbryt",
@@ -483,12 +466,6 @@
     "ERROR": {
       "GENERIC": "Det oppstod en feil med versjonskontroll av filen"
     }
-  },
-  "INFO_PANEL": {
-    "TABS": {
-    
-    },
-    "DETAILS": "Detaljer"
   },
   "LIBRARY": {
     "DIALOG": {
@@ -596,11 +573,6 @@
           "TITLE": "Opprettet dato (område)"
         }
       }
-    }
-  },
-  "AVATAR": {
-    "ACCESSIBILITY": {
-      "AVATAR_BUTTON_ARIA_LABEL": "Brukeralternativer"
     }
   },
   "CORE": {

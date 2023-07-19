@@ -39,15 +39,6 @@
     "LANGUAGE": "Язык",
     "SIGN_IN": "Войти",
     "SIGN_OUT": "Выйти",
-    "SETTINGS": {
-      "TITLE": "Параметры",
-      "APPLICATION-SETTINGS": "Параметры приложения",
-      "REPOSITORY-SETTINGS": "Настройки репозитория",
-      "INVALID-VALUE-FORMAT": "Недопустимый формат значения",
-      "REQUIRED-FIELD": "Поле обязательно для заполнения",
-      "RESET": "Сброс",
-      "APPLY": "Применить"
-    },
     "EDIT_PROFILE": {
       "MY_PROFILE": "Мой профиль",
       "GENERAL": "Общее",
@@ -305,10 +296,6 @@
         "DELETED_BY": "Удалено пользователем",
         "ROLE": "Моя роль",
         "TAGS": "Метки"
-      },
-      "TOOLBAR": {
-        "CARDVIEW": "Режим просмотра карты",
-        "LISTVIEW": "Режим просмотра списка"
       }
     },
     "MESSAGES": {
@@ -467,10 +454,6 @@
     "UNSHARE_PERMISSION_ERROR": "У вас нет разрешения на снятие этого файла с публикации"
   },
   "VERSION": {
-    "DIALOG_ADF": {
-      "TITLE": "Управление версиями",
-      "CLOSE": "Закрыть"
-    },
     "DIALOG": {
       "TITLE": "Загрузить новую версию",
       "CANCEL": "Отмена",
@@ -483,12 +466,6 @@
     "ERROR": {
       "GENERIC": "В ходе управления версиями возникла ошибка"
     }
-  },
-  "INFO_PANEL": {
-    "TABS": {
-    
-    },
-    "DETAILS": "Сведения"
   },
   "LIBRARY": {
     "DIALOG": {
@@ -596,11 +573,6 @@
           "TITLE": "Созданная дата (диапазон)"
         }
       }
-    }
-  },
-  "AVATAR": {
-    "ACCESSIBILITY": {
-      "AVATAR_BUTTON_ARIA_LABEL": "Пользовательские настройки"
     }
   },
   "CORE": {

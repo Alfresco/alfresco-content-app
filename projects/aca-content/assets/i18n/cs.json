@@ -39,15 +39,6 @@
     "LANGUAGE": "Jazyk",
     "SIGN_IN": "Přihlásit se",
     "SIGN_OUT": "Odhlásit se",
-    "SETTINGS": {
-      "TITLE": "Nastavení",
-      "APPLICATION-SETTINGS": "Nastavení aplikace",
-      "REPOSITORY-SETTINGS": "Nastavení úložiště",
-      "INVALID-VALUE-FORMAT": "Neplatný formát hodnoty",
-      "REQUIRED-FIELD": "Toto pole je povinné",
-      "RESET": "Reset",
-      "APPLY": "Použít"
-    },
     "EDIT_PROFILE": {
       "MY_PROFILE": "Můj profil",
       "GENERAL": "Obecné",
@@ -305,10 +296,6 @@
         "DELETED_BY": "Odstranil(a)",
         "ROLE": "Moje role",
         "TAGS": "Tag"
-      },
-      "TOOLBAR": {
-        "CARDVIEW": "Režim zobrazení karet",
-        "LISTVIEW": "Režim zobrazení seznamu"
       }
     },
     "MESSAGES": {
@@ -467,10 +454,6 @@
     "UNSHARE_PERMISSION_ERROR": "Nemáte potřebná oprávnění pro zrušení sdílení tohoto souboru"
   },
   "VERSION": {
-    "DIALOG_ADF": {
-      "TITLE": "Spravovat verze",
-      "CLOSE": "Zavřít"
-    },
     "DIALOG": {
       "TITLE": "Odeslat novou verzi",
       "CANCEL": "Zrušit",
@@ -483,12 +466,6 @@
     "ERROR": {
       "GENERIC": "Při pokusu o vytvoření nové verze souboru došlo k chybě"
     }
-  },
-  "INFO_PANEL": {
-    "TABS": {
-    
-    },
-    "DETAILS": "Podrobnosti"
   },
   "LIBRARY": {
     "DIALOG": {
@@ -596,11 +573,6 @@
           "TITLE": "Datum vytvoření (rozmezí)"
         }
       }
-    }
-  },
-  "AVATAR": {
-    "ACCESSIBILITY": {
-      "AVATAR_BUTTON_ARIA_LABEL": "Uživatelské možnosti"
     }
   },
   "CORE": {

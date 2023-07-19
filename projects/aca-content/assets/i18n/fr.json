@@ -39,15 +39,6 @@
     "LANGUAGE": "Langue",
     "SIGN_IN": "Connexion",
     "SIGN_OUT": "Déconnexion",
-    "SETTINGS": {
-      "TITLE": "Paramètres",
-      "APPLICATION-SETTINGS": "Paramètres de l'application",
-      "REPOSITORY-SETTINGS": "Paramètres de l'entrepôt",
-      "INVALID-VALUE-FORMAT": "Format de valeur non valide",
-      "REQUIRED-FIELD": "Ce champ est obligatoire",
-      "RESET": "Réinitialiser",
-      "APPLY": "Appliquer"
-    },
     "EDIT_PROFILE": {
       "MY_PROFILE": "Mon profil",
       "GENERAL": "Général",
@@ -305,10 +296,6 @@
         "DELETED_BY": "Supprimé par",
         "ROLE": "Mon rôle",
         "TAGS": "Tags"
-      },
-      "TOOLBAR": {
-        "CARDVIEW": "Mode d'affichage Carte",
-        "LISTVIEW": "Mode Liste"
       }
     },
     "MESSAGES": {
@@ -467,10 +454,6 @@
     "UNSHARE_PERMISSION_ERROR": "Vous n'avez pas les droits d'accès pour ne pas partager ce fichier"
   },
   "VERSION": {
-    "DIALOG_ADF": {
-      "TITLE": "Gérer les versions",
-      "CLOSE": "Fermer"
-    },
     "DIALOG": {
       "TITLE": "Importer une nouvelle version",
       "CANCEL": "Annuler",
@@ -483,12 +466,6 @@
     "ERROR": {
       "GENERIC": "Une erreur s'est produite lors du versionnage du fichier"
     }
-  },
-  "INFO_PANEL": {
-    "TABS": {
-    
-    },
-    "DETAILS": "Détails"
   },
   "LIBRARY": {
     "DIALOG": {
@@ -596,11 +573,6 @@
           "TITLE": "Date de création (plage)"
         }
       }
-    }
-  },
-  "AVATAR": {
-    "ACCESSIBILITY": {
-      "AVATAR_BUTTON_ARIA_LABEL": "Options utilisateur"
     }
   },
   "CORE": {

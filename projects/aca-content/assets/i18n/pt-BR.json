@@ -39,15 +39,6 @@
     "LANGUAGE": "Idioma",
     "SIGN_IN": "Entrar",
     "SIGN_OUT": "Sair",
-    "SETTINGS": {
-      "TITLE": "Configurações",
-      "APPLICATION-SETTINGS": "Configurações do aplicativo",
-      "REPOSITORY-SETTINGS": "Configurações do repositório",
-      "INVALID-VALUE-FORMAT": "Formato de valor inválido",
-      "REQUIRED-FIELD": "Este campo é obrigatório",
-      "RESET": "Redefinir",
-      "APPLY": "Aplicar"
-    },
     "EDIT_PROFILE": {
       "MY_PROFILE": "Meu perfil",
       "GENERAL": "Geral",
@@ -305,10 +296,6 @@
         "DELETED_BY": "Excluído por",
         "ROLE": "Meu papel",
         "TAGS": "Marcas"
-      },
-      "TOOLBAR": {
-        "CARDVIEW": "Modo de visualização de cartão",
-        "LISTVIEW": "Modo de exibição em lista"
       }
     },
     "MESSAGES": {
@@ -467,10 +454,6 @@
     "UNSHARE_PERMISSION_ERROR": "Você não tem permissão para descompartilhar deste arquivo"
   },
   "VERSION": {
-    "DIALOG_ADF": {
-      "TITLE": "Gerenciar versões",
-      "CLOSE": "Fechar"
-    },
     "DIALOG": {
       "TITLE": "Carregar nova versão",
       "CANCEL": "Cancelar",
@@ -483,12 +466,6 @@
     "ERROR": {
       "GENERIC": "Houve um erro ao controlar a versão do arquivo"
     }
-  },
-  "INFO_PANEL": {
-    "TABS": {
-    
-    },
-    "DETAILS": "Detalhes"
   },
   "LIBRARY": {
     "DIALOG": {
@@ -596,11 +573,6 @@
           "TITLE": "Data de criação (intervalo)"
         }
       }
-    }
-  },
-  "AVATAR": {
-    "ACCESSIBILITY": {
-      "AVATAR_BUTTON_ARIA_LABEL": "Opções de usuário"
     }
   },
   "CORE": {

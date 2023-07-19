@@ -39,15 +39,6 @@
     "LANGUAGE": "اللغة",
     "SIGN_IN": "تسجيل دخول",
     "SIGN_OUT": "تسجيل خروج",
-    "SETTINGS": {
-      "TITLE": "الإعدادات",
-      "APPLICATION-SETTINGS": "إعدادات التطبيق",
-      "REPOSITORY-SETTINGS": "إعدادات المستودع",
-      "INVALID-VALUE-FORMAT": "تنسيق قيمة غير صالح",
-      "REQUIRED-FIELD": "هذا الحقل مطلوب",
-      "RESET": "إعادة تعيين",
-      "APPLY": "تطبيق"
-    },
     "EDIT_PROFILE": {
       "MY_PROFILE": "ملف التعريف الخاص بي",
       "GENERAL": "عام",
@@ -305,10 +296,6 @@
         "DELETED_BY": "تم الحذف بواسطة",
         "ROLE": "دوري",
         "TAGS": "علامات"
-      },
-      "TOOLBAR": {
-        "CARDVIEW": "وضع عرض البطاقة",
-        "LISTVIEW": "وضع عرض القائمة"
       }
     },
     "MESSAGES": {
@@ -467,10 +454,6 @@
     "UNSHARE_PERMISSION_ERROR": "ليس لديك إذن لإلغاء مشاركة هذا الملف"
   },
   "VERSION": {
-    "DIALOG_ADF": {
-      "TITLE": "إدارة الإصدارات",
-      "CLOSE": "إغلاق"
-    },
     "DIALOG": {
       "TITLE": "تحميل إصدار جديد",
       "CANCEL": "إلغاء",
@@ -483,12 +466,6 @@
     "ERROR": {
       "GENERIC": "حدث خطأ في تعيين إصدار الملف"
     }
-  },
-  "INFO_PANEL": {
-    "TABS": {
-    
-    },
-    "DETAILS": "التفاصيل"
   },
   "LIBRARY": {
     "DIALOG": {
@@ -596,11 +573,6 @@
           "TITLE": "تاريخ الإنشاء (نطاق)"
         }
       }
-    }
-  },
-  "AVATAR": {
-    "ACCESSIBILITY": {
-      "AVATAR_BUTTON_ARIA_LABEL": "خيارات المستخدم"
     }
   },
   "CORE": {

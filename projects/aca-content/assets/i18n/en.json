@@ -39,15 +39,6 @@
         "LANGUAGE": "Language",
         "SIGN_IN": "Sign in",
         "SIGN_OUT": "Sign out",
-        "SETTINGS": {
-            "TITLE": "Settings",
-            "APPLICATION-SETTINGS": "Application Settings",
-            "REPOSITORY-SETTINGS": "Repository Settings",
-            "INVALID-VALUE-FORMAT": "Invalid value format",
-            "REQUIRED-FIELD": "This field is required",
-            "RESET": "Reset",
-            "APPLY": "Apply"
-        },
         "EDIT_PROFILE": {
             "MY_PROFILE": "My Profile",
             "GENERAL": "General",
@@ -305,10 +296,6 @@
                 "DELETED_BY": "Deleted by",
                 "ROLE": "My Role",
                 "TAGS": "Tags"
-            },
-            "TOOLBAR": {
-                "CARDVIEW": "Card view mode",
-                "LISTVIEW": "List view mode"
             }
         },
         "MESSAGES": {
@@ -467,10 +454,6 @@
         "UNSHARE_PERMISSION_ERROR": "You don't have permission to unshare this file"
     },
     "VERSION": {
-        "DIALOG_ADF": {
-            "TITLE": "Manage Versions",
-            "CLOSE": "Close"
-        },
         "DIALOG": {
             "TITLE": "Upload New Version",
             "CANCEL": "Cancel",
@@ -483,12 +466,6 @@
         "ERROR": {
             "GENERIC": "There was an error versioning the file"
         }
-    },
-    "INFO_PANEL": {
-        "TABS": {
-
-        },
-        "DETAILS": "Details"
     },
     "LIBRARY": {
         "DIALOG": {
@@ -597,11 +574,6 @@
             }
           }
         }
-    },
-    "AVATAR": {
-      "ACCESSIBILITY": {
-        "AVATAR_BUTTON_ARIA_LABEL": "User options"
-      }
     },
     "CORE": {
         "METADATA": {

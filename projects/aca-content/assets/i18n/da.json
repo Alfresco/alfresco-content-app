@@ -39,15 +39,6 @@
     "LANGUAGE": "Sprog",
     "SIGN_IN": "Log ind",
     "SIGN_OUT": "Log af",
-    "SETTINGS": {
-      "TITLE": "Indstillinger",
-      "APPLICATION-SETTINGS": "Applikationsindstillinger",
-      "REPOSITORY-SETTINGS": "Lagerindstillinger",
-      "INVALID-VALUE-FORMAT": "Værdiformatet er ugyldigt",
-      "REQUIRED-FIELD": "Dette felt er påkrævet",
-      "RESET": "Nulstil",
-      "APPLY": "Anvend"
-    },
     "EDIT_PROFILE": {
       "MY_PROFILE": "Min profil",
       "GENERAL": "Generelt",
@@ -305,10 +296,6 @@
         "DELETED_BY": "Slettet af",
         "ROLE": "Min rolle",
         "TAGS": "Tags"
-      },
-      "TOOLBAR": {
-        "CARDVIEW": "Kortvisning",
-        "LISTVIEW": "Listevisning"
       }
     },
     "MESSAGES": {
@@ -467,10 +454,6 @@
     "UNSHARE_PERMISSION_ERROR": "Du har ikke tilladelse til at ophæve delingen af denne fil"
   },
   "VERSION": {
-    "DIALOG_ADF": {
-      "TITLE": "Administrer versioner",
-      "CLOSE": "Luk"
-    },
     "DIALOG": {
       "TITLE": "Upload ny version",
       "CANCEL": "Annuller",
@@ -483,12 +466,6 @@
     "ERROR": {
       "GENERIC": "Der opstod en fejl under versionsangivelse for filen"
     }
-  },
-  "INFO_PANEL": {
-    "TABS": {
-    
-    },
-    "DETAILS": "Detaljer"
   },
   "LIBRARY": {
     "DIALOG": {
@@ -596,11 +573,6 @@
           "TITLE": "Oprettelsesdato (interval)"
         }
       }
-    }
-  },
-  "AVATAR": {
-    "ACCESSIBILITY": {
-      "AVATAR_BUTTON_ARIA_LABEL": "Valgmuligheder for bruger"
     }
   },
   "CORE": {

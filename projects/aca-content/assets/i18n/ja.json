@@ -39,15 +39,6 @@
     "LANGUAGE": "言語",
     "SIGN_IN": "サインイン",
     "SIGN_OUT": "サインアウト",
-    "SETTINGS": {
-      "TITLE": "設定",
-      "APPLICATION-SETTINGS": "アプリケーションの設定",
-      "REPOSITORY-SETTINGS": "リポジトリの設定",
-      "INVALID-VALUE-FORMAT": "無効な値形式",
-      "REQUIRED-FIELD": "このフィールドは必須です",
-      "RESET": "リセット",
-      "APPLY": "適用"
-    },
     "EDIT_PROFILE": {
       "MY_PROFILE": "あなたのプロフィール",
       "GENERAL": "全般",
@@ -305,10 +296,6 @@
         "DELETED_BY": "削除者",
         "ROLE": "あなたの役割",
         "TAGS": "タグ"
-      },
-      "TOOLBAR": {
-        "CARDVIEW": "カード表示モード",
-        "LISTVIEW": "一覧表示モード"
       }
     },
     "MESSAGES": {
@@ -467,10 +454,6 @@
     "UNSHARE_PERMISSION_ERROR": "このファイルの共有を解除する権限がありません。"
   },
   "VERSION": {
-    "DIALOG_ADF": {
-      "TITLE": "バージョンの管理",
-      "CLOSE": "閉じる"
-    },
     "DIALOG": {
       "TITLE": "新しいバージョンのアップロード",
       "CANCEL": "キャンセル",
@@ -483,12 +466,6 @@
     "ERROR": {
       "GENERIC": "ファイルのバージョン作成中にエラーが発生しました"
     }
-  },
-  "INFO_PANEL": {
-    "TABS": {
-    
-    },
-    "DETAILS": "詳細"
   },
   "LIBRARY": {
     "DIALOG": {
@@ -596,11 +573,6 @@
           "TITLE": "作成日 (範囲)"
         }
       }
-    }
-  },
-  "AVATAR": {
-    "ACCESSIBILITY": {
-      "AVATAR_BUTTON_ARIA_LABEL": "ユーザーオプション"
     }
   },
   "CORE": {
