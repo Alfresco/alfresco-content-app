@@ -160,11 +160,10 @@ export class DataTableComponent extends BaseComponent {
    *
    * @param name of the data table element with which we want to double click
    */
-    async performClickFolderOrFileToOpen(name: string): Promise<void> {
-      await this.goThroughPagesLookingForRowWithName(name);
-      await this.getCellLinkByName(name).click();
-      await this.spinnerWaitForReload();
-    }
+  async performClickFolderOrFileToOpen(name: string): Promise<void> {
+    await this.getCellLinkByName(name).click();
+    await this.spinnerWaitForReload();
+  }
 
   async getActionLocatorFromExpandableMenu(name: string | number, action: string): Promise<Locator> {
     await this.getRowByName(name).click({ button: 'right' });
@@ -200,8 +199,8 @@ export class DataTableComponent extends BaseComponent {
   async selectItem(name: string): Promise<void> {
     const isSelected = await this.hasCheckMarkIcon(name);
     if (!isSelected) {
-        const row = await this.getRowByName(name);
-        await row.locator('.mat-checkbox[id*="mat-checkbox"]').check();
+      const row = await this.getRowByName(name);
+      await row.locator('.mat-checkbox[id*="mat-checkbox"]').check();
     }
   }
 

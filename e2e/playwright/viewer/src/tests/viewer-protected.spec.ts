@@ -29,7 +29,7 @@ test.use({ storageState: getUserState('hruser') });
 test.describe('viewer file', () => {
   const apiClientFactory = new ApiClientFactory();
   const randomFolderName = `playwright-folder-${Utils.random()}`;
-  const randomDocxName = `$(TEST_FILES.DOCX_PROTECTED.name)-${Utils.random()}`;
+  const randomDocxName = `${TEST_FILES.DOCX_PROTECTED.name}-${Utils.random()}`;
   let folderId: string;
   let fileDocxId: string;
 
@@ -44,8 +44,8 @@ test.describe('viewer file', () => {
   });
 
   test.beforeEach(async ({ personalFiles }) => {
-    await personalFiles.navigate({ waitUntil: 'domcontentloaded' });
-    await personalFiles.dataTable.performClickFolderOrFileToOpen(randomFolderName);
+    const gotoNodeURL = `#/personal-files/${folderId}`;
+    await personalFiles.navigate({ remoteUrl: gotoNodeURL });
     await personalFiles.dataTable.performClickFolderOrFileToOpen(randomDocxName);
   });
 
