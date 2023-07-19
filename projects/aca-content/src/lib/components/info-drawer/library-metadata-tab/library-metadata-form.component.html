@@ -1,6 +1,6 @@
 <mat-card *ngIf="node">
   <mat-card-content *ngIf="!edit">
-    <div class="mat-form-field mat-form-field-type-mat-input mat-form-field-can-float mat-form-field-should-float adf-full-width">
+    <div class="mat-form-field mat-form-field-type-mat-input mat-form-field-can-float mat-form-field-should-float">
       <div class="mat-form-field-wrapper" data-automation-id="library-name-properties-wrapper">
         <div class="mat-form-field-flex">
           <div class="mat-form-field-infix">
@@ -18,7 +18,7 @@
       </div>
     </div>
 
-    <div class="mat-form-field mat-primary mat-form-field-type-mat-input mat-form-field-can-float mat-form-field-should-float adf-full-width">
+    <div class="mat-form-field mat-primary mat-form-field-type-mat-input mat-form-field-can-float mat-form-field-should-float">
       <div class="mat-form-field-wrapper" data-automation-id="library-id-properties-wrapper">
         <div class="mat-form-field-flex">
           <div class="mat-form-field-infix">
@@ -36,7 +36,7 @@
       </div>
     </div>
 
-    <div class="mat-form-field mat-primary mat-form-field-type-mat-input mat-form-field-can-float mat-form-field-should-float adf-full-width">
+    <div class="mat-form-field mat-primary mat-form-field-type-mat-input mat-form-field-can-float mat-form-field-should-float">
       <div class="mat-form-field-wrapper" data-automation-id="library-visibility-properties-wrapper">
         <div class="mat-form-field-flex">
           <div class="mat-form-field-infix">
@@ -54,7 +54,7 @@
       </div>
     </div>
 
-    <div class="mat-form-field mat-primary mat-form-field-type-mat-input mat-form-field-can-float mat-form-field-should-float adf-full-width">
+    <div class="mat-form-field mat-primary mat-form-field-type-mat-input mat-form-field-can-float mat-form-field-should-float">
       <div class="mat-form-field-wrapper" data-automation-id="library-description-properties-wrapper">
         <div class="mat-form-field-flex">
           <div class="mat-form-field-infix">
@@ -81,7 +81,7 @@
 
   <mat-card-content *ngIf="edit">
     <form [formGroup]="form" autocomplete="off">
-      <mat-form-field class="adf-full-width">
+      <mat-form-field>
         <input
           matInput
           cdkFocusInitial
@@ -96,11 +96,11 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field class="adf-full-width">
+      <mat-form-field>
         <input matInput placeholder="{{ 'LIBRARY.DIALOG.FORM.SITE_ID' | translate }}" formControlName="id" />
       </mat-form-field>
 
-      <mat-form-field class="adf-full-width">
+      <mat-form-field>
         <mat-select placeholder="{{ 'LIBRARY.DIALOG.FORM.VISIBILITY' | translate }}" formControlName="visibility">
           <mat-option [value]="type.value" *ngFor="let type of libraryType">
             {{ type.label | translate }}
@@ -108,7 +108,7 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field class="adf-full-width">
+      <mat-form-field>
         <textarea
           matInput
           placeholder="{{ 'LIBRARY.DIALOG.FORM.DESCRIPTION' | translate }}"

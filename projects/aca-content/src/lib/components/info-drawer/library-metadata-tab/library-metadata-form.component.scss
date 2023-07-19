@@ -1,4 +1,8 @@
 app-library-metadata-form {
+  .mat-form-field {
+    width: 100%;
+  }
+
   .mat-form-field-infix {
     position: relative;
     width: 180px;
