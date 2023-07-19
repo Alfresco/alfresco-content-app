@@ -23,13 +23,13 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, getUserState, test, TEST_FILES } from '@alfresco/playwright-shared';
+import { ApiClientFactory, getUserState, test, TEST_FILES, Utils } from '@alfresco/playwright-shared';
 
 test.use({ storageState: getUserState('admin') });
 test.describe('viewer file', () => {
   const apiClientFactory = new ApiClientFactory();
-  const randomFolderName = `playwright-folder-${(Math.random() + 1).toString(36).substring(6)}`;
-  const randomDocxName = TEST_FILES.DOCX.name + (Math.random() + 1).toString(36).substring(6);
+  const randomFolderName = `playwright-folder-${Utils.random()}`;
+  const randomDocxName = `$(TEST_FILES.DOCX.name)-${Utils.random()}`;
   let folderId: string;
   let fileDocxId: string;
 
@@ -76,7 +76,7 @@ test.describe('viewer file', () => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(randomDocxName);
     expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
     await personalFiles.viewer.closeButtonLocator.click();
-    expect(await personalFiles.viewer.isViewerOpened(), 'Viewer did not close').toBe(false);
+    expect(await personalFiles.dataTable.getCellLinkByName(randomDocxName).isVisible(), 'Viewer did not close').toBe(true);
   });
 
   test('[C284632] Close button tooltip', async ({ personalFiles }) => {
