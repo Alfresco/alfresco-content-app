@@ -28,7 +28,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ContextActionsDirective, PageComponent, PageLayoutComponent, PaginationDirective, ToolbarActionComponent } from '@alfresco/aca-shared';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
-import { BreadcrumbModule, DocumentListModule } from '@alfresco/adf-content-services';
+import { DocumentListModule } from '@alfresco/adf-content-services';
 import { DataTableModule, PaginationModule, TemplateModule, ToolbarModule } from '@alfresco/adf-core';
 import { DocumentListDirective } from '../../directives/document-list.directive';
 
@@ -37,7 +37,6 @@ import { DocumentListDirective } from '../../directives/document-list.directive'
   imports: [
     CommonModule,
     TranslateModule,
-    BreadcrumbModule,
     ToolbarModule,
     DocumentListModule,
     TemplateModule,

@@ -30,12 +30,12 @@
       <mat-tab-group [selectedIndex]="activeTab" class="aca-details-tabs" animationDuration="0">
         <mat-tab label="{{ 'APP.INFO_DRAWER.TABS.PROPERTIES' | translate }}">
           <ng-template matTabContent>
-            <app-metadata-tab *ngIf="node && !isLoading; else loading" [node]="node"> </app-metadata-tab>
+            <app-metadata-tab *ngIf="node && !isLoading; else loading" [node]="node"></app-metadata-tab>
           </ng-template>
         </mat-tab>
         <mat-tab label="{{ 'APP.INFO_DRAWER.TABS.COMMENTS' | translate }}">
           <ng-template matTabContent>
-            <app-comments-tab *ngIf="node && !isLoading; else loading" [node]="node"> </app-comments-tab>
+            <app-comments-tab *ngIf="node && !isLoading; else loading" [node]="node"></app-comments-tab>
           </ng-template>
         </mat-tab>
         <mat-tab label="{{ 'APP.INFO_DRAWER.TABS.PERMISSIONS' | translate }}">
@@ -49,5 +49,5 @@
 </aca-page-layout>
 
 <ng-template #loading>
-  <mat-progress-bar color="primary" mode="indeterminate"> </mat-progress-bar>
+  <mat-progress-bar color="primary" mode="indeterminate"></mat-progress-bar>
 </ng-template>
