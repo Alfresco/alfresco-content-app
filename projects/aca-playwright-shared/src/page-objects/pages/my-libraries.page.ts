@@ -22,11 +22,10 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 import { Page } from '@playwright/test';
 import { BasePage } from './base.page';
 import { AcaHeader } from '../components/aca-header.component';
-import { AdfBreadcrumbComponent, AdfInfoDrawerComponent, AdfLibraryDialogComponent, DataTableComponent, MatMenuComponent } from '../components';
+import { AdfInfoDrawerComponent, AdfLibraryDialogComponent, DataTableComponent, MatMenuComponent } from '../components';
 
 export class MyLibrariesPage extends BasePage {
   private static pageUrl = 'libraries';
@@ -38,12 +37,10 @@ export class MyLibrariesPage extends BasePage {
   public matMenu = new MatMenuComponent(this.page);
   public libraryDialog = new AdfLibraryDialogComponent(this.page);
   public dataTable = new DataTableComponent(this.page);
-  public breadcrumb = new AdfBreadcrumbComponent(this.page);
-  public libraryDetails = new AdfInfoDrawerComponent (this.page);
+  public libraryDetails = new AdfInfoDrawerComponent(this.page);
 
   async selectCreateLibrary(): Promise<void> {
     await this.acaHeader.createButton.click();
     await this.matMenu.createLibrary.click();
   }
-
 }
