@@ -31,7 +31,7 @@ import {
   FILES,
   SITE_VISIBILITY,
   SITE_ROLES,
-  SizeOptions
+  SizeOperator
 } from '@alfresco/aca-testing-shared';
 import { BrowserActions } from '@alfresco/adf-testing';
 
@@ -62,7 +62,7 @@ describe('Search filters', () => {
     source: FILES.pdfFile
   };
 
-  const expectedFileTypes = ['Adobe PDF Document (1)', 'JPEG Image (1)'];
+  const expectedFileTypes = ['pdf', 'wpd'];
   const expectedCreators = [`${user1} ${user1} (1)`, `${user2} ${user2} (1)`];
   const expectedModifiers = [`${user1} ${user1} (1)`, `${user2} ${user2} (1)`];
   const expectedLocations = ['_REPOSITORY_ (1)', `${site} (1)`];
@@ -77,7 +77,6 @@ describe('Search filters', () => {
   const { searchInput } = page.pageLayoutHeader;
   const { dataTable, filters, toolbar } = page;
 
-  const sizeFilter = filters.size;
   const fileTypeFilter = filters.fileType;
   const createdDateFilter = filters.createdDate;
   const creatorFilter = filters.creator;
@@ -118,7 +117,6 @@ describe('Search filters', () => {
   });
 
   it('[C279186] Filters are displayed', async () => {
-    expect(await sizeFilter.isDisplayed()).toBe(true, 'Size filter panel not displayed');
     expect(await createdDateFilter.isDisplayed()).toBe(true, 'Created date filter panel not displayed');
     expect(await fileTypeFilter.isDisplayed()).toBe(true, 'File type filter panel not displayed');
     expect(await creatorFilter.isDisplayed()).toBe(true, 'Creator filter panel not displayed');
@@ -129,64 +127,42 @@ describe('Search filters', () => {
 
   describe('Filter by Size', () => {
     afterEach(async () => {
-      await sizeFilter.resetPanel();
+      await fileTypeFilter.openDialog();
+      await fileTypeFilter.clickResetButton();
     });
 
-    it('[C279197] Expand / Collapse the Size filter panel', async () => {
-      expect(await sizeFilter.isDialogPresent()).toBe(false, 'Size filter panel is expanded');
-
-      await sizeFilter.openDialog();
-
-      expect(await sizeFilter.isDialogPresent()).toBe(true, 'Size filter panel not expanded');
-
-      const expectedSizes = ['Small', 'Medium', 'Large', 'Huge'];
-      expect(await sizeFilter.getFiltersValues()).toEqual(expectedSizes, 'Incorrect Size filters facets');
-
-      await sizeFilter.closeDialog();
-
-      expect(await sizeFilter.isDialogPresent()).toBe(false, 'Size filter panel is expanded');
-    });
-
-    it('[C279199] Filter by Small', async () => {
-      await sizeFilter.openDialog();
-      await sizeFilter.getSizeCheckboxOption(SizeOptions.Small).click();
-      await sizeFilter.clickApplyButton();
+    it('[C279199] Filter existing', async () => {
+      await fileTypeFilter.openDialog();
+      await fileTypeFilter.typeFileSize('1024');
+      await fileTypeFilter.selectFileSizeOperator(SizeOperator.AT_MOST);
+      await fileTypeFilter.clickApplyButton();
 
       expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(true, `${fileJpgUser1.name} not in the list`);
       expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(true, `${filePdfUser2.name} not in the list`);
     });
 
-    it('[C279202] Filter by Huge', async () => {
-      await sizeFilter.openDialog();
-      await sizeFilter.getSizeCheckboxOption(SizeOptions.Huge).click();
-      await sizeFilter.clickApplyButton();
+    it('[C279199] Filter non existing', async () => {
+      await fileTypeFilter.openDialog();
+      await fileTypeFilter.typeFileSize('512000');
+      await fileTypeFilter.clickApplyButton();
 
       expect(await dataTable.isEmpty()).toBe(true, 'list is not empty');
     });
 
-    it('[C279203] Filter by multiple size categories', async () => {
-      await sizeFilter.openDialog();
-      await sizeFilter.getSizeCheckboxOption(SizeOptions.Small).click();
-      await sizeFilter.getSizeCheckboxOption(SizeOptions.Medium).click();
-      await sizeFilter.getSizeCheckboxOption(SizeOptions.Large).click();
-      await sizeFilter.clickApplyButton();
-
-      expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(true, `${fileJpgUser1.name} not in the list`);
-      expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(true, `${filePdfUser2.name} not in the list`);
-    });
-
     it('[C279198] Clear the Size filter options', async () => {
-      await sizeFilter.openDialog();
-      await sizeFilter.getSizeCheckboxOption(SizeOptions.Small).click();
-      await sizeFilter.getSizeCheckboxOption(SizeOptions.Medium).click();
-      await sizeFilter.clickApplyButton();
+      await fileTypeFilter.openDialog();
+      await fileTypeFilter.typeFileSize('1024');
+      await fileTypeFilter.selectFileSizeOperator(SizeOperator.AT_MOST);
+      await fileTypeFilter.clickApplyButton();
 
-      await sizeFilter.openDialog();
-      expect(await sizeFilter.getFiltersCheckedValues()).toEqual(['Small', 'Medium'], 'Incorrect checked Size filters');
-
-      await sizeFilter.clickResetButton();
-      await sizeFilter.openDialog();
-      expect(await sizeFilter.getFiltersCheckedValues()).toEqual([], 'Size filters not cleared');
+      await fileTypeFilter.openDialog();
+      expect(await fileTypeFilter.getFileSizeValue()).toEqual('1024', 'Incorrect file size');
+      expect(await fileTypeFilter.getFileSizeOperatorValue()).toEqual(SizeOperator.AT_MOST, 'Incorrect file size operator');
+      await fileTypeFilter.clickResetButton();
+      await fileTypeFilter.closeDialog();
+      await fileTypeFilter.openDialog();
+      expect(await fileTypeFilter.getFileSizeValue()).toEqual('', 'Incorrect file size');
+      expect(await fileTypeFilter.getFileSizeOperatorValue()).toEqual(SizeOperator.AT_LEAST, 'Incorrect file size operator');
     });
   });
 
@@ -300,8 +276,7 @@ describe('Search filters', () => {
     it('[C279191] Expand / Collapse the File type filter panel', async () => {
       await fileTypeFilter.openDialog();
       expect(await fileTypeFilter.isDialogPresent()).toBe(true, 'File type filter panel not expanded');
-      expect(await fileTypeFilter.getFiltersValues()).toEqual(expectedFileTypes, 'Incorrect File type filters facets');
-      expect(await fileTypeFilter.isFilterCategoryInputDisplayed()).toBe(true, 'File type filter categories not displayed');
+      expect(await fileTypeFilter.getFileTypesValues('pd')).toEqual(expectedFileTypes, 'Incorrect File type filters facets');
 
       await fileTypeFilter.closeDialog();
       expect(await fileTypeFilter.isDialogPresent()).toBe(false, 'File type filter panel is expanded');
@@ -309,44 +284,40 @@ describe('Search filters', () => {
 
     it('[C279192] Results are filtered by File type', async () => {
       await fileTypeFilter.openDialog();
-      await fileTypeFilter.checkCategory('Adobe PDF Document');
+      await fileTypeFilter.selectFileType('pdf');
       await fileTypeFilter.clickApplyButton();
-      expect(await fileTypeFilter.getChipTitle()).toEqual('Adobe PDF Document');
+      expect(await fileTypeFilter.getChipTitle()).toEqual('pdf');
 
       expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(true, 'PDF file not displayed');
       expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(false, 'JPG file is displayed');
 
       await fileTypeFilter.openDialog();
-      await fileTypeFilter.checkCategory('JPEG Image');
+      await fileTypeFilter.selectFileType('jpg');
       await fileTypeFilter.clickApplyButton();
 
       expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(true, 'PDF file not displayed');
       expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(true, 'JPG file not displayed');
-      expect(await fileTypeFilter.getChipTitle()).toEqual(['Adobe PDF Document', 'JPEG Image'].join(', '));
+      expect(await fileTypeFilter.getChipTitle()).toEqual(['pdf', 'jpg'].join(', '));
     });
 
     it('[C279193] Clear the File type filter options', async () => {
       await fileTypeFilter.openDialog();
-      await fileTypeFilter.checkCategory('Adobe PDF Document');
+      await fileTypeFilter.selectFileType('pdf');
       await fileTypeFilter.clickApplyButton();
 
       expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(true, 'PDF file not displayed');
       expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(false, 'JPG file is displayed');
 
       await fileTypeFilter.openDialog();
-      expect(await fileTypeFilter.getFiltersCheckedValues()).toEqual(['Adobe PDF Document (1)']);
+      expect(await fileTypeFilter.getSelectedFileTypeOptions()).toEqual(['pdf']);
       await fileTypeFilter.clickResetButton();
+      await fileTypeFilter.closeDialog();
+      await fileTypeFilter.openDialog();
+      await fileTypeFilter.clickApplyButton();
 
       expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(true, 'PDF file not displayed');
       expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(true, 'JPG file not displayed');
       expect(await fileTypeFilter.getChipTitle()).toEqual('');
-    });
-
-    it('[C279195] Search for a specific file type', async () => {
-      await fileTypeFilter.openDialog();
-      expect(await fileTypeFilter.getFiltersValues()).toEqual(expectedFileTypes, 'Incorrect File type filters facets');
-      await fileTypeFilter.filterCategoriesBy('PDF');
-      expect(await fileTypeFilter.getFiltersValues()).toEqual(['Adobe PDF Document (1)'], 'Incorrect File type filters facets');
     });
   });
 
@@ -607,12 +578,10 @@ describe('Search filters', () => {
     });
 
     it('[C280051] Multiple filters can be applied', async () => {
-      await sizeFilter.openDialog();
-      await sizeFilter.getSizeCheckboxOption(SizeOptions.Small).click();
-      await sizeFilter.clickApplyButton();
-
       await fileTypeFilter.openDialog();
-      await fileTypeFilter.checkCategory('JPEG Image');
+      await fileTypeFilter.typeFileSize('1024');
+      await fileTypeFilter.selectFileSizeOperator(SizeOperator.AT_MOST);
+      await fileTypeFilter.selectFileType('jpg');
       await fileTypeFilter.clickApplyButton();
 
       await creatorFilter.openDialog();
@@ -625,7 +594,7 @@ describe('Search filters', () => {
 
       expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(false, 'PDF file is displayed');
       expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(true, 'JPG file not displayed');
-      expect(await fileTypeFilter.getChipTitle()).toEqual('JPEG Image');
+      expect(await fileTypeFilter.getChipTitle()).toEqual(`${SizeOperator.AT_MOST} 1024 KB, jpg`);
       expect(await creatorFilter.getChipTitle()).toEqual(`${user1} ${user1}`);
       expect(await locationFilter.getChipTitle()).toEqual(site);
 
@@ -637,7 +606,7 @@ describe('Search filters', () => {
 
     it('[C280052] Total results is updated correctly', async () => {
       await fileTypeFilter.openDialog();
-      await fileTypeFilter.checkCategory('JPEG Image');
+      await fileTypeFilter.selectFileType('jpg');
       await fileTypeFilter.clickApplyButton();
 
       await creatorFilter.openDialog();
@@ -653,7 +622,7 @@ describe('Search filters', () => {
 
     it('[C279188] Pagination is correct when search results are filtered', async () => {
       await fileTypeFilter.openDialog();
-      await fileTypeFilter.checkCategory('JPEG Image');
+      await fileTypeFilter.selectFileType('jpg');
       await fileTypeFilter.clickApplyButton();
 
       await creatorFilter.openDialog();
@@ -668,10 +637,6 @@ describe('Search filters', () => {
     });
 
     it('[C308042] The filter facets display is updated when making a new query', async () => {
-      await fileTypeFilter.openDialog();
-      expect(await fileTypeFilter.getFiltersValues()).toEqual(expectedFileTypes);
-      await fileTypeFilter.closeDialog();
-
       await creatorFilter.openDialog();
       expect(await creatorFilter.getFiltersValues()).toEqual(expectedCreators);
       await creatorFilter.closeDialog();
@@ -687,10 +652,6 @@ describe('Search filters', () => {
       await searchInput.clickSearchButton();
       await searchInput.searchFor(fileJpgUser1.name);
       await dataTable.waitForBody();
-
-      await fileTypeFilter.openDialog();
-      expect(await fileTypeFilter.getFiltersValues()).toEqual(['JPEG Image (1)']);
-      await fileTypeFilter.closeDialog();
 
       await creatorFilter.openDialog();
       expect(await creatorFilter.getFiltersValues()).toEqual([`${user1} ${user1} (1)`]);

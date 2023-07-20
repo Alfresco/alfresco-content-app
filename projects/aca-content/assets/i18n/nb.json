@@ -526,7 +526,6 @@
       "CREATE_DATE": "Opprettelsesdato"
     },
     "FACET_FIELDS": {
-      "FILE_TYPE": "Filtype",
       "CREATOR": "Oppretter",
       "MODIFIER": "Modifikator",
       "LOCATION": "Sted",
@@ -534,13 +533,6 @@
     },
     "CATEGORIES": {
       "MODIFIED_DATE": "Endringsdato",
-      "SIZE": "Størrelse",
-      "SIZE_OPTIONS": {
-        "SMALL": "Liten",
-        "MEDIUM": "Middels",
-        "LARGE": "Stor",
-        "HUGE": "Enorm"
-      },
       "CREATED_DATE": "Opprettelsesdato",
       "EFFECTIVITY_FROM": "Effektivitet fra",
       "EFFECTIVITY_TO": "Effektivitet til",
@@ -614,3 +606,4 @@
     }
   }
 }
+

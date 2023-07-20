@@ -1428,31 +1428,25 @@
             }
           },
           {
-            "id": "size",
-            "name": "SEARCH.CATEGORIES.SIZE",
+            "id": "properties",
+            "name": "SEARCH.CATEGORIES.PROPERTIES",
             "enabled": true,
             "component": {
-              "selector": "check-list",
+              "selector": "properties",
               "settings": {
-                "allowUpdateOnChange": false,
-                "hideDefaultAction": true,
-                "options": [
-                  {
-                    "name": "SEARCH.CATEGORIES.SIZE_OPTIONS.SMALL",
-                    "value": "content.size:[0 TO 1048576>"
-                  },
-                  {
-                    "name": "SEARCH.CATEGORIES.SIZE_OPTIONS.MEDIUM",
-                    "value": "content.size:[1048576 TO 52428800]"
-                  },
-                  {
-                    "name": "SEARCH.CATEGORIES.SIZE_OPTIONS.LARGE",
-                    "value": "content.size:<52428800 TO 524288000]"
-                  },
-                  {
-                    "name": "SEARCH.CATEGORIES.SIZE_OPTIONS.HUGE",
-                    "value": "content.size:<524288000 TO MAX]"
-                  }
+                "field": "content.size,cm:name",
+                "fileExtensions": [
+                  "3g2", "3gp", "acp", "aep", "ai", "aiff", "apk", "arw", "avi", "bin", "bmp", "cgm", "class", "cr2",
+                  "css", "csv", "dita", "dng", "doc", "docm", "docx", "dotm","dwg", "dwt", "eps", "flac", "flv", "fm",
+                  "fodg", "gif", "gtar", "gz", "htm", "html", "icns", "ics", "ief", "indd", "jar", "java", "jp2", "jpeg",
+                  "jpg", "js", "json", "jsp", "m4v", "man", "md", "mov", "mp3", "mp4", "mpeg", "mpp", "mrw", "msg", "nef",
+                  "numbers", "odb", "odf", "odg", "odi", "odm", "odp", "ods", "odt", "oga", "ogg", "ogv", "ogx", "orf",
+                  "ott", "pages", "pbm", "pdf", "pef", "pgm", "pmd", "png", "pnm", "pot", "potx", "ppam", "ppj", "pps",
+                  "ppsm", "ppt", "pptm", "pptx", "ps", "psd", "rad", "raf", "rar", "rgb", "rss", "rtf", "rw2", "rwl",
+                  "sda", "sdc", "sdd", "sdp", "sds", "sdw", "sgi", "sgl", "sgml", "sh", "sldm", "smf", "stw", "svg",
+                  "swf", "sxi", "tar", "tex", "texi", "tif", "tiff", "ts", "tsv", "txt", "vsd", "vsdm", "vsdx", "vssm",
+                  "vstm", "vstx", "wav", "webm", "wma", "wmv", "wpd", "wrl", "x3f", "xdp", "xhtml", "xla", "xlam", "xls",
+                  "xlsb", "xlsm", "xlsx", "xltm", "xml", "xpm", "xwd", "z", "zip"
                 ]
               }
             }
@@ -1484,18 +1478,6 @@
                 "field": "cm:modified",
                 "dateFormat": "DD-MMM-YY",
                 "maxDate": "today"
-              }
-            }
-          },
-          {
-            "id": "fileType",
-            "name": "SEARCH.FACET_FIELDS.FILE_TYPE",
-            "component": {
-              "selector": "",
-              "settings": {
-                "allowUpdateOnChange": false,
-                "hideDefaultAction": true,
-                "field": "content.mimetype"
               }
             }
           },

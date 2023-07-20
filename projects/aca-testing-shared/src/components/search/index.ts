@@ -26,7 +26,7 @@ export * from './filters/autocomplete-chips-filter';
 export * from './filters/created-date-filter';
 export * from './filters/facet-filter';
 export * from './filters/generic-filter';
-export * from './filters/size-filter';
+export * from './filters/properties-filter';
 export * from './search-filters';
 export * from './search-input';
 export * from './search-sorting-picker';

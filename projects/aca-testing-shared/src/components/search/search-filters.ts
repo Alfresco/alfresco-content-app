@@ -24,17 +24,16 @@
 
 import { by, browser } from 'protractor';
 import { Component } from '../component';
-import { SizeFilter } from './filters/size-filter';
 import { CreatedDateFilter } from './filters/created-date-filter';
 import { FacetFilter } from './filters/facet-filter';
 import { AutocompleteChipsFilter } from './filters/autocomplete-chips-filter';
+import { PropertiesFilter } from './filters/properties-filter';
 
 export class SearchFilters extends Component {
   resetAllButton = browser.element(by.css('button[adf-reset-search]'));
 
-  size = new SizeFilter();
   createdDate = new CreatedDateFilter();
-  fileType = new FacetFilter('File type');
+  fileType = new PropertiesFilter();
   creator = new FacetFilter('Creator');
   modifier = new FacetFilter('Modifier');
   location = new AutocompleteChipsFilter('Location');

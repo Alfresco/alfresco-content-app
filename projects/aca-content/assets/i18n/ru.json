@@ -526,7 +526,6 @@
       "CREATE_DATE": "Дата создания"
     },
     "FACET_FIELDS": {
-      "FILE_TYPE": "Тип файла",
       "CREATOR": "Создатель",
       "MODIFIER": "Редактор",
       "LOCATION": "Местоположение",
@@ -534,13 +533,6 @@
     },
     "CATEGORIES": {
       "MODIFIED_DATE": "Дата изменения",
-      "SIZE": "Размер",
-      "SIZE_OPTIONS": {
-        "SMALL": "Маленький",
-        "MEDIUM": "Средний",
-        "LARGE": "Большой",
-        "HUGE": "Огромный"
-      },
       "CREATED_DATE": "Дата создания",
       "EFFECTIVITY_FROM": "Действует с",
       "EFFECTIVITY_TO": "Действует до",
@@ -614,3 +606,4 @@
     }
   }
 }
+
