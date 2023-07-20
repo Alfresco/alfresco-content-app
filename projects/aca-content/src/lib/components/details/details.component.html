@@ -27,15 +27,21 @@
         </button>
       </div>
 
-      <mat-tab-group [selectedIndex]="activeTab" class="aca-details-tabs">
+      <mat-tab-group [selectedIndex]="activeTab" class="aca-details-tabs" animationDuration="0">
         <mat-tab label="{{ 'APP.INFO_DRAWER.TABS.PROPERTIES' | translate }}">
-          <app-metadata-tab *ngIf="node && !isLoading; else loading" [node]="node"> </app-metadata-tab>
+          <ng-template matTabContent>
+            <app-metadata-tab *ngIf="node && !isLoading; else loading" [node]="node"> </app-metadata-tab>
+          </ng-template>
         </mat-tab>
         <mat-tab label="{{ 'APP.INFO_DRAWER.TABS.COMMENTS' | translate }}">
-          <app-comments-tab *ngIf="node && !isLoading; else loading" [node]="node"> </app-comments-tab>
+          <ng-template matTabContent>
+            <app-comments-tab *ngIf="node && !isLoading; else loading" [node]="node"> </app-comments-tab>
+          </ng-template>
         </mat-tab>
         <mat-tab label="{{ 'APP.INFO_DRAWER.TABS.PERMISSIONS' | translate }}">
-          <adf-permission-list *ngIf="node && !isLoading; else loading" [nodeId]="node.id"></adf-permission-list>
+          <ng-template matTabContent>
+            <adf-permission-list *ngIf="node && !isLoading; else loading" [nodeId]="node.id"></adf-permission-list>
+          </ng-template>
         </mat-tab>
       </mat-tab-group>
     </div>
