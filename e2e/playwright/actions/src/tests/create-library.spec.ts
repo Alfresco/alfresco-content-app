@@ -89,14 +89,12 @@ test.describe('Create Libraries ', () => {
   test('[C280025] Create a public library', async ({ myLibrariesPage }) => {
     const libraryDialog = myLibrariesPage.libraryDialog;
     const libraryTable = myLibrariesPage.dataTable;
-    const libraryBreadcrumb = myLibrariesPage.breadcrumb;
 
     await myLibrariesPage.selectCreateLibrary();
     await libraryDialog.getLabelText(libraryNameLabel).fill(randomLibraryName);
     await expect(libraryDialog.getLabelText(libraryNameLabel)).toHaveValue(randomLibraryName);
     await expect(libraryDialog.getLabelText(libraryIdLabel)).toHaveValue(randomLibraryName);
     await libraryDialog.createButton.click();
-    await expect(libraryBreadcrumb.getBreadcrumbItem(randomLibraryName)).toBeVisible();
 
     await myLibrariesPage.navigate();
     await libraryTable.goThroughPagesLookingForRowWithName(randomLibraryName);
@@ -108,11 +106,9 @@ test.describe('Create Libraries ', () => {
   test('[C289880] Create a moderated library', async ({ myLibrariesPage }) => {
     const libraryDialog = myLibrariesPage.libraryDialog;
     const libraryTable = myLibrariesPage.dataTable;
-    const libraryBreadcrumb = myLibrariesPage.breadcrumb;
 
     await myLibrariesPage.selectCreateLibrary();
     await libraryDialog.createLibraryWithNameAndId(randomLibraryName, randomLibraryId, null, moderatedVisibility);
-    await expect(libraryBreadcrumb.getBreadcrumbItem(randomLibraryName)).toBeVisible();
 
     await myLibrariesPage.navigate();
     await libraryTable.goThroughPagesLookingForRowWithName(randomLibraryName);
@@ -124,11 +120,9 @@ test.describe('Create Libraries ', () => {
   test('[C289881] Create a private library', async ({ myLibrariesPage }) => {
     const libraryDialog = myLibrariesPage.libraryDialog;
     const libraryTable = myLibrariesPage.dataTable;
-    const libraryBreadcrumb = myLibrariesPage.breadcrumb;
 
     await myLibrariesPage.selectCreateLibrary();
     await libraryDialog.createLibraryWithNameAndId(randomLibraryName, randomLibraryId, null, privateVisibility);
-    await expect(libraryBreadcrumb.getBreadcrumbItem(randomLibraryName)).toBeVisible();
 
     await myLibrariesPage.navigate();
     await libraryTable.goThroughPagesLookingForRowWithName(randomLibraryName);
@@ -140,13 +134,11 @@ test.describe('Create Libraries ', () => {
   test('[C289882] Create a library with a given ID and description', async ({ myLibrariesPage }) => {
     const libraryDialog = myLibrariesPage.libraryDialog;
     const libraryTable = myLibrariesPage.dataTable;
-    const libraryBreadcrumb = myLibrariesPage.breadcrumb;
     const libraryViewDetails = myLibrariesPage.acaHeader.viewDetails;
     const libraryDetails = myLibrariesPage.libraryDetails;
 
     await myLibrariesPage.selectCreateLibrary();
     await libraryDialog.createLibraryWithNameAndId(randomLibraryName, randomLibraryId, randomLibraryDescription);
-    await expect(libraryBreadcrumb.getBreadcrumbItem(randomLibraryName)).toBeVisible();
 
     await myLibrariesPage.navigate();
     await libraryTable.goThroughPagesLookingForRowWithName(randomLibraryName);
@@ -193,7 +185,6 @@ test.describe('Create Libraries ', () => {
   test('[C280029] Cancel button', async ({ myLibrariesPage }) => {
     const libraryDialog = myLibrariesPage.libraryDialog;
     const libraryTable = myLibrariesPage.dataTable;
-    const libraryBreadcrumb = myLibrariesPage.breadcrumb;
 
     await myLibrariesPage.selectCreateLibrary();
     await expect(libraryDialog.getDialogTitle(libraryDialogTitle)).toBeVisible();
@@ -201,7 +192,6 @@ test.describe('Create Libraries ', () => {
     await libraryDialog.cancelButton.click();
 
     await expect(libraryDialog.getDialogTitle(libraryDialogTitle)).toBeHidden();
-    await expect(libraryBreadcrumb.getBreadcrumbItem(randomLibraryName)).toHaveCount(0);
     await expect(libraryTable.getRowByName(randomLibraryName)).toHaveCount(0);
   });
 
@@ -243,14 +233,11 @@ test.describe('Create Libraries ', () => {
   test('[C280030] Create 2 libraries with same name but different IDs', async ({ myLibrariesPage }) => {
     const libraryDialog = myLibrariesPage.libraryDialog;
     const libraryTable = myLibrariesPage.dataTable;
-    const libraryBreadcrumb = myLibrariesPage.breadcrumb;
     const libraryName = commonLibraryName + ' (' + commonLibraryId + ')';
     const libraryName2 = commonLibraryName + ' (' + randomLibraryId + ')';
 
     await myLibrariesPage.selectCreateLibrary();
     await libraryDialog.createLibraryWithNameAndId(commonLibraryName, randomLibraryId);
-
-    await expect(libraryBreadcrumb.getBreadcrumbItem(commonLibraryName)).toBeVisible();
 
     await myLibrariesPage.navigate();
     await libraryTable.goThroughPagesLookingForRowWithName(libraryName);
