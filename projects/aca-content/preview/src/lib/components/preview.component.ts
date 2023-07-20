@@ -69,7 +69,7 @@ export class PreviewComponent extends PageComponent implements OnInit, OnDestroy
 
   recentFileFilters = [
     'TYPE:"content"',
-    '-PNAME:"0/wiki"',
+    '-PATH:"//cm:wiki/*"',
     '-TYPE:"app:filelink"',
     '-TYPE:"fm:post"',
     '-TYPE:"cm:thumbnail"',
