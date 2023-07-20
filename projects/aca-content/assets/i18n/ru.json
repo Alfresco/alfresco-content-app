@@ -408,8 +408,7 @@
         "VERSIONS": "Версии",
         "COMMENTS": "Комментарии",
         "PERMISSIONS": "Разрешения",
-        "EXPAND": "Развернуть",
-        "CLOSE_LIBRARY": "Закрыть библиотеку"
+        "EXPAND": "Развернуть"
       }
     },
     "TOOLTIPS": {

@@ -408,8 +408,7 @@
         "VERSIONS": "版本",
         "COMMENTS": "注释",
         "PERMISSIONS": "权限",
-        "EXPAND": "展开",
-        "CLOSE_LIBRARY": "关闭库"
+        "EXPAND": "展开"
       }
     },
     "TOOLTIPS": {
