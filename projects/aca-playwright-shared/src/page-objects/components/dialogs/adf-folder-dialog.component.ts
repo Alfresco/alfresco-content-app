@@ -40,4 +40,18 @@ export class AdfFolderDialogComponent extends BaseComponent {
   }
 
   public getLabelText = (text: string) => this.getChild('label', { hasText: text });
+
+  /**
+   * This method is used when we want to fill in Create new Folder Dialog and choose Create button
+   *
+   * @param nameInput input for the Name field
+   * @param titleInput input for Title field
+   * @param descriptionInput input for Description field
+   */
+      async createNewFolderDialog(nameInput: string, titleInput: string, descriptionInput?: string): Promise<void> {
+        await this.folderNameInputLocator.fill(nameInput);
+        if (titleInput) { await this.folderTitleInput.fill(titleInput); }
+        if (descriptionInput) { await this.folderDescriptionInput.fill(descriptionInput); }
+        await this.createButton.click();
+      }
 }
