@@ -408,8 +408,7 @@
         "VERSIONS": "バージョン",
         "COMMENTS": "コメント",
         "PERMISSIONS": "権限",
-        "EXPAND": "展開",
-        "CLOSE_LIBRARY": "ライブラリを閉じる"
+        "EXPAND": "展開"
       }
     },
     "TOOLTIPS": {

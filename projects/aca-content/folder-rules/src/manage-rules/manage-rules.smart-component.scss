@@ -4,14 +4,14 @@
     display: flex;
     align-items: center;
 
+    .aca-page-title {
+      margin-left: 18px;
+    }
+
     &__title {
       align-items: center;
       width: unset !important;
       flex: 1;
-
-      &__breadcrumb {
-        margin-left: 18px;
-      }
     }
 
     &__buttons {
@@ -23,7 +23,6 @@
     .mat-slide-toggle-label {
       font-weight: 600;
       font-size: 14px;
-      color: var(--adf-breadcrumb-item-active-color);
     }
 
     .vertical-divider {

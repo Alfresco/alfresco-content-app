@@ -96,36 +96,6 @@ describe('Breadcrumb', () => {
     await verifyBreadcrumb(1, 'Personal Files');
   });
 
-  it('[C260966] My Libraries breadcrumb main node', async () => {
-    await page.goToMyLibrariesAndWait();
-    await verifyBreadcrumb(1, 'My Libraries');
-  });
-
-  it('[C289891] Favorite Libraries breadcrumb main node', async () => {
-    await page.goToFavoriteLibrariesAndWait();
-    await verifyBreadcrumb(1, 'Favorite Libraries');
-  });
-
-  it('[C260971] Recent Files breadcrumb main node', async () => {
-    await page.clickRecentFiles();
-    await verifyBreadcrumb(1, 'Recent Files');
-  });
-
-  it('[C260972] Shared Files breadcrumb main node', async () => {
-    await page.clickSharedFiles();
-    await verifyBreadcrumb(1, 'Shared Files');
-  });
-
-  it('[C260973] Favorites breadcrumb main node', async () => {
-    await page.clickFavorites();
-    await verifyBreadcrumb(1, 'Favorites');
-  });
-
-  it('[C260974] Trash breadcrumb main node', async () => {
-    await page.clickTrash();
-    await verifyBreadcrumb(1, 'Trash');
-  });
-
   it('[C260965] Personal Files breadcrumb for a folder hierarchy', async () => {
     await page.clickPersonalFilesAndWait();
     await page.dataTable.doubleClickOnRowByName(parent);

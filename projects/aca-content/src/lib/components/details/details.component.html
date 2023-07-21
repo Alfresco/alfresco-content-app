@@ -17,22 +17,31 @@
           -
           <span class="acs-details-breadcrumb-item">{{ 'APP.INFO_DRAWER.TITLE' | translate }}</span>
         </div>
-        <div class="acs-close-members-container">
-          <button mat-icon-button data-automation-id="close-library" title="{{ 'APP.INFO_DRAWER.CLOSE_LIBRARY' | translate }}" (click)="goBack()">
-            <mat-icon>close</mat-icon>
-          </button>
-        </div>
+        <button
+          class="aca-close-details-button"
+          mat-icon-button
+          data-automation-id="close-library"
+          title="{{ 'APP.INFO_DRAWER.CLOSE' | translate }}"
+          (click)="goBack()">
+          <mat-icon>close</mat-icon>
+        </button>
       </div>
 
-      <mat-tab-group [selectedIndex]="activeTab" class="adw-details-tabs">
+      <mat-tab-group [selectedIndex]="activeTab" class="aca-details-tabs" animationDuration="0">
         <mat-tab label="{{ 'APP.INFO_DRAWER.TABS.PROPERTIES' | translate }}">
-          <app-metadata-tab *ngIf="node && !isLoading; else loading" [node]="node"> </app-metadata-tab>
+          <ng-template matTabContent>
+            <app-metadata-tab *ngIf="node && !isLoading; else loading" [node]="node"></app-metadata-tab>
+          </ng-template>
         </mat-tab>
         <mat-tab label="{{ 'APP.INFO_DRAWER.TABS.COMMENTS' | translate }}">
-          <app-comments-tab *ngIf="node && !isLoading; else loading" [node]="node"> </app-comments-tab>
+          <ng-template matTabContent>
+            <app-comments-tab *ngIf="node && !isLoading; else loading" [node]="node"></app-comments-tab>
+          </ng-template>
         </mat-tab>
         <mat-tab label="{{ 'APP.INFO_DRAWER.TABS.PERMISSIONS' | translate }}">
-          <adf-permission-list *ngIf="node && !isLoading; else loading" [nodeId]="node.id"></adf-permission-list>
+          <ng-template matTabContent>
+            <adf-permission-list *ngIf="node && !isLoading; else loading" [nodeId]="node.id"></adf-permission-list>
+          </ng-template>
         </mat-tab>
       </mat-tab-group>
     </div>
@@ -40,5 +49,5 @@
 </aca-page-layout>
 
 <ng-template #loading>
-  <mat-progress-bar color="primary" mode="indeterminate"> </mat-progress-bar>
+  <mat-progress-bar color="primary" mode="indeterminate"></mat-progress-bar>
 </ng-template>

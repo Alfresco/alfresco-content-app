@@ -401,6 +401,7 @@
         },
         "INFO_DRAWER": {
             "TITLE": "Details",
+            "CLOSE": "Close",
             "DATA_LOADING": "Data is loading",
             "TABS": {
                 "PROPERTIES": "Properties",
@@ -408,8 +409,7 @@
                 "VERSIONS": "Versions",
                 "COMMENTS": "Comments",
                 "PERMISSIONS": "Permissions",
-                "EXPAND": "Expand",
-                "CLOSE_LIBRARY": "Close Library"
+                "EXPAND": "Expand"
             }
         },
         "TOOLTIPS": {

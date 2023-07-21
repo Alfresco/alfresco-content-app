@@ -37,14 +37,14 @@ import { NavigateLibraryAction } from '@alfresco/aca-shared/store';
 import { DataTableModule, PaginationModule, TemplateModule, ToolbarModule, UserPreferencesService } from '@alfresco/adf-core';
 import { DocumentListPresetRef, ExtensionsModule } from '@alfresco/adf-extensions';
 import { CommonModule } from '@angular/common';
-import { BreadcrumbModule, DocumentListModule } from '@alfresco/adf-content-services';
+import { DocumentListModule } from '@alfresco/adf-content-services';
 import { DocumentListDirective } from '../../directives/document-list.directive';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   standalone: true,
   imports: [
     CommonModule,
-    BreadcrumbModule,
     ToolbarModule,
     DocumentListModule,
     DocumentListDirective,
@@ -55,7 +55,8 @@ import { DocumentListDirective } from '../../directives/document-list.directive'
     PaginationModule,
     InfoDrawerComponent,
     ToolbarActionComponent,
-    PageLayoutComponent
+    PageLayoutComponent,
+    TranslateModule
   ],
   templateUrl: './favorite-libraries.component.html',
   encapsulation: ViewEncapsulation.None
