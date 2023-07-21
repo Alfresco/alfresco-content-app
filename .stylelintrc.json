@@ -9,6 +9,7 @@
       {
         "resolveNestedSelectors": true
       }
-    ]
+    ],
+    "declaration-no-important": true
   }
 }
