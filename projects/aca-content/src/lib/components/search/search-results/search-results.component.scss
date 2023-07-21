@@ -24,7 +24,8 @@
     border-top: 1px solid var(--theme-border-color);
     border-bottom: 1px solid var(--theme-border-color);
 
-    .adf-search-filter-chip {
+    .adf-search-filter-chip,
+    .adf-search-filter-chip-tabbed {
       &[disabled] {
         &.mat-chip {
           background-color: var(--theme-disabled-chip-background-color);
