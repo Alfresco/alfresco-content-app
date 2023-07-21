@@ -96,6 +96,7 @@ test.describe('Create Libraries ', () => {
     await expect(libraryDialog.getLabelText(libraryNameLabel)).toHaveValue(randomLibraryName);
     await expect(libraryDialog.getLabelText(libraryIdLabel)).toHaveValue(randomLibraryName);
     await libraryDialog.createButton.click();
+    await libraryBreadcrumb.spinnerWaitForReload();
     await expect(libraryBreadcrumb.getBreadcrumbItem(randomLibraryName)).toBeVisible();
 
     await myLibrariesPage.navigate();

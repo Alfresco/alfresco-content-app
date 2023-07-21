@@ -55,6 +55,7 @@ export class AdfLibraryDialogComponent extends BaseComponent {
       if (descriptionInput) { await this.getLabelText('Description').fill(descriptionInput); }
       if (visibility) { await this.getLabelText(visibility).click(); }
       await this.createButton.click();
+      await this.spinnerWaitForReload();
     }
 
     async isErrorMessageDisplayed(errorText: string): Promise<boolean> {
