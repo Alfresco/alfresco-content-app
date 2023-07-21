@@ -1386,7 +1386,7 @@
           },
           { "query": "-TYPE:'fm:topic' AND -TYPE:'fm:post'" },
           { "query": "-TYPE:'lnk:link'" },
-          { "query": "-PATH:'//cm:wiki/*'" }
+          { "query": "-PATH:'//cm:wiki/'" }
         ],
         "facetFields": {
           "expanded": true,
@@ -1588,7 +1588,7 @@
           },
           { "query": "-TYPE:'fm:topic' AND -TYPE:'fm:post'" },
           { "query": "-TYPE:'lnk:link'" },
-          { "query": "-PATH:'//cm:wiki/*'" }
+          { "query": "-PATH:'//cm:wiki/'" }
         ],
         "facetFields": {
           "expanded": true,
@@ -1743,7 +1743,7 @@
           },
           { "query": "-TYPE:'fm:topic' AND -TYPE:'fm:post'" },
           { "query": "-TYPE:'lnk:link'" },
-          { "query": "-PATH:'//cm:wiki/*'" }
+          { "query": "-PATH:'//cm:wiki/'" }
         ],
         "facetFields": {
           "expanded": true,
