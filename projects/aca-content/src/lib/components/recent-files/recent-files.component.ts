@@ -35,15 +35,15 @@ import {
 } from '@alfresco/aca-shared';
 import { DocumentListPresetRef, ExtensionsModule } from '@alfresco/adf-extensions';
 import { CommonModule } from '@angular/common';
-import { BreadcrumbModule, DocumentListModule } from '@alfresco/adf-content-services';
+import { DocumentListModule } from '@alfresco/adf-content-services';
 import { DataTableModule, PaginationModule, TemplateModule, ToolbarModule } from '@alfresco/adf-core';
 import { DocumentListDirective } from '../../directives/document-list.directive';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   standalone: true,
   imports: [
     CommonModule,
-    BreadcrumbModule,
     ToolbarModule,
     DocumentListModule,
     DocumentListDirective,
@@ -55,7 +55,8 @@ import { DocumentListDirective } from '../../directives/document-list.directive'
     PaginationDirective,
     InfoDrawerComponent,
     ToolbarActionComponent,
-    PageLayoutComponent
+    PageLayoutComponent,
+    TranslateModule
   ],
   templateUrl: './recent-files.component.html',
   encapsulation: ViewEncapsulation.None

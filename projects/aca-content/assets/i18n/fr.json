@@ -408,8 +408,7 @@
         "VERSIONS": "Versions",
         "COMMENTS": "Commentaires",
         "PERMISSIONS": "Permissions",
-        "EXPAND": "Développer",
-        "CLOSE_LIBRARY": "Fermer la bibliothèque"
+        "EXPAND": "Développer"
       }
     },
     "TOOLTIPS": {

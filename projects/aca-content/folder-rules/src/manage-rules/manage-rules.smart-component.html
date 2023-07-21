@@ -6,7 +6,7 @@
         <mat-icon>arrow_back</mat-icon>
       </button>
     </adf-toolbar>
-    <adf-breadcrumb root="{{'ACA_FOLDER_RULES.ACTIONS.MANAGE_RULES' | translate}}"></adf-breadcrumb>
+    <h1 class="aca-page-title">{{ 'ACA_FOLDER_RULES.ACTIONS.MANAGE_RULES' | translate }}</h1>
   </div>
 
   <div class="aca-page-layout-content">
@@ -22,8 +22,7 @@
 
             <adf-toolbar-title class="aca-manage-rules__actions-bar__title">
               <mat-icon class="icon-aligner">folder</mat-icon>
-              <adf-breadcrumb root="{{ (folderInfo$ | async).name }}:{{'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.BREADCRUMB.RULES' | translate}}"
-                              class="aca-manage-rules__actions-bar__title__breadcrumb"></adf-breadcrumb>
+              <h2 class="aca-page-title">{{ (folderInfo$ | async).name }}:{{'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.BREADCRUMB.RULES' | translate}}</h2>
             </adf-toolbar-title>
 
             <mat-slide-toggle

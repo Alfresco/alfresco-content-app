@@ -1,9 +1,23 @@
+app-details-manager {
+  .aca-close-details-button {
+    margin-right: 15px;
+    margin-top: 2px;
+    outline: none;
+    border-radius: 4px;
+
+    &:focus-visible {
+      outline: 2px solid var(--theme-blue-button-color);
+      border-radius: 4px;
+    }
+  }
+}
+
 .acs-details-container {
   background-color: var(--theme-card-background-color);
   width: 100%;
 }
 
-.adw-details-tabs {
+.aca-details-tabs {
   margin-top: 40px;
   height: calc(100% - 80px);
 
@@ -21,10 +35,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  .acs-close-members-container {
-    margin-right: 15px;
-  }
 }
 
 .acs-details-breadcrumb {

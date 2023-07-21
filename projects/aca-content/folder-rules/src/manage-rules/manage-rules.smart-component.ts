@@ -32,7 +32,7 @@ import { NodeInfo } from '@alfresco/aca-shared/store';
 import { delay, takeUntil } from 'rxjs/operators';
 import { EditRuleDialogUiComponent } from '../rule-details/edit-rule-dialog.ui-component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { BreadcrumbModule, ConfirmDialogComponent } from '@alfresco/adf-content-services';
+import { ConfirmDialogComponent } from '@alfresco/adf-content-services';
 import { NotificationService, TemplateModule, ToolbarModule } from '@alfresco/adf-core';
 import { ActionDefinitionTransformed } from '../model/rule-action.model';
 import { ActionsService } from '../services/actions.service';
@@ -59,7 +59,6 @@ import { RuleDetailsUiComponent } from '../rule-details/rule-details.ui-componen
     ToolbarModule,
     MatButtonModule,
     MatIconModule,
-    BreadcrumbModule,
     MatProgressBarModule,
     MatSlideToggleModule,
     MatDividerModule,

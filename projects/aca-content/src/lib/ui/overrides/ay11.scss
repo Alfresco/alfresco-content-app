@@ -45,19 +45,6 @@
     }
   }
 
-  .acs-close-members-container {
-    .mat-icon-button {
-      outline: none;
-      line-height: 36px !important;
-
-      @include rounded-border(transparent);
-
-      &:focus-visible {
-        @include rounded-border;
-      }
-    }
-  }
-
   .adf-search-user-button,
   .app-search-button {
     line-height: 36px !important;

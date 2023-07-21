@@ -408,8 +408,7 @@
         "VERSIONS": "Versioner",
         "COMMENTS": "Kommentarer",
         "PERMISSIONS": "Behörigheter",
-        "EXPAND": "Expandera",
-        "CLOSE_LIBRARY": "Stäng bibliotek"
+        "EXPAND": "Expandera"
       }
     },
     "TOOLTIPS": {
