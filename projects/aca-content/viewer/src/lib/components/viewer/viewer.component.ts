@@ -92,7 +92,8 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
   navigationSources = ['favorites', 'libraries', 'personal-files', 'recent-files', 'shared'];
   recentFileFilters = [
     'TYPE:"content"',
-    '-PATH:"//cm:wiki/*"',
+    // TODO '*' for now cause exception to be thrown, Team6 is working on it (same issue in app.extensions)
+    '-PATH:"//cm:wiki/"',
     '-TYPE:"app:filelink"',
     '-TYPE:"fm:post"',
     '-TYPE:"cm:thumbnail"',
