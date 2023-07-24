@@ -27,8 +27,8 @@
     }
   }
 
-  .adf-content-node-selector-content-list .adf-datatable-list .adf-datatable-selected > svg {
-    fill: var(--theme-blue-button-color) !important;
+  .adf-content-node-selector-content-list .adf-datatable-list .adf-datatable-selected.mat-icon > svg {
+    fill: var(--theme-blue-button-color);
   }
 
   .mat-list-base .mat-list-option {
@@ -47,7 +47,7 @@
 
   .adf-search-user-button.mat-button,
   .app-search-button {
-    line-height: 36px !important;
+    line-height: 36px;
 
     @include rounded-border(transparent);
 
@@ -143,7 +143,7 @@
   }
 
   .mat-datetimepicker-calendar-body-active .mat-datetimepicker-calendar-body-cell-content:not(.mat-datetimepicker-calendar-body-selected) {
-    background-color: var(--theme-datetimepicker-cell-background) !important;
+    background-color: var(--theme-datetimepicker-cell-background);
   }
 
   .mat-datetimepicker-calendar-body-cell-content.mat-datetimepicker-calendar-body-selected {
@@ -195,8 +195,10 @@
     }
   }
 
-  .adf-filter-button {
-    margin-left: -2px !important;
+  .mat-button-base {
+    &.adf-filter-button {
+      margin-left: -2px;
+    }
   }
 
   .adf-pagination {
