@@ -48,7 +48,7 @@ export class AdfFolderDialogComponent extends BaseComponent {
    * @param titleInput input for Title field
    * @param descriptionInput input for Description field
    */
-      async createNewFolderDialog(nameInput: string, titleInput: string, descriptionInput?: string): Promise<void> {
+      async createNewFolderDialog(nameInput: string, titleInput?: string, descriptionInput?: string): Promise<void> {
         await this.folderNameInputLocator.fill(nameInput);
         if (titleInput) { await this.folderTitleInput.fill(titleInput); }
         if (descriptionInput) { await this.folderDescriptionInput.fill(descriptionInput); }

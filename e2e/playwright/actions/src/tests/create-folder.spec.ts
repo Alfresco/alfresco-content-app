@@ -48,7 +48,7 @@ test.describe('Create folders', () => {
   });
 
   test.afterAll(async () => {
-    await apiClientFactory.nodes.deleteNode(folderId);
+    await apiClientFactory.nodes.deleteNode(folderId, { permanent: true });
   });
 
   test('[C216341] Create a folder with name only', async ({ personalFiles }) => {
@@ -56,7 +56,7 @@ test.describe('Create folders', () => {
     const folderTable = personalFiles.dataTable;
 
     await personalFiles.selectCreateFolder();
-    await folderDialog.createNewFolderDialog(randomFolderName, null, null);
+    await folderDialog.createNewFolderDialog(randomFolderName);
 
     await folderTable.goThroughPagesLookingForRowWithName(randomFolderName);
     await expect(folderTable.getRowByName(randomFolderName)).toBeVisible();
@@ -156,7 +156,7 @@ test.describe('Create folders', () => {
     const folderSnackBar = personalFiles.snackBar;
 
     await personalFiles.selectCreateFolder();
-    await folderDialog.createNewFolderDialog(commonFolderName, null, null);
+    await folderDialog.createNewFolderDialog(commonFolderName);
 
     await expect(folderSnackBar.getByMessageLocator(folderErrors.thereIsAlreadyAFolderWithThisName)).toBeVisible();
   });
@@ -166,7 +166,7 @@ test.describe('Create folders', () => {
     const folderTable = personalFiles.dataTable;
 
     await personalFiles.selectCreateFolder();
-    await folderDialog.createNewFolderDialog(randomFolderName + '   ', null, null);
+    await folderDialog.createNewFolderDialog(randomFolderName + '   ');
 
     await folderTable.goThroughPagesLookingForRowWithName(randomFolderName);
     await expect(folderTable.getRowByName(randomFolderName)).toBeVisible();
