@@ -41,4 +41,9 @@ export class PersonalFilesPage extends BasePage {
   public dataTable = new DataTableComponent(this.page);
   public viewer = new ViewerComponent(this.page);
   public passwordDialog = new PasswordOverlayDialogComponent(this.page);
+
+  async selectCreateFolder(): Promise<void> {
+    await this.acaHeader.createButton.click();
+    await this.matMenu.createFolder.click();
+  }
 }
