@@ -977,6 +977,7 @@
         "component": {
           "selector": "check-list",
           "settings": {
+            "allowUpdateOnChange": false,
             "pageSize": 5,
             "operator": "OR",
             "options": [
