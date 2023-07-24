@@ -120,7 +120,6 @@ test.describe('viewer file', () => {
 
   test.afterAll(async () => {
     await apiClientFactory.nodes.deleteNode(folderId, { permanent: true });
-    // await apiClientFactory.trashCan.deleteDeletedNode(folderId);
   });
 
   test('[C279285] Viewer opens when accessing the preview URL for a file', async ({ personalFiles }) => {
