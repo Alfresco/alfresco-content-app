@@ -31,3 +31,4 @@ export * from './recent-files.page';
 export * from './shared.page';
 export * from './search.page';
 export * from './favorites.page';
+export * from './trash.page';

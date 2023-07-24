@@ -37,7 +37,8 @@ import {
   SitesApi,
   UploadApi,
   SharedlinksApi,
-  FavoritesApi
+  FavoritesApi,
+  TrashcanApi
 } from '@alfresco/js-api';
 import { logger } from '@alfresco/adf-cli/scripts/logger';
 import { ActionTypes, Rule } from './rules-api';
@@ -49,6 +50,7 @@ export interface AcaBackend {
   nodes: NodesApi;
   share: SharedlinksApi;
   favorites: FavoritesApi;
+  trashCan: TrashcanApi;
 
   tearDown(): Promise<any>;
 }
@@ -79,6 +81,7 @@ export class ApiClientFactory {
   public contentClient: ContentClient;
   public share: SharedlinksApi;
   public favorites: FavoritesApi;
+  public trashCan: TrashcanApi;
 
   constructor() {
     this.alfrescoApi = new AlfrescoApi(config);
@@ -100,6 +103,7 @@ export class ApiClientFactory {
     this.securityMarksApi = new SecurityMarksApi(this.alfrescoApi);
     this.share = new SharedlinksApi(this.alfrescoApi);
     this.favorites = new FavoritesApi(this.alfrescoApi);
+    this.trashCan = new TrashcanApi(this.alfrescoApi);
 
     return this;
   }

@@ -48,7 +48,7 @@ test.describe('Folder Rules Actions', () => {
   });
 
   test.afterAll(async () => {
-    await apiClientFactory.nodes.deleteNode(folderId);
+    await apiClientFactory.nodes.deleteNode(folderId, { permanent: true });
   });
 
   test('[C691637] Create a rule with actions', async ({ personalFiles, nodesPage }) => {

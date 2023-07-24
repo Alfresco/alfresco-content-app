@@ -45,7 +45,7 @@ test.describe('Folder Rules Conditions', () => {
   });
 
   test.afterAll(async () => {
-    await apiClientFactory.nodes.deleteNode(folderId);
+    await apiClientFactory.nodes.deleteNode(folderId, { permanent: true });
   });
 
   test('[C691638] Create a rule with condition', async ({ personalFiles, nodesPage }) => {

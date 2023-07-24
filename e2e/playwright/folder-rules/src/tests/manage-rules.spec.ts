@@ -44,7 +44,7 @@ test.describe('Rules - Manage Rules', () => {
   });
 
   test.afterAll(async () => {
-    await apiClientFactory.nodes.deleteNode(folderId);
+    await apiClientFactory.nodes.deleteNode(folderId, { permanent: true });
   });
 
   test('[C691651] Disable an existing rule', async ({ personalFiles, nodesPage }) => {

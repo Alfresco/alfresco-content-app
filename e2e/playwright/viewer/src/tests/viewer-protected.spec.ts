@@ -50,7 +50,7 @@ test.describe('viewer file', () => {
   });
 
   test.afterAll(async () => {
-    await apiClientFactory.nodes.deleteNode(folderId);
+    await apiClientFactory.nodes.deleteNode(folderId, { permanent: true });
   });
 
   test('[C268958] Password dialog appears when opening a protected file', async ({ personalFiles }) => {

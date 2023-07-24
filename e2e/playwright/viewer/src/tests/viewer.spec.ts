@@ -25,7 +25,7 @@
 import { expect } from '@playwright/test';
 import { ApiClientFactory, getUserState, test, TEST_FILES, Utils } from '@alfresco/playwright-shared';
 
-test.use({ storageState: getUserState('admin') });
+test.use({ storageState: getUserState('hruser') });
 test.describe('viewer file', () => {
   const apiClientFactory = new ApiClientFactory();
   const randomFolderName = `playwright-folder-${Utils.random()}`;
@@ -33,7 +33,7 @@ test.describe('viewer file', () => {
   let folderId: string;
 
   test.beforeAll(async ({ fileAction }) => {
-    await apiClientFactory.setUpAcaBackend('admin');
+    await apiClientFactory.setUpAcaBackend('hruser');
     const node = await apiClientFactory.nodes.createNode('-my-', { name: randomFolderName, nodeType: 'cm:folder', relativePath: '/' });
     folderId = await node.entry.id;
     await fileAction.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId);
@@ -45,7 +45,7 @@ test.describe('viewer file', () => {
   });
 
   test.afterAll(async () => {
-    await apiClientFactory.nodes.deleteNode(folderId);
+    await apiClientFactory.nodes.deleteNode(folderId, { permanent: true });
   });
 
   test('[C279269] Viewer opens on double clicking on a file from Personal Files', async ({ personalFiles }) => {
@@ -71,13 +71,9 @@ test.describe('viewer file', () => {
   test('[C279271] Close the viewer', async ({ personalFiles }) => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(randomDocxName);
     expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+    expect(await personalFiles.viewer.getCloseButtonTooltip()).toEqual('Close');
     await personalFiles.viewer.closeButtonLocator.click();
     expect(await personalFiles.dataTable.getCellLinkByName(randomDocxName).isVisible(), 'Viewer did not close').toBe(true);
-  });
-
-  test('[C284632] Close button tooltip', async ({ personalFiles }) => {
-    await personalFiles.dataTable.performClickFolderOrFileToOpen(randomDocxName);
-    expect(await personalFiles.viewer.getCloseButtonTooltip()).toEqual('Close');
   });
 
   test('[C284636] Viewer opens for a file from Recent Files', async ({ personalFiles, recentFilesPage }) => {
@@ -113,7 +109,7 @@ test.describe('viewer file', () => {
   let fileDocxId: string;
 
   test.beforeAll(async ({ fileAction, shareAction, favoritesPageAction: favoritesPageAction }) => {
-    await apiClientFactory.setUpAcaBackend('admin');
+    await apiClientFactory.setUpAcaBackend('hruser');
     const node = await apiClientFactory.nodes.createNode('-my-', { name: randomFolderName, nodeType: 'cm:folder', relativePath: '/' });
     folderId = await node.entry.id;
     const fileDoc = await fileAction.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId);
@@ -123,7 +119,8 @@ test.describe('viewer file', () => {
   });
 
   test.afterAll(async () => {
-    await apiClientFactory.nodes.deleteNode(folderId);
+    await apiClientFactory.nodes.deleteNode(folderId, { permanent: true });
+    // await apiClientFactory.trashCan.deleteDeletedNode(folderId);
   });
 
   test('[C279285] Viewer opens when accessing the preview URL for a file', async ({ personalFiles }) => {
@@ -136,7 +133,7 @@ test.describe('viewer file', () => {
 
   test('[C284635] Viewer opens for a file from Shared Files', async ({ sharedPage }) => {
     await sharedPage.navigate();
-    await sharedPage.reload();
+    await sharedPage.reload({ waitUntil: 'domcontentloaded' });
     await sharedPage.dataTable.goThroughPagesLookingForRowWithName(randomDocxName);
     await sharedPage.dataTable.performClickFolderOrFileToOpen(randomDocxName);
     expect(await sharedPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);

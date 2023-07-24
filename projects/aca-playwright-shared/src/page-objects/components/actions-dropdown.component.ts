@@ -52,7 +52,7 @@ export enum ActionType {
 export class ActionsDropdownComponent extends BaseComponent {
   private static rootElement = 'aca-rule-action-list';
 
-  private getOptionLocator = (optionName: string): Locator => this.page.locator('.mat-select-panel .mat-option-text', { hasText: optionName });
+  private getOptionLocator = (optionName: string): Locator => this.page.locator('.mat-select-panel .mat-option-text', { hasText: optionName }).first();
   private ruleActionLocator = this.getChild('aca-rule-action [data-automation-id="rule-action-card-view"]');
   private addActionButtonLocator = this.getChild('[data-automation-id="rule-action-list-add-action-button"]');
   private actionDropdownLocator = this.getChild('[data-automation-id="rule-action-select"]');
@@ -75,9 +75,8 @@ export class ActionsDropdownComponent extends BaseComponent {
       await this.addActionButtonLocator.click();
     }
     await this.actionDropdownLocator.nth(index).click();
-    await this.spinnerWaitForReload();
     const option = this.getOptionLocator(action);
-    await option.nth(0).click();
+    await option.click();
   }
 
   async dropdownSelection(selectValue: string, locator: string, index: number): Promise<void> {
