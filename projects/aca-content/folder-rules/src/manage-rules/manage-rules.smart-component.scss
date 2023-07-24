@@ -10,7 +10,6 @@
 
     &__title {
       align-items: center;
-      width: unset !important;
       flex: 1;
     }
 
@@ -88,11 +87,6 @@
             &#delete-rule-btn {
               padding: 0 8px;
               min-width: unset;
-            }
-
-            .mat-icon {
-              // Something pops out of this button for some reason so this is necessary
-              overflow: hidden !important;
             }
           }
         }
