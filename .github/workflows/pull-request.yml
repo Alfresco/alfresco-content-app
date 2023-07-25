@@ -25,7 +25,7 @@ env:
   SCREENSHOT_PASSWORD: ${{ secrets.SCREENSHOT_PASSWORD}}
   AWS_REGION: "eu-west-2"
   CONTENT_CE_DIST_PATH: "./dist/content-ce"
-  PLAYWRIGHT_E2E_HOST: ${{ secrets.BASE_URL_ES }}
+  PLAYWRIGHT_E2E_HOST: ${{ format('{0}{1}', secrets.BASE_URL_ES, '/aca/#/') }}
   GH_BUILD_NUMBER: ${{ github.run_id }}
   MAXINSTANCES: 2
   RETRY_COUNT: 2
