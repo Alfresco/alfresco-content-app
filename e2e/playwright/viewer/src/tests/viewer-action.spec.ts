@@ -41,20 +41,19 @@ test.describe('viewer action file', () => {
   test.beforeAll(async ({ fileAction, shareAction }) => {
     await apiClientFactory.setUpAcaBackend('hruser');
     const node = await apiClientFactory.nodes.createNode('-my-', { name: randomFolderName, nodeType: 'cm:folder', relativePath: '/' });
-    folderId = await node.entry.id;
+    folderId = node.entry.id;
     await fileAction.uploadFile(TEST_FILES.DOCX.path, fileForCancelEditing, folderId);
     await fileAction.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId);
     await fileAction.uploadFile(TEST_FILES.DOCX.path, randomDocxDelete, folderId);
     const fileDocShare = await fileAction.uploadFile(TEST_FILES.DOCX.path, randomDocxNameShare, folderId);
-    fileDocxShareId = await fileDocShare.entry.id;
+    fileDocxShareId = fileDocShare.entry.id;
     await fileAction.uploadFile(TEST_FILES.DOCX.path, randomDocxNameFavorite, folderId);
     await shareAction.shareFileById(fileDocxShareId);
     await fileAction.uploadFile(TEST_FILES.DOCX.path, fileForEditOffline, folderId);
   });
 
   test.beforeEach(async ({ personalFiles }) => {
-    const gotoNodeURL = `#/personal-files/${folderId}`;
-    await personalFiles.navigate({ remoteUrl: gotoNodeURL });
+    await personalFiles.navigate({ remoteUrl: `#/personal-files/${folderId}` });
   });
 
   test.afterAll(async () => {

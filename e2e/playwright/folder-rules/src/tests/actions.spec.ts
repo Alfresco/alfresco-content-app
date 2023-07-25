@@ -44,16 +44,14 @@ test.describe('Folder Rules Actions', () => {
   });
 
   test.beforeEach(async ({ personalFiles }) => {
-    await personalFiles.navigate({ waitUntil: 'domcontentloaded' });
+    await personalFiles.navigate({ remoteUrl: `#/nodes/${folderId}/rules` });
   });
 
   test.afterAll(async () => {
     await apiClientFactory.nodes.deleteNode(folderId, { permanent: true });
   });
 
-  test('[C691637] Create a rule with actions', async ({ personalFiles, nodesPage }) => {
-    await personalFiles.dataTable.performActionFromExpandableMenu(randomFolderName, 'Manage rules');
-
+  test('[C691637] Create a rule with actions', async ({ nodesPage }) => {
     await nodesPage.toolbar.clickCreateRuleButton();
     await nodesPage.manageRulesDialog.ruleNameInputLocator.type(randomRuleName);
 

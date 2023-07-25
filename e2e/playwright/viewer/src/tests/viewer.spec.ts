@@ -35,13 +35,12 @@ test.describe('viewer file', () => {
   test.beforeAll(async ({ fileAction }) => {
     await apiClientFactory.setUpAcaBackend('hruser');
     const node = await apiClientFactory.nodes.createNode('-my-', { name: randomFolderName, nodeType: 'cm:folder', relativePath: '/' });
-    folderId = await node.entry.id;
+    folderId = node.entry.id;
     await fileAction.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId);
   });
 
   test.beforeEach(async ({ personalFiles }) => {
-    const gotoNodeURL = `#/personal-files/${folderId}`;
-    await personalFiles.navigate({ remoteUrl: gotoNodeURL });
+    await personalFiles.navigate({ remoteUrl: `#/personal-files/${folderId}` });
   });
 
   test.afterAll(async () => {
@@ -111,9 +110,9 @@ test.describe('viewer file', () => {
   test.beforeAll(async ({ fileAction, shareAction, favoritesPageAction: favoritesPageAction }) => {
     await apiClientFactory.setUpAcaBackend('hruser');
     const node = await apiClientFactory.nodes.createNode('-my-', { name: randomFolderName, nodeType: 'cm:folder', relativePath: '/' });
-    folderId = await node.entry.id;
+    folderId = node.entry.id;
     const fileDoc = await fileAction.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId);
-    fileDocxId = await fileDoc.entry.id;
+    fileDocxId = fileDoc.entry.id;
     await shareAction.shareFileById(fileDocxId);
     await favoritesPageAction.addFavoriteById('file', fileDocxId);
   });
