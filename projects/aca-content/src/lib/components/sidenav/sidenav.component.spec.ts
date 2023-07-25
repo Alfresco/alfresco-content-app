@@ -28,11 +28,13 @@ import { SidenavComponent } from './sidenav.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { AppExtensionService, AppService } from '@alfresco/aca-shared';
 import { BehaviorSubject, Subject } from 'rxjs';
+import { SidenavLayoutComponent } from '@alfresco/adf-core';
 
 describe('SidenavComponent', () => {
   let fixture: ComponentFixture<SidenavComponent>;
   let component: SidenavComponent;
   let extensionService: AppExtensionService;
+  let sidenavLayoutComponent: SidenavLayoutComponent;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -44,6 +46,10 @@ describe('SidenavComponent', () => {
             appNavNarMode$: new BehaviorSubject('expanded'),
             toggleAppNavBar$: new Subject()
           }
+        },
+        {
+          provide: SidenavLayoutComponent,
+          useClass: SidenavLayoutComponent
         }
       ],
       schemas: [NO_ERRORS_SCHEMA]
@@ -51,6 +57,7 @@ describe('SidenavComponent', () => {
 
     fixture = TestBed.createComponent(SidenavComponent);
     component = fixture.componentInstance;
+    sidenavLayoutComponent = TestBed.inject(SidenavLayoutComponent);
     extensionService = TestBed.inject(AppExtensionService);
     extensionService.navbar = [
       {
@@ -65,6 +72,9 @@ describe('SidenavComponent', () => {
         ]
       }
     ];
+    component.data = {
+      layout: sidenavLayoutComponent
+    };
   });
 
   it('should set the sidenav data', async () => {
