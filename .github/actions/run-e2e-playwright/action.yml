@@ -19,6 +19,7 @@ inputs:
 runs:
   using: "composite"
   steps:
+
     - name: Setup and run with options
       shell: bash
       run: |
