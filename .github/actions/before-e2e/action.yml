@@ -43,6 +43,14 @@ runs:
         aws-secret-access-key: ${{ inputs.aws-secret-access-key }}
         aws-region: ${{ inputs.aws-region }}
 
+    - name: Install google chrome
+      shell: bash
+      run: |
+          wget -q https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_114.0.5735.133-1_amd64.deb
+          sudo apt install -y --allow-downgrades ./google-chrome-stable_114.0.5735.133-1_amd64.deb
+          sudo ln -s /usr/bin/google-chrome /usr/bin/chrome
+          chrome --version
+
     - name: Update webdriver-manager
       shell: bash
       run: |
