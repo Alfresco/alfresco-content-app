@@ -16,12 +16,12 @@
 
   .link:hover,
   .aca-location-link .adf-datatable-cell-value:hover {
-    color: var(--theme-primary-color) !important;
+    color: var(--theme-primary-color);
     text-decoration: underline;
   }
 
   .adf-is-selected .link:not(:hover),
   .adf-is-selected .adf-datatable-cell-value:not(:hover) {
-    color: var(--theme-primary-color) !important;
+    color: var(--theme-primary-color);
   }
 }

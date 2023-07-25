@@ -9,7 +9,10 @@ $top-margin: 12px;
   width: 100%;
   max-width: $search-width;
   height: $search-height + $top-margin;
-  margin: 0 !important;
+
+  &.mat-menu-trigger {
+    margin: 0;
+  }
 
   .app-search-button {
     width: 32px;
@@ -23,9 +26,11 @@ $top-margin: 12px;
     .app-close-icon {
       height: 6px;
 
-      .mat-icon {
-        font-size: 18px !important;
-        line-height: 28px;
+      &.app-suffix-search-icon-wrapper {
+        .mat-icon {
+          font-size: 18px;
+          line-height: 28px;
+        }
       }
     }
 
@@ -70,8 +75,8 @@ mat-checkbox {
   background-color: $search-background;
   border-radius: $search-border-radius;
   height: $search-height;
-  margin-bottom: 0 !important;
-  padding-bottom: 26px !important;
+  margin-bottom: 0;
+  padding-bottom: 26px;
 }
 
 .app-search-control {
