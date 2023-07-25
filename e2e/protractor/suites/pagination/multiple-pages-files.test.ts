@@ -79,7 +79,7 @@ describe('Pagination on multiple pages : ', () => {
     beforeAll(async () => {
       await userApi.search.waitForApi(username, { expect: initialSearchTotalItems + 51 });
     });
-    searchResultsTests(username, random);
+    searchResultsTests(username, `*${random}`);
   });
 
   describe('on Shared Files', () => {
