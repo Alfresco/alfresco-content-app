@@ -531,8 +531,6 @@
       "CATEGORIES": "类别"
     },
     "CATEGORIES": {
-      "MODIFIED_DATE": "修改日期",
-      "CREATED_DATE": "创建日期",
       "EFFECTIVITY_FROM": "有效开始",
       "EFFECTIVITY_TO": "有效结束",
       "LOGIC": "登录"

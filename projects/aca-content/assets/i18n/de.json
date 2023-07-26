@@ -531,8 +531,6 @@
       "CATEGORIES": "Categories"
     },
     "CATEGORIES": {
-      "MODIFIED_DATE": "Datum der Änderung",
-      "CREATED_DATE": "Datum der Erstellung",
       "EFFECTIVITY_FROM": "Effektiv ab",
       "EFFECTIVITY_TO": "Effektiv bis",
       "LOGIC": "Logik"

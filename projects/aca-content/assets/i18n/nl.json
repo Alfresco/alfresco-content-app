@@ -531,8 +531,6 @@
       "CATEGORIES": "Categorieën"
     },
     "CATEGORIES": {
-      "MODIFIED_DATE": "Datum gewijzigd",
-      "CREATED_DATE": "Datum gemaakt",
       "EFFECTIVITY_FROM": "Effectiviteit vanaf",
       "EFFECTIVITY_TO": "Effectiviteit tot",
       "LOGIC": "Logica"

@@ -531,8 +531,6 @@
       "CATEGORIES": "Категории"
     },
     "CATEGORIES": {
-      "MODIFIED_DATE": "Дата изменения",
-      "CREATED_DATE": "Дата создания",
       "EFFECTIVITY_FROM": "Действует с",
       "EFFECTIVITY_TO": "Действует до",
       "LOGIC": "Логика"

@@ -532,8 +532,6 @@
             "CATEGORIES": "Categories"
         },
         "CATEGORIES": {
-            "MODIFIED_DATE": "Modified date",
-            "CREATED_DATE": "Created date",
             "DATE": "Date",
             "DATE_TABS": {
               "CREATED": "Created",
