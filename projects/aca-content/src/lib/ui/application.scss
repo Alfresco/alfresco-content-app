@@ -20,10 +20,6 @@ body {
   }
 }
 
-.mat-icon {
-  overflow: unset !important;
-}
-
 [dir='rtl'] .mat-icon {
   transform: scale(-1, 1);
 }
@@ -58,4 +54,15 @@ ng-component {
   overflow-y: scroll;
   max-width: 350px;
   width: 350px;
+}
+
+.aca-page-title {
+  cursor: default;
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: 0.15px;
+  line-height: 33px;
+  margin: 0;
+  color: var(--adf-theme-foreground-text-color-087);
+  width: 100%;
 }

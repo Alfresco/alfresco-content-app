@@ -52,7 +52,6 @@
       border-radius: 0;
 
       &-header {
-        height: 32px !important;
         padding: 0 32px 0 0;
         display: flex;
         align-items: center;
@@ -66,7 +65,7 @@
         .mat-button {
           line-height: 32px;
           align-items: center;
-          border: none !important;
+          border: none;
         }
 
         .action-button__label {
@@ -99,7 +98,7 @@
     }
 
     .mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled='true']):hover {
-      background: none !important;
+      background: none;
     }
 
     .item {
@@ -128,7 +127,7 @@
     }
 
     .action-button--active {
-      color: var(--theme-selected-text-color) !important;
+      color: var(--theme-selected-text-color);
       background: var(--theme-selected-background-color);
     }
   }

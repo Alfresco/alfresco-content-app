@@ -82,13 +82,13 @@
 @mixin base-font-size($font-size) {
   html,
   body {
-    font-size: $font-size !important;
+    font-size: $font-size;
   }
 }
 
 @mixin base-font-family($font-family) {
   html,
   body {
-    font-family: $font-family !important;
+    font-family: $font-family;
   }
 }

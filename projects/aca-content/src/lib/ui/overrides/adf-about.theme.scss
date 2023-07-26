@@ -5,21 +5,23 @@
     background-color: var(--theme-about-panel-background-color);
     overflow: auto;
 
-    mat-accordion {
-      box-shadow: none !important;
-      border: none !important;
+    .mat-accordion {
+      box-shadow: none;
+      border: none;
+
+      &.adf-about-panel {
+        .mat-expansion-panel {
+          box-shadow: none;
+          border-radius: 12px;
+          margin: 24px;
+          width: 95%;
+          border: 1px solid var(--theme-about-panel-border-color);
+        }
+      }
     }
 
-    mat-expansion-panel {
-      box-shadow: none !important;
-      border-radius: 12px !important;
-      margin: 24px !important;
-      width: 95%;
-      border: 1px solid var(--theme-about-panel-border-color);
-    }
-
-    mat-expansion-panel-header {
-      height: 80px !important;
+    .mat-expansion-panel-header {
+      height: 80px;
       line-height: 32px;
     }
 

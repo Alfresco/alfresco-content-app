@@ -10,29 +10,43 @@ $contrast-gray: #646569;
   color: var(--theme-text-color, rgba(0, 0, 0, 0.54));
 }
 
-.adf-name-location-cell-location {
-  color: $contrast-gray !important;
+.adf-name-location-cell-location.adf-datatable-cell-value {
+  color: $contrast-gray;
 }
 
-.mat-form-field-label, .mat-tab-label, .mat-checkbox-label, .mat-toolbar {
-  color: $contrast-gray !important;
-  opacity: 1 !important;
+.mat-tab-list {
+  .mat-tab-labels {
+    .mat-tab-label {
+      &.mat-tab-label-active {
+        color: #212121;
+      }
+    }
+  }
 }
 
-.mat-tab-label-active {
-  color: #212121 !important;
+.mat-form-field-label-wrapper .mat-form-field-label,
+.mat-tab-list .mat-tab-labels .mat-tab-label,
+.mat-checkbox-label,
+mat-toolbar.mat-toolbar.mat-toolbar-multiple-row,
+mat-toolbar.mat-toolbar.mat-toolbar-single-row {
+  color: $contrast-gray;
+  opacity: 1;
 }
 
 .adf-upload-dialog {
-  &__header, &__content {
+  &__header,
+  &__content {
     color: $contrast-gray;
   }
 }
 
-.adf-version-list-item {
-  &-comment, &-date {
-    color: $contrast-gray;
-    opacity: 1 !important;
+.adf-version-list {
+  .adf-version-list-item {
+    &-comment,
+    &-date {
+      color: $contrast-gray;
+      opacity: 1;
+    }
   }
 }
 
@@ -41,15 +55,16 @@ $contrast-gray: #646569;
   color: $contrast-gray;
 }
 
-.adf-textitem-edit-icon.mat-icon {
-  color: $contrast-gray !important;
+.adf-property-field {
+  .adf-textitem-edit-icon.mat-icon {
+    color: $contrast-gray;
+  }
 }
 
 .adf-property-field.adf-card-textitem-field:hover .adf-property-clear-value {
-  color: $contrast-gray !important;
+  color: $contrast-gray;
 }
 
 .adf-empty-content__icon {
   color: $contrast-gray;
 }
-

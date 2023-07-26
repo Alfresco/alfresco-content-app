@@ -53,7 +53,7 @@ test.describe('viewer file', () => {
   });
 
   test('[C279270] Viewer opens when clicking the View action for a file', async ({ personalFiles }) => {
-    await personalFiles.dataTable.selectItem(randomDocxName);
+    await personalFiles.dataTable.getRowByName(randomDocxName).click();
     await personalFiles.acaHeader.viewButton.click();
     await personalFiles.dataTable.spinnerWaitForReload();
     expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);

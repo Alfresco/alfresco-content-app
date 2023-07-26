@@ -1,6 +1,6 @@
 <aca-page-layout>
   <div class="aca-page-layout-header">
-    <adf-breadcrumb root="APP.BROWSE.TRASHCAN.TITLE"> </adf-breadcrumb>
+    <h1 class="aca-page-title">{{ 'APP.BROWSE.TRASHCAN.TITLE' | translate }}</h1>
 
     <adf-toolbar class="adf-toolbar--inline">
       <ng-container *ngFor="let entry of actions; trackBy: trackByActionId">
@@ -18,7 +18,7 @@
         [display]="documentDisplayMode$ | async"
         [currentFolderId]="'-trashcan-'"
         [selectionMode]="'multiple'"
-        [multiselect]="true"
+        [multiselect]="false"
         [navigate]="false"
         [sortingMode]="'client'"
         [imageResolver]="imageResolver"
