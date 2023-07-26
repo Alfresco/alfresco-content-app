@@ -8,7 +8,7 @@ $background: map-get($custom-theme, background);
 $data-table-thumbnail-width: 35px;
 $data-table-cell-min-width: 150px;
 $data-table-cell-min-width-no-grow: 120px;
-$data-table-cell-min-width-file-size: 110px !important;
+$data-table-cell-min-width-file-size: 110px;
 
 // Upload drag
 $adf-upload-dragging-color: unset;

@@ -21,6 +21,6 @@
 }
 
 @mixin rounded-border($border-color: var(--theme-blue-button-color), $thickness: 2px, $radius: 4px) {
-  border: $thickness solid $border-color !important;
+  border: $thickness solid $border-color;
   border-radius: $radius;
 }

@@ -27,8 +27,8 @@
     }
   }
 
-  .adf-content-node-selector-content-list .adf-datatable-list .adf-datatable-selected > svg {
-    fill: var(--theme-blue-button-color) !important;
+  .adf-content-node-selector-content-list .adf-datatable-list .adf-datatable-selected.mat-icon > svg {
+    fill: var(--theme-blue-button-color);
   }
 
   .mat-list-base .mat-list-option {
@@ -45,9 +45,9 @@
     }
   }
 
-  .adf-search-user-button,
+  .adf-search-user-button.mat-button,
   .app-search-button {
-    line-height: 36px !important;
+    line-height: 36px;
 
     @include rounded-border(transparent);
 
@@ -58,21 +58,23 @@
     }
   }
 
-  .mat-menu-item {
-    .mat-menu-ripple {
-      display: none;
-    }
+  .mat-menu-content {
+    .mat-menu-item {
+      .mat-menu-ripple {
+        display: none;
+      }
 
-    @include rounded-border(transparent);
+      @include rounded-border(transparent);
 
-    &:focus-visible {
-      @include rounded-border;
+      &:focus-visible {
+        @include rounded-border;
 
-      background-color: white;
-    }
+        background-color: white;
+      }
 
-    &.cdk-keyboard-focused:not([disabled]) {
-      background-color: white;
+      &.cdk-keyboard-focused:not([disabled]) {
+        background-color: white;
+      }
     }
   }
 
@@ -141,7 +143,7 @@
   }
 
   .mat-datetimepicker-calendar-body-active .mat-datetimepicker-calendar-body-cell-content:not(.mat-datetimepicker-calendar-body-selected) {
-    background-color: var(--theme-datetimepicker-cell-background) !important;
+    background-color: var(--theme-datetimepicker-cell-background);
   }
 
   .mat-datetimepicker-calendar-body-cell-content.mat-datetimepicker-calendar-body-selected {
@@ -156,7 +158,7 @@
   .mat-expansion-panel .mat-expansion-panel-header {
     border: 2px solid transparent;
 
-    .mat-button {
+    .mat-button-base.mat-button {
       outline: none;
 
       @include rounded-border(transparent);
@@ -193,8 +195,10 @@
     }
   }
 
-  .adf-filter-button {
-    margin-left: -2px !important;
+  .mat-button-base {
+    &.adf-filter-button {
+      margin-left: -2px;
+    }
   }
 
   .adf-pagination {

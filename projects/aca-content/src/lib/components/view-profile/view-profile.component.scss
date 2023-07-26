@@ -83,9 +83,9 @@ app-view-profile {
   }
 
   .app-selected:focus {
-    border: 2px solid var(--theme-blue-button-color) !important;
+    border: 2px solid var(--theme-blue-button-color);
     border-radius: 6px;
-    outline: none !important;
+    outline: none;
     box-shadow: 0 0 2px var(--theme-blue-button-color);
   }
 
