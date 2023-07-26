@@ -47,10 +47,7 @@ describe('SidenavComponent', () => {
             toggleAppNavBar$: new Subject()
           }
         },
-        {
-          provide: SidenavLayoutComponent,
-          useClass: SidenavLayoutComponent
-        }
+        SidenavLayoutComponent
       ],
       schemas: [NO_ERRORS_SCHEMA]
     });
