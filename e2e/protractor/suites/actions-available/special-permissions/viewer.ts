@@ -230,7 +230,7 @@ export function viewerTests(siteName?: string) {
         await toolbar.clickSearchIconButton();
         await searchInput.clickSearchButton();
         await searchInput.checkOnlyFiles();
-        await searchInput.searchFor(testData.random);
+        await searchInput.searchFor(`*${testData.random}`);
         await searchResultsPage.waitForResults();
       });
 

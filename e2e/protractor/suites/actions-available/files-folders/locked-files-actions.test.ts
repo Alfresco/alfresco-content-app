@@ -267,7 +267,7 @@ describe('Locked Files - available actions : ', () => {
       await toolbar.clickSearchIconButton();
       await searchInput.clickSearchButton();
       await searchInput.checkOnlyFiles();
-      await searchInput.searchFor(random);
+      await searchInput.searchFor(`*${random}`);
       await searchResultsPage.waitForResults();
     });
 
