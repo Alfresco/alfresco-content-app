@@ -63,8 +63,6 @@ describe('Search filters', () => {
   };
 
   const expectedFileTypes = ['pdf', 'wpd'];
-  const expectedCreators = [`${user1} ${user1} (1)`, `${user2} ${user2} (1)`];
-  const expectedModifiers = [`${user1} ${user1} (1)`, `${user2} ${user2} (1)`];
   const expectedLocations = ['_REPOSITORY_ (1)', `${site} (1)`];
 
   const apis = {
@@ -79,9 +77,8 @@ describe('Search filters', () => {
 
   const fileTypeFilter = filters.fileType;
   const createdDateFilter = filters.createdDate;
-  const creatorFilter = filters.creator;
+  const peopleFilter = filters.people;
   const locationFilter = filters.location;
-  const modifierFilter = filters.modifier;
   const modifiedDateFilter = filters.modifiedDate;
   const adminApiActions = new AdminActions();
 
@@ -119,8 +116,7 @@ describe('Search filters', () => {
   it('[C279186] Filters are displayed', async () => {
     expect(await createdDateFilter.isDisplayed()).toBe(true, 'Created date filter panel not displayed');
     expect(await fileTypeFilter.isDisplayed()).toBe(true, 'File type filter panel not displayed');
-    expect(await creatorFilter.isDisplayed()).toBe(true, 'Creator filter panel not displayed');
-    expect(await modifierFilter.isDisplayed()).toBe(true, 'Modifier filter panel not displayed');
+    expect(await peopleFilter.isDisplayed()).toBe(true, 'People filter panel not displayed');
     expect(await locationFilter.isDisplayed()).toBe(true, 'Location filter panel not displayed');
     expect(await modifiedDateFilter.isDisplayed()).toBe(true, 'Modified date filter panel not displayed');
   });
@@ -321,125 +317,100 @@ describe('Search filters', () => {
     });
   });
 
-  describe('Filter by Creator', () => {
+  describe('Filter by People', () => {
     afterEach(async () => {
       await Utils.pressEscape();
       await BrowserActions.click(filters.resetAllButton);
     });
 
-    it('[C279205] Expand / Collapse the Creator filter panel', async () => {
-      await creatorFilter.openDialog();
-      expect(await creatorFilter.isDialogPresent()).toBe(true, 'Creator filter panel not expanded');
+    it('[C279205] Expand / Collapse the People filter panel', async () => {
+      await peopleFilter.openDialog();
+      expect(await peopleFilter.isDialogPresent()).toBe(true, 'People filter panel not expanded');
 
-      expect(await creatorFilter.getFiltersValues()).toEqual(expectedCreators, 'Incorrect Creator filters facets');
-      expect(await creatorFilter.isFilterCategoryInputDisplayed()).toBe(true, 'Creator filter categories not displayed');
+      expect(await peopleFilter.getCurrentTabLabel()).toEqual('Creator', 'Incorrect Creator tab label');
+      expect(await peopleFilter.isChipListDisplayed()).toBe(true, 'Creator chip list is not displayed');
 
-      await creatorFilter.closeDialog();
-      expect(await creatorFilter.isDialogPresent()).toBe(false, 'Creator filter panel is expanded');
+      await peopleFilter.changeTabToModifier();
+      expect(await peopleFilter.getCurrentTabLabel()).toEqual('Modifier', 'Incorrect Modifier tab label');
+      expect(await peopleFilter.isChipListDisplayed()).toBe(true, 'Modifier chip list is not displayed');
+
+      await peopleFilter.closeDialog();
+      expect(await peopleFilter.isDialogPresent()).toBe(false, 'People filter panel is expanded');
     });
 
     it('[C279206] Results are filtered by Creator', async () => {
-      await creatorFilter.openDialog();
-      await creatorFilter.checkCategory(user1);
-      await creatorFilter.clickApplyButton();
+      await peopleFilter.openDialog();
+      await peopleFilter.selectChip(`${user1} ${user1}`);
+      await peopleFilter.clickApplyButton();
 
       expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(false, 'PDF file is displayed');
       expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(true, 'JPG file not displayed');
-      expect(await creatorFilter.getChipTitle()).toEqual(`${user1} ${user1}`);
+      expect(await peopleFilter.getChipTitle()).toEqual(`Created by: ${user1} ${user1} `);
 
-      await creatorFilter.openDialog();
-      await creatorFilter.checkCategory(user2);
-      await creatorFilter.clickApplyButton();
-
-      expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(true, 'PDF file not displayed');
-      expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(true, 'JPG file not displayed');
-      expect(await creatorFilter.getChipTitle()).toEqual(`${user1} ${user1}, ${user2} ${user2}`);
-    });
-
-    it('[C279207] Clear the Creator filter options', async () => {
-      await creatorFilter.openDialog();
-      await creatorFilter.checkCategory(user1);
-      await creatorFilter.clickApplyButton();
-
-      expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(false, 'PDF file is displayed');
-      expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(true, 'JPG file not displayed');
-
-      await creatorFilter.openDialog();
-      expect(await creatorFilter.getFiltersCheckedValues()).toEqual([`${user1} ${user1} (1)`]);
-      await creatorFilter.clickResetButton();
-
-      expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(true, 'PDF file not displayed');
-      expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(true, 'JPG file not displayed');
-      expect(await creatorFilter.getChipTitle()).toEqual('', 'Creator selection not cleared');
-    });
-
-    it('[C279208] Search for a specific creator', async () => {
-      await creatorFilter.openDialog();
-      expect(await creatorFilter.getFiltersValues()).toEqual(expectedCreators, 'Incorrect Creator filters facets');
-      await creatorFilter.filterCategoriesBy(user1);
-      expect(await creatorFilter.getFiltersValues()).toEqual([`${user1} ${user1} (1)`], 'Incorrect Creator filters facets');
-    });
-  });
-
-  describe('Filter by Modifier', () => {
-    afterEach(async () => {
-      await Utils.pressEscape();
       await BrowserActions.click(filters.resetAllButton);
+      await peopleFilter.openDialog();
+      await peopleFilter.selectChip(`${user2} ${user2}`);
+      await peopleFilter.clickApplyButton();
+
+      expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(true, 'PDF file not displayed');
+      expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(false, 'JPG file not displayed');
+      expect(await peopleFilter.getChipTitle()).toEqual(`Created by: ${user2} ${user2} `);
     });
 
-    it('[C279224] Expand / Collapse the Modifier filter panel', async () => {
-      await modifierFilter.openDialog();
-      expect(await modifierFilter.isDialogPresent()).toBe(true, 'Modifier filter panel not expanded');
-
-      expect(await modifierFilter.getFiltersValues()).toEqual(expectedModifiers, 'Incorrect Modifier filters facets');
-      expect(await modifierFilter.isFilterCategoryInputDisplayed()).toBe(true, 'Modifier filter categories not displayed');
-
-      await modifierFilter.closeDialog();
-      expect(await modifierFilter.isDialogPresent()).toBe(false, 'Modifier filter panel is expanded');
-    });
-
-    it('[C279225] Results are filtered by Modifier', async () => {
-      await modifierFilter.openDialog();
-      await modifierFilter.checkCategory(user1);
-      await modifierFilter.clickApplyButton();
+    it('[C279207] Results are filtered by Modifier', async () => {
+      await peopleFilter.openDialog();
+      await peopleFilter.changeTabToModifier();
+      await peopleFilter.selectChip(`${user1} ${user1}`);
+      await peopleFilter.clickApplyButton();
 
       expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(false, 'PDF file is displayed');
       expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(true, 'JPG file not displayed');
-      expect(await modifierFilter.getChipTitle()).toEqual(`${user1} ${user1}`, 'Incorrect File type filters facets');
+      expect(await peopleFilter.getChipTitle()).toEqual(`Modified by: ${user1} ${user1} `);
 
-      await modifierFilter.openDialog();
-      await modifierFilter.checkCategory(user2);
-      await modifierFilter.clickApplyButton();
+      await BrowserActions.click(filters.resetAllButton);
+      await peopleFilter.openDialog();
+      await peopleFilter.changeTabToModifier();
+      await peopleFilter.selectChip(`${user2} ${user2}`);
+      await peopleFilter.clickApplyButton();
 
       expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(true, 'PDF file not displayed');
-      expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(true, 'JPG file not displayed');
-      expect(await modifierFilter.getChipTitle()).toEqual(`${user1} ${user1}, ${user2} ${user2}`, 'Incorrect modifier filters facets');
+      expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(false, 'JPG file not displayed');
+      expect(await peopleFilter.getChipTitle()).toEqual(`Modified by: ${user2} ${user2} `);
     });
 
-    it('[C279226] Clear the Modifier filter options', async () => {
-      await modifierFilter.openDialog();
-      await modifierFilter.checkCategory(user1);
-      await modifierFilter.clickApplyButton();
+    it('[C279208] Clear the Creator filter options', async () => {
+      await peopleFilter.openDialog();
+      await peopleFilter.selectChip(`${user1} ${user1}`);
+      await peopleFilter.clickApplyButton();
 
       expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(false, 'PDF file is displayed');
       expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(true, 'JPG file not displayed');
 
-      await modifierFilter.openDialog();
-      expect(await modifierFilter.getFiltersCheckedValues()).toEqual([`${user1} ${user1} (1)`]);
-      await modifierFilter.clickResetButton();
+      await peopleFilter.openDialog();
+      expect(await peopleFilter.getSelectedValues()).toEqual([`${user1} ${user1}`]);
+      await peopleFilter.clickResetButton();
 
       expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(true, 'PDF file not displayed');
       expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(true, 'JPG file not displayed');
-
-      await modifierFilter.openDialog();
-      expect(await modifierFilter.getFiltersCheckedValues()).toEqual([], 'Modifier selection not cleared');
+      expect(await peopleFilter.getChipTitle()).toEqual('', 'Creator selection not cleared');
     });
 
-    it('[C279227] Search for a specific modifier', async () => {
-      await modifierFilter.openDialog();
-      expect(await modifierFilter.getFiltersValues()).toEqual(expectedModifiers, 'Incorrect Modifier filters facets');
-      await modifierFilter.filterCategoriesBy(user1);
-      expect(await modifierFilter.getFiltersValues()).toEqual([`${user1} ${user1} (1)`], 'Incorrect Modifier filters facets');
+    it('[C279209] Clear the Modifier filter options', async () => {
+      await peopleFilter.openDialog();
+      await peopleFilter.changeTabToModifier();
+      await peopleFilter.selectChip(`${user1} ${user1}`);
+      await peopleFilter.clickApplyButton();
+
+      expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(false, 'PDF file is displayed');
+      expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(true, 'JPG file not displayed');
+
+      await peopleFilter.openDialog();
+      expect(await peopleFilter.getSelectedValues()).toEqual([`${user1} ${user1}`]);
+      await peopleFilter.clickResetButton();
+
+      expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(true, 'PDF file not displayed');
+      expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(true, 'JPG file not displayed');
+      expect(await peopleFilter.getChipTitle()).toEqual('', 'Modifier selection not cleared');
     });
   });
 
@@ -584,9 +555,9 @@ describe('Search filters', () => {
       await fileTypeFilter.selectFileType('jpg');
       await fileTypeFilter.clickApplyButton();
 
-      await creatorFilter.openDialog();
-      await creatorFilter.checkCategory(user1);
-      await creatorFilter.clickApplyButton();
+      await peopleFilter.openDialog();
+      await peopleFilter.selectChip(`${user1} ${user1}`);
+      await peopleFilter.clickApplyButton();
 
       await locationFilter.openDialog();
       await locationFilter.setAutocompleteInputValue(site);
@@ -595,7 +566,7 @@ describe('Search filters', () => {
       expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(false, 'PDF file is displayed');
       expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(true, 'JPG file not displayed');
       expect(await fileTypeFilter.getChipTitle()).toEqual(`${SizeOperator.AT_MOST} 1024 KB, jpg`);
-      expect(await creatorFilter.getChipTitle()).toEqual(`${user1} ${user1}`);
+      expect(await peopleFilter.getChipTitle()).toEqual(`Created by: ${user1} ${user1} `);
       expect(await locationFilter.getChipTitle()).toEqual(site);
 
       await BrowserActions.click(filters.resetAllButton);
@@ -609,9 +580,9 @@ describe('Search filters', () => {
       await fileTypeFilter.selectFileType('jpg');
       await fileTypeFilter.clickApplyButton();
 
-      await creatorFilter.openDialog();
-      await creatorFilter.checkCategory(user1);
-      await creatorFilter.clickApplyButton();
+      await peopleFilter.openDialog();
+      await peopleFilter.selectChip(`${user1} ${user1}`);
+      await peopleFilter.clickApplyButton();
 
       expect(await dataTable.getRowsCount()).toEqual(1, 'expected 1 result');
 
@@ -625,9 +596,9 @@ describe('Search filters', () => {
       await fileTypeFilter.selectFileType('jpg');
       await fileTypeFilter.clickApplyButton();
 
-      await creatorFilter.openDialog();
-      await creatorFilter.checkCategory(user1);
-      await creatorFilter.clickApplyButton();
+      await peopleFilter.openDialog();
+      await peopleFilter.selectChip(`${user1} ${user1}`);
+      await peopleFilter.clickApplyButton();
 
       expect(await page.pagination.getRange()).toEqual('Showing 1-1 of 1');
 
@@ -637,14 +608,6 @@ describe('Search filters', () => {
     });
 
     it('[C308042] The filter facets display is updated when making a new query', async () => {
-      await creatorFilter.openDialog();
-      expect(await creatorFilter.getFiltersValues()).toEqual(expectedCreators);
-      await creatorFilter.closeDialog();
-
-      await modifierFilter.openDialog();
-      expect(await modifierFilter.getFiltersValues()).toEqual(expectedModifiers);
-      await modifierFilter.closeDialog();
-
       await locationFilter.openDialog();
       expect(await locationFilter.getFiltersSelectedValues()).toEqual(expectedLocations);
       await locationFilter.closeDialog();
@@ -652,14 +615,6 @@ describe('Search filters', () => {
       await searchInput.clickSearchButton();
       await searchInput.searchFor(fileJpgUser1.name);
       await dataTable.waitForBody();
-
-      await creatorFilter.openDialog();
-      expect(await creatorFilter.getFiltersValues()).toEqual([`${user1} ${user1} (1)`]);
-      await creatorFilter.closeDialog();
-
-      await modifierFilter.openDialog();
-      expect(await modifierFilter.getFiltersValues()).toEqual([`${user1} ${user1} (1)`]);
-      await modifierFilter.closeDialog();
 
       await locationFilter.openDialog();
       expect(await locationFilter.getFiltersSelectedValues()).toEqual([`${site}`]);
