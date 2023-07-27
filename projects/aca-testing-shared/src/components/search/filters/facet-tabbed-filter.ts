@@ -22,7 +22,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {ElementFinder, ElementArrayFinder, by, browser, protractor, element} from 'protractor';
+import { ElementFinder, ElementArrayFinder, by, browser, protractor, element } from 'protractor';
 import { BrowserVisibility } from '@alfresco/adf-testing';
 import { GenericFilter } from './generic-filter';
 
