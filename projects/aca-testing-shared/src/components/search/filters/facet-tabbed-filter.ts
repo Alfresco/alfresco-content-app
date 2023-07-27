@@ -22,7 +22,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, ElementArrayFinder, by, browser, protractor } from 'protractor';
+import {ElementFinder, ElementArrayFinder, by, browser, protractor, element} from 'protractor';
 import { BrowserVisibility } from '@alfresco/adf-testing';
 import { GenericFilter } from './generic-filter';
 
@@ -32,10 +32,11 @@ export class FacetTabbedFilter extends GenericFilter {
     chipList: '.mat-tab-body-active .adf-chip-list',
     chipListInput: '.mat-tab-body-active .adf-chip-list input',
     currentTabLabel: '.mat-tab-label-active .mat-tab-label-content',
-    option: '.mat-chip span'
+    chip: '.mat-chip span',
+    option: '.mat-option-text'
   };
 
-  options: ElementArrayFinder = this.filterDialogOpened.all(by.css(this.locators.option));
+  chips: ElementArrayFinder = this.filterDialogOpened.all(by.css(this.locators.chip));
 
   get tabs(): ElementArrayFinder {
     return this.filterDialogOpened.all(by.css(this.locators.tabs));
@@ -49,6 +50,10 @@ export class FacetTabbedFilter extends GenericFilter {
     return this.filterDialogOpened.element(by.css(this.locators.chipListInput));
   }
 
+  get options(): ElementArrayFinder {
+    return element.all(by.css(this.locators.option));
+  }
+
   async getCurrentTabLabel(): Promise<string> {
     const label = this.filterDialogOpened.element(by.css(this.locators.currentTabLabel));
     return await label.getText();
@@ -59,12 +64,17 @@ export class FacetTabbedFilter extends GenericFilter {
     await BrowserVisibility.waitUntilElementHasText(await this.filterDialogOpened.element(by.css(this.locators.currentTabLabel)), 'Modifier');
   }
 
+  async changeTabToCreator(): Promise<void> {
+    await this.tabs.get(0).click();
+    await BrowserVisibility.waitUntilElementHasText(await this.filterDialogOpened.element(by.css(this.locators.currentTabLabel)), 'Creator');
+  }
+
   async isChipListDisplayed(): Promise<boolean> {
     return this.chipList.isDisplayed();
   }
 
   async getSelectedValues(): Promise<string[]> {
-    return this.options.map((option) => {
+    return this.chips.map((option) => {
       return option.getText();
     });
   }
@@ -72,5 +82,10 @@ export class FacetTabbedFilter extends GenericFilter {
   async selectChip(name: string): Promise<void> {
     await this.chipListInput.sendKeys(name);
     await browser.actions().sendKeys(protractor.Key.ENTER).perform();
+  }
+
+  async getAutocompleteOptions(filterValue: string): Promise<string[]> {
+    await this.chipListInput.sendKeys(filterValue);
+    return this.options.map((option) => option.getText());
   }
 }

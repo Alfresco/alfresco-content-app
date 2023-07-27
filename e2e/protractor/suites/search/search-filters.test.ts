@@ -63,7 +63,6 @@ describe('Search filters', () => {
   };
 
   const expectedFileTypes = ['pdf', 'wpd'];
-  const expectedLocations = ['_REPOSITORY_ (1)', `${site} (1)`];
 
   const apis = {
     user1: new RepoClient(user1, user1),
@@ -608,17 +607,29 @@ describe('Search filters', () => {
     });
 
     it('[C308042] The filter facets display is updated when making a new query', async () => {
-      await locationFilter.openDialog();
-      expect(await locationFilter.getFiltersSelectedValues()).toEqual(expectedLocations);
-      await locationFilter.closeDialog();
+      const expectedUsers1 = [`${user1} ${user1}`, `${user2} ${user2}`];
+      await peopleFilter.openDialog();
+      expect(await peopleFilter.getAutocompleteOptions(' ')).toEqual(expectedUsers1);
+      await peopleFilter.closeDialog();
+
+      await peopleFilter.openDialog();
+      await peopleFilter.changeTabToModifier();
+      expect(await peopleFilter.getAutocompleteOptions(' ')).toEqual(expectedUsers1);
+      await peopleFilter.closeDialog();
 
       await searchInput.clickSearchButton();
       await searchInput.searchFor(fileJpgUser1.name);
       await dataTable.waitForBody();
 
-      await locationFilter.openDialog();
-      expect(await locationFilter.getFiltersSelectedValues()).toEqual([`${site}`]);
-      await locationFilter.closeDialog();
+      const expectedUsers2 = [`${user1} ${user1}`];
+      await peopleFilter.openDialog();
+      await peopleFilter.changeTabToCreator();
+      expect(await peopleFilter.getAutocompleteOptions('')).toEqual(expectedUsers2);
+      await peopleFilter.closeDialog();
+
+      await peopleFilter.openDialog();
+      expect(await peopleFilter.getAutocompleteOptions('')).toEqual(expectedUsers2);
+      await peopleFilter.closeDialog();
     });
   });
 });

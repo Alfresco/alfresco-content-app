@@ -18,8 +18,6 @@
   "C279221": "will be fixed after protractor to playwright migration, see https://alfresco.atlassian.net/browse/ACS-5007",
   "C325006": "will be fixed after protractor to playwright migration, see https://alfresco.atlassiana.net/browse/ACS-5007",
   "C213097": "https://alfresco.atlassian.net/browse/ACS-5479",
-  "C280051": "temp, will be fixed in https://alfresco.atlassian.net/browse/ACS-5632",
-  "C308042": "temp, will be fixed in https://alfresco.atlassian.net/browse/ACS-5632",
 
   "C268958" : "test migrated to playwright https://alfresco.atlassian.net/browse/ACS-5604",
   "C268959" : "test migrated to playwright https://alfresco.atlassian.net/browse/ACS-5604",
