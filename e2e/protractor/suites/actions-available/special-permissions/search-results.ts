@@ -46,7 +46,7 @@ export function searchResultsTests() {
         await toolbar.clickSearchIconButton();
         await searchInput.clickSearchButton();
         await searchInput.checkOnlyFiles();
-        await searchInput.searchFor(testData.random);
+        await searchInput.searchFor(`*${testData.random}`);
         await searchResultsPage.waitForResults();
       });
 
@@ -141,7 +141,7 @@ export function searchResultsTests() {
         await toolbar.clickSearchIconButton();
         await searchInput.clickSearchButton();
         await searchInput.checkOnlyFolders();
-        await searchInput.searchFor(testData.random);
+        await searchInput.searchFor(`*${testData.random}`);
         await searchResultsPage.waitForResults();
       });
 
@@ -163,7 +163,7 @@ export function searchResultsTests() {
           await toolbar.clickSearchIconButton();
           await searchInput.clickSearchButton();
           await searchInput.checkOnlyFiles();
-          await searchInput.searchFor(testData.random);
+          await searchInput.searchFor(`*${testData.random}`);
           await searchResultsPage.waitForResults();
         });
 
@@ -215,7 +215,7 @@ export function searchResultsTests() {
         await toolbar.clickSearchIconButton();
         await searchInput.clickSearchButton();
         await searchInput.checkOnlyFolders();
-        await searchInput.searchFor(testData.random);
+        await searchInput.searchFor(`*${testData.random}`);
 
         await testUtil.checkMultipleSelContextMenu([testData.folder.name, testData.folderFav.name], testData.multipleSel.contextMenu);
         await testUtil.checkMultipleSelToolbarActions(

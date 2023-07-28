@@ -152,7 +152,7 @@ describe('Folders - available actions : ', () => {
         await page.clickPersonalFiles();
         await toolbar.clickSearchIconButton();
         await searchInput.clickSearchButton();
-        await searchInput.searchFor(random);
+        await searchInput.searchFor(`*${random}`);
         await searchResultsPage.waitForResults();
       });
 
@@ -172,7 +172,7 @@ describe('Folders - available actions : ', () => {
         await page.clickPersonalFiles();
         await toolbar.clickSearchIconButton();
         await searchInput.clickSearchButton();
-        await searchInput.searchFor(random);
+        await searchInput.searchFor(`*${random}`);
         await searchResultsPage.waitForResults();
 
         await testUtil.checkMultipleSelContextMenu([testData.folder.name, testData.folderFav.name], testData.multipleSel.searchContextMenu);
@@ -187,7 +187,7 @@ describe('Folders - available actions : ', () => {
         await page.clickPersonalFiles();
         await toolbar.clickSearchIconButton();
         await searchInput.clickSearchButton();
-        await searchInput.searchFor(`${testData.file.name} or ${testData.folderFav.name}`);
+        await searchInput.searchFor(`*${testData.file.name} or *${testData.folderFav.name}`);
         await searchResultsPage.waitForResults();
 
         await testUtil.checkMultipleSelContextMenu([testData.file.name, testData.folderFav.name], testData.multipleSel.searchContextMenu);
