@@ -531,8 +531,6 @@
       "CATEGORIES": "Kategorie"
     },
     "CATEGORIES": {
-      "MODIFIED_DATE": "Datum úpravy",
-      "CREATED_DATE": "Datum vytvoření",
       "EFFECTIVITY_FROM": "Platnost od",
       "EFFECTIVITY_TO": "Platnost do",
       "LOGIC": "Logika"

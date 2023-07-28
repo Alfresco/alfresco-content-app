@@ -531,8 +531,6 @@
       "CATEGORIES": "Kategorier"
     },
     "CATEGORIES": {
-      "MODIFIED_DATE": "Modifierad datum",
-      "CREATED_DATE": "Skapad datum",
       "EFFECTIVITY_FROM": "Giltighet från",
       "EFFECTIVITY_TO": "Giltighet till",
       "LOGIC": "Logik"

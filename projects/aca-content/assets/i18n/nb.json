@@ -531,8 +531,6 @@
       "CATEGORIES": "Kategorier"
     },
     "CATEGORIES": {
-      "MODIFIED_DATE": "Endringsdato",
-      "CREATED_DATE": "Opprettelsesdato",
       "EFFECTIVITY_FROM": "Effektivitet fra",
       "EFFECTIVITY_TO": "Effektivitet til",
       "LOGIC": "Logikk"

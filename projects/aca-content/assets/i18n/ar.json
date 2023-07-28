@@ -531,8 +531,6 @@
       "CATEGORIES": "فئات"
     },
     "CATEGORIES": {
-      "MODIFIED_DATE": "تاريخ التعديل",
-      "CREATED_DATE": "تاريخ الإنشاء",
       "EFFECTIVITY_FROM": "فعالية من",
       "EFFECTIVITY_TO": "فعالية ل",
       "LOGIC": "منطق"
