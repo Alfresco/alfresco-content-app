@@ -38,6 +38,8 @@ export class LoginPage extends BasePage {
   private username = this.page.locator('#username');
   private password = this.page.locator('#password');
   private submitButton = this.page.locator('#login-button');
+  private userProfileButton = this.page.locator('aca-user-menu button');
+  private userLogOutButton = this.page.locator('aca-logout button');
 
   async loginUser(userData: { username: string; password: string } | UserModel, options?: LoginOptions): Promise<void> {
     if (options?.withNavigation) {
@@ -50,5 +52,10 @@ export class LoginPage extends BasePage {
     if (options?.waitForLoading) {
       await Promise.all([this.page.waitForLoadState('domcontentloaded'), this.spinner.waitForReload()]);
     }
+  }
+
+  async logoutUser(): Promise<void> {
+    await this.userProfileButton.click();
+    await this.userLogOutButton.click();
   }
 }

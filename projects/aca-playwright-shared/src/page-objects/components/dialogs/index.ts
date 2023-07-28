@@ -26,3 +26,4 @@ export * from './adf-folder-dialog.component';
 export * from './adf-library-dialog.component';
 export * from './password-overlay-dialog.component';
 export * from './viewer-overlay-dialog.component';
+export * from './content-node-selector-dialog';

@@ -29,7 +29,7 @@ test.use({ storageState: getUserState('hruser') });
 test.describe('viewer file', () => {
   const apiClientFactory = new ApiClientFactory();
   const randomFolderName = `playwright-folder-${Utils.random()}`;
-  const randomDocxName = `${TEST_FILES.DOCX_PROTECTED.name}-${Utils.random()}`;
+  const randomDocxName = `${TEST_FILES.PDF_PROTECTED.name}-${Utils.random()}`;
   let folderId: string;
   let fileDocxId: string;
 
@@ -37,7 +37,7 @@ test.describe('viewer file', () => {
     await apiClientFactory.setUpAcaBackend('hruser');
     const node = await apiClientFactory.nodes.createNode('-my-', { name: randomFolderName, nodeType: 'cm:folder', relativePath: '/' });
     folderId = node.entry.id;
-    const fileDoc = await fileAction.uploadFile(TEST_FILES.DOCX_PROTECTED.path, randomDocxName, folderId);
+    const fileDoc = await fileAction.uploadFile(TEST_FILES.PDF_PROTECTED.path, randomDocxName, folderId);
     fileDocxId = fileDoc.entry.id;
     await shareAction.shareFileById(fileDocxId);
     await favoritesPageAction.addFavoriteById('file', fileDocxId);
@@ -61,7 +61,7 @@ test.describe('viewer file', () => {
   });
 
   test('[C268959] File content is displayed when entering the correct password', async ({ personalFiles }) => {
-    await personalFiles.passwordDialog.enterPassword(TEST_FILES.DOCX_PROTECTED.password);
+    await personalFiles.passwordDialog.enterPassword(TEST_FILES.PDF_PROTECTED.password);
     expect(await personalFiles.passwordDialog.submitButton.isVisible(), 'Submit button not enabled').toBe(true);
 
     await personalFiles.passwordDialog.submitButton.click();
@@ -80,7 +80,7 @@ test.describe('viewer file', () => {
   });
 
   test('[C268961] Refresh the page while Password dialog is open', async ({ personalFiles }) => {
-    await personalFiles.passwordDialog.enterPassword(TEST_FILES.DOCX_PROTECTED.password);
+    await personalFiles.passwordDialog.enterPassword(TEST_FILES.PDF_PROTECTED.password);
     await personalFiles.reload({ waitUntil: 'domcontentloaded' });
     await personalFiles.viewer.waitForViewerToOpen();
 

@@ -34,7 +34,8 @@ import {
   SearchPage,
   FavoritesPage,
   FavoritesPageApi,
-  TrashPage
+  TrashPage,
+  UserActions
 } from '../';
 
 interface Pages {
@@ -52,6 +53,7 @@ interface Api {
   fileAction: FileActionsApi;
   shareAction: SharedLinksApi;
   favoritesPageAction: FavoritesPageApi;
+  userActions: UserActions;
 }
 
 export const test = base.extend<Pages & Api>({
@@ -87,6 +89,10 @@ export const test = base.extend<Pages & Api>({
   // eslint-disable-next-line no-empty-pattern
   favoritesPageAction: async ({}, use) => {
     await use(await FavoritesPageApi.initialize('hruser'));
+  },
+  // eslint-disable-next-line no-empty-pattern
+  userActions: async ({}, use) => {
+    await use(new UserActions());
   },
   myLibrariesPage: async ({ page }, use) => {
     await use(new MyLibrariesPage(page));

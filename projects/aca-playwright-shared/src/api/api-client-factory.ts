@@ -38,11 +38,13 @@ import {
   UploadApi,
   SharedlinksApi,
   FavoritesApi,
-  TrashcanApi
+  TrashcanApi,
+  PersonEntry
 } from '@alfresco/js-api';
 import { logger } from '@alfresco/adf-cli/scripts/logger';
 import { ActionTypes, Rule } from './rules-api';
 import { users } from '../base-config';
+import { Person, PersonModel } from './people-api-models';
 
 export interface AcaBackend {
   sites: SitesApi;
@@ -147,6 +149,18 @@ export class ApiClientFactory {
     } catch (error) {
       logger.error(`[API Client Factory] Log in user ${userToLog.username} failed ${e}`);
       throw error;
+    }
+  }
+
+  async createUser(user: PersonModel): Promise<PersonEntry> {
+    const person = new Person(user);
+    const peopleApi = new PeopleApi(this.alfrescoApi);
+
+    try {
+      return peopleApi.createPerson(person);
+    } catch (error) {
+      logger.error('[API Client Factory] createUser failed : ', error);
+      return null;
     }
   }
 }
