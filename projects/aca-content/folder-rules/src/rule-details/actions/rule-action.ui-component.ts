@@ -25,9 +25,9 @@
 import { Component, forwardRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActionDefinitionTransformed, RuleAction } from '../../model/rule-action.model';
-import { CardViewItem } from '@alfresco/adf-core/lib/card-view/interfaces/card-view-item.interface';
 import {
   CardViewBoolItemModel,
+  CardViewItem,
   CardViewModule,
   CardViewSelectItemModel,
   CardViewSelectItemOption,
