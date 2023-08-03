@@ -37,4 +37,17 @@ export class MatMenuComponent extends BaseComponent {
   public createFolder = this.getChild('[id="app.create.folder"]');
   public createLibrary = this.getChild('[id="app.create.library"]');
   public getButtonByText = (text: string) => this.getChild('button', { hasText: text });
+
+  async clickMenuItem(menuItem: string): Promise<void> {
+    const menuElement = this.getButtonByText(menuItem);
+    await menuElement.waitFor({ state: 'attached' });
+    await menuElement.click();
+    await menuElement.waitFor({ state: 'detached' });
+  }
+
+  async isMenuItemVisible(menuItem: string): Promise<boolean> {
+    const menuElement = this.getButtonByText(menuItem);
+    await menuElement.waitFor({ state: 'attached' });
+    return await menuElement.isVisible();
+  }
 }

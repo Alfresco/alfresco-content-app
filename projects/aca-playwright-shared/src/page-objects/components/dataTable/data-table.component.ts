@@ -165,6 +165,11 @@ export class DataTableComponent extends BaseComponent {
     await this.spinnerWaitForReload();
   }
 
+  async isItemPresent(name: string): Promise<boolean> {
+    await this.goThroughPagesLookingForRowWithName(name);
+    return this.getRowByName(name).isVisible();
+  }
+
   async getActionLocatorFromExpandableMenu(name: string | number, action: string): Promise<Locator> {
     await this.getRowByName(name).click({ button: 'right' });
     return this.contextMenuActions.getButtonByText(action);
@@ -199,7 +204,7 @@ export class DataTableComponent extends BaseComponent {
   async selectItem(name: string): Promise<void> {
     const isSelected = await this.hasCheckMarkIcon(name);
     if (!isSelected) {
-      const row = await this.getRowByName(name);
+      const row = this.getRowByName(name);
       await row.locator('.mat-checkbox[id*="mat-checkbox"]').check();
     }
   }

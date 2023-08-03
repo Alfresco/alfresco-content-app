@@ -28,11 +28,11 @@ import { DataTableComponent, MatMenuComponent, ViewerComponent } from '../compon
 import { AcaHeader } from '../components/aca-header.component';
 import { AdfFolderDialogComponent, ViewerOverlayDialogComponent } from '../components/dialogs';
 
-export class FavoritesPage extends BasePage {
-  private static pageUrl = 'favorites';
+export class TrashPage extends BasePage {
+  private static pageUrl = 'trashcan';
 
   constructor(page: Page) {
-    super(page, FavoritesPage.pageUrl);
+    super(page, TrashPage.pageUrl);
   }
 
   public acaHeader = new AcaHeader(this.page);

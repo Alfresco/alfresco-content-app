@@ -23,23 +23,22 @@
  */
 
 import { ApiClientFactory } from './api-client-factory';
-import { SharedLinkEntry } from '@alfresco/js-api';
+import { FavoritePaging, SharedLinkEntry } from '@alfresco/js-api';
 import { users } from '../base-config/global-variables';
+import { logger } from '@alfresco/adf-cli/scripts/logger';
 
 export class SharedLinksApi extends ApiClientFactory {
   private apiService: ApiClientFactory;
 
   constructor() {
     super();
-      this.apiService = new ApiClientFactory();
+    this.apiService = new ApiClientFactory();
   }
-  static async initialize(
-    userProfile: keyof typeof users
-    ): Promise<SharedLinksApi> {
-        const classObj = new SharedLinksApi();
-        await classObj.apiService.setUpAcaBackend(userProfile);
-        return classObj;
-    }
+  static async initialize(userProfile: keyof typeof users): Promise<SharedLinksApi> {
+    const classObj = new SharedLinksApi();
+    await classObj.apiService.setUpAcaBackend(userProfile);
+    return classObj;
+  }
 
   async shareFileById(id: string, expireDate?: Date): Promise<SharedLinkEntry | null> {
     try {
@@ -49,6 +48,24 @@ export class SharedLinksApi extends ApiClientFactory {
       };
       return await this.apiService.share.createSharedLink(data);
     } catch (error) {
+      return null;
+    }
+  }
+
+  private async getFavorites(userName: string): Promise<FavoritePaging> {
+    try {
+      return await this.apiService.favorites.listFavorites(userName);
+    } catch (error) {
+      logger.error(`\n--- Error while fetching favourites list ${error} :`);
+      return null;
+    }
+  }
+
+  async isFavorite(nodeId: string, userName: string): Promise<boolean> {
+    try {
+      return JSON.stringify((await this.getFavorites(userName)).list.entries).includes(nodeId);
+    } catch (error) {
+      logger.error(`\n--- Error while checking favourite node ${error} ${error} :`);
       return null;
     }
   }

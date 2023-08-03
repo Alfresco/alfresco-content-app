@@ -26,7 +26,7 @@ import { Page } from '@playwright/test';
 import { BasePage } from './base.page';
 import { DataTableComponent, MatMenuComponent, ViewerComponent } from '../components';
 import { AcaHeader } from '../components/aca-header.component';
-import { AdfFolderDialogComponent } from '../components/dialogs';
+import { AdfFolderDialogComponent, ViewerOverlayDialogComponent } from '../components/dialogs';
 
 export class SharedPage extends BasePage {
   private static pageUrl = 'shared';
@@ -40,4 +40,5 @@ export class SharedPage extends BasePage {
   public folderDialog = new AdfFolderDialogComponent(this.page);
   public dataTable = new DataTableComponent(this.page);
   public viewer = new ViewerComponent(this.page);
+  public viewerDialog = new ViewerOverlayDialogComponent(this.page);
 }
