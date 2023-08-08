@@ -326,11 +326,7 @@
           }
         },
         "DELETE_LIBRARY_FAILED": "Bibliothek kann nicht gelöscht werden",
-        "JOIN_REQUEST_FAILED": "Beitritt zur Bibliothek nicht möglich",
-        "JOIN_CANCEL_FAILED": "Ihre Beitrittsanfrage kann nicht zurückgezogen werden",
-        "LEAVE_LIBRARY_FAILED": "Sie können diese Bibliothek nicht verlassen",
-        "INVALID_SENDER_EMAIL": "Ihre E-Mail-Adresse muss gültig sein, bevor Sie den Beitritt zur Bibliothek anfordern.",
-        "INVALID_RECEIVER_EMAIL": "Empfänger-E-Mail-Addresse(n) nicht zulässig. Wenden Sie sich an Ihr IT-Team."
+        "LEAVE_LIBRARY_FAILED": "Sie können diese Bibliothek nicht verlassen"
       },
       "UPLOAD": {
         "ERROR": {
@@ -379,9 +375,6 @@
           }
         },
         "LIBRARY_DELETED": "Bibliothek gelöscht",
-        "JOINED": "Beitritt zur Bibliothek abgeschlossen",
-        "JOIN_REQUESTED": "Anfrage zum Bibliotheksbeitritt abgeschickt",
-        "JOIN_CANCELED": "Anfrage zum Bibliotheksbeitritt zurückgezogen",
         "LEFT_LIBRARY": "Sie haben die Bibliothek verlassen"
       }
     },

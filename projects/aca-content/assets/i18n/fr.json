@@ -326,11 +326,7 @@
           }
         },
         "DELETE_LIBRARY_FAILED": "Impossible de supprimer la bibliothèque",
-        "JOIN_REQUEST_FAILED": "Impossible de rejoindre la bibliothèque",
-        "JOIN_CANCEL_FAILED": "Impossible d'annuler la demande pour rejoindre",
-        "LEAVE_LIBRARY_FAILED": "Impossible de quitter cette bibliothèque",
-        "INVALID_SENDER_EMAIL": "Pour faire une demande pour rejoindre, vous devez avoir une adresse e-mail valide.",
-        "INVALID_RECEIVER_EMAIL": "Adresse e-mail du ou des destinataire(s) non valide. Contactez le support technique."
+        "LEAVE_LIBRARY_FAILED": "Impossible de quitter cette bibliothèque"
       },
       "UPLOAD": {
         "ERROR": {
@@ -379,9 +375,6 @@
           }
         },
         "LIBRARY_DELETED": "Bibliothèque supprimée",
-        "JOINED": "Vous avez rejoint la bibliothèque",
-        "JOIN_REQUESTED": "Demande envoyée pour rejoindre cette bibliothèque",
-        "JOIN_CANCELED": "La demande pour rejoindre la bibliothèque a été annulée",
         "LEFT_LIBRARY": "Vous avez quitté la bibliothèque"
       }
     },

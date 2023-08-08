@@ -326,11 +326,7 @@
           }
         },
         "DELETE_LIBRARY_FAILED": "Kan ikke slette biblioteket",
-        "JOIN_REQUEST_FAILED": "Kan ikke slutte deg til biblioteket",
-        "JOIN_CANCEL_FAILED": "Kan ikke avbryte forespørselen din om tilslutning",
-        "LEAVE_LIBRARY_FAILED": "Kan ikke forlate dette biblioteket",
-        "INVALID_SENDER_EMAIL": "E-postadressen din må være gyldig før du ber om tilslutning.",
-        "INVALID_RECEIVER_EMAIL": "Mottakeres e-postadresse er ikke gyldig – kontakt IT."
+        "LEAVE_LIBRARY_FAILED": "Kan ikke forlate dette biblioteket"
       },
       "UPLOAD": {
         "ERROR": {
@@ -379,9 +375,6 @@
           }
         },
         "LIBRARY_DELETED": "Bibliotek slettet",
-        "JOINED": "Bibliotek tilsluttet",
-        "JOIN_REQUESTED": "Forespørsel sendt om tilslutning til dette biblioteket",
-        "JOIN_CANCELED": "Forespørselen om tilslutning til biblioteket er avbrutt",
         "LEFT_LIBRARY": "Du har forlatt biblioteket"
       }
     },
