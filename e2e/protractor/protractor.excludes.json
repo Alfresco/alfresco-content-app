@@ -28,20 +28,5 @@
   "C279282" : "test migrated to playwright https://alfresco.atlassian.net/browse/ACS-5650",
   "C297584" : "test migrated to playwright https://alfresco.atlassian.net/browse/ACS-5650",
   "C268133" : "test migrated to playwright https://alfresco.atlassian.net/browse/ACS-5650",
-  "C268129" : "test migrated to playwright https://alfresco.atlassian.net/browse/ACS-5650",
-  "C280582" : "info drawer test exclude with cleanup https://alfresco.atlassian.net/browse/ACS-5786",
-  "C299188" : "info drawer test exclude with cleanup https://alfresco.atlassian.net/browse/ACS-5786",
-  "C299192" : "info drawer test exclude with cleanup https://alfresco.atlassian.net/browse/ACS-5786",
-  "C299194" : "info drawer test exclude with cleanup https://alfresco.atlassian.net/browse/ACS-5786",
-  "C299193" : "info drawer test exclude with cleanup https://alfresco.atlassian.net/browse/ACS-5786",
-  "C299191" : "info drawer test exclude with cleanup https://alfresco.atlassian.net/browse/ACS-5786",
-  "C299190" : "info drawer test exclude with cleanup https://alfresco.atlassian.net/browse/ACS-5786",
-  "C299199" : "info drawer test exclude with cleanup https://alfresco.atlassian.net/browse/ACS-5786",
-  "C299198" : "info drawer test exclude with cleanup https://alfresco.atlassian.net/browse/ACS-5786",
-  "C299197" : "info drawer test exclude with cleanup https://alfresco.atlassian.net/browse/ACS-5786",
-  "C299208" : "info drawer test exclude with cleanup https://alfresco.atlassian.net/browse/ACS-5786",
-  "C280590" : "info drawer test exclude with cleanup https://alfresco.atlassian.net/browse/ACS-5786",
-  "C280589" : "info drawer test exclude with cleanup https://alfresco.atlassian.net/browse/ACS-5786",
-  "C280585" : "info drawer test exclude with cleanup https://alfresco.atlassian.net/browse/ACS-5786",
-  "C280583" : "info drawer test exclude with cleanup https://alfresco.atlassian.net/browse/ACS-5786"
+  "C268129" : "test migrated to playwright https://alfresco.atlassian.net/browse/ACS-5650"
 }
