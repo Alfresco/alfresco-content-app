@@ -115,7 +115,6 @@ export class InfoDrawer extends Component {
       await this.commentsTab.waitForCommentsContainer();
       await Promise.all([
         BrowserVisibility.waitUntilElementIsVisible(this.commentsTab.component),
-        BrowserVisibility.waitUntilElementIsNotVisible(this.propertiesTab.component)
       ]);
     } catch (error) {
       Logger.error('--- info-drawer clickCommentsTab catch error: ', error);

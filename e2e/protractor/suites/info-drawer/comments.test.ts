@@ -130,8 +130,8 @@ describe('Comments', () => {
       await infoDrawer.waitForInfoDrawerToOpen();
       await infoDrawer.clickCommentsTab();
 
-      expect(await commentsTab.getNthCommentId(1)).toContain(comment2File2Entry.id);
-      expect(await commentsTab.getNthCommentId(2)).toContain(comment1File2Entry.id);
+      expect(await commentsTab.getNthCommentText(1)).toContain(comment2File2Entry.content);
+      expect(await commentsTab.getNthCommentText(2)).toContain(comment1File2Entry.content);
     });
 
     it('[C280585] Total number of comments is displayed', async () => {
@@ -215,8 +215,8 @@ describe('Comments', () => {
       await infoDrawer.waitForInfoDrawerToOpen();
       await infoDrawer.clickCommentsTab();
 
-      expect(await commentsTab.getNthCommentId(1)).toContain(comment2File2Entry.id);
-      expect(await commentsTab.getNthCommentId(2)).toContain(comment1File2Entry.id);
+      expect(await commentsTab.getNthCommentText(1)).toContain(comment2File2Entry.content);
+      expect(await commentsTab.getNthCommentText(2)).toContain(comment1File2Entry.content);
     });
 
     it('[C299198] Total number of comments is displayed', async () => {
@@ -270,8 +270,8 @@ describe('Comments', () => {
       await infoDrawer.waitForInfoDrawerToOpen();
       await infoDrawer.clickCommentsTab();
 
-      expect(await commentsTab.getNthCommentId(1)).toContain(comment2File2Entry.id);
-      expect(await commentsTab.getNthCommentId(2)).toContain(comment1File2Entry.id);
+      expect(await commentsTab.getNthCommentText(1)).toContain(comment2File2Entry.content);
+      expect(await commentsTab.getNthCommentText(2)).toContain(comment1File2Entry.content);
     });
 
     it('[C299190] Total number of comments is displayed', async () => {
@@ -314,8 +314,8 @@ describe('Comments', () => {
       await infoDrawer.waitForInfoDrawerToOpen();
       await infoDrawer.clickCommentsTab();
 
-      expect(await commentsTab.getNthCommentId(1)).toContain(comment2File2Entry.id);
-      expect(await commentsTab.getNthCommentId(2)).toContain(comment1File2Entry.id);
+      expect(await commentsTab.getNthCommentText(1)).toContain(comment2File2Entry.content);
+      expect(await commentsTab.getNthCommentText(2)).toContain(comment1File2Entry.content);
     });
 
     it('[C299194] Total number of comments is displayed', async () => {
@@ -387,14 +387,11 @@ describe('Comments', () => {
       expect(await commentsTab.isCommentTextAreaDisplayed()).toBe(true, 'Comment field not present');
       expect(await commentsTab.isAddCommentButtonEnabled()).toBe(false, 'Add comment button not disabled');
 
-      expect(await commentsTab.isCommentDisplayed(commentFile1Entry.id)).toBe(true, `Comment with id: ${commentFile1Entry.id} not displayed`);
-      expect(await commentsTab.getCommentText(commentFile1Entry.id)).toBe(commentFile1Entry.content, 'Incorrect comment text');
-      expect(await commentsTab.getCommentUserName(commentFile1Entry.id)).toBe(`${username} ${username}`, 'Incorrect comment user');
-      expect(await commentsTab.getCommentTime(commentFile1Entry.id)).toBe(
-        moment(commentFile1Entry.createdAt).fromNow(),
-        'Incorrect comment created time'
-      );
-      expect(await commentsTab.isCommentUserAvatarDisplayed(commentFile1Entry.id)).toBe(true, 'User avatar not displayed');
+      expect(await commentsTab.isCommentDisplayed()).toBe(true, `Comment is not displayed`);
+      expect(await commentsTab.getCommentText()).toBe(commentFile1Entry.content, 'Incorrect comment text');
+      expect(await commentsTab.getCommentUserName()).toBe(`${username} ${username}`, 'Incorrect comment user');
+      expect(await commentsTab.getCommentTime()).toBe(moment(commentFile1Entry.createdAt).fromNow(), 'Incorrect comment created time');
+      expect(await commentsTab.isCommentUserAvatarDisplayed()).toBe(true, 'User avatar not displayed');
     });
 
     it('[C299188] File from Shared Files', async () => {
