@@ -130,6 +130,9 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
       });
 
     this.columns = this.extensions.documentListPresets.files || [];
+    if (Object.keys(this.queryParams).length > 0) {
+      this.isFilterHeaderActive = true;
+    }
   }
 
   ngOnDestroy() {
