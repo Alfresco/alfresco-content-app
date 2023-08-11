@@ -68,7 +68,7 @@ export class DocumentListDirective implements OnInit, OnDestroy {
     if (this.sortingPreferenceKey) {
       const current = this.documentList.sorting;
 
-      const key = this.preferences.get(`${this.sortingPreferenceKey}.sorting.key`, current[0]);
+      const key = this.preferences.get(`${this.sortingPreferenceKey}.sorting.sortingKey`, current[0]);
       const direction = this.preferences.get(`${this.sortingPreferenceKey}.sorting.direction`, current[1]);
 
       this.documentList.sorting = [key, direction];
@@ -101,6 +101,7 @@ export class DocumentListDirective implements OnInit, OnDestroy {
   onSortingChanged(event: CustomEvent) {
     if (this.sortingPreferenceKey) {
       this.preferences.set(`${this.sortingPreferenceKey}.sorting.key`, event.detail.key);
+      this.preferences.set(`${this.sortingPreferenceKey}.sorting.sortingKey`, event.detail.sortingKey);
       this.preferences.set(`${this.sortingPreferenceKey}.sorting.direction`, event.detail.direction);
     }
   }

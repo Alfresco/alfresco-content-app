@@ -531,8 +531,6 @@
       "CATEGORIES": "Luokat"
     },
     "CATEGORIES": {
-      "MODIFIED_DATE": "Muokkauspäivämäärä",
-      "CREATED_DATE": "Luontipäivämäärä",
       "EFFECTIVITY_FROM": "Voimassaolon alku",
       "EFFECTIVITY_TO": "Voimassaolon loppu",
       "LOGIC": "Logiikka"

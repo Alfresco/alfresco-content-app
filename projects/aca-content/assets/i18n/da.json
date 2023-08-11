@@ -531,8 +531,6 @@
       "CATEGORIES": "Kategorier"
     },
     "CATEGORIES": {
-      "MODIFIED_DATE": "Ændringsdato",
-      "CREATED_DATE": "Oprettelsesdato",
       "EFFECTIVITY_FROM": "Gældende periode fra",
       "EFFECTIVITY_TO": "Gældende periode til",
       "LOGIC": "Logik"

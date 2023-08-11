@@ -531,8 +531,6 @@
       "CATEGORIES": "カテゴリ"
     },
     "CATEGORIES": {
-      "MODIFIED_DATE": "変更日",
-      "CREATED_DATE": "作成日",
       "EFFECTIVITY_FROM": "有効性の開始",
       "EFFECTIVITY_TO": "有効性の終了",
       "LOGIC": "ロジック"

@@ -106,6 +106,11 @@ export class CommentsTab extends Component {
     return list.get(index - 1).getAttribute('id');
   }
 
+  async getNthCommentText(index: number): Promise<string> {
+    const list = this.allByCss('mat-list-item .adf-comment-message');
+    return list.get(index - 1).getText();
+  }
+
   async typeComment(text: string): Promise<void> {
     await typeText(this.commentTextarea, text);
   }
