@@ -37,7 +37,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { InfoDrawerModule, ToolbarModule } from '@alfresco/adf-core';
 import { TranslateModule } from '@ngx-translate/core';
 import { A11yModule } from '@angular/cdk/a11y';
-import { ToolbarActionComponent } from '../tool-bar/toolbar-action/toolbar-action.component';
+import { ToolbarActionComponent } from '../toolbar/toolbar-action/toolbar-action.component';
 
 @Component({
   standalone: true,
