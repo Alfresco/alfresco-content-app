@@ -1,12 +1,7 @@
 <aca-page-layout>
   <div class="aca-page-layout-header">
     <h1 class="aca-page-title">{{ 'APP.BROWSE.LIBRARIES.MENU.FAVORITE_LIBRARIES.TITLE' | translate }}</h1>
-
-    <adf-toolbar class="adf-toolbar--inline">
-      <ng-container *ngFor="let entry of actions; trackBy: trackByActionId">
-        <aca-toolbar-action [actionRef]="entry"></aca-toolbar-action>
-      </ng-container>
-    </adf-toolbar>
+    <aca-toolbar [items]="actions"></aca-toolbar>
   </div>
 
   <div class="aca-page-layout-content">

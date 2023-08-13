@@ -22,41 +22,23 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { getUserProfile } from '@alfresco/aca-shared/store';
-import { DocumentListPresetRef, ExtensionsModule } from '@alfresco/adf-extensions';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { ContextActionsDirective, PageComponent, PageLayoutComponent, PaginationDirective, ToolbarComponent } from '@alfresco/aca-shared';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
-import { DocumentListModule } from '@alfresco/adf-content-services';
-import { DataTableModule, PaginationModule, TemplateModule } from '@alfresco/adf-core';
-import { DocumentListDirective } from '../../directives/document-list.directive';
+import { ContentActionRef } from '@alfresco/adf-extensions';
+import { ToolbarModule } from '@alfresco/adf-core';
+import { ToolbarActionComponent } from './toolbar-action/toolbar-action.component';
 
 @Component({
+  selector: 'aca-toolbar',
   standalone: true,
-  imports: [
-    CommonModule,
-    TranslateModule,
-    DocumentListModule,
-    TemplateModule,
-    PaginationModule,
-    DataTableModule,
-    ExtensionsModule,
-    DocumentListDirective,
-    ContextActionsDirective,
-    PaginationDirective,
-    PageLayoutComponent,
-    ToolbarComponent
-  ],
-  templateUrl: './trashcan.component.html',
+  imports: [CommonModule, ToolbarModule, ToolbarActionComponent],
+  templateUrl: './toolbar.component.html',
   encapsulation: ViewEncapsulation.None
 })
-export class TrashcanComponent extends PageComponent implements OnInit {
-  user$ = this.store.select(getUserProfile);
-  columns: DocumentListPresetRef[] = [];
+export class ToolbarComponent {
+  @Input() items: ContentActionRef[];
 
-  ngOnInit() {
-    super.ngOnInit();
-    this.columns = this.extensions.documentListPresets.trashcan || [];
+  trackByActionId(_: number, action: ContentActionRef) {
+    return action.id;
   }
 }

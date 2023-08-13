@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { DataTableModule, PaginationModule, ShowHeaderMode, ToolbarModule } from '@alfresco/adf-core';
+import { DataTableModule, PaginationModule, ShowHeaderMode } from '@alfresco/adf-core';
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { MinimalNodeEntity, MinimalNodeEntryEntity, PathElement, PathElementEntity } from '@alfresco/js-api';
@@ -35,7 +35,7 @@ import {
   PageComponent,
   PageLayoutComponent,
   PaginationDirective,
-  ToolbarActionComponent
+  ToolbarComponent
 } from '@alfresco/aca-shared';
 import { SetCurrentFolderAction, isAdmin, UploadFileVersionAction, showLoaderSelector } from '@alfresco/aca-shared/store';
 import { debounceTime, takeUntil } from 'rxjs/operators';
@@ -52,7 +52,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     CommonModule,
     TranslateModule,
     BreadcrumbModule,
-    ToolbarModule,
     GenericErrorComponent,
     UploadModule,
     DocumentListModule,
@@ -63,9 +62,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     PaginationModule,
     MatProgressSpinnerModule,
     InfoDrawerComponent,
-    ToolbarActionComponent,
     PaginationDirective,
-    PageLayoutComponent
+    PageLayoutComponent,
+    ToolbarComponent
   ],
   templateUrl: './files.component.html',
   encapsulation: ViewEncapsulation.None

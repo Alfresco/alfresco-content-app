@@ -30,6 +30,7 @@ export * from './lib/components/page-layout/page-layout.component';
 export * from './lib/components/page-layout/page-layout.module';
 export * from './lib/components/locked-by/locked-by.component';
 export * from './lib/components/generic-error/generic-error.component';
+export * from './lib/components/toolbar/toolbar.component';
 export * from './lib/components/toolbar/toolbar-action/toolbar-action.component';
 export * from './lib/components/toolbar/toolbar-button/toolbar-button.component';
 export * from './lib/components/toolbar/toolbar-menu/toolbar-menu.component';

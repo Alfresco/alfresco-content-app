@@ -27,7 +27,7 @@ import {
   AppHookService,
   ContentApiService,
   InfoDrawerComponent,
-  ToolbarActionComponent,
+  ToolbarComponent,
   ToolbarMenuItemComponent
 } from '@alfresco/aca-shared';
 import {
@@ -56,7 +56,7 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, ViewerModule, AlfrescoViewerModule, InfoDrawerComponent, AppConfigModule, ToolbarMenuItemComponent, ToolbarActionComponent],
+  imports: [CommonModule, ViewerModule, AlfrescoViewerModule, InfoDrawerComponent, AppConfigModule, ToolbarMenuItemComponent, ToolbarComponent],
   selector: 'aca-viewer',
   templateUrl: './viewer.component.html',
   styleUrls: ['./viewer.component.scss'],

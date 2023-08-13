@@ -29,7 +29,7 @@ import {
   PageComponent,
   PageLayoutComponent,
   PaginationDirective,
-  ToolbarActionComponent
+  ToolbarComponent
 } from '@alfresco/aca-shared';
 import { MinimalNodeEntity, MinimalNodeEntryEntity, PathElementEntity, PathInfo } from '@alfresco/js-api';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
@@ -37,7 +37,7 @@ import { debounceTime, map } from 'rxjs/operators';
 import { DocumentListPresetRef, ExtensionsModule } from '@alfresco/adf-extensions';
 import { CommonModule } from '@angular/common';
 import { DocumentListModule } from '@alfresco/adf-content-services';
-import { DataTableModule, PaginationModule, TemplateModule, ToolbarModule } from '@alfresco/adf-core';
+import { DataTableModule, PaginationModule, TemplateModule } from '@alfresco/adf-core';
 import { DocumentListDirective } from '../../directives/document-list.directive';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -45,7 +45,6 @@ import { TranslateModule } from '@ngx-translate/core';
   standalone: true,
   imports: [
     CommonModule,
-    ToolbarModule,
     DocumentListModule,
     DocumentListDirective,
     ContextActionsDirective,
@@ -55,9 +54,9 @@ import { TranslateModule } from '@ngx-translate/core';
     PaginationModule,
     PaginationDirective,
     InfoDrawerComponent,
-    ToolbarActionComponent,
     PageLayoutComponent,
-    TranslateModule
+    TranslateModule,
+    ToolbarComponent
   ],
   templateUrl: './favorites.component.html',
   encapsulation: ViewEncapsulation.None

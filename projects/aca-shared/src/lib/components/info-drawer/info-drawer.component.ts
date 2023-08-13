@@ -31,26 +31,16 @@ import { AppExtensionService } from '../../services/app.extension.service';
 import { ContentApiService } from '../../services/content-api.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { ThemePalette } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { InfoDrawerModule, ToolbarModule } from '@alfresco/adf-core';
+import { InfoDrawerModule } from '@alfresco/adf-core';
 import { TranslateModule } from '@ngx-translate/core';
 import { A11yModule } from '@angular/cdk/a11y';
-import { ToolbarActionComponent } from '../toolbar/toolbar-action/toolbar-action.component';
+import { ToolbarComponent } from '../toolbar/toolbar.component';
 
 @Component({
   standalone: true,
-  imports: [
-    CommonModule,
-    TranslateModule,
-    MatProgressBarModule,
-    InfoDrawerModule,
-    ExtensionsModule,
-    ToolbarModule,
-    A11yModule,
-    ToolbarActionComponent
-  ],
+  imports: [CommonModule, TranslateModule, MatProgressBarModule, InfoDrawerModule, ExtensionsModule, A11yModule, ToolbarComponent],
   selector: 'aca-info-drawer',
   templateUrl: './info-drawer.component.html',
   encapsulation: ViewEncapsulation.None
@@ -112,14 +102,6 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
       const id = entry.nodeId || entry.id;
       return this.loadNodeInfo(id);
     }
-  }
-
-  trackByActionId(_: number, action: ContentActionRef) {
-    return action.id;
-  }
-
-  getEntryColor(entry: any): ThemePalette {
-    return entry?.color;
   }
 
   private close() {
