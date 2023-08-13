@@ -29,7 +29,7 @@ import { Page } from './page';
 export class BrowsingPage extends Page {
   header = new Header(this.appRoot);
   sidenav = new Sidenav(this.appRoot);
-  toolbar = new Toolbar('.aca-page-layout aca-toolbar');
+  toolbar = new Toolbar('.aca-page-layout');
   breadcrumb = new Breadcrumb(this.appRoot);
   pageLayoutHeader = new PageLayoutHeader(this.appRoot);
   dataTable = new DataTable(this.appRoot);

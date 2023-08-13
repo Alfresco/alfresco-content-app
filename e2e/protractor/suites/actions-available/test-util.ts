@@ -54,18 +54,6 @@ export async function checkToolbarPrimary(item: string, expectedToolbarPrimary: 
   }
 }
 
-export async function checkToolbarMoreActions(item: string, expectedToolbarMore: string[]): Promise<void> {
-  await dataTable.selectItem(item);
-  await toolbar.openMoreMenu();
-
-  const actualMoreActions = await toolbar.menu.getMenuItems();
-  for (const action of expectedToolbarMore) {
-    expect(actualMoreActions.includes(action)).toBe(true, `Expected to contain ${action}`);
-  }
-
-  await toolbar.closeMoreMenu();
-}
-
 export async function checkToolbarActions(item: string, expectedToolbarPrimary: string[], expectedToolbarMore: string[]): Promise<void> {
   await dataTable.selectItem(item);
 
