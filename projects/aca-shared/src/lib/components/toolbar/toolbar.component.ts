@@ -25,14 +25,15 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ContentActionRef } from '@alfresco/adf-extensions';
-import { ToolbarModule } from '@alfresco/adf-core';
 import { ToolbarActionComponent } from './toolbar-action/toolbar-action.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 @Component({
   selector: 'aca-toolbar',
   standalone: true,
-  imports: [CommonModule, ToolbarModule, ToolbarActionComponent],
+  imports: [CommonModule, ToolbarActionComponent, MatToolbarModule],
   templateUrl: './toolbar.component.html',
+  styleUrls: ['./toolbar.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class ToolbarComponent {
