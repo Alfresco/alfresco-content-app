@@ -48,7 +48,7 @@ export class Toolbar extends Component {
   viewerDownloadButton = element(By.css('[id="app.viewer.download"]'));
 
   constructor(ancestor?: string) {
-    super('.adf-toolbar', ancestor);
+    super('aca-toolbar', ancestor);
   }
 
   async isEmpty(): Promise<boolean> {
@@ -116,11 +116,6 @@ export class Toolbar extends Component {
   async openCreateFolderDialog(): Promise<void> {
     await this.openCreateMenu();
     await BrowserActions.click(this.menu.createFolderAction);
-  }
-
-  async openCreateLibraryDialog(): Promise<void> {
-    await this.openCreateMenu();
-    await BrowserActions.click(this.menu.createLibraryAction);
   }
 
   async openCreateFileFromTemplateDialog(): Promise<void> {
