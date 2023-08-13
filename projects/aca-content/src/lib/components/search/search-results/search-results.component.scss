@@ -1,5 +1,9 @@
 @import '../../../ui/mixins';
 
+.aca-search-toolbar-spacer {
+  width: 100%;
+}
+
 .adf-search-results {
   @include flex-row;
 
