@@ -23,7 +23,6 @@
  */
 
 export enum AppActionTypes {
-  SetSettingsParameter = 'SET_SETTINGS_PARAMETER',
   SetInitialState = 'SET_INITIAL_STATE',
   SetCurrentFolder = 'SET_CURRENT_FOLDER',
   SetCurrentVersion = 'SET_CURRENT_VERSION',
@@ -31,7 +30,6 @@ export enum AppActionTypes {
   SetUserProfile = 'SET_USER_PROFILE',
   SetRepositoryInfo = 'SET_REPOSITORY_INFO',
   ToggleInfoDrawer = 'TOGGLE_INFO_DRAWER',
-  ToggleDocumentDisplayMode = 'TOGGLE_DOCUMENT_DISPLAY_MODE',
   Logout = 'LOGOUT',
   ReloadDocumentList = 'RELOAD_DOCUMENT_LIST',
   ResetSelection = 'RESET_SELECTION',
