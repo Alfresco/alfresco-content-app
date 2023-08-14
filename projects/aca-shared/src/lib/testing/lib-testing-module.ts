@@ -64,7 +64,6 @@ export const initialState = {
     infoDrawerOpened: false,
     infoDrawerMetadataAspect: '',
     showFacetFilter: true,
-    documentDisplayMode: 'list',
     repository: {
       status: {
         isQuickShareEnabled: true

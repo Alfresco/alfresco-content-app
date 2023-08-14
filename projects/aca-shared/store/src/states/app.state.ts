@@ -42,7 +42,6 @@ export interface AppState {
   infoDrawerPreview: boolean;
   infoDrawerMetadataAspect: string;
   showFacetFilter: boolean;
-  documentDisplayMode: string;
   repository: RepositoryInfo;
   fileUploadingDialog: boolean;
   showLoader: boolean;
