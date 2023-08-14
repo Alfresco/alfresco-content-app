@@ -87,8 +87,4 @@ export class SharedLinkViewComponent implements OnInit, OnDestroy {
     this.onDestroy$.next(true);
     this.onDestroy$.complete();
   }
-
-  trackByActionId(_: number, action: ContentActionRef) {
-    return action.id;
-  }
 }
