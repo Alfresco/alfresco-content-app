@@ -20,7 +20,7 @@ aca-toolbar {
   .aca-toolbar-divider {
     height: 24px;
     width: 1px;
-    background: rgba(0, 0, 0, 0.26);
+    background: var(--adf-theme-foreground-text-color-025);
     margin-left: 5px;
     margin-right: 5px;
   }
