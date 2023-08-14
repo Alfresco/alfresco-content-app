@@ -326,11 +326,7 @@
           }
         },
         "DELETE_LIBRARY_FAILED": "Impossibile eliminare la libreria",
-        "JOIN_REQUEST_FAILED": "Impossibile partecipare alla libreria",
-        "JOIN_CANCEL_FAILED": "Impossibile annullare la richiesta di partecipazione",
-        "LEAVE_LIBRARY_FAILED": "Impossibile uscire dalla libreria",
-        "INVALID_SENDER_EMAIL": "L'indirizzo email deve essere valido prima della richiesta di accesso.",
-        "INVALID_RECEIVER_EMAIL": "Indirizzo email del destinatario non valido. Contattare l'IT."
+        "LEAVE_LIBRARY_FAILED": "Impossibile uscire dalla libreria"
       },
       "UPLOAD": {
         "ERROR": {
@@ -379,9 +375,6 @@
           }
         },
         "LIBRARY_DELETED": "Libreria eliminata",
-        "JOINED": "Partecipazione alla libreria confermata",
-        "JOIN_REQUESTED": "Richiesta di partecipazione alla libreria inviata",
-        "JOIN_CANCELED": "Richiesta di partecipazione alla libreria annullata",
         "LEFT_LIBRARY": "Sei uscito dalla libreria"
       }
     },

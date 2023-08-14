@@ -326,11 +326,7 @@
           }
         },
         "DELETE_LIBRARY_FAILED": "Não foi possível apagar a biblioteca",
-        "JOIN_REQUEST_FAILED": "Não foi possível ingressar na biblioteca",
-        "JOIN_CANCEL_FAILED": "Não foi possível cancelar a solicitação de ingressar",
-        "LEAVE_LIBRARY_FAILED": "Não foi possível sair desta biblioteca",
-        "INVALID_SENDER_EMAIL": "Você deve ter um endereço de e-mail válido para solicitar a entrada.",
-        "INVALID_RECEIVER_EMAIL": "O endereço de e-mail do(s) destinatário(s) não é válido, entre em contato com a TI."
+        "LEAVE_LIBRARY_FAILED": "Não foi possível sair desta biblioteca"
       },
       "UPLOAD": {
         "ERROR": {
@@ -379,9 +375,6 @@
           }
         },
         "LIBRARY_DELETED": "Biblioteca apagada",
-        "JOINED": "Ingressou na biblioteca",
-        "JOIN_REQUESTED": "Solicitação enviada para ingressar nesta biblioteca",
-        "JOIN_CANCELED": "Cancelou a solicitação de ingressar na biblioteca",
         "LEFT_LIBRARY": "Você saiu da biblioteca"
       }
     },
