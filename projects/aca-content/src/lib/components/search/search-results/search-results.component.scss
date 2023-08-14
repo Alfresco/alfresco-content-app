@@ -1,11 +1,11 @@
 @import '../../../ui/mixins';
 
-.aca-search-toolbar-spacer {
-  width: 100%;
-}
-
 .adf-search-results {
   @include flex-row;
+
+  .aca-search-toolbar-spacer {
+    width: 100%;
+  }
 
   &__facets {
     display: flex;
