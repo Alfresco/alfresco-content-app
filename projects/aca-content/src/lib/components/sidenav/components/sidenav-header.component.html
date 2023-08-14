@@ -14,8 +14,6 @@
       {{ appName$ | async | translate }}
     </div>
 
-    <ng-container *ngFor="let actionRef of actions; trackBy: trackByActionId">
-      <aca-toolbar-action [actionRef]="actionRef"></aca-toolbar-action>
-    </ng-container>
+    <aca-toolbar [items]="actions"></aca-toolbar>
   </div>
 </div>

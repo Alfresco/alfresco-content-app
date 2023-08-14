@@ -27,12 +27,6 @@ import { Node, Person, Group, RepositoryInfo, VersionEntry } from '@alfresco/js-
 import { AppState } from '../states/app.state';
 import { AppActionTypes } from './app-action-types';
 
-export class SetSettingsParameterAction implements Action {
-  readonly type = AppActionTypes.SetSettingsParameter;
-
-  constructor(public payload: { name: string; value: any }) {}
-}
-
 export class SetInitialStateAction implements Action {
   readonly type = AppActionTypes.SetInitialState;
 
@@ -65,10 +59,6 @@ export class SetUserProfileAction implements Action {
 
 export class ToggleInfoDrawerAction implements Action {
   readonly type = AppActionTypes.ToggleInfoDrawer;
-}
-
-export class ToggleDocumentDisplayMode implements Action {
-  readonly type = AppActionTypes.ToggleDocumentDisplayMode;
 }
 
 export class LogoutAction implements Action {

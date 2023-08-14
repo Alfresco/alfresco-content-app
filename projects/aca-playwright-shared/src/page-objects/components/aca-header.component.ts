@@ -25,7 +25,7 @@
 import { BaseComponent } from './base.component';
 import { Page } from '@playwright/test';
 export class AcaHeader extends BaseComponent {
-  private static rootElement = 'adf-toolbar';
+  private static rootElement = 'aca-toolbar';
   private moreActionsButton = this.getChild('button[id="app.viewer.toolbar.more"]');
   public createButton = this.getChild('[id="app.toolbar.create"]');
   public viewDetails = this.getChild('[title="View Details"]');

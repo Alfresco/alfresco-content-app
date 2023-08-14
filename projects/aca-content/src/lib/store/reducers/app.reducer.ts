@@ -73,9 +73,6 @@ export function appReducer(state: AppState = INITIAL_APP_STATE, action: Action):
     case AppActionTypes.SetInfoDrawerMetadataAspect:
       newState = setInfoDrawerAspect(state, action as SetInfoDrawerMetadataAspectAction);
       break;
-    case AppActionTypes.ToggleDocumentDisplayMode:
-      newState = toggleDocumentDisplayMode(state);
-      break;
     case AppActionTypes.SetRepositoryInfo:
       newState = updateRepositoryStatus(state, action as SetRepositoryInfoAction);
       break;
@@ -172,11 +169,6 @@ function showInfoDrawerPreview(state: AppState) {
 
   return newState;
 }
-
-const toggleDocumentDisplayMode = (state: AppState) => ({
-  ...state,
-  documentDisplayMode: state.documentDisplayMode === 'list' ? 'gallery' : 'list'
-});
 
 function updateSelectedNodes(state: AppState, action: SetSelectedNodesAction): AppState {
   const newState = { ...state };

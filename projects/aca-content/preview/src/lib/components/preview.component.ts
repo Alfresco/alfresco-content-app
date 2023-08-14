@@ -34,7 +34,7 @@ import {
   ContentApiService,
   InfoDrawerComponent,
   ToolbarMenuItemComponent,
-  ToolbarActionComponent
+  ToolbarComponent
 } from '@alfresco/aca-shared';
 import { ContentActionRef, ViewerExtensionRef } from '@alfresco/adf-extensions';
 import { SearchRequest } from '@alfresco/js-api';
@@ -44,7 +44,7 @@ import { AlfrescoViewerModule, NodesApiService } from '@alfresco/adf-content-ser
 
 @Component({
   standalone: true,
-  imports: [CommonModule, ViewerModule, AlfrescoViewerModule, InfoDrawerComponent, ToolbarMenuItemComponent, ToolbarActionComponent],
+  imports: [CommonModule, ViewerModule, AlfrescoViewerModule, InfoDrawerComponent, ToolbarMenuItemComponent, ToolbarComponent],
   selector: 'app-preview',
   templateUrl: './preview.component.html',
   styleUrls: ['./preview.component.scss'],

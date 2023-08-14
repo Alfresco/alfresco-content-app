@@ -30,9 +30,7 @@
     </adf-viewer-open-with>
 
     <adf-viewer-toolbar-actions>
-      <ng-container *ngFor="let action of toolbarActions; trackBy: trackByActionId">
-        <aca-toolbar-action [actionRef]="action"></aca-toolbar-action>
-      </ng-container>
+      <aca-toolbar [items]="toolbarActions"></aca-toolbar>
     </adf-viewer-toolbar-actions>
   </adf-alfresco-viewer>
 </ng-container>

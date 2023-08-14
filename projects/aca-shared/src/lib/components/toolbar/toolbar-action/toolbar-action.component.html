@@ -7,7 +7,7 @@
     <app-toolbar-button [type]="data?.buttonType || type" [actionRef]="actionRef" [color]="color" [data]="actionRef.data"> </app-toolbar-button>
   </ng-container>
 
-  <adf-toolbar-divider *ngSwitchCase="'separator'" [id]="actionRef.id"></adf-toolbar-divider>
+  <div *ngSwitchCase="'separator'" [id]="actionRef.id" class="aca-toolbar-divider"></div>
 
   <ng-container *ngSwitchCase="'menu'">
     <app-toolbar-menu [actionRef]="actionRef" [color]="color" [data]="actionRef.data"></app-toolbar-menu>
