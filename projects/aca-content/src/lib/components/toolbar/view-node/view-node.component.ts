@@ -79,9 +79,13 @@ export class ViewNodeComponent {
           } else {
             id = (selection.file as SharedLinkEntry).entry.nodeId || (selection.file as any).entry.guid || selection.file.entry.id;
           }
-
-          this.store.dispatch(new ViewNodeAction(id, { location: this.router.url }));
+          this.store.dispatch(new ViewNodeAction(id, { location: this.extractLocationUrlFromCurrent() }));
         }
       });
+  }
+
+  private extractLocationUrlFromCurrent(): string {
+    const segments = this.router.url.split('/').filter((segment) => !!segment);
+    return segments[0];
   }
 }

@@ -122,4 +122,27 @@ describe('ViewNodeComponent', () => {
     const id = linkNode.file.entry.properties['cm:destination'];
     expect(mockStore.dispatch).toHaveBeenCalledWith(new ViewNodeAction(id, { location: mockRouter.url }));
   });
+
+  it('should call ViewNodeAction onClick event with only base url path', () => {
+    const linkNode = {
+      file: {
+        entry: {
+          id: 'nodeId',
+          nodeType: 'app:filelink',
+          properties: {
+            'cm:destination': 'original-node-id'
+          }
+        }
+      }
+    };
+    component.data = {
+      iconButton: true
+    };
+    mockStore.select.and.returnValue(of(linkNode));
+    const id = linkNode.file.entry.properties['cm:destination'];
+    mockRouter.url = `some-url/details/${id}`;
+    fixture.detectChanges();
+    component.onClick();
+    expect(mockStore.dispatch).toHaveBeenCalledWith(new ViewNodeAction(id, { location: 'some-url' }));
+  });
 });
