@@ -63,7 +63,7 @@ export class ToolbarMenuItemComponent {
         this.actionRef.actions.click,
         this.menuId
           ? {
-              focusedElementOnCloseSelector: `#${this.menuId.replace(/\./g, '\\.')}`
+              focusedElementOnCloseSelector: `#${this.menuId.replace(/\\/g, '').replace(/\./g, '\\.')}`
             }
           : undefined
       );
