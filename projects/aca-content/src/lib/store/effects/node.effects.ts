@@ -49,7 +49,8 @@ import {
   NavigateRouteAction,
   ExpandInfoDrawerAction,
   ManageRulesAction,
-  ShowLoaderAction
+  ShowLoaderAction,
+  ToggleInfoDrawerAction
 } from '@alfresco/aca-shared/store';
 import { ContentManagementService } from '../../services/content-management.service';
 import { RenditionService } from '@alfresco/adf-content-services';
@@ -318,6 +319,7 @@ export class NodeEffects {
                 }
               });
           }
+          this.store.dispatch(new ToggleInfoDrawerAction());
         })
       ),
     { dispatch: false }
