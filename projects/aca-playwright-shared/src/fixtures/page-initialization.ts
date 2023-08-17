@@ -35,7 +35,8 @@ import {
   FavoritesPage,
   FavoritesPageApi,
   TrashPage,
-  UserActions
+  UserActions,
+  LoginPage
 } from '../';
 
 interface Pages {
@@ -47,6 +48,7 @@ interface Pages {
   searchPage: SearchPage;
   favoritePage: FavoritesPage;
   trashPage: TrashPage;
+  loginPage: LoginPage;
 }
 
 interface Api {
@@ -77,6 +79,9 @@ export const test = base.extend<Pages & Api>({
   },
   trashPage: async ({ page }, use) => {
     await use(new TrashPage(page));
+  },
+  loginPage: async ({ page }, use) => {
+    await use(new LoginPage(page));
   },
   // eslint-disable-next-line no-empty-pattern
   fileAction: async ({}, use) => {
