@@ -35,7 +35,7 @@ import {
   ShowInfoDrawerPreviewAction,
   SnackbarErrorAction
 } from '@alfresco/aca-shared/store';
-import { DataTableModule, PaginationModule, ToolbarModule, TranslationService, ViewerModule } from '@alfresco/adf-core';
+import { DataTableModule, PaginationModule, TranslationService, ViewerModule } from '@alfresco/adf-core';
 import { combineLatest } from 'rxjs';
 import {
   ContextActionsDirective,
@@ -43,7 +43,7 @@ import {
   PageComponent,
   PageLayoutComponent,
   PaginationDirective,
-  ToolbarActionComponent
+  ToolbarComponent
 } from '@alfresco/aca-shared';
 import { SearchSortingDefinition } from '@alfresco/adf-content-services/lib/search/models/search-sorting-definition.interface';
 import { takeUntil } from 'rxjs/operators';
@@ -66,7 +66,6 @@ import { SearchResultsRowComponent } from '../search-results-row/search-results-
     CommonModule,
     TranslateModule,
     SearchInputComponent,
-    ToolbarModule,
     MatProgressBarModule,
     SearchModule,
     MatDividerModule,
@@ -85,8 +84,8 @@ import { SearchResultsRowComponent } from '../search-results-row/search-results-
     SearchResultsRowComponent,
     PaginationDirective,
     ViewerModule,
-    ToolbarActionComponent,
-    PageLayoutComponent
+    PageLayoutComponent,
+    ToolbarComponent
   ],
   selector: 'aca-search-results',
   templateUrl: './search-results.component.html',

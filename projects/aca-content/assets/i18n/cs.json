@@ -326,11 +326,7 @@
           }
         },
         "DELETE_LIBRARY_FAILED": "Knihovnu nebylo možné odstranit",
-        "JOIN_REQUEST_FAILED": "Ke knihovně se nebylo možné připojit",
-        "JOIN_CANCEL_FAILED": "Žádost o připojení nebylo možné zrušit",
-        "LEAVE_LIBRARY_FAILED": "Tuto knihovnu nelze opustit",
-        "INVALID_SENDER_EMAIL": "Žádost o připojení vyžaduje platnou e-mailovou adresu.",
-        "INVALID_RECEIVER_EMAIL": "E-mailová adresa příjemců není platná. Obraťte se na oddělení IT."
+        "LEAVE_LIBRARY_FAILED": "Tuto knihovnu nelze opustit"
       },
       "UPLOAD": {
         "ERROR": {
@@ -379,9 +375,6 @@
           }
         },
         "LIBRARY_DELETED": "Knihovna odstraněna",
-        "JOINED": "Připojeno ke knihovně",
-        "JOIN_REQUESTED": "Odeslána žádost o připojení k této knihovně",
-        "JOIN_CANCELED": "Zrušena žádost o připojení ke knihovně",
         "LEFT_LIBRARY": "Opustili jste knihovnu"
       }
     },
@@ -531,8 +524,6 @@
       "CATEGORIES": "Kategorie"
     },
     "CATEGORIES": {
-      "MODIFIED_DATE": "Datum úpravy",
-      "CREATED_DATE": "Datum vytvoření",
       "EFFECTIVITY_FROM": "Platnost od",
       "EFFECTIVITY_TO": "Platnost do",
       "LOGIC": "Logika"

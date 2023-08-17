@@ -2,7 +2,6 @@
 @use '@angular/material' as mat;
 @import 'mixins';
 @import 'theme';
-@import 'variables/font-family';
 
 $foreground: map-get($custom-theme, foreground);
 
@@ -11,7 +10,7 @@ body {
   @include flex-column;
 
   font-size: 14px;
-  font-family: $default-font-family;
+  font-family: 'Open Sans', serif;
   color: mat.get-color-from-palette($foreground, text, 0.87);
   margin: 0;
 

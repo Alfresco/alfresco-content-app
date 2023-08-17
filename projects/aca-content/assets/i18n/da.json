@@ -326,11 +326,7 @@
           }
         },
         "DELETE_LIBRARY_FAILED": "Biblioteket kan ikke slettes",
-        "JOIN_REQUEST_FAILED": "Du kan ikke tilmeldes biblioteket",
-        "JOIN_CANCEL_FAILED": "Din anmodning om tilmelding kan ikke annulleres",
-        "LEAVE_LIBRARY_FAILED": "Du kan ikke forlade biblioteket",
-        "INVALID_SENDER_EMAIL": "Din e-mailadresse skal være gyldig, inden du kan anmode om at blive tilmeldt.",
-        "INVALID_RECEIVER_EMAIL": "E-mailadressen for en eller flere modtagere er ikke gyldig. Kontakt din it-afdeling."
+        "LEAVE_LIBRARY_FAILED": "Du kan ikke forlade biblioteket"
       },
       "UPLOAD": {
         "ERROR": {
@@ -379,9 +375,6 @@
           }
         },
         "LIBRARY_DELETED": "Biblioteket er blevet slettet",
-        "JOINED": "Du er nu tilmeldt biblioteket",
-        "JOIN_REQUESTED": "Anmodningen om at blive tilmeldt biblioteket er blevet sendt",
-        "JOIN_CANCELED": "Anmodningen om at blive tilmeldt biblioteket er blevet annulleret",
         "LEFT_LIBRARY": "Du er ikke længere tilmeldt biblioteket"
       }
     },
@@ -531,8 +524,6 @@
       "CATEGORIES": "Kategorier"
     },
     "CATEGORIES": {
-      "MODIFIED_DATE": "Ændringsdato",
-      "CREATED_DATE": "Oprettelsesdato",
       "EFFECTIVITY_FROM": "Gældende periode fra",
       "EFFECTIVITY_TO": "Gældende periode til",
       "LOGIC": "Logik"

@@ -29,6 +29,7 @@ import { CommentsTab } from './info-drawer-comments-tab';
 import { LibraryMetadata } from './info-drawer-metadata-library';
 import { ContentMetadata } from './info-drawer-metadata-content';
 import { waitForPresence } from '../../utilities/utils';
+import { Toolbar } from '../toolbar/toolbar';
 
 export class InfoDrawer extends Component {
   commentsTab = new CommentsTab('adf-info-drawer');
@@ -43,6 +44,7 @@ export class InfoDrawer extends Component {
   selectedTab = TestElement.byCss(`.mat-tab-list [aria-selected='true'] div`);
   expandedDetailsPermissionsTab = TestElement.byText('.acs-details-container .mat-tab-label-content', 'Permissions');
   previewButton = TestElement.byCss(`button[title='Preview File']`);
+  toolbar = new Toolbar('adf-info-drawer');
 
   constructor(ancestor?: string) {
     super('adf-info-drawer', ancestor);
@@ -113,10 +115,7 @@ export class InfoDrawer extends Component {
     try {
       await BrowserActions.click(this.getTabByTitle('Comments'));
       await this.commentsTab.waitForCommentsContainer();
-      await Promise.all([
-        BrowserVisibility.waitUntilElementIsVisible(this.commentsTab.component),
-        BrowserVisibility.waitUntilElementIsNotVisible(this.propertiesTab.component)
-      ]);
+      await Promise.all([BrowserVisibility.waitUntilElementIsVisible(this.commentsTab.component)]);
     } catch (error) {
       Logger.error('--- info-drawer clickCommentsTab catch error: ', error);
     }

@@ -36,7 +36,6 @@ import {
   ReloadDocumentListAction,
   getCurrentFolder,
   getAppSelection,
-  getDocumentDisplayMode,
   isInfoDrawerOpened,
   getSharedUrl,
   ViewNodeAction,
@@ -61,7 +60,6 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   infoDrawerOpened$: Observable<boolean>;
   node: MinimalNodeEntryEntity;
   selection: SelectionState;
-  documentDisplayMode$: Observable<string>;
   sharedPreviewUrl$: Observable<string>;
   actions: Array<ContentActionRef> = [];
   viewerToolbarActions: Array<ContentActionRef> = [];
@@ -93,8 +91,6 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
 
     this.sharedPreviewUrl$ = this.store.select(getSharedUrl);
     this.infoDrawerOpened$ = this.store.select(isInfoDrawerOpened).pipe(map((infoDrawerState) => !this.isOutletPreviewUrl() && infoDrawerState));
-
-    this.documentDisplayMode$ = this.store.select(getDocumentDisplayMode);
 
     this.store
       .select(getAppSelection)

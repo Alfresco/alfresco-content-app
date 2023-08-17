@@ -63,7 +63,7 @@ describe('File preview', () => {
     const documentText = 'This is a small demonstration';
     await searchInput.searchUntilResult(fileName, 'URL');
     await dataTable.selectItem(fileName);
-    await BrowserActions.click(browsingPage.toolbar.viewDetailsButton);
+    await BrowserActions.click(infoDrawer.toolbar.viewDetailsButton);
     await infoDrawer.previewButton.click();
     await viewerPage.checkFileContent(pageNumber, documentText);
   });

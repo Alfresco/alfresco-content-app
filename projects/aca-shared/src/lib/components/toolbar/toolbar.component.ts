@@ -22,22 +22,24 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export enum AppActionTypes {
-  SetInitialState = 'SET_INITIAL_STATE',
-  SetCurrentFolder = 'SET_CURRENT_FOLDER',
-  SetCurrentVersion = 'SET_CURRENT_VERSION',
-  SetCurrentUrl = 'SET_CURRENT_URL',
-  SetUserProfile = 'SET_USER_PROFILE',
-  SetRepositoryInfo = 'SET_REPOSITORY_INFO',
-  ToggleInfoDrawer = 'TOGGLE_INFO_DRAWER',
-  Logout = 'LOGOUT',
-  ReloadDocumentList = 'RELOAD_DOCUMENT_LIST',
-  ResetSelection = 'RESET_SELECTION',
-  SetInfoDrawerState = 'SET_INFO_DRAWER_STATE',
-  SetInfoDrawerMetadataAspect = 'SET_INFO_DRAWER_METADATA_ASPECT',
-  CloseModalDialogs = 'CLOSE_MODAL_DIALOGS',
-  SetFileUploadingDialog = 'SET_FILE_UPLOADING_DIALOG',
-  ShowInfoDrawerPreview = 'SHOW_INFO_DRAWER_PREVIEW',
-  SetInfoDrawerPreviewState = 'SET_INFO_DRAWER_PREVIEW_STATE',
-  ShowLoaderAction = 'SHOW_LOADER'
+import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ContentActionRef } from '@alfresco/adf-extensions';
+import { ToolbarActionComponent } from './toolbar-action/toolbar-action.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
+
+@Component({
+  selector: 'aca-toolbar',
+  standalone: true,
+  imports: [CommonModule, ToolbarActionComponent, MatToolbarModule],
+  templateUrl: './toolbar.component.html',
+  styleUrls: ['./toolbar.component.scss'],
+  encapsulation: ViewEncapsulation.None
+})
+export class ToolbarComponent {
+  @Input() items: ContentActionRef[];
+
+  trackByActionId(_: number, action: ContentActionRef) {
+    return action.id;
+  }
 }

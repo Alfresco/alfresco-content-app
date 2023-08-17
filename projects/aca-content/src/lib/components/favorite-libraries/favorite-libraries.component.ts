@@ -31,10 +31,10 @@ import {
   InfoDrawerComponent,
   PageComponent,
   PageLayoutComponent,
-  ToolbarActionComponent
+  ToolbarComponent
 } from '@alfresco/aca-shared';
 import { NavigateLibraryAction } from '@alfresco/aca-shared/store';
-import { DataTableModule, PaginationModule, TemplateModule, ToolbarModule, UserPreferencesService } from '@alfresco/adf-core';
+import { DataTableModule, PaginationModule, TemplateModule, UserPreferencesService } from '@alfresco/adf-core';
 import { DocumentListPresetRef, ExtensionsModule } from '@alfresco/adf-extensions';
 import { CommonModule } from '@angular/common';
 import { DocumentListModule } from '@alfresco/adf-content-services';
@@ -45,7 +45,6 @@ import { TranslateModule } from '@ngx-translate/core';
   standalone: true,
   imports: [
     CommonModule,
-    ToolbarModule,
     DocumentListModule,
     DocumentListDirective,
     ContextActionsDirective,
@@ -54,9 +53,9 @@ import { TranslateModule } from '@ngx-translate/core';
     ExtensionsModule,
     PaginationModule,
     InfoDrawerComponent,
-    ToolbarActionComponent,
     PageLayoutComponent,
-    TranslateModule
+    TranslateModule,
+    ToolbarComponent
   ],
   templateUrl: './favorite-libraries.component.html',
   encapsulation: ViewEncapsulation.None

@@ -326,11 +326,7 @@
           }
         },
         "DELETE_LIBRARY_FAILED": "No se puede eliminar la biblioteca",
-        "JOIN_REQUEST_FAILED": "No puede unirse a la biblioteca",
-        "JOIN_CANCEL_FAILED": "No puede cancelarse su solicitud de unirse",
-        "LEAVE_LIBRARY_FAILED": "No puede abandonar esta biblioteca",
-        "INVALID_SENDER_EMAIL": "Su dirección de correo electrónico debe ser válida antes de solicitar unirse.",
-        "INVALID_RECEIVER_EMAIL": "Dirección de correo electrónico de destinatario(s) no válida; póngase en contacto con el equipo de TI"
+        "LEAVE_LIBRARY_FAILED": "No puede abandonar esta biblioteca"
       },
       "UPLOAD": {
         "ERROR": {
@@ -379,9 +375,6 @@
           }
         },
         "LIBRARY_DELETED": "Biblioteca eliminada",
-        "JOINED": "Se ha unido a la biblioteca",
-        "JOIN_REQUESTED": "Se ha enviado una solicitud para unirse a esta biblioteca",
-        "JOIN_CANCELED": "Se ha cancelado la solicitud de unirse a esta biblioteca",
         "LEFT_LIBRARY": "Ha abandonado la biblioteca"
       }
     },
@@ -531,8 +524,6 @@
       "CATEGORIES": "Categorías"
     },
     "CATEGORIES": {
-      "MODIFIED_DATE": "Fecha de modificación",
-      "CREATED_DATE": "Fecha de creación",
       "EFFECTIVITY_FROM": "Válido desde",
       "EFFECTIVITY_TO": "Válido hasta",
       "LOGIC": "Lógica"

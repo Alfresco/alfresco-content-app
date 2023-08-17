@@ -326,11 +326,7 @@
           }
         },
         "DELETE_LIBRARY_FAILED": "De bibliotheek kan niet worden verwijderd",
-        "JOIN_REQUEST_FAILED": "Lid worden van de bibliotheek niet mogelijk",
-        "JOIN_CANCEL_FAILED": "Uw aanvraag om lid te worden kan niet worden geannuleerd",
-        "LEAVE_LIBRARY_FAILED": "Kan deze bibliotheek niet verlaten",
-        "INVALID_SENDER_EMAIL": "U moet een geldig e-mailadres hebben voordat u kunt aanvragen om lid te worden.",
-        "INVALID_RECEIVER_EMAIL": "Het e-mailadres van de ontvanger(s) is niet geldig, neem contact op met IT."
+        "LEAVE_LIBRARY_FAILED": "Kan deze bibliotheek niet verlaten"
       },
       "UPLOAD": {
         "ERROR": {
@@ -379,9 +375,6 @@
           }
         },
         "LIBRARY_DELETED": "Bibliotheek verwijderd",
-        "JOINED": "Lid geworden van bibliotheek",
-        "JOIN_REQUESTED": "Aanvraag om lid te worden van deze bibliotheek is verzonden",
-        "JOIN_CANCELED": "Aanvraag om lid te worden van de bibliotheek is geannuleerd",
         "LEFT_LIBRARY": "U hebt de bibliotheek verlaten"
       }
     },
@@ -531,8 +524,6 @@
       "CATEGORIES": "Categorieën"
     },
     "CATEGORIES": {
-      "MODIFIED_DATE": "Datum gewijzigd",
-      "CREATED_DATE": "Datum gemaakt",
       "EFFECTIVITY_FROM": "Effectiviteit vanaf",
       "EFFECTIVITY_TO": "Effectiviteit tot",
       "LOGIC": "Logica"

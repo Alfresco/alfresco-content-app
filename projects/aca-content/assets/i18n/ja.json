@@ -326,11 +326,7 @@
           }
         },
         "DELETE_LIBRARY_FAILED": "このライブラリは削除できません",
-        "JOIN_REQUEST_FAILED": "ライブラリに参加できません",
-        "JOIN_CANCEL_FAILED": "参加リクエストをキャンセルできません",
-        "LEAVE_LIBRARY_FAILED": "このライブラリから脱退できません",
-        "INVALID_SENDER_EMAIL": "参加リクエストを行うには、有効な E メールアドレスが必要です。",
-        "INVALID_RECEIVER_EMAIL": "受取人の E メールアドレスが無効です。IT 担当者に連絡してください。"
+        "LEAVE_LIBRARY_FAILED": "このライブラリから脱退できません"
       },
       "UPLOAD": {
         "ERROR": {
@@ -379,9 +375,6 @@
           }
         },
         "LIBRARY_DELETED": "ライブラリが削除されました",
-        "JOINED": "ライブラリに参加しました",
-        "JOIN_REQUESTED": "このライブラリへの参加リクエストが送信されました",
-        "JOIN_CANCELED": "ライブラリへの参加リクエストをキャンセルしました",
         "LEFT_LIBRARY": "このライブラリからは脱退しています"
       }
     },
@@ -531,8 +524,6 @@
       "CATEGORIES": "カテゴリ"
     },
     "CATEGORIES": {
-      "MODIFIED_DATE": "変更日",
-      "CREATED_DATE": "作成日",
       "EFFECTIVITY_FROM": "有効性の開始",
       "EFFECTIVITY_TO": "有効性の終了",
       "LOGIC": "ロジック"

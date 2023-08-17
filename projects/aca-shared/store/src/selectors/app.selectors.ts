@@ -40,7 +40,6 @@ export const getNavigationState = createSelector(selectApp, (state) => state.nav
 export const isInfoDrawerOpened = createSelector(selectApp, (state) => state.infoDrawerOpened);
 export const infoDrawerPreview = createSelector(selectApp, (state) => state.infoDrawerPreview);
 export const showFacetFilter = createSelector(selectApp, (state) => state.showFacetFilter);
-export const getDocumentDisplayMode = createSelector(selectApp, (state) => state.documentDisplayMode);
 export const getRepositoryStatus = createSelector(selectApp, (state) => state.repository);
 export const isQuickShareEnabled = createSelector(getRepositoryStatus, (info) => info.status.isQuickShareEnabled);
 export const isAdmin = createSelector(selectApp, (state) => state.user.isAdmin);

@@ -1,0 +1,27 @@
+aca-toolbar {
+  .mat-toolbar {
+    min-height: 48px;
+    color: var(--adf-theme-foreground-text-color-054);
+    background-color: inherit;
+    border: none;
+    padding: 0;
+  }
+
+  .mat-toolbar-row {
+    height: 48px;
+    font-size: var(--theme-body-1-font-size);
+    white-space: normal;
+  }
+
+  .mat-toolbar-single-row {
+    height: 64px;
+  }
+
+  .aca-toolbar-divider {
+    height: 24px;
+    width: 1px;
+    background: var(--adf-theme-foreground-text-color-025);
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+}

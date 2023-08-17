@@ -326,11 +326,7 @@
                     }
                 },
                 "DELETE_LIBRARY_FAILED": "Cannot delete the library",
-                "JOIN_REQUEST_FAILED": "Cannot join the library",
-                "JOIN_CANCEL_FAILED": "Cannot cancel your join request",
-                "LEAVE_LIBRARY_FAILED": "Cannot leave this library",
-                "INVALID_SENDER_EMAIL": "Your email address must be valid before requesting to join.",
-                "INVALID_RECEIVER_EMAIL": "Recipient(s) email address not valid, contact IT."
+                "LEAVE_LIBRARY_FAILED": "Cannot leave this library"
             },
             "UPLOAD": {
                 "ERROR": {
@@ -379,9 +375,6 @@
                     }
                 },
                 "LIBRARY_DELETED": "Library deleted",
-                "JOINED": "Library joined",
-                "JOIN_REQUESTED": "Request sent to join this library",
-                "JOIN_CANCELED": "Canceled the request to join the library",
                 "LEFT_LIBRARY": "You have left the library"
             }
         },
@@ -532,8 +525,11 @@
             "CATEGORIES": "Categories"
         },
         "CATEGORIES": {
-            "MODIFIED_DATE": "Modified date",
-            "CREATED_DATE": "Created date",
+            "DATE": "Date",
+            "DATE_TABS": {
+              "CREATED": "Created",
+              "MODIFIED": "Modified"
+            },
             "EFFECTIVITY_FROM": "Effectivity from",
             "EFFECTIVITY_TO": "Effectivity to",
             "LOGIC": "Logic",

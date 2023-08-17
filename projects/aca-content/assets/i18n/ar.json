@@ -326,11 +326,7 @@
           }
         },
         "DELETE_LIBRARY_FAILED": "يتعذر حذف المكتبة",
-        "JOIN_REQUEST_FAILED": "يتعذر الانضمام للمكتبة",
-        "JOIN_CANCEL_FAILED": "يتعذر إلغاء طلب انضمامك",
-        "LEAVE_LIBRARY_FAILED": "تتعذر مغادرة هذه المكتبة",
-        "INVALID_SENDER_EMAIL": "يجب أن يكون عنوان بريدك الإلكتروني صالحًا قبل طلب الانضمام.",
-        "INVALID_RECEIVER_EMAIL": "عنوان البريد الإلكتروني للمستلم (المستلمين) غير صالح، اتصل بقسم تكنولوجيا المعلومات."
+        "LEAVE_LIBRARY_FAILED": "تتعذر مغادرة هذه المكتبة" 
       },
       "UPLOAD": {
         "ERROR": {
@@ -379,9 +375,6 @@
           }
         },
         "LIBRARY_DELETED": "تم حذف المكتبة",
-        "JOINED": "تم الانضمام للمكتبة",
-        "JOIN_REQUESTED": "تم إرسال الطلب للانضمام للمكتبة",
-        "JOIN_CANCELED": "تم إلغاء الطلب للانضمام للمكتبة",
         "LEFT_LIBRARY": "لقد غادرت المكتبة"
       }
     },
@@ -531,8 +524,6 @@
       "CATEGORIES": "فئات"
     },
     "CATEGORIES": {
-      "MODIFIED_DATE": "تاريخ التعديل",
-      "CREATED_DATE": "تاريخ الإنشاء",
       "EFFECTIVITY_FROM": "فعالية من",
       "EFFECTIVITY_TO": "فعالية ل",
       "LOGIC": "منطق"

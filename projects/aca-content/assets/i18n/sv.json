@@ -326,11 +326,7 @@
           }
         },
         "DELETE_LIBRARY_FAILED": "Kan inte radera biblioteket",
-        "JOIN_REQUEST_FAILED": "Kan inte gå med i biblioteket",
-        "JOIN_CANCEL_FAILED": "Kan inte avbryta din begäran om att gå med",
-        "LEAVE_LIBRARY_FAILED": "Kan inte lämna det här biblioteket",
-        "INVALID_SENDER_EMAIL": "Du måste ha en giltig e-postadress för att få gå med.",
-        "INVALID_RECEIVER_EMAIL": "Mottagarens/mottagarnas e-postadress(er) inte giltig(a), kontakta IT-avdelningen."
+        "LEAVE_LIBRARY_FAILED": "Kan inte lämna det här biblioteket"
       },
       "UPLOAD": {
         "ERROR": {
@@ -379,9 +375,6 @@
           }
         },
         "LIBRARY_DELETED": "Bibliotek raderat",
-        "JOINED": "Gick med i bibliotek",
-        "JOIN_REQUESTED": "Begäran skickad om att gå med i det här biblioteket",
-        "JOIN_CANCELED": "Avbröt begäran om att gå med i biblioteket",
         "LEFT_LIBRARY": "Du har lämnat biblioteket"
       }
     },
@@ -531,8 +524,6 @@
       "CATEGORIES": "Kategorier"
     },
     "CATEGORIES": {
-      "MODIFIED_DATE": "Modifierad datum",
-      "CREATED_DATE": "Skapad datum",
       "EFFECTIVITY_FROM": "Giltighet från",
       "EFFECTIVITY_TO": "Giltighet till",
       "LOGIC": "Logik"

@@ -26,10 +26,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
 import { ExtensionsModule } from '@alfresco/adf-extensions';
-import { ToolbarButtonComponent } from '../components/tool-bar/toolbar-button/toolbar-button.component';
-import { ToolbarActionComponent } from '../components/tool-bar/toolbar-action/toolbar-action.component';
-import { ToolbarMenuItemComponent } from '../components/tool-bar/toolbar-menu-item/toolbar-menu-item.component';
-import { ToolbarMenuComponent } from '../components/tool-bar/toolbar-menu/toolbar-menu.component';
+import { ToolbarButtonComponent } from '../components/toolbar/toolbar-button/toolbar-button.component';
+import { ToolbarActionComponent } from '../components/toolbar/toolbar-action/toolbar-action.component';
+import { ToolbarMenuItemComponent } from '../components/toolbar/toolbar-menu-item/toolbar-menu-item.component';
+import { ToolbarMenuComponent } from '../components/toolbar/toolbar-menu/toolbar-menu.component';
 
 // @deprecated
 @NgModule({

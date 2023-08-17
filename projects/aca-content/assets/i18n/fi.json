@@ -326,11 +326,7 @@
           }
         },
         "DELETE_LIBRARY_FAILED": "Kirjaston poistaminen ei onnistu",
-        "JOIN_REQUEST_FAILED": "Kirjastoon liittyminen ei onnistu",
-        "JOIN_CANCEL_FAILED": "Liittymispyynnön peruuttaminen ei onnistu",
-        "LEAVE_LIBRARY_FAILED": "Kirjastosta poistuminen ei onnistu",
-        "INVALID_SENDER_EMAIL": "Sähköpostiosoitteesi täytyy olla kelvollinen, ennen kuin voit pyytää liittymistä.",
-        "INVALID_RECEIVER_EMAIL": "Vastaanottajien sähköpostiosoitteet eivät ole kelvollisia. Ota yhteyttä IT-tukeen."
+        "LEAVE_LIBRARY_FAILED": "Kirjastosta poistuminen ei onnistu"
       },
       "UPLOAD": {
         "ERROR": {
@@ -379,9 +375,6 @@
           }
         },
         "LIBRARY_DELETED": "Kirjasto poistettiin",
-        "JOINED": "Kirjastoon liityttiin",
-        "JOIN_REQUESTED": "Tämän kirjaston liittymispyyntö lähetettiin",
-        "JOIN_CANCELED": "Tämän kirjaston liittymispyyntö peruutettiin",
         "LEFT_LIBRARY": "Olet poistunut kirjastosta"
       }
     },
@@ -531,8 +524,6 @@
       "CATEGORIES": "Luokat"
     },
     "CATEGORIES": {
-      "MODIFIED_DATE": "Muokkauspäivämäärä",
-      "CREATED_DATE": "Luontipäivämäärä",
       "EFFECTIVITY_FROM": "Voimassaolon alku",
       "EFFECTIVITY_TO": "Voimassaolon loppu",
       "LOGIC": "Logiikka"
