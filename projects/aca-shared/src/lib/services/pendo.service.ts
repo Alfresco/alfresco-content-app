@@ -42,7 +42,7 @@ export class PendoService {
 
   init(): void {
     this.pendoConfig = this.appConfigService.get('analytics.pendo');
-    if (this.pendoConfig.pendoEnabled) {
+    if (this.pendoConfig?.pendoEnabled) {
       this.injectPendo();
       this.initPendo();
     }
