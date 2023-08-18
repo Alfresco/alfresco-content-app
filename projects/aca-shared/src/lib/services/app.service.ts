@@ -48,6 +48,7 @@ import { RouterExtensionService } from './router.extension.service';
 import { Store } from '@ngrx/store';
 import { DiscoveryEntry, GroupEntry, Group } from '@alfresco/js-api';
 import { AcaMobileAppSwitcherService } from './aca-mobile-app-switcher.service';
+import { PendoService } from './pendo.service';
 
 @Injectable({
   providedIn: 'root'
@@ -89,6 +90,7 @@ export class AppService implements OnDestroy {
     private sharedLinksApiService: SharedLinksApiService,
     private groupService: GroupService,
     private overlayContainer: OverlayContainer,
+    private pendoService: PendoService,
     @Inject(STORE_INITIAL_APP_DATA) private initialAppState: AppState,
     searchQueryBuilderService: SearchQueryBuilderService,
     private acaMobileAppSwitcherService: AcaMobileAppSwitcherService
@@ -160,6 +162,7 @@ export class AppService implements OnDestroy {
         this.store.dispatch(new SnackbarErrorAction(err.message));
       }
     });
+    this.pendoService.init();
 
     this.ready$.subscribe((isReady) => {
       if (isReady) {

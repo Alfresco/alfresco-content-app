@@ -1130,5 +1130,13 @@
     "downloadPromptReminderDelay": 30,
     "enableFileAutoDownload": true,
     "fileAutoDownloadSizeThresholdInMB": 15
+  },
+  "analytics": {
+    "pendo": {
+      "pendoEnabled" : false,
+      "pendoKey": "some-test-key",
+      "pendoExcludeAllText": true,
+      "pendoCustomerName": "hruser"
+    }
   }
 }

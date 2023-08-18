@@ -58,6 +58,7 @@
     "@ngrx/store": "^14.2.0",
     "@ngrx/store-devtools": "^14.2.0",
     "@ngx-translate/core": "^14.0.0",
+    "crypto-js": "^4.1.1",
     "date-fns": "^2.30.0",
     "material-icons": "^1.13.8",
     "minimatch-browser": "^1.0.0",

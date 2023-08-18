@@ -110,3 +110,25 @@ if [ -n "${APP_BASE_SHARE_URL}" ]; then
   sed -e "s/\"baseShareUrl\": \".*\"/\"baseShareUrl\": \"${encoded}\"/g" \
     -i "$APP_CONFIG_FILE"
 fi
+
+# PENDO
+
+if [ -n "${APP_CONFIG_ANALYTICS_PENDO_ENABLED}" ]; then
+  echo "SET APP_CONFIG_ANALYTICS_PENDO_ENABLED"
+  sed -e "s/\"pendoEnabled\": [^,]*/\"pendoEnabled\": ${APP_CONFIG_ANALYTICS_PENDO_ENABLED}/g" -i "$APP_CONFIG_FILE"
+fi
+
+if [ -n "${APP_CONFIG_ANALYTICS_PENDO_KEY}" ]; then
+  echo "SET APP_CONFIG_ANALYTICS_PENDO_ENABLED"
+  sed -e "s/\"pendoKey\": [^,]*/\"pendoKey\": ${APP_CONFIG_ANALYTICS_PENDO_KEY}/g" -i "$APP_CONFIG_FILE"
+fi
+
+if [ -n "${APP_CONFIG_ANALYTICS_PENDO_EXCLUDE_ALL_TEXT}" ]; then
+  echo "SET APP_CONFIG_ANALYTICS_PENDO_EXCLUDE_ALL_TEXT"
+  sed -e "s/\"pendoExcludeAllText\": [^,]*/\"pendoExcludeAllText\": ${APP_CONFIG_ANALYTICS_PENDO_EXCLUDE_ALL_TEXT}/g" -i "$APP_CONFIG_FILE"
+fi
+
+if [ -n "${APP_CONFIG_CUSTOMER_NAME}" ]; then
+  echo "SET APP_CONFIG_CUSTOMER_NAME"
+  sed -e "s/\"pendoCustomerName\": [^,]*/\"pendoCustomerName\": ${APP_CONFIG_CUSTOMER_NAME}/g" -i "$APP_CONFIG_FILE"
+fi
