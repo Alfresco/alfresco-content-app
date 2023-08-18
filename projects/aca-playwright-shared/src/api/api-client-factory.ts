@@ -163,4 +163,15 @@ export class ApiClientFactory {
       return null;
     }
   }
+
+  async changePassword(username: string, newPassword: string): Promise<PersonEntry> {
+    const peopleApi = new PeopleApi(this.alfrescoApi);
+
+    try {
+      return peopleApi.updatePerson(username, { password: newPassword });
+    } catch (error) {
+      logger.error('[API Client Factory] changePassword failed : ', error);
+      return null;
+    }
+  }
 }

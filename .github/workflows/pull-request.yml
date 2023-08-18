@@ -109,7 +109,7 @@ jobs:
       fail-fast: false
       matrix:
         e2e-suites:
-          - name: "authentication,listViews,navigation,application"
+          - name: "listViews,navigation,application"
             id: 1
           - name: "search"
             id: 2
@@ -178,6 +178,8 @@ jobs:
             id: 2
           - name: "viewer"
             id: 3
+          - name: "authentication"
+            id: 4
     steps:
       - name: Checkout
         uses: actions/checkout@v3

@@ -31,15 +31,18 @@ interface LoginOptions {
   withNavigation?: boolean;
 }
 export class LoginPage extends BasePage {
+  private static pageUrl = 'login';
+
   constructor(page: Page) {
-    super(page, '');
+    super(page, LoginPage.pageUrl);
   }
 
-  private username = this.page.locator('#username');
-  private password = this.page.locator('#password');
-  private submitButton = this.page.locator('#login-button');
-  private userProfileButton = this.page.locator('aca-user-menu button');
-  private userLogOutButton = this.page.locator('aca-logout button');
+  public username = this.page.locator('#username');
+  public password = this.page.locator('#password');
+  public submitButton = this.page.locator('#login-button');
+  public userProfileButton = this.page.locator('aca-user-menu button');
+  public userLogOutButton = this.page.locator('aca-logout button');
+  public passwordVisibility = this.page.locator('.adf-login-password-icon');
 
   async loginUser(userData: { username: string; password: string } | UserModel, options?: LoginOptions): Promise<void> {
     if (options?.withNavigation) {
@@ -57,5 +60,13 @@ export class LoginPage extends BasePage {
   async logoutUser(): Promise<void> {
     await this.userProfileButton.click();
     await this.userLogOutButton.click();
+  }
+
+  async isPasswordDisplayed(): Promise<boolean> {
+    const type = await this.password.getAttribute('type');
+    if (type === 'text') {
+      return true;
+    }
+    return false;
   }
 }
