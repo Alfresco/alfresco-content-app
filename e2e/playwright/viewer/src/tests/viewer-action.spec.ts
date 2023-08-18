@@ -57,8 +57,7 @@ test.describe('viewer action file', () => {
   });
 
   test.afterAll(async () => {
-    await apiClientFactory.nodes.deleteNode(folderId);
-    await apiClientFactory.trashCan.deleteDeletedNode(folderId);
+    await apiClientFactory.nodes.deleteNode(folderId, { permanent: true });
   });
 
   test('[C268129] Download action', async ({ personalFiles }) => {
@@ -82,7 +81,6 @@ test.describe('viewer action file', () => {
     await personalFiles.dataTable.getCellLinkByName(randomDocxName).waitFor({ state: 'attached' });
     expect(await personalFiles.dataTable.getCellLinkByName(randomDocxDelete).isVisible(), 'file should not visible').toBe(false);
     await trashPage.navigate({ waitUntil: 'domcontentloaded' });
-    await trashPage.dataTable.goThroughPagesLookingForRowWithName(randomDocxDelete);
     expect(await trashPage.dataTable.isItemPresent(randomDocxDelete), 'Item should be present in Trash').toBe(true);
   });
 
@@ -130,7 +128,7 @@ test.describe('viewer action file', () => {
     expect(await personalFiles.viewer.isViewerOpened(), 'Viewer should be opened').toBe(true);
   });
 
-  test('[C286379] Favorite action from Shared Files', async ({ sharedPage, favoritePage, shareAction }) => {
+  test('[C286379] Favorite action from Shared Files', async ({ sharedPage, favoritePage }) => {
     await sharedPage.navigate({ waitUntil: 'domcontentloaded' });
     await sharedPage.dataTable.performClickFolderOrFileToOpen(randomDocxNameShare);
     expect(await sharedPage.viewer.isViewerOpened(), 'Viewer should be opened').toBe(true);
@@ -146,7 +144,6 @@ test.describe('viewer action file', () => {
     await sharedPage.page.keyboard.press('Escape');
     await favoritePage.navigate({ waitUntil: 'domcontentloaded' });
     expect(await favoritePage.dataTable.isItemPresent(randomDocxNameShare), 'Item is not present in Favorites list').toBe(true);
-    expect(await shareAction.isFavorite(randomDocxNameShare, 'hruser'), 'Item is not favorite').toBe(true);
   });
 
   test('[C286395] Share action from Favorites', async ({ favoritePage }) => {

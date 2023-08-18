@@ -19,31 +19,34 @@
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { resolve } from 'path';
+export interface PersonModel {
+  username?: string;
+  password?: string;
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  enabled?: boolean;
+  properties?: any;
+}
 
-export const TEST_FILES = {
-  DOCX: {
-    path: resolve(__dirname, 'file-docx.docx'),
-    name: 'file-docx',
-    data: 'Lorem ipsum dolor sit amet'
-  },
-  PDF: {
-    path: resolve(__dirname, 'file-pdf.pdf'),
-    name: 'file-pdf',
-    data: 'Lorem ipsum dolor sit amet'
-  },
-  PDF_PROTECTED: {
-    path: resolve(__dirname, 'file-pdf-protected.pdf'),
-    name: 'file-pdf-protected',
-    data: 'Lorem ipsum dolor sit amet',
-    password: '0000'
-  },
-  XLSX: {
-    path: resolve(__dirname, 'file-xlsx.xlsx'),
-    name: 'file-xlsx',
-    data: 'Lorem ipsum dolor sit amet'
+export class Person {
+  id: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  enabled: boolean;
+  properties: any;
+
+  constructor(user: PersonModel) {
+    this.id = user.username;
+    this.password = user.password || user.username;
+    this.firstName = user.firstName || user.username;
+    this.lastName = user.lastName || user.username;
+    this.email = user.email || `${user.username}@alfresco.com`;
+    this.enabled = user.enabled || true;
   }
-};
+}
