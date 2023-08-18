@@ -81,7 +81,7 @@
 
   <mat-card-content *ngIf="edit">
     <form [formGroup]="form" autocomplete="off">
-      <mat-form-field>
+      <mat-form-field floatLabel="auto">
         <input
           matInput
           cdkFocusInitial
@@ -96,11 +96,11 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-form-field floatLabel="auto">
         <input matInput placeholder="{{ 'LIBRARY.DIALOG.FORM.SITE_ID' | translate }}" formControlName="id" />
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-form-field floatLabel="auto">
         <mat-select placeholder="{{ 'LIBRARY.DIALOG.FORM.VISIBILITY' | translate }}" formControlName="visibility">
           <mat-option [value]="type.value" *ngFor="let type of libraryType">
             {{ type.label | translate }}
@@ -108,7 +108,7 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-form-field floatLabel="auto">
         <textarea
           matInput
           placeholder="{{ 'LIBRARY.DIALOG.FORM.DESCRIPTION' | translate }}"
