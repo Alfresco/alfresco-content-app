@@ -46,7 +46,7 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'npm'
       - run: npm ci
-      - run: npm run affected:lint
+      - run: npm run affected:lint -- --base=$BASE_HASH
       - run: npm run stylelint
 
   build:
