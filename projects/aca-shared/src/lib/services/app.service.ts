@@ -63,6 +63,7 @@ export class AppService implements OnDestroy {
 
   hideSidenavConditions = ['/preview/'];
   minimizeSidenavConditions = ['search'];
+  dsdsdds = '';
 
   onDestroy$ = new Subject<boolean>();
 

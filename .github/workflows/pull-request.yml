@@ -46,7 +46,7 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'npm'
       - run: npm ci
-      - run: npm run affected:lint
+      - run: npm run affected:lint -- --base=origin/develop
       - run: npm run stylelint
 
   build:
@@ -65,7 +65,7 @@ jobs:
           cache: 'npm'
       - uses: ./.github/actions/before-install
       - run: npm ci
-      - run: npm run affected:build -- --base=$BASE_HASH
+      - run: npm run affected:build -- --base=origin/develop
       - name: upload job artifact
         if: ${{ success() }}
         uses: ./.github/actions/upload-job-artifact
