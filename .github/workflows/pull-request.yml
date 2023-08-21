@@ -46,7 +46,7 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'npm'
       - run: npm ci
-      - run: npm run lint
+      - run: npm run affected:lint
       - run: npm run stylelint
 
   build:
@@ -65,7 +65,7 @@ jobs:
           cache: 'npm'
       - uses: ./.github/actions/before-install
       - run: npm ci
-      - run: npm run build -- $BUILD_OPTS
+      - run: npm run affected:build -- $BUILD_OPTS
       - name: upload job artifact
         if: ${{ success() }}
         uses: ./.github/actions/upload-job-artifact
@@ -99,7 +99,7 @@ jobs:
           cache: 'npm'
       - uses: ./.github/actions/before-install
       - run: npm ci
-      - run: npm test ${{ matrix.unit-tests.name }} -- --browsers=ChromeHeadless --watch=false $TEST_OPTS
+      - run: npm run affected:test -- --browsers=ChromeHeadless --watch=false $TEST_OPTS
 
   e2es:
     needs: [lint, build, unit-tests]

@@ -38,7 +38,7 @@ runs:
 
     - name: Build Libraries
       shell: bash
-      run: npm ci && npm run build
+      run: npm ci && npm run affected:build
 
     - uses: actions/setup-node@v3
       name: setup GH registry
