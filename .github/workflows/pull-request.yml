@@ -38,7 +38,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          fetch-depth: 10
+          fetch-depth: 0
 
       - name: node
         uses: actions/setup-node@v3
@@ -56,7 +56,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          fetch-depth: 10
+          fetch-depth: 0
 
       - name: node
         uses: actions/setup-node@v3
@@ -65,7 +65,7 @@ jobs:
           cache: 'npm'
       - uses: ./.github/actions/before-install
       - run: npm ci
-      - run: npm run affected:build
+      - run: npm run affected:build -- --base=$BASE_HASH
       - name: upload job artifact
         if: ${{ success() }}
         uses: ./.github/actions/upload-job-artifact
