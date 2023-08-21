@@ -23,30 +23,32 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, Utils, getUserState, test } from '@alfresco/playwright-shared';
+import { ApiClientFactory, Utils, test } from '@alfresco/playwright-shared';
 
-test.use({ storageState: getUserState('hruser') });
 test.describe('Create folders', () => {
   const apiClientFactory = new ApiClientFactory();
   let randomFolderName: string;
+  const testUserAdmin = {
+    username: `user-${Utils.random()}`,
+    password: 'user password'
+  };
 
   test.beforeAll(async () => {
-    await apiClientFactory.setUpAcaBackend('hruser');
+    await apiClientFactory.setUpAcaBackend('admin');
+    await apiClientFactory.createUser(testUserAdmin);
   });
 
-  test.beforeEach(async ({ personalFiles }) => {
+  test.beforeEach(async () => {
     randomFolderName = `playwright-folder-${Utils.random()}`;
-    await personalFiles.navigate();
+    await apiClientFactory.loginUser(testUserAdmin);
   });
 
-  test.afterEach(async () => {
-    await apiClientFactory.login('hruser');
-  });
-
-  test('[C286473] should close opened dialogs on session expire', async ({ personalFiles }) => {
+  test('[C286473] should close opened dialogs on session expire', async ({ loginPage, personalFiles }) => {
+    await loginPage.navigate();
+    await loginPage.loginUser({ username: testUserAdmin.username, password: testUserAdmin.password });
     const folderDialog = personalFiles.folderDialog;
-    await apiClientFactory.tearDown();
     await personalFiles.selectCreateFolder();
+    await apiClientFactory.tearDown();
     await folderDialog.folderNameInputLocator.fill(randomFolderName);
     await folderDialog.createButton.click();
     await personalFiles.page.keyboard.press('Escape');
