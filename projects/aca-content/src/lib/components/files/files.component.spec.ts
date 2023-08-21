@@ -157,7 +157,7 @@ describe('FilesComponent', () => {
       expect(router.navigate['calls'].argsFor(0)[0]).toEqual(['/personal-files', 'parent-id']);
     });
 
-    it('should show the message "Your filter returned 0 results" when filter(s) are selected and there are no records', () => {
+    it('should check isFilterHeaderActive to be true when filters are present in queryParamMap', () => {
       Object.defineProperty(route, 'queryParamMap', { value: of({ params: { $thumbnail: 'TYPE:"cm:folder"' } }) });
 
       fixture.detectChanges();
