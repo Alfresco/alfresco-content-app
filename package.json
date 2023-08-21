@@ -16,7 +16,7 @@
     "inspect.bundle": "nx build content-ce --configuration production --stats-json && npx webpack-bundle-analyzer dist/content-ce/stats.json",
     "prepare": "husky install",
     "stylelint": "stylelint \"{app,projects}/**/*.scss\"",
-    "affected:build": "nx affected:build",
+    "affected:build": "nx affected:build --base=origin/develop",
     "affected:test": "nx affected:test",
     "affected:lint": "nx affected:lint",
     "affected:dep-graph": "nx affected:dep-graph",
