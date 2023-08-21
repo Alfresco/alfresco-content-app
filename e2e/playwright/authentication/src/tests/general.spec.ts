@@ -39,13 +39,8 @@ test.describe('Create folders', () => {
     await personalFiles.navigate();
   });
 
-  test.afterEach(async () => {
-    await apiClientFactory.setUpAcaBackend('hruser');
-  });
-
   test('[C286473] should close opened dialogs on session expire', async ({ personalFiles }) => {
     const folderDialog = personalFiles.folderDialog;
-    await apiClientFactory.tearDown();
     await personalFiles.selectCreateFolder();
     await folderDialog.folderNameInputLocator.fill(randomFolderName);
     await folderDialog.createButton.click();
