@@ -27,7 +27,7 @@ runs:
 
         echo "Running playwright tests with options ${{ inputs.options }}"
         sleep 90
-        npx nx run ${{ inputs.options }}-e2e:e2e
+        npx nx affected:e2e --all --base=origin/develop --parallel ${{ inputs.options }}-e2e:e2e
 
 
     - name: Upload E2Es results
