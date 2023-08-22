@@ -67,7 +67,7 @@ jobs:
           cache: 'npm'
       - uses: ./.github/actions/before-install
       - run: npm ci
-      - run: npm run affected:build
+      - run: npm run affected:build -- --base=origin/develop
       - name: upload job artifact
         if: ${{ success() }}
         uses: ./.github/actions/upload-job-artifact
