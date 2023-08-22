@@ -149,7 +149,7 @@ export class ManageVersionsAction implements Action {
 export class EditOfflineAction implements Action {
   readonly type = NodeActionTypes.EditOffline;
 
-  constructor(public payload: any) {}
+  constructor(public payload: MinimalNodeEntity) {}
 }
 
 export class UnlockWriteAction implements Action {

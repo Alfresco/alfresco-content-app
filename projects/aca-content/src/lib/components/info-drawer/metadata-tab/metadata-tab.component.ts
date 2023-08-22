@@ -25,20 +25,27 @@
 import { Component, Input, ViewEncapsulation, OnInit, OnDestroy } from '@angular/core';
 import { MinimalNodeEntryEntity } from '@alfresco/js-api';
 import { NodePermissionService, isLocked, AppExtensionService } from '@alfresco/aca-shared';
-import { AppStore, infoDrawerMetadataAspect } from '@alfresco/aca-shared/store';
+import { AppStore, EditOfflineAction, infoDrawerMetadataAspect, NodeActionTypes } from '@alfresco/aca-shared/store';
 import { AppConfigService, NotificationService } from '@alfresco/adf-core';
 import { Observable, Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { ContentMetadataModule, ContentMetadataService } from '@alfresco/adf-content-services';
-import { takeUntil } from 'rxjs/operators';
+import { filter, takeUntil } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
+import { Actions, ofType } from '@ngrx/effects';
 
 @Component({
   standalone: true,
   imports: [CommonModule, ContentMetadataModule],
   selector: 'app-metadata-tab',
   template: `
-    <adf-content-metadata-card [readOnly]="!canUpdateNode" [preset]="'custom'" [node]="node" [displayAspect]="displayAspect$ | async">
+    <adf-content-metadata-card
+      [readOnly]="!canUpdateNode"
+      [preset]="'custom'"
+      [node]="node"
+      [displayAspect]="displayAspect$ | async"
+      [(editable)]="editable"
+    >
     </adf-content-metadata-card>
   `,
   encapsulation: ViewEncapsulation.None,
@@ -51,8 +58,8 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
   node: MinimalNodeEntryEntity;
 
   displayAspect$: Observable<string>;
-
   canUpdateNode = false;
+  editable = false;
 
   constructor(
     private permission: NodePermissionService,
@@ -60,7 +67,8 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
     private appConfig: AppConfigService,
     private store: Store<AppStore>,
     private notificationService: NotificationService,
-    private contentMetadataService: ContentMetadataService
+    private contentMetadataService: ContentMetadataService,
+    private actions$: Actions
   ) {
     if (this.extensions.contentMetadata) {
       this.appConfig.config['content-metadata'].presets = this.extensions.contentMetadata.presets;
@@ -72,13 +80,27 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
     this.contentMetadataService.error.pipe(takeUntil(this.onDestroy$)).subscribe((err: { message: string }) => {
       this.notificationService.showError(err.message);
     });
-    if (this.node && !isLocked({ entry: this.node })) {
-      this.canUpdateNode = this.permission.check(this.node, ['update']);
-    }
+    this.checkIfNodeIsUpdatable(this.node);
+    this.actions$
+      .pipe(
+        ofType<EditOfflineAction>(NodeActionTypes.EditOffline),
+        filter((updatedNode) => this.node.id === updatedNode.payload.entry.id),
+        takeUntil(this.onDestroy$)
+      )
+      .subscribe((updatedNode) => {
+        this.checkIfNodeIsUpdatable(updatedNode?.payload.entry);
+        if (!this.canUpdateNode) {
+          this.editable = false;
+        }
+      });
   }
 
   ngOnDestroy() {
     this.onDestroy$.next(true);
     this.onDestroy$.complete();
+  }
+
+  private checkIfNodeIsUpdatable(node: MinimalNodeEntryEntity) {
+    this.canUpdateNode = node && !isLocked({ entry: node }) ? this.permission.check(node, ['update']) : false;
   }
 }
