@@ -156,6 +156,14 @@ describe('FilesComponent', () => {
 
       expect(router.navigate['calls'].argsFor(0)[0]).toEqual(['/personal-files', 'parent-id']);
     });
+
+    it('should check isFilterHeaderActive to be true when filters are present in queryParamMap', () => {
+      Object.defineProperty(route, 'queryParamMap', { value: of({ params: { $thumbnail: 'TYPE:"cm:folder"' } }) });
+
+      fixture.detectChanges();
+
+      expect(component.isFilterHeaderActive).toBeTrue();
+    });
   });
 
   describe('refresh on events', () => {

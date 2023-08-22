@@ -95,7 +95,6 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     this.route.queryParamMap.subscribe((queryMap: Params) => {
       this.queryParams = queryMap.params;
     });
-
     this.route.params.subscribe(({ folderId }: Params) => {
       const nodeId = folderId || data.defaultNodeId;
 
@@ -129,6 +128,9 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
       });
 
     this.columns = this.extensions.documentListPresets.files || [];
+    if (this.queryParams && Object.keys(this.queryParams).length > 0) {
+      this.isFilterHeaderActive = true;
+    }
   }
 
   ngOnDestroy() {
