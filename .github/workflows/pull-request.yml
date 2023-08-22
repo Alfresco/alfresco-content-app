@@ -65,7 +65,6 @@ jobs:
           cache: 'npm'
       - uses: ./.github/actions/before-install
       - run: npm ci
-      - run: npm run affected:build
       - run: |
           AFFECTED_PROJECTS=$(npx nx affected:apps --plain)
           if [ -z "$AFFECTED_PROJECTS" ]; then
