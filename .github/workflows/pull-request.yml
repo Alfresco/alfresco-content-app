@@ -56,7 +56,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0
+          fetch-depth: 2
 
       - name: node
         uses: actions/setup-node@v3
@@ -65,13 +65,7 @@ jobs:
           cache: 'npm'
       - uses: ./.github/actions/before-install
       - run: npm ci
-      - run: |
-          AFFECTED_PROJECTS=$(npx nx affected:apps --plain --base=origin/develop)
-          if [ -z "$AFFECTED_PROJECTS" ]; then
-            npm run build -- $BUILD_OPTS
-          else
-            npm run affected:build -- --base=origin/develop $BUILD_OPTS
-          fi
+      - run: npm run build -- $BUILD_OPTS
       - name: upload job artifact
         if: ${{ success() }}
         uses: ./.github/actions/upload-job-artifact
