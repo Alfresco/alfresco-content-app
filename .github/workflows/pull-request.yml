@@ -66,7 +66,7 @@ jobs:
       - uses: ./.github/actions/before-install
       - run: npm ci
       - run: |
-          AFFECTED_PROJECTS=$(npx nx affected:apps --plain)
+          AFFECTED_PROJECTS=$(npx nx affected:apps --plain --base=origin/develop)
           if [ -z "$AFFECTED_PROJECTS" ]; then
             npm run build -- $BUILD_OPTS
           else
