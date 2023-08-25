@@ -29,7 +29,7 @@ import { DocumentListService, FilterSearch, PathElementEntity, UploadService } f
 import { NodeActionsService } from '../../services/node-actions.service';
 import { FilesComponent } from './files.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { ContentApiService } from '@alfresco/aca-shared';
+import { AppExtensionService, ContentApiService } from '@alfresco/aca-shared';
 import { of, Subject, throwError } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { NodeEntry, NodePaging } from '@alfresco/js-api';
@@ -39,6 +39,7 @@ describe('FilesComponent', () => {
   let fixture: ComponentFixture<FilesComponent>;
   let component: FilesComponent;
   let uploadService: UploadService;
+  let extensions: AppExtensionService;
   let nodeActionsService: NodeActionsService;
   let contentApi: ContentApiService;
   let route: ActivatedRoute;
@@ -77,7 +78,8 @@ describe('FilesComponent', () => {
             params: of({ folderId: 'someId' }),
             queryParamMap: of({})
           }
-        }
+        },
+        AppExtensionService
       ],
       schemas: [NO_ERRORS_SCHEMA]
     });
@@ -96,6 +98,7 @@ describe('FilesComponent', () => {
     route = TestBed.inject(ActivatedRoute);
     nodeActionsService = TestBed.inject(NodeActionsService);
     contentApi = TestBed.inject(ContentApiService);
+    extensions = TestBed.inject(AppExtensionService);
     spyContent = spyOn(contentApi, 'getNode');
   });
 
@@ -146,6 +149,24 @@ describe('FilesComponent', () => {
     it('should set current node', () => {
       fixture.detectChanges();
       expect(component.node).toBe(node);
+    });
+
+    it('should set columns', () => {
+      const filesDocumentListPresetMock = [
+        {
+          id: 'app.files.modifiedOn',
+          key: 'modifiedAt',
+          type: 'date',
+          sortable: true,
+          desktopOnly: true,
+          template: 'template',
+          sortingKey: 'sorting-key'
+        }
+      ];
+
+      extensions.filesDocumentListPreset$ = of(filesDocumentListPresetMock);
+      fixture.detectChanges();
+      expect(component.columns).toEqual(filesDocumentListPresetMock);
     });
 
     it('should navigate to parent if node is not a folder', () => {
