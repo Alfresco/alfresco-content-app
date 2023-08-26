@@ -23,7 +23,7 @@
  */
 
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { MinimalNodeEntryEntity } from '@alfresco/js-api';
+import { Node } from '@alfresco/js-api';
 import { NodePermissionService, isLocked } from '@alfresco/aca-shared';
 import { MatCardModule } from '@angular/material/card';
 import { NodeCommentsModule } from '@alfresco/adf-content-services';
@@ -37,7 +37,7 @@ import { NodeCommentsModule } from '@alfresco/adf-content-services';
 })
 export class CommentsTabComponent implements OnInit {
   @Input()
-  node: MinimalNodeEntryEntity;
+  node: Node;
 
   canUpdateNode = false;
 

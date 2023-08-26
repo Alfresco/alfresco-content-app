@@ -24,7 +24,7 @@
 
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { debounceTime } from 'rxjs/operators';
-import { MinimalNodeEntity } from '@alfresco/js-api';
+import { NodeEntry } from '@alfresco/js-api';
 import {
   AppHookService,
   ContextActionsDirective,
@@ -80,7 +80,7 @@ export class SharedFilesComponent extends PageComponent implements OnInit {
     this.columns = this.extensions.documentListPresets.shared || [];
   }
 
-  preview(node: MinimalNodeEntity) {
+  preview(node: NodeEntry) {
     this.showPreview(node, { location: this.router.url });
   }
 

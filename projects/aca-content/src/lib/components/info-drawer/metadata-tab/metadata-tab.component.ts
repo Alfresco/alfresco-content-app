@@ -23,7 +23,7 @@
  */
 
 import { Component, Input, ViewEncapsulation, OnInit, OnDestroy } from '@angular/core';
-import { MinimalNodeEntryEntity } from '@alfresco/js-api';
+import { Node } from '@alfresco/js-api';
 import { NodePermissionService, isLocked, AppExtensionService } from '@alfresco/aca-shared';
 import { AppStore, EditOfflineAction, infoDrawerMetadataAspect, NodeActionTypes } from '@alfresco/aca-shared/store';
 import { AppConfigService, NotificationService } from '@alfresco/adf-core';
@@ -55,7 +55,7 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
   protected onDestroy$ = new Subject<boolean>();
 
   @Input()
-  node: MinimalNodeEntryEntity;
+  node: Node;
 
   displayAspect$: Observable<string>;
   canUpdateNode = false;
@@ -100,7 +100,7 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
     this.onDestroy$.complete();
   }
 
-  private checkIfNodeIsUpdatable(node: MinimalNodeEntryEntity) {
+  private checkIfNodeIsUpdatable(node: Node) {
     this.canUpdateNode = node && !isLocked({ entry: node }) ? this.permission.check(node, ['update']) : false;
   }
 }

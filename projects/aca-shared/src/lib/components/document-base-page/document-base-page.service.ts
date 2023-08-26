@@ -22,9 +22,9 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { MinimalNodeEntity, MinimalNodeEntryEntity } from '@alfresco/js-api';
+import { NodeEntry, Node } from '@alfresco/js-api';
 
 export abstract class DocumentBasePageService {
-  abstract canUpdateNode(node: MinimalNodeEntity): boolean;
-  abstract canUploadContent(node: MinimalNodeEntryEntity): boolean;
+  abstract canUpdateNode(node: NodeEntry): boolean;
+  abstract canUploadContent(node: Node): boolean;
 }

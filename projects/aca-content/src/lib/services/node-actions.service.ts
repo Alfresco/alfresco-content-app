@@ -35,14 +35,7 @@ import {
   NodeAction,
   ContentService
 } from '@alfresco/adf-content-services';
-import {
-  MinimalNodeEntity,
-  MinimalNodeEntryEntity,
-  SitePaging,
-  NodeChildAssociationPaging,
-  NodeChildAssociationEntry,
-  NodesApi
-} from '@alfresco/js-api';
+import { NodeEntry, Node, SitePaging, NodeChildAssociationPaging, NodeChildAssociationEntry, NodesApi, Site, SitePagingList } from '@alfresco/js-api';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 
@@ -52,7 +45,7 @@ type BatchOperationType = Extract<NodeAction, NodeAction.COPY | NodeAction.MOVE>
   providedIn: 'root'
 })
 export class NodeActionsService {
-  contentCopied: Subject<MinimalNodeEntity[]> = new Subject<MinimalNodeEntity[]>();
+  contentCopied: Subject<NodeEntry[]> = new Subject<NodeEntry[]>();
   contentMoved: Subject<any> = new Subject<any>();
   moveDeletedEntries: any[] = [];
   isSitesDestinationAvailable = false;
@@ -110,7 +103,7 @@ export class NodeActionsService {
       observable.error(new Error(JSON.stringify({ error: { statusCode: 400 } })));
     } else if (this.checkPermission(action, contentEntities, permission)) {
       const destinationSelection = this.getContentNodeSelection(action, contentEntities, focusedElementOnCloseSelector);
-      destinationSelection.subscribe((selections: MinimalNodeEntryEntity[]) => {
+      destinationSelection.subscribe((selections: Node[]) => {
         const contentEntry = contentEntities[0].entry;
         // Check if there's nodeId for Shared Files
         const contentEntryId = contentEntry.nodeId || contentEntry.id;
@@ -162,7 +155,7 @@ export class NodeActionsService {
     return !notAllowedNode;
   }
 
-  getEntryParentId(nodeEntry: MinimalNodeEntryEntity) {
+  getEntryParentId(nodeEntry: Node) {
     let entryParentId = '';
 
     if (nodeEntry.parentId) {
@@ -174,11 +167,7 @@ export class NodeActionsService {
     return entryParentId;
   }
 
-  getContentNodeSelection(
-    action: NodeAction,
-    contentEntities: MinimalNodeEntity[],
-    focusedElementOnCloseSelector?: string
-  ): Subject<MinimalNodeEntryEntity[]> {
+  getContentNodeSelection(action: NodeAction, contentEntities: NodeEntry[], focusedElementOnCloseSelector?: string): Subject<Node[]> {
     const currentParentFolderId = this.getEntryParentId(contentEntities[0].entry);
 
     const customDropdown = new SitePaging({
@@ -188,16 +177,16 @@ export class NodeActionsService {
             entry: {
               guid: '-my-',
               title: this.translation.instant('APP.BROWSE.PERSONAL.SIDENAV_LINK.LABEL')
-            }
+            } as Site
           },
           {
             entry: {
               guid: '-mysites-',
               title: this.translation.instant('APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.SIDENAV_LINK.LABEL')
-            }
+            } as Site
           }
         ]
-      }
+      } as SitePagingList
     });
 
     const title = this.getTitleTranslation(action, contentEntities);
@@ -214,7 +203,7 @@ export class NodeActionsService {
       imageResolver: this.imageResolver.bind(this),
       isSelectionValid: this.canCopyMoveInsideIt.bind(this),
       breadcrumbTransform: this.customizeBreadcrumb.bind(this),
-      select: new Subject<MinimalNodeEntryEntity[]>(),
+      select: new Subject<Node[]>(),
       excludeSiteContent: ContentNodeDialogService.nonDocumentSiteContent
     };
 
@@ -235,7 +224,7 @@ export class NodeActionsService {
     return data.select;
   }
 
-  getTitleTranslation(action: string, nodes: MinimalNodeEntity[] = []): string {
+  getTitleTranslation(action: string, nodes: NodeEntry[] = []): string {
     let keyPrefix = 'ITEMS';
     let name = '';
 
@@ -248,11 +237,11 @@ export class NodeActionsService {
     return this.translation.instant(`NODE_SELECTOR.${action.toUpperCase()}_${keyPrefix}`, { name, number });
   }
 
-  private canCopyMoveInsideIt(entry: MinimalNodeEntryEntity): boolean {
+  private canCopyMoveInsideIt(entry: Node): boolean {
     return this.hasEntityCreatePermission(entry) && !this.isSite(entry);
   }
 
-  private hasEntityCreatePermission(entry: MinimalNodeEntryEntity): boolean {
+  private hasEntityCreatePermission(entry: Node): boolean {
     return this.contentService.hasAllowableOperations(entry, 'create');
   }
 
@@ -265,7 +254,7 @@ export class NodeActionsService {
   }
 
   // todo: review this approach once 5.2.3 is out
-  private customizeBreadcrumb(node: MinimalNodeEntryEntity) {
+  private customizeBreadcrumb(node: Node) {
     if (node && node.path && node.path.elements) {
       const elements = node.path.elements;
 
@@ -300,7 +289,7 @@ export class NodeActionsService {
   }
 
   // todo: review this approach once 5.2.3 is out
-  private normalizeSitePath(node: MinimalNodeEntryEntity) {
+  private normalizeSitePath(node: Node) {
     const elements = node.path.elements;
 
     // remove 'Company Home'
@@ -326,7 +315,7 @@ export class NodeActionsService {
     }
   }
 
-  isSiteContainer(node: MinimalNodeEntryEntity): boolean {
+  isSiteContainer(node: Node): boolean {
     if (node && node.aspectNames && node.aspectNames.length > 0) {
       return node.aspectNames.indexOf('st:siteContainer') >= 0;
     }
@@ -551,7 +540,7 @@ export class NodeActionsService {
     return matchedNodes;
   }
 
-  private isActionAllowed(action: BatchOperationType, node: MinimalNodeEntryEntity, permission?: string): boolean {
+  private isActionAllowed(action: BatchOperationType, node: Node, permission?: string): boolean {
     if (action === NodeAction.COPY) {
       return true;
     }
@@ -559,14 +548,14 @@ export class NodeActionsService {
   }
 
   private rowFilter(row: ShareDataRow): boolean {
-    const node: MinimalNodeEntryEntity = row.node.entry;
+    const node: Node = row.node.entry;
 
     this.isSitesDestinationAvailable = !!node['guid'];
     return !node.isFile && node.nodeType !== 'app:folderlink';
   }
 
   private imageResolver(row: ShareDataRow): string | null {
-    const entry: MinimalNodeEntryEntity = row.node.entry;
+    const entry: Node = row.node.entry;
     if (!this.contentService.hasAllowableOperations(entry, 'update')) {
       return this.thumbnailService.getMimeTypeIcon('disable/folder');
     }

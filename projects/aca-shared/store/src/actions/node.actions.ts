@@ -23,7 +23,7 @@
  */
 
 import { Action } from '@ngrx/store';
-import { MinimalNodeEntity } from '@alfresco/js-api';
+import { NodeEntry } from '@alfresco/js-api';
 import { ModalConfiguration } from '../models/modal-configuration';
 
 export enum NodeActionTypes {
@@ -54,13 +54,13 @@ export enum NodeActionTypes {
 export class SetSelectedNodesAction implements Action {
   readonly type = NodeActionTypes.SetSelection;
 
-  constructor(public payload: MinimalNodeEntity[] = []) {}
+  constructor(public payload: NodeEntry[] = []) {}
 }
 
 export class DeleteNodesAction implements Action {
   readonly type = NodeActionTypes.Delete;
 
-  constructor(public payload: MinimalNodeEntity[] = []) {}
+  constructor(public payload: NodeEntry[] = []) {}
 }
 
 export class UndoDeleteNodesAction implements Action {
@@ -72,19 +72,19 @@ export class UndoDeleteNodesAction implements Action {
 export class RestoreDeletedNodesAction implements Action {
   readonly type = NodeActionTypes.RestoreDeleted;
 
-  constructor(public payload: Array<MinimalNodeEntity>) {}
+  constructor(public payload: Array<NodeEntry>) {}
 }
 
 export class PurgeDeletedNodesAction implements Action {
   readonly type = NodeActionTypes.PurgeDeleted;
 
-  constructor(public payload: Array<MinimalNodeEntity>) {}
+  constructor(public payload: Array<NodeEntry>) {}
 }
 
 export class DownloadNodesAction implements Action {
   readonly type = NodeActionTypes.Download;
 
-  constructor(public payload: MinimalNodeEntity[] = [], public configuration?: ModalConfiguration) {}
+  constructor(public payload: NodeEntry[] = [], public configuration?: ModalConfiguration) {}
 }
 
 export class CreateFolderAction implements Action {
@@ -96,60 +96,60 @@ export class CreateFolderAction implements Action {
 export class EditFolderAction implements Action {
   readonly type = NodeActionTypes.EditFolder;
 
-  constructor(public payload: MinimalNodeEntity, public configuration?: ModalConfiguration) {}
+  constructor(public payload: NodeEntry, public configuration?: ModalConfiguration) {}
 }
 
 export class ShareNodeAction implements Action {
   readonly type = NodeActionTypes.Share;
 
-  constructor(public payload: MinimalNodeEntity, public configuration?: ModalConfiguration) {}
+  constructor(public payload: NodeEntry, public configuration?: ModalConfiguration) {}
 }
 
 export class UnshareNodesAction implements Action {
   readonly type = NodeActionTypes.Unshare;
 
-  constructor(public payload: Array<MinimalNodeEntity>) {}
+  constructor(public payload: Array<NodeEntry>) {}
 }
 
 export class CopyNodesAction implements Action {
   readonly type = NodeActionTypes.Copy;
 
-  constructor(public payload: Array<MinimalNodeEntity>, public configuration?: ModalConfiguration) {}
+  constructor(public payload: Array<NodeEntry>, public configuration?: ModalConfiguration) {}
 }
 
 export class MoveNodesAction implements Action {
   readonly type = NodeActionTypes.Move;
 
-  constructor(public payload: Array<MinimalNodeEntity>, public configuration?: ModalConfiguration) {}
+  constructor(public payload: Array<NodeEntry>, public configuration?: ModalConfiguration) {}
 }
 
 export class ManagePermissionsAction implements Action {
   readonly type = NodeActionTypes.ManagePermissions;
 
-  constructor(public payload: MinimalNodeEntity) {}
+  constructor(public payload: NodeEntry) {}
 }
 export class ExpandInfoDrawerAction implements Action {
   readonly type = NodeActionTypes.ExpandInfoDrawer;
 
-  constructor(public payload: MinimalNodeEntity) {}
+  constructor(public payload: NodeEntry) {}
 }
 
 export class PrintFileAction implements Action {
   readonly type = NodeActionTypes.PrintFile;
 
-  constructor(public payload: MinimalNodeEntity) {}
+  constructor(public payload: NodeEntry) {}
 }
 
 export class ManageVersionsAction implements Action {
   readonly type = NodeActionTypes.ManageVersions;
 
-  constructor(public payload: MinimalNodeEntity, public configuration?: ModalConfiguration) {}
+  constructor(public payload: NodeEntry, public configuration?: ModalConfiguration) {}
 }
 
 export class EditOfflineAction implements Action {
   readonly type = NodeActionTypes.EditOffline;
 
-  constructor(public payload: MinimalNodeEntity) {}
+  constructor(public payload: NodeEntry) {}
 }
 
 export class UnlockWriteAction implements Action {
@@ -161,22 +161,22 @@ export class UnlockWriteAction implements Action {
 export class AddFavoriteAction implements Action {
   readonly type = NodeActionTypes.AddFavorite;
 
-  constructor(public payload: Array<MinimalNodeEntity>) {}
+  constructor(public payload: Array<NodeEntry>) {}
 }
 
 export class RemoveFavoriteAction implements Action {
   readonly type = NodeActionTypes.RemoveFavorite;
 
-  constructor(public payload: Array<MinimalNodeEntity>) {}
+  constructor(public payload: Array<NodeEntry>) {}
 }
 export class ManageAspectsAction implements Action {
   readonly type = NodeActionTypes.ChangeAspects;
 
-  constructor(public payload: MinimalNodeEntity, public configuration?: ModalConfiguration) {}
+  constructor(public payload: NodeEntry, public configuration?: ModalConfiguration) {}
 }
 
 export class ManageRulesAction implements Action {
   readonly type = NodeActionTypes.ManageRules;
 
-  constructor(public payload: MinimalNodeEntity) {}
+  constructor(public payload: NodeEntry) {}
 }

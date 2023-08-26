@@ -23,7 +23,7 @@
  */
 
 import { Component, HostListener, Input, OnChanges, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { MinimalNodeEntity, MinimalNodeEntryEntity, SiteEntry } from '@alfresco/js-api';
+import { NodeEntry, Node, SiteEntry } from '@alfresco/js-api';
 import { ContentActionRef, ExtensionsModule, SidebarTabRef } from '@alfresco/adf-extensions';
 import { Store } from '@ngrx/store';
 import { SetInfoDrawerStateAction, ToggleInfoDrawerAction, infoDrawerPreview } from '@alfresco/aca-shared/store';
@@ -50,10 +50,10 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
   nodeId: string;
 
   @Input()
-  node: MinimalNodeEntity;
+  node: NodeEntry;
 
   isLoading = false;
-  displayNode: MinimalNodeEntryEntity | SiteEntry;
+  displayNode: Node | SiteEntry;
   tabs: Array<SidebarTabRef> = [];
   actions: Array<ContentActionRef> = [];
   onDestroy$ = new Subject<boolean>();

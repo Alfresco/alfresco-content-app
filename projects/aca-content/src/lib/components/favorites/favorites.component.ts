@@ -31,7 +31,7 @@ import {
   PaginationDirective,
   ToolbarComponent
 } from '@alfresco/aca-shared';
-import { MinimalNodeEntity, MinimalNodeEntryEntity, PathElementEntity, PathInfo } from '@alfresco/js-api';
+import { NodeEntry, Node, PathElement, PathInfo } from '@alfresco/js-api';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { debounceTime, map } from 'rxjs/operators';
 import { DocumentListPresetRef, ExtensionsModule } from '@alfresco/adf-extensions';
@@ -79,24 +79,24 @@ export class FavoritesComponent extends PageComponent implements OnInit {
     this.columns = this.extensions.documentListPresets.favorites;
   }
 
-  navigate(favorite: MinimalNodeEntryEntity) {
+  navigate(favorite: Node) {
     const { isFolder, id } = favorite;
 
     // TODO: rework as it will fail on non-English setups
-    const isSitePath = (path: PathInfo): boolean => path && path.elements && path.elements.some(({ name }: PathElementEntity) => name === 'Sites');
+    const isSitePath = (path: PathInfo): boolean => path && path.elements && path.elements.some(({ name }: PathElement) => name === 'Sites');
 
     if (isFolder) {
       this.contentApi
         .getNode(id)
         .pipe(map((node) => node.entry))
-        .subscribe(({ path }: MinimalNodeEntryEntity) => {
+        .subscribe(({ path }: Node) => {
           const routeUrl = isSitePath(path) ? '/libraries' : '/personal-files';
           this.router.navigate([routeUrl, id]);
         });
     }
   }
 
-  onNodeDoubleClick(node: MinimalNodeEntity) {
+  onNodeDoubleClick(node: NodeEntry) {
     if (node && node.entry) {
       if (node.entry.isFolder) {
         this.navigate(node.entry);

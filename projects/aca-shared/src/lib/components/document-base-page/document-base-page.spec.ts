@@ -26,7 +26,7 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { PageComponent } from './document-base-page.component';
 import { ReloadDocumentListAction, SetSelectedNodesAction, AppState, ViewNodeAction } from '@alfresco/aca-shared/store';
 import { AppExtensionService } from '@alfresco/aca-shared';
-import { MinimalNodeEntity, NodePaging, RepositoryInfo } from '@alfresco/js-api';
+import { NodeEntry, NodePaging, RepositoryInfo, VersionInfo } from '@alfresco/js-api';
 import { DocumentBasePageService } from './document-base-page.service';
 import { Store, StoreModule } from '@ngrx/store';
 import { Component, Injectable } from '@angular/core';
@@ -141,7 +141,14 @@ describe('PageComponent', () => {
           provide: DiscoveryApiService,
           useValue: {
             ecmProductInfo$: new BehaviorSubject<RepositoryInfo | null>(null),
-            getEcmProductInfo: (): Observable<RepositoryInfo> => of(new RepositoryInfo({ version: '10.0.0' }))
+            getEcmProductInfo: (): Observable<RepositoryInfo> =>
+              of(
+                new RepositoryInfo({
+                  version: {
+                    major: '10.0.0'
+                  } as VersionInfo
+                })
+              )
           }
         },
         AppExtensionService
@@ -198,7 +205,7 @@ describe('PageComponent', () => {
         entry: {
           id: 'node-id'
         }
-      } as MinimalNodeEntity;
+      } as NodeEntry;
       spyOn(store, 'dispatch');
 
       component.reload(node);
@@ -244,7 +251,7 @@ describe('PageComponent', () => {
         entry: {
           id: 'node-id'
         }
-      } as MinimalNodeEntity;
+      } as NodeEntry;
 
       component.showPreview(node);
       expect(store.dispatch).toHaveBeenCalledWith(new ViewNodeAction(node.entry.id));
@@ -260,7 +267,7 @@ describe('PageComponent', () => {
             'cm:destination': 'original-node-id'
           }
         }
-      } as MinimalNodeEntity;
+      } as NodeEntry;
 
       component.showPreview(linkNode);
       const id = linkNode.entry.properties['cm:destination'];
@@ -298,7 +305,14 @@ describe('Info Drawer state', () => {
           provide: DiscoveryApiService,
           useValue: {
             ecmProductInfo$: new BehaviorSubject<RepositoryInfo | null>(null),
-            getEcmProductInfo: (): Observable<RepositoryInfo> => of(new RepositoryInfo({ version: '10.0.0' }))
+            getEcmProductInfo: (): Observable<RepositoryInfo> =>
+              of(
+                new RepositoryInfo({
+                  version: {
+                    major: '10.0.0'
+                  } as VersionInfo
+                })
+              )
           }
         },
         provideMockStore({

@@ -23,7 +23,7 @@
  */
 
 import { MetadataTabComponent } from './metadata-tab.component';
-import { MinimalNodeEntryEntity, Node } from '@alfresco/js-api';
+import { Node } from '@alfresco/js-api';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { AppConfigService } from '@alfresco/adf-core';
@@ -61,7 +61,7 @@ describe('MetadataTabComponent', () => {
       ]
     });
     nodePermissionService = TestBed.inject(NodePermissionService);
-    spyOn(nodePermissionService, 'check').and.callFake((source: MinimalNodeEntryEntity, permissions: string[]) => {
+    spyOn(nodePermissionService, 'check').and.callFake((source: Node, permissions: string[]) => {
       return permissions.some((permission) => source.allowableOperations.includes(permission));
     });
   });
