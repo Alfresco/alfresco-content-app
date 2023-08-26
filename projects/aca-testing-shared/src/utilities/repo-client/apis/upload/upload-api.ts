@@ -23,7 +23,7 @@
  */
 
 import { RepoApi } from '../repo-api';
-import { UploadApi as AdfUploadApi } from '@alfresco/js-api';
+import { NodeBodyCreate, UploadApi as AdfUploadApi } from '@alfresco/js-api';
 import { browser } from 'protractor';
 import * as fs from 'fs';
 
@@ -66,7 +66,7 @@ export class UploadApi extends RepoApi {
 
     try {
       await this.apiAuth();
-      return await this.upload.uploadFile(file, '', parentId, nodeProps, opts);
+      return await this.upload.uploadFile(file, '', parentId, nodeProps as NodeBodyCreate, opts);
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.uploadFileWithRename.name}`, error);
     }
