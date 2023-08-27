@@ -23,7 +23,7 @@
  */
 
 import { Action } from '@ngrx/store';
-import { SiteBody } from '@alfresco/js-api';
+import { SiteBodyCreate } from '@alfresco/js-api';
 import { ModalConfiguration } from '../models/modal-configuration';
 
 export enum LibraryActionTypes {
@@ -53,7 +53,7 @@ export class NavigateLibraryAction implements Action {
 export class UpdateLibraryAction implements Action {
   readonly type = LibraryActionTypes.Update;
 
-  constructor(public payload?: SiteBody) {}
+  constructor(public payload?: SiteBodyCreate) {}
 }
 
 export class LeaveLibraryAction implements Action {

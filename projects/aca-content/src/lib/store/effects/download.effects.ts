@@ -24,7 +24,7 @@
 
 import { AppStore, DownloadNodesAction, NodeActionTypes, NodeInfo, getAppSelection, getCurrentVersion } from '@alfresco/aca-shared/store';
 import { DownloadZipDialogComponent } from '@alfresco/adf-content-services';
-import { MinimalNodeEntity, Version } from '@alfresco/js-api';
+import { NodeEntry, Version } from '@alfresco/js-api';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
@@ -74,7 +74,7 @@ export class DownloadEffects {
     { dispatch: false }
   );
 
-  private downloadNodes(toDownload: Array<MinimalNodeEntity>, focusedElementSelector?: string) {
+  private downloadNodes(toDownload: Array<NodeEntry>, focusedElementSelector?: string) {
     const nodes = toDownload.map((node) => {
       const { id, nodeId, name, isFile, isFolder } = node.entry as any;
 

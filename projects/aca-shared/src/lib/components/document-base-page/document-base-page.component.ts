@@ -27,7 +27,7 @@ import { ShowHeaderMode } from '@alfresco/adf-core';
 import { ContentActionRef, DocumentListPresetRef, SelectionState } from '@alfresco/adf-extensions';
 import { OnDestroy, OnInit, OnChanges, ViewChild, SimpleChanges, Directive, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { MinimalNodeEntity, MinimalNodeEntryEntity, NodePaging } from '@alfresco/js-api';
+import { NodeEntry, Node, NodePaging } from '@alfresco/js-api';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { takeUntil, map } from 'rxjs/operators';
 import { DocumentBasePageService } from './document-base-page.service';
@@ -58,7 +58,7 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
 
   title = 'Page';
   infoDrawerOpened$: Observable<boolean>;
-  node: MinimalNodeEntryEntity;
+  node: Node;
   selection: SelectionState;
   sharedPreviewUrl$: Observable<string>;
   actions: Array<ContentActionRef> = [];
@@ -144,7 +144,7 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
     this.store.dispatch(new SetSelectedNodesAction([]));
   }
 
-  showPreview(node: MinimalNodeEntity, extras?: ViewNodeExtras) {
+  showPreview(node: NodeEntry, extras?: ViewNodeExtras) {
     if (node && node.entry) {
       if (this.fileAutoDownloadService?.shouldFileAutoDownload(node.entry?.content?.sizeInBytes)) {
         this.fileAutoDownloadService.autoDownloadFile(node);
@@ -180,7 +180,7 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
     return null;
   }
 
-  reload(selectedNode?: MinimalNodeEntity): void {
+  reload(selectedNode?: NodeEntry): void {
     if (this.isOutletPreviewUrl()) {
       return;
     }

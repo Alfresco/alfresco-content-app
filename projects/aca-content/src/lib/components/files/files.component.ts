@@ -25,7 +25,7 @@
 import { DataTableModule, PaginationModule, ShowHeaderMode } from '@alfresco/adf-core';
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { MinimalNodeEntity, MinimalNodeEntryEntity, PathElement, PathElementEntity } from '@alfresco/js-api';
+import { NodeEntry, Node, PathElement } from '@alfresco/js-api';
 import { NodeActionsService } from '../../services/node-actions.service';
 import {
   ContentApiService,
@@ -72,7 +72,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   isValidPath = true;
   isAdmin = false;
-  selectedNode: MinimalNodeEntity;
+  selectedNode: NodeEntry;
   queryParams = null;
 
   showLoader$ = this.store.select(showLoaderSelector);
@@ -186,7 +186,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     this.store.dispatch(new UploadFileVersionAction(ev));
   }
 
-  navigateTo(node: MinimalNodeEntity) {
+  navigateTo(node: NodeEntry) {
     if (node && node.entry) {
       this.selectedNode = node;
       const { isFolder } = node.entry;
@@ -213,7 +213,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     this.navigateTo((event as CustomEvent).detail?.node);
   }
 
-  onBreadcrumbNavigate(route: PathElementEntity) {
+  onBreadcrumbNavigate(route: PathElement) {
     this.documentList.resetNewFolderPagination();
 
     // todo: review this approach once 5.2.3 is out
@@ -226,7 +226,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   }
 
   onFileUploadedEvent(event: FileUploadEvent) {
-    const node: MinimalNodeEntity = event.file.data;
+    const node: NodeEntry = event.file.data;
 
     // check root and child nodes
     if (node && node.entry && node.entry.parentId === this.getParentNodeId()) {
@@ -265,7 +265,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     this.reload(this.selectedNode);
   }
 
-  onContentCopied(nodes: MinimalNodeEntity[]) {
+  onContentCopied(nodes: NodeEntry[]) {
     const newNode = nodes.find((node) => node && node.entry && node.entry.parentId === this.getParentNodeId());
     if (newNode) {
       this.reload(this.selectedNode);
@@ -273,7 +273,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   }
 
   // todo: review this approach once 5.2.3 is out
-  private async updateCurrentNode(node: MinimalNodeEntryEntity) {
+  private async updateCurrentNode(node: Node) {
     this.nodePath = null;
 
     if (node && node.path && node.path.elements) {
@@ -297,7 +297,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   }
 
   // todo: review this approach once 5.2.3 is out
-  private async normalizeSitePath(node: MinimalNodeEntryEntity) {
+  private async normalizeSitePath(node: Node) {
     const elements = node.path.elements;
 
     // remove 'Sites'
@@ -325,7 +325,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     }
   }
 
-  isSiteContainer(node: MinimalNodeEntryEntity): boolean {
+  isSiteContainer(node: Node): boolean {
     if (node && node.aspectNames && node.aspectNames.length > 0) {
       return node.aspectNames.indexOf('st:siteContainer') >= 0;
     }

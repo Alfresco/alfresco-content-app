@@ -23,7 +23,7 @@
  */
 
 import { Action } from '@ngrx/store';
-import { MinimalNodeEntity } from '@alfresco/js-api';
+import { NodeEntry } from '@alfresco/js-api';
 import { RouterActionTypes } from './router-action-types';
 
 export class NavigateUrlAction implements Action {
@@ -41,13 +41,13 @@ export class NavigateRouteAction implements Action {
 export class NavigateToFolder implements Action {
   readonly type = RouterActionTypes.NavigateFolder;
 
-  constructor(public payload: MinimalNodeEntity) {}
+  constructor(public payload: NodeEntry) {}
 }
 
 export class NavigateToParentFolder implements Action {
   readonly type = RouterActionTypes.NavigateParentFolder;
 
-  constructor(public payload: MinimalNodeEntity) {}
+  constructor(public payload: NodeEntry) {}
 }
 
 export class NavigateToPreviousPage implements Action {

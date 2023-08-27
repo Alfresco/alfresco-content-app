@@ -23,7 +23,7 @@
  */
 
 import { Component, Input, OnInit, ViewEncapsulation, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
-import { MinimalNodeEntity } from '@alfresco/js-api';
+import { NodeEntry } from '@alfresco/js-api';
 import { ViewNodeAction, NavigateToFolder } from '@alfresco/aca-shared/store';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, Subject } from 'rxjs';
@@ -46,7 +46,7 @@ import { MatDialogModule } from '@angular/material/dialog';
   host: { class: 'aca-search-results-row' }
 })
 export class SearchResultsRowComponent implements OnInit, OnDestroy {
-  private node: MinimalNodeEntity;
+  private node: NodeEntry;
   private onDestroy$ = new Subject<boolean>();
 
   @Input()

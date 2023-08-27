@@ -39,7 +39,7 @@ import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { catchError, map, take } from 'rxjs/operators';
 import { ContentManagementService } from '../../services/content-management.service';
-import { MinimalNodeEntryEntity } from '@alfresco/js-api';
+import { Node } from '@alfresco/js-api';
 import { UploadService, FileModel } from '@alfresco/adf-content-services';
 
 @Injectable()
@@ -137,7 +137,7 @@ export class UploadEffects {
           return of(null);
         })
       )
-      .subscribe((node: MinimalNodeEntryEntity) => {
+      .subscribe((node: Node) => {
         if (node) {
           this.contentService.versionUpdateDialog(node, this.fileVersionInput.files[0]);
           this.fileVersionInput.value = '';

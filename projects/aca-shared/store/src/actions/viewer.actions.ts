@@ -23,7 +23,7 @@
  */
 
 import { Action } from '@ngrx/store';
-import { MinimalNodeEntity } from '@alfresco/js-api';
+import { NodeEntry } from '@alfresco/js-api';
 
 export enum ViewerActionTypes {
   ViewFile = 'VIEW_FILE',
@@ -43,7 +43,7 @@ export interface ViewNodeExtras {
 export class ViewFileAction implements Action {
   readonly type = ViewerActionTypes.ViewFile;
 
-  constructor(public payload?: MinimalNodeEntity, public parentId?: string) {}
+  constructor(public payload?: NodeEntry, public parentId?: string) {}
 }
 
 export class ViewNodeAction implements Action {
@@ -61,17 +61,17 @@ export class ViewNodeVersionAction implements Action {
 export class FullscreenViewerAction implements Action {
   readonly type = ViewerActionTypes.FullScreen;
 
-  constructor(public payload: MinimalNodeEntity) {}
+  constructor(public payload: NodeEntry) {}
 }
 
 export class ClosePreviewAction implements Action {
   readonly type = ViewerActionTypes.ClosePreview;
-  constructor(public payload?: MinimalNodeEntity) {}
+  constructor(public payload?: NodeEntry) {}
 }
 
 export class RefreshPreviewAction implements Action {
   readonly type = ViewerActionTypes.RefreshPreview;
-  constructor(public payload?: MinimalNodeEntity) {}
+  constructor(public payload?: NodeEntry) {}
 }
 
 export class PluginPreviewAction implements Action {

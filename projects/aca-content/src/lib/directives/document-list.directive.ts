@@ -31,7 +31,7 @@ import { Store } from '@ngrx/store';
 import { AppHookService } from '@alfresco/aca-shared';
 import { SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { takeUntil, filter } from 'rxjs/operators';
-import { MinimalNodeEntity } from '@alfresco/js-api';
+import { NodeEntry } from '@alfresco/js-api';
 
 @Directive({
   standalone: true,
@@ -39,7 +39,7 @@ import { MinimalNodeEntity } from '@alfresco/js-api';
 })
 export class DocumentListDirective implements OnInit, OnDestroy {
   private isLibrary = false;
-  selectedNode: MinimalNodeEntity;
+  selectedNode: NodeEntry;
 
   onDestroy$ = new Subject<boolean>();
 
@@ -132,7 +132,7 @@ export class DocumentListDirective implements OnInit, OnDestroy {
     this.store.dispatch(new SetSelectedNodesAction(selection));
   }
 
-  private reload(selectedNode?: MinimalNodeEntity) {
+  private reload(selectedNode?: NodeEntry) {
     this.documentList.resetSelection();
     if (selectedNode) {
       this.store.dispatch(new SetSelectedNodesAction([selectedNode]));

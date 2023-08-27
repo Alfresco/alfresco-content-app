@@ -48,7 +48,7 @@ import { STORE_INITIAL_APP_DATA } from '../../../store/src/states/app.state';
 import { provideMockStore } from '@ngrx/store/testing';
 import { CommonModule } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
-import { RepositoryInfo } from '@alfresco/js-api';
+import { RepositoryInfo, VersionInfo } from '@alfresco/js-api';
 import { MatDialogModule } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { Store } from '@ngrx/store';
@@ -81,7 +81,14 @@ describe('AppService', () => {
           provide: DiscoveryApiService,
           useValue: {
             ecmProductInfo$: new BehaviorSubject<RepositoryInfo>(null),
-            getEcmProductInfo: (): Observable<RepositoryInfo> => of(new RepositoryInfo({ version: '10.0.0' }))
+            getEcmProductInfo: (): Observable<RepositoryInfo> =>
+              of(
+                new RepositoryInfo({
+                  version: {
+                    major: '10.0.0'
+                  } as VersionInfo
+                })
+              )
           }
         },
         {

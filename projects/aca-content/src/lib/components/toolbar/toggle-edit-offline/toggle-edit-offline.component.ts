@@ -23,7 +23,7 @@
  */
 
 import { AppStore, DownloadNodesAction, EditOfflineAction, SnackbarErrorAction, getAppSelection } from '@alfresco/aca-shared/store';
-import { MinimalNodeEntity, NodeEntry, SharedLinkEntry, Node, NodesApi } from '@alfresco/js-api';
+import { NodeEntry, SharedLinkEntry, Node, NodesApi } from '@alfresco/js-api';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { isLocked } from '@alfresco/aca-shared';
@@ -55,7 +55,7 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class ToggleEditOfflineComponent implements OnInit {
   private nodesApi: NodesApi;
-  selection: MinimalNodeEntity;
+  selection: NodeEntry;
   nodeTitle = '';
   isNodeLocked = false;
 

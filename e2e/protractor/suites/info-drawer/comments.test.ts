@@ -23,7 +23,6 @@
  */
 
 import { AdminActions, UserActions, LoginPage, BrowsingPage, RepoClient, InfoDrawer, Utils } from '@alfresco/aca-testing-shared';
-const moment = require('moment');
 import { BrowserActions } from '@alfresco/adf-testing';
 
 describe('Comments', () => {
@@ -215,7 +214,7 @@ describe('Comments', () => {
       expect(await commentsTab.isCommentDisplayed()).toBe(true, `Comment is not displayed`);
       expect(await commentsTab.getCommentText()).toBe(commentFile1Entry.content, 'Incorrect comment text');
       expect(await commentsTab.getCommentUserName()).toBe(`${username} ${username}`, 'Incorrect comment user');
-      expect(await commentsTab.getCommentTime()).toBe(moment(commentFile1Entry.createdAt).fromNow(), 'Incorrect comment created time');
+      expect(await commentsTab.getCommentTime()).toBe('less than a minute ago', 'Incorrect comment created time');
       expect(await commentsTab.isCommentUserAvatarDisplayed()).toBe(true, 'User avatar not displayed');
     });
   });

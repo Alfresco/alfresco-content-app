@@ -26,7 +26,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CreateFromTemplateDialogComponent } from '../dialogs/node-template/create-from-template.dialog';
 import { Subject, from, of } from 'rxjs';
-import { Node, MinimalNode, MinimalNodeEntryEntity, ResultNode, PathElement, SearchApi } from '@alfresco/js-api';
+import { Node, ResultNode, PathElement, SearchApi } from '@alfresco/js-api';
 import { AlfrescoApiService, TranslationService } from '@alfresco/adf-core';
 import { switchMap, catchError } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
@@ -124,7 +124,7 @@ export class NodeTemplateService {
     return dialog;
   }
 
-  private transformNode(node: MinimalNode): MinimalNode {
+  private transformNode(node: Node): Node {
     if (node && node.path && node.path && node.path.elements instanceof Array) {
       node.path.elements = this.getPathElements(node);
     }
@@ -157,7 +157,7 @@ export class NodeTemplateService {
   }
 
   private rowFilter(row: ShareDataRow): boolean {
-    const node: MinimalNodeEntryEntity = row.node.entry;
+    const node: Node = row.node.entry;
     return node.nodeType !== 'app:filelink' && node.nodeType !== 'app:folderlink';
   }
 

@@ -32,7 +32,7 @@ import { AppTestingModule } from '../../testing/app-testing.module';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { of, Subject, throwError } from 'rxjs';
 import { By } from '@angular/platform-browser';
-import { NodeEntry, NodePaging } from '@alfresco/js-api';
+import { NodeEntry, NodePaging, Node } from '@alfresco/js-api';
 
 describe('FilesComponent', () => {
   let node;
@@ -424,7 +424,7 @@ describe('FilesComponent', () => {
 
     it('should reset the pagination when navigating to a folder', () => {
       const resetNewFolderPaginationSpy = spyOn(component.documentList, 'resetNewFolderPagination');
-      const fakeFolderNode = new NodeEntry({ entry: { id: 'fakeFolderNode', isFolder: true, isFile: false } });
+      const fakeFolderNode = new NodeEntry({ entry: { id: 'fakeFolderNode', isFolder: true, isFile: false } as Node });
       component.navigateTo(fakeFolderNode);
 
       expect(resetNewFolderPaginationSpy).toHaveBeenCalled();
@@ -432,7 +432,7 @@ describe('FilesComponent', () => {
 
     it('should not reset the pagination when the node to navigate is not a folder', () => {
       const resetNewFolderPaginationSpy = spyOn(component.documentList, 'resetNewFolderPagination');
-      const fakeFileNode = new NodeEntry({ entry: { id: 'fakeFileNode', isFolder: false, isFile: true } });
+      const fakeFileNode = new NodeEntry({ entry: { id: 'fakeFileNode', isFolder: false, isFile: true } as Node });
       component.navigateTo(fakeFileNode);
 
       expect(resetNewFolderPaginationSpy).not.toHaveBeenCalled();

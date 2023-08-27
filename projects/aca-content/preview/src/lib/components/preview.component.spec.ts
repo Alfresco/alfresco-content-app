@@ -39,7 +39,7 @@ import { PreviewComponent } from './preview.component';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { ContentApiService, AppHookService, DocumentBasePageService } from '@alfresco/aca-shared';
 import { Store, StoreModule } from '@ngrx/store';
-import { Node, NodePaging, FavoritePaging, SharedLinkPaging, PersonEntry, ResultSetPaging, RepositoryInfo } from '@alfresco/js-api';
+import { Node, NodePaging, FavoritePaging, SharedLinkPaging, PersonEntry, ResultSetPaging, RepositoryInfo, VersionInfo } from '@alfresco/js-api';
 import { PreviewModule } from '../preview.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -134,7 +134,14 @@ describe('PreviewComponent', () => {
           provide: DiscoveryApiService,
           useValue: {
             ecmProductInfo$: new BehaviorSubject<RepositoryInfo | null>(null),
-            getEcmProductInfo: (): Observable<RepositoryInfo> => of(new RepositoryInfo({ version: '10.0.0' }))
+            getEcmProductInfo: (): Observable<RepositoryInfo> =>
+              of(
+                new RepositoryInfo({
+                  version: {
+                    major: '10.0.0'
+                  } as VersionInfo
+                })
+              )
           }
         },
         {

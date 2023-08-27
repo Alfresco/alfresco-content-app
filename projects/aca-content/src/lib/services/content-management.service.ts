@@ -57,16 +57,7 @@ import {
   NodesApiService
 } from '@alfresco/adf-content-services';
 import { TranslationService, NotificationService } from '@alfresco/adf-core';
-import {
-  DeletedNodesPaging,
-  MinimalNodeEntity,
-  MinimalNodeEntryEntity,
-  Node,
-  NodeEntry,
-  PathInfoEntity,
-  SiteBody,
-  SiteEntry
-} from '@alfresco/js-api';
+import { DeletedNodesPaging, Node, NodeEntry, PathInfo, SiteBodyCreate, SiteEntry } from '@alfresco/js-api';
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
@@ -77,7 +68,7 @@ import { Router } from '@angular/router';
 
 interface RestoredNode {
   status: number;
-  entry: MinimalNodeEntryEntity;
+  entry: Node;
   statusCode?: number;
 }
 
@@ -102,7 +93,7 @@ export class ContentManagementService {
     private router: Router
   ) {}
 
-  addFavorite(nodes: Array<MinimalNodeEntity>) {
+  addFavorite(nodes: Array<NodeEntry>) {
     if (nodes && nodes.length > 0) {
       this.contentApi.addFavorite(nodes).subscribe(() => {
         const favoriteNodes = nodes.map((node) => {
@@ -116,7 +107,7 @@ export class ContentManagementService {
     }
   }
 
-  removeFavorite(nodes: Array<MinimalNodeEntity>) {
+  removeFavorite(nodes: Array<NodeEntry>) {
     if (nodes && nodes.length > 0) {
       this.contentApi.removeFavorite(nodes).subscribe(() => {
         const favoriteNodes = nodes.map((node) => {
@@ -244,7 +235,7 @@ export class ContentManagementService {
     });
   }
 
-  editFolder(folder: MinimalNodeEntity, focusedElementOnCloseSelector?: string) {
+  editFolder(folder: NodeEntry, focusedElementOnCloseSelector?: string) {
     if (!folder) {
       return;
     }
@@ -332,7 +323,7 @@ export class ContentManagementService {
     });
   }
 
-  updateLibrary(siteId: string, siteBody: SiteBody) {
+  updateLibrary(siteId: string, siteBody: SiteBodyCreate) {
     this.contentApi.updateLibrary(siteId, siteBody).subscribe(
       (siteEntry: SiteEntry) => {
         this.appHookService.libraryUpdated.next(siteEntry);
@@ -344,21 +335,21 @@ export class ContentManagementService {
     );
   }
 
-  async unshareNodes(links: Array<MinimalNodeEntity>) {
+  async unshareNodes(links: Array<NodeEntry>) {
     const promises = links.map((link) => this.contentApi.deleteSharedLink(link.entry.id).toPromise());
     await Promise.all(promises);
     this.appHookService.linksUnshared.next();
   }
 
-  canUpdateNode(node: MinimalNodeEntity | Node): boolean {
+  canUpdateNode(node: NodeEntry | Node): boolean {
     return this.permission.check(node, ['update']);
   }
 
-  canUploadContent(folderNode: MinimalNodeEntity | Node): boolean {
+  canUploadContent(folderNode: NodeEntry | Node): boolean {
     return this.permission.check(folderNode, ['create']);
   }
 
-  purgeDeletedNodes(nodes: MinimalNodeEntity[]) {
+  purgeDeletedNodes(nodes: NodeEntry[]) {
     if (!nodes || nodes.length === 0) {
       return;
     }
@@ -389,7 +380,7 @@ export class ContentManagementService {
     });
   }
 
-  restoreDeletedNodes(selection: MinimalNodeEntity[] = []) {
+  restoreDeletedNodes(selection: NodeEntry[] = []) {
     if (!selection.length) {
       return;
     }
@@ -426,7 +417,7 @@ export class ContentManagementService {
       });
   }
 
-  copyNodes(nodes: Array<MinimalNodeEntity>, focusedElementOnCloseSelector?: string) {
+  copyNodes(nodes: Array<NodeEntry>, focusedElementOnCloseSelector?: string) {
     zip(this.nodeActionsService.copyNodes(nodes, undefined, focusedElementOnCloseSelector), this.nodeActionsService.contentCopied).subscribe(
       (result) => {
         const [operationResult, newItems] = result;
@@ -438,7 +429,7 @@ export class ContentManagementService {
     );
   }
 
-  moveNodes(nodes: Array<MinimalNodeEntity>, focusedElementOnCloseSelector?: string) {
+  moveNodes(nodes: Array<NodeEntry>, focusedElementOnCloseSelector?: string) {
     const permissionForMove = '!';
 
     zip(this.nodeActionsService.moveNodes(nodes, permissionForMove, focusedElementOnCloseSelector), this.nodeActionsService.contentMoved).subscribe(
@@ -474,7 +465,7 @@ export class ContentManagementService {
     return i18nMessageString;
   }
 
-  getNodeInfo(): Observable<MinimalNodeEntryEntity> {
+  getNodeInfo(): Observable<Node> {
     return this.store.select(getAppSelection).pipe(
       take(1),
       mergeMap(({ file }) => {
@@ -498,7 +489,7 @@ export class ContentManagementService {
     });
   }
 
-  private showCopyMessage(info: any, nodes: Array<MinimalNodeEntity>, newItems?: Array<MinimalNodeEntity>) {
+  private showCopyMessage(info: any, nodes: Array<NodeEntry>, newItems?: Array<NodeEntry>) {
     const numberOfCopiedItems = newItems ? newItems.length : 0;
     const failedItems = nodes.length - numberOfCopiedItems;
 
@@ -547,7 +538,7 @@ export class ContentManagementService {
       .subscribe(() => this.undoCopyNodes(newItems));
   }
 
-  private undoCopyNodes(nodes: MinimalNodeEntity[]) {
+  private undoCopyNodes(nodes: NodeEntry[]) {
     const batch = this.nodeActionsService
       .flatten(nodes)
       .filter((item) => item.entry)
@@ -665,7 +656,7 @@ export class ContentManagementService {
       );
   }
 
-  deleteNodes(items: MinimalNodeEntity[]): void {
+  deleteNodes(items: NodeEntry[]): void {
     const batch: Observable<DeletedNodeInfo>[] = [];
 
     items.forEach((node) => {
@@ -744,7 +735,7 @@ export class ContentManagementService {
     return null;
   }
 
-  private restoreNode(node: MinimalNodeEntity): Observable<RestoredNode> {
+  private restoreNode(node: NodeEntry): Observable<RestoredNode> {
     const { entry } = node;
 
     return this.contentApi.restoreNode(entry.id).pipe(
@@ -882,7 +873,7 @@ export class ContentManagementService {
     if (message) {
       if (status.oneSucceeded && !status.someFailed) {
         const isSite = this.isSite(status.success[0].entry);
-        const path: PathInfoEntity = status.success[0].entry.path;
+        const path: PathInfo = status.success[0].entry.path;
         const parent = path.elements[path.elements.length - 1];
         const route = isSite ? ['/libraries', parent.id] : ['/personal-files', parent.id];
 
@@ -901,11 +892,11 @@ export class ContentManagementService {
     }
   }
 
-  private isSite(entry: MinimalNodeEntryEntity): boolean {
+  private isSite(entry: Node): boolean {
     return entry.nodeType === 'st:site';
   }
 
-  private isLibraryContent(path: PathInfoEntity): boolean {
+  private isLibraryContent(path: PathInfo): boolean {
     return path && path.elements.length >= 2 && path.elements[1].name === 'Sites';
   }
 
@@ -1017,7 +1008,7 @@ export class ContentManagementService {
     return null;
   }
 
-  private showMoveMessage(nodes: Array<MinimalNodeEntity>, info: any, moveResponse?: any) {
+  private showMoveMessage(nodes: Array<NodeEntry>, info: any, moveResponse?: any) {
     const succeeded = moveResponse && moveResponse['succeeded'] ? moveResponse['succeeded'].length : 0;
     const partiallySucceeded = moveResponse && moveResponse['partiallySucceeded'] ? moveResponse['partiallySucceeded'].length : 0;
     const failures = moveResponse && moveResponse['failed'] ? moveResponse['failed'].length : 0;
