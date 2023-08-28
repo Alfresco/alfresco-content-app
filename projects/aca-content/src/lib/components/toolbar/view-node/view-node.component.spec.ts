@@ -120,7 +120,7 @@ describe('ViewNodeComponent', () => {
     component.onClick();
 
     const id = linkNode.file.entry.properties['cm:destination'];
-    expect(mockStore.dispatch).toHaveBeenCalledWith(new ViewNodeAction(id, { location: mockRouter.url }));
+    expect(mockStore.dispatch).toHaveBeenCalledWith(new ViewNodeAction(id, { location: 'some-url' }));
   });
 
   it('should call ViewNodeAction onClick event with only base url path', () => {
