@@ -152,6 +152,16 @@ export class ApiClientFactory {
     }
   }
 
+  async loginUser(user: PersonModel) {
+    let e: any;
+    try {
+      e = await this.alfrescoApi.login(user.username, user.password);
+    } catch (error) {
+      logger.error(`[API Client Factory] Log in user ${user.username} failed ${e}`);
+      throw error;
+    }
+  }
+
   async createUser(user: PersonModel): Promise<PersonEntry> {
     const person = new Person(user);
     const peopleApi = new PeopleApi(this.alfrescoApi);

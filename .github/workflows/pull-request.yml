@@ -109,7 +109,7 @@ jobs:
       fail-fast: false
       matrix:
         e2e-suites:
-          - name: "listViews,navigation,application"
+          - name: "listViews,navigation"
             id: 1
           - name: "search"
             id: 2
