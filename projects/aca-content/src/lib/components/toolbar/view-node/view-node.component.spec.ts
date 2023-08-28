@@ -25,10 +25,11 @@
 import { TestBed } from '@angular/core/testing';
 import { ViewNodeComponent } from './view-node.component';
 import { Store } from '@ngrx/store';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { ViewNodeAction } from '@alfresco/aca-shared/store';
 import { AppTestingModule } from '../../../testing/app-testing.module';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('ViewNodeComponent', () => {
   let component: ViewNodeComponent;
@@ -49,12 +50,15 @@ describe('ViewNodeComponent', () => {
     )
   };
 
+  const route = { queryParams: of({}) };
+
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, ViewNodeComponent],
+      imports: [AppTestingModule, ViewNodeComponent, RouterTestingModule],
       providers: [
         { provide: Store, useValue: mockStore },
-        { provide: Router, useValue: mockRouter }
+        { provide: Router, useValue: mockRouter },
+        { provide: ActivatedRoute, useValue: route }
       ]
     });
 
@@ -118,12 +122,11 @@ describe('ViewNodeComponent', () => {
     fixture.detectChanges();
 
     component.onClick();
-
     const id = linkNode.file.entry.properties['cm:destination'];
     expect(mockStore.dispatch).toHaveBeenCalledWith(new ViewNodeAction(id, { location: 'some-url' }));
   });
 
-  it('should call ViewNodeAction onClick event with only base url path', () => {
+  it('should call ViewNodeAction with location queryParam if given', () => {
     const linkNode = {
       file: {
         entry: {
@@ -141,8 +144,9 @@ describe('ViewNodeComponent', () => {
     mockStore.select.and.returnValue(of(linkNode));
     const id = linkNode.file.entry.properties['cm:destination'];
     mockRouter.url = `some-url/details/${id}`;
+    route.queryParams = of({ location: 'other-location/1234' });
     fixture.detectChanges();
     component.onClick();
-    expect(mockStore.dispatch).toHaveBeenCalledWith(new ViewNodeAction(id, { location: 'some-url' }));
+    expect(mockStore.dispatch).toHaveBeenCalledWith(new ViewNodeAction(id, { location: 'other-location/1234' }));
   });
 });

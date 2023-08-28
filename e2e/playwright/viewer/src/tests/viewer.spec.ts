@@ -40,7 +40,7 @@ test.describe('viewer file', () => {
   });
 
   test.beforeEach(async ({ personalFiles }) => {
-    await personalFiles.navigate({ remoteUrl: `personal-files/${folderId}` });
+    await personalFiles.navigate({ remoteUrl: `#/personal-files/${folderId}` });
   });
 
   test.afterAll(async () => {
