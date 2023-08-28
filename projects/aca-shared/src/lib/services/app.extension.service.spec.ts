@@ -174,7 +174,7 @@ describe('AppExtensionService', () => {
       });
     });
 
-    it('should support column orders', () => {
+    it('should support column orders', (done) => {
       applyConfig({
         $id: 'test',
         $name: 'test',
@@ -236,6 +236,7 @@ describe('AppExtensionService', () => {
         expect(columns[0].id).toBe('app.files.thumbnail');
         expect(columns[1].id).toBe('app.files.name');
         expect(columns[2].id).toBe('app.files.securityMarks');
+        done();
       });
 
       expect(libraries.length).toBe(2);
@@ -243,7 +244,7 @@ describe('AppExtensionService', () => {
       expect(libraries[1].id).toBe('app.libraries.thumbnail');
     });
 
-    it('should ignore column if visibility in rules is false', () => {
+    it('should ignore column if visibility in rules is false', (done) => {
       applyConfig({
         $id: 'test',
         $name: 'test',
@@ -288,6 +289,7 @@ describe('AppExtensionService', () => {
         expect(columns.length).toBe(2);
         expect(columns[0].id).toBe('app.files.thumbnail');
         expect(columns[1].id).toBe('app.files.name');
+        done();
       });
     });
   });
