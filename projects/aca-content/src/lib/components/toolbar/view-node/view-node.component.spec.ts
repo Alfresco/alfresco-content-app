@@ -101,7 +101,7 @@ describe('ViewNodeComponent', () => {
     expect(mockStore.dispatch).toHaveBeenCalled();
   });
 
-  it('should call ViewNodeAction for `app:filelink` node type', () => {
+  it('should call ViewNodeAction for `app:filelink` node type with proper location', () => {
     const linkNode = {
       file: {
         entry: {
@@ -124,28 +124,10 @@ describe('ViewNodeComponent', () => {
     component.onClick();
     const id = linkNode.file.entry.properties['cm:destination'];
     expect(mockStore.dispatch).toHaveBeenCalledWith(new ViewNodeAction(id, { location: 'some-url' }));
-  });
 
-  it('should call ViewNodeAction with location queryParam if given', () => {
-    const linkNode = {
-      file: {
-        entry: {
-          id: 'nodeId',
-          nodeType: 'app:filelink',
-          properties: {
-            'cm:destination': 'original-node-id'
-          }
-        }
-      }
-    };
-    component.data = {
-      iconButton: true
-    };
-    mockStore.dispatch.calls.reset();
-    mockStore.select.and.returnValue(of(linkNode));
-    const id = linkNode.file.entry.properties['cm:destination'];
     mockRouter.url = `some-url/details/${id}`;
     route.queryParams = of({ location: 'other-location/1234' });
+
     fixture.detectChanges();
     component.onClick();
     expect(mockStore.dispatch).toHaveBeenCalledWith(new ViewNodeAction(id, { location: 'other-location/1234' }));
