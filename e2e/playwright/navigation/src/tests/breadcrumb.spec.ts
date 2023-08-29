@@ -128,7 +128,7 @@ test.describe('viewer action file', () => {
 });
 
 test.use({ storageState: getUserState('admin') });
-test.describe.only('as admin', () => {
+test.describe('as admin', () => {
   const apiClientFactory = new ApiClientFactory();
   const user2 = `user2-${Utils.random()}`;
   const userFolder = `userFolder-${Utils.random()}`;
