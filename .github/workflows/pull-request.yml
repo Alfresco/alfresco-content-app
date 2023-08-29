@@ -180,6 +180,8 @@ jobs:
             id: 3
           - name: "authentication"
             id: 4
+          - name: "navigation"
+            id: 5
     steps:
       - name: Checkout
         uses: actions/checkout@v3

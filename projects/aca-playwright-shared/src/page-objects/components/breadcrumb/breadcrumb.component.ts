@@ -19,33 +19,33 @@
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { BaseComponent } from '.././base.component';
 import { Page } from '@playwright/test';
-import { BasePage } from './base.page';
-import { Breadcrumb, DataTableComponent, MatMenuComponent, ViewerComponent } from '../components';
-import { AcaHeader } from '../components/aca-header.component';
-import { AdfFolderDialogComponent, PasswordOverlayDialogComponent, ViewerOverlayDialogComponent } from '../components/dialogs';
-
-export class PersonalFilesPage extends BasePage {
-  private static pageUrl = 'personal-files';
+export class Breadcrumb extends BaseComponent {
+  private static rootElement = 'adf-breadcrumb';
+  public items = this.getChild('.adf-breadcrumb-item');
+  public currentItem = this.getChild('.adf-breadcrumb-item-current');
 
   constructor(page: Page) {
-    super(page, PersonalFilesPage.pageUrl);
+    super(page, Breadcrumb.rootElement);
   }
 
-  public acaHeader = new AcaHeader(this.page);
-  public matMenu = new MatMenuComponent(this.page);
-  public folderDialog = new AdfFolderDialogComponent(this.page);
-  public dataTable = new DataTableComponent(this.page);
-  public viewer = new ViewerComponent(this.page);
-  public passwordDialog = new PasswordOverlayDialogComponent(this.page);
-  public viewerDialog = new ViewerOverlayDialogComponent(this.page);
-  public breadcrumb = new Breadcrumb(this.page);
+  async getAllItems(): Promise<string[]> {
+    const itemElements = await this.page.$$('adf-breadcrumb .adf-breadcrumb-item');
+    const itemTexts = await Promise.all(
+      itemElements.map(async (elem) => {
+        const text = await elem.innerText();
+        return text.split('\nchevron_right')[0];
+      })
+    );
+    return itemTexts;
+  }
 
-  async selectCreateFolder(): Promise<void> {
-    await this.acaHeader.createButton.click();
-    await this.matMenu.createFolder.click();
+  async clickItem(name: string): Promise<void> {
+    const elem = this.getChild(`.adf-breadcrumb-item[title=${name}]`);
+    await elem.click();
   }
 }
