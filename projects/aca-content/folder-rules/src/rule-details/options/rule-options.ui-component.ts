@@ -22,8 +22,8 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, forwardRef, HostBinding, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { AbstractControl, ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+import { Component, forwardRef, HostBinding, Input, OnChanges, OnDestroy, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
 import { RuleOptions } from '../../model/rule.model';
 import { ActionParameterConstraint, ConstraintValue } from '../../model/action-parameter-constraint.model';
@@ -48,7 +48,7 @@ import { MatSelectModule } from '@angular/material/select';
     }
   ]
 })
-export class RuleOptionsUiComponent implements ControlValueAccessor, OnInit, OnDestroy {
+export class RuleOptionsUiComponent implements ControlValueAccessor, OnChanges, OnDestroy {
   form = new FormGroup({
     isDisabled: new FormControl(),
     isInheritable: new FormControl(),
@@ -86,7 +86,6 @@ export class RuleOptionsUiComponent implements ControlValueAccessor, OnInit, OnD
   errorScriptOptions: ConstraintValue[] = [];
 
   writeValue(options: RuleOptions) {
-    const errorScriptFormControl = this.form.get('errorScript');
     this.form.setValue(
       {
         isDisabled: !options.isEnabled,
@@ -98,13 +97,7 @@ export class RuleOptionsUiComponent implements ControlValueAccessor, OnInit, OnD
     );
     this.isAsynchronousChecked = options.isAsynchronous;
     this.isInheritableChecked = options.isInheritable;
-    if (this.isAsynchronousChecked) {
-      this.hideErrorScriptDropdown = false;
-      errorScriptFormControl.enable({ onlySelf: true, emitEvent: false });
-    } else {
-      this.hideErrorScriptDropdown = true;
-      errorScriptFormControl.disable({ onlySelf: true, emitEvent: false });
-    }
+    this.hideErrorScriptDropdown = !this.isAsynchronousChecked;
   }
 
   registerOnChange(fn: () => void) {
@@ -125,8 +118,10 @@ export class RuleOptionsUiComponent implements ControlValueAccessor, OnInit, OnD
     }
   }
 
-  ngOnInit(): void {
-    this.errorScriptOptions = this.errorScriptConstraint?.constraints ?? [];
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['errorScriptConstraint']) {
+      this.errorScriptOptions = this.errorScriptConstraint?.constraints ?? [];
+    }
   }
 
   ngOnDestroy() {
@@ -134,13 +129,6 @@ export class RuleOptionsUiComponent implements ControlValueAccessor, OnInit, OnD
   }
 
   toggleErrorScriptDropdown(value: MatCheckboxChange) {
-    const formControl: AbstractControl = this.form.get('errorScript');
-    if (value.checked) {
-      this.hideErrorScriptDropdown = false;
-      formControl.enable();
-    } else {
-      this.hideErrorScriptDropdown = true;
-      formControl.disable();
-    }
+    this.hideErrorScriptDropdown = !value.checked;
   }
 }
