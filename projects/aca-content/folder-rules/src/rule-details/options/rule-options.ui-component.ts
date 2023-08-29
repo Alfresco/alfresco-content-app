@@ -57,13 +57,14 @@ export class RuleOptionsUiComponent implements ControlValueAccessor, OnInit, OnD
   });
 
   formSubscription = this.form.valueChanges.subscribe((value: any) => {
+    const formValue = { ...this.form.value, ...value };
     this.isAsynchronousChecked = value.isAsynchronous;
     this.isInheritableChecked = value.isInheritable;
     this.onChange({
-      isEnabled: !value.isDisabled,
-      isInheritable: value.isInheritable,
-      isAsynchronous: value.isAsynchronous,
-      errorScript: value.errorScript ?? ''
+      isEnabled: !formValue.isDisabled,
+      isInheritable: formValue.isInheritable,
+      isAsynchronous: formValue.isAsynchronous,
+      errorScript: formValue.errorScript ?? ''
     });
     this.onTouch();
   });
@@ -85,18 +86,24 @@ export class RuleOptionsUiComponent implements ControlValueAccessor, OnInit, OnD
   errorScriptOptions: ConstraintValue[] = [];
 
   writeValue(options: RuleOptions) {
-    const isAsynchronousFormControl = this.form.get('isAsynchronous');
     const errorScriptFormControl = this.form.get('errorScript');
-    this.form.get('isDisabled').setValue(!options.isEnabled);
-    this.form.get('isInheritable').setValue(options.isInheritable);
-    this.form.get('isAsynchronous').setValue(options.isAsynchronous);
-    errorScriptFormControl.setValue(options.errorScript ?? '');
-    if (isAsynchronousFormControl.value) {
+    this.form.setValue(
+      {
+        isDisabled: !options.isEnabled,
+        isAsynchronous: options.isAsynchronous,
+        isInheritable: options.isInheritable,
+        errorScript: options.errorScript ?? ''
+      },
+      { emitEvent: false }
+    );
+    this.isAsynchronousChecked = options.isAsynchronous;
+    this.isInheritableChecked = options.isInheritable;
+    if (this.isAsynchronousChecked) {
       this.hideErrorScriptDropdown = false;
-      errorScriptFormControl.enable();
+      errorScriptFormControl.enable({ onlySelf: true, emitEvent: false });
     } else {
       this.hideErrorScriptDropdown = true;
-      errorScriptFormControl.disable();
+      errorScriptFormControl.disable({ onlySelf: true, emitEvent: false });
     }
   }
 

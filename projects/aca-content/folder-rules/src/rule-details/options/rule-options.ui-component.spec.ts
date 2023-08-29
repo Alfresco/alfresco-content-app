@@ -149,4 +149,33 @@ describe('RuleOptionsUiComponent', () => {
     expect(matFormField).not.toBeNull();
     expect(matFormField.componentInstance['floatLabel']).toBe('always');
   });
+
+  it('should properly update formFields on only isAsynchronous and errorScript changes', () => {
+    fixture.detectChanges();
+    component.writeValue({
+      isEnabled: false,
+      isInheritable: true,
+      isAsynchronous: true,
+      errorScript: '1234'
+    });
+    fixture.detectChanges();
+
+    expect(getByDataAutomationId('rule-option-checkbox-asynchronous').componentInstance.checked).toBeTrue();
+    expect(getByDataAutomationId('rule-option-checkbox-inheritable').componentInstance.checked).toBeTrue();
+    expect(getByDataAutomationId('rule-option-checkbox-disabled').componentInstance.checked).toBeTrue();
+    expect(getByDataAutomationId('rule-option-select-errorScript').componentInstance.value).toEqual('1234');
+
+    component.writeValue({
+      isEnabled: false,
+      isInheritable: true,
+      isAsynchronous: false,
+      errorScript: ''
+    });
+    fixture.detectChanges();
+
+    expect(getByDataAutomationId('rule-option-checkbox-asynchronous').componentInstance.checked).toBeFalse();
+    expect(getByDataAutomationId('rule-option-checkbox-inheritable').componentInstance.checked).toBeTrue();
+    expect(getByDataAutomationId('rule-option-checkbox-disabled').componentInstance.checked).toBeTrue();
+    expect(getByDataAutomationId('rule-option-select-errorScript').componentInstance.disabled).toBeTrue();
+  });
 });
