@@ -22,6 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { ContentActionRef } from '@alfresco/adf-extensions';
 import { Route } from '@angular/router';
 
 export interface SettingsGroupRef {
@@ -44,4 +45,8 @@ export interface SettingsParameterRef {
 
 export interface ExtensionRoute extends Route {
   parentRoute?: string;
+}
+
+export interface Badge extends ContentActionRef {
+  tooltip: string;
 }

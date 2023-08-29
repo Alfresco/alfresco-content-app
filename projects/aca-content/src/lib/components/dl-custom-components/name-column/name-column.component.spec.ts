@@ -28,10 +28,15 @@ import { StoreModule } from '@ngrx/store';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientModule } from '@angular/common/http';
 import { TranslateModule } from '@ngx-translate/core';
+import { AppExtensionService } from '@alfresco/aca-shared';
+import { of } from 'rxjs';
+import { ContentActionType } from '@alfresco/adf-extensions';
+import { By } from '@angular/platform-browser';
 
 describe('CustomNameColumnComponent', () => {
   let fixture: ComponentFixture<CustomNameColumnComponent>;
   let component: CustomNameColumnComponent;
+  let appExtensionService: AppExtensionService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -41,6 +46,7 @@ describe('CustomNameColumnComponent', () => {
 
     fixture = TestBed.createComponent(CustomNameColumnComponent);
     component = fixture.componentInstance;
+    appExtensionService = TestBed.inject(AppExtensionService);
   });
 
   it('should not render lock element if file is not locked', () => {
@@ -113,5 +119,29 @@ describe('CustomNameColumnComponent', () => {
 
     component.onLinkClick(event);
     expect(event.stopPropagation).toHaveBeenCalled();
+  });
+
+  it('should get badges when component initializes', () => {
+    component.context = {
+      row: {
+        node: {
+          entry: {
+            isFile: true,
+            id: 'nodeId'
+          }
+        },
+        getValue: (key: string) => key
+      }
+    };
+    spyOn(appExtensionService, 'getBadges').and.returnValue(
+      of([{ id: 'test', type: ContentActionType.custom, icon: 'warning', tooltip: 'test tooltip' }])
+    );
+    component.ngOnInit();
+    fixture.detectChanges();
+    const badges = fixture.debugElement.queryAll(By.css('.adf-datatable-cell-badge')).map((badge) => badge.nativeElement);
+    expect(appExtensionService.getBadges).toHaveBeenCalled();
+    expect(badges.length).toBe(1);
+    expect(badges[0].innerText).toBe('warning');
+    expect(badges[0].attributes['title'].value).toBe('test tooltip');
   });
 });

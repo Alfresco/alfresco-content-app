@@ -53,7 +53,7 @@ import { AppConfigService, AuthenticationService, LogService } from '@alfresco/a
 import { BehaviorSubject, Observable } from 'rxjs';
 import { RepositoryInfo, NodeEntry } from '@alfresco/js-api';
 import { ViewerRules } from '../models/viewer.rules';
-import { SettingsGroupRef } from '../models/types';
+import { Badge, SettingsGroupRef } from '../models/types';
 import { NodePermissionService } from '../services/node-permission.service';
 import { filter, map } from 'rxjs/operators';
 import { ModalConfiguration } from '../models/modal-configuration';
@@ -80,6 +80,7 @@ export class AppExtensionService implements RuleContext {
   private _createActions = new BehaviorSubject<Array<ContentActionRef>>([]);
   private _mainActions = new BehaviorSubject<ContentActionRef>(null);
   private _sidebarActions = new BehaviorSubject<Array<ContentActionRef>>([]);
+  private _badges = new BehaviorSubject<Array<Badge>>([]);
   private _filesDocumentListPreset = new BehaviorSubject<Array<DocumentListPresetRef>>([]);
 
   documentListPresets: {
@@ -158,6 +159,7 @@ export class AppExtensionService implements RuleContext {
     this._openWithActions.next(this.loader.getContentActions(config, 'features.viewer.openWith'));
     this._createActions.next(this.loader.getElements<ContentActionRef>(config, 'features.create'));
     this._mainActions.next(this.loader.getFeatures(config).mainAction);
+    this._badges.next(this.loader.getElements<Badge>(config, 'features.badges'));
     this._filesDocumentListPreset.next(this.getDocumentListPreset(config, 'files'));
 
     this.navbar = this.loadNavBar(config);
@@ -368,6 +370,10 @@ export class AppExtensionService implements RuleContext {
         return actionCopy;
       })
     );
+  }
+
+  getBadges(node: NodeEntry): Observable<Array<Badge>> {
+    return this._badges.pipe(map((badges) => badges.filter((badge) => this.evaluateRule(badge.rules.visible, node))));
   }
 
   private buildMenu(actionRef: ContentActionRef): ContentActionRef {

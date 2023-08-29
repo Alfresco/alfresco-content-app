@@ -1,6 +1,12 @@
+.adf-datatable-content-cell.adf-name-column.aca-custom-name-column {
+  position: unset;
+}
+
 .aca-custom-name-column {
-  display: block;
+  display: flex;
   align-items: center;
+  justify-content: space-between;
+  width: 100%;
 
   .aca-name-column-container {
     aca-locked-by {

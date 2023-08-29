@@ -640,6 +640,30 @@
         "$ref": "node_modules/@alfresco/adf-core/app.config.schema.json#/definitions/search-configuration"
         }
       ]
+    },
+    "badges": {
+      "description": "List of badges to display in the name column",
+      "type": "array",
+      "items": { "$ref": "#/definitions/badge" },
+      "minItems": 1
+    },
+    "badge": {
+      "type": "object",
+      "required": ["id", "icon", "tooltip"],
+      "properties": {
+        "id": {
+          "description": "Unique identifier. Must be in the format '[namespace]:[name]'.",
+          "type": "string"
+        },
+        "icon": {
+          "description": "Badge icon to display.",
+          "type": "string"
+        },
+        "tooltip": {
+          "description": "Badge tooltip to display on hover.",
+          "type": "string"
+        }
+      }
     }
   },
 
