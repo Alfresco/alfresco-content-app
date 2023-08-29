@@ -118,7 +118,7 @@ describe('ViewNodeComponent', () => {
       iconButton: true
     };
     mockStore.select.and.returnValue(of(linkNode));
-
+    route.queryParams = of({});
     fixture.detectChanges();
 
     component.onClick();
