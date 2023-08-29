@@ -25,9 +25,9 @@
 import { RepoApi } from '../repo-api';
 import { Logger } from '@alfresco/adf-testing';
 import {
-  SiteBody,
-  SiteMemberRoleBody,
-  SiteMemberBody,
+  SiteBodyCreate,
+  SiteMembershipBodyUpdate,
+  SiteMembershipBodyCreate,
   SiteEntry,
   SiteMembershipRequestEntry,
   SitesApi as AdfSiteApi,
@@ -69,7 +69,7 @@ export class SitesApi extends RepoApi {
       visibility: visibility || SITE_VISIBILITY.PUBLIC,
       description: description,
       id: siteId || title
-    } as SiteBody;
+    } as SiteBodyCreate;
 
     try {
       await this.apiAuth();
@@ -136,7 +136,7 @@ export class SitesApi extends RepoApi {
   async updateSiteMember(siteId: string, userId: string, role: string) {
     const siteRole = {
       role: role
-    } as SiteMemberRoleBody;
+    } as SiteMembershipBodyUpdate;
 
     try {
       await this.apiAuth();
@@ -151,7 +151,7 @@ export class SitesApi extends RepoApi {
     const memberBody = {
       id: userId,
       role: role
-    } as SiteMemberBody;
+    } as SiteMembershipBodyCreate;
 
     try {
       await this.apiAuth();

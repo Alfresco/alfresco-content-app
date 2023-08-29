@@ -43,7 +43,7 @@ import {
   ViewNodeAction
 } from '@alfresco/aca-shared/store';
 import { ContentActionRef, SelectionState } from '@alfresco/adf-extensions';
-import { MinimalNodeEntryEntity, SearchRequest, VersionEntry, VersionsApi } from '@alfresco/js-api';
+import { Node, SearchRequest, VersionEntry, VersionsApi } from '@alfresco/js-api';
 import { Component, HostListener, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, PRIMARY_OUTLET, Router } from '@angular/router';
 import { AlfrescoApiService, AppConfigModule, ObjectUtils, UserPreferencesService, ViewerModule } from '@alfresco/adf-core';
@@ -76,7 +76,7 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
   folderId: string = null;
   nodeId: string = null;
   versionId: string = null;
-  node: MinimalNodeEntryEntity;
+  node: Node;
   selection: SelectionState;
   infoDrawerOpened$: Observable<boolean>;
 

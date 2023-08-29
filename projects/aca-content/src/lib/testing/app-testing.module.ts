@@ -35,7 +35,7 @@ import {
   PageTitleService
 } from '@alfresco/adf-core';
 import { DiscoveryApiService, SearchQueryBuilderService } from '@alfresco/adf-content-services';
-import { RepositoryInfo } from '@alfresco/js-api';
+import { RepositoryInfo, VersionInfo } from '@alfresco/js-api';
 import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { appReducer } from '../store/reducers/app.reducer';
@@ -76,7 +76,14 @@ import { STORE_INITIAL_APP_DATA } from '@alfresco/aca-shared/store';
       provide: DiscoveryApiService,
       useValue: {
         ecmProductInfo$: new BehaviorSubject<RepositoryInfo | null>(null),
-        getEcmProductInfo: (): Observable<RepositoryInfo> => of(new RepositoryInfo({ version: '10.0.0' }))
+        getEcmProductInfo: (): Observable<RepositoryInfo> =>
+          of(
+            new RepositoryInfo({
+              version: {
+                major: '10.0.0'
+              } as VersionInfo
+            })
+          )
       }
     },
     {

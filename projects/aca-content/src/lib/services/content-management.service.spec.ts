@@ -55,7 +55,7 @@ import { NodeActionsService } from './node-actions.service';
 import { TranslationService, NotificationService } from '@alfresco/adf-core';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBarModule, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
-import { NodeEntry, Node, VersionPaging, MinimalNodeEntity } from '@alfresco/js-api';
+import { NodeEntry, Node, VersionPaging } from '@alfresco/js-api';
 import {
   NewVersionUploaderDataAction,
   NewVersionUploaderService,
@@ -1685,7 +1685,7 @@ describe('ContentManagementService', () => {
       const elementToFocus = document.createElement(elementToFocusSelector);
       spyOn(elementToFocus, 'focus');
       spyOn(document, 'querySelector').withArgs(elementToFocusSelector).and.returnValue(elementToFocus);
-      contentManagementService.editFolder({} as MinimalNodeEntity, elementToFocusSelector);
+      contentManagementService.editFolder({} as NodeEntry, elementToFocusSelector);
       afterClosed$.next();
       expect(elementToFocus.focus).toHaveBeenCalled();
     });
@@ -1699,7 +1699,7 @@ describe('ContentManagementService', () => {
         }
       } as MatDialogRef<any>);
       spyOn(document, 'querySelector');
-      contentManagementService.editFolder({} as MinimalNodeEntity, '');
+      contentManagementService.editFolder({} as NodeEntry, '');
       afterClosed$.next();
       expect(document.querySelector).not.toHaveBeenCalled();
     });

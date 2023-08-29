@@ -25,11 +25,11 @@
 /* cspell:disable */
 import { AppConfigService, AuthenticationService, LogService, NotificationService } from '@alfresco/adf-core';
 import { Injectable } from '@angular/core';
-import { MinimalNodeEntryEntity } from '@alfresco/js-api';
+import { Node } from '@alfresco/js-api';
 import { getFileExtension, supportedExtensions } from '@alfresco/aca-shared/rules';
 
 export interface IAosEditOnlineService {
-  onActionEditOnlineAos(node: MinimalNodeEntryEntity): void;
+  onActionEditOnlineAos(node: Node): void;
 }
 
 @Injectable({
@@ -43,7 +43,7 @@ export class AosEditOnlineService implements IAosEditOnlineService {
     private logService: LogService
   ) {}
 
-  onActionEditOnlineAos(node: MinimalNodeEntryEntity): void {
+  onActionEditOnlineAos(node: Node): void {
     if (node && this.isFile(node) && node.properties) {
       if (node.isLocked) {
         // const checkedOut = node.aspectNames.find(
@@ -88,7 +88,7 @@ export class AosEditOnlineService implements IAosEditOnlineService {
     return fileExtension && supportedExtensions[fileExtension];
   }
 
-  private triggerEditOnlineAos(node: MinimalNodeEntryEntity): void {
+  private triggerEditOnlineAos(node: Node): void {
     const aosHost = this.appConfigService.get('aosHost');
     let url: string;
     const pathElements = (node.path?.elements || []).map((segment) => segment.name);
@@ -139,13 +139,13 @@ export class AosEditOnlineService implements IAosEditOnlineService {
     }, 500);
   }
 
-  private isFile(node: MinimalNodeEntryEntity): boolean {
+  private isFile(node: Node): boolean {
     const implicitFile = (node as any).nodeId || (node as any).guid;
 
     return !!implicitFile || node.isFile;
   }
 
-  private getNodeId(node: MinimalNodeEntryEntity): string {
+  private getNodeId(node: Node): string {
     return (node as any).nodeId || (node as any).guid || node.id;
   }
 }

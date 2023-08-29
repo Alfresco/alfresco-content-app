@@ -23,14 +23,16 @@
  */
 
 import { MetadataTabComponent } from './metadata-tab.component';
-import { MinimalNodeEntryEntity, Node } from '@alfresco/js-api';
+import { Node } from '@alfresco/js-api';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { AppConfigService } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
-import { AppState, SetInfoDrawerMetadataAspectAction } from '@alfresco/aca-shared/store';
+import { AppState, EditOfflineAction, SetInfoDrawerMetadataAspectAction } from '@alfresco/aca-shared/store';
 import { By } from '@angular/platform-browser';
 import { AppExtensionService, NodePermissionService } from '@alfresco/aca-shared';
+import { Actions } from '@ngrx/effects';
+import { Subject } from 'rxjs';
 
 describe('MetadataTabComponent', () => {
   let fixture: ComponentFixture<MetadataTabComponent>;
@@ -39,6 +41,7 @@ describe('MetadataTabComponent', () => {
   let appConfig: AppConfigService;
   let extensions: AppExtensionService;
   let nodePermissionService: NodePermissionService;
+  let actions$: Subject<EditOfflineAction>;
 
   const presets = {
     default: {
@@ -47,11 +50,18 @@ describe('MetadataTabComponent', () => {
     custom: []
   };
   beforeEach(() => {
+    actions$ = new Subject<EditOfflineAction>();
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, MetadataTabComponent]
+      imports: [AppTestingModule, MetadataTabComponent],
+      providers: [
+        {
+          provide: Actions,
+          useValue: actions$
+        }
+      ]
     });
     nodePermissionService = TestBed.inject(NodePermissionService);
-    spyOn(nodePermissionService, 'check').and.callFake((source: MinimalNodeEntryEntity, permissions: string[]) => {
+    spyOn(nodePermissionService, 'check').and.callFake((source: Node, permissions: string[]) => {
       return permissions.some((permission) => source.allowableOperations.includes(permission));
     });
   });
@@ -85,7 +95,7 @@ describe('MetadataTabComponent', () => {
     });
   });
 
-  describe('canUpdateNode()', () => {
+  describe('canUpdateNode', () => {
     beforeEach(() => {
       fixture = TestBed.createComponent(MetadataTabComponent);
       component = fixture.componentInstance;
@@ -128,6 +138,113 @@ describe('MetadataTabComponent', () => {
       } as Node;
       component.ngOnInit();
       expect(component.canUpdateNode).toBe(false);
+    });
+
+    describe('set by triggering EditOfflineAction', () => {
+      let editOfflineAction: EditOfflineAction;
+
+      beforeEach(() => {
+        component.node = {
+          id: 'some id',
+          allowableOperations: []
+        } as Node;
+        component.ngOnInit();
+        editOfflineAction = new EditOfflineAction({
+          entry: {
+            isLocked: false,
+            allowableOperations: ['update'],
+            id: component.node.id
+          } as Node
+        });
+        component.canUpdateNode = true;
+      });
+
+      it('should have set true if node is not locked and has update permission', () => {
+        component.canUpdateNode = false;
+        actions$.next(editOfflineAction);
+        expect(component.canUpdateNode).toBeTrue();
+      });
+
+      it('should not have set false if changed node has different id than original', () => {
+        editOfflineAction.payload.entry.id = 'some other id';
+        editOfflineAction.payload.entry.isLocked = true;
+        actions$.next(editOfflineAction);
+        expect(component.canUpdateNode).toBeTrue();
+      });
+
+      it('should have set false if node is locked', () => {
+        editOfflineAction.payload.entry.isLocked = true;
+        actions$.next(editOfflineAction);
+        expect(component.canUpdateNode).toBeFalse();
+      });
+
+      it('should have set false if node has no update permission', () => {
+        editOfflineAction.payload.entry.allowableOperations = ['other'];
+        actions$.next(editOfflineAction);
+        expect(component.canUpdateNode).toBeFalse();
+      });
+
+      it('should have set false if node has read only property', () => {
+        editOfflineAction.payload.entry.properties = {
+          'cm:lockType': 'WRITE_LOCK'
+        };
+        actions$.next(editOfflineAction);
+        expect(component.canUpdateNode).toBeFalse();
+      });
+    });
+  });
+
+  describe('editable', () => {
+    let editOfflineAction: EditOfflineAction;
+
+    beforeEach(() => {
+      fixture = TestBed.createComponent(MetadataTabComponent);
+      component = fixture.componentInstance;
+      component.node = {
+        id: 'some id',
+        allowableOperations: []
+      } as Node;
+      component.ngOnInit();
+      editOfflineAction = new EditOfflineAction({
+        entry: {
+          isLocked: false,
+          allowableOperations: ['update'],
+          id: component.node.id
+        } as Node
+      });
+      component.editable = true;
+    });
+
+    it('should not have set false if node is not locked and has update permission', () => {
+      actions$.next(editOfflineAction);
+      expect(component.editable).toBeTrue();
+    });
+
+    it('should not have set false if changed node has different id than original', () => {
+      editOfflineAction.payload.entry.id = 'some other id';
+      editOfflineAction.payload.entry.isLocked = true;
+      actions$.next(editOfflineAction);
+      expect(component.editable).toBeTrue();
+    });
+
+    it('should have set false if node is locked', () => {
+      editOfflineAction.payload.entry.isLocked = true;
+      actions$.next(editOfflineAction);
+      expect(component.editable).toBeFalse();
+    });
+
+    it('should have set false if node has no update permission', () => {
+      editOfflineAction.payload.entry.allowableOperations = ['other'];
+      actions$.next(editOfflineAction);
+      expect(component.editable).toBeFalse();
+    });
+
+    it('should have set false if node has read only property', () => {
+      editOfflineAction.payload.entry.properties = {
+        'cm:lockType': 'WRITE_LOCK'
+      };
+      actions$.next(editOfflineAction);
+      expect(component.editable).toBeFalse();
     });
   });
 

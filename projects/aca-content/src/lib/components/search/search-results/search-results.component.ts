@@ -23,7 +23,7 @@
  */
 
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { MinimalNodeEntity, Pagination, ResultSetPaging } from '@alfresco/js-api';
+import { NodeEntry, Pagination, ResultSetPaging } from '@alfresco/js-api';
 import { ActivatedRoute, Params } from '@angular/router';
 import { AlfrescoViewerModule, DocumentListModule, SearchModule, SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import {
@@ -265,7 +265,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
     return ['name', 'asc'];
   }
 
-  onNodeDoubleClick(node: MinimalNodeEntity) {
+  onNodeDoubleClick(node: NodeEntry) {
     if (node && node.entry) {
       if (node.entry.isFolder) {
         this.store.dispatch(new NavigateToFolder(node));

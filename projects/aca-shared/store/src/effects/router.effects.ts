@@ -25,7 +25,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
-import { MinimalNodeEntryEntity, PathInfoEntity } from '@alfresco/js-api';
+import { Node, PathInfo } from '@alfresco/js-api';
 import { map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../states/app.state';
@@ -97,7 +97,7 @@ export class RouterEffects {
     { dispatch: false }
   );
 
-  private navigateToFolder(node: MinimalNodeEntryEntity) {
+  private navigateToFolder(node: Node) {
     let link: any[] = null;
     const { path, id } = node;
 
@@ -122,7 +122,7 @@ export class RouterEffects {
     }
   }
 
-  private navigateToParentFolder(node: MinimalNodeEntryEntity) {
+  private navigateToParentFolder(node: Node) {
     let link: any[] = null;
     const { path } = node;
 
@@ -147,7 +147,7 @@ export class RouterEffects {
     }
   }
 
-  private isLibraryContent(path: PathInfoEntity): boolean {
+  private isLibraryContent(path: PathInfo): boolean {
     return path && path.elements.length >= 2 && path.elements[1].name === 'Sites';
   }
 }

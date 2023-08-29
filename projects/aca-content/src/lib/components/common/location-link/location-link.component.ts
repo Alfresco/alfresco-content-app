@@ -23,7 +23,7 @@
  */
 
 import { Component, Input, ChangeDetectionStrategy, OnInit, ViewEncapsulation, HostListener, inject } from '@angular/core';
-import { PathInfo, MinimalNodeEntity } from '@alfresco/js-api';
+import { PathInfo, NodeEntry } from '@alfresco/js-api';
 import { Observable, BehaviorSubject, of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { NavigateToParentFolder } from '@alfresco/aca-shared/store';
@@ -75,14 +75,14 @@ export class LocationLinkComponent implements OnInit {
 
   goToLocation() {
     if (this.context) {
-      const node: MinimalNodeEntity = this.context.row.node;
+      const node: NodeEntry = this.context.row.node;
       this.store.dispatch(new NavigateToParentFolder(node));
     }
   }
 
   ngOnInit() {
     if (this.context) {
-      const node: MinimalNodeEntity = this.context.row.node;
+      const node: NodeEntry = this.context.row.node;
       if (node && node.entry && node.entry.path) {
         const path = node.entry.path;
 

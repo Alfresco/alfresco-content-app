@@ -28,12 +28,12 @@ import { of, throwError, Subject, Observable } from 'rxjs';
 import { AlfrescoApiService, TranslationService } from '@alfresco/adf-core';
 import { DocumentListService, NodeAction } from '@alfresco/adf-content-services';
 import { NodeActionsService } from './node-actions.service';
-import { MinimalNodeEntryEntity, NodeChildAssociationEntry, NodeEntry } from '@alfresco/js-api';
+import { Node, NodeChildAssociationEntry, NodeEntry } from '@alfresco/js-api';
 import { AppTestingModule } from '../testing/app-testing.module';
 import { ContentApiService } from '@alfresco/aca-shared';
 
 class TestNode {
-  entry: MinimalNodeEntryEntity;
+  entry: Node;
 
   constructor(id?: string, isFile?: boolean, name?: string, permission?: string[], nodeType?: string, properties?: any) {
     this.entry = {} as any;
@@ -242,7 +242,7 @@ describe('NodeActionsService', () => {
 
     it('should not throw error if entry in "contentEntities" does not have id, but has nodeId property', () => {
       const contentEntities = [new TestNode(), { entry: { nodeId: '1234' } }];
-      const subject = new Subject<MinimalNodeEntryEntity[]>();
+      const subject = new Subject<Node[]>();
 
       spyOn(service, 'getContentNodeSelection').and.returnValue(subject);
       spyOn(service, 'copyNodeAction').and.returnValue(of({}));
@@ -333,7 +333,7 @@ describe('NodeActionsService', () => {
     });
 
     it('should be called', () => {
-      const subject = new Subject<MinimalNodeEntryEntity[]>();
+      const subject = new Subject<Node[]>();
       const spyOnBatchOperation = spyOn(service, 'doBatchOperation').and.callThrough();
       spyOn(service, 'getContentNodeSelection').and.returnValue(subject);
       spyOn(service, 'copyNodeAction').and.returnValue(of({}));
@@ -720,10 +720,10 @@ describe('NodeActionsService', () => {
     let destinationFolder: TestNode;
     let spyOnBatchOperation: jasmine.Spy;
     let documentListService: DocumentListService;
-    let subject: Subject<MinimalNodeEntryEntity[]>;
+    let subject: Subject<Node[]>;
 
     beforeEach(() => {
-      subject = new Subject<MinimalNodeEntryEntity[]>();
+      subject = new Subject<Node[]>();
       fileToMove = new TestNode('file-to-be-moved', isFile, 'file-name');
       folderToMove = new TestNode('fid', !isFile, 'folder-name');
       destinationFolder = new TestNode(folderDestinationId);

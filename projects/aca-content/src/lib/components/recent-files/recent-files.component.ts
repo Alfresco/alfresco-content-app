@@ -23,7 +23,7 @@
  */
 
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { MinimalNodeEntity } from '@alfresco/js-api';
+import { NodeEntry } from '@alfresco/js-api';
 import { debounceTime } from 'rxjs/operators';
 import {
   ContextActionsDirective,
@@ -78,7 +78,7 @@ export class RecentFilesComponent extends PageComponent implements OnInit {
     this.columns = this.extensions.documentListPresets.recent || [];
   }
 
-  onNodeDoubleClick(node: MinimalNodeEntity) {
+  onNodeDoubleClick(node: NodeEntry) {
     if (node && node.entry) {
       this.showPreview(node, { location: this.router.url });
     }

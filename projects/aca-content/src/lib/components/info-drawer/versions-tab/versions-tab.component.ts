@@ -23,7 +23,7 @@
  */
 
 import { Component, Input, OnChanges, OnInit, ViewEncapsulation } from '@angular/core';
-import { MinimalNodeEntryEntity } from '@alfresco/js-api';
+import { Node } from '@alfresco/js-api';
 import { CommonModule } from '@angular/common';
 import { VersionManagerModule } from '@alfresco/adf-content-services';
 import { AppConfigModule } from '@alfresco/adf-core';
@@ -55,7 +55,7 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 export class VersionsTabComponent implements OnInit, OnChanges {
   @Input()
-  node: MinimalNodeEntryEntity;
+  node: Node;
 
   isFileSelected = false;
 

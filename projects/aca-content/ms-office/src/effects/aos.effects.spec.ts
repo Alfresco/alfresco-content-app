@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { MinimalNodeEntryEntity } from '@alfresco/js-api';
+import { Node } from '@alfresco/js-api';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Observable, of } from 'rxjs';
@@ -60,7 +60,7 @@ describe('AosEffects', () => {
   it('should call onActionEditOnlineAos on AOS_ACTION', () => {
     const onActionEditOnlineAosSpy = spyOn(aosEditOnlineService, 'onActionEditOnlineAos');
 
-    const payload = new MinimalNodeEntryEntity();
+    const payload = new Node();
     const action = new AosAction(payload);
     aosActions$ = of(action);
 

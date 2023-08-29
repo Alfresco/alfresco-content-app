@@ -26,7 +26,6 @@ import { Injectable } from '@angular/core';
 import { AlfrescoApiService, UserPreferencesService } from '@alfresco/adf-core';
 import { Observable, from } from 'rxjs';
 import {
-  MinimalNodeEntity,
   NodePaging,
   Node,
   DeletedNodesPaging,
@@ -37,9 +36,9 @@ import {
   SharedLinkPaging,
   SearchRequest,
   ResultSetPaging,
-  SiteBody,
+  SiteBodyCreate,
   SiteEntry,
-  FavoriteBody,
+  FavoriteBodyCreate,
   FavoriteEntry,
   NodesApi,
   TrashcanApi,
@@ -139,7 +138,7 @@ export class ContentApiService {
    * @param options Optional parameters supported by JS-API
    * @returns Node information
    */
-  getNode(nodeId: string, options: any = {}): Observable<MinimalNodeEntity> {
+  getNode(nodeId: string, options: any = {}): Observable<NodeEntry> {
     const defaults = {
       include: ['path', 'properties', 'allowableOperations', 'permissions', 'definition']
     };
@@ -199,7 +198,7 @@ export class ContentApiService {
     return from(this.trashcanApi.listDeletedNodes(queryOptions));
   }
 
-  restoreNode(nodeId: string): Observable<MinimalNodeEntity> {
+  restoreNode(nodeId: string): Observable<NodeEntry> {
     return from(this.trashcanApi.restoreDeletedNode(nodeId));
   }
 
@@ -299,7 +298,7 @@ export class ContentApiService {
   }
 
   createSite(
-    siteBody: SiteBody,
+    siteBody: SiteBodyCreate,
     opts?: {
       fields?: Array<string>;
       skipConfiguration?: boolean;
@@ -313,12 +312,12 @@ export class ContentApiService {
     return from(this.sitesApi.getSite(siteId, opts));
   }
 
-  updateLibrary(siteId: string, siteBody: SiteBody): Observable<SiteEntry> {
+  updateLibrary(siteId: string, siteBody: SiteBodyCreate): Observable<SiteEntry> {
     return from(this.sitesApi.updateSite(siteId, siteBody));
   }
 
-  addFavorite(nodes: Array<MinimalNodeEntity>): Observable<FavoriteEntry> {
-    const payload: FavoriteBody[] = nodes.map((node) => {
+  addFavorite(nodes: Array<NodeEntry>): Observable<FavoriteEntry> {
+    const payload: FavoriteBodyCreate[] = nodes.map((node) => {
       const { isFolder, nodeId, id } = node.entry as any;
       const siteId = node.entry['guid'];
       const type = siteId ? 'site' : isFolder ? 'folder' : 'file';
@@ -336,7 +335,7 @@ export class ContentApiService {
     return from(this.favoritesApi.createFavorite('-me-', payload as any));
   }
 
-  removeFavorite(nodes: Array<MinimalNodeEntity>): Observable<any> {
+  removeFavorite(nodes: Array<NodeEntry>): Observable<any> {
     return from(
       Promise.all(
         nodes.map((node: any) => {
@@ -347,7 +346,7 @@ export class ContentApiService {
     );
   }
 
-  unlockNode(nodeId: string, opts?: any): Promise<MinimalNodeEntity> {
+  unlockNode(nodeId: string, opts?: any): Promise<NodeEntry> {
     return this.nodesApi.unlockNode(nodeId, opts);
   }
 

@@ -28,24 +28,24 @@ import { ApiClientFactory, Utils, test } from '@alfresco/playwright-shared';
 test.describe('Create folders', () => {
   const apiClientFactory = new ApiClientFactory();
   let randomFolderName: string;
-  const testUserAdmin = {
+  const sessionTestUser = {
     username: `user-${Utils.random()}`,
     password: 'user password'
   };
 
   test.beforeAll(async () => {
     await apiClientFactory.setUpAcaBackend('admin');
-    await apiClientFactory.createUser(testUserAdmin);
+    await apiClientFactory.createUser(sessionTestUser);
   });
 
   test.beforeEach(async () => {
     randomFolderName = `playwright-folder-${Utils.random()}`;
-    await apiClientFactory.loginUser(testUserAdmin);
+    await apiClientFactory.loginUser(sessionTestUser);
   });
 
   test('[C286473] should close opened dialogs on session expire', async ({ loginPage, personalFiles }) => {
     await loginPage.navigate();
-    await loginPage.loginUser({ username: testUserAdmin.username, password: testUserAdmin.password });
+    await loginPage.loginUser({ username: sessionTestUser.username, password: sessionTestUser.password });
     const folderDialog = personalFiles.folderDialog;
     await personalFiles.selectCreateFolder();
     await apiClientFactory.tearDown();
