@@ -29,7 +29,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { ViewNodeAction } from '@alfresco/aca-shared/store';
 import { AppTestingModule } from '../../../testing/app-testing.module';
-import { RouterTestingModule } from '@angular/router/testing';
 
 describe('ViewNodeComponent', () => {
   let component: ViewNodeComponent;
@@ -54,7 +53,7 @@ describe('ViewNodeComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, ViewNodeComponent, RouterTestingModule],
+      imports: [AppTestingModule, ViewNodeComponent],
       providers: [
         { provide: Store, useValue: mockStore },
         { provide: Router, useValue: mockRouter },
@@ -117,8 +116,9 @@ describe('ViewNodeComponent', () => {
     component.data = {
       iconButton: true
     };
-    mockStore.select.and.returnValue(of(linkNode));
+    mockStore.dispatch.calls.reset();
     route.queryParams = of({});
+    mockStore.select.and.returnValue(of(linkNode));
     fixture.detectChanges();
 
     component.onClick();
@@ -141,6 +141,7 @@ describe('ViewNodeComponent', () => {
     component.data = {
       iconButton: true
     };
+    mockStore.dispatch.calls.reset();
     mockStore.select.and.returnValue(of(linkNode));
     const id = linkNode.file.entry.properties['cm:destination'];
     mockRouter.url = `some-url/details/${id}`;
