@@ -54,12 +54,14 @@ import {
 } from '@alfresco/aca-shared/store';
 import { ContentManagementService } from '../../services/content-management.service';
 import { RenditionService } from '@alfresco/adf-content-services';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class NodeEffects {
   constructor(
     private store: Store<AppStore>,
     private actions$: Actions,
+    private router: Router,
     private contentService: ContentManagementService,
     private renditionViewer: RenditionService
   ) {}
@@ -307,7 +309,11 @@ export class NodeEffects {
         map((action) => {
           if (action?.payload) {
             const route = 'personal-files/details';
-            this.store.dispatch(new NavigateRouteAction([route, action.payload.entry.id]));
+            this.router.navigate([route, action.payload.entry.id], {
+              queryParams: {
+                location: this.router.url
+              }
+            });
           } else {
             this.store
               .select(getAppSelection)
@@ -315,7 +321,11 @@ export class NodeEffects {
               .subscribe((selection) => {
                 if (selection && !selection.isEmpty) {
                   const route = 'personal-files/details';
-                  this.store.dispatch(new NavigateRouteAction([route, selection.first.entry.id]));
+                  this.router.navigate([route, selection.first.entry.id], {
+                    queryParams: {
+                      location: this.router.url
+                    }
+                  });
                 }
               });
           }

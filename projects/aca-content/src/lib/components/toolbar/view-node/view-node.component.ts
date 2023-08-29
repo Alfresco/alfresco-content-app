@@ -25,7 +25,7 @@
 import { Component, ViewEncapsulation, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppStore, ViewNodeAction, getAppSelection } from '@alfresco/aca-shared/store';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { SharedLinkEntry } from '@alfresco/js-api';
 import { AcaFileAutoDownloadService } from '@alfresco/aca-shared';
@@ -62,7 +62,12 @@ import { MatDialogModule } from '@angular/material/dialog';
 export class ViewNodeComponent {
   @Input() data: { title?: string; menuButton?: boolean; iconButton?: boolean };
 
-  constructor(private store: Store<AppStore>, private router: Router, private fileAutoDownloadService: AcaFileAutoDownloadService) {}
+  constructor(
+    private store: Store<AppStore>,
+    private router: Router,
+    private fileAutoDownloadService: AcaFileAutoDownloadService,
+    private activatedRoute: ActivatedRoute
+  ) {}
 
   onClick() {
     this.store
@@ -79,9 +84,15 @@ export class ViewNodeComponent {
           } else {
             id = (selection.file as SharedLinkEntry).entry.nodeId || (selection.file as any).entry.guid || selection.file.entry.id;
           }
-
-          this.store.dispatch(new ViewNodeAction(id, { location: this.router.url }));
+          this.navigateToViewer(id);
         }
       });
+  }
+
+  private navigateToViewer(id: string): void {
+    this.activatedRoute.queryParams.pipe(take(1)).subscribe((params) => {
+      const location = params.location || this.router.url;
+      this.store.dispatch(new ViewNodeAction(id, { location }));
+    });
   }
 }
