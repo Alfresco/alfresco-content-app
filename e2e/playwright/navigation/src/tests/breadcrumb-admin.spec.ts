@@ -31,9 +31,10 @@ test.describe('as admin', () => {
   const userFolder = `userFolder-${Utils.random()}`;
   let userFolderId: string;
 
-  test.beforeAll(async ({ nodesApiAction }) => {
+  test.beforeAll(async () => {
     await apiClientFactory.setUpAcaBackend('hruser');
-    userFolderId = (await nodesApiAction.createFolder(userFolder)).entry.id;
+    const node = await apiClientFactory.nodes.createNode('-my-', { name: userFolder, nodeType: 'cm:folder', relativePath: '/' });
+    userFolderId = node.entry.id;
   });
 
   test.afterAll(async () => {
