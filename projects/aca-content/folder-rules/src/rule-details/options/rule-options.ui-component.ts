@@ -22,8 +22,8 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, forwardRef, HostBinding, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { AbstractControl, ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+import { Component, forwardRef, HostBinding, Input, OnChanges, OnDestroy, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
 import { RuleOptions } from '../../model/rule.model';
 import { ActionParameterConstraint, ConstraintValue } from '../../model/action-parameter-constraint.model';
@@ -48,7 +48,7 @@ import { MatSelectModule } from '@angular/material/select';
     }
   ]
 })
-export class RuleOptionsUiComponent implements ControlValueAccessor, OnInit, OnDestroy {
+export class RuleOptionsUiComponent implements ControlValueAccessor, OnChanges, OnDestroy {
   form = new FormGroup({
     isDisabled: new FormControl(),
     isInheritable: new FormControl(),
@@ -57,13 +57,14 @@ export class RuleOptionsUiComponent implements ControlValueAccessor, OnInit, OnD
   });
 
   formSubscription = this.form.valueChanges.subscribe((value: any) => {
+    const formValue = { ...this.form.value, ...value };
     this.isAsynchronousChecked = value.isAsynchronous;
     this.isInheritableChecked = value.isInheritable;
     this.onChange({
-      isEnabled: !value.isDisabled,
-      isInheritable: value.isInheritable,
-      isAsynchronous: value.isAsynchronous,
-      errorScript: value.errorScript ?? ''
+      isEnabled: !formValue.isDisabled,
+      isInheritable: formValue.isInheritable,
+      isAsynchronous: formValue.isAsynchronous,
+      errorScript: formValue.errorScript ?? ''
     });
     this.onTouch();
   });
@@ -85,19 +86,18 @@ export class RuleOptionsUiComponent implements ControlValueAccessor, OnInit, OnD
   errorScriptOptions: ConstraintValue[] = [];
 
   writeValue(options: RuleOptions) {
-    const isAsynchronousFormControl = this.form.get('isAsynchronous');
-    const errorScriptFormControl = this.form.get('errorScript');
-    this.form.get('isDisabled').setValue(!options.isEnabled);
-    this.form.get('isInheritable').setValue(options.isInheritable);
-    this.form.get('isAsynchronous').setValue(options.isAsynchronous);
-    errorScriptFormControl.setValue(options.errorScript ?? '');
-    if (isAsynchronousFormControl.value) {
-      this.hideErrorScriptDropdown = false;
-      errorScriptFormControl.enable();
-    } else {
-      this.hideErrorScriptDropdown = true;
-      errorScriptFormControl.disable();
-    }
+    this.form.setValue(
+      {
+        isDisabled: !options.isEnabled,
+        isAsynchronous: options.isAsynchronous,
+        isInheritable: options.isInheritable,
+        errorScript: options.errorScript ?? ''
+      },
+      { emitEvent: false }
+    );
+    this.isAsynchronousChecked = options.isAsynchronous;
+    this.isInheritableChecked = options.isInheritable;
+    this.hideErrorScriptDropdown = !this.isAsynchronousChecked;
   }
 
   registerOnChange(fn: () => void) {
@@ -118,8 +118,10 @@ export class RuleOptionsUiComponent implements ControlValueAccessor, OnInit, OnD
     }
   }
 
-  ngOnInit(): void {
-    this.errorScriptOptions = this.errorScriptConstraint?.constraints ?? [];
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['errorScriptConstraint']) {
+      this.errorScriptOptions = this.errorScriptConstraint?.constraints ?? [];
+    }
   }
 
   ngOnDestroy() {
@@ -127,13 +129,6 @@ export class RuleOptionsUiComponent implements ControlValueAccessor, OnInit, OnD
   }
 
   toggleErrorScriptDropdown(value: MatCheckboxChange) {
-    const formControl: AbstractControl = this.form.get('errorScript');
-    if (value.checked) {
-      this.hideErrorScriptDropdown = false;
-      formControl.enable();
-    } else {
-      this.hideErrorScriptDropdown = true;
-      formControl.disable();
-    }
+    this.hideErrorScriptDropdown = !value.checked;
   }
 }

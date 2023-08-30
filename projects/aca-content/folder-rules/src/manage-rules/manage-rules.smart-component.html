@@ -106,6 +106,7 @@
               <div class="aca-manage-rules__container__rule-details__content" *ngIf="(selectedRule$ | async) as selectedRule">
                 <aca-rule-details
                   [actionDefinitions]="actionDefinitions$ | async"
+                  [parameterConstraints]="parameterConstraints$ | async"
                   [readOnly]="true"
                   [preview]="true"
                   [value]="selectedRule"
