@@ -28,7 +28,6 @@ import { ApiClientFactory, getUserState, test, Utils } from '@alfresco/playwrigh
 test.use({ storageState: getUserState('admin') });
 test.describe('as admin', () => {
   const apiClientFactory = new ApiClientFactory();
-  const user2 = `user2-${Utils.random()}`;
   const userFolder = `userFolder-${Utils.random()}`;
   let userFolderId: string;
 
@@ -43,6 +42,6 @@ test.describe('as admin', () => {
 
   test(`[C260970] Breadcrumb on navigation to a user's home`, async ({ personalFiles }) => {
     await personalFiles.navigate({ remoteUrl: `#/personal-files/${userFolderId}` });
-    expect(await personalFiles.breadcrumb.getAllItems()).toEqual(['Personal Files', 'User Homes', user2, userFolder]);
+    expect(await personalFiles.breadcrumb.getAllItems()).toEqual(['Personal Files', 'User Homes', 'hruser', userFolder]);
   });
 });
