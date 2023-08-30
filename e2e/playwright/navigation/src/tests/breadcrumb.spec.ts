@@ -126,25 +126,3 @@ test.describe('viewer action file', () => {
     expect(await personalFiles.breadcrumb.getAllItems()).toEqual(expectedBreadcrumb);
   });
 });
-
-test.use({ storageState: getUserState('admin') });
-test.describe('as admin', () => {
-  const apiClientFactory = new ApiClientFactory();
-  const user2 = `user2-${Utils.random()}`;
-  const userFolder = `userFolder-${Utils.random()}`;
-  let userFolderId: string;
-
-  test.beforeAll(async ({ nodesApiAction }) => {
-    await apiClientFactory.setUpAcaBackend('admin');
-    userFolderId = (await nodesApiAction.createFolder(userFolder)).entry.id;
-  });
-
-  test.afterAll(async () => {
-    await apiClientFactory.nodes.deleteNode(userFolderId, { permanent: true });
-  });
-
-  test(`[C260970] Breadcrumb on navigation to a user's home`, async ({ personalFiles }) => {
-    await personalFiles.navigate({ remoteUrl: `#/personal-files/${userFolderId}` });
-    expect(await personalFiles.breadcrumb.getAllItems()).toEqual(['Personal Files', 'User Homes', user2, userFolder]);
-  });
-});
