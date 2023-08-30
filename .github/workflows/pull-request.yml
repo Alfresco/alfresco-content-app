@@ -38,7 +38,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          fetch-depth: 2
+          fetch-depth: 0
 
       - name: node
         uses: actions/setup-node@v3
@@ -46,7 +46,7 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'npm'
       - run: npm ci
-      - run: npm run lint
+      - run: npm run affected:lint -- --base=origin/develop
       - run: npm run stylelint
 
   build:
@@ -90,7 +90,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          fetch-depth: 2
+          fetch-depth: 0
 
       - name: node
         uses: actions/setup-node@v3
@@ -99,7 +99,7 @@ jobs:
           cache: 'npm'
       - uses: ./.github/actions/before-install
       - run: npm ci
-      - run: npm test ${{ matrix.unit-tests.name }} -- --browsers=ChromeHeadless --watch=false $TEST_OPTS
+      - run: npm run affected:test -- --browsers=ChromeHeadless --watch=false $TEST_OPTS --base=origin/develop
 
   e2es:
     needs: [lint, build, unit-tests]
