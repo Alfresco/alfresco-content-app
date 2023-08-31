@@ -39,14 +39,16 @@ import { Actions, ofType } from '@ngrx/effects';
   imports: [CommonModule, ContentMetadataModule],
   selector: 'app-metadata-tab',
   template: `
-    <adf-content-metadata-card
+    <adf-content-metadata
       [readOnly]="!canUpdateNode"
       [preset]="'custom'"
       [node]="node"
       [displayAspect]="displayAspect$ | async"
+      [displayTags]="displayTags"
+      [displayCategories]="displayCategories"
       [(editable)]="editable"
     >
-    </adf-content-metadata-card>
+    </adf-content-metadata>
   `,
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-metadata-tab' }
@@ -56,6 +58,14 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
 
   @Input()
   node: Node;
+
+  /** Display tags in the card **/
+  @Input()
+  displayTags = true;
+
+  /** Display categories in the card **/
+  @Input()
+  displayCategories = true;
 
   displayAspect$: Observable<string>;
   canUpdateNode = false;
