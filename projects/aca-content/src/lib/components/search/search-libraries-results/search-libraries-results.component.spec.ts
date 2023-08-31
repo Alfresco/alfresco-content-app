@@ -37,10 +37,12 @@ describe('SearchLibrariesResultsComponent', () => {
   const emptyPage = { list: { pagination: { totalItems: 0 }, entries: [] } };
   const appServiceMock = {
     appNavNarMode$: new BehaviorSubject('collapsed'),
-    toggleAppNavBar$: new Subject()
+    toggleAppNavBar$: new Subject(),
+    setAppNavbarMode: jasmine.createSpy('setAppNavbarMode')
   };
 
   beforeEach(() => {
+    appServiceMock.setAppNavbarMode.calls.reset();
     TestBed.configureTestingModule({
       imports: [AppTestingModule, SearchLibrariesResultsComponent],
       schemas: [NO_ERRORS_SCHEMA],
@@ -65,9 +67,8 @@ describe('SearchLibrariesResultsComponent', () => {
   });
 
   it('should collapsed sidenav by default', () => {
-    spyOn(appServiceMock.appNavNarMode$, 'next');
     component.ngOnInit();
 
-    expect(appServiceMock.appNavNarMode$.next).toHaveBeenCalledWith('collapsed');
+    expect(appServiceMock.setAppNavbarMode).toHaveBeenCalledWith('collapsed');
   });
 });

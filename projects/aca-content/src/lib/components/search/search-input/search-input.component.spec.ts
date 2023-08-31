@@ -42,10 +42,12 @@ describe('SearchInputComponent', () => {
   let searchInputService: SearchNavigationService;
   const appServiceMock = {
     appNavNarMode$: new BehaviorSubject('collapsed'),
+    setAppNavbarMode: jasmine.createSpy('setAppNavbarMode'),
     toggleAppNavBar$: new Subject()
   };
 
   beforeEach(() => {
+    appServiceMock.setAppNavbarMode.calls.reset();
     TestBed.configureTestingModule({
       imports: [AppTestingModule, SearchInputComponent],
       providers: [
@@ -70,10 +72,9 @@ describe('SearchInputComponent', () => {
   });
 
   it('should collapsed sidenav by default', () => {
-    spyOn(appServiceMock.appNavNarMode$, 'next');
     component.ngOnInit();
 
-    expect(appServiceMock.appNavNarMode$.next).toHaveBeenCalledWith('collapsed');
+    expect(appServiceMock.setAppNavbarMode).toHaveBeenCalledWith('collapsed');
   });
 
   it('should change flag on library400Error event', async () => {
@@ -244,9 +245,8 @@ describe('SearchInputComponent', () => {
   });
 
   it('should sidenav expanded after the component is destroy', () => {
-    spyOn(appServiceMock.appNavNarMode$, 'next');
     component.ngOnDestroy();
 
-    expect(appServiceMock.appNavNarMode$.next).toHaveBeenCalledWith('expanded');
+    expect(appServiceMock.setAppNavbarMode).toHaveBeenCalledWith('expanded');
   });
 });

@@ -64,7 +64,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
         this.groups = this.extensions.getApplicationNavigation(this.extensions.navbar);
       });
 
-    this.appService.appNavNarMode$.next(this.data.mode);
+    this.appService.setAppNavbarMode(this.data.mode);
     this.appService.toggleAppNavBar$.pipe(takeUntil(this.onDestroy$)).subscribe(() => this.toggleNavBar());
     this.data.layout.expanded.pipe(takeUntil(this.onDestroy$)).subscribe(() => this.setNavBarMode());
   }
@@ -82,7 +82,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
   }
 
   private setNavBarMode() {
-    this.appService.appNavNarMode$.next(this.data.layout.isMenuMinimized || this.data.layout.isHeaderInside ? 'collapsed' : 'expanded');
+    this.appService.setAppNavbarMode(this.data.layout.isMenuMinimized || this.data.layout.isHeaderInside ? 'collapsed' : 'expanded');
   }
 
   private toggleNavBar() {

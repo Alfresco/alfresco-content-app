@@ -92,7 +92,7 @@ export class SearchLibrariesResultsComponent extends PageComponent implements On
   }
 
   ngOnInit() {
-    this.appService.appNavNarMode$.next('collapsed');
+    this.appService.setAppNavbarMode('collapsed');
     super.ngOnInit();
 
     this.columns = this.extensions.documentListPresets.searchLibraries || [];
