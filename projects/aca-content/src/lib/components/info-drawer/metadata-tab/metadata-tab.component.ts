@@ -62,6 +62,14 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
   @Input()
   node: Node;
 
+  /** Display tags in the card **/
+  @Input()
+  displayTags = true;
+
+  /** Display categories in the card **/
+  @Input()
+  displayCategories = true;
+
   displayAspect$: Observable<string>;
   canUpdateNode = false;
   editable = false;
