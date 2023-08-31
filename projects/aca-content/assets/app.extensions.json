@@ -1244,6 +1244,18 @@
           }
         },
         {
+          "id": "app.toolbar.aspects",
+          "order": 160,
+          "title": "APP.ACTIONS.CHANGE_ASPECT",
+          "icon": "playlist_add",
+          "actions": {
+            "click": "ASPECT_LIST"
+          },
+          "rules": {
+            "visible": "canEditAspects"
+          }
+        },
+        {
           "id": "app.sidebar.expand",
           "order": 200,
           "title": "APP.INFO_DRAWER.TABS.EXPAND",
