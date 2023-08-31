@@ -29,11 +29,14 @@ test.use({ storageState: getUserState('admin') });
 test.describe('as admin', () => {
   const apiClientFactory = new ApiClientFactory();
   const userFolder = `userFolder-${Utils.random()}`;
+  const username = `userAdmin-${Utils.random()}`;
   let userFolderId: string;
 
-  test.beforeAll(async () => {
-    await apiClientFactory.setUpAcaBackend('hruser');
-    const node = await apiClientFactory.nodes.createNode('-my-', { name: userFolder, nodeType: 'cm:folder', relativePath: '/' });
+  test.beforeAll(async ({ userActions }) => {
+    await apiClientFactory.setUpAcaBackend('admin');
+    await apiClientFactory.createUser({ username });
+    await userActions.setUpUserAcaBackend(username, username);
+    const node = await userActions.nodesApi.createNode('-my-', { name: userFolder, nodeType: 'cm:folder', relativePath: '/' });
     userFolderId = node.entry.id;
   });
 
@@ -43,6 +46,6 @@ test.describe('as admin', () => {
 
   test(`[C260970] Breadcrumb on navigation to a user's home`, async ({ personalFiles }) => {
     await personalFiles.navigate({ remoteUrl: `#/personal-files/${userFolderId}` });
-    expect(await personalFiles.breadcrumb.getAllItems()).toEqual(['Personal Files', 'User Homes', 'hruser', userFolder]);
+    expect(await personalFiles.breadcrumb.getAllItems()).toEqual(['Personal Files', 'User Homes', username, userFolder]);
   });
 });
