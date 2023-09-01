@@ -127,7 +127,10 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
         this.isAdmin = value;
       });
 
-    this.columns = this.extensions.documentListPresets.files || [];
+    this.extensions.filesDocumentListPreset$.pipe(takeUntil(this.onDestroy$)).subscribe((preset) => {
+      this.columns = preset;
+    });
+
     if (this.queryParams && Object.keys(this.queryParams).length > 0) {
       this.isFilterHeaderActive = true;
     }

@@ -25,7 +25,7 @@
 import { TestBed } from '@angular/core/testing';
 import { ViewNodeComponent } from './view-node.component';
 import { Store } from '@ngrx/store';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { ViewNodeAction } from '@alfresco/aca-shared/store';
 import { AppTestingModule } from '../../../testing/app-testing.module';
@@ -49,12 +49,15 @@ describe('ViewNodeComponent', () => {
     )
   };
 
+  const route = { queryParams: of({}) };
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule, ViewNodeComponent],
       providers: [
         { provide: Store, useValue: mockStore },
-        { provide: Router, useValue: mockRouter }
+        { provide: Router, useValue: mockRouter },
+        { provide: ActivatedRoute, useValue: route }
       ]
     });
 
@@ -98,7 +101,7 @@ describe('ViewNodeComponent', () => {
     expect(mockStore.dispatch).toHaveBeenCalled();
   });
 
-  it('should call ViewNodeAction for `app:filelink` node type', () => {
+  it('should call ViewNodeAction for `app:filelink` node type with proper location', () => {
     const linkNode = {
       file: {
         entry: {
@@ -113,13 +116,20 @@ describe('ViewNodeComponent', () => {
     component.data = {
       iconButton: true
     };
+    mockStore.dispatch.calls.reset();
+    route.queryParams = of({});
     mockStore.select.and.returnValue(of(linkNode));
-
     fixture.detectChanges();
 
     component.onClick();
-
     const id = linkNode.file.entry.properties['cm:destination'];
-    expect(mockStore.dispatch).toHaveBeenCalledWith(new ViewNodeAction(id, { location: mockRouter.url }));
+    expect(mockStore.dispatch).toHaveBeenCalledWith(new ViewNodeAction(id, { location: 'some-url' }));
+
+    mockRouter.url = `some-url/details/${id}`;
+    route.queryParams = of({ location: 'other-location/1234' });
+
+    fixture.detectChanges();
+    component.onClick();
+    expect(mockStore.dispatch).toHaveBeenCalledWith(new ViewNodeAction(id, { location: 'other-location/1234' }));
   });
 });

@@ -174,7 +174,7 @@ describe('AppExtensionService', () => {
       });
     });
 
-    it('should support column orders', () => {
+    it('should support column orders', (done) => {
       applyConfig({
         $id: 'test',
         $name: 'test',
@@ -228,19 +228,23 @@ describe('AppExtensionService', () => {
         }
       });
 
-      const { files, libraries } = service.documentListPresets;
+      const { libraries } = service.documentListPresets;
+      const files = service.filesDocumentListPreset$;
 
-      expect(files.length).toBe(3);
-      expect(files[0].id).toBe('app.files.thumbnail');
-      expect(files[1].id).toBe('app.files.name');
-      expect(files[2].id).toBe('app.files.securityMarks');
+      files.subscribe((columns) => {
+        expect(columns.length).toBe(3);
+        expect(columns[0].id).toBe('app.files.thumbnail');
+        expect(columns[1].id).toBe('app.files.name');
+        expect(columns[2].id).toBe('app.files.securityMarks');
+        done();
+      });
 
       expect(libraries.length).toBe(2);
       expect(libraries[0].id).toBe('app.libraries.name');
       expect(libraries[1].id).toBe('app.libraries.thumbnail');
     });
 
-    it('should ignore column if visibility in rules is false', () => {
+    it('should ignore column if visibility in rules is false', (done) => {
       applyConfig({
         $id: 'test',
         $name: 'test',
@@ -279,11 +283,14 @@ describe('AppExtensionService', () => {
         }
       });
 
-      const { files } = service.documentListPresets;
+      const files = service.filesDocumentListPreset$;
 
-      expect(files.length).toBe(2);
-      expect(files[0].id).toBe('app.files.thumbnail');
-      expect(files[1].id).toBe('app.files.name');
+      files.subscribe((columns) => {
+        expect(columns.length).toBe(2);
+        expect(columns[0].id).toBe('app.files.thumbnail');
+        expect(columns[1].id).toBe('app.files.name');
+        done();
+      });
     });
   });
 
