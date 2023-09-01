@@ -24,7 +24,7 @@
 
 import { Page } from '@playwright/test';
 import { BasePage } from './base.page';
-import { Breadcrumb, DataTableComponent, MatMenuComponent, ViewerComponent } from '../components';
+import { Breadcrumb, DataTableComponent, MatMenuComponent, SidenavComponent, ViewerComponent } from '../components';
 import { AcaHeader } from '../components/aca-header.component';
 import { AdfFolderDialogComponent, PasswordOverlayDialogComponent, ViewerOverlayDialogComponent } from '../components/dialogs';
 
@@ -43,6 +43,7 @@ export class PersonalFilesPage extends BasePage {
   public passwordDialog = new PasswordOverlayDialogComponent(this.page);
   public viewerDialog = new ViewerOverlayDialogComponent(this.page);
   public breadcrumb = new Breadcrumb(this.page);
+  public sidenav = new SidenavComponent(this.page);
 
   async selectCreateFolder(): Promise<void> {
     await this.acaHeader.createButton.click();

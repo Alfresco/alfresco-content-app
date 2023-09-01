@@ -25,7 +25,7 @@
 
 import { Page } from '@playwright/test';
 import { BasePage } from './base.page';
-import { DataTableComponent, MatMenuComponent, ViewerComponent } from '../components';
+import { DataTableComponent, MatMenuComponent, SidenavComponent, ViewerComponent } from '../components';
 import { AcaHeader } from '../components/aca-header.component';
 import { AdfFolderDialogComponent } from '../components/dialogs';
 
@@ -41,4 +41,5 @@ export class RecentFilesPage extends BasePage {
   public folderDialog = new AdfFolderDialogComponent(this.page);
   public dataTable = new DataTableComponent(this.page);
   public viewer = new ViewerComponent(this.page);
+  public sidenav = new SidenavComponent(this.page);
 }

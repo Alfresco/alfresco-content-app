@@ -27,3 +27,25 @@ export const SITE_VISIBILITY = {
   MODERATED: 'MODERATED',
   PRIVATE: 'PRIVATE'
 };
+
+export const APP_ROUTES = {
+  FAVORITES: '/favorites',
+  MY_LIBRARIES: '/libraries',
+  FAVORITE_LIBRARIES: '/favorite/libraries',
+  LOGIN: '/login',
+  LOGOUT: '/logout',
+  PERSONAL_FILES: '/personal-files',
+  RECENT_FILES: '/recent-files',
+  SHARED_FILES: '/shared',
+  TRASHCAN: '/trashcan'
+};
+
+export const SIDEBAR_LABELS = {
+  PERSONAL_FILES: 'Personal Files',
+  MY_LIBRARIES: 'My Libraries',
+  FAVORITE_LIBRARIES: 'Favorite Libraries',
+  SHARED_FILES: 'Shared',
+  RECENT_FILES: 'Recent Files',
+  FAVORITES: 'Favorites',
+  TRASH: 'Trash'
+};

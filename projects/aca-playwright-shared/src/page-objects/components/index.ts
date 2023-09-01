@@ -36,3 +36,4 @@ export * from './viewer.component';
 export * from './search/search-input.component';
 export * from './search/search-overlay.components';
 export * from './breadcrumb/breadcrumb.component';
+export * from './sidenav.component';
