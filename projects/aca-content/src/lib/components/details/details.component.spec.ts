@@ -31,10 +31,10 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { STORE_INITIAL_APP_DATA, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
-import { NodeEntry } from '@alfresco/js-api';
+import { MinimalNodeEntryEntity, NodeEntry } from '@alfresco/js-api';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AuthenticationService, PageTitleService } from '@alfresco/adf-core';
-import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
+import { NodeAspectService, SearchQueryBuilderService } from '@alfresco/adf-content-services';
 
 describe('DetailsComponent', () => {
   let component: DetailsComponent;
@@ -42,6 +42,7 @@ describe('DetailsComponent', () => {
   let contentApiService: ContentApiService;
   let store: Store;
   let node: NodeEntry;
+  let mockNodeAspectService: jasmine.SpyObj<NodeAspectService>;
 
   const mockStream = new Subject();
   const storeMock = {
@@ -91,6 +92,7 @@ describe('DetailsComponent', () => {
   };
 
   beforeEach(() => {
+    const nodeAspectServiceSpy = jasmine.createSpyObj('NodeAspectService', ['updateNodeAspects']);
     TestBed.configureTestingModule({
       imports: [AppTestingModule, DetailsComponent],
       providers: [
@@ -119,6 +121,10 @@ describe('DetailsComponent', () => {
             onLogout: new Subject<any>(),
             isLoggedIn: () => true
           }
+        },
+        {
+          provide: NodeAspectService,
+          useValue: nodeAspectServiceSpy
         }
       ],
       schemas: [NO_ERRORS_SCHEMA]
@@ -127,6 +133,8 @@ describe('DetailsComponent', () => {
     fixture = TestBed.createComponent(DetailsComponent);
     component = fixture.componentInstance;
     contentApiService = TestBed.inject(ContentApiService);
+    mockNodeAspectService = TestBed.inject(NodeAspectService) as jasmine.SpyObj<NodeAspectService>;
+    component.node = { id: 'test-id' } as MinimalNodeEntryEntity;
     store = TestBed.inject(Store);
 
     node = {
