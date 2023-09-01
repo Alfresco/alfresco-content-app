@@ -26,7 +26,7 @@ import { expect } from '@playwright/test';
 import { ApiClientFactory, getUserState, test, Utils } from '@alfresco/playwright-shared';
 
 test.use({ storageState: getUserState('hruser') });
-test.describe.only('Single click on item name', () => {
+test.describe('Single click on item name', () => {
   const apiClientFactory = new ApiClientFactory();
 
   const file1 = `file1-${Utils.random()}.txt`;
