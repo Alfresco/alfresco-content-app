@@ -56,7 +56,6 @@ import { ViewerRules } from '../models/viewer.rules';
 import { Badge, SettingsGroupRef } from '../models/types';
 import { NodePermissionService } from '../services/node-permission.service';
 import { filter, map } from 'rxjs/operators';
-import { ModalConfiguration } from '../models/modal-configuration';
 
 @Injectable({
   providedIn: 'root'
@@ -498,7 +497,7 @@ export class AppExtensionService implements RuleContext {
     return false;
   }
 
-  runActionById(id: string, additionalPayload?: ModalConfiguration) {
+  runActionById(id: string, additionalPayload?: any) {
     const action = this.extensions.getActionById(id);
     if (action) {
       const { type, payload } = action;

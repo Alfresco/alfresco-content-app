@@ -111,4 +111,8 @@ export class CustomNameColumnComponent extends NameColumnComponent implements On
     this.onDestroy$$.next(true);
     this.onDestroy$$.complete();
   }
+
+  onBadgeClick(badge: Badge) {
+    this.appExtensionService.runActionById(badge.actions?.click, this.node);
+  }
 }
