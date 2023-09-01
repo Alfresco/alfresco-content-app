@@ -22,12 +22,12 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, OnDestroy, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ContentApiService, PageComponent, PageLayoutComponent, ToolbarComponent } from '@alfresco/aca-shared';
 import { NavigateToFolder, NavigateToPreviousPage, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { Subject } from 'rxjs';
-import { BreadcrumbModule, PermissionManagerModule } from '@alfresco/adf-content-services';
+import { BreadcrumbModule, PermissionManagerModule, NodeAspectService } from '@alfresco/adf-content-services';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatIconModule } from '@angular/material/icon';
@@ -60,12 +60,17 @@ import { NodeEntry, PathElement } from '@alfresco/js-api';
   encapsulation: ViewEncapsulation.None
 })
 export class DetailsComponent extends PageComponent implements OnInit, OnDestroy {
+  @Input()
+  readOnly = false;
+
   nodeId: string;
   isLoading: boolean;
   onDestroy$ = new Subject<boolean>();
   activeTab = 1;
+  editAspectSupported = false;
+  hasAllowableOperations = false;
 
-  constructor(private route: ActivatedRoute, private contentApi: ContentApiService) {
+  constructor(private route: ActivatedRoute, private contentApi: ContentApiService, private nodeAspectService: NodeAspectService) {
     super();
   }
 
