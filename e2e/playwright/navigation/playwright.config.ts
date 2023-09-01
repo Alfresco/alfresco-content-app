@@ -22,17 +22,23 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './snackBar/snack-bar.component';
-export * from './dataTable';
-export * from './dialogs';
-export * from './manageRules';
-export * from './base.component';
-export * from './spinner.component';
-export * from './actions-dropdown.component';
-export * from './conditions.component';
-export * from './pagination.component';
-export * from './adf-info-drawer.component';
-export * from './viewer.component';
-export * from './search/search-input.component';
-export * from './search/search-overlay.components';
-export * from './breadcrumb/breadcrumb.component';
+import { PlaywrightTestConfig } from '@playwright/test';
+import { CustomConfig, getGlobalConfig, getExcludedTestsRegExpArray } from '@alfresco/playwright-shared';
+import EXCLUDED_JSON from './exclude.tests.json';
+
+const config: PlaywrightTestConfig<CustomConfig> = {
+  ...getGlobalConfig,
+
+  grepInvert: getExcludedTestsRegExpArray(EXCLUDED_JSON, 'Navigation'),
+  projects: [
+    {
+      name: 'Navigation',
+      testDir: './src/tests',
+      use: {
+        users: ['hruser', 'admin']
+      }
+    }
+  ]
+};
+
+export default config;
