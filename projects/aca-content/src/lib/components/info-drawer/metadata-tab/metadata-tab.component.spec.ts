@@ -256,7 +256,7 @@ describe('MetadataTabComponent', () => {
     });
 
     it('show pass empty when store is in initial state', () => {
-      const initialState = fixture.debugElement.query(By.css('adf-content-metadata-card'));
+      const initialState = fixture.debugElement.query(By.css('adf-content-metadata'));
       expect(initialState.componentInstance.displayAspect).toBeFalsy();
     });
 
@@ -266,7 +266,7 @@ describe('MetadataTabComponent', () => {
         expect(aspect).toBe('EXIF');
       });
       fixture.detectChanges();
-      const initialState = fixture.debugElement.query(By.css('adf-content-metadata-card'));
+      const initialState = fixture.debugElement.query(By.css('adf-content-metadata'));
       expect(initialState.componentInstance.displayAspect).toBe('EXIF');
     });
   });
