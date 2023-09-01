@@ -80,9 +80,9 @@ export class AppExtensionService implements RuleContext {
   private _createActions = new BehaviorSubject<Array<ContentActionRef>>([]);
   private _mainActions = new BehaviorSubject<ContentActionRef>(null);
   private _sidebarActions = new BehaviorSubject<Array<ContentActionRef>>([]);
+  private _filesDocumentListPreset = new BehaviorSubject<Array<DocumentListPresetRef>>([]);
 
   documentListPresets: {
-    files: Array<DocumentListPresetRef>;
     libraries: Array<DocumentListPresetRef>;
     favoriteLibraries: Array<DocumentListPresetRef>;
     shared: Array<DocumentListPresetRef>;
@@ -91,7 +91,6 @@ export class AppExtensionService implements RuleContext {
     trashcan: Array<DocumentListPresetRef>;
     searchLibraries: Array<DocumentListPresetRef>;
   } = {
-    files: [],
     libraries: [],
     favoriteLibraries: [],
     shared: [],
@@ -108,6 +107,7 @@ export class AppExtensionService implements RuleContext {
   withCredentials: boolean;
 
   references$: Observable<ExtensionRef[]>;
+  filesDocumentListPreset$: Observable<DocumentListPresetRef[]> = this._filesDocumentListPreset.asObservable();
 
   config: ExtensionConfig;
 
@@ -158,6 +158,7 @@ export class AppExtensionService implements RuleContext {
     this._openWithActions.next(this.loader.getContentActions(config, 'features.viewer.openWith'));
     this._createActions.next(this.loader.getElements<ContentActionRef>(config, 'features.create'));
     this._mainActions.next(this.loader.getFeatures(config).mainAction);
+    this._filesDocumentListPreset.next(this.getDocumentListPreset(config, 'files'));
 
     this.navbar = this.loadNavBar(config);
     this.sidebarTabs = this.loader.getElements<SidebarTabRef>(config, 'features.sidebar.tabs');
@@ -165,7 +166,6 @@ export class AppExtensionService implements RuleContext {
     this.search = this.loadSearchForms(config);
 
     this.documentListPresets = {
-      files: this.getDocumentListPreset(config, 'files'),
       libraries: this.getDocumentListPreset(config, 'libraries'),
       favoriteLibraries: this.getDocumentListPreset(config, 'favoriteLibraries'),
       shared: this.getDocumentListPreset(config, 'shared'),
