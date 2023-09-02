@@ -34,8 +34,7 @@ import {
   SizeOperator
 } from '@alfresco/aca-testing-shared';
 import { BrowserActions } from '@alfresco/adf-testing';
-
-const moment = require('moment');
+import { addDays, format, subDays } from 'date-fns';
 
 describe('Search filters', () => {
   const random = Utils.random();
@@ -162,9 +161,9 @@ describe('Search filters', () => {
   });
 
   describe('Filter by Created date', () => {
-    const yesterday = moment().subtract(1, 'day').format('DD-MMM-YY');
-    const today = moment().format('DD-MMM-YY');
-    const future = moment().add(1, 'month').format('DD-MMM-YY');
+    const yesterday = format(subDays(new Date(), 1), 'dd-MMM-yy');
+    const today = format(new Date(), 'dd-MMM-yy');
+    const future = format(addDays(new Date(), 1), 'dd-MMM-yy');
 
     afterEach(async () => {
       await Utils.pressEscape();
