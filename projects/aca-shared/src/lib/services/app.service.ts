@@ -178,7 +178,6 @@ export class AppService implements OnDestroy {
     this.contentApi.getRepositoryInformation().subscribe((response: DiscoveryEntry) => {
       if (response?.entry?.repository) {
         this.store.dispatch(new SetRepositoryInfoAction(response.entry.repository));
-        this.store.dispatch(new SetRepositoryInfoAction(response.entry.repository));
       }
     });
   }
