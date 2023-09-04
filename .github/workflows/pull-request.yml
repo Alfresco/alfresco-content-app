@@ -90,7 +90,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          fetch-depth: 2
+          fetch-depth: 0
 
       - name: node
         uses: actions/setup-node@v3
@@ -99,7 +99,7 @@ jobs:
           cache: 'npm'
       - uses: ./.github/actions/before-install
       - run: npm ci
-      - run: npm test ${{ matrix.unit-tests.name }} -- --browsers=ChromeHeadless --watch=false $TEST_OPTS
+      - run: npm run affected:test -- --browsers=ChromeHeadless --watch=false $TEST_OPTS --base=origin/develop --exclude='content-ce'
 
   e2es:
     needs: [lint, build, unit-tests]
