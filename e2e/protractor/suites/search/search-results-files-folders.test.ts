@@ -92,7 +92,7 @@ describe('Search results - files and folders', () => {
     await dataTable.waitForBody();
 
     const fileEntry = await apis.user.nodes.getNodeById(fileId);
-    const modifiedDate = format(new Date(fileEntry.entry.modifiedAt), 'MMM d, yyyy, h:mm:ss A');
+    const modifiedDate = format(fileEntry.entry.modifiedAt, 'MMM d, yyyy, h:mm:ss A');
     const modifiedBy = fileEntry.entry.modifiedByUser.displayName;
     const size = fileEntry.entry.content.sizeInBytes;
 
@@ -114,7 +114,7 @@ describe('Search results - files and folders', () => {
     await dataTable.waitForBody();
 
     const folderEntry = await apis.user.nodes.getNodeById(folderId);
-    const modifiedDate = format(new Date(folderEntry.entry.modifiedAt), 'MMM d, yyyy, h:mm:ss A');
+    const modifiedDate = format(folderEntry.entry.modifiedAt, 'MMM d, yyyy, h:mm:ss A');
     const modifiedBy = folderEntry.entry.modifiedByUser.displayName;
 
     expect(await dataTable.isItemPresent(folder)).toBe(true, `${folder} is not displayed`);
