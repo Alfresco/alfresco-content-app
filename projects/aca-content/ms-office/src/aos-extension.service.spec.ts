@@ -24,9 +24,10 @@
 
 import { TestBed } from '@angular/core/testing';
 import { AosEditOnlineService } from './aos-extension.service';
-import { AppConfigService, AuthenticationService, LogService, NotificationService } from '@alfresco/adf-core';
+import { AppConfigService, AuthenticationService, LogService, NotificationService, RedirectAuthService } from '@alfresco/adf-core';
 import { LibTestingModule } from '@alfresco/aca-shared';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { EMPTY } from 'rxjs';
 
 describe('AosEditOnlineService', () => {
   let aosEditOnlineService: AosEditOnlineService;
@@ -38,7 +39,10 @@ describe('AosEditOnlineService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [LibTestingModule, MatSnackBarModule],
-      providers: [{ provide: LogService, useValue: { error() {} } }]
+      providers: [
+        { provide: LogService, useValue: { error() {} } },
+        { provide: RedirectAuthService, useValue: { onLogin: EMPTY } }
+      ]
     });
 
     aosEditOnlineService = TestBed.inject(AosEditOnlineService);

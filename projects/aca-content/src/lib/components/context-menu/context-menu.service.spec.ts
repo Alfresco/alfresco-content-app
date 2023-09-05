@@ -27,7 +27,7 @@ import { Overlay } from '@angular/cdk/overlay';
 import { Injector } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
-import { CoreModule, UserPreferencesService } from '@alfresco/adf-core';
+import { AuthenticationService, CoreModule, UserPreferencesService } from '@alfresco/adf-core';
 import { ContextMenuService } from './context-menu.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { ContextMenuComponent } from './context-menu.component';
@@ -52,7 +52,12 @@ describe('ContextMenuService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), CoreModule.forRoot(), ContextMenuComponent],
-      providers: [Overlay, { provide: Store, useValue: { select: () => of() } }, UserPreferencesService]
+      providers: [
+        Overlay,
+        { provide: Store, useValue: { select: () => of() } },
+        { provide: AuthenticationService, useValue: { getToken: () => 'fake token' } },
+        UserPreferencesService
+      ]
     });
 
     injector = TestBed.inject(Injector);

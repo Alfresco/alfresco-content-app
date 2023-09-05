@@ -32,7 +32,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import { Component, Injectable } from '@angular/core';
 import { DiscoveryApiService, DocumentListComponent } from '@alfresco/adf-content-services';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { MaterialModule, PipeModule } from '@alfresco/adf-core';
+import { AuthenticationService, MaterialModule, PipeModule } from '@alfresco/adf-core';
 import { HttpClientModule } from '@angular/common/http';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -151,6 +151,7 @@ describe('PageComponent', () => {
               )
           }
         },
+        { provide: AuthenticationService, useValue: { getToken: () => 'fake token' } },
         AppExtensionService
       ]
     });
@@ -315,6 +316,7 @@ describe('Info Drawer state', () => {
               )
           }
         },
+        { provide: AuthenticationService, useValue: { getToken: () => 'fake token' } },
         provideMockStore({
           initialState: { app: appState }
         })

@@ -38,7 +38,7 @@ import {
   ExtensionConfig,
   NavBarGroupRef
 } from '@alfresco/adf-extensions';
-import { AppConfigService, LogService } from '@alfresco/adf-core';
+import { AppConfigService, AuthenticationService, LogService } from '@alfresco/adf-core';
 import { provideMockStore } from '@ngrx/store/testing';
 import { hasQuickShareEnabled } from '@alfresco/aca-shared/rules';
 import { MatIconRegistry } from '@angular/material/icon';
@@ -56,7 +56,7 @@ describe('AppExtensionService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [LibTestingModule],
-      providers: [provideMockStore({ initialState })]
+      providers: [{ provide: AuthenticationService, useValue: { getToken: () => 'fake token' } }, provideMockStore({ initialState })]
     });
 
     iconRegistry = TestBed.inject(MatIconRegistry);
