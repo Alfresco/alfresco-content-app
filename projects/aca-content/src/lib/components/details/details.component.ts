@@ -24,8 +24,8 @@
 
 import { Component, OnInit, ViewEncapsulation, OnDestroy, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ContentApiService, PageComponent, PageLayoutComponent, ToolbarComponent } from '@alfresco/aca-shared';
-import { NavigateToPreviousPage, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
+import { ContentApiService, PageComponent, PageLayoutComponent, ToolbarComponent, isLocked } from '@alfresco/aca-shared';
+import { NavigateToPreviousPage, SetSelectedNodesAction, getAppSelection } from '@alfresco/aca-shared/store';
 import { Subject } from 'rxjs';
 import { BreadcrumbModule, PermissionManagerModule, NodeAspectService } from '@alfresco/adf-content-services';
 import { CommonModule } from '@angular/common';

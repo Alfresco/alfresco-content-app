@@ -24,7 +24,7 @@
 
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable, Subject, of, zip, from } from 'rxjs';
+import { Observable, Subject, of, zip, from, BehaviorSubject } from 'rxjs';
 import { AlfrescoApiService, TranslationService, ThumbnailService } from '@alfresco/adf-core';
 import {
   DocumentListService,
@@ -49,6 +49,7 @@ export class NodeActionsService {
   contentMoved: Subject<any> = new Subject<any>();
   moveDeletedEntries: any[] = [];
   isSitesDestinationAvailable = false;
+  private isNodeLockedSubject: BehaviorSubject<boolean>;
 
   _nodesApi: NodesApi;
   get nodesApi(): NodesApi {
@@ -64,7 +65,9 @@ export class NodeActionsService {
     private apiService: AlfrescoApiService,
     private translation: TranslationService,
     private thumbnailService: ThumbnailService
-  ) {}
+  ) {
+    this.isNodeLockedSubject = new BehaviorSubject<boolean>(false);
+  }
 
   /**
    * Copy node list
@@ -86,6 +89,14 @@ export class NodeActionsService {
    */
   moveNodes(contentEntities: any[], permission?: string, focusedElementOnCloseSelector?: string): Subject<string> {
     return this.doBatchOperation(NodeAction.MOVE, contentEntities, permission, focusedElementOnCloseSelector);
+  }
+
+  setNodeLocked(isLocked: boolean) {
+    this.isNodeLockedSubject.next(isLocked);
+  }
+
+  isNodeLocked(): Observable<boolean> {
+    return this.isNodeLockedSubject.asObservable();
   }
 
   /**
