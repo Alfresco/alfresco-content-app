@@ -174,6 +174,11 @@ export class AppService implements OnDestroy {
     this.overlayContainer.getContainerElement().setAttribute('role', 'region');
   }
 
+  setAppNavbarMode(mode: 'expanded' | 'collapsed'): void {
+    this.appNavNarMode$.next(mode);
+    this.preferencesService.set('expandedSidenav', mode === 'expanded');
+  }
+
   private loadRepositoryStatus() {
     this.contentApi.getRepositoryInformation().subscribe((response: DiscoveryEntry) => {
       if (response?.entry?.repository) {

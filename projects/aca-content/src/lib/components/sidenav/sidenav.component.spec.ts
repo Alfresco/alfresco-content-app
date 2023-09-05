@@ -44,7 +44,8 @@ describe('SidenavComponent', () => {
           provide: AppService,
           useValue: {
             appNavNarMode$: new BehaviorSubject('expanded'),
-            toggleAppNavBar$: new Subject()
+            toggleAppNavBar$: new Subject(),
+            setAppNavbarMode: jasmine.createSpy('setAppNavbarMode')
           }
         },
         SidenavLayoutComponent

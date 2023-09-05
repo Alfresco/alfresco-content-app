@@ -139,7 +139,7 @@ export class SearchInputComponent implements OnInit, OnDestroy {
   }
 
   showInputValue() {
-    this.appService.appNavNarMode$.next('collapsed');
+    this.appService.setAppNavbarMode('collapsed');
     this.has400LibraryError = false;
     this.hasLibrariesConstraint = this.evaluateLibrariesConstraint();
     this.searchedWord = this.getUrlSearchTerm();
@@ -150,7 +150,7 @@ export class SearchInputComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.appService.appNavNarMode$.next('expanded');
+    this.appService.setAppNavbarMode('expanded');
     this.onDestroy$.next(true);
     this.onDestroy$.complete();
     this.removeContentFilters();
