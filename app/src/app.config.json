@@ -19,7 +19,7 @@
     "clientId": "alfresco",
     "scope": "openid",
     "secret": "",
-    "implicitFlow": true,
+    "codeFlow": true,
     "silentLogin": true,
     "publicUrls": ["**/preview/s/*", "**/settings", "**/blank"],
     "redirectSilentIframeUri": "{protocol}//{hostname}{:port}/assets/silent-refresh.html",
