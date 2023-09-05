@@ -227,59 +227,8 @@
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
         "main": "app/src/test.ts",
-        "karmaConfig": "./karma.conf.js",
-        "sourceMap": true,
-        "polyfills": "app/src/polyfills.ts",
-        "stylePreprocessorOptions": {
-          "includePaths": [
-            "projects/aca-content/src/lib/ui/application.scss",
-            "node_modules"
-          ]
-        },
         "tsConfig": "app/tsconfig.spec.json",
-        "scripts": [
-          "node_modules/pdfjs-dist/build/pdf.js",
-          "node_modules/pdfjs-dist/web/pdf_viewer.js",
-          "node_modules/moment/min/moment.min.js"
-        ],
-        "styles": [
-          "app/src/styles.scss",
-          "projects/aca-content/src/lib/ui/application.scss"
-        ],
-        "assets": [
-          "app/src/assets",
-          "app/src/favicon-96x96.png",
-          {
-            "glob": "**/*",
-            "input": "projects/aca-content/assets",
-            "output": "/assets"
-          },
-          {
-            "input": "app/.tmp",
-            "output": "/",
-            "glob": "app.config.json"
-          },
-          {
-            "glob": "**/*",
-            "input": "node_modules/@alfresco/adf-core/prebuilt-themes",
-            "output": "/assets/prebuilt-themes"
-          },
-          {
-            "glob": "**/*",
-            "input": "node_modules/@alfresco/adf-core/bundles/assets",
-            "output": "/assets"
-          },
-          {
-            "glob": "**/*",
-            "input": "node_modules/@alfresco/adf-content-services/bundles/assets",
-            "output": "/assets"
-          },
-          {
-            "glob": "pdf.worker.min.js",
-            "input": "node_modules/pdfjs-dist/build",
-            "output": "/"
-          }
-        ]
+        "karmaConfig": "app/karma.conf.js"
       },
       "configurations": {
         "adfprod": {
