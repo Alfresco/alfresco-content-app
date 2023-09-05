@@ -77,7 +77,6 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
 
   unit-tests:
-    continue-on-error: true
     needs: [lint, build]
     name: "Unit tests: ${{ matrix.unit-tests.name }}"
     runs-on: ubuntu-latest
