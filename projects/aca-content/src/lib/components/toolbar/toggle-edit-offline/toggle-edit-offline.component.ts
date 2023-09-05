@@ -39,6 +39,7 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
+import { NodeActionsService } from '../../../services/node-actions.service';
 
 @Component({
   standalone: true,
@@ -59,7 +60,7 @@ export class ToggleEditOfflineComponent implements OnInit {
   nodeTitle = '';
   isNodeLocked = false;
 
-  constructor(private store: Store<AppStore>, private alfrescoApiService: AlfrescoApiService) {
+  constructor(private store: Store<AppStore>, private alfrescoApiService: AlfrescoApiService, private nodeActionsService: NodeActionsService) {
     this.nodesApi = new NodesApi(this.alfrescoApiService.getInstance());
   }
 
@@ -119,6 +120,7 @@ export class ToggleEditOfflineComponent implements OnInit {
   }
 
   lockNode(nodeId: string) {
+    this.nodeActionsService.setNodeLocked(true);
     return this.nodesApi.lockNode(nodeId, {
       type: 'ALLOW_OWNER_CHANGES',
       lifetime: 'PERSISTENT'
@@ -126,6 +128,7 @@ export class ToggleEditOfflineComponent implements OnInit {
   }
 
   unlockNode(nodeId: string) {
+    this.nodeActionsService.setNodeLocked(false);
     return this.nodesApi.unlockNode(nodeId);
   }
 
