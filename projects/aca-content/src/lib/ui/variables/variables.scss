@@ -39,6 +39,7 @@ $contrast-gray: #646569;
 $adf-metadata-property-panel-border-color: rgba(0, 0, 0, 0.12);
 $adf-metadata-buttons-background-color: rgba(33, 33, 33, 0.05);
 $adf-snackbar-message-background-color: #ba1b1b;
+$adf-snackbar-message-color: #f8f8f8;
 
 // CSS Variables
 $defaults: (
@@ -82,7 +83,8 @@ $defaults: (
   --theme-contrast-gray: $contrast-gray,
   --adf-metadata-property-panel-border-color: $adf-metadata-property-panel-border-color,
   --adf-metadata-buttons-background-color: $adf-metadata-buttons-background-color,
-  --adf-snackbar-message-background-color: $adf-snackbar-message-background-color
+  --adf-snackbar-message-background-color: $adf-snackbar-message-background-color,
+  --adf-snackbar-message-color: $adf-snackbar-message-color
 );
 
 // propagates SCSS variables into the CSS variables scope
