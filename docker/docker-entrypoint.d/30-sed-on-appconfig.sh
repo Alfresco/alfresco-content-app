@@ -44,7 +44,7 @@ if [ -n "${APP_CONFIG_OAUTH2_CLIENTID}" ]; then
 fi
 
 if [ -n "${APP_CONFIG_OAUTH2_CODE_FLOW}" ]; then
-  echo "SET APP_CONFIG_OAUTH2_IMPLICIT_FLOW"
+  echo "SET APP_CONFIG_OAUTH2_CODE_FLOW"
 
   sed -e "s/\"codeFlow\": [^,]*/\"codeFlow\": ${APP_CONFIG_OAUTH2_CODE_FLOW}/g" \
     -i "$APP_CONFIG_FILE"
