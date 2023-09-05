@@ -67,10 +67,15 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
   isLoading: boolean;
   onDestroy$ = new Subject<boolean>();
   activeTab = 1;
-  editAspectSupported = false;
-  hasAllowableOperations = false;
+  selectionState: NodeEntry;
+  isNodeLocked: boolean;
 
-  constructor(private route: ActivatedRoute, private contentApi: ContentApiService, private nodeAspectService: NodeAspectService) {
+  constructor(
+    private route: ActivatedRoute,
+    private contentApi: ContentApiService,
+    private nodeAspectService: NodeAspectService,
+    private nodeActionsService: NodeActionsService
+  ) {
     super();
   }
 
@@ -89,6 +94,14 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
         this.node = node.entry;
         this.isLoading = false;
         this.store.dispatch(new SetSelectedNodesAction([{ entry: this.node }]));
+      });
+    });
+
+    this.store.select(getAppSelection).subscribe(({ file }) => {
+      this.selectionState = file;
+      const isNodeLockedFromStore = this.selection && isLocked(this.selectionState);
+      this.nodeActionsService.isNodeLocked().subscribe((isNodeLockedFromService) => {
+        this.isNodeLocked = isNodeLockedFromStore || isNodeLockedFromService;
       });
     });
   }
