@@ -24,8 +24,8 @@
 
 import { Component, OnInit, ViewEncapsulation, OnDestroy, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ContentApiService, PageComponent, PageLayoutComponent, ToolbarComponent } from '@alfresco/aca-shared';
-import { NavigateToPreviousPage, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
+import { ContentApiService, PageComponent, PageLayoutComponent, ToolbarComponent, isLocked } from '@alfresco/aca-shared';
+import { NavigateToPreviousPage, SetSelectedNodesAction, getAppSelection } from '@alfresco/aca-shared/store';
 import { Subject } from 'rxjs';
 import { BreadcrumbModule, PermissionManagerModule, NodeAspectService } from '@alfresco/adf-content-services';
 import { CommonModule } from '@angular/common';
@@ -36,6 +36,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { MetadataTabComponent } from '../info-drawer/metadata-tab/metadata-tab.component';
 import { CommentsTabComponent } from '../info-drawer/comments-tab/comments-tab.component';
+import { NodeActionsService } from '../../services/node-actions.service';
+import { NodeEntry } from '@alfresco/js-api';
 
 @Component({
   standalone: true,
@@ -66,10 +68,15 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
   isLoading: boolean;
   onDestroy$ = new Subject<boolean>();
   activeTab = 1;
-  editAspectSupported = false;
-  hasAllowableOperations = false;
+  selectionState: NodeEntry;
+  isNodeLocked: boolean;
 
-  constructor(private route: ActivatedRoute, private contentApi: ContentApiService, private nodeAspectService: NodeAspectService) {
+  constructor(
+    private route: ActivatedRoute,
+    private contentApi: ContentApiService,
+    private nodeAspectService: NodeAspectService,
+    private nodeActionsService: NodeActionsService
+  ) {
     super();
   }
 
@@ -88,6 +95,14 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
         this.node = node.entry;
         this.isLoading = false;
         this.store.dispatch(new SetSelectedNodesAction([{ entry: this.node }]));
+      });
+    });
+
+    this.store.select(getAppSelection).subscribe(({ file }) => {
+      this.selectionState = file;
+      const isNodeLockedFromStore = this.selection && isLocked(this.selectionState);
+      this.nodeActionsService.isNodeLocked().subscribe((isNodeLockedFromService) => {
+        this.isNodeLocked = isNodeLockedFromStore || isNodeLockedFromService;
       });
     });
   }
