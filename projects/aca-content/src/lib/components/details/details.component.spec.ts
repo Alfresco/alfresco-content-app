@@ -176,6 +176,12 @@ describe('DetailsComponent', () => {
     fixture.whenStable().then(() => {
       expect(component.aspectActions).toEqual(mockAspectActions);
     });
+  it('should return the icon when getInfoDrawerIcon is called', () => {
+    const expectedIcon = 'assets/images/ft_ic_folder';
+    spyOn(component['nodeActionsService'], 'getInfoDrawerIcon').and.returnValue(expectedIcon);
+    fixture.detectChanges();
+    const result = component.getInfoDrawerIcon(mockNode);
+    expect(result).toContain(expectedIcon);
   });
 
   it('should return the icon when getNodeIcon is called', () => {
