@@ -563,6 +563,47 @@ export class NodeActionsService {
     return null;
   }
 
+  getInfoDrawerIcon(node: Node): string {
+    if (node.isFolder) {
+      return this.getFolderIcon(node);
+    }
+    if (node.isFile) {
+      return this.thumbnailService.getMimeTypeIcon(node.content.mimeType);
+    }
+    return this.thumbnailService.getDefaultMimeTypeIcon();
+  }
+
+  private getFolderIcon(node: Node): string {
+    if (this.isSmartFolder(node)) {
+      return this.thumbnailService.getMimeTypeIcon('smartFolder');
+    } else if (this.isRuleFolder(node)) {
+      return this.thumbnailService.getMimeTypeIcon('ruleFolder');
+    } else if (this.isLinkFolder(node)) {
+      return this.thumbnailService.getMimeTypeIcon('linkFolder');
+    } else {
+      return this.thumbnailService.getMimeTypeIcon('folder');
+    }
+  }
+
+  isSmartFolder(node: Node): boolean {
+    const nodeAspects = this.getNodeAspectNames(node);
+    return nodeAspects.includes('smf:customConfigSmartFolder') || nodeAspects.includes('smf:systemConfigSmartFolder');
+  }
+
+  isRuleFolder(node: Node): boolean {
+    const nodeAspects = this.getNodeAspectNames(node);
+    return nodeAspects.includes('rule:rules');
+  }
+
+  isLinkFolder(node: Node): boolean {
+    const nodeType = node.nodeType;
+    return nodeType === 'app:folderlink';
+  }
+
+  private getNodeAspectNames(node: Node): string[] {
+    return node.aspectNames ? node.aspectNames : [];
+  }
+
   public getNewNameFrom(name: string, baseName?: string) {
     const extensionMatch = name.match(/\.[^/.]+$/);
 

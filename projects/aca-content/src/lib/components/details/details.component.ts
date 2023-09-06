@@ -38,6 +38,8 @@ import { MetadataTabComponent } from '../info-drawer/metadata-tab/metadata-tab.c
 import { CommentsTabComponent } from '../info-drawer/comments-tab/comments-tab.component';
 import { takeUntil } from 'rxjs/operators';
 import { ContentActionRef } from '@alfresco/adf-extensions';
+import { NodeActionsService } from '../../services/node-actions.service';
+import { Node } from '@alfresco/js-api';
 
 @Component({
   standalone: true,
@@ -67,7 +69,7 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
   activeTab = 1;
   aspectActions: Array<ContentActionRef> = [];
 
-  constructor(private route: ActivatedRoute, private contentApi: ContentApiService) {
+  constructor(private route: ActivatedRoute, private contentApi: ContentApiService, private nodeActionsService: NodeActionsService) {
     super();
   }
 
@@ -94,6 +96,10 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
       .subscribe((aspectActions) => {
         this.aspectActions = aspectActions;
       });
+  }
+
+  getInfoDrawerIcon(node: Node): string {
+    return this.nodeActionsService.getInfoDrawerIcon(node);
   }
 
   setActiveTab(tabName: string) {

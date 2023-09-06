@@ -51,17 +51,19 @@ app-details-manager {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  color: var(--adf-metadata-property-panel-title-color);
 }
 
 .acs-details-breadcrumb {
-  font-size: 18px;
+  font-size: 20px;
   margin-left: 20px;
 
   .acs-details-breadcrumb-library {
-    font-weight: 900;
+    font-weight: 400;
   }
 
-  .acs-details-breadcrumb-item {
-    font-weight: 100;
+  .acs-details-breadcrumb-icon {
+    display: inline-block;
+    vertical-align: text-bottom;
   }
 }
