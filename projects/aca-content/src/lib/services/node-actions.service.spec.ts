@@ -25,7 +25,7 @@
 import { TestBed } from '@angular/core/testing';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { of, throwError, Subject, Observable } from 'rxjs';
-import { AlfrescoApiService, TranslationService } from '@alfresco/adf-core';
+import { AlfrescoApiService, ThumbnailService, TranslationService } from '@alfresco/adf-core';
 import { DocumentListService, NodeAction } from '@alfresco/adf-content-services';
 import { NodeActionsService } from './node-actions.service';
 import { Node, NodeChildAssociationEntry, NodeEntry } from '@alfresco/js-api';
@@ -107,6 +107,7 @@ describe('NodeActionsService', () => {
     service = TestBed.inject(NodeActionsService);
     apiService = TestBed.inject(AlfrescoApiService);
     dialog = TestBed.inject(MatDialog);
+
     apiService.reset();
 
     nodesApi = service['nodesApi'];
@@ -1225,6 +1226,60 @@ describe('NodeActionsService', () => {
 
         expect(JSON.stringify(result)).toEqual(JSON.stringify(response.expected));
       });
+    });
+  });
+
+  describe('Info Drawer header Icon', () => {
+    let thumbnailService: ThumbnailService;
+
+    const mockNode = {
+      isFolder: false,
+      isFile: false,
+      content: {
+        mimeType: 'image/jpeg'
+      },
+      nodeType: 'app:folderlink',
+      aspectNames: ['aspect1', 'aspect2']
+    };
+
+    beforeEach(() => {
+      thumbnailService = TestBed.inject(ThumbnailService);
+    });
+
+    function testInfoDrawerIcon(iconPath: string, isFoldeType: boolean, isFileType: boolean) {
+      spyOn(thumbnailService, 'getMimeTypeIcon').and.returnValue(iconPath);
+      mockNode.isFolder = isFoldeType;
+      mockNode.isFile = isFileType;
+      const value = service.getInfoDrawerIcon(mockNode);
+      expect(value).toContain(iconPath);
+    }
+
+    it('should resolve folder icon', () => {
+      testInfoDrawerIcon('assets/images/ft_ic_folder.svg', true, false);
+    });
+
+    it('should resolve smart folder icon', () => {
+      testInfoDrawerIcon('assets/images/ft_ic_smart_folder.svg', true, false);
+    });
+
+    it('should resolve link folder icon', () => {
+      testInfoDrawerIcon('assets/images/ft_ic_folder_shortcut_link.svg', true, false);
+    });
+
+    it('should resolve rule folder icon', () => {
+      testInfoDrawerIcon('assets/images/ft_ic_folder_rule.svg', true, false);
+    });
+
+    it('should resolve file icon for content type', () => {
+      testInfoDrawerIcon('assets/images/ft_ic_raster_image.svg', false, true);
+    });
+
+    it('should resolve fallback file icon for unknown node', () => {
+      spyOn(thumbnailService, 'getDefaultMimeTypeIcon').and.returnValue(`assets/images/ft_ic_miscellaneous.svg`);
+      mockNode.isFile = false;
+      mockNode.isFolder = false;
+      const value = service.getInfoDrawerIcon(mockNode);
+      expect(value).toContain(`assets/images/ft_ic_miscellaneous`);
     });
   });
 });

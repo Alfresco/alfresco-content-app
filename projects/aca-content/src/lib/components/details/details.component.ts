@@ -66,7 +66,7 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
   activeTab = 1;
   aspectActions: Array<ContentActionRef> = [];
 
-  constructor(private route: ActivatedRoute, private contentApi: ContentApiService) {
+  constructor(private route: ActivatedRoute, private contentApi: ContentApiService, private nodeActionsService: NodeActionsService) {
     super();
   }
 
@@ -93,6 +93,10 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
       .subscribe((aspectActions) => {
         this.aspectActions = aspectActions;
       });
+  }
+
+  getInfoDrawerIcon(node: Node): string {
+    return this.nodeActionsService.getInfoDrawerIcon(node);
   }
 
   setActiveTab(tabName: string) {
