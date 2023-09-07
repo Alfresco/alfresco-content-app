@@ -155,7 +155,6 @@ describe('File / Folder properties', () => {
       const apiProps = await apis.user.nodes.getNodeById(folder1Id);
 
       const expectedPropLabels = ['Name', 'Title', 'Creator', 'Created Date', 'Modifier', 'Modified Date', 'Author', 'Description', 'Content Type'];
-
       const expectedPropValues = [
         folder1.name,
         folder1.title,
