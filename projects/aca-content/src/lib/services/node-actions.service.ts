@@ -49,7 +49,8 @@ export class NodeActionsService {
   contentMoved: Subject<any> = new Subject<any>();
   moveDeletedEntries: any[] = [];
   isSitesDestinationAvailable = false;
-  private isNodeLockedSubject: BehaviorSubject<boolean>;
+  private isNodeLockedSubject = new BehaviorSubject<boolean>(false);
+  isNodeLocked$: Observable<any>;
 
   _nodesApi: NodesApi;
   get nodesApi(): NodesApi {
@@ -66,7 +67,7 @@ export class NodeActionsService {
     private translation: TranslationService,
     private thumbnailService: ThumbnailService
   ) {
-    this.isNodeLockedSubject = new BehaviorSubject<boolean>(false);
+    this.isNodeLocked$ = this.isNodeLockedSubject.asObservable();
   }
 
   /**
@@ -93,10 +94,6 @@ export class NodeActionsService {
 
   setNodeLocked(isLocked: boolean) {
     this.isNodeLockedSubject.next(isLocked);
-  }
-
-  isNodeLocked(): Observable<boolean> {
-    return this.isNodeLockedSubject.asObservable();
   }
 
   /**

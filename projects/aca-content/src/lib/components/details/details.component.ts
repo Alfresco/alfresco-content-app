@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, ViewEncapsulation, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ContentApiService, PageComponent, PageLayoutComponent, ToolbarComponent, isLocked } from '@alfresco/aca-shared';
 import { NavigateToPreviousPage, SetSelectedNodesAction, getAppSelection } from '@alfresco/aca-shared/store';
@@ -63,9 +63,6 @@ import { Node } from '@alfresco/js-api';
   encapsulation: ViewEncapsulation.None
 })
 export class DetailsComponent extends PageComponent implements OnInit, OnDestroy {
-  @Input()
-  readOnly = false;
-
   nodeId: string;
   isLoading: boolean;
   onDestroy$ = new Subject<boolean>();
