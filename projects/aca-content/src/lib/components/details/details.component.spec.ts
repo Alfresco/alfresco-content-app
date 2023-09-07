@@ -133,7 +133,7 @@ describe('DetailsComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(new SetSelectedNodesAction([node]));
   });
 
-  it('should call updateNodeAspects when the button is clicked', () => {
+  it('should call updateNodeAspects when the aspect dialog is opened', () => {
     component.openAspectDialog();
     fixture.detectChanges();
     expect(nodeAspectService.updateNodeAspects).toHaveBeenCalledWith('test-id');
