@@ -47,6 +47,8 @@ import { Actions, ofType } from '@ngrx/effects';
       [displayTags]="displayTags"
       [displayCategories]="displayCategories"
       [(editable)]="editable"
+      [(editableTags)]="editableTags"
+      [(editableCategories)]="editableCategories"
     >
     </adf-content-metadata>
   `,
@@ -70,6 +72,8 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
   displayAspect$: Observable<string>;
   canUpdateNode = false;
   editable = false;
+  editableTags = false;
+  editableCategories = false;
 
   constructor(
     private permission: NodePermissionService,
@@ -101,6 +105,8 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
         this.checkIfNodeIsUpdatable(updatedNode?.payload.entry);
         if (!this.canUpdateNode) {
           this.editable = false;
+          this.editableTags = false;
+          this.editableCategories = false;
         }
       });
   }
