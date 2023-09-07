@@ -25,14 +25,14 @@
 import { TestBed, fakeAsync, tick, ComponentFixture } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA, SimpleChange, SimpleChanges } from '@angular/core';
 import { Router, ActivatedRoute, convertToParamMap } from '@angular/router';
-import { DocumentListService, FilterSearch, PathElementEntity, UploadService } from '@alfresco/adf-content-services';
+import { DocumentListService, FilterSearch, UploadService } from '@alfresco/adf-content-services';
 import { NodeActionsService } from '../../services/node-actions.service';
 import { FilesComponent } from './files.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { AppExtensionService, ContentApiService } from '@alfresco/aca-shared';
 import { of, Subject, throwError } from 'rxjs';
 import { By } from '@angular/platform-browser';
-import { NodeEntry, NodePaging, Node } from '@alfresco/js-api';
+import { NodeEntry, NodePaging, Node, PathElement } from '@alfresco/js-api';
 
 describe('FilesComponent', () => {
   let node;
@@ -437,7 +437,7 @@ describe('FilesComponent', () => {
 
     it('should reset the pagination when navigating using the breadcrumb', () => {
       const resetNewFolderPaginationSpy = spyOn(component.documentList, 'resetNewFolderPagination');
-      const breadcrumbRoute: PathElementEntity = { id: 'fake-breadcrumb-route-id', name: 'fake' };
+      const breadcrumbRoute: PathElement = { id: 'fake-breadcrumb-route-id', name: 'fake' };
       component.onBreadcrumbNavigate(breadcrumbRoute);
 
       expect(resetNewFolderPaginationSpy).toHaveBeenCalled();
