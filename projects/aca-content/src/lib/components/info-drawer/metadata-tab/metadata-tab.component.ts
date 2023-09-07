@@ -48,6 +48,8 @@ import { Actions, ofType } from '@ngrx/effects';
       [displayTags]="displayTags"
       [displayCategories]="displayCategories"
       [(editable)]="editable"
+      [(editableTags)]="editableTags"
+      [(editableCategories)]="editableCategories"
     >
     </adf-content-metadata>
   `,
@@ -72,6 +74,8 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
   canUpdateNode = false;
   editable = false;
   customPanels: Observable<ContentMetadataCustomPanel[]>;
+  editableTags = false;
+  editableCategories = false;
 
   constructor(
     private permission: NodePermissionService,
@@ -103,6 +107,8 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
         this.checkIfNodeIsUpdatable(updatedNode?.payload.entry);
         if (!this.canUpdateNode) {
           this.editable = false;
+          this.editableTags = false;
+          this.editableCategories = false;
         }
       });
     this.customPanels = this.extensions.getCustomMetadataPanels({ entry: this.node }).pipe(
