@@ -118,8 +118,8 @@ test.describe('Sidebar', () => {
   });
 
   test('[C277224] sidenav returns to the default state when navigating away from the Search Results page', async ({ personalFiles, searchPage }) => {
-    await searchPage.navigate({ remoteUrl: `#/search;q=test` });
-    await searchPage.searchInput.closeButton.click();
+    await personalFiles.navigate({ remoteUrl: `#/search;q=test` });
+    await searchPage.searchInput.getIconByName('close').click();
     expect(await personalFiles.sidenav.isSidenavExpanded(), 'Sidebar not expanded').toBe(true);
   });
 });

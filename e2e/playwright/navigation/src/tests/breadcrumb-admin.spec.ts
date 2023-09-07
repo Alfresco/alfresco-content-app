@@ -25,6 +25,7 @@
 import { expect } from '@playwright/test';
 import { ApiClientFactory, getUserState, test, Utils } from '@alfresco/playwright-shared';
 
+test.use({ storageState: getUserState('admin') });
 test.describe('as admin', () => {
   const apiClientFactory = new ApiClientFactory();
   const userFolder = `userFolder-${Utils.random()}`;
@@ -39,12 +40,17 @@ test.describe('as admin', () => {
     userFolderId = node.entry.id;
   });
 
+  test.beforeEach(async ({ personalFiles }) => {
+    await personalFiles.navigate({ remoteUrl: `#/personal-files}` });
+  });
+
   test.afterAll(async () => {
     await apiClientFactory.nodes.deleteNode(userFolderId, { permanent: true });
   });
-  test.use({ storageState: getUserState('admin') });
+
   test(`[C260970] Breadcrumb on navigation to a user's home`, async ({ personalFiles }) => {
     await personalFiles.navigate({ remoteUrl: `#/personal-files/${userFolderId}` });
+    personalFiles.breadcrumb.getItemByTitle(username).waitFor({ state: 'attached' });
     expect(await personalFiles.breadcrumb.getAllItems()).toEqual(['Personal Files', 'User Homes', username, userFolder]);
   });
 });
