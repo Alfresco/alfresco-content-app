@@ -41,19 +41,7 @@
       }
     },
     "lint": {
-      "executor": "@angular-eslint/builder:lint",
-      "options": {
-        "lintFilePatterns": [
-          "projects/aca-content/**/*.ts",
-          "projects/aca-content/**/*.html"
-        ],
-        "cache": true,
-        "cacheLocation": ".eslintcache",
-        "ignorePath": ".eslintignore"
-      },
-      "outputs": [
-        "{options.outputFile}"
-      ]
+      "executor": "@angular-eslint/builder:lint"
     }
   }
 }

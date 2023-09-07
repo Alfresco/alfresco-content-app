@@ -237,19 +237,7 @@
       }
     },
     "lint": {
-      "executor": "@angular-eslint/builder:lint",
-      "options": {
-        "lintFilePatterns": [
-          "app/**/*.ts",
-          "app/**/*.html"
-        ],
-        "cache": true,
-        "cacheLocation": ".eslintcache",
-        "ignorePath": ".eslintignore"
-      },
-      "outputs": [
-        "{options.outputFile}"
-      ]
+      "executor": "@angular-eslint/builder:lint"
     }
   }
 }
