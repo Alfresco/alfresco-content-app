@@ -31,7 +31,7 @@ import {
   getAppSelection
 } from '@alfresco/aca-shared/store';
 import { NodeEntry, SharedLinkEntry, Node, NodesApi } from '@alfresco/js-api';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { isLocked } from '@alfresco/aca-shared';
 import { AlfrescoApiService } from '@alfresco/adf-core';
@@ -60,7 +60,12 @@ export class ToggleEditOfflineComponent implements OnInit {
   nodeTitle = '';
   isNodeLocked = false;
 
-  constructor(private store: Store<AppStore>, private alfrescoApiService: AlfrescoApiService, private nodeActionsService: NodeActionsService) {
+  constructor(
+    private store: Store<AppStore>,
+    private alfrescoApiService: AlfrescoApiService,
+    private nodeActionsService: NodeActionsService,
+    private cdr: ChangeDetectorRef
+  ) {
     this.nodesApi = new NodesApi(this.alfrescoApiService.getInstance());
   }
 
@@ -69,6 +74,7 @@ export class ToggleEditOfflineComponent implements OnInit {
       this.selection = file;
       this.isNodeLocked = this.selection && isLocked(this.selection);
       this.nodeTitle = this.isNodeLocked ? 'APP.ACTIONS.EDIT_OFFLINE_CANCEL' : 'APP.ACTIONS.EDIT_OFFLINE';
+      this.cdr.detectChanges();
     });
   }
 
