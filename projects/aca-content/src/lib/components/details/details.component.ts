@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, ViewEncapsulation, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ContentApiService, PageComponent, PageLayoutComponent, ToolbarComponent } from '@alfresco/aca-shared';
 import { NavigateToFolder, NavigateToPreviousPage, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
@@ -60,9 +60,6 @@ import { NodeEntry, PathElement } from '@alfresco/js-api';
   encapsulation: ViewEncapsulation.None
 })
 export class DetailsComponent extends PageComponent implements OnInit, OnDestroy {
-  @Input()
-  readOnly = false;
-
   nodeId: string;
   isLoading: boolean;
   onDestroy$ = new Subject<boolean>();
@@ -100,7 +97,7 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
     this.store.select(getAppSelection).subscribe(({ file }) => {
       this.selectionState = file;
       const isNodeLockedFromStore = this.selection && isLocked(this.selectionState);
-      this.nodeActionsService.isNodeLocked().subscribe((isNodeLockedFromService) => {
+      this.nodeActionsService.isNodeLocked$.pipe(takeUntil(this.onDestroy$)).subscribe((isNodeLockedFromService) => {
         this.isNodeLocked = isNodeLockedFromStore || isNodeLockedFromService;
       });
     });

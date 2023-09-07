@@ -51,8 +51,8 @@ import { Actions, ofType } from '@ngrx/effects';
       [node]="node"
       [displayAspect]="displayAspect$ | async"
       [customPanels]="customPanels | async"
-      [displayTags]="displayTags"
-      [displayCategories]="displayCategories"
+      [displayTags]="true"
+      [displayCategories]="true"
       [(editable)]="editable"
       [displayCategories]="displayCategories"
       [displayTags]="displayTags"
@@ -69,14 +69,6 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
 
   @Input()
   node: Node;
-
-  /** Display tags in the card **/
-  @Input()
-  displayTags = true;
-
-  /** Display categories in the card **/
-  @Input()
-  displayCategories = true;
 
   displayAspect$: Observable<string>;
   canUpdateNode = false;

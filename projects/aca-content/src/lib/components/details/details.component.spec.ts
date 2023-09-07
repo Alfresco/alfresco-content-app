@@ -43,7 +43,7 @@ describe('DetailsComponent', () => {
   let contentApiService: ContentApiService;
   let store: Store;
   let node: NodeEntry;
-  let mockNodeAspectService: jasmine.SpyObj<NodeAspectService>;
+  let nodeAspectService: NodeAspectService;
 
   const mockStream = new Subject();
   const storeMock = {
@@ -52,7 +52,6 @@ describe('DetailsComponent', () => {
   };
 
   beforeEach(() => {
-    const nodeAspectServiceSpy = jasmine.createSpyObj('NodeAspectService', ['updateNodeAspects']);
     TestBed.configureTestingModule({
       imports: [AppTestingModule, DetailsComponent],
       providers: [
@@ -81,10 +80,6 @@ describe('DetailsComponent', () => {
             onLogout: new Subject<any>(),
             isLoggedIn: () => true
           }
-        },
-        {
-          provide: NodeAspectService,
-          useValue: nodeAspectServiceSpy
         }
       ],
       schemas: [NO_ERRORS_SCHEMA]
@@ -93,7 +88,7 @@ describe('DetailsComponent', () => {
     fixture = TestBed.createComponent(DetailsComponent);
     component = fixture.componentInstance;
     contentApiService = TestBed.inject(ContentApiService);
-    mockNodeAspectService = TestBed.inject(NodeAspectService) as jasmine.SpyObj<NodeAspectService>;
+    nodeAspectService = TestBed.inject(NodeAspectService);
     component.node = { id: 'test-id' } as MinimalNodeEntryEntity;
     store = TestBed.inject(Store);
 
@@ -112,6 +107,7 @@ describe('DetailsComponent', () => {
       }
     };
     spyOn(contentApiService, 'getNode').and.returnValue(of(node));
+    spyOn(nodeAspectService, 'updateNodeAspects').and.callThrough();
   });
 
   afterEach(() => {
@@ -149,9 +145,9 @@ describe('DetailsComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(new SetSelectedNodesAction([node]));
   });
 
-  it('should call openAspectDialog and updateNodeAspects when the button is clicked', () => {
+  it('should call updateNodeAspects when the button is clicked', () => {
     component.openAspectDialog();
     fixture.detectChanges();
-    expect(mockNodeAspectService.updateNodeAspects).toHaveBeenCalledWith('test-id');
+    expect(nodeAspectService.updateNodeAspects).toHaveBeenCalledWith('test-id');
   });
 });
