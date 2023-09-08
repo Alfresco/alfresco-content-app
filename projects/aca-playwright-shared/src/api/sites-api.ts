@@ -23,9 +23,8 @@
  */
 
 import { ApiClientFactory } from './api-client-factory';
-import { SiteBodyCreate, SiteEntry } from '@alfresco/js-api';
+import { Site, SiteBodyCreate, SiteEntry } from '@alfresco/js-api';
 import { logger } from '@alfresco/adf-cli/scripts/logger';
-import { SITE_VISIBILITY } from '../utils/configs';
 
 export class SitesApi {
   private apiService: ApiClientFactory;
@@ -42,7 +41,7 @@ export class SitesApi {
   async createSite(title: string, visibility?: string, description?: string, siteId?: string): Promise<SiteEntry | null> {
     const site = {
       title,
-      visibility: visibility || SITE_VISIBILITY.PUBLIC,
+      visibility: visibility || Site.VisibilityEnum.PUBLIC,
       description: description,
       id: siteId || title
     } as SiteBodyCreate;

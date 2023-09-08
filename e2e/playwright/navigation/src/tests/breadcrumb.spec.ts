@@ -23,7 +23,8 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, getUserState, SITE_VISIBILITY, test, Utils } from '@alfresco/playwright-shared';
+import { ApiClientFactory, getUserState, test, Utils } from '@alfresco/playwright-shared';
+import { Site } from '@alfresco/js-api';
 
 test.use({ storageState: getUserState('hruser') });
 test.describe('viewer action file', () => {
@@ -64,7 +65,7 @@ test.describe('viewer action file', () => {
     parent2Id = (await nodesApiAction.createFolder(parent2)).entry.id;
     folder1Id = (await nodesApiAction.createFolder(folder1, parent2Id)).entry.id;
 
-    await sitesApiAction.createSite(siteName, SITE_VISIBILITY.PUBLIC);
+    await sitesApiAction.createSite(siteName, Site.VisibilityEnum.PUBLIC);
     const docLibId = await sitesApiAction.getDocLibId(siteName);
     parentFromSiteId = (await nodesApiAction.createFolder(parentFromSite, docLibId)).entry.id;
     subFolder1FromSiteId = (await nodesApiAction.createFolder(subFolder1FromSite, parentFromSiteId)).entry.id;
