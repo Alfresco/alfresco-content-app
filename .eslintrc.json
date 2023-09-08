@@ -113,6 +113,7 @@
         "@angular-eslint/no-outputs-metadata-property": "error",
         "@angular-eslint/use-lifecycle-interface": "error",
         "@angular-eslint/use-pipe-transform-interface": "error",
+        "@typescript-eslint/prefer-optional-chain": "warn",
         "@typescript-eslint/no-misused-new": "error",
         "@typescript-eslint/no-non-null-assertion": "error",
         "@typescript-eslint/prefer-function-type": "error",
@@ -328,7 +329,7 @@
         "@angular-eslint/template/no-negated-async": "off",
         "@angular-eslint/template/no-positive-tabindex": "error",
         "@angular-eslint/template/eqeqeq": "error",
-        "@angular-eslint/template/no-call-expression": "warn"
+        "@angular-eslint/template/no-call-expression": "off"
       }
     },
     {
