@@ -136,16 +136,12 @@ export class ApiClientFactory {
   }
 
   async login(userName: string, password?: string) {
-    const userToLog = password ? null :
-      users[
-        Object.keys(users)
-          .filter((user) => user.match(new RegExp(`^${userName.toString()}$`)))
-          .toString()
-      ] || userName;
+    const predefinedUserKey = Object.keys(users).find((user) => user === userName || users[user].username === userName);
+    const userToLog = predefinedUserKey ? users[predefinedUserKey] : undefined;
     let e: any;
 
-    const user = userToLog ? userToLog.username : userName;
-    const userPassword = userToLog ? userToLog.password : password;
+    const user = userToLog?.username ?? userName;
+    const userPassword = userToLog?.password ?? password;
     try {
       e = await this.alfrescoApi.login(user, userPassword);
     } catch (error) {

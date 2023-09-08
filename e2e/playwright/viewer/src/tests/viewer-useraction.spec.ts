@@ -23,7 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, LoginPage, test, TEST_FILES, Utils } from '@alfresco/playwright-shared';
+import { ApiClientFactory, FileActionsApi, LoginPage, NodesApi, SitesApi, test, TEST_FILES, Utils } from '@alfresco/playwright-shared';
 import { SiteBodyCreate } from '@alfresco/js-api';
 import { Logger } from '@alfresco/adf-testing';
 
@@ -34,21 +34,22 @@ test.describe('from File Libraries', () => {
   const destination = `destFL-${Utils.random()}`;
   let destinationId: string;
   const xlsxLibraries = `xlsxFL-${Utils.random()}`;
+  let nodesApi: NodesApi;
+  let sitesApi: SitesApi;
+  let fileApi: FileActionsApi;
 
-  test.beforeAll(async ({ userActions }) => {
+  test.beforeAll(async () => {
     await apiClientFactory.setUpAcaBackend('admin');
     await apiClientFactory.createUser({ username });
-    await userActions.setUpUserAcaBackend(username, username);
+    nodesApi = await NodesApi.initialize(username, username);
+    sitesApi = await SitesApi.initialize(username, username);
+    fileApi = await FileActionsApi.initialize(username, username);
     try {
-      await userActions.sitesApi.createSite({
-        id: siteName,
-        title: siteName,
-        visibility: SiteBodyCreate.VisibilityEnum.PUBLIC
-      });
-      const docLibId = (await userActions.sitesApi.listSiteContainers(siteName)).list.entries[0].entry.id;
-      const node = await userActions.nodesApi.createNode('-my-', { name: destination, nodeType: 'cm:folder', relativePath: '/' });
+      await sitesApi.createSite(siteName, SiteBodyCreate.VisibilityEnum.PUBLIC);
+      const docLibId = await sitesApi.getDocLibId(siteName);
+      const node = await nodesApi.createFolder(destination);
       destinationId = node.entry.id;
-      await userActions.uploadFile(TEST_FILES.XLSX.path, xlsxLibraries, docLibId);
+      await fileApi.uploadFile(TEST_FILES.XLSX.path, xlsxLibraries, docLibId);
     } catch (error) {
       Logger.error(`beforeAll failed : ${error}`);
     }
@@ -65,11 +66,10 @@ test.describe('from File Libraries', () => {
     );
   });
 
-  test.afterAll(async ({ userActions }) => {
+  test.afterAll(async () => {
     try {
-      await userActions.setUpUserAcaBackend(username, username);
-      await userActions.deleteSites([siteName]);
-      await userActions.deleteNodes([destinationId]);
+      await sitesApi.deleteSites([siteName]);
+      await nodesApi.deleteNodes([destinationId]);
     } catch (error) {
       Logger.error(`afterAll failed : ${error}`);
     }

@@ -35,11 +35,10 @@ import {
   FavoritesPage,
   FavoritesPageApi,
   TrashPage,
-  UserActions,
   LoginPage,
   NodesApi,
   SitesApi,
-  AdminActions
+  users
 } from '../';
 
 interface Pages {
@@ -58,10 +57,8 @@ interface Api {
   fileAction: FileActionsApi;
   shareAction: SharedLinksApi;
   favoritesPageAction: FavoritesPageApi;
-  userActions: UserActions;
   nodesApiAction: NodesApi;
   sitesApiAction: SitesApi;
-  adminActions: AdminActions;
 }
 
 export const test = base.extend<Pages & Api>({
@@ -91,33 +88,25 @@ export const test = base.extend<Pages & Api>({
   },
   // eslint-disable-next-line no-empty-pattern
   fileAction: async ({}, use) => {
-    await use(await FileActionsApi.initialize('hruser'));
+    await use(await FileActionsApi.initialize(users.hruser.username));
   },
   // eslint-disable-next-line no-empty-pattern
   shareAction: async ({}, use) => {
-    await use(await SharedLinksApi.initialize('hruser'));
+    await use(await SharedLinksApi.initialize(users.hruser.username));
   },
   // eslint-disable-next-line no-empty-pattern
   favoritesPageAction: async ({}, use) => {
-    await use(await FavoritesPageApi.initialize('hruser'));
-  },
-  // eslint-disable-next-line no-empty-pattern
-  userActions: async ({}, use) => {
-    await use(new UserActions());
+    await use(await FavoritesPageApi.initialize(users.hruser.username));
   },
   // eslint-disable-next-line no-empty-pattern
   nodesApiAction: async ({}, use) => {
-    await use(await NodesApi.initialize('hruser'));
+    await use(await NodesApi.initialize(users.admin.username, users.admin.password));
   },
   // eslint-disable-next-line no-empty-pattern
   sitesApiAction: async ({}, use) => {
-    await use(await SitesApi.initialize('hruser'));
+    await use(await SitesApi.initialize(users.hruser.username));
   },
   myLibrariesPage: async ({ page }, use) => {
     await use(new MyLibrariesPage(page));
-  },
-  // eslint-disable-next-line no-empty-pattern
-  adminActions: async ({}, use) => {
-    await use(await AdminActions.initialize());
   },
 });

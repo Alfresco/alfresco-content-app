@@ -24,7 +24,6 @@
 
 import * as fs from 'fs';
 import { ApiClientFactory } from './api-client-factory';
-import { users } from '../base-config/global-variables';
 
 export class FileActionsApi {
     private apiService: ApiClientFactory;
@@ -33,11 +32,9 @@ export class FileActionsApi {
         this.apiService = new ApiClientFactory();
     }
 
-    static async initialize(
-        userProfile: keyof typeof users
-    ): Promise<FileActionsApi> {
+    static async initialize(userName: string, password?: string): Promise<FileActionsApi> {
         const classObj = new FileActionsApi();
-        await classObj.apiService.setUpAcaBackend(userProfile);
+        await classObj.apiService.setUpAcaBackend(userName, password);
         return classObj;
     }
 

@@ -22,6 +22,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { NodeBodyCreate } from '@alfresco/js-api';
+
 const NODE_TYPE_FILE = 'cm:content';
 const NODE_TYPE_FOLDER = 'cm:folder';
 const NODE_TITLE = 'cm:title';
@@ -33,14 +35,6 @@ export interface NodeContentTree {
   folders?: (string | NodeContentTree)[];
   title?: string;
   description?: string;
-}
-
-export interface NodeBodyCreate {
-  name: string;
-  nodeType: string;
-  relativePath: string;
-  aspectNames?: string[];
-  properties?: any[];
 }
 
 export function flattenNodeContentTree(content: NodeContentTree, relativePath: string = '/'): NodeBodyCreate[] {

@@ -148,7 +148,6 @@ export class NodesApi {
 
   async createContent(content: NodeContentTree, relativePath: string = '/'): Promise<NodeEntry | any> {
     try {
-      // await this.apiService.login('admin');
       return await this.apiService.nodes.createNode('-my-', flattenNodeContentTree(content, relativePath) as any);
     } catch (error) {
       logger.error(`${this.constructor.name} ${this.createContent.name}`, error);
@@ -170,7 +169,6 @@ export class NodesApi {
       const opts = {
         include: ['properties']
       };
-      await this.apiService.login('admin');
       return await this.apiService.nodes.listNodeChildren(nodeId, opts);
     } catch (error) {
       logger.error(`${this.constructor.name} ${this.getNodeChildren.name}`, error);
@@ -180,10 +178,39 @@ export class NodesApi {
 
   async deleteNodeById(id: string, permanent: boolean = true): Promise<void> {
     try {
-      await this.apiService.login('admin');
       await this.apiService.nodes.deleteNode(id, { permanent });
     } catch (error) {
       logger.error(`${this.constructor.name} ${this.deleteNodeById.name}`, error);
+    }
+  }
+
+  async cleanupSpaceTemplatesItems(nodeNames: string[]): Promise<void> {
+    try {
+      const spaceTemplatesNodeId = await this.getSpaceTemplatesFolderId();
+      for (const nodeName of nodeNames) {
+        const nodeId = await this.getNodeIdFromParent(nodeName, spaceTemplatesNodeId);
+        await this.deleteNodeById(nodeId);
+      }
+    } catch (error) {
+      logger.error('Admin Actions - cleanupSpaceTemplatesFolder failed : ', error);
+    }
+  }
+
+  async getSpaceTemplatesFolderId(): Promise<string> {
+    try {
+      return this.getNodeIdFromParent('Space Templates', await this.getDataDictionaryId());
+    } catch (error) {
+      logger.error('Admin Actions - getSpaceTemplatesFolderId failed : ', error);
+      return '';
+    }
+  }
+
+  private async getDataDictionaryId(): Promise<string> {
+    try {
+      return this.getNodeIdFromParent('Data Dictionary', '-root-');
+    } catch (error) {
+      logger.error('Admin Actions - getDataDictionaryId failed : ', error);
+      return '';
     }
   }
 
