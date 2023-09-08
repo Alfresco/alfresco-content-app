@@ -22,82 +22,33 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import * as fs from 'fs';
-import { Logger } from '@alfresco/adf-testing';
-import { AlfrescoApi, CommentsApi, NodesApi, TrashcanApi, SitesApi, SharedlinksApi, UploadApi } from '@alfresco/js-api';
-
-const { BASE_URL } = process.env;
-
-const config = {
-  authType: 'BASIC',
-  hostBpm: BASE_URL,
-  hostEcm: BASE_URL,
-  provider: 'ECM',
-  contextRoot: 'alfresco'
-};
-
+import { NodesApi } from './nodes-api';
+import { SitesApi } from './sites-api';
+import { SharedLinksApi } from './shared-links-api';
+import { UploadApi } from './upload-api';
 export class UserActions {
-  public alfrescoApi: AlfrescoApi;
-
-  public commentsApi: CommentsApi;
-  public nodesApi: NodesApi;
-  public trashCanApi: TrashcanApi;
-  public sitesApi: SitesApi;
-  public sharedLinksApi: SharedlinksApi;
-  public uploadApi: UploadApi;
-
-  protected username: string;
-  protected password: string;
+  protected nodesApi: NodesApi;
+  protected sitesApi: SitesApi;
+  protected sharedLinksApi: SharedLinksApi;
+  protected uploadApi: UploadApi;
 
   constructor() {
-    this.alfrescoApi = new AlfrescoApi(config);
+    this.nodesApi = new NodesApi();
   }
 
-  public async setUpUserAcaBackend(username: string, password: string): Promise<void> {
-    await this.loginUser(username, password );
-
-    this.commentsApi = new CommentsApi(this.alfrescoApi);
-    this.nodesApi = new NodesApi(this.alfrescoApi);
-    this.trashCanApi = new TrashcanApi(this.alfrescoApi);
-    this.sitesApi = new SitesApi(this.alfrescoApi);
-    this.sharedLinksApi = new SharedlinksApi(this.alfrescoApi);
-    this.uploadApi = new UploadApi(this.alfrescoApi);
-  }
-
-  public async loginUser(username: string, password: string): Promise<any> {
-    this.username = username || this.username;
-    this.password = password || this.password;
-
-    try {
-      return this.alfrescoApi.login(this.username, this.password);
-    } catch (error) {
-      Logger.error(`\n [User Actions] - login failed ${error} error :`);
-    }
+  public async setUpUserAcaBackend(userName: string, password: string): Promise<void> {
+    this.nodesApi = await NodesApi.initialize(userName, password);
+    this.sitesApi = await SitesApi.initialize(userName, password);
+    this.sharedLinksApi = await SharedLinksApi.initialize(userName, password);
+    this.uploadApi = await UploadApi.initialize(userName, password);
   }
 
   async lockNodes(nodeIds: string[], lockType: string = 'ALLOW_OWNER_CHANGES') {
-    try {
-      for (const nodeId of nodeIds) {
-        await this.nodesApi.lockNode(nodeId, { type: lockType });
-      }
-    } catch (error) {
-      Logger.error(`\n [User Actions] - lockNodes failed ${error} error :`);
-    }
+      return this.nodesApi.lockNodes(nodeIds, lockType);
   }
 
   async uploadFile(fileLocation: string, fileName: string, parentFolderId: string): Promise<any> {
-    const file = fs.createReadStream(fileLocation);
-    return this.uploadApi.uploadFile(
-        file,
-        '',
-        parentFolderId,
-        null,
-        {
-            name: fileName,
-            nodeType: 'cm:content',
-            renditions: 'doclib'
-        }
-    );
+    return this.uploadApi.uploadFile(fileLocation, fileName, parentFolderId);
   }
 
   /**
@@ -106,15 +57,7 @@ export class UserActions {
    * @param permanent Delete permanently, without moving to the trashcan? (default: true)
    */
   async deleteSites(siteIds: string[], permanent: boolean = true) {
-    try {
-      if (siteIds && siteIds.length > 0) {
-        for (const siteId of siteIds) {
-          await this.sitesApi.deleteSite(siteId, { permanent });
-        }
-      }
-    } catch (error) {
-      Logger.error(`\n [User Actions] - deleteSites failed error : ${error}`);
-    }
+      return this.sitesApi.deleteSites(siteIds,permanent);
   }
 
   /**
@@ -123,12 +66,6 @@ export class UserActions {
    * @param permanent Delete permanently, without moving to the trashcan? (default: true)
    */
     async deleteNodes(nodeIds: string[], permanent: boolean = true): Promise<any> {
-      try {
-        for (const nodeId of nodeIds) {
-          await this.nodesApi.deleteNode(nodeId, { permanent });
-        }
-      } catch (error) {
-        Logger.error(`\n [User Actions] - deleteNodes failed error : ${error}`);
-      }
+      return this.nodesApi.deleteNodes(nodeIds, permanent);
     }
 }

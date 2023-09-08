@@ -23,20 +23,20 @@
  */
 
 import { ApiClientFactory } from './api-client-factory';
-import { NodeEntry } from '@alfresco/js-api';
-import { users } from '../base-config/global-variables';
+import { NodeChildAssociationPaging, NodeEntry } from '@alfresco/js-api';
 import { logger } from '@alfresco/adf-cli/scripts/logger';
+import { NodeContentTree, flattenNodeContentTree } from './node-content-tree';
 
-export class NodesApi extends ApiClientFactory {
+export class NodesApi {
   private apiService: ApiClientFactory;
 
   constructor() {
-    super();
     this.apiService = new ApiClientFactory();
   }
-  static async initialize(userProfile: keyof typeof users): Promise<NodesApi> {
+
+  static async initialize(userName: string, password?: string): Promise<NodesApi> {
     const classObj = new NodesApi();
-    await classObj.apiService.setUpAcaBackend(userProfile);
+    await classObj.apiService.setUpAcaBackend(userName, password);
     return classObj;
   }
 
@@ -120,4 +120,71 @@ export class NodesApi extends ApiClientFactory {
       return null;
     }
   }
+
+  /**
+   * Delete multiple nodes.
+   * @param nodeIds The list of node IDs to delete.
+   * @param permanent Delete permanently, without moving to the trashcan? (default: true)
+   */
+  async deleteNodes(nodeIds: string[], permanent: boolean = true): Promise<any> {
+    try {
+      for (const nodeId of nodeIds) {
+        await this.apiService.nodes.deleteNode(nodeId, { permanent });
+      }
+    } catch (error) {
+      logger.error(`${this.constructor.name} ${this.deleteNodes.name}`, error);
+    }
+  }
+
+  async lockNodes(nodeIds: string[], lockType: string = 'ALLOW_OWNER_CHANGES') {
+    try {
+      for (const nodeId of nodeIds) {
+        await this.apiService.nodes.lockNode(nodeId, { type: lockType });
+      }
+    } catch (error) {
+      logger.error(`${this.constructor.name} ${this.lockNodes.name}`, error);
+    }
+  }
+
+  async createContent(content: NodeContentTree, relativePath: string = '/'): Promise<NodeEntry | any> {
+    try {
+      // await this.apiService.login('admin');
+      return await this.apiService.nodes.createNode('-my-', flattenNodeContentTree(content, relativePath) as any);
+    } catch (error) {
+      logger.error(`${this.constructor.name} ${this.createContent.name}`, error);
+    }
+  }
+
+  async getNodeIdFromParent(name: string, parentId: string): Promise<string> {
+    try {
+      const children = (await this.getNodeChildren(parentId)).list.entries;
+      return children.find((elem) => elem.entry.name === name).entry.id || '';
+    } catch (error) {
+      logger.error(`${this.constructor.name} ${this.getNodeIdFromParent.name}`, error);
+      return '';
+    }
+  }
+
+  private async getNodeChildren(nodeId: string): Promise<NodeChildAssociationPaging | null> {
+    try {
+      const opts = {
+        include: ['properties']
+      };
+      await this.apiService.login('admin');
+      return await this.apiService.nodes.listNodeChildren(nodeId, opts);
+    } catch (error) {
+      logger.error(`${this.constructor.name} ${this.getNodeChildren.name}`, error);
+      return null;
+    }
+  }
+
+  async deleteNodeById(id: string, permanent: boolean = true): Promise<void> {
+    try {
+      await this.apiService.login('admin');
+      await this.apiService.nodes.deleteNode(id, { permanent });
+    } catch (error) {
+      logger.error(`${this.constructor.name} ${this.deleteNodeById.name}`, error);
+    }
+  }
+
 }

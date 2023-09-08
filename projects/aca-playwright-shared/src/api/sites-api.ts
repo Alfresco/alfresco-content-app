@@ -24,20 +24,18 @@
 
 import { ApiClientFactory } from './api-client-factory';
 import { SiteBodyCreate, SiteEntry } from '@alfresco/js-api';
-import { users } from '../base-config/global-variables';
 import { logger } from '@alfresco/adf-cli/scripts/logger';
 import { SITE_VISIBILITY } from '../utils/configs';
 
-export class SitesApi extends ApiClientFactory {
+export class SitesApi {
   private apiService: ApiClientFactory;
 
   constructor() {
-    super();
     this.apiService = new ApiClientFactory();
   }
-  static async initialize(userProfile: keyof typeof users): Promise<SitesApi> {
+  static async initialize(userName: string, password?: string): Promise<SitesApi> {
     const classObj = new SitesApi();
-    await classObj.apiService.setUpAcaBackend(userProfile);
+    await classObj.apiService.setUpAcaBackend(userName, password);
     return classObj;
   }
 
@@ -65,4 +63,21 @@ export class SitesApi extends ApiClientFactory {
       return null;
     }
   }
+
+      /**
+   * Delete multiple sites/libraries.
+   * @param siteIds The list of the site/library IDs to delete.
+   * @param permanent Delete permanently, without moving to the trashcan? (default: true)
+   */
+      async deleteSites(siteIds: string[], permanent: boolean = true) {
+        try {
+          if (siteIds && siteIds.length > 0) {
+            for (const siteId of siteIds) {
+              await this.apiService.sites.deleteSite(siteId, { permanent });
+            }
+          }
+        } catch (error) {
+          logger.error(`${this.constructor.name} ${this.deleteSites.name}`, error);
+        }
+      }
 }

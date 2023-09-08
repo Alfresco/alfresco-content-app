@@ -89,8 +89,8 @@ export class ApiClientFactory {
     this.alfrescoApi = new AlfrescoApi(config);
   }
 
-  public async setUpAcaBackend(userProfile: keyof typeof users): Promise<AcaBackend> {
-    await this.login(userProfile);
+  public async setUpAcaBackend(userName: string, password?: string): Promise<AcaBackend> {
+    await this.login(userName, password);
 
     this.sites = new SitesApi(this.alfrescoApi);
     this.upload = new UploadApi(this.alfrescoApi);
@@ -135,19 +135,21 @@ export class ApiClientFactory {
     return response;
   }
 
-  async login(userProfile: keyof typeof users) {
-    const userToLog =
+  async login(userName: string, password?: string) {
+    const userToLog = password ? null :
       users[
         Object.keys(users)
-          .filter((user) => user.match(new RegExp(`^${userProfile.toString()}$`)))
+          .filter((user) => user.match(new RegExp(`^${userName.toString()}$`)))
           .toString()
-      ] || userProfile;
+      ] || userName;
     let e: any;
 
+    const user = userToLog ? userToLog.username : userName;
+    const userPassword = userToLog ? userToLog.password : password;
     try {
-      e = await this.alfrescoApi.login(userToLog.username, userToLog.password);
+      e = await this.alfrescoApi.login(user, userPassword);
     } catch (error) {
-      logger.error(`[API Client Factory] Log in user ${userToLog.username} failed ${e}`);
+      logger.error(`[API Client Factory] Log in user ${user} failed ${e}`);
       throw error;
     }
   }

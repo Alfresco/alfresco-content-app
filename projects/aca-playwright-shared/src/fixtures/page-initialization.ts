@@ -38,7 +38,8 @@ import {
   UserActions,
   LoginPage,
   NodesApi,
-  SitesApi
+  SitesApi,
+  AdminActions
 } from '../';
 
 interface Pages {
@@ -60,6 +61,7 @@ interface Api {
   userActions: UserActions;
   nodesApiAction: NodesApi;
   sitesApiAction: SitesApi;
+  adminActions: AdminActions;
 }
 
 export const test = base.extend<Pages & Api>({
@@ -113,5 +115,9 @@ export const test = base.extend<Pages & Api>({
   },
   myLibrariesPage: async ({ page }, use) => {
     await use(new MyLibrariesPage(page));
-  }
+  },
+  // eslint-disable-next-line no-empty-pattern
+  adminActions: async ({}, use) => {
+    await use(await AdminActions.initialize());
+  },
 });
