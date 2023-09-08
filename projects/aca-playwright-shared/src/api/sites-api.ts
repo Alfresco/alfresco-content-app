@@ -23,7 +23,7 @@
  */
 
 import { ApiClientFactory } from './api-client-factory';
-import { SiteBody, SiteEntry } from '@alfresco/js-api';
+import { SiteBodyCreate, SiteEntry } from '@alfresco/js-api';
 import { users } from '../base-config/global-variables';
 import { logger } from '@alfresco/adf-cli/scripts/logger';
 import { SITE_VISIBILITY } from '../utils/configs';
@@ -47,7 +47,7 @@ export class SitesApi extends ApiClientFactory {
       visibility: visibility || SITE_VISIBILITY.PUBLIC,
       description: description,
       id: siteId || title
-    } as SiteBody;
+    } as SiteBodyCreate;
 
     try {
       return await this.apiService.sites.createSite(site);

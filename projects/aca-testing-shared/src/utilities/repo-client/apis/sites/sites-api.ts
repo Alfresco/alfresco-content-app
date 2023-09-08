@@ -208,7 +208,7 @@ export class SitesApi extends RepoApi {
   async hasMembershipRequest(siteId: string) {
     try {
       await this.apiAuth();
-      const requests = (await this.sitesApi.getSiteMembershipRequests('-me-')).list.entries.map((e) => e.entry.id);
+      const requests = (await this.sitesApi.listSiteMembershipRequestsForPerson('-me-')).list.entries.map((e) => e.entry.id);
       return requests.includes(siteId);
     } catch (error) {
       this.handleError(`SitesApi hasMembershipRequest : catch : `, error);
