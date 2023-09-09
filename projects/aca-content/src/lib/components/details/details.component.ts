@@ -95,8 +95,8 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
       });
   }
 
-  getInfoDrawerIcon(node: Node): string {
-    return this.nodeActionsService.getInfoDrawerIcon(node);
+  getNodeIcon(node: Node): string {
+    return this.nodeActionsService.getNodeIcon(node);
   }
 
   setActiveTab(tabName: string) {

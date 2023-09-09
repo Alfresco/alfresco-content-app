@@ -1246,7 +1246,7 @@ describe('NodeActionsService', () => {
       thumbnailService = TestBed.inject(ThumbnailService);
     });
 
-    function testInfoDrawerIcon(iconPath: string, isFoldeType: boolean, isFileType: boolean) {
+    function testNodeIcon(iconPath: string, isFoldeType: boolean, isFileType: boolean) {
       spyOn(thumbnailService, 'getMimeTypeIcon').and.returnValue(iconPath);
       mockNode.isFolder = isFoldeType;
       mockNode.isFile = isFileType;
@@ -1255,23 +1255,23 @@ describe('NodeActionsService', () => {
     }
 
     it('should resolve folder icon', () => {
-      testInfoDrawerIcon('assets/images/ft_ic_folder.svg', true, false);
+      testNodeIcon('assets/images/ft_ic_folder.svg', true, false);
     });
 
     it('should resolve smart folder icon', () => {
-      testInfoDrawerIcon('assets/images/ft_ic_smart_folder.svg', true, false);
+      testNodeIcon('assets/images/ft_ic_smart_folder.svg', true, false);
     });
 
     it('should resolve link folder icon', () => {
-      testInfoDrawerIcon('assets/images/ft_ic_folder_shortcut_link.svg', true, false);
+      testNodeIcon('assets/images/ft_ic_folder_shortcut_link.svg', true, false);
     });
 
     it('should resolve rule folder icon', () => {
-      testInfoDrawerIcon('assets/images/ft_ic_folder_rule.svg', true, false);
+      testNodeIcon('assets/images/ft_ic_folder_rule.svg', true, false);
     });
 
     it('should resolve file icon for content type', () => {
-      testInfoDrawerIcon('assets/images/ft_ic_raster_image.svg', false, true);
+      testNodeIcon('assets/images/ft_ic_raster_image.svg', false, true);
     });
 
     it('should resolve fallback file icon for unknown node', () => {

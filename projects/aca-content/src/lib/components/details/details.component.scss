@@ -51,7 +51,9 @@ app-details-manager {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: var(--adf-metadata-property-panel-title-color);
+  color: var(--theme-metadata-property-panel-title-color);
+  text-overflow: ellipsis;
+  white-space: normal;
 }
 
 .aca-details-breadcrumb {
