@@ -397,6 +397,7 @@
             "TITLE": "Details",
             "REDUCE_PANEL": "Reduce panel",
             "DATA_LOADING": "Data is loading",
+            "ICON": "Node Icon",
             "TABS": {
                 "PROPERTIES": "Properties",
                 "LIBRARY_PROPERTIES": "About",

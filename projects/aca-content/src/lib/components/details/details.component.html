@@ -9,7 +9,7 @@
       <div class="acs-details-title">
         <div class="acs-details-breadcrumb" role="heading" aria-level="2" *ngIf="node">
           <span class="acs-details-breadcrumb-library">
-            <img class="acs-details-breadcrumb-icon" alt="Info Drawer icon" src="{{ getInfoDrawerIcon(node) }}">       
+            <img class="acs-details-breadcrumb-icon" alt="{{ 'APP.INFO_DRAWER.ICON' | translate }}" src="{{ getNodeIcon(node) }}">       
             {{ node.name }} </span>
         </div>
         <div class="acs-details-buttons">
