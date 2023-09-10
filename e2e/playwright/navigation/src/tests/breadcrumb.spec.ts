@@ -23,13 +23,11 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, getUserState, test, Utils } from '@alfresco/playwright-shared';
+import { getUserState, test, Utils } from '@alfresco/playwright-shared';
 import { Site } from '@alfresco/js-api';
 
 test.use({ storageState: getUserState('hruser') });
 test.describe('viewer action file', () => {
-  const apiClientFactory = new ApiClientFactory();
-
   const parent = `parent-${Utils.random()}`;
   let parentId: string;
   const subFolder1 = `subFolder1-${Utils.random()}`;
@@ -54,8 +52,6 @@ test.describe('viewer action file', () => {
   const folder1Renamed = `renamed-${Utils.random()}`;
 
   test.beforeAll(async ({ nodesApiAction, sitesApiAction }) => {
-    await apiClientFactory.setUpAcaBackend('hruser');
-
     const parentNode = await nodesApiAction.createFolder(parent);
     parentId = parentNode.entry.id;
     subFolder1Id = (await nodesApiAction.createFolder(subFolder1, parentId)).entry.id;
@@ -73,8 +69,8 @@ test.describe('viewer action file', () => {
     await nodesApiAction.createFile(fileName1FromSite, subFolder2FromSiteId);
   });
 
-  test.afterAll(async () => {
-    await apiClientFactory.nodes.deleteNode(parentId, { permanent: true });
+  test.afterAll(async ({ nodesApiAction }) => {
+    await nodesApiAction.deleteNodes([parentId], true);
   });
 
   test('[C260964] Personal Files breadcrumb main node', async ({ personalFiles }) => {
