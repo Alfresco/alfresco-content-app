@@ -89,7 +89,7 @@ describe('DetailsComponent', () => {
     component = fixture.componentInstance;
     contentApiService = TestBed.inject(ContentApiService);
     nodeAspectService = TestBed.inject(NodeAspectService);
-    component.node = { id: 'test-id' } as MinimalNodeEntryEntity;
+    component.node = { id: 'test-id' } as Node;
     store = TestBed.inject(Store);
 
     node = {
@@ -107,7 +107,7 @@ describe('DetailsComponent', () => {
       }
     };
     spyOn(contentApiService, 'getNode').and.returnValue(of(node));
-    spyOn(nodeAspectService, 'updateNodeAspects').and.callThrough();
+    spyOn(nodeAspectService, 'updateNodeAspects');
   });
 
   afterEach(() => {
@@ -149,5 +149,21 @@ describe('DetailsComponent', () => {
     component.openAspectDialog();
     fixture.detectChanges();
     expect(nodeAspectService.updateNodeAspects).toHaveBeenCalledWith('test-id');
+  });
+
+  it('should subscribe to store and update isNodeLocked', () => {
+    const mockSelection = { file: { entry: { name: 'test', properties: {}, isLocked: false } } };
+    spyOn(store, 'select').and.returnValue(of(mockSelection));
+    fixture.detectChanges();
+    expect(store.select).toHaveBeenCalled();
+    expect(component.isNodeLocked).toBe(false);
+  });
+
+  it('should unsubscribe from observables on component destroy', () => {
+    spyOn(component.onDestroy$, 'next');
+    spyOn(component.onDestroy$, 'complete');
+    fixture.detectChanges();
+    component.ngOnDestroy();
+    expect(component.onDestroy$.complete).toHaveBeenCalled();
   });
 });
