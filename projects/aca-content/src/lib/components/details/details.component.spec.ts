@@ -31,7 +31,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { STORE_INITIAL_APP_DATA, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
-import { MinimalNodeEntryEntity, NodeEntry } from '@alfresco/js-api';
+import { Node, NodeEntry } from '@alfresco/js-api';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AuthenticationService, PageTitleService } from '@alfresco/adf-core';
 import { NodeAspectService, SearchQueryBuilderService } from '@alfresco/adf-content-services';
@@ -129,7 +129,7 @@ describe('DetailsComponent', () => {
     component = fixture.componentInstance;
     contentApiService = TestBed.inject(ContentApiService);
     nodeAspectService = TestBed.inject(NodeAspectService);
-    component.node = { id: 'test-id' } as MinimalNodeEntryEntity;
+    component.node = { id: 'test-id' } as Node;
     store = TestBed.inject(Store);
 
     node = {
@@ -147,7 +147,7 @@ describe('DetailsComponent', () => {
       }
     };
     spyOn(contentApiService, 'getNode').and.returnValue(of(node));
-    spyOn(nodeAspectService, 'updateNodeAspects').and.callThrough();
+    spyOn(nodeAspectService, 'updateNodeAspects');
   });
 
   afterEach(() => {
@@ -188,5 +188,21 @@ describe('DetailsComponent', () => {
     fixture.detectChanges();
     const result = component.getNodeIcon(mockNode);
     expect(result).toContain(expectedIcon);
+  });
+
+  it('should subscribe to store and update isNodeLocked', () => {
+    const mockSelection = { file: { entry: { name: 'test', properties: {}, isLocked: false } } };
+    spyOn(store, 'select').and.returnValue(of(mockSelection));
+    fixture.detectChanges();
+    expect(store.select).toHaveBeenCalled();
+    expect(component.isNodeLocked).toBe(false);
+  });
+
+  it('should unsubscribe from observables on component destroy', () => {
+    spyOn(component.onDestroy$, 'next');
+    spyOn(component.onDestroy$, 'complete');
+    fixture.detectChanges();
+    component.ngOnDestroy();
+    expect(component.onDestroy$.complete).toHaveBeenCalled();
   });
 });
