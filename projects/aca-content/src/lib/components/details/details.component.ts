@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ContentApiService, PageComponent, PageLayoutComponent, ToolbarComponent, isLocked } from '@alfresco/aca-shared';
 import { NavigateToPreviousPage, SetSelectedNodesAction, getAppSelection } from '@alfresco/aca-shared/store';
@@ -67,13 +67,14 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
   onDestroy$ = new Subject<boolean>();
   activeTab = 1;
   selectionState: NodeEntry;
-  isNodeLocked: boolean;
+  isNodeLocked = false;
 
   constructor(
     private route: ActivatedRoute,
     private contentApi: ContentApiService,
     private nodeAspectService: NodeAspectService,
-    private nodeActionsService: NodeActionsService
+    private nodeActionsService: NodeActionsService,
+    private cdr: ChangeDetectorRef
   ) {
     super();
   }
@@ -95,12 +96,12 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
         this.store.dispatch(new SetSelectedNodesAction([{ entry: this.node }]));
       });
     });
-
     this.store.select(getAppSelection).subscribe(({ file }) => {
       this.selectionState = file;
       const isNodeLockedFromStore = this.selection && isLocked(this.selectionState);
       this.nodeActionsService.isNodeLocked$.pipe(takeUntil(this.onDestroy$)).subscribe((isNodeLockedFromService) => {
         this.isNodeLocked = isNodeLockedFromStore || isNodeLockedFromService;
+        this.cdr.detectChanges();
       });
     });
   }
