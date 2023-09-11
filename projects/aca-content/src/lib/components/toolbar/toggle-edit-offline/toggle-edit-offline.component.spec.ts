@@ -26,7 +26,7 @@ import { ToggleEditOfflineComponent } from './toggle-edit-offline.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { NodeEntry } from '@alfresco/js-api';
+import { NodeEntry, NodesApi } from '@alfresco/js-api';
 import { DownloadNodesAction, EditOfflineAction, SnackbarErrorAction } from '@alfresco/aca-shared/store';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { AppExtensionService } from '@alfresco/aca-shared';

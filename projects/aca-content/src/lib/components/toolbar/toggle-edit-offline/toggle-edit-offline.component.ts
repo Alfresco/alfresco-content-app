@@ -121,17 +121,27 @@ export class ToggleEditOfflineComponent implements OnInit {
     );
   }
 
-  lockNode(nodeId: string) {
-    this.nodeActionsService.setNodeLocked(true);
-    return this.nodesApi.lockNode(nodeId, {
-      type: 'ALLOW_OWNER_CHANGES',
-      lifetime: 'PERSISTENT'
-    });
+  lockNode(nodeId: string): Promise<NodeEntry> {
+    return this.nodesApi.lockNode(nodeId, { type: 'ALLOW_OWNER_CHANGES', lifetime: 'PERSISTENT' }).then(
+      (res: NodeEntry) => {
+        this.nodeActionsService.setNodeLocked(true);
+        return res;
+      },
+      (error) => {
+        return error;
+      }
+    );
   }
-
-  unlockNode(nodeId: string) {
-    this.nodeActionsService.setNodeLocked(false);
-    return this.nodesApi.unlockNode(nodeId);
+  unlockNode(nodeId: string): Promise<NodeEntry> {
+    return this.nodesApi.unlockNode(nodeId).then(
+      (res: NodeEntry) => {
+        this.nodeActionsService.setNodeLocked(false);
+        return res;
+      },
+      (error) => {
+        return error;
+      }
+    );
   }
 
   private update(data: Node) {
