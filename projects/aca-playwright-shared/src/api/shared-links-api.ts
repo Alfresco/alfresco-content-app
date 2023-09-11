@@ -24,19 +24,17 @@
 
 import { ApiClientFactory } from './api-client-factory';
 import { FavoritePaging, SharedLinkEntry } from '@alfresco/js-api';
-import { users } from '../base-config/global-variables';
 import { logger } from '@alfresco/adf-cli/scripts/logger';
 
-export class SharedLinksApi extends ApiClientFactory {
+export class SharedLinksApi {
   private apiService: ApiClientFactory;
 
   constructor() {
-    super();
     this.apiService = new ApiClientFactory();
   }
-  static async initialize(userProfile: keyof typeof users): Promise<SharedLinksApi> {
+  static async initialize(userName: string, password?: string): Promise<SharedLinksApi> {
     const classObj = new SharedLinksApi();
-    await classObj.apiService.setUpAcaBackend(userProfile);
+    await classObj.apiService.setUpAcaBackend(userName, password);
     return classObj;
   }
 

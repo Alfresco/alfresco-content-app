@@ -23,12 +23,11 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, getUserState, SITE_VISIBILITY, test, Utils } from '@alfresco/playwright-shared';
+import { getUserState, test, Utils } from '@alfresco/playwright-shared';
+import { Site } from '@alfresco/js-api';
 
 test.use({ storageState: getUserState('hruser') });
 test.describe('viewer action file', () => {
-  const apiClientFactory = new ApiClientFactory();
-
   const parent = `parent-${Utils.random()}`;
   let parentId: string;
   const subFolder1 = `subFolder1-${Utils.random()}`;
@@ -53,8 +52,6 @@ test.describe('viewer action file', () => {
   const folder1Renamed = `renamed-${Utils.random()}`;
 
   test.beforeAll(async ({ nodesApiAction, sitesApiAction }) => {
-    await apiClientFactory.setUpAcaBackend('hruser');
-
     const parentNode = await nodesApiAction.createFolder(parent);
     parentId = parentNode.entry.id;
     subFolder1Id = (await nodesApiAction.createFolder(subFolder1, parentId)).entry.id;
@@ -64,7 +61,7 @@ test.describe('viewer action file', () => {
     parent2Id = (await nodesApiAction.createFolder(parent2)).entry.id;
     folder1Id = (await nodesApiAction.createFolder(folder1, parent2Id)).entry.id;
 
-    await sitesApiAction.createSite(siteName, SITE_VISIBILITY.PUBLIC);
+    await sitesApiAction.createSite(siteName, Site.VisibilityEnum.PUBLIC);
     const docLibId = await sitesApiAction.getDocLibId(siteName);
     parentFromSiteId = (await nodesApiAction.createFolder(parentFromSite, docLibId)).entry.id;
     subFolder1FromSiteId = (await nodesApiAction.createFolder(subFolder1FromSite, parentFromSiteId)).entry.id;
@@ -72,8 +69,8 @@ test.describe('viewer action file', () => {
     await nodesApiAction.createFile(fileName1FromSite, subFolder2FromSiteId);
   });
 
-  test.afterAll(async () => {
-    await apiClientFactory.nodes.deleteNode(parentId, { permanent: true });
+  test.afterAll(async ({ nodesApiAction }) => {
+    await nodesApiAction.deleteNodes([parentId], true);
   });
 
   test('[C260964] Personal Files breadcrumb main node', async ({ personalFiles }) => {

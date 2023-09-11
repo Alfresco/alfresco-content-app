@@ -24,22 +24,20 @@
 
 import { ApiClientFactory } from './api-client-factory';
 import { FavoriteEntry } from '@alfresco/js-api';
-import { users } from '../base-config/global-variables';
 
-export class FavoritesPageApi extends ApiClientFactory {
+export class FavoritesPageApi {
   private apiService: ApiClientFactory;
 
   constructor() {
-    super();
     this.apiService = new ApiClientFactory();
   }
-  static async initialize(userProfile: keyof typeof users): Promise<FavoritesPageApi> {
+  static async initialize(userName: string, password?: string): Promise<FavoritesPageApi> {
     const classObj = new FavoritesPageApi();
-    await classObj.apiService.setUpAcaBackend(userProfile);
+    await classObj.apiService.setUpAcaBackend(userName, password);
     return classObj;
   }
   async addFavoriteById(nodeType: 'file' | 'folder' | 'site', id: string): Promise<FavoriteEntry | null> {
-    let guid = nodeType === 'site' ? (await this.sites.getSite(id)).entry.guid : id;
+    let guid = nodeType === 'site' ? (await this.apiService.sites.getSite(id)).entry.guid : id;
     const data = {
       target: {
         [nodeType]: {
