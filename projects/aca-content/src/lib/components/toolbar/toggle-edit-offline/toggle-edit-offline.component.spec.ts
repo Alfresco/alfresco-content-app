@@ -26,9 +26,10 @@ import { ToggleEditOfflineComponent } from './toggle-edit-offline.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { NodeEntry } from '@alfresco/js-api';
+import { NodeEntry, NodesApi } from '@alfresco/js-api';
 import { DownloadNodesAction, EditOfflineAction, SnackbarErrorAction } from '@alfresco/aca-shared/store';
 import { AppTestingModule } from '../../../testing/app-testing.module';
+import { NodeActionsService } from '../../../services/node-actions.service';
 
 describe('ToggleEditOfflineComponent', () => {
   let fixture: ComponentFixture<ToggleEditOfflineComponent>;
@@ -37,6 +38,49 @@ describe('ToggleEditOfflineComponent', () => {
   let dispatchSpy: jasmine.Spy;
   let selectSpy: jasmine.Spy;
   let selection: any;
+
+  const lockedNodeEntry: NodeEntry = {
+    entry: {
+      isFile: true,
+      createdByUser: {
+        id: 'hruser',
+        displayName: 'hruser'
+      },
+      modifiedAt: new Date('2023-09-08T11:54:48.325+0000'),
+      nodeType: 'cm:content',
+      content: {
+        mimeType: 'image/jpeg',
+        mimeTypeName: 'JPEG Image',
+        sizeInBytes: 128473,
+        encoding: 'UTF-8'
+      },
+      parentId: '5a2d88ec-a29c-408a-874d-6394940c51d7',
+      aspectNames: ['cm:versionable', 'cm:lockable', 'cm:auditable', 'cm:taggable', 'exif:exif'],
+      createdAt: new Date('2023-09-07T11:10:48.788+0000'),
+      isFolder: false,
+      modifiedByUser: {
+        id: 'hruser',
+        displayName: 'hruser'
+      },
+      name: 'e2e_favorite_file.jpg',
+      id: '36e5b5ad-3fa0-47e2-b256-016b868ac772',
+      properties: {
+        'cm:lockType': 'WRITE_LOCK',
+        'cm:lockOwner': {
+          id: 'hruser',
+          displayName: 'hruser'
+        },
+        'cm:versionType': 'MAJOR',
+        'cm:versionLabel': '1.0',
+        'cm:lockLifetime': 'PERSISTENT',
+        'exif:pixelYDimension': 1253,
+        'exif:pixelXDimension': 1024
+      }
+    }
+  };
+
+  const nodesApiMock = jasmine.createSpyObj('nodesApi', ['lockNode', 'unlockNode']);
+  const nodeActionsServiceMock = jasmine.createSpyObj('nodeActionsService', ['setNodeLocked']);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -48,7 +92,9 @@ describe('ToggleEditOfflineComponent', () => {
             select: () => {},
             dispatch: () => {}
           }
-        }
+        },
+        { provide: NodesApi, useValue: nodesApiMock },
+        { provide: NodeActionsService, useValue: nodeActionsServiceMock }
       ]
     });
 
@@ -132,5 +178,52 @@ describe('ToggleEditOfflineComponent', () => {
         fileName: 'test'
       })
     ]);
+  });
+
+  it('should call setNodeLocked with true when a node is locked', () => {
+    const nodeId = 'testNode1';
+    nodesApiMock.lockNode.and.returnValue(Promise.resolve(lockedNodeEntry));
+
+    component.lockNode(nodeId).then((result) => {
+      expect(nodesApiMock.lockNode).toHaveBeenCalledWith(nodeId, {
+        type: 'ALLOW_OWNER_CHANGES',
+        lifetime: 'PERSISTENT'
+      });
+      expect(nodeActionsServiceMock.setNodeLocked).toHaveBeenCalledWith(true);
+      expect(result).toEqual(lockedNodeEntry);
+    });
+  });
+
+  it('should call setNodeLocked with false when a node is unlocked', () => {
+    const nodeId = 'testNode2';
+    nodesApiMock.unlockNode.and.returnValue(Promise.resolve(lockedNodeEntry));
+
+    component.unlockNode(nodeId).then((result) => {
+      expect(nodesApiMock.unlockNode).toHaveBeenCalledWith(nodeId);
+      expect(nodeActionsServiceMock.setNodeLocked).toHaveBeenCalledWith(false);
+      expect(result).toEqual(lockedNodeEntry);
+    });
+  });
+
+  it('should handle errors when locking a node encounters an error', () => {
+    const nodeId = 'testNode1';
+    const error = new Error('Locking failed');
+    nodesApiMock.lockNode.and.returnValue(Promise.reject(error));
+    component.lockNode(nodeId).catch((err) => {
+      expect(nodesApiMock.lockNode).toHaveBeenCalledWith(nodeId, { type: 'ALLOW_OWNER_CHANGES', lifetime: 'PERSISTENT' });
+      expect(nodeActionsServiceMock.setNodeLocked).not.toHaveBeenCalled();
+      expect(err).toEqual(error);
+    });
+  });
+
+  it('should handle errors when unlocking a node encounters an error', () => {
+    const nodeId = 'testNode1';
+    const error = new Error('Unlocking failed');
+    nodesApiMock.unlockNode.and.returnValue(Promise.reject(error));
+    component.unlockNode(nodeId).catch((err) => {
+      expect(nodesApiMock.lockNode).toHaveBeenCalledWith(nodeId);
+      expect(nodeActionsServiceMock.setNodeLocked).not.toHaveBeenCalled();
+      expect(err).toEqual(error);
+    });
   });
 });
