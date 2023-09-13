@@ -1,19 +1,29 @@
 app-details-manager {
-  .aca-close-details-button {
-    margin-right: 15px;
-    margin-top: 2px;
-    outline: none;
-    border-radius: 4px;
+  .acs-details-buttons {
+    display: flex;
 
-    &:focus {
-      background-color: var(--theme-selected-background-color);
-      outline: 2px solid var(--theme-blue-button-color);
+    .aca-close-details-button {
+      margin-right: 15px;
+      margin-top: 2px;
+      outline: none;
       border-radius: 4px;
-    }
 
-    &:focus-visible {
-      outline: 2px solid var(--theme-blue-button-color);
-      border-radius: 4px;
+      &:focus {
+        background-color: var(--theme-selected-background-color);
+        outline: 2px solid var(--theme-blue-button-color);
+        border-radius: 4px;
+      }
+
+      &:focus-visible {
+        outline: 2px solid var(--theme-blue-button-color);
+        border-radius: 4px;
+        margin-top: 12px;
+
+        &:focus-visible {
+          outline: 2px solid var(--theme-blue-button-color);
+          border-radius: 4px;
+        }
+      }
     }
   }
 }
