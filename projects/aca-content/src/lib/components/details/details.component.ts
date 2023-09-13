@@ -65,7 +65,7 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
   isLoading: boolean;
   onDestroy$ = new Subject<boolean>();
   activeTab = 1;
-  actionsAspect: Array<ContentActionRef> = [];
+  aspectActions: Array<ContentActionRef> = [];
 
   constructor(private route: ActivatedRoute, private contentApi: ContentApiService) {
     super();
@@ -91,8 +91,8 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
     this.extensions
       .getAllowedSidebarActions()
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe((actionsAspect) => {
-        this.actionsAspect = actionsAspect;
+      .subscribe((aspectActions) => {
+        this.aspectActions = aspectActions;
       });
   }
 
