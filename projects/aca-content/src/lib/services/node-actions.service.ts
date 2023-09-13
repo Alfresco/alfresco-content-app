@@ -49,7 +49,6 @@ export class NodeActionsService {
   contentMoved: Subject<any> = new Subject<any>();
   moveDeletedEntries: any[] = [];
   isSitesDestinationAvailable = false;
-  isNodeLocked$: Observable<any>;
 
   _nodesApi: NodesApi;
   get nodesApi(): NodesApi {
