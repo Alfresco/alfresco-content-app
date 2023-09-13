@@ -43,7 +43,6 @@ describe('DetailsComponent', () => {
   let contentApiService: ContentApiService;
   let store: Store;
   let node: NodeEntry;
-  let nodeAspectService: NodeAspectService;
 
   const mockStream = new Subject();
   const storeMock = {
@@ -129,8 +128,6 @@ describe('DetailsComponent', () => {
     fixture = TestBed.createComponent(DetailsComponent);
     component = fixture.componentInstance;
     contentApiService = TestBed.inject(ContentApiService);
-    nodeAspectService = TestBed.inject(NodeAspectService);
-    component.node = { id: 'test-id' } as Node;
     store = TestBed.inject(Store);
 
     node = {
@@ -148,7 +145,6 @@ describe('DetailsComponent', () => {
       }
     };
     spyOn(contentApiService, 'getNode').and.returnValue(of(node));
-    spyOn(nodeAspectService, 'updateNodeAspects');
   });
 
   afterEach(() => {
