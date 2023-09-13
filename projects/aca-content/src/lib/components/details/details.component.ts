@@ -22,12 +22,12 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, ViewEncapsulation, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ContentApiService, PageComponent, PageLayoutComponent, ToolbarComponent, isLocked } from '@alfresco/aca-shared';
-import { NavigateToPreviousPage, SetSelectedNodesAction, getAppSelection } from '@alfresco/aca-shared/store';
+import { ContentApiService, PageComponent, PageLayoutComponent, ToolbarComponent } from '@alfresco/aca-shared';
+import { NavigateToPreviousPage, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { Subject } from 'rxjs';
-import { BreadcrumbModule, PermissionManagerModule, NodeAspectService } from '@alfresco/adf-content-services';
+import { BreadcrumbModule, PermissionManagerModule } from '@alfresco/adf-content-services';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatIconModule } from '@angular/material/icon';
@@ -118,10 +118,6 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
 
   goBack() {
     this.store.dispatch(new NavigateToPreviousPage());
-  }
-
-  openAspectDialog() {
-    this.nodeAspectService.updateNodeAspects(this.node.id);
   }
 
   ngOnDestroy(): void {
