@@ -31,7 +31,7 @@ import {
   getAppSelection
 } from '@alfresco/aca-shared/store';
 import { NodeEntry, SharedLinkEntry, Node, NodesApi } from '@alfresco/js-api';
-import { ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppExtensionService, isLocked } from '@alfresco/aca-shared';
 import { AlfrescoApiService } from '@alfresco/adf-core';
@@ -39,7 +39,6 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
-import { NodeActionsService } from '../../../services/node-actions.service';
 
 @Component({
   standalone: true,
@@ -60,13 +59,7 @@ export class ToggleEditOfflineComponent implements OnInit {
   nodeTitle = '';
   isNodeLocked = false;
 
-  constructor(
-    private store: Store<AppStore>,
-    private alfrescoApiService: AlfrescoApiService,
-    private nodeActionsService: NodeActionsService,
-    private cdr: ChangeDetectorRef,
-    private extensions: AppExtensionService
-  ) {
+  constructor(private store: Store<AppStore>, private alfrescoApiService: AlfrescoApiService, private extensions: AppExtensionService) {
     this.nodesApi = new NodesApi(this.alfrescoApiService.getInstance());
   }
 
@@ -75,7 +68,6 @@ export class ToggleEditOfflineComponent implements OnInit {
       this.selection = file;
       this.isNodeLocked = this.selection && isLocked(this.selection);
       this.nodeTitle = this.isNodeLocked ? 'APP.ACTIONS.EDIT_OFFLINE_CANCEL' : 'APP.ACTIONS.EDIT_OFFLINE';
-      this.cdr.detectChanges();
     });
   }
 
@@ -127,27 +119,15 @@ export class ToggleEditOfflineComponent implements OnInit {
     );
   }
 
-  lockNode(nodeId: string): Promise<NodeEntry> {
-    return this.nodesApi.lockNode(nodeId, { type: 'ALLOW_OWNER_CHANGES', lifetime: 'PERSISTENT' }).then(
-      (res: NodeEntry) => {
-        this.nodeActionsService.setNodeLocked(true);
-        return res;
-      },
-      (error) => {
-        return error;
-      }
-    );
+  lockNode(nodeId: string) {
+    return this.nodesApi.lockNode(nodeId, {
+      type: 'ALLOW_OWNER_CHANGES',
+      lifetime: 'PERSISTENT'
+    });
   }
-  unlockNode(nodeId: string): Promise<NodeEntry> {
-    return this.nodesApi.unlockNode(nodeId).then(
-      (res: NodeEntry) => {
-        this.nodeActionsService.setNodeLocked(false);
-        return res;
-      },
-      (error) => {
-        return error;
-      }
-    );
+
+  unlockNode(nodeId: string) {
+    return this.nodesApi.unlockNode(nodeId);
   }
 
   private update(data: Node) {
