@@ -22,12 +22,12 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, ViewEncapsulation, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ContentApiService, PageComponent, PageLayoutComponent, ToolbarComponent, isLocked } from '@alfresco/aca-shared';
-import { NavigateToPreviousPage, SetSelectedNodesAction, getAppSelection } from '@alfresco/aca-shared/store';
+import { ContentApiService, PageComponent, PageLayoutComponent, ToolbarComponent } from '@alfresco/aca-shared';
+import { NavigateToPreviousPage, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { Subject } from 'rxjs';
-import { BreadcrumbModule, PermissionManagerModule, NodeAspectService } from '@alfresco/adf-content-services';
+import { BreadcrumbModule, PermissionManagerModule } from '@alfresco/adf-content-services';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatIconModule } from '@angular/material/icon';
@@ -36,9 +36,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { MetadataTabComponent } from '../info-drawer/metadata-tab/metadata-tab.component';
 import { CommentsTabComponent } from '../info-drawer/comments-tab/comments-tab.component';
-import { NodeActionsService } from '../../services/node-actions.service';
-import { NodeEntry } from '@alfresco/js-api';
 import { takeUntil } from 'rxjs/operators';
+import { ContentActionRef } from '@alfresco/adf-extensions';
 
 @Component({
   standalone: true,
@@ -66,16 +65,9 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
   isLoading: boolean;
   onDestroy$ = new Subject<boolean>();
   activeTab = 1;
-  selectionState: NodeEntry;
-  isNodeLocked = false;
+  actionsAspect: Array<ContentActionRef> = [];
 
-  constructor(
-    private route: ActivatedRoute,
-    private contentApi: ContentApiService,
-    private nodeAspectService: NodeAspectService,
-    private nodeActionsService: NodeActionsService,
-    private cdr: ChangeDetectorRef
-  ) {
+  constructor(private route: ActivatedRoute, private contentApi: ContentApiService) {
     super();
   }
 
@@ -96,14 +88,12 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
         this.store.dispatch(new SetSelectedNodesAction([{ entry: this.node }]));
       });
     });
-    this.store.select(getAppSelection).subscribe(({ file }) => {
-      this.selectionState = file;
-      const isNodeLockedFromStore = this.selection && isLocked(this.selectionState);
-      this.nodeActionsService.isNodeLocked$.pipe(takeUntil(this.onDestroy$)).subscribe((isNodeLockedFromService) => {
-        this.isNodeLocked = isNodeLockedFromStore || isNodeLockedFromService;
-        this.cdr.detectChanges();
+    this.extensions
+      .getAllowedSidebarActions()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((actionsAspect) => {
+        this.actionsAspect = actionsAspect;
       });
-    });
   }
 
   setActiveTab(tabName: string) {
@@ -122,10 +112,6 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
 
   goBack() {
     this.store.dispatch(new NavigateToPreviousPage());
-  }
-
-  openAspectDialog() {
-    this.nodeAspectService.updateNodeAspects(this.node.id);
   }
 
   ngOnDestroy(): void {
