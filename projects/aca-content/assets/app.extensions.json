@@ -1264,7 +1264,7 @@
             "click": "EXPAND_INFO_DRAWER"
           },
           "rules": {
-            "visible": "app.navigation.isNotLibraries"
+            "visible": "canNotShowExpand"
           }
         }
       ],
