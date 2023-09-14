@@ -1,5 +1,5 @@
 <mat-toolbar>
   <ng-container *ngFor="let item of items; trackBy: trackByActionId">
-    <aca-toolbar-action [actionRef]="item"></aca-toolbar-action>
+    <aca-toolbar-action [ngClass]="{'rotate-icon': item.icon === 'unfold_more'}" [actionRef]="item"></aca-toolbar-action>
   </ng-container>
 </mat-toolbar>

@@ -1244,7 +1244,8 @@
           "id": "app.sidebar.expand",
           "order": 200,
           "title": "APP.INFO_DRAWER.TABS.EXPAND",
-          "icon": "chevron_left",
+          "icon": "unfold_more",
+          "class": "adf-no-grow-cell adf-ellipsis-cell",
           "actions": {
             "click": "EXPAND_INFO_DRAWER"
           },
