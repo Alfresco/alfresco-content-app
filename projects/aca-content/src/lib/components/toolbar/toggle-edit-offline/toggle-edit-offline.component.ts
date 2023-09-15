@@ -22,7 +22,14 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AppStore, DownloadNodesAction, EditOfflineAction, SnackbarErrorAction, getAppSelection } from '@alfresco/aca-shared/store';
+import {
+  AppStore,
+  DownloadNodesAction,
+  EditOfflineAction,
+  SetSelectedNodesAction,
+  SnackbarErrorAction,
+  getAppSelection
+} from '@alfresco/aca-shared/store';
 import { NodeEntry, SharedLinkEntry, Node, NodesApi } from '@alfresco/js-api';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
@@ -39,15 +46,9 @@ import { MatIconModule } from '@angular/material/icon';
   selector: 'app-toggle-edit-offline',
   template: `
     <button mat-menu-item [attr.title]="nodeTitle | translate" (click)="onClick()">
-      <ng-container *ngIf="isNodeLocked">
-        <mat-icon>cancel</mat-icon>
-        <span>{{ 'APP.ACTIONS.EDIT_OFFLINE_CANCEL' | translate }}</span>
-      </ng-container>
-
-      <ng-container *ngIf="!isNodeLocked">
-        <mat-icon>edit</mat-icon>
-        <span>{{ 'APP.ACTIONS.EDIT_OFFLINE' | translate }}</span>
-      </ng-container>
+      <mat-icon *ngIf="isNodeLocked">cancel</mat-icon>
+      <mat-icon *ngIf="!isNodeLocked">edit</mat-icon>
+      <span>{{ (isNodeLocked ? 'APP.ACTIONS.EDIT_OFFLINE_CANCEL' : 'APP.ACTIONS.EDIT_OFFLINE') | translate }}</span>
     </button>
   `,
   encapsulation: ViewEncapsulation.None,
@@ -84,6 +85,7 @@ export class ToggleEditOfflineComponent implements OnInit {
 
         this.update(response?.entry);
         this.store.dispatch(new EditOfflineAction(this.selection));
+        this.store.dispatch(new SetSelectedNodesAction([this.selection]));
       } catch {
         this.onUnlockError();
       }
@@ -94,6 +96,7 @@ export class ToggleEditOfflineComponent implements OnInit {
         this.update(response?.entry);
         this.store.dispatch(new DownloadNodesAction([this.selection]));
         this.store.dispatch(new EditOfflineAction(this.selection));
+        this.store.dispatch(new SetSelectedNodesAction([this.selection]));
       } catch {
         this.onLockError();
       }
