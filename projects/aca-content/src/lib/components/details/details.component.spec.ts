@@ -26,7 +26,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { DetailsComponent } from './details.component';
 import { ActivatedRoute } from '@angular/router';
-import { of, Subject } from 'rxjs';
+import { BehaviorSubject, of, Subject } from 'rxjs';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ContentApiService } from '@alfresco/aca-shared';
@@ -49,6 +49,16 @@ describe('DetailsComponent', () => {
     dispatch: jasmine.createSpy('dispatch').and.stub(),
     select: () => mockStream
   };
+
+  const extensionsServiceMock = {
+    getAllowedSidebarActions: jasmine.createSpy('getAllowedSidebarActions')
+  };
+
+  const mockAspectActions = [];
+
+  // Mock the observable returned by getAllowedSidebarActions
+  const mockObservable = new BehaviorSubject(mockAspectActions);
+  extensionsServiceMock.getAllowedSidebarActions.and.returnValue(mockObservable);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -139,5 +149,13 @@ describe('DetailsComponent', () => {
   it('should dispatch node selection', () => {
     fixture.detectChanges();
     expect(store.dispatch).toHaveBeenCalledWith(new SetSelectedNodesAction([node]));
+  });
+
+  it('should set aspectActions from extensions', () => {
+    extensionsServiceMock.getAllowedSidebarActions.and.returnValue(of(mockAspectActions));
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expect(component.aspectActions).toEqual(mockAspectActions);
+    });
   });
 });
