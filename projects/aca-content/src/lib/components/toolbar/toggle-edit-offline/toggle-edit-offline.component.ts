@@ -46,8 +46,7 @@ import { MatIconModule } from '@angular/material/icon';
   selector: 'app-toggle-edit-offline',
   template: `
     <button mat-menu-item [attr.title]="nodeTitle | translate" (click)="onClick()">
-      <mat-icon *ngIf="isNodeLocked">cancel</mat-icon>
-      <mat-icon *ngIf="!isNodeLocked">edit</mat-icon>
+      <mat-icon>{{ isNodeLocked ? 'cancel' : 'edit' }}</mat-icon>
       <span>{{ (isNodeLocked ? 'APP.ACTIONS.EDIT_OFFLINE_CANCEL' : 'APP.ACTIONS.EDIT_OFFLINE') | translate }}</span>
     </button>
   `,
@@ -131,7 +130,7 @@ export class ToggleEditOfflineComponent implements OnInit {
   }
 
   private update(data: Node) {
-    if (data && data.properties) {
+    if (data?.properties) {
       const properties = this.selection.entry.properties || {};
 
       properties['cm:lockLifetime'] = data.properties['cm:lockLifetime'];
