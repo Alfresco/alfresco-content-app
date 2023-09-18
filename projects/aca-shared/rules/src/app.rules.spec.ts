@@ -121,6 +121,28 @@ describe('app.evaluators', () => {
     });
   });
 
+  describe('canShowExpand', () => {
+    it('should return false when isLibraries returns true', () => {
+      const context: any = {
+        navigation: {
+          url: '/libraries'
+        }
+      };
+
+      expect(app.canShowExpand(context)).toBe(false);
+    });
+
+    it('should return false when isDetails returns true', () => {
+      const context: any = {
+        navigation: {
+          url: '/details'
+        }
+      };
+
+      expect(app.canShowExpand(context)).toBe(false);
+    });
+  });
+
   describe('hasLockedFiles', () => {
     it('should return [false] if selection not present', () => {
       const context: any = {};

@@ -511,7 +511,7 @@ export const canEditAspects = (context: RuleContext): boolean =>
     repository.isMajorVersionAvailable(context, '7')
   ].every(Boolean);
 
-export const canNotShowExpand = (context: RuleContext): boolean => [!navigation.isLibraries(context), !navigation.isDetails(context)].every(Boolean);
+export const canShowExpand = (context: RuleContext): boolean => [!navigation.isLibraries(context), !navigation.isDetails(context)].every(Boolean);
 
 /**
  * Checks if user can manage permissions for the selected node.
