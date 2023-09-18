@@ -192,7 +192,7 @@ export class ContentServiceExtensionModule {
       canToggleFavorite: rules.canToggleFavorite,
       isLibraryManager: rules.isLibraryManager,
       canEditAspects: rules.canEditAspects,
-      canNotShowExpand: rules.canNotShowExpand,
+      canShowExpand: rules.canShowExpand,
       canInfoPreview: rules.canInfoPreview,
       showInfoSelectionButton: rules.showInfoSelectionButton,
 

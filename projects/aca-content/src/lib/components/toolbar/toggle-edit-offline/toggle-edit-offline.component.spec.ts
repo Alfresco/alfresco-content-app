@@ -29,6 +29,7 @@ import { Store } from '@ngrx/store';
 import { NodeEntry } from '@alfresco/js-api';
 import { DownloadNodesAction, EditOfflineAction, SnackbarErrorAction } from '@alfresco/aca-shared/store';
 import { AppTestingModule } from '../../../testing/app-testing.module';
+import { AppExtensionService } from '@alfresco/aca-shared';
 
 describe('ToggleEditOfflineComponent', () => {
   let fixture: ComponentFixture<ToggleEditOfflineComponent>;
@@ -37,6 +38,10 @@ describe('ToggleEditOfflineComponent', () => {
   let dispatchSpy: jasmine.Spy;
   let selectSpy: jasmine.Spy;
   let selection: any;
+
+  const extensionsMock = {
+    updateSidebarActions: jasmine.createSpy('updateSidebarActions')
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -48,6 +53,10 @@ describe('ToggleEditOfflineComponent', () => {
             select: () => {},
             dispatch: () => {}
           }
+        },
+        {
+          provide: AppExtensionService,
+          useValue: extensionsMock
         }
       ]
     });
@@ -132,5 +141,15 @@ describe('ToggleEditOfflineComponent', () => {
         fileName: 'test'
       })
     ]);
+  });
+
+  it('should call updateSidebarActions on click', async () => {
+    selectSpy.and.returnValue(of(selection));
+    fixture.detectChanges();
+
+    await component.onClick();
+    fixture.detectChanges();
+
+    expect(extensionsMock.updateSidebarActions).toHaveBeenCalled();
   });
 });
