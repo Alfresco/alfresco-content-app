@@ -56,7 +56,6 @@ describe('DetailsComponent', () => {
 
   const mockAspectActions = [];
 
-  // Mock the observable returned by getAllowedSidebarActions
   const mockObservable = new BehaviorSubject(mockAspectActions);
   extensionsServiceMock.getAllowedSidebarActions.and.returnValue(mockObservable);
 
