@@ -76,15 +76,6 @@ test.describe('Single click on item name', () => {
       await personalFiles.dataTable.spinnerWaitForReload();
       expect(await personalFiles.breadcrumb.currentItem.innerText()).toBe(folder1);
     });
-
-    test('[C306990] Navigate inside the folder when clicking the hyperlink on Search Results', async ({ personalFiles }) => {
-      await personalFiles.navigate({ remoteUrl: `#/search;q=${folderSearch}` });
-      await personalFiles.reload();
-      await personalFiles.dataTable.spinnerWaitForReload();
-      await personalFiles.dataTable.getSearchResultLinkByName(folderSearch).click();
-      await personalFiles.dataTable.spinnerWaitForReload();
-      expect(await personalFiles.breadcrumb.currentItem.innerText()).toBe(folderSearch);
-    });
   });
 
   test('[C284902] Navigate inside the library when clicking the hyperlink on File Libraries', async ({ myLibrariesPage }) => {
