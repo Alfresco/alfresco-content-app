@@ -29,7 +29,7 @@ import { AppStore, EditOfflineAction, infoDrawerMetadataAspect, NodeActionTypes 
 import { AppConfigService, NotificationService } from '@alfresco/adf-core';
 import { Observable, Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { ContentMetadataModule, ContentMetadataService } from '@alfresco/adf-content-services';
+import { CardViewGroup, ContentMetadataModule, ContentMetadataService } from '@alfresco/adf-content-services';
 import { filter, takeUntil } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { Actions, ofType } from '@ngrx/effects';
@@ -49,6 +49,7 @@ import { Actions, ofType } from '@ngrx/effects';
       [(editable)]="editable"
       [(editableTags)]="editableTags"
       [(editableCategories)]="editableCategories"
+      [(group)]="group"
     >
     </adf-content-metadata>
   `,
@@ -65,6 +66,7 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
   editable = false;
   editableTags = false;
   editableCategories = false;
+  group: CardViewGroup;
 
   constructor(
     private permission: NodePermissionService,
@@ -98,6 +100,7 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
           this.editable = false;
           this.editableTags = false;
           this.editableCategories = false;
+          this.group.editable = false;
         }
       });
   }
