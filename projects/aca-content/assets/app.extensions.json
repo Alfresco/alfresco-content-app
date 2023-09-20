@@ -136,10 +136,6 @@
       {
         "id": "adf:move_file",
         "value": "./assets/images/adf-move-file-24px.svg"
-      },
-      {
-        "id": "adf:expand_content",
-        "value": "./assets/images/expand_content.svg"
       }
     ],
     "create": [
@@ -1248,7 +1244,7 @@
           "id": "app.sidebar.expand",
           "order": 200,
           "title": "APP.INFO_DRAWER.TABS.EXPAND",
-          "icon": "adf:expand_content",
+          "icon": "aspect_ratio",
           "actions": {
             "click": "EXPAND_INFO_DRAWER"
           },
