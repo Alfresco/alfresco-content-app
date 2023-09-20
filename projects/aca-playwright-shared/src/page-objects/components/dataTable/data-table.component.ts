@@ -113,6 +113,8 @@ export class DataTableComponent extends BaseComponent {
 
   getColumnHeaderByTitleLocator = (headerTitle: string): Locator => this.getChild('[role="columnheader"]', { hasText: headerTitle });
 
+  getSearchResultLinkByName = (name: string): Locator => this.getChild('.aca-search-results-row span[role="link"]', { hasText: name });
+
   async sortBy(columnTitle: string, order: 'Ascending' | 'Descending'): Promise<void> {
     const columnHeaderLocator = this.getColumnHeaderByTitleLocator(columnTitle);
     await this.spinnerWaitForReload();

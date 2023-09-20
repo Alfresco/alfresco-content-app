@@ -22,11 +22,24 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './paths';
-export * from './timeouts';
-export * from './exclude-tests';
-export * from './state-helper';
-export * from './folder-errors';
-export * from './utils';
-export * from './library-errors';
-export * from './config';
+import { Page } from '@playwright/test';
+import { BasePage } from './base.page';
+import { DataTableComponent, MatMenuComponent, SidenavComponent, ViewerComponent } from '../components';
+import { AcaHeader } from '../components/aca-header.component';
+import { AdfFolderDialogComponent, ViewerOverlayDialogComponent } from '../components/dialogs';
+
+export class FavoritesLibrariesPage extends BasePage {
+  private static pageUrl = 'favorite/libraries';
+
+  constructor(page: Page) {
+    super(page, FavoritesLibrariesPage.pageUrl);
+  }
+
+  public acaHeader = new AcaHeader(this.page);
+  public matMenu = new MatMenuComponent(this.page);
+  public folderDialog = new AdfFolderDialogComponent(this.page);
+  public dataTable = new DataTableComponent(this.page);
+  public viewer = new ViewerComponent(this.page);
+  public viewerDialog = new ViewerOverlayDialogComponent(this.page);
+  public sidenav = new SidenavComponent(this.page);
+}

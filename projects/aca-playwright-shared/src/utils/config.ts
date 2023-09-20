@@ -19,14 +19,27 @@
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './paths';
-export * from './timeouts';
-export * from './exclude-tests';
-export * from './state-helper';
-export * from './folder-errors';
-export * from './utils';
-export * from './library-errors';
-export * from './config';
+export const APP_ROUTES = {
+  FAVORITES: '/favorites',
+  MY_LIBRARIES: '/libraries',
+  FAVORITE_LIBRARIES: '/favorite/libraries',
+  LOGIN: '/login',
+  LOGOUT: '/logout',
+  PERSONAL_FILES: '/personal-files',
+  RECENT_FILES: '/recent-files',
+  SHARED_FILES: '/shared',
+  TRASHCAN: '/trashcan'
+};
+
+export const SIDEBAR_LABELS = {
+  PERSONAL_FILES: 'Personal Files',
+  MY_LIBRARIES: 'My Libraries',
+  FAVORITE_LIBRARIES: 'Favorite Libraries',
+  SHARED_FILES: 'Shared',
+  RECENT_FILES: 'Recent Files',
+  FAVORITES: 'Favorites',
+  TRASH: 'Trash'
+};

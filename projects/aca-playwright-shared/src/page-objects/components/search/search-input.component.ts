@@ -29,6 +29,7 @@ import { timeouts } from '../../../utils';
 export class SearchInputComponent extends BaseComponent {
   private static rootElement = 'aca-page-layout';
   public searchButton = this.getChild('aca-search-input .app-search-button');
+  getIconByName = (name: string): Locator => this.getChild('.mat-icon[role="img"]', { hasText: name });
 
   /**
    * Method used in cases where user have possibility to navigate "inside" the element (it's clickable and has link attribute).
@@ -43,9 +44,8 @@ export class SearchInputComponent extends BaseComponent {
   }
 
   async performDoubleClickFolderOrFileToOpen(name: string): Promise<void> {
-    await this.getCellLinkByName(name).waitFor({ state:'visible', timeout: timeouts.normal });
+    await this.getCellLinkByName(name).waitFor({ state: 'visible', timeout: timeouts.normal });
     await this.getCellLinkByName(name).dblclick();
     await this.spinnerWaitForReload();
   }
-
 }

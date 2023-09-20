@@ -33,7 +33,8 @@ import {
   ViewerComponent,
   ViewerOverlayDialogComponent,
   ContentNodeSelectorDialog,
-  Breadcrumb
+  Breadcrumb,
+  SidenavComponent
 } from '../components';
 
 export class MyLibrariesPage extends BasePage {
@@ -51,6 +52,7 @@ export class MyLibrariesPage extends BasePage {
   public viewerDialog = new ViewerOverlayDialogComponent(this.page);
   public copyMoveDialog = new ContentNodeSelectorDialog(this.page);
   public breadcrumb = new Breadcrumb(this.page);
+  public sidenav = new SidenavComponent(this.page);
 
   async selectCreateLibrary(): Promise<void> {
     await this.acaHeader.createButton.click();
