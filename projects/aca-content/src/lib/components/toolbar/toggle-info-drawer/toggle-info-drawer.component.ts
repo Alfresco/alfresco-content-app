@@ -44,7 +44,7 @@ import { MatIconModule } from '@angular/material/icon';
       [attr.title]="'APP.ACTIONS.DETAILS' | translate"
       (click)="onClick()"
     >
-      <mat-icon>menu_open</mat-icon>
+      <mat-icon>view_sidebar</mat-icon>
     </button>
   `,
   encapsulation: ViewEncapsulation.None,
