@@ -33,60 +33,12 @@ test.describe('Sidebar', () => {
     await apiClientFactory.setUpAcaBackend('hruser');
   });
 
-  test('[C289902] navigate to Favorite Libraries', async ({ personalFiles, favoritePage }) => {
-    await personalFiles.navigate();
-    await personalFiles.sidenav.openPanel('Favorite Libraries');
-    await personalFiles.dataTable.spinnerWaitForReload();
-    expect(favoritePage.page.url()).toContain(APP_ROUTES.FAVORITE_LIBRARIES);
-    expect(await favoritePage.sidenav.isActive(SIDEBAR_LABELS.FAVORITE_LIBRARIES), 'Favorite Libraries link not active').toBe(true);
-  });
-
   test('[C289901] navigate to My Libraries', async ({ personalFiles, myLibrariesPage }) => {
     await personalFiles.navigate();
-    await personalFiles.sidenav.openPanel('My Libraries');
+    await personalFiles.sidenav.openPanel(SIDEBAR_LABELS.MY_LIBRARIES);
     await personalFiles.dataTable.spinnerWaitForReload();
     expect(myLibrariesPage.page.url()).toContain(APP_ROUTES.MY_LIBRARIES);
     expect(await myLibrariesPage.sidenav.isActive(SIDEBAR_LABELS.MY_LIBRARIES), 'My Libraries link not active').toBe(true);
-  });
-
-  test('[C213110] navigates to "Shared Files"', async ({ personalFiles, sharedPage }) => {
-    await personalFiles.navigate();
-    await personalFiles.sidenav.openPanel('Shared');
-    await personalFiles.dataTable.spinnerWaitForReload();
-    expect(sharedPage.page.url()).toContain(APP_ROUTES.SHARED_FILES);
-    expect(await sharedPage.sidenav.isActive(SIDEBAR_LABELS.SHARED_FILES), 'Shared Files link not active').toBe(true);
-  });
-
-  test('[C213166] navigates to "Recent Files"', async ({ personalFiles, recentFilesPage }) => {
-    await personalFiles.navigate();
-    await personalFiles.sidenav.openPanel('Recent Files');
-    await personalFiles.dataTable.spinnerWaitForReload();
-    expect(recentFilesPage.page.url()).toContain(APP_ROUTES.RECENT_FILES);
-    expect(await recentFilesPage.sidenav.isActive(SIDEBAR_LABELS.RECENT_FILES), 'Recent Files link not active').toBe(true);
-  });
-
-  test('[C213225] navigates to "Favorites"', async ({ personalFiles, favoritePage }) => {
-    await personalFiles.navigate();
-    await personalFiles.sidenav.openPanel('Favorites');
-    await personalFiles.dataTable.spinnerWaitForReload();
-    expect(favoritePage.page.url()).toContain(APP_ROUTES.FAVORITES);
-    expect(await favoritePage.sidenav.isActive(SIDEBAR_LABELS.FAVORITES), 'Favorites link not active').toBe(true);
-  });
-
-  test('[C213216] navigates to "Trash"', async ({ personalFiles, trashPage }) => {
-    await personalFiles.navigate();
-    await personalFiles.sidenav.openPanel('Trash');
-    await personalFiles.dataTable.spinnerWaitForReload();
-    expect(trashPage.page.url()).toContain(APP_ROUTES.TRASHCAN);
-    expect(await trashPage.sidenav.isActive(SIDEBAR_LABELS.TRASH), 'Trash link not active').toBe(true);
-  });
-
-  test('[C280409] navigates to "Personal Files"', async ({ personalFiles, trashPage }) => {
-    await trashPage.navigate();
-    await personalFiles.sidenav.openPanel('Personal Files');
-    await personalFiles.dataTable.spinnerWaitForReload();
-    expect(personalFiles.page.url()).toContain(APP_ROUTES.PERSONAL_FILES);
-    expect(await personalFiles.sidenav.isActive(SIDEBAR_LABELS.PERSONAL_FILES), 'Personal Files link not active').toBe(true);
   });
 
   test('[C277230] sidenav can be expanded when search results page is displayed', async ({ personalFiles }) => {

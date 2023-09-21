@@ -22,6 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { SIDEBAR_LABELS } from '../../utils';
 import { BaseComponent } from './base.component';
 import { Locator, Page } from '@playwright/test';
 
@@ -55,21 +56,19 @@ export class SidenavComponent extends BaseComponent {
 
   private getLinkLabel(name: string): Locator {
     switch (name) {
-      case 'Personal Files':
+      case SIDEBAR_LABELS.PERSONAL_FILES:
         return this.personalFiles;
-      case 'File Libraries':
-        return this.fileLibraries;
-      case 'My Libraries':
+      case SIDEBAR_LABELS.MY_LIBRARIES:
         return this.myLibraries;
-      case 'Favorite Libraries':
+      case SIDEBAR_LABELS.FAVORITE_LIBRARIES:
         return this.favoriteLibraries;
-      case 'Shared':
+      case SIDEBAR_LABELS.SHARED_FILES:
         return this.shared;
-      case 'Recent Files':
+      case SIDEBAR_LABELS.RECENT_FILES:
         return this.recentFiles;
-      case 'Favorites':
+      case SIDEBAR_LABELS.FAVORITES:
         return this.favorites;
-      case 'Trash':
+      case SIDEBAR_LABELS.TRASH:
         return this.trash;
       default:
         return this.personalFiles;
