@@ -14,9 +14,13 @@
         </div>
         <div class="acs-details-buttons">
           <aca-toolbar [items]="aspectActions" info-drawer-buttons></aca-toolbar>
-          <button class="aca-close-details-button" mat-icon-button data-automation-id="close-library"
-            title="{{ 'APP.INFO_DRAWER.CLOSE' | translate }}" (click)="goBack()">
-            <mat-icon>close</mat-icon>
+          <button
+                class="aca-close-details-button"
+                mat-icon-button
+                data-automation-id="close-library"
+                title="{{ 'APP.INFO_DRAWER.CLOSE' | translate }}"
+                (click)="goBack()">
+                <mat-icon>fullscreen_exit</mat-icon>
           </button>
         </div>
       </div>
