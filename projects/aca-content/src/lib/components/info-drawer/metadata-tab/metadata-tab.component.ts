@@ -50,7 +50,6 @@ import { Actions, ofType } from '@ngrx/effects';
       [(editable)]="editable"
       [(editableTags)]="editableTags"
       [(editableCategories)]="editableCategories"
-      [(group)]="group"
     >
     </adf-content-metadata>
   `,
@@ -68,7 +67,6 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
   customPanels: Observable<ContentMetadataCustomPanel[]>;
   editableTags = false;
   editableCategories = false;
-  group: CardViewGroup;
 
   constructor(
     private permission: NodePermissionService,
@@ -102,7 +100,6 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
           this.editable = false;
           this.editableTags = false;
           this.editableCategories = false;
-          this.group.editable = false;
         }
       });
     this.customPanels = this.extensions.getCustomMetadataPanels({ entry: this.node }).pipe(
