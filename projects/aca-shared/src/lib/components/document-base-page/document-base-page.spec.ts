@@ -355,13 +355,13 @@ describe('Info Drawer state', () => {
     });
   });
 
-  it('should not open info drawer if viewer outlet is active', (done) => {
+  it('should open info drawer even if viewer outlet is active', (done) => {
     window.history.pushState({}, null, `${locationHref}#test(viewer:view)`);
     fixture.detectChanges();
 
     fixture.whenStable().then(() => {
       component.infoDrawerOpened$.subscribe((state) => {
-        expect(state).toBe(false);
+        expect(state).toBe(true);
         done();
       });
     });

@@ -29,7 +29,7 @@ import { OnDestroy, OnInit, OnChanges, ViewChild, SimpleChanges, Directive, inje
 import { Store } from '@ngrx/store';
 import { NodeEntry, Node, NodePaging } from '@alfresco/js-api';
 import { Observable, Subject, Subscription } from 'rxjs';
-import { takeUntil, map } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { DocumentBasePageService } from './document-base-page.service';
 import {
   AppStore,
@@ -90,7 +90,7 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
       });
 
     this.sharedPreviewUrl$ = this.store.select(getSharedUrl);
-    this.infoDrawerOpened$ = this.store.select(isInfoDrawerOpened).pipe(map((infoDrawerState) => !this.isOutletPreviewUrl() && infoDrawerState));
+    this.infoDrawerOpened$ = this.store.select(isInfoDrawerOpened);
 
     this.store
       .select(getAppSelection)
