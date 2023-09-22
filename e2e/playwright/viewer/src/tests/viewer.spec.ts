@@ -42,6 +42,7 @@ test.describe('viewer file', () => {
     await shareAction.shareFileById(fileDocxId);
     await favoritesPageAction.addFavoriteById('file', fileDocxId);
     await favoritesPageAction.isFavoriteWithRetry('hruser', fileDocxId, { expect: true });
+    await fileAction.waitForNodes(randomDocxName, { expect: 1 });
   });
 
   test.beforeEach(async ({ personalFiles }) => {

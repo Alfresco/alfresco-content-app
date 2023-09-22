@@ -25,7 +25,7 @@
 import * as fs from 'fs';
 import { ApiClientFactory } from './api-client-factory';
 import { Utils } from '../utils';
-import { logger } from '@alfresco/adf-cli/scripts/logger';
+import { ApiUtil, Logger } from '@alfresco/adf-testing';
 import { NodeEntry } from '@alfresco/js-api';
 
 export class FileActionsApi {
@@ -56,7 +56,7 @@ export class FileActionsApi {
         await this.apiService.nodes.lockNode(nodeId, { type: lockType });
       }
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.lockNodes.name}`, error);
+      Logger.error(`${this.constructor.name} ${this.lockNodes.name}`, error);
     }
   }
 
@@ -64,7 +64,7 @@ export class FileActionsApi {
     try {
       return await this.apiService.nodes.getNode(id);
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.getNodeById.name}`, error);
+      Logger.error(`${this.constructor.name} ${this.getNodeById.name}`, error);
       return null;
     }
   }
@@ -74,7 +74,7 @@ export class FileActionsApi {
       const node = await this.getNodeById(nodeId);
       return (node.entry.properties && node.entry.properties[property]) || '';
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.getNodeProperty.name}`, error);
+      Logger.error(`${this.constructor.name} ${this.getNodeProperty.name}`, error);
       return '';
     }
   }
@@ -84,7 +84,7 @@ export class FileActionsApi {
       const lockType = await this.getNodeProperty(nodeId, 'cm:lockType');
       return lockType || '';
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.getLockType.name}`, error);
+      Logger.error(`${this.constructor.name} ${this.getLockType.name}`, error);
       return '';
     }
   }
@@ -106,8 +106,43 @@ export class FileActionsApi {
       };
       return await Utils.retryCall(locked, data.retry);
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.isFileLockedWriteWithRetry.name}`, error);
+      Logger.error(`${this.constructor.name} ${this.isFileLockedWriteWithRetry.name}`, error);
     }
     return isLocked;
+  }
+
+  private async queryNodesNames(searchTerm: string) {
+    const data = {
+      query: {
+        query: `cm:name:\"${searchTerm}*\"`,
+        language: 'afts'
+      },
+      filterQueries: [{ query: `+TYPE:'cm:folder' OR +TYPE:'cm:content'` }]
+    };
+
+    try {
+      return this.apiService.search.search(data);
+    } catch (error) {
+      Logger.error(`SearchApi queryNodesNames : catch : `, error);
+      return null;
+    }
+  }
+  async waitForNodes(searchTerm: string, data: { expect: number }) {
+    const predicate = (totalItems: number) => totalItems === data.expect;
+
+    const apiCall = async () => {
+      try {
+        return (await this.queryNodesNames(searchTerm)).list.pagination.totalItems;
+      } catch (error) {
+        return 0;
+      }
+    };
+
+    try {
+      await ApiUtil.waitForApi(apiCall, predicate, 30, 2500);
+    } catch (error) {
+      Logger.error(`SearchApi waitForNodes : catch : `);
+      Logger.error(`\tExpected: ${data.expect} items, but found ${error}`);
+    }
   }
 }
