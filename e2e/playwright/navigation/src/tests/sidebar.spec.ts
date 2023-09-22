@@ -50,21 +50,21 @@ test.describe('Sidebar', () => {
 
   test('[C269100] sidebar state is preserved on page refresh', async ({ personalFiles }) => {
     await personalFiles.navigate();
-    expect(await personalFiles.sidenav.isSidenavExpanded(), 'Sidebar expanded').toBe(true);
+    expect(await personalFiles.sidenav.isSidenavExpanded(), 'Sidebar not expanded').toBe(true);
     await personalFiles.reload();
-    expect(await personalFiles.sidenav.isSidenavExpanded(), 'Sidebar expanded').toBe(true);
+    expect(await personalFiles.sidenav.isSidenavExpanded(), 'Sidebar not expanded').toBe(true);
 
     await personalFiles.sidenav.collapseSideNav();
 
-    expect(await personalFiles.sidenav.isSidenavExpanded(), 'Sidebar not expanded').toBe(false);
+    expect(await personalFiles.sidenav.isSidenavExpanded(), 'Sidebar expanded').toBe(false);
     await personalFiles.reload();
-    expect(await personalFiles.sidenav.isSidenavExpanded(), 'Sidebar not expanded').toBe(false);
+    expect(await personalFiles.sidenav.isSidenavExpanded(), 'Sidebar expanded').toBe(false);
   });
 
   test('[C269096] sidebar toggle', async ({ personalFiles }) => {
     await personalFiles.navigate();
     await personalFiles.sidenav.collapseSideNav();
-    expect(await personalFiles.sidenav.isSidenavExpanded(), 'Sidebar not expanded').toBe(false);
+    expect(await personalFiles.sidenav.isSidenavExpanded(), 'Sidebar expanded').toBe(false);
     await personalFiles.sidenav.expandSideNav();
     expect(await personalFiles.sidenav.isSidenavExpanded(), 'Sidebar not expanded').toBe(true);
   });
