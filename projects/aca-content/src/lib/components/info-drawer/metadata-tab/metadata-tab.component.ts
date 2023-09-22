@@ -76,6 +76,9 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
   customPanels: Observable<ContentMetadataCustomPanel[]>;
   editableTags = false;
   editableCategories = false;
+  group: any = {
+    editable: false
+  };
 
   get displayCategories(): boolean {
     return this._displayCategories;
@@ -121,6 +124,7 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
           this.editable = false;
           this.editableTags = false;
           this.editableCategories = false;
+          this.group.editable = false;
         }
       });
     this.customPanels = this.extensions.getCustomMetadataPanels({ entry: this.node }).pipe(
