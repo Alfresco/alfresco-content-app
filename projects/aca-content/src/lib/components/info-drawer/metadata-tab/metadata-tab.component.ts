@@ -124,6 +124,7 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
           this.editable = false;
           this.editableTags = false;
           this.editableCategories = false;
+          this.group.editable = false;
         }
       });
     this.customPanels = this.extensions.getCustomMetadataPanels({ entry: this.node }).pipe(
