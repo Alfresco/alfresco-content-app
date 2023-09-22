@@ -25,9 +25,17 @@
 const crypto = require('crypto');
 
 export class Utils {
-
   static random(): string {
     return crypto.getRandomValues(new Uint32Array(1))[0].toString(36).substring(0, 5).toLowerCase();
   }
 
+  static retryCall(fn: () => Promise<any>, retry: number = 30, delay: number = 1500): Promise<any> {
+    const pause = (duration: number) => new Promise((res) => setTimeout(res, duration));
+
+    const run = (retries: number): Promise<any> => {
+      return fn().catch((err) => (retries > 1 ? pause(delay).then(() => run(retries - 1)) : Promise.reject(err)));
+    };
+
+    return run(retry);
+  }
 }

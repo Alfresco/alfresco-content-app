@@ -24,32 +24,90 @@
 
 import * as fs from 'fs';
 import { ApiClientFactory } from './api-client-factory';
+import { Utils } from '../utils';
+import { logger } from '@alfresco/adf-cli/scripts/logger';
+import { NodeEntry } from '@alfresco/js-api';
 
 export class FileActionsApi {
-    private apiService: ApiClientFactory;
+  private apiService: ApiClientFactory;
 
-    constructor() {
-        this.apiService = new ApiClientFactory();
-    }
+  constructor() {
+    this.apiService = new ApiClientFactory();
+  }
 
-    static async initialize(userName: string, password?: string): Promise<FileActionsApi> {
-        const classObj = new FileActionsApi();
-        await classObj.apiService.setUpAcaBackend(userName, password);
-        return classObj;
-    }
+  static async initialize(userName: string, password?: string): Promise<FileActionsApi> {
+    const classObj = new FileActionsApi();
+    await classObj.apiService.setUpAcaBackend(userName, password);
+    return classObj;
+  }
 
-    async uploadFile(fileLocation: string, fileName: string, parentFolderId: string): Promise<any> {
-        const file = fs.createReadStream(fileLocation);
-        return this.apiService.upload.uploadFile(
-            file,
-            '',
-            parentFolderId,
-            null,
-            {
-                name: fileName,
-                nodeType: 'cm:content',
-                renditions: 'doclib'
-            }
-        );
+  async uploadFile(fileLocation: string, fileName: string, parentFolderId: string): Promise<any> {
+    const file = fs.createReadStream(fileLocation);
+    return this.apiService.upload.uploadFile(file, '', parentFolderId, null, {
+      name: fileName,
+      nodeType: 'cm:content',
+      renditions: 'doclib'
+    });
+  }
+
+  async lockNodes(nodeIds: string[], lockType: string = 'ALLOW_OWNER_CHANGES') {
+    try {
+      for (const nodeId of nodeIds) {
+        await this.apiService.nodes.lockNode(nodeId, { type: lockType });
+      }
+    } catch (error) {
+      logger.error(`${this.constructor.name} ${this.lockNodes.name}`, error);
     }
+  }
+
+  async getNodeById(id: string): Promise<NodeEntry | null> {
+    try {
+      return await this.apiService.nodes.getNode(id);
+    } catch (error) {
+      logger.error(`${this.constructor.name} ${this.getNodeById.name}`, error);
+      return null;
+    }
+  }
+
+  async getNodeProperty(nodeId: string, property: string): Promise<string> {
+    try {
+      const node = await this.getNodeById(nodeId);
+      return (node.entry.properties && node.entry.properties[property]) || '';
+    } catch (error) {
+      logger.error(`${this.constructor.name} ${this.getNodeProperty.name}`, error);
+      return '';
+    }
+  }
+
+  private async getLockType(nodeId: string): Promise<string> {
+    try {
+      const lockType = await this.getNodeProperty(nodeId, 'cm:lockType');
+      return lockType || '';
+    } catch (error) {
+      logger.error(`${this.constructor.name} ${this.getLockType.name}`, error);
+      return '';
+    }
+  }
+
+  async isFileLockedWriteWithRetry(nodeId: string, expect: boolean): Promise<boolean> {
+    const data = {
+      expect: expect,
+      retry: 5
+    };
+    let isLocked = false;
+    try {
+      const locked = async () => {
+        isLocked = (await this.getLockType(nodeId)) === 'WRITE_LOCK';
+        if (isLocked !== data.expect) {
+          return Promise.reject(isLocked);
+        } else {
+          return Promise.resolve(isLocked);
+        }
+      };
+      return await Utils.retryCall(locked, data.retry);
+    } catch (error) {
+      logger.error(`${this.constructor.name} ${this.isFileLockedWriteWithRetry.name}`, error);
+    }
+    return isLocked;
+  }
 }

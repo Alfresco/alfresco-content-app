@@ -23,8 +23,7 @@
  */
 
 import { ApiClientFactory } from './api-client-factory';
-import { FavoritePaging, SharedLinkEntry } from '@alfresco/js-api';
-import { logger } from '@alfresco/adf-cli/scripts/logger';
+import { SharedLinkEntry } from '@alfresco/js-api';
 
 export class SharedLinksApi {
   private apiService: ApiClientFactory;
@@ -46,24 +45,6 @@ export class SharedLinksApi {
       };
       return await this.apiService.share.createSharedLink(data);
     } catch (error) {
-      return null;
-    }
-  }
-
-  private async getFavorites(userName: string): Promise<FavoritePaging> {
-    try {
-      return await this.apiService.favorites.listFavorites(userName);
-    } catch (error) {
-      logger.error(`\n--- Error while fetching favourites list ${error} :`);
-      return null;
-    }
-  }
-
-  async isFavorite(nodeId: string, userName: string): Promise<boolean> {
-    try {
-      return JSON.stringify((await this.getFavorites(userName)).list.entries).includes(nodeId);
-    } catch (error) {
-      logger.error(`\n--- Error while checking favourite node ${error} ${error} :`);
       return null;
     }
   }

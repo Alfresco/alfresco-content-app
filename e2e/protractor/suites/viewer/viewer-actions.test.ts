@@ -64,7 +64,6 @@ describe('Viewer actions', () => {
   const userActions = new UserActions();
 
   const uploadFilesDialog = new UploadFilesDialog();
-  const downloadButton = element(By.css(`button[id='app.viewer.download']`));
   const shareButton = element(By.css(`adf-viewer [data-automation-id="share-action-button"]`));
 
   beforeAll(async () => {
@@ -85,8 +84,6 @@ describe('Viewer actions', () => {
     const filePersonalFiles = docxFile2;
     let filePersonalFilesId: string;
 
-    const fileForEditOffline = `file1-${Utils.random()}.docx`;
-    let fileForEditOfflineId: string;
     const fileForCancelEditing = `file2-${Utils.random()}.docx`;
     let fileForCancelEditingId: string;
     const fileForUploadNewVersion = `file3-${Utils.random()}.docx`;
@@ -105,7 +102,6 @@ describe('Viewer actions', () => {
         await apis.user.upload.uploadFileWithRename(xlsxFileForMove, parentId, xlsxPersonalFiles);
         await apis.user.upload.uploadFileWithRename(pdfFileForDelete, parentId, pdfPersonalFiles);
 
-        fileForEditOfflineId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForEditOffline)).entry.id;
         fileForCancelEditingId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForCancelEditing)).entry.id;
         fileForUploadNewVersionId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForUploadNewVersion)).entry.id;
         fileForUploadNewVersionId2 = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForUploadNewVersion2)).entry.id;
@@ -140,37 +136,6 @@ describe('Viewer actions', () => {
       } catch (error) {
         Logger.error(`----- afterAll failed : ${error}`);
       }
-    });
-
-    it('[C268129] Download action', async () => {
-      await dataTable.doubleClickOnRowByName(docxPersonalFiles);
-      await viewer.waitForViewerToOpen();
-
-      await downloadButton.click();
-
-      expect(await Utils.fileExistsOnOS(docxPersonalFiles)).toBe(true, 'File not found in download location');
-    });
-
-    it('[C268133] Delete action', async () => {
-      await dataTable.doubleClickOnRowByName(pdfPersonalFiles);
-      await viewer.waitForViewerToOpen();
-
-      await toolbar.clickMoreActionsDelete();
-      expect(await page.getSnackBarMessage()).toContain(`${pdfPersonalFiles} deleted`);
-      expect(await viewer.isViewerOpened()).toBe(false, 'Viewer is opened');
-      await Utils.pressEscape();
-      await page.clickTrashAndWait();
-      expect(await dataTable.isItemPresent(pdfPersonalFiles)).toBe(true, 'Item is not present in Trash');
-    });
-
-    it('[C297584] Edit Offline action', async () => {
-      await dataTable.doubleClickOnRowByName(fileForEditOffline);
-      await viewer.waitForViewerToOpen();
-      await toolbar.clickMoreActionsEditOffline();
-
-      expect(await Utils.fileExistsOnOS(fileForEditOffline)).toBe(true, 'File not found in download location');
-      expect(await apis.user.nodes.isFileLockedWrite(fileForEditOfflineId)).toBe(true, `${fileForEditOffline} is not locked`);
-      expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
     });
 
     it('[C297585] Cancel Editing action', async () => {
@@ -215,106 +180,6 @@ describe('Viewer actions', () => {
       await toolbar.openMoreMenu();
       expect(await toolbar.menu.cancelEditingAction.isPresent()).toBe(false, `'Cancel Editing' button shouldn't be shown`);
       expect(await toolbar.menu.editOfflineAction.isPresent()).toBe(true, `'Edit Offline' should be shown`);
-    });
-
-    it('[C279282] Full screen action', async () => {
-      await dataTable.doubleClickOnRowByName(docxPersonalFiles);
-      await viewer.waitForViewerToOpen();
-
-      await toolbar.fullScreenButton.click();
-      expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is closed after pressing Full screen');
-    });
-
-    it('[C286314] Pressing ESC in the viewer closes only the action dialog', async () => {
-      await dataTable.doubleClickOnRowByName(docxPersonalFiles);
-      await viewer.waitForViewerToOpen();
-
-      await toolbar.clickMoreActionsCopy();
-      expect(await copyMoveDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
-      await Utils.pressEscape();
-      expect(await shareDialog.isDialogOpen()).toBe(false, 'Dialog is still open');
-      expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
-    });
-  });
-
-  describe('from File Libraries', () => {
-    const siteName = `site-${Utils.random()}`;
-    const destination = `destFL-${Utils.random()}`;
-    let destinationId: string;
-
-    const xlsxLibraries = `xlsxFL-${Utils.random()}.xlsx`;
-    const pdfLibraries = `pdfFL-${Utils.random()}.pdf`;
-
-    const fileForEditOffline = `file1-${Utils.random()}.docx`;
-    const fileForCancelEditing = `file2-${Utils.random()}.docx`;
-    let fileForCancelEditingId: string;
-    const fileForUploadNewVersion = `file3-${Utils.random()}.docx`;
-    let fileForUploadNewVersionId: string;
-
-    beforeAll(async () => {
-      try {
-        await apis.user.sites.createSite(siteName);
-        const docLibId = await apis.user.sites.getDocLibId(siteName);
-        destinationId = await apis.user.createFolder(destination);
-
-        await apis.user.upload.uploadFile(docxFile2, docLibId);
-
-        await apis.user.upload.uploadFileWithRename(xlsxFileForMove, docLibId, xlsxLibraries);
-        await apis.user.upload.uploadFileWithRename(pdfFileForDelete, docLibId, pdfLibraries);
-
-        await apis.user.upload.uploadFileWithRename(docxFile, docLibId, fileForEditOffline);
-        fileForCancelEditingId = (await apis.user.upload.uploadFileWithRename(docxFile, docLibId, fileForCancelEditing)).entry.id;
-        fileForUploadNewVersionId = (await apis.user.upload.uploadFileWithRename(docxFile, docLibId, fileForUploadNewVersion)).entry.id;
-
-        await userActions.lockNodes([fileForCancelEditingId, fileForUploadNewVersionId]);
-
-        await loginPage.loginWith(username);
-      } catch (error) {
-        Logger.error(`----- beforeAll failed : ${error}`);
-      }
-    });
-
-    beforeEach(async () => {
-      try {
-        await page.goToMyLibrariesAndWait();
-        await dataTable.doubleClickOnRowByName(siteName);
-        await dataTable.waitForHeader();
-      } catch (error) {
-        Logger.error(`----- beforeEach failed : ${error}`);
-      }
-    });
-
-    afterEach(async () => {
-      await Utils.pressEscape();
-      await uploadFilesDialog.closeUploadDialog();
-    });
-
-    afterAll(async () => {
-      try {
-        await userActions.login(username, username);
-        await userActions.deleteSites([siteName]);
-        await userActions.deleteNodes([destinationId]);
-        await userActions.emptyTrashcan();
-      } catch (error) {
-        Logger.error(`----- afterAll failed : ${error}`);
-      }
-    });
-
-    it('[C286371] Move action', async () => {
-      await dataTable.doubleClickOnRowByName(xlsxLibraries);
-      expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
-
-      await toolbar.clickMoreActionsMove();
-      expect(await copyMoveDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
-      await copyMoveDialog.selectLocation('Personal Files');
-      await copyMoveDialog.selectDestination(destination);
-      await copyMoveDialog.moveButton.click();
-      expect(await page.getSnackBarMessage()).toContain('Moved 1 item');
-      await viewer.closeButton.click();
-      expect(await dataTable.isItemPresent(xlsxLibraries)).toBe(false, 'Item was not moved');
-      await page.clickPersonalFilesAndWait();
-      await dataTable.doubleClickOnRowByName(destination);
-      expect(await dataTable.isItemPresent(xlsxLibraries)).toBe(true, 'Item is not present in destination');
     });
   });
 

@@ -24,6 +24,8 @@
 
 import { ApiClientFactory } from './api-client-factory';
 import { FavoriteEntry } from '@alfresco/js-api';
+import { Logger } from '@alfresco/adf-testing';
+import { Utils } from '../utils';
 
 export class FavoritesPageApi {
   private apiService: ApiClientFactory;
@@ -46,5 +48,39 @@ export class FavoritesPageApi {
       }
     };
     return await this.apiService.favorites.createFavorite('-me-', data);
+  }
+
+  private async getFavorites(username: string) {
+    try {
+      return await this.apiService.favorites.listFavorites(username);
+    } catch (error) {
+      Logger.error(`FavoritesApi getFavorites : catch : `, error);
+      return null;
+    }
+  }
+
+  async isFavorite(username: string, nodeId: string) {
+    try {
+      return JSON.stringify((await this.getFavorites(username)).list.entries).includes(nodeId);
+    } catch (error) {
+      Logger.error(`FavoritesApi isFavorite : catch : `, error);
+      return null;
+    }
+  }
+
+  async isFavoriteWithRetry(username: string, nodeId: string, data: { expect: boolean }) {
+    let isFavorite = false;
+    try {
+      const favorite = async () => {
+        isFavorite = await this.isFavorite(username, nodeId);
+        if (isFavorite !== data.expect) {
+          return Promise.reject(isFavorite);
+        } else {
+          return Promise.resolve(isFavorite);
+        }
+      };
+      return await Utils.retryCall(favorite);
+    } catch (error) {}
+    return isFavorite;
   }
 }
