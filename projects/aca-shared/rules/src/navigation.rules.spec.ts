@@ -226,7 +226,7 @@ describe('navigation.evaluators', () => {
   });
 
   describe('isDetails', () => {
-    it('should return [true] if url ends with `/details`', () => {
+    it('should return true if url ends with `/details`', () => {
       const context: any = {
         navigation: {
           url: '/path/details'
@@ -236,7 +236,7 @@ describe('navigation.evaluators', () => {
       expect(app.isDetails(context)).toBe(true);
     });
 
-    it('should return [true] if url starts with `/details`', () => {
+    it('should return true if url starts with `/details`', () => {
       const context: any = {
         navigation: {
           url: '/details/path'
@@ -246,7 +246,7 @@ describe('navigation.evaluators', () => {
       expect(app.isDetails(context)).toBe(true);
     });
 
-    it('should return [true] if url includes with `/details`', () => {
+    it('should return true if url includes with `/details`', () => {
       const context: any = {
         navigation: {
           url: '/details/path'
