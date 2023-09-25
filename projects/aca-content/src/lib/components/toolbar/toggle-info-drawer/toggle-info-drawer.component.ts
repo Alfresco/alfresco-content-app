@@ -47,6 +47,15 @@ import { MatIconModule } from '@angular/material/icon';
       <mat-icon>view_sidebar</mat-icon>
     </button>
   `,
+  styles: [
+    `
+      .app-toggle-info-drawer button:focus {
+        background-color: #1f74db3d;
+        border: 2px solid #1f74db;
+        border-radius: 6px;
+      }
+    `
+  ],
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-toggle-info-drawer' }
 })
