@@ -31,12 +31,18 @@ test.describe('viewer file', () => {
   const randomFolderName = `playwright-folder-${Utils.random()}`;
   const randomDocxName = `${TEST_FILES.DOCX.name}-${Utils.random()}`;
   let folderId: string;
+  let fileDocxId: string;
 
-  test.beforeAll(async ({ fileAction }) => {
+  test.beforeAll(async ({ fileAction, shareAction, favoritesPageAction }) => {
     await apiClientFactory.setUpAcaBackend('hruser');
     const node = await apiClientFactory.nodes.createNode('-my-', { name: randomFolderName, nodeType: 'cm:folder', relativePath: '/' });
     folderId = node.entry.id;
-    await fileAction.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId);
+    const fileDoc = await fileAction.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId);
+    fileDocxId = fileDoc.entry.id;
+    await shareAction.shareFileById(fileDocxId);
+    await favoritesPageAction.addFavoriteById('file', fileDocxId);
+    await favoritesPageAction.isFavoriteWithRetry('hruser', fileDocxId, { expect: true });
+    await fileAction.waitForNodes(randomDocxName, { expect: 1 });
   });
 
   test.beforeEach(async ({ personalFiles }) => {
@@ -97,28 +103,6 @@ test.describe('viewer file', () => {
     expect(await searchPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
     expect(await searchPage.viewer.isCloseButtonDisplayed(), 'Close button is not displayed').toBe(true);
     expect(await searchPage.viewer.isFileTitleDisplayed(), 'File title is not displayed').toBe(true);
-  });
-});
-
-test.describe('viewer file', () => {
-  const apiClientFactory = new ApiClientFactory();
-  const randomFolderName = `playwright-folder-${Utils.random()}`;
-  const randomDocxName = `$(TEST_FILES.DOCX.name)-${Utils.random()}`;
-  let folderId: string;
-  let fileDocxId: string;
-
-  test.beforeAll(async ({ fileAction, shareAction, favoritesPageAction: favoritesPageAction }) => {
-    await apiClientFactory.setUpAcaBackend('hruser');
-    const node = await apiClientFactory.nodes.createNode('-my-', { name: randomFolderName, nodeType: 'cm:folder', relativePath: '/' });
-    folderId = node.entry.id;
-    const fileDoc = await fileAction.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId);
-    fileDocxId = fileDoc.entry.id;
-    await shareAction.shareFileById(fileDocxId);
-    await favoritesPageAction.addFavoriteById('file', fileDocxId);
-  });
-
-  test.afterAll(async () => {
-    await apiClientFactory.nodes.deleteNode(folderId, { permanent: true });
   });
 
   test('[C279285] Viewer opens when accessing the preview URL for a file', async ({ personalFiles }) => {

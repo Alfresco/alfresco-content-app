@@ -48,9 +48,8 @@ describe('Viewer general', () => {
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
-  const { dataTable, toolbar } = page;
+  const { dataTable } = page;
   const viewer = new Viewer();
-  const { searchInput } = page.pageLayoutHeader;
 
   const adminApiActions = new AdminActions();
   const userActions = new UserActions();
@@ -114,40 +113,8 @@ describe('Viewer general', () => {
     expect(await viewer.isFileTitleDisplayed()).toBe(true, 'File title is not displayed');
   });
 
-  it('[C284636] Viewer opens for a file from Recent Files', async () => {
-    await page.clickRecentFilesAndWait();
-    await dataTable.doubleClickOnRowByName(xlsxFile);
-    expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
-    expect(await viewer.isViewerToolbarDisplayed()).toBe(true, 'Toolbar not displayed');
-    expect(await viewer.isCloseButtonDisplayed()).toBe(true, 'Close button is not displayed');
-    expect(await viewer.isFileTitleDisplayed()).toBe(true, 'File title is not displayed');
-  });
-
-  it('[C284635] Viewer opens for a file from Shared Files', async () => {
-    await page.clickSharedFilesAndWait();
-    await dataTable.doubleClickOnRowByName(xlsxFile);
-    expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
-    expect(await viewer.isViewerToolbarDisplayed()).toBe(true, 'Toolbar not displayed');
-    expect(await viewer.isCloseButtonDisplayed()).toBe(true, 'Close button is not displayed');
-    expect(await viewer.isFileTitleDisplayed()).toBe(true, 'File title is not displayed');
-  });
-
   it('[C284634] Viewer opens for a file from Favorites', async () => {
     await page.clickFavoritesAndWait();
-    await dataTable.doubleClickOnRowByName(xlsxFile);
-    expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
-    expect(await viewer.isViewerToolbarDisplayed()).toBe(true, 'Toolbar not displayed');
-    expect(await viewer.isCloseButtonDisplayed()).toBe(true, 'Close button is not displayed');
-    expect(await viewer.isFileTitleDisplayed()).toBe(true, 'File title is not displayed');
-  });
-
-  it('[C279175] Viewer opens for a file from Search Results', async () => {
-    await toolbar.clickSearchIconButton();
-    await searchInput.clickSearchButton();
-    await searchInput.checkFilesAndFolders();
-    await searchInput.searchFor(xlsxFile);
-    await dataTable.waitForBody();
-
     await dataTable.doubleClickOnRowByName(xlsxFile);
     expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
     expect(await viewer.isViewerToolbarDisplayed()).toBe(true, 'Toolbar not displayed');

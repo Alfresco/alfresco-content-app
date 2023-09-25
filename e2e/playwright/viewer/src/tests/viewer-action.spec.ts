@@ -37,19 +37,26 @@ test.describe('viewer action file', () => {
   const fileForCancelEditing = `playwright-file2-${Utils.random()}.docx`;
   let folderId: string;
   let fileDocxShareId: string;
+  let randomDocxNameFavoriteId: string;
+  let fileForCancelEditingId: string;
 
-  test.beforeAll(async ({ fileAction, shareAction }) => {
+  test.beforeAll(async ({ fileAction, favoritesPageAction, shareAction }) => {
     await apiClientFactory.setUpAcaBackend('hruser');
     const node = await apiClientFactory.nodes.createNode('-my-', { name: randomFolderName, nodeType: 'cm:folder', relativePath: '/' });
     folderId = node.entry.id;
-    await fileAction.uploadFile(TEST_FILES.DOCX.path, fileForCancelEditing, folderId);
+
+    fileDocxShareId = (await fileAction.uploadFile(TEST_FILES.DOCX.path, randomDocxNameShare, folderId)).entry.id;
+    await shareAction.shareFileById(fileDocxShareId);
+    fileForCancelEditingId = (await fileAction.uploadFile(TEST_FILES.DOCX.path, fileForCancelEditing, folderId)).entry.id;
+    await fileAction.lockNodes([fileForCancelEditingId]);
     await fileAction.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId);
     await fileAction.uploadFile(TEST_FILES.DOCX.path, randomDocxDelete, folderId);
-    const fileDocShare = await fileAction.uploadFile(TEST_FILES.DOCX.path, randomDocxNameShare, folderId);
-    fileDocxShareId = fileDocShare.entry.id;
-    await fileAction.uploadFile(TEST_FILES.DOCX.path, randomDocxNameFavorite, folderId);
-    await shareAction.shareFileById(fileDocxShareId);
+    const fileFavoritesNode = await fileAction.uploadFile(TEST_FILES.DOCX.path, randomDocxNameFavorite, folderId);
+    randomDocxNameFavoriteId = fileFavoritesNode.entry.id;
     await fileAction.uploadFile(TEST_FILES.DOCX.path, fileForEditOffline, folderId);
+    await favoritesPageAction.addFavoriteById('file', randomDocxNameFavoriteId);
+    await favoritesPageAction.isFavoriteWithRetry('hruser', randomDocxNameFavoriteId, { expect: true });
+    await fileAction.isFileLockedWriteWithRetry(fileForCancelEditingId, true);
   });
 
   test.beforeEach(async ({ personalFiles }) => {
@@ -140,6 +147,7 @@ test.describe('viewer action file', () => {
     await favoritePage.viewerDialog.favoriteMenuButton.waitFor({ state: 'detached', timeout: timeouts.normal });
 
     await sharedPage.acaHeader.clickViewerMoreActions();
+    await favoritePage.viewerDialog.removeFavoriteMenuButton.waitFor({ state: 'attached', timeout: timeouts.normal });
     expect(await sharedPage.viewerDialog.removeFavoriteMenuButton.isVisible(), 'Item should be remove favorite').toBe(true);
     await sharedPage.page.keyboard.press('Escape');
     await favoritePage.navigate({ waitUntil: 'domcontentloaded' });
@@ -150,8 +158,9 @@ test.describe('viewer action file', () => {
     await favoritePage.navigate({ waitUntil: 'domcontentloaded' });
     await favoritePage.dataTable.performClickFolderOrFileToOpen(randomDocxNameFavorite);
     expect(await favoritePage.viewer.isViewerOpened(), 'Viewer should be opened').toBe(true);
-
-    await favoritePage.acaHeader.shareButton.click();
+    await favoritePage.viewer.shareButton.waitFor({ state: 'attached', timeout: timeouts.normal });
+    await favoritePage.viewer.shareButton.click();
+    await favoritePage.viewerDialog.shareDialogTitle.waitFor({ state: 'attached', timeout: timeouts.normal });
     expect(await favoritePage.viewerDialog.shareDialogTitle.isVisible(), 'Share dialog should be open').toBe(true);
     await favoritePage.viewerDialog.shareDialogClose.click();
     await favoritePage.viewerDialog.shareDialogClose.waitFor({ state: 'detached', timeout: timeouts.large });

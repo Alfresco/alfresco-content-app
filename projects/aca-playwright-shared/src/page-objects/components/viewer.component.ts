@@ -34,6 +34,7 @@ export class ViewerComponent extends BaseComponent {
   public closeButtonLocator = this.getChild('.adf-viewer-close-button');
   public fileTitleButtonLocator = this.getChild('.adf-viewer__file-title');
   public pdfViewerContentPages = this.getChild('.adf-pdf-viewer__content .page');
+  public shareButton = this.getChild('button[id="share-action-button"]');
 
   toolbar = new AcaHeader(this.page);
 
