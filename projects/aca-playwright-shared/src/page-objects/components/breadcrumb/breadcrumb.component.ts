@@ -23,11 +23,12 @@
  */
 
 import { BaseComponent } from '.././base.component';
-import { Page } from '@playwright/test';
+import { Locator, Page } from '@playwright/test';
 export class Breadcrumb extends BaseComponent {
   private static rootElement = 'adf-breadcrumb';
   public items = this.getChild('.adf-breadcrumb-item');
   public currentItem = this.getChild('.adf-breadcrumb-item-current');
+  getItemByTitle = (name: string): Locator => this.getChild(`.adf-breadcrumb-item[title=${name}]`);
 
   constructor(page: Page) {
     super(page, Breadcrumb.rootElement);

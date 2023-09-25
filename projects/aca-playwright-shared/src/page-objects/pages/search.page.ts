@@ -24,7 +24,7 @@
 
 import { Page } from '@playwright/test';
 import { BasePage } from './base.page';
-import { DataTableComponent, MatMenuComponent, ViewerComponent, SearchInputComponent, SearchOverlayComponent } from '../components';
+import { DataTableComponent, MatMenuComponent, ViewerComponent, SearchInputComponent, SearchOverlayComponent, SidenavComponent } from '../components';
 import { AcaHeader } from '../components/aca-header.component';
 import { AdfFolderDialogComponent } from '../components/dialogs';
 
@@ -42,4 +42,5 @@ export class SearchPage extends BasePage {
   public viewer = new ViewerComponent(this.page);
   public searchInput = new SearchInputComponent(this.page);
   public searchOverlay = new SearchOverlayComponent(this.page);
+  public sidenav = new SidenavComponent(this.page);
 }
