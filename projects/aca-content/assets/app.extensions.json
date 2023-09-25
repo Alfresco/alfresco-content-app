@@ -1244,7 +1244,7 @@
           "id": "app.sidebar.expand",
           "order": 200,
           "title": "APP.INFO_DRAWER.TABS.EXPAND",
-          "icon": "chevron_left",
+          "icon": "aspect_ratio",
           "actions": {
             "click": "EXPAND_INFO_DRAWER"
           },

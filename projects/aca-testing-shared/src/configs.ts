@@ -28,8 +28,8 @@ export const BROWSER_WAIT_TIMEOUT = 10000;
 export const USE_HASH_STRATEGY = true;
 
 // Dates
-export const DATE_FORMAT = 'MMM D, YYYY';
-export const DATE_TIME_FORMAT = 'MMM D, YYYY, H:mm';
+export const DATE_FORMAT = 'MMM d, yyyy';
+export const DATE_TIME_FORMAT = 'MMM d, yyyy, H:mm';
 
 // Application Routes
 export const APP_ROUTES = {
