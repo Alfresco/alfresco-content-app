@@ -6,7 +6,7 @@ app-details-manager {
     border-radius: 4px;
 
     &:focus {
-      background-color: #1f74db3d;
+      background-color: var(--theme-selected-background-color);
       outline: 2px solid var(--theme-blue-button-color);
       border-radius: 4px;
     }

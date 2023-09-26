@@ -50,9 +50,10 @@ import { MatIconModule } from '@angular/material/icon';
   styles: [
     `
       .app-toggle-info-drawer button:focus {
-        background-color: #1f74db3d;
-        border: 2px solid #1f74db;
+        border: 2px solid var(--theme-blue-button-color);
         border-radius: 6px;
+        outline: none;
+        background-color: var(--theme-selected-background-color);
       }
     `
   ],
