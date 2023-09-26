@@ -2,6 +2,10 @@
   position: unset;
 }
 
+.adf-datatable-list .adf-datatable-link:hover .aca-name-column-badges {
+  color: var(--adf-theme-foreground-text-color);
+}
+
 .aca-custom-name-column {
   display: flex;
   align-items: center;
