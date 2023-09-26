@@ -45,6 +45,7 @@ export * from './lib/directives/pagination.directive';
 
 export * from './lib/models/types';
 export * from './lib/models/viewer.rules';
+export * from './lib/models/modal-configuration';
 
 export * from './lib/routing/shared.guard';
 
