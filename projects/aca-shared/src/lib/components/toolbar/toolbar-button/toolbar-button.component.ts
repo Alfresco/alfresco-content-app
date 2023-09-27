@@ -45,20 +45,6 @@ export enum ToolbarButtonType {
   selector: 'app-toolbar-button',
   templateUrl: './toolbar-button.component.html',
   encapsulation: ViewEncapsulation.None,
-  styles: [
-    `
-      .app-toolbar-button button:focus {
-        background-color: #1f74db3d;
-        border: 2px solid #1f74db;
-        border-radius: 6px;
-      }
-    `,
-    `
-      .app-toolbar-button .mat-button-focus-overlay {
-        background-color: transparent !important;
-      }
-    `
-  ],
   host: { class: 'app-toolbar-button' }
 })
 export class ToolbarButtonComponent {
