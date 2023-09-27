@@ -44,9 +44,19 @@ import { MatIconModule } from '@angular/material/icon';
       [attr.title]="'APP.ACTIONS.DETAILS' | translate"
       (click)="onClick()"
     >
-      <mat-icon>menu_open</mat-icon>
+      <mat-icon>view_sidebar</mat-icon>
     </button>
   `,
+  styles: [
+    `
+      .app-toggle-info-drawer button:focus {
+        border: 2px solid var(--theme-blue-button-color);
+        border-radius: 6px;
+        outline: none;
+        background-color: var(--theme-selected-background-color);
+      }
+    `
+  ],
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-toggle-info-drawer' }
 })
