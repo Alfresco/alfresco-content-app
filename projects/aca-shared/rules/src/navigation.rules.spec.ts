@@ -226,26 +226,6 @@ describe('navigation.evaluators', () => {
   });
 
   describe('isDetails', () => {
-    it('should return true if url ends with `/details`', () => {
-      const context: any = {
-        navigation: {
-          url: '/path/details'
-        }
-      };
-
-      expect(app.isDetails(context)).toBe(true);
-    });
-
-    it('should return true if url starts with `/details`', () => {
-      const context: any = {
-        navigation: {
-          url: '/details/path'
-        }
-      };
-
-      expect(app.isDetails(context)).toBe(true);
-    });
-
     it('should return true if url includes with `/details`', () => {
       const context: any = {
         navigation: {
@@ -254,6 +234,16 @@ describe('navigation.evaluators', () => {
       };
 
       expect(app.isDetails(context)).toBe(true);
+    });
+
+    it('should return false if url not includes with `/details`', () => {
+      const context: any = {
+        navigation: {
+          url: '/path'
+        }
+      };
+
+      expect(app.isDetails(context)).toBe(false);
     });
   });
 

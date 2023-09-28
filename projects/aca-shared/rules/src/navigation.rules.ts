@@ -112,7 +112,7 @@ export function isLibraryContent(context: RuleContext): boolean {
 
 export function isDetails(context: RuleContext): boolean {
   const { url } = context.navigation;
-  return url && (url.endsWith('/details') || url.includes('/details/') || url.startsWith('/details'));
+  return url?.includes('/details');
 }
 
 /**
