@@ -395,7 +395,7 @@
         },
         "INFO_DRAWER": {
             "TITLE": "Details",
-            "CLOSE": "Close",
+            "REDUCE_PANEL": "Reduce panel",
             "DATA_LOADING": "Data is loading",
             "TABS": {
                 "PROPERTIES": "Properties",
@@ -403,7 +403,7 @@
                 "VERSIONS": "Versions",
                 "COMMENTS": "Comments",
                 "PERMISSIONS": "Permissions",
-                "EXPAND": "Expand"
+                "EXPAND": "Expand panel"
             }
         },
         "TOOLTIPS": {
