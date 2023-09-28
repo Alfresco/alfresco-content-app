@@ -38,6 +38,7 @@ $disabled-chip-background-color: #f5f5f5;
 $contrast-gray: #646569;
 $metadata-property-panel-border-color: rgba(0, 0, 0, 0.12);
 $metadata-buttons-background-color: rgba(33, 33, 33, 0.05);
+$metadata-action-button-clear-color: #212328b2;
 
 // CSS Variables
 $defaults: (
@@ -80,7 +81,8 @@ $defaults: (
   --theme-disabled-chip-background-color: $disabled-chip-background-color,
   --theme-contrast-gray: $contrast-gray,
   --theme-metadata-property-panel-border-color: $metadata-property-panel-border-color,
-  --theme-metadata-buttons-background-color: $metadata-buttons-background-color
+  --theme-metadata-buttons-background-color: $metadata-buttons-background-color,
+  --theme-metadata-action-button-clear-color: $metadata-action-button-clear-color
 );
 
 // propagates SCSS variables into the CSS variables scope
