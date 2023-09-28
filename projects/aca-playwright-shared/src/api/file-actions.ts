@@ -26,7 +26,7 @@ import * as fs from 'fs';
 import { ApiClientFactory } from './api-client-factory';
 import { Utils } from '../utils';
 import { ApiUtil, Logger } from '@alfresco/adf-testing';
-import { NodeEntry } from '@alfresco/js-api';
+import { NodeBodyCreate, NodeEntry } from '@alfresco/js-api';
 
 export class FileActionsApi {
   private apiService: ApiClientFactory;
@@ -48,6 +48,27 @@ export class FileActionsApi {
       nodeType: 'cm:content',
       renditions: 'doclib'
     });
+  }
+
+  async uploadFileWithRename(fileLocation: string, parentId: string = '-my-', newName: string, title: string = '', description: string = '') {
+    const file = fs.createReadStream(fileLocation);
+    const nodeProps = {
+      properties: {
+        'cm:title': title,
+        'cm:description': description
+      }
+    };
+
+    const opts = {
+      name: newName,
+      nodeType: 'cm:content'
+    };
+
+    try {
+      return await this.apiService.upload.uploadFile(file, '', parentId, nodeProps as NodeBodyCreate, opts);
+    } catch (error) {
+      Logger.error(`${this.constructor.name} ${this.uploadFileWithRename.name}`, error);
+    }
   }
 
   async lockNodes(nodeIds: string[], lockType: string = 'ALLOW_OWNER_CHANGES') {

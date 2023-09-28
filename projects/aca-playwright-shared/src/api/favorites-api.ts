@@ -50,6 +50,21 @@ export class FavoritesPageApi {
     return await this.apiService.favorites.createFavorite('-me-', data);
   }
 
+  async addFavoritesByIds(nodeType: 'file' | 'folder' | 'site', ids: string[]): Promise<FavoriteEntry[]> {
+    const favorites: FavoriteEntry[] = [];
+    try {
+      if (ids && ids.length > 0) {
+        for (const id of ids) {
+          const favorite = await this.addFavoriteById(nodeType, id);
+          favorites.push(favorite);
+        }
+      }
+    } catch (error) {
+      Logger.error(`FavoritesApi addFavoritesByIds : catch : `, error);
+    }
+    return favorites;
+  }
+
   private async getFavorites(username: string) {
     try {
       return await this.apiService.favorites.listFavorites(username);
@@ -82,5 +97,31 @@ export class FavoritesPageApi {
       return await Utils.retryCall(favorite);
     } catch (error) {}
     return isFavorite;
+  }
+
+  async getFavoritesTotalItems(username: string): Promise<number> {
+    try {
+      return (await this.apiService.favorites.listFavorites(username)).list.pagination.totalItems;
+    } catch (error) {
+      Logger.error(`FavoritesApi getFavoritesTotalItems : catch : `, error);
+      return -1;
+    }
+  }
+
+  async waitForApi(username: string, data: { expect: number }) {
+    try {
+      const favoriteFiles = async () => {
+        const totalItems = await this.getFavoritesTotalItems(username);
+        if (totalItems !== data.expect) {
+          return Promise.reject(totalItems);
+        } else {
+          return Promise.resolve(totalItems);
+        }
+      };
+      return await Utils.retryCall(favoriteFiles);
+    } catch (error) {
+      Logger.error(`FavoritesApi waitForApi :  catch : `);
+      Logger.error(`\tExpected: ${data.expect} items, but found ${error}`);
+    }
   }
 }

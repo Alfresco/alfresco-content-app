@@ -24,6 +24,7 @@
 
 import { Page } from '@playwright/test';
 import { BaseComponent } from '../base.component';
+import { expect } from '@playwright/test';
 
 export class MatMenuComponent extends BaseComponent {
   private static rootElement = '.mat-menu-content';
@@ -49,5 +50,19 @@ export class MatMenuComponent extends BaseComponent {
     const menuElement = this.getButtonByText(menuItem);
     await menuElement.waitFor({ state: 'attached' });
     return await menuElement.isVisible();
+  }
+
+  async verifyActualMoreActions(expectedToolbarMore: string[]): Promise<void> {
+    await this.page.locator('.mat-menu-content').waitFor({ state: 'attached' });
+    let menus = await this.page.$$('.mat-menu-content .mat-menu-item');
+    let actualMoreActions: string[] = await Promise.all(
+      menus.map(async (button) => {
+        const title = await (await button.$('span')).innerText();
+        return title || '';
+      })
+    );
+    for (const action of expectedToolbarMore) {
+      expect(actualMoreActions.includes(action), `Expected to contain ${action} ${actualMoreActions}`).toBe(true);
+    }
   }
 }

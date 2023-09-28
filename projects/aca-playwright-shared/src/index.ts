@@ -29,3 +29,4 @@ export * from './page-objects';
 export * from './fixtures/page-initialization';
 export * from './utils';
 export * from './resources/test-files';
+export * from './resources/test-data';

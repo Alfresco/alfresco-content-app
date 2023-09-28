@@ -214,4 +214,24 @@ export class NodesApi {
     }
   }
 
+  async setGranularPermission(nodeId: string, inheritPermissions: boolean = false, username: string, role: string): Promise<NodeEntry | null> {
+    const data = {
+      permissions: {
+        isInheritanceEnabled: inheritPermissions,
+        locallySet: [
+          {
+            authorityId: username,
+            name: role
+          }
+        ]
+      }
+    };
+
+    try {
+      return await this.apiService.nodes.updateNode(nodeId, data);
+    } catch (error) {
+      logger.error(`${this.constructor.name} ${this.setGranularPermission.name}`, error);
+      return null;
+    }
+  }
 }
