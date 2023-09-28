@@ -110,6 +110,16 @@ export class FileActionsApi {
     }
   }
 
+  private async getLockType(nodeId: string): Promise<string> {
+    try {
+      const lockType = await this.getNodeProperty(nodeId, 'cm:lockType');
+      return lockType || '';
+    } catch (error) {
+      Logger.error(`${this.constructor.name} ${this.getLockType.name}`, error);
+      return '';
+    }
+  }
+
   async isFileLockedWriteWithRetry(nodeId: string, expect: boolean): Promise<boolean> {
     const data = {
       expect: expect,
