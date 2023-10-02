@@ -23,7 +23,7 @@
  */
 
 import { ApiClientFactory } from './api-client-factory';
-import { Site, SiteBodyCreate, SiteEntry, SiteMembershipBodyCreate, SiteMembershipBodyUpdate } from '@alfresco/js-api';
+import { Site, SiteBodyCreate, SiteEntry, SiteMemberEntry, SiteMembershipBodyCreate, SiteMembershipBodyUpdate } from '@alfresco/js-api';
 import { logger } from '@alfresco/adf-cli/scripts/logger';
 
 export class SitesApi {
@@ -80,7 +80,7 @@ export class SitesApi {
     }
   }
 
-  async updateSiteMember(siteId: string, userId: string, role: string) {
+  async updateSiteMember(siteId: string, userId: string, role: string): Promise<SiteMemberEntry> {
     const siteRole = {
       role: role
     } as SiteMembershipBodyUpdate;
@@ -89,11 +89,11 @@ export class SitesApi {
       return await this.apiService.sites.updateSiteMembership(siteId, userId, siteRole);
     } catch (error) {
       logger.error(`SitesApi updateSiteMember : catch : `, error);
-      return null;
+      return new SiteMemberEntry;
     }
   }
 
-  async addSiteMember(siteId: string, userId: string, role: string) {
+  async addSiteMember(siteId: string, userId: string, role: string): Promise<SiteMemberEntry> {
     const memberBody = {
       id: userId,
       role: role
@@ -106,7 +106,7 @@ export class SitesApi {
         return this.updateSiteMember(siteId, userId, role);
       } else {
         logger.error(`SitesApi addSiteMember : catch : `, error);
-        return null;
+        return new SiteMemberEntry;
       }
     }
   }

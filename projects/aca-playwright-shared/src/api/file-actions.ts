@@ -26,7 +26,7 @@ import * as fs from 'fs';
 import { ApiClientFactory } from './api-client-factory';
 import { Utils } from '../utils';
 import { ApiUtil, Logger } from '@alfresco/adf-testing';
-import { NodeBodyCreate, NodeEntry } from '@alfresco/js-api';
+import { NodeBodyCreate, NodeEntry, ResultSetPaging } from '@alfresco/js-api';
 
 export class FileActionsApi {
   private apiService: ApiClientFactory;
@@ -57,7 +57,7 @@ export class FileActionsApi {
         'cm:title': title,
         'cm:description': description
       }
-    };
+    } as NodeBodyCreate;
 
     const opts = {
       name: newName,
@@ -65,7 +65,7 @@ export class FileActionsApi {
     };
 
     try {
-      return await this.apiService.upload.uploadFile(file, '', parentId, nodeProps as NodeBodyCreate, opts);
+      return await this.apiService.upload.uploadFile(file, '', parentId, nodeProps, opts);
     } catch (error) {
       Logger.error(`${this.constructor.name} ${this.uploadFileWithRename.name}`, error);
     }
@@ -110,16 +110,6 @@ export class FileActionsApi {
     }
   }
 
-  private async getLockType(nodeId: string): Promise<string> {
-    try {
-      const lockType = await this.getNodeProperty(nodeId, 'cm:lockType');
-      return lockType || '';
-    } catch (error) {
-      Logger.error(`${this.constructor.name} ${this.getLockType.name}`, error);
-      return '';
-    }
-  }
-
   async isFileLockedWriteWithRetry(nodeId: string, expect: boolean): Promise<boolean> {
     const data = {
       expect: expect,
@@ -142,7 +132,7 @@ export class FileActionsApi {
     return isLocked;
   }
 
-  private async queryNodesNames(searchTerm: string) {
+  private async queryNodesNames(searchTerm: string): Promise<ResultSetPaging> {
     const data = {
       query: {
         query: `cm:name:\"${searchTerm}*\"`,
@@ -155,10 +145,11 @@ export class FileActionsApi {
       return this.apiService.search.search(data);
     } catch (error) {
       Logger.error(`SearchApi queryNodesNames : catch : `, error);
-      return null;
+      return new ResultSetPaging;
     }
   }
-  async waitForNodes(searchTerm: string, data: { expect: number }) {
+
+  async waitForNodes(searchTerm: string, data: { expect: number }): Promise<void> {
     const predicate = (totalItems: number) => totalItems === data.expect;
 
     const apiCall = async () => {

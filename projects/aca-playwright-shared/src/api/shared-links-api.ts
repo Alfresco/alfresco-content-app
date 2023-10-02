@@ -66,7 +66,7 @@ export class SharedLinksApi {
     return sharedLinks;
   }
 
-  private async getSharedLinks(maxItems: number = 250): Promise<SharedLinkPaging | null> {
+  private async getSharedLinks(maxItems: number = 250): Promise<SharedLinkPaging> {
     try {
       const opts = {
         maxItems
@@ -74,11 +74,11 @@ export class SharedLinksApi {
       return await this.apiService.share.listSharedLinks(opts);
     } catch (error) {
       logger.error(`SharedLinksApi getSharedLinks : catch : `, error);
-      return null;
+      return new SharedLinkPaging;
     }
   }
 
-  async waitForFilesToBeShared(filesIds: string[]): Promise<any> {
+  async waitForFilesToBeShared(filesIds: string[]): Promise<void> {
     try {
       const sharedFile = async () => {
         const sharedFiles = (await this.getSharedLinks()).list.entries.map((link) => link.entry.nodeId);

@@ -25,6 +25,7 @@
 import { ApiClientFactory } from './api-client-factory';
 import { Logger } from '@alfresco/adf-testing';
 import { Utils } from '../utils';
+import { ResultSetPaging } from '@alfresco/js-api';
 
 export class SearchPageApi {
   private apiService: ApiClientFactory;
@@ -38,7 +39,7 @@ export class SearchPageApi {
     return classObj;
   }
 
-  private async queryRecentFiles(username: string) {
+  private async querySearchFiles(username: string): Promise<ResultSetPaging> {
     const data = {
       query: {
         query: '*',
@@ -55,22 +56,17 @@ export class SearchPageApi {
       return this.apiService.search.search(data);
     } catch (error) {
       Logger.error(`SearchApi queryRecentFiles : catch : `, error);
-      return null;
+      return new ResultSetPaging;
     }
   }
 
   async getTotalItems(username: string): Promise<number> {
-    try {
-      return (await this.queryRecentFiles(username)).list.pagination.totalItems;
-    } catch (error) {
-      Logger.error(`SearchApi getTotalItems : catch : `, error);
-      return -1;
-    }
+      return (await this.querySearchFiles(username)).list.pagination.totalItems;
   }
 
   async waitForApi(username: string, data: { expect: number }) {
     try {
-      const recentFiles = async () => {
+      const searchFiles = async () => {
         const totalItems = await this.getTotalItems(username);
         if (totalItems !== data.expect) {
           return Promise.reject(totalItems);
@@ -79,7 +75,7 @@ export class SearchPageApi {
         }
       };
 
-      return await Utils.retryCall(recentFiles);
+      return await Utils.retryCall(searchFiles);
     } catch (error) {
       Logger.error(`SearchApi waitForApi : catch : `);
       Logger.error(`\tExpected: ${data.expect} items, but found ${error}`);

@@ -23,7 +23,7 @@
  */
 
 import { ApiClientFactory } from './api-client-factory';
-import { FavoriteEntry } from '@alfresco/js-api';
+import { FavoriteEntry, FavoritePaging } from '@alfresco/js-api';
 import { Logger } from '@alfresco/adf-testing';
 import { Utils } from '../utils';
 
@@ -38,7 +38,7 @@ export class FavoritesPageApi {
     await classObj.apiService.setUpAcaBackend(userName, password);
     return classObj;
   }
-  async addFavoriteById(nodeType: 'file' | 'folder' | 'site', id: string): Promise<FavoriteEntry | null> {
+  async addFavoriteById(nodeType: 'file' | 'folder' | 'site', id: string): Promise<FavoriteEntry> {
     let guid = nodeType === 'site' ? (await this.apiService.sites.getSite(id)).entry.guid : id;
     const data = {
       target: {
@@ -65,25 +65,25 @@ export class FavoritesPageApi {
     return favorites;
   }
 
-  private async getFavorites(username: string) {
+  private async getFavorites(username: string): Promise<FavoritePaging> {
     try {
       return await this.apiService.favorites.listFavorites(username);
     } catch (error) {
       Logger.error(`FavoritesApi getFavorites : catch : `, error);
-      return null;
+      return new FavoritePaging;
     }
   }
 
-  async isFavorite(username: string, nodeId: string) {
+  async isFavorite(username: string, nodeId: string): Promise<boolean> {
     try {
       return JSON.stringify((await this.getFavorites(username)).list.entries).includes(nodeId);
     } catch (error) {
       Logger.error(`FavoritesApi isFavorite : catch : `, error);
-      return null;
+      return false;
     }
   }
 
-  async isFavoriteWithRetry(username: string, nodeId: string, data: { expect: boolean }) {
+  async isFavoriteWithRetry(username: string, nodeId: string, data: { expect: boolean }): Promise<boolean> {
     let isFavorite = false;
     try {
       const favorite = async () => {
