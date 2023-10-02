@@ -26,8 +26,8 @@ import { Component, Input, OnChanges, OnDestroy, OnInit, ViewEncapsulation } fro
 import { UntypedFormGroup, UntypedFormControl, Validators, FormGroupDirective, NgForm, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { QueriesApi, SiteEntry, SitePaging } from '@alfresco/js-api';
 import { Store } from '@ngrx/store';
-import { AppStore, UpdateLibraryAction } from '@alfresco/aca-shared/store';
-import { debounceTime, mergeMap, takeUntil } from 'rxjs/operators';
+import { AppStore, SnackbarActionTypes, SnackbarErrorAction, SnackbarInfoAction, UpdateLibraryAction } from '@alfresco/aca-shared/store';
+import { debounceTime, filter, mergeMap, takeUntil } from 'rxjs/operators';
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { Observable, from, Subject } from 'rxjs';
 import { ErrorStateMatcher, MatOptionModule } from '@angular/material/core';
@@ -39,6 +39,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { A11yModule } from '@angular/cdk/a11y';
 import { MatButtonModule } from '@angular/material/button';
+import { Actions, ofType } from '@ngrx/effects';
 
 export class InstantErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: UntypedFormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -99,7 +100,7 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
 
   onDestroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private alfrescoApiService: AlfrescoApiService, protected store: Store<AppStore>) {}
+  constructor(private alfrescoApiService: AlfrescoApiService, protected store: Store<AppStore>, private actions$: Actions) {}
   getVisibilityLabel(value: string) {
     return this.libraryType.find((type) => type.value === value).label;
   }
@@ -137,6 +138,18 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
       });
     this.canUpdateLibrary = this.node?.entry?.role === 'SiteManager';
     this.visibilityLabel = this.libraryType.find((type) => type.value === this.form.controls['visibility'].value).label;
+    this.actions$
+      .pipe(
+        ofType<SnackbarInfoAction>(SnackbarActionTypes.Info),
+        filter((action) => action.payload === 'LIBRARY.SUCCESS.LIBRARY_UPDATED')
+      )
+      .subscribe(() => Object.assign(this.node.entry, this.form.value));
+    this.actions$
+      .pipe(
+        ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
+        filter((action) => action.payload === 'LIBRARY.ERRORS.LIBRARY_UPDATE_ERROR')
+      )
+      .subscribe(() => this.form.markAsDirty());
   }
 
   ngOnDestroy() {
@@ -150,6 +163,7 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
 
   update() {
     if (this.canUpdateLibrary && this.form.valid) {
+      this.form.markAsPristine();
       this.store.dispatch(new UpdateLibraryAction(this.form.value));
     }
   }
