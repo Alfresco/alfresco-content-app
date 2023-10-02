@@ -23,7 +23,8 @@
  */
 
 import { Page } from '@playwright/test';
-import { BaseComponent, MatMenuComponent } from './';
+import { MatMenuComponent } from './dataTable';
+import { BaseComponent } from './base.component';
 export class AcaHeader extends BaseComponent {
   private static rootElement = 'aca-toolbar';
   private moreActionsButton = this.getChild('button[id="app.viewer.toolbar.more"]');
