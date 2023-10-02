@@ -1,16 +1,12 @@
-.adf-datatable-content-cell.adf-name-column.aca-custom-name-column {
-  position: unset;
-}
-
-.adf-datatable-list .adf-datatable-link:hover .aca-name-column-badges {
-  color: var(--adf-theme-foreground-text-color);
-}
-
 .aca-custom-name-column {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
+
+  .aca-name-column-badges {
+    display: flex;
+  }
 
   .aca-name-column-container {
     aca-locked-by {
@@ -26,4 +22,12 @@
       }
     }
   }
+}
+
+.adf-datatable-content-cell.adf-name-column.aca-custom-name-column {
+  position: unset;
+}
+
+.adf-datatable-list .adf-datatable-link:hover .aca-name-column-badges {
+  color: var(--adf-theme-foreground-text-color);
 }

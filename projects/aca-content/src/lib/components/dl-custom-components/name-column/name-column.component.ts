@@ -32,10 +32,11 @@ import { LockedByComponent, isLocked, AppExtensionService, Badge } from '@alfres
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { IconModule } from '@alfresco/adf-core';
+import { ExtensionsModule } from '@alfresco/adf-extensions';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, TranslateModule, LockedByComponent, ContentPipeModule, IconModule],
+  imports: [CommonModule, TranslateModule, LockedByComponent, ContentPipeModule, IconModule, ExtensionsModule],
   selector: 'aca-custom-name-column',
   templateUrl: './name-column.component.html',
   styleUrls: ['./name-column.component.scss'],
