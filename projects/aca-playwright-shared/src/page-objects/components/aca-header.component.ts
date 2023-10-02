@@ -22,8 +22,9 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { BaseComponent } from './base.component';
 import { Page } from '@playwright/test';
+import { MatMenuComponent } from './dataTable';
+import { BaseComponent } from './base.component';
 export class AcaHeader extends BaseComponent {
   private static rootElement = 'aca-toolbar';
   private moreActionsButton = this.getChild('button[id="app.viewer.toolbar.more"]');
@@ -38,9 +39,15 @@ export class AcaHeader extends BaseComponent {
   constructor(page: Page) {
     super(page, AcaHeader.rootElement);
   }
+  public matMenu = new MatMenuComponent(this.page);
 
   async clickViewerMoreActions(): Promise<void> {
     await this.moreActionsButton.waitFor({ state: 'attached' });
     await this.moreActionsButton.click();
+  }
+
+  async clickCreateFolderFromTemplate(): Promise<void> {
+    await this.createButton.click();
+    await this.matMenu.createFolderFromTemplate.click();
   }
 }

@@ -39,9 +39,13 @@ export class DataTableComponent extends BaseComponent {
   getEmptyFolderLocator = this.getChild('.adf-empty-folder');
   getEmptyContentTitleLocator = this.getChild('adf-empty-content .adf-empty-content__title');
   getEmptyContentSubTitleLocator = this.getChild('adf-empty-content .adf-empty-content__subtitle');
+  getSelectedRow = this.getChild('.adf-datatable-row.adf-is-selected');
 
   /** Locator for row (or rows) */
   getRowLocator = this.getChild(`adf-datatable-row`);
+
+  /** Locator to get "No results found" message */
+  getNoResultsFoundMessage = this.getChild('adf-custom-empty-content-template', { hasText: "No results found" });
 
   /**
    * Method used in cases where we want to check that some record is visible in the datatable. It will consider whole row

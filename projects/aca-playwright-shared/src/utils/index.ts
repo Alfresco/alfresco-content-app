@@ -30,3 +30,4 @@ export * from './folder-errors';
 export * from './utils';
 export * from './library-errors';
 export * from './config';
+export * from './error-strings';

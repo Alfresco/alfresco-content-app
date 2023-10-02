@@ -154,6 +154,15 @@ export class NodesApi {
     }
   }
 
+  async getNodeById(id: string): Promise<NodeEntry | null> {
+    try {
+      return await this.apiService.nodes.getNode(id);
+    } catch (error) {
+      logger.error(`${this.constructor.name} ${this.getNodeById.name}`, error);
+      return null;
+    }
+  }
+
   async getNodeIdFromParent(name: string, parentId: string): Promise<string> {
     try {
       const children = (await this.getNodeChildren(parentId)).list.entries;
@@ -211,6 +220,79 @@ export class NodesApi {
     } catch (error) {
       logger.error('Admin Actions - getDataDictionaryId failed : ', error);
       return '';
+    }
+  }
+
+  async removeUserAccessOnSpaceTemplate(nodeName: string): Promise<NodeEntry> {
+    try {
+      const templatesRootFolderId = await this.getSpaceTemplatesFolderId();
+      const nodeId: string = await this.getNodeIdFromParent(nodeName, templatesRootFolderId);
+
+      return this.setInheritPermissions(nodeId, false);
+    } catch (error) {
+      logger.error('Admin Actions - removeUserAccessOnSpaceTemplate failed : ', error);
+      return null;
+    }
+  }
+
+  async setInheritPermissions(nodeId: string, inheritPermissions: boolean): Promise<NodeEntry | null> {
+    const data = {
+      permissions: {
+        isInheritanceEnabled: inheritPermissions
+      }
+    };
+
+    try {
+      return await this.apiService.nodes.updateNode(nodeId, data);
+    } catch (error) {
+      logger.error(`${this.constructor.name} ${this.setInheritPermissions.name}`, error);
+      return null;
+    }
+  }
+
+  private async addAspects(nodeId: string, aspectNames: string[]): Promise<NodeEntry> {
+    try {
+      return this.apiService.nodes.updateNode(nodeId, { aspectNames });
+    } catch (error) {
+      logger.error(`${this.constructor.name} ${this.addAspects.name}`, error);
+      return null;
+    }
+  }
+
+  async createFolderLink(originalNodeId: string, destinationId: string): Promise<NodeEntry | null> {
+    const name = (await this.getNodeById(originalNodeId)).entry.name;
+    const nodeBody = {
+      name: `Link to ${name}.url`,
+      nodeType: 'app:folderlink',
+      properties: {
+        'cm:title': `Link to ${name}.url`,
+        'cm:destination': originalNodeId,
+        'cm:description': `Link to ${name}.url`,
+        'app:icon': 'space-icon-link'
+      }
+    };
+
+    try {
+      const link = await this.apiService.nodes.createNode(destinationId, nodeBody);
+      await this.addAspects(originalNodeId, ['app:linked']);
+      return link;
+    } catch (error) {
+      logger.error(`${this.constructor.name} ${this.createFolderLink.name}`, error);
+      return null;
+    }
+  }
+
+  async createLinkToFolderName(originalFolderName: string, originalFolderParentId: string, destinationParentId?: string): Promise<NodeEntry> {
+    if (!destinationParentId) {
+      destinationParentId = originalFolderParentId;
+    }
+
+    try {
+      const nodeId = await this.getNodeIdFromParent(originalFolderName, originalFolderParentId);
+      return this.createFolderLink(nodeId, destinationParentId);
+    } catch (error) {
+      logger.error('Admin Actions - createLinkToFolderName failed : ', error);
+      return null;
     }
   }
 

@@ -24,8 +24,8 @@
 
 import { Page } from '@playwright/test';
 import { BasePage } from './base.page';
-import { AcaHeader } from '../components/aca-header.component';
 import {
+  AcaHeader,
   AdfInfoDrawerComponent,
   AdfLibraryDialogComponent,
   DataTableComponent,
@@ -34,7 +34,8 @@ import {
   ViewerOverlayDialogComponent,
   ContentNodeSelectorDialog,
   Breadcrumb,
-  SidenavComponent
+  SidenavComponent,
+  CreateFromTemplateDialogComponent
 } from '../components';
 
 export class MyLibrariesPage extends BasePage {
@@ -53,6 +54,8 @@ export class MyLibrariesPage extends BasePage {
   public copyMoveDialog = new ContentNodeSelectorDialog(this.page);
   public breadcrumb = new Breadcrumb(this.page);
   public sidenav = new SidenavComponent(this.page);
+  public contentNodeSelector = new ContentNodeSelectorDialog(this.page);
+  public createFromTemplateDialogComponent = new CreateFromTemplateDialogComponent(this.page);
 
   async selectCreateLibrary(): Promise<void> {
     await this.acaHeader.createButton.click();
