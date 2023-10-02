@@ -25,6 +25,14 @@
 const crypto = require('crypto');
 
 export class Utils {
+
+  static string257Long =
+    'qwerqwerwerqwerqwerweqrqwererqwerqwerqwerqwerqweqweqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqewrqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwe257';
+
+  static string513Long =
+    'qerqerqwerqwerqwerqweqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqewrqwerqwerqwerqwerqwerqwerqewrqwerqwerqwerweqrqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqewrqewrqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqwerqewrqewrqwerqwerqwerqwerqwerqewrqewqewrqw513';
+
+
   static random(): string {
     return crypto.getRandomValues(new Uint32Array(1))[0].toString(36).substring(0, 5).toLowerCase();
   }

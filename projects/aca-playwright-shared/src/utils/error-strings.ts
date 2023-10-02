@@ -22,19 +22,15 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './snackBar/snack-bar.component';
-export * from './dataTable';
-export * from './dialogs';
-export * from './manageRules';
-export * from './base.component';
-export * from './spinner.component';
-export * from './actions-dropdown.component';
-export * from './conditions.component';
-export * from './pagination.component';
-export * from './adf-info-drawer.component';
-export * from './viewer.component';
-export * from './search/search-input.component';
-export * from './search/search-overlay.components';
-export * from './breadcrumb/breadcrumb.component';
-export * from './sidenav.component';
-export * from './aca-header.component';
+export const errorStrings = {
+
+  errorMessageNotPresent: 'Error message is not displayed',
+  nameIsRequiredError: 'Name is required',
+  nameWithSpecialCharactersError: `Name can't contain these characters * " < > \\ / ? : |`,
+  nameEndWithDotError: `Name can't end with a period .`,
+  nameContainOnlySpacesError: `Name can't contain only spaces`,
+  titleLengthLimitError: 'Use 256 characters or less for title',
+  descriptionLengthLimitError: 'Use 512 characters or less for description',
+  nameAlreadyUsedError: 'This name is already in use, try a different name.'
+
+}
