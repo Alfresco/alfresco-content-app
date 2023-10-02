@@ -24,9 +24,19 @@
 
 import { Page } from '@playwright/test';
 import { BasePage } from './base.page';
-import { Breadcrumb, DataTableComponent, MatMenuComponent, ViewerComponent, SidenavComponent } from '../components';
-import { AcaHeader } from '../components/aca-header.component';
-import { AdfFolderDialogComponent, PasswordOverlayDialogComponent, ViewerOverlayDialogComponent } from '../components/dialogs';
+import {
+  AcaHeader,
+  AdfFolderDialogComponent,
+  ContentNodeSelectorDialog,
+  CreateFromTemplateDialogComponent,
+  PasswordOverlayDialogComponent,
+  ViewerOverlayDialogComponent,
+  Breadcrumb,
+  DataTableComponent,
+  MatMenuComponent,
+  ViewerComponent,
+  SidenavComponent
+} from '../components';
 
 export class PersonalFilesPage extends BasePage {
   private static pageUrl = 'personal-files';
@@ -38,12 +48,14 @@ export class PersonalFilesPage extends BasePage {
   public acaHeader = new AcaHeader(this.page);
   public matMenu = new MatMenuComponent(this.page);
   public folderDialog = new AdfFolderDialogComponent(this.page);
+  public contentNodeSelector = new ContentNodeSelectorDialog(this.page);
   public dataTable = new DataTableComponent(this.page);
   public viewer = new ViewerComponent(this.page);
   public passwordDialog = new PasswordOverlayDialogComponent(this.page);
   public viewerDialog = new ViewerOverlayDialogComponent(this.page);
   public breadcrumb = new Breadcrumb(this.page);
   public sidenav = new SidenavComponent(this.page);
+  public createFromTemplateDialogComponent = new CreateFromTemplateDialogComponent(this.page);
 
   async selectCreateFolder(): Promise<void> {
     await this.acaHeader.createButton.click();
