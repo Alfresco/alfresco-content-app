@@ -49,8 +49,6 @@ test.describe('Create folder from template', () => {
   let folderId: string;
   const selectDialogTitle = 'Select a folder template';
   const dialogBreadcrumb = 'Space Templates';
-  const cancelButton = 'CANCEL';
-  const createButton = 'Create';
   const nameLabel = 'Name *';
   const titleLabel = 'Title';
   const descriptionLabel = 'Description';
@@ -61,21 +59,21 @@ test.describe('Create folder from template', () => {
   const commandKey = 'Meta';
   const random = Utils.random();
 
-  const fileInRootFolder = `afile-in-root-${random}.txt`;
-  const folderInRootFolder = `afolder-in-root-${random}`;
+  const fileInRootFolder = `file-in-root-${random}.txt`;
+  const folderInRootFolder = `folder-in-root-${random}`;
 
-  const templateFolder1 = `aatemplate-folder1-${random}`;
-  const fileInFolder1 = `aafile-1-${random}.txt`;
-  const templateSubFolder = `atemplate-sub-folder-${random}`;
+  const templateFolder1 = `template-folder1-${random}`;
+  const fileInFolder1 = `file-1-${random}.txt`;
+  const templateSubFolder = `template-sub-folder-${random}`;
 
-  const templateFolder2 = `atemplate-folder2-${random}`;
-  const fileInFolder2 = `afile-2-${random}.txt`;
+  const templateFolder2 = `template-folder2-${random}`;
+  const fileInFolder2 = `file-2-${random}.txt`;
 
-  const restrictedTemplateFolder = `arestricted-folder-${random}`;
-  const fileInRestrictedFolder = `arestricted-file-${random}.txt`;
+  const restrictedTemplateFolder = `restricted-folder-${random}`;
+  const fileInRestrictedFolder = `restricted-file-${random}.txt`;
 
   const createDialogTitle = `Create new folder from '${templateFolder1}'`;
-  const commonFolderName = `aplaywright-folder-${Utils.random()}`;
+  const commonFolderName = `playwright-folder-${Utils.random()}`;
 
   const templates: NodeContentTree = {
     folders: [
@@ -128,7 +126,7 @@ test.describe('Create folder from template', () => {
       selectFolderTemplateDialog = personalFiles.contentNodeSelector;
       dataTable = personalFiles.dataTable;
       toolbar = personalFiles.acaHeader;
-      await toolbar.selectCreateFolderFromTemplate();
+      await toolbar.clickCreateFolderFromTemplate();
     });
 
     test.describe('Select Template dialog', () => {
@@ -224,8 +222,8 @@ test.describe('Create folder from template', () => {
         await expect.soft(createFolderFromTemplateDialog.getDialogLabel(titleLabel)).toHaveValue(emptyString);
         await expect.soft(createFolderFromTemplateDialog.getDialogLabel(descriptionLabel)).toBeVisible();
         await expect.soft(createFolderFromTemplateDialog.getDialogLabel(descriptionLabel)).toHaveValue(emptyString);
-        await expect.soft(createFolderFromTemplateDialog.actionButton(cancelButton)).toBeEnabled();
-        await expect(createFolderFromTemplateDialog.actionButton(createButton)).toBeEnabled();
+        await expect.soft(createFolderFromTemplateDialog.cancelButton).toBeEnabled();
+        await expect(createFolderFromTemplateDialog.createButton).toBeEnabled();
       });
 
       test('[C325143] Folder name is required', async () => {
@@ -237,7 +235,7 @@ test.describe('Create folder from template', () => {
         expect
           .soft(await createFolderFromTemplateDialog.isErrorMessageDisplayed(errorStrings.nameIsRequiredError), errorStrings.errorMessageNotPresent)
           .toBe(true);
-        await expect(createFolderFromTemplateDialog.actionButton(createButton)).toBeDisabled();
+        await expect(createFolderFromTemplateDialog.createButton).toBeDisabled();
       });
 
       test('[C325144] Special characters in folder name', async () => {
@@ -253,7 +251,7 @@ test.describe('Create folder from template', () => {
               errorStrings.errorMessageNotPresent
             )
             .toBe(true);
-          await expect(createFolderFromTemplateDialog.actionButton(createButton)).toBeDisabled();
+          await expect(createFolderFromTemplateDialog.createButton).toBeDisabled();
         }
       });
 
@@ -264,7 +262,7 @@ test.describe('Create folder from template', () => {
         expect
           .soft(await createFolderFromTemplateDialog.isErrorMessageDisplayed(errorStrings.nameEndWithDotError), errorStrings.errorMessageNotPresent)
           .toBe(true);
-        await expect(createFolderFromTemplateDialog.actionButton(createButton)).toBeDisabled();
+        await expect(createFolderFromTemplateDialog.createButton).toBeDisabled();
       });
 
       test('[C325146] Folder name containing only spaces', async () => {
@@ -278,7 +276,7 @@ test.describe('Create folder from template', () => {
             errorStrings.errorMessageNotPresent
           )
           .toBe(true);
-        await expect(createFolderFromTemplateDialog.actionButton(createButton)).toBeDisabled();
+        await expect(createFolderFromTemplateDialog.createButton).toBeDisabled();
       });
 
       test('[C325141] Title too long', async () => {
@@ -288,7 +286,7 @@ test.describe('Create folder from template', () => {
         expect
           .soft(await createFolderFromTemplateDialog.isErrorMessageDisplayed(errorStrings.titleLengthLimitError), errorStrings.errorMessageNotPresent)
           .toBe(true);
-        await expect(createFolderFromTemplateDialog.actionButton(createButton)).toBeDisabled();
+        await expect(createFolderFromTemplateDialog.createButton).toBeDisabled();
       });
 
       test('[C325140] Description too long', async () => {
@@ -301,7 +299,7 @@ test.describe('Create folder from template', () => {
             errorStrings.errorMessageNotPresent
           )
           .toBe(true);
-        await expect(createFolderFromTemplateDialog.actionButton(createButton)).toBeDisabled();
+        await expect(createFolderFromTemplateDialog.createButton).toBeDisabled();
       });
 
       test('[C325156] Create a folder with a duplicate name', async ({ personalFiles }) => {
@@ -314,14 +312,14 @@ test.describe('Create folder from template', () => {
 
       test('[C325155] Cancel folder creation', async () => {
         await expect(createFolderFromTemplateDialog.getDialogTitle(createDialogTitle)).toBeVisible();
-        await createFolderFromTemplateDialog.actionButton(cancelButton).click();
+        await createFolderFromTemplateDialog.cancelButton.click();
         await expect(createFolderFromTemplateDialog.getDialogTitle(createDialogTitle)).not.toBeVisible();
       });
     });
 
     test.describe('Folder created from template on Personal Files', () => {
       test.beforeEach(async ({ personalFiles }) => {
-        randomFolderName = `aplaywright-folder-${Utils.random()}`;
+        randomFolderName = `playwright-folder-${Utils.random()}`;
         randomFolderTitle = `folder-title-${Utils.random()}`;
         randomFolderDescription = `folder-description-${Utils.random()}`;
         createFolderFromTemplateDialog = personalFiles.createFromTemplateDialogComponent;
@@ -360,7 +358,7 @@ test.describe('Create folder from template', () => {
   });
 
   test.describe('Folder created from template on Personal Files Libraries', () => {
-    const randomLibraryName = `aplaywright-library-${Utils.random()}`;
+    const randomLibraryName = `playwright-library-${Utils.random()}`;
 
     test.beforeAll(async ({ sitesApiAction, nodesApiAction }) => {
       await sitesApiAction.createSite(randomLibraryName);
@@ -369,7 +367,7 @@ test.describe('Create folder from template', () => {
     });
 
     test.beforeEach(async ({ myLibrariesPage }) => {
-      randomFolderName = `aplaywright-folder-${Utils.random()}`;
+      randomFolderName = `playwright-folder-${Utils.random()}`;
       randomFolderTitle = `folder-title-${Utils.random()}`;
       randomFolderDescription = `folder-description-${Utils.random()}`;
       await myLibrariesPage.navigate();
@@ -380,7 +378,7 @@ test.describe('Create folder from template', () => {
       await dataTable.goThroughPagesLookingForRowWithName(randomLibraryName);
       await dataTable.getRowByName(randomLibraryName).dblclick();
       await dataTable.spinnerWaitForReload();
-      await toolbar.selectCreateFolderFromTemplate();
+      await toolbar.clickCreateFolderFromTemplate();
       await dataTable.getRowByName(templateFolder1).click();
       await selectFolderTemplateDialog.actionButton.click();
     });
@@ -402,7 +400,7 @@ test.describe('Create folder from template', () => {
 
     test('[C325162] Cancel folder creation in a library', async () => {
       await expect(createFolderFromTemplateDialog.getDialogTitle(createDialogTitle)).toBeVisible();
-      await createFolderFromTemplateDialog.actionButton(cancelButton).click();
+      await createFolderFromTemplateDialog.cancelButton.click();
       await expect(createFolderFromTemplateDialog.getDialogTitle(createDialogTitle)).not.toBeVisible();
       await expect(dataTable.getRowByName(randomFolderName)).not.toBeVisible();
     });

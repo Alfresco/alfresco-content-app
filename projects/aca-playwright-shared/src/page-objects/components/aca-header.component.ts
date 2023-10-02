@@ -22,9 +22,8 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { MatMenuComponent } from '.';
-import { BaseComponent } from './base.component';
 import { Page } from '@playwright/test';
+import { BaseComponent, MatMenuComponent } from './';
 export class AcaHeader extends BaseComponent {
   private static rootElement = 'aca-toolbar';
   private moreActionsButton = this.getChild('button[id="app.viewer.toolbar.more"]');
@@ -46,7 +45,7 @@ export class AcaHeader extends BaseComponent {
     await this.moreActionsButton.click();
   }
 
-  async selectCreateFolderFromTemplate(): Promise<void> {
+  async clickCreateFolderFromTemplate(): Promise<void> {
     await this.createButton.click();
     await this.matMenu.createFolderFromTemplate.click();
   }

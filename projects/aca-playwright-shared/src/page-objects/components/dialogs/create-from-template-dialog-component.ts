@@ -33,7 +33,8 @@ export class CreateFromTemplateDialogComponent extends BaseComponent {
     super(page, CreateFromTemplateDialogComponent.rootElement);
   }
 
-  public actionButton = (text: string) => this.getChild('.mat-button .mat-button-wrapper', { hasText: text });
+  cancelButton = this.getChild('[data-automation-id="cancel-folder-template-button"]');
+  createButton = this.getChild('[data-automation-id="create-folder-template-button"]');
   getDialogTitle = (text: string) => this.getChild('.mat-dialog-title', { hasText: text });
   getDialogLabel = (text: string) => this.getChild('label', { hasText: text });
   getErrorByText = (text: string): Locator => this.page.locator('mat-error', {hasText: text});
@@ -51,6 +52,6 @@ export class CreateFromTemplateDialogComponent extends BaseComponent {
       await this.getDialogLabel('Name *').fill(nameInput);
       if (titleInput) { await this.getDialogLabel('Title').fill(titleInput); }
       if (descriptionInput) { await this.getDialogLabel('Description').fill(descriptionInput); }
-      await this.actionButton('Create').click();
+      await this.createButton.click();
     }
 }
