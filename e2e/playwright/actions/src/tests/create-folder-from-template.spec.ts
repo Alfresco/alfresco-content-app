@@ -37,7 +37,7 @@ import {
 } from '@alfresco/playwright-shared';
 
 test.use({ storageState: getUserState('hruser') });
-test.describe.only('Create folder from template', () => {
+test.describe('Create folder from template', () => {
   let selectFolderTemplateDialog: ContentNodeSelectorDialog;
   let createFolderFromTemplateDialog: CreateFromTemplateDialogComponent;
   let dataTable: DataTableComponent;
