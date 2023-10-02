@@ -50,7 +50,6 @@ import {
   mergeArrays
 } from '@alfresco/adf-extensions';
 import { AppConfigService, AuthenticationService, LogService } from '@alfresco/adf-core';
-import { ProcessContentService } from '@alfresco/adf-process-services';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { RepositoryInfo, NodeEntry } from '@alfresco/js-api';
 import { ViewerRules } from '../models/viewer.rules';
@@ -119,7 +118,6 @@ export class AppExtensionService implements RuleContext {
     protected extensions: ExtensionService,
     public permissions: NodePermissionService,
     public appConfig: AppConfigService,
-    public processContent: ProcessContentService,
     protected matIconRegistry: MatIconRegistry,
     protected sanitizer: DomSanitizer,
     protected logger: LogService

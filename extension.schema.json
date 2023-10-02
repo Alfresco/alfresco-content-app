@@ -662,6 +662,10 @@
         "tooltip": {
           "description": "Badge tooltip to display on hover.",
           "type": "string"
+        },
+        "component": {
+          "description": "Custom component id to display",
+          "type": "string"
         }
       }
     }
