@@ -32,6 +32,7 @@ import { AppExtensionService } from '@alfresco/aca-shared';
 import { of } from 'rxjs';
 import { ContentActionType } from '@alfresco/adf-extensions';
 import { By } from '@angular/platform-browser';
+import { INITIAL_APP_STATE } from '../../../store/initial-state';
 
 describe('CustomNameColumnComponent', () => {
   let fixture: ComponentFixture<CustomNameColumnComponent>;
@@ -40,7 +41,19 @@ describe('CustomNameColumnComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule, TranslateModule.forRoot(), CustomNameColumnComponent, StoreModule.forRoot({ app: () => {} }, { initialState: {} })],
+      imports: [
+        HttpClientModule,
+        TranslateModule.forRoot(),
+        CustomNameColumnComponent,
+        StoreModule.forRoot(
+          { app: (state) => state },
+          {
+            initialState: {
+              app: INITIAL_APP_STATE
+            }
+          }
+        )
+      ],
       providers: [Actions]
     });
 
