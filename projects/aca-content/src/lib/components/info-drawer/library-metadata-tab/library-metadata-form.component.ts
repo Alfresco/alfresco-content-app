@@ -119,6 +119,7 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
   cancel() {
     this.updateForm(this.node);
     this.toggleEdit();
+    this.form.markAsPristine();
   }
 
   ngOnInit() {
@@ -193,7 +194,8 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
     this.actions$
       .pipe(
         ofType<T>(actionType),
-        filter((action) => action.payload === payload)
+        filter((action) => action.payload === payload),
+        takeUntil(this.onDestroy$)
       )
       .subscribe(handle);
   }
