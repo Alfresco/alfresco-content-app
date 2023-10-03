@@ -96,9 +96,12 @@ export class CustomNameColumnComponent extends NameColumnComponent implements On
         this.cd.detectChanges();
       });
 
-    this.appExtensionService.getBadges(this.node).subscribe((badges) => {
-      this.badges = badges;
-    });
+    this.appExtensionService
+      .getBadges(this.node)
+      .pipe(takeUntil(this.onDestroy$$))
+      .subscribe((badges) => {
+        this.badges = badges;
+      });
   }
 
   onLinkClick(event: Event) {
