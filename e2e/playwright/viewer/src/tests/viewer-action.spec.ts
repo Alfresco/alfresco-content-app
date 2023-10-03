@@ -102,7 +102,6 @@ test.describe('viewer action file', () => {
     const download = await downloadPromise;
     expect(download.suggestedFilename(), 'File should found in download location').toBe(fileForEditOffline);
     expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is closed after pressing Full screen').toBe(true);
-    await personalFiles.reload({ waitUntil: 'domcontentloaded' });
     await personalFiles.acaHeader.clickViewerMoreActions();
     expect(await personalFiles.matMenu.isMenuItemVisible('Cancel Editing'), 'Cancel Editing menu should be visible').toBe(true);
   });
@@ -112,7 +111,6 @@ test.describe('viewer action file', () => {
     await personalFiles.viewer.waitForViewerToOpen();
     await personalFiles.acaHeader.clickViewerMoreActions();
     await personalFiles.matMenu.clickMenuItem('Cancel Editing');
-    await personalFiles.reload({ waitUntil: 'domcontentloaded' });
     await personalFiles.acaHeader.clickViewerMoreActions();
     expect(await personalFiles.matMenu.isMenuItemVisible('Edit Offline'), 'Edit offline menu should be visible').toBe(true);
   });
