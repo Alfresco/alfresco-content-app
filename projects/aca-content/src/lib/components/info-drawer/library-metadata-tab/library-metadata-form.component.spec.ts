@@ -25,20 +25,28 @@
 import { LibraryMetadataFormComponent } from './library-metadata-form.component';
 import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
-import { UpdateLibraryAction } from '@alfresco/aca-shared/store';
+import { SnackbarAction, SnackbarErrorAction, SnackbarInfoAction, UpdateLibraryAction } from '@alfresco/aca-shared/store';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Site, SitePaging } from '@alfresco/js-api';
+import { Actions } from '@ngrx/effects';
+import { Subject } from 'rxjs';
 
 describe('LibraryMetadataFormComponent', () => {
   let fixture: ComponentFixture<LibraryMetadataFormComponent>;
   let component: LibraryMetadataFormComponent;
   let store: Store<any>;
+  let actions$: Subject<SnackbarAction>;
 
   beforeEach(() => {
+    actions$ = new Subject<SnackbarAction>();
     TestBed.configureTestingModule({
       imports: [AppTestingModule, LibraryMetadataFormComponent],
       providers: [
+        {
+          provide: Actions,
+          useValue: actions$
+        },
         {
           provide: Store,
           useValue: {
@@ -108,6 +116,86 @@ describe('LibraryMetadataFormComponent', () => {
     expect(component.form.value).toEqual(newSiteEntryModel);
   });
 
+  it('should assign form value to node entry if updating of form is finished with success', () => {
+    component.node = {
+      entry: {
+        id: 'libraryId',
+        role: 'SiteManager',
+        title: 'libraryTitle',
+        description: 'description',
+        visibility: Site.VisibilityEnum.PRIVATE
+      } as Site
+    };
+    const entry = {
+      id: 'libraryId',
+      title: 'some different title',
+      description: 'some different description',
+      visibility: Site.VisibilityEnum.PUBLIC
+    } as Site;
+    component.ngOnInit();
+    component.form.setValue(entry);
+
+    actions$.next(new SnackbarInfoAction('LIBRARY.SUCCESS.LIBRARY_UPDATED'));
+    expect(component.node.entry).toEqual(jasmine.objectContaining(entry));
+  });
+
+  it('should not assign form value to node entry if info snackbar was displayed for different action than updating library', () => {
+    component.node = {
+      entry: {
+        id: 'libraryId',
+        role: 'SiteManager',
+        title: 'libraryTitle',
+        description: 'description',
+        visibility: Site.VisibilityEnum.PRIVATE
+      } as Site
+    };
+    const entry = {
+      id: 'libraryId',
+      title: 'some different title',
+      description: 'some different description',
+      visibility: Site.VisibilityEnum.PUBLIC
+    } as Site;
+    component.ngOnInit();
+    component.form.setValue(entry);
+
+    actions$.next(new SnackbarInfoAction('Some different action'));
+    expect(component.node.entry).not.toEqual(jasmine.objectContaining(entry));
+  });
+
+  it('should not call markAsDirty on form if updating of form is finished with error', () => {
+    component.node = {
+      entry: {
+        id: 'libraryId',
+        role: 'SiteManager',
+        title: 'libraryTitle',
+        description: 'description',
+        visibility: Site.VisibilityEnum.PRIVATE
+      } as Site
+    };
+    component.ngOnInit();
+    spyOn(component.form, 'markAsDirty');
+
+    actions$.next(new SnackbarErrorAction('LIBRARY.ERRORS.LIBRARY_UPDATE_ERROR'));
+    expect(component.form.markAsDirty).toHaveBeenCalled();
+  });
+
+  it('should call markAsDirty on form if error snackbar was displayed for different action than updating library', () => {
+    component.node = {
+      entry: {
+        id: 'libraryId',
+        role: 'SiteManager',
+        title: 'libraryTitle',
+        description: 'description',
+        visibility: Site.VisibilityEnum.PRIVATE
+      } as Site
+    };
+    component.ngOnInit();
+    spyOn(component.form, 'markAsDirty');
+
+    actions$.next(new SnackbarErrorAction('Some different action'));
+    expect(component.form.markAsDirty).not.toHaveBeenCalled();
+  });
+
   it('should update library node if form is valid', () => {
     const siteEntryModel = {
       title: 'libraryTitle',
@@ -127,6 +215,23 @@ describe('LibraryMetadataFormComponent', () => {
     component.update();
 
     expect(store.dispatch).toHaveBeenCalledWith(new UpdateLibraryAction(siteEntryModel));
+  });
+
+  it('should call markAsPristine on form when updating valid form and has permission to update', () => {
+    component.node = {
+      entry: {
+        id: 'libraryId',
+        role: 'SiteManager',
+        title: 'libraryTitle',
+        description: 'description',
+        visibility: Site.VisibilityEnum.PRIVATE
+      } as Site
+    };
+    spyOn(component.form, 'markAsPristine');
+    component.ngOnInit();
+
+    component.update();
+    expect(component.form.markAsPristine).toHaveBeenCalled();
   });
 
   it('should not update library node if it has no permission', () => {
@@ -150,6 +255,23 @@ describe('LibraryMetadataFormComponent', () => {
     expect(store.dispatch).not.toHaveBeenCalledWith(new UpdateLibraryAction(siteEntryModel));
   });
 
+  it('should not call markAsPristine on form when updating valid form but has not permission to update', () => {
+    component.node = {
+      entry: {
+        id: 'libraryId',
+        role: 'Consumer',
+        title: 'libraryTitle',
+        description: 'description',
+        visibility: Site.VisibilityEnum.PRIVATE
+      } as Site
+    };
+    spyOn(component.form, 'markAsPristine');
+    component.ngOnInit();
+
+    component.update();
+    expect(component.form.markAsPristine).not.toHaveBeenCalled();
+  });
+
   it('should not update library node if form is invalid', () => {
     const siteEntryModel = {
       title: 'libraryTitle',
@@ -171,6 +293,24 @@ describe('LibraryMetadataFormComponent', () => {
     component.update();
 
     expect(store.dispatch).not.toHaveBeenCalledWith(new UpdateLibraryAction(siteEntryModel));
+  });
+
+  it('should not call markAsPristine on form when updating invalid form and has permission to update', () => {
+    component.node = {
+      entry: {
+        id: 'libraryId',
+        role: 'SiteManager',
+        title: 'libraryTitle',
+        description: 'description',
+        visibility: Site.VisibilityEnum.PRIVATE
+      } as Site
+    };
+    spyOn(component.form, 'markAsPristine');
+    spyOnProperty(component.form, 'valid').and.returnValue(false);
+    component.ngOnInit();
+
+    component.update();
+    expect(component.form.markAsPristine).not.toHaveBeenCalled();
   });
 
   it('should toggle edit mode', () => {
@@ -206,6 +346,20 @@ describe('LibraryMetadataFormComponent', () => {
     component.cancel();
 
     expect(component.form.value).toEqual(siteEntryModel);
+  });
+
+  it('should call markAsPristine on form when cancelled', () => {
+    component.node = {
+      entry: {
+        id: 'some id',
+        title: 'some title',
+        visibility: Site.VisibilityEnum.PUBLIC
+      } as Site
+    };
+    spyOn(component.form, 'markAsPristine');
+
+    component.cancel();
+    expect(component.form.markAsPristine).toHaveBeenCalled();
   });
 
   it('should warn if library name input is used by another library', fakeAsync(() => {

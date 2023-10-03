@@ -149,7 +149,7 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
     this.handleUpdatingEvents<SnackbarInfoAction>(SnackbarActionTypes.Info, 'LIBRARY.SUCCESS.LIBRARY_UPDATED', () =>
       Object.assign(this.node.entry, this.form.value)
     );
-    this.handleUpdatingEvents<SnackbarErrorAction>(SnackbarActionTypes.Error, 'LIBRARY.ERRORS.LIBRARY_UPDATE_ERROR', this.form.markAsDirty);
+    this.handleUpdatingEvents<SnackbarErrorAction>(SnackbarActionTypes.Error, 'LIBRARY.ERRORS.LIBRARY_UPDATE_ERROR', () => this.form.markAsDirty());
   }
 
   ngOnDestroy() {
