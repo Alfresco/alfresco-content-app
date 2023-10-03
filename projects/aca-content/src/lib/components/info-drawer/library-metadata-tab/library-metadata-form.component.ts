@@ -23,7 +23,7 @@
  */
 
 import { Component, Input, OnChanges, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormGroupDirective, FormsModule, NgForm, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators, FormGroupDirective, NgForm, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { QueriesApi, SiteEntry, SitePaging } from '@alfresco/js-api';
 import { Store } from '@ngrx/store';
 import {
@@ -36,7 +36,7 @@ import {
 } from '@alfresco/aca-shared/store';
 import { debounceTime, filter, mergeMap, takeUntil } from 'rxjs/operators';
 import { AlfrescoApiService } from '@alfresco/adf-core';
-import { from, Observable, Subject } from 'rxjs';
+import { Observable, from, Subject } from 'rxjs';
 import { ErrorStateMatcher, MatOptionModule } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
