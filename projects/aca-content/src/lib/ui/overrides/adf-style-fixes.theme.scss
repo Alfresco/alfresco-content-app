@@ -27,6 +27,10 @@
         border: 1px solid var(--theme-metadata-property-panel-border-color);
         margin: 24px;
         border-radius: 12px;
+
+        .adf-metadata-properties-group-title {
+          width: 548px;
+        }
       }
     }
   }
