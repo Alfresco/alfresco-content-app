@@ -32,7 +32,6 @@ import { AppExtensionService } from '@alfresco/aca-shared';
 import { of } from 'rxjs';
 import { ContentActionType } from '@alfresco/adf-extensions';
 import { By } from '@angular/platform-browser';
-import { INITIAL_APP_STATE } from '../../../store/initial-state';
 
 describe('CustomNameColumnComponent', () => {
   let fixture: ComponentFixture<CustomNameColumnComponent>;
@@ -49,7 +48,14 @@ describe('CustomNameColumnComponent', () => {
           { app: (state) => state },
           {
             initialState: {
-              app: INITIAL_APP_STATE
+              app: {
+                selection: {
+                  nodes: [],
+                  libraries: [],
+                  isEmpty: true,
+                  count: 0
+                }
+              }
             }
           }
         )

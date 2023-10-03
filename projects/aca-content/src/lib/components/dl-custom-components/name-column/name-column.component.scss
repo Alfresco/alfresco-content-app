@@ -6,6 +6,10 @@
 
   .aca-name-column-badges {
     display: flex;
+
+    .adf-datatable-cell-badge {
+      color: var(--theme-contrast-gray);
+    }
   }
 
   .aca-name-column-container {

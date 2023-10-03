@@ -4,14 +4,12 @@
 @import 'variables/variables';
 @include custom-theme($custom-theme);
 
-$contrast-gray: #646569;
-
 .mat-toolbar {
   color: var(--theme-text-color, rgba(0, 0, 0, 0.54));
 }
 
 .adf-name-location-cell-location.adf-datatable-cell-value {
-  color: $contrast-gray;
+  color: var(--theme-contrast-gray);
 }
 
 .mat-tab-list {
@@ -29,14 +27,14 @@ $contrast-gray: #646569;
 .mat-checkbox-label,
 mat-toolbar.mat-toolbar.mat-toolbar-multiple-row,
 mat-toolbar.mat-toolbar.mat-toolbar-single-row {
-  color: $contrast-gray;
+  color: var(--theme-contrast-gray);
   opacity: 1;
 }
 
 .adf-upload-dialog {
   &__header,
   &__content {
-    color: $contrast-gray;
+    color: var(--theme-contrast-gray);
   }
 }
 
@@ -44,7 +42,7 @@ mat-toolbar.mat-toolbar.mat-toolbar-single-row {
   .adf-version-list-item {
     &-comment,
     &-date {
-      color: $contrast-gray;
+      color: var(--theme-contrast-gray);
       opacity: 1;
     }
   }
@@ -52,19 +50,19 @@ mat-toolbar.mat-toolbar.mat-toolbar-single-row {
 
 .mat-chip.mat-standard-chip {
   background-color: #efefef;
-  color: $contrast-gray;
+  color: var(--theme-contrast-gray);
 }
 
 .adf-property-field {
   .adf-textitem-edit-icon.mat-icon {
-    color: $contrast-gray;
+    color: var(--theme-contrast-gray);
   }
 }
 
 .adf-property-field.adf-card-textitem-field:hover .adf-property-clear-value {
-  color: $contrast-gray;
+  color: var(--theme-contrast-gray);
 }
 
 .adf-empty-content__icon {
-  color: $contrast-gray;
+  color: var(--theme-contrast-gray);
 }
