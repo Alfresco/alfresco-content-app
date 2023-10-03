@@ -232,6 +232,18 @@ export class NodesApi {
             authorityId: username,
             name: role
           }
+        ]
+      }
+    };
+
+    try {
+      return await this.apiService.nodes.updateNode(nodeId, data);
+    } catch (error) {
+      logger.error(`${this.constructor.name} ${this.setGranularPermission.name}`, error);
+      return null;
+    }
+  }
+
   async removeUserAccessOnSpaceTemplate(nodeName: string): Promise<NodeEntry> {
     try {
       const templatesRootFolderId = await this.getSpaceTemplatesFolderId();
