@@ -23,13 +23,20 @@
  */
 
 import { Component, Input, OnChanges, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators, FormGroupDirective, NgForm, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormGroupDirective, FormsModule, NgForm, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { QueriesApi, SiteEntry, SitePaging } from '@alfresco/js-api';
 import { Store } from '@ngrx/store';
-import { AppStore, SnackbarActionTypes, SnackbarErrorAction, SnackbarInfoAction, UpdateLibraryAction } from '@alfresco/aca-shared/store';
+import {
+  AppStore,
+  SnackbarAction,
+  SnackbarActionTypes,
+  SnackbarErrorAction,
+  SnackbarInfoAction,
+  UpdateLibraryAction
+} from '@alfresco/aca-shared/store';
 import { debounceTime, filter, mergeMap, takeUntil } from 'rxjs/operators';
 import { AlfrescoApiService } from '@alfresco/adf-core';
-import { Observable, from, Subject } from 'rxjs';
+import { from, Observable, Subject } from 'rxjs';
 import { ErrorStateMatcher, MatOptionModule } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
@@ -138,18 +145,10 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
       });
     this.canUpdateLibrary = this.node?.entry?.role === 'SiteManager';
     this.visibilityLabel = this.libraryType.find((type) => type.value === this.form.controls['visibility'].value).label;
-    this.actions$
-      .pipe(
-        ofType<SnackbarInfoAction>(SnackbarActionTypes.Info),
-        filter((action) => action.payload === 'LIBRARY.SUCCESS.LIBRARY_UPDATED')
-      )
-      .subscribe(() => Object.assign(this.node.entry, this.form.value));
-    this.actions$
-      .pipe(
-        ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
-        filter((action) => action.payload === 'LIBRARY.ERRORS.LIBRARY_UPDATE_ERROR')
-      )
-      .subscribe(() => this.form.markAsDirty());
+    this.handleUpdatingEvents<SnackbarInfoAction>(SnackbarActionTypes.Info, 'LIBRARY.SUCCESS.LIBRARY_UPDATED', () =>
+      Object.assign(this.node.entry, this.form.value)
+    );
+    this.handleUpdatingEvents<SnackbarErrorAction>(SnackbarActionTypes.Error, 'LIBRARY.ERRORS.LIBRARY_UPDATE_ERROR', this.form.markAsDirty);
   }
 
   ngOnDestroy() {
@@ -188,5 +187,14 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
         })
         .catch(() => ({ list: { entries: [] } }))
     );
+  }
+
+  private handleUpdatingEvents<T extends SnackbarAction>(actionType: SnackbarActionTypes, payload: string, handle: () => void): void {
+    this.actions$
+      .pipe(
+        ofType<T>(actionType),
+        filter((action) => action.payload === payload)
+      )
+      .subscribe(handle);
   }
 }
