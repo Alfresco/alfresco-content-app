@@ -17,6 +17,10 @@
   border: 1px solid var(--theme-metadata-property-panel-border-color);
   border-radius: 12px;
   margin-bottom: 12px;
+
+  .mat-expansion-panel-header {
+    border-radius: 12px;
+  }
 }
 
 .acs-details-container {
@@ -27,6 +31,10 @@
         border: 1px solid var(--theme-metadata-property-panel-border-color);
         margin: 24px;
         border-radius: 12px;
+
+        .mat-expansion-panel-header {
+          border-radius: 12px;
+        }
 
         .adf-metadata-properties-group-title {
           width: 548px;
