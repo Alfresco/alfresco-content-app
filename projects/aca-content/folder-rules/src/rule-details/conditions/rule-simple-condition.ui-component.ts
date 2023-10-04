@@ -36,9 +36,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { CategoryService } from '@alfresco/adf-content-services';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, first } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { MatOptionModule } from '@angular/material/core';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 class TypeAheadOption {
   displayLabel: string;
@@ -57,7 +58,9 @@ class TypeAheadOption {
     TranslateModule,
     MatAutocompleteModule,
     AsyncPipe,
-    MatOptionModule
+    MatOptionModule,
+    MatProgressSpinnerModule,
+    MatProgressSpinnerModule
   ],
   selector: 'aca-rule-simple-condition',
   templateUrl: './rule-simple-condition.ui-component.html',
@@ -83,8 +86,11 @@ export class RuleSimpleConditionUiComponent implements ControlValueAccessor, OnD
 
   mimeTypes: MimeType[] = [];
 
-  autoCompleteOptions$: Observable<TypeAheadOption[]>;
+  autoCompleteOptions: TypeAheadOption[];
 
+  showLoadingSpinner: boolean;
+
+  private subscriptions: Subscription[] = [];
   private _readOnly = false;
   @Input()
   get readOnly(): boolean {
@@ -169,22 +175,31 @@ export class RuleSimpleConditionUiComponent implements ControlValueAccessor, OnD
     }
     if (this.selectedField.type === 'autocomplete') {
       if (this.selectedField.name === 'category') {
-        this.autoCompleteOptions$ = this.form.get('parameter').valueChanges.pipe(
-          distinctUntilChanged(),
-          debounceTime(1000),
-          switchMap((categoryName: string) => this.getCategories(categoryName))
+        this.subscriptions.push(
+          this.form
+            .get('parameter')
+            .valueChanges.pipe(distinctUntilChanged(), debounceTime(1000))
+            .subscribe((categoryName) => {
+              this.getCategories(categoryName);
+            })
         );
+        this.parameterControl.setValue('');
       }
     }
   }
 
   ngOnDestroy() {
     this.formSubscription.unsubscribe();
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 
-  private getCategories(categoryName: string): Observable<TypeAheadOption[]> {
-    return this.categoryService.searchCategories(categoryName).pipe(
-      map((existingCategoriesResult) => {
+  private getCategories(categoryName: string) {
+    this.showLoadingSpinner = true;
+    this.categoryService
+      .searchCategories(categoryName)
+      .pipe(first())
+      .subscribe((existingCategoriesResult) => {
+        this.showLoadingSpinner = false;
         const options: TypeAheadOption[] = existingCategoriesResult.list.entries.map((rowEntry) => {
           const option = new TypeAheadOption();
           option.value = rowEntry.entry.id;
@@ -192,16 +207,14 @@ export class RuleSimpleConditionUiComponent implements ControlValueAccessor, OnD
           option.displayLabel = path ? `${path}/${rowEntry.entry.name}` : rowEntry.entry.name;
           return option;
         });
-        return this.sortAutoCompleteOptions(options);
-      })
-    );
+        this.autoCompleteOptions = this.sortAutoCompleteOptions(options);
+      });
   }
 
   private sortAutoCompleteOptions(typeAheadOptions: TypeAheadOption[]): TypeAheadOption[] {
     return typeAheadOptions.sort((option1, option2) => option1.displayLabel.localeCompare(option2.displayLabel));
   }
 
-  typeAheadDisplayFunction(optionValue: string): string {
-    return optionValue;
-  }
+  autoCompleteDisplayFunction: (id) => string = (optionValue) =>
+    optionValue ? this.autoCompleteOptions.find((option) => option.value === optionValue)?.displayLabel : '';
 }

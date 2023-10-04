@@ -36,12 +36,30 @@
         />
         <mat-autocomplete
           #auto="matAutocomplete"
-          [displayWith]="typeAheadDisplayFunction">
-            <mat-option
-              *ngFor="let option of autoCompleteOptions$ | async"
-              [value]="option.value">
-              {{ option.displayLabel }}
+          [displayWith]="autoCompleteDisplayFunction">
+            <mat-option disabled *ngIf="showLoadingSpinner; else optionList">
+              <span class="aca-rule-simple-condition__autocomplete-loading-spinner">
+                <mat-progress-spinner
+                  color="primary"
+                  mode="indeterminate"
+                  [diameter]="25"
+                ></mat-progress-spinner>
+              </span>
             </mat-option>
+          <ng-template #optionList>
+            <ng-container *ngIf="autoCompleteOptions?.length > 0; else noOptionsTemplate">
+              <mat-option
+                *ngFor="let option of autoCompleteOptions"
+                [value]="option.value">
+                {{ option.displayLabel }}
+              </mat-option>
+            </ng-container>
+            <ng-template #noOptionsTemplate>
+              <mat-option disabled>
+                {{ 'ACA_FOLDER_RULES.AUTOCOMPLETE.NO_OPTIONS_FOUND' | translate }}
+              </mat-option>
+            </ng-template>
+          </ng-template>
         </mat-autocomplete>
     </ng-template>
     <ng-template ngSwitchDefault>
