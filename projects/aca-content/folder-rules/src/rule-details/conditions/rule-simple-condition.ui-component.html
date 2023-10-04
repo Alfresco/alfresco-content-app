@@ -21,14 +21,30 @@
     </mat-select>
   </mat-form-field>
 
-  <mat-form-field class="aca-rule-simple-condition__form__parameter-input">
-    <mat-select formControlName="parameter" data-automation-id="simple-condition-value-select" *ngIf="selectedField?.type === 'mimeType'; else valueInput">
+  <mat-form-field class="aca-rule-simple-condition__form__parameter-input" [ngSwitch]="selectedField.type">
+    <mat-select formControlName="parameter" data-automation-id="simple-condition-value-select" *ngSwitchCase="'mimeType'">
       <mat-option *ngFor="let mimeType of mimeTypes"
         [value]="mimeType.value">
         {{ mimeType.label }}
       </mat-option>
     </mat-select>
-    <ng-template #valueInput>
+    <ng-template [ngSwitchCase]="'autocomplete'">
+        <input
+          matInput
+          [matAutocomplete]="auto"
+          formControlName="parameter"
+        />
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          [displayWith]="typeAheadDisplayFunction">
+            <mat-option
+              *ngFor="let option of autoCompleteOptions$ | async"
+              [value]="option.value">
+              {{ option.displayLabel }}
+            </mat-option>
+        </mat-autocomplete>
+    </ng-template>
+    <ng-template ngSwitchDefault>
       <input matInput placeholder="{{ 'ACA_FOLDER_RULES.RULE_DETAILS.PLACEHOLDER.VALUE' | translate }}" type="text" formControlName="parameter" data-automation-id="value-input">
     </ng-template>
   </mat-form-field>

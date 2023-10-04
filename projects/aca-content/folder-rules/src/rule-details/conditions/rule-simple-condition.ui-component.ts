@@ -29,15 +29,36 @@ import { comparatorHiddenForConditionFieldType, RuleConditionField, ruleConditio
 import { RuleConditionComparator, ruleConditionComparators } from './rule-condition-comparators';
 import { AppConfigService } from '@alfresco/adf-core';
 import { MimeType } from './rule-mime-types';
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
+import { CategoryService } from '@alfresco/adf-content-services';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { MatOptionModule } from '@angular/material/core';
+
+class TypeAheadOption {
+  displayLabel: string;
+  value: string;
+}
 
 @Component({
   standalone: true,
-  imports: [CommonModule, TranslateModule, ReactiveFormsModule, MatFormFieldModule, MatSelectModule, MatInputModule],
+  imports: [
+    CommonModule,
+    TranslateModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule,
+    TranslateModule,
+    MatAutocompleteModule,
+    AsyncPipe,
+    MatOptionModule
+  ],
   selector: 'aca-rule-simple-condition',
   templateUrl: './rule-simple-condition.ui-component.html',
   styleUrls: ['./rule-simple-condition.ui-component.scss'],
@@ -62,6 +83,8 @@ export class RuleSimpleConditionUiComponent implements ControlValueAccessor, OnD
 
   mimeTypes: MimeType[] = [];
 
+  autoCompleteOptions$: Observable<TypeAheadOption[]>;
+
   private _readOnly = false;
   @Input()
   get readOnly(): boolean {
@@ -71,7 +94,7 @@ export class RuleSimpleConditionUiComponent implements ControlValueAccessor, OnD
     this.setDisabledState(isReadOnly);
   }
 
-  constructor(private config: AppConfigService) {
+  constructor(private config: AppConfigService, private categoryService: CategoryService) {
     this.mimeTypes = this.config.get<Array<MimeType>>('mimeTypes');
   }
 
@@ -144,9 +167,41 @@ export class RuleSimpleConditionUiComponent implements ControlValueAccessor, OnD
     } else if (this.parameterControl.value) {
       this.parameterControl.setValue('');
     }
+    if (this.selectedField.type === 'autocomplete') {
+      if (this.selectedField.name === 'category') {
+        this.autoCompleteOptions$ = this.form.get('parameter').valueChanges.pipe(
+          distinctUntilChanged(),
+          debounceTime(1000),
+          switchMap((categoryName: string) => this.getCategories(categoryName))
+        );
+      }
+    }
   }
 
   ngOnDestroy() {
     this.formSubscription.unsubscribe();
+  }
+
+  private getCategories(categoryName: string): Observable<TypeAheadOption[]> {
+    return this.categoryService.searchCategories(categoryName).pipe(
+      map((existingCategoriesResult) => {
+        const options: TypeAheadOption[] = existingCategoriesResult.list.entries.map((rowEntry) => {
+          const option = new TypeAheadOption();
+          option.value = rowEntry.entry.id;
+          const path = rowEntry.entry.path.name.split('/').splice(3).join('/');
+          option.displayLabel = path ? `${path}/${rowEntry.entry.name}` : rowEntry.entry.name;
+          return option;
+        });
+        return this.sortAutoCompleteOptions(options);
+      })
+    );
+  }
+
+  private sortAutoCompleteOptions(typeAheadOptions: TypeAheadOption[]): TypeAheadOption[] {
+    return typeAheadOptions.sort((option1, option2) => option1.displayLabel.localeCompare(option2.displayLabel));
+  }
+
+  typeAheadDisplayFunction(optionValue: string): string {
+    return optionValue;
   }
 }
