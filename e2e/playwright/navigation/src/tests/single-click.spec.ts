@@ -56,7 +56,7 @@ test.describe('Single click on item name', () => {
   });
 
   test.afterAll(async ({ nodesApiAction }) => {
-    await nodesApiAction.deleteNodes([deletedFolder1Id, deletedFile1Id], true);
+    await nodesApiAction.deleteNodes([deletedFolder1Id, deletedFile1Id, folder1Id, folderSearchId], true);
   });
 
   test('[C284899] Hyperlink does not appear for items in the Trash', async ({ trashPage }) => {
@@ -65,17 +65,11 @@ test.describe('Single click on item name', () => {
     expect(await trashPage.dataTable.getCellLinkByName(deletedFolder1).isVisible(), 'Link on name is present').toBe(false);
   });
 
-  test.describe('on Personal Files', () => {
-    test.afterAll(async ({ nodesApiAction }) => {
-      await nodesApiAction.deleteNodes([folder1Id, folderSearchId], true);
-    });
-
-    test('[C280034] Navigate inside the folder when clicking the hyperlink on Personal Files', async ({ personalFiles }) => {
-      await personalFiles.navigate();
-      await personalFiles.dataTable.getCellLinkByName(folder1).click();
-      await personalFiles.dataTable.spinnerWaitForReload();
-      expect(await personalFiles.breadcrumb.currentItem.innerText()).toBe(folder1);
-    });
+  test('[C280034] Navigate inside the folder when clicking the hyperlink on Personal Files', async ({ personalFiles }) => {
+    await personalFiles.navigate();
+    await personalFiles.dataTable.getCellLinkByName(folder1).click();
+    await personalFiles.dataTable.spinnerWaitForReload();
+    expect(await personalFiles.breadcrumb.currentItem.innerText()).toBe(folder1);
   });
 
   test('[C284902] Navigate inside the library when clicking the hyperlink on File Libraries', async ({ myLibrariesPage }) => {

@@ -69,7 +69,7 @@ export class DataTableComponent extends BaseComponent {
    *
    * @returns reference to cell element which contains link.
    */
-  getCellLinkByName = (name: string): Locator => this.getChild('.adf-datatable-cell-value[role="link"]', { hasText: name });
+  getCellLinkByName = (name: string): Locator => this.getChild('.adf-cell-value span', { hasText: name });
 
   /**
    * Method used in cases where we want to localize the element by [aria-label]

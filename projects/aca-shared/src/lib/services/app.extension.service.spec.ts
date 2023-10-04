@@ -43,6 +43,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { hasQuickShareEnabled } from '@alfresco/aca-shared/rules';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
+import { NodeEntry } from '@alfresco/js-api';
 
 describe('AppExtensionService', () => {
   let service: AppExtensionService;
@@ -1674,6 +1675,64 @@ describe('AppExtensionService', () => {
 
     service.getMainAction().subscribe((action) => {
       expect(action.id).toEqual('action-id');
+      done();
+    });
+  });
+
+  it('should get badges from config', (done) => {
+    extensions.setEvaluators({
+      'action.enabled': () => true
+    });
+
+    applyConfig({
+      $id: 'test',
+      $name: 'test',
+      $version: '1.0.0',
+      $license: 'MIT',
+      $vendor: 'Good company',
+      $runtime: '1.5.0',
+      features: {
+        badges: [
+          {
+            id: 'action1-id',
+            icon: 'warning',
+            tooltip: 'test tooltip',
+            type: 'custom',
+            rules: {
+              visible: 'action.enabled'
+            }
+          },
+          {
+            id: 'action2-id',
+            icon: 'settings',
+            tooltip: 'test tooltip2',
+            type: 'custom',
+            rules: {
+              visible: 'action.enabled'
+            }
+          }
+        ]
+      }
+    });
+
+    const node: NodeEntry = {
+      entry: {
+        id: 'testId',
+        name: 'testName',
+        nodeType: 'test',
+        isFile: true,
+        isFolder: false,
+        modifiedAt: undefined,
+        createdAt: undefined,
+        modifiedByUser: undefined,
+        createdByUser: undefined
+      }
+    };
+
+    service.getBadges(node).subscribe((badges) => {
+      expect(badges.length).toBe(2);
+      expect(badges[0].id).toEqual('action1-id');
+      expect(badges[1].id).toEqual('action2-id');
       done();
     });
   });

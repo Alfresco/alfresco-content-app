@@ -28,19 +28,44 @@ import { StoreModule } from '@ngrx/store';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientModule } from '@angular/common/http';
 import { TranslateModule } from '@ngx-translate/core';
+import { AppExtensionService } from '@alfresco/aca-shared';
+import { of } from 'rxjs';
+import { ContentActionType } from '@alfresco/adf-extensions';
+import { By } from '@angular/platform-browser';
 
 describe('CustomNameColumnComponent', () => {
   let fixture: ComponentFixture<CustomNameColumnComponent>;
   let component: CustomNameColumnComponent;
+  let appExtensionService: AppExtensionService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule, TranslateModule.forRoot(), CustomNameColumnComponent, StoreModule.forRoot({ app: () => {} }, { initialState: {} })],
+      imports: [
+        HttpClientModule,
+        TranslateModule.forRoot(),
+        CustomNameColumnComponent,
+        StoreModule.forRoot(
+          { app: (state) => state },
+          {
+            initialState: {
+              app: {
+                selection: {
+                  nodes: [],
+                  libraries: [],
+                  isEmpty: true,
+                  count: 0
+                }
+              }
+            }
+          }
+        )
+      ],
       providers: [Actions]
     });
 
     fixture = TestBed.createComponent(CustomNameColumnComponent);
     component = fixture.componentInstance;
+    appExtensionService = TestBed.inject(AppExtensionService);
   });
 
   it('should not render lock element if file is not locked', () => {
@@ -113,5 +138,56 @@ describe('CustomNameColumnComponent', () => {
 
     component.onLinkClick(event);
     expect(event.stopPropagation).toHaveBeenCalled();
+  });
+
+  describe('Name column badges', () => {
+    beforeEach(() => {
+      component.context = {
+        row: {
+          node: {
+            entry: {
+              isFile: true,
+              id: 'nodeId'
+            }
+          },
+          getValue: (key: string) => key
+        }
+      };
+    });
+
+    it('should get badges when component initializes', () => {
+      spyOn(appExtensionService, 'getBadges').and.returnValue(
+        of([{ id: 'test', type: ContentActionType.custom, icon: 'warning', tooltip: 'test tooltip' }])
+      );
+      component.ngOnInit();
+      fixture.detectChanges();
+      const badges = fixture.debugElement.queryAll(By.css('.adf-datatable-cell-badge')).map((badge) => badge.nativeElement);
+      expect(appExtensionService.getBadges).toHaveBeenCalled();
+      expect(badges.length).toBe(1);
+      expect(badges[0].innerText).toBe('warning');
+      expect(badges[0].attributes['title'].value).toBe('test tooltip');
+    });
+
+    it('should call provided handler on click', () => {
+      spyOn(appExtensionService, 'runActionById');
+      spyOn(appExtensionService, 'getBadges').and.returnValue(
+        of([{ id: 'test', type: ContentActionType.custom, icon: 'warning', tooltip: 'test tooltip', actions: { click: 'test' } }])
+      );
+      component.ngOnInit();
+      fixture.detectChanges();
+      const badges = fixture.debugElement.queryAll(By.css('.adf-datatable-cell-badge')).map((badge) => badge.nativeElement);
+      badges[0].click();
+      expect(appExtensionService.runActionById).toHaveBeenCalledWith('test', component.context.row.node);
+    });
+
+    it('should render dynamic component when badge has one provided', () => {
+      spyOn(appExtensionService, 'getBadges').and.returnValue(
+        of([{ id: 'test', type: ContentActionType.custom, icon: 'warning', tooltip: 'test tooltip', component: 'test-id' }])
+      );
+      component.ngOnInit();
+      fixture.detectChanges();
+      const dynamicComponent = fixture.debugElement.query(By.css('adf-dynamic-component')).nativeElement;
+      expect(dynamicComponent).toBeDefined();
+    });
   });
 });

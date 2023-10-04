@@ -28,13 +28,15 @@ import { Actions, ofType } from '@ngrx/effects';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { NodeActionTypes } from '@alfresco/aca-shared/store';
-import { LockedByComponent, isLocked } from '@alfresco/aca-shared';
+import { LockedByComponent, isLocked, AppExtensionService, Badge } from '@alfresco/aca-shared';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
+import { IconModule } from '@alfresco/adf-core';
+import { ExtensionsModule } from '@alfresco/adf-extensions';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, TranslateModule, LockedByComponent, ContentPipeModule],
+  imports: [CommonModule, TranslateModule, LockedByComponent, ContentPipeModule, IconModule, ExtensionsModule],
   selector: 'aca-custom-name-column',
   templateUrl: './name-column.component.html',
   styleUrls: ['./name-column.component.scss'],
@@ -48,8 +50,15 @@ export class CustomNameColumnComponent extends NameColumnComponent implements On
 
   isFile: boolean;
   isFileWriteLocked: boolean;
+  badges: Badge[];
 
-  constructor(element: ElementRef, private cd: ChangeDetectorRef, private actions$: Actions, private nodesService: NodesApiService) {
+  constructor(
+    element: ElementRef,
+    private cd: ChangeDetectorRef,
+    private actions$: Actions,
+    private nodesService: NodesApiService,
+    private appExtensionService: AppExtensionService
+  ) {
     super(element, nodesService);
   }
 
@@ -86,6 +95,13 @@ export class CustomNameColumnComponent extends NameColumnComponent implements On
         this.isFileWriteLocked = isLocked(this.node);
         this.cd.detectChanges();
       });
+
+    this.appExtensionService
+      .getBadges(this.node)
+      .pipe(takeUntil(this.onDestroy$$))
+      .subscribe((badges) => {
+        this.badges = badges;
+      });
   }
 
   onLinkClick(event: Event) {
@@ -98,5 +114,9 @@ export class CustomNameColumnComponent extends NameColumnComponent implements On
 
     this.onDestroy$$.next(true);
     this.onDestroy$$.complete();
+  }
+
+  onBadgeClick(badge: Badge) {
+    this.appExtensionService.runActionById(badge.actions?.click, this.node);
   }
 }
