@@ -23,7 +23,7 @@
  */
 
 import { AdminActions, LoginPage, SearchResultsPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
-import { format } from 'date-fns';
+import { DateFnsUtils } from '@alfresco/adf-core';
 
 describe('Search results - files and folders', () => {
   const random = Utils.random();
@@ -92,7 +92,7 @@ describe('Search results - files and folders', () => {
     await dataTable.waitForBody();
 
     const fileEntry = await apis.user.nodes.getNodeById(fileId);
-    const modifiedDate = format(fileEntry.entry.modifiedAt, 'MMM d, yyyy, h:mm:ss aa');
+    const modifiedDate = DateFnsUtils.formatDate(fileEntry.entry.modifiedAt, 'MMM D, YYYY, h:mm:ss A');
     const modifiedBy = fileEntry.entry.modifiedByUser.displayName;
     const size = fileEntry.entry.content.sizeInBytes;
 
@@ -114,7 +114,7 @@ describe('Search results - files and folders', () => {
     await dataTable.waitForBody();
 
     const folderEntry = await apis.user.nodes.getNodeById(folderId);
-    const modifiedDate = format(folderEntry.entry.modifiedAt, 'MMM d, yyyy, h:mm:ss aa');
+    const modifiedDate = DateFnsUtils.formatDate(folderEntry.entry.modifiedAt, 'MMM D, YYYY, h:mm:ss A');
     const modifiedBy = folderEntry.entry.modifiedByUser.displayName;
 
     expect(await dataTable.isItemPresent(folder)).toBe(true, `${folder} is not displayed`);
