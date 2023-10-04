@@ -98,7 +98,7 @@ describe('Comments', () => {
 
   afterAll(async () => {
     await userActions.login(username, username);
-    await userActions.deleteNodes([parentId]);
+    await apis.user.nodes.deleteNodeById(parentId);
   });
 
   afterEach(async () => {

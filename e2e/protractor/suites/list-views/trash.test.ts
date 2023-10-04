@@ -97,7 +97,7 @@ describe('Trash', () => {
       await adminApiActions.trashcanApi.deleteDeletedNode(folderAdminId);
 
       await userActions.login(username, username);
-      await userActions.deleteNodes([folderNotDeletedId]);
+      await apis.user.nodes.deleteNodeById(folderNotDeletedId);
       await userActions.emptyTrashcan();
     } catch (error) {
       Logger.error(`----- afterAll failed : ${error}`);

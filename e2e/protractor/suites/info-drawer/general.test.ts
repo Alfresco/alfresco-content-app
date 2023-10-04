@@ -59,7 +59,7 @@ describe('General', () => {
   });
 
   afterAll(async () => {
-    await userActions.deleteNodes([parentId]);
+    await apis.user.nodes.deleteNodeById(parentId);
   });
 
   beforeEach(async () => {

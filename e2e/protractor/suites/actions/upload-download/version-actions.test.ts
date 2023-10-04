@@ -93,7 +93,7 @@ describe('Version actions', () => {
   });
 
   afterAll(async () => {
-    await userActions.deleteNodes([parentFolderId]);
+    await apis.user.nodes.deleteNodeById(parentFolderId);
   });
 
   describe('on Personal Files', () => {

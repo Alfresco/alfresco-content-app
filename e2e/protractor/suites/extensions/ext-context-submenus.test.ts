@@ -73,7 +73,7 @@ describe('Extensions - Context submenu', () => {
   });
 
   afterAll(async () => {
-    await userActions.deleteNodes([fileId, folderId]);
+    await apis.user.nodes.deleteNodesById([fileId, folderId]);
   });
 
   it('[C286717] Displays the submenu actions set from config', async () => {

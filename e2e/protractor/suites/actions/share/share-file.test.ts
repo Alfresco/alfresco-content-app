@@ -59,7 +59,7 @@ describe('Share a file', () => {
   });
 
   afterAll(async () => {
-    await userActions.deleteNodes([parentId]);
+    await apis.user.nodes.deleteNodeById(parentId);
   });
 
   describe('when logged out', () => {
@@ -75,7 +75,7 @@ describe('Share a file', () => {
     });
 
     afterAll(async () => {
-      await userActions.deleteNodes([file6Id]);
+      await apis.user.nodes.deleteNodeById(file6Id);
     });
 
     it('[C286326] A non-logged user can download the shared file from the viewer', async () => {
@@ -137,7 +137,7 @@ describe('Share a file', () => {
       });
 
       afterAll(async () => {
-        await userActions.deleteNodes([file3Id, file4Id, file5Id, file6Id, file7Id, file8Id, file9Id]);
+        await apis.user.nodes.deleteNodesById([file3Id, file4Id, file5Id, file6Id, file7Id, file8Id, file9Id]);
       });
 
       it('[C286327] Share dialog default values', async () => {

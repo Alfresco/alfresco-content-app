@@ -71,21 +71,6 @@ export class UserActions {
   }
 
   /**
-   * Delete multiple nodes.
-   * @param nodeIds The list of node IDs to delete.
-   * @param permanent Delete permanently, without moving to the trashcan? (default: true)
-   */
-  async deleteNodes(nodeIds: string[], permanent: boolean = true): Promise<any> {
-    try {
-      for (const nodeId of nodeIds) {
-        await this.nodesApi.deleteNode(nodeId, { permanent });
-      }
-    } catch (error) {
-      this.handleError('User Actions - deleteNodes failed : ', error);
-    }
-  }
-
-  /**
    * Empties the trashcan. Uses multiple batches 1000 nodes each.
    */
   async emptyTrashcan(): Promise<any> {

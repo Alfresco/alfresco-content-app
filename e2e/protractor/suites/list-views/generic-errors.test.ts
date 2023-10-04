@@ -65,7 +65,7 @@ describe('Generic errors', () => {
 
   afterAll(async () => {
     await userActions.login(username, username);
-    await userActions.deleteNodes([parentId]);
+    await apis.user.nodes.deleteNodeById(parentId);
     await userActions.emptyTrashcan();
   });
 
@@ -74,7 +74,7 @@ describe('Generic errors', () => {
     await dataTable.doubleClickOnRowByName(parent);
     await dataTable.doubleClickOnRowByName(file1);
     const URL = await browser.getCurrentUrl();
-    await userActions.deleteNodes([file1Id], false);
+    await apis.user.nodes.deleteNodeById(file1Id, false);
     await browser.get(URL);
 
     expect(await page.genericError.isDisplayed()).toBe(true, 'Generic error page not displayed');

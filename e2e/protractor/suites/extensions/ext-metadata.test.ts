@@ -99,7 +99,7 @@ describe('Extensions - Metadata presets', () => {
   });
 
   afterAll(async () => {
-    await userActions.deleteNodes([fileId]);
+    await apis.user.nodes.deleteNodeById(fileId);
   });
 
   it('[C286636] Set groups of properties to display', async () => {

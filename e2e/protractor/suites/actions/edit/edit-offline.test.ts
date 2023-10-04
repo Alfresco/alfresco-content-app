@@ -77,7 +77,7 @@ describe('Edit offline', () => {
 
     afterAll(async () => {
       await userActions.login(username, username);
-      await userActions.deleteNodes([parentPFId]);
+      await apis.user.nodes.deleteNodeById(parentPFId);
     });
 
     it('[C297538] File is locked and downloaded when clicking Edit Offline', async () => {
