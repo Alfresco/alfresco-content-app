@@ -146,10 +146,10 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
       });
     this.canUpdateLibrary = this.node?.entry?.role === 'SiteManager';
     this.visibilityLabel = this.libraryType.find((type) => type.value === this.form.controls['visibility'].value).label;
-    this.handleUpdatingEvents<SnackbarInfoAction>(SnackbarActionTypes.Info, 'LIBRARY.SUCCESS.LIBRARY_UPDATED', () =>
+    this.handleUpdatingEvent<SnackbarInfoAction>(SnackbarActionTypes.Info, 'LIBRARY.SUCCESS.LIBRARY_UPDATED', () =>
       Object.assign(this.node.entry, this.form.value)
     );
-    this.handleUpdatingEvents<SnackbarErrorAction>(SnackbarActionTypes.Error, 'LIBRARY.ERRORS.LIBRARY_UPDATE_ERROR', () => this.form.markAsDirty());
+    this.handleUpdatingEvent<SnackbarErrorAction>(SnackbarActionTypes.Error, 'LIBRARY.ERRORS.LIBRARY_UPDATE_ERROR', () => this.form.markAsDirty());
   }
 
   ngOnDestroy() {
@@ -190,7 +190,7 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
     );
   }
 
-  private handleUpdatingEvents<T extends SnackbarAction>(actionType: SnackbarActionTypes, payload: string, handle: () => void): void {
+  private handleUpdatingEvent<T extends SnackbarAction>(actionType: SnackbarActionTypes, payload: string, handle: () => void): void {
     this.actions$
       .pipe(
         ofType<T>(actionType),
