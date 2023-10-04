@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, forwardRef, Input, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { Component, forwardRef, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { RuleSimpleCondition } from '../../model/rule-simple-condition.model';
 import { comparatorHiddenForConditionFieldType, RuleConditionField, ruleConditionFields } from './rule-condition-fields';
@@ -36,8 +36,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { CategoryService } from '@alfresco/adf-content-services';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { debounceTime, distinctUntilChanged, first } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged, first, takeUntil } from 'rxjs/operators';
+import { Subject, Subscription } from 'rxjs';
 import { MatOptionModule } from '@angular/material/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CategoryEntry } from '@alfresco/js-api';
@@ -46,6 +46,8 @@ class AutoCompleteOption {
   displayLabel: string;
   value: string;
 }
+
+const AUTOCOMPLETE_OPTIONS_DEBOUNCE_TIME = 500;
 
 @Component({
   standalone: true,
@@ -76,7 +78,7 @@ class AutoCompleteOption {
     }
   ]
 })
-export class RuleSimpleConditionUiComponent implements ControlValueAccessor, OnDestroy {
+export class RuleSimpleConditionUiComponent implements OnInit, ControlValueAccessor, OnDestroy {
   readonly fields = ruleConditionFields;
 
   form = new FormGroup({
@@ -91,7 +93,8 @@ export class RuleSimpleConditionUiComponent implements ControlValueAccessor, OnD
 
   showLoadingSpinner: boolean;
 
-  private subscriptions: Subscription[] = [];
+  private onDestroy$: Subject<void> = new Subject<void>();
+  private autoCompleteOptionsSubscription: Subscription;
   private _readOnly = false;
   @Input()
   get readOnly(): boolean {
@@ -104,12 +107,6 @@ export class RuleSimpleConditionUiComponent implements ControlValueAccessor, OnD
   constructor(private config: AppConfigService, private categoryService: CategoryService) {
     this.mimeTypes = this.config.get<Array<MimeType>>('mimeTypes');
   }
-
-  private formSubscription = this.form.valueChanges.subscribe((value: any) => {
-    this.onChange(value);
-    this.onTouch();
-  });
-
   get isSelectedFieldKnown(): boolean {
     const selectedFieldName = this.form.get('field').value;
     return this.fields.findIndex((field: RuleConditionField) => selectedFieldName === field.name) > -1;
@@ -132,6 +129,11 @@ export class RuleSimpleConditionUiComponent implements ControlValueAccessor, OnD
   get isComparatorHidden(): boolean {
     return comparatorHiddenForConditionFieldType.includes(this.selectedField?.type);
   }
+
+  get fieldControl(): AbstractControl {
+    return this.form.get('field');
+  }
+
   get comparatorControl(): AbstractControl {
     return this.form.get('comparator');
   }
@@ -189,24 +191,33 @@ export class RuleSimpleConditionUiComponent implements ControlValueAccessor, OnD
     } else if (this.parameterControl.value) {
       this.parameterControl.setValue('');
     }
-    if (this.selectedField.type === 'autocomplete') {
-      if (this.selectedField.name === 'category') {
-        this.subscriptions.push(
-          this.form
-            .get('parameter')
-            .valueChanges.pipe(distinctUntilChanged(), debounceTime(1000))
-            .subscribe((categoryName) => {
-              this.getCategories(categoryName);
-            })
-        );
-        this.parameterControl.setValue('');
-      }
-    }
   }
 
   ngOnDestroy() {
-    this.formSubscription.unsubscribe();
-    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
+  }
+
+  ngOnInit(): void {
+    this.form.valueChanges.pipe(takeUntil(this.onDestroy$)).subscribe((value: any) => {
+      this.onChange(value);
+      this.onTouch();
+    });
+
+    this.fieldControl.valueChanges.pipe(distinctUntilChanged(), takeUntil(this.onDestroy$)).subscribe((field: string) => {
+      if (field === 'category') {
+        this.autoCompleteOptionsSubscription = this.form
+          .get('parameter')
+          .valueChanges.pipe(distinctUntilChanged(), debounceTime(AUTOCOMPLETE_OPTIONS_DEBOUNCE_TIME))
+          .pipe(takeUntil(this.onDestroy$))
+          .subscribe((categoryName) => {
+            this.getCategories(categoryName);
+          });
+        this.parameterControl.setValue('');
+      } else {
+        this.autoCompleteOptionsSubscription?.unsubscribe();
+      }
+    });
   }
 
   private getCategories(categoryName: string) {
@@ -223,7 +234,9 @@ export class RuleSimpleConditionUiComponent implements ControlValueAccessor, OnD
           option.displayLabel = path ? `${path}/${rowEntry.entry.name}` : rowEntry.entry.name;
           return option;
         });
-        this.autoCompleteOptions = this.sortAutoCompleteOptions(options);
+        if (options.length > 0) {
+          this.autoCompleteOptions = this.sortAutoCompleteOptions(options);
+        }
       });
   }
 
