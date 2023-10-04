@@ -40,8 +40,9 @@ import { debounceTime, distinctUntilChanged, first } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { MatOptionModule } from '@angular/material/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { CategoryEntry } from '@alfresco/js-api';
 
-class TypeAheadOption {
+class AutoCompleteOption {
   displayLabel: string;
   value: string;
 }
@@ -86,7 +87,7 @@ export class RuleSimpleConditionUiComponent implements ControlValueAccessor, OnD
 
   mimeTypes: MimeType[] = [];
 
-  autoCompleteOptions: TypeAheadOption[];
+  autoCompleteOptions: AutoCompleteOption[] = [];
 
   showLoadingSpinner: boolean;
 
@@ -144,6 +145,21 @@ export class RuleSimpleConditionUiComponent implements ControlValueAccessor, OnD
 
   writeValue(value: RuleSimpleCondition) {
     this.form.setValue(value);
+    if (value?.field === 'category') {
+      this.showLoadingSpinner = true;
+      this.categoryService
+        .getCategory(value.parameter, { include: ['path'] })
+        .pipe(first())
+        .subscribe((category: CategoryEntry) => {
+          this.showLoadingSpinner = false;
+          const option = new AutoCompleteOption();
+          option.value = category.entry.id;
+          const path = category.entry.path.split('/').splice(3).join('/');
+          option.displayLabel = path ? `${path}/${category.entry.name}` : category.entry.name;
+          this.autoCompleteOptions.push(option);
+          this.parameterControl.setValue(option.value);
+        });
+    }
   }
 
   registerOnChange(fn: () => void) {
@@ -200,8 +216,8 @@ export class RuleSimpleConditionUiComponent implements ControlValueAccessor, OnD
       .pipe(first())
       .subscribe((existingCategoriesResult) => {
         this.showLoadingSpinner = false;
-        const options: TypeAheadOption[] = existingCategoriesResult.list.entries.map((rowEntry) => {
-          const option = new TypeAheadOption();
+        const options: AutoCompleteOption[] = existingCategoriesResult.list.entries.map((rowEntry) => {
+          const option = new AutoCompleteOption();
           option.value = rowEntry.entry.id;
           const path = rowEntry.entry.path.name.split('/').splice(3).join('/');
           option.displayLabel = path ? `${path}/${rowEntry.entry.name}` : rowEntry.entry.name;
@@ -211,10 +227,10 @@ export class RuleSimpleConditionUiComponent implements ControlValueAccessor, OnD
       });
   }
 
-  private sortAutoCompleteOptions(typeAheadOptions: TypeAheadOption[]): TypeAheadOption[] {
+  private sortAutoCompleteOptions(typeAheadOptions: AutoCompleteOption[]): AutoCompleteOption[] {
     return typeAheadOptions.sort((option1, option2) => option1.displayLabel.localeCompare(option2.displayLabel));
   }
 
-  autoCompleteDisplayFunction: (id) => string = (optionValue) =>
-    optionValue ? this.autoCompleteOptions.find((option) => option.value === optionValue)?.displayLabel : '';
+  autoCompleteDisplayFunction: (id: string) => string = (optionValue) =>
+    optionValue && this.autoCompleteOptions ? this.autoCompleteOptions.find((option) => option.value === optionValue)?.displayLabel : optionValue;
 }
