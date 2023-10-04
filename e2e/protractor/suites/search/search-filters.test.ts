@@ -33,8 +33,9 @@ import {
   SITE_ROLES,
   SizeOperator
 } from '@alfresco/aca-testing-shared';
+import { DateFnsUtils } from '@alfresco/adf-core';
 import { BrowserActions } from '@alfresco/adf-testing';
-import { addDays, format, subDays } from 'date-fns';
+import { addDays, subDays } from 'date-fns';
 
 describe('Search filters', () => {
   const random = Utils.random();
@@ -161,9 +162,9 @@ describe('Search filters', () => {
   });
 
   describe('Filter by Created date', () => {
-    const yesterday = format(subDays(new Date(), 1), 'dd-MMM-yy');
-    const today = format(new Date(), 'dd-MMM-yy');
-    const future = format(addDays(new Date(), 1), 'dd-MMM-yy');
+    const yesterday = DateFnsUtils.formatDate(subDays(new Date(), 1), 'DD-MMM-YY');
+    const today = DateFnsUtils.formatDate(new Date(), 'DD-MMM-YY');
+    const future = DateFnsUtils.formatDate(addDays(new Date(), 1), 'DD-MMM-YY');
 
     afterEach(async () => {
       await Utils.pressEscape();
