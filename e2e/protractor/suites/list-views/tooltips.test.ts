@@ -233,7 +233,6 @@ describe('File / folder tooltips', () => {
         [file1TrashId, file2TrashId, file3TrashId, file4TrashId, file5TrashId, file6TrashId, file7TrashId, file8TrashId],
         false
       );
-      // await apis.user.nodes.
 
       await page.clickTrashAndWait();
     });
