@@ -333,4 +333,17 @@ describe('RuleSimpleConditionUiComponent', () => {
     expect(displayValue).toBe('category/path/1/FakeCategory1');
     discardPeriodicTasks();
   }));
+
+  it('should automatically select first category when user focuses out of parameter form field with category option selected', fakeAsync(() => {
+    spyOn(categoryService, 'searchCategories').and.returnValue(of(fakeCategoriesList));
+    fixture.detectChanges();
+    changeMatSelectValue('field-select', 'category');
+    tick(500);
+    const autoCompleteInputField = getByDataAutomationId('auto-complete-input-field')?.nativeElement;
+    autoCompleteInputField.value = 'FakeCat';
+    autoCompleteInputField.dispatchEvent(new Event('focusout'));
+    const parameterValue = fixture.componentInstance.form.get('parameter').value;
+    expect(parameterValue).toEqual(fakeCategoriesList.list.entries[0].entry.id);
+    discardPeriodicTasks();
+  }));
 });

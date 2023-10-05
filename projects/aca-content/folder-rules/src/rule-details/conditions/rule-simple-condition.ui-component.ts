@@ -243,4 +243,12 @@ export class RuleSimpleConditionUiComponent implements OnInit, ControlValueAcces
 
   autoCompleteDisplayFunction: (id: string) => string = (optionValue) =>
     optionValue && this.autoCompleteOptions ? this.autoCompleteOptions.find((option) => option.value === optionValue)?.displayLabel : optionValue;
+
+  autoSelectValidOption() {
+    const currentValue = this.parameterControl.value;
+    const isValidValueSelected = !!this.autoCompleteOptions?.find((option) => option.value === currentValue);
+    if (!isValidValueSelected) {
+      this.parameterControl.setValue(this.autoCompleteOptions?.[0].value);
+    }
+  }
 }

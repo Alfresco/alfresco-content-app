@@ -33,11 +33,14 @@
           matInput
           [matAutocomplete]="auto"
           formControlName="parameter"
+          (focusout)="autoSelectValidOption()"
           data-automation-id="auto-complete-input-field"
         />
         <mat-autocomplete
           #auto="matAutocomplete"
           data-automation-id="folder-rule-autocomplete"
+          [autoActiveFirstOption]="true"
+          [autoSelectActiveOption]="true"
           [displayWith]="autoCompleteDisplayFunction">
             <mat-option disabled *ngIf="showLoadingSpinner; else optionList">
               <span class="aca-rule-simple-condition__autocomplete-loading-spinner">
