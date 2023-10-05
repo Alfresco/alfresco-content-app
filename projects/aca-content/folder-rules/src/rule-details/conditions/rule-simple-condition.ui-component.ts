@@ -58,11 +58,9 @@ const AUTOCOMPLETE_OPTIONS_DEBOUNCE_TIME = 500;
     MatFormFieldModule,
     MatSelectModule,
     MatInputModule,
-    TranslateModule,
     MatAutocompleteModule,
     AsyncPipe,
     MatOptionModule,
-    MatProgressSpinnerModule,
     MatProgressSpinnerModule
   ],
   selector: 'aca-rule-simple-condition',
@@ -208,8 +206,7 @@ export class RuleSimpleConditionUiComponent implements OnInit, ControlValueAcces
       if (field === 'category') {
         this.autoCompleteOptionsSubscription = this.form
           .get('parameter')
-          .valueChanges.pipe(distinctUntilChanged(), debounceTime(AUTOCOMPLETE_OPTIONS_DEBOUNCE_TIME))
-          .pipe(takeUntil(this.onDestroy$))
+          .valueChanges.pipe(distinctUntilChanged(), debounceTime(AUTOCOMPLETE_OPTIONS_DEBOUNCE_TIME), takeUntil(this.onDestroy$))
           .subscribe((categoryName) => {
             this.getCategories(categoryName);
           });
@@ -227,7 +224,7 @@ export class RuleSimpleConditionUiComponent implements OnInit, ControlValueAcces
       .pipe(first())
       .subscribe((existingCategoriesResult) => {
         this.showLoadingSpinner = false;
-        const options: AutoCompleteOption[] = existingCategoriesResult.list.entries.map((rowEntry) => {
+        const options: AutoCompleteOption[] = existingCategoriesResult?.list?.entries?.map((rowEntry) => {
           const option = new AutoCompleteOption();
           option.value = rowEntry.entry.id;
           const path = rowEntry.entry.path.name.split('/').splice(3).join('/');
@@ -240,8 +237,8 @@ export class RuleSimpleConditionUiComponent implements OnInit, ControlValueAcces
       });
   }
 
-  private sortAutoCompleteOptions(typeAheadOptions: AutoCompleteOption[]): AutoCompleteOption[] {
-    return typeAheadOptions.sort((option1, option2) => option1.displayLabel.localeCompare(option2.displayLabel));
+  private sortAutoCompleteOptions(autoCompleteOptions: AutoCompleteOption[]): AutoCompleteOption[] {
+    return autoCompleteOptions.sort((option1, option2) => option1.displayLabel.localeCompare(option2.displayLabel));
   }
 
   autoCompleteDisplayFunction: (id: string) => string = (optionValue) =>
