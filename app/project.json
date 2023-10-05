@@ -1,6 +1,6 @@
 {
-  "$schema": "../node_modules/nx/schemas/project-schema.json",
   "name": "content-ce",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "app/src",
   "projectType": "application",
   "targets": {
@@ -12,17 +12,9 @@
         "main": "app/src/main.ts",
         "tsConfig": "app/tsconfig.app.json",
         "polyfills": "app/src/polyfills.ts",
-        "allowedCommonJsDependencies": [
-          "moment-es6",
-          "minimatch",
-          "moment",
-          "cropperjs"
-        ],
+        "allowedCommonJsDependencies": ["moment-es6", "minimatch", "moment", "cropperjs"],
         "stylePreprocessorOptions": {
-          "includePaths": [
-            "projects/aca-content/src/lib/ui",
-            "node_modules"
-          ]
+          "includePaths": ["projects/aca-content/src/lib/ui", "node_modules"]
         },
         "assets": [
           {
@@ -99,11 +91,7 @@
           "projects/aca-content/src/lib/ui/application.scss",
           "app/src/styles.scss"
         ],
-        "scripts": [
-          "node_modules/pdfjs-dist/build/pdf.js",
-          "node_modules/pdfjs-dist/web/pdf_viewer.js",
-          "node_modules/moment/min/moment.min.js"
-        ],
+        "scripts": ["node_modules/pdfjs-dist/build/pdf.js", "node_modules/pdfjs-dist/web/pdf_viewer.js", "node_modules/moment/min/moment.min.js"],
         "vendorChunk": true,
         "extractLicenses": false,
         "buildOptimizer": false,
@@ -195,9 +183,7 @@
         }
       },
       "defaultConfiguration": "",
-      "outputs": [
-        "{options.outputPath}"
-      ]
+      "outputs": ["{options.outputPath}"]
     },
     "serve": {
       "executor": "@angular-devkit/build-angular:dev-server",

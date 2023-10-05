@@ -1,9 +1,7 @@
 {
   "root": true,
-  "ignorePatterns": [
-    "projects/**/*"
-  ],
-  "plugins": ["@nrwl/nx"],
+  "ignorePatterns": ["projects/**/*"],
+  "plugins": ["@nx"],
   "overrides": [
     {
       "files": ["*.ts"],
@@ -15,17 +13,11 @@
       }
     },
     {
-      "files": [
-        "*.ts"
-      ],
+      "files": ["*.ts"],
       "parserOptions": {
         "createDefaultProgram": true
       },
-      "extends": [
-        "plugin:@nrwl/nx/typescript",
-        "plugin:@nrwl/nx/angular",
-        "plugin:@cspell/recommended"
-      ],
+      "extends": ["plugin:@nx/typescript", "plugin:@nx/angular", "plugin:@cspell/recommended"],
       "plugins": [
         "rxjs",
         "unicorn",
@@ -42,13 +34,34 @@
       "rules": {
         "ban/ban": [
           "error",
-          { "name": "eval", "message": "Calls to eval is not allowed." },
-          { "name": "fdescribe", "message": "Calls to fdescribe is not allowed" },
-          { "name": "fit", "message": "Calls to fit is not allowed" },
-          { "name": "xit", "message": "Calls to xit is not allowed" },
-          { "name": "xdescribe", "message": "Calls to xdescribe is not allowed" },
-          { "name": ["test", "only"], "message": "Calls to test.only is not allowed" },
-          { "name": ["describe", "only"], "message": "Calls to describe.only is not allowed" }
+          {
+            "name": "eval",
+            "message": "Calls to eval is not allowed."
+          },
+          {
+            "name": "fdescribe",
+            "message": "Calls to fdescribe is not allowed"
+          },
+          {
+            "name": "fit",
+            "message": "Calls to fit is not allowed"
+          },
+          {
+            "name": "xit",
+            "message": "Calls to xit is not allowed"
+          },
+          {
+            "name": "xdescribe",
+            "message": "Calls to xdescribe is not allowed"
+          },
+          {
+            "name": ["test", "only"],
+            "message": "Calls to test.only is not allowed"
+          },
+          {
+            "name": ["describe", "only"],
+            "message": "Calls to describe.only is not allowed"
+          }
         ],
         "license-header/header": [
           "error",
@@ -85,11 +98,7 @@
           "error",
           {
             "type": "element",
-            "prefix": [
-              "app",
-              "aca",
-              "adf"
-            ],
+            "prefix": ["app", "aca", "adf"],
             "style": "kebab-case"
           }
         ],
@@ -154,35 +163,30 @@
           "error",
           {
             "selector": "enum",
-            "format": [
-              "PascalCase"
-            ]
+            "format": ["PascalCase"]
           }
         ],
         "@typescript-eslint/no-inferrable-types": [
           "error",
           {
-              "ignoreParameters": true
+            "ignoreParameters": true
           }
         ],
         "@typescript-eslint/quotes": [
           "error",
           "single",
           {
-              "avoidEscape": true,
-              "allowTemplateLiterals": true
+            "avoidEscape": true,
+            "allowTemplateLiterals": true
           }
         ],
         "@typescript-eslint/type-annotation-spacing": "error",
-        "arrow-parents": [
-          "off",
-          "always"
-        ],
+        "arrow-parents": ["off", "always"],
         "brace-style": [
           "error",
           "1tbs",
           {
-              "allowSingleLine": true
+            "allowSingleLine": true
           }
         ],
         "constructor-super": "error",
@@ -202,10 +206,10 @@
         "prefer-spread": "error",
         "import/order": "off",
         "max-len": [
-            "error",
-            {
-                "code": 180
-            }
+          "error",
+          {
+            "code": 180
+          }
         ],
         "no-duplicate-imports": "error",
         "no-extra-semi": "off",
@@ -223,29 +227,29 @@
         "no-global-assign": "error",
         "no-cond-assign": "error",
         "no-console": [
-            "error",
-            {
-                "allow": [
-                    "warn",
-                    "dir",
-                    "timeLog",
-                    "assert",
-                    "clear",
-                    "count",
-                    "countReset",
-                    "group",
-                    "groupEnd",
-                    "table",
-                    "dirxml",
-                    "error",
-                    "groupCollapsed",
-                    "Console",
-                    "profile",
-                    "profileEnd",
-                    "timeStamp",
-                    "context"
-                ]
-            }
+          "error",
+          {
+            "allow": [
+              "warn",
+              "dir",
+              "timeLog",
+              "assert",
+              "clear",
+              "count",
+              "countReset",
+              "group",
+              "groupEnd",
+              "table",
+              "dirxml",
+              "error",
+              "groupCollapsed",
+              "Console",
+              "profile",
+              "profileEnd",
+              "timeStamp",
+              "context"
+            ]
+          }
         ],
         "no-case-declarations": "error",
         "no-debugger": "error",
@@ -274,56 +278,41 @@
         "rxjs/ban-operators": "error",
         "rxjs/no-ignored-subscribe": "error",
         "rxjs/no-unsafe-catch": [
-            "error",
-            {
-                "observable": "action(s|\\$)?"
-            }
+          "error",
+          {
+            "observable": "action(s|\\$)?"
+          }
         ],
         "rxjs/no-unsafe-switchmap": [
-            "error",
-            {
-                "disallow": [
-                    "add",
-                    "create",
-                    "delete",
-                    "post",
-                    "put",
-                    "remove",
-                    "set",
-                    "update"
-                ],
-                "observable": "action(s|\\$)?"
-            }
+          "error",
+          {
+            "disallow": ["add", "create", "delete", "post", "put", "remove", "set", "update"],
+            "observable": "action(s|\\$)?"
+          }
         ],
         "semi": "error",
         "use-isnan": "error",
-
         "spaced-comment": [
-            "error",
-            "always",
-            {
-                "markers": ["/"],
-                "exceptions": ["!", "*"]
-            }
+          "error",
+          "always",
+          {
+            "markers": ["/"],
+            "exceptions": ["!", "*"]
+          }
         ],
         "space-before-function-paren": "off",
-        "space-in-parens": [
-          "off",
-          "never"
-        ],
+        "space-in-parens": ["off", "never"],
         "unicorn/filename-case": "error"
       }
     },
     {
       "files": ["*.js"],
-      "extends": ["plugin:@nrwl/nx/javascript"],
+      "extends": ["plugin:@nx/javascript"],
       "rules": {}
     },
     {
-      "files": [
-        "*.html"
-      ],
-      "extends": ["plugin:@nrwl/nx/angular-template", "plugin:@angular-eslint/template/accessibility"],
+      "files": ["*.html"],
+      "extends": ["plugin:@nx/angular-template", "plugin:@angular-eslint/template/accessibility"],
       "parser": "@angular-eslint/template-parser",
       "rules": {
         "@angular-eslint/template/no-negated-async": "off",
@@ -333,11 +322,11 @@
       }
     },
     {
-        "files": ["*.spec.ts", "*.test.ts"],
-        "rules": {
-            "@typescript-eslint/no-floating-promises": "off",
-            "max-lines": "off"
-        }
+      "files": ["*.spec.ts", "*.test.ts"],
+      "rules": {
+        "@typescript-eslint/no-floating-promises": "off",
+        "max-lines": "off"
+      }
     }
   ]
 }

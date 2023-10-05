@@ -1,6 +1,6 @@
 {
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "aca-shared",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "projects/aca-shared/src",
   "projectType": "library",
   "prefix": "lib",
@@ -17,9 +17,7 @@
         }
       },
       "defaultConfiguration": "production",
-      "outputs": [
-        "{workspaceRoot}/dist/@alfresco/aca-shared"
-      ]
+      "outputs": ["{workspaceRoot}/dist/@alfresco/aca-shared"]
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
