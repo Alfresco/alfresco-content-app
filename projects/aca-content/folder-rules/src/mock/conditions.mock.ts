@@ -37,8 +37,8 @@ export const mimeTypeMock: RuleSimpleCondition = {
   parameter: ''
 };
 
-export const categoryMock: RuleSimpleCondition = {
-  field: 'category',
+export const tagMock: RuleSimpleCondition = {
+  field: 'tag',
   comparator: 'equals',
   parameter: ''
 };
