@@ -27,7 +27,6 @@ import * as testData from './test-data-permissions';
 import { librariesTests } from './my-libraries';
 import { favoritesTests } from './favorites';
 import { searchResultsTests } from './search-results';
-import { viewerTests } from './viewer';
 import { sharedFilesTests } from './shared-files';
 import { collaboratorTests, filesLockedByCurrentUser, filesLockedByOtherUser } from './other-permissions';
 
@@ -179,10 +178,6 @@ describe('Special permissions : ', () => {
 
     describe('on Search Results', () => {
       searchResultsTests();
-    });
-
-    describe('on Viewer', () => {
-      viewerTests(sitePrivate);
     });
 
     describe('on Shared Files', () => {

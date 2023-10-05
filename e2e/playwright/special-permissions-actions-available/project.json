@@ -1,0 +1,24 @@
+{
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "name": "special-permissions-e2e",
+  "sourceRoot": "e2e/playwright/special-permissions-actions-available/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "nx:run-commands",
+      "options": {
+          "commands": [
+              "npx playwright test --config=e2e/playwright/special-permissions-actions-available/playwright.config.ts"
+          ]
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "content-ce:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint"
+    }
+  }
+}

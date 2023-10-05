@@ -22,13 +22,4 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './rules-api';
-export * from './api-client-factory';
-export * from './file-actions';
-export * from './shared-links-api';
-export * from './favorites-api';
-export * from './people-api-models';
-export * from './nodes-api';
-export * from './sites-api';
-export * from './node-content-tree';
-export * from './search-api';
+export * from './test-data-permissions';

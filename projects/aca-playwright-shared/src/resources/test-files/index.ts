@@ -30,9 +30,19 @@ export const TEST_FILES = {
     name: 'file-docx',
     data: 'Lorem ipsum dolor sit amet'
   },
+  DOCX2: {
+    path: resolve(__dirname, 'file2-docx.docx'),
+    name: 'file-docx',
+    data: 'Lorem ipsum dolor sit amet'
+  },
   PDF: {
     path: resolve(__dirname, 'file-pdf.pdf'),
     name: 'file-pdf',
+    data: 'Lorem ipsum dolor sit amet'
+  },
+  FILE_UNSUPPORTED: {
+    path: resolve(__dirname, 'file_unsupported.3DS'),
+    name: 'file-3DS',
     data: 'Lorem ipsum dolor sit amet'
   },
   PDF_PROTECTED: {
@@ -45,5 +55,20 @@ export const TEST_FILES = {
     path: resolve(__dirname, 'file-xlsx.xlsx'),
     name: 'file-xlsx',
     data: 'Lorem ipsum dolor sit amet'
+  },
+  XLSX2: {
+    path: resolve(__dirname, 'file2-xlsx.xlsx'),
+    name: 'file-xlsx',
+    data: 'Lorem ipsum dolor sit amet'
+  },
+  JPG_FILE: {
+    path: resolve(__dirname, 'file-jpg.jpg'),
+    name: 'file-jpg'
+  },
+  PDF_PROTECTED2: {
+    path: resolve(__dirname, 'protected.pdf'),
+    name: 'file-protected',
+    data: 'Lorem ipsum dolor sit amet',
+    password: '0000'
   }
 };

@@ -23,7 +23,7 @@
  */
 
 import { ApiClientFactory } from './api-client-factory';
-import { Site, SiteBodyCreate, SiteEntry } from '@alfresco/js-api';
+import { Site, SiteBodyCreate, SiteEntry, SiteMemberEntry, SiteMembershipBodyCreate, SiteMembershipBodyUpdate } from '@alfresco/js-api';
 import { logger } from '@alfresco/adf-cli/scripts/logger';
 
 export class SitesApi {
@@ -63,20 +63,51 @@ export class SitesApi {
     }
   }
 
-      /**
+  /**
    * Delete multiple sites/libraries.
    * @param siteIds The list of the site/library IDs to delete.
    * @param permanent Delete permanently, without moving to the trashcan? (default: true)
    */
-      async deleteSites(siteIds: string[], permanent: boolean = true) {
-        try {
-          if (siteIds && siteIds.length > 0) {
-            for (const siteId of siteIds) {
-              await this.apiService.sites.deleteSite(siteId, { permanent });
-            }
-          }
-        } catch (error) {
-          logger.error(`${this.constructor.name} ${this.deleteSites.name}`, error);
+  async deleteSites(siteIds: string[], permanent: boolean = true) {
+    try {
+      if (siteIds && siteIds.length > 0) {
+        for (const siteId of siteIds) {
+          await this.apiService.sites.deleteSite(siteId, { permanent });
         }
       }
+    } catch (error) {
+      logger.error(`${this.constructor.name} ${this.deleteSites.name}`, error);
+    }
+  }
+
+  async updateSiteMember(siteId: string, userId: string, role: string): Promise<SiteMemberEntry> {
+    const siteRole = {
+      role: role
+    } as SiteMembershipBodyUpdate;
+
+    try {
+      return await this.apiService.sites.updateSiteMembership(siteId, userId, siteRole);
+    } catch (error) {
+      logger.error(`SitesApi updateSiteMember : catch : `, error);
+      return new SiteMemberEntry;
+    }
+  }
+
+  async addSiteMember(siteId: string, userId: string, role: string): Promise<SiteMemberEntry> {
+    const memberBody = {
+      id: userId,
+      role: role
+    } as SiteMembershipBodyCreate;
+
+    try {
+      return await this.apiService.sites.createSiteMembership(siteId, memberBody);
+    } catch (error) {
+      if (error.status === 409) {
+        return this.updateSiteMember(siteId, userId, role);
+      } else {
+        logger.error(`SitesApi addSiteMember : catch : `, error);
+        return new SiteMemberEntry;
+      }
+    }
+  }
 }

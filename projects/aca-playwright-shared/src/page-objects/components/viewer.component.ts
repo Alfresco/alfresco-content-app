@@ -26,6 +26,7 @@ import { Page } from '@playwright/test';
 import { BaseComponent } from './base.component';
 import { AcaHeader } from './aca-header.component';
 import { timeouts } from '../../utils';
+import { expect } from '@playwright/test';
 
 export class ViewerComponent extends BaseComponent {
   private static rootElement = 'adf-viewer';
@@ -35,6 +36,7 @@ export class ViewerComponent extends BaseComponent {
   public fileTitleButtonLocator = this.getChild('.adf-viewer__file-title');
   public pdfViewerContentPages = this.getChild('.adf-pdf-viewer__content .page');
   public shareButton = this.getChild('button[id="share-action-button"]');
+  public allButtons = this.getChild('button');
 
   toolbar = new AcaHeader(this.page);
 
@@ -69,5 +71,24 @@ export class ViewerComponent extends BaseComponent {
   async getCloseButtonTooltip(): Promise<string> {
     await this.closeButtonLocator.waitFor({ state: 'visible', timeout: timeouts.normal });
     return await this.closeButtonLocator.getAttribute('title');
+  }
+
+  async verifyViewerPrimaryActions(expectedToolbarPrimary: string[]): Promise<void> {
+    const toRemove = ['Close', 'Previous File', 'Next File', 'View details'];
+    const removeClosePreviousNextOldInfo = (actions: string[]): string[] => actions.filter((elem) => !toRemove.includes(elem));
+
+    let buttons = await this.page.$$('adf-viewer button');
+    let actualPrimaryActions: string[] = await Promise.all(
+      buttons.map(async (button) => {
+        const title = await button.getAttribute('title');
+        return title || '';
+      })
+    );
+
+    actualPrimaryActions = removeClosePreviousNextOldInfo(actualPrimaryActions);
+
+    for (const action of expectedToolbarPrimary) {
+      expect(actualPrimaryActions.includes(action), `Expected to contain ${action}`).toBe(true);
+    }
   }
 }

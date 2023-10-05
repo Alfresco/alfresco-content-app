@@ -22,8 +22,10 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { logger } from '@alfresco/adf-cli/scripts/logger';
 import { ApiClientFactory } from './api-client-factory';
-import { SharedLinkEntry } from '@alfresco/js-api';
+import { SharedLinkEntry, SharedLinkPaging } from '@alfresco/js-api';
+import { Utils } from '../utils';
 
 export class SharedLinksApi {
   private apiService: ApiClientFactory;
@@ -46,6 +48,52 @@ export class SharedLinksApi {
       return await this.apiService.share.createSharedLink(data);
     } catch (error) {
       return null;
+    }
+  }
+
+  async shareFilesByIds(ids: string[]): Promise<SharedLinkEntry[]> {
+    const sharedLinks: SharedLinkEntry[] = [];
+    try {
+      if (ids && ids.length > 0) {
+        for (const id of ids) {
+          const sharedLink = await this.shareFileById(id);
+          sharedLinks.push(sharedLink);
+        }
+      }
+    } catch (error) {
+      logger.error(`SharedLinksApi shareFilesByIds : catch : `, error);
+    }
+    return sharedLinks;
+  }
+
+  private async getSharedLinks(maxItems: number = 250): Promise<SharedLinkPaging> {
+    try {
+      const opts = {
+        maxItems
+      };
+      return await this.apiService.share.listSharedLinks(opts);
+    } catch (error) {
+      logger.error(`SharedLinksApi getSharedLinks : catch : `, error);
+      return new SharedLinkPaging;
+    }
+  }
+
+  async waitForFilesToBeShared(filesIds: string[]): Promise<void> {
+    try {
+      const sharedFile = async () => {
+        const sharedFiles = (await this.getSharedLinks()).list.entries.map((link) => link.entry.nodeId);
+        const foundItems = filesIds.every((id) => sharedFiles.includes(id));
+        if (foundItems) {
+          return Promise.resolve(foundItems);
+        } else {
+          return Promise.reject(foundItems);
+        }
+      };
+
+      return Utils.retryCall(sharedFile);
+    } catch (error) {
+      logger.error(`SharedLinksApi waitForFilesToBeShared :  catch : ${error}`);
+      logger.error(`\tWait timeout reached waiting for files to be shared`);
     }
   }
 }
