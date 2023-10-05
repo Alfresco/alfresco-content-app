@@ -38,21 +38,6 @@ describe('RuleSimpleConditionUiComponent', () => {
   let fixture: ComponentFixture<RuleSimpleConditionUiComponent>;
   let categoryService: CategoryService;
 
-  const savedCategoryMock: RuleSimpleCondition = {
-    field: 'category',
-    comparator: 'equals',
-    parameter: 'a-fake-category-id'
-  };
-
-  const fakeCategory = {
-    entry: {
-      path: '/a/fake/category/path',
-      hasChildren: false,
-      name: 'FakeCategory',
-      id: 'fake-category-id-1'
-    }
-  };
-
   const fakeCategoriesList = {
     list: {
       pagination: {
@@ -299,6 +284,20 @@ describe('RuleSimpleConditionUiComponent', () => {
   }));
 
   it('should fetch category details when a saved rule with category condition is edited', () => {
+    const savedCategoryMock: RuleSimpleCondition = {
+      field: 'category',
+      comparator: 'equals',
+      parameter: 'a-fake-category-id'
+    };
+
+    const fakeCategory = {
+      entry: {
+        path: '/a/fake/category/path',
+        hasChildren: false,
+        name: 'FakeCategory',
+        id: 'fake-category-id-1'
+      }
+    };
     spyOn(categoryService, 'getCategory').and.returnValue(of(fakeCategory));
 
     fixture.componentInstance.writeValue(savedCategoryMock);
