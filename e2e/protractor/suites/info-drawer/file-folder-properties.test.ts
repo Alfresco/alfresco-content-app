@@ -33,8 +33,8 @@ import {
   DATE_TIME_FORMAT,
   DATE_FORMAT
 } from '@alfresco/aca-testing-shared';
+import { DateFnsUtils } from '@alfresco/adf-core';
 import { BrowserActions } from '@alfresco/adf-testing';
-import { format } from 'date-fns';
 
 describe('File / Folder properties', () => {
   const username = `user1-${Utils.random()}`;
@@ -131,10 +131,10 @@ describe('File / Folder properties', () => {
         file1.name,
         file1.title,
         apiProps.entry.createdByUser.displayName,
-        format(apiProps.entry.createdAt, DATE_FORMAT),
+        DateFnsUtils.formatDate(apiProps.entry.createdAt, DATE_FORMAT),
         `${apiProps.entry.content.sizeInBytes} Bytes`,
         apiProps.entry.modifiedByUser.displayName,
-        format(apiProps.entry.modifiedAt, DATE_FORMAT),
+        DateFnsUtils.formatDate(apiProps.entry.modifiedAt, DATE_FORMAT),
         apiProps.entry.content.mimeTypeName,
         file1.author,
         file1.description,
@@ -159,9 +159,9 @@ describe('File / Folder properties', () => {
         folder1.name,
         folder1.title,
         apiProps.entry.createdByUser.displayName,
-        format(apiProps.entry.createdAt, DATE_FORMAT),
+        DateFnsUtils.formatDate(apiProps.entry.createdAt, DATE_FORMAT),
         apiProps.entry.modifiedByUser.displayName,
-        format(apiProps.entry.modifiedAt, DATE_FORMAT),
+        DateFnsUtils.formatDate(apiProps.entry.modifiedAt, DATE_FORMAT),
         folder1.author,
         folder1.description,
         folder1.contentType
@@ -219,7 +219,7 @@ describe('File / Folder properties', () => {
       const expectedPropValues = [
         properties['exif:pixelXDimension']?.toString(),
         properties['exif:pixelYDimension']?.toString(),
-        format(new Date(properties['exif:dateTimeOriginal']), DATE_TIME_FORMAT),
+        DateFnsUtils.formatDate(new Date(properties['exif:dateTimeOriginal']), DATE_TIME_FORMAT),
         properties['exif:exposureTime']?.toString(),
         properties['exif:fNumber']?.toString(),
         properties['exif:flash'],
