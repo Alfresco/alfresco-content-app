@@ -49,7 +49,9 @@
     },
     "lint": {
       "executor": "@angular-eslint/builder:lint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
         "lintFilePatterns": [
           "{projectRoot}/**/*.ts",

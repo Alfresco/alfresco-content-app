@@ -1,6 +1,6 @@
 {
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "aca-content",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "projects/aca-content",
   "prefix": "lib",
@@ -19,9 +19,7 @@
         }
       },
       "defaultConfiguration": "production",
-      "outputs": [
-        "{workspaceRoot}/dist/@alfresco/aca-content"
-      ]
+      "outputs": ["{workspaceRoot}/dist/@alfresco/aca-content"]
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
@@ -30,9 +28,7 @@
         "main": "projects/aca-content/test.ts",
         "tsConfig": "projects/aca-content/tsconfig.spec.json",
         "karmaConfig": "projects/aca-content/karma.conf.js",
-        "styles": [
-          "projects/aca-content/src/lib/ui/application.scss"
-        ]
+        "styles": ["projects/aca-content/src/lib/ui/application.scss"]
       },
       "configurations": {
         "adfprod": {
