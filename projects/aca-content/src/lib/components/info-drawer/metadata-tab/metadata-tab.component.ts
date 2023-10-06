@@ -29,8 +29,8 @@ import { AppStore, EditOfflineAction, infoDrawerMetadataAspect, NodeActionTypes 
 import { AppConfigService, NotificationService } from '@alfresco/adf-core';
 import { Observable, Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { ContentMetadataModule, ContentMetadataService } from '@alfresco/adf-content-services';
-import { filter, takeUntil } from 'rxjs/operators';
+import { ContentMetadataModule, ContentMetadataService, ContentMetadataCustomPanel } from '@alfresco/adf-content-services';
+import { filter, map, takeUntil } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { Actions, ofType } from '@ngrx/effects';
 
@@ -44,6 +44,7 @@ import { Actions, ofType } from '@ngrx/effects';
       [preset]="'custom'"
       [node]="node"
       [displayAspect]="displayAspect$ | async"
+      [customPanels]="customPanels | async"
       [(editable)]="editable"
     >
     </adf-content-metadata-card>
@@ -60,6 +61,7 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
   displayAspect$: Observable<string>;
   canUpdateNode = false;
   editable = false;
+  customPanels: Observable<ContentMetadataCustomPanel[]>;
 
   constructor(
     private permission: NodePermissionService,
@@ -74,6 +76,14 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
       this.appConfig.config['content-metadata'].presets = this.extensions.contentMetadata.presets;
     }
     this.displayAspect$ = this.store.select(infoDrawerMetadataAspect);
+    this.customPanels = extensions.getCustomMetadataPanels({ entry: this.node }).pipe(
+      map((panels) => {
+        return panels.map((panel) => {
+          return { panelTitle: panel.title, component: panel.component };
+        });
+      }),
+      takeUntil(this.onDestroy$)
+    );
   }
 
   ngOnInit() {
