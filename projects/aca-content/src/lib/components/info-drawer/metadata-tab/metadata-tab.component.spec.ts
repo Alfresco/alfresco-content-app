@@ -32,7 +32,8 @@ import { AppState, EditOfflineAction, SetInfoDrawerMetadataAspectAction } from '
 import { By } from '@angular/platform-browser';
 import { AppExtensionService, NodePermissionService } from '@alfresco/aca-shared';
 import { Actions } from '@ngrx/effects';
-import { Subject } from 'rxjs';
+import { of, Subject } from 'rxjs';
+import { ContentActionType } from '@alfresco/adf-extensions';
 
 describe('MetadataTabComponent', () => {
   let fixture: ComponentFixture<MetadataTabComponent>;
@@ -42,6 +43,7 @@ describe('MetadataTabComponent', () => {
   let extensions: AppExtensionService;
   let nodePermissionService: NodePermissionService;
   let actions$: Subject<EditOfflineAction>;
+  let appExtensionService: AppExtensionService;
 
   const presets = {
     default: {
@@ -61,6 +63,7 @@ describe('MetadataTabComponent', () => {
       ]
     });
     nodePermissionService = TestBed.inject(NodePermissionService);
+    appExtensionService = TestBed.inject(AppExtensionService);
     spyOn(nodePermissionService, 'check').and.callFake((source: Node, permissions: string[]) => {
       return permissions.some((permission) => source.allowableOperations.includes(permission));
     });
@@ -268,6 +271,21 @@ describe('MetadataTabComponent', () => {
       fixture.detectChanges();
       const initialState = fixture.debugElement.query(By.css('adf-content-metadata-card'));
       expect(initialState.componentInstance.displayAspect).toBe('EXIF');
+    });
+  });
+
+  describe('Custom metadata panels', () => {
+    it('should get custom metadata panels', (done) => {
+      spyOn(appExtensionService, 'getCustomMetadataPanels').and.returnValue(
+        of([{ id: 'test', type: ContentActionType.custom, title: 'testTitle', component: 'test-id' }])
+      );
+      const localComponent = TestBed.createComponent(MetadataTabComponent);
+      localComponent.componentInstance.customPanels.subscribe((panels) => {
+        expect(panels.length).toBe(1);
+        expect(panels[0].title).toEqual('testTitle');
+        expect(panels[0].component).toEqual('test-id');
+        done();
+      });
     });
   });
 });
