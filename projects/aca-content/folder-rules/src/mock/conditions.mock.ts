@@ -43,6 +43,59 @@ export const tagMock: RuleSimpleCondition = {
   parameter: ''
 };
 
+export const categoriesListMock = {
+  list: {
+    pagination: {
+      count: 3,
+      hasMoreItems: false,
+      totalItems: 0,
+      skipCount: 0,
+      maxItems: 25
+    },
+    entries: [
+      {
+        entry: {
+          path: {
+            name: '/a/fake/category/path/1'
+          },
+          hasChildren: false,
+          name: 'FakeCategory1',
+          id: 'fake-category-id-1',
+          nodeType: 'cm:category',
+          isFile: false,
+          isFolder: false
+        }
+      },
+      {
+        entry: {
+          path: {
+            name: '/a/fake/category/path/2'
+          },
+          hasChildren: false,
+          name: 'FakeCategory2',
+          id: 'fake-category-id-2',
+          nodeType: 'cm:category',
+          isFile: false,
+          isFolder: false
+        }
+      },
+      {
+        entry: {
+          path: {
+            name: '/a/fake/category/path/3'
+          },
+          hasChildren: false,
+          name: 'FakeCategory3',
+          id: 'fake-category-id-3',
+          nodeType: 'cm:category',
+          isFile: false,
+          isFolder: false
+        }
+      }
+    ]
+  }
+};
+
 export const simpleConditionUnknownFieldMock: RuleSimpleCondition = {
   field: 'unknown-field',
   comparator: 'equals',

@@ -196,7 +196,7 @@ export class RuleSimpleConditionUiComponent implements OnInit, ControlValueAcces
     this.onDestroy$.complete();
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.form.valueChanges.pipe(takeUntil(this.onDestroy$)).subscribe((value: any) => {
       this.onChange(value);
       this.onTouch();

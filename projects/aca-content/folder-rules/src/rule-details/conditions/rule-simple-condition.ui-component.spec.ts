@@ -27,7 +27,7 @@ import { RuleSimpleConditionUiComponent } from './rule-simple-condition.ui-compo
 import { CoreTestingModule } from '@alfresco/adf-core';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
-import { tagMock, mimeTypeMock, simpleConditionUnknownFieldMock } from '../../mock/conditions.mock';
+import { tagMock, mimeTypeMock, simpleConditionUnknownFieldMock, categoriesListMock } from '../../mock/conditions.mock';
 import { MimeType } from './rule-mime-types';
 import { CategoryService } from '@alfresco/adf-content-services';
 import { of } from 'rxjs';
@@ -37,59 +37,6 @@ import { delay } from 'rxjs/operators';
 describe('RuleSimpleConditionUiComponent', () => {
   let fixture: ComponentFixture<RuleSimpleConditionUiComponent>;
   let categoryService: CategoryService;
-
-  const fakeCategoriesList = {
-    list: {
-      pagination: {
-        count: 3,
-        hasMoreItems: false,
-        totalItems: 0,
-        skipCount: 0,
-        maxItems: 25
-      },
-      entries: [
-        {
-          entry: {
-            path: {
-              name: '/a/fake/category/path/1'
-            },
-            hasChildren: false,
-            name: 'FakeCategory1',
-            id: 'fake-category-id-1',
-            nodeType: 'cm:category',
-            isFile: false,
-            isFolder: false
-          }
-        },
-        {
-          entry: {
-            path: {
-              name: '/a/fake/category/path/2'
-            },
-            hasChildren: false,
-            name: 'FakeCategory2',
-            id: 'fake-category-id-2',
-            nodeType: 'cm:category',
-            isFile: false,
-            isFolder: false
-          }
-        },
-        {
-          entry: {
-            path: {
-              name: '/a/fake/category/path/3'
-            },
-            hasChildren: false,
-            name: 'FakeCategory3',
-            id: 'fake-category-id-3',
-            nodeType: 'cm:category',
-            isFile: false,
-            isFolder: false
-          }
-        }
-      ]
-    }
-  };
 
   const getByDataAutomationId = (dataAutomationId: string): DebugElement =>
     fixture.debugElement.query(By.css(`[data-automation-id="${dataAutomationId}"]`));
@@ -260,7 +207,7 @@ describe('RuleSimpleConditionUiComponent', () => {
   });
 
   it('should fetch category list when category option is selected', fakeAsync(() => {
-    spyOn(categoryService, 'searchCategories').and.returnValue(of(fakeCategoriesList));
+    spyOn(categoryService, 'searchCategories').and.returnValue(of(categoriesListMock));
 
     fixture.detectChanges();
     changeMatSelectValue('field-select', 'category');
@@ -271,7 +218,7 @@ describe('RuleSimpleConditionUiComponent', () => {
 
   it('should fetch new category list with user input when user types into parameter field after category option is select', fakeAsync(() => {
     const categoryValue = 'a new category';
-    spyOn(categoryService, 'searchCategories').and.returnValue(of(fakeCategoriesList));
+    spyOn(categoryService, 'searchCategories').and.returnValue(of(categoriesListMock));
 
     fixture.detectChanges();
     changeMatSelectValue('field-select', 'category');
@@ -307,7 +254,7 @@ describe('RuleSimpleConditionUiComponent', () => {
   });
 
   it('should show loading spinner while autocomplete options are fetched, and then remove it once it is received', fakeAsync(() => {
-    spyOn(categoryService, 'searchCategories').and.returnValue(of(fakeCategoriesList).pipe(delay(1000)));
+    spyOn(categoryService, 'searchCategories').and.returnValue(of(categoriesListMock).pipe(delay(1000)));
     fixture.detectChanges();
     changeMatSelectValue('field-select', 'category');
     tick(500);
@@ -322,19 +269,19 @@ describe('RuleSimpleConditionUiComponent', () => {
   }));
 
   it('should display correct label for category when user selects a category from autocomplete dropdown', fakeAsync(() => {
-    spyOn(categoryService, 'searchCategories').and.returnValue(of(fakeCategoriesList));
+    spyOn(categoryService, 'searchCategories').and.returnValue(of(categoriesListMock));
     fixture.detectChanges();
     changeMatSelectValue('field-select', 'category');
     tick(500);
     getByDataAutomationId('auto-complete-input-field')?.nativeElement?.click();
-    changeMatSelectValue('folder-rule-autocomplete', fakeCategoriesList.list.entries[0].entry.id);
+    changeMatSelectValue('folder-rule-autocomplete', categoriesListMock.list.entries[0].entry.id);
     const displayValue = getByDataAutomationId('auto-complete-input-field')?.nativeElement?.value;
     expect(displayValue).toBe('category/path/1/FakeCategory1');
     discardPeriodicTasks();
   }));
 
   it('should automatically select first category when user focuses out of parameter form field with category option selected', fakeAsync(() => {
-    spyOn(categoryService, 'searchCategories').and.returnValue(of(fakeCategoriesList));
+    spyOn(categoryService, 'searchCategories').and.returnValue(of(categoriesListMock));
     fixture.detectChanges();
     changeMatSelectValue('field-select', 'category');
     tick(500);
@@ -342,7 +289,7 @@ describe('RuleSimpleConditionUiComponent', () => {
     autoCompleteInputField.value = 'FakeCat';
     autoCompleteInputField.dispatchEvent(new Event('focusout'));
     const parameterValue = fixture.componentInstance.form.get('parameter').value;
-    expect(parameterValue).toEqual(fakeCategoriesList.list.entries[0].entry.id);
+    expect(parameterValue).toEqual(categoriesListMock.list.entries[0].entry.id);
     discardPeriodicTasks();
   }));
 });
