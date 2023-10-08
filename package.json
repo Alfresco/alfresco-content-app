@@ -119,7 +119,7 @@
     "ng-packagr": "^14.2.2",
     "node-stream-zip": "^1.14.0",
     "nx": "16.10.0",
-    "prettier": "2.8.8",
+    "prettier": "3.0.3",
     "protractor": "~7.0.0",
     "protractor-retry-angular-cli": "^2.0.3",
     "protractor-screenshoter-plugin": "0.10.3",
