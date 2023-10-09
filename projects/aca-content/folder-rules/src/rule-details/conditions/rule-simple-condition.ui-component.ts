@@ -233,7 +233,7 @@ export class RuleSimpleConditionUiComponent implements OnInit, ControlValueAcces
     return autoCompleteOptions.sort((option1, option2) => option1.displayLabel.localeCompare(option2.displayLabel));
   }
 
-  autoCompleteDisplayFunction = (optionValue) =>
+  autoCompleteDisplayFunction = (optionValue: string): string =>
     optionValue && this.autoCompleteOptions ? this.autoCompleteOptions.find((option) => option.value === optionValue)?.displayLabel : optionValue;
 
   autoSelectValidOption() {
