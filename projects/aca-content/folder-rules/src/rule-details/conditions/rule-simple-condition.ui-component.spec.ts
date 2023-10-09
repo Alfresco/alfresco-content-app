@@ -50,7 +50,7 @@ describe('RuleSimpleConditionUiComponent', () => {
     fixture.detectChanges();
   };
 
-  const setValueInInputField = (inputFieldDataAutomationId, value) => {
+  const setValueInInputField = (inputFieldDataAutomationId: string, value: string) => {
     const inputField = fixture.debugElement.query(By.css(`[data-automation-id="${inputFieldDataAutomationId}"]`)).nativeElement;
     inputField.value = value;
     inputField.dispatchEvent(new Event('input'));
@@ -198,7 +198,7 @@ describe('RuleSimpleConditionUiComponent', () => {
     expect(getByDataAutomationId('value-input').nativeElement.value).toBe('');
   });
 
-  it('should provide autocomplete option when category is selected', () => {
+  it('should provide auto-complete option when category is selected', () => {
     fixture.detectChanges();
     changeMatSelectValue('field-select', 'category');
 
@@ -253,28 +253,28 @@ describe('RuleSimpleConditionUiComponent', () => {
     expect(categoryService.getCategory).toHaveBeenCalledWith(savedCategoryMock.parameter, { include: ['path'] });
   });
 
-  it('should show loading spinner while autocomplete options are fetched, and then remove it once it is received', fakeAsync(() => {
+  it('should show loading spinner while auto-complete options are fetched, and then remove it once it is received', fakeAsync(() => {
     spyOn(categoryService, 'searchCategories').and.returnValue(of(categoriesListMock).pipe(delay(1000)));
     fixture.detectChanges();
     changeMatSelectValue('field-select', 'category');
     tick(500);
     getByDataAutomationId('auto-complete-input-field')?.nativeElement?.click();
-    let loadingSpinner = getByDataAutomationId('autocomplete-loading-spinner');
+    let loadingSpinner = getByDataAutomationId('auto-complete-loading-spinner');
     expect(loadingSpinner).not.toBeNull();
     tick(1000);
     fixture.detectChanges();
-    loadingSpinner = getByDataAutomationId('autocomplete-loading-spinner');
+    loadingSpinner = getByDataAutomationId('auto-complete-loading-spinner');
     expect(loadingSpinner).toBeNull();
     discardPeriodicTasks();
   }));
 
-  it('should display correct label for category when user selects a category from autocomplete dropdown', fakeAsync(() => {
+  it('should display correct label for category when user selects a category from auto-complete dropdown', fakeAsync(() => {
     spyOn(categoryService, 'searchCategories').and.returnValue(of(categoriesListMock));
     fixture.detectChanges();
     changeMatSelectValue('field-select', 'category');
     tick(500);
     getByDataAutomationId('auto-complete-input-field')?.nativeElement?.click();
-    changeMatSelectValue('folder-rule-autocomplete', categoriesListMock.list.entries[0].entry.id);
+    changeMatSelectValue('folder-rule-auto-complete', categoriesListMock.list.entries[0].entry.id);
     const displayValue = getByDataAutomationId('auto-complete-input-field')?.nativeElement?.value;
     expect(displayValue).toBe('category/path/1/FakeCategory1');
     discardPeriodicTasks();

@@ -42,7 +42,7 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CategoryEntry } from '@alfresco/js-api';
 
-class AutoCompleteOption {
+interface AutoCompleteOption {
   displayLabel: string;
   value: string;
 }
@@ -91,7 +91,7 @@ export class RuleSimpleConditionUiComponent implements OnInit, ControlValueAcces
 
   showLoadingSpinner: boolean;
 
-  private onDestroy$: Subject<void> = new Subject<void>();
+  private onDestroy$ = new Subject<void>();
   private autoCompleteOptionsSubscription: Subscription;
   private _readOnly = false;
   @Input()
@@ -128,10 +128,6 @@ export class RuleSimpleConditionUiComponent implements OnInit, ControlValueAcces
     return comparatorHiddenForConditionFieldType.includes(this.selectedField?.type);
   }
 
-  get fieldControl(): AbstractControl {
-    return this.form.get('field');
-  }
-
   get comparatorControl(): AbstractControl {
     return this.form.get('comparator');
   }
@@ -152,10 +148,12 @@ export class RuleSimpleConditionUiComponent implements OnInit, ControlValueAcces
         .pipe(first())
         .subscribe((category: CategoryEntry) => {
           this.showLoadingSpinner = false;
-          const option = new AutoCompleteOption();
-          option.value = category.entry.id;
           const path = category.entry.path.split('/').splice(3).join('/');
-          option.displayLabel = path ? `${path}/${category.entry.name}` : category.entry.name;
+          const option: AutoCompleteOption = {
+            value: category.entry.id,
+            displayLabel: path ? `${path}/${category.entry.name}` : category.entry.name
+          };
+
           this.autoCompleteOptions.push(option);
           this.parameterControl.setValue(option.value);
         });
@@ -197,24 +195,27 @@ export class RuleSimpleConditionUiComponent implements OnInit, ControlValueAcces
   }
 
   ngOnInit() {
-    this.form.valueChanges.pipe(takeUntil(this.onDestroy$)).subscribe((value: any) => {
+    this.form.valueChanges.pipe(takeUntil(this.onDestroy$)).subscribe((value: RuleSimpleCondition) => {
       this.onChange(value);
       this.onTouch();
     });
 
-    this.fieldControl.valueChanges.pipe(distinctUntilChanged(), takeUntil(this.onDestroy$)).subscribe((field: string) => {
-      if (field === 'category') {
-        this.autoCompleteOptionsSubscription = this.form
-          .get('parameter')
-          .valueChanges.pipe(distinctUntilChanged(), debounceTime(AUTOCOMPLETE_OPTIONS_DEBOUNCE_TIME), takeUntil(this.onDestroy$))
-          .subscribe((categoryName) => {
-            this.getCategories(categoryName);
-          });
-        this.parameterControl.setValue('');
-      } else {
-        this.autoCompleteOptionsSubscription?.unsubscribe();
-      }
-    });
+    this.form
+      .get('field')
+      .valueChanges.pipe(distinctUntilChanged(), takeUntil(this.onDestroy$))
+      .subscribe((field: string) => {
+        if (field === 'category') {
+          this.autoCompleteOptionsSubscription = this.form
+            .get('parameter')
+            .valueChanges.pipe(distinctUntilChanged(), debounceTime(AUTOCOMPLETE_OPTIONS_DEBOUNCE_TIME), takeUntil(this.onDestroy$))
+            .subscribe((categoryName) => {
+              this.getCategories(categoryName);
+            });
+          this.parameterControl.setValue('');
+        } else {
+          this.autoCompleteOptionsSubscription?.unsubscribe();
+        }
+      });
   }
 
   private getCategories(categoryName: string) {
@@ -225,10 +226,11 @@ export class RuleSimpleConditionUiComponent implements OnInit, ControlValueAcces
       .subscribe((existingCategoriesResult) => {
         this.showLoadingSpinner = false;
         const options: AutoCompleteOption[] = existingCategoriesResult?.list?.entries?.map((rowEntry) => {
-          const option = new AutoCompleteOption();
-          option.value = rowEntry.entry.id;
           const path = rowEntry.entry.path.name.split('/').splice(3).join('/');
-          option.displayLabel = path ? `${path}/${rowEntry.entry.name}` : rowEntry.entry.name;
+          const option: AutoCompleteOption = {
+            value: rowEntry.entry.id,
+            displayLabel: path ? `${path}/${rowEntry.entry.name}` : rowEntry.entry.name
+          };
           return option;
         });
         if (options.length > 0) {
@@ -241,7 +243,7 @@ export class RuleSimpleConditionUiComponent implements OnInit, ControlValueAcces
     return autoCompleteOptions.sort((option1, option2) => option1.displayLabel.localeCompare(option2.displayLabel));
   }
 
-  autoCompleteDisplayFunction: (id: string) => string = (optionValue) =>
+  autoCompleteDisplayFunction = (optionValue) =>
     optionValue && this.autoCompleteOptions ? this.autoCompleteOptions.find((option) => option.value === optionValue)?.displayLabel : optionValue;
 
   autoSelectValidOption() {

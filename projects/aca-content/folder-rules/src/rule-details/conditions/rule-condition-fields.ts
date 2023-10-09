@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export type RuleConditionFieldType = 'string' | 'number' | 'date' | 'type' | 'special' | 'mimeType' | 'autocomplete';
+export type RuleConditionFieldType = 'string' | 'number' | 'date' | 'type' | 'special' | 'mimeType' | 'auto-complete';
 
 export interface RuleConditionField {
   name: string;
@@ -30,7 +30,7 @@ export interface RuleConditionField {
   type: RuleConditionFieldType;
 }
 
-export const comparatorHiddenForConditionFieldType: string[] = ['special', 'mimeType', 'autocomplete'];
+export const comparatorHiddenForConditionFieldType: string[] = ['special', 'mimeType', 'auto-complete'];
 
 export const ruleConditionFields: RuleConditionField[] = [
   {
@@ -56,7 +56,7 @@ export const ruleConditionFields: RuleConditionField[] = [
   {
     name: 'category',
     label: 'ACA_FOLDER_RULES.RULE_DETAILS.FIELDS.HAS_CATEGORY',
-    type: 'autocomplete'
+    type: 'auto-complete'
   },
   {
     name: 'tag',

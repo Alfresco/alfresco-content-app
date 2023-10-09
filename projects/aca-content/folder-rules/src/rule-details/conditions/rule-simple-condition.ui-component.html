@@ -28,7 +28,7 @@
         {{ mimeType.label }}
       </mat-option>
     </mat-select>
-    <ng-template [ngSwitchCase]="'autocomplete'">
+    <ng-template [ngSwitchCase]="'auto-complete'">
         <input
           matInput
           [matAutocomplete]="auto"
@@ -38,16 +38,16 @@
         />
         <mat-autocomplete
           #auto="matAutocomplete"
-          data-automation-id="folder-rule-autocomplete"
+          data-automation-id="folder-rule-auto-complete"
           [autoActiveFirstOption]="true"
           [autoSelectActiveOption]="true"
           [displayWith]="autoCompleteDisplayFunction">
             <mat-option disabled *ngIf="showLoadingSpinner; else optionList">
-              <span class="aca-rule-simple-condition__autocomplete-loading-spinner">
+              <span class="aca-rule-simple-condition__auto-complete-loading-spinner">
                 <mat-progress-spinner
                   color="primary"
                   mode="indeterminate"
-                  data-automation-id="autocomplete-loading-spinner"
+                  data-automation-id="auto-complete-loading-spinner"
                   [diameter]="25"
                 ></mat-progress-spinner>
               </span>
