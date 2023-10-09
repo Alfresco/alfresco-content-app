@@ -148,12 +148,7 @@ export class RuleSimpleConditionUiComponent implements OnInit, ControlValueAcces
         .pipe(first())
         .subscribe((category: CategoryEntry) => {
           this.showLoadingSpinner = false;
-          const path = category.entry.path.split('/').splice(3).join('/');
-          const option: AutoCompleteOption = {
-            value: category.entry.id,
-            displayLabel: path ? `${path}/${category.entry.name}` : category.entry.name
-          };
-
+          const option = this.buildAutocompleteOptionFromCategory(category.entry.id, category.entry.path, category.entry.name);
           this.autoCompleteOptions.push(option);
           this.parameterControl.setValue(option.value);
         });
@@ -225,14 +220,9 @@ export class RuleSimpleConditionUiComponent implements OnInit, ControlValueAcces
       .pipe(first())
       .subscribe((existingCategoriesResult) => {
         this.showLoadingSpinner = false;
-        const options: AutoCompleteOption[] = existingCategoriesResult?.list?.entries?.map((rowEntry) => {
-          const path = rowEntry.entry.path.name.split('/').splice(3).join('/');
-          const option: AutoCompleteOption = {
-            value: rowEntry.entry.id,
-            displayLabel: path ? `${path}/${rowEntry.entry.name}` : rowEntry.entry.name
-          };
-          return option;
-        });
+        const options: AutoCompleteOption[] = existingCategoriesResult?.list?.entries?.map((rowEntry) =>
+          this.buildAutocompleteOptionFromCategory(rowEntry.entry.id, rowEntry.entry.path.name, rowEntry.entry.name)
+        );
         if (options.length > 0) {
           this.autoCompleteOptions = this.sortAutoCompleteOptions(options);
         }
@@ -252,5 +242,13 @@ export class RuleSimpleConditionUiComponent implements OnInit, ControlValueAcces
     if (!isValidValueSelected) {
       this.parameterControl.setValue(this.autoCompleteOptions?.[0].value);
     }
+  }
+
+  buildAutocompleteOptionFromCategory(categoryId: string, categoryPath: string, categoryName: string): AutoCompleteOption {
+    const path = categoryPath.split('/').splice(3).join('/');
+    return {
+      value: categoryId,
+      displayLabel: path ? `${path}/${categoryName}` : categoryName
+    };
   }
 }
