@@ -76,14 +76,6 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
       this.appConfig.config['content-metadata'].presets = this.extensions.contentMetadata.presets;
     }
     this.displayAspect$ = this.store.select(infoDrawerMetadataAspect);
-    this.customPanels = extensions.getCustomMetadataPanels({ entry: this.node }).pipe(
-      map((panels) => {
-        return panels.map((panel) => {
-          return { panelTitle: panel.title, component: panel.component };
-        });
-      }),
-      takeUntil(this.onDestroy$)
-    );
   }
 
   ngOnInit() {
@@ -103,6 +95,14 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
           this.editable = false;
         }
       });
+    this.customPanels = this.extensions.getCustomMetadataPanels({ entry: this.node }).pipe(
+      map((panels) => {
+        return panels.map((panel) => {
+          return { panelTitle: panel.title, component: panel.component };
+        });
+      }),
+      takeUntil(this.onDestroy$)
+    );
   }
 
   ngOnDestroy() {

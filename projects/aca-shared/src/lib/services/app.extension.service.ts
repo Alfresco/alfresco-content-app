@@ -161,7 +161,7 @@ export class AppExtensionService implements RuleContext {
     this._mainActions.next(this.loader.getFeatures(config).mainAction);
     this._badges.next(this.loader.getElements<Badge>(config, 'features.badges'));
     this._filesDocumentListPreset.next(this.getDocumentListPreset(config, 'files'));
-    this._customMetadataPanels.next(this.loader.getContentActions(config, 'features.customMetadataPanels'));
+    this._customMetadataPanels.next(this.loader.getElements<ContentActionRef>(config, 'features.customMetadataPanels'));
 
     this.navbar = this.loadNavBar(config);
     this.sidebarTabs = this.loader.getElements<SidebarTabRef>(config, 'features.sidebar.tabs');
