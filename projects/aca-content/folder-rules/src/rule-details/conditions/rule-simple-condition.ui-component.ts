@@ -22,22 +22,47 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, forwardRef, Input, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { Component, forwardRef, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { RuleSimpleCondition } from '../../model/rule-simple-condition.model';
 import { comparatorHiddenForConditionFieldType, RuleConditionField, ruleConditionFields } from './rule-condition-fields';
 import { RuleConditionComparator, ruleConditionComparators } from './rule-condition-comparators';
 import { AppConfigService } from '@alfresco/adf-core';
 import { MimeType } from './rule-mime-types';
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
+import { CategoryService } from '@alfresco/adf-content-services';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { debounceTime, distinctUntilChanged, first, takeUntil } from 'rxjs/operators';
+import { Subject, Subscription } from 'rxjs';
+import { MatOptionModule } from '@angular/material/core';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { CategoryEntry } from '@alfresco/js-api';
+
+interface AutoCompleteOption {
+  displayLabel: string;
+  value: string;
+}
+
+const AUTOCOMPLETE_OPTIONS_DEBOUNCE_TIME = 500;
 
 @Component({
   standalone: true,
-  imports: [CommonModule, TranslateModule, ReactiveFormsModule, MatFormFieldModule, MatSelectModule, MatInputModule],
+  imports: [
+    CommonModule,
+    TranslateModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule,
+    MatAutocompleteModule,
+    AsyncPipe,
+    MatOptionModule,
+    MatProgressSpinnerModule
+  ],
   selector: 'aca-rule-simple-condition',
   templateUrl: './rule-simple-condition.ui-component.html',
   styleUrls: ['./rule-simple-condition.ui-component.scss'],
@@ -51,7 +76,7 @@ import { MatInputModule } from '@angular/material/input';
     }
   ]
 })
-export class RuleSimpleConditionUiComponent implements ControlValueAccessor, OnDestroy {
+export class RuleSimpleConditionUiComponent implements OnInit, ControlValueAccessor, OnDestroy {
   readonly fields = ruleConditionFields;
 
   form = new FormGroup({
@@ -62,6 +87,12 @@ export class RuleSimpleConditionUiComponent implements ControlValueAccessor, OnD
 
   mimeTypes: MimeType[] = [];
 
+  autoCompleteOptions: AutoCompleteOption[] = [];
+
+  showLoadingSpinner: boolean;
+
+  private onDestroy$ = new Subject<void>();
+  private autoCompleteOptionsSubscription: Subscription;
   private _readOnly = false;
   @Input()
   get readOnly(): boolean {
@@ -71,15 +102,9 @@ export class RuleSimpleConditionUiComponent implements ControlValueAccessor, OnD
     this.setDisabledState(isReadOnly);
   }
 
-  constructor(private config: AppConfigService) {
+  constructor(private config: AppConfigService, private categoryService: CategoryService) {
     this.mimeTypes = this.config.get<Array<MimeType>>('mimeTypes');
   }
-
-  private formSubscription = this.form.valueChanges.subscribe((value: any) => {
-    this.onChange(value);
-    this.onTouch();
-  });
-
   get isSelectedFieldKnown(): boolean {
     const selectedFieldName = this.form.get('field').value;
     return this.fields.findIndex((field: RuleConditionField) => selectedFieldName === field.name) > -1;
@@ -102,6 +127,7 @@ export class RuleSimpleConditionUiComponent implements ControlValueAccessor, OnD
   get isComparatorHidden(): boolean {
     return comparatorHiddenForConditionFieldType.includes(this.selectedField?.type);
   }
+
   get comparatorControl(): AbstractControl {
     return this.form.get('comparator');
   }
@@ -115,6 +141,18 @@ export class RuleSimpleConditionUiComponent implements ControlValueAccessor, OnD
 
   writeValue(value: RuleSimpleCondition) {
     this.form.setValue(value);
+    if (value?.field === 'category') {
+      this.showLoadingSpinner = true;
+      this.categoryService
+        .getCategory(value.parameter, { include: ['path'] })
+        .pipe(first())
+        .subscribe((category: CategoryEntry) => {
+          this.showLoadingSpinner = false;
+          const option = this.buildAutocompleteOptionFromCategory(category.entry.id, category.entry.path, category.entry.name);
+          this.autoCompleteOptions.push(option);
+          this.parameterControl.setValue(option.value);
+        });
+    }
   }
 
   registerOnChange(fn: () => void) {
@@ -147,6 +185,70 @@ export class RuleSimpleConditionUiComponent implements ControlValueAccessor, OnD
   }
 
   ngOnDestroy() {
-    this.formSubscription.unsubscribe();
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
+  }
+
+  ngOnInit() {
+    this.form.valueChanges.pipe(takeUntil(this.onDestroy$)).subscribe((value: RuleSimpleCondition) => {
+      this.onChange(value);
+      this.onTouch();
+    });
+
+    this.form
+      .get('field')
+      .valueChanges.pipe(distinctUntilChanged(), takeUntil(this.onDestroy$))
+      .subscribe((field: string) => {
+        if (field === 'category') {
+          this.autoCompleteOptionsSubscription = this.form
+            .get('parameter')
+            .valueChanges.pipe(distinctUntilChanged(), debounceTime(AUTOCOMPLETE_OPTIONS_DEBOUNCE_TIME), takeUntil(this.onDestroy$))
+            .subscribe((categoryName) => {
+              this.getCategories(categoryName);
+            });
+          this.parameterControl.setValue('');
+        } else {
+          this.autoCompleteOptionsSubscription?.unsubscribe();
+        }
+      });
+  }
+
+  private getCategories(categoryName: string) {
+    this.showLoadingSpinner = true;
+    this.categoryService
+      .searchCategories(categoryName)
+      .pipe(first())
+      .subscribe((existingCategoriesResult) => {
+        this.showLoadingSpinner = false;
+        const options: AutoCompleteOption[] = existingCategoriesResult?.list?.entries?.map((rowEntry) =>
+          this.buildAutocompleteOptionFromCategory(rowEntry.entry.id, rowEntry.entry.path.name, rowEntry.entry.name)
+        );
+        if (options.length > 0) {
+          this.autoCompleteOptions = this.sortAutoCompleteOptions(options);
+        }
+      });
+  }
+
+  private sortAutoCompleteOptions(autoCompleteOptions: AutoCompleteOption[]): AutoCompleteOption[] {
+    return autoCompleteOptions.sort((option1, option2) => option1.displayLabel.localeCompare(option2.displayLabel));
+  }
+
+  autoCompleteDisplayFunction = (optionValue: string): string =>
+    optionValue && this.autoCompleteOptions ? this.autoCompleteOptions.find((option) => option.value === optionValue)?.displayLabel : optionValue;
+
+  autoSelectValidOption() {
+    const currentValue = this.parameterControl.value;
+    const isValidValueSelected = !!this.autoCompleteOptions?.find((option) => option.value === currentValue);
+    if (!isValidValueSelected) {
+      this.parameterControl.setValue(this.autoCompleteOptions?.[0].value);
+    }
+  }
+
+  buildAutocompleteOptionFromCategory(categoryId: string, categoryPath: string, categoryName: string): AutoCompleteOption {
+    const path = categoryPath.split('/').splice(3).join('/');
+    return {
+      value: categoryId,
+      displayLabel: path ? `${path}/${categoryName}` : categoryName
+    };
   }
 }

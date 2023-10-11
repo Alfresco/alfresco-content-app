@@ -139,6 +139,9 @@
     },
     "ERRORS": {
       "DELETE_RULE_SET_LINK_FAILED": "Error while trying to delete a link from a rule set"
+    },
+    "AUTOCOMPLETE": {
+      "NO_OPTIONS_FOUND": "No options found"
     }
   }
 }
