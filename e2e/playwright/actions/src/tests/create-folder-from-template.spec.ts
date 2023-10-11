@@ -127,6 +127,8 @@ test.describe('Create folder from template', () => {
       dataTable = personalFiles.dataTable;
       toolbar = personalFiles.acaHeader;
       await toolbar.clickCreateFolderFromTemplate();
+      await selectFolderTemplateDialog.spinnerWaitForReload();
+      await dataTable.spinnerWaitForReload();
     });
 
     test.describe('Select Template dialog', () => {
@@ -190,7 +192,6 @@ test.describe('Create folder from template', () => {
       });
 
       test('[C325139] Next button is disabled when selecting a file', async () => {
-        await expect(dataTable.getRowByName(fileInRootFolder)).toBeVisible();
         await expect(selectFolderTemplateDialog.actionButton).toBeDisabled();
 
         await dataTable.getRowByName(fileInRootFolder).click();
