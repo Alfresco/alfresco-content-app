@@ -92,7 +92,7 @@
         />
         <mat-hint *ngIf="libraryTitleExists">{{ 'LIBRARY.HINTS.SITE_TITLE_EXISTS' | translate }}</mat-hint>
         <mat-error>
-          {{ 'LIBRARY.ERRORS.TITLE_TOO_LONG' | translate }}
+          {{ titleErrorTranslationKey | translate }}
         </mat-error>
       </mat-form-field>
 

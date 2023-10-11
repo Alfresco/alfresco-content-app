@@ -23,7 +23,16 @@
  */
 
 import { Component, Input, OnChanges, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators, FormGroupDirective, NgForm, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormGroup,
+  UntypedFormControl,
+  Validators,
+  FormGroupDirective,
+  NgForm,
+  FormsModule,
+  ReactiveFormsModule,
+  FormControl
+} from '@angular/forms';
 import { QueriesApi, SiteEntry, SitePaging } from '@alfresco/js-api';
 import { Store } from '@ngrx/store';
 import {
@@ -77,9 +86,15 @@ export class InstantErrorStateMatcher implements ErrorStateMatcher {
 })
 export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestroy {
   private _queriesApi: QueriesApi;
+  private _titleErrorTranslationKey: string;
+
   get queriesApi(): QueriesApi {
     this._queriesApi = this._queriesApi ?? new QueriesApi(this.alfrescoApiService.getInstance());
     return this._queriesApi;
+  }
+
+  get titleErrorTranslationKey(): string {
+    return this._titleErrorTranslationKey;
   }
 
   @Input()
@@ -96,7 +111,7 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
 
   form: UntypedFormGroup = new UntypedFormGroup({
     id: new UntypedFormControl({ value: '', disabled: true }),
-    title: new UntypedFormControl({ value: '' }, [Validators.required, Validators.maxLength(256)]),
+    title: new UntypedFormControl({ value: '' }, [Validators.required, Validators.maxLength(256), this.validateEmptyName]),
     description: new UntypedFormControl({ value: '' }, [Validators.maxLength(512)]),
     visibility: new UntypedFormControl(this.libraryType[0].value)
   });
@@ -124,7 +139,12 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
 
   ngOnInit() {
     this.updateForm(this.node);
-
+    this.form.controls.title.statusChanges
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(
+        () =>
+          (this._titleErrorTranslationKey = this.form.controls.title.errors?.empty ? 'LIBRARY.ERRORS.ONLY_SPACES' : 'LIBRARY.ERRORS.TITLE_TOO_LONG')
+      );
     this.form.controls['title'].valueChanges
       .pipe(
         debounceTime(300),
@@ -198,5 +218,9 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
         takeUntil(this.onDestroy$)
       )
       .subscribe(handle);
+  }
+
+  private validateEmptyName(control: FormControl<string>) {
+    return control.value.length && !control.value.trim() ? { empty: true } : null;
   }
 }
