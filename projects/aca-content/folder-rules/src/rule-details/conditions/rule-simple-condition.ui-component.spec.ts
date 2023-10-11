@@ -22,16 +22,21 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, discardPeriodicTasks, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { RuleSimpleConditionUiComponent } from './rule-simple-condition.ui-component';
 import { CoreTestingModule } from '@alfresco/adf-core';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
-import { categoryMock, mimeTypeMock, simpleConditionUnknownFieldMock } from '../../mock/conditions.mock';
+import { tagMock, mimeTypeMock, simpleConditionUnknownFieldMock, categoriesListMock } from '../../mock/conditions.mock';
 import { MimeType } from './rule-mime-types';
+import { CategoryService } from '@alfresco/adf-content-services';
+import { of } from 'rxjs';
+import { RuleSimpleCondition } from '../../model/rule-simple-condition.model';
+import { delay } from 'rxjs/operators';
 
 describe('RuleSimpleConditionUiComponent', () => {
   let fixture: ComponentFixture<RuleSimpleConditionUiComponent>;
+  let categoryService: CategoryService;
 
   const getByDataAutomationId = (dataAutomationId: string): DebugElement =>
     fixture.debugElement.query(By.css(`[data-automation-id="${dataAutomationId}"]`));
@@ -45,12 +50,20 @@ describe('RuleSimpleConditionUiComponent', () => {
     fixture.detectChanges();
   };
 
+  const setValueInInputField = (inputFieldDataAutomationId: string, value: string) => {
+    const inputField = fixture.debugElement.query(By.css(`[data-automation-id="${inputFieldDataAutomationId}"]`)).nativeElement;
+    inputField.value = value;
+    inputField.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+  };
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [CoreTestingModule, RuleSimpleConditionUiComponent]
     });
 
     fixture = TestBed.createComponent(RuleSimpleConditionUiComponent);
+    categoryService = TestBed.inject(CategoryService);
   });
 
   it('should default the field to the name, the comparator to equals and the value empty', () => {
@@ -82,6 +95,20 @@ describe('RuleSimpleConditionUiComponent', () => {
     expect(getComputedStyle(comparatorFormField).display).not.toBe('none');
 
     changeMatSelectValue('field-select', 'mimetype');
+
+    expect(fixture.componentInstance.isComparatorHidden).toBeTruthy();
+    expect(getComputedStyle(comparatorFormField).display).toBe('none');
+  });
+
+  it('should hide the comparator select box if the type of the field is autoComplete', () => {
+    const autoCompleteField = 'category';
+    fixture.detectChanges();
+    const comparatorFormField = getByDataAutomationId('comparator-form-field').nativeElement;
+
+    expect(fixture.componentInstance.isComparatorHidden).toBeFalsy();
+    expect(getComputedStyle(comparatorFormField).display).not.toBe('none');
+
+    changeMatSelectValue('field-select', autoCompleteField);
 
     expect(fixture.componentInstance.isComparatorHidden).toBeTruthy();
     expect(getComputedStyle(comparatorFormField).display).toBe('none');
@@ -165,9 +192,104 @@ describe('RuleSimpleConditionUiComponent', () => {
 
     expect(getByDataAutomationId('simple-condition-value-select')).toBeTruthy();
 
-    fixture.componentInstance.writeValue(categoryMock);
+    fixture.componentInstance.writeValue(tagMock);
     fixture.detectChanges();
 
     expect(getByDataAutomationId('value-input').nativeElement.value).toBe('');
   });
+
+  it('should provide auto-complete option when category is selected', () => {
+    fixture.detectChanges();
+    changeMatSelectValue('field-select', 'category');
+
+    expect(getByDataAutomationId('auto-complete-input-field')).toBeTruthy();
+    expect(fixture.componentInstance.form.get('parameter').value).toEqual('');
+  });
+
+  it('should fetch category list when category option is selected', fakeAsync(() => {
+    spyOn(categoryService, 'searchCategories').and.returnValue(of(categoriesListMock));
+
+    fixture.detectChanges();
+    changeMatSelectValue('field-select', 'category');
+    tick(500);
+
+    expect(categoryService.searchCategories).toHaveBeenCalledWith('');
+  }));
+
+  it('should fetch new category list with user input when user types into parameter field after category option is select', fakeAsync(() => {
+    const categoryValue = 'a new category';
+    spyOn(categoryService, 'searchCategories').and.returnValue(of(categoriesListMock));
+
+    fixture.detectChanges();
+    changeMatSelectValue('field-select', 'category');
+    tick(500);
+    expect(categoryService.searchCategories).toHaveBeenCalledWith('');
+
+    setValueInInputField('auto-complete-input-field', categoryValue);
+    tick(500);
+    expect(categoryService.searchCategories).toHaveBeenCalledWith(categoryValue);
+  }));
+
+  it('should fetch category details when a saved rule with category condition is edited', () => {
+    const savedCategoryMock: RuleSimpleCondition = {
+      field: 'category',
+      comparator: 'equals',
+      parameter: 'a-fake-category-id'
+    };
+
+    const fakeCategory = {
+      entry: {
+        path: '/a/fake/category/path',
+        hasChildren: false,
+        name: 'FakeCategory',
+        id: 'fake-category-id-1'
+      }
+    };
+    spyOn(categoryService, 'getCategory').and.returnValue(of(fakeCategory));
+
+    fixture.componentInstance.writeValue(savedCategoryMock);
+    fixture.detectChanges();
+
+    expect(categoryService.getCategory).toHaveBeenCalledWith(savedCategoryMock.parameter, { include: ['path'] });
+  });
+
+  it('should show loading spinner while auto-complete options are fetched, and then remove it once it is received', fakeAsync(() => {
+    spyOn(categoryService, 'searchCategories').and.returnValue(of(categoriesListMock).pipe(delay(1000)));
+    fixture.detectChanges();
+    changeMatSelectValue('field-select', 'category');
+    tick(500);
+    getByDataAutomationId('auto-complete-input-field')?.nativeElement?.click();
+    let loadingSpinner = getByDataAutomationId('auto-complete-loading-spinner');
+    expect(loadingSpinner).not.toBeNull();
+    tick(1000);
+    fixture.detectChanges();
+    loadingSpinner = getByDataAutomationId('auto-complete-loading-spinner');
+    expect(loadingSpinner).toBeNull();
+    discardPeriodicTasks();
+  }));
+
+  it('should display correct label for category when user selects a category from auto-complete dropdown', fakeAsync(() => {
+    spyOn(categoryService, 'searchCategories').and.returnValue(of(categoriesListMock));
+    fixture.detectChanges();
+    changeMatSelectValue('field-select', 'category');
+    tick(500);
+    getByDataAutomationId('auto-complete-input-field')?.nativeElement?.click();
+    changeMatSelectValue('folder-rule-auto-complete', categoriesListMock.list.entries[0].entry.id);
+    const displayValue = getByDataAutomationId('auto-complete-input-field')?.nativeElement?.value;
+    expect(displayValue).toBe('category/path/1/FakeCategory1');
+    discardPeriodicTasks();
+  }));
+
+  it('should automatically select first category when user focuses out of parameter form field with category option selected', fakeAsync(() => {
+    spyOn(categoryService, 'searchCategories').and.returnValue(of(categoriesListMock));
+    fixture.detectChanges();
+    changeMatSelectValue('field-select', 'category');
+    tick(500);
+    const autoCompleteInputField = getByDataAutomationId('auto-complete-input-field')?.nativeElement;
+    autoCompleteInputField.value = 'FakeCat';
+    autoCompleteInputField.dispatchEvent(new Event('focusout'));
+    const parameterValue = fixture.componentInstance.form.get('parameter').value;
+    expect(parameterValue).toEqual(categoriesListMock.list.entries[0].entry.id);
+    discardPeriodicTasks();
+  }));
 });

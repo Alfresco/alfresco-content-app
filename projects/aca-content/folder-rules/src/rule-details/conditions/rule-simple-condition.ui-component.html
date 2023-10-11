@@ -21,14 +21,54 @@
     </mat-select>
   </mat-form-field>
 
-  <mat-form-field class="aca-rule-simple-condition__form__parameter-input">
-    <mat-select formControlName="parameter" data-automation-id="simple-condition-value-select" *ngIf="selectedField?.type === 'mimeType'; else valueInput">
+  <mat-form-field class="aca-rule-simple-condition__form__parameter-input" [ngSwitch]="selectedField.type">
+    <mat-select formControlName="parameter" data-automation-id="simple-condition-value-select" *ngSwitchCase="'mimeType'">
       <mat-option *ngFor="let mimeType of mimeTypes"
         [value]="mimeType.value">
         {{ mimeType.label }}
       </mat-option>
     </mat-select>
-    <ng-template #valueInput>
+    <ng-template [ngSwitchCase]="'auto-complete'">
+        <input
+          matInput
+          [matAutocomplete]="auto"
+          formControlName="parameter"
+          (focusout)="autoSelectValidOption()"
+          data-automation-id="auto-complete-input-field"
+        />
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          data-automation-id="folder-rule-auto-complete"
+          [autoActiveFirstOption]="true"
+          [autoSelectActiveOption]="true"
+          [displayWith]="autoCompleteDisplayFunction">
+            <mat-option disabled *ngIf="showLoadingSpinner; else optionList">
+              <span class="aca-rule-simple-condition__auto-complete-loading-spinner">
+                <mat-progress-spinner
+                  color="primary"
+                  mode="indeterminate"
+                  data-automation-id="auto-complete-loading-spinner"
+                  [diameter]="25"
+                ></mat-progress-spinner>
+              </span>
+            </mat-option>
+          <ng-template #optionList>
+            <ng-container *ngIf="autoCompleteOptions?.length > 0; else noOptionsTemplate">
+              <mat-option
+                *ngFor="let option of autoCompleteOptions"
+                [value]="option.value">
+                {{ option.displayLabel }}
+              </mat-option>
+            </ng-container>
+            <ng-template #noOptionsTemplate>
+              <mat-option disabled>
+                {{ 'ACA_FOLDER_RULES.AUTOCOMPLETE.NO_OPTIONS_FOUND' | translate }}
+              </mat-option>
+            </ng-template>
+          </ng-template>
+        </mat-autocomplete>
+    </ng-template>
+    <ng-template ngSwitchDefault>
       <input matInput placeholder="{{ 'ACA_FOLDER_RULES.RULE_DETAILS.PLACEHOLDER.VALUE' | translate }}" type="text" formControlName="parameter" data-automation-id="value-input">
     </ng-template>
   </mat-form-field>
