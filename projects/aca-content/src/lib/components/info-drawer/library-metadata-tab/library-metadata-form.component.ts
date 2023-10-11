@@ -184,7 +184,12 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
   update() {
     if (this.canUpdateLibrary && this.form.valid) {
       this.form.markAsPristine();
-      this.store.dispatch(new UpdateLibraryAction(this.form.value));
+      this.store.dispatch(
+        new UpdateLibraryAction({
+          ...this.form.value,
+          title: this.form.value.title.trim()
+        })
+      );
     }
   }
 
@@ -202,7 +207,7 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
   private findLibraryByTitle(libraryTitle: string): Observable<SitePaging | { list: { entries: any[] } }> {
     return from(
       this.queriesApi
-        .findSites(libraryTitle, {
+        .findSites(libraryTitle.trim(), {
           maxItems: 1,
           fields: ['title']
         })
