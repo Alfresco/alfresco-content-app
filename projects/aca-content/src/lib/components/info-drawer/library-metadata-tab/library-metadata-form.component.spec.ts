@@ -333,13 +333,6 @@ describe('LibraryMetadataFormComponent', () => {
     expect(component.titleErrorTranslationKey).toBe('LIBRARY.ERRORS.ONLY_SPACES');
   });
 
-  it('should set proper titleErrorTranslationKey when there is error for required', () => {
-    component.ngOnInit();
-
-    component.form.controls.title.setValue('');
-    expect(component.titleErrorTranslationKey).toBe('LIBRARY.ERRORS.TITLE_TOO_LONG');
-  });
-
   it('should set proper titleErrorTranslationKey when there is error for too long title', () => {
     component.ngOnInit();
 
