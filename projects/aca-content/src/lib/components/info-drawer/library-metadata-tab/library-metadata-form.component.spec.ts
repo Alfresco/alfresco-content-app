@@ -170,6 +170,7 @@ describe('LibraryMetadataFormComponent', () => {
   it('should update library node with trimmed title', () => {
     component.node.entry.role = Site.RoleEnum.SiteManager;
     siteEntryModel.title = '   some title    ';
+    component.node.entry.title = siteEntryModel.title;
     component.ngOnInit();
 
     component.update();
@@ -276,6 +277,23 @@ describe('LibraryMetadataFormComponent', () => {
 
     tick(500);
     expect(component.libraryTitleExists).toBe(true);
+  }));
+
+  it('should call findSites on queriesApi with trimmed title', fakeAsync(() => {
+    const title = '    test   ';
+    spyOn(component.queriesApi, 'findSites').and.returnValue(
+      Promise.resolve({
+        list: { entries: [{ entry: { title } }] }
+      } as SitePaging)
+    );
+    component.ngOnInit();
+
+    component.form.controls.title.setValue(title);
+    tick(300);
+    expect(component.queriesApi.findSites).toHaveBeenCalledWith(title.trim(), {
+      maxItems: 1,
+      fields: ['title']
+    });
   }));
 
   it('should not warn if library name input is the same with library node data', fakeAsync(() => {
