@@ -275,14 +275,19 @@ describe('MetadataTabComponent', () => {
   });
 
   describe('Custom metadata panels', () => {
+    beforeEach(() => {
+      fixture = TestBed.createComponent(MetadataTabComponent);
+      component = fixture.componentInstance;
+    });
+
     it('should get custom metadata panels', (done) => {
       spyOn(appExtensionService, 'getCustomMetadataPanels').and.returnValue(
         of([{ id: 'test', type: ContentActionType.custom, title: 'testTitle', component: 'test-id' }])
       );
-      const localComponent = TestBed.createComponent(MetadataTabComponent);
-      localComponent.componentInstance.customPanels.subscribe((panels) => {
+      component.ngOnInit();
+      component.customPanels.subscribe((panels) => {
         expect(panels.length).toBe(1);
-        expect(panels[0].title).toEqual('testTitle');
+        expect(panels[0].panelTitle).toEqual('testTitle');
         expect(panels[0].component).toEqual('test-id');
         done();
       });
