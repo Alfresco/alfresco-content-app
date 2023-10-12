@@ -1250,7 +1250,7 @@ describe('NodeActionsService', () => {
       spyOn(thumbnailService, 'getMimeTypeIcon').and.returnValue(iconPath);
       mockNode.isFolder = isFoldeType;
       mockNode.isFile = isFileType;
-      const value = service.getInfoDrawerIcon(mockNode);
+      const value = service.getNodeIcon(mockNode);
       expect(value).toContain(iconPath);
     }
 
@@ -1278,7 +1278,7 @@ describe('NodeActionsService', () => {
       spyOn(thumbnailService, 'getDefaultMimeTypeIcon').and.returnValue(`assets/images/ft_ic_miscellaneous.svg`);
       mockNode.isFile = false;
       mockNode.isFolder = false;
-      const value = service.getInfoDrawerIcon(mockNode);
+      const value = service.getNodeIcon(mockNode);
       expect(value).toContain(`assets/images/ft_ic_miscellaneous`);
     });
   });
