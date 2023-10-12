@@ -27,7 +27,7 @@ import { BaseComponent } from '../base.component';
 import { timeouts } from '../../../utils';
 
 export class CreateFromTemplateDialogComponent extends BaseComponent {
-  private static rootElement = 'ng-component';
+  private static rootElement = 'app-create-from-template-dialog';
 
   constructor(page: Page) {
     super(page, CreateFromTemplateDialogComponent.rootElement);

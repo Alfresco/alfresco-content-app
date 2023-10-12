@@ -40,6 +40,7 @@ import { MatButtonModule } from '@angular/material/button';
   imports: [CommonModule, TranslateModule, MatDialogModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule],
   templateUrl: './create-from-template.dialog.html',
   styleUrls: ['./create-from-template.dialog.scss'],
+  selector: 'app-create-from-template-dialog',
   encapsulation: ViewEncapsulation.None
 })
 export class CreateFromTemplateDialogComponent implements OnInit {
