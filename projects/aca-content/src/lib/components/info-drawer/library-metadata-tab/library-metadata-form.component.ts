@@ -31,7 +31,8 @@ import {
   NgForm,
   FormsModule,
   ReactiveFormsModule,
-  FormControl
+  FormControl,
+  ValidationErrors
 } from '@angular/forms';
 import { QueriesApi, SiteEntry, SitePaging } from '@alfresco/js-api';
 import { Store } from '@ngrx/store';
@@ -225,7 +226,7 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
       .subscribe(handle);
   }
 
-  private validateEmptyName(control: FormControl<string>) {
+  private validateEmptyName(control: FormControl<string>): ValidationErrors {
     return control.value.length && !control.value.trim() ? { empty: true } : null;
   }
 }
