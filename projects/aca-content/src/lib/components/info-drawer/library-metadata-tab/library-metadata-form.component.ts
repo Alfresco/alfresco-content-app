@@ -144,7 +144,9 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(
         () =>
-          (this._titleErrorTranslationKey = this.form.controls.title.errors?.empty ? 'LIBRARY.ERRORS.ONLY_SPACES' : 'LIBRARY.ERRORS.TITLE_TOO_LONG')
+          (this._titleErrorTranslationKey = this.form.controls.title.errors?.empty
+            ? 'LIBRARY.ERRORS.ONLY_SPACES'
+            : 'LIBRARY.ERRORS.TITLE_TOO_LONG_OR_MISSING')
       );
     this.form.controls['title'].valueChanges
       .pipe(

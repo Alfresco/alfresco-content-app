@@ -337,6 +337,13 @@ describe('LibraryMetadataFormComponent', () => {
     component.ngOnInit();
 
     component.form.controls.title.setValue('t'.repeat(257));
-    expect(component.titleErrorTranslationKey).toBe('LIBRARY.ERRORS.TITLE_TOO_LONG');
+    expect(component.titleErrorTranslationKey).toBe('LIBRARY.ERRORS.TITLE_TOO_LONG_OR_MISSING');
+  });
+
+  it('should set proper titleErrorTranslationKey when there is error for missing title', () => {
+    component.ngOnInit();
+
+    component.form.controls.title.setValue('');
+    expect(component.titleErrorTranslationKey).toBe('LIBRARY.ERRORS.TITLE_TOO_LONG_OR_MISSING');
   });
 });
