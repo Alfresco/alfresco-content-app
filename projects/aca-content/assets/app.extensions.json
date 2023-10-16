@@ -1249,7 +1249,7 @@
             "click": "ASPECT_LIST"
           },
           "rules": {
-            "visible": "canEditAspects"
+            "visible": "editAspects"
           }
         },
         {
