@@ -117,6 +117,8 @@ export class CustomNameColumnComponent extends NameColumnComponent implements On
   }
 
   onBadgeClick(badge: Badge) {
-    this.appExtensionService.runActionById(badge.actions?.click, this.node);
+    if (badge.actions?.click) {
+      this.appExtensionService.runActionById(badge.actions?.click, this.node);
+    }
   }
 }

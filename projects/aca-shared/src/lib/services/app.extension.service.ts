@@ -81,6 +81,7 @@ export class AppExtensionService implements RuleContext {
   private _sidebarActions = new BehaviorSubject<Array<ContentActionRef>>([]);
   private _badges = new BehaviorSubject<Array<Badge>>([]);
   private _filesDocumentListPreset = new BehaviorSubject<Array<DocumentListPresetRef>>([]);
+  private _customMetadataPanels = new BehaviorSubject<Array<ContentActionRef>>([]);
 
   documentListPresets: {
     libraries: Array<DocumentListPresetRef>;
@@ -160,6 +161,7 @@ export class AppExtensionService implements RuleContext {
     this._mainActions.next(this.loader.getFeatures(config).mainAction);
     this._badges.next(this.loader.getElements<Badge>(config, 'features.badges'));
     this._filesDocumentListPreset.next(this.getDocumentListPreset(config, 'files'));
+    this._customMetadataPanels.next(this.loader.getElements<ContentActionRef>(config, 'features.customMetadataPanels'));
 
     this.navbar = this.loadNavBar(config);
     this.sidebarTabs = this.loader.getElements<SidebarTabRef>(config, 'features.sidebar.tabs');
@@ -373,6 +375,10 @@ export class AppExtensionService implements RuleContext {
 
   getBadges(node: NodeEntry): Observable<Array<Badge>> {
     return this._badges.pipe(map((badges) => badges.filter((badge) => this.evaluateRule(badge.rules.visible, node))));
+  }
+
+  getCustomMetadataPanels(node: NodeEntry): Observable<Array<ContentActionRef>> {
+    return this._customMetadataPanels.pipe(map((panels) => panels.filter((panel) => this.evaluateRule(panel.rules.visible, node))));
   }
 
   private buildMenu(actionRef: ContentActionRef): ContentActionRef {
