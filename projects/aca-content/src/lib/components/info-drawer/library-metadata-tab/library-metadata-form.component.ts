@@ -101,7 +101,6 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
   @Input()
   node: SiteEntry;
 
-  edit: boolean;
   libraryTitleExists = false;
 
   libraryType = [
@@ -129,7 +128,14 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
   }
 
   toggleEdit() {
-    this.edit = !this.edit;
+    if (this.form.enabled) {
+      this.form.disable();
+    } else {
+      this.form.enable({
+        emitEvent: false
+      });
+      this.form.controls.id.disable();
+    }
   }
 
   cancel() {
@@ -139,6 +145,7 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
   }
 
   ngOnInit() {
+    this.toggleEdit();
     this.updateForm(this.node);
     this.form.controls.title.statusChanges
       .pipe(takeUntil(this.onDestroy$))
