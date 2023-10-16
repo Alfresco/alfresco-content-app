@@ -498,6 +498,14 @@ export const canEditAspects = (context: RuleContext): boolean =>
     repository.isMajorVersionAvailable(context, '7')
   ].every(Boolean);
 
+export const editAspects = (context: RuleContext): boolean =>
+  [
+    canUpdateSelectedNode(context),
+    !isWriteLocked(context),
+    navigation.isNotTrashcan(context),
+    repository.isMajorVersionAvailable(context, '7')
+  ].every(Boolean);
+
 export const canShowExpand = (context: RuleContext): boolean => [!navigation.isLibraries(context), !navigation.isDetails(context)].every(Boolean);
 
 /**
