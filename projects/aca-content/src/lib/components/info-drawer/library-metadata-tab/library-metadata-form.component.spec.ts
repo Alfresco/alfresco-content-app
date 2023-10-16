@@ -167,6 +167,21 @@ describe('LibraryMetadataFormComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(new UpdateLibraryAction(siteEntryModel));
   });
 
+  it('should update library node with trimmed title', () => {
+    component.node.entry.role = Site.RoleEnum.SiteManager;
+    siteEntryModel.title = '   some title    ';
+    component.node.entry.title = siteEntryModel.title;
+    component.ngOnInit();
+
+    component.update();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new UpdateLibraryAction({
+        ...siteEntryModel,
+        title: siteEntryModel.title.trim()
+      })
+    );
+  });
+
   it('should call markAsPristine on form when updating valid form and has permission to update', () => {
     component.node.entry.role = Site.RoleEnum.SiteManager;
     spyOn(component.form, 'markAsPristine');
@@ -264,6 +279,23 @@ describe('LibraryMetadataFormComponent', () => {
     expect(component.libraryTitleExists).toBe(true);
   }));
 
+  it('should call findSites on queriesApi with trimmed title', fakeAsync(() => {
+    const title = '    test   ';
+    spyOn(component.queriesApi, 'findSites').and.returnValue(
+      Promise.resolve({
+        list: { entries: [{ entry: { title } }] }
+      } as SitePaging)
+    );
+    component.ngOnInit();
+
+    component.form.controls.title.setValue(title);
+    tick(300);
+    expect(component.queriesApi.findSites).toHaveBeenCalledWith(title.trim(), {
+      maxItems: 1,
+      fields: ['title']
+    });
+  }));
+
   it('should not warn if library name input is the same with library node data', fakeAsync(() => {
     spyOn(component['queriesApi'], 'findSites').and.returnValue(
       Promise.resolve({
@@ -293,4 +325,25 @@ describe('LibraryMetadataFormComponent', () => {
     tick(500);
     expect(component.libraryTitleExists).toBe(false);
   }));
+
+  it('should set proper titleErrorTranslationKey when there is error for empty title', () => {
+    component.ngOnInit();
+
+    component.form.controls.title.setValue('     ');
+    expect(component.titleErrorTranslationKey).toBe('LIBRARY.ERRORS.ONLY_SPACES');
+  });
+
+  it('should set proper titleErrorTranslationKey when there is error for too long title', () => {
+    component.ngOnInit();
+
+    component.form.controls.title.setValue('t'.repeat(257));
+    expect(component.titleErrorTranslationKey).toBe('LIBRARY.ERRORS.TITLE_TOO_LONG_OR_MISSING');
+  });
+
+  it('should set proper titleErrorTranslationKey when there is error for missing title', () => {
+    component.ngOnInit();
+
+    component.form.controls.title.setValue('');
+    expect(component.titleErrorTranslationKey).toBe('LIBRARY.ERRORS.TITLE_TOO_LONG_OR_MISSING');
+  });
 });
