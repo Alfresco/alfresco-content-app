@@ -293,7 +293,7 @@ export class NodeEffects {
               .subscribe((selection) => {
                 if (selection && !selection.isEmpty) {
                   const route = 'personal-files/details';
-                  this.store.dispatch(new NavigateRouteAction([route, selection.first.entry.id, 'permissions']));
+                  this.store.dispatch(new NavigateRouteAction([route, selection.last.entry.id, 'permissions']));
                 }
               });
           }
@@ -321,7 +321,7 @@ export class NodeEffects {
               .subscribe((selection) => {
                 if (selection && !selection.isEmpty) {
                   const route = 'personal-files/details';
-                  this.router.navigate([route, selection.first.entry.id], {
+                  this.router.navigate([route, selection.last.entry.id], {
                     queryParams: {
                       location: this.router.url
                     }
