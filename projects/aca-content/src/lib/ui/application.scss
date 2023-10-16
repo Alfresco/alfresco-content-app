@@ -49,10 +49,10 @@ ng-component {
 
 .aca-sidebar {
   display: block;
-  height: 100%;
   max-width: 368px;
   width: 368px;
-  border-top: 1px solid var(--theme-metadata-property-panel-border-color);
+  margin-bottom: 65px;
+  border-bottom: 1px solid var(--theme-metadata-property-panel-border-color);
 }
 
 .aca-page-title {
