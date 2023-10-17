@@ -69,8 +69,7 @@ export class PreviewComponent extends PageComponent implements OnInit, OnDestroy
 
   recentFileFilters = [
     'TYPE:"content"',
-    // TODO '*' for now cause exception to be thrown, Team6 is working on it
-    '-PATH:"//cm:wiki/"',
+    '-PATH:"//cm:wiki/*"',
     '-TYPE:"app:filelink"',
     '-TYPE:"fm:post"',
     '-TYPE:"cm:thumbnail"',
