@@ -40,4 +40,4 @@ runs:
       uses: actions/upload-artifact@v3
       with:
         name: ${{ inputs.artifact-name }}
-        path: test-results/
+        path: e2e-output/

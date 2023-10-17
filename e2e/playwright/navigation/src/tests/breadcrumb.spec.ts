@@ -70,7 +70,7 @@ test.describe('viewer action file', () => {
   });
 
   test.afterAll(async ({ nodesApiAction }) => {
-    await nodesApiAction.deleteNodes([parentId], true);
+    await nodesApiAction.deleteNodes([parentId, parent2Id], true);
   });
 
   test('[C260964] Personal Files breadcrumb main node', async ({ personalFiles }) => {
