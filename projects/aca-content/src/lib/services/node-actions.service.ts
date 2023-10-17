@@ -25,7 +25,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable, Subject, of, zip, from } from 'rxjs';
-import { AlfrescoApiService, TranslationService, ThumbnailService } from '@alfresco/adf-core';
+import { AlfrescoApiService, ThumbnailService, TranslationService } from '@alfresco/adf-core';
 import {
   DocumentListService,
   ContentNodeSelectorComponent,
@@ -561,52 +561,6 @@ export class NodeActionsService {
     }
 
     return null;
-  }
-
-  getNodeIcon(node: Node): string {
-    if (node?.isFolder) {
-      return this.getFolderIcon(node);
-    }
-    if (node?.isFile) {
-      return this.thumbnailService.getMimeTypeIcon(node?.content?.mimeType);
-    }
-    return this.thumbnailService.getDefaultMimeTypeIcon();
-  }
-
-  private getFolderIcon(node: Node): string {
-    if (this.isSmartFolder(node)) {
-      return this.thumbnailService.getMimeTypeIcon('smartFolder');
-    } else if (this.isRuleFolder(node)) {
-      return this.thumbnailService.getMimeTypeIcon('ruleFolder');
-    } else if (this.isLinkFolder(node)) {
-      return this.thumbnailService.getMimeTypeIcon('linkFolder');
-    } else {
-      return this.thumbnailService.getMimeTypeIcon('folder');
-    }
-  }
-
-  isSmartFolder(node: Node): boolean {
-    if (node) {
-      const nodeAspects = this.getNodeAspectNames(node);
-      return nodeAspects?.includes('smf:customConfigSmartFolder') || nodeAspects?.includes('smf:systemConfigSmartFolder');
-    }
-    return false;
-  }
-
-  isRuleFolder(node: Node): boolean {
-    if (node) {
-      const nodeAspects = this.getNodeAspectNames(node);
-      return nodeAspects?.includes('rule:rules');
-    }
-    return false;
-  }
-
-  isLinkFolder(node: Node): boolean {
-    return node?.nodeType === 'app:folderlink';
-  }
-
-  private getNodeAspectNames(node: Node): string[] {
-    return node?.aspectNames || [];
   }
 
   public getNewNameFrom(name: string, baseName?: string) {
