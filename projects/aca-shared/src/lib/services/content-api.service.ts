@@ -23,7 +23,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { AlfrescoApiService, UserPreferencesService } from '@alfresco/adf-core';
+import { AlfrescoApiService, ThumbnailService, UserPreferencesService } from '@alfresco/adf-core';
 import { Observable, from } from 'rxjs';
 import {
   NodePaging,
@@ -118,7 +118,7 @@ export class ContentApiService {
     this._versionsApi = this._versionsApi ?? new VersionsApi(this.api.getInstance());
     return this._versionsApi;
   }
-  constructor(private api: AlfrescoApiService, private preferences: UserPreferencesService) {}
+  constructor(private api: AlfrescoApiService, private preferences: UserPreferencesService, private thumbnailService: ThumbnailService) {}
 
   /**
    * Moves a node to the trashcan.
@@ -360,5 +360,51 @@ export class ContentApiService {
 
   requestVersionDirectAccessUrl(nodeId: string, versionId: string): Observable<DirectAccessUrlEntry> {
     return from(this.versionsApi.requestDirectAccessUrl(nodeId, versionId));
+  }
+
+  getNodeIcon(node: Node): string {
+    if (node?.isFolder) {
+      return this.getFolderIcon(node);
+    }
+    if (node?.isFile) {
+      return this.thumbnailService.getMimeTypeIcon(node?.content?.mimeType);
+    }
+    return this.thumbnailService.getDefaultMimeTypeIcon();
+  }
+
+  private getFolderIcon(node: Node): string {
+    if (this.isSmartFolder(node)) {
+      return this.thumbnailService.getMimeTypeIcon('smartFolder');
+    } else if (this.isRuleFolder(node)) {
+      return this.thumbnailService.getMimeTypeIcon('ruleFolder');
+    } else if (this.isLinkFolder(node)) {
+      return this.thumbnailService.getMimeTypeIcon('linkFolder');
+    } else {
+      return this.thumbnailService.getMimeTypeIcon('folder');
+    }
+  }
+
+  isSmartFolder(node: Node): boolean {
+    if (node) {
+      const nodeAspects = this.getNodeAspectNames(node);
+      return nodeAspects?.includes('smf:customConfigSmartFolder') || nodeAspects?.includes('smf:systemConfigSmartFolder');
+    }
+    return false;
+  }
+
+  isRuleFolder(node: Node): boolean {
+    if (node) {
+      const nodeAspects = this.getNodeAspectNames(node);
+      return nodeAspects?.includes('rule:rules');
+    }
+    return false;
+  }
+
+  isLinkFolder(node: Node): boolean {
+    return node?.nodeType === 'app:folderlink';
+  }
+
+  private getNodeAspectNames(node: Node): string[] {
+    return node?.aspectNames || [];
   }
 }

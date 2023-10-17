@@ -37,7 +37,6 @@ import { InfoDrawerModule } from '@alfresco/adf-core';
 import { TranslateModule } from '@ngx-translate/core';
 import { A11yModule } from '@angular/cdk/a11y';
 import { ToolbarComponent } from '../toolbar/toolbar.component';
-import { NodeActionsService } from '../../../../../aca-content/src/lib/services/node-actions.service';
 
 @Component({
   standalone: true,
@@ -65,12 +64,7 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
     this.close();
   }
 
-  constructor(
-    private store: Store<any>,
-    private contentApi: ContentApiService,
-    private extensions: AppExtensionService,
-    private nodeActionsService: NodeActionsService
-  ) {}
+  constructor(private store: Store<any>, private contentApi: ContentApiService, private extensions: AppExtensionService) {}
 
   ngOnInit() {
     this.tabs = this.extensions.getSidebarTabs();
@@ -133,6 +127,6 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   getNodeIcon(node: Node): string {
-    return this.nodeActionsService.getNodeIcon(node);
+    return this.contentApi.getNodeIcon(node);
   }
 }
