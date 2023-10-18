@@ -1736,4 +1736,60 @@ describe('AppExtensionService', () => {
       done();
     });
   });
+
+  it('should get custom metadata panels from config', (done) => {
+    extensions.setEvaluators({
+      'action.enabled': () => true
+    });
+
+    applyConfig({
+      $id: 'test',
+      $name: 'test',
+      $version: '1.0.0',
+      $license: 'MIT',
+      $vendor: 'Good company',
+      $runtime: '1.5.0',
+      features: {
+        customMetadataPanels: [
+          {
+            id: 'panel1-id',
+            title: 'testTitle',
+            component: 'testComponent1',
+            rules: {
+              visible: 'action.enabled'
+            }
+          },
+          {
+            id: 'panel2-id',
+            title: 'testTitle2',
+            component: 'testComponent2',
+            rules: {
+              visible: 'action.enabled'
+            }
+          }
+        ]
+      }
+    });
+
+    const node: NodeEntry = {
+      entry: {
+        id: 'testId',
+        name: 'testName',
+        nodeType: 'test',
+        isFile: true,
+        isFolder: false,
+        modifiedAt: undefined,
+        createdAt: undefined,
+        modifiedByUser: undefined,
+        createdByUser: undefined
+      }
+    };
+
+    service.getCustomMetadataPanels(node).subscribe((panels) => {
+      expect(panels.length).toBe(2);
+      expect(panels[0].id).toEqual('panel1-id');
+      expect(panels[1].id).toEqual('panel2-id');
+      done();
+    });
+  });
 });

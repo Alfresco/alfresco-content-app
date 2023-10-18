@@ -641,6 +641,12 @@
         }
       ]
     },
+    "customMetadataPanels": {
+      "description": "List of cutom metadata panels to display in metadata card component",
+      "type": "array",
+      "items": { "ref": "#/definitions/contentActionRef" },
+      "minItems": 1
+    },
     "badges": {
       "description": "List of badges to display in the name column",
       "type": "array",

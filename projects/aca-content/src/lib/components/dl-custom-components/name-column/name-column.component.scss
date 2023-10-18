@@ -13,6 +13,10 @@
   }
 
   .aca-name-column-container {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
     aca-locked-by {
       display: flex;
       align-items: center;
