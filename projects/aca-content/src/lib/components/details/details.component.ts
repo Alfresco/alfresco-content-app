@@ -25,7 +25,7 @@
 import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ContentApiService, PageComponent, PageLayoutComponent, ToolbarComponent } from '@alfresco/aca-shared';
-import { NavigateToPreviousPage, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
+import { NavigateToFolder, NavigateToPreviousPage, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { Subject } from 'rxjs';
 import { BreadcrumbModule, PermissionManagerModule } from '@alfresco/adf-content-services';
 import { CommonModule } from '@angular/common';
@@ -36,6 +36,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { MetadataTabComponent } from '../info-drawer/metadata-tab/metadata-tab.component';
 import { CommentsTabComponent } from '../info-drawer/comments-tab/comments-tab.component';
+import { NodeEntry, PathElement } from '@alfresco/js-api';
 
 @Component({
   standalone: true,
@@ -103,6 +104,10 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
 
   goBack() {
     this.store.dispatch(new NavigateToPreviousPage());
+  }
+
+  onBreadcrumbNavigate(path: PathElement) {
+    this.store.dispatch(new NavigateToFolder({ entry: path } as NodeEntry));
   }
 
   ngOnDestroy(): void {

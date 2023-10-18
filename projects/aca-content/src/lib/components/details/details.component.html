@@ -1,6 +1,6 @@
 <aca-page-layout>
   <div class="aca-page-layout-header">
-    <adf-breadcrumb [root]="title" [folderNode]="node" (navigate)="goBack()"> </adf-breadcrumb>
+    <adf-breadcrumb [root]="title" [folderNode]="node" (navigate)="onBreadcrumbNavigate($event)"> </adf-breadcrumb>
     <aca-toolbar [items]="actions"></aca-toolbar>
   </div>
 
