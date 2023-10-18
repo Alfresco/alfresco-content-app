@@ -14,8 +14,12 @@
       "configurations": {
         "production": {
           "tsConfig": "projects/aca-shared/tsconfig.lib.prod.json"
+        },
+        "adfprod": {
+          "tsConfig": "projects/aca-shared/tsconfig.lib.adfprod.json"
         }
       },
+
       "defaultConfiguration": "production",
       "outputs": ["{workspaceRoot}/dist/@alfresco/aca-shared"]
     },
