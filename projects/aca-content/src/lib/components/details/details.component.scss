@@ -34,7 +34,8 @@ app-details-manager {
 }
 
 .aca-details-tabs {
-  height: calc(100% - 80px);
+  margin-top: 40px;
+  height: calc(100% - 136px);
 
   .mat-tab-body-wrapper {
     height: 100%;
@@ -48,6 +49,7 @@ app-details-manager {
         padding: 0 12px;
         min-width: 95px;
         letter-spacing: 0.25px;
+        height: 32px;
       }
     }
   }
