@@ -4,7 +4,8 @@
       <mat-form-field floatLabel="auto">
         <input
           matInput
-          cdkFocusInitial
+          [cdkTrapFocusAutoCapture]="form.enabled"
+          [cdkTrapFocus]="form.enabled"
           required
           placeholder="{{ 'LIBRARY.DIALOG.FORM.NAME' | translate }}"
           formControlName="title"
