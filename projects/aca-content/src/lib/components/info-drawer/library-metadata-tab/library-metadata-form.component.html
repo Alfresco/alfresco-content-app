@@ -1,7 +1,7 @@
 <mat-card *ngIf="node">
   <mat-card-content>
     <form [formGroup]="form" autocomplete="off">
-      <mat-form-field floatLabel="auto">
+      <mat-form-field floatLabel="auto" data-automation-id="library-name-properties-wrapper">
         <input
           matInput
           [cdkTrapFocusAutoCapture]="form.enabled"
@@ -17,11 +17,11 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field floatLabel="auto">
+      <mat-form-field floatLabel="auto" data-automation-id="library-id-properties-wrapper">
         <input matInput placeholder="{{ 'LIBRARY.DIALOG.FORM.SITE_ID' | translate }}" formControlName="id" />
       </mat-form-field>
 
-      <mat-form-field floatLabel="auto">
+      <mat-form-field floatLabel="auto" data-automation-id="library-visibility-properties-wrapper">
         <mat-select placeholder="{{ 'LIBRARY.DIALOG.FORM.VISIBILITY' | translate }}" formControlName="visibility">
           <mat-option [value]="type.value" *ngFor="let type of libraryType">
             {{ type.label | translate }}
@@ -29,7 +29,7 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field floatLabel="auto">
+      <mat-form-field floatLabel="auto" data-automation-id="library-description-properties-wrapper">
         <textarea
           matInput
           placeholder="{{ 'LIBRARY.DIALOG.FORM.DESCRIPTION' | translate }}"
