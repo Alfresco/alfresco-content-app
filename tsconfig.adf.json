@@ -4,7 +4,7 @@
     "baseUrl": "./",
     "downlevelIteration": true,
     "importHelpers": true,
-    "outDir": "./dist/out-tsc/lib",
+    "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
     "module": "esnext",
