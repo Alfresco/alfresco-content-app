@@ -1,19 +1,22 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
-  "extends": "../../tsconfig.adf.json",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "../../out-tsc/lib",
-    "declarationMap": true,
     "target": "es2020",
-    "module": "es2015",
     "moduleResolution": "node",
-    "declaration": true,
     "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
     "inlineSources": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
     "types": [],
-    "lib": ["dom", "es2018"],
+    "lib": [
+      "dom",
+      "es2020"
+    ],
     "paths": {
       "@alfresco/adf-testing": ["../../alfresco-ng2-components/lib/testing"],
       "@alfresco/adf-testing/shared": ["../../alfresco-ng2-components/lib/testing/src/lib/shared"],
@@ -31,9 +34,12 @@
   "angularCompilerOptions": {
     "skipTemplateCodegen": true,
     "strictMetadataEmit": true,
+    "enableResourceInlining": true,
     "fullTemplateTypeCheck": true,
-    "strictInjectionParameters": true,
-    "enableResourceInlining": true
+    "strictInjectionParameters": true
   },
-  "exclude": ["test.ts", "**/*.spec.ts"]
+  "exclude": [
+    "test.ts",
+    "**/*.spec.ts"
+  ]
 }

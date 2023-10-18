@@ -16,6 +16,9 @@
         },
         "development": {
           "tsConfig": "projects/aca-content/tsconfig.lib.json"
+        },
+        "adfprod": {
+          "tsConfig": "projects/aca-content/tsconfig.lib.adfprod.json"
         }
       },
       "defaultConfiguration": "production",
