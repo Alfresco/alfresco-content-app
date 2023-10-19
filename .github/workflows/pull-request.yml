@@ -1,6 +1,7 @@
 name: "Pull request"
 
 on:
+  push:
   pull_request:
     types: [opened, synchronize, reopened]
     branches: [master, develop]
@@ -64,6 +65,8 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'npm'
       - uses: ./.github/actions/before-install
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
       - run: npm ci
       - run: npm run build -- $BUILD_OPTS
       - name: upload job artifact
