@@ -36,7 +36,9 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { MetadataTabComponent } from '../info-drawer/metadata-tab/metadata-tab.component';
 import { CommentsTabComponent } from '../info-drawer/comments-tab/comments-tab.component';
-import { NodeEntry, PathElement } from '@alfresco/js-api';
+import { NodeEntry, Node, PathElement } from '@alfresco/js-api';
+import { takeUntil } from 'rxjs/operators';
+import { ContentActionRef } from '@alfresco/adf-extensions';
 
 @Component({
   standalone: true,
