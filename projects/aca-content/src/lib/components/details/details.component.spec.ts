@@ -30,11 +30,12 @@ import { of, Subject } from 'rxjs';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ContentApiService } from '@alfresco/aca-shared';
-import { STORE_INITIAL_APP_DATA, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
-import { NodeEntry } from '@alfresco/js-api';
+import { STORE_INITIAL_APP_DATA, SetSelectedNodesAction, NavigateToFolder } from '@alfresco/aca-shared/store';
+import { NodeEntry, PathElement } from '@alfresco/js-api';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AuthenticationService, PageTitleService } from '@alfresco/adf-core';
-import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
+import { BreadcrumbComponent, SearchQueryBuilderService } from '@alfresco/adf-content-services';
+import { By } from '@angular/platform-browser';
 
 describe('DetailsComponent', () => {
   let component: DetailsComponent;
@@ -45,7 +46,7 @@ describe('DetailsComponent', () => {
 
   const mockStream = new Subject();
   const storeMock = {
-    dispatch: jasmine.createSpy('dispatch'),
+    dispatch: jasmine.createSpy('dispatch').and.stub(),
     select: () => mockStream
   };
 
@@ -122,6 +123,17 @@ describe('DetailsComponent', () => {
   it('should get node info after setting node from router', () => {
     fixture.detectChanges();
     expect(contentApiService.getNode).toHaveBeenCalled();
+  });
+
+  it('should dispatch navigation to a given folder', () => {
+    const breadcrumbComponent: BreadcrumbComponent = fixture.debugElement.query(By.directive(BreadcrumbComponent)).componentInstance;
+    const pathElement: PathElement = {
+      id: 'fake-id'
+    };
+    breadcrumbComponent.navigate.emit(pathElement);
+    fixture.detectChanges();
+
+    expect(store.dispatch).toHaveBeenCalledWith(new NavigateToFolder({ entry: pathElement } as NodeEntry));
   });
 
   it('should dispatch node selection', () => {
