@@ -118,18 +118,16 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
 
   matcher = new InstantErrorStateMatcher();
   canUpdateLibrary = false;
-  visibilityLabel = '';
 
   onDestroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private alfrescoApiService: AlfrescoApiService, protected store: Store<AppStore>, private actions$: Actions) {}
-  getVisibilityLabel(value: string) {
-    return this.libraryType.find((type) => type.value === value).label;
-  }
 
   toggleEdit() {
     if (this.form.enabled) {
-      this.form.disable();
+      this.form.disable({
+        emitEvent: false
+      });
     } else {
       this.form.enable({
         emitEvent: false
@@ -175,7 +173,6 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
         }
       });
     this.canUpdateLibrary = this.node?.entry?.role === 'SiteManager';
-    this.visibilityLabel = this.libraryType.find((type) => type.value === this.form.controls['visibility'].value).label;
     this.handleUpdatingEvent<SnackbarInfoAction>(SnackbarActionTypes.Info, 'LIBRARY.SUCCESS.LIBRARY_UPDATED', () =>
       Object.assign(this.node.entry, this.form.value)
     );
