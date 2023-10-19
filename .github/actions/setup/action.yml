@@ -7,7 +7,7 @@ runs:
     - name: setup variables
       shell: bash
       run: |
-        echo "BUILD_OPTS=--configuration=production,e2e" >> $GITHUB_ENV
+        echo "BUILD_OPTS=--configuration=production" >> $GITHUB_ENV
         echo "TEST_OPTS=" >> $GITHUB_ENV
         echo "E2E_PROTRACTOR_OPTS=" >> $GITHUB_ENV
         echo "E2E_TSCONFIG=tsconfig.e2e.json" >> $GITHUB_ENV
