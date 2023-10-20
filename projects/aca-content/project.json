@@ -17,7 +17,7 @@
         "development": {
           "tsConfig": "projects/aca-content/tsconfig.lib.json"
         },
-        "adfprod": {
+        "adf": {
           "tsConfig": "projects/aca-content/tsconfig.lib.adfprod.json"
         }
       },
