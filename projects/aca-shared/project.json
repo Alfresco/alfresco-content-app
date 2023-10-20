@@ -14,9 +14,6 @@
       "configurations": {
         "production": {
           "tsConfig": "projects/aca-shared/tsconfig.lib.prod.json"
-        },
-        "adf": {
-          "tsConfig": "projects/aca-shared/tsconfig.lib.adf.json"
         }
       },
       "defaultConfiguration": "production",
