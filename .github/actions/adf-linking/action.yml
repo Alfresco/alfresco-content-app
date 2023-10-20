@@ -13,6 +13,7 @@ runs:
           echo "TEST_OPTS=--configuration=adfprod" >> $GITHUB_ENV
           echo "E2E_PROTRACTOR_OPTS=--with-local-adf" >> $GITHUB_ENV
           echo "E2E_TSCONFIG=tsconfig.e2e.adf.json" >> $GITHUB_ENV
+          echo "TSCONFIG=tsconfig.adf.json" >> $GITHUB_ENV
 
           BRANCH=`echo $COMMIT_MESSAGE | grep -o "\[link-adf\:[^]]*\]" | sed -e 's#\[link-adf:##g' | sed -e 's#\]##g'`
           echo "Cloning ADF with branch ${BRANCH}" && \
