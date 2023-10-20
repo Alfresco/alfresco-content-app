@@ -20,7 +20,7 @@
         <ng-container *ngIf="folderInfo$ | async; else genericError">
           <adf-toolbar class="adf-toolbar--inline aca-manage-rules__actions-bar">
 
-            <adf-toolbar-title class="aca-manage-rules__actions-bar__title">
+            <adf-toolbar-title [test]="'test'" class="aca-manage-rules__actions-bar__title">
               <mat-icon class="icon-aligner">folder</mat-icon>
               <h2 class="aca-page-title">{{ (folderInfo$ | async).name }}:{{'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.BREADCRUMB.RULES' | translate}}</h2>
             </adf-toolbar-title>
