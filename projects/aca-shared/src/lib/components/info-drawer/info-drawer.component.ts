@@ -58,6 +58,7 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
   actions: Array<ContentActionRef> = [];
   onDestroy$ = new Subject<boolean>();
   preventFromClosing = false;
+  icon: string = null;
 
   @HostListener('keydown.escape')
   onEscapeKeyboardEvent(): void {
@@ -124,9 +125,6 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
 
   private setDisplayNode(node: any) {
     this.displayNode = node;
-  }
-
-  getNodeIcon(node: Node): string {
-    return this.contentApi.getNodeIcon(node);
+    this.icon = this.contentApi.getNodeIcon(node);
   }
 }

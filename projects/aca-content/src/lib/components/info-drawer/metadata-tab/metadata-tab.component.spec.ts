@@ -111,7 +111,7 @@ describe('MetadataTabComponent', () => {
         allowableOperations: ['update']
       } as Node;
       component.ngOnInit();
-      expect(component.canUpdateNode).toBe(true);
+      expect(component.readOnly).toBe(true);
     });
 
     it('should return false if node is locked', () => {
@@ -120,7 +120,7 @@ describe('MetadataTabComponent', () => {
         allowableOperations: ['update']
       } as Node;
       component.ngOnInit();
-      expect(component.canUpdateNode).toBe(false);
+      expect(component.readOnly).toBe(false);
     });
 
     it('should return false if node has no update permission', () => {
@@ -129,7 +129,7 @@ describe('MetadataTabComponent', () => {
         allowableOperations: ['other']
       } as Node;
       component.ngOnInit();
-      expect(component.canUpdateNode).toBe(false);
+      expect(component.readOnly).toBe(false);
     });
 
     it('should return false if node has read only property', () => {
@@ -141,7 +141,7 @@ describe('MetadataTabComponent', () => {
         }
       } as Node;
       component.ngOnInit();
-      expect(component.canUpdateNode).toBe(false);
+      expect(component.readOnly).toBe(false);
     });
 
     describe('set by triggering EditOfflineAction', () => {
@@ -160,32 +160,32 @@ describe('MetadataTabComponent', () => {
             id: component.node.id
           } as Node
         });
-        component.canUpdateNode = true;
+        component.readOnly = true;
       });
 
       it('should have set true if node is not locked and has update permission', () => {
-        component.canUpdateNode = false;
+        component.readOnly = false;
         actions$.next(editOfflineAction);
-        expect(component.canUpdateNode).toBeTrue();
+        expect(component.readOnly).toBeTrue();
       });
 
       it('should not have set false if changed node has different id than original', () => {
         editOfflineAction.payload.entry.id = 'some other id';
         editOfflineAction.payload.entry.isLocked = true;
         actions$.next(editOfflineAction);
-        expect(component.canUpdateNode).toBeTrue();
+        expect(component.readOnly).toBeTrue();
       });
 
       it('should have set false if node is locked', () => {
         editOfflineAction.payload.entry.isLocked = true;
         actions$.next(editOfflineAction);
-        expect(component.canUpdateNode).toBeFalse();
+        expect(component.readOnly).toBeFalse();
       });
 
       it('should have set false if node has no update permission', () => {
         editOfflineAction.payload.entry.allowableOperations = ['other'];
         actions$.next(editOfflineAction);
-        expect(component.canUpdateNode).toBeFalse();
+        expect(component.readOnly).toBeFalse();
       });
 
       it('should have set false if node has read only property', () => {
@@ -193,7 +193,7 @@ describe('MetadataTabComponent', () => {
           'cm:lockType': 'WRITE_LOCK'
         };
         actions$.next(editOfflineAction);
-        expect(component.canUpdateNode).toBeFalse();
+        expect(component.readOnly).toBeFalse();
       });
     });
   });

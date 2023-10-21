@@ -46,7 +46,7 @@ import { Actions, ofType } from '@ngrx/effects';
   selector: 'app-metadata-tab',
   template: `
     <adf-content-metadata
-      [readOnly]="!canUpdateNode"
+      [readOnly]="readOnly"
       [preset]="'custom'"
       [node]="node"
       [displayAspect]="displayAspect$ | async"
@@ -71,11 +71,9 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
   node: Node;
 
   displayAspect$: Observable<string>;
-  canUpdateNode = false;
+  readOnly = false;
   editable = false;
   customPanels: Observable<ContentMetadataCustomPanel[]>;
-  editableTags = false;
-  editableCategories = false;
   group: any = {
     editable: false
   };
@@ -120,12 +118,6 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
       )
       .subscribe((updatedNode) => {
         this.checkIfNodeIsUpdatable(updatedNode?.payload.entry);
-        if (!this.canUpdateNode) {
-          this.editable = false;
-          this.editableTags = false;
-          this.editableCategories = false;
-          this.group.editable = false;
-        }
       });
     this.customPanels = this.extensions.getCustomMetadataPanels({ entry: this.node }).pipe(
       map((panels) => {
@@ -143,6 +135,6 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
   }
 
   private checkIfNodeIsUpdatable(node: Node) {
-    this.canUpdateNode = node && !isLocked({ entry: node }) ? this.permission.check(node, ['update']) : false;
+    this.readOnly = !(node && !isLocked({ entry: node }) ? this.permission.check(node, ['update']) : false);
   }
 }
