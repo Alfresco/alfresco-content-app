@@ -73,9 +73,6 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
   displayAspect$: Observable<string>;
   readOnly = false;
   customPanels: Observable<ContentMetadataCustomPanel[]>;
-  group: any = {
-    editable: false
-  };
 
   get displayCategories(): boolean {
     return this._displayCategories;
