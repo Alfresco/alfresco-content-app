@@ -97,7 +97,7 @@ describe('Extensions - Info Drawer', () => {
     });
 
     afterAll(async () => {
-      await apis.user.nodes.deleteNodes([fileId]);
+      await apis.user.nodes.deleteNodesById([fileId]);
     });
 
     it('[C284646] Add a new tab with icon and title ', async () => {
@@ -156,7 +156,7 @@ describe('Extensions - Info Drawer', () => {
     });
 
     afterAll(async () => {
-      await apis.user.nodes.deleteNodes([fileIdRemove]);
+      await apis.user.nodes.deleteNodesById([fileIdRemove]);
     });
 
     it('[C284650] Remove all tabs', async () => {
