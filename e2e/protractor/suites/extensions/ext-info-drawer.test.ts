@@ -39,6 +39,8 @@ describe('Extensions - Info Drawer', () => {
 
   const file = `file-${Utils.random()}.txt`;
   let fileId: string;
+  const fileRemove = `file-${Utils.random()}.txt`;
+  let fileIdRemove: string;
 
   const PROPERTIES_TAB = {
     order: 1,
@@ -79,10 +81,7 @@ describe('Extensions - Info Drawer', () => {
     await userActions.login(username, username);
 
     fileId = await apis.user.createFile(file);
-  });
-
-  afterAll(async () => {
-    await apis.user.nodes.deleteNodes([fileId]);
+    fileIdRemove = await apis.user.createFile(fileRemove);
   });
 
   describe('', () => {
@@ -95,6 +94,10 @@ describe('Extensions - Info Drawer', () => {
     beforeEach(async () => {
       await page.clickPersonalFilesAndWait();
       await page.dataTable.clearSelection();
+    });
+
+    afterAll(async () => {
+      await apis.user.nodes.deleteNodes([fileId]);
     });
 
     it('[C284646] Add a new tab with icon and title ', async () => {
@@ -152,8 +155,12 @@ describe('Extensions - Info Drawer', () => {
       await page.clickPersonalFilesAndWait();
     });
 
+    afterAll(async () => {
+      await apis.user.nodes.deleteNodes([fileIdRemove]);
+    });
+
     it('[C284650] Remove all tabs', async () => {
-      await page.dataTable.selectItem(file);
+      await page.dataTable.selectItem(fileRemove);
       await BrowserActions.click(page.toolbar.viewDetailsButton);
       await infoDrawer.waitForInfoDrawerToOpen();
 
