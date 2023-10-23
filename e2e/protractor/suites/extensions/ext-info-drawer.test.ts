@@ -82,7 +82,7 @@ describe('Extensions - Info Drawer', () => {
   });
 
   afterAll(async () => {
-    await userActions.deleteNodes([fileId]);
+    await apis.user.nodes.deleteNodes([fileId]);
   });
 
   describe('', () => {
