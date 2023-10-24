@@ -39,5 +39,8 @@
   "C325158" : "test migrated to playwright https://alfresco.atlassian.net/browse/ACS-5678",
   "C325161" : "test migrated to playwright https://alfresco.atlassian.net/browse/ACS-5678",
   "C325162" : "test migrated to playwright https://alfresco.atlassian.net/browse/ACS-5678",
-  "C325163" : "test migrated to playwright https://alfresco.atlassian.net/browse/ACS-5678"
+  "C325163" : "test migrated to playwright https://alfresco.atlassian.net/browse/ACS-5678",
+  "C269007" : "date test fail migrate to playwright https://alfresco.atlassian.net/browse/ACS-6185 ",
+  "C307106" : "date test fail migrate to playwright https://alfresco.atlassian.net/browse/ACS-6185 ",
+  "C269003" : "date test fail migrate to playwright https://alfresco.atlassian.net/browse/ACS-6185 "
 }
