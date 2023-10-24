@@ -82,7 +82,7 @@ describe('LibraryMetadataFormComponent', () => {
     expect(component.form.value).toEqual(siteEntryModel);
   });
 
-  it('should update form data when node data changes', () => {
+  it('should update form data and properties when node data changes', () => {
     const newSiteEntryModel = {
       title: 'libraryTitle2',
       description: 'description2',
@@ -93,10 +93,12 @@ describe('LibraryMetadataFormComponent', () => {
     component.toggleEdit();
 
     expect(component.form.value).toEqual(siteEntryModel);
+    expect(component.canUpdateLibrary).toBeFalse();
 
     component.node = {
       entry: {
         id: 'libraryId',
+        role: 'SiteManager',
         ...newSiteEntryModel
       } as Site
     };
@@ -104,6 +106,7 @@ describe('LibraryMetadataFormComponent', () => {
     component.ngOnChanges();
 
     expect(component.form.value).toEqual(newSiteEntryModel);
+    expect(component.canUpdateLibrary).toBeTrue();
   });
 
   it('should assign form value to node entry if updating of form is finished with success', () => {
