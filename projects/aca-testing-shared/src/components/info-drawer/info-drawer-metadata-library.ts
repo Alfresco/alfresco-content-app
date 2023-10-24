@@ -32,6 +32,8 @@ export class LibraryMetadata extends Component {
   visibilityPublic = this.byCssText('.mat-option .mat-option-text', 'Public', browser);
   visibilityPrivate = this.byCssText('.mat-option .mat-option-text', 'Private', browser);
   visibilityModerated = this.byCssText('.mat-option .mat-option-text', 'Moderated', browser);
+  visibilityValue = this.byCss('[data-automation-id="library-visibility-properties-wrapper"] .mat-select');
+
   hint = this.byCss('.mat-hint');
   error = this.byCss('.mat-error');
 
@@ -57,7 +59,7 @@ export class LibraryMetadata extends Component {
   }
 
   private async getValueOfField(fieldName: string) {
-    return this.getFieldByName(fieldName).getText();
+    return this.getFieldByName(fieldName).getAttribute('value');
   }
 
   private async enterTextInInput(fieldName: string, text: string) {
@@ -140,11 +142,11 @@ export class LibraryMetadata extends Component {
   }
 
   async isVisibilityDisplayed() {
-    return this.isFieldDisplayed('Visibility');
+    return browser.isElementPresent(this.visibilityValue);
   }
 
   async getVisibility(): Promise<string> {
-    return this.getValueOfField('Visibility');
+    return this.visibilityValue.getText();
   }
 
   async setVisibility(visibility: string) {

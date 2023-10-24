@@ -145,10 +145,10 @@ test.describe('Create Libraries ', () => {
     await expect(libraryTable.getCellLinkByName(randomLibraryName).and(myLibrariesPage.page.getByTitle(randomLibraryDescription))).toBeVisible();
     await libraryTable.getRowByName(randomLibraryName).click();
     await libraryViewDetails.click();
-    await expect(libraryDetails.getNameField('Name').getByText(randomLibraryName)).toBeVisible();
-    await expect(libraryDetails.getIdField('Library ID').getByText(randomLibraryId)).toBeVisible();
-    await expect(libraryDetails.getVisibilityField('Visibility').getByText(publicVisibility)).toBeVisible();
-    await expect(libraryDetails.getDescriptionField(libraryDescriptionLabel).getByText(randomLibraryDescription)).toBeVisible();
+    expect(await libraryDetails.getNameField('Name').locator('input').inputValue()).toBe(randomLibraryName);
+    expect(await libraryDetails.getIdField('Library ID').locator('input').inputValue()).toBe(randomLibraryId);
+    await expect(libraryDetails.getVisibilityField('Visibility').locator('.mat-select-value').getByText(publicVisibility)).toBeVisible();
+    expect(await libraryDetails.getDescriptionField.inputValue()).toBe(randomLibraryDescription);
 
     await apiClientFactory.sites.deleteSite(randomLibraryId, { permanent: true });
   });
