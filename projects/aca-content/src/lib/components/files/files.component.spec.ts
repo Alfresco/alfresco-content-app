@@ -33,6 +33,7 @@ import { AppExtensionService, ContentApiService } from '@alfresco/aca-shared';
 import { of, Subject, throwError } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { NodeEntry, NodePaging, Node, PathElement } from '@alfresco/js-api';
+import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 
 describe('FilesComponent', () => {
   let node;
@@ -87,7 +88,7 @@ describe('FilesComponent', () => {
     fixture = TestBed.createComponent(FilesComponent);
     component = fixture.componentInstance;
 
-    const documentListService = TestBed.inject(DocumentListService);
+    const documentListService: DocumentListService = TestBed.inject(DocumentListService);
     const fakeNodeEntry: NodeEntry = { entry: { id: 'fake-node-entry' } } as NodeEntry;
     const fakeNodePaging: NodePaging = { list: { pagination: { count: 10, maxItems: 10, skipCount: 0 } } };
     const documentLoaderNode = { children: fakeNodePaging, currentNode: fakeNodeEntry };
@@ -161,7 +162,7 @@ describe('FilesComponent', () => {
           desktopOnly: true,
           template: 'template',
           sortingKey: 'sorting-key'
-        }
+        } as DocumentListPresetRef
       ];
 
       extensions.filesDocumentListPreset$ = of(filesDocumentListPresetMock);
