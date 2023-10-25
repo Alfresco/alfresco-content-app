@@ -186,6 +186,7 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
 
   ngOnChanges() {
     this.updateForm(this.node);
+    this.canUpdateLibrary = this.node?.entry?.role === 'SiteManager';
   }
 
   update() {
