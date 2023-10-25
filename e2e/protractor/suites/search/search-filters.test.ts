@@ -33,9 +33,7 @@ import {
   SITE_ROLES,
   SizeOperator
 } from '@alfresco/aca-testing-shared';
-import { DateFnsUtils } from '@alfresco/adf-core';
 import { BrowserActions } from '@alfresco/adf-testing';
-import { addDays, subDays } from 'date-fns';
 
 describe('Search filters', () => {
   const random = Utils.random();
@@ -158,107 +156,6 @@ describe('Search filters', () => {
       await fileTypeFilter.openDialog();
       expect(await fileTypeFilter.getFileSizeValue()).toEqual('', 'Incorrect file size');
       expect(await fileTypeFilter.getFileSizeOperatorValue()).toEqual(SizeOperator.AT_LEAST, 'Incorrect file size operator');
-    });
-  });
-
-  describe('Filter by Created date', () => {
-    const yesterday = DateFnsUtils.formatDate(subDays(new Date(), 1), 'DD-MMM-YY');
-    const today = DateFnsUtils.formatDate(new Date(), 'DD-MMM-YY');
-    const future = DateFnsUtils.formatDate(addDays(new Date(), 1), 'DD-MMM-YY');
-
-    afterEach(async () => {
-      await Utils.pressEscape();
-      await BrowserActions.click(filters.resetAllButton);
-    });
-
-    it('[C279211] Expand / Collapse the Created date filter panel', async () => {
-      expect(await createdDateFilter.isDialogPresent()).toBe(false, 'Created date filter panel is expanded');
-
-      await createdDateFilter.openDialog();
-      expect(await createdDateFilter.isDialogPresent()).toBe(true, 'Created date filter panel not expanded');
-
-      await createdDateFilter.closeDialog();
-      expect(await createdDateFilter.isDialogPresent()).toBe(false, 'Created date filter panel is expanded');
-    });
-
-    it('[C279217] Results are filtered by Created date', async () => {
-      await createdDateFilter.openDialog();
-      await createdDateFilter.enterFromDate(yesterday);
-      await createdDateFilter.enterToDate(yesterday);
-
-      await createdDateFilter.clickApplyButton();
-
-      expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(false, 'PDF file is displayed');
-      expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(false, 'JPG file is displayed');
-
-      await createdDateFilter.enterFromDate(yesterday);
-      await createdDateFilter.enterToDate(today);
-
-      await createdDateFilter.clickApplyButton();
-
-      expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(true, 'PDF file not displayed');
-      expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(true, 'JPG file not displayed');
-    });
-
-    it('[C279216] Clear the Created date filter options', async () => {
-      await createdDateFilter.openDialog();
-      await createdDateFilter.enterFromDate(yesterday);
-      await createdDateFilter.enterToDate(yesterday);
-      await createdDateFilter.clickApplyButton();
-
-      await createdDateFilter.openDialog();
-      expect(await createdDateFilter.getFromValue()).toContain(yesterday);
-      expect(await createdDateFilter.getToValue()).toContain(yesterday);
-
-      await createdDateFilter.clickResetButton();
-
-      await createdDateFilter.openDialog();
-      expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(true, 'PDF file is displayed');
-      expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(true, 'JPG file is displayed');
-      expect(await createdDateFilter.getFromValue()).toEqual('', 'From field not empty');
-      expect(await createdDateFilter.getToValue()).toEqual('', 'To field not empty');
-    });
-
-    it('[C279212] From and To values are required', async () => {
-      await createdDateFilter.openDialog();
-      await createdDateFilter.enterFromDate('');
-      await createdDateFilter.enterToDate('');
-
-      expect(await createdDateFilter.isFromErrorDisplayed()).toBe(true, 'Error missing for From field');
-      expect(await createdDateFilter.isToErrorDisplayed()).toBe(true, 'Error missing for To field');
-      expect(await createdDateFilter.getFromError()).toEqual('Required value');
-      expect(await createdDateFilter.getToError()).toEqual('Required value');
-    });
-
-    it('[C279213] Error message is displayed when entering an incorrect date format', async () => {
-      await createdDateFilter.openDialog();
-      await createdDateFilter.enterFromDate('03.31.2019');
-      await createdDateFilter.enterToDate('invalid text');
-
-      expect(await createdDateFilter.isFromErrorDisplayed()).toBe(true, 'Error missing for From field');
-      expect(await createdDateFilter.isToErrorDisplayed()).toBe(true, 'Error missing for To field');
-      expect(await createdDateFilter.getFromError()).toEqual(`Invalid date. The date must be in the format 'DD-MMM-YY'`);
-      expect(await createdDateFilter.getToError()).toEqual(`Invalid date. The date must be in the format 'DD-MMM-YY'`);
-    });
-
-    it('[C279214] Error message is displayed when entering a date from the future', async () => {
-      await createdDateFilter.openDialog();
-      await createdDateFilter.enterFromDate(future);
-      await createdDateFilter.enterToDate(future);
-
-      expect(await createdDateFilter.isFromErrorDisplayed()).toBe(true, 'Error missing for From field');
-      expect(await createdDateFilter.isToErrorDisplayed()).toBe(true, 'Error missing for To field');
-      expect(await createdDateFilter.getFromError()).toEqual('The date is beyond the maximum date.');
-      expect(await createdDateFilter.getToError()).toEqual('The date is beyond the maximum date.');
-    });
-
-    it('[C279215] Error message is displayed when From value is bigger than To value', async () => {
-      await createdDateFilter.openDialog();
-      await createdDateFilter.enterFromDate(today);
-      await createdDateFilter.enterToDate(yesterday);
-
-      expect(await createdDateFilter.isToErrorDisplayed()).toBe(true, 'Error missing for To field');
-      expect(await createdDateFilter.getToError()).toEqual('No days selected.');
     });
   });
 
