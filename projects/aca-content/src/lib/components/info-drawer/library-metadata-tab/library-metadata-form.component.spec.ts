@@ -77,11 +77,12 @@ describe('LibraryMetadataFormComponent', () => {
 
   it('should initialize form with node data', () => {
     fixture.detectChanges();
+    component.toggleEdit();
 
     expect(component.form.value).toEqual(siteEntryModel);
   });
 
-  it('should update form data when node data changes', () => {
+  it('should update form data and properties when node data changes', () => {
     const newSiteEntryModel = {
       title: 'libraryTitle2',
       description: 'description2',
@@ -89,12 +90,15 @@ describe('LibraryMetadataFormComponent', () => {
     };
 
     fixture.detectChanges();
+    component.toggleEdit();
 
     expect(component.form.value).toEqual(siteEntryModel);
+    expect(component.canUpdateLibrary).toBeFalse();
 
     component.node = {
       entry: {
         id: 'libraryId',
+        role: 'SiteManager',
         ...newSiteEntryModel
       } as Site
     };
@@ -102,6 +106,7 @@ describe('LibraryMetadataFormComponent', () => {
     component.ngOnChanges();
 
     expect(component.form.value).toEqual(newSiteEntryModel);
+    expect(component.canUpdateLibrary).toBeTrue();
   });
 
   it('should assign form value to node entry if updating of form is finished with success', () => {
@@ -161,6 +166,7 @@ describe('LibraryMetadataFormComponent', () => {
     component.node.entry.role = Site.RoleEnum.SiteManager;
 
     fixture.detectChanges();
+    component.toggleEdit();
 
     component.update();
 
@@ -172,6 +178,7 @@ describe('LibraryMetadataFormComponent', () => {
     siteEntryModel.title = '   some title    ';
     component.node.entry.title = siteEntryModel.title;
     component.ngOnInit();
+    component.toggleEdit();
 
     component.update();
     expect(store.dispatch).toHaveBeenCalledWith(
@@ -186,6 +193,7 @@ describe('LibraryMetadataFormComponent', () => {
     component.node.entry.role = Site.RoleEnum.SiteManager;
     spyOn(component.form, 'markAsPristine');
     component.ngOnInit();
+    component.toggleEdit();
 
     component.update();
     expect(component.form.markAsPristine).toHaveBeenCalled();
@@ -195,6 +203,7 @@ describe('LibraryMetadataFormComponent', () => {
     component.node.entry.role = Site.RoleEnum.SiteConsumer;
 
     fixture.detectChanges();
+    component.toggleEdit();
 
     component.update();
 
@@ -205,6 +214,7 @@ describe('LibraryMetadataFormComponent', () => {
     component.node.entry.role = Site.RoleEnum.SiteConsumer;
     spyOn(component.form, 'markAsPristine');
     component.ngOnInit();
+    component.toggleEdit();
 
     component.update();
     expect(component.form.markAsPristine).not.toHaveBeenCalled();
@@ -214,6 +224,7 @@ describe('LibraryMetadataFormComponent', () => {
     component.node.entry.role = Site.RoleEnum.SiteManager;
 
     fixture.detectChanges();
+    component.toggleEdit();
 
     component.form.controls['title'].setErrors({ maxlength: true });
 
@@ -227,23 +238,36 @@ describe('LibraryMetadataFormComponent', () => {
     spyOn(component.form, 'markAsPristine');
     spyOnProperty(component.form, 'valid').and.returnValue(false);
     component.ngOnInit();
+    component.toggleEdit();
 
     component.update();
     expect(component.form.markAsPristine).not.toHaveBeenCalled();
   });
 
-  it('should toggle edit mode', () => {
-    component.edit = false;
+  it('should disable form after calling toggleEdit if form was enabled', () => {
+    spyOn(component.form, 'disable');
 
     component.toggleEdit();
-    expect(component.edit).toBe(true);
+    expect(component.form.disable).toHaveBeenCalledWith({
+      emitEvent: false
+    });
+  });
+
+  it('should enable form without id field after calling toggleEdit if form was disabled', () => {
+    component.toggleEdit();
+    spyOn(component.form, 'enable');
+    spyOn(component.form.controls.id, 'disable');
 
     component.toggleEdit();
-    expect(component.edit).toBe(false);
+    expect(component.form.enable).toHaveBeenCalledWith({
+      emitEvent: false
+    });
+    expect(component.form.controls.id.disable).toHaveBeenCalled();
   });
 
   it('should cancel from changes', () => {
     fixture.detectChanges();
+    component.toggleEdit();
 
     expect(component.form.value).toEqual(siteEntryModel);
 
@@ -252,6 +276,7 @@ describe('LibraryMetadataFormComponent', () => {
     expect(component.form.value.title).toBe('libraryTitle-edit');
 
     component.cancel();
+    component.toggleEdit();
 
     expect(component.form.value).toEqual(siteEntryModel);
   });
@@ -328,6 +353,7 @@ describe('LibraryMetadataFormComponent', () => {
 
   it('should set proper titleErrorTranslationKey when there is error for empty title', () => {
     component.ngOnInit();
+    component.toggleEdit();
 
     component.form.controls.title.setValue('     ');
     expect(component.titleErrorTranslationKey).toBe('LIBRARY.ERRORS.ONLY_SPACES');

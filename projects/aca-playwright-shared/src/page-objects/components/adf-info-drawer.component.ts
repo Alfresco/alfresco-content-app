@@ -35,5 +35,5 @@ export class AdfInfoDrawerComponent extends BaseComponent {
   public getNameField = (labelText: string) => this.getChild('[data-automation-id="library-name-properties-wrapper"]', { hasText: labelText });
   public getIdField = (labelText: string) => this.getChild('[data-automation-id="library-id-properties-wrapper"]', { hasText: labelText });
   public getVisibilityField = (labelText: string) => this.getChild('[data-automation-id="library-visibility-properties-wrapper"]', { hasText: labelText });
-  public getDescriptionField = (labelText: string) => this.getChild('[data-automation-id="library-description-properties-wrapper"]', { hasText: labelText });
+  public getDescriptionField = this.getChild('[data-automation-id="library-description-properties-wrapper"] textarea');
 }
