@@ -18,7 +18,7 @@ module.exports = {
         // workaround for REPO-2260
         onProxyRes: function (proxyRes) {
           const header = proxyRes.headers['www-authenticate'];
-          if (header && header.startsWith('Basic')) {
+          if (header?.startsWith('Basic')) {
               proxyRes.headers['www-authenticate'] = 'x' + header;
           }
       }

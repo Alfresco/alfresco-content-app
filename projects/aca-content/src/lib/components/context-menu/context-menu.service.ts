@@ -68,11 +68,6 @@ export class ContextMenuService {
   }
 
   private createInjector(contextmenuOverlayRef: ContextMenuOverlayRef): Injector {
-    const injectionTokens = new WeakMap();
-
-    injectionTokens.set(ContextMenuOverlayRef, contextmenuOverlayRef);
-    injectionTokens.set(CONTEXT_MENU_DIRECTION, this.direction);
-
     return Injector.create({
       parent: this.injector,
       providers: [

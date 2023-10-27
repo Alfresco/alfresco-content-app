@@ -393,7 +393,7 @@ describe('PreviewComponent', () => {
   });
 
   it('should return empty nearest nodes for crashed fields id request', async () => {
-    spyOn(component, 'getFileIds').and.returnValue(Promise.reject('err'));
+    spyOn(component, 'getFileIds').and.returnValue(Promise.reject(new Error('err')));
 
     const nearest = await component.getNearestNodes('node1', 'folder1');
 

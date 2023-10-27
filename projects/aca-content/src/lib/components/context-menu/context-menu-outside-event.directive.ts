@@ -36,8 +36,6 @@ export class OutsideEventDirective implements OnInit, OnDestroy {
   @Output()
   clickOutside: EventEmitter<null> = new EventEmitter();
 
-  constructor() {}
-
   ngOnInit() {
     this.subscriptions = this.subscriptions.concat([
       fromEvent(document.body, 'click')
@@ -54,11 +52,9 @@ export class OutsideEventDirective implements OnInit, OnDestroy {
   private findAncestor(el: Element): boolean {
     const className = 'aca-context-menu';
 
-    if (el.classList.contains(className)) {
-      return true;
+    while (el && !el.classList.contains(className)) {
+      el = el.parentElement;
     }
-    // eslint-disable-next-line curly
-    while ((el = el.parentElement) && !el.classList.contains(className));
     return !!el;
   }
 }

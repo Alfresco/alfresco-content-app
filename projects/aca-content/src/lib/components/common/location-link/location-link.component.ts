@@ -83,10 +83,10 @@ export class LocationLinkComponent implements OnInit {
   ngOnInit() {
     if (this.context) {
       const node: NodeEntry = this.context.row.node;
-      if (node && node.entry && node.entry.path) {
+      if (node?.entry && node?.entry?.path) {
         const path = node.entry.path;
 
-        if (path && path.name && path.elements) {
+        if (path?.name && path?.elements) {
           if (this.showLocation) {
             this.displayText = of(path.name.substring(1).replace(/\//g, ' &#8250; '));
           } else {
@@ -144,7 +144,9 @@ export class LocationLinkComponent implements OnInit {
 
     let result: string = null;
 
-    const elements = path.elements.map((e) => Object.assign({}, e));
+    const elements = path.elements.map((e) => {
+      return { ...e };
+    });
     const personalFiles = this.translationService.instant('APP.BROWSE.PERSONAL.TITLE');
     const fileLibraries = this.translationService.instant('APP.BROWSE.LIBRARIES.TITLE');
 
