@@ -89,7 +89,7 @@ describe('NodeActionsService', () => {
             reject(permissionError);
           } else {
             const node = familyNodes.filter((familyNode) => familyNode.parentNodeId === parentId);
-            resolve({ list: { entries: node[0].nodeChildren } } || emptyChildrenList);
+            resolve(node.length > 0 ? { list: { entries: node[0].nodeChildren } } : emptyChildrenList);
           }
         })
   };

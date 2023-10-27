@@ -248,7 +248,7 @@ describe('Copy content', () => {
 
   async function copyFile(fileName: string, location: string = '', destination: string, doBefore?: () => void) {
     if (doBefore) {
-      await doBefore();
+      doBefore();
     }
     await dataTable.selectItem(fileName, location);
     await toolbar.clickMoreActionsCopy();
@@ -269,7 +269,7 @@ describe('Copy content', () => {
 
   async function copyFolderWithContent(folderName: string, location: string = '', destination: string, doBefore?: () => void) {
     if (doBefore) {
-      await doBefore();
+      doBefore();
     }
     await dataTable.selectItem(folderName, location);
     await toolbar.clickMoreActionsCopy();
@@ -294,7 +294,7 @@ describe('Copy content', () => {
 
   async function copyMultipleItems(items: string[], location: string = '', destination: string, doBefore?: () => void) {
     if (doBefore) {
-      await doBefore();
+      doBefore();
     }
     await dataTable.selectMultipleItems(items, location);
     await toolbar.clickMoreActionsCopy();
@@ -317,7 +317,7 @@ describe('Copy content', () => {
 
   async function copyFileWithNameThatAlreadyExists(fileName: string, location: string = '', destination: string, doBefore?: () => void) {
     if (doBefore) {
-      await doBefore();
+      doBefore();
     }
     await dataTable.selectItem(fileName, location);
     await toolbar.clickMoreActionsCopy();
@@ -338,7 +338,7 @@ describe('Copy content', () => {
 
   async function copyFolderWithNameThatAlreadyExists(folderName: string, location: string = '', destination: string, doBefore?: () => void) {
     if (doBefore) {
-      await doBefore();
+      doBefore();
     }
     await dataTable.selectItem(folderName, location);
     await toolbar.clickMoreActionsCopy();
@@ -362,7 +362,7 @@ describe('Copy content', () => {
 
   async function copyItemsIntoLibrary(items: string[], location: string = '', destination: string, doBefore?: () => void) {
     if (doBefore) {
-      await doBefore();
+      doBefore();
     }
     const noOfItems = items.length;
     await dataTable.selectMultipleItems(items, location);
@@ -393,7 +393,7 @@ describe('Copy content', () => {
 
   async function copyLockedFile(fileName: string, location: string = '', destination: string, doBefore?: () => void) {
     if (doBefore) {
-      await doBefore();
+      doBefore();
     }
 
     await dataTable.selectItem(fileName, location);
@@ -417,7 +417,7 @@ describe('Copy content', () => {
 
   async function copyFolderThatContainsLockedFile(folderName: string, location: string = '', destination: string, doBefore?: () => void) {
     if (doBefore) {
-      await doBefore();
+      doBefore();
     }
 
     await dataTable.selectItem(folderName, location);
@@ -451,7 +451,7 @@ describe('Copy content', () => {
 
   async function undoCopyFile(fileName: string, location: string = '', destination: string, doBefore?: () => void) {
     if (doBefore) {
-      await doBefore();
+      doBefore();
     }
     await dataTable.selectItem(fileName, location);
     await toolbar.clickMoreActionsCopy();
@@ -475,7 +475,7 @@ describe('Copy content', () => {
 
   async function undoCopyFolder(folderName: string, location: string = '', destination: string, doBefore?: () => void) {
     if (doBefore) {
-      await doBefore();
+      doBefore();
     }
     await dataTable.selectItem(folderName, location);
     await toolbar.clickMoreActionsCopy();
@@ -497,7 +497,7 @@ describe('Copy content', () => {
     expect(await dataTable.isEmpty()).toBe(true, 'Trash is not empty');
   }
 
-  async function undoCopyFileWithExistingName(fileName: string, location: string = '', destination: string, doBefore?: () => void) {
+  async function undoCopyFileWithExistingName(fileName: string, location: string = '', destination: string, doBefore?: () => Promise<void>) {
     if (doBefore) {
       await doBefore();
     }
@@ -527,7 +527,7 @@ describe('Copy content', () => {
 
   async function undoCopyFolderWithExistingName(folderName: string, location: string = '', destination: string, doBefore?: () => void) {
     if (doBefore) {
-      await doBefore();
+      doBefore();
     }
 
     await dataTable.selectItem(folderName, location);

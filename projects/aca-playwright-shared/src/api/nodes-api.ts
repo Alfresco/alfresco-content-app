@@ -215,12 +215,11 @@ export class NodesApi {
   }
 
   private async getDataDictionaryId(): Promise<string> {
-    try {
-      return this.getNodeIdFromParent('Data Dictionary', '-root-');
-    } catch (error) {
-      logger.error('Admin Actions - getDataDictionaryId failed : ', error);
-      return '';
-    }
+    return this.getNodeIdFromParent('Data Dictionary', '-root-')
+      .catch((error) => {
+        logger.error('Admin Actions - getDataDictionaryId failed : ', error);
+        return '';
+      });
   }
 
   async setGranularPermission(nodeId: string, inheritPermissions: boolean = false, username: string, role: string): Promise<NodeEntry | null> {

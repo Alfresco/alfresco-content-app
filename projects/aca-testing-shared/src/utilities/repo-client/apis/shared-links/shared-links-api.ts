@@ -97,22 +97,20 @@ export class SharedLinksApi extends RepoApi {
   }
 
   async waitForFilesToBeShared(filesIds: string[]): Promise<any> {
-    try {
-      const sharedFile = async () => {
-        const sharedFiles = (await this.getSharedLinks()).list.entries.map((link) => link.entry.nodeId);
-        const foundItems = filesIds.every((id) => sharedFiles.includes(id));
-        if (foundItems) {
-          return Promise.resolve(foundItems);
-        } else {
-          return Promise.reject(foundItems);
-        }
-      };
+    const sharedFile = async () => {
+      const sharedFiles = (await this.getSharedLinks()).list.entries.map((link) => link.entry.nodeId);
+      const foundItems = filesIds.every((id) => sharedFiles.includes(id));
+      if (foundItems) {
+        return Promise.resolve(foundItems);
+      } else {
+        return Promise.reject(foundItems);
+      }
+    };
 
-      return Utils.retryCall(sharedFile);
-    } catch (error) {
+    return Utils.retryCall(sharedFile).catch((error) => {
       Logger.error(`SharedLinksApi waitForFilesToBeShared :  catch : ${error}`);
       Logger.error(`\tWait timeout reached waiting for files to be shared`);
-    }
+    });
   }
 
   async waitForFilesToNotBeShared(filesIds: string[]): Promise<any> {

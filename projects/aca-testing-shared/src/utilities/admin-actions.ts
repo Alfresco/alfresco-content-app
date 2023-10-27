@@ -42,12 +42,10 @@ export class AdminActions extends UserActions {
   }
 
   private async getDataDictionaryId(): Promise<string> {
-    try {
-      return this.nodes.getNodeIdFromParent('Data Dictionary', '-root-');
-    } catch (error) {
+    return this.nodes.getNodeIdFromParent('Data Dictionary', '-root-').catch((error) => {
       super.handleError('Admin Actions - getDataDictionaryId failed : ', error);
       return '';
-    }
+    });
   }
 
   async getNodeTemplatesFolderId(): Promise<string> {
@@ -106,19 +104,15 @@ export class AdminActions extends UserActions {
   }
 
   async createNodeTemplatesHierarchy(hierarchy: NodeContentTree): Promise<any> {
-    try {
-      return this.nodes.createContent(hierarchy, `Data Dictionary/Node Templates`);
-    } catch (error) {
+    return this.nodes.createContent(hierarchy, `Data Dictionary/Node Templates`).catch((error) => {
       super.handleError('Admin Actions - createNodeTemplatesHierarchy failed : ', error);
-    }
+    });
   }
 
   async createSpaceTemplatesHierarchy(hierarchy: NodeContentTree): Promise<any> {
-    try {
-      return this.nodes.createContent(hierarchy, `Data Dictionary/Space Templates`);
-    } catch (error) {
+    return this.nodes.createContent(hierarchy, `Data Dictionary/Space Templates`).catch((error) => {
       super.handleError('Admin Actions - createSpaceTemplatesHierarchy failed : ', error);
-    }
+    });
   }
 
   async removeUserAccessOnNodeTemplate(nodeName: string): Promise<NodeEntry> {
