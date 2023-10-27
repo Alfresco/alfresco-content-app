@@ -37,7 +37,7 @@
     "@alfresco/adf-core": "6.4.0-6654892394",
     "@alfresco/adf-extensions": "6.4.0-6654892394",
     "@alfresco/eslint-plugin-eslint-angular": "6.4.0-6654892394",
-    "@alfresco/js-api": "7.1.0-1438",
+    "@alfresco/js-api": "7.1.0-1439",
     "@angular/animations": "14.1.3",
     "@angular/cdk": "14.1.3",
     "@angular/common": "14.1.3",
