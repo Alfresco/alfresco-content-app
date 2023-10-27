@@ -299,8 +299,7 @@ export const hasLibrarySelected = (context: RuleContext): boolean => !!context.s
  * JSON ref: `app.selection.isPrivateLibrary`
  */
 export function isPrivateLibrary(context: RuleContext): boolean {
-  const library = context.selection.library;
-  return library ? !!(library.entry?.visibility === 'PRIVATE') : false;
+  return context.selection.library?.entry?.visibility === 'PRIVATE';
 }
 
 /**
