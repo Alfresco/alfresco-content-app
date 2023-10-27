@@ -53,13 +53,13 @@ describe('SearchLibrariesQueryBuilderService', () => {
     expect(builder.userQuery).toEqual('something');
   });
 
-  it('should build query and raise an event on update', async () => {
+  it('should build query and raise an event on update', () => {
     spyOn(builder, 'buildQuery').and.returnValue(query);
 
     let eventArgs = null;
     builder.updated.subscribe((args) => (eventArgs = args));
 
-    await builder.update();
+    builder.update();
     expect(eventArgs).toBe(query);
   });
 

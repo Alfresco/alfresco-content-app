@@ -78,7 +78,7 @@ export class NodeEffects {
               .select(getAppSelection)
               .pipe(take(1))
               .subscribe((selection) => {
-                if (selection && selection.file) {
+                if (selection?.file) {
                   this.contentService.shareNode(selection.file, action.configuration?.focusedElementOnCloseSelector);
                 }
               });
@@ -93,7 +93,7 @@ export class NodeEffects {
       this.actions$.pipe(
         ofType<UnshareNodesAction>(NodeActionTypes.Unshare),
         map((action) => {
-          if (action && action.payload && action.payload.length > 0) {
+          if (action?.payload?.length > 0) {
             this.contentService.unshareNodes(action.payload);
           } else {
             this.store
@@ -115,7 +115,7 @@ export class NodeEffects {
       this.actions$.pipe(
         ofType<PurgeDeletedNodesAction>(NodeActionTypes.PurgeDeleted),
         map((action) => {
-          if (action && action.payload && action.payload.length > 0) {
+          if (action?.payload?.length > 0) {
             this.contentService.purgeDeletedNodes(action.payload);
           } else {
             this.store
@@ -137,7 +137,7 @@ export class NodeEffects {
       this.actions$.pipe(
         ofType<RestoreDeletedNodesAction>(NodeActionTypes.RestoreDeleted),
         map((action) => {
-          if (action && action.payload && action.payload.length > 0) {
+          if (action?.payload?.length > 0) {
             this.contentService.restoreDeletedNodes(action.payload);
           } else {
             this.store
@@ -160,7 +160,7 @@ export class NodeEffects {
         ofType<DeleteNodesAction>(NodeActionTypes.Delete),
         map((action) => {
           this.store.dispatch(new ShowLoaderAction(true));
-          if (action && action.payload && action.payload.length > 0) {
+          if (action?.payload?.length > 0) {
             this.contentService.deleteNodes(action.payload);
           } else {
             this.store
@@ -202,7 +202,7 @@ export class NodeEffects {
               .select(getCurrentFolder)
               .pipe(take(1))
               .subscribe((node) => {
-                if (node && node.id) {
+                if (node?.id) {
                   this.contentService.createFolder(node.id);
                 }
               });
@@ -224,7 +224,7 @@ export class NodeEffects {
               .select(getAppSelection)
               .pipe(take(1))
               .subscribe((selection) => {
-                if (selection && selection.folder) {
+                if (selection?.folder) {
                   this.contentService.editFolder(selection.folder, action.configuration?.focusedElementOnCloseSelector);
                 }
               });
@@ -347,7 +347,7 @@ export class NodeEffects {
               .select(getAppSelection)
               .pipe(take(1))
               .subscribe((selection) => {
-                if (selection && selection.file) {
+                if (selection?.file) {
                   this.contentService.manageVersions(selection.file, action.configuration?.focusedElementOnCloseSelector);
                 }
               });
@@ -362,14 +362,14 @@ export class NodeEffects {
       this.actions$.pipe(
         ofType<PrintFileAction>(NodeActionTypes.PrintFile),
         map((action) => {
-          if (action && action.payload) {
+          if (action?.payload) {
             this.printFile(action.payload);
           } else {
             this.store
               .select(getAppSelection)
               .pipe(take(1))
               .subscribe((selection) => {
-                if (selection && selection.file) {
+                if (selection?.file) {
                   this.printFile(selection.file);
                 }
               });
@@ -384,14 +384,14 @@ export class NodeEffects {
       this.actions$.pipe(
         ofType<UnlockWriteAction>(NodeActionTypes.UnlockForWriting),
         map((action) => {
-          if (action && action.payload) {
+          if (action?.payload) {
             this.contentService.unlockNode(action.payload);
           } else {
             this.store
               .select(getAppSelection)
               .pipe(take(1))
               .subscribe((selection) => {
-                if (selection && selection.file) {
+                if (selection?.file) {
                   this.contentService.unlockNode(selection.file);
                 }
               });
@@ -424,7 +424,7 @@ export class NodeEffects {
   );
 
   printFile(node: any) {
-    if (node && node.entry) {
+    if (node?.entry) {
       // shared and favorite
       const id = node.entry.nodeId || node.entry.guid || node.entry.id;
       const mimeType = node.entry.content.mimeType;

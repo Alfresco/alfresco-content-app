@@ -156,11 +156,7 @@ describe('TemplateEffects', () => {
   }));
 
   it('should raise generic error when copyNode api fails', fakeAsync(() => {
-    copyNodeSpy.and.returnValue(
-      Promise.reject({
-        message: `{ "error": { "statusCode": 404 } } `
-      })
-    );
+    copyNodeSpy.and.returnValue(Promise.reject(new Error('{ "error": { "statusCode": 404 } }')));
 
     store.dispatch(new CreateFromTemplate(node));
     tick();
@@ -170,11 +166,7 @@ describe('TemplateEffects', () => {
   }));
 
   it('should raise name conflict error when copyNode api returns 409', fakeAsync(() => {
-    copyNodeSpy.and.returnValue(
-      Promise.reject({
-        message: `{ "error": { "statusCode": 409 } } `
-      })
-    );
+    copyNodeSpy.and.returnValue(Promise.reject(new Error('{ "error": { "statusCode": 409 } }')));
 
     store.dispatch(new CreateFromTemplate(node));
     tick();
@@ -195,11 +187,7 @@ describe('TemplateEffects', () => {
     } as NodeEntry;
     copyNodeSpy.and.returnValue(of(TEST_NODE));
 
-    updateNodeSpy.and.returnValue(
-      Promise.reject({
-        message: `{ "error": { "statusCode": 404 } } `
-      })
-    );
+    updateNodeSpy.and.returnValue(Promise.reject(new Error('{ "error": { "statusCode": 404 } }')));
 
     store.dispatch(new CreateFromTemplate(TEST_NODE.entry));
     tick();

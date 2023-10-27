@@ -52,6 +52,4 @@ export class NavigateToParentFolder implements Action {
 
 export class NavigateToPreviousPage implements Action {
   readonly type = RouterActionTypes.NavigateToPreviousPage;
-
-  constructor() {}
 }

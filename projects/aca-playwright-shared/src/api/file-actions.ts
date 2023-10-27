@@ -50,7 +50,7 @@ export class FileActionsApi {
     });
   }
 
-  async uploadFileWithRename(fileLocation: string, parentId: string = '-my-', newName: string, title: string = '', description: string = '') {
+  async uploadFileWithRename(fileLocation: string, newName: string, parentId: string = '-my-', title: string = '', description: string = '') {
     const file = fs.createReadStream(fileLocation);
     const nodeProps = {
       properties: {
@@ -93,7 +93,7 @@ export class FileActionsApi {
   async getNodeProperty(nodeId: string, property: string): Promise<string> {
     try {
       const node = await this.getNodeById(nodeId);
-      return (node.entry.properties && node.entry.properties[property]) || '';
+      return (node.entry.properties?.[property]) || '';
     } catch (error) {
       Logger.error(`${this.constructor.name} ${this.getNodeProperty.name}`, error);
       return '';

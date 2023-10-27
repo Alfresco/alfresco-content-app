@@ -108,12 +108,12 @@ test.describe('Special permissions : ', () => {
     await managerSiteActions.addSiteMember(sitePrivate, userCollaborator, Site.RoleEnum.SiteCollaborator);
     await managerSiteActions.addSiteMember(sitePrivate, userDemoted, Site.RoleEnum.SiteManager);
 
-    await managerFileActions.uploadFileWithRename(TEST_FILES.DOCX.path, docLibId, testData.fileDocx.name);
-    fileDocxFavId = (await managerFileActions.uploadFileWithRename(TEST_FILES.DOCX.path, docLibId, testData.fileDocxFav.name)).entry.id;
+    await managerFileActions.uploadFileWithRename(TEST_FILES.DOCX.path, testData.fileDocx.name, docLibId);
+    fileDocxFavId = (await managerFileActions.uploadFileWithRename(TEST_FILES.DOCX.path, testData.fileDocxFav.name, docLibId)).entry.id;
     await managerNodeActions.createFile(testData.file.name, docLibId);
     fileFavId = (await managerNodeActions.createFile(testData.fileFav.name, docLibId)).entry.id;
-    fileDocxSharedId = (await managerFileActions.uploadFileWithRename(TEST_FILES.DOCX.path, docLibId, testData.fileDocxShared.name)).entry.id;
-    fileDocxSharedFavId = (await managerFileActions.uploadFileWithRename(TEST_FILES.DOCX.path, docLibId, testData.fileDocxSharedFav.name)).entry.id;
+    fileDocxSharedId = (await managerFileActions.uploadFileWithRename(TEST_FILES.DOCX.path, testData.fileDocxShared.name, docLibId)).entry.id;
+    fileDocxSharedFavId = (await managerFileActions.uploadFileWithRename(TEST_FILES.DOCX.path, testData.fileDocxSharedFav.name, docLibId)).entry.id;
     fileSharedId = (await managerNodeActions.createFile(testData.fileShared.name, docLibId)).entry.id;
     fileSharedFavId = (await managerNodeActions.createFile(testData.fileSharedFav.name, docLibId)).entry.id;
     fileLockedId = (await managerNodeActions.createFile(testData.fileLocked.name, docLibId)).entry.id;

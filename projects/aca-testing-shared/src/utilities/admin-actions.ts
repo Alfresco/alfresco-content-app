@@ -28,10 +28,6 @@ import { UserActions } from './user-actions';
 import { browser } from 'protractor';
 
 export class AdminActions extends UserActions {
-  constructor() {
-    super();
-  }
-
   sites: SitesApi = new SitesApi();
   upload: UploadApi = new UploadApi();
   nodes: NodesApi = new NodesApi();

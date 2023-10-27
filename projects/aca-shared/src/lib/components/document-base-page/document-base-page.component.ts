@@ -130,7 +130,7 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.nodeResult && changes.nodeResult.currentValue) {
+    if (changes.nodeResult?.currentValue) {
       this.nodeResult = changes.nodeResult.currentValue;
     }
   }
@@ -145,7 +145,7 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   showPreview(node: NodeEntry, extras?: ViewNodeExtras) {
-    if (node && node.entry) {
+    if (node?.entry) {
       if (this.fileAutoDownloadService?.shouldFileAutoDownload(node.entry?.content?.sizeInBytes)) {
         this.fileAutoDownloadService.autoDownloadFile(node);
       } else {

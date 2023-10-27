@@ -69,7 +69,7 @@ describe('ToggleEditOfflineComponent', () => {
 
     fixture.detectChanges();
 
-    expect(component.selection).toEqual(selection.file as any);
+    expect(component.selection).toEqual(selection.file);
   });
 
   it('should download content when node is locked', async () => {

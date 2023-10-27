@@ -22,9 +22,8 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Page } from '@playwright/test';
+import { Page, expect } from '@playwright/test';
 import { BaseComponent } from '../base.component';
-import { expect } from '@playwright/test';
 
 export class MatMenuComponent extends BaseComponent {
   private static rootElement = '.mat-menu-content';
