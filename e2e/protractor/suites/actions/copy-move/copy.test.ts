@@ -246,21 +246,64 @@ describe('Copy content', () => {
       undoCopyFolderWithExistingName(folderExisting, '', destinationPF));
   });
 
-  async function copyFile(fileName: string, location: string = '', destination: string, doBefore?: () => void) {
-    if (doBefore) {
-      doBefore();
+  async function baseCopy(
+    itemName: string | string[],
+    location: string,
+    destination: string,
+    undo: boolean = false,
+    expectedMsg: string = 'Copied 1 item'
+  ) {
+    if (itemName instanceof Array) {
+      await dataTable.selectMultipleItems(itemName, location);
+    } else {
+      await dataTable.selectItem(itemName, location);
     }
-    await dataTable.selectItem(fileName, location);
     await toolbar.clickMoreActionsCopy();
     await copyDialog.selectLocation('Personal Files');
     await copyDialog.selectDestination(destination);
     await BrowserActions.click(copyDialog.copyButton);
     const msg = await page.getSnackBarMessage();
-    expect(msg).toContain('Copied 1 item');
+    expect(msg).toContain(expectedMsg);
     const action = await page.getSnackBarAction();
     expect(action).toContain('Undo');
+    if (undo) {
+      await page.clickSnackBarAction();
+      await page.clickPersonalFilesAndWait();
+    } else {
+      await copyDialog.waitForDialogToClose();
+    }
+  }
 
-    await copyDialog.waitForDialogToClose();
+  async function baseCopyDoBefore(
+    itemName: string | string[],
+    location: string,
+    destination: string,
+    doBefore?: () => void,
+    undo?: boolean,
+    expectedMsg?: string
+  ) {
+    if (doBefore) {
+      doBefore();
+    }
+    await baseCopy(itemName, location, destination, undo, expectedMsg);
+  }
+
+  async function baseCopyDoBeforeAsync(
+    itemName: string | string[],
+    location: string,
+    destination: string,
+    doBefore?: () => Promise<void>,
+    undo?: boolean,
+    expectedMsg?: string
+  ) {
+    if (doBefore) {
+      await doBefore();
+    }
+    await baseCopy(itemName, location, destination, undo, expectedMsg);
+  }
+
+  async function copyFile(fileName: string, location: string = '', destination: string, doBefore?: () => void) {
+    await baseCopyDoBefore(fileName, location, destination, doBefore);
     expect(await dataTable.isItemPresent(fileName)).toBe(true, `${fileName} not present in source folder`);
     await page.clickPersonalFilesAndWait();
     await dataTable.doubleClickOnRowByName(destination);
@@ -268,20 +311,7 @@ describe('Copy content', () => {
   }
 
   async function copyFolderWithContent(folderName: string, location: string = '', destination: string, doBefore?: () => void) {
-    if (doBefore) {
-      doBefore();
-    }
-    await dataTable.selectItem(folderName, location);
-    await toolbar.clickMoreActionsCopy();
-    await copyDialog.selectLocation('Personal Files');
-    await copyDialog.selectDestination(destination);
-    await BrowserActions.click(copyDialog.copyButton);
-    const msg = await page.getSnackBarMessage();
-    expect(msg).toContain('Copied 1 item');
-    const action = await page.getSnackBarAction();
-    expect(action).toContain('Undo');
-
-    await copyDialog.waitForDialogToClose();
+    await baseCopyDoBefore(folderName, location, destination, doBefore);
     expect(await dataTable.isItemPresent(folderName)).toBe(true, `${folderName} not present in source folder`);
     await page.clickPersonalFilesAndWait();
     await dataTable.doubleClickOnRowByName(destination);
@@ -293,20 +323,7 @@ describe('Copy content', () => {
   }
 
   async function copyMultipleItems(items: string[], location: string = '', destination: string, doBefore?: () => void) {
-    if (doBefore) {
-      doBefore();
-    }
-    await dataTable.selectMultipleItems(items, location);
-    await toolbar.clickMoreActionsCopy();
-    await copyDialog.selectLocation('Personal Files');
-    await copyDialog.selectDestination(destination);
-    await BrowserActions.click(copyDialog.copyButton);
-    const msg = await page.getSnackBarMessage();
-    expect(msg).toContain('Copied 2 items');
-    const action = await page.getSnackBarAction();
-    expect(action).toContain('Undo');
-
-    await copyDialog.waitForDialogToClose();
+    await baseCopyDoBefore(items, location, destination, doBefore, false, 'Copied 2 items');
     expect(await dataTable.isItemPresent(items[0])).toBe(true, `${items[0]} not present in source folder`);
     expect(await dataTable.isItemPresent(items[1])).toBe(true, `${items[1]} not present in source folder`);
     await page.clickPersonalFilesAndWait();
@@ -316,20 +333,7 @@ describe('Copy content', () => {
   }
 
   async function copyFileWithNameThatAlreadyExists(fileName: string, location: string = '', destination: string, doBefore?: () => void) {
-    if (doBefore) {
-      doBefore();
-    }
-    await dataTable.selectItem(fileName, location);
-    await toolbar.clickMoreActionsCopy();
-    await copyDialog.selectLocation('Personal Files');
-    await copyDialog.selectDestination(destination);
-    await BrowserActions.click(copyDialog.copyButton);
-    const msg = await page.getSnackBarMessage();
-    expect(msg).toContain('Copied 1 item');
-    const action = await page.getSnackBarAction();
-    expect(action).toContain('Undo');
-
-    await copyDialog.waitForDialogToClose();
+    await baseCopyDoBefore(fileName, location, destination, doBefore);
     expect(await dataTable.isItemPresent(fileName)).toBe(true, `${fileName}.txt not present in source folder`);
     await page.clickPersonalFilesAndWait();
     await dataTable.doubleClickOnRowByName(destination);
@@ -337,20 +341,7 @@ describe('Copy content', () => {
   }
 
   async function copyFolderWithNameThatAlreadyExists(folderName: string, location: string = '', destination: string, doBefore?: () => void) {
-    if (doBefore) {
-      doBefore();
-    }
-    await dataTable.selectItem(folderName, location);
-    await toolbar.clickMoreActionsCopy();
-    await copyDialog.selectLocation('Personal Files');
-    await copyDialog.selectDestination(destination);
-    await BrowserActions.click(copyDialog.copyButton);
-    const msg = await page.getSnackBarMessage();
-    expect(msg).toContain('Copied 1 item');
-    const action = await page.getSnackBarAction();
-    expect(action).toContain('Undo');
-
-    await copyDialog.waitForDialogToClose();
+    await baseCopyDoBefore(folderName, location, destination, doBefore);
     expect(await dataTable.isItemPresent(folderName)).toBe(true, `${folderName} not present in source folder`);
     await page.clickPersonalFilesAndWait();
     await dataTable.doubleClickOnRowByName(destination);
@@ -392,21 +383,7 @@ describe('Copy content', () => {
   }
 
   async function copyLockedFile(fileName: string, location: string = '', destination: string, doBefore?: () => void) {
-    if (doBefore) {
-      doBefore();
-    }
-
-    await dataTable.selectItem(fileName, location);
-    await toolbar.clickMoreActionsCopy();
-    await copyDialog.selectLocation('Personal Files');
-    await copyDialog.selectDestination(destination);
-    await BrowserActions.click(copyDialog.copyButton);
-    const msg = await page.getSnackBarMessage();
-    expect(msg).toContain('Copied 1 item');
-    const action = await page.getSnackBarAction();
-    expect(action).toContain('Undo');
-
-    await copyDialog.waitForDialogToClose();
+    await baseCopyDoBefore(fileName, location, destination, doBefore);
     expect(await dataTable.isItemPresent(fileName)).toBe(true, `${fileName} not present in source folder`);
     expect(await apis.nodes.isFileLockedByName(fileName, locationId)).toBe(true, `${fileName} not locked in ${location}`);
     await page.clickPersonalFilesAndWait();
@@ -416,21 +393,7 @@ describe('Copy content', () => {
   }
 
   async function copyFolderThatContainsLockedFile(folderName: string, location: string = '', destination: string, doBefore?: () => void) {
-    if (doBefore) {
-      doBefore();
-    }
-
-    await dataTable.selectItem(folderName, location);
-    await toolbar.clickMoreActionsCopy();
-    await copyDialog.selectLocation('Personal Files');
-    await copyDialog.selectDestination(destination);
-    await BrowserActions.click(copyDialog.copyButton);
-    const msg = await page.getSnackBarMessage();
-    expect(msg).toContain('Copied 1 item');
-    const action = await page.getSnackBarAction();
-    expect(action).toContain('Undo');
-
-    await copyDialog.waitForDialogToClose();
+    await baseCopyDoBefore(folderName, location, destination, doBefore);
     expect(await dataTable.isItemPresent(folderName)).toBe(true, `${folderName} not present in source folder`);
     await page.clickPersonalFilesAndWait();
     await dataTable.doubleClickOnRowByName(destination);
@@ -450,22 +413,7 @@ describe('Copy content', () => {
   }
 
   async function undoCopyFile(fileName: string, location: string = '', destination: string, doBefore?: () => void) {
-    if (doBefore) {
-      doBefore();
-    }
-    await dataTable.selectItem(fileName, location);
-    await toolbar.clickMoreActionsCopy();
-    await copyDialog.selectLocation('Personal Files');
-    await copyDialog.selectDestination(destination);
-    await BrowserActions.click(copyDialog.copyButton);
-    const msg = await page.getSnackBarMessage();
-    expect(msg).toContain('Copied 1 item');
-    const action = await page.getSnackBarAction();
-    expect(action).toContain('Undo');
-
-    await page.clickSnackBarAction();
-
-    await page.clickPersonalFilesAndWait();
+    await baseCopyDoBefore(fileName, location, destination, doBefore, true);
     await dataTable.doubleClickOnRowByName(destination);
     expect(await dataTable.isItemPresent(fileName)).toBe(false, `${fileName} present in ${destination} folder`);
 
@@ -474,22 +422,7 @@ describe('Copy content', () => {
   }
 
   async function undoCopyFolder(folderName: string, location: string = '', destination: string, doBefore?: () => void) {
-    if (doBefore) {
-      doBefore();
-    }
-    await dataTable.selectItem(folderName, location);
-    await toolbar.clickMoreActionsCopy();
-    await copyDialog.selectLocation('Personal Files');
-    await copyDialog.selectDestination(destination);
-    await BrowserActions.click(copyDialog.copyButton);
-    const msg = await page.getSnackBarMessage();
-    expect(msg).toContain('Copied 1 item');
-    const action = await page.getSnackBarAction();
-    expect(action).toContain('Undo');
-
-    await page.clickSnackBarAction();
-
-    await page.clickPersonalFilesAndWait();
+    await baseCopyDoBefore(folderName, location, destination, doBefore, true);
     await dataTable.doubleClickOnRowByName(destination);
     expect(await dataTable.isItemPresent(folderName)).toBe(false, `${folderName} present in ${destination} folder`);
 
@@ -498,24 +431,7 @@ describe('Copy content', () => {
   }
 
   async function undoCopyFileWithExistingName(fileName: string, location: string = '', destination: string, doBefore?: () => Promise<void>) {
-    if (doBefore) {
-      await doBefore();
-    }
-
-    await dataTable.selectItem(fileName, location);
-    await toolbar.clickMoreActionsCopy();
-    await copyDialog.selectLocation('Personal Files');
-    await copyDialog.dataTable.doubleClickOnRowByName(source);
-    await copyDialog.selectDestination(destination);
-    await BrowserActions.click(copyDialog.copyButton);
-    const msg = await page.getSnackBarMessage();
-    expect(msg).toContain('Copied 1 item');
-    const action = await page.getSnackBarAction();
-    expect(action).toContain('Undo');
-
-    await page.clickSnackBarAction();
-
-    await page.clickPersonalFilesAndWait();
+    await baseCopyDoBeforeAsync(fileName, location, destination, doBefore, true);
     await dataTable.doubleClickOnRowByName(source);
     await dataTable.doubleClickOnRowByName(folder2);
     expect(await dataTable.isItemPresent(fileInFolder2)).toBe(true, `${fileInFolder2} not present in ${destination} folder`);
@@ -526,23 +442,7 @@ describe('Copy content', () => {
   }
 
   async function undoCopyFolderWithExistingName(folderName: string, location: string = '', destination: string, doBefore?: () => void) {
-    if (doBefore) {
-      doBefore();
-    }
-
-    await dataTable.selectItem(folderName, location);
-    await toolbar.clickMoreActionsCopy();
-    await copyDialog.selectLocation('Personal Files');
-    await copyDialog.dataTable.doubleClickOnRowByName(destination);
-    await BrowserActions.click(copyDialog.copyButton);
-    const msg = await page.getSnackBarMessage();
-    expect(msg).toContain('Copied 1 item');
-    const action = await page.getSnackBarAction();
-    expect(action).toContain('Undo');
-
-    await page.clickSnackBarAction();
-
-    await page.clickPersonalFilesAndWait();
+    await baseCopyDoBefore(folderName, location, destination, doBefore, true);
     await dataTable.doubleClickOnRowByName(destination);
     expect(await dataTable.isItemPresent(folderName)).toBe(true, `${folderName} not present in ${destination} folder`);
     await dataTable.doubleClickOnRowByName(folderName);
