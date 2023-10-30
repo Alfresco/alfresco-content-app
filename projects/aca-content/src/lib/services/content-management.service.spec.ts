@@ -1503,7 +1503,7 @@ describe('ContentManagementService', () => {
     }));
 
     it('should raise error when unlock node fails', fakeAsync(() => {
-      spyOn(contentApi, 'unlockNode').and.callFake(() => new Promise((_resolve, reject) => reject('error')));
+      spyOn(contentApi, 'unlockNode').and.callFake(() => new Promise((_resolve, reject) => reject(new Error('error'))));
       spyOn(store, 'dispatch').and.callThrough();
       store.dispatch(new UnlockWriteAction({ entry: { id: 'node-id', name: 'some-file' } }));
       tick();
