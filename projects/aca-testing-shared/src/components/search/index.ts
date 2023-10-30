@@ -23,7 +23,6 @@
  */
 
 export * from './filters/autocomplete-chips-filter';
-export * from './filters/created-date-filter';
 export * from './filters/facet-filter';
 export * from './filters/generic-filter';
 export * from './filters/properties-filter';
