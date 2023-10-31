@@ -1532,7 +1532,8 @@ describe('ContentManagementService', () => {
       fakeFile = new FileModel({ name: 'file1.png', size: 10 } as File, null, 'file1');
       spyOn(contentApi, 'getNodeVersions').and.returnValue(of(fakeVersion));
       spyOnDispatch = spyOn(store, 'dispatch');
-      spyOnOpenUploadNewVersionDialog = spyOn(newVersionUploaderService, 'openUploadNewVersionDialog').and.returnValue(of({ action: 'test' }));
+      const viewVersionData: ViewVersion = { action: NewVersionUploaderDataAction.view, versionId: '1.0' };
+      spyOnOpenUploadNewVersionDialog = spyOn(newVersionUploaderService, 'openUploadNewVersionDialog').and.returnValue(of(viewVersionData));
     });
 
     it('should open dialog with NewVersionUploaderService', () => {
@@ -1584,7 +1585,8 @@ describe('ContentManagementService', () => {
     beforeEach(() => {
       fakeNodeIsFile = { entry: { id: '1', name: 'name1', isFile: true } };
       fakeNodeIsNotFile = { entry: { id: '2', name: 'name1', isFile: false } };
-      spyOnOpenUploadNewVersionDialog = spyOn(newVersionUploaderService, 'openUploadNewVersionDialog').and.returnValue(of({ action: 'test' }));
+      const viewVersionData: ViewVersion = { action: NewVersionUploaderDataAction.view, versionId: '1.0' };
+      spyOnOpenUploadNewVersionDialog = spyOn(newVersionUploaderService, 'openUploadNewVersionDialog').and.returnValue(of(viewVersionData));
       spyOnDispatch = spyOn(store, 'dispatch');
     });
 
