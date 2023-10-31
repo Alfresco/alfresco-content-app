@@ -29,7 +29,7 @@
   "locale": "en",
   "application": {
     "name": "Workspace",
-    "version": "4.2.0",
+    "version": "4.3.0",
     "logo": "assets/images/app-logo.svg",
     "copyright": "APP.COPYRIGHT"
   },
