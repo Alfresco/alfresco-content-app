@@ -246,7 +246,14 @@ describe('Copy content', () => {
       undoCopyFolderWithExistingName(folderExisting, destinationPF));
   });
 
-  async function baseCopy(itemName: string | string[], location: string, destination: string, undo = false, expectedMsg = 'Copied 1 item') {
+  async function baseCopy(
+    itemName: string | string[],
+    location: string,
+    destination: string,
+    undo = false,
+    isExisting = false,
+    expectedMsg = 'Copied 1 item'
+  ) {
     if (itemName instanceof Array) {
       await dataTable.selectMultipleItems(itemName, location);
     } else {
@@ -254,7 +261,9 @@ describe('Copy content', () => {
     }
     await toolbar.clickMoreActionsCopy();
     await copyDialog.selectLocation('Personal Files');
-    await copyDialog.dataTable.doubleClickOnRowByName(source);
+    if (isExisting) {
+      await copyDialog.dataTable.doubleClickOnRowByName(source);
+    }
     await copyDialog.selectDestination(destination);
     await BrowserActions.click(copyDialog.copyButton);
     const msg = await page.getSnackBarMessage();
@@ -280,7 +289,7 @@ describe('Copy content', () => {
     if (doBefore) {
       doBefore();
     }
-    await baseCopy(itemName, location, destination, undo, expectedMsg);
+    await baseCopy(itemName, location, destination, undo, false, expectedMsg);
   }
 
   async function baseCopyDoBeforeAsync(
@@ -289,12 +298,13 @@ describe('Copy content', () => {
     destination: string,
     doBefore?: () => Promise<void>,
     undo?: boolean,
+    isExisting?: boolean,
     expectedMsg?: string
   ) {
     if (doBefore) {
       await doBefore();
     }
-    await baseCopy(itemName, location, destination, undo, expectedMsg);
+    await baseCopy(itemName, location, destination, undo, isExisting, expectedMsg);
   }
 
   async function copyFile(fileName: string, destination: string, location = '', doBefore?: () => void) {
@@ -426,7 +436,7 @@ describe('Copy content', () => {
   }
 
   async function undoCopyFileWithExistingName(fileName: string, destination: string, location = '', doBefore?: () => Promise<void>) {
-    await baseCopyDoBeforeAsync(fileName, location, destination, doBefore, true);
+    await baseCopyDoBeforeAsync(fileName, location, destination, doBefore, true, true);
     await dataTable.doubleClickOnRowByName(source);
     await dataTable.doubleClickOnRowByName(folder2);
     expect(await dataTable.isItemPresent(fileInFolder2)).toBe(true, `${fileInFolder2} not present in ${destination} folder`);
