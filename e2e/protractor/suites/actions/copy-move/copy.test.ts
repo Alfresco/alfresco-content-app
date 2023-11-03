@@ -254,6 +254,7 @@ describe('Copy content', () => {
     }
     await toolbar.clickMoreActionsCopy();
     await copyDialog.selectLocation('Personal Files');
+    await copyDialog.dataTable.doubleClickOnRowByName(source);
     await copyDialog.selectDestination(destination);
     await BrowserActions.click(copyDialog.copyButton);
     const msg = await page.getSnackBarMessage();
