@@ -56,6 +56,13 @@ describe('File Libraries', () => {
   const { dataTable } = page;
   const adminApiActions = new AdminActions();
 
+  const sortAlphabetically = (a: string, b: string) => a.localeCompare(b);
+  const sortAndCompare = (actual: string[], expected: string[]) => {
+    actual.sort(sortAlphabetically);
+    expected.sort(sortAlphabetically);
+    expect(actual).toEqual(expected);
+  };
+
   beforeAll(async () => {
     try {
       await adminApiActions.createUser({ username });
@@ -146,7 +153,7 @@ describe('File Libraries', () => {
     it('[C217098] Site ID is displayed when two sites have the same name', async () => {
       const expectedSites = [`${siteName} (${siteId1})`, `${siteName} (${siteId2})`];
       const actualSites = await dataTable.getCellsContainingName(siteName);
-      expect(actualSites.sort()).toEqual(expectedSites.sort());
+      sortAndCompare(actualSites, expectedSites);
     });
 
     it('[C217096] Tooltip for sites without description', async () => {
@@ -211,7 +218,7 @@ describe('File Libraries', () => {
     it('[C289896] Site ID is displayed when two sites have the same name', async () => {
       const expectedSites = [`${siteName} (${siteId1})`, `${siteName} (${siteId2})`];
       const actualSites = await dataTable.getCellsContainingName(siteName);
-      expect(actualSites.sort()).toEqual(expectedSites.sort());
+      sortAndCompare(actualSites, expectedSites);
     });
 
     it('[C289894] Tooltip for sites without description', async () => {

@@ -125,7 +125,7 @@ export class NodeTemplateService {
   }
 
   private transformNode(node: Node): Node {
-    if (node && node.path && node.path && node.path.elements instanceof Array) {
+    if (node?.path?.elements instanceof Array) {
       node.path.elements = this.getPathElements(node);
     }
     return node;

@@ -177,7 +177,7 @@ export class PreviewComponent extends PageComponent implements OnInit, OnDestroy
         this.node = await this.contentApi.getNodeInfo(id).toPromise();
         this.store.dispatch(new SetSelectedNodesAction([{ entry: this.node }]));
 
-        if (this.node && this.node.isFile) {
+        if (this.node?.isFile) {
           const nearest = await this.getNearestNodes(this.node.id, this.node.parentId);
 
           this.previousNodeId = nearest.left;
@@ -196,11 +196,9 @@ export class PreviewComponent extends PageComponent implements OnInit, OnDestroy
 
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    const key = event.keyCode;
-    const rightArrow = 39;
-    const leftArrow = 37;
+    const key = event.key;
 
-    if (key === rightArrow || key === leftArrow) {
+    if (key === 'ArrowRight' || key === 'ArrowLeft') {
       event.preventDefault();
       event.stopImmediatePropagation();
     }
@@ -410,19 +408,11 @@ export class PreviewComponent extends PageComponent implements OnInit, OnDestroy
     }
 
     items.sort((a: any, b: any) => {
-      let left = ObjectUtils.getValue(a, key);
-      if (left) {
-        left = left instanceof Date ? left.valueOf().toString() : left.toString();
-      } else {
-        left = '';
-      }
+      let left = ObjectUtils.getValue(a, key) ?? '';
+      left = left instanceof Date ? left.valueOf().toString() : left.toString();
 
-      let right = ObjectUtils.getValue(b, key);
-      if (right) {
-        right = right instanceof Date ? right.valueOf().toString() : right.toString();
-      } else {
-        right = '';
-      }
+      let right = ObjectUtils.getValue(b, key) ?? '';
+      right = right instanceof Date ? right.valueOf().toString() : right.toString();
 
       return direction === 'asc' ? left.localeCompare(right, undefined, options) : right.localeCompare(left, undefined, options);
     });

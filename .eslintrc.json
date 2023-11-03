@@ -113,7 +113,9 @@
         "@angular-eslint/component-class-suffix": "error",
         "@angular-eslint/directive-class-suffix": "error",
         "@angular-eslint/no-conflicting-lifecycle": "error",
-        "@typescript-eslint/no-floating-promises": "off",
+        "@typescript-eslint/no-floating-promises": "warn",
+        "@typescript-eslint/no-misused-promises": "warn",
+        "@typescript-eslint/default-param-last": "warn",
         "@angular-eslint/no-input-rename": "error",
         "@angular-eslint/no-output-native": "error",
         "@angular-eslint/no-output-on-prefix": "error",
@@ -122,7 +124,7 @@
         "@angular-eslint/no-outputs-metadata-property": "error",
         "@angular-eslint/use-lifecycle-interface": "error",
         "@angular-eslint/use-pipe-transform-interface": "error",
-        "@typescript-eslint/prefer-optional-chain": "warn",
+        "@typescript-eslint/prefer-optional-chain": "error",
         "@typescript-eslint/no-misused-new": "error",
         "@typescript-eslint/no-non-null-assertion": "error",
         "@typescript-eslint/prefer-function-type": "error",
@@ -204,6 +206,7 @@
         "newline-per-chained-call": "off",
         "prefer-rest-params": "error",
         "prefer-spread": "error",
+        "prefer-promise-reject-errors": "error",
         "import/order": "off",
         "max-len": [
           "error",
@@ -226,6 +229,8 @@
         "no-caller": "error",
         "no-global-assign": "error",
         "no-cond-assign": "error",
+        "no-constant-binary-expression": "error",
+        "no-useless-rename": "error",
         "no-console": [
           "error",
           {
@@ -324,7 +329,8 @@
     {
       "files": ["*.spec.ts", "*.test.ts"],
       "rules": {
-        "@typescript-eslint/no-floating-promises": "off",
+        "@typescript-eslint/no-floating-promises": "warn",
+        "@typescript-eslint/no-misused-promises": "warn",
         "max-lines": "off"
       }
     }

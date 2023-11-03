@@ -62,7 +62,7 @@ export class ToggleSharedComponent implements OnInit, OnDestroy {
       this.selectionState = selectionState;
 
       this.isShared =
-        (this.selectionState.first && this.selectionState.first.entry && (this.selectionState.first.entry as any).sharedByUser) ||
+        (this.selectionState?.first?.entry && (this.selectionState.first.entry as any).sharedByUser) ||
         !!this.selectionState?.first?.entry?.properties?.['qshare:sharedId'];
 
       this.selectionLabel = this.isShared ? 'APP.ACTIONS.SHARE_EDIT' : 'APP.ACTIONS.SHARE';

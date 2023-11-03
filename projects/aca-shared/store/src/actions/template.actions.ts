@@ -28,14 +28,10 @@ import { TemplateActionTypes } from './template-action-types';
 
 export class FileFromTemplate implements Action {
   readonly type = TemplateActionTypes.FileFromTemplate;
-
-  constructor() {}
 }
 
 export class FolderFromTemplate implements Action {
   readonly type = TemplateActionTypes.FolderFromTemplate;
-
-  constructor() {}
 }
 
 export class CreateFromTemplate implements Action {

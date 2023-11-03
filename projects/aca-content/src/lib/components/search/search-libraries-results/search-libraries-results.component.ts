@@ -158,7 +158,7 @@ export class SearchLibrariesResultsComponent extends PageComponent implements On
   }
 
   getNumberOfResults() {
-    if (this.data && this.data.list && this.data.list.pagination) {
+    if (this.data?.list?.pagination) {
       return this.data.list.pagination.totalItems;
     }
     return 0;
@@ -173,7 +173,7 @@ export class SearchLibrariesResultsComponent extends PageComponent implements On
   }
 
   navigateTo(node: SiteEntry) {
-    if (node && node.entry && node.entry.guid) {
+    if (node?.entry?.guid) {
       this.store.dispatch(new NavigateLibraryAction(node.entry.guid));
     }
   }

@@ -67,7 +67,7 @@ export class ActiveLinkDirective implements OnInit, AfterContentInit {
   }
 
   private render(routerUrl: string, actionUrl: string) {
-    if (routerUrl && routerUrl.substring(1).startsWith(actionUrl)) {
+    if (routerUrl?.substring(1).startsWith(actionUrl)) {
       this.isLinkActive = true;
       this.renderer.addClass(this.element.nativeElement, this.acaActiveLink);
     } else {
@@ -82,6 +82,6 @@ export class ActiveLinkDirective implements OnInit, AfterContentInit {
   }
 
   private resolveUrl(item): string {
-    return (item.action && item.action.click && item.action.click.payload) || item.action.route;
+    return item.action?.click?.payload || item.action?.route;
   }
 }

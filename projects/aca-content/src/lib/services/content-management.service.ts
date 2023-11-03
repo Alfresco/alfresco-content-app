@@ -122,7 +122,7 @@ export class ContentManagementService {
   }
 
   manageVersions(node: any, focusedElementOnCloseSelector?: string) {
-    if (node && node.entry) {
+    if (node?.entry) {
       // shared and favorite
       const id = node.entry.nodeId || (node as any).entry.guid;
 
@@ -137,7 +137,7 @@ export class ContentManagementService {
   }
 
   manageAspects(node: any, focusedElementOnCloseSelector?: string) {
-    if (node && node.entry) {
+    if (node?.entry) {
       // shared and favorite
       const id = node.entry.nodeId || (node as any).entry.guid;
 
@@ -174,7 +174,7 @@ export class ContentManagementService {
   }
 
   shareNode(node: any, focusedElementOnCloseSelector?: string): void {
-    if (node && node.entry) {
+    if (node?.entry) {
       // shared and favorite
       const id = node.entry.nodeId || (node as any).entry.guid;
 
@@ -276,7 +276,7 @@ export class ContentManagementService {
         this.focusAfterClose(this.createMenuButtonSelector);
       }),
       map((node: SiteEntry) => {
-        if (node && node.entry && node.entry.guid) {
+        if (node?.entry?.guid) {
           return node.entry.guid;
         }
         return null;
@@ -557,7 +557,7 @@ export class ContentManagementService {
           errorJson = JSON.parse(error.message);
         } catch {}
 
-        if (errorJson && errorJson.error && errorJson.error.statusCode === 403) {
+        if (errorJson?.error?.statusCode === 403) {
           i18nMessageString = 'APP.MESSAGES.ERRORS.PERMISSION';
         }
 
@@ -609,8 +609,8 @@ export class ContentManagementService {
   }
 
   private undoMoveNodes(moveResponse, selectionParentId: string) {
-    const movedNodes = moveResponse && moveResponse['succeeded'] ? moveResponse['succeeded'] : [];
-    const partiallyMovedNodes = moveResponse && moveResponse['partiallySucceeded'] ? moveResponse['partiallySucceeded'] : [];
+    const movedNodes = moveResponse?.['succeeded'] ?? [];
+    const partiallyMovedNodes = moveResponse?.['partiallySucceeded'] ?? [];
 
     const restoreDeletedNodesBatch = this.nodeActionsService.moveDeletedEntries.map((folderEntry) =>
       this.contentApi.restoreNode(folderEntry.nodeId || folderEntry.id).pipe(map((node) => node.entry))
@@ -623,7 +623,7 @@ export class ContentManagementService {
 
           const revertMoveBatch = this.nodeActionsService
             .flatten(nodesToBeMovedBack)
-            .filter((node) => node.entry || (node.itemMoved && node.itemMoved.entry))
+            .filter((node) => node.entry || node.itemMoved?.entry)
             .map((node) => {
               if (node.itemMoved) {
                 return this.nodeActionsService.moveNodeAction(node.itemMoved.entry, node.initialParentId);
@@ -647,7 +647,7 @@ export class ContentManagementService {
             errorJson = JSON.parse(error.message);
           } catch {}
 
-          if (errorJson && errorJson.error && errorJson.error.statusCode === 403) {
+          if (errorJson?.error?.statusCode === 403) {
             message = 'APP.MESSAGES.ERRORS.PERMISSION';
           }
 
@@ -1009,9 +1009,9 @@ export class ContentManagementService {
   }
 
   private showMoveMessage(nodes: Array<NodeEntry>, info: any, moveResponse?: any) {
-    const succeeded = moveResponse && moveResponse['succeeded'] ? moveResponse['succeeded'].length : 0;
-    const partiallySucceeded = moveResponse && moveResponse['partiallySucceeded'] ? moveResponse['partiallySucceeded'].length : 0;
-    const failures = moveResponse && moveResponse['failed'] ? moveResponse['failed'].length : 0;
+    const succeeded = moveResponse?.['succeeded'].length ?? 0;
+    const partiallySucceeded = moveResponse?.['partiallySucceeded'].length ?? 0;
+    const failures = moveResponse?.['failed'].length ?? 0;
 
     let successMessage = '';
     let partialSuccessMessage = '';

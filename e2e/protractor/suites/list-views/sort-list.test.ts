@@ -26,7 +26,7 @@ import { AdminActions, LoginPage, RepoClient, FILES, BrowsingPage, DataTable, Cr
 import { BrowserActions, ContentNodeSelectorDialogPage, DocumentListPage, PaginationPage, ViewerPage } from '@alfresco/adf-testing';
 
 describe('Remember sorting', () => {
-  interface nodesIds {
+  interface NodesIds {
     [index: string]: string;
   }
 
@@ -38,9 +38,9 @@ describe('Remember sorting', () => {
   const folderToMove = `folder1`;
   const folderToContain = `folder2`;
   const uiCreatedFolder = `folder3`;
-  const filesIdsUser1: nodesIds = {};
-  const filesIdsUser2: nodesIds = {};
-  const folderIds: nodesIds = {};
+  const filesIdsUser1: NodesIds = {};
+  const filesIdsUser2: NodesIds = {};
+  const folderIds: NodesIds = {};
 
   const testData = {
     user1: {

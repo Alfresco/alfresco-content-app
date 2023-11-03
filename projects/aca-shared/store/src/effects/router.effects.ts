@@ -67,7 +67,7 @@ export class RouterEffects {
       this.actions$.pipe(
         ofType<NavigateToFolder>(RouterActionTypes.NavigateFolder),
         map((action) => {
-          if (action.payload && action.payload.entry) {
+          if (action.payload?.entry) {
             this.navigateToFolder(action.payload.entry);
           }
         })
@@ -80,7 +80,7 @@ export class RouterEffects {
       this.actions$.pipe(
         ofType<NavigateToParentFolder>(RouterActionTypes.NavigateParentFolder),
         map((action) => {
-          if (action.payload && action.payload.entry) {
+          if (action.payload?.entry) {
             this.navigateToParentFolder(action.payload.entry);
           }
         })
@@ -101,7 +101,7 @@ export class RouterEffects {
     let link: any[] = null;
     const { path, id } = node;
 
-    if (path && path.name && path.elements) {
+    if (path?.name && path?.elements) {
       const isLibraryPath = this.isLibraryContent(path);
 
       const parent = path.elements[path.elements.length - 1];
@@ -126,7 +126,7 @@ export class RouterEffects {
     let link: any[] = null;
     const { path } = node;
 
-    if (path && path.name && path.elements) {
+    if (path?.name && path?.elements) {
       const isLibraryPath = this.isLibraryContent(path);
 
       const parent = path.elements[path.elements.length - 1];

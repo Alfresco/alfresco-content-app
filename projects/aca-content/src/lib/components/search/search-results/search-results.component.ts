@@ -266,7 +266,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
   }
 
   onNodeDoubleClick(node: NodeEntry) {
-    if (node && node.entry) {
+    if (node?.entry) {
       if (node.entry.isFolder) {
         this.store.dispatch(new NavigateToFolder(node));
         return;

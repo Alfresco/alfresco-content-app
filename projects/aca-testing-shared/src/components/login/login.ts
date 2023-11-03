@@ -58,12 +58,7 @@ export class LoginComponent extends Component {
     const type = await this.passwordInput.getAttribute('type');
     if (type === 'text') {
       return true;
-    } else {
-      if (type === 'password') {
-        return false;
-      }
     }
-
     return false;
   }
 

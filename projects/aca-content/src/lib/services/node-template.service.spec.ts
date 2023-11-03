@@ -153,11 +153,7 @@ describe('NodeTemplateService', () => {
   }));
 
   it('should raise an error when getNodeInfo fails', fakeAsync(() => {
-    spyOn(nodeTemplateService['searchApi'], 'search').and.returnValue(
-      Promise.reject({
-        message: `{ "error": { "statusCode": 404 } } `
-      })
-    );
+    spyOn(nodeTemplateService['searchApi'], 'search').and.returnValue(Promise.reject(new Error('{ "error": { "statusCode": 404 } }')));
     spyOn(store, 'dispatch');
 
     nodeTemplateService.selectTemplateDialog(fileTemplateConfig);

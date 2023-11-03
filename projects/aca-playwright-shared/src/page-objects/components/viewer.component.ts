@@ -22,11 +22,10 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Page } from '@playwright/test';
+import { Page, expect } from '@playwright/test';
 import { BaseComponent } from './base.component';
 import { AcaHeader } from './aca-header.component';
 import { timeouts } from '../../utils';
-import { expect } from '@playwright/test';
 
 export class ViewerComponent extends BaseComponent {
   private static rootElement = 'adf-viewer';

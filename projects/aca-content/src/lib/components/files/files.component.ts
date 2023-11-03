@@ -102,7 +102,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
         (node) => {
           this.isValidPath = true;
 
-          if (node.entry && node.entry.isFolder) {
+          if (node?.entry?.isFolder) {
             this.updateCurrentNode(node.entry);
           } else {
             this.router.navigate(['/personal-files', node.entry.parentId], {
@@ -190,7 +190,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   }
 
   navigateTo(node: NodeEntry) {
-    if (node && node.entry) {
+    if (node?.entry) {
       this.selectedNode = node;
       const { isFolder } = node.entry;
 
@@ -220,7 +220,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     this.documentList.resetNewFolderPagination();
 
     // todo: review this approach once 5.2.3 is out
-    if (this.nodePath && this.nodePath.length > 2) {
+    if (this.nodePath && this.nodePath?.length > 2) {
       if (this.nodePath[1].name === 'Sites' && this.nodePath[2].id === route.id) {
         return this.navigate(this.nodePath[3].id);
       }
@@ -232,31 +232,31 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     const node: NodeEntry = event.file.data;
 
     // check root and child nodes
-    if (node && node.entry && node.entry.parentId === this.getParentNodeId()) {
+    if (node?.entry?.parentId === this.getParentNodeId()) {
       this.reload(this.selectedNode);
       return;
     }
 
     // check the child nodes to show dropped folder
     if (event && event.file.options.parentId === this.getParentNodeId()) {
-      this.displayFolderParent(event.file.options.path, 0);
+      this.displayFolderParent(0, event.file.options.path);
       return;
     }
 
-    if (event && event.file.options.parentId) {
+    if (event?.file.options.parentId) {
       if (this.nodePath) {
         const correspondingNodePath = this.nodePath.find((pathItem) => pathItem.id === event.file.options.parentId);
 
         // check if the current folder has the 'trigger-upload-folder' as one of its parents
         if (correspondingNodePath) {
           const correspondingIndex = this.nodePath.length - this.nodePath.indexOf(correspondingNodePath);
-          this.displayFolderParent(event.file.options.path, correspondingIndex);
+          this.displayFolderParent(correspondingIndex, event.file.options.path);
         }
       }
     }
   }
 
-  displayFolderParent(filePath = '', index: number) {
+  displayFolderParent(index: number, filePath = '') {
     const parentName = filePath.split('/')[index];
     const currentFoldersDisplayed = (this.documentList.data.getRows() as ShareDataRow[]) || [];
 
@@ -269,7 +269,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   }
 
   onContentCopied(nodes: NodeEntry[]) {
-    const newNode = nodes.find((node) => node && node.entry && node.entry.parentId === this.getParentNodeId());
+    const newNode = nodes.find((node) => node?.entry?.parentId === this.getParentNodeId());
     if (newNode) {
       this.reload(this.selectedNode);
     }
@@ -279,10 +279,12 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   private async updateCurrentNode(node: Node) {
     this.nodePath = null;
 
-    if (node && node.path && node.path.elements) {
+    if (node?.path?.elements) {
       const elements = node.path.elements;
 
-      this.nodePath = elements.map((pathElement) => Object.assign({}, pathElement));
+      this.nodePath = elements.map((pathElement) => {
+        return { ...pathElement };
+      });
 
       if (elements.length > 1) {
         if (elements[1].name === 'User Homes') {
@@ -329,14 +331,14 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   }
 
   isSiteContainer(node: Node): boolean {
-    if (node && node.aspectNames && node.aspectNames.length > 0) {
+    if (node?.aspectNames?.length > 0) {
       return node.aspectNames.indexOf('st:siteContainer') >= 0;
     }
     return false;
   }
 
   isRootNode(nodeId: string): boolean {
-    if (this.node && this.node.path && this.node.path.elements && this.node.path.elements.length > 0) {
+    if (this.node?.path?.elements?.length > 0) {
       return this.node.path.elements[0].id === nodeId;
     }
     return false;
@@ -359,7 +361,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     const objectFromMap = {};
     activeFilters.forEach((filter: FilterSearch) => {
       let paramValue;
-      if (filter.value && filter.value.from && filter.value.to) {
+      if (filter?.value?.from && filter?.value?.to) {
         paramValue = `${filter.value.from}||${filter.value.to}`;
       } else {
         paramValue = filter.value;

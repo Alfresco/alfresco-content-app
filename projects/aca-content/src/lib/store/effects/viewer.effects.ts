@@ -101,7 +101,7 @@ export class ViewerEffects {
       this.actions$.pipe(
         ofType<ViewFileAction>(ViewerActionTypes.ViewFile),
         map((action) => {
-          if (action.payload && action.payload.entry) {
+          if (action.payload?.entry) {
             const { id, nodeId, isFile } = action.payload.entry as any;
 
             if (this.extensions.canPreviewNode(action.payload) && (isFile || nodeId)) {
@@ -112,7 +112,7 @@ export class ViewerEffects {
               .select(fileToPreview)
               .pipe(take(1))
               .subscribe((result) => {
-                if (result.selection && result.selection.file) {
+                if (result.selection?.file) {
                   const { id, nodeId, isFile } = result.selection.file.entry as any;
 
                   if (this.extensions.canPreviewNode(action.payload) && (isFile || nodeId)) {
