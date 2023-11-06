@@ -99,7 +99,7 @@ jobs:
           cache: 'npm'
       - uses: ./.github/actions/before-install
       - run: npm ci
-      - run: npm run affected:test -- --browsers=ChromeHeadless --watch=false $TEST_OPTS --base=origin/develop
+      - run: npm run affected:test -- --browsers=ChromeHeadless --watch=false --base=origin/develop
 
   e2es:
     needs: [lint, build, unit-tests]
