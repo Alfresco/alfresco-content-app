@@ -75,7 +75,7 @@ describe('Search results general', () => {
     await toolbar.clickSearchIconButton();
     await searchInput.clickSearchButton();
     await searchInput.checkOnlyFiles();
-    await searchInput.searchFor(random);
+    await searchInput.searchFor(`*${random}`);
     await dataTable.waitForBody();
 
     expect(await dataTable.isItemPresent(file)).toBe(true, `${file} not displayed`);
@@ -87,7 +87,7 @@ describe('Search results general', () => {
     await toolbar.clickSearchIconButton();
     await searchInput.clickSearchButton();
     await searchInput.checkOnlyFolders();
-    await searchInput.searchFor(random);
+    await searchInput.searchFor(`*${random}`);
     await page.waitForResults();
 
     expect(await dataTable.isItemPresent(file)).toBe(false, `${file} is displayed`);
@@ -99,7 +99,7 @@ describe('Search results general', () => {
     await toolbar.clickSearchIconButton();
     await searchInput.clickSearchButton();
     await searchInput.checkFilesAndFolders();
-    await searchInput.searchFor(random);
+    await searchInput.searchFor(`*${random}`);
     await page.waitForResults();
 
     expect(await dataTable.isItemPresent(file)).toBe(true, `${file} not displayed`);
@@ -111,7 +111,7 @@ describe('Search results general', () => {
     await toolbar.clickSearchIconButton();
     await searchInput.clickSearchButton();
     await searchInput.checkLibraries();
-    await searchInput.searchForLibrary(random);
+    await searchInput.searchForLibrary(`*${random}`);
     await page.waitForResults();
 
     expect(await dataTable.isItemPresent(file)).toBe(false, `${file} is displayed`);
