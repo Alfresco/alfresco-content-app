@@ -1,6 +1,6 @@
 <form class="aca-rule-action__form" [formGroup]="form">
 
-  <mat-form-field>
+  <mat-form-field class="aca-rule-action-full-width">
     <mat-select
       formControlName="actionDefinitionId"
       data-automation-id="rule-action-select"
@@ -14,9 +14,10 @@
   </mat-form-field>
 
   <adf-card-view
+    *ngIf="cardViewItems?.length > 0"
     data-automation-id="rule-action-card-view"
     [properties]="cardViewItems"
-    [ngClass]="{ 'aca-rule-action-full-width': isFullWidth }"
+    class="aca-rule-action-full-width"
     [editable]="!readOnly">
   </adf-card-view>
 

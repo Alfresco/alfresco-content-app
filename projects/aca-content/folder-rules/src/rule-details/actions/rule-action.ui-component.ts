@@ -84,8 +84,12 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
   get parameterConstraints(): ActionParameterConstraint[] {
     return this._parameterConstraints;
   }
+
   set parameterConstraints(value) {
-    this._parameterConstraints = value.map((obj) => ({ ...obj, constraints: this.parseConstraintsToSelectOptions(obj.constraints) }));
+    this._parameterConstraints = value.map((obj) => ({
+      ...obj,
+      constraints: this.parseConstraintsToSelectOptions(obj.constraints)
+    }));
   }
 
   private readonly tagsRelatedPropertiesAndAspects = ['cm:tagscope', 'cm:tagScopeCache', 'cm:taggable'];
@@ -107,10 +111,6 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
 
   get selectedActionDefinition(): ActionDefinitionTransformed {
     return this.actionDefinitions.find((actionDefinition: ActionDefinitionTransformed) => actionDefinition.id === this.selectedActionDefinitionId);
-  }
-
-  get cardViewStyle() {
-    return this.isFullWidth ? { width: '100%' } : {};
   }
 
   onChange: (action: RuleAction) => void = () => undefined;
@@ -188,7 +188,6 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
     const disabledTags = !this.tagService.areTagsEnabled();
     const disabledCategories = !this.categoryService.areCategoriesEnabled();
     this.cardViewItems = (this.selectedActionDefinition?.parameterDefinitions ?? []).map((paramDef) => {
-      this.isFullWidth = false;
       const constraintsForDropdownBox = this._parameterConstraints.find((obj) => obj.name === paramDef.name);
       const cardViewPropertiesModel = {
         label: paramDef.displayLabel + (paramDef.mandatory ? ' *' : ''),
@@ -225,7 +224,6 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
         //  falls through
         default:
           if (constraintsForDropdownBox && !this.readOnly) {
-            this.isFullWidth = true;
             return new CardViewSelectItemModel({
               ...cardViewPropertiesModel,
               value: (this.parameters[paramDef.name] as string) ?? '',
