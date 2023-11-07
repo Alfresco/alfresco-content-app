@@ -305,7 +305,7 @@ test.describe('Create folder from template', () => {
       test('[C325156] Create a folder with a duplicate name', async ({ personalFiles }) => {
         const snackBar = personalFiles.snackBar;
 
-        await createFolderFromTemplateDialog.createNewFolderFromTemplate(commonFolderName);
+        await createFolderFromTemplateDialog.createFromTemplateAction(commonFolderName);
         await expect(snackBar.getByMessageLocator(errorStrings.nameAlreadyUsedError)).toBeVisible();
         await expect(createFolderFromTemplateDialog.getDialogTitle(createDialogTitle)).toBeVisible();
       });
@@ -334,7 +334,7 @@ test.describe('Create folder from template', () => {
       });
 
       test('[C325157] Create a folder from a template - with a new Name', async () => {
-        await createFolderFromTemplateDialog.createNewFolderFromTemplate(randomFolderName);
+        await createFolderFromTemplateDialog.createFromTemplateAction(randomFolderName);
         await dataTable.goThroughPagesLookingForRowWithName(randomFolderName);
         await expect(dataTable.getRowByName(randomFolderName)).toBeVisible();
 
@@ -344,13 +344,13 @@ test.describe('Create folder from template', () => {
       });
 
       test('[C325154] Create a folder from a template - with a Name, Title and Description', async () => {
-        await createFolderFromTemplateDialog.createNewFolderFromTemplate(randomFolderName, randomFolderTitle, randomFolderDescription);
+        await createFolderFromTemplateDialog.createFromTemplateAction(randomFolderName, randomFolderTitle, randomFolderDescription);
         await dataTable.goThroughPagesLookingForRowWithName(randomFolderName);
         await expect(dataTable.getCellLinkByName(randomFolderName)).toHaveAttribute(titleLabel, randomFolderTitle + `\n` + randomFolderDescription);
       });
 
       test('[C325158] Trim spaces from folder Name', async () => {
-        await createFolderFromTemplateDialog.createNewFolderFromTemplate('   ' + randomFolderName + '   ');
+        await createFolderFromTemplateDialog.createFromTemplateAction('   ' + randomFolderName + '   ');
         await dataTable.goThroughPagesLookingForRowWithName(randomFolderName);
         await expect(dataTable.getRowByName(randomFolderName)).toBeVisible();
       });
@@ -388,7 +388,7 @@ test.describe('Create folder from template', () => {
     });
 
     test('[C325161] Create a folder from a template from library - with Name, Title and Description', async () => {
-      await createFolderFromTemplateDialog.createNewFolderFromTemplate(randomFolderName, randomFolderTitle, randomFolderDescription);
+      await createFolderFromTemplateDialog.createFromTemplateAction(randomFolderName, randomFolderTitle, randomFolderDescription);
       await expect
         .soft(dataTable.getCellLinkByName(randomFolderName))
         .toHaveAttribute(titleLabel, randomFolderTitle + `\n` + randomFolderDescription);
@@ -408,7 +408,7 @@ test.describe('Create folder from template', () => {
     test('[C325163] Create a folder with a duplicate name in a library', async ({ myLibrariesPage }) => {
       const snackBar = myLibrariesPage.snackBar;
 
-      await createFolderFromTemplateDialog.createNewFolderFromTemplate(commonFolderName);
+      await createFolderFromTemplateDialog.createFromTemplateAction(commonFolderName);
       await expect(snackBar.getByMessageLocator(errorStrings.nameAlreadyUsedError)).toBeVisible();
       await expect(createFolderFromTemplateDialog.getDialogTitle(createDialogTitle)).toBeVisible();
     });

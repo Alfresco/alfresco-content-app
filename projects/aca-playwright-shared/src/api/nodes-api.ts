@@ -193,6 +193,18 @@ export class NodesApi {
     }
   }
 
+  async cleanupNodeTemplatesItems(nodeNames: string[]): Promise<void> {
+    try {
+      const templatesFolderId = await this.getNodeTemplatesFolderId();
+      for (const nodeName of nodeNames) {
+        const nodeId = await this.getNodeIdFromParent(nodeName, templatesFolderId);
+        await this.deleteNodeById(nodeId);
+      }
+    } catch (error) {
+      logger.error('Admin Actions - cleanupNodeTemplatesItems failed : ', error);
+    }
+  }
+
   async cleanupSpaceTemplatesItems(nodeNames: string[]): Promise<void> {
     try {
       const spaceTemplatesNodeId = await this.getSpaceTemplatesFolderId();
@@ -202,6 +214,15 @@ export class NodesApi {
       }
     } catch (error) {
       logger.error('Admin Actions - cleanupSpaceTemplatesFolder failed : ', error);
+    }
+  }
+
+  async getNodeTemplatesFolderId(): Promise<string> {
+    try {
+      return this.getNodeIdFromParent('Node Templates', await this.getDataDictionaryId());
+    } catch (error) {
+      logger.error('Admin Actions - getNodeTemplatesFolderId failed : ', error);
+      return '';
     }
   }
 
@@ -243,6 +264,18 @@ export class NodesApi {
     }
   }
 
+  async removeUserAccessOnNodeTemplate(nodeName: string): Promise<NodeEntry> {
+    try {
+      const templatesRootFolderId = await this.getNodeTemplatesFolderId();
+      const nodeId: string = await this.getNodeIdFromParent(nodeName, templatesRootFolderId);
+
+      return this.setInheritPermissions(nodeId, false);
+    } catch (error) {
+      logger.error('Admin Actions - removeUserAccessOnNodeTemplate failed : ', error);
+      return null;
+    }
+  }
+
   async removeUserAccessOnSpaceTemplate(nodeName: string): Promise<NodeEntry> {
     try {
       const templatesRootFolderId = await this.getSpaceTemplatesFolderId();
@@ -279,6 +312,26 @@ export class NodesApi {
     }
   }
 
+  async createFileLink(originalNodeId: string, destinationId: string): Promise<NodeEntry | null> {
+    const name = (await this.getNodeById(originalNodeId)).entry.name;
+    const nodeBody = {
+      name: `Link to ${name}.url`,
+      nodeType: 'app:filelink',
+      properties: {
+        'cm:destination': originalNodeId
+      }
+    };
+
+    try {
+      const link = await this.apiService.nodes.createNode(destinationId, nodeBody);
+      await this.addAspects(originalNodeId, ['app:linked']);
+      return link;
+    } catch (error) {
+      logger.error(`${this.constructor.name} ${this.createFileLink.name}`, error);
+      return null;
+    }
+  }
+
   async createFolderLink(originalNodeId: string, destinationId: string): Promise<NodeEntry | null> {
     const name = (await this.getNodeById(originalNodeId)).entry.name;
     const nodeBody = {
@@ -302,10 +355,21 @@ export class NodesApi {
     }
   }
 
-  async createLinkToFolderName(originalFolderName: string, originalFolderParentId: string, destinationParentId?: string): Promise<NodeEntry> {
-    if (!destinationParentId) {
-      destinationParentId = originalFolderParentId;
+  async createLinkToFileName(originalFileName: string, originalFileParentId: string, destinationParentId?: string): Promise<NodeEntry> {
+    destinationParentId = destinationParentId ?? originalFileParentId;
+
+    try {
+      const nodeId = await this.getNodeIdFromParent(originalFileName, originalFileParentId);
+
+      return this.createFileLink(nodeId, destinationParentId);
+    } catch (error) {
+      logger.error('Admin Actions - createLinkToFileName failed : ', error);
+      return null;
     }
+  }
+
+  async createLinkToFolderName(originalFolderName: string, originalFolderParentId: string, destinationParentId?: string): Promise<NodeEntry> {
+      destinationParentId = destinationParentId ?? originalFolderParentId;
 
     try {
       const nodeId = await this.getNodeIdFromParent(originalFolderName, originalFolderParentId);
