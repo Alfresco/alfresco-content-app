@@ -50,4 +50,9 @@ export class AcaHeader extends BaseComponent {
     await this.createButton.click();
     await this.matMenu.createFolderFromTemplate.click();
   }
+
+  async clickCreateFileFromTemplate(): Promise<void> {
+    await this.createButton.click();
+    await this.matMenu.createFileFromTemplate.click();
+  }
 }
