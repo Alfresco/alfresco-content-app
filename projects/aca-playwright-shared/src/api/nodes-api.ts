@@ -356,9 +356,7 @@ export class NodesApi {
   }
 
   async createLinkToFileName(originalFileName: string, originalFileParentId: string, destinationParentId?: string): Promise<NodeEntry> {
-    if (!destinationParentId) {
-      destinationParentId = originalFileParentId;
-    }
+    destinationParentId = destinationParentId ?? originalFileParentId;
 
     try {
       const nodeId = await this.getNodeIdFromParent(originalFileName, originalFileParentId);
@@ -371,9 +369,7 @@ export class NodesApi {
   }
 
   async createLinkToFolderName(originalFolderName: string, originalFolderParentId: string, destinationParentId?: string): Promise<NodeEntry> {
-    if (!destinationParentId) {
-      destinationParentId = originalFolderParentId;
-    }
+      destinationParentId = destinationParentId ?? originalFolderParentId;
 
     try {
       const nodeId = await this.getNodeIdFromParent(originalFolderName, originalFolderParentId);
