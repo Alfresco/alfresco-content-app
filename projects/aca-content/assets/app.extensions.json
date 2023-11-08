@@ -1479,7 +1479,7 @@
                 "hideDefaultAction": true,
                 "allowOnlyPredefinedValues": false,
                 "field": "SITE",
-                "autocompleteOptions": [ {"value": "_REPOSITORY_"} ]
+                "autocompleteOptions": [ { "value": "_REPOSITORY_", "query": "PATH:'/app:company_home/\/*'" } ]
               }
             }
           },
