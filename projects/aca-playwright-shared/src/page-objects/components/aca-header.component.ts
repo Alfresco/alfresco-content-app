@@ -70,6 +70,7 @@ export class AcaHeader extends BaseComponent {
     for (const action of expectedToolbarPrimary) {
       expect(actualPrimaryActions.includes(action), `Expected to contain ${action}`).toBe(true);
     }
+  }
 
   async clickCreateFileFromTemplate(): Promise<void> {
     await this.createButton.click();

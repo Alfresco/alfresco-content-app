@@ -227,7 +227,7 @@ export function filesLockedByCurrentUser(userDemoted: string, siteName?: string)
 }
 
 export function filesLockedByOtherUser(userManager: string, siteName?: string) {
-  test.describe.only('available actions : ', () => {
+  test.describe('available actions : ', () => {
     test.beforeEach(async ({ loginPage }) => {
       await loginPage.navigate();
       await loginPage.loginUser({ username: userManager, password: userManager });
