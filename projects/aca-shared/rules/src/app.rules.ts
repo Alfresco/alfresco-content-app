@@ -27,6 +27,7 @@ import { RuleContext } from '@alfresco/adf-extensions';
 import * as navigation from './navigation.rules';
 import * as repository from './repository.rules';
 import { isAdmin } from './user.rules';
+import { NodeEntry } from '@alfresco/js-api';
 
 /* cspell:disable */
 export const supportedExtensions = {
@@ -638,6 +639,6 @@ function isSmartFolder(context: RuleContext): boolean {
   return false;
 }
 
-function getNodeAspectNames(node: any): any[] {
+function getNodeAspectNames(node: NodeEntry): string[] {
   return node.entry?.aspectNames ?? [];
 }
