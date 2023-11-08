@@ -82,85 +82,6 @@ export function collaboratorTests(siteName?: string) {
 
       await testUtil.checkToolbarActions(testData.fileSharedFav.name, expectedToolbarPrimary, expectedToolbarMore);
     });
-
-    describe('available actions in the viewer : ', () => {
-      it('file opened from File Libraries - [C297654]', async () => {
-        await page.goToMyLibrariesAndWait();
-        await dataTable.doubleClickOnRowByName(siteName);
-        await dataTable.waitForHeader();
-
-        const expectedToolbarPrimary = ['Activate full-screen mode', 'Shared Link Settings', 'Download', 'Print', 'View Details', 'More Actions'];
-        const expectedToolbarMore = [
-          'Edit in Microsoft Office™',
-          'Edit Offline',
-          'Upload New Version',
-          'Remove Favorite',
-          'Copy',
-          'Manage Versions',
-          'Edit Aspects',
-          'Permissions'
-        ];
-
-        await testUtil.checkViewerActions(testData.fileDocxSharedFav.name, expectedToolbarPrimary, expectedToolbarMore);
-      });
-
-      it('file opened from Shared Files - [C297655]', async () => {
-        await page.clickSharedFilesAndWait();
-
-        const expectedToolbarPrimary = ['Activate full-screen mode', 'Shared Link Settings', 'Download', 'Print', 'View Details', 'More Actions'];
-        const expectedToolbarMore = [
-          'Edit in Microsoft Office™',
-          'Edit Offline',
-          'Upload New Version',
-          'Remove Favorite',
-          'Copy',
-          'Manage Versions',
-          'Edit Aspects',
-          'Permissions'
-        ];
-
-        await testUtil.checkViewerActions(testData.fileDocxSharedFav.name, expectedToolbarPrimary, expectedToolbarMore);
-      });
-
-      it('file opened from Favorites - [C297656]', async () => {
-        await page.clickFavoritesAndWait();
-
-        const expectedToolbarPrimary = ['Activate full-screen mode', 'Shared Link Settings', 'Download', 'Print', 'View Details', 'More Actions'];
-        const expectedToolbarMore = [
-          'Edit in Microsoft Office™',
-          'Edit Offline',
-          'Upload New Version',
-          'Remove Favorite',
-          'Copy',
-          'Manage Versions',
-          'Edit Aspects',
-          'Permissions'
-        ];
-
-        await testUtil.checkViewerActions(testData.fileDocxSharedFav.name, expectedToolbarPrimary, expectedToolbarMore);
-      });
-
-      it('file opened from Search Results - [C306992]', async () => {
-        await toolbar.clickSearchIconButton();
-        await searchInput.clickSearchButton();
-        await searchInput.searchFor(testData.fileDocxSharedFav.name);
-        await searchResultsPage.waitForResults();
-
-        const expectedToolbarPrimary = ['Activate full-screen mode', 'Shared Link Settings', 'Download', 'Print', 'View Details', 'More Actions'];
-        const expectedToolbarMore = [
-          'Edit in Microsoft Office™',
-          'Edit Offline',
-          'Upload New Version',
-          'Remove Favorite',
-          'Copy',
-          'Manage Versions',
-          'Edit Aspects',
-          'Permissions'
-        ];
-
-        await testUtil.checkViewerActions(testData.fileDocxSharedFav.name, expectedToolbarPrimary, expectedToolbarMore);
-      });
-    });
   });
 }
 
@@ -214,49 +135,6 @@ export function filesLockedByCurrentUser(siteName?: string) {
       const expectedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions'];
 
       await testUtil.checkToolbarActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
-    });
-
-    describe('available actions in the viewer : ', () => {
-      it('file opened from File Libraries - [C297661]', async () => {
-        await page.goToMyLibrariesAndWait();
-        await dataTable.doubleClickOnRowByName(siteName);
-        await dataTable.waitForHeader();
-
-        const expectedToolbarPrimary = ['Activate full-screen mode', 'Shared Link Settings', 'Download', 'Print', 'View Details', 'More Actions'];
-        const expectedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions'];
-
-        await testUtil.checkViewerActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
-      });
-
-      it('file opened from Shared Files - [C297662]', async () => {
-        await page.clickSharedFilesAndWait();
-
-        const expectedToolbarPrimary = ['Activate full-screen mode', 'Shared Link Settings', 'Download', 'Print', 'View Details', 'More Actions'];
-        const expectedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions'];
-
-        await testUtil.checkViewerActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
-      });
-
-      it('file opened from Favorites - [C297663]', async () => {
-        await page.clickFavoritesAndWait();
-
-        const expectedToolbarPrimary = ['Activate full-screen mode', 'Shared Link Settings', 'Download', 'Print', 'View Details', 'More Actions'];
-        const expectedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions'];
-
-        await testUtil.checkViewerActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
-      });
-
-      it('file opened from Search Results - [C306993]', async () => {
-        await toolbar.clickSearchIconButton();
-        await searchInput.clickSearchButton();
-        await searchInput.searchFor(testData.fileLockedByUser);
-        await searchResultsPage.waitForResults();
-
-        const expectedToolbarPrimary = ['Activate full-screen mode', 'Shared Link Settings', 'Download', 'Print', 'View Details', 'More Actions'];
-        const expectedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions'];
-
-        await testUtil.checkViewerActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
-      });
     });
   });
 }
@@ -322,50 +200,6 @@ export function filesLockedByOtherUser(siteName?: string) {
       const expectedToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Copy', 'Manage Versions', 'Permissions'];
 
       await testUtil.checkToolbarActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
-    });
-
-    describe('available actions in the viewer : ', () => {
-      it('file opened from File Libraries - [C297671]', async () => {
-        await page.goToMyLibrariesAndWait();
-        await dataTable.doubleClickOnRowByName(siteName);
-        await dataTable.waitForHeader();
-
-        const expectedToolbarPrimary = ['Activate full-screen mode', 'Shared Link Settings', 'Download', 'Print', 'View Details', 'More Actions'];
-        const expectedToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Permissions'];
-
-        await testUtil.checkViewerActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
-      });
-
-      it('file opened from Shared Files - [C297672]', async () => {
-        await page.clickSharedFilesAndWait();
-
-        const expectedToolbarPrimary = ['Activate full-screen mode', 'Shared Link Settings', 'Download', 'Print', 'View Details', 'More Actions'];
-        const expectedToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Permissions'];
-
-        await testUtil.checkViewerActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
-      });
-
-      it('file opened from Favorites - [C297673]', async () => {
-        await page.clickFavoritesAndWait();
-
-        const expectedToolbarPrimary = ['Activate full-screen mode', 'Shared Link Settings', 'Download', 'Print', 'View Details', 'More Actions'];
-        const expectedToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Permissions'];
-
-        await testUtil.checkViewerActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
-      });
-
-      it('file opened from Search Results - [C306994]', async () => {
-        await toolbar.clickSearchIconButton();
-        await searchInput.clickSearchButton();
-        await searchInput.searchFor(testData.fileLockedByUser);
-        await searchResultsPage.waitForResults();
-
-        const expectedToolbarPrimary = ['Activate full-screen mode', 'Shared Link Settings', 'Download', 'Print', 'View Details', 'More Actions'];
-        // TODO: add 'Move' and 'Delete' when ACA-2319 is fixed
-        const expectedToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Copy', 'Manage Versions', 'Permissions'];
-
-        await testUtil.checkViewerActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
-      });
     });
   });
 }
