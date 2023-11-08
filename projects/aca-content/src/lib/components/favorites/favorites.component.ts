@@ -83,7 +83,7 @@ export class FavoritesComponent extends PageComponent implements OnInit {
     const { isFolder, id } = favorite;
 
     // TODO: rework as it will fail on non-English setups
-    const isSitePath = (path: PathInfo): boolean => path && path.elements && path.elements.some(({ name }: PathElement) => name === 'Sites');
+    const isSitePath = (path: PathInfo): boolean => path?.elements?.some(({ name }: PathElement) => name === 'Sites');
 
     if (isFolder) {
       this.contentApi
@@ -97,7 +97,7 @@ export class FavoritesComponent extends PageComponent implements OnInit {
   }
 
   onNodeDoubleClick(node: NodeEntry) {
-    if (node && node.entry) {
+    if (node?.entry) {
       if (node.entry.isFolder) {
         this.navigate(node.entry);
       }

@@ -95,11 +95,7 @@ describe('SearchComponent', () => {
   });
 
   it('should raise an error if search fails', fakeAsync(() => {
-    spyOn(queryBuilder['searchApi'], 'search').and.returnValue(
-      Promise.reject({
-        message: `{ "error": { "statusCode": 500 } } `
-      })
-    );
+    spyOn(queryBuilder['searchApi'], 'search').and.returnValue(Promise.reject(new Error('{ "error": { "statusCode": 500 } }')));
 
     spyOn(queryBuilder, 'buildQuery').and.returnValue(searchRequest);
     spyOn(store, 'dispatch').and.stub();
@@ -118,11 +114,7 @@ describe('SearchComponent', () => {
       return key;
     });
 
-    spyOn(queryBuilder['searchApi'], 'search').and.returnValue(
-      Promise.reject({
-        message: `{ "error": { "statusCode": 401 } } `
-      })
-    );
+    spyOn(queryBuilder['searchApi'], 'search').and.returnValue(Promise.reject(new Error('{ "error": { "statusCode": 401 } }')));
 
     spyOn(queryBuilder, 'buildQuery').and.returnValue(searchRequest);
     spyOn(store, 'dispatch').and.stub();
@@ -141,11 +133,7 @@ describe('SearchComponent', () => {
       return key;
     });
 
-    spyOn(queryBuilder['searchApi'], 'search').and.returnValue(
-      Promise.reject({
-        message: `{ "error": { "statusCode": 401 } } `
-      })
-    );
+    spyOn(queryBuilder['searchApi'], 'search').and.returnValue(Promise.reject(new Error('{ "error": { "statusCode": 401 } }')));
 
     spyOn(queryBuilder, 'buildQuery').and.returnValue(searchRequest);
     spyOn(store, 'dispatch').and.stub();
@@ -191,7 +179,7 @@ describe('SearchComponent', () => {
   });
 
   it('should format user input as cm:name if configuration not provided', () => {
-    const query = component.formatSearchQuery('hello', undefined);
+    const query = component.formatSearchQuery('hello');
     expect(query).toBe(`(cm:name:"hello*")`);
   });
 

@@ -74,7 +74,7 @@ export class SearchResultsRowComponent implements OnInit, OnDestroy {
 
         if (entry.id === node.id) {
           entry.name = node.name;
-          entry.properties = Object.assign({}, node.properties);
+          entry.properties = { ...node.properties };
 
           this.updateValues();
         }

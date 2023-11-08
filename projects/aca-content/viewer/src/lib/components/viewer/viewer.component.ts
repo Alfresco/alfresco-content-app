@@ -182,7 +182,7 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
       this.navigationPath = params.path || params.location;
     });
 
-    if (this.route.snapshot.data && this.route.snapshot.data.navigateSource) {
+    if (this.route.snapshot.data?.navigateSource) {
       const source = this.route.snapshot.data.navigateSource.toLowerCase();
       if (this.navigationSources.includes(source)) {
         this.navigateSource = this.route.snapshot.data.navigateSource;
@@ -239,7 +239,7 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
           return;
         }
 
-        if (this.node && this.node.isFile) {
+        if (this.node?.isFile) {
           const nearest = await this.getNearestNodes(this.node.id, this.node.parentId);
           this.nodeId = this.node.id;
           this.previousNodeId = nearest.left;
@@ -420,11 +420,9 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
 
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    const key = event.keyCode;
-    const rightArrow = 39;
-    const leftArrow = 37;
+    const key = event.key;
 
-    if (key === rightArrow || key === leftArrow) {
+    if (key === 'ArrowRight' || key === 'ArrowLeft') {
       event.preventDefault();
       event.stopImmediatePropagation();
     }
@@ -438,19 +436,11 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
     }
 
     items.sort((a: any, b: any) => {
-      let left = ObjectUtils.getValue(a, key);
-      if (left) {
-        left = left instanceof Date ? left.valueOf().toString() : left.toString();
-      } else {
-        left = '';
-      }
+      let left = ObjectUtils.getValue(a, key) ?? '';
+      left = left instanceof Date ? left.valueOf().toString() : left.toString();
 
-      let right = ObjectUtils.getValue(b, key);
-      if (right) {
-        right = right instanceof Date ? right.valueOf().toString() : right.toString();
-      } else {
-        right = '';
-      }
+      let right = ObjectUtils.getValue(b, key) ?? '';
+      right = right instanceof Date ? right.valueOf().toString() : right.toString();
 
       return direction === 'asc' ? left.localeCompare(right, undefined, options) : right.localeCompare(left, undefined, options);
     });

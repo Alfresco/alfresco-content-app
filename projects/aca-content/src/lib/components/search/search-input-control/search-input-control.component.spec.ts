@@ -42,39 +42,39 @@ describe('SearchInputControlComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should emit submit event on searchSubmit', async () => {
+  it('should emit submit event on searchSubmit', () => {
     const keyboardEvent = { target: { value: 'a' } };
 
     let eventArgs = null;
     component.submit.subscribe((args) => (eventArgs = args));
 
-    await component.searchSubmit(keyboardEvent);
+    component.searchSubmit(keyboardEvent);
     expect(eventArgs).toBe(keyboardEvent);
   });
 
-  it('should emit searchChange event on inputChange', async () => {
+  it('should emit searchChange event on inputChange', () => {
     const searchTerm = 'b';
 
     let eventArgs = null;
     component.searchChange.subscribe((args) => (eventArgs = args));
 
-    await component.inputChange(searchTerm);
+    component.inputChange(searchTerm);
     expect(eventArgs).toBe(searchTerm);
   });
 
-  it('should emit searchChange event on clear', async () => {
+  it('should emit searchChange event on clear', () => {
     let eventArgs = null;
     component.searchChange.subscribe((args) => (eventArgs = args));
 
-    await component.clear();
+    component.clear();
     expect(eventArgs).toBe('');
   });
 
-  it('should clear searchTerm', async () => {
+  it('should clear searchTerm', () => {
     component.searchTerm = 'c';
     fixture.detectChanges();
 
-    await component.clear();
+    component.clear();
     expect(component.searchTerm).toBe('');
   });
 

@@ -98,11 +98,9 @@ export class ContextActionsDirective implements OnInit, OnDestroy {
   }
 
   private findAncestor(el: Element, className: string): Element {
-    if (el.classList.contains(className)) {
-      return el;
+    while (el && !el.classList.contains(className)) {
+      el = el.parentElement;
     }
-    // eslint-disable-next-line curly
-    while ((el = el.parentElement) && !el.classList.contains(className));
     return el;
   }
 }

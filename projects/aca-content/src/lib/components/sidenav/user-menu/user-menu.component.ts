@@ -57,7 +57,7 @@ export class UserMenuComponent implements OnInit {
 
   ngOnInit() {
     this.getUserInfo();
-    if (this.data && this.data.items) {
+    if (this.data?.items) {
       this.data.items.sort((a, b) => a.order - b.order);
     }
   }

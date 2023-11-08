@@ -39,7 +39,7 @@ export function isPreview(context: RuleContext): boolean {
  */
 export function isFavorites(context: RuleContext): boolean {
   const { url } = context.navigation;
-  return url && url.startsWith('/favorites') && !isPreview(context);
+  return url?.startsWith('/favorites') && !isPreview(context);
 }
 
 /**
@@ -54,7 +54,7 @@ export const isNotFavorites = (context: RuleContext): boolean => !isFavorites(co
  */
 export function isSharedFiles(context: RuleContext): boolean {
   const { url } = context.navigation;
-  return url && url.startsWith('/shared') && !isPreview(context);
+  return url?.startsWith('/shared') && !isPreview(context);
 }
 
 /**
@@ -69,7 +69,7 @@ export const isNotSharedFiles = (context: RuleContext): boolean => !isSharedFile
  */
 export function isTrashcan(context: RuleContext): boolean {
   const { url } = context.navigation;
-  return url && url.startsWith('/trashcan');
+  return url?.startsWith('/trashcan');
 }
 
 /**
@@ -84,7 +84,7 @@ export const isNotTrashcan = (context: RuleContext): boolean => !isTrashcan(cont
  */
 export function isPersonalFiles(context: RuleContext): boolean {
   const { url } = context.navigation;
-  return url && url.startsWith('/personal-files');
+  return url?.startsWith('/personal-files');
 }
 
 /**
@@ -93,7 +93,7 @@ export function isPersonalFiles(context: RuleContext): boolean {
  */
 export function isLibraryFiles(context: RuleContext): boolean {
   const { url } = context.navigation;
-  return url && url.startsWith('/libraries');
+  return url?.startsWith('/libraries');
 }
 
 /**
@@ -102,12 +102,12 @@ export function isLibraryFiles(context: RuleContext): boolean {
  */
 export function isLibraries(context: RuleContext): boolean {
   const { url } = context.navigation;
-  return url && (url.endsWith('/libraries') || url.startsWith('/search-libraries'));
+  return url?.endsWith('/libraries') || url?.startsWith('/search-libraries');
 }
 
 export function isLibraryContent(context: RuleContext): boolean {
   const { url } = context.navigation;
-  return url && (url.endsWith('/libraries') || url.includes('/libraries/') || url.startsWith('/search-libraries'));
+  return url?.endsWith('/libraries') || url?.includes('/libraries/') || url?.startsWith('/search-libraries');
 }
 
 /**
@@ -122,7 +122,7 @@ export const isNotLibraries = (context: RuleContext): boolean => !isLibraries(co
  */
 export function isRecentFiles(context: RuleContext): boolean {
   const { url } = context.navigation;
-  return url && url.startsWith('/recent-files');
+  return url?.startsWith('/recent-files');
 }
 
 /**
@@ -140,7 +140,7 @@ export function isSearchResults(
   // ...args: RuleParameter[]
 ): boolean {
   const { url } = context.navigation;
-  return url && url.startsWith('/search');
+  return url?.startsWith('/search');
 }
 
 /**
@@ -155,7 +155,7 @@ export const isNotSearchResults = (context: RuleContext): boolean => !isSearchRe
  */
 export function isSharedPreview(context: RuleContext): boolean {
   const { url } = context.navigation;
-  return url && (url.startsWith('/shared/preview/') || (url.startsWith('/shared') && url.includes('viewer:view')));
+  return url?.startsWith('/shared/preview/') || (url?.startsWith('/shared') && url?.includes('viewer:view'));
 }
 
 /**
@@ -164,7 +164,7 @@ export function isSharedPreview(context: RuleContext): boolean {
  */
 export function isFavoritesPreview(context: RuleContext): boolean {
   const { url } = context.navigation;
-  return url && (url.startsWith('/favorites/preview/') || (url.startsWith('/favorites') && url.includes('viewer:view')));
+  return url?.startsWith('/favorites/preview/') || (url?.startsWith('/favorites') && url?.includes('viewer:view'));
 }
 
 /**
@@ -173,5 +173,5 @@ export function isFavoritesPreview(context: RuleContext): boolean {
  */
 export function isSharedFileViewer(context: RuleContext): boolean {
   const { url } = context.navigation;
-  return url && url.startsWith('/preview/s/');
+  return url?.startsWith('/preview/s/');
 }

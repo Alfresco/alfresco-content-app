@@ -63,10 +63,6 @@ import { TranslateModule } from '@ngx-translate/core';
 export class RecentFilesComponent extends PageComponent implements OnInit {
   columns: DocumentListPresetRef[] = [];
 
-  constructor() {
-    super();
-  }
-
   ngOnInit() {
     super.ngOnInit();
 
@@ -79,7 +75,7 @@ export class RecentFilesComponent extends PageComponent implements OnInit {
   }
 
   onNodeDoubleClick(node: NodeEntry) {
-    if (node && node.entry) {
+    if (node?.entry) {
       this.showPreview(node, { location: this.router.url });
     }
   }

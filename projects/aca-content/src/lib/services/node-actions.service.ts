@@ -143,8 +143,8 @@ export class NodeActionsService {
   }
 
   isEntryEntitiesArray(contentEntities: any[]): boolean {
-    if (contentEntities && contentEntities.length) {
-      const nonEntryNode = contentEntities.find((node) => !node || !node.entry || !(node.entry.nodeId || node.entry.id));
+    if (contentEntities?.length) {
+      const nonEntryNode = contentEntities.find((node) => !(node?.entry?.nodeId || node?.entry?.id));
       return !nonEntryNode;
     }
     return false;
@@ -160,7 +160,7 @@ export class NodeActionsService {
 
     if (nodeEntry.parentId) {
       entryParentId = nodeEntry.parentId;
-    } else if (nodeEntry.path && nodeEntry.path.elements && nodeEntry.path.elements.length) {
+    } else if (nodeEntry.path?.elements?.length) {
       entryParentId = nodeEntry.path.elements[nodeEntry.path.elements.length - 1].id;
     }
 
@@ -255,7 +255,7 @@ export class NodeActionsService {
 
   // todo: review this approach once 5.2.3 is out
   private customizeBreadcrumb(node: Node) {
-    if (node && node.path && node.path.elements) {
+    if (node?.path?.elements) {
       const elements = node.path.elements;
 
       if (elements.length > 1) {
@@ -316,7 +316,7 @@ export class NodeActionsService {
   }
 
   isSiteContainer(node: Node): boolean {
-    if (node && node.aspectNames && node.aspectNames.length > 0) {
+    if (node?.aspectNames?.length > 0) {
       return node.aspectNames.indexOf('st:siteContainer') >= 0;
     }
     return false;
@@ -658,7 +658,7 @@ export class NodeActionsService {
           const folderMoveResponseData = this.flatten(next);
           const foundError = folderMoveResponseData.find((node) => node instanceof Error);
           // data might contain also items of form: { itemMoved, initialParentId }
-          const foundEntry = folderMoveResponseData.find((node) => (node.itemMoved && node.itemMoved.entry) || (node && node.entry));
+          const foundEntry = folderMoveResponseData.find((node) => node.itemMoved?.entry || node?.entry);
 
           if (!foundError) {
             // consider success if NONE of the items from the folder move response is an error
@@ -677,7 +677,7 @@ export class NodeActionsService {
         return acc;
       }, moveStatus);
     } else {
-      if ((data.itemMoved && data.itemMoved.entry) || (data && data.entry)) {
+      if (data.itemMoved?.entry || data?.entry) {
         moveStatus.succeeded.push(data);
       } else {
         moveStatus.failed.push(data);

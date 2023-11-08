@@ -62,7 +62,7 @@ export class LibraryEffects {
               .select(getAppSelection)
               .pipe(take(1))
               .subscribe((selection) => {
-                if (selection && selection.library) {
+                if (selection?.library) {
                   this.content.deleteLibrary(selection.library.entry.id);
                 }
               });
@@ -84,7 +84,7 @@ export class LibraryEffects {
               .select(getAppSelection)
               .pipe(take(1))
               .subscribe((selection) => {
-                if (selection && selection.library) {
+                if (selection?.library) {
                   this.content.leaveLibrary(selection.library.entry.id, action.configuration?.focusedElementOnCloseSelector);
                 }
               });
@@ -138,7 +138,7 @@ export class LibraryEffects {
             .select(getAppSelection)
             .pipe(take(1))
             .subscribe((selection) => {
-              if (selection && selection.library) {
+              if (selection?.library) {
                 const { id } = selection.library.entry;
                 const { title, description, visibility } = action.payload;
 

@@ -47,7 +47,7 @@ export function appReducer(state: AppState = INITIAL_APP_STATE, action: Action):
 
   switch (action.type) {
     case AppActionTypes.SetInitialState:
-      newState = Object.assign({}, (action as SetInitialStateAction).payload);
+      newState = { ...(action as SetInitialStateAction).payload };
       break;
     case NodeActionTypes.SetSelection:
       newState = updateSelectedNodes(state, action as SetSelectedNodesAction);
@@ -198,7 +198,7 @@ function updateSelectedNodes(state: AppState, action: SetSelectedNodesAction): A
 
   const libraries: any[] = [...action.payload].filter((node: any) => node.isLibrary);
   if (libraries.length === 1) {
-    library = libraries[0] as any;
+    library = libraries[0];
   }
 
   if (isEmpty) {

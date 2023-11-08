@@ -23,7 +23,6 @@
  */
 
 import { AdminActions, LoginPage, SearchResultsPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
-import { DateFnsUtils } from '@alfresco/adf-core';
 
 describe('Search results - files and folders', () => {
   const random = Utils.random();
@@ -82,48 +81,6 @@ describe('Search results - files and folders', () => {
       apis.user.nodes.deleteNodeById(folderId),
       apis.user.sites.deleteSite(site)
     ]);
-  });
-
-  it('[C279183] File information', async () => {
-    await toolbar.clickSearchIconButton();
-    await searchInput.clickSearchButton();
-    await searchInput.checkFilesAndFolders();
-    await searchInput.searchFor(random);
-    await dataTable.waitForBody();
-
-    const fileEntry = await apis.user.nodes.getNodeById(fileId);
-    const modifiedDate = DateFnsUtils.formatDate(fileEntry.entry.modifiedAt, 'MMM D, YYYY, h:mm:ss A');
-    const modifiedBy = fileEntry.entry.modifiedByUser.displayName;
-    const size = fileEntry.entry.content.sizeInBytes;
-
-    expect(await dataTable.isItemPresent(file)).toBe(true, `${file} is not displayed`);
-    expect(await dataTable.getRowCellsCount(file)).toEqual(7, 'incorrect number of columns');
-    expect(await page.getName(file)).toBe(`${file} ( ${fileTitle} )`);
-    expect(await page.getDescription(file)).toBe(fileDescription);
-    expect(await page.getModified(file)).toBe(modifiedDate);
-    expect(await page.getModifiedBy(file)).toBe(modifiedBy);
-    expect(await page.getSize(file)).toBe(`${size} Bytes`);
-    expect(await page.getLocation(file)).toEqual(`Company Home › User Homes › ${username}`);
-  });
-
-  it('[C306867] Folder information', async () => {
-    await toolbar.clickSearchIconButton();
-    await searchInput.clickSearchButton();
-    await searchInput.checkFilesAndFolders();
-    await searchInput.searchFor(random);
-    await dataTable.waitForBody();
-
-    const folderEntry = await apis.user.nodes.getNodeById(folderId);
-    const modifiedDate = DateFnsUtils.formatDate(folderEntry.entry.modifiedAt, 'MMM D, YYYY, h:mm:ss A');
-    const modifiedBy = folderEntry.entry.modifiedByUser.displayName;
-
-    expect(await dataTable.isItemPresent(folder)).toBe(true, `${folder} is not displayed`);
-    expect(await dataTable.getRowCellsCount(file)).toEqual(7, 'incorrect number of columns');
-    expect(await page.getName(folder)).toBe(`${folder} ( ${folderTitle} )`);
-    expect(await page.getDescription(folder)).toBe(folderDescription);
-    expect(await page.getModified(folder)).toBe(modifiedDate);
-    expect(await page.getModifiedBy(folder)).toBe(modifiedBy);
-    expect(await page.getLocation(folder)).toEqual(`Company Home › User Homes › ${username}`);
   });
 
   it('[C290029] Search file with special characters', async () => {

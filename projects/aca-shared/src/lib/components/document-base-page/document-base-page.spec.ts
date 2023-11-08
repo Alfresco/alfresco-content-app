@@ -91,10 +91,6 @@ class DocumentBasePageServiceMock extends DocumentBasePageService {
 class TestComponent extends PageComponent {
   node: any;
 
-  constructor() {
-    super();
-  }
-
   addSubscription(entry: Subscription) {
     this.subscriptions.push(entry);
   }

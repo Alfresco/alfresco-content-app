@@ -142,20 +142,18 @@ export class UserActions {
    * @param expectedSize Size of the trashcan to wait for.
    */
   async waitForTrashcanSize(expectedSize: number): Promise<number> {
-    try {
-      return Utils.retryCall(async () => {
-        const totalItems = await this.getTrashcanSize();
+    return Utils.retryCall(async () => {
+      const totalItems = await this.getTrashcanSize();
 
-        if (totalItems !== expectedSize) {
-          return Promise.reject(totalItems);
-        } else {
-          return Promise.resolve(totalItems);
-        }
-      });
-    } catch (error) {
+      if (totalItems !== expectedSize) {
+        return Promise.reject(totalItems);
+      } else {
+        return Promise.resolve(totalItems);
+      }
+    }).catch((error) => {
       this.handleError('User Actions - waitForTrashcanSize failed : ', error);
       return -1;
-    }
+    });
   }
 
   async lockNodes(nodeIds: string[], lockType: string = 'ALLOW_OWNER_CHANGES') {

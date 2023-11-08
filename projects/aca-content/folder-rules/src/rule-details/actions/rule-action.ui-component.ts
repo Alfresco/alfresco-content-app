@@ -266,13 +266,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
   setDefaultParameters() {
     this.parameters = {};
     (this.selectedActionDefinition?.parameterDefinitions ?? []).forEach((paramDef: ActionParameterDefinition) => {
-      switch (paramDef.type) {
-        case 'd:boolean':
-          this.parameters[paramDef.name] = false;
-          break;
-        default:
-          this.parameters[paramDef.name] = '';
-      }
+      this.parameters[paramDef.name] = paramDef.type === 'd:boolean' ? false : '';
     });
   }
 

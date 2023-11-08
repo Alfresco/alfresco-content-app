@@ -42,7 +42,7 @@
   </form>
 </div>
 <div mat-dialog-actions>
-  <button mat-button mat-dialog-close data-automation-id="cancel-folder-template-button">
+  <button mat-button mat-dialog-close data-automation-id="create-from-template-dialog-cancel-button">
     {{ 'NODE_FROM_TEMPLATE.CANCEL' | translate }}
   </button>
   <button
@@ -50,7 +50,7 @@
     [disabled]="form.invalid"
     mat-button
     (click)="onSubmit()"
-    data-automation-id="create-folder-template-button"
+    data-automation-id="create-from-template-dialog-create-button"
   >
     {{ 'NODE_FROM_TEMPLATE.CREATE' | translate }}
   </button>
