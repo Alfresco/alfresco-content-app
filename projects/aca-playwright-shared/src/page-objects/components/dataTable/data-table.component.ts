@@ -45,7 +45,7 @@ export class DataTableComponent extends BaseComponent {
   getRowLocator = this.getChild(`adf-datatable-row`);
 
   /** Locator to get "No results found" message */
-  getNoResultsFoundMessage = this.getChild('adf-custom-empty-content-template', { hasText: "No results found" });
+  getNoResultsFoundMessage = this.getChild('adf-custom-empty-content-template', { hasText: 'No results found' });
 
   /**
    * Method used in cases where we want to check that some record is visible in the datatable. It will consider whole row
@@ -210,13 +210,14 @@ export class DataTableComponent extends BaseComponent {
   async selectItem(name: string): Promise<void> {
     const isSelected = await this.hasCheckMarkIcon(name);
     if (!isSelected) {
-      const row = this.getRowByName(name);
-      await row.locator('.mat-checkbox[id*="mat-checkbox"]').check();
+      let row = this.getRowByName(name);
+      await row.locator('[title="Size"]').click();
+      await row.locator('.adf-datatable-selected').waitFor({ state: 'attached' });
     }
   }
 
   async hasCheckMarkIcon(itemName: string): Promise<boolean> {
     const row = this.getRowByName(itemName);
-    return await row.locator('.mat-checkbox[class*="checked"]').isVisible();
+    return await row.locator('.adf-datatable-selected').isVisible();
   }
 }

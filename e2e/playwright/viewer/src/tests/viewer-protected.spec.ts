@@ -33,7 +33,7 @@ test.describe('viewer file', () => {
   let folderId: string;
   let fileDocxId: string;
 
-  test.beforeAll(async ({ fileAction, shareAction, favoritesPageAction: favoritesPageAction }) => {
+  test.beforeAll(async ({ fileAction, shareAction, favoritesPageAction }) => {
     await apiClientFactory.setUpAcaBackend('hruser');
     const node = await apiClientFactory.nodes.createNode('-my-', { name: randomFolderName, nodeType: 'cm:folder', relativePath: '/' });
     folderId = node.entry.id;
