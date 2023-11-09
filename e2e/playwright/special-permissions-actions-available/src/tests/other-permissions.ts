@@ -26,24 +26,37 @@ import { MyLibrariesPage, test } from '@alfresco/playwright-shared';
 import * as testData from '@alfresco/playwright-shared';
 import { expect } from '@playwright/test';
 
+export async function checkActionsAvailable(
+  myLibrariesPage: MyLibrariesPage,
+  item: string,
+  expectedToolbarPrimary: string[],
+  expectedToolbarMore: string[]
+): Promise<void> {
+  await myLibrariesPage.dataTable.selectItem(item);
+  await myLibrariesPage.acaHeader.verifyToolbarPrimaryActions(expectedToolbarPrimary);
+  await myLibrariesPage.acaHeader.clickMoreActions();
+  await myLibrariesPage.matMenu.verifyActualMoreActions(expectedToolbarMore);
+}
+
+export async function checkActionsViewerAvailable(
+  myLibrariesPage: MyLibrariesPage,
+  item: string,
+  expectedToolbarPrimary: string[],
+  expectedToolbarMore: string[]
+): Promise<void> {
+  await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(item);
+  expect(await myLibrariesPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+  await myLibrariesPage.viewer.verifyViewerPrimaryActions(expectedToolbarPrimary);
+  await myLibrariesPage.acaHeader.clickViewerMoreActions();
+  await myLibrariesPage.matMenu.verifyActualMoreActions(expectedToolbarMore);
+}
+
 export function collaboratorTests(userCollaborator: string, siteName: string) {
   test.describe('available actions : ', () => {
     test.beforeEach(async ({ loginPage }) => {
       await loginPage.navigate();
       await loginPage.loginUser({ username: userCollaborator, password: userCollaborator });
     });
-
-    async function checkActionsAvailable(
-      myLibrariesPage: MyLibrariesPage,
-      item: string,
-      expectedToolbarPrimary: string[],
-      expectedToolbarMore: string[]
-    ): Promise<void> {
-      await myLibrariesPage.dataTable.selectItem(item);
-      await myLibrariesPage.acaHeader.verifyToolbarPrimaryActions(expectedToolbarPrimary);
-      await myLibrariesPage.acaHeader.clickMoreActions();
-      await myLibrariesPage.matMenu.verifyActualMoreActions(expectedToolbarMore);
-    }
 
     test('on File Libraries - [C297647]', async ({ myLibrariesPage }) => {
       await myLibrariesPage.navigate();
@@ -90,36 +103,42 @@ export function collaboratorTests(userCollaborator: string, siteName: string) {
       test('file opened from File Libraries - [C297654]', async ({ myLibrariesPage }) => {
         await myLibrariesPage.navigate();
         await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(siteName);
-        await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(testData.fileDocxSharedFav.name);
-        expect(await myLibrariesPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
-        await myLibrariesPage.viewer.verifyViewerPrimaryActions(testData.collaboratorSharedToolbarPrimary);
-        await myLibrariesPage.acaHeader.clickViewerMoreActions();
-        await myLibrariesPage.matMenu.verifyActualMoreActions(testData.collaboratorDocToolbarMore);
+        await checkActionsViewerAvailable(
+          myLibrariesPage,
+          testData.fileDocxSharedFav.name,
+          testData.collaboratorSharedToolbarPrimary,
+          testData.collaboratorDocToolbarMore
+        );
       });
 
-      test('file opened from Shared Files - [C297655]', async ({ sharedPage }) => {
+      test('file opened from Shared Files - [C297655]', async ({ sharedPage, myLibrariesPage }) => {
         await sharedPage.navigate();
-        await sharedPage.dataTable.performClickFolderOrFileToOpen(testData.fileDocxSharedFav.name);
-        await sharedPage.viewer.verifyViewerPrimaryActions(testData.collaboratorSharedToolbarPrimary);
-        await sharedPage.acaHeader.clickViewerMoreActions();
-        await sharedPage.matMenu.verifyActualMoreActions(testData.collaboratorDocToolbarMore);
+        await checkActionsViewerAvailable(
+          myLibrariesPage,
+          testData.fileDocxSharedFav.name,
+          testData.collaboratorSharedToolbarPrimary,
+          testData.collaboratorDocToolbarMore
+        );
       });
 
-      test('file opened from Favorites - [C297656]', async ({ favoritePage }) => {
+      test('file opened from Favorites - [C297656]', async ({ favoritePage, myLibrariesPage }) => {
         await favoritePage.navigate();
-        await favoritePage.dataTable.performClickFolderOrFileToOpen(testData.fileDocxSharedFav.name);
-        await favoritePage.viewer.verifyViewerPrimaryActions(testData.collaboratorSharedToolbarPrimary);
-        await favoritePage.acaHeader.clickViewerMoreActions();
-        await favoritePage.matMenu.verifyActualMoreActions(testData.collaboratorDocToolbarMore);
+        await checkActionsViewerAvailable(
+          myLibrariesPage,
+          testData.fileDocxSharedFav.name,
+          testData.collaboratorSharedToolbarPrimary,
+          testData.collaboratorDocToolbarMore
+        );
       });
 
-      test('file opened from Search Results - [C306992]', async ({ searchPage }) => {
+      test('file opened from Search Results - [C306992]', async ({ searchPage, myLibrariesPage }) => {
         await searchPage.navigate({ remoteUrl: `#/search;q=${testData.fileDocxSharedFav.name}` });
-        await searchPage.searchInput.performDoubleClickFolderOrFileToOpen(testData.fileDocxSharedFav.name);
-        expect(await searchPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
-        await searchPage.viewer.verifyViewerPrimaryActions(testData.collaboratorSharedToolbarPrimary);
-        await searchPage.acaHeader.clickViewerMoreActions();
-        await searchPage.matMenu.verifyActualMoreActions(testData.collaboratorDocToolbarMore);
+        await checkActionsViewerAvailable(
+          myLibrariesPage,
+          testData.fileDocxSharedFav.name,
+          testData.collaboratorSharedToolbarPrimary,
+          testData.collaboratorDocToolbarMore
+        );
       });
     });
   });
@@ -131,18 +150,6 @@ export function filesLockedByCurrentUser(userDemoted: string, siteName?: string)
       await loginPage.navigate();
       await loginPage.loginUser({ username: userDemoted, password: userDemoted });
     });
-
-    async function checkActionsAvailable(
-      myLibrariesPage: MyLibrariesPage,
-      item: string,
-      expectedToolbarPrimary: string[],
-      expectedToolbarMore: string[]
-    ): Promise<void> {
-      await myLibrariesPage.dataTable.selectItem(item);
-      await myLibrariesPage.acaHeader.verifyToolbarPrimaryActions(expectedToolbarPrimary);
-      await myLibrariesPage.acaHeader.clickMoreActions();
-      await myLibrariesPage.matMenu.verifyActualMoreActions(expectedToolbarMore);
-    }
 
     test.describe('available actions in the file select : ', () => {
       test('on File Libraries - [C297657]', async ({ myLibrariesPage }) => {
@@ -191,36 +198,42 @@ export function filesLockedByCurrentUser(userDemoted: string, siteName?: string)
       test('file opened from File Libraries - [C297661]', async ({ myLibrariesPage }) => {
         await myLibrariesPage.navigate();
         await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(siteName);
-        await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(testData.fileLockedByUser);
-        expect(await myLibrariesPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
-        await myLibrariesPage.viewer.verifyViewerPrimaryActions(testData.collaboratorSharedToolbarPrimary);
-        await myLibrariesPage.acaHeader.clickViewerMoreActions();
-        await myLibrariesPage.matMenu.verifyActualMoreActions(testData.collaboratorLockCurrentUserToolbarMore);
+        await checkActionsViewerAvailable(
+          myLibrariesPage,
+          testData.fileLockedByUser,
+          testData.collaboratorSharedToolbarPrimary,
+          testData.collaboratorLockCurrentUserToolbarMore
+        );
       });
 
-      test('file opened from Shared Files - [C297662]', async ({ sharedPage }) => {
+      test('file opened from Shared Files - [C297662]', async ({ sharedPage, myLibrariesPage }) => {
         await sharedPage.navigate();
-        await sharedPage.dataTable.performClickFolderOrFileToOpen(testData.fileLockedByUser);
-        await sharedPage.viewer.verifyViewerPrimaryActions(testData.collaboratorSharedToolbarPrimary);
-        await sharedPage.acaHeader.clickViewerMoreActions();
-        await sharedPage.matMenu.verifyActualMoreActions(testData.collaboratorLockCurrentUserToolbarMore);
+        await checkActionsViewerAvailable(
+          myLibrariesPage,
+          testData.fileLockedByUser,
+          testData.collaboratorSharedToolbarPrimary,
+          testData.collaboratorLockCurrentUserToolbarMore
+        );
       });
 
-      test('file opened from Favorites - [C297663]', async ({ favoritePage }) => {
+      test('file opened from Favorites - [C297663]', async ({ favoritePage, myLibrariesPage }) => {
         await favoritePage.navigate();
-        await favoritePage.dataTable.performClickFolderOrFileToOpen(testData.fileLockedByUser);
-        await favoritePage.viewer.verifyViewerPrimaryActions(testData.collaboratorSharedToolbarPrimary);
-        await favoritePage.acaHeader.clickViewerMoreActions();
-        await favoritePage.matMenu.verifyActualMoreActions(testData.collaboratorLockCurrentUserToolbarMore);
+        await checkActionsViewerAvailable(
+          myLibrariesPage,
+          testData.fileLockedByUser,
+          testData.collaboratorSharedToolbarPrimary,
+          testData.collaboratorLockCurrentUserToolbarMore
+        );
       });
 
-      test('file opened from Search Results - [C306993]', async ({ searchPage }) => {
+      test('file opened from Search Results - [C306993]', async ({ searchPage, myLibrariesPage }) => {
         await searchPage.navigate({ remoteUrl: `#/search;q=${testData.fileLockedByUser}` });
-        await searchPage.searchInput.performDoubleClickFolderOrFileToOpen(testData.fileLockedByUser);
-        expect(await searchPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
-        await searchPage.viewer.verifyViewerPrimaryActions(testData.collaboratorSharedToolbarPrimary);
-        await searchPage.acaHeader.clickViewerMoreActions();
-        await searchPage.matMenu.verifyActualMoreActions(testData.collaboratorLockCurrentUserToolbarMore);
+        await checkActionsViewerAvailable(
+          myLibrariesPage,
+          testData.fileLockedByUser,
+          testData.collaboratorSharedToolbarPrimary,
+          testData.collaboratorLockCurrentUserToolbarMore
+        );
       });
     });
   });
@@ -236,13 +249,15 @@ export function filesLockedByOtherUser(userManager: string, siteName?: string) {
     test('on File Libraries - [C297664]', async ({ myLibrariesPage }) => {
       await myLibrariesPage.navigate();
       await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(siteName);
-      await myLibrariesPage.dataTable.selectItem(testData.fileLockedByUser);
-      await myLibrariesPage.acaHeader.verifyToolbarPrimaryActions(testData.collaboratorToolbarPrimary);
-      await myLibrariesPage.acaHeader.clickMoreActions();
-      await myLibrariesPage.matMenu.verifyActualMoreActions(testData.collaboratorLockOtherUserToolbarMore);
+      await checkActionsAvailable(
+        myLibrariesPage,
+        testData.fileLockedByUser,
+        testData.collaboratorToolbarPrimary,
+        testData.collaboratorLockOtherUserToolbarMore
+      );
     });
 
-    test('on Shared Files - [C297665]', async ({ sharedPage }) => {
+    test('on Shared Files - [C297665]', async ({ sharedPage, myLibrariesPage }) => {
       const expectedToolbarMore = [
         'Cancel Editing',
         'Upload New Version',
@@ -254,62 +269,69 @@ export function filesLockedByOtherUser(userManager: string, siteName?: string) {
         'Permissions'
       ];
       await sharedPage.navigate();
-      await sharedPage.dataTable.selectItem(testData.fileLockedByUser);
-      await sharedPage.acaHeader.verifyToolbarPrimaryActions(testData.collaboratorToolbarPrimary);
-      await sharedPage.acaHeader.clickMoreActions();
-      await sharedPage.matMenu.verifyActualMoreActions(expectedToolbarMore);
+      await checkActionsAvailable(myLibrariesPage, testData.fileLockedByUser, testData.collaboratorToolbarPrimary, expectedToolbarMore);
     });
 
-    test('on Favorites - [C297666]', async ({ favoritePage }) => {
+    test('on Favorites - [C297666]', async ({ favoritePage, myLibrariesPage }) => {
       await favoritePage.navigate();
-      await favoritePage.dataTable.selectItem(testData.fileLockedByUser);
-      await favoritePage.acaHeader.verifyToolbarPrimaryActions(testData.collaboratorToolbarPrimary);
-      await favoritePage.acaHeader.clickMoreActions();
-      await favoritePage.matMenu.verifyActualMoreActions(testData.favoritesCollaboratorToolbarMore);
+      await checkActionsAvailable(
+        myLibrariesPage,
+        testData.fileLockedByUser,
+        testData.collaboratorToolbarPrimary,
+        testData.favoritesCollaboratorToolbarMore
+      );
     });
 
-    test('on Search Results - [C297667]', async ({ searchPage }) => {
+    test('on Search Results - [C297667]', async ({ searchPage, myLibrariesPage }) => {
       await searchPage.navigate({ remoteUrl: `#/search;q=${testData.fileLockedByUser}` });
-      await searchPage.dataTable.selectItem(testData.fileLockedByUser);
-      await searchPage.acaHeader.verifyToolbarPrimaryActions(testData.collaboratorToolbarPrimary);
-      await searchPage.acaHeader.clickMoreActions();
-      await searchPage.matMenu.verifyActualMoreActions(testData.collaboratorLockOtherUserSearchToolbarMore);
+      await checkActionsAvailable(
+        myLibrariesPage,
+        testData.fileLockedByUser,
+        testData.collaboratorToolbarPrimary,
+        testData.collaboratorLockOtherUserSearchToolbarMore
+      );
     });
 
     test.describe('available actions in the viewer : ', () => {
       test('file opened from File Libraries - [C297671]', async ({ myLibrariesPage }) => {
         await myLibrariesPage.navigate();
         await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(siteName);
-        await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(testData.fileLockedByUser);
-        expect(await myLibrariesPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
-        await myLibrariesPage.viewer.verifyViewerPrimaryActions(testData.collaboratorSharedToolbarPrimary);
-        await myLibrariesPage.acaHeader.clickViewerMoreActions();
-        await myLibrariesPage.matMenu.verifyActualMoreActions(testData.collaboratorLockOtherUserToolbarMore);
+        await checkActionsAvailable(
+          myLibrariesPage,
+          testData.fileLockedByUser,
+          testData.collaboratorSharedToolbarPrimary,
+          testData.collaboratorLockOtherUserToolbarMore
+        );
       });
 
-      test('file opened from Shared Files - [C297672]', async ({ sharedPage }) => {
+      test('file opened from Shared Files - [C297672]', async ({ sharedPage, myLibrariesPage }) => {
         await sharedPage.navigate();
-        await sharedPage.dataTable.performClickFolderOrFileToOpen(testData.fileLockedByUser);
-        await sharedPage.viewer.verifyViewerPrimaryActions(testData.collaboratorSharedToolbarPrimary);
-        await sharedPage.acaHeader.clickViewerMoreActions();
-        await sharedPage.matMenu.verifyActualMoreActions(testData.collaboratorLockOtherUserToolbarMore);
+        await checkActionsAvailable(
+          myLibrariesPage,
+          testData.fileLockedByUser,
+          testData.collaboratorSharedToolbarPrimary,
+          testData.collaboratorLockOtherUserToolbarMore
+        );
       });
 
-      test('file opened from Favorites - [C297673]', async ({ favoritePage }) => {
+      test('file opened from Favorites - [C297673]', async ({ favoritePage, myLibrariesPage }) => {
         await favoritePage.navigate();
-        await favoritePage.dataTable.performClickFolderOrFileToOpen(testData.fileLockedByUser);
-        await favoritePage.viewer.verifyViewerPrimaryActions(testData.collaboratorSharedToolbarPrimary);
-        await favoritePage.acaHeader.clickViewerMoreActions();
-        await favoritePage.matMenu.verifyActualMoreActions(testData.collaboratorLockOtherUserToolbarMore);
+        await checkActionsAvailable(
+          myLibrariesPage,
+          testData.fileLockedByUser,
+          testData.collaboratorSharedToolbarPrimary,
+          testData.collaboratorLockOtherUserToolbarMore
+        );
       });
 
-      test('file opened from Search Results - [C306994]', async ({ searchPage }) => {
+      test('file opened from Search Results - [C306994]', async ({ searchPage, myLibrariesPage }) => {
         await searchPage.navigate({ remoteUrl: `#/search;q=${testData.fileLockedByUser}` });
-        await searchPage.searchInput.performDoubleClickFolderOrFileToOpen(testData.fileLockedByUser);
-        expect(await searchPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
-        await searchPage.viewer.verifyViewerPrimaryActions(testData.collaboratorSharedToolbarPrimary);
-        await searchPage.acaHeader.clickViewerMoreActions();
-        await searchPage.matMenu.verifyActualMoreActions(testData.collaboratorLockOtherUserSearchToolbarMore);
+        await checkActionsAvailable(
+          myLibrariesPage,
+          testData.fileLockedByUser,
+          testData.collaboratorSharedToolbarPrimary,
+          testData.collaboratorLockOtherUserSearchToolbarMore
+        );
       });
     });
   });
