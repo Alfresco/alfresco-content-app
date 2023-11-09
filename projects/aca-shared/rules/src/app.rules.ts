@@ -27,7 +27,6 @@ import { RuleContext } from '@alfresco/adf-extensions';
 import * as navigation from './navigation.rules';
 import * as repository from './repository.rules';
 import { isAdmin } from './user.rules';
-import { NodeEntry } from '@alfresco/js-api';
 
 /* cspell:disable */
 export const supportedExtensions = {
@@ -628,17 +627,13 @@ export function canOpenWithOffice(context: AcaRuleContext): boolean {
 }
 
 function isSmartFolder(context: RuleContext): boolean {
-  if (context.selection && !context.selection.isEmpty) {
+  if (!context.selection?.isEmpty) {
     const node = context.selection.first;
     if (!node?.entry.isFolder) {
       return false;
     }
-    const nodeAspects = getNodeAspectNames(node);
+    const nodeAspects = node.entry?.aspectNames ?? [];
     return nodeAspects.includes('smf:customConfigSmartFolder') || nodeAspects.includes('smf:systemConfigSmartFolder');
   }
   return false;
-}
-
-function getNodeAspectNames(node: NodeEntry): string[] {
-  return node.entry?.aspectNames ?? [];
 }
