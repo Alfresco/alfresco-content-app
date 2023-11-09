@@ -26,7 +26,7 @@ import { MyLibrariesPage, test } from '@alfresco/playwright-shared';
 import * as testData from '@alfresco/playwright-shared';
 import { expect } from '@playwright/test';
 
-export async function checkActionsAvailable(
+async function checkActionsAvailable(
   myLibrariesPage: MyLibrariesPage,
   item: string,
   expectedToolbarPrimary: string[],
@@ -38,7 +38,7 @@ export async function checkActionsAvailable(
   await myLibrariesPage.matMenu.verifyActualMoreActions(expectedToolbarMore);
 }
 
-export async function checkActionsViewerAvailable(
+async function checkActionsViewerAvailable(
   myLibrariesPage: MyLibrariesPage,
   item: string,
   expectedToolbarPrimary: string[],
