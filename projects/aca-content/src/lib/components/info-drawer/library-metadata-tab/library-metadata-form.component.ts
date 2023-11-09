@@ -60,8 +60,8 @@ import { Actions, ofType } from '@ngrx/effects';
 
 export class InstantErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: UntypedFormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+    const isSubmitted = form?.submitted;
+    return !!(control?.invalid && (control?.dirty || control?.touched || isSubmitted));
   }
 }
 

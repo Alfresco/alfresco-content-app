@@ -69,20 +69,17 @@ export abstract class BasePage extends PlaywrightBase {
       await this.page.goto(actualOptions.remoteUrl, {
         waitUntil: actualOptions.waitUntil
       });
+    } else if (this.urlRequest && actualOptions.waitForRequest) {
+      await Promise.all([
+        this.page.goto(`./#/${this.pageUrl}${actualOptions.query}`, { waitUntil: 'load' }),
+        this.page.waitForResponse(this.urlRequest)
+      ]);
     } else {
-      if (this.urlRequest && actualOptions.waitForRequest) {
-        await Promise.all([
-          this.page.goto(`./#/${this.pageUrl}${actualOptions.query}`, { waitUntil: 'load' }),
-          this.page.waitForResponse(this.urlRequest)
-        ]);
-      } else {
-        await this.page.goto(`./#/${this.pageUrl}${actualOptions.query}`, {
-          waitUntil: actualOptions.waitUntil,
-          timeout: 60000
-        });
-      }
+      await this.page.goto(`./#/${this.pageUrl}${actualOptions.query}`, {
+        waitUntil: actualOptions.waitUntil,
+        timeout: 60000
+      });
     }
-
     await this.spinner.waitForReload();
   }
 

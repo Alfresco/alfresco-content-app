@@ -32,7 +32,6 @@ export enum SearchActionTypes {
 
 export class SearchAction implements Action {
   readonly type = SearchActionTypes.Search;
-  constructor() {}
 }
 
 export class SearchByTermAction implements Action {

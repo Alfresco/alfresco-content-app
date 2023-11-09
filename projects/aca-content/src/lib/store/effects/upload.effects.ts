@@ -150,7 +150,7 @@ export class UploadEffects {
       .select(getCurrentFolder)
       .pipe(take(1))
       .subscribe((node) => {
-        if (node && node.id) {
+        if (node?.id) {
           const input = event.currentTarget as HTMLInputElement;
           const files = FileUtils.toFileArray(input.files).map(
             (file: any) =>
@@ -186,13 +186,7 @@ export class UploadEffects {
       this.uploadService.uploadFilesInTheQueue();
 
       const subscription = this.uploadService.fileUploadComplete.subscribe((completed) => {
-        if (
-          file.data &&
-          file.data.entry &&
-          file.data.entry.properties &&
-          file.data.entry.properties['cm:lockType'] === 'WRITE_LOCK' &&
-          file.data.entry.id === completed.data.entry.id
-        ) {
+        if (file.data?.entry?.properties?.['cm:lockType'] === 'WRITE_LOCK' && file.data?.entry?.id === completed.data.entry.id) {
           this.store.dispatch(new UnlockWriteAction(completed.data));
         }
 

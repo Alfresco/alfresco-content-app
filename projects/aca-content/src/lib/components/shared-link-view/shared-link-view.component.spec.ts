@@ -95,7 +95,7 @@ describe('SharedLinkViewComponent', () => {
   }));
 
   it('should not update store on error', fakeAsync(() => {
-    spyGetSharedLink.and.returnValue(Promise.reject('error'));
+    spyGetSharedLink.and.returnValue(Promise.reject(new Error('error')));
 
     fixture.detectChanges();
     tick();

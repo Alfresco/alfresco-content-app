@@ -180,7 +180,7 @@ export class AppExtensionService implements RuleContext {
 
     this.withCredentials = this.appConfig.get<boolean>('auth.withCredentials', false);
 
-    if (config.features && config.features.viewer) {
+    if (config.features?.viewer) {
       this.viewerRules = (config.features.viewer['rules'] as ViewerRules) || {};
     }
 
@@ -340,7 +340,7 @@ export class AppExtensionService implements RuleContext {
   private setActionDisabledFromRule(action: ContentActionRef) {
     let disabled = false;
 
-    if (action && action.rules && action.rules.enabled) {
+    if (action?.rules?.enabled) {
       disabled = !this.extensions.evaluateRule(action.rules.enabled, this);
     }
 
@@ -483,7 +483,7 @@ export class AppExtensionService implements RuleContext {
   }
 
   filterVisible(action: ContentActionRef | SettingsGroupRef | SidebarTabRef | DocumentListPresetRef): boolean {
-    if (action && action.rules && action.rules.visible) {
+    if (action?.rules?.visible) {
       return this.extensions.evaluateRule(action.rules.visible, this);
     }
     return true;
@@ -495,7 +495,7 @@ export class AppExtensionService implements RuleContext {
         return true;
       }
 
-      if (extension.rules && extension.rules.disabled) {
+      if (extension.rules?.disabled) {
         return this.extensions.evaluateRule(extension.rules.disabled, this);
       }
     }

@@ -75,7 +75,6 @@ describe('ActionDirective', () => {
   it('should add active route class name', () => {
     fixture.detectChanges();
     router.navigateByUrl('/dummy');
-    // fixture.detectChanges();
     expect(document.body.querySelector('#test-element').className.includes('active-link-class')).toBe(true);
   });
 

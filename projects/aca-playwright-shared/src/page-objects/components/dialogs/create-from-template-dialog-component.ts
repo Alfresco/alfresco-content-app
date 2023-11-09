@@ -33,8 +33,8 @@ export class CreateFromTemplateDialogComponent extends BaseComponent {
     super(page, CreateFromTemplateDialogComponent.rootElement);
   }
 
-  cancelButton = this.getChild('[data-automation-id="cancel-folder-template-button"]');
-  createButton = this.getChild('[data-automation-id="create-folder-template-button"]');
+  cancelButton = this.getChild('[data-automation-id="create-from-template-dialog-cancel-button"]');
+  createButton = this.getChild('[data-automation-id="create-from-template-dialog-create-button"]');
   getDialogTitle = (text: string) => this.getChild('.mat-dialog-title', { hasText: text });
   getDialogLabel = (text: string) => this.getChild('label', { hasText: text });
   getErrorByText = (text: string): Locator => this.page.locator('mat-error', {hasText: text});
@@ -46,9 +46,9 @@ export class CreateFromTemplateDialogComponent extends BaseComponent {
   }
 
     /**
-   * This method is used when we want to fill in Create new folder from template dialog and choose Create button
+   * This method is used when we want to fill in Create new folder/document/file from template dialog and choose Create button
    */
-    async createNewFolderFromTemplate( nameInput: string, titleInput?: string, descriptionInput?: string): Promise<void> {
+    async createFromTemplateAction( nameInput: string, titleInput?: string, descriptionInput?: string): Promise<void> {
       await this.getDialogLabel('Name *').fill(nameInput);
       if (titleInput) { await this.getDialogLabel('Title').fill(titleInput); }
       if (descriptionInput) { await this.getDialogLabel('Description').fill(descriptionInput); }

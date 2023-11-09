@@ -37,11 +37,17 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'npm'
       - uses: ./.github/actions/setup
+
+      - name: Get Tag
+        uses: ./.github/actions/get-image-tag
+        with:
+          branch_name: ${{ env.BRANCH_NAME }}
+
       - name: publish
         uses: ./.github/actions/publish-image
         with:
-          branch_name: ${{ env.BRANCH_NAME }}
           registry: quay.io
+          tag_version: ${{ env.TAG_VERSION }}
           username: ${{ secrets.QUAY_USERNAME }}
           password: ${{ secrets.QUAY_PASSWORD }}
           dry-run: ${{ inputs.dry-run-release }}
@@ -60,11 +66,17 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'npm'
       - uses: ./.github/actions/setup
+
+      - name: Get Tag
+        uses: ./.github/actions/get-image-tag
+        with:
+          branch_name: ${{ env.BRANCH_NAME }}
+
       - name: publish
         uses: ./.github/actions/publish-image
         with:
-          branch_name: ${{ env.BRANCH_NAME }}
           registry: docker.io
+          tag_version: ${{ env.TAG_VERSION }}
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           dry-run: ${{ inputs.dry-run-release }}

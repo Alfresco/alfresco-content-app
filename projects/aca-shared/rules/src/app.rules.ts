@@ -178,7 +178,7 @@ export function isShared(context: RuleContext): boolean {
   }
 
   if (navigation.isNotTrashcan(context) && !context.selection.isEmpty && context.selection.file) {
-    return !!(context.selection.file.entry && context.selection.file.entry.properties && context.selection.file.entry.properties['qshare:sharedId']);
+    return !!context.selection.file.entry?.properties?.['qshare:sharedId'];
   }
 
   return false;
@@ -268,14 +268,7 @@ export const canCreateLibrary = (context: AcaRuleContext): boolean =>
  * JSON ref: `app.navigation.folder.canUpload`
  */
 export function canUpload(context: AcaRuleContext): boolean {
-  if (isContentServiceEnabled(context) && (navigation.isPersonalFiles(context) || navigation.isLibraryContent(context))) {
-    const { currentFolder } = context.navigation;
-
-    if (currentFolder) {
-      return context.permissions.check(currentFolder, ['create']);
-    }
-  }
-  return false;
+  return canCreateFolder(context);
 }
 
 /**
@@ -306,8 +299,7 @@ export const hasLibrarySelected = (context: RuleContext): boolean => !!context.s
  * JSON ref: `app.selection.isPrivateLibrary`
  */
 export function isPrivateLibrary(context: RuleContext): boolean {
-  const library = context.selection.library;
-  return library ? !!(library.entry && library.entry.visibility && library.entry.visibility === 'PRIVATE') : false;
+  return context.selection.library?.entry?.visibility === 'PRIVATE';
 }
 
 /**
@@ -316,7 +308,7 @@ export function isPrivateLibrary(context: RuleContext): boolean {
  */
 export function hasLibraryRole(context: RuleContext): boolean {
   const library = context.selection.library;
-  return library ? !!(library.entry && library.entry.role) : false;
+  return library ? !!library.entry?.role : false;
 }
 
 /**
@@ -329,7 +321,7 @@ export const hasNoLibraryRole = (context: RuleContext): boolean => !hasLibraryRo
  * Checks if user has selected a file.
  * JSON ref: `app.selection.file`
  */
-export const hasFileSelected = (context: RuleContext): boolean => !!(context && context.selection && context.selection.file);
+export const hasFileSelected = (context: RuleContext): boolean => !!context?.selection?.file;
 
 /**
  * Checks if user can update the first selected node.
@@ -376,13 +368,13 @@ export function canUpdateSelectedFolder(context: RuleContext): boolean {
  * JSON ref: `app.selection.file.isLocked`
  */
 export function hasLockedFiles(context: RuleContext): boolean {
-  if (context && context.selection && context.selection.nodes) {
+  if (context?.selection?.nodes) {
     return context.selection.nodes.some((node) => {
       if (!node.entry.isFile) {
         return false;
       }
 
-      return node.entry.isLocked || (node.entry.properties && node.entry.properties['cm:lockType'] === 'READ_ONLY_LOCK');
+      return node.entry.isLocked || node.entry.properties?.['cm:lockType'] === 'READ_ONLY_LOCK';
     });
   }
 
@@ -395,13 +387,8 @@ export function hasLockedFiles(context: RuleContext): boolean {
  */
 export const isWriteLocked = (context: RuleContext): boolean =>
   !!(
-    context &&
-    context.selection &&
-    context.selection.file &&
-    context.selection.file.entry &&
-    context.selection.file.entry.properties &&
-    (context.selection.file.entry.properties['cm:lockType'] === 'WRITE_LOCK' ||
-      context.selection.file.entry.properties['cm:lockType'] === 'READ_ONLY_LOCK')
+    context?.selection?.file?.entry?.properties?.['cm:lockType'] === 'WRITE_LOCK' ||
+    context?.selection?.file?.entry?.properties?.['cm:lockType'] === 'READ_ONLY_LOCK'
   );
 
 /**
@@ -589,17 +576,17 @@ export function canOpenWithOffice(context: AcaRuleContext): boolean {
     return false;
   }
 
-  if (context.navigation && context.navigation.url && context.navigation.url.startsWith('/trashcan')) {
+  if (context.navigation?.url?.startsWith('/trashcan')) {
     return false;
   }
 
-  if (!context || !context.selection) {
+  if (!context?.selection) {
     return false;
   }
 
   const { file } = context.selection;
 
-  if (!file || !file.entry) {
+  if (!file?.entry) {
     return false;
   }
 
@@ -626,7 +613,7 @@ export function canOpenWithOffice(context: AcaRuleContext): boolean {
   }
 
   // workaround for Shared files
-  if (context.navigation && context.navigation.url && context.navigation.url.startsWith('/shared')) {
+  if (context.navigation?.url?.startsWith('/shared')) {
     // eslint-disable-next-line no-prototype-builtins
     if (file.entry.hasOwnProperty('allowableOperationsOnTarget')) {
       return context.permissions.check(file, ['update'], {
