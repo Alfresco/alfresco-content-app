@@ -324,6 +324,7 @@ export function filesLockedByOtherUser(userManager: string, siteName?: string) {
         );
       });
 
+      // TODO: add 'Move' and 'Delete' when ACA-2319 is fixed
       test('file opened from Search Results - [C306994]', async ({ searchPage, myLibrariesPage }) => {
         await searchPage.navigate({ remoteUrl: `#/search;q=${testData.fileLockedByUser}` });
         await checkActionsAvailable(
