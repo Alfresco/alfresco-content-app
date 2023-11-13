@@ -40,7 +40,6 @@ import { logger } from '@alfresco/adf-cli/scripts/logger';
 test.describe('Create Libraries ', () => {
   const apiClientFactory = new ApiClientFactory();
   let sitesApi: SitesApi;
-  let trashcanApi: TrashcanApi;
   let libraryDialog: AdfLibraryDialogComponent;
   let libraryTable: DataTableComponent;
   let libraryBreadcrumb: Breadcrumb;
@@ -98,10 +97,8 @@ test.describe('Create Libraries ', () => {
 
   test.afterAll(async () => {
     try {
-      for (const createdLibraryId of createdLibrariesIds) {
-        await apiClientFactory.sites.deleteSite(createdLibraryId, { permanent: true });
-      }
-      trashcanApi = await TrashcanApi.initialize(username, username);
+      await sitesApi.deleteSites(createdLibrariesIds);
+      const trashcanApi = await TrashcanApi.initialize(username, username);
       await trashcanApi.emptyTrashcan();
     } catch (error) {
       logger.error(`afterAll failed : ${error}`);

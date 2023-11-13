@@ -26,11 +26,8 @@ import { ApiClientFactory } from './api-client-factory';
 import { logger } from '@alfresco/adf-cli/scripts/logger';
 
 export class TrashcanApi {
-  private apiService: ApiClientFactory;
+  private apiService = new ApiClientFactory();
 
-  constructor() {
-    this.apiService = new ApiClientFactory();
-  }
   static async initialize(userName: string, password?: string): Promise<TrashcanApi> {
     const classObj = new TrashcanApi();
     await classObj.apiService.setUpAcaBackend(userName, password);
@@ -40,20 +37,18 @@ export class TrashcanApi {
     /**
    * Empties the trashcan. Uses multiple batches 1000 nodes each.
    */
-    async emptyTrashcan(): Promise<any> {
+    async emptyTrashcan(): Promise<void> {
       try {
         const nodes = await this.apiService.trashCan.listDeletedNodes({
           maxItems: 1000
         });
 
-        if (nodes?.list?.entries && nodes?.list?.entries?.length > 0) {
+        if (nodes?.list?.entries?.length > 0) {
           const ids = nodes.list.entries.map((entries) => entries.entry.id);
 
           for (const nodeId of ids) {
             await this.apiService.trashCan.deleteDeletedNode(nodeId);
           }
-
-          await this.emptyTrashcan();
         }
       } catch (error) {
         logger.error('User Actions - emptyTrashcan failed : ', error);
