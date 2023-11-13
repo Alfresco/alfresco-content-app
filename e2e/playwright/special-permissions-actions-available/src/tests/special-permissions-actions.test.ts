@@ -79,7 +79,7 @@ test.describe('Special permissions : ', () => {
   let managerSearchActions: SearchPageApi;
 
   test.beforeAll(async () => {
-    test.setTimeout(120000);
+    test.setTimeout(140000);
     await apiClientFactory.setUpAcaBackend('admin');
     await apiClientFactory.createUser({ username: userManager });
     await apiClientFactory.createUser({ username: userConsumer });

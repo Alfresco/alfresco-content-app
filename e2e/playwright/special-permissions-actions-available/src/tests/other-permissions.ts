@@ -296,7 +296,7 @@ export function filesLockedByOtherUser(userManager: string, siteName?: string) {
       test('file opened from File Libraries - [C297671]', async ({ myLibrariesPage }) => {
         await myLibrariesPage.navigate();
         await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(siteName);
-        await checkActionsAvailable(
+        await checkActionsViewerAvailable(
           myLibrariesPage,
           testData.fileLockedByUser,
           testData.collaboratorSharedToolbarPrimary,
@@ -306,7 +306,7 @@ export function filesLockedByOtherUser(userManager: string, siteName?: string) {
 
       test('file opened from Shared Files - [C297672]', async ({ sharedPage, myLibrariesPage }) => {
         await sharedPage.navigate();
-        await checkActionsAvailable(
+        await checkActionsViewerAvailable(
           myLibrariesPage,
           testData.fileLockedByUser,
           testData.collaboratorSharedToolbarPrimary,
@@ -316,7 +316,7 @@ export function filesLockedByOtherUser(userManager: string, siteName?: string) {
 
       test('file opened from Favorites - [C297673]', async ({ favoritePage, myLibrariesPage }) => {
         await favoritePage.navigate();
-        await checkActionsAvailable(
+        await checkActionsViewerAvailable(
           myLibrariesPage,
           testData.fileLockedByUser,
           testData.collaboratorSharedToolbarPrimary,
@@ -327,7 +327,7 @@ export function filesLockedByOtherUser(userManager: string, siteName?: string) {
       // TODO: add 'Move' and 'Delete' when ACA-2319 is fixed
       test('file opened from Search Results - [C306994]', async ({ searchPage, myLibrariesPage }) => {
         await searchPage.navigate({ remoteUrl: `#/search;q=${testData.fileLockedByUser}` });
-        await checkActionsAvailable(
+        await checkActionsViewerAvailable(
           myLibrariesPage,
           testData.fileLockedByUser,
           testData.collaboratorSharedToolbarPrimary,
