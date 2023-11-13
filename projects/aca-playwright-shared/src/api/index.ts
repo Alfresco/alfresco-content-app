@@ -32,3 +32,4 @@ export * from './nodes-api';
 export * from './sites-api';
 export * from './node-content-tree';
 export * from './search-api';
+export * from './trashcan-api';
