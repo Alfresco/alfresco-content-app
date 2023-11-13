@@ -24,7 +24,7 @@
 
 import * as app from './app.rules';
 import { TestRuleContext } from './test-rule-context';
-import { NodeEntry } from '@alfresco/js-api';
+import { NodeEntry, RepositoryInfo } from '@alfresco/js-api';
 import { getFileExtension } from './app.rules';
 
 describe('app.evaluators', () => {
@@ -793,4 +793,94 @@ describe('app.evaluators', () => {
       expect(app.canOpenWithOffice(context)).toBeTruthy();
     });
   });
+
+  describe('canEditAspects', () => {
+    let context: TestRuleContext;
+
+    beforeEach(() => {
+      context = createTestContext();
+    });
+
+    it('should return false for multiselection', () => {
+      context.selection.count = 2;
+
+      expect(app.canEditAspects(context)).toBe(false);
+    });
+
+    it('should return false if user cannot update the selected node', () => {
+      context.permissions.check = spyOn(context.permissions, 'check').and.returnValue(false);
+
+      expect(app.canEditAspects(context)).toBe(false);
+    });
+
+    it('should return false if the selected node is write locked', () => {
+      context.selection.file = { entry: { properties: { 'cm:lockType': 'WRITE_LOCK' } } } as NodeEntry;
+
+      expect(app.canEditAspects(context)).toBe(false);
+    });
+
+    it('should return false if the context is trashcan', () => {
+      context.navigation = { url: '/trashcan' };
+
+      expect(app.canEditAspects(context)).toBe(false);
+    });
+
+    it('should return false if the selected node is a smart folder', () => {
+      context.selection.first = { entry: { aspectNames: ['smf:customConfigSmartFolder'], isFolder: true } } as NodeEntry;
+
+      expect(app.canEditAspects(context)).toBe(false);
+    });
+
+    it('should return true if all conditions are met', () => {
+      expect(app.canEditAspects(context)).toBe(true);
+    });
+  });
+
+  describe('canManagePermissions', () => {
+    let context: TestRuleContext;
+
+    beforeEach(() => {
+      context = createTestContext();
+    });
+
+    it('should return false if user cannot update the selected node', () => {
+      context.permissions.check = spyOn(context.permissions, 'check').and.returnValue(false);
+
+      expect(app.canManagePermissions(context)).toBe(false);
+    });
+
+    it('should return false if the context is trashcan', () => {
+      context.navigation = { url: '/trashcan' };
+
+      expect(app.canManagePermissions(context)).toBe(false);
+    });
+
+    it('should return false if the selected node is a smart folder', () => {
+      context.selection.first = { entry: { aspectNames: ['smf:customConfigSmartFolder'], isFolder: true } } as NodeEntry;
+      expect(app.canManagePermissions(context)).toBe(false);
+    });
+
+    it('should return true if user can update the selected node and it is not a trashcan nor smart folder', () => {
+      expect(app.canManagePermissions(context)).toBe(true);
+    });
+  });
 });
+
+function createTestContext(): TestRuleContext {
+  const context = new TestRuleContext();
+  context.repository = {
+    version: {
+      major: 10
+    },
+    edition: '',
+    status: undefined
+  } as unknown as RepositoryInfo;
+
+  context.permissions = {
+    check() {
+      return true;
+    }
+  };
+  context.selection.isEmpty = false;
+  return context;
+}
