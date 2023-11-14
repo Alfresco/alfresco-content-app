@@ -248,7 +248,7 @@ describe('Office Files - available actions : ', () => {
       await page.clickPersonalFiles();
       await toolbar.clickSearchIconButton();
       await searchInput.clickSearchButton();
-      await searchInput.searchFor(random);
+      await searchInput.searchFor(`*${random}`);
       await searchResultsPage.waitForResults();
     });
 

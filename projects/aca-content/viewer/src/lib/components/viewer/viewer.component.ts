@@ -92,7 +92,7 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
   navigationSources = ['favorites', 'libraries', 'personal-files', 'recent-files', 'shared'];
   recentFileFilters = [
     'TYPE:"content"',
-    '-PNAME:"0/wiki"',
+    '-PATH:"//cm:wiki/*"',
     '-TYPE:"app:filelink"',
     '-TYPE:"fm:post"',
     '-TYPE:"cm:thumbnail"',

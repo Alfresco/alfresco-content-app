@@ -1377,7 +1377,7 @@
           {
             "query": "-TYPE:'cm:thumbnail' AND -TYPE:'cm:failedThumbnail' AND -TYPE:'cm:rating'"
           },
-          { "query": "-cm:creator:System AND -QNAME:comment" },
+          { "query": "-cm:creator:System" },
           {
             "query": "-TYPE:'st:site' AND -ASPECT:'st:siteContainer' AND -ASPECT:'sys:hidden'"
           },
@@ -1386,7 +1386,7 @@
           },
           { "query": "-TYPE:'fm:topic' AND -TYPE:'fm:post'" },
           { "query": "-TYPE:'lnk:link'" },
-          { "query": "-PNAME:'0/wiki'" }
+          { "query": "-PATH:'//cm:wiki/*'" }
         ],
         "facetFields": {
           "expanded": true,
@@ -1479,7 +1479,7 @@
                 "hideDefaultAction": true,
                 "allowOnlyPredefinedValues": false,
                 "field": "SITE",
-                "autocompleteOptions": [ {"value": "_REPOSITORY_"} ]
+                "autocompleteOptions": [ { "value": "_REPOSITORY_", "query": "PATH:'/app:company_home/\/*'" } ]
               }
             }
           },
@@ -1568,7 +1568,7 @@
           {
             "query": "-TYPE:'cm:thumbnail' AND -TYPE:'cm:failedThumbnail' AND -TYPE:'cm:rating'"
           },
-          { "query": "-cm:creator:System AND -QNAME:comment" },
+          { "query": "-cm:creator:System" },
           {
             "query": "-TYPE:'st:site' AND -ASPECT:'st:siteContainer' AND -ASPECT:'sys:hidden'"
           },
@@ -1577,7 +1577,7 @@
           },
           { "query": "-TYPE:'fm:topic' AND -TYPE:'fm:post'" },
           { "query": "-TYPE:'lnk:link'" },
-          { "query": "-PNAME:'0/wiki'" }
+          { "query": "-PATH:'//cm:wiki/*'" }
         ],
         "facetFields": {
           "expanded": true,
@@ -1724,7 +1724,7 @@
           {
             "query": "-TYPE:'cm:thumbnail' AND -TYPE:'cm:failedThumbnail' AND -TYPE:'cm:rating'"
           },
-          { "query": "-cm:creator:System AND -QNAME:comment" },
+          { "query": "-cm:creator:System" },
           {
             "query": "-TYPE:'st:site' AND -ASPECT:'st:siteContainer' AND -ASPECT:'sys:hidden'"
           },
@@ -1733,7 +1733,7 @@
           },
           { "query": "-TYPE:'fm:topic' AND -TYPE:'fm:post'" },
           { "query": "-TYPE:'lnk:link'" },
-          { "query": "-PNAME:'0/wiki'" }
+          { "query": "-PATH:'//cm:wiki/*'" }
         ],
         "facetFields": {
           "expanded": true,
