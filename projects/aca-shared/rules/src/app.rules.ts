@@ -495,8 +495,7 @@ export const canEditAspects = (context: RuleContext): boolean =>
     canUpdateSelectedNode(context),
     !isWriteLocked(context),
     navigation.isNotTrashcan(context),
-    repository.isMajorVersionAvailable(context, '7'),
-    !isSmartFolder(context)
+    repository.isMajorVersionAvailable(context, '7')
   ].every(Boolean);
 
 /**
@@ -626,7 +625,7 @@ export function canOpenWithOffice(context: AcaRuleContext): boolean {
   return context.permissions.check(file, ['update']);
 }
 
-function isSmartFolder(context: RuleContext): boolean {
+export function isSmartFolder(context: RuleContext): boolean {
   if (!context.selection?.isEmpty) {
     const node = context.selection.first;
     if (!node?.entry.isFolder) {

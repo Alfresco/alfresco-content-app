@@ -23,7 +23,8 @@
  */
 
 import { AcaRuleContext } from '@alfresco/aca-shared/rules';
-import { isFolderRulesEnabled, canManageFolderRules } from './folder-rules.rules';
+import { canManageFolderRules, isFolderRulesEnabled } from './folder-rules.rules';
+import { NodeEntry } from '@alfresco/js-api';
 
 describe('Folder Rules Visibility Rules', () => {
   describe('isFolderRulesEnabled', () => {
@@ -80,6 +81,13 @@ describe('Folder Rules Visibility Rules', () => {
 
       const result = canManageFolderRules(context);
       expect(result).toEqual(false);
+    });
+
+    it('should not allow creating a rule if the selected node is a smart folder', () => {
+      context.selection.first = { entry: { aspectNames: ['smf:customConfigSmartFolder'], isFolder: true } } as NodeEntry;
+      const result = canManageFolderRules(context);
+
+      expect(result).toBe(false);
     });
   });
 });

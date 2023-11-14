@@ -23,9 +23,9 @@
  */
 
 import * as app from './app.rules';
+import { getFileExtension } from './app.rules';
 import { TestRuleContext } from './test-rule-context';
 import { NodeEntry, RepositoryInfo } from '@alfresco/js-api';
-import { getFileExtension } from './app.rules';
 
 describe('app.evaluators', () => {
   describe('getFileExtension', () => {
@@ -821,12 +821,6 @@ describe('app.evaluators', () => {
 
     it('should return false if the context is trashcan', () => {
       context.navigation = { url: '/trashcan' };
-
-      expect(app.canEditAspects(context)).toBe(false);
-    });
-
-    it('should return false if the selected node is a smart folder', () => {
-      context.selection.first = { entry: { aspectNames: ['smf:customConfigSmartFolder'], isFolder: true } } as NodeEntry;
 
       expect(app.canEditAspects(context)).toBe(false);
     });
