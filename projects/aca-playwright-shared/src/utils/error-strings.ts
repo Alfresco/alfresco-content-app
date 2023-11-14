@@ -31,6 +31,11 @@ export const errorStrings = {
   nameContainOnlySpacesError: `Name can't contain only spaces`,
   titleLengthLimitError: 'Use 256 characters or less for title',
   descriptionLengthLimitError: 'Use 512 characters or less for description',
-  nameAlreadyUsedError: 'This name is already in use, try a different name.'
+  nameAlreadyUsedError: 'This name is already in use, try a different name.',
 
+  folderNameIsRequired: 'Folder name is required',
+  folderNameCantEndWithAPeriod: `Folder name can't end with a period .`,
+  folderNameCantContainTheseCharacters: `Folder name can't contain these characters`,
+  folderNameCantContainOnlySpaces: `Folder name can't contain only spaces`,
+  thereIsAlreadyAFolderWithThisName: `There's already a folder with this name. Try a different name.`
 }
