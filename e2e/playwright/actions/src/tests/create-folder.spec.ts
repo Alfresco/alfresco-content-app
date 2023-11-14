@@ -68,7 +68,7 @@ test.describe('Create folders', () => {
     const loginPage = new LoginPage(page);
     try {
       await loginPage.loginUser(
-        { username: username, password: username },
+        { username, password: username },
         {
           withNavigation: true,
           waitForLoading: true

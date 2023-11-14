@@ -140,11 +140,11 @@ export class NodesApi {
  * Delete all nodes of the currently logged in user
  * @param userNodeId The id of User node, all child nodes of "userNodeId" will be gathered as a list and deleted ( e.g.: "-my-" - User Homes folder)
  */
-  async deleteCurrentUserNodes(userNodeId: string = '-my-',): Promise<void> {
+  async deleteCurrentUserNodes(): Promise<void> {
     try {
-      const userNodes = (await this.getNodeChildren(userNodeId)).list.entries;
-      const userNodesString = userNodes.map((nodeChild) => nodeChild.entry.id);
-      await this.deleteNodes(userNodesString);
+      const userNodes = (await this.getNodeChildren('-my-')).list.entries;
+      const userNodesIds = userNodes.map((nodeChild) => nodeChild.entry.id);
+      await this.deleteNodes(userNodesIds);
     } catch (error) {
       logger.error(`${this.constructor.name} ${this.deleteCurrentUserNodes.name}`, error);
     }
