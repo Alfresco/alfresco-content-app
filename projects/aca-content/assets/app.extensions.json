@@ -2160,7 +2160,10 @@
           "type": "text",
           "sortable": false,
           "desktopOnly": true,
-          "order": 60
+          "order": 60,
+          "rules": {
+            "visible": "app.areTagsEnabled"
+          }
         }
       ],
       "libraries": [

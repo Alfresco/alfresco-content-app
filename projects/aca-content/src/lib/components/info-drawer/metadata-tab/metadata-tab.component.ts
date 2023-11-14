@@ -46,6 +46,8 @@ import { Actions, ofType } from '@ngrx/effects';
       [displayAspect]="displayAspect$ | async"
       [customPanels]="customPanels | async"
       [(editable)]="editable"
+      [displayCategories]="displayCategories"
+      [displayTags]="displayTags"
     >
     </adf-content-metadata-card>
   `,
@@ -54,6 +56,8 @@ import { Actions, ofType } from '@ngrx/effects';
 })
 export class MetadataTabComponent implements OnInit, OnDestroy {
   protected onDestroy$ = new Subject<boolean>();
+  private _displayCategories = true;
+  private _displayTags = true;
 
   @Input()
   node: Node;
@@ -62,6 +66,14 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
   canUpdateNode = false;
   editable = false;
   customPanels: Observable<ContentMetadataCustomPanel[]>;
+
+  get displayCategories(): boolean {
+    return this._displayCategories;
+  }
+
+  get displayTags(): boolean {
+    return this._displayTags;
+  }
 
   constructor(
     private permission: NodePermissionService,
@@ -79,6 +91,8 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this._displayTags = this.appConfig.get('plugins.tags');
+    this._displayCategories = this.appConfig.get('plugins.categories');
     this.contentMetadataService.error.pipe(takeUntil(this.onDestroy$)).subscribe((err: { message: string }) => {
       this.notificationService.showError(err.message);
     });

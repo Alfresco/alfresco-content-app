@@ -636,3 +636,5 @@ export function isSmartFolder(context: RuleContext): boolean {
   }
   return false;
 }
+
+export const areTagsEnabled = (context: AcaRuleContext): boolean => context.appConfig.get('plugins.tags');
