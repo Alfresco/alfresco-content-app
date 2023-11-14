@@ -7,6 +7,9 @@
     "target": "es2017",
     "types": ["jasmine", "jasminewd2", "node", "@playwright/test"],
     "skipLibCheck": true,
+    "paths": {
+      "@alfresco/playwright-shared": ["../../../projects/aca-playwright-shared/src/index.ts"]
+    }
   },
   "exclude": ["node_modules"]
 }

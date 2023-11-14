@@ -22,12 +22,14 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Page } from '@playwright/test';
+import { Page, expect } from '@playwright/test';
 import { MatMenuComponent } from './dataTable';
 import { BaseComponent } from './base.component';
+
 export class AcaHeader extends BaseComponent {
   private static rootElement = 'aca-toolbar';
   private moreActionsButton = this.getChild('button[id="app.viewer.toolbar.more"]');
+  private toolbarMoreActions = this.getChild('button[id="app.toolbar.more"]');
   public createButton = this.getChild('[id="app.toolbar.create"]');
   public viewDetails = this.getChild('[title="View Details"]');
   public viewButton = this.getChild('button[title="View"]');
@@ -46,9 +48,28 @@ export class AcaHeader extends BaseComponent {
     await this.moreActionsButton.click();
   }
 
+  async clickMoreActions(): Promise<void> {
+    await this.toolbarMoreActions.waitFor({ state: 'attached' });
+    await this.toolbarMoreActions.click();
+  }
+
   async clickCreateFolderFromTemplate(): Promise<void> {
     await this.createButton.click();
     await this.matMenu.createFolderFromTemplate.click();
+  }
+
+  async verifyToolbarPrimaryActions(expectedToolbarPrimary: string[]): Promise<void> {
+    let buttons = await this.page.$$('aca-toolbar button');
+    let actualPrimaryActions: string[] = await Promise.all(
+      buttons.map(async (button) => {
+        const title = await button.getAttribute('title');
+        return title || '';
+      })
+    );
+
+    for (const action of expectedToolbarPrimary) {
+      expect(actualPrimaryActions.includes(action), `Expected to contain ${action}`).toBe(true);
+    }
   }
 
   async clickCreateFileFromTemplate(): Promise<void> {
