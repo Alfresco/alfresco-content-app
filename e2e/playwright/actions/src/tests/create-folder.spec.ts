@@ -23,65 +23,73 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, Utils, folderErrors, getUserState, test } from '@alfresco/playwright-shared';
+import {
+  AdfFolderDialogComponent,
+  ApiClientFactory,
+  DataTableComponent,
+  LoginPage,
+  NodesApi,
+  Utils,
+  errorStrings,
+  test
+} from '@alfresco/playwright-shared';
+import { logger } from '@alfresco/adf-cli/scripts/logger';
 
-test.use({ storageState: getUserState('hruser') });
 test.describe('Create folders', () => {
   const apiClientFactory = new ApiClientFactory();
+  let nodesApi: NodesApi;
+  let folderDialog: AdfFolderDialogComponent;
+  let folderTable: DataTableComponent;
   let randomFolderName: string;
   let randomFolderTitle: string;
   let randomFolderDescription: string;
+  const dialogString = 'dialog';
+  const createNewFolderString = 'Create new folder';
+  const spacesString = '   ';
   const commonFolderName = `playwright-folder-${Utils.random()}`;
-  let folderId: string;
+  const username = `user-${Utils.random()}`;
 
   test.beforeAll(async () => {
-    await apiClientFactory.setUpAcaBackend('hruser');
-    const node = await apiClientFactory.nodes.createNode('-my-', { name: commonFolderName, nodeType: 'cm:folder' });
-    folderId = node.entry.id;
+    try {
+      await apiClientFactory.setUpAcaBackend('admin');
+      await apiClientFactory.createUser({ username });
+      nodesApi = await NodesApi.initialize(username, username);
+      await nodesApi.createFolder(commonFolderName);
+    } catch (error) {
+      logger.error(`beforeAll failed : ${error}`);
+    }
   });
 
-  test.beforeEach(async ({ personalFiles }) => {
+  test.beforeEach(async ({ personalFiles, page }) => {
     randomFolderName = `playwright-folder-${Utils.random()}`;
     randomFolderTitle = `folder-title-${Utils.random()}`;
     randomFolderDescription = `folder-description-${Utils.random()}`;
-    await personalFiles.navigate();
+    folderDialog = personalFiles.folderDialog;
+    const loginPage = new LoginPage(page);
+    try {
+      await loginPage.loginUser(
+        { username, password: username },
+        {
+          withNavigation: true,
+          waitForLoading: true
+        }
+      );
+      await personalFiles.navigate();
+      await personalFiles.selectCreateFolder();
+    } catch (error) {
+      logger.error(`beforeEach failed : ${error}`);
+    }
   });
 
   test.afterAll(async () => {
-    await apiClientFactory.nodes.deleteNode(folderId, { permanent: true });
+    try {
+      await nodesApi.deleteCurrentUserNodes();
+    } catch (error) {
+      logger.error(`afterAll failed : ${error}`);
+    }
   });
 
-  test('[C216341] Create a folder with name only', async ({ personalFiles }) => {
-    const folderDialog = personalFiles.folderDialog;
-    const folderTable = personalFiles.dataTable;
-
-    await personalFiles.selectCreateFolder();
-    await folderDialog.createNewFolderDialog(randomFolderName);
-
-    await folderTable.goThroughPagesLookingForRowWithName(randomFolderName);
-    await expect(folderTable.getRowByName(randomFolderName)).toBeVisible();
-
-    await folderTable.performActionInExpandableMenu(randomFolderName, 'Delete');
-  });
-
-  test('[C216340] Create a folder with name, title and description', async ({ personalFiles }) => {
-    const folderDialog = personalFiles.folderDialog;
-    const folderTable = personalFiles.dataTable;
-
-    await personalFiles.selectCreateFolder();
-    await folderDialog.createNewFolderDialog(randomFolderName, randomFolderTitle, randomFolderDescription);
-
-    await folderTable.goThroughPagesLookingForRowWithName(randomFolderName);
-    await expect(folderTable.getCellLinkByName(randomFolderName)).toHaveAttribute('title', randomFolderTitle + `\n` + randomFolderDescription);
-
-    await folderTable.performActionInExpandableMenu(randomFolderName, 'Delete');
-  });
-
-  test('[C216345] Create new folder dialog check', async ({ personalFiles }) => {
-    const folderDialog = personalFiles.folderDialog;
-
-    await personalFiles.selectCreateFolder();
-
+  test('[C216345] Create new folder dialog check', async () => {
     await expect(folderDialog.getLabelText('Name')).toBeVisible();
     await expect(folderDialog.getLabelText('*')).toBeVisible();
     await expect(folderDialog.folderNameInputLocator).toBeVisible();
@@ -93,10 +101,7 @@ test.describe('Create folders', () => {
     await expect(folderDialog.createButton).toBeDisabled();
   });
 
-  test('[C216346] Create a folder without a name', async ({ personalFiles }) => {
-    const folderDialog = personalFiles.folderDialog;
-
-    await personalFiles.selectCreateFolder();
+  test('[C216346] Create a folder without a name', async () => {
     await folderDialog.folderNameInputLocator.fill(randomFolderName);
     await expect(folderDialog.folderNameInputLocator).toHaveValue(randomFolderName);
     await expect(folderDialog.createButton).toBeEnabled();
@@ -104,73 +109,70 @@ test.describe('Create folders', () => {
     await folderDialog.folderNameInputLocator.clear();
 
     await expect(folderDialog.folderNameInputLocator).toBeEmpty();
-    await expect(folderDialog.folderNameInputHint).toContainText(folderErrors.folderNameIsRequired);
+    await expect(folderDialog.folderNameInputHint).toContainText(errorStrings.folderNameIsRequired);
     await expect(folderDialog.createButton).toBeDisabled();
   });
 
-  test('[C216348] Create folder when a name that ends with a dot "."', async ({ personalFiles }) => {
-    const folderDialog = personalFiles.folderDialog;
-
-    await personalFiles.selectCreateFolder();
+  test('[C216348] Create folder when a name that ends with a dot "."', async () => {
     await folderDialog.folderNameInputLocator.fill(randomFolderName + '.');
 
     await expect(folderDialog.createButton).toBeDisabled();
-    await expect(folderDialog.folderNameInputHint).toContainText(folderErrors.folderNameCantEndWithAPeriod);
+    await expect(folderDialog.folderNameInputHint).toContainText(errorStrings.folderNameCantEndWithAPeriod);
   });
 
-  test('[C216347] Create folder with a name containing special characters', async ({ personalFiles }) => {
+  test('[C216347] Create folder with a name containing special characters', async () => {
     const namesWithSpecialChars = ['a*a', 'a"a', 'a<a', 'a>a', `a\\a`, 'a/a', 'a?a', 'a:a', 'a|a'];
-    const folderDialog = personalFiles.folderDialog;
-
-    await personalFiles.selectCreateFolder();
     for (const folderName of namesWithSpecialChars) {
       await folderDialog.folderNameInputLocator.fill(folderName);
 
       await expect(folderDialog.createButton).toBeDisabled();
-      await expect(folderDialog.folderNameInputHint).toContainText(folderErrors.folderNameCantContainTheseCharacters);
+      await expect(folderDialog.folderNameInputHint).toContainText(errorStrings.folderNameCantContainTheseCharacters);
     }
   });
 
-  test('[C280406] Create a folder with a name containing only spaces', async ({ personalFiles }) => {
-    const folderDialog = personalFiles.folderDialog;
-
-    await personalFiles.selectCreateFolder();
-    await folderDialog.folderNameInputLocator.fill('   ');
+  test('[C280406] Create a folder with a name containing only spaces', async () => {
+    await folderDialog.folderNameInputLocator.fill(spacesString);
 
     await expect(folderDialog.createButton).toBeDisabled();
-    await expect(folderDialog.folderNameInputHint).toContainText(folderErrors.folderNameCantContainOnlySpaces);
+    await expect(folderDialog.folderNameInputHint).toContainText(errorStrings.folderNameCantContainOnlySpaces);
   });
 
   test('[C216349] Cancel folder creation', async ({ personalFiles }) => {
-    const folderDialog = personalFiles.folderDialog;
-
-    await personalFiles.selectCreateFolder();
-    await expect(personalFiles.page.getByRole('dialog', { name: 'Create new folder' })).toBeVisible();
+    await expect(personalFiles.page.getByRole(dialogString, { name: createNewFolderString })).toBeVisible();
     await folderDialog.folderNameInputLocator.fill(randomFolderName);
     await folderDialog.cancelButton.click();
-    await expect(personalFiles.page.getByRole('dialog', { name: 'Create new folder' })).toBeHidden();
+    await expect(personalFiles.page.getByRole(dialogString, { name: createNewFolderString })).toBeHidden();
   });
 
   test('[C216350] Duplicate folder name error', async ({ personalFiles }) => {
-    const folderDialog = personalFiles.folderDialog;
     const folderSnackBar = personalFiles.snackBar;
 
-    await personalFiles.selectCreateFolder();
     await folderDialog.createNewFolderDialog(commonFolderName);
 
-    await expect(folderSnackBar.getByMessageLocator(folderErrors.thereIsAlreadyAFolderWithThisName)).toBeVisible();
+    await expect(folderSnackBar.getByMessageLocator(errorStrings.thereIsAlreadyAFolderWithThisName)).toBeVisible();
   });
 
-  test('[C216351] Folder created after trimmed ending spaces from a folder name', async ({ personalFiles }) => {
-    const folderDialog = personalFiles.folderDialog;
-    const folderTable = personalFiles.dataTable;
+  test.describe('On Personal Files dataTable', () => {
+    test.beforeEach(async ({ personalFiles }) => {
+      folderTable = personalFiles.dataTable;
+    });
 
-    await personalFiles.selectCreateFolder();
-    await folderDialog.createNewFolderDialog(randomFolderName + '   ');
+    test('[C216341] Create a folder with name only', async () => {
+      await folderDialog.createNewFolderDialog(randomFolderName);
 
-    await folderTable.goThroughPagesLookingForRowWithName(randomFolderName);
-    await expect(folderTable.getRowByName(randomFolderName)).toBeVisible();
+      await expect(folderTable.getRowByName(randomFolderName)).toBeVisible();
+    });
 
-    await folderTable.performActionInExpandableMenu(randomFolderName, 'Delete');
+    test('[C216340] Create a folder with name, title and description', async () => {
+      await folderDialog.createNewFolderDialog(randomFolderName, randomFolderTitle, randomFolderDescription);
+
+      await expect(folderTable.getCellLinkByName(randomFolderName)).toHaveAttribute('title', randomFolderTitle + `\n` + randomFolderDescription);
+    });
+
+    test('[C216351] Folder created after trimmed ending spaces from a folder name', async () => {
+      await folderDialog.createNewFolderDialog(randomFolderName + spacesString);
+
+      await expect(folderTable.getRowByName(randomFolderName)).toBeVisible();
+    });
   });
 });
