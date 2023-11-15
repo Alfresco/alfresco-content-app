@@ -167,6 +167,9 @@ export class AppExtensionService implements RuleContext {
     this.sidebarTabs = this.loader.getElements<SidebarTabRef>(config, 'features.sidebar.tabs');
     this.contentMetadata = this.loadContentMetadata(config);
     this.search = this.loadSearchForms(config);
+    this.search.forEach((searchSet) => {
+      searchSet.categories = searchSet.categories.filter((category) => this.filterVisible(category));
+    });
 
     this.documentListPresets = {
       libraries: this.getDocumentListPreset(config, 'libraries'),

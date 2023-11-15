@@ -245,7 +245,8 @@ export class ContentServiceExtensionModule {
       'app.isUploadSupported': rules.isUploadSupported,
       'app.canCreateLibrary': rules.canCreateLibrary,
       'app.isSearchSupported': rules.isSearchSupported,
-      'app.areTagsEnabled': rules.areTagsEnabled
+      'app.areTagsEnabled': rules.areTagsEnabled,
+      'app.areCategoriesEnabled': rules.areCategoriesEnabled
     });
   }
 }

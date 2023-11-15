@@ -1495,6 +1495,9 @@
                 "allowOnlyPredefinedValues": true,
                 "field": "TAG"
               }
+            },
+            "rules": {
+              "visible": "app.areTagsEnabled"
             }
           },
           {
@@ -1509,6 +1512,9 @@
                 "allowOnlyPredefinedValues": true,
                 "field": "cm:categories"
               }
+            },
+            "rules": {
+              "visible": "app.areCategoriesEnabled"
             }
           }
         ]
