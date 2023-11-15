@@ -16,6 +16,8 @@
         [sorting]="['modifiedAt', 'desc']"
         [sortingMode]="'client'"
         [imageResolver]="imageResolver"
+        [isResizingEnabled]="true"
+        [blurOnResize]="false"
         (node-dblclick)="handleNodeClick($event)"
         (name-click)="handleNodeClick($event)"
       >

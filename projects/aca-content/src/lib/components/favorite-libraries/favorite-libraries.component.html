@@ -18,6 +18,8 @@
         [sortingMode]="'client'"
         (node-dblclick)="handleNodeClick($event)"
         [imageResolver]="imageResolver"
+        [isResizingEnabled]="true"
+        [blurOnResize]="false"
         (name-click)="handleNodeClick($event)"
       >
         <adf-custom-empty-content-template>
