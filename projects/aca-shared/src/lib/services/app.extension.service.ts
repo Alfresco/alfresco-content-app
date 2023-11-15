@@ -56,6 +56,7 @@ import { ViewerRules } from '../models/viewer.rules';
 import { Badge, SettingsGroupRef } from '../models/types';
 import { NodePermissionService } from '../services/node-permission.service';
 import { filter, map } from 'rxjs/operators';
+import { SearchCategory, SearchConfiguration } from '@alfresco/adf-content-services';
 
 @Injectable({
   providedIn: 'root'
@@ -66,7 +67,7 @@ export class AppExtensionService implements RuleContext {
   navbar: Array<NavBarGroupRef> = [];
   sidebarTabs: Array<SidebarTabRef> = [];
   contentMetadata: any;
-  search: any;
+  search: SearchConfiguration[];
   viewerRules: ViewerRules = {};
   settingGroups: Array<SettingsGroupRef> = [];
 
@@ -485,7 +486,7 @@ export class AppExtensionService implements RuleContext {
     };
   }
 
-  filterVisible(action: ContentActionRef | SettingsGroupRef | SidebarTabRef | DocumentListPresetRef): boolean {
+  filterVisible(action: ContentActionRef | SettingsGroupRef | SidebarTabRef | DocumentListPresetRef | SearchCategory): boolean {
     if (action?.rules?.visible) {
       return this.extensions.evaluateRule(action.rules.visible, this);
     }
