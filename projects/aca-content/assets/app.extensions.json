@@ -2360,7 +2360,10 @@
           "type": "text",
           "sortable": false,
           "desktopOnly": true,
-          "order": 80
+          "order": 80,
+          "rules": {
+            "visible": "app.areTagsEnabled"
+          }
         }
       ],
       "recent": [
@@ -2425,7 +2428,10 @@
           "type": "text",
           "sortable": false,
           "desktopOnly": true,
-          "order": 60
+          "order": 60,
+          "rules": {
+            "visible": "app.areTagsEnabled"
+          }
         }
       ],
       "favorites": [
@@ -2500,7 +2506,10 @@
           "type": "text",
           "sortable": false,
           "desktopOnly": true,
-          "order": 70
+          "order": 70,
+          "rules": {
+            "visible": "app.areTagsEnabled"
+          }
         }
       ],
       "trashcan": [
