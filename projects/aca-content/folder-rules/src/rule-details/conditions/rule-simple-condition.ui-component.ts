@@ -77,8 +77,6 @@ const AUTOCOMPLETE_OPTIONS_DEBOUNCE_TIME = 500;
   ]
 })
 export class RuleSimpleConditionUiComponent implements OnInit, ControlValueAccessor, OnDestroy {
-  readonly fields = ruleConditionFields;
-
   form = new FormGroup({
     field: new FormControl('cm:name'),
     comparator: new FormControl('equals'),
@@ -101,6 +99,13 @@ export class RuleSimpleConditionUiComponent implements OnInit, ControlValueAcces
   set readOnly(isReadOnly: boolean) {
     this.setDisabledState(isReadOnly);
   }
+
+  private readonly disabledTags = !this.config.get('plugins.tags');
+  private readonly disabledCategories = !this.config.get('plugins.categories');
+
+  readonly fields = ruleConditionFields.filter(
+    (condition) => !((this.disabledTags && condition.name === 'tag') || (this.disabledCategories && condition.name === 'category'))
+  );
 
   constructor(private config: AppConfigService, private categoryService: CategoryService) {
     this.mimeTypes = this.config.get<Array<MimeType>>('mimeTypes');

@@ -26,6 +26,7 @@ import { Component, forwardRef, Input, OnChanges, OnDestroy, OnInit, SimpleChang
 import { ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActionDefinitionTransformed, RuleAction } from '../../model/rule-action.model';
 import {
+  AppConfigService,
   CardViewBoolItemModel,
   CardViewItem,
   CardViewModule,
@@ -37,7 +38,7 @@ import {
 } from '@alfresco/adf-core';
 import { ActionParameterDefinition, Node } from '@alfresco/js-api';
 import { of, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
 import { ActionParameterConstraint, ConstraintValue } from '../../model/action-parameter-constraint.model';
 import { ContentNodeSelectorComponent, ContentNodeSelectorComponentData, NodeAction } from '@alfresco/adf-content-services';
 import { MatDialog } from '@angular/material/dialog';
@@ -82,6 +83,9 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
     this._parameterConstraints = value.map((obj) => ({ ...obj, constraints: this.parseConstraintsToSelectOptions(obj.constraints) }));
   }
 
+  private readonly tagsRelatedPropertiesAndAspects = ['cm:tagscope', 'cm:tagScopeCache', 'cm:taggable'];
+  private readonly categoriesRelatedPropertiesAndAspects = ['cm:categories', 'cm:generalclassifiable'];
+
   isFullWidth = false;
 
   form = new FormGroup({
@@ -107,7 +111,12 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
   onChange: (action: RuleAction) => void = () => undefined;
   onTouch: () => void = () => undefined;
 
-  constructor(private cardViewUpdateService: CardViewUpdateService, private dialog: MatDialog, private translate: TranslateService) {}
+  constructor(
+    private cardViewUpdateService: CardViewUpdateService,
+    private dialog: MatDialog,
+    private translate: TranslateService,
+    private appConfigService: AppConfigService
+  ) {}
 
   writeValue(action: RuleAction) {
     this.form.setValue({
@@ -170,6 +179,8 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
   }
 
   setCardViewProperties() {
+    const disabledTags = !this.appConfigService.get('plugins.tags');
+    const disabledCategories = !this.appConfigService.get('plugins.categories');
     this.cardViewItems = (this.selectedActionDefinition?.parameterDefinitions ?? []).map((paramDef) => {
       this.isFullWidth = false;
       const constraintsForDropdownBox = this._parameterConstraints.find((obj) => obj.name === paramDef.name);
@@ -212,7 +223,17 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
             return new CardViewSelectItemModel({
               ...cardViewPropertiesModel,
               value: (this.parameters[paramDef.name] as string) ?? '',
-              options$: of(constraintsForDropdownBox.constraints)
+              options$: of(constraintsForDropdownBox.constraints).pipe(
+                map((options) => {
+                  return options.filter(
+                    (option) =>
+                      !(
+                        (disabledTags && this.tagsRelatedPropertiesAndAspects.includes(option.key)) ||
+                        (disabledCategories && this.categoriesRelatedPropertiesAndAspects.includes(option.key))
+                      )
+                  );
+                })
+              )
             });
           }
           return new CardViewTextItemModel({
