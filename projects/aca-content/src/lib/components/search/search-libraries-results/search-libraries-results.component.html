@@ -30,6 +30,8 @@
             [sorting]="['name', 'asc']"
             [node]="data"
             [imageResolver]="imageResolver"
+            [isResizingEnabled]="true"
+            [blurOnResize]="false"
             (node-dblclick)="handleNodeClick($event)"
             (name-click)="handleNodeClick($event)"
           >
