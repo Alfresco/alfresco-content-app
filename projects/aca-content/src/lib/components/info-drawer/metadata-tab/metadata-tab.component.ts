@@ -29,7 +29,13 @@ import { AppStore, EditOfflineAction, infoDrawerMetadataAspect, NodeActionTypes 
 import { AppConfigService, NotificationService } from '@alfresco/adf-core';
 import { Observable, Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { ContentMetadataModule, ContentMetadataService, ContentMetadataCustomPanel } from '@alfresco/adf-content-services';
+import {
+  ContentMetadataModule,
+  ContentMetadataService,
+  ContentMetadataCustomPanel,
+  TagService,
+  CategoryService
+} from '@alfresco/adf-content-services';
 import { filter, map, takeUntil } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { Actions, ofType } from '@ngrx/effects';
@@ -82,7 +88,9 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
     private store: Store<AppStore>,
     private notificationService: NotificationService,
     private contentMetadataService: ContentMetadataService,
-    private actions$: Actions
+    private actions$: Actions,
+    private tagService: TagService,
+    private categoryService: CategoryService
   ) {
     if (this.extensions.contentMetadata) {
       this.appConfig.config['content-metadata'].presets = this.extensions.contentMetadata.presets;
@@ -91,8 +99,8 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this._displayTags = this.appConfig.get('plugins.tags');
-    this._displayCategories = this.appConfig.get('plugins.categories');
+    this._displayTags = this.tagService.areTagsEnabled();
+    this._displayCategories = this.categoryService.areCategoriesEnabled();
     this.contentMetadataService.error.pipe(takeUntil(this.onDestroy$)).subscribe((err: { message: string }) => {
       this.notificationService.showError(err.message);
     });

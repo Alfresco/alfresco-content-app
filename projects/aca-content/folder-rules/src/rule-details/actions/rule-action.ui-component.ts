@@ -26,7 +26,6 @@ import { Component, forwardRef, Input, OnChanges, OnDestroy, OnInit, SimpleChang
 import { ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActionDefinitionTransformed, RuleAction } from '../../model/rule-action.model';
 import {
-  AppConfigService,
   CardViewBoolItemModel,
   CardViewItem,
   CardViewModule,
@@ -40,7 +39,13 @@ import { ActionParameterDefinition, Node } from '@alfresco/js-api';
 import { of, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { ActionParameterConstraint, ConstraintValue } from '../../model/action-parameter-constraint.model';
-import { ContentNodeSelectorComponent, ContentNodeSelectorComponentData, NodeAction } from '@alfresco/adf-content-services';
+import {
+  CategoryService,
+  ContentNodeSelectorComponent,
+  ContentNodeSelectorComponentData,
+  NodeAction,
+  TagService
+} from '@alfresco/adf-content-services';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
@@ -115,7 +120,8 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
     private cardViewUpdateService: CardViewUpdateService,
     private dialog: MatDialog,
     private translate: TranslateService,
-    private appConfigService: AppConfigService
+    private tagService: TagService,
+    private categoryService: CategoryService
   ) {}
 
   writeValue(action: RuleAction) {
@@ -179,8 +185,8 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
   }
 
   setCardViewProperties() {
-    const disabledTags = !this.appConfigService.get('plugins.tags');
-    const disabledCategories = !this.appConfigService.get('plugins.categories');
+    const disabledTags = !this.tagService.areTagsEnabled();
+    const disabledCategories = !this.categoryService.areCategoriesEnabled();
     this.cardViewItems = (this.selectedActionDefinition?.parameterDefinitions ?? []).map((paramDef) => {
       this.isFullWidth = false;
       const constraintsForDropdownBox = this._parameterConstraints.find((obj) => obj.name === paramDef.name);

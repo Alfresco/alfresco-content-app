@@ -34,7 +34,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
-import { CategoryService } from '@alfresco/adf-content-services';
+import { CategoryService, TagService } from '@alfresco/adf-content-services';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { debounceTime, distinctUntilChanged, first, takeUntil } from 'rxjs/operators';
 import { Subject, Subscription } from 'rxjs';
@@ -100,14 +100,14 @@ export class RuleSimpleConditionUiComponent implements OnInit, ControlValueAcces
     this.setDisabledState(isReadOnly);
   }
 
-  private readonly disabledTags = !this.config.get('plugins.tags');
-  private readonly disabledCategories = !this.config.get('plugins.categories');
+  private readonly disabledTags = !this.tagService.areTagsEnabled();
+  private readonly disabledCategories = !this.categoryService.areCategoriesEnabled();
 
   readonly fields = ruleConditionFields.filter(
     (condition) => !((this.disabledTags && condition.name === 'tag') || (this.disabledCategories && condition.name === 'category'))
   );
 
-  constructor(private config: AppConfigService, private categoryService: CategoryService) {
+  constructor(private config: AppConfigService, private categoryService: CategoryService, private tagService: TagService) {
     this.mimeTypes = this.config.get<Array<MimeType>>('mimeTypes');
   }
   get isSelectedFieldKnown(): boolean {
