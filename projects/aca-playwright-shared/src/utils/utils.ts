@@ -42,8 +42,4 @@ export class Utils {
 
     return run(retry);
   }
-
-  static generateTimeStamp(): number {
-    return new Date().getTime();
-  }
 }
