@@ -22,6 +22,7 @@ You can find the settings in the `app.config.json` file, and they look similar t
     "clientId": "alfresco",
     "scope": "openid",
     "secret": "",
+    "implicitFlow": false,
     "codeFlow": true,
     "silentLogin": true,
     "redirectSilentIframeUri": "./assets/silent-refresh.html",

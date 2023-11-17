@@ -19,6 +19,7 @@
     "clientId": "alfresco",
     "scope": "openid",
     "secret": "",
+    "implicitFlow": false,
     "codeFlow": true,
     "silentLogin": true,
     "publicUrls": ["**/preview/s/*", "**/settings", "**/blank"],

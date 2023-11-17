@@ -23,6 +23,7 @@ Basic 認証に加えて、Content Application を以下で使用できます:
     "clientId": "alfresco",
     "scope": "openid",
     "secret": "",
+    "implicitFlow": false,
     "codeFlow": true,
     "silentLogin": true,
     "redirectSilentIframeUri": "./assets/silent-refresh.html",
