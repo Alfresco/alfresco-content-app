@@ -22,18 +22,19 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ApiClientFactory, getUserState, test, Utils, PersonalFilesPage } from '@alfresco/playwright-shared';
+import { ApiClientFactory, test, Utils, PersonalFilesPage, NodesApi, LoginPage } from '@alfresco/playwright-shared';
 import { expect } from '@playwright/test';
+import { logger } from '@alfresco/adf-cli/scripts/logger';
 
-test.use({ storageState: getUserState('hruser') });
 test.describe('Copy actions', () => {
+  let nodesApi: NodesApi;
   const apiClientFactory = new ApiClientFactory();
+  const username = `user-${Utils.random()}`;
 
-  const sourceFile = `source-file-${Utils.generateTimeStamp()}.txt`;
-  const sourceFileInsideFolder = `source-file-inside-folder-${Utils.generateTimeStamp()}.txt`;
-  const sourceFolder = `source-folder-${Utils.generateTimeStamp()}`;
-  const destinationFolder = `destination-folder-${Utils.generateTimeStamp()}`;
-  const nodeIdList: string[] = [];
+  let sourceFile: string;
+  let sourceFileInsideFolder: string;
+  let sourceFolder: string;
+  let destinationFolder: string;
 
   let sourceFileId: string;
   let sourceFileInsideFolderId: string;
@@ -41,25 +42,47 @@ test.describe('Copy actions', () => {
   let destinationFolderId: string;
 
   test.beforeAll(async () => {
-    await apiClientFactory.setUpAcaBackend('hruser');
-  });
-
-  test.afterEach(async () => {
-    for (const id of nodeIdList) {
-      await apiClientFactory.nodes.deleteNode(id);
+    try {
+      await apiClientFactory.setUpAcaBackend('admin');
+      await apiClientFactory.createUser({ username });
+      nodesApi = await NodesApi.initialize(username, username);
+    } catch (error) {
+      logger.error(`beforeAll failed : ${error}`);
     }
   });
-  test.beforeEach(async ({ personalFiles }) => {
-    destinationFolderId = (await apiClientFactory.nodes.createNode('-my-', { name: destinationFolder, nodeType: 'cm:folder' })).entry.id;
-    sourceFolderId = (await apiClientFactory.nodes.createNode('-my-', { name: sourceFolder, nodeType: 'cm:folder' })).entry.id;
-    sourceFileInsideFolderId = (await apiClientFactory.nodes.createNode(sourceFolderId, { name: sourceFileInsideFolder, nodeType: 'cm:content' }))
-      .entry.id;
-    sourceFileId = (await apiClientFactory.nodes.createNode('-my-', { name: sourceFile, nodeType: 'cm:content' })).entry.id;
 
-    nodeIdList.push(...[sourceFileId, sourceFileInsideFolderId, sourceFolderId, destinationFolderId]);
+  test.afterAll(async ({ nodesApiAction }) => {
+    try {
+      await nodesApiAction.deleteCurrentUserNodes();
+    } catch (error) {
+      logger.error(`afterAll failed : ${error}`);
+    }
+  });
 
-    await personalFiles.navigate();
-    await personalFiles.dataTable.pagination.setItemsPerPage(100);
+  test.beforeEach(async ({ personalFiles, page }) => {
+    sourceFile = `source-file-${Utils.random()}.txt`;
+    sourceFileInsideFolder = `source-file-inside-folder-${Utils.random()}.txt`;
+    sourceFolder = `source-folder-${Utils.random()}`;
+    destinationFolder = `destination-folder-${Utils.random()}`;
+
+    const loginPage = new LoginPage(page);
+    try {
+      await loginPage.loginUser(
+        { username, password: username },
+        {
+          withNavigation: true,
+          waitForLoading: true
+        }
+      );
+      destinationFolderId = (await nodesApi.createFolder(destinationFolder)).entry.id;
+      sourceFolderId = (await nodesApi.createFolder(sourceFolder)).entry.id;
+      sourceFileInsideFolderId = (await nodesApi.createFile(sourceFileInsideFolder, sourceFolderId)).entry.id;
+      sourceFileId = (await nodesApi.createFile(sourceFile)).entry.id;
+
+      await personalFiles.navigate();
+    } catch (error) {
+      logger.error(`beforeEach failed : ${error}`);
+    }
   });
 
   const copyContentInPersonalFiles = async (personalFilesPage: PersonalFilesPage, sourceFileList: string[], destinationName: string) => {
@@ -102,7 +125,7 @@ test.describe('Copy actions', () => {
   });
 
   test('[C217137] Copy a file with a name that already exists on the destination', async ({ personalFiles }) => {
-    nodeIdList.push((await apiClientFactory.nodes.createNode(destinationFolderId, { name: sourceFile, nodeType: 'cm:content' })).entry.id);
+    await nodesApi.createFile(sourceFile, destinationFolderId);
     const expectedNameForCopiedFile = sourceFile.replace('.', '-1.');
     await copyContentInPersonalFiles(personalFiles, [sourceFile], destinationFolder);
     expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeTruthy();
@@ -113,9 +136,8 @@ test.describe('Copy actions', () => {
   });
 
   test('[C217138] Copy a folder with a name that already exists on the destination', async ({ personalFiles }) => {
-    const existingFolderId = (await apiClientFactory.nodes.createNode(destinationFolderId, { name: sourceFolder, nodeType: 'cm:folder' })).entry.id;
-    nodeIdList.push((await apiClientFactory.nodes.createNode(existingFolderId, { name: sourceFileInsideFolder, nodeType: 'cm:content' })).entry.id);
-    nodeIdList.push(existingFolderId);
+    const existingFolderId = (await nodesApi.createFolder(sourceFolder, destinationFolderId)).entry.id;
+    await nodesApi.createFile(sourceFileInsideFolder, existingFolderId);
     const expectedNameForCopiedFile = sourceFileInsideFolder.replace('.', '-1.');
     await copyContentInPersonalFiles(personalFiles, [sourceFolder], destinationFolder);
     expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBeTruthy();
@@ -130,7 +152,7 @@ test.describe('Copy actions', () => {
 
   test('[C217139] Copy locked file', async ({ personalFiles }) => {
     const lockType = 'ALLOW_OWNER_CHANGES';
-    await apiClientFactory.nodes.lockNode([sourceFileId], { type: lockType });
+    await nodesApi.lockNodes([sourceFileId], lockType);
     await copyContentInPersonalFiles(personalFiles, [sourceFile], destinationFolder);
     expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeTruthy();
     await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
@@ -140,7 +162,7 @@ test.describe('Copy actions', () => {
 
   test('[C217140] Copy folder that contains locked file', async ({ personalFiles }) => {
     const lockType = 'ALLOW_OWNER_CHANGES';
-    await apiClientFactory.nodes.lockNode([sourceFileInsideFolderId], { type: lockType });
+    await nodesApi.lockNodes([sourceFileInsideFolderId], lockType);
     await copyContentInPersonalFiles(personalFiles, [sourceFolder], destinationFolder);
     expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBeTruthy();
     await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
@@ -170,7 +192,7 @@ test.describe('Copy actions', () => {
   });
 
   test('[C217173] Undo copy of a file when a file with same name already exists on the destination', async ({ personalFiles }) => {
-    nodeIdList.push((await apiClientFactory.nodes.createNode(destinationFolderId, { name: sourceFile, nodeType: 'cm:content' })).entry.id);
+    await nodesApi.createFile(sourceFile, destinationFolderId);
     const expectedNameForCopiedFile = sourceFile.replace('.', '-1.');
     await copyContentInPersonalFiles(personalFiles, [sourceFile], destinationFolder);
     await personalFiles.snackBar.actionButton.click();
@@ -182,9 +204,8 @@ test.describe('Copy actions', () => {
   });
 
   test('[C217174] Undo copy of a folder when a folder with same name already exists on the destination', async ({ personalFiles }) => {
-    const existingFolderId = (await apiClientFactory.nodes.createNode(destinationFolderId, { name: sourceFolder, nodeType: 'cm:folder' })).entry.id;
-    nodeIdList.push((await apiClientFactory.nodes.createNode(existingFolderId, { name: sourceFileInsideFolder, nodeType: 'cm:content' })).entry.id);
-    nodeIdList.push(existingFolderId);
+    const existingFolderId = (await nodesApi.createFolder(sourceFolder, destinationFolderId)).entry.id;
+    await nodesApi.createFile(sourceFileInsideFolder, existingFolderId);
     const expectedNameForCopiedFile = sourceFileInsideFolder.replace('.', '-1.');
     await copyContentInPersonalFiles(personalFiles, [sourceFolder], destinationFolder);
     await personalFiles.snackBar.actionButton.click();

@@ -22,19 +22,20 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ApiClientFactory, getUserState, test, Utils, PersonalFilesPage } from '@alfresco/playwright-shared';
+import { ApiClientFactory, test, Utils, PersonalFilesPage, NodesApi, LoginPage } from '@alfresco/playwright-shared';
 import { expect } from '@playwright/test';
+import { logger } from '@alfresco/adf-cli/scripts/logger';
 
 // TODO: Test ids for new move tests need to be added
-test.use({ storageState: getUserState('hruser') });
-test.describe('Move actions', () => {
+test.describe.only('Move actions', () => {
+  let nodesApi: NodesApi;
   const apiClientFactory = new ApiClientFactory();
+  const username = `user-${Utils.random()}`;
 
-  const sourceFileName = `source-file-${Utils.generateTimeStamp()}.txt`;
-  const sourceFileInsideFolderName = `source-file-inside-folder-${Utils.generateTimeStamp()}.txt`;
-  const sourceFolderName = `source-folder-${Utils.generateTimeStamp()}`;
-  const destinationFolderName = `destination-folder-${Utils.generateTimeStamp()}`;
-  const nodeIdList: string[] = [];
+  let sourceFile: string;
+  let sourceFileInsideFolder: string;
+  let sourceFolder: string;
+  let destinationFolder: string;
 
   let sourceFileId: string;
   let sourceFileInsideFolderId: string;
@@ -42,26 +43,47 @@ test.describe('Move actions', () => {
   let destinationFolderId: string;
 
   test.beforeAll(async () => {
-    await apiClientFactory.setUpAcaBackend('hruser');
-  });
-
-  test.afterEach(async () => {
-    for (const id of nodeIdList) {
-      await apiClientFactory.nodes.deleteNode(id);
+    try {
+      await apiClientFactory.setUpAcaBackend('admin');
+      await apiClientFactory.createUser({ username });
+      nodesApi = await NodesApi.initialize(username, username);
+    } catch (error) {
+      logger.error(`beforeAll failed : ${error}`);
     }
   });
 
-  test.beforeEach(async ({ personalFiles }) => {
-    destinationFolderId = (await apiClientFactory.nodes.createNode('-my-', { name: destinationFolderName, nodeType: 'cm:folder' })).entry.id;
-    sourceFolderId = (await apiClientFactory.nodes.createNode('-my-', { name: sourceFolderName, nodeType: 'cm:folder' })).entry.id;
-    sourceFileId = (await apiClientFactory.nodes.createNode('-my-', { name: sourceFileName, nodeType: 'cm:content' })).entry.id;
-    sourceFileInsideFolderId = (await apiClientFactory.nodes.createNode(sourceFolderId, { name: sourceFileInsideFolderName, nodeType: 'cm:content' }))
-      .entry.id;
+  test.afterAll(async ({ nodesApiAction }) => {
+    try {
+      await nodesApiAction.deleteCurrentUserNodes();
+    } catch (error) {
+      logger.error(`afterAll failed : ${error}`);
+    }
+  });
 
-    nodeIdList.push(...[sourceFileId, sourceFileInsideFolderId, sourceFolderId, destinationFolderId]);
+  test.beforeEach(async ({ personalFiles, page }) => {
+    sourceFile = `source-file-${Utils.random()}.txt`;
+    sourceFileInsideFolder = `source-file-inside-folder-${Utils.random()}.txt`;
+    sourceFolder = `source-folder-${Utils.random()}`;
+    destinationFolder = `destination-folder-${Utils.random()}`;
 
-    await personalFiles.navigate();
-    await personalFiles.dataTable.pagination.setItemsPerPage(100);
+    const loginPage = new LoginPage(page);
+    try {
+      await loginPage.loginUser(
+        { username, password: username },
+        {
+          withNavigation: true,
+          waitForLoading: true
+        }
+      );
+      destinationFolderId = (await nodesApi.createFolder(destinationFolder)).entry.id;
+      sourceFolderId = (await nodesApi.createFolder(sourceFolder)).entry.id;
+      sourceFileInsideFolderId = (await nodesApi.createFile(sourceFileInsideFolder, sourceFolderId)).entry.id;
+      sourceFileId = (await nodesApi.createFile(sourceFile)).entry.id;
+
+      await personalFiles.navigate();
+    } catch (error) {
+      logger.error(`beforeEach failed : ${error}`);
+    }
   });
 
   const moveContentInPersonalFiles = async (personalFilesPage: PersonalFilesPage, sourceFileList: string[], destinationName: string) => {
@@ -70,113 +92,109 @@ test.describe('Move actions', () => {
   };
 
   test('[C217316] Move a file', async ({ personalFiles }) => {
-    await moveContentInPersonalFiles(personalFiles, [sourceFileName], destinationFolderName);
+    await moveContentInPersonalFiles(personalFiles, [sourceFile], destinationFolder);
     const msg = await personalFiles.snackBar.message.innerText();
     expect.soft(msg).toContain('Moved 1 item.');
     await personalFiles.snackBar.closeIcon.click();
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFileName)).toBeFalsy();
-    await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolderName);
-    expect(await personalFiles.dataTable.isItemPresent(sourceFileName)).toBeTruthy();
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeFalsy();
+    await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
+    expect(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeTruthy();
   });
 
   test('[C217317] Move a folder with content', async ({ personalFiles }) => {
-    await moveContentInPersonalFiles(personalFiles, [sourceFolderName], destinationFolderName);
+    await moveContentInPersonalFiles(personalFiles, [sourceFolder], destinationFolder);
     const msg = await personalFiles.snackBar.message.innerText();
     expect.soft(msg).toContain('Moved 1 item.');
     await personalFiles.snackBar.closeIcon.click();
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolderName)).toBeFalsy();
-    await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolderName);
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolderName)).toBeTruthy();
-    await personalFiles.dataTable.performClickFolderOrFileToOpen(sourceFolderName);
-    expect(await personalFiles.dataTable.isItemPresent(sourceFileInsideFolderName)).toBeTruthy();
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBeFalsy();
+    await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBeTruthy();
+    await personalFiles.dataTable.performClickFolderOrFileToOpen(sourceFolder);
+    expect(await personalFiles.dataTable.isItemPresent(sourceFileInsideFolder)).toBeTruthy();
   });
 
   test('[C291958] Move multiple items', async ({ personalFiles }) => {
-    await moveContentInPersonalFiles(personalFiles, [sourceFolderName, sourceFileName], destinationFolderName);
+    await moveContentInPersonalFiles(personalFiles, [sourceFolder, sourceFile], destinationFolder);
     const msg = await personalFiles.snackBar.message.innerText();
     expect.soft(msg).toContain('Moved 2 items.');
     await personalFiles.snackBar.closeIcon.click();
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolderName)).toBeFalsy();
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFileName)).toBeFalsy();
-    await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolderName);
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolderName)).toBeTruthy();
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFileName)).toBeTruthy();
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBeFalsy();
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeFalsy();
+    await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBeTruthy();
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeTruthy();
   });
 
   test('[C217318] Move a file with a name that already exists on the destination', async ({ personalFiles }) => {
-    nodeIdList.push((await apiClientFactory.nodes.createNode(destinationFolderId, { name: sourceFileName, nodeType: 'cm:content' })).entry.id);
-    const expectedNameForCopiedFile = sourceFileName.replace('.', '-1.');
-    await moveContentInPersonalFiles(personalFiles, [sourceFileName], destinationFolderName);
+    await nodesApi.createFile(sourceFile, destinationFolderId);
+    const expectedNameForCopiedFile = sourceFile.replace('.', '-1.');
+    await moveContentInPersonalFiles(personalFiles, [sourceFile], destinationFolder);
     const msg = await personalFiles.snackBar.message.innerText();
     expect.soft(msg).toContain('Move unsuccessful, a file with the same name already exists.');
     await personalFiles.snackBar.closeIcon.click();
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFileName)).toBeTruthy();
-    await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolderName);
-    expect(await personalFiles.dataTable.isItemPresent(sourceFileName)).toBeTruthy();
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeTruthy();
+    await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
+    expect(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeTruthy();
     expect(await personalFiles.dataTable.isItemPresent(expectedNameForCopiedFile)).toBeFalsy();
   });
 
   test('[C217319] Move a folder with a name that already exists on the destination', async ({ personalFiles }) => {
-    const existingFolderId = (await apiClientFactory.nodes.createNode(destinationFolderId, { name: sourceFolderName, nodeType: 'cm:folder' })).entry
-      .id;
-    nodeIdList.push(
-      (await apiClientFactory.nodes.createNode(existingFolderId, { name: sourceFileInsideFolderName, nodeType: 'cm:content' })).entry.id
-    );
-    nodeIdList.push(existingFolderId);
-    const expectedNameForCopiedFile = sourceFileInsideFolderName.replace('.', '-1.');
-    await moveContentInPersonalFiles(personalFiles, [sourceFolderName], destinationFolderName);
+    const existingFolderId = (await nodesApi.createFolder(sourceFolder, destinationFolderId)).entry.id;
+    await nodesApi.createFile(sourceFileInsideFolder, existingFolderId);
+    const expectedNameForCopiedFile = sourceFileInsideFolder.replace('.', '-1.');
+    await moveContentInPersonalFiles(personalFiles, [sourceFolder], destinationFolder);
     const msg = await personalFiles.snackBar.message.innerText();
     expect.soft(msg).toContain('Move unsuccessful, a file with the same name already exists.');
     await personalFiles.snackBar.closeIcon.click();
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolderName)).toBeTruthy();
-    await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolderName);
-    expect(await personalFiles.dataTable.isItemPresent(sourceFolderName)).toBeTruthy();
-    await personalFiles.dataTable.performClickFolderOrFileToOpen(sourceFolderName);
-    expect(await personalFiles.dataTable.isItemPresent(sourceFileInsideFolderName)).toBeTruthy();
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBeTruthy();
+    await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
+    expect(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBeTruthy();
+    await personalFiles.dataTable.performClickFolderOrFileToOpen(sourceFolder);
+    expect(await personalFiles.dataTable.isItemPresent(sourceFileInsideFolder)).toBeTruthy();
     expect(await personalFiles.dataTable.isItemPresent(expectedNameForCopiedFile)).toBeFalsy();
   });
 
   test('[<AddTestId>] Move locked file', async ({ personalFiles }) => {
     const lockType = 'ALLOW_OWNER_CHANGES';
-    await apiClientFactory.nodes.lockNode([sourceFileId], { type: lockType });
-    await moveContentInPersonalFiles(personalFiles, [sourceFileName], destinationFolderName);
+    await nodesApi.lockNodes([sourceFileId], lockType);
+    await moveContentInPersonalFiles(personalFiles, [sourceFile], destinationFolder);
     const msg = await personalFiles.snackBar.message.innerText();
     expect.soft(msg).toContain('Moved 1 item.');
     await personalFiles.snackBar.closeIcon.click();
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFileName)).toBeFalsy();
-    await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolderName);
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFileName)).toBeTruthy();
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeFalsy();
+    await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeTruthy();
   });
 
   test('[<AddTestId>] Move folder that contains locked file', async ({ personalFiles }) => {
     const lockType = 'ALLOW_OWNER_CHANGES';
-    await apiClientFactory.nodes.lockNode([sourceFileInsideFolderId], { type: lockType });
-    await moveContentInPersonalFiles(personalFiles, [sourceFolderName], destinationFolderName);
+    await nodesApi.lockNodes([sourceFileInsideFolderId], lockType);
+    await moveContentInPersonalFiles(personalFiles, [sourceFolder], destinationFolder);
     const msg = await personalFiles.snackBar.message.innerText();
     expect.soft(msg).toContain('Moved 1 item.');
     await personalFiles.snackBar.closeIcon.click();
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolderName)).toBeFalsy();
-    await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolderName);
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolderName)).toBeTruthy();
-    await personalFiles.dataTable.performClickFolderOrFileToOpen(sourceFolderName);
-    expect(await personalFiles.dataTable.isItemPresent(sourceFileInsideFolderName)).toBeTruthy();
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBeFalsy();
+    await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBeTruthy();
+    await personalFiles.dataTable.performClickFolderOrFileToOpen(sourceFolder);
+    expect(await personalFiles.dataTable.isItemPresent(sourceFileInsideFolder)).toBeTruthy();
   });
 
   test('[<AddTestId>] Undo move of files', async ({ personalFiles }) => {
-    await moveContentInPersonalFiles(personalFiles, [sourceFileName], destinationFolderName);
+    await moveContentInPersonalFiles(personalFiles, [sourceFile], destinationFolder);
     await personalFiles.snackBar.actionButton.click();
     await personalFiles.spinner.waitForReload();
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFileName)).toBeTruthy();
-    await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolderName);
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFileName)).toBeFalsy();
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeTruthy();
+    await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeFalsy();
   });
 
   test('[<AddTestId>] Undo move of folders', async ({ personalFiles }) => {
-    await moveContentInPersonalFiles(personalFiles, [sourceFolderName], destinationFolderName);
+    await moveContentInPersonalFiles(personalFiles, [sourceFolder], destinationFolder);
     await personalFiles.snackBar.actionButton.click();
     await personalFiles.spinner.waitForReload();
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolderName)).toBeTruthy();
-    await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolderName);
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolderName)).toBeFalsy();
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBeTruthy();
+    await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBeFalsy();
   });
 });
