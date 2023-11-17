@@ -28,7 +28,7 @@ import { BaseComponent } from './base.component';
 
 export class AcaHeader extends BaseComponent {
   private static rootElement = 'aca-toolbar';
-  private moreActionsButton = this.getChild('button[id="app.viewer.toolbar.more"]');
+  private moreActionsButton = this.getChild('button[id="app.toolbar.more"]');
   private toolbarMoreActions = this.getChild('button[id="app.toolbar.more"]');
   public createButton = this.getChild('[id="app.toolbar.create"]');
   public viewDetails = this.getChild('[title="View Details"]');

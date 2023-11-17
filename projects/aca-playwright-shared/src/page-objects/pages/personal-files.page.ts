@@ -71,4 +71,20 @@ export class PersonalFilesPage extends BasePage {
   async waitForPageLoad() {
     await this.page.waitForURL(`**/${PersonalFilesPage.pageUrl}`);
   }
+
+  async clickMoreActionsButton(buttonLabel: string): Promise<void> {
+    await this.acaHeader.clickViewerMoreActions();
+    await this.matMenu.clickMenuItem(buttonLabel);
+  }
+
+  async copyOrMoveContentInDatatable(sourceFileList: string[], destinationName: string, operation = 'Copy'): Promise<void> {
+    await this.page.keyboard.down('Control');
+    for (const sourceName of sourceFileList) {
+      await this.dataTable.selectItem(sourceName);
+    }
+    await this.page.keyboard.up('Control');
+    await this.clickMoreActionsButton(operation);
+    await this.contentNodeSelector.selectDestination(destinationName);
+    await this.contentNodeSelector.actionButton.click();
+  }
 }
