@@ -37,6 +37,7 @@ test.describe('viewer action file', () => {
   const fileName1 = `file1-${Utils.random()}.txt`;
 
   const siteName = `site-${Utils.random()}`;
+  let docLibId: string;
   const parentFromSite = `parent-in-site-${Utils.random()}`;
   let parentFromSiteId: string;
   const subFolder1FromSite = `subFolder1-in-site-${Utils.random()}`;
@@ -62,15 +63,16 @@ test.describe('viewer action file', () => {
     folder1Id = (await nodesApiAction.createFolder(folder1, parent2Id)).entry.id;
 
     await sitesApiAction.createSite(siteName, Site.VisibilityEnum.PUBLIC);
-    const docLibId = await sitesApiAction.getDocLibId(siteName);
+    docLibId = await sitesApiAction.getDocLibId(siteName);
     parentFromSiteId = (await nodesApiAction.createFolder(parentFromSite, docLibId)).entry.id;
     subFolder1FromSiteId = (await nodesApiAction.createFolder(subFolder1FromSite, parentFromSiteId)).entry.id;
     subFolder2FromSiteId = (await nodesApiAction.createFolder(subFolder2FromSite, subFolder1FromSiteId)).entry.id;
     await nodesApiAction.createFile(fileName1FromSite, subFolder2FromSiteId);
   });
 
-  test.afterAll(async ({ nodesApiAction }) => {
+  test.afterAll(async ({ nodesApiAction, sitesApiAction }) => {
     await nodesApiAction.deleteNodes([parentId, parent2Id], true);
+    await sitesApiAction.deleteSites([docLibId]);
   });
 
   test('[C260964] Personal Files breadcrumb main node', async ({ personalFiles }) => {

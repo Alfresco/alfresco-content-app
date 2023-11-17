@@ -22,9 +22,9 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PageComponent } from './document-base-page.component';
-import { ReloadDocumentListAction, SetSelectedNodesAction, AppState, ViewNodeAction } from '@alfresco/aca-shared/store';
+import { AppState, ReloadDocumentListAction, SetSelectedNodesAction, ViewNodeAction } from '@alfresco/aca-shared/store';
 import { AppExtensionService } from '@alfresco/aca-shared';
 import { NodeEntry, NodePaging, RepositoryInfo, VersionInfo } from '@alfresco/js-api';
 import { DocumentBasePageService } from './document-base-page.service';
@@ -32,12 +32,12 @@ import { Store, StoreModule } from '@ngrx/store';
 import { Component, Injectable } from '@angular/core';
 import { DiscoveryApiService, DocumentListComponent } from '@alfresco/adf-content-services';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { MaterialModule, PipeModule } from '@alfresco/adf-core';
+import { AuthModule, MaterialModule, PipeModule } from '@alfresco/adf-core';
 import { HttpClientModule } from '@angular/common/http';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { EffectsModule } from '@ngrx/effects';
-import { BehaviorSubject, Observable, Subscription, of } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 
 export const INITIAL_APP_STATE: AppState = {
   appName: 'Alfresco Content Application',
@@ -112,6 +112,7 @@ describe('PageComponent', () => {
         HttpClientModule,
         RouterTestingModule,
         MaterialModule,
+        AuthModule.forRoot(),
         StoreModule.forRoot(
           { app: (state) => state },
           {
@@ -292,7 +293,7 @@ describe('Info Drawer state', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, HttpClientModule, RouterTestingModule, MaterialModule],
+      imports: [NoopAnimationsModule, HttpClientModule, RouterTestingModule, MaterialModule, AuthModule.forRoot()],
       declarations: [TestComponent],
       providers: [
         { provide: DocumentBasePageService, useClass: DocumentBasePageServiceMock },

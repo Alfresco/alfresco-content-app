@@ -505,7 +505,7 @@ export const canEditAspects = (context: RuleContext): boolean =>
  * @param context Rule execution context
  */
 export const canManagePermissions = (context: RuleContext): boolean =>
-  [canUpdateSelectedNode(context), navigation.isNotTrashcan(context)].every(Boolean);
+  [canUpdateSelectedNode(context), navigation.isNotTrashcan(context), !isSmartFolder(context)].every(Boolean);
 
 /**
  * Checks if user can toggle **Edit Offline** mode for selected node.
@@ -623,4 +623,16 @@ export function canOpenWithOffice(context: AcaRuleContext): boolean {
   }
 
   return context.permissions.check(file, ['update']);
+}
+
+export function isSmartFolder(context: RuleContext): boolean {
+  if (!context.selection?.isEmpty) {
+    const node = context.selection.first;
+    if (!node?.entry.isFolder) {
+      return false;
+    }
+    const nodeAspects = node.entry?.aspectNames ?? [];
+    return nodeAspects.includes('smf:customConfigSmartFolder') || nodeAspects.includes('smf:systemConfigSmartFolder');
+  }
+  return false;
 }

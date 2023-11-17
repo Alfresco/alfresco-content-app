@@ -136,6 +136,20 @@ export class NodesApi {
     }
   }
 
+  /**
+ * Delete all nodes of the currently logged in user
+ * @param userNodeId The id of User node, all child nodes of "userNodeId" will be gathered as a list and deleted ( e.g.: "-my-" - User Homes folder)
+ */
+  async deleteCurrentUserNodes(): Promise<void> {
+    try {
+      const userNodes = (await this.getNodeChildren('-my-')).list.entries;
+      const userNodesIds = userNodes.map((nodeChild) => nodeChild.entry.id);
+      await this.deleteNodes(userNodesIds);
+    } catch (error) {
+      logger.error(`${this.constructor.name} ${this.deleteCurrentUserNodes.name}`, error);
+    }
+  }
+
   async lockNodes(nodeIds: string[], lockType: string = 'ALLOW_OWNER_CHANGES') {
     try {
       for (const nodeId of nodeIds) {
@@ -356,7 +370,7 @@ export class NodesApi {
   }
 
   async createLinkToFileName(originalFileName: string, originalFileParentId: string, destinationParentId?: string): Promise<NodeEntry> {
-    destinationParentId = destinationParentId ?? originalFileParentId;
+    destinationParentId ??= originalFileParentId;
 
     try {
       const nodeId = await this.getNodeIdFromParent(originalFileName, originalFileParentId);
@@ -369,7 +383,7 @@ export class NodesApi {
   }
 
   async createLinkToFolderName(originalFolderName: string, originalFolderParentId: string, destinationParentId?: string): Promise<NodeEntry> {
-      destinationParentId = destinationParentId ?? originalFolderParentId;
+    destinationParentId ??= originalFolderParentId;
 
     try {
       const nodeId = await this.getNodeIdFromParent(originalFolderName, originalFolderParentId);

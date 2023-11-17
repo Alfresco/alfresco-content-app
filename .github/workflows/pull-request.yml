@@ -127,16 +127,14 @@ jobs:
             id: 8
           - name: "copyMoveActions"
             id: 9
-          - name: "createActions"
-            id: 10
           - name: "deleteActions"
-            id: 11
+            id: 10
           - name: "editActions,favoriteActions"
-            id: 12
+            id: 11
           - name: "libraryActions"
-            id: 13
+            id: 12
           - name: "uploadDownloadActions"
-            id: 14
+            id: 13
     steps:
       - name: Checkout
         uses: actions/checkout@v3

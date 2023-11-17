@@ -32,6 +32,7 @@ import { AppExtensionService } from '@alfresco/aca-shared';
 import { of } from 'rxjs';
 import { ContentActionType } from '@alfresco/adf-extensions';
 import { By } from '@angular/platform-browser';
+import { AuthModule } from '@alfresco/adf-core';
 
 describe('CustomNameColumnComponent', () => {
   let fixture: ComponentFixture<CustomNameColumnComponent>;
@@ -44,6 +45,7 @@ describe('CustomNameColumnComponent', () => {
         HttpClientModule,
         TranslateModule.forRoot(),
         CustomNameColumnComponent,
+        AuthModule.forRoot(),
         StoreModule.forRoot(
           { app: (state) => state },
           {

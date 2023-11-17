@@ -25,20 +25,20 @@
 import { TestBed } from '@angular/core/testing';
 import { initialState, LibTestingModule } from '../testing/lib-testing-module';
 import { AppExtensionService } from './app.extension.service';
-import { Store, Action } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 import { AppStore } from '@alfresco/aca-shared/store';
 import {
   ContentActionType,
-  mergeArrays,
-  sortByOrder,
-  filterEnabled,
-  reduceSeparators,
-  reduceEmptyMenus,
-  ExtensionService,
   ExtensionConfig,
-  NavBarGroupRef
+  ExtensionService,
+  filterEnabled,
+  mergeArrays,
+  NavBarGroupRef,
+  reduceEmptyMenus,
+  reduceSeparators,
+  sortByOrder
 } from '@alfresco/adf-extensions';
-import { AppConfigService, LogService } from '@alfresco/adf-core';
+import { AppConfigService, AuthModule, LogService } from '@alfresco/adf-core';
 import { provideMockStore } from '@ngrx/store/testing';
 import { hasQuickShareEnabled } from '@alfresco/aca-shared/rules';
 import { MatIconRegistry } from '@angular/material/icon';
@@ -56,7 +56,7 @@ describe('AppExtensionService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [LibTestingModule],
+      imports: [LibTestingModule, AuthModule.forRoot()],
       providers: [provideMockStore({ initialState })]
     });
 

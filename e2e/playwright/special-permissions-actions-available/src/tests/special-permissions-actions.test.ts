@@ -24,6 +24,7 @@
 
 import * as testData from '@alfresco/playwright-shared';
 import { viewerTests } from './viewer';
+import { collaboratorTests, filesLockedByCurrentUser, filesLockedByOtherUser } from './other-permissions';
 import {
   ApiClientFactory,
   FavoritesPageApi,
@@ -78,7 +79,7 @@ test.describe('Special permissions : ', () => {
   let managerSearchActions: SearchPageApi;
 
   test.beforeAll(async () => {
-    test.setTimeout(120000);
+    test.setTimeout(140000);
     await apiClientFactory.setUpAcaBackend('admin');
     await apiClientFactory.createUser({ username: userManager });
     await apiClientFactory.createUser({ username: userConsumer });
@@ -131,8 +132,10 @@ test.describe('Special permissions : ', () => {
     await managerNodeActions.createFolder(testData.folder.name, docLibId);
     folderFavId = (await managerNodeActions.createFolder(testData.folderFav.name, docLibId)).entry.id;
     folderFav2Id = (await managerNodeActions.createFolder(testData.folderFav2.name, docLibId)).entry.id;
-    await consumerFavoritesActions.addFavoritesByIds('folder', [folderFavId, folderFav2Id]);
 
+    await consumerFavoritesActions.addFavoritesByIds('folder', [folderFavId, folderFav2Id]);
+    await collaboratorFavoritesActions.addFavoritesByIds('file', [fileDocxSharedFavId, fileSharedFavId]);
+    await managerFavoritesActions.addFavoriteById('file', fileLockedByUserId);
     await consumerFavoritesActions.addFavoritesByIds('file', [
       fileDocxFavId,
       fileFavId,
@@ -153,14 +156,11 @@ test.describe('Special permissions : ', () => {
       fileGranularPermissionId
     ]);
 
-    await collaboratorFavoritesActions.addFavoritesByIds('file', [fileDocxSharedFavId, fileSharedFavId]);
-
     await managerNodeActions.lockNodes([fileLockedId, fileFavLockedId, fileSharedLockedId, fileSharedFavLockedId]);
 
     await managerNodeActions.setGranularPermission(fileGranularPermissionId, false, userConsumer, Site.RoleEnum.SiteManager);
 
-    await managerFavoritesActions.addFavoriteById('file', fileLockedByUserId);
-
+    await collaboratorFavoritesActions.isFavoriteWithRetry(userCollaborator, fileSharedFavId, { expect: true });
     await Promise.all([
       consumerFavoritesActions.waitForApi(userConsumer, { expect: consumerFavoritesTotalItems + 9 }),
       managerUserShareActions.waitForFilesToBeShared([
@@ -186,5 +186,17 @@ test.describe('Special permissions : ', () => {
     test.describe('on Viewer', () => {
       viewerTests(userConsumer, sitePrivate);
     });
+  });
+
+  test.describe('Collaborator', () => {
+    collaboratorTests(userCollaborator, sitePrivate);
+  });
+
+  test.describe('File locked - user is lock owner', () => {
+    filesLockedByCurrentUser(userDemoted, sitePrivate);
+  });
+
+  test.describe('File locked by other user - user is manager', () => {
+    filesLockedByOtherUser(userManager, sitePrivate);
   });
 });
