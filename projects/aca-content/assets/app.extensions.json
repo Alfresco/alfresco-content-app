@@ -2135,7 +2135,7 @@
           "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON",
           "type": "date",
           "format": "timeAgo",
-          "class": "adf-ellipsis-cell",
+          "class": "adf-ellipsis-cell adf-no-grow-cell",
           "sortable": true,
           "desktopOnly": true,
           "order": 40
@@ -2320,7 +2320,7 @@
           "sortingKey": "modifiedAt",
           "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON",
           "type": "date",
-          "class": "adf-ellipsis-cell",
+          "class": "adf-ellipsis-cell adf-no-grow-cell",
           "format": "timeAgo",
           "sortable": true,
           "desktopOnly": true,
@@ -2408,7 +2408,7 @@
           "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON",
           "type": "date",
           "format": "timeAgo",
-          "class": "adf-ellipsis-cell",
+          "class": "adf-ellipsis-cell adf-no-grow-cell",
           "sortable": true,
           "desktopOnly": true,
           "order": 50
@@ -2472,7 +2472,7 @@
           "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON",
           "type": "date",
           "format": "timeAgo",
-          "class": "adf-ellipsis-cell",
+          "class": "adf-ellipsis-cell adf-no-grow-cell",
           "sortable": true,
           "desktopOnly": true,
           "order": 50
