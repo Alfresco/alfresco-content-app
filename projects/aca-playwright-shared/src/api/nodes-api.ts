@@ -73,6 +73,14 @@ export class NodesApi {
     }
   }
 
+  async createFiles(names: string[], relativePath: string = '/'): Promise<NodeEntry | any> {
+    try {
+      return await this.createContent({ files: names }, relativePath);
+    } catch (error) {
+      throw new Error(`${this.constructor.name} ${this.createFiles.name}: ${error}`);
+    }
+  }
+
   private async createNode(
     nodeType: string,
     name: string,

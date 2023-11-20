@@ -35,7 +35,8 @@ import {
   DataTableComponent,
   MatMenuComponent,
   ViewerComponent,
-  SidenavComponent
+  SidenavComponent,
+  PaginationComponent
 } from '../components';
 
 export class PersonalFilesPage extends BasePage {
@@ -56,9 +57,14 @@ export class PersonalFilesPage extends BasePage {
   public breadcrumb = new Breadcrumb(this.page);
   public sidenav = new SidenavComponent(this.page);
   public createFromTemplateDialogComponent = new CreateFromTemplateDialogComponent(this.page);
+  public pagination = new PaginationComponent(this.page);
 
   async selectCreateFolder(): Promise<void> {
     await this.acaHeader.createButton.click();
     await this.matMenu.createFolder.click();
+  }
+
+  async closeMenu(): Promise<void> {
+    this.page.keyboard.press('Escape');
   }
 }

@@ -182,6 +182,8 @@ jobs:
             id: 5
           - name: "special-permissions"
             id: 6
+          - name: "pagination"
+            id: 7
     steps:
       - name: Checkout
         uses: actions/checkout@v3
