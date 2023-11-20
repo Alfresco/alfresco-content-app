@@ -62,3 +62,47 @@ export const rawConstraints = {
     constraintName: 'ac-aspects'
   }
 };
+
+export const dummyTagsConstraints: ActionParameterConstraint[] = [
+  {
+    name: 'aspect-name',
+    constraints: [
+      {
+        value: 'cm:tagscope',
+        label: 'Label 1'
+      },
+      {
+        value: 'cm:tagScopeCache',
+        label: 'Label 2'
+      },
+      {
+        value: 'cm:notTagRelated',
+        label: 'Label 3'
+      },
+      {
+        value: 'cm:taggable',
+        label: 'Label 4'
+      }
+    ]
+  }
+];
+
+export const dummyCategoriesConstraints: ActionParameterConstraint[] = [
+  {
+    name: 'aspect-name',
+    constraints: [
+      {
+        value: 'cm:categories',
+        label: 'Label 1'
+      },
+      {
+        value: 'cm:notCategoryRelated',
+        label: 'Label 2'
+      },
+      {
+        value: 'cm:generalclassifiable',
+        label: 'Label 3'
+      }
+    ]
+  }
+];
