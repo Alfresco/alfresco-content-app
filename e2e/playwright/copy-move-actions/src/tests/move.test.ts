@@ -26,7 +26,6 @@ import { ApiClientFactory, test, Utils, PersonalFilesPage, NodesApi, LoginPage }
 import { expect } from '@playwright/test';
 import { logger } from '@alfresco/adf-cli/scripts/logger';
 
-// TODO: Test ids for new move tests need to be added
 test.describe('Move actions', () => {
   let nodesApi: NodesApi;
   const apiClientFactory = new ApiClientFactory();
