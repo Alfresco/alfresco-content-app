@@ -27,7 +27,7 @@ import { expect } from '@playwright/test';
 import { logger } from '@alfresco/adf-cli/scripts/logger';
 
 // TODO: Test ids for new move tests need to be added
-test.describe.only('Move actions', () => {
+test.describe('Move actions', () => {
   let nodesApi: NodesApi;
   const apiClientFactory = new ApiClientFactory();
   const username = `user-${Utils.random()}`;
