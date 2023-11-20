@@ -29,14 +29,18 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { tagMock, mimeTypeMock, simpleConditionUnknownFieldMock, categoriesListMock } from '../../mock/conditions.mock';
 import { MimeType } from './rule-mime-types';
-import { CategoryService } from '@alfresco/adf-content-services';
+import { CategoryService, TagService } from '@alfresco/adf-content-services';
 import { of } from 'rxjs';
 import { RuleSimpleCondition } from '../../model/rule-simple-condition.model';
 import { delay } from 'rxjs/operators';
+import { MatOption } from '@angular/material/core';
+import { RuleConditionField, ruleConditionFields } from './rule-condition-fields';
 
 describe('RuleSimpleConditionUiComponent', () => {
   let fixture: ComponentFixture<RuleSimpleConditionUiComponent>;
   let categoryService: CategoryService;
+
+  const fieldSelectAutomationId = 'field-select';
 
   const getByDataAutomationId = (dataAutomationId: string): DebugElement =>
     fixture.debugElement.query(By.css(`[data-automation-id="${dataAutomationId}"]`));
@@ -57,6 +61,18 @@ describe('RuleSimpleConditionUiComponent', () => {
     fixture.detectChanges();
   };
 
+  const expectConditionFieldsDisplayedAsOptions = (conditionFields: RuleConditionField[]): void => {
+    fixture.detectChanges();
+    getByDataAutomationId(fieldSelectAutomationId).nativeElement.click();
+    fixture.detectChanges();
+    const options = fixture.debugElement.queryAll(By.directive(MatOption));
+    conditionFields.forEach((field, i) => {
+      const option = options[i];
+      expect(field.name).toBe(option.componentInstance.value);
+      expect(field.label).toBe(option.nativeElement.textContent.trim());
+    });
+  };
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [CoreTestingModule, RuleSimpleConditionUiComponent]
@@ -69,7 +85,7 @@ describe('RuleSimpleConditionUiComponent', () => {
   it('should default the field to the name, the comparator to equals and the value empty', () => {
     fixture.detectChanges();
 
-    expect(getByDataAutomationId('field-select').componentInstance.value).toBe('cm:name');
+    expect(getByDataAutomationId(fieldSelectAutomationId).componentInstance.value).toBe('cm:name');
     expect(getByDataAutomationId('comparator-select').componentInstance.value).toBe('equals');
     expect(getByDataAutomationId('value-input').nativeElement.value).toBe('');
   });
@@ -81,7 +97,7 @@ describe('RuleSimpleConditionUiComponent', () => {
     expect(fixture.componentInstance.isComparatorHidden).toBeFalsy();
     expect(getComputedStyle(comparatorFormField).display).not.toBe('none');
 
-    changeMatSelectValue('field-select', 'category');
+    changeMatSelectValue(fieldSelectAutomationId, 'category');
 
     expect(fixture.componentInstance.isComparatorHidden).toBeTruthy();
     expect(getComputedStyle(comparatorFormField).display).toBe('none');
@@ -94,7 +110,7 @@ describe('RuleSimpleConditionUiComponent', () => {
     expect(fixture.componentInstance.isComparatorHidden).toBeFalsy();
     expect(getComputedStyle(comparatorFormField).display).not.toBe('none');
 
-    changeMatSelectValue('field-select', 'mimetype');
+    changeMatSelectValue(fieldSelectAutomationId, 'mimetype');
 
     expect(fixture.componentInstance.isComparatorHidden).toBeTruthy();
     expect(getComputedStyle(comparatorFormField).display).toBe('none');
@@ -108,7 +124,7 @@ describe('RuleSimpleConditionUiComponent', () => {
     expect(fixture.componentInstance.isComparatorHidden).toBeFalsy();
     expect(getComputedStyle(comparatorFormField).display).not.toBe('none');
 
-    changeMatSelectValue('field-select', autoCompleteField);
+    changeMatSelectValue(fieldSelectAutomationId, autoCompleteField);
 
     expect(fixture.componentInstance.isComparatorHidden).toBeTruthy();
     expect(getComputedStyle(comparatorFormField).display).toBe('none');
@@ -120,11 +136,11 @@ describe('RuleSimpleConditionUiComponent', () => {
     changeMatSelectValue('comparator-select', 'contains');
 
     expect(getByDataAutomationId('comparator-select').componentInstance.value).toBe('contains');
-    changeMatSelectValue('field-select', 'mimetype');
+    changeMatSelectValue(fieldSelectAutomationId, 'mimetype');
 
     expect(onChangeFieldSpy).toHaveBeenCalledTimes(1);
     expect(getByDataAutomationId('comparator-select').componentInstance.value).toBe('equals');
-    changeMatSelectValue('field-select', 'size');
+    changeMatSelectValue(fieldSelectAutomationId, 'size');
 
     expect(onChangeFieldSpy).toHaveBeenCalledTimes(2);
     expect(getByDataAutomationId('comparator-select').componentInstance.value).toBe('equals');
@@ -134,8 +150,8 @@ describe('RuleSimpleConditionUiComponent', () => {
     fixture.componentInstance.writeValue(simpleConditionUnknownFieldMock);
     fixture.detectChanges();
 
-    expect(getByDataAutomationId('field-select').componentInstance.value).toBe(simpleConditionUnknownFieldMock.field);
-    const matSelect = getByDataAutomationId('field-select').nativeElement;
+    expect(getByDataAutomationId(fieldSelectAutomationId).componentInstance.value).toBe(simpleConditionUnknownFieldMock.field);
+    const matSelect = getByDataAutomationId(fieldSelectAutomationId).nativeElement;
     matSelect.click();
     fixture.detectChanges();
 
@@ -147,8 +163,8 @@ describe('RuleSimpleConditionUiComponent', () => {
   it('should remove the option for the unknown field as soon as another option is selected', () => {
     fixture.componentInstance.writeValue(simpleConditionUnknownFieldMock);
     fixture.detectChanges();
-    changeMatSelectValue('field-select', 'cm:name');
-    const matSelect = getByDataAutomationId('field-select').nativeElement;
+    changeMatSelectValue(fieldSelectAutomationId, 'cm:name');
+    const matSelect = getByDataAutomationId(fieldSelectAutomationId).nativeElement;
     matSelect.click();
     fixture.detectChanges();
 
@@ -200,7 +216,7 @@ describe('RuleSimpleConditionUiComponent', () => {
 
   it('should provide auto-complete option when category is selected', () => {
     fixture.detectChanges();
-    changeMatSelectValue('field-select', 'category');
+    changeMatSelectValue(fieldSelectAutomationId, 'category');
 
     expect(getByDataAutomationId('auto-complete-input-field')).toBeTruthy();
     expect(fixture.componentInstance.form.get('parameter').value).toEqual('');
@@ -210,7 +226,7 @@ describe('RuleSimpleConditionUiComponent', () => {
     spyOn(categoryService, 'searchCategories').and.returnValue(of(categoriesListMock));
 
     fixture.detectChanges();
-    changeMatSelectValue('field-select', 'category');
+    changeMatSelectValue(fieldSelectAutomationId, 'category');
     tick(500);
 
     expect(categoryService.searchCategories).toHaveBeenCalledWith('');
@@ -221,7 +237,7 @@ describe('RuleSimpleConditionUiComponent', () => {
     spyOn(categoryService, 'searchCategories').and.returnValue(of(categoriesListMock));
 
     fixture.detectChanges();
-    changeMatSelectValue('field-select', 'category');
+    changeMatSelectValue(fieldSelectAutomationId, 'category');
     tick(500);
     expect(categoryService.searchCategories).toHaveBeenCalledWith('');
 
@@ -256,7 +272,7 @@ describe('RuleSimpleConditionUiComponent', () => {
   it('should show loading spinner while auto-complete options are fetched, and then remove it once it is received', fakeAsync(() => {
     spyOn(categoryService, 'searchCategories').and.returnValue(of(categoriesListMock).pipe(delay(1000)));
     fixture.detectChanges();
-    changeMatSelectValue('field-select', 'category');
+    changeMatSelectValue(fieldSelectAutomationId, 'category');
     tick(500);
     getByDataAutomationId('auto-complete-input-field')?.nativeElement?.click();
     let loadingSpinner = getByDataAutomationId('auto-complete-loading-spinner');
@@ -271,7 +287,7 @@ describe('RuleSimpleConditionUiComponent', () => {
   it('should display correct label for category when user selects a category from auto-complete dropdown', fakeAsync(() => {
     spyOn(categoryService, 'searchCategories').and.returnValue(of(categoriesListMock));
     fixture.detectChanges();
-    changeMatSelectValue('field-select', 'category');
+    changeMatSelectValue(fieldSelectAutomationId, 'category');
     tick(500);
     getByDataAutomationId('auto-complete-input-field')?.nativeElement?.click();
     changeMatSelectValue('folder-rule-auto-complete', categoriesListMock.list.entries[0].entry.id);
@@ -283,7 +299,7 @@ describe('RuleSimpleConditionUiComponent', () => {
   it('should automatically select first category when user focuses out of parameter form field with category option selected', fakeAsync(() => {
     spyOn(categoryService, 'searchCategories').and.returnValue(of(categoriesListMock));
     fixture.detectChanges();
-    changeMatSelectValue('field-select', 'category');
+    changeMatSelectValue(fieldSelectAutomationId, 'category');
     tick(500);
     const autoCompleteInputField = getByDataAutomationId('auto-complete-input-field')?.nativeElement;
     autoCompleteInputField.value = 'FakeCat';
@@ -292,4 +308,34 @@ describe('RuleSimpleConditionUiComponent', () => {
     expect(parameterValue).toEqual(categoriesListMock.list.entries[0].entry.id);
     discardPeriodicTasks();
   }));
+
+  it('should display correct condition field options when tagService.areTagsEnabled returns true', () => {
+    const tagService = TestBed.inject(TagService);
+    spyOn(tagService, 'areTagsEnabled').and.returnValue(true);
+    fixture = TestBed.createComponent(RuleSimpleConditionUiComponent);
+
+    expectConditionFieldsDisplayedAsOptions(ruleConditionFields);
+  });
+
+  it('should display correct condition field options when tagService.areTagsEnabled returns false', () => {
+    const tagService = TestBed.inject(TagService);
+    spyOn(tagService, 'areTagsEnabled').and.returnValue(false);
+    fixture = TestBed.createComponent(RuleSimpleConditionUiComponent);
+
+    expectConditionFieldsDisplayedAsOptions(ruleConditionFields.filter((field) => field.name !== 'tag'));
+  });
+
+  it('should display correct condition field options when categoryService.areCategoriesEnabled returns true', () => {
+    spyOn(categoryService, 'areCategoriesEnabled').and.returnValue(true);
+    fixture = TestBed.createComponent(RuleSimpleConditionUiComponent);
+
+    expectConditionFieldsDisplayedAsOptions(ruleConditionFields);
+  });
+
+  it('should display correct condition field options when categoryService.areCategoriesEnabled returns false', () => {
+    spyOn(categoryService, 'areCategoriesEnabled').and.returnValue(false);
+    fixture = TestBed.createComponent(RuleSimpleConditionUiComponent);
+
+    expectConditionFieldsDisplayedAsOptions(ruleConditionFields.filter((field) => field.name !== 'category'));
+  });
 });
