@@ -196,6 +196,7 @@ export class ContentServiceExtensionModule {
       canShowExpand: rules.canShowExpand,
       canInfoPreview: rules.canInfoPreview,
       showInfoSelectionButton: rules.showInfoSelectionButton,
+      canClosePreview: rules.canClosePreview,
 
       'app.selection.canDelete': rules.canDeleteSelection,
       'app.selection.file.canUnlock': rules.canUnlockFile,

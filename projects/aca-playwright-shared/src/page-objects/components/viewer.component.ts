@@ -31,7 +31,7 @@ export class ViewerComponent extends BaseComponent {
   private static rootElement = 'adf-viewer';
 
   private viewerLocator = this.getChild('.adf-viewer-render-layout-content');
-  public closeButtonLocator = this.getChild('.adf-viewer-close-button');
+  public closeButtonLocator = this.getChild('button[id="app.viewer.close"]');
   public fileTitleButtonLocator = this.getChild('.adf-viewer__file-title');
   public pdfViewerContentPages = this.getChild('.adf-pdf-viewer__content .page');
   public shareButton = this.getChild('button[id="share-action-button"]');

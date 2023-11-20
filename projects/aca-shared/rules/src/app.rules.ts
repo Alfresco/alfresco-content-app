@@ -449,6 +449,18 @@ export const isTrashcanItemSelected = (context: RuleContext): boolean => [naviga
 export const canViewFile = (context: RuleContext): boolean => [hasFileSelected(context), navigation.isNotTrashcan(context)].every(Boolean);
 
 /**
+ * Checks if user can **Close** opened file.
+ * JSON ref: `canClosePreview`
+ *
+ * @param context Rule execution context
+ */
+export const canClosePreview = (context: AcaRuleContext): boolean => {
+  const flag = context.appConfig.get<boolean>('viewer.isCloseButtonOnLeft', true);
+
+  return !flag;
+};
+
+/**
  * Checks if user can **Leave** selected library.
  * JSON ref: `canLeaveLibrary`
  *

@@ -541,6 +541,28 @@ describe('app.evaluators', () => {
     });
   });
 
+  describe('canClosePreview', () => {
+    it('should return false when viewer.isCloseButtonOnLeft is true', () => {
+      const context: any = {
+        appConfig: {
+          get: () => true
+        }
+      };
+
+      expect(app.canClosePreview(context)).toBe(false);
+    });
+
+    it('should return true when viewer.isCloseButtonOnLeft is false', () => {
+      const context: any = {
+        appConfig: {
+          get: () => false
+        }
+      };
+
+      expect(app.canClosePreview(context)).toBe(true);
+    });
+  });
+
   describe('isLibraryManager', () => {
     it('should return true when role is SiteManager', () => {
       const context: any = {

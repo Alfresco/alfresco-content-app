@@ -13,6 +13,7 @@
     [allowDownload]="false"
     [allowFullScreen]="false"
     [overlayMode]="true"
+    [allowGoBack]="'viewer.isCloseButtonOnLeft' | adfAppConfig: true"
     (showViewerChange)="onViewerVisibilityChanged()"
     [canNavigateBefore]="!!previousNodeId"
     [canNavigateNext]="!!nextNodeId"

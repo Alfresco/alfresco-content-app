@@ -1137,6 +1137,7 @@
     "downloadPromptDelay": 50,
     "downloadPromptReminderDelay": 30,
     "enableFileAutoDownload": true,
-    "fileAutoDownloadSizeThresholdInMB": 15
+    "fileAutoDownloadSizeThresholdInMB": 15,
+    "isCloseButtonOnLeft": true
   }
 }
