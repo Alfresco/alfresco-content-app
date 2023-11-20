@@ -34,6 +34,7 @@ import { AppExtensionService, NodePermissionService } from '@alfresco/aca-shared
 import { Actions } from '@ngrx/effects';
 import { of, Subject } from 'rxjs';
 import { ContentActionType } from '@alfresco/adf-extensions';
+import { CategoryService, ContentMetadataCardComponent, TagService } from '@alfresco/adf-content-services';
 
 describe('MetadataTabComponent', () => {
   let fixture: ComponentFixture<MetadataTabComponent>;
@@ -251,26 +252,70 @@ describe('MetadataTabComponent', () => {
     });
   });
 
-  describe('displayAspect', () => {
+  describe('ContentMetadataCardComponent', () => {
+    const getContentMetadataCard = (): ContentMetadataCardComponent =>
+      fixture.debugElement.query(By.directive(ContentMetadataCardComponent)).componentInstance;
+
     beforeEach(() => {
       fixture = TestBed.createComponent(MetadataTabComponent);
-      store = TestBed.inject(Store);
       component = fixture.componentInstance;
     });
 
-    it('show pass empty when store is in initial state', () => {
-      const initialState = fixture.debugElement.query(By.css('adf-content-metadata-card'));
-      expect(initialState.componentInstance.displayAspect).toBeFalsy();
+    describe('displayAspect', () => {
+      beforeEach(() => {
+        store = TestBed.inject(Store);
+      });
+
+      it('show pass empty when store is in initial state', () => {
+        expect(getContentMetadataCard().displayAspect).toBeFalsy();
+      });
+
+      it('should update the exif if store got updated', () => {
+        store.dispatch(new SetInfoDrawerMetadataAspectAction('EXIF'));
+        component.displayAspect$.subscribe((aspect) => {
+          expect(aspect).toBe('EXIF');
+        });
+        fixture.detectChanges();
+        expect(getContentMetadataCard().displayAspect).toBe('EXIF');
+      });
     });
 
-    it('should update the exif if store got updated', () => {
-      store.dispatch(new SetInfoDrawerMetadataAspectAction('EXIF'));
-      component.displayAspect$.subscribe((aspect) => {
-        expect(aspect).toBe('EXIF');
+    describe('Tags and categories', () => {
+      it('should have assigned displayCategories to true if categoryService.areCategoriesEnabled returns true', () => {
+        const categoryService = TestBed.inject(CategoryService);
+        spyOn(categoryService, 'areCategoriesEnabled').and.returnValue(true);
+
+        fixture.detectChanges();
+        expect(categoryService.areCategoriesEnabled).toHaveBeenCalled();
+        expect(getContentMetadataCard().displayCategories).toBeTrue();
       });
-      fixture.detectChanges();
-      const initialState = fixture.debugElement.query(By.css('adf-content-metadata-card'));
-      expect(initialState.componentInstance.displayAspect).toBe('EXIF');
+
+      it('should have assigned displayCategories to false if categoryService.areCategoriesEnabled returns false', () => {
+        const categoryService = TestBed.inject(CategoryService);
+        spyOn(categoryService, 'areCategoriesEnabled').and.returnValue(false);
+
+        fixture.detectChanges();
+        expect(categoryService.areCategoriesEnabled).toHaveBeenCalled();
+        expect(getContentMetadataCard().displayCategories).toBeFalse();
+      });
+
+      it('should have assigned displayTags to true if tagService.areTagsEnabled returns true', () => {
+        const tagService = TestBed.inject(TagService);
+        spyOn(tagService, 'areTagsEnabled').and.returnValue(true);
+
+        fixture.detectChanges();
+        expect(tagService.areTagsEnabled).toHaveBeenCalled();
+        expect(getContentMetadataCard().displayTags).toBeTrue();
+      });
+
+      it('should have assigned displayTags to false if tagService.areTagsEnabled returns false', () => {
+        const tagService = TestBed.inject(TagService);
+        spyOn(tagService, 'areTagsEnabled').and.returnValue(false);
+
+        fixture.detectChanges();
+        expect(tagService.areTagsEnabled).toHaveBeenCalled();
+        expect(getContentMetadataCard().displayTags).toBeFalse();
+      });
     });
   });
 

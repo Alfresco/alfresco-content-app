@@ -314,6 +314,7 @@ describe('RuleSimpleConditionUiComponent', () => {
     spyOn(tagService, 'areTagsEnabled').and.returnValue(true);
     fixture = TestBed.createComponent(RuleSimpleConditionUiComponent);
 
+    expect(tagService.areTagsEnabled).toHaveBeenCalled();
     expectConditionFieldsDisplayedAsOptions(ruleConditionFields);
   });
 
@@ -322,6 +323,7 @@ describe('RuleSimpleConditionUiComponent', () => {
     spyOn(tagService, 'areTagsEnabled').and.returnValue(false);
     fixture = TestBed.createComponent(RuleSimpleConditionUiComponent);
 
+    expect(tagService.areTagsEnabled).toHaveBeenCalled();
     expectConditionFieldsDisplayedAsOptions(ruleConditionFields.filter((field) => field.name !== 'tag'));
   });
 
@@ -329,6 +331,7 @@ describe('RuleSimpleConditionUiComponent', () => {
     spyOn(categoryService, 'areCategoriesEnabled').and.returnValue(true);
     fixture = TestBed.createComponent(RuleSimpleConditionUiComponent);
 
+    expect(categoryService.areCategoriesEnabled).toHaveBeenCalled();
     expectConditionFieldsDisplayedAsOptions(ruleConditionFields);
   });
 
@@ -336,6 +339,7 @@ describe('RuleSimpleConditionUiComponent', () => {
     spyOn(categoryService, 'areCategoriesEnabled').and.returnValue(false);
     fixture = TestBed.createComponent(RuleSimpleConditionUiComponent);
 
+    expect(categoryService.areCategoriesEnabled).toHaveBeenCalled();
     expectConditionFieldsDisplayedAsOptions(ruleConditionFields.filter((field) => field.name !== 'category'));
   });
 });
