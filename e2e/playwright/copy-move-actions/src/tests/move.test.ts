@@ -154,7 +154,7 @@ test.describe('Move actions', () => {
     expect(await personalFiles.dataTable.isItemPresent(expectedNameForCopiedFile)).toBeFalsy();
   });
 
-  test('[<AddTestId>] Move locked file', async ({ personalFiles }) => {
+  test('[C217320] Move locked file', async ({ personalFiles }) => {
     const lockType = 'ALLOW_OWNER_CHANGES';
     await nodesApi.lockNodes([sourceFileId], lockType);
     await moveContentInPersonalFiles(personalFiles, [sourceFile], destinationFolder);
@@ -166,7 +166,7 @@ test.describe('Move actions', () => {
     expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeTruthy();
   });
 
-  test('[<AddTestId>] Move folder that contains locked file', async ({ personalFiles }) => {
+  test('[C217321] Move folder that contains locked file', async ({ personalFiles }) => {
     const lockType = 'ALLOW_OWNER_CHANGES';
     await nodesApi.lockNodes([sourceFileInsideFolderId], lockType);
     await moveContentInPersonalFiles(personalFiles, [sourceFolder], destinationFolder);
@@ -180,21 +180,25 @@ test.describe('Move actions', () => {
     expect(await personalFiles.dataTable.isItemPresent(sourceFileInsideFolder)).toBeTruthy();
   });
 
-  test('[<AddTestId>] Undo move of files', async ({ personalFiles }) => {
+  test('[C217324] Undo move files', async ({ personalFiles, trashPage }) => {
     await moveContentInPersonalFiles(personalFiles, [sourceFile], destinationFolder);
     await personalFiles.snackBar.actionButton.click();
     await personalFiles.spinner.waitForReload();
     expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeTruthy();
     await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
     expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeFalsy();
+    await trashPage.navigate();
+    expect(await trashPage.dataTable.isItemPresent(sourceFile)).toBeFalsy();
   });
 
-  test('[<AddTestId>] Undo move of folders', async ({ personalFiles }) => {
+  test('[C217325] Undo move of folders', async ({ personalFiles, trashPage }) => {
     await moveContentInPersonalFiles(personalFiles, [sourceFolder], destinationFolder);
     await personalFiles.snackBar.actionButton.click();
     await personalFiles.spinner.waitForReload();
     expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBeTruthy();
     await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
     expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBeFalsy();
+    await trashPage.navigate();
+    expect(await trashPage.dataTable.isItemPresent(sourceFolder)).toBeFalsy();
   });
 });
