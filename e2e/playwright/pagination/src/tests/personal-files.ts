@@ -26,7 +26,7 @@ import { test, timeouts } from '@alfresco/playwright-shared';
 import { expect } from '@playwright/test';
 
 export function personalFilesTests(userName: string, parentName: string) {
-  test.describe.only('Pagination controls : ', () => {
+  test.describe('Pagination controls : ', () => {
     test.beforeEach(async ({ loginPage, personalFiles, page }) => {
       await loginPage.navigate();
       await loginPage.loginUser({ username: userName, password: userName });
