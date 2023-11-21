@@ -63,4 +63,9 @@ export class MyLibrariesPage extends BasePage {
     await this.acaHeader.createButton.click();
     await this.matMenu.createLibrary.click();
   }
+
+  async clickMoreActionsButton(buttonLabel: string): Promise<void> {
+    await this.acaHeader.clickViewerMoreActions();
+    await this.matMenu.clickMenuItem(buttonLabel);
+  }
 }

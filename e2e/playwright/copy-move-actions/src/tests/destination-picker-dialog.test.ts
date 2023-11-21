@@ -22,42 +22,86 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ApiClientFactory, getUserState, test, Utils } from '@alfresco/playwright-shared';
+import { ApiClientFactory, MyLibrariesPage, NodesApi, SitesApi, test, Utils } from '@alfresco/playwright-shared';
 import { expect } from '@playwright/test';
+import { logger } from '@alfresco/adf-cli/scripts/logger';
+import { Site } from '@alfresco/js-api';
 
-test.use({ storageState: getUserState('hruser') });
-test.describe('Copy Move actions', () => {
+test.describe.only('Copy Move actions', () => {
+  let nodesApi: NodesApi;
+  let sitesApi: SitesApi;
   const apiClientFactory = new ApiClientFactory();
-  const random = Utils.random();
 
-  const file = `file-${random}.txt`;
-  let fileId: string;
-  // let destinationId: string;
+  const username = `user-${Utils.random()}`;
+  const site = `site-${Utils.random()}`;
+  const consumerUser = `consumer-${Utils.random()}`;
+  const contributorUser = `contributor-${Utils.random()}`;
+  const collaboratorUser = `collaborator-${Utils.random()}`;
+
+  const sourceFile = `source-file-${Utils.random()}.txt`;
+  const destinationFolder = `destination-folder-${Utils.random()}`;
+
+  let siteId: string;
 
   test.beforeAll(async () => {
-    await apiClientFactory.setUpAcaBackend('hruser');
-    fileId = (await apiClientFactory.nodes.createNode('-my-', { name: file, nodeType: 'cm:content' })).entry.id;
-    // destinationId = (await apiClientFactory.nodes.createFolder(destination)).entry.id;
+    try {
+      await apiClientFactory.setUpAcaBackend('admin');
+      await apiClientFactory.createUser({ username });
+      nodesApi = await NodesApi.initialize(username, username);
+      sitesApi = await SitesApi.initialize(username, username);
+
+      siteId = (await sitesApi.createSite(site, Site.VisibilityEnum.PRIVATE)).entry.id;
+      const docLibId = await sitesApi.getDocLibId(siteId);
+
+      const consumerId = (await apiClientFactory.createUser({ username: consumerUser })).entry.id;
+      const contributorId = (await apiClientFactory.createUser({ username: contributorUser })).entry.id;
+      const collaboratorId = (await apiClientFactory.createUser({ username: collaboratorUser })).entry.id;
+
+      await sitesApi.addSiteMember(siteId, consumerId, Site.RoleEnum.SiteConsumer);
+      await sitesApi.addSiteMember(siteId, contributorId, Site.RoleEnum.SiteContributor);
+      await sitesApi.addSiteMember(siteId, collaboratorId, Site.RoleEnum.SiteCollaborator);
+
+      await nodesApi.createFile(sourceFile, docLibId);
+      await nodesApi.createFolder(destinationFolder, docLibId);
+    } catch (error) {
+      logger.error(`beforeAll failed : ${error}`);
+    }
   });
 
   test.afterAll(async () => {
-    await apiClientFactory.nodes.deleteNode(fileId);
+    try {
+      await nodesApi.deleteCurrentUserNodes();
+      await sitesApi.deleteSites([siteId]);
+    } catch (error) {
+      logger.error(`afterAll failed : ${error}`);
+    }
   });
 
-  test.describe('general', () => {
-    test.beforeEach(async ({ personalFiles }) => {
-      await personalFiles.navigate();
-      await personalFiles.dataTable.selectItem(file);
-      await personalFiles.clickMoreActionsButton('Copy');
-    });
+  const copyContentInMyLibraries = async (myLibrariesPage: MyLibrariesPage) => {
+    await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(site);
+    await myLibrariesPage.dataTable.selectItem(sourceFile);
+    await myLibrariesPage.clickMoreActionsButton('Copy');
+    await myLibrariesPage.contentNodeSelector.selectDestination(destinationFolder);
+  };
 
-    test('[C263875] Dialog UI', async ({ personalFiles }) => {
-      expect(await personalFiles.contentNodeSelector.getDialogTitle()).toEqual(`Copy '${file}' to...`);
-      expect(await personalFiles.contentNodeSelector.searchInput.isVisible()).toBe(true);
-      expect(await personalFiles.contentNodeSelector.locationDropDown.isVisible()).toBe(true);
-      await expect(await personalFiles.contentNodeSelector.getBreadcrumb('Personal Files')).toBeVisible();
-      expect(await personalFiles.contentNodeSelector.actionButton.isEnabled()).toBe(true);
-      expect(await personalFiles.contentNodeSelector.cancelButton.isEnabled()).toBe(true);
-    });
+  test('[C263876] Consumer user cannot select the folder as destination', async ({ loginPage, myLibrariesPage }) => {
+    await loginPage.loginUser({ username: consumerUser, password: consumerUser }, { withNavigation: true, waitForLoading: true });
+    await myLibrariesPage.navigate();
+    await copyContentInMyLibraries(myLibrariesPage);
+    expect(await myLibrariesPage.contentNodeSelector.actionButton.isEnabled()).toBe(false);
+  });
+
+  test('[C263877] Contributor user can select the folder as destination', async ({ loginPage, myLibrariesPage }) => {
+    await loginPage.loginUser({ username: contributorUser, password: contributorUser }, { withNavigation: true, waitForLoading: true });
+    await myLibrariesPage.navigate();
+    await copyContentInMyLibraries(myLibrariesPage);
+    expect(await myLibrariesPage.contentNodeSelector.actionButton.isEnabled()).toBe(true);
+  });
+
+  test('[C263878] Collaborator user can select the folder as destination', async ({ loginPage, myLibrariesPage }) => {
+    await loginPage.loginUser({ username: collaboratorUser, password: collaboratorUser }, { withNavigation: true, waitForLoading: true });
+    await myLibrariesPage.navigate();
+    await copyContentInMyLibraries(myLibrariesPage);
+    expect(await myLibrariesPage.contentNodeSelector.actionButton.isEnabled()).toBe(true);
   });
 });
