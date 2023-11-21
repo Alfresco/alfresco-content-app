@@ -27,7 +27,7 @@ import { expect } from '@playwright/test';
 import { logger } from '@alfresco/adf-cli/scripts/logger';
 import { Site } from '@alfresco/js-api';
 
-test.describe.only('Copy Move actions', () => {
+test.describe('Copy Move actions', () => {
   let nodesApi: NodesApi;
   let sitesApi: SitesApi;
   const apiClientFactory = new ApiClientFactory();
