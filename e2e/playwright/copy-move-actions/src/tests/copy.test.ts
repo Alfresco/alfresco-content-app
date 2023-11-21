@@ -24,7 +24,7 @@
 
 import { ApiClientFactory, test, Utils, PersonalFilesPage, NodesApi, LoginPage } from '@alfresco/playwright-shared';
 import { expect } from '@playwright/test';
-import { logger } from '@alfresco/adf-cli/scripts/logger';
+import { Logger } from '@alfresco/adf-testing';
 
 test.describe('Copy actions', () => {
   let nodesApi: NodesApi;
@@ -47,7 +47,7 @@ test.describe('Copy actions', () => {
       await apiClientFactory.createUser({ username });
       nodesApi = await NodesApi.initialize(username, username);
     } catch (error) {
-      logger.error(`beforeAll failed : ${error}`);
+      Logger.error(`beforeAll failed : ${error}`);
     }
   });
 
@@ -55,7 +55,7 @@ test.describe('Copy actions', () => {
     try {
       await nodesApiAction.deleteCurrentUserNodes();
     } catch (error) {
-      logger.error(`afterAll failed : ${error}`);
+      Logger.error(`afterAll failed : ${error}`);
     }
   });
 
@@ -81,7 +81,7 @@ test.describe('Copy actions', () => {
 
       await personalFiles.navigate();
     } catch (error) {
-      logger.error(`beforeEach failed : ${error}`);
+      Logger.error(`beforeEach failed : ${error}`);
     }
   });
 
