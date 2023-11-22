@@ -23,9 +23,8 @@
  */
 
 import { BaseComponent } from './base.component';
-import { Page } from '@playwright/test';
+import { Locator, Page } from '@playwright/test';
 import { MatMenuComponent } from './dataTable/mat-menu.component';
-import { MenuComponent } from './menu.component';
 import { timeouts } from '../../utils';
 
 export enum PaginationActionsType {
@@ -50,7 +49,6 @@ export class PaginationComponent extends BaseComponent {
   maxItemsButton = this.getChild('.adf-pagination__max-items + button[mat-icon-button]');
 
   private itemsPerPageMenu = new MatMenuComponent(this.page);
-  public menu = new MenuComponent(this.page);
 
   public currentPageLocator = this.getChild('.adf-pagination__current-page');
   public totalPageLocator = this.getChild('.adf-pagination__total-pages');
@@ -122,10 +120,34 @@ export class PaginationComponent extends BaseComponent {
   async resetToDefaultPageSize(): Promise<void> {
     try {
       await this.openMaxItemsMenu();
-      await this.menu.clickNthItem(1);
+      await this.clickNthItem(1);
       await this.page.waitForTimeout(timeouts.tiny);
     } catch (error) {
       throw new Error(`Reset to default page size catch: ${error}`);
+    }
+  }
+
+  async clickMenuItem(menuItem: string): Promise<void> {
+    try {
+      await this.page.getByRole('menuitem', { name: menuItem }).click();
+    } catch (e) {
+      throw new Error(`Click menu item catch : failed to click on: ${e}`);
+    }
+  }
+
+  async getNthItem(nth: number): Promise<Locator> {
+    return this.page.getByRole('menuitem').nth(nth - 1);
+  }
+
+  async getItemsCount(): Promise<number> {
+    return await this.page.getByRole('menuitem').count();
+  }
+
+  async clickNthItem(nth: number): Promise<void> {
+    try {
+      await (await this.getNthItem(nth)).click();
+    } catch (e) {
+      throw new Error(`Click nth menu item catch: ${e}`);
     }
   }
 }

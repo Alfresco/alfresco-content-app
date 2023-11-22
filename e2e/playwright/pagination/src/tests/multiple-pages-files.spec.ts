@@ -44,7 +44,7 @@ test.describe('Pagination on multiple pages : ', () => {
       .map((name, index): string => `${name}-${index + 1}-${random}.txt`);
 
     parentId = (await nodesApi.createFolder(parent)).entry.id;
-    (await nodesApi.createFiles(files, parent)).list.entries.map((entries: any) => entries.entry.id);
+    (await nodesApi.createFiles(files, parent)).list.entries.map((entries) => entries.entry.id);
   });
 
   test.afterAll(async () => {
