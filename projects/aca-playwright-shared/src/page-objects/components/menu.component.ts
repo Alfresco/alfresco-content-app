@@ -38,10 +38,6 @@ export class MenuComponent extends BaseComponent {
     return this.items.nth(nth - 1);
   }
 
-  async getItemByLabel(menuItem: string): Promise<Locator> {
-    return this.items.getByText(menuItem);
-  }
-
   async clickMenuItem(menuItem: string): Promise<void> {
     try {
       await this.page.locator('.mat-menu-item').getByText(menuItem).click();
