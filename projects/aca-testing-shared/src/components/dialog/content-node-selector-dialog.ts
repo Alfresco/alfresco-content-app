@@ -24,7 +24,7 @@
 
 import { by, browser, protractor } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
-import { isPresentAndDisplayed, waitForStaleness, waitForPresence, isPresentAndEnabled } from '../../utilities/utils';
+import { waitForStaleness, waitForPresence } from '../../utilities/utils';
 import { DropDownBreadcrumb } from '../breadcrumb/dropdown-breadcrumb';
 import { DataTable } from '../data-table/data-table';
 import { BrowserActions } from '@alfresco/adf-testing';
@@ -32,14 +32,12 @@ import { BrowserActions } from '@alfresco/adf-testing';
 export class ContentNodeSelectorDialog extends GenericDialog {
   cancelButton = this.childElement(by.css('[data-automation-id="content-node-selector-actions-cancel"]'));
   copyButton = this.childElement(by.cssContainingText('[data-automation-id="content-node-selector-actions-choose"]', 'Copy'));
-  moveButton = this.childElement(by.cssContainingText('[data-automation-id="content-node-selector-actions-choose"]', 'Move'));
 
   locationDropDown = this.rootElem.element(by.id('site-dropdown-container'));
   locationPersonalFiles = browser.element(by.cssContainingText('.mat-option .mat-option-text', 'Personal Files'));
   locationFileLibraries = browser.element(by.cssContainingText('.mat-option .mat-option-text', 'My Libraries'));
 
   searchInput = this.rootElem.element(by.css('#searchInput'));
-  toolbarTitle = this.rootElem.element(by.css('.adf-toolbar-title'));
 
   breadcrumb = new DropDownBreadcrumb();
   dataTable = new DataTable('.adf-content-node-selector-dialog');
@@ -74,25 +72,9 @@ export class ContentNodeSelectorDialog extends GenericDialog {
     await waitForPresence(browser.element(by.css('.adf-is-selected')));
   }
 
-  async isSelectLocationDropdownDisplayed(): Promise<boolean> {
-    return isPresentAndDisplayed(this.locationDropDown);
-  }
-
-  async isCopyButtonEnabled(): Promise<boolean> {
-    return isPresentAndEnabled(this.copyButton);
-  }
-
-  async isCancelButtonEnabled(): Promise<boolean> {
-    return isPresentAndEnabled(this.cancelButton);
-  }
-
   async searchFor(text: string): Promise<void> {
     await BrowserActions.clearWithBackSpace(this.searchInput);
     await this.searchInput.sendKeys(text);
     await this.searchInput.sendKeys(protractor.Key.ENTER);
-  }
-
-  async getToolbarTitle(): Promise<string> {
-    return this.toolbarTitle.getText();
   }
 }
