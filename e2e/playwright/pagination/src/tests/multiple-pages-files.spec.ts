@@ -32,18 +32,18 @@ test.describe('Pagination on multiple pages : ', () => {
   const parent = `parent-${random}`;
   let parentId: string;
 
-  const files = Array(51)
-    .fill('my-file')
-    .map((name, index): string => `${name}-${index + 1}-${random}.txt`);
-
   const apiClientFactory = new ApiClientFactory();
 
   test.beforeAll(async () => {
     await apiClientFactory.setUpAcaBackend('admin');
     await apiClientFactory.createUser({ username });
     const nodesApi = await NodesApi.initialize(username, username);
-    parentId = (await nodesApi.createFolder(parent)).entry.id;
 
+    const files = Array(51)
+      .fill('my-file')
+      .map((name, index): string => `${name}-${index + 1}-${random}.txt`);
+
+    parentId = (await nodesApi.createFolder(parent)).entry.id;
     (await nodesApi.createFiles(files, parent)).list.entries.map((entries: any) => entries.entry.id);
   });
 

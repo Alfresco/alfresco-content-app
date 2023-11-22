@@ -23,7 +23,7 @@
  */
 
 import { ApiClientFactory } from './api-client-factory';
-import { NodeChildAssociationPaging, NodeEntry } from '@alfresco/js-api';
+import { NodeChildAssociationPaging, NodeEntry, NodePaging } from '@alfresco/js-api';
 import { logger } from '@alfresco/adf-cli/scripts/logger';
 import { NodeContentTree, flattenNodeContentTree } from './node-content-tree';
 
@@ -73,11 +73,12 @@ export class NodesApi {
     }
   }
 
-  async createFiles(names: string[], relativePath: string = '/'): Promise<NodeEntry | any> {
+  async createFiles(names: string[], relativePath = '/'): Promise<NodePaging> {
     try {
       return await this.createContent({ files: names }, relativePath);
     } catch (error) {
-      throw new Error(`${this.constructor.name} ${this.createFiles.name}: ${error}`);
+      logger.error(`${this.constructor.name} ${this.createFiles.name}: ${error}`);
+      return null;
     }
   }
 
@@ -145,9 +146,9 @@ export class NodesApi {
   }
 
   /**
- * Delete all nodes of the currently logged in user
- * @param userNodeId The id of User node, all child nodes of "userNodeId" will be gathered as a list and deleted ( e.g.: "-my-" - User Homes folder)
- */
+   * Delete all nodes of the currently logged in user
+   * @param userNodeId The id of User node, all child nodes of "userNodeId" will be gathered as a list and deleted ( e.g.: "-my-" - User Homes folder)
+   */
   async deleteCurrentUserNodes(): Promise<void> {
     try {
       const userNodes = (await this.getNodeChildren('-my-')).list.entries;
@@ -168,11 +169,12 @@ export class NodesApi {
     }
   }
 
-  async createContent(content: NodeContentTree, relativePath: string = '/'): Promise<NodeEntry | any> {
+  async createContent(content: NodeContentTree, relativePath: string = '/'): Promise<NodePaging> {
     try {
       return await this.apiService.nodes.createNode('-my-', flattenNodeContentTree(content, relativePath) as any);
     } catch (error) {
       logger.error(`${this.constructor.name} ${this.createContent.name}`, error);
+      return null;
     }
   }
 
@@ -258,11 +260,10 @@ export class NodesApi {
   }
 
   private async getDataDictionaryId(): Promise<string> {
-    return this.getNodeIdFromParent('Data Dictionary', '-root-')
-      .catch((error) => {
-        logger.error('Admin Actions - getDataDictionaryId failed : ', error);
-        return '';
-      });
+    return this.getNodeIdFromParent('Data Dictionary', '-root-').catch((error) => {
+      logger.error('Admin Actions - getDataDictionaryId failed : ', error);
+      return '';
+    });
   }
 
   async setGranularPermission(nodeId: string, inheritPermissions: boolean = false, username: string, role: string): Promise<NodeEntry | null> {

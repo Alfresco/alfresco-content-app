@@ -65,6 +65,6 @@ export class PersonalFilesPage extends BasePage {
   }
 
   async closeMenu(): Promise<void> {
-    this.page.keyboard.press('Escape');
+    await this.page.keyboard.press('Escape');
   }
 }
