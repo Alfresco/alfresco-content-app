@@ -28,7 +28,6 @@ import { Logger } from '@alfresco/adf-testing';
 
 test.describe('Copy actions', () => {
   let nodesApi: NodesApi;
-  const apiClientFactory = new ApiClientFactory();
   const username = `user-${Utils.random()}`;
 
   let sourceFile: string;
@@ -38,11 +37,11 @@ test.describe('Copy actions', () => {
 
   let sourceFileId: string;
   let sourceFileInsideFolderId: string;
-  let sourceFolderId: string;
   let destinationFolderId: string;
 
   test.beforeAll(async () => {
     try {
+      const apiClientFactory = new ApiClientFactory();
       await apiClientFactory.setUpAcaBackend('admin');
       await apiClientFactory.createUser({ username });
       nodesApi = await NodesApi.initialize(username, username);
@@ -75,7 +74,7 @@ test.describe('Copy actions', () => {
         }
       );
       destinationFolderId = (await nodesApi.createFolder(destinationFolder)).entry.id;
-      sourceFolderId = (await nodesApi.createFolder(sourceFolder)).entry.id;
+      const sourceFolderId = (await nodesApi.createFolder(sourceFolder)).entry.id;
       sourceFileInsideFolderId = (await nodesApi.createFile(sourceFileInsideFolder, sourceFolderId)).entry.id;
       sourceFileId = (await nodesApi.createFile(sourceFile)).entry.id;
 
@@ -86,7 +85,7 @@ test.describe('Copy actions', () => {
   });
 
   const copyContentInPersonalFiles = async (personalFilesPage: PersonalFilesPage, sourceFileList: string[], destinationName: string) => {
-    personalFilesPage.copyOrMoveContentInDatatable(sourceFileList, destinationName, 'Copy');
+    await personalFilesPage.copyOrMoveContentInDatatable(sourceFileList, destinationName, 'Copy');
     const msg = await personalFilesPage.snackBar.message.innerText();
     if (sourceFileList.length === 1) {
       expect.soft(msg).toContain('Copied 1 item');

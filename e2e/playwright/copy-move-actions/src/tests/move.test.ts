@@ -28,7 +28,6 @@ import { Logger } from '@alfresco/adf-testing';
 
 test.describe('Move actions', () => {
   let nodesApi: NodesApi;
-  const apiClientFactory = new ApiClientFactory();
   const username = `user-${Utils.random()}`;
 
   let sourceFile: string;
@@ -38,11 +37,11 @@ test.describe('Move actions', () => {
 
   let sourceFileId: string;
   let sourceFileInsideFolderId: string;
-  let sourceFolderId: string;
   let destinationFolderId: string;
 
   test.beforeAll(async () => {
     try {
+      const apiClientFactory = new ApiClientFactory();
       await apiClientFactory.setUpAcaBackend('admin');
       await apiClientFactory.createUser({ username });
       nodesApi = await NodesApi.initialize(username, username);
@@ -75,7 +74,7 @@ test.describe('Move actions', () => {
         }
       );
       destinationFolderId = (await nodesApi.createFolder(destinationFolder)).entry.id;
-      sourceFolderId = (await nodesApi.createFolder(sourceFolder)).entry.id;
+      const sourceFolderId = (await nodesApi.createFolder(sourceFolder)).entry.id;
       sourceFileInsideFolderId = (await nodesApi.createFile(sourceFileInsideFolder, sourceFolderId)).entry.id;
       sourceFileId = (await nodesApi.createFile(sourceFile)).entry.id;
 

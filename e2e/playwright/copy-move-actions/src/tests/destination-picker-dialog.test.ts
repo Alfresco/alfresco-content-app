@@ -30,9 +30,7 @@ import { Logger } from '@alfresco/adf-testing';
 test.describe('Copy Move actions', () => {
   let nodesApi: NodesApi;
   let sitesApi: SitesApi;
-  const apiClientFactory = new ApiClientFactory();
 
-  const username = `user-${Utils.random()}`;
   const site = `site-${Utils.random()}`;
   const consumerUser = `consumer-${Utils.random()}`;
   const contributorUser = `contributor-${Utils.random()}`;
@@ -45,7 +43,9 @@ test.describe('Copy Move actions', () => {
 
   test.beforeAll(async () => {
     try {
+      const apiClientFactory = new ApiClientFactory();
       await apiClientFactory.setUpAcaBackend('admin');
+      const username = `user-${Utils.random()}`;
       await apiClientFactory.createUser({ username });
       nodesApi = await NodesApi.initialize(username, username);
       sitesApi = await SitesApi.initialize(username, username);
