@@ -1,10 +1,10 @@
 .aca-search-results-row {
-  .result-location {
+  .aca-result-location {
     height: 15px;
     padding-top: 3px;
   }
 
-  .link {
+  .aca-link {
     text-decoration: none;
     color: var(--theme-text-bold-color);
   }
@@ -14,13 +14,13 @@
     color: var(--theme-foreground-text-color);
   }
 
-  .link:hover,
+  .aca-link:hover,
   .aca-location-link .adf-datatable-cell-value:hover {
     color: var(--theme-primary-color);
     text-decoration: underline;
   }
 
-  .adf-is-selected .link:not(:hover),
+  .adf-is-selected .aca-link:not(:hover),
   .adf-is-selected .adf-datatable-cell-value:not(:hover) {
     color: var(--theme-primary-color);
   }

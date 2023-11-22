@@ -9,7 +9,7 @@
   </div>
 
   <div class="aca-page-layout-content">
-    <div class="main-content" *ngIf="!(showLoader$ | async)">
+    <div class="aca-main-content" *ngIf="!(showLoader$ | async)">
       <adf-upload-drag-area [rootFolderId]="node?.id" [disabled]="!canUpload" (updateFileVersion)="onUploadNewVersion($event)">
         <adf-document-list
           #documentList

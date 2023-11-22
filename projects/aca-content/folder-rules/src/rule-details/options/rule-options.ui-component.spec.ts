@@ -45,11 +45,11 @@ describe('RuleOptionsUiComponent', () => {
   const testErrorScriptFormFieldVisibility = (isVisible: boolean) => {
     if (isVisible) {
       expect((getByDataAutomationId('rule-option-form-field-errorScript').nativeElement as HTMLElement).classList).not.toContain(
-        'hide-error-script-dropdown'
+        'aca-hide-error-script-dropdown'
       );
     } else {
       expect((getByDataAutomationId('rule-option-form-field-errorScript').nativeElement as HTMLElement).classList).toContain(
-        'hide-error-script-dropdown'
+        'aca-hide-error-script-dropdown'
       );
     }
   };

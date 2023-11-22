@@ -1,6 +1,6 @@
-<div class="sidenav-header">
-  <div class="sidenav-header-title">
-    <div class="sidenav-header-title-logo"
+<div class="aca-sidenav-header">
+  <div class="aca-sidenav-header-title">
+    <div class="aca-sidenav-header-title-logo"
       tabindex=0
       (click)="toggleNavBar.emit()"
       (keypress)="toggleNavBar.emit()">
@@ -10,7 +10,7 @@
         alt="{{ 'CORE.HEADER.LOGO_ARIA' | translate }}" />
     </div>
 
-    <div class="sidenav-header-title-text" [routerLink]="landingPage">
+    <div class="aca-sidenav-header-title-text" [routerLink]="landingPage">
       {{ appName$ | async | translate }}
     </div>
 

@@ -1,10 +1,10 @@
-<form class="aca-rule-details__form" [ngClass]="{ 'read-only': readOnly }" [formGroup]="form">
+<form class="aca-rule-details__form" [ngClass]="{ 'aca-read-only': readOnly }" [formGroup]="form">
 
   <ng-container *ngIf="!preview">
     <div class="aca-rule-details__form__row aca-rule-details__form__name">
       <label for="rule-details-name-input">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.NAME' | translate }}</label>
       <div>
-        <mat-form-field floatLabel='never'>
+        <mat-form-field floatLabel='never' class="aca-rule-details__form__row__field">
           <input
             id="rule-details-name-input"
             matInput type="text" formControlName="name" data-automation-id="rule-details-name-input"
@@ -17,8 +17,9 @@
     <div class="aca-rule-details__form__row aca-rule-details__form__description">
       <label for="rule-details-description-textarea">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.DESCRIPTION' | translate }}</label>
       <div>
-        <mat-form-field floatLabel='never'>
+        <mat-form-field floatLabel='never' class="aca-rule-details__form__row__field">
         <textarea
+          class="aca-rule-details__form__row__field__textarea"
           id="rule-details-description-textarea"
           matInput formControlName="description" data-automation-id="rule-details-description-textarea"
           [placeholder]="descriptionPlaceHolder | translate">
@@ -29,20 +30,20 @@
   </ng-container>
 
   <div class="aca-rule-details__form__row aca-rule-details__form__triggers">
-    <div class="label">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.WHEN' | translate }}</div>
+    <label>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.WHEN' | translate }}</label>
     <div>
       <aca-rule-triggers formControlName="triggers" data-automation-id="rule-details-triggers-component"></aca-rule-triggers>
-      <mat-error class="rule-details-error" *ngIf="triggers.hasError('required')">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.ERROR.INSUFFICIENT_TRIGGERS_SELECTED' | translate }}</mat-error>
+      <mat-error class="aca-rule-details-error" *ngIf="triggers.hasError('required')">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.ERROR.INSUFFICIENT_TRIGGERS_SELECTED' | translate }}</mat-error>
     </div>
   </div>
 
   <div class="aca-rule-details__form__conditions">
     <aca-rule-composite-condition formControlName="conditions"></aca-rule-composite-condition>
-    <mat-error class="rule-details-error" *ngIf="conditions.hasError('ruleCompositeConditionInvalid')">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.ERROR.RULE_COMPOSITE_CONDITION_INVALID' | translate }}</mat-error>
+    <mat-error class="aca-rule-details-error" *ngIf="conditions.hasError('ruleCompositeConditionInvalid')">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.ERROR.RULE_COMPOSITE_CONDITION_INVALID' | translate }}</mat-error>
   </div>
 
   <div class="aca-rule-details__form__row aca-rule-details__form__actions">
-    <div class="label">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.PERFORM_ACTIONS' | translate }}</div>
+    <label>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.PERFORM_ACTIONS' | translate }}</label>
     <aca-rule-action-list
       formControlName="actions"
       [actionDefinitions]="actionDefinitions"
@@ -53,7 +54,7 @@
   </div>
 
   <div class="aca-rule-details__form__row" *ngIf="showOptionsSection">
-    <div class="label">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.OPTIONS' | translate }}</div>
+    <label>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.OPTIONS' | translate }}</label>
     <aca-rule-options
       formControlName="options"
       data-automation-id="rule-details-options-component"

@@ -35,6 +35,6 @@ import { Component, ViewEncapsulation, ChangeDetectionStrategy, Input, HostBindi
 })
 export class PageLayoutContentComponent {
   @Input()
-  @HostBinding('class.scrollable')
-  scrollable = false;
+  @HostBinding('class.aca-scrollable')
+  scrollable = true;
 }
