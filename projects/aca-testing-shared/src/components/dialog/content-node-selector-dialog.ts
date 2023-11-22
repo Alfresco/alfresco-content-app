@@ -25,12 +25,10 @@
 import { by, browser, protractor } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
 import { waitForStaleness, waitForPresence } from '../../utilities/utils';
-import { DropDownBreadcrumb } from '../breadcrumb/dropdown-breadcrumb';
 import { DataTable } from '../data-table/data-table';
 import { BrowserActions } from '@alfresco/adf-testing';
 
 export class ContentNodeSelectorDialog extends GenericDialog {
-  cancelButton = this.childElement(by.css('[data-automation-id="content-node-selector-actions-cancel"]'));
   copyButton = this.childElement(by.cssContainingText('[data-automation-id="content-node-selector-actions-choose"]', 'Copy'));
 
   locationDropDown = this.rootElem.element(by.id('site-dropdown-container'));
@@ -39,7 +37,6 @@ export class ContentNodeSelectorDialog extends GenericDialog {
 
   searchInput = this.rootElem.element(by.css('#searchInput'));
 
-  breadcrumb = new DropDownBreadcrumb();
   dataTable = new DataTable('.adf-content-node-selector-dialog');
 
   constructor() {
