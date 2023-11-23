@@ -123,18 +123,16 @@ jobs:
             id: 6
           - name: "actionsAvailableLibraries,actionsAvailableNewMenu"
             id: 7
-          - name: "actionsAvailableSpecialPermissions"
-            id: 8
           - name: "copyMoveActions"
-            id: 9
+            id: 8
           - name: "deleteActions"
-            id: 10
+            id: 9
           - name: "editActions,favoriteActions"
-            id: 11
+            id: 10
           - name: "libraryActions"
-            id: 12
+            id: 11
           - name: "uploadDownloadActions"
-            id: 13
+            id: 12
     steps:
       - name: Checkout
         uses: actions/checkout@v3
