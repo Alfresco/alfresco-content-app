@@ -24,7 +24,8 @@
       align-items: baseline;
       gap: 8px;
 
-      & > label {
+      & > label,
+      & > .aca-label {
         font-weight: bold;
         width: 20%;
         min-width: 100px;

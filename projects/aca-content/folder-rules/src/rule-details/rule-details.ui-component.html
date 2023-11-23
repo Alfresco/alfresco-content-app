@@ -30,7 +30,7 @@
   </ng-container>
 
   <div class="aca-rule-details__form__row aca-rule-details__form__triggers">
-    <label>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.WHEN' | translate }}</label>
+    <div class="aca-label">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.WHEN' | translate }}</div>
     <div>
       <aca-rule-triggers formControlName="triggers" data-automation-id="rule-details-triggers-component"></aca-rule-triggers>
       <mat-error class="aca-rule-details-error" *ngIf="triggers.hasError('required')">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.ERROR.INSUFFICIENT_TRIGGERS_SELECTED' | translate }}</mat-error>
@@ -43,7 +43,7 @@
   </div>
 
   <div class="aca-rule-details__form__row aca-rule-details__form__actions">
-    <label>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.PERFORM_ACTIONS' | translate }}</label>
+    <div class="aca-label">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.PERFORM_ACTIONS' | translate }}</div>
     <aca-rule-action-list
       formControlName="actions"
       [actionDefinitions]="actionDefinitions"
@@ -54,7 +54,7 @@
   </div>
 
   <div class="aca-rule-details__form__row" *ngIf="showOptionsSection">
-    <label>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.OPTIONS' | translate }}</label>
+    <div class="aca-label">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.OPTIONS' | translate }}</div>
     <aca-rule-options
       formControlName="options"
       data-automation-id="rule-details-options-component"
