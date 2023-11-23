@@ -40,13 +40,13 @@ export class PaginationComponent extends BaseComponent {
     super(page, PaginationComponent.rootElement);
   }
 
-  range = this.getChild('.adf-pagination__range');
-  maxItems = this.getChild('.adf-pagination__max-items');
-  currentPage = this.getChild('.adf-pagination__current-page');
-  totalPages = this.getChild('.adf-pagination__total-pages');
-  previousButton = this.getChild('.adf-pagination__previous-button');
-  nextButton = this.getChild('.adf-pagination__next-button');
-  maxItemsButton = this.getChild('.adf-pagination__max-items + button[mat-icon-button]');
+  private range = this.getChild('.adf-pagination__range');
+  private maxItems = this.getChild('.adf-pagination__max-items');
+  private currentPage = this.getChild('.adf-pagination__current-page');
+  private totalPages = this.getChild('.adf-pagination__total-pages');
+  private previousButton = this.getChild('.adf-pagination__previous-button');
+  private nextButton = this.getChild('.adf-pagination__next-button');
+  private maxItemsButton = this.getChild('.adf-pagination__max-items + button[mat-icon-button]');
 
   private itemsPerPageMenu = new MatMenuComponent(this.page);
 
@@ -101,11 +101,23 @@ export class PaginationComponent extends BaseComponent {
   }
 
   async clickOnNextPage(): Promise<void> {
-    return await this.nextButton.click();
+    try {
+      if (await this.isNextEnabled()) {
+        await this.nextButton.click();
+      }
+    } catch(error) {
+      throw new Error(`Failed on previous click: ${error}`);
+    }
   }
 
   async clickOnPreviousPage(): Promise<void> {
-    return await this.previousButton.click();
+    try {
+      if (await this.isPreviousEnabled()) {
+        await this.previousButton.click();
+      }
+    } catch(error) {
+      throw new Error(`Failed on previous click: ${error}`);
+    }
   }
 
   async openMaxItemsMenu(): Promise<void> {

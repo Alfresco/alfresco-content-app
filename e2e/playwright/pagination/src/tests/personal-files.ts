@@ -30,7 +30,7 @@ export function personalFilesTests(userName: string, parentName: string) {
     test.beforeEach(async ({ loginPage, personalFiles, page }) => {
       await loginPage.navigate();
       await loginPage.loginUser({ username: userName, password: userName });
-      await personalFiles.navigate();
+      await personalFiles.waitForPageLoad();
       await personalFiles.dataTable.getRowByName(parentName).dblclick();
       await page.waitForTimeout(timeouts.tiny);
     });

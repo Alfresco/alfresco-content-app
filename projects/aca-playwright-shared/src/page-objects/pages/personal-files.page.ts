@@ -67,4 +67,8 @@ export class PersonalFilesPage extends BasePage {
   async closeMenu(): Promise<void> {
     await this.page.keyboard.press('Escape');
   }
+
+  async waitForPageLoad() {
+    await this.page.waitForURL(`**/${PersonalFilesPage.pageUrl}`);
+  }
 }
