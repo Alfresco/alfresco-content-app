@@ -32,7 +32,7 @@ export class Viewer extends Component {
   root = browser.$('adf-viewer');
   viewerLayout = this.byCss('.adf-viewer-render-layout-content');
   viewerContainer = this.byCss('.adf-viewer-render-content-container');
-  closeButton = this.byCss('button[id="app.viewer.close"]');
+  closeButton = this.byCss('button[title="Close"]');
   fileTitle = this.byCss('.adf-viewer__file-title');
   viewerExtensionContent = this.byCss('adf-preview-extension');
   txtViewerContent = this.byCss('.adf-txt-viewer-content');
