@@ -266,7 +266,7 @@ describe('MetadataTabComponent', () => {
         store = TestBed.inject(Store);
       });
 
-      it('show pass empty when store is in initial state', () => {
+      it('should show pass empty when store is in initial state', () => {
         expect(getContentMetadataCard().displayAspect).toBeFalsy();
       });
 

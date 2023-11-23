@@ -107,8 +107,8 @@ export class RuleSimpleConditionUiComponent implements OnInit, ControlValueAcces
     (condition) => !((this.disabledTags && condition.name === 'tag') || (this.disabledCategories && condition.name === 'category'))
   );
 
-  constructor(private config: AppConfigService, private categoryService: CategoryService, private tagService: TagService) {
-    this.mimeTypes = this.config.get<Array<MimeType>>('mimeTypes');
+  constructor(config: AppConfigService, private categoryService: CategoryService, private tagService: TagService) {
+    this.mimeTypes = config.get<Array<MimeType>>('mimeTypes');
   }
   get isSelectedFieldKnown(): boolean {
     const selectedFieldName = this.form.get('field').value;
