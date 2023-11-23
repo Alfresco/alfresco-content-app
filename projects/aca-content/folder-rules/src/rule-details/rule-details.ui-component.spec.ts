@@ -151,10 +151,6 @@ describe('RuleDetailsUiComponent', () => {
 
     beforeEach(() => {
       categoryService = TestBed.inject(CategoryService);
-    });
-
-    it('should have assigned not filtered out category related actions from actionDefinitions if categoryService.areCategoriesEnabled returns true', () => {
-      spyOn(categoryService, 'areCategoriesEnabled').and.returnValue(true);
       component.actionDefinitions = [
         {
           id: 'link-category',
@@ -175,6 +171,10 @@ describe('RuleDetailsUiComponent', () => {
           parameterDefinitions: []
         }
       ];
+    });
+
+    it('should have assigned not filtered out category related actions from actionDefinitions if categoryService.areCategoriesEnabled returns true', () => {
+      spyOn(categoryService, 'areCategoriesEnabled').and.returnValue(true);
 
       fixture.detectChanges();
       expect(categoryService.areCategoriesEnabled).toHaveBeenCalled();
@@ -184,26 +184,6 @@ describe('RuleDetailsUiComponent', () => {
 
     it('should have assigned filter out category related actions from actionDefinitions if categoryService.areCategoriesEnabled returns false', () => {
       spyOn(categoryService, 'areCategoriesEnabled').and.returnValue(false);
-      component.actionDefinitions = [
-        {
-          id: 'link-category',
-          name: 'test name',
-          description: 'some description',
-          title: 'some title',
-          applicableTypes: [],
-          trackStatus: false,
-          parameterDefinitions: []
-        },
-        {
-          id: 'test id',
-          name: 'test name 2',
-          description: 'some description',
-          title: 'some title',
-          applicableTypes: [],
-          trackStatus: false,
-          parameterDefinitions: []
-        }
-      ];
 
       fixture.detectChanges();
       expect(categoryService.areCategoriesEnabled).toHaveBeenCalled();
