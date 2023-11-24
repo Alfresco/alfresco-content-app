@@ -1,5 +1,5 @@
 {
-  "$schema": "../node_modules/@alfresco/adf-core/app.config.schema.json",
+  "$schema": "../../node_modules/@alfresco/adf-core/app.config.schema.json",
   "ecmHost": "{protocol}//{hostname}{:port}",
   "aosHost": "{protocol}//{hostname}{:port}/alfresco/aos",
   "baseShareUrl": "{protocol}//{hostname}{:port}/#/preview/s",
@@ -19,12 +19,15 @@
     "clientId": "alfresco",
     "scope": "openid",
     "secret": "",
-    "implicitFlow": true,
+    "implicitFlow": false,
+    "codeFlow": true,
     "silentLogin": true,
     "publicUrls": ["**/preview/s/*", "**/settings", "**/blank"],
     "redirectSilentIframeUri": "{protocol}//{hostname}{:port}/assets/silent-refresh.html",
     "redirectUri": "/",
-    "redirectUriLogout": "/"
+    "redirectUriLogout": "/",
+    "skipIssuerCheck": true,
+    "strictDiscoveryDocumentValidation": false
   },
   "locale": "en",
   "application": {

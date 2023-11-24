@@ -25,8 +25,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
-
-import { TRANSLATION_PROVIDER, AppConfigService, DebugAppConfigService, CoreModule, AuthGuard } from '@alfresco/adf-core';
+import { TRANSLATION_PROVIDER, CoreModule, AuthGuard, AuthModule } from '@alfresco/adf-core';
 import { AppService } from '@alfresco/aca-shared';
 
 import { AppExtensionsModule } from './extensions.module';
@@ -102,11 +101,10 @@ registerLocaleData(localeSv);
     ShellModule.withRoutes({
       shellChildren: [CONTENT_LAYOUT_ROUTES]
     }),
-    ContentServiceExtensionModule
+    ContentServiceExtensionModule,
+    AuthModule.forRoot({ useHash: true })
   ],
   providers: [
-    { provide: AppService, useClass: AppService },
-    { provide: AppConfigService, useClass: DebugAppConfigService },
     { provide: ContentVersionService, useClass: ContentUrlService },
     {
       provide: SHELL_APP_SERVICE,

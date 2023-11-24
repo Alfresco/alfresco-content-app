@@ -23,7 +23,6 @@
  */
 
 import { Utils, AdminActions, RepoClient } from '@alfresco/aca-testing-shared';
-import { personalFilesTests } from './personal-files';
 import { recentFilesTests } from './recent-files';
 import { searchResultsTests } from './search-results';
 import { sharedFilesTests } from './shared-files';
@@ -62,10 +61,6 @@ describe('Pagination on multiple pages : ', () => {
 
   afterAll(async () => {
     await userApi.nodes.deleteNodeById(parentId);
-  });
-
-  describe('on Personal Files', () => {
-    personalFilesTests(username, parent);
   });
 
   describe('on Recent Files', () => {

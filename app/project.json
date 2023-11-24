@@ -169,7 +169,10 @@
           "buildOptimizer": false,
           "sourceMap": true,
           "optimization": false,
-          "namedChunks": true
+          "namedChunks": true,
+          "stylePreprocessorOptions": {
+            "includePaths": ["projects/aca-content/src/lib/ui", "node_modules", "../alfresco-ng2-components/lib/core/src/lib"]
+          }
         },
         "adfprod": {
           "tsConfig": "app/tsconfig.app.adf.json",

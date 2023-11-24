@@ -27,6 +27,8 @@
           [imageResolver]="imageResolver"
           [headerFilters]="true"
           [filterValue]="queryParams"
+          [isResizingEnabled]="true"
+          [blurOnResize]="false"
           (node-dblclick)="handleNodeClick($event)"
           (name-click)="handleNodeClick($event)"
           (sorting-changed)="onSortingChanged($event)"

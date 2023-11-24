@@ -23,7 +23,7 @@
  */
 
 import { ApiClientFactory } from './api-client-factory';
-import { NodeChildAssociationPaging, NodeEntry } from '@alfresco/js-api';
+import { NodeChildAssociationPaging, NodeEntry, NodePaging } from '@alfresco/js-api';
 import { logger } from '@alfresco/adf-cli/scripts/logger';
 import { NodeContentTree, flattenNodeContentTree } from './node-content-tree';
 
@@ -69,6 +69,15 @@ export class NodesApi {
       return await this.createNode('cm:content', name, parentId, title, description, null, author, majorVersion, aspectNames);
     } catch (error) {
       logger.error(`${this.constructor.name} ${this.createFile.name}`, error);
+      return null;
+    }
+  }
+
+  async createFiles(names: string[], relativePath = '/'): Promise<NodePaging> {
+    try {
+      return await this.createContent({ files: names }, relativePath);
+    } catch (error) {
+      logger.error(`${this.constructor.name} ${this.createFiles.name}: ${error}`);
       return null;
     }
   }
@@ -136,6 +145,20 @@ export class NodesApi {
     }
   }
 
+  /**
+   * Delete all nodes of the currently logged in user
+   * @param userNodeId The id of User node, all child nodes of "userNodeId" will be gathered as a list and deleted ( e.g.: "-my-" - User Homes folder)
+   */
+  async deleteCurrentUserNodes(): Promise<void> {
+    try {
+      const userNodes = (await this.getNodeChildren('-my-')).list.entries;
+      const userNodesIds = userNodes.map((nodeChild) => nodeChild.entry.id);
+      await this.deleteNodes(userNodesIds);
+    } catch (error) {
+      logger.error(`${this.constructor.name} ${this.deleteCurrentUserNodes.name}`, error);
+    }
+  }
+
   async lockNodes(nodeIds: string[], lockType: string = 'ALLOW_OWNER_CHANGES') {
     try {
       for (const nodeId of nodeIds) {
@@ -146,11 +169,12 @@ export class NodesApi {
     }
   }
 
-  async createContent(content: NodeContentTree, relativePath: string = '/'): Promise<NodeEntry | any> {
+  async createContent(content: NodeContentTree, relativePath: string = '/'): Promise<NodePaging> {
     try {
       return await this.apiService.nodes.createNode('-my-', flattenNodeContentTree(content, relativePath) as any);
     } catch (error) {
       logger.error(`${this.constructor.name} ${this.createContent.name}`, error);
+      return null;
     }
   }
 
@@ -236,11 +260,10 @@ export class NodesApi {
   }
 
   private async getDataDictionaryId(): Promise<string> {
-    return this.getNodeIdFromParent('Data Dictionary', '-root-')
-      .catch((error) => {
-        logger.error('Admin Actions - getDataDictionaryId failed : ', error);
-        return '';
-      });
+    return this.getNodeIdFromParent('Data Dictionary', '-root-').catch((error) => {
+      logger.error('Admin Actions - getDataDictionaryId failed : ', error);
+      return '';
+    });
   }
 
   async setGranularPermission(nodeId: string, inheritPermissions: boolean = false, username: string, role: string): Promise<NodeEntry | null> {
@@ -356,7 +379,7 @@ export class NodesApi {
   }
 
   async createLinkToFileName(originalFileName: string, originalFileParentId: string, destinationParentId?: string): Promise<NodeEntry> {
-    destinationParentId = destinationParentId ?? originalFileParentId;
+    destinationParentId ??= originalFileParentId;
 
     try {
       const nodeId = await this.getNodeIdFromParent(originalFileName, originalFileParentId);
@@ -369,7 +392,7 @@ export class NodesApi {
   }
 
   async createLinkToFolderName(originalFolderName: string, originalFolderParentId: string, destinationParentId?: string): Promise<NodeEntry> {
-      destinationParentId = destinationParentId ?? originalFolderParentId;
+    destinationParentId ??= originalFolderParentId;
 
     try {
       const nodeId = await this.getNodeIdFromParent(originalFolderName, originalFolderParentId);

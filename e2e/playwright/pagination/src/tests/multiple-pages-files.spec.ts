@@ -22,10 +22,36 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export const folderErrors = {
-  folderNameIsRequired: 'Folder name is required',
-  folderNameCantEndWithAPeriod: `Folder name can't end with a period .`,
-  folderNameCantContainTheseCharacters: `Folder name can't contain these characters`,
-  folderNameCantContainOnlySpaces: `Folder name can't contain only spaces`,
-  thereIsAlreadyAFolderWithThisName: `There's already a folder with this name. Try a different name.`
-}
+import { ApiClientFactory, NodesApi, test, Utils } from '@alfresco/playwright-shared';
+import { personalFilesTests } from './personal-files';
+
+test.describe('Pagination on multiple pages : ', () => {
+  const random = Utils.random();
+  const username = `user-${random}`;
+
+  const parent = `parent-${random}`;
+  let parentId: string;
+
+  const apiClientFactory = new ApiClientFactory();
+
+  test.beforeAll(async () => {
+    await apiClientFactory.setUpAcaBackend('admin');
+    await apiClientFactory.createUser({ username });
+    const nodesApi = await NodesApi.initialize(username, username);
+
+    const files = Array(51)
+      .fill('my-file')
+      .map((name, index): string => `${name}-${index + 1}-${random}.txt`);
+
+    parentId = (await nodesApi.createFolder(parent)).entry.id;
+    (await nodesApi.createFiles(files, parent)).list.entries.map((entries) => entries.entry.id);
+  });
+
+  test.afterAll(async () => {
+    await apiClientFactory.nodes.deleteNode(parentId, { permanent: true });
+  });
+
+  test.describe('on Personal Files', () => {
+    personalFilesTests(username, parent);
+  });
+});
