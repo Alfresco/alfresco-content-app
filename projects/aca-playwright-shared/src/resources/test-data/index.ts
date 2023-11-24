@@ -23,3 +23,4 @@
  */
 
 export * from './test-data-permissions';
+export * from './test-data-files-folders';
