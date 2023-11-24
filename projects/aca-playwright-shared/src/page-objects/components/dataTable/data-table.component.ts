@@ -224,7 +224,6 @@ export class DataTableComponent extends BaseComponent {
     row = this.getRowByName(name2);
     await row.locator('[title="Size"]').click();
     await row.locator('.adf-datatable-selected').waitFor({ state: 'attached' });
-
   }
 
   async hasCheckMarkIcon(itemName: string): Promise<boolean> {

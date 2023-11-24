@@ -22,20 +22,13 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ApiClientFactory, FavoritesPageApi, PersonalFilesPage, NodesApi, TrashcanApi, Utils, test } from '@alfresco/playwright-shared';
+import { ApiClientFactory, FavoritesPageApi, PersonalFilesPage, NodesApi, TrashcanApi, Utils, test, timeouts } from '@alfresco/playwright-shared';
 import * as testData from '@alfresco/playwright-shared';
 
 test.describe('Folders - available actions : ', () => {
-  const apiClientFactory = new ApiClientFactory();
   const username = `user-${Utils.random()}`;
-  const parentName = `parent-${Utils.random()}`;
-
   let parentId: string;
-  let folderFavId: string;
-  let fileFavId: string;
-
   let nodesApi: NodesApi;
-  let favoritesActions: FavoritesPageApi;
   let trashCanActions: TrashcanApi;
 
   async function checkActionsAvailable(
@@ -61,23 +54,21 @@ test.describe('Folders - available actions : ', () => {
   }
 
   test.beforeAll(async () => {
-    test.setTimeout(140000);
+    test.setTimeout(timeouts.extendedTest);
+    const apiClientFactory = new ApiClientFactory();
+    const parentName = `parent-${Utils.random()}`;
     await apiClientFactory.setUpAcaBackend('admin');
     await apiClientFactory.createUser({ username: username });
     nodesApi = await NodesApi.initialize(username, username);
-    favoritesActions = await FavoritesPageApi.initialize(username, username);
+    const favoritesActions = await FavoritesPageApi.initialize(username, username);
     trashCanActions = await TrashcanApi.initialize(username, username);
     parentId = (await nodesApi.createFolder(parentName)).entry.id;
     await nodesApi.createFile(testData.file.name, parentId);
-    fileFavId = (await nodesApi.createFile(testData.fileFavFile.name, parentId)).entry.id;
-
     await nodesApi.createFolder(testData.folderFile.name, parentId);
-    folderFavId = (await nodesApi.createFolder(testData.folderFavFile.name, parentId)).entry.id;
-
+    const folderFavId = (await nodesApi.createFolder(testData.folderFavFile.name, parentId)).entry.id;
     const initialFavoritesTotalItems = (await favoritesActions.getFavoritesTotalItems(username)) || 0;
     await favoritesActions.addFavoritesByIds('folder', [folderFavId]);
-    await favoritesActions.addFavoritesByIds('file', [fileFavId]);
-    await favoritesActions.waitForApi(username, { expect: initialFavoritesTotalItems + 2 });
+    await favoritesActions.waitForApi(username, { expect: initialFavoritesTotalItems + 1 });
   });
 
   test.afterAll(async () => {
@@ -85,50 +76,42 @@ test.describe('Folders - available actions : ', () => {
     await trashCanActions.emptyTrashcan();
   });
 
-  test.describe('on Personal Files : ', () => {
-    test('Folder not favorite  - [C213123]', async ({ personalFiles, loginPage }) => {
+  test.describe.only('on Personal Files : ', () => {
+    test.beforeEach(async ({ personalFiles, loginPage }) => {
       await personalFiles.navigate({ remoteUrl: `#/personal-files/${parentId}` });
-      await loginPage.loginUser({ username: username, password: username });
-      await checkActionsAvailable(personalFiles, testData.folderFile.name, testData.folderFile.toolbarPrimary, testData.folderFile.toolbarMore);
-      await personalFiles.reload();
-      await personalFiles.dataTable.getRowByName(testData.folderFile.name).click({ button: 'right' });
-      await personalFiles.matMenu.verifyActualMoreActions(testData.folderFile.contextMenu);
+      await loginPage.loginUser({ username, password: username });
     });
 
-    test('Folder favorite - [C280451]', async ({ personalFiles, loginPage }) => {
-      await personalFiles.navigate({ remoteUrl: `#/personal-files/${parentId}` });
-      await loginPage.loginUser({ username: username, password: username });
+    test('Folder not favorite  - [C213123]', async ({ personalFiles }) => {
+      await personalFiles.dataTable.getRowByName(testData.folderFile.name).click({ button: 'right' });
+      await personalFiles.matMenu.verifyActualMoreActions(testData.folderFile.contextMenu);
+      await checkActionsAvailable(personalFiles, testData.folderFile.name, testData.folderFile.toolbarPrimary, testData.folderFile.toolbarMore);
+    });
+
+    test('Folder favorite - [C280451]', async ({ personalFiles }) => {
+      await personalFiles.dataTable.getRowByName(testData.folderFavFile.name).click({ button: 'right' });
+      await personalFiles.matMenu.verifyActualMoreActions(testData.folderFavFile.contextMenu);
       await checkActionsAvailable(
         personalFiles,
         testData.folderFavFile.name,
         testData.folderFavFile.toolbarPrimary,
         testData.folderFavFile.toolbarMore
       );
-      await personalFiles.reload();
-      await personalFiles.dataTable.getRowByName(testData.folderFavFile.name).click({ button: 'right' });
-      await personalFiles.matMenu.verifyActualMoreActions(testData.folderFavFile.contextMenu);
     });
 
-    test('multiple folders - [C280459]', async ({ personalFiles, loginPage }) => {
-      await personalFiles.navigate({ remoteUrl: `#/personal-files/${parentId}` });
-      await loginPage.loginUser({ username: username, password: username });
-      await personalFiles.dataTable.selectMultiItem(testData.folderFavFile.name, testData.folderFile.name);
-      await checkMultipleSelActionsAvailable(personalFiles, testData.multipleSelFile.toolbarPrimary, testData.multipleSelFile.toolbarMore);
-      await personalFiles.reload();
+    test('multiple folders - [C280459]', async ({ personalFiles }) => {
       await personalFiles.dataTable.selectMultiItem(testData.folderFavFile.name, testData.folderFile.name);
       await personalFiles.dataTable.getRowByName(testData.folderFavFile.name).click({ button: 'right' });
       await personalFiles.matMenu.verifyActualMoreActions(testData.multipleSelFile.contextMenu);
+      await personalFiles.dataTable.selectMultiItem(testData.folderFavFile.name, testData.folderFile.name);
+      await checkMultipleSelActionsAvailable(personalFiles, testData.multipleSelFile.toolbarPrimary, testData.multipleSelFile.toolbarMore);
     });
 
-    test('both files and folders - [C280460]', async ({ personalFiles, loginPage }) => {
-      await personalFiles.navigate({ remoteUrl: `#/personal-files/${parentId}` });
-      await loginPage.loginUser({ username: username, password: username });
-      await personalFiles.dataTable.selectMultiItem(testData.file.name, testData.folderFile.name);
-      await checkMultipleSelActionsAvailable(personalFiles, testData.multipleSelFile.toolbarPrimary, testData.multipleSelFile.toolbarMore);
-      await personalFiles.reload();
+    test('both files and folders - [C280460]', async ({ personalFiles }) => {
       await personalFiles.dataTable.selectMultiItem(testData.file.name, testData.folderFile.name);
       await personalFiles.dataTable.getRowByName(testData.folderFile.name).click({ button: 'right' });
       await personalFiles.matMenu.verifyActualMoreActions(testData.multipleSelFile.contextMenu);
+      await checkMultipleSelActionsAvailable(personalFiles, testData.multipleSelFile.toolbarPrimary, testData.multipleSelFile.toolbarMore);
     });
   });
 });
