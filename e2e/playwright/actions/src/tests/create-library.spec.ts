@@ -35,7 +35,6 @@ import {
   Breadcrumb,
   TrashcanApi
 } from '@alfresco/playwright-shared';
-import { logger } from '@alfresco/adf-cli/scripts/logger';
 
 test.describe('Create Libraries ', () => {
   const apiClientFactory = new ApiClientFactory();
@@ -70,7 +69,7 @@ test.describe('Create Libraries ', () => {
       await sitesApi.createSite(commonTrashLibraryName);
       await sitesApi.deleteSites([commonTrashLibraryName], false);
     } catch (error) {
-      logger.error(`beforeAll failed : ${error}`);
+      console.error(`beforeAll failed : ${error}`);
     }
   });
 
@@ -91,7 +90,7 @@ test.describe('Create Libraries ', () => {
       await myLibrariesPage.navigate();
       await myLibrariesPage.selectCreateLibrary();
     } catch (error) {
-      logger.error(`beforeEach failed : ${error}`);
+      console.error(`beforeEach failed : ${error}`);
     }
   });
 
@@ -101,7 +100,7 @@ test.describe('Create Libraries ', () => {
       const trashcanApi = await TrashcanApi.initialize(username, username);
       await trashcanApi.emptyTrashcan();
     } catch (error) {
-      logger.error(`afterAll failed : ${error}`);
+      console.error(`afterAll failed : ${error}`);
     }
   });
 

@@ -33,7 +33,6 @@ import {
   errorStrings,
   test
 } from '@alfresco/playwright-shared';
-import { logger } from '@alfresco/adf-cli/scripts/logger';
 
 test.describe('Create folders', () => {
   const apiClientFactory = new ApiClientFactory();
@@ -56,7 +55,7 @@ test.describe('Create folders', () => {
       nodesApi = await NodesApi.initialize(username, username);
       await nodesApi.createFolder(commonFolderName);
     } catch (error) {
-      logger.error(`beforeAll failed : ${error}`);
+      console.error(`beforeAll failed : ${error}`);
     }
   });
 
@@ -77,7 +76,7 @@ test.describe('Create folders', () => {
       await personalFiles.navigate();
       await personalFiles.selectCreateFolder();
     } catch (error) {
-      logger.error(`beforeEach failed : ${error}`);
+      console.error(`beforeEach failed : ${error}`);
     }
   });
 
@@ -85,7 +84,7 @@ test.describe('Create folders', () => {
     try {
       await nodesApi.deleteCurrentUserNodes();
     } catch (error) {
-      logger.error(`afterAll failed : ${error}`);
+      console.error(`afterAll failed : ${error}`);
     }
   });
 

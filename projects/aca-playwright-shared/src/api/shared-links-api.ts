@@ -22,7 +22,6 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { logger } from '@alfresco/adf-cli/scripts/logger';
 import { ApiClientFactory } from './api-client-factory';
 import { SharedLinkEntry, SharedLinkPaging } from '@alfresco/js-api';
 import { Utils } from '../utils';
@@ -61,7 +60,7 @@ export class SharedLinksApi {
         }
       }
     } catch (error) {
-      logger.error(`SharedLinksApi shareFilesByIds : catch : `, error);
+      console.error(`SharedLinksApi shareFilesByIds : catch : `, error);
     }
     return sharedLinks;
   }
@@ -73,7 +72,7 @@ export class SharedLinksApi {
       };
       return await this.apiService.share.listSharedLinks(opts);
     } catch (error) {
-      logger.error(`SharedLinksApi getSharedLinks : catch : `, error);
+      console.error(`SharedLinksApi getSharedLinks : catch : `, error);
       return new SharedLinkPaging;
     }
   }
@@ -92,8 +91,8 @@ export class SharedLinksApi {
 
       return Utils.retryCall(sharedFile);
     } catch (error) {
-      logger.error(`SharedLinksApi waitForFilesToBeShared :  catch : ${error}`);
-      logger.error(`\tWait timeout reached waiting for files to be shared`);
+      console.error(`SharedLinksApi waitForFilesToBeShared :  catch : ${error}`);
+      console.error(`\tWait timeout reached waiting for files to be shared`);
     }
   }
 }
