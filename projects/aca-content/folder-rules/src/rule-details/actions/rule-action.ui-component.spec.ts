@@ -74,10 +74,9 @@ describe('RuleActionUiComponent', () => {
     component.parameterConstraints = dummyConstraints;
     fixture.detectChanges();
 
-    const cardView = getPropertiesCardView();
-    expect(cardView.properties.length).toBe(0);
-
     changeMatSelectValue('mock-action-1-definition');
+
+    const cardView = getPropertiesCardView();
 
     expect(cardView.properties.length).toBe(5);
     expect(cardView.properties[0]).toBeInstanceOf(CardViewTextItemModel);
@@ -87,7 +86,7 @@ describe('RuleActionUiComponent', () => {
     expect(cardView.properties[4]).toBeInstanceOf(CardViewSelectItemModel);
 
     changeMatSelectValue('mock-action-2-definition');
-    expect(cardView.properties.length).toBe(0);
+    expect(getPropertiesCardView()).toBeNull();
   });
 
   it('should create category-value action parameter as a text box rather than node picker', () => {
@@ -95,11 +94,11 @@ describe('RuleActionUiComponent', () => {
     component.parameterConstraints = dummyConstraints;
     fixture.detectChanges();
 
-    const cardView = getPropertiesCardView();
-    expect(cardView.properties.length).toBe(0);
-
     changeMatSelectValue('mock-action-3-definition');
 
+    const cardView = getPropertiesCardView();
+
+    expect(cardView.properties.length).toBe(1);
     expect(cardView.properties[0].icon).toBeFalsy();
     expect(cardView.properties[0].value).toBeFalsy();
     expect(cardView.properties[0]).toBeInstanceOf(CardViewTextItemModel);
