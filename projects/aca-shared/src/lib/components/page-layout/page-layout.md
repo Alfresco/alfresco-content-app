@@ -56,13 +56,13 @@ Displayed only when an error is detected by the parent container component.
 ## Layout Content
 
 You can provide any Angular component or HTML element as the main content.
-In addition, you can use `scrollable` class to make the content scroll.
+In addition, you can use `aca-scrollable` class to make the content scroll.
 
 The content is displayed only when there are no errors detected.
 
 ```html
 <aca-page-layout>
-  <div class="aca-page-layout-content scrollable">
+  <div class="aca-page-layout-content aca-scrollable">
     <!-- Main Content -->
   </div>
 </aca-page-layout>

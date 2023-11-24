@@ -10,7 +10,7 @@
   </div>
 
   <div class="aca-page-layout-content">
-    <div class="main-content">
+    <div class="aca-main-content">
 
       <ng-container *ngIf="((ruleSetsLoading$ | async) && (inheritedRuleSets$ | async).length === 0) || (actionsLoading$ | async); else onLoaded">
         <mat-progress-bar color="primary" mode="indeterminate"></mat-progress-bar>
@@ -27,6 +27,7 @@
 
             <mat-slide-toggle
               data-automation-id="manage-rules-inheritance-toggle-button"
+              class="aca-manage-rules__actions-bar__toggle"
               [checked]="isInheritanceEnabled"
               (change)="onInheritanceToggleChange($event)"
               [disabled]="isInheritanceToggleDisabled"
@@ -34,7 +35,7 @@
               {{ 'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.ACTIONS.INHERIT_RULES' | translate }}
             </mat-slide-toggle>
 
-            <mat-divider vertical class="vertical-divider"></mat-divider>
+            <mat-divider vertical class="aca-manage-rules__actions-bar__vertical-divider"></mat-divider>
 
             <div class="aca-manage-rules__actions-bar__buttons">
               <button

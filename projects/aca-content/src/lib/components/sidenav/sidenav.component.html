@@ -1,8 +1,8 @@
-<div class="sidenav">
+<div class="aca-sidenav">
     <app-sidenav-header (toggleNavBar)="toggleClick()"></app-sidenav-header>
 
-    <div class="section-sub-actions">
-      <div *ngFor="let group of groups; trackBy: trackByGroupId" class="section">
+    <div class="aca-sidenav__section">
+      <div *ngFor="let group of groups; trackBy: trackByGroupId" class="aca-sidenav__section__actions">
           <mat-list-item *ngFor="let item of group.items; trackBy: trackByLinkId">
             <ng-container *ngIf="!item.component">
               <app-expand-menu [item]="item"></app-expand-menu>

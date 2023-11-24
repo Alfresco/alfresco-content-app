@@ -24,7 +24,6 @@
 
 import { ApiClientFactory } from './api-client-factory';
 import { NodeChildAssociationPaging, NodeEntry, NodePaging } from '@alfresco/js-api';
-import { logger } from '@alfresco/adf-cli/scripts/logger';
 import { NodeContentTree, flattenNodeContentTree } from './node-content-tree';
 
 export class NodesApi {
@@ -51,7 +50,7 @@ export class NodesApi {
     try {
       return await this.createNode('cm:folder', name, parentId, title, description, null, author, null, aspectNames);
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.createFolder.name}`, error);
+      console.error(`${this.constructor.name} ${this.createFolder.name}`, error);
       return null;
     }
   }
@@ -68,7 +67,7 @@ export class NodesApi {
     try {
       return await this.createNode('cm:content', name, parentId, title, description, null, author, majorVersion, aspectNames);
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.createFile.name}`, error);
+      console.error(`${this.constructor.name} ${this.createFile.name}`, error);
       return null;
     }
   }
@@ -77,7 +76,7 @@ export class NodesApi {
     try {
       return await this.createContent({ files: names }, relativePath);
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.createFiles.name}: ${error}`);
+      console.error(`${this.constructor.name} ${this.createFiles.name}: ${error}`);
       return null;
     }
   }
@@ -116,7 +115,7 @@ export class NodesApi {
         majorVersion
       });
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.createNode.name}`, error);
+      console.error(`${this.constructor.name} ${this.createNode.name}`, error);
       return null;
     }
   }
@@ -125,7 +124,7 @@ export class NodesApi {
     try {
       return this.apiService.nodes.updateNode(nodeId, { name: newName });
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.renameNode.name}`, error);
+      console.error(`${this.constructor.name} ${this.renameNode.name}`, error);
       return null;
     }
   }
@@ -141,7 +140,7 @@ export class NodesApi {
         await this.apiService.nodes.deleteNode(nodeId, { permanent });
       }
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.deleteNodes.name}`, error);
+      console.error(`${this.constructor.name} ${this.deleteNodes.name}`, error);
     }
   }
 
@@ -155,7 +154,7 @@ export class NodesApi {
       const userNodesIds = userNodes.map((nodeChild) => nodeChild.entry.id);
       await this.deleteNodes(userNodesIds);
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.deleteCurrentUserNodes.name}`, error);
+      console.error(`${this.constructor.name} ${this.deleteCurrentUserNodes.name}`, error);
     }
   }
 
@@ -165,7 +164,7 @@ export class NodesApi {
         await this.apiService.nodes.lockNode(nodeId, { type: lockType });
       }
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.lockNodes.name}`, error);
+      console.error(`${this.constructor.name} ${this.lockNodes.name}`, error);
     }
   }
 
@@ -173,7 +172,7 @@ export class NodesApi {
     try {
       return await this.apiService.nodes.createNode('-my-', flattenNodeContentTree(content, relativePath) as any);
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.createContent.name}`, error);
+      console.error(`${this.constructor.name} ${this.createContent.name}`, error);
       return null;
     }
   }
@@ -182,7 +181,7 @@ export class NodesApi {
     try {
       return await this.apiService.nodes.getNode(id);
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.getNodeById.name}`, error);
+      console.error(`${this.constructor.name} ${this.getNodeById.name}`, error);
       return null;
     }
   }
@@ -192,7 +191,7 @@ export class NodesApi {
       const children = (await this.getNodeChildren(parentId)).list.entries;
       return children.find((elem) => elem.entry.name === name).entry.id || '';
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.getNodeIdFromParent.name}`, error);
+      console.error(`${this.constructor.name} ${this.getNodeIdFromParent.name}`, error);
       return '';
     }
   }
@@ -204,7 +203,7 @@ export class NodesApi {
       };
       return await this.apiService.nodes.listNodeChildren(nodeId, opts);
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.getNodeChildren.name}`, error);
+      console.error(`${this.constructor.name} ${this.getNodeChildren.name}`, error);
       return null;
     }
   }
@@ -213,7 +212,7 @@ export class NodesApi {
     try {
       await this.apiService.nodes.deleteNode(id, { permanent });
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.deleteNodeById.name}`, error);
+      console.error(`${this.constructor.name} ${this.deleteNodeById.name}`, error);
     }
   }
 
@@ -225,7 +224,7 @@ export class NodesApi {
         await this.deleteNodeById(nodeId);
       }
     } catch (error) {
-      logger.error('Admin Actions - cleanupNodeTemplatesItems failed : ', error);
+      console.error('Admin Actions - cleanupNodeTemplatesItems failed : ', error);
     }
   }
 
@@ -237,7 +236,7 @@ export class NodesApi {
         await this.deleteNodeById(nodeId);
       }
     } catch (error) {
-      logger.error('Admin Actions - cleanupSpaceTemplatesFolder failed : ', error);
+      console.error('Admin Actions - cleanupSpaceTemplatesFolder failed : ', error);
     }
   }
 
@@ -245,7 +244,7 @@ export class NodesApi {
     try {
       return this.getNodeIdFromParent('Node Templates', await this.getDataDictionaryId());
     } catch (error) {
-      logger.error('Admin Actions - getNodeTemplatesFolderId failed : ', error);
+      console.error('Admin Actions - getNodeTemplatesFolderId failed : ', error);
       return '';
     }
   }
@@ -254,14 +253,14 @@ export class NodesApi {
     try {
       return this.getNodeIdFromParent('Space Templates', await this.getDataDictionaryId());
     } catch (error) {
-      logger.error('Admin Actions - getSpaceTemplatesFolderId failed : ', error);
+      console.error('Admin Actions - getSpaceTemplatesFolderId failed : ', error);
       return '';
     }
   }
 
   private async getDataDictionaryId(): Promise<string> {
     return this.getNodeIdFromParent('Data Dictionary', '-root-').catch((error) => {
-      logger.error('Admin Actions - getDataDictionaryId failed : ', error);
+      console.error('Admin Actions - getDataDictionaryId failed : ', error);
       return '';
     });
   }
@@ -282,7 +281,7 @@ export class NodesApi {
     try {
       return await this.apiService.nodes.updateNode(nodeId, data);
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.setGranularPermission.name}`, error);
+      console.error(`${this.constructor.name} ${this.setGranularPermission.name}`, error);
       return null;
     }
   }
@@ -294,7 +293,7 @@ export class NodesApi {
 
       return this.setInheritPermissions(nodeId, false);
     } catch (error) {
-      logger.error('Admin Actions - removeUserAccessOnNodeTemplate failed : ', error);
+      console.error('Admin Actions - removeUserAccessOnNodeTemplate failed : ', error);
       return null;
     }
   }
@@ -306,7 +305,7 @@ export class NodesApi {
 
       return this.setInheritPermissions(nodeId, false);
     } catch (error) {
-      logger.error('Admin Actions - removeUserAccessOnSpaceTemplate failed : ', error);
+      console.error('Admin Actions - removeUserAccessOnSpaceTemplate failed : ', error);
       return null;
     }
   }
@@ -321,7 +320,7 @@ export class NodesApi {
     try {
       return await this.apiService.nodes.updateNode(nodeId, data);
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.setInheritPermissions.name}`, error);
+      console.error(`${this.constructor.name} ${this.setInheritPermissions.name}`, error);
       return null;
     }
   }
@@ -330,7 +329,7 @@ export class NodesApi {
     try {
       return this.apiService.nodes.updateNode(nodeId, { aspectNames });
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.addAspects.name}`, error);
+      console.error(`${this.constructor.name} ${this.addAspects.name}`, error);
       return null;
     }
   }
@@ -350,7 +349,7 @@ export class NodesApi {
       await this.addAspects(originalNodeId, ['app:linked']);
       return link;
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.createFileLink.name}`, error);
+      console.error(`${this.constructor.name} ${this.createFileLink.name}`, error);
       return null;
     }
   }
@@ -373,7 +372,7 @@ export class NodesApi {
       await this.addAspects(originalNodeId, ['app:linked']);
       return link;
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.createFolderLink.name}`, error);
+      console.error(`${this.constructor.name} ${this.createFolderLink.name}`, error);
       return null;
     }
   }
@@ -386,7 +385,7 @@ export class NodesApi {
 
       return this.createFileLink(nodeId, destinationParentId);
     } catch (error) {
-      logger.error('Admin Actions - createLinkToFileName failed : ', error);
+      console.error('Admin Actions - createLinkToFileName failed : ', error);
       return null;
     }
   }
@@ -398,7 +397,7 @@ export class NodesApi {
       const nodeId = await this.getNodeIdFromParent(originalFolderName, originalFolderParentId);
       return this.createFolderLink(nodeId, destinationParentId);
     } catch (error) {
-      logger.error('Admin Actions - createLinkToFolderName failed : ', error);
+      console.error('Admin Actions - createLinkToFolderName failed : ', error);
       return null;
     }
   }

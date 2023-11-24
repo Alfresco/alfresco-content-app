@@ -4,7 +4,7 @@
 @import 'variables/variables';
 @include custom-theme($custom-theme);
 
-.mat-toolbar {
+mat-toolbar {
   color: var(--theme-text-color, rgba(0, 0, 0, 0.54));
 }
 
@@ -46,11 +46,6 @@ mat-toolbar.mat-toolbar.mat-toolbar-single-row {
       opacity: 1;
     }
   }
-}
-
-.mat-chip.mat-standard-chip {
-  background-color: #efefef;
-  color: var(--theme-contrast-gray);
 }
 
 .adf-property-field {

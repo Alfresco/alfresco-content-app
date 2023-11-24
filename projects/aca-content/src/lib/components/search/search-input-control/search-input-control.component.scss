@@ -5,7 +5,7 @@ $top-margin: 12px;
   margin: 14px 1px;
   float: left;
 
-  .mat-icon {
+  mat-icon {
     font-size: 24px;
     cursor: pointer;
   }
@@ -24,10 +24,6 @@ $top-margin: 12px;
   box-sizing: border-box;
   margin-bottom: 12px;
 
-  .mat-form-field {
-    font-size: 16px;
-  }
-
   .mat-form-field-underline {
     display: none;
   }
@@ -37,7 +33,7 @@ $top-margin: 12px;
   }
 
   // fixes pointer event on FF
-  &.searchMenuTrigger .mat-form-field-label-wrapper {
+  &.app-search-menu-trigger .mat-form-field-label-wrapper {
     pointer-events: auto;
   }
 
@@ -45,16 +41,16 @@ $top-margin: 12px;
     letter-spacing: -0.7px;
     width: calc(100% - 56px);
 
-    .mat-input-element {
+    &-input {
       letter-spacing: -0.7px;
     }
   }
 
-  .app-search-button.mat-icon-button {
+  .app-search-button {
     top: -2px;
     left: -8px;
 
-    .mat-icon {
+    &-icon {
       font-size: 24px;
       padding-right: 0;
     }

@@ -25,7 +25,7 @@
       gap: 8px;
 
       & > label,
-      & > .label {
+      & > .aca-label {
         font-weight: bold;
         width: 20%;
         min-width: 100px;
@@ -35,15 +35,16 @@
 
       & > div {
         flex-grow: 1;
+      }
 
-        mat-form-field {
-          width: 100%;
-          max-width: 400px;
-          font-size: inherit;
+      &__field {
+        width: 100%;
+        max-width: 400px;
+        margin-top: -11px;
+        font-size: inherit;
 
-          .mat-form-field-infix {
-            border: none;
-          }
+        &__textarea {
+          min-height: 4em;
         }
       }
     }
@@ -55,17 +56,13 @@
     &__conditions {
       width: 100%;
 
-      & > .rule-details-error {
+      & > .aca-rule-details-error {
         margin-left: 16px;
         color: inherit;
       }
     }
 
-    textarea {
-      min-height: 4em;
-    }
-
-    .rule-details-error {
+    .aca-rule-details-error {
       font-size: 75%;
       height: 1em;
     }
@@ -76,7 +73,7 @@
       }
     }
 
-    &.read-only,
+    &.aca-read-only,
     .mat-form-field-disabled {
       .mat-form-field-underline,
       .mat-select-arrow-wrapper {

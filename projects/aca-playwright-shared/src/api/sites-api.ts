@@ -24,7 +24,6 @@
 
 import { ApiClientFactory } from './api-client-factory';
 import { Site, SiteBodyCreate, SiteEntry, SiteMemberEntry, SiteMembershipBodyCreate, SiteMembershipBodyUpdate } from '@alfresco/js-api';
-import { logger } from '@alfresco/adf-cli/scripts/logger';
 
 export class SitesApi {
   private apiService: ApiClientFactory;
@@ -49,7 +48,7 @@ export class SitesApi {
     try {
       return await this.apiService.sites.createSite(site);
     } catch (error) {
-      logger.error(`SitesApi createSite : catch : `, error);
+      console.error(`SitesApi createSite : catch : `, error);
       return null;
     }
   }
@@ -58,7 +57,7 @@ export class SitesApi {
     try {
       return (await this.apiService.sites.listSiteContainers(siteId)).list.entries[0].entry.id;
     } catch (error) {
-      logger.error(`SitesApi getDocLibId : catch : `, error);
+      console.error(`SitesApi getDocLibId : catch : `, error);
       return null;
     }
   }
@@ -76,7 +75,7 @@ export class SitesApi {
         }
       }
     } catch (error) {
-      logger.error(`${this.constructor.name} ${this.deleteSites.name}`, error);
+      console.error(`${this.constructor.name} ${this.deleteSites.name}`, error);
     }
   }
 
@@ -88,7 +87,7 @@ export class SitesApi {
     try {
       return await this.apiService.sites.updateSiteMembership(siteId, userId, siteRole);
     } catch (error) {
-      logger.error(`SitesApi updateSiteMember : catch : `, error);
+      console.error(`SitesApi updateSiteMember : catch : `, error);
       return new SiteMemberEntry;
     }
   }
@@ -105,7 +104,7 @@ export class SitesApi {
       if (error.status === 409) {
         return this.updateSiteMember(siteId, userId, role);
       } else {
-        logger.error(`SitesApi addSiteMember : catch : `, error);
+        console.error(`SitesApi addSiteMember : catch : `, error);
         return new SiteMemberEntry;
       }
     }
