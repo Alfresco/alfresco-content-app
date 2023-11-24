@@ -75,7 +75,6 @@ exports.config = {
 
     actionsAvailableFilesFolders: './e2e/protractor/suites/actions-available/files-folders/**/**/*test.ts',
     actionsAvailableLibraries: './e2e/protractor/suites/actions-available/libraries/**/**/*test.ts',
-    actionsAvailableSpecialPermissions: './e2e/protractor/suites/actions-available/special-permissions/**/**/*test.ts',
     actionsAvailableNewMenu: './e2e/protractor/suites/actions-available/new-menu/**/**/*test.ts',
 
     application: './e2e/protractor/suites/application/**/*test.ts',
