@@ -213,7 +213,7 @@ export class DataTable extends Component {
   async getLockOwner(itemName: string, location: string = ''): Promise<string> {
     if (await this.hasLockOwnerInfo(itemName, location)) {
       const row = this.getRowByName(itemName, location);
-      return row.$(DataTable.selectors.lockOwner).$('.aca-locked_by--name').getText();
+      return row.$(DataTable.selectors.lockOwner).$('.aca-locked-by--name').getText();
     }
     return '';
   }

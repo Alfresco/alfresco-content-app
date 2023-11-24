@@ -19,7 +19,7 @@
     />
 
     <div matSuffix class="app-suffix-search-icon-wrapper">
-      <mat-icon class="app-drop-down-icon">arrow_drop_down</mat-icon>
+      <mat-icon>arrow_drop_down</mat-icon>
     </div>
 
     <button mat-icon-button matSuffix class="app-suffix-search-icon-wrapper app-close-button" (click)="exitSearch()">
@@ -29,7 +29,7 @@
 </div>
 
 <mat-menu #searchOptionsMenu="matMenu" [overlapTrigger]="true" class="app-search-options-menu">
-  <div (keydown.tab)="$event.stopPropagation()" (keydown.shift.tab)="$event.stopPropagation()" tabindex=0 class="test">
+  <div (keydown.tab)="$event.stopPropagation()" (keydown.shift.tab)="$event.stopPropagation()" tabindex=0>
     <div cdkTrapFocus>
       <app-search-input-control
         #searchInputControl
