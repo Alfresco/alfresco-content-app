@@ -76,7 +76,7 @@ test.describe('Folders - available actions : ', () => {
     await trashCanActions.emptyTrashcan();
   });
 
-  test.describe.only('on Personal Files : ', () => {
+  test.describe('on Personal Files : ', () => {
     test.beforeEach(async ({ personalFiles, loginPage }) => {
       await personalFiles.navigate({ remoteUrl: `#/personal-files/${parentId}` });
       await loginPage.loginUser({ username, password: username });
