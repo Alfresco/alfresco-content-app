@@ -32,9 +32,9 @@ import { MatIconModule } from '@angular/material/icon';
   imports: [TranslateModule, MatIconModule],
   selector: 'aca-locked-by',
   template: `
-    <mat-icon class="locked_by--icon">lock</mat-icon>
-    <span class="locked_by--label">{{ 'APP.LOCKED_BY' | translate }}</span>
-    <span class="locked_by--name">{{ text }}</span>
+    <mat-icon class="aca-locked-by--icon">lock</mat-icon>
+    <span class="aca-locked-by--label">{{ 'APP.LOCKED_BY' | translate }}</span>
+    <span class="aca-locked-by--name">{{ text }}</span>
   `,
   styleUrls: ['./locked-by.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

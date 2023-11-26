@@ -2,11 +2,11 @@
   display: block;
   border-radius: 8px;
 
-  &.childCompositeCondition {
+  &.aca-childCompositeCondition {
     padding: 8px 16px;
     background-color: hsl(0deg, 0%, 100%);
 
-    &.secondaryBackground {
+    &.aca-secondaryBackground {
       background-color: hsl(0deg, 0%, 95%);
     }
   }

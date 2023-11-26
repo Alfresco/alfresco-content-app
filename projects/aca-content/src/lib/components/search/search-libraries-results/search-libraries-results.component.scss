@@ -28,11 +28,7 @@ aca-search-results {
       color: rgba(0, 0, 0, 0.54);
     }
 
-    .text--bold {
-      font-weight: 600;
-    }
-
-    .content {
+    .aca-content {
       @include flex-row;
 
       flex: unset;

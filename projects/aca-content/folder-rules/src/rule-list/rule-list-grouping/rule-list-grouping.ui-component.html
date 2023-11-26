@@ -15,7 +15,7 @@
     <div
       *ngIf="item.type === 'load-more-rules'; else loadMoreRuleSets"
       tabindex="0"
-      class="aca-rule-list-grouping__non-rule-item load-more"
+      class="aca-rule-list-grouping__non-rule-item aca-load-more"
       matRipple matRippleColor="hsla(0,0%,0%,0.05)"
       (click)="onClickLoadMoreRules(item.ruleSet)"
       (keyup.enter)="onClickLoadMoreRules(item.ruleSet)">
@@ -27,7 +27,7 @@
     <div
       *ngIf="item.type === 'load-more-rule-sets'; else loadingRules"
       tabindex="0"
-      class="aca-rule-list-grouping__non-rule-item load-more"
+      class="aca-rule-list-grouping__non-rule-item aca-load-more"
       matRipple matRippleColor="hsla(0,0%,0%,0.05)"
       (click)="onClickLoadMoreRuleSets()"
       (keyup.enter)="onClickLoadMoreRuleSets()">
@@ -40,7 +40,7 @@
       tabindex="0"
       class="aca-rule-list-grouping__non-rule-item"
       matRipple matRippleColor="hsla(0,0%,0%,0.05)">
-      <mat-spinner mode="indeterminate" [diameter]="16"></mat-spinner>
+      <mat-spinner mode="indeterminate" [diameter]="16" class="aca-spinner"></mat-spinner>
       {{ 'ACA_FOLDER_RULES.RULE_LIST.LOADING_RULES' | translate }}
     </div>
   </ng-template>

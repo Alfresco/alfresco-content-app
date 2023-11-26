@@ -8,11 +8,11 @@
     flex-direction: column;
   }
 
-  &.read-only .mat-checkbox-inner-container {
+  &.aca-read-only &__checkbox label > span:first-child {
     display: none;
   }
 
-  .hide-error-script-dropdown {
+  .aca-hide-error-script-dropdown {
     visibility: hidden;
   }
 }

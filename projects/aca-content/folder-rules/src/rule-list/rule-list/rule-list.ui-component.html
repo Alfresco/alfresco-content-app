@@ -2,7 +2,7 @@
   *ngIf="inheritedRuleSetGroupingItems.length > 0"
   class="aca-rule-list__item"
   data-automation-id="rule-list-item"
-  [ngClass]="{ expanded: inheritedRuleSetsExpanded }">
+  [ngClass]="{ 'aca-expanded': inheritedRuleSetsExpanded }">
 
   <div
     tabindex="0"
@@ -13,7 +13,7 @@
 
     <span class="aca-rule-list__item__header__title">
       {{ 'ACA_FOLDER_RULES.RULE_LIST.INHERITED_RULES' | translate }}
-      <mat-icon [matTooltip]="'ACA_FOLDER_RULES.RULE_LIST.INHERITED_RULES_WILL_BE_RUN_FIRST' | translate">
+      <mat-icon class="aca-rule-list__item__header__title__mat-icon" [matTooltip]="'ACA_FOLDER_RULES.RULE_LIST.INHERITED_RULES_WILL_BE_RUN_FIRST' | translate">
         info
       </mat-icon>
     </span>
@@ -38,7 +38,7 @@
   *ngIf="mainRuleSetGroupingItems.length > 0 || isMainRuleSetLinked"
   class="aca-rule-list__item"
   data-automation-id="rule-list-item"
-  [ngClass]="{ expanded: mainRuleSetExpanded }">
+  [ngClass]="{ 'aca-expanded': mainRuleSetExpanded }">
 
   <div
     tabindex="0"

@@ -39,7 +39,7 @@ export class Sidenav extends Component {
   recentFiles = this.byCss(`[data-automation-id='app.navbar.recentFiles']`);
   favorites = this.byCss(`[data-automation-id='app.navbar.favorites']`);
   trash = this.byCss(`[data-automation-id='app.navbar.trashcan']`);
-  sidenavToggle = this.byCss(`.sidenav-header-title-logo`);
+  sidenavToggle = this.byCss(`.aca-sidenav-header-title-logo`);
 
   menu: Menu = new Menu();
 

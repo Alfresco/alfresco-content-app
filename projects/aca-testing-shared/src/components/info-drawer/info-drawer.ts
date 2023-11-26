@@ -42,7 +42,7 @@ export class InfoDrawer extends Component {
   tabActiveContent = this.byCss('.mat-tab-body-active .mat-tab-body-content adf-dynamic-tab');
   expandDetailsButton = TestElement.byCss(`button[title='Expand']`);
   selectedTab = TestElement.byCss(`.mat-tab-list [aria-selected='true'] div`);
-  expandedDetailsPermissionsTab = TestElement.byText('.acs-details-container .mat-tab-label-content', 'Permissions');
+  expandedDetailsPermissionsTab = TestElement.byText('.aca-details-container .mat-tab-label-content', 'Permissions');
   previewButton = TestElement.byCss(`button[title='Preview File']`);
   toolbar = new Toolbar('adf-info-drawer');
 
