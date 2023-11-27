@@ -216,6 +216,16 @@ export class DataTableComponent extends BaseComponent {
     }
   }
 
+  async selectMultiItem(name: string, name2: string): Promise<void> {
+    await this.page.keyboard.down('Meta');
+    let row = this.getRowByName(name);
+    await row.locator('[title="Size"]').click();
+    await row.locator('.adf-datatable-selected').waitFor({ state: 'attached' });
+    row = this.getRowByName(name2);
+    await row.locator('[title="Size"]').click();
+    await row.locator('.adf-datatable-selected').waitFor({ state: 'attached' });
+  }
+
   async hasCheckMarkIcon(itemName: string): Promise<boolean> {
     const row = this.getRowByName(itemName);
     return await row.locator('.adf-datatable-selected').isVisible();

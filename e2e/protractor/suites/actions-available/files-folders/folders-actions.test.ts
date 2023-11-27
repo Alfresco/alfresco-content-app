@@ -43,7 +43,7 @@ describe('Folders - available actions : ', () => {
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
-  const { dataTable, toolbar } = page;
+  const { toolbar } = page;
   const { searchInput } = page.pageLayoutHeader;
   const searchResultsPage = new SearchResultsPage();
 
@@ -76,42 +76,6 @@ describe('Folders - available actions : ', () => {
 
   beforeEach(async () => {
     await Utils.pressEscape();
-  });
-
-  describe('on Personal Files : ', () => {
-    beforeAll(async () => {
-      await page.clickPersonalFilesAndWait();
-      await dataTable.doubleClickOnRowByName(parentName);
-      await dataTable.waitForHeader();
-    });
-
-    it('Folder not favorite  - [C213123]', async () => {
-      await testUtil.checkToolbarActions(testData.folder.name, testData.folder.toolbarPrimary, testData.folder.toolbarMore);
-      await testUtil.checkContextMenu(testData.folder.name, testData.folder.contextMenu);
-    });
-
-    it('Folder favorite - [C280451]', async () => {
-      await testUtil.checkToolbarActions(testData.folderFav.name, testData.folderFav.toolbarPrimary, testData.folderFav.toolbarMore);
-      await testUtil.checkContextMenu(testData.folderFav.name, testData.folderFav.contextMenu);
-    });
-
-    it('multiple folders - [C280459]', async () => {
-      await testUtil.checkMultipleSelContextMenu([testData.folderFav.name, testData.folder.name], testData.multipleSel.contextMenu);
-      await testUtil.checkMultipleSelToolbarActions(
-        [testData.folderFav.name, testData.folder.name],
-        testData.multipleSel.toolbarPrimary,
-        testData.multipleSel.toolbarMore
-      );
-    });
-
-    it('both files and folders - [C280460]', async () => {
-      await testUtil.checkMultipleSelContextMenu([testData.file.name, testData.folder.name], testData.multipleSel.contextMenu);
-      await testUtil.checkMultipleSelToolbarActions(
-        [testData.file.name, testData.folder.name],
-        testData.multipleSel.toolbarPrimary,
-        testData.multipleSel.toolbarMore
-      );
-    });
   });
 
   describe('on Favorites Files : ', () => {
