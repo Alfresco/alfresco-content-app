@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ApiClientFactory, FavoritesPageApi, NodesApi, test, Utils } from '@alfresco/playwright-shared';
+import { ApiClientFactory, FavoritesPageApi, NodesApi, test, timeouts, Utils } from '@alfresco/playwright-shared';
 import { personalFilesTests } from './personal-files';
 import { favoritesTests } from './favorites';
 
@@ -32,13 +32,12 @@ test.describe('Pagination on multiple pages : ', () => {
 
   const parent = `parent-${random}`;
   let parentId: string;
-  let filesIds: string[];
   let initialFavoritesTotalItems: number;
 
   const apiClientFactory = new ApiClientFactory();
 
   test.beforeAll(async () => {
-    test.setTimeout(140000);
+    test.setTimeout(timeouts.extendedTest);
     await apiClientFactory.setUpAcaBackend('admin');
     await apiClientFactory.createUser({ username });
     const nodesApi = await NodesApi.initialize(username, username);
@@ -49,7 +48,7 @@ test.describe('Pagination on multiple pages : ', () => {
       .map((name, index): string => `${name}-${index + 1}-${random}.txt`);
 
     parentId = (await nodesApi.createFolder(parent)).entry.id;
-    filesIds = (await nodesApi.createFiles(files, parent)).list.entries.map((entries: any) => entries.entry.id);
+    const filesIds = (await nodesApi.createFiles(files, parent)).list.entries.map((entries) => entries.entry.id);
     initialFavoritesTotalItems = await favoritesApi.getFavoritesTotalItems(username);
 
     await favoritesApi.addFavoritesByIds('file', filesIds);

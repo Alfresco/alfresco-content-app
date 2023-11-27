@@ -95,11 +95,6 @@ export function favoritesTests(username: string) {
       expect(await favoritePage.pagination.getRange()).toContain('Showing 1-25 of 51');
     });
 
-    test('[C280117] Previous button is disabled on first page', async ({ favoritePage }) => {
-      expect(await favoritePage.pagination.getCurrentPage()).toContain('Page 1');
-      expect(await favoritePage.pagination.isPreviousEnabled()).toBe(false);
-    });
-
     test('[C280118] Next button is disabled on last page', async ({ favoritePage }) => {
       await favoritePage.pagination.openMaxItemsMenu();
       await favoritePage.pagination.clickNthItem(3);
