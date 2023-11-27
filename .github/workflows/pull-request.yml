@@ -119,20 +119,16 @@ jobs:
             id: 4
           - name: "pagination"
             id: 5
-          - name: "actionsAvailableFilesFolders"
-            id: 6
-          - name: "actionsAvailableLibraries,actionsAvailableNewMenu"
-            id: 7
           - name: "copyMoveActions"
-            id: 8
+            id: 6
           - name: "deleteActions"
-            id: 9
+            id: 7
           - name: "editActions,favoriteActions"
-            id: 10
+            id: 8
           - name: "libraryActions"
-            id: 11
+            id: 9
           - name: "uploadDownloadActions"
-            id: 12
+            id: 10
     steps:
       - name: Checkout
         uses: actions/checkout@v3
