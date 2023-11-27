@@ -51,6 +51,7 @@ exports.config = {
 
   specs: [
     './e2e/protractor/suites/actions/**/**/*test.ts',
+    './e2e/protractor/suites/actions-available/**/**/*test.ts',
     './e2e/protractor/suites/application/**/*test.ts',
     './e2e/protractor/suites/authentication/**/*test.ts',
     './e2e/protractor/suites/extensions/**/*test.ts',
@@ -71,6 +72,10 @@ exports.config = {
     libraryActions: './e2e/protractor/suites/actions/library/**/**/*test.ts',
     shareActions: './e2e/protractor/suites/actions/share/**/**/*test.ts',
     uploadDownloadActions: './e2e/protractor/suites/actions/upload-download/**/**/*test.ts',
+
+    actionsAvailableFilesFolders: './e2e/protractor/suites/actions-available/files-folders/**/**/*test.ts',
+    actionsAvailableLibraries: './e2e/protractor/suites/actions-available/libraries/**/**/*test.ts',
+    actionsAvailableNewMenu: './e2e/protractor/suites/actions-available/new-menu/**/**/*test.ts',
 
     application: './e2e/protractor/suites/application/**/*test.ts',
     authentication: './e2e/protractor/suites/authentication/**/*test.ts',
