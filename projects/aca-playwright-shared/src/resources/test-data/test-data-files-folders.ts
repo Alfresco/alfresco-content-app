@@ -24,7 +24,6 @@
 
 import { Utils } from '@alfresco/playwright-shared';
 
-export const trashActions = ['Permanently Delete', 'Restore'];
 const random = Utils.random();
 const multipleSelToolbarPrimary = ['Download', 'View Details', 'More Actions'];
 

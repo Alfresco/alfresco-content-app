@@ -58,7 +58,7 @@ test.describe('Folders - available actions : ', () => {
     const apiClientFactory = new ApiClientFactory();
     const parentName = `parent-${Utils.random()}`;
     await apiClientFactory.setUpAcaBackend('admin');
-    await apiClientFactory.createUser({ username: username });
+    await apiClientFactory.createUser({ username });
     nodesApi = await NodesApi.initialize(username, username);
     const favoritesActions = await FavoritesPageApi.initialize(username, username);
     trashCanActions = await TrashcanApi.initialize(username, username);
