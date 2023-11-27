@@ -198,7 +198,7 @@ export class DataTableComponent extends BaseComponent {
       }
     }
     if (await this.pagination.totalPageLocator.isVisible()) {
-      const maxPages = (await this.pagination.totalPageLocator?.textContent()).match(/\d/)[0];
+      const maxPages = (await this.pagination.totalPageLocator?.textContent())?.match(/\d/)[0];
       for (let page = 1; page <= Number(maxPages); page++) {
         if (await this.getRowByName(name).isVisible()) {
           break;
