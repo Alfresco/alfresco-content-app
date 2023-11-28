@@ -26,7 +26,6 @@ import { ElementFinder, by, element, browser, By } from 'protractor';
 import { Logger, BrowserActions } from '@alfresco/adf-testing';
 import { Menu } from '../menu/menu';
 import { Component } from '../component';
-import { waitElement } from '../../utilities';
 
 export class Sidenav extends Component {
   links = this.component.all(by.css('.item'));
@@ -39,7 +38,6 @@ export class Sidenav extends Component {
   recentFiles = this.byCss(`[data-automation-id='app.navbar.recentFiles']`);
   favorites = this.byCss(`[data-automation-id='app.navbar.favorites']`);
   trash = this.byCss(`[data-automation-id='app.navbar.trashcan']`);
-  sidenavToggle = this.byCss(`.aca-sidenav-header-title-logo`);
 
   menu: Menu = new Menu();
 
@@ -47,34 +45,9 @@ export class Sidenav extends Component {
     super('app-sidenav', ancestor);
   }
 
-  async isSidenavExpanded(): Promise<boolean> {
-    return browser.isElementPresent(by.css(`[data-automation-id='expanded']`));
-  }
-
-  async expandSideNav(): Promise<void> {
-    const expanded = await this.isSidenavExpanded();
-    if (!expanded) {
-      await BrowserActions.click(this.sidenavToggle);
-      await waitElement(`[data-automation-id='expanded']`);
-    }
-  }
-
-  async collapseSideNav(): Promise<void> {
-    const expanded = await this.isSidenavExpanded();
-    if (expanded) {
-      await BrowserActions.click(this.sidenavToggle);
-      await waitElement(`[data-automation-id='collapsed']`);
-    }
-  }
-
   async openNewMenu(): Promise<void> {
     await BrowserActions.click(this.newButton);
     await this.menu.waitForMenuToOpen();
-  }
-
-  async closeNewMenu(): Promise<void> {
-    await BrowserActions.click(element(by.css('button[id="app.toolbar.create"] span span')));
-    await this.menu.waitForMenuToClose();
   }
 
   async openCreateFolderDialog(): Promise<void> {
@@ -106,11 +79,6 @@ export class Sidenav extends Component {
       default:
         return this.personalFiles;
     }
-  }
-
-  async getLinkTooltip(name: string): Promise<string> {
-    const link = this.getLinkLabel(name);
-    return link.getAttribute('title');
   }
 
   async clickLink(name: string): Promise<void> {
