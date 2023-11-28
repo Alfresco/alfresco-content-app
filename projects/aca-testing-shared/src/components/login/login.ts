@@ -30,7 +30,6 @@ export class LoginComponent extends Component {
   passwordInput = this.byCss('input#password');
   submitButton = this.byCss('button#login-button');
   copyright = this.byCss('.adf-copyright');
-  passwordVisibility = this.byCss('.adf-login-password-icon');
 
   constructor(ancestor?: string) {
     super('adf-login', ancestor);
@@ -47,22 +46,5 @@ export class LoginComponent extends Component {
   async enterCredentials(username: string, password: string): Promise<void> {
     await this.enterUsername(username);
     await this.enterPassword(password);
-  }
-
-  private async getPasswordVisibility(): Promise<boolean> {
-    const text = await this.passwordVisibility.getText();
-    return text.endsWith('visibility');
-  }
-
-  async isPasswordDisplayed(): Promise<boolean> {
-    const type = await this.passwordInput.getAttribute('type');
-    if (type === 'text') {
-      return true;
-    }
-    return false;
-  }
-
-  async isPasswordHidden() {
-    return !(await this.getPasswordVisibility());
   }
 }

@@ -25,7 +25,7 @@
 import { ElementFinder, by, browser } from 'protractor';
 import { Logger, BrowserVisibility, BrowserActions } from '@alfresco/adf-testing';
 import { Component } from '../component';
-import { Utils, isPresentAndEnabled, waitForPresence, waitForStaleness } from '../../utilities/utils';
+import { Utils, waitForPresence, waitForStaleness } from '../../utilities/utils';
 
 export class Menu extends Component {
   items = this.allByCss('.mat-menu-item');
@@ -33,7 +33,6 @@ export class Menu extends Component {
   uploadFilesInput = this.byId('app-upload-files', browser);
   submenus = browser.element.all(by.css('app-context-menu-item .mat-menu-item'));
   createFolderAction = this.byId('app.create.folder');
-  createLibraryAction = this.byId('app.create.library');
   createFileFromTemplateAction = this.byId('app.create.fileFromTemplate');
   createFolderFromTemplateAction = this.byId('app.create.folderFromTemplate');
 
@@ -75,10 +74,6 @@ export class Menu extends Component {
     return this.byId(id);
   }
 
-  async getItemTooltip(menuItem: string): Promise<string> {
-    return this.getItemByLabel(menuItem).getAttribute('title');
-  }
-
   async getItemIconText(menuItem: string): Promise<string> {
     return this.getItemByLabel(menuItem).element(by.css('.mat-icon')).getText();
   }
@@ -89,13 +84,6 @@ export class Menu extends Component {
 
   async getItemsCount(): Promise<number> {
     return this.items.count();
-  }
-
-  async getMenuItems(): Promise<string[]> {
-    return this.items.map(async (elem) => {
-      const span = elem.element(by.css('span'));
-      return span.getText();
-    });
   }
 
   async clickNthItem(nth: number): Promise<void> {
@@ -162,21 +150,5 @@ export class Menu extends Component {
       Logger.error('----- isMenuItemDisabled catch: ', error);
       return null;
     }
-  }
-
-  async isCreateFolderEnabled(): Promise<boolean> {
-    return isPresentAndEnabled(this.createFolderAction);
-  }
-
-  async isCreateLibraryEnabled(): Promise<boolean> {
-    return isPresentAndEnabled(this.createLibraryAction);
-  }
-
-  async isCreateFileFromTemplateEnabled(): Promise<boolean> {
-    return isPresentAndEnabled(this.createFileFromTemplateAction);
-  }
-
-  async isCreateFolderFromTemplateEnabled(): Promise<boolean> {
-    return isPresentAndEnabled(this.createFolderFromTemplateAction);
   }
 }
