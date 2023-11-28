@@ -46,13 +46,10 @@ export class DataTable extends Component {
   head = this.byCss('.adf-datatable-header');
   body = this.byCss('.adf-datatable-body');
   emptyList = this.byCss('div.adf-no-content-container');
-  emptyFolderDragAndDrop = this.byCss('.adf-empty-list_template .adf-empty-folder');
   emptyListTitle = this.byCss('.adf-empty-content__title');
   emptyListSubtitle = this.byCss('.adf-empty-content__subtitle');
   emptySearchText = this.byCss('.empty-search__text');
   selectedRow = this.byCss('.adf-datatable-row.adf-is-selected');
-
-  columnModified = this.byCss('.adf-datatable-header [data-automation-id="auto_id_modifiedAt"]');
 
   menu = new Menu();
 
@@ -103,19 +100,6 @@ export class DataTable extends Component {
     }
   }
 
-  async sortByModified(order: 'asc' | 'desc'): Promise<void> {
-    let sortOrder = await this.getSortingOrder();
-    const sortColumn = await this.getSortedColumnHeaderText();
-
-    if (sortColumn !== 'Modified') {
-      await this.columnModified.click();
-      sortOrder = await this.getSortingOrder();
-    }
-    if (sortOrder !== order) {
-      await this.columnModified.click();
-    }
-  }
-
   private getSortedColumnHeader(): ElementFinder {
     const locator = by.css(DataTable.selectors.sortedColumnHeader);
     return this.head.element(locator);
@@ -150,12 +134,6 @@ export class DataTable extends Component {
     return this.body.all(by.css('.adf-datatable-row.adf-is-selected'));
   }
 
-  async getSelectedRowsNames(): Promise<string[]> {
-    return this.getSelectedRows().map((row) => {
-      return row.element(by.css('.adf-datatable-cell[title="Name"]')).getText();
-    });
-  }
-
   async getSelectedRowsCount(): Promise<number> {
     return this.getSelectedRows().count();
   }
@@ -172,10 +150,6 @@ export class DataTable extends Component {
 
   getRowCells(name: string, location: string = ''): ElementArrayFinder {
     return this.getRowByName(name, location).all(by.css(DataTable.selectors.cell));
-  }
-
-  async getRowCellsCount(itemName: string): Promise<number> {
-    return this.getRowCells(itemName).count();
   }
 
   private getRowFirstCell(name: string, location: string = ''): ElementFinder {
@@ -218,14 +192,6 @@ export class DataTable extends Component {
     return '';
   }
 
-  private getNameLink(itemName: string): ElementFinder {
-    return this.getRowNameCell(itemName).$('.adf-datatable-link [role="link"]');
-  }
-
-  async hasLinkOnName(itemName: string): Promise<boolean> {
-    return this.getNameLink(itemName).isPresent();
-  }
-
   async doubleClickOnRowByName(name: string, location: string = ''): Promise<void> {
     try {
       const item = this.getRowFirstCell(name, location);
@@ -262,15 +228,6 @@ export class DataTable extends Component {
     }
   }
 
-  async clickItem(name: string, location: string = ''): Promise<void> {
-    const item = this.getRowFirstCell(name, location);
-    await item.click();
-  }
-
-  async clickNameLink(itemName: string): Promise<void> {
-    await this.getNameLink(itemName).click();
-  }
-
   async selectMultipleItems(names: string[], location: string = ''): Promise<void> {
     await this.clearSelection();
     await Utils.pressCmd();
@@ -298,12 +255,6 @@ export class DataTable extends Component {
     await browser.actions().click(protractor.Button.RIGHT).perform();
   }
 
-  async rightClickOnMultipleSelection(): Promise<void> {
-    const itemFromSelection = this.getSelectedRows().get(0);
-    await browser.actions().mouseMove(itemFromSelection).perform();
-    await browser.actions().click(protractor.Button.RIGHT).perform();
-  }
-
   private getItemLocationEl(name: string): ElementFinder {
     return this.getRowByName(name).element(by.css('.aca-location-link'));
   }
@@ -328,14 +279,6 @@ export class DataTable extends Component {
 
   async isEmpty(): Promise<boolean> {
     return this.emptyList.isPresent();
-  }
-
-  async getEmptyDragAndDropText(): Promise<string> {
-    const isEmpty = await this.emptyFolderDragAndDrop.isDisplayed();
-    if (isEmpty) {
-      return this.emptyFolderDragAndDrop.getText();
-    }
-    return '';
   }
 
   async getEmptyStateTitle(): Promise<string> {
@@ -367,11 +310,6 @@ export class DataTable extends Component {
     return rows.map(async (cell) => {
       return cell.getText();
     });
-  }
-
-  async hasContextMenu(): Promise<boolean> {
-    const count = await this.menu.getItemsCount();
-    return count > 0;
   }
 
   async getLibraryRole(name: string): Promise<string> {
@@ -412,27 +350,5 @@ export class DataTable extends Component {
 
   getNthSearchResultsRow(nth: number): ElementFinder {
     return this.getSearchResultsRows().get(nth - 1);
-  }
-
-  private getSearchResultsRowByName(name: string, location: string = ''): ElementFinder {
-    if (location) {
-      return this.body
-        .all(by.cssContainingText(DataTable.selectors.searchResultsRow, name))
-        .filter(async (elem) => browser.isElementPresent(elem.element(by.cssContainingText(DataTable.selectors.searchResultsRowLine, location))))
-        .first();
-    }
-    return this.body.element(by.cssContainingText(DataTable.selectors.searchResultsRow, name));
-  }
-
-  private getSearchResultNameLink(itemName: string, location: string = ''): ElementFinder {
-    return this.getSearchResultsRowByName(itemName, location).$('.aca-link');
-  }
-
-  async hasLinkOnSearchResultName(itemName: string, location: string = ''): Promise<boolean> {
-    return this.getSearchResultNameLink(itemName, location).isPresent();
-  }
-
-  async clickSearchResultNameLink(itemName: string, location: string = ''): Promise<void> {
-    await this.getSearchResultNameLink(itemName, location).click();
   }
 }

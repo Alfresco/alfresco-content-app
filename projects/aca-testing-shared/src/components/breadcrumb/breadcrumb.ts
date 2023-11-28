@@ -38,9 +38,4 @@ export class Breadcrumb extends Component {
       return str.split('\nchevron_right')[0];
     });
   }
-
-  async clickItem(name: string): Promise<void> {
-    const elem = this.byCss(`.adf-breadcrumb-item[title=${name}]`);
-    await elem.click();
-  }
 }

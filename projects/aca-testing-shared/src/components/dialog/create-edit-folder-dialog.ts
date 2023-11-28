@@ -49,10 +49,6 @@ export class CreateOrEditFolderDialog extends GenericDialog {
     return isPresentAndEnabled(this.updateButton);
   }
 
-  async isCreateButtonEnabled(): Promise<boolean> {
-    return isPresentAndEnabled(this.createButton);
-  }
-
   async isCancelButtonEnabled(): Promise<boolean> {
     return isPresentAndEnabled(this.cancelButton);
   }
