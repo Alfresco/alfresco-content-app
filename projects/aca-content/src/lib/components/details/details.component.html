@@ -8,9 +8,9 @@
     <div class="aca-details-container">
       <div class="aca-details-title">
         <div class="aca-details-breadcrumb" role="heading" aria-level="2" *ngIf="node">
-          <span class="aca-details-breadcrumb-library"> {{ node.name }} </span>
-          -
-          <span class="aca-details-breadcrumb-item">{{ 'APP.INFO_DRAWER.TITLE' | translate }}</span>
+          <span class="aca-details-breadcrumb-library">
+            <img class="aca-details-breadcrumb-icon" alt="{{ 'APP.INFO_DRAWER.ICON' | translate }}" src="{{ getNodeIcon(node) }}">       
+            {{ node.name }} </span>
         </div>
         <div class="acs-details-buttons">
           <aca-toolbar [items]="aspectActions" info-drawer-buttons></aca-toolbar>

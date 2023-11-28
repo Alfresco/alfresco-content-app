@@ -41,8 +41,17 @@ app-details-manager {
     height: 100%;
   }
 
-  mat-tab-header {
-    text-transform: uppercase;
+  .mat-tab-list {
+    margin-left: 50px;
+
+    .mat-tab-labels {
+      .mat-tab-label {
+        padding: 0 12px;
+        min-width: 95px;
+        letter-spacing: 0.25px;
+        height: 32px;
+      }
+    }
   }
 }
 
@@ -64,7 +73,8 @@ app-details-manager {
     font-weight: 900;
   }
 
-  &-item {
-    font-weight: 100;
+  &-icon {
+    display: inline-block;
+    vertical-align: text-bottom;
   }
 }
