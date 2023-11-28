@@ -74,16 +74,6 @@ export class NodesApi extends RepoApi {
     }
   }
 
-  async getNodeTitle(name: string, parentId: string): Promise<string> {
-    try {
-      const children = (await this.getNodeChildren(parentId)).list.entries;
-      return children.find((elem) => elem.entry.name === name).entry.properties['cm:title'];
-    } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.getNodeTitle.name}`, error);
-      return '';
-    }
-  }
-
   async getNodeProperty(nodeId: string, property: string): Promise<string> {
     try {
       const node = await this.getNodeById(nodeId);
@@ -341,27 +331,6 @@ export class NodesApi extends RepoApi {
     }
   }
 
-  async createFileLink(originalNodeId: string, destinationId: string): Promise<NodeEntry | null> {
-    const name = (await this.getNodeById(originalNodeId)).entry.name;
-    const nodeBody = {
-      name: `Link to ${name}.url`,
-      nodeType: 'app:filelink',
-      properties: {
-        'cm:destination': originalNodeId
-      }
-    };
-
-    try {
-      await this.apiAuth();
-      const link = await this.nodesApi.createNode(destinationId, nodeBody);
-      await this.addAspects(originalNodeId, ['app:linked']);
-      return link;
-    } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.createFileLink.name}`, error);
-      return null;
-    }
-  }
-
   async createFolderLink(originalNodeId: string, destinationId: string): Promise<NodeEntry | null> {
     const name = (await this.getNodeById(originalNodeId)).entry.name;
     const nodeBody = {
@@ -403,33 +372,6 @@ export class NodesApi extends RepoApi {
       return await this.nodesApi.updateNodeContent(nodeId, content, opts);
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.updateNodeContent.name}`, error);
-      return null;
-    }
-  }
-
-  async renameNode(nodeId: string, newName: string): Promise<NodeEntry | null> {
-    try {
-      await this.apiAuth();
-      return this.nodesApi.updateNode(nodeId, { name: newName });
-    } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.renameNode.name}`, error);
-      return null;
-    }
-  }
-
-  // node permissions
-  async setInheritPermissions(nodeId: string, inheritPermissions: boolean): Promise<NodeEntry | null> {
-    const data = {
-      permissions: {
-        isInheritanceEnabled: inheritPermissions
-      }
-    };
-
-    try {
-      await this.apiAuth();
-      return await this.nodesApi.updateNode(nodeId, data);
-    } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.setGranularPermission.name}`, error);
       return null;
     }
   }

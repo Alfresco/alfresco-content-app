@@ -54,10 +54,12 @@ export class Sidenav extends Component {
     await this.openNewMenu();
     await BrowserActions.click(this.menu.createFolderAction);
   }
+
   async isActive(name: string): Promise<boolean> {
     const cssClass = await this.getLinkLabel(name).getAttribute('class');
     return cssClass.includes('action-button--active');
   }
+
   private getLinkLabel(name: string): ElementFinder {
     switch (name) {
       case 'Personal Files':
