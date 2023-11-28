@@ -125,10 +125,8 @@ jobs:
             id: 7
           - name: "editActions,favoriteActions"
             id: 8
-          - name: "libraryActions"
-            id: 9
           - name: "uploadDownloadActions"
-            id: 10
+            id: 9
     steps:
       - name: Checkout
         uses: actions/checkout@v3
