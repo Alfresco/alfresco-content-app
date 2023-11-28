@@ -40,6 +40,7 @@ import { RuleTriggersUiComponent } from './triggers/rule-triggers.ui-component';
 import { RuleCompositeConditionUiComponent } from './conditions/rule-composite-condition.ui-component';
 import { RuleActionListUiComponent } from './actions/rule-action-list.ui-component';
 import { RuleOptionsUiComponent } from './options/rule-options.ui-component';
+import { CategoryService } from '@alfresco/adf-content-services';
 
 @Component({
   standalone: true,
@@ -136,7 +137,11 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
     return !this.readOnly || this.value.isAsynchronous || this.value.isInheritable;
   }
 
+  constructor(private categoryService: CategoryService) {}
+
   ngOnInit() {
+    const disabledCategory = !this.categoryService.areCategoriesEnabled();
+    this.actionDefinitions = this.actionDefinitions.filter((action) => !(disabledCategory && action.id === 'link-category'));
     this.form = new UntypedFormGroup({
       id: new UntypedFormControl(this.value.id),
       name: new UntypedFormControl(this.value.name || '', Validators.required),

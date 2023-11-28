@@ -858,6 +858,72 @@ describe('app.evaluators', () => {
       expect(app.canManagePermissions(context)).toBe(true);
     });
   });
+
+  describe('areTagsEnabled', () => {
+    it('should call context.appConfig.get with correct parameters', () => {
+      const context: any = {
+        appConfig: {
+          get: jasmine.createSpy()
+        }
+      };
+
+      app.areTagsEnabled(context);
+      expect(context.appConfig.get).toHaveBeenCalledWith('plugins.tags', true);
+    });
+
+    it('should return true if get from appConfig returns true', () => {
+      expect(
+        app.areTagsEnabled({
+          appConfig: {
+            get: () => true
+          }
+        } as any)
+      ).toBeTrue();
+    });
+
+    it('should return false if get from appConfig returns false', () => {
+      expect(
+        app.areTagsEnabled({
+          appConfig: {
+            get: () => false
+          }
+        } as any)
+      ).toBeFalse();
+    });
+  });
+
+  describe('areCategoriesEnabled', () => {
+    it('should call context.appConfig.get with correct parameters', () => {
+      const context: any = {
+        appConfig: {
+          get: jasmine.createSpy()
+        }
+      };
+
+      app.areCategoriesEnabled(context);
+      expect(context.appConfig.get).toHaveBeenCalledWith('plugins.categories', true);
+    });
+
+    it('should return true if get from appConfig returns true', () => {
+      expect(
+        app.areCategoriesEnabled({
+          appConfig: {
+            get: () => true
+          }
+        } as any)
+      ).toBeTrue();
+    });
+
+    it('should return false if get from appConfig returns false', () => {
+      expect(
+        app.areCategoriesEnabled({
+          appConfig: {
+            get: () => false
+          }
+        } as any)
+      ).toBeFalse();
+    });
+  });
 });
 
 function createTestContext(): TestRuleContext {

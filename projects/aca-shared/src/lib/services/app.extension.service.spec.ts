@@ -1049,13 +1049,14 @@ describe('AppExtensionService', () => {
   });
 
   describe('search', () => {
+    let config: ExtensionConfig;
+
     beforeEach(() => {
       extensions.setEvaluators({
         visible: () => true,
         notVisible: () => false
       });
-
-      applyConfig({
+      config = {
         $id: 'test',
         $name: 'test',
         $version: '1.0.0',
@@ -1105,21 +1106,63 @@ describe('AppExtensionService', () => {
             }
           ]
         }
-      });
+      };
     });
 
     it('should load the search extension', () => {
+      applyConfig(config);
       expect(service.search.length).toBe(2);
       expect(service.search[0].id).toBe('app.search');
       expect(service.search[1].id).toBe('app.search-1');
     });
 
     it('should not load the disabled search extension', () => {
+      applyConfig(config);
       expect(service.search.find(({ id }) => id === 'app.search-2')).toBe(undefined, 'disabled configuration shown in the result');
     });
 
     it('should not load the not visible search extension', () => {
+      applyConfig(config);
       expect(service.search.find(({ id }) => id === 'app.search-3')).toBe(undefined, 'not visible configuration shown in the result');
+    });
+
+    it('should contain category if it has no rules field', () => {
+      applyConfig(config);
+      const search = service.search[0];
+      expect(search.categories.length).toBe(1);
+      expect(search.categories[0].id).toBe('size');
+    });
+
+    it('should contain category if it has no visible field in rules', () => {
+      config.features.search[0].categories[0].rules = {};
+
+      applyConfig(config);
+      const search = service.search[0];
+      expect(search.categories.length).toBe(1);
+      expect(search.categories[0].id).toBe('size');
+    });
+
+    it('should contain category if it has visible field and extensions.evaluateRule returns true', () => {
+      spyOn(extensions, 'evaluateRule').and.returnValue(true);
+      const visible = 'test';
+      config.features.search[0].categories[0].rules = { visible };
+
+      applyConfig(config);
+      const search = service.search[0];
+      expect(extensions.evaluateRule).toHaveBeenCalledWith(visible, service);
+      expect(search.categories.length).toBe(1);
+      expect(search.categories[0].id).toBe('size');
+    });
+
+    it('should not contain category if it has visible field and extensions.evaluateRule returns false', () => {
+      spyOn(extensions, 'evaluateRule').and.returnValue(false);
+      const visible = 'test';
+      config.features.search[0].categories[0].rules = { visible };
+
+      applyConfig(config);
+      const search = service.search[0];
+      expect(extensions.evaluateRule).toHaveBeenCalledWith(visible, service);
+      expect(search.categories.length).toBe(0);
     });
   });
 

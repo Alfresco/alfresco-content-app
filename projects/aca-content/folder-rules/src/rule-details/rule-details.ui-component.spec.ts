@@ -29,6 +29,8 @@ import { Rule } from '../model/rule.model';
 import { By } from '@angular/platform-browser';
 import { RuleTriggersUiComponent } from './triggers/rule-triggers.ui-component';
 import { RuleOptionsUiComponent } from './options/rule-options.ui-component';
+import { RuleActionListUiComponent } from './actions/rule-action-list.ui-component';
+import { CategoryService } from '@alfresco/adf-content-services';
 
 describe('RuleDetailsUiComponent', () => {
   let fixture: ComponentFixture<RuleDetailsUiComponent>;
@@ -139,5 +141,55 @@ describe('RuleDetailsUiComponent', () => {
     fixture.detectChanges();
 
     expect(getComponentInstance<RuleOptionsUiComponent>('rule-details-options-component')).toBeFalsy();
+  });
+
+  describe('RuleActionListUiComponent', () => {
+    let categoryService: CategoryService;
+
+    const getRuleActionsListComponent = (): RuleActionListUiComponent =>
+      fixture.debugElement.query(By.directive(RuleActionListUiComponent)).componentInstance;
+
+    beforeEach(() => {
+      categoryService = TestBed.inject(CategoryService);
+      component.actionDefinitions = [
+        {
+          id: 'link-category',
+          name: 'test name',
+          description: 'some description',
+          title: 'some title',
+          applicableTypes: [],
+          trackStatus: false,
+          parameterDefinitions: []
+        },
+        {
+          id: 'test id',
+          name: 'test name 2',
+          description: 'some description',
+          title: 'some title',
+          applicableTypes: [],
+          trackStatus: false,
+          parameterDefinitions: []
+        }
+      ];
+    });
+
+    it('should have assigned not filtered out category related actions from actionDefinitions if categoryService.areCategoriesEnabled returns true', () => {
+      spyOn(categoryService, 'areCategoriesEnabled').and.returnValue(true);
+
+      fixture.detectChanges();
+      expect(categoryService.areCategoriesEnabled).toHaveBeenCalled();
+      expect(component.actionDefinitions.length).toBe(2);
+      expect(getRuleActionsListComponent().actionDefinitions).toBe(component.actionDefinitions);
+    });
+
+    it('should have assigned filter out category related actions from actionDefinitions if categoryService.areCategoriesEnabled returns false', () => {
+      spyOn(categoryService, 'areCategoriesEnabled').and.returnValue(false);
+
+      fixture.detectChanges();
+      expect(categoryService.areCategoriesEnabled).toHaveBeenCalled();
+      expect(component.actionDefinitions.length).toBe(1);
+      expect(component.actionDefinitions[0].id).toBe('test id');
+      expect(getRuleActionsListComponent().actionDefinitions).toBe(component.actionDefinitions);
+    });
   });
 });
