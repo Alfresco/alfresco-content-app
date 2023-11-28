@@ -33,8 +33,6 @@ export class Menu extends Component {
   uploadFilesInput = this.byId('app-upload-files', browser);
   submenus = browser.element.all(by.css('app-context-menu-item .mat-menu-item'));
   createFolderAction = this.byId('app.create.folder');
-  createFileFromTemplateAction = this.byId('app.create.fileFromTemplate');
-  createFolderFromTemplateAction = this.byId('app.create.folderFromTemplate');
 
   cancelEditingAction = this.byCss(`.mat-menu-item[title='Cancel Editing']`);
   copyAction = this.byTitleAttr('Copy');
