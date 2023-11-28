@@ -22,8 +22,9 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ApiClientFactory, NodesApi, test, Utils } from '@alfresco/playwright-shared';
+import { ApiClientFactory, FavoritesPageApi, NodesApi, test, timeouts, Utils } from '@alfresco/playwright-shared';
 import { personalFilesTests } from './personal-files';
+import { favoritesTests } from './favorites';
 
 test.describe('Pagination on multiple pages : ', () => {
   const random = Utils.random();
@@ -31,20 +32,26 @@ test.describe('Pagination on multiple pages : ', () => {
 
   const parent = `parent-${random}`;
   let parentId: string;
+  let initialFavoritesTotalItems: number;
 
   const apiClientFactory = new ApiClientFactory();
 
   test.beforeAll(async () => {
+    test.setTimeout(timeouts.extendedTest);
     await apiClientFactory.setUpAcaBackend('admin');
     await apiClientFactory.createUser({ username });
     const nodesApi = await NodesApi.initialize(username, username);
+    const favoritesApi = await FavoritesPageApi.initialize(username, username);
 
     const files = Array(51)
       .fill('my-file')
       .map((name, index): string => `${name}-${index + 1}-${random}.txt`);
 
     parentId = (await nodesApi.createFolder(parent)).entry.id;
-    (await nodesApi.createFiles(files, parent)).list.entries.map((entries) => entries.entry.id);
+    const filesIds = (await nodesApi.createFiles(files, parent)).list.entries.map((entries) => entries.entry.id);
+    initialFavoritesTotalItems = await favoritesApi.getFavoritesTotalItems(username);
+
+    await favoritesApi.addFavoritesByIds('file', filesIds);
   });
 
   test.afterAll(async () => {
@@ -53,5 +60,13 @@ test.describe('Pagination on multiple pages : ', () => {
 
   test.describe('on Personal Files', () => {
     personalFilesTests(username, parent);
+  });
+
+  test.describe('on Favorites', () => {
+    test.beforeAll(async () => {
+      const favoritesApi = await FavoritesPageApi.initialize(username, username);
+      await favoritesApi.waitForApi(username, { expect: initialFavoritesTotalItems + 51 });
+    });
+    favoritesTests(username);
   });
 });

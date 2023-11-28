@@ -162,4 +162,8 @@ export class PaginationComponent extends BaseComponent {
       throw new Error(`Click nth menu item catch: ${e}`);
     }
   }
+
+  async closeMenu(): Promise<void> {
+    await this.page.keyboard.press('Escape');
+  }
 }

@@ -24,7 +24,7 @@
 
 import { Page } from '@playwright/test';
 import { BasePage } from './base.page';
-import { DataTableComponent, MatMenuComponent, ViewerComponent, SidenavComponent } from '../components';
+import { DataTableComponent, MatMenuComponent, ViewerComponent, SidenavComponent, PaginationComponent } from '../components';
 import { AcaHeader } from '../components/aca-header.component';
 import { AdfFolderDialogComponent, ViewerOverlayDialogComponent } from '../components/dialogs';
 
@@ -42,4 +42,9 @@ export class FavoritesPage extends BasePage {
   public viewer = new ViewerComponent(this.page);
   public viewerDialog = new ViewerOverlayDialogComponent(this.page);
   public sidenav = new SidenavComponent(this.page);
+  public pagination = new PaginationComponent(this.page);
+
+  async waitForPageLoad() {
+    await this.page.waitForURL(`**/${FavoritesPage.pageUrl}`);
+  }
 }

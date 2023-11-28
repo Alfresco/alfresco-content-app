@@ -26,7 +26,6 @@ import { Utils, AdminActions, RepoClient } from '@alfresco/aca-testing-shared';
 import { recentFilesTests } from './recent-files';
 import { searchResultsTests } from './search-results';
 import { sharedFilesTests } from './shared-files';
-import { favoritesTests } from './favorites';
 
 describe('Pagination on multiple pages : ', () => {
   const random = Utils.random();
@@ -43,7 +42,6 @@ describe('Pagination on multiple pages : ', () => {
   const userApi = new RepoClient(username, username);
   const adminApiActions = new AdminActions();
 
-  let initialFavoritesTotalItems: number;
   let initialSearchTotalItems: number;
 
   beforeAll(async () => {
@@ -54,7 +52,6 @@ describe('Pagination on multiple pages : ', () => {
     parentId = (await userApi.nodes.createFolder(parent)).entry.id;
     filesIds = (await userApi.nodes.createFiles(files, parent)).list.entries.map((entries: any) => entries.entry.id);
 
-    initialFavoritesTotalItems = await userApi.favorites.getFavoritesTotalItems();
     await userApi.shared.shareFilesByIds(filesIds);
     await userApi.favorites.addFavoritesByIds('file', filesIds);
   });
@@ -82,12 +79,5 @@ describe('Pagination on multiple pages : ', () => {
       await userApi.shared.waitForFilesToBeShared(filesIds);
     });
     sharedFilesTests(username);
-  });
-
-  describe('on Favorites', () => {
-    beforeAll(async () => {
-      await userApi.favorites.waitForApi({ expect: initialFavoritesTotalItems + 51 });
-    });
-    favoritesTests(username);
   });
 });
