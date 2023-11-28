@@ -37,7 +37,6 @@ import {
   MatMenuComponent,
   TrashcanApi
 } from '@alfresco/playwright-shared';
-import { logger } from '@alfresco/adf-cli/scripts/logger';
 import { Site } from '@alfresco/js-api';
 
 test.describe('Library actions ', () => {
@@ -136,7 +135,7 @@ test.describe('Library actions ', () => {
 
       await new Promise((resolve) => setTimeout(resolve, timeouts.extraLarge));
     } catch (error) {
-      logger.error(`Main beforeAll failed : ${error}`);
+      console.error(`Main beforeAll failed : ${error}`);
     }
   });
 
@@ -151,7 +150,7 @@ test.describe('Library actions ', () => {
       );
       await myLibrariesPage.navigate();
     } catch (error) {
-      logger.error(`Main beforeEach failed : ${error}`);
+      console.error(`Main beforeEach failed : ${error}`);
     }
   });
 
@@ -164,7 +163,7 @@ test.describe('Library actions ', () => {
       const trashcanApi = await TrashcanApi.initialize(username2, username2);
       await trashcanApi.emptyTrashcan();
     } catch (error) {
-      logger.error(`Main afterAll failed : ${error}`);
+      console.error(`Main afterAll failed : ${error}`);
     }
   });
 
@@ -183,7 +182,7 @@ test.describe('Library actions ', () => {
         myLibrariesHeader = myLibrariesPage.acaHeader;
         libraryMenu = myLibrariesPage.matMenu;
       } catch (error) {
-        logger.error(`My Libraries, beforeEach failed : ${error}`);
+        console.error(`My Libraries, beforeEach failed : ${error}`);
       }
     });
 
@@ -258,7 +257,7 @@ test.describe('Library actions ', () => {
         snackBar = favoriteLibrariesPage.snackBar;
         favoritesApi = await FavoritesPageApi.initialize(username2, username2);
       } catch (error) {
-        logger.error(`beforeAll failed : ${error}`);
+        console.error(`beforeAll failed : ${error}`);
       }
     });
 
@@ -343,7 +342,7 @@ test.describe('Library actions ', () => {
         libraryTable = searchPage.dataTable;
         snackBar = searchPage.snackBar;
       } catch (error) {
-        logger.error(`Search Page, beforeEach failed : ${error}`);
+        console.error(`Search Page, beforeEach failed : ${error}`);
       }
     });
 
