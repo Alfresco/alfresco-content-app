@@ -2122,7 +2122,8 @@
           "sortable": true,
           "template": "app.columns.name",
           "desktopOnly": false,
-          "order": 20
+          "order": 20,
+          "draggable": true
         },
         {
           "id": "app.files.size",
