@@ -69,11 +69,6 @@ export class RepoClient {
     return new UploadApi(this.username, this.password);
   }
 
-  async logout(): Promise<any> {
-    await this.apiAuth();
-    return this.alfrescoApi.logout();
-  }
-
   async createFolder(name: string, parentId?: string): Promise<string> {
     const response = await this.nodes.createFolder(name, parentId);
     return response.entry.id;

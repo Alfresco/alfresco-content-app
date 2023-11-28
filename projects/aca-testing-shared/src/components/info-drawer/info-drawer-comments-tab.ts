@@ -101,11 +101,6 @@ export class CommentsTab extends Component {
     return time.getText();
   }
 
-  async getNthCommentId(index: number): Promise<string> {
-    const list = this.allByCss('.adf-comment-list-item');
-    return list.get(index - 1).getAttribute('id');
-  }
-
   async getNthCommentText(index: number): Promise<string> {
     const list = this.allByCss('mat-list-item .adf-comment-message');
     return list.get(index - 1).getText();
@@ -117,9 +112,5 @@ export class CommentsTab extends Component {
 
   async clickAddButton(): Promise<void> {
     await BrowserActions.click(this.addCommentButton);
-  }
-
-  async getCommentTextFromTextArea(): Promise<string> {
-    return BrowserActions.getInputValue(this.commentTextarea);
   }
 }

@@ -118,21 +118,6 @@ export class SitesApi extends RepoApi {
     }
   }
 
-  async deleteAllUserSites(permanent: boolean = true) {
-    try {
-      await this.apiAuth();
-      const sites = await this.sitesApi.listSiteMembershipsForPerson(this.username);
-      const siteIds = sites.list.entries.map((entries) => entries.entry.id);
-
-      return await siteIds.reduce(async (previous, current) => {
-        await previous;
-        return this.deleteSite(current, permanent);
-      }, Promise.resolve());
-    } catch (error) {
-      this.handleError(`SitesApi deleteAllUserSites : catch : `, error);
-    }
-  }
-
   async updateSiteMember(siteId: string, userId: string, role: string) {
     const siteRole = {
       role: role
@@ -176,10 +161,6 @@ export class SitesApi extends RepoApi {
 
   async addSiteCollaborator(siteId: string, userId: string): Promise<SiteMemberEntry> {
     return this.addSiteMember(siteId, userId, SITE_ROLES.SITE_COLLABORATOR.ROLE);
-  }
-
-  async addSiteManager(siteId: string, userId: string): Promise<SiteMemberEntry> {
-    return this.addSiteMember(siteId, userId, SITE_ROLES.SITE_MANAGER.ROLE);
   }
 
   async deleteSiteMember(siteId: string, userId: string) {
