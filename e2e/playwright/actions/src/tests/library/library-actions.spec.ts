@@ -40,7 +40,6 @@ import {
 import { Site } from '@alfresco/js-api';
 
 test.describe('Library actions ', () => {
-  const apiClientFactory = new ApiClientFactory();
   const notMemberString = 'Not a member';
   const managerRole = 'Manager';
   const contributorRole = 'Contributor';
@@ -51,8 +50,6 @@ test.describe('Library actions ', () => {
   const cancelJoinRequestButton = 'Cancel Join Request';
   const cancelJoinRequestMessage = 'Canceled the request to join the library';
   const leaveLibraryButton = 'Leave Library';
-  const leaveDialogTitle = 'Leave this library?';
-  const leaveDialogContent = 'Leaving will remove your access.';
   const leftMessage = 'You have left the library';
   const favoriteButton = 'Favorite';
   const removeFavoriteButton = 'Remove Favorite';
@@ -62,7 +59,6 @@ test.describe('Library actions ', () => {
   const loadString = 'load';
   const domContentLoadedString = 'domcontentloaded';
 
-  const username1 = `user-${Utils.random()}`;
   const username2 = `user-${Utils.random()}`;
   const adminLibrary1 = `playwright-A-library-${Utils.random()}`;
   const adminLibrary2 = `playwright-A-library-${Utils.random()}`;
@@ -85,24 +81,26 @@ test.describe('Library actions ', () => {
   const user2Library6Delete = `playwright-T-library-${Utils.random()}`;
   const user2Library7Delete = `playwright-T-library-${Utils.random()}`;
 
-  const adminLibraryIds: string[] = [adminLibrary1, adminLibrary2, adminLibrary3, adminLibrary4];
-  const adminModerateLibraryIds: string[] = [adminModerateLibrary1, adminModerateLibrary2, adminModerateLibrary3, adminModerateLibrary4];
-  const user1LibraryIds: string[] = [user1Library1, user1Library2, user1Library3, user1Library4, user1Library5];
-  const siteRoles: string[] = [
-    Site.RoleEnum.SiteManager,
-    Site.RoleEnum.SiteContributor,
-    Site.RoleEnum.SiteCollaborator,
-    Site.RoleEnum.SiteConsumer,
-    Site.RoleEnum.SiteManager
-  ];
-  const user2LibraryIds: string[] = [user2Library1, user2Library2, user2Library3, user2Library4];
-  const user2LibraryIdsDelete: string[] = [user2Library5Delete, user2Library6Delete, user2Library7Delete];
+  const adminLibraryIds = [adminLibrary1, adminLibrary2, adminLibrary3, adminLibrary4];
+  const adminModerateLibraryIds = [adminModerateLibrary1, adminModerateLibrary2, adminModerateLibrary3, adminModerateLibrary4];
+  const user1LibraryIds = [user1Library1, user1Library2, user1Library3, user1Library4, user1Library5];
+  const user2LibraryIds = [user2Library1, user2Library2, user2Library3, user2Library4];
 
   let adminSitesApi: SitesApi;
   let user2SitesApi: SitesApi;
 
   test.beforeAll(async () => {
     test.setTimeout(timeouts.extendedTest);
+    const apiClientFactory = new ApiClientFactory();
+    const username1 = `user-${Utils.random()}`;
+    const siteRoles = [
+      Site.RoleEnum.SiteManager,
+      Site.RoleEnum.SiteContributor,
+      Site.RoleEnum.SiteCollaborator,
+      Site.RoleEnum.SiteConsumer,
+      Site.RoleEnum.SiteManager
+    ];
+    const user2LibraryIdsDelete = [user2Library5Delete, user2Library6Delete, user2Library7Delete];
     try {
       await apiClientFactory.setUpAcaBackend('admin');
       await apiClientFactory.createUser({ username: username1 });
@@ -189,8 +187,8 @@ test.describe('Library actions ', () => {
     test('[C290106] Leave a library from My Libraries', async () => {
       await expect(libraryTable.getCellByColumnNameAndRowItem(user1Library1, managerRole)).toBeVisible();
       await libraryTable.performActionFromExpandableMenu(user1Library1, leaveLibraryButton);
-      await expect.soft(confirmDialog.getDialogTitle(leaveDialogTitle)).toBeVisible();
-      await expect.soft(confirmDialog.getDialogContent(leaveDialogContent)).toBeVisible();
+      await expect.soft(confirmDialog.getDialogTitle('Leave this library?')).toBeVisible();
+      await expect.soft(confirmDialog.getDialogContent('Leaving will remove your access.')).toBeVisible();
       await expect.soft(confirmDialog.okButton).toBeVisible();
       await expect.soft(confirmDialog.cancelButton).toBeVisible();
       await confirmDialog.okButton.click();

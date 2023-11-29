@@ -23,7 +23,7 @@
  */
 
 import { ApiClientFactory } from './api-client-factory';
-import { Site, SiteBodyCreate, SiteEntry, SiteMemberEntry, SiteMembershipBodyCreate, SiteMembershipBodyUpdate, SiteMembershipRequestEntry } from '@alfresco/js-api';
+import { Site, SiteBodyCreate, SiteEntry, SiteMemberEntry, SiteMembershipBodyCreate, SiteMembershipBodyUpdate, SiteMembershipRequestBodyCreate, SiteMembershipRequestEntry } from '@alfresco/js-api';
 
 export class SitesApi {
   private apiService: ApiClientFactory;
@@ -113,7 +113,7 @@ export class SitesApi {
   async createSiteMembershipRequestForPerson(personId: string, siteId: string): Promise<SiteMembershipRequestEntry> {
     const body = {
       id: siteId
-    };
+    } as SiteMembershipRequestBodyCreate;
 
     try {
       return await this.apiService.sites.createSiteMembershipRequestForPerson(personId, body);
@@ -123,11 +123,9 @@ export class SitesApi {
     }
   }
 
-  async approveSiteMembershipRequest(siteId: string, inviteeId: string, opts?: {
-    siteMembershipApprovalBody?: string;
-}): Promise<SiteMemberEntry> {
+  async approveSiteMembershipRequest(siteId: string, inviteeId: string): Promise<SiteMemberEntry> {
     try {
-      return await this.apiService.sites.approveSiteMembershipRequest(siteId, inviteeId, opts);
+      return await this.apiService.sites.approveSiteMembershipRequest(siteId, inviteeId);
     } catch (error) {
       console.error(`SitesApi approveSiteMembershipRequest : catch : `, error);
       return null;

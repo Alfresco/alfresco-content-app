@@ -36,5 +36,4 @@ export class AdfConfirmDialogComponent extends BaseComponent {
   getDialogContent = (text: string) => this.getChild('[data-automation-id="adf-confirm-dialog-base-message"]', { hasText: text });
   okButton = this.getChild('[data-automation-id="adf-confirm-dialog-confirmation"]');
   cancelButton = this.getChild('[data-automation-id="adf-confirm-dialog-reject"]');
-
 }

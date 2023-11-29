@@ -38,8 +38,6 @@ export class Toolbar extends Component {
   downloadButton = element(By.css(`.mat-icon-button[title='Download']`));
   viewDetailsButton = element(By.css(`button[title='View Details']`));
   printButton = element(By.css(`button[title='Print']`));
-  joinButton = element(By.css(`button[title='Join']`));
-  leaveButton = element(By.css(`button[title='Leave Library']`));
   permanentlyDeleteButton = element(By.css(`button[title='Permanently Delete']`));
   restoreButton = element(By.css(`button[title='Restore']`));
   searchIconButton = element(By.css(`button[title='Search']`));
