@@ -124,7 +124,7 @@ export class SitesApi {
   }
 
   async approveSiteMembershipRequest(siteId: string, inviteeId: string, opts?: {
-    siteMembershipApprovalBody?: any;
+    siteMembershipApprovalBody?: string;
 }): Promise<SiteMemberEntry> {
     try {
       return await this.apiService.sites.approveSiteMembershipRequest(siteId, inviteeId, opts);

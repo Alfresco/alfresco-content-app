@@ -102,7 +102,7 @@ test.describe('Library actions ', () => {
   let user2SitesApi: SitesApi;
 
   test.beforeAll(async () => {
-    test.setTimeout(120000);
+    test.setTimeout(timeouts.extendedTest);
     try {
       await apiClientFactory.setUpAcaBackend('admin');
       await apiClientFactory.createUser({ username: username1 });
@@ -358,7 +358,6 @@ test.describe('Library actions ', () => {
 
     test('[C306960] Join a moderated library from Search Results', async ({ myLibrariesPage, searchPage }) => {
       await searchPage.navigate({ remoteUrl: `#/search-libraries;q=${adminModerateLibrary2}` });
-
       await expect(libraryTable.getCellByColumnNameAndRowItem(adminModerateLibrary2, notMemberString)).toBeVisible();
       await libraryTable.performActionFromExpandableMenu(adminModerateLibrary2, joinButton);
       await expect.soft(snackBar.getByMessageLocator(requestToJoinMessage)).toBeVisible();
