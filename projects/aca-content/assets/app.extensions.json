@@ -2134,7 +2134,8 @@
           "class": "adf-no-grow-cell adf-ellipsis-cell",
           "sortable": true,
           "desktopOnly": true,
-          "order": 30
+          "order": 30,
+          "draggable": true
         },
         {
           "id": "app.files.modifiedOn",
@@ -2145,7 +2146,8 @@
           "class": "adf-ellipsis-cell adf-expand-cell-1",
           "sortable": true,
           "desktopOnly": true,
-          "order": 40
+          "order": 40,
+          "draggable": true
         },
         {
           "id": "app.files.modifiedBy",
@@ -2156,7 +2158,8 @@
           "class": "adf-ellipsis-cell adf-expand-cell-1",
           "sortable": true,
           "desktopOnly": true,
-          "order": 50
+          "order": 50,
+          "draggable": true
         },
         {
           "id": "app.filer.tags",
@@ -2168,6 +2171,7 @@
           "sortable": false,
           "desktopOnly": true,
           "order": 60,
+          "draggable": true,
           "rules": {
             "visible": "app.areTagsEnabled"
           }
