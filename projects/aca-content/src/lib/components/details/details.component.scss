@@ -13,17 +13,6 @@ app-details-manager {
         outline: 2px solid var(--theme-blue-button-color);
         border-radius: 4px;
       }
-
-      &:focus-visible {
-        outline: 2px solid var(--theme-blue-button-color);
-        border-radius: 4px;
-        margin-top: 12px;
-
-        &:focus-visible {
-          outline: 2px solid var(--theme-blue-button-color);
-          border-radius: 4px;
-        }
-      }
     }
   }
 }

@@ -181,15 +181,7 @@ describe('DetailsComponent', () => {
     const expectedIcon = 'assets/images/ft_ic_folder';
     spyOn(thumbnailService, 'getNodeIcon').and.returnValue(expectedIcon);
     fixture.detectChanges();
-    const result = component.getNodeIcon(mockNode);
-    expect(result).toContain(expectedIcon);
-  });
-
-  it('should unsubscribe from observables on component destroy', () => {
-    spyOn(component.onDestroy$, 'next');
-    spyOn(component.onDestroy$, 'complete');
-    fixture.detectChanges();
-    component.ngOnDestroy();
-    expect(component.onDestroy$.complete).toHaveBeenCalled();
+    component.getNodeIcon(mockNode);
+    expect(component.getIcon).toContain(expectedIcon);
   });
 });

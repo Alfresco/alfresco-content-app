@@ -68,6 +68,7 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
   onDestroy$ = new Subject<boolean>();
   activeTab = 1;
   aspectActions: Array<ContentActionRef> = [];
+  getIcon: string;
 
   constructor(private route: ActivatedRoute, private contentApi: ContentApiService, private thumbnailService: ThumbnailService) {
     super();
@@ -87,6 +88,7 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
       this.contentApi.getNode(this.nodeId).subscribe((node) => {
         this.node = node.entry;
         this.isLoading = false;
+        this.getNodeIcon(this.node);
         this.store.dispatch(new SetSelectedNodesAction([{ entry: this.node }]));
       });
     });
@@ -98,8 +100,8 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
       });
   }
 
-  getNodeIcon(node: Node): string {
-    return this.thumbnailService.getNodeIcon(node);
+  getNodeIcon(node: Node): void {
+    this.getIcon = this.thumbnailService.getNodeIcon(node);
   }
 
   setActiveTab(tabName: string) {

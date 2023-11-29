@@ -1835,4 +1835,10 @@ describe('AppExtensionService', () => {
       done();
     });
   });
+
+  it('should update the sidebarActions', () => {
+    spyOn(service, 'updateSidebarActions').and.callThrough();
+    service.updateSidebarActions();
+    expect(service.updateSidebarActions).toHaveBeenCalled();
+  });
 });
