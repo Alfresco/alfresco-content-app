@@ -64,14 +64,6 @@
                 </ng-template>
               </data-column>
 
-              <data-column id="app.search.description" key="properties"  title="Description" class="adf-expand-cell-3" [sortable]="false" *ngIf="!isSmallScreen" [draggable]="true">
-                <ng-template let-context>
-                  <span class="adf-datatable-cell-value adf-ellipsis-cell">
-                  {{context.row?.node?.entry?.properties && context.row?.node?.entry?.properties['cm:description']}}
-                  </span>
-                </ng-template>
-              </data-column>
-
               <data-column id="app.search.size" key="content.sizeInBytes" type="fileSize" title="APP.DOCUMENT_LIST.COLUMNS.SIZE" class="adf-no-grow-cell adf-ellipsis-cell" [sortable]="false" *ngIf="!isSmallScreen" [draggable]="true"></data-column>
               <data-column id="app.search.modifiedOn" key="modifiedAt" type="date" title="APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON" class="adf-no-grow-cell adf-ellipsis-cell" format="timeAgo" [sortable]="false" *ngIf="!isSmallScreen" [draggable]="true"></data-column>
               <data-column id="app.search.modifiedBy" key="modifiedByUser.displayName" title="APP.DOCUMENT_LIST.COLUMNS.MODIFIED_BY" class="adf-no-grow-cell adf-ellipsis-cell" [sortable]="false" *ngIf="!isSmallScreen" [draggable]="true"></data-column>

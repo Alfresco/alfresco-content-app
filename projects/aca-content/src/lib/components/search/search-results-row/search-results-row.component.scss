@@ -1,7 +1,19 @@
 .aca-search-results-row {
+  padding: 10px 0;
+
+  .highlight {
+    background: #ffd180;
+    color: black;
+  }
+
   .aca-result-location {
     height: 15px;
     padding-top: 3px;
+  }
+
+  .aca-result-content {
+    padding: 0 5px;
+    font-style: italic;
   }
 
   .aca-link {

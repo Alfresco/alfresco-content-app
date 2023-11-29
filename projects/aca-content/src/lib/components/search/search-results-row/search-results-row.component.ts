@@ -23,7 +23,7 @@
  */
 
 import { Component, Input, OnInit, ViewEncapsulation, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
-import { NodeEntry } from '@alfresco/js-api';
+import { NodeEntry, SearchEntryHighlight } from '@alfresco/js-api';
 import { ViewNodeAction, NavigateToFolder } from '@alfresco/aca-shared/store';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, Subject } from 'rxjs';
@@ -54,6 +54,8 @@ export class SearchResultsRowComponent implements OnInit, OnDestroy {
 
   name$ = new BehaviorSubject<string>('');
   title$ = new BehaviorSubject<string>('');
+  description$ = new BehaviorSubject<string>('');
+  content$ = new BehaviorSubject<string>('');
 
   isFile = false;
 
@@ -86,14 +88,47 @@ export class SearchResultsRowComponent implements OnInit, OnDestroy {
     this.node = this.context.row.node;
     this.isFile = this.node.entry.isFile;
 
+    const highlights: SearchEntryHighlight[] = this.node.entry['search']?.['highlight'];
     const { name, properties } = this.node.entry;
+    let displayName = name;
     const title = properties ? properties['cm:title'] : '';
+    let displayTitle = title;
+    const description = properties ? properties['cm:description'] : '';
+    let displayDescription = description;
+    let displayContent = '';
 
-    this.name$.next(name);
+    highlights.forEach((highlight) => {
+      switch (highlight.field) {
+        case 'name':
+          displayName = this.getDisplayContentWithHighlight(name, highlight.snippets[0]);
+          break;
+        case 'title':
+          displayTitle = this.getDisplayContentWithHighlight(title, highlight.snippets[0]);
+          break;
+        case 'description':
+          displayDescription = this.getDisplayContentWithHighlight(description, highlight.snippets[0]);
+          break;
+        case 'content':
+          displayContent = `...${highlight.snippets[0]}...`;
+          break;
+        default:
+          break;
+      }
+    });
+    this.name$.next(displayName);
+    this.description$.next(displayDescription);
+    this.content$.next(displayContent);
 
     if (title !== name) {
-      this.title$.next(title ? `( ${title} )` : '');
+      this.title$.next(displayTitle ? ` ( ${displayTitle} )` : '');
     }
+  }
+
+  private getDisplayContentWithHighlight(originalContent: string, snippet: string): string {
+    const prefix = "<span class='highlight'>";
+    const postfix = '</span>';
+    const snippetWithoutPrefixPostfix = snippet.replace(prefix, '').replace(postfix, '');
+    return originalContent.replace(snippetWithoutPrefixPostfix, snippet);
   }
 
   ngOnDestroy() {

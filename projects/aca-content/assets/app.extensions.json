@@ -1532,7 +1532,25 @@
               "visible": "app.areCategoriesEnabled"
             }
           }
-        ]
+        ],
+        "highlight": {
+          "prefix": "<span class='highlight'>",
+          "postfix": "</span>",
+          "fields": [
+            {
+              "field": "title"
+            },
+            {
+              "field": "name"
+            },
+            {
+              "field": "description"
+            },
+            {
+              "field": "content"
+            }
+          ]
+        }
       },
       {
         "id": "app.search.dublin-core",
