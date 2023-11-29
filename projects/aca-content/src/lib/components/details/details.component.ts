@@ -39,6 +39,7 @@ import { CommentsTabComponent } from '../info-drawer/comments-tab/comments-tab.c
 import { NodeEntry, Node, PathElement } from '@alfresco/js-api';
 import { takeUntil } from 'rxjs/operators';
 import { ContentActionRef } from '@alfresco/adf-extensions';
+import { ThumbnailService } from '@alfresco/adf-core';
 
 @Component({
   standalone: true,
@@ -68,7 +69,7 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
   activeTab = 1;
   aspectActions: Array<ContentActionRef> = [];
 
-  constructor(private route: ActivatedRoute, private contentApi: ContentApiService) {
+  constructor(private route: ActivatedRoute, private contentApi: ContentApiService, private thumbnailService: ThumbnailService) {
     super();
   }
 
@@ -98,7 +99,7 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
   }
 
   getNodeIcon(node: Node): string {
-    return this.contentApi.getNodeIcon(node);
+    return this.thumbnailService.getNodeIcon(node);
   }
 
   setActiveTab(tabName: string) {

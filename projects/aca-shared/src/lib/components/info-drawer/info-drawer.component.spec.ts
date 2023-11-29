@@ -32,11 +32,13 @@ import { InfoDrawerComponent } from './info-drawer.component';
 import { LibTestingModule } from '../../testing/lib-testing-module';
 import { AppExtensionService } from '../../services/app.extension.service';
 import { ContentApiService } from '../../services/content-api.service';
+import { ThumbnailService } from '@alfresco/adf-core';
 
 describe('InfoDrawerComponent', () => {
   let fixture: ComponentFixture<InfoDrawerComponent>;
   let component: InfoDrawerComponent;
   let contentApiService: ContentApiService;
+  let thumbnailService: ThumbnailService;
   let tab: SidebarTabRef;
   let appExtensionService: AppExtensionService;
   const mockStream = new Subject();
@@ -71,6 +73,7 @@ describe('InfoDrawerComponent', () => {
     component = fixture.componentInstance;
     appExtensionService = TestBed.inject(AppExtensionService);
     contentApiService = TestBed.inject(ContentApiService);
+    thumbnailService = TestBed.inject(ThumbnailService);
 
     tab = { title: 'tab1', id: 'tab1', component: '' };
     spyOn(appExtensionService, 'getSidebarTabs').and.returnValue([tab]);
@@ -109,24 +112,32 @@ describe('InfoDrawerComponent', () => {
   });
 
   it('should call getNodeInfo() when node is a shared file', () => {
+    const expectedIcon = 'assets/images/ft_ic_folder';
     const response: any = { entry: { id: 'nodeId' } };
     spyOn(contentApiService, 'getNodeInfo').and.returnValue(of(response));
-    const nodeMock: any = { entry: { nodeId: 'nodeId' }, isLibrary: false };
+    spyOn(thumbnailService, 'getNodeIcon').and.returnValue(expectedIcon);
+    const nodeMock: any = { entry: { nodeId: 'nodeId' }, isLibrary: false, isFolder: true };
     component.node = nodeMock;
 
     fixture.detectChanges();
     component.ngOnChanges();
 
     expect(component.displayNode).toBe(response);
+    expect(component.node.entry).toBe(response);
+    expect(thumbnailService.getNodeIcon).toHaveBeenCalledWith(response);
+    expect(component.icon).toBe(expectedIcon);
     expect(contentApiService.getNodeInfo).toHaveBeenCalled();
   });
 
   it('should call getNodeInfo() when node is a favorite file', () => {
+    const expectedIcon = 'assets/images/ft_ic_folder';
     const response: any = { entry: { id: 'nodeId' } };
     spyOn(contentApiService, 'getNodeInfo').and.returnValue(of(response));
+    spyOn(thumbnailService, 'getNodeIcon').and.returnValue(expectedIcon);
     const nodeMock: any = {
       entry: { id: 'nodeId', guid: 'guidId' },
-      isLibrary: false
+      isLibrary: false,
+      isFolder: true
     };
     component.node = nodeMock;
 
@@ -135,18 +146,24 @@ describe('InfoDrawerComponent', () => {
 
     expect(component.displayNode).toBe(response);
     expect(component.node.entry).toBe(response);
+    expect(thumbnailService.getNodeIcon).toHaveBeenCalledWith(response);
+    expect(component.icon).toBe(expectedIcon);
     expect(contentApiService.getNodeInfo).toHaveBeenCalled();
   });
 
   it('should call getNodeInfo() when node is a recent file', () => {
+    const expectedIcon = 'assets/images/ft_ic_folder';
     const response: any = { entry: { id: 'nodeId' } };
     spyOn(contentApiService, 'getNodeInfo').and.returnValue(of(response));
+    spyOn(thumbnailService, 'getNodeIcon').and.returnValue(expectedIcon);
+
     const nodeMock: any = {
       entry: {
         id: 'nodeId',
         content: { mimeType: 'image/jpeg' }
       },
-      isLibrary: false
+      isLibrary: false,
+      isFolder: true
     };
     component.node = nodeMock;
 
@@ -154,6 +171,9 @@ describe('InfoDrawerComponent', () => {
     component.ngOnChanges();
 
     expect(component.displayNode).toBe(response);
+    expect(component.node.entry).toBe(response);
+    expect(thumbnailService.getNodeIcon).toHaveBeenCalledWith(response);
+    expect(component.icon).toBe(expectedIcon);
     expect(contentApiService.getNodeInfo).toHaveBeenCalled();
   });
 

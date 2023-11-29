@@ -33,7 +33,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { InfoDrawerModule } from '@alfresco/adf-core';
+import { InfoDrawerModule, ThumbnailService } from '@alfresco/adf-core';
 import { TranslateModule } from '@ngx-translate/core';
 import { A11yModule } from '@angular/cdk/a11y';
 import { ToolbarComponent } from '../toolbar/toolbar.component';
@@ -70,7 +70,8 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
     private store: Store<any>,
     private contentApi: ContentApiService,
     private extensions: AppExtensionService,
-    private nodesService: NodesApiService
+    private nodesService: NodesApiService,
+    private thumbnailService: ThumbnailService
   ) {}
 
   ngOnInit() {
@@ -136,6 +137,6 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
   private setDisplayNode(node: any) {
     this.displayNode = node;
     this.node.entry = node;
-    this.icon = this.contentApi.getNodeIcon(node);
+    this.icon = this.thumbnailService.getNodeIcon(node);
   }
 }
