@@ -42,6 +42,7 @@
                 [class]="column.class"
                 [sortable]="column.sortable"
                 [isHidden]="column.isHidden"
+                [draggable]="column.draggable"
               >
                 <ng-template let-context>
                   <adf-dynamic-column [id]="column.template" [context]="context"> </adf-dynamic-column>
@@ -58,6 +59,7 @@
                 [class]="column.class"
                 [sortable]="column.sortable"
                 [isHidden]="column.isHidden"
+                [draggable]="column.draggable"
               >
               </data-column>
             </ng-container>
