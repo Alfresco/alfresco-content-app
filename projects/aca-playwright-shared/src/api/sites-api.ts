@@ -23,7 +23,7 @@
  */
 
 import { ApiClientFactory } from './api-client-factory';
-import { Site, SiteBodyCreate, SiteEntry, SiteMemberEntry, SiteMembershipBodyCreate, SiteMembershipBodyUpdate } from '@alfresco/js-api';
+import { Site, SiteBodyCreate, SiteEntry, SiteMemberEntry, SiteMembershipBodyCreate, SiteMembershipBodyUpdate, SiteMembershipRequestBodyCreate, SiteMembershipRequestEntry } from '@alfresco/js-api';
 
 export class SitesApi {
   private apiService: ApiClientFactory;
@@ -107,6 +107,38 @@ export class SitesApi {
         console.error(`SitesApi addSiteMember : catch : `, error);
         return new SiteMemberEntry;
       }
+    }
+  }
+
+  async createSiteMembershipRequestForPerson(personId: string, siteId: string): Promise<SiteMembershipRequestEntry> {
+    const body = {
+      id: siteId
+    } as SiteMembershipRequestBodyCreate;
+
+    try {
+      return await this.apiService.sites.createSiteMembershipRequestForPerson(personId, body);
+    } catch (error) {
+      console.error(`SitesApi createSiteMembershipRequestForPerson : catch : `, error);
+      return null;
+    }
+  }
+
+  async approveSiteMembershipRequest(siteId: string, inviteeId: string): Promise<SiteMemberEntry> {
+    try {
+      return await this.apiService.sites.approveSiteMembershipRequest(siteId, inviteeId);
+    } catch (error) {
+      console.error(`SitesApi approveSiteMembershipRequest : catch : `, error);
+      return null;
+    }
+  }
+
+  async hasMembershipRequest(personId: string, siteId: string): Promise<boolean> {
+    try {
+      const requests = (await this.apiService.sites.listSiteMembershipRequestsForPerson(personId)).list.entries.map((e) => e.entry.id);
+      return requests.includes(siteId);
+    } catch (error) {
+      console.error(`SitesApi hasMembershipRequest : catch : `, error);
+      return null;
     }
   }
 }
