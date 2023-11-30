@@ -117,8 +117,6 @@ jobs:
             id: 3
           - name: "shareActions"
             id: 4
-          - name: "pagination"
-            id: 5
           - name: "copyMoveActions"
             id: 6
           - name: "deleteActions"
