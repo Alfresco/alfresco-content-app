@@ -127,6 +127,7 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
       this.contentApi.getNodeInfo(nodeId).subscribe(
         (entity) => {
           this.setDisplayNode(entity);
+          this.node.entry = entity;
           this.isLoading = false;
         },
         () => (this.isLoading = false)
@@ -136,7 +137,6 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
 
   private setDisplayNode(node: any) {
     this.displayNode = node;
-    this.node.entry = node;
     this.icon = this.thumbnailService.getNodeIcon(node);
   }
 }
