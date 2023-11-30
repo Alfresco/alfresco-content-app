@@ -32,7 +32,6 @@ export * from './info-drawer';
 export * from './login/login';
 export * from './menu/menu';
 export * from './metadata-card/metadata-card';
-export * from './pagination/pagination';
 export * from './search';
 export * from './sidenav/sidenav';
 export * from './toolbar/toolbar';
