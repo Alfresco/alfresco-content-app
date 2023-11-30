@@ -126,26 +126,6 @@ export class UserActions {
     }
   }
 
-  /**
-   * Performs multiple calls to retrieve the size of the trashcan until the expectedSize is reached.
-   * Used with eventual consistency calls.
-   * @param expectedSize Size of the trashcan to wait for.
-   */
-  async waitForTrashcanSize(expectedSize: number): Promise<number> {
-    return Utils.retryCall(async () => {
-      const totalItems = await this.getTrashcanSize();
-
-      if (totalItems !== expectedSize) {
-        return Promise.reject(totalItems);
-      } else {
-        return Promise.resolve(totalItems);
-      }
-    }).catch((error) => {
-      this.handleError('User Actions - waitForTrashcanSize failed : ', error);
-      return -1;
-    });
-  }
-
   async lockNodes(nodeIds: string[], lockType: string = 'ALLOW_OWNER_CHANGES') {
     try {
       for (const nodeId of nodeIds) {
