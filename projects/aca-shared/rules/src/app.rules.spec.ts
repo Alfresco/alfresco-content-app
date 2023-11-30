@@ -852,6 +852,42 @@ describe('app.evaluators', () => {
     });
   });
 
+  describe('editAspects', () => {
+    let context: TestRuleContext;
+
+    beforeEach(() => {
+      context = createTestContext();
+    });
+
+    it('should return true for multiselection', () => {
+      context.selection.count = 2;
+
+      expect(app.editAspects(context)).toBe(true);
+    });
+
+    it('should return false if user cannot update the selected node', () => {
+      context.permissions.check = spyOn(context.permissions, 'check').and.returnValue(false);
+
+      expect(app.editAspects(context)).toBe(false);
+    });
+
+    it('should return false if the selected node is write locked', () => {
+      context.selection.file = { entry: { properties: { 'cm:lockType': 'WRITE_LOCK' } } } as NodeEntry;
+
+      expect(app.editAspects(context)).toBe(false);
+    });
+
+    it('should return false if the context is trashcan', () => {
+      context.navigation = { url: '/trashcan' };
+
+      expect(app.editAspects(context)).toBe(false);
+    });
+
+    it('should return true if all conditions are met', () => {
+      expect(app.editAspects(context)).toBe(true);
+    });
+  });
+
   describe('canManagePermissions', () => {
     let context: TestRuleContext;
 

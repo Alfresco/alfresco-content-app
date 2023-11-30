@@ -36,6 +36,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AuthenticationService, PageTitleService, ThumbnailService } from '@alfresco/adf-core';
 import { BreadcrumbComponent, SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { By } from '@angular/platform-browser';
+import { ContentActionRef } from '@alfresco/adf-extensions';
 
 describe('DetailsComponent', () => {
   let component: DetailsComponent;
@@ -55,10 +56,10 @@ describe('DetailsComponent', () => {
     getAllowedSidebarActions: jasmine.createSpy('getAllowedSidebarActions')
   };
 
-  const mockAspectActions = [];
+  const mockAspectActions: ContentActionRef[] = [];
 
-  const mockObservable = new BehaviorSubject(mockAspectActions);
-  extensionsServiceMock.getAllowedSidebarActions.and.returnValue(mockObservable);
+  const mockAspectActionsSubject$ = new BehaviorSubject(mockAspectActions);
+  extensionsServiceMock.getAllowedSidebarActions.and.returnValue(mockAspectActionsSubject$.asObservable());
 
   const mockNode = {
     isFile: false,
@@ -183,5 +184,32 @@ describe('DetailsComponent', () => {
     fixture.detectChanges();
     component.getNodeIcon(mockNode);
     expect(component.getIcon).toContain(expectedIcon);
+  });
+
+  it('should set aspectActions from extensions', async () => {
+    const extensionMock = {
+      getAllowedSidebarActions: () =>
+        of([
+          {
+            id: 'app.sidebar.close',
+            order: 100,
+            title: 'close',
+            icon: 'highlight_off'
+          }
+        ])
+    };
+
+    extensionsServiceMock.getAllowedSidebarActions.and.returnValue(of(extensionMock));
+    fixture.detectChanges();
+    void fixture.whenStable().then(() => {
+      expect(component.aspectActions).toEqual([
+        {
+          id: 'app.sidebar.close',
+          order: 100,
+          title: 'close',
+          icon: 'highlight_off'
+        } as ContentActionRef
+      ]);
+    });
   });
 });
