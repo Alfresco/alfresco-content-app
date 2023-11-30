@@ -28,6 +28,7 @@ export * from './pageLayoutHeader/pageLayoutHeader';
 export * from './data-table/data-table';
 export * from './dialog/confirm-dialog';
 export * from './dialog/create-edit-folder-dialog';
+export * from './pagination/pagination';
 export * from './sidenav/sidenav';
 export * from './toolbar/toolbar';
 export * from './breadcrumb/breadcrumb';

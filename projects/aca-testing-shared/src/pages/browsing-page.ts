@@ -22,7 +22,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Header, DataTable, Toolbar, Breadcrumb, Sidenav, PageLayoutHeader } from '../components/components';
+import { Header, DataTable, Pagination, Toolbar, Breadcrumb, Sidenav, PageLayoutHeader } from '../components/components';
 import { SIDEBAR_LABELS } from './../configs';
 import { Page } from './page';
 
@@ -33,6 +33,7 @@ export class BrowsingPage extends Page {
   breadcrumb = new Breadcrumb(this.appRoot);
   pageLayoutHeader = new PageLayoutHeader(this.appRoot);
   dataTable = new DataTable(this.appRoot);
+  pagination = new Pagination(this.appRoot);
 
   async clickPersonalFiles(): Promise<void> {
     await this.sidenav.clickLink(SIDEBAR_LABELS.PERSONAL_FILES);
