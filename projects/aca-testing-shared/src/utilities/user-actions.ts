@@ -25,7 +25,6 @@
 import { Logger } from '@alfresco/adf-testing';
 import { AlfrescoApi, Comment, CommentsApi, NodesApi, TrashcanApi, SitesApi, SharedlinksApi } from '@alfresco/js-api';
 import { browser } from 'protractor';
-import { Utils } from './utils';
 
 export class UserActions {
   protected readonly alfrescoApi: AlfrescoApi;
