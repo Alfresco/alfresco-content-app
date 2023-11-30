@@ -108,23 +108,6 @@ export class UserActions {
     }
   }
 
-  /**
-   * Returns the amount of deleted nodes in the trashcan.
-   * TODO: limited to 1000 items only, needs improvements.
-   */
-  async getTrashcanSize(): Promise<number> {
-    try {
-      const response = await this.trashcanApi.listDeletedNodes({
-        maxItems: 1000
-      });
-
-      return response?.list?.pagination?.totalItems || 0;
-    } catch (error) {
-      this.handleError('User Actions - getTrashcanSize failed : ', error);
-      return -1;
-    }
-  }
-
   async lockNodes(nodeIds: string[], lockType: string = 'ALLOW_OWNER_CHANGES') {
     try {
       for (const nodeId of nodeIds) {
