@@ -93,16 +93,6 @@ export class FavoritesApi extends RepoApi {
     }
   }
 
-  async getFavoriteById(nodeId: string) {
-    try {
-      await this.apiAuth();
-      return await this.favoritesApi.getFavorite('-me-', nodeId);
-    } catch (error) {
-      this.handleError(`FavoritesApi getFavoriteById : catch : `, error);
-      return null;
-    }
-  }
-
   async isFavorite(nodeId: string) {
     try {
       return JSON.stringify((await this.getFavorites()).list.entries).includes(nodeId);

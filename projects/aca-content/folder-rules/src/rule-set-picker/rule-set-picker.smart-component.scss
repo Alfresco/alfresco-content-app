@@ -1,7 +1,7 @@
 .aca-rule-set-picker-container {
   --rule-set-picker-padding: 8px 20px;
 
-  .mat-dialog-container {
+  & > * {
     padding: 0;
   }
 }
@@ -22,7 +22,7 @@
     }
 
     &__close {
-      & mat-icon {
+      &__icon {
         font-size: 18px;
       }
     }
@@ -50,7 +50,7 @@
       overflow-y: auto;
       overflow-x: hidden;
 
-      &.justify {
+      &.aca-justify {
         align-items: center;
         justify-content: center;
       }

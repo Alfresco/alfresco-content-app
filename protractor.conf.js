@@ -51,13 +51,11 @@ exports.config = {
 
   specs: [
     './e2e/protractor/suites/actions/**/**/*test.ts',
-    './e2e/protractor/suites/actions-available/**/**/*test.ts',
     './e2e/protractor/suites/application/**/*test.ts',
     './e2e/protractor/suites/authentication/**/*test.ts',
     './e2e/protractor/suites/extensions/**/*test.ts',
     './e2e/protractor/suites/info-drawer/**/*test.ts',
     './e2e/protractor/suites/list-views/**/*test.ts',
-    './e2e/protractor/suites/navigation/**/*test.ts',
     './e2e/protractor/suites/pagination/**/*test.ts',
     './e2e/protractor/suites/search/**/*test.ts',
     './e2e/protractor/suites/viewer/**/*test.ts'
@@ -73,17 +71,11 @@ exports.config = {
     shareActions: './e2e/protractor/suites/actions/share/**/**/*test.ts',
     uploadDownloadActions: './e2e/protractor/suites/actions/upload-download/**/**/*test.ts',
 
-    actionsAvailableFilesFolders: './e2e/protractor/suites/actions-available/files-folders/**/**/*test.ts',
-    actionsAvailableLibraries: './e2e/protractor/suites/actions-available/libraries/**/**/*test.ts',
-    actionsAvailableSpecialPermissions: './e2e/protractor/suites/actions-available/special-permissions/**/**/*test.ts',
-    actionsAvailableNewMenu: './e2e/protractor/suites/actions-available/new-menu/**/**/*test.ts',
-
     application: './e2e/protractor/suites/application/**/*test.ts',
     authentication: './e2e/protractor/suites/authentication/**/*test.ts',
     extensions: './e2e/protractor/suites/extensions/**/*test.ts',
     infoDrawer: './e2e/protractor/suites/info-drawer/**/*test.ts',
     listViews: './e2e/protractor/suites/list-views/**/*test.ts',
-    navigation: './e2e/protractor/suites/navigation/**/*test.ts',
     pagination: './e2e/protractor/suites/pagination/**/*test.ts',
     search: './e2e/protractor/suites/search/**/*test.ts',
     viewer: './e2e/protractor/suites/viewer/**/*test.ts'

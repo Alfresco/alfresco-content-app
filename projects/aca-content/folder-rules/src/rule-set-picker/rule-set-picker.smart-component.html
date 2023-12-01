@@ -3,7 +3,7 @@
     {{ 'ACA_FOLDER_RULES.LINK_RULES_DIALOG.TITLE' | translate }}
   </div>
   <button mat-icon-button mat-dialog-close class="aca-rule-set-picker__header__close" tabindex="-1">
-    <mat-icon>close</mat-icon>
+    <mat-icon class="aca-rule-set-picker__header__close__icon">close</mat-icon>
   </button>
 </div>
 
@@ -17,7 +17,7 @@
     (siteChange)="setFolderLoading(true)">
   </adf-content-node-selector-panel>
 
-  <div class="aca-rule-set-picker__content__rule-list" [ngClass]="{ justify: rulesLoading$ | async }">
+  <div class="aca-rule-set-picker__content__rule-list" [ngClass]="{ 'aca-justify': rulesLoading$ | async }">
     <ng-container *ngIf="rulesLoading$ | async; else rulesLoaded">
       <mat-progress-spinner color="primary" mode="indeterminate"></mat-progress-spinner>
     </ng-container>

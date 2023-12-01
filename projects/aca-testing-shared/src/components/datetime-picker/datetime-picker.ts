@@ -29,12 +29,7 @@ import { BrowserActions } from '@alfresco/adf-testing';
 
 export class DateTimePicker extends Component {
   calendar = this.byCss('.mat-datepicker-popup', browser);
-  headerTime = this.byCss('.mat-datetimepicker-calendar-header-time');
-  headerDate = this.byCss('.mat-datetimepicker-calendar-header-date');
-  headerYear = this.byCss('.mat-datetimepicker-calendar-header-year');
   dayPicker = this.byCss('mat-month-view');
-  hourPicker = this.byCss('.mat-datetimepicker-clock-hours');
-  minutePicker = this.byCss('.mat-datetimepicker-clock-minutes');
   nextMonthBtn = this.byCss('.mat-calendar-next-button');
   rootElemLocator = by.css('.mat-datepicker-popup');
 
@@ -53,7 +48,7 @@ export class DateTimePicker extends Component {
   }
 
   async pickDateTime(): Promise<void> {
-    const today = new Date()
+    const today = new Date();
     const nextAvailableDay = new Date();
     nextAvailableDay.setDate(today.getDate() + 2);
     if (nextAvailableDay.getMonth() !== today.getMonth()) {
@@ -66,17 +61,5 @@ export class DateTimePicker extends Component {
     const firstActiveDay = '.mat-calendar-body-cell-content';
     const firstActiveDayElem = this.dayPicker.element(by.cssContainingText(firstActiveDay, `${day}`));
     await BrowserActions.click(firstActiveDayElem);
-  }
-
-  async selectHour(hour: number): Promise<void> {
-    const clockCellClass = '.mat-datetimepicker-clock-cell';
-    const selectedHourElem = this.hourPicker.element(by.cssContainingText(clockCellClass, `${hour}`));
-    await BrowserActions.click(selectedHourElem);
-  }
-
-  async selectMinute(minute: number): Promise<void> {
-    const clockCellClass = '.mat-datetimepicker-clock-cell';
-    const selectedMinuteElem = this.minutePicker.element(by.cssContainingText(clockCellClass, `${minute}`));
-    await BrowserActions.click(selectedMinuteElem);
   }
 }

@@ -109,7 +109,7 @@ jobs:
       fail-fast: false
       matrix:
         e2e-suites:
-          - name: "listViews,navigation"
+          - name: "listViews"
             id: 1
           - name: "search"
             id: 2
@@ -119,22 +119,14 @@ jobs:
             id: 4
           - name: "pagination"
             id: 5
-          - name: "actionsAvailableFilesFolders"
-            id: 6
-          - name: "actionsAvailableLibraries,actionsAvailableNewMenu"
-            id: 7
-          - name: "actionsAvailableSpecialPermissions"
-            id: 8
           - name: "copyMoveActions"
-            id: 9
+            id: 6
           - name: "deleteActions"
-            id: 10
+            id: 7
           - name: "editActions,favoriteActions"
-            id: 11
-          - name: "libraryActions"
-            id: 12
+            id: 8
           - name: "uploadDownloadActions"
-            id: 13
+            id: 9
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -182,6 +174,8 @@ jobs:
             id: 5
           - name: "special-permissions"
             id: 6
+          - name: "pagination"
+            id: 7
     steps:
       - name: Checkout
         uses: actions/checkout@v3

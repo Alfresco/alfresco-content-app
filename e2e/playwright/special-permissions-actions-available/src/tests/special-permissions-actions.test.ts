@@ -34,7 +34,8 @@ import {
   SitesApi,
   test,
   SharedLinksApi,
-  SearchPageApi
+  SearchPageApi,
+  timeouts
 } from '@alfresco/playwright-shared';
 import { Site } from '@alfresco/js-api';
 
@@ -79,7 +80,7 @@ test.describe('Special permissions : ', () => {
   let managerSearchActions: SearchPageApi;
 
   test.beforeAll(async () => {
-    test.setTimeout(140000);
+    test.setTimeout(timeouts.extendedTest);
     await apiClientFactory.setUpAcaBackend('admin');
     await apiClientFactory.createUser({ username: userManager });
     await apiClientFactory.createUser({ username: userConsumer });

@@ -22,17 +22,18 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { browser } from 'protractor';
-import { USE_HASH_STRATEGY } from '../configs';
+import { Page } from '@playwright/test';
+import { BaseComponent } from '../base.component';
 
-export async function navigate(relativePath: string) {
-  const path = [
-    browser.baseUrl,
-    browser.baseUrl.endsWith('/') ? '' : '/',
-    USE_HASH_STRATEGY ? '#' : '',
-    relativePath.startsWith('/') ? '' : '/',
-    relativePath
-  ].join('');
+export class AdfConfirmDialogComponent extends BaseComponent {
+  private static rootElement = 'adf-confirm-dialog';
 
-  return browser.get(path);
+  constructor(page: Page) {
+    super(page, AdfConfirmDialogComponent.rootElement);
+  }
+
+  getDialogTitle = (text: string) => this.getChild('[data-automation-id="adf-confirm-dialog-title"]', { hasText: text });
+  getDialogContent = (text: string) => this.getChild('[data-automation-id="adf-confirm-dialog-base-message"]', { hasText: text });
+  okButton = this.getChild('[data-automation-id="adf-confirm-dialog-confirmation"]');
+  cancelButton = this.getChild('[data-automation-id="adf-confirm-dialog-reject"]');
 }

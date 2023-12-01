@@ -12,14 +12,17 @@
   "plugins": {
     "aosPlugin": true,
     "contentService": true,
-    "folderRules": true
+    "folderRules": true,
+    "tags": true,
+    "categories": true
   },
   "oauth2": {
     "host": "{protocol}//{hostname}{:port}/auth/realms/alfresco",
     "clientId": "alfresco",
     "scope": "openid",
     "secret": "",
-    "implicitFlow": true,
+    "implicitFlow": false,
+    "codeFlow": true,
     "silentLogin": true,
     "publicUrls": ["**/preview/s/*", "**/settings", "**/blank"],
     "redirectSilentIframeUri": "{protocol}//{hostname}{:port}/assets/silent-refresh.html",

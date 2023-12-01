@@ -17,11 +17,11 @@
   }
 
   // todo: remove this when viewer supports extensions
-  .adf-viewer-toolbar .mat-toolbar > button:last-child {
+  .adf-viewer-toolbar > * > button:last-child {
     display: none;
   }
 
-  .adf-alfresco-viewer.right_side--hide .adf-viewer__sidebar__right {
+  .adf-alfresco-viewer.aca-right_side--hide .adf-viewer__sidebar__right {
     width: 0;
   }
 }

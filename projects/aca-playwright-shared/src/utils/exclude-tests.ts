@@ -6,16 +6,14 @@
  * agreement is prohibited.
  */
 
-import { logger } from '@alfresco/adf-cli/scripts/logger';
-
 export const getExcludedTestsRegExpArray = (excludedJson: any, projectName: string) => {
     const prefix = `[ 🎭 Playwright Excludes - ${projectName} ]`;
     const objectKeys = Object.keys(excludedJson);
 
     if (!objectKeys.length) {
-        logger.info(`${prefix} ✅ No excluded tests 🎉 `);
+        console.info(`${prefix} ✅ No excluded tests 🎉 `);
     } else {
-        logger.warn(`${prefix} ❌ Tests excluded because of 🐛 : ${objectKeys}`);
+        console.warn(`${prefix} ❌ Tests excluded because of 🐛 : ${objectKeys}`);
     }
 
     return objectKeys.map((key) => new RegExp(key));

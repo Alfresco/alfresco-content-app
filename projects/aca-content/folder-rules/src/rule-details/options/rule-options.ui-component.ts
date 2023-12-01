@@ -74,7 +74,7 @@ export class RuleOptionsUiComponent implements ControlValueAccessor, OnChanges, 
   @Input()
   errorScriptConstraint: ActionParameterConstraint;
 
-  @HostBinding('class.read-only')
+  @HostBinding('class.aca-read-only')
   readOnly = false;
 
   onChange: (options: RuleOptions) => void = () => undefined;

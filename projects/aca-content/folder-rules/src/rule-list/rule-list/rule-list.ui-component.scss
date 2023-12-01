@@ -35,13 +35,13 @@
         justify-content: flex-start;
         flex: 1;
 
-        .mat-icon {
+        &__mat-icon {
           transform: scale(0.8);
         }
       }
     }
 
-    &.expanded {
+    &.aca-expanded {
       .aca-rule-list__item__header {
         border-bottom: 1px solid var(--theme-border-color);
       }

@@ -56,6 +56,7 @@ import { ViewerRules } from '../models/viewer.rules';
 import { Badge, SettingsGroupRef } from '../models/types';
 import { NodePermissionService } from '../services/node-permission.service';
 import { filter, map } from 'rxjs/operators';
+import { SearchCategory } from '@alfresco/adf-content-services';
 
 @Injectable({
   providedIn: 'root'
@@ -167,6 +168,9 @@ export class AppExtensionService implements RuleContext {
     this.sidebarTabs = this.loader.getElements<SidebarTabRef>(config, 'features.sidebar.tabs');
     this.contentMetadata = this.loadContentMetadata(config);
     this.search = this.loadSearchForms(config);
+    this.search?.forEach((searchSet) => {
+      searchSet.categories = searchSet.categories?.filter((category) => this.filterVisible(category));
+    });
 
     this.documentListPresets = {
       libraries: this.getDocumentListPreset(config, 'libraries'),
@@ -482,7 +486,7 @@ export class AppExtensionService implements RuleContext {
     };
   }
 
-  filterVisible(action: ContentActionRef | SettingsGroupRef | SidebarTabRef | DocumentListPresetRef): boolean {
+  filterVisible(action: ContentActionRef | SettingsGroupRef | SidebarTabRef | DocumentListPresetRef | SearchCategory): boolean {
     if (action?.rules?.visible) {
       return this.extensions.evaluateRule(action.rules.visible, this);
     }
