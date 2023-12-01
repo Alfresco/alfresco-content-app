@@ -2141,7 +2141,7 @@
           "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON",
           "type": "date",
           "format": "timeAgo",
-          "class": "adf-ellipsis-cell adf-no-grow-cell",
+          "class": "adf-ellipsis-cell adf-expand-cell-1",
           "sortable": true,
           "desktopOnly": true,
           "order": 40
@@ -2152,7 +2152,7 @@
           "sortingKey": "modifiedByUser",
           "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_BY",
           "type": "text",
-          "class": "adf-ellipsis-cell adf-no-grow-cell",
+          "class": "adf-ellipsis-cell adf-expand-cell-1",
           "sortable": true,
           "desktopOnly": true,
           "order": 50
@@ -2329,7 +2329,7 @@
           "sortingKey": "modifiedAt",
           "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON",
           "type": "date",
-          "class": "adf-ellipsis-cell adf-no-grow-cell",
+          "class": "adf-ellipsis-cell adf-expand-cell-2",
           "format": "timeAgo",
           "sortable": true,
           "desktopOnly": true,
@@ -2341,7 +2341,7 @@
           "sortingKey": "modifiedByUser",
           "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_BY",
           "type": "text",
-          "class": "adf-ellipsis-cell adf-no-grow-cell",
+          "class": "adf-ellipsis-cell adf-expand-cell-2",
           "sortable": true,
           "desktopOnly": true,
           "order": 60
@@ -2420,7 +2420,7 @@
           "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON",
           "type": "date",
           "format": "timeAgo",
-          "class": "adf-ellipsis-cell adf-no-grow-cell",
+          "class": "adf-ellipsis-cell adf-expand-cell-1",
           "sortable": true,
           "desktopOnly": true,
           "order": 50
@@ -2487,7 +2487,7 @@
           "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON",
           "type": "date",
           "format": "timeAgo",
-          "class": "adf-ellipsis-cell adf-no-grow-cell",
+          "class": "adf-ellipsis-cell adf-expand-cell-1",
           "sortable": true,
           "desktopOnly": true,
           "order": 50
@@ -2498,7 +2498,7 @@
           "sortingKey": "modifiedByUser",
           "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_BY",
           "type": "text",
-          "class": "adf-ellipsis-cell adf-no-grow-cell",
+          "class": "adf-ellipsis-cell adf-expand-cell-1",
           "sortable": true,
           "desktopOnly": true,
           "order": 60
