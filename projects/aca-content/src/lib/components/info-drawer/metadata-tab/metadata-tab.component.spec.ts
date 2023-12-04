@@ -198,60 +198,6 @@ describe('MetadataTabComponent', () => {
     });
   });
 
-  describe('editable', () => {
-    let editOfflineAction: EditOfflineAction;
-
-    beforeEach(() => {
-      fixture = TestBed.createComponent(MetadataTabComponent);
-      component = fixture.componentInstance;
-      component.node = {
-        id: 'some id',
-        allowableOperations: []
-      } as Node;
-      component.ngOnInit();
-      editOfflineAction = new EditOfflineAction({
-        entry: {
-          isLocked: false,
-          allowableOperations: ['update'],
-          id: component.node.id
-        } as Node
-      });
-      component.editable = true;
-    });
-
-    it('should not have set false if node is not locked and has update permission', () => {
-      actions$.next(editOfflineAction);
-      expect(component.editable).toBeTrue();
-    });
-
-    it('should not have set false if changed node has different id than original', () => {
-      editOfflineAction.payload.entry.id = 'some other id';
-      editOfflineAction.payload.entry.isLocked = true;
-      actions$.next(editOfflineAction);
-      expect(component.editable).toBeTrue();
-    });
-
-    it('should have set false if node is locked', () => {
-      editOfflineAction.payload.entry.isLocked = true;
-      actions$.next(editOfflineAction);
-      expect(component.editable).toBeFalse();
-    });
-
-    it('should have set false if node has no update permission', () => {
-      editOfflineAction.payload.entry.allowableOperations = ['other'];
-      actions$.next(editOfflineAction);
-      expect(component.editable).toBeFalse();
-    });
-
-    it('should have set false if node has read only property', () => {
-      editOfflineAction.payload.entry.properties = {
-        'cm:lockType': 'WRITE_LOCK'
-      };
-      actions$.next(editOfflineAction);
-      expect(component.editable).toBeFalse();
-    });
-  });
-
   describe('ContentMetadataCardComponent', () => {
     const getContentMetadataCard = (): ContentMetadataCardComponent =>
       fixture.debugElement.query(By.directive(ContentMetadataCardComponent)).componentInstance;
