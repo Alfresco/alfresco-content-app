@@ -86,7 +86,7 @@ describe('RuleActionUiComponent', () => {
     expect(cardView.properties[4]).toBeInstanceOf(CardViewSelectItemModel);
 
     changeMatSelectValue('mock-action-2-definition');
-    expect(getPropertiesCardView()).toBeNull();
+    expect(fixture.debugElement.query(By.directive(CardViewComponent))).toBeNull();
   });
 
   it('should create category-value action parameter as a text box rather than node picker', () => {
