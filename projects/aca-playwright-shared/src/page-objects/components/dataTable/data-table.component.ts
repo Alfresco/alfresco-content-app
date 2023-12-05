@@ -41,7 +41,8 @@ export class DataTableComponent extends BaseComponent {
   getEmptyContentTitleLocator = this.getChild('adf-empty-content .adf-empty-content__title');
   getEmptyContentSubTitleLocator = this.getChild('adf-empty-content .adf-empty-content__subtitle');
   getSelectedRow = this.getChild('.adf-datatable-row.adf-is-selected');
-  sortedAscColumnHeader = this.getChild('.adf-datatable__header--sorted-asc .adf-datatable-cell-header-content .adf-datatable-cell-value');
+  sortedColumnHeader = this.getChild(`.adf-datatable__header--sorted-asc .adf-datatable-cell-header-content .adf-datatable-cell-value,
+                                      .adf-datatable__header--sorted-desc .adf-datatable-cell-header-content .adf-datatable-cell-value`);
   columnHeaders = this.getChild('.adf-datatable-row .adf-datatable-cell-header .adf-datatable-cell-value');
 
   /** Locator for row (or rows) */
@@ -241,7 +242,7 @@ export class DataTableComponent extends BaseComponent {
   }
 
   async getSortedColumnHeaderText(): Promise<string> {
-    return this.sortedAscColumnHeader.innerText();
+    return this.sortedColumnHeader.innerText();
   }
 
   private getItemLocationEl(name: string): Locator {
@@ -261,5 +262,15 @@ export class DataTableComponent extends BaseComponent {
 
   async clickItemLocation(name: string): Promise<void> {
     await this.getItemLocationEl(name).click();
+  }
+
+  async getSortingOrder(): Promise<string> {
+    const str = await this.sortedColumnHeader.locator('../..').getAttribute('class');
+    if (str.includes('asc')) {
+      return 'asc';
+    }else if (str.includes('desc')) {
+      return 'desc';
+    }
+    return 'none';
   }
 }
