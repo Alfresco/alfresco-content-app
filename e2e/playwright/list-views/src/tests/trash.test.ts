@@ -84,7 +84,7 @@ test.describe('Trash', () => {
     }
   });
 
-  test.describe.only(`Regular user's personal files`, () => {
+  test.describe(`Regular user's personal files`, () => {
     test.beforeEach(async ({ page }) => {
       const loginPage = new LoginPage(page);
       try {
