@@ -26,7 +26,7 @@ import { expect } from '@playwright/test';
 import { ApiClientFactory, FavoritesPageApi, LoginPage, SitesApi, Utils, test, timeouts } from '@alfresco/playwright-shared';
 import { Site } from '@alfresco/js-api';
 
-test.describe.only('File Libraries', () => {
+test.describe('File Libraries', () => {
   const apiClientFactory = new ApiClientFactory();
   let siteActionsAdmin: SitesApi;
   let siteActionsUser: SitesApi;
@@ -144,7 +144,7 @@ test.describe.only('File Libraries', () => {
     });
   });
 
-  test.describe.only('Favorite Libraries', () => {
+  test.describe('Favorite Libraries', () => {
     test.beforeEach(async ({ page, favoritesLibrariesPage }) => {
       const loginPage = new LoginPage(page);
       await loginPage.loginUser(
