@@ -268,9 +268,13 @@ export class DataTableComponent extends BaseComponent {
     const str = await this.sortedColumnHeader.locator('../..').getAttribute('class');
     if (str.includes('asc')) {
       return 'asc';
-    }else if (str.includes('desc')) {
+    } else if (str.includes('desc')) {
       return 'desc';
     }
     return 'none';
+  }
+
+  async getRowAllInnerTexts(name: string): Promise<string> {
+    return (await this.getRowByName(name).locator('span').allInnerTexts()).toString();
   }
 }

@@ -43,27 +43,19 @@ test.describe('Personal Files', () => {
   });
 
   test.afterAll(async () => {
-    try {
-      await nodesApi.deleteCurrentUserNodes();
-    } catch (error) {
-      console.error(`afterAll failed : ${error}`);
-    }
+    await nodesApi.deleteCurrentUserNodes();
   });
 
   test.describe(`Regular user's personal files`, () => {
     test.beforeEach(async ({ page }) => {
       const loginPage = new LoginPage(page);
-      try {
-        await loginPage.loginUser(
-          { username, password: username },
-          {
-            withNavigation: true,
-            waitForLoading: true
-          }
-        );
-      } catch (error) {
-        console.error(`beforeEach failed : ${error}`);
-      }
+      await loginPage.loginUser(
+        { username, password: username },
+        {
+          withNavigation: true,
+          waitForLoading: true
+        }
+      );
     });
 
     test('[C217142] has the correct columns', async ({ personalFiles }) => {

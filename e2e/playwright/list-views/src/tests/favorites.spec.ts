@@ -79,25 +79,17 @@ test.describe('Favorites Files', () => {
 
   test.beforeEach(async ({ page }) => {
     const loginPage = new LoginPage(page);
-    try {
-      await loginPage.loginUser(
-        { username, password: username },
-        {
-          withNavigation: true,
-          waitForLoading: true
-        }
-      );
-    } catch (error) {
-      console.error(`beforeEach failed : ${error}`);
-    }
+    await loginPage.loginUser(
+      { username, password: username },
+      {
+        withNavigation: true,
+        waitForLoading: true
+      }
+    );
   });
 
   test.afterAll(async () => {
-    try {
-      await nodesApi.deleteCurrentUserNodes();
-    } catch (error) {
-      console.error(`afterAll failed : ${error}`);
-    }
+    await nodesApi.deleteCurrentUserNodes();
   });
 
   test.describe(`Regular user's Favorites files`, () => {
