@@ -22,21 +22,24 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Page } from '@playwright/test';
-import { BaseComponent } from '../base.component';
+import { PlaywrightTestConfig } from '@playwright/test';
+import { CustomConfig, getGlobalConfig, getExcludedTestsRegExpArray, timeouts } from '@alfresco/playwright-shared';
+import EXCLUDED_JSON from './exclude.tests.json';
 
-export class SnackBarComponent extends BaseComponent {
-  private static rootElement = 'adf-snackbar-content';
+const config: PlaywrightTestConfig<CustomConfig> = {
+  ...getGlobalConfig,
 
-  public message = this.getChild('[data-automation-id="adf-snackbar-message-content"]').first();
+  grepInvert: getExcludedTestsRegExpArray(EXCLUDED_JSON, 'Copy Move Actions'),
+  projects: [
+    {
+      name: 'Copy Move Actions',
+      testDir: './src/tests',
+      use: {
+        users: ['hruser']
+      },
+      timeout: timeouts.extendedTest
+    }
+  ]
+};
 
-  public actionButton = this.getChild('[data-automation-id="adf-snackbar-message-content-action-button"]')
-
-  public closeIcon = this.getChild('.adf-snackbar-message-content-action-icon');
-  public getByMessageLocator = (message: string) => this.getChild(`[data-automation-id='adf-snackbar-message-content']`,
-      { hasText: message }).first();
-
-  constructor(page: Page, rootElement = SnackBarComponent.rootElement) {
-    super(page, rootElement);
-  }
-}
+export default config;
