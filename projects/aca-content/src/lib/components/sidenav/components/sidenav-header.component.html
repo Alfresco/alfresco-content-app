@@ -1,7 +1,8 @@
-<div class="aca-sidenav-header">
-  <div class="aca-sidenav-header-title">
+<div class="aca-sidenav-header" data-automation-id="app-sidenav-header">
+  <div class="aca-sidenav-header-title" data-automation-id="app-sidenav-header-title">
     <div class="aca-sidenav-header-title-logo"
       tabindex=0
+      data-automation-id="app-sidenav-header-title-logo"
       (click)="toggleNavBar.emit()"
       (keypress)="toggleNavBar.emit()">
       <img
@@ -10,7 +11,10 @@
         alt="{{ 'CORE.HEADER.LOGO_ARIA' | translate }}" />
     </div>
 
-    <div class="aca-sidenav-header-title-text" [routerLink]="landingPage">
+    <div
+      class="aca-sidenav-header-title-text"
+      data-automation-id="app-sidenav-header-title-text"
+      [routerLink]="landingPage">
       {{ appName$ | async | translate }}
     </div>
 
