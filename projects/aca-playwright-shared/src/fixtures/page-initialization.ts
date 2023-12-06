@@ -33,13 +33,13 @@ import {
   SharedPage,
   SearchPage,
   FavoritesPage,
-  FavoritesLibrariesPage,
   FavoritesPageApi,
   TrashPage,
   LoginPage,
   NodesApi,
   SitesApi,
-  users
+  users,
+  FavoritesLibrariesPage
 } from '../';
 
 interface Pages {
