@@ -32,7 +32,7 @@ export class Viewer extends Component {
   root = browser.$('adf-viewer');
   viewerLayout = this.byCss('.adf-viewer-render-layout-content');
   viewerContainer = this.byCss('.adf-viewer-render-content-container');
-  closeButton = this.byCss('button[title="Close"]');
+  closeButton = this.byCss('.adf-viewer-close-button');
   fileTitle = this.byCss('.adf-viewer__file-title');
   viewerExtensionContent = this.byCss('adf-preview-extension');
   txtViewerContent = this.byCss('.adf-txt-viewer-content');
@@ -103,7 +103,7 @@ export class Viewer extends Component {
   }
 
   async clickCloseButton(): Promise<void> {
-    const closeButton: ElementFinder = element(by.css('button[title="Close"]'));
+    const closeButton: ElementFinder = element(by.css('button[data-automation-id="adf-toolbar-back"]'));
     await BrowserActions.click(closeButton);
   }
 }

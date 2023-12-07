@@ -1013,23 +1013,6 @@
               }
             }
           ]
-        },
-        {
-          "id": "app.viewer.separator.1",
-          "type": "separator",
-          "order": 11000
-        },
-        {
-          "id": "app.viewer.close",
-          "order": 12000,
-          "title": "APP.ACTIONS.CLOSE",
-          "icon": "close",
-          "actions": {
-            "click": "CLOSE_PREVIEW"
-          },
-          "rules": {
-            "visible": "canClosePreview"
-          }
         }
       ],
       "shared": {

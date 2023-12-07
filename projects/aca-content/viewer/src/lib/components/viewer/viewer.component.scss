@@ -16,8 +16,12 @@
     }
   }
 
+  .adf-viewer-close-button {
+    padding-left: 12px;
+  }
+
   // todo: remove this when viewer supports extensions
-  .adf-viewer-toolbar > * > button:last-child {
+  .adf-viewer-toolbar > * > button:nth-last-child(3) {
     display: none;
   }
 
