@@ -375,7 +375,10 @@
       {
         "id": "app.toolbar.search.separator",
         "type": "separator",
-        "order": 89
+        "order": 89,
+        "rules": {
+          "visible": "app.isSearchSupported"
+        }
       },
       {
         "id": "app.toolbar.search",
