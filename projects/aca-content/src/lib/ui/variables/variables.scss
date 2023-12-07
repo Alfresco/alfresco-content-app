@@ -6,6 +6,7 @@ $foreground: map-get($custom-theme, foreground);
 $background: map-get($custom-theme, background);
 $background-color: mat.get-color-from-palette($background, background);
 $background-card-color: mat.get-color-from-palette($background, card);
+$text-color: mat.get-color-from-palette($foreground, text);
 
 // Custom variables - ACA specific styling:
 $data-table-thumbnail-width: 35px;
@@ -34,7 +35,7 @@ $datetimepicker-cell-focus-border-color: #1f74db;
 $sidenav-background-color: $background-color;
 $selected-text-color: #212121;
 $selected-background-color: rgba(31, 116, 219, 0.24);
-$action-button-text-color: rgba(33, 35, 40, 0.7);
+$action-button-text-color: lighten($text-color, 35%);
 $page-layout-header-background-color: $background-card-color;
 $search-chip-icon-color: #757575;
 $disabled-chip-background-color: #f5f5f5;
