@@ -26,7 +26,7 @@ import { expect } from '@playwright/test';
 import { ApiClientFactory, LoginPage, NodesApi, Utils, test, SitesApi, timeouts, SharedLinksApi } from '@alfresco/playwright-shared';
 import { Site } from '@alfresco/js-api';
 
-test.describe.only('Shared Files', () => {
+test.describe('Shared Files', () => {
   const apiClientFactory = new ApiClientFactory();
   let nodesApi: NodesApi;
   let nodesApiAdmin: NodesApi;
