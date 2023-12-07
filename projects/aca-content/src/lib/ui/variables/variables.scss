@@ -24,8 +24,8 @@ $grey-text-background: rgba(33, 33, 33, 0.05);
 $grey-hover-background: rgba(33, 33, 33, 0.24);
 $blue-save-button-background: #1f74db;
 $black-heading: #4e4c4c;
-$theme-dropdown-background: darken($background-color, 4);
-$grey-background-hover: #e0e0e0;
+$theme-dropdown-background: darken($background-color, 5%);
+$theme-dropdown-background-hover: darken($background-color, 10%);
 $grey-divider: rgba(0, 0, 0, 0.22);
 $datetimepicker-font-color: rgba(black, 0.87);
 $datetimepicker-selected-date-background: #2254b2;
@@ -63,7 +63,7 @@ $defaults: (
   --theme-blue-button-color: $blue-save-button-background,
   --theme-heading-color: $black-heading,
   --theme-dropdown-color: $theme-dropdown-background,
-  --theme-grey-background-hover: $grey-background-hover,
+  --theme-dropdown-background-hover: $theme-dropdown-background-hover,
   --theme-grey-divider-color: $grey-divider,
   --theme-pagination-background-color: mat.get-color-from-palette($background, background),
   --theme-about-panel-border-color: $grey-background,
