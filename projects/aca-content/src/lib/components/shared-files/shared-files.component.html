@@ -46,6 +46,7 @@
 
             <ng-container *ngIf="!column.template && !(column.desktopOnly && isSmallScreen)">
               <data-column
+                [draggable]="column.draggable"
                 [key]="column.key"
                 [title]="column.title"
                 [type]="column.type"
@@ -53,7 +54,6 @@
                 [class]="column.class"
                 [sortable]="column.sortable"
                 [isHidden]="column.isHidden"
-                [draggable]="column.draggable"
               >
               </data-column>
             </ng-container>
