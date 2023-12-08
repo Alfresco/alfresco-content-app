@@ -7,6 +7,7 @@ $background: map-get($custom-theme, background);
 $background-color: mat.get-color-from-palette($background, background);
 $background-card-color: mat.get-color-from-palette($background, card);
 $text-color: mat.get-color-from-palette($foreground, text);
+$secondary-text: mat.get-color-from-palette($foreground, secondary-text);
 
 // Custom variables - ACA specific styling:
 $data-table-thumbnail-width: 35px;
@@ -39,7 +40,7 @@ $action-button-text-color: lighten($text-color, 35%);
 $page-layout-header-background-color: $background-card-color;
 $search-chip-icon-color: #757575;
 $disabled-chip-background-color: #f5f5f5;
-$contrast-gray: #646569;
+$contrast-gray: mat.get-color-from-palette($foreground, 'secondary-tex');
 
 // CSS Variables
 $defaults: (
@@ -47,6 +48,7 @@ $defaults: (
   --theme-search-background-color: darken($background-color, 1),
   --theme-text-color: mat.get-color-from-palette($foreground, text, 0.54),
   --theme-sidenav-text-color: mat.get-color-from-palette($foreground, text),
+  --theme-sidenav-user-menu-color: mat.get-color-from-palette($foreground, text),
   --theme-text-bold-color: mat.get-color-from-palette($foreground, text, 0.87),
   --theme-title-color: mat.get-color-from-palette($foreground, text, 0.87),
   --theme-text-disabled-color: mat.get-color-from-palette($foreground, text, 0.38),
@@ -83,7 +85,7 @@ $defaults: (
   --theme-page-layout-header-background-color: $page-layout-header-background-color,
   --theme-search-chip-icon-color: $search-chip-icon-color,
   --theme-disabled-chip-background-color: $disabled-chip-background-color,
-  --theme-contrast-gray: $contrast-gray
+  --theme-secondary-text: $secondary-text
 );
 
 // propagates SCSS variables into the CSS variables scope
