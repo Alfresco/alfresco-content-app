@@ -26,13 +26,13 @@ import { expect } from '@playwright/test';
 import { APP_ROUTES, ApiClientFactory, LoginPage, NodesApi, SIDEBAR_LABELS, Utils, test } from '@alfresco/playwright-shared';
 
 test.describe('Personal Files', () => {
-  const apiClientFactory = new ApiClientFactory();
   let nodesApi: NodesApi;
   const username = `user-${Utils.random()}`;
   const userFolder = `user-folder-${Utils.random()}`;
 
   test.beforeAll(async () => {
     try {
+      const apiClientFactory = new ApiClientFactory();
       await apiClientFactory.setUpAcaBackend('admin');
       await apiClientFactory.createUser({ username });
       nodesApi = await NodesApi.initialize(username, username);

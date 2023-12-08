@@ -112,9 +112,9 @@ test.describe('File Libraries', () => {
         [userSiteModerated]: Site.VisibilityEnum.MODERATED,
         [userSitePublic]: Site.VisibilityEnum.PUBLIC
       };
-      for (const site of Object.keys(expectedSitesVisibility)) {
+      for (const [site, visibility] of Object.keys(expectedSitesVisibility)) {
         const sitesVisibility = await myLibrariesPage.dataTable.getRowAllInnerTexts(site);
-        expect(sitesVisibility.toLowerCase()).toContain(expectedSitesVisibility[site].toLowerCase());
+        expect(sitesVisibility.toLowerCase()).toContain(visibility.toLowerCase());
       }
     });
 
@@ -126,9 +126,9 @@ test.describe('File Libraries', () => {
         [adminSite4]: Site.RoleEnum.SiteManager
       };
 
-      for (const site of Object.keys(expectedSitesRoles)) {
+      for (const [site, role] of Object.keys(expectedSitesRoles)) {
         const sitesRowNames = await myLibrariesPage.dataTable.getRowAllInnerTexts(site);
-        expect(sitesRowNames.toLowerCase()).toContain(expectedSitesRoles[site].split('Site')[1].toLowerCase());
+        expect(sitesRowNames.toLowerCase()).toContain(role.split('Site')[1].toLowerCase());
       }
     });
 

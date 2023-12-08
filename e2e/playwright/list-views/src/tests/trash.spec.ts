@@ -27,50 +27,38 @@ import { ApiClientFactory, LoginPage, NodesApi, SitesApi, Utils, test } from '@a
 import { Site } from '@alfresco/js-api';
 
 test.describe('Trash', () => {
-  const apiClientFactory = new ApiClientFactory();
   let nodesApi: NodesApi;
   let siteActionsAdmin: SitesApi;
 
   const username = `user-${Utils.random()}`;
   const siteName = `site-${Utils.random()}`;
   const fileSite = `file1-${Utils.random()}.txt`;
-
-  const folderUser = `folder-${Utils.random()}`;
-  let folderUserId: string;
   const fileUser = `file-${Utils.random()}.txt`;
-  let fileUserId: string;
-
-  const folderDeleted = `folder-${Utils.random()}`;
-  let folderDeletedId: string;
   const fileDeleted = `file-${Utils.random()}.txt`;
-  let fileDeletedId: string;
-
   const folderNotDeleted = `folder-${Utils.random()}`;
-  let folderNotDeletedId: string;
   const fileInFolder = `file-${Utils.random()}.txt`;
-  let fileInFolderId: string;
 
   test.beforeAll(async () => {
     try {
+      const apiClientFactory = new ApiClientFactory();
       await apiClientFactory.setUpAcaBackend('admin');
       await apiClientFactory.createUser({ username });
       siteActionsAdmin = await SitesApi.initialize('admin');
       nodesApi = await NodesApi.initialize(username, username);
       const nodesApiAdmin = await NodesApi.initialize('admin');
+      const folderDeleted = `folder-${Utils.random()}`;
 
       await siteActionsAdmin.createSite(siteName, Site.VisibilityEnum.PUBLIC);
       const docLibId = await siteActionsAdmin.getDocLibId(siteName);
       await siteActionsAdmin.addSiteMember(siteName, username, Site.RoleEnum.SiteManager);
       const fileSiteId = (await nodesApiAdmin.createFile(fileSite, docLibId)).entry.id;
 
-      folderUserId = (await nodesApi.createFolder(folderUser)).entry.id;
-      folderDeletedId = (await nodesApi.createFolder(folderDeleted)).entry.id;
-      folderNotDeletedId = (await nodesApi.createFolder(folderNotDeleted)).entry.id;
-      fileUserId = (await nodesApi.createFile(fileUser)).entry.id;
-      fileDeletedId = (await nodesApi.createFile(fileDeleted, folderDeletedId)).entry.id;
-      fileInFolderId = (await nodesApi.createFile(fileInFolder, folderNotDeletedId)).entry.id;
+      const folderDeletedId = (await nodesApi.createFolder(folderDeleted)).entry.id;
+      const folderNotDeletedId = (await nodesApi.createFolder(folderNotDeleted)).entry.id;
+      const fileDeletedId = (await nodesApi.createFile(fileDeleted, folderDeletedId)).entry.id;
+      const fileInFolderId = (await nodesApi.createFile(fileInFolder, folderNotDeletedId)).entry.id;
 
-      await nodesApi.deleteNodes([fileSiteId, fileUserId, folderUserId, fileInFolderId, fileDeletedId, folderDeletedId], false);
+      await nodesApi.deleteNodes([fileSiteId, fileInFolderId, fileDeletedId, folderDeletedId], false);
     } catch (error) {
       console.error(`----- beforeAll failed : ${error}`);
     }

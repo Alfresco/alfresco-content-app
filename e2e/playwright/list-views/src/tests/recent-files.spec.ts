@@ -27,7 +27,6 @@ import { ApiClientFactory, LoginPage, NodesApi, SearchPageApi, SitesApi, Trashca
 import { Site } from '@alfresco/js-api';
 
 test.describe('Recent Files', () => {
-  const apiClientFactory = new ApiClientFactory();
   let nodeActionsUser: NodesApi;
   let siteActionsUser: SitesApi;
   const username = `user-${Utils.random()}`;
@@ -41,10 +40,10 @@ test.describe('Recent Files', () => {
 
   const siteName = `site-${Utils.random()}`;
   const folderSite = `folder2-${Utils.random()}`;
-  let folderSiteId: string;
   const fileSite = `file-${Utils.random()}.txt`;
 
   test.beforeAll(async () => {
+    const apiClientFactory = new ApiClientFactory();
     await apiClientFactory.setUpAcaBackend('admin');
     await apiClientFactory.createUser({ username });
     nodeActionsUser = await NodesApi.initialize(username, username);
@@ -59,7 +58,7 @@ test.describe('Recent Files', () => {
 
     await siteActionsUser.createSite(siteName, Site.VisibilityEnum.PUBLIC);
     const docLibId = await siteActionsUser.getDocLibId(siteName);
-    folderSiteId = (await nodeActionsUser.createFolder(folderSite, docLibId)).entry.id;
+    const folderSiteId = (await nodeActionsUser.createFolder(folderSite, docLibId)).entry.id;
     await nodeActionsUser.createFile(fileSite, folderSiteId);
 
     const searchApi = await SearchPageApi.initialize(username, username);

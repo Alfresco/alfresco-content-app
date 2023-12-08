@@ -27,7 +27,6 @@ import { ApiClientFactory, LoginPage, NodesApi, Utils, test, SitesApi, timeouts,
 import { Site } from '@alfresco/js-api';
 
 test.describe('Shared Files', () => {
-  const apiClientFactory = new ApiClientFactory();
   let nodesApi: NodesApi;
   let siteActionsAdmin: SitesApi;
 
@@ -35,18 +34,14 @@ test.describe('Shared Files', () => {
   const siteName = `site-${Utils.random()}`;
   const fileAdmin = `fileSite-${Utils.random()}.txt`;
   const folderUser = `folder-${Utils.random()}`;
-  let folderId: string;
   const file1User = `file1-${Utils.random()}.txt`;
-  let file1Id: string;
   const file2User = `file2-${Utils.random()}.txt`;
-  let file2Id: string;
   const file3User = `file3-${Utils.random()}.txt`;
-  let file3Id: string;
   const file4User = `file4-${Utils.random()}.txt`;
-  let file4Id: string;
 
   test.beforeAll(async () => {
     test.setTimeout(timeouts.extendedTest);
+    const apiClientFactory = new ApiClientFactory();
     await apiClientFactory.setUpAcaBackend('admin');
     await apiClientFactory.createUser({ username });
     siteActionsAdmin = await SitesApi.initialize('admin');
@@ -63,11 +58,11 @@ test.describe('Shared Files', () => {
     await shareActionsAdmin.shareFileById(nodeId);
     await shareActionsAdmin.waitForFilesToBeShared([nodeId]);
 
-    folderId = (await nodesApi.createFolder(folderUser)).entry.id;
-    file1Id = (await nodesApi.createFile(file1User, folderId)).entry.id;
-    file2Id = (await nodesApi.createFile(file2User)).entry.id;
-    file3Id = (await nodesApi.createFile(file3User)).entry.id;
-    file4Id = (await nodesApi.createFile(file4User)).entry.id;
+    const folderId = (await nodesApi.createFolder(folderUser)).entry.id;
+    const file1Id = (await nodesApi.createFile(file1User, folderId)).entry.id;
+    const file2Id = (await nodesApi.createFile(file2User)).entry.id;
+    const file3Id = (await nodesApi.createFile(file3User)).entry.id;
+    const file4Id = (await nodesApi.createFile(file4User)).entry.id;
 
     await shareActions.shareFilesByIds([file1Id, file2Id, file3Id, file4Id]);
     await shareActions.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id]);
@@ -92,14 +87,13 @@ test.describe('Shared Files', () => {
 
   test.afterAll(async () => {
     await siteActionsAdmin.deleteSites([siteName]);
-    await nodesApi.deleteNodes([folderId, file4Id]);
+    await nodesApi.deleteCurrentUserNodes();
   });
 
   test('[C213113] has the correct columns', async ({ sharedPage }) => {
     const expectedColumns = ['Name', 'Location', 'Size', 'Modified', 'Modified by', 'Shared by', 'Tags'];
     const actualColumns = await sharedPage.dataTable.getColumnHeaders();
-
-    await expect(actualColumns).toEqual(expectedColumns);
+    expect(actualColumns).toEqual(expectedColumns);
   });
 
   test('[C213115] default sorting column', async ({ sharedPage }) => {
