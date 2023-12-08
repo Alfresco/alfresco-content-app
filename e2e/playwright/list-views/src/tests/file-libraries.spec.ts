@@ -27,10 +27,8 @@ import { ApiClientFactory, FavoritesPageApi, LoginPage, SitesApi, Utils, test, t
 import { Site } from '@alfresco/js-api';
 
 test.describe('File Libraries', () => {
-  const apiClientFactory = new ApiClientFactory();
   let siteActionsAdmin: SitesApi;
   let siteActionsUser: SitesApi;
-  let favoritesActions: FavoritesPageApi;
 
   const username = `user-${Utils.random()}`;
   const userSitePrivate = `user-priv-${Utils.random()}`;
@@ -47,17 +45,16 @@ test.describe('File Libraries', () => {
   const adminSite4 = `admin4-${Utils.random()}`;
   const adminSite5 = `admin5-${Utils.random()}`;
 
-  const siteDescription = 'my site description';
-
   test.beforeAll(async () => {
     try {
       test.setTimeout(timeouts.extendedTest);
+      const apiClientFactory = new ApiClientFactory();
       await apiClientFactory.setUpAcaBackend('admin');
       await apiClientFactory.createUser({ username });
       siteActionsAdmin = await SitesApi.initialize('admin');
       siteActionsUser = await SitesApi.initialize(username, username);
-      favoritesActions = await FavoritesPageApi.initialize(username, username);
-
+      const favoritesActions = await FavoritesPageApi.initialize(username, username);
+      const siteDescription = 'my site description';
       await siteActionsUser.createSite(userSitePublic, Site.VisibilityEnum.PUBLIC);
       await siteActionsUser.createSite(userSiteModerated, Site.VisibilityEnum.MODERATED, siteDescription);
       await siteActionsUser.createSite(userSitePrivate, Site.VisibilityEnum.PRIVATE, null);

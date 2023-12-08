@@ -30,7 +30,7 @@ test.describe('Trash', () => {
   const apiClientFactory = new ApiClientFactory();
   let nodesApi: NodesApi;
   let siteActionsAdmin: SitesApi;
-  let nodesApiAdmin: NodesApi;
+
   const username = `user-${Utils.random()}`;
   const siteName = `site-${Utils.random()}`;
   const fileSite = `file1-${Utils.random()}.txt`;
@@ -56,7 +56,7 @@ test.describe('Trash', () => {
       await apiClientFactory.createUser({ username });
       siteActionsAdmin = await SitesApi.initialize('admin');
       nodesApi = await NodesApi.initialize(username, username);
-      nodesApiAdmin = await NodesApi.initialize('admin');
+      const nodesApiAdmin = await NodesApi.initialize('admin');
 
       await siteActionsAdmin.createSite(siteName, Site.VisibilityEnum.PUBLIC);
       const docLibId = await siteActionsAdmin.getDocLibId(siteName);
@@ -78,6 +78,7 @@ test.describe('Trash', () => {
 
   test.afterAll(async () => {
     await nodesApi.deleteCurrentUserNodes();
+    await siteActionsAdmin.deleteSites([siteName]);
   });
 
   test.describe(`Regular user's personal files`, () => {

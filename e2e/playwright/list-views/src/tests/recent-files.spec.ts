@@ -89,7 +89,7 @@ test.describe('Recent Files', () => {
     const expectedColumns = ['Name', 'Location', 'Size', 'Modified', 'Tags'];
     const actualColumns = await recentFilesPage.dataTable.getColumnHeaders();
 
-    await expect(actualColumns).toEqual(expectedColumns);
+    expect(actualColumns).toEqual(expectedColumns);
   });
 
   test('[C213171] default sorting column', async ({ recentFilesPage }) => {

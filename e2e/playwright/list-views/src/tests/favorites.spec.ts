@@ -27,11 +27,8 @@ import { ApiClientFactory, LoginPage, NodesApi, Utils, test, SitesApi, Favorites
 import { Site } from '@alfresco/js-api';
 
 test.describe('Favorites Files', () => {
-  const apiClientFactory = new ApiClientFactory();
   let nodesApi: NodesApi;
-  let nodesApiAdmin: NodesApi;
   let siteActionsAdmin: SitesApi;
-  let favoritesActions: FavoritesPageApi;
   const username = `user-${Utils.random()}`;
   const siteName = `site-${Utils.random()}`;
   const favFolderName = `favFolder-${Utils.random()}`;
@@ -44,12 +41,13 @@ test.describe('Favorites Files', () => {
   test.beforeAll(async () => {
     try {
       test.setTimeout(timeouts.extendedTest);
+      const apiClientFactory = new ApiClientFactory();
       await apiClientFactory.setUpAcaBackend('admin');
       await apiClientFactory.createUser({ username });
       nodesApi = await NodesApi.initialize(username, username);
-      nodesApiAdmin = await NodesApi.initialize('admin');
+      const nodesApiAdmin = await NodesApi.initialize('admin');
       siteActionsAdmin = await SitesApi.initialize('admin');
-      favoritesActions = await FavoritesPageApi.initialize(username, username);
+      const favoritesActions = await FavoritesPageApi.initialize(username, username);
       const consumerFavoritesTotalItems = await favoritesActions.getFavoritesTotalItems(username);
       const folderFavId = (await nodesApi.createFolder(favFolderName)).entry.id;
       const parentId = (await nodesApi.createFolder(parentFolder)).entry.id;
@@ -90,11 +88,12 @@ test.describe('Favorites Files', () => {
 
   test.afterAll(async () => {
     await nodesApi.deleteCurrentUserNodes();
+    await siteActionsAdmin.deleteSites([siteName]);
   });
 
   test.describe(`Regular user's Favorites files`, () => {
     test.beforeEach(async ({ favoritePage }) => {
-      favoritePage.navigate();
+      await favoritePage.navigate();
     });
 
     test('[C280482] has the correct columns', async ({ favoritePage }) => {

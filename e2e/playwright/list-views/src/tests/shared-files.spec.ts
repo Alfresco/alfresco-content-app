@@ -29,15 +29,11 @@ import { Site } from '@alfresco/js-api';
 test.describe('Shared Files', () => {
   const apiClientFactory = new ApiClientFactory();
   let nodesApi: NodesApi;
-  let nodesApiAdmin: NodesApi;
   let siteActionsAdmin: SitesApi;
-  let shareActionsAdmin: SharedLinksApi;
-  let shareActions: SharedLinksApi;
-  const username = `user-${Utils.random()}`;
 
+  const username = `user-${Utils.random()}`;
   const siteName = `site-${Utils.random()}`;
   const fileAdmin = `fileSite-${Utils.random()}.txt`;
-
   const folderUser = `folder-${Utils.random()}`;
   let folderId: string;
   const file1User = `file1-${Utils.random()}.txt`;
@@ -54,10 +50,10 @@ test.describe('Shared Files', () => {
     await apiClientFactory.setUpAcaBackend('admin');
     await apiClientFactory.createUser({ username });
     siteActionsAdmin = await SitesApi.initialize('admin');
-    nodesApiAdmin = await NodesApi.initialize('admin');
-    shareActionsAdmin = await SharedLinksApi.initialize('admin');
+    const nodesApiAdmin = await NodesApi.initialize('admin');
+    const shareActionsAdmin = await SharedLinksApi.initialize('admin');
     nodesApi = await NodesApi.initialize(username, username);
-    shareActions = await SharedLinksApi.initialize(username, username);
+    const shareActions = await SharedLinksApi.initialize(username, username);
 
     await siteActionsAdmin.createSite(siteName, Site.VisibilityEnum.PUBLIC);
     await siteActionsAdmin.addSiteMember(siteName, username, Site.RoleEnum.SiteConsumer);
@@ -96,8 +92,7 @@ test.describe('Shared Files', () => {
 
   test.afterAll(async () => {
     await siteActionsAdmin.deleteSites([siteName]);
-    await nodesApi.deleteNodeById(folderId);
-    await nodesApi.deleteNodeById(file4Id);
+    await nodesApi.deleteNodes([folderId, file4Id]);
   });
 
   test('[C213113] has the correct columns', async ({ sharedPage }) => {
