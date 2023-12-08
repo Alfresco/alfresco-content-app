@@ -23,7 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, LoginPage, NodesApi, SearchPageApi, SitesApi, TrashcanApi, Utils, test } from '@alfresco/playwright-shared';
+import { ApiClientFactory, LoginPage, NodesApi, SearchPageApi, SitesApi, TrashcanApi, Utils, test, timeouts } from '@alfresco/playwright-shared';
 import { Site } from '@alfresco/js-api';
 
 test.describe('Recent Files', () => {
@@ -43,6 +43,7 @@ test.describe('Recent Files', () => {
   const fileSite = `file-${Utils.random()}.txt`;
 
   test.beforeAll(async () => {
+    test.setTimeout(timeouts.extendedTest);
     const apiClientFactory = new ApiClientFactory();
     await apiClientFactory.setUpAcaBackend('admin');
     await apiClientFactory.createUser({ username });

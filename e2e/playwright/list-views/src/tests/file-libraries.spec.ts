@@ -128,7 +128,7 @@ test.describe('File Libraries', () => {
 
       for (const [site, role] of Object.keys(expectedSitesRoles)) {
         const sitesRowNames = await myLibrariesPage.dataTable.getRowAllInnerTexts(site);
-        expect(sitesRowNames.toLowerCase()).toContain(role.split('Site')[1].toLowerCase());
+        expect(sitesRowNames).toContain(role);
       }
     });
 

@@ -52,13 +52,14 @@ test.describe('Trash', () => {
       const docLibId = await siteActionsAdmin.getDocLibId(siteName);
       await siteActionsAdmin.addSiteMember(siteName, username, Site.RoleEnum.SiteManager);
       const fileSiteId = (await nodesApiAdmin.createFile(fileSite, docLibId)).entry.id;
+      const fileUserId = (await nodesApi.createFile(fileUser)).entry.id;
 
       const folderDeletedId = (await nodesApi.createFolder(folderDeleted)).entry.id;
       const folderNotDeletedId = (await nodesApi.createFolder(folderNotDeleted)).entry.id;
       const fileDeletedId = (await nodesApi.createFile(fileDeleted, folderDeletedId)).entry.id;
       const fileInFolderId = (await nodesApi.createFile(fileInFolder, folderNotDeletedId)).entry.id;
 
-      await nodesApi.deleteNodes([fileSiteId, fileInFolderId, fileDeletedId, folderDeletedId], false);
+      await nodesApi.deleteNodes([fileSiteId, fileUserId, fileInFolderId, fileDeletedId, folderDeletedId], false);
     } catch (error) {
       console.error(`----- beforeAll failed : ${error}`);
     }
