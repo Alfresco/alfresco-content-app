@@ -40,7 +40,8 @@ export class DataTable extends Component {
     cell: '.adf-datatable-cell-container',
     lockOwner: '.aca-locked-by',
     searchResultsRow: 'aca-search-results-row',
-    searchResultsRowLine: 'span'
+    searchResultsRowLine: 'span',
+    dragIcon: '[data-automation-id="adf-datatable-cell-header-drag-icon-name"]'
   };
 
   head = this.byCss('.adf-datatable-header');
@@ -92,11 +93,17 @@ export class DataTable extends Component {
     const sortColumn = await this.getSortedColumnHeaderText();
     let sortOrder = await this.getSortingOrder();
     if (sortColumn !== label) {
-      await this.getColumnHeaderByLabel(label).click();
+      const columnHeader = this.getColumnHeaderByLabel(label);
+      browser.actions().mouseMove(columnHeader).perform();
+      await BrowserVisibility.waitUntilElementIsVisible(this.head.element(by.css(DataTable.selectors.dragIcon)));
+      await columnHeader.click();
       sortOrder = await this.getSortingOrder();
     }
     if (sortOrder !== order) {
-      await this.getColumnHeaderByLabel(label).click();
+      const columnHeader = this.getColumnHeaderByLabel(label);
+      browser.actions().mouseMove(columnHeader).perform();
+      await BrowserVisibility.waitUntilElementIsVisible(this.head.element(by.css(DataTable.selectors.dragIcon)));
+      await columnHeader.click();
     }
   }
 
