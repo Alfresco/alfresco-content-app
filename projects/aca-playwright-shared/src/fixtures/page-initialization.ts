@@ -53,6 +53,7 @@ interface Pages {
   favoritesLibrariesPage: FavoritesLibrariesPage;
   trashPage: TrashPage;
   loginPage: LoginPage;
+  favoriteLibrariesPage: FavoritesLibrariesPage;
 }
 
 interface Api {
@@ -114,4 +115,7 @@ export const test = base.extend<Pages & Api>({
   myLibrariesPage: async ({ page }, use) => {
     await use(new MyLibrariesPage(page));
   },
+  favoriteLibrariesPage: async ({ page }, use) => {
+    await use(new FavoritesLibrariesPage(page));
+  }
 });

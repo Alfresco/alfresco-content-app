@@ -19,24 +19,21 @@
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
 import { Page } from '@playwright/test';
 import { BaseComponent } from '../base.component';
 
-export class SnackBarComponent extends BaseComponent {
-  private static rootElement = 'adf-snackbar-content';
+export class AdfConfirmDialogComponent extends BaseComponent {
+  private static rootElement = 'adf-confirm-dialog';
 
-  public message = this.getChild('[data-automation-id="adf-snackbar-message-content"]').first();
-
-  public actionButton = this.getChild('[data-automation-id="adf-snackbar-message-content-action-button"]')
-
-  public closeIcon = this.getChild('.adf-snackbar-message-content-action-icon');
-  public getByMessageLocator = (message: string) => this.getChild(`[data-automation-id='adf-snackbar-message-content']`,
-      { hasText: message }).first();
-
-  constructor(page: Page, rootElement = SnackBarComponent.rootElement) {
-    super(page, rootElement);
+  constructor(page: Page) {
+    super(page, AdfConfirmDialogComponent.rootElement);
   }
+
+  getDialogTitle = (text: string) => this.getChild('[data-automation-id="adf-confirm-dialog-title"]', { hasText: text });
+  getDialogContent = (text: string) => this.getChild('[data-automation-id="adf-confirm-dialog-base-message"]', { hasText: text });
+  okButton = this.getChild('[data-automation-id="adf-confirm-dialog-confirmation"]');
+  cancelButton = this.getChild('[data-automation-id="adf-confirm-dialog-reject"]');
 }

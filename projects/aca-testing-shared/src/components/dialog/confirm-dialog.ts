@@ -27,7 +27,6 @@ import { GenericDialog } from '../dialog/generic-dialog';
 import { isPresentAndEnabled } from '../../utilities/utils';
 
 export class ConfirmDialog extends GenericDialog {
-  okButton = this.childElement(by.buttonText('OK'));
   cancelButton = this.childElement(by.buttonText('Cancel'));
   keepButton = this.childElement(by.buttonText('Keep'));
   deleteButton = this.childElement(by.buttonText('Delete'));
@@ -39,10 +38,6 @@ export class ConfirmDialog extends GenericDialog {
 
   async getText(): Promise<string> {
     return this.content.getText();
-  }
-
-  async isOkEnabled(): Promise<boolean> {
-    return isPresentAndEnabled(this.okButton);
   }
 
   async isCancelEnabled(): Promise<boolean> {

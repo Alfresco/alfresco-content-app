@@ -35,7 +35,8 @@ import {
   ContentNodeSelectorDialog,
   Breadcrumb,
   SidenavComponent,
-  CreateFromTemplateDialogComponent
+  CreateFromTemplateDialogComponent,
+  AdfConfirmDialogComponent
 } from '../components';
 
 export class MyLibrariesPage extends BasePage {
@@ -56,9 +57,15 @@ export class MyLibrariesPage extends BasePage {
   public sidenav = new SidenavComponent(this.page);
   public contentNodeSelector = new ContentNodeSelectorDialog(this.page);
   public createFromTemplateDialogComponent = new CreateFromTemplateDialogComponent(this.page);
+  public confirmDialogComponent = new AdfConfirmDialogComponent(this.page);
 
   async selectCreateLibrary(): Promise<void> {
     await this.acaHeader.createButton.click();
     await this.matMenu.createLibrary.click();
+  }
+
+  async clickMoreActionsButton(buttonLabel: string): Promise<void> {
+    await this.acaHeader.clickMoreActions();
+    await this.matMenu.clickMenuItem(buttonLabel);
   }
 }

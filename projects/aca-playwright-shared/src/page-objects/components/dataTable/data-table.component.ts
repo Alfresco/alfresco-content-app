@@ -196,18 +196,22 @@ export class DataTableComponent extends BaseComponent {
       return null;
     }
 
-    if ((await this.pagination.currentPageLocator.textContent()) !== ' Page 1 ') {
-      await this.pagination.navigateToPage(1);
-    }
-
-    const maxPages = (await this.pagination.totalPageLocator.textContent()).match(/\d/)[0];
-    for (let page = 1; page <= Number(maxPages); page++) {
-      if (await this.getRowByName(name).isVisible()) {
-        break;
+    if (await this.pagination.currentPageLocator.isVisible()) {
+      if ((await this.pagination.currentPageLocator.textContent()) !== ' Page 1 ') {
+        await this.pagination.navigateToPage(1);
       }
-      await this.pagination.getArrowLocatorFor(PaginationActionsType.NextPageSelector).isEnabled();
-      await this.pagination.getArrowLocatorFor(PaginationActionsType.NextPageSelector).click();
-      await this.spinnerWaitForReload();
+    }
+    if (await this.pagination.totalPageLocator.isVisible()) {
+      const maxPages = (await this.pagination.totalPageLocator?.textContent())?.match(/\d/)[0];
+      for (let page = 1; page <= Number(maxPages); page++) {
+        if (await this.getRowByName(name).isVisible()) {
+          break;
+        }
+        if (await this.pagination.getArrowLocatorFor(PaginationActionsType.NextPageSelector).isEnabled()) {
+          await this.pagination.getArrowLocatorFor(PaginationActionsType.NextPageSelector).click();
+        }
+        await this.spinnerWaitForReload();
+      }
     }
   }
 

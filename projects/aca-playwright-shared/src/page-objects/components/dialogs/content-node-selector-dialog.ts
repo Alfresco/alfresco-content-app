@@ -38,7 +38,7 @@ export class ContentNodeSelectorDialog extends BaseComponent {
   private selectedRow = this.getChild('.adf-is-selected');
   getOptionLocator = (optionName: string): Locator => this.page.locator('.mat-select-panel .mat-option-text', { hasText: optionName });
   private getRowByName = (name: string | number): Locator => this.getChild(`adf-datatable-row`, { hasText: name.toString() });
-  getDialogTitle = (text: string) => this.getChild('.mat-dialog-title', { hasText: text });
+  getDialogTitle = (text: string) => this.getChild('[data-automation-id="content-node-selector-title"]', { hasText: text });
   getBreadcrumb = (text: string) => this.getChild('[data-automation-id="current-folder"]', { hasText: text });
   getFolderIcon = this.getChild('mat-icon[role="img"]', { hasText: "folder" });
 

@@ -115,18 +115,14 @@ jobs:
             id: 3
           - name: "shareActions"
             id: 4
-          - name: "pagination"
-            id: 5
           - name: "copyMoveActions"
             id: 6
           - name: "deleteActions"
             id: 7
           - name: "editActions,favoriteActions"
             id: 8
-          - name: "libraryActions"
-            id: 9
           - name: "uploadDownloadActions"
-            id: 10
+            id: 9
     steps:
       - name: Checkout
         uses: actions/checkout@v3
