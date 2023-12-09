@@ -192,7 +192,7 @@ export class DataTableComponent extends BaseComponent {
 
   async goThroughPagesLookingForRowWithName(name: string | number): Promise<void> {
     await this.spinnerWaitForReload();
-    if ((await this.getRowByName(name).isVisible()) || (await this.pagination.totalPageLocator.textContent()) == ' of 1 ') {
+    if ((await this.getRowByName(name).isVisible()) || (await this.pagination.totalPageLocator.textContent()) === ' of 1 ') {
       return null;
     }
 

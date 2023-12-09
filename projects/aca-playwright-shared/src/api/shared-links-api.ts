@@ -100,14 +100,14 @@ export class SharedLinksApi {
     try {
       const sharedLinksEntries = (await this.getSharedLinks())?.list.entries;
       const found = sharedLinksEntries.find((sharedLink) => sharedLink.entry.nodeId === fileId);
-      return (found || { entry: { id: null } }).entry.id;
+      return found?.entry.id;
     } catch (error) {
       console.error(`SharedLinksApi getSharedIdOfNode : catch : `, error);
       return null;
     }
   }
 
-  async unshareFileById(fileId: string): Promise<any> {
+  async unshareFileById(fileId: string): Promise<void> {
     try {
       const sharedId = await this.getSharedIdOfNode(fileId);
       return await this.apiService.share.deleteSharedLink(sharedId);
