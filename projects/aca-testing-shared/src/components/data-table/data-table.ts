@@ -40,8 +40,7 @@ export class DataTable extends Component {
     cell: '.adf-datatable-cell-container',
     lockOwner: '.aca-locked-by',
     searchResultsRow: 'aca-search-results-row',
-    searchResultsRowLine: 'span',
-    dragIcon: '[data-automation-id="adf-datatable-cell-header-drag-icon-name"]'
+    searchResultsRowLine: 'span'
   };
 
   head = this.byCss('.adf-datatable-header');
@@ -86,24 +85,18 @@ export class DataTable extends Component {
 
   getColumnHeaderByLabel(label: string): ElementFinder {
     const locator = by.cssContainingText(DataTable.selectors.columnHeader, label);
-    return this.head.element(locator);
+    return this.head.element(locator).element(by.xpath('ancestor::div[contains(@class, "adf-datatable-cell-header")]'));
   }
 
   async sortBy(label: string, order: 'asc' | 'desc'): Promise<void> {
     const sortColumn = await this.getSortedColumnHeaderText();
     let sortOrder = await this.getSortingOrder();
     if (sortColumn !== label) {
-      const columnHeader = this.getColumnHeaderByLabel(label);
-      await browser.actions().mouseMove(columnHeader).perform();
-      await BrowserVisibility.waitUntilElementIsVisible(this.head.element(by.css(DataTable.selectors.dragIcon)));
-      await columnHeader.click();
+      await this.getColumnHeaderByLabel(label).click();
       sortOrder = await this.getSortingOrder();
     }
     if (sortOrder !== order) {
-      const columnHeader = this.getColumnHeaderByLabel(label);
-      await browser.actions().mouseMove(columnHeader).perform();
-      await BrowserVisibility.waitUntilElementIsVisible(this.head.element(by.css(DataTable.selectors.dragIcon)));
-      await columnHeader.click();
+      await this.getColumnHeaderByLabel(label).click();
     }
   }
 
