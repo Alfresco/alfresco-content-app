@@ -31,7 +31,8 @@ import { Utils, waitForPresence } from '../../utilities/utils';
 
 export class DataTable extends Component {
   private static selectors = {
-    columnHeader: '.adf-datatable-row .adf-datatable-cell-header .adf-datatable-cell-value',
+    columnHeader: '.adf-datatable-cell-header',
+    columnHeaderLabel: '.adf-datatable-row .adf-datatable-cell-header .adf-datatable-cell-value',
     sortedColumnHeader: `
       .adf-datatable__header--sorted-asc .adf-datatable-cell-header-content .adf-datatable-cell-value,
       .adf-datatable__header--sorted-desc .adf-datatable-cell-header-content .adf-datatable-cell-value
@@ -76,7 +77,7 @@ export class DataTable extends Component {
   }
 
   private getColumnHeaders(): ElementArrayFinder {
-    const locator = by.css(DataTable.selectors.columnHeader);
+    const locator = by.css(DataTable.selectors.columnHeaderLabel);
     return this.head.all(locator);
   }
 
@@ -85,20 +86,29 @@ export class DataTable extends Component {
   }
 
   getColumnHeaderByLabel(label: string): ElementFinder {
-    const locator = by.cssContainingText(DataTable.selectors.columnHeader, label);
-    return this.head.element(locator).element(by.xpath('ancestor::div[contains(@class, "adf-datatable-cell-header")]'))
-      .element(by.css(DataTable.selectors.dragIcon));
+    const locator = by.cssContainingText(DataTable.selectors.columnHeaderLabel, label);
+    return this.head.element(locator);
   }
 
   async sortBy(label: string, order: 'asc' | 'desc'): Promise<void> {
     const sortColumn = await this.getSortedColumnHeaderText();
     let sortOrder = await this.getSortingOrder();
     if (sortColumn !== label) {
-      await this.getColumnHeaderByLabel(label).click();
+      const columnHeader = this.getColumnHeaderByLabel(label);
+      browser.actions().mouseMove(this.head.element(by.css(DataTable.selectors.columnHeader))).perform();
+      const dragIcon = columnHeader.element(by.xpath('ancestor::div[contains(@class, "adf-datatable-cell-header")]'))
+        .element(by.css(DataTable.selectors.dragIcon));
+      await BrowserVisibility.waitUntilElementIsVisible(dragIcon);
+      await dragIcon.click();
       sortOrder = await this.getSortingOrder();
     }
     if (sortOrder !== order) {
-      await this.getColumnHeaderByLabel(label).click();
+      const columnHeader = this.getColumnHeaderByLabel(label);
+      browser.actions().mouseMove(this.head.element(by.css(DataTable.selectors.columnHeader))).perform();
+      const dragIcon = columnHeader.element(by.xpath('ancestor::div[contains(@class, "adf-datatable-cell-header")]'))
+        .element(by.css(DataTable.selectors.dragIcon));
+      await BrowserVisibility.waitUntilElementIsVisible(dragIcon);
+      await dragIcon.click();
     }
   }
 
