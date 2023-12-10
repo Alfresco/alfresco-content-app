@@ -40,7 +40,8 @@ export class DataTable extends Component {
     cell: '.adf-datatable-cell-container',
     lockOwner: '.aca-locked-by',
     searchResultsRow: 'aca-search-results-row',
-    searchResultsRowLine: 'span'
+    searchResultsRowLine: 'span',
+    dragIcon: '[data-automation-id="adf-datatable-cell-header-drag-icon-name"]'
   };
 
   head = this.byCss('.adf-datatable-header');
@@ -86,7 +87,7 @@ export class DataTable extends Component {
   getColumnHeaderByLabel(label: string): ElementFinder {
     const locator = by.cssContainingText(DataTable.selectors.columnHeader, label);
     return this.head.element(locator).element(by.xpath('ancestor::div[contains(@class, "adf-datatable-cell-header")]'))
-      .element(by.css('[data-automation-id="adf-datatable-cell-header-drag-icon-name"]'));
+      .element(by.css(DataTable.selectors.dragIcon));
   }
 
   async sortBy(label: string, order: 'asc' | 'desc'): Promise<void> {
