@@ -85,7 +85,8 @@ export class DataTable extends Component {
 
   getColumnHeaderByLabel(label: string): ElementFinder {
     const locator = by.cssContainingText(DataTable.selectors.columnHeader, label);
-    return this.head.element(locator).element(by.xpath('ancestor::div[contains(@class, "adf-datatable-cell-header-content")]'));
+    return this.head.element(locator).element(by.xpath('ancestor::div[contains(@class, "adf-datatable-cell-header")]'))
+      .element(by.css('[data-automation-id="adf-datatable-cell-header-drag-icon-name"]'));
   }
 
   async sortBy(label: string, order: 'asc' | 'desc'): Promise<void> {
