@@ -22,7 +22,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { browser, by, ElementArrayFinder, ElementFinder, protractor } from 'protractor';
+import { browser, by, element, ElementArrayFinder, ElementFinder, protractor } from 'protractor';
 import { BrowserVisibility, Logger } from '@alfresco/adf-testing';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
@@ -31,8 +31,7 @@ import { Utils, waitForPresence } from '../../utilities/utils';
 
 export class DataTable extends Component {
   private static selectors = {
-    columnHeader: '.adf-datatable-cell-header',
-    columnHeaderLabel: '.adf-datatable-row .adf-datatable-cell-header .adf-datatable-cell-value',
+    columnHeader: '.adf-datatable-row .adf-datatable-cell-header .adf-datatable-cell-value',
     sortedColumnHeader: `
       .adf-datatable__header--sorted-asc .adf-datatable-cell-header-content .adf-datatable-cell-value,
       .adf-datatable__header--sorted-desc .adf-datatable-cell-header-content .adf-datatable-cell-value
@@ -41,8 +40,7 @@ export class DataTable extends Component {
     cell: '.adf-datatable-cell-container',
     lockOwner: '.aca-locked-by',
     searchResultsRow: 'aca-search-results-row',
-    searchResultsRowLine: 'span',
-    dragIcon: '[data-automation-id="adf-datatable-cell-header-drag-icon-name"]'
+    searchResultsRowLine: 'span'
   };
 
   head = this.byCss('.adf-datatable-header');
@@ -77,7 +75,7 @@ export class DataTable extends Component {
   }
 
   private getColumnHeaders(): ElementArrayFinder {
-    const locator = by.css(DataTable.selectors.columnHeaderLabel);
+    const locator = by.css(DataTable.selectors.columnHeader);
     return this.head.all(locator);
   }
 
@@ -86,7 +84,7 @@ export class DataTable extends Component {
   }
 
   getColumnHeaderByLabel(label: string): ElementFinder {
-    const locator = by.cssContainingText(DataTable.selectors.columnHeaderLabel, label);
+    const locator = by.cssContainingText(DataTable.selectors.columnHeader, label);
     return this.head.element(locator);
   }
 
@@ -94,21 +92,21 @@ export class DataTable extends Component {
     const sortColumn = await this.getSortedColumnHeaderText();
     let sortOrder = await this.getSortingOrder();
     if (sortColumn !== label) {
-      const columnHeader = this.getColumnHeaderByLabel(label);
-      browser.actions().mouseMove(this.head.element(by.css(DataTable.selectors.columnHeader))).perform();
-      const dragIcon = columnHeader.element(by.xpath('ancestor::div[contains(@class, "adf-datatable-cell-header")]'))
-        .element(by.css(DataTable.selectors.dragIcon));
-      await BrowserVisibility.waitUntilElementIsVisible(dragIcon);
-      await dragIcon.click();
+      const header = this.getColumnHeaderByLabel(label);
+      const location = await header.getLocation();
+      await browser.actions().mouseMove(element(by.css('body')), {
+        x: location.x,
+        y: location.y
+      }).click().perform();
       sortOrder = await this.getSortingOrder();
     }
     if (sortOrder !== order) {
-      const columnHeader = this.getColumnHeaderByLabel(label);
-      browser.actions().mouseMove(this.head.element(by.css(DataTable.selectors.columnHeader))).perform();
-      const dragIcon = columnHeader.element(by.xpath('ancestor::div[contains(@class, "adf-datatable-cell-header")]'))
-        .element(by.css(DataTable.selectors.dragIcon));
-      await BrowserVisibility.waitUntilElementIsVisible(dragIcon);
-      await dragIcon.click();
+      const header = this.getColumnHeaderByLabel(label);
+      const location = await header.getLocation();
+      await browser.actions().mouseMove(element(by.css('body')), {
+        x: location.x,
+        y: location.y
+      }).click().perform();
     }
   }
 
