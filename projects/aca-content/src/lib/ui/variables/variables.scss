@@ -1,8 +1,13 @@
 /* stylelint-disable scss/no-global-function-names */
 @use '@angular/material' as mat;
+@use 'sass:color';
 
 $foreground: map-get($custom-theme, foreground);
 $background: map-get($custom-theme, background);
+$background-color: mat.get-color-from-palette($background, background);
+$background-card-color: mat.get-color-from-palette($background, card);
+$text-color: mat.get-color-from-palette($foreground, text);
+$secondary-text: mat.get-color-from-palette($foreground, secondary-text);
 
 // Custom variables - ACA specific styling:
 $data-table-thumbnail-width: 35px;
@@ -21,25 +26,29 @@ $grey-text-background: rgba(33, 33, 33, 0.05);
 $grey-hover-background: rgba(33, 33, 33, 0.24);
 $blue-save-button-background: #1f74db;
 $black-heading: #4e4c4c;
-$grey-dropdown-background: #eee;
-$grey-background-hover: #e0e0e0;
+$theme-dropdown-background: darken($background-color, 5%);
+$theme-dropdown-background-hover: darken($background-color, 10%);
 $grey-divider: rgba(0, 0, 0, 0.22);
 $datetimepicker-font-color: rgba(black, 0.87);
 $datetimepicker-selected-date-background: #2254b2;
 $datetimepicker-cell-background-color: #fff;
 $datetimepicker-cell-focus-border-color: #1f74db;
-$sidenav-background-color: #f8f8f8;
+$sidenav-background-color: $background-color;
 $selected-text-color: #212121;
 $selected-background-color: rgba(31, 116, 219, 0.24);
-$action-button-text-color: rgba(33, 35, 40, 0.7);
-$page-layout-header-background-color: #fff;
+$action-button-text-color: lighten($text-color, 35%);
+$page-layout-header-background-color: $background-card-color;
 $search-chip-icon-color: #757575;
 $disabled-chip-background-color: #f5f5f5;
-$contrast-gray: #646569;
+$contrast-gray: mat.get-color-from-palette($foreground, 'secondary-tex');
 
 // CSS Variables
 $defaults: (
+  --theme-background-color: $background-color,
+  --theme-search-background-color: darken($background-color, 1),
   --theme-text-color: mat.get-color-from-palette($foreground, text, 0.54),
+  --theme-sidenav-text-color: mat.get-color-from-palette($foreground, text),
+  --theme-sidenav-user-menu-color: mat.get-color-from-palette($foreground, text),
   --theme-text-bold-color: mat.get-color-from-palette($foreground, text, 0.87),
   --theme-title-color: mat.get-color-from-palette($foreground, text, 0.87),
   --theme-text-disabled-color: mat.get-color-from-palette($foreground, text, 0.38),
@@ -57,8 +66,8 @@ $defaults: (
   --theme-grey-hover-background-color: $grey-hover-background,
   --theme-blue-button-color: $blue-save-button-background,
   --theme-heading-color: $black-heading,
-  --theme-dropdown-color: $grey-dropdown-background,
-  --theme-grey-background-hover: $grey-background-hover,
+  --theme-dropdown-color: $theme-dropdown-background,
+  --theme-dropdown-background-hover: $theme-dropdown-background-hover,
   --theme-grey-divider-color: $grey-divider,
   --theme-pagination-background-color: mat.get-color-from-palette($background, background),
   --theme-about-panel-border-color: $grey-background,
@@ -76,7 +85,7 @@ $defaults: (
   --theme-page-layout-header-background-color: $page-layout-header-background-color,
   --theme-search-chip-icon-color: $search-chip-icon-color,
   --theme-disabled-chip-background-color: $disabled-chip-background-color,
-  --theme-contrast-gray: $contrast-gray
+  --theme-secondary-text: $secondary-text
 );
 
 // propagates SCSS variables into the CSS variables scope
