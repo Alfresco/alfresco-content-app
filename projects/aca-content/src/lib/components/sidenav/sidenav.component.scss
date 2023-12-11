@@ -27,7 +27,7 @@
 
       &-text {
         flex: 1;
-        color: var(--theme-selected-text-color);
+        color: var(--theme-sidenav-text-color);
         padding-left: 12px;
         letter-spacing: 0.25px;
         font-style: normal;
@@ -80,7 +80,7 @@
         user-select: none;
 
         &:hover .aca-action-button__label {
-          color: var(--theme-selected-text-color);
+          color: var(--theme-sidenav-text-color);
         }
       }
 
@@ -103,7 +103,7 @@
       line-height: 32px;
 
       &--active {
-        color: var(--theme-selected-text-color);
+        color: var(--theme-sidenav-text-color);
         background: var(--theme-selected-background-color);
       }
     }

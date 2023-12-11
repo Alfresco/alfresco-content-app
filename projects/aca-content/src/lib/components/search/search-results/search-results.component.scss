@@ -38,7 +38,7 @@ aca-search-results {
 
         &:hover,
         &:focus {
-          background-color: var(--theme-grey-background-hover);
+          background-color: var(--theme-dropdown-background-hover);
         }
 
         &[disabled] {
@@ -110,7 +110,7 @@ aca-search-results {
     place-content: flex-start space-between;
     align-items: flex-start;
     padding: 16px 12px;
-    background-color: var(--theme-primary-color-default-contrast);
+    background-color: var(--theme-card-background-color);
 
     &__filter-set {
       p {
