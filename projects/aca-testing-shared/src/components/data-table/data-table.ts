@@ -22,7 +22,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { browser, by, element, ElementArrayFinder, ElementFinder, protractor } from 'protractor';
+import { browser, by, ElementArrayFinder, ElementFinder, protractor } from 'protractor';
 import { BrowserVisibility, Logger } from '@alfresco/adf-testing';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
@@ -92,21 +92,11 @@ export class DataTable extends Component {
     const sortColumn = await this.getSortedColumnHeaderText();
     let sortOrder = await this.getSortingOrder();
     if (sortColumn !== label) {
-      const header = this.getColumnHeaderByLabel(label);
-      const location = await header.getLocation();
-      await browser.actions().mouseMove(element(by.css('body')), {
-        x: location.x,
-        y: location.y
-      }).click().perform();
+      await this.getColumnHeaderByLabel(label).click();
       sortOrder = await this.getSortingOrder();
     }
     if (sortOrder !== order) {
-      const header = this.getColumnHeaderByLabel(label);
-      const location = await header.getLocation();
-      await browser.actions().mouseMove(element(by.css('body')), {
-        x: location.x,
-        y: location.y
-      }).click().perform();
+      await this.getColumnHeaderByLabel(label).click();
     }
   }
 
