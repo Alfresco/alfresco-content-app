@@ -92,6 +92,7 @@ export class DataTable extends Component {
     const sortColumn = await this.getSortedColumnHeaderText();
     let sortOrder = await this.getSortingOrder();
     if (sortColumn !== label) {
+      browser.actions().mouseMove(this.getColumnHeaderByLabel(label)).perform();
       await this.getColumnHeaderByLabel(label).click();
       sortOrder = await this.getSortingOrder();
     }
