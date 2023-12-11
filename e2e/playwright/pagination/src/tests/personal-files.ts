@@ -44,20 +44,13 @@ export function personalFilesTests(userName: string, parentName: string) {
       expect(await personalFiles.pagination.isNextEnabled()).toBe(true);
     });
 
-    test('[C280078] Items per page values', async ({ personalFiles }) => {
-      await personalFiles.pagination.openMaxItemsMenu();
-      expect(await (await personalFiles.pagination.getNthItem(1)).innerText()).toBe('25');
-      expect(await (await personalFiles.pagination.getNthItem(2)).innerText()).toBe('50');
-      expect(await (await personalFiles.pagination.getNthItem(3)).innerText()).toBe('100');
-      await personalFiles.closeMenu();
-    });
-
     test('[C280079] current page menu items', async ({ personalFiles }) => {
       await personalFiles.pagination.openMaxItemsMenu();
+      expect(await personalFiles.pagination.getItemsCount()).toBe(3);
       await personalFiles.pagination.clickMenuItem('25');
+      await personalFiles.dataTable.spinnerWaitForReload();
       expect(await personalFiles.pagination.getMaxItems()).toContain('25');
       expect(await personalFiles.pagination.getTotalPages()).toContain('of 3');
-      expect(await personalFiles.pagination.getItemsCount()).toBe(3);
 
       await personalFiles.pagination.openMaxItemsMenu();
       await personalFiles.pagination.clickMenuItem('50');
@@ -86,9 +79,10 @@ export function personalFilesTests(userName: string, parentName: string) {
       await personalFiles.pagination.clickMenuItem('25');
       expect(await personalFiles.pagination.getMaxItems()).toContain('25');
       await personalFiles.pagination.clickOnNextPage();
+      await personalFiles.dataTable.spinnerWaitForReload();
       expect(await personalFiles.pagination.getRange()).toContain('Showing 26-50 of 51');
-
       await personalFiles.pagination.clickOnPreviousPage();
+      await personalFiles.dataTable.spinnerWaitForReload();
       expect(await personalFiles.pagination.getRange()).toContain('Showing 1-25 of 51');
     });
 

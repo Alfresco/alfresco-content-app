@@ -50,6 +50,7 @@ interface Pages {
   sharedPage: SharedPage;
   searchPage: SearchPage;
   favoritePage: FavoritesPage;
+  favoritesLibrariesPage: FavoritesLibrariesPage;
   trashPage: TrashPage;
   loginPage: LoginPage;
   favoriteLibrariesPage: FavoritesLibrariesPage;
@@ -81,6 +82,9 @@ export const test = base.extend<Pages & Api>({
   },
   favoritePage: async ({ page }, use) => {
     await use(new FavoritesPage(page));
+  },
+  favoritesLibrariesPage: async ({ page }, use) => {
+    await use(new FavoritesLibrariesPage(page));
   },
   trashPage: async ({ page }, use) => {
     await use(new TrashPage(page));

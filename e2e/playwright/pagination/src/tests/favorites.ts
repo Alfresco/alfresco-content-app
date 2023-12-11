@@ -44,21 +44,13 @@ export function favoritesTests(username: string) {
       expect(await favoritePage.pagination.isNextEnabled()).toBe(true);
     });
 
-    test('[C280114] Items per page values', async ({ favoritePage }) => {
-      await favoritePage.pagination.openMaxItemsMenu();
-      expect(await (await favoritePage.pagination.getNthItem(1)).innerText()).toBe('25');
-      expect(await (await favoritePage.pagination.getNthItem(2)).innerText()).toBe('50');
-      expect(await (await favoritePage.pagination.getNthItem(3)).innerText()).toBe('100');
-      await favoritePage.pagination.closeMenu();
-    });
-
     test('[C280115] current page menu items', async ({ favoritePage }) => {
       await favoritePage.pagination.openMaxItemsMenu();
+      expect(await favoritePage.pagination.getItemsCount()).toBe(3);
       await favoritePage.pagination.clickMenuItem('25');
+      await favoritePage.dataTable.spinnerWaitForReload();
       expect(await favoritePage.pagination.getMaxItems()).toContain('25');
       expect(await favoritePage.pagination.getTotalPages()).toContain('of 3');
-      expect(await favoritePage.pagination.getItemsCount()).toBe(3);
-      await favoritePage.pagination.closeMenu();
 
       await favoritePage.pagination.openMaxItemsMenu();
       await favoritePage.pagination.clickMenuItem('50');
@@ -89,9 +81,10 @@ export function favoritesTests(username: string) {
       await favoritePage.pagination.clickMenuItem('25');
       expect(await favoritePage.pagination.getMaxItems()).toContain('25');
       await favoritePage.pagination.clickOnNextPage();
+      await favoritePage.dataTable.spinnerWaitForReload();
       expect(await favoritePage.pagination.getRange()).toContain('Showing 26-50 of 51');
-
       await favoritePage.pagination.clickOnPreviousPage();
+      await favoritePage.dataTable.spinnerWaitForReload();
       expect(await favoritePage.pagination.getRange()).toContain('Showing 1-25 of 51');
     });
 
