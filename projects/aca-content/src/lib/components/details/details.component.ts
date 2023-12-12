@@ -36,7 +36,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { MetadataTabComponent } from '../info-drawer/metadata-tab/metadata-tab.component';
 import { CommentsTabComponent } from '../info-drawer/comments-tab/comments-tab.component';
-import { NodeEntry, Node, PathElement } from '@alfresco/js-api';
+import { NodeEntry, PathElement } from '@alfresco/js-api';
 import { takeUntil } from 'rxjs/operators';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { ThumbnailService } from '@alfresco/adf-core';
@@ -68,7 +68,7 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
   onDestroy$ = new Subject<boolean>();
   activeTab = 1;
   aspectActions: Array<ContentActionRef> = [];
-  getIcon: string;
+  nodeIcon: string;
 
   constructor(private route: ActivatedRoute, private contentApi: ContentApiService, private thumbnailService: ThumbnailService) {
     super();
@@ -88,7 +88,7 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
       this.contentApi.getNode(this.nodeId).subscribe((node) => {
         this.node = node.entry;
         this.isLoading = false;
-        this.getNodeIcon(this.node);
+        this.nodeIcon = this.thumbnailService.getNodeIcon(this.node);
         this.store.dispatch(new SetSelectedNodesAction([{ entry: this.node }]));
       });
     });
@@ -98,10 +98,6 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
       .subscribe((aspectActions) => {
         this.aspectActions = aspectActions;
       });
-  }
-
-  getNodeIcon(node: Node): void {
-    this.getIcon = this.thumbnailService.getNodeIcon(node);
   }
 
   setActiveTab(tabName: string) {

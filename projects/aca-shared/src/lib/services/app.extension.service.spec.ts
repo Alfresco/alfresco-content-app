@@ -30,6 +30,7 @@ import { AppStore } from '@alfresco/aca-shared/store';
 import {
   ContentActionType,
   ExtensionConfig,
+  ExtensionLoaderService,
   ExtensionService,
   filterEnabled,
   mergeArrays,
@@ -53,6 +54,7 @@ describe('AppExtensionService', () => {
   let logService: LogService;
   let iconRegistry: MatIconRegistry;
   let sanitizer: DomSanitizer;
+  let loader: ExtensionLoaderService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -70,6 +72,7 @@ describe('AppExtensionService', () => {
 
     extensions = TestBed.inject(ExtensionService);
     logService = TestBed.inject(LogService);
+    loader = TestBed.inject(ExtensionLoaderService);
   });
 
   const applyConfig = (config: ExtensionConfig, selection?: boolean) => {
@@ -1836,9 +1839,9 @@ describe('AppExtensionService', () => {
     });
   });
 
-  it('should update the sidebarActions', () => {
-    spyOn(service, 'updateSidebarActions').and.callThrough();
+  it('should update sidebar actions correctly', () => {
+    spyOn(loader, 'getContentActions').and.callThrough();
     service.updateSidebarActions();
-    expect(service.updateSidebarActions).toHaveBeenCalled();
+    expect(loader.getContentActions).toHaveBeenCalledWith(service.config, 'features.sidebar.toolbar');
   });
 });

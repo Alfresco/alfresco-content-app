@@ -57,6 +57,9 @@ app-details-manager {
 .aca-details-breadcrumb {
   font-size: 18px;
   margin-left: 20px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 
   &-library {
     font-weight: 900;

@@ -61,23 +61,6 @@ describe('DetailsComponent', () => {
   const mockAspectActionsSubject$ = new BehaviorSubject(mockAspectActions);
   extensionsServiceMock.getAllowedSidebarActions.and.returnValue(mockAspectActionsSubject$.asObservable());
 
-  const mockNode = {
-    isFile: false,
-    createdByUser: { id: 'admin', displayName: 'Administrator' },
-    modifiedAt: new Date('2017-05-24T15:08:55.640Z'),
-    nodeType: 'cm:content',
-    content: {
-      mimeType: 'application/rtf',
-      mimeTypeName: 'Rich Text Format',
-      sizeInBytes: 14530
-    },
-    createdAt: new Date('2017-05-24T15:08:55.640Z'),
-    isFolder: true,
-    modifiedByUser: { id: 'admin', displayName: 'Administrator' },
-    name: 'b_txt_file.rtf',
-    id: 'test node 1'
-  };
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule, DetailsComponent],
@@ -170,10 +153,10 @@ describe('DetailsComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(new SetSelectedNodesAction([node]));
   });
 
-  it('should set aspectActions from extensions', () => {
+  it('should set aspectActions from extensions', async () => {
     extensionsServiceMock.getAllowedSidebarActions.and.returnValue(of(mockAspectActions));
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
+    await fixture.whenStable().then(() => {
       expect(component.aspectActions).toEqual(mockAspectActions);
     });
   });
@@ -182,11 +165,11 @@ describe('DetailsComponent', () => {
     const expectedIcon = 'assets/images/ft_ic_folder';
     spyOn(thumbnailService, 'getNodeIcon').and.returnValue(expectedIcon);
     fixture.detectChanges();
-    component.getNodeIcon(mockNode);
-    expect(component.getIcon).toContain(expectedIcon);
+    component.ngOnInit();
+    expect(component.nodeIcon).toContain(expectedIcon);
   });
 
-  it('should set aspectActions from extensions', async () => {
+  it('should set aspectActions from extensions', () => {
     const extensionMock = {
       getAllowedSidebarActions: () =>
         of([
