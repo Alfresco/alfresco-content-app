@@ -16,13 +16,8 @@
     }
   }
 
-  .adf-viewer-close-button {
+  .adf-right-close-button {
     padding-left: 12px;
-  }
-
-  // todo: remove this when viewer supports extensions
-  .adf-viewer-toolbar > * > button:nth-last-child(3) {
-    display: none;
   }
 
   .adf-alfresco-viewer.aca-right_side--hide .adf-viewer__sidebar__right {
