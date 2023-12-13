@@ -28,7 +28,11 @@ import { BaseComponent } from '../base.component';
 export class SnackBarComponent extends BaseComponent {
   private static rootElement = 'adf-snackbar-content';
 
-  public message = this.getChild(' [data-automation-id=\'adf-snackbar-message-content\']').first();
+  public message = this.getChild('[data-automation-id="adf-snackbar-message-content"]').first();
+
+  public actionButton = this.getChild('[data-automation-id="adf-snackbar-message-content-action-button"]')
+
+  public closeIcon = this.getChild('.adf-snackbar-message-content-action-icon');
   public getByMessageLocator = (message: string) => this.getChild(`[data-automation-id='adf-snackbar-message-content']`,
       { hasText: message }).first();
 

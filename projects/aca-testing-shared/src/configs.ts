@@ -27,10 +27,6 @@ export const BROWSER_WAIT_TIMEOUT = 10000;
 // Application configs
 export const USE_HASH_STRATEGY = true;
 
-// Dates
-export const DATE_FORMAT = 'MMM D, YYYY';
-export const DATE_TIME_FORMAT = 'MMM D, YYYY, H:mm';
-
 // Application Routes
 export const APP_ROUTES = {
   FAVORITES: '/favorites',

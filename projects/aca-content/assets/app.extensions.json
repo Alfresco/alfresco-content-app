@@ -375,7 +375,10 @@
       {
         "id": "app.toolbar.search.separator",
         "type": "separator",
-        "order": 89
+        "order": 89,
+        "rules": {
+          "visible": "app.isSearchSupported"
+        }
       },
       {
         "id": "app.toolbar.search",
@@ -1495,6 +1498,9 @@
                 "allowOnlyPredefinedValues": true,
                 "field": "TAG"
               }
+            },
+            "rules": {
+              "visible": "app.areTagsEnabled"
             }
           },
           {
@@ -1509,6 +1515,9 @@
                 "allowOnlyPredefinedValues": true,
                 "field": "cm:categories"
               }
+            },
+            "rules": {
+              "visible": "app.areCategoriesEnabled"
             }
           }
         ]
@@ -2116,7 +2125,8 @@
           "sortable": true,
           "template": "app.columns.name",
           "desktopOnly": false,
-          "order": 20
+          "order": 20,
+          "draggable": true
         },
         {
           "id": "app.files.size",
@@ -2127,7 +2137,8 @@
           "class": "adf-no-grow-cell adf-ellipsis-cell",
           "sortable": true,
           "desktopOnly": true,
-          "order": 30
+          "order": 30,
+          "draggable": true
         },
         {
           "id": "app.files.modifiedOn",
@@ -2135,10 +2146,11 @@
           "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON",
           "type": "date",
           "format": "timeAgo",
-          "class": "adf-ellipsis-cell",
+          "class": "adf-ellipsis-cell adf-expand-cell-1",
           "sortable": true,
           "desktopOnly": true,
-          "order": 40
+          "order": 40,
+          "draggable": true
         },
         {
           "id": "app.files.modifiedBy",
@@ -2146,10 +2158,11 @@
           "sortingKey": "modifiedByUser",
           "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_BY",
           "type": "text",
-          "class": "adf-ellipsis-cell adf-no-grow-cell",
+          "class": "adf-ellipsis-cell adf-expand-cell-1",
           "sortable": true,
           "desktopOnly": true,
-          "order": 50
+          "order": 50,
+          "draggable": true
         },
         {
           "id": "app.filer.tags",
@@ -2160,7 +2173,11 @@
           "type": "text",
           "sortable": false,
           "desktopOnly": true,
-          "order": 60
+          "order": 60,
+          "draggable": true,
+          "rules": {
+            "visible": "app.areTagsEnabled"
+          }
         }
       ],
       "libraries": [
@@ -2182,7 +2199,8 @@
           "sortable": true,
           "template": "app.columns.libraryName",
           "desktopOnly": false,
-          "order": 20
+          "order": 20,
+          "draggable": true
         },
         {
           "id": "app.libraries.description",
@@ -2192,7 +2210,8 @@
           "class": "adf-ellipsis-cell adf-expand-cell-5",
           "sortable": true,
           "desktopOnly": true,
-          "order": 30
+          "order": 30,
+          "draggable": true
         },
         {
           "id": "app.libraries.role",
@@ -2203,7 +2222,8 @@
           "sortable": true,
           "template": "app.columns.libraryRole",
           "desktopOnly": false,
-          "order": 40
+          "order": 40,
+          "draggable": true
         },
         {
           "id": "app.libraries.visibility",
@@ -2214,7 +2234,8 @@
           "sortable": true,
           "template": "app.columns.libraryStatus",
           "desktopOnly": true,
-          "order": 50
+          "order": 50,
+          "draggable": true
         }
       ],
       "favoriteLibraries": [
@@ -2236,7 +2257,8 @@
           "sortable": true,
           "template": "app.columns.libraryName",
           "desktopOnly": false,
-          "order": 20
+          "order": 20,
+          "draggable": true
         },
         {
           "id": "app.favorite.libraries.description",
@@ -2246,7 +2268,8 @@
           "class": "adf-ellipsis-cell adf-expand-cell-5",
           "sortable": true,
           "desktopOnly": true,
-          "order": 30
+          "order": 30,
+          "draggable": true
         },
         {
           "id": "app.favorite.libraries.role",
@@ -2257,7 +2280,8 @@
           "sortable": true,
           "template": "app.columns.libraryRole",
           "desktopOnly": false,
-          "order": 40
+          "order": 40,
+          "draggable": true
         },
         {
           "id": "app.favorite.libraries.visibility",
@@ -2268,7 +2292,8 @@
           "sortable": true,
           "template": "app.columns.libraryStatus",
           "desktopOnly": true,
-          "order": 50
+          "order": 50,
+          "draggable": true
         }
       ],
       "shared": [
@@ -2289,7 +2314,8 @@
           "sortable": true,
           "template": "app.columns.name",
           "desktopOnly": false,
-          "order": 20
+          "order": 20,
+          "draggable": true
         },
         {
           "id": "app.shared.location",
@@ -2301,7 +2327,8 @@
           "sortable": true,
           "template": "app.columns.location",
           "desktopOnly": true,
-          "order": 30
+          "order": 30,
+          "draggable": true
         },
         {
           "id": "app.shared.size",
@@ -2312,7 +2339,8 @@
           "class": "adf-no-grow-cell adf-ellipsis-cell",
           "sortable": true,
           "desktopOnly": true,
-          "order": 40
+          "order": 40,
+          "draggable": true
         },
         {
           "id": "app.shared.modifiedOn",
@@ -2320,11 +2348,12 @@
           "sortingKey": "modifiedAt",
           "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON",
           "type": "date",
-          "class": "adf-ellipsis-cell",
+          "class": "adf-ellipsis-cell adf-expand-cell-2",
           "format": "timeAgo",
           "sortable": true,
           "desktopOnly": true,
-          "order": 50
+          "order": 50,
+          "draggable": true
         },
         {
           "id": "app.shared.modifiedBy",
@@ -2332,10 +2361,11 @@
           "sortingKey": "modifiedByUser",
           "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_BY",
           "type": "text",
-          "class": "adf-ellipsis-cell adf-no-grow-cell",
+          "class": "adf-ellipsis-cell adf-expand-cell-2",
           "sortable": true,
           "desktopOnly": true,
-          "order": 60
+          "order": 60,
+          "draggable": true
         },
         {
           "id": "app.shared.sharedBy",
@@ -2346,7 +2376,8 @@
           "class": "adf-ellipsis-cell adf-no-grow-cell",
           "sortable": true,
           "desktopOnly": true,
-          "order": 70
+          "order": 70,
+          "draggable": true
         },
         {
           "id": "app.filer.tags",
@@ -2357,7 +2388,11 @@
           "type": "text",
           "sortable": false,
           "desktopOnly": true,
-          "order": 80
+          "order": 80,
+          "draggable": true,
+          "rules": {
+            "visible": "app.areTagsEnabled"
+          }
         }
       ],
       "recent": [
@@ -2378,7 +2413,8 @@
           "sortable": true,
           "template": "app.columns.name",
           "desktopOnly": false,
-          "order": 20
+          "order": 20,
+          "draggable": true
         },
         {
           "id": "app.recent.location",
@@ -2389,7 +2425,8 @@
           "sortable": true,
           "template": "app.columns.location",
           "desktopOnly": true,
-          "order": 30
+          "order": 30,
+          "draggable": true
         },
         {
           "id": "app.recent.size",
@@ -2400,7 +2437,8 @@
           "class": "adf-no-grow-cell adf-ellipsis-cell",
           "sortable": true,
           "desktopOnly": true,
-          "order": 40
+          "order": 40,
+          "draggable": true
         },
         {
           "id": "app.recent.modifiedOn",
@@ -2408,10 +2446,11 @@
           "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON",
           "type": "date",
           "format": "timeAgo",
-          "class": "adf-ellipsis-cell",
+          "class": "adf-ellipsis-cell adf-expand-cell-1",
           "sortable": true,
           "desktopOnly": true,
-          "order": 50
+          "order": 50,
+          "draggable": true
         },
         {
           "id": "app.filer.tags",
@@ -2422,7 +2461,11 @@
           "type": "text",
           "sortable": false,
           "desktopOnly": true,
-          "order": 60
+          "order": 60,
+          "draggable": true,
+          "rules": {
+            "visible": "app.areTagsEnabled"
+          }
         }
       ],
       "favorites": [
@@ -2443,7 +2486,8 @@
           "sortable": true,
           "template": "app.columns.name",
           "desktopOnly": false,
-          "order": 20
+          "order": 20,
+          "draggable": true
         },
         {
           "id": "app.favorites.location",
@@ -2454,7 +2498,8 @@
           "sortable": true,
           "template": "app.columns.location",
           "desktopOnly": true,
-          "order": 30
+          "order": 30,
+          "draggable": true
         },
         {
           "id": "app.favorites.size",
@@ -2464,7 +2509,8 @@
           "class": "adf-no-grow-cell adf-ellipsis-cell",
           "sortable": true,
           "desktopOnly": true,
-          "order": 40
+          "order": 40,
+          "draggable": true
         },
         {
           "id": "app.favorites.modifiedOn",
@@ -2472,10 +2518,11 @@
           "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON",
           "type": "date",
           "format": "timeAgo",
-          "class": "adf-ellipsis-cell",
+          "class": "adf-ellipsis-cell adf-expand-cell-1",
           "sortable": true,
           "desktopOnly": true,
-          "order": 50
+          "order": 50,
+          "draggable": true
         },
         {
           "id": "app.favorites.modifiedBy",
@@ -2483,10 +2530,11 @@
           "sortingKey": "modifiedByUser",
           "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_BY",
           "type": "text",
-          "class": "adf-ellipsis-cell adf-no-grow-cell",
+          "class": "adf-ellipsis-cell adf-expand-cell-1",
           "sortable": true,
           "desktopOnly": true,
-          "order": 60
+          "order": 60,
+          "draggable": true
         },
         {
           "id": "app.filer.tags",
@@ -2497,7 +2545,11 @@
           "type": "text",
           "sortable": false,
           "desktopOnly": true,
-          "order": 70
+          "order": 70,
+          "draggable": true,
+          "rules": {
+            "visible": "app.areTagsEnabled"
+          }
         }
       ],
       "trashcan": [
@@ -2518,7 +2570,8 @@
           "sortable": true,
           "template": "app.columns.trashcanName",
           "desktopOnly": false,
-          "order": 20
+          "order": 20,
+          "draggable": true
         },
         {
           "id": "app.trashcan.location",
@@ -2529,7 +2582,8 @@
           "sortable": true,
           "template": "app.columns.location",
           "desktopOnly": true,
-          "order": 30
+          "order": 30,
+          "draggable": true
         },
         {
           "id": "app.trashcan.size",
@@ -2540,7 +2594,8 @@
           "class": "adf-no-grow-cell adf-ellipsis-cell",
           "sortable": true,
           "desktopOnly": true,
-          "order": 40
+          "order": 40,
+          "draggable": true
         },
         {
           "id": "app.trashcan.deletedOn",
@@ -2551,7 +2606,8 @@
           "class": "adf-ellipsis-cell",
           "sortable": true,
           "desktopOnly": true,
-          "order": 50
+          "order": 50,
+          "draggable": true
         }
       ],
       "search-libraries": [
@@ -2573,7 +2629,8 @@
           "sortable": true,
           "template": "app.columns.libraryName",
           "desktopOnly": false,
-          "order": 20
+          "order": 20,
+          "draggable": true
         },
         {
           "id": "app.favorite.libraries.description",
@@ -2584,7 +2641,8 @@
           "sortable": true,
           "template": "app.columns.libraryDescription",
           "desktopOnly": true,
-          "order": 30
+          "order": 30,
+          "draggable": true
         },
         {
           "id": "app.libraries.role",
@@ -2595,7 +2653,8 @@
           "sortable": true,
           "template": "app.columns.libraryRole",
           "desktopOnly": false,
-          "order": 40
+          "order": 40,
+          "draggable": true
         },
         {
           "id": "app.libraries.visibility",
@@ -2606,7 +2665,8 @@
           "sortable": true,
           "template": "app.columns.libraryStatus",
           "desktopOnly": true,
-          "order": 50
+          "order": 50,
+          "draggable": true
         }
       ]
     }

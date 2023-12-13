@@ -86,10 +86,6 @@ export class Utils {
     return crypto.getRandomValues(new Uint32Array(1))[0].toString(36).substring(0, 5).toLowerCase();
   }
 
-  static async clearLocalStorage(): Promise<void> {
-    await browser.executeScript('window.localStorage.clear();');
-  }
-
   static async setSessionStorageFromConfig(configFileName: string): Promise<void> {
     const configFile = `${browser.params.e2eRootPath}/resources/extensibility-configs/${configFileName}`;
     const fileContent = JSON.stringify(fs.readFileSync(configFile, { encoding: 'utf8' }));

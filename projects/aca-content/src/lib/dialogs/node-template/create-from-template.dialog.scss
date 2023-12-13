@@ -4,54 +4,56 @@ app-create-from-template-dialog {
   margin-left: -24px;
   margin-right: -24px;
 
-  .mat-dialog-title {
-    margin-left: 24px;
-    margin-right: 24px;
-    font-size: 20px;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 1.6;
-    letter-spacing: -0.5px;
-    color: var(--theme-text-bold-color);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  .app-create-from-template {
+    &-title {
+      margin-left: 24px;
+      margin-right: 24px;
+      font-size: 20px;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.6;
+      letter-spacing: -0.5px;
+      color: var(--theme-text-bold-color);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
 
-    .bold {
-      font-weight: 600;
-    }
-  }
-
-  .app-create-from-template-field {
-    width: 100%;
-
-    &:not(:last-of-type) {
-      margin-bottom: 20px;
-    }
-  }
-
-  .mat-dialog-content {
-    margin: 0 2px;
-    overflow: hidden;
-  }
-
-  .mat-dialog-actions {
-    padding: 8px 22px;
-    display: flex;
-    justify-content: flex-end;
-    color: var(--theme-secondary-text-color);
-
-    button {
-      text-transform: uppercase;
-      font-weight: normal;
+      .bold {
+        font-weight: 600;
+      }
     }
 
-    .create[disabled] {
-      opacity: 0.6;
+    &-field {
+      width: 100%;
+
+      &:not(:last-of-type) {
+        margin-bottom: 20px;
+      }
     }
 
-    .create:enabled {
-      color: var(--theme-accent-color);
+    &-content {
+      margin: 0 2px;
+      overflow: hidden;
+    }
+
+    &-footer {
+      padding: 8px 22px;
+      display: flex;
+      justify-content: flex-end;
+      color: var(--theme-secondary-text-color);
+
+      button {
+        text-transform: uppercase;
+        font-weight: normal;
+      }
+
+      &-create-button[disabled] {
+        opacity: 0.6;
+      }
+
+      &-create-button:enabled {
+        color: var(--theme-accent-color);
+      }
     }
   }
 }

@@ -26,25 +26,26 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CardViewBoolItemModel, CardViewComponent, CardViewSelectItemModel, CardViewTextItemModel, CoreTestingModule } from '@alfresco/adf-core';
 import { RuleActionUiComponent } from './rule-action.ui-component';
 import { actionLinkToCategoryTransformedMock, actionsTransformedListMock } from '../../mock/actions.mock';
-import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { dummyConstraints } from '../../mock/action-parameter-constraints.mock';
+import { dummyCategoriesConstraints, dummyConstraints, dummyTagsConstraints } from '../../mock/action-parameter-constraints.mock';
+import { CategoryService, TagService } from '@alfresco/adf-content-services';
+import { MatSelect } from '@angular/material/select';
 
 describe('RuleActionUiComponent', () => {
   let fixture: ComponentFixture<RuleActionUiComponent>;
   let component: RuleActionUiComponent;
 
-  const getByDataAutomationId = (dataAutomationId: string): DebugElement =>
-    fixture.debugElement.query(By.css(`[data-automation-id="${dataAutomationId}"]`));
+  const getSelectElement = (): HTMLElement => fixture.debugElement.query(By.directive(MatSelect)).nativeElement;
 
-  const changeMatSelectValue = (dataAutomationId: string, value: string) => {
-    const matSelect = getByDataAutomationId(dataAutomationId).nativeElement;
-    matSelect.click();
+  const changeMatSelectValue = (value: string) => {
+    getSelectElement().click();
     fixture.detectChanges();
     const matOption = fixture.debugElement.query(By.css(`.mat-option[ng-reflect-value="${value}"]`)).nativeElement;
     matOption.click();
     fixture.detectChanges();
   };
+
+  const getPropertiesCardView = (): CardViewComponent => fixture.debugElement.query(By.directive(CardViewComponent)).componentInstance;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -59,8 +60,7 @@ describe('RuleActionUiComponent', () => {
     component.actionDefinitions = actionsTransformedListMock;
     fixture.detectChanges();
 
-    const matSelect = getByDataAutomationId('rule-action-select').nativeElement;
-    matSelect.click();
+    getSelectElement().click();
     fixture.detectChanges();
 
     const matOptions = fixture.debugElement.queryAll(By.css(`mat-option`));
@@ -74,10 +74,9 @@ describe('RuleActionUiComponent', () => {
     component.parameterConstraints = dummyConstraints;
     fixture.detectChanges();
 
-    const cardView = getByDataAutomationId('rule-action-card-view').componentInstance as CardViewComponent;
-    expect(cardView.properties.length).toBe(0);
+    changeMatSelectValue('mock-action-1-definition');
 
-    changeMatSelectValue('rule-action-select', 'mock-action-1-definition');
+    const cardView = getPropertiesCardView();
 
     expect(cardView.properties.length).toBe(5);
     expect(cardView.properties[0]).toBeInstanceOf(CardViewTextItemModel);
@@ -86,8 +85,8 @@ describe('RuleActionUiComponent', () => {
     expect(cardView.properties[3]).toBeInstanceOf(CardViewTextItemModel);
     expect(cardView.properties[4]).toBeInstanceOf(CardViewSelectItemModel);
 
-    changeMatSelectValue('rule-action-select', 'mock-action-2-definition');
-    expect(cardView.properties.length).toBe(0);
+    changeMatSelectValue('mock-action-2-definition');
+    expect(fixture.debugElement.query(By.directive(CardViewComponent))).toBeNull();
   });
 
   it('should create category-value action parameter as a text box rather than node picker', () => {
@@ -95,13 +94,95 @@ describe('RuleActionUiComponent', () => {
     component.parameterConstraints = dummyConstraints;
     fixture.detectChanges();
 
-    const cardView = getByDataAutomationId('rule-action-card-view').componentInstance as CardViewComponent;
-    expect(cardView.properties.length).toBe(0);
+    changeMatSelectValue('mock-action-3-definition');
 
-    changeMatSelectValue('rule-action-select', 'mock-action-3-definition');
+    const cardView = getPropertiesCardView();
 
+    expect(cardView.properties.length).toBe(1);
     expect(cardView.properties[0].icon).toBeFalsy();
     expect(cardView.properties[0].value).toBeFalsy();
     expect(cardView.properties[0]).toBeInstanceOf(CardViewTextItemModel);
+  });
+
+  describe('Select options', () => {
+    beforeEach(() => {
+      component.actionDefinitions = actionsTransformedListMock;
+    });
+
+    it('should not filter out tags related options if tagService.areTagsEnabled returns true', (done) => {
+      component.parameterConstraints = dummyTagsConstraints;
+      const tagService = TestBed.inject(TagService);
+      spyOn(tagService, 'areTagsEnabled').and.returnValue(true);
+      fixture.detectChanges();
+
+      changeMatSelectValue('mock-action-1-definition');
+      expect(tagService.areTagsEnabled).toHaveBeenCalled();
+      (getPropertiesCardView().properties[2] as CardViewSelectItemModel<string>).options$.subscribe((options) => {
+        expect(options).toEqual(
+          dummyTagsConstraints[0].constraints.map((constraint) => ({
+            key: constraint.value,
+            label: `${constraint.label} [${constraint.value}]`
+          }))
+        );
+        done();
+      });
+    });
+
+    it('should filter out tags related options if tagService.areTagsEnabled returns false', (done) => {
+      component.parameterConstraints = dummyTagsConstraints;
+      const tagService = TestBed.inject(TagService);
+      spyOn(tagService, 'areTagsEnabled').and.returnValue(false);
+      fixture.detectChanges();
+
+      changeMatSelectValue('mock-action-1-definition');
+      expect(tagService.areTagsEnabled).toHaveBeenCalled();
+      (getPropertiesCardView().properties[2] as CardViewSelectItemModel<string>).options$.subscribe((options) => {
+        expect(options).toEqual([
+          {
+            key: 'cm:notTagRelated',
+            label: 'Label 3 [cm:notTagRelated]'
+          }
+        ]);
+        done();
+      });
+    });
+
+    it('should not filter out categories related options if categoryService.areCategoriesEnabled returns true', (done) => {
+      component.parameterConstraints = dummyCategoriesConstraints;
+      const categoriesService = TestBed.inject(CategoryService);
+      spyOn(categoriesService, 'areCategoriesEnabled').and.returnValue(true);
+      fixture.detectChanges();
+
+      changeMatSelectValue('mock-action-1-definition');
+      expect(categoriesService.areCategoriesEnabled).toHaveBeenCalled();
+      (getPropertiesCardView().properties[2] as CardViewSelectItemModel<string>).options$.subscribe((options) => {
+        expect(options).toEqual(
+          dummyCategoriesConstraints[0].constraints.map((constraint) => ({
+            key: constraint.value,
+            label: `${constraint.label} [${constraint.value}]`
+          }))
+        );
+        done();
+      });
+    });
+
+    it('should filter out categories related options if categoryService.areCategoriesEnabled returns false', (done) => {
+      component.parameterConstraints = dummyCategoriesConstraints;
+      const categoryService = TestBed.inject(CategoryService);
+      spyOn(categoryService, 'areCategoriesEnabled').and.returnValue(false);
+      fixture.detectChanges();
+
+      changeMatSelectValue('mock-action-1-definition');
+      expect(categoryService.areCategoriesEnabled).toHaveBeenCalled();
+      (getPropertiesCardView().properties[2] as CardViewSelectItemModel<string>).options$.subscribe((options) => {
+        expect(options).toEqual([
+          {
+            key: 'cm:notCategoryRelated',
+            label: 'Label 2 [cm:notCategoryRelated]'
+          }
+        ]);
+        done();
+      });
+    });
   });
 });

@@ -18,7 +18,7 @@ app-details-manager {
   }
 }
 
-.acs-details-container {
+.aca-details-container {
   background-color: var(--theme-card-background-color);
   width: 100%;
 }
@@ -31,27 +31,27 @@ app-details-manager {
     height: 100%;
   }
 
-  .mat-tab-labels {
+  mat-tab-header {
     text-transform: uppercase;
   }
 }
 
-.acs-details-title {
+.aca-details-title {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.acs-details-breadcrumb {
+.aca-details-breadcrumb {
   font-size: 18px;
   margin-left: 20px;
 
-  .acs-details-breadcrumb-library {
+  &-library {
     font-weight: 900;
   }
 
-  .acs-details-breadcrumb-item {
+  &-item {
     font-weight: 100;
   }
 }

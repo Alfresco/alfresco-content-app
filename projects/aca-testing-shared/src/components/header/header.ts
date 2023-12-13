@@ -32,7 +32,7 @@ import { BrowserActions } from '@alfresco/adf-testing';
 
 export class Header extends Component {
   userMenuButton = this.byCss(`.aca-user-menu-button`);
-  sidenavToggle = this.byCss(`.sidenav-header-title-logo`);
+  sidenavToggle = this.byCss(`.aca-sidenav-header-title-logo`);
 
   menu = new Menu();
   toolbar = new Toolbar();

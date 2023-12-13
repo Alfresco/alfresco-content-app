@@ -5,7 +5,7 @@
   </div>
 
   <div class="aca-page-layout-content">
-    <div class="main-content">
+    <div class="aca-main-content">
       <adf-document-list
         #documentList
         acaDocumentList
@@ -36,6 +36,7 @@
             <ng-container *ngIf="column.template && !(column.desktopOnly && isSmallScreen)">
               <data-column
                 [key]="column.key"
+                [draggable]="column.draggable"
                 [title]="column.title"
                 [type]="column.type"
                 [format]="column.format"
@@ -57,6 +58,7 @@
                 [format]="column.format"
                 [class]="column.class"
                 [sortable]="column.sortable"
+                [draggable]="column.draggable"
                 [isHidden]="column.isHidden"
               >
               </data-column>

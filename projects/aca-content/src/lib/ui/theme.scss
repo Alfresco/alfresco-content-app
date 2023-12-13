@@ -4,12 +4,12 @@
 @import 'variables/variables';
 @include custom-theme($custom-theme);
 
-.mat-toolbar {
+mat-toolbar {
   color: var(--theme-text-color, rgba(0, 0, 0, 0.54));
 }
 
 .adf-name-location-cell-location.adf-datatable-cell-value {
-  color: var(--theme-contrast-gray);
+  color: var(--theme-secondary-text);
 }
 
 .mat-tab-list {
@@ -27,14 +27,14 @@
 .mat-checkbox-label,
 mat-toolbar.mat-toolbar.mat-toolbar-multiple-row,
 mat-toolbar.mat-toolbar.mat-toolbar-single-row {
-  color: var(--theme-contrast-gray);
+  color: var(--theme-secondary-text);
   opacity: 1;
 }
 
 .adf-upload-dialog {
   &__header,
   &__content {
-    color: var(--theme-contrast-gray);
+    color: var(--theme-secondary-text);
   }
 }
 
@@ -42,27 +42,22 @@ mat-toolbar.mat-toolbar.mat-toolbar-single-row {
   .adf-version-list-item {
     &-comment,
     &-date {
-      color: var(--theme-contrast-gray);
+      color: var(--theme-secondary-text);
       opacity: 1;
     }
   }
 }
 
-.mat-chip.mat-standard-chip {
-  background-color: #efefef;
-  color: var(--theme-contrast-gray);
-}
-
 .adf-property-field {
   .adf-textitem-edit-icon.mat-icon {
-    color: var(--theme-contrast-gray);
+    color: var(--theme-secondary-text);
   }
 }
 
 .adf-property-field.adf-card-textitem-field:hover .adf-property-clear-value {
-  color: var(--theme-contrast-gray);
+  color: var(--theme-secondary-text);
 }
 
 .adf-empty-content__icon {
-  color: var(--theme-contrast-gray);
+  color: var(--theme-secondary-text);
 }

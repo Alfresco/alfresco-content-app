@@ -23,7 +23,6 @@
  */
 
 import { ApiClientFactory } from './api-client-factory';
-import { logger } from '@alfresco/adf-cli/scripts/logger';
 
 export class TrashcanApi {
   private apiService = new ApiClientFactory();
@@ -51,7 +50,7 @@ export class TrashcanApi {
           }
         }
       } catch (error) {
-        logger.error('User Actions - emptyTrashcan failed : ', error);
+        console.error('User Actions - emptyTrashcan failed : ', error);
       }
     }
 

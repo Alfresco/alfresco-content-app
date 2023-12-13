@@ -35,7 +35,6 @@ export class Viewer extends Component {
   closeButton = this.byCss('.adf-viewer-close-button');
   fileTitle = this.byCss('.adf-viewer__file-title');
   viewerExtensionContent = this.byCss('adf-preview-extension');
-  pdfViewerContentPages = this.allByCss('.adf-pdf-viewer__content .page');
   txtViewerContent = this.byCss('.adf-txt-viewer-content');
 
   toolbar = new Toolbar('adf-viewer');
@@ -87,10 +86,6 @@ export class Viewer extends Component {
     return browser.isElementPresent(this.fileTitle);
   }
 
-  async getCloseButtonTooltip(): Promise<string> {
-    return this.toolbar.getButtonTooltip(this.closeButton);
-  }
-
   async getFileTitle(): Promise<string> {
     return this.fileTitle.getText();
   }
@@ -105,11 +100,6 @@ export class Viewer extends Component {
     }
 
     return '';
-  }
-
-  async isPdfViewerContentDisplayed(): Promise<boolean> {
-    const count = await this.pdfViewerContentPages.count();
-    return count > 0;
   }
 
   async clickCloseButton(): Promise<void> {

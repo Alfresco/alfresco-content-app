@@ -41,7 +41,6 @@ import {
   TrashcanApi,
   PersonEntry
 } from '@alfresco/js-api';
-import { logger } from '@alfresco/adf-cli/scripts/logger';
 import { ActionTypes, Rule } from './rules-api';
 import { users } from '../base-config';
 import { Person, PersonModel } from './people-api-models';
@@ -145,7 +144,7 @@ export class ApiClientFactory {
     try {
       e = await this.alfrescoApi.login(user, userPassword);
     } catch (error) {
-      logger.error(`[API Client Factory] Log in user ${user} failed ${e}`);
+      console.error(`[API Client Factory] Log in user ${user} failed ${e}`);
       throw error;
     }
   }
@@ -155,7 +154,7 @@ export class ApiClientFactory {
     try {
       e = await this.alfrescoApi.login(user.username, user.password);
     } catch (error) {
-      logger.error(`[API Client Factory] Log in user ${user.username} failed ${e}`);
+      console.error(`[API Client Factory] Log in user ${user.username} failed ${e}`);
       throw error;
     }
   }
@@ -167,7 +166,7 @@ export class ApiClientFactory {
     try {
       return peopleApi.createPerson(person);
     } catch (error) {
-      logger.error('[API Client Factory] createUser failed : ', error);
+      console.error('[API Client Factory] createUser failed : ', error);
       return null;
     }
   }
@@ -178,7 +177,7 @@ export class ApiClientFactory {
     try {
       return peopleApi.updatePerson(username, { password: newPassword });
     } catch (error) {
-      logger.error('[API Client Factory] changePassword failed : ', error);
+      console.error('[API Client Factory] changePassword failed : ', error);
       return null;
     }
   }

@@ -37,9 +37,15 @@ import {
 } from '@alfresco/adf-core';
 import { ActionParameterDefinition, Node } from '@alfresco/js-api';
 import { of, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
 import { ActionParameterConstraint, ConstraintValue } from '../../model/action-parameter-constraint.model';
-import { ContentNodeSelectorComponent, ContentNodeSelectorComponentData, NodeAction } from '@alfresco/adf-content-services';
+import {
+  CategoryService,
+  ContentNodeSelectorComponent,
+  ContentNodeSelectorComponentData,
+  NodeAction,
+  TagService
+} from '@alfresco/adf-content-services';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
@@ -78,9 +84,16 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
   get parameterConstraints(): ActionParameterConstraint[] {
     return this._parameterConstraints;
   }
+
   set parameterConstraints(value) {
-    this._parameterConstraints = value.map((obj) => ({ ...obj, constraints: this.parseConstraintsToSelectOptions(obj.constraints) }));
+    this._parameterConstraints = value.map((obj) => ({
+      ...obj,
+      constraints: this.parseConstraintsToSelectOptions(obj.constraints)
+    }));
   }
+
+  private readonly tagsRelatedPropertiesAndAspects = ['cm:tagscope', 'cm:tagScopeCache', 'cm:taggable'];
+  private readonly categoriesRelatedPropertiesAndAspects = ['cm:categories', 'cm:generalclassifiable'];
 
   isFullWidth = false;
 
@@ -100,14 +113,16 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
     return this.actionDefinitions.find((actionDefinition: ActionDefinitionTransformed) => actionDefinition.id === this.selectedActionDefinitionId);
   }
 
-  get cardViewStyle() {
-    return this.isFullWidth ? { width: '100%' } : {};
-  }
-
   onChange: (action: RuleAction) => void = () => undefined;
   onTouch: () => void = () => undefined;
 
-  constructor(private cardViewUpdateService: CardViewUpdateService, private dialog: MatDialog, private translate: TranslateService) {}
+  constructor(
+    private cardViewUpdateService: CardViewUpdateService,
+    private dialog: MatDialog,
+    private translate: TranslateService,
+    private tagService: TagService,
+    private categoryService: CategoryService
+  ) {}
 
   writeValue(action: RuleAction) {
     this.form.setValue({
@@ -170,8 +185,9 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
   }
 
   setCardViewProperties() {
+    const disabledTags = !this.tagService.areTagsEnabled();
+    const disabledCategories = !this.categoryService.areCategoriesEnabled();
     this.cardViewItems = (this.selectedActionDefinition?.parameterDefinitions ?? []).map((paramDef) => {
-      this.isFullWidth = false;
       const constraintsForDropdownBox = this._parameterConstraints.find((obj) => obj.name === paramDef.name);
       const cardViewPropertiesModel = {
         label: paramDef.displayLabel + (paramDef.mandatory ? ' *' : ''),
@@ -208,11 +224,20 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
         //  falls through
         default:
           if (constraintsForDropdownBox && !this.readOnly) {
-            this.isFullWidth = true;
             return new CardViewSelectItemModel({
               ...cardViewPropertiesModel,
               value: (this.parameters[paramDef.name] as string) ?? '',
-              options$: of(constraintsForDropdownBox.constraints)
+              options$: of(constraintsForDropdownBox.constraints).pipe(
+                map((options) => {
+                  return options.filter(
+                    (option) =>
+                      !(
+                        (disabledTags && this.tagsRelatedPropertiesAndAspects.includes(option.key)) ||
+                        (disabledCategories && this.categoriesRelatedPropertiesAndAspects.includes(option.key))
+                      )
+                  );
+                })
+              )
             });
           }
           return new CardViewTextItemModel({

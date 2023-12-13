@@ -40,7 +40,7 @@ export class RuleListItemUiComponent {
   @Input()
   rule: Rule;
   @Input()
-  @HostBinding('class.selected')
+  @HostBinding('class.aca-selected')
   isSelected: boolean;
   @Input()
   showEnabledToggle = false;

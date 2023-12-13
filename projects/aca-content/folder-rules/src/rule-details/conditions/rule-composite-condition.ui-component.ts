@@ -62,10 +62,10 @@ import { RuleSimpleConditionUiComponent } from './rule-simple-condition.ui-compo
   ]
 })
 export class RuleCompositeConditionUiComponent implements ControlValueAccessor, OnDestroy, OnChanges {
-  @HostBinding('class.secondaryBackground')
+  @HostBinding('class.aca-secondaryBackground')
   @Input()
   secondaryBackground = false;
-  @HostBinding('class.childCompositeCondition')
+  @HostBinding('class.aca-childCompositeCondition')
   @Input()
   childCondition = false;
 

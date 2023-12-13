@@ -23,10 +23,8 @@
  */
 
 import { Logger } from '@alfresco/adf-testing';
-import { AlfrescoApi, Comment, CommentsApi, NodesApi, TrashcanApi, SitesApi, SharedlinksApi, SiteEntry } from '@alfresco/js-api';
+import { AlfrescoApi, Comment, CommentsApi, NodesApi, TrashcanApi, SitesApi, SharedlinksApi } from '@alfresco/js-api';
 import { browser } from 'protractor';
-import { SITE_VISIBILITY } from '../configs';
-import { Utils } from './utils';
 
 export class UserActions {
   protected readonly alfrescoApi: AlfrescoApi;
@@ -59,15 +57,6 @@ export class UserActions {
       return this.alfrescoApi.login(this.username, this.password);
     } catch (error) {
       this.handleError('User Actions - login failed : ', error);
-    }
-  }
-
-  async logout(): Promise<any> {
-    try {
-      await this.alfrescoApi.login(this.username, this.password);
-      return this.alfrescoApi.logout();
-    } catch (error) {
-      this.handleError('User Actions - logout failed : ', error);
     }
   }
 
@@ -119,43 +108,6 @@ export class UserActions {
     }
   }
 
-  /**
-   * Returns the amount of deleted nodes in the trashcan.
-   * TODO: limited to 1000 items only, needs improvements.
-   */
-  async getTrashcanSize(): Promise<number> {
-    try {
-      const response = await this.trashcanApi.listDeletedNodes({
-        maxItems: 1000
-      });
-
-      return response?.list?.pagination?.totalItems || 0;
-    } catch (error) {
-      this.handleError('User Actions - getTrashcanSize failed : ', error);
-      return -1;
-    }
-  }
-
-  /**
-   * Performs multiple calls to retrieve the size of the trashcan until the expectedSize is reached.
-   * Used with eventual consistency calls.
-   * @param expectedSize Size of the trashcan to wait for.
-   */
-  async waitForTrashcanSize(expectedSize: number): Promise<number> {
-    return Utils.retryCall(async () => {
-      const totalItems = await this.getTrashcanSize();
-
-      if (totalItems !== expectedSize) {
-        return Promise.reject(totalItems);
-      } else {
-        return Promise.resolve(totalItems);
-      }
-    }).catch((error) => {
-      this.handleError('User Actions - waitForTrashcanSize failed : ', error);
-      return -1;
-    });
-  }
-
   async lockNodes(nodeIds: string[], lockType: string = 'ALLOW_OWNER_CHANGES') {
     try {
       for (const nodeId of nodeIds) {
@@ -178,32 +130,6 @@ export class UserActions {
     } catch (error) {
       this.handleError('User Actions - unlockNodes failed : ', error);
     }
-  }
-
-  /**
-   * Create multiple sites
-   * @param siteNames The list of the site names
-   * @param visibility Default site visibility
-   * @returns List of site entries
-   */
-  async createSites(siteNames: string[], visibility?: string): Promise<SiteEntry[]> {
-    const sites: SiteEntry[] = [];
-
-    try {
-      if (siteNames && siteNames.length > 0) {
-        for (const siteName of siteNames) {
-          const site = await this.sitesApi.createSite({
-            title: siteName,
-            visibility: visibility || SITE_VISIBILITY.PUBLIC,
-            id: siteName
-          });
-          sites.push(site);
-        }
-      }
-    } catch (error) {
-      this.handleError(`User Actions - createSites failed : `, error);
-    }
-    return sites;
   }
 
   /**

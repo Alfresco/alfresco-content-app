@@ -1,6 +1,6 @@
 $search-width: 594px;
 $search-height: 32px;
-$search-background: #f5f6f5;
+$search-background: var(--theme-search-background-color);
 $search-border-radius: 4px;
 $top-margin: 12px;
 
@@ -9,10 +9,6 @@ $top-margin: 12px;
   width: 100%;
   max-width: $search-width;
   height: $search-height + $top-margin;
-
-  &.mat-menu-trigger {
-    margin: 0;
-  }
 
   .app-search-button {
     width: 32px;
@@ -23,18 +19,16 @@ $top-margin: 12px;
   }
 
   .app-input-form-field {
-    .app-close-icon {
+    .app-suffix-search-icon-wrapper.app-close-button {
       height: 6px;
 
-      &.app-suffix-search-icon-wrapper {
-        .mat-icon {
-          font-size: 18px;
-          line-height: 28px;
-        }
+      .app-close-icon {
+        font-size: 18px;
+        line-height: 28px;
       }
     }
 
-    .mat-input-element {
+    &-input {
       caret-color: var(--theme-text-color);
 
       &:disabled {
@@ -43,30 +37,19 @@ $top-margin: 12px;
     }
   }
 
-  .mat-focused label.mat-form-field-label {
-    display: none;
+  &:focus-within {
+    label {
+      display: none;
+    }
   }
 }
 
 .app-search-options-menu {
-  &.mat-menu-panel {
-    background-color: var(--theme-dialog-background-color);
-    width: $search-width;
-    max-width: unset;
-    border-radius: $search-border-radius;
-    margin-top: $top-margin;
-  }
-
-  .mat-menu-content:not(:empty) {
-    padding-top: 0;
-    padding-bottom: 0;
-  }
-}
-
-mat-checkbox {
-  .mat-checkbox-frame {
-    border-color: var(--theme-text-color);
-  }
+  background-color: var(--theme-dialog-background-color);
+  width: $search-width;
+  max-width: unset;
+  border-radius: $search-border-radius;
+  margin-top: 3px;
 }
 
 .aca-search-input {
@@ -77,20 +60,25 @@ mat-checkbox {
   height: $search-height;
   margin-bottom: 0;
   padding-bottom: 26px;
+
+  .app-search-container {
+    margin: 0;
+  }
 }
 
 .app-search-control {
   margin-top: -$top-margin;
 }
 
-#search-options {
+.app-search-options {
   color: var(--theme-text-color);
   border-top: 1px solid var(--theme-divider-color);
   padding: 20px 0;
   font-size: 16px;
   letter-spacing: -0.7px;
+  margin-bottom: -8px;
 
-  mat-checkbox {
+  &-checkbox {
     padding: 3px 24px 3px 19px;
 
     .mat-checkbox-inner-container {
@@ -105,7 +93,7 @@ mat-checkbox {
     }
   }
 
-  .mat-checkbox-layout {
+  .app-search-options-checkbox label {
     max-width: 155px;
   }
 }
@@ -128,9 +116,7 @@ mat-checkbox {
   }
 
   .app-search-options-menu {
-    &.mat-menu-panel {
-      width: $search-width-small;
-    }
+    width: $search-width-small;
   }
 
   #search-options {
@@ -144,7 +130,7 @@ mat-checkbox {
       }
     }
 
-    .mat-checkbox-layout {
+    label {
       max-width: 105px;
     }
   }
@@ -162,13 +148,10 @@ mat-checkbox {
   }
 
   .app-search-options-menu {
-    &.mat-menu-panel {
-      width: $search-width-xsmall;
-      margin-top: 9px;
-    }
+    width: $search-width-xsmall;
   }
 
-  #search-options .mat-checkbox-layout {
+  #search-options label {
     max-width: 180px;
   }
 }

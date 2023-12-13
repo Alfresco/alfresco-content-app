@@ -8,7 +8,7 @@
     display: flex;
 
     .adf-datatable-cell-badge {
-      color: var(--theme-contrast-gray);
+      color: var(--theme-secondary-text);
     }
   }
 
@@ -17,14 +17,14 @@
     overflow: hidden;
     text-overflow: ellipsis;
 
-    aca-locked-by {
+    .aca-locked-by {
       display: flex;
       align-items: center;
       color: rgba(0, 0, 0, 0.54);
       max-width: 100%;
-      padding: 0 10px;
+      padding-right: 10px;
 
-      .locked_by--name {
+      &--name {
         overflow: hidden;
         text-overflow: ellipsis;
       }

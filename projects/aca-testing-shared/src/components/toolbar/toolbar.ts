@@ -35,13 +35,9 @@ export class Toolbar extends Component {
   createButton = element(By.css('[id="app.toolbar.create"]'));
   uploadButton = element(By.css('[id="app.toolbar.upload"]'));
   shareButton = element(By.css('button[data-automation-id="share-action-button"]'));
-  viewButton = element(By.css(`button[title='View']`));
   downloadButton = element(By.css(`.mat-icon-button[title='Download']`));
   viewDetailsButton = element(By.css(`button[title='View Details']`));
   printButton = element(By.css(`button[title='Print']`));
-  fullScreenButton = element(By.css(`button[title='Activate full-screen mode']`));
-  joinButton = element(By.css(`button[title='Join']`));
-  leaveButton = element(By.css(`button[title='Leave Library']`));
   permanentlyDeleteButton = element(By.css(`button[title='Permanently Delete']`));
   restoreButton = element(By.css(`button[title='Restore']`));
   searchIconButton = element(By.css(`button[title='Search']`));
@@ -49,17 +45,6 @@ export class Toolbar extends Component {
 
   constructor(ancestor?: string) {
     super('aca-toolbar', ancestor);
-  }
-
-  async isEmpty(): Promise<boolean> {
-    const count = await this.buttons.count();
-    return count === 0;
-  }
-
-  async getButtons(): Promise<string[]> {
-    return this.buttons.map(async (elem) => {
-      return elem.getAttribute('title');
-    });
   }
 
   async isButtonPresent(title: string) {
@@ -113,25 +98,6 @@ export class Toolbar extends Component {
     return browser.isElementPresent(this.printButton);
   }
 
-  async openCreateFolderDialog(): Promise<void> {
-    await this.openCreateMenu();
-    await BrowserActions.click(this.menu.createFolderAction);
-  }
-
-  async openCreateFileFromTemplateDialog(): Promise<void> {
-    await this.openCreateMenu();
-    await BrowserActions.click(this.menu.createFileFromTemplateAction);
-  }
-
-  async openCreateFolderFromTemplateDialog(): Promise<void> {
-    await this.openCreateMenu();
-    await BrowserActions.click(this.menu.createFolderFromTemplateAction);
-  }
-
-  async openCreateMenu(): Promise<void> {
-    await BrowserActions.click(this.createButton);
-    await this.menu.waitForMenuToOpen();
-  }
   async openUploadMenu(): Promise<void> {
     await BrowserActions.click(this.uploadButton);
     await this.menu.waitForMenuToOpen();

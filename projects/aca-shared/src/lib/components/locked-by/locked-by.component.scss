@@ -3,14 +3,14 @@
   align-items: center;
   color: var(--theme-text-color, rgba(0, 0, 0, 0.54));
 
-  .locked_by--icon {
+  &--icon {
     font-size: 14px;
     width: 14px;
     height: 14px;
   }
 
-  .locked_by--label,
-  .locked_by--name {
+  &--label,
+  &--name {
     font-size: 12px;
     padding: 0 2px;
   }

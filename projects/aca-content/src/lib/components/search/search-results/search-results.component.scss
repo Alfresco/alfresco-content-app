@@ -30,22 +30,20 @@ aca-search-results {
     border-top: 1px solid var(--theme-border-color);
     border-bottom: 1px solid var(--theme-border-color);
 
-    .adf-search-filter-chip,
-    .adf-search-filter-chip-tabbed {
-      &[disabled] {
-        &.mat-chip {
-          background-color: var(--theme-disabled-chip-background-color);
-          color: var(--theme-search-chip-icon-color);
-        }
-      }
-
-      &.mat-chip {
+    .aca-content__advanced-filters {
+      .adf-search-filter-chip,
+      .adf-search-filter-chip-tabbed {
         background-color: var(--theme-dropdown-color);
         color: var(--theme-selected-text-color);
 
         &:hover,
         &:focus {
-          background-color: var(--theme-grey-background-hover);
+          background-color: var(--theme-dropdown-background-hover);
+        }
+
+        &[disabled] {
+          background-color: var(--theme-disabled-chip-background-color);
+          color: var(--theme-search-chip-icon-color);
         }
 
         mat-icon {
@@ -112,7 +110,7 @@ aca-search-results {
     place-content: flex-start space-between;
     align-items: flex-start;
     padding: 16px 12px;
-    background-color: var(--theme-primary-color-default-contrast);
+    background-color: var(--theme-card-background-color);
 
     &__filter-set {
       p {
