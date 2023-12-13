@@ -169,7 +169,7 @@ describe('DetailsComponent', () => {
     expect(component.nodeIcon).toContain(expectedIcon);
   });
 
-  it('should set aspectActions from extensions', () => {
+  it('should set aspectActions from extension mock', () => {
     const extensionMock = {
       getAllowedSidebarActions: () =>
         of([
@@ -184,15 +184,20 @@ describe('DetailsComponent', () => {
 
     extensionsServiceMock.getAllowedSidebarActions.and.returnValue(of(extensionMock));
     fixture.detectChanges();
-    void fixture.whenStable().then(() => {
-      expect(component.aspectActions).toEqual([
-        {
-          id: 'app.sidebar.close',
-          order: 100,
-          title: 'close',
-          icon: 'highlight_off'
-        } as ContentActionRef
-      ]);
-    });
+    fixture
+      .whenStable()
+      .then(() => {
+        expect(component.aspectActions).toEqual([
+          {
+            id: 'app.sidebar.close',
+            order: 100,
+            title: 'close',
+            icon: 'highlight_off'
+          } as ContentActionRef
+        ]);
+      })
+      .catch((error) => {
+        fail(`An error occurred: ${error}`);
+      });
   });
 });
