@@ -40,7 +40,10 @@ describe('DocumentListDirective', () => {
     selection: [],
     reload: jasmine.createSpy('reload'),
     resetSelection: jasmine.createSpy('resetSelection'),
-    ready: new Subject<any>()
+    ready: new Subject<any>(),
+    setColumnsWidths: {},
+    setColumnsVisibility: {},
+    setColumnsOrder: {}
   };
 
   const storeMock: any = {
@@ -66,7 +69,8 @@ describe('DocumentListDirective', () => {
 
   const userPreferencesServiceMock: any = {
     set: jasmine.createSpy('set'),
-    get: jasmine.createSpy('get')
+    get: jasmine.createSpy('get'),
+    hasItem: jasmine.createSpy('hasItem')
   };
 
   beforeEach(() => {
@@ -157,5 +161,46 @@ describe('DocumentListDirective', () => {
     expect(documentListMock.resetSelection).toHaveBeenCalled();
     expect(storeMock.dispatch).toHaveBeenCalledWith(new SetSelectedNodesAction([]));
     expect(documentListDirective.selectedNode).toBeNull();
+  });
+
+  it('should set user preferences for columns visibility`', () => {
+    const event = new CustomEvent('columnsVisibilityChanged', { detail: { 'app.tags': true, 'app.name': false } });
+    mockRoute.snapshot.data.sortingPreferenceKey = 'files';
+    documentListDirective.ngOnInit();
+    documentListDirective.onColumnsVisibilityChange(event);
+
+    expect(userPreferencesServiceMock.set).toHaveBeenCalledWith('files.columns.visibility', JSON.stringify(event));
+  });
+
+  it('should set user preferences for columns order`', () => {
+    const event = new CustomEvent('columnsOrderChanged', { detail: ['app.tags', 'app.name'] });
+    mockRoute.snapshot.data.sortingPreferenceKey = 'files';
+    documentListDirective.ngOnInit();
+    documentListDirective.onColumnOrderChanged(event);
+
+    expect(userPreferencesServiceMock.set).toHaveBeenCalledWith('files.columns.order', JSON.stringify(event));
+  });
+
+  it('should set user preferences for columns width`', () => {
+    const event = new CustomEvent('columnsWidthChanged', { detail: { 'app.tags': 65, 'app.name': 75 } });
+    mockRoute.snapshot.data.sortingPreferenceKey = 'files';
+    documentListDirective.ngOnInit();
+    documentListDirective.onColumnsWidthChanged(event);
+
+    expect(userPreferencesServiceMock.set).toHaveBeenCalledWith('files.columns.width', JSON.stringify(event));
+  });
+
+  it('should set document list properties from user preferences`', () => {
+    mockRoute.snapshot.data.sortingPreferenceKey = 'files';
+    userPreferencesServiceMock.hasItem.and.returnValue(true);
+    userPreferencesServiceMock.get.and.returnValue(false);
+    userPreferencesServiceMock.get.withArgs('files.columns.width').and.returnValue(JSON.stringify({ 'app.tag': 87 }));
+    userPreferencesServiceMock.get.withArgs('files.columns.order').and.returnValue(JSON.stringify(['app.tag', 'app.name']));
+    userPreferencesServiceMock.get.withArgs('files.columns.visibility').and.returnValue(JSON.stringify({ 'app.tag': true }));
+    documentListDirective.ngOnInit();
+
+    expect(documentListMock.setColumnsWidths).toEqual({ 'app.tag': 87 });
+    expect(documentListMock.setColumnsOrder).toEqual(['app.tag', 'app.name']);
+    expect(documentListMock.setColumnsVisibility).toEqual({ 'app.tag': true });
   });
 });
