@@ -77,6 +77,19 @@ export class SharedLinksApi {
     }
   }
 
+  async shareNodes(nodeIds: string[], expiresAt?: Date): Promise<any> {
+    try {
+      for (const nodeId of nodeIds) {
+        await this.apiService.share.createSharedLink({
+          nodeId,
+          expiresAt
+        });
+      }
+    } catch (error) {
+      console.error('User Actions - shareNodes failed : ', error);
+    }
+  }
+
   async waitForFilesToBeShared(filesIds: string[]): Promise<void> {
     try {
       const sharedFile = async () => {

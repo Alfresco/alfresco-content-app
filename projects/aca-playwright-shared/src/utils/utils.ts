@@ -42,4 +42,8 @@ export class Utils {
 
     return run(retry);
   }
+
+  static formatDate(date: string): string {
+    return new Date(date).toLocaleDateString('en-US');
+  }
 }

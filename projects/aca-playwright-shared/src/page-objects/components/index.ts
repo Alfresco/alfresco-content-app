@@ -39,3 +39,4 @@ export * from './breadcrumb/breadcrumb.component';
 export * from './sidenav.component';
 export * from './aca-header.component';
 export * from './error.component';
+export * from './datetime-picker/datetime-picker.component';
