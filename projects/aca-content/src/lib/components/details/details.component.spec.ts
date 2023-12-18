@@ -33,8 +33,8 @@ import { ContentApiService } from '@alfresco/aca-shared';
 import { STORE_INITIAL_APP_DATA, SetSelectedNodesAction, NavigateToFolder } from '@alfresco/aca-shared/store';
 import { NodeEntry, PathElement } from '@alfresco/js-api';
 import { RouterTestingModule } from '@angular/router/testing';
-import { AuthenticationService, PageTitleService, ThumbnailService } from '@alfresco/adf-core';
-import { BreadcrumbComponent, SearchQueryBuilderService } from '@alfresco/adf-content-services';
+import { AuthenticationService, PageTitleService } from '@alfresco/adf-core';
+import { BreadcrumbComponent, ContentService, SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { By } from '@angular/platform-browser';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 
@@ -42,7 +42,7 @@ describe('DetailsComponent', () => {
   let component: DetailsComponent;
   let fixture: ComponentFixture<DetailsComponent>;
   let contentApiService: ContentApiService;
-  let thumbnailService: ThumbnailService;
+  let contentService: ContentService;
   let store: Store;
   let node: NodeEntry;
 
@@ -98,7 +98,7 @@ describe('DetailsComponent', () => {
     fixture = TestBed.createComponent(DetailsComponent);
     component = fixture.componentInstance;
     contentApiService = TestBed.inject(ContentApiService);
-    thumbnailService = TestBed.inject(ThumbnailService);
+    contentService = TestBed.inject(ContentService);
     store = TestBed.inject(Store);
 
     node = {
@@ -163,9 +163,10 @@ describe('DetailsComponent', () => {
 
   it('should return the icon when getNodeIcon is called', () => {
     const expectedIcon = 'assets/images/ft_ic_folder';
-    spyOn(thumbnailService, 'getNodeIcon').and.returnValue(expectedIcon);
+    spyOn(contentService, 'getNodeIcon').and.returnValue(expectedIcon);
     fixture.detectChanges();
     component.ngOnInit();
+    expect(contentService.getNodeIcon).toHaveBeenCalled();
     expect(component.nodeIcon).toContain(expectedIcon);
   });
 

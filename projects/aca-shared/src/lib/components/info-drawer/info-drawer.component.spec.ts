@@ -27,18 +27,19 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
 import { SetInfoDrawerStateAction, ToggleInfoDrawerAction } from '@alfresco/aca-shared/store';
-import { of, Subject } from 'rxjs';
+import { EMPTY, of, Subject } from 'rxjs';
 import { InfoDrawerComponent } from './info-drawer.component';
 import { LibTestingModule } from '../../testing/lib-testing-module';
 import { AppExtensionService } from '../../services/app.extension.service';
 import { ContentApiService } from '../../services/content-api.service';
-import { ThumbnailService } from '@alfresco/adf-core';
+import { ContentService } from '@alfresco/adf-content-services';
+import { RedirectAuthService } from '@alfresco/adf-core';
 
 describe('InfoDrawerComponent', () => {
   let fixture: ComponentFixture<InfoDrawerComponent>;
   let component: InfoDrawerComponent;
   let contentApiService: ContentApiService;
-  let thumbnailService: ThumbnailService;
+  let contentService: ContentService;
   let tab: SidebarTabRef;
   let appExtensionService: AppExtensionService;
   const mockStream = new Subject();
@@ -64,7 +65,8 @@ describe('InfoDrawerComponent', () => {
       imports: [LibTestingModule, InfoDrawerComponent],
       providers: [
         { provide: AppExtensionService, useValue: extensionServiceMock },
-        { provide: Store, useValue: storeMock }
+        { provide: Store, useValue: storeMock },
+        { provide: RedirectAuthService, useValue: { onLogin: EMPTY } }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     });
@@ -73,8 +75,7 @@ describe('InfoDrawerComponent', () => {
     component = fixture.componentInstance;
     appExtensionService = TestBed.inject(AppExtensionService);
     contentApiService = TestBed.inject(ContentApiService);
-    thumbnailService = TestBed.inject(ThumbnailService);
-
+    contentService = TestBed.inject(ContentService);
     tab = { title: 'tab1', id: 'tab1', component: '' };
     spyOn(appExtensionService, 'getSidebarTabs').and.returnValue([tab]);
   });
@@ -192,7 +193,7 @@ describe('InfoDrawerComponent', () => {
     const expectedIcon = 'assets/images/ft_ic_folder';
     const response: any = { entry: { id: 'nodeId' } };
     spyOn(contentApiService, 'getNodeInfo').and.returnValue(of(response));
-    spyOn(thumbnailService, 'getNodeIcon').and.returnValue(expectedIcon);
+    spyOn(contentService, 'getNodeIcon').and.returnValue(expectedIcon);
     const nodeMock: any = {
       entry: { id: 'nodeId', guid: 'guidId' },
       isFolder: true
@@ -202,7 +203,7 @@ describe('InfoDrawerComponent', () => {
     fixture.detectChanges();
     component.ngOnChanges();
 
-    expect(thumbnailService.getNodeIcon).toHaveBeenCalledWith(response);
+    expect(contentService.getNodeIcon).toHaveBeenCalledWith(response);
     expect(component.icon).toBe(expectedIcon);
     expect(contentApiService.getNodeInfo).toHaveBeenCalled();
   });

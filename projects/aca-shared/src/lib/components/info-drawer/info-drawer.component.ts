@@ -33,11 +33,11 @@ import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { InfoDrawerModule, ThumbnailService } from '@alfresco/adf-core';
+import { InfoDrawerModule } from '@alfresco/adf-core';
 import { TranslateModule } from '@ngx-translate/core';
 import { A11yModule } from '@angular/cdk/a11y';
 import { ToolbarComponent } from '../toolbar/toolbar.component';
-import { NodesApiService } from '@alfresco/adf-content-services';
+import { ContentService, NodesApiService } from '@alfresco/adf-content-services';
 
 @Component({
   standalone: true,
@@ -71,7 +71,7 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
     private contentApi: ContentApiService,
     private extensions: AppExtensionService,
     private nodesService: NodesApiService,
-    private thumbnailService: ThumbnailService
+    private contentService: ContentService
   ) {}
 
   ngOnInit() {
@@ -137,6 +137,6 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
 
   private setDisplayNode(node: any) {
     this.displayNode = node;
-    this.icon = this.thumbnailService.getNodeIcon(node);
+    this.icon = this.contentService.getNodeIcon(node);
   }
 }

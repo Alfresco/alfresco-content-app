@@ -27,7 +27,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ContentApiService, PageComponent, PageLayoutComponent, ToolbarComponent } from '@alfresco/aca-shared';
 import { NavigateToFolder, NavigateToPreviousPage, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { Subject } from 'rxjs';
-import { BreadcrumbModule, PermissionManagerModule } from '@alfresco/adf-content-services';
+import { BreadcrumbModule, ContentService, PermissionManagerModule } from '@alfresco/adf-content-services';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatIconModule } from '@angular/material/icon';
@@ -39,7 +39,6 @@ import { CommentsTabComponent } from '../info-drawer/comments-tab/comments-tab.c
 import { NodeEntry, PathElement } from '@alfresco/js-api';
 import { takeUntil } from 'rxjs/operators';
 import { ContentActionRef } from '@alfresco/adf-extensions';
-import { ThumbnailService } from '@alfresco/adf-core';
 
 @Component({
   standalone: true,
@@ -70,7 +69,7 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
   aspectActions: Array<ContentActionRef> = [];
   nodeIcon: string;
 
-  constructor(private route: ActivatedRoute, private contentApi: ContentApiService, private thumbnailService: ThumbnailService) {
+  constructor(private route: ActivatedRoute, private contentApi: ContentApiService, private contentService: ContentService) {
     super();
   }
 
@@ -88,8 +87,8 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
       this.contentApi.getNode(this.nodeId).subscribe((node) => {
         this.node = node.entry;
         this.isLoading = false;
-        this.nodeIcon = this.thumbnailService.getNodeIcon(this.node);
         this.store.dispatch(new SetSelectedNodesAction([{ entry: this.node }]));
+        this.nodeIcon = this.contentService.getNodeIcon(this.node);
       });
     });
     this.extensions
