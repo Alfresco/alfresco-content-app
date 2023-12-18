@@ -73,8 +73,8 @@ export class FileActionsApi {
     try {
       return await this.apiService.upload.uploadFile(file, '', parentId, nodeProps, opts);
     } catch (error) {
-      return null;
       Logger.error(`${this.constructor.name} ${this.uploadFileWithRename.name}`, error);
+      return null;
     }
   }
 

@@ -23,16 +23,39 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, FileActionsApi, LoginPage, NodesApi, TEST_FILES, test, timeouts } from '@alfresco/playwright-shared';
+import {
+  ApiClientFactory,
+  FileActionsApi,
+  LoginPage,
+  NodesApi,
+  PersonalFilesPage,
+  TEST_FILES,
+  Utils,
+  test,
+  timeouts
+} from '@alfresco/playwright-shared';
 
-test.describe('Remember sorting', () => {
+let initialSortState: {
+  sortingColumn: string;
+  sortingOrder: string;
+  firstElement: string;
+};
+
+async function getSortState(myPersonalFiles: PersonalFilesPage): Promise<typeof initialSortState> {
+  return {
+    sortingColumn: await myPersonalFiles.dataTable.getSortedColumnHeaderText(),
+    sortingOrder: await myPersonalFiles.dataTable.getSortingOrder(),
+    firstElement: await myPersonalFiles.dataTable.getFirstElementDetail('Name')
+  };
+}
+
+test.describe.only('Remember sorting', () => {
   interface NodesIds {
     [index: string]: string;
   }
 
-  const timestamp = new Date().getTime();
-  const user1 = `userSortLogin1-${timestamp}`;
-  const user2 = `userSortLogin2-${timestamp}`;
+  const user1 = `userSortLogin1-${Utils.random()}`;
+  const user2 = `userSortLogin2-${Utils.random()}`;
   const pdfFileNames = [...new Array(14).fill(100)].map((v, i) => `file-${v + i}.pdf`);
   const jpgFileNames = [...new Array(12).fill(114)].map((v, i) => `file-${v + i}.jpg`);
 
@@ -46,12 +69,6 @@ test.describe('Remember sorting', () => {
     user2: {
       files: [pdfFileNames[0], jpgFileNames[0]]
     }
-  };
-
-  let initialSortState: {
-    sortingColumn: string;
-    sortingOrder: string;
-    firstElement: string;
   };
 
   test.beforeAll(async () => {
@@ -92,11 +109,7 @@ test.describe('Remember sorting', () => {
     );
     await personalFiles.dataTable.sortBy('Name', 'asc');
     await personalFiles.dataTable.spinnerWaitForReload();
-    initialSortState = {
-      sortingColumn: await personalFiles.dataTable.getSortedColumnHeaderText(),
-      sortingOrder: await personalFiles.dataTable.getSortingOrder(),
-      firstElement: await personalFiles.dataTable.getFirstElementDetail('Name')
-    };
+    initialSortState = await getSortState(personalFiles);
   });
 
   test.afterAll(async () => {
@@ -110,37 +123,21 @@ test.describe('Remember sorting', () => {
     test('[C261137] Size sort order is retained when user logs out and logs back in', async ({ personalFiles, loginPage }) => {
       await personalFiles.dataTable.sortBy('Name', 'desc');
       await personalFiles.dataTable.spinnerWaitForReload();
-
-      const expectedSortData = {
-        sortingColumn: await personalFiles.dataTable.getSortedColumnHeaderText(),
-        sortingOrder: await personalFiles.dataTable.getSortingOrder(),
-        firstElement: await personalFiles.dataTable.getFirstElementDetail('Name')
-      };
-
+      const expectedSortData = await getSortState(personalFiles);
       expect(expectedSortData).not.toEqual(initialSortState);
 
       await loginPage.logoutUser();
       await FileActionsApi.initialize(user1, user1);
       await loginPage.loginUser({ username: user1, password: user1 }, { withNavigation: true, waitForLoading: true });
 
-      const actualSortData = {
-        sortingColumn: await personalFiles.dataTable.getSortedColumnHeaderText(),
-        sortingOrder: await personalFiles.dataTable.getSortingOrder(),
-        firstElement: await personalFiles.dataTable.getFirstElementDetail('Name')
-      };
-
+      const actualSortData = await getSortState(personalFiles);
       expect(actualSortData).toEqual(expectedSortData);
     });
 
     test('[C261150] Sort order is not retained between different users', async ({ personalFiles, loginPage }) => {
       await personalFiles.dataTable.sortBy('Size', 'asc');
       await personalFiles.dataTable.spinnerWaitForReload();
-
-      const expectedSortData = {
-        sortingColumn: await personalFiles.dataTable.getSortedColumnHeaderText(),
-        sortingOrder: await personalFiles.dataTable.getSortingOrder(),
-        firstElement: await personalFiles.dataTable.getFirstElementDetail('Name')
-      };
+      const expectedSortData = await getSortState(personalFiles);
 
       await loginPage.logoutUser();
       await FileActionsApi.initialize(user2, user2);
@@ -152,12 +149,7 @@ test.describe('Remember sorting', () => {
         }
       );
 
-      const actualSortData = {
-        sortingColumn: await personalFiles.dataTable.getSortedColumnHeaderText(),
-        sortingOrder: await personalFiles.dataTable.getSortingOrder(),
-        firstElement: await personalFiles.dataTable.getFirstElementDetail('Name')
-      };
-
+      const actualSortData = await getSortState(personalFiles);
       expect(actualSortData).not.toEqual(expectedSortData);
     });
   });
