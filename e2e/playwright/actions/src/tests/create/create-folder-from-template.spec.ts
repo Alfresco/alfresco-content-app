@@ -25,19 +25,21 @@
 import { expect } from '@playwright/test';
 import {
   AcaHeader,
+  ApiClientFactory,
   ContentNodeSelectorDialog,
   CreateFromTemplateDialogComponent,
   DataTableComponent,
   NodeContentTree,
   NodesApi,
+  SitesApi,
   Utils,
   errorStrings,
-  getUserState,
   test
 } from '@alfresco/playwright-shared';
 
-test.use({ storageState: getUserState('hruser') });
 test.describe('Create folder from template', () => {
+  const apiClientFactory = new ApiClientFactory();
+  let nodesApi: NodesApi;
   let selectFolderTemplateDialog: ContentNodeSelectorDialog;
   let createFolderFromTemplateDialog: CreateFromTemplateDialogComponent;
   let dataTable: DataTableComponent;
@@ -46,7 +48,6 @@ test.describe('Create folder from template', () => {
   let randomFolderTitle: string;
   let randomFolderDescription: string;
   let folderLink: string;
-  let folderId: string;
   const selectDialogTitle = 'Select a folder template';
   const dialogBreadcrumb = 'Space Templates';
   const nameLabel = 'Name *';
@@ -58,6 +59,7 @@ test.describe('Create folder from template', () => {
   const spaceString = '   ';
   const commandKey = 'Meta';
   const random = Utils.random();
+  const username = `user-${Utils.random()}`;
 
   const fileInRootFolder = `file-in-root-${random}.txt`;
   const folderInRootFolder = `folder-in-root-${random}`;
@@ -102,31 +104,73 @@ test.describe('Create folder from template', () => {
   };
 
   test.beforeAll(async ({ nodesApiAction }) => {
-    await nodesApiAction.createContent(templates, `Data Dictionary/Space Templates`);
-    await nodesApiAction.removeUserAccessOnSpaceTemplate(restrictedTemplateFolder);
-    folderLink = (await nodesApiAction.createLinkToFolderName(folderInRootFolder, await nodesApiAction.getSpaceTemplatesFolderId())).entry.name;
+    try {
+      await apiClientFactory.setUpAcaBackend('admin');
+      await apiClientFactory.createUser({ username: username });
+      await nodesApiAction.createContent(templates, `Data Dictionary/Space Templates`);
+      await nodesApiAction.removeUserAccessOnSpaceTemplate(restrictedTemplateFolder);
+      folderLink = (await nodesApiAction.createLinkToFolderName(folderInRootFolder, await nodesApiAction.getSpaceTemplatesFolderId())).entry.name;
+    } catch (error) {
+      console.error(`Main beforeAll failed : ${error}`);
+    }
   });
 
-  test.beforeEach(async ({ personalFiles }) => {
-    await personalFiles.navigate();
+  test.beforeEach(async ({ loginPage, personalFiles }) => {
+    try {
+      await loginPage.loginUser(
+        { username: username, password: username },
+        {
+          withNavigation: true,
+          waitForLoading: true
+        }
+      );
+      await personalFiles.navigate();
+    } catch (error) {
+      console.error(`Main beforeEach failed : ${error}`);
+    }
   });
 
   test.afterAll(async ({ nodesApiAction }) => {
-    await nodesApiAction.cleanupSpaceTemplatesItems([
-      folderInRootFolder,
-      templateFolder1,
-      templateFolder2,
-      restrictedTemplateFolder,
-      fileInRootFolder
-    ]);
+    try {
+      await nodesApiAction.cleanupSpaceTemplatesItems([
+        folderInRootFolder,
+        templateFolder1,
+        templateFolder2,
+        restrictedTemplateFolder,
+        fileInRootFolder
+      ]);
+    } catch (error) {
+      console.error(`Main afterAll failed : ${error}`);
+    }
   });
 
   test.describe('Personal Files page', () => {
+    test.beforeAll(async () => {
+      try {
+        nodesApi = await NodesApi.initialize(username, username);
+      } catch (error) {
+        console.error(`Personal Files page, beforeAll failed : ${error}`);
+      }
+    });
+
     test.beforeEach(async ({ personalFiles }) => {
-      selectFolderTemplateDialog = personalFiles.contentNodeSelector;
-      dataTable = personalFiles.dataTable;
-      toolbar = personalFiles.acaHeader;
-      await toolbar.clickCreateFolderFromTemplate();
+      try {
+        selectFolderTemplateDialog = personalFiles.contentNodeSelector;
+        dataTable = personalFiles.dataTable;
+        toolbar = personalFiles.acaHeader;
+        await toolbar.clickCreateFolderFromTemplate();
+        await selectFolderTemplateDialog.loadMoreNodes();
+      } catch (error) {
+        console.error(`Personal Files page, beforeEach failed : ${error}`);
+      }
+    });
+
+    test.afterAll(async () => {
+      try {
+        await nodesApi.deleteCurrentUserNodes();
+      } catch (error) {
+        console.error(`Personal Files page, afterAll failed : ${error}`);
+      }
     });
 
     test.describe('Select Template dialog', () => {
@@ -200,18 +244,21 @@ test.describe('Create folder from template', () => {
 
     test.describe('Create from template dialog', () => {
       test.beforeAll(async () => {
-        const nodesApi = await NodesApi.initialize('hruser');
-        folderId = (await nodesApi.createFolder(commonFolderName)).entry.id;
+        try {
+          await nodesApi.createFolder(commonFolderName);
+        } catch (error) {
+          console.error(`Create from template dialog, beforeAll failed : ${error}`);
+        }
       });
 
       test.beforeEach(async ({ personalFiles }) => {
-        createFolderFromTemplateDialog = personalFiles.createFromTemplateDialogComponent;
-        await dataTable.getRowByName(templateFolder1).click();
-        await selectFolderTemplateDialog.actionButton.click();
-      });
-
-      test.afterAll(async ({ nodesApiAction }) => {
-        await nodesApiAction.deleteNodeById(folderId);
+        try {
+          createFolderFromTemplateDialog = personalFiles.createFromTemplateDialogComponent;
+          await dataTable.getRowByName(templateFolder1).click();
+          await selectFolderTemplateDialog.actionButton.click();
+        } catch (error) {
+          console.error(`Create from template dialog, beforeEach failed : ${error}`);
+        }
       });
 
       test('[C325142] Create folder from template - dialog UI', async () => {
@@ -319,18 +366,16 @@ test.describe('Create folder from template', () => {
 
     test.describe('Folder created from template on Personal Files', () => {
       test.beforeEach(async ({ personalFiles }) => {
-        randomFolderName = `playwright-folder-${Utils.random()}`;
-        randomFolderTitle = `folder-title-${Utils.random()}`;
-        randomFolderDescription = `folder-description-${Utils.random()}`;
-        createFolderFromTemplateDialog = personalFiles.createFromTemplateDialogComponent;
-        await dataTable.getRowByName(templateFolder1).click();
-        await selectFolderTemplateDialog.actionButton.click();
-      });
-
-      test.afterEach(async () => {
-        const nodesApi = await NodesApi.initialize('hruser');
-        folderId = await nodesApi.getNodeIdFromParent(randomFolderName, '-my-');
-        await nodesApi.deleteNodeById(folderId);
+        try {
+          randomFolderName = `playwright-folder-${Utils.random()}`;
+          randomFolderTitle = `folder-title-${Utils.random()}`;
+          randomFolderDescription = `folder-description-${Utils.random()}`;
+          createFolderFromTemplateDialog = personalFiles.createFromTemplateDialogComponent;
+          await dataTable.getRowByName(templateFolder1).click();
+          await selectFolderTemplateDialog.actionButton.click();
+        } catch (error) {
+          console.error(`Folder created from template on Personal Files, beforeEach failed : ${error}`);
+        }
       });
 
       test('[C325157] Create a folder from a template - with a new Name', async () => {
@@ -359,32 +404,47 @@ test.describe('Create folder from template', () => {
 
   test.describe('Folder created from template on Personal Files Libraries', () => {
     const randomLibraryName = `playwright-library-${Utils.random()}`;
+    let sitesApi: SitesApi;
 
-    test.beforeAll(async ({ sitesApiAction, nodesApiAction }) => {
-      await sitesApiAction.createSite(randomLibraryName);
-      const libraryGuId = await sitesApiAction.getDocLibId(randomLibraryName);
-      await nodesApiAction.createFolder(commonFolderName, libraryGuId);
+    test.beforeAll(async () => {
+      try {
+        sitesApi = await SitesApi.initialize(username, username);
+        await sitesApi.createSite(randomLibraryName);
+        const libraryGuId = await sitesApi.getDocLibId(randomLibraryName);
+        await nodesApi.createFolder(commonFolderName, libraryGuId);
+      } catch (error) {
+        console.error(`Folder created from template on Personal Files Libraries, beforeAll failed : ${error}`);
+      }
     });
 
     test.beforeEach(async ({ myLibrariesPage }) => {
-      randomFolderName = `playwright-folder-${Utils.random()}`;
-      randomFolderTitle = `folder-title-${Utils.random()}`;
-      randomFolderDescription = `folder-description-${Utils.random()}`;
-      await myLibrariesPage.navigate();
-      selectFolderTemplateDialog = myLibrariesPage.contentNodeSelector;
-      createFolderFromTemplateDialog = myLibrariesPage.createFromTemplateDialogComponent;
-      dataTable = myLibrariesPage.dataTable;
-      toolbar = myLibrariesPage.acaHeader;
-      await dataTable.goThroughPagesLookingForRowWithName(randomLibraryName);
-      await dataTable.getRowByName(randomLibraryName).dblclick();
-      await dataTable.spinnerWaitForReload();
-      await toolbar.clickCreateFolderFromTemplate();
-      await dataTable.getRowByName(templateFolder1).click();
-      await selectFolderTemplateDialog.actionButton.click();
+      try {
+        randomFolderName = `playwright-folder-${Utils.random()}`;
+        randomFolderTitle = `folder-title-${Utils.random()}`;
+        randomFolderDescription = `folder-description-${Utils.random()}`;
+        await myLibrariesPage.navigate();
+        selectFolderTemplateDialog = myLibrariesPage.contentNodeSelector;
+        createFolderFromTemplateDialog = myLibrariesPage.createFromTemplateDialogComponent;
+        dataTable = myLibrariesPage.dataTable;
+        toolbar = myLibrariesPage.acaHeader;
+        await dataTable.goThroughPagesLookingForRowWithName(randomLibraryName);
+        await dataTable.getRowByName(randomLibraryName).dblclick();
+        await dataTable.spinnerWaitForReload();
+        await toolbar.clickCreateFolderFromTemplate();
+        await selectFolderTemplateDialog.loadMoreNodes();
+        await dataTable.getRowByName(templateFolder1).click();
+        await selectFolderTemplateDialog.actionButton.click();
+      } catch (error) {
+        console.error(`Folder created from template on Personal Files Libraries, beforeEach failed : ${error}`);
+      }
     });
 
-    test.afterAll(async ({ sitesApiAction }) => {
-      await sitesApiAction.deleteSites([randomLibraryName]);
+    test.afterAll(async () => {
+      try {
+        await sitesApi.deleteSites([randomLibraryName]);
+      } catch (error) {
+        console.error(`Folder created from template on Personal Files Libraries, afterAll failed : ${error}`);
+      }
     });
 
     test('[C325161] Create a folder from a template from library - with Name, Title and Description', async () => {
