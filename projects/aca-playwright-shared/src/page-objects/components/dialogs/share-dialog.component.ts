@@ -22,7 +22,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Locator, Page } from '@playwright/test';
+import { ElementHandle, Locator, Page } from '@playwright/test';
 import { BaseComponent } from '../base.component';
 import { timeouts } from '../../../utils';
 import { DateTimePicker } from '../datetime-picker/datetime-picker.component';
@@ -85,19 +85,24 @@ export class ShareDialogComponent extends BaseComponent {
     await this.closeButton.click();
   }
 
+  async isToggleStatus(toggle: ElementHandle, status: string): Promise<boolean> {
+    const toggleClass = await toggle.getAttribute('class');
+    return toggleClass.includes(status);
+  }
+
   async isShareToggleChecked(): Promise<boolean> {
-    const toggleClass = await this.shareToggle.getAttribute('class');
-    return toggleClass.includes('checked');
+    const shareToggleElement = await this.shareToggle.elementHandle();
+    return this.isToggleStatus(shareToggleElement, 'checked');
   }
 
   async isShareToggleDisabled(): Promise<boolean> {
-    const toggleClass = await this.shareToggle.getAttribute('class');
-    return toggleClass.includes('mat-disabled');
+    const shareToggleElement = await this.shareToggle.elementHandle();
+    return this.isToggleStatus(shareToggleElement, 'mat-disabled');
   }
 
   async isExpireToggleEnabled(): Promise<boolean> {
-    const toggleClass = await this.expireToggle.getAttribute('class');
-    return toggleClass.includes('checked');
+    const expireToggleElement = await this.expireToggle.elementHandle();
+    return this.isToggleStatus(expireToggleElement, 'checked');
   }
 
   async getExpireDate(): Promise<string> {
