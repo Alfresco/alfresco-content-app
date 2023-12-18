@@ -6,7 +6,7 @@
     width: inherit;
 
     .adf-tag-chips {
-      background-color: white;
+      background-color: var(--theme-background-card-colour);
       border: 1px solid var(--theme-text-color);
       border-radius: 10px;
       color: var(--theme-text-color);
