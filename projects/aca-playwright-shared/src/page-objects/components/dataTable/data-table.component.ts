@@ -44,6 +44,10 @@ export class DataTableComponent extends BaseComponent {
   sortedColumnHeader = this.getChild(`.adf-datatable__header--sorted-asc .adf-datatable-cell-header-content .adf-datatable-cell-value,
                                       .adf-datatable__header--sorted-desc .adf-datatable-cell-header-content .adf-datatable-cell-value`);
   columnHeaders = this.getChild('.adf-datatable-row .adf-datatable-cell-header .adf-datatable-cell-value');
+  emptyList = this.getChild('div.adf-no-content-container');
+  emptyListTitle = this.getChild('.adf-empty-content__title');
+  emptyListSubtitle = this.getChild('.adf-empty-content__subtitle');
+  emptySearchText = this.getChild('.empty-search__text');
 
   /** Locator for row (or rows) */
   getRowLocator = this.getChild(`adf-datatable-row`);
@@ -123,17 +127,21 @@ export class DataTableComponent extends BaseComponent {
 
   getSearchResultLinkByName = (name: string): Locator => this.getChild('.aca-search-results-row span[role="link"]', { hasText: name });
 
-  async sortBy(columnTitle: string, order: 'Ascending' | 'Descending'): Promise<void> {
-    const columnHeaderLocator = this.getColumnHeaderByTitleLocator(columnTitle);
-    await this.spinnerWaitForReload();
-    await columnHeaderLocator.click();
+  getColumnValuesByName = (name: string): Locator => this.getChild(`div[title="${name}"] span`);
 
-    const sortAttribute = await columnHeaderLocator.getAttribute('aria-sort');
-    if (sortAttribute !== order) {
-      await columnHeaderLocator.click();
+  getColumnHeaderByName = (headerTitle: string): Locator =>
+    this.getChild('.adf-datatable-row .adf-datatable-cell-header .adf-datatable-cell-value', { hasText: headerTitle });
+
+  async sortBy(label: string, order: 'asc' | 'desc'): Promise<void> {
+    const sortColumn = await this.getSortedColumnHeaderText();
+    let sortOrder = await this.getSortingOrder();
+    if (sortColumn !== label) {
+      await this.getColumnHeaderByName(label).click({ force: true });
+      sortOrder = await this.getSortingOrder();
     }
-
-    await this.spinnerWaitForReload();
+    if (sortOrder !== order) {
+      await this.getChild('span[class*="adf-datatable__header--sorted"]').click();
+    }
   }
 
   /**
@@ -280,5 +288,42 @@ export class DataTableComponent extends BaseComponent {
 
   async getRowAllInnerTexts(name: string): Promise<string> {
     return (await this.getRowByName(name).locator('span').allInnerTexts()).toString();
+  }
+
+  async getFirstElementDetail(name: string): Promise<string> {
+    const firstNode = this.getColumnValuesByName(name).first();
+    return firstNode.innerText();
+  }
+
+  async isEmpty(): Promise<boolean> {
+    return this.emptyList.isVisible();
+  }
+
+  async getEmptyStateTitle(): Promise<string> {
+    const isEmpty = await this.isEmpty();
+    if (isEmpty) {
+      return this.emptyListTitle.innerText();
+    }
+    return '';
+  }
+
+  async getEmptyStateSubtitle(): Promise<string> {
+    const isEmpty = await this.isEmpty();
+    if (isEmpty) {
+      return this.emptyListSubtitle.innerText();
+    }
+    return '';
+  }
+
+  async getEmptyListText(): Promise<string> {
+    const isEmpty = await this.isEmpty();
+    if (isEmpty) {
+      return this.getChild('adf-custom-empty-content-template').innerText();
+    }
+    return '';
+  }
+
+  async getRowsCount(): Promise<number> {
+    return this.getRowLocator.count();
   }
 }

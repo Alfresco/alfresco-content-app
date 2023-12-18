@@ -81,6 +81,14 @@ export class NodesApi {
     }
   }
 
+  async deleteDeletedNode(name: string): Promise<void> {
+    try {
+      await this.apiService.trashCan.deleteDeletedNode(name);
+    } catch (error) {
+      console.error(`${this.constructor.name} ${this.deleteDeletedNode.name}: ${error}`);
+    }
+  }
+
   private async createNode(
     nodeType: string,
     name: string,

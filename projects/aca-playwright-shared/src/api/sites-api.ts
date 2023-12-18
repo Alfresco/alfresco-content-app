@@ -23,7 +23,16 @@
  */
 
 import { ApiClientFactory } from './api-client-factory';
-import { Site, SiteBodyCreate, SiteEntry, SiteMemberEntry, SiteMembershipBodyCreate, SiteMembershipBodyUpdate, SiteMembershipRequestBodyCreate, SiteMembershipRequestEntry } from '@alfresco/js-api';
+import {
+  Site,
+  SiteBodyCreate,
+  SiteEntry,
+  SiteMemberEntry,
+  SiteMembershipBodyCreate,
+  SiteMembershipBodyUpdate,
+  SiteMembershipRequestBodyCreate,
+  SiteMembershipRequestEntry
+} from '@alfresco/js-api';
 
 export class SitesApi {
   private apiService: ApiClientFactory;
@@ -88,7 +97,7 @@ export class SitesApi {
       return await this.apiService.sites.updateSiteMembership(siteId, userId, siteRole);
     } catch (error) {
       console.error(`SitesApi updateSiteMember : catch : `, error);
-      return new SiteMemberEntry;
+      return new SiteMemberEntry();
     }
   }
 
@@ -105,7 +114,7 @@ export class SitesApi {
         return this.updateSiteMember(siteId, userId, role);
       } else {
         console.error(`SitesApi addSiteMember : catch : `, error);
-        return new SiteMemberEntry;
+        return new SiteMemberEntry();
       }
     }
   }
@@ -139,6 +148,14 @@ export class SitesApi {
     } catch (error) {
       console.error(`SitesApi hasMembershipRequest : catch : `, error);
       return null;
+    }
+  }
+
+  async deleteSiteMember(siteId: string, userId: string) {
+    try {
+      return await this.apiService.sites.deleteSiteMembership(siteId, userId);
+    } catch (error) {
+      console.error(`SitesApi deleteSiteMember : catch : `, error);
     }
   }
 }
