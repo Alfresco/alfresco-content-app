@@ -155,8 +155,6 @@ test.describe('Special permissions', () => {
 
       await userShareActionApi.shareFileById(fileId);
       await userShareActionApi.waitForFilesToBeShared([fileId]);
-
-      // await apis.user.search.waitForApi(username, { expect: 1 });
       await adminSiteApiActions.deleteSiteMember(sitePrivate, username);
     });
 
