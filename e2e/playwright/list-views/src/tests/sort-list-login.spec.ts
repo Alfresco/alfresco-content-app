@@ -49,7 +49,7 @@ async function getSortState(myPersonalFiles: PersonalFilesPage): Promise<typeof 
   };
 }
 
-test.describe.only('Remember sorting', () => {
+test.describe('Remember sorting', () => {
   interface NodesIds {
     [index: string]: string;
   }
