@@ -108,6 +108,7 @@ test.describe('Create file from template', () => {
       await nodesApiAction.createContent(templates, `Data Dictionary/Node Templates`);
       await nodesApiAction.removeUserAccessOnNodeTemplate(restrictedTemplateFolder);
       fileLink = (await nodesApiAction.createLinkToFileName(template2InRoot, await nodesApiAction.getNodeTemplatesFolderId())).entry.name;
+      nodesApi = await NodesApi.initialize(username, username);
     } catch (error) {
       console.error(`Main beforeAll failed: ${error}`);
     }
@@ -137,16 +138,13 @@ test.describe('Create file from template', () => {
         template1InRoot,
         template2InRoot
       ]);
+      await nodesApi.deleteCurrentUserNodes();
     } catch (error) {
       console.error(`Main afterAll failed: ${error}`);
     }
   });
 
   test.describe('Personal Files page', () => {
-    test.beforeAll(async () => {
-      nodesApi = await NodesApi.initialize(username, username);
-    });
-
     test.beforeEach(async ({ personalFiles }) => {
       try {
         selectFileTemplateDialog = personalFiles.contentNodeSelector;
@@ -156,14 +154,6 @@ test.describe('Create file from template', () => {
         await selectFileTemplateDialog.loadMoreNodes();
       } catch (error) {
         console.error(`Personal Files page, beforeEach failed: ${error}`);
-      }
-    });
-
-    test.afterAll(async () => {
-      try {
-        await nodesApi.deleteCurrentUserNodes();
-      } catch (error) {
-        console.error(`Personal Files page, afterAll failed: ${error}`);
       }
     });
 
