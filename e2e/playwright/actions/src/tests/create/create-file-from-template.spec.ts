@@ -38,7 +38,6 @@ import {
 } from '@alfresco/playwright-shared';
 
 test.describe('Create file from template', () => {
-  const apiClientFactory = new ApiClientFactory();
   let nodesApi: NodesApi;
   let selectFileTemplateDialog: ContentNodeSelectorDialog;
   let createFileFromTemplateDialog: CreateFromTemplateDialogComponent;
@@ -102,14 +101,15 @@ test.describe('Create file from template', () => {
   };
 
   test.beforeAll(async ({ nodesApiAction }) => {
+    const apiService = new ApiClientFactory();
     try {
-      await apiClientFactory.setUpAcaBackend('admin');
-      await apiClientFactory.createUser({ username: username });
+      await apiService.setUpAcaBackend('admin');
+      await apiService.createUser({ username: username });
       await nodesApiAction.createContent(templates, `Data Dictionary/Node Templates`);
       await nodesApiAction.removeUserAccessOnNodeTemplate(restrictedTemplateFolder);
       fileLink = (await nodesApiAction.createLinkToFileName(template2InRoot, await nodesApiAction.getNodeTemplatesFolderId())).entry.name;
     } catch (error) {
-      console.error(`Main beforeAll failed : ${error}`);
+      console.error(`Main beforeAll failed: ${error}`);
     }
   });
 
@@ -124,7 +124,7 @@ test.describe('Create file from template', () => {
       );
       await personalFiles.navigate();
     } catch (error) {
-      console.error(`Main beforeEach failed : ${error}`);
+      console.error(`Main beforeEach failed: ${error}`);
     }
   });
 
@@ -138,7 +138,7 @@ test.describe('Create file from template', () => {
         template2InRoot
       ]);
     } catch (error) {
-      console.error(`Main afterAll failed : ${error}`);
+      console.error(`Main afterAll failed: ${error}`);
     }
   });
 
@@ -147,7 +147,7 @@ test.describe('Create file from template', () => {
       try {
         nodesApi = await NodesApi.initialize(username, username);
       } catch (error) {
-        console.error(`Personal Files page, beforeAll failed : ${error}`);
+        console.error(`Personal Files page, beforeAll failed: ${error}`);
       }
     });
 
@@ -159,7 +159,7 @@ test.describe('Create file from template', () => {
         await toolbar.clickCreateFileFromTemplate();
         await selectFileTemplateDialog.loadMoreNodes();
       } catch (error) {
-        console.error(`Personal Files page, beforeEach failed : ${error}`);
+        console.error(`Personal Files page, beforeEach failed: ${error}`);
       }
     });
 
@@ -167,7 +167,7 @@ test.describe('Create file from template', () => {
       try {
         await nodesApi.deleteCurrentUserNodes();
       } catch (error) {
-        console.error(`Personal Files page, afterAll failed : ${error}`);
+        console.error(`Personal Files page, afterAll failed: ${error}`);
       }
     });
 
@@ -249,7 +249,7 @@ test.describe('Create file from template', () => {
         try {
           await nodesApi.createFile(commonFileName);
         } catch (error) {
-          console.error(`Create document from template dialog, beforeAll failed : ${error}`);
+          console.error(`Create document from template dialog, beforeAll failed: ${error}`);
         }
       });
 
@@ -259,7 +259,7 @@ test.describe('Create file from template', () => {
           await dataTable.getRowByName(template1InRoot).click();
           await selectFileTemplateDialog.actionButton.click();
         } catch (error) {
-          console.error(`Create document from template dialog, beforeEach failed : ${error}`);
+          console.error(`Create document from template dialog, beforeEach failed: ${error}`);
         }
       });
 
@@ -376,7 +376,7 @@ test.describe('Create file from template', () => {
           await dataTable.getRowByName(template1InRoot).click();
           await selectFileTemplateDialog.actionButton.click();
         } catch (error) {
-          console.error(`File created from template on Personal Files, beforeEach failed : ${error}`);
+          console.error(`File created from template on Personal Files, beforeEach failed: ${error}`);
         }
       });
 
@@ -411,7 +411,7 @@ test.describe('Create file from template', () => {
         const libraryGuId = await sitesApi.getDocLibId(randomLibraryName);
         await nodesApi.createFolder(commonFileName, libraryGuId);
       } catch (error) {
-        console.error(`File created from template on Personal Files Libraries, beforeAll failed : ${error}`);
+        console.error(`File created from template on Personal Files Libraries, beforeAll failed: ${error}`);
       }
     });
 
@@ -433,7 +433,7 @@ test.describe('Create file from template', () => {
         await dataTable.getRowByName(template1InRoot).click();
         await selectFileTemplateDialog.actionButton.click();
       } catch (error) {
-        console.error(`File created from template on Personal Files Libraries, beforeEach failed : ${error}`);
+        console.error(`File created from template on Personal Files Libraries, beforeEach failed: ${error}`);
       }
     });
 
@@ -441,7 +441,7 @@ test.describe('Create file from template', () => {
       try {
         await sitesApi.deleteSites([randomLibraryName]);
       } catch (error) {
-        console.error(`File created from template on Personal Files Libraries, afterAll failed : ${error}`);
+        console.error(`File created from template on Personal Files Libraries, afterAll failed: ${error}`);
       }
     });
 
