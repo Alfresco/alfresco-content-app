@@ -144,11 +144,7 @@ test.describe('Create file from template', () => {
 
   test.describe('Personal Files page', () => {
     test.beforeAll(async () => {
-      try {
-        nodesApi = await NodesApi.initialize(username, username);
-      } catch (error) {
-        console.error(`Personal Files page, beforeAll failed: ${error}`);
-      }
+      nodesApi = await NodesApi.initialize(username, username);
     });
 
     test.beforeEach(async ({ personalFiles }) => {
