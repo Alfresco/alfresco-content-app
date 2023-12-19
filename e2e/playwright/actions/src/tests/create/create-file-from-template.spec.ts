@@ -102,16 +102,13 @@ test.describe('Create file from template', () => {
 
   test.beforeAll(async ({ nodesApiAction }) => {
     const apiService = new ApiClientFactory();
-    try {
-      await apiService.setUpAcaBackend('admin');
-      await apiService.createUser({ username: username });
-      await nodesApiAction.createContent(templates, `Data Dictionary/Node Templates`);
-      await nodesApiAction.removeUserAccessOnNodeTemplate(restrictedTemplateFolder);
-      fileLink = (await nodesApiAction.createLinkToFileName(template2InRoot, await nodesApiAction.getNodeTemplatesFolderId())).entry.name;
-      nodesApi = await NodesApi.initialize(username, username);
-    } catch (error) {
-      console.error(`Main beforeAll failed: ${error}`);
-    }
+
+    await apiService.setUpAcaBackend('admin');
+    await apiService.createUser({ username: username });
+    await nodesApiAction.createContent(templates, `Data Dictionary/Node Templates`);
+    await nodesApiAction.removeUserAccessOnNodeTemplate(restrictedTemplateFolder);
+    fileLink = (await nodesApiAction.createLinkToFileName(template2InRoot, await nodesApiAction.getNodeTemplatesFolderId())).entry.name;
+    nodesApi = await NodesApi.initialize(username, username);
   });
 
   test.beforeEach(async ({ loginPage, personalFiles }) => {
@@ -130,18 +127,8 @@ test.describe('Create file from template', () => {
   });
 
   test.afterAll(async ({ nodesApiAction }) => {
-    try {
-      await nodesApiAction.cleanupNodeTemplatesItems([
-        templatesFolder1,
-        templatesFolder2,
-        restrictedTemplateFolder,
-        template1InRoot,
-        template2InRoot
-      ]);
-      await nodesApi.deleteCurrentUserNodes();
-    } catch (error) {
-      console.error(`Main afterAll failed: ${error}`);
-    }
+    await nodesApiAction.cleanupNodeTemplatesItems([templatesFolder1, templatesFolder2, restrictedTemplateFolder, template1InRoot, template2InRoot]);
+    await nodesApi.deleteCurrentUserNodes();
   });
 
   test.describe('Personal Files page', () => {
@@ -232,11 +219,7 @@ test.describe('Create file from template', () => {
 
     test.describe('Create document from template dialog', () => {
       test.beforeAll(async () => {
-        try {
-          await nodesApi.createFile(commonFileName);
-        } catch (error) {
-          console.error(`Create document from template dialog, beforeAll failed: ${error}`);
-        }
+        await nodesApi.createFile(commonFileName);
       });
 
       test.beforeEach(async ({ personalFiles }) => {
@@ -391,14 +374,10 @@ test.describe('Create file from template', () => {
     let sitesApi: SitesApi;
 
     test.beforeAll(async () => {
-      try {
-        sitesApi = await SitesApi.initialize(username, username);
-        await sitesApi.createSite(randomLibraryName);
-        const libraryGuId = await sitesApi.getDocLibId(randomLibraryName);
-        await nodesApi.createFolder(commonFileName, libraryGuId);
-      } catch (error) {
-        console.error(`File created from template on Personal Files Libraries, beforeAll failed: ${error}`);
-      }
+      sitesApi = await SitesApi.initialize(username, username);
+      await sitesApi.createSite(randomLibraryName);
+      const libraryGuId = await sitesApi.getDocLibId(randomLibraryName);
+      await nodesApi.createFile(commonFileName, libraryGuId);
     });
 
     test.beforeEach(async ({ myLibrariesPage }) => {
@@ -411,7 +390,6 @@ test.describe('Create file from template', () => {
         createFileFromTemplateDialog = myLibrariesPage.createFromTemplateDialogComponent;
         dataTable = myLibrariesPage.dataTable;
         toolbar = myLibrariesPage.acaHeader;
-        await dataTable.goThroughPagesLookingForRowWithName(randomLibraryName);
         await dataTable.getRowByName(randomLibraryName).dblclick();
         await dataTable.spinnerWaitForReload();
         await toolbar.clickCreateFileFromTemplate();
@@ -424,11 +402,7 @@ test.describe('Create file from template', () => {
     });
 
     test.afterAll(async () => {
-      try {
-        await sitesApi.deleteSites([randomLibraryName]);
-      } catch (error) {
-        console.error(`File created from template on Personal Files Libraries, afterAll failed: ${error}`);
-      }
+      await sitesApi.deleteSites([randomLibraryName]);
     });
 
     test('[C325023] Create a file from a template from library - with Name, Title and Description', async () => {
