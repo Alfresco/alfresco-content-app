@@ -54,11 +54,6 @@ export class ShareDialogComponent extends BaseComponent {
     return await this.page.$$eval('.adf-share-link__label', (elements) => elements.map((element) => element.textContent));
   }
 
-  async isErrorMessageDisplayed(errorText: string): Promise<boolean> {
-    await this.getErrorByText(errorText).waitFor({ state: 'visible', timeout: timeouts.large });
-    return await this.getErrorByText(errorText).isVisible();
-  }
-
   async getDialogTitle(): Promise<string> {
     return await this.dialogTitle.innerText();
   }
@@ -93,11 +88,6 @@ export class ShareDialogComponent extends BaseComponent {
   async isShareToggleChecked(): Promise<boolean> {
     const shareToggleElement = await this.shareToggle.elementHandle();
     return this.isToggleStatus(shareToggleElement, 'checked');
-  }
-
-  async isShareToggleDisabled(): Promise<boolean> {
-    const shareToggleElement = await this.shareToggle.elementHandle();
-    return this.isToggleStatus(shareToggleElement, 'mat-disabled');
   }
 
   async isExpireToggleEnabled(): Promise<boolean> {

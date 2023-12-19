@@ -50,12 +50,12 @@ export class SharedLinksApi {
     }
   }
 
-  async shareFilesByIds(ids: string[]): Promise<SharedLinkEntry[]> {
+  async shareFilesByIds(ids: string[], expireDate?: Date): Promise<SharedLinkEntry[]> {
     const sharedLinks: SharedLinkEntry[] = [];
     try {
       if (ids && ids.length > 0) {
         for (const id of ids) {
-          const sharedLink = await this.shareFileById(id);
+          const sharedLink = await this.shareFileById(id, expireDate);
           sharedLinks.push(sharedLink);
         }
       }
@@ -74,19 +74,6 @@ export class SharedLinksApi {
     } catch (error) {
       console.error(`SharedLinksApi getSharedLinks : catch : `, error);
       return new SharedLinkPaging();
-    }
-  }
-
-  async shareNodes(nodeIds: string[], expiresAt?: Date): Promise<any> {
-    try {
-      for (const nodeId of nodeIds) {
-        await this.apiService.share.createSharedLink({
-          nodeId,
-          expiresAt
-        });
-      }
-    } catch (error) {
-      console.error('User Actions - shareNodes failed : ', error);
     }
   }
 

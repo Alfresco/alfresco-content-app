@@ -45,7 +45,6 @@ test.describe('Share a file', () => {
   const apiClientFactory = new ApiClientFactory();
 
   test.beforeAll(async () => {
-    test.setTimeout(timeouts.extendedTest);
     await apiClientFactory.setUpAcaBackend('admin');
     await apiClientFactory.createUser({ username });
     const nodesApi = await NodesApi.initialize(username, username);
@@ -62,7 +61,6 @@ test.describe('Share a file', () => {
     let file6Id: string;
 
     test.beforeAll(async () => {
-      test.setTimeout(timeouts.extendedTest);
       const nodesApi = await NodesApi.initialize(username, username);
       const shareApi = await SharedLinksApi.initialize(username, username);
 
@@ -115,7 +113,7 @@ test.describe('Share a file', () => {
         file8Id = (await nodesApi.createFile(file8, parentId))?.entry.id;
         file9Id = (await nodesApi.createFile(file9, parentId))?.entry.id;
 
-        await shareApi.shareNodes([file6Id, file7Id], expiryDate);
+        await shareApi.shareFilesByIds([file6Id, file7Id], expiryDate);
         await shareApi.waitForFilesToBeShared([file6Id, file7Id]);
       });
 
