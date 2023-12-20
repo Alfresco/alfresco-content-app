@@ -505,7 +505,7 @@ export const canEditAspects = (context: RuleContext): boolean =>
  * @param context Rule execution context
  */
 export const canManagePermissions = (context: RuleContext): boolean =>
-  [canUpdateSelectedNode(context), navigation.isNotTrashcan(context), !isSmartFolder(context)].every(Boolean);
+  [canUpdateSelectedNode(context), navigation.isNotTrashcan(context), !isSmartFolder(context), !isMultiselection(context)].every(Boolean);
 
 /**
  * Checks if user can toggle **Edit Offline** mode for selected node.
