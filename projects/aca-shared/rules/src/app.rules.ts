@@ -71,7 +71,7 @@ export const supportedExtensions = {
 
 export function getFileExtension(fileName: string): string | null {
   if (fileName) {
-    const match = fileName.match(/\.([^\./\?\#]+)($|\?|\#)/);
+    const match = fileName.toLowerCase().match(/\.([^\./\?\#]+)($|\?|\#)/);
 
     return match ? match[1] : null;
   }
