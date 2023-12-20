@@ -213,7 +213,7 @@ test.describe('Share a file', () => {
         await personalFiles.shareDialog.expireToggle.click();
         expect(await personalFiles.shareDialog.isExpireToggleEnabled()).toBe(false);
 
-        page.waitForTimeout(timeouts.tiny);
+        await page.waitForTimeout(timeouts.tiny);
         await personalFiles.shareDialog.clickClose();
         expect(await nodesApiAction.getSharedExpiryDate(file7Id)).toBe('');
       });
