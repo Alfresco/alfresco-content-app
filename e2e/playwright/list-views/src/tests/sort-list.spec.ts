@@ -23,16 +23,25 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, FavoritesPageApi, FileActionsApi, LoginPage, NodesApi, TEST_FILES, test, timeouts } from '@alfresco/playwright-shared';
+import {
+  ApiClientFactory,
+  FavoritesPageApi,
+  FileActionsApi,
+  LoginPage,
+  NodesApi,
+  TEST_FILES,
+  Utils,
+  test,
+  timeouts
+} from '@alfresco/playwright-shared';
 
 test.describe('Remember sorting', () => {
   interface NodesIds {
     [index: string]: string;
   }
 
-  const timestamp = new Date().getTime();
-  const user1 = `userSort1-${timestamp}`;
-  const user2 = `userSort2-${timestamp}`;
+  const user1 = `userSort1-${Utils.random()}`;
+  const user2 = `userSort2-${Utils.random()}`;
   const pdfFileNames = [...new Array(14).fill(100)].map((v, i) => `file-${v + i}.pdf`);
   const jpgFileNames = [...new Array(12).fill(114)].map((v, i) => `file-${v + i}.jpg`);
   const folderToMove = `folder1`;
@@ -70,17 +79,21 @@ test.describe('Remember sorting', () => {
     nodeActionUser1 = await NodesApi.initialize(user1, user1);
     const filesIdsUser1: NodesIds = {};
     const filesIdsUser2: NodesIds = {};
-    await Promise.all([
+    await Promise.all(
       testData.user1.files.pdf.map(
         async (i) => (filesIdsUser1[i] = (await fileActionUser1.uploadFileWithRename(TEST_FILES.PDF.path, i, '-my-')).entry.id)
-      ),
+      )
+    );
+    await Promise.all(
       testData.user1.files.jpg.map(
         async (i) => (filesIdsUser1[i] = (await fileActionUser1.uploadFileWithRename(TEST_FILES.JPG_FILE.path, i, '-my-')).entry.id)
-      ),
+      )
+    );
+    await Promise.all(
       testData.user2.files.map(
         async (i) => (filesIdsUser2[i] = (await fileActionUser2.uploadFileWithRename(TEST_FILES.PDF.path, i, '-my-')).entry.id)
       )
-    ]);
+    );
     await favoritesActions.addFavoritesByIds('file', [filesIdsUser1[pdfFileNames[0]], filesIdsUser1[pdfFileNames[1]]]);
   });
 
