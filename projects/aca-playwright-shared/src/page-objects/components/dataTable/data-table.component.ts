@@ -48,6 +48,7 @@ export class DataTableComponent extends BaseComponent {
   emptyListTitle = this.getChild('.adf-empty-content__title');
   emptyListSubtitle = this.getChild('.adf-empty-content__subtitle');
   emptySearchText = this.getChild('.empty-search__text');
+  emptyListTest = this.getChild('adf-custom-empty-content-template');
 
   /** Locator for row (or rows) */
   getRowLocator = this.getChild(`adf-datatable-row`);
@@ -300,27 +301,15 @@ export class DataTableComponent extends BaseComponent {
   }
 
   async getEmptyStateTitle(): Promise<string> {
-    const isEmpty = await this.isEmpty();
-    if (isEmpty) {
-      return this.emptyListTitle.innerText();
-    }
-    return '';
+    return (await this.isEmpty()) ? this.emptyListTitle.innerText() : '';
   }
 
   async getEmptyStateSubtitle(): Promise<string> {
-    const isEmpty = await this.isEmpty();
-    if (isEmpty) {
-      return this.emptyListSubtitle.innerText();
-    }
-    return '';
+    return (await this.isEmpty()) ? this.emptyListSubtitle.innerText() : '';
   }
 
   async getEmptyListText(): Promise<string> {
-    const isEmpty = await this.isEmpty();
-    if (isEmpty) {
-      return this.getChild('adf-custom-empty-content-template').innerText();
-    }
-    return '';
+    return (await this.isEmpty()) ? this.emptyListTest.innerText() : '';
   }
 
   async getRowsCount(): Promise<number> {

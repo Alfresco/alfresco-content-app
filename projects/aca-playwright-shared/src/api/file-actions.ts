@@ -41,7 +41,7 @@ export class FileActionsApi {
     return classObj;
   }
 
-  async uploadFile(fileLocation: string, fileName: string, parentFolderId: string): Promise<any> {
+  async uploadFile(fileLocation: string, fileName: string, parentFolderId: string): Promise<NodeEntry> {
     const file = fs.createReadStream(fileLocation);
     return this.apiService.upload.uploadFile(file, '', parentFolderId, null, {
       name: fileName,
@@ -56,7 +56,7 @@ export class FileActionsApi {
     parentId: string = '-my-',
     title: string = '',
     description: string = ''
-  ): Promise<NodeEntry | null> {
+  ): Promise<NodeEntry> {
     const file = fs.createReadStream(fileLocation);
     const nodeProps = {
       properties: {
@@ -74,11 +74,11 @@ export class FileActionsApi {
       return await this.apiService.upload.uploadFile(file, '', parentId, nodeProps, opts);
     } catch (error) {
       Logger.error(`${this.constructor.name} ${this.uploadFileWithRename.name}`, error);
-      return null;
+      return Promise.reject(error);
     }
   }
 
-  async lockNodes(nodeIds: string[], lockType: string = 'ALLOW_OWNER_CHANGES') {
+  async lockNodes(nodeIds: string[], lockType: string = 'ALLOW_OWNER_CHANGES'): Promise<void> {
     try {
       for (const nodeId of nodeIds) {
         await this.apiService.nodes.lockNode(nodeId, { type: lockType });
@@ -175,23 +175,17 @@ export class FileActionsApi {
     }
   }
 
-  async updateNodeContent(
-    nodeId: string,
-    content: string,
-    majorVersion: boolean = true,
-    comment?: string,
-    newName?: string
-  ): Promise<NodeEntry | null> {
+  async updateNodeContent(nodeId: string, content: string, majorVersion: boolean = true, comment?: string, newName?: string): Promise<NodeEntry> {
     try {
       const opts = {
-        majorVersion,
-        comment,
+        majorVersion: majorVersion,
+        comment: comment,
         name: newName
       };
       return await this.apiService.nodes.updateNodeContent(nodeId, content, opts);
     } catch (error) {
       console.error(`${this.constructor.name} ${this.updateNodeContent.name}`, error);
-      return null;
+      return Promise.reject(error);
     }
   }
 }

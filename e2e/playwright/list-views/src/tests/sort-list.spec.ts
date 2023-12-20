@@ -27,19 +27,23 @@ import {
   ApiClientFactory,
   FavoritesPageApi,
   FileActionsApi,
-  LoginPage,
   NodesApi,
+  PersonalFilesPage,
   TEST_FILES,
   Utils,
   test,
   timeouts
 } from '@alfresco/playwright-shared';
 
-test.describe('Remember sorting', () => {
-  interface NodesIds {
-    [index: string]: string;
-  }
+async function getSortState(myPersonalFiles: PersonalFilesPage): Promise<{ [key: string]: string }> {
+  return {
+    sortingColumn: await myPersonalFiles.dataTable.getSortedColumnHeaderText(),
+    sortingOrder: await myPersonalFiles.dataTable.getSortingOrder(),
+    firstElement: await myPersonalFiles.dataTable.getFirstElementDetail('Name')
+  };
+}
 
+test.describe('Remember sorting', () => {
   const user1 = `userSort1-${Utils.random()}`;
   const user2 = `userSort2-${Utils.random()}`;
   const pdfFileNames = [...new Array(14).fill(100)].map((v, i) => `file-${v + i}.pdf`);
@@ -60,11 +64,7 @@ test.describe('Remember sorting', () => {
     }
   };
 
-  let initialSortState: {
-    sortingColumn: string;
-    sortingOrder: string;
-    firstElement: string;
-  };
+  let initialSortState: { [key: string]: string };
   let nodeActionUser1: NodesApi;
 
   test.beforeAll(async () => {
@@ -77,8 +77,8 @@ test.describe('Remember sorting', () => {
     const fileActionUser2 = await FileActionsApi.initialize(user2, user2);
     const favoritesActions = await FavoritesPageApi.initialize(user1, user1);
     nodeActionUser1 = await NodesApi.initialize(user1, user1);
-    const filesIdsUser1: NodesIds = {};
-    const filesIdsUser2: NodesIds = {};
+    const filesIdsUser1: { [key: string]: string } = {};
+    const filesIdsUser2: { [key: string]: string } = {};
     await Promise.all(
       testData.user1.files.pdf.map(
         async (i) => (filesIdsUser1[i] = (await fileActionUser1.uploadFileWithRename(TEST_FILES.PDF.path, i, '-my-')).entry.id)
@@ -97,8 +97,8 @@ test.describe('Remember sorting', () => {
     await favoritesActions.addFavoritesByIds('file', [filesIdsUser1[pdfFileNames[0]], filesIdsUser1[pdfFileNames[1]]]);
   });
 
-  test.beforeEach(async ({ page, personalFiles }) => {
-    const loginPage = new LoginPage(page);
+  test.beforeEach(async ({ loginPage, personalFiles }) => {
+    await NodesApi.initialize(user1, user1);
     await loginPage.loginUser(
       { username: user1, password: user1 },
       {
@@ -108,11 +108,7 @@ test.describe('Remember sorting', () => {
     );
     await personalFiles.dataTable.sortBy('Name', 'asc');
     await personalFiles.dataTable.spinnerWaitForReload();
-    initialSortState = {
-      sortingColumn: await personalFiles.dataTable.getSortedColumnHeaderText(),
-      sortingOrder: await personalFiles.dataTable.getSortingOrder(),
-      firstElement: await personalFiles.dataTable.getFirstElementDetail('Name')
-    };
+    initialSortState = await getSortState(personalFiles);
   });
 
   test.afterAll(async () => {
@@ -126,79 +122,43 @@ test.describe('Remember sorting', () => {
     await personalFiles.dataTable.sortBy('Name', 'desc');
     await personalFiles.dataTable.spinnerWaitForReload();
 
-    const expectedSortData = {
-      sortingColumn: await personalFiles.dataTable.getSortedColumnHeaderText(),
-      sortingOrder: await personalFiles.dataTable.getSortingOrder(),
-      firstElement: await personalFiles.dataTable.getFirstElementDetail('Name')
-    };
-
+    const expectedSortData = await getSortState(personalFiles);
     expect(expectedSortData).not.toEqual(initialSortState);
 
     await favoritePage.navigate();
     await personalFiles.navigate();
 
-    const actualSortData = {
-      sortingColumn: await personalFiles.dataTable.getSortedColumnHeaderText(),
-      sortingOrder: await personalFiles.dataTable.getSortingOrder(),
-      firstElement: await personalFiles.dataTable.getFirstElementDetail('Name')
-    };
-
+    const actualSortData = await getSortState(personalFiles);
     expect(actualSortData).toEqual(expectedSortData);
   });
 
   test('[C589205] Size sort order is retained after viewing a file and closing the viewer', async ({ personalFiles }) => {
     await personalFiles.dataTable.sortBy('Size', 'desc');
     await personalFiles.dataTable.spinnerWaitForReload();
-
-    const expectedSortData = {
-      sortingColumn: await personalFiles.dataTable.getSortedColumnHeaderText(),
-      sortingOrder: await personalFiles.dataTable.getSortingOrder(),
-      firstElement: await personalFiles.dataTable.getFirstElementDetail('Name')
-    };
+    const expectedSortData = await getSortState(personalFiles);
 
     await personalFiles.dataTable.performClickFolderOrFileToOpen(expectedSortData.firstElement);
     await personalFiles.viewer.closeButtonLocator.click();
     await personalFiles.waitForPageLoad();
 
-    const actualSortData = {
-      sortingColumn: await personalFiles.dataTable.getSortedColumnHeaderText(),
-      sortingOrder: await personalFiles.dataTable.getSortingOrder(),
-      firstElement: await personalFiles.dataTable.getFirstElementDetail('Name')
-    };
-
+    const actualSortData = await getSortState(personalFiles);
     expect(actualSortData).toEqual(expectedSortData);
   });
 
   test('[C261153] Sort order should be remembered separately on each list view', async ({ personalFiles, favoritePage }) => {
     await personalFiles.dataTable.sortBy('Size', 'desc');
     await personalFiles.dataTable.spinnerWaitForReload();
-
-    const personalFilesSortData = {
-      sortingColumn: await personalFiles.dataTable.getSortedColumnHeaderText(),
-      sortingOrder: await personalFiles.dataTable.getSortingOrder(),
-      firstElement: await personalFiles.dataTable.getFirstElementDetail('Name')
-    };
+    const personalFilesSortData = await getSortState(personalFiles);
 
     await favoritePage.navigate();
     await favoritePage.dataTable.sortBy('Name', 'asc');
     await favoritePage.dataTable.spinnerWaitForReload();
 
-    const favouritesSortData = {
-      sortingColumn: await favoritePage.dataTable.getSortedColumnHeaderText(),
-      sortingOrder: await favoritePage.dataTable.getSortingOrder(),
-      firstElement: await favoritePage.dataTable.getFirstElementDetail('Name')
-    };
-
+    const favouritesSortData = await getSortState(personalFiles);
     expect(favouritesSortData).not.toEqual(personalFilesSortData);
 
     await personalFiles.navigate();
-
-    const personalFilesSortDataAfterFavSort = {
-      sortingColumn: await personalFiles.dataTable.getSortedColumnHeaderText(),
-      sortingOrder: await personalFiles.dataTable.getSortingOrder(),
-      firstElement: await personalFiles.dataTable.getFirstElementDetail('Name')
-    };
-
+    const personalFilesSortDataAfterFavSort = await getSortState(personalFiles);
     expect(personalFilesSortDataAfterFavSort).toEqual(personalFilesSortData);
   });
 
@@ -215,35 +175,24 @@ test.describe('Remember sorting', () => {
       firstElement: lastFileInArray
     };
 
-    let currentPersonalFilesSortDataPage2 = {
-      sortingColumn: await personalFiles.dataTable.getSortedColumnHeaderText(),
-      sortingOrder: await personalFiles.dataTable.getSortingOrder(),
-      firstElement: await personalFiles.dataTable.getFirstElementDetail('Name')
-    };
-
+    let currentPersonalFilesSortDataPage2 = await getSortState(personalFiles);
     expect(currentPersonalFilesSortDataPage2).toEqual(expectedPersonalFilesSortDataPage2);
 
     await personalFiles.dataTable.sortBy('Name', 'desc');
     await personalFiles.dataTable.spinnerWaitForReload();
-
     expectedPersonalFilesSortDataPage2 = {
       sortingColumn: 'Name',
       sortingOrder: 'desc',
       firstElement: firstFileInArray
     };
 
-    currentPersonalFilesSortDataPage2 = {
-      sortingColumn: await personalFiles.dataTable.getSortedColumnHeaderText(),
-      sortingOrder: await personalFiles.dataTable.getSortingOrder(),
-      firstElement: await personalFiles.dataTable.getFirstElementDetail('Name')
-    };
-
+    currentPersonalFilesSortDataPage2 = await getSortState(personalFiles);
     expect(expectedPersonalFilesSortDataPage2).toEqual(currentPersonalFilesSortDataPage2);
   });
 
   test.describe('Folder actions', () => {
     test.beforeAll(async () => {
-      const folderIds: NodesIds = {};
+      const folderIds: { [key: string]: string } = {};
       folderIds[folderToContain] = (await nodeActionUser1.createFolder(folderToContain)).entry.id;
       folderIds[folderToMove] = (await nodeActionUser1.createFolder(folderToMove)).entry.id;
     });
@@ -262,12 +211,7 @@ test.describe('Remember sorting', () => {
       await personalFiles.folderDialog.createNewFolderDialog(uiCreatedFolder);
       await personalFiles.dataTable.isItemPresent(uiCreatedFolder);
 
-      const actualSortData = {
-        sortingColumn: await personalFiles.dataTable.getSortedColumnHeaderText(),
-        sortingOrder: await personalFiles.dataTable.getSortingOrder(),
-        firstElement: await personalFiles.dataTable.getFirstElementDetail('Name')
-      };
-
+      const actualSortData = await getSortState(personalFiles);
       expect(actualSortData).toEqual(expectedSortData);
     });
 
@@ -279,13 +223,43 @@ test.describe('Remember sorting', () => {
       };
       await personalFiles.copyOrMoveContentInDatatable([folderToMove], folderToContain, 'Move');
       await personalFiles.dataTable.spinnerWaitForReload();
-      const actualSortData = {
-        sortingColumn: await personalFiles.dataTable.getSortedColumnHeaderText(),
-        sortingOrder: await personalFiles.dataTable.getSortingOrder(),
-        firstElement: await personalFiles.dataTable.getFirstElementDetail('Name')
-      };
-
+      const actualSortData = await getSortState(personalFiles);
       expect(actualSortData).toEqual(expectedSortData);
+    });
+  });
+
+  test.describe('User Tests', () => {
+    test('[C261137] Size sort order is retained when user logs out and logs back in', async ({ personalFiles, loginPage }) => {
+      await personalFiles.dataTable.sortBy('Name', 'desc');
+      await personalFiles.dataTable.spinnerWaitForReload();
+      const expectedSortData = await getSortState(personalFiles);
+      expect(expectedSortData).not.toEqual(initialSortState);
+
+      await loginPage.logoutUser();
+      await FileActionsApi.initialize(user1, user1);
+      await loginPage.loginUser({ username: user1, password: user1 }, { withNavigation: true, waitForLoading: true });
+
+      const actualSortData = await getSortState(personalFiles);
+      expect(actualSortData).toEqual(expectedSortData);
+    });
+
+    test('[C261150] Sort order is not retained between different users', async ({ personalFiles, loginPage }) => {
+      await personalFiles.dataTable.sortBy('Size', 'asc');
+      await personalFiles.dataTable.spinnerWaitForReload();
+      const expectedSortData = await getSortState(personalFiles);
+
+      await loginPage.logoutUser();
+      await FileActionsApi.initialize(user2, user2);
+      await loginPage.loginUser(
+        { username: user2, password: user2 },
+        {
+          withNavigation: true,
+          waitForLoading: true
+        }
+      );
+
+      const actualSortData = await getSortState(personalFiles);
+      expect(actualSortData).not.toEqual(expectedSortData);
     });
   });
 });

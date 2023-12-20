@@ -167,11 +167,11 @@ export class PaginationComponent extends BaseComponent {
     await this.page.keyboard.press('Escape');
   }
 
-  async isRangePresent() {
+  async isRangePresent(): Promise<boolean> {
     return this.range.isVisible();
   }
 
-  async isMaxItemsPresent() {
+  async isMaxItemsPresent(): Promise<boolean> {
     return this.maxItems.isVisible();
   }
 }
