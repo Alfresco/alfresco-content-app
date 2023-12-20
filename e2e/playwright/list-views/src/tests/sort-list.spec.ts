@@ -70,21 +70,17 @@ test.describe('Remember sorting', () => {
     nodeActionUser1 = await NodesApi.initialize(user1, user1);
     const filesIdsUser1: NodesIds = {};
     const filesIdsUser2: NodesIds = {};
-    await Promise.all(
+    await Promise.all([
       testData.user1.files.pdf.map(
         async (i) => (filesIdsUser1[i] = (await fileActionUser1.uploadFileWithRename(TEST_FILES.PDF.path, i, '-my-')).entry.id)
-      )
-    );
-    await Promise.all(
+      ),
       testData.user1.files.jpg.map(
         async (i) => (filesIdsUser1[i] = (await fileActionUser1.uploadFileWithRename(TEST_FILES.JPG_FILE.path, i, '-my-')).entry.id)
-      )
-    );
-    await Promise.all(
+      ),
       testData.user2.files.map(
         async (i) => (filesIdsUser2[i] = (await fileActionUser2.uploadFileWithRename(TEST_FILES.PDF.path, i, '-my-')).entry.id)
       )
-    );
+    ]);
     await favoritesActions.addFavoritesByIds('file', [filesIdsUser1[pdfFileNames[0]], filesIdsUser1[pdfFileNames[1]]]);
   });
 
