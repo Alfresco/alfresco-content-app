@@ -177,7 +177,7 @@ export class FileActionsApi {
 
   async updateNodeContent(nodeId: string, content: string, majorVersion: boolean = true, comment?: string, newName?: string): Promise<NodeEntry> {
     try {
-      const opts = {
+      const opts: { [key: string]: string | boolean } = {
         majorVersion: majorVersion,
         comment: comment,
         name: newName
