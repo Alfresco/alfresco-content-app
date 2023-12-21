@@ -46,7 +46,7 @@ export class DateTimePicker extends BaseComponent {
     const nextAvailableDay = new Date();
     nextAvailableDay.setDate(today.getDate() + 2);
     if (nextAvailableDay.getMonth() !== today.getMonth()) {
-      await await this.nextMonthBtn.click();
+      await this.nextMonthBtn.click();
     }
     await this.selectDay(nextAvailableDay.getDate());
   }

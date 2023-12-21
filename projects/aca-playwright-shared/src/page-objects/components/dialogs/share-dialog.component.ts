@@ -50,7 +50,7 @@ export class ShareDialogComponent extends BaseComponent {
   getDialogLabel = () => this.getChild('label').innerText();
   getErrorByText = (text: string): Locator => this.page.locator('mat-error', { hasText: text });
 
-  async getLabels() {
+  async getLabels(): Promise<Array<string>> {
     return await this.page.$$eval('.adf-share-link__label', (elements) => elements.map((element) => element.textContent));
   }
 

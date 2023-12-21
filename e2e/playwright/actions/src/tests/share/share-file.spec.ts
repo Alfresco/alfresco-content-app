@@ -87,7 +87,7 @@ test.describe('Share a file', () => {
   });
 
   test.describe('when logged in', () => {
-    const expiryDateObj: Date = new Date();
+    const expiryDateObj = new Date();
     expiryDateObj.setFullYear(expiryDateObj.getFullYear() + 1);
     const expiryDate: any = expiryDateObj.toISOString().replace('Z', '+0000');
 
