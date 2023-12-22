@@ -409,4 +409,44 @@ export class NodesApi {
       return null;
     }
   }
+
+  async getNodeProperty(nodeId: string, property: string): Promise<string> {
+    try {
+      const node = await this.getNodeById(nodeId);
+      return node.entry.properties?.[property] || '';
+    } catch (error) {
+      console.error(`${this.constructor.name} ${this.getNodeProperty.name}`, error);
+      return '';
+    }
+  }
+
+  async getSharedId(nodeId: string): Promise<string> {
+    try {
+      const sharedId = await this.getNodeProperty(nodeId, 'qshare:sharedId');
+      return sharedId || '';
+    } catch (error) {
+      console.error(`${this.constructor.name} ${this.getSharedId.name}`, error);
+      return '';
+    }
+  }
+
+  async getSharedExpiryDate(nodeId: string): Promise<string> {
+    try {
+      const expiryDate = await this.getNodeProperty(nodeId, 'qshare:expiryDate');
+      return expiryDate || '';
+    } catch (error) {
+      console.error(`${this.constructor.name} ${this.getSharedExpiryDate.name}`, error);
+      return '';
+    }
+  }
+
+  async isFileShared(nodeId: string): Promise<boolean> {
+    try {
+      const sharedId = await this.getSharedId(nodeId);
+      return sharedId !== '';
+    } catch (error) {
+      console.error(`${this.constructor.name} ${this.isFileShared.name}`, error);
+      return null;
+    }
+  }
 }
