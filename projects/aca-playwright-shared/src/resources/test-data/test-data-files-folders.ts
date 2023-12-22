@@ -51,8 +51,8 @@ export const folderFavFile = {
 
 // ---- multiple selection ---
 
-const multipleSelContextMenu = ['Download', 'Favorite', 'Move', 'Copy', 'Delete', 'Permissions'];
-const multipleSelToolbarMore = ['Favorite', 'Move', 'Copy', 'Delete', 'Permissions'];
+const multipleSelContextMenu = ['Download', 'Favorite', 'Move', 'Copy', 'Delete'];
+const multipleSelToolbarMore = ['Favorite', 'Move', 'Copy', 'Delete'];
 
 export const multipleSelFile = {
   contextMenu: multipleSelContextMenu,
