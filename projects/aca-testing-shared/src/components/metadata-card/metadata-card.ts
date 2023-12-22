@@ -30,7 +30,7 @@ export class MetadataCard extends Component {
   expansionPanels = this.allByCss('.adf-metadata-grouped-properties-container mat-expansion-panel');
 
   constructor(ancestor?: string) {
-    super('adf-content-metadata-card', ancestor);
+    super('adf-content-metadata', ancestor);
   }
 
   async waitForFirstExpansionPanel() {

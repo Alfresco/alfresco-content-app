@@ -117,7 +117,7 @@ describe('Comments', () => {
       await infoDrawer.waitForInfoDrawerToOpen();
       await infoDrawer.clickCommentsTab();
 
-      expect(await infoDrawer.getActiveTabTitle()).toBe('COMMENTS');
+      expect(await infoDrawer.getActiveTabTitle()).toBe('Comments');
       expect(await commentsTab.getCommentsTabHeaderText()).toBe('Comments (0)');
       expect(await commentsTab.isCommentTextAreaDisplayed()).toBe(true, 'Comment field not present');
       expect(await commentsTab.isAddCommentButtonEnabled()).toBe(false, 'Add comment button not disabled');
