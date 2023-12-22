@@ -25,10 +25,9 @@
 import { Component, Input, ViewEncapsulation, OnInit, OnDestroy } from '@angular/core';
 import { Node } from '@alfresco/js-api';
 import { NodePermissionService, isLocked, AppExtensionService } from '@alfresco/aca-shared';
-import { AppStore, EditOfflineAction, infoDrawerMetadataAspect, NodeActionTypes } from '@alfresco/aca-shared/store';
+import { EditOfflineAction, NodeActionTypes } from '@alfresco/aca-shared/store';
 import { AppConfigService, NotificationService } from '@alfresco/adf-core';
 import { Observable, Subject } from 'rxjs';
-import { Store } from '@ngrx/store';
 import {
   ContentMetadataModule,
   ContentMetadataService,
@@ -49,7 +48,6 @@ import { Actions, ofType } from '@ngrx/effects';
       [readOnly]="readOnly"
       [preset]="'custom'"
       [node]="node"
-      [displayAspect]="displayAspect$ | async"
       [customPanels]="customPanels | async"
       [displayCategories]="displayCategories"
       [displayTags]="displayTags"
@@ -67,7 +65,6 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
   @Input()
   node: Node;
 
-  displayAspect$: Observable<string>;
   readOnly = false;
   customPanels: Observable<ContentMetadataCustomPanel[]>;
 
@@ -82,7 +79,6 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
     private permission: NodePermissionService,
     protected extensions: AppExtensionService,
     private appConfig: AppConfigService,
-    private store: Store<AppStore>,
     private notificationService: NotificationService,
     private contentMetadataService: ContentMetadataService,
     private actions$: Actions,
@@ -92,7 +88,6 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
     if (this.extensions.contentMetadata) {
       this.appConfig.config['content-metadata'].presets = this.extensions.contentMetadata.presets;
     }
-    this.displayAspect$ = this.store.select(infoDrawerMetadataAspect);
   }
 
   ngOnInit() {
