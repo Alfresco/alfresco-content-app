@@ -849,12 +849,17 @@ describe('app.evaluators', () => {
       expect(app.canManagePermissions(context)).toBe(false);
     });
 
+    it('should return false if many nodes are selected', () => {
+      context.selection.count = 2;
+      expect(app.canManagePermissions(context)).toBe(false);
+    });
+
     it('should return false if the selected node is a smart folder', () => {
       context.selection.first = { entry: { aspectNames: ['smf:customConfigSmartFolder'], isFolder: true } } as NodeEntry;
       expect(app.canManagePermissions(context)).toBe(false);
     });
 
-    it('should return true if user can update the selected node and it is not a trashcan nor smart folder', () => {
+    it('should return true if user can update the selected node and it is not a trashcan nor smart folder nor multiselect', () => {
       expect(app.canManagePermissions(context)).toBe(true);
     });
   });
