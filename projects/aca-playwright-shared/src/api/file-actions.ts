@@ -41,7 +41,7 @@ export class FileActionsApi {
     return classObj;
   }
 
-  async uploadFile(fileLocation: string, fileName: string, parentFolderId: string): Promise<any> {
+  async uploadFile(fileLocation: string, fileName: string, parentFolderId: string): Promise<NodeEntry> {
     const file = fs.createReadStream(fileLocation);
     return this.apiService.upload.uploadFile(file, '', parentFolderId, null, {
       name: fileName,
@@ -50,7 +50,13 @@ export class FileActionsApi {
     });
   }
 
-  async uploadFileWithRename(fileLocation: string, newName: string, parentId: string = '-my-', title: string = '', description: string = '') {
+  async uploadFileWithRename(
+    fileLocation: string,
+    newName: string,
+    parentId: string = '-my-',
+    title: string = '',
+    description: string = ''
+  ): Promise<NodeEntry> {
     const file = fs.createReadStream(fileLocation);
     const nodeProps = {
       properties: {
@@ -68,10 +74,11 @@ export class FileActionsApi {
       return await this.apiService.upload.uploadFile(file, '', parentId, nodeProps, opts);
     } catch (error) {
       Logger.error(`${this.constructor.name} ${this.uploadFileWithRename.name}`, error);
+      return Promise.reject(error);
     }
   }
 
-  async lockNodes(nodeIds: string[], lockType: string = 'ALLOW_OWNER_CHANGES') {
+  async lockNodes(nodeIds: string[], lockType: string = 'ALLOW_OWNER_CHANGES'): Promise<void> {
     try {
       for (const nodeId of nodeIds) {
         await this.apiService.nodes.lockNode(nodeId, { type: lockType });
@@ -93,7 +100,7 @@ export class FileActionsApi {
   async getNodeProperty(nodeId: string, property: string): Promise<string> {
     try {
       const node = await this.getNodeById(nodeId);
-      return (node.entry.properties?.[property]) || '';
+      return node.entry.properties?.[property] || '';
     } catch (error) {
       Logger.error(`${this.constructor.name} ${this.getNodeProperty.name}`, error);
       return '';
@@ -145,7 +152,7 @@ export class FileActionsApi {
       return this.apiService.search.search(data);
     } catch (error) {
       Logger.error(`SearchApi queryNodesNames : catch : `, error);
-      return new ResultSetPaging;
+      return new ResultSetPaging();
     }
   }
 
@@ -165,6 +172,20 @@ export class FileActionsApi {
     } catch (error) {
       Logger.error(`SearchApi waitForNodes : catch : `);
       Logger.error(`\tExpected: ${data.expect} items, but found ${error}`);
+    }
+  }
+
+  async updateNodeContent(nodeId: string, content: string, majorVersion: boolean = true, comment?: string, newName?: string): Promise<NodeEntry> {
+    try {
+      const opts: { [key: string]: string | boolean } = {
+        majorVersion: majorVersion,
+        comment: comment,
+        name: newName
+      };
+      return await this.apiService.nodes.updateNodeContent(nodeId, content, opts);
+    } catch (error) {
+      console.error(`${this.constructor.name} ${this.updateNodeContent.name}`, error);
+      return Promise.reject(error);
     }
   }
 }

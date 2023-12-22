@@ -23,25 +23,14 @@
  */
 
 import { Page } from '@playwright/test';
-import { BasePage } from './base.page';
-import { DataTableComponent, MatMenuComponent, ViewerComponent, SidenavComponent, Breadcrumb, PaginationComponent } from '../components';
-import { AcaHeader } from '../components/aca-header.component';
-import { AdfFolderDialogComponent, ViewerOverlayDialogComponent } from '../components/dialogs';
+import { BaseComponent } from './base.component';
 
-export class TrashPage extends BasePage {
-  private static pageUrl = 'trashcan';
+export class ErrorComponent extends BaseComponent {
+  private static rootElement = 'aca-page-layout';
+  genericError = this.getChild('aca-generic-error');
+  genericErrorTitle = this.getChild('.generic-error__title');
 
   constructor(page: Page) {
-    super(page, TrashPage.pageUrl);
+    super(page, ErrorComponent.rootElement);
   }
-
-  public acaHeader = new AcaHeader(this.page);
-  public matMenu = new MatMenuComponent(this.page);
-  public folderDialog = new AdfFolderDialogComponent(this.page);
-  public dataTable = new DataTableComponent(this.page);
-  public viewer = new ViewerComponent(this.page);
-  public viewerDialog = new ViewerOverlayDialogComponent(this.page);
-  public sidenav = new SidenavComponent(this.page);
-  public breadcrumb = new Breadcrumb(this.page);
-  public pagination = new PaginationComponent(this.page);
 }

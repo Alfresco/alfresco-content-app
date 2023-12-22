@@ -105,7 +105,7 @@ export class PaginationComponent extends BaseComponent {
       if (await this.isNextEnabled()) {
         await this.nextButton.click();
       }
-    } catch(error) {
+    } catch (error) {
       throw new Error(`Failed on previous click: ${error}`);
     }
   }
@@ -115,7 +115,7 @@ export class PaginationComponent extends BaseComponent {
       if (await this.isPreviousEnabled()) {
         await this.previousButton.click();
       }
-    } catch(error) {
+    } catch (error) {
       throw new Error(`Failed on previous click: ${error}`);
     }
   }
@@ -165,5 +165,13 @@ export class PaginationComponent extends BaseComponent {
 
   async closeMenu(): Promise<void> {
     await this.page.keyboard.press('Escape');
+  }
+
+  async isRangePresent(): Promise<boolean> {
+    return this.range.isVisible();
+  }
+
+  async isMaxItemsPresent(): Promise<boolean> {
+    return this.maxItems.isVisible();
   }
 }
