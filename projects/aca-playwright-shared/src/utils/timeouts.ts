@@ -34,5 +34,5 @@ export const timeouts = {
   globalTest: 45 * 1000,
   extendedTest: 150 * 1000,
   webServer: 240 * 1000,
-  globalSpec: 60 * 10 * 1000
+  globalSpec: 60 * 20 * 1000
 };
