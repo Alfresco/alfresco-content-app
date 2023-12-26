@@ -38,7 +38,8 @@ import {
   SidenavComponent,
   PaginationComponent,
   ErrorComponent,
-  ShareDialogComponent
+  ShareDialogComponent,
+  AdfConfirmDialogComponent
 } from '../components';
 
 export class PersonalFilesPage extends BasePage {
@@ -62,6 +63,7 @@ export class PersonalFilesPage extends BasePage {
   public pagination = new PaginationComponent(this.page);
   public errorDialog = new ErrorComponent(this.page);
   public shareDialog= new ShareDialogComponent(this.page);
+  public confirmDialog = new AdfConfirmDialogComponent(this.page);
 
   async selectCreateFolder(): Promise<void> {
     await this.acaHeader.createButton.click();

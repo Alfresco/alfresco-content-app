@@ -36,4 +36,22 @@ export class AdfConfirmDialogComponent extends BaseComponent {
   getDialogContent = (text: string) => this.getChild('[data-automation-id="adf-confirm-dialog-base-message"]', { hasText: text });
   okButton = this.getChild('[data-automation-id="adf-confirm-dialog-confirmation"]');
   cancelButton = this.getChild('[data-automation-id="adf-confirm-dialog-reject"]');
+
+  async isRemoveEnabled(): Promise<boolean> {
+    try {
+      await this.okButton.isVisible();
+      return this.okButton.isEnabled();
+    } catch {
+      throw new Error(`Remove button is not enabled`);
+    }
+  }
+  
+  async isCancelEnabled(): Promise<boolean> {
+    try {
+      await this.cancelButton.isVisible();
+      return this.cancelButton.isEnabled();
+    } catch {
+      throw new Error(`CANCEL button is not enabled`);
+    }
+  }
 }
