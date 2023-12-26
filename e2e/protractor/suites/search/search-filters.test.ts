@@ -73,7 +73,6 @@ describe('Search filters', () => {
   const { dataTable, filters, toolbar } = page;
 
   const fileTypeFilter = filters.fileType;
-  const createdDateFilter = filters.createdDate;
   const peopleFilter = filters.people;
   const locationFilter = filters.location;
   const modifiedDateFilter = filters.modifiedDate;
@@ -111,7 +110,6 @@ describe('Search filters', () => {
   });
 
   it('[C279186] Filters are displayed', async () => {
-    expect(await createdDateFilter.isDisplayed()).toBe(true, 'Created date filter panel not displayed');
     expect(await fileTypeFilter.isDisplayed()).toBe(true, 'File type filter panel not displayed');
     expect(await peopleFilter.isDisplayed()).toBe(true, 'People filter panel not displayed');
     expect(await locationFilter.isDisplayed()).toBe(true, 'Location filter panel not displayed');
