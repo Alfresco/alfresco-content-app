@@ -143,7 +143,6 @@ test.describe('Unshare a file from Search Results', () => {
     await personalFiles.shareDialog.shareToggle.click();
 
     await personalFiles.confirmDialog.okButton.click();
-    await personalFiles.shareDialog.clickClose();
     expect(await nodesApiAction.isFileShared(file2Id)).toBe(false);
 
     await page.goto(url);
@@ -181,7 +180,6 @@ test.describe('Unshare a file from Search Results', () => {
     await personalFiles.shareDialog.shareToggle.click();
 
     await personalFiles.confirmDialog.okButton.click();
-    await personalFiles.shareDialog.clickClose();
     expect(await nodesApiAction.isFileShared(file4Id)).toBe(false);
 
     await page.goto(url);
@@ -218,7 +216,6 @@ test.describe('Unshare a file from Search Results', () => {
 
     await personalFiles.shareDialog.shareToggle.click();
     await personalFiles.confirmDialog.okButton.click();
-    await personalFiles.shareDialog.clickClose();
     expect(await nodesApiAction.isFileShared(fileSite2Id)).toBe(false);
   });
 });
