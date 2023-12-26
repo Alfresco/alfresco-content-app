@@ -65,7 +65,7 @@ test.describe('Unshare a file from Search Results', () => {
 
   test.beforeAll(async () => {
     try {
-      test.setTimeout(140000);
+      test.setTimeout(timeouts.extendedTest);
       await apiClientFactory.setUpAcaBackend('admin');
       await apiClientFactory.createUser({ username });
       const nodesApi = await NodesApi.initialize(username, username);
