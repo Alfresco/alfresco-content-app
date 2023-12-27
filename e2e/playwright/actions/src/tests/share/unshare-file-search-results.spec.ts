@@ -22,18 +22,8 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  ApiClientFactory,
-  FileActionsApi,
-  NodesApi,
-  SITE_ROLES,
-  SITE_VISIBILITY,
-  SharedLinksApi,
-  SitesApi,
-  Utils,
-  test,
-  timeouts
-} from '@alfresco/playwright-shared';
+import { Site } from '@alfresco/js-api';
+import { ApiClientFactory, FileActionsApi, NodesApi, SharedLinksApi, SitesApi, Utils, test, timeouts } from '@alfresco/playwright-shared';
 import { expect } from '@playwright/test';
 
 test.describe('Unshare a file from Search Results', () => {
@@ -79,13 +69,13 @@ test.describe('Unshare a file from Search Results', () => {
       file3Id = (await nodesApi.createFile(file3, parentId)).entry.id;
       file4Id = (await nodesApi.createFile(file4, parentId)).entry.id;
 
-      await sitesApi.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
+      await sitesApi.createSite(sitePrivate, Site.VisibilityEnum.PRIVATE);
       const docLibId = await sitesApi.getDocLibId(sitePrivate);
 
       fileSite1Id = (await nodesApi.createFile(fileSite1, docLibId)).entry.id;
       fileSite2Id = (await nodesApi.createFile(fileSite2, docLibId)).entry.id;
 
-      await sitesApi.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_CONSUMER.ROLE);
+      await sitesApi.addSiteMember(sitePrivate, username, Site.RoleEnum.SiteConsumer);
 
       await shareApi.shareFilesByIds([fileSite1Id]);
       await shareApi.waitForFilesToBeShared([fileSite1Id]);
@@ -127,8 +117,8 @@ test.describe('Unshare a file from Search Results', () => {
     expect(
       personalFiles.confirmDialog.getDialogContent('This link will be deleted and a new link will be created next time this file is shared')
     ).toBeVisible();
-    expect(await personalFiles.confirmDialog.isRemoveEnabled()).toBe(true);
-    expect(await personalFiles.confirmDialog.isCancelEnabled()).toBe(true);
+    expect(personalFiles.confirmDialog.okButton).toBeEnabled();
+    expect(personalFiles.confirmDialog.cancelButton).toBeEnabled();
   });
 
   test('[C306996] Unshare a file', async ({ personalFiles, searchPage, nodesApiAction, page }) => {

@@ -43,13 +43,3 @@ export const SIDEBAR_LABELS = {
   FAVORITES: 'Favorites',
   TRASH: 'Trash'
 };
-
-export const SITE_VISIBILITY = {
-  PRIVATE: 'PRIVATE'
-};
-
-export const SITE_ROLES = {
-  SITE_CONSUMER: {
-    ROLE: 'SiteConsumer'
-  }
-};
