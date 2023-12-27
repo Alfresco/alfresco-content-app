@@ -26,7 +26,7 @@ import { Site } from '@alfresco/js-api';
 import { ApiClientFactory, FileActionsApi, NodesApi, SharedLinksApi, SitesApi, Utils, test, timeouts } from '@alfresco/playwright-shared';
 import { expect } from '@playwright/test';
 
-test.describe('Unshare a file from Search Results', () => {
+test.describe.only('Unshare a file from Search Results', () => {
   const random = Utils.random();
 
   const username = `user-${random}`;
@@ -46,7 +46,6 @@ test.describe('Unshare a file from Search Results', () => {
 
   const sitePrivate = `site-private-${random}`;
 
-  let fileSite1Id: string;
   let fileSite2Id: string;
   const fileSite1 = `search-file-${searchRandom}-Site1.txt`;
   const fileSite2 = `search-file-${searchRandom}-Site2.txt`;
@@ -72,7 +71,7 @@ test.describe('Unshare a file from Search Results', () => {
       await sitesApi.createSite(sitePrivate, Site.VisibilityEnum.PRIVATE);
       const docLibId = await sitesApi.getDocLibId(sitePrivate);
 
-      fileSite1Id = (await nodesApi.createFile(fileSite1, docLibId)).entry.id;
+      const fileSite1Id = (await nodesApi.createFile(fileSite1, docLibId)).entry.id;
       fileSite2Id = (await nodesApi.createFile(fileSite2, docLibId)).entry.id;
 
       await sitesApi.addSiteMember(sitePrivate, username, Site.RoleEnum.SiteConsumer);

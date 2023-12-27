@@ -115,8 +115,6 @@ jobs:
             id: 2
           - name: "viewer,infoDrawer,extensions"
             id: 3
-          - name: "shareActions"
-            id: 4
           - name: "copyMoveActions"
             id: 6
           - name: "deleteActions"
@@ -176,6 +174,8 @@ jobs:
             id: 7
           - name: "list-views"
             id: 8
+          - name: "share-action"
+            id: 9
     steps:
       - name: Checkout
         uses: actions/checkout@v3

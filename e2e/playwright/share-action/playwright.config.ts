@@ -22,17 +22,23 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export const timeouts = {
-  typingDelay: 50,
-  tiny: 500,
-  short: 1000,
-  normal: 2000,
-  medium: 5000,
-  big: 7500,
-  large: 10000,
-  extraLarge: 20 * 1000,
-  globalTest: 45 * 1000,
-  extendedTest: 150 * 1000,
-  webServer: 240 * 1000,
-  globalSpec: 60 * 10 * 1000
+import { PlaywrightTestConfig } from '@playwright/test';
+import { CustomConfig, getGlobalConfig, getExcludedTestsRegExpArray } from '@alfresco/playwright-shared';
+import EXCLUDED_JSON from './exclude.tests.json';
+
+const config: PlaywrightTestConfig<CustomConfig> = {
+  ...getGlobalConfig,
+
+  grepInvert: getExcludedTestsRegExpArray(EXCLUDED_JSON, 'Share Action'),
+  projects: [
+    {
+      name: 'Share Action',
+      testDir: './src/tests',
+      use: {
+        users: ['hruser']
+      }
+    }
+  ]
 };
+
+export default config;
