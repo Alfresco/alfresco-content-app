@@ -133,11 +133,11 @@ test.describe('Unshare a file from Search Results', () => {
     await personalFiles.shareDialog.shareToggle.click();
 
     await personalFiles.confirmDialog.okButton.click();
-    expect(await nodesApiAction.isFileShared(file2Id)).toBe(false);
 
     await page.goto(url);
     await personalFiles.viewer.waitForViewerToOpen();
     expect(await personalFiles.viewer.fileTitleButtonLocator.innerText()).not.toEqual(file2);
+    expect(await nodesApiAction.isFileShared(file2Id)).toBe(false);
   });
 
   test('[C306997] Cancel the Unshare action', async ({ personalFiles, searchPage }) => {
@@ -170,13 +170,11 @@ test.describe('Unshare a file from Search Results', () => {
     await personalFiles.shareDialog.shareToggle.click();
 
     await personalFiles.confirmDialog.okButton.click();
-    expect(await nodesApiAction.isFileShared(file4Id)).toBe(false);
 
     await page.goto(url);
     await personalFiles.viewer.waitForViewerToOpen();
     expect(personalFiles.viewer.fileTitleButtonLocator).not.toEqual(file4);
-
-    await page.reload();
+    expect(await nodesApiAction.isFileShared(file4Id)).toBe(false);
   });
 
   test('[C306998] Consumer - on Search Results - file shared by other user', async ({ personalFiles, searchPage, nodesApiAction }) => {
@@ -194,7 +192,7 @@ test.describe('Unshare a file from Search Results', () => {
     expect(await nodesApiAction.isFileShared(fileSite2Id)).toBe(true);
   });
 
-  test('[C307000] Consumer - on Search Results - file shared by the user', async ({ personalFiles, searchPage, nodesApiAction }) => {
+  test('[C307000] Consumer - on Search Results - file shared by the user', async ({ personalFiles, searchPage, nodesApiAction, page }) => {
     await personalFiles.acaHeader.searchButton.click();
     await searchPage.searchInput.searchButton.click();
     await searchPage.searchOverlay.checkFilesAndFolders();
@@ -206,6 +204,7 @@ test.describe('Unshare a file from Search Results', () => {
 
     await personalFiles.shareDialog.shareToggle.click();
     await personalFiles.confirmDialog.okButton.click();
+    await page.waitForTimeout(timeouts.tiny);
     expect(await nodesApiAction.isFileShared(fileSite2Id)).toBe(false);
   });
 });
