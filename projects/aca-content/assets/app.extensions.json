@@ -1244,6 +1244,18 @@
           }
         },
         {
+          "id": "app.toolbar.aspects",
+          "order": 160,
+          "title": "APP.ACTIONS.ADD_ASPECTS",
+          "icon": "playlist_add",
+          "actions": {
+            "click": "ASPECT_LIST"
+          },
+          "rules": {
+            "visible": "editAspects"
+          }
+        },
+        {
           "id": "app.sidebar.expand",
           "order": 200,
           "title": "APP.INFO_DRAWER.TABS.EXPAND",
@@ -1252,7 +1264,7 @@
             "click": "EXPAND_INFO_DRAWER"
           },
           "rules": {
-            "visible": "app.navigation.isNotLibraries"
+            "visible": "canShowExpand"
           }
         }
       ],

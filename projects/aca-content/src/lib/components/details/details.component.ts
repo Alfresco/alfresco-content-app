@@ -27,7 +27,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ContentApiService, PageComponent, PageLayoutComponent, ToolbarComponent } from '@alfresco/aca-shared';
 import { NavigateToFolder, NavigateToPreviousPage, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { Subject } from 'rxjs';
-import { BreadcrumbModule, PermissionManagerModule } from '@alfresco/adf-content-services';
+import { BreadcrumbModule, ContentService, PermissionManagerModule } from '@alfresco/adf-content-services';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatIconModule } from '@angular/material/icon';
@@ -37,6 +37,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MetadataTabComponent } from '../info-drawer/metadata-tab/metadata-tab.component';
 import { CommentsTabComponent } from '../info-drawer/comments-tab/comments-tab.component';
 import { NodeEntry, PathElement } from '@alfresco/js-api';
+import { takeUntil } from 'rxjs/operators';
+import { ContentActionRef } from '@alfresco/adf-extensions';
 
 @Component({
   standalone: true,
@@ -64,8 +66,10 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
   isLoading: boolean;
   onDestroy$ = new Subject<boolean>();
   activeTab = 1;
+  aspectActions: Array<ContentActionRef> = [];
+  nodeIcon: string;
 
-  constructor(private route: ActivatedRoute, private contentApi: ContentApiService) {
+  constructor(private route: ActivatedRoute, private contentApi: ContentApiService, private contentService: ContentService) {
     super();
   }
 
@@ -84,8 +88,15 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
         this.node = node.entry;
         this.isLoading = false;
         this.store.dispatch(new SetSelectedNodesAction([{ entry: this.node }]));
+        this.nodeIcon = this.contentService.getNodeIcon(this.node);
       });
     });
+    this.extensions
+      .getAllowedSidebarActions()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((aspectActions) => {
+        this.aspectActions = aspectActions;
+      });
   }
 
   setActiveTab(tabName: string) {

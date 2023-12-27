@@ -121,6 +121,28 @@ describe('app.evaluators', () => {
     });
   });
 
+  describe('canShowExpand', () => {
+    it('should return false when isLibraries returns true', () => {
+      const context: any = {
+        navigation: {
+          url: '/libraries'
+        }
+      };
+
+      expect(app.canShowExpand(context)).toBe(false);
+    });
+
+    it('should return false when isDetails returns true', () => {
+      const context: any = {
+        navigation: {
+          url: '/details'
+        }
+      };
+
+      expect(app.canShowExpand(context)).toBe(false);
+    });
+  });
+
   describe('hasLockedFiles', () => {
     it('should return [false] if selection not present', () => {
       const context: any = {};
@@ -827,6 +849,42 @@ describe('app.evaluators', () => {
 
     it('should return true if all conditions are met', () => {
       expect(app.canEditAspects(context)).toBe(true);
+    });
+  });
+
+  describe('editAspects', () => {
+    let context: TestRuleContext;
+
+    beforeEach(() => {
+      context = createTestContext();
+    });
+
+    it('should return true for multiselection', () => {
+      context.selection.count = 2;
+
+      expect(app.editAspects(context)).toBe(true);
+    });
+
+    it('should return false if user cannot update the selected node', () => {
+      context.permissions.check = spyOn(context.permissions, 'check').and.returnValue(false);
+
+      expect(app.editAspects(context)).toBe(false);
+    });
+
+    it('should return false if the selected node is write locked', () => {
+      context.selection.file = { entry: { properties: { 'cm:lockType': 'WRITE_LOCK' } } } as NodeEntry;
+
+      expect(app.editAspects(context)).toBe(false);
+    });
+
+    it('should return false if the context is trashcan', () => {
+      context.navigation = { url: '/trashcan' };
+
+      expect(app.editAspects(context)).toBe(false);
+    });
+
+    it('should return true if all conditions are met', () => {
+      expect(app.editAspects(context)).toBe(true);
     });
   });
 

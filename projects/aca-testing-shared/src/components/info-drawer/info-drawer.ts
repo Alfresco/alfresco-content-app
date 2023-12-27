@@ -36,11 +36,11 @@ export class InfoDrawer extends Component {
   aboutTab = new LibraryMetadata('adf-info-drawer');
   propertiesTab = new ContentMetadata('adf-info-drawer');
   header = this.byCss('.adf-info-drawer-layout-header');
-  headerTitle = this.byCss('.adf-info-drawer-layout-header-title');
+  headerTitle = this.byCss('.adf-info-drawer-layout-header-title > div');
   tabLabelsList = this.allByCss('.mat-tab-label-content');
   tabActiveLabel = this.byCss('.mat-tab-label-active');
   tabActiveContent = this.byCss('.mat-tab-body-active .mat-tab-body-content adf-dynamic-tab');
-  expandDetailsButton = TestElement.byCss(`button[title='Expand']`);
+  expandDetailsButton = TestElement.byCss(`button[title='Expand panel']`);
   selectedTab = TestElement.byCss(`.mat-tab-list [aria-selected='true'] div`);
   expandedDetailsPermissionsTab = TestElement.byText('.aca-details-container .mat-tab-label-content', 'Permissions');
   previewButton = TestElement.byCss(`button[title='Preview File']`);

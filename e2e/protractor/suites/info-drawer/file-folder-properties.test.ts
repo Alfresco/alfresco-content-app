@@ -59,7 +59,6 @@ describe('File / Folder properties', () => {
   };
 
   const infoDrawer = new InfoDrawer();
-  const { propertiesTab } = infoDrawer;
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -91,31 +90,10 @@ describe('File / Folder properties', () => {
       await BrowserActions.click(page.toolbar.viewDetailsButton);
       await infoDrawer.waitForInfoDrawerToOpen();
 
-      expect(await infoDrawer.getHeaderTitle()).toEqual('Details');
+      expect(await infoDrawer.getHeaderTitle()).toEqual(file1.name);
       expect(await infoDrawer.isPropertiesTabDisplayed()).toBe(true, 'Properties tab is not displayed');
       expect(await infoDrawer.isCommentsTabDisplayed()).toBe(true, 'Comments tab is not displayed');
       expect(await infoDrawer.getTabsCount()).toBe(2, 'Incorrect number of tabs');
-    });
-
-    it('[C269004] Less / More information buttons', async () => {
-      await dataTable.selectItem(file1.name);
-      await BrowserActions.click(page.toolbar.viewDetailsButton);
-      await infoDrawer.waitForInfoDrawerToOpen();
-
-      expect(await propertiesTab.isMoreInfoButtonEnabled()).toBe(true, 'More information button not enabled');
-      expect(await propertiesTab.isPropertiesListExpanded()).toBe(true, 'Properties list not expanded');
-
-      await BrowserActions.click(propertiesTab.moreInfoButton);
-
-      expect(await propertiesTab.isMoreInfoButtonDisplayed()).toBe(false, 'More information button displayed');
-      expect(await propertiesTab.isLessInfoButtonEnabled()).toBe(true, 'Less information button not enabled');
-      expect(await propertiesTab.isPropertiesListExpanded()).toBe(false, 'Properties list expanded');
-
-      await BrowserActions.click(propertiesTab.lessInfoButton);
-
-      expect(await propertiesTab.isMoreInfoButtonDisplayed()).toBe(true, 'More information button not displayed');
-      expect(await propertiesTab.isLessInfoButtonEnabled()).toBe(false, 'Less information button enabled');
-      expect(await propertiesTab.isPropertiesListExpanded()).toBe(true, 'Properties list not expanded');
     });
 
     it('[C599174] Should be able to make the files/folders info drawer expandable as for Sites', async () => {

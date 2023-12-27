@@ -25,7 +25,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable, Subject, of, zip, from } from 'rxjs';
-import { AlfrescoApiService, TranslationService, ThumbnailService } from '@alfresco/adf-core';
+import { AlfrescoApiService, ThumbnailService, TranslationService } from '@alfresco/adf-core';
 import {
   DocumentListService,
   ContentNodeSelectorComponent,

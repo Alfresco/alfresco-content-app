@@ -389,7 +389,7 @@ describe('NodeEffects', () => {
     });
 
     it('should manage permissions from the active selection', () => {
-      spyOn(store, 'select').and.returnValue(of({ isEmpty: false, first: { entry: { id: 'fileId' } } }));
+      spyOn(store, 'select').and.returnValue(of({ isEmpty: false, last: { entry: { id: 'fileId' } } }));
       spyOn(router, 'navigate').and.stub();
       store.dispatch(new ManagePermissionsAction(null));
 

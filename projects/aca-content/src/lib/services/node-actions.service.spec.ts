@@ -107,6 +107,7 @@ describe('NodeActionsService', () => {
     service = TestBed.inject(NodeActionsService);
     apiService = TestBed.inject(AlfrescoApiService);
     dialog = TestBed.inject(MatDialog);
+
     apiService.reset();
 
     nodesApi = service['nodesApi'];

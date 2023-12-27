@@ -37,6 +37,8 @@
 
   .aca-page-layout-content {
     @include flex-row;
+
+    border-top: 1px solid var(--theme-metadata-property-panel-border-color);
   }
 
   .aca-page-layout-error {

@@ -33,7 +33,7 @@ import {
 import { NodeEntry, SharedLinkEntry, Node, NodesApi } from '@alfresco/js-api';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { isLocked } from '@alfresco/aca-shared';
+import { AppExtensionService, isLocked } from '@alfresco/aca-shared';
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
@@ -59,7 +59,7 @@ export class ToggleEditOfflineComponent implements OnInit {
   nodeTitle = '';
   isNodeLocked = false;
 
-  constructor(private store: Store<AppStore>, private alfrescoApiService: AlfrescoApiService) {
+  constructor(private store: Store<AppStore>, private alfrescoApiService: AlfrescoApiService, private extensions: AppExtensionService) {
     this.nodesApi = new NodesApi(this.alfrescoApiService.getInstance());
   }
 
@@ -73,6 +73,7 @@ export class ToggleEditOfflineComponent implements OnInit {
 
   async onClick() {
     await this.toggleLock(this.selection);
+    this.extensions.updateSidebarActions();
   }
 
   private async toggleLock(node: NodeEntry | SharedLinkEntry) {

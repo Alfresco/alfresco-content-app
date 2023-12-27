@@ -1,19 +1,18 @@
 app-details-manager {
-  .aca-close-details-button {
-    margin-right: 15px;
-    margin-top: 2px;
-    outline: none;
-    border-radius: 4px;
+  .acs-details-buttons {
+    display: flex;
 
-    &:focus {
-      background-color: var(--theme-selected-background-color);
-      outline: 2px solid var(--theme-blue-button-color);
+    .aca-close-details-button {
+      margin-right: 15px;
+      margin-top: 12px;
+      outline: none;
       border-radius: 4px;
-    }
 
-    &:focus-visible {
-      outline: 2px solid var(--theme-blue-button-color);
-      border-radius: 4px;
+      &:focus {
+        background-color: var(--theme-selected-background-color);
+        outline: 2px solid var(--theme-blue-button-color);
+        border-radius: 4px;
+      }
     }
   }
 }
@@ -25,14 +24,23 @@ app-details-manager {
 
 .aca-details-tabs {
   margin-top: 40px;
-  height: calc(100% - 80px);
+  height: calc(100% - 136px);
 
   .mat-tab-body-wrapper {
     height: 100%;
   }
 
-  mat-tab-header {
-    text-transform: uppercase;
+  .mat-tab-list {
+    margin-left: 50px;
+
+    .mat-tab-labels {
+      .mat-tab-label {
+        padding: 0 12px;
+        min-width: 95px;
+        letter-spacing: 0.25px;
+        height: 32px;
+      }
+    }
   }
 }
 
@@ -41,17 +49,24 @@ app-details-manager {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  color: var(--theme-metadata-property-panel-title-color);
+  text-overflow: ellipsis;
+  white-space: normal;
 }
 
 .aca-details-breadcrumb {
   font-size: 18px;
   margin-left: 20px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 
   &-library {
     font-weight: 900;
   }
 
-  &-item {
-    font-weight: 100;
+  &-icon {
+    display: inline-block;
+    vertical-align: text-bottom;
   }
 }
