@@ -53,7 +53,7 @@ export class SearchPageApi {
     };
 
     try {
-      return this.apiService.search.search(data);
+      return await this.apiService.search.search(data);
     } catch (error) {
       Logger.error(`SearchApi queryRecentFiles : catch : `, error);
       return new ResultSetPaging;

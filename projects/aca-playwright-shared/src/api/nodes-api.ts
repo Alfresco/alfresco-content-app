@@ -130,7 +130,7 @@ export class NodesApi {
 
   async renameNode(nodeId: string, newName: string): Promise<NodeEntry | null> {
     try {
-      return this.apiService.nodes.updateNode(nodeId, { name: newName });
+      return await this.apiService.nodes.updateNode(nodeId, { name: newName });
     } catch (error) {
       console.error(`${this.constructor.name} ${this.renameNode.name}`, error);
       return null;
@@ -335,7 +335,7 @@ export class NodesApi {
 
   private async addAspects(nodeId: string, aspectNames: string[]): Promise<NodeEntry> {
     try {
-      return this.apiService.nodes.updateNode(nodeId, { aspectNames });
+      return await this.apiService.nodes.updateNode(nodeId, { aspectNames });
     } catch (error) {
       console.error(`${this.constructor.name} ${this.addAspects.name}`, error);
       return null;

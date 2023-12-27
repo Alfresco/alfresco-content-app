@@ -41,10 +41,6 @@ export enum Comparator {
 export class ConditionComponent extends ManageRulesDialogComponent {
   private getOptionLocator = (optionName: string): Locator => this.page.locator(`.cdk-overlay-pane .mat-option span`, { hasText: optionName });
 
-  constructor(page: Page) {
-    super(page);
-  }
-
   private async selectField(fields: Partial<Field>, index: number): Promise<void> {
     await this.fieldDropDown.nth(index).click();
     const option = this.getOptionLocator(fields);

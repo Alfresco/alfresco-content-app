@@ -176,6 +176,8 @@ jobs:
             id: 7
           - name: "list-views"
             id: 8
+          - name: "copy-move-actions"
+            id: 9
     steps:
       - name: Checkout
         uses: actions/checkout@v3
