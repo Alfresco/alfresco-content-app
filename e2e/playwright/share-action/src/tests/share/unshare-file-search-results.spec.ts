@@ -26,7 +26,7 @@ import { Site } from '@alfresco/js-api';
 import { ApiClientFactory, FileActionsApi, NodesApi, SharedLinksApi, SitesApi, Utils, test, timeouts } from '@alfresco/playwright-shared';
 import { expect } from '@playwright/test';
 
-test.describe.only('Unshare a file from Search Results', () => {
+test.describe('Unshare a file from Search Results', () => {
   const random = Utils.random();
 
   const username = `user-${random}`;
