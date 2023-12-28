@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Locator, Page } from '@playwright/test';
+import { Locator } from '@playwright/test';
 import { ManageRulesDialogComponent } from './manageRules/manage-rules-dialog.component';
 
 export enum Field {
