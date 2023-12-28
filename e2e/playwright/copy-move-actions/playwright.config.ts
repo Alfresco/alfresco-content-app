@@ -29,10 +29,10 @@ import EXCLUDED_JSON from './exclude.tests.json';
 const config: PlaywrightTestConfig<CustomConfig> = {
   ...getGlobalConfig,
 
-  grepInvert: getExcludedTestsRegExpArray(EXCLUDED_JSON, 'copy-move-actions'),
+  grepInvert: getExcludedTestsRegExpArray(EXCLUDED_JSON, 'Copy Move Actions'),
   projects: [
     {
-      name: 'copy-move-actions',
+      name: 'Copy Move Actions',
       testDir: './src/tests',
       use: {
         users: ['hruser']
