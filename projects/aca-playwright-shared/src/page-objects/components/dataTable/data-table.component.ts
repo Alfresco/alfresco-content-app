@@ -315,4 +315,8 @@ export class DataTableComponent extends BaseComponent {
   async getRowsCount(): Promise<number> {
     return this.getRowLocator.count();
   }
+
+  async rightClickOnItem(itemName: string): Promise<void> {
+    await this.getCellByColumnNameAndRowItem(itemName, 'Name').click({ button: 'right' });
+  }
 }
