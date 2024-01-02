@@ -43,7 +43,7 @@ export class FileActionsApi {
 
   async uploadFile(fileLocation: string, fileName: string, parentFolderId: string): Promise<NodeEntry> {
     const file = fs.createReadStream(fileLocation);
-    return this.apiService.upload.uploadFile(file, '', parentFolderId, null, {
+    return await this.apiService.upload.uploadFile(file, '', parentFolderId, null, {
       name: fileName,
       nodeType: 'cm:content',
       renditions: 'doclib'
@@ -149,7 +149,7 @@ export class FileActionsApi {
     };
 
     try {
-      return this.apiService.search.search(data);
+      return await this.apiService.search.search(data);
     } catch (error) {
       Logger.error(`SearchApi queryNodesNames : catch : `, error);
       return new ResultSetPaging();

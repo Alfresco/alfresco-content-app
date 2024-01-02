@@ -176,6 +176,8 @@ jobs:
             id: 8
           - name: "share-action"
             id: 9
+          - name: "copy-move-actions"
+            id: 10
     steps:
       - name: Checkout
         uses: actions/checkout@v3

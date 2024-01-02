@@ -89,7 +89,7 @@ export class SharedLinksApi {
         }
       };
 
-      return Utils.retryCall(sharedFile);
+      return await Utils.retryCall(sharedFile);
     } catch (error) {
       console.error(`SharedLinksApi waitForFilesToBeShared :  catch : ${error}`);
       console.error(`\tWait timeout reached waiting for files to be shared`);

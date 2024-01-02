@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Locator, Page } from '@playwright/test';
+import { Locator } from '@playwright/test';
 import { ManageRulesDialogComponent } from './manageRules/manage-rules-dialog.component';
 
 export enum Field {
@@ -40,10 +40,6 @@ export enum Comparator {
 
 export class ConditionComponent extends ManageRulesDialogComponent {
   private getOptionLocator = (optionName: string): Locator => this.page.locator(`.cdk-overlay-pane .mat-option span`, { hasText: optionName });
-
-  constructor(page: Page) {
-    super(page);
-  }
 
   private async selectField(fields: Partial<Field>, index: number): Promise<void> {
     await this.fieldDropDown.nth(index).click();

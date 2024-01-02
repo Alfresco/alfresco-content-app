@@ -201,13 +201,13 @@ export class DataTableComponent extends BaseComponent {
 
   async goThroughPagesLookingForRowWithName(name: string | number): Promise<void> {
     await this.spinnerWaitForReload();
-    if ((await this.getRowByName(name).isVisible()) || (await this.pagination.totalPageLocator.textContent()) === ' of 1 ') {
+    if (await this.getRowByName(name).isVisible()) {
       return null;
     }
 
     if (await this.pagination.currentPageLocator.isVisible()) {
-      if ((await this.pagination.currentPageLocator.textContent()) !== ' Page 1 ') {
-        await this.pagination.navigateToPage(1);
+      if ((await this.pagination.currentPageLocator.textContent()) === ' of 1 ') {
+        return null;
       }
     }
     if (await this.pagination.totalPageLocator.isVisible()) {
