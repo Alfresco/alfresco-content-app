@@ -30,7 +30,7 @@ import { BehaviorSubject, of, Subject } from 'rxjs';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ContentApiService } from '@alfresco/aca-shared';
-import { STORE_INITIAL_APP_DATA, SetSelectedNodesAction, NavigateToFolder } from '@alfresco/aca-shared/store';
+import { NavigateToFolder, SetSelectedNodesAction, STORE_INITIAL_APP_DATA } from '@alfresco/aca-shared/store';
 import { NodeEntry, PathElement } from '@alfresco/js-api';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AuthenticationService, PageTitleService } from '@alfresco/adf-core';
@@ -200,5 +200,46 @@ describe('DetailsComponent', () => {
       .catch((error) => {
         fail(`An error occurred: ${error}`);
       });
+  });
+
+  it('should disable the permissions tab for smart folders based on aspects', () => {
+    node.entry.isFolder = true;
+    node.entry.aspectNames = ['smf:customConfigSmartFolder'];
+    fixture.detectChanges();
+    component.ngOnInit();
+    expect(component.canManagePermissions).toBeFalse();
+    expect(component.activeTab).not.toBe(2);
+  });
+
+  it('should enable the permissions tab for regular folders based on aspects', () => {
+    node.entry.isFolder = true;
+    node.entry.aspectNames = [];
+    fixture.detectChanges();
+    component.ngOnInit();
+
+    expect(component.canManagePermissions).toBeTrue();
+  });
+
+  it('should change active tab based on canManagePermissions and tabName', () => {
+    component.nodeId = 'someNodeId';
+    component.activeTab = 0;
+
+    node.entry.isFolder = true;
+    node.entry.aspectNames = [];
+
+    fixture.detectChanges();
+    component.ngOnInit();
+
+    component.setActiveTab('permissions');
+    expect(component.activeTab).toBe(2);
+
+    node.entry.isFolder = true;
+    node.entry.aspectNames = ['smf:customConfigSmartFolder'];
+
+    fixture.detectChanges();
+    component.ngOnInit();
+
+    component.setActiveTab('permissions');
+    expect(component.activeTab).not.toBe(2);
   });
 });
