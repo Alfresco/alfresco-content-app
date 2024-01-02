@@ -9,7 +9,7 @@
       <div class="aca-details-title">
         <div class="aca-details-breadcrumb" role="heading" aria-level="2" *ngIf="node">
           <span class="aca-details-breadcrumb-library">
-            <img class="aca-details-breadcrumb-icon" alt="{{ 'APP.INFO_DRAWER.ICON' | translate }}" src="{{ nodeIcon }}">       
+            <img class="aca-details-breadcrumb-icon" alt="{{ 'APP.INFO_DRAWER.ICON' | translate }}" src="{{ nodeIcon }}">
             {{ node.name }} </span>
         </div>
         <div class="acs-details-buttons">
@@ -36,7 +36,7 @@
             <app-comments-tab *ngIf="node && !isLoading; else loading" [node]="node"></app-comments-tab>
           </ng-template>
         </mat-tab>
-        <mat-tab label="{{ 'APP.INFO_DRAWER.TABS.PERMISSIONS' | translate }}">
+        <mat-tab [disabled]="!canManagePermissions" label="{{ 'APP.INFO_DRAWER.TABS.PERMISSIONS' | translate }}">
           <ng-template matTabContent>
             <adf-permission-list *ngIf="node && !isLoading; else loading" [nodeId]="node.id"></adf-permission-list>
           </ng-template>
