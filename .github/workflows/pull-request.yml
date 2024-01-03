@@ -66,15 +66,23 @@ jobs:
       - uses: ./.github/actions/before-install
       - run: npm ci
       - run: npm run build -- $BUILD_OPTS
-      - name: upload job artifact
+
+      - name: dist cache
         if: ${{ success() }}
-        uses: ./.github/actions/upload-job-artifact
+        uses: actions/cache@v3
         with:
-          artifact: $CONTENT_CE_DIST_PATH
-          output: $S3_DBP_FOLDER/alfresco-content-app.tar.bz2
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
+          path: $CONTENT_CE_DIST_PATH
+          key: cache-dist-${{ github.run_id }}-${{ github.run_attempt }}
+
+      # - name: upload job artifact
+      #   if: ${{ success() }}
+      #   uses: ./.github/actions/upload-job-artifact
+      #   with:
+      #     artifact: $CONTENT_CE_DIST_PATH
+      #     output: $S3_DBP_FOLDER/alfresco-content-app.tar.bz2
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: ${{ env.AWS_REGION }}
 
   unit-tests:
     needs: [lint, build]
@@ -136,6 +144,13 @@ jobs:
           cache: 'npm'
       - uses: ./.github/actions/before-install
       - run: npm ci
+
+      - uses: actions/cache/restore@v3
+        id: cache
+        with:
+          path: $CONTENT_CE_DIST_PATH
+          key: cache-dist-${{ github.run_id }}-${{ github.run_attempt }}
+
       - uses: ./.github/actions/before-e2e
         with:
           from: "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2"
@@ -189,8 +204,16 @@ jobs:
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
+
       - uses: ./.github/actions/before-install
       - run: npm ci
+
+      - uses: actions/cache/restore@v3
+        id: cache
+        with:
+          path: $CONTENT_CE_DIST_PATH
+          key: cache-dist-${{ github.run_id }}-${{ github.run_attempt }}
+
       - uses: ./.github/actions/before-e2e
         with:
           from: "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2"
@@ -199,6 +222,7 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
+
       - name: before playwright
         shell: bash
         run: npx playwright install chromium

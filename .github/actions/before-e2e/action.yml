@@ -34,14 +34,14 @@ runs:
       shell: bash
       run: ./node_modules/@alfresco/adf-cli/bin/adf-cli check-cs-env --host $BASE_URL -u $ADMIN_EMAIL -p $ADMIN_PASSWORD || exit 1
 
-    - name: Download artifacts
-      uses: ./.github/actions/download-job-artifact
-      with:
-        artifact: ${{ inputs.from }}
-        output: ${{ inputs.to }}
-        aws-access-key-id: ${{ inputs.aws-access-key-id }}
-        aws-secret-access-key: ${{ inputs.aws-secret-access-key }}
-        aws-region: ${{ inputs.aws-region }}
+    # - name: Download artifacts
+    #   uses: ./.github/actions/download-job-artifact
+    #   with:
+    #     artifact: ${{ inputs.from }}
+    #     output: ${{ inputs.to }}
+    #     aws-access-key-id: ${{ inputs.aws-access-key-id }}
+    #     aws-secret-access-key: ${{ inputs.aws-secret-access-key }}
+    #     aws-region: ${{ inputs.aws-region }}
 
     - name: Install google chrome
       shell: bash
