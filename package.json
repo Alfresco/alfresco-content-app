@@ -125,7 +125,7 @@
     "selenium-webdriver": "^4.1.1",
     "stylelint": "^15.10.3",
     "stylelint-config-standard-scss": "^7.0.1",
-    "ts-node": "^10.9.1",
+    "ts-node": "^10.9.2",
     "tsconfig-paths": "4.2.0",
     "typescript": "4.7.4",
     "webdriver-manager": "12.1.8"
