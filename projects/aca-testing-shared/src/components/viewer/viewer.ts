@@ -103,7 +103,7 @@ export class Viewer extends Component {
   }
 
   async clickCloseButton(): Promise<void> {
-    const closeButton: ElementFinder = element(by.css('button[data-automation-id="adf-toolbar-back"]'));
+    const closeButton: ElementFinder = element(by.css('button.adf-viewer-close-button'));
     await BrowserActions.click(closeButton);
   }
 }
