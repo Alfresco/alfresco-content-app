@@ -71,7 +71,7 @@ jobs:
         if: ${{ success() }}
         uses: actions/cache/save@v3
         with:
-          path: $CONTENT_CE_DIST_PATH
+          path: ./dist/content-ce
           key: cache-dist-${{ github.run_id }}-${{ github.run_attempt }}
 
       # - name: upload job artifact
@@ -148,7 +148,7 @@ jobs:
       - uses: actions/cache/restore@v3
         id: cache
         with:
-          path: $CONTENT_CE_DIST_PATH
+          path: ./dist/content-ce
           key: cache-dist-${{ github.run_id }}-${{ github.run_attempt }}
 
       - uses: ./.github/actions/before-e2e
