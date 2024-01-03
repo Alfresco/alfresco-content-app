@@ -23,34 +23,86 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, getUserState, test, TEST_FILES, Utils } from '@alfresco/playwright-shared';
+import {
+  ApiClientFactory,
+  FavoritesPageApi,
+  FileActionsApi,
+  LoginPage,
+  NodesApi,
+  SharedLinksApi,
+  SitesApi,
+  test,
+  TEST_FILES,
+  timeouts,
+  Utils
+} from '@alfresco/playwright-shared';
+import { Site } from '@alfresco/js-api';
 
-test.use({ storageState: getUserState('hruser') });
 test.describe('viewer file', () => {
-  const apiClientFactory = new ApiClientFactory();
-  const randomFolderName = `playwright-folder-${Utils.random()}`;
+  const username = `user-${Utils.random()}`;
   const randomDocxName = `${TEST_FILES.DOCX.name}-${Utils.random()}`;
+  const siteUser = `siteUser-${Utils.random()}`;
+  const fileInSite = TEST_FILES.DOCX.name;
+  const siteAdmin = `siteAdmin-${Utils.random()}`;
+  const fileAdmin = TEST_FILES.XLSX.name;
+  let fileAdminId: string;
+  let docLibId: string;
+  let docLibSiteUserId: string;
   let folderId: string;
   let fileDocxId: string;
+  let nodesApi: NodesApi;
 
-  test.beforeAll(async ({ fileAction, shareAction, favoritesPageAction }) => {
-    await apiClientFactory.setUpAcaBackend('hruser');
-    const node = await apiClientFactory.nodes.createNode('-my-', { name: randomFolderName, nodeType: 'cm:folder', relativePath: '/' });
+  test.beforeAll(async () => {
+    test.setTimeout(timeouts.extendedTest);
+    const randomFolderName = `playwright-folder-${Utils.random()}`;
+    const apiClientFactory = new ApiClientFactory();
+    await apiClientFactory.setUpAcaBackend('admin');
+    await apiClientFactory.createUser({ username });
+    nodesApi = await NodesApi.initialize(username, username);
+    const fileActionApi = await FileActionsApi.initialize(username, username);
+    const shareActions = await SharedLinksApi.initialize(username, username);
+    const favoritesActions = await FavoritesPageApi.initialize(username, username);
+    const siteActionsUser = await SitesApi.initialize(username, username);
+    const siteActionsAdmin = await SitesApi.initialize('admin');
+    const fileActionApiAdmin = await FileActionsApi.initialize('admin');
+    const node = await nodesApi.createFolder(randomFolderName);
     folderId = node.entry.id;
-    const fileDoc = await fileAction.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId);
+    const fileDoc = await fileActionApi.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId);
     fileDocxId = fileDoc.entry.id;
-    await shareAction.shareFileById(fileDocxId);
-    await favoritesPageAction.addFavoriteById('file', fileDocxId);
-    await favoritesPageAction.isFavoriteWithRetry('hruser', fileDocxId, { expect: true });
-    await fileAction.waitForNodes(randomDocxName, { expect: 1 });
+    const consumerFavoritesTotalItems = await favoritesActions.getFavoritesTotalItems(username);
+    await shareActions.shareFileById(fileDocxId);
+    await favoritesActions.addFavoriteById('file', fileDocxId);
+
+    await siteActionsAdmin.createSite(siteAdmin, Site.VisibilityEnum.PRIVATE);
+    docLibId = await siteActionsAdmin.getDocLibId(siteAdmin);
+    fileAdminId = (await fileActionApiAdmin.uploadFile(TEST_FILES.DOCX.path, fileAdmin, docLibId)).entry.id;
+
+    await siteActionsUser.createSite(siteUser, Site.VisibilityEnum.PUBLIC);
+    docLibSiteUserId = await siteActionsUser.getDocLibId(siteUser);
+    await fileActionApi.uploadFile(TEST_FILES.DOCX.path, fileInSite, docLibSiteUserId);
+
+    await Promise.all([
+      favoritesActions.isFavoriteWithRetry(username, fileDocxId, { expect: true }),
+      favoritesActions.waitForApi(username, { expect: consumerFavoritesTotalItems + 2 })
+    ]);
+    await shareActions.waitForFilesToBeShared([fileDocxId]);
+    await fileActionApi.waitForNodes(randomDocxName, { expect: 1 });
   });
 
-  test.beforeEach(async ({ personalFiles }) => {
+  test.beforeEach(async ({ personalFiles, page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.loginUser(
+      { username, password: username },
+      {
+        withNavigation: true,
+        waitForLoading: true
+      }
+    );
     await personalFiles.navigate({ remoteUrl: `#/personal-files/${folderId}` });
   });
 
   test.afterAll(async () => {
-    await apiClientFactory.nodes.deleteNode(folderId, { permanent: true });
+    await nodesApi.deleteCurrentUserNodes();
   });
 
   test('[C279269] Viewer opens on double clicking on a file from Personal Files', async ({ personalFiles }) => {
@@ -130,5 +182,20 @@ test.describe('viewer file', () => {
     expect(await favoritePage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
     expect(await favoritePage.viewer.isCloseButtonDisplayed(), 'Close button is not displayed').toBe(true);
     expect(await favoritePage.viewer.isFileTitleDisplayed(), 'File title is not displayed').toBe(true);
+  });
+
+  test('[C279287] Viewer does not open when accessing the preview URL for a file without permissions', async ({ personalFiles }) => {
+    const previewURL = `#/libraries/${docLibId}/(viewer:view/${fileAdminId})`;
+    await personalFiles.navigate({ remoteUrl: `${previewURL}` });
+    expect(await personalFiles.viewer.viewerLocator.isVisible(), 'Viewer should not be opened!').toBe(false);
+  });
+
+  test('[C284633] Viewer opens for a file from File Libraries', async ({ myLibrariesPage }) => {
+    await myLibrariesPage.navigate();
+    await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(siteUser);
+    await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(fileInSite);
+    expect(await myLibrariesPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+    expect(await myLibrariesPage.viewer.isCloseButtonDisplayed(), 'Close button is not displayed').toBe(true);
+    expect(await myLibrariesPage.viewer.isFileTitleDisplayed(), 'File title is not displayed').toBe(true);
   });
 });
