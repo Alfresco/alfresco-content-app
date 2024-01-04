@@ -23,8 +23,6 @@ env:
   CONTENT_IDENTITY_PASSWORD: ${{ secrets.CONTENT_IDENTITY_PASSWORD }}
   SCREENSHOT_USERNAME: ${{ secrets.SCREENSHOT_USERNAME }}
   SCREENSHOT_PASSWORD: ${{ secrets.SCREENSHOT_PASSWORD}}
-  AWS_REGION: "eu-west-2"
-  CONTENT_CE_DIST_PATH: "./dist/content-ce"
   PLAYWRIGHT_E2E_HOST: ${{ secrets.PLAYWRIGHT_E2E_HOST }}
   GH_BUILD_NUMBER: ${{ github.run_id }}
   MAXINSTANCES: 2
@@ -66,15 +64,13 @@ jobs:
       - uses: ./.github/actions/before-install
       - run: npm ci
       - run: npm run build -- $BUILD_OPTS
-      - name: upload job artifact
+
+      - name: dist cache
         if: ${{ success() }}
-        uses: ./.github/actions/upload-job-artifact
+        uses: actions/cache/save@v3
         with:
-          artifact: $CONTENT_CE_DIST_PATH
-          output: $S3_DBP_FOLDER/alfresco-content-app.tar.bz2
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
+          path: ./dist/content-ce
+          key: cache-dist-${{ github.run_id }}
 
   unit-tests:
     needs: [lint, build]
@@ -136,14 +132,15 @@ jobs:
           cache: 'npm'
       - uses: ./.github/actions/before-install
       - run: npm ci
-      - uses: ./.github/actions/before-e2e
+
+      - uses: actions/cache/restore@v3
+        id: cache
         with:
-          from: "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2"
-          to: $CONTENT_CE_DIST_PATH
-          id: ${{ matrix.e2e-suites.id }}
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
+          path: ./dist/content-ce
+          key: cache-dist-${{ github.run_id }}
+
+      - uses: ./.github/actions/before-e2e
+
       - uses: ./.github/actions/run-e2e
         with:
           options: "--suite=${{ matrix.e2e-suites.name }}"
@@ -189,16 +186,18 @@ jobs:
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
+
       - uses: ./.github/actions/before-install
       - run: npm ci
-      - uses: ./.github/actions/before-e2e
+
+      - uses: actions/cache/restore@v3
+        id: cache
         with:
-          from: "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2"
-          to: $CONTENT_CE_DIST_PATH
-          id: 15
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
+          path: ./dist/content-ce
+          key: cache-dist-${{ github.run_id }}
+
+      - uses: ./.github/actions/before-e2e
+
       - name: before playwright
         shell: bash
         run: npx playwright install chromium
