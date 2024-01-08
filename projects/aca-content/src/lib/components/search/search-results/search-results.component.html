@@ -46,7 +46,7 @@
             (node-dblclick)="handleNodeClick($event)"
           >
             <data-columns>
-              <data-column key="$thumbnail" type="image" [sr-title]="'ADF-DOCUMENT-LIST.LAYOUT.THUMBNAIL'" [sortable]="false">
+              <data-column id="app.search.thumbnail" key="$thumbnail" type="image" [sr-title]="'ADF-DOCUMENT-LIST.LAYOUT.THUMBNAIL'" [sortable]="false">
                 <ng-template let-context>
                   <aca-custom-thumbnail-column [context]="context"></aca-custom-thumbnail-column>
                 </ng-template>
@@ -58,13 +58,13 @@
                 </adf-data-column-header>
               </data-column>
 
-              <data-column key type="text"  class="adf-ellipsis-cell adf-expand-cell-5" title="APP.DOCUMENT_LIST.COLUMNS.NAME" [sortable]="false" [draggable]="true">
+              <data-column id="app.search.name" key type="text"  class="adf-ellipsis-cell adf-expand-cell-5" title="APP.DOCUMENT_LIST.COLUMNS.NAME" [sortable]="false" [draggable]="true">
                 <ng-template let-context>
                   <aca-search-results-row [context]="context"></aca-search-results-row>
                 </ng-template>
               </data-column>
 
-              <data-column key="properties"  title="Description" class="adf-expand-cell-3" [sortable]="false" *ngIf="!isSmallScreen" [draggable]="true">
+              <data-column id="app.search.description" key="properties"  title="Description" class="adf-expand-cell-3" [sortable]="false" *ngIf="!isSmallScreen" [draggable]="true">
                 <ng-template let-context>
                   <span class="adf-datatable-cell-value adf-ellipsis-cell">
                   {{context.row?.node?.entry?.properties && context.row?.node?.entry?.properties['cm:description']}}
@@ -72,10 +72,10 @@
                 </ng-template>
               </data-column>
 
-              <data-column key="content.sizeInBytes" type="fileSize" title="APP.DOCUMENT_LIST.COLUMNS.SIZE" class="adf-no-grow-cell adf-ellipsis-cell" [sortable]="false" *ngIf="!isSmallScreen" [draggable]="true"></data-column>
-              <data-column key="modifiedAt" type="date" title="APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON" class="adf-no-grow-cell adf-ellipsis-cell" format="timeAgo" [sortable]="false" *ngIf="!isSmallScreen" [draggable]="true"></data-column>
-              <data-column key="modifiedByUser.displayName" title="APP.DOCUMENT_LIST.COLUMNS.MODIFIED_BY" class="adf-no-grow-cell adf-ellipsis-cell" [sortable]="false" *ngIf="!isSmallScreen" [draggable]="true"></data-column>
-              <data-column key="$tags" type="text" title="APP.DOCUMENT_LIST.COLUMNS.TAGS" class="adf-full-width adf-expand-cell-4" [sortable]="false" [draggable]="true">
+              <data-column id="app.search.size" key="content.sizeInBytes" type="fileSize" title="APP.DOCUMENT_LIST.COLUMNS.SIZE" class="adf-no-grow-cell adf-ellipsis-cell" [sortable]="false" *ngIf="!isSmallScreen" [draggable]="true"></data-column>
+              <data-column id="app.search.modifiedOn" key="modifiedAt" type="date" title="APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON" class="adf-no-grow-cell adf-ellipsis-cell" format="timeAgo" [sortable]="false" *ngIf="!isSmallScreen" [draggable]="true"></data-column>
+              <data-column id="app.search.modifiedBy" key="modifiedByUser.displayName" title="APP.DOCUMENT_LIST.COLUMNS.MODIFIED_BY" class="adf-no-grow-cell adf-ellipsis-cell" [sortable]="false" *ngIf="!isSmallScreen" [draggable]="true"></data-column>
+              <data-column id="app.search.tags" key="$tags" type="text" title="APP.DOCUMENT_LIST.COLUMNS.TAGS" class="adf-full-width adf-expand-cell-4" [sortable]="false" [draggable]="true">
                 <ng-template let-context>
                   <aca-tags-column [context]="context"></aca-tags-column>
                 </ng-template>
