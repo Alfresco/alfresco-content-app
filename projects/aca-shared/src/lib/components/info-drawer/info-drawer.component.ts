@@ -37,6 +37,7 @@ import { InfoDrawerModule } from '@alfresco/adf-core';
 import { TranslateModule } from '@ngx-translate/core';
 import { A11yModule } from '@angular/cdk/a11y';
 import { ToolbarComponent } from '../toolbar/toolbar.component';
+import { ContentService, NodesApiService } from '@alfresco/adf-content-services';
 
 @Component({
   standalone: true,
@@ -58,13 +59,20 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
   actions: Array<ContentActionRef> = [];
   onDestroy$ = new Subject<boolean>();
   preventFromClosing = false;
+  icon: string = null;
 
   @HostListener('keydown.escape')
   onEscapeKeyboardEvent(): void {
     this.close();
   }
 
-  constructor(private store: Store<any>, private contentApi: ContentApiService, private extensions: AppExtensionService) {}
+  constructor(
+    private store: Store<any>,
+    private contentApi: ContentApiService,
+    private extensions: AppExtensionService,
+    private nodesService: NodesApiService,
+    private contentService: ContentService
+  ) {}
 
   ngOnInit() {
     this.tabs = this.extensions.getSidebarTabs();
@@ -81,6 +89,10 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
       .subscribe((isInfoDrawerPreviewOpened) => {
         this.preventFromClosing = isInfoDrawerPreviewOpened;
       });
+
+    this.nodesService.nodeUpdated.pipe(takeUntil(this.onDestroy$)).subscribe((node: any) => {
+      this.node.entry = node;
+    });
   }
 
   ngOnDestroy() {
@@ -115,6 +127,7 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
       this.contentApi.getNodeInfo(nodeId).subscribe(
         (entity) => {
           this.setDisplayNode(entity);
+          this.node.entry = entity;
           this.isLoading = false;
         },
         () => (this.isLoading = false)
@@ -124,5 +137,6 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
 
   private setDisplayNode(node: any) {
     this.displayNode = node;
+    this.icon = this.contentService.getNodeIcon(node);
   }
 }

@@ -71,6 +71,18 @@ export class DocumentListDirective implements OnInit, OnDestroy {
       const key = this.preferences.get(`${this.sortingPreferenceKey}.sorting.sortingKey`, current[0]);
       const direction = this.preferences.get(`${this.sortingPreferenceKey}.sorting.direction`, current[1]);
 
+      if (this.preferences.hasItem(`${this.sortingPreferenceKey}.columns.width`)) {
+        this.documentList.setColumnsWidths = JSON.parse(this.preferences.get(`${this.sortingPreferenceKey}.columns.width`));
+      }
+
+      if (this.preferences.hasItem(`${this.sortingPreferenceKey}.columns.visibility`)) {
+        this.documentList.setColumnsVisibility = JSON.parse(this.preferences.get(`${this.sortingPreferenceKey}.columns.visibility`));
+      }
+
+      if (this.preferences.hasItem(`${this.sortingPreferenceKey}.columns.order`)) {
+        this.documentList.setColumnsOrder = JSON.parse(this.preferences.get(`${this.sortingPreferenceKey}.columns.order`));
+      }
+
       this.documentList.sorting = [key, direction];
       // TODO: bug in ADF, the `sorting` binding is not updated when changed from code
       this.documentList.data.setSorting({ key, direction });
@@ -103,6 +115,27 @@ export class DocumentListDirective implements OnInit, OnDestroy {
       this.preferences.set(`${this.sortingPreferenceKey}.sorting.key`, event.detail.key);
       this.preferences.set(`${this.sortingPreferenceKey}.sorting.sortingKey`, event.detail.sortingKey);
       this.preferences.set(`${this.sortingPreferenceKey}.sorting.direction`, event.detail.direction);
+    }
+  }
+
+  @HostListener('columnsWidthChanged', ['$event'])
+  onColumnsWidthChanged(event: CustomEvent) {
+    if (this.sortingPreferenceKey) {
+      this.preferences.set(`${this.sortingPreferenceKey}.columns.width`, JSON.stringify(event));
+    }
+  }
+
+  @HostListener('columnsVisibilityChanged', ['$event'])
+  onColumnsVisibilityChange(event: CustomEvent) {
+    if (this.sortingPreferenceKey) {
+      this.preferences.set(`${this.sortingPreferenceKey}.columns.visibility`, JSON.stringify(event));
+    }
+  }
+
+  @HostListener('columnsOrderChanged', ['$event'])
+  onColumnOrderChanged(event: CustomEvent) {
+    if (this.sortingPreferenceKey) {
+      this.preferences.set(`${this.sortingPreferenceKey}.columns.order`, JSON.stringify(event));
     }
   }
 

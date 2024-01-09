@@ -354,6 +354,10 @@ export class AppExtensionService implements RuleContext {
     };
   }
 
+  updateSidebarActions() {
+    this._sidebarActions.next(this.loader.getContentActions(this.config, 'features.sidebar.toolbar'));
+  }
+
   getCreateActions(): Observable<Array<ContentActionRef>> {
     return this._createActions.pipe(
       map((createActions) =>

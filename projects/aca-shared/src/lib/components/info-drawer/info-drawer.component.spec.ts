@@ -27,16 +27,19 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
 import { SetInfoDrawerStateAction, ToggleInfoDrawerAction } from '@alfresco/aca-shared/store';
-import { of, Subject } from 'rxjs';
+import { EMPTY, of, Subject } from 'rxjs';
 import { InfoDrawerComponent } from './info-drawer.component';
 import { LibTestingModule } from '../../testing/lib-testing-module';
 import { AppExtensionService } from '../../services/app.extension.service';
 import { ContentApiService } from '../../services/content-api.service';
+import { ContentService } from '@alfresco/adf-content-services';
+import { RedirectAuthService } from '@alfresco/adf-core';
 
 describe('InfoDrawerComponent', () => {
   let fixture: ComponentFixture<InfoDrawerComponent>;
   let component: InfoDrawerComponent;
   let contentApiService: ContentApiService;
+  let contentService: ContentService;
   let tab: SidebarTabRef;
   let appExtensionService: AppExtensionService;
   const mockStream = new Subject();
@@ -62,7 +65,8 @@ describe('InfoDrawerComponent', () => {
       imports: [LibTestingModule, InfoDrawerComponent],
       providers: [
         { provide: AppExtensionService, useValue: extensionServiceMock },
-        { provide: Store, useValue: storeMock }
+        { provide: Store, useValue: storeMock },
+        { provide: RedirectAuthService, useValue: { onLogin: EMPTY } }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     });
@@ -71,7 +75,7 @@ describe('InfoDrawerComponent', () => {
     component = fixture.componentInstance;
     appExtensionService = TestBed.inject(AppExtensionService);
     contentApiService = TestBed.inject(ContentApiService);
-
+    contentService = TestBed.inject(ContentService);
     tab = { title: 'tab1', id: 'tab1', component: '' };
     spyOn(appExtensionService, 'getSidebarTabs').and.returnValue([tab]);
   });
@@ -140,6 +144,7 @@ describe('InfoDrawerComponent', () => {
   it('should call getNodeInfo() when node is a recent file', () => {
     const response: any = { entry: { id: 'nodeId' } };
     spyOn(contentApiService, 'getNodeInfo').and.returnValue(of(response));
+
     const nodeMock: any = {
       entry: {
         id: 'nodeId',
@@ -153,6 +158,7 @@ describe('InfoDrawerComponent', () => {
     component.ngOnChanges();
 
     expect(component.displayNode).toBe(response);
+    expect(component.node.entry).toBe(response);
     expect(contentApiService.getNodeInfo).toHaveBeenCalled();
   });
 
@@ -181,5 +187,24 @@ describe('InfoDrawerComponent', () => {
         icon: 'highlight_off'
       } as ContentActionRef
     ]);
+  });
+
+  it('should get node icon for documents', () => {
+    const expectedIcon = 'assets/images/ft_ic_folder';
+    const response: any = { entry: { id: 'nodeId' } };
+    spyOn(contentApiService, 'getNodeInfo').and.returnValue(of(response));
+    spyOn(contentService, 'getNodeIcon').and.returnValue(expectedIcon);
+    const nodeMock: any = {
+      entry: { id: 'nodeId', guid: 'guidId' },
+      isFolder: true
+    };
+    component.node = nodeMock;
+
+    fixture.detectChanges();
+    component.ngOnChanges();
+
+    expect(contentService.getNodeIcon).toHaveBeenCalledWith(response);
+    expect(component.icon).toBe(expectedIcon);
+    expect(contentApiService.getNodeInfo).toHaveBeenCalled();
   });
 });

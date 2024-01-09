@@ -22,12 +22,12 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ContentApiService, PageComponent, PageLayoutComponent, ToolbarComponent } from '@alfresco/aca-shared';
 import { NavigateToFolder, NavigateToPreviousPage, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { Subject } from 'rxjs';
-import { BreadcrumbModule, PermissionManagerModule } from '@alfresco/adf-content-services';
+import { BreadcrumbModule, ContentService, PermissionManagerModule } from '@alfresco/adf-content-services';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatIconModule } from '@angular/material/icon';
@@ -37,6 +37,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MetadataTabComponent } from '../info-drawer/metadata-tab/metadata-tab.component';
 import { CommentsTabComponent } from '../info-drawer/comments-tab/comments-tab.component';
 import { NodeEntry, PathElement } from '@alfresco/js-api';
+import { takeUntil } from 'rxjs/operators';
+import { ContentActionRef } from '@alfresco/adf-extensions';
 
 @Component({
   standalone: true,
@@ -64,8 +66,11 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
   isLoading: boolean;
   onDestroy$ = new Subject<boolean>();
   activeTab = 1;
+  aspectActions: Array<ContentActionRef> = [];
+  nodeIcon: string;
+  canManagePermissions = true;
 
-  constructor(private route: ActivatedRoute, private contentApi: ContentApiService) {
+  constructor(private route: ActivatedRoute, private contentApi: ContentApiService, private contentService: ContentService) {
     super();
   }
 
@@ -75,7 +80,6 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
     const { route } = this;
     const { data } = route.snapshot;
     this.title = data.title;
-
     this.route.params.subscribe((params) => {
       this.isLoading = true;
       this.setActiveTab(params.activeTab);
@@ -83,9 +87,18 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
       this.contentApi.getNode(this.nodeId).subscribe((node) => {
         this.node = node.entry;
         this.isLoading = false;
+        this.canManagePermissions = !this.isSmartFolder();
+        this.setActiveTab(params.activeTab);
         this.store.dispatch(new SetSelectedNodesAction([{ entry: this.node }]));
+        this.nodeIcon = this.contentService.getNodeIcon(this.node);
       });
     });
+    this.extensions
+      .getAllowedSidebarActions()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((aspectActions) => {
+        this.aspectActions = aspectActions;
+      });
   }
 
   setActiveTab(tabName: string) {
@@ -94,6 +107,10 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
         this.activeTab = 1;
         break;
       case 'permissions':
+        if (!this.canManagePermissions) {
+          this.activeTab = 0;
+          break;
+        }
         this.activeTab = 2;
         break;
       case 'metadata':
@@ -114,5 +131,13 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
     this.store.dispatch(new SetSelectedNodesAction([]));
     this.onDestroy$.next();
     this.onDestroy$.complete();
+  }
+
+  private isSmartFolder(): boolean {
+    if (!this.node?.isFolder) {
+      return false;
+    }
+    const nodeAspects = this.node.aspectNames ?? [];
+    return nodeAspects.includes('smf:customConfigSmartFolder') || nodeAspects.includes('smf:systemConfigSmartFolder');
   }
 }

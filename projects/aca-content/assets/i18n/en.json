@@ -259,7 +259,8 @@
             "LEAVE": "Leave Library",
             "EDIT_OFFLINE": "Edit Offline",
             "EDIT_OFFLINE_CANCEL": "Cancel Editing",
-            "CHANGE_ASPECT": "Edit Aspects"
+            "CHANGE_ASPECT": "Edit Aspects",
+            "ADD_ASPECTS": "Add Aspects"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -394,15 +395,16 @@
         },
         "INFO_DRAWER": {
             "TITLE": "Details",
-            "CLOSE": "Close",
+            "REDUCE_PANEL": "Reduce panel",
             "DATA_LOADING": "Data is loading",
+            "ICON": "Node Icon",
             "TABS": {
                 "PROPERTIES": "Properties",
                 "LIBRARY_PROPERTIES": "About",
                 "VERSIONS": "Versions",
                 "COMMENTS": "Comments",
                 "PERMISSIONS": "Permissions",
-                "EXPAND": "Expand"
+                "EXPAND": "Expand panel"
             }
         },
         "TOOLTIPS": {

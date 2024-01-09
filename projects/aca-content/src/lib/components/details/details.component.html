@@ -8,18 +8,21 @@
     <div class="aca-details-container">
       <div class="aca-details-title">
         <div class="aca-details-breadcrumb" role="heading" aria-level="2" *ngIf="node">
-          <span class="aca-details-breadcrumb-library"> {{ node.name }} </span>
-          -
-          <span class="aca-details-breadcrumb-item">{{ 'APP.INFO_DRAWER.TITLE' | translate }}</span>
+          <span class="aca-details-breadcrumb-library">
+            <img class="aca-details-breadcrumb-icon" alt="{{ 'APP.INFO_DRAWER.ICON' | translate }}" src="{{ nodeIcon }}">
+            {{ node.name }} </span>
         </div>
-        <button
-          class="aca-close-details-button"
-          mat-icon-button
-          data-automation-id="close-library"
-          title="{{ 'APP.INFO_DRAWER.CLOSE' | translate }}"
-          (click)="goBack()">
-          <mat-icon>fullscreen_exit</mat-icon>
-        </button>
+        <div class="acs-details-buttons">
+          <aca-toolbar [items]="aspectActions" info-drawer-buttons></aca-toolbar>
+          <button
+                class="aca-close-details-button"
+                mat-icon-button
+                data-automation-id="close-library"
+                title="{{ 'APP.INFO_DRAWER.REDUCE_PANEL' | translate }}"
+                (click)="goBack()">
+                <mat-icon>fullscreen_exit</mat-icon>
+          </button>
+        </div>
       </div>
 
       <mat-tab-group [selectedIndex]="activeTab" class="aca-details-tabs" animationDuration="0">
@@ -33,7 +36,7 @@
             <app-comments-tab *ngIf="node && !isLoading; else loading" [node]="node"></app-comments-tab>
           </ng-template>
         </mat-tab>
-        <mat-tab label="{{ 'APP.INFO_DRAWER.TABS.PERMISSIONS' | translate }}">
+        <mat-tab [disabled]="!canManagePermissions" label="{{ 'APP.INFO_DRAWER.TABS.PERMISSIONS' | translate }}">
           <ng-template matTabContent>
             <adf-permission-list *ngIf="node && !isLoading; else loading" [nodeId]="node.id"></adf-permission-list>
           </ng-template>

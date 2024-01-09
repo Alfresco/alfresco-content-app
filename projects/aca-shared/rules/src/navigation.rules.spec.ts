@@ -225,6 +225,28 @@ describe('navigation.evaluators', () => {
     });
   });
 
+  describe('isDetails', () => {
+    it('should return true if url includes with `/details`', () => {
+      const context: any = {
+        navigation: {
+          url: '/details/path'
+        }
+      };
+
+      expect(app.isDetails(context)).toBe(true);
+    });
+
+    it('should return false if url not includes with `/details`', () => {
+      const context: any = {
+        navigation: {
+          url: '/path'
+        }
+      };
+
+      expect(app.isDetails(context)).toBe(false);
+    });
+  });
+
   describe('isRecentFiles', () => {
     it('should return [true] if url starts with `/recent-files`', () => {
       const context: any = {

@@ -17,10 +17,7 @@ env:
   BASE_URL: ${{ secrets.PIPELINE_ENV_URL }}
   ADMIN_EMAIL: ${{ secrets.PIPELINE_ADMIN_USERNAME }}
   ADMIN_PASSWORD: ${{ secrets.PIPELINE_ADMIN_PASSWORD }}
-  AWS_REGION: "eu-west-2"
-  CONTENT_CE_DIST_PATH: "./dist/content-ce"
   PLAYWRIGHT_E2E_HOST: ${{ secrets.PLAYWRIGHT_E2E_HOST }}
-  NPM_REGISTRY_ADDRESS: ${{ secrets.NPM_REGISTRY_ADDRESS }}
 
 jobs:
   publish-docker-registry:
@@ -131,7 +128,6 @@ jobs:
         with:
           branch_name: ${{ env.BRANCH_NAME }}
           github_token: ${{ secrets.BOT_GITHUB_TOKEN }}
-          npm_registry_address: ${{ vars.NPM_REGISTRY_ADDRESS }}
           npm_registry_token: ${{ secrets.NPM_REGISTRY_TOKEN }}
           npm_tag: ${{ env.TAG_NPM }}
           dry-run: ${{ inputs.dry-run-release }}

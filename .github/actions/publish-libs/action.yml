@@ -10,10 +10,6 @@ inputs:
     description: 'Github token'
     required: true
     type: string
-  npm_registry_address:
-    description: 'NPM registry address'
-    required: true
-    type: string
   npm_registry_token:
     description: 'NPM registry token'
     required: true
@@ -59,7 +55,7 @@ runs:
       name: setup NPM registry
       with:
         node-version-file: '.nvmrc'
-        registry-url: 'https://${{ inputs.npm_registry_address }}'
+        registry-url: 'https://registry.npmjs.org'
         scope: '@alfresco'
 
     - name: Publish to NPM registry

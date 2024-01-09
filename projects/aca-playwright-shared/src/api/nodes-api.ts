@@ -81,6 +81,14 @@ export class NodesApi {
     }
   }
 
+  async deleteDeletedNode(name: string): Promise<void> {
+    try {
+      await this.apiService.trashCan.deleteDeletedNode(name);
+    } catch (error) {
+      console.error(`${this.constructor.name} ${this.deleteDeletedNode.name}: ${error}`);
+    }
+  }
+
   private async createNode(
     nodeType: string,
     name: string,
@@ -122,7 +130,7 @@ export class NodesApi {
 
   async renameNode(nodeId: string, newName: string): Promise<NodeEntry | null> {
     try {
-      return this.apiService.nodes.updateNode(nodeId, { name: newName });
+      return await this.apiService.nodes.updateNode(nodeId, { name: newName });
     } catch (error) {
       console.error(`${this.constructor.name} ${this.renameNode.name}`, error);
       return null;
@@ -327,7 +335,7 @@ export class NodesApi {
 
   private async addAspects(nodeId: string, aspectNames: string[]): Promise<NodeEntry> {
     try {
-      return this.apiService.nodes.updateNode(nodeId, { aspectNames });
+      return await this.apiService.nodes.updateNode(nodeId, { aspectNames });
     } catch (error) {
       console.error(`${this.constructor.name} ${this.addAspects.name}`, error);
       return null;
@@ -398,6 +406,46 @@ export class NodesApi {
       return this.createFolderLink(nodeId, destinationParentId);
     } catch (error) {
       console.error('Admin Actions - createLinkToFolderName failed : ', error);
+      return null;
+    }
+  }
+
+  async getNodeProperty(nodeId: string, property: string): Promise<string> {
+    try {
+      const node = await this.getNodeById(nodeId);
+      return node.entry.properties?.[property] || '';
+    } catch (error) {
+      console.error(`${this.constructor.name} ${this.getNodeProperty.name}`, error);
+      return '';
+    }
+  }
+
+  async getSharedId(nodeId: string): Promise<string> {
+    try {
+      const sharedId = await this.getNodeProperty(nodeId, 'qshare:sharedId');
+      return sharedId || '';
+    } catch (error) {
+      console.error(`${this.constructor.name} ${this.getSharedId.name}`, error);
+      return '';
+    }
+  }
+
+  async getSharedExpiryDate(nodeId: string): Promise<string> {
+    try {
+      const expiryDate = await this.getNodeProperty(nodeId, 'qshare:expiryDate');
+      return expiryDate || '';
+    } catch (error) {
+      console.error(`${this.constructor.name} ${this.getSharedExpiryDate.name}`, error);
+      return '';
+    }
+  }
+
+  async isFileShared(nodeId: string): Promise<boolean> {
+    try {
+      const sharedId = await this.getSharedId(nodeId);
+      return sharedId !== '';
+    } catch (error) {
+      console.error(`${this.constructor.name} ${this.isFileShared.name}`, error);
       return null;
     }
   }

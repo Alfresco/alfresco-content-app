@@ -71,7 +71,7 @@ export const supportedExtensions = {
 
 export function getFileExtension(fileName: string): string | null {
   if (fileName) {
-    const match = fileName.match(/\.([^\./\?\#]+)($|\?|\#)/);
+    const match = fileName.toLowerCase().match(/\.([^\./\?\#]+)($|\?|\#)/);
 
     return match ? match[1] : null;
   }
@@ -498,6 +498,16 @@ export const canEditAspects = (context: RuleContext): boolean =>
     repository.isMajorVersionAvailable(context, '7')
   ].every(Boolean);
 
+export const editAspects = (context: RuleContext): boolean =>
+  [
+    canUpdateSelectedNode(context),
+    !isWriteLocked(context),
+    navigation.isNotTrashcan(context),
+    repository.isMajorVersionAvailable(context, '7')
+  ].every(Boolean);
+
+export const canShowExpand = (context: RuleContext): boolean => [!navigation.isLibraries(context), !navigation.isDetails(context)].every(Boolean);
+
 /**
  * Checks if user can manage permissions for the selected node.
  * JSON ref: `canManagePermissions`
@@ -505,7 +515,7 @@ export const canEditAspects = (context: RuleContext): boolean =>
  * @param context Rule execution context
  */
 export const canManagePermissions = (context: RuleContext): boolean =>
-  [canUpdateSelectedNode(context), navigation.isNotTrashcan(context), !isSmartFolder(context)].every(Boolean);
+  [canUpdateSelectedNode(context), navigation.isNotTrashcan(context), !isSmartFolder(context), !isMultiselection(context)].every(Boolean);
 
 /**
  * Checks if user can toggle **Edit Offline** mode for selected node.

@@ -26,21 +26,23 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { DetailsComponent } from './details.component';
 import { ActivatedRoute } from '@angular/router';
-import { of, Subject } from 'rxjs';
+import { BehaviorSubject, of, Subject } from 'rxjs';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ContentApiService } from '@alfresco/aca-shared';
-import { STORE_INITIAL_APP_DATA, SetSelectedNodesAction, NavigateToFolder } from '@alfresco/aca-shared/store';
+import { NavigateToFolder, SetSelectedNodesAction, STORE_INITIAL_APP_DATA } from '@alfresco/aca-shared/store';
 import { NodeEntry, PathElement } from '@alfresco/js-api';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AuthenticationService, PageTitleService } from '@alfresco/adf-core';
-import { BreadcrumbComponent, SearchQueryBuilderService } from '@alfresco/adf-content-services';
+import { BreadcrumbComponent, ContentService, SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { By } from '@angular/platform-browser';
+import { ContentActionRef } from '@alfresco/adf-extensions';
 
 describe('DetailsComponent', () => {
   let component: DetailsComponent;
   let fixture: ComponentFixture<DetailsComponent>;
   let contentApiService: ContentApiService;
+  let contentService: ContentService;
   let store: Store;
   let node: NodeEntry;
 
@@ -49,6 +51,15 @@ describe('DetailsComponent', () => {
     dispatch: jasmine.createSpy('dispatch').and.stub(),
     select: () => mockStream
   };
+
+  const extensionsServiceMock = {
+    getAllowedSidebarActions: jasmine.createSpy('getAllowedSidebarActions')
+  };
+
+  const mockAspectActions: ContentActionRef[] = [];
+
+  const mockAspectActionsSubject$ = new BehaviorSubject(mockAspectActions);
+  extensionsServiceMock.getAllowedSidebarActions.and.returnValue(mockAspectActionsSubject$.asObservable());
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -87,6 +98,7 @@ describe('DetailsComponent', () => {
     fixture = TestBed.createComponent(DetailsComponent);
     component = fixture.componentInstance;
     contentApiService = TestBed.inject(ContentApiService);
+    contentService = TestBed.inject(ContentService);
     store = TestBed.inject(Store);
 
     node = {
@@ -139,5 +151,95 @@ describe('DetailsComponent', () => {
   it('should dispatch node selection', () => {
     fixture.detectChanges();
     expect(store.dispatch).toHaveBeenCalledWith(new SetSelectedNodesAction([node]));
+  });
+
+  it('should set aspectActions from extensions', async () => {
+    extensionsServiceMock.getAllowedSidebarActions.and.returnValue(of(mockAspectActions));
+    fixture.detectChanges();
+    await fixture.whenStable().then(() => {
+      expect(component.aspectActions).toEqual(mockAspectActions);
+    });
+  });
+
+  it('should return the icon when getNodeIcon is called', () => {
+    const expectedIcon = 'assets/images/ft_ic_folder';
+    spyOn(contentService, 'getNodeIcon').and.returnValue(expectedIcon);
+    fixture.detectChanges();
+    component.ngOnInit();
+    expect(contentService.getNodeIcon).toHaveBeenCalled();
+    expect(component.nodeIcon).toContain(expectedIcon);
+  });
+
+  it('should set aspectActions from extension mock', () => {
+    const extensionMock = {
+      getAllowedSidebarActions: () =>
+        of([
+          {
+            id: 'app.sidebar.close',
+            order: 100,
+            title: 'close',
+            icon: 'highlight_off'
+          }
+        ])
+    };
+
+    extensionsServiceMock.getAllowedSidebarActions.and.returnValue(of(extensionMock));
+    fixture.detectChanges();
+    fixture
+      .whenStable()
+      .then(() => {
+        expect(component.aspectActions).toEqual([
+          {
+            id: 'app.sidebar.close',
+            order: 100,
+            title: 'close',
+            icon: 'highlight_off'
+          } as ContentActionRef
+        ]);
+      })
+      .catch((error) => {
+        fail(`An error occurred: ${error}`);
+      });
+  });
+
+  it('should disable the permissions tab for smart folders based on aspects', () => {
+    node.entry.isFolder = true;
+    node.entry.aspectNames = ['smf:customConfigSmartFolder'];
+    fixture.detectChanges();
+    component.ngOnInit();
+    expect(component.canManagePermissions).toBeFalse();
+    expect(component.activeTab).not.toBe(2);
+  });
+
+  it('should enable the permissions tab for regular folders based on aspects', () => {
+    node.entry.isFolder = true;
+    node.entry.aspectNames = [];
+    fixture.detectChanges();
+    component.ngOnInit();
+
+    expect(component.canManagePermissions).toBeTrue();
+  });
+
+  it('should change active tab based on canManagePermissions and tabName', () => {
+    component.nodeId = 'someNodeId';
+    component.activeTab = 0;
+
+    node.entry.isFolder = true;
+    node.entry.aspectNames = [];
+
+    fixture.detectChanges();
+    component.ngOnInit();
+
+    component.setActiveTab('permissions');
+    expect(component.activeTab).toBe(2);
+
+    node.entry.isFolder = true;
+    node.entry.aspectNames = ['smf:customConfigSmartFolder'];
+
+    fixture.detectChanges();
+    component.ngOnInit();
+
+    component.setActiveTab('permissions');
+    expect(component.activeTab).not.toBe(2);
   });
 });

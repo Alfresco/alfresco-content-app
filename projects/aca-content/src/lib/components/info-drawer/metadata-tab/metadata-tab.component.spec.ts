@@ -27,24 +27,23 @@ import { Node } from '@alfresco/js-api';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { AppConfigService } from '@alfresco/adf-core';
-import { Store } from '@ngrx/store';
-import { AppState, EditOfflineAction, SetInfoDrawerMetadataAspectAction } from '@alfresco/aca-shared/store';
+import { EditOfflineAction } from '@alfresco/aca-shared/store';
 import { By } from '@angular/platform-browser';
 import { AppExtensionService, NodePermissionService } from '@alfresco/aca-shared';
 import { Actions } from '@ngrx/effects';
 import { of, Subject } from 'rxjs';
 import { ContentActionType } from '@alfresco/adf-extensions';
-import { CategoryService, ContentMetadataCardComponent, TagService } from '@alfresco/adf-content-services';
+import { CategoryService, ContentMetadataComponent, ContentMetadataService, TagService } from '@alfresco/adf-content-services';
 
 describe('MetadataTabComponent', () => {
   let fixture: ComponentFixture<MetadataTabComponent>;
   let component: MetadataTabComponent;
-  let store: Store<AppState>;
   let appConfig: AppConfigService;
   let extensions: AppExtensionService;
   let nodePermissionService: NodePermissionService;
   let actions$: Subject<EditOfflineAction>;
   let appExtensionService: AppExtensionService;
+  let contentMetadataService: ContentMetadataService;
 
   const presets = {
     default: {
@@ -65,9 +64,11 @@ describe('MetadataTabComponent', () => {
     });
     nodePermissionService = TestBed.inject(NodePermissionService);
     appExtensionService = TestBed.inject(AppExtensionService);
+    contentMetadataService = TestBed.inject(ContentMetadataService);
     spyOn(nodePermissionService, 'check').and.callFake((source: Node, permissions: string[]) => {
       return permissions.some((permission) => source.allowableOperations.includes(permission));
     });
+    spyOn(contentMetadataService, 'getGroupedProperties').and.returnValue(of());
   });
 
   afterEach(() => {
@@ -99,40 +100,40 @@ describe('MetadataTabComponent', () => {
     });
   });
 
-  describe('canUpdateNode', () => {
+  describe('readOnly', () => {
     beforeEach(() => {
       fixture = TestBed.createComponent(MetadataTabComponent);
       component = fixture.componentInstance;
     });
 
-    it('should return true if node is not locked and has update permission', async () => {
+    it('should return false if node is not locked and has update permission', async () => {
       component.node = {
         isLocked: false,
         allowableOperations: ['update']
       } as Node;
       component.ngOnInit();
-      expect(component.canUpdateNode).toBe(true);
+      expect(component.readOnly).toBe(false);
     });
 
-    it('should return false if node is locked', () => {
+    it('should return true if node is locked', () => {
       component.node = {
         isLocked: true,
         allowableOperations: ['update']
       } as Node;
       component.ngOnInit();
-      expect(component.canUpdateNode).toBe(false);
+      expect(component.readOnly).toBe(true);
     });
 
-    it('should return false if node has no update permission', () => {
+    it('should return true if node has no update permission', () => {
       component.node = {
         isLocked: false,
         allowableOperations: ['other']
       } as Node;
       component.ngOnInit();
-      expect(component.canUpdateNode).toBe(false);
+      expect(component.readOnly).toBe(true);
     });
 
-    it('should return false if node has read only property', () => {
+    it('should return true if node has read only property', () => {
       component.node = {
         isLocked: false,
         allowableOperations: ['update'],
@@ -141,7 +142,7 @@ describe('MetadataTabComponent', () => {
         }
       } as Node;
       component.ngOnInit();
-      expect(component.canUpdateNode).toBe(false);
+      expect(component.readOnly).toBe(true);
     });
 
     describe('set by triggering EditOfflineAction', () => {
@@ -160,124 +161,50 @@ describe('MetadataTabComponent', () => {
             id: component.node.id
           } as Node
         });
-        component.canUpdateNode = true;
+        component.readOnly = true;
       });
 
-      it('should have set true if node is not locked and has update permission', () => {
-        component.canUpdateNode = false;
+      it('should have set false if node is not locked and has update permission', () => {
+        component.readOnly = true;
         actions$.next(editOfflineAction);
-        expect(component.canUpdateNode).toBeTrue();
+        expect(component.readOnly).toBeFalse();
       });
 
       it('should not have set false if changed node has different id than original', () => {
         editOfflineAction.payload.entry.id = 'some other id';
         editOfflineAction.payload.entry.isLocked = true;
         actions$.next(editOfflineAction);
-        expect(component.canUpdateNode).toBeTrue();
+        expect(component.readOnly).toBeTrue();
       });
 
-      it('should have set false if node is locked', () => {
+      it('should have set true if node is locked', () => {
         editOfflineAction.payload.entry.isLocked = true;
         actions$.next(editOfflineAction);
-        expect(component.canUpdateNode).toBeFalse();
+        expect(component.readOnly).toBeTrue();
       });
 
-      it('should have set false if node has no update permission', () => {
+      it('should have set true if node has no update permission', () => {
         editOfflineAction.payload.entry.allowableOperations = ['other'];
         actions$.next(editOfflineAction);
-        expect(component.canUpdateNode).toBeFalse();
+        expect(component.readOnly).toBeTrue();
       });
 
-      it('should have set false if node has read only property', () => {
+      it('should have set true if node has read only property', () => {
         editOfflineAction.payload.entry.properties = {
           'cm:lockType': 'WRITE_LOCK'
         };
         actions$.next(editOfflineAction);
-        expect(component.canUpdateNode).toBeFalse();
+        expect(component.readOnly).toBeTrue();
       });
     });
   });
 
-  describe('editable', () => {
-    let editOfflineAction: EditOfflineAction;
+  describe('ContentMetadataComponent', () => {
+    const getContentMetadata = (): ContentMetadataComponent => fixture.debugElement.query(By.directive(ContentMetadataComponent)).componentInstance;
 
     beforeEach(() => {
       fixture = TestBed.createComponent(MetadataTabComponent);
       component = fixture.componentInstance;
-      component.node = {
-        id: 'some id',
-        allowableOperations: []
-      } as Node;
-      component.ngOnInit();
-      editOfflineAction = new EditOfflineAction({
-        entry: {
-          isLocked: false,
-          allowableOperations: ['update'],
-          id: component.node.id
-        } as Node
-      });
-      component.editable = true;
-    });
-
-    it('should not have set false if node is not locked and has update permission', () => {
-      actions$.next(editOfflineAction);
-      expect(component.editable).toBeTrue();
-    });
-
-    it('should not have set false if changed node has different id than original', () => {
-      editOfflineAction.payload.entry.id = 'some other id';
-      editOfflineAction.payload.entry.isLocked = true;
-      actions$.next(editOfflineAction);
-      expect(component.editable).toBeTrue();
-    });
-
-    it('should have set false if node is locked', () => {
-      editOfflineAction.payload.entry.isLocked = true;
-      actions$.next(editOfflineAction);
-      expect(component.editable).toBeFalse();
-    });
-
-    it('should have set false if node has no update permission', () => {
-      editOfflineAction.payload.entry.allowableOperations = ['other'];
-      actions$.next(editOfflineAction);
-      expect(component.editable).toBeFalse();
-    });
-
-    it('should have set false if node has read only property', () => {
-      editOfflineAction.payload.entry.properties = {
-        'cm:lockType': 'WRITE_LOCK'
-      };
-      actions$.next(editOfflineAction);
-      expect(component.editable).toBeFalse();
-    });
-  });
-
-  describe('ContentMetadataCardComponent', () => {
-    const getContentMetadataCard = (): ContentMetadataCardComponent =>
-      fixture.debugElement.query(By.directive(ContentMetadataCardComponent)).componentInstance;
-
-    beforeEach(() => {
-      fixture = TestBed.createComponent(MetadataTabComponent);
-      component = fixture.componentInstance;
-    });
-
-    describe('displayAspect', () => {
-      beforeEach(() => {
-        store = TestBed.inject(Store);
-      });
-
-      it('should show pass empty when store is in initial state', () => {
-        expect(getContentMetadataCard().displayAspect).toBeFalsy();
-      });
-
-      it('should update the exif if store got updated', () => {
-        store.dispatch(new SetInfoDrawerMetadataAspectAction('EXIF'));
-        component.displayAspect$.subscribe((aspect) => {
-          expect(aspect).toBe('EXIF');
-        });
-        fixture.detectChanges();
-        expect(getContentMetadataCard().displayAspect).toBe('EXIF');
-      });
     });
 
     describe('Tags and categories', () => {
@@ -287,7 +214,7 @@ describe('MetadataTabComponent', () => {
 
         fixture.detectChanges();
         expect(categoryService.areCategoriesEnabled).toHaveBeenCalled();
-        expect(getContentMetadataCard().displayCategories).toBeTrue();
+        expect(getContentMetadata().displayCategories).toBeTrue();
       });
 
       it('should have assigned displayCategories to false if categoryService.areCategoriesEnabled returns false', () => {
@@ -296,7 +223,7 @@ describe('MetadataTabComponent', () => {
 
         fixture.detectChanges();
         expect(categoryService.areCategoriesEnabled).toHaveBeenCalled();
-        expect(getContentMetadataCard().displayCategories).toBeFalse();
+        expect(getContentMetadata().displayCategories).toBeFalse();
       });
 
       it('should have assigned displayTags to true if tagService.areTagsEnabled returns true', () => {
@@ -305,7 +232,7 @@ describe('MetadataTabComponent', () => {
 
         fixture.detectChanges();
         expect(tagService.areTagsEnabled).toHaveBeenCalled();
-        expect(getContentMetadataCard().displayTags).toBeTrue();
+        expect(getContentMetadata().displayTags).toBeTrue();
       });
 
       it('should have assigned displayTags to false if tagService.areTagsEnabled returns false', () => {
@@ -314,7 +241,7 @@ describe('MetadataTabComponent', () => {
 
         fixture.detectChanges();
         expect(tagService.areTagsEnabled).toHaveBeenCalled();
-        expect(getContentMetadataCard().displayTags).toBeFalse();
+        expect(getContentMetadata().displayTags).toBeFalse();
       });
     });
   });

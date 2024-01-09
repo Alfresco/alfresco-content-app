@@ -6,24 +6,6 @@ runs:
   steps:
     - uses: ./.github/actions/setup
 
-    - name: setup S3 caching
-      shell: bash
-      run: |
-        S3_DBP_PATH="s3://alfresco-travis-builds/aca"
-
-        if [ "${{ github.event_name }}" == "push" ]; then
-          S3_DBP_ROOT_FOLDER="$S3_DBP_PATH/$BRANCH_NAME"
-        elif [ "${{ github.event_name }}" == "pull_request" ]; then
-          S3_DBP_ROOT_FOLDER="$S3_DBP_PATH/$BRANCH_NAME"
-          echo "BASE_HASH=origin/$BRANCH_NAME" >> $GITHUB_ENV
-        elif [ "${{ github.event_name }}" == "schedule" ]; then
-          S3_DBP_ROOT_FOLDER="$S3_DBP_PATH/cron"
-        else
-          S3_DBP_ROOT_FOLDER="$S3_DBP_PATH/api"
-        fi
-
-        echo "S3_DBP_FOLDER="$S3_DBP_ROOT_FOLDER/${{ github.run_id }}"" >> $GITHUB_ENV
-
     - name: ADF linking
       if: ${{ github.event_name == 'pull_request'}}
       uses: ./.github/actions/adf-linking

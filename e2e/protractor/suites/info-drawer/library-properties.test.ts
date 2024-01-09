@@ -99,7 +99,7 @@ describe('Library properties', () => {
     await BrowserActions.click(page.toolbar.viewDetailsButton);
     await infoDrawer.waitForInfoDrawerToOpen();
 
-    expect(await infoDrawer.getHeaderTitle()).toEqual('Details');
+    expect(await infoDrawer.getHeaderTitle()).toEqual(site.name);
     expect(await infoDrawer.isPropertiesTabDisplayed()).toBe(true, 'Properties tab is not displayed');
     expect(await aboutTab.isNameDisplayed()).toBe(true, 'Name field not displayed');
     expect(await aboutTab.isLibraryIdDisplayed()).toBe(true, 'Library ID field not displayed');

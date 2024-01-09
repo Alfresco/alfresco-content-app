@@ -50,12 +50,12 @@ export class SharedLinksApi {
     }
   }
 
-  async shareFilesByIds(ids: string[]): Promise<SharedLinkEntry[]> {
+  async shareFilesByIds(ids: string[], expireDate?: Date): Promise<SharedLinkEntry[]> {
     const sharedLinks: SharedLinkEntry[] = [];
     try {
       if (ids && ids.length > 0) {
         for (const id of ids) {
-          const sharedLink = await this.shareFileById(id);
+          const sharedLink = await this.shareFileById(id, expireDate);
           sharedLinks.push(sharedLink);
         }
       }
@@ -89,7 +89,7 @@ export class SharedLinksApi {
         }
       };
 
-      return Utils.retryCall(sharedFile);
+      return await Utils.retryCall(sharedFile);
     } catch (error) {
       console.error(`SharedLinksApi waitForFilesToBeShared :  catch : ${error}`);
       console.error(`\tWait timeout reached waiting for files to be shared`);

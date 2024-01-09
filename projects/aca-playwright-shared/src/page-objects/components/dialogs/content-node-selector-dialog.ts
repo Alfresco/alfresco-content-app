@@ -41,7 +41,14 @@ export class ContentNodeSelectorDialog extends BaseComponent {
   getDialogTitle = (text: string) => this.getChild('[data-automation-id="content-node-selector-title"]', { hasText: text });
   getBreadcrumb = (text: string) => this.getChild('[data-automation-id="current-folder"]', { hasText: text });
   getFolderIcon = this.getChild('mat-icon[role="img"]', { hasText: "folder" });
+  loadMoreButton = this.getChild('[data-automation-id="adf-infinite-pagination-button"]');
 
+  async loadMoreNodes(): Promise<void> {
+    await this.spinnerWaitForReload();
+    while (await this.loadMoreButton.isVisible()) {
+    await this.loadMoreButton.click();
+    }
+  }
 
   async selectLocation(location: string): Promise<void> {
     await this.locationDropDown.click();

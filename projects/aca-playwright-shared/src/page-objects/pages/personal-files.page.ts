@@ -36,7 +36,10 @@ import {
   MatMenuComponent,
   ViewerComponent,
   SidenavComponent,
-  PaginationComponent
+  PaginationComponent,
+  ErrorComponent,
+  ShareDialogComponent,
+  AdfConfirmDialogComponent
 } from '../components';
 
 export class PersonalFilesPage extends BasePage {
@@ -58,6 +61,9 @@ export class PersonalFilesPage extends BasePage {
   public sidenav = new SidenavComponent(this.page);
   public createFromTemplateDialogComponent = new CreateFromTemplateDialogComponent(this.page);
   public pagination = new PaginationComponent(this.page);
+  public errorDialog = new ErrorComponent(this.page);
+  public shareDialog= new ShareDialogComponent(this.page);
+  public confirmDialog = new AdfConfirmDialogComponent(this.page);
 
   async selectCreateFolder(): Promise<void> {
     await this.acaHeader.createButton.click();

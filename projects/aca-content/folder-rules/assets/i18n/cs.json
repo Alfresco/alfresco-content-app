@@ -8,15 +8,15 @@
       "CREATE": "Vytvořit",
       "CREATE_TITLE": "Vytvořit pravidlo",
       "UPDATE": "Aktualizovat",
-      "UPDATE_TITLE": "Edit a rule"
+      "UPDATE_TITLE": "Upravit pravidlo"
     },
     "RULE_DETAILS": {
       "LABEL": {
         "NAME": "Název",
         "DESCRIPTION": "Popis",
         "WHEN": "Když",
-        "PERFORM_ACTIONS": "Perform actions",
-        "OPTIONS": "Other options"
+        "PERFORM_ACTIONS": "Provádějte akce",
+        "OPTIONS": "Jiné možnosti"
       },
       "PLACEHOLDER": {
         "NAME": "Zadejte název pravidla",
@@ -36,10 +36,10 @@
         "OUTBOUND": "Položky jsou odstraněny nebo opouští tuto složku"
       },
       "OPTIONS": {
-        "IS_INHERITABLE": "Rule applies to subfolders",
-        "IS_ASYNCHRONOUS": "Run rule in the background",
-        "DISABLE_RULE": "Disable rule",
-        "ERROR_SCRIPT": "If errors occur run script",
+        "IS_INHERITABLE": "Pravidlo platí pro podsložky",
+        "IS_ASYNCHRONOUS": "Spustit pravidlo na pozadí",
+        "DISABLE_RULE": "Zakázat pravidlo",
+        "ERROR_SCRIPT": "Pokud se vyskytnou chyby, spusťte  skript",
         "NO_SCRIPT": "Žádný"
       },
       "COMPARATORS": {
@@ -74,8 +74,8 @@
         "OR": "Nebo"
       },
       "CONDITION_BUTTONS": {
-        "ADD_CONDITION": "Add condition",
-        "ADD_GROUP": "Add condition group",
+        "ADD_CONDITION": "Přidat podmínku",
+        "ADD_GROUP": "Přidat skupinu podmínek",
         "REMOVE": "Odebrat"
       },
       "NO_CONDITIONS": "Žádné podmínky",
@@ -84,7 +84,7 @@
         "ADD_ACTION": "Přidat akci",
         "REMOVE": "Odebrat"
       },
-      "ACTION_SELECT_PLACEHOLDER": "Select an action"
+      "ACTION_SELECT_PLACEHOLDER": "Vyberte akci"
     },
     "MANAGE_RULES": {
       "TOOLBAR": {

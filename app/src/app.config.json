@@ -1037,8 +1037,11 @@
           "selector": "date-range",
           "settings": {
             "field": "cm:created",
-            "dateFormat": "DD-MMM-YY",
-            "maxDate": "today"
+            "dateFormat": "dd-MMM-yy",
+            "maxDate": "today",
+            "displayedLabelsByField": {
+              "cm:created": "SEARCH.SEARCH_HEADER.FILTERS.DATE.TITLE"
+            }
           }
         }
       }
@@ -1134,6 +1137,7 @@
     "downloadPromptDelay": 50,
     "downloadPromptReminderDelay": 30,
     "enableFileAutoDownload": true,
-    "fileAutoDownloadSizeThresholdInMB": 15
+    "fileAutoDownloadSizeThresholdInMB": 15,
+    "closeButtonPosition": "right"
   }
 }
