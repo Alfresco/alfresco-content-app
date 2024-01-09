@@ -23,8 +23,8 @@
  */
 
 import { by } from 'protractor';
-import { GenericDialog } from '../dialog/generic-dialog';
-import { isPresentAndEnabled, typeText } from '../../utilities/utils';
+import { GenericDialog } from './generic-dialog';
+import { isPresentAndEnabled, typeText } from '../../utilities';
 
 export class UploadNewVersionDialog extends GenericDialog {
   cancelButton = this.childElement(by.cssContainingText('.mat-button-wrapper', 'Cancel'));

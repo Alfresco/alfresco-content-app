@@ -23,72 +23,19 @@
  */
 
 import { by } from 'protractor';
-import { DateTimePicker } from '../../components/datetime-picker/datetime-picker';
-import { GenericDialog } from '../dialog/generic-dialog';
-import { isPresentAndEnabled } from '../../utilities/utils';
-import { BrowserActions } from '@alfresco/adf-testing';
+import { GenericDialog } from './generic-dialog';
 
 export class ShareDialog extends GenericDialog {
-  dateTimePicker = new DateTimePicker();
-
-  dialogTitle = this.childElement(by.css(`[data-automation-id='adf-share-dialog-title']`));
-  infoText = this.childElement(by.css('.adf-share-link__info'));
   labels = this.rootElem.all(by.css('.adf-share-link__label'));
-  shareToggle = this.childElement(by.css(`[data-automation-id='adf-share-toggle']`));
   url = this.childElement(by.css(`[data-automation-id='adf-share-link']`));
-  urlAction = this.childElement(by.css('.adf-input-action'));
-  expireToggle = this.childElement(by.css(`[data-automation-id='adf-expire-toggle']`));
-  expireInput = this.childElement(by.css('input[formcontrolname="time"]'));
-  datetimePickerButton = this.childElement(by.css('.mat-datepicker-toggle'));
-
   closeButton = this.childElement(by.css(`[data-automation-id='adf-share-dialog-close']`));
 
   constructor() {
     super('.adf-share-dialog');
   }
 
-  async getDialogTitle(): Promise<string> {
-    return this.dialogTitle.getText();
-  }
-
-  async getInfoText(): Promise<string> {
-    return this.infoText.getText();
-  }
-
-  async getLinkUrl(): Promise<string> {
-    return BrowserActions.getInputValue(this.url);
-  }
-
-  async isUrlReadOnly(): Promise<boolean> {
-    const urlAttr = await this.url.getAttribute('readonly');
-    return urlAttr === 'true';
-  }
-
-  async isCloseEnabled(): Promise<boolean> {
-    return isPresentAndEnabled(this.closeButton);
-  }
-
   async clickClose(): Promise<void> {
     await this.closeButton.click();
     await this.waitForDialogToClose();
-  }
-
-  async isShareToggleChecked(): Promise<boolean> {
-    const toggleClass = await this.shareToggle.getAttribute('class');
-    return toggleClass.includes('checked');
-  }
-
-  async isShareToggleDisabled(): Promise<boolean> {
-    const toggleClass = await this.shareToggle.getAttribute('class');
-    return toggleClass.includes('mat-disabled');
-  }
-
-  async isExpireToggleEnabled(): Promise<boolean> {
-    const toggleClass = await this.expireToggle.getAttribute('class');
-    return toggleClass.includes('checked');
-  }
-
-  async getExpireDate(): Promise<string> {
-    return BrowserActions.getInputValue(this.expireInput);
   }
 }

@@ -25,9 +25,9 @@
 import { by, browser } from 'protractor';
 import { Component } from '../component';
 import { Menu } from '../menu/menu';
-import { Toolbar } from './../toolbar/toolbar';
-import { SearchInput } from '../search/search-input';
-import { waitElement } from '../../utilities/utils';
+import { Toolbar } from '../toolbar/toolbar';
+import { SearchInput } from '../search';
+import { waitElement } from '../../utilities';
 import { BrowserActions } from '@alfresco/adf-testing';
 
 export class Header extends Component {
@@ -45,11 +45,6 @@ export class Header extends Component {
   async openMoreMenu(): Promise<void> {
     await BrowserActions.click(this.userMenuButton);
     await this.menu.waitForMenuToOpen();
-  }
-
-  async closeMoreMenu(): Promise<void> {
-    await BrowserActions.click(this.userMenuButton);
-    await this.menu.waitForMenuToClose();
   }
 
   async isSidenavExpanded(): Promise<boolean> {

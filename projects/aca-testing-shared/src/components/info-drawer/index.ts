@@ -23,6 +23,5 @@
  */
 
 export * from './info-drawer-comments-tab';
-export * from './info-drawer-metadata-content';
 export * from './info-drawer-metadata-library';
 export * from './info-drawer';

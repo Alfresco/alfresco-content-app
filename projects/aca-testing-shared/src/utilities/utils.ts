@@ -86,13 +86,6 @@ export class Utils {
     return crypto.getRandomValues(new Uint32Array(1))[0].toString(36).substring(0, 5).toLowerCase();
   }
 
-  static async setSessionStorageFromConfig(configFileName: string): Promise<void> {
-    const configFile = `${browser.params.e2eRootPath}/resources/extensibility-configs/${configFileName}`;
-    const fileContent = JSON.stringify(fs.readFileSync(configFile, { encoding: 'utf8' }));
-
-    await browser.executeScript(`window.sessionStorage.setItem('app.extension.config', ${fileContent});`);
-  }
-
   static retryCall(fn: () => Promise<any>, retry: number = 30, delay: number = 1500): Promise<any> {
     const pause = (duration: number) => new Promise((res) => setTimeout(res, duration));
 
@@ -182,10 +175,6 @@ export class Utils {
 
   static async releaseKeyPressed(): Promise<void> {
     await browser.actions().sendKeys(protractor.Key.NULL).perform();
-  }
-
-  static formatDate(date: string): string {
-    return new Date(date).toLocaleDateString('en-US');
   }
 
   static async uploadFileNewVersion(fileFromOS: string): Promise<void> {

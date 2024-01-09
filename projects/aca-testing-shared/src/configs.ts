@@ -94,13 +94,3 @@ export const FILES = {
   },
   jpgFile: 'file-jpg.jpg'
 };
-
-export const EXTENSIBILITY_CONFIGS = {
-  INFO_DRAWER: 'info-drawer-ext.json',
-  INFO_DRAWER_EMPTY: 'info-drawer-no-tabs-ext.json',
-  VIEWER: 'viewer-ext.json',
-  HEADER: 'header-ext.json',
-  METADATA_PRESETS: 'metadata-ext.json',
-  DOCUMENT_LIST_PRESETS: 'document-presets-ext.json',
-  CONTEXT_SUBMENUS: 'context-submenus-ext.json'
-};
