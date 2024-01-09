@@ -22,11 +22,11 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, browser, By, element } from 'protractor';
+import { by, browser, By, element } from 'protractor';
 import { BrowserActions } from '@alfresco/adf-testing';
 import { Menu } from '../menu/menu';
 import { Component } from '../component';
-import { Utils } from '../../utilities/utils';
+import { Utils } from '../../utilities';
 
 export class Toolbar extends Component {
   menu = new Menu();
@@ -34,10 +34,8 @@ export class Toolbar extends Component {
   buttons = this.allByCss('button');
   createButton = element(By.css('[id="app.toolbar.create"]'));
   uploadButton = element(By.css('[id="app.toolbar.upload"]'));
-  shareButton = element(By.css('button[data-automation-id="share-action-button"]'));
   downloadButton = element(By.css(`.mat-icon-button[title='Download']`));
   viewDetailsButton = element(By.css(`button[title='View Details']`));
-  printButton = element(By.css(`button[title='Print']`));
   permanentlyDeleteButton = element(By.css(`button[title='Permanently Delete']`));
   restoreButton = element(By.css(`button[title='Restore']`));
   searchIconButton = element(By.css(`button[title='Search']`));
@@ -52,25 +50,8 @@ export class Toolbar extends Component {
     return element.isPresent();
   }
 
-  getButtonByTitleAttribute(title: string) {
-    return this.byCss(`button[title="${title}"]`);
-  }
-
-  getButtonById(id: string) {
-    return this.component.element(by.id(id));
-  }
-
   async clickSearchIconButton() {
     await BrowserActions.click(this.searchIconButton);
-  }
-
-  async openViewerMoreMenu(): Promise<void> {
-    const btnMoreActions = element(By.css('button[id="app.viewer.toolbar.more"]'));
-    await btnMoreActions.isPresent();
-    await BrowserActions.click(btnMoreActions);
-
-    await this.menu.waitForMenuToOpen();
-    await browser.sleep(500);
   }
 
   async openMoreMenu(): Promise<void> {
@@ -84,18 +65,6 @@ export class Toolbar extends Component {
 
   async closeMoreMenu() {
     await Utils.pressEscape();
-  }
-
-  async getButtonTooltip(button: ElementFinder): Promise<string> {
-    return button.getAttribute('title');
-  }
-
-  async clickButton(title: string): Promise<void> {
-    await BrowserActions.click(this.getButtonByTitleAttribute(title));
-  }
-
-  async isPrintPresent() {
-    return browser.isElementPresent(this.printButton);
   }
 
   async openUploadMenu(): Promise<void> {
@@ -126,11 +95,6 @@ export class Toolbar extends Component {
   async clickMoreActionsManageVersions(): Promise<void> {
     await this.openMoreMenu();
     await this.menu.clickMenuItem('Manage Versions');
-  }
-
-  async clickMoreActionsMove(): Promise<void> {
-    await this.openMoreMenu();
-    await this.menu.clickMenuItem('Move');
   }
 
   async clickMoreActionsCopy(): Promise<void> {

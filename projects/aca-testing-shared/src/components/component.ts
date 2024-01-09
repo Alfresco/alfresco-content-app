@@ -23,7 +23,7 @@
  */
 
 import { ElementFinder, browser, by, ElementArrayFinder, ProtractorBrowser } from 'protractor';
-import { waitForPresence } from '../utilities/utils';
+import { waitForPresence } from '../utilities';
 
 export abstract class Component {
   component: ElementFinder;

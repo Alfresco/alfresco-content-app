@@ -22,11 +22,10 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { browser, by, element, ElementFinder } from 'protractor';
-import { BrowserActions, Logger } from '@alfresco/adf-testing';
+import { browser } from 'protractor';
 import { Component } from '../component';
 import { Toolbar } from '../toolbar/toolbar';
-import { waitForPresence } from '../../utilities/utils';
+import { waitForPresence } from '../../utilities';
 
 export class Viewer extends Component {
   root = browser.$('adf-viewer');
@@ -34,8 +33,6 @@ export class Viewer extends Component {
   viewerContainer = this.byCss('.adf-viewer-render-content-container');
   closeButton = this.byCss('.adf-viewer-close-button');
   fileTitle = this.byCss('.adf-viewer__file-title');
-  viewerExtensionContent = this.byCss('adf-preview-extension');
-  txtViewerContent = this.byCss('.adf-txt-viewer-content');
 
   toolbar = new Toolbar('adf-viewer');
 
@@ -48,7 +45,7 @@ export class Viewer extends Component {
       await waitForPresence(this.viewerContainer);
       await waitForPresence(this.viewerLayout);
     } catch (error) {
-      Logger.error('\n-----> catch waitForViewerToOpen <-----\n', error);
+      console.error('\n-----> catch waitForViewerToOpen <-----\n', error);
     }
   }
 
@@ -57,16 +54,7 @@ export class Viewer extends Component {
       const fileName = this.byCssText('.adf-viewer__display-name', `${fileTitle}`);
       await waitForPresence(fileName);
     } catch (error) {
-      Logger.error('\n-----> catch waitForFileTitle <-----\n', error);
-    }
-  }
-
-  async waitForTxtViewerToLoad(): Promise<void> {
-    try {
-      await this.waitForViewerToOpen();
-      await waitForPresence(this.txtViewerContent);
-    } catch (error) {
-      Logger.error('\n-----> catch waitForTxtViewerToLoad <-----\n', error);
+      console.error('\n-----> catch waitForFileTitle <-----\n', error);
     }
   }
 
@@ -74,36 +62,7 @@ export class Viewer extends Component {
     return browser.isElementPresent(this.viewerLayout);
   }
 
-  async isViewerToolbarDisplayed() {
-    return browser.isElementPresent(this.toolbar.component);
-  }
-
-  async isCloseButtonDisplayed() {
-    return browser.isElementPresent(this.closeButton);
-  }
-
-  async isFileTitleDisplayed() {
-    return browser.isElementPresent(this.fileTitle);
-  }
-
   async getFileTitle(): Promise<string> {
     return this.fileTitle.getText();
-  }
-
-  async isCustomContentPresent() {
-    return browser.isElementPresent(this.viewerExtensionContent);
-  }
-
-  async getComponentIdOfView(): Promise<string> {
-    if (await this.isCustomContentPresent()) {
-      return this.viewerExtensionContent.getAttribute('data-automation-id');
-    }
-
-    return '';
-  }
-
-  async clickCloseButton(): Promise<void> {
-    const closeButton: ElementFinder = element(by.css('button.adf-viewer-close-button'));
-    await BrowserActions.click(closeButton);
   }
 }

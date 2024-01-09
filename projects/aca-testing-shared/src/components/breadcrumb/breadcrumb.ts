@@ -26,7 +26,6 @@ import { Component } from '../component';
 
 export class Breadcrumb extends Component {
   items = this.allByCss('.adf-breadcrumb-item');
-  currentItem = this.byCss('.adf-breadcrumb-item-current');
 
   constructor(ancestor?: string) {
     super('adf-breadcrumb', ancestor);

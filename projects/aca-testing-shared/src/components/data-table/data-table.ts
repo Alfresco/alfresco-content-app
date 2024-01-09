@@ -22,12 +22,11 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { browser, by, ElementArrayFinder, ElementFinder, protractor } from 'protractor';
+import { browser, by, ElementArrayFinder, ElementFinder } from 'protractor';
 import { BrowserVisibility, Logger } from '@alfresco/adf-testing';
-import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
 import { Menu } from '../menu/menu';
-import { Utils, waitForPresence } from '../../utilities/utils';
+import { Utils, waitForPresence } from '../../utilities';
 
 export class DataTable extends Component {
   private static selectors = {
@@ -65,15 +64,6 @@ export class DataTable extends Component {
     return waitForPresence(this.body, '--- timeout waitForBody ---');
   }
 
-  async waitForEmptyState(): Promise<void> {
-    return waitForPresence(this.emptyList);
-  }
-
-  async waitForFirstElementToChange(name: string): Promise<void> {
-    const firstElementWithName = this.byCss(`[data-automation-id='datatable-row-0'][aria-label='${name}']`);
-    await BrowserVisibility.waitUntilElementIsNotVisible(firstElementWithName);
-  }
-
   private getColumnHeaders(): ElementArrayFinder {
     const locator = by.css(DataTable.selectors.columnHeader);
     return this.head.all(locator);
@@ -81,46 +71,6 @@ export class DataTable extends Component {
 
   async getColumnHeadersText(): Promise<string> {
     return this.getColumnHeaders().getText();
-  }
-
-  getColumnHeaderByLabel(label: string): ElementFinder {
-    const locator = by.cssContainingText(DataTable.selectors.columnHeader, label);
-    return this.head.element(locator);
-  }
-
-  async sortBy(label: string, order: 'asc' | 'desc'): Promise<void> {
-    const sortColumn = await this.getSortedColumnHeaderText();
-    let sortOrder = await this.getSortingOrder();
-    if (sortColumn !== label) {
-      await browser.actions().mouseMove(this.getColumnHeaderByLabel(label)).perform();
-      await this.getColumnHeaderByLabel(label).click();
-      sortOrder = await this.getSortingOrder();
-    }
-    if (sortOrder !== order) {
-      await this.getColumnHeaderByLabel(label).click();
-    }
-  }
-
-  private getSortedColumnHeader(): ElementFinder {
-    const locator = by.css(DataTable.selectors.sortedColumnHeader);
-    return this.head.element(locator);
-  }
-
-  async getSortedColumnHeaderText(): Promise<string> {
-    return this.getSortedColumnHeader().getText();
-  }
-
-  async getSortingOrder(): Promise<string> {
-    const str = await this.getSortedColumnHeader().element(by.xpath('../..')).getAttribute('class');
-    if (str.includes('asc')) {
-      return 'asc';
-    }
-
-    if (str.includes('desc')) {
-      return 'desc';
-    }
-
-    return 'none';
   }
 
   private getRows(): ElementArrayFinder {
@@ -155,18 +105,6 @@ export class DataTable extends Component {
 
   private getRowFirstCell(name: string, location: string = ''): ElementFinder {
     return this.getRowCells(name, location).get(0);
-  }
-
-  private getRowNameCell(name: string, location: string = ''): ElementFinder {
-    return this.getRowCells(name, location).get(1);
-  }
-
-  private getRowNameCellSpan(name: string, location: string = ''): ElementFinder {
-    return this.getRowNameCell(name, location).$('span');
-  }
-
-  async getItemNameTooltip(name: string, location: string = ''): Promise<string> {
-    return this.getRowNameCellSpan(name, location).getAttribute('title');
   }
 
   async hasCheckMarkIcon(itemName: string, location: string = ''): Promise<boolean> {
@@ -250,28 +188,8 @@ export class DataTable extends Component {
     }
   }
 
-  async rightClickOnItem(itemName: string): Promise<void> {
-    const item = this.getRowFirstCell(itemName);
-    await browser.actions().mouseMove(item).perform();
-    await browser.actions().click(protractor.Button.RIGHT).perform();
-  }
-
   private getItemLocationEl(name: string): ElementFinder {
     return this.getRowByName(name).element(by.css('.aca-location-link'));
-  }
-
-  async getItemLocation(name: string): Promise<string> {
-    return this.getItemLocationEl(name).getText();
-  }
-
-  async getItemLocationTooltip(name: string): Promise<string> {
-    const location = this.getItemLocationEl(name).$('a');
-    const condition = () => location.getAttribute('title').then((value) => value && value.length > 0);
-
-    await browser.actions().mouseMove(location).perform();
-
-    await browser.wait(condition, BROWSER_WAIT_TIMEOUT);
-    return location.getAttribute('title');
   }
 
   async clickItemLocation(name: string): Promise<void> {
@@ -296,25 +214,6 @@ export class DataTable extends Component {
       return this.emptyListSubtitle.getText();
     }
     return '';
-  }
-
-  async getEmptyListText(): Promise<string> {
-    const isEmpty = await this.isEmpty();
-    if (isEmpty) {
-      return this.byCss('adf-custom-empty-content-template').getText();
-    }
-    return '';
-  }
-
-  async getCellsContainingName(name: string): Promise<string[]> {
-    const rows = this.getRows().all(by.cssContainingText(DataTable.selectors.cell, name));
-    return rows.map(async (cell) => {
-      return cell.getText();
-    });
-  }
-
-  async getLibraryRole(name: string): Promise<string> {
-    return this.getRowByName(name).element(by.css('adf-library-role-column')).getText();
   }
 
   async isItemPresent(name: string, location?: string): Promise<boolean> {

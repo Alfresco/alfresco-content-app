@@ -23,8 +23,8 @@
  */
 
 import { by } from 'protractor';
-import { GenericDialog } from '../dialog/generic-dialog';
-import { isPresentAndDisplayed, isPresentAndEnabled, typeText } from '../../utilities/utils';
+import { GenericDialog } from './generic-dialog';
+import { isPresentAndDisplayed, isPresentAndEnabled, typeText } from '../../utilities';
 import { BrowserActions, BrowserVisibility } from '@alfresco/adf-testing';
 
 export class CreateOrEditFolderDialog extends GenericDialog {
