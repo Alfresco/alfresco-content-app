@@ -582,6 +582,10 @@
           "description": "Toggles sortable state of the column",
           "type": "boolean"
         },
+        "resizable": {
+          "description": "Toggles resizable state of the column",
+          "type": "boolean"
+        },
         "template": {
           "description": "Column template id",
           "type": "string"
