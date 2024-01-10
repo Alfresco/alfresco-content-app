@@ -24,8 +24,9 @@
 
 import { by, browser } from 'protractor';
 import { Component } from '../component';
-import { isPresentAndDisplayed } from '../../utilities/utils';
-import { BrowserActions, BrowserVisibility } from '@alfresco/adf-testing';
+import { isPresentAndDisplayed } from '../../utilities';
+import { BrowserActions } from '@alfresco/adf-testing';
+import { waitUntilElementIsVisible } from '../../utilities';
 
 export type SortByType = 'Relevance' | 'Title' | 'Filename' | 'Modified date' | 'Modifier' | 'Created date' | 'Size' | 'Type';
 export class SearchSortingPicker extends Component {
@@ -39,11 +40,7 @@ export class SearchSortingPicker extends Component {
   }
 
   async waitForSortByDropdownToExpand(): Promise<void> {
-    await BrowserVisibility.waitUntilElementIsVisible(
-      this.sortByDropdownExpanded,
-      BrowserVisibility.DEFAULT_TIMEOUT,
-      'Timeout waiting for sortBy dropdown to expand'
-    );
+    await waitUntilElementIsVisible(this.sortByDropdownExpanded);
   }
 
   async isSortOrderButtonDisplayed(): Promise<boolean> {

@@ -23,10 +23,9 @@
  */
 
 import { browser, by, ElementArrayFinder, ElementFinder } from 'protractor';
-import { BrowserVisibility } from '@alfresco/adf-testing';
 import { Component } from '../component';
 import { Menu } from '../menu/menu';
-import { Utils, waitForPresence } from '../../utilities';
+import { Utils, waitForPresence, waitUntilElementIsClickable } from '../../utilities';
 
 export class DataTable extends Component {
   private static selectors = {
@@ -133,7 +132,7 @@ export class DataTable extends Component {
   async doubleClickOnRowByName(name: string, location: string = ''): Promise<void> {
     try {
       const item = this.getRowFirstCell(name, location);
-      await BrowserVisibility.waitUntilElementIsClickable(item);
+      await waitUntilElementIsClickable(item);
       await browser.actions().mouseMove(item).perform();
       await browser.actions().doubleClick().perform();
     } catch (error) {

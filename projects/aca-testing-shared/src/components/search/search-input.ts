@@ -25,7 +25,8 @@
 import { browser, by } from 'protractor';
 import { Component } from '../component';
 import { waitElement, waitForPresence } from '../../utilities/utils';
-import { BrowserActions, BrowserVisibility, TestElement } from '@alfresco/adf-testing';
+import { BrowserActions, TestElement } from '@alfresco/adf-testing';
+import { waitUntilElementIsClickable } from '../../utilities';
 
 export class SearchInput extends Component {
   get searchButton() {
@@ -143,12 +144,12 @@ export class SearchInput extends Component {
   }
 
   async searchForLibrary(text: string) {
-    await BrowserVisibility.waitUntilElementIsClickable(this.searchInput.elementFinder);
+    await waitUntilElementIsClickable(this.searchInput.elementFinder);
     await this.searchInput.typeText(text);
   }
 
   async searchFor(text: string) {
-    await BrowserVisibility.waitUntilElementIsClickable(this.searchInput.elementFinder);
+    await waitUntilElementIsClickable(this.searchInput.elementFinder);
     await this.searchInput.typeText(text);
     await BrowserActions.click(this.searchButton);
   }

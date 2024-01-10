@@ -23,10 +23,10 @@
  */
 
 import { browser, protractor, ElementFinder, ExpectedConditions as EC, by, until, WebElement } from 'protractor';
-import { BrowserVisibility } from '@alfresco/adf-testing';
 import { BROWSER_WAIT_TIMEOUT } from '../configs';
 import * as path from 'path';
 import * as fs from 'fs';
+import { waitUntilElementIsPresent, waitUntilElementIsVisible } from './browser-visibility';
 
 const StreamZip = require('node-stream-zip');
 const crypto = require('crypto');
@@ -55,7 +55,7 @@ export async function waitForStaleness(element: ElementFinder, errorMessage?: st
 
 export const isPresentAndEnabled = async (element: ElementFinder): Promise<boolean> => {
   try {
-    await BrowserVisibility.waitUntilElementIsPresent(element);
+    await waitUntilElementIsPresent(element);
     return element.isEnabled();
   } catch (error) {
     return false;
@@ -64,7 +64,7 @@ export const isPresentAndEnabled = async (element: ElementFinder): Promise<boole
 
 export const isPresentAndDisplayed = async (element: ElementFinder): Promise<boolean> => {
   try {
-    await BrowserVisibility.waitUntilElementIsVisible(element);
+    await waitUntilElementIsVisible(element);
     return true;
   } catch (error) {
     return false;

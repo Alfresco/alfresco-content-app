@@ -23,11 +23,11 @@
  */
 
 import { browser } from 'protractor';
-import { BrowserActions, BrowserVisibility, TestElement } from '@alfresco/adf-testing';
+import { BrowserActions, TestElement } from '@alfresco/adf-testing';
 import { Component } from '../component';
 import { CommentsTab } from './info-drawer-comments-tab';
 import { LibraryMetadata } from './info-drawer-metadata-library';
-import { waitForPresence } from '../../utilities';
+import { waitForPresence, waitUntilElementIsVisible } from '../../utilities';
 import { Toolbar } from '../toolbar/toolbar';
 
 export class InfoDrawer extends Component {
@@ -90,7 +90,7 @@ export class InfoDrawer extends Component {
     try {
       await BrowserActions.click(this.getTabByTitle('Comments'));
       await this.commentsTab.waitForCommentsContainer();
-      await Promise.all([BrowserVisibility.waitUntilElementIsVisible(this.commentsTab.component)]);
+      await waitUntilElementIsVisible(this.commentsTab.component);
     } catch (error) {
       console.error('--- info-drawer clickCommentsTab catch error: ', error);
     }
