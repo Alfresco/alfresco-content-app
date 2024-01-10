@@ -23,7 +23,7 @@
  */
 
 import { browser, ElementFinder, protractor } from 'protractor';
-import { waitUntilElementIsClickable, waitUntilElementIsVisible } from './browser-visibility';
+import { waitUntilElementHasValue, waitUntilElementIsClickable, waitUntilElementIsVisible } from './browser-visibility';
 
 export async function click(elementToClick: ElementFinder): Promise<void> {
   try {
@@ -57,4 +57,28 @@ export async function getInputValue(elementFinder: ElementFinder): Promise<strin
 
 export async function getUrl(url: string, timeout: number = 10000): Promise<any> {
   return browser.get(url, timeout);
+}
+
+export async function clearSendKeys(elementFinder: ElementFinder, text: string = '', sleepTime: number = 0): Promise<void> {
+  await this.click(elementFinder);
+  await elementFinder.sendKeys('');
+  await elementFinder.clear();
+
+  if (sleepTime === 0) {
+    await elementFinder.sendKeys(text);
+  } else {
+    // eslint-disable-next-line @typescript-eslint/prefer-for-of
+    for (let i = 0; i < text.length; i++) {
+      await elementFinder.sendKeys(text[i]);
+      await browser.sleep(sleepTime);
+    }
+  }
+
+  try {
+    if (text !== protractor.Key.SPACE && text !== protractor.Key.ENTER) {
+      await waitUntilElementHasValue(elementFinder, text, 1000);
+    }
+  } catch (e) {
+    console.info(`Set value different from the input`);
+  }
 }

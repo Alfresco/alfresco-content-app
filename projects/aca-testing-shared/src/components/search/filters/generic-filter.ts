@@ -23,8 +23,7 @@
  */
 
 import { ElementFinder, by, browser, element } from 'protractor';
-import { isPresentAndDisplayed, Utils, waitUntilElementIsVisible, waitUntilElementIsNotVisible } from '../../../utilities';
-import { TestElement } from '@alfresco/adf-testing';
+import { isPresentAndDisplayed, Utils, waitUntilElementIsVisible, waitUntilElementIsNotVisible, TestElement } from '../../../utilities';
 
 async function waitUntilActionMenuIsVisible(): Promise<void> {
   const actionMenu = element.all(by.css('div[role="menu"]')).first();

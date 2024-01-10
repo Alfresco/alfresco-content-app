@@ -23,11 +23,10 @@
  */
 
 import { browser } from 'protractor';
-import { TestElement } from '@alfresco/adf-testing';
 import { Component } from '../component';
 import { CommentsTab } from './info-drawer-comments-tab';
 import { LibraryMetadata } from './info-drawer-metadata-library';
-import { click, waitForPresence, waitUntilElementIsVisible } from '../../utilities';
+import { click, TestElement, waitForPresence, waitUntilElementIsVisible } from '../../utilities';
 import { Toolbar } from '../toolbar/toolbar';
 
 export class InfoDrawer extends Component {

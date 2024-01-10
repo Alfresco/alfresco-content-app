@@ -23,6 +23,7 @@
  */
 
 import { browser, ElementFinder, protractor } from 'protractor';
+import { falseIfMissing } from 'protractor/built/util';
 
 export async function waitUntilElementIsVisible(
   elementToCheck: ElementFinder,
@@ -50,6 +51,24 @@ export async function waitUntilElementIsClickable(elementToCheck: ElementFinder,
 
 export async function waitUntilElementIsPresent(elementToCheck: ElementFinder, waitTimeout: number = 10000): Promise<any> {
   return browser.wait(protractor.ExpectedConditions.presenceOf(elementToCheck), waitTimeout, 'Element is not present ' + elementToCheck.locator());
+}
+
+export async function waitUntilElementIsNotPresent(elementToCheck: ElementFinder, waitTimeout: number = 10000): Promise<any> {
+  return browser.wait(protractor.ExpectedConditions.stalenessOf(elementToCheck), waitTimeout, 'Element is present ' + elementToCheck.locator());
+}
+
+function textToBePresentInElementValue(elementFinder: ElementFinder, text: string) {
+  const hasText = async () =>
+    browser.executeScript(`return arguments[0].value`, elementFinder).then((actualText: string) => actualText.indexOf(text) > -1, falseIfMissing);
+  return protractor.ExpectedConditions.and(protractor.ExpectedConditions.presenceOf(elementFinder), hasText);
+}
+
+export async function waitUntilElementHasValue(elementToCheck: ElementFinder, elementValue, waitTimeout: number = 10000): Promise<any> {
+  return browser.wait(
+    textToBePresentInElementValue(elementToCheck, elementValue),
+    waitTimeout,
+    `Element doesn't have a value ${elementValue} ${elementToCheck.locator()}`
+  );
 }
 
 export async function waitUntilElementHasText(elementToCheck: ElementFinder, text, waitTimeout: number = 10000): Promise<any> {

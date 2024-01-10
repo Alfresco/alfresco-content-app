@@ -24,8 +24,7 @@
 
 import { browser, by } from 'protractor';
 import { Component } from '../component';
-import { click, waitElement, waitForPresence, waitUntilElementIsClickable, getUrl } from '../../utilities';
-import { TestElement } from '@alfresco/adf-testing';
+import { click, waitElement, waitForPresence, waitUntilElementIsClickable, getUrl, TestElement } from '../../utilities';
 
 export class SearchInput extends Component {
   get searchButton() {
