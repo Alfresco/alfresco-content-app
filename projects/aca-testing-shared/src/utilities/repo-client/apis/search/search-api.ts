@@ -23,8 +23,8 @@
  */
 
 import { RepoApi } from '../repo-api';
-import { ApiUtil } from '@alfresco/adf-testing';
 import { Utils } from '../../../utils';
+import { waitForApi } from '../../../api';
 import { SearchApi as AdfSearchApi } from '@alfresco/js-api';
 
 export class SearchApi extends RepoApi {
@@ -113,7 +113,7 @@ export class SearchApi extends RepoApi {
     };
 
     try {
-      await ApiUtil.waitForApi(apiCall, predicate, 30, 2500);
+      await waitForApi(apiCall, predicate, 30, 2500);
     } catch (error) {
       console.error(`SearchApi waitForNodes : catch : `);
       console.error(`\tExpected: ${data.expect} items, but found ${error}`);

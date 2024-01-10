@@ -22,11 +22,25 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './repo-client/apis';
-export * from './repo-client/repo-client';
-export * from './admin-actions';
-export * from './user-actions';
-export * from './utils';
-export * from './browser-visibility';
-export * from './browser-actions';
-export * from './api';
+export type ApiResultPredicate<T> = (result: T) => boolean;
+export type ApiCall<T> = () => Promise<T>;
+
+export async function waitForApi<T>(apiCall: ApiCall<T>, predicate: ApiResultPredicate<T>, retry: number = 30, delay: number = 1000) {
+  const apiCallWithPredicateChecking = async () => {
+    const apiCallResult = await apiCall();
+    if (predicate(apiCallResult)) {
+      return Promise.resolve(apiCallResult);
+    } else {
+      return Promise.reject(apiCallResult);
+    }
+  };
+
+  return retryCall(apiCallWithPredicateChecking, retry, delay);
+}
+
+function retryCall(fn: () => Promise<any>, retry: number = 30, delay: number = 1000): Promise<any> {
+  const pause = (duration) => new Promise((res) => setTimeout(res, duration));
+  const run = (retries) => fn().catch((err) => (retries > 1 ? pause(delay).then(() => run(retries - 1)) : Promise.reject(err)));
+
+  return run(retry);
+}

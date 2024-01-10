@@ -25,8 +25,8 @@
 import * as fs from 'fs';
 import { ApiClientFactory } from './api-client-factory';
 import { Utils } from '../utils';
-import { ApiUtil } from '@alfresco/adf-testing';
 import { NodeBodyCreate, NodeEntry, ResultSetPaging } from '@alfresco/js-api';
+import { waitForApi } from '@alfresco/aca-testing-shared';
 
 export class FileActionsApi {
   private apiService: ApiClientFactory;
@@ -159,7 +159,7 @@ export class FileActionsApi {
     };
 
     try {
-      await ApiUtil.waitForApi(apiCall, predicate, 30, 2500);
+      await waitForApi(apiCall, predicate, 30, 2500);
     } catch {}
   }
 
