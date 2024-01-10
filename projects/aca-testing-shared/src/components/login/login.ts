@@ -23,7 +23,7 @@
  */
 
 import { Component } from '../component';
-import { typeText } from '../../utilities/utils';
+import { typeText } from '../../utilities';
 
 export class LoginComponent extends Component {
   usernameInput = this.byCss('input#username');

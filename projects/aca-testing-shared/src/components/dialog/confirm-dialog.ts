@@ -23,14 +23,13 @@
  */
 
 import { by } from 'protractor';
-import { GenericDialog } from '../dialog/generic-dialog';
-import { isPresentAndEnabled } from '../../utilities/utils';
+import { GenericDialog } from './generic-dialog';
+import { isPresentAndEnabled } from '../../utilities';
 
 export class ConfirmDialog extends GenericDialog {
   cancelButton = this.childElement(by.buttonText('Cancel'));
   keepButton = this.childElement(by.buttonText('Keep'));
   deleteButton = this.childElement(by.buttonText('Delete'));
-  removeButton = this.childElement(by.buttonText('Remove'));
 
   constructor() {
     super('adf-confirm-dialog');
@@ -40,19 +39,11 @@ export class ConfirmDialog extends GenericDialog {
     return this.content.getText();
   }
 
-  async isCancelEnabled(): Promise<boolean> {
-    return isPresentAndEnabled(this.cancelButton);
-  }
-
   async isKeepEnabled(): Promise<boolean> {
     return isPresentAndEnabled(this.keepButton);
   }
 
   async isDeleteEnabled(): Promise<boolean> {
     return isPresentAndEnabled(this.deleteButton);
-  }
-
-  async isRemoveEnabled(): Promise<boolean> {
-    return isPresentAndEnabled(this.removeButton);
   }
 }

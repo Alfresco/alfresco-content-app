@@ -23,10 +23,10 @@
  */
 
 import { browser } from 'protractor';
-import { LoginComponent } from '../components/components';
+import { LoginComponent } from '../components';
 import { Page } from './page';
 import { APP_ROUTES } from '../configs';
-import { waitForPresence } from '../utilities/utils';
+import { waitForPresence } from '../utilities';
 import { BrowserActions, Logger } from '@alfresco/adf-testing';
 
 export class LoginPage extends Page {

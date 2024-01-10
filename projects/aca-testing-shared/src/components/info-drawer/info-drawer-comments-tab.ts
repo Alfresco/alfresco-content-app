@@ -25,7 +25,7 @@
 import { by, browser, until } from 'protractor';
 import { Component } from '../component';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
-import { typeText } from '../../utilities/utils';
+import { typeText } from '../../utilities';
 import { BrowserActions, BrowserVisibility } from '@alfresco/adf-testing';
 
 export class CommentsTab extends Component {

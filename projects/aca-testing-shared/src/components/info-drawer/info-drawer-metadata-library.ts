@@ -25,7 +25,7 @@
 import { by, browser } from 'protractor';
 import { BrowserActions, Logger } from '@alfresco/adf-testing';
 import { Component } from '../component';
-import { waitForPresence, waitForStaleness, typeText } from '../../utilities/utils';
+import { waitForPresence, waitForStaleness, typeText } from '../../utilities';
 
 export class LibraryMetadata extends Component {
   visibilityDropDown = this.component.element(by.css('.mat-select'));

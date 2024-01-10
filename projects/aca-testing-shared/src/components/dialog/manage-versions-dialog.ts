@@ -23,7 +23,7 @@
  */
 
 import { by } from 'protractor';
-import { GenericDialog } from '../dialog/generic-dialog';
+import { GenericDialog } from './generic-dialog';
 import { BrowserActions } from '@alfresco/adf-testing';
 import { Menu } from '../menu/menu';
 

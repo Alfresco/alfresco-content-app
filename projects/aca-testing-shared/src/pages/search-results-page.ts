@@ -23,8 +23,7 @@
  */
 
 import { BrowsingPage } from './browsing-page';
-import { SearchSortingPicker } from '../components/search/search-sorting-picker';
-import { SearchFilters } from '../components/search/search-filters';
+import { SearchSortingPicker, SearchFilters } from '../components';
 
 export class SearchResultsPage extends BrowsingPage {
   root = this.byCss('aca-search-results');

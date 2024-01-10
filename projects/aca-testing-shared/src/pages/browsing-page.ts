@@ -22,8 +22,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Header, DataTable, Pagination, Toolbar, Breadcrumb, Sidenav, PageLayoutHeader } from '../components/components';
-import { SIDEBAR_LABELS } from './../configs';
+import { Header, DataTable, Pagination, Toolbar, Breadcrumb, Sidenav, PageLayoutHeader } from '../components';
+import { SIDEBAR_LABELS } from '../configs';
 import { Page } from './page';
 
 export class BrowsingPage extends Page {
@@ -46,11 +46,6 @@ export class BrowsingPage extends Page {
 
   async goToFavoriteLibraries(): Promise<void> {
     await this.sidenav.clickLink(SIDEBAR_LABELS.FAVORITE_LIBRARIES);
-  }
-
-  async goToFavoriteLibrariesAndWait(): Promise<void> {
-    await this.goToFavoriteLibraries();
-    await this.dataTable.waitForHeader();
   }
 
   async goToMyLibraries(): Promise<void> {

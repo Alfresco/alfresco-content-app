@@ -22,14 +22,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, element, browser, By } from 'protractor';
+import { ElementFinder, by, browser } from 'protractor';
 import { Logger, BrowserActions } from '@alfresco/adf-testing';
 import { Menu } from '../menu/menu';
 import { Component } from '../component';
 
 export class Sidenav extends Component {
   links = this.component.all(by.css('.item'));
-  newButton = element(By.css('[id="app.toolbar.create"]'));
   personalFiles = this.byCss(`[data-automation-id='app.navbar.personalFiles']`);
   fileLibraries = this.byCss(`[data-automation-id='app.navbar.libraries.menu']`);
   myLibraries = this.byCss(`[data-automation-id='app.navbar.libraries.files']`, browser);
@@ -43,16 +42,6 @@ export class Sidenav extends Component {
 
   constructor(ancestor?: string) {
     super('app-sidenav', ancestor);
-  }
-
-  async openNewMenu(): Promise<void> {
-    await BrowserActions.click(this.newButton);
-    await this.menu.waitForMenuToOpen();
-  }
-
-  async openCreateFolderDialog(): Promise<void> {
-    await this.openNewMenu();
-    await BrowserActions.click(this.menu.createFolderAction);
   }
 
   async isActive(name: string): Promise<boolean> {
