@@ -22,13 +22,22 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { StringUtil } from '@alfresco/adf-testing';
-
 const LOWER_CASE_ALPHA = 'helloworld';
+
+function generateRandomCharset(length: number = 8, charSet: string): string {
+  let text = '';
+
+  for (let i = 0; i < length; i++) {
+    text += charSet.charAt(Math.floor(Math.random() * charSet.length));
+  }
+
+  return text;
+}
+
 export class UserModel {
-  firstName?: string = StringUtil.generateRandomCharset(length, LOWER_CASE_ALPHA)(7);
-  lastName?: string = StringUtil.generateRandomCharset(length, LOWER_CASE_ALPHA)(7);
-  password?: string = StringUtil.generateRandomCharset(length, LOWER_CASE_ALPHA)(7);
+  firstName?: string = generateRandomCharset(7, LOWER_CASE_ALPHA);
+  lastName?: string = generateRandomCharset(7, LOWER_CASE_ALPHA);
+  password?: string = generateRandomCharset(7, LOWER_CASE_ALPHA);
   email?: string;
   username?: string;
   idIdentityService?: string;
@@ -42,7 +51,7 @@ export class UserModel {
     this.firstName = details.firstName ?? this.firstName;
     this.lastName = details.lastName ?? this.lastName;
 
-    const USER_IDENTIFY = `${this.firstName}${this.lastName}.${StringUtil.generateRandomCharset(length, LOWER_CASE_ALPHA)(7)}`;
+    const USER_IDENTIFY = `${this.firstName}${this.lastName}.${generateRandomCharset(7, LOWER_CASE_ALPHA)}`;
 
     this.password = details.password ?? this.password;
     this.email = details.email ?? `${USER_IDENTIFY}@${EMAIL_DOMAIN}.com`;
