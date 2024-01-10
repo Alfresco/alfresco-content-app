@@ -38,6 +38,7 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   imports: [CommonModule, TranslateModule, RouterModule, ToolbarComponent],
   selector: 'app-sidenav-header',
+  styleUrls: ['./sidenav-header.component.scss'],
   templateUrl: `./sidenav-header.component.html`,
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-sidenav-header' }
@@ -51,12 +52,21 @@ export class SidenavHeaderComponent implements OnInit, OnDestroy {
   appName$ = this.store.select(getAppName);
   logo$ = this.store.select(getLogoPath);
   landingPage = this.appConfigService.get('landingPage', '/personal-files');
+  headerImagePath = this.appConfigService.get('application.headerImagePath');
+  headerTextColor = this.appConfigService.get('application.headerImagePath');
   actions: Array<ContentActionRef> = [];
 
   @Output()
   toggleNavBar = new EventEmitter();
 
   ngOnInit() {
+    debugger;
+    if (this.headerImagePath) {
+      document.body.style.setProperty('--header-background-image', `url('${this.headerImagePath}')`);
+    }
+
+    // headerImagePath = this.appConfigService.get('application.headerImagePath');
+
     this.appExtensions
       .getHeaderActions()
       .pipe(takeUntil(this.onDestroy$))

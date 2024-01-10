@@ -36,7 +36,8 @@
     "name": "Workspace",
     "version": "4.3.0",
     "logo": "assets/images/app-logo.svg",
-    "copyright": "APP.COPYRIGHT"
+    "copyright": "APP.COPYRIGHT",
+    "headerImagePath": "https://media.istockphoto.com/id/993738528/vector/trees-icons-acme-series.jpg?s=612x612&w=0&k=20&c=LsKji-suXLYkC_J9XDhTssh0kGsJQmHEcA4WYHUsygY="
   },
   "viewer.maxRetries": 1,
   "customCssPath": "",

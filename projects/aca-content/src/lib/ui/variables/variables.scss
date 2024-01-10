@@ -44,6 +44,7 @@ $contrast-gray: mat.get-color-from-palette($foreground, 'secondary-tex');
 
 // CSS Variables
 $defaults: (
+  --header-background-image: none,
   --theme-background-color: $background-color,
   --theme-search-background-color: darken($background-color, 1),
   --theme-text-color: mat.get-color-from-palette($foreground, text, 0.54),
