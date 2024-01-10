@@ -60,7 +60,7 @@ export async function getUrl(url: string, timeout: number = 10000): Promise<any>
 }
 
 export async function clearSendKeys(elementFinder: ElementFinder, text: string = '', sleepTime: number = 0): Promise<void> {
-  await this.click(elementFinder);
+  await click(elementFinder);
   await elementFinder.sendKeys('');
   await elementFinder.clear();
 
