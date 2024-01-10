@@ -23,9 +23,8 @@
  */
 
 import { ElementFinder, by, browser } from 'protractor';
-import { BrowserActions } from '@alfresco/adf-testing';
 import { Component } from '../component';
-import { waitForPresence, waitForStaleness, waitUntilElementIsVisible } from '../../utilities';
+import { click, waitForPresence, waitForStaleness, waitUntilElementIsVisible } from '../../utilities';
 
 export class Menu extends Component {
   items = this.allByCss('.mat-menu-item');
@@ -59,7 +58,7 @@ export class Menu extends Component {
   async clickMenuItem(menuItem: string): Promise<void> {
     try {
       const elem = this.getItemByLabel(menuItem);
-      await BrowserActions.click(elem);
+      await click(elem);
     } catch (e) {
       console.error(`___click menu item catch : failed to click on ${menuItem}___`, e);
     }

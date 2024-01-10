@@ -26,8 +26,7 @@ import { browser } from 'protractor';
 import { LoginComponent } from '../components';
 import { Page } from './page';
 import { APP_ROUTES } from '../configs';
-import { waitForPresence } from '../utilities';
-import { BrowserActions } from '@alfresco/adf-testing';
+import { click, waitForPresence } from '../utilities';
 
 export class LoginPage extends Page {
   login = new LoginComponent(this.appRoot);
@@ -53,7 +52,7 @@ export class LoginPage extends Page {
       await this.load();
 
       await this.login.enterCredentials(username, pass);
-      await BrowserActions.click(this.login.submitButton);
+      await click(this.login.submitButton);
       await this.waitForApp();
     } catch (error) {
       console.error(`----- loginWith catch : failed to login with user: ${username} : ${error}`);

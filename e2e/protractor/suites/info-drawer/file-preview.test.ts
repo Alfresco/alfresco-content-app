@@ -22,8 +22,8 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, RepoClient, FILES, SearchInput, DataTable, InfoDrawer } from '@alfresco/aca-testing-shared';
-import { BrowserActions, ViewerPage } from '@alfresco/adf-testing';
+import { AdminActions, LoginPage, BrowsingPage, RepoClient, FILES, SearchInput, DataTable, InfoDrawer, click } from '@alfresco/aca-testing-shared';
+import { ViewerPage } from '@alfresco/adf-testing';
 
 describe('File preview', () => {
   const timestamp = new Date().getTime();
@@ -63,7 +63,7 @@ describe('File preview', () => {
     const documentText = 'This is a small demonstration';
     await searchInput.searchUntilResult(fileName, 'URL');
     await dataTable.selectItem(fileName);
-    await BrowserActions.click(infoDrawer.toolbar.viewDetailsButton);
+    await click(infoDrawer.toolbar.viewDetailsButton);
     await infoDrawer.previewButton.click();
     await viewerPage.checkFileContent(pageNumber, documentText);
   });

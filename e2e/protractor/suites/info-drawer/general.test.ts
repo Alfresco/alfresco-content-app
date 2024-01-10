@@ -22,8 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, RepoClient, InfoDrawer, Utils, UserActions } from '@alfresco/aca-testing-shared';
-import { BrowserActions } from '@alfresco/adf-testing';
+import { AdminActions, LoginPage, BrowsingPage, RepoClient, InfoDrawer, Utils, UserActions, click } from '@alfresco/aca-testing-shared';
 
 describe('General', () => {
   const username = `user1-${Utils.random()}`;
@@ -69,13 +68,13 @@ describe('General', () => {
 
   afterEach(async () => {
     if (await infoDrawer.isOpen()) {
-      await BrowserActions.click(page.toolbar.viewDetailsButton);
+      await click(page.toolbar.viewDetailsButton);
     }
   });
 
   it('[C268999] Info drawer closes on page refresh', async () => {
     await dataTable.selectItem(file1);
-    await BrowserActions.click(page.toolbar.viewDetailsButton);
+    await click(page.toolbar.viewDetailsButton);
     expect(await infoDrawer.isOpen()).toBe(true, 'Info drawer not open');
 
     await page.refresh();

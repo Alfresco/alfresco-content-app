@@ -25,8 +25,7 @@
 import { by, browser, until } from 'protractor';
 import { Component } from '../component';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
-import { typeText, waitUntilElementIsVisible } from '../../utilities';
-import { BrowserActions } from '@alfresco/adf-testing';
+import { click, typeText, waitUntilElementIsVisible } from '../../utilities';
 
 export class CommentsTab extends Component {
   commentsContainer = this.byCss('.adf-comments-container');
@@ -111,6 +110,6 @@ export class CommentsTab extends Component {
   }
 
   async clickAddButton(): Promise<void> {
-    await BrowserActions.click(this.addCommentButton);
+    await click(this.addCommentButton);
   }
 }

@@ -27,8 +27,7 @@ import { Component } from '../component';
 import { Menu } from '../menu/menu';
 import { Toolbar } from '../toolbar/toolbar';
 import { SearchInput } from '../search';
-import { waitElement } from '../../utilities';
-import { BrowserActions } from '@alfresco/adf-testing';
+import { click, waitElement } from '../../utilities';
 
 export class Header extends Component {
   userMenuButton = this.byCss(`.aca-user-menu-button`);
@@ -43,7 +42,7 @@ export class Header extends Component {
   }
 
   async openMoreMenu(): Promise<void> {
-    await BrowserActions.click(this.userMenuButton);
+    await click(this.userMenuButton);
     await this.menu.waitForMenuToOpen();
   }
 
@@ -54,7 +53,7 @@ export class Header extends Component {
   async expandSideNav(): Promise<void> {
     const expanded = await this.isSidenavExpanded();
     if (!expanded) {
-      await BrowserActions.click(this.sidenavToggle);
+      await click(this.sidenavToggle);
       await waitElement(`[data-automation-id='expanded']`);
     }
   }

@@ -24,8 +24,8 @@
 
 import { by } from 'protractor';
 import { GenericDialog } from './generic-dialog';
-import { BrowserActions } from '@alfresco/adf-testing';
 import { Menu } from '../menu/menu';
+import { click } from '../../utilities';
 
 export class ManageVersionsDialog extends GenericDialog {
   menu = new Menu();
@@ -35,7 +35,7 @@ export class ManageVersionsDialog extends GenericDialog {
   }
 
   async clickActionButton(version: string): Promise<void> {
-    await BrowserActions.click(this.childElement(by.id(`adf-version-list-action-menu-button-${version}`)));
+    await click(this.childElement(by.id(`adf-version-list-action-menu-button-${version}`)));
     await this.menu.waitForMenuToOpen();
   }
 

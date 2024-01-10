@@ -32,6 +32,14 @@ export async function waitUntilElementIsVisible(
   return browser.wait(protractor.ExpectedConditions.visibilityOf(elementToCheck), waitTimeout, message + elementToCheck.locator());
 }
 
+export async function waitUntilElementIsNotVisible(elementToCheck: ElementFinder, waitTimeout: number = 10000): Promise<any> {
+  return browser.wait(
+    protractor.ExpectedConditions.invisibilityOf(elementToCheck),
+    waitTimeout,
+    'Element is Visible and it should not' + elementToCheck.locator()
+  );
+}
+
 export async function waitUntilElementIsClickable(elementToCheck: ElementFinder, waitTimeout: number = 10000): Promise<any> {
   return browser.wait(
     protractor.ExpectedConditions.elementToBeClickable(elementToCheck),

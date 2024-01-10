@@ -24,9 +24,7 @@
 
 import { by, browser } from 'protractor';
 import { Component } from '../component';
-import { isPresentAndDisplayed } from '../../utilities';
-import { BrowserActions } from '@alfresco/adf-testing';
-import { waitUntilElementIsVisible } from '../../utilities';
+import { isPresentAndDisplayed, waitUntilElementIsVisible, click } from '../../utilities';
 
 export type SortByType = 'Relevance' | 'Title' | 'Filename' | 'Modified date' | 'Modifier' | 'Created date' | 'Size' | 'Type';
 export class SearchSortingPicker extends Component {
@@ -51,8 +49,8 @@ export class SearchSortingPicker extends Component {
   }
 
   async clickSortByDropdown(): Promise<void> {
-    await BrowserActions.click(this.actionMenu);
-    await BrowserActions.click(this.sortOrderButton);
+    await click(this.actionMenu);
+    await click(this.sortOrderButton);
     await this.waitForSortByDropdownToExpand();
   }
 
@@ -68,8 +66,8 @@ export class SearchSortingPicker extends Component {
     }
     const elem = browser.element(by.cssContainingText('.mat-menu-item', option));
     const optionId = await elem.getAttribute('id');
-    await BrowserActions.click(elem);
+    await click(elem);
     const directionSortElement = browser.element(by.id(`${optionId}-${direction.toLocaleLowerCase()}`));
-    await BrowserActions.click(directionSortElement);
+    await click(directionSortElement);
   }
 }

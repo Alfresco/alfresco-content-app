@@ -28,3 +28,4 @@ export * from './admin-actions';
 export * from './user-actions';
 export * from './utils';
 export * from './browser-visibility';
+export * from './browser-actions';

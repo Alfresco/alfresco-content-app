@@ -23,9 +23,9 @@
  */
 
 import { ElementFinder, by, browser } from 'protractor';
-import { BrowserActions } from '@alfresco/adf-testing';
 import { Menu } from '../menu/menu';
 import { Component } from '../component';
+import { click } from '../../utilities';
 
 export class Sidenav extends Component {
   links = this.component.all(by.css('.item'));
@@ -75,7 +75,7 @@ export class Sidenav extends Component {
   async clickLink(name: string): Promise<void> {
     try {
       const link = this.getLinkLabel(name);
-      await BrowserActions.click(link);
+      await click(link);
     } catch (error) {
       console.error(`---- clickLink catch : sidebar navigation failed to click on - ${name} : `, error);
     }

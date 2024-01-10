@@ -31,9 +31,9 @@ import {
   FILES,
   SITE_VISIBILITY,
   SITE_ROLES,
-  SizeOperator
+  SizeOperator,
+  click
 } from '@alfresco/aca-testing-shared';
-import { BrowserActions } from '@alfresco/adf-testing';
 
 describe('Search filters', () => {
   const random = Utils.random();
@@ -160,7 +160,7 @@ describe('Search filters', () => {
   describe('Filter by File type', () => {
     afterEach(async () => {
       await Utils.pressEscape();
-      await BrowserActions.click(filters.resetAllButton);
+      await click(filters.resetAllButton);
     });
 
     it('[C279191] Expand / Collapse the File type filter panel', async () => {
@@ -214,7 +214,7 @@ describe('Search filters', () => {
   describe('Filter by People', () => {
     afterEach(async () => {
       await Utils.pressEscape();
-      await BrowserActions.click(filters.resetAllButton);
+      await click(filters.resetAllButton);
     });
 
     it('[C279205] Expand / Collapse the People filter panel', async () => {
@@ -241,7 +241,7 @@ describe('Search filters', () => {
       expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(true, 'JPG file not displayed');
       expect(await peopleFilter.getChipTitle()).toEqual(`Created by: ${user1} ${user1} `);
 
-      await BrowserActions.click(filters.resetAllButton);
+      await click(filters.resetAllButton);
       await peopleFilter.openDialog();
       await peopleFilter.selectChip(`${user2} ${user2}`);
       await peopleFilter.clickApplyButton();
@@ -261,7 +261,7 @@ describe('Search filters', () => {
       expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(true, 'JPG file not displayed');
       expect(await peopleFilter.getChipTitle()).toEqual(`Modified by: ${user1} ${user1} `);
 
-      await BrowserActions.click(filters.resetAllButton);
+      await click(filters.resetAllButton);
       await peopleFilter.openDialog();
       await peopleFilter.changeTabToModifier();
       await peopleFilter.selectChip(`${user2} ${user2}`);
@@ -311,7 +311,7 @@ describe('Search filters', () => {
   describe('Filter by Location', () => {
     afterEach(async () => {
       await Utils.pressEscape();
-      await BrowserActions.click(filters.resetAllButton);
+      await click(filters.resetAllButton);
     });
 
     it('[C279230] Expand / Collapse the Location filter panel', async () => {
@@ -373,7 +373,7 @@ describe('Search filters', () => {
 
     afterEach(async () => {
       await Utils.pressEscape();
-      await BrowserActions.click(filters.resetAllButton);
+      await click(filters.resetAllButton);
     });
 
     it('[C279219] Expand / Collapse the Modified date filter panel', async () => {
@@ -439,7 +439,7 @@ describe('Search filters', () => {
   describe('Multiple filters', () => {
     afterEach(async () => {
       await Utils.pressEscape();
-      await BrowserActions.click(filters.resetAllButton);
+      await click(filters.resetAllButton);
     });
 
     it('[C280051] Multiple filters can be applied', async () => {
@@ -463,7 +463,7 @@ describe('Search filters', () => {
       expect(await peopleFilter.getChipTitle()).toEqual(`Created by: ${user1} ${user1} `);
       expect(await locationFilter.getChipTitle()).toEqual(site);
 
-      await BrowserActions.click(filters.resetAllButton);
+      await click(filters.resetAllButton);
 
       expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(true, 'PDF file not displayed');
       expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(true, 'JPG file not displayed');
@@ -480,7 +480,7 @@ describe('Search filters', () => {
 
       expect(await dataTable.getRowsCount()).toEqual(1, 'expected 1 result');
 
-      await BrowserActions.click(filters.resetAllButton);
+      await click(filters.resetAllButton);
 
       expect(await dataTable.getRowsCount()).toEqual(2, 'expected 2 result');
     });
@@ -496,7 +496,7 @@ describe('Search filters', () => {
 
       expect(await page.pagination.getRange()).toEqual('Showing 1-1 of 1');
 
-      await BrowserActions.click(filters.resetAllButton);
+      await click(filters.resetAllButton);
 
       expect(await page.pagination.getRange()).toEqual('Showing 1-2 of 2');
     });

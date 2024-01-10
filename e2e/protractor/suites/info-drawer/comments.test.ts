@@ -22,8 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, UserActions, LoginPage, BrowsingPage, RepoClient, InfoDrawer, Utils } from '@alfresco/aca-testing-shared';
-import { BrowserActions } from '@alfresco/adf-testing';
+import { AdminActions, UserActions, LoginPage, BrowsingPage, RepoClient, InfoDrawer, Utils, click } from '@alfresco/aca-testing-shared';
 
 describe('Comments', () => {
   const username = `user1-${Utils.random()}`;
@@ -113,7 +112,7 @@ describe('Comments', () => {
 
     it('[C299173] Comments tab default fields', async () => {
       await dataTable.selectItem(file1);
-      await BrowserActions.click(page.toolbar.viewDetailsButton);
+      await click(page.toolbar.viewDetailsButton);
       await infoDrawer.waitForInfoDrawerToOpen();
       await infoDrawer.clickCommentsTab();
 
@@ -137,7 +136,7 @@ describe('Comments', () => {
       const myComment = 'my comment';
 
       await dataTable.selectItem(folder2);
-      await BrowserActions.click(page.toolbar.viewDetailsButton);
+      await click(page.toolbar.viewDetailsButton);
       await infoDrawer.waitForInfoDrawerToOpen();
       await infoDrawer.clickCommentsTab();
       await commentsTab.typeComment(myComment);
@@ -156,7 +155,7 @@ describe('Comments', () => {
 
     it('[C299189] Comments are displayed ordered by created date in descending order', async () => {
       await dataTable.selectItem(fileWith2Comments);
-      await BrowserActions.click(page.toolbar.viewDetailsButton);
+      await click(page.toolbar.viewDetailsButton);
       await infoDrawer.waitForInfoDrawerToOpen();
       await infoDrawer.clickCommentsTab();
 
@@ -178,7 +177,7 @@ describe('Comments', () => {
       const myComment = 'my comment';
 
       await dataTable.selectItem(file2Recent);
-      await BrowserActions.click(page.toolbar.viewDetailsButton);
+      await click(page.toolbar.viewDetailsButton);
       await infoDrawer.waitForInfoDrawerToOpen();
       await infoDrawer.clickCommentsTab();
       await commentsTab.typeComment(myComment);
@@ -203,7 +202,7 @@ describe('Comments', () => {
       await page.clickFavoritesAndWait();
 
       await dataTable.selectItem(fileWith1Comment);
-      await BrowserActions.click(page.toolbar.viewDetailsButton);
+      await click(page.toolbar.viewDetailsButton);
       await infoDrawer.waitForInfoDrawerToOpen();
       await infoDrawer.clickCommentsTab();
 
