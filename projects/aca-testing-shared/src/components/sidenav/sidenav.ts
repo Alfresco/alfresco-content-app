@@ -23,7 +23,7 @@
  */
 
 import { ElementFinder, by, browser } from 'protractor';
-import { Logger, BrowserActions } from '@alfresco/adf-testing';
+import { BrowserActions } from '@alfresco/adf-testing';
 import { Menu } from '../menu/menu';
 import { Component } from '../component';
 
@@ -77,7 +77,7 @@ export class Sidenav extends Component {
       const link = this.getLinkLabel(name);
       await BrowserActions.click(link);
     } catch (error) {
-      Logger.error(`---- clickLink catch : sidebar navigation failed to click on - ${name} : `, error);
+      console.error(`---- clickLink catch : sidebar navigation failed to click on - ${name} : `, error);
     }
   }
 }

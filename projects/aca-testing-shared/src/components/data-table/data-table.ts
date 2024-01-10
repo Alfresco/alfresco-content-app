@@ -23,7 +23,7 @@
  */
 
 import { browser, by, ElementArrayFinder, ElementFinder } from 'protractor';
-import { BrowserVisibility, Logger } from '@alfresco/adf-testing';
+import { BrowserVisibility } from '@alfresco/adf-testing';
 import { Component } from '../component';
 import { Menu } from '../menu/menu';
 import { Utils, waitForPresence } from '../../utilities';
@@ -108,7 +108,6 @@ export class DataTable extends Component {
   }
 
   async hasCheckMarkIcon(itemName: string, location: string = ''): Promise<boolean> {
-    Logger.info(`--- check if item already selected : ${itemName} ${location}`);
     const row = this.getRowByName(itemName, location);
     return row.element(by.css('.mat-icon[class*="selected"]')).isPresent();
   }
@@ -138,7 +137,7 @@ export class DataTable extends Component {
       await browser.actions().mouseMove(item).perform();
       await browser.actions().doubleClick().perform();
     } catch (error) {
-      Logger.error(`--- doubleClickOnRowByName catch : failed to double click on ${name} from location : ${location} : `, error);
+      console.error(`--- doubleClickOnRowByName catch : failed to double click on ${name} from location : ${location} : `, error);
     }
   }
 
@@ -146,11 +145,10 @@ export class DataTable extends Component {
     const isSelected = await this.hasCheckMarkIcon(name, location);
     if (!isSelected) {
       try {
-        Logger.info(`--- selecting item : ${name} ${location}`);
         const item = this.getRowFirstCell(name, location);
         await item.click();
       } catch (e) {
-        Logger.error(`--- select item catch : failed to select ${name} from location : ${location} : `, e);
+        console.error(`--- select item catch : failed to select ${name} from location : ${location} : `, e);
       }
     }
   }
@@ -162,7 +160,7 @@ export class DataTable extends Component {
         const item = this.getRowFirstCell(name, location);
         await item.click();
       } catch (e) {
-        Logger.error(`--- unselect item catch : failed to unselect ${name} from location : ${location} : `, e);
+        console.error(`--- unselect item catch : failed to unselect ${name} from location : ${location} : `, e);
       }
     }
   }
@@ -184,7 +182,7 @@ export class DataTable extends Component {
         await this.wait();
       }
     } catch (error) {
-      Logger.error('------ clearSelection catch : ', error);
+      console.error('------ clearSelection catch : ', error);
     }
   }
 

@@ -23,7 +23,7 @@
  */
 
 import { by, browser } from 'protractor';
-import { BrowserActions, Logger } from '@alfresco/adf-testing';
+import { BrowserActions } from '@alfresco/adf-testing';
 import { Component } from '../component';
 import { waitForPresence, waitForStaleness, typeText } from '../../utilities';
 
@@ -162,7 +162,7 @@ export class LibraryMetadata extends Component {
     } else if (val === 'moderated') {
       await BrowserActions.click(this.visibilityModerated);
     } else {
-      Logger.error('----- invalid visibility', val);
+      console.error('----- invalid visibility', val);
     }
 
     await this.waitForVisibilityDropDownToClose();

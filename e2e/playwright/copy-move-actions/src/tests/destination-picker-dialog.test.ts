@@ -25,7 +25,6 @@
 import { ApiClientFactory, MyLibrariesPage, NodesApi, SitesApi, test, Utils } from '@alfresco/playwright-shared';
 import { expect } from '@playwright/test';
 import { Site } from '@alfresco/js-api';
-import { Logger } from '@alfresco/adf-testing';
 
 test.describe('Copy Move actions', () => {
   let nodesApi: NodesApi;
@@ -63,18 +62,14 @@ test.describe('Copy Move actions', () => {
 
       await nodesApi.createFile(sourceFile, docLibId);
       await nodesApi.createFolder(destinationFolder, docLibId);
-    } catch (error) {
-      Logger.error(`beforeAll failed : ${error}`);
-    }
+    } catch {}
   });
 
   test.afterAll(async () => {
     try {
       await nodesApi.deleteCurrentUserNodes();
       await sitesApi.deleteSites([siteId]);
-    } catch (error) {
-      Logger.error(`afterAll failed : ${error}`);
-    }
+    } catch {}
   });
 
   const copyContentInMyLibraries = async (myLibrariesPage: MyLibrariesPage) => {

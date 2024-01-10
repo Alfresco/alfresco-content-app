@@ -22,7 +22,6 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Logger } from '@alfresco/adf-testing';
 import { AlfrescoApi, Comment, CommentsApi, NodesApi, TrashcanApi, SitesApi, SharedlinksApi } from '@alfresco/js-api';
 import { browser } from 'protractor';
 
@@ -168,18 +167,18 @@ export class UserActions {
   }
 
   protected handleError(message: string, response: any) {
-    Logger.error(`\n--- ${message} error :`);
-    Logger.error('\t>>> username: ', this.username);
-    Logger.error('\t>>> JSON: ', JSON.stringify(browser.params.config));
+    console.error(`\n--- ${message} error :`);
+    console.error('\t>>> username: ', this.username);
+    console.error('\t>>> JSON: ', JSON.stringify(browser.params.config));
     if (response.status && response.response) {
       try {
-        Logger.error('\t>>> Status: ', response.status);
-        Logger.error('\t>>> Text: ', response.response.text);
-        Logger.error('\t>>> Method: ', response.response.error.method);
-        Logger.error('\t>>> Path: ', response.response.error.path);
+        console.error('\t>>> Status: ', response.status);
+        console.error('\t>>> Text: ', response.response.text);
+        console.error('\t>>> Method: ', response.response.error.method);
+        console.error('\t>>> Path: ', response.response.error.path);
       } catch {
-        Logger.error('\t>>> ', response);
+        console.error('\t>>> ', response);
       }
-    } else Logger.error('\t>>> ', response);
+    } else console.error('\t>>> ', response);
   }
 }

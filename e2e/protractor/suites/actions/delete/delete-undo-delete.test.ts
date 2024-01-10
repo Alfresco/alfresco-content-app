@@ -23,7 +23,6 @@
  */
 
 import { AdminActions, UserActions, LoginPage, BrowsingPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
-import { Logger } from '@alfresco/adf-testing';
 
 describe('Delete and undo delete', () => {
   const username = `user-${Utils.random()}`;
@@ -120,9 +119,7 @@ describe('Delete and undo delete', () => {
         await userActions.unlockNodes([fileLocked1Id, fileLocked2Id, fileLocked3Id, fileLocked4Id]);
         await userActions.deleteNodes([parentId]);
         await userActions.emptyTrashcan();
-      } catch (error) {
-        Logger.error(`----- afterAll failed : ${error}`);
-      }
+      } catch {}
     });
 
     it('[C217125] delete a file and check notification', async () => {

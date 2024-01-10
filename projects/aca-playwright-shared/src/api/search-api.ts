@@ -23,7 +23,6 @@
  */
 
 import { ApiClientFactory } from './api-client-factory';
-import { Logger } from '@alfresco/adf-testing';
 import { Utils } from '../utils';
 import { ResultSetPaging } from '@alfresco/js-api';
 
@@ -54,14 +53,13 @@ export class SearchPageApi {
 
     try {
       return await this.apiService.search.search(data);
-    } catch (error) {
-      Logger.error(`SearchApi queryRecentFiles : catch : `, error);
-      return new ResultSetPaging;
+    } catch {
+      return new ResultSetPaging();
     }
   }
 
   async getTotalItems(username: string): Promise<number> {
-      return (await this.querySearchFiles(username)).list.pagination.totalItems;
+    return (await this.querySearchFiles(username)).list.pagination.totalItems;
   }
 
   async waitForApi(username: string, data: { expect: number }) {
@@ -76,9 +74,6 @@ export class SearchPageApi {
       };
 
       return await Utils.retryCall(searchFiles);
-    } catch (error) {
-      Logger.error(`SearchApi waitForApi : catch : `);
-      Logger.error(`\tExpected: ${data.expect} items, but found ${error}`);
-    }
+    } catch {}
   }
 }

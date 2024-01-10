@@ -23,8 +23,7 @@
  */
 
 import { RepoApi } from '../repo-api';
-import { Logger } from '@alfresco/adf-testing';
-import { Utils } from '../../../../utilities/utils';
+import { Utils } from '../../../utils';
 import { SharedlinksApi as AdfSharedlinksApi, SharedLinkEntry, SharedLinkPaging } from '@alfresco/js-api';
 
 export class SharedLinksApi extends RepoApi {
@@ -63,26 +62,6 @@ export class SharedLinksApi extends RepoApi {
     return sharedLinks;
   }
 
-  private async getSharedIdOfNode(fileId: string): Promise<string> {
-    try {
-      const sharedLinksEntries = (await this.getSharedLinks())?.list.entries;
-      const found = sharedLinksEntries.find((sharedLink) => sharedLink.entry.nodeId === fileId);
-      return (found || { entry: { id: null } }).entry.id;
-    } catch (error) {
-      this.handleError(`SharedLinksApi getSharedIdOfNode : catch : `, error);
-      return null;
-    }
-  }
-
-  async unshareFileById(fileId: string): Promise<any> {
-    try {
-      const sharedId = await this.getSharedIdOfNode(fileId);
-      return await this.sharedlinksApi.deleteSharedLink(sharedId);
-    } catch (error) {
-      this.handleError(`SharedLinksApi unshareFileById : catch : `, error);
-    }
-  }
-
   private async getSharedLinks(maxItems: number = 250): Promise<SharedLinkPaging | null> {
     try {
       await this.apiAuth();
@@ -108,31 +87,8 @@ export class SharedLinksApi extends RepoApi {
     };
 
     return Utils.retryCall(sharedFile).catch((error) => {
-      Logger.error(`SharedLinksApi waitForFilesToBeShared :  catch : ${error}`);
-      Logger.error(`\tWait timeout reached waiting for files to be shared`);
+      console.error(`SharedLinksApi waitForFilesToBeShared :  catch : ${error}`);
+      console.error(`\tWait timeout reached waiting for files to be shared`);
     });
-  }
-
-  async waitForFilesToNotBeShared(filesIds: string[]): Promise<any> {
-    try {
-      const sharedFile = async () => {
-        const sharedFiles = (await this.getSharedLinks()).list.entries.map((link) => link.entry.nodeId);
-
-        const foundItems = filesIds.some((id) => {
-          return sharedFiles.includes(id);
-        });
-
-        if (foundItems) {
-          return Promise.reject(foundItems);
-        } else {
-          return Promise.resolve(foundItems);
-        }
-      };
-
-      return await Utils.retryCall(sharedFile);
-    } catch (error) {
-      Logger.error(`SharedLinksApi waitForFilesToNotBeShared :  catch : ${error}`);
-      Logger.error(`\tWait timeout reached waiting for files to no longer be shared`);
-    }
   }
 }

@@ -27,7 +27,7 @@ import { LoginComponent } from '../components';
 import { Page } from './page';
 import { APP_ROUTES } from '../configs';
 import { waitForPresence } from '../utilities';
-import { BrowserActions, Logger } from '@alfresco/adf-testing';
+import { BrowserActions } from '@alfresco/adf-testing';
 
 export class LoginPage extends Page {
   login = new LoginComponent(this.appRoot);
@@ -56,7 +56,7 @@ export class LoginPage extends Page {
       await BrowserActions.click(this.login.submitButton);
       await this.waitForApp();
     } catch (error) {
-      Logger.error(`----- loginWith catch : failed to login with user: ${username} : ${error}`);
+      console.error(`----- loginWith catch : failed to login with user: ${username} : ${error}`);
     }
   }
 

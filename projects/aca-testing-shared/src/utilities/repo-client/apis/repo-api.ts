@@ -24,7 +24,6 @@
 
 import { browser } from 'protractor';
 import { AlfrescoApi } from '@alfresco/js-api';
-import { Logger } from '@alfresco/adf-testing';
 
 export abstract class RepoApi {
   alfrescoJsApi = new AlfrescoApi();
@@ -38,18 +37,18 @@ export abstract class RepoApi {
   }
 
   protected handleError(message: string, response: any) {
-    Logger.error(`\n--- ${message} error :`);
-    Logger.error('\t>>> username: ', this.username);
-    Logger.error('\t>>> JSON: ', JSON.stringify(browser.params.config));
+    console.error(`\n--- ${message} error :`);
+    console.error('\t>>> username: ', this.username);
+    console.error('\t>>> JSON: ', JSON.stringify(browser.params.config));
     if (response.status && response.response) {
       try {
-        Logger.error('\t>>> Status: ', response.status);
-        Logger.error('\t>>> Text: ', response.response.text);
-        Logger.error('\t>>> Method: ', response.response.error.method);
-        Logger.error('\t>>> Path: ', response.response.error.path);
+        console.error('\t>>> Status: ', response.status);
+        console.error('\t>>> Text: ', response.response.text);
+        console.error('\t>>> Method: ', response.response.error.method);
+        console.error('\t>>> Path: ', response.response.error.path);
       } catch {
-        Logger.error('\t>>> ', response);
+        console.error('\t>>> ', response);
       }
-    } else Logger.error('\t>>> ', response);
+    } else console.error('\t>>> ', response);
   }
 }

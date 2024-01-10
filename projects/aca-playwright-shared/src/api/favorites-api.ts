@@ -24,7 +24,6 @@
 
 import { ApiClientFactory } from './api-client-factory';
 import { FavoriteEntry, FavoritePaging } from '@alfresco/js-api';
-import { Logger } from '@alfresco/adf-testing';
 import { Utils } from '../utils';
 
 export class FavoritesPageApi {
@@ -59,26 +58,22 @@ export class FavoritesPageApi {
           favorites.push(favorite);
         }
       }
-    } catch (error) {
-      Logger.error(`FavoritesApi addFavoritesByIds : catch : `, error);
-    }
+    } catch {}
     return favorites;
   }
 
   private async getFavorites(username: string): Promise<FavoritePaging> {
     try {
       return await this.apiService.favorites.listFavorites(username);
-    } catch (error) {
-      Logger.error(`FavoritesApi getFavorites : catch : `, error);
-      return new FavoritePaging;
+    } catch {
+      return new FavoritePaging();
     }
   }
 
   async isFavorite(username: string, nodeId: string): Promise<boolean> {
     try {
       return JSON.stringify((await this.getFavorites(username)).list.entries).includes(nodeId);
-    } catch (error) {
-      Logger.error(`FavoritesApi isFavorite : catch : `, error);
+    } catch {
       return false;
     }
   }
@@ -102,8 +97,7 @@ export class FavoritesPageApi {
   async getFavoritesTotalItems(username: string): Promise<number> {
     try {
       return (await this.apiService.favorites.listFavorites(username)).list.pagination.totalItems;
-    } catch (error) {
-      Logger.error(`FavoritesApi getFavoritesTotalItems : catch : `, error);
+    } catch {
       return -1;
     }
   }
@@ -119,9 +113,6 @@ export class FavoritesPageApi {
         }
       };
       return await Utils.retryCall(favoriteFiles);
-    } catch (error) {
-      Logger.error(`FavoritesApi waitForApi :  catch : `);
-      Logger.error(`\tExpected: ${data.expect} items, but found ${error}`);
-    }
+    } catch {}
   }
 }

@@ -23,7 +23,6 @@
  */
 
 import { AdminActions, LoginPage, SearchResultsPage, RepoClient, Utils, SITE_VISIBILITY, SITE_ROLES } from '@alfresco/aca-testing-shared';
-import { Logger } from '@alfresco/adf-testing';
 
 describe('Search results - libraries', () => {
   const random = Utils.random();
@@ -116,18 +115,14 @@ describe('Search results - libraries', () => {
       await apis.user.queries.waitForSites(random, { expect: 12 });
 
       await loginPage.loginWith(username);
-    } catch (error) {
-      Logger.error(`----- beforeAll failed : ${error}`);
-    }
+    } catch {}
   });
 
   afterAll(async () => {
     try {
       await adminApiActions.sites.deleteSites([adminSite1, adminSite2, adminSite3, adminSite4, adminPrivate]);
       await apis.user.sites.deleteSites([site1.id, site2.id, site3.id, site4.id, userSitePublic, userSiteModerated, userSitePrivate, siteRussian.id]);
-    } catch (error) {
-      Logger.error(`----- afterAll failed : ${error}`);
-    }
+    } catch {}
   });
 
   beforeEach(async () => {

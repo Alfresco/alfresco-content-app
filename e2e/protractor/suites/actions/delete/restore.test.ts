@@ -24,7 +24,7 @@
 
 import { browser } from 'protractor';
 import { AdminActions, UserActions, LoginPage, BrowsingPage, APP_ROUTES, RepoClient, Utils } from '@alfresco/aca-testing-shared';
-import { BrowserActions, Logger } from '@alfresco/adf-testing';
+import { BrowserActions } from '@alfresco/adf-testing';
 
 describe('Restore from Trash', () => {
   const username = `user-${Utils.random()}`;
@@ -231,9 +231,7 @@ describe('Restore from Trash', () => {
 
         await userActions.deleteNodes([file3Id, file4Id, folder3Id, file5Id], false);
         await loginPage.loginWith(username);
-      } catch (error) {
-        Logger.error(`----- beforeAll failed : ${error}`);
-      }
+      } catch {}
     });
 
     beforeEach(async () => {

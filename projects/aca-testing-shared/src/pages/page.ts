@@ -23,7 +23,7 @@
  */
 
 import { browser, by, ElementFinder, WebElement } from 'protractor';
-import { BrowserVisibility, Logger } from '@alfresco/adf-testing';
+import { BrowserVisibility } from '@alfresco/adf-testing';
 import { APP_ROUTES, USE_HASH_STRATEGY } from './../configs';
 import { Utils, waitElement, waitForPresence, isPresentAndDisplayed } from '../utilities/utils';
 import { Header } from '../components';
@@ -103,7 +103,7 @@ export abstract class Page {
       const action = await waitElement(`[data-automation-id='adf-snackbar-message-content-action-button']`);
       await action.click();
     } catch (e) {
-      Logger.error(e, '.......failed on click snack bar action.........');
+      console.error(e, '.......failed on click snack bar action.........');
     }
   }
 

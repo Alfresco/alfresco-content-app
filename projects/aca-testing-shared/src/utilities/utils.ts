@@ -23,7 +23,7 @@
  */
 
 import { browser, protractor, ElementFinder, ExpectedConditions as EC, by, until, WebElement } from 'protractor';
-import { BrowserVisibility, Logger } from '@alfresco/adf-testing';
+import { BrowserVisibility } from '@alfresco/adf-testing';
 import { BROWSER_WAIT_TIMEOUT } from '../configs';
 import * as path from 'path';
 import * as fs from 'fs';
@@ -131,7 +131,7 @@ export class Utils {
     if (fileExists) {
       fs.rename(oldFilePath, newFilePath, function (err: any) {
         if (err) {
-          Logger.error(`==== rename err : failed to rename file from ${oldName} to ${newName} : `, err);
+          console.error(`==== rename err : failed to rename file from ${oldName} to ${newName} : `, err);
         }
       });
     }
@@ -148,7 +148,7 @@ export class Utils {
     });
 
     await zip.on('error', (err: any) => {
-      Logger.error(`=== unzip err : failed to unzip ${filename} - ${unzippedName} :`, err);
+      console.error(`=== unzip err : failed to unzip ${filename} - ${unzippedName} :`, err);
     });
 
     await zip.on('ready', async () => {

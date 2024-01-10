@@ -24,7 +24,6 @@
 
 import { ApiClientFactory, test, Utils, PersonalFilesPage, NodesApi, LoginPage } from '@alfresco/playwright-shared';
 import { expect } from '@playwright/test';
-import { Logger } from '@alfresco/adf-testing';
 
 test.describe('Move actions', () => {
   let nodesApi: NodesApi;
@@ -45,17 +44,13 @@ test.describe('Move actions', () => {
       await apiClientFactory.setUpAcaBackend('admin');
       await apiClientFactory.createUser({ username });
       nodesApi = await NodesApi.initialize(username, username);
-    } catch (error) {
-      Logger.error(`beforeAll failed : ${error}`);
-    }
+    } catch {}
   });
 
   test.afterAll(async ({ nodesApiAction }) => {
     try {
       await nodesApiAction.deleteCurrentUserNodes();
-    } catch (error) {
-      Logger.error(`afterAll failed : ${error}`);
-    }
+    } catch {}
   });
 
   test.beforeEach(async ({ personalFiles, page }) => {
@@ -79,9 +74,7 @@ test.describe('Move actions', () => {
       sourceFileId = (await nodesApi.createFile(sourceFile)).entry.id;
 
       await personalFiles.navigate();
-    } catch (error) {
-      Logger.error(`beforeEach failed : ${error}`);
-    }
+    } catch {}
   });
 
   const moveContentInPersonalFiles = async (personalFilesPage: PersonalFilesPage, sourceFileList: string[], destinationName: string) => {

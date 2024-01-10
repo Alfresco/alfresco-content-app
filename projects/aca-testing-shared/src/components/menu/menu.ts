@@ -23,7 +23,7 @@
  */
 
 import { ElementFinder, by, browser } from 'protractor';
-import { Logger, BrowserVisibility, BrowserActions } from '@alfresco/adf-testing';
+import { BrowserVisibility, BrowserActions } from '@alfresco/adf-testing';
 import { Component } from '../component';
 import { waitForPresence, waitForStaleness } from '../../utilities';
 
@@ -48,10 +48,6 @@ export class Menu extends Component {
     await waitForStaleness(browser.element(by.css('.cdk-overlay-container .mat-menu-panel')));
   }
 
-  getNthItem(nth: number): ElementFinder {
-    return this.items.get(nth - 1);
-  }
-
   private getItemByLabel(menuItem: string): ElementFinder {
     return this.byCssText('.mat-menu-item', menuItem);
   }
@@ -60,24 +56,12 @@ export class Menu extends Component {
     return this.getItemByLabel(menuItem).element(by.css('.mat-icon')).getText();
   }
 
-  async clickNthItem(nth: number): Promise<void> {
-    try {
-      const elem = this.getNthItem(nth);
-      await BrowserVisibility.waitUntilElementIsClickable(elem);
-      await browser.actions().mouseMove(elem).perform();
-      await browser.actions().click().perform();
-      await this.waitForMenuToClose();
-    } catch (e) {
-      Logger.error('____ click nth menu item catch ___', e);
-    }
-  }
-
   async clickMenuItem(menuItem: string): Promise<void> {
     try {
       const elem = this.getItemByLabel(menuItem);
       await BrowserActions.click(elem);
     } catch (e) {
-      Logger.error(`___click menu item catch : failed to click on ${menuItem}___`, e);
+      console.error(`___click menu item catch : failed to click on ${menuItem}___`, e);
     }
   }
 }
