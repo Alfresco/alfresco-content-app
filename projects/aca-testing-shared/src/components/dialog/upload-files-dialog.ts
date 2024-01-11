@@ -33,7 +33,7 @@ export class UploadFilesDialog {
 
   async closeUploadDialog(): Promise<void> {
     if (await this.uploadDialog.isVisible()) {
-      this.closeUploadButton.click();
+      await this.closeUploadButton.click();
     }
   }
 }
