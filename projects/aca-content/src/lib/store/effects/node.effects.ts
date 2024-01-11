@@ -50,7 +50,8 @@ import {
   ExpandInfoDrawerAction,
   ManageRulesAction,
   ShowLoaderAction,
-  ToggleInfoDrawerAction
+  ToggleInfoDrawerAction,
+  NavigateUrlAction
 } from '@alfresco/aca-shared/store';
 import { ContentManagementService } from '../../services/content-management.service';
 import { RenditionService } from '@alfresco/adf-content-services';
@@ -285,7 +286,7 @@ export class NodeEffects {
         map((action) => {
           if (action?.payload) {
             const route = 'personal-files/details';
-            this.store.dispatch(new NavigateRouteAction([route, action.payload.entry.id, 'permissions']));
+            this.store.dispatch(new NavigateUrlAction([route, action.payload.entry.id, 'permissions'].join('/')));
           } else {
             this.store
               .select(getAppSelection)
@@ -293,7 +294,7 @@ export class NodeEffects {
               .subscribe((selection) => {
                 if (selection && !selection.isEmpty) {
                   const route = 'personal-files/details';
-                  this.store.dispatch(new NavigateRouteAction([route, selection.last.entry.id, 'permissions']));
+                  this.store.dispatch(new NavigateUrlAction([route, selection.last.entry.id, 'permissions'].join('/')));
                 }
               });
           }
