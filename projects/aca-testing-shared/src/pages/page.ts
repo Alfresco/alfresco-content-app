@@ -23,9 +23,8 @@
  */
 
 import { browser, by, ElementFinder, WebElement } from 'protractor';
-import { BrowserVisibility, Logger } from '@alfresco/adf-testing';
-import { APP_ROUTES, USE_HASH_STRATEGY } from './../configs';
-import { Utils, waitElement, waitForPresence, isPresentAndDisplayed } from '../utilities/utils';
+import { APP_ROUTES, USE_HASH_STRATEGY } from '../configs';
+import { Utils, waitElement, waitForPresence, isPresentAndDisplayed, waitUntilElementIsPresent, waitUntilElementIsVisible } from '../utilities';
 import { Header } from '../components';
 import { UploadFilesDialog } from '../components/dialog/upload-files-dialog';
 
@@ -59,11 +58,11 @@ export abstract class Page {
     const header = new Header();
     await header.openMoreMenu();
     await header.menu.clickMenuItem('Sign out');
-    await BrowserVisibility.waitUntilElementIsPresent(browser.element(by.css('[class*="login-content"] input#username')));
+    await waitUntilElementIsPresent(browser.element(by.css('[class*="login-content"] input#username')));
   }
 
   async waitForDialog(): Promise<void> {
-    await BrowserVisibility.waitUntilElementIsVisible(this.dialogContainer);
+    await waitUntilElementIsVisible(this.dialogContainer);
   }
 
   async isDialogOpen(): Promise<boolean> {
@@ -103,7 +102,7 @@ export abstract class Page {
       const action = await waitElement(`[data-automation-id='adf-snackbar-message-content-action-button']`);
       await action.click();
     } catch (e) {
-      Logger.error(e, '.......failed on click snack bar action.........');
+      console.error(e, '.......failed on click snack bar action.........');
     }
   }
 

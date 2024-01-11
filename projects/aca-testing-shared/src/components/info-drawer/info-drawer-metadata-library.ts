@@ -23,9 +23,8 @@
  */
 
 import { by, browser } from 'protractor';
-import { BrowserActions, Logger } from '@alfresco/adf-testing';
 import { Component } from '../component';
-import { waitForPresence, waitForStaleness, typeText } from '../../utilities';
+import { waitForPresence, waitForStaleness, typeText, click } from '../../utilities';
 
 export class LibraryMetadata extends Component {
   visibilityDropDown = this.component.element(by.css('.mat-select'));
@@ -80,7 +79,7 @@ export class LibraryMetadata extends Component {
   }
 
   private async clickButton(button: string) {
-    await BrowserActions.click(this.getButton(button));
+    await click(this.getButton(button));
   }
 
   async waitForVisibilityDropDownToClose() {
@@ -152,17 +151,17 @@ export class LibraryMetadata extends Component {
   async setVisibility(visibility: string) {
     const val = visibility.toLowerCase();
 
-    await BrowserActions.click(this.visibilityDropDown);
+    await click(this.visibilityDropDown);
     await waitForPresence(this.visibilityDropDown);
 
     if (val === 'public') {
-      await BrowserActions.click(this.visibilityPublic);
+      await click(this.visibilityPublic);
     } else if (val === 'private') {
-      await BrowserActions.click(this.visibilityPrivate);
+      await click(this.visibilityPrivate);
     } else if (val === 'moderated') {
-      await BrowserActions.click(this.visibilityModerated);
+      await click(this.visibilityModerated);
     } else {
-      Logger.error('----- invalid visibility', val);
+      console.error('----- invalid visibility', val);
     }
 
     await this.waitForVisibilityDropDownToClose();

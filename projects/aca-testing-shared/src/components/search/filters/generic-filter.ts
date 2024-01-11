@@ -22,9 +22,18 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, browser } from 'protractor';
-import { isPresentAndDisplayed, Utils } from '../../../utilities/utils';
-import { BrowserActions, TestElement } from '@alfresco/adf-testing';
+import { ElementFinder, by, browser, element } from 'protractor';
+import { isPresentAndDisplayed, Utils, waitUntilElementIsVisible, waitUntilElementIsNotVisible, TestElement } from '../../../utilities';
+
+async function waitUntilActionMenuIsVisible(): Promise<void> {
+  const actionMenu = element.all(by.css('div[role="menu"]')).first();
+  await waitUntilElementIsVisible(actionMenu);
+}
+
+async function waitUntilActionMenuIsNotVisible(): Promise<void> {
+  const actionMenu = element.all(by.css('div[role="menu"]')).first();
+  await waitUntilElementIsNotVisible(actionMenu);
+}
 
 export class GenericFilter {
   private readonly filterName: string;
@@ -70,14 +79,14 @@ export class GenericFilter {
   async openDialog(): Promise<void> {
     if (!(await this.isDialogPresent())) {
       await this.chip.click();
-      await BrowserActions.waitUntilActionMenuIsVisible();
+      await waitUntilActionMenuIsVisible();
     }
   }
 
   async closeDialog(): Promise<void> {
     if (await this.isDialogPresent()) {
       await Utils.pressEscape();
-      await BrowserActions.waitUntilActionMenuIsNotVisible();
+      await waitUntilActionMenuIsNotVisible();
     }
   }
 }

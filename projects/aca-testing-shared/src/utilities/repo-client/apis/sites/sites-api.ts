@@ -23,18 +23,9 @@
  */
 
 import { RepoApi } from '../repo-api';
-import { Logger } from '@alfresco/adf-testing';
-import {
-  SiteBodyCreate,
-  SiteMembershipBodyUpdate,
-  SiteMembershipBodyCreate,
-  SiteEntry,
-  SiteMembershipRequestEntry,
-  SitesApi as AdfSiteApi,
-  SiteMemberEntry
-} from '@alfresco/js-api';
-import { SITE_VISIBILITY, SITE_ROLES } from '../../../../configs';
-import { Utils } from '../../../../utilities/utils';
+import { SiteBodyCreate, SiteMembershipBodyUpdate, SiteMembershipBodyCreate, SiteEntry, SitesApi as AdfSiteApi } from '@alfresco/js-api';
+import { SITE_VISIBILITY } from '../../../../configs';
+import { Utils } from '../../../utils';
 
 export class SitesApi extends RepoApi {
   sitesApi = new AdfSiteApi(this.alfrescoJsApi);
@@ -78,21 +69,6 @@ export class SitesApi extends RepoApi {
       this.handleError(`SitesApi createSite : catch : `, error);
       return null;
     }
-  }
-
-  async createSites(siteNames: string[], visibility?: string): Promise<SiteEntry[]> {
-    const sites: SiteEntry[] = [];
-    try {
-      if (siteNames && siteNames.length > 0) {
-        for (const siteName of siteNames) {
-          const site = await this.createSite(siteName, visibility);
-          sites.push(site);
-        }
-      }
-    } catch (error) {
-      this.handleError(`SitesApi createSites : catch : `, error);
-    }
-    return sites;
   }
 
   async deleteSite(siteId: string, permanent: boolean = true) {
@@ -151,52 +127,6 @@ export class SitesApi extends RepoApi {
     }
   }
 
-  async addSiteConsumer(siteId: string, userId: string): Promise<SiteMemberEntry> {
-    return this.addSiteMember(siteId, userId, SITE_ROLES.SITE_CONSUMER.ROLE);
-  }
-
-  async addSiteContributor(siteId: string, userId: string): Promise<SiteMemberEntry> {
-    return this.addSiteMember(siteId, userId, SITE_ROLES.SITE_CONTRIBUTOR.ROLE);
-  }
-
-  async addSiteCollaborator(siteId: string, userId: string): Promise<SiteMemberEntry> {
-    return this.addSiteMember(siteId, userId, SITE_ROLES.SITE_COLLABORATOR.ROLE);
-  }
-
-  async deleteSiteMember(siteId: string, userId: string) {
-    try {
-      await this.apiAuth();
-      return await this.sitesApi.deleteSiteMembership(siteId, userId);
-    } catch (error) {
-      this.handleError(`SitesApi deleteSiteMember : catch : `, error);
-    }
-  }
-
-  async requestToJoin(siteId: string): Promise<SiteMembershipRequestEntry | null> {
-    const body = {
-      id: siteId
-    };
-
-    try {
-      await this.apiAuth();
-      return await this.sitesApi.createSiteMembershipRequestForPerson('-me-', body);
-    } catch (error) {
-      this.handleError(`SitesApi requestToJoin : catch : `, error);
-      return null;
-    }
-  }
-
-  async hasMembershipRequest(siteId: string) {
-    try {
-      await this.apiAuth();
-      const requests = (await this.sitesApi.listSiteMembershipRequestsForPerson('-me-')).list.entries.map((e) => e.entry.id);
-      return requests.includes(siteId);
-    } catch (error) {
-      this.handleError(`SitesApi hasMembershipRequest : catch : `, error);
-      return null;
-    }
-  }
-
   async waitForSitesToBeCreated(sitesIds: string[]) {
     try {
       const site = async () => {
@@ -213,8 +143,8 @@ export class SitesApi extends RepoApi {
 
       return await Utils.retryCall(site);
     } catch (error) {
-      Logger.error(`SitesApi waitForSitesToBeCreated :  catch : ${error}`);
-      Logger.error(`\tWait timeout reached waiting for sites to be created`);
+      console.error(`SitesApi waitForSitesToBeCreated :  catch : ${error}`);
+      console.error(`\tWait timeout reached waiting for sites to be created`);
     }
   }
 }

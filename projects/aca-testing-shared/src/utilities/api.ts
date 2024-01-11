@@ -22,25 +22,25 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { by } from 'protractor';
-import { GenericDialog } from './generic-dialog';
-import { Menu } from '../menu/menu';
-import { click } from '../../utilities';
+export type ApiResultPredicate<T> = (result: T) => boolean;
+export type ApiCall<T> = () => Promise<T>;
 
-export class ManageVersionsDialog extends GenericDialog {
-  menu = new Menu();
+export async function waitForApi<T>(apiCall: ApiCall<T>, predicate: ApiResultPredicate<T>, retry: number = 30, delay: number = 1000) {
+  const apiCallWithPredicateChecking = async () => {
+    const apiCallResult = await apiCall();
+    if (predicate(apiCallResult)) {
+      return Promise.resolve(apiCallResult);
+    } else {
+      return Promise.reject(apiCallResult);
+    }
+  };
 
-  constructor() {
-    super('.adf-new-version-uploader-dialog');
-  }
+  return retryCall(apiCallWithPredicateChecking, retry, delay);
+}
 
-  async clickActionButton(version: string): Promise<void> {
-    await click(this.childElement(by.id(`adf-version-list-action-menu-button-${version}`)));
-    await this.menu.waitForMenuToOpen();
-  }
+function retryCall(fn: () => Promise<any>, retry: number = 30, delay: number = 1000): Promise<any> {
+  const pause = (duration) => new Promise((res) => setTimeout(res, duration));
+  const run = (retries) => fn().catch((err) => (retries > 1 ? pause(delay).then(() => run(retries - 1)) : Promise.reject(err)));
 
-  async viewFileVersion(version: string): Promise<void> {
-    await this.clickActionButton(version);
-    await this.menu.clickMenuItem('View');
-  }
+  return run(retry);
 }

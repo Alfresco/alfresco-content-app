@@ -23,10 +23,9 @@
  */
 
 import { by, browser, By, element } from 'protractor';
-import { BrowserActions } from '@alfresco/adf-testing';
 import { Menu } from '../menu/menu';
 import { Component } from '../component';
-import { Utils } from '../../utilities';
+import { click, Utils } from '../../utilities';
 
 export class Toolbar extends Component {
   menu = new Menu();
@@ -51,13 +50,13 @@ export class Toolbar extends Component {
   }
 
   async clickSearchIconButton() {
-    await BrowserActions.click(this.searchIconButton);
+    await click(this.searchIconButton);
   }
 
   async openMoreMenu(): Promise<void> {
     const btnMoreActions = element(By.css('button[id="app.toolbar.more"]'));
     await btnMoreActions.isPresent();
-    await BrowserActions.click(btnMoreActions);
+    await click(btnMoreActions);
 
     await this.menu.waitForMenuToOpen();
     await browser.sleep(500);
@@ -68,12 +67,12 @@ export class Toolbar extends Component {
   }
 
   async openUploadMenu(): Promise<void> {
-    await BrowserActions.click(this.uploadButton);
+    await click(this.uploadButton);
     await this.menu.waitForMenuToOpen();
   }
 
   async closeUploadMenu(): Promise<void> {
-    await BrowserActions.click(element(by.css('button[id="app.toolbar.upload"]')));
+    await click(element(by.css('button[id="app.toolbar.upload"]')));
     await this.menu.waitForMenuToClose();
   }
 

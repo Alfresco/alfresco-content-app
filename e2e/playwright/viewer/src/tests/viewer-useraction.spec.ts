@@ -25,7 +25,6 @@
 import { expect } from '@playwright/test';
 import { ApiClientFactory, FileActionsApi, LoginPage, NodesApi, SitesApi, test, TEST_FILES, Utils } from '@alfresco/playwright-shared';
 import { SiteBodyCreate } from '@alfresco/js-api';
-import { Logger } from '@alfresco/adf-testing';
 
 test.describe('from File Libraries', () => {
   const apiClientFactory = new ApiClientFactory();
@@ -50,9 +49,7 @@ test.describe('from File Libraries', () => {
       const node = await nodesApi.createFolder(destination);
       destinationId = node.entry.id;
       await fileApi.uploadFile(TEST_FILES.XLSX.path, xlsxLibraries, docLibId);
-    } catch (error) {
-      Logger.error(`beforeAll failed : ${error}`);
-    }
+    } catch {}
   });
 
   test.beforeEach(async ({ page }) => {
@@ -70,9 +67,7 @@ test.describe('from File Libraries', () => {
     try {
       await sitesApi.deleteSites([siteName]);
       await nodesApi.deleteNodes([destinationId]);
-    } catch (error) {
-      Logger.error(`afterAll failed : ${error}`);
-    }
+    } catch {}
   });
 
   test('[C286371] Move action from File Libraries', async ({ myLibrariesPage, personalFiles }) => {

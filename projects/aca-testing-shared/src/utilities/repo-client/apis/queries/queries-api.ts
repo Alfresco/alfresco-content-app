@@ -23,8 +23,7 @@
  */
 
 import { RepoApi } from '../repo-api';
-import { Logger } from '@alfresco/adf-testing';
-import { Utils } from '../../../../utilities/utils';
+import { Utils } from '../../../utils';
 import { QueriesApi as AdfQueriesApi } from '@alfresco/js-api';
 
 export class QueriesApi extends RepoApi {
@@ -64,8 +63,8 @@ export class QueriesApi extends RepoApi {
 
       return await Utils.retryCall(sites);
     } catch (error) {
-      Logger.error(`QueriesApi waitForSites : catch : `);
-      Logger.error(`\tExpected: ${data.expect} items, but found ${error}`);
+      console.error(`QueriesApi waitForSites : catch : `);
+      console.error(`\tExpected: ${data.expect} items, but found ${error}`);
     }
   }
 }

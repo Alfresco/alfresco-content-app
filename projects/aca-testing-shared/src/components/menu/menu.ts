@@ -23,9 +23,8 @@
  */
 
 import { ElementFinder, by, browser } from 'protractor';
-import { Logger, BrowserVisibility, BrowserActions } from '@alfresco/adf-testing';
 import { Component } from '../component';
-import { waitForPresence, waitForStaleness } from '../../utilities';
+import { click, waitForPresence, waitForStaleness, waitUntilElementIsVisible } from '../../utilities';
 
 export class Menu extends Component {
   items = this.allByCss('.mat-menu-item');
@@ -41,15 +40,11 @@ export class Menu extends Component {
 
   async waitForMenuToOpen(): Promise<void> {
     await waitForPresence(browser.element(by.css('.cdk-overlay-container .mat-menu-panel')));
-    await BrowserVisibility.waitUntilElementIsVisible(this.items.get(0));
+    await waitUntilElementIsVisible(this.items.get(0));
   }
 
   async waitForMenuToClose(): Promise<void> {
     await waitForStaleness(browser.element(by.css('.cdk-overlay-container .mat-menu-panel')));
-  }
-
-  getNthItem(nth: number): ElementFinder {
-    return this.items.get(nth - 1);
   }
 
   private getItemByLabel(menuItem: string): ElementFinder {
@@ -60,24 +55,12 @@ export class Menu extends Component {
     return this.getItemByLabel(menuItem).element(by.css('.mat-icon')).getText();
   }
 
-  async clickNthItem(nth: number): Promise<void> {
-    try {
-      const elem = this.getNthItem(nth);
-      await BrowserVisibility.waitUntilElementIsClickable(elem);
-      await browser.actions().mouseMove(elem).perform();
-      await browser.actions().click().perform();
-      await this.waitForMenuToClose();
-    } catch (e) {
-      Logger.error('____ click nth menu item catch ___', e);
-    }
-  }
-
   async clickMenuItem(menuItem: string): Promise<void> {
     try {
       const elem = this.getItemByLabel(menuItem);
-      await BrowserActions.click(elem);
+      await click(elem);
     } catch (e) {
-      Logger.error(`___click menu item catch : failed to click on ${menuItem}___`, e);
+      console.error(`___click menu item catch : failed to click on ${menuItem}___`, e);
     }
   }
 }

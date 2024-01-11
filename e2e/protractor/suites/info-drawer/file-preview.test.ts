@@ -22,8 +22,19 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, RepoClient, FILES, SearchInput, DataTable, InfoDrawer } from '@alfresco/aca-testing-shared';
-import { BrowserActions, ViewerPage } from '@alfresco/adf-testing';
+import {
+  AdminActions,
+  LoginPage,
+  BrowsingPage,
+  RepoClient,
+  FILES,
+  SearchInput,
+  DataTable,
+  InfoDrawer,
+  click,
+  waitUntilElementIsVisible
+} from '@alfresco/aca-testing-shared';
+import { element, by, $$ } from 'protractor';
 
 describe('File preview', () => {
   const timestamp = new Date().getTime();
@@ -41,7 +52,6 @@ describe('File preview', () => {
   const dataTable = new DataTable();
   const adminApiActions = new AdminActions();
   const searchInput = new SearchInput();
-  const viewerPage = new ViewerPage();
 
   beforeAll(async () => {
     await adminApiActions.createUser({ username });
@@ -58,13 +68,25 @@ describe('File preview', () => {
     await browsingPage.clickPersonalFilesAndWait();
   });
 
+  async function checkFileContent(pageNumber: string, text: string): Promise<void> {
+    const allPages = $$('.canvasWrapper > canvas').first();
+    const pageLoaded = $$('div[data-page-number="' + pageNumber + '"][data-loaded="true"]').first();
+    const textLayerLoaded = $$('div[data-page-number="' + pageNumber + '"] .textLayer').first();
+    const specificText = element.all(by.cssContainingText('div[data-page-number="' + pageNumber + '"] .textLayer', text)).first();
+
+    await waitUntilElementIsVisible(allPages);
+    await waitUntilElementIsVisible(pageLoaded);
+    await waitUntilElementIsVisible(textLayerLoaded);
+    await waitUntilElementIsVisible(specificText);
+  }
+
   it('[C595967] Should preview document from the info drawer', async () => {
     const pageNumber = '1';
     const documentText = 'This is a small demonstration';
     await searchInput.searchUntilResult(fileName, 'URL');
     await dataTable.selectItem(fileName);
-    await BrowserActions.click(infoDrawer.toolbar.viewDetailsButton);
+    await click(infoDrawer.toolbar.viewDetailsButton);
     await infoDrawer.previewButton.click();
-    await viewerPage.checkFileContent(pageNumber, documentText);
+    await checkFileContent(pageNumber, documentText);
   });
 });

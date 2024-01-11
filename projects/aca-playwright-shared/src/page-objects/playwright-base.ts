@@ -22,8 +22,8 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { GenericLogger, LoggerLike } from '@alfresco/adf-testing';
 import { Page } from '@playwright/test';
+import { GenericLogger, LoggerLike } from '@alfresco/aca-testing-shared';
 
 export abstract class PlaywrightBase {
   public page: Page;

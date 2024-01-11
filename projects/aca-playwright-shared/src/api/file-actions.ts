@@ -25,8 +25,8 @@
 import * as fs from 'fs';
 import { ApiClientFactory } from './api-client-factory';
 import { Utils } from '../utils';
-import { ApiUtil, Logger } from '@alfresco/adf-testing';
 import { NodeBodyCreate, NodeEntry, ResultSetPaging } from '@alfresco/js-api';
+import { waitForApi } from '@alfresco/aca-testing-shared';
 
 export class FileActionsApi {
   private apiService: ApiClientFactory;
@@ -73,7 +73,6 @@ export class FileActionsApi {
     try {
       return await this.apiService.upload.uploadFile(file, '', parentId, nodeProps, opts);
     } catch (error) {
-      Logger.error(`${this.constructor.name} ${this.uploadFileWithRename.name}`, error);
       return Promise.reject(error);
     }
   }
@@ -83,16 +82,13 @@ export class FileActionsApi {
       for (const nodeId of nodeIds) {
         await this.apiService.nodes.lockNode(nodeId, { type: lockType });
       }
-    } catch (error) {
-      Logger.error(`${this.constructor.name} ${this.lockNodes.name}`, error);
-    }
+    } catch {}
   }
 
   async getNodeById(id: string): Promise<NodeEntry | null> {
     try {
       return await this.apiService.nodes.getNode(id);
-    } catch (error) {
-      Logger.error(`${this.constructor.name} ${this.getNodeById.name}`, error);
+    } catch {
       return null;
     }
   }
@@ -101,8 +97,7 @@ export class FileActionsApi {
     try {
       const node = await this.getNodeById(nodeId);
       return node.entry.properties?.[property] || '';
-    } catch (error) {
-      Logger.error(`${this.constructor.name} ${this.getNodeProperty.name}`, error);
+    } catch {
       return '';
     }
   }
@@ -111,8 +106,7 @@ export class FileActionsApi {
     try {
       const lockType = await this.getNodeProperty(nodeId, 'cm:lockType');
       return lockType || '';
-    } catch (error) {
-      Logger.error(`${this.constructor.name} ${this.getLockType.name}`, error);
+    } catch {
       return '';
     }
   }
@@ -133,9 +127,7 @@ export class FileActionsApi {
         }
       };
       return await Utils.retryCall(locked, data.retry);
-    } catch (error) {
-      Logger.error(`${this.constructor.name} ${this.isFileLockedWriteWithRetry.name}`, error);
-    }
+    } catch {}
     return isLocked;
   }
 
@@ -150,8 +142,7 @@ export class FileActionsApi {
 
     try {
       return await this.apiService.search.search(data);
-    } catch (error) {
-      Logger.error(`SearchApi queryNodesNames : catch : `, error);
+    } catch {
       return new ResultSetPaging();
     }
   }
@@ -168,11 +159,8 @@ export class FileActionsApi {
     };
 
     try {
-      await ApiUtil.waitForApi(apiCall, predicate, 30, 2500);
-    } catch (error) {
-      Logger.error(`SearchApi waitForNodes : catch : `);
-      Logger.error(`\tExpected: ${data.expect} items, but found ${error}`);
-    }
+      await waitForApi(apiCall, predicate, 30, 2500);
+    } catch {}
   }
 
   async updateNodeContent(nodeId: string, content: string, majorVersion: boolean = true, comment?: string, newName?: string): Promise<NodeEntry> {

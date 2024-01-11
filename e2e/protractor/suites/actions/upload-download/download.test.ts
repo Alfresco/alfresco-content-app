@@ -22,8 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, UserActions, LoginPage, BrowsingPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
-import { BrowserActions } from '@alfresco/adf-testing';
+import { AdminActions, UserActions, LoginPage, BrowsingPage, RepoClient, Utils, click } from '@alfresco/aca-testing-shared';
 
 describe('Download', () => {
   const random = Utils.random();
@@ -129,14 +128,14 @@ describe('Download', () => {
 
     it('[C213179] Download a file', async () => {
       await dataTable.selectItem(filePersonal);
-      await BrowserActions.click(toolbar.downloadButton);
+      await click(toolbar.downloadButton);
 
       expect(await Utils.fileExistsOnOS(filePersonal)).toBe(true, 'File not found in download location');
     });
 
     it('[C216352] Download a folder', async () => {
       await dataTable.selectItem(folderPersonal);
-      await BrowserActions.click(toolbar.downloadButton);
+      await click(toolbar.downloadButton);
 
       const folderZip = `${folderPersonal}.zip`;
 
@@ -149,7 +148,7 @@ describe('Download', () => {
 
     it('[C216353] Download multiple items', async () => {
       await dataTable.selectMultipleItems([filePersonal, folderPersonal]);
-      await BrowserActions.click(toolbar.downloadButton);
+      await click(toolbar.downloadButton);
 
       expect(await Utils.fileExistsOnOS(archiveZip)).toBe(true, 'File not found in download location');
 

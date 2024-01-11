@@ -23,8 +23,8 @@
  */
 
 import { ElementFinder, ElementArrayFinder, by, browser, protractor, element } from 'protractor';
-import { BrowserVisibility } from '@alfresco/adf-testing';
 import { GenericFilter } from './generic-filter';
+import { waitUntilElementHasText } from '../../../utilities';
 
 export class FacetTabbedFilter extends GenericFilter {
   private readonly locators = {
@@ -61,12 +61,12 @@ export class FacetTabbedFilter extends GenericFilter {
 
   async changeTabToModifier(): Promise<void> {
     await this.tabs.get(1).click();
-    await BrowserVisibility.waitUntilElementHasText(await this.filterDialogOpened.element(by.css(this.locators.currentTabLabel)), 'Modifier');
+    await waitUntilElementHasText(await this.filterDialogOpened.element(by.css(this.locators.currentTabLabel)), 'Modifier');
   }
 
   async changeTabToCreator(): Promise<void> {
     await this.tabs.get(0).click();
-    await BrowserVisibility.waitUntilElementHasText(await this.filterDialogOpened.element(by.css(this.locators.currentTabLabel)), 'Creator');
+    await waitUntilElementHasText(await this.filterDialogOpened.element(by.css(this.locators.currentTabLabel)), 'Creator');
   }
 
   async isChipListDisplayed(): Promise<boolean> {

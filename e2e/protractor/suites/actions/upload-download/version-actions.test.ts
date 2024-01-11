@@ -34,7 +34,6 @@ import {
   UserActions
 } from '@alfresco/aca-testing-shared';
 import { browser } from 'protractor';
-import { Logger } from '@alfresco/adf-testing';
 
 describe('Version actions', () => {
   const random = Utils.random();
@@ -87,9 +86,7 @@ describe('Version actions', () => {
       await loginPage.loginWith(username);
       await dataTable.doubleClickOnRowByName(parentFolder);
       await dataTable.waitForHeader();
-    } catch (error) {
-      Logger.error(`--- beforeAll failed : ${error}`);
-    }
+    } catch {}
   });
 
   afterAll(async () => {

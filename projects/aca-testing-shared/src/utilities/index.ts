@@ -27,3 +27,8 @@ export * from './repo-client/repo-client';
 export * from './admin-actions';
 export * from './user-actions';
 export * from './utils';
+export * from './browser-visibility';
+export * from './browser-actions';
+export * from './api';
+export * from './logger';
+export * from './test-element';

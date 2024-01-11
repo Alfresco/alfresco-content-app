@@ -21,8 +21,6 @@
     "typeRoots": ["node_modules/@types"],
     "lib": ["es2019", "dom"],
     "paths": {
-      "@alfresco/adf-testing": ["../alfresco-ng2-components/lib/testing"],
-      "@alfresco/adf-testing/shared": ["../alfresco-ng2-components/lib/testing/src/lib/shared"],
       "@alfresco/playwright-shared": ["projects/aca-playwright-shared/src/index.ts"],
       "@alfresco/adf-core": ["../alfresco-ng2-components/lib/core/index.ts"],
       "@alfresco/adf-core/*": ["../alfresco-ng2-components/lib/core/*/public-api.ts"],

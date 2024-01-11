@@ -24,8 +24,7 @@
 
 import { browser, by } from 'protractor';
 import { Component } from '../component';
-import { waitElement, waitForPresence } from '../../utilities/utils';
-import { BrowserActions, BrowserVisibility, TestElement } from '@alfresco/adf-testing';
+import { click, waitElement, waitForPresence, waitUntilElementIsClickable, getUrl, TestElement } from '../../utilities';
 
 export class SearchInput extends Component {
   get searchButton() {
@@ -58,7 +57,7 @@ export class SearchInput extends Component {
   }
 
   async clickSearchButton() {
-    await BrowserActions.click(this.searchButton);
+    await click(this.searchButton);
 
     await this.waitForSearchControl();
   }
@@ -69,15 +68,15 @@ export class SearchInput extends Component {
   }
 
   async clickFilesOption() {
-    await BrowserActions.click(this.searchFilesOption);
+    await click(this.searchFilesOption);
   }
 
   async clickFoldersOption() {
-    await BrowserActions.click(this.searchFoldersOption);
+    await click(this.searchFoldersOption);
   }
 
   async clickLibrariesOption() {
-    await BrowserActions.click(this.searchLibrariesOption);
+    await click(this.searchLibrariesOption);
   }
 
   async isFilesOptionEnabled() {
@@ -143,19 +142,19 @@ export class SearchInput extends Component {
   }
 
   async searchForLibrary(text: string) {
-    await BrowserVisibility.waitUntilElementIsClickable(this.searchInput.elementFinder);
+    await waitUntilElementIsClickable(this.searchInput.elementFinder);
     await this.searchInput.typeText(text);
   }
 
   async searchFor(text: string) {
-    await BrowserVisibility.waitUntilElementIsClickable(this.searchInput.elementFinder);
+    await waitUntilElementIsClickable(this.searchInput.elementFinder);
     await this.searchInput.typeText(text);
-    await BrowserActions.click(this.searchButton);
+    await click(this.searchButton);
   }
 
   async searchByURL(text: string) {
     const query = Buffer.from(text, 'utf-8').toString();
-    await BrowserActions.getUrl(`#/search;q=${query}`);
+    await getUrl(`#/search;q=${query}`);
   }
 
   async searchUntilResult(text: string, methodType: 'URL' | 'UI', waitPerSearch: number = 2000, timeout: number = 20000) {

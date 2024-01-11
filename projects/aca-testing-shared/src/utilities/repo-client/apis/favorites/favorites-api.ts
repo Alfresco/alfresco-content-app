@@ -23,8 +23,7 @@
  */
 
 import { RepoApi } from '../repo-api';
-import { Logger } from '@alfresco/adf-testing';
-import { Utils } from '../../../../utilities/utils';
+import { Utils } from '../../../utils';
 import { FavoritesApi as AdfFavoritesApi, SitesApi as AdfSiteApi, FavoriteEntry } from '@alfresco/js-api';
 
 export class FavoritesApi extends RepoApi {
@@ -103,10 +102,9 @@ export class FavoritesApi extends RepoApi {
   }
 
   async isFavoriteWithRetry(nodeId: string, data: { expect: boolean }) {
-    let isFavorite = false;
     try {
       const favorite = async () => {
-        isFavorite = await this.isFavorite(nodeId);
+        let isFavorite = await this.isFavorite(nodeId);
         if (isFavorite !== data.expect) {
           return Promise.reject(isFavorite);
         } else {
@@ -114,8 +112,9 @@ export class FavoritesApi extends RepoApi {
         }
       };
       return await Utils.retryCall(favorite);
-    } catch (error) {}
-    return isFavorite;
+    } catch {
+      return false;
+    }
   }
 
   private async removeFavoriteById(nodeId: string) {
@@ -150,8 +149,8 @@ export class FavoritesApi extends RepoApi {
       };
       return await Utils.retryCall(favoriteFiles);
     } catch (error) {
-      Logger.error(`FavoritesApi waitForApi :  catch : `);
-      Logger.error(`\tExpected: ${data.expect} items, but found ${error}`);
+      console.error(`FavoritesApi waitForApi :  catch : `);
+      console.error(`\tExpected: ${data.expect} items, but found ${error}`);
     }
   }
 }

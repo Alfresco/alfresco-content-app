@@ -23,8 +23,7 @@
  */
 
 import { ElementFinder, by, browser, Locator } from 'protractor';
-import { isPresentAndDisplayed, waitForPresence, waitForStaleness } from '../../utilities/utils';
-import { BrowserVisibility, Logger } from '@alfresco/adf-testing';
+import { isPresentAndDisplayed, waitForPresence, waitForStaleness, waitUntilElementIsVisible } from '../../utilities';
 
 export abstract class GenericDialog {
   protected constructor(private rootCssSelector?: string) {}
@@ -47,16 +46,14 @@ export abstract class GenericDialog {
 
   async waitForDialogToOpen(): Promise<void> {
     await waitForPresence(this.rootElem);
-    await BrowserVisibility.waitUntilElementIsVisible(this.content);
+    await waitUntilElementIsVisible(this.content);
     await waitForPresence(browser.element(by.css('.cdk-overlay-backdrop')));
   }
 
   async waitForDialogToClose(): Promise<void> {
     try {
       await waitForStaleness(this.content);
-    } catch (error) {
-      Logger.error(`GenericDialog waitForDialogToClose :  catch : ${error}`);
-    }
+    } catch {}
   }
 
   async isDialogOpen(): Promise<boolean> {

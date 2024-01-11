@@ -36,7 +36,6 @@ import {
   UploadNewVersionDialog,
   UploadFilesDialog
 } from '@alfresco/aca-testing-shared';
-import { Logger } from '@alfresco/adf-testing';
 import { By, element } from 'protractor';
 
 describe('Viewer actions', () => {
@@ -108,9 +107,7 @@ describe('Viewer actions', () => {
 
         await userActions.lockNodes([fileForCancelEditingId, fileForUploadNewVersionId, fileForUploadNewVersionId2]);
         await loginPage.loginWith(username);
-      } catch (error) {
-        Logger.error(`----- beforeAll failed : ${error}`);
-      }
+      } catch {}
     });
 
     beforeEach(async () => {
@@ -118,9 +115,7 @@ describe('Viewer actions', () => {
         await page.clickPersonalFilesAndWait();
         await dataTable.doubleClickOnRowByName(parent);
         await dataTable.waitForHeader();
-      } catch (error) {
-        Logger.error(`----- beforeEach failed : ${error}`);
-      }
+      } catch {}
     });
 
     afterEach(async () => {
@@ -133,9 +128,7 @@ describe('Viewer actions', () => {
         await userActions.login(username, username);
         await userActions.deleteNodes([parentId, destinationId]);
         await userActions.emptyTrashcan();
-      } catch (error) {
-        Logger.error(`----- afterAll failed : ${error}`);
-      }
+      } catch {}
     });
 
     it('[C297585] Cancel Editing action', async () => {
@@ -220,9 +213,7 @@ describe('Viewer actions', () => {
         await apis.user.search.waitForApi(username, { expect: 7 });
 
         await loginPage.loginWith(username);
-      } catch (error) {
-        Logger.error(`----- beforeAll failed : ${error}`);
-      }
+      } catch {}
     });
 
     beforeEach(async () => {
@@ -239,9 +230,7 @@ describe('Viewer actions', () => {
         await userActions.login(username, username);
         await userActions.deleteNodes([parentId, destinationId]);
         await userActions.emptyTrashcan();
-      } catch (error) {
-        Logger.error(`----- afterAll failed : ${error}`);
-      }
+      } catch {}
     });
 
     it('[C286384] Copy action', async () => {
@@ -322,9 +311,7 @@ describe('Viewer actions', () => {
         ]);
 
         await loginPage.loginWith(username);
-      } catch (error) {
-        Logger.error(`----- beforeAll failed : ${error}`);
-      }
+      } catch {}
     });
 
     beforeEach(async () => {
@@ -336,9 +323,7 @@ describe('Viewer actions', () => {
         await page.closeOpenDialogs();
         await Utils.pressEscape();
         await uploadFilesDialog.closeUploadDialog();
-      } catch (error) {
-        Logger.error(`----- afterEach failed : ${error}`);
-      }
+      } catch {}
     });
 
     afterAll(async () => {
@@ -346,9 +331,7 @@ describe('Viewer actions', () => {
         await userActions.login(username, username);
         await userActions.deleteNodes([parentId, destinationId]);
         await userActions.emptyTrashcan();
-      } catch (error) {
-        Logger.error(`----- afterAll failed : ${error}`);
-      }
+      } catch {}
     });
 
     it('[C286379] Favorite action', async () => {
@@ -404,9 +387,7 @@ describe('Viewer actions', () => {
         await apis.user.favorites.waitForApi({ expect: 7 });
 
         await loginPage.loginWith(username);
-      } catch (error) {
-        Logger.error(`----- beforeAll failed : ${error}`);
-      }
+      } catch {}
     });
 
     beforeEach(async () => {
@@ -423,9 +404,7 @@ describe('Viewer actions', () => {
         await userActions.login(username, username);
         await userActions.deleteNodes([parentId, destinationId]);
         await userActions.emptyTrashcan();
-      } catch (error) {
-        Logger.error(`----- afterAll failed : ${error}`);
-      }
+      } catch {}
     });
 
     it('[C286395] Share action', async () => {

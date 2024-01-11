@@ -22,7 +22,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { TestElement } from '@alfresco/adf-testing';
+import { TestElement } from '../../utilities';
 
 export class UploadFilesDialog {
   uploadDialog = TestElement.byCss('.adf-upload-dialog');

@@ -31,9 +31,9 @@ import {
   RepoClient,
   CreateOrEditFolderDialog,
   Utils,
-  clearTextWithBackspace
+  clearTextWithBackspace,
+  click
 } from '@alfresco/aca-testing-shared';
-import { BrowserActions } from '@alfresco/adf-testing';
 
 describe('Edit folder', () => {
   const username = `user-${Utils.random()}`;
@@ -133,7 +133,7 @@ describe('Edit folder', () => {
     await dataTable.doubleClickOnRowByName(parent);
     await dataTable.selectItem(folderName);
     await toolbar.openMoreMenu();
-    await BrowserActions.click(toolbar.menu.editFolderAction);
+    await click(toolbar.menu.editFolderAction);
 
     expect(await editDialog.getDialogTitle()).toEqual('Edit folder');
     expect(await editDialog.getName()).toBe(folderName);
@@ -152,11 +152,11 @@ describe('Edit folder', () => {
     it('[C216335] properties are modified when pressing OK', async () => {
       await dataTable.selectItem(folderNameToEdit);
       await toolbar.openMoreMenu();
-      await BrowserActions.click(toolbar.menu.editFolderAction);
+      await click(toolbar.menu.editFolderAction);
       await editDialog.waitForDialogToOpen();
       await editDialog.enterDescription(folderDescriptionEdited);
       await editDialog.enterName(folderNameEdited);
-      await BrowserActions.click(editDialog.updateButton);
+      await click(editDialog.updateButton);
       await editDialog.waitForDialogToClose();
       await dataTable.waitForHeader();
 
@@ -168,7 +168,7 @@ describe('Edit folder', () => {
     it('[C216332] with empty folder name', async () => {
       await dataTable.selectItem(folderName);
       await toolbar.openMoreMenu();
-      await BrowserActions.click(toolbar.menu.editFolderAction);
+      await click(toolbar.menu.editFolderAction);
       await clearTextWithBackspace(editDialog.nameInput);
 
       expect(await editDialog.isUpdateButtonEnabled()).toBe(false, 'upload button is not enabled');
@@ -180,7 +180,7 @@ describe('Edit folder', () => {
 
       await dataTable.selectItem(folderName);
       await toolbar.openMoreMenu();
-      await BrowserActions.click(toolbar.menu.editFolderAction);
+      await click(toolbar.menu.editFolderAction);
 
       for (const name of namesWithSpecialChars) {
         await editDialog.enterName(name);
@@ -192,7 +192,7 @@ describe('Edit folder', () => {
     it('[C216334] with name ending with a dot', async () => {
       await dataTable.selectItem(folderName);
       await toolbar.openMoreMenu();
-      await BrowserActions.click(toolbar.menu.editFolderAction);
+      await click(toolbar.menu.editFolderAction);
       await editDialog.waitForDialogToOpen();
       await editDialog.nameInput.sendKeys('.');
 
@@ -203,7 +203,7 @@ describe('Edit folder', () => {
     it('[C216336] Cancel button', async () => {
       await dataTable.selectItem(folderName);
       await toolbar.openMoreMenu();
-      await BrowserActions.click(toolbar.menu.editFolderAction);
+      await click(toolbar.menu.editFolderAction);
       await editDialog.waitForDialogToOpen();
       await editDialog.clickCancel();
 
@@ -213,10 +213,10 @@ describe('Edit folder', () => {
     it('[C216337] with duplicate folder name', async () => {
       await dataTable.selectItem(folderName);
       await toolbar.openMoreMenu();
-      await BrowserActions.click(toolbar.menu.editFolderAction);
+      await click(toolbar.menu.editFolderAction);
       await editDialog.waitForDialogToOpen();
       await editDialog.enterName(duplicateFolderName);
-      await BrowserActions.click(editDialog.updateButton);
+      await click(editDialog.updateButton);
 
       expect(await page.getSnackBarMessage()).toEqual(`There's already a folder with this name. Try a different name.`);
       expect(await editDialog.isDialogOpen()).toBe(true, 'dialog is not present');
@@ -225,9 +225,9 @@ describe('Edit folder', () => {
     it('[C216338] trim ending spaces', async () => {
       await dataTable.selectItem(folderName);
       await toolbar.openMoreMenu();
-      await BrowserActions.click(toolbar.menu.editFolderAction);
+      await click(toolbar.menu.editFolderAction);
       await editDialog.nameInput.sendKeys('   ');
-      await BrowserActions.click(editDialog.updateButton);
+      await click(editDialog.updateButton);
       await editDialog.waitForDialogToClose();
 
       expect(await page.snackBar.isPresent()).not.toBe(true, 'notification appears');
