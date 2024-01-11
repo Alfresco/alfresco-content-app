@@ -22,21 +22,9 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { by, element, ElementFinder, protractor, $, browser } from 'protractor';
-import { clearSendKeys, click, getInputValue } from './browser-actions';
-import {
-  waitUntilElementHasValue,
-  waitUntilElementIsNotPresent,
-  waitUntilElementIsNotVisible,
-  waitUntilElementIsPresent,
-  waitUntilElementIsVisible
-} from './browser-visibility';
-
-async function getAttribute(elementFinder: ElementFinder, attribute: string): Promise<string> {
-  await waitUntilElementIsPresent(elementFinder);
-  const attributeValue: string = await browser.executeScript(`return arguments[0].getAttribute(arguments[1])`, elementFinder, attribute);
-  return attributeValue || '';
-}
+import { by, element, ElementFinder, $, browser } from 'protractor';
+import { clearSendKeys, click } from './browser-actions';
+import { waitUntilElementIsNotVisible, waitUntilElementIsPresent, waitUntilElementIsVisible } from './browser-visibility';
 
 async function getText(elementFinder: ElementFinder): Promise<string> {
   const present = await waitUntilElementIsVisible(elementFinder);
@@ -48,7 +36,7 @@ async function getText(elementFinder: ElementFinder): Promise<string> {
       // DO NOT REMOVE BUG sometime wrongly return empty text for cdk elements
       console.info(`Use backup get text script`);
 
-      text = await this.getTextScript(elementFinder);
+      text = await browser.executeScript(`return arguments[0].textContent`, elementFinder);
       return text?.trim();
     }
 
@@ -94,16 +82,6 @@ export class TestElement {
    */
   static byText(selector: string, text: string): TestElement {
     return new TestElement(element(by.cssContainingText(selector, text)));
-  }
-
-  /**
-   * Create a new instance with the element with specific HTML tag name
-   *
-   * @param selector the HTML tag name
-   * @returns test element wrapper
-   */
-  static byTag(selector: string): TestElement {
-    return new TestElement(element(by.tagName(selector)));
   }
 
   /**
@@ -160,80 +138,10 @@ export class TestElement {
   }
 
   /**
-   * Waits until the element is present on the DOM of a page
-   *
-   * @param waitTimeout How long to wait for the condition to be true
-   */
-  async waitPresent(waitTimeout?: number): Promise<any> {
-    return waitUntilElementIsPresent(this.elementFinder, waitTimeout);
-  }
-
-  /**
-   * Waits until the element is not attached to the DOM of a page
-   *
-   * @param waitTimeout How long to wait for the condition to be true
-   */
-  async waitNotPresent(waitTimeout?: number): Promise<any> {
-    return waitUntilElementIsNotPresent(this.elementFinder, waitTimeout);
-  }
-
-  /**
-   * Waits until the given text is present in the element’s value
-   *
-   * @param value the text to check
-   */
-  async waitHasValue(value: string): Promise<any> {
-    return waitUntilElementHasValue(this.elementFinder, value);
-  }
-
-  /**
-   * Query whether the DOM element represented by this instance is enabled.
-   */
-  async isEnabled(): Promise<boolean> {
-    return this.elementFinder.isEnabled();
-  }
-  /**
-   * Query whether the DOM element represented by this instance is disabled.
-   */
-  async isDisabled(): Promise<boolean> {
-    return !(await this.elementFinder.isEnabled());
-  }
-
-  /**
-   * Test whether this element is currently displayed.
-   */
-  async isDisplayed(): Promise<boolean> {
-    try {
-      await this.elementFinder.isDisplayed();
-      return true;
-    } catch {
-      return false;
-    }
-  }
-
-  /**
-   * Query for the value of the given attribute of the element.
-   *
-   * @param attributeName The name of the attribute to query.
-   */
-  async getAttribute(attributeName: string): Promise<string> {
-    return getAttribute(this.elementFinder, attributeName);
-  }
-
-  /**
    * Get the visible (i.e. not hidden by CSS) innerText of this element, including sub-elements, without any leading or trailing whitespace.
    */
   async getText(): Promise<string> {
     return getText(this.elementFinder);
-  }
-
-  /**
-   * Gets the `value` attribute for the given input element
-   *
-   * @returns input value
-   */
-  getInputValue(): Promise<string> {
-    return getInputValue(this.elementFinder);
   }
 
   /**
@@ -243,13 +151,5 @@ export class TestElement {
    */
   async typeText(text: string): Promise<void> {
     await clearSendKeys(this.elementFinder, text);
-  }
-
-  /**
-   * Clears the input using Ctrl+A and Backspace combination
-   */
-  async clearInput() {
-    await this.elementFinder.clear();
-    await this.elementFinder.sendKeys(' ', protractor.Key.CONTROL, 'a', protractor.Key.NULL, protractor.Key.BACK_SPACE);
   }
 }
