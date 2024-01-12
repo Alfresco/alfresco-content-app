@@ -24,7 +24,7 @@
 
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
-import { map, take } from 'rxjs/operators';
+import { filter, first, map, take } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import {
   AppStore,
@@ -50,12 +50,12 @@ import {
   ExpandInfoDrawerAction,
   ManageRulesAction,
   ShowLoaderAction,
-  ToggleInfoDrawerAction,
+  SetInfoDrawerStateAction
   NavigateUrlAction
 } from '@alfresco/aca-shared/store';
 import { ContentManagementService } from '../../services/content-management.service';
 import { RenditionService } from '@alfresco/adf-content-services';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Injectable()
 export class NodeEffects {
@@ -308,6 +308,12 @@ export class NodeEffects {
       this.actions$.pipe(
         ofType<ExpandInfoDrawerAction>(NodeActionTypes.ExpandInfoDrawer),
         map((action) => {
+          this.router.events
+            .pipe(
+              filter((event) => event instanceof NavigationEnd),
+              first()
+            )
+            .subscribe(() => this.store.dispatch(new SetInfoDrawerStateAction(true)));
           if (action?.payload) {
             const route = 'personal-files/details';
             this.router.navigate([route, action.payload.entry.id], {
@@ -330,7 +336,6 @@ export class NodeEffects {
                 }
               });
           }
-          this.store.dispatch(new ToggleInfoDrawerAction());
         })
       ),
     { dispatch: false }
