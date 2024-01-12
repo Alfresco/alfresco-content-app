@@ -381,19 +381,19 @@ describe('NodeEffects', () => {
 
   describe('managePermissions$', () => {
     it('should manage permissions from the payload', () => {
-      spyOn(router, 'navigate').and.stub();
+      spyOn(router, 'navigateByUrl').and.stub();
       const node: any = { entry: { isFile: true, id: 'fileId' } };
       store.dispatch(new ManagePermissionsAction(node));
 
-      expect(router.navigate).toHaveBeenCalledWith(['personal-files/details', 'fileId', 'permissions']);
+      expect(router.navigateByUrl).toHaveBeenCalledWith('personal-files/details/fileId/permissions');
     });
 
     it('should manage permissions from the active selection', () => {
       spyOn(store, 'select').and.returnValue(of({ isEmpty: false, last: { entry: { id: 'fileId' } } }));
-      spyOn(router, 'navigate').and.stub();
+      spyOn(router, 'navigateByUrl').and.stub();
       store.dispatch(new ManagePermissionsAction(null));
 
-      expect(router.navigate).toHaveBeenCalledWith(['personal-files/details', 'fileId', 'permissions']);
+      expect(router.navigateByUrl).toHaveBeenCalledWith('personal-files/details/fileId/permissions');
     });
 
     it('should do nothing if invoking manage permissions with no data', () => {
