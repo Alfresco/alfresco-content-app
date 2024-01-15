@@ -157,7 +157,7 @@ describe('AppService', () => {
     await expect(isReady).toEqual(true);
   });
 
-  it('should set storage prefix after login', async () => {
+  it('should set local storage prefix after login', () => {
     spyOn(preferencesService, 'setStoragePrefix');
     spyOn(auth, 'getUsername').and.returnValue('test-username');
     auth.onLogin.next();
