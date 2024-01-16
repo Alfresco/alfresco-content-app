@@ -31,7 +31,8 @@ import {
   PageTitleService,
   AlfrescoApiServiceMock,
   TranslationMock,
-  TranslationService
+  TranslationService,
+  UserPreferencesService
 } from '@alfresco/adf-core';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { HttpClientModule } from '@angular/common/http';
@@ -66,6 +67,7 @@ describe('AppService', () => {
   let sharedLinksApiService: SharedLinksApiService;
   let contentApi: ContentApiService;
   let groupService: GroupService;
+  let preferencesService: UserPreferencesService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -110,10 +112,12 @@ describe('AppService', () => {
           useValue: {
             onLogin: new Subject<any>(),
             onLogout: new Subject<any>(),
-            isLoggedIn: () => false
+            isLoggedIn: () => false,
+            getUsername: () => null
           }
         },
-        { provide: TranslationService, useClass: TranslationMock }
+        { provide: TranslationService, useClass: TranslationMock },
+        { provide: UserPreferencesService, useValue: { setStoragePrefix: () => null } }
       ]
     });
 
@@ -126,6 +130,7 @@ describe('AppService', () => {
     contentApi = TestBed.inject(ContentApiService);
     groupService = TestBed.inject(GroupService);
     service = TestBed.inject(AppService);
+    preferencesService = TestBed.inject(UserPreferencesService);
   });
 
   it('should be ready if [withCredentials] mode is used', (done) => {
@@ -150,6 +155,14 @@ describe('AppService', () => {
     });
     auth.onLogin.next();
     await expect(isReady).toEqual(true);
+  });
+
+  it('should set local storage prefix after login', () => {
+    spyOn(preferencesService, 'setStoragePrefix');
+    spyOn(auth, 'getUsername').and.returnValue('test-username');
+    auth.onLogin.next();
+
+    expect(preferencesService.setStoragePrefix).toHaveBeenCalledWith('test-username');
   });
 
   it('should reset search to defaults upon logout', async () => {

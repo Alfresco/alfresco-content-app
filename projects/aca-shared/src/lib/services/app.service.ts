@@ -98,6 +98,7 @@ export class AppService implements OnDestroy {
 
     this.authenticationService.onLogin.subscribe(() => {
       this.ready.next(true);
+      this.preferencesService.setStoragePrefix(this.authenticationService.getUsername());
     });
 
     this.authenticationService.onLogout.subscribe(() => {
