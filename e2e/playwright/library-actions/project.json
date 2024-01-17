@@ -1,13 +1,13 @@
 {
-  "name": "actions-e2e",
+  "name": "library-actions-e2e",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "e2e/playwright/actions/src",
+  "sourceRoot": "e2e/playwright/library-actions/src",
   "projectType": "application",
   "targets": {
     "e2e": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": ["npx playwright test --config=e2e/playwright/actions/playwright.config.ts"]
+        "commands": ["npx playwright test --config=e2e/playwright/library-actions/playwright.config.ts"]
       },
       "configurations": {
         "production": {
