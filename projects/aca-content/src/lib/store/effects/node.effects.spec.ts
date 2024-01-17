@@ -22,36 +22,38 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { NodeEffects } from './node.effects';
 import { EffectsModule } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { ContentManagementService } from '../../services/content-management.service';
 import {
-  SharedStoreModule,
-  ShareNodeAction,
-  SetSelectedNodesAction,
-  UnshareNodesAction,
-  PurgeDeletedNodesAction,
-  RestoreDeletedNodesAction,
-  DeleteNodesAction,
-  UndoDeleteNodesAction,
-  CreateFolderAction,
-  EditFolderAction,
   CopyNodesAction,
-  MoveNodesAction,
-  UnlockWriteAction,
+  CreateFolderAction,
+  DeleteNodesAction,
+  EditFolderAction,
+  ExpandInfoDrawerAction,
   FullscreenViewerAction,
-  PrintFileAction,
-  SetCurrentFolderAction,
   ManageAspectsAction,
   ManagePermissionsAction,
-  ShowLoaderAction
+  MoveNodesAction,
+  PrintFileAction,
+  PurgeDeletedNodesAction,
+  RestoreDeletedNodesAction,
+  SetCurrentFolderAction,
+  SetInfoDrawerStateAction,
+  SetSelectedNodesAction,
+  SharedStoreModule,
+  ShareNodeAction,
+  ShowLoaderAction,
+  UndoDeleteNodesAction,
+  UnlockWriteAction,
+  UnshareNodesAction
 } from '@alfresco/aca-shared/store';
 import { RenditionService } from '@alfresco/adf-content-services';
 import { ViewerEffects } from './viewer.effects';
-import { Router } from '@angular/router';
+import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -506,5 +508,34 @@ describe('NodeEffects', () => {
 
       expect(contentService.manageAspects).toHaveBeenCalledWith({ entry: { isFile: false, id: 'folder-node-id' } }, undefined);
     }));
+  });
+
+  describe('expandInfoDrawer$', () => {
+    beforeEach(() => {
+      spyOn(store, 'dispatch').and.callThrough();
+    });
+
+    it('should call dispatch on store with SetInfoDrawerStateAction when NavigationEnd event occurs', () => {
+      Object.defineProperty(router, 'events', {
+        value: of(new NavigationEnd(1, '', ''))
+      });
+
+      store.dispatch(new ExpandInfoDrawerAction(undefined));
+      expect(store.dispatch).toHaveBeenCalledWith(jasmine.any(SetInfoDrawerStateAction));
+      expect(store.dispatch).toHaveBeenCalledWith(
+        jasmine.objectContaining({
+          payload: true
+        })
+      );
+    });
+
+    it('should not call dispatch on store with SetInfoDrawerStateAction when different navigation event occurs than NavigationEnd', () => {
+      Object.defineProperty(router, 'events', {
+        value: of(new NavigationStart(1, ''))
+      });
+
+      store.dispatch(new ExpandInfoDrawerAction(undefined));
+      expect(store.dispatch).not.toHaveBeenCalledWith(jasmine.any(SetInfoDrawerStateAction));
+    });
   });
 });
