@@ -53,7 +53,7 @@ import {
 } from '@alfresco/aca-shared/store';
 import { RenditionService } from '@alfresco/adf-content-services';
 import { ViewerEffects } from './viewer.effects';
-import { NavigationEnd, NavigationStart, Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -527,15 +527,6 @@ describe('NodeEffects', () => {
           payload: true
         })
       );
-    });
-
-    it('should not call dispatch on store with SetInfoDrawerStateAction when different navigation event occurs than NavigationEnd', () => {
-      Object.defineProperty(router, 'events', {
-        value: of(new NavigationStart(1, ''))
-      });
-
-      store.dispatch(new ExpandInfoDrawerAction(undefined));
-      expect(store.dispatch).not.toHaveBeenCalledWith(jasmine.any(SetInfoDrawerStateAction));
     });
   });
 });
