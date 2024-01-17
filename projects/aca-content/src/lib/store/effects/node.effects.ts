@@ -50,7 +50,7 @@ import {
   ExpandInfoDrawerAction,
   ManageRulesAction,
   ShowLoaderAction,
-  SetInfoDrawerStateAction
+  SetInfoDrawerStateAction,
   NavigateUrlAction
 } from '@alfresco/aca-shared/store';
 import { ContentManagementService } from '../../services/content-management.service';
