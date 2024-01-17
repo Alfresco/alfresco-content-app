@@ -24,7 +24,7 @@
 
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
-import { filter, first, map, take } from 'rxjs/operators';
+import { first, map, take } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import {
   AppStore,
@@ -309,10 +309,7 @@ export class NodeEffects {
         ofType<ExpandInfoDrawerAction>(NodeActionTypes.ExpandInfoDrawer),
         map((action) => {
           this.router.events
-            .pipe(
-              filter((event) => event instanceof NavigationEnd),
-              first()
-            )
+            .pipe(first((event) => event instanceof NavigationEnd))
             .subscribe(() => this.store.dispatch(new SetInfoDrawerStateAction(true)));
           if (action?.payload) {
             const route = 'personal-files/details';

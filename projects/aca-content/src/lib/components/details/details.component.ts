@@ -37,7 +37,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MetadataTabComponent } from '../info-drawer/metadata-tab/metadata-tab.component';
 import { CommentsTabComponent } from '../info-drawer/comments-tab/comments-tab.component';
 import { NodeEntry, PathElement } from '@alfresco/js-api';
-import { filter, first, takeUntil } from 'rxjs/operators';
+import { first, takeUntil } from 'rxjs/operators';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 
 @Component({
@@ -101,14 +101,12 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
       });
     this.infoDrawerOpened$
       .pipe(
-        filter((opened) => !opened),
-        first(),
+        first((opened) => !opened),
         takeUntil(
           merge(
             this.onDestroy$,
             this.router.events.pipe(
-              filter((event) => event instanceof NavigationStart),
-              first(),
+              first((event) => event instanceof NavigationStart),
               takeUntil(this.onDestroy$)
             )
           )
