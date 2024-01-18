@@ -208,7 +208,21 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   onSortingChanged(event: any) {
-    this.filterSorting = event.detail.key + '-' + event.detail.direction;
+    var _field = event.detail.key.indexOf('properties') == 0 ? event.detail.key.substring(event.detail.key.indexOf('.') + 1) : event.detail.key;
+
+    if (_field == 'content.sizeInBytes') {
+      _field = 'content.size';
+    } else {
+      if (_field == 'modifiedAt') {
+        _field = 'cm:modified';
+      } else {
+        if (_field == 'modifiedByUser.displayName') {
+          _field = 'cm:modifier';
+        }
+      }
+    }
+
+    this.filterSorting = _field + '-' + event.detail.direction;
   }
 
   onAllFilterCleared() {
