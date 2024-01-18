@@ -405,6 +405,21 @@ describe('NodeEffects', () => {
 
       expect(router.navigate).not.toHaveBeenCalled();
     });
+
+    it('should call dispatch on store with SetInfoDrawerStateAction when NavigationEnd event occurs', () => {
+      spyOn(store, 'dispatch').and.callThrough();
+      Object.defineProperty(router, 'events', {
+        value: of(new NavigationEnd(1, '', ''))
+      });
+
+      store.dispatch(new ManagePermissionsAction(null));
+      expect(store.dispatch).toHaveBeenCalledWith(jasmine.any(SetInfoDrawerStateAction));
+      expect(store.dispatch).toHaveBeenCalledWith(
+        jasmine.objectContaining({
+          payload: true
+        })
+      );
+    });
   });
 
   describe('printFile$', () => {
@@ -511,11 +526,8 @@ describe('NodeEffects', () => {
   });
 
   describe('expandInfoDrawer$', () => {
-    beforeEach(() => {
-      spyOn(store, 'dispatch').and.callThrough();
-    });
-
     it('should call dispatch on store with SetInfoDrawerStateAction when NavigationEnd event occurs', () => {
+      spyOn(store, 'dispatch').and.callThrough();
       Object.defineProperty(router, 'events', {
         value: of(new NavigationEnd(1, '', ''))
       });

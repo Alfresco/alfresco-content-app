@@ -284,6 +284,9 @@ export class NodeEffects {
       this.actions$.pipe(
         ofType<ManagePermissionsAction>(NodeActionTypes.ManagePermissions),
         map((action) => {
+          this.router.events
+            .pipe(first((event) => event instanceof NavigationEnd))
+            .subscribe(() => this.store.dispatch(new SetInfoDrawerStateAction(true)));
           if (action?.payload) {
             const route = 'personal-files/details';
             this.store.dispatch(new NavigateUrlAction([route, action.payload.entry.id, 'permissions'].join('/')));
