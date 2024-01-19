@@ -149,7 +149,7 @@ jobs:
       fail-fast: false
       matrix:
         e2e-suites:
-          - name: "actions"
+          - name: "create-actions"
             id: 1
           - name: "folder-rules"
             id: 2
@@ -169,6 +169,8 @@ jobs:
             id: 9
           - name: "copy-move-actions"
             id: 10
+          - name: "library-actions"
+            id: 11
     steps:
       - name: Checkout
         uses: actions/checkout@v3

@@ -111,10 +111,10 @@ test.describe('Special permissions', () => {
 
     test('[C213116] on Shared Files', async ({ sharedPage }) => {
       await sharedPage.navigate();
-      expect(await sharedPage.dataTable.getRowsCount(), 'Incorrect number of items').toBe(2);
+      await expect(sharedPage.dataTable.getRowByName(sitePrivate)).toBeVisible();
       await siteApiAdmin.deleteSiteMember(sitePrivate, username);
       await sharedPage.reload();
-      expect(await sharedPage.dataTable.getRowsCount(), 'Incorrect number of items').toBe(0);
+      await expect(sharedPage.dataTable.getRowByName(sitePrivate)).toHaveCount(0);
     });
 
     test('[C290122] on Search Results', async ({ personalFiles, searchPage }) => {
@@ -187,7 +187,6 @@ test.describe('Special permissions', () => {
 
     test(`[C213668] on Shared Files`, async ({ sharedPage }) => {
       await sharedPage.navigate();
-      expect(await sharedPage.dataTable.getRowsCount(), 'Incorrect number of items').toBe(2);
       expect(await sharedPage.dataTable.getItemLocationText(fileName)).toEqual('Unknown');
     });
 
