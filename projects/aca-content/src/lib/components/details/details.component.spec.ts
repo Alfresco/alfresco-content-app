@@ -25,12 +25,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { DetailsComponent } from './details.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { BehaviorSubject, of, Subject } from 'rxjs';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { DefaultProjectorFn, MemoizedSelector, Store } from '@ngrx/store';
 import { ContentApiService } from '@alfresco/aca-shared';
-import { NavigateToFolder, SetSelectedNodesAction, STORE_INITIAL_APP_DATA } from '@alfresco/aca-shared/store';
+import {
+  AppStore,
+  isInfoDrawerOpened,
+  NavigateToFolder,
+  NavigateToPreviousPage,
+  SetSelectedNodesAction,
+  STORE_INITIAL_APP_DATA
+} from '@alfresco/aca-shared/store';
 import { NodeEntry, PathElement } from '@alfresco/js-api';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AuthenticationService, PageTitleService } from '@alfresco/adf-core';
@@ -100,6 +107,7 @@ describe('DetailsComponent', () => {
     contentApiService = TestBed.inject(ContentApiService);
     contentService = TestBed.inject(ContentService);
     store = TestBed.inject(Store);
+    storeMock.dispatch.calls.reset();
 
     node = {
       entry: {
@@ -241,5 +249,46 @@ describe('DetailsComponent', () => {
 
     component.setActiveTab('permissions');
     expect(component.activeTab).not.toBe(2);
+  });
+
+  describe('infoDrawerOpened$ event', () => {
+    let infoDrawerOpened$: Subject<boolean>;
+
+    beforeEach(() => {
+      infoDrawerOpened$ = new Subject<boolean>();
+      spyOn(store, 'select').and.callFake((mapFn: MemoizedSelector<AppStore, boolean, DefaultProjectorFn<boolean>>) =>
+        mapFn === isInfoDrawerOpened ? infoDrawerOpened$ : mockStream
+      );
+    });
+
+    it('should dispatch store NavigateToPreviousPage by store if info drawer is closed', () => {
+      component.ngOnInit();
+
+      infoDrawerOpened$.next(false);
+      expect(storeMock.dispatch).toHaveBeenCalledWith(jasmine.any(NavigateToPreviousPage));
+    });
+
+    it('should not dispatch store NavigateToPreviousPage by store if info drawer is opened', () => {
+      component.ngOnInit();
+
+      infoDrawerOpened$.next(true);
+      expect(storeMock.dispatch).not.toHaveBeenCalledWith(jasmine.any(NavigateToPreviousPage));
+    });
+
+    it('should not dispatch store NavigateToPreviousPage by store if info drawer opening state is not changed', () => {
+      component.ngOnInit();
+
+      expect(storeMock.dispatch).not.toHaveBeenCalledWith(jasmine.any(NavigateToPreviousPage));
+    });
+
+    it('should not dispatch store NavigateToPreviousPage by store if info drawer is closed but there occurred NavigationStart event', () => {
+      Object.defineProperty(TestBed.inject(Router), 'events', {
+        value: of(new NavigationStart(1, ''))
+      });
+      component.ngOnInit();
+
+      infoDrawerOpened$.next(false);
+      expect(storeMock.dispatch).not.toHaveBeenCalledWith(jasmine.any(NavigateToPreviousPage));
+    });
   });
 });
