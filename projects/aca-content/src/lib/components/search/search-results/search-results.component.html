@@ -75,7 +75,7 @@
               <data-column id="app.search.size" key="content.sizeInBytes" type="fileSize" title="APP.DOCUMENT_LIST.COLUMNS.SIZE" class="adf-no-grow-cell adf-ellipsis-cell" [sortable]="false" *ngIf="!isSmallScreen" [draggable]="true"></data-column>
               <data-column id="app.search.modifiedOn" key="modifiedAt" type="date" title="APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON" class="adf-no-grow-cell adf-ellipsis-cell" format="timeAgo" [sortable]="false" *ngIf="!isSmallScreen" [draggable]="true"></data-column>
               <data-column id="app.search.modifiedBy" key="modifiedByUser.displayName" title="APP.DOCUMENT_LIST.COLUMNS.MODIFIED_BY" class="adf-no-grow-cell adf-ellipsis-cell" [sortable]="false" *ngIf="!isSmallScreen" [draggable]="true"></data-column>
-              <data-column id="app.search.tags" key="$tags" type="text" title="APP.DOCUMENT_LIST.COLUMNS.TAGS" class="adf-full-width adf-expand-cell-4" [sortable]="false" [draggable]="true">
+              <data-column id="app.search.tags" key="$tags" type="text" title="APP.DOCUMENT_LIST.COLUMNS.TAGS" class="adf-full-width adf-expand-cell-4" [sortable]="false" [draggable]="true" *ngIf="isTagsEnabled">
                 <ng-template let-context>
                   <aca-tags-column [context]="context"></aca-tags-column>
                 </ng-template>

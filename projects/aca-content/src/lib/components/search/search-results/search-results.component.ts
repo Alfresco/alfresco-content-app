@@ -25,7 +25,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { NodeEntry, Pagination, ResultSetPaging } from '@alfresco/js-api';
 import { ActivatedRoute, Params } from '@angular/router';
-import { AlfrescoViewerModule, DocumentListModule, SearchModule, SearchQueryBuilderService } from '@alfresco/adf-content-services';
+import { AlfrescoViewerModule, DocumentListModule, SearchModule, SearchQueryBuilderService, TagService } from '@alfresco/adf-content-services';
 import {
   infoDrawerPreview,
   NavigateToFolder,
@@ -102,9 +102,17 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
   sorting = ['name', 'asc'];
   isLoading = false;
   totalResults: number;
+  isTagsEnabled = false;
 
-  constructor(private queryBuilder: SearchQueryBuilderService, private route: ActivatedRoute, private translationService: TranslationService) {
+  constructor(
+    tagsService: TagService,
+    private queryBuilder: SearchQueryBuilderService,
+    private route: ActivatedRoute,
+    private translationService: TranslationService
+  ) {
     super();
+
+    this.isTagsEnabled = tagsService.areTagsEnabled();
 
     queryBuilder.paging = {
       skipCount: 0,
