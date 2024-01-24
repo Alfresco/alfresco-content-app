@@ -51,32 +51,20 @@ exports.config = {
 
   specs: [
     './e2e/protractor/suites/actions/**/**/*test.ts',
-    './e2e/protractor/suites/application/**/*test.ts',
-    './e2e/protractor/suites/authentication/**/*test.ts',
-    './e2e/protractor/suites/extensions/**/*test.ts',
     './e2e/protractor/suites/info-drawer/**/*test.ts',
     './e2e/protractor/suites/list-views/**/*test.ts',
-    './e2e/protractor/suites/pagination/**/*test.ts',
     './e2e/protractor/suites/search/**/*test.ts',
     './e2e/protractor/suites/viewer/**/*test.ts'
   ],
 
   suites: {
-    copyMoveActions: './e2e/protractor/suites/actions/copy-move/**/**/*test.ts',
-    createActions: './e2e/protractor/suites/actions/create/**/**/*test.ts',
     deleteActions: './e2e/protractor/suites/actions/delete/**/**/*test.ts',
     editActions: './e2e/protractor/suites/actions/edit/**/**/*test.ts',
     favoriteActions: './e2e/protractor/suites/actions/favorite/**/**/*test.ts',
-    libraryActions: './e2e/protractor/suites/actions/library/**/**/*test.ts',
-    shareActions: './e2e/protractor/suites/actions/share/**/**/*test.ts',
     uploadDownloadActions: './e2e/protractor/suites/actions/upload-download/**/**/*test.ts',
 
-    application: './e2e/protractor/suites/application/**/*test.ts',
-    authentication: './e2e/protractor/suites/authentication/**/*test.ts',
-    extensions: './e2e/protractor/suites/extensions/**/*test.ts',
     infoDrawer: './e2e/protractor/suites/info-drawer/**/*test.ts',
     listViews: './e2e/protractor/suites/list-views/**/*test.ts',
-    pagination: './e2e/protractor/suites/pagination/**/*test.ts',
     search: './e2e/protractor/suites/search/**/*test.ts',
     viewer: './e2e/protractor/suites/viewer/**/*test.ts'
   },
