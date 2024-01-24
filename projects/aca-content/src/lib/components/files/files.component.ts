@@ -257,7 +257,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   }
 
   displayFolderParent(index: number, filePath = '') {
-    const parentName = filePath.split('/')[index];
+    const parentName = filePath.split('/').filter((el) => el)[index];
     const currentFoldersDisplayed = (this.documentList.data.getRows() as ShareDataRow[]) || [];
 
     const alreadyDisplayedParentFolder = currentFoldersDisplayed.find((row) => row.node.entry.isFolder && row.node.entry.name === parentName);
