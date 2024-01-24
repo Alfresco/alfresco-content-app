@@ -1204,7 +1204,7 @@
           }
         ]
       },
-      "content": [
+      "extensions": [
         {
           "id": "app.viewer.pdf",
           "disabled": true,

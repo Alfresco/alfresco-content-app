@@ -807,7 +807,7 @@
               "items": { "$ref": "#/definitions/contentActionRef" },
               "minItems": 1
             },
-            "content": {
+            "extensions": {
               "description": "Viewer content extensions",
               "type": "array",
               "items": { "$ref": "#/definitions/viewerExtensionRef" },
