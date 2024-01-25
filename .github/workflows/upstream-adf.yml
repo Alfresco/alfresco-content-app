@@ -127,7 +127,7 @@ jobs:
               echo "Migration JS done"
           }
           migrateAllDependencies() {
-              echo "Update ADF dependencies to: ${PACKAGE_VERSION_JS} and JS dependencies to: ${PACKAGE_VERSION_JS}"
+              echo "Update ADF dependencies to: ${PACKAGE_VERSION_ADF} and JS dependencies to: ${PACKAGE_VERSION_JS}"
               ./scripts/update-version.sh -v ${PACKAGE_VERSION_ADF} -vj ${PACKAGE_VERSION_JS}
               echo "Migration done"
           }
