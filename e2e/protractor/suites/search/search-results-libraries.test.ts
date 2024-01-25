@@ -56,11 +56,11 @@ describe('Search results - libraries', () => {
     id: `site-russian-id-${random}`
   };
 
-  const adminSite1 = `admin-${random}-site1`;
-  const adminSite2 = `admin-${random}-site2`;
-  const adminSite3 = `admin-${random}-site3`;
-  const adminSite4 = `admin-${random}-site4`;
-  const adminPrivate = `admin-${random}-sitePrivate`;
+  const adminSite1 = `admin1-${random}-siteSearch`;
+  const adminSite2 = `admin2-${random}-siteSearch`;
+  const adminSite3 = `admin3-${random}-siteSearch`;
+  const adminSite4 = `admin4-${random}-siteSearch`;
+  const adminPrivate = `admin4Private-${random}-siteSearch`;
 
   const apis = {
     user: new RepoClient(username, username)
@@ -206,7 +206,7 @@ describe('Search results - libraries', () => {
     await toolbar.clickSearchIconButton();
     await searchInput.clickSearchButton();
     await searchInput.checkLibraries();
-    await searchInput.searchForLibrary(`admin-${random}-site`);
+    await searchInput.searchForLibrary(`siteSearch`);
     await dataTable.waitForBody();
 
     const expectedSitesRoles = {
