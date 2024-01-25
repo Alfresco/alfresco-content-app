@@ -33,7 +33,7 @@ All the customizations are stored in the `features` section of the configuration
     "viewer": {
       "toolbarActions:": [],
       "openWith": [],
-      "content": []
+      "extensions": []
     },
     "sidebar": [],
     "content-metadata-presets": []
@@ -397,7 +397,7 @@ declared in the `rules` section:
 
 Viewer component in ACA supports the following extension points:
 
-- Content Viewers
+- Viewer extensions
 - Toolbar actions
 - `More` toolbar actions
 - `Open With` actions
@@ -419,9 +419,9 @@ Viewer component in ACA supports the following extension points:
 }
 ```
 
-### Content View
+### Viewer extensions
 
-You can provide custom components that render a particular type of the content based on extensions.
+You can provide custom components that render a particular type of the content based on file extensions.
 
 ```json
 {
@@ -431,7 +431,7 @@ You can provide custom components that render a particular type of the content b
 
   "features": {
     "viewer": {
-      "content": [
+      "extensions": [
         {
           "id": "app.viewer.pdf",
           "fileExtension": "pdf",
