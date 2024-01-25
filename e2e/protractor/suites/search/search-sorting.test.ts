@@ -76,7 +76,7 @@ describe('Search sorting', () => {
     await page.clickPersonalFilesAndWait();
     await toolbar.clickSearchIconButton();
     await searchInput.clickSearchButton();
-    await searchInput.searchFor(`search sort ${random}`);
+    await searchInput.searchFor(`search-sort *${random}`);
     await dataTable.waitForBody();
   });
 

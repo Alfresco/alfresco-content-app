@@ -19,5 +19,7 @@
   "C213097": "https://alfresco.atlassian.net/browse/ACS-5479",
   "C269007" : "date test fail migrate to playwright https://alfresco.atlassian.net/browse/ACS-6185 ",
   "C307106" : "date test fail migrate to playwright https://alfresco.atlassian.net/browse/ACS-6185 ",
-  "C269003" : "date test fail migrate to playwright https://alfresco.atlassian.net/browse/ACS-6185 "
+  "C269003" : "date test fail migrate to playwright https://alfresco.atlassian.net/browse/ACS-6185 ",
+  "C290018" : "https://alfresco.atlassian.net/browse/ACA-4731",
+  "C277727" : "https://alfresco.atlassian.net/browse/ACS-6672"
 }
