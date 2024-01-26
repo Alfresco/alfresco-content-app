@@ -2132,7 +2132,8 @@
           "type": "image",
           "sortable": false,
           "desktopOnly": false,
-          "order": 10
+          "order": 10,
+          "resizable": false
         },
         {
           "id": "app.files.name",
@@ -2205,7 +2206,8 @@
           "type": "image",
           "sortable": false,
           "desktopOnly": false,
-          "order": 10
+          "order": 10,
+          "resizable": false
         },
         {
           "id": "app.libraries.name",
@@ -2263,7 +2265,8 @@
           "type": "image",
           "sortable": false,
           "desktopOnly": false,
-          "order": 10
+          "order": 10,
+          "resizable": false
         },
         {
           "id": "app.favorite.libraries.name",
@@ -2321,7 +2324,8 @@
           "type": "image",
           "sortable": false,
           "desktopOnly": false,
-          "order": 10
+          "order": 10,
+          "resizable": false
         },
         {
           "id": "app.shared.name",
@@ -2420,7 +2424,8 @@
           "type": "image",
           "sortable": false,
           "desktopOnly": false,
-          "order": 10
+          "order": 10,
+          "resizable": false
         },
         {
           "id": "app.recent.name",
@@ -2493,7 +2498,8 @@
           "type": "image",
           "sortable": false,
           "desktopOnly": false,
-          "order": 10
+          "order": 10,
+          "resizable": false
         },
         {
           "id": "app.favorites.name",
@@ -2577,7 +2583,8 @@
           "type": "image",
           "sortable": false,
           "desktopOnly": false,
-          "order": 10
+          "order": 10,
+          "resizable": false
         },
         {
           "id": "app.trashcan.name",
@@ -2635,7 +2642,8 @@
           "type": "image",
           "sortable": false,
           "desktopOnly": false,
-          "order": 10
+          "order": 10,
+          "resizable": false
         },
         {
           "id": "app.libraries.name",

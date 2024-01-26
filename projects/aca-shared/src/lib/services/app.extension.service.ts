@@ -220,6 +220,10 @@ export class AppExtensionService implements RuleContext {
       .getElements<DocumentListPresetRef>(config, `features.documentList.${key}`)
       .filter((group) => this.filterVisible(group))
       .filter((entry) => !entry.disabled)
+      .map((entry) => {
+        entry.resizable = entry.resizable ?? true;
+        return entry;
+      })
       .sort(sortByOrder);
   }
 
