@@ -24,7 +24,7 @@
 
 import { Page } from '@playwright/test';
 import { BasePage } from './base.page';
-import { DataTableComponent, MatMenuComponent, ViewerComponent, SidenavComponent, Breadcrumb } from '../components';
+import { DataTableComponent, MatMenuComponent, ViewerComponent, SidenavComponent, Breadcrumb, AdfInfoDrawerComponent } from '../components';
 import { AcaHeader } from '../components/aca-header.component';
 import { AdfFolderDialogComponent } from '../components/dialogs';
 
@@ -42,4 +42,12 @@ export class RecentFilesPage extends BasePage {
   public viewer = new ViewerComponent(this.page);
   public sidenav = new SidenavComponent(this.page);
   public breadcrumb = new Breadcrumb(this.page);
+  public infoDrawer = new AdfInfoDrawerComponent(this.page);
+
+
+  async addCommentToNode(commentText: any) {
+    await this.infoDrawer.commentInputField.click();
+    await this.page.keyboard.type(commentText);
+    await this.infoDrawer.addCommentButton.click();
+  }
 }

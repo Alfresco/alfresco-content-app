@@ -22,27 +22,23 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Page } from '@playwright/test';
-import { BasePage } from './base.page';
-import { DataTableComponent, MatMenuComponent, ViewerComponent, SidenavComponent, Breadcrumb, AdfInfoDrawerComponent } from '../components';
-import { AcaHeader } from '../components/aca-header.component';
-import { AdfFolderDialogComponent, ViewerOverlayDialogComponent } from '../components/dialogs';
+import { PlaywrightTestConfig } from '@playwright/test';
+import { CustomConfig, getGlobalConfig, getExcludedTestsRegExpArray } from '@alfresco/playwright-shared';
+import EXCLUDED_JSON from './exclude.tests.json';
 
-export class SharedPage extends BasePage {
-  private static pageUrl = 'shared';
+const config: PlaywrightTestConfig<CustomConfig> = {
+  ...getGlobalConfig,
 
-  constructor(page: Page) {
-    super(page, SharedPage.pageUrl);
-  }
+  grepInvert: getExcludedTestsRegExpArray(EXCLUDED_JSON, 'List Views'),
+  projects: [
+    {
+      name: 'List Views',
+      testDir: './src/tests',
+      use: {
+        users: ['hruser', 'admin']
+      }
+    }
+  ]
+};
 
-  public acaHeader = new AcaHeader(this.page);
-  public matMenu = new MatMenuComponent(this.page);
-  public folderDialog = new AdfFolderDialogComponent(this.page);
-  public dataTable = new DataTableComponent(this.page);
-  public viewer = new ViewerComponent(this.page);
-  public viewerDialog = new ViewerOverlayDialogComponent(this.page);
-  public sidenav = new SidenavComponent(this.page);
-  public breadcrumb = new Breadcrumb(this.page);
-  public infoDrawer = new AdfInfoDrawerComponent(this.page);
-
-}
+export default config;
