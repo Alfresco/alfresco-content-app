@@ -227,6 +227,18 @@ describe('FilesComponent', () => {
       expect(component.reload).toHaveBeenCalled();
     }));
 
+    it('should not call reload on fileUploadComplete event if file parent folder already displayed', fakeAsync(() => {
+      spyOn(component.documentList.data, 'getRows').and.returnValue([{ node: { entry: { isFolder: true, name: 'files' } } }] as any);
+      const file: any = { file: { options: { parentId: 'parentId', path: '/files' } } };
+      component.node = { id: 'parentId' } as any;
+
+      uploadService.fileUploadComplete.next(file);
+
+      tick(500);
+
+      expect(component.reload).not.toHaveBeenCalled();
+    }));
+
     it('should not call refresh on fileUploadComplete event if parent mismatch', fakeAsync(() => {
       const file: any = { file: { options: { parentId: 'otherId' } } };
       component.node = { id: 'parentId' } as any;
