@@ -29,10 +29,10 @@ import EXCLUDED_JSON from './exclude.tests.json';
 const config: PlaywrightTestConfig<CustomConfig> = {
   ...getGlobalConfig,
 
-  grepInvert: getExcludedTestsRegExpArray(EXCLUDED_JSON, 'List Views'),
+  grepInvert: getExcludedTestsRegExpArray(EXCLUDED_JSON, 'Info Drawer'),
   projects: [
     {
-      name: 'List Views',
+      name: 'Info Drawer',
       testDir: './src/tests',
       use: {
         users: ['hruser', 'admin']
