@@ -88,7 +88,7 @@ test.describe('Info Drawer - Comments', () => {
     await favoritePage.acaHeader.viewDetails.click();
     await favoritePage.infoDrawer.commentsTab.click();
     await expect(favoritePage.infoDrawer.commentInputField).toBeVisible();
-    await favoritePage.addCommentToNode(commentText);
+    await favoritePage.infoDrawer.addCommentToNode(commentText);
     await expect(favoritePage.infoDrawer.addCommentButton).toBeDisabled();
     expect(await favoritePage.infoDrawer.checkCommentsHeaderCount()).toEqual(1);
     expect(await favoritePage.infoDrawer.verifyCommentsCountFromList(1));
@@ -124,7 +124,7 @@ test.describe('Info Drawer - Comments', () => {
     await recentFilesPage.acaHeader.viewDetails.click();
     await recentFilesPage.infoDrawer.commentsTab.click();
     await expect(recentFilesPage.infoDrawer.commentInputField).toBeVisible();
-    await recentFilesPage.addCommentToNode(commentText);
+    await recentFilesPage.infoDrawer.addCommentToNode(commentText);
     await expect(recentFilesPage.infoDrawer.addCommentButton).toBeDisabled();
     expect(await recentFilesPage.infoDrawer.checkCommentsHeaderCount()).toEqual(1);
     expect(await recentFilesPage.infoDrawer.verifyCommentsCountFromList(1));

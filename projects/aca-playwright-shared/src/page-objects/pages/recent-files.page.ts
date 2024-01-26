@@ -43,11 +43,4 @@ export class RecentFilesPage extends BasePage {
   public sidenav = new SidenavComponent(this.page);
   public breadcrumb = new Breadcrumb(this.page);
   public infoDrawer = new AdfInfoDrawerComponent(this.page);
-
-
-  async addCommentToNode(commentText: any) {
-    await this.infoDrawer.commentInputField.click();
-    await this.page.keyboard.type(commentText);
-    await this.infoDrawer.addCommentButton.click();
-  }
 }
