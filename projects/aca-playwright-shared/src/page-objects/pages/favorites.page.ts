@@ -49,10 +49,4 @@ export class FavoritesPage extends BasePage {
   async waitForPageLoad() {
     await this.page.waitForURL(`**/${FavoritesPage.pageUrl}`);
   }
-
-  async addCommentToNode(commentText: any) {
-    await this.infoDrawer.commentInputField.click();
-    await this.page.keyboard.type(commentText);
-    await this.infoDrawer.addCommentButton.click();
-  }
 }
