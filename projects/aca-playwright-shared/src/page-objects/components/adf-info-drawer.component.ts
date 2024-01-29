@@ -53,16 +53,16 @@ export class AdfInfoDrawerComponent extends BaseComponent {
     return parseInt(commentsCountString);
   }
 
-  async verifyCommentsCountFromList(expectedNumber: number) {
+  async verifyCommentsCountFromList(expectedNumber: number): Promise<void> {
     const commentsCountFromList = await this.commentsList.count();
     expect(commentsCountFromList).toEqual(expectedNumber);
   }
 
-  async waitForComments() {
+  async waitForComments(): Promise<void> {
     await this.commentsList.first().waitFor();
   }
 
-  async addCommentToNode(commentText: string) {
+  async addCommentToNode(commentText: string): Promise<void> {
     await this.commentInputField.click();
     await this.page.keyboard.type(commentText);
     await this.addCommentButton.click();
