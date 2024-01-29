@@ -10,7 +10,7 @@
       ],
       "parserOptions": {
         "project": [
-          "e2e/playwright/list-views/tsconfig.e2e.json"
+          "e2e/playwright/info-drawer/tsconfig.e2e.json"
         ],
         "createDefaultProgram": true
       },

@@ -45,11 +45,10 @@ export class AdfInfoDrawerComponent extends BaseComponent {
   public commentUsername = this.getChild('.adf-comment-user-name');
   public commentTextContent = this.getChild('.adf-comment-message');
   public commentTimestamp = this.getChild('.adf-comment-message-time');
-  public commentProfileIcon = this.getChild('.adf-comment-user-icon');
 
 
-  async checkCommentsHeaderCount() {
-    const commentsCountTextContent: string = await this.commentsHeader.textContent();
+  async checkCommentsHeaderCount(): Promise<number> {
+    const commentsCountTextContent = await this.commentsHeader.textContent();
     const commentsCountString = commentsCountTextContent.match(/\d+/g)[0];
     return parseInt(commentsCountString);
   }

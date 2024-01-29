@@ -33,9 +33,6 @@ test.describe('Info Drawer - Comments', () => {
   let favoritesActions: FavoritesPageApi;
   const username = `user-e2e-${Utils.random()}`;
   const commentText = `comment-e2e-${Utils.random()}`;
-  const persFolderName = `persFolder-e2e-${Utils.random()}`;
-  const favFolderName = `favFolder-e2e-${Utils.random()}`;
-  const sharedFileName = `sharedFile-e2e-${Utils.random()}`;
 
   test.beforeAll(async () => {
     try {
@@ -52,7 +49,7 @@ test.describe('Info Drawer - Comments', () => {
 
   test.beforeEach(async ({ loginPage }) => {
     try {
-      await loginPage.loginUser({ username: username, password: username }, { withNavigation: true, waitForLoading: true });
+      await loginPage.loginUser({ username, password: username }, { withNavigation: true, waitForLoading: true });
     } catch (error) {
       console.error(`Main beforeEach failed: ${error}`);
     }
@@ -62,23 +59,27 @@ test.describe('Info Drawer - Comments', () => {
     try {
       await nodesApi.deleteCurrentUserNodes();
       await trashcanApi.emptyTrashcan();
-    } catch {}
+    } catch (error) {
+      console.error(`Main afterAll failed: ${error}`);
+    }
   });
 
   test('[C299173] from Personal Files - Comments tab default fields', async ({ personalFiles }) => {
-    await nodesApi.createFolder(persFolderName);
-    await fileActionsApi.waitForNodes(persFolderName, { expect: 1 });
+    const personalFolderName = `persFolder-e2e-${Utils.random()}`;
+    await nodesApi.createFolder(personalFolderName);
+    await fileActionsApi.waitForNodes(personalFolderName, { expect: 1 });
     await personalFiles.navigate();
-    await expect(personalFiles.dataTable.getRowByName(persFolderName)).toBeVisible();
-    await personalFiles.dataTable.getRowByName(persFolderName).click();
+    await expect(personalFiles.dataTable.getRowByName(personalFolderName)).toBeVisible();
+    await personalFiles.dataTable.getRowByName(personalFolderName).click();
     await personalFiles.acaHeader.viewDetails.click();
     await personalFiles.infoDrawer.commentsTab.click();
     await expect(personalFiles.infoDrawer.commentInputField).toBeVisible();
     expect(await personalFiles.infoDrawer.checkCommentsHeaderCount()).toEqual(0);
-    expect(await personalFiles.infoDrawer.addCommentButton).toBeDisabled();
+    await expect(personalFiles.infoDrawer.addCommentButton).toBeDisabled();
   });
 
   test('[C299209] from Favorites - Add a comment on a folder', async ({ favoritePage }) => {
+    const favFolderName = `favFolder-e2e-${Utils.random()}`;
     const folderFavId: string = (await nodesApi.createFolder(favFolderName)).entry.id;
     await favoritesActions.addFavoritesByIds('folder', [folderFavId]);
     await fileActionsApi.waitForNodes(favFolderName, { expect: 1 });
@@ -95,6 +96,7 @@ test.describe('Info Drawer - Comments', () => {
   });
 
   test('[C299189] from Shared Files - Comments are displayed ordered by created date in descending order', async ({ sharedPage }) => {
+    const sharedFileName = `sharedFile-e2e-${Utils.random()}`;
     const e2eCommentFirst = `e2e-comment-${Utils.random()}`;
     const e2eCommentSecond = `e2e-comment-${Utils.random()}`;
     const sharedFileId: string = (await nodesApi.createFile(sharedFileName)).entry.id;
@@ -115,7 +117,7 @@ test.describe('Info Drawer - Comments', () => {
   });
 
   test('[C299195] from Recent Files - Add a comment on a file', async ({ recentFilesPage }) => {
-    const recentFile = `e2e-recentfile-${Utils.random()}`;
+    const recentFile = `e2e-recentFile-${Utils.random()}`;
     await nodesApi.createFile(recentFile);
     await fileActionsApi.waitForNodes(recentFile, { expect: 1 });
     await recentFilesPage.navigate();
