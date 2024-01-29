@@ -65,7 +65,7 @@ test.describe('Info Drawer - Comments', () => {
   });
 
   test('[C299173] from Personal Files - Comments tab default fields', async ({ personalFiles }) => {
-    const personalFolderName = `persFolder-e2e-${Utils.random()}`;
+    const personalFolderName = `personalFolder-e2e-${Utils.random()}`;
     await nodesApi.createFolder(personalFolderName);
     await fileActionsApi.waitForNodes(personalFolderName, { expect: 1 });
     await personalFiles.navigate();
@@ -79,13 +79,13 @@ test.describe('Info Drawer - Comments', () => {
   });
 
   test('[C299209] from Favorites - Add a comment on a folder', async ({ favoritePage }) => {
-    const favFolderName = `favFolder-e2e-${Utils.random()}`;
-    const folderFavId: string = (await nodesApi.createFolder(favFolderName)).entry.id;
+    const favoriteFolderName = `favoriteFolder-e2e-${Utils.random()}`;
+    const folderFavId: string = (await nodesApi.createFolder(favoriteFolderName)).entry.id;
     await favoritesActions.addFavoritesByIds('folder', [folderFavId]);
-    await fileActionsApi.waitForNodes(favFolderName, { expect: 1 });
+    await fileActionsApi.waitForNodes(favoriteFolderName, { expect: 1 });
     await favoritePage.navigate();
-    await expect(favoritePage.dataTable.getRowByName(favFolderName)).toBeVisible();
-    await favoritePage.dataTable.getRowByName(favFolderName).click();
+    await expect(favoritePage.dataTable.getRowByName(favoriteFolderName)).toBeVisible();
+    await favoritePage.dataTable.getRowByName(favoriteFolderName).click();
     await favoritePage.acaHeader.viewDetails.click();
     await favoritePage.infoDrawer.commentsTab.click();
     await expect(favoritePage.infoDrawer.commentInputField).toBeVisible();
