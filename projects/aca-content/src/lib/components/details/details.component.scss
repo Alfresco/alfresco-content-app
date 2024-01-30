@@ -1,5 +1,5 @@
 app-details-manager {
-  .acs-details-buttons {
+  .aca-details-buttons {
     display: flex;
 
     .aca-close-details-button {
@@ -26,21 +26,19 @@ app-details-manager {
   margin-top: 40px;
   height: calc(100% - 136px);
 
-  .mat-tab-body-wrapper {
+  > div {
     height: 100%;
   }
 
-  .mat-tab-list {
-    margin-left: 50px;
-
-    .mat-tab-labels {
-      .mat-tab-label {
-        padding: 0 12px;
-        min-width: 95px;
-        letter-spacing: 0.25px;
-        height: 32px;
-      }
+  div[role='tab'] {
+    &:first-of-type {
+      margin-left: 50px;
     }
+
+    padding: 0 12px;
+    min-width: 95px;
+    letter-spacing: 0.25px;
+    height: 32px;
   }
 }
 

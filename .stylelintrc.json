@@ -5,7 +5,7 @@
     "alpha-value-notation": "number",
     "function-name-case": "lower",
     "selector-class-pattern": [
-      "^_?(adf|adf-|aca-|app|app-|cdk-||mat-|material-)",
+      "^_?(adf|adf-|aca-|app|app-)",
       {
         "resolveNestedSelectors": true
       }
