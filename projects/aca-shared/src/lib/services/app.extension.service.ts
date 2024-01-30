@@ -28,30 +28,30 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AppStore, getRuleContext } from '@alfresco/aca-shared/store';
 import {
-  SelectionState,
-  NavigationState,
-  ExtensionConfig,
-  RuleEvaluator,
   ContentActionRef,
   ContentActionType,
-  ExtensionLoaderService,
-  SidebarTabRef,
-  NavBarGroupRef,
-  sortByOrder,
-  reduceSeparators,
-  reduceEmptyMenus,
-  ExtensionService,
-  ProfileState,
-  mergeObjects,
-  ExtensionRef,
-  RuleContext,
   DocumentListPresetRef,
+  ExtensionConfig,
+  ExtensionLoaderService,
+  ExtensionRef,
+  ExtensionService,
   IconRef,
-  mergeArrays
+  mergeArrays,
+  mergeObjects,
+  NavBarGroupRef,
+  NavigationState,
+  ProfileState,
+  reduceEmptyMenus,
+  reduceSeparators,
+  RuleContext,
+  RuleEvaluator,
+  SelectionState,
+  SidebarTabRef,
+  sortByOrder
 } from '@alfresco/adf-extensions';
 import { AppConfigService, AuthenticationService, LogService } from '@alfresco/adf-core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { RepositoryInfo, NodeEntry } from '@alfresco/js-api';
+import { NodeEntry, RepositoryInfo } from '@alfresco/js-api';
 import { ViewerRules } from '../models/viewer.rules';
 import { Badge, SettingsGroupRef } from '../models/types';
 import { NodePermissionService } from '../services/node-permission.service';
@@ -496,6 +496,9 @@ export class AppExtensionService implements RuleContext {
 
   filterVisible(action: ContentActionRef | SettingsGroupRef | SidebarTabRef | DocumentListPresetRef | SearchCategory): boolean {
     if (action?.rules?.visible) {
+      if (Array.isArray(action.rules.visible)) {
+        return action.rules.visible.every((rule) => this.extensions.evaluateRule(rule, this));
+      }
       return this.extensions.evaluateRule(action.rules.visible, this);
     }
     return true;
