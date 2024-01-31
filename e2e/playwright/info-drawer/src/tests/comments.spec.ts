@@ -139,7 +139,6 @@ test.describe('Info Drawer - Comments', () => {
     await favoritesActions.addFavoritesByIds('file', [commentInfoFileId]);
     await fileActionsApi.waitForNodes(commentInfoFileName, { expect: 1 });
     await apiClientFactory.commentsApi.createComment(commentInfoFileId, { content: e2eCommentFirst });
-    await apiClientFactory.share.createSharedLink({ nodeId: commentInfoFileId });
     await fileActionsApi.waitForNodes(commentInfoFileName, { expect: 1 });
     await favoritePage.navigate();
     await expect(favoritePage.dataTable.getRowByName(commentInfoFileName)).toBeVisible();
