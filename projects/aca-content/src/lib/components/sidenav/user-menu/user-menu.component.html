@@ -4,7 +4,7 @@
   [matMenuTriggerFor]="menu"
   title="{{'APP.TOOLTIPS.OPTIONS_SETTINGS' | translate}}"
 >
-  <div>{{ (displayName$ | async)?.initials }}</div>
+  <div>{{ (user$ | async)?.initials }}</div>
 </button>
 
 <mat-menu #menu="matMenu" xPosition="before">

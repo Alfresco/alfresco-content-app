@@ -22,17 +22,15 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { PeopleContentService } from '@alfresco/adf-content-services';
-import { AuthenticationService, IdentityUserService } from '@alfresco/adf-core';
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Component, Input, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatMenuModule } from '@angular/material/menu';
 import { ToolbarMenuItemComponent } from '@alfresco/aca-shared';
+import { AppStore, getUserProfile } from '@alfresco/aca-shared/store';
+import { Store } from '@ngrx/store';
 
 @Component({
   standalone: true,
@@ -43,64 +41,18 @@ import { ToolbarMenuItemComponent } from '@alfresco/aca-shared';
   encapsulation: ViewEncapsulation.None
 })
 export class UserMenuComponent implements OnInit {
-  displayName$: Observable<{ firstName: string; initials: string }>;
+  private store = inject<Store<AppStore>>(Store<AppStore>);
+  user$ = this.store.select(getUserProfile);
+
   @Input()
   actionRef: ContentActionRef;
+
   @Input()
   data: { items: any[] };
 
-  constructor(
-    private peopleContentService: PeopleContentService,
-    private identityUserService: IdentityUserService,
-    private authService: AuthenticationService
-  ) {}
-
   ngOnInit() {
-    this.getUserInfo();
     if (this.data?.items) {
       this.data.items.sort((a, b) => a.order - b.order);
     }
-  }
-
-  getUserInfo() {
-    if (this.authService.isOauth()) {
-      this.loadIdentityUserInfo();
-
-      if (this.authService.isECMProvider() && this.authService.isEcmLoggedIn()) {
-        this.loadEcmUserInfo();
-      }
-    } else if (this.isEcmLoggedIn()) {
-      this.loadEcmUserInfo();
-    }
-  }
-
-  get isLoggedIn(): boolean {
-    if (this.authService.isKerberosEnabled()) {
-      return true;
-    }
-    return this.authService.isLoggedIn();
-  }
-
-  private loadEcmUserInfo(): void {
-    this.displayName$ = this.peopleContentService.getCurrentUserInfo().pipe(map((model) => this.parseDisplayName(model)));
-  }
-
-  private loadIdentityUserInfo() {
-    this.displayName$ = of(this.identityUserService.getCurrentUserInfo()).pipe(map((model) => this.parseDisplayName(model)));
-  }
-
-  parseDisplayName(model: { firstName?: string; lastName?: string }): { firstName: string; initials: string } {
-    const result = { firstName: '', initials: '' };
-    if (model.firstName) {
-      result.initials = model.firstName.charAt(0).toUpperCase();
-    }
-    if (model.lastName) {
-      result.initials += model.lastName.charAt(0).toUpperCase();
-    }
-    return result;
-  }
-
-  private isEcmLoggedIn() {
-    return this.authService.isEcmLoggedIn() || (this.authService.isECMProvider() && this.authService.isKerberosEnabled());
   }
 }
