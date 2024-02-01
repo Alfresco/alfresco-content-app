@@ -556,7 +556,7 @@ describe('app.evaluators', () => {
       expect(app.isLibraryManager(context)).toBe(true);
     });
 
-    it('should return false when role is different than SiteManager', () => {
+    it('should return false when role is different than SiteManager and user is not an admin', () => {
       const context: any = {
         selection: {
           library: {
@@ -564,10 +564,26 @@ describe('app.evaluators', () => {
               role: 'SiteCollaborator'
             }
           }
-        }
+        },
+        profile: { isAdmin: false }
       };
 
       expect(app.isLibraryManager(context)).toBe(false);
+    });
+
+    it('should return true if user is an admin no matter what the role is', () => {
+      const context: any = {
+        selection: {
+          library: {
+            entry: {
+              role: null
+            }
+          }
+        },
+        profile: { isAdmin: true }
+      };
+
+      expect(app.isLibraryManager(context)).toBe(true);
     });
   });
 
