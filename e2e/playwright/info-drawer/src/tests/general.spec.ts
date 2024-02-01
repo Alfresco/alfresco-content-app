@@ -44,6 +44,10 @@ test.describe('Info Drawer - General', () => {
       nodesApi = await NodesApi.initialize(username, username);
       trashcanApi = await TrashcanApi.initialize(username, username);
       fileActionsApi = await FileActionsApi.initialize(username, username);
+
+      parentId = (await nodesApi.createFolder(parentFolder)).entry.id;
+      await nodesApi.createFile(file1, parentId);
+      await nodesApi.createFolder(folder1, parentId);
     } catch (error) {
       console.error(`beforeAll failed: ${error}`);
     }
@@ -86,5 +90,13 @@ test.describe('Info Drawer - General', () => {
 
     await personalFiles.reload({ waitUntil: 'load' });
     expect(personalFiles.infoDrawer.infoDrawerPanel).not.toBeVisible();
+    await personalFiles.dataTable.selectItem(file1);
+    await personalFiles.clickInfoDrawerButton();
+    expect(await personalFiles.infoDrawer.infoDrawerPanel.isVisible()).toBe(true);
+
+    await personalFiles.reload();
+    await personalFiles.waitForPageLoad();
+
+    expect(personalFiles.infoDrawer.infoDrawerPanel.isVisible()).toBe(false);
   });
 });
