@@ -23,7 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, getUserState, NodesApi, test, Utils } from '@alfresco/playwright-shared';
+import { ApiClientFactory, getUserState, NodesApi, test, Utils, LoginPage } from '@alfresco/playwright-shared';
 
 test.use({ storageState: getUserState('admin') });
 test.describe('as admin', () => {
@@ -41,8 +41,15 @@ test.describe('as admin', () => {
     userFolderId = node.entry.id;
   });
 
-  test.beforeEach(async ({ personalFiles }) => {
-    await personalFiles.navigate({ remoteUrl: `#/personal-files}` });
+  test.beforeEach(async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.loginUser(
+      { username, password: username },
+      {
+        withNavigation: true,
+        waitForLoading: true
+      }
+    );
   });
 
   test.afterAll(async () => {
@@ -51,7 +58,7 @@ test.describe('as admin', () => {
 
   test(`[C260970] Breadcrumb on navigation to a user's home`, async ({ personalFiles }) => {
     await personalFiles.navigate({ remoteUrl: `#/personal-files/${userFolderId}` });
-    personalFiles.breadcrumb.getItemByTitle(username).waitFor({ state: 'attached' });
-    expect(await personalFiles.breadcrumb.getAllItems()).toEqual(['Personal Files', 'User Homes', username, userFolder]);
+    await personalFiles.breadcrumb.getItemByTitle(userFolder).waitFor({ state: 'attached' });
+    expect(await personalFiles.breadcrumb.getAllItems()).toEqual(['Personal Files', userFolder]);
   });
 });
