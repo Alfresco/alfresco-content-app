@@ -23,7 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, getUserState, NodesApi, test, Utils, LoginPage } from '@alfresco/playwright-shared';
+import { ApiClientFactory, getUserState, NodesApi, test, Utils, LoginPage, timeouts } from '@alfresco/playwright-shared';
 
 test.use({ storageState: getUserState('admin') });
 test.describe('as admin', () => {
@@ -42,6 +42,7 @@ test.describe('as admin', () => {
   });
 
   test.beforeEach(async ({ page }) => {
+    test.setTimeout(timeouts.extendedTest);
     const loginPage = new LoginPage(page);
     await loginPage.loginUser(
       { username, password: username },
