@@ -229,6 +229,7 @@ test.describe('Remember sorting', () => {
   });
 
   test.describe('User Tests', () => {
+    test.describe.configure({ mode: 'serial' });
     test('[C261137] Size sort order is retained when user logs out and logs back in', async ({ personalFiles, loginPage }) => {
       await personalFiles.dataTable.sortBy('Name', 'desc');
       await personalFiles.dataTable.spinnerWaitForReload();
@@ -238,6 +239,7 @@ test.describe('Remember sorting', () => {
       await loginPage.logoutUser();
       await FileActionsApi.initialize(user1, user1);
       await loginPage.loginUser({ username: user1, password: user1 }, { withNavigation: true, waitForLoading: true });
+      await loginPage.verifyUserLogin();
 
       const actualSortData = await getSortState(personalFiles);
       expect(actualSortData).toEqual(expectedSortData);
@@ -250,13 +252,8 @@ test.describe('Remember sorting', () => {
 
       await loginPage.logoutUser();
       await FileActionsApi.initialize(user2, user2);
-      await loginPage.loginUser(
-        { username: user2, password: user2 },
-        {
-          withNavigation: true,
-          waitForLoading: true
-        }
-      );
+      await loginPage.loginUser({ username: user2, password: user2 }, { withNavigation: true, waitForLoading: true });
+      await loginPage.verifyUserLogin();
 
       const actualSortData = await getSortState(personalFiles);
       expect(actualSortData).not.toEqual(expectedSortData);

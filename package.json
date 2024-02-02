@@ -25,7 +25,8 @@
     "print-affected:projects": "nx print-affected --type=lib --select=projects",
     "print-affected:build": "nx print-affected --target=build --select=tasks.target.project",
     "print-affected:test": "nx print-affected --target=test --select=tasks.target.project",
-    "print-affected:lint": "nx print-affected --target=lint --select=tasks.target.project"
+    "print-affected:lint": "nx print-affected --target=lint --select=tasks.target.project",
+    "lintfix": "nx affected:lint --fix"
   },
   "repository": {
     "type": "git",

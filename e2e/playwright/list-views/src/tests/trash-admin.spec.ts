@@ -23,7 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, NodesApi, Utils, getUserState, test } from '@alfresco/playwright-shared';
+import { ApiClientFactory, NodesApi, Utils, getUserState, test, LoginPage, users } from '@alfresco/playwright-shared';
 
 test.use({ storageState: getUserState('admin') });
 test.describe('Trash admin', () => {
@@ -49,6 +49,17 @@ test.describe('Trash admin', () => {
     } catch (error) {
       console.error(`----- afterAll failed : ${error}`);
     }
+  });
+
+  test.beforeEach(async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.loginUser(
+      { username: users.admin.username, password: users.admin.password },
+      {
+        withNavigation: true,
+        waitForLoading: true
+      }
+    );
   });
 
   test.describe('as admin', () => {

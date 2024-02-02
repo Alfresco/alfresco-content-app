@@ -115,6 +115,7 @@ test.describe('Favorites Files', () => {
       expect(await favoritePage.dataTable.getItemLocationText(favFolderName)).toEqual('Personal Files');
       expect(await favoritePage.dataTable.getItemLocationTooltip(fileName2)).toEqual(`Personal Files/${parentFolder}`);
       expect(await favoritePage.dataTable.getItemLocationTooltip(favFolderName)).toEqual('Personal Files');
+      await favoritePage.page.waitForTimeout(2500);
       expect(await favoritePage.dataTable.getItemLocationText(fileName1)).toEqual(siteName);
       expect(await favoritePage.dataTable.getItemLocationTooltip(fileName1)).toContain(`${siteName}`);
     });
