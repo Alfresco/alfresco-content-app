@@ -23,7 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, NodesApi, Utils, getUserState, test } from '@alfresco/playwright-shared';
+import { ApiClientFactory, NodesApi, Utils, getUserState, test, users, LoginPage } from '@alfresco/playwright-shared';
 
 test.use({ storageState: getUserState('admin') });
 test.describe('Trash admin', () => {
@@ -35,7 +35,7 @@ test.describe('Trash admin', () => {
     try {
       const apiClientFactory = new ApiClientFactory();
       await apiClientFactory.setUpAcaBackend('admin');
-      adminApiActions = await NodesApi.initialize('admin');
+      adminApiActions = await NodesApi.initialize(users.contentIdentity.username, users.contentIdentity.password);
       folderAdminId = (await adminApiActions.createFolder(folderAdmin)).entry.id;
       await adminApiActions.deleteNodeById(folderAdminId, false);
     } catch (error) {
@@ -52,11 +52,19 @@ test.describe('Trash admin', () => {
   });
 
   test.describe('as admin', () => {
-    test('[C213217] has the correct columns', async ({ trashPage }) => {
+    test('[C213217] has the correct columns', async ({ trashPage, loginPage }) => {
       await trashPage.navigate();
+      if (loginPage.submitButton.isVisible()) {
+        loginPage = new LoginPage(trashPage.page);
+        await loginPage.loginUser(
+          { username: users.contentIdentity.username, password: users.contentIdentity.password },
+          { withNavigation: true, waitForLoading: true }
+        );
+        await trashPage.navigate();
+      }
+      await trashPage.dataTable.getColumnHeaderByName('Deleted by').waitFor();
       const expectedColumns = ['Name', 'Location', 'Size', 'Deleted', 'Deleted by'];
       const actualColumns = await trashPage.dataTable.getColumnHeaders();
-
       expect(actualColumns).toEqual(expectedColumns);
     });
   });

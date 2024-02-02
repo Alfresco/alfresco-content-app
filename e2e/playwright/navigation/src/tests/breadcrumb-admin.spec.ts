@@ -54,7 +54,7 @@ test.describe('as admin', () => {
   });
 
   test.afterAll(async () => {
-    await apiClientFactory.nodes.deleteNode(userFolderId, { permanent: true });
+    await nodesApi.deleteNodes([userFolderId], true);
   });
 
   test(`[C260970] Breadcrumb on navigation to a user's home`, async ({ personalFiles }) => {
