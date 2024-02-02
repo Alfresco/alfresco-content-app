@@ -90,7 +90,7 @@ test.describe('Library actions ', () => {
   let user2SitesApi: SitesApi;
 
   test.beforeAll(async () => {
-    test.setTimeout(timeouts.extendedTest);
+    test.setTimeout(timeouts.extendedLongTest);
     const apiClientFactory = new ApiClientFactory();
     const username1 = `user-${Utils.random()}`;
     const siteRoles = [
