@@ -1,0 +1,15 @@
+{
+  "extends": "../../../tsconfig.adf.json",
+  "compilerOptions": {
+    "outDir": "../../out-tsc/e2e",
+    "baseUrl": "./",
+    "module": "commonjs",
+    "target": "es2017",
+    "types": ["jasmine", "jasminewd2", "node"],
+    "skipLibCheck": true,
+    "paths": {
+      "@alfresco/playwright-shared": ["../../../projects/aca-playwright-shared/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules"]
+}
