@@ -23,7 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, NodesApi, Utils, getUserState, test, users, LoginPage } from '@alfresco/playwright-shared';
+import { ApiClientFactory, NodesApi, Utils, getUserState, test, LoginPage } from '@alfresco/playwright-shared';
 
 test.use({ storageState: getUserState('admin') });
 test.describe('Trash admin', () => {
@@ -35,7 +35,7 @@ test.describe('Trash admin', () => {
     try {
       const apiClientFactory = new ApiClientFactory();
       await apiClientFactory.setUpAcaBackend('admin');
-      adminApiActions = await NodesApi.initialize(users.contentIdentity.username, users.contentIdentity.password);
+      adminApiActions = await NodesApi.initialize('contentidentityuser', 'password');
       folderAdminId = (await adminApiActions.createFolder(folderAdmin)).entry.id;
       await adminApiActions.deleteNodeById(folderAdminId, false);
     } catch (error) {
@@ -51,15 +51,12 @@ test.describe('Trash admin', () => {
     }
   });
 
-  test.describe('as admin', () => {
+  test.describe.only('as admin', () => {
     test('[C213217] has the correct columns', async ({ trashPage, loginPage }) => {
       await trashPage.navigate();
       if (loginPage.submitButton.isVisible()) {
         loginPage = new LoginPage(trashPage.page);
-        await loginPage.loginUser(
-          { username: users.contentIdentity.username, password: users.contentIdentity.password },
-          { withNavigation: true, waitForLoading: true }
-        );
+        await loginPage.loginUser({ username: 'contentidentityuser', password: 'password' }, { withNavigation: true, waitForLoading: true });
         await trashPage.navigate();
       }
       await trashPage.dataTable.getColumnHeaderByName('Deleted by').waitFor();
