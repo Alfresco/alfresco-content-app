@@ -33,9 +33,5 @@ export const users = {
   admin: {
     username: env.ADMIN_EMAIL,
     password: env.ADMIN_PASSWORD
-  },
-  contentIdentity: {
-    username: env.CONTENT_IDENTITY_USERNAME,
-    password: env.CONTENT_IDENTITY_PASSWORD
   }
 };
