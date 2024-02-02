@@ -62,7 +62,7 @@ test.describe('Trash admin', () => {
     );
   });
 
-  test.describe.only('as admin', () => {
+  test.describe('as admin', () => {
     test('[C213217] has the correct columns', async ({ trashPage }) => {
       await trashPage.navigate();
       const expectedColumns = ['Name', 'Location', 'Size', 'Deleted', 'Deleted by'];
