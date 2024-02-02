@@ -68,8 +68,8 @@ export class LoginPage extends BasePage {
   }
 
   async verifyUserLogin(): Promise<void> {
-    if(this.username.isVisible()){
-      await this.page.reload({waitUntil:"load"});
+    if (this.username.isVisible()) {
+      await this.page.reload( {waitUntil:"load"} );
     }
   }
 }
