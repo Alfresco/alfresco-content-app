@@ -33,6 +33,7 @@ export const timeouts = {
   extraLarge: 20 * 1000,
   globalTest: 45 * 1000,
   extendedTest: 150 * 1000,
+  extendedLongTest: 200 * 1000,
   webServer: 240 * 1000,
   globalSpec: 60 * 10 * 1000
 };
