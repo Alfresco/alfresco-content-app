@@ -22,8 +22,8 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { DataTableModule, PaginationComponent, ShowHeaderMode } from '@alfresco/adf-core';
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { DataTableModule, PaginationComponent, ShowHeaderMode, UserPreferencesService } from '@alfresco/adf-core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { NodeEntry, Node, PathElement } from '@alfresco/js-api';
 import { NodeActionsService } from '../../services/node-actions.service';
@@ -39,7 +39,15 @@ import {
 } from '@alfresco/aca-shared';
 import { SetCurrentFolderAction, isAdmin, UploadFileVersionAction, showLoaderSelector } from '@alfresco/aca-shared/store';
 import { debounceTime, takeUntil } from 'rxjs/operators';
-import { FilterSearch, ShareDataRow, FileUploadEvent, BreadcrumbModule, UploadModule, DocumentListModule } from '@alfresco/adf-content-services';
+import {
+  BreadcrumbModule,
+  DocumentListComponent,
+  DocumentListModule,
+  FilterSearch,
+  FileUploadEvent,
+  UploadModule,
+  ShareDataRow
+} from '@alfresco/adf-content-services';
 import { DocumentListPresetRef, ExtensionsModule } from '@alfresco/adf-extensions';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
@@ -69,7 +77,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   templateUrl: './files.component.html',
   encapsulation: ViewEncapsulation.None
 })
-export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
+export class FilesComponent extends PageComponent implements OnInit, OnDestroy, AfterViewInit {
   isValidPath = true;
   isAdmin = false;
   selectedNode: NodeEntry;
@@ -81,7 +89,15 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   columns: DocumentListPresetRef[] = [];
   isFilterHeaderActive = false;
 
-  constructor(private route: ActivatedRoute, private contentApi: ContentApiService, private nodeActionsService: NodeActionsService) {
+  @ViewChild('documentList', { static: true })
+  documentList: DocumentListComponent;
+
+  constructor(
+    private route: ActivatedRoute,
+    private contentApi: ContentApiService,
+    private nodeActionsService: NodeActionsService,
+    private preferences: UserPreferencesService
+  ) {
     super();
   }
 
@@ -134,6 +150,10 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     if (this.queryParams && Object.keys(this.queryParams).length > 0) {
       this.isFilterHeaderActive = true;
     }
+  }
+
+  ngAfterViewInit() {
+    this.preferences.set('filesPageSortingMode', this.documentList.sortingMode);
   }
 
   ngOnDestroy() {

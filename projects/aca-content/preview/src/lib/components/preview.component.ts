@@ -317,14 +317,16 @@ export class PreviewComponent extends PageComponent implements OnInit, OnDestroy
       const sortDirection = this.preferences.get('personal-files.sorting.direction') || 'desc';
       const nodes = await this.contentApi
         .getNodeChildren(folderId, {
-          // orderBy: `${sortKey} ${sortDirection}`,
+          orderBy: ['isFolder desc', `${sortKey} ${sortDirection}`],
           fields: ['id', this.getRootField(sortKey)],
           where: '(isFile=true)'
         })
         .toPromise();
 
       const entries = nodes.list.entries.map((obj) => obj.entry);
-      this.sort(entries, sortKey, sortDirection);
+      if (this.preferences.get('filesPageSortingMode') === 'client' || source === 'libraries') {
+        this.sort(entries, sortKey, sortDirection);
+      }
 
       return entries.map((obj) => obj.id);
     }
