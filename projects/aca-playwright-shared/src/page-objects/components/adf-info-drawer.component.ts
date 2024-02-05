@@ -23,7 +23,7 @@
   */
 
 import { BaseComponent } from './base.component';
-import { Page } from '@playwright/test';
+import { Page, expect } from '@playwright/test';
 
 export class AdfInfoDrawerComponent extends BaseComponent {
   private static rootElement = 'adf-info-drawer';
@@ -36,4 +36,35 @@ export class AdfInfoDrawerComponent extends BaseComponent {
   public getIdField = (labelText: string) => this.getChild('[data-automation-id="library-id-properties-wrapper"]', { hasText: labelText });
   public getVisibilityField = (labelText: string) => this.getChild('[data-automation-id="library-visibility-properties-wrapper"]', { hasText: labelText });
   public getDescriptionField = this.getChild('[data-automation-id="library-description-properties-wrapper"] textarea');
+  public propertiesTab = this.getChild('.adf-info-drawer-tab').nth(0);
+  public commentsTab = this.getChild('.adf-info-drawer-tab').nth(1);
+  public commentInputField = this.getChild('mat-form-field');
+  public commentsHeader = this.getChild('#comment-header');
+  public addCommentButton = this.getChild('[data-automation-id="comments-input-add"]');
+  public commentsList = this.getChild('.adf-comment-list-item');
+  public commentUsername = this.getChild('.adf-comment-user-name');
+  public commentTextContent = this.getChild('.adf-comment-message');
+  public commentTimestamp = this.getChild('.adf-comment-message-time');
+
+
+  async checkCommentsHeaderCount(): Promise<number> {
+    const commentsCountTextContent = await this.commentsHeader.textContent();
+    const commentsCountString = commentsCountTextContent.match(/\d+/g)[0];
+    return parseInt(commentsCountString);
+  }
+
+  async verifyCommentsCountFromList(expectedNumber: number): Promise<void> {
+    const commentsCountFromList = await this.commentsList.count();
+    expect(commentsCountFromList).toEqual(expectedNumber);
+  }
+
+  async waitForComments(): Promise<void> {
+    await this.commentsList.first().waitFor();
+  }
+
+  async addCommentToNode(commentText: string): Promise<void> {
+    await this.commentInputField.click();
+    await this.page.keyboard.type(commentText);
+    await this.addCommentButton.click();
+  }
 }

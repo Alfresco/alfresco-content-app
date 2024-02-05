@@ -39,7 +39,8 @@ import {
   SharedlinksApi,
   FavoritesApi,
   TrashcanApi,
-  PersonEntry
+  PersonEntry,
+  CommentsApi
 } from '@alfresco/js-api';
 import { ActionTypes, Rule } from './rules-api';
 import { users } from '../base-config';
@@ -83,6 +84,7 @@ export class ApiClientFactory {
   public share: SharedlinksApi;
   public favorites: FavoritesApi;
   public trashCan: TrashcanApi;
+  public commentsApi: CommentsApi;
 
   constructor() {
     this.alfrescoApi = new AlfrescoApi(config);
@@ -105,6 +107,7 @@ export class ApiClientFactory {
     this.share = new SharedlinksApi(this.alfrescoApi);
     this.favorites = new FavoritesApi(this.alfrescoApi);
     this.trashCan = new TrashcanApi(this.alfrescoApi);
+    this.commentsApi = new CommentsApi(this.alfrescoApi);
 
     return this;
   }

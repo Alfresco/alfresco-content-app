@@ -49,6 +49,8 @@ export class DataTableComponent extends BaseComponent {
   emptyListSubtitle = this.getChild('.adf-empty-content__subtitle');
   emptySearchText = this.getChild('.empty-search__text');
   emptyListTest = this.getChild('adf-custom-empty-content-template');
+  paginationButton = this.page.locator('.adf-pagination__block button').nth(0);
+  paginationOptions = this.page.locator('#cdk-overlay-0 button');
 
   /** Locator for row (or rows) */
   getRowLocator = this.getChild(`adf-datatable-row`);
@@ -318,5 +320,10 @@ export class DataTableComponent extends BaseComponent {
 
   async rightClickOnItem(itemName: string): Promise<void> {
     await this.getCellByColumnNameAndRowItem(itemName, 'Name').click({ button: 'right' });
+  }
+
+  async setPaginationTo50(): Promise<void> {
+    await this.paginationButton.click();
+    await this.paginationOptions.getByText("50").click();
   }
 }

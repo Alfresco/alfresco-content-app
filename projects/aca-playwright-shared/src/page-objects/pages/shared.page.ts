@@ -24,7 +24,7 @@
 
 import { Page } from '@playwright/test';
 import { BasePage } from './base.page';
-import { DataTableComponent, MatMenuComponent, ViewerComponent, SidenavComponent, Breadcrumb } from '../components';
+import { DataTableComponent, MatMenuComponent, ViewerComponent, SidenavComponent, Breadcrumb, AdfInfoDrawerComponent } from '../components';
 import { AcaHeader } from '../components/aca-header.component';
 import { AdfFolderDialogComponent, ViewerOverlayDialogComponent } from '../components/dialogs';
 
@@ -43,4 +43,6 @@ export class SharedPage extends BasePage {
   public viewerDialog = new ViewerOverlayDialogComponent(this.page);
   public sidenav = new SidenavComponent(this.page);
   public breadcrumb = new Breadcrumb(this.page);
+  public infoDrawer = new AdfInfoDrawerComponent(this.page);
+
 }

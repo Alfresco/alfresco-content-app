@@ -67,8 +67,12 @@ test.describe('Single click on item name', () => {
 
   test('[C280034] Navigate inside the folder when clicking the hyperlink on Personal Files', async ({ personalFiles }) => {
     await personalFiles.navigate();
+    await personalFiles.dataTable.setPaginationTo50();
     await personalFiles.dataTable.getCellLinkByName(folder1).click();
     await personalFiles.dataTable.spinnerWaitForReload();
+    while ((await personalFiles.breadcrumb.currentItem.innerText()) === 'Personal Files') {
+      await personalFiles.breadcrumb.currentItem.innerText();
+    }
     expect(await personalFiles.breadcrumb.currentItem.innerText()).toBe(folder1);
   });
 
