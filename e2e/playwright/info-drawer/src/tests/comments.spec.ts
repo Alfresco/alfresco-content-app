@@ -80,7 +80,7 @@ test.describe('Info Drawer - Comments', () => {
 
   test('[C299209] from Favorites - Add a comment on a folder', async ({ favoritePage }) => {
     const favoriteFolderName = `favoriteFolder-e2e-${Utils.random()}`;
-    const folderFavId: string = (await nodesApi.createFolder(favoriteFolderName)).entry.id;
+    const folderFavId = (await nodesApi.createFolder(favoriteFolderName)).entry.id;
     await favoritesActions.addFavoritesByIds('folder', [folderFavId]);
     await fileActionsApi.waitForNodes(favoriteFolderName, { expect: 1 });
     await favoritePage.navigate();
@@ -99,7 +99,7 @@ test.describe('Info Drawer - Comments', () => {
     const sharedFileName = `sharedFile-e2e-${Utils.random()}`;
     const e2eCommentFirst = `e2e-comment-${Utils.random()}`;
     const e2eCommentSecond = `e2e-comment-${Utils.random()}`;
-    const sharedFileId: string = (await nodesApi.createFile(sharedFileName)).entry.id;
+    const sharedFileId = (await nodesApi.createFile(sharedFileName)).entry.id;
     await fileActionsApi.waitForNodes(sharedFileName, { expect: 1 });
     await apiClientFactory.commentsApi.createComment(sharedFileId, { content: e2eCommentFirst });
     await apiClientFactory.commentsApi.createComment(sharedFileId, { content: e2eCommentSecond });
@@ -135,7 +135,7 @@ test.describe('Info Drawer - Comments', () => {
   test('[C299196] Comment info display - File from Favorites', async ({ favoritePage }) => {
     const e2eCommentFirst = `e2e-comment-${Utils.random()}`;
     const commentInfoFileName = `e2e-commentFile-${Utils.random()}`;
-    const commentInfoFileId: string = (await nodesApi.createFile(commentInfoFileName)).entry.id;
+    const commentInfoFileId = (await nodesApi.createFile(commentInfoFileName)).entry.id;
     await favoritesActions.addFavoritesByIds('file', [commentInfoFileId]);
     await fileActionsApi.waitForNodes(commentInfoFileName, { expect: 1 });
     await apiClientFactory.commentsApi.createComment(commentInfoFileId, { content: e2eCommentFirst });

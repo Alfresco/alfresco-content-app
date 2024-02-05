@@ -26,7 +26,6 @@ import { expect } from '@playwright/test';
 import { ApiClientFactory, Utils, test, TrashcanApi, NodesApi, FileActionsApi } from '@alfresco/playwright-shared';
 
 test.describe('Info Drawer - File Folder Properties', () => {
-  const apiClientFactory = new ApiClientFactory();
   let nodesApi: NodesApi;
   let trashcanApi: TrashcanApi;
   let fileActionsApi: FileActionsApi;
@@ -34,6 +33,7 @@ test.describe('Info Drawer - File Folder Properties', () => {
 
   test.beforeAll(async () => {
     try {
+      const apiClientFactory = new ApiClientFactory();
       await apiClientFactory.setUpAcaBackend('admin');
       await apiClientFactory.createUser({ username });
       nodesApi = await NodesApi.initialize(username, username);

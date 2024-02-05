@@ -68,33 +68,37 @@ test.describe('Remember sorting', () => {
   let nodeActionUser1: NodesApi;
 
   test.beforeAll(async () => {
-    test.setTimeout(timeouts.extendedTest);
-    const apiClientFactory = new ApiClientFactory();
-    await apiClientFactory.setUpAcaBackend('admin');
-    await apiClientFactory.createUser({ username: user1 });
-    await apiClientFactory.createUser({ username: user2 });
-    const fileActionUser1 = await FileActionsApi.initialize(user1, user1);
-    const fileActionUser2 = await FileActionsApi.initialize(user2, user2);
-    const favoritesActions = await FavoritesPageApi.initialize(user1, user1);
-    nodeActionUser1 = await NodesApi.initialize(user1, user1);
-    const filesIdsUser1: { [key: string]: string } = {};
-    const filesIdsUser2: { [key: string]: string } = {};
-    await Promise.all(
-      testData.user1.files.pdf.map(
-        async (i) => (filesIdsUser1[i] = (await fileActionUser1.uploadFileWithRename(TEST_FILES.PDF.path, i, '-my-')).entry.id)
-      )
-    );
-    await Promise.all(
-      testData.user1.files.jpg.map(
-        async (i) => (filesIdsUser1[i] = (await fileActionUser1.uploadFileWithRename(TEST_FILES.JPG_FILE.path, i, '-my-')).entry.id)
-      )
-    );
-    await Promise.all(
-      testData.user2.files.map(
-        async (i) => (filesIdsUser2[i] = (await fileActionUser2.uploadFileWithRename(TEST_FILES.PDF.path, i, '-my-')).entry.id)
-      )
-    );
-    await favoritesActions.addFavoritesByIds('file', [filesIdsUser1[pdfFileNames[0]], filesIdsUser1[pdfFileNames[1]]]);
+    try {
+      test.setTimeout(timeouts.extendedTest);
+      const apiClientFactory = new ApiClientFactory();
+      await apiClientFactory.setUpAcaBackend('admin');
+      await apiClientFactory.createUser({ username: user1 });
+      await apiClientFactory.createUser({ username: user2 });
+      const fileActionUser1 = await FileActionsApi.initialize(user1, user1);
+      const fileActionUser2 = await FileActionsApi.initialize(user2, user2);
+      const favoritesActions = await FavoritesPageApi.initialize(user1, user1);
+      nodeActionUser1 = await NodesApi.initialize(user1, user1);
+      const filesIdsUser1: { [key: string]: string } = {};
+      const filesIdsUser2: { [key: string]: string } = {};
+      await Promise.all(
+        testData.user1.files.pdf.map(
+          async (i) => (filesIdsUser1[i] = (await fileActionUser1.uploadFileWithRename(TEST_FILES.PDF.path, i, '-my-')).entry.id)
+        )
+      );
+      await Promise.all(
+        testData.user1.files.jpg.map(
+          async (i) => (filesIdsUser1[i] = (await fileActionUser1.uploadFileWithRename(TEST_FILES.JPG_FILE.path, i, '-my-')).entry.id)
+        )
+      );
+      await Promise.all(
+        testData.user2.files.map(
+          async (i) => (filesIdsUser2[i] = (await fileActionUser2.uploadFileWithRename(TEST_FILES.PDF.path, i, '-my-')).entry.id)
+        )
+      );
+      await favoritesActions.addFavoritesByIds('file', [filesIdsUser1[pdfFileNames[0]], filesIdsUser1[pdfFileNames[1]]]);
+    } catch (error) {
+      console.error(`beforeAll failed : ${error}`);
+    }
   });
 
   test.beforeEach(async ({ loginPage, personalFiles }) => {
