@@ -326,10 +326,4 @@ export class DataTableComponent extends BaseComponent {
     await this.paginationButton.click();
     await this.paginationOptions.getByText("50").click();
   }
-
-  async checkNodeVisibility(folderName: string): Promise<void> {
-    if (!this.getRowByName(folderName).isVisible) {
-      await this.page.reload({waitUntil:"load"});
-    }
-  }
 }
