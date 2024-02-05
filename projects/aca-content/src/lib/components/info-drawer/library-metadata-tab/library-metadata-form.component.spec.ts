@@ -30,7 +30,7 @@ import { AppTestingModule } from '../../../testing/app-testing.module';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Site, SiteBodyCreate, SitePaging } from '@alfresco/js-api';
 import { Actions } from '@ngrx/effects';
-import { Subject } from 'rxjs';
+import { of, Subject } from 'rxjs';
 
 describe('LibraryMetadataFormComponent', () => {
   let fixture: ComponentFixture<LibraryMetadataFormComponent>;
@@ -51,7 +51,8 @@ describe('LibraryMetadataFormComponent', () => {
         {
           provide: Store,
           useValue: {
-            dispatch: jasmine.createSpy('dispatch')
+            dispatch: jasmine.createSpy('dispatch'),
+            select: () => of()
           }
         }
       ],
@@ -208,6 +209,18 @@ describe('LibraryMetadataFormComponent', () => {
     component.update();
 
     expect(store.dispatch).not.toHaveBeenCalledWith(new UpdateLibraryAction(siteEntryModel));
+  });
+
+  it('should update library node when the user is an admin but has consumer rights', () => {
+    component.node.entry.role = Site.RoleEnum.SiteConsumer;
+    component.isAdmin = true;
+
+    fixture.detectChanges();
+    component.toggleEdit();
+
+    component.update();
+
+    expect(store.dispatch).toHaveBeenCalledWith(new UpdateLibraryAction(siteEntryModel));
   });
 
   it('should not call markAsPristine on form when updating valid form but has not permission to update', () => {
