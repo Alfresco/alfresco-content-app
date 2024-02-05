@@ -468,8 +468,7 @@ describe('PreviewComponent', () => {
   });
 
   it('should fetch and sort file ids for personal-files', async () => {
-    preferences.set('personal-files.sorting.key', 'name');
-    preferences.set('personal-files.sorting.direction', 'desc');
+    spyOn(preferences, 'get').and.returnValues('name', 'desc', 'client');
 
     spyOn(contentApi, 'getNodeChildren').and.returnValue(
       of({
@@ -484,8 +483,7 @@ describe('PreviewComponent', () => {
   });
 
   it('should fetch file ids for personal-files with default sorting for missing key', async () => {
-    preferences.set('personal-files.sorting.key', 'missing');
-    preferences.set('personal-files.sorting.direction', 'desc');
+    spyOn(preferences, 'get').and.returnValues('missing', 'desc', 'client');
 
     spyOn(contentApi, 'getNodeChildren').and.returnValue(
       of({
@@ -500,7 +498,7 @@ describe('PreviewComponent', () => {
   });
 
   it('should sort file ids for personal-files with [modifiedAt desc]', async () => {
-    spyOn(preferences, 'get').and.returnValue(null);
+    spyOn(preferences, 'get').and.returnValues(null, null, 'client');
 
     spyOn(contentApi, 'getNodeChildren').and.returnValue(
       of({
@@ -750,6 +748,24 @@ describe('PreviewComponent', () => {
     await fixture.whenStable();
     store.dispatch(new ClosePreviewAction());
     expect(component.navigateToFileLocation).toHaveBeenCalled();
+  });
+
+  it('should not sort personal files when server-side sorting is set', async () => {
+    spyOn(preferences, 'get').and.returnValues('name', 'desc', 'server');
+
+    spyOn(contentApi, 'getNodeChildren').and.returnValue(
+      of({
+        list: {
+          entries: [
+            { entry: { id: 'node1', name: 'node 1', modifiedAt: new Date(1) } },
+            { entry: { id: 'node2', name: 'node 2', modifiedAt: new Date(2) } }
+          ]
+        }
+      } as NodePaging)
+    );
+
+    const ids = await component.getFileIds('personal-files', 'folder1');
+    expect(ids).toEqual(['node1', 'node2']);
   });
 
   describe('Keyboard navigation', () => {
