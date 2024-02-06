@@ -57,7 +57,6 @@ export class AdfInfoDrawerComponent extends BaseComponent {
   public visibilityField = this.infoDrawerPanel.getByRole('combobox');
   public selectVisibility = (visibilityOption: string) => this.page.getByRole('listbox').getByRole('option', { name: visibilityOption }).click();
 
-
   async checkCommentsHeaderCount(): Promise<number> {
     const commentsCountTextContent = await this.commentsHeader.textContent();
     const commentsCountString = commentsCountTextContent.match(/\d+/g)[0];
