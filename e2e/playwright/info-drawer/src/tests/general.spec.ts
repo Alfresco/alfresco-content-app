@@ -52,7 +52,7 @@ test.describe('Info Drawer - General', () => {
 
   test.beforeEach(async ({ loginPage }) => {
     try {
-      await loginPage.loginUser({ username: username, password: username }, { withNavigation: true, waitForLoading: true });
+      await loginPage.loginUser({ username, password: username }, { withNavigation: true, waitForLoading: true });
     } catch (error) {
       console.error(`beforeEach failed: ${error}`);
     }

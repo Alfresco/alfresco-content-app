@@ -25,7 +25,7 @@
 import { SITE_VISIBILITY, SITE_ROLES } from '@alfresco/aca-testing-shared';
 import { ApiClientFactory, Utils, test, SitesApi, QueriesApi } from '@alfresco/playwright-shared';
 
-describe('Library properties', () => {
+test.describe('Library properties', () => {
   let sitesApi: SitesApi;
   let queriesApi: QueriesApi;
   const username = `user1-${Utils.random()}`;
@@ -69,7 +69,7 @@ describe('Library properties', () => {
       await sitesApi.addSiteMember(site.id, user2, SITE_ROLES.SITE_COLLABORATOR.ROLE);
       await sitesApi.addSiteMember(site.id, user3, SITE_ROLES.SITE_MANAGER.ROLE);
 
-      await loginPage.loginUser({ username: username, password: username }, { withNavigation: true, waitForLoading: true });
+      await loginPage.loginUser({ username, password: username }, { withNavigation: true, waitForLoading: true });
     } catch (error) {
       console.error(`beforeEach failed: ${error}`);
     }
@@ -209,17 +209,17 @@ describe('Library properties', () => {
     });
 
     test.afterAll(async ({ loginPage }) => {
-      await loginPage.loginUser({ username: username, password: username }, { withNavigation: true, waitForLoading: true });
+      await loginPage.loginUser({ username, password: username }, { withNavigation: true, waitForLoading: true });
     });
 
     test('[C289337] Info drawer button is not displayed when user is not the library manager', async ({ loginPage, myLibrariesPage }) => {
-      await loginPage.loginUser({ username: user2, password: user2 }, { withNavigation: true, waitForLoading: true });
+      await loginPage.loginUser({ username, password: user2 }, { withNavigation: true, waitForLoading: true });
       await myLibrariesPage.dataTable.selectItem(site.name);
       expect(await myLibrariesPage.acaHeader.viewDetails.isVisible).toBe(false, 'View Details button is visible');
     });
 
     test('[C289344] Error notification', async ({ loginPage, myLibrariesPage }) => {
-      await loginPage.loginUser({ username: user3, password: user3 }, { withNavigation: true, waitForLoading: true });
+      await loginPage.loginUser({ username, password: user3 }, { withNavigation: true, waitForLoading: true });
       await myLibrariesPage.dataTable.selectItem(site.name);
       await myLibrariesPage.acaHeader.viewDetails.click();
       await myLibrariesPage.libraryDetails.editButton.click();
