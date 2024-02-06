@@ -36,9 +36,9 @@ export class AdfInfoDrawerComponent extends BaseComponent {
   public getIdField = (labelText: string) => this.getChild('[data-automation-id="library-id-properties-wrapper"]', { hasText: labelText });
   public getVisibilityField = (labelText: string) => this.getChild('[data-automation-id="library-visibility-properties-wrapper"]', { hasText: labelText });
   public getDescriptionField = this.getChild('[data-automation-id="library-description-properties-wrapper"] textarea');
-  public propertiesTab = this.getChild('.adf-info-drawer-tab').nth(0);
-  public commentsTab = this.getChild('.adf-info-drawer-tab').nth(1);
   public infoDrawerTabs = this.getChild('.adf-info-drawer-tab');
+  public propertiesTab = this.infoDrawerTabs.nth(0);
+  public commentsTab = this.infoDrawerTabs.nth(1);
   public commentInputField = this.getChild('mat-form-field');
   public commentsHeader = this.getChild('#comment-header');
   public addCommentButton = this.getChild('[data-automation-id="comments-input-add"]');
