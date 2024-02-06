@@ -92,11 +92,9 @@ test.describe('Info Drawer - General', () => {
     expect(personalFiles.infoDrawer.infoDrawerPanel).not.toBeVisible();
     await personalFiles.dataTable.selectItem(file1);
     await personalFiles.clickInfoDrawerButton();
-    expect(await personalFiles.infoDrawer.infoDrawerPanel.isVisible()).toBe(true);
+    await expect(personalFiles.infoDrawer.infoDrawerPanel).toBeVisible();
 
-    await personalFiles.reload();
-    await personalFiles.waitForPageLoad();
-
-    expect(personalFiles.infoDrawer.infoDrawerPanel.isVisible()).toBe(false);
+    await personalFiles.reload({ waitUntil: 'load' });
+    expect(personalFiles.infoDrawer.infoDrawerPanel).not.toBeVisible();
   });
 });
