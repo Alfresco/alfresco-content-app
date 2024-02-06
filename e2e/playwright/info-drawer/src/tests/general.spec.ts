@@ -22,11 +22,13 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ApiClientFactory, Utils, test, TrashcanApi, NodesApi } from '@alfresco/playwright-shared';
+import { expect } from '@playwright/test';
+import { ApiClientFactory, Utils, test, TrashcanApi, NodesApi, FileActionsApi } from '@alfresco/playwright-shared';
 
 test.describe('Info Drawer - General', () => {
   let nodesApi: NodesApi;
   let trashcanApi: TrashcanApi;
+  let fileActionsApi: FileActionsApi;
 
   const username = `user1-${Utils.random()}`;
   const parentFolder = `parent-${Utils.random()}`;
@@ -41,10 +43,7 @@ test.describe('Info Drawer - General', () => {
       await apiClientFactory.createUser({ username });
       nodesApi = await NodesApi.initialize(username, username);
       trashcanApi = await TrashcanApi.initialize(username, username);
-
-      parentId = (await nodesApi.createFolder(parentFolder)).entry.id;
-      await nodesApi.createFile(file1, parentId);
-      await nodesApi.createFolder(folder1, parentId);
+      fileActionsApi = await FileActionsApi.initialize(username, username);
     } catch (error) {
       console.error(`beforeAll failed: ${error}`);
     }
@@ -74,13 +73,18 @@ test.describe('Info Drawer - General', () => {
   });
 
   test('[C268999] Info drawer closes on page refresh', async ({ personalFiles }) => {
+    parentId = (await nodesApi.createFolder(parentFolder)).entry.id;
+    await nodesApi.createFile(file1, parentId);
+    await nodesApi.createFolder(folder1, parentId);
+    await fileActionsApi.waitForNodes(file1, { expect: 1 });
+    await personalFiles.navigate();
+    await expect(personalFiles.dataTable.getRowByName(parentFolder)).toBeVisible();
+    await personalFiles.dataTable.performClickFolderOrFileToOpen(parentFolder);
     await personalFiles.dataTable.selectItem(file1);
     await personalFiles.clickInfoDrawerButton();
-    expect(await personalFiles.infoDrawer.infoDrawerPanel.isVisible()).toBe(true);
+    await expect(personalFiles.infoDrawer.infoDrawerPanel).toBeVisible();
 
-    await personalFiles.reload();
-    await personalFiles.waitForPageLoad();
-
-    expect(personalFiles.infoDrawer.infoDrawerPanel.isVisible()).toBe(false);
+    await personalFiles.reload({ waitUntil: 'load' });
+    expect(personalFiles.infoDrawer.infoDrawerPanel).not.toBeVisible();
   });
 });
