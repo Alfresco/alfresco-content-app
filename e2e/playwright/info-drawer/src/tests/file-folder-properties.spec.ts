@@ -44,20 +44,20 @@ test.describe('Info Drawer - File Folder Properties', () => {
     }
   });
 
-  test.beforeEach(async ({ loginPage }) => {
-    try {
-      await loginPage.loginUser({ username, password: username }, { withNavigation: true, waitForLoading: true });
-    } catch (error) {
-      console.error(`Main beforeEach failed: ${error}`);
-    }
-  });
-
   test.afterAll(async () => {
     try {
       await nodesApi.deleteCurrentUserNodes();
       await trashcanApi.emptyTrashcan();
     } catch (error) {
       console.error(`Main afterAll failed: ${error}`);
+    }
+  });
+
+  test.beforeEach(async ({ loginPage }) => {
+    try {
+      await loginPage.loginUser({ username, password: username }, { withNavigation: true, waitForLoading: true });
+    } catch (error) {
+      console.error(`Main beforeEach failed: ${error}`);
     }
   });
 
