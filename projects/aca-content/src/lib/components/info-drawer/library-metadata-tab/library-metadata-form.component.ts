@@ -42,7 +42,8 @@ import {
   SnackbarActionTypes,
   SnackbarErrorAction,
   SnackbarInfoAction,
-  UpdateLibraryAction
+  UpdateLibraryAction,
+  isAdmin
 } from '@alfresco/aca-shared/store';
 import { debounceTime, filter, mergeMap, takeUntil } from 'rxjs/operators';
 import { AlfrescoApiService } from '@alfresco/adf-core';
@@ -118,6 +119,7 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
 
   matcher = new InstantErrorStateMatcher();
   canUpdateLibrary = false;
+  isAdmin = false;
 
   onDestroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -172,7 +174,13 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
           this.libraryTitleExists = false;
         }
       });
-    this.canUpdateLibrary = this.node?.entry?.role === 'SiteManager';
+    this.store
+      .select(isAdmin)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((value) => {
+        this.isAdmin = value;
+      });
+    this.canUpdateLibrary = this.node?.entry?.role === 'SiteManager' || this.isAdmin;
     this.handleUpdatingEvent<SnackbarInfoAction>(SnackbarActionTypes.Info, 'LIBRARY.SUCCESS.LIBRARY_UPDATED', () =>
       Object.assign(this.node.entry, this.form.value)
     );
@@ -186,7 +194,7 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
 
   ngOnChanges() {
     this.updateForm(this.node);
-    this.canUpdateLibrary = this.node?.entry?.role === 'SiteManager';
+    this.canUpdateLibrary = this.node?.entry?.role === 'SiteManager' || this.isAdmin;
   }
 
   update() {
