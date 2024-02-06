@@ -36,8 +36,9 @@ export class AdfInfoDrawerComponent extends BaseComponent {
   public getIdField = (labelText: string) => this.getChild('[data-automation-id="library-id-properties-wrapper"]', { hasText: labelText });
   public getVisibilityField = (labelText: string) => this.getChild('[data-automation-id="library-visibility-properties-wrapper"]', { hasText: labelText });
   public getDescriptionField = this.getChild('[data-automation-id="library-description-properties-wrapper"] textarea');
-  public propertiesTab = this.getChild('.adf-info-drawer-tab').nth(0);
-  public commentsTab = this.getChild('.adf-info-drawer-tab').nth(1);
+  public infoDrawerTabs = this.getChild('.adf-info-drawer-tab');
+  public propertiesTab = this.infoDrawerTabs.nth(0);
+  public commentsTab = this.infoDrawerTabs.nth(1);
   public commentInputField = this.getChild('mat-form-field');
   public commentsHeader = this.getChild('#comment-header');
   public addCommentButton = this.getChild('[data-automation-id="comments-input-add"]');
@@ -45,6 +46,10 @@ export class AdfInfoDrawerComponent extends BaseComponent {
   public commentUsername = this.getChild('.adf-comment-user-name');
   public commentTextContent = this.getChild('.adf-comment-message');
   public commentTimestamp = this.getChild('.adf-comment-message-time');
+  public headerTitle = this.getChild('.adf-info-drawer-layout-header-title div');
+  public expandDetailsButton = this.getChild(`button[title='Expand panel']`);
+  public expandedDetailsTabs = this.page.locator('.aca-details-container .mat-tab-label-content');
+  public expandedDetailsPermissionsTab = this.expandedDetailsTabs.getByText("Permissions");
 
 
   async checkCommentsHeaderCount(): Promise<number> {
@@ -66,5 +71,13 @@ export class AdfInfoDrawerComponent extends BaseComponent {
     await this.commentInputField.click();
     await this.page.keyboard.type(commentText);
     await this.addCommentButton.click();
+  }
+
+  async getHeaderTitle(): Promise<string> {
+    return this.headerTitle.textContent();
+  }
+
+  async getTabsCount(): Promise<number> {
+    return this.infoDrawerTabs.count();
   }
 }

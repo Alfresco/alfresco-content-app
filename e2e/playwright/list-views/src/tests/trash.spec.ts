@@ -66,8 +66,12 @@ test.describe('Trash', () => {
   });
 
   test.afterAll(async () => {
-    await nodesApi.deleteCurrentUserNodes();
-    await siteActionsAdmin.deleteSites([siteName]);
+    try {
+      await nodesApi.deleteCurrentUserNodes();
+      await siteActionsAdmin.deleteSites([siteName]);
+    } catch (error) {
+      console.error(`Main afterAll failed: ${error}`);
+    }
   });
 
   test.describe(`Regular user's personal files`, () => {
