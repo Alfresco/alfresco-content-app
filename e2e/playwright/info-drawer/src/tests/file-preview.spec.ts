@@ -34,6 +34,15 @@ test.describe('File preview', () => {
   let trashcanApi: TrashcanApi;
   let fileActionsApi: FileActionsApi;
 
+  test.afterAll(async () => {
+    try {
+      await nodesApi.deleteCurrentUserNodes();
+      await trashcanApi.emptyTrashcan();
+    } catch (error) {
+      console.error(`Main afterAll failed: ${error}`);
+    }
+  });
+
   test.beforeAll(async () => {
     try {
       await apiClientFactory.setUpAcaBackend('admin');
@@ -51,15 +60,6 @@ test.describe('File preview', () => {
       await loginPage.loginUser({ username, password: username }, { withNavigation: true, waitForLoading: true });
     } catch (error) {
       console.error(`Main beforeEach failed: ${error}`);
-    }
-  });
-
-  test.afterAll(async () => {
-    try {
-      await nodesApi.deleteCurrentUserNodes();
-      await trashcanApi.emptyTrashcan();
-    } catch (error) {
-      console.error(`Main afterAll failed: ${error}`);
     }
   });
 
