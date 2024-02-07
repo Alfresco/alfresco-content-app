@@ -92,7 +92,7 @@ export class SearchInputComponent implements OnInit, OnDestroy {
     {
       id: SearchOptionIds.Libraries,
       key: 'SEARCH.INPUT.LIBRARIES',
-      value: false,
+      value: this.onLibrariesSearchResults,
       shouldDisable: this.isContentChecked.bind(this)
     }
   ];

@@ -10,7 +10,7 @@
       <div class="adf-search-results">
         <div class="adf-search-results__content">
           <mat-progress-bar *ngIf="isLoading" color="primary" mode="indeterminate"></mat-progress-bar>
-          <div class="adf-search-results__content-header aca-content" *ngIf="data?.list.entries.length">
+          <div class="adf-search-results__content-header aca-content-lib" *ngIf="data?.list.entries.length">
             <div class="aca-content__side--left">
               <div class="adf-search-results--info-text" *ngIf="totalResults !== 1">
                 {{ 'APP.BROWSE.SEARCH_LIBRARIES.FOUND_RESULTS' | translate: { number: totalResults } }}

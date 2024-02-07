@@ -11,7 +11,7 @@ aca-search-results {
     &__content {
       @include flex-column;
 
-      border-left: 1px solid #eee;
+      border-left: 1px solid var(--theme-border-color);
     }
 
     &__content-header {
@@ -19,7 +19,8 @@ aca-search-results {
       padding: 0 25px;
       flex-direction: row;
       align-items: center;
-      border-bottom: 1px solid #eee;
+      border-bottom: 1px solid var(--theme-border-color);
+      border-top: 1px solid var(--theme-border-color);
     }
 
     &--info-text {
@@ -28,7 +29,7 @@ aca-search-results {
       color: rgba(0, 0, 0, 0.54);
     }
 
-    .aca-content {
+    .aca-content-lib {
       @include flex-row;
 
       flex: unset;
@@ -36,6 +37,7 @@ aca-search-results {
       padding-top: 8px;
       padding-bottom: 8px;
       flex-wrap: wrap;
+      background-color: var(--theme-card-background-color);
 
       &__side--left {
         @include flex-column;
