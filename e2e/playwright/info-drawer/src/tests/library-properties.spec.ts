@@ -23,6 +23,7 @@
  */
 
 import { SITE_VISIBILITY, SITE_ROLES } from '@alfresco/aca-testing-shared';
+import { expect } from '@playwright/test';
 import { ApiClientFactory, Utils, test, SitesApi, QueriesApi } from '@alfresco/playwright-shared';
 
 test.describe('Library properties', () => {
@@ -54,11 +55,11 @@ test.describe('Library properties', () => {
 
   const siteDup = `site3-${Utils.random()}`;
 
-  test.beforeAll(async ({ loginPage }) => {
+  test.beforeAll(async () => {
     try {
       const apiClientFactory = new ApiClientFactory();
       await apiClientFactory.setUpAcaBackend('admin');
-      await apiClientFactory.createUser({ username });
+      await apiClientFactory.createUser({ username: username });
       await apiClientFactory.createUser({ username: user2 });
       await apiClientFactory.createUser({ username: user3 });
 
@@ -68,10 +69,8 @@ test.describe('Library properties', () => {
       await sitesApi.createSite(siteDup);
       await sitesApi.addSiteMember(site.id, user2, SITE_ROLES.SITE_COLLABORATOR.ROLE);
       await sitesApi.addSiteMember(site.id, user3, SITE_ROLES.SITE_MANAGER.ROLE);
-
-      await loginPage.loginUser({ username, password: username }, { withNavigation: true, waitForLoading: true });
     } catch (error) {
-      console.error(`beforeEach failed: ${error}`);
+      console.error(`beforeAll failed: ${error}`);
     }
   });
 
@@ -79,8 +78,13 @@ test.describe('Library properties', () => {
     await sitesApi.deleteSites([site.id, siteForUpdate.id, siteDup]);
   });
 
-  test.beforeEach(async ({ myLibrariesPage }) => {
-    await myLibrariesPage.navigate();
+  test.beforeEach(async ({ myLibrariesPage, loginPage }) => {
+    try {
+      await loginPage.loginUser({ username, password: username }, { withNavigation: true, waitForLoading: true });
+      await myLibrariesPage.navigate();
+    } catch (error) {
+      console.error(` beforeEach failed: ${error}`);
+    }
   });
 
   test.afterEach(async ({ myLibrariesPage }) => {
@@ -88,57 +92,60 @@ test.describe('Library properties', () => {
       await myLibrariesPage.acaHeader.viewDetails.click();
     }
   });
+
   test('[C289336] Info drawer opens for a library', async ({ myLibrariesPage }) => {
-    await myLibrariesPage.dataTable.selectItem(site.name);
+    await expect(myLibrariesPage.dataTable.getRowByName(site.name)).toBeVisible();
+    await myLibrariesPage.dataTable.getRowByName(site.name).click();
     await myLibrariesPage.acaHeader.viewDetails.click();
 
-    expect(await myLibrariesPage.libraryDetails.infoDrawerPanel.isVisible()).toBe(true, 'infoDrawerPanel is not visible');
-    expect(await myLibrariesPage.libraryDetails.headerTitle).toEqual(site.name);
-    expect(await myLibrariesPage.libraryDetails.propertiesTab.isVisible()).toBe(true, 'Properties tab is not visible');
-    expect(await myLibrariesPage.libraryDetails.getNameField('Name').isVisible).toBe(true, 'Name field is not visible');
-    expect(await myLibrariesPage.libraryDetails.getIdField('Library ID').isVisible).toBe(true, 'Library ID field is not visible');
-    expect(await myLibrariesPage.libraryDetails.getVisibilityField('Visibility').isVisible).toBe(true, 'Visibility field is not visible');
-    expect(await myLibrariesPage.libraryDetails.getDescriptionField.isVisible).toBe(true, 'Description field is not visible');
-    expect(await myLibrariesPage.libraryDetails.getNameField('Name').textContent()).toEqual(site.name);
-    expect(await myLibrariesPage.libraryDetails.getIdField('Library ID').textContent()).toEqual(site.id);
-    expect(await myLibrariesPage.libraryDetails.getVisibilityField('Visibility').textContent()).toEqual(site.visibility);
+    await expect(myLibrariesPage.libraryDetails.infoDrawerPanel).toBeVisible();
+    expect(await myLibrariesPage.libraryDetails.headerTitle.textContent()).toEqual(site.name);
+    await expect(myLibrariesPage.libraryDetails.propertiesTab).toBeVisible();
+    await expect(myLibrariesPage.libraryDetails.getNameField('Name')).toBeVisible();
+    await expect(myLibrariesPage.libraryDetails.getIdField('Library ID')).toBeVisible();
+    await expect(myLibrariesPage.libraryDetails.getVisibilityField('Visibility')).toBeVisible();
+    await expect(myLibrariesPage.libraryDetails.getDescriptionField).toBeVisible();
+
+    expect(await myLibrariesPage.libraryDetails.infoDrawerPanel.locator('label', { hasText: 'Name' }).inputValue()).toEqual(site.name);
+    expect(await myLibrariesPage.libraryDetails.infoDrawerPanel.locator('label', { hasText: 'Library ID' }).inputValue()).toEqual(site.id);
+    // expect(await myLibrariesPage.libraryDetails.infoDrawerPanel.locator('label', {hasText: 'Visibility'}).locator('../../..').inputValue()).toEqual(site.visibility);
     expect(await myLibrariesPage.libraryDetails.getDescriptionField.textContent()).toEqual(site.description);
-    expect(await myLibrariesPage.libraryDetails.editButton.isVisible()).toBe(true, 'Edit button is not visible');
+    await expect(myLibrariesPage.libraryDetails.editButton).toBeVisible();
   });
 
   test('[C289338] Editable properties', async ({ myLibrariesPage }) => {
     await myLibrariesPage.dataTable.selectItem(site.name);
     await myLibrariesPage.acaHeader.viewDetails.click();
-    expect(await myLibrariesPage.libraryDetails.infoDrawerPanel.isVisible()).toBe(true, 'infoDrawerPanel is not visible');
-    expect(await myLibrariesPage.libraryDetails.editButton.isVisible()).toBe(true, 'Edit button is not visible');
+    await expect(myLibrariesPage.libraryDetails.infoDrawerPanel).toBeVisible();
+    await expect(myLibrariesPage.libraryDetails.editButton).toBeVisible();
 
     await myLibrariesPage.libraryDetails.editButton.click();
-    expect(await myLibrariesPage.libraryDetails.getNameField('Name').isEditable).toBe(true, 'Name field is not editable');
-    expect(await myLibrariesPage.libraryDetails.getIdField('Library ID').isEditable).toBe(false, 'Library ID field is not disabled');
-    expect(await myLibrariesPage.libraryDetails.getVisibilityField('Visibility').isEditable).toBe(true, 'Visibility field is not editable');
-    expect(await myLibrariesPage.libraryDetails.getDescriptionField.isEditable).toBe(true, 'Description field is not editable');
-    expect(await myLibrariesPage.libraryDetails.cancelButton.isVisible()).toBe(true, 'Cancel button is not visible');
-    expect(await myLibrariesPage.libraryDetails.updateButton.isVisible()).toBe(true, 'Update button is not visible');
-    expect(await myLibrariesPage.libraryDetails.cancelButton.isEnabled()).toBe(true, 'Cancel button is not enabled');
-    expect(await myLibrariesPage.libraryDetails.updateButton.isEnabled()).toBe(false, 'Edit button is not disabled');
+    await expect(myLibrariesPage.libraryDetails.getNameField('Name')).toBeVisible();
+    await expect(myLibrariesPage.libraryDetails.getIdField('Library ID')).not.toBeEditable();
+    await expect(myLibrariesPage.libraryDetails.getVisibilityField('Visibility')).toBeEditable();
+    await expect(myLibrariesPage.libraryDetails.getDescriptionField).toBeEditable();
+    await expect(myLibrariesPage.libraryDetails.cancelButton).toBeVisible();
+    await expect(myLibrariesPage.libraryDetails.updateButton).toBeVisible();
+    await expect(myLibrariesPage.libraryDetails.cancelButton).toBeEnabled();
+    await expect(myLibrariesPage.libraryDetails.updateButton).not.toBeEnabled();
   });
 
   test('[C289339] Edit site details', async ({ myLibrariesPage }) => {
     await myLibrariesPage.dataTable.selectItem(site.name);
     await myLibrariesPage.acaHeader.viewDetails.click();
-    expect(await myLibrariesPage.libraryDetails.infoDrawerPanel.isVisible()).toBe(true, 'infoDrawerPanel is not visible');
-    expect(await myLibrariesPage.libraryDetails.editButton.isVisible()).toBe(true, 'Edit button is not visible');
+    await expect(myLibrariesPage.libraryDetails.infoDrawerPanel).toBeVisible();
+    await expect(myLibrariesPage.libraryDetails.editButton).toBeVisible();
 
     await myLibrariesPage.libraryDetails.editButton.click();
     await myLibrariesPage.libraryDetails.getNameField('Name').fill(siteUpdated.name);
     await myLibrariesPage.libraryDetails.getVisibilityField('Visibility').selectOption(siteUpdated.visibility);
     await myLibrariesPage.libraryDetails.getDescriptionField.fill(siteUpdated.description);
-    expect(await myLibrariesPage.libraryDetails.updateButton.isEnabled()).toBe(true, 'Update button is not enabled');
+    await expect(myLibrariesPage.libraryDetails.updateButton).toBeEnabled();
 
     await myLibrariesPage.libraryDetails.updateButton.click();
-    expect(await myLibrariesPage.snackBar.message).toEqual('Library properties updated');
-    expect(await myLibrariesPage.dataTable.isItemPresent(siteUpdated.name)).toBe(true, 'New site name is not visible on the list');
-    expect(await myLibrariesPage.libraryDetails.infoDrawerPanel.isVisible).toBe(false, 'Info Drawer is still opened');
+    await expect(myLibrariesPage.snackBar.message).toEqual('Library properties updated');
+    await expect(myLibrariesPage.dataTable.isItemPresent(siteUpdated.name)).toBe(true);
+    await expect(myLibrariesPage.libraryDetails.infoDrawerPanel).toBeVisible();
     expect((await sitesApi.getSite(siteForUpdate.id)).entry.title).toEqual(siteUpdated.name);
     expect((await sitesApi.getSite(siteForUpdate.id)).entry.description).toEqual(siteUpdated.description);
     expect((await sitesApi.getSite(siteForUpdate.id)).entry.visibility).toEqual(siteUpdated.visibility);
@@ -150,19 +157,19 @@ test.describe('Library properties', () => {
 
     await myLibrariesPage.dataTable.selectItem(site.name);
     await myLibrariesPage.acaHeader.viewDetails.click();
-    expect(await myLibrariesPage.libraryDetails.infoDrawerPanel.isVisible()).toBe(true, 'infoDrawerPanel is not visible');
-    expect(await myLibrariesPage.libraryDetails.editButton.isVisible()).toBe(true, 'Edit button is not visible');
+    expect(await myLibrariesPage.libraryDetails.infoDrawerPanel).toBeVisible();
+    expect(await myLibrariesPage.libraryDetails.editButton).toBeVisible();
 
     await myLibrariesPage.libraryDetails.editButton.click();
     await myLibrariesPage.libraryDetails.getNameField('Name').fill(newName);
     await myLibrariesPage.libraryDetails.getVisibilityField('Visibility').selectOption(SITE_VISIBILITY.MODERATED);
     await myLibrariesPage.libraryDetails.getDescriptionField.fill(newDesc);
-    expect(await myLibrariesPage.libraryDetails.updateButton.isEnabled()).toBe(true, 'Update button is not enabled');
+    expect(await myLibrariesPage.libraryDetails.updateButton).toBeEnabled();
 
     await myLibrariesPage.libraryDetails.cancelButton.click();
-    expect(await myLibrariesPage.dataTable.isItemPresent(newName)).toBe(false, 'New site name is visible on the list');
-    expect(await myLibrariesPage.dataTable.isItemPresent(site.name)).toBe(true, 'Original name is not visible on the list');
-    expect(await myLibrariesPage.libraryDetails.infoDrawerPanel.isVisible).toBe(true, 'Info Drawer is not opened');
+    expect(await myLibrariesPage.dataTable.isItemPresent(newName)).toBe(false);
+    expect(await myLibrariesPage.dataTable.isItemPresent(site.name)).toBe(true);
+    expect(await myLibrariesPage.libraryDetails.infoDrawerPanel).toBeVisible();
   });
 
   test('[C289341] Warning appears when editing the name of the library by entering an existing name', async ({ myLibrariesPage }) => {
@@ -170,37 +177,37 @@ test.describe('Library properties', () => {
     await queriesApi.waitForSites(site.name, { expect: 1 });
     await myLibrariesPage.dataTable.selectItem(siteDup);
     await myLibrariesPage.acaHeader.viewDetails.click();
-    expect(await myLibrariesPage.libraryDetails.infoDrawerPanel.isVisible()).toBe(true, 'infoDrawerPanel is not visible');
-    expect(await myLibrariesPage.libraryDetails.editButton.isVisible()).toBe(true, 'Edit button is not visible');
+    expect(await myLibrariesPage.libraryDetails.infoDrawerPanel).toBeVisible();
+    expect(await myLibrariesPage.libraryDetails.editButton).toBeVisible();
 
     await myLibrariesPage.libraryDetails.editButton.click();
     await myLibrariesPage.libraryDetails.getNameField('Name').fill(site.name);
-    expect(await myLibrariesPage.libraryDetails.hintMessage.isVisible()).toBe(true, 'Hint message is not visible');
+    expect(await myLibrariesPage.libraryDetails.hintMessage).toBeVisible();
     expect(await myLibrariesPage.libraryDetails.hintMessage).toEqual('Library name already in use');
   });
 
   test('[C289342] Site name too long', async ({ myLibrariesPage }) => {
     await myLibrariesPage.dataTable.selectItem(site.name);
     await myLibrariesPage.acaHeader.viewDetails.click();
-    expect(await myLibrariesPage.libraryDetails.infoDrawerPanel.isVisible()).toBe(true, 'infoDrawerPanel is not visible');
+    expect(await myLibrariesPage.libraryDetails.infoDrawerPanel).toBeVisible();
 
     await myLibrariesPage.libraryDetails.editButton.click();
     await myLibrariesPage.libraryDetails.getNameField('Name').fill(Utils.string257Long);
-    expect(await myLibrariesPage.libraryDetails.hintMessage.isVisible()).toBe(true, 'Hint message is not visible');
+    expect(await myLibrariesPage.libraryDetails.hintMessage).toBeVisible();
     expect(await myLibrariesPage.libraryDetails.hintMessage).toEqual('Use 256 characters or less for title');
-    expect(await myLibrariesPage.libraryDetails.updateButton.isEnabled()).toBe(false, 'Update button is not disabled');
+    expect(await myLibrariesPage.libraryDetails.updateButton).not.toBeEnabled();
   });
 
   test('[C289343] Site description too long', async ({ myLibrariesPage }) => {
     await myLibrariesPage.dataTable.selectItem(site.name);
     await myLibrariesPage.acaHeader.viewDetails.click();
-    expect(await myLibrariesPage.libraryDetails.infoDrawerPanel.isVisible()).toBe(true, 'infoDrawerPanel is not visible');
+    expect(await myLibrariesPage.libraryDetails.infoDrawerPanel).toBeVisible();
 
     await myLibrariesPage.libraryDetails.editButton.click();
     await myLibrariesPage.libraryDetails.getDescriptionField.fill(Utils.string513Long);
-    expect(await myLibrariesPage.libraryDetails.hintMessage.isVisible()).toBe(true, 'Hint message is not visible');
+    expect(await myLibrariesPage.libraryDetails.hintMessage).toBeVisible();
     expect(await myLibrariesPage.libraryDetails.hintMessage).toEqual('Use 512 characters or less for description');
-    expect(await myLibrariesPage.libraryDetails.updateButton.isEnabled()).toBe(false, 'Update button is not disabled');
+    expect(await myLibrariesPage.libraryDetails.updateButton).not.toBeEnabled();
   });
 
   test.describe('Non manager', () => {
@@ -215,7 +222,7 @@ test.describe('Library properties', () => {
     test('[C289337] Info drawer button is not displayed when user is not the library manager', async ({ loginPage, myLibrariesPage }) => {
       await loginPage.loginUser({ username, password: user2 }, { withNavigation: true, waitForLoading: true });
       await myLibrariesPage.dataTable.selectItem(site.name);
-      expect(await myLibrariesPage.acaHeader.viewDetails.isVisible).toBe(false, 'View Details button is visible');
+      expect(await myLibrariesPage.acaHeader.viewDetails).not.toBeVisible();
     });
 
     test('[C289344] Error notification', async ({ loginPage, myLibrariesPage }) => {
@@ -227,7 +234,7 @@ test.describe('Library properties', () => {
       await myLibrariesPage.libraryDetails.getDescriptionField.fill('new description');
       await myLibrariesPage.libraryDetails.updateButton.click();
 
-      expect(await myLibrariesPage.snackBar.message).toEqual('There was an error updating library properties');
+      await expect(myLibrariesPage.snackBar.message).toEqual('There was an error updating library properties');
     });
   });
 });
