@@ -28,8 +28,6 @@ import { ApiClientFactory, test, TrashcanApi, NodesApi, FileActionsApi, TEST_FIL
 test.describe('File preview', () => {
   const timestamp = new Date().getTime();
   const username = `user1-${timestamp}`;
-  const fileName = `file1-${timestamp}.pdf`;
-  const apiClientFactory = new ApiClientFactory();
   let nodesApi: NodesApi;
   let trashcanApi: TrashcanApi;
   let fileActionsApi: FileActionsApi;
@@ -45,6 +43,7 @@ test.describe('File preview', () => {
 
   test.beforeAll(async () => {
     try {
+      const apiClientFactory = new ApiClientFactory();
       await apiClientFactory.setUpAcaBackend('admin');
       await apiClientFactory.createUser({ username });
       nodesApi = await NodesApi.initialize(username, username);
@@ -63,11 +62,11 @@ test.describe('File preview', () => {
     }
   });
 
-  async function checkFileContent(page: Page, pageNumber: string, text: string): Promise<void> {
+  async function checkFileContent(page: Page, pageNumber: number, text: string): Promise<void> {
     const allPages = page.locator('.canvasWrapper > canvas').first();
     const pageLoaded = page.locator(`div[data-page-number="${pageNumber}"][data-loaded="true"]`);
     const textLayerLoaded = page.locator(`div[data-page-number="${pageNumber}"] .textLayer`);
-    const specificText = page.locator(`div[data-page-number="${pageNumber}"] .textLayer`).textContent();
+    const specificText = textLayerLoaded.textContent();
 
     await expect(allPages).toBeVisible();
     await expect(pageLoaded).toBeVisible();
@@ -76,13 +75,12 @@ test.describe('File preview', () => {
   }
 
   test('[C595967] Should preview document from the info drawer', async ({ personalFiles }) => {
+    const fileName = `file1-${timestamp}.pdf`;
     await fileActionsApi.uploadFileWithRename(TEST_FILES.PDF.path, fileName, '-my-');
     await fileActionsApi.waitForNodes(fileName, { expect: 1 });
     await personalFiles.navigate();
-    const pageNumber = '1';
-    const documentText = 'This is a small demonstration';
     await personalFiles.dataTable.getRowByName(fileName).click();
     await personalFiles.acaHeader.viewButton.click();
-    await checkFileContent(personalFiles.page, pageNumber, documentText);
+    await checkFileContent(personalFiles.page, 1, 'This is a small demonstration');
   });
 });
