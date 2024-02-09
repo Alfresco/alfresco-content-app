@@ -44,10 +44,6 @@ test.describe('Info Drawer - General', () => {
       nodesApi = await NodesApi.initialize(username, username);
       trashcanApi = await TrashcanApi.initialize(username, username);
       fileActionsApi = await FileActionsApi.initialize(username, username);
-
-      parentId = (await nodesApi.createFolder(parentFolder)).entry.id;
-      await nodesApi.createFile(file1, parentId);
-      await nodesApi.createFolder(folder1, parentId);
     } catch (error) {
       console.error(`beforeAll failed: ${error}`);
     }
