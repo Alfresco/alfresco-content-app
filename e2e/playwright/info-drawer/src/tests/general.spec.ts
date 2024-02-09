@@ -49,20 +49,20 @@ test.describe('Info Drawer - General', () => {
     }
   });
 
-  test.beforeEach(async ({ loginPage }) => {
-    try {
-      await loginPage.loginUser({ username, password: username }, { withNavigation: true, waitForLoading: true });
-    } catch (error) {
-      console.error(`beforeEach failed: ${error}`);
-    }
-  });
-
   test.afterAll(async () => {
     try {
       await nodesApi.deleteCurrentUserNodes();
       await trashcanApi.emptyTrashcan();
     } catch (error) {
       console.error(`afterAll failed: ${error}`);
+    }
+  });
+
+  test.beforeEach(async ({ loginPage }) => {
+    try {
+      await loginPage.loginUser({ username, password: username }, { withNavigation: true, waitForLoading: true });
+    } catch (error) {
+      console.error(`beforeEach failed: ${error}`);
     }
   });
 

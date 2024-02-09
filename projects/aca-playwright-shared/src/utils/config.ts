@@ -44,30 +44,30 @@ export const SIDEBAR_LABELS = {
   TRASH: 'Trash'
 };
 
-export const SITE_VISIBILITY = {
-  PUBLIC: 'PUBLIC',
-  MODERATED: 'MODERATED',
-  PRIVATE: 'PRIVATE'
-};
-
 export const SITE_ROLES = {
+  SITE_MANAGER: {
+    ROLE: 'SiteManager',
+    LABEL: 'Manager'
+  },
   SITE_CONSUMER: {
     ROLE: 'SiteConsumer',
     LABEL: 'Consumer'
-  },
-  SITE_COLLABORATOR: {
-    ROLE: 'SiteCollaborator',
-    LABEL: 'Collaborator'
   },
   SITE_CONTRIBUTOR: {
     ROLE: 'SiteContributor',
     LABEL: 'Contributor'
   },
-  SITE_MANAGER: {
-    ROLE: 'SiteManager',
-    LABEL: 'Manager'
+  SITE_COLLABORATOR: {
+    ROLE: 'SiteCollaborator',
+    LABEL: 'Collaborator'
   },
   NONE: {
     LABEL: 'Not a member'
   }
+};
+
+export const SITE_VISIBILITY = {
+  PUBLIC: 'PUBLIC',
+  MODERATED: 'MODERATED',
+  PRIVATE: 'PRIVATE'
 };

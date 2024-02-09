@@ -73,10 +73,6 @@ test.describe('Library properties', () => {
     }
   });
 
-  test.afterAll(async () => {
-    await sitesApi.deleteSites([site.id, siteForUpdate.id, siteDup]);
-  });
-
   test.beforeEach(async ({ myLibrariesPage, loginPage }) => {
     try {
       await loginPage.loginUser({ username, password: username }, { withNavigation: true, waitForLoading: true });
@@ -84,6 +80,10 @@ test.describe('Library properties', () => {
     } catch (error) {
       console.error(` beforeEach failed: ${error}`);
     }
+  });
+
+  test.afterAll(async () => {
+    await sitesApi.deleteSites([site.id, siteForUpdate.id, siteDup]);
   });
 
   test.afterEach(async ({ myLibrariesPage }) => {
