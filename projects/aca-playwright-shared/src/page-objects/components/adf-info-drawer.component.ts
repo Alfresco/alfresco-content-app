@@ -37,9 +37,9 @@ export class AdfInfoDrawerComponent extends BaseComponent {
   public getVisibilityField = (labelText: string) =>
     this.getChild('[data-automation-id="library-visibility-properties-wrapper"]', { hasText: labelText });
   public getDescriptionField = this.getChild('[data-automation-id="library-description-properties-wrapper"] textarea');
+  public propertiesTab = this.page.getByRole('tab', { name: 'Properties' });
+  public commentsTab = this.page.getByRole('tab', { name: 'Comments' });
   public infoDrawerTabs = this.getChild('.adf-info-drawer-tab');
-  public propertiesTab = this.infoDrawerTabs.nth(0);
-  public commentsTab = this.infoDrawerTabs.nth(1);
   public commentInputField = this.getChild('mat-form-field');
   public commentsHeader = this.getChild('#comment-header');
   public addCommentButton = this.getChild('[data-automation-id="comments-input-add"]');
@@ -47,7 +47,14 @@ export class AdfInfoDrawerComponent extends BaseComponent {
   public commentUsername = this.getChild('.adf-comment-user-name');
   public commentTextContent = this.getChild('.adf-comment-message');
   public commentTimestamp = this.getChild('.adf-comment-message-time');
-  public headerTitle = this.getChild('.adf-info-drawer-layout-header-title div');
+  public commentProfileIcon = this.getChild('.adf-comment-user-icon');
+  public infoDrawerPanel = this.page.locator('.adf-info-drawer');
+  public headerTitle = this.page.locator('.adf-info-drawer-layout-header-title').getByRole('heading');
+  public editButton = this.page.getByRole('button', { name: 'Edit' });
+  public cancelButton = this.page.getByRole('button', { name: 'Cancel' });
+  public updateButton = this.page.getByRole('button', { name: 'Update' });
+  public hintMessage = this.page.locator('.mat-hint');
+  public errorMessage = this.page.locator('.mat-error');
   public expandDetailsButton = this.getChild(`button[title='Expand panel']`);
   public expandedDetailsTabs = this.page.locator('.aca-details-container .mat-tab-label-content');
   public expandedDetailsPermissionsTab = this.expandedDetailsTabs.getByText('Permissions');
