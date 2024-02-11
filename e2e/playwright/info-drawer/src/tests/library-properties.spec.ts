@@ -54,6 +54,21 @@ test.describe('Library properties', () => {
 
   const siteDup = `site3-${Utils.random()}`;
 
+  test.beforeEach(async ({ myLibrariesPage, loginPage }) => {
+    try {
+      await loginPage.loginUser({ username, password: username }, { withNavigation: true, waitForLoading: true });
+      await myLibrariesPage.navigate();
+    } catch (error) {
+      console.error(` beforeEach failed: ${error}`);
+    }
+  });
+
+  test.afterEach(async ({ myLibrariesPage }) => {
+    if (await myLibrariesPage.libraryDetails.infoDrawerPanel.isVisible()) {
+      await myLibrariesPage.acaHeader.viewDetails.click();
+    }
+  });
+
   test.beforeAll(async () => {
     try {
       const apiClientFactory = new ApiClientFactory();
@@ -73,23 +88,8 @@ test.describe('Library properties', () => {
     }
   });
 
-  test.beforeEach(async ({ myLibrariesPage, loginPage }) => {
-    try {
-      await loginPage.loginUser({ username, password: username }, { withNavigation: true, waitForLoading: true });
-      await myLibrariesPage.navigate();
-    } catch (error) {
-      console.error(` beforeEach failed: ${error}`);
-    }
-  });
-
   test.afterAll(async () => {
     await sitesApi.deleteSites([site.id, siteForUpdate.id, siteDup]);
-  });
-
-  test.afterEach(async ({ myLibrariesPage }) => {
-    if (await myLibrariesPage.libraryDetails.infoDrawerPanel.isVisible()) {
-      await myLibrariesPage.acaHeader.viewDetails.click();
-    }
   });
 
   test('[C289336] Info drawer opens for a library', async ({ myLibrariesPage }) => {
