@@ -37,21 +37,6 @@ export class QueriesApi {
     return classObj;
   }
 
-  private async findSitesTotalItems(searchTerm: string): Promise<number> {
-    try {
-      const opts = {
-        term: searchTerm,
-        fields: ['title']
-      };
-
-      const sites = await this.apiService.queries.findSites(searchTerm, opts);
-      return sites.list.pagination.totalItems;
-    } catch (error) {
-      console.error(`QueriesApi findSitesTotalItems : catch :`, error);
-      return null;
-    }
-  }
-
   async waitForSites(searchTerm: string, data: { expect: number }) {
     try {
       const sites = async () => {
@@ -67,6 +52,21 @@ export class QueriesApi {
     } catch (error) {
       console.error(`QueriesApi waitForSites : catch : `);
       console.error(`\tExpected: ${data.expect} items, but found ${error}`);
+    }
+  }
+
+  private async findSitesTotalItems(searchTerm: string): Promise<number> {
+    try {
+      const opts = {
+        term: searchTerm,
+        fields: ['title']
+      };
+
+      const sites = await this.apiService.queries.findSites(searchTerm, opts);
+      return sites.list.pagination.totalItems;
+    } catch (error) {
+      console.error(`QueriesApi findSitesTotalItems : catch :`, error);
+      return null;
     }
   }
 }
