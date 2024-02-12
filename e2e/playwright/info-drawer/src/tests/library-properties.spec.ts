@@ -111,7 +111,7 @@ test.describe('Library properties', () => {
     await expect(myLibrariesPage.libraryDetails.cancelButton).toBeVisible();
     await expect(myLibrariesPage.libraryDetails.updateButton).toBeVisible();
     await expect(myLibrariesPage.libraryDetails.cancelButton).toBeEnabled();
-    await expect(myLibrariesPage.libraryDetails.updateButton).not.toBeEnabled();
+    await expect(myLibrariesPage.libraryDetails.updateButton).toBeDisabled();
   });
 
   test('[C289339] Edit site details', async ({ myLibrariesPage }) => {
@@ -188,7 +188,7 @@ test.describe('Library properties', () => {
     await myLibrariesPage.libraryDetails.nameField.fill(Utils.string257Long);
     await expect(myLibrariesPage.libraryDetails.errorMessage).toBeVisible();
     expect((await myLibrariesPage.libraryDetails.errorMessage.textContent()).trim()).toEqual('Use 256 characters or less for title');
-    await expect(myLibrariesPage.libraryDetails.updateButton).not.toBeEnabled();
+    await expect(myLibrariesPage.libraryDetails.updateButton).toBeDisabled();
   });
 
   test('[C289343] Site description too long', async ({ myLibrariesPage }) => {
@@ -200,7 +200,7 @@ test.describe('Library properties', () => {
     await myLibrariesPage.libraryDetails.descriptionField.fill(Utils.string513Long);
     await expect(myLibrariesPage.libraryDetails.errorMessage).toBeVisible();
     expect((await myLibrariesPage.libraryDetails.errorMessage.textContent()).trim()).toEqual('Use 512 characters or less for description');
-    await expect(myLibrariesPage.libraryDetails.updateButton).not.toBeEnabled();
+    await expect(myLibrariesPage.libraryDetails.updateButton).toBeDisabled();
   });
 });
 
