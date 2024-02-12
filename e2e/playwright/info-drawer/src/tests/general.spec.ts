@@ -32,6 +32,15 @@ test.describe('Info Drawer - General', () => {
 
   const username = `user1-${Utils.random()}`;
 
+  test.afterAll(async () => {
+    try {
+      await nodesApi.deleteCurrentUserNodes();
+      await trashcanApi.emptyTrashcan();
+    } catch (error) {
+      console.error(`afterAll failed: ${error}`);
+    }
+  });
+
   test.beforeAll(async () => {
     try {
       const apiClientFactory = new ApiClientFactory();
@@ -45,26 +54,11 @@ test.describe('Info Drawer - General', () => {
     }
   });
 
-  test.afterAll(async () => {
-    try {
-      await nodesApi.deleteCurrentUserNodes();
-      await trashcanApi.emptyTrashcan();
-    } catch (error) {
-      console.error(`afterAll failed: ${error}`);
-    }
-  });
-
   test.beforeEach(async ({ loginPage }) => {
     try {
       await loginPage.loginUser({ username, password: username }, { withNavigation: true, waitForLoading: true });
     } catch (error) {
       console.error(`beforeEach failed: ${error}`);
-    }
-  });
-
-  test.afterEach(async ({ personalFiles }) => {
-    if (await personalFiles.infoDrawer.infoDrawerPanel.isVisible()) {
-      await personalFiles.acaHeader.viewDetails.click();
     }
   });
 

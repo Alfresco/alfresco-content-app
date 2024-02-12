@@ -22,6 +22,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { FindQuery } from '@alfresco/js-api';
 import { Utils } from '../utils';
 import { ApiClientFactory } from './api-client-factory';
 
@@ -59,7 +60,7 @@ export class QueriesApi {
 
   private async findSitesTotalItems(searchTerm: string): Promise<number> {
     try {
-      const opts: { term: string; fields: Array<string> } = {
+      const opts: FindQuery = {
         term: searchTerm,
         fields: ['title']
       };

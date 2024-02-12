@@ -52,12 +52,6 @@ test.describe('Library properties', () => {
     }
   });
 
-  test.afterEach(async ({ myLibrariesPage }) => {
-    if (await myLibrariesPage.libraryDetails.infoDrawerPanel.isVisible()) {
-      await myLibrariesPage.acaHeader.viewDetails.click();
-    }
-  });
-
   test.beforeAll(async () => {
     try {
       const apiClientFactory = new ApiClientFactory();
