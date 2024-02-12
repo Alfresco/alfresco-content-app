@@ -1534,20 +1534,22 @@
           }
         ],
         "highlight": {
-          "prefix": "<span class='highlight'>",
+          "prefix": "<span class='aca-highlight'>",
           "postfix": "</span>",
           "fields": [
             {
-              "field": "title"
+              "field": "cm:title"
             },
             {
-              "field": "name"
+              "field": "cm:name"
             },
             {
-              "field": "description"
+              "field": "cm:description",
+              "snippetCount": 1
             },
             {
-              "field": "content"
+              "field": "cm:content",
+              "snippetCount": 1
             }
           ]
         }
@@ -1706,7 +1708,27 @@
               }
             }
           }
-        ]
+        ],
+        "highlight": {
+          "prefix": "<span class='aca-highlight'>",
+          "postfix": "</span>",
+          "fields": [
+            {
+              "field": "cm:title"
+            },
+            {
+              "field": "cm:name"
+            },
+            {
+              "field": "cm:description",
+              "snippetCount": 1
+            },
+            {
+              "field": "cm:content",
+              "snippetCount": 1
+            }
+          ]
+        }
       },
       {
         "id": "app.search.effectivity",
@@ -1864,7 +1886,27 @@
               }
             }
           }
-        ]
+        ],
+        "highlight": {
+          "prefix": "<span class='aca-highlight'>",
+          "postfix": "</span>",
+          "fields": [
+            {
+              "field": "cm:title"
+            },
+            {
+              "field": "cm:name"
+            },
+            {
+              "field": "cm:description",
+              "snippetCount": 1
+            },
+            {
+              "field": "cm:content",
+              "snippetCount": 1
+            }
+          ]
+        }
       }
 
     ],

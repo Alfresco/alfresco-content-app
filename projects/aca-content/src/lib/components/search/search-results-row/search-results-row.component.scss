@@ -1,9 +1,14 @@
 .aca-search-results-row {
   padding: 10px 0;
+  width: inherit;
 
-  .highlight {
-    background: #ffd180;
-    color: black;
+  .aca-highlight {
+    background: var(--theme-search-highlight-background-color);
+  }
+
+  .aca-crop-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .aca-result-location {

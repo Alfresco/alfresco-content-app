@@ -46,6 +46,8 @@ import { MatDialogModule } from '@angular/material/dialog';
   host: { class: 'aca-search-results-row' }
 })
 export class SearchResultsRowComponent implements OnInit, OnDestroy {
+  private readonly highlightPrefix = "<span class='aca-highlight'>";
+  private readonly highlightPostfix = '</span>';
   private node: NodeEntry;
   private onDestroy$ = new Subject<boolean>();
 
@@ -56,6 +58,10 @@ export class SearchResultsRowComponent implements OnInit, OnDestroy {
   title$ = new BehaviorSubject<string>('');
   description$ = new BehaviorSubject<string>('');
   content$ = new BehaviorSubject<string>('');
+  nameStripped = '';
+  titleStripped = '';
+  descriptionStripped = '';
+  contentStripped = '';
 
   isFile = false;
 
@@ -89,46 +95,42 @@ export class SearchResultsRowComponent implements OnInit, OnDestroy {
     this.isFile = this.node.entry.isFile;
 
     const highlights: SearchEntryHighlight[] = this.node.entry['search']?.['highlight'];
-    const { name, properties } = this.node.entry;
-    let displayName = name;
-    const title = properties ? properties['cm:title'] : '';
-    let displayTitle = title;
-    const description = properties ? properties['cm:description'] : '';
-    let displayDescription = description;
-    let displayContent = '';
+    let name = this.node.entry.name;
+    const properties = this.node.entry.properties;
+    let title = properties ? properties['cm:title'] : '';
+    let description = properties ? properties['cm:description'] : '';
+    let content = '';
 
-    highlights.forEach((highlight) => {
+    highlights?.forEach((highlight) => {
       switch (highlight.field) {
-        case 'name':
-          displayName = this.getDisplayContentWithHighlight(name, highlight.snippets[0]);
+        case 'cm:name':
+          name = highlight.snippets[0];
           break;
-        case 'title':
-          displayTitle = this.getDisplayContentWithHighlight(title, highlight.snippets[0]);
+        case 'cm:title':
+          title = highlight.snippets[0];
           break;
-        case 'description':
-          displayDescription = this.getDisplayContentWithHighlight(description, highlight.snippets[0]);
+        case 'cm:description':
+          description = highlight.snippets[0];
           break;
-        case 'content':
-          displayContent = `...${highlight.snippets[0]}...`;
+        case 'cm:content':
+          content = `...${highlight.snippets[0]}...`;
           break;
         default:
           break;
       }
     });
-    this.name$.next(displayName);
-    this.description$.next(displayDescription);
-    this.content$.next(displayContent);
+    this.name$.next(name);
+    this.description$.next(description);
+    this.content$.next(content);
+
+    this.nameStripped = this.stripHighlighting(name);
+    this.descriptionStripped = this.stripHighlighting(description);
+    this.contentStripped = this.stripHighlighting(content);
 
     if (title !== name) {
-      this.title$.next(displayTitle ? ` ( ${displayTitle} )` : '');
+      this.title$.next(title ? ` ( ${title} )` : '');
+      this.titleStripped = this.stripHighlighting(title);
     }
-  }
-
-  private getDisplayContentWithHighlight(originalContent: string, snippet: string): string {
-    const prefix = "<span class='highlight'>";
-    const postfix = '</span>';
-    const snippetWithoutPrefixPostfix = snippet.replace(prefix, '').replace(postfix, '');
-    return originalContent.replace(snippetWithoutPrefixPostfix, snippet);
   }
 
   ngOnDestroy() {
@@ -148,5 +150,11 @@ export class SearchResultsRowComponent implements OnInit, OnDestroy {
   navigate(event: Event) {
     event.stopPropagation();
     this.store.dispatch(new NavigateToFolder(this.node));
+  }
+
+  private stripHighlighting(highlightedContent: string): string {
+    return highlightedContent && highlightedContent !== ''
+      ? highlightedContent.replace(new RegExp(this.highlightPrefix, 'g'), '').replace(new RegExp(this.highlightPostfix, 'g'), '')
+      : '';
   }
 }
