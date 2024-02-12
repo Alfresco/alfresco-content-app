@@ -27,31 +27,20 @@ import { ApiClientFactory, Utils, test, SitesApi, QueriesApi, SITE_VISIBILITY, S
 
 test.describe('Library properties', () => {
   let sitesApi: SitesApi;
-  let queriesApi: QueriesApi;
-  const username = `user1-${Utils.random()}`;
-  const user2 = `user2-${Utils.random()}`;
-  const user3 = `user3-${Utils.random()}`;
 
+  const username = `user1-${Utils.random()}`;
   const site = {
     name: `site1-${Utils.random()}`,
     id: `site-id-${Utils.random()}`,
     visibility: SITE_VISIBILITY.MODERATED,
     description: 'my site description'
   };
-
   const siteForUpdate = {
     name: `site2-${Utils.random()}`,
     id: `site-id-${Utils.random()}`,
     visibility: SITE_VISIBILITY.MODERATED,
     description: 'my initial description'
   };
-
-  const siteUpdated = {
-    name: `site-for-rename-${Utils.random()}`,
-    visibility: SITE_VISIBILITY.PRIVATE,
-    description: 'new description'
-  };
-
   const siteDup = `site3-${Utils.random()}`;
 
   test.beforeEach(async ({ myLibrariesPage, loginPage }) => {
@@ -73,16 +62,12 @@ test.describe('Library properties', () => {
     try {
       const apiClientFactory = new ApiClientFactory();
       await apiClientFactory.setUpAcaBackend('admin');
-      await apiClientFactory.createUser({ username: username });
-      await apiClientFactory.createUser({ username: user2 });
-      await apiClientFactory.createUser({ username: user3 });
+      await apiClientFactory.createUser({ username });
 
       sitesApi = await SitesApi.initialize(username, username);
       await sitesApi.createSite(site.name, site.visibility, site.description, site.id);
       await sitesApi.createSite(siteForUpdate.name, siteForUpdate.visibility, siteForUpdate.description, siteForUpdate.id);
       await sitesApi.createSite(siteDup);
-      await sitesApi.addSiteMember(site.id, user2, SITE_ROLES.SITE_COLLABORATOR.ROLE);
-      await sitesApi.addSiteMember(site.id, user3, SITE_ROLES.SITE_MANAGER.ROLE);
     } catch (error) {
       console.error(`beforeAll failed: ${error}`);
     }
@@ -130,6 +115,12 @@ test.describe('Library properties', () => {
   });
 
   test('[C289339] Edit site details', async ({ myLibrariesPage }) => {
+    const siteUpdated = {
+      name: `site-for-rename-${Utils.random()}`,
+      visibility: SITE_VISIBILITY.PRIVATE,
+      description: 'new description'
+    };
+
     await myLibrariesPage.dataTable.getRowByName(siteForUpdate.name).click();
     await myLibrariesPage.acaHeader.viewDetails.click();
     await expect(myLibrariesPage.libraryDetails.infoDrawerPanel).toBeVisible();
@@ -174,7 +165,8 @@ test.describe('Library properties', () => {
   });
 
   test('[C289341] Warning appears when editing the name of the library by entering an existing name', async ({ myLibrariesPage }) => {
-    queriesApi = await QueriesApi.initialize(username, username);
+    const queriesApi = await QueriesApi.initialize(username, username);
+
     await queriesApi.waitForSites(site.name, { expect: 1 });
     await myLibrariesPage.dataTable.getRowByName(siteDup).click();
     await myLibrariesPage.acaHeader.viewDetails.click();
@@ -214,10 +206,10 @@ test.describe('Library properties', () => {
 
 test.describe('Non manager', () => {
   let sitesApi: SitesApi;
+
   const username = `user1-${Utils.random()}`;
   const user2 = `user2-${Utils.random()}`;
   const user3 = `user3-${Utils.random()}`;
-
   const site = {
     name: `site1-${Utils.random()}`,
     id: `site-id-${Utils.random()}`,
@@ -229,7 +221,7 @@ test.describe('Non manager', () => {
     try {
       const apiClientFactory = new ApiClientFactory();
       await apiClientFactory.setUpAcaBackend('admin');
-      await apiClientFactory.createUser({ username: username });
+      await apiClientFactory.createUser({ username });
       await apiClientFactory.createUser({ username: user2 });
       await apiClientFactory.createUser({ username: user3 });
 

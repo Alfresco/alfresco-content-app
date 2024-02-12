@@ -47,7 +47,6 @@ export class AdfInfoDrawerComponent extends BaseComponent {
   public commentUsername = this.getChild('.adf-comment-user-name');
   public commentTextContent = this.getChild('.adf-comment-message');
   public commentTimestamp = this.getChild('.adf-comment-message-time');
-  public commentProfileIcon = this.getChild('.adf-comment-user-icon');
   public infoDrawerPanel = this.page.locator('.adf-info-drawer');
   public headerTitle = this.page.locator('.adf-info-drawer-layout-header-title').getByRole('heading');
   public editButton = this.page.getByRole('button', { name: 'Edit' });

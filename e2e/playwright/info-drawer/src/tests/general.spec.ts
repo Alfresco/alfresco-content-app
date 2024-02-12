@@ -31,10 +31,6 @@ test.describe('Info Drawer - General', () => {
   let fileActionsApi: FileActionsApi;
 
   const username = `user1-${Utils.random()}`;
-  const parentFolder = `parent-${Utils.random()}`;
-  const file1 = `file1-${Utils.random()}.txt`;
-  const folder1 = `folder1-${Utils.random()}`;
-  let parentId: string;
 
   test.beforeAll(async () => {
     try {
@@ -68,12 +64,16 @@ test.describe('Info Drawer - General', () => {
 
   test.afterEach(async ({ personalFiles }) => {
     if (await personalFiles.infoDrawer.infoDrawerPanel.isVisible()) {
-      await personalFiles.clickInfoDrawerButton();
+      await personalFiles.acaHeader.viewDetails.click();
     }
   });
 
   test('[C268999] Info drawer closes on page refresh', async ({ personalFiles }) => {
-    parentId = (await nodesApi.createFolder(parentFolder)).entry.id;
+    const parentFolder = `parent-${Utils.random()}`;
+    const file1 = `file1-${Utils.random()}.txt`;
+    const folder1 = `folder1-${Utils.random()}`;
+    const parentId = (await nodesApi.createFolder(parentFolder)).entry.id;
+
     await nodesApi.createFile(file1, parentId);
     await nodesApi.createFolder(folder1, parentId);
     await fileActionsApi.waitForNodes(file1, { expect: 1 });
@@ -81,16 +81,16 @@ test.describe('Info Drawer - General', () => {
     await expect(personalFiles.dataTable.getRowByName(parentFolder)).toBeVisible();
     await personalFiles.dataTable.performClickFolderOrFileToOpen(parentFolder);
     await personalFiles.dataTable.selectItem(file1);
-    await personalFiles.clickInfoDrawerButton();
+    await personalFiles.acaHeader.viewDetails.click();
     await expect(personalFiles.infoDrawer.infoDrawerPanel).toBeVisible();
 
     await personalFiles.reload({ waitUntil: 'load' });
-    expect(personalFiles.infoDrawer.infoDrawerPanel).not.toBeVisible();
+    await expect(personalFiles.infoDrawer.infoDrawerPanel).not.toBeVisible();
     await personalFiles.dataTable.selectItem(file1);
-    await personalFiles.clickInfoDrawerButton();
+    await personalFiles.acaHeader.viewDetails.click();
     await expect(personalFiles.infoDrawer.infoDrawerPanel).toBeVisible();
 
     await personalFiles.reload({ waitUntil: 'load' });
-    expect(personalFiles.infoDrawer.infoDrawerPanel).not.toBeVisible();
+    await expect(personalFiles.infoDrawer.infoDrawerPanel).not.toBeVisible();
   });
 });

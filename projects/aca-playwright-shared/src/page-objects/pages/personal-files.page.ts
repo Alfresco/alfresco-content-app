@@ -95,8 +95,4 @@ export class PersonalFilesPage extends BasePage {
     await this.contentNodeSelector.selectDestination(destinationName);
     await this.contentNodeSelector.actionButton.click();
   }
-
-  async clickInfoDrawerButton(): Promise<void> {
-    await this.acaHeader.viewDetails.click();
-  }
 }

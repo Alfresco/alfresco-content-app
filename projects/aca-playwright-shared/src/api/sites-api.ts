@@ -159,7 +159,7 @@ export class SitesApi {
     }
   }
 
-  async getSite(siteId: string) {
+  async getSite(siteId: string): Promise<SiteEntry> {
     try {
       return await this.apiService.sites.getSite(siteId);
     } catch (error) {

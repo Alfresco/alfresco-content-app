@@ -31,13 +31,14 @@ export class QueriesApi {
   constructor() {
     this.apiService = new ApiClientFactory();
   }
+
   static async initialize(userName: string, password?: string): Promise<QueriesApi> {
     const classObj = new QueriesApi();
     await classObj.apiService.setUpAcaBackend(userName, password);
     return classObj;
   }
 
-  async waitForSites(searchTerm: string, data: { expect: number }) {
+  async waitForSites(searchTerm: string, data: { expect: number }): Promise<number> {
     try {
       const sites = async () => {
         const totalItems = await this.findSitesTotalItems(searchTerm);
@@ -52,12 +53,13 @@ export class QueriesApi {
     } catch (error) {
       console.error(`QueriesApi waitForSites : catch : `);
       console.error(`\tExpected: ${data.expect} items, but found ${error}`);
+      return null;
     }
   }
 
   private async findSitesTotalItems(searchTerm: string): Promise<number> {
     try {
-      const opts = {
+      const opts: { term: string; fields: Array<string> } = {
         term: searchTerm,
         fields: ['title']
       };
