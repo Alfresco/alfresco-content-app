@@ -11,7 +11,7 @@
     </mat-select>
   </mat-form-field>
 
-  <mat-form-field class="aca-rule-simple-condition__form__comparator-input" [class]="{ 'aca-hidden': isComparatorHidden }" data-automation-id="comparator-form-field">
+  <mat-form-field class="aca-rule-simple-condition__form__field-input aca-rule-simple-condition__form__comparator-input" [class]="{ 'aca-hidden': isComparatorHidden }" data-automation-id="comparator-form-field">
     <mat-select formControlName="comparator" data-automation-id="comparator-select">
       <mat-option
         *ngFor="let comparator of selectedFieldComparators"
@@ -21,7 +21,7 @@
     </mat-select>
   </mat-form-field>
 
-  <mat-form-field class="aca-rule-simple-condition__form__parameter-input" [ngSwitch]="selectedField.type">
+  <mat-form-field class="aca-rule-simple-condition__form__field-input aca-rule-simple-condition__form__parameter-input" [ngSwitch]="selectedField.type">
     <mat-select formControlName="parameter" data-automation-id="simple-condition-value-select" *ngSwitchCase="'mimeType'">
       <mat-option *ngFor="let mimeType of mimeTypes"
         [value]="mimeType.value">

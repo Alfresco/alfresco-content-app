@@ -78,23 +78,25 @@ $top-margin: 12px;
   letter-spacing: -0.7px;
   margin-bottom: -8px;
 
+  .app-search-options-checkbox label {
+    max-width: 155px;
+  }
+
   &-checkbox {
     padding: 3px 24px 3px 19px;
 
+    /* stylelint-disable-next-line selector-class-pattern */
     .mat-checkbox-inner-container {
       height: 18px;
       width: 18px;
     }
 
-    .mat-checkbox-label {
+    /* stylelint-disable-next-line no-descending-specificity */
+    label {
       padding: 0 0 0 11px;
       overflow: hidden;
       text-overflow: ellipsis;
     }
-  }
-
-  .app-search-options-checkbox label {
-    max-width: 155px;
   }
 }
 
@@ -122,16 +124,16 @@ $top-margin: 12px;
   #search-options {
     padding-left: 20px;
 
-    mat-checkbox {
-      padding: 3px 20px 3px 0;
-
-      .mat-checkbox-label {
-        padding: 0;
-      }
-    }
-
     label {
       max-width: 105px;
+    }
+
+    .app-search-options-checkbox {
+      padding: 3px 20px 3px 0;
+
+      label {
+        padding: 0;
+      }
     }
   }
 }
