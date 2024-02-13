@@ -26,18 +26,17 @@ import { expect } from '@playwright/test';
 import { ApiClientFactory, Utils, test, TrashcanApi, NodesApi, FileActionsApi } from '@alfresco/playwright-shared';
 
 test.describe('Info Drawer - General', () => {
-  let nodesApi: NodesApi;
-  let trashcanApi: TrashcanApi;
   let fileActionsApi: FileActionsApi;
+  let trashcanApi: TrashcanApi;
+  let nodesApi: NodesApi;
 
   const username = `user1-${Utils.random()}`;
 
-  test.afterAll(async () => {
+  test.beforeEach(async ({ loginPage }) => {
     try {
-      await nodesApi.deleteCurrentUserNodes();
-      await trashcanApi.emptyTrashcan();
+      await loginPage.loginUser({ username, password: username }, { withNavigation: true, waitForLoading: true });
     } catch (error) {
-      console.error(`afterAll failed: ${error}`);
+      console.error(`beforeEach failed: ${error}`);
     }
   });
 
@@ -46,19 +45,20 @@ test.describe('Info Drawer - General', () => {
       const apiClientFactory = new ApiClientFactory();
       await apiClientFactory.setUpAcaBackend('admin');
       await apiClientFactory.createUser({ username });
-      nodesApi = await NodesApi.initialize(username, username);
-      trashcanApi = await TrashcanApi.initialize(username, username);
       fileActionsApi = await FileActionsApi.initialize(username, username);
+      trashcanApi = await TrashcanApi.initialize(username, username);
+      nodesApi = await NodesApi.initialize(username, username);
     } catch (error) {
       console.error(`beforeAll failed: ${error}`);
     }
   });
 
-  test.beforeEach(async ({ loginPage }) => {
+  test.afterAll(async () => {
     try {
-      await loginPage.loginUser({ username, password: username }, { withNavigation: true, waitForLoading: true });
+      await trashcanApi.emptyTrashcan();
+      await nodesApi.deleteCurrentUserNodes();
     } catch (error) {
-      console.error(`beforeEach failed: ${error}`);
+      console.error(`afterAll failed: ${error}`);
     }
   });
 
