@@ -85,6 +85,7 @@ export class ApiClientFactory {
   public favorites: FavoritesApi;
   public trashCan: TrashcanApi;
   public commentsApi: CommentsApi;
+  public queriesApi: QueriesApi;
 
   constructor() {
     this.alfrescoApi = new AlfrescoApi(config);
@@ -108,6 +109,7 @@ export class ApiClientFactory {
     this.favorites = new FavoritesApi(this.alfrescoApi);
     this.trashCan = new TrashcanApi(this.alfrescoApi);
     this.commentsApi = new CommentsApi(this.alfrescoApi);
+    this.queriesApi = new QueriesApi(this.alfrescoApi);
 
     return this;
   }

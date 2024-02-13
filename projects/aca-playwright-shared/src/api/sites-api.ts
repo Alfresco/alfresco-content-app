@@ -158,4 +158,13 @@ export class SitesApi {
       console.error(`SitesApi deleteSiteMember : catch : `, error);
     }
   }
+
+  async getSite(siteId: string): Promise<SiteEntry> {
+    try {
+      return await this.apiService.sites.getSite(siteId);
+    } catch (error) {
+      console.error(`SitesApi getSite : catch : `, error);
+      return null;
+    }
+  }
 }

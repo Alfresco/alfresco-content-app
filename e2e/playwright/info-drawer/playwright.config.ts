@@ -35,7 +35,7 @@ const config: PlaywrightTestConfig<CustomConfig> = {
       name: 'Info Drawer',
       testDir: './src/tests',
       use: {
-        users: ['hruser', 'admin']
+        users: []
       }
     }
   ]

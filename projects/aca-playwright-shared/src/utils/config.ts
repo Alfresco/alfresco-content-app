@@ -43,3 +43,31 @@ export const SIDEBAR_LABELS = {
   FAVORITES: 'Favorites',
   TRASH: 'Trash'
 };
+
+export const SITE_ROLES = {
+  SITE_MANAGER: {
+    ROLE: 'SiteManager',
+    LABEL: 'Manager'
+  },
+  SITE_CONSUMER: {
+    ROLE: 'SiteConsumer',
+    LABEL: 'Consumer'
+  },
+  SITE_CONTRIBUTOR: {
+    ROLE: 'SiteContributor',
+    LABEL: 'Contributor'
+  },
+  SITE_COLLABORATOR: {
+    ROLE: 'SiteCollaborator',
+    LABEL: 'Collaborator'
+  },
+  NONE: {
+    LABEL: 'Not a member'
+  }
+};
+
+export const SITE_VISIBILITY = {
+  PUBLIC: 'PUBLIC',
+  MODERATED: 'MODERATED',
+  PRIVATE: 'PRIVATE'
+};
