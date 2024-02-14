@@ -159,10 +159,10 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
     });
 
     this.cardViewUpdateService.itemUpdated$.pipe(takeUntil(this.onDestroy$)).subscribe((updateNotification: UpdateNotification) => {
-      this.parameters = {
+      this.parameters = this.clearEmptyParameters({
         ...this.parameters,
         ...updateNotification.changed
-      };
+      });
       this.onChange({
         actionDefinitionId: this.selectedActionDefinitionId,
         params: this.parameters
@@ -291,7 +291,9 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
   setDefaultParameters() {
     this.parameters = {};
     (this.selectedActionDefinition?.parameterDefinitions ?? []).forEach((paramDef: ActionParameterDefinition) => {
-      this.parameters[paramDef.name] = paramDef.type === 'd:boolean' ? false : '';
+      if (paramDef.type === 'd:boolean') {
+        this.parameters[paramDef.name] = false;
+      }
     });
   }
 
@@ -320,5 +322,10 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
         key: constraint.value,
         label: constraint.label ? `${constraint.label} [${constraint.value}]` : constraint.value
       }));
+  }
+
+  private clearEmptyParameters(params: { [key: string]: unknown }): { [key: string]: unknown } {
+    Object.keys(params).forEach((key) => (params[key] === null || params[key] === undefined || params[key] === '') && delete params[key]);
+    return params;
   }
 }
