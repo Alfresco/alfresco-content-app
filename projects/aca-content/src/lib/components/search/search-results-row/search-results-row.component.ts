@@ -48,6 +48,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 export class SearchResultsRowComponent implements OnInit, OnDestroy {
   private readonly highlightPrefix = "<span class='aca-highlight'>";
   private readonly highlightPostfix = '</span>';
+
   private node: NodeEntry;
   private onDestroy$ = new Subject<boolean>();
 
@@ -97,7 +98,7 @@ export class SearchResultsRowComponent implements OnInit, OnDestroy {
     const highlights: SearchEntryHighlight[] = this.node.entry['search']?.['highlight'];
     let name = this.node.entry.name;
     const properties = this.node.entry.properties;
-    let title = properties ? properties['cm:title'] : '';
+    let title = properties?.['cm:title'] || '';
     let description = properties ? properties['cm:description'] : '';
     let content = '';
 
@@ -153,7 +154,7 @@ export class SearchResultsRowComponent implements OnInit, OnDestroy {
   }
 
   private stripHighlighting(highlightedContent: string): string {
-    return highlightedContent && highlightedContent !== ''
+    return highlightedContent
       ? highlightedContent.replace(new RegExp(this.highlightPrefix, 'g'), '').replace(new RegExp(this.highlightPostfix, 'g'), '')
       : '';
   }
