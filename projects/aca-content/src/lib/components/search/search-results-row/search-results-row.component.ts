@@ -99,7 +99,7 @@ export class SearchResultsRowComponent implements OnInit, OnDestroy {
     let name = this.node.entry.name;
     const properties = this.node.entry.properties;
     let title = properties?.['cm:title'] || '';
-    let description = properties ? properties['cm:description'] : '';
+    let description = properties?.['cm:description'] || '';
     let content = '';
 
     highlights?.forEach((highlight) => {
