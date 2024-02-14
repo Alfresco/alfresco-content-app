@@ -47,6 +47,13 @@ describe('RuleActionUiComponent', () => {
 
   const getPropertiesCardView = (): CardViewComponent => fixture.debugElement.query(By.directive(CardViewComponent)).componentInstance;
 
+  function setInputValue(value: string) {
+    const input = fixture.debugElement.query(By.css('input')).nativeElement;
+    input.value = value;
+    input.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+  }
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [CoreTestingModule, RuleActionUiComponent]
@@ -54,6 +61,24 @@ describe('RuleActionUiComponent', () => {
 
     fixture = TestBed.createComponent(RuleActionUiComponent);
     component = fixture.componentInstance;
+  });
+
+  it('should clear empty parameters', async () => {
+    component.actionDefinitions = actionsTransformedListMock;
+    component.parameterConstraints = dummyConstraints;
+    fixture.detectChanges();
+
+    changeMatSelectValue('mock-action-1-definition');
+
+    setInputValue('test');
+    await fixture.whenStable();
+
+    expect(component.parameters).toEqual({ 'mock-action-parameter-boolean': false, 'mock-action-parameter-text': 'test' });
+
+    setInputValue('');
+    await fixture.whenStable();
+
+    expect(component.parameters).toEqual({ 'mock-action-parameter-boolean': false });
   });
 
   it('should populate the dropdown selector with the action definitions', () => {
