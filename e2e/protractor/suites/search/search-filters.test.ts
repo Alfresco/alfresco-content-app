@@ -513,7 +513,7 @@ describe('Search filters', () => {
       await peopleFilter.closeDialog();
 
       await searchInput.clickSearchButton();
-      await searchInput.searchFor(fileJpgUser1.name);
+      await searchInput.searchFor(`${fileJpgUser1.name}*`);
       await dataTable.waitForBody();
 
       const expectedUsers2 = [`${user1} ${user1}`];

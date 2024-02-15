@@ -206,7 +206,15 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
       term = term.substring(1);
     }
 
-    return '(' + fields.map((field) => `${prefix}${field}:"${term}${suffix}"`).join(' OR ') + ')';
+    return (
+      '(' +
+      fields
+        .map((field) => {
+          return field !== 'TEXT' ? `${prefix}${field}:"${term}${suffix}"` : `${prefix}${field}:"${term}"`;
+        })
+        .join(' OR ') +
+      ')'
+    );
   }
 
   formatSearchQuery(userInput: string, fields = ['cm:name']) {

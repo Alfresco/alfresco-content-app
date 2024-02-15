@@ -23,7 +23,7 @@
  */
 
 import { Component, Input, OnInit, ViewEncapsulation, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
-import { NodeEntry } from '@alfresco/js-api';
+import { NodeEntry, SearchEntryHighlight } from '@alfresco/js-api';
 import { ViewNodeAction, NavigateToFolder } from '@alfresco/aca-shared/store';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, Subject } from 'rxjs';
@@ -46,6 +46,9 @@ import { MatDialogModule } from '@angular/material/dialog';
   host: { class: 'aca-search-results-row' }
 })
 export class SearchResultsRowComponent implements OnInit, OnDestroy {
+  private readonly highlightPrefix = "<span class='aca-highlight'>";
+  private readonly highlightPostfix = '</span>';
+
   private node: NodeEntry;
   private onDestroy$ = new Subject<boolean>();
 
@@ -54,6 +57,12 @@ export class SearchResultsRowComponent implements OnInit, OnDestroy {
 
   name$ = new BehaviorSubject<string>('');
   title$ = new BehaviorSubject<string>('');
+  description$ = new BehaviorSubject<string>('');
+  content$ = new BehaviorSubject<string>('');
+  nameStripped = '';
+  titleStripped = '';
+  descriptionStripped = '';
+  contentStripped = '';
 
   isFile = false;
 
@@ -86,13 +95,42 @@ export class SearchResultsRowComponent implements OnInit, OnDestroy {
     this.node = this.context.row.node;
     this.isFile = this.node.entry.isFile;
 
-    const { name, properties } = this.node.entry;
-    const title = properties ? properties['cm:title'] : '';
+    const highlights: SearchEntryHighlight[] = this.node.entry['search']?.['highlight'];
+    let name = this.node.entry.name;
+    const properties = this.node.entry.properties;
+    let title = properties?.['cm:title'] || '';
+    let description = properties?.['cm:description'] || '';
+    let content = '';
 
+    highlights?.forEach((highlight) => {
+      switch (highlight.field) {
+        case 'cm:name':
+          name = highlight.snippets[0];
+          break;
+        case 'cm:title':
+          title = highlight.snippets[0];
+          break;
+        case 'cm:description':
+          description = highlight.snippets[0];
+          break;
+        case 'cm:content':
+          content = `...${highlight.snippets[0]}...`;
+          break;
+        default:
+          break;
+      }
+    });
     this.name$.next(name);
+    this.description$.next(description);
+    this.content$.next(content);
+
+    this.nameStripped = this.stripHighlighting(name);
+    this.descriptionStripped = this.stripHighlighting(description);
+    this.contentStripped = this.stripHighlighting(content);
 
     if (title !== name) {
-      this.title$.next(title ? `( ${title} )` : '');
+      this.title$.next(title ? ` ( ${title} )` : '');
+      this.titleStripped = this.stripHighlighting(title);
     }
   }
 
@@ -113,5 +151,11 @@ export class SearchResultsRowComponent implements OnInit, OnDestroy {
   navigate(event: Event) {
     event.stopPropagation();
     this.store.dispatch(new NavigateToFolder(this.node));
+  }
+
+  private stripHighlighting(highlightedContent: string): string {
+    return highlightedContent
+      ? highlightedContent.replace(new RegExp(this.highlightPrefix, 'g'), '').replace(new RegExp(this.highlightPostfix, 'g'), '')
+      : '';
   }
 }

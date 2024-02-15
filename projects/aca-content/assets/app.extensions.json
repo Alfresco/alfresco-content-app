@@ -1532,7 +1532,27 @@
               "visible": "app.areCategoriesEnabled"
             }
           }
-        ]
+        ],
+        "highlight": {
+          "prefix": "<span class='aca-highlight'>",
+          "postfix": "</span>",
+          "fields": [
+            {
+              "field": "cm:title"
+            },
+            {
+              "field": "cm:name"
+            },
+            {
+              "field": "cm:description",
+              "snippetCount": 1
+            },
+            {
+              "field": "cm:content",
+              "snippetCount": 1
+            }
+          ]
+        }
       },
       {
         "id": "app.search.dublin-core",
@@ -1688,7 +1708,27 @@
               }
             }
           }
-        ]
+        ],
+        "highlight": {
+          "prefix": "<span class='aca-highlight'>",
+          "postfix": "</span>",
+          "fields": [
+            {
+              "field": "cm:title"
+            },
+            {
+              "field": "cm:name"
+            },
+            {
+              "field": "cm:description",
+              "snippetCount": 1
+            },
+            {
+              "field": "cm:content",
+              "snippetCount": 1
+            }
+          ]
+        }
       },
       {
         "id": "app.search.effectivity",
@@ -1846,7 +1886,27 @@
               }
             }
           }
-        ]
+        ],
+        "highlight": {
+          "prefix": "<span class='aca-highlight'>",
+          "postfix": "</span>",
+          "fields": [
+            {
+              "field": "cm:title"
+            },
+            {
+              "field": "cm:name"
+            },
+            {
+              "field": "cm:description",
+              "snippetCount": 1
+            },
+            {
+              "field": "cm:content",
+              "snippetCount": 1
+            }
+          ]
+        }
       }
 
     ],

@@ -1,7 +1,24 @@
 .aca-search-results-row {
+  padding: 10px 0;
+  width: inherit;
+
+  .aca-highlight {
+    background: var(--theme-search-highlight-background-color);
+  }
+
+  .aca-crop-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   .aca-result-location {
     height: 15px;
     padding-top: 3px;
+  }
+
+  .aca-result-content {
+    padding: 0 5px;
+    font-style: italic;
   }
 
   .aca-link {
