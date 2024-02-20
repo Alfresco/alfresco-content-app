@@ -60,7 +60,7 @@ describe('Upload files', () => {
   });
 
   afterAll(async () => {
-    await userActions.deleteNodes([folder1Id]);
+    await apis.user.nodes.deleteNodeById(folder1Id);
   });
 
   it('Upload a file', async () => {

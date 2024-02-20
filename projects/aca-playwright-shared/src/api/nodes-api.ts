@@ -144,9 +144,7 @@ export class NodesApi {
    */
   async deleteNodes(nodeIds: string[], permanent: boolean = true): Promise<any> {
     try {
-      for (const nodeId of nodeIds) {
-        await this.apiService.nodes.deleteNode(nodeId, { permanent });
-      }
+      await this.apiService.nodes.deleteNodes(nodeIds, { permanent });
     } catch (error) {
       console.error(`${this.constructor.name} ${this.deleteNodes.name}`, error);
     }

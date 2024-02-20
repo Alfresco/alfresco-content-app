@@ -126,7 +126,7 @@ describe('Viewer actions', () => {
     afterAll(async () => {
       try {
         await userActions.login(username, username);
-        await userActions.deleteNodes([parentId, destinationId]);
+        await apis.user.nodes.deleteNodesById([parentId, destinationId]);
         await userActions.emptyTrashcan();
       } catch {}
     });
@@ -228,7 +228,7 @@ describe('Viewer actions', () => {
     afterAll(async () => {
       try {
         await userActions.login(username, username);
-        await userActions.deleteNodes([parentId, destinationId]);
+        await apis.user.nodes.deleteNodesById([parentId, destinationId]);
         await userActions.emptyTrashcan();
       } catch {}
     });
@@ -329,7 +329,7 @@ describe('Viewer actions', () => {
     afterAll(async () => {
       try {
         await userActions.login(username, username);
-        await userActions.deleteNodes([parentId, destinationId]);
+        await apis.user.nodes.deleteNodesById([parentId, destinationId]);
         await userActions.emptyTrashcan();
       } catch {}
     });
@@ -402,7 +402,7 @@ describe('Viewer actions', () => {
     afterAll(async () => {
       try {
         await userActions.login(username, username);
-        await userActions.deleteNodes([parentId, destinationId]);
+        await apis.user.nodes.deleteNodesById([parentId, destinationId]);
         await userActions.emptyTrashcan();
       } catch {}
     });

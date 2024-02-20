@@ -112,7 +112,7 @@ describe('Upload new version', () => {
 
   afterAll(async () => {
     await userActions.login(username, username);
-    await userActions.deleteNodes([parentPFId, parentSFId, parentRFId, parentFavId, parentSearchId]);
+    await apis.user.nodes.deleteNodesById([parentPFId, parentSFId, parentRFId, parentFavId, parentSearchId]);
   });
 
   describe('on Search Results', () => {

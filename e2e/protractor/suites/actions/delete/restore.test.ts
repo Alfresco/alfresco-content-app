@@ -61,7 +61,7 @@ describe('Restore from Trash', () => {
       await apis.user.sites.createSite(site);
 
       await userActions.login(username, username);
-      await userActions.deleteNodes([fileId, folderId], false);
+      await apis.user.nodes.deleteNodesById([fileId, folderId], false);
       await userActions.deleteSites([site], false);
     });
 
@@ -85,7 +85,7 @@ describe('Restore from Trash', () => {
       await page.clickPersonalFilesAndWait();
       expect(await page.dataTable.isItemPresent(file)).toBe(true, 'Item not displayed in list');
 
-      await userActions.deleteNodes([fileId], false);
+      await apis.user.nodes.deleteNodeById(fileId, false);
     });
 
     it('[C280438] restore folder', async () => {
@@ -99,7 +99,7 @@ describe('Restore from Trash', () => {
       await page.clickPersonalFilesAndWait();
       expect(await page.dataTable.isItemPresent(folder)).toBe(true, 'Item not displayed in list');
 
-      await userActions.deleteNodes([folderId], false);
+      await apis.user.nodes.deleteNodeById(folderId, false);
     });
 
     it('[C290104] restore library', async () => {
@@ -127,7 +127,7 @@ describe('Restore from Trash', () => {
       expect(await page.dataTable.isItemPresent(file)).toBe(true, 'Item not displayed in list');
       expect(await page.dataTable.isItemPresent(folder)).toBe(true, 'Item not displayed in list');
 
-      await userActions.deleteNodes([fileId, folderId], false);
+      await apis.user.nodes.deleteNodesById([fileId, folderId], false);
     });
 
     it('[C217181] View from notification', async () => {
@@ -138,7 +138,7 @@ describe('Restore from Trash', () => {
       expect(await page.sidenav.isActive('Personal Files')).toBe(true, 'Personal Files sidebar link not active');
       expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.PERSONAL_FILES);
 
-      await userActions.deleteNodes([fileId], false);
+      await apis.user.nodes.deleteNodeById(fileId, false);
     });
   });
 
@@ -159,13 +159,13 @@ describe('Restore from Trash', () => {
       file1Id1 = (await apis.user.nodes.createFile(file1, folder1Id)).entry.id;
 
       await userActions.login(username, username);
-      await userActions.deleteNodes([file1Id1], false);
+      await apis.user.nodes.deleteNodeById(file1Id1, false);
       file1Id2 = (await apis.user.nodes.createFile(file1, folder1Id)).entry.id;
 
       folder2Id = (await apis.user.nodes.createFolder(folder2)).entry.id;
       file2Id = (await apis.user.nodes.createFile(file2, folder2Id)).entry.id;
 
-      await userActions.deleteNodes([file2Id, folder2Id], false);
+      await apis.user.nodes.deleteNodesById([file2Id, folder2Id], false);
     });
 
     beforeEach(async () => {
@@ -174,7 +174,7 @@ describe('Restore from Trash', () => {
 
     afterAll(async () => {
       await userActions.login(username, username);
-      await userActions.deleteNodes([file1Id2]);
+      await apis.user.nodes.deleteNodeById(file1Id2);
       await userActions.emptyTrashcan();
     });
 
@@ -220,7 +220,7 @@ describe('Restore from Trash', () => {
         file2Id = (await apis.user.nodes.createFile(file2, folder2Id)).entry.id;
 
         await userActions.login(username, username);
-        await userActions.deleteNodes([file1Id, folder1Id, file2Id], false);
+        await apis.user.nodes.deleteNodesById([file1Id, folder1Id, file2Id], false);
 
         folder3Id = (await apis.user.nodes.createFolder(folder3)).entry.id;
         file3Id = (await apis.user.nodes.createFile(file3, folder3Id)).entry.id;
@@ -228,7 +228,7 @@ describe('Restore from Trash', () => {
         folder4Id = (await apis.user.nodes.createFolder(folder4)).entry.id;
         file5Id = (await apis.user.nodes.createFile(file5, folder4Id)).entry.id;
 
-        await userActions.deleteNodes([file3Id, file4Id, folder3Id, file5Id], false);
+        await apis.user.nodes.deleteNodesById([file3Id, file4Id, folder3Id, file5Id], false);
         await loginPage.loginWith(username);
       } catch {}
     });
