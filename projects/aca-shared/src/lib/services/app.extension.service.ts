@@ -92,6 +92,7 @@ export class AppExtensionService implements RuleContext {
     favorites: Array<DocumentListPresetRef>;
     trashcan: Array<DocumentListPresetRef>;
     searchLibraries: Array<DocumentListPresetRef>;
+    searchResults: Array<DocumentListPresetRef>;
   } = {
     libraries: [],
     favoriteLibraries: [],
@@ -99,7 +100,8 @@ export class AppExtensionService implements RuleContext {
     recent: [],
     favorites: [],
     trashcan: [],
-    searchLibraries: []
+    searchLibraries: [],
+    searchResults: []
   };
 
   selection: SelectionState;
@@ -179,7 +181,8 @@ export class AppExtensionService implements RuleContext {
       recent: this.getDocumentListPreset(config, 'recent'),
       favorites: this.getDocumentListPreset(config, 'favorites'),
       trashcan: this.getDocumentListPreset(config, 'trashcan'),
-      searchLibraries: this.getDocumentListPreset(config, 'search-libraries')
+      searchLibraries: this.getDocumentListPreset(config, 'search-libraries'),
+      searchResults: this.getDocumentListPreset(config, 'search-results')
     };
 
     this.withCredentials = this.appConfig.get<boolean>('auth.withCredentials', false);
