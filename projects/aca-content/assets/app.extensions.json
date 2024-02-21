@@ -2754,6 +2754,69 @@
           "order": 50,
           "draggable": true
         }
+      ],
+      "search-results": [
+        {
+          "id": "app.search.name",
+          "key": "name",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.NAME",
+          "type": "text",
+          "class": "adf-ellipsis-cell adf-expand-cell-5",
+          "sortable": false,
+          "template": "app.search.columns.name",
+          "desktopOnly": false,
+          "order": 20,
+          "draggable": true
+        },
+        {
+          "id": "app.search.size",
+          "key": "content.sizeInBytes",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.SIZE",
+          "type": "fileSize",
+          "class": "adf-no-grow-cell adf-ellipsis-cell",
+          "sortable": false,
+          "desktopOnly": true,
+          "order": 30,
+          "draggable": true
+        },
+        {
+          "id": "app.search.modifiedOn",
+          "key": "modifiedAt",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON",
+          "type": "date",
+          "format": "timeAgo",
+          "class": "adf-ellipsis-cell adf-no-grow-cell",
+          "sortable": false,
+          "desktopOnly": true,
+          "order": 40,
+          "draggable": true
+        },
+        {
+          "id": "app.search.modifiedBy",
+          "key": "modifiedByUser.displayName",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_BY",
+          "type": "text",
+          "class": "adf-ellipsis-cell adf-expand-cell-2 adf-min-width-cell",
+          "sortable": false,
+          "desktopOnly": true,
+          "order": 50,
+          "draggable": true
+        },
+        {
+          "id": "app.search.tags",
+          "template": "app.columns.tags",
+          "key": "tags",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.TAGS",
+          "class": "adf-full-width adf-expand-cell-4",
+          "type": "text",
+          "sortable": false,
+          "desktopOnly": true,
+          "order": 60,
+          "draggable": true,
+          "rules": {
+            "visible": "app.areTagsEnabled"
+          }
+        }
       ]
     }
   }

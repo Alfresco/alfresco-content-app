@@ -86,6 +86,7 @@ import { ViewProfileComponent } from './components/view-profile/view-profile.com
 import { TrashcanComponent } from './components/trashcan/trashcan.component';
 import { SharedLinkViewComponent } from './components/shared-link-view/shared-link-view.component';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
+import { SearchResultsRowComponent } from './components/search/search-results-row/search-results-row.component';
 
 @NgModule({
   imports: [
@@ -174,7 +175,8 @@ export class ContentServiceExtensionModule {
       'app.logout': LogoutComponent,
       'app.user': UserInfoComponent,
       'app.notification-center': NotificationHistoryComponent,
-      'app.user.menu': UserMenuComponent
+      'app.user.menu': UserMenuComponent,
+      'app.search.columns.name': SearchResultsRowComponent
     });
 
     extensions.setEvaluators({

@@ -58,20 +58,44 @@
                 </adf-data-column-header>
               </data-column>
 
-              <data-column id="app.search.name" key type="text"  class="adf-ellipsis-cell adf-expand-cell-5" title="APP.DOCUMENT_LIST.COLUMNS.NAME" [sortable]="false" [draggable]="true">
-                <ng-template let-context>
-                  <aca-search-results-row [context]="context"></aca-search-results-row>
-                </ng-template>
-              </data-column>
+              <ng-container *ngFor="let column of columns; trackBy: trackByColumnId">
+                <ng-container *ngIf="column.template && !(column.desktopOnly && isSmallScreen)">
+                  <data-column
+                    [id]="column.id"
+                    [key]="column.key"
+                    [title]="column.title"
+                    [type]="column.type"
+                    [format]="column.format"
+                    [class]="column.class"
+                    [sortable]="column.sortable"
+                    [sortingKey]="column.sortingKey || column.key"
+                    [isHidden]="column.isHidden"
+                    [draggable]="column.draggable"
+                    [resizable]="column.resizable"
+                  >
+                    <ng-template let-context>
+                      <adf-dynamic-column [id]="column.template" [context]="context"> </adf-dynamic-column>
+                    </ng-template>
+                  </data-column>
+                </ng-container>
 
-              <data-column id="app.search.size" key="content.sizeInBytes" type="fileSize" title="APP.DOCUMENT_LIST.COLUMNS.SIZE" class="adf-no-grow-cell adf-ellipsis-cell" [sortable]="false" *ngIf="!isSmallScreen" [draggable]="true"></data-column>
-              <data-column id="app.search.modifiedOn" key="modifiedAt" type="date" title="APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON" class="adf-no-grow-cell adf-ellipsis-cell" format="timeAgo" [sortable]="false" *ngIf="!isSmallScreen" [draggable]="true"></data-column>
-              <data-column id="app.search.modifiedBy" key="modifiedByUser.displayName" title="APP.DOCUMENT_LIST.COLUMNS.MODIFIED_BY" class="adf-no-grow-cell adf-ellipsis-cell" [sortable]="false" *ngIf="!isSmallScreen" [draggable]="true"></data-column>
-              <data-column id="app.search.tags" key="$tags" type="text" title="APP.DOCUMENT_LIST.COLUMNS.TAGS" class="adf-full-width adf-expand-cell-4" [sortable]="false" [draggable]="true" *ngIf="isTagsEnabled">
-                <ng-template let-context>
-                  <aca-tags-column [context]="context"></aca-tags-column>
-                </ng-template>
-              </data-column>
+                <ng-container *ngIf="!column.template && !(column.desktopOnly && isSmallScreen)">
+                  <data-column
+                    [id]="column.id"
+                    [key]="column.key"
+                    [title]="column.title"
+                    [type]="column.type"
+                    [format]="column.format"
+                    [class]="column.class"
+                    [sortable]="column.sortable"
+                    [sortingKey]="column.sortingKey || column.key"
+                    [isHidden]="column.isHidden"
+                    [draggable]="column.draggable"
+                    [resizable]="column.resizable"
+                  >
+                  </data-column>
+                </ng-container>
+              </ng-container>
             </data-columns>
 
             <adf-custom-empty-content-template>
