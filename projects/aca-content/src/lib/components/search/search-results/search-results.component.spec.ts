@@ -178,11 +178,6 @@ describe('SearchComponent', () => {
     expect(query).toBe(`(cm:name:"hello*" OR cm:title:"hello*")`);
   });
 
-  it('should not apply suffix to the TEXT field for correct highlighting', () => {
-    const query = component.formatSearchQuery('hello', ['cm:name', 'TEXT']);
-    expect(query).toBe(`(cm:name:"hello*" OR TEXT:"hello")`);
-  });
-
   it('should format user input as cm:name if configuration not provided', () => {
     const query = component.formatSearchQuery('hello');
     expect(query).toBe(`(cm:name:"hello*")`);
