@@ -46,7 +46,7 @@ Also, extra entries can be added to the configuration schema.
 
 ## Customizing list columns
 
-To modify default columns layout for lists in personal files, libraries, favorite libraries, shared, recent files, favorites and search results you can update the `app.extensions.json` file by modifying/inserting new entry to the correponding section of `features.documentList`. For example modifying `search-results` section:
+To modify default columns layout for lists in personal files, libraries, favorite libraries, shared, recent files, favorites and search results you can update the `app.extensions.json` file by modifying/inserting new entry to the corresponding section of `features.documentList`. For example modifying `search-results` section:
 
 ```json
 {
