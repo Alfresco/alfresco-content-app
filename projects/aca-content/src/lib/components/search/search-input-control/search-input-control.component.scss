@@ -29,7 +29,7 @@ $top-margin: 12px;
     display: none;
   }
 
-  label {
+  .app-input-form-field-input + span {
     cursor: text;
     pointer-events: auto;
   }
