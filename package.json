@@ -81,7 +81,7 @@
     "@cspell/eslint-plugin": "^8.3.2",
     "@nx/angular": "17.0.2",
     "@nx/eslint-plugin": "17.0.2",
-    "@nx/workspace": "17.0.2",
+    "@nx/workspace": "18.0.5",
     "@playwright/test": "^1.37.1",
     "@schematics/angular": "14.1.2",
     "@types/event-emitter": "^0.3.3",
