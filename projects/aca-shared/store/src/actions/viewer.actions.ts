@@ -71,7 +71,7 @@ export class ClosePreviewAction implements Action {
 
 export class RefreshPreviewAction implements Action {
   readonly type = ViewerActionTypes.RefreshPreview;
-  constructor(public payload?: NodeEntry) {}
+  constructor(public node: unknown) {}
 }
 
 export class PluginPreviewAction implements Action {

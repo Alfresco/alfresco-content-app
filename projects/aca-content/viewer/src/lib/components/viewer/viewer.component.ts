@@ -197,7 +197,10 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
     this.actions$
       .pipe(ofType<RefreshPreviewAction>(ViewerActionTypes.RefreshPreview), takeUntil(this.onDestroy$))
       .subscribe((action: RefreshPreviewAction) => {
-        this.displayNode(action?.payload?.entry?.id);
+        if (action.node instanceof Node) {
+          this.nodesApiService.nodeUpdated.next(action.node);
+          this.displayNode(action.node.id);
+        }
       });
 
     this.appHookService.nodesDeleted.pipe(takeUntil(this.onDestroy$)).subscribe(() => this.navigateToFileLocation());
