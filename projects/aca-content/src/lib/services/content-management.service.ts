@@ -253,6 +253,7 @@ export class ContentManagementService {
 
     dialog.afterClosed().subscribe((node) => {
       if (node) {
+        this.store.dispatch(new SetSelectedNodesAction([{ entry: node }]));
         this.nodesApiService.nodeUpdated.next(node);
       }
       this.focusAfterClose(focusedElementOnCloseSelector);

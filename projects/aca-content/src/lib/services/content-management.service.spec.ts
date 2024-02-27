@@ -1669,10 +1669,12 @@ describe('ContentManagementService', () => {
 
       spyOn(nodesApiService.nodeUpdated, 'next');
       spyOn(dialog, 'open').and.returnValue(mockDialogInstance);
+      spyOn(store, 'dispatch').and.callThrough();
 
       contentManagementService.editFolder(node);
 
       expect(nodesApiService.nodeUpdated.next).toHaveBeenCalledWith(newNode);
+      expect(store.dispatch['calls'].argsFor(0)[0]).toEqual(new SetSelectedNodesAction([{ entry: newNode }]));
     }));
 
     it('should focus element indicated by passed selector after closing modal', () => {
