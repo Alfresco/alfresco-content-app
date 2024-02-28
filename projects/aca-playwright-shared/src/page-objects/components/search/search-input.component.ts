@@ -28,13 +28,14 @@ import { timeouts } from '../../../utils';
 
 export class SearchInputComponent extends BaseComponent {
   private static rootElement = 'aca-page-layout';
-  public searchButton = this.getChild('aca-search-input .app-search-button');
-  public searchField = this.getChild('aca-search-input .mat-form-field');
   public searchOptionsArea = this.getChild('#search-options');
+  public searchButton = this.getChild('aca-search-input .app-search-button');
   public searchCheckboxes = this.searchOptionsArea.locator('.mat-checkbox');
+  public searchField = this.getChild('aca-search-input .mat-form-field');
   public searchFilesOption = this.searchCheckboxes.getByText('Files');
-  public searchFoldersOption = this.searchCheckboxes.getByText('Folders');
   public searchLibrariesOption = this.searchCheckboxes.getByText('Libraries');
+  public searchFoldersOption = this.searchCheckboxes.getByText('Folders');
+  
 
   getIconByName = (name: string): Locator => this.getChild('.mat-icon', { hasText: name });
 
@@ -60,21 +61,21 @@ export class SearchInputComponent extends BaseComponent {
     await this.searchLibrariesOption.click();
   }
 
-  async clickFoldersOption() {
-    await this.searchFoldersOption.click();
-  }
-
   async clickFilesOption() {
     await this.searchFilesOption.click();
   }
 
-  async isFilesOptionChecked() {
-    const optClass = await this.searchFilesOption.getAttribute('class');
-    return optClass.includes('mat-checkbox-checked');
+  async clickFoldersOption() {
+    await this.searchFoldersOption.click();
   }
 
   async isFoldersOptionChecked() {
     const optClass = await this.searchFoldersOption.getAttribute('class');
+    return optClass.includes('mat-checkbox-checked');
+  }
+
+  async isFilesOptionChecked() {
+    const optClass = await this.searchFilesOption.getAttribute('class');
     return optClass.includes('mat-checkbox-checked');
   }
 
@@ -94,25 +95,26 @@ export class SearchInputComponent extends BaseComponent {
       await this.clickLibrariesOption();
     }
   }
-  async checkOnlyFiles() {
-    await this.clearOptions();
-    await this.clickFilesOption();
-  }
 
   async checkOnlyFolders() {
     await this.clearOptions();
     await this.clickFoldersOption();
   }
 
-  async checkFilesAndFolders() {
+  async checkOnlyFiles() {
     await this.clearOptions();
     await this.clickFilesOption();
-    await this.clickFoldersOption();
   }
 
   async checkLibraries() {
     await this.clearOptions();
     await this.clickLibrariesOption();
+  }
+
+  async checkFilesAndFolders() {
+    await this.clearOptions();
+    await this.clickFilesOption();
+    await this.clickFoldersOption();
   }
 
   async searchFor(text: string) {

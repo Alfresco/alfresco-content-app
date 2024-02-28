@@ -25,7 +25,7 @@
 import { expect } from '@playwright/test';
 import { ApiClientFactory, Utils, test, TrashcanApi, NodesApi } from '@alfresco/playwright-shared';
 
-test.describe('Info Drawer - General', () => {
+test.describe('Search Results - General', () => {
   let trashcanApi: TrashcanApi;
   let nodesApi: NodesApi;
 
