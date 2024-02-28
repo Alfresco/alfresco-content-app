@@ -28,14 +28,6 @@ import { ApiClientFactory, Utils, test } from '@alfresco/playwright-shared';
 test.describe('Search - Input', () => {
   const username = `user1-${Utils.random()}`;
 
-  test.beforeEach(async ({ loginPage }) => {
-    try {
-      await loginPage.loginUser({ username, password: username }, { withNavigation: true, waitForLoading: true });
-    } catch (error) {
-      console.error(`beforeEach failed: ${error}`);
-    }
-  });
-
   test.beforeAll(async () => {
     try {
       const apiClientFactory = new ApiClientFactory();
@@ -43,6 +35,14 @@ test.describe('Search - Input', () => {
       await apiClientFactory.createUser({ username });
     } catch (error) {
       console.error(`beforeAll failed: ${error}`);
+    }
+  });
+
+  test.beforeEach(async ({ loginPage }) => {
+    try {
+      await loginPage.loginUser({ username, password: username }, { withNavigation: true, waitForLoading: true });
+    } catch (error) {
+      console.error(`beforeEach failed: ${error}`);
     }
   });
 
