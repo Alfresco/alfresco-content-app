@@ -37,6 +37,7 @@ export class DataTableComponent extends BaseComponent {
   }
 
   public pagination = new PaginationComponent(this.page);
+  body = this.getChild('.adf-datatable-body')
   getEmptyFolderLocator = this.getChild('.adf-empty-folder');
   getEmptyContentTitleLocator = this.getChild('adf-empty-content .adf-empty-content__title');
   getEmptyContentSubTitleLocator = this.getChild('adf-empty-content .adf-empty-content__subtitle');

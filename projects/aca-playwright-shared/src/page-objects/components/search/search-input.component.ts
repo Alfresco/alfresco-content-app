@@ -29,6 +29,13 @@ import { timeouts } from '../../../utils';
 export class SearchInputComponent extends BaseComponent {
   private static rootElement = 'aca-page-layout';
   public searchButton = this.getChild('aca-search-input .app-search-button');
+  public searchField = this.getChild('aca-search-input .mat-form-field');
+  public searchOptionsArea = this.getChild('#search-options');
+  public searchCheckboxes = this.searchOptionsArea.locator('.mat-checkbox');
+  public searchFilesOption = this.searchCheckboxes.getByText('Files');
+  public searchFoldersOption = this.searchCheckboxes.getByText('Folders');
+  public searchLibrariesOption = this.searchCheckboxes.getByText('Libraries');
+
   getIconByName = (name: string): Locator => this.getChild('.mat-icon', { hasText: name });
 
   /**
@@ -47,5 +54,70 @@ export class SearchInputComponent extends BaseComponent {
     await this.getCellLinkByName(name).waitFor({ state: 'visible', timeout: timeouts.medium });
     await this.getCellLinkByName(name).dblclick();
     await this.spinnerWaitForReload();
+  }
+
+  async clickLibrariesOption() {
+    await this.searchLibrariesOption.click();
+  }
+
+  async clickFoldersOption() {
+    await this.searchFoldersOption.click();
+  }
+
+  async clickFilesOption() {
+    await this.searchFilesOption.click();
+  }
+
+  async isFilesOptionChecked() {
+    const optClass = await this.searchFilesOption.getAttribute('class');
+    return optClass.includes('mat-checkbox-checked');
+  }
+
+  async isFoldersOptionChecked() {
+    const optClass = await this.searchFoldersOption.getAttribute('class');
+    return optClass.includes('mat-checkbox-checked');
+  }
+
+  async isLibrariesOptionChecked() {
+    const optClass = await this.searchLibrariesOption.getAttribute('class');
+    return optClass.includes('mat-checkbox-checked');
+  }
+
+  async clearOptions() {
+    if (await this.isFilesOptionChecked()) {
+      await this.clickFilesOption();
+    }
+    if (await this.isFoldersOptionChecked()) {
+      await this.clickFoldersOption();
+    }
+    if (await this.isLibrariesOptionChecked()) {
+      await this.clickLibrariesOption();
+    }
+  }
+  async checkOnlyFiles() {
+    await this.clearOptions();
+    await this.clickFilesOption();
+  }
+
+  async checkOnlyFolders() {
+    await this.clearOptions();
+    await this.clickFoldersOption();
+  }
+
+  async checkFilesAndFolders() {
+    await this.clearOptions();
+    await this.clickFilesOption();
+    await this.clickFoldersOption();
+  }
+
+  async checkLibraries() {
+    await this.clearOptions();
+    await this.clickLibrariesOption();
+  }
+
+  async searchFor(text: string) {
+    await this.searchButton.click();
+    await this.searchField.type(text);
+    await this.searchButton.click();
   }
 }
