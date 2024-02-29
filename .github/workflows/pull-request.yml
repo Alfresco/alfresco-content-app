@@ -103,10 +103,6 @@ jobs:
             id: 1
           - name: "search"
             id: 2
-          - name: "viewer,infoDrawer"
-            id: 3
-          - name: "copyMoveActions"
-            id: 6
           - name: "deleteActions"
             id: 7
           - name: "editActions,favoriteActions"
