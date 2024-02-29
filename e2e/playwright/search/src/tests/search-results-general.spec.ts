@@ -23,11 +23,12 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, Utils, test, TrashcanApi, NodesApi } from '@alfresco/playwright-shared';
+import { ApiClientFactory, Utils, test, TrashcanApi, NodesApi, SitesApi } from '@alfresco/playwright-shared';
 
 test.describe('Search Results - General', () => {
   let trashcanApi: TrashcanApi;
   let nodesApi: NodesApi;
+  let sitesApi: SitesApi;
 
   const username = `user1-${Utils.random()}`;
   const random = Utils.random();
@@ -51,6 +52,10 @@ test.describe('Search Results - General', () => {
       await apiClientFactory.createUser({ username });
       trashcanApi = await TrashcanApi.initialize(username, username);
       nodesApi = await NodesApi.initialize(username, username);
+      sitesApi = await SitesApi.initialize(username, username);
+      await nodesApi.createFolder(folder);
+      await nodesApi.createFile(file, '-my-');
+      await sitesApi.createSite(site);
     } catch (error) {
       console.error(`beforeAll failed: ${error}`);
     }
@@ -139,7 +144,7 @@ test.describe('Search Results - General', () => {
 
     expect(await searchPage.dataTable.isItemPresent(site)).toBeTruthy();
 
-    const url = await searchPage.page.url();
+    const url = searchPage.page.url();
 
     await personalFiles.navigate();
     await personalFiles.page.goto(url);

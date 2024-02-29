@@ -28,13 +28,16 @@ import { timeouts } from '../../../utils';
 
 export class SearchInputComponent extends BaseComponent {
   private static rootElement = 'aca-page-layout';
-  public searchOptionsArea = this.getChild('#search-options');
-  public searchButton = this.getChild('aca-search-input .app-search-button');
-  public searchCheckboxes = this.searchOptionsArea.locator('.mat-checkbox');
-  public searchField = this.getChild('aca-search-input .mat-form-field');
-  public searchFilesOption = this.searchCheckboxes.getByText('Files');
-  public searchLibrariesOption = this.searchCheckboxes.getByText('Libraries');
-  public searchFoldersOption = this.searchCheckboxes.getByText('Folders');
+  public searchOptionsArea = this.page.locator('mat-checkbox');
+  public searchInput = this.getChild('input[id="app-control-input"]');
+  public searchButton = this.getChild('.app-search-button');
+  public searchButtonWindow = this.page.locator('#app-search-button');
+  public searchInputWindow = this.page.locator('.app-search-control');
+  public searchInputWindowInput = this.page.locator('.app-search-control input');
+  public searchOptions = this.page.locator('#search-options');
+  public searchFilesOption = this.searchOptionsArea.getByText(' Files ');
+  public searchLibrariesOption = this.searchOptionsArea.getByText(' Libraries ');
+  public searchFoldersOption = this.searchOptionsArea.getByText(' Folders ');
   
 
   getIconByName = (name: string): Locator => this.getChild('.mat-icon', { hasText: name });
@@ -118,8 +121,9 @@ export class SearchInputComponent extends BaseComponent {
   }
 
   async searchFor(text: string) {
-    await this.searchButton.click();
-    await this.searchField.type(text);
-    await this.searchButton.click();
+    await this.searchInputWindow.click();
+    await this.searchInputWindowInput.clear();
+    await this.searchInputWindow.type(text);
+    await this.searchButtonWindow.click();
   }
 }
