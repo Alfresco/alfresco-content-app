@@ -23,12 +23,11 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, getUserState, test, Utils } from '@alfresco/playwright-shared';
+import { ApiClientFactory, LoginPage, NodesApi, SitesApi, test, Utils } from '@alfresco/playwright-shared';
 
-test.use({ storageState: getUserState('hruser') });
 test.describe('Single click on item name', () => {
-  const apiClientFactory = new ApiClientFactory();
-
+  let nodesApi: NodesApi;
+  const username = `user-${Utils.random()}`;
   const folder1 = `folder1-${Utils.random()}`;
   let folder1Id: string;
   const folderSearch = `folder1-${Utils.random()}`;
@@ -42,21 +41,36 @@ test.describe('Single click on item name', () => {
   const siteName = `site-${Utils.random()}`;
   const fileSite = `fileSite-${Utils.random()}.txt`;
 
-  test.beforeAll(async ({ nodesApiAction, sitesApiAction }) => {
-    await apiClientFactory.setUpAcaBackend('hruser');
-    const node = await apiClientFactory.nodes.createNode('-my-', { name: folder1, nodeType: 'cm:folder', relativePath: '/' });
+  test.beforeAll(async () => {
+    const apiClientFactory = new ApiClientFactory();
+    await apiClientFactory.setUpAcaBackend('admin');
+    await apiClientFactory.createUser({ username });
+    nodesApi = await NodesApi.initialize(username, username);
+    const siteActions = await SitesApi.initialize(username, username);
+    const node = await nodesApi.createFolder(folder1);
     folder1Id = node.entry.id;
-    folderSearchId = (await nodesApiAction.createFolder(folderSearch)).entry.id;
-    deletedFile1Id = (await nodesApiAction.createFile(deletedFile1)).entry.id;
-    deletedFolder1Id = (await nodesApiAction.createFolder(deletedFolder1)).entry.id;
+    folderSearchId = (await nodesApi.createFolder(folderSearch)).entry.id;
+    deletedFile1Id = (await nodesApi.createFile(deletedFile1)).entry.id;
+    deletedFolder1Id = (await nodesApi.createFolder(deletedFolder1)).entry.id;
 
-    await sitesApiAction.createSite(siteName);
-    const docLibId = await sitesApiAction.getDocLibId(siteName);
-    await nodesApiAction.createFile(fileSite, docLibId);
+    await siteActions.createSite(siteName);
+    const docLibId = await siteActions.getDocLibId(siteName);
+    await nodesApi.createFile(fileSite, docLibId);
   });
 
-  test.afterAll(async ({ nodesApiAction }) => {
-    await nodesApiAction.deleteNodes([deletedFolder1Id, deletedFile1Id, folder1Id, folderSearchId], true);
+  test.beforeEach(async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.loginUser(
+      { username, password: username },
+      {
+        withNavigation: true,
+        waitForLoading: true
+      }
+    );
+  });
+
+  test.afterAll(async () => {
+    await nodesApi.deleteNodes([deletedFolder1Id, deletedFile1Id, folder1Id, folderSearchId], true);
   });
 
   test('[C284899] Hyperlink does not appear for items in the Trash', async ({ trashPage }) => {

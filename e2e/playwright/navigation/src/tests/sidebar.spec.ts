@@ -23,14 +23,25 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, APP_ROUTES, getUserState, SIDEBAR_LABELS, test } from '@alfresco/playwright-shared';
+import { ApiClientFactory, APP_ROUTES, LoginPage, SIDEBAR_LABELS, test, Utils } from '@alfresco/playwright-shared';
 
-test.use({ storageState: getUserState('hruser') });
 test.describe('Sidebar', () => {
-  const apiClientFactory = new ApiClientFactory();
-
+  const username = `user-${Utils.random()}`;
   test.beforeAll(async () => {
-    await apiClientFactory.setUpAcaBackend('hruser');
+    const apiClientFactory = new ApiClientFactory();
+    await apiClientFactory.setUpAcaBackend('admin');
+    await apiClientFactory.createUser({ username });
+  });
+
+  test.beforeEach(async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.loginUser(
+      { username, password: username },
+      {
+        withNavigation: true,
+        waitForLoading: true
+      }
+    );
   });
 
   test('[C289901] navigate to My Libraries', async ({ personalFiles, myLibrariesPage }) => {
