@@ -27,12 +27,12 @@ import { ApiClientFactory, LoginPage, NodesApi, test, users, Utils } from '@alfr
 
 test.describe('as admin', () => {
   test.describe.configure({ mode: 'serial' });
-  const apiClientFactory = new ApiClientFactory();
   const userFolder = `userFolder-${Utils.random()}`;
   let userFolderId: string;
   let nodesApi: NodesApi;
 
   test.beforeAll(async () => {
+    const apiClientFactory = new ApiClientFactory();
     await apiClientFactory.setUpAcaBackend('admin');
     nodesApi = await NodesApi.initialize('admin');
     const node = await nodesApi.createFolder(userFolder);

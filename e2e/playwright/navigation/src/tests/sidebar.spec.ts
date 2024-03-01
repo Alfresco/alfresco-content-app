@@ -27,6 +27,7 @@ import { ApiClientFactory, APP_ROUTES, LoginPage, SIDEBAR_LABELS, test, Utils } 
 
 test.describe('Sidebar', () => {
   const username = `user-${Utils.random()}`;
+
   test.beforeAll(async () => {
     const apiClientFactory = new ApiClientFactory();
     await apiClientFactory.setUpAcaBackend('admin');
