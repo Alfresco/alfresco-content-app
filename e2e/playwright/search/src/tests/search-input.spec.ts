@@ -50,20 +50,20 @@ test.describe('Search - Input', () => {
     await personalFiles.acaHeader.searchButton.click();
     await searchPage.searchInput.searchButton.click();
 
-    expect(await searchPage.searchOverlay.searchInputControl).toBeVisible();
+    await expect(searchPage.searchOverlay.searchInputControl).toBeVisible();
   });
 
   test('[C289848] Search options are displayed when clicking in the search input', async ({ personalFiles, searchPage }) => {
     await personalFiles.acaHeader.searchButton.click();
     await searchPage.searchInput.searchButton.click();
 
-    expect(await searchPage.searchOverlay.searchOptions).toBeVisible();
-    expect(await searchPage.searchOverlay.searchFilesOption).toBeEnabled();
-    expect(await searchPage.searchOverlay.searchFoldersOption).toBeEnabled();
-    expect(await searchPage.searchOverlay.searchLibrariesOption).toBeEnabled();
-    expect(await searchPage.searchOverlay.searchFilesOption).not.toBeChecked();
-    expect(await searchPage.searchOverlay.searchFoldersOption).not.toBeChecked();
-    expect(await searchPage.searchOverlay.searchLibrariesOption).not.toBeChecked();
+    await expect(searchPage.searchOverlay.searchOptions).toBeVisible();
+    await expect(searchPage.searchOverlay.searchFilesOption).toBeEnabled();
+    await expect(searchPage.searchOverlay.searchFoldersOption).toBeEnabled();
+    await expect(searchPage.searchOverlay.searchLibrariesOption).toBeEnabled();
+    await expect(searchPage.searchOverlay.searchFilesOption).not.toBeChecked();
+    await expect(searchPage.searchOverlay.searchFoldersOption).not.toBeChecked();
+    await expect(searchPage.searchOverlay.searchLibrariesOption).not.toBeChecked();
   });
 
   test('[C289849] Search options are correctly enabled / disabled', async ({ personalFiles, searchPage }) => {
@@ -71,27 +71,27 @@ test.describe('Search - Input', () => {
     await searchPage.searchInput.searchButton.click();
 
     await searchPage.searchOverlay.searchFilesOption.click();
-    expect(await searchPage.searchOverlay.searchFoldersOption).toBeEnabled();
-    expect(await searchPage.searchOverlay.searchLibrariesOption).not.toBeEnabled();
+    await expect(searchPage.searchOverlay.searchFoldersOption).toBeEnabled();
+    await expect(searchPage.searchOverlay.searchLibrariesOption).not.toBeEnabled();
 
     await searchPage.searchOverlay.searchFilesOption.click();
-    expect(await searchPage.searchOverlay.searchFoldersOption).toBeEnabled();
-    expect(await searchPage.searchOverlay.searchLibrariesOption).toBeEnabled();
+    await expect(searchPage.searchOverlay.searchFoldersOption).toBeEnabled();
+    await expect(searchPage.searchOverlay.searchLibrariesOption).toBeEnabled();
 
     await searchPage.searchOverlay.searchFoldersOption.click();
-    expect(await searchPage.searchOverlay.searchFilesOption).toBeEnabled();
-    expect(await searchPage.searchOverlay.searchLibrariesOption).not.toBeEnabled();
+    await expect(searchPage.searchOverlay.searchFilesOption).toBeEnabled();
+    await expect(searchPage.searchOverlay.searchLibrariesOption).not.toBeEnabled();
 
     await searchPage.searchOverlay.searchFoldersOption.click();
-    expect(await searchPage.searchOverlay.searchFilesOption).toBeEnabled();
-    expect(await searchPage.searchOverlay.searchLibrariesOption).toBeEnabled();
+    await expect(searchPage.searchOverlay.searchFilesOption).toBeEnabled();
+    await expect(searchPage.searchOverlay.searchLibrariesOption).toBeEnabled();
 
     await searchPage.searchOverlay.searchLibrariesOption.click();
-    expect(await searchPage.searchOverlay.searchFilesOption).not.toBeEnabled();
-    expect(await searchPage.searchOverlay.searchFoldersOption).not.toBeEnabled();
+    await expect(searchPage.searchOverlay.searchFilesOption).not.toBeEnabled();
+    await expect(searchPage.searchOverlay.searchFoldersOption).not.toBeEnabled();
 
     await searchPage.searchOverlay.searchLibrariesOption.click();
-    expect(await searchPage.searchOverlay.searchFilesOption).toBeEnabled();
-    expect(await searchPage.searchOverlay.searchFoldersOption).toBeEnabled();
+    await expect(searchPage.searchOverlay.searchFilesOption).toBeEnabled();
+    await expect(searchPage.searchOverlay.searchFoldersOption).toBeEnabled();
   });
 });
