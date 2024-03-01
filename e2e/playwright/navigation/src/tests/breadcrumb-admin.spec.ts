@@ -27,6 +27,7 @@ import { ApiClientFactory, getUserState, LoginPage, NodesApi, test, users, Utils
 
 test.use({ storageState: getUserState('admin') });
 test.describe('as admin', () => {
+  test.describe.configure({ mode: 'serial' });
   const apiClientFactory = new ApiClientFactory();
   const userFolder = `userFolder-${Utils.random()}`;
   let userFolderId: string;
