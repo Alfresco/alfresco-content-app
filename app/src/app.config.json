@@ -13,8 +13,8 @@
     "aosPlugin": true,
     "contentService": true,
     "folderRules": true,
-    "tags": true,
-    "categories": true
+    "tagsEnabled": true,
+    "categoriesEnabled": true
   },
   "oauth2": {
     "host": "{protocol}//{hostname}{:port}/auth/realms/alfresco",
