@@ -7,6 +7,22 @@
   "$vendor": "Hyland Software, Inc. and its affiliates",
   "$license": "LGPL-3.0",
 
+  "settings": [
+    {
+      "id": "alfresco.extensions.aos.settings",
+      "name": "Extensions: AOS",
+      "parameters": [
+        {
+          "name": "Enable AOS Extensions",
+          "key": "aosPlugin",
+          "type": "boolean",
+          "value": false
+        }
+      ]
+    }
+  ],
+
+
   "actions": [
     {
       "id": "aos.openWith.office",

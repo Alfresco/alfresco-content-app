@@ -6,6 +6,22 @@
   "$vendor": "Hyland Software, Inc. and its affiliates",
   "$license": "LGPL-3.0",
 
+  "settings": [
+    {
+      "id": "alfresco.extensions.folder-rules.settings",
+      "name": "Extensions: Folder Rules",
+      "parameters": [
+        {
+          "name": "Enable Folder Rules Extensions",
+          "key": "folderRules",
+          "type": "boolean",
+          "value": false
+        }
+      ]
+    }
+  ],
+
+
   "features": {
     "toolbar": [
       {
