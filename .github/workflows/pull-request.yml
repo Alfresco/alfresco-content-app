@@ -167,6 +167,10 @@ jobs:
             id: 10
           - name: "library-actions"
             id: 11
+          - name: "info-drawer"
+            id: 12
+          - name: "search"
+            id: 13
     steps:
       - name: Checkout
         uses: actions/checkout@v3
