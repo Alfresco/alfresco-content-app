@@ -32,6 +32,15 @@ test.describe('Search results - files and folders', () => {
   const random = Utils.random();
   const username = `user-${random}`;
 
+  test.afterAll(async () => {
+    try {
+      await nodesApi.deleteCurrentUserNodes();
+      await trashcanApi.emptyTrashcan();
+    } catch (error) {
+      console.error(`afterAll failed: ${error}`);
+    }
+  });
+
   test.beforeAll(async () => {
     try {
       const apiClientFactory = new ApiClientFactory();
@@ -41,15 +50,6 @@ test.describe('Search results - files and folders', () => {
       trashcanApi = await TrashcanApi.initialize(username, username);
     } catch (error) {
       console.error(`beforeAll failed: ${error}`);
-    }
-  });
-
-  test.afterAll(async () => {
-    try {
-      await nodesApi.deleteCurrentUserNodes();
-      await trashcanApi.emptyTrashcan();
-    } catch (error) {
-      console.error(`afterAll failed: ${error}`);
     }
   });
 
