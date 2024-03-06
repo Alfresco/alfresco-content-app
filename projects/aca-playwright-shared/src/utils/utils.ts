@@ -23,6 +23,8 @@
  */
 
 const crypto = require('crypto');
+import { LoginPage } from '../';
+import { NodesApi, TrashcanApi, SitesApi } from '@alfresco/playwright-shared';
 
 export class Utils {
 
@@ -45,5 +47,25 @@ export class Utils {
 
   static formatDate(date: string): string {
     return new Date(date).toLocaleDateString('en-US');
+  }
+
+  static async tryLoginUser(loginPage: LoginPage, username: string, password: string, errorMessage?: string) {
+    try {
+      await loginPage.loginUser({ username, password }, { withNavigation: true, waitForLoading: true });
+    } catch (error) {
+      console.error(`${errorMessage}: ${error}`);
+    }
+  }
+
+  static async deleteNodesSitesEmptyTrashcan(nodesApi?: NodesApi, trashcanApi?: TrashcanApi,  errorMessage?: string, sitesApi?: SitesApi, sitesToDelete?: string[], deleteSitesBoolean?: boolean) {
+    try {
+      await nodesApi.deleteCurrentUserNodes();
+      await trashcanApi.emptyTrashcan();
+      if(deleteSitesBoolean){
+        await sitesApi.deleteSites(sitesToDelete);
+      }
+    } catch (error) {
+      console.error(`${errorMessage}: ${error}`);
+    }
   }
 }

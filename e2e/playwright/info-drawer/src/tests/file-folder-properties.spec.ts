@@ -44,21 +44,12 @@ test.describe('Info Drawer - File Folder Properties', () => {
     }
   });
 
-  test.afterAll(async () => {
-    try {
-      await nodesApi.deleteCurrentUserNodes();
-      await trashcanApi.emptyTrashcan();
-    } catch (error) {
-      console.error(`Main afterAll failed: ${error}`);
-    }
+  test.beforeEach(async ({ loginPage }) => {
+    await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
   });
 
-  test.beforeEach(async ({ loginPage }) => {
-    try {
-      await loginPage.loginUser({ username, password: username }, { withNavigation: true, waitForLoading: true });
-    } catch (error) {
-      console.error(`Main beforeEach failed: ${error}`);
-    }
+  test.afterAll(async () => {
+    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', undefined, undefined, undefined);
   });
 
   test('[C299162] View properties - Default tabs', async ({ personalFiles }) => {

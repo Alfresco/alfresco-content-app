@@ -48,20 +48,11 @@ test.describe('Info Drawer - Comments', () => {
   });
 
   test.beforeEach(async ({ loginPage }) => {
-    try {
-      await loginPage.loginUser({ username, password: username }, { withNavigation: true, waitForLoading: true });
-    } catch (error) {
-      console.error(`Main beforeEach failed: ${error}`);
-    }
+    await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
   });
 
   test.afterAll(async () => {
-    try {
-      await nodesApi.deleteCurrentUserNodes();
-      await trashcanApi.emptyTrashcan();
-    } catch (error) {
-      console.error(`Main afterAll failed: ${error}`);
-    }
+    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', undefined, undefined, undefined);
   });
 
   test('[C299173] from Personal Files - Comments tab default fields', async ({ personalFiles }) => {

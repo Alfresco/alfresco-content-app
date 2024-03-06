@@ -23,7 +23,7 @@
  */
 
 import { expect, Page } from '@playwright/test';
-import { ApiClientFactory, test, TrashcanApi, NodesApi, FileActionsApi, TEST_FILES } from '@alfresco/playwright-shared';
+import { ApiClientFactory, test, TrashcanApi, NodesApi, FileActionsApi, TEST_FILES, Utils } from '@alfresco/playwright-shared';
 
 test.describe('File preview', () => {
   const timestamp = new Date().getTime();
@@ -31,15 +31,6 @@ test.describe('File preview', () => {
   let nodesApi: NodesApi;
   let trashcanApi: TrashcanApi;
   let fileActionsApi: FileActionsApi;
-
-  test.afterAll(async () => {
-    try {
-      await nodesApi.deleteCurrentUserNodes();
-      await trashcanApi.emptyTrashcan();
-    } catch (error) {
-      console.error(`Main afterAll failed: ${error}`);
-    }
-  });
 
   test.beforeAll(async () => {
     try {
@@ -55,11 +46,11 @@ test.describe('File preview', () => {
   });
 
   test.beforeEach(async ({ loginPage }) => {
-    try {
-      await loginPage.loginUser({ username, password: username }, { withNavigation: true, waitForLoading: true });
-    } catch (error) {
-      console.error(`Main beforeEach failed: ${error}`);
-    }
+    await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
+  });
+
+  test.afterAll(async () => {
+    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', undefined, undefined, undefined);
   });
 
   async function checkFileContent(page: Page, pageNumber: number, text: string): Promise<void> {
