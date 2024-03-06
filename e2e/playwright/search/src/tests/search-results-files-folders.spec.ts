@@ -44,20 +44,20 @@ test.describe('Search results - files and folders', () => {
     }
   });
 
-  test.beforeEach(async ({ loginPage }) => {
-    try {
-      await loginPage.loginUser({ username, password: username }, { withNavigation: true, waitForLoading: true });
-    } catch (error) {
-      console.error(`Main beforeEach failed: ${error}`);
-    }
-  });
-
   test.afterAll(async () => {
     try {
       await nodesApi.deleteCurrentUserNodes();
       await trashcanApi.emptyTrashcan();
     } catch (error) {
-      console.error(`Main afterAll failed: ${error}`);
+      console.error(`afterAll failed: ${error}`);
+    }
+  });
+
+  test.beforeEach(async ({ loginPage }) => {
+    try {
+      await loginPage.loginUser({ username, password: username }, { withNavigation: true, waitForLoading: true });
+    } catch (error) {
+      console.error(`beforeEach failed: ${error}`);
     }
   });
 
@@ -65,7 +65,6 @@ test.describe('Search results - files and folders', () => {
     const fileRussian = `любимый-сайт-${random}`;
 
     await nodesApi.createFile(fileRussian);
-
     await searchPage.acaHeader.searchButton.click();
     await searchPage.searchInput.searchButton.click();
     await searchPage.searchInput.checkFilesAndFolders();
