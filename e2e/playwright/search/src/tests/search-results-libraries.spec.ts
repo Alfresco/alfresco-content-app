@@ -80,14 +80,6 @@ test.describe('Search Results - General', () => {
     id: `site-russian-id-${random}`
   };
 
-  test.beforeEach(async ({ loginPage }) => {
-    try {
-      await loginPage.loginUser({ username, password: username }, { withNavigation: true, waitForLoading: true });
-    } catch (error) {
-      console.error(`beforeEach failed: ${error}`);
-    }
-  });
-
   test.beforeAll(async () => {
     try {
       const apiClientFactory = new ApiClientFactory();
@@ -95,9 +87,9 @@ test.describe('Search Results - General', () => {
       await apiClientFactory.createUser({ username });
       trashcanApi = await TrashcanApi.initialize(username, username);
       sitesApi = await SitesApi.initialize(username, username);
+      fileActionsApi = await FileActionsApi.initialize(username, username);
       nodesApi = await NodesApi.initialize(username, username);
       sitesAdminApi = await SitesApi.initialize('admin');
-      fileActionsApi = await FileActionsApi.initialize(username, username);
 
       await sitesApi.createSite(site1.name, null, null, site1.id);
       await sitesApi.createSite(site2.name, null, null, site2.id);
@@ -122,6 +114,14 @@ test.describe('Search Results - General', () => {
       await sitesApi.createSite(siteRussian.name, SITE_VISIBILITY.PUBLIC, '', siteRussian.id);
     } catch (error) {
       console.error(`beforeAll failed: ${error}`);
+    }
+  });
+
+  test.beforeEach(async ({ loginPage }) => {
+    try {
+      await loginPage.loginUser({ username, password: username }, { withNavigation: true, waitForLoading: true });
+    } catch (error) {
+      console.error(`beforeEach failed: ${error}`);
     }
   });
 
