@@ -41,6 +41,14 @@ test.describe('Search results - files and folders', () => {
     }
   });
 
+  test.beforeEach(async ({ loginPage }) => {
+    try {
+      await loginPage.loginUser({ username, password: username }, { withNavigation: true, waitForLoading: true });
+    } catch (error) {
+      console.error(`beforeEach failed: ${error}`);
+    }
+  });
+
   test.beforeAll(async () => {
     try {
       const apiClientFactory = new ApiClientFactory();
@@ -50,14 +58,6 @@ test.describe('Search results - files and folders', () => {
       trashcanApi = await TrashcanApi.initialize(username, username);
     } catch (error) {
       console.error(`beforeAll failed: ${error}`);
-    }
-  });
-
-  test.beforeEach(async ({ loginPage }) => {
-    try {
-      await loginPage.loginUser({ username, password: username }, { withNavigation: true, waitForLoading: true });
-    } catch (error) {
-      console.error(`beforeEach failed: ${error}`);
     }
   });
 
