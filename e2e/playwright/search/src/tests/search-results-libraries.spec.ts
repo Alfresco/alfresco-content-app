@@ -113,7 +113,7 @@ test.describe('Search Results - General', () => {
 
       await sitesApi.createSite(siteRussian.name, SITE_VISIBILITY.PUBLIC, '', siteRussian.id);
     } catch (error) {
-      console.error(`beforeAll failed: ${error}`);
+      console.error(`[search-results-libraries] beforeAll failed: ${error}`);
     }
   });
 
@@ -121,7 +121,7 @@ test.describe('Search Results - General', () => {
     try {
       await loginPage.loginUser({ username, password: username }, { withNavigation: true, waitForLoading: true });
     } catch (error) {
-      console.error(`beforeEach failed: ${error}`);
+      console.error(`[search-results-libraries] beforeEach failed: ${error}`);
     }
   });
 
@@ -130,7 +130,7 @@ test.describe('Search Results - General', () => {
       await nodesApi.deleteCurrentUserNodes();
       await trashcanApi.emptyTrashcan();
     } catch (error) {
-      console.error(`afterAll failed: ${error}`);
+      console.error(`[search-results-libraries] afterAll failed: ${error}`);
     }
   });
 
