@@ -52,6 +52,9 @@ export class DataTableComponent extends BaseComponent {
   emptyListTest = this.getChild('adf-custom-empty-content-template');
   paginationButton = this.page.locator('.adf-pagination__block button').nth(0);
   paginationOptions = this.page.locator('#cdk-overlay-0 button');
+  sitesVisibility = this.page.locator('[class$="adf-datatable-body"] [data-automation-id*="datatable-row"] [aria-label="Visibility"]');
+  sitesName = this.page.locator('[class$="adf-datatable-body"] [data-automation-id*="datatable-row"] [aria-label="Name"]');
+  sitesRole = this.page.locator('[class$="adf-datatable-body"] [data-automation-id*="datatable-row"] [aria-label="My Role"]');
 
   /** Locator for row (or rows) */
   getRowLocator = this.getChild(`adf-datatable-row`);
@@ -326,5 +329,48 @@ export class DataTableComponent extends BaseComponent {
   async setPaginationTo50(): Promise<void> {
     await this.paginationButton.click();
     await this.paginationOptions.getByText("50").click();
+  }
+
+  /** 
+   * Method used to create objects from names and visibility of sites from datatable
+   * 
+   * @returns an object with sites' names and their corresponding visibility values
+  */
+  async getSitesNameAndVisibility(): Promise<{ [siteName: string]: string }> {
+    const rowsCount = await this.sitesName.count();
+    let sitesInfo: { [siteName: string]: string } = {};
+    for (let i = 0; i < rowsCount; i++) {
+        let siteVisibilityText = await this.sitesVisibility.nth(i).textContent();
+        let siteNameText = await this.sitesName.nth(i).textContent();
+        siteVisibilityText = siteVisibilityText.trim().toUpperCase();
+        siteNameText = siteNameText.trim();
+        sitesInfo[siteNameText] = siteVisibilityText;
+    }
+    return sitesInfo;
+  }
+
+  /** 
+   * Method used to create objects from names and roles of sites from datatable
+   * 
+   * @returns an object with sites' names and their corresponding role values
+  */
+  async getSitesNameAndRole(): Promise<{ [siteName: string]: string }> {
+    const rowsCount = await this.sitesName.count();
+    let sitesInfo: { [siteName: string]: string } = {};
+    for (let i = 0; i < rowsCount; i++) {
+        let siteNameText = await this.sitesName.nth(i).textContent();
+        let siteRoleText = await this.sitesRole.nth(i).textContent();
+        siteNameText = siteNameText.trim();
+        siteRoleText = siteRoleText.trim();
+        sitesInfo[siteNameText] = siteRoleText;
+    }
+    return sitesInfo;
+  }
+
+  /** 
+   * Method used to wait for values to be loaded in the table
+  */
+  async waitForTable(): Promise<void> {
+    await this.getRowLocator.nth(0).waitFor({timeout:5000});
   }
 }
