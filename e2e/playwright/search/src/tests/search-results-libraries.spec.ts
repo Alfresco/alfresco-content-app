@@ -94,8 +94,8 @@ test.describe('Search Results - General', () => {
       await apiClientFactory.setUpAcaBackend('admin');
       await apiClientFactory.createUser({ username });
       trashcanApi = await TrashcanApi.initialize(username, username);
-      nodesApi = await NodesApi.initialize(username, username);
       sitesApi = await SitesApi.initialize(username, username);
+      nodesApi = await NodesApi.initialize(username, username);
       sitesAdminApi = await SitesApi.initialize('admin');
       fileActionsApi = await FileActionsApi.initialize(username, username);
 
@@ -117,7 +117,7 @@ test.describe('Search Results - General', () => {
       await sitesAdminApi.addSiteMember(adminSite3, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
       await sitesAdminApi.addSiteMember(adminSite4, username, SITE_ROLES.SITE_MANAGER.ROLE);
 
-      // await sitesAdminApi.createSite(adminPrivate, SITE_VISIBILITY.PRIVATE);
+      await sitesAdminApi.createSite(adminPrivate, SITE_VISIBILITY.PRIVATE);
 
       await sitesApi.createSite(siteRussian.name, SITE_VISIBILITY.PUBLIC, '', siteRussian.id);
     } catch (error) {
@@ -127,8 +127,8 @@ test.describe('Search Results - General', () => {
 
   test.afterAll(async () => {
     try {
-      await trashcanApi.emptyTrashcan();
       await nodesApi.deleteCurrentUserNodes();
+      await trashcanApi.emptyTrashcan();
     } catch (error) {
       console.error(`afterAll failed: ${error}`);
     }
