@@ -23,13 +23,11 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, Utils, test, TrashcanApi, NodesApi, FileActionsApi } from '@alfresco/playwright-shared';
+import { ApiClientFactory, Utils, test, TrashcanApi, NodesApi } from '@alfresco/playwright-shared';
 
-test.describe.only('Search results - files and folders', () => {
+test.describe('Search results - files and folders', () => {
   let nodesApi: NodesApi;
   let trashcanApi: TrashcanApi;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  let fileActionsApi: FileActionsApi;
 
   const random = Utils.random();
   const username = `user-${random}`;
@@ -39,23 +37,11 @@ test.describe.only('Search results - files and folders', () => {
       const apiClientFactory = new ApiClientFactory();
       await apiClientFactory.setUpAcaBackend('admin');
       await apiClientFactory.createUser({ username });
-      fileActionsApi = await FileActionsApi.initialize(username, username);
       nodesApi = await NodesApi.initialize(username, username);
       trashcanApi = await TrashcanApi.initialize(username, username);
     } catch (error) {
       console.error(`beforeAll failed: ${error}`);
     }
-
-    // fileId = (await apis.user.nodes.createFile(file, '-my-', fileTitle, fileDescription)).entry.id;
-    // await apis.user.nodes.updateNodeContent(fileId, 'edited by user');
-    // folderId = (await apis.user.nodes.createFolder(folder, '-my-', folderTitle, folderDescription)).entry.id;
-    // fileRussianId = (await apis.user.nodes.createFile(fileRussian)).entry.id;
-    // await apis.user.sites.createSite(site);
-
-    // await apis.user.search.waitForApi(username, { expect: 2 });
-    // await apis.user.queries.waitForSites(site, { expect: 1 });
-
-    // await loginPage.loginWith(username);
   });
 
   test.beforeEach(async ({ loginPage }) => {
@@ -77,13 +63,29 @@ test.describe.only('Search results - files and folders', () => {
 
   test('[C290029] Search file with special characters', async ({ searchPage }) => {
     const fileRussian = `любимый-сайт-${random}`;
+
     await nodesApi.createFile(fileRussian);
 
     await searchPage.acaHeader.searchButton.click();
     await searchPage.searchInput.searchButton.click();
     await searchPage.searchInput.checkFilesAndFolders();
     await searchPage.searchInput.searchFor(fileRussian);
-    await searchPage.dataTable.spinnerWaitForReload();
-    expect(await searchPage.dataTable.isItemPresent(fileRussian)).toBeTruthy();
+    await searchPage.dataTable.progressBarWaitForReload();
+    await expect(searchPage.dataTable.getRowByName(fileRussian)).toBeVisible();
+  });
+
+  test('[C279177] Location column redirect - file in user Home', async ({ searchPage, personalFiles }) => {
+    const file = `test-file-${random}.txt`;
+    const fileTitle = 'file title';
+    const fileDescription = 'file description';
+
+    await nodesApi.createFile(file, '-my-', fileTitle, fileDescription);
+    await searchPage.acaHeader.searchButton.click();
+    await searchPage.searchInput.searchButton.click();
+    await searchPage.searchInput.checkFilesAndFolders();
+    await searchPage.searchInput.searchFor(file);
+    await searchPage.dataTable.progressBarWaitForReload();
+    await searchPage.dataTable.clickItemLocation(file);
+    expect((await personalFiles.breadcrumb.items.textContent()).trim()).toEqual('Personal Files');
   });
 });
