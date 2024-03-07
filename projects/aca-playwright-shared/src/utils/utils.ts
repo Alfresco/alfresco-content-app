@@ -58,7 +58,7 @@ export class Utils {
    * @param errorMessage error message string if the login fails
    * 
   */
-  static async tryLoginUser(loginPage: LoginPage, username: string, password: string, errorMessage?: string): Promise<any> {
+  static async tryLoginUser(loginPage: LoginPage, username: string, password: string, errorMessage = 'Error: '): Promise<void> {
     try {
       await loginPage.loginUser({ username, password }, { withNavigation: true, waitForLoading: true });
     } catch (error) {
@@ -76,11 +76,11 @@ export class Utils {
    * @param sitesToDelete array of sites' ids
    * 
   */
-  static async deleteNodesSitesEmptyTrashcan(nodesApi?: NodesApi, trashcanApi?: TrashcanApi,  errorMessage?: string, sitesApi?: SitesApi, sitesToDelete?: string[]): Promise<any> {
+  static async deleteNodesSitesEmptyTrashcan(nodesApi?: NodesApi, trashcanApi?: TrashcanApi,  errorMessage = 'Error: ', sitesApi?: SitesApi, sitesToDelete?: string[]): Promise<void> {
     try {
-      await nodesApi.deleteCurrentUserNodes();
-      await trashcanApi.emptyTrashcan();
-      if (sitesToDelete && sitesToDelete.length > 0) {
+      await nodesApi?.deleteCurrentUserNodes();
+      await trashcanApi?.emptyTrashcan();
+      if (sitesToDelete.length > 0) {
         await sitesApi.deleteSites(sitesToDelete);
       }
     } catch (error) {
