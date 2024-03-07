@@ -50,7 +50,7 @@ test.describe('File preview', () => {
   });
 
   test.afterAll(async () => {
-    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', undefined, undefined, undefined);
+    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
   });
 
   async function checkFileContent(page: Page, pageNumber: number, text: string): Promise<void> {

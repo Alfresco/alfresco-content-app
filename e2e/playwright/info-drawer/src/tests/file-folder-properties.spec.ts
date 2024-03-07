@@ -49,7 +49,7 @@ test.describe('Info Drawer - File Folder Properties', () => {
   });
 
   test.afterAll(async () => {
-    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', undefined, undefined, undefined);
+    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
   });
 
   test('[C299162] View properties - Default tabs', async ({ personalFiles }) => {

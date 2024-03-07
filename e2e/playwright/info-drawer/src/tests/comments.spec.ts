@@ -52,7 +52,7 @@ test.describe('Info Drawer - Comments', () => {
   });
 
   test.afterAll(async () => {
-    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', undefined, undefined, undefined);
+    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
   });
 
   test('[C299173] from Personal Files - Comments tab default fields', async ({ personalFiles }) => {

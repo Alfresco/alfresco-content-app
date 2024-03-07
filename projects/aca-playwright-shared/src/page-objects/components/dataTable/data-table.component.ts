@@ -52,9 +52,9 @@ export class DataTableComponent extends BaseComponent {
   emptyListTest = this.getChild('adf-custom-empty-content-template');
   paginationButton = this.page.locator('.adf-pagination__block button').nth(0);
   paginationOptions = this.page.locator('#cdk-overlay-0 button');
-  sitesVisibility = this.page.locator('[class$="adf-datatable-body"] [data-automation-id*="datatable-row"] [aria-label="Visibility"]');
-  sitesName = this.page.locator('[class$="adf-datatable-body"] [data-automation-id*="datatable-row"] [aria-label="Name"]');
-  sitesRole = this.page.locator('[class$="adf-datatable-body"] [data-automation-id*="datatable-row"] [aria-label="My Role"]');
+  sitesVisibility = this.page.locator('.adf-datatable-body [data-automation-id*="datatable-row"] [aria-label="Visibility"]');
+  sitesName = this.page.locator('.adf-datatable-body [data-automation-id*="datatable-row"] [aria-label="Name"]');
+  sitesRole = this.page.locator('.adf-datatable-body [data-automation-id*="datatable-row"] [aria-label="My Role"]');
 
   /** Locator for row (or rows) */
   getRowLocator = this.getChild(`adf-datatable-row`);

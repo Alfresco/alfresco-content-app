@@ -64,7 +64,7 @@ test.describe('Library properties', () => {
   });
 
   test.afterAll(async () => {
-    await Utils.deleteNodesSitesEmptyTrashcan(undefined, undefined, 'afterAll failed', sitesApi, [site.id, siteForUpdate.id, siteDup], true);
+    await Utils.deleteNodesSitesEmptyTrashcan(undefined, undefined, 'afterAll failed', sitesApi, [site.id, siteForUpdate.id, siteDup]);
   });
 
   test('[C289336] Info drawer opens for a library', async ({ myLibrariesPage }) => {
@@ -225,7 +225,7 @@ test.describe('Non manager', () => {
   });
 
   test.afterAll(async () => {
-    await Utils.deleteNodesSitesEmptyTrashcan(undefined, undefined, 'afterAll failed', sitesApi, [site.id], true);
+    await Utils.deleteNodesSitesEmptyTrashcan(undefined, undefined, 'afterAll failed', sitesApi, [site.id]);
   });
 
   test('[C289337] Info drawer button is not displayed when user is not the library manager', async ({ loginPage, myLibrariesPage }) => {
