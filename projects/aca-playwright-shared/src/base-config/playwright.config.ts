@@ -50,6 +50,7 @@ export const getGlobalConfig: PlaywrightTestConfig = {
   workers: 3,
   reporter: [['list'], ...report],
   globalSetup: require.resolve('./global.setup'),
+  outputDir: 'playwright-report',
   use: {
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
     actionTimeout: 0,
