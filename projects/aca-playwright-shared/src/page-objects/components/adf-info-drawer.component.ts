@@ -40,7 +40,7 @@ export class AdfInfoDrawerComponent extends BaseComponent {
   public propertiesTab = this.page.getByRole('tab', { name: 'Properties' });
   public commentsTab = this.page.getByRole('tab', { name: 'Comments' });
   public infoDrawerTabs = this.getChild('.adf-info-drawer-tab');
-  public commentInputField = this.getChild('mat-form-field');
+  public commentInputField = this.page.locator('#comment-input');
   public commentsHeader = this.getChild('#comment-header');
   public addCommentButton = this.getChild('[data-automation-id="comments-input-add"]');
   public commentsList = this.getChild('.adf-comment-list-item');
@@ -79,8 +79,7 @@ export class AdfInfoDrawerComponent extends BaseComponent {
   }
 
   async addCommentToNode(commentText: string): Promise<void> {
-    await this.commentInputField.click();
-    await this.page.keyboard.type(commentText);
+    await this.commentInputField.fill(commentText);
     await this.addCommentButton.click();
   }
 

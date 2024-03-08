@@ -59,6 +59,7 @@ import { SearchActionMenuComponent } from '../search-action-menu/search-action-m
 import { TagsColumnComponent } from '../../dl-custom-components/tags-column/tags-column.component';
 import { MatIconModule } from '@angular/material/icon';
 import { SearchResultsRowComponent } from '../search-results-row/search-results-row.component';
+import { DocumentListPresetRef, ExtensionsModule } from '@alfresco/adf-extensions';
 
 @Component({
   standalone: true,
@@ -85,7 +86,8 @@ import { SearchResultsRowComponent } from '../search-results-row/search-results-
     PaginationDirective,
     ViewerModule,
     PageLayoutComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    ExtensionsModule
   ],
   selector: 'aca-search-results',
   templateUrl: './search-results.component.html',
@@ -103,6 +105,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
   isLoading = false;
   totalResults: number;
   isTagsEnabled = false;
+  columns: DocumentListPresetRef[] = [];
 
   constructor(
     tagsService: TagService,
@@ -157,6 +160,8 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
       })
     );
 
+    this.columns = this.extensions.documentListPresets.searchResults || [];
+
     if (this.route) {
       this.route.params.forEach((params: Params) => {
         // eslint-disable-next-line no-prototype-builtins
@@ -206,15 +211,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
       term = term.substring(1);
     }
 
-    return (
-      '(' +
-      fields
-        .map((field) => {
-          return field !== 'TEXT' ? `${prefix}${field}:"${term}${suffix}"` : `${prefix}${field}:"${term}"`;
-        })
-        .join(' OR ') +
-      ')'
-    );
+    return '(' + fields.map((field) => `${prefix}${field}:"${term}${suffix}"`).join(' OR ') + ')';
   }
 
   formatSearchQuery(userInput: string, fields = ['cm:name']) {

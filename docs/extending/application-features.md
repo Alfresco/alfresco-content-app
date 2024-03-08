@@ -44,6 +44,33 @@ All the customizations are stored in the `features` section of the configuration
 Other applications or external plugins can utilise different subsets of the configuration above.
 Also, extra entries can be added to the configuration schema.
 
+## Customizing list columns
+
+To modify default columns layout for lists in personal files, libraries, favorite libraries, shared, recent files, favorites and search results you can update the `app.extensions.json` file by modifying/inserting new entry to the corresponding section of `features.documentList`. For example modifying `search-results` section:
+
+```json
+{
+  "features": {
+    "documentList": {
+      "search-results": [
+        {
+          "id": "app.search.type",
+          "key": "nodeType",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.TYPE",
+          "type": "text",
+          "class": "adf-ellipsis-cell",
+          "sortable": true,
+          "desktopOnly": false,
+          "order": 102
+        }
+      ]
+    }
+  }
+}
+```
+
+will result in new column being displayed in search results list. Any number of columns can be added, modified or removed from any section.
+
 ## Content Actions
 
 Most of the UI elements that operate with content, like toolbar buttons or menus,

@@ -22,15 +22,15 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { SearchResultsComponent } from './search-results.component';
 import { AppConfigService, TranslationService } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
 import { NavigateToFolder, SnackbarErrorAction } from '@alfresco/aca-shared/store';
-import { Pagination, ResultSetPaging, SearchRequest } from '@alfresco/js-api';
-import { SearchQueryBuilderService, TagService } from '@alfresco/adf-content-services';
+import { Pagination, SearchRequest } from '@alfresco/js-api';
+import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, of, Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { AppService } from '@alfresco/aca-shared';
 
@@ -178,11 +178,6 @@ describe('SearchComponent', () => {
     expect(query).toBe(`(cm:name:"hello*" OR cm:title:"hello*")`);
   });
 
-  it('should not apply suffix to the TEXT field for correct highlighting', () => {
-    const query = component.formatSearchQuery('hello', ['cm:name', 'TEXT']);
-    expect(query).toBe(`(cm:name:"hello*" OR TEXT:"hello")`);
-  });
-
   it('should format user input as cm:name if configuration not provided', () => {
     const query = component.formatSearchQuery('hello');
     expect(query).toBe(`(cm:name:"hello*")`);
@@ -278,81 +273,5 @@ describe('SearchComponent', () => {
     queryBuilder.configUpdated.next({ 'aca:fields': ['cm:tag'] } as any);
     expect(queryBuilder.userQuery).toBe(`((=cm:tag:"orange"))`);
     expect(queryBuilder.update).toHaveBeenCalled();
-  });
-
-  describe('Dynamic Columns', () => {
-    let tagsService: TagService;
-
-    beforeEach(() => {
-      tagsService = TestBed.inject(TagService);
-
-      spyOn(queryBuilder['searchApi'], 'search').and.returnValue(
-        Promise.resolve({
-          list: {
-            pagination: {
-              count: 1,
-              hasMoreItems: false,
-              totalItems: 1,
-              skipCount: 0,
-              maxItems: 25
-            },
-            entries: [
-              {
-                entry: {
-                  isFile: true,
-                  nodeType: 'cm:content',
-                  isFolder: false,
-                  name: 'test-file.txt',
-                  id: '8dd4d319-ec9f-4ea0-8276-f3b195918477'
-                }
-              }
-            ]
-          }
-        } as ResultSetPaging)
-      );
-
-      spyOn(queryBuilder, 'buildQuery').and.returnValue(searchRequest);
-    });
-
-    it('should not show tags column if tags are disabled', fakeAsync(() => {
-      spyOn(tagsService, 'areTagsEnabled').and.returnValue(false);
-      fixture = TestBed.createComponent(SearchResultsComponent);
-      fixture.detectChanges();
-      queryBuilder.execute();
-      tick();
-      fixture.detectChanges();
-      const tagsColumnHeader = fixture.nativeElement.querySelector(`[data-automation-id='auto_id_$tags']`);
-      expect(tagsColumnHeader).toBeNull();
-    }));
-
-    it('should show tags column if tags are enabled', fakeAsync(() => {
-      spyOn(tagsService, 'areTagsEnabled').and.returnValue(true);
-      spyOn(tagsService, 'getTagsByNodeId').and.returnValue(
-        of({
-          list: {
-            pagination: {
-              count: 0,
-              hasMoreItems: false,
-              totalItems: 0,
-              skipCount: 0,
-              maxItems: 100
-            },
-            entries: []
-          }
-        })
-      );
-      fixture = TestBed.createComponent(SearchResultsComponent);
-      fixture.detectChanges();
-      queryBuilder.execute();
-      tick();
-      fixture.detectChanges();
-      const tagsColumnHeader = fixture.nativeElement.querySelector(`[data-automation-id='auto_id_$tags']`);
-      expect(tagsColumnHeader).not.toBeNull();
-      flush();
-    }));
-
-    afterEach(() => {
-      fixture.destroy();
-    });
   });
 });

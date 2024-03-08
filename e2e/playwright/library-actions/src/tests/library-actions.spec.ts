@@ -224,6 +224,7 @@ test.describe('Library actions ', () => {
       await myLibrariesPage.reload({ waitUntil: domContentLoadedString });
       await expect(libraryTable.getRowByName(user2Library2)).toBeVisible();
       await libraryTable.getRowByName(user2Library2).click();
+      await myLibrariesPage.page.waitForTimeout(1000);
       await myLibrariesHeader.clickMoreActions();
       expect(await libraryMenu.isMenuItemVisible(removeFavoriteButton)).toBe(true);
       await libraryMenu.clickMenuItem(removeFavoriteButton);
@@ -416,6 +417,7 @@ test.describe('Library actions ', () => {
       await expect(libraryTable.getRowByName(user2Library4)).toBeVisible();
       await searchPage.reload({ waitUntil: domContentLoadedString });
       await libraryTable.getRowByName(user2Library4).click();
+      await searchPage.page.waitForTimeout(1000);
       await searchHeader.clickMoreActions();
       await libraryMenu.clickMenuItem(removeFavoriteButton);
       await searchHeader.clickMoreActions();

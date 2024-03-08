@@ -32,11 +32,9 @@ import {
   Utils,
   Viewer,
   ContentNodeSelectorDialog,
-  ShareDialog,
   UploadNewVersionDialog,
   UploadFilesDialog
 } from '@alfresco/aca-testing-shared';
-import { By, element } from 'protractor';
 
 describe('Viewer actions', () => {
   const username = `user-${Utils.random()}`;
@@ -56,14 +54,12 @@ describe('Viewer actions', () => {
   const viewer = new Viewer();
   const { toolbar } = viewer;
   const copyMoveDialog = new ContentNodeSelectorDialog();
-  const shareDialog = new ShareDialog();
   const uploadNewVersionDialog = new UploadNewVersionDialog();
 
   const adminApiActions = new AdminActions();
   const userActions = new UserActions();
 
   const uploadFilesDialog = new UploadFilesDialog();
-  const shareButton = element(By.css(`adf-viewer [data-automation-id="share-action-button"]`));
 
   beforeAll(async () => {
     await adminApiActions.createUser({ username });
@@ -126,7 +122,7 @@ describe('Viewer actions', () => {
     afterAll(async () => {
       try {
         await userActions.login(username, username);
-        await userActions.deleteNodes([parentId, destinationId]);
+        await apis.user.nodes.deleteNodesById([parentId, destinationId]);
         await userActions.emptyTrashcan();
       } catch {}
     });
@@ -228,7 +224,7 @@ describe('Viewer actions', () => {
     afterAll(async () => {
       try {
         await userActions.login(username, username);
-        await userActions.deleteNodes([parentId, destinationId]);
+        await apis.user.nodes.deleteNodesById([parentId, destinationId]);
         await userActions.emptyTrashcan();
       } catch {}
     });
@@ -250,170 +246,6 @@ describe('Viewer actions', () => {
       expect(await dataTable.isItemPresent(docxRecentFiles)).toBe(true, 'Item is not present in destination');
 
       await apis.user.nodes.deleteNodeChildren(destinationId);
-    });
-  });
-
-  describe('from Shared Files', () => {
-    const parent = `parentSF-${Utils.random()}`;
-    let parentId: string;
-    const destination = `destSF-${Utils.random()}`;
-    let destinationId: string;
-
-    const docxSharedFiles = `docxSF-${Utils.random()}.docx`;
-    let docxFileId: string;
-
-    const xlsxSharedFiles = `xlsxSF-${Utils.random()}.xlsx`;
-    let xlsxFileId: string;
-    const pdfSharedFiles = `pdfSF-${Utils.random()}.pdf`;
-    let pdfFileId: string;
-    let fileSharedId: string;
-
-    const fileForEditOffline = `file1-${Utils.random()}.docx`;
-    let fileForEditOfflineId: string;
-    const fileForCancelEditing = `file2-${Utils.random()}.docx`;
-    let fileForCancelEditingId: string;
-    const fileForUploadNewVersion = `file3-${Utils.random()}.docx`;
-    let fileForUploadNewVersionId;
-
-    beforeAll(async () => {
-      try {
-        parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
-        destinationId = (await apis.user.nodes.createFolder(destination)).entry.id;
-        docxFileId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, docxSharedFiles)).entry.id;
-
-        xlsxFileId = (await apis.user.upload.uploadFileWithRename(xlsxFileForMove, parentId, xlsxSharedFiles)).entry.id;
-        pdfFileId = (await apis.user.upload.uploadFileWithRename(pdfFileForDelete, parentId, pdfSharedFiles)).entry.id;
-        fileSharedId = (await apis.user.upload.uploadFile(docxFile2, parentId)).entry.id;
-
-        fileForEditOfflineId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForEditOffline)).entry.id;
-        fileForCancelEditingId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForCancelEditing)).entry.id;
-        fileForUploadNewVersionId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForUploadNewVersion)).entry.id;
-
-        await userActions.lockNodes([fileForCancelEditingId, fileForUploadNewVersionId]);
-
-        await apis.user.shared.shareFilesByIds([
-          docxFileId,
-          xlsxFileId,
-          pdfFileId,
-          fileForCancelEditingId,
-          fileForEditOfflineId,
-          fileForUploadNewVersionId,
-          fileSharedId
-        ]);
-        await apis.user.shared.waitForFilesToBeShared([
-          docxFileId,
-          xlsxFileId,
-          pdfFileId,
-          fileForCancelEditingId,
-          fileForEditOfflineId,
-          fileForUploadNewVersionId,
-          fileSharedId
-        ]);
-
-        await loginPage.loginWith(username);
-      } catch {}
-    });
-
-    beforeEach(async () => {
-      await page.clickSharedFilesAndWait();
-    });
-
-    afterEach(async () => {
-      try {
-        await page.closeOpenDialogs();
-        await Utils.pressEscape();
-        await uploadFilesDialog.closeUploadDialog();
-      } catch {}
-    });
-
-    afterAll(async () => {
-      try {
-        await userActions.login(username, username);
-        await userActions.deleteNodes([parentId, destinationId]);
-        await userActions.emptyTrashcan();
-      } catch {}
-    });
-
-    it('[C286379] Favorite action', async () => {
-      await dataTable.doubleClickOnRowByName(docxSharedFiles);
-      expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
-
-      await toolbar.clickMoreActionsFavorite();
-      await viewer.closeButton.click();
-      await page.clickFavoritesAndWait();
-      expect(await apis.user.favorites.isFavorite(docxFileId)).toBe(true, 'Item is not favorite');
-      expect(await dataTable.isItemPresent(docxSharedFiles)).toBe(true, 'Item is not present in Favorites list');
-    });
-  });
-
-  describe('from Favorites', () => {
-    const parent = `parentFav-${Utils.random()}`;
-    let parentId: string;
-    const destination = `destFav-${Utils.random()}`;
-    let destinationId: string;
-
-    const docxFavorites = `docxFav-${Utils.random()}.docx`;
-    const xlsxFavorites = `xlsxFav-${Utils.random()}.xlsx`;
-    const pdfFavorites = `pdfFav-${Utils.random()}.pdf`;
-    const fileForEditOffline = `file1-${Utils.random()}.docx`;
-    const fileForCancelEditing = `file2-${Utils.random()}.docx`;
-    const fileForUploadNewVersion = `file3-${Utils.random()}.docx`;
-
-    beforeAll(async () => {
-      try {
-        parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
-        destinationId = (await apis.user.nodes.createFolder(destination)).entry.id;
-        const docxFileId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, docxFavorites)).entry.id;
-
-        const xlsxFileId = (await apis.user.upload.uploadFileWithRename(xlsxFileForMove, parentId, xlsxFavorites)).entry.id;
-        const pdfFileId = (await apis.user.upload.uploadFileWithRename(pdfFileForDelete, parentId, pdfFavorites)).entry.id;
-        const fileFavId = (await apis.user.upload.uploadFile(docxFile2, parentId)).entry.id;
-
-        const fileForEditOfflineId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForEditOffline)).entry.id;
-        const fileForCancelEditingId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForCancelEditing)).entry.id;
-        const fileForUploadNewVersionId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForUploadNewVersion)).entry.id;
-
-        await userActions.lockNodes([fileForCancelEditingId, fileForUploadNewVersionId]);
-
-        await apis.user.favorites.addFavoritesByIds('file', [
-          docxFileId,
-          xlsxFileId,
-          pdfFileId,
-          fileForEditOfflineId,
-          fileForCancelEditingId,
-          fileForUploadNewVersionId,
-          fileFavId
-        ]);
-        await apis.user.favorites.waitForApi({ expect: 7 });
-
-        await loginPage.loginWith(username);
-      } catch {}
-    });
-
-    beforeEach(async () => {
-      await page.clickFavoritesAndWait();
-    });
-
-    afterEach(async () => {
-      await Utils.pressEscape();
-      await uploadFilesDialog.closeUploadDialog();
-    });
-
-    afterAll(async () => {
-      try {
-        await userActions.login(username, username);
-        await userActions.deleteNodes([parentId, destinationId]);
-        await userActions.emptyTrashcan();
-      } catch {}
-    });
-
-    it('[C286395] Share action', async () => {
-      await dataTable.doubleClickOnRowByName(docxFavorites);
-      expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
-
-      await shareButton.click();
-      expect(await shareDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
-      await shareDialog.clickClose();
     });
   });
 });

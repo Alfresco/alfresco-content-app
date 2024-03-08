@@ -102,7 +102,7 @@ describe('Mark items as favorites', () => {
   });
 
   afterAll(async () => {
-    await userActions.deleteNodes([parentId]);
+    await apis.user.nodes.deleteNodeById(parentId);
   });
 
   afterEach(async () => {

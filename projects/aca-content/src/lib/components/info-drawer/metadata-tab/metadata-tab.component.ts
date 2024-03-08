@@ -25,7 +25,7 @@
 import { Component, Input, ViewEncapsulation, OnInit, OnDestroy } from '@angular/core';
 import { Node } from '@alfresco/js-api';
 import { NodePermissionService, isLocked, AppExtensionService } from '@alfresco/aca-shared';
-import { EditOfflineAction, NodeActionTypes } from '@alfresco/aca-shared/store';
+import { AppStore, EditOfflineAction, NodeActionTypes, infoDrawerMetadataAspect } from '@alfresco/aca-shared/store';
 import { AppConfigService, NotificationService } from '@alfresco/adf-core';
 import { Observable, Subject } from 'rxjs';
 import {
@@ -38,6 +38,7 @@ import {
 import { filter, map, takeUntil } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { Actions, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
 
 @Component({
   standalone: true,
@@ -51,6 +52,7 @@ import { Actions, ofType } from '@ngrx/effects';
       [customPanels]="customPanels | async"
       [displayCategories]="displayCategories"
       [displayTags]="displayTags"
+      [displayAspect]="metadataAspect"
     >
     </adf-content-metadata>
   `,
@@ -67,6 +69,7 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
 
   readOnly = false;
   customPanels: Observable<ContentMetadataCustomPanel[]>;
+  metadataAspect: string;
 
   get displayCategories(): boolean {
     return this._displayCategories;
@@ -83,7 +86,8 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
     private contentMetadataService: ContentMetadataService,
     private actions$: Actions,
     private tagService: TagService,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private store: Store<AppStore>
   ) {
     if (this.extensions.contentMetadata) {
       this.appConfig.config['content-metadata'].presets = this.extensions.contentMetadata.presets;
@@ -115,6 +119,10 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
       }),
       takeUntil(this.onDestroy$)
     );
+    this.store
+      .select(infoDrawerMetadataAspect)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((metadataAspect) => (this.metadataAspect = metadataAspect));
   }
 
   ngOnDestroy() {

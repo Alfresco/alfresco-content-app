@@ -117,7 +117,7 @@ describe('Delete and undo delete', () => {
       try {
         await userActions.login(username, username);
         await userActions.unlockNodes([fileLocked1Id, fileLocked2Id, fileLocked3Id, fileLocked4Id]);
-        await userActions.deleteNodes([parentId]);
+        await apis.user.nodes.deleteNodeById(parentId);
         await userActions.emptyTrashcan();
       } catch {}
     });

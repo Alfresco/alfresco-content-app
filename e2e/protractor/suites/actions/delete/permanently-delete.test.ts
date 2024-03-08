@@ -58,7 +58,7 @@ describe('Permanently delete from Trash', () => {
     await apis.user.sites.createSite(site);
 
     await userActions.login(username, username);
-    await userActions.deleteNodes([...filesIds, ...foldersIds], false);
+    await apis.user.nodes.deleteNodesById([...filesIds, ...foldersIds], false);
     await userActions.deleteSites([site], false);
 
     await loginPage.loginWith(username);

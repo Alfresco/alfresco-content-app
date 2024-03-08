@@ -924,6 +924,12 @@
               "type": "array",
               "items": { "$ref": "#/definitions/documentListPresetRef" },
               "minItems": 1
+            },
+            "search-results": {
+              "description": "Search results list preset",
+              "type": "array",
+              "items": { "$ref": "#/definitions/documentListPresetRef" },
+              "minItems": 1
             }
           }
         },
