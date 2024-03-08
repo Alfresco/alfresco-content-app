@@ -23,7 +23,7 @@
  */
 
 import { Action } from '@ngrx/store';
-import { NodeEntry } from '@alfresco/js-api';
+import { Node, NodeEntry } from '@alfresco/js-api';
 
 export enum ViewerActionTypes {
   ViewFile = 'VIEW_FILE',
@@ -71,7 +71,7 @@ export class ClosePreviewAction implements Action {
 
 export class RefreshPreviewAction implements Action {
   readonly type = ViewerActionTypes.RefreshPreview;
-  constructor(public node: unknown) {}
+  constructor(public node: Node) {}
 }
 
 export class PluginPreviewAction implements Action {
