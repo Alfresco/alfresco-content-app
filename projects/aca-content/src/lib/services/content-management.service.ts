@@ -49,15 +49,15 @@ import {
   ConfirmDialogComponent,
   FolderDialogComponent,
   LibraryDialogComponent,
-  ShareDialogComponent,
-  NodeAspectService,
-  NewVersionUploaderService,
-  NewVersionUploaderDialogData,
   NewVersionUploaderData,
   NewVersionUploaderDataAction,
-  NodesApiService
+  NewVersionUploaderDialogData,
+  NewVersionUploaderService,
+  NodeAspectService,
+  NodesApiService,
+  ShareDialogComponent
 } from '@alfresco/adf-content-services';
-import { TranslationService, NotificationService } from '@alfresco/adf-core';
+import { NotificationService, TranslationService } from '@alfresco/adf-core';
 import { DeletedNodesPaging, Node, NodeEntry, PathInfo, SiteBodyCreate, SiteEntry } from '@alfresco/js-api';
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -290,6 +290,7 @@ export class ContentManagementService {
       () => {
         this.appHookService.libraryDeleted.next(id);
         this.store.dispatch(new SnackbarInfoAction('APP.MESSAGES.INFO.LIBRARY_DELETED'));
+        this.store.dispatch(new NavigateRouteAction(['/libraries']));
       },
       () => {
         this.store.dispatch(new SnackbarErrorAction('APP.MESSAGES.ERRORS.DELETE_LIBRARY_FAILED'));
