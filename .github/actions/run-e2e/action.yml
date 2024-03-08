@@ -40,5 +40,4 @@ runs:
       uses: actions/upload-artifact@v3
       with:
         name: ${{ inputs.artifact-name }}
-        path: playwright-report/
-        retention-days: 1
+        path: e2e-output/
