@@ -39,11 +39,7 @@ test.describe('Search - Input', () => {
   });
 
   test.beforeEach(async ({ loginPage }) => {
-    try {
-      await loginPage.loginUser({ username, password: username }, { withNavigation: true, waitForLoading: true });
-    } catch (error) {
-      console.error(`beforeEach failed: ${error}`);
-    }
+    await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
   });
 
   test('[C289847] Search icon is displayed in toolbar and clicking on it displays search input container', async ({ searchPage }) => {

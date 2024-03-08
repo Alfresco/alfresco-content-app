@@ -32,14 +32,6 @@ test.describe('Info Drawer - General', () => {
 
   const username = `user1-${Utils.random()}`;
 
-  test.beforeEach(async ({ loginPage }) => {
-    try {
-      await loginPage.loginUser({ username, password: username }, { withNavigation: true, waitForLoading: true });
-    } catch (error) {
-      console.error(`beforeEach failed: ${error}`);
-    }
-  });
-
   test.beforeAll(async () => {
     try {
       const apiClientFactory = new ApiClientFactory();
@@ -53,13 +45,12 @@ test.describe('Info Drawer - General', () => {
     }
   });
 
+  test.beforeEach(async ({ loginPage }) => {
+    await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
+  });
+
   test.afterAll(async () => {
-    try {
-      await trashcanApi.emptyTrashcan();
-      await nodesApi.deleteCurrentUserNodes();
-    } catch (error) {
-      console.error(`afterAll failed: ${error}`);
-    }
+    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
   });
 
   test('[C268999] Info drawer closes on page refresh', async ({ personalFiles }) => {
