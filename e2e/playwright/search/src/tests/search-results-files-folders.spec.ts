@@ -32,23 +32,6 @@ test.describe('Search results - files and folders', () => {
   const random = Utils.random();
   const username = `user-${random}`;
 
-  test.afterAll(async () => {
-    try {
-      await nodesApi.deleteCurrentUserNodes();
-      await trashcanApi.emptyTrashcan();
-    } catch (error) {
-      console.error(`afterAll failed: ${error}`);
-    }
-  });
-
-  test.beforeEach(async ({ loginPage }) => {
-    try {
-      await loginPage.loginUser({ username, password: username }, { withNavigation: true, waitForLoading: true });
-    } catch (error) {
-      console.error(`beforeEach failed: ${error}`);
-    }
-  });
-
   test.beforeAll(async () => {
     try {
       const apiClientFactory = new ApiClientFactory();
@@ -59,6 +42,14 @@ test.describe('Search results - files and folders', () => {
     } catch (error) {
       console.error(`beforeAll failed: ${error}`);
     }
+  });
+
+  test.beforeEach(async ({ loginPage }) => {
+    await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
+  });
+
+  test.afterAll(async () => {
+    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
   });
 
   test('[C290029] Search file with special characters', async ({ searchPage }) => {
