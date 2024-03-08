@@ -37,14 +37,6 @@ test.describe('Search Results - General', () => {
   const folder = `test-folder-${random}`;
   const site = `test-site-${random}`;
 
-  test.beforeEach(async ({ loginPage }) => {
-    try {
-      await loginPage.loginUser({ username, password: username }, { withNavigation: true, waitForLoading: true });
-    } catch (error) {
-      console.error(`beforeEach failed: ${error}`);
-    }
-  });
-
   test.beforeAll(async () => {
     try {
       const apiClientFactory = new ApiClientFactory();
@@ -61,13 +53,12 @@ test.describe('Search Results - General', () => {
     }
   });
 
+  test.beforeEach(async ({ loginPage }) => {
+    await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
+  });
+
   test.afterAll(async () => {
-    try {
-      await trashcanApi.emptyTrashcan();
-      await nodesApi.deleteCurrentUserNodes();
-    } catch (error) {
-      console.error(`afterAll failed: ${error}`);
-    }
+    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
   });
 
   test('[C290005] Only files are returned when Files option is the only one checked', async ({ searchPage }) => {
@@ -75,7 +66,7 @@ test.describe('Search Results - General', () => {
     await searchPage.searchInput.searchButton.click();
     await searchPage.searchInput.checkOnlyFiles();
     await searchPage.searchInput.searchFor(`*${random}`);
-    await searchPage.dataTable.body.waitFor();
+    await searchPage.dataTable.waitForTable();
 
     expect(await searchPage.dataTable.isItemPresent(file)).toBeTruthy();
     expect(await searchPage.dataTable.isItemPresent(folder)).toBeFalsy();
@@ -87,7 +78,7 @@ test.describe('Search Results - General', () => {
     await searchPage.searchInput.searchButton.click();
     await searchPage.searchInput.checkOnlyFolders();
     await searchPage.searchInput.searchFor(`*${random}`);
-    await searchPage.dataTable.body.waitFor();
+    await searchPage.dataTable.waitForTable();
 
     expect(await searchPage.dataTable.isItemPresent(file)).toBeFalsy();
     expect(await searchPage.dataTable.isItemPresent(folder)).toBeTruthy();
@@ -99,7 +90,7 @@ test.describe('Search Results - General', () => {
     await searchPage.searchInput.searchButton.click();
     await searchPage.searchInput.checkFilesAndFolders();
     await searchPage.searchInput.searchFor(`*${random}`);
-    await searchPage.dataTable.body.waitFor();
+    await searchPage.dataTable.waitForTable();
 
     expect(await searchPage.dataTable.isItemPresent(file)).toBeTruthy();
     expect(await searchPage.dataTable.isItemPresent(folder)).toBeTruthy();
@@ -111,7 +102,7 @@ test.describe('Search Results - General', () => {
     await searchPage.searchInput.searchButton.click();
     await searchPage.searchInput.checkLibraries();
     await searchPage.searchInput.searchFor(`*${random}`);
-    await searchPage.dataTable.body.waitFor();
+    await searchPage.dataTable.waitForTable();
 
     expect(await searchPage.dataTable.isItemPresent(file)).toBeFalsy();
     expect(await searchPage.dataTable.isItemPresent(folder)).toBeFalsy();
@@ -122,14 +113,14 @@ test.describe('Search Results - General', () => {
     await searchPage.acaHeader.searchButton.click();
     await searchPage.searchInput.searchButton.click();
     await searchPage.searchInput.searchFor(file);
-    await searchPage.dataTable.body.waitFor();
+    await searchPage.dataTable.waitForTable();
 
     expect(await searchPage.dataTable.isItemPresent(file)).toBeTruthy();
     expect(await searchPage.dataTable.isItemPresent(folder)).toBeFalsy();
 
     await searchPage.searchInput.searchButton.click();
     await searchPage.searchInput.searchFor(folder);
-    await searchPage.dataTable.body.waitFor();
+    await searchPage.dataTable.waitForTable();
 
     expect(await searchPage.dataTable.isItemPresent(file)).toBeFalsy();
     expect(await searchPage.dataTable.isItemPresent(folder)).toBeTruthy();
@@ -140,7 +131,7 @@ test.describe('Search Results - General', () => {
     await searchPage.searchInput.searchButton.click();
     await searchPage.searchInput.checkLibraries();
     await searchPage.searchInput.searchFor(site);
-    await searchPage.dataTable.body.waitFor();
+    await searchPage.dataTable.waitForTable();
 
     expect(await searchPage.dataTable.isItemPresent(site)).toBeTruthy();
 
@@ -148,7 +139,7 @@ test.describe('Search Results - General', () => {
 
     await personalFiles.navigate();
     await personalFiles.page.goto(url);
-    await searchPage.dataTable.body.waitFor();
+    await searchPage.dataTable.waitForTable();
 
     expect(await searchPage.dataTable.isItemPresent(site)).toBeTruthy();
   });
