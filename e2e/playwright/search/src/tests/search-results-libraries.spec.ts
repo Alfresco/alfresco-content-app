@@ -130,7 +130,7 @@ test.describe('Search Results - General', () => {
     await searchPage.searchInput.searchButton.click();
     await searchPage.searchInput.checkLibraries();
     await searchPage.searchInput.searchFor(site1.name);
-    await searchPage.dataTable.waitForTable();
+    await searchPage.dataTable.progressBarWaitForReload();
 
     expect(await searchPage.dataTable.isItemPresent(site1.name)).toBeTruthy();
     expect(await searchPage.dataTable.isItemPresent(site2.name)).toBeFalsy();
@@ -144,7 +144,7 @@ test.describe('Search Results - General', () => {
     await searchPage.searchInput.searchButton.click();
     await searchPage.searchInput.checkLibraries();
     await searchPage.searchInput.searchFor(`lib-${random}`);
-    await searchPage.dataTable.waitForTable();
+    await searchPage.dataTable.progressBarWaitForReload();
 
     expect(await searchPage.dataTable.isItemPresent(site1.name)).toBeTruthy();
     expect(await searchPage.dataTable.isItemPresent(site2.name)).toBeFalsy();
@@ -157,7 +157,7 @@ test.describe('Search Results - General', () => {
     await searchPage.searchInput.searchButton.click();
     await searchPage.searchInput.checkLibraries();
     await searchPage.searchInput.searchFor(site4.description);
-    await searchPage.dataTable.waitForTable();
+    await searchPage.dataTable.progressBarWaitForReload();
 
     expect(await searchPage.dataTable.isItemPresent(site1.name)).toBeFalsy();
     expect(await searchPage.dataTable.isItemPresent(site2.name)).toBeFalsy();
@@ -170,7 +170,7 @@ test.describe('Search Results - General', () => {
     await searchPage.searchInput.searchButton.click();
     await searchPage.searchInput.checkLibraries();
     await searchPage.searchInput.searchFor(site1.name);
-    await searchPage.dataTable.waitForTable();
+    await searchPage.dataTable.progressBarWaitForReload();
 
     const expectedColumns = ['Name', 'Description', 'My Role', 'Visibility'];
     const actualColumns = await searchPage.dataTable.getColumnHeaders();
@@ -183,7 +183,7 @@ test.describe('Search Results - General', () => {
     await searchPage.searchInput.searchButton.click();
     await searchPage.searchInput.checkLibraries();
     await searchPage.searchInput.searchFor(`user-site-${random}`);
-    await searchPage.dataTable.waitForTable();
+    await searchPage.dataTable.progressBarWaitForReload();
 
     const expectedSitesVisibility = {
       [userSitePrivate]: SITE_VISIBILITY.PRIVATE,
@@ -201,7 +201,7 @@ test.describe('Search Results - General', () => {
     await searchPage.searchInput.searchButton.click();
     await searchPage.searchInput.checkLibraries();
     await searchPage.searchInput.searchFor(`admin-${random}-site`);
-    await searchPage.dataTable.waitForTable();
+    await searchPage.dataTable.progressBarWaitForReload();
 
     const expectedSitesRoles = {
       [adminSite1]: SITE_ROLES.SITE_CONSUMER.LABEL,
@@ -220,7 +220,7 @@ test.describe('Search Results - General', () => {
     await searchPage.searchInput.searchButton.click();
     await searchPage.searchInput.checkLibraries();
     await searchPage.searchInput.searchFor(`admin-${random}-site`);
-    await searchPage.dataTable.waitForTable();
+    await searchPage.dataTable.progressBarWaitForReload();
 
     expect(await searchPage.dataTable.isItemPresent(adminPrivate)).toBeFalsy();
   });
@@ -230,7 +230,7 @@ test.describe('Search Results - General', () => {
     await searchPage.searchInput.searchButton.click();
     await searchPage.searchInput.checkLibraries();
     await searchPage.searchInput.searchFor(siteRussian.name);
-    await searchPage.dataTable.waitForTable();
+    await searchPage.dataTable.progressBarWaitForReload();
 
     expect(await searchPage.dataTable.isItemPresent(siteRussian.name)).toBeTruthy();
   });

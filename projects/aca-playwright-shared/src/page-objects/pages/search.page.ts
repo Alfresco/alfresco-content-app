@@ -44,4 +44,12 @@ export class SearchPage extends BasePage {
   public searchOverlay = new SearchOverlayComponent(this.page);
   public sidenav = new SidenavComponent(this.page);
   public confirmDialogComponent = new AdfConfirmDialogComponent(this.page);
+
+  async searchFilesAndFolders(searchText: string): Promise<void> {
+    await this.acaHeader.searchButton.click();
+    await this.searchInput.searchButton.click();
+    await this.searchInput.checkFilesAndFolders();
+    await this.searchInput.searchFor(searchText);
+    await this.dataTable.progressBarWaitForReload();
+  }
 }

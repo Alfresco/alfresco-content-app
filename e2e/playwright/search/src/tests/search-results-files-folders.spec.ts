@@ -56,11 +56,7 @@ test.describe('Search results - files and folders', () => {
     const fileRussian = `любимый-сайт-${random}`;
 
     await nodesApi.createFile(fileRussian);
-    await searchPage.acaHeader.searchButton.click();
-    await searchPage.searchInput.searchButton.click();
-    await searchPage.searchInput.checkFilesAndFolders();
-    await searchPage.searchInput.searchFor(fileRussian);
-    await searchPage.dataTable.progressBarWaitForReload();
+    await searchPage.searchWithString(fileRussian);
     await expect(searchPage.dataTable.getRowByName(fileRussian)).toBeVisible();
   });
 
@@ -70,11 +66,7 @@ test.describe('Search results - files and folders', () => {
     const fileDescription = 'file description';
 
     await nodesApi.createFile(file, '-my-', fileTitle, fileDescription);
-    await searchPage.acaHeader.searchButton.click();
-    await searchPage.searchInput.searchButton.click();
-    await searchPage.searchInput.checkFilesAndFolders();
-    await searchPage.searchInput.searchFor(file);
-    await searchPage.dataTable.progressBarWaitForReload();
+    await searchPage.searchWithString(file);
     await searchPage.dataTable.clickItemLocation(file);
     expect((await personalFiles.breadcrumb.items.textContent()).trim()).toEqual('Personal Files');
   });
