@@ -174,7 +174,7 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
         });
       }
       if (nodeId) {
-        this.displayNode(nodeId);
+        void this.displayNode(nodeId);
       }
     });
 
@@ -197,7 +197,8 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
     this.actions$
       .pipe(ofType<RefreshPreviewAction>(ViewerActionTypes.RefreshPreview), takeUntil(this.onDestroy$))
       .subscribe((action: RefreshPreviewAction) => {
-        this.displayNode(action?.payload?.entry?.id);
+        this.nodesApiService.nodeUpdated.next(action.node);
+        void this.displayNode(action.node.id);
       });
 
     this.appHookService.nodesDeleted.pipe(takeUntil(this.onDestroy$)).subscribe(() => this.navigateToFileLocation());
@@ -206,7 +207,7 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
 
     this.uploadService.fileUploadComplete.pipe(debounceTime(300), takeUntil(this.onDestroy$)).subscribe((file) => {
       this.nodesApiService.nodeUpdated.next(file.data.entry);
-      this.displayNode(file.data.entry.id);
+      void this.displayNode(file.data.entry.id);
     });
 
     this.previewLocation = this.router.url.substring(0, this.router.url.indexOf('/', 1)).replace(/\//g, '');

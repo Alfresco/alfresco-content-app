@@ -32,6 +32,7 @@ import {
   NavigateRouteAction,
   NavigateToParentFolder,
   NodeInfo,
+  RefreshPreviewAction,
   ReloadDocumentListAction,
   SetSelectedNodesAction,
   ShowLoaderAction,
@@ -581,7 +582,7 @@ export class ContentManagementService {
           next: (newVersionUploaderData: NewVersionUploaderData) => {
             switch (newVersionUploaderData.action) {
               case NewVersionUploaderDataAction.refresh:
-                this.store.dispatch(new ReloadDocumentListAction());
+                this.store.dispatch(new RefreshPreviewAction(newVersionUploaderData.node));
                 break;
               case NewVersionUploaderDataAction.view:
                 this.store.dispatch(

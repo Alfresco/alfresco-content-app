@@ -34,7 +34,7 @@ import {
   NavigateToParentFolder,
   NodeActionTypes,
   PurgeDeletedNodesAction,
-  ReloadDocumentListAction,
+  RefreshPreviewAction,
   RestoreDeletedNodesAction,
   SetSelectedNodesAction,
   ShareNodeAction,
@@ -1608,10 +1608,11 @@ describe('ContentManagementService', () => {
       expect(spyOnOpenUploadNewVersionDialog['calls'].argsFor(0)[2]).toEqual(elementToFocusSelector);
     });
 
-    it('should dispatch ReloadDocumentListAction if dialog emit refresh action', () => {
-      spyOnOpenUploadNewVersionDialog.and.returnValue(of({ action: NewVersionUploaderDataAction.refresh }));
+    it('should dispatch RefreshPreviewAction if dialog emit refresh action', () => {
+      spyOnOpenUploadNewVersionDialog.and.returnValue(of({ action: NewVersionUploaderDataAction.refresh, node: fakeNodeIsFile }));
       contentManagementService.manageVersions(fakeNodeIsFile);
-      expect(spyOnDispatch).toHaveBeenCalledOnceWith(new ReloadDocumentListAction());
+
+      expect(spyOnDispatch).toHaveBeenCalledOnceWith(new RefreshPreviewAction(fakeNodeIsFile));
     });
 
     it('should dispatch ReloadDocumentListAction if dialog emit view action', () => {
