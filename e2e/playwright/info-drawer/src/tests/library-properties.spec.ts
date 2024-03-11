@@ -43,15 +43,6 @@ test.describe('Library properties', () => {
   };
   const siteDup = `site3-${Utils.random()}`;
 
-  test.beforeEach(async ({ myLibrariesPage, loginPage }) => {
-    try {
-      await loginPage.loginUser({ username, password: username }, { withNavigation: true, waitForLoading: true });
-      await myLibrariesPage.navigate();
-    } catch (error) {
-      console.error(` beforeEach failed: ${error}`);
-    }
-  });
-
   test.beforeAll(async () => {
     try {
       const apiClientFactory = new ApiClientFactory();
@@ -67,8 +58,13 @@ test.describe('Library properties', () => {
     }
   });
 
+  test.beforeEach(async ({ loginPage, myLibrariesPage }) => {
+    await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
+    await myLibrariesPage.navigate();
+  });
+
   test.afterAll(async () => {
-    await sitesApi.deleteSites([site.id, siteForUpdate.id, siteDup]);
+    await Utils.deleteNodesSitesEmptyTrashcan(undefined, undefined, 'afterAll failed', sitesApi, [site.id, siteForUpdate.id, siteDup]);
   });
 
   test('[C289336] Info drawer opens for a library', async ({ myLibrariesPage }) => {
@@ -229,7 +225,7 @@ test.describe('Non manager', () => {
   });
 
   test.afterAll(async () => {
-    await sitesApi.deleteSites([site.id]);
+    await Utils.deleteNodesSitesEmptyTrashcan(undefined, undefined, 'afterAll failed', sitesApi, [site.id]);
   });
 
   test('[C289337] Info drawer button is not displayed when user is not the library manager', async ({ loginPage, myLibrariesPage }) => {

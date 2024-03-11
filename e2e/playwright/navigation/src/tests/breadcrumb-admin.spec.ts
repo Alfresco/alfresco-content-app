@@ -23,29 +23,27 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, getUserState, NodesApi, test, Utils, LoginPage, timeouts } from '@alfresco/playwright-shared';
+import { ApiClientFactory, LoginPage, NodesApi, test, users, Utils } from '@alfresco/playwright-shared';
 
-test.use({ storageState: getUserState('admin') });
 test.describe('as admin', () => {
-  const apiClientFactory = new ApiClientFactory();
+  test.describe.configure({ mode: 'serial' });
   const userFolder = `userFolder-${Utils.random()}`;
-  const username = `userAdmin-${Utils.random()}`;
   let userFolderId: string;
   let nodesApi: NodesApi;
 
   test.beforeAll(async () => {
+    const apiClientFactory = new ApiClientFactory();
     await apiClientFactory.setUpAcaBackend('admin');
-    await apiClientFactory.createUser({ username });
-    nodesApi = await NodesApi.initialize(username, username);
+    nodesApi = await NodesApi.initialize('admin');
     const node = await nodesApi.createFolder(userFolder);
     userFolderId = node.entry.id;
   });
 
-  test.beforeEach(async ({ page }) => {
-    test.setTimeout(timeouts.extendedTest);
+  test.beforeEach(async ({ page, personalFiles }) => {
     const loginPage = new LoginPage(page);
+    await personalFiles.navigate();
     await loginPage.loginUser(
-      { username, password: username },
+      { username: users.admin.username, password: users.admin.password },
       {
         withNavigation: true,
         waitForLoading: true

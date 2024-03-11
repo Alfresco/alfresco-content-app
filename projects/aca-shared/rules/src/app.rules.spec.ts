@@ -947,7 +947,7 @@ describe('app.evaluators', () => {
       };
 
       app.areTagsEnabled(context);
-      expect(context.appConfig.get).toHaveBeenCalledWith('plugins.tags', true);
+      expect(context.appConfig.get).toHaveBeenCalledWith('plugins.tagsEnabled', true);
     });
 
     it('should return true if get from appConfig returns true', () => {
@@ -980,7 +980,7 @@ describe('app.evaluators', () => {
       };
 
       app.areCategoriesEnabled(context);
-      expect(context.appConfig.get).toHaveBeenCalledWith('plugins.categories', true);
+      expect(context.appConfig.get).toHaveBeenCalledWith('plugins.categoriesEnabled', true);
     });
 
     it('should return true if get from appConfig returns true', () => {

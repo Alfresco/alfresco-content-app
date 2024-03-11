@@ -23,11 +23,13 @@
  */
 
 import { expect } from '@playwright/test';
-import { getUserState, test, Utils } from '@alfresco/playwright-shared';
+import { ApiClientFactory, LoginPage, NodesApi, SitesApi, test, timeouts, Utils } from '@alfresco/playwright-shared';
 import { Site } from '@alfresco/js-api';
 
-test.use({ storageState: getUserState('hruser') });
 test.describe('viewer action file', () => {
+  let nodesApi: NodesApi;
+  let siteActions: SitesApi;
+  const username = `user-${Utils.random()}`;
   const parent = `parent-${Utils.random()}`;
   let parentId: string;
   const subFolder1 = `subFolder1-${Utils.random()}`;
@@ -52,27 +54,44 @@ test.describe('viewer action file', () => {
   let folder1Id: string;
   const folder1Renamed = `renamed-${Utils.random()}`;
 
-  test.beforeAll(async ({ nodesApiAction, sitesApiAction }) => {
-    const parentNode = await nodesApiAction.createFolder(parent);
+  test.beforeAll(async () => {
+    test.setTimeout(timeouts.extendedTest);
+    const apiClientFactory = new ApiClientFactory();
+    await apiClientFactory.setUpAcaBackend('admin');
+    await apiClientFactory.createUser({ username });
+    nodesApi = await NodesApi.initialize(username, username);
+    siteActions = await SitesApi.initialize(username, username);
+    const parentNode = await nodesApi.createFolder(parent);
     parentId = parentNode.entry.id;
-    subFolder1Id = (await nodesApiAction.createFolder(subFolder1, parentId)).entry.id;
-    subFolder2Id = (await nodesApiAction.createFolder(subFolder2, subFolder1Id)).entry.id;
-    await nodesApiAction.createFile(fileName1, subFolder2Id);
+    subFolder1Id = (await nodesApi.createFolder(subFolder1, parentId)).entry.id;
+    subFolder2Id = (await nodesApi.createFolder(subFolder2, subFolder1Id)).entry.id;
+    await nodesApi.createFile(fileName1, subFolder2Id);
 
-    parent2Id = (await nodesApiAction.createFolder(parent2)).entry.id;
-    folder1Id = (await nodesApiAction.createFolder(folder1, parent2Id)).entry.id;
+    parent2Id = (await nodesApi.createFolder(parent2)).entry.id;
+    folder1Id = (await nodesApi.createFolder(folder1, parent2Id)).entry.id;
 
-    await sitesApiAction.createSite(siteName, Site.VisibilityEnum.PUBLIC);
-    docLibId = await sitesApiAction.getDocLibId(siteName);
-    parentFromSiteId = (await nodesApiAction.createFolder(parentFromSite, docLibId)).entry.id;
-    subFolder1FromSiteId = (await nodesApiAction.createFolder(subFolder1FromSite, parentFromSiteId)).entry.id;
-    subFolder2FromSiteId = (await nodesApiAction.createFolder(subFolder2FromSite, subFolder1FromSiteId)).entry.id;
-    await nodesApiAction.createFile(fileName1FromSite, subFolder2FromSiteId);
+    await siteActions.createSite(siteName, Site.VisibilityEnum.PUBLIC);
+    docLibId = await siteActions.getDocLibId(siteName);
+    parentFromSiteId = (await nodesApi.createFolder(parentFromSite, docLibId)).entry.id;
+    subFolder1FromSiteId = (await nodesApi.createFolder(subFolder1FromSite, parentFromSiteId)).entry.id;
+    subFolder2FromSiteId = (await nodesApi.createFolder(subFolder2FromSite, subFolder1FromSiteId)).entry.id;
+    await nodesApi.createFile(fileName1FromSite, subFolder2FromSiteId);
   });
 
-  test.afterAll(async ({ nodesApiAction, sitesApiAction }) => {
-    await nodesApiAction.deleteNodes([parentId, parent2Id], true);
-    await sitesApiAction.deleteSites([docLibId]);
+  test.beforeEach(async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.loginUser(
+      { username, password: username },
+      {
+        withNavigation: true,
+        waitForLoading: true
+      }
+    );
+  });
+
+  test.afterAll(async () => {
+    await nodesApi.deleteNodes([parentId, parent2Id], true);
+    await siteActions.deleteSites([docLibId]);
   });
 
   test('[C260964] Personal Files breadcrumb main node', async ({ personalFiles }) => {

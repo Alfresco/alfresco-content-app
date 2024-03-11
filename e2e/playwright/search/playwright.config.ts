@@ -22,31 +22,23 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Page } from '@playwright/test';
-import { BaseComponent } from '.././base.component';
+import { PlaywrightTestConfig } from '@playwright/test';
+import { CustomConfig, getGlobalConfig, getExcludedTestsRegExpArray } from '@alfresco/playwright-shared';
+import EXCLUDED_JSON from './exclude.tests.json';
 
-export class SearchOverlayComponent extends BaseComponent {
-  private static rootElement = '.cdk-overlay-pane';
+const config: PlaywrightTestConfig<CustomConfig> = {
+  ...getGlobalConfig,
 
-  public searchFilesOption = this.getChild('label[for="content-input"]');
-  public searchFoldersOption = this.getChild('label[for="folder-input"]');
-  public searchLibrariesOption = this.getChild('label[for="libraries-input"]');
-  public searchInput = this.getChild('input[id="app-control-input"]');
-  public searchButton = this.getChild('.app-search-button');
-  public searchInputControl = this.page.locator('.app-search-control');
-  public searchOptions = this.page.locator('#search-options');
+  grepInvert: getExcludedTestsRegExpArray(EXCLUDED_JSON, 'Search'),
+  projects: [
+    {
+      name: 'Search',
+      testDir: './src/tests',
+      use: {
+        users: []
+      }
+    }
+  ]
+};
 
-  constructor(page: Page, rootElement = SearchOverlayComponent.rootElement) {
-    super(page, rootElement);
-  }
-
-  async checkFilesAndFolders(): Promise<void> {
-    await this.searchFilesOption.click();
-    await this.searchFoldersOption.click();
-  }
-
-  async searchFor(input: string): Promise<void> {
-    await this.searchInput.fill(input);
-    await this.searchButton.click();
-  }
-}
+export default config;
