@@ -28,13 +28,13 @@ runs:
         echo "Running playwright tests with options ${{ inputs.options }}"
         sleep 90
         npx nx run ${{ inputs.options }}-e2e:e2e
-    
-
+        
 
     - name: Upload E2Es results
       if: ${{ always() }}
       uses: actions/upload-artifact@v3
       with:
         name: ${{ inputs.artifact-name }}
-        path: playwright-report/
+        path: |
+          e2e/*/playwright-report/
         retention-days: 1
