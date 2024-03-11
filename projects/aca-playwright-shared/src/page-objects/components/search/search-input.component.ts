@@ -123,7 +123,7 @@ export class SearchInputComponent extends BaseComponent {
   async searchFor(text: string) {
     await this.searchInputWindow.click();
     await this.searchInputWindowInput.clear();
-    await this.searchInputWindow.type(text);
+    await this.searchInputWindow.fill(text);
     await this.searchButtonWindow.click();
   }
 }

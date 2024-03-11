@@ -74,11 +74,7 @@ test.describe('Search Results - General', () => {
   });
 
   test('[C290006] Only folders are returned when Folders option is the only one checked', async ({ searchPage }) => {
-    await searchPage.acaHeader.searchButton.click();
-    await searchPage.searchInput.searchButton.click();
-    await searchPage.searchInput.checkOnlyFolders();
-    await searchPage.searchInput.searchFor(`*${random}`);
-    await searchPage.dataTable.progressBarWaitForReload();
+    await searchPage.searchFolders(`*${random}`);
 
     expect(await searchPage.dataTable.isItemPresent(file)).toBeFalsy();
     expect(await searchPage.dataTable.isItemPresent(folder)).toBeTruthy();
@@ -86,11 +82,7 @@ test.describe('Search Results - General', () => {
   });
 
   test('[C290007] Files and folders are returned when both Files and Folders options are checked', async ({ searchPage }) => {
-    await searchPage.acaHeader.searchButton.click();
-    await searchPage.searchInput.searchButton.click();
-    await searchPage.searchInput.checkFilesAndFolders();
-    await searchPage.searchInput.searchFor(`*${random}`);
-    await searchPage.dataTable.progressBarWaitForReload();
+    await searchPage.searchFilesAndFolders(`*${random}`);
 
     expect(await searchPage.dataTable.isItemPresent(file)).toBeTruthy();
     expect(await searchPage.dataTable.isItemPresent(folder)).toBeTruthy();
@@ -98,11 +90,7 @@ test.describe('Search Results - General', () => {
   });
 
   test('[C290008] Only libraries are returned when Libraries option is checked', async ({ searchPage }) => {
-    await searchPage.acaHeader.searchButton.click();
-    await searchPage.searchInput.searchButton.click();
-    await searchPage.searchInput.checkLibraries();
-    await searchPage.searchInput.searchFor(`*${random}`);
-    await searchPage.dataTable.progressBarWaitForReload();
+    await searchPage.searchLibraries(`*${random}`);
 
     expect(await searchPage.dataTable.isItemPresent(file)).toBeFalsy();
     expect(await searchPage.dataTable.isItemPresent(folder)).toBeFalsy();
@@ -124,11 +112,7 @@ test.describe('Search Results - General', () => {
   });
 
   test('[C279178] Results are returned when accessing an URL containing a search query', async ({ searchPage, personalFiles }) => {
-    await searchPage.acaHeader.searchButton.click();
-    await searchPage.searchInput.searchButton.click();
-    await searchPage.searchInput.checkLibraries();
-    await searchPage.searchInput.searchFor(site);
-    await searchPage.dataTable.progressBarWaitForReload();
+    await searchPage.searchLibraries(site);
 
     expect(await searchPage.dataTable.isItemPresent(site)).toBeTruthy();
 
