@@ -56,7 +56,7 @@ test.describe('Search results - files and folders', () => {
     const fileRussian = `любимый-сайт-${random}`;
 
     await nodesApi.createFile(fileRussian);
-    await searchPage.searchWithString(fileRussian);
+    await searchPage.searchFilesAndFolders(fileRussian);
     await expect(searchPage.dataTable.getRowByName(fileRussian)).toBeVisible();
   });
 
@@ -66,7 +66,7 @@ test.describe('Search results - files and folders', () => {
     const fileDescription = 'file description';
 
     await nodesApi.createFile(file, '-my-', fileTitle, fileDescription);
-    await searchPage.searchWithString(file);
+    await searchPage.searchFilesAndFolders(file);
     await searchPage.dataTable.clickItemLocation(file);
     expect((await personalFiles.breadcrumb.items.textContent()).trim()).toEqual('Personal Files');
   });
