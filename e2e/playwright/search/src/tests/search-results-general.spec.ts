@@ -62,11 +62,7 @@ test.describe('Search Results - General', () => {
   });
 
   test('[C290005] Only files are returned when Files option is the only one checked', async ({ searchPage }) => {
-    await searchPage.acaHeader.searchButton.click();
-    await searchPage.searchInput.searchButton.click();
-    await searchPage.searchInput.checkOnlyFiles();
-    await searchPage.searchInput.searchFor(`*${random}`);
-    await searchPage.dataTable.progressBarWaitForReload();
+    await searchPage.searchFiles(`*${random}`);
 
     expect(await searchPage.dataTable.isItemPresent(file)).toBeTruthy();
     expect(await searchPage.dataTable.isItemPresent(folder)).toBeFalsy();
