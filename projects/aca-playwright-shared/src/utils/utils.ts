@@ -23,6 +23,8 @@
  */
 
 const crypto = require('crypto');
+import { LoginPage } from '../';
+import { NodesApi, TrashcanApi, SitesApi } from '@alfresco/playwright-shared';
 
 export class Utils {
 
@@ -45,5 +47,44 @@ export class Utils {
 
   static formatDate(date: string): string {
     return new Date(date).toLocaleDateString('en-US');
+  }
+
+  /** 
+   * Method used to login user with navigation. Also waits for the page to load after login
+   * 
+   * @param loginPage page context passed from the test
+   * @param username username string
+   * @param password password string
+   * @param errorMessage error message string if the login fails
+   * 
+  */
+  static async tryLoginUser(loginPage: LoginPage, username: string, password: string, errorMessage = 'Error '): Promise<void> {
+    try {
+      await loginPage.loginUser({ username, password }, { withNavigation: true, waitForLoading: true });
+    } catch (error) {
+      console.error(`${errorMessage}: ${error}`);
+    }
+  }
+
+  /** 
+   * Method used to delete nodes and sites from user's account
+   * 
+   * @param nodesApi nodesApi initialized with user credentials passed from the test
+   * @param trashcanApi trashcanApi initialized with user credentials passed from the test
+   * @param errorMessage error message string if the deleting sites/nodes fails
+   * @param sitesApi sitesApi initialized with user credentials passed from the test
+   * @param sitesToDelete array of sites' ids
+   * 
+  */
+  static async deleteNodesSitesEmptyTrashcan(nodesApi?: NodesApi, trashcanApi?: TrashcanApi,  errorMessage = 'Error ', sitesApi?: SitesApi, sitesToDelete?: string[]): Promise<void> {
+    try {
+      await nodesApi?.deleteCurrentUserNodes();
+      await trashcanApi?.emptyTrashcan();
+      if (sitesToDelete?.length > 0) {
+        await sitesApi?.deleteSites(sitesToDelete);
+      }
+    } catch (error) {
+      console.error(`${errorMessage}: ${error}`);
+    }
   }
 }

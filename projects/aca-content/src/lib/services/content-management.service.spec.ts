@@ -22,28 +22,29 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { TestBed, fakeAsync, tick, flush } from '@angular/core/testing';
-import { of, throwError, Subject, BehaviorSubject, EMPTY } from 'rxjs';
-import { Actions, ofType, EffectsModule } from '@ngrx/effects';
+import { fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
+import { BehaviorSubject, EMPTY, of, Subject, throwError } from 'rxjs';
+import { Actions, EffectsModule, ofType } from '@ngrx/effects';
 import {
   AppStore,
-  SnackbarWarningAction,
-  SnackbarInfoAction,
-  SnackbarErrorAction,
-  PurgeDeletedNodesAction,
-  RestoreDeletedNodesAction,
-  NavigateToParentFolder,
+  CopyNodesAction,
   DeleteNodesAction,
   MoveNodesAction,
-  CopyNodesAction,
-  ShareNodeAction,
-  SetSelectedNodesAction,
-  UnlockWriteAction,
-  SnackbarActionTypes,
+  NavigateRouteAction,
+  NavigateToParentFolder,
   NodeActionTypes,
+  PurgeDeletedNodesAction,
   ReloadDocumentListAction,
-  ViewNodeVersionAction,
-  ViewNodeExtras
+  RestoreDeletedNodesAction,
+  SetSelectedNodesAction,
+  ShareNodeAction,
+  SnackbarActionTypes,
+  SnackbarErrorAction,
+  SnackbarInfoAction,
+  SnackbarWarningAction,
+  UnlockWriteAction,
+  ViewNodeExtras,
+  ViewNodeVersionAction
 } from '@alfresco/aca-shared/store';
 import { map } from 'rxjs/operators';
 import { NodeEffects } from '../store/effects/node.effects';
@@ -52,17 +53,17 @@ import { AppHookService, ContentApiService } from '@alfresco/aca-shared';
 import { Store } from '@ngrx/store';
 import { ContentManagementService } from './content-management.service';
 import { NodeActionsService } from './node-actions.service';
-import { TranslationService, NotificationService } from '@alfresco/adf-core';
+import { NotificationService, TranslationService } from '@alfresco/adf-core';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBarModule, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
-import { NodeEntry, Node, VersionPaging } from '@alfresco/js-api';
+import { Node, NodeEntry, VersionPaging } from '@alfresco/js-api';
 import {
+  FileModel,
   NewVersionUploaderDataAction,
   NewVersionUploaderService,
   NodeAspectService,
-  ViewVersion,
   NodesApiService,
-  FileModel
+  ViewVersion
 } from '@alfresco/adf-content-services';
 
 describe('ContentManagementService', () => {
@@ -1770,5 +1771,19 @@ describe('ContentManagementService', () => {
       afterClosed$.next();
       expect(document.querySelector).not.toHaveBeenCalled();
     });
+  });
+
+  describe('deleteLibrary', () => {
+    it('should dispatch NavigateRouteAction to /libraries after successful deletion', fakeAsync(() => {
+      const libraryId = 'test-library-id';
+      spyOn(contentApi, 'deleteSite').and.returnValue(of(null));
+      spyOn(store, 'dispatch').and.callThrough();
+
+      contentManagementService.deleteLibrary(libraryId);
+      tick();
+
+      expect(store.dispatch).toHaveBeenCalledWith(new SnackbarInfoAction('APP.MESSAGES.INFO.LIBRARY_DELETED'));
+      expect(store.dispatch).toHaveBeenCalledWith(new NavigateRouteAction(['/libraries']));
+    }));
   });
 });

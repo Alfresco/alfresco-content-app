@@ -11,14 +11,15 @@ Please refer to the public [documentation](https://alfresco-content-app.netlify.
 
 ## Compatibility
 
-| ACA | ADF | ACS       | Node | Angular |
-|-----|-----|-----------|------|---------|
-| 4.3 | 6.4 | 23.1      | 18.x | 14.x    |
-| 4.2 | 6.3 | 23.1.0-M4 | 18.x | 14.x    |
-| 4.1 | 6.2 | 7.4       | 18.x | 14.x    |
-| 4.0 | 6.1 | 7.4       | 14.x | 14.x    |
-| 3.1 | 5.1 | 7.3       |      |         |
-| 3.0 | 5.0 | 7.3       |      |         |
+| ACA   | ADF | ACS       | Node | Angular |
+|-------|-----|-----------|------|---------|
+| 4.4.x | 6.7 | 23.2      | 18.x | 14.x    |
+| 4.3.x | 6.4 | 23.1      | 18.x | 14.x    |
+| 4.2.x | 6.3 | 23.1.0-M4 | 18.x | 14.x    |
+| 4.1.x | 6.2 | 7.4       | 18.x | 14.x    |
+| 4.0.x | 6.1 | 7.4       | 14.x | 14.x    |
+| 3.1.x | 5.1 | 7.3       |      |         |
+| 3.0.x | 5.0 | 7.3       |      |         |
 
 > See <https://angular.io/guide/versions> for more details on Angular and Node.js compatibility
 

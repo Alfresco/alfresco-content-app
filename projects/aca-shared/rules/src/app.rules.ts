@@ -647,6 +647,6 @@ export function isSmartFolder(context: RuleContext): boolean {
   return false;
 }
 
-export const areTagsEnabled = (context: AcaRuleContext): boolean => context.appConfig.get('plugins.tags', true);
+export const areTagsEnabled = (context: AcaRuleContext): boolean => context.appConfig.get('plugins.tagsEnabled', true);
 
-export const areCategoriesEnabled = (context: AcaRuleContext): boolean => context.appConfig.get('plugins.categories', true);
+export const areCategoriesEnabled = (context: AcaRuleContext): boolean => context.appConfig.get('plugins.categoriesEnabled', true);
