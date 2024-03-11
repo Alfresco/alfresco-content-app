@@ -85,7 +85,7 @@ test.describe('Search Results - General', () => {
   });
 
   test.afterAll(async () => {
-    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', sitesApi, [
+    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', sitesAdminApi, [
       site1.id,
       site2.id,
       site3.id,
