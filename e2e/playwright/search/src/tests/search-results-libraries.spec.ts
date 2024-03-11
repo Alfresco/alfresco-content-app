@@ -126,7 +126,7 @@ test.describe('Search Results - General', () => {
   });
 
   test('[C290012] Search library - full name match', async ({ searchPage }) => {
-    await searchPage.searchLibraries(site1.name);
+    await searchPage.searchWithin(site1.name, 'libraries');
 
     expect(await searchPage.dataTable.isItemPresent(site1.name)).toBeTruthy();
     expect(await searchPage.dataTable.isItemPresent(site2.name)).toBeFalsy();
@@ -136,7 +136,7 @@ test.describe('Search Results - General', () => {
 
   test('[C290013] Search library - partial name match', async ({ searchPage }) => {
     await fileActionsApi.waitForNodes(site3.id, { expect: 1 });
-    await searchPage.searchLibraries(`lib-${random}`);
+    await searchPage.searchWithin(`lib-${random}`, 'libraries');
 
     expect(await searchPage.dataTable.isItemPresent(site1.name)).toBeTruthy();
     expect(await searchPage.dataTable.isItemPresent(site2.name)).toBeFalsy();
@@ -145,7 +145,7 @@ test.describe('Search Results - General', () => {
   });
 
   test('[C290014] Search library - description match', async ({ searchPage }) => {
-    await searchPage.searchLibraries(site4.description);
+    await searchPage.searchWithin(site4.description, 'libraries');
 
     expect(await searchPage.dataTable.isItemPresent(site1.name)).toBeFalsy();
     expect(await searchPage.dataTable.isItemPresent(site2.name)).toBeFalsy();
@@ -154,7 +154,7 @@ test.describe('Search Results - General', () => {
   });
 
   test('[C290016] Results page columns', async ({ searchPage }) => {
-    await searchPage.searchLibraries(site1.name);
+    await searchPage.searchWithin(site1.name, 'libraries');
 
     const expectedColumns = ['Name', 'Description', 'My Role', 'Visibility'];
     const actualColumns = await searchPage.dataTable.getColumnHeaders();
@@ -163,7 +163,7 @@ test.describe('Search Results - General', () => {
   });
 
   test('[C290017] Library visibility is correctly displayed', async ({ searchPage }) => {
-    await searchPage.searchLibraries(`user-site-${random}`);
+    await searchPage.searchWithin(`user-site-${random}`, 'libraries');
 
     const expectedSitesVisibility = {
       [userSitePrivate]: SITE_VISIBILITY.PRIVATE,
@@ -177,7 +177,7 @@ test.describe('Search Results - General', () => {
   });
 
   test('[C290018] User role is correctly displayed', async ({ searchPage }) => {
-    await searchPage.searchLibraries(`admin-${random}-site`);
+    await searchPage.searchWithin(`admin-${random}-site`, 'libraries');
 
     const expectedSitesRoles = {
       [adminSite1]: SITE_ROLES.SITE_CONSUMER.LABEL,
@@ -192,13 +192,13 @@ test.describe('Search Results - General', () => {
   });
 
   test('[C290019] Private sites are not displayed when user is not a member', async ({ searchPage }) => {
-    await searchPage.searchLibraries(`admin-${random}-site`);
+    await searchPage.searchWithin(`admin-${random}-site`, 'libraries');
 
     expect(await searchPage.dataTable.isItemPresent(adminPrivate)).toBeFalsy();
   });
 
   test('[C290028] Search libraries with special characters', async ({ searchPage }) => {
-    await searchPage.searchLibraries(siteRussian.name);
+    await searchPage.searchWithin(siteRussian.name, 'libraries');
 
     expect(await searchPage.dataTable.isItemPresent(siteRussian.name)).toBeTruthy();
   });

@@ -28,16 +28,13 @@ import { timeouts } from '../../../utils';
 
 export class SearchInputComponent extends BaseComponent {
   private static rootElement = 'aca-page-layout';
-  public searchOptionsArea = this.page.locator('mat-checkbox');
-  public searchInput = this.getChild('input[id="app-control-input"]');
-  public searchButton = this.getChild('.app-search-button');
+  public searchInput = this.page.locator('#app-control-input');
+  public searchButton = this.page.locator('.app-search-button');
   public searchButtonWindow = this.page.locator('#app-search-button');
-  public searchInputWindow = this.page.locator('.app-search-control');
-  public searchInputWindowInput = this.page.locator('.app-search-control input');
   public searchOptions = this.page.locator('#search-options');
-  public searchFilesOption = this.searchOptionsArea.getByText(' Files ');
-  public searchLibrariesOption = this.searchOptionsArea.getByText(' Libraries ');
-  public searchFoldersOption = this.searchOptionsArea.getByText(' Folders ');
+  public searchFilesOption = this.page.locator('#content')
+  public searchLibrariesOption = this.page.locator('#libraries')
+  public searchFoldersOption = this.page.locator('#folder')
   
 
   getIconByName = (name: string): Locator => this.getChild('.mat-icon', { hasText: name });
@@ -121,9 +118,9 @@ export class SearchInputComponent extends BaseComponent {
   }
 
   async searchFor(text: string) {
-    await this.searchInputWindow.click();
-    await this.searchInputWindowInput.clear();
-    await this.searchInputWindow.fill(text);
+    await this.searchInput.click({force: true});
+    await this.searchInput.clear({force: true});
+    await this.searchInput.fill(text, {force: true});
     await this.searchButtonWindow.click();
   }
 }

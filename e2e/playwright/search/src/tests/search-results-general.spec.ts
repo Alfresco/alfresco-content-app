@@ -62,7 +62,7 @@ test.describe('Search Results - General', () => {
   });
 
   test('[C290005] Only files are returned when Files option is the only one checked', async ({ searchPage }) => {
-    await searchPage.searchFiles(`*${random}`);
+    await searchPage.searchWithin(`*${random}`, 'files');
 
     expect(await searchPage.dataTable.isItemPresent(file)).toBeTruthy();
     expect(await searchPage.dataTable.isItemPresent(folder)).toBeFalsy();
@@ -70,7 +70,7 @@ test.describe('Search Results - General', () => {
   });
 
   test('[C290006] Only folders are returned when Folders option is the only one checked', async ({ searchPage }) => {
-    await searchPage.searchFolders(`*${random}`);
+    await searchPage.searchWithin(`*${random}`, 'folders');
 
     expect(await searchPage.dataTable.isItemPresent(file)).toBeFalsy();
     expect(await searchPage.dataTable.isItemPresent(folder)).toBeTruthy();
@@ -78,7 +78,7 @@ test.describe('Search Results - General', () => {
   });
 
   test('[C290007] Files and folders are returned when both Files and Folders options are checked', async ({ searchPage }) => {
-    await searchPage.searchFilesAndFolders(`*${random}`);
+    await searchPage.searchWithin(`*${random}`, 'filesAndFolders');
 
     expect(await searchPage.dataTable.isItemPresent(file)).toBeTruthy();
     expect(await searchPage.dataTable.isItemPresent(folder)).toBeTruthy();
@@ -86,7 +86,7 @@ test.describe('Search Results - General', () => {
   });
 
   test('[C290008] Only libraries are returned when Libraries option is checked', async ({ searchPage }) => {
-    await searchPage.searchLibraries(`*${random}`);
+    await searchPage.searchWithin(`*${random}`, 'libraries');
 
     expect(await searchPage.dataTable.isItemPresent(file)).toBeFalsy();
     expect(await searchPage.dataTable.isItemPresent(folder)).toBeFalsy();
@@ -94,7 +94,7 @@ test.describe('Search Results - General', () => {
   });
 
   test('[C279162] Results are updated automatically when changing the search term', async ({ searchPage }) => {
-    await searchPage.searchFilesAndFolders(file);
+    await searchPage.searchWithin(file, 'filesAndFolders');
 
     expect(await searchPage.dataTable.isItemPresent(file)).toBeTruthy();
     expect(await searchPage.dataTable.isItemPresent(folder)).toBeFalsy();
@@ -108,7 +108,7 @@ test.describe('Search Results - General', () => {
   });
 
   test('[C279178] Results are returned when accessing an URL containing a search query', async ({ searchPage, personalFiles }) => {
-    await searchPage.searchLibraries(site);
+    await searchPage.searchWithin(site, 'libraries');
 
     expect(await searchPage.dataTable.isItemPresent(site)).toBeTruthy();
 

@@ -28,6 +28,8 @@ import { DataTableComponent, MatMenuComponent, ViewerComponent, SearchInputCompo
 import { AcaHeader } from '../components/aca-header.component';
 import { AdfConfirmDialogComponent, AdfFolderDialogComponent } from '../components/dialogs';
 
+type SearchType = 'files' | 'folders' | 'filesAndFolders' | 'libraries';
+
 export class SearchPage extends BasePage {
   private static pageUrl = 'search';
 
@@ -45,35 +47,26 @@ export class SearchPage extends BasePage {
   public sidenav = new SidenavComponent(this.page);
   public confirmDialogComponent = new AdfConfirmDialogComponent(this.page);
 
-  async searchFilesAndFolders(searchText: string): Promise<void> {
+  async searchWithin(searchText: string, searchType: SearchType): Promise<void> {
     await this.acaHeader.searchButton.click();
     await this.searchInput.searchButton.click();
-    await this.searchInput.checkFilesAndFolders();
+    switch (searchType) {
+      case 'files':
+        await this.searchInput.checkOnlyFiles();
+        break;
+      case 'folders':
+        await this.searchInput.checkOnlyFolders();
+        break;
+      case 'filesAndFolders':
+        await this.searchInput.checkFilesAndFolders();
+        break;
+      case 'libraries':
+        await this.searchInput.checkLibraries();
+        break;
+      default:
+        break;
+    }
     await this.searchInput.searchFor(searchText);
-    await this.dataTable.progressBarWaitForReload();
-  }
-
-  async searchFiles(fileName: string): Promise<void> {
-    await this.acaHeader.searchButton.click();
-    await this.searchInput.searchButton.click();
-    await this.searchInput.checkOnlyFiles();
-    await this.searchInput.searchFor(fileName);
-    await this.dataTable.progressBarWaitForReload();
-  }
-
-  async searchFolders(folderName: string): Promise<void> {
-    await this.acaHeader.searchButton.click();
-    await this.searchInput.searchButton.click();
-    await this.searchInput.checkOnlyFolders();
-    await this.searchInput.searchFor(folderName);
-    await this.dataTable.progressBarWaitForReload();
-  }
-
-  async searchLibraries(libraryName: string): Promise<void> {
-    await this.acaHeader.searchButton.click();
-    await this.searchInput.searchButton.click();
-    await this.searchInput.checkLibraries();
-    await this.searchInput.searchFor(libraryName);
     await this.dataTable.progressBarWaitForReload();
   }
 }
