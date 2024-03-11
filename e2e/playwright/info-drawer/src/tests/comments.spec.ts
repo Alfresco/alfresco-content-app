@@ -99,7 +99,7 @@ test.describe('Info Drawer - Comments', () => {
     await sharedPage.navigate();
     await expect(sharedPage.dataTable.getRowByName(sharedFileName)).toBeVisible();
     await sharedPage.dataTable.getRowByName(sharedFileName).click();
-    await sharedPage.acaHeader.viewDetails.click();
+    await sharedPage.acaHeader.sharedDownloadButton.click();
     await sharedPage.infoDrawer.commentsTab.click();
     await sharedPage.infoDrawer.waitForComments();
     expect(await sharedPage.infoDrawer.checkCommentsHeaderCount()).toEqual(2);
