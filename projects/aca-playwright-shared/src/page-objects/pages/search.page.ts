@@ -69,28 +69,4 @@ export class SearchPage extends BasePage {
     await this.searchInput.searchFor(searchText);
     await this.dataTable.progressBarWaitForReload();
   }
-
-  async searchFiles(fileName: string): Promise<void> {
-    await this.acaHeader.searchButton.click();
-    await this.searchInput.searchButton.click();
-    await this.searchInput.checkOnlyFiles();
-    await this.searchInput.searchFor(fileName);
-    await this.dataTable.progressBarWaitForReload();
-  }
-
-  async searchFolders(folderName: string): Promise<void> {
-    await this.acaHeader.searchButton.click();
-    await this.searchInput.searchButton.click();
-    await this.searchInput.checkOnlyFolders();
-    await this.searchInput.searchFor(folderName);
-    await this.dataTable.progressBarWaitForReload();
-  }
-
-  async searchLibraries(libraryName: string): Promise<void> {
-    await this.acaHeader.searchButton.click();
-    await this.searchInput.searchButton.click();
-    await this.searchInput.checkLibraries();
-    await this.searchInput.searchFor(libraryName);
-    await this.dataTable.progressBarWaitForReload();
-  }
 }
