@@ -100,7 +100,7 @@ test.describe('Search Results - General', () => {
     expect(await searchPage.dataTable.isItemPresent(folder)).toBeFalsy();
 
     await searchPage.searchInput.searchButton.click();
-    await searchPage.searchInput.searchFor(folder);
+    await searchPage.searchOverlay.searchFor(folder);
     await searchPage.dataTable.progressBarWaitForReload();
 
     expect(await searchPage.dataTable.isItemPresent(file)).toBeFalsy();

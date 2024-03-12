@@ -52,21 +52,21 @@ export class SearchPage extends BasePage {
     await this.searchInput.searchButton.click();
     switch (searchType) {
       case 'files':
-        await this.searchInput.checkOnlyFiles();
+        await this.searchOverlay.checkOnlyFiles();
         break;
       case 'folders':
-        await this.searchInput.checkOnlyFolders();
+        await this.searchOverlay.checkOnlyFolders();
         break;
       case 'filesAndFolders':
-        await this.searchInput.checkFilesAndFolders();
+        await this.searchOverlay.checkFilesAndFolders();
         break;
       case 'libraries':
-        await this.searchInput.checkLibraries();
+        await this.searchOverlay.checkLibraries();
         break;
       default:
         break;
     }
-    await this.searchInput.searchFor(searchText);
+    await this.searchOverlay.searchFor(searchText);
     await this.dataTable.progressBarWaitForReload();
   }
 }
