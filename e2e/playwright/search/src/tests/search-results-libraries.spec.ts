@@ -85,7 +85,21 @@ test.describe('Search Results - General', () => {
   });
 
   test.afterAll(async () => {
-    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
+    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', sitesApi, [
+      site1.id,
+      site2.id,
+      site3.id,
+      site4.id,
+      userSiteModerated,
+      userSitePrivate,
+      userSitePublic,
+      adminSite1,
+      adminSite2,
+      adminSite3,
+      adminSite4,
+      adminPrivate,
+      siteRussian.id
+    ]);
   });
 
   test.beforeAll(async () => {

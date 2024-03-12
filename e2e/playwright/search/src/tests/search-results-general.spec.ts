@@ -58,7 +58,7 @@ test.describe('Search Results - General', () => {
   });
 
   test.afterAll(async () => {
-    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
+    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', sitesApi, [site]);
   });
 
   test('[C290005] Only files are returned when Files option is the only one checked', async ({ searchPage }) => {
