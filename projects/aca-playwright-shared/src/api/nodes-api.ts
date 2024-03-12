@@ -418,6 +418,26 @@ export class NodesApi {
     }
   }
 
+  async getFileVersionType(nodeId: string): Promise<string> {
+    try {
+      const prop = await this.getNodeProperty(nodeId, 'cm:versionType');
+      return prop || '';
+    } catch (error) {
+      console.error(`${this.constructor.name} ${this.getFileVersionType.name}`, error);
+      return '';
+    }
+  }
+
+  async getFileVersionLabel(nodeId: string): Promise<string> {
+    try {
+      const prop = await this.getNodeProperty(nodeId, 'cm:versionLabel');
+      return prop || '';
+    } catch (error) {
+      console.error(`${this.constructor.name} ${this.getFileVersionLabel.name}`, error);
+      return '';
+    }
+  }
+
   async getSharedId(nodeId: string): Promise<string> {
     try {
       const sharedId = await this.getNodeProperty(nodeId, 'qshare:sharedId');

@@ -39,6 +39,8 @@ export class MatMenuComponent extends BaseComponent {
   public createFileFromTemplate = this.getChild('[id="app.create.fileFromTemplate"]');
   public createLibrary = this.getChild('[id="app.create.library"]');
   public getButtonByText = (text: string) => this.getChild('button', { hasText: text });
+  public cancelEditingAction = this.getChild(`.mat-menu-item[title='Cancel Editing']`);
+  public editOfflineAction = this.getChild(`.mat-menu-item[title='Edit Offline']`);
 
   async clickMenuItem(menuItem: string): Promise<void> {
     const menuElement = this.getButtonByText(menuItem);
