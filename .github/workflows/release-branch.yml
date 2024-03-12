@@ -1,0 +1,43 @@
+name: Release ACA libs from branch
+run-name: Release ACA libs from branch ${{ github.ref_name }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry-run-flag:
+        description: 'enable dry-run'
+        required: false
+        type: boolean
+        default: true
+
+env:
+  BASE_URL: ${{ secrets.PIPELINE_ENV_URL }}
+
+jobs:
+  publish-libs:
+    name: "Publish libs to NPM and GitHub registry"
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-branch-name@v1.35.0
+
+      - name: publish
+        uses: ./.github/actions/publish-libs
+        with:
+          branch_name: ${{ env.BRANCH_NAME }}
+          github_token: ${{ secrets.BOT_GITHUB_TOKEN }}
+          npm_registry_token: ${{ secrets.NPM_REGISTRY_TOKEN }}
+          npm_tag: 'branch'
+          dry-run: ${{ inputs.dry-run-flag }}
