@@ -58,15 +58,11 @@ test.describe('Search Results - General', () => {
   });
 
   test.afterAll(async () => {
-    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
+    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', sitesApi, [site]);
   });
 
   test('[C290005] Only files are returned when Files option is the only one checked', async ({ searchPage }) => {
-    await searchPage.acaHeader.searchButton.click();
-    await searchPage.searchInput.searchButton.click();
-    await searchPage.searchInput.checkOnlyFiles();
-    await searchPage.searchInput.searchFor(`*${random}`);
-    await searchPage.dataTable.waitForTable();
+    await searchPage.searchWithin(`*${random}`, 'files');
 
     expect(await searchPage.dataTable.isItemPresent(file)).toBeTruthy();
     expect(await searchPage.dataTable.isItemPresent(folder)).toBeFalsy();
@@ -74,11 +70,7 @@ test.describe('Search Results - General', () => {
   });
 
   test('[C290006] Only folders are returned when Folders option is the only one checked', async ({ searchPage }) => {
-    await searchPage.acaHeader.searchButton.click();
-    await searchPage.searchInput.searchButton.click();
-    await searchPage.searchInput.checkOnlyFolders();
-    await searchPage.searchInput.searchFor(`*${random}`);
-    await searchPage.dataTable.waitForTable();
+    await searchPage.searchWithin(`*${random}`, 'folders');
 
     expect(await searchPage.dataTable.isItemPresent(file)).toBeFalsy();
     expect(await searchPage.dataTable.isItemPresent(folder)).toBeTruthy();
@@ -86,11 +78,7 @@ test.describe('Search Results - General', () => {
   });
 
   test('[C290007] Files and folders are returned when both Files and Folders options are checked', async ({ searchPage }) => {
-    await searchPage.acaHeader.searchButton.click();
-    await searchPage.searchInput.searchButton.click();
-    await searchPage.searchInput.checkFilesAndFolders();
-    await searchPage.searchInput.searchFor(`*${random}`);
-    await searchPage.dataTable.waitForTable();
+    await searchPage.searchWithin(`*${random}`, 'filesAndFolders');
 
     expect(await searchPage.dataTable.isItemPresent(file)).toBeTruthy();
     expect(await searchPage.dataTable.isItemPresent(folder)).toBeTruthy();
@@ -98,11 +86,7 @@ test.describe('Search Results - General', () => {
   });
 
   test('[C290008] Only libraries are returned when Libraries option is checked', async ({ searchPage }) => {
-    await searchPage.acaHeader.searchButton.click();
-    await searchPage.searchInput.searchButton.click();
-    await searchPage.searchInput.checkLibraries();
-    await searchPage.searchInput.searchFor(`*${random}`);
-    await searchPage.dataTable.waitForTable();
+    await searchPage.searchWithin(`*${random}`, 'libraries');
 
     expect(await searchPage.dataTable.isItemPresent(file)).toBeFalsy();
     expect(await searchPage.dataTable.isItemPresent(folder)).toBeFalsy();
@@ -110,28 +94,21 @@ test.describe('Search Results - General', () => {
   });
 
   test('[C279162] Results are updated automatically when changing the search term', async ({ searchPage }) => {
-    await searchPage.acaHeader.searchButton.click();
-    await searchPage.searchInput.searchButton.click();
-    await searchPage.searchInput.searchFor(file);
-    await searchPage.dataTable.waitForTable();
+    await searchPage.searchWithin(file, 'filesAndFolders');
 
     expect(await searchPage.dataTable.isItemPresent(file)).toBeTruthy();
     expect(await searchPage.dataTable.isItemPresent(folder)).toBeFalsy();
 
     await searchPage.searchInput.searchButton.click();
-    await searchPage.searchInput.searchFor(folder);
-    await searchPage.dataTable.waitForTable();
+    await searchPage.searchOverlay.searchFor(folder);
+    await searchPage.dataTable.progressBarWaitForReload();
 
     expect(await searchPage.dataTable.isItemPresent(file)).toBeFalsy();
     expect(await searchPage.dataTable.isItemPresent(folder)).toBeTruthy();
   });
 
   test('[C279178] Results are returned when accessing an URL containing a search query', async ({ searchPage, personalFiles }) => {
-    await searchPage.acaHeader.searchButton.click();
-    await searchPage.searchInput.searchButton.click();
-    await searchPage.searchInput.checkLibraries();
-    await searchPage.searchInput.searchFor(site);
-    await searchPage.dataTable.waitForTable();
+    await searchPage.searchWithin(site, 'libraries');
 
     expect(await searchPage.dataTable.isItemPresent(site)).toBeTruthy();
 
@@ -139,7 +116,7 @@ test.describe('Search Results - General', () => {
 
     await personalFiles.navigate();
     await personalFiles.page.goto(url);
-    await searchPage.dataTable.waitForTable();
+    await searchPage.dataTable.progressBarWaitForReload();
 
     expect(await searchPage.dataTable.isItemPresent(site)).toBeTruthy();
   });

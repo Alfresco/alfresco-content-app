@@ -366,11 +366,4 @@ export class DataTableComponent extends BaseComponent {
     }
     return sitesInfo;
   }
-
-  /** 
-   * Method used to wait for values to be loaded in the table
-  */
-  async waitForTable(): Promise<void> {
-    await this.getRowLocator.nth(0).waitFor({timeout:5000});
-  }
 }

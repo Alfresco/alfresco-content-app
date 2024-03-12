@@ -31,8 +31,8 @@ export class SearchOverlayComponent extends BaseComponent {
   public searchFilesOption = this.getChild('label[for="content-input"]');
   public searchFoldersOption = this.getChild('label[for="folder-input"]');
   public searchLibrariesOption = this.getChild('label[for="libraries-input"]');
-  public searchInput = this.getChild('input[id="app-control-input"]');
-  public searchButton = this.getChild('.app-search-button');
+  public searchInput = this.page.locator('#app-control-input');
+  public searchButton = this.page.locator('#app-search-button');
   public searchInputControl = this.page.locator('.app-search-control');
   public searchOptions = this.page.locator('#search-options');
 
@@ -40,7 +40,50 @@ export class SearchOverlayComponent extends BaseComponent {
     super(page, rootElement);
   }
 
+  async isFoldersOptionChecked() {
+    const optClass = await this.searchFoldersOption.getAttribute('class');
+    return optClass.includes('mat-checkbox-checked');
+  }
+
+  async isFilesOptionChecked() {
+    const optClass = await this.searchFilesOption.getAttribute('class');
+    return optClass.includes('mat-checkbox-checked');
+  }
+
+  async isLibrariesOptionChecked() {
+    const optClass = await this.searchLibrariesOption.getAttribute('class');
+    return optClass.includes('mat-checkbox-checked');
+  }
+
+  async clearOptions() {
+    if (await this.isFilesOptionChecked()) {
+      await this.searchFilesOption.click();
+    }
+    if (await this.isFoldersOptionChecked()) {
+      await this.searchFoldersOption.click();
+    }
+    if (await this.isLibrariesOptionChecked()) {
+      await this.searchLibrariesOption.click();
+    }
+  }
+
+  async checkOnlyFolders(): Promise<void> {
+    await this.clearOptions();
+    await this.searchFoldersOption.click();
+  }
+
+  async checkOnlyFiles(): Promise<void> {
+    await this.clearOptions();
+    await this.searchFilesOption.click();
+  }
+
+  async checkLibraries(): Promise<void> {
+    await this.clearOptions();
+    await this.searchLibrariesOption.click();
+  }
+
   async checkFilesAndFolders(): Promise<void> {
+    await this.clearOptions();
     await this.searchFilesOption.click();
     await this.searchFoldersOption.click();
   }
