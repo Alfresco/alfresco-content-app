@@ -14,7 +14,51 @@ env:
   BASE_URL: ${{ secrets.PIPELINE_ENV_URL }}
 
 jobs:
+  lint:
+    name: 'lint'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run affected:lint -- --base=origin/develop
+      - run: npm run stylelint
+
+  unit-tests:
+    needs: [lint]
+    name: "Unit tests: ${{ matrix.unit-tests.name }}"
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        unit-tests:
+          - name: "aca-content"
+          - name: "aca-shared"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+      - uses: ./.github/actions/before-install
+      - run: npm ci
+      - run: npm run affected:test -- --browsers=ChromeHeadless --watch=false $TEST_OPTS --base=origin/develop
+
   publish-libs:
+    needs: [lint, unit-tests]
     name: "Publish libs to NPM and GitHub registry"
     runs-on: ubuntu-latest
     permissions:
