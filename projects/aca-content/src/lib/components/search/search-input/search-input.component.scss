@@ -85,12 +85,6 @@ $top-margin: 12px;
   &-checkbox {
     padding: 3px 24px 3px 19px;
 
-    /* stylelint-disable-next-line selector-class-pattern */
-    .mat-checkbox-inner-container {
-      height: 18px;
-      width: 18px;
-    }
-
     /* stylelint-disable-next-line no-descending-specificity */
     label {
       padding: 0 0 0 11px;

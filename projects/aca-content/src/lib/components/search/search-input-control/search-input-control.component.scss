@@ -24,11 +24,6 @@ $top-margin: 12px;
   box-sizing: border-box;
   margin-bottom: 12px;
 
-  /* stylelint-disable-next-line selector-class-pattern */
-  .mat-form-field-underline {
-    display: none;
-  }
-
   .app-input-form-field-input + span {
     cursor: text;
     pointer-events: auto;
@@ -40,6 +35,14 @@ $top-margin: 12px;
 
     &-input {
       letter-spacing: -0.7px;
+    }
+
+    /* stylelint-disable selector-class-pattern */
+    .mdc-line-ripple {
+      &::before,
+      &::after {
+        display: none;
+      }
     }
   }
 
