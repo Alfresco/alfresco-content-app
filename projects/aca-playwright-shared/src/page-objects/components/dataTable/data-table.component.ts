@@ -83,7 +83,7 @@ export class DataTableComponent extends BaseComponent {
    * 
    * @returns reference to cell element which contains text.
    */
-  getNthRow = (orderNum: number): Locator => this.getChild(`adf-datatable-row`).nth(orderNum);
+  getNthRow = (orderNum: number): Locator => this.getRowLocator.nth(orderNum);
 
   /**
    * Method used in cases where user have possibility to navigate "inside" the element (it's clickable and has link attribute).

@@ -23,7 +23,7 @@
  */
 
 import { Page } from '@playwright/test';
-import { BaseComponent } from '.././base.component';
+import { BaseComponent } from '../base.component';
 
 export type SortByType = 'Relevance' | 'Title' | 'Filename' | 'Modified date' | 'Modifier' | 'Created date' | 'Size' | 'Type';
 export class SearchSortingPicker extends BaseComponent {
@@ -66,7 +66,7 @@ export class SearchSortingPicker extends BaseComponent {
     return sortByOptions;
 }
 
-  async sortBy(option: SortByType, direction: string): Promise<void> {
+  async sortBy(option: SortByType, direction: "asc" | "desc"): Promise<void> {
     await this.actionMenu.click();
     await this.clickSortByDropdown();
 
