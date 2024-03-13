@@ -2,9 +2,9 @@
   "$schema": "../../../../extension.schema.json",
   "$id": "9a635542-d87a-4558-ae64-ffa199d1a364",
   "$version": "0.0.10",
-  "$name": "Edit in Office",
-  "$description": "Extension that provides Office Edit Online Action",
-  "$vendor": "Hyland Software, Inc. and its affiliates",
+  "$name": "AOS",
+  "$description": "Extension that provides Alfresco Office Services (AOS) feature integration in ADW",
+  "$vendor": "Hyland",
   "$license": "LGPL-3.0",
 
   "settings": [
