@@ -89,7 +89,7 @@ test.describe.only('Search sorting', () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi2, trashcanApi2, 'afterAll failed');
   });
 
-  async function testSorting(
+  async function testSearchSorting(
     searchPage: SearchPage,
     sortBy: 'Relevance' | 'Title' | 'Filename' | 'Modified date' | 'Modifier' | 'Created date' | 'Size' | 'Type',
     sortOrder: 'asc' | 'desc',
@@ -105,31 +105,31 @@ test.describe.only('Search sorting', () => {
   }
 
   test('[C277728] Sort by Name', async ({ searchPage }) => {
-    await testSorting(searchPage, 'Filename', 'asc', fileJpg.name, filePdf.name);
+    await testSearchSorting(searchPage, 'Filename', 'asc', fileJpg.name, filePdf.name);
   });
 
   test('[C277740] Sort by Type', async ({ searchPage }) => {
-    await testSorting(searchPage, 'Type', 'asc', filePdf.name, fileJpg.name);
+    await testSearchSorting(searchPage, 'Type', 'asc', filePdf.name, fileJpg.name);
   });
 
   test('[C277738] Sort by Size', async ({ searchPage }) => {
-    await testSorting(searchPage, 'Size', 'asc', filePdf.name, fileJpg.name);
+    await testSearchSorting(searchPage, 'Size', 'asc', filePdf.name, fileJpg.name);
   });
 
   test('[C277734] Sort by Created date', async ({ searchPage }) => {
-    await testSorting(searchPage, 'Created date', 'asc', fileJpg.name, filePdf.name);
+    await testSearchSorting(searchPage, 'Created date', 'asc', fileJpg.name, filePdf.name);
   });
 
   test('[C277736] Sort by Modified date', async ({ searchPage }) => {
-    await testSorting(searchPage, 'Modified date', 'asc', fileJpg.name, filePdf.name);
+    await testSearchSorting(searchPage, 'Modified date', 'asc', fileJpg.name, filePdf.name);
   });
 
   test('[C277727] Sort by Relevance', async ({ searchPage }) => {
-    await testSorting(searchPage, 'Relevance', 'asc', fileJpg.name, filePdf.name);
+    await testSearchSorting(searchPage, 'Relevance', 'asc', fileJpg.name, filePdf.name);
   });
 
   test('[C277732] Sort by Modifier', async ({ searchPage }) => {
-    await testSorting(searchPage, 'Modifier', 'asc', fileJpg.name, filePdf.name);
+    await testSearchSorting(searchPage, 'Modifier', 'asc', fileJpg.name, filePdf.name);
   });
 
   test('[C277722] Sorting options are displayed', async ({ searchPage }) => {
@@ -140,7 +140,8 @@ test.describe.only('Search sorting', () => {
 
     await searchPage.searchSortingPicker.clickSortByDropdown();
 
-    const expectedOptions = ['Relevance', 'Filename', 'Title', 'Modified date', 'Modifier', 'Created date', 'Size', 'Type'].sort();
+    const expectedOptions = ['Relevance', 'Filename', 'Title', 'Modified date', 'Modifier', 'Created date', 'Size', 'Type'];
+    expectedOptions.sort((a, b) => a.localeCompare(b));
     const optionListed = await searchPage.searchSortingPicker.getSortByOptionsList();
     expect(optionListed).toEqual(expectedOptions);
   });

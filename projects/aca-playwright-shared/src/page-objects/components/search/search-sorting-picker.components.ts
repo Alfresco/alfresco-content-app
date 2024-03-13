@@ -62,7 +62,7 @@ export class SearchSortingPicker extends BaseComponent {
         let textContent = (await this.sortByList.nth(i).textContent()).trim();
         sortByOptions.push(textContent);
     }
-    sortByOptions.sort();
+    sortByOptions.sort((a, b) => a.localeCompare(b));
     return sortByOptions;
 }
 
