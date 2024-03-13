@@ -94,8 +94,7 @@ registerLocaleData(localeSv);
     !environment.production ? StoreDevtoolsModule.instrument({ maxAge: 25 }) : [],
     RouterModule.forRoot(APP_ROUTES, {
       useHash: true,
-      enableTracing: false, // enable for debug only
-      relativeLinkResolution: 'legacy'
+      enableTracing: false // enable for debug only
     }),
     AppExtensionsModule,
     ShellModule.withRoutes({

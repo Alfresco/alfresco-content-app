@@ -1,23 +1,24 @@
 /* stylelint-disable selector-class-pattern */
 @mixin ay11-theme() {
-  .mat-icon-button,
-  .mat-button,
-  .mat-checkbox,
-  .mat-raised-button {
+  .mat-mdc-icon-button,
+  .mat-mdc-button,
+  .mat-mdc-checkbox,
+  .mat-mdc-raised-button {
     &:focus-visible {
       @include rounded-outline;
     }
 
-    .mat-ripple-element {
+    .mat-ripple {
       display: none;
     }
 
+    // TODO check if still applies
     &.cdk-keyboard-focused {
       .mat-button-focus-overlay {
         display: none;
       }
 
-      .mat-checkbox-ripple {
+      .mat-mdc-checkbox-ripple {
         @include rounded-outline;
 
         height: 22px;
@@ -28,25 +29,29 @@
     }
   }
 
+  .mat-mdc-form-field-focus-overlay {
+    background-color: transparent;
+  }
+
   .adf-content-node-selector-content-list .adf-datatable-list .adf-datatable-selected.mat-icon > svg {
     fill: var(--theme-blue-button-color);
   }
 
-  .mat-list-base .mat-list-option {
-    .mat-list-item-content {
+  .mat-mdc-list-base .mat-mdc-list-option {
+    .mdc-list-item__content {
       @include rounded-border(transparent);
     }
 
     &:focus-visible {
       background-color: white;
 
-      .mat-list-item-content {
+      .mdc-list-item__content {
         @include rounded-border;
       }
     }
   }
 
-  .adf-search-user-button.mat-button,
+  .adf-search-user-button.mat-mdc-button,
   .app-search-button {
     line-height: 36px;
 
@@ -59,9 +64,9 @@
     }
   }
 
-  .mat-menu-content {
-    .mat-menu-item {
-      .mat-menu-ripple {
+  .mat-mdc-menu-content {
+    .mat-mdc-menu-item {
+      .mat-ripple {
         display: none;
       }
 
@@ -83,15 +88,17 @@
     padding: 2px;
   }
 
-  .mat-option {
+  .mat-mdc-option {
     &.cdk-keyboard-focused {
-      .mat-option-ripple {
+      .mat-mdc-option-ripple {
         @include rounded-outline;
       }
     }
   }
 
-  .mat-slide-toggle {
+  // TODO investigate after app is run
+  .mat-mdc-slide-toggle {
+    /* TODO(mdc-migration): The following rule targets internal classes of slide-toggle that may no longer apply for the MDC version. */
     .mat-slide-toggle-thumb {
       width: 15px;
       height: 15px;
@@ -99,40 +106,46 @@
       background-color: #484a4d;
     }
 
+    /* TODO(mdc-migration): The following rule targets internal classes of slide-toggle that may no longer apply for the MDC version. */
     .mat-slide-toggle-bar {
       border-radius: 15px;
       height: 20px;
     }
 
+    /* TODO(mdc-migration): The following rule targets internal classes of slide-toggle that may no longer apply for the MDC version. */
     .mat-slide-toggle-thumb-container {
       top: -5px;
     }
 
+    /* TODO(mdc-migration): The following rule targets internal classes of slide-toggle that may no longer apply for the MDC version. */
     .mat-slide-toggle-ripple {
       display: none;
     }
 
     &.cdk-keyboard-focused {
+      /* TODO(mdc-migration): The following rule targets internal classes of slide-toggle that may no longer apply for the MDC version. */
       .mat-slide-toggle-bar {
         outline: 2px solid var(--theme-blue-button-color);
       }
     }
 
     &.mat-primary.mat-checked:not(.mat-disabled) {
+      /* TODO(mdc-migration): The following rule targets internal classes of slide-toggle that may no longer apply for the MDC version. */
       .mat-slide-toggle-bar {
         background-color: var(--theme-blue-button-color);
       }
 
+      /* TODO(mdc-migration): The following rule targets internal classes of slide-toggle that may no longer apply for the MDC version. */
       .mat-slide-toggle-thumb {
         background-color: white;
       }
     }
   }
 
-  .mat-stroked-button,
-  .mat-flat-button {
+  .mat-mdc-outlined-button,
+  .mat-mdc-unelevated-button {
     &.cdk-keyboard-focused {
-      .mat-button-ripple.mat-ripple {
+      .mat-mdc-button-ripple.mat-ripple {
         outline: 2px solid var(--theme-blue-button-color);
         inset: -4px;
       }
@@ -160,7 +173,7 @@
     box-sizing: border-box;
     border: 2px solid transparent;
 
-    .mat-button-base.mat-button {
+    .mat-mdc-button-base.mat-mdc-button {
       outline: none;
 
       @include rounded-border(transparent);
@@ -182,8 +195,8 @@
   .adf-error-snackbar {
     background-color: #ba1b1b;
 
-    .mat-simple-snackbar,
-    .mat-simple-snackbar-action {
+    .mat-mdc-simple-snack-bar,
+    .mat-mdc-snack-bar-action {
       color: white;
     }
   }
@@ -191,13 +204,13 @@
   .adf-info-snackbar {
     background-color: var(--theme-blue-button-color);
 
-    .mat-simple-snackbar,
-    .mat-simple-snackbar-action {
+    .mat-mdc-simple-snack-bar,
+    .mat-mdc-snack-bar-action {
       color: white;
     }
   }
 
-  .mat-button-base {
+  .mat-mdc-button-base {
     &.adf-filter-button {
       margin-left: -2px;
     }
@@ -207,7 +220,7 @@
     &__perpage-block,
     &__actualinfo-block {
       /* stylelint-disable-next-line no-descending-specificity */
-      .mat-icon-button {
+      .mat-mdc-icon-button {
         left: 3px;
 
         &:focus-visible {

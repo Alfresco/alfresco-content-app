@@ -75,14 +75,16 @@
 
     /* stylelint-disable selector-class-pattern */
     &.aca-read-only,
-    .mat-form-field-disabled {
-      .mat-form-field-underline,
-      .mat-select-arrow-wrapper {
-        display: none;
+    .mat-mdc-form-field-disabled {
+      .mdc-line-ripple {
+        &::before,
+        &::after {
+          display: none;
+        }
       }
 
       *:disabled,
-      .mat-select-disabled .mat-select-value {
+      .mat-mdc-select-disabled .mat-mdc-select-value {
         color: inherit;
       }
     }
