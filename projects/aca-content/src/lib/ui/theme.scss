@@ -13,19 +13,17 @@ mat-toolbar {
   color: var(--theme-secondary-text);
 }
 
-.mat-tab-list {
-  .mat-tab-labels {
-    .mat-tab-label {
-      &.mat-tab-label-active {
-        color: #212121;
-      }
+.mat-mdc-tab-list {
+  .mat-mdc-tab-labels {
+    .mdc-tab--active {
+      color: #212121;
     }
   }
 }
 
-.mat-form-field-label-wrapper .mat-form-field-label,
-.mat-tab-list .mat-tab-labels .mat-tab-label,
-.mat-checkbox-label,
+.mdc-floating-label,
+.mat-mdc-tab-list .mat-mdc-tab-labels .mdc-tab,
+.mat-mdc-checkbox label,
 mat-toolbar.mat-toolbar.mat-toolbar-multiple-row,
 mat-toolbar.mat-toolbar.mat-toolbar-single-row {
   color: var(--theme-secondary-text);
