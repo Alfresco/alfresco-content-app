@@ -28,12 +28,12 @@ import { BaseComponent } from '../base.component';
 export class UploadNewVersionDialog extends BaseComponent {
   private static rootElement = 'adf-new-version-uploader-dialog';
 
+  public cancelButton = this.getChild('#adf-new-version-cancel');
+  public uploadButton = this.getChild('[data-automation-id="adf-new-version-file-upload"]');
+  public majorOption = this.getChild('#adf-new-version-major');
+  public description = this.getChild('#adf-new-version-text-area');
+
   constructor(page: Page) {
     super(page, UploadNewVersionDialog.rootElement);
   }
-
-  cancelButton = this.getChild('#adf-new-version-cancel');
-  uploadButton = this.getChild('[data-automation-id="adf-new-version-file-upload"]');
-  majorOption = this.getChild('#adf-new-version-major');
-  description = this.getChild('#adf-new-version-text-area');
 }
