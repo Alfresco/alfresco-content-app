@@ -28,17 +28,8 @@ import { timeouts } from '../../../utils';
 
 export class SearchInputComponent extends BaseComponent {
   private static rootElement = 'aca-page-layout';
-  public searchOptionsArea = this.page.locator('mat-checkbox');
-  public searchInput = this.getChild('input[id="app-control-input"]');
-  public searchButton = this.getChild('.app-search-button');
-  public searchButtonWindow = this.page.locator('#app-search-button');
-  public searchInputWindow = this.page.locator('.app-search-control');
-  public searchInputWindowInput = this.page.locator('.app-search-control input');
-  public searchOptions = this.page.locator('#search-options');
-  public searchFilesOption = this.searchOptionsArea.getByText(' Files ');
-  public searchLibrariesOption = this.searchOptionsArea.getByText(' Libraries ');
-  public searchFoldersOption = this.searchOptionsArea.getByText(' Folders ');
-  
+  public searchInput = this.page.locator('#app-control-input');
+  public searchButton = this.page.locator('.app-search-button');
 
   getIconByName = (name: string): Locator => this.getChild('.mat-icon', { hasText: name });
 
@@ -58,72 +49,5 @@ export class SearchInputComponent extends BaseComponent {
     await this.getCellLinkByName(name).waitFor({ state: 'visible', timeout: timeouts.medium });
     await this.getCellLinkByName(name).dblclick();
     await this.spinnerWaitForReload();
-  }
-
-  async clickLibrariesOption() {
-    await this.searchLibrariesOption.click();
-  }
-
-  async clickFilesOption() {
-    await this.searchFilesOption.click();
-  }
-
-  async clickFoldersOption() {
-    await this.searchFoldersOption.click();
-  }
-
-  async isFoldersOptionChecked() {
-    const optClass = await this.searchFoldersOption.getAttribute('class');
-    return optClass.includes('mat-checkbox-checked');
-  }
-
-  async isFilesOptionChecked() {
-    const optClass = await this.searchFilesOption.getAttribute('class');
-    return optClass.includes('mat-checkbox-checked');
-  }
-
-  async isLibrariesOptionChecked() {
-    const optClass = await this.searchLibrariesOption.getAttribute('class');
-    return optClass.includes('mat-checkbox-checked');
-  }
-
-  async clearOptions() {
-    if (await this.isFilesOptionChecked()) {
-      await this.clickFilesOption();
-    }
-    if (await this.isFoldersOptionChecked()) {
-      await this.clickFoldersOption();
-    }
-    if (await this.isLibrariesOptionChecked()) {
-      await this.clickLibrariesOption();
-    }
-  }
-
-  async checkOnlyFolders() {
-    await this.clearOptions();
-    await this.clickFoldersOption();
-  }
-
-  async checkOnlyFiles() {
-    await this.clearOptions();
-    await this.clickFilesOption();
-  }
-
-  async checkLibraries() {
-    await this.clearOptions();
-    await this.clickLibrariesOption();
-  }
-
-  async checkFilesAndFolders() {
-    await this.clearOptions();
-    await this.clickFilesOption();
-    await this.clickFoldersOption();
-  }
-
-  async searchFor(text: string) {
-    await this.searchInputWindow.click();
-    await this.searchInputWindowInput.clear();
-    await this.searchInputWindow.type(text);
-    await this.searchButtonWindow.click();
   }
 }
