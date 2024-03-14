@@ -33,12 +33,12 @@ import {
   PipeModule
 } from '@alfresco/adf-core';
 import { UploadService, NodesApiService, DiscoveryApiService } from '@alfresco/adf-content-services';
-import { AppState, ClosePreviewAction, ReloadDocumentListAction, ViewNodeAction } from '@alfresco/aca-shared/store';
+import { AppState, ClosePreviewAction, RefreshPreviewAction, ReloadDocumentListAction, ViewNodeAction } from '@alfresco/aca-shared/store';
 import { AcaViewerComponent } from './viewer.component';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { ContentApiService, AppHookService, DocumentBasePageService } from '@alfresco/aca-shared';
 import { Store, StoreModule } from '@ngrx/store';
-import { RepositoryInfo, VersionInfo } from '@alfresco/js-api';
+import { RepositoryInfo, VersionInfo, Node } from '@alfresco/js-api';
 import { AcaViewerModule } from '../../viewer.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
