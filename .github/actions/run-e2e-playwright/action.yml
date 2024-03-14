@@ -35,6 +35,4 @@ runs:
       with:
         name: ${{ inputs.artifact-name }}
         path: |
-          e2e/playwright/*/playwright-report/
-          e2e/playwright/*/test-results/
           playwright-report/
