@@ -191,8 +191,8 @@ test.describe('viewer action file', () => {
     await expect(personalFiles.uploadNewVersionDialog.cancelButton).toHaveCount(0);
     expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not open').toBe(true);
     expect(await personalFiles.viewer.fileTitleButtonLocator.innerText()).toContain(docxFile2);
-    expect(await nodesApiAction.getFileVersionType(filePersonalFilesId), 'File has incorrect version type').toEqual('MAJOR');
-    expect(await nodesApiAction.getFileVersionLabel(filePersonalFilesId), 'File has incorrect version label').toEqual('2.0');
+    expect(await nodesApiAction.getNodeProperty(filePersonalFilesId, 'cm:versionType'), 'File has incorrect version type').toEqual('MAJOR');
+    expect(await nodesApiAction.getNodeProperty(filePersonalFilesId, 'cm:versionLabel'), 'File has incorrect version label').toEqual('2.0');
   });
 
   test('[MNT-21058] Upload new version action when node is locked', async ({ personalFiles }) => {
