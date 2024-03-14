@@ -115,32 +115,53 @@ test.describe('Search sorting', () => {
     expect(await searchPage.dataTable.getNthRow(2).textContent()).toContain(expectedSecondFile);
   }
 
-  test('[C277728] Sort by Name', async ({ searchPage }) => {
-    await testSearchSorting(searchPage, 'Filename', 'asc', fileJpg.name, filePdf.name);
-  });
-
-  test('[C277740] Sort by Type', async ({ searchPage }) => {
-    await testSearchSorting(searchPage, 'Type', 'asc', filePdf.name, fileJpg.name);
-  });
-
-  test('[C277738] Sort by Size', async ({ searchPage }) => {
-    await testSearchSorting(searchPage, 'Size', 'asc', filePdf.name, fileJpg.name);
-  });
-
-  test('[C277734] Sort by Created date', async ({ searchPage }) => {
-    await testSearchSorting(searchPage, 'Created date', 'asc', fileJpg.name, filePdf.name);
-  });
-
-  test('[C277736] Sort by Modified date', async ({ searchPage }) => {
-    await testSearchSorting(searchPage, 'Modified date', 'asc', fileJpg.name, filePdf.name);
-  });
-
-  test('[C277727] Sort by Relevance', async ({ searchPage }) => {
-    await testSearchSorting(searchPage, 'Relevance', 'asc', fileJpg.name, filePdf.name);
-  });
-
-  test('[C277732] Sort by Modifier', async ({ searchPage }) => {
-    await testSearchSorting(searchPage, 'Modifier', 'asc', fileJpg.name, filePdf.name);
+  [
+    {
+      column: 'Name',
+      id: 'C277728',
+      firstFile: fileJpg.name,
+      secondFile: filePdf.name
+    },
+    {
+      column: 'Type',
+      id: 'C277740',
+      firstFile: filePdf.name,
+      secondFile: fileJpg.name
+    },
+    {
+      column: 'Size',
+      id: 'C277738',
+      firstFile: filePdf.name,
+      secondFile: fileJpg.name
+    },
+    {
+      column: 'Created date',
+      id: 'C277734',
+      firstFile: fileJpg.name,
+      secondFile: filePdf.name
+    },
+    {
+      column: 'Modified date',
+      id: 'C277736',
+      firstFile: fileJpg.name,
+      secondFile: filePdf.name
+    },
+    {
+      column: 'Relevance',
+      id: 'C277727',
+      firstFile: fileJpg.name,
+      secondFile: filePdf.name
+    },
+    {
+      column: 'Modifier',
+      id: 'C277732',
+      firstFile: fileJpg.name,
+      secondFile: filePdf.name
+    }
+  ].forEach((testCase) => {
+    test(`[${testCase.id}] Sort by ${testCase.column}`, async ({ searchPage }) => {
+      await testSearchSorting(searchPage, testCase.column as SortByType, 'asc', testCase.firstFile, testCase.secondFile);
+    });
   });
 
   test('[C277722] Sorting options are displayed', async ({ searchPage }) => {
