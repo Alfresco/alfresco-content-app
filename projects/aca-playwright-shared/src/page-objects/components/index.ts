@@ -35,6 +35,7 @@ export * from './adf-info-drawer.component';
 export * from './viewer.component';
 export * from './search/search-input.component';
 export * from './search/search-overlay.components';
+export * from './search/search-sorting-picker.components';
 export * from './breadcrumb/breadcrumb.component';
 export * from './sidenav.component';
 export * from './aca-header.component';
