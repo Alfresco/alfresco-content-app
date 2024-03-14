@@ -24,9 +24,9 @@
 
 import { Component, OnInit, OnDestroy, ViewEncapsulation, HostListener } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
-import { ActivatedRoute, UrlTree, UrlSegmentGroup, UrlSegment, PRIMARY_OUTLET } from '@angular/router';
+import { UrlTree, UrlSegmentGroup, UrlSegment, PRIMARY_OUTLET, ActivatedRoute } from '@angular/router';
 import { debounceTime, map, takeUntil } from 'rxjs/operators';
-import { UserPreferencesService, ObjectUtils, ViewerModule } from '@alfresco/adf-core';
+import { ViewerModule } from '@alfresco/adf-core';
 import { ClosePreviewAction, ViewerActionTypes, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import {
   PageComponent,
@@ -37,10 +37,10 @@ import {
   ToolbarComponent
 } from '@alfresco/aca-shared';
 import { ContentActionRef, ViewerExtensionRef } from '@alfresco/adf-extensions';
-import { SearchRequest } from '@alfresco/js-api';
 import { from } from 'rxjs';
 import { Actions, ofType } from '@ngrx/effects';
 import { AlfrescoViewerModule, NodesApiService } from '@alfresco/adf-content-services';
+import { ViewerService } from '../../services/viewer.service';
 
 @Component({
   standalone: true,
@@ -52,55 +52,31 @@ import { AlfrescoViewerModule, NodesApiService } from '@alfresco/adf-content-ser
   host: { class: 'app-preview' }
 })
 export class PreviewComponent extends PageComponent implements OnInit, OnDestroy {
-  previewLocation: string = null;
-  routesSkipNavigation = ['shared', 'recent-files', 'favorites'];
+  contentExtensions: Array<ViewerExtensionRef> = [];
+  folderId: string = null;
+  navigateBackAsClose = false;
+  navigateMultiple = false;
   navigateSource: string = null;
   navigationSources = ['favorites', 'libraries', 'personal-files', 'recent-files', 'shared'];
-  folderId: string = null;
-  nodeId: string = null;
-  previousNodeId: string;
   nextNodeId: string;
-  navigateMultiple = false;
+  nodeId: string = null;
   openWith: Array<ContentActionRef> = [];
-  contentExtensions: Array<ViewerExtensionRef> = [];
+  previewLocation: string = null;
+  previousNodeId: string;
+  routesSkipNavigation = ['favorites', 'recent-files', 'shared'];
   showRightSide = false;
-  navigateBackAsClose = false;
   simplestMode = false;
-
-  recentFileFilters = [
-    'TYPE:"content"',
-    '-PATH:"//cm:wiki/*"',
-    '-TYPE:"app:filelink"',
-    '-TYPE:"fm:post"',
-    '-TYPE:"cm:thumbnail"',
-    '-TYPE:"cm:failedThumbnail"',
-    '-TYPE:"cm:rating"',
-    '-TYPE:"dl:dataList"',
-    '-TYPE:"dl:todoList"',
-    '-TYPE:"dl:issue"',
-    '-TYPE:"dl:contact"',
-    '-TYPE:"dl:eventAgenda"',
-    '-TYPE:"dl:event"',
-    '-TYPE:"dl:task"',
-    '-TYPE:"dl:simpletask"',
-    '-TYPE:"dl:meetingAgenda"',
-    '-TYPE:"dl:location"',
-    '-TYPE:"fm:topic"',
-    '-TYPE:"fm:post"',
-    '-TYPE:"ia:calendarEvent"',
-    '-TYPE:"lnk:link"'
-  ];
 
   private containersSkipNavigation = ['adf-viewer__sidebar', 'cdk-overlay-container', 'adf-image-viewer'];
 
   constructor(
-    private contentApi: ContentApiService,
-    private preferences: UserPreferencesService,
-    private route: ActivatedRoute,
-    private nodesApiService: NodesApiService,
     private actions$: Actions,
+    private appHookService: AppHookService,
+    private contentApi: ContentApiService,
     private location: Location,
-    private appHookService: AppHookService
+    private nodesApiService: NodesApiService,
+    private route: ActivatedRoute,
+    private viewerService: ViewerService
   ) {
     super();
   }
@@ -135,7 +111,7 @@ export class PreviewComponent extends PageComponent implements OnInit, OnDestroy
       this.folderId = params.folderId;
       const id = params.nodeId;
       if (id) {
-        this.displayNode(id);
+        void this.displayNode(id);
       }
     });
 
@@ -178,8 +154,7 @@ export class PreviewComponent extends PageComponent implements OnInit, OnDestroy
         this.store.dispatch(new SetSelectedNodesAction([{ entry: this.node }]));
 
         if (this.node?.isFile) {
-          const nearest = await this.getNearestNodes(this.node.id, this.node.parentId);
-
+          const nearest = await this.viewerService.getNearestNodes(this.node.id, this.node.parentId, this.navigateSource);
           this.previousNodeId = nearest.left;
           this.nextNodeId = nearest.right;
           this.nodeId = this.node.id;
@@ -225,7 +200,7 @@ export class PreviewComponent extends PageComponent implements OnInit, OnDestroy
         if (!shouldSkipNavigation && this.folderId) {
           route.push(this.folderId);
         }
-        this.router.navigate(route);
+        void this.router.navigate(route);
       }
     }
   }
@@ -237,7 +212,7 @@ export class PreviewComponent extends PageComponent implements OnInit, OnDestroy
     }
 
     if (this.previousNodeId) {
-      this.router.navigate(this.getPreviewPath(this.folderId, this.previousNodeId));
+      void this.router.navigate(this.getPreviewPath(this.folderId, this.previousNodeId));
     }
   }
 
@@ -248,7 +223,7 @@ export class PreviewComponent extends PageComponent implements OnInit, OnDestroy
     }
 
     if (this.nextNodeId) {
-      this.router.navigate(this.getPreviewPath(this.folderId, this.nextNodeId));
+      void this.router.navigate(this.getPreviewPath(this.folderId, this.nextNodeId));
     }
   }
 
@@ -270,167 +245,6 @@ export class PreviewComponent extends PageComponent implements OnInit, OnDestroy
     }
 
     return route;
-  }
-
-  /**
-   * Retrieves nearest node information for the given node and folder.
-   *
-   * @param nodeId Unique identifier of the document node
-   * @param folderId Unique identifier of the containing folder node.
-   */
-  async getNearestNodes(nodeId: string, folderId: string): Promise<{ left: string; right: string }> {
-    const empty = {
-      left: null,
-      right: null
-    };
-
-    if (nodeId && folderId) {
-      try {
-        const ids = await this.getFileIds(this.navigateSource, folderId);
-        const idx = ids.indexOf(nodeId);
-
-        if (idx >= 0) {
-          return {
-            left: ids[idx - 1] || null,
-            right: ids[idx + 1] || null
-          };
-        } else {
-          return empty;
-        }
-      } catch {
-        return empty;
-      }
-    } else {
-      return empty;
-    }
-  }
-
-  /**
-   * Retrieves a list of node identifiers for the folder and data source.
-   *
-   * @param source Data source name. Allowed values are: personal-files, libraries, favorites, shared, recent-files.
-   * @param folderId Containing folder node identifier for 'personal-files' and 'libraries' sources.
-   */
-  async getFileIds(source: string, folderId?: string): Promise<string[]> {
-    if ((source === 'personal-files' || source === 'libraries') && folderId) {
-      const sortKey = this.preferences.get('personal-files.sorting.key') || 'modifiedAt';
-      const sortDirection = this.preferences.get('personal-files.sorting.direction') || 'desc';
-      const nodes = await this.contentApi
-        .getNodeChildren(folderId, {
-          orderBy: ['isFolder desc', `${sortKey} ${sortDirection}`],
-          fields: ['id', this.getRootField(sortKey)],
-          where: '(isFile=true)'
-        })
-        .toPromise();
-
-      const entries = nodes.list.entries.map((obj) => obj.entry);
-      if (this.preferences.get('filesPageSortingMode') === 'client' || source === 'libraries') {
-        this.sort(entries, sortKey, sortDirection);
-      }
-
-      return entries.map((obj) => obj.id);
-    }
-
-    if (source === 'favorites') {
-      const nodes = await this.contentApi
-        .getFavorites('-me-', {
-          where: '(EXISTS(target/file))',
-          fields: ['target']
-        })
-        .toPromise();
-
-      const sortKey = this.preferences.get('favorites.sorting.key') || 'modifiedAt';
-      const sortDirection = this.preferences.get('favorites.sorting.direction') || 'desc';
-      const files = nodes.list.entries.map((obj) => obj.entry.target.file);
-      this.sort(files, sortKey, sortDirection);
-
-      return files.map((f) => f.id);
-    }
-
-    if (source === 'shared') {
-      const sortingKey = this.preferences.get('shared.sorting.key') || 'modifiedAt';
-      const sortingDirection = this.preferences.get('shared.sorting.direction') || 'desc';
-
-      const nodes = await this.contentApi
-        .findSharedLinks({
-          fields: ['nodeId', this.getRootField(sortingKey)]
-        })
-        .toPromise();
-
-      const entries = nodes.list.entries.map((obj) => obj.entry);
-      this.sort(entries, sortingKey, sortingDirection);
-
-      return entries.map((obj) => obj.nodeId);
-    }
-
-    if (source === 'recent-files') {
-      const person = await this.contentApi.getPerson('-me-').toPromise();
-      const username = person.entry.id;
-      const sortingKey = this.preferences.get('recent-files.sorting.key') || 'modifiedAt';
-      const sortingDirection = this.preferences.get('recent-files.sorting.direction') || 'desc';
-
-      const query: SearchRequest = {
-        query: {
-          query: '*',
-          language: 'afts'
-        },
-        filterQueries: [
-          { query: `cm:modified:[NOW/DAY-30DAYS TO NOW/DAY+1DAY]` },
-          { query: `cm:modifier:${username} OR cm:creator:${username}` },
-          {
-            query: this.recentFileFilters.join(' AND ')
-          }
-        ],
-        fields: ['id', this.getRootField(sortingKey)],
-        include: ['path', 'properties', 'allowableOperations'],
-        sort: [
-          {
-            type: 'FIELD',
-            field: 'cm:modified',
-            ascending: false
-          }
-        ]
-      };
-      const nodes = await this.contentApi.search(query).toPromise();
-
-      const entries = nodes.list.entries.map((obj) => obj.entry);
-      this.sort(entries, sortingKey, sortingDirection);
-
-      return entries.map((obj) => obj.id);
-    }
-
-    return [];
-  }
-
-  private sort(items: any[], key: string, direction: string) {
-    const options: Intl.CollatorOptions = {};
-
-    if (key.includes('sizeInBytes') || key === 'name') {
-      options.numeric = true;
-    }
-
-    items.sort((a: any, b: any) => {
-      let left = ObjectUtils.getValue(a, key) ?? '';
-      left = left instanceof Date ? left.valueOf().toString() : left.toString();
-
-      let right = ObjectUtils.getValue(b, key) ?? '';
-      right = right instanceof Date ? right.valueOf().toString() : right.toString();
-
-      return direction === 'asc' ? left.localeCompare(right, undefined, options) : right.localeCompare(left, undefined, options);
-    });
-  }
-
-  /**
-   * Get the root field name from the property path.
-   * Example: 'property1.some.child.property' => 'property1'
-   *
-   * @param path Property path
-   */
-  getRootField(path: string) {
-    if (path) {
-      return path.split('.')[0];
-    }
-    return path;
   }
 
   private getNavigationCommands(url: string): any[] {
