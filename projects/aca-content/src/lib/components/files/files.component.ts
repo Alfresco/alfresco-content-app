@@ -22,8 +22,8 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { DataTableModule, PaginationComponent, ShowHeaderMode, UserPreferencesService } from '@alfresco/adf-core';
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { DataTableModule, PaginationComponent, ShowHeaderMode } from '@alfresco/adf-core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { NodeEntry, Node, PathElement } from '@alfresco/js-api';
 import { NodeActionsService } from '../../services/node-actions.service';
@@ -39,15 +39,7 @@ import {
 } from '@alfresco/aca-shared';
 import { SetCurrentFolderAction, isAdmin, UploadFileVersionAction, showLoaderSelector } from '@alfresco/aca-shared/store';
 import { debounceTime, takeUntil } from 'rxjs/operators';
-import {
-  BreadcrumbModule,
-  DocumentListComponent,
-  DocumentListModule,
-  FilterSearch,
-  FileUploadEvent,
-  UploadModule,
-  ShareDataRow
-} from '@alfresco/adf-content-services';
+import { BreadcrumbModule, DocumentListModule, FileUploadEvent, FilterSearch, ShareDataRow, UploadModule } from '@alfresco/adf-content-services';
 import { DocumentListPresetRef, ExtensionsModule } from '@alfresco/adf-extensions';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
@@ -77,27 +69,18 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   templateUrl: './files.component.html',
   encapsulation: ViewEncapsulation.None
 })
-export class FilesComponent extends PageComponent implements OnInit, OnDestroy, AfterViewInit {
+export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   isValidPath = true;
   isAdmin = false;
   selectedNode: NodeEntry;
   queryParams = null;
-
   showLoader$ = this.store.select(showLoaderSelector);
   private nodePath: PathElement[];
 
   columns: DocumentListPresetRef[] = [];
   isFilterHeaderActive = false;
 
-  @ViewChild('documentList', { static: true })
-  documentList: DocumentListComponent;
-
-  constructor(
-    private route: ActivatedRoute,
-    private contentApi: ContentApiService,
-    private nodeActionsService: NodeActionsService,
-    private preferences: UserPreferencesService
-  ) {
+  constructor(private contentApi: ContentApiService, private nodeActionsService: NodeActionsService, private route: ActivatedRoute) {
     super();
   }
 
@@ -119,9 +102,9 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy, 
           this.isValidPath = true;
 
           if (node?.entry?.isFolder) {
-            this.updateCurrentNode(node.entry);
+            void this.updateCurrentNode(node.entry);
           } else {
-            this.router.navigate(['/personal-files', node.entry.parentId], {
+            void this.router.navigate(['/personal-files', node.entry.parentId], {
               replaceUrl: true
             });
           }
@@ -152,10 +135,6 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy, 
     }
   }
 
-  ngAfterViewInit() {
-    this.preferences.set('filesPageSortingMode', this.documentList.sortingMode);
-  }
-
   ngOnDestroy() {
     this.store.dispatch(new SetCurrentFolderAction(null));
     super.ngOnDestroy();
@@ -165,7 +144,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy, 
     const currentNodeId = this.route.snapshot.paramMap.get('folderId');
     const urlWithoutParams = decodeURIComponent(this.router.url).split('?')[0];
     const urlToNavigate: string[] = this.getUrlToNavigate(urlWithoutParams, currentNodeId, nodeId);
-    this.router.navigate(urlToNavigate);
+    void this.router.navigate(urlToNavigate);
   }
 
   private getUrlToNavigate(currentURL: string, currentNodeId: string, nextNodeId: string): string[] {
@@ -370,7 +349,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy, 
       this.isFilterHeaderActive = true;
       this.navigateToFilter(activeFilters);
     } else {
-      this.router.navigate(['.'], { relativeTo: this.route });
+      void this.router.navigate(['.'], { relativeTo: this.route });
       this.isFilterHeaderActive = false;
       this.showHeader = ShowHeaderMode.Data;
       this.onAllFilterCleared();
@@ -389,7 +368,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy, 
       objectFromMap[filter.key] = paramValue;
     });
 
-    this.router.navigate([], { relativeTo: this.route, queryParams: objectFromMap });
+    void this.router.navigate([], { relativeTo: this.route, queryParams: objectFromMap });
   }
 
   onError() {

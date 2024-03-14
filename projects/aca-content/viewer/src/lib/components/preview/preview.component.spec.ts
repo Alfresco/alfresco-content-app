@@ -25,7 +25,6 @@
 import { Router, ActivatedRoute } from '@angular/router';
 import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
 import {
-  UserPreferencesService,
   AlfrescoApiService,
   AlfrescoApiServiceMock,
   AuthenticationService,
@@ -39,8 +38,8 @@ import { PreviewComponent } from './preview.component';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { ContentApiService, AppHookService, DocumentBasePageService } from '@alfresco/aca-shared';
 import { Store, StoreModule } from '@ngrx/store';
-import { Node, NodePaging, FavoritePaging, SharedLinkPaging, PersonEntry, ResultSetPaging, RepositoryInfo, VersionInfo } from '@alfresco/js-api';
-import { PreviewModule } from '../preview.module';
+import { Node, RepositoryInfo, VersionInfo } from '@alfresco/js-api';
+import { AcaViewerModule } from '../../viewer.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientModule } from '@angular/common/http';
@@ -96,7 +95,6 @@ describe('PreviewComponent', () => {
   let component: PreviewComponent;
   let router: Router;
   let route: ActivatedRoute;
-  let preferences: UserPreferencesService;
   let contentApi: ContentApiService;
   let uploadService: UploadService;
   let nodesApiService: NodesApiService;
@@ -106,7 +104,7 @@ describe('PreviewComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        PreviewModule,
+        AcaViewerModule,
         NoopAnimationsModule,
         HttpClientModule,
         RouterTestingModule,
@@ -162,19 +160,11 @@ describe('PreviewComponent', () => {
 
     router = TestBed.inject(Router);
     route = TestBed.inject(ActivatedRoute);
-    preferences = TestBed.inject(UserPreferencesService);
     contentApi = TestBed.inject(ContentApiService);
     uploadService = TestBed.inject(UploadService);
     nodesApiService = TestBed.inject(NodesApiService);
     appHookService = TestBed.inject(AppHookService);
     store = TestBed.inject(Store);
-  });
-
-  it('should extract the property path root', () => {
-    expect(component.getRootField('some.property.path')).toBe('some');
-    expect(component.getRootField('some')).toBe('some');
-    expect(component.getRootField('')).toBe('');
-    expect(component.getRootField(null)).toBe(null);
   });
 
   it('should navigate to previous node in sub-folder', () => {
@@ -334,38 +324,6 @@ describe('PreviewComponent', () => {
     expect(component.navigateMultiple).toBeFalsy();
   });
 
-  it('should fetch navigation source from route', () => {
-    route.snapshot.data = {
-      navigateSource: 'personal-files'
-    };
-
-    component.ngOnInit();
-
-    expect(component.navigateSource).toBe('personal-files');
-  });
-
-  it('should fetch case-insensitive source from route', () => {
-    route.snapshot.data = {
-      navigateSource: 'PERSONAL-FILES'
-    };
-
-    component.navigationSources = ['personal-files'];
-    component.ngOnInit();
-
-    expect(component.navigateSource).toBe('PERSONAL-FILES');
-  });
-
-  it('should fetch only permitted navigation source from route', () => {
-    route.snapshot.data = {
-      navigateSource: 'personal-files'
-    };
-
-    component.navigationSources = ['shared'];
-    component.ngOnInit();
-
-    expect(component.navigateSource).toBeNull();
-  });
-
   it('should display document upon init', () => {
     route.params = of({
       folderId: 'folder1',
@@ -378,46 +336,6 @@ describe('PreviewComponent', () => {
 
     expect(component.folderId).toBe('folder1');
     expect(component.displayNode).toHaveBeenCalledWith('node1');
-  });
-
-  it('should return empty nearest nodes for missing node id', async () => {
-    const nearest = await component.getNearestNodes(null, 'folder1');
-
-    expect(nearest).toEqual({ left: null, right: null });
-  });
-
-  it('should return empty nearest nodes for missing folder id', async () => {
-    const nearest = await component.getNearestNodes('node1', null);
-
-    expect(nearest).toEqual({ left: null, right: null });
-  });
-
-  it('should return empty nearest nodes for crashed fields id request', async () => {
-    spyOn(component, 'getFileIds').and.returnValue(Promise.reject(new Error('err')));
-
-    const nearest = await component.getNearestNodes('node1', 'folder1');
-
-    expect(nearest).toEqual({ left: null, right: null });
-  });
-
-  it('should return nearest nodes', async () => {
-    spyOn(component, 'getFileIds').and.returnValue(Promise.resolve(['node1', 'node2', 'node3', 'node4', 'node5']));
-
-    let nearest = await component.getNearestNodes('node1', 'folder1');
-    expect(nearest).toEqual({ left: null, right: 'node2' });
-
-    nearest = await component.getNearestNodes('node3', 'folder1');
-    expect(nearest).toEqual({ left: 'node2', right: 'node4' });
-
-    nearest = await component.getNearestNodes('node5', 'folder1');
-    expect(nearest).toEqual({ left: 'node4', right: null });
-  });
-
-  it('should return empty nearest nodes if node is already deleted', async () => {
-    spyOn(component, 'getFileIds').and.returnValue(Promise.resolve(['node1', 'node2', 'node3', 'node4', 'node5']));
-
-    const nearest = await component.getNearestNodes('node9', 'folder1');
-    expect(nearest).toEqual({ left: null, right: null });
   });
 
   it('should not display node when id is missing', async () => {
@@ -467,254 +385,6 @@ describe('PreviewComponent', () => {
     expect(router.navigate).toHaveBeenCalledWith(['personal-files', 'folder1']);
   });
 
-  it('should fetch and sort file ids for personal-files', async () => {
-    spyOn(preferences, 'get').and.returnValues('name', 'desc', 'client');
-
-    spyOn(contentApi, 'getNodeChildren').and.returnValue(
-      of({
-        list: {
-          entries: [{ entry: { id: 'node1', name: 'node 1' } }, { entry: { id: 'node2', name: 'node 2' } }]
-        }
-      } as NodePaging)
-    );
-
-    const ids = await component.getFileIds('personal-files', 'folder1');
-    expect(ids).toEqual(['node2', 'node1']);
-  });
-
-  it('should fetch file ids for personal-files with default sorting for missing key', async () => {
-    spyOn(preferences, 'get').and.returnValues('missing', 'desc', 'client');
-
-    spyOn(contentApi, 'getNodeChildren').and.returnValue(
-      of({
-        list: {
-          entries: [{ entry: { id: 'node1', name: 'node 1' } }, { entry: { id: 'node2', name: 'node 2' } }]
-        }
-      } as NodePaging)
-    );
-
-    const ids = await component.getFileIds('personal-files', 'folder1');
-    expect(ids).toEqual(['node1', 'node2']);
-  });
-
-  it('should sort file ids for personal-files with [modifiedAt desc]', async () => {
-    spyOn(preferences, 'get').and.returnValues(null, null, 'client');
-
-    spyOn(contentApi, 'getNodeChildren').and.returnValue(
-      of({
-        list: {
-          entries: [
-            { entry: { id: 'node1', name: 'node 1', modifiedAt: new Date(1) } },
-            { entry: { id: 'node2', name: 'node 2', modifiedAt: new Date(2) } }
-          ]
-        }
-      } as NodePaging)
-    );
-
-    const ids = await component.getFileIds('personal-files', 'folder1');
-    expect(ids).toEqual(['node2', 'node1']);
-  });
-
-  it('should fetch and sort file ids for libraries', async () => {
-    preferences.set('personal-files.sorting.key', 'name');
-    preferences.set('personal-files.sorting.direction', 'desc');
-
-    spyOn(contentApi, 'getNodeChildren').and.returnValue(
-      of({
-        list: {
-          entries: [{ entry: { id: 'node1', name: 'node 1' } }, { entry: { id: 'node2', name: 'node 2' } }]
-        }
-      } as NodePaging)
-    );
-
-    const ids = await component.getFileIds('libraries', 'site1');
-    expect(ids).toEqual(['node2', 'node1']);
-  });
-
-  it('should require folder id to fetch ids for libraries', async () => {
-    const ids = await component.getFileIds('libraries', null);
-    expect(ids).toEqual([]);
-  });
-
-  it('should sort file ids for libraries with [modifiedAt desc]', async () => {
-    spyOn(preferences, 'get').and.returnValue(null);
-
-    spyOn(contentApi, 'getNodeChildren').and.returnValue(
-      of({
-        list: {
-          entries: [
-            { entry: { id: 'node1', name: 'node 1', modifiedAt: new Date(1) } },
-            { entry: { id: 'node2', name: 'node 2', modifiedAt: new Date(2) } }
-          ]
-        }
-      } as NodePaging)
-    );
-
-    const ids = await component.getFileIds('libraries', 'folder1');
-    expect(ids).toEqual(['node2', 'node1']);
-  });
-
-  it('should fetch and sort ids for favorites', async () => {
-    preferences.set('favorites.sorting.key', 'name');
-    preferences.set('favorites.sorting.direction', 'desc');
-
-    spyOn(contentApi, 'getFavorites').and.returnValue(
-      of({
-        list: {
-          entries: [
-            { entry: { target: { file: { id: 'file3', name: 'file 3' } } } },
-            { entry: { target: { file: { id: 'file1', name: 'file 1' } } } },
-            { entry: { target: { file: { id: 'file2', name: 'file 2' } } } }
-          ]
-        }
-      } as FavoritePaging)
-    );
-
-    const ids = await component.getFileIds('favorites');
-    expect(ids).toEqual(['file3', 'file2', 'file1']);
-  });
-
-  it('should sort file ids for favorites with [modifiedAt desc]', async () => {
-    spyOn(preferences, 'get').and.returnValue(null);
-
-    spyOn(contentApi, 'getFavorites').and.returnValue(
-      of({
-        list: {
-          entries: [
-            {
-              entry: {
-                target: { file: { id: 'file3', modifiedAt: new Date(3) } }
-              }
-            },
-            {
-              entry: {
-                target: { file: { id: 'file1', modifiedAt: new Date(1) } }
-              }
-            },
-            {
-              entry: {
-                target: { file: { id: 'file2', modifiedAt: new Date(2) } }
-              }
-            }
-          ]
-        }
-      } as FavoritePaging)
-    );
-
-    const ids = await component.getFileIds('favorites');
-    expect(ids).toEqual(['file3', 'file2', 'file1']);
-  });
-
-  it('should fetch and sort file ids for shared files', async () => {
-    preferences.set('shared.sorting.key', 'name');
-    preferences.set('shared.sorting.direction', 'asc');
-
-    spyOn(contentApi, 'findSharedLinks').and.returnValue(
-      of({
-        list: {
-          entries: [
-            {
-              entry: {
-                nodeId: 'node2',
-                name: 'node 2',
-                modifiedAt: new Date(2)
-              }
-            },
-            {
-              entry: {
-                nodeId: 'node1',
-                name: 'node 1',
-                modifiedAt: new Date(1)
-              }
-            }
-          ]
-        }
-      } as SharedLinkPaging)
-    );
-
-    const ids = await component.getFileIds('shared');
-    expect(ids).toEqual(['node1', 'node2']);
-  });
-
-  it('should sort file ids for favorites with [modifiedAt desc]', async () => {
-    spyOn(preferences, 'get').and.returnValue(null);
-
-    spyOn(contentApi, 'findSharedLinks').and.returnValue(
-      of({
-        list: {
-          entries: [
-            {
-              entry: {
-                nodeId: 'node2',
-                name: 'node 2',
-                modifiedAt: new Date(2)
-              }
-            },
-            {
-              entry: {
-                nodeId: 'node1',
-                name: 'node 1',
-                modifiedAt: new Date(1)
-              }
-            }
-          ]
-        }
-      } as SharedLinkPaging)
-    );
-
-    const ids = await component.getFileIds('shared');
-    expect(ids).toEqual(['node2', 'node1']);
-  });
-
-  it('should fetch and sort ids for recent-files', async () => {
-    preferences.set('recent-files.sorting.key', 'name');
-    preferences.set('recent-files.sorting.direction', 'asc');
-
-    spyOn(contentApi, 'getPerson').and.returnValue(
-      of({
-        entry: { id: 'user' }
-      } as PersonEntry)
-    );
-
-    spyOn(contentApi, 'search').and.returnValue(
-      of({
-        list: {
-          entries: [
-            { entry: { id: 'node2', name: 'node 2', modifiedAt: new Date(2) } },
-            { entry: { id: 'node1', name: 'node 1', modifiedAt: new Date(1) } }
-          ]
-        }
-      } as ResultSetPaging)
-    );
-
-    const ids = await component.getFileIds('recent-files');
-    expect(ids).toEqual(['node1', 'node2']);
-  });
-
-  it('should sort file ids for favorites with [modifiedAt desc]', async () => {
-    spyOn(preferences, 'get').and.returnValue(null);
-
-    spyOn(contentApi, 'getPerson').and.returnValue(
-      of({
-        entry: { id: 'user' }
-      } as PersonEntry)
-    );
-
-    spyOn(contentApi, 'search').and.returnValue(
-      of({
-        list: {
-          entries: [
-            { entry: { id: 'node2', name: 'node 2', modifiedAt: new Date(2) } },
-            { entry: { id: 'node1', name: 'node 1', modifiedAt: new Date(1) } }
-          ]
-        }
-      } as ResultSetPaging)
-    );
-
-    const ids = await component.getFileIds('recent-files');
-    expect(ids).toEqual(['node2', 'node1']);
-  });
-
   it('should return to parent folder on nodesDeleted event', async () => {
     spyOn(component, 'navigateToFileLocation');
     fixture.detectChanges();
@@ -749,23 +419,36 @@ describe('PreviewComponent', () => {
     store.dispatch(new ClosePreviewAction());
     expect(component.navigateToFileLocation).toHaveBeenCalled();
   });
+  it('should fetch navigation source from route', () => {
+    route.snapshot.data = {
+      navigateSource: 'personal-files'
+    };
 
-  it('should not sort personal files when server-side sorting is set', async () => {
-    spyOn(preferences, 'get').and.returnValues('name', 'desc', 'server');
+    component.ngOnInit();
 
-    spyOn(contentApi, 'getNodeChildren').and.returnValue(
-      of({
-        list: {
-          entries: [
-            { entry: { id: 'node1', name: 'node 1', modifiedAt: new Date(1) } },
-            { entry: { id: 'node2', name: 'node 2', modifiedAt: new Date(2) } }
-          ]
-        }
-      } as NodePaging)
-    );
+    expect(component.navigateSource).toBe('personal-files');
+  });
 
-    const ids = await component.getFileIds('personal-files', 'folder1');
-    expect(ids).toEqual(['node1', 'node2']);
+  it('should fetch case-insensitive source from route', () => {
+    route.snapshot.data = {
+      navigateSource: 'PERSONAL-FILES'
+    };
+
+    component.navigationSources = ['personal-files'];
+    component.ngOnInit();
+
+    expect(component.navigateSource).toBe('PERSONAL-FILES');
+  });
+
+  it('should fetch only permitted navigation source from route', () => {
+    route.snapshot.data = {
+      navigateSource: 'personal-files'
+    };
+
+    component.navigationSources = ['shared'];
+    component.ngOnInit();
+
+    expect(component.navigateSource).toBeNull();
   });
 
   describe('Keyboard navigation', () => {

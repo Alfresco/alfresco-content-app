@@ -22,9 +22,33 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { TestBed, ComponentFixture } from '@angular/core/testing';
+/*!
+ * Copyright © 2005-2023 Hyland Software, Inc. and its affiliates. All rights reserved.
+ *
+ * Alfresco Example Content Application
+ *
+ * This file is part of the Alfresco Example Content Application.
+ * If the software was purchased under a paid Alfresco license, the terms of
+ * the paid license agreement will prevail. Otherwise, the software is
+ * provided under the following open source license terms:
+ *
+ * The Alfresco Example Content Application is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * The Alfresco Example Content Application is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+import { Router, ActivatedRoute } from '@angular/router';
+import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
 import {
-  UserPreferencesService,
   AlfrescoApiService,
   AlfrescoApiServiceMock,
   AuthenticationService,
@@ -32,13 +56,13 @@ import {
   TranslationService,
   PipeModule
 } from '@alfresco/adf-core';
-import { DiscoveryApiService, NodesApiService } from '@alfresco/adf-content-services';
-import { AppState, RefreshPreviewAction } from '@alfresco/aca-shared/store';
+import { UploadService, NodesApiService, DiscoveryApiService } from '@alfresco/adf-content-services';
+import { AppState, ClosePreviewAction, ReloadDocumentListAction, ViewNodeAction } from '@alfresco/aca-shared/store';
 import { AcaViewerComponent } from './viewer.component';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { ContentApiService, DocumentBasePageService } from '@alfresco/aca-shared';
+import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
+import { ContentApiService, AppHookService, DocumentBasePageService } from '@alfresco/aca-shared';
 import { Store, StoreModule } from '@ngrx/store';
-import { NodePaging, RepositoryInfo, VersionInfo, Node } from '@alfresco/js-api';
+import { RepositoryInfo, VersionInfo } from '@alfresco/js-api';
 import { AcaViewerModule } from '../../viewer.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -90,12 +114,17 @@ export const INITIAL_APP_STATE: AppState = {
   } as any
 };
 
-describe('ViewerComponent', () => {
+const fakeLocation = 'fakeLocation';
+
+describe('AcaViewerComponent', () => {
   let fixture: ComponentFixture<AcaViewerComponent>;
   let component: AcaViewerComponent;
-  let preferences: UserPreferencesService;
+  let router: Router;
+  let route: ActivatedRoute;
   let contentApi: ContentApiService;
+  let uploadService: UploadService;
   let nodesApiService: NodesApiService;
+  let appHookService: AppHookService;
   let store: Store<any>;
 
   beforeEach(() => {
@@ -104,7 +133,7 @@ describe('ViewerComponent', () => {
         AcaViewerModule,
         NoopAnimationsModule,
         HttpClientModule,
-        RouterTestingModule,
+        RouterTestingModule.withRoutes([]),
         TranslateModule.forRoot(),
         StoreModule.forRoot(
           { app: (state) => state },
@@ -155,58 +184,186 @@ describe('ViewerComponent', () => {
     fixture = TestBed.createComponent(AcaViewerComponent);
     component = fixture.componentInstance;
 
-    preferences = TestBed.inject(UserPreferencesService);
+    router = TestBed.inject(Router);
+    route = TestBed.inject(ActivatedRoute);
     contentApi = TestBed.inject(ContentApiService);
+    uploadService = TestBed.inject(UploadService);
     nodesApiService = TestBed.inject(NodesApiService);
+    appHookService = TestBed.inject(AppHookService);
     store = TestBed.inject(Store);
   });
 
-  it('should fetch and sort file ids for personal-files', async () => {
-    spyOn(preferences, 'get').and.returnValues('name', 'desc', 'client');
+  it('should display document upon init', () => {
+    route.params = of({
+      folderId: 'folder1',
+      nodeId: 'node1'
+    });
+    spyOn(component, 'displayNode').and.stub();
 
-    spyOn(contentApi, 'getNodeChildren').and.returnValue(
-      of({
-        list: {
-          entries: [{ entry: { id: 'node1', name: 'node 1' } }, { entry: { id: 'node2', name: 'node 2' } }]
-        }
-      } as NodePaging)
-    );
+    component.ngOnInit();
 
-    const ids = await component.getFileIds('personal-files', 'folder1');
-    expect(ids).toEqual(['node2', 'node1']);
+    expect(component.folderId).toBe('folder1');
+    expect(component.displayNode).toHaveBeenCalledWith('node1');
   });
 
-  it('should fetch file ids for personal-files with default sorting for missing key', async () => {
-    spyOn(preferences, 'get').and.returnValues('missing', 'desc', 'client');
+  it('should not display node when id is missing', async () => {
+    spyOn(router, 'navigate').and.stub();
+    spyOn(contentApi, 'getNodeInfo').and.returnValue(of(null));
 
-    spyOn(contentApi, 'getNodeChildren').and.returnValue(
-      of({
-        list: {
-          entries: [{ entry: { id: 'node1', name: 'node 1' } }, { entry: { id: 'node2', name: 'node 2' } }]
-        }
-      } as NodePaging)
-    );
+    await component.displayNode(null);
 
-    const ids = await component.getFileIds('personal-files', 'folder1');
-    expect(ids).toEqual(['node1', 'node2']);
+    expect(contentApi.getNodeInfo).not.toHaveBeenCalled();
+    expect(router.navigate).not.toHaveBeenCalled();
   });
 
-  it('should not sort personal files when server-side sorting is set', async () => {
-    spyOn(preferences, 'get').and.returnValues('name', 'desc', 'server');
+  it('should navigate to next and previous nodes', () => {
+    spyOn(store, 'dispatch');
+    spyOn<any>(component, 'getFileLocation').and.returnValue(fakeLocation);
+    const clickEvent = new MouseEvent('click');
 
-    spyOn(contentApi, 'getNodeChildren').and.returnValue(
-      of({
-        list: {
-          entries: [
-            { entry: { id: 'node1', name: 'node 1', modifiedAt: new Date(1) } },
-            { entry: { id: 'node2', name: 'node 2', modifiedAt: new Date(2) } }
-          ]
-        }
-      } as NodePaging)
-    );
+    component.previousNodeId = 'previous';
+    component.onNavigateBefore(clickEvent);
+    expect(store.dispatch).toHaveBeenCalledWith(new ViewNodeAction('previous', { location: fakeLocation }));
 
-    const ids = await component.getFileIds('personal-files', 'folder1');
-    expect(ids).toEqual(['node1', 'node2']);
+    component.nextNodeId = 'next';
+    component.onNavigateNext(clickEvent);
+    expect(store.dispatch).toHaveBeenCalledWith(new ViewNodeAction('next', { location: fakeLocation }));
+  });
+
+  it('should reload document list and navigate to correct location upon close', async () => {
+    spyOn(store, 'dispatch');
+    spyOn<any>(component, 'navigateToFileLocation').and.callThrough();
+    spyOn<any>(component, 'getFileLocation').and.returnValue(fakeLocation);
+    spyOn(router, 'navigateByUrl').and.returnValue(Promise.resolve(true));
+
+    component.onViewerVisibilityChanged();
+
+    expect(store.dispatch).toHaveBeenCalledWith(new ReloadDocumentListAction());
+    expect(component['navigateToFileLocation']).toHaveBeenCalled();
+    expect(router.navigateByUrl).toHaveBeenCalledWith(fakeLocation);
+  });
+
+  it('should navigate to original location in case of Alfresco API errors', async () => {
+    component['previewLocation'] = 'personal-files';
+    spyOn(contentApi, 'getNodeInfo').and.returnValue(throwError('error'));
+    spyOn(JSON, 'parse').and.returnValue({ error: { statusCode: '123' } });
+    spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
+
+    await component.displayNode('folder1');
+
+    expect(contentApi.getNodeInfo).toHaveBeenCalledWith('folder1');
+    expect(router.navigate).toHaveBeenCalledWith(['personal-files', 'folder1']);
+  });
+
+  it('should emit nodeUpdated event on fileUploadComplete event', fakeAsync(() => {
+    spyOn(nodesApiService.nodeUpdated, 'next');
+    fixture.detectChanges();
+    uploadService.fileUploadComplete.next({ data: { entry: {} } } as any);
+    tick(300);
+
+    expect(nodesApiService.nodeUpdated.next).toHaveBeenCalled();
+  }));
+
+  describe('return on event', () => {
+    beforeEach(async () => {
+      spyOn<any>(component, 'navigateToFileLocation');
+      fixture.detectChanges();
+      await fixture.whenStable();
+    });
+
+    it('should return to parent folder on fileUploadDeleted event', async () => {
+      uploadService.fileUploadDeleted.next();
+
+      expect(component['navigateToFileLocation']).toHaveBeenCalled();
+    });
+
+    it('should return to parent folder when event emitted from extension', async () => {
+      store.dispatch(new ClosePreviewAction());
+
+      expect(component['navigateToFileLocation']).toHaveBeenCalled();
+    });
+
+    it('should return to parent folder on nodesDeleted event', async () => {
+      appHookService.nodesDeleted.next();
+
+      expect(component['navigateToFileLocation']).toHaveBeenCalled();
+    });
+  });
+
+  it('should fetch navigation source from route', () => {
+    route.snapshot.data = {
+      navigateSource: 'personal-files'
+    };
+
+    component.ngOnInit();
+
+    expect(component.navigateSource).toBe('personal-files');
+  });
+
+  it('should fetch only permitted navigation source from route', () => {
+    route.snapshot.data = {
+      navigateSource: 'personal-files'
+    };
+
+    component.navigationSources = ['shared'];
+    component.ngOnInit();
+
+    expect(component.navigateSource).toBeNull();
+  });
+
+  it('should fetch case-insensitive source from route', () => {
+    route.snapshot.data = {
+      navigateSource: 'PERSONAL-FILES'
+    };
+
+    component.navigationSources = ['personal-files'];
+    component.ngOnInit();
+
+    expect(component.navigateSource).toBe('PERSONAL-FILES');
+  });
+
+  describe('Keyboard navigation', () => {
+    beforeEach(() => {
+      component.nextNodeId = 'nextNodeId';
+      component.previousNodeId = 'previousNodeId';
+      spyOn(router, 'navigate').and.stub();
+    });
+
+    afterEach(() => {
+      fixture.destroy();
+    });
+
+    it('should not navigate on keyboard event if target is child of sidebar container', () => {
+      const parent = document.createElement('div');
+      parent.className = 'adf-viewer__sidebar';
+
+      const child = document.createElement('button');
+      child.addEventListener('keyup', function (e) {
+        component.onNavigateNext(e);
+      });
+      parent.appendChild(child);
+      document.body.appendChild(parent);
+
+      child.dispatchEvent(new KeyboardEvent('keyup', { key: 'ArrowLeft' }));
+
+      expect(router.navigate).not.toHaveBeenCalled();
+    });
+
+    it('should not navigate on keyboard event if target is child of cdk overlay', () => {
+      const parent = document.createElement('div');
+      parent.className = 'cdk-overlay-container';
+
+      const child = document.createElement('button');
+      child.addEventListener('keyup', function (e) {
+        component.onNavigateNext(e);
+      });
+      parent.appendChild(child);
+      document.body.appendChild(parent);
+
+      child.dispatchEvent(new KeyboardEvent('keyup', { key: 'ArrowLeft' }));
+
+      expect(router.navigate).not.toHaveBeenCalled();
+    });
   });
 
   it('should call node update after RefreshPreviewAction is triggered', () => {

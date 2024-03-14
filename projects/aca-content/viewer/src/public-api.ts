@@ -27,4 +27,5 @@
  */
 
 export * from './lib/components/viewer/viewer.component';
+export * from './lib/components/preview/preview.component';
 export * from './lib/viewer.module';

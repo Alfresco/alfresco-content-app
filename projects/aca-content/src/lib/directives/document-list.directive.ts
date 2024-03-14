@@ -66,11 +66,6 @@ export class DocumentListDirective implements OnInit, OnDestroy {
       this.router.url.startsWith('/search-libraries');
 
     if (this.sortingPreferenceKey) {
-      const current = this.documentList.sorting;
-
-      const key = this.preferences.get(`${this.sortingPreferenceKey}.sorting.sortingKey`, current[0]);
-      const direction = this.preferences.get(`${this.sortingPreferenceKey}.sorting.direction`, current[1]);
-
       if (this.preferences.hasItem(`${this.sortingPreferenceKey}.columns.width`)) {
         this.documentList.setColumnsWidths = JSON.parse(this.preferences.get(`${this.sortingPreferenceKey}.columns.width`));
       }
@@ -83,9 +78,12 @@ export class DocumentListDirective implements OnInit, OnDestroy {
         this.documentList.setColumnsOrder = JSON.parse(this.preferences.get(`${this.sortingPreferenceKey}.columns.order`));
       }
 
-      this.documentList.sorting = [key, direction];
-      // TODO: bug in ADF, the `sorting` binding is not updated when changed from code
-      this.documentList.data.setSorting({ key, direction });
+      this.preferences.set(`${this.sortingPreferenceKey}.sorting.mode`, this.documentList.sortingMode);
+
+      const current = this.documentList.sorting;
+      const key = this.preferences.get(`${this.sortingPreferenceKey}.sorting.key`, current[0]);
+      const direction = this.preferences.get(`${this.sortingPreferenceKey}.sorting.direction`, current[1]);
+      this.setSorting(key, direction);
     }
 
     this.documentList.ready
@@ -112,6 +110,9 @@ export class DocumentListDirective implements OnInit, OnDestroy {
   @HostListener('sorting-changed', ['$event'])
   onSortingChanged(event: CustomEvent) {
     if (this.sortingPreferenceKey) {
+      if (this.documentList.sortingMode === 'client') {
+        this.storePreviousSorting();
+      }
       this.preferences.set(`${this.sortingPreferenceKey}.sorting.key`, event.detail.key);
       this.preferences.set(`${this.sortingPreferenceKey}.sorting.sortingKey`, event.detail.sortingKey);
       this.preferences.set(`${this.sortingPreferenceKey}.sorting.direction`, event.detail.direction);
@@ -154,6 +155,9 @@ export class DocumentListDirective implements OnInit, OnDestroy {
 
   onReady() {
     this.updateSelection();
+    if (this.documentList.sortingMode === 'client' && this.preferences.hasItem(`${this.sortingPreferenceKey}.sorting.previousKey`)) {
+      this.restoreSorting();
+    }
   }
 
   private updateSelection() {
@@ -179,5 +183,35 @@ export class DocumentListDirective implements OnInit, OnDestroy {
     this.selectedNode = null;
     this.documentList.resetSelection();
     this.store.dispatch(new SetSelectedNodesAction([]));
+  }
+
+  private setSorting(key: string, direction: string) {
+    this.documentList.sorting = [key, direction];
+    this.documentList.data.setSorting({ key, direction });
+  }
+
+  private storePreviousSorting() {
+    if (this.preferences.hasItem(`${this.sortingPreferenceKey}.sorting.key`)) {
+      const keyToSave = this.preferences.get(`${this.sortingPreferenceKey}.sorting.key`);
+
+      if (!keyToSave.includes(this.documentList.sorting[0])) {
+        const dirToSave = this.preferences.get(`${this.sortingPreferenceKey}.sorting.direction`);
+        this.preferences.set(`${this.sortingPreferenceKey}.sorting.previousKey`, keyToSave);
+        this.preferences.set(`${this.sortingPreferenceKey}.sorting.previousDirection`, dirToSave);
+      }
+    }
+  }
+
+  private restoreSorting() {
+    const [previousKey, previousDir] = [
+      this.preferences.get(`${this.sortingPreferenceKey}.sorting.previousKey`),
+      this.preferences.get(`${this.sortingPreferenceKey}.sorting.previousDirection`)
+    ];
+    const [currentKey, currentDir] = Array.isArray(this.documentList.sorting)
+      ? this.documentList.sorting
+      : [this.documentList.sorting.key, this.documentList.sorting.direction];
+
+    this.setSorting(previousKey, previousDir);
+    this.setSorting(currentKey, currentDir);
   }
 }
