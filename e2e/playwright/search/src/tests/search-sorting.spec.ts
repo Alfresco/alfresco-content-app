@@ -23,9 +23,20 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, Utils, test, TrashcanApi, NodesApi, FileActionsApi, TEST_FILES, SearchPage } from '@alfresco/playwright-shared';
+import {
+  ApiClientFactory,
+  Utils,
+  test,
+  TrashcanApi,
+  NodesApi,
+  FileActionsApi,
+  TEST_FILES,
+  SearchPage,
+  SortByDirection,
+  SortByType
+} from '@alfresco/playwright-shared';
 
-test.describe.only('Search sorting', () => {
+test.describe('Search sorting', () => {
   const random = Utils.random();
 
   const user1 = `user1-${random}`;
@@ -91,8 +102,8 @@ test.describe.only('Search sorting', () => {
 
   async function testSearchSorting(
     searchPage: SearchPage,
-    sortBy: 'Relevance' | 'Title' | 'Filename' | 'Modified date' | 'Modifier' | 'Created date' | 'Size' | 'Type',
-    sortOrder: 'asc' | 'desc',
+    sortBy: SortByType,
+    sortOrder: SortByDirection,
     expectedFirstFile: string,
     expectedSecondFile: string
   ) {
