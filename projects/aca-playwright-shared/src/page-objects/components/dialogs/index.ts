@@ -30,3 +30,4 @@ export * from './content-node-selector-dialog';
 export * from './create-from-template-dialog-component';
 export * from './adf-confirm-dialog.component';
 export * from './share-dialog.component';
+export * from './upload-new-version-dialog.component';
