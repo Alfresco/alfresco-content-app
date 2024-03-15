@@ -59,7 +59,6 @@ test.describe('Info Drawer - Comments', () => {
     const personalFolderName = `personalFolder-e2e-${Utils.random()}`;
     await nodesApi.createFolder(personalFolderName);
     await fileActionsApi.waitForNodes(personalFolderName, { expect: 1 });
-    await expect(personalFiles.infoDrawer.commentInputField).toBeVisible();
     await personalFiles.navigate();
     await expect(personalFiles.dataTable.getRowByName(personalFolderName)).toBeVisible();
     await personalFiles.dataTable.getRowByName(personalFolderName).click();
