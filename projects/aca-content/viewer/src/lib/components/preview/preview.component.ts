@@ -36,7 +36,7 @@ import {
   ToolbarMenuItemComponent,
   ToolbarComponent
 } from '@alfresco/aca-shared';
-import { ContentActionRef, ViewerExtensionRef } from '@alfresco/adf-extensions';
+import { ContentActionRef } from '@alfresco/adf-extensions';
 import { from } from 'rxjs';
 import { Actions, ofType } from '@ngrx/effects';
 import { AlfrescoViewerModule, NodesApiService } from '@alfresco/adf-content-services';
@@ -52,7 +52,6 @@ import { ViewerService } from '../../services/viewer.service';
   host: { class: 'app-preview' }
 })
 export class PreviewComponent extends PageComponent implements OnInit, OnDestroy {
-  contentExtensions: Array<ViewerExtensionRef> = [];
   folderId: string = null;
   navigateBackAsClose = false;
   navigateMultiple = false;
@@ -154,10 +153,12 @@ export class PreviewComponent extends PageComponent implements OnInit, OnDestroy
         this.store.dispatch(new SetSelectedNodesAction([{ entry: this.node }]));
 
         if (this.node?.isFile) {
-          const nearest = await this.viewerService.getNearestNodes(this.node.id, this.node.parentId, this.navigateSource);
-          this.previousNodeId = nearest.left;
-          this.nextNodeId = nearest.right;
           this.nodeId = this.node.id;
+          if (this.navigateMultiple) {
+            const nearest = await this.viewerService.getNearestNodes(this.node.id, this.node.parentId, this.navigateSource);
+            this.previousNodeId = nearest.left;
+            this.nextNodeId = nearest.right;
+          }
           return;
         }
         await this.router.navigate([this.previewLocation, id]);

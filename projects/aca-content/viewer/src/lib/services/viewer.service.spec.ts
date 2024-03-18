@@ -34,9 +34,9 @@ import { HttpClientModule } from '@angular/common/http';
 const list = {
   list: {
     entries: [
-      { entry: { id: 'node1', name: 'node 1', title: 'node 1', modifiedAt: new Date(1) } },
-      { entry: { id: 'node3', name: 'node 3', title: 'node 3', modifiedAt: new Date(2) } },
-      { entry: { id: 'node2', name: 'node 2', title: 'node 2', modifiedAt: new Date(1) } }
+      { entry: { id: 'node1', name: 'node 1', modifiedAt: new Date(1) } },
+      { entry: { id: 'node3', name: 'node 3', modifiedAt: new Date(2) } },
+      { entry: { id: 'node2', name: 'node 2', modifiedAt: new Date(1) } }
     ]
   }
 };
@@ -49,6 +49,11 @@ const favoritesList = {
       { entry: { target: { file: { id: 'node3', name: 'node 3' } } } }
     ]
   }
+};
+
+const emptyAdjacent = {
+  left: null,
+  right: null
 };
 
 const preferencesNoPrevSortValues = ['client', '', ''];
@@ -137,12 +142,6 @@ describe('ViewerService', () => {
       expect(ids).toEqual(['node1', 'node2', 'node3']);
     });
 
-    it('should use default with no sorting for libraries', async () => {
-      spyOn(contentApi, 'getNodeChildren').and.returnValue(of(list as unknown as NodePaging));
-      const ids = await viewerService.getFileIds('libraries', 'folder1');
-      expect(ids).toEqual(['node1', 'node2', 'node3']);
-    });
-
     it('should use default with no sorting for other sources', async () => {
       spyOn(contentApi, 'getFavorites').and.returnValue(of(favoritesList as FavoritePaging));
       const ids = await viewerService.getFileIds('favorites');
@@ -175,10 +174,12 @@ describe('ViewerService', () => {
     expect(viewerService.getRootField(null)).toBe(null);
   });
 
-  it('should return empty nearest nodes for missing node id', async () => {
-    const nearest = await viewerService.getNearestNodes(null, 'folder1', 'source');
+  it('should return empty adjacent nodes for missing node id or wrong source', async () => {
+    const noNodeId = await viewerService.getNearestNodes(null, 'folder1', 'source');
+    const wrongSource = await viewerService.getNearestNodes('id', 'folder1', 'source');
 
-    expect(nearest).toEqual({ left: null, right: null });
+    expect(noNodeId).toEqual(emptyAdjacent);
+    expect(wrongSource).toEqual(emptyAdjacent);
   });
 
   it('should return empty nearest nodes for missing folder id', async () => {
@@ -215,7 +216,7 @@ describe('ViewerService', () => {
     expect(nearest).toEqual({ left: null, right: null });
   });
 
-  it('should require folder id to fetch ids for libraries', async () => {
+  it('should require folder id to fetch ids for personal-files and libraries', async () => {
     const ids = await viewerService.getFileIds('libraries', null);
     expect(ids).toEqual([]);
   });

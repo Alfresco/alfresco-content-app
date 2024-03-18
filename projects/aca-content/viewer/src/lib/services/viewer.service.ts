@@ -23,9 +23,14 @@
  */
 
 import { ObjectUtils, UserPreferencesService } from '@alfresco/adf-core';
-import { SearchRequest } from '@alfresco/js-api';
+import { FavoritePaging, Node, NodePaging, SearchRequest, ResultSetPaging, SharedLink, SharedLinkPaging } from '@alfresco/js-api';
 import { Injectable } from '@angular/core';
 import { ContentApiService } from '@alfresco/aca-shared';
+
+interface adjacentFiles {
+  left: string;
+  right: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -62,9 +67,10 @@ export class ViewerService {
    *
    * @param nodeId Unique identifier of the document node
    * @param folderId Unique identifier of the containing folder node.
+   * @param source Data source name. Allowed values are: personal-files, libraries, favorites, shared, recent-files.
    */
-  async getNearestNodes(nodeId: string, folderId: string, source: string): Promise<{ left: string; right: string }> {
-    const empty = {
+  async getNearestNodes(nodeId: string, folderId: string, source: string): Promise<adjacentFiles> {
+    const empty: adjacentFiles = {
       left: null,
       right: null
     };
@@ -79,97 +85,56 @@ export class ViewerService {
             left: ids[idx - 1] || null,
             right: ids[idx + 1] || null
           };
-        } else {
-          return empty;
         }
-      } catch {
-        return empty;
-      }
-    } else {
-      return empty;
+      } catch {}
     }
+    return empty;
   }
 
   /**
    * Retrieves a list of node identifiers for the folder and data source.
    *
+   * @param source Data source name. Allowed values are: personal-files, libraries, favorites, shared, recent-files.
    * @param folderId Optional parameter containing folder node identifier for 'personal-files' and 'libraries' sources.
    */
   async getFileIds(source: string, folderId?: string): Promise<string[]> {
+    if (source === 'libraries') {
+      source = 'libraries-files';
+    }
     const isClient = this.preferences.get(`${source}.sorting.mode`) === 'client';
     const [sortKey, sortDirection, previousSortKey, previousSortDir] = this.getSortKeyDir(source);
+    let entries: Node[] | SharedLink[] = [];
+    let nodes: NodePaging | FavoritePaging | SharedLinkPaging | ResultSetPaging;
 
-    if (source === 'personal-files' && folderId) {
+    if (source === 'personal-files' || source === 'libraries-files') {
+      if (!folderId) {
+        return [];
+      }
       const orderBy = isClient ? null : ['isFolder desc', `${sortKey} ${sortDirection}`];
-      const nodes = await this.contentApi
+      nodes = await this.contentApi
         .getNodeChildren(folderId, {
           orderBy: orderBy,
           fields: this.getFields(sortKey, previousSortKey),
           where: '(isFile=true)'
         })
         .toPromise();
-
-      const entries = nodes.list.entries.map((obj) => obj.entry);
-      if (isClient) {
-        if (previousSortKey) {
-          this.sort(entries, previousSortKey, previousSortDir);
-        }
-        this.sort(entries, sortKey, sortDirection);
-      }
-      return entries.map((entry) => entry.id);
-    }
-
-    if (source === 'libraries' && folderId) {
-      const nodes = await this.contentApi
-        .getNodeChildren(folderId, {
-          fields: this.getFields(sortKey, previousSortKey),
-          where: '(isFile=true)'
-        })
-        .toPromise();
-
-      const entries = nodes.list.entries.map((obj) => obj.entry);
-      if (isClient) {
-        if (previousSortKey) {
-          this.sort(entries, previousSortKey, previousSortDir);
-        }
-        this.sort(entries, sortKey, sortDirection);
-      }
-      return entries.map((entry) => entry.id);
     }
 
     if (source === 'favorites') {
-      const nodes = await this.contentApi
+      nodes = await this.contentApi
         .getFavorites('-me-', {
           where: '(EXISTS(target/file))',
           fields: ['target']
         })
         .toPromise();
-
-      const entries = nodes.list.entries.map((obj) => obj.entry.target.file);
-      if (isClient) {
-        if (previousSortKey) {
-          this.sort(entries, previousSortKey, previousSortDir);
-        }
-        this.sort(entries, sortKey, sortDirection);
-      }
-      return entries.map((entry) => entry.id);
     }
 
     if (source === 'shared') {
-      const nodes = await this.contentApi
+      nodes = await this.contentApi
         .findSharedLinks({
           fields: ['nodeId', this.getRootField(sortKey)]
         })
         .toPromise();
-
-      const entries = nodes.list.entries.map((obj) => obj.entry);
-      if (isClient) {
-        if (previousSortKey) {
-          this.sort(entries, previousSortKey, previousSortDir);
-        }
-        this.sort(entries, sortKey, sortDirection);
-      }
-      return entries.map((entry) => entry.nodeId);
     }
 
     if (source === 'recent-files') {
@@ -197,17 +162,17 @@ export class ViewerService {
           }
         ]
       };
-      const nodes = await this.contentApi.search(query).toPromise();
-      const entries = nodes.list.entries.map((obj) => obj.entry);
-      if (isClient) {
-        if (previousSortKey) {
-          this.sort(entries, previousSortKey, previousSortDir);
-        }
-        this.sort(entries, sortKey, sortDirection);
-      }
-      return entries.map((entry) => entry.id);
+      nodes = await this.contentApi.search(query).toPromise();
     }
-    return [];
+
+    entries = nodes.list.entries.map((obj) => obj.entry.target?.file ?? obj.entry);
+    if (isClient) {
+      if (previousSortKey) {
+        this.sort(entries, previousSortKey, previousSortDir);
+      }
+      this.sort(entries, sortKey, sortDirection);
+    }
+    return entries.map((entry) => entry.id ?? entry.nodeId);
   }
 
   /**
@@ -216,20 +181,20 @@ export class ViewerService {
    *
    * @param path Property path
    */
-  getRootField(path: string) {
+  getRootField(path: string): string {
     if (path) {
       return path.split('.')[0];
     }
     return path;
   }
 
-  private sort(items: any[], key: string, direction: string) {
+  private sort(items: Node[] | SharedLink[], key: string, direction: string) {
     const options: Intl.CollatorOptions = {};
     if (key.includes('sizeInBytes') || key === 'name') {
       options.numeric = true;
     }
 
-    items.sort((a: any, b: any) => {
+    items.sort((a: Node | SharedLink, b: Node | SharedLink) => {
       let left = ObjectUtils.getValue(a, key) ?? '';
       left = left instanceof Date ? left.valueOf().toString() : left.toString();
 
@@ -242,11 +207,11 @@ export class ViewerService {
     });
   }
 
-  private getFields(sortKey: string, previousSortKey?: string) {
+  private getFields(sortKey: string, previousSortKey?: string): string[] {
     return ['id', this.getRootField(sortKey), this.getRootField(previousSortKey)];
   }
 
-  private getSortKeyDir(source: string) {
+  private getSortKeyDir(source: string): string[] {
     const previousSortKey = this.preferences.get(`${source}.sorting.previousKey`);
     const previousSortDir = this.preferences.get(`${source}.sorting.previousDirection`);
     const sortKey = this.preferences.get(`${source}.sorting.key`) || this.getDefaults(source)[0];
@@ -254,11 +219,9 @@ export class ViewerService {
     return [sortKey, sortDirection, previousSortKey, previousSortDir];
   }
 
-  private getDefaults(source: string) {
-    if (source === 'personal-files') {
+  private getDefaults(source: string): string[] {
+    if (source === 'personal-files' || source === 'libraries-files') {
       return ['name', 'asc'];
-    } else if (source === 'libraries') {
-      return ['title', 'asc'];
     } else {
       return ['modifiedAt', 'desc'];
     }
