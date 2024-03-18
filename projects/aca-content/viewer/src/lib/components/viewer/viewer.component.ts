@@ -84,7 +84,6 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
   nodeId: string = null;
   openWith: ContentActionRef[] = [];
   previousNodeId: string;
-  routesSkipNavigation = ['shared', 'recent-files', 'favorites'];
   selection: SelectionState;
   showRightSide = false;
   toolbarActions: ContentActionRef[] = [];
@@ -210,20 +209,18 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
         this.node = await this.contentApi.getNodeInfo(nodeId).toPromise();
         this.store.dispatch(new SetSelectedNodesAction([{ entry: this.node }]));
         this.navigateMultiple = this.extensions.canShowViewerNavigation({ entry: this.node });
-        if (!this.navigateMultiple) {
-          this.nodeId = this.node.id;
-          this.fileName = this.node.name + this.node?.properties?.['cm:versionLabel'];
-          return;
-        }
 
         if (this.node?.isFile) {
-          const nearest = await this.viewerService.getNearestNodes(this.node.id, this.node.parentId, this.navigateSource);
           this.nodeId = this.node.id;
-          this.previousNodeId = nearest.left;
-          this.nextNodeId = nearest.right;
           this.fileName = this.node.name + this.node?.properties?.['cm:versionLabel'];
+          if (this.navigateMultiple) {
+            const nearest = await this.viewerService.getNearestNodes(this.node.id, this.node.parentId, this.navigateSource);
+            this.previousNodeId = nearest.left;
+            this.nextNodeId = nearest.right;
+          }
           return;
         }
+        this.navigateToFileLocation();
       } catch (error) {
         const statusCode = JSON.parse(error.message).error.statusCode;
 

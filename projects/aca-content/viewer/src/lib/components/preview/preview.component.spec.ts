@@ -90,6 +90,8 @@ export const INITIAL_APP_STATE: AppState = {
   } as any
 };
 
+const clickEvent = new MouseEvent('click');
+
 describe('PreviewComponent', () => {
   let fixture: ComponentFixture<PreviewComponent>;
   let component: PreviewComponent;
@@ -167,143 +169,121 @@ describe('PreviewComponent', () => {
     store = TestBed.inject(Store);
   });
 
-  it('should navigate to previous node in sub-folder', () => {
-    spyOn(router, 'navigate').and.stub();
-    const clickEvent = new MouseEvent('click');
+  describe('Navigation', () => {
+    beforeEach(() => {
+      spyOn(router, 'navigate').and.stub();
+    });
 
-    component.previewLocation = 'personal-files';
-    component.folderId = 'folder1';
-    component.previousNodeId = 'previous1';
-    component.onNavigateBefore(clickEvent);
+    describe('From personal-files', () => {
+      beforeEach(() => {
+        component.previewLocation = 'personal-files';
+      });
 
-    expect(router.navigate).toHaveBeenCalledWith(['personal-files', 'folder1', 'preview', 'previous1']);
+      it('should navigate to previous node in sub-folder', () => {
+        component.folderId = 'folder1';
+        component.previousNodeId = 'previous1';
+        component.onNavigateBefore(clickEvent);
+
+        expect(router.navigate).toHaveBeenCalledWith(['personal-files', 'folder1', 'preview', 'previous1']);
+      });
+
+      it('should navigate back to previous node in the root path', () => {
+        component.folderId = null;
+        component.previousNodeId = 'previous1';
+        component.onNavigateBefore(clickEvent);
+
+        expect(router.navigate).toHaveBeenCalledWith(['personal-files', 'preview', 'previous1']);
+      });
+
+      it('should navigate to next node in sub-folder', () => {
+        component.folderId = 'folder1';
+        component.nextNodeId = 'next1';
+
+        component.onNavigateNext(clickEvent);
+
+        expect(router.navigate).toHaveBeenCalledWith(['personal-files', 'folder1', 'preview', 'next1']);
+      });
+
+      it('should navigate to next node in the root path', () => {
+        component.folderId = null;
+        component.nextNodeId = 'next1';
+
+        component.onNavigateNext(clickEvent);
+
+        expect(router.navigate).toHaveBeenCalledWith(['personal-files', 'preview', 'next1']);
+      });
+    });
+
+    it('should not navigate to nearest nodes if node unset', () => {
+      component.previousNodeId = null;
+      component.nextNodeId = null;
+
+      component.onNavigateBefore(clickEvent);
+      component.onNavigateNext(clickEvent);
+
+      expect(router.navigate).not.toHaveBeenCalled();
+    });
+
+    it('should navigate back to root path upon close', () => {
+      component.routesSkipNavigation = [];
+      component.previewLocation = 'libraries';
+      component.folderId = null;
+
+      component.onVisibilityChanged(false);
+
+      expect(router.navigate).toHaveBeenCalledWith(['libraries', {}]);
+    });
+
+    it('should navigate back to folder path upon close', () => {
+      component.routesSkipNavigation = [];
+      component.previewLocation = 'libraries';
+      component.folderId = 'site1';
+
+      component.onVisibilityChanged(false);
+
+      expect(router.navigate).toHaveBeenCalledWith(['libraries', {}, 'site1']);
+    });
+
+    it('should not navigate to root path for certain routes upon close', () => {
+      component.routesSkipNavigation = ['shared'];
+      component.previewLocation = 'shared';
+      component.folderId = 'folder1';
+
+      component.onVisibilityChanged(false);
+
+      expect(router.navigate).toHaveBeenCalledWith(['shared', {}]);
+    });
+
+    it('should not navigate back if viewer is still visible', () => {
+      component.routesSkipNavigation = [];
+      component.previewLocation = 'shared';
+
+      component.onVisibilityChanged(true);
+
+      expect(router.navigate).not.toHaveBeenCalled();
+    });
   });
 
-  it('should navigate back to previous node in the root path', () => {
-    spyOn(router, 'navigate').and.stub();
-    const clickEvent = new MouseEvent('click');
+  describe('Generate paths', () => {
+    beforeEach(() => {
+      component.previewLocation = 'personal-files';
+    });
 
-    component.previewLocation = 'personal-files';
-    component.folderId = null;
-    component.previousNodeId = 'previous1';
-    component.onNavigateBefore(clickEvent);
+    it('should generate preview path for a folder only', () => {
+      expect(component.getPreviewPath('folder1', null)).toEqual(['personal-files', 'folder1']);
+    });
 
-    expect(router.navigate).toHaveBeenCalledWith(['personal-files', 'preview', 'previous1']);
-  });
+    it('should generate preview path for a folder and a node', () => {
+      expect(component.getPreviewPath('folder1', 'node1')).toEqual(['personal-files', 'folder1', 'preview', 'node1']);
+    });
 
-  it('should not navigate back if node unset', () => {
-    spyOn(router, 'navigate').and.stub();
-    const clickEvent = new MouseEvent('click');
+    it('should generate preview path for a node only', () => {
+      expect(component.getPreviewPath(null, 'node1')).toEqual(['personal-files', 'preview', 'node1']);
+    });
 
-    component.previousNodeId = null;
-    component.onNavigateBefore(clickEvent);
-
-    expect(router.navigate).not.toHaveBeenCalled();
-  });
-
-  it('should navigate to next node in sub-folder', () => {
-    spyOn(router, 'navigate').and.stub();
-    const clickEvent = new MouseEvent('click');
-
-    component.previewLocation = 'personal-files';
-    component.folderId = 'folder1';
-    component.nextNodeId = 'next1';
-    component.onNavigateNext(clickEvent);
-
-    expect(router.navigate).toHaveBeenCalledWith(['personal-files', 'folder1', 'preview', 'next1']);
-  });
-
-  it('should navigate to next node in the root path', () => {
-    spyOn(router, 'navigate').and.stub();
-    const clickEvent = new MouseEvent('click');
-
-    component.previewLocation = 'personal-files';
-    component.folderId = null;
-    component.nextNodeId = 'next1';
-    component.onNavigateNext(clickEvent);
-
-    expect(router.navigate).toHaveBeenCalledWith(['personal-files', 'preview', 'next1']);
-  });
-
-  it('should not navigate back if node unset', () => {
-    spyOn(router, 'navigate').and.stub();
-    const clickEvent = new MouseEvent('click');
-
-    component.nextNodeId = null;
-    component.onNavigateNext(clickEvent);
-
-    expect(router.navigate).not.toHaveBeenCalled();
-  });
-
-  it('should generate preview path for a folder only', () => {
-    component.previewLocation = 'personal-files';
-
-    expect(component.getPreviewPath('folder1', null)).toEqual(['personal-files', 'folder1']);
-  });
-
-  it('should generate preview path for a folder and a node', () => {
-    component.previewLocation = 'personal-files';
-
-    expect(component.getPreviewPath('folder1', 'node1')).toEqual(['personal-files', 'folder1', 'preview', 'node1']);
-  });
-
-  it('should generate preview path for a node only', () => {
-    component.previewLocation = 'personal-files';
-
-    expect(component.getPreviewPath(null, 'node1')).toEqual(['personal-files', 'preview', 'node1']);
-  });
-
-  it('should generate preview for the location only', () => {
-    component.previewLocation = 'personal-files';
-
-    expect(component.getPreviewPath(null, null)).toEqual(['personal-files']);
-  });
-
-  it('should navigate back to root path upon close', () => {
-    spyOn(router, 'navigate').and.stub();
-
-    component.routesSkipNavigation = [];
-    component.previewLocation = 'libraries';
-    component.folderId = null;
-
-    component.onVisibilityChanged(false);
-
-    expect(router.navigate).toHaveBeenCalledWith(['libraries', {}]);
-  });
-
-  it('should navigate back to folder path upon close', () => {
-    spyOn(router, 'navigate').and.stub();
-
-    component.routesSkipNavigation = [];
-    component.previewLocation = 'libraries';
-    component.folderId = 'site1';
-
-    component.onVisibilityChanged(false);
-
-    expect(router.navigate).toHaveBeenCalledWith(['libraries', {}, 'site1']);
-  });
-
-  it('should not navigate to root path for certain routes upon close', () => {
-    spyOn(router, 'navigate').and.stub();
-
-    component.routesSkipNavigation = ['shared'];
-    component.previewLocation = 'shared';
-    component.folderId = 'folder1';
-
-    component.onVisibilityChanged(false);
-
-    expect(router.navigate).toHaveBeenCalledWith(['shared', {}]);
-  });
-
-  it('should not navigate back if viewer is still visible', () => {
-    spyOn(router, 'navigate').and.stub();
-
-    component.routesSkipNavigation = [];
-    component.previewLocation = 'shared';
-
-    component.onVisibilityChanged(true);
-
-    expect(router.navigate).not.toHaveBeenCalled();
+    it('should generate preview for the location only', () => {
+      expect(component.getPreviewPath(null, null)).toEqual(['personal-files']);
+    });
   });
 
   it('should enable multiple document navigation from route data', () => {

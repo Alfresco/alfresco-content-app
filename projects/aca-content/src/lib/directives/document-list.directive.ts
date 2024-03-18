@@ -78,12 +78,11 @@ export class DocumentListDirective implements OnInit, OnDestroy {
         this.documentList.setColumnsOrder = JSON.parse(this.preferences.get(`${this.sortingPreferenceKey}.columns.order`));
       }
 
-      this.preferences.set(`${this.sortingPreferenceKey}.sorting.mode`, this.documentList.sortingMode);
-
-      const current = this.documentList.sorting;
-      const key = this.preferences.get(`${this.sortingPreferenceKey}.sorting.key`, current[0]);
-      const direction = this.preferences.get(`${this.sortingPreferenceKey}.sorting.direction`, current[1]);
-      this.setSorting(key, direction);
+      const mode = this.documentList.sortingMode;
+      this.preferences.set(`${this.sortingPreferenceKey}.sorting.mode`, mode);
+      if (mode === 'server') {
+        this.restoreSorting();
+      }
     }
 
     this.documentList.ready
@@ -155,9 +154,7 @@ export class DocumentListDirective implements OnInit, OnDestroy {
 
   onReady() {
     this.updateSelection();
-    if (this.documentList.sortingMode === 'client' && this.preferences.hasItem(`${this.sortingPreferenceKey}.sorting.previousKey`)) {
-      this.restoreSorting();
-    }
+    this.restoreSorting();
   }
 
   private updateSelection() {
@@ -204,14 +201,20 @@ export class DocumentListDirective implements OnInit, OnDestroy {
 
   private restoreSorting() {
     const [previousKey, previousDir] = [
-      this.preferences.get(`${this.sortingPreferenceKey}.sorting.previousKey`),
-      this.preferences.get(`${this.sortingPreferenceKey}.sorting.previousDirection`)
+      this.preferences.get(`${this.sortingPreferenceKey}.sorting.previousKey`, null),
+      this.preferences.get(`${this.sortingPreferenceKey}.sorting.previousDirection`, null)
     ];
-    const [currentKey, currentDir] = Array.isArray(this.documentList.sorting)
-      ? this.documentList.sorting
-      : [this.documentList.sorting.key, this.documentList.sorting.direction];
 
-    this.setSorting(previousKey, previousDir);
-    this.setSorting(currentKey, currentDir);
+    const [currentKey, currentDir] = [
+      this.preferences.get(`${this.sortingPreferenceKey}.sorting.key`, null),
+      this.preferences.get(`${this.sortingPreferenceKey}.sorting.direction`, null)
+    ];
+
+    if (previousKey) {
+      this.setSorting(previousKey, previousDir);
+    }
+    if (currentKey) {
+      this.setSorting(currentKey, currentDir);
+    }
   }
 }

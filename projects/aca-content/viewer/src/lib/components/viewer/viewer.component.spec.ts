@@ -33,9 +33,9 @@ import {
   PipeModule
 } from '@alfresco/adf-core';
 import { UploadService, NodesApiService, DiscoveryApiService } from '@alfresco/adf-content-services';
-import { AppState, ClosePreviewAction, RefreshPreviewAction, ReloadDocumentListAction, ViewNodeAction } from '@alfresco/aca-shared/store';
+import { ClosePreviewAction, RefreshPreviewAction, ReloadDocumentListAction, ViewNodeAction } from '@alfresco/aca-shared/store';
 import { AcaViewerComponent } from './viewer.component';
-import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ContentApiService, AppHookService, DocumentBasePageService } from '@alfresco/aca-shared';
 import { Store, StoreModule } from '@ngrx/store';
 import { RepositoryInfo, VersionInfo, Node } from '@alfresco/js-api';
@@ -45,6 +45,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientModule } from '@angular/common/http';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { EffectsModule } from '@ngrx/effects';
+import { INITIAL_APP_STATE } from '../preview/preview.component.spec';
 
 class DocumentBasePageServiceMock extends DocumentBasePageService {
   canUpdateNode(): boolean {
@@ -55,40 +56,16 @@ class DocumentBasePageServiceMock extends DocumentBasePageService {
   }
 }
 
-export const INITIAL_APP_STATE: AppState = {
-  appName: 'Alfresco Content Application',
-  logoPath: 'assets/images/alfresco-logo-white.svg',
-  customCssPath: '',
-  webFontPath: '',
-  sharedUrl: '',
-  user: {
-    isAdmin: null,
-    id: null,
-    firstName: '',
-    lastName: ''
-  },
-  selection: {
-    nodes: [],
-    libraries: [],
-    isEmpty: true,
-    count: 0
-  },
-  navigation: {
-    currentFolder: null
-  },
-  currentNodeVersion: null,
-  infoDrawerOpened: false,
-  infoDrawerPreview: false,
-  infoDrawerMetadataAspect: '',
-  showFacetFilter: true,
-  fileUploadingDialog: true,
-  showLoader: false,
-  repository: {
-    status: {
-      isQuickShareEnabled: true
-    }
-  } as any
-};
+const apiError = `{
+"error": { 
+  "errorKey":"EntityNotFound",
+  "statusCode":404,
+  "briefSummary":"The entity with id: someId was not found",
+  "stackTrace":"not displayed",
+  "descriptionURL":"some url",
+  "logId":"some logId"
+  }
+}`;
 
 const fakeLocation = 'fakeLocation';
 
@@ -182,7 +159,7 @@ describe('AcaViewerComponent', () => {
     expect(component.displayNode).toHaveBeenCalledWith('node1');
   });
 
-  it('should not display node when id is missing', async () => {
+  it('should not navigate to preview location when id is missing', async () => {
     spyOn(router, 'navigate').and.stub();
     spyOn(contentApi, 'getNodeInfo').and.returnValue(of(null));
 
@@ -206,23 +183,40 @@ describe('AcaViewerComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(new ViewNodeAction('next', { location: fakeLocation }));
   });
 
-  it('should reload document list and navigate to correct location upon close', async () => {
-    spyOn(store, 'dispatch');
-    spyOn<any>(component, 'navigateToFileLocation').and.callThrough();
-    spyOn<any>(component, 'getFileLocation').and.returnValue(fakeLocation);
-    spyOn(router, 'navigateByUrl').and.returnValue(Promise.resolve(true));
+  describe('Navigate back to file location', () => {
+    beforeEach(async () => {
+      spyOn<any>(component, 'navigateToFileLocation').and.callThrough();
+      component['navigationPath'] = fakeLocation;
+      spyOn(router, 'navigateByUrl');
+    });
+    it('should reload document list and navigate to correct location upon close', async () => {
+      spyOn(store, 'dispatch');
 
-    component.onViewerVisibilityChanged();
+      component.onViewerVisibilityChanged();
 
-    expect(store.dispatch).toHaveBeenCalledWith(new ReloadDocumentListAction());
-    expect(component['navigateToFileLocation']).toHaveBeenCalled();
-    expect(router.navigateByUrl).toHaveBeenCalledWith(fakeLocation);
+      expect(store.dispatch).toHaveBeenCalledWith(new ReloadDocumentListAction());
+      expect(component['navigateToFileLocation']).toHaveBeenCalled();
+      expect(router.navigateByUrl).toHaveBeenCalledWith(fakeLocation);
+    });
+
+    it('should navigate to node location if it is not a file', async () => {
+      spyOn(contentApi, 'getNodeInfo').and.returnValue(
+        of({
+          isFile: false
+        } as Node)
+      );
+
+      await component.displayNode('folder1');
+
+      expect(contentApi.getNodeInfo).toHaveBeenCalledWith('folder1');
+      expect(component['navigateToFileLocation']).toHaveBeenCalled();
+      expect(router.navigateByUrl).toHaveBeenCalledWith(fakeLocation);
+    });
   });
 
   it('should navigate to original location in case of Alfresco API errors', async () => {
     component['previewLocation'] = 'personal-files';
-    spyOn(contentApi, 'getNodeInfo').and.returnValue(throwError('error'));
-    spyOn(JSON, 'parse').and.returnValue({ error: { statusCode: '123' } });
+    spyOn(contentApi, 'getNodeInfo').and.throwError(apiError);
     spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
 
     await component.displayNode('folder1');
