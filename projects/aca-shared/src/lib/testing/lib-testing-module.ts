@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NgModule } from '@angular/core';
+import { Injectable, NgModule } from '@angular/core';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {
@@ -40,6 +40,9 @@ import { StoreModule } from '@ngrx/store';
 import { CommonModule } from '@angular/common';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { OverlayModule } from '@angular/cdk/overlay';
+import { RepositoryInfo, VersionInfo } from '@alfresco/js-api';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { DocumentBasePageService } from '../../public-api';
 
 export const initialState = {
   app: {
@@ -71,6 +74,28 @@ export const initialState = {
     } as any
   }
 };
+
+export const discoveryApiServiceMockValue = {
+  ecmProductInfo$: new BehaviorSubject<RepositoryInfo | null>(null),
+  getEcmProductInfo: (): Observable<RepositoryInfo> =>
+    of(
+      new RepositoryInfo({
+        version: {
+          major: '10.0.0'
+        } as VersionInfo
+      })
+    )
+};
+
+@Injectable()
+export class DocumentBasePageServiceMock extends DocumentBasePageService {
+  canUpdateNode(): boolean {
+    return true;
+  }
+  canUploadContent(): boolean {
+    return true;
+  }
+}
 
 @NgModule({
   imports: [

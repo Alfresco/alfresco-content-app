@@ -24,28 +24,22 @@
 
 import { Router, ActivatedRoute } from '@angular/router';
 import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
-import {
-  AlfrescoApiService,
-  AlfrescoApiServiceMock,
-  AuthenticationService,
-  TranslationMock,
-  TranslationService,
-  PipeModule
-} from '@alfresco/adf-core';
+import { AuthenticationService } from '@alfresco/adf-core';
 import { UploadService, NodesApiService, DiscoveryApiService } from '@alfresco/adf-content-services';
 import { ClosePreviewAction } from '@alfresco/aca-shared/store';
 import { PreviewComponent } from './preview.component';
 import { of, throwError } from 'rxjs';
-import { ContentApiService, AppHookService, DocumentBasePageService } from '@alfresco/aca-shared';
-import { Store, StoreModule } from '@ngrx/store';
+import {
+  ContentApiService,
+  AppHookService,
+  DocumentBasePageService,
+  LibTestingModule,
+  discoveryApiServiceMockValue,
+  DocumentBasePageServiceMock
+} from '@alfresco/aca-shared';
+import { Store } from '@ngrx/store';
 import { Node } from '@alfresco/js-api';
 import { AcaViewerModule } from '../../viewer.module';
-import { TranslateModule } from '@ngx-translate/core';
-import { RouterTestingModule } from '@angular/router/testing';
-import { HttpClientModule } from '@angular/common/http';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { EffectsModule } from '@ngrx/effects';
-import { authenticationServiceMock, discoveryApiServiceMock, DocumentBasePageServiceMock, INITIAL_APP_STATE } from '../../mock/viewer.mock';
 
 const clickEvent = new MouseEvent('click');
 
@@ -62,33 +56,11 @@ describe('PreviewComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        AcaViewerModule,
-        NoopAnimationsModule,
-        HttpClientModule,
-        RouterTestingModule,
-        TranslateModule.forRoot(),
-        StoreModule.forRoot(
-          { app: (state) => state },
-          {
-            initialState: {
-              app: INITIAL_APP_STATE
-            },
-            runtimeChecks: {
-              strictStateImmutability: false,
-              strictActionImmutability: false
-            }
-          }
-        ),
-        EffectsModule.forRoot([]),
-        PipeModule
-      ],
+      imports: [LibTestingModule, AcaViewerModule],
       providers: [
-        { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock },
-        { provide: TranslationService, useClass: TranslationMock },
-        { provide: DocumentBasePageService, useVale: new DocumentBasePageServiceMock() },
-        { provide: DiscoveryApiService, useValue: discoveryApiServiceMock },
-        { provide: AuthenticationService, useValue: authenticationServiceMock }
+        { provide: DocumentBasePageService, useValue: DocumentBasePageServiceMock },
+        { provide: DiscoveryApiService, useValue: discoveryApiServiceMockValue },
+        { provide: AuthenticationService, useValue: {} }
       ]
     });
 
