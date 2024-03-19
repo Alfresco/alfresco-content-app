@@ -23,7 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, LoginPage, Utils, test } from '@alfresco/playwright-shared';
+import { ApiClientFactory, Utils, test, SIDEBAR_LABELS, SearchPage, PersonalFilesPage } from '@alfresco/playwright-shared';
 
 test.describe('Empty list views', () => {
   const username = `user-${Utils.random()}`;
@@ -34,15 +34,8 @@ test.describe('Empty list views', () => {
     await apiClientFactory.createUser({ username });
   });
 
-  test.beforeEach(async ({ page }) => {
-    const loginPage = new LoginPage(page);
-    await loginPage.loginUser(
-      { username, password: username },
-      {
-        withNavigation: true,
-        waitForLoading: true
-      }
-    );
+  test.beforeEach(async ({ loginPage }) => {
+    await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
   });
 
   test('[C217099] empty My Libraries', async ({ myLibrariesPage }) => {
@@ -74,5 +67,87 @@ test.describe('Empty list views', () => {
     expect(await personalFiles.pagination.isMaxItemsPresent(), 'Max items is present').toBe(false);
     expect(await personalFiles.dataTable.isEmpty(), 'list is not empty').toBe(true);
     expect(await personalFiles.dataTable.emptySearchText.innerText()).toContain('Your search returned 0 results');
+  });
+
+  test('[C290020] Empty Search results - Libraries', async ({ searchPage }) => {
+    await searchPage.sidenav.openPanel(SIDEBAR_LABELS.MY_LIBRARIES);
+    /* cspell:disable-next-line */
+    await searchPage.searchWithin('qwertyuiop', 'files');
+
+    expect(await searchPage.dataTable.isEmpty()).toBeTruthy();
+    expect(await searchPage.dataTable.emptySearchText.textContent()).toContain('Your search returned 0 results');
+  });
+
+  async function openEmptyTab(searchPage: SearchPage, tab: string, emptyStateTitle: string, emptyStateSubtitle: string) {
+    await searchPage.sidenav.openPanel(tab);
+    expect(await searchPage.dataTable.isEmpty()).toBeTruthy();
+    expect(await searchPage.dataTable.getEmptyStateTitle()).toContain(emptyStateTitle);
+    expect(await searchPage.dataTable.getEmptyStateSubtitle()).toContain(emptyStateSubtitle);
+  }
+
+  [
+    {
+      tab: SIDEBAR_LABELS.FAVORITE_LIBRARIES,
+      id: 'C289911',
+      emptyStateTitle: `No Favorite Libraries`,
+      emptyStateSubtitle: 'Favorite a library that you want to find easily later.'
+    },
+    {
+      tab: SIDEBAR_LABELS.RECENT_FILES,
+      id: 'C213169',
+      emptyStateTitle: 'No recent files',
+      emptyStateSubtitle: 'Items you uploaded or edited in the last 30 days are shown here.'
+    },
+    {
+      tab: SIDEBAR_LABELS.FAVORITES,
+      id: 'C280133',
+      emptyStateTitle: 'No favorite files or folders',
+      emptyStateSubtitle: 'Favorite items that you want to easily find later.'
+    }
+  ].forEach((testCase) => {
+    test(`[${testCase.id}] empty ${testCase.tab}`, async ({ searchPage }) => {
+      await openEmptyTab(searchPage, testCase.tab, testCase.emptyStateTitle, testCase.emptyStateSubtitle);
+    });
+  });
+
+  async function checkPaginationForTabs(searchPage: SearchPage, tab: string, personalFiles: PersonalFilesPage) {
+    await searchPage.sidenav.openPanel(tab);
+    expect(await personalFiles.pagination.isRangePresent()).toBeFalsy();
+    expect(await personalFiles.pagination.isMaxItemsPresent()).toBeFalsy();
+    expect(await personalFiles.pagination.isCurrentPagePresent()).toBeFalsy();
+    expect(await personalFiles.pagination.isTotalPagesPresent()).toBeFalsy();
+    expect(await personalFiles.pagination.isPreviousButtonPresent()).toBeFalsy();
+    expect(await personalFiles.pagination.isNextButtonPresent()).toBeFalsy();
+  }
+
+  [
+    {
+      tab: SIDEBAR_LABELS.FAVORITES,
+      id: 'C280111'
+    },
+    {
+      tab: SIDEBAR_LABELS.MY_LIBRARIES,
+      id: 'C280084'
+    },
+    {
+      tab: SIDEBAR_LABELS.FAVORITE_LIBRARIES,
+      id: 'C291873'
+    },
+    {
+      tab: SIDEBAR_LABELS.PERSONAL_FILES,
+      id: 'C280075'
+    },
+    {
+      tab: SIDEBAR_LABELS.RECENT_FILES,
+      id: 'C280102'
+    },
+    {
+      tab: SIDEBAR_LABELS.TRASH,
+      id: 'C280120'
+    }
+  ].forEach((testCase) => {
+    test(`[${testCase.id}] ${testCase.tab} - pagination controls not displayed`, async ({ searchPage, personalFiles }) => {
+      await checkPaginationForTabs(searchPage, testCase.tab, personalFiles);
+    });
   });
 });
