@@ -26,7 +26,7 @@ import { TestBed } from '@angular/core/testing';
 import { TranslationMock, TranslationService, UserPreferencesService } from '@alfresco/adf-core';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { FavoritePaging, NodePaging, SharedLinkPaging } from '@alfresco/js-api';
-import { ViewerService } from '../services/viewer.service';
+import { ViewerService } from './viewer.service';
 import { of } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientModule } from '@angular/common/http';
@@ -59,6 +59,8 @@ const emptyAdjacent = {
 const preferencesNoPrevSortValues = ['client', '', ''];
 const preferencesCurSortValues = [...preferencesNoPrevSortValues, 'name', 'desc'];
 const preferencesNoCurSortValues = [...preferencesNoPrevSortValues, '', ''];
+const resultDesc = ['node3', 'node2', 'node1'];
+const resultAsc = ['node1', 'node2', 'node3'];
 
 describe('ViewerService', () => {
   let preferences: UserPreferencesService;
@@ -78,25 +80,23 @@ describe('ViewerService', () => {
 
   describe('Sorting for different sources', () => {
     beforeEach(() => {
-      spyOn(preferences, 'get').and.returnValues(...preferencesCurSortValues);
+      spyOn(preferences, 'get').and.returnValues(...preferencesCurSortValues, ...preferencesCurSortValues);
     });
 
-    it('should fetch and sort file ids for personal files', async () => {
+    it('should fetch and sort file ids for personal files and libraries', async () => {
       spyOn(contentApi, 'getNodeChildren').and.returnValue(of(list as unknown as NodePaging));
-      const ids = await viewerService.getFileIds('personal-files', 'folder1');
-      expect(ids).toEqual(['node3', 'node2', 'node1']);
-    });
 
-    it('should fetch and sort file ids for libraries', async () => {
-      spyOn(contentApi, 'getNodeChildren').and.returnValue(of(list as unknown as NodePaging));
-      const ids = await viewerService.getFileIds('libraries', 'folder1');
-      expect(ids).toEqual(['node3', 'node2', 'node1']);
+      const idsPersonal = await viewerService.getFileIds('personal-files', 'folder1');
+      const idsLibraries = await viewerService.getFileIds('libraries', 'folder1');
+
+      expect(idsPersonal).toEqual(resultDesc);
+      expect(idsLibraries).toEqual(resultDesc);
     });
 
     it('should fetch and sort file ids for favorites', async () => {
       spyOn(contentApi, 'getFavorites').and.returnValue(of(favoritesList as FavoritePaging));
-      const ids = await viewerService.getFileIds('favorites');
-      expect(ids).toEqual(['node3', 'node2', 'node1']);
+      const idsFavorites = await viewerService.getFileIds('favorites');
+      expect(idsFavorites).toEqual(resultDesc);
     });
 
     it('should fetch and sort file ids for shared', async () => {
@@ -126,27 +126,22 @@ describe('ViewerService', () => {
           }
         } as SharedLinkPaging)
       );
-      const ids = await viewerService.getFileIds('shared');
-      expect(ids).toEqual(['node3', 'node2', 'node1']);
+      const idsShared = await viewerService.getFileIds('shared');
+      expect(idsShared).toEqual(resultDesc);
     });
   });
 
-  describe('default sorting for different sources', () => {
-    beforeEach(() => {
-      spyOn(preferences, 'get').and.returnValues(...preferencesNoCurSortValues);
-    });
+  it('should use default with no sorting for personal-files and other sources', async () => {
+    spyOn(preferences, 'get').and.returnValues(...preferencesNoCurSortValues);
 
-    it('should use default with no sorting for personal-files', async () => {
-      spyOn(contentApi, 'getNodeChildren').and.returnValue(of(list as unknown as NodePaging));
-      const ids = await viewerService.getFileIds('personal-files', 'folder1');
-      expect(ids).toEqual(['node1', 'node2', 'node3']);
-    });
+    spyOn(contentApi, 'getNodeChildren').and.returnValue(of(list as unknown as NodePaging));
+    const idsFiles = await viewerService.getFileIds('personal-files', 'folder1');
 
-    it('should use default with no sorting for other sources', async () => {
-      spyOn(contentApi, 'getFavorites').and.returnValue(of(favoritesList as FavoritePaging));
-      const ids = await viewerService.getFileIds('favorites');
-      expect(ids).toEqual(['node1', 'node2', 'node3']);
-    });
+    spyOn(contentApi, 'getFavorites').and.returnValue(of(favoritesList as FavoritePaging));
+    const idsOther = await viewerService.getFileIds('favorites');
+
+    expect(idsFiles).toEqual(resultAsc);
+    expect(idsOther).toEqual(resultAsc);
   });
 
   describe('Other sorting scenarios', () => {

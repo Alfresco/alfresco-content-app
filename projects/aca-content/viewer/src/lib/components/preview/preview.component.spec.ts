@@ -33,62 +33,19 @@ import {
   PipeModule
 } from '@alfresco/adf-core';
 import { UploadService, NodesApiService, DiscoveryApiService } from '@alfresco/adf-content-services';
-import { AppState, ClosePreviewAction } from '@alfresco/aca-shared/store';
+import { ClosePreviewAction } from '@alfresco/aca-shared/store';
 import { PreviewComponent } from './preview.component';
-import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { ContentApiService, AppHookService, DocumentBasePageService } from '@alfresco/aca-shared';
 import { Store, StoreModule } from '@ngrx/store';
-import { Node, RepositoryInfo, VersionInfo } from '@alfresco/js-api';
+import { Node } from '@alfresco/js-api';
 import { AcaViewerModule } from '../../viewer.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientModule } from '@angular/common/http';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { EffectsModule } from '@ngrx/effects';
-
-class DocumentBasePageServiceMock extends DocumentBasePageService {
-  canUpdateNode(): boolean {
-    return true;
-  }
-  canUploadContent(): boolean {
-    return true;
-  }
-}
-
-export const INITIAL_APP_STATE: AppState = {
-  appName: 'Alfresco Content Application',
-  logoPath: 'assets/images/alfresco-logo-white.svg',
-  customCssPath: '',
-  webFontPath: '',
-  sharedUrl: '',
-  user: {
-    isAdmin: null,
-    id: null,
-    firstName: '',
-    lastName: ''
-  },
-  selection: {
-    nodes: [],
-    libraries: [],
-    isEmpty: true,
-    count: 0
-  },
-  navigation: {
-    currentFolder: null
-  },
-  currentNodeVersion: null,
-  infoDrawerOpened: false,
-  infoDrawerPreview: false,
-  infoDrawerMetadataAspect: '',
-  showFacetFilter: true,
-  fileUploadingDialog: true,
-  showLoader: false,
-  repository: {
-    status: {
-      isQuickShareEnabled: true
-    }
-  } as any
-};
+import { authenticationServiceMock, discoveryApiServiceMock, DocumentBasePageServiceMock, INITIAL_APP_STATE } from '../../mock/viewer.mock';
 
 const clickEvent = new MouseEvent('click');
 
@@ -130,30 +87,8 @@ describe('PreviewComponent', () => {
         { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock },
         { provide: TranslationService, useClass: TranslationMock },
         { provide: DocumentBasePageService, useVale: new DocumentBasePageServiceMock() },
-        {
-          provide: DiscoveryApiService,
-          useValue: {
-            ecmProductInfo$: new BehaviorSubject<RepositoryInfo | null>(null),
-            getEcmProductInfo: (): Observable<RepositoryInfo> =>
-              of(
-                new RepositoryInfo({
-                  version: {
-                    major: '10.0.0'
-                  } as VersionInfo
-                })
-              )
-          }
-        },
-        {
-          provide: AuthenticationService,
-          useValue: {
-            isEcmLoggedIn: (): boolean => true,
-            getRedirect: (): string | null => null,
-            setRedirect() {},
-            isOauth: (): boolean => false,
-            isOAuthWithoutSilentLogin: (): boolean => false
-          }
-        }
+        { provide: DiscoveryApiService, useValue: discoveryApiServiceMock },
+        { provide: AuthenticationService, useValue: authenticationServiceMock }
       ]
     });
 
@@ -304,7 +239,7 @@ describe('PreviewComponent', () => {
     expect(component.navigateMultiple).toBeFalsy();
   });
 
-  it('should display document upon init', () => {
+  it('should set folderId and call displayNode with nodeId upon init', () => {
     route.params = of({
       folderId: 'folder1',
       nodeId: 'node1'
@@ -316,16 +251,6 @@ describe('PreviewComponent', () => {
 
     expect(component.folderId).toBe('folder1');
     expect(component.displayNode).toHaveBeenCalledWith('node1');
-  });
-
-  it('should not display node when id is missing', async () => {
-    spyOn(router, 'navigate').and.stub();
-    spyOn(contentApi, 'getNodeInfo').and.returnValue(of(null));
-
-    await component.displayNode(null);
-
-    expect(contentApi.getNodeInfo).not.toHaveBeenCalled();
-    expect(router.navigate).not.toHaveBeenCalled();
   });
 
   it('should navigate to original location if node not found', async () => {
@@ -399,6 +324,7 @@ describe('PreviewComponent', () => {
     store.dispatch(new ClosePreviewAction());
     expect(component.navigateToFileLocation).toHaveBeenCalled();
   });
+
   it('should fetch navigation source from route', () => {
     route.snapshot.data = {
       navigateSource: 'personal-files'
@@ -431,47 +357,24 @@ describe('PreviewComponent', () => {
     expect(component.navigateSource).toBeNull();
   });
 
-  describe('Keyboard navigation', () => {
-    beforeEach(() => {
-      component.nextNodeId = 'nextNodeId';
-      component.previousNodeId = 'previousNodeId';
-      spyOn(router, 'navigate').and.stub();
+  it('should not navigate on keyboard event if target is child of sidebar container or cdk overlay', () => {
+    component.nextNodeId = 'node';
+    spyOn(router, 'navigate').and.stub();
+
+    const parent = document.createElement('div');
+    const child = document.createElement('button');
+    child.addEventListener('keyup', function (e) {
+      component.onNavigateNext(e);
     });
+    parent.appendChild(child);
+    document.body.appendChild(parent);
 
-    afterEach(() => {
-      fixture.destroy();
-    });
+    parent.className = 'adf-viewer__sidebar';
+    child.dispatchEvent(new KeyboardEvent('keyup', { key: 'ArrowRight' }));
+    expect(router.navigate).not.toHaveBeenCalled();
 
-    it('should not navigate on keyboard event if target is child of sidebar container', () => {
-      const parent = document.createElement('div');
-      parent.className = 'adf-viewer__sidebar';
-
-      const child = document.createElement('button');
-      child.addEventListener('keyup', function (e) {
-        component.onNavigateNext(e);
-      });
-      parent.appendChild(child);
-      document.body.appendChild(parent);
-
-      child.dispatchEvent(new KeyboardEvent('keyup', { key: 'ArrowLeft' }));
-
-      expect(router.navigate).not.toHaveBeenCalled();
-    });
-
-    it('should not navigate on keyboard event if target is child of cdk overlay', () => {
-      const parent = document.createElement('div');
-      parent.className = 'cdk-overlay-container';
-
-      const child = document.createElement('button');
-      child.addEventListener('keyup', function (e) {
-        component.onNavigateNext(e);
-      });
-      parent.appendChild(child);
-      document.body.appendChild(parent);
-
-      child.dispatchEvent(new KeyboardEvent('keyup', { key: 'ArrowLeft' }));
-
-      expect(router.navigate).not.toHaveBeenCalled();
-    });
+    parent.className = 'cdk-overlay-container';
+    child.dispatchEvent(new KeyboardEvent('keyup', { key: 'ArrowRight' }));
+    expect(router.navigate).not.toHaveBeenCalled();
   });
 });

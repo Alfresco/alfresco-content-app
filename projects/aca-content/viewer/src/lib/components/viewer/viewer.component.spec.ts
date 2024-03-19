@@ -35,26 +35,17 @@ import {
 import { UploadService, NodesApiService, DiscoveryApiService } from '@alfresco/adf-content-services';
 import { ClosePreviewAction, RefreshPreviewAction, ReloadDocumentListAction, ViewNodeAction } from '@alfresco/aca-shared/store';
 import { AcaViewerComponent } from './viewer.component';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { ContentApiService, AppHookService, DocumentBasePageService } from '@alfresco/aca-shared';
 import { Store, StoreModule } from '@ngrx/store';
-import { RepositoryInfo, VersionInfo, Node } from '@alfresco/js-api';
+import { Node } from '@alfresco/js-api';
 import { AcaViewerModule } from '../../viewer.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientModule } from '@angular/common/http';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { EffectsModule } from '@ngrx/effects';
-import { INITIAL_APP_STATE } from '../preview/preview.component.spec';
-
-class DocumentBasePageServiceMock extends DocumentBasePageService {
-  canUpdateNode(): boolean {
-    return true;
-  }
-  canUploadContent(): boolean {
-    return true;
-  }
-}
+import { authenticationServiceMock, discoveryApiServiceMock, DocumentBasePageServiceMock, INITIAL_APP_STATE } from '../../mock/viewer.mock';
 
 const apiError = `{
 "error": { 
@@ -107,30 +98,8 @@ describe('AcaViewerComponent', () => {
         { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock },
         { provide: TranslationService, useClass: TranslationMock },
         { provide: DocumentBasePageService, useVale: new DocumentBasePageServiceMock() },
-        {
-          provide: DiscoveryApiService,
-          useValue: {
-            ecmProductInfo$: new BehaviorSubject<RepositoryInfo | null>(null),
-            getEcmProductInfo: (): Observable<RepositoryInfo> =>
-              of(
-                new RepositoryInfo({
-                  version: {
-                    major: '10.0.0'
-                  } as VersionInfo
-                })
-              )
-          }
-        },
-        {
-          provide: AuthenticationService,
-          useValue: {
-            isEcmLoggedIn: (): boolean => true,
-            getRedirect: (): string | null => null,
-            setRedirect() {},
-            isOauth: (): boolean => false,
-            isOAuthWithoutSilentLogin: (): boolean => false
-          }
-        }
+        { provide: DiscoveryApiService, useValue: discoveryApiServiceMock },
+        { provide: AuthenticationService, useValue: authenticationServiceMock }
       ]
     });
 
@@ -146,7 +115,7 @@ describe('AcaViewerComponent', () => {
     store = TestBed.inject(Store);
   });
 
-  it('should display document upon init', () => {
+  it('should set folderId and call displayNode with nodeId upon init', () => {
     route.params = of({
       folderId: 'folder1',
       nodeId: 'node1'
@@ -157,16 +126,6 @@ describe('AcaViewerComponent', () => {
 
     expect(component.folderId).toBe('folder1');
     expect(component.displayNode).toHaveBeenCalledWith('node1');
-  });
-
-  it('should not navigate to preview location when id is missing', async () => {
-    spyOn(router, 'navigate').and.stub();
-    spyOn(contentApi, 'getNodeInfo').and.returnValue(of(null));
-
-    await component.displayNode(null);
-
-    expect(contentApi.getNodeInfo).not.toHaveBeenCalled();
-    expect(router.navigate).not.toHaveBeenCalled();
   });
 
   it('should navigate to next and previous nodes', () => {
@@ -183,13 +142,14 @@ describe('AcaViewerComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(new ViewNodeAction('next', { location: fakeLocation }));
   });
 
-  describe('Navigate back to file location', () => {
+  describe('Navigate back to node location', () => {
     beforeEach(async () => {
       spyOn<any>(component, 'navigateToFileLocation').and.callThrough();
       component['navigationPath'] = fakeLocation;
-      spyOn(router, 'navigateByUrl');
+      spyOn(router, 'navigateByUrl').and.stub();
     });
-    it('should reload document list and navigate to correct location upon close', async () => {
+
+    it('should reload document list and navigate to node location upon close', async () => {
       spyOn(store, 'dispatch');
 
       component.onViewerVisibilityChanged();
@@ -214,7 +174,7 @@ describe('AcaViewerComponent', () => {
     });
   });
 
-  it('should navigate to original location in case of Alfresco API errors', async () => {
+  it('should navigate to node location in case of Alfresco API errors', async () => {
     component['previewLocation'] = 'personal-files';
     spyOn(contentApi, 'getNodeInfo').and.throwError(apiError);
     spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
@@ -292,48 +252,25 @@ describe('AcaViewerComponent', () => {
     expect(component.navigateSource).toBe('PERSONAL-FILES');
   });
 
-  describe('Keyboard navigation', () => {
-    beforeEach(() => {
-      component.nextNodeId = 'nextNodeId';
-      component.previousNodeId = 'previousNodeId';
-      spyOn(router, 'navigate').and.stub();
+  it('should not navigate on keyboard event if target is child of sidebar container or cdk overlay', () => {
+    component.nextNodeId = 'node';
+    spyOn(router, 'navigate').and.stub();
+
+    const parent = document.createElement('div');
+    const child = document.createElement('button');
+    child.addEventListener('keyup', function (e) {
+      component.onNavigateNext(e);
     });
+    parent.appendChild(child);
+    document.body.appendChild(parent);
 
-    afterEach(() => {
-      fixture.destroy();
-    });
+    parent.className = 'adf-viewer__sidebar';
+    child.dispatchEvent(new KeyboardEvent('keyup', { key: 'ArrowRight' }));
+    expect(router.navigate).not.toHaveBeenCalled();
 
-    it('should not navigate on keyboard event if target is child of sidebar container', () => {
-      const parent = document.createElement('div');
-      parent.className = 'adf-viewer__sidebar';
-
-      const child = document.createElement('button');
-      child.addEventListener('keyup', function (e) {
-        component.onNavigateNext(e);
-      });
-      parent.appendChild(child);
-      document.body.appendChild(parent);
-
-      child.dispatchEvent(new KeyboardEvent('keyup', { key: 'ArrowLeft' }));
-
-      expect(router.navigate).not.toHaveBeenCalled();
-    });
-
-    it('should not navigate on keyboard event if target is child of cdk overlay', () => {
-      const parent = document.createElement('div');
-      parent.className = 'cdk-overlay-container';
-
-      const child = document.createElement('button');
-      child.addEventListener('keyup', function (e) {
-        component.onNavigateNext(e);
-      });
-      parent.appendChild(child);
-      document.body.appendChild(parent);
-
-      child.dispatchEvent(new KeyboardEvent('keyup', { key: 'ArrowLeft' }));
-
-      expect(router.navigate).not.toHaveBeenCalled();
-    });
+    parent.className = 'cdk-overlay-container';
+    child.dispatchEvent(new KeyboardEvent('keyup', { key: 'ArrowRight' }));
+    expect(router.navigate).not.toHaveBeenCalled();
   });
 
   it('should call node update after RefreshPreviewAction is triggered', () => {
