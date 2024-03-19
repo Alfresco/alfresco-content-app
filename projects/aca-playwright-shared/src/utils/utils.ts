@@ -24,7 +24,7 @@
 
 const crypto = require('crypto');
 import * as path from 'path';
-import { LoginPage, PersonalFilesPage } from '../';
+import { LoginPage, MyLibrariesPage, PersonalFilesPage } from '../';
 import { NodesApi, TrashcanApi, SitesApi } from '@alfresco/playwright-shared';
 
 export class Utils {
@@ -97,5 +97,19 @@ export class Utils {
   static async uploadFileNewVersion(personalFilesPage: PersonalFilesPage, fileFromOS: string): Promise<void> {
     const fileInput = await personalFilesPage.page.$('#app-upload-file-version');
     await fileInput.setInputFiles(path.join(__dirname, `../resources/test-files/${fileFromOS}.docx`));
+  }
+
+  static async reloadPageIfRowNotVisible(
+    pageContext: PersonalFilesPage | MyLibrariesPage,
+    nodeName: string,
+    errorMessage = 'Error '
+  ): Promise<void> {
+    try {
+      if(!await pageContext.dataTable.getRowByName(nodeName).isVisible()){
+        await pageContext.page.reload({waitUntil:"load"});
+      };
+    } catch (error) {
+      console.error(`${errorMessage}: ${error}`);
+    }
   }
 }

@@ -57,6 +57,7 @@ test.describe('Info Drawer - File Folder Properties', () => {
     await nodesApi.createFolder(defaultTabsFolderName);
     await fileActionsApi.waitForNodes(defaultTabsFolderName, { expect: 1 });
     await personalFiles.navigate();
+    await Utils.reloadPageIfRowNotVisible(personalFiles, defaultTabsFolderName);
     await expect(personalFiles.dataTable.getRowByName(defaultTabsFolderName)).toBeVisible();
     await personalFiles.dataTable.getRowByName(defaultTabsFolderName).click();
     await personalFiles.acaHeader.viewDetails.click();
@@ -72,6 +73,7 @@ test.describe('Info Drawer - File Folder Properties', () => {
     await nodesApi.createFolder(expandDetailsFolderName);
     await fileActionsApi.waitForNodes(expandDetailsFolderName, { expect: 1 });
     await personalFiles.navigate();
+    await Utils.reloadPageIfRowNotVisible(personalFiles, expandDetailsFolderName);
     await expect(personalFiles.dataTable.getRowByName(expandDetailsFolderName)).toBeVisible();
     await personalFiles.dataTable.getRowByName(expandDetailsFolderName).click();
     await personalFiles.acaHeader.viewDetails.click();
