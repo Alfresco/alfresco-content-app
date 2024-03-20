@@ -4,6 +4,7 @@
 @import 'custom-theme';
 @import 'variables/variables';
 @include custom-theme($custom-theme);
+@include mat.core();
 
 mat-toolbar {
   color: var(--theme-text-color, rgba(0, 0, 0, 0.54));
