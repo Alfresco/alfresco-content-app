@@ -83,6 +83,7 @@ test.describe('Move actions', () => {
   };
 
   test('[C217316] Move a file', async ({ personalFiles }) => {
+    await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFile);
     await moveContentInPersonalFiles(personalFiles, [sourceFile], destinationFolder);
     const msg = await personalFiles.snackBar.message.innerText();
     expect.soft(msg).toContain('Moved 1 item.');
@@ -93,6 +94,7 @@ test.describe('Move actions', () => {
   });
 
   test('[C217317] Move a folder with content', async ({ personalFiles }) => {
+    await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFolder);
     await moveContentInPersonalFiles(personalFiles, [sourceFolder], destinationFolder);
     const msg = await personalFiles.snackBar.message.innerText();
     expect.soft(msg).toContain('Moved 1 item.');
@@ -105,6 +107,7 @@ test.describe('Move actions', () => {
   });
 
   test('[C291958] Move multiple items', async ({ personalFiles }) => {
+    await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFolder);
     await moveContentInPersonalFiles(personalFiles, [sourceFolder, sourceFile], destinationFolder);
     const msg = await personalFiles.snackBar.message.innerText();
     expect.soft(msg).toContain('Moved 2 items.');
@@ -119,6 +122,7 @@ test.describe('Move actions', () => {
   test('[C217318] Move a file with a name that already exists on the destination', async ({ personalFiles }) => {
     await nodesApi.createFile(sourceFile, destinationFolderId);
     const expectedNameForCopiedFile = sourceFile.replace('.', '-1.');
+    await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFile);
     await moveContentInPersonalFiles(personalFiles, [sourceFile], destinationFolder);
     const msg = await personalFiles.snackBar.message.innerText();
     expect.soft(msg).toContain('Move unsuccessful, a file with the same name already exists.');
@@ -133,6 +137,7 @@ test.describe('Move actions', () => {
     const existingFolderId = (await nodesApi.createFolder(sourceFolder, destinationFolderId)).entry.id;
     await nodesApi.createFile(sourceFileInsideFolder, existingFolderId);
     const expectedNameForCopiedFile = sourceFileInsideFolder.replace('.', '-1.');
+    await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFolder);
     await moveContentInPersonalFiles(personalFiles, [sourceFolder], destinationFolder);
     const msg = await personalFiles.snackBar.message.innerText();
     expect.soft(msg).toContain('Move unsuccessful, a file with the same name already exists.');
@@ -148,6 +153,7 @@ test.describe('Move actions', () => {
   test('[C217320] Move locked file', async ({ personalFiles }) => {
     const lockType = 'ALLOW_OWNER_CHANGES';
     await nodesApi.lockNodes([sourceFileId], lockType);
+    await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFile);
     await moveContentInPersonalFiles(personalFiles, [sourceFile], destinationFolder);
     const msg = await personalFiles.snackBar.message.innerText();
     expect.soft(msg).toContain('Moved 1 item.');
@@ -160,6 +166,7 @@ test.describe('Move actions', () => {
   test('[C217321] Move folder that contains locked file', async ({ personalFiles }) => {
     const lockType = 'ALLOW_OWNER_CHANGES';
     await nodesApi.lockNodes([sourceFileInsideFolderId], lockType);
+    await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFolder);
     await moveContentInPersonalFiles(personalFiles, [sourceFolder], destinationFolder);
     const msg = await personalFiles.snackBar.message.innerText();
     expect.soft(msg).toContain('Moved 1 item.');
@@ -172,6 +179,7 @@ test.describe('Move actions', () => {
   });
 
   test('[C217324] Undo move files', async ({ personalFiles, trashPage }) => {
+    await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFile);
     await moveContentInPersonalFiles(personalFiles, [sourceFile], destinationFolder);
     await personalFiles.snackBar.actionButton.click();
     await personalFiles.spinner.waitForReload();
@@ -183,6 +191,7 @@ test.describe('Move actions', () => {
   });
 
   test('[C217325] Undo move of folders', async ({ personalFiles, trashPage }) => {
+    await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFolder);
     await moveContentInPersonalFiles(personalFiles, [sourceFolder], destinationFolder);
     await personalFiles.snackBar.actionButton.click();
     await personalFiles.spinner.waitForReload();

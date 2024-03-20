@@ -241,8 +241,8 @@ export class DataTableComponent extends BaseComponent {
     const isSelected = await this.hasCheckMarkIcon(name);
     if (!isSelected) {
       let row = this.getRowByName(name);
-      await row.locator('[title="Size"]').click();
-      await row.locator('.adf-datatable-selected').waitFor({ state: 'attached' });
+      await row.locator('[title="Size"]').click({modifiers:["Meta"]});
+      await row.locator('.adf-datatable-selected').waitFor({ state: "attached" });
     }
   }
 
