@@ -24,7 +24,7 @@
 
 const crypto = require('crypto');
 import * as path from 'path';
-import { LoginPage, MyLibrariesPage, PersonalFilesPage } from '../';
+import { LoginPage, MyLibrariesPage, PersonalFilesPage, FavoritesLibrariesPage, SearchPage } from '../';
 import { NodesApi, TrashcanApi, SitesApi } from '@alfresco/playwright-shared';
 
 export class Utils {
@@ -100,7 +100,7 @@ export class Utils {
   }
 
   static async reloadPageIfRowNotVisible(
-    pageContext: PersonalFilesPage | MyLibrariesPage,
+    pageContext: PersonalFilesPage | MyLibrariesPage | FavoritesLibrariesPage | SearchPage,
     nodeName: string,
     errorMessage = 'Error '
   ): Promise<void> {
