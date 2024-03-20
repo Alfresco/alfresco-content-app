@@ -14,7 +14,7 @@
         "polyfills": "app/src/polyfills.ts",
         "allowedCommonJsDependencies": ["minimatch", "cropperjs"],
         "stylePreprocessorOptions": {
-          "includePaths": ["projects/aca-content/src/lib/ui", "node_modules"]
+          "includePaths": ["projects/aca-content/src/lib/ui", "node_modules", "node_modules/@alfresco/adf-core/lib"]
         },
         "assets": [
           {
