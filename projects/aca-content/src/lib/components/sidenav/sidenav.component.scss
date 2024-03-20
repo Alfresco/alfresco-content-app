@@ -96,11 +96,13 @@
     }
 
     .aca-action-button {
+      cursor: pointer;
       color: var(--theme-action-button-text-color);
       height: 32px;
       padding: 0 24px;
       border-radius: 0;
       line-height: 32px;
+      justify-content: start;
 
       &--active {
         color: var(--theme-sidenav-active-text-color);
@@ -113,8 +115,18 @@
       width: 100%;
     }
 
-    &__actions:last-child {
-      border-bottom: 0;
+    &__actions {
+      &__item:has(span) {
+        padding: 0;
+
+        span {
+          pointer-events: auto;
+        }
+      }
+
+      &:last-child {
+        border-bottom: 0;
+      }
     }
   }
 }
