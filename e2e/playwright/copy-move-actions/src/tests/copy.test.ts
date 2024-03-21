@@ -22,11 +22,12 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ApiClientFactory, test, Utils, PersonalFilesPage, NodesApi, LoginPage } from '@alfresco/playwright-shared';
+import { ApiClientFactory, test, Utils, PersonalFilesPage, NodesApi, LoginPage, TrashcanApi } from '@alfresco/playwright-shared';
 import { expect } from '@playwright/test';
 
 test.describe('Copy actions', () => {
   let nodesApi: NodesApi;
+  let trashcanApi: TrashcanApi;
   const username = `user-${Utils.random()}`;
 
   let sourceFile: string;
@@ -44,13 +45,14 @@ test.describe('Copy actions', () => {
       await apiClientFactory.setUpAcaBackend('admin');
       await apiClientFactory.createUser({ username });
       nodesApi = await NodesApi.initialize(username, username);
-    } catch {}
+      trashcanApi = await TrashcanApi.initialize(username, username);
+    } catch (error) {
+      console.error(`beforeAll failed : ${error}`);
+    }
   });
 
-  test.afterAll(async ({ nodesApiAction }) => {
-    try {
-      await nodesApiAction.deleteCurrentUserNodes();
-    } catch {}
+  test.afterAll(async () => {
+    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
   });
 
   test.beforeEach(async ({ personalFiles, page }) => {
@@ -60,21 +62,14 @@ test.describe('Copy actions', () => {
     destinationFolder = `destination-folder-${Utils.random()}`;
 
     const loginPage = new LoginPage(page);
-    try {
-      await loginPage.loginUser(
-        { username, password: username },
-        {
-          withNavigation: true,
-          waitForLoading: true
-        }
-      );
-      destinationFolderId = (await nodesApi.createFolder(destinationFolder)).entry.id;
-      const sourceFolderId = (await nodesApi.createFolder(sourceFolder)).entry.id;
-      sourceFileInsideFolderId = (await nodesApi.createFile(sourceFileInsideFolder, sourceFolderId)).entry.id;
-      sourceFileId = (await nodesApi.createFile(sourceFile)).entry.id;
+    await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
 
-      await personalFiles.navigate();
-    } catch {}
+    destinationFolderId = (await nodesApi.createFolder(destinationFolder)).entry.id;
+    const sourceFolderId = (await nodesApi.createFolder(sourceFolder)).entry.id;
+    sourceFileInsideFolderId = (await nodesApi.createFile(sourceFileInsideFolder, sourceFolderId)).entry.id;
+    sourceFileId = (await nodesApi.createFile(sourceFile)).entry.id;
+
+    await personalFiles.navigate();
   });
 
   const copyContentInPersonalFiles = async (personalFilesPage: PersonalFilesPage, sourceFileList: string[], destinationName: string) => {
