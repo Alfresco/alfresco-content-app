@@ -105,8 +105,8 @@ export class Utils {
     errorMessage = 'Error '
   ): Promise<void> {
     try {
-      if(!await pageContext.dataTable.getRowByName(nodeName).isVisible()){
-        await pageContext.page.reload({waitUntil:"load"});
+      if(!await pageContext.dataTable.getRowByName(nodeName).isVisible()) {
+        await pageContext.page.reload({ waitUntil: 'load' });
       };
     } catch (error) {
       console.error(`${errorMessage}: ${error}`);
