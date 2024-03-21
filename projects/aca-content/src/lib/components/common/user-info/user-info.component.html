@@ -1,11 +1,13 @@
 <div mat-menu-item class="aca-user-info" [routerLink]="['/profile']" title="{{ 'APP.TOOLTIPS.MY_PROFILE' | translate }}">
   <ng-container *ngIf="user$ | async as user">
-    <button class="aca-user-info-button">
-      <div>{{ user.initials || 'U' }}</div>
-    </button>
-    <div class="aca-user-info-details">
-      <div>{{ user.userName }}</div>
-      <div>{{ user.email }}</div>
+    <div class="aca-user-info-content">
+      <button class="aca-user-info-button">
+        <div>{{ user.initials || 'U' }}</div>
+      </button>
+      <div class="aca-user-info-details">
+        <div>{{ user.userName }}</div>
+        <div>{{ user.email }}</div>
+      </div>
     </div>
   </ng-container>
 </div>
