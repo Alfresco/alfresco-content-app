@@ -10,6 +10,10 @@ mat-toolbar {
   color: var(--theme-text-color, rgba(0, 0, 0, 0.54));
 }
 
+mat-icon {
+  vertical-align: middle;
+}
+
 .adf-name-location-cell-location.adf-datatable-cell-value {
   color: var(--theme-secondary-text);
 }
@@ -19,6 +23,18 @@ mat-toolbar {
     .mdc-tab--active {
       color: #212121;
     }
+  }
+}
+
+.mat-mdc-button:is(button),
+.mat-mdc-icon-button:is(button),
+.mat-mdc-icon-button.mat-mdc-button-base:is(button) {
+  padding: 0;
+  height: 40px;
+  width: 40px;
+
+  .mat-mdc-button-touch-target {
+    display: none;
   }
 }
 
