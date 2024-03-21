@@ -22,21 +22,26 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ApiClientFactory, test, Utils, PersonalFilesPage, NodesApi, LoginPage } from '@alfresco/playwright-shared';
+import { ApiClientFactory, test, Utils, PersonalFilesPage, NodesApi, LoginPage, TrashcanApi } from '@alfresco/playwright-shared';
 import { expect } from '@playwright/test';
 
 test.describe('Move actions', () => {
   let nodesApi: NodesApi;
+  let trashcanApi: TrashcanApi;
   const username = `user-${Utils.random()}`;
+
+  let sourceFileId: string;
+  let sourceFileInsideFolderId: string;
+  let destinationFolderId: string;
 
   let sourceFile: string;
   let sourceFileInsideFolder: string;
   let sourceFolder: string;
   let destinationFolder: string;
 
-  let sourceFileId: string;
-  let sourceFileInsideFolderId: string;
-  let destinationFolderId: string;
+  test.afterAll(async ({ nodesApiAction }) => {
+    await Utils.deleteNodesSitesEmptyTrashcan(nodesApiAction, trashcanApi, 'afterAll failed');
+  });
 
   test.beforeAll(async () => {
     try {
@@ -47,12 +52,6 @@ test.describe('Move actions', () => {
     } catch {}
   });
 
-  test.afterAll(async ({ nodesApiAction }) => {
-    try {
-      await nodesApiAction.deleteCurrentUserNodes();
-    } catch {}
-  });
-
   test.beforeEach(async ({ personalFiles, page }) => {
     sourceFile = `source-file-${Utils.random()}.txt`;
     sourceFileInsideFolder = `source-file-inside-folder-${Utils.random()}.txt`;
@@ -60,21 +59,13 @@ test.describe('Move actions', () => {
     destinationFolder = `destination-folder-${Utils.random()}`;
 
     const loginPage = new LoginPage(page);
-    try {
-      await loginPage.loginUser(
-        { username, password: username },
-        {
-          withNavigation: true,
-          waitForLoading: true
-        }
-      );
-      destinationFolderId = (await nodesApi.createFolder(destinationFolder)).entry.id;
-      const sourceFolderId = (await nodesApi.createFolder(sourceFolder)).entry.id;
-      sourceFileInsideFolderId = (await nodesApi.createFile(sourceFileInsideFolder, sourceFolderId)).entry.id;
-      sourceFileId = (await nodesApi.createFile(sourceFile)).entry.id;
+    await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
+    destinationFolderId = (await nodesApi.createFolder(destinationFolder)).entry.id;
+    const sourceFolderId = (await nodesApi.createFolder(sourceFolder)).entry.id;
+    sourceFileInsideFolderId = (await nodesApi.createFile(sourceFileInsideFolder, sourceFolderId)).entry.id;
+    sourceFileId = (await nodesApi.createFile(sourceFile)).entry.id;
 
-      await personalFiles.navigate();
-    } catch {}
+    await personalFiles.navigate();
   });
 
   const moveContentInPersonalFiles = async (personalFilesPage: PersonalFilesPage, sourceFileList: string[], destinationName: string) => {
@@ -83,6 +74,7 @@ test.describe('Move actions', () => {
   };
 
   test('[C217316] Move a file', async ({ personalFiles }) => {
+    await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFile);
     await moveContentInPersonalFiles(personalFiles, [sourceFile], destinationFolder);
     const msg = await personalFiles.snackBar.message.innerText();
     expect.soft(msg).toContain('Moved 1 item.');
@@ -92,19 +84,8 @@ test.describe('Move actions', () => {
     expect(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeTruthy();
   });
 
-  test('[C217317] Move a folder with content', async ({ personalFiles }) => {
-    await moveContentInPersonalFiles(personalFiles, [sourceFolder], destinationFolder);
-    const msg = await personalFiles.snackBar.message.innerText();
-    expect.soft(msg).toContain('Moved 1 item.');
-    await personalFiles.snackBar.closeIcon.click();
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBeFalsy();
-    await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBeTruthy();
-    await personalFiles.dataTable.performClickFolderOrFileToOpen(sourceFolder);
-    expect(await personalFiles.dataTable.isItemPresent(sourceFileInsideFolder)).toBeTruthy();
-  });
-
   test('[C291958] Move multiple items', async ({ personalFiles }) => {
+    await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFolder);
     await moveContentInPersonalFiles(personalFiles, [sourceFolder, sourceFile], destinationFolder);
     const msg = await personalFiles.snackBar.message.innerText();
     expect.soft(msg).toContain('Moved 2 items.');
@@ -119,6 +100,7 @@ test.describe('Move actions', () => {
   test('[C217318] Move a file with a name that already exists on the destination', async ({ personalFiles }) => {
     await nodesApi.createFile(sourceFile, destinationFolderId);
     const expectedNameForCopiedFile = sourceFile.replace('.', '-1.');
+    await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFile);
     await moveContentInPersonalFiles(personalFiles, [sourceFile], destinationFolder);
     const msg = await personalFiles.snackBar.message.innerText();
     expect.soft(msg).toContain('Move unsuccessful, a file with the same name already exists.');
@@ -133,6 +115,7 @@ test.describe('Move actions', () => {
     const existingFolderId = (await nodesApi.createFolder(sourceFolder, destinationFolderId)).entry.id;
     await nodesApi.createFile(sourceFileInsideFolder, existingFolderId);
     const expectedNameForCopiedFile = sourceFileInsideFolder.replace('.', '-1.');
+    await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFolder);
     await moveContentInPersonalFiles(personalFiles, [sourceFolder], destinationFolder);
     const msg = await personalFiles.snackBar.message.innerText();
     expect.soft(msg).toContain('Move unsuccessful, a file with the same name already exists.');
@@ -148,6 +131,7 @@ test.describe('Move actions', () => {
   test('[C217320] Move locked file', async ({ personalFiles }) => {
     const lockType = 'ALLOW_OWNER_CHANGES';
     await nodesApi.lockNodes([sourceFileId], lockType);
+    await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFile);
     await moveContentInPersonalFiles(personalFiles, [sourceFile], destinationFolder);
     const msg = await personalFiles.snackBar.message.innerText();
     expect.soft(msg).toContain('Moved 1 item.');
@@ -157,21 +141,8 @@ test.describe('Move actions', () => {
     expect.soft(await personalFiles.dataTable.isItemPresent(sourceFile)).toBeTruthy();
   });
 
-  test('[C217321] Move folder that contains locked file', async ({ personalFiles }) => {
-    const lockType = 'ALLOW_OWNER_CHANGES';
-    await nodesApi.lockNodes([sourceFileInsideFolderId], lockType);
-    await moveContentInPersonalFiles(personalFiles, [sourceFolder], destinationFolder);
-    const msg = await personalFiles.snackBar.message.innerText();
-    expect.soft(msg).toContain('Moved 1 item.');
-    await personalFiles.snackBar.closeIcon.click();
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBeFalsy();
-    await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
-    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBeTruthy();
-    await personalFiles.dataTable.performClickFolderOrFileToOpen(sourceFolder);
-    expect(await personalFiles.dataTable.isItemPresent(sourceFileInsideFolder)).toBeTruthy();
-  });
-
   test('[C217324] Undo move files', async ({ personalFiles, trashPage }) => {
+    await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFile);
     await moveContentInPersonalFiles(personalFiles, [sourceFile], destinationFolder);
     await personalFiles.snackBar.actionButton.click();
     await personalFiles.spinner.waitForReload();
@@ -183,6 +154,7 @@ test.describe('Move actions', () => {
   });
 
   test('[C217325] Undo move of folders', async ({ personalFiles, trashPage }) => {
+    await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFolder);
     await moveContentInPersonalFiles(personalFiles, [sourceFolder], destinationFolder);
     await personalFiles.snackBar.actionButton.click();
     await personalFiles.spinner.waitForReload();
@@ -191,5 +163,39 @@ test.describe('Move actions', () => {
     expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBeFalsy();
     await trashPage.navigate();
     expect(await trashPage.dataTable.isItemPresent(sourceFolder)).toBeFalsy();
+  });
+
+  async function moveFolderWithContent(personalFiles: PersonalFilesPage, lockedFile: boolean) {
+    if (lockedFile) {
+      const lockType = 'ALLOW_OWNER_CHANGES';
+      await nodesApi.lockNodes([sourceFileInsideFolderId], lockType);
+    }
+    await Utils.reloadPageIfRowNotVisible(personalFiles, sourceFolder);
+    await moveContentInPersonalFiles(personalFiles, [sourceFolder], destinationFolder);
+    const msg = await personalFiles.snackBar.message.innerText();
+    expect.soft(msg).toContain('Moved 1 item.');
+    await personalFiles.snackBar.closeIcon.click();
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBeFalsy();
+    await personalFiles.dataTable.performClickFolderOrFileToOpen(destinationFolder);
+    expect.soft(await personalFiles.dataTable.isItemPresent(sourceFolder)).toBeTruthy();
+    await personalFiles.dataTable.performClickFolderOrFileToOpen(sourceFolder);
+    expect(await personalFiles.dataTable.isItemPresent(sourceFileInsideFolder)).toBeTruthy();
+  }
+
+  [
+    {
+      id: 'C217317',
+      testTitle: `Move a folder with content`,
+      lockedFile: false
+    },
+    {
+      id: 'C217321',
+      testTitle: 'Move folder that contains locked file',
+      lockedFile: true
+    }
+  ].forEach((testCase) => {
+    test(`[${testCase.id}] ${testCase.testTitle}`, async ({ personalFiles }) => {
+      await moveFolderWithContent(personalFiles, testCase.lockedFile);
+    });
   });
 });
