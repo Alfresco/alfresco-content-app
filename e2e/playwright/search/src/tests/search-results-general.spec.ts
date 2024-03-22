@@ -30,9 +30,8 @@ test.describe('Search Results - General', () => {
   let nodesApi: NodesApi;
   let sitesApi: SitesApi;
 
-  const username = `user1-${Utils.random()}`;
   const random = Utils.random();
-
+  const username = `user1-${random}`;
   const file = `test-file-${random}.txt`;
   const folder = `test-folder-${random}`;
   const site = `test-site-${random}`;
