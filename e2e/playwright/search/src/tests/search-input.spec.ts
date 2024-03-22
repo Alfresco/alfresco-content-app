@@ -42,6 +42,19 @@ test.describe('Search - Input', () => {
     await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
   });
 
+  test('Test Locators Search Filters', async ({ searchPage }) => {
+    await searchPage.acaHeader.searchButton.click();
+
+    await expect(searchPage.searchFilters.logicFilter).toBeVisible();
+    // await expect(searchPage.searchFilters.locationFilter).toBeVisible();
+    // await expect(searchPage.searchFilters.tagsFilter).toBeVisible();
+    // await expect(searchPage.searchFilters.dateFilter).toBeVisible();
+    // await expect(searchPage.searchFilters.categoriesFilter).toBeVisible();
+    // await expect(searchPage.searchFilters.propertiesFilter).toBeVisible();
+    const textToString = 'Logic: Any';
+    expect((await searchPage.searchFilters.logicFilter.textContent()).split('keyboard')[0].toString()).toEqual(textToString.toString());
+  });
+
   test('[C289847] Search icon is displayed in toolbar and clicking on it displays search input container', async ({ searchPage }) => {
     await searchPage.acaHeader.searchButton.click();
     await searchPage.searchInput.searchButton.click();
