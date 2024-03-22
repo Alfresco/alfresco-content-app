@@ -26,9 +26,11 @@ import { BaseComponent } from '../../base.component';
 import { Page } from '@playwright/test';
 
 export class SearchFiltersTags extends BaseComponent {
-  private static rootElement = 'aca-content__advanced-filters';
+  private static rootElement = '.adf-search-filter-menu-card';
 
   constructor(page: Page) {
     super(page, SearchFiltersTags.rootElement);
   }
+
+  public addOptionInput = this.getChild(`[data-automation-id$='adf-search-chip-autocomplete-input']`);
 }

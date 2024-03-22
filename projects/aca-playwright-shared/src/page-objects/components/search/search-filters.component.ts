@@ -26,7 +26,7 @@ import { BaseComponent } from '../base.component';
 import { Page } from '@playwright/test';
 
 export class SearchFilters extends BaseComponent {
-  private static rootElement = 'aca-content__advanced-filters';
+  private static rootElement = '.aca-content__advanced-filters';
 
   constructor(page: Page) {
     super(page, SearchFilters.rootElement);
@@ -39,4 +39,9 @@ export class SearchFilters extends BaseComponent {
   public locationFilter = this.page.locator('adf-search-widget-chip', { hasText: 'Location' });
   public tagsFilter = this.page.locator('adf-search-widget-chip', { hasText: 'Tags' });
   public categoriesFilter = this.page.locator('adf-search-widget-chip', { hasText: 'Categories' });
+  public resetButton = this.getChild('button' , { hasText: 'Reset' });
+  public menuCardTitle = this.getChild('.adf-search-filter-title');
+  public menuCardClose = this.getChild('.adf-search-filter-title-action');
+  public menuCardClear = this.getChild('#cancel-filter-button');
+  public menuCardApply = this.getChild('#apply-filter-button');
 }

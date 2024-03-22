@@ -26,9 +26,14 @@ import { BaseComponent } from '../../base.component';
 import { Page } from '@playwright/test';
 
 export class SearchFiltersLogic extends BaseComponent {
-  private static rootElement = 'aca-content__advanced-filters';
+  private static rootElement = '.adf-search-filter-menu-card';
 
   constructor(page: Page) {
     super(page, SearchFiltersLogic.rootElement);
   }
+
+  public matchAllInput = this.getChild(`[placeholder$='Results will match all words entered here']`);
+  public matchAnyInput = this.getChild(`[placeholder$='Results will match any words entered here']`);
+  public excludeInput = this.getChild(`[placeholder$='Results will exclude matches with these words']`);
+  public matchExactInput = this.getChild(`[placeholder$='Results will match this entire phrase']`);
 }

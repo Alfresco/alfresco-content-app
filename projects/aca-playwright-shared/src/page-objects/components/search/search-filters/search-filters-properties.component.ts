@@ -26,9 +26,14 @@ import { BaseComponent } from '../../base.component';
 import { Page } from '@playwright/test';
 
 export class SearchFiltersProperties extends BaseComponent {
-  private static rootElement = 'aca-content__advanced-filters';
+  private static rootElement = '.adf-search-filter-menu-card';
 
   constructor(page: Page) {
     super(page, SearchFiltersProperties.rootElement);
   }
+
+  public operatorButton = this.getChild(`.adf-search-properties-file-size-operator`);
+  public fileSizeInput = this.getChild(`[placeholder$='Results will match all words entered here']`);
+  public unitButton = this.getChild(`.adf-search-properties-file-size-unit`);
+  public fileTypeInput = this.getChild(`[placeholder$='Results will exclude matches with these words']`);
 }

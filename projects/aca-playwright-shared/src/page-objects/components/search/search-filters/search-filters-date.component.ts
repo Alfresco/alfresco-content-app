@@ -26,9 +26,19 @@ import { BaseComponent } from '../../base.component';
 import { Page } from '@playwright/test';
 
 export class SearchFiltersDate extends BaseComponent {
-  private static rootElement = 'aca-content__advanced-filters';
+  private static rootElement = '.adf-search-filter-menu-card';
 
   constructor(page: Page) {
     super(page, SearchFiltersDate.rootElement);
   }
+
+  public createdTab = this.getChild(`[role='tab']`, { hasText: 'Created' });
+  public modifiedTab = this.getChild(`[role='tab']`, { hasText: 'Modified' });
+  public anytimeButton = this.getChild(`[data-automation-id$='date-range-anytime']`);
+  public inTheLastButton = this.getChild(`[data-automation-id$='date-range-in-last']`);
+  public inTheLastInput = this.getChild(`[data-automation-id$='date-range-in-last-input']`);
+  public inTheLastDropdown = this.getChild(`[data-automation-id$='date-range-in-last-dropdown']`);
+  public betweenButton = this.getChild(`[data-automation-id$='date-range-between']`);
+  public betweenStartDate = this.getChild(`[data-automation-id$='date-range-between-start-input']`);
+  public betweenEndDate = this.getChild(`[data-automation-id$='date-range-between-end-input']`);
 }
