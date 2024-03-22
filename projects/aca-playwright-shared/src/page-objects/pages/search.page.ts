@@ -24,9 +24,11 @@
 
 import { Page } from '@playwright/test';
 import { BasePage } from './base.page';
-import { DataTableComponent, MatMenuComponent, ViewerComponent, SearchInputComponent, SearchOverlayComponent, SidenavComponent } from '../components';
+import { DataTableComponent, MatMenuComponent, ViewerComponent, SearchInputComponent, SearchOverlayComponent, SidenavComponent, SearchSortingPicker } from '../components';
 import { AcaHeader } from '../components/aca-header.component';
 import { AdfConfirmDialogComponent, AdfFolderDialogComponent } from '../components/dialogs';
+
+type SearchType = 'files' | 'folders' | 'filesAndFolders' | 'libraries';
 
 export class SearchPage extends BasePage {
   private static pageUrl = 'search';
@@ -42,6 +44,30 @@ export class SearchPage extends BasePage {
   public viewer = new ViewerComponent(this.page);
   public searchInput = new SearchInputComponent(this.page);
   public searchOverlay = new SearchOverlayComponent(this.page);
+  public searchSortingPicker = new SearchSortingPicker(this.page);
   public sidenav = new SidenavComponent(this.page);
   public confirmDialogComponent = new AdfConfirmDialogComponent(this.page);
+
+  async searchWithin(searchText: string, searchType: SearchType): Promise<void> {
+    await this.acaHeader.searchButton.click();
+    await this.searchInput.searchButton.click();
+    switch (searchType) {
+      case 'files':
+        await this.searchOverlay.checkOnlyFiles();
+        break;
+      case 'folders':
+        await this.searchOverlay.checkOnlyFolders();
+        break;
+      case 'filesAndFolders':
+        await this.searchOverlay.checkFilesAndFolders();
+        break;
+      case 'libraries':
+        await this.searchOverlay.checkLibraries();
+        break;
+      default:
+        break;
+    }
+    await this.searchOverlay.searchFor(searchText);
+    await this.dataTable.progressBarWaitForReload();
+  }
 }

@@ -63,6 +63,7 @@ test.describe('Info Drawer - General', () => {
     await nodesApi.createFolder(folder1, parentId);
     await fileActionsApi.waitForNodes(file1, { expect: 1 });
     await personalFiles.navigate();
+    await Utils.reloadPageIfRowNotVisible(personalFiles, parentFolder);
     await expect(personalFiles.dataTable.getRowByName(parentFolder)).toBeVisible();
     await personalFiles.dataTable.performClickFolderOrFileToOpen(parentFolder);
     await personalFiles.dataTable.selectItem(file1);

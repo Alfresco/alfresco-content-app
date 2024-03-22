@@ -160,7 +160,9 @@ export class FileActionsApi {
 
     try {
       await waitForApi(apiCall, predicate, 30, 2500);
-    } catch {}
+    } catch (error) {
+      console.error(`Error: ${error}`);
+    }
   }
 
   async updateNodeContent(nodeId: string, content: string, majorVersion: boolean = true, comment?: string, newName?: string): Promise<NodeEntry> {

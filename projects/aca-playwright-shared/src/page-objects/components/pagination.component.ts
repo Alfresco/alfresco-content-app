@@ -174,4 +174,20 @@ export class PaginationComponent extends BaseComponent {
   async isMaxItemsPresent(): Promise<boolean> {
     return this.maxItems.isVisible();
   }
+
+  async isCurrentPagePresent(): Promise<boolean> {
+    return this.currentPage.isVisible();
+  }
+
+  async isTotalPagesPresent(): Promise<boolean> {
+    return this.totalPages.isVisible();
+  }
+
+  async isPreviousButtonPresent(): Promise<boolean> {
+    return this.previousButton.isVisible();
+  }
+
+  async isNextButtonPresent(): Promise<boolean> {
+    return this.nextButton.isVisible();
+  }
 }

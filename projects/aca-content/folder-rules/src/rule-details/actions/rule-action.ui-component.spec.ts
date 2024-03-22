@@ -30,6 +30,7 @@ import { By } from '@angular/platform-browser';
 import { dummyCategoriesConstraints, dummyConstraints, dummyTagsConstraints } from '../../mock/action-parameter-constraints.mock';
 import { CategoryService, TagService } from '@alfresco/adf-content-services';
 import { MatSelect } from '@angular/material/select';
+import { MatDialog } from '@angular/material/dialog';
 
 describe('RuleActionUiComponent', () => {
   let fixture: ComponentFixture<RuleActionUiComponent>;
@@ -124,9 +125,23 @@ describe('RuleActionUiComponent', () => {
     const cardView = getPropertiesCardView();
 
     expect(cardView.properties.length).toBe(1);
-    expect(cardView.properties[0].icon).toBeFalsy();
+    expect(cardView.properties[0].icon).toBe('library_add');
     expect(cardView.properties[0].value).toBeFalsy();
     expect(cardView.properties[0]).toBeInstanceOf(CardViewTextItemModel);
+  });
+
+  it('should open category selector dialog on category-value action parameter clicked', () => {
+    const dialog = fixture.debugElement.injector.get(MatDialog);
+    component.actionDefinitions = [actionLinkToCategoryTransformedMock];
+    component.parameterConstraints = dummyConstraints;
+    spyOn(dialog, 'open');
+    fixture.detectChanges();
+
+    changeMatSelectValue('mock-action-3-definition');
+    fixture.debugElement.query(By.css('.adf-textitem-action')).nativeElement.click();
+
+    expect(dialog.open).toHaveBeenCalledTimes(1);
+    expect(dialog.open['calls'].argsFor(0)[0].name).toBe('CategorySelectorDialogComponent');
   });
 
   describe('Select options', () => {

@@ -99,8 +99,6 @@ jobs:
       fail-fast: false
       matrix:
         e2e-suites:
-          - name: "listViews"
-            id: 1
           - name: "search"
             id: 2
           - name: "deleteActions"

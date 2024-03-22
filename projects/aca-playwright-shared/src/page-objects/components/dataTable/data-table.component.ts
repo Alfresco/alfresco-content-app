@@ -79,6 +79,13 @@ export class DataTableComponent extends BaseComponent {
     this.page.locator(`//div[contains(@title, '${columnTitle}')]//span[contains(text(), '${cellValue}')]/ancestor::adf-datatable-row`);
 
   /**
+   * Method used in cases where we want to retrieve a row from the datatable based on its numerical order within the array.
+   * 
+   * @returns reference to cell element which contains text.
+   */
+  getNthRow = (orderNum: number): Locator => this.getRowLocator.nth(orderNum);
+
+  /**
    * Method used in cases where user have possibility to navigate "inside" the element (it's clickable and has link attribute).
    * Perform action .click() to navigate inside it
    *
@@ -234,7 +241,7 @@ export class DataTableComponent extends BaseComponent {
     const isSelected = await this.hasCheckMarkIcon(name);
     if (!isSelected) {
       let row = this.getRowByName(name);
-      await row.locator('[title="Size"]').click();
+      await row.locator('[title="Size"]').click({ modifiers: ['Meta'] });
       await row.locator('.adf-datatable-selected').waitFor({ state: 'attached' });
     }
   }
@@ -365,12 +372,5 @@ export class DataTableComponent extends BaseComponent {
         sitesInfo[siteNameText] = siteRoleText;
     }
     return sitesInfo;
-  }
-
-  /** 
-   * Method used to wait for values to be loaded in the table
-  */
-  async waitForTable(): Promise<void> {
-    await this.getRowLocator.nth(0).waitFor({timeout:5000});
   }
 }

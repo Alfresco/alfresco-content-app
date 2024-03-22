@@ -85,7 +85,21 @@ test.describe('Search Results - General', () => {
   });
 
   test.afterAll(async () => {
-    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
+    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', sitesAdminApi, [
+      site1.id,
+      site2.id,
+      site3.id,
+      site4.id,
+      userSiteModerated,
+      userSitePrivate,
+      userSitePublic,
+      adminSite1,
+      adminSite2,
+      adminSite3,
+      adminSite4,
+      adminPrivate,
+      siteRussian.id
+    ]);
   });
 
   test.beforeAll(async () => {
@@ -126,11 +140,7 @@ test.describe('Search Results - General', () => {
   });
 
   test('[C290012] Search library - full name match', async ({ searchPage }) => {
-    await searchPage.acaHeader.searchButton.click();
-    await searchPage.searchInput.searchButton.click();
-    await searchPage.searchInput.checkLibraries();
-    await searchPage.searchInput.searchFor(site1.name);
-    await searchPage.dataTable.waitForTable();
+    await searchPage.searchWithin(site1.name, 'libraries');
 
     expect(await searchPage.dataTable.isItemPresent(site1.name)).toBeTruthy();
     expect(await searchPage.dataTable.isItemPresent(site2.name)).toBeFalsy();
@@ -140,11 +150,7 @@ test.describe('Search Results - General', () => {
 
   test('[C290013] Search library - partial name match', async ({ searchPage }) => {
     await fileActionsApi.waitForNodes(site3.id, { expect: 1 });
-    await searchPage.acaHeader.searchButton.click();
-    await searchPage.searchInput.searchButton.click();
-    await searchPage.searchInput.checkLibraries();
-    await searchPage.searchInput.searchFor(`lib-${random}`);
-    await searchPage.dataTable.waitForTable();
+    await searchPage.searchWithin(`lib-${random}`, 'libraries');
 
     expect(await searchPage.dataTable.isItemPresent(site1.name)).toBeTruthy();
     expect(await searchPage.dataTable.isItemPresent(site2.name)).toBeFalsy();
@@ -153,11 +159,7 @@ test.describe('Search Results - General', () => {
   });
 
   test('[C290014] Search library - description match', async ({ searchPage }) => {
-    await searchPage.acaHeader.searchButton.click();
-    await searchPage.searchInput.searchButton.click();
-    await searchPage.searchInput.checkLibraries();
-    await searchPage.searchInput.searchFor(site4.description);
-    await searchPage.dataTable.waitForTable();
+    await searchPage.searchWithin(site4.description, 'libraries');
 
     expect(await searchPage.dataTable.isItemPresent(site1.name)).toBeFalsy();
     expect(await searchPage.dataTable.isItemPresent(site2.name)).toBeFalsy();
@@ -166,11 +168,7 @@ test.describe('Search Results - General', () => {
   });
 
   test('[C290016] Results page columns', async ({ searchPage }) => {
-    await searchPage.acaHeader.searchButton.click();
-    await searchPage.searchInput.searchButton.click();
-    await searchPage.searchInput.checkLibraries();
-    await searchPage.searchInput.searchFor(site1.name);
-    await searchPage.dataTable.waitForTable();
+    await searchPage.searchWithin(site1.name, 'libraries');
 
     const expectedColumns = ['Name', 'Description', 'My Role', 'Visibility'];
     const actualColumns = await searchPage.dataTable.getColumnHeaders();
@@ -179,11 +177,7 @@ test.describe('Search Results - General', () => {
   });
 
   test('[C290017] Library visibility is correctly displayed', async ({ searchPage }) => {
-    await searchPage.acaHeader.searchButton.click();
-    await searchPage.searchInput.searchButton.click();
-    await searchPage.searchInput.checkLibraries();
-    await searchPage.searchInput.searchFor(`user-site-${random}`);
-    await searchPage.dataTable.waitForTable();
+    await searchPage.searchWithin(`user-site-${random}`, 'libraries');
 
     const expectedSitesVisibility = {
       [userSitePrivate]: SITE_VISIBILITY.PRIVATE,
@@ -197,11 +191,7 @@ test.describe('Search Results - General', () => {
   });
 
   test('[C290018] User role is correctly displayed', async ({ searchPage }) => {
-    await searchPage.acaHeader.searchButton.click();
-    await searchPage.searchInput.searchButton.click();
-    await searchPage.searchInput.checkLibraries();
-    await searchPage.searchInput.searchFor(`admin-${random}-site`);
-    await searchPage.dataTable.waitForTable();
+    await searchPage.searchWithin(`admin-${random}-site`, 'libraries');
 
     const expectedSitesRoles = {
       [adminSite1]: SITE_ROLES.SITE_CONSUMER.LABEL,
@@ -216,21 +206,13 @@ test.describe('Search Results - General', () => {
   });
 
   test('[C290019] Private sites are not displayed when user is not a member', async ({ searchPage }) => {
-    await searchPage.acaHeader.searchButton.click();
-    await searchPage.searchInput.searchButton.click();
-    await searchPage.searchInput.checkLibraries();
-    await searchPage.searchInput.searchFor(`admin-${random}-site`);
-    await searchPage.dataTable.waitForTable();
+    await searchPage.searchWithin(`admin-${random}-site`, 'libraries');
 
     expect(await searchPage.dataTable.isItemPresent(adminPrivate)).toBeFalsy();
   });
 
   test('[C290028] Search libraries with special characters', async ({ searchPage }) => {
-    await searchPage.acaHeader.searchButton.click();
-    await searchPage.searchInput.searchButton.click();
-    await searchPage.searchInput.checkLibraries();
-    await searchPage.searchInput.searchFor(siteRussian.name);
-    await searchPage.dataTable.waitForTable();
+    await searchPage.searchWithin(siteRussian.name, 'libraries');
 
     expect(await searchPage.dataTable.isItemPresent(siteRussian.name)).toBeTruthy();
   });

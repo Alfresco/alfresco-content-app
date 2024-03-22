@@ -60,6 +60,7 @@ test.describe('Info Drawer - Comments', () => {
     await nodesApi.createFolder(personalFolderName);
     await fileActionsApi.waitForNodes(personalFolderName, { expect: 1 });
     await personalFiles.navigate();
+    await Utils.reloadPageIfRowNotVisible(personalFiles, personalFolderName);
     await expect(personalFiles.dataTable.getRowByName(personalFolderName)).toBeVisible();
     await personalFiles.dataTable.getRowByName(personalFolderName).click();
     await personalFiles.acaHeader.viewDetails.click();
@@ -97,6 +98,7 @@ test.describe('Info Drawer - Comments', () => {
     await apiClientFactory.share.createSharedLink({ nodeId: sharedFileId });
     await fileActionsApi.waitForNodes(sharedFileName, { expect: 1 });
     await sharedPage.navigate();
+    await Utils.reloadPageIfRowNotVisible(sharedPage, sharedFileName);
     await expect(sharedPage.dataTable.getRowByName(sharedFileName)).toBeVisible();
     await sharedPage.dataTable.getRowByName(sharedFileName).click();
     await sharedPage.acaHeader.viewDetails.click();

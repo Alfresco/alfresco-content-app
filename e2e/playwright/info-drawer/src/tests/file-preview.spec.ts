@@ -70,6 +70,7 @@ test.describe('File preview', () => {
     await fileActionsApi.uploadFileWithRename(TEST_FILES.PDF.path, fileName, '-my-');
     await fileActionsApi.waitForNodes(fileName, { expect: 1 });
     await personalFiles.navigate();
+    await Utils.reloadPageIfRowNotVisible(personalFiles, fileName);
     await personalFiles.dataTable.getRowByName(fileName).click();
     await personalFiles.acaHeader.viewButton.click();
     await checkFileContent(personalFiles.page, 1, 'This is a small demonstration');

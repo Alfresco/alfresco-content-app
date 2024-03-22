@@ -19,25 +19,21 @@
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './snackBar/snack-bar.component';
-export * from './dataTable';
-export * from './dialogs';
-export * from './manageRules';
-export * from './base.component';
-export * from './spinner.component';
-export * from './actions-dropdown.component';
-export * from './conditions.component';
-export * from './pagination.component';
-export * from './adf-info-drawer.component';
-export * from './viewer.component';
-export * from './search/search-input.component';
-export * from './search/search-overlay.components';
-export * from './search/search-sorting-picker.components';
-export * from './breadcrumb/breadcrumb.component';
-export * from './sidenav.component';
-export * from './aca-header.component';
-export * from './error.component';
-export * from './datetime-picker/datetime-picker.component';
+import { Page } from '@playwright/test';
+import { BaseComponent } from '../base.component';
+
+export class UploadNewVersionDialog extends BaseComponent {
+  private static rootElement = 'adf-new-version-uploader-dialog';
+
+  public cancelButton = this.getChild('#adf-new-version-cancel');
+  public uploadButton = this.getChild('[data-automation-id="adf-new-version-file-upload"]');
+  public majorOption = this.getChild('#adf-new-version-major');
+  public description = this.getChild('#adf-new-version-text-area');
+
+  constructor(page: Page) {
+    super(page, UploadNewVersionDialog.rootElement);
+  }
+}
