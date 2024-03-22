@@ -211,6 +211,11 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
       term = term.substring(1);
     }
 
+    if (term === '*') {
+      prefix = '';
+      suffix = '';
+    }
+
     return '(' + fields.map((field) => `${prefix}${field}:"${term}${suffix}"`).join(' OR ') + ')';
   }
 
@@ -233,16 +238,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
 
     if (words.length > 1) {
       const separator = words.some(this.isOperator) ? ' ' : ' AND ';
-
-      return words
-        .map((term) => {
-          if (this.isOperator(term)) {
-            return term;
-          }
-
-          return this.formatFields(fields, term);
-        })
-        .join(separator);
+      return words.map((term) => (this.isOperator(term) ? term : this.formatFields(fields, term))).join(separator);
     }
 
     return this.formatFields(fields, userInput);
