@@ -22,13 +22,14 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ApiClientFactory, MyLibrariesPage, NodesApi, SitesApi, test, Utils } from '@alfresco/playwright-shared';
+import { ApiClientFactory, MyLibrariesPage, NodesApi, SitesApi, test, Utils, TrashcanApi } from '@alfresco/playwright-shared';
 import { expect } from '@playwright/test';
 import { Site } from '@alfresco/js-api';
 
 test.describe('Copy Move actions', () => {
   let nodesApi: NodesApi;
   let sitesApi: SitesApi;
+  let trashcanApi: TrashcanApi;
 
   const site = `site-${Utils.random()}`;
   const consumerUser = `consumer-${Utils.random()}`;
@@ -42,11 +43,13 @@ test.describe('Copy Move actions', () => {
 
   test.beforeAll(async () => {
     try {
+      const username = `user-${Utils.random()}`;
       const apiClientFactory = new ApiClientFactory();
       await apiClientFactory.setUpAcaBackend('admin');
-      const username = `user-${Utils.random()}`;
       await apiClientFactory.createUser({ username });
+
       nodesApi = await NodesApi.initialize(username, username);
+      trashcanApi = await TrashcanApi.initialize(username, username);
       sitesApi = await SitesApi.initialize(username, username);
 
       siteId = (await sitesApi.createSite(site, Site.VisibilityEnum.PRIVATE)).entry.id;
@@ -66,10 +69,7 @@ test.describe('Copy Move actions', () => {
   });
 
   test.afterAll(async () => {
-    try {
-      await nodesApi.deleteCurrentUserNodes();
-      await sitesApi.deleteSites([siteId]);
-    } catch {}
+    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', sitesApi, [siteId]);
   });
 
   const copyContentInMyLibraries = async (myLibrariesPage: MyLibrariesPage) => {
