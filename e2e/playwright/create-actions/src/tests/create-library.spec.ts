@@ -90,7 +90,7 @@ test.describe('Create Libraries ', () => {
   });
 
   test.afterAll(async () => {
-    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
+    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', sitesApi, createdLibrariesIds);
   });
 
   test('[C280024] Create Library dialog UI', async () => {
