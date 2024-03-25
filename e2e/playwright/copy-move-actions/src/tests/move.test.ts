@@ -39,10 +39,6 @@ test.describe('Move actions', () => {
   let sourceFolder: string;
   let destinationFolder: string;
 
-  test.afterAll(async ({ nodesApiAction }) => {
-    await Utils.deleteNodesSitesEmptyTrashcan(nodesApiAction, trashcanApi, 'afterAll failed');
-  });
-
   test.beforeAll(async () => {
     try {
       const apiClientFactory = new ApiClientFactory();
