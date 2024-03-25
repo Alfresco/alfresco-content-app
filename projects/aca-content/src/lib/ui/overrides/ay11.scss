@@ -38,6 +38,10 @@
     background-color: transparent;
   }
 
+  .mdc-menu-surface.mat-mdc-select-panel:is(div) {
+    padding: 0;
+  }
+
   .adf-content-node-selector-content-list .adf-datatable-list .adf-datatable-selected.mat-icon > svg {
     fill: var(--theme-blue-button-color);
   }
