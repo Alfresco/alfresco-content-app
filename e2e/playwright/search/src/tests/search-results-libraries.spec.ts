@@ -42,9 +42,9 @@ test.describe('Search Results - General', () => {
   let sitesAdminApi: SitesApi;
   let fileActionsApi: FileActionsApi;
 
-  const username = `user-${Utils.random()}`;
   const random = Utils.random();
-  const randomDescription = Utils.random() + '-' + Utils.random();
+  const username = `user-${random}`;
+  const randomDescription = random + '-' + random;
 
   const site1 = {
     name: `lib-${random}-1`,

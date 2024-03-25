@@ -138,18 +138,8 @@ test.describe('Library actions ', () => {
   });
 
   test.beforeEach(async ({ loginPage, myLibrariesPage }) => {
-    try {
-      await loginPage.loginUser(
-        { username: username2, password: username2 },
-        {
-          withNavigation: true,
-          waitForLoading: true
-        }
-      );
-      await myLibrariesPage.navigate();
-    } catch (error) {
-      console.error(`Main beforeEach failed : ${error}`);
-    }
+    await Utils.tryLoginUser(loginPage, username2, username2, 'beforeEach failed');
+    await myLibrariesPage.navigate();
   });
 
   test.afterAll(async () => {
