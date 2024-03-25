@@ -1,7 +1,7 @@
 <form class="aca-rule-details__form" [ngClass]="{ 'aca-read-only': readOnly }" [formGroup]="form">
 
   <ng-container *ngIf="!preview">
-    <div class="aca-rule-details__form__row aca-rule-details__form__name">
+    <div class="aca-rule-details__form__row">
       <label for="rule-details-name-input">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.NAME' | translate }}</label>
       <div>
         <mat-form-field floatLabel='auto' class="aca-rule-details__form__row__field">
