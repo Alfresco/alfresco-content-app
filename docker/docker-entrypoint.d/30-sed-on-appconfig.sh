@@ -43,6 +43,13 @@ if [ -n "${APP_CONFIG_OAUTH2_CLIENTID}" ]; then
     -i "$APP_CONFIG_FILE"
 fi
 
+if [ -n "${APP_CONFIG_OAUTH2_CLIENT_SECRET}" ]; then
+  echo "SET APP_CONFIG_OAUTH2_CLIENT_SECRET"
+
+  sed -e "s/\"secret\": \".*\"/\"secret\": \"${APP_CONFIG_OAUTH2_CLIENT_SECRET}\"/g" \
+    -i "$APP_CONFIG_FILE"
+fi
+
 if [ -n "${APP_CONFIG_OAUTH2_IMPLICIT_FLOW}" ]; then
   echo "SET APP_CONFIG_OAUTH2_IMPLICIT_FLOW"
 
@@ -61,6 +68,27 @@ if [ -n "${APP_CONFIG_OAUTH2_SILENT_LOGIN}" ]; then
   echo "SET APP_CONFIG_OAUTH2_SILENT_LOGIN"
 
   sed -e "s/\"silentLogin\": [^,]*/\"silentLogin\": ${APP_CONFIG_OAUTH2_SILENT_LOGIN}/g" \
+    -i "$APP_CONFIG_FILE"
+fi
+
+if [ -n "${APP_CONFIG_OAUTH2_LOGOUT_URL}" ]; then
+  echo "SET APP_CONFIG_OAUTH2_LOGOUT_URL"
+
+  sed -e "s/\"logoutUrl\": \".*\"/\"logoutUrl\": \"${APP_CONFIG_OAUTH2_LOGOUT_URL}\"/g" \
+    -i "$APP_CONFIG_FILE"
+fi
+
+if [ -n "${APP_CONFIG_OAUTH2_LOGOUT_PARAMETERS}" ]; then
+  echo "SET APP_CONFIG_OAUTH2_LOGOUT_PARAMETERS"
+
+  sed -e "s/\"logoutParameters\": \".*\"/\"logoutParameters\": \"${APP_CONFIG_OAUTH2_LOGOUT_PARAMETERS}\"/g" \
+    -i "$APP_CONFIG_FILE"
+fi
+
+if [ -n "${APP_CONFIG_OAUTH2_AUDIENCE}" ]; then
+  echo "SET APP_CONFIG_OAUTH2_AUDIENCE"
+
+  sed -e "s/\"audience\": \".*\"/\"audience\": \"${APP_CONFIG_OAUTH2_AUDIENCE}\"/g" \
     -i "$APP_CONFIG_FILE"
 fi
 

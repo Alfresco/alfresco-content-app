@@ -73,9 +73,13 @@ docker run --rm -it \
 | APP_BASE_SHARE_URL                           | `baseShareUrl`                   |
 | APP_CONFIG_OAUTH2_HOST                       | `oauth2.host`                    |
 | APP_CONFIG_OAUTH2_CLIENTID                   | `oauth2.clientId`                |
+| APP_CONFIG_OAUTH2_CLIENT_SECRET              | `oauth2.secret`                  |
 | APP_CONFIG_OAUTH2_IMPLICIT_FLOW              | `oauth2.implicitFlow`            |
 | APP_CONFIG_OAUTH2_CODE_FLOW                  | `oauth2.codeFlow`                |
 | APP_CONFIG_OAUTH2_SILENT_LOGIN               | `oauth2.silentLogin`             |
+| APP_CONFIG_OAUTH2_LOGOUT_URL                 | `oauth2.logoutUrl`               |
+| APP_CONFIG_OAUTH2_LOGOUT_PARAMETERS          | `oauth2.logoutParameters`        |
+| APP_CONFIG_OAUTH2_AUDIENCE                   | `oauth2.audience`                |
 | APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI | `oauth2.redirectSilentIframeUri` |
 | APP_CONFIG_OAUTH2_REDIRECT_LOGIN             | `oauth2.redirectUri`             |
 | APP_CONFIG_OAUTH2_REDIRECT_LOGOUT            | `oauth2.redirectUriLogout`       |
