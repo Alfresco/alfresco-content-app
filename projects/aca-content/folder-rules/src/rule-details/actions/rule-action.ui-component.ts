@@ -35,7 +35,7 @@ import {
   CardViewUpdateService,
   UpdateNotification
 } from '@alfresco/adf-core';
-import { ActionParameterDefinition, Node } from '@alfresco/js-api';
+import { ActionParameterDefinition, Category, Node } from '@alfresco/js-api';
 import { of, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { ActionParameterConstraint, ConstraintValue } from '../../model/action-parameter-constraint.model';
@@ -44,7 +44,9 @@ import {
   ContentNodeSelectorComponent,
   ContentNodeSelectorComponentData,
   NodeAction,
-  TagService
+  TagService,
+  CategorySelectorDialogComponent,
+  CategorySelectorDialogOptions
 } from '@alfresco/adf-content-services';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -220,6 +222,15 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
               clickCallBack: this.openSelectorDialog.bind(this, paramDef.name),
               value: this.parameters[paramDef.name]
             });
+          } else if (paramDef.name === 'category-value' && !this.readOnly) {
+            return new CardViewTextItemModel({
+              ...cardViewPropertiesModel,
+              icon: 'library_add',
+              default: '',
+              clickable: true,
+              clickCallBack: this.openCatDialog.bind(this, paramDef.name),
+              value: this.parameters[paramDef.name]
+            });
           }
         //  falls through
         default:
@@ -286,6 +297,35 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
         this.dialog.closeAll();
       }
     );
+  }
+
+  private openCatDialog(paramDefName) {
+    const data: CategorySelectorDialogOptions = {
+      select: new Subject<Category[]>(),
+      multiSelect: false
+    };
+
+    this.dialog.open(CategorySelectorDialogComponent, {
+      data,
+      width: '630px'
+    });
+
+    data.select.pipe(takeUntil(this.onDestroy$)).subscribe((selections: Category[]) => {
+      if (selections[0].id) {
+        this.writeValue({
+          actionDefinitionId: this.selectedActionDefinitionId,
+          params: {
+            ...this.parameters,
+            [paramDefName]: selections[0].id
+          }
+        });
+        this.onChange({
+          actionDefinitionId: this.selectedActionDefinitionId,
+          params: this.parameters
+        });
+        this.onTouch();
+      }
+    });
   }
 
   setDefaultParameters() {

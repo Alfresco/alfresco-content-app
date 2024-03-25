@@ -22,26 +22,15 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { BaseComponent } from '../../base.component';
 import { Page } from '@playwright/test';
-import { BasePage } from './base.page';
-import { DataTableComponent, MatMenuComponent, ViewerComponent, SidenavComponent, Breadcrumb, AdfInfoDrawerComponent } from '../components';
-import { AcaHeader } from '../components/aca-header.component';
-import { AdfFolderDialogComponent, ContentNodeSelectorDialog } from '../components/dialogs';
 
-export class RecentFilesPage extends BasePage {
-  private static pageUrl = 'recent-files';
+export class SearchFiltersTags extends BaseComponent {
+  private static rootElement = '.adf-search-filter-menu-card';
 
   constructor(page: Page) {
-    super(page, RecentFilesPage.pageUrl);
+    super(page, SearchFiltersTags.rootElement);
   }
 
-  public acaHeader = new AcaHeader(this.page);
-  public matMenu = new MatMenuComponent(this.page);
-  public folderDialog = new AdfFolderDialogComponent(this.page);
-  public dataTable = new DataTableComponent(this.page);
-  public viewer = new ViewerComponent(this.page);
-  public sidenav = new SidenavComponent(this.page);
-  public breadcrumb = new Breadcrumb(this.page);
-  public infoDrawer = new AdfInfoDrawerComponent(this.page);
-  public contentNodeSelector = new ContentNodeSelectorDialog(this.page);
+  public addOptionInput = this.getChild(`[data-automation-id$='adf-search-chip-autocomplete-input']`);
 }

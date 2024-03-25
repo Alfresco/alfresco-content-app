@@ -35,20 +35,33 @@ test.describe('viewer action file', () => {
   const randomDocxDelete = `${TEST_FILES.DOCX.name}-${Utils.random()}`;
   const fileForEditOffline = `playwright-file1-${Utils.random()}.docx`;
   const fileForCancelEditing = `playwright-file2-${Utils.random()}.docx`;
+  const docxFile2 = TEST_FILES.DOCX2.name;
+  const docxFile = TEST_FILES.DOCX.name;
   let folderId: string;
   let fileDocxShareId: string;
   let randomDocxNameFavoriteId: string;
   let fileForCancelEditingId: string;
+  const filePersonalFiles = `file3-${Utils.random()}.docx`;
+  let filePersonalFilesId: string;
+  const fileForUploadNewVersion2 = `file4-${Utils.random()}.docx`;
+  let fileForUploadNewVersionId2: string;
+  const destination = `destRF-${Utils.random()}`;
+  let destinationId: string;
+  const docxRecentFiles = `docxRF-${Utils.random()}.docx`;
 
   test.beforeAll(async ({ fileAction, favoritesPageAction, shareAction }) => {
     await apiClientFactory.setUpAcaBackend('hruser');
     const node = await apiClientFactory.nodes.createNode('-my-', { name: randomFolderName, nodeType: 'cm:folder', relativePath: '/' });
+    destinationId = (await apiClientFactory.nodes.createNode('-my-', { name: destination, nodeType: 'cm:folder', relativePath: '/' })).entry.id;
     folderId = node.entry.id;
 
     fileDocxShareId = (await fileAction.uploadFile(TEST_FILES.DOCX.path, randomDocxNameShare, folderId)).entry.id;
+    filePersonalFilesId = (await fileAction.uploadFile(TEST_FILES.DOCX2.path, filePersonalFiles, folderId)).entry.id;
+    fileForUploadNewVersionId2 = (await fileAction.uploadFileWithRename(TEST_FILES.DOCX.path, fileForUploadNewVersion2, folderId)).entry.id;
+    await fileAction.uploadFileWithRename(TEST_FILES.DOCX.path, docxRecentFiles, folderId);
     await shareAction.shareFileById(fileDocxShareId);
     fileForCancelEditingId = (await fileAction.uploadFile(TEST_FILES.DOCX.path, fileForCancelEditing, folderId)).entry.id;
-    await fileAction.lockNodes([fileForCancelEditingId]);
+    await fileAction.lockNodes([fileForCancelEditingId, fileForUploadNewVersionId2]);
     await fileAction.uploadFile(TEST_FILES.DOCX.path, randomDocxName, folderId);
     await fileAction.uploadFile(TEST_FILES.DOCX.path, randomDocxDelete, folderId);
     const fileFavoritesNode = await fileAction.uploadFile(TEST_FILES.DOCX.path, randomDocxNameFavorite, folderId);
@@ -65,6 +78,7 @@ test.describe('viewer action file', () => {
 
   test.afterAll(async () => {
     await apiClientFactory.nodes.deleteNode(folderId, { permanent: true });
+    await apiClientFactory.nodes.deleteNode(destinationId, { permanent: true });
   });
 
   test('[C268129] Download action', async ({ personalFiles }) => {
@@ -163,5 +177,55 @@ test.describe('viewer action file', () => {
     await favoritePage.viewerDialog.shareDialogClose.click();
     await favoritePage.viewerDialog.shareDialogClose.waitFor({ state: 'detached', timeout: timeouts.large });
     expect(await favoritePage.viewerDialog.shareDialogTitle.isVisible(), 'Share dialog should be open').toBe(false);
+  });
+
+  test('[C297586] Upload new version action', async ({ personalFiles, nodesApiAction }) => {
+    await personalFiles.dataTable.performClickFolderOrFileToOpen(filePersonalFiles);
+    await personalFiles.viewer.waitForViewerToOpen();
+
+    await Utils.uploadFileNewVersion(personalFiles, docxFile2);
+
+    await personalFiles.uploadNewVersionDialog.majorOption.click();
+    await personalFiles.uploadNewVersionDialog.description.fill('new major version description');
+    await personalFiles.uploadNewVersionDialog.uploadButton.click();
+    await expect(personalFiles.uploadNewVersionDialog.cancelButton).toHaveCount(0);
+    expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not open').toBe(true);
+    expect(await personalFiles.viewer.fileTitleButtonLocator.innerText()).toContain(docxFile2);
+    expect(await nodesApiAction.getNodeProperty(filePersonalFilesId, 'cm:versionType'), 'File has incorrect version type').toEqual('MAJOR');
+    expect(await nodesApiAction.getNodeProperty(filePersonalFilesId, 'cm:versionLabel'), 'File has incorrect version label').toEqual('2.0');
+  });
+
+  test('[MNT-21058] Upload new version action when node is locked', async ({ personalFiles }) => {
+    await personalFiles.dataTable.performClickFolderOrFileToOpen(fileForUploadNewVersion2);
+    await personalFiles.viewer.waitForViewerToOpen();
+
+    await Utils.uploadFileNewVersion(personalFiles, docxFile);
+
+    await personalFiles.uploadNewVersionDialog.uploadButton.click();
+    await expect(personalFiles.uploadNewVersionDialog.cancelButton).toHaveCount(0);
+
+    await personalFiles.viewer.waitForViewerToOpen();
+    expect(await personalFiles.viewer.fileTitleButtonLocator.innerText()).toContain(docxFile);
+
+    await personalFiles.acaHeader.clickViewerMoreActions();
+    expect(await personalFiles.matMenu.cancelEditingAction.isVisible(), `'Cancel Editing' button shouldn't be shown`).toBe(false);
+    expect(await personalFiles.matMenu.editOfflineAction.isVisible(), `'Edit Offline' should be shown`).toBe(true);
+  });
+
+  test('[C286384] Copy action from Recent Files', async ({ recentFilesPage, personalFiles }) => {
+    await recentFilesPage.navigate();
+    await recentFilesPage.dataTable.performClickFolderOrFileToOpen(docxRecentFiles);
+    expect(await recentFilesPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+
+    await recentFilesPage.acaHeader.clickViewerMoreActions();
+    await recentFilesPage.matMenu.clickMenuItem('Copy');
+    expect(await recentFilesPage.contentNodeSelector.actionButton.isVisible(), 'Dialog is not open').toBe(true);
+    await recentFilesPage.contentNodeSelector.selectLocation('Personal Files');
+    await recentFilesPage.contentNodeSelector.selectDestination(destination);
+    await recentFilesPage.contentNodeSelector.actionButton.click();
+    expect(await recentFilesPage.snackBar.message.innerText()).toContain('Copied 1 item');
+    await recentFilesPage.viewer.closeButtonLocator.click();
+    await personalFiles.navigate({ remoteUrl: `#/personal-files/${destinationId}` });
+    expect(await personalFiles.dataTable.isItemPresent(docxRecentFiles), 'Item is not present in destination').toBe(true);
   });
 });

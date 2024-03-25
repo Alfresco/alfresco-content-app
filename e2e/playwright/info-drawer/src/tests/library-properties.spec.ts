@@ -182,6 +182,7 @@ test.describe('Library properties', () => {
   });
 
   test('[C289343] Site description too long', async ({ myLibrariesPage }) => {
+    await Utils.reloadPageIfRowNotVisible(myLibrariesPage, site.name);
     await myLibrariesPage.dataTable.getRowByName(site.name).click();
     await myLibrariesPage.acaHeader.viewDetails.click();
     await expect(myLibrariesPage.libraryDetails.infoDrawerPanel).toBeVisible();

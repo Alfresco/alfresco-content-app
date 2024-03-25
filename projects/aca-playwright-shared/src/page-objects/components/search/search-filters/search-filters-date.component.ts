@@ -22,26 +22,23 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { BaseComponent } from '../../base.component';
 import { Page } from '@playwright/test';
-import { BasePage } from './base.page';
-import { DataTableComponent, MatMenuComponent, ViewerComponent, SidenavComponent, Breadcrumb, AdfInfoDrawerComponent } from '../components';
-import { AcaHeader } from '../components/aca-header.component';
-import { AdfFolderDialogComponent, ContentNodeSelectorDialog } from '../components/dialogs';
 
-export class RecentFilesPage extends BasePage {
-  private static pageUrl = 'recent-files';
+export class SearchFiltersDate extends BaseComponent {
+  private static rootElement = '.adf-search-filter-menu-card';
 
   constructor(page: Page) {
-    super(page, RecentFilesPage.pageUrl);
+    super(page, SearchFiltersDate.rootElement);
   }
 
-  public acaHeader = new AcaHeader(this.page);
-  public matMenu = new MatMenuComponent(this.page);
-  public folderDialog = new AdfFolderDialogComponent(this.page);
-  public dataTable = new DataTableComponent(this.page);
-  public viewer = new ViewerComponent(this.page);
-  public sidenav = new SidenavComponent(this.page);
-  public breadcrumb = new Breadcrumb(this.page);
-  public infoDrawer = new AdfInfoDrawerComponent(this.page);
-  public contentNodeSelector = new ContentNodeSelectorDialog(this.page);
+  public createdTab = this.getChild(`[role='tab']`, { hasText: 'Created' });
+  public modifiedTab = this.getChild(`[role='tab']`, { hasText: 'Modified' });
+  public anytimeButton = this.getChild(`[data-automation-id$='date-range-anytime']`);
+  public inTheLastButton = this.getChild(`[data-automation-id$='date-range-in-last']`);
+  public inTheLastInput = this.getChild(`[data-automation-id$='date-range-in-last-input']`);
+  public inTheLastDropdown = this.getChild(`[data-automation-id$='date-range-in-last-dropdown']`);
+  public betweenButton = this.getChild(`[data-automation-id$='date-range-between']`);
+  public betweenStartDate = this.getChild(`[data-automation-id$='date-range-between-start-input']`);
+  public betweenEndDate = this.getChild(`[data-automation-id$='date-range-between-end-input']`);
 }

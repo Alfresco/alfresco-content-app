@@ -151,7 +151,7 @@ test.describe('Share a file', () => {
         const url = await personalFiles.shareDialog.getLinkUrl();
         await personalFiles.shareDialog.clickClose();
 
-        const sharedId = await nodesApiAction.getSharedId(file3Id);
+        const sharedId = await nodesApiAction.getNodeProperty(file3Id, 'qshare:sharedId');
         expect(url).toContain(sharedId);
       });
 
@@ -190,14 +190,13 @@ test.describe('Share a file', () => {
         const inputDate = await personalFiles.shareDialog.getExpireDate();
 
         await page.waitForTimeout(timeouts.normal);
-        const expireDateProperty = await nodesApiAction.getSharedExpiryDate(file5Id);
-
+        const expireDateProperty = await nodesApiAction.getNodeProperty(file5Id, 'qshare:expiryDate');
         expect(Utils.formatDate(expireDateProperty)).toEqual(Utils.formatDate(inputDate));
       });
 
       test('[C286337] Expire date is displayed correctly', async ({ personalFiles, nodesApiAction }) => {
         expect(await personalFiles.dataTable.performActionFromExpandableMenu(file6, 'Share'));
-        const expireProperty = await nodesApiAction.getSharedExpiryDate(file6Id);
+        const expireProperty = await nodesApiAction.getNodeProperty(file6Id, 'qshare:expiryDate');
 
         expect(expireProperty).toEqual(expiryDate);
         expect(await personalFiles.shareDialog.isExpireToggleEnabled()).toBe(true);
@@ -215,7 +214,7 @@ test.describe('Share a file', () => {
 
         await page.waitForTimeout(timeouts.tiny);
         await personalFiles.shareDialog.clickClose();
-        expect(await nodesApiAction.getSharedExpiryDate(file7Id)).toBe('');
+        expect(await nodesApiAction.getNodeProperty(file7Id, 'qshare:expiryDate')).toBe('');
       });
 
       test('[C286335] Shared file URL is not changed when Share dialog is closed and opened again', async ({ personalFiles }) => {
@@ -237,7 +236,7 @@ test.describe('Share a file', () => {
         const url = await personalFiles.shareDialog.getLinkUrl();
         await personalFiles.shareDialog.clickClose();
 
-        const sharedId = await nodesApiAction.getSharedId(file9Id);
+        const sharedId = await nodesApiAction.getNodeProperty(file9Id, 'qshare:sharedId');
         expect(await nodesApiAction.isFileShared(file9Id)).toBe(true);
         expect(url).toContain(sharedId);
       });

@@ -22,26 +22,26 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { BaseComponent } from '../base.component';
 import { Page } from '@playwright/test';
-import { BasePage } from './base.page';
-import { DataTableComponent, MatMenuComponent, ViewerComponent, SidenavComponent, Breadcrumb, AdfInfoDrawerComponent } from '../components';
-import { AcaHeader } from '../components/aca-header.component';
-import { AdfFolderDialogComponent, ContentNodeSelectorDialog } from '../components/dialogs';
 
-export class RecentFilesPage extends BasePage {
-  private static pageUrl = 'recent-files';
+export class SearchFilters extends BaseComponent {
+  private static rootElement = '.aca-content__advanced-filters';
 
   constructor(page: Page) {
-    super(page, RecentFilesPage.pageUrl);
+    super(page, SearchFilters.rootElement);
   }
 
-  public acaHeader = new AcaHeader(this.page);
-  public matMenu = new MatMenuComponent(this.page);
-  public folderDialog = new AdfFolderDialogComponent(this.page);
-  public dataTable = new DataTableComponent(this.page);
-  public viewer = new ViewerComponent(this.page);
-  public sidenav = new SidenavComponent(this.page);
-  public breadcrumb = new Breadcrumb(this.page);
-  public infoDrawer = new AdfInfoDrawerComponent(this.page);
-  public contentNodeSelector = new ContentNodeSelectorDialog(this.page);
+  public filtersButtons = this.page.locator('adf-search-widget-chip');
+  public logicFilter = this.page.locator('adf-search-widget-chip', { hasText: 'Logic' });
+  public propertiesFilter = this.page.locator('adf-search-widget-chip', { hasText: 'Properties' });
+  public dateFilter = this.page.locator('adf-search-widget-chip', { hasText: 'Date' });
+  public locationFilter = this.page.locator('adf-search-widget-chip', { hasText: 'Location' });
+  public tagsFilter = this.page.locator('adf-search-widget-chip', { hasText: 'Tags' });
+  public categoriesFilter = this.page.locator('adf-search-widget-chip', { hasText: 'Categories' });
+  public resetButton = this.getChild('button' , { hasText: 'Reset' });
+  public menuCardTitle = this.getChild('.adf-search-filter-title');
+  public menuCardClose = this.getChild('.adf-search-filter-title-action');
+  public menuCardClear = this.getChild('#cancel-filter-button');
+  public menuCardApply = this.getChild('#apply-filter-button');
 }

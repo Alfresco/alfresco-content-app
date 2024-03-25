@@ -22,26 +22,18 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { BaseComponent } from '../../base.component';
 import { Page } from '@playwright/test';
-import { BasePage } from './base.page';
-import { DataTableComponent, MatMenuComponent, ViewerComponent, SidenavComponent, Breadcrumb, AdfInfoDrawerComponent } from '../components';
-import { AcaHeader } from '../components/aca-header.component';
-import { AdfFolderDialogComponent, ContentNodeSelectorDialog } from '../components/dialogs';
 
-export class RecentFilesPage extends BasePage {
-  private static pageUrl = 'recent-files';
+export class SearchFiltersProperties extends BaseComponent {
+  private static rootElement = '.adf-search-filter-menu-card';
 
   constructor(page: Page) {
-    super(page, RecentFilesPage.pageUrl);
+    super(page, SearchFiltersProperties.rootElement);
   }
 
-  public acaHeader = new AcaHeader(this.page);
-  public matMenu = new MatMenuComponent(this.page);
-  public folderDialog = new AdfFolderDialogComponent(this.page);
-  public dataTable = new DataTableComponent(this.page);
-  public viewer = new ViewerComponent(this.page);
-  public sidenav = new SidenavComponent(this.page);
-  public breadcrumb = new Breadcrumb(this.page);
-  public infoDrawer = new AdfInfoDrawerComponent(this.page);
-  public contentNodeSelector = new ContentNodeSelectorDialog(this.page);
+  public operatorButton = this.getChild(`.adf-search-properties-file-size-operator`);
+  public fileSizeInput = this.getChild(`[placeholder$='Results will match all words entered here']`);
+  public unitButton = this.getChild(`.adf-search-properties-file-size-unit`);
+  public fileTypeInput = this.getChild(`[placeholder$='Results will exclude matches with these words']`);
 }
