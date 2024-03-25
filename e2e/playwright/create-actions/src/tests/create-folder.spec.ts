@@ -31,12 +31,14 @@ import {
   NodesApi,
   Utils,
   errorStrings,
-  test
+  test,
+  TrashcanApi
 } from '@alfresco/playwright-shared';
 
 test.describe('Create folders', () => {
   const apiClientFactory = new ApiClientFactory();
   let nodesApi: NodesApi;
+  let trashcanApi: TrashcanApi;
   let folderDialog: AdfFolderDialogComponent;
   let folderTable: DataTableComponent;
   let randomFolderName: string;
@@ -53,6 +55,7 @@ test.describe('Create folders', () => {
       await apiClientFactory.setUpAcaBackend('admin');
       await apiClientFactory.createUser({ username });
       nodesApi = await NodesApi.initialize(username, username);
+      trashcanApi = await TrashcanApi.initialize(username, username);
       await nodesApi.createFolder(commonFolderName);
     } catch (error) {
       console.error(`beforeAll failed : ${error}`);
@@ -65,27 +68,13 @@ test.describe('Create folders', () => {
     randomFolderDescription = `folder-description-${Utils.random()}`;
     folderDialog = personalFiles.folderDialog;
     const loginPage = new LoginPage(page);
-    try {
-      await loginPage.loginUser(
-        { username, password: username },
-        {
-          withNavigation: true,
-          waitForLoading: true
-        }
-      );
-      await personalFiles.navigate();
-      await personalFiles.selectCreateFolder();
-    } catch (error) {
-      console.error(`beforeEach failed : ${error}`);
-    }
+    await Utils.tryLoginUser(loginPage, username, username, 'Main beforeEach failed');
+    await personalFiles.navigate();
+    await personalFiles.selectCreateFolder();
   });
 
   test.afterAll(async () => {
-    try {
-      await nodesApi.deleteCurrentUserNodes();
-    } catch (error) {
-      console.error(`afterAll failed : ${error}`);
-    }
+    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
   });
 
   test('[C216345] Create new folder dialog check', async () => {
