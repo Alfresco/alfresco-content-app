@@ -34,11 +34,13 @@ import {
   SitesApi,
   Utils,
   errorStrings,
-  test
+  test,
+  TrashcanApi
 } from '@alfresco/playwright-shared';
 
 test.describe('Create file from template', () => {
   let nodesApi: NodesApi;
+  let trashcanApi: TrashcanApi;
   let selectFileTemplateDialog: ContentNodeSelectorDialog;
   let createFileFromTemplateDialog: CreateFromTemplateDialogComponent;
   let dataTable: DataTableComponent;
@@ -109,26 +111,17 @@ test.describe('Create file from template', () => {
     await nodesApiAction.removeUserAccessOnNodeTemplate(restrictedTemplateFolder);
     fileLink = (await nodesApiAction.createLinkToFileName(template2InRoot, await nodesApiAction.getNodeTemplatesFolderId())).entry.name;
     nodesApi = await NodesApi.initialize(username, username);
+    trashcanApi = await TrashcanApi.initialize(username, username);
   });
 
   test.beforeEach(async ({ loginPage, personalFiles }) => {
-    try {
-      await loginPage.loginUser(
-        { username: username, password: username },
-        {
-          withNavigation: true,
-          waitForLoading: true
-        }
-      );
-      await personalFiles.navigate();
-    } catch (error) {
-      console.error(`Main beforeEach failed: ${error}`);
-    }
+    await Utils.tryLoginUser(loginPage, username, username, 'Main beforeEach failed');
+    await personalFiles.navigate();
   });
 
   test.afterAll(async ({ nodesApiAction }) => {
     await nodesApiAction.cleanupNodeTemplatesItems([templatesFolder1, templatesFolder2, restrictedTemplateFolder, template1InRoot, template2InRoot]);
-    await nodesApi.deleteCurrentUserNodes();
+    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
   });
 
   test.describe('Personal Files page', () => {

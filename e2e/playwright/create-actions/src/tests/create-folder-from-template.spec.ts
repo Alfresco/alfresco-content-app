@@ -34,12 +34,14 @@ import {
   SitesApi,
   Utils,
   errorStrings,
-  test
+  test,
+  TrashcanApi
 } from '@alfresco/playwright-shared';
 
 test.describe('Create folder from template', () => {
   const apiClientFactory = new ApiClientFactory();
   let nodesApi: NodesApi;
+  let trashcanApi: TrashcanApi;
   let selectFolderTemplateDialog: ContentNodeSelectorDialog;
   let createFolderFromTemplateDialog: CreateFromTemplateDialogComponent;
   let dataTable: DataTableComponent;
@@ -109,6 +111,8 @@ test.describe('Create folder from template', () => {
       await apiClientFactory.createUser({ username: username });
       await nodesApiAction.createContent(templates, `Data Dictionary/Space Templates`);
       await nodesApiAction.removeUserAccessOnSpaceTemplate(restrictedTemplateFolder);
+      nodesApi = await NodesApi.initialize(username, username);
+      trashcanApi = await TrashcanApi.initialize(username, username);
       folderLink = (await nodesApiAction.createLinkToFolderName(folderInRootFolder, await nodesApiAction.getSpaceTemplatesFolderId())).entry.name;
     } catch (error) {
       console.error(`Main beforeAll failed : ${error}`);
@@ -116,18 +120,8 @@ test.describe('Create folder from template', () => {
   });
 
   test.beforeEach(async ({ loginPage, personalFiles }) => {
-    try {
-      await loginPage.loginUser(
-        { username: username, password: username },
-        {
-          withNavigation: true,
-          waitForLoading: true
-        }
-      );
-      await personalFiles.navigate();
-    } catch (error) {
-      console.error(`Main beforeEach failed : ${error}`);
-    }
+    await Utils.tryLoginUser(loginPage, username, username, 'Main beforeEach failed');
+    await personalFiles.navigate();
   });
 
   test.afterAll(async ({ nodesApiAction }) => {
@@ -139,6 +133,7 @@ test.describe('Create folder from template', () => {
         restrictedTemplateFolder,
         fileInRootFolder
       ]);
+      await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
     } catch (error) {
       console.error(`Main afterAll failed : ${error}`);
     }
@@ -166,11 +161,7 @@ test.describe('Create folder from template', () => {
     });
 
     test.afterAll(async () => {
-      try {
-        await nodesApi.deleteCurrentUserNodes();
-      } catch (error) {
-        console.error(`Personal Files page, afterAll failed : ${error}`);
-      }
+      await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'Personal Files page, afterAll failed : ');
     });
 
     test.describe('Select Template dialog', () => {

@@ -49,6 +49,7 @@ test.describe('Move actions', () => {
       await apiClientFactory.setUpAcaBackend('admin');
       await apiClientFactory.createUser({ username });
       nodesApi = await NodesApi.initialize(username, username);
+      trashcanApi = await TrashcanApi.initialize(username, username);
     } catch {}
   });
 
@@ -66,6 +67,10 @@ test.describe('Move actions', () => {
     sourceFileId = (await nodesApi.createFile(sourceFile)).entry.id;
 
     await personalFiles.navigate();
+  });
+
+  test.afterAll(async () => {
+    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
   });
 
   const moveContentInPersonalFiles = async (personalFilesPage: PersonalFilesPage, sourceFileList: string[], destinationName: string) => {
