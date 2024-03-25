@@ -3,12 +3,9 @@
 }
 
 .aca-edit-rule-dialog {
-  margin: -24px;
-
   &__header {
     display: flex;
     align-items: center;
-    margin: -43px -24px 0;
     padding: var(--edit-rule-dialog-padding);
     box-sizing: border-box;
     border-bottom: 1px solid var(--theme-border-color);
@@ -26,20 +23,18 @@
     }
   }
 
-  &__content {
-    margin: 0 -24px;
+  .aca-edit-rule-dialog__content {
+    color: inherit;
     padding: 0;
 
     &__spinner {
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 20px 0;
     }
   }
 
   &__footer {
-    margin: 0 -24px -43px;
     padding: var(--edit-rule-dialog-padding);
     box-sizing: border-box;
     border-top: 1px solid var(--theme-border-color);
