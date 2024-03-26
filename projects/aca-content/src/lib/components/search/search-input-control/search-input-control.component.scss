@@ -1,6 +1,8 @@
 $top-margin: 12px;
 
 .app-suffix-search-icon-wrapper {
+  display: flex;
+  align-items: center;
   height: 6px;
   margin: 14px 1px;
   float: left;
@@ -46,8 +48,12 @@ $top-margin: 12px;
     }
   }
 
+  .mat-mdc-text-field-wrapper {
+    background-color: var(--theme-search-background-color);
+  }
+
   .app-search-button {
-    top: -2px;
+    top: 2px;
     left: -8px;
 
     &-icon {
