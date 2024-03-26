@@ -23,12 +23,13 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, LoginPage, NodesApi, SitesApi, test, timeouts, Utils } from '@alfresco/playwright-shared';
+import { ApiClientFactory, TrashcanApi, NodesApi, SitesApi, test, timeouts, Utils } from '@alfresco/playwright-shared';
 import { Site } from '@alfresco/js-api';
 
 test.describe('viewer action file', () => {
   let nodesApi: NodesApi;
   let siteActions: SitesApi;
+  let trashcanApi: TrashcanApi;
   const username = `user-${Utils.random()}`;
   const parent = `parent-${Utils.random()}`;
   let parentId: string;
@@ -61,6 +62,7 @@ test.describe('viewer action file', () => {
     await apiClientFactory.createUser({ username });
     nodesApi = await NodesApi.initialize(username, username);
     siteActions = await SitesApi.initialize(username, username);
+    trashcanApi = await TrashcanApi.initialize(username, username);
     const parentNode = await nodesApi.createFolder(parent);
     parentId = parentNode.entry.id;
     subFolder1Id = (await nodesApi.createFolder(subFolder1, parentId)).entry.id;
@@ -78,20 +80,12 @@ test.describe('viewer action file', () => {
     await nodesApi.createFile(fileName1FromSite, subFolder2FromSiteId);
   });
 
-  test.beforeEach(async ({ page }) => {
-    const loginPage = new LoginPage(page);
-    await loginPage.loginUser(
-      { username, password: username },
-      {
-        withNavigation: true,
-        waitForLoading: true
-      }
-    );
+  test.beforeEach(async ({ loginPage }) => {
+    await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
   });
 
   test.afterAll(async () => {
-    await nodesApi.deleteNodes([parentId, parent2Id], true);
-    await siteActions.deleteSites([docLibId]);
+    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', siteActions, [docLibId]);
   });
 
   test('[C260964] Personal Files breadcrumb main node', async ({ personalFiles }) => {

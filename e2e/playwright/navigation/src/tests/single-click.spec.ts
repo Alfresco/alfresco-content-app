@@ -23,20 +23,17 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, LoginPage, NodesApi, SitesApi, test, Utils } from '@alfresco/playwright-shared';
+import { ApiClientFactory, TrashcanApi, NodesApi, SitesApi, test, Utils } from '@alfresco/playwright-shared';
 
 test.describe('Single click on item name', () => {
   let nodesApi: NodesApi;
+  let trashcanApi: TrashcanApi;
   const username = `user-${Utils.random()}`;
   const folder1 = `folder1-${Utils.random()}`;
-  let folder1Id: string;
   const folderSearch = `folder1-${Utils.random()}`;
-  let folderSearchId: string;
 
   const deletedFile1 = `file1-${Utils.random()}.txt`;
-  let deletedFile1Id: string;
   const deletedFolder1 = `folder1-${Utils.random()}`;
-  let deletedFolder1Id: string;
 
   const siteName = `site-${Utils.random()}`;
   const fileSite = `fileSite-${Utils.random()}.txt`;
@@ -46,31 +43,24 @@ test.describe('Single click on item name', () => {
     await apiClientFactory.setUpAcaBackend('admin');
     await apiClientFactory.createUser({ username });
     nodesApi = await NodesApi.initialize(username, username);
+    trashcanApi = await TrashcanApi.initialize(username, username);
     const siteActions = await SitesApi.initialize(username, username);
-    const node = await nodesApi.createFolder(folder1);
-    folder1Id = node.entry.id;
-    folderSearchId = (await nodesApi.createFolder(folderSearch)).entry.id;
-    deletedFile1Id = (await nodesApi.createFile(deletedFile1)).entry.id;
-    deletedFolder1Id = (await nodesApi.createFolder(deletedFolder1)).entry.id;
+    await nodesApi.createFolder(folder1);
+    await nodesApi.createFolder(folderSearch);
+    await nodesApi.createFile(deletedFile1);
+    await nodesApi.createFolder(deletedFolder1);
 
     await siteActions.createSite(siteName);
     const docLibId = await siteActions.getDocLibId(siteName);
     await nodesApi.createFile(fileSite, docLibId);
   });
 
-  test.beforeEach(async ({ page }) => {
-    const loginPage = new LoginPage(page);
-    await loginPage.loginUser(
-      { username, password: username },
-      {
-        withNavigation: true,
-        waitForLoading: true
-      }
-    );
+  test.beforeEach(async ({ loginPage }) => {
+    await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
   });
 
   test.afterAll(async () => {
-    await nodesApi.deleteNodes([deletedFolder1Id, deletedFile1Id, folder1Id, folderSearchId], true);
+    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
   });
 
   test('[C284899] Hyperlink does not appear for items in the Trash', async ({ trashPage }) => {

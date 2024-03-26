@@ -23,7 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, APP_ROUTES, LoginPage, SIDEBAR_LABELS, test, Utils } from '@alfresco/playwright-shared';
+import { ApiClientFactory, APP_ROUTES, SIDEBAR_LABELS, test, Utils } from '@alfresco/playwright-shared';
 
 test.describe('Sidebar', () => {
   const username = `user-${Utils.random()}`;
@@ -34,15 +34,8 @@ test.describe('Sidebar', () => {
     await apiClientFactory.createUser({ username });
   });
 
-  test.beforeEach(async ({ page }) => {
-    const loginPage = new LoginPage(page);
-    await loginPage.loginUser(
-      { username, password: username },
-      {
-        withNavigation: true,
-        waitForLoading: true
-      }
-    );
+  test.beforeEach(async ({ loginPage }) => {
+    await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
   });
 
   test('[C289901] navigate to My Libraries', async ({ personalFiles, myLibrariesPage }) => {
