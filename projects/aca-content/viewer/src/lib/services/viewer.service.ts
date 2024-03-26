@@ -27,7 +27,7 @@ import { FavoritePaging, Node, NodePaging, SearchRequest, ResultSetPaging, Share
 import { Injectable } from '@angular/core';
 import { ContentApiService } from '@alfresco/aca-shared';
 
-interface adjacentFiles {
+interface AdjacentFiles {
   left: string;
   right: string;
 }
@@ -67,10 +67,10 @@ export class ViewerService {
    *
    * @param nodeId Unique identifier of the document node
    * @param folderId Unique identifier of the containing folder node.
-   * @param source Data source name. Allowed values are: personal-files, libraries, favorites, shared, recent-files.
+   * @param source Data source name. Returns file ids for personal-files, libraries, favorites, shared and recent-files, otherwise returns empty.
    */
-  async getNearestNodes(nodeId: string, folderId: string, source: string): Promise<adjacentFiles> {
-    const empty: adjacentFiles = {
+  async getNearestNodes(nodeId: string, folderId: string, source: string): Promise<AdjacentFiles> {
+    const empty: AdjacentFiles = {
       left: null,
       right: null
     };
@@ -94,7 +94,7 @@ export class ViewerService {
   /**
    * Retrieves a list of node identifiers for the folder and data source.
    *
-   * @param source Data source name. Allowed values are: personal-files, libraries, favorites, shared, recent-files.
+   * @param source Data source name. Returns file ids for personal-files, libraries, favorites, shared and recent-files, otherwise returns empty.
    * @param folderId Optional parameter containing folder node identifier for 'personal-files' and 'libraries' sources.
    */
   async getFileIds(source: string, folderId?: string): Promise<string[]> {
@@ -172,7 +172,7 @@ export class ViewerService {
       }
       this.sort(entries, sortKey, sortDirection);
     }
-    return entries.map((entry) => entry.id ?? entry.nodeId);
+    return nodes === undefined ? [] : entries.map((entry) => entry.id ?? entry.nodeId);
   }
 
   /**
@@ -201,9 +201,7 @@ export class ViewerService {
       let right = ObjectUtils.getValue(b, key) ?? '';
       right = right instanceof Date ? right.valueOf().toString() : right.toString();
 
-      return direction === 'asc' || direction === 'ASC'
-        ? left.localeCompare(right, undefined, options)
-        : right.localeCompare(left, undefined, options);
+      return direction === 'asc' ? left.localeCompare(right, undefined, options) : right.localeCompare(left, undefined, options);
     });
   }
 
