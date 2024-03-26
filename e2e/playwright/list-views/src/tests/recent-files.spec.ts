@@ -26,7 +26,7 @@ import { expect } from '@playwright/test';
 import { ApiClientFactory, NodesApi, SearchPageApi, SitesApi, TrashcanApi, Utils, test, timeouts } from '@alfresco/playwright-shared';
 import { Site } from '@alfresco/js-api';
 
-test.describe.only('Recent Files', () => {
+test.describe('Recent Files', () => {
   let nodeActionsUser: NodesApi;
   let siteActionsUser: SitesApi;
   let trashcanApi: TrashcanApi;
