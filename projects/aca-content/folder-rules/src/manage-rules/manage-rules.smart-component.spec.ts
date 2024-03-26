@@ -44,11 +44,16 @@ import { FolderRuleSetsService } from '../services/folder-rule-sets.service';
 import { ruleMock, ruleSettingsMock } from '../mock/rules.mock';
 import { Store } from '@ngrx/store';
 import { AppService } from '@alfresco/aca-shared';
+import { HarnessLoader } from '@angular/cdk/testing';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { MatProgressBarHarness } from '@angular/material/progress-bar/testing';
+import { MatSlideToggleHarness } from '@angular/material/slide-toggle/testing';
 
 describe('ManageRulesSmartComponent', () => {
   let fixture: ComponentFixture<ManageRulesSmartComponent>;
   let component: ManageRulesSmartComponent;
   let debugElement: DebugElement;
+  let loader: HarnessLoader;
 
   let folderRuleSetsService: FolderRuleSetsService;
   let folderRulesService: FolderRulesService;
@@ -74,6 +79,7 @@ describe('ManageRulesSmartComponent', () => {
     fixture = TestBed.createComponent(ManageRulesSmartComponent);
     component = fixture.componentInstance;
     debugElement = fixture.debugElement;
+    loader = TestbedHarnessEnvironment.loader(fixture);
 
     folderRuleSetsService = TestBed.inject(FolderRuleSetsService);
     folderRulesService = TestBed.inject(FolderRulesService);
@@ -193,7 +199,7 @@ describe('ManageRulesSmartComponent', () => {
 
     expect(component).toBeTruthy();
 
-    const matProgressBar = debugElement.query(By.css('mat-progress-bar'));
+    const matProgressBar = loader.getHarness(MatProgressBarHarness);
     const rules = debugElement.query(By.css('.aca-rule-list-item'));
     const ruleDetails = debugElement.query(By.css('aca-rule-details'));
 
@@ -307,16 +313,18 @@ describe('ManageRulesSmartComponent', () => {
       actionsService.loading$ = of(false);
     });
 
-    it('should show inherit rules toggle button, and disable it when isInheritanceToggleDisabled = true', () => {
+    it('should show inherit rules toggle button, and disable it when isInheritanceToggleDisabled = true', async () => {
       fixture.detectChanges();
 
-      const createButton = debugElement.query(By.css(`[data-automation-id="manage-rules-inheritance-toggle-button"]`));
+      const createButton = await loader.getHarness(
+        MatSlideToggleHarness.with({ selector: `[data-automation-id="manage-rules-inheritance-toggle-button"]` })
+      );
       expect(createButton).toBeTruthy();
 
       component.isInheritanceToggleDisabled = true;
       fixture.detectChanges();
 
-      expect(createButton.nativeNode.classList).toContain('mat-disabled');
+      expect(await createButton.isDisabled()).toBeTrue();
     });
 
     it('should call onInheritanceToggleChange() on change', () => {

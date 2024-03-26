@@ -320,10 +320,12 @@
     },
     {
       "files": ["*.spec.ts", "*.test.ts", "*.e2e.ts"],
+      "plugins": ["@alfresco/eslint-angular"],
       "rules": {
         "@typescript-eslint/no-floating-promises": "warn",
         "@typescript-eslint/no-misused-promises": "warn",
-        "max-lines": "off"
+        "max-lines": "off",
+        "@alfresco/eslint-angular/no-angular-material-selectors": "error"
       }
     },
     {
