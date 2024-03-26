@@ -48,8 +48,23 @@ $top-margin: 12px;
     }
   }
 
+  .mat-mdc-form-field-flex {
+    background: #fff;
+  }
+
   .mat-mdc-text-field-wrapper {
-    background-color: var(--theme-search-background-color);
+    height: 44px;
+    padding-left: 0;
+  }
+
+  .app-input-form-field-disabled {
+    .mat-mdc-form-field-flex {
+      background-color: var(--theme-search-background-color);
+    }
+
+    .mat-mdc-text-field-wrapper {
+      background-color: var(--theme-search-background-color);
+    }
   }
 
   .app-search-button {
