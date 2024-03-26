@@ -23,12 +23,13 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, LoginPage, NodesApi, SitesApi, Utils, test } from '@alfresco/playwright-shared';
+import { ApiClientFactory, NodesApi, SitesApi, Utils, test, TrashcanApi } from '@alfresco/playwright-shared';
 import { Site } from '@alfresco/js-api';
 
 test.describe('Trash', () => {
   let nodesApi: NodesApi;
   let siteActionsAdmin: SitesApi;
+  let trashcanApi: TrashcanApi;
 
   const username = `user-${Utils.random()}`;
   const siteName = `site-${Utils.random()}`;
@@ -45,6 +46,7 @@ test.describe('Trash', () => {
       await apiClientFactory.createUser({ username });
       siteActionsAdmin = await SitesApi.initialize('admin');
       nodesApi = await NodesApi.initialize(username, username);
+      trashcanApi = await TrashcanApi.initialize(username, username);
       const nodesApiAdmin = await NodesApi.initialize('admin');
       const folderDeleted = `folder-${Utils.random()}`;
 
@@ -66,27 +68,12 @@ test.describe('Trash', () => {
   });
 
   test.afterAll(async () => {
-    try {
-      await nodesApi.deleteCurrentUserNodes();
-      await siteActionsAdmin.deleteSites([siteName]);
-    } catch (error) {
-      console.error(`Main afterAll failed: ${error}`);
-    }
+    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'Main afterAll failed: ', siteActionsAdmin, [siteName]);
   });
 
   test.describe(`Regular user's personal files`, () => {
-    test.beforeEach(async ({ page }) => {
-      const loginPage = new LoginPage(page);
-      await loginPage.loginUser(
-        { username, password: username },
-        {
-          withNavigation: true,
-          waitForLoading: true
-        }
-      );
-    });
-
-    test.beforeEach(async ({ trashPage }) => {
+    test.beforeEach(async ({ loginPage, trashPage }) => {
+      await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
       await trashPage.navigate();
     });
 

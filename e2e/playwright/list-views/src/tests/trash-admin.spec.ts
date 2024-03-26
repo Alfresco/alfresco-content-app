@@ -23,19 +23,21 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, NodesApi, Utils, getUserState, test, LoginPage, users } from '@alfresco/playwright-shared';
+import { ApiClientFactory, NodesApi, Utils, getUserState, test, TrashcanApi, users } from '@alfresco/playwright-shared';
 
 test.use({ storageState: getUserState('admin') });
 test.describe('Trash admin', () => {
   const folderAdmin = `deleteFolder-${Utils.random()}`;
   let folderAdminId: string;
   let adminApiActions: NodesApi;
+  let adminTrashcanApi: TrashcanApi;
 
   test.beforeAll(async () => {
     try {
       const apiClientFactory = new ApiClientFactory();
       await apiClientFactory.setUpAcaBackend('admin');
       adminApiActions = await NodesApi.initialize('admin');
+      adminTrashcanApi = await TrashcanApi.initialize('admin');
       folderAdminId = (await adminApiActions.createFolder(folderAdmin)).entry.id;
       await adminApiActions.deleteNodeById(folderAdminId, false);
     } catch (error) {
@@ -44,22 +46,11 @@ test.describe('Trash admin', () => {
   });
 
   test.afterAll(async () => {
-    try {
-      await adminApiActions.deleteDeletedNode(folderAdminId);
-    } catch (error) {
-      console.error(`----- afterAll failed : ${error}`);
-    }
+    await Utils.deleteNodesSitesEmptyTrashcan(adminApiActions, adminTrashcanApi, '----- afterAll failed : ');
   });
 
-  test.beforeEach(async ({ page }) => {
-    const loginPage = new LoginPage(page);
-    await loginPage.loginUser(
-      { username: users.admin.username, password: users.admin.password },
-      {
-        withNavigation: true,
-        waitForLoading: true
-      }
-    );
+  test.beforeEach(async ({ loginPage }) => {
+    await Utils.tryLoginUser(loginPage, users.admin.username, users.admin.password, 'beforeEach failed');
   });
 
   test.describe('as admin', () => {

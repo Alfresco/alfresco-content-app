@@ -23,7 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, LoginPage, NodesApi, TrashcanApi, Utils, test } from '@alfresco/playwright-shared';
+import { ApiClientFactory, NodesApi, TrashcanApi, Utils, test } from '@alfresco/playwright-shared';
 
 test.describe('Generic errors', () => {
   const username = `user-${Utils.random()}`;
@@ -52,15 +52,8 @@ test.describe('Generic errors', () => {
     }
   });
 
-  test.beforeEach(async ({ page }) => {
-    const loginPage = new LoginPage(page);
-    await loginPage.loginUser(
-      { username, password: username },
-      {
-        withNavigation: true,
-        waitForLoading: true
-      }
-    );
+  test.beforeEach(async ({ loginPage }) => {
+    await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
   });
 
   test.afterAll(async () => {

@@ -23,7 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, FavoritesPageApi, LoginPage, SitesApi, Utils, test, timeouts } from '@alfresco/playwright-shared';
+import { ApiClientFactory, FavoritesPageApi, SitesApi, Utils, test, timeouts } from '@alfresco/playwright-shared';
 import { Site } from '@alfresco/js-api';
 
 test.describe('File Libraries', () => {
@@ -88,15 +88,8 @@ test.describe('File Libraries', () => {
   });
 
   test.describe('My Libraries', () => {
-    test.beforeEach(async ({ page, myLibrariesPage }) => {
-      const loginPage = new LoginPage(page);
-      await loginPage.loginUser(
-        { username, password: username },
-        {
-          withNavigation: true,
-          waitForLoading: true
-        }
-      );
+    test.beforeEach(async ({ loginPage, myLibrariesPage }) => {
+      await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
       await myLibrariesPage.navigate();
     });
 
@@ -142,15 +135,8 @@ test.describe('File Libraries', () => {
   });
 
   test.describe('Favorite Libraries', () => {
-    test.beforeEach(async ({ page, favoritesLibrariesPage }) => {
-      const loginPage = new LoginPage(page);
-      await loginPage.loginUser(
-        { username, password: username },
-        {
-          withNavigation: true,
-          waitForLoading: true
-        }
-      );
+    test.beforeEach(async ({ loginPage, favoritesLibrariesPage }) => {
+      await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
       await favoritesLibrariesPage.navigate();
     });
 
