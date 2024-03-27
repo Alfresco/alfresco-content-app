@@ -46,7 +46,7 @@ test.describe('viewer file', () => {
 
   const testUser2 = {
     username: `user-${Utils.random()}`,
-    password: 'user2 password'
+    password: Utils.random()
   };
   const newPassword = 'new password';
 
