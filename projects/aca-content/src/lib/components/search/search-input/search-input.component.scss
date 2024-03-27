@@ -30,10 +30,6 @@ $top-margin: 12px;
 
     &-input {
       caret-color: var(--theme-text-color);
-
-      &:disabled {
-        color: var(--theme-text-color);
-      }
     }
   }
 
@@ -44,7 +40,8 @@ $top-margin: 12px;
   }
 }
 
-.app-search-options-menu {
+/* stylelint-disable-next-line */
+.app-search-options-menu.mat-mdc-menu-panel {
   background-color: var(--theme-dialog-background-color);
   width: $search-width;
   max-width: unset;
