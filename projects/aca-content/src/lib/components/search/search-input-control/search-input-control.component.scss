@@ -58,11 +58,8 @@ $top-margin: 12px;
   }
 
   .app-input-form-field-readonly {
+    .mat-mdc-text-field-wrapper,
     .mat-mdc-form-field-flex {
-      background-color: var(--theme-search-background-color);
-    }
-
-    .mat-mdc-text-field-wrapper {
       background-color: var(--theme-search-background-color);
     }
   }
