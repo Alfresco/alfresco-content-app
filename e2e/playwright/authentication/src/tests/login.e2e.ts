@@ -31,6 +31,7 @@ test.describe('viewer file', () => {
   const otherLanguageUser = {
     /* cspell:disable-next-line */
     username: `пользвате${Utils.random()}`,
+    /* cspell:disable-next-line */
     password: '密碼中國'
   };
 
