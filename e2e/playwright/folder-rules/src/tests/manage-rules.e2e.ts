@@ -22,13 +22,13 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ApiClientFactory, getUserState, test } from '@alfresco/playwright-shared';
+import { ApiClientFactory, getUserState, test, Utils } from '@alfresco/playwright-shared';
 
 test.use({ storageState: getUserState('hruser') });
 test.describe('Rules - Manage Rules', () => {
   const apiClientFactory = new ApiClientFactory();
-  const randomName = `playwright-folder-${(Math.random() + 1).toString(36).substring(6)}`;
-  const randomRuleName = `playwright-rule-${(Math.random() + 1).toString(36).substring(6)}`;
+  const randomName = `playwright-folder-${Utils.random()}`;
+  const randomRuleName = `playwright-rule-${Utils.random()}`;
 
   let folderId: string;
 

@@ -9,7 +9,7 @@
       "src/polyfills.ts"
   ],
   "include": [
-      "**/*.spec.ts",
+      "**/*.e2e.ts",
       "**/*.d.ts"
   ],
   "angularCompilerOptions": {
