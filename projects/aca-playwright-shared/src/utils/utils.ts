@@ -24,7 +24,7 @@
 
 const crypto = require('crypto');
 import * as path from 'path';
-import { LoginPage, MyLibrariesPage, PersonalFilesPage, FavoritesLibrariesPage, SearchPage, SharedPage } from '../';
+import { LoginPage, MyLibrariesPage, PersonalFilesPage, FavoritesLibrariesPage, SearchPage, SharedPage, TrashPage } from '../';
 import { NodesApi, TrashcanApi, SitesApi } from '@alfresco/playwright-shared';
 
 export class Utils {
@@ -102,12 +102,25 @@ export class Utils {
   static async reloadPageIfRowNotVisible(
     pageContext: PersonalFilesPage | MyLibrariesPage | FavoritesLibrariesPage | SearchPage | SharedPage,
     nodeName: string,
-    errorMessage = 'Error '
+    errorMessage = 'reloadPageIfRowNotVisible Error '
   ): Promise<void> {
     try {
       if (!await pageContext.dataTable.getRowByName(nodeName).isVisible()) {
         await pageContext.page.reload({ waitUntil: 'load' });
       };
+    } catch (error) {
+      console.error(`${errorMessage}: ${error}`);
+    }
+  }
+
+  static async reloadPageIfDatatableEmpty(
+    pageContext: PersonalFilesPage | MyLibrariesPage | FavoritesLibrariesPage | SearchPage | SharedPage | TrashPage,
+    errorMessage = 'reloadPageIfDatatableEmpty Error '
+  ): Promise<void> {
+    try {
+      if (await pageContext.dataTable.getEmptyFolderLocator.isVisible() || await pageContext.dataTable.emptyListTitle.isVisible()) {
+        await pageContext.page.reload({ waitUntil: 'load' });
+      }
     } catch (error) {
       console.error(`${errorMessage}: ${error}`);
     }

@@ -23,11 +23,12 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, LoginPage, NodesApi, Utils, test, SitesApi, FavoritesPageApi, timeouts } from '@alfresco/playwright-shared';
+import { ApiClientFactory, NodesApi, Utils, test, SitesApi, FavoritesPageApi, timeouts, TrashcanApi } from '@alfresco/playwright-shared';
 import { Site } from '@alfresco/js-api';
 
 test.describe('Favorites Files', () => {
   let nodesApi: NodesApi;
+  let trashcanApi: TrashcanApi;
   let siteActionsAdmin: SitesApi;
   const username = `user-${Utils.random()}`;
   const siteName = `site-${Utils.random()}`;
@@ -45,6 +46,7 @@ test.describe('Favorites Files', () => {
       await apiClientFactory.setUpAcaBackend('admin');
       await apiClientFactory.createUser({ username });
       nodesApi = await NodesApi.initialize(username, username);
+      trashcanApi = await TrashcanApi.initialize(username, username);
       const nodesApiAdmin = await NodesApi.initialize('admin');
       siteActionsAdmin = await SitesApi.initialize('admin');
       const favoritesActions = await FavoritesPageApi.initialize(username, username);
@@ -75,20 +77,12 @@ test.describe('Favorites Files', () => {
     }
   });
 
-  test.beforeEach(async ({ page }) => {
-    const loginPage = new LoginPage(page);
-    await loginPage.loginUser(
-      { username, password: username },
-      {
-        withNavigation: true,
-        waitForLoading: true
-      }
-    );
+  test.beforeEach(async ({ loginPage }) => {
+    await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
   });
 
   test.afterAll(async () => {
-    await nodesApi.deleteCurrentUserNodes();
-    await siteActionsAdmin.deleteSites([siteName]);
+    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', siteActionsAdmin, [siteName]);
   });
 
   test.describe(`Regular user's Favorites files`, () => {
