@@ -30,7 +30,7 @@ test.describe('Create folders', () => {
   let randomFolderName: string;
   const sessionTestUser = {
     username: `user-${Utils.random()}`,
-    password: 'user password'
+    password: Utils.random()
   };
 
   test.beforeAll(async () => {

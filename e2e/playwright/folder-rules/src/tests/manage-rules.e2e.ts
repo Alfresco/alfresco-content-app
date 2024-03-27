@@ -22,22 +22,21 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { expect } from '@playwright/test';
-import { ActionType, ApiClientFactory, Comparator, Field, getUserState, test } from '@alfresco/playwright-shared';
+import { ApiClientFactory, getUserState, test, Utils } from '@alfresco/playwright-shared';
 
 test.use({ storageState: getUserState('hruser') });
-test.describe('Folder Rules Conditions', () => {
+test.describe('Rules - Manage Rules', () => {
   const apiClientFactory = new ApiClientFactory();
-  const randomFolderName = `playwright-folder-${(Math.random() + 1).toString(36).substring(6)}`;
-  const randomRuleName = `playwright-rule-${(Math.random() + 1).toString(36).substring(6)}`;
-  const specialChars = '!@£$%^&*()~#/';
+  const randomName = `playwright-folder-${Utils.random()}`;
+  const randomRuleName = `playwright-rule-${Utils.random()}`;
 
   let folderId: string;
 
   test.beforeAll(async () => {
     await apiClientFactory.setUpAcaBackend('hruser');
-    const node = await apiClientFactory.nodes.createNode('-my-', { name: randomFolderName, nodeType: 'cm:folder' });
+    const node = await apiClientFactory.nodes.createNode('-my-', { name: randomName, nodeType: 'cm:folder' });
     folderId = node.entry.id;
+    await apiClientFactory.createRandomRule(folderId, randomRuleName);
   });
 
   test.beforeEach(async ({ personalFiles }) => {
@@ -48,19 +47,8 @@ test.describe('Folder Rules Conditions', () => {
     await apiClientFactory.nodes.deleteNode(folderId, { permanent: true });
   });
 
-  test('[C691638] Create a rule with condition', async ({ personalFiles, nodesPage }) => {
-    await personalFiles.dataTable.performActionFromExpandableMenu(randomFolderName, 'Manage rules');
-
-    await nodesPage.toolbar.clickCreateRuleButton();
-    await nodesPage.manageRulesDialog.ruleNameInputLocator.type(randomRuleName);
-    await nodesPage.conditionsDropdown.addCondition(Field.Size, Comparator.Equals, specialChars, 0);
-    await nodesPage.conditionsDropdown.addCondition(Field.Size, Comparator.Equals, specialChars, 1);
-    await nodesPage.conditionsDropdown.addConditionGroupButton.click();
-    await nodesPage.conditionsDropdown.addConditionGroup(Field.Size, Comparator.Equals, specialChars, 0);
-    await nodesPage.conditionsDropdown.addConditionGroup(Field.Size, Comparator.Equals, specialChars, 1);
-    await nodesPage.actionsDropdown.selectAction(ActionType.IncrementCounter, 0);
-    await nodesPage.manageRulesDialog.createRuleButton.click();
-
-    await expect.soft(nodesPage.manageRules.getGroupsList(randomRuleName)).toBeVisible();
+  test('[C691651] Disable an existing rule', async ({ personalFiles, nodesPage }) => {
+    await personalFiles.dataTable.performActionFromExpandableMenu(randomName, 'Manage rules');
+    await nodesPage.manageRules.disableRuleToggle.click();
   });
 });

@@ -31,6 +31,7 @@ test.describe('viewer file', () => {
   const otherLanguageUser = {
     /* cspell:disable-next-line */
     username: `пользвате${Utils.random()}`,
+    /* cspell:disable-next-line */
     password: '密碼中國'
   };
 
@@ -45,7 +46,7 @@ test.describe('viewer file', () => {
 
   const testUser2 = {
     username: `user-${Utils.random()}`,
-    password: 'user2 password'
+    password: Utils.random()
   };
   const newPassword = 'new password';
 

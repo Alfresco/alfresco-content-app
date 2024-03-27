@@ -23,13 +23,13 @@
  */
 
 import { expect } from '@playwright/test';
-import { ActionType, ApiClientFactory, getUserState, test } from '@alfresco/playwright-shared';
+import { ActionType, ApiClientFactory, getUserState, test, Utils } from '@alfresco/playwright-shared';
 
 test.use({ storageState: getUserState('hruser') });
 test.describe('Folder Rules Actions', () => {
   const apiClientFactory = new ApiClientFactory();
-  const randomFolderName = `playwright-folder-${(Math.random() + 1).toString(36).substring(6)}`;
-  const randomRuleName = `playwright-rule-${(Math.random() + 1).toString(36).substring(6)}`;
+  const randomFolderName = `playwright-folder-${Utils.random()}`;
+  const randomRuleName = `playwright-rule-${Utils.random()}`;
   const checkInValue = 'check In Value';
   const actionValue = ' A site which contains sfdc content [sfdc:site] ';
   const autoDeclareOptionsValue = 'For all major and minor versions [ALL]';

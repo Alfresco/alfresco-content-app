@@ -29,8 +29,9 @@ test.describe('viewer file', () => {
   const apiClientFactory = new ApiClientFactory();
   const testUser = {
     username: `user-${Utils.random()}`,
-    password: 'user password'
+    password: Utils.random()
   };
+
   test.beforeAll(async () => {
     await apiClientFactory.setUpAcaBackend('admin');
     await apiClientFactory.createUser(testUser);
