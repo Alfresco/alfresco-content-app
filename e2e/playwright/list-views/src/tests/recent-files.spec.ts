@@ -23,19 +23,18 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, LoginPage, NodesApi, SearchPageApi, SitesApi, TrashcanApi, Utils, test, timeouts } from '@alfresco/playwright-shared';
+import { ApiClientFactory, NodesApi, SearchPageApi, SitesApi, TrashcanApi, Utils, test, timeouts } from '@alfresco/playwright-shared';
 import { Site } from '@alfresco/js-api';
 
 test.describe('Recent Files', () => {
   let nodeActionsUser: NodesApi;
   let siteActionsUser: SitesApi;
+  let trashcanApi: TrashcanApi;
   const username = `user-${Utils.random()}`;
 
   const folderName = `folder-${Utils.random()}`;
-  let folderId: string;
   const fileName1 = `file-${Utils.random()}.txt`;
   const fileName2 = `file-${Utils.random()}.txt`;
-  let file2Id: string;
   const fileName3 = `file-${Utils.random()}.txt`;
 
   const siteName = `site-${Utils.random()}`;
@@ -49,10 +48,11 @@ test.describe('Recent Files', () => {
     await apiClientFactory.createUser({ username });
     nodeActionsUser = await NodesApi.initialize(username, username);
     siteActionsUser = await SitesApi.initialize(username, username);
+    trashcanApi = await TrashcanApi.initialize(username, username);
 
-    folderId = (await nodeActionsUser.createFolder(folderName)).entry.id;
+    await nodeActionsUser.createFolder(folderName);
     await nodeActionsUser.createFiles([fileName1], folderName);
-    file2Id = (await nodeActionsUser.createFile(fileName2)).entry.id;
+    await nodeActionsUser.createFile(fileName2);
     const id = (await nodeActionsUser.createFile(fileName3)).entry.id;
 
     await nodeActionsUser.deleteNodes([id], false);
@@ -66,23 +66,13 @@ test.describe('Recent Files', () => {
     await searchApi.waitForApi(username, { expect: 3 });
   });
 
-  test.beforeEach(async ({ page, recentFilesPage }) => {
-    const loginPage = new LoginPage(page);
-    await loginPage.loginUser(
-      { username, password: username },
-      {
-        withNavigation: true,
-        waitForLoading: true
-      }
-    );
+  test.beforeEach(async ({ loginPage, recentFilesPage }) => {
+    await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
     await recentFilesPage.navigate();
   });
 
   test.afterAll(async () => {
-    await nodeActionsUser.deleteNodes([folderId, file2Id]);
-    await siteActionsUser.deleteSites([siteName]);
-    const trashcanApi = await TrashcanApi.initialize(username, username);
-    await trashcanApi.emptyTrashcan();
+    await Utils.deleteNodesSitesEmptyTrashcan(nodeActionsUser, trashcanApi, 'afterAll failed', siteActionsUser, [siteName]);
   });
 
   test('[C213168] has the correct columns', async ({ recentFilesPage }) => {

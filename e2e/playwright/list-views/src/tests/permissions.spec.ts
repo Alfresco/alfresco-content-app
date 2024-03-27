@@ -74,15 +74,8 @@ test.describe('Special permissions', () => {
       await shareApiUser.waitForFilesToBeShared([fileId]);
     });
 
-    test.beforeEach(async ({ page }) => {
-      const loginPage = new LoginPage(page);
-      await loginPage.loginUser(
-        { username, password: username },
-        {
-          withNavigation: true,
-          waitForLoading: true
-        }
-      );
+    test.beforeEach(async ({ loginPage }) => {
+      await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
     });
 
     test.afterEach(async () => {

@@ -23,12 +23,13 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, LoginPage, NodesApi, Utils, test, SitesApi, timeouts, SharedLinksApi } from '@alfresco/playwright-shared';
+import { ApiClientFactory, NodesApi, Utils, test, SitesApi, timeouts, SharedLinksApi, TrashcanApi } from '@alfresco/playwright-shared';
 import { Site } from '@alfresco/js-api';
 
 test.describe('Shared Files', () => {
   let nodesApi: NodesApi;
   let siteActionsAdmin: SitesApi;
+  let trashcanApi: TrashcanApi;
 
   const username = `user-${Utils.random()}`;
   const siteName = `site-${Utils.random()}`;
@@ -48,6 +49,7 @@ test.describe('Shared Files', () => {
     const nodesApiAdmin = await NodesApi.initialize('admin');
     const shareActionsAdmin = await SharedLinksApi.initialize('admin');
     nodesApi = await NodesApi.initialize(username, username);
+    trashcanApi = await TrashcanApi.initialize(username, username);
     const shareActions = await SharedLinksApi.initialize(username, username);
 
     await siteActionsAdmin.createSite(siteName, Site.VisibilityEnum.PUBLIC);
@@ -73,21 +75,13 @@ test.describe('Shared Files', () => {
     await shareActions.waitForFilesToNotBeShared([file2Id, file3Id]);
   });
 
-  test.beforeEach(async ({ page, sharedPage }) => {
-    const loginPage = new LoginPage(page);
-    await loginPage.loginUser(
-      { username, password: username },
-      {
-        withNavigation: true,
-        waitForLoading: true
-      }
-    );
+  test.beforeEach(async ({ loginPage, sharedPage }) => {
+    await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
     await sharedPage.navigate();
   });
 
   test.afterAll(async () => {
-    await siteActionsAdmin.deleteSites([siteName]);
-    await nodesApi.deleteCurrentUserNodes();
+    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', siteActionsAdmin, [siteName]);
   });
 
   test('[C213113] has the correct columns', async ({ sharedPage }) => {

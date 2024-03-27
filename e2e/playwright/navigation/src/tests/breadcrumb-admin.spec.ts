@@ -23,7 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, LoginPage, NodesApi, test, users, Utils } from '@alfresco/playwright-shared';
+import { ApiClientFactory, NodesApi, test, users, Utils } from '@alfresco/playwright-shared';
 
 test.describe('as admin', () => {
   test.describe.configure({ mode: 'serial' });
@@ -39,16 +39,9 @@ test.describe('as admin', () => {
     userFolderId = node.entry.id;
   });
 
-  test.beforeEach(async ({ page, personalFiles }) => {
-    const loginPage = new LoginPage(page);
+  test.beforeEach(async ({ loginPage, personalFiles }) => {
+    await Utils.tryLoginUser(loginPage, users.admin.username, users.admin.password, 'beforeEach failed');
     await personalFiles.navigate();
-    await loginPage.loginUser(
-      { username: users.admin.username, password: users.admin.password },
-      {
-        withNavigation: true,
-        waitForLoading: true
-      }
-    );
   });
 
   test.afterAll(async () => {

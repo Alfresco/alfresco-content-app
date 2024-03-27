@@ -33,12 +33,15 @@ import {
   AdfLibraryDialogComponent,
   DataTableComponent,
   Breadcrumb,
-  TrashcanApi
+  TrashcanApi,
+  NodesApi
 } from '@alfresco/playwright-shared';
 
 test.describe('Create Libraries ', () => {
   const apiClientFactory = new ApiClientFactory();
   let sitesApi: SitesApi;
+  let nodesApi: NodesApi;
+  let trashcanApi: TrashcanApi;
   let libraryDialog: AdfLibraryDialogComponent;
   let libraryTable: DataTableComponent;
   let libraryBreadcrumb: Breadcrumb;
@@ -64,6 +67,8 @@ test.describe('Create Libraries ', () => {
       await apiClientFactory.setUpAcaBackend('admin');
       await apiClientFactory.createUser({ username });
       sitesApi = await SitesApi.initialize(username, username);
+      nodesApi = await NodesApi.initialize(username, username);
+      trashcanApi = await TrashcanApi.initialize(username, username);
       await sitesApi.createSite(commonLibraryName);
       createdLibrariesIds.push(commonLibraryName);
       await sitesApi.createSite(commonTrashLibraryName);
@@ -79,29 +84,13 @@ test.describe('Create Libraries ', () => {
     randomLibraryDescription = `libraryDescription-${Utils.random()}`;
     libraryDialog = myLibrariesPage.libraryDialog;
     const loginPage = new LoginPage(page);
-    try {
-      await loginPage.loginUser(
-        { username: username, password: username },
-        {
-          withNavigation: true,
-          waitForLoading: true
-        }
-      );
-      await myLibrariesPage.navigate();
-      await myLibrariesPage.selectCreateLibrary();
-    } catch (error) {
-      console.error(`beforeEach failed : ${error}`);
-    }
+    await Utils.tryLoginUser(loginPage, username, username, 'Main beforeEach failed');
+    await myLibrariesPage.navigate();
+    await myLibrariesPage.selectCreateLibrary();
   });
 
   test.afterAll(async () => {
-    try {
-      await sitesApi.deleteSites(createdLibrariesIds);
-      const trashcanApi = await TrashcanApi.initialize(username, username);
-      await trashcanApi.emptyTrashcan();
-    } catch (error) {
-      console.error(`afterAll failed : ${error}`);
-    }
+    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', sitesApi, createdLibrariesIds);
   });
 
   test('[C280024] Create Library dialog UI', async () => {

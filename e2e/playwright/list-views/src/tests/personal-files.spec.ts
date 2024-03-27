@@ -23,10 +23,11 @@
  */
 
 import { expect } from '@playwright/test';
-import { APP_ROUTES, ApiClientFactory, LoginPage, NodesApi, SIDEBAR_LABELS, Utils, test } from '@alfresco/playwright-shared';
+import { APP_ROUTES, ApiClientFactory, NodesApi, SIDEBAR_LABELS, Utils, test, TrashcanApi } from '@alfresco/playwright-shared';
 
 test.describe('Personal Files', () => {
   let nodesApi: NodesApi;
+  let trashcanApi: TrashcanApi;
   const username = `user-${Utils.random()}`;
   const userFolder = `user-folder-${Utils.random()}`;
 
@@ -36,6 +37,7 @@ test.describe('Personal Files', () => {
       await apiClientFactory.setUpAcaBackend('admin');
       await apiClientFactory.createUser({ username });
       nodesApi = await NodesApi.initialize(username, username);
+      trashcanApi = await TrashcanApi.initialize(username, username);
       await nodesApi.createFolder(userFolder);
     } catch (error) {
       console.error(`beforeAll failed : ${error}`);
@@ -43,19 +45,12 @@ test.describe('Personal Files', () => {
   });
 
   test.afterAll(async () => {
-    await nodesApi.deleteCurrentUserNodes();
+    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
   });
 
   test.describe(`Regular user's personal files`, () => {
-    test.beforeEach(async ({ page }) => {
-      const loginPage = new LoginPage(page);
-      await loginPage.loginUser(
-        { username, password: username },
-        {
-          withNavigation: true,
-          waitForLoading: true
-        }
-      );
+    test.beforeEach(async ({ loginPage }) => {
+      await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
     });
 
     test('[C217142] has the correct columns', async ({ personalFiles }) => {
@@ -65,6 +60,7 @@ test.describe('Personal Files', () => {
     });
 
     test('[C217143] has default sorted column', async ({ personalFiles }) => {
+      await Utils.reloadPageIfDatatableEmpty(personalFiles);
       expect(await personalFiles.dataTable.getSortedColumnHeaderText()).toBe('Name');
     });
 
