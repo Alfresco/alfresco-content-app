@@ -40,7 +40,7 @@ $top-margin: 12px;
   }
 }
 
-/* stylelint-disable */
+/* stylelint-disable-next-line */
 .app-search-options-menu.mat-mdc-menu-panel {
   background-color: var(--theme-dialog-background-color);
   width: $search-width;
@@ -48,7 +48,6 @@ $top-margin: 12px;
   border-radius: $search-border-radius;
   margin-top: 3px;
 }
-/* stylelint-enable */
 
 .aca-search-input {
   width: 100%;
