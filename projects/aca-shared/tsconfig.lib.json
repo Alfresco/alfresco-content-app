@@ -23,5 +23,5 @@
     "strictInjectionParameters": true,
     "enableResourceInlining": true
   },
-  "exclude": ["test.ts", "**/*.e2e.ts"]
+  "exclude": ["test.ts", "**/*.spec.ts"]
 }

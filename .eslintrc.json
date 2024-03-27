@@ -7,7 +7,7 @@
       "files": ["*.ts"],
       "plugins": ["@alfresco/eslint-angular"],
       "extends": ["plugin:@angular-eslint/template/process-inline-templates"],
-      "excludedFiles": ["*.e2e.ts"],
+      "excludedFiles": ["*.spec.ts"],
       "rules": {
         "@alfresco/eslint-angular/use-none-component-view-encapsulation": "error"
       }
@@ -327,7 +327,7 @@
       }
     },
     {
-      "files": ["*.e2e.ts", "*.e2e.ts"],
+      "files": ["*.spec.ts", "*.test.ts"],
       "rules": {
         "@typescript-eslint/no-floating-promises": "warn",
         "@typescript-eslint/no-misused-promises": "warn",
