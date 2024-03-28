@@ -23,11 +23,23 @@
  */
 
 import { Site } from '@alfresco/js-api';
-import { ApiClientFactory, FileActionsApi, NodesApi, SharedLinksApi, SitesApi, Utils, test, timeouts } from '@alfresco/playwright-shared';
+import {
+  ApiClientFactory,
+  FileActionsApi,
+  NodesApi,
+  SharedLinksApi,
+  SitesApi,
+  Utils,
+  test,
+  timeouts,
+  TrashcanApi
+} from '@alfresco/playwright-shared';
 import { expect } from '@playwright/test';
 
-test.describe('Unshare a file from Search Results', () => {
+test.describe.only('Unshare a file from Search Results', () => {
   const random = Utils.random();
+  let nodesApi: NodesApi;
+  let trashcanApi: TrashcanApi;
 
   const username = `user-${random}`;
   const parent = `parent-${random}`;
@@ -57,7 +69,8 @@ test.describe('Unshare a file from Search Results', () => {
       test.setTimeout(timeouts.extendedTest);
       await apiClientFactory.setUpAcaBackend('admin');
       await apiClientFactory.createUser({ username });
-      const nodesApi = await NodesApi.initialize(username, username);
+      nodesApi = await NodesApi.initialize(username, username);
+      trashcanApi = await TrashcanApi.initialize(username, username);
       sitesApi = await SitesApi.initialize(username, username);
       const shareApi = await SharedLinksApi.initialize(username, username);
       const filesAction = await FileActionsApi.initialize(username, username);
@@ -89,14 +102,12 @@ test.describe('Unshare a file from Search Results', () => {
   });
 
   test.beforeEach(async ({ loginPage, personalFiles }) => {
-    await loginPage.navigate();
-    await loginPage.loginUser({ username: username, password: username });
+    await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
     await personalFiles.waitForPageLoad();
   });
 
   test.afterAll(async () => {
-    await apiClientFactory.nodes.deleteNode(parentId, { permanent: true });
-    await sitesApi.deleteSites([sitePrivate]);
+    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', sitesApi, [sitePrivate]);
   });
 
   test('[C306995] Unshare dialog UI', async ({ personalFiles, searchPage }) => {
@@ -172,7 +183,7 @@ test.describe('Unshare a file from Search Results', () => {
 
     await page.goto(url);
     await personalFiles.viewer.waitForViewerToOpen();
-    expect(personalFiles.viewer.fileTitleButtonLocator).not.toEqual(file4);
+    expect(personalFiles.viewer.fileTitleButtonLocator.textContent()).not.toEqual(file4);
     expect(await nodesApiAction.isFileShared(file4Id)).toBe(false);
   });
 
