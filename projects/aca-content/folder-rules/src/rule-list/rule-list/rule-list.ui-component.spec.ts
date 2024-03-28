@@ -29,6 +29,7 @@ import { ownedRuleSetMock, ruleSetsMock, ruleSetWithLinkMock } from '../../mock/
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { owningFolderIdMock } from '../../mock/node.mock';
+import { of } from 'rxjs';
 
 describe('RuleListUiComponent', () => {
   let fixture: ComponentFixture<RuleListUiComponent>;
@@ -49,7 +50,7 @@ describe('RuleListUiComponent', () => {
   });
 
   it('should show "Rules from current folder" as a title if the main rule set is owned', () => {
-    component.mainRuleSet = ownedRuleSetMock;
+    component.mainRuleSet$ = of(ownedRuleSetMock);
     fixture.detectChanges();
 
     const mainRuleSetTitleElement = debugElement.query(By.css(`[data-automation-id="main-rule-set-title"]`));
@@ -57,7 +58,7 @@ describe('RuleListUiComponent', () => {
   });
 
   it('should show "Rules from linked folder" as a title if the main rule set is linked', () => {
-    component.mainRuleSet = ruleSetWithLinkMock;
+    component.mainRuleSet$ = of(ruleSetWithLinkMock);
     fixture.detectChanges();
 
     const mainRuleSetTitleElement = debugElement.query(By.css(`[data-automation-id="main-rule-set-title"]`));

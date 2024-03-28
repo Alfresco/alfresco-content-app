@@ -60,7 +60,7 @@
 
           <div class="aca-manage-rules__container" *ngIf="isMainRuleSetNotEmpty || isInheritedRuleSetsNotEmpty; else emptyContent">
             <aca-rule-list
-              [mainRuleSet]="mainRuleSet$ | async"
+              [mainRuleSet$]="mainRuleSet$"
               [folderId]="nodeId"
               [inheritedRuleSets]="inheritedRuleSets$ | async"
               [hasMoreRuleSets]="hasMoreRuleSets$ | async"
