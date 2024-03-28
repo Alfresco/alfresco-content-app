@@ -24,6 +24,7 @@
 
 import { NgModule } from '@angular/core';
 import { AcaViewerComponent } from './components/viewer/viewer.component';
+import { PreviewComponent } from './components/preview/preview.component';
 import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
@@ -38,7 +39,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes), AcaViewerComponent],
-  exports: [AcaViewerComponent]
+  imports: [RouterModule.forChild(routes), AcaViewerComponent, PreviewComponent],
+  exports: [AcaViewerComponent, PreviewComponent]
 })
 export class AcaViewerModule {}

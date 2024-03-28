@@ -43,16 +43,17 @@ import {
   ViewNodeAction
 } from '@alfresco/aca-shared/store';
 import { ContentActionRef, SelectionState } from '@alfresco/adf-extensions';
-import { Node, SearchRequest, VersionEntry, VersionsApi } from '@alfresco/js-api';
+import { Node, VersionEntry, VersionsApi } from '@alfresco/js-api';
 import { Component, HostListener, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, PRIMARY_OUTLET, Router } from '@angular/router';
-import { AlfrescoApiService, AppConfigModule, ObjectUtils, UserPreferencesService, ViewerModule } from '@alfresco/adf-core';
+import { AlfrescoApiService, AppConfigModule, ViewerModule } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
 import { from, Observable, Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { Actions, ofType } from '@ngrx/effects';
 import { AlfrescoViewerModule, NodesApiService, UploadService } from '@alfresco/adf-content-services';
 import { CommonModule } from '@angular/common';
+import { ViewerService } from '../../services/viewer.service';
 
 @Component({
   standalone: true,
@@ -74,62 +75,36 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
 
   fileName: string;
   folderId: string = null;
-  nodeId: string = null;
-  versionId: string = null;
-  node: Node;
-  selection: SelectionState;
   infoDrawerOpened$: Observable<boolean>;
-
-  showRightSide = false;
-  openWith: ContentActionRef[] = [];
-  toolbarActions: ContentActionRef[] = [];
-
-  navigateSource: string = null;
-  previousNodeId: string;
-  nextNodeId: string;
   navigateMultiple = true;
-  routesSkipNavigation = ['shared', 'recent-files', 'favorites'];
+  navigateSource: string = null;
   navigationSources = ['favorites', 'libraries', 'personal-files', 'recent-files', 'shared'];
-  recentFileFilters = [
-    'TYPE:"content"',
-    '-PATH:"//cm:wiki/*"',
-    '-TYPE:"app:filelink"',
-    '-TYPE:"fm:post"',
-    '-TYPE:"cm:thumbnail"',
-    '-TYPE:"cm:failedThumbnail"',
-    '-TYPE:"cm:rating"',
-    '-TYPE:"dl:dataList"',
-    '-TYPE:"dl:todoList"',
-    '-TYPE:"dl:issue"',
-    '-TYPE:"dl:contact"',
-    '-TYPE:"dl:eventAgenda"',
-    '-TYPE:"dl:event"',
-    '-TYPE:"dl:task"',
-    '-TYPE:"dl:simpletask"',
-    '-TYPE:"dl:meetingAgenda"',
-    '-TYPE:"dl:location"',
-    '-TYPE:"fm:topic"',
-    '-TYPE:"fm:post"',
-    '-TYPE:"ia:calendarEvent"',
-    '-TYPE:"lnk:link"'
-  ];
+  nextNodeId: string;
+  node: Node;
+  nodeId: string = null;
+  openWith: ContentActionRef[] = [];
+  previousNodeId: string;
+  selection: SelectionState;
+  showRightSide = false;
+  toolbarActions: ContentActionRef[] = [];
+  versionId: string = null;
 
   private navigationPath: string;
   private previewLocation: string;
   private containersSkipNavigation = ['adf-viewer__sidebar', 'cdk-overlay-container', 'adf-image-viewer'];
 
   constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private store: Store<AppStore>,
-    private extensions: AppExtensionService,
-    private contentApi: ContentApiService,
     private actions$: Actions,
-    private preferences: UserPreferencesService,
     private apiService: AlfrescoApiService,
+    private appHookService: AppHookService,
+    private contentApi: ContentApiService,
+    private extensions: AppExtensionService,
     private nodesApiService: NodesApiService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private store: Store<AppStore>,
     private uploadService: UploadService,
-    private appHookService: AppHookService
+    private viewerService: ViewerService
   ) {}
 
   ngOnInit() {
@@ -167,7 +142,7 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
       const { nodeId } = params;
       this.versionId = params.versionId;
       if (this.versionId) {
-        this.versionsApi.getVersion(nodeId, this.versionId).then((version: VersionEntry) => {
+        void this.versionsApi.getVersion(nodeId, this.versionId).then((version: VersionEntry) => {
           if (version) {
             this.store.dispatch(new SetCurrentNodeVersionAction(version));
           }
@@ -234,26 +209,24 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
         this.node = await this.contentApi.getNodeInfo(nodeId).toPromise();
         this.store.dispatch(new SetSelectedNodesAction([{ entry: this.node }]));
         this.navigateMultiple = this.extensions.canShowViewerNavigation({ entry: this.node });
-        if (!this.navigateMultiple) {
-          this.nodeId = this.node.id;
-          this.fileName = this.node.name + this.node?.properties?.['cm:versionLabel'];
-          return;
-        }
 
         if (this.node?.isFile) {
-          const nearest = await this.getNearestNodes(this.node.id, this.node.parentId);
           this.nodeId = this.node.id;
-          this.previousNodeId = nearest.left;
-          this.nextNodeId = nearest.right;
           this.fileName = this.node.name + this.node?.properties?.['cm:versionLabel'];
+          if (this.navigateMultiple) {
+            const nearest = await this.viewerService.getNearestNodes(this.node.id, this.node.parentId, this.navigateSource);
+            this.previousNodeId = nearest.left;
+            this.nextNodeId = nearest.right;
+          }
           return;
         }
+        this.navigateToFileLocation();
       } catch (error) {
         const statusCode = JSON.parse(error.message).error.statusCode;
 
         if (statusCode !== 401) {
-          this.router.navigate([this.previewLocation, { outlets: { viewer: null } }]).then(() => {
-            this.router.navigate([this.previewLocation, nodeId]);
+          await this.router.navigate([this.previewLocation, { outlets: { viewer: null } }]).then(() => {
+            void this.router.navigate([this.previewLocation, nodeId]);
           });
         }
       }
@@ -278,147 +251,6 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
     this.store.dispatch(new ViewNodeAction(this.nextNodeId, { location }));
   }
 
-  /**
-   * Retrieves nearest node information for the given node and folder.
-   *
-   * @param nodeId Unique identifier of the document node
-   * @param folderId Unique identifier of the containing folder node.
-   */
-  async getNearestNodes(nodeId: string, folderId: string): Promise<{ left: string; right: string }> {
-    const empty = {
-      left: null,
-      right: null
-    };
-
-    if (nodeId && folderId) {
-      try {
-        const ids = await this.getFileIds(this.navigateSource, folderId);
-        const idx = ids.indexOf(nodeId);
-
-        if (idx >= 0) {
-          return {
-            left: ids[idx - 1] || null,
-            right: ids[idx + 1] || null
-          };
-        } else {
-          return empty;
-        }
-      } catch {
-        return empty;
-      }
-    } else {
-      return empty;
-    }
-  }
-
-  /**
-   * Retrieves a list of node identifiers for the folder and data source.
-   *
-   * @param source Data source name. Allowed values are: personal-files, libraries, favorites, shared, recent-files.
-   * @param folderId Containing folder node identifier for 'personal-files' and 'libraries' sources.
-   */
-  async getFileIds(source: string, folderId?: string): Promise<string[]> {
-    if ((source === 'personal-files' || source === 'libraries') && folderId) {
-      const sortKey = this.preferences.get('personal-files.sorting.key') || 'modifiedAt';
-      const sortDirection = this.preferences.get('personal-files.sorting.direction') || 'desc';
-      const nodes = await this.contentApi
-        .getNodeChildren(folderId, {
-          // orderBy: `${sortKey} ${sortDirection}`,
-          fields: ['id', this.getRootField(sortKey)],
-          where: '(isFile=true)'
-        })
-        .toPromise();
-
-      const entries = nodes.list.entries.map((obj) => obj.entry);
-      this.sort(entries, sortKey, sortDirection);
-
-      return entries.map((obj) => obj.id);
-    }
-
-    if (source === 'favorites') {
-      const nodes = await this.contentApi
-        .getFavorites('-me-', {
-          where: '(EXISTS(target/file))',
-          fields: ['target']
-        })
-        .toPromise();
-
-      const sortKey = this.preferences.get('favorites.sorting.key') || 'modifiedAt';
-      const sortDirection = this.preferences.get('favorites.sorting.direction') || 'desc';
-      const files = nodes.list.entries.map((obj) => obj.entry.target.file);
-      this.sort(files, sortKey, sortDirection);
-
-      return files.map((f) => f.id);
-    }
-
-    if (source === 'shared') {
-      const sortingKey = this.preferences.get('shared.sorting.key') || 'modifiedAt';
-      const sortingDirection = this.preferences.get('shared.sorting.direction') || 'desc';
-
-      const nodes = await this.contentApi
-        .findSharedLinks({
-          fields: ['nodeId', this.getRootField(sortingKey)]
-        })
-        .toPromise();
-
-      const entries = nodes.list.entries.map((obj) => obj.entry);
-      this.sort(entries, sortingKey, sortingDirection);
-
-      return entries.map((obj) => obj.nodeId);
-    }
-
-    if (source === 'recent-files') {
-      const person = await this.contentApi.getPerson('-me-').toPromise();
-      const username = person.entry.id;
-      const sortingKey = this.preferences.get('recent-files.sorting.key') || 'modifiedAt';
-      const sortingDirection = this.preferences.get('recent-files.sorting.direction') || 'desc';
-
-      const query: SearchRequest = {
-        query: {
-          query: '*',
-          language: 'afts'
-        },
-        filterQueries: [
-          { query: `cm:modified:[NOW/DAY-30DAYS TO NOW/DAY+1DAY]` },
-          { query: `cm:modifier:${username} OR cm:creator:${username}` },
-          {
-            query: this.recentFileFilters.join(' AND ')
-          }
-        ],
-        fields: ['id', this.getRootField(sortingKey)],
-        include: ['path', 'properties', 'allowableOperations'],
-        sort: [
-          {
-            type: 'FIELD',
-            field: 'cm:modified',
-            ascending: false
-          }
-        ]
-      };
-      const nodes = await this.contentApi.search(query).toPromise();
-
-      const entries = nodes.list.entries.map((obj) => obj.entry);
-      this.sort(entries, sortingKey, sortingDirection);
-
-      return entries.map((obj) => obj.id);
-    }
-
-    return [];
-  }
-
-  /**
-   * Get the root field name from the property path.
-   * Example: 'property1.some.child.property' => 'property1'
-   *
-   * @param path Property path
-   */
-  getRootField(path: string) {
-    if (path) {
-      return path.split('.')[0];
-    }
-    return path;
-  }
-
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
     const key = event.key;
@@ -429,27 +261,9 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
     }
   }
 
-  private sort(items: any[], key: string, direction: string) {
-    const options: Intl.CollatorOptions = {};
-
-    if (key.includes('sizeInBytes') || key === 'name') {
-      options.numeric = true;
-    }
-
-    items.sort((a: any, b: any) => {
-      let left = ObjectUtils.getValue(a, key) ?? '';
-      left = left instanceof Date ? left.valueOf().toString() : left.toString();
-
-      let right = ObjectUtils.getValue(b, key) ?? '';
-      right = right instanceof Date ? right.valueOf().toString() : right.toString();
-
-      return direction === 'asc' ? left.localeCompare(right, undefined, options) : right.localeCompare(left, undefined, options);
-    });
-  }
-
   private navigateToFileLocation() {
     const location = this.getFileLocation();
-    this.router.navigateByUrl(location);
+    void this.router.navigateByUrl(location);
   }
 
   private getFileLocation(): string {
