@@ -172,7 +172,7 @@ export class ViewerService {
       }
       this.sort(entries, sortKey, sortDirection);
     }
-    return nodes === undefined ? [] : entries.map((entry) => entry.id ?? entry.nodeId);
+    return entries.map((entry) => entry.id ?? entry.nodeId);
   }
 
   /**
