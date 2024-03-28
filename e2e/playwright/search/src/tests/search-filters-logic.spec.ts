@@ -32,10 +32,22 @@ test.describe('Search - Filters - Logic', () => {
 
   const randomUsername = Utils.random();
   const randomFilename = Utils.random();
-  const username = `user1+${randomUsername}`;
-  const logicFile1 = `${username}-${randomFilename}logic-${randomFilename}cats-${randomFilename}clouds-${randomFilename}`;
-  const logicFile1Split = logicFile1.split('-');
-  const logicFile2 = `${username}-${randomFilename}logic-${randomFilename}cats-${randomFilename}sky-${randomFilename}`;
+  const randomFileTitle = Utils.random();
+  const randomFileDescription = Utils.random();
+  const username = `user1${randomUsername}`;
+  const logicFile1 = {
+    name: `${username}-${randomFilename}logic-${randomFilename}cats-${randomFilename}clouds`,
+    title: `${randomFileTitle}logic-${randomFileTitle}clouds`,
+    description: `${randomFileDescription}logic-${randomFileDescription}clouds`
+  };
+  const logicFile1NameSplit = logicFile1.name.split('-');
+  const logicFile1TitleSplit = logicFile1.title.split('-');
+  const logicFile1DescriptionSplit = logicFile1.description.split('-');
+  const logicFile2 = {
+    name: `${username}-${randomFilename}logic-${randomFilename}cats-${randomFilename}sky`,
+    title: `${randomFileTitle}logic-${randomFileTitle}sky`,
+    description: `${randomFileDescription}logic-${randomFileDescription}sky`
+  };
 
   test.beforeEach(async ({ loginPage, searchPage }) => {
     await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
@@ -50,10 +62,10 @@ test.describe('Search - Filters - Logic', () => {
       nodesApi = await NodesApi.initialize(username, username);
       trashcanApi = await TrashcanApi.initialize(username, username);
       fileActionsApi = await FileActionsApi.initialize(username, username);
-      await nodesApi.createFile(logicFile1);
-      await nodesApi.createFile(logicFile2);
-      await fileActionsApi.waitForNodes(logicFile1, { expect: 1 });
-      await fileActionsApi.waitForNodes(logicFile2, { expect: 1 });
+      await nodesApi.createFile(logicFile1.name, undefined, logicFile1.title, logicFile1.description);
+      await nodesApi.createFile(logicFile2.name, undefined, logicFile2.title, logicFile2.description);
+      await fileActionsApi.waitForNodes(logicFile1.name, { expect: 1 });
+      await fileActionsApi.waitForNodes(logicFile2.name, { expect: 1 });
     } catch (error) {
       console.error(`beforeAll failed: ${error}`);
     }
@@ -66,60 +78,82 @@ test.describe('Search - Filters - Logic', () => {
   test('[C699500] Filter with Match All', async ({ searchPage }) => {
     await searchPage.searchFilters.logicFilter.click();
     await searchPage.searchFiltersLogic.matchAllInput.fill(
-      `${logicFile1Split[0]} ${logicFile1Split[1]} ${logicFile1Split[2]} ${logicFile1Split[3]} ${logicFile1Split[4]}`
+      `${logicFile1NameSplit[0]} ${logicFile1NameSplit[1]} ${logicFile1TitleSplit[1]} ${logicFile1DescriptionSplit[1]}`
     );
     await searchPage.searchFiltersLogic.applyButton.click();
     await searchPage.dataTable.progressBarWaitForReload();
 
-    await expect(searchPage.dataTable.getRowByName(logicFile1)).toBeVisible();
-    await expect(searchPage.dataTable.getRowByName(logicFile2)).not.toBeVisible();
+    await expect(searchPage.dataTable.getRowByName(logicFile1.name)).toBeVisible();
+    await expect(searchPage.dataTable.getRowByName(logicFile2.name)).not.toBeVisible();
   });
 
   test('[C699501] Filter with Match Any', async ({ searchPage }) => {
     await searchPage.searchFilters.logicFilter.click();
-    await searchPage.searchFiltersLogic.matchAnyInput.fill(`${logicFile1Split[1]}-${logicFile1Split[2]}-${logicFile1Split[3]} ${logicFile1Split[4]}`);
+    await searchPage.searchFiltersLogic.matchAnyInput.fill(
+      `${logicFile1NameSplit[2]}-${logicFile1NameSplit[3]} ${logicFile1TitleSplit[0]} ${logicFile1DescriptionSplit[0]}`
+    );
     await searchPage.searchFiltersLogic.applyButton.click();
     await searchPage.dataTable.progressBarWaitForReload();
 
     expect(await searchPage.dataTable.getRowsCount()).toBe(3);
-    await expect(searchPage.dataTable.getRowByName(logicFile1)).toBeVisible();
-    await expect(searchPage.dataTable.getRowByName(logicFile2)).toBeVisible();
+    await expect(searchPage.dataTable.getRowByName(logicFile1.name)).toBeVisible();
+    await expect(searchPage.dataTable.getRowByName(logicFile2.name)).toBeVisible();
   });
 
   test('[C699502] Filter with Exclude', async ({ searchPage }) => {
     await searchPage.searchFilters.logicFilter.click();
-    await searchPage.searchFiltersLogic.matchAnyInput.fill(`${logicFile1Split[1]}-${logicFile1Split[2]} ${logicFile1Split[4]}`);
-    await searchPage.searchFiltersLogic.excludeInput.fill(`${logicFile1Split[3]}`);
+    await searchPage.searchFiltersLogic.matchAnyInput.fill(
+      `${logicFile1NameSplit[0]}-${logicFile1NameSplit[1]} ${logicFile1TitleSplit[0]} ${logicFile1DescriptionSplit[0]}`
+    );
+    await searchPage.searchFiltersLogic.excludeInput.fill(`${logicFile1DescriptionSplit[1]}`);
     await searchPage.searchFiltersLogic.applyButton.click();
     await searchPage.dataTable.progressBarWaitForReload();
 
     expect(await searchPage.dataTable.getRowsCount()).toBe(2);
-    await expect(searchPage.dataTable.getRowByName(logicFile1)).not.toBeVisible();
-    await expect(searchPage.dataTable.getRowByName(logicFile2)).toBeVisible();
+    await expect(searchPage.dataTable.getRowByName(logicFile1.name)).not.toBeVisible();
+    await expect(searchPage.dataTable.getRowByName(logicFile2.name)).toBeVisible();
   });
 
   test('[C699503] Filter with Exact phrase', async ({ searchPage }) => {
     await searchPage.searchFilters.logicFilter.click();
-    await searchPage.searchFiltersLogic.matchExactInput.fill(logicFile1);
+    await searchPage.searchFiltersLogic.matchExactInput.fill(logicFile1.name);
     await searchPage.searchFiltersLogic.applyButton.click();
     await searchPage.dataTable.progressBarWaitForReload();
 
     expect(await searchPage.dataTable.getRowsCount()).toBe(2);
-    await expect(searchPage.dataTable.getRowByName(logicFile2)).not.toBeVisible();
-    await expect(searchPage.dataTable.getRowByName(logicFile1)).toBeVisible();
+    await expect(searchPage.dataTable.getRowByName(logicFile2.name)).not.toBeVisible();
+    await expect(searchPage.dataTable.getRowByName(logicFile1.name)).toBeVisible();
+
+    await searchPage.searchFilters.logicFilter.click();
+    await searchPage.searchFiltersLogic.matchExactInput.fill(logicFile1.title);
+    await searchPage.searchFiltersLogic.applyButton.click();
+    await searchPage.dataTable.progressBarWaitForReload();
+
+    expect(await searchPage.dataTable.getRowsCount()).toBe(2);
+    await expect(searchPage.dataTable.getRowByName(logicFile2.name)).not.toBeVisible();
+    await expect(searchPage.dataTable.getRowByName(logicFile1.name)).toBeVisible();
+
+    await searchPage.searchFilters.logicFilter.click();
+    await searchPage.searchFiltersLogic.matchExactInput.fill(logicFile1.description);
+    await searchPage.searchFiltersLogic.applyButton.click();
+    await searchPage.dataTable.progressBarWaitForReload();
+
+    expect(await searchPage.dataTable.getRowsCount()).toBe(2);
+    await expect(searchPage.dataTable.getRowByName(logicFile2.name)).not.toBeVisible();
+    await expect(searchPage.dataTable.getRowByName(logicFile1.name)).toBeVisible();
   });
 
   test('[C699504] Filter with all options', async ({ searchPage }) => {
     await searchPage.searchFilters.logicFilter.click();
-    await searchPage.searchFiltersLogic.matchAllInput.fill(`${logicFile1Split[1]} ${logicFile1Split[2]}`);
-    await searchPage.searchFiltersLogic.matchAnyInput.fill(`${logicFile1Split[0]} ${logicFile1Split[4]}`);
-    await searchPage.searchFiltersLogic.excludeInput.fill(`${logicFile1Split[3]}`);
-    await searchPage.searchFiltersLogic.matchExactInput.fill(logicFile2);
+    await searchPage.searchFiltersLogic.matchAllInput.fill(`${logicFile1NameSplit[1]} ${logicFile1TitleSplit[0]}, ${logicFile1DescriptionSplit[0]}`);
+    await searchPage.searchFiltersLogic.matchAnyInput.fill(`${logicFile1NameSplit[0]} ${logicFile1TitleSplit[2]}`);
+    await searchPage.searchFiltersLogic.excludeInput.fill(`${logicFile1NameSplit[3]}`);
+    await searchPage.searchFiltersLogic.matchExactInput.fill(logicFile2.description);
     await searchPage.searchFiltersLogic.applyButton.click();
     await searchPage.dataTable.progressBarWaitForReload();
 
     expect(await searchPage.dataTable.getRowsCount()).toBe(2);
-    await expect(searchPage.dataTable.getRowByName(logicFile1)).not.toBeVisible();
-    await expect(searchPage.dataTable.getRowByName(logicFile2)).toBeVisible();
+    await expect(searchPage.dataTable.getRowByName(logicFile1.name)).not.toBeVisible();
+    await expect(searchPage.dataTable.getRowByName(logicFile2.name)).toBeVisible();
   });
 });
