@@ -211,7 +211,8 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
   }
 
   async onRuleEnabledToggle(rule: Rule, isEnabled: boolean) {
-    await this.folderRulesService.updateRule(this.nodeId, rule.id, { ...rule, isEnabled });
+    const updatedRule = await this.folderRulesService.updateRule(this.nodeId, rule.id, { ...rule, isEnabled });
+    this.folderRuleSetsService.addOrUpdateRuleInMainRuleSet(updatedRule);
   }
 
   async onInheritanceToggleChange(event: MatSlideToggleChange) {
