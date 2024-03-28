@@ -8,7 +8,8 @@
       @include rounded-outline;
     }
 
-    .mat-ripple, .mdc-icon-button__ripple {
+    .mat-ripple,
+    .mdc-icon-button__ripple {
       display: none;
     }
 
@@ -27,6 +28,10 @@
         top: calc(50% - 11px);
       }
     }
+  }
+
+  .mdc-checkbox__ripple {
+    display: none;
   }
 
   .mat-mdc-form-field-focus-overlay {
