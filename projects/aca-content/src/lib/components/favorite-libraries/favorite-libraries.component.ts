@@ -34,7 +34,7 @@ import {
   ToolbarComponent
 } from '@alfresco/aca-shared';
 import { NavigateLibraryAction } from '@alfresco/aca-shared/store';
-import { DataTableModule, PaginationModule, TemplateModule, UserPreferencesService } from '@alfresco/adf-core';
+import { DataTableModule, PaginationComponent, TemplateModule, UserPreferencesService } from '@alfresco/adf-core';
 import { DocumentListPresetRef, ExtensionsModule } from '@alfresco/adf-extensions';
 import { CommonModule } from '@angular/common';
 import { DocumentListModule } from '@alfresco/adf-content-services';
@@ -51,7 +51,7 @@ import { TranslateModule } from '@ngx-translate/core';
     TemplateModule,
     DataTableModule,
     ExtensionsModule,
-    PaginationModule,
+    PaginationComponent,
     InfoDrawerComponent,
     PageLayoutComponent,
     TranslateModule,
