@@ -35,7 +35,7 @@ import {
   ShowInfoDrawerPreviewAction,
   SnackbarErrorAction
 } from '@alfresco/aca-shared/store';
-import { DataTableModule, PaginationModule, TranslationService, ViewerModule } from '@alfresco/adf-core';
+import { DataTableModule, PaginationComponent, TranslationService, ViewerModule } from '@alfresco/adf-core';
 import { combineLatest } from 'rxjs';
 import {
   ContextActionsDirective,
@@ -78,7 +78,7 @@ import { DocumentListPresetRef, ExtensionsModule } from '@alfresco/adf-extension
     ThumbnailColumnComponent,
     SearchActionMenuComponent,
     TagsColumnComponent,
-    PaginationModule,
+    PaginationComponent,
     AlfrescoViewerModule,
     MatIconModule,
     InfoDrawerComponent,

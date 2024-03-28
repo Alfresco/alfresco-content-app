@@ -41,7 +41,7 @@ import { DocumentListPresetRef, ExtensionsModule } from '@alfresco/adf-extension
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { SearchInputComponent } from '../search-input/search-input.component';
-import { DataTableModule, PaginationModule } from '@alfresco/adf-core';
+import { DataTableModule, PaginationComponent } from '@alfresco/adf-core';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { DocumentListModule } from '@alfresco/adf-content-services';
 import { DocumentListDirective } from '../../../directives/document-list.directive';
@@ -56,7 +56,7 @@ import { DocumentListDirective } from '../../../directives/document-list.directi
     DocumentListModule,
     DataTableModule,
     ExtensionsModule,
-    PaginationModule,
+    PaginationComponent,
     InfoDrawerComponent,
     ContextActionsDirective,
     DocumentListDirective,

@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { DataTableModule, PaginationModule, ShowHeaderMode } from '@alfresco/adf-core';
+import { DataTableModule, PaginationComponent, ShowHeaderMode } from '@alfresco/adf-core';
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { NodeEntry, Node, PathElement } from '@alfresco/js-api';
@@ -59,7 +59,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     ContextActionsDirective,
     DataTableModule,
     ExtensionsModule,
-    PaginationModule,
+    PaginationComponent,
     MatProgressSpinnerModule,
     InfoDrawerComponent,
     PaginationDirective,
