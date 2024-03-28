@@ -63,7 +63,7 @@ export class ShareDialogComponent extends BaseComponent {
   }
 
   async getLinkUrl(): Promise<string> {
-    return await this.url.inputValue();
+    return await this.url.first().inputValue();
   }
 
   async isUrlReadOnly(): Promise<boolean> {
