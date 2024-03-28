@@ -144,11 +144,13 @@ test.describe('Search - Filters - Logic', () => {
   });
 
   test('[C699504] Filter with all options', async ({ searchPage }) => {
+    const logicFile2NameSplit = logicFile2.name.split('-');
+
     await searchPage.searchFilters.logicFilter.click();
     await searchPage.searchFiltersLogic.matchAllInput.fill(`${logicFile1NameSplit[1]} ${logicFile1TitleSplit[0]}, ${logicFile1DescriptionSplit[0]}`);
     await searchPage.searchFiltersLogic.matchAnyInput.fill(`${logicFile1NameSplit[0]} ${logicFile1TitleSplit[2]}`);
     await searchPage.searchFiltersLogic.excludeInput.fill(`${logicFile1NameSplit[3]}`);
-    await searchPage.searchFiltersLogic.matchExactInput.fill(logicFile2.description);
+    await searchPage.searchFiltersLogic.matchExactInput.fill(`${logicFile2NameSplit[1]}-${logicFile2NameSplit[2]}-${logicFile2NameSplit[3]}`);
     await searchPage.searchFiltersLogic.applyButton.click();
     await searchPage.dataTable.progressBarWaitForReload();
 
