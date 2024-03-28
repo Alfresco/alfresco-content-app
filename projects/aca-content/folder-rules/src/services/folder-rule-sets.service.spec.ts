@@ -56,7 +56,8 @@ describe('FolderRuleSetsService', () => {
       .withArgs(`/nodes/${owningFolderIdMock}/rule-sets/-default-?include=isLinkedTo,owningFolder,linkedToBy`, 'GET')
       .and.returnValue(of(getDefaultRuleSetResponseMock))
       .withArgs(`/nodes/${owningFolderIdMock}/rule-sets?include=isLinkedTo,owningFolder,linkedToBy&skipCount=0&maxItems=100`, 'GET')
-      .and.returnValue(of(getRuleSetsResponseMock));
+      .and.returnValue(of(getRuleSetsResponseMock))
+      .and.stub();
     getRulesSpy = spyOn<any>(folderRulesService, 'getRules')
       .withArgs(jasmine.anything(), 'rule-set-no-links')
       .and.returnValue(of({ rules: ownedRulesMock, hasMoreRules: false }))
@@ -138,15 +139,15 @@ describe('FolderRuleSetsService', () => {
     expect(selectRuleSpy).toHaveBeenCalledWith(ruleMock('inherited-rule-1'));
   });
 
-  it('should send a POST request to create a new link between two folders', () => {
-    folderRuleSetsService.createRuleSetLink('folder-1-id', 'folder-2-id');
+  it('should send a POST request to create a new link between two folders', async () => {
+    await folderRuleSetsService.createRuleSetLink('folder-1-id', 'folder-2-id');
     expect(callApiSpy).toHaveBeenCalledWith('/nodes/folder-1-id/rule-set-links', 'POST', {
       id: 'folder-2-id'
     });
   });
 
-  it('should send a DELETE request to delete a link between two folders', () => {
-    folderRuleSetsService.deleteRuleSetLink('folder-1-id', 'rule-set-1-id');
+  it('should send a DELETE request to delete a link between two folders', async () => {
+    await folderRuleSetsService.deleteRuleSetLink('folder-1-id', 'rule-set-1-id');
     expect(callApiSpy).toHaveBeenCalledWith('/nodes/folder-1-id/rule-set-links/rule-set-1-id', 'DELETE');
   });
 });

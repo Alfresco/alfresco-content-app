@@ -30,10 +30,14 @@ import { CoreTestingModule } from '@alfresco/adf-core';
 import { By } from '@angular/platform-browser';
 import { errorScriptConstraintMock } from '../../mock/actions.mock';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { HarnessLoader } from '@angular/cdk/testing';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { MatSelectHarness } from '@angular/material/select/testing';
 
 describe('RuleOptionsUiComponent', () => {
   let fixture: ComponentFixture<RuleOptionsUiComponent>;
   let component: RuleOptionsUiComponent;
+  let loader: HarnessLoader;
 
   const getByDataAutomationId = (dataAutomationId: string): DebugElement =>
     fixture.debugElement.query(By.css(`[data-automation-id="${dataAutomationId}"]`));
@@ -63,6 +67,7 @@ describe('RuleOptionsUiComponent', () => {
 
     fixture = TestBed.createComponent(RuleOptionsUiComponent);
     component = fixture.componentInstance;
+    loader = TestbedHarnessEnvironment.loader(fixture);
 
     component.writeValue({
       isEnabled: true,
@@ -126,7 +131,7 @@ describe('RuleOptionsUiComponent', () => {
     expect(getByDataAutomationId('rule-option-select-errorScript')).toBeTruthy();
   });
 
-  it('should populate the error script dropdown with scripts', () => {
+  it('should populate the error script dropdown with scripts', async () => {
     component.writeValue({
       isEnabled: true,
       isInheritable: false,
@@ -140,11 +145,12 @@ describe('RuleOptionsUiComponent', () => {
     (getByDataAutomationId('rule-option-select-errorScript').nativeElement as HTMLElement).click();
     fixture.detectChanges();
 
-    const matOptions = fixture.debugElement.queryAll(By.css(`.mat-option`));
+    const selection = await loader.getHarness(MatSelectHarness);
+    const matOptions = await selection.getOptions();
     expect(matOptions.length).toBe(3);
-    expect((matOptions[0].nativeElement as HTMLElement).innerText.trim()).toBe('ACA_FOLDER_RULES.RULE_DETAILS.OPTIONS.NO_SCRIPT');
-    expect((matOptions[1].nativeElement as HTMLElement).innerText.trim()).toBe('Script 1');
-    expect((matOptions[2].nativeElement as HTMLElement).innerText.trim()).toBe('Script 2');
+    expect((await matOptions[0].getText()).trim()).toBe('ACA_FOLDER_RULES.RULE_DETAILS.OPTIONS.NO_SCRIPT');
+    expect((await matOptions[1].getText()).trim()).toBe('Script 1');
+    expect((await matOptions[2].getText()).trim()).toBe('Script 2');
   });
 
   it('should always show a label for the error script dropdown even when MAT_FORM_FIELD_DEFAULT_OPTIONS sets floatLabel to never', () => {
@@ -157,7 +163,7 @@ describe('RuleOptionsUiComponent', () => {
     component.errorScriptConstraint = errorScriptConstraintMock;
     fixture.detectChanges();
 
-    const matFormField = fixture.debugElement.query(By.css(`[data-automation-id="rule-option-form-field-errorScript"] .mat-form-field-label`));
+    const matFormField = fixture.debugElement.query(By.css('[data-automation-id="rule-option-form-field-errorScript"'));
     fixture.detectChanges();
     expect(matFormField).not.toBeNull();
     expect(matFormField.componentInstance['floatLabel']).toBe('always');
