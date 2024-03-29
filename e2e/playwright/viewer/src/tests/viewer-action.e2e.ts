@@ -100,7 +100,7 @@ test.describe('viewer action file', () => {
     const deleteName = await personalFiles.snackBar.getByMessageLocator(randomDocxDelete).innerText();
     expect(deleteName).toContain(`${randomDocxDelete} deleted`);
     await personalFiles.dataTable.getCellLinkByName(randomDocxName).waitFor({ state: 'attached' });
-    expect(await personalFiles.dataTable.getCellLinkByName(randomDocxDelete).isVisible(), 'file should not visible').toBe(false);
+    await expect(personalFiles.dataTable.getCellLinkByName(randomDocxDelete), 'file should not visible').toBeHidden();
     await trashPage.navigate({ waitUntil: 'domcontentloaded' });
     expect(await trashPage.dataTable.isItemPresent(randomDocxDelete), 'Item should be present in Trash').toBe(true);
   });
@@ -160,7 +160,7 @@ test.describe('viewer action file', () => {
 
     await sharedPage.acaHeader.clickViewerMoreActions();
     await favoritePage.viewerDialog.removeFavoriteMenuButton.waitFor({ state: 'attached', timeout: timeouts.normal });
-    expect(await sharedPage.viewerDialog.removeFavoriteMenuButton.isVisible(), 'Item should be remove favorite').toBe(true);
+    await expect(sharedPage.viewerDialog.removeFavoriteMenuButton, 'Item should be remove favorite').toBeVisible();
     await sharedPage.page.keyboard.press('Escape');
     await favoritePage.navigate({ waitUntil: 'domcontentloaded' });
     expect(await favoritePage.dataTable.isItemPresent(randomDocxNameShare), 'Item is not present in Favorites list').toBe(true);
@@ -173,10 +173,10 @@ test.describe('viewer action file', () => {
     await favoritePage.viewer.shareButton.waitFor({ state: 'attached', timeout: timeouts.normal });
     await favoritePage.viewer.shareButton.click();
     await favoritePage.viewerDialog.shareDialogTitle.waitFor({ state: 'attached', timeout: timeouts.normal });
-    expect(await favoritePage.viewerDialog.shareDialogTitle.isVisible(), 'Share dialog should be open').toBe(true);
+    await expect(favoritePage.viewerDialog.shareDialogTitle, 'Share dialog should be open').toBeVisible();
     await favoritePage.viewerDialog.shareDialogClose.click();
     await favoritePage.viewerDialog.shareDialogClose.waitFor({ state: 'detached', timeout: timeouts.large });
-    expect(await favoritePage.viewerDialog.shareDialogTitle.isVisible(), 'Share dialog should be open').toBe(false);
+    await expect(favoritePage.viewerDialog.shareDialogTitle, 'Share dialog should be open').toBeHidden();
   });
 
   test('[C297586] Upload new version action', async ({ personalFiles, nodesApiAction }) => {
@@ -208,8 +208,8 @@ test.describe('viewer action file', () => {
     expect(await personalFiles.viewer.fileTitleButtonLocator.innerText()).toContain(docxFile);
 
     await personalFiles.acaHeader.clickViewerMoreActions();
-    expect(await personalFiles.matMenu.cancelEditingAction.isVisible(), `'Cancel Editing' button shouldn't be shown`).toBe(false);
-    expect(await personalFiles.matMenu.editOfflineAction.isVisible(), `'Edit Offline' should be shown`).toBe(true);
+    await expect(personalFiles.matMenu.cancelEditingAction, `'Cancel Editing' button shouldn't be shown`).toBeHidden();
+    await expect(personalFiles.matMenu.editOfflineAction, `'Edit Offline' should be shown`).toBeVisible();
   });
 
   test('[C286384] Copy action from Recent Files', async ({ recentFilesPage, personalFiles }) => {
@@ -219,7 +219,7 @@ test.describe('viewer action file', () => {
 
     await recentFilesPage.acaHeader.clickViewerMoreActions();
     await recentFilesPage.matMenu.clickMenuItem('Copy');
-    expect(await recentFilesPage.contentNodeSelector.actionButton.isVisible(), 'Dialog is not open').toBe(true);
+    await expect(recentFilesPage.contentNodeSelector.actionButton, 'Dialog is not open').toBeVisible();
     await recentFilesPage.contentNodeSelector.selectLocation('Personal Files');
     await recentFilesPage.contentNodeSelector.selectDestination(destination);
     await recentFilesPage.contentNodeSelector.actionButton.click();

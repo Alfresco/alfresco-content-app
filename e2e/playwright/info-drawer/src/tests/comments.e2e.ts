@@ -105,8 +105,8 @@ test.describe('Info Drawer - Comments', () => {
     await sharedPage.infoDrawer.commentsTab.click();
     await sharedPage.infoDrawer.waitForComments();
     expect(await sharedPage.infoDrawer.checkCommentsHeaderCount()).toEqual(2);
-    expect(await sharedPage.infoDrawer.commentTextContent.nth(0).textContent()).toEqual(e2eCommentSecond);
-    expect(await sharedPage.infoDrawer.commentTextContent.nth(1).textContent()).toEqual(e2eCommentFirst);
+    await expect(sharedPage.infoDrawer.commentTextContent.nth(0)).toHaveText(e2eCommentSecond);
+    await expect(sharedPage.infoDrawer.commentTextContent.nth(1)).toHaveText(e2eCommentFirst);
   });
 
   test('[C299195] from Recent Files - Add a comment on a file', async ({ recentFilesPage }) => {
@@ -140,8 +140,8 @@ test.describe('Info Drawer - Comments', () => {
     await favoritePage.infoDrawer.commentsTab.click();
     await favoritePage.infoDrawer.waitForComments();
     expect(await favoritePage.infoDrawer.checkCommentsHeaderCount()).toEqual(1);
-    expect(await favoritePage.infoDrawer.commentTextContent.nth(0).textContent()).toEqual(e2eCommentFirst);
-    expect(await favoritePage.infoDrawer.commentTimestamp.nth(0).textContent()).toEqual('less than a minute ago');
-    expect(await favoritePage.infoDrawer.commentUsername.nth(0).textContent()).toEqual('Administrator');
+    await expect(favoritePage.infoDrawer.commentTextContent.nth(0)).toHaveText(e2eCommentFirst);
+    await expect(favoritePage.infoDrawer.commentTimestamp.nth(0)).toHaveText('less than a minute ago');
+    await expect(favoritePage.infoDrawer.commentUsername.nth(0)).toHaveText('Administrator');
   });
 });

@@ -67,7 +67,7 @@ test.describe('Generic errors', () => {
     await actionUser.deleteNodeById(file1Id, false);
     await personalFiles.navigate({ remoteUrl: `#/personal-files/${file1Id}` });
 
-    expect(await personalFiles.errorDialog.genericError.isVisible(), 'Generic error page not displayed').toBe(true);
+    await expect(personalFiles.errorDialog.genericError, 'Generic error page not displayed').toBeVisible();
     expect(await personalFiles.errorDialog.genericErrorTitle.innerText()).toContain(
       `This item no longer exists or you don't have permission to view it.`
     );
@@ -84,7 +84,7 @@ test.describe('Generic errors', () => {
     );
     await personalFiles.navigate({ remoteUrl: `#/personal-files/${file2Id}` });
 
-    expect(await personalFiles.errorDialog.genericError.isVisible(), 'Generic error page not displayed').toBe(true);
+    await expect(personalFiles.errorDialog.genericError, 'Generic error page not displayed').toBeVisible();
     expect(await personalFiles.errorDialog.genericErrorTitle.innerText()).toContain(
       `This item no longer exists or you don't have permission to view it.`
     );

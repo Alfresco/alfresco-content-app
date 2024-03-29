@@ -61,9 +61,9 @@ test.describe('viewer file', () => {
   test.describe('general tests', () => {
     test('[C213089] login page layout', async ({ loginPage }) => {
       await loginPage.navigate();
-      expect(await loginPage.username.isEnabled(), 'username input is not enabled').toBe(true);
-      expect(await loginPage.password.isEnabled(), 'password input is not enabled').toBe(true);
-      expect(await loginPage.submitButton.isEnabled(), 'SIGN IN button is enabled').toBe(false);
+      await expect(loginPage.username, 'username input is not enabled').toBeEnabled();
+      await expect(loginPage.password, 'password input is not enabled').toBeEnabled();
+      await expect(loginPage.submitButton, 'SIGN IN button is enabled').toBeDisabled();
       await loginPage.password.fill('text');
       expect(await loginPage.isPasswordDisplayed(), 'Password is not hidden by default').toBe(false);
       await loginPage.passwordVisibility.click();
@@ -82,7 +82,7 @@ test.describe('viewer file', () => {
     test('[C213097] logs in with user with non-latin characters', async ({ loginPage }) => {
       await loginPage.navigate();
       await loginPage.loginUser({ username: otherLanguageUser.username, password: otherLanguageUser.password });
-      expect(await loginPage.page.url()).toContain('personal-files');
+      expect(loginPage.page.url()).toContain('personal-files');
     });
 
     test('[C213107] redirects to Home Page when navigating to the Login page while already logged in', async ({ loginPage }) => {

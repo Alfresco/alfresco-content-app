@@ -65,8 +65,8 @@ test.describe('Single click on item name', () => {
 
   test('[C284899] Hyperlink does not appear for items in the Trash', async ({ trashPage }) => {
     await trashPage.navigate();
-    expect(await trashPage.dataTable.getCellLinkByName(deletedFile1).isVisible(), 'Link on name is present').toBe(false);
-    expect(await trashPage.dataTable.getCellLinkByName(deletedFolder1).isVisible(), 'Link on name is present').toBe(false);
+    await expect(trashPage.dataTable.getCellLinkByName(deletedFile1), 'Link on name is present').toBeHidden();
+    await expect(trashPage.dataTable.getCellLinkByName(deletedFolder1), 'Link on name is present').toBeHidden();
   });
 
   test('[C280034] Navigate inside the folder when clicking the hyperlink on Personal Files', async ({ personalFiles }) => {
@@ -77,7 +77,7 @@ test.describe('Single click on item name', () => {
     while ((await personalFiles.breadcrumb.currentItem.innerText()) === 'Personal Files') {
       await personalFiles.breadcrumb.currentItem.innerText();
     }
-    expect(await personalFiles.breadcrumb.currentItem.innerText()).toBe(folder1);
+    await expect(personalFiles.breadcrumb.currentItem).toHaveText(folder1);
   });
 
   test('[C284902] Navigate inside the library when clicking the hyperlink on File Libraries', async ({ myLibrariesPage }) => {
@@ -85,7 +85,7 @@ test.describe('Single click on item name', () => {
     await myLibrariesPage.dataTable.goThroughPagesLookingForRowWithName(siteName);
     await myLibrariesPage.dataTable.getCellLinkByName(siteName).click();
     await myLibrariesPage.dataTable.spinnerWaitForReload();
-    expect(await myLibrariesPage.breadcrumb.currentItem.innerText()).toBe(siteName);
-    expect(await myLibrariesPage.dataTable.getCellLinkByName(fileSite).isVisible(), `${fileSite} not displayed`).toBe(true);
+    await expect(myLibrariesPage.breadcrumb.currentItem).toHaveText(siteName);
+    await expect(myLibrariesPage.dataTable.getCellLinkByName(fileSite), `${fileSite} not displayed`).toBeVisible();
   });
 });

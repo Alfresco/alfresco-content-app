@@ -178,7 +178,7 @@ test.describe('Create folder from template', () => {
 
       test(`[C325148] Templates don't appear if user doesn't have permissions to see them`, async () => {
         await expect(selectFolderTemplateDialog.getDialogTitle(selectDialogTitle)).toBeVisible();
-        await expect(dataTable.getRowByName(restrictedTemplateFolder)).not.toBeVisible();
+        await expect(dataTable.getRowByName(restrictedTemplateFolder)).toBeHidden();
       });
 
       test(`[C325149] Navigate through the templates list with folder hierarchy`, async () => {
@@ -214,7 +214,7 @@ test.describe('Create folder from template', () => {
 
       test('[C325153] Links to folders are not displayed', async () => {
         await expect(dataTable.getRowByName(templateFolder1)).toBeVisible();
-        await expect(dataTable.getRowByName(folderLink)).not.toBeVisible();
+        await expect(dataTable.getRowByName(folderLink)).toBeHidden();
       });
 
       test('[C325151] Cancel the Select template dialog', async () => {
@@ -351,7 +351,7 @@ test.describe('Create folder from template', () => {
       test('[C325155] Cancel folder creation', async () => {
         await expect(createFolderFromTemplateDialog.getDialogTitle(createDialogTitle)).toBeVisible();
         await createFolderFromTemplateDialog.cancelButton.click();
-        await expect(createFolderFromTemplateDialog.getDialogTitle(createDialogTitle)).not.toBeVisible();
+        await expect(createFolderFromTemplateDialog.getDialogTitle(createDialogTitle)).toBeHidden();
       });
     });
 
@@ -452,8 +452,8 @@ test.describe('Create folder from template', () => {
     test('[C325162] Cancel folder creation in a library', async () => {
       await expect(createFolderFromTemplateDialog.getDialogTitle(createDialogTitle)).toBeVisible();
       await createFolderFromTemplateDialog.cancelButton.click();
-      await expect(createFolderFromTemplateDialog.getDialogTitle(createDialogTitle)).not.toBeVisible();
-      await expect(dataTable.getRowByName(randomFolderName)).not.toBeVisible();
+      await expect(createFolderFromTemplateDialog.getDialogTitle(createDialogTitle)).toBeHidden();
+      await expect(dataTable.getRowByName(randomFolderName)).toBeHidden();
     });
 
     test('[C325163] Create a folder with a duplicate name in a library', async ({ myLibrariesPage }) => {

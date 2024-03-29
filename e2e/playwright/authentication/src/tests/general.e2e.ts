@@ -53,9 +53,9 @@ test.describe('Create folders', () => {
     await folderDialog.createButton.click();
     await personalFiles.page.keyboard.press('Escape');
     await personalFiles.snackBar.message.waitFor({ state: 'attached' });
-    expect(await personalFiles.snackBar.message.innerText()).toEqual('The action was unsuccessful. Try again or contact your IT Team.');
+    await expect(personalFiles.snackBar.message).toHaveText('The action was unsuccessful. Try again or contact your IT Team.');
     expect(await personalFiles.page.title()).toContain('Sign in');
     await personalFiles.snackBar.message.waitFor({ state: 'detached' });
-    expect(await personalFiles.snackBar.message.isVisible(), 'dialog should not be visible').toBe(false);
+    await expect(personalFiles.snackBar.message, 'dialog should not be visible').toBeHidden();
   });
 });

@@ -83,20 +83,20 @@ test.describe('Copy Move actions', () => {
     await loginPage.loginUser({ username: consumerUser, password: consumerUser }, { withNavigation: true, waitForLoading: true });
     await myLibrariesPage.navigate();
     await copyContentInMyLibraries(myLibrariesPage);
-    expect(await myLibrariesPage.contentNodeSelector.actionButton.isEnabled()).toBe(false);
+    await expect(myLibrariesPage.contentNodeSelector.actionButton).toBeDisabled();
   });
 
   test('[C263877] Contributor user can select the folder as destination', async ({ loginPage, myLibrariesPage }) => {
     await loginPage.loginUser({ username: contributorUser, password: contributorUser }, { withNavigation: true, waitForLoading: true });
     await myLibrariesPage.navigate();
     await copyContentInMyLibraries(myLibrariesPage);
-    expect(await myLibrariesPage.contentNodeSelector.actionButton.isEnabled()).toBe(true);
+    await expect(myLibrariesPage.contentNodeSelector.actionButton).toBeEnabled();
   });
 
   test('[C263878] Collaborator user can select the folder as destination', async ({ loginPage, myLibrariesPage }) => {
     await loginPage.loginUser({ username: collaboratorUser, password: collaboratorUser }, { withNavigation: true, waitForLoading: true });
     await myLibrariesPage.navigate();
     await copyContentInMyLibraries(myLibrariesPage);
-    expect(await myLibrariesPage.contentNodeSelector.actionButton.isEnabled()).toBe(true);
+    await expect(myLibrariesPage.contentNodeSelector.actionButton).toBeEnabled();
   });
 });
