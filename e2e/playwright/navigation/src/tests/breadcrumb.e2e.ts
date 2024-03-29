@@ -91,7 +91,7 @@ test.describe('viewer action file', () => {
   test('[C260964] Personal Files breadcrumb main node', async ({ personalFiles }) => {
     await personalFiles.navigate({ remoteUrl: `#/personal-files/` });
     expect(await personalFiles.breadcrumb.items.count(), 'Breadcrumb has incorrect number of items').toEqual(1);
-    expect(await personalFiles.breadcrumb.currentItem.innerText()).toBe('Personal Files');
+    await expect(personalFiles.breadcrumb.currentItem).toHaveText('Personal Files');
   });
 
   test('[C260965] Personal Files breadcrumb for a folder hierarchy', async ({ personalFiles }) => {
@@ -126,7 +126,7 @@ test.describe('viewer action file', () => {
     await personalFiles.navigate({ remoteUrl: `#/personal-files/${folder1Id}` });
     await personalFiles.page.reload();
     await personalFiles.dataTable.spinnerWaitForReload();
-    expect(await personalFiles.breadcrumb.currentItem.innerText()).toEqual(folder1Renamed);
+    await expect(personalFiles.breadcrumb.currentItem).toHaveText(folder1Renamed);
   });
 
   test('[C213240] Browser back navigates to previous location regardless of breadcrumb steps', async ({ personalFiles, trashPage }) => {

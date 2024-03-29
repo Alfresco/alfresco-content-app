@@ -135,7 +135,7 @@ test.describe('Favorites Files', () => {
     test('[C213230] Navigate into folder from Favorites', async ({ favoritePage }) => {
       await favoritePage.dataTable.performClickFolderOrFileToOpen(favFolderName);
       await favoritePage.dataTable.spinnerWaitForReload();
-      expect(await favoritePage.breadcrumb.currentItem.innerText()).toBe(favFolderName);
+      await expect(favoritePage.breadcrumb.currentItem).toHaveText(favFolderName);
     });
   });
 });

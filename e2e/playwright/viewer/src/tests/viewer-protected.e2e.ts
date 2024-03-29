@@ -55,14 +55,14 @@ test.describe('viewer file', () => {
   test('[C268958] Password dialog appears when opening a protected file', async ({ personalFiles }) => {
     expect(await personalFiles.passwordDialog.isDialogOpen(), 'Password dialog not open').toBe(true);
     expect(await personalFiles.passwordDialog.isPasswordInputDisplayed(), 'Password input not displayed').toBe(true);
-    expect(await personalFiles.passwordDialog.submitButton.isHidden(), 'Submit button not disabled').toBe(false);
+    await expect(personalFiles.passwordDialog.submitButton, 'Submit button not disabled').toBeVisible();
     expect(await personalFiles.passwordDialog.isCloseVisible(), 'Close button not enabled').toBe(true);
-    expect(await personalFiles.viewer.pdfViewerContentPages.isVisible(), 'Viewer did not close').toBe(false);
+    await expect(personalFiles.viewer.pdfViewerContentPages, 'Viewer did not close').toBeHidden();
   });
 
   test('[C268959] File content is displayed when entering the correct password', async ({ personalFiles }) => {
     await personalFiles.passwordDialog.enterPassword(TEST_FILES.PDF_PROTECTED.password);
-    expect(await personalFiles.passwordDialog.submitButton.isVisible(), 'Submit button not enabled').toBe(true);
+    await expect(personalFiles.passwordDialog.submitButton, 'Submit button not enabled').toBeVisible();
 
     await personalFiles.passwordDialog.submitButton.click();
     await personalFiles.passwordDialog.waitForDialogToClose();
@@ -72,7 +72,7 @@ test.describe('viewer file', () => {
 
   test('[C268960] Error appears when entering an incorrect password', async ({ personalFiles }) => {
     await personalFiles.passwordDialog.enterPassword('incorrect');
-    expect(await personalFiles.passwordDialog.submitButton.isVisible(), 'Submit button not enabled').toBe(true);
+    await expect(personalFiles.passwordDialog.submitButton, 'Submit button not enabled').toBeVisible();
     await personalFiles.passwordDialog.submitButton.click();
 
     expect(await personalFiles.passwordDialog.getErrorMessage()).toBe('Password is wrong');

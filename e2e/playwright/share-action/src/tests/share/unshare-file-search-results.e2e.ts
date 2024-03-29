@@ -112,12 +112,12 @@ test.describe('Unshare a file from Search Results', () => {
     expect(await personalFiles.shareDialog.isShareToggleChecked()).toBe(true);
     await personalFiles.shareDialog.shareToggle.click();
 
-    expect(personalFiles.confirmDialog.getDialogTitle('Remove this shared link')).toBeVisible();
-    expect(
+    await expect(personalFiles.confirmDialog.getDialogTitle('Remove this shared link')).toBeVisible();
+    await expect(
       personalFiles.confirmDialog.getDialogContent('This link will be deleted and a new link will be created next time this file is shared')
     ).toBeVisible();
-    expect(personalFiles.confirmDialog.okButton).toBeEnabled();
-    expect(personalFiles.confirmDialog.cancelButton).toBeEnabled();
+    await expect(personalFiles.confirmDialog.okButton).toBeEnabled();
+    await expect(personalFiles.confirmDialog.cancelButton).toBeEnabled();
   });
 
   test('[C306996] Unshare a file', async ({ personalFiles, searchPage, nodesApiAction, page }) => {
@@ -135,7 +135,7 @@ test.describe('Unshare a file from Search Results', () => {
 
     await page.goto(url);
     await personalFiles.viewer.waitForViewerToOpen();
-    expect(await personalFiles.viewer.fileTitleButtonLocator.innerText()).not.toEqual(file2);
+    await expect(personalFiles.viewer.fileTitleButtonLocator).not.toHaveText(file2);
     expect(await nodesApiAction.isFileShared(file2Id)).toBe(false);
   });
 

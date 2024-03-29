@@ -151,8 +151,8 @@ test.describe('Create file from template', () => {
 
       test(`[C325044] Templates don't appear if user doesn't have permissions to see them`, async () => {
         await expect(selectFileTemplateDialog.getDialogTitle(selectDialogTitle)).toBeVisible();
-        await expect(dataTable.getRowByName(restrictedTemplateFolder)).not.toBeVisible();
-        await expect(dataTable.getRowByName(templateInRestrictedFolder)).not.toBeVisible();
+        await expect(dataTable.getRowByName(restrictedTemplateFolder)).toBeHidden();
+        await expect(dataTable.getRowByName(templateInRestrictedFolder)).toBeHidden();
       });
 
       test(`[C325045] Navigate through the templates list with folder hierarchy`, async () => {
@@ -191,7 +191,7 @@ test.describe('Create file from template', () => {
       test('[C325050] Links to files are not displayed', async () => {
         await expect(dataTable.getRowByName(template1InRoot)).toBeVisible();
         await expect(dataTable.getRowByName(template2InRoot)).toBeVisible();
-        await expect(dataTable.getRowByName(fileLink)).not.toBeVisible();
+        await expect(dataTable.getRowByName(fileLink)).toBeHidden();
       });
 
       test('[C325048] Cancel the Select template dialog', async () => {
@@ -324,7 +324,7 @@ test.describe('Create file from template', () => {
       test('[C325027] Cancel file creation', async () => {
         await expect(createFileFromTemplateDialog.getDialogTitle(createDialogTitle)).toBeVisible();
         await createFileFromTemplateDialog.cancelButton.click();
-        await expect(createFileFromTemplateDialog.getDialogTitle(createDialogTitle)).not.toBeVisible();
+        await expect(createFileFromTemplateDialog.getDialogTitle(createDialogTitle)).toBeHidden();
       });
     });
 
@@ -406,8 +406,8 @@ test.describe('Create file from template', () => {
     test('[C325024] Cancel file creation in a library', async () => {
       await expect(createFileFromTemplateDialog.getDialogTitle(createDialogTitle)).toBeVisible();
       await createFileFromTemplateDialog.cancelButton.click();
-      await expect(createFileFromTemplateDialog.getDialogTitle(createDialogTitle)).not.toBeVisible();
-      await expect(dataTable.getRowByName(randomFileName)).not.toBeVisible();
+      await expect(createFileFromTemplateDialog.getDialogTitle(createDialogTitle)).toBeHidden();
+      await expect(dataTable.getRowByName(randomFileName)).toBeHidden();
     });
 
     test('[C325025] Create a file with a duplicate name in a library', async ({ myLibrariesPage }) => {

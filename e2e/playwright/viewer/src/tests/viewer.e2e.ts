@@ -130,7 +130,7 @@ test.describe('viewer file', () => {
     expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
     expect(await personalFiles.viewer.getCloseButtonTooltip()).toEqual('Close');
     await personalFiles.viewer.closeButtonLocator.click();
-    expect(await personalFiles.dataTable.getCellLinkByName(randomDocxName).isVisible(), 'Viewer did not close').toBe(true);
+    await expect(personalFiles.dataTable.getCellLinkByName(randomDocxName), 'Viewer did not close').toBeVisible();
   });
 
   test('[C284636] Viewer opens for a file from Recent Files', async ({ personalFiles, recentFilesPage }) => {
@@ -162,7 +162,7 @@ test.describe('viewer file', () => {
     await personalFiles.navigate({ remoteUrl: previewURL });
     await personalFiles.dataTable.spinnerWaitForReload();
     expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
-    expect(await personalFiles.viewer.fileTitleButtonLocator.innerText()).toEqual(randomDocxName);
+    await expect(personalFiles.viewer.fileTitleButtonLocator).toHaveText(randomDocxName);
   });
 
   test('[C284635] Viewer opens for a file from Shared Files', async ({ sharedPage }) => {
@@ -187,7 +187,7 @@ test.describe('viewer file', () => {
   test('[C279287] Viewer does not open when accessing the preview URL for a file without permissions', async ({ personalFiles }) => {
     const previewURL = `#/libraries/${docLibId}/(viewer:view/${fileAdminId})`;
     await personalFiles.navigate({ remoteUrl: `${previewURL}` });
-    expect(await personalFiles.viewer.viewerLocator.isVisible(), 'Viewer should not be opened!').toBe(false);
+    await expect(personalFiles.viewer.viewerLocator, 'Viewer should not be opened!').toBeHidden();
   });
 
   test('[C284633] Viewer opens for a file from File Libraries', async ({ myLibrariesPage }) => {

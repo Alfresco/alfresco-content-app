@@ -157,10 +157,10 @@ test.describe('Create Libraries ', () => {
       await expect(libraryTable.getCellLinkByName(randomLibraryName).and(myLibrariesPage.page.getByTitle(randomLibraryDescription))).toBeVisible();
       await libraryTable.getRowByName(randomLibraryName).click();
       await libraryViewDetails.click();
-      expect(await libraryDetails.getNameField('Name').locator('input').inputValue()).toBe(randomLibraryName);
-      expect(await libraryDetails.getIdField('Library ID').locator('input').inputValue()).toBe(randomLibraryId);
+      await expect(libraryDetails.getNameField('Name').locator('input')).toHaveValue(randomLibraryName);
+      await expect(libraryDetails.getIdField('Library ID').locator('input')).toHaveValue(randomLibraryId);
       await expect(libraryDetails.getVisibilityField('Visibility').locator('.mat-select-value').getByText(publicVisibility)).toBeVisible();
-      expect(await libraryDetails.getDescriptionField.inputValue()).toBe(randomLibraryDescription);
+      await expect(libraryDetails.getDescriptionField).toHaveValue(randomLibraryDescription);
 
       createdLibrariesIds.push(randomLibraryId);
     });

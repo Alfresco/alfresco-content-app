@@ -68,7 +68,7 @@ test.describe('Search - Input', () => {
 
     await searchPage.searchOverlay.searchFilesOption.click();
     await expect(searchPage.searchOverlay.searchFoldersOption).toBeEnabled();
-    await expect(searchPage.searchOverlay.searchLibrariesOption).not.toBeEnabled();
+    await expect(searchPage.searchOverlay.searchLibrariesOption).toBeDisabled();
 
     await searchPage.searchOverlay.searchFilesOption.click();
     await expect(searchPage.searchOverlay.searchFoldersOption).toBeEnabled();
@@ -76,15 +76,15 @@ test.describe('Search - Input', () => {
 
     await searchPage.searchOverlay.searchFoldersOption.click();
     await expect(searchPage.searchOverlay.searchFilesOption).toBeEnabled();
-    await expect(searchPage.searchOverlay.searchLibrariesOption).not.toBeEnabled();
+    await expect(searchPage.searchOverlay.searchLibrariesOption).toBeDisabled();
 
     await searchPage.searchOverlay.searchFoldersOption.click();
     await expect(searchPage.searchOverlay.searchFilesOption).toBeEnabled();
     await expect(searchPage.searchOverlay.searchLibrariesOption).toBeEnabled();
 
     await searchPage.searchOverlay.searchLibrariesOption.click();
-    await expect(searchPage.searchOverlay.searchFilesOption).not.toBeEnabled();
-    await expect(searchPage.searchOverlay.searchFoldersOption).not.toBeEnabled();
+    await expect(searchPage.searchOverlay.searchFilesOption).toBeDisabled();
+    await expect(searchPage.searchOverlay.searchFoldersOption).toBeDisabled();
 
     await searchPage.searchOverlay.searchLibrariesOption.click();
     await expect(searchPage.searchOverlay.searchFilesOption).toBeEnabled();

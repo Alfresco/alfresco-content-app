@@ -184,7 +184,7 @@ test.describe('Library actions ', () => {
       await expect.soft(confirmDialog.cancelButton).toBeVisible();
       await confirmDialog.okButton.click();
       await expect.soft(snackBar.getByMessageLocator(leftMessage)).toBeVisible();
-      await expect(libraryTable.getRowByName(user1Library1)).not.toBeVisible();
+      await expect(libraryTable.getRowByName(user1Library1)).toBeHidden();
     });
 
     test('[C290111] Cancel Leave Library', async ({ myLibrariesPage }) => {
@@ -235,7 +235,7 @@ test.describe('Library actions ', () => {
       await myLibrariesHeader.clickMoreActions();
       await libraryMenu.clickMenuItem(deleteButton);
       await expect.soft(snackBar.getByMessageLocator(libraryDeletedMessage)).toBeVisible();
-      await expect(libraryTable.getRowByName(user2Library5Delete)).not.toBeVisible();
+      await expect(libraryTable.getRowByName(user2Library5Delete)).toBeHidden();
       await trashPage.navigate({ waitUntil: loadString });
       await expect(trashTable.getRowByName(user2Library5Delete)).toBeVisible();
     });
@@ -313,7 +313,7 @@ test.describe('Library actions ', () => {
       await libraryTable.getRowByName(user2Library3).click();
       await myLibrariesHeader.clickMoreActions();
       await libraryMenu.clickMenuItem(removeFavoriteButton);
-      await expect(libraryTable.getRowByName(user2Library3)).not.toBeVisible();
+      await expect(libraryTable.getRowByName(user2Library3)).toBeHidden();
     });
 
     test('[C289991] Delete a library from Favorite Libraries', async ({ favoriteLibrariesPage, trashPage }) => {
@@ -328,7 +328,7 @@ test.describe('Library actions ', () => {
       await myLibrariesHeader.clickMoreActions();
       await libraryMenu.clickMenuItem(deleteButton);
       await expect.soft(snackBar.getByMessageLocator(libraryDeletedMessage)).toBeVisible();
-      await expect(libraryTable.getRowByName(user2Library6Delete)).not.toBeVisible();
+      await expect(libraryTable.getRowByName(user2Library6Delete)).toBeHidden();
       await trashPage.navigate({ waitUntil: loadString });
       await expect(trashTable.getRowByName(user2Library6Delete)).toBeVisible();
     });
@@ -442,7 +442,7 @@ test.describe('Library actions ', () => {
       await searchHeader.clickMoreActions();
       await libraryMenu.clickMenuItem(deleteButton);
       await expect.soft(snackBar.getByMessageLocator(libraryDeletedMessage)).toBeVisible();
-      await expect(libraryTable.getRowByName(user2Library7Delete)).not.toBeVisible();
+      await expect(libraryTable.getRowByName(user2Library7Delete)).toBeHidden();
       await trashPage.navigate({ waitUntil: loadString });
       await expect(trashTable.getRowByName(user2Library7Delete)).toBeVisible();
     });

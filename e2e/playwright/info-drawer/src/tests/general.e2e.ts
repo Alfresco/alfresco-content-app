@@ -71,12 +71,12 @@ test.describe('Info Drawer - General', () => {
     await expect(personalFiles.infoDrawer.infoDrawerPanel).toBeVisible();
 
     await personalFiles.reload({ waitUntil: 'load' });
-    await expect(personalFiles.infoDrawer.infoDrawerPanel).not.toBeVisible();
+    await expect(personalFiles.infoDrawer.infoDrawerPanel).toBeHidden();
     await personalFiles.dataTable.selectItem(file1);
     await personalFiles.acaHeader.viewDetails.click();
     await expect(personalFiles.infoDrawer.infoDrawerPanel).toBeVisible();
 
     await personalFiles.reload({ waitUntil: 'load' });
-    await expect(personalFiles.infoDrawer.infoDrawerPanel).not.toBeVisible();
+    await expect(personalFiles.infoDrawer.infoDrawerPanel).toBeHidden();
   });
 });

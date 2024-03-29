@@ -87,7 +87,7 @@ test.describe('from File Libraries', () => {
 
     await myLibrariesPage.viewer.closeButtonLocator.click();
     await myLibrariesPage.dataTable.getRowByName(xlsxLibraries).waitFor({ state: 'detached' });
-    expect(await myLibrariesPage.dataTable.getRowByName(xlsxLibraries).isVisible(), 'Item was not moved').toBe(false);
+    await expect(myLibrariesPage.dataTable.getRowByName(xlsxLibraries), 'Item was not moved').toBeHidden();
     await personalFiles.navigate({ remoteUrl: `#/personal-files/${destinationId}` });
     expect(await personalFiles.dataTable.isItemPresent(xlsxLibraries), 'Item is not present in destination').toBe(true);
   });
