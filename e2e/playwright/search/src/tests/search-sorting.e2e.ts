@@ -111,8 +111,8 @@ test.describe('Search sorting', () => {
 
     await searchPage.searchSortingPicker.sortBy(sortBy, sortOrder);
 
-    expect(await searchPage.dataTable.getNthRow(1).textContent()).toContain(expectedFirstFile);
-    expect(await searchPage.dataTable.getNthRow(2).textContent()).toContain(expectedSecondFile);
+    expect(await searchPage.dataTable.getNthRow(0).textContent()).toContain(expectedFirstFile);
+    expect(await searchPage.dataTable.getNthRow(1).textContent()).toContain(expectedSecondFile);
   }
 
   [

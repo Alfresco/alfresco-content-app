@@ -84,7 +84,7 @@ test.describe('Search - Filters - Logic', () => {
     await searchPage.dataTable.progressBarWaitForReload();
 
     await expect(searchPage.dataTable.getRowByName(logicFile1.name)).toBeVisible();
-    await expect(searchPage.dataTable.getRowByName(logicFile2.name)).not.toBeVisible();
+    await expect(searchPage.dataTable.getRowByName(logicFile2.name)).toBeHidden();
   });
 
   test('[C699501] Filter with Match Any', async ({ searchPage }) => {
@@ -95,7 +95,7 @@ test.describe('Search - Filters - Logic', () => {
     await searchPage.searchFiltersLogic.applyButton.click();
     await searchPage.dataTable.progressBarWaitForReload();
 
-    expect(await searchPage.dataTable.getRowsCount()).toBe(3);
+    expect(await searchPage.dataTable.getRowsCount()).toBe(2);
     await expect(searchPage.dataTable.getRowByName(logicFile1.name)).toBeVisible();
     await expect(searchPage.dataTable.getRowByName(logicFile2.name)).toBeVisible();
   });
@@ -109,8 +109,8 @@ test.describe('Search - Filters - Logic', () => {
     await searchPage.searchFiltersLogic.applyButton.click();
     await searchPage.dataTable.progressBarWaitForReload();
 
-    expect(await searchPage.dataTable.getRowsCount()).toBe(2);
-    await expect(searchPage.dataTable.getRowByName(logicFile1.name)).not.toBeVisible();
+    expect(await searchPage.dataTable.getRowsCount()).toBe(1);
+    await expect(searchPage.dataTable.getRowByName(logicFile1.name)).toBeHidden();
     await expect(searchPage.dataTable.getRowByName(logicFile2.name)).toBeVisible();
   });
 
@@ -120,8 +120,8 @@ test.describe('Search - Filters - Logic', () => {
     await searchPage.searchFiltersLogic.applyButton.click();
     await searchPage.dataTable.progressBarWaitForReload();
 
-    expect(await searchPage.dataTable.getRowsCount()).toBe(2);
-    await expect(searchPage.dataTable.getRowByName(logicFile2.name)).not.toBeVisible();
+    expect(await searchPage.dataTable.getRowsCount()).toBe(1);
+    await expect(searchPage.dataTable.getRowByName(logicFile2.name)).toBeHidden();
     await expect(searchPage.dataTable.getRowByName(logicFile1.name)).toBeVisible();
 
     await searchPage.searchFilters.logicFilter.click();
@@ -129,8 +129,8 @@ test.describe('Search - Filters - Logic', () => {
     await searchPage.searchFiltersLogic.applyButton.click();
     await searchPage.dataTable.progressBarWaitForReload();
 
-    expect(await searchPage.dataTable.getRowsCount()).toBe(2);
-    await expect(searchPage.dataTable.getRowByName(logicFile2.name)).not.toBeVisible();
+    expect(await searchPage.dataTable.getRowsCount()).toBe(1);
+    await expect(searchPage.dataTable.getRowByName(logicFile2.name)).toBeHidden();
     await expect(searchPage.dataTable.getRowByName(logicFile1.name)).toBeVisible();
 
     await searchPage.searchFilters.logicFilter.click();
@@ -138,8 +138,8 @@ test.describe('Search - Filters - Logic', () => {
     await searchPage.searchFiltersLogic.applyButton.click();
     await searchPage.dataTable.progressBarWaitForReload();
 
-    expect(await searchPage.dataTable.getRowsCount()).toBe(2);
-    await expect(searchPage.dataTable.getRowByName(logicFile2.name)).not.toBeVisible();
+    expect(await searchPage.dataTable.getRowsCount()).toBe(1);
+    await expect(searchPage.dataTable.getRowByName(logicFile2.name)).toBeHidden();
     await expect(searchPage.dataTable.getRowByName(logicFile1.name)).toBeVisible();
   });
 
@@ -154,8 +154,8 @@ test.describe('Search - Filters - Logic', () => {
     await searchPage.searchFiltersLogic.applyButton.click();
     await searchPage.dataTable.progressBarWaitForReload();
 
-    expect(await searchPage.dataTable.getRowsCount()).toBe(2);
-    await expect(searchPage.dataTable.getRowByName(logicFile1.name)).not.toBeVisible();
+    expect(await searchPage.dataTable.getRowsCount()).toBe(1);
+    await expect(searchPage.dataTable.getRowByName(logicFile1.name)).toBeHidden();
     await expect(searchPage.dataTable.getRowByName(logicFile2.name)).toBeVisible();
   });
 });
