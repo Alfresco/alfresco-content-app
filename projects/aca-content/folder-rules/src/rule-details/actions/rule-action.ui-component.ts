@@ -192,8 +192,13 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
   ngOnChanges(changes: SimpleChanges): void {
     const readOnly = changes['readOnly']?.currentValue;
     if (readOnly !== undefined && readOnly !== null) {
-      this.readOnly = readOnly;
-      this.setDisabledState(readOnly);
+      if (readOnly) {
+        this.readOnly = true;
+        this.form.disable();
+      } else {
+        this.readOnly = false;
+        this.form.enable();
+      }
     }
   }
 
@@ -358,16 +363,6 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
         this.parameters[paramDef.name] = false;
       }
     });
-  }
-
-  setDisabledState(isDisabled: boolean) {
-    if (isDisabled) {
-      this.readOnly = true;
-      this.form.disable();
-    } else {
-      this.readOnly = false;
-      this.form.enable();
-    }
   }
 
   private parseConstraintsToSelectOptions(constraints: ConstraintValue[]): CardViewSelectItemOption<unknown>[] {

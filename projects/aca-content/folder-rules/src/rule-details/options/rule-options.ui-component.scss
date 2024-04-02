@@ -8,7 +8,7 @@
     flex-direction: column;
   }
 
-  &.aca-read-only &__checkbox label > span:first-child {
+  &.aca-read-only &__checkbox > div > div:first-child {
     display: none;
   }
 

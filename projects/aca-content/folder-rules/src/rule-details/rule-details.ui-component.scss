@@ -81,6 +81,10 @@
       .mat-mdc-select-disabled .mat-mdc-select-value {
         color: inherit;
       }
+
+      .mat-mdc-select-arrow-wrapper {
+        display: none;
+      }
     }
   }
 }
