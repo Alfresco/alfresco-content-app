@@ -30,6 +30,11 @@ aca-search-results {
       border-bottom: 1px solid var(--theme-border-color);
 
       .aca-content__advanced-filters {
+        /* stylelint-disable-next-line */
+        .mdc-evolution-chip__text-label {
+          color: var(--theme-selected-text-color);
+        }
+
         .adf-search-filter-chip,
         .adf-search-filter-chip-tabbed {
           background-color: var(--theme-dropdown-color);
@@ -45,10 +50,10 @@ aca-search-results {
             color: var(--theme-search-chip-icon-color);
           }
 
-        .adf-search-filter-chip-icon {
-          color: var(--theme-search-chip-icon-color);
+          .adf-search-filter-chip-icon {
+            color: var(--theme-search-chip-icon-color);
+          }
         }
-      }
 
         .adf-search-filter-placeholder {
           color: var(--theme-selected-text-color);
