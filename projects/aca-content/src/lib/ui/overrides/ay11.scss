@@ -101,50 +101,30 @@
     }
   }
 
-  // TODO investigate after app is run
-  .mat-mdc-slide-toggle {
-    /* TODO(mdc-migration): The following rule targets internal classes of slide-toggle that may no longer apply for the MDC version. */
-    .mat-slide-toggle-thumb {
+  .mat-mdc-slide-toggle .mdc-form-field {
+    .mdc-switch .mdc-switch__handle {
       width: 15px;
       height: 15px;
       transform: translate(20%, 50%);
       background-color: #484a4d;
     }
 
-    /* TODO(mdc-migration): The following rule targets internal classes of slide-toggle that may no longer apply for the MDC version. */
-    .mat-slide-toggle-bar {
+    .mdc-switch .mdc-switch__track {
       border-radius: 15px;
       height: 20px;
     }
 
-    /* TODO(mdc-migration): The following rule targets internal classes of slide-toggle that may no longer apply for the MDC version. */
-    .mat-slide-toggle-thumb-container {
-      top: -5px;
+    .mdc-switch__handle-track {
+      top: -15px;
     }
 
-    /* TODO(mdc-migration): The following rule targets internal classes of slide-toggle that may no longer apply for the MDC version. */
-    .mat-slide-toggle-ripple {
+    .mdc-switch__ripple {
       display: none;
     }
+  }
 
-    &.cdk-keyboard-focused {
-      /* TODO(mdc-migration): The following rule targets internal classes of slide-toggle that may no longer apply for the MDC version. */
-      .mat-slide-toggle-bar {
-        outline: 2px solid var(--theme-blue-button-color);
-      }
-    }
-
-    &.mat-primary.mat-checked:not(.mat-disabled) {
-      /* TODO(mdc-migration): The following rule targets internal classes of slide-toggle that may no longer apply for the MDC version. */
-      .mat-slide-toggle-bar {
-        background-color: var(--theme-blue-button-color);
-      }
-
-      /* TODO(mdc-migration): The following rule targets internal classes of slide-toggle that may no longer apply for the MDC version. */
-      .mat-slide-toggle-thumb {
-        background-color: white;
-      }
-    }
+  .mat-mdc-slide-toggle.cdk-keyboard-focused .mdc-form-field .mdc-switch .mdc-switch__track {
+    outline: 2px solid var(--theme-blue-button-color);
   }
 
   .mat-mdc-outlined-button,

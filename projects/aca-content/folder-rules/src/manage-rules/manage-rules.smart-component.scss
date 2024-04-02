@@ -49,7 +49,7 @@
         z-index: 1;
         display: flex;
         flex-direction: row;
-        align-items: center;
+        align-items: flex-start;
         overflow-x: auto;
         justify-content: space-between;
         padding: 12px 20px;
@@ -75,7 +75,7 @@
           }
         }
 
-        &__buttons {
+        .aca-manage-rules__container__rule-details__header__buttons {
           display: flex;
           flex-direction: row;
           align-items: stretch;
@@ -86,7 +86,16 @@
 
             &#delete-rule-btn {
               padding: 0 8px;
+              margin: 0;
               min-width: unset;
+
+              mat-icon {
+                margin: 0;
+                padding: 0;
+                width: 24px;
+                height: 24px;
+                font-size: 24px;
+              }
             }
           }
         }
