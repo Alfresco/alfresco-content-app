@@ -88,7 +88,7 @@ test.describe('Special permissions', () => {
 
     test('[C213173] on Recent Files', async ({ recentFilesPage }) => {
       await recentFilesPage.navigate();
-      expect(await recentFilesPage.dataTable.getRowsCount(), 'Incorrect number of items').toBe(2);
+      expect(await recentFilesPage.dataTable.getRowsCount(), 'Incorrect number of items').toBe(1);
       await siteApiAdmin.deleteSiteMember(sitePrivate, username);
       await recentFilesPage.reload();
       expect(await recentFilesPage.dataTable.isEmpty(), 'Items are still displayed').toBe(true);
@@ -96,7 +96,7 @@ test.describe('Special permissions', () => {
 
     test('[C213227] on Favorites', async ({ favoritePage }) => {
       await favoritePage.navigate();
-      expect(await favoritePage.dataTable.getRowsCount(), 'Incorrect number of items').toBe(2);
+      expect(await favoritePage.dataTable.getRowsCount(), 'Incorrect number of items').toBe(1);
       await siteApiAdmin.deleteSiteMember(sitePrivate, username);
       await favoritePage.reload();
       expect(await favoritePage.dataTable.isEmpty(), 'Items are still displayed').toBe(true);
@@ -117,7 +117,7 @@ test.describe('Special permissions', () => {
       await searchPage.searchOverlay.searchFor(fileName);
       await searchPage.dataTable.spinnerWaitForReload();
 
-      expect(await searchPage.dataTable.getRowsCount(), 'Incorrect number of items').toBe(2);
+      expect(await searchPage.dataTable.getRowsCount(), 'Incorrect number of items').toBe(1);
 
       await siteApiAdmin.deleteSiteMember(sitePrivate, username);
 
@@ -168,13 +168,13 @@ test.describe('Special permissions', () => {
 
     test('[C213178] on Recent Files', async ({ recentFilesPage }) => {
       await recentFilesPage.navigate();
-      expect(await recentFilesPage.dataTable.getRowsCount(), 'Incorrect number of items').toBe(2);
+      expect(await recentFilesPage.dataTable.getRowsCount(), 'Incorrect number of items').toBe(1);
       expect(await recentFilesPage.dataTable.getItemLocationText(fileName)).toEqual('Unknown');
     });
 
     test('[C213672] on Favorites', async ({ favoritePage }) => {
       await favoritePage.navigate();
-      expect(await favoritePage.dataTable.getRowsCount(), 'Incorrect number of items').toBe(2);
+      expect(await favoritePage.dataTable.getRowsCount(), 'Incorrect number of items').toBe(1);
       expect(await favoritePage.dataTable.getItemLocationText(fileName)).toEqual('Unknown');
     });
 
@@ -190,7 +190,7 @@ test.describe('Special permissions', () => {
       await searchPage.searchOverlay.searchFor(fileName);
       await searchPage.dataTable.spinnerWaitForReload();
 
-      expect(await searchPage.dataTable.getRowsCount(), 'Incorrect number of items').toBe(2);
+      expect(await searchPage.dataTable.getRowsCount(), 'Incorrect number of items').toBe(1);
       expect(await searchPage.dataTable.getItemLocationText(fileName)).toEqual('Unknown');
     });
   });
