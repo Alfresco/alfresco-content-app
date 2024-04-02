@@ -94,6 +94,7 @@ test.describe('Search - Filters - Logic', () => {
     );
     await searchPage.searchFiltersLogic.applyButton.click();
     await searchPage.dataTable.progressBarWaitForReload();
+
     expect(await searchPage.dataTable.getRowsCount()).toBe(2);
     await expect(searchPage.dataTable.getRowByName(logicFile1.name)).toBeVisible();
     await expect(searchPage.dataTable.getRowByName(logicFile2.name)).toBeVisible();
