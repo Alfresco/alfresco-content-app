@@ -57,7 +57,6 @@ export class DataTableComponent extends BaseComponent {
   sitesRole = this.page.locator('.adf-datatable-body [data-automation-id*="datatable-row"] [aria-label="My Role"]');
 
   /** Locator for row (or rows) */
-  //getRowLocator = this.getChild(`adf-datatable-row`);
   getRowLocator = this.page.getByRole('rowgroup').nth(1).locator('adf-datatable-row');
 
   /** Locator to get "No results found" message */
