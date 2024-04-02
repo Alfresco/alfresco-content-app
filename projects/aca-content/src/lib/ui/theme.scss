@@ -18,6 +18,19 @@ mat-icon {
   color: var(--theme-secondary-text);
 }
 
+mat-slide-toggle {
+  .mdc-switch__icons {
+    display: none;
+  }
+
+  .mdc-switch--unselected.mdc-switch:enabled .mdc-switch__track::before,
+  .mdc-switch--unselected.mdc-switch:enabled:active .mdc-switch__track::before,
+  .mdc-switch--unselected.mdc-switch:enabled:focus:not(:active) .mdc-switch__track::before,
+  .mdc-switch--unselected.mdc-switch:enabled:hover:not(:focus:active) .mdc-switch__track::before {
+    background: var(--adf-theme-foreground-disabled-text-color);
+  }
+}
+
 .mat-mdc-tab-list {
   .mat-mdc-tab-labels {
     .mdc-tab--active {
