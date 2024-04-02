@@ -33,10 +33,7 @@ const config: PlaywrightTestConfig<CustomConfig> = {
   projects: [
     {
       name: 'special-permissions',
-      testDir: './src/tests',
-      use: {
-        users: ['hruser', 'admin']
-      }
+      testDir: './src/tests'
     }
   ]
 };
