@@ -92,7 +92,7 @@
     "@types/superagent": "^4.1.10",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.48.2",
-    "dotenv": "16.3.1",
+    "dotenv": "16.4.5",
     "dotenv-expand": "^5.1.0",
     "eslint": "^8.42.0",
     "eslint-plugin-ban": "^1.6.0",
