@@ -51,6 +51,38 @@ mat-slide-toggle {
   }
 }
 
+.mdc-dialog {
+  .mdc-dialog__title {
+    margin-bottom: 20px;
+    padding: 0;
+
+    &::before {
+      height: unset;
+    }
+  }
+
+  .mat-mdc-dialog-actions {
+    padding: 8px 0;
+  }
+
+  .mdc-dialog__content {
+    padding: 16px 0;
+    color: var(--adf-theme-foreground-text-color-087);
+  }
+
+  .mdc-dialog__surface {
+    padding: 24px 24px 8px;
+
+    .mat-mdc-button {
+      width: auto;
+
+      .mdc-button__label {
+        padding: 0 16px;
+      }
+    }
+  }
+}
+
 .mdc-floating-label,
 .mat-mdc-tab-list .mat-mdc-tab-labels .mdc-tab,
 .mat-mdc-checkbox label,
