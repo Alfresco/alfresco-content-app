@@ -73,6 +73,12 @@ app-view-profile {
   .app-general-edit-btn {
     width: 60%;
     text-align: end;
+
+    .app-general-edit {
+      background: var(--theme-grey-text-background-color);
+      height: 30px;
+      margin: 1rem;
+    }
   }
 
   .app-divider {
@@ -87,12 +93,6 @@ app-view-profile {
     border-radius: 6px;
     outline: none;
     box-shadow: 0 0 2px var(--theme-blue-button-color);
-  }
-
-  .app-general-edit {
-    background: var(--theme-grey-text-background-color);
-    height: 30px;
-    margin: 1rem;
   }
 
   .app-general-edit:hover {
