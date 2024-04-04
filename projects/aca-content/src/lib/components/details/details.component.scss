@@ -68,3 +68,7 @@ app-details-manager {
     vertical-align: text-bottom;
   }
 }
+
+mat-tab-header {
+  border-bottom: 1px solid var(--adf-metadata-property-panel-border-color);
+}

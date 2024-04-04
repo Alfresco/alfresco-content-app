@@ -123,6 +123,16 @@
     }
   }
 
+  .mat-mdc-slide-toggle.mat-primary.mat-mdc-slide-toggle-checked:not(.mat-disabled) .mdc-form-field .mdc-switch {
+    .mdc-switch__track::after {
+      background-color: var(--theme-blue-button-color);
+    }
+
+    .mdc-switch__shadow {
+      background-color: var(--theme-primary-color-default-contrast);
+    }
+  }
+
   .mat-mdc-slide-toggle.cdk-keyboard-focused .mdc-form-field .mdc-switch .mdc-switch__track {
     outline: 2px solid var(--theme-blue-button-color);
   }

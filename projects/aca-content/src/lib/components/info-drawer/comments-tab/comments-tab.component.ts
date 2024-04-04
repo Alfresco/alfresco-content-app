@@ -33,6 +33,7 @@ import { NodeCommentsModule } from '@alfresco/adf-content-services';
   imports: [MatCardModule, NodeCommentsModule],
   selector: 'app-comments-tab',
   template: `<mat-card appearance="raised"><adf-node-comments [readOnly]="!canUpdateNode" [nodeId]="node?.id"></adf-node-comments></mat-card>`,
+  styles: ['app-comments-tab mat-card { padding: 16px }'],
   encapsulation: ViewEncapsulation.None
 })
 export class CommentsTabComponent implements OnInit {
