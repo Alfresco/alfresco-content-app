@@ -65,6 +65,10 @@ export const TEST_FILES = {
     path: resolve(__dirname, 'file-jpg.jpg'),
     name: 'file-jpg'
   },
+  JPG_FILE_1MB: {
+    path: resolve(__dirname, 'file-jpg-1mb.jpg'),
+    name: 'file-jpg-1mb'
+  },
   PDF_PROTECTED2: {
     path: resolve(__dirname, 'protected.pdf'),
     name: 'file-protected',

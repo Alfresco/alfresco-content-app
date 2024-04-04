@@ -24,6 +24,7 @@
 
 import { BaseComponent } from '../../base.component';
 import { Page } from '@playwright/test';
+import { SearchPage } from '@alfresco/playwright-shared';
 
 export class SearchFiltersProperties extends BaseComponent {
   private static rootElement = '.adf-search-filter-menu-card';
@@ -33,7 +34,66 @@ export class SearchFiltersProperties extends BaseComponent {
   }
 
   public operatorButton = this.getChild(`.adf-search-properties-file-size-operator`);
-  public fileSizeInput = this.getChild(`[placeholder$='Results will match all words entered here']`);
+  public fileSizeInput = this.getChild(`[placeholder$='Enter file size']`);
   public unitButton = this.getChild(`.adf-search-properties-file-size-unit`);
-  public fileTypeInput = this.getChild(`[placeholder$='Results will exclude matches with these words']`);
+  public fileTypeInput = this.getChild(`[placeholder$='File Type']`);
+  public atLeastOption = this.page.locator(`.mat-option`, { hasText: 'At Least' });
+  public atMostOption = this.page.locator(`.mat-option`, { hasText: 'At Most' });
+  public exactlyOption = this.page.locator(`.mat-option`, { hasText: 'Exactly' });
+  public kbUnit = this.page.locator(`.mat-option`, { hasText: 'KB' });
+  public mbUnit = this.page.locator(`.mat-option`, { hasText: 'MB' });
+  public gbUnit = this.page.locator(`.mat-option`, { hasText: 'GB' });
+  public dropdownOptions = this.page.locator(`.mat-option`);
+
+  async setPropertiesParameters(
+    page: SearchPage,
+    operator?: 'At Least' | 'At Most' | 'Exactly',
+    unit?: 'KB' | 'MB' | 'GB',
+    fileSizeInputText?: string,
+    fileTypeInputText?: string
+  ): Promise<void> {
+    await page.searchFilters.propertiesFilter.click();
+
+    if (operator) {
+      await this.operatorButton?.click();
+      switch (operator) {
+        case 'At Least':
+          await this.atLeastOption?.click();
+          break;
+        case 'At Most':
+          await this.atMostOption?.click();
+          break;
+        case 'Exactly':
+          await this.exactlyOption?.click();
+          break;
+      }
+    }
+
+    if (unit) {
+      await this.unitButton?.click();
+      switch (unit) {
+        case 'KB':
+          await this.kbUnit?.click();
+          break;
+        case 'MB':
+          await this.mbUnit?.click();
+          break;
+        case 'GB':
+          await this.gbUnit?.click();
+          break;
+      }
+    }
+
+    if (fileSizeInputText) {
+      await this.fileSizeInput?.fill(fileSizeInputText);
+    }
+
+    if (fileTypeInputText) {
+      await this.fileTypeInput?.fill(fileTypeInputText);
+      await this.dropdownOptions.first().click();
+    }
+
+    await page.searchFilters.menuCardApply.click();
+    await page.dataTable.progressBarWaitForReload();
+  }
 }
