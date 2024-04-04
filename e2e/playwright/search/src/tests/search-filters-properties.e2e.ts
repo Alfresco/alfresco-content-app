@@ -28,7 +28,6 @@ import { ApiClientFactory, Utils, test, NodesApi, TrashcanApi, FileActionsApi, T
 test.describe('Search - Filters - Properties', () => {
   let nodesApi: NodesApi;
   let trashcanApi: TrashcanApi;
-  let fileActionsApi: FileActionsApi;
 
   const randomId = Utils.random();
   const username = `user-${randomId}`;
@@ -46,7 +45,7 @@ test.describe('Search - Filters - Properties', () => {
       await apiClientFactory.createUser({ username });
       nodesApi = await NodesApi.initialize(username, username);
       trashcanApi = await TrashcanApi.initialize(username, username);
-      fileActionsApi = await FileActionsApi.initialize(username, username);
+      const fileActionsApi = await FileActionsApi.initialize(username, username);
       await fileActionsApi.uploadFileWithRename(TEST_FILES.PDF.path, fileNamePdfKb, '-my-');
       await fileActionsApi.uploadFileWithRename(TEST_FILES.JPG_FILE_1MB.path, fileNameJpgMb, '-my-');
     } catch (error) {
