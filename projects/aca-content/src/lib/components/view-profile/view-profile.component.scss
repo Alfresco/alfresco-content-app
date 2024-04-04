@@ -79,6 +79,24 @@ app-view-profile {
       height: 30px;
       margin: 1rem;
     }
+
+    .app-general-cancel-btn {
+      height: 30px;
+      margin: 1rem;
+      margin-left: 0.5rem;
+      background-color: var(--theme-grey-text-background-color);
+      padding-top: 0.25px;
+    }
+
+    .app-general-save-btn {
+      width: 75px;
+      height: 30px;
+      margin: 1rem;
+      margin-left: 0.5rem;
+      color: white;
+      background-color: var(--theme-blue-button-color);
+      font-weight: 600;
+    }
   }
 
   .app-divider {
@@ -97,23 +115,6 @@ app-view-profile {
 
   .app-general-edit:hover {
     background: var(--theme-grey-hover-background-color);
-  }
-
-  .app-general-cancel-btn {
-    height: 30px;
-    margin: 1rem;
-    margin-left: 0.5rem;
-    background-color: var(--theme-grey-text-background-color);
-    padding-top: 0.25px;
-  }
-
-  .app-general-save-btn {
-    width: 75px;
-    height: 30px;
-    margin: 1rem;
-    margin-left: 0.5rem;
-    color: white;
-    background-color: var(--theme-blue-button-color);
   }
 
   .app-general-dropdown-divider {
