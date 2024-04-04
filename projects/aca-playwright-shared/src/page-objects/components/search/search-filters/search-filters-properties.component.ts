@@ -47,13 +47,14 @@ export class SearchFiltersProperties extends BaseComponent {
 
   async setPropertiesParameters(
     page: SearchPage,
-    operator?: 'At Least' | 'At Most' | 'Exactly', unit?: 'KB' | 'MB' | 'GB',
-    fileSizeInputText?: string, 
-    fileTypeInputText?: string,
-    ): Promise<void> {
+    operator?: 'At Least' | 'At Most' | 'Exactly',
+    unit?: 'KB' | 'MB' | 'GB',
+    fileSizeInputText?: string,
+    fileTypeInputText?: string
+  ): Promise<void> {
     await page.searchFilters.propertiesFilter.click();
 
-    if(operator){
+    if (operator) {
       await this.operatorButton?.click();
       switch (operator) {
         case 'At Least':
@@ -65,10 +66,10 @@ export class SearchFiltersProperties extends BaseComponent {
         case 'Exactly':
           await this.exactlyOption?.click();
           break;
-      };
-    };
+      }
+    }
 
-    if(unit){
+    if (unit) {
       await this.unitButton?.click();
       switch (unit) {
         case 'KB':
@@ -80,18 +81,17 @@ export class SearchFiltersProperties extends BaseComponent {
         case 'GB':
           await this.gbUnit?.click();
           break;
-      };
-    };
+      }
+    }
 
-    if(fileSizeInputText){
+    if (fileSizeInputText) {
       await this.fileSizeInput?.fill(fileSizeInputText);
-    };
-    
-    if(fileTypeInputText){
+    }
+
+    if (fileTypeInputText) {
       await this.fileTypeInput?.fill(fileTypeInputText);
       await this.dropdownOptions.first().click();
-    };
-    
+    }
 
     await page.searchFilters.menuCardApply.click();
     await page.dataTable.progressBarWaitForReload();
