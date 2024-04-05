@@ -7,7 +7,7 @@
 @include mat.core;
 
 mat-toolbar {
-  color: var(--theme-text-color, rgba(0, 0, 0, 0.54));
+  color: var(--adf-theme-foreground-text-color-054);
 }
 
 mat-icon {
@@ -31,12 +31,25 @@ mat-slide-toggle {
   }
 }
 
+.adf-name-location-cell-location.adf-datatable-cell-value {
+  color: var(--theme-secondary-text);
+}
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: transparent;
+  padding: 0;
+}
+
 .mat-mdc-tab-list {
   .mat-mdc-tab-labels {
     .mdc-tab--active {
       color: #212121;
     }
   }
+}
+
+.mdc-list-item__primary-text {
+  color: var(--adf-theme-foreground-text-color-087);
 }
 
 .mat-mdc-button:is(button),
