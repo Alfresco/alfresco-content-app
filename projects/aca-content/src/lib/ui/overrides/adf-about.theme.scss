@@ -3,8 +3,7 @@
   adf-about {
     /* custom ADF About Component Theme */
 
-    .mdc-data-table__header-cell,
-    .mat-header-cell {
+    .mdc-data-table__header-cell {
       color: var(--adf-theme-foreground-text-color-054);
       font-size: 12px;
       font-weight: 500;
