@@ -23,7 +23,7 @@
  */
 
 import { Component, Inject, ViewEncapsulation } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -36,7 +36,7 @@ export interface OpenInAppDialogOptions {
 }
 @Component({
   standalone: true,
-  imports: [CommonModule, TranslateModule, MatButtonModule, MatIconModule, A11yModule],
+  imports: [CommonModule, TranslateModule, MatButtonModule, MatIconModule, A11yModule, MatDialogModule],
   selector: 'aca-open-in-app',
   templateUrl: './open-in-app.component.html',
   styleUrls: ['./open-in-app.component.scss'],
