@@ -85,6 +85,8 @@ mat-slide-toggle {
   .mdc-dialog__content {
     padding: 16px 0;
     color: var(--adf-theme-foreground-text-color-087);
+
+    --mdc-dialog-supporting-text-color: var(--theme-primary-text);
   }
 
   .mdc-dialog__surface {
