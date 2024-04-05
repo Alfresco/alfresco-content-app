@@ -1,60 +1,58 @@
 aca-open-in-app {
-  .aca-open-in-app-container {
-    display: flex;
-    place-content: center;
-    padding: 0;
-    border-radius: 8px;
-    background-color: var(--theme-primary-color);
-    color: var(--theme-about-panel-background-color);
-    margin-top: 12px;
-
-    &-button {
+  .aca-open-in-app {
+    .aca-open-in-app-button-container {
+      display: flex;
+      place-content: center;
+      padding: 0;
+      border-radius: 8px;
+      background-color: var(--theme-primary-color);
+      height: 48px;
       overflow-x: hidden;
       font-size: 16px;
-      width: 100%;
-      padding: 0;
-      height: 48px;
+      color: white;
+      font-weight: 600;
 
       &:focus-visible {
         outline: none;
         border-radius: unset;
       }
     }
-  }
 
-  .aca-download-app-container {
-    display: flex;
-    place-content: center;
-    margin-top: 12px;
+    .aca-download-app-container {
+      display: flex;
+      place-content: center;
+      margin-top: 12px;
+      margin-bottom: 16px;
 
-    &-button {
-      background: var(--theme-dialog-background-color);
-      color: var(--theme-primary-color);
+      &-button {
+        background: var(--theme-dialog-background-color);
+        color: var(--theme-primary-color);
+        font-size: 14px;
+      }
+    }
+
+    .aca-mobile-application-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
       font-size: 14px;
-    }
-  }
-
-  .aca-mobile-application-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 14px;
-    padding: 6px 0;
-  }
-
-  .aca-cross-button {
-    padding-right: 0;
-
-    &:focus-visible {
-      outline: none;
-      border-radius: unset;
+      padding: 6px 0;
+      margin-bottom: 12px;
     }
 
-    &-icon {
-      font-weight: bold;
-      font-size: 21px;
-      height: 21px;
+    .aca-cross-button {
+      padding-right: 0;
+
+      &:focus-visible {
+        outline: none;
+        border-radius: unset;
+      }
+
+      &-icon {
+        font-weight: bold;
+        font-size: 20px;
+      }
     }
   }
 }
