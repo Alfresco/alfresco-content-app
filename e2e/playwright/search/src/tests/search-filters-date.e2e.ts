@@ -33,7 +33,7 @@ test.describe('Search - Filters - Date', () => {
   const username = `user-${randomId}`;
   const fileNamePdfKb = `${randomId}-fileNamePdf.pdf`;
   const fileNameJpgMb = `${randomId}-fileNameJpg.jpg`;
-  const getCurrentAndPreviousDay = Utils.getCurrentAndPreviousDay();
+  const currentAndPreviousDay = Utils.getCurrentAndPreviousDay();
 
   test.beforeEach(async ({ loginPage }) => {
     await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
@@ -58,7 +58,7 @@ test.describe('Search - Filters - Date', () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
   });
 
-  test('[C699048] [C699049] Filter by date - Changing tabs', async ({ searchPage }) => {
+  test('[C699048-1] [C699049-1] Filter by date - Changing tabs', async ({ searchPage }) => {
     await searchPage.acaHeader.searchButton.click();
     await searchPage.searchFilters.dateFilter.click();
     await searchPage.searchFiltersDate.betweenButton.click();
@@ -74,23 +74,23 @@ test.describe('Search - Filters - Date', () => {
     await expect(searchPage.searchFiltersDate.createdTabTitle).toHaveCSS('color', 'rgb(33, 33, 33)');
   });
 
-  test('[C699048] Filter by date - Created anytime', async ({ searchPage }) => {
+  test('[C699048-2] Filter by date - Created anytime', async ({ searchPage }) => {
     await searchPage.searchFiltersDate.filterFilesByDate(searchPage, 'anytime', 'Created', randomId, 'files', 2);
   });
 
-  test('[C699049] Filter by date - Modified anytime', async ({ searchPage }) => {
+  test('[C699049-2] Filter by date - Modified anytime', async ({ searchPage }) => {
     await searchPage.searchFiltersDate.filterFilesByDate(searchPage, 'anytime', 'Modified', randomId, 'files', 2);
   });
 
-  test('[C699048] Filter by date - Created in the last', async ({ searchPage }) => {
+  test('[C699048-3] Filter by date - Created in the last', async ({ searchPage }) => {
     await searchPage.searchFiltersDate.filterFilesByDate(searchPage, 'inTheLast', 'Created', randomId, 'files', 2, '1');
   });
 
-  test('[C699049] Filter by date - Modified in the last', async ({ searchPage }) => {
+  test('[C699049-3] Filter by date - Modified in the last', async ({ searchPage }) => {
     await searchPage.searchFiltersDate.filterFilesByDate(searchPage, 'inTheLast', 'Modified', randomId, 'files', 2, '1');
   });
 
-  test('[C699048] Filter by date - Created between', async ({ searchPage }) => {
+  test('[C699048-4] Filter by date - Created between', async ({ searchPage }) => {
     await searchPage.searchFiltersDate.filterFilesByDate(
       searchPage,
       'between',
@@ -99,12 +99,12 @@ test.describe('Search - Filters - Date', () => {
       'files',
       2,
       '1',
-      getCurrentAndPreviousDay.previousDate,
-      getCurrentAndPreviousDay.currentDate
+      currentAndPreviousDay.previousDate,
+      currentAndPreviousDay.currentDate
     );
   });
 
-  test('[C699049] Filter by date - Modified between', async ({ searchPage }) => {
+  test('[C699049-4] Filter by date - Modified between', async ({ searchPage }) => {
     await searchPage.searchFiltersDate.filterFilesByDate(
       searchPage,
       'between',
@@ -113,8 +113,8 @@ test.describe('Search - Filters - Date', () => {
       'files',
       2,
       '1',
-      getCurrentAndPreviousDay.previousDate,
-      getCurrentAndPreviousDay.currentDate
+      currentAndPreviousDay.previousDate,
+      currentAndPreviousDay.currentDate
     );
   });
 });

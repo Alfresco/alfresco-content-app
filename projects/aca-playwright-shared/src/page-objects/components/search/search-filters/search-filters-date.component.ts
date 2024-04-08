@@ -115,14 +115,14 @@ export class SearchFiltersDate extends BaseComponent {
     await searchPage.dataTable.spinnerWaitForReload();
     expect(await searchPage.dataTable.getRowsCount()).toEqual(expectSearchResults);
 
+    let dateText: string;
     if (filterType === 'between') {
       if (dateFilterTab === 'Modified') {
-        const dateText = `Modified: ${startDay} - ${endDay}`;
-        await expect(searchPage.searchFilters.dateFilter).toContainText(dateText, { ignoreCase: true });
+        dateText = `Modified: ${startDay} - ${endDay}`;
       } else {
-        const dateText = `Created: ${startDay} - ${endDay}`;
-        await expect(searchPage.searchFilters.dateFilter).toContainText(dateText, { ignoreCase: true });
+        dateText = `Created: ${startDay} - ${endDay}`;
       }
+      await expect(searchPage.searchFilters.dateFilter).toContainText(dateText, { ignoreCase: true });
     }
   }
 }

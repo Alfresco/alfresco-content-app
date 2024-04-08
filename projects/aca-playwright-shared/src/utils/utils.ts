@@ -127,7 +127,7 @@ export class Utils {
     }
   }
 
-  static getCurrentAndPreviousDay(currentDate: Date = new Date()): { currentDate: string; previousDate: string } {
+  static getCurrentAndPreviousDay(currentDate = new Date()): { currentDate: string; previousDate: string } {
     let formattedDate: string;
     let formattedDate2: string;
 
