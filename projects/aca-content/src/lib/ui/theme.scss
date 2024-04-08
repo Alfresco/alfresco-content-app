@@ -142,8 +142,28 @@ mat-toolbar.mat-toolbar.mat-toolbar-single-row {
   color: var(--theme-secondary-text);
 }
 
-adf-snackbar-content {
+mat-snack-bar-container {
   .mat-mdc-button.mat-unthemed {
     --mdc-text-button-label-text-color: #fff;
+  }
+
+  .adf-warning-snackbar,
+  .adf-info-snackbar,
+  .adf-error-snackbar {
+    --mat-mdc-snack-bar-button-color: #fff;
+    --mdc-snackbar-supporting-text-color: #fff;
+    --mdc-text-button-label-text-color: #fff;
+  }
+
+  .adf-warning-snackbar {
+    --mdc-snackbar-container-color: var(--theme-accent-color);
+  }
+
+  .adf-info-snackbar {
+    --mdc-snackbar-container-color: var(--theme-primary-color);
+  }
+
+  .adf-error-snackbar {
+    --mdc-snackbar-container-color: var(--theme-warn-color);
   }
 }
