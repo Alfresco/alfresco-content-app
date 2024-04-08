@@ -122,3 +122,9 @@ mat-toolbar.mat-toolbar.mat-toolbar-single-row {
 .adf-empty-content__icon {
   color: var(--theme-secondary-text);
 }
+
+adf-snackbar-content {
+  .mat-mdc-button.mat-unthemed {
+    --mdc-text-button-label-text-color: #fff;
+  }
+}
