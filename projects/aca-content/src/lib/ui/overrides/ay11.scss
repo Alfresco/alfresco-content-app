@@ -186,15 +186,6 @@
     }
   }
 
-  .adf-info-snackbar {
-    background-color: var(--theme-blue-button-color);
-
-    .mat-mdc-simple-snack-bar,
-    .mat-mdc-snack-bar-action {
-      color: white;
-    }
-  }
-
   .mat-mdc-button-base {
     &.adf-filter-button {
       margin-left: -2px;
