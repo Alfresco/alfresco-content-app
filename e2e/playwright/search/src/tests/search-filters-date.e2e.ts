@@ -44,8 +44,8 @@ test.describe('Search - Filters - Date', () => {
       const apiClientFactory = new ApiClientFactory();
       await apiClientFactory.setUpAcaBackend('admin');
       await apiClientFactory.createUser({ username });
-      nodesApi = await NodesApi.initialize(username, username);
       trashcanApi = await TrashcanApi.initialize(username, username);
+      nodesApi = await NodesApi.initialize(username, username);
       const fileActionsApi = await FileActionsApi.initialize(username, username);
       await fileActionsApi.uploadFileWithRename(TEST_FILES.PDF.path, fileNamePdfKb, '-my-');
       await fileActionsApi.uploadFileWithRename(TEST_FILES.JPG_FILE.path, fileNameJpgMb, '-my-');
