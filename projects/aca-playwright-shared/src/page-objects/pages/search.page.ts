@@ -24,11 +24,26 @@
 
 import { Page } from '@playwright/test';
 import { BasePage } from './base.page';
-import { DataTableComponent, MatMenuComponent, ViewerComponent, SearchInputComponent, SearchOverlayComponent, SidenavComponent, SearchSortingPicker, SearchFilters, SearchFiltersTags, SearchFiltersCategories, SearchFiltersDate, SearchFiltersLocation, SearchFiltersLogic, SearchFiltersProperties } from '../components';
+import {
+  DataTableComponent,
+  MatMenuComponent,
+  ViewerComponent,
+  SearchInputComponent,
+  SearchOverlayComponent,
+  SidenavComponent,
+  SearchSortingPicker,
+  SearchFilters,
+  SearchFiltersTags,
+  SearchFiltersCategories,
+  SearchFiltersDate,
+  SearchFiltersLocation,
+  SearchFiltersLogic,
+  SearchFiltersProperties
+} from '../components';
 import { AcaHeader } from '../components/aca-header.component';
 import { AdfConfirmDialogComponent, AdfFolderDialogComponent } from '../components/dialogs';
 
-type SearchType = 'files' | 'folders' | 'filesAndFolders' | 'libraries';
+export type SearchType = 'files' | 'folders' | 'filesAndFolders' | 'libraries';
 
 export class SearchPage extends BasePage {
   private static pageUrl = 'search';
