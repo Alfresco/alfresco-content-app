@@ -54,5 +54,10 @@ aca-open-in-app {
         font-size: 20px;
       }
     }
+
+    .mat-mdc-button {
+      --mat-mdc-button-persistent-ripple-color: unset;
+      --mat-mdc-button-ripple-color: unset;
+    }
   }
 }
