@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { MyLibrariesPage, test } from '@alfresco/playwright-shared';
+import { MyLibrariesPage, test, Utils } from '@alfresco/playwright-shared';
 import * as testData from '@alfresco/playwright-shared';
 import { expect } from '@playwright/test';
 
@@ -54,8 +54,7 @@ async function checkActionsViewerAvailable(
 export function collaboratorTests(userCollaborator: string, siteName: string) {
   test.describe('available actions : ', () => {
     test.beforeEach(async ({ loginPage }) => {
-      await loginPage.navigate();
-      await loginPage.loginUser({ username: userCollaborator, password: userCollaborator });
+      await Utils.tryLoginUser(loginPage, userCollaborator, userCollaborator, 'beforeEach failed');
     });
 
     test('on File Libraries - [C297647]', async ({ myLibrariesPage }) => {
@@ -242,8 +241,7 @@ export function filesLockedByCurrentUser(userDemoted: string, siteName?: string)
 export function filesLockedByOtherUser(userManager: string, siteName?: string) {
   test.describe('available actions : ', () => {
     test.beforeEach(async ({ loginPage }) => {
-      await loginPage.navigate();
-      await loginPage.loginUser({ username: userManager, password: userManager });
+      await Utils.tryLoginUser(loginPage, userManager, userManager, 'beforeEach failed');
     });
 
     test('on File Libraries - [C297664]', async ({ myLibrariesPage }) => {
