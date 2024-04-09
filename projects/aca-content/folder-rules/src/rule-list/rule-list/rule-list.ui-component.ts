@@ -1,5 +1,5 @@
 /*!
- * Copyright © 2005-2023 Hyland Software, Inc. and its affiliates. All rights reserved.
+ * Copyright © 2005-2024 Hyland Software, Inc. and its affiliates. All rights reserved.
  *
  * Alfresco Example Content Application
  *
@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { RuleSet } from '../../model/rule-set.model';
 import { Rule } from '../../model/rule.model';
 import { RuleGroupingItem } from '../../model/rule-grouping-item.model';
@@ -35,6 +35,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { RuleListGroupingUiComponent } from '../rule-list-grouping/rule-list-grouping.ui-component';
 import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -54,9 +55,9 @@ import { MatButtonModule } from '@angular/material/button';
   encapsulation: ViewEncapsulation.None,
   host: { class: 'aca-rule-list' }
 })
-export class RuleListUiComponent {
+export class RuleListUiComponent implements OnInit, OnDestroy {
   @Input()
-  mainRuleSet: RuleSet = null;
+  mainRuleSet$: Observable<RuleSet>;
   @Input()
   folderId: string;
   @Input()
@@ -81,31 +82,40 @@ export class RuleListUiComponent {
   @Output()
   ruleSetUnlinkClicked = new EventEmitter<RuleSet>();
 
+  mainRuleSet: RuleSet = null;
   inheritedRuleSetsExpanded = true;
   mainRuleSetExpanded = true;
+  mainRuleSetGroupingItems: RuleGroupingItem[] = [];
+  inheritedRuleSetGroupingItems: RuleGroupingItem[] = [];
+  isMainRuleSetOwned = false;
+  isMainRuleSetLinked = false;
 
-  get isMainRuleSetOwned(): boolean {
-    return FolderRuleSetsService.isOwnedRuleSet(this.mainRuleSet, this.folderId);
-  }
-  get isMainRuleSetLinked(): boolean {
-    return FolderRuleSetsService.isLinkedRuleSet(this.mainRuleSet, this.folderId);
-  }
+  private _mainRuleSetSub: Subscription;
 
-  get mainRuleSetGroupingItems(): RuleGroupingItem[] {
-    return this.mainRuleSet ? this.getRuleSetGroupingItems(this.mainRuleSet, !this.isMainRuleSetOwned) : [];
-  }
+  ngOnInit() {
+    this._mainRuleSetSub = this.mainRuleSet$.subscribe((ruleSet: RuleSet) => {
+      if (ruleSet) {
+        this.mainRuleSet = ruleSet;
+        this.isMainRuleSetOwned = FolderRuleSetsService.isOwnedRuleSet(ruleSet, this.folderId);
+        this.isMainRuleSetLinked = FolderRuleSetsService.isLinkedRuleSet(ruleSet, this.folderId);
+      }
 
-  get inheritedRuleSetGroupingItems(): RuleGroupingItem[] {
-    const items = this.inheritedRuleSets.reduce((accumulator: RuleGroupingItem[], currentRuleSet: RuleSet) => {
+      this.mainRuleSetGroupingItems = ruleSet ? this.getRuleSetGroupingItems(ruleSet, !this.isMainRuleSetOwned) : [];
+    });
+
+    this.inheritedRuleSetGroupingItems = this.inheritedRuleSets.reduce((accumulator: RuleGroupingItem[], currentRuleSet: RuleSet) => {
       accumulator.push(...this.getRuleSetGroupingItems(currentRuleSet, true));
       return accumulator;
     }, []);
     if (this.ruleSetsLoading || this.hasMoreRuleSets) {
-      items.push({
+      this.inheritedRuleSetGroupingItems.push({
         type: this.ruleSetsLoading ? 'loading' : 'load-more-rule-sets'
       });
     }
-    return items;
+  }
+
+  ngOnDestroy() {
+    this._mainRuleSetSub.unsubscribe();
   }
 
   getRuleSetGroupingItems(ruleSet: RuleSet, filterOutDisabledRules: boolean): RuleGroupingItem[] {

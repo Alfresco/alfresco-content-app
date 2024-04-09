@@ -1,5 +1,5 @@
 /*!
- * Copyright © 2005-2023 Hyland Software, Inc. and its affiliates. All rights reserved.
+ * Copyright © 2005-2024 Hyland Software, Inc. and its affiliates. All rights reserved.
  *
  * Alfresco Example Content Application
  *
@@ -57,7 +57,7 @@ export class DataTableComponent extends BaseComponent {
   sitesRole = this.page.locator('.adf-datatable-body [data-automation-id*="datatable-row"] [aria-label="My Role"]');
 
   /** Locator for row (or rows) */
-  getRowLocator = this.getChild(`adf-datatable-row`);
+  getRowLocator = this.page.getByRole('rowgroup').nth(1).locator('adf-datatable-row');
 
   /** Locator to get "No results found" message */
   getNoResultsFoundMessage = this.getChild('adf-custom-empty-content-template', { hasText: 'No results found' });

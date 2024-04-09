@@ -1,5 +1,5 @@
 /*!
- * Copyright © 2005-2023 Hyland Software, Inc. and its affiliates. All rights reserved.
+ * Copyright © 2005-2024 Hyland Software, Inc. and its affiliates. All rights reserved.
  *
  * Alfresco Example Content Application
  *
@@ -210,8 +210,8 @@ export class FolderRuleSetsService {
           this.mainRuleSet.rules.splice(index, 1);
         } else {
           this.mainRuleSet = null;
-          this.mainRuleSetSource.next(this.mainRuleSet);
         }
+        this.mainRuleSetSource.next(this.mainRuleSet);
         this.folderRulesService.selectRule(this.mainRuleSet?.rules[0] ?? this.inheritedRuleSets[0]?.rules[0] ?? null);
       }
     }
@@ -225,6 +225,7 @@ export class FolderRuleSetsService {
       } else {
         this.mainRuleSet.rules.push(newRule);
       }
+      this.mainRuleSetSource.next(this.mainRuleSet);
       this.folderRulesService.selectRule(newRule);
     } else {
       this.refreshMainRuleSet(newRule);
@@ -234,6 +235,9 @@ export class FolderRuleSetsService {
   refreshMainRuleSet(ruleToSelect: Rule = null) {
     this.getMainRuleSet(this.currentFolder.id).subscribe((mainRuleSet: RuleSet) => {
       this.mainRuleSet = { ...mainRuleSet };
+      if (!this.mainRuleSet.rules) {
+        this.mainRuleSet = null;
+      }
       this.mainRuleSetSource.next(this.mainRuleSet);
       if (mainRuleSet) {
         const ruleToSelectInRuleSet = ruleToSelect ? mainRuleSet.rules.find((rule: Rule) => rule.id === ruleToSelect.id) : mainRuleSet.rules[0];

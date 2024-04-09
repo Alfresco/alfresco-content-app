@@ -1,5 +1,5 @@
 /*!
- * Copyright © 2005-2023 Hyland Software, Inc. and its affiliates. All rights reserved.
+ * Copyright © 2005-2024 Hyland Software, Inc. and its affiliates. All rights reserved.
  *
  * Alfresco Example Content Application
  *
@@ -37,7 +37,7 @@ import { debounceTime, map } from 'rxjs/operators';
 import { DocumentListPresetRef, ExtensionsModule } from '@alfresco/adf-extensions';
 import { CommonModule } from '@angular/common';
 import { DocumentListModule } from '@alfresco/adf-content-services';
-import { DataTableModule, PaginationModule, TemplateModule } from '@alfresco/adf-core';
+import { DataTableModule, PaginationComponent, TemplateModule } from '@alfresco/adf-core';
 import { DocumentListDirective } from '../../directives/document-list.directive';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -51,7 +51,7 @@ import { TranslateModule } from '@ngx-translate/core';
     TemplateModule,
     DataTableModule,
     ExtensionsModule,
-    PaginationModule,
+    PaginationComponent,
     PaginationDirective,
     InfoDrawerComponent,
     PageLayoutComponent,

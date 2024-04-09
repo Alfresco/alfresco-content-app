@@ -1,5 +1,5 @@
 /*!
- * Copyright © 2005-2023 Hyland Software, Inc. and its affiliates. All rights reserved.
+ * Copyright © 2005-2024 Hyland Software, Inc. and its affiliates. All rights reserved.
  *
  * Alfresco Example Content Application
  *
@@ -50,6 +50,7 @@ export const getGlobalConfig: PlaywrightTestConfig = {
   workers: 3,
   reporter: [['list'], ...report],
   globalSetup: require.resolve('./global.setup'),
+  testMatch: ['**/*.e2e.ts'],
   use: {
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
     actionTimeout: 0,

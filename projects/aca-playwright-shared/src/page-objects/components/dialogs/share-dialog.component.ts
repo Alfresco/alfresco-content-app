@@ -1,5 +1,5 @@
 /*!
- * Copyright © 2005-2023 Hyland Software, Inc. and its affiliates. All rights reserved.
+ * Copyright © 2005-2024 Hyland Software, Inc. and its affiliates. All rights reserved.
  *
  * Alfresco Example Content Application
  *
@@ -63,7 +63,7 @@ export class ShareDialogComponent extends BaseComponent {
   }
 
   async getLinkUrl(): Promise<string> {
-    return await this.url.inputValue();
+    return await this.url.first().inputValue();
   }
 
   async isUrlReadOnly(): Promise<boolean> {
