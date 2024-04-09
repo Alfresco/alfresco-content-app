@@ -39,7 +39,7 @@ describe('RuleOptionsUiComponent', () => {
     fixture.debugElement.query(By.css(`[data-automation-id="${dataAutomationId}"]`));
 
   const toggleMatCheckbox = (dataAutomationId: string) => {
-    ((getByDataAutomationId(dataAutomationId).nativeElement as HTMLElement).children[0] as HTMLElement).click();
+    (getByDataAutomationId(dataAutomationId).nativeElement as HTMLElement).querySelector('input').click();
   };
 
   const testErrorScriptFormFieldVisibility = (isVisible: boolean) => {
@@ -140,14 +140,14 @@ describe('RuleOptionsUiComponent', () => {
     (getByDataAutomationId('rule-option-select-errorScript').nativeElement as HTMLElement).click();
     fixture.detectChanges();
 
-    const matOptions = fixture.debugElement.queryAll(By.css(`.mat-option`));
+    const matOptions = fixture.debugElement.queryAll(By.css(`.aca-rule-options__error-script-option`));
     expect(matOptions.length).toBe(3);
     expect((matOptions[0].nativeElement as HTMLElement).innerText.trim()).toBe('ACA_FOLDER_RULES.RULE_DETAILS.OPTIONS.NO_SCRIPT');
     expect((matOptions[1].nativeElement as HTMLElement).innerText.trim()).toBe('Script 1');
     expect((matOptions[2].nativeElement as HTMLElement).innerText.trim()).toBe('Script 2');
   });
 
-  it('should always show a label for the error script dropdown even when MAT_FORM_FIELD_DEFAULT_OPTIONS sets floatLabel to auto', () => {
+  it('should always show a label for the error script dropdown', () => {
     component.writeValue({
       isEnabled: true,
       isInheritable: false,
@@ -157,10 +157,9 @@ describe('RuleOptionsUiComponent', () => {
     component.errorScriptConstraint = errorScriptConstraintMock;
     fixture.detectChanges();
 
-    const matFormField = fixture.debugElement.query(By.css(`[data-automation-id="rule-option-form-field-errorScript"] .mat-form-field-label`));
+    const label = fixture.debugElement.query(By.css(`[data-automation-id="rule-option-form-field-errorScript"] label`));
     fixture.detectChanges();
-    expect(matFormField).not.toBeNull();
-    expect(matFormField.componentInstance['floatLabel']).toBe('always');
+    expect(label).not.toBeNull();
   });
 
   it('should properly update formFields on only isAsynchronous and errorScript changes', () => {

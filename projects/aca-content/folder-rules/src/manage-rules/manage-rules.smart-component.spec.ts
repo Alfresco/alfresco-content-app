@@ -310,13 +310,13 @@ describe('ManageRulesSmartComponent', () => {
     it('should show inherit rules toggle button, and disable it when isInheritanceToggleDisabled = true', () => {
       fixture.detectChanges();
 
-      const createButton = debugElement.query(By.css(`[data-automation-id="manage-rules-inheritance-toggle-button"]`));
+      const createButton = debugElement.query(By.css(`[data-automation-id="manage-rules-inheritance-toggle-button"] button`));
       expect(createButton).toBeTruthy();
 
       component.isInheritanceToggleDisabled = true;
       fixture.detectChanges();
 
-      expect(createButton.nativeNode.classList).toContain('mat-disabled');
+      expect(createButton.nativeElement.disabled).toBeTrue();
     });
 
     it('should call onInheritanceToggleChange() on change', () => {

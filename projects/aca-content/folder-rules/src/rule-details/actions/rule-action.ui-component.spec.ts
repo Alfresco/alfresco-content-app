@@ -40,7 +40,7 @@ describe('RuleActionUiComponent', () => {
   const changeMatSelectValue = (value: string) => {
     getSelectElement().click();
     fixture.detectChanges();
-    const matOption = fixture.debugElement.query(By.css(`.mat-option[ng-reflect-value="${value}"]`)).nativeElement;
+    const matOption = fixture.debugElement.query(By.css(`[ng-reflect-value="${value}"]`)).nativeElement;
     matOption.click();
     fixture.detectChanges();
   };
