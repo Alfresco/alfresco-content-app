@@ -27,7 +27,7 @@ import { RuleSimpleConditionUiComponent } from './rule-simple-condition.ui-compo
 import { CoreTestingModule } from '@alfresco/adf-core';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
-import { tagMock, mimeTypeMock, simpleConditionUnknownFieldMock, categoriesListMock } from '../../mock/conditions.mock';
+import { categoriesListMock, mimeTypeMock, simpleConditionUnknownFieldMock, tagMock } from '../../mock/conditions.mock';
 import { MimeType } from './rule-mime-types';
 import { CategoryService, TagService } from '@alfresco/adf-content-services';
 import { of } from 'rxjs';

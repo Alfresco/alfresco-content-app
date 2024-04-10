@@ -317,7 +317,7 @@ describe('ManageRulesSmartComponent', () => {
       fixture.detectChanges();
 
       const createButton = await loader.getHarness(
-        MatSlideToggleHarness.with({ selector: `[data-automation-id="manage-rules-inheritance-toggle-button"]` })
+        MatSlideToggleHarness.with({ selector: `[data-automation-id="manage-rules-inheritance-toggle-button"] button` })
       );
       expect(createButton).toBeTruthy();
 

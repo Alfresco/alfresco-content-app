@@ -36,7 +36,7 @@ describe('RuleTriggerUiComponent', () => {
     fixture.debugElement.query(By.css(`[data-automation-id="${dataAutomationId}"]`));
 
   const toggleMatCheckbox = (dataAutomationId: string) => {
-    ((getByDataAutomationId(dataAutomationId).nativeElement as HTMLElement).children[0] as HTMLElement).click();
+    (getByDataAutomationId(dataAutomationId).nativeElement as HTMLElement).querySelector('input').click();
   };
 
   beforeEach(() => {
