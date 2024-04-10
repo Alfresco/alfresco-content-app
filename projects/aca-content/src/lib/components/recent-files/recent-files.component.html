@@ -40,6 +40,7 @@
                 [draggable]="column.draggable"
                 [resizable]="column.resizable"
                 [isHidden]="column.isHidden"
+                [sortingKey]="column.sortingKey || column.key"
               >
                 <ng-template let-context>
                   <adf-dynamic-column [id]="column.template" [context]="context"> </adf-dynamic-column>
@@ -59,6 +60,7 @@
                 [isHidden]="column.isHidden"
                 [draggable]="column.draggable"
                 [resizable]="column.resizable"
+                [sortingKey]="column.sortingKey || column.key"
               >
               </data-column>
             </ng-container>

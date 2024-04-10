@@ -29,7 +29,7 @@ test.describe('Folders - available actions : ', () => {
   const username = `user-${Utils.random()}`;
   let parentId: string;
   let nodesApi: NodesApi;
-  let trashCanActions: TrashcanApi;
+  let trashcanApi: TrashcanApi;
 
   async function checkActionsAvailable(
     myPersonalFiles: PersonalFilesPage,
@@ -61,7 +61,7 @@ test.describe('Folders - available actions : ', () => {
     await apiClientFactory.createUser({ username });
     nodesApi = await NodesApi.initialize(username, username);
     const favoritesActions = await FavoritesPageApi.initialize(username, username);
-    trashCanActions = await TrashcanApi.initialize(username, username);
+    trashcanApi = await TrashcanApi.initialize(username, username);
     parentId = (await nodesApi.createFolder(parentName)).entry.id;
     await nodesApi.createFile(testData.file.name, parentId);
     await nodesApi.createFolder(testData.folderFile.name, parentId);
@@ -72,14 +72,13 @@ test.describe('Folders - available actions : ', () => {
   });
 
   test.afterAll(async () => {
-    await nodesApi.deleteNodes([parentId]);
-    await trashCanActions.emptyTrashcan();
+    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
   });
 
   test.describe('on Personal Files : ', () => {
     test.beforeEach(async ({ personalFiles, loginPage }) => {
+      await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
       await personalFiles.navigate({ remoteUrl: `#/personal-files/${parentId}` });
-      await loginPage.loginUser({ username, password: username });
     });
 
     test('Folder not favorite  - [C213123]', async ({ personalFiles }) => {

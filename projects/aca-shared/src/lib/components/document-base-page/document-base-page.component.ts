@@ -25,7 +25,7 @@
 import { DocumentListComponent, ShareDataRow, UploadService } from '@alfresco/adf-content-services';
 import { ShowHeaderMode } from '@alfresco/adf-core';
 import { ContentActionRef, DocumentListPresetRef, SelectionState } from '@alfresco/adf-extensions';
-import { OnDestroy, OnInit, OnChanges, ViewChild, SimpleChanges, Directive, inject } from '@angular/core';
+import { OnDestroy, OnInit, OnChanges, ViewChild, SimpleChanges, Directive, inject, HostListener } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { NodeEntry, Node, NodePaging } from '@alfresco/js-api';
 import { Observable, Subject, Subscription } from 'rxjs';
@@ -207,6 +207,7 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
     return location.href.includes('viewer:view');
   }
 
+  @HostListener('sorting-changed', ['$event'])
   onSortingChanged(event: any) {
     this.filterSorting = event.detail.key + '-' + event.detail.direction;
   }

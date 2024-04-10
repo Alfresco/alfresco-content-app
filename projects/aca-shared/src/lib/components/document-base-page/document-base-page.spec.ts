@@ -25,64 +25,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PageComponent } from './document-base-page.component';
 import { AppState, ReloadDocumentListAction, SetSelectedNodesAction, ViewNodeAction } from '@alfresco/aca-shared/store';
-import { AppExtensionService } from '@alfresco/aca-shared';
-import { NodeEntry, NodePaging, RepositoryInfo, VersionInfo } from '@alfresco/js-api';
+import { AppExtensionService, LibTestingModule, discoveryApiServiceMockValue, DocumentBasePageServiceMock } from '@alfresco/aca-shared';
+import { NodeEntry, NodePaging } from '@alfresco/js-api';
 import { DocumentBasePageService } from './document-base-page.service';
-import { Store, StoreModule } from '@ngrx/store';
-import { Component, Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Component } from '@angular/core';
 import { DiscoveryApiService, DocumentListComponent } from '@alfresco/adf-content-services';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { AuthModule, MaterialModule, PipeModule } from '@alfresco/adf-core';
+import { AuthModule, MaterialModule } from '@alfresco/adf-core';
 import { HttpClientModule } from '@angular/common/http';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { EffectsModule } from '@ngrx/effects';
-import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
-
-export const INITIAL_APP_STATE: AppState = {
-  appName: 'Alfresco Content Application',
-  logoPath: 'assets/images/alfresco-logo-white.svg',
-  customCssPath: '',
-  webFontPath: '',
-  sharedUrl: '',
-  user: {
-    isAdmin: null,
-    id: null,
-    firstName: '',
-    lastName: ''
-  },
-  selection: {
-    nodes: [],
-    libraries: [],
-    isEmpty: true,
-    count: 0
-  },
-  navigation: {
-    currentFolder: null
-  },
-  currentNodeVersion: null,
-  infoDrawerOpened: false,
-  infoDrawerPreview: false,
-  infoDrawerMetadataAspect: '',
-  showFacetFilter: true,
-  fileUploadingDialog: true,
-  showLoader: false,
-  repository: {
-    status: {
-      isQuickShareEnabled: true
-    }
-  } as any
-};
-
-@Injectable()
-class DocumentBasePageServiceMock extends DocumentBasePageService {
-  canUpdateNode(): boolean {
-    return true;
-  }
-  canUploadContent(): boolean {
-    return true;
-  }
-}
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'aca-test',
@@ -107,47 +61,11 @@ describe('PageComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        NoopAnimationsModule,
-        HttpClientModule,
-        RouterTestingModule,
-        MaterialModule,
-        AuthModule.forRoot(),
-        StoreModule.forRoot(
-          { app: (state) => state },
-          {
-            initialState: {
-              app: INITIAL_APP_STATE
-            },
-            runtimeChecks: {
-              strictStateImmutability: false,
-              strictActionImmutability: false
-            }
-          }
-        ),
-        EffectsModule.forRoot([]),
-        PipeModule
-      ],
+      imports: [LibTestingModule, MaterialModule, AuthModule.forRoot()],
       declarations: [TestComponent],
       providers: [
-        {
-          provide: DocumentBasePageService,
-          useClass: DocumentBasePageServiceMock
-        },
-        {
-          provide: DiscoveryApiService,
-          useValue: {
-            ecmProductInfo$: new BehaviorSubject<RepositoryInfo | null>(null),
-            getEcmProductInfo: (): Observable<RepositoryInfo> =>
-              of(
-                new RepositoryInfo({
-                  version: {
-                    major: '10.0.0'
-                  } as VersionInfo
-                })
-              )
-          }
-        },
+        { provide: DocumentBasePageService, useClass: DocumentBasePageServiceMock },
+        { provide: DiscoveryApiService, useValue: discoveryApiServiceMockValue },
         AppExtensionService
       ]
     });
@@ -298,20 +216,7 @@ describe('Info Drawer state', () => {
       providers: [
         { provide: DocumentBasePageService, useClass: DocumentBasePageServiceMock },
         AppExtensionService,
-        {
-          provide: DiscoveryApiService,
-          useValue: {
-            ecmProductInfo$: new BehaviorSubject<RepositoryInfo | null>(null),
-            getEcmProductInfo: (): Observable<RepositoryInfo> =>
-              of(
-                new RepositoryInfo({
-                  version: {
-                    major: '10.0.0'
-                  } as VersionInfo
-                })
-              )
-          }
-        },
+        { provide: DiscoveryApiService, useValue: discoveryApiServiceMockValue },
         provideMockStore({
           initialState: { app: appState }
         })
@@ -337,7 +242,7 @@ describe('Info Drawer state', () => {
     window.history.pushState({}, null, `${locationHref}#test`);
     fixture.detectChanges();
 
-    fixture.whenStable().then(() => {
+    void fixture.whenStable().then(() => {
       component.infoDrawerOpened$.subscribe((state) => {
         expect(state).toBe(true);
         done();
@@ -356,7 +261,7 @@ describe('Info Drawer state', () => {
     window.history.pushState({}, null, `${locationHref}#test(viewer:view)`);
     fixture.detectChanges();
 
-    fixture.whenStable().then(() => {
+    void fixture.whenStable().then(() => {
       component.infoDrawerOpened$.subscribe((state) => {
         expect(state).toBe(true);
         done();
