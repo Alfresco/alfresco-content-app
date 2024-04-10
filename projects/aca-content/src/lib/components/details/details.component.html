@@ -25,7 +25,7 @@
         </div>
       </div>
 
-      <mat-tab-group [selectedIndex]="activeTab" class="aca-details-tabs" animationDuration="0">
+      <mat-tab-group [selectedIndex]="activeTab" class="aca-details-tabs" animationDuration="0" mat-stretch-tabs="false" mat-align-tabs="start">
         <mat-tab label="{{ 'APP.INFO_DRAWER.TABS.PROPERTIES' | translate }}">
           <ng-template matTabContent>
             <app-metadata-tab *ngIf="node && !isLoading; else loading" [node]="node"></app-metadata-tab>
