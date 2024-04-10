@@ -3,7 +3,7 @@
     <ng-container *ngSwitchCase="'menu'">
       <button mat-menu-item [id]="actionRef.id" [matMenuTriggerFor]="childMenu">
         <adf-icon [value]="actionRef.icon"></adf-icon>
-        <span>{{ actionRef.title | translate }}</span>
+        <span [attr.data-automation-id]="actionRef.id + '-label'">{{ actionRef.title | translate }}</span>
       </button>
 
       <mat-menu #childMenu="matMenu">
@@ -24,7 +24,7 @@
     <ng-container *ngSwitchDefault>
       <button mat-menu-item color="primary" [id]="actionRef.id" (click)="runAction()">
         <adf-icon [value]="actionRef.icon"></adf-icon>
-        <span>{{ actionRef.title | translate }}</span>
+        <span [attr.data-automation-id]="actionRef.id + '-label'">{{ actionRef.title | translate }}</span>
       </button>
     </ng-container>
   </ng-container>

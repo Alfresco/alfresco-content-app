@@ -12,14 +12,14 @@
       data-automation-id="rule-option-form-field-errorScript"
       floatLabel="always"
       [ngClass]="{ 'aca-hide-error-script-dropdown': hideErrorScriptDropdown }">
-
+      <mat-label>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.OPTIONS.ERROR_SCRIPT' | translate }}</mat-label>
       <mat-select
         formControlName="errorScript"
-        placeholder="{{ 'ACA_FOLDER_RULES.RULE_DETAILS.OPTIONS.ERROR_SCRIPT' | translate}}"
         data-automation-id="rule-option-select-errorScript">
 
-        <mat-option value="">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.OPTIONS.NO_SCRIPT' | translate }}</mat-option>
+        <mat-option class="aca-rule-options__error-script-option" value="">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.OPTIONS.NO_SCRIPT' | translate }}</mat-option>
           <mat-option *ngFor="let option of errorScriptOptions"
+            class="aca-rule-options__error-script-option"
             [value]="option.value">
             {{ option.label }}
           </mat-option>
