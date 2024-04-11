@@ -44,6 +44,7 @@
                 [class]="column.class"
                 [sortable]="column.sortable"
                 [isHidden]="column.isHidden"
+                [sortingKey]="column.sortingKey || column.key"
               >
                 <ng-template let-context>
                   <adf-dynamic-column [id]="column.template" [context]="context"> </adf-dynamic-column>
@@ -63,6 +64,7 @@
                 [resizable]="column.resizable"
                 [sortable]="column.sortable"
                 [isHidden]="column.isHidden"
+                [sortingKey]="column.sortingKey || column.key"
               >
               </data-column>
             </ng-container>
