@@ -93,7 +93,7 @@ export class DocumentListDirective implements OnInit, OnDestroy {
       .subscribe(() => this.onReady());
 
     this.appHookService.reload.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
-      this.reload(this.selectedNode);
+      this.reload();
     });
 
     this.appHookService.reset.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
@@ -166,13 +166,9 @@ export class DocumentListDirective implements OnInit, OnDestroy {
     this.store.dispatch(new SetSelectedNodesAction(selection));
   }
 
-  private reload(selectedNode?: NodeEntry) {
+  private reload() {
     this.documentList.resetSelection();
-    if (selectedNode) {
-      this.store.dispatch(new SetSelectedNodesAction([selectedNode]));
-    } else {
-      this.store.dispatch(new SetSelectedNodesAction([]));
-    }
+    this.store.dispatch(new SetSelectedNodesAction([]));
     this.documentList.reload();
   }
 
