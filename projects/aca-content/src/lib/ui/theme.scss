@@ -22,6 +22,14 @@ mat-icon {
   padding: 0;
 }
 
+.mdc-button {
+  &.mat-primary {
+    .mdc-button__label {
+      font-weight: 700;
+    }
+  }
+}
+
 .mdc-button:active {
   outline: none;
 }
@@ -33,6 +41,35 @@ mat-icon {
   .mat-mdc-form-field-error {
     position: relative;
     top: -3px;
+  }
+}
+
+.mat-mdc-checkbox {
+  .mdc-form-field {
+    height: 24px;
+
+    .mdc-checkbox {
+      padding: 0;
+      margin-right: 2px;
+
+      input {
+        height: 24px;
+        width: 24px;
+        position: relative;
+      }
+
+      .mdc-checkbox__background {
+        top: 1px;
+        left: 0;
+        height: 16px;
+        width: 16px;
+      }
+    }
+  }
+
+  .mat-mdc-checkbox-touch-target {
+    height: 24px;
+    width: 24px;
   }
 }
 
