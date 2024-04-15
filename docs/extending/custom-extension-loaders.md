@@ -14,7 +14,7 @@ The extension loader callbacks are invoked when hitting the `root logged-in rout
 export const APP_ROUTES: Routes = [
   {
     path: 'login',
-    component: LoginComponent,
+    component: AppLoginComponent,
     data: {
       title: 'APP.SIGN_IN'
     }

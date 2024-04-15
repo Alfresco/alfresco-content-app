@@ -63,7 +63,6 @@ import { STORE_INITIAL_APP_DATA } from '@alfresco/aca-shared/store';
 import { ShellModule, SHELL_APP_SERVICE, SHELL_AUTH_TOKEN } from '@alfresco/adf-core/shell';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { APP_ROUTES } from './app.routes';
-import { LoginComponent } from './components/login/login.component';
 import { MatIconRegistry } from '@angular/material/icon';
 
 registerLocaleData(localeFr);
@@ -89,7 +88,6 @@ registerLocaleData(localeSv);
     TranslateModule.forRoot(),
     CoreModule.forRoot(),
     CoreExtensionsModule.forRoot(),
-    LoginComponent,
     environment.e2e ? NoopAnimationsModule : BrowserAnimationsModule,
     !environment.production ? StoreDevtoolsModule.instrument({ maxAge: 25 }) : [],
     RouterModule.forRoot(APP_ROUTES, {
