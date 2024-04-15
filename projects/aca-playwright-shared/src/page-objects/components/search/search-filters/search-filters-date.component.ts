@@ -28,6 +28,18 @@ import { SearchPage, SearchType } from '@alfresco/playwright-shared';
 
 type FilterTab = 'Created' | 'Modified';
 
+interface FilterFilesByDateParams {
+  searchPage: SearchPage;
+  filterType: 'anytime' | 'inTheLast' | 'between';
+  dateFilterTab: FilterTab;
+  searchPhrase: string;
+  searchType: SearchType;
+  expectSearchResults: number;
+  inTheLastInputValue?: string;
+  startDay?: string;
+  endDay?: string;
+}
+
 export class SearchFiltersDate extends BaseComponent {
   private static rootElement = '.adf-search-filter-menu-card';
 
@@ -76,17 +88,19 @@ export class SearchFiltersDate extends BaseComponent {
    * @param startDay start day for time-frame search. DD-MMMM-YY
    * @param endDay end day for time-frame search. DD-MMMM-YY
    */
-  async filterFilesByDate(
-    searchPage: SearchPage,
-    filterType: 'anytime' | 'inTheLast' | 'between',
-    dateFilterTab: FilterTab,
-    searchPhrase: string,
-    searchType: SearchType,
-    expectSearchResults: number,
-    inTheLastInputValue?: string,
-    startDay?: string,
-    endDay?: string
-  ) {
+  async filterFilesByDate(params: FilterFilesByDateParams) {
+    const {
+      searchPage,
+      filterType,
+      dateFilterTab,
+      searchPhrase,
+      searchType,
+      expectSearchResults,
+      inTheLastInputValue,
+      startDay,
+      endDay
+    } = params;
+    
     await searchPage.searchWithin(searchPhrase, searchType);
     await searchPage.searchFilters.dateFilter.click();
 

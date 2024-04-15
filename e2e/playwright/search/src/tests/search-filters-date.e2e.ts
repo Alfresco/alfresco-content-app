@@ -75,46 +75,76 @@ test.describe('Search - Filters - Date', () => {
   });
 
   test('[C699048-2] Filter by date - Created anytime', async ({ searchPage }) => {
-    await searchPage.searchFiltersDate.filterFilesByDate(searchPage, 'anytime', 'Created', randomId, 'files', 2);
+    await searchPage.searchFiltersDate.filterFilesByDate({
+      searchPage,
+      filterType: 'anytime',
+      dateFilterTab: 'Created',
+      searchPhrase: randomId,
+      searchType: 'files',
+      expectSearchResults: 2
+    });
   });
 
   test('[C699049-2] Filter by date - Modified anytime', async ({ searchPage }) => {
-    await searchPage.searchFiltersDate.filterFilesByDate(searchPage, 'anytime', 'Modified', randomId, 'files', 2);
+    await searchPage.searchFiltersDate.filterFilesByDate({
+      searchPage,
+      filterType: 'anytime',
+      dateFilterTab: 'Modified',
+      searchPhrase: randomId,
+      searchType: 'files',
+      expectSearchResults: 2
+    });
   });
 
   test('[C699048-3] Filter by date - Created in the last', async ({ searchPage }) => {
-    await searchPage.searchFiltersDate.filterFilesByDate(searchPage, 'inTheLast', 'Created', randomId, 'files', 2, '1');
+    await searchPage.searchFiltersDate.filterFilesByDate({
+      searchPage,
+      filterType: 'inTheLast',
+      dateFilterTab: 'Created',
+      searchPhrase: randomId,
+      searchType: 'files',
+      expectSearchResults: 2,
+      inTheLastInputValue: '1'
+    });
   });
 
   test('[C699049-3] Filter by date - Modified in the last', async ({ searchPage }) => {
-    await searchPage.searchFiltersDate.filterFilesByDate(searchPage, 'inTheLast', 'Modified', randomId, 'files', 2, '1');
+    await searchPage.searchFiltersDate.filterFilesByDate({
+      searchPage,
+      filterType: 'inTheLast',
+      dateFilterTab: 'Modified',
+      searchPhrase: randomId,
+      searchType: 'files',
+      expectSearchResults: 2,
+      inTheLastInputValue: '1'
+    });
   });
 
   test('[C699048-4] Filter by date - Created between', async ({ searchPage }) => {
-    await searchPage.searchFiltersDate.filterFilesByDate(
+    await searchPage.searchFiltersDate.filterFilesByDate({
       searchPage,
-      'between',
-      'Created',
-      randomId,
-      'files',
-      2,
-      '1',
-      currentAndPreviousDay.previousDate,
-      currentAndPreviousDay.currentDate
-    );
+      filterType: 'between',
+      dateFilterTab: 'Created',
+      searchPhrase: randomId,
+      searchType: 'files',
+      expectSearchResults: 2,
+      inTheLastInputValue: '1',
+      startDay: currentAndPreviousDay.previousDate,
+      endDay: currentAndPreviousDay.currentDate
+    });
   });
 
   test('[C699049-4] Filter by date - Modified between', async ({ searchPage }) => {
-    await searchPage.searchFiltersDate.filterFilesByDate(
+    await searchPage.searchFiltersDate.filterFilesByDate({
       searchPage,
-      'between',
-      'Modified',
-      randomId,
-      'files',
-      2,
-      '1',
-      currentAndPreviousDay.previousDate,
-      currentAndPreviousDay.currentDate
-    );
+      filterType: 'between',
+      dateFilterTab: 'Modified',
+      searchPhrase: randomId,
+      searchType: 'files',
+      expectSearchResults: 2,
+      inTheLastInputValue: '1',
+      startDay: currentAndPreviousDay.previousDate,
+      endDay: currentAndPreviousDay.currentDate
+    });
   });
 });
