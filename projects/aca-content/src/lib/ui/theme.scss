@@ -111,7 +111,7 @@ mat-slide-toggle {
   color: var(--adf-theme-foreground-text-color-087);
 }
 
-.mat-mdc-button:is(button),
+.mat-mdc-button:is(button):not(.mat-calendar-period-button),
 .mat-mdc-icon-button:is(button),
 .mat-mdc-icon-button.mat-mdc-button-base:is(button) {
   padding: 0;
@@ -137,6 +137,14 @@ mat-slide-toggle {
     padding: 8px 0;
   }
 
+  .mat-mdc-slide-toggle .mdc-form-field {
+    width: 36px;
+  }
+
+  .mdc-data-table__row:last-child .mdc-data-table__cell {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  }
+
   .mdc-dialog__content {
     padding: 16px 0;
     color: var(--adf-theme-foreground-text-color-087);
@@ -155,6 +163,10 @@ mat-slide-toggle {
       }
     }
   }
+}
+
+.mat-mdc-checkbox .mdc-checkbox:has(div) {
+  padding-right: 2px;
 }
 
 .mdc-floating-label,
