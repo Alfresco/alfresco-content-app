@@ -26,6 +26,7 @@ const crypto = require('crypto');
 import * as path from 'path';
 import { LoginPage, MyLibrariesPage, PersonalFilesPage, FavoritesLibrariesPage, SearchPage, SharedPage, TrashPage } from '../';
 import { NodesApi, TrashcanApi, SitesApi } from '@alfresco/playwright-shared';
+import { format, subDays, subMonths, endOfMonth } from 'date-fns';
 
 export class Utils {
   static string257Long = 'x'.repeat(257);
@@ -105,9 +106,9 @@ export class Utils {
     errorMessage = 'reloadPageIfRowNotVisible Error '
   ): Promise<void> {
     try {
-      if (!await pageContext.dataTable.getRowByName(nodeName).isVisible()) {
+      if (!(await pageContext.dataTable.getRowByName(nodeName).isVisible())) {
         await pageContext.page.reload({ waitUntil: 'load' });
-      };
+      }
     } catch (error) {
       console.error(`${errorMessage}: ${error}`);
     }
@@ -118,11 +119,31 @@ export class Utils {
     errorMessage = 'reloadPageIfDatatableEmpty Error '
   ): Promise<void> {
     try {
-      if (await pageContext.dataTable.getEmptyFolderLocator.isVisible() || await pageContext.dataTable.emptyListTitle.isVisible()) {
+      if ((await pageContext.dataTable.getEmptyFolderLocator.isVisible()) || (await pageContext.dataTable.emptyListTitle.isVisible())) {
         await pageContext.page.reload({ waitUntil: 'load' });
       }
     } catch (error) {
       console.error(`${errorMessage}: ${error}`);
     }
+  }
+
+  static getCurrentAndPreviousDay(currentDate = new Date()): { currentDate: string; previousDate: string } {
+    let formattedDate: string;
+    let formattedDate2: string;
+
+    const formatDate = (date: Date): string => {
+      return format(date, 'dd-MMM-yy').toUpperCase();
+    };
+
+    if (currentDate.getDate() === 1) {
+      const lastDayOfPreviousMonth: Date = endOfMonth(subMonths(currentDate, 1));
+      formattedDate = formatDate(lastDayOfPreviousMonth);
+      formattedDate2 = formatDate(subDays(lastDayOfPreviousMonth, 1));
+    } else {
+      formattedDate = formatDate(currentDate);
+      formattedDate2 = formatDate(subDays(currentDate, 1));
+    }
+
+    return { currentDate: formattedDate, previousDate: formattedDate2 };
   }
 }
