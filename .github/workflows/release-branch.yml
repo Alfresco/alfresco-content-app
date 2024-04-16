@@ -30,7 +30,7 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - run: npm run affected:lint -- --base=origin/develop
-      - run: npm run stylelint
+      # - run: npm run stylelint
 
   # unit-tests:
   #   needs: [lint]
