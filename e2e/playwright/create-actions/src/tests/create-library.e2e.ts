@@ -49,8 +49,10 @@ test.describe('Create Libraries ', () => {
   let randomLibraryId: string;
   let randomLibraryDescription: string;
   const libraryDialogTitle = 'Create Library';
-  const libraryNameLabel = 'Name *';
-  const libraryIdLabel = 'Library ID *';
+  // toDo add in adf * to the placeholder
+  const libraryNameLabel = 'Name';
+  // toDo add in adf * to the placeholder
+  const libraryIdLabel = 'Library ID';
   const libraryDescriptionLabel = 'Description';
   const publicVisibility = 'Public';
   const moderatedVisibility = 'Moderated';
@@ -95,9 +97,9 @@ test.describe('Create Libraries ', () => {
 
   test('[C280024] Create Library dialog UI', async () => {
     await expect(libraryDialog.getDialogTitle(libraryDialogTitle)).toBeVisible();
-    await expect(libraryDialog.getLabelText(libraryNameLabel)).toBeVisible();
-    await expect(libraryDialog.getLabelText(libraryIdLabel)).toBeVisible();
-    await expect(libraryDialog.getLabelText(libraryDescriptionLabel)).toBeVisible();
+    await expect(libraryDialog.getElementByPlaceholder(libraryNameLabel)).toBeVisible();
+    await expect(libraryDialog.getElementByPlaceholder(libraryIdLabel)).toBeVisible();
+    await expect(libraryDialog.getElementByPlaceholder(libraryDescriptionLabel)).toBeVisible();
     await expect(libraryDialog.getLabelText(publicVisibility)).toBeVisible();
     await expect(libraryDialog.getLabelText(publicVisibility)).toBeChecked();
     await expect(libraryDialog.getLabelText(privateVisibility)).toBeVisible();
@@ -113,9 +115,9 @@ test.describe('Create Libraries ', () => {
     });
 
     test('[C280025] Create a public library', async ({ myLibrariesPage }) => {
-      await libraryDialog.getLabelText(libraryNameLabel).fill(randomLibraryName);
-      await expect(libraryDialog.getLabelText(libraryNameLabel)).toHaveValue(randomLibraryName);
-      await expect(libraryDialog.getLabelText(libraryIdLabel)).toHaveValue(randomLibraryName);
+      await libraryDialog.getElementByPlaceholder(libraryNameLabel).fill(randomLibraryName);
+      await expect(libraryDialog.getElementByPlaceholder(libraryNameLabel)).toHaveValue(randomLibraryName);
+      await expect(libraryDialog.getElementByPlaceholder(libraryIdLabel)).toHaveValue(randomLibraryName);
       await libraryDialog.createButton.click();
       await expect(libraryBreadcrumb.getItemByTitle(randomLibraryName)).toBeVisible();
 
@@ -157,17 +159,17 @@ test.describe('Create Libraries ', () => {
       await expect(libraryTable.getCellLinkByName(randomLibraryName).and(myLibrariesPage.page.getByTitle(randomLibraryDescription))).toBeVisible();
       await libraryTable.getRowByName(randomLibraryName).click();
       await libraryViewDetails.click();
-      await expect(libraryDetails.getNameField('Name').locator('input')).toHaveValue(randomLibraryName);
-      await expect(libraryDetails.getIdField('Library ID').locator('input')).toHaveValue(randomLibraryId);
-      await expect(libraryDetails.getVisibilityField('Visibility').getByText(publicVisibility)).toBeVisible();
-      await expect(libraryDetails.getDescriptionField).toHaveValue(randomLibraryDescription);
+      expect(await libraryDetails.getNameField('Name').inputValue()).toBe(randomLibraryName);
+      expect(await libraryDetails.getIdField('Library ID').inputValue()).toBe(randomLibraryId);
+      await expect(libraryDetails.getVisibilityField('Visibility').locator('.mat-mdc-select-value').getByText(publicVisibility)).toBeVisible();
+      expect(await libraryDetails.getDescriptionField.inputValue()).toBe(randomLibraryDescription);
 
       createdLibrariesIds.push(randomLibraryId);
     });
 
     test('[C280029] Cancel button', async () => {
       await expect(libraryDialog.getDialogTitle(libraryDialogTitle)).toBeVisible();
-      await libraryDialog.getLabelText(libraryNameLabel).fill(randomLibraryName);
+      await libraryDialog.getElementByPlaceholder(libraryNameLabel).fill(randomLibraryName);
       await libraryDialog.cancelButton.click();
 
       await expect(libraryDialog.getDialogTitle(libraryDialogTitle)).toBeHidden();
@@ -210,33 +212,33 @@ test.describe('Create Libraries ', () => {
       'a|a'
     ];
 
-    await libraryDialog.getLabelText(libraryNameLabel).fill(randomLibraryName);
+    await libraryDialog.getElementByPlaceholder(libraryNameLabel).fill(randomLibraryName);
 
     for (const specialLibraryId of idsWithSpecialChars) {
-      await libraryDialog.getLabelText(libraryIdLabel).clear();
-      await libraryDialog.getLabelText(libraryIdLabel).fill(specialLibraryId);
+      await libraryDialog.getElementByPlaceholder(libraryIdLabel).clear();
+      await libraryDialog.getElementByPlaceholder(libraryIdLabel).fill(specialLibraryId);
       await libraryDialog.page.keyboard.press(tabKeyString);
-      await expect(libraryDialog.getLabelText(libraryIdLabel)).toHaveValue(specialLibraryId);
+      await expect(libraryDialog.getElementByPlaceholder(libraryIdLabel)).toHaveValue(specialLibraryId);
       expect(await libraryDialog.isErrorMessageDisplayed(libraryErrors.useNumbersAndLettersOnly), errorMessageNotPresent).toBe(true);
       await expect(libraryDialog.createButton).toBeDisabled();
     }
   });
 
   test('[C280027] Duplicate library ID', async () => {
-    await libraryDialog.getLabelText(libraryNameLabel).fill(randomLibraryName);
-    await libraryDialog.getLabelText(libraryIdLabel).clear();
-    await libraryDialog.getLabelText(libraryIdLabel).fill(commonLibraryName);
+    await libraryDialog.getElementByPlaceholder(libraryNameLabel).fill(randomLibraryName);
+    await libraryDialog.getElementByPlaceholder(libraryIdLabel).clear();
+    await libraryDialog.getElementByPlaceholder(libraryIdLabel).fill(commonLibraryName);
     await libraryDialog.page.keyboard.press(tabKeyString);
-    await expect(libraryDialog.getLabelText(libraryIdLabel)).toHaveValue(commonLibraryName);
+    await expect(libraryDialog.getElementByPlaceholder(libraryIdLabel)).toHaveValue(commonLibraryName);
 
     await expect(libraryDialog.createButton).toBeDisabled();
     expect(await libraryDialog.isErrorMessageDisplayed(libraryErrors.libraryIdIsNotAvailable), errorMessageNotPresent).toBe(true);
   });
 
   test('[C280028] Create library using the ID of a library from the Trashcan', async () => {
-    await libraryDialog.getLabelText(libraryNameLabel).fill(randomLibraryName);
-    await libraryDialog.getLabelText(libraryIdLabel).clear();
-    await libraryDialog.getLabelText(libraryIdLabel).fill(commonTrashLibraryName);
+    await libraryDialog.getElementByPlaceholder(libraryNameLabel).fill(randomLibraryName);
+    await libraryDialog.getElementByPlaceholder(libraryIdLabel).clear();
+    await libraryDialog.getElementByPlaceholder(libraryIdLabel).fill(commonTrashLibraryName);
     await libraryDialog.page.keyboard.press(tabKeyString);
 
     await expect(libraryDialog.createButton).toBeEnabled();

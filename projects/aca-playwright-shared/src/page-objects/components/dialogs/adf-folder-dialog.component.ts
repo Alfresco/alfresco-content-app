@@ -39,7 +39,7 @@ export class AdfFolderDialogComponent extends BaseComponent {
     super(page, AdfFolderDialogComponent.rootElement);
   }
 
-  public getLabelText = (text: string) => this.getChild('label', { hasText: text });
+  public getElementByPlaceholder = (element:string, text: string) => this.getChild(`${element}[placeholder='${text}']`);
 
   /**
    * This method is used when we want to fill in Create new Folder Dialog and choose Create button

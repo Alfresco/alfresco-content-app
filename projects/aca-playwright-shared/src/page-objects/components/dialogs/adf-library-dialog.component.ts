@@ -37,7 +37,8 @@ export class AdfLibraryDialogComponent extends BaseComponent {
   }
 
   public getLabelText = (text: string) => this.getChild('label', { hasText: text });
-  public getDialogTitle = (text: string) => this.getChild('.mat-dialog-title', { hasText: text });
+  public getElementByPlaceholder = (text: string) => this.page.getByPlaceholder(text);
+  public getDialogTitle = (text: string) => this.getChild('.mat-mdc-dialog-title', { hasText: text });
   public getErrorByText = (text: string): Locator => this.page.locator('mat-error', {hasText: text});
 
     /**
@@ -49,10 +50,13 @@ export class AdfLibraryDialogComponent extends BaseComponent {
    * @param visibility visibility of the library
    */
     async createLibraryWithNameAndId(nameInput: string, libraryIdInput: string, descriptionInput?: string, visibility?: string): Promise<void> {
-      await this.getLabelText('Name *').fill(nameInput);
-      await this.getLabelText('Library ID *').clear();
-      await this.getLabelText('Library ID *').fill(libraryIdInput);
-      if (descriptionInput) { await this.getLabelText('Description').fill(descriptionInput); }
+      // todo add * after it is added in adf
+      await this.getElementByPlaceholder('Name').fill(nameInput);
+      // todo add * after it is added in adf
+      await this.getElementByPlaceholder('Library ID').clear();
+      // todo add * after it is added in adf
+      await this.getElementByPlaceholder('Library ID').fill(libraryIdInput);
+      if (descriptionInput) { await this.getElementByPlaceholder('Description').fill(descriptionInput); }
       if (visibility) { await this.getLabelText(visibility).click(); }
       await this.createButton.click();
       await this.spinnerWaitForReload();

@@ -78,12 +78,12 @@ test.describe('Create folders', () => {
   });
 
   test('[C216345] Create new folder dialog check', async () => {
-    await expect(folderDialog.getLabelText('Name')).toBeVisible();
-    await expect(folderDialog.getLabelText('*')).toBeVisible();
+    // toDo add * after it is added to adf placeholder
+    await expect(folderDialog.getElementByPlaceholder('input', 'Name')).toBeVisible();
     await expect(folderDialog.folderNameInputLocator).toBeVisible();
-    await expect(folderDialog.getLabelText('Title')).toBeVisible();
+    await expect(folderDialog.getElementByPlaceholder('input', 'Title')).toBeVisible();
     await expect(folderDialog.folderTitleInput).toBeVisible();
-    await expect(folderDialog.getLabelText('Description')).toBeVisible();
+    await expect(folderDialog.getElementByPlaceholder('textarea', 'Description')).toBeVisible();
     await expect(folderDialog.folderDescriptionInput).toBeVisible();
     await expect(folderDialog.cancelButton).toBeEnabled();
     await expect(folderDialog.createButton).toBeDisabled();
