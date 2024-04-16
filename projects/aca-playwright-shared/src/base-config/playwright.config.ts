@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { PlaywrightTestConfig, ReporterDescription, devices } from '@playwright/test';
+import { PlaywrightTestConfig, devices } from '@playwright/test';
 import { timeouts } from '../utils';
 import { getReporter } from './report-portal.config';
 

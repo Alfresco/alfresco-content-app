@@ -7,7 +7,7 @@
  */
 
 import { ReporterDescription } from '@playwright/test';
-import { paths, timeouts } from '../utils';
+import { timeouts } from '../utils';
 
 const { env } = process;
 
