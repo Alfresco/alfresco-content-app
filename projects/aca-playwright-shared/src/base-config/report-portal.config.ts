@@ -38,4 +38,4 @@ export const getReportPortalConfig = () => {
 export const getReporter = (): ReporterDescription[] =>
   env.CI
     ? [['@reportportal/agent-js-playwright', getReportPortalConfig()], ['github']]
-    : [['html', { outputFolder: paths.report, open: 'on-failure' }]];
+    : [['html']];
