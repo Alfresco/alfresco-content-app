@@ -30,7 +30,6 @@ import {
   TranslationMock,
   AuthenticationService,
   AlfrescoApiService,
-  PipeModule,
   AlfrescoApiServiceMock,
   PageTitleService
 } from '@alfresco/adf-core';
@@ -63,10 +62,9 @@ import { STORE_INITIAL_APP_DATA } from '@alfresco/aca-shared/store';
         }
       }
     ),
-    EffectsModule.forRoot([]),
-    PipeModule
+    EffectsModule.forRoot([])
   ],
-  exports: [RouterTestingModule, PipeModule, TranslateModule],
+  exports: [RouterTestingModule, TranslateModule],
   providers: [
     SearchQueryBuilderService,
     { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock },

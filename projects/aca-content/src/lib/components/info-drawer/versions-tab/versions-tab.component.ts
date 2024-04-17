@@ -26,13 +26,13 @@ import { Component, Input, OnChanges, OnInit, ViewEncapsulation } from '@angular
 import { Node } from '@alfresco/js-api';
 import { CommonModule } from '@angular/common';
 import { VersionManagerModule } from '@alfresco/adf-content-services';
-import { AppConfigModule } from '@alfresco/adf-core';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
+import { AppConfigPipe } from '@alfresco/adf-core';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, VersionManagerModule, AppConfigModule, MatIconModule, TranslateModule],
+  imports: [CommonModule, VersionManagerModule, MatIconModule, TranslateModule, AppConfigPipe],
   selector: 'app-versions-tab',
   template: `
     <ng-container *ngIf="isFileSelected; else empty">

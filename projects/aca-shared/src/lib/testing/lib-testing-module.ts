@@ -25,14 +25,7 @@
 import { Injectable, NgModule } from '@angular/core';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import {
-  AlfrescoApiService,
-  AlfrescoApiServiceMock,
-  PipeModule,
-  TranslateLoaderService,
-  TranslationMock,
-  TranslationService
-} from '@alfresco/adf-core';
+import { AlfrescoApiService, AlfrescoApiServiceMock, TranslateLoaderService, TranslationMock, TranslationService } from '@alfresco/adf-core';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
 import { EffectsModule } from '@ngrx/effects';
@@ -92,6 +85,7 @@ export class DocumentBasePageServiceMock extends DocumentBasePageService {
   canUpdateNode(): boolean {
     return true;
   }
+
   canUploadContent(): boolean {
     return true;
   }
@@ -122,8 +116,7 @@ export class DocumentBasePageServiceMock extends DocumentBasePageService {
         provide: TranslateLoader,
         useClass: TranslateLoaderService
       }
-    }),
-    PipeModule
+    })
   ],
   exports: [TranslateModule],
   providers: [
