@@ -36,9 +36,6 @@ import {
 } from '@alfresco/adf-content-services';
 import { DocumentBasePageService, ExtensionsDataLoaderGuard, OpenInAppComponent } from '@alfresco/aca-shared';
 import * as rules from '@alfresco/aca-shared/rules';
-import { FilesComponent } from './components/files/files.component';
-import { LibrariesComponent } from './components/libraries/libraries.component';
-import { FavoriteLibrariesComponent } from './components/favorite-libraries/favorite-libraries.component';
 import { AppStoreModule } from './store/app-store.module';
 import { CoreExtensionsModule } from './extensions/core.extensions.module';
 import { AppInfoDrawerModule } from './components/info-drawer/info.drawer.module';
@@ -47,13 +44,8 @@ import { APP_TOOLBAR_DIRECTIVES } from './components/toolbar';
 import { APP_SIDENAV_DIRECTIVES } from './components/sidenav';
 import { APP_COMMON_DIRECTIVES } from './components/common';
 import { APP_SEARCH_DIRECTIVES } from './components/search';
-import { FavoritesComponent } from './components/favorites/favorites.component';
-import { RecentFilesComponent } from './components/recent-files/recent-files.component';
-import { SharedFilesComponent } from './components/shared-files/shared-files.component';
 import { CreateFromTemplateDialogComponent } from './dialogs/node-template/create-from-template.dialog';
-import { DetailsComponent } from './components/details/details.component';
 import { ContentUrlService } from './services/content-url.service';
-import { HomeComponent } from './components/home/home.component';
 import { CommonModule } from '@angular/common';
 import { LocationLinkComponent } from './components/common/location-link/location-link.component';
 import { LogoutComponent } from './components/common/logout/logout.component';
@@ -82,9 +74,6 @@ import { ContentManagementService } from './services/content-management.service'
 import { ShellLayoutComponent, SHELL_NAVBAR_MIN_WIDTH } from '@alfresco/adf-core/shell';
 import { UserMenuComponent } from './components/sidenav/user-menu/user-menu.component';
 import { ContextMenuComponent } from './components/context-menu/context-menu.component';
-import { ViewProfileComponent } from './components/view-profile/view-profile.component';
-import { TrashcanComponent } from './components/trashcan/trashcan.component';
-import { SharedLinkViewComponent } from './components/shared-link-view/shared-link-view.component';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { SearchResultsRowComponent } from './components/search/search-results-row/search-results-row.component';
 
@@ -105,20 +94,9 @@ import { SearchResultsRowComponent } from './components/search/search-results-ro
     ContextMenuComponent,
     AppInfoDrawerModule,
     HammerModule,
-    ViewProfileComponent,
-    TrashcanComponent,
-    SharedLinkViewComponent,
     AcaFolderRulesModule,
-    DetailsComponent,
     CreateFromTemplateDialogComponent,
     OpenInAppComponent,
-    SharedFilesComponent,
-    FilesComponent,
-    FavoriteLibrariesComponent,
-    FavoritesComponent,
-    RecentFilesComponent,
-    LibrariesComponent,
-    HomeComponent,
     UploadFilesDialogComponent
   ],
   providers: [
