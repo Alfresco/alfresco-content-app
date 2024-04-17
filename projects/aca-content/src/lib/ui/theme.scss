@@ -111,7 +111,7 @@ mat-slide-toggle {
   color: var(--adf-theme-foreground-text-color-087);
 }
 
-.mat-mdc-button:is(button):not(.mat-calendar-period-button),
+.mat-mdc-button:is(button),
 .mat-mdc-icon-button:is(button),
 .mat-mdc-icon-button.mat-mdc-button-base:is(button) {
   padding: 0;
@@ -233,4 +233,13 @@ mat-snack-bar-container {
 
 .adf-error-snackbar {
   --mdc-snackbar-container-color: var(--theme-warn-color);
+}
+
+.mat-calendar {
+  .mat-calendar-period-button:is(button) {
+    width: unset;
+    height: unset;
+    padding: 0 16px;
+    margin: 0;
+  }
 }
