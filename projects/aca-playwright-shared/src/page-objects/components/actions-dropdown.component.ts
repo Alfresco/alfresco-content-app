@@ -52,7 +52,7 @@ export enum ActionType {
 export class ActionsDropdownComponent extends BaseComponent {
   private static rootElement = 'aca-rule-action-list';
 
-  private getOptionLocator = (optionName: string): Locator => this.page.locator('.mat-select-panel .mat-option-text', { hasText: optionName }).first();
+  private getOptionLocator = (optionName: string): Locator => this.page.locator('.mat-mdc-select-panel .mdc-list-item__primary-text', { hasText: optionName }).first();
   private ruleActionLocator = this.getChild('aca-rule-action');
   private addActionButtonLocator = this.getChild('[data-automation-id="rule-action-list-add-action-button"]');
   private actionDropdownLocator = this.getChild('[data-automation-id="rule-action-select"]');
@@ -60,7 +60,7 @@ export class ActionsDropdownComponent extends BaseComponent {
   private actionCheckInInputLocator = '[data-automation-id="header-description"] input';
   private actionAutoDeclareLocator = '[data-automation-id="header-version"] mat-select';
   private actionSimpleWorkflowStepInputLocator = '[data-automation-id="header-approve-step"] input';
-  private actionSimpleWorkflowApproveFolderLocator = `[data-automation-id="header-approve-folder"] input`;
+  private actionSimpleWorkflowApproveFolderLocator = `[data-automation-id="header-approve-folder"] mat-icon`;
   private actionSimpleWorkflowActionChoiceLocator = '[data-automation-id="content-node-selector-actions-choose"]';
   private actionSimpleWorkflowLabelApproveLocator = `[data-automation-id="card-boolean-label-approve-move"]`;
   private actionSimpleWorkflowSRejectStepLocator = '[data-automation-id="header-reject-step"] input';
