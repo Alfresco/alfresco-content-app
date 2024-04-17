@@ -40,7 +40,8 @@ import {
   FavoritesApi,
   TrashcanApi,
   PersonEntry,
-  CommentsApi
+  CommentsApi,
+  CategoriesApi
 } from '@alfresco/js-api';
 import { ActionTypes, Rule } from './rules-api';
 import { users } from '../base-config';
@@ -86,6 +87,7 @@ export class ApiClientFactory {
   public trashCan: TrashcanApi;
   public commentsApi: CommentsApi;
   public queriesApi: QueriesApi;
+  public categoriesApi: CategoriesApi;
 
   constructor() {
     this.alfrescoApi = new AlfrescoApi(config);
@@ -110,6 +112,7 @@ export class ApiClientFactory {
     this.trashCan = new TrashcanApi(this.alfrescoApi);
     this.commentsApi = new CommentsApi(this.alfrescoApi);
     this.queriesApi = new QueriesApi(this.alfrescoApi);
+    this.categoriesApi = new CategoriesApi(this.alfrescoApi);
 
     return this;
   }
