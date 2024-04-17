@@ -56,7 +56,7 @@ test.describe('Search - Filters - Categories', () => {
       await fileActionsApi.uploadFileWithRename(TEST_FILES.PDF.path, fileNamePdf, '-my-');
       const jpgFileId = (await fileActionsApi.uploadFileWithRename(TEST_FILES.JPG_FILE.path, fileNameJpg, '-my-')).entry.id;
       categoryData = await categoriesApi.createCategory('-root-', newSubcategories);
-      if (categoryData != null && categoryData instanceof CategoryEntry) {
+      if (categoryData instanceof CategoryEntry) {
         categoryId = categoryData.entry.id;
         const categoryLinkBodyCreate: CategoryLinkBody[] = [{ categoryId: categoryData.entry.id }];
         await categoriesApi.linkNodeToCategory(jpgFileId, categoryLinkBodyCreate);
