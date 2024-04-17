@@ -36,5 +36,4 @@ export class SearchFiltersLogic extends BaseComponent {
   public matchAnyInput = this.getChild(`[placeholder$='Results will match any words entered here']`);
   public excludeInput = this.getChild(`[placeholder$='Results will exclude matches with these words']`);
   public matchExactInput = this.getChild(`[placeholder$='Results will match this entire phrase']`);
-  public applyButton = this.page.locator('#apply-filter-button');
 }

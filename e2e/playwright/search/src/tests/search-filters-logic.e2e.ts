@@ -80,7 +80,7 @@ test.describe('Search - Filters - Logic', () => {
     await searchPage.searchFiltersLogic.matchAllInput.fill(
       `${logicFile1NameSplit[0]} ${logicFile1NameSplit[1]} ${logicFile1TitleSplit[1]} ${logicFile1DescriptionSplit[1]}`
     );
-    await searchPage.searchFiltersLogic.applyButton.click();
+    await searchPage.searchFilters.menuCardApply.click();
     await searchPage.dataTable.progressBarWaitForReload();
 
     await expect(searchPage.dataTable.getRowByName(logicFile1.name)).toBeVisible();
@@ -92,7 +92,7 @@ test.describe('Search - Filters - Logic', () => {
     await searchPage.searchFiltersLogic.matchAnyInput.fill(
       `${logicFile1NameSplit[2]}-${logicFile1NameSplit[3]} ${logicFile1TitleSplit[0]} ${logicFile1DescriptionSplit[0]}`
     );
-    await searchPage.searchFiltersLogic.applyButton.click();
+    await searchPage.searchFilters.menuCardApply.click();
     await searchPage.dataTable.progressBarWaitForReload();
 
     expect(await searchPage.dataTable.getRowsCount()).toBe(2);
@@ -106,7 +106,7 @@ test.describe('Search - Filters - Logic', () => {
       `${logicFile1NameSplit[0]}-${logicFile1NameSplit[1]} ${logicFile1TitleSplit[0]} ${logicFile1DescriptionSplit[0]}`
     );
     await searchPage.searchFiltersLogic.excludeInput.fill(`${logicFile1DescriptionSplit[1]}`);
-    await searchPage.searchFiltersLogic.applyButton.click();
+    await searchPage.searchFilters.menuCardApply.click();
     await searchPage.dataTable.progressBarWaitForReload();
 
     expect(await searchPage.dataTable.getRowsCount()).toBe(1);
@@ -117,7 +117,7 @@ test.describe('Search - Filters - Logic', () => {
   test('[C699503] Filter with Exact phrase', async ({ searchPage }) => {
     await searchPage.searchFilters.logicFilter.click();
     await searchPage.searchFiltersLogic.matchExactInput.fill(logicFile1.name);
-    await searchPage.searchFiltersLogic.applyButton.click();
+    await searchPage.searchFilters.menuCardApply.click();
     await searchPage.dataTable.progressBarWaitForReload();
 
     expect(await searchPage.dataTable.getRowsCount()).toBe(1);
@@ -126,7 +126,7 @@ test.describe('Search - Filters - Logic', () => {
 
     await searchPage.searchFilters.logicFilter.click();
     await searchPage.searchFiltersLogic.matchExactInput.fill(logicFile1.title);
-    await searchPage.searchFiltersLogic.applyButton.click();
+    await searchPage.searchFilters.menuCardApply.click();
     await searchPage.dataTable.progressBarWaitForReload();
 
     expect(await searchPage.dataTable.getRowsCount()).toBe(1);
@@ -135,7 +135,7 @@ test.describe('Search - Filters - Logic', () => {
 
     await searchPage.searchFilters.logicFilter.click();
     await searchPage.searchFiltersLogic.matchExactInput.fill(logicFile1.description);
-    await searchPage.searchFiltersLogic.applyButton.click();
+    await searchPage.searchFilters.menuCardApply.click();
     await searchPage.dataTable.progressBarWaitForReload();
 
     expect(await searchPage.dataTable.getRowsCount()).toBe(1);
@@ -151,7 +151,7 @@ test.describe('Search - Filters - Logic', () => {
     await searchPage.searchFiltersLogic.matchAnyInput.fill(`${logicFile1NameSplit[0]} ${logicFile1TitleSplit[2]}`);
     await searchPage.searchFiltersLogic.excludeInput.fill(`${logicFile1NameSplit[3]}`);
     await searchPage.searchFiltersLogic.matchExactInput.fill(`${logicFile2NameSplit[1]}-${logicFile2NameSplit[2]}-${logicFile2NameSplit[3]}`);
-    await searchPage.searchFiltersLogic.applyButton.click();
+    await searchPage.searchFilters.menuCardApply.click();
     await searchPage.dataTable.progressBarWaitForReload();
 
     expect(await searchPage.dataTable.getRowsCount()).toBe(1);
