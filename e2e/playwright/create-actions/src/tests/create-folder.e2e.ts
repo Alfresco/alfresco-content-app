@@ -78,7 +78,7 @@ test.describe('Create folders', () => {
   });
 
   test('[C216345] Create new folder dialog check', async () => {
-    // toDo add * after it is added to adf placeholder
+    // TODO [ACS-7534] add * after it is added to adf placeholder/label
     await expect(folderDialog.getElementByPlaceholder('input', 'Name')).toBeVisible();
     await expect(folderDialog.folderNameInputLocator).toBeVisible();
     await expect(folderDialog.getElementByPlaceholder('input', 'Title')).toBeVisible();

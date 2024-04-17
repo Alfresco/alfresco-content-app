@@ -50,11 +50,11 @@ export class AdfLibraryDialogComponent extends BaseComponent {
    * @param visibility visibility of the library
    */
     async createLibraryWithNameAndId(nameInput: string, libraryIdInput: string, descriptionInput?: string, visibility?: string): Promise<void> {
-      // todo add * after it is added in adf
+      // TODO [ACS-7575] add '*' after it is added to the placeholder/label in ADF
       await this.getElementByPlaceholder('Name').fill(nameInput);
-      // todo add * after it is added in adf
+      // TODO [ACS-7575] add '*' after it is added to the placeholder/label in ADF
       await this.getElementByPlaceholder('Library ID').clear();
-      // todo add * after it is added in adf
+      // TODO [ACS-7575] add '*' after it is added to the placeholder/label in ADF
       await this.getElementByPlaceholder('Library ID').fill(libraryIdInput);
       if (descriptionInput) { await this.getElementByPlaceholder('Description').fill(descriptionInput); }
       if (visibility) { await this.getLabelText(visibility).click(); }

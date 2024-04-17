@@ -49,9 +49,9 @@ test.describe('Create Libraries ', () => {
   let randomLibraryId: string;
   let randomLibraryDescription: string;
   const libraryDialogTitle = 'Create Library';
-  // toDo add in adf * to the placeholder
+  // TODO [ACS-7575] add '*' after it is added to the placeholder/label in ADF
   const libraryNameLabel = 'Name';
-  // toDo add in adf * to the placeholder
+  // TODO [ACS-7575] add '*' after it is added to the placeholder/label in ADF
   const libraryIdLabel = 'Library ID';
   const libraryDescriptionLabel = 'Description';
   const publicVisibility = 'Public';
