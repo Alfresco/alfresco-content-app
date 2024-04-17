@@ -24,13 +24,14 @@
 
 import { expect } from '@playwright/test';
 import { ApiClientFactory, Utils, test, NodesApi, TrashcanApi, FileActionsApi, TEST_FILES, CategoriesApi } from '@alfresco/playwright-shared';
-import { CategoryLinkBody } from '@alfresco/js-api';
+import { CategoryLinkBody, CategoryPaging, CategoryEntry } from '@alfresco/js-api';
 
 test.describe('Search - Filters - Categories', () => {
   let nodesApi: NodesApi;
   let trashcanApi: TrashcanApi;
   let categoriesApi: CategoriesApi;
-  let categoryData;
+  let categoryData: CategoryPaging | CategoryEntry;
+  let categoryId: string;
 
   const randomId = Utils.random();
   const username = `user-${randomId}`;
@@ -55,8 +56,13 @@ test.describe('Search - Filters - Categories', () => {
       await fileActionsApi.uploadFileWithRename(TEST_FILES.PDF.path, fileNamePdf, '-my-');
       const jpgFileId = (await fileActionsApi.uploadFileWithRename(TEST_FILES.JPG_FILE.path, fileNameJpg, '-my-')).entry.id;
       categoryData = await categoriesApi.createCategory('-root-', newSubcategories);
-      const categoryLinkBodyCreate: CategoryLinkBody[] = [{ categoryId: categoryData.entry.id }];
-      await categoriesApi.linkNodeToCategory(jpgFileId, categoryLinkBodyCreate);
+      if (categoryData && 'entry' in categoryData) {
+        categoryId = categoryData.entry.id;
+        const categoryLinkBodyCreate: CategoryLinkBody[] = [{ categoryId: categoryData.entry.id }];
+        await categoriesApi.linkNodeToCategory(jpgFileId, categoryLinkBodyCreate);
+      } else {
+        categoryId = null;
+      }
     } catch (error) {
       console.error(`beforeAll failed: ${error}`);
     }
@@ -64,7 +70,7 @@ test.describe('Search - Filters - Categories', () => {
 
   test.afterAll(async () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
-    await categoriesApi.deleteCategory(categoryData.entry.id);
+    await categoriesApi.deleteCategory(categoryId);
   });
 
   test('[C699498] Filter by categories', async ({ searchPage }) => {
