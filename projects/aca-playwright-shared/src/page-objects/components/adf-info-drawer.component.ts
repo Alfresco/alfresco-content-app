@@ -32,10 +32,10 @@ export class AdfInfoDrawerComponent extends BaseComponent {
     super(page, AdfInfoDrawerComponent.rootElement);
   }
 
-  public getNameField = (labelText: string) => this.getChild('[data-automation-id="library-name-properties-wrapper"]', { hasText: labelText });
-  public getIdField = (labelText: string) => this.getChild('[data-automation-id="library-id-properties-wrapper"]', { hasText: labelText });
+  public getNameField = (labelText: string) => this.getChild(`[data-automation-id="library-name-properties-wrapper"] input[placeholder='${labelText}']`);
+  public getIdField = (labelText: string) => this.getChild(`[data-automation-id="library-id-properties-wrapper"] input[placeholder='${labelText}']`);
   public getVisibilityField = (labelText: string) =>
-    this.getChild('[data-automation-id="library-visibility-properties-wrapper"]', { hasText: labelText });
+    this.getChild(`[data-automation-id="library-visibility-properties-wrapper"] mat-select[ng-reflect-placeholder='${labelText}']`);
   public getDescriptionField = this.getChild('[data-automation-id="library-description-properties-wrapper"] textarea');
   public propertiesTab = this.page.getByRole('tab', { name: 'Properties' });
   public commentsTab = this.page.getByRole('tab', { name: 'Comments' });
@@ -52,14 +52,14 @@ export class AdfInfoDrawerComponent extends BaseComponent {
   public editButton = this.page.getByRole('button', { name: 'Edit' });
   public cancelButton = this.page.getByRole('button', { name: 'Cancel' });
   public updateButton = this.page.getByRole('button', { name: 'Update' });
-  public hintMessage = this.page.locator('.mat-hint');
-  public errorMessage = this.page.locator('.mat-error');
+  public hintMessage = this.page.locator('mat-hint');
+  public errorMessage = this.page.locator('mat-error');
   public expandDetailsButton = this.getChild(`button[title='Expand panel']`);
-  public expandedDetailsTabs = this.page.locator('.aca-details-container .mat-tab-label-content');
+  public expandedDetailsTabs = this.page.locator('.aca-details-container .mdc-tab__text-label');
   public expandedDetailsPermissionsTab = this.expandedDetailsTabs.getByText('Permissions');
-  public nameField = this.page.locator('label', { hasText: 'Name' });
-  public idField = this.page.locator('label', { hasText: 'Library ID' });
-  public descriptionField = this.page.locator('label', { hasText: 'Description' });
+  public nameField = this.page.locator('input[placeholder=Name]');
+  public idField = this.page.locator(`input[placeholder='Library ID']`);
+  public descriptionField = this.page.locator('textarea[placeholder=Description]');
   public visibilityField = this.infoDrawerPanel.getByRole('combobox');
   public selectVisibility = (visibilityOption: string) => this.page.getByRole('listbox').getByRole('option', { name: visibilityOption }).click();
 

@@ -59,7 +59,7 @@ export class ManageRules extends BaseComponent {
   async checkIfRuleIsOnTheList(ruleName: string): Promise<void> {
     await expect(this.getGroupsList(ruleName)).toBeVisible({ timeout: 5000 });
   }
-  
+
   async countConditionsInGroup(): Promise<number> {
     return await this.ruleConditionsInGroup.count();
   }
