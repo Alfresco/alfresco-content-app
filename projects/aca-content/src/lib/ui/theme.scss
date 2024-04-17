@@ -18,6 +18,11 @@ mat-icon {
   color: var(--theme-secondary-text);
 }
 
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: transparent;
+  padding: 0;
+}
+
 .mat-mdc-button > .mat-icon {
   padding: 0;
 }
