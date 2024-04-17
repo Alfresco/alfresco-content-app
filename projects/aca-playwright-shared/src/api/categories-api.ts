@@ -38,11 +38,7 @@ export class CategoriesApi {
     return classObj;
   }
 
-  async createCategory(
-    categoryId: string,
-    categoryBodyCreate: CategoryBody[],
-    opts?: CategoryQuery
-  ): Promise<CategoryPaging | CategoryEntry> {
+  async createCategory(categoryId: string, categoryBodyCreate: CategoryBody[], opts?: CategoryQuery): Promise<CategoryPaging | CategoryEntry> {
     try {
       return await this.apiService.categoriesApi.createSubcategories(categoryId, categoryBodyCreate, opts);
     } catch (error) {
@@ -51,15 +47,24 @@ export class CategoriesApi {
     }
   }
 
-  async deleteCategory(name: string): Promise<void> {
+  async deleteCategory(categoryId: string): Promise<void> {
+    if (categoryId === null) {
+      console.log('categoryId is null, skipping deletion');
+      return;
+    }
+
     try {
-      await this.apiService.categoriesApi.deleteCategory(name);
+      await this.apiService.categoriesApi.deleteCategory(categoryId);
     } catch (error) {
       console.error(`${this.constructor.name} ${this.deleteCategory.name}: ${error}`);
     }
   }
 
-  async linkNodeToCategory(nodeId: string, categoryLinkBodyCreate: CategoryLinkBody[], opts?: CategoryQuery): Promise<CategoryPaging | CategoryEntry> {
+  async linkNodeToCategory(
+    nodeId: string,
+    categoryLinkBodyCreate: CategoryLinkBody[],
+    opts?: CategoryQuery
+  ): Promise<CategoryPaging | CategoryEntry> {
     try {
       return await this.apiService.categoriesApi.linkNodeToCategory(nodeId, categoryLinkBodyCreate, opts);
     } catch (error) {
