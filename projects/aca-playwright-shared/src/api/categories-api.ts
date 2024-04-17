@@ -42,7 +42,7 @@ export class CategoriesApi {
     categoryId: string,
     categoryBodyCreate: CategoryBody[],
     opts?: CategoryQuery
-  ): Promise<CategoryPaging | CategoryEntry | null> {
+  ): Promise<CategoryPaging | CategoryEntry> {
     try {
       return await this.apiService.categoriesApi.createSubcategories(categoryId, categoryBodyCreate, opts);
     } catch (error) {
@@ -64,7 +64,7 @@ export class CategoriesApi {
       return await this.apiService.categoriesApi.linkNodeToCategory(nodeId, categoryLinkBodyCreate, opts);
     } catch (error) {
       console.error(`${this.constructor.name} ${this.linkNodeToCategory.name}: ${error}`);
-      throw error;
+      return null;
     }
   }
 }
