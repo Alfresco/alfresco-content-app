@@ -248,3 +248,11 @@ mat-snack-bar-container {
     margin: 0;
   }
 }
+
+.mat-mdc-radio-button .mdc-radio:is(div) {
+  padding: 0 5px 0 0;
+}
+
+.mdc-form-field>label:is(label) {
+  padding-left: 3px;
+}
