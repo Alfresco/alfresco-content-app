@@ -26,7 +26,7 @@ import { expect } from '@playwright/test';
 import { ApiClientFactory, Utils, test, NodesApi, TrashcanApi, FileActionsApi, TEST_FILES, CategoriesApi } from '@alfresco/playwright-shared';
 import { CategoryLinkBody } from '@alfresco/js-api';
 
-test.describe.only('Search - Filters - Categories', () => {
+test.describe('Search - Filters - Categories', () => {
   let nodesApi: NodesApi;
   let trashcanApi: TrashcanApi;
   let categoriesApi: CategoriesApi;
