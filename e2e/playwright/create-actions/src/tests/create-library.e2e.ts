@@ -96,7 +96,9 @@ test.describe('Create Libraries ', () => {
   test('[C280024] Create Library dialog UI', async () => {
     await expect(libraryDialog.getDialogTitle(libraryDialogTitle)).toBeVisible();
     await expect(libraryDialog.getLabelText(libraryNameLabel)).toBeVisible();
+    await expect(libraryDialog.getRequiredMarker(libraryNameLabel)).toBeVisible();
     await expect(libraryDialog.getLabelText(libraryIdLabel)).toBeVisible();
+    await expect(libraryDialog.getRequiredMarker(libraryIdLabel)).toBeVisible();
     await expect(libraryDialog.getLabelText(libraryDescriptionLabel)).toBeVisible();
     await expect(libraryDialog.getLabelText(publicVisibility)).toBeVisible();
     await expect(libraryDialog.getLabelText(publicVisibility)).toBeChecked();
