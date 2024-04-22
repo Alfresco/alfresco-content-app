@@ -99,11 +99,6 @@ mat-slide-toggle {
   }
 }
 
-.mdc-text-field--filled:not(.mdc-text-field--disabled) {
-  background-color: transparent;
-  padding: 0;
-}
-
 .mat-mdc-tab-list {
   .mat-mdc-tab-labels {
     .mdc-tab--active {
@@ -255,4 +250,8 @@ mat-snack-bar-container {
 
 .mdc-form-field>label:is(label) {
   padding-left: 3px;
+}
+
+.mat-mdc-tab:not(.mat-mdc-tab-disabled).mdc-tab--active .mdc-tab__text-label {
+  color: unset;
 }
