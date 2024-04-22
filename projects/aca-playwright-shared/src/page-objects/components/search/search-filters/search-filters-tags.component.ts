@@ -22,6 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { SearchPage } from '@alfresco/playwright-shared';
 import { BaseComponent } from '../../base.component';
 import { Page } from '@playwright/test';
 
@@ -33,4 +34,12 @@ export class SearchFiltersTags extends BaseComponent {
   }
 
   public addOptionInput = this.getChild(`[data-automation-id$='adf-search-chip-autocomplete-input']`);
+
+  async filterByTag(page: SearchPage, tag: string): Promise<void> {
+    await page.searchFilters.tagsFilter.click();
+    await page.searchFiltersTags.addOptionInput.fill(tag);
+    await page.page.keyboard.press('Enter');
+    await page.searchFilters.menuCardApply.click();
+    await page.dataTable.progressBarWaitForReload();
+  }
 }
