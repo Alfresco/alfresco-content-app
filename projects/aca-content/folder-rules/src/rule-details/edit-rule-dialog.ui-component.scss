@@ -5,6 +5,10 @@
 .aca-edit-rule-dialog {
   margin: -24px;
 
+  input {
+    box-sizing: border-box;
+  }
+
   .aca-edit-rule-dialog__header {
     display: flex;
     align-items: center;
@@ -39,7 +43,7 @@
   }
 
   .aca-edit-rule-dialog__footer {
-    margin: 0 -24px -30px;
+    margin: 0 -24px -27px;
     padding: var(--edit-rule-dialog-padding);
     box-sizing: border-box;
     border-top: 1px solid var(--theme-border-color);
