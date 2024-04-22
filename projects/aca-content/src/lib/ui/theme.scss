@@ -256,3 +256,7 @@ mat-snack-bar-container {
 .mdc-form-field>label:is(label) {
   padding-left: 3px;
 }
+
+.mat-mdc-tab:not(.mat-mdc-tab-disabled).mdc-tab--active .mdc-tab__text-label {
+  color: unset;
+}
