@@ -57,6 +57,7 @@ exports.config = {
     './e2e/protractor/suites/info-drawer/**/*test.ts',
     './e2e/protractor/suites/list-views/**/*test.ts',
     './e2e/protractor/suites/pagination/**/*test.ts',
+    './e2e/protractor/suites/search/**/*test.ts',
     './e2e/protractor/suites/viewer/**/*test.ts'
   ],
 
@@ -76,6 +77,7 @@ exports.config = {
     infoDrawer: './e2e/protractor/suites/info-drawer/**/*test.ts',
     listViews: './e2e/protractor/suites/list-views/**/*test.ts',
     pagination: './e2e/protractor/suites/pagination/**/*test.ts',
+    search: './e2e/protractor/suites/search/**/*test.ts',
     viewer: './e2e/protractor/suites/viewer/**/*test.ts'
   },
 
