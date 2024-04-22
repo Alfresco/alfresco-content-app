@@ -7,6 +7,10 @@
     adf-card-view {
       margin-top: -15px;
 
+      .adf-property-list {
+        padding: 8px;
+      }
+
       .adf-property-list .adf-property adf-card-view-item-dispatcher adf-card-view-textitem {
         display: inline-block;
         width: 300px;
