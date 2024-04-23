@@ -24,6 +24,7 @@
 
 import { expect } from '@playwright/test';
 import { ApiClientFactory, Utils, test, NodesApi, TrashcanApi, TagsApi, FileActionsApi } from '@alfresco/playwright-shared';
+import { TagEntry, TagPaging } from '@alfresco/js-api';
 
 test.describe('Search - Filters - Tags', () => {
   let nodesApi: NodesApi;
@@ -32,6 +33,7 @@ test.describe('Search - Filters - Tags', () => {
   let fileActionsApi: FileActionsApi;
   let file1Id: string;
   let file2Id: string;
+  let tagEntries: TagEntry[];
 
   const random = Utils.random();
   const username = `user1-${random}`;
@@ -58,29 +60,31 @@ test.describe('Search - Filters - Tags', () => {
       file2Id = node2.entry.id;
       await fileActionsApi.waitForNodes(file1, { expect: 1 });
       await fileActionsApi.waitForNodes(file2, { expect: 1 });
-      await tagsApiAdmin.createTags(tags);
-      // how to get IDs from response??
+      tagEntries = await tagsApiAdmin.createTags(tags);
       await tagsApiAdmin.assignTagToNode(file1Id, tags[0]);
       await tagsApiAdmin.assignTagToNode(file2Id, tags[1]);
     } catch (error) {
+      if (tagEntries == null) {
+        console.error(`beforeAll failed null : ${error}`);
+      }
       console.error(`beforeAll failed: ${error}`);
     }
   });
 
   test.afterAll(async () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
-    // await tagsApiAdmin.deleteTag(tag1Id);
-    // await tagsApiAdmin.deleteTag(tag2Id);
+    await tagsApiAdmin.deleteTag(`${(tagEntries as TagPaging).list.entries[0].entry.id}`);
+    await tagsApiAdmin.deleteTag(`${(tagEntries as TagPaging).list.entries[1].entry.id}`);
   });
 
   test('[C698515] Filter with Tags', async ({ searchPage }) => {
     await searchPage.searchWithin(random, 'files');
-    await searchPage.searchFiltersTags.filterByTag(searchPage, tags[0].tag);
+    await searchPage.searchFiltersTags.filterByTag(searchPage, `${(tagEntries as TagPaging).list.entries[0].entry.tag}`);
 
     await expect(searchPage.dataTable.getRowByName(file1)).toBeVisible();
     await expect(searchPage.dataTable.getRowByName(file2)).toBeHidden();
 
-    await searchPage.searchFiltersTags.filterByTag(searchPage, tags[1].tag);
+    await searchPage.searchFiltersTags.filterByTag(searchPage, `${(tagEntries as TagPaging).list.entries[1].entry.tag}`);
 
     await expect(searchPage.dataTable.getRowByName(file1)).toBeVisible();
     await expect(searchPage.dataTable.getRowByName(file2)).toBeVisible();
