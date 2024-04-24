@@ -10,7 +10,7 @@ $top-margin: 12px;
   max-width: $search-width;
   height: $search-height + $top-margin;
 
-  .app-search-button {
+  .app-search-button:is(button) {
     width: 32px;
     height: 32px;
     margin-left: 0;
@@ -19,6 +19,10 @@ $top-margin: 12px;
   }
 
   .app-input-form-field {
+    .app-suffix-search-icon-wrapper.app-icon-arrow {
+      margin-top: 16px;
+    }
+
     .app-suffix-search-icon-wrapper.app-close-button {
       height: 6px;
 
@@ -42,11 +46,19 @@ $top-margin: 12px;
 
 /* stylelint-disable-next-line */
 .app-search-options-menu.mat-mdc-menu-panel {
+  position: relative;
+  top: -5px;
+  margin-top: 2px;
   background-color: var(--theme-dialog-background-color);
   width: $search-width;
   max-width: unset;
   border-radius: $search-border-radius;
-  margin-top: 3px;
+
+  /* stylelint-disable-next-line */
+  .mdc-list {
+    padding-top: 10px;
+    padding-right: 10px;
+  }
 }
 
 .aca-search-input {
@@ -59,7 +71,7 @@ $top-margin: 12px;
   padding-bottom: 26px;
 
   .app-search-container {
-    margin: 0;
+    margin: 10px 0 0 0;
   }
 }
 
@@ -70,19 +82,35 @@ $top-margin: 12px;
 .app-search-options {
   color: var(--theme-text-color);
   border-top: 1px solid var(--theme-divider-color);
-  padding: 20px 0;
+  padding: 20px 10px;
   font-size: 16px;
   letter-spacing: -0.7px;
   margin-bottom: -8px;
 
-  .app-search-options-checkbox label {
-    max-width: 155px;
-  }
+  /* stylelint-disable-next-line */
+ .mat-mdc-checkbox {
+   .mdc-form-field {
+     .mdc-checkbox {
+       .mdc-checkbox__background {
+         height: 18px;
+         width: 18px;
+       }
+     }
+   }
+ }
 
-  &-checkbox {
-    padding: 3px 24px 3px 19px;
+ .app-search-options-checkbox label {
+   max-width: 155px;
+   font-size: 16px;
+   padding-left: 6px;
+   padding-top: 2px;
+   letter-spacing: -1px;
+ }
 
-    /* stylelint-disable-next-line no-descending-specificity */
+ &-checkbox {
+   padding: 3px 36px 3px 20px;
+
+   /* stylelint-disable-next-line no-descending-specificity */
     label {
       padding: 0 0 0 11px;
       overflow: hidden;
