@@ -23,6 +23,7 @@
  */
 
 import { ApiClientFactory, getUserState, test, Utils } from '@alfresco/playwright-shared';
+import { expect } from '@playwright/test';
 
 test.use({ storageState: getUserState('hruser') });
 test.describe('Rules - Manage Rules', () => {
@@ -50,6 +51,6 @@ test.describe('Rules - Manage Rules', () => {
   test('[C691642] Create a rule and disable it', async ({ personalFiles, nodesPage }) => {
     await personalFiles.dataTable.performActionFromExpandableMenu(randomName, 'Manage rules');
     await nodesPage.manageRules.ruleToggle.click();
-    await expect(nodesPage.manageRules.ruleToggle.isChecked()).toBe(false);
+    await expect(nodesPage.manageRules.ruleToggleFalse).toBeVisible();
   });
 });

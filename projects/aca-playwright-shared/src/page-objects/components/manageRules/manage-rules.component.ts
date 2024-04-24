@@ -29,7 +29,8 @@ export class ManageRules extends BaseComponent {
   private static rootElement = '.aca-manage-rules';
 
   public getGroupsList = (optionName: string): Locator => this.getChild('.aca-rule-list-item__header', { hasText: optionName });
-  public ruleToggle = this.getChild('.aca-manage-rules__container .mat-slide-toggle-bar input').first();
+  public ruleToggle = this.getChild('.aca-manage-rules__container .mat-slide-toggle-bar').first();
+  public ruleToggleFalse = this.getChild('aca-rule-list-grouping input[type="checkbox"][aria-checked="false"]').first();
 
   constructor(page: Page) {
     super(page, ManageRules.rootElement);
