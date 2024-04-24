@@ -18,14 +18,21 @@
       .mat-button-focus-overlay {
         display: none;
       }
+    }
 
-      .mat-mdc-checkbox-ripple {
+    .mdc-checkbox__native-control:not(.mdc-checkbox--selected):focus {
+      & ~ .mat-mdc-checkbox-ripple {
         @include rounded-outline;
 
         height: 22px;
         width: 22px;
-        left: calc(50% - 11px);
+        left: calc(50% - 12px);
         top: calc(50% - 11px);
+        display: block;
+      }
+
+      & ~ .mdc-checkbox__background {
+        opacity: 0.57;
       }
     }
   }
