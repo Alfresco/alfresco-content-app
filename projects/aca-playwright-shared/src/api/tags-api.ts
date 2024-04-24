@@ -61,7 +61,6 @@ export class TagsApi {
       return await this.apiService.tagsApi.deleteTag(tagId);
     } catch (error) {
       console.error(error);
-      return null;
     }
   }
 }

@@ -64,9 +64,6 @@ test.describe('Search - Filters - Tags', () => {
       await tagsApiAdmin.assignTagToNode(file1Id, tags[0]);
       await tagsApiAdmin.assignTagToNode(file2Id, tags[1]);
     } catch (error) {
-      if (tagEntries == null) {
-        console.error(`beforeAll failed null : ${error}`);
-      }
       console.error(`beforeAll failed: ${error}`);
     }
   });
