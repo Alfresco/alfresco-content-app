@@ -32,7 +32,7 @@ export const TEST_FILES = {
   },
   DOCX2: {
     path: resolve(__dirname, 'file2-docx.docx'),
-    name: 'file-docx',
+    name: 'file2-docx',
     data: 'Lorem ipsum dolor sit amet'
   },
   PDF: {
@@ -58,7 +58,7 @@ export const TEST_FILES = {
   },
   XLSX2: {
     path: resolve(__dirname, 'file2-xlsx.xlsx'),
-    name: 'file-xlsx',
+    name: 'file2-xlsx',
     data: 'Lorem ipsum dolor sit amet'
   },
   JPG_FILE: {

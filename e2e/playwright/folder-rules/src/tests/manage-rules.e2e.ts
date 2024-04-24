@@ -47,8 +47,9 @@ test.describe('Rules - Manage Rules', () => {
     await apiClientFactory.nodes.deleteNode(folderId, { permanent: true });
   });
 
-  test('[C691651] Disable an existing rule', async ({ personalFiles, nodesPage }) => {
+  test('[C691642] Create a rule and disable it', async ({ personalFiles, nodesPage }) => {
     await personalFiles.dataTable.performActionFromExpandableMenu(randomName, 'Manage rules');
-    await nodesPage.manageRules.disableRuleToggle.click();
+    await nodesPage.manageRules.ruleToggle.click();
+    await expect(nodesPage.manageRules.ruleToggle.isChecked()).toBe(false);
   });
 });
