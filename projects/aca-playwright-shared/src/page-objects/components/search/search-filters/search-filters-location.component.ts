@@ -34,13 +34,12 @@ export class SearchFiltersLocation extends BaseComponent {
   }
 
   public addOptionInput = this.getChild(`[data-automation-id$='adf-search-chip-autocomplete-input']`);
-  public applyButton = this.page.locator('#apply-filter-button');
 
   async filterByLocation(page: SearchPage, location: string): Promise<void> {
     await page.searchFilters.locationFilter.click();
     await page.searchFiltersLocation.addOptionInput.fill(location);
     await page.page.keyboard.press('Enter');
-    await page.searchFiltersLocation.applyButton.click();
+    await page.searchFilters.menuCardApply.click();
     await page.dataTable.progressBarWaitForReload();
   }
 }
