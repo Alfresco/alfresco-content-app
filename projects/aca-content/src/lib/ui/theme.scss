@@ -30,7 +30,8 @@ mat-icon {
 .mdc-button {
   &.mat-primary {
     .mdc-button__label {
-      font-weight: 700;
+      -webkit-font-smoothing: initial;
+      font-weight: 500;
     }
   }
 }
@@ -248,7 +249,7 @@ mat-snack-bar-container {
   padding: 0 5px 0 0;
 }
 
-.mdc-form-field>label:is(label) {
+.mdc-form-field > label:is(label) {
   padding-left: 3px;
 }
 
