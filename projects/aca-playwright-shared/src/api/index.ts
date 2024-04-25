@@ -35,3 +35,4 @@ export * from './search-api';
 export * from './trashcan-api';
 export * from './queries-api';
 export * from './categories-api';
+export * from './tags-api';
