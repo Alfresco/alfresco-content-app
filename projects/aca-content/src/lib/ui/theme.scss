@@ -124,6 +124,12 @@ mat-slide-toggle {
   }
 }
 
+.mdc-evolution-chip__action.mat-mdc-chip-action {
+  .mdc-evolution-chip__graphic.mat-mdc-chip-graphic {
+    padding: 0;
+  }
+}
+
 .mdc-dialog {
   .mdc-dialog__title {
     margin-bottom: 20px;

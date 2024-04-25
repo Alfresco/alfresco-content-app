@@ -31,7 +31,14 @@ aca-search-results {
 
       .aca-content__advanced-filters {
         /* stylelint-disable-next-line */
+        .mat-mdc-chip-action {
+          padding-left: 10px;
+          padding-right: 10px;
+        }
+
+        /* stylelint-disable-next-line */
         .mdc-evolution-chip__text-label {
+          padding-top: 4px;
           color: var(--theme-selected-text-color);
         }
 
@@ -39,6 +46,9 @@ aca-search-results {
         .adf-search-filter-chip-tabbed {
           background-color: var(--theme-dropdown-color);
           color: var(--theme-selected-text-color);
+          height: 32px;
+          margin-top: 0;
+          box-sizing: border-box;
 
           &:hover,
           &:focus {
@@ -137,6 +147,8 @@ aca-search-results {
       }
 
       &__reset-action {
+        margin-top: 5px;
+        margin-right: 2px;
         line-height: 33px;
         font-weight: lighter;
       }
