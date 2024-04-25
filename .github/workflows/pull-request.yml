@@ -95,7 +95,7 @@ jobs:
 
   e2es:
     needs: [lint, build, unit-tests]
-    name: 'E2e test suites: ${{ matrix.e2e-suites.name }}'
+    name: 'E2E Protractor - ${{ matrix.e2e-suites.name }}'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -139,7 +139,7 @@ jobs:
 
   e2es-playwright:
     needs: [lint, build, unit-tests]
-    name: 'E2e test suites: Playwright'
+    name: 'E2E Playwright - ${{ matrix.e2e-suites.name }}'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false

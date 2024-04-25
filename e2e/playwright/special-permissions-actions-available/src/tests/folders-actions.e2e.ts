@@ -102,6 +102,7 @@ test.describe('Folders - available actions : ', () => {
       await personalFiles.dataTable.selectMultiItem(testData.folderFavFile.name, testData.folderFile.name);
       await personalFiles.dataTable.getRowByName(testData.folderFavFile.name).click({ button: 'right' });
       await personalFiles.matMenu.verifyActualMoreActions(testData.multipleSelFile.contextMenu);
+      await personalFiles.navigate({ remoteUrl: `#/personal-files/${parentId}` });
       await personalFiles.dataTable.selectMultiItem(testData.folderFavFile.name, testData.folderFile.name);
       await checkMultipleSelActionsAvailable(personalFiles, testData.multipleSelFile.toolbarPrimary, testData.multipleSelFile.toolbarMore);
     });
