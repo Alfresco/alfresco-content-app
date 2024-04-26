@@ -262,3 +262,14 @@ mat-snack-bar-container {
 .mat-mdc-tab:not(.mat-mdc-tab-disabled).mdc-tab--active .mdc-tab__text-label {
   color: unset;
 }
+
+adf-dynamic-component {
+  mat-icon.mat-icon.mat-menu-submenu-icon {
+    color: var(--theme-text-color);
+  }
+}
+
+.mat-mdc-menu-item .mat-icon-no-color,
+.mat-mdc-menu-submenu-icon {
+  color: var(--theme-text-color);
+}
