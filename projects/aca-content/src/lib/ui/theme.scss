@@ -265,10 +265,11 @@ mat-snack-bar-container {
 
 adf-dynamic-component {
   mat-icon.mat-icon.mat-menu-submenu-icon {
-    color: #0000008a;
+    color: var(--theme-text-color);
   }
 }
 
-.mat-mdc-menu-item .mat-icon-no-color, .mat-mdc-menu-submenu-icon {
-  color: #0000008a;
+.mat-mdc-menu-item .mat-icon-no-color,
+.mat-mdc-menu-submenu-icon {
+  color: var(--theme-text-color);
 }
