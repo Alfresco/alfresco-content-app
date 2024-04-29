@@ -27,6 +27,9 @@ import * as path from 'path';
 import { LoginPage, MyLibrariesPage, PersonalFilesPage, FavoritesLibrariesPage, SearchPage, SharedPage, TrashPage } from '../';
 import { NodesApi, TrashcanApi, SitesApi } from '@alfresco/playwright-shared';
 import { format, subDays, subMonths, endOfMonth } from 'date-fns';
+import * as fs from 'fs';
+import { error } from 'console';
+import StreamZip from 'node-stream-zip';
 
 export class Utils {
   static string257Long = 'x'.repeat(257);
@@ -145,5 +148,51 @@ export class Utils {
     }
 
     return { currentDate: formattedDate, previousDate: formattedDate2 };
+  }
+
+  static async fileExistsOnOS(fileName: string, folderName: string = '', subFolderName: string = ''): Promise<boolean> {
+    const filePath = path.join(folderName, subFolderName, fileName);
+    try {
+      await fs.promises.access(filePath, fs.constants.F_OK);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  static async renameFile(oldName: string, newName: string): Promise<void> {
+    const oldFilePath = oldName;
+    const newFilePath = newName;
+
+    const fileExists = await this.fileExistsOnOS(oldName);
+
+    if (fileExists) {
+      await fs.promises.rename(oldFilePath, newFilePath);
+      if (error) {
+        console.error(`==== rename err : failed to rename file from ${oldName} to ${newName} : `, error);
+      }
+    }
+  }
+
+  static async unzip(filename: string, unzippedName: string = ''): Promise<void> {
+    const filePath = filename;
+    const output = unzippedName ? unzippedName : '';
+
+    const zip = new StreamZip({
+      file: filePath,
+      storeEntries: true
+    });
+
+    await zip.on('error', (err: any) => {
+      console.error(`=== unzip err : failed to unzip ${filename} - ${unzippedName} :`, err);
+    });
+
+    await zip.extract(null, output, (err: any) => {
+      if (err) {
+        console.error(`=== unzip err : failed to unzip ${filename} - ${unzippedName} :`, err);
+      }
+    });
+
+    await zip.close();
   }
 }
