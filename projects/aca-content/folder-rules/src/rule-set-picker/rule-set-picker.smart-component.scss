@@ -1,13 +1,14 @@
 .aca-rule-set-picker-container {
   --rule-set-picker-padding: 8px 20px;
 
-  & > * {
+  /* stylelint-disable-next-line selector-class-pattern */
+  .mdc-dialog .mdc-dialog__surface {
     padding: 0;
   }
 }
 
 .aca-rule-set-picker {
-  &__header {
+  & &__header {
     display: flex;
     align-items: center;
     margin: 0;
@@ -28,7 +29,7 @@
     }
   }
 
-  &__content {
+  & &__content {
     position: relative;
     height: 80vh;
     margin: 0;
@@ -66,7 +67,7 @@
     }
   }
 
-  &__footer {
+  & &__footer {
     margin: 0;
     padding: var(--rule-set-picker-padding);
     box-sizing: border-box;
