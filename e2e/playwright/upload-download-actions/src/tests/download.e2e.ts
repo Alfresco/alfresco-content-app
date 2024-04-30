@@ -34,10 +34,8 @@ test.describe('Download from Personal Files', () => {
   const random = Utils.random();
   const username = `user-${random}`;
   const parent = `parent-${random}`;
-  const filePersonal = `filePersonal-${random}.txt`;
-  const folderPersonal = `folderPersonal-${random}`;
-  const unzippedPersonal = `unzippedPersonal-${random}`;
-  const archiveZip = 'archive.zip';
+  const childFile = `childFile-${random}.txt`;
+  const childFolder = `childFolder-${random}`;
 
   test.beforeAll(async () => {
     try {
@@ -48,7 +46,8 @@ test.describe('Download from Personal Files', () => {
       nodesApi = await NodesApi.initialize(username, username);
 
       parentId = (await nodesApi.createFolder(parent)).entry.id;
-      await nodesApi.createFile(filePersonal, parentId);
+      await nodesApi.createFolder(childFolder, parentId);
+      await nodesApi.createFile(childFile, parentId);
     } catch (error) {
       console.error(`beforeAll failed: ${error}`);
     }
@@ -62,38 +61,27 @@ test.describe('Download from Personal Files', () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
   });
 
-  test.afterEach(async () => {
-    await Utils.renameFile(archiveZip, `${random}.zip`);
-  });
-
   test('Download a file', async ({ personalFiles }) => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(parent);
-    await personalFiles.dataTable.selectItem(filePersonal);
+    await personalFiles.dataTable.selectItem(childFile);
     const [download] = await Promise.all([personalFiles.page.waitForEvent('download'), personalFiles.acaHeader.downloadButton.click()]);
-    const path = await download.path();
-
-    expect(await Utils.fileExistsOnOS(path)).toBe(true);
+    expect(download.suggestedFilename()).toBe(childFile);
   });
 
   test('Download a folder', async ({ personalFiles }) => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(parent);
-    await personalFiles.dataTable.selectItem(folderPersonal);
+    await personalFiles.dataTable.selectItem(childFolder);
     const [download] = await Promise.all([personalFiles.page.waitForEvent('download'), personalFiles.acaHeader.downloadButton.click()]);
-    const path = await download.path();
-
-    expect(await Utils.fileExistsOnOS(path)).toBe(true);
-
-    await Utils.unzip(path, unzippedPersonal);
-
-    expect(await Utils.fileExistsOnOS(path, unzippedPersonal)).toBe(true);
+    const filePath = await download.path();
+    expect(await Utils.verifyZipFileContent(filePath, [childFolder])).toBe(true);
   });
 
   test('Download multiple items', async ({ personalFiles }) => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(parent);
-    await personalFiles.dataTable.selectMultiItem(filePersonal, folderPersonal);
+    await personalFiles.dataTable.selectMultiItem(childFile, childFolder);
     const [download] = await Promise.all([personalFiles.page.waitForEvent('download'), personalFiles.acaHeader.downloadButton.click()]);
-    const path = await download.path();
-
-    expect(await Utils.fileExistsOnOS(path)).toBe(true);
+    const filePath = await download.path();
+    console.error('filePath name ', download.suggestedFilename());
+    expect(await Utils.verifyZipFileContent(filePath, [childFile, childFolder])).toBe(true);
   });
 });

@@ -174,25 +174,18 @@ export class Utils {
     }
   }
 
-  static async unzip(filename: string, unzippedName: string = ''): Promise<void> {
-    const filePath = filename;
-    const output = unzippedName ? unzippedName : '';
-
+  static async verifyZipFileContent(filePath: string, fileOrFolderName: string[]): Promise<Boolean> {
     const zip = new StreamZip({
       file: filePath,
       storeEntries: true
     });
 
-    await zip.on('error', (err: any) => {
-      console.error(`=== unzip err : failed to unzip ${filename} - ${unzippedName} :`, err);
+    return new Promise<boolean>((resolve) => {
+      zip.on('ready', () => {
+        const entries = zip.entries();
+        resolve(fileOrFolderName.some((name) => Object.keys(entries).some((entry) => entry.includes(name))));
+        zip.close();
+      });
     });
-
-    await zip.extract(null, output, (err: any) => {
-      if (err) {
-        console.error(`=== unzip err : failed to unzip ${filename} - ${unzippedName} :`, err);
-      }
-    });
-
-    await zip.close();
   }
 }
