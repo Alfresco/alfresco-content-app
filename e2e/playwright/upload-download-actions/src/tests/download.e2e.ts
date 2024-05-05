@@ -28,7 +28,6 @@ import { ApiClientFactory, Utils, test, TrashcanApi, NodesApi } from '@alfresco/
 test.describe('Download from Personal Files', () => {
   let trashcanApi: TrashcanApi;
   let nodesApi: NodesApi;
-
   let parentId: string;
 
   const random = Utils.random();
@@ -81,7 +80,6 @@ test.describe('Download from Personal Files', () => {
     await personalFiles.dataTable.selectMultiItem(childFile, childFolder);
     const [download] = await Promise.all([personalFiles.page.waitForEvent('download'), personalFiles.acaHeader.downloadButton.click()]);
     const filePath = await download.path();
-    console.error('filePath name ', download.suggestedFilename());
     expect(await Utils.verifyZipFileContent(filePath, [childFile, childFolder])).toBe(true);
   });
 });
