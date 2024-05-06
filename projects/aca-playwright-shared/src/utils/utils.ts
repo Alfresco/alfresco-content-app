@@ -157,12 +157,16 @@ export class Utils {
     return new Promise<boolean>((resolve) => {
       zip.on('ready', () => {
         const entries = zip.entries();
-        const found = fileOrFolderName.some((name) => {
-          return Object.keys(entries).some((entry) => entry.includes(name));
-        });
+        const found = this.isFileOrFolderInEntries(entries, fileOrFolderName);
         zip.close();
         resolve(found);
       });
+    });
+  }
+
+  private static isFileOrFolderInEntries(entries: any, fileOrFolderName: string[]): boolean {
+    return fileOrFolderName.some((name) => {
+      return Object.keys(entries).some((entry) => entry.includes(name));
     });
   }
 }
