@@ -148,7 +148,7 @@ export class Utils {
     return { currentDate: formattedDate, previousDate: formattedDate2 };
   }
 
-  static async verifyZipFileContent(filePath: string, fileOrFolderName: string[]): Promise<Boolean> {
+  static async verifyZipFileContent(filePath: string, fileOrFolderName: string[]): Promise<boolean> {
     const zip = new StreamZip({
       file: filePath,
       storeEntries: true
@@ -157,8 +157,11 @@ export class Utils {
     return new Promise<boolean>((resolve) => {
       zip.on('ready', () => {
         const entries = zip.entries();
-        resolve(fileOrFolderName.some((name) => Object.keys(entries).some((entry) => entry.includes(name))));
+        const found = fileOrFolderName.some((name) => {
+          return Object.keys(entries).some((entry) => entry.includes(name));
+        });
         zip.close();
+        resolve(found);
       });
     });
   }
