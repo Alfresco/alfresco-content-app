@@ -171,6 +171,8 @@ jobs:
             id: 12
           - name: "search"
             id: 13
+          - name: "upload-download-actions"
+            id: 14
     steps:
       - name: Checkout
         uses: actions/checkout@v3
