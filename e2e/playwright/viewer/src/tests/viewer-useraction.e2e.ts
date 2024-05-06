@@ -23,7 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, FileActionsApi, LoginPage, NodesApi, SitesApi, test, TEST_FILES, Utils } from '@alfresco/playwright-shared';
+import { ApiClientFactory, FileActionsApi, NodesApi, SitesApi, test, TEST_FILES, Utils, TrashcanApi } from '@alfresco/playwright-shared';
 import { SiteBodyCreate } from '@alfresco/js-api';
 
 test.describe('from File Libraries', () => {
@@ -34,6 +34,7 @@ test.describe('from File Libraries', () => {
   let destinationId: string;
   const xlsxLibraries = `xlsxFL-${Utils.random()}`;
   let nodesApi: NodesApi;
+  let trashcanApi: TrashcanApi;
   let sitesApi: SitesApi;
   let fileApi: FileActionsApi;
 
@@ -41,6 +42,7 @@ test.describe('from File Libraries', () => {
     await apiClientFactory.setUpAcaBackend('admin');
     await apiClientFactory.createUser({ username });
     nodesApi = await NodesApi.initialize(username, username);
+    trashcanApi = await TrashcanApi.initialize(username, username);
     sitesApi = await SitesApi.initialize(username, username);
     fileApi = await FileActionsApi.initialize(username, username);
     try {
@@ -52,22 +54,12 @@ test.describe('from File Libraries', () => {
     } catch {}
   });
 
-  test.beforeEach(async ({ page }) => {
-    const loginPage = new LoginPage(page);
-    await loginPage.loginUser(
-      { username: username, password: username },
-      {
-        withNavigation: true,
-        waitForLoading: true
-      }
-    );
+  test.beforeEach(async ({ loginPage }) => {
+    await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
   });
 
   test.afterAll(async () => {
-    try {
-      await sitesApi.deleteSites([siteName]);
-      await nodesApi.deleteNodes([destinationId]);
-    } catch {}
+    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', sitesApi, [siteName]);
   });
 
   test('[C286371] Move action from File Libraries', async ({ myLibrariesPage, personalFiles }) => {
