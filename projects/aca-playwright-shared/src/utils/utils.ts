@@ -27,6 +27,7 @@ import * as path from 'path';
 import { LoginPage, MyLibrariesPage, PersonalFilesPage, FavoritesLibrariesPage, SearchPage, SharedPage, TrashPage } from '../';
 import { NodesApi, TrashcanApi, SitesApi } from '@alfresco/playwright-shared';
 import { format, subDays, subMonths, endOfMonth } from 'date-fns';
+import StreamZip from 'node-stream-zip';
 
 export class Utils {
   static string257Long = 'x'.repeat(257);
@@ -145,5 +146,27 @@ export class Utils {
     }
 
     return { currentDate: formattedDate, previousDate: formattedDate2 };
+  }
+
+  static async verifyZipFileContent(filePath: string, fileOrFolderName: string[]): Promise<boolean> {
+    const zip = new StreamZip({
+      file: filePath,
+      storeEntries: true
+    });
+
+    return new Promise<boolean>((resolve) => {
+      zip.on('ready', () => {
+        const entries = zip.entries();
+        const found = this.isFileOrFolderInEntries(entries, fileOrFolderName);
+        zip.close();
+        resolve(found);
+      });
+    });
+  }
+
+  private static isFileOrFolderInEntries(entries: { [name: string]: StreamZip.ZipEntry }, fileOrFolderName: string[]): boolean {
+    return fileOrFolderName.some((name) => {
+      return Object.keys(entries).some((entry) => entry.includes(name));
+    });
   }
 }

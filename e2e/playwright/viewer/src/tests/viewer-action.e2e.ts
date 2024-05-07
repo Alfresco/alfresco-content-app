@@ -85,7 +85,7 @@ test.describe('viewer action file', () => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(randomDocxName);
     await personalFiles.viewer.waitForViewerToOpen();
     const downloadPromise = personalFiles.page.waitForEvent('download');
-    await personalFiles.acaHeader.downloadButton.click();
+    await personalFiles.acaHeader.downloadButtonViewer.click();
     const download = await downloadPromise;
     expect(download.suggestedFilename()).toBe(randomDocxName);
   });
@@ -112,7 +112,7 @@ test.describe('viewer action file', () => {
     await personalFiles.matMenu.clickMenuItem('Edit Offline');
 
     const downloadPromise = personalFiles.page.waitForEvent('download');
-    await personalFiles.acaHeader.downloadButton.click();
+    await personalFiles.acaHeader.downloadButtonViewer.click();
     const download = await downloadPromise;
     expect(download.suggestedFilename(), 'File should found in download location').toBe(fileForEditOffline);
     expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is closed after pressing Full screen').toBe(true);
