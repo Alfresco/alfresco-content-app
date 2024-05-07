@@ -25,7 +25,7 @@
 import * as app from './app.rules';
 import { getFileExtension } from './app.rules';
 import { TestRuleContext } from './test-rule-context';
-import { NodeEntry, RepositoryInfo } from '@alfresco/js-api';
+import { NodeEntry, RepositoryInfo, StatusInfo } from '@alfresco/js-api';
 
 describe('app.evaluators', () => {
   describe('getFileExtension', () => {
@@ -868,42 +868,6 @@ describe('app.evaluators', () => {
     });
   });
 
-  describe('editAspects', () => {
-    let context: TestRuleContext;
-
-    beforeEach(() => {
-      context = createTestContext();
-    });
-
-    it('should return true for multiselection', () => {
-      context.selection.count = 2;
-
-      expect(app.editAspects(context)).toBe(true);
-    });
-
-    it('should return false if user cannot update the selected node', () => {
-      context.permissions.check = spyOn(context.permissions, 'check').and.returnValue(false);
-
-      expect(app.editAspects(context)).toBe(false);
-    });
-
-    it('should return false if the selected node is write locked', () => {
-      context.selection.file = { entry: { properties: { 'cm:lockType': 'WRITE_LOCK' } } } as NodeEntry;
-
-      expect(app.editAspects(context)).toBe(false);
-    });
-
-    it('should return false if the context is trashcan', () => {
-      context.navigation = { url: '/trashcan' };
-
-      expect(app.editAspects(context)).toBe(false);
-    });
-
-    it('should return true if all conditions are met', () => {
-      expect(app.editAspects(context)).toBe(true);
-    });
-  });
-
   describe('canManagePermissions', () => {
     let context: TestRuleContext;
 
@@ -1001,6 +965,978 @@ describe('app.evaluators', () => {
           }
         } as any)
       ).toBeFalse();
+    });
+  });
+
+  describe('isContentServiceEnabled', () => {
+    it('should call context.appConfig.get with correct parameters', () => {
+      const context: any = {
+        appConfig: {
+          get: jasmine.createSpy()
+        }
+      };
+
+      app.isContentServiceEnabled(context);
+      expect(context.appConfig.get).toHaveBeenCalledWith('plugins.contentService');
+    });
+
+    it('should return true if contentService plugin is enabled', () => {
+      expect(
+        app.isContentServiceEnabled({
+          appConfig: {
+            get: () => true
+          }
+        } as any)
+      ).toBeTrue();
+      expect(
+        app.isContentServiceEnabled({
+          appConfig: {
+            get: () => 'true'
+          }
+        } as any)
+      ).toBeTrue();
+    });
+
+    it('should return false if contentService plugin is disabled', () => {
+      expect(
+        app.isContentServiceEnabled({
+          appConfig: {
+            get: () => false
+          }
+        } as any)
+      ).toBeFalse();
+    });
+  });
+
+  describe('canCopyNode', () => {
+    const context = createTestContext();
+
+    it('should return false when nothing is selected', () => {
+      context.selection.isEmpty = true;
+      expect(app.canCopyNode(context)).toBeFalse();
+    });
+
+    it('should return false when selection exists and user is in trashcan', () => {
+      context.selection.isEmpty = false;
+      context.navigation.url = '/trashcan/test';
+      expect(app.canCopyNode(context)).toBeFalse();
+    });
+
+    it('should return false when selection exists and user is in library', () => {
+      context.selection.isEmpty = false;
+      context.navigation.url = '/test/libraries';
+      expect(app.canCopyNode(context)).toBeFalse();
+
+      context.navigation.url = '/search-libraries/test';
+      expect(app.canCopyNode(context)).toBeFalse();
+    });
+
+    it('should return false when selection exists and user is outside library and trashcan', () => {
+      context.selection.isEmpty = false;
+      context.navigation.url = '/personal-files';
+      expect(app.canCopyNode(context)).toBeTrue();
+    });
+  });
+
+  describe('canAddFavorite', () => {
+    const context = createTestContext();
+
+    it('should return false when nothing is selected', () => {
+      context.selection.isEmpty = true;
+      expect(app.canAddFavorite(context)).toBeFalse();
+    });
+
+    it('should return false when selection exists but user is in trashcan, favorites or library', () => {
+      context.selection.isEmpty = false;
+      context.navigation.url = '/trashcan/test';
+      expect(app.canAddFavorite(context)).toBeFalse();
+
+      context.navigation.url = '/favorites/test';
+      expect(app.canAddFavorite(context)).toBeFalse();
+
+      context.navigation.url = '/test/libraries';
+      expect(app.canAddFavorite(context)).toBeFalse();
+
+      context.navigation.url = '/search-libraries/test';
+      expect(app.canAddFavorite(context)).toBeFalse();
+    });
+
+    it('should return false when each selected node is already a favorite', () => {
+      context.selection.isEmpty = false;
+      context.selection.nodes = [{ entry: { isFavorite: true } as any }, { entry: { isFavorite: true } as any }];
+      context.navigation.url = '/personal-files';
+      expect(app.canAddFavorite(context)).toBeFalse();
+    });
+
+    it('should return true when some selected nodes are not favorite', () => {
+      context.selection.isEmpty = false;
+      context.selection.nodes = [{ entry: { isFavorite: true } as any }, { entry: { isFavorite: false } as any }];
+      context.navigation.url = '/personal-files';
+      expect(app.canAddFavorite(context)).toBeTrue();
+    });
+  });
+
+  describe('canRemoveFavorite', () => {
+    const context = createTestContext();
+
+    it('should return false when nothing is selected', () => {
+      context.selection.isEmpty = true;
+      expect(app.canRemoveFavorite(context)).toBeFalse();
+    });
+
+    it('should return false when selection exists but user is in trashcan', () => {
+      context.selection.isEmpty = false;
+      context.navigation.url = '/trashcan/test';
+      expect(app.canRemoveFavorite(context)).toBeFalse();
+    });
+
+    it('should return true when user is in favorites page', () => {
+      context.selection.isEmpty = false;
+      context.navigation.url = '/favorites/test';
+      expect(app.canRemoveFavorite(context)).toBeTrue();
+    });
+
+    it('should return false when only some selected nodes are favorite', () => {
+      context.selection.isEmpty = false;
+      context.selection.nodes = [{ entry: { isFavorite: true } as any }, { entry: { isFavorite: false } as any }];
+      context.navigation.url = '/personal-files';
+      expect(app.canRemoveFavorite(context)).toBeFalse();
+    });
+
+    it('should return true when each selected node is favorite', () => {
+      context.selection.isEmpty = false;
+      context.selection.nodes = [{ entry: { isFavorite: true } as any }, { entry: { isFavorite: true } as any }];
+      context.navigation.url = '/personal-files';
+      expect(app.canRemoveFavorite(context)).toBeTrue();
+    });
+  });
+
+  describe('canShareFile', () => {
+    const context = createTestContext();
+    context.repository.status = new StatusInfo();
+    context.selection.isEmpty = false;
+
+    it('should return false when nothing is selected', () => {
+      context.selection.file = null;
+      expect(app.canShareFile(context)).toBeFalse();
+    });
+
+    it('should return false when selection exists and user is in trashcan', () => {
+      context.selection.file = {} as any;
+      context.navigation.url = '/trashcan/test';
+      expect(app.canShareFile(context)).toBeFalse();
+    });
+
+    it('should return false when quick share is disabled', () => {
+      context.selection.file = {} as any;
+      context.navigation.url = '/personal-files';
+      context.repository.status.isQuickShareEnabled = false;
+      expect(app.canShareFile(context)).toBeFalse();
+    });
+
+    it('should return false when selected file is already shared', () => {
+      context.selection.file = { entry: { properties: { 'qshare:sharedId': 'some-id' } } as any };
+      context.navigation.url = '/personal-files';
+      context.repository.status.isQuickShareEnabled = true;
+      expect(app.canShareFile(context)).toBeFalse();
+    });
+
+    it('should return true when selected file is not already shared', () => {
+      context.selection.file = {} as any;
+      context.navigation.url = '/personal-files';
+      context.repository.status.isQuickShareEnabled = true;
+      expect(app.canShareFile(context)).toBeTrue();
+    });
+  });
+
+  describe('canToggleJoinLibrary', () => {
+    const context = createTestContext();
+    context.profile = {} as any;
+
+    it('should return false when no library is selected', () => {
+      context.selection.library = null;
+      expect(app.canToggleJoinLibrary(context)).toBeFalse();
+    });
+
+    it('should return false when selected library is private and user is not admin', () => {
+      context.selection.library = { entry: { visibility: 'PRIVATE' } } as any;
+      context.profile.isAdmin = false;
+      expect(app.canToggleJoinLibrary(context)).toBeFalse();
+    });
+
+    it('should return false when user already has a library role', () => {
+      context.selection.library = { entry: { role: 'test' } } as any;
+      context.profile.isAdmin = false;
+      expect(app.canToggleJoinLibrary(context)).toBeFalse();
+    });
+
+    it('should return true when user has no role in not private library', () => {
+      context.selection.library = { entry: { visibility: 'PUBLIC' } } as any;
+      context.profile.isAdmin = false;
+      expect(app.canToggleJoinLibrary(context)).toBeTrue();
+    });
+
+    it('should return true when user has no role in private library with admin rights', () => {
+      context.selection.library = { entry: { visibility: 'PRIVATE' } } as any;
+      context.profile.isAdmin = true;
+      expect(app.canToggleJoinLibrary(context)).toBeTrue();
+    });
+  });
+
+  describe('canEditFolder', () => {
+    const context = createTestContext();
+
+    it('should return false when no folder is selected', () => {
+      context.selection.folder = null;
+      expect(app.canEditFolder(context)).toBeFalse();
+    });
+
+    it('should return false when user is in trashcan', () => {
+      context.navigation.url = '/trashcan/test';
+      expect(app.canEditFolder(context)).toBeFalse();
+    });
+
+    it('should return true when user is in favorites and has selected folder', () => {
+      context.navigation.url = '/favorites/test';
+      context.selection.folder = {} as any;
+      expect(app.canEditFolder(context)).toBeTrue();
+    });
+
+    it('should return false when selected folder cannot be updated', () => {
+      context.navigation.url = '/personal-files';
+      context.selection.folder = {} as any;
+      context.permissions = { check: () => false };
+      expect(app.canEditFolder(context)).toBeFalse();
+    });
+
+    it('should return true when selected folder can be updated', () => {
+      context.navigation.url = '/personal-files';
+      context.selection.folder = {} as any;
+      context.permissions = { check: () => true };
+      expect(app.canEditFolder(context)).toBeTrue();
+    });
+
+    it('should verify if user has update permission in the folder', () => {
+      context.navigation.url = '/personal-files';
+      context.selection.folder = { entry: { allowableOperations: ['update'] } } as any;
+      spyOn(context.permissions, 'check');
+      app.canEditFolder(context);
+      expect(context.permissions.check).toHaveBeenCalledWith(context.selection.folder.entry, ['update']);
+    });
+  });
+
+  describe('canDeleteSelection', () => {
+    const context = createTestContext();
+
+    it('should return false when selection is empty', () => {
+      context.selection.isEmpty = true;
+      expect(app.canDeleteSelection(context)).toBeFalse();
+    });
+
+    it('should return false when user is in trashcan, library or search results page', () => {
+      context.selection.isEmpty = false;
+      context.navigation.url = '/trashcan/tets';
+      expect(app.canDeleteSelection(context)).toBeFalse();
+
+      context.navigation.url = '/test/libraries';
+      expect(app.canDeleteSelection(context)).toBeFalse();
+
+      context.navigation.url = '/search-libraries/tets';
+      expect(app.canDeleteSelection(context)).toBeFalse();
+
+      context.navigation.url = '/search/tets';
+      expect(app.canDeleteSelection(context)).toBeFalse();
+    });
+
+    it('should return false when selection contain locked file', () => {
+      context.selection.isEmpty = false;
+      context.navigation.url = '/personal-files';
+      context.selection.nodes = [{ entry: { isFile: true, isLocked: true } } as any];
+      expect(app.canDeleteSelection(context)).toBeFalse();
+    });
+
+    it('should return true when user is in favorites', () => {
+      context.selection.isEmpty = false;
+      context.navigation.url = '/favorites/test';
+      context.selection.nodes = [];
+      expect(app.canDeleteSelection(context)).toBeTrue();
+    });
+
+    it('should return false when permission check fails', () => {
+      context.selection.isEmpty = false;
+      context.navigation.url = '/personal-files';
+      context.selection.nodes = [{ entry: {} } as any];
+      context.permissions = { check: () => false };
+      expect(app.canDeleteSelection(context)).toBeFalse();
+    });
+
+    it('should return true when permission requirements are met', () => {
+      context.selection.isEmpty = false;
+      context.navigation.url = '/personal-files';
+      context.selection.nodes = [{ entry: {} } as any];
+      context.permissions = { check: () => true };
+      expect(app.canDeleteSelection(context)).toBeTrue();
+    });
+
+    it('should verify if user has delete permissions on node', () => {
+      context.selection.isEmpty = false;
+      context.navigation.url = '/personal-files';
+      context.selection.nodes = [{ entry: { allowableOperations: ['delete'] } } as any];
+      spyOn(context.permissions, 'check');
+      app.canDeleteSelection(context);
+      expect(context.permissions.check).toHaveBeenCalledWith(context.selection.nodes, ['delete']);
+    });
+  });
+
+  describe('canUnshareNodes', () => {
+    const context = createTestContext();
+
+    it('should return false when selection is empty', () => {
+      context.selection.isEmpty = true;
+      expect(app.canUnshareNodes(context)).toBeFalse();
+    });
+
+    it('should return false when permission check fails', () => {
+      context.selection.isEmpty = false;
+      context.selection.nodes = [{} as any];
+      context.permissions = { check: () => false };
+      expect(app.canUnshareNodes(context)).toBeFalse();
+    });
+
+    it('should return true when permission requirements are met', () => {
+      context.selection.isEmpty = false;
+      context.selection.nodes = [{} as any];
+      context.permissions = { check: () => true };
+      expect(app.canUnshareNodes(context)).toBeTrue();
+    });
+
+    it('should verify if user have delete permission on selected node', () => {
+      context.selection.isEmpty = false;
+      context.selection.nodes = [{ allowableOperationsOnTarget: ['delete'] } as any];
+      spyOn(context.permissions, 'check');
+      app.canUnshareNodes(context);
+      expect(context.permissions.check).toHaveBeenCalledWith(context.selection.nodes, ['delete'], { target: 'allowableOperationsOnTarget' });
+    });
+  });
+
+  describe('hasSelection', () => {
+    const context = createTestContext();
+
+    it('should return false when nothing is selected', () => {
+      context.selection.isEmpty = true;
+      expect(app.hasSelection(context)).toBeFalse();
+    });
+
+    it('should return true when something is selected', () => {
+      context.selection.isEmpty = false;
+      expect(app.hasSelection(context)).toBeTrue();
+    });
+  });
+
+  describe('canCreateFolder', () => {
+    const context = createTestContext();
+
+    it('should return false when content service is disabled', () => {
+      context.appConfig = { get: () => false } as any;
+      expect(app.canCreateFolder(context)).toBeFalse();
+    });
+
+    it('should return false when user is outside personal files or libraries', () => {
+      context.appConfig = { get: () => true } as any;
+      context.navigation.url = '/favorite/test';
+      expect(app.canCreateFolder(context)).toBeFalse();
+    });
+
+    it('should return false when current folder does not exist', () => {
+      context.appConfig = { get: () => true } as any;
+      context.navigation.url = '/personal-files/test';
+      context.navigation.currentFolder = null;
+      expect(app.canCreateFolder(context)).toBeFalse();
+    });
+
+    it('should return false when permission checl fails', () => {
+      context.appConfig = { get: () => true } as any;
+      context.navigation.url = '/personal-files/test';
+      context.navigation.currentFolder = {} as any;
+      context.permissions = { check: () => false };
+      expect(app.canCreateFolder(context)).toBeFalse();
+    });
+
+    it('should return true when permission requirements are met', () => {
+      context.appConfig = { get: () => true } as any;
+      context.navigation.url = '/personal-files/test';
+      context.navigation.currentFolder = {} as any;
+      context.permissions = { check: () => true };
+      expect(app.canCreateFolder(context)).toBeTrue();
+    });
+
+    it('should verify is user has create permission on current folder', () => {
+      context.appConfig = { get: () => true } as any;
+      context.navigation.url = '/personal-files/test';
+      context.navigation.currentFolder = { allowableOperations: ['create'] } as any;
+      spyOn(context.permissions, 'check');
+      app.canCreateFolder(context);
+      expect(context.permissions.check).toHaveBeenCalledWith(context.navigation.currentFolder, ['create']);
+    });
+  });
+
+  describe('canCreateLibrary', () => {
+    const context = createTestContext();
+
+    it('should return false when content service is disabled', () => {
+      context.appConfig = { get: () => false } as any;
+      expect(app.canCreateLibrary(context)).toBeFalse();
+    });
+
+    it('should return false when user is outside libraries', () => {
+      context.appConfig = { get: () => true } as any;
+      context.navigation.url = '/favorite/test';
+      expect(app.canCreateLibrary(context)).toBeFalse();
+    });
+
+    it('should return true when content service is enabled and user is in libraries', () => {
+      context.appConfig = { get: () => true } as any;
+      context.navigation.url = '/test/libraries';
+      expect(app.canCreateLibrary(context)).toBeTrue();
+    });
+  });
+
+  describe('canUpload', () => {
+    const context = createTestContext();
+
+    it('should return false when content service is disabled', () => {
+      context.appConfig = { get: () => false } as any;
+      expect(app.canUpload(context)).toBeFalse();
+    });
+
+    it('should return false when user is outside personal files or libraries', () => {
+      context.appConfig = { get: () => true } as any;
+      context.navigation.url = '/favorite/test';
+      expect(app.canUpload(context)).toBeFalse();
+    });
+
+    it('should return false when current folder does not exist', () => {
+      context.appConfig = { get: () => true } as any;
+      context.navigation.url = '/personal-files/test';
+      context.navigation.currentFolder = null;
+      expect(app.canUpload(context)).toBeFalse();
+    });
+
+    it('should return false when permission check fails', () => {
+      context.appConfig = { get: () => true } as any;
+      context.navigation.url = '/personal-files/test';
+      context.navigation.currentFolder = {} as any;
+      context.permissions = { check: () => false };
+      expect(app.canUpload(context)).toBeFalse();
+    });
+
+    it('should return true when permission requirements are met', () => {
+      context.appConfig = { get: () => true } as any;
+      context.navigation.url = '/personal-files/test';
+      context.navigation.currentFolder = {} as any;
+      context.permissions = { check: () => true };
+      expect(app.canUpload(context)).toBeTrue();
+    });
+
+    it('should verify is user has create permission on current folder', () => {
+      context.appConfig = { get: () => true } as any;
+      context.navigation.url = '/personal-files/test';
+      context.navigation.currentFolder = { allowableOperations: ['create'] } as any;
+      spyOn(context.permissions, 'check');
+      app.canCreateFolder(context);
+      expect(context.permissions.check).toHaveBeenCalledWith(context.navigation.currentFolder, ['create']);
+    });
+  });
+
+  describe('hasFileSelected', () => {
+    const context = createTestContext();
+
+    it('should return false when no file is selected', () => {
+      context.selection.file = null;
+      expect(app.hasFileSelected(context)).toBeFalse();
+    });
+
+    it('should return true when file is selected', () => {
+      context.selection.file = {} as any;
+      expect(app.hasFileSelected(context)).toBeTrue();
+    });
+  });
+
+  describe('hasFolderSelected', () => {
+    const context = createTestContext();
+
+    it('should return false when no folder is selected', () => {
+      context.selection.folder = null;
+      expect(app.hasFolderSelected(context)).toBeFalse();
+    });
+
+    it('should return true when folder is selected', () => {
+      context.selection.folder = {} as any;
+      expect(app.hasFolderSelected(context)).toBeTrue();
+    });
+  });
+
+  describe('hasLibrarySelected', () => {
+    const context = createTestContext();
+
+    it('should return false when no library is selected', () => {
+      context.selection.library = null;
+      expect(app.hasLibrarySelected(context)).toBeFalse();
+    });
+
+    it('should return true when library is selected', () => {
+      context.selection.library = {} as any;
+      expect(app.hasLibrarySelected(context)).toBeTrue();
+    });
+  });
+
+  describe('isPrivateLibrary', () => {
+    const context = createTestContext();
+
+    it('should return false when library is not private', () => {
+      context.selection.library = { entry: { visibility: 'PUBLIC' } } as any;
+      expect(app.isPrivateLibrary(context)).toBeFalse();
+    });
+
+    it('should return true when library is private', () => {
+      context.selection.library = { entry: { visibility: 'PRIVATE' } } as any;
+      expect(app.isPrivateLibrary(context)).toBeTrue();
+    });
+  });
+
+  describe('hasLibraryRole', () => {
+    const context = createTestContext();
+
+    it('should return false when library has no role', () => {
+      context.selection.library = { entry: { role: '' } } as any;
+      expect(app.hasLibraryRole(context)).toBeFalse();
+    });
+
+    it('should return true when library has a role', () => {
+      context.selection.library = { entry: { role: 'test' } } as any;
+      expect(app.hasLibraryRole(context)).toBeTrue();
+    });
+  });
+
+  describe('hasNoLibraryRole', () => {
+    const context = createTestContext();
+
+    it('should return false when library has a role', () => {
+      context.selection.library = { entry: { role: 'test' } } as any;
+      expect(app.hasNoLibraryRole(context)).toBeFalse();
+    });
+
+    it('should return true when library has no role', () => {
+      context.selection.library = { entry: { role: '' } } as any;
+      expect(app.hasNoLibraryRole(context)).toBeTrue();
+    });
+  });
+
+  describe('isMultiselection', () => {
+    const context = createTestContext();
+
+    it('should return false when there is no or single selection', () => {
+      context.selection.isEmpty = true;
+      expect(app.isMultiselection(context)).toBeFalse();
+
+      context.selection.isEmpty = false;
+      context.selection.count = 1;
+      expect(app.isMultiselection(context)).toBeFalse();
+    });
+
+    it('should return true when there is multiple selection', () => {
+      context.selection.isEmpty = false;
+      context.selection.count = 5;
+      expect(app.isMultiselection(context)).toBeTrue();
+    });
+  });
+
+  describe('canUpdateSelectedFolder', () => {
+    const context = createTestContext();
+
+    it('should return false when no folder is selected', () => {
+      context.selection.folder = null;
+      expect(app.canUpdateSelectedFolder(context)).toBeFalse();
+    });
+
+    it('should return true when user is in favorites', () => {
+      context.selection.folder = {} as any;
+      context.navigation.url = '/favorites/test';
+      expect(app.canUpdateSelectedFolder(context)).toBeTrue();
+    });
+
+    it('should return false when permission check fails', () => {
+      context.selection.folder = {} as any;
+      context.navigation.url = '/personal-files/test';
+      context.permissions = { check: () => false };
+      expect(app.canUpdateSelectedFolder(context)).toBeFalse();
+    });
+
+    it('should return true when permission requirements are met', () => {
+      context.selection.folder = {} as any;
+      context.navigation.url = '/personal-files/test';
+      context.permissions = { check: () => true };
+      expect(app.canUpdateSelectedFolder(context)).toBeTrue();
+    });
+
+    it('should verify if user has update permission on selected folder', () => {
+      context.selection.folder = { entry: {} } as any;
+      context.navigation.url = '/personal-files/test';
+      spyOn(context.permissions, 'check');
+      app.canUpdateSelectedFolder(context);
+      expect(context.permissions.check).toHaveBeenCalledWith(context.selection.folder.entry, ['update']);
+    });
+  });
+
+  describe('isUserWriteLockOwner', () => {
+    const context = createTestContext();
+    context.profile = {} as any;
+
+    it('should return false when there is no lock', () => {
+      context.selection.file = { entry: { properties: [] } } as any;
+      expect(app.isUserWriteLockOwner(context)).toBeFalse();
+    });
+
+    it('should return false when user id does not match lock owner id', () => {
+      context.selection.file = { entry: { properties: { 'cm:lockType': 'WRITE_LOCK', 'cm:lockOwner': { id: 'test' } } } } as any;
+      context.profile.id = 'test1';
+      expect(app.isUserWriteLockOwner(context)).toBeFalse();
+    });
+
+    it('should return true when user is the owner of the lock', () => {
+      context.selection.file = { entry: { properties: { 'cm:lockType': 'WRITE_LOCK', 'cm:lockOwner': { id: 'test1' } } } } as any;
+      context.profile.id = 'test1';
+      expect(app.isUserWriteLockOwner(context)).toBeTrue();
+    });
+  });
+
+  describe('canLockFile', () => {
+    const context = createTestContext();
+
+    it('should return false when file is already locked', () => {
+      context.selection.file = { entry: { properties: { 'cm:lockType': 'WRITE_LOCK' } } } as any;
+      expect(app.canLockFile(context)).toBeFalse();
+    });
+
+    it('should return false when permission check fails', () => {
+      context.selection.file = { entry: { properties: {} } } as any;
+      context.permissions = { check: () => false };
+      expect(app.canLockFile(context)).toBeFalse();
+    });
+
+    it('should return true when file has no lock and permission requirements are met', () => {
+      context.selection.file = { entry: { properties: {} } } as any;
+      context.permissions = { check: () => true };
+      expect(app.canLockFile(context)).toBeTrue();
+    });
+  });
+
+  describe('canUnlockFile', () => {
+    const context = createTestContext();
+    context.profile = {} as any;
+
+    it('should return false when file has no lock', () => {
+      context.selection.file = { entry: { properties: [] } } as any;
+      expect(app.canUnlockFile(context)).toBeFalse();
+    });
+
+    it('should return false when file is locked but user is not the owner of the lock and does not have the delete permission', () => {
+      context.selection.file = { entry: { properties: { 'cm:lockType': 'WRITE_LOCK', 'cm:lockOwner': { id: 'test' } } } } as any;
+      context.profile.id = 'test1';
+      context.permissions = { check: () => false };
+      expect(app.canUnlockFile(context)).toBeFalse();
+    });
+
+    it('should return true when file is locked and permission requirements are met', () => {
+      context.selection.file = { entry: { properties: { 'cm:lockType': 'WRITE_LOCK', 'cm:lockOwner': { id: 'test' } } } } as any;
+      context.profile.id = 'test1';
+      context.permissions = { check: () => true };
+      expect(app.canUnlockFile(context)).toBeTrue();
+    });
+
+    it('should return false when file is locked and user is the owner of the lock', () => {
+      context.selection.file = { entry: { properties: { 'cm:lockType': 'WRITE_LOCK', 'cm:lockOwner': { id: 'test1' } } } } as any;
+      context.profile.id = 'test1';
+      context.permissions = { check: () => false };
+      expect(app.canUnlockFile(context)).toBeTrue();
+    });
+
+    it('should verify if user has delete permission on current file', () => {
+      context.selection.file = { entry: { properties: { 'cm:lockType': 'WRITE_LOCK', 'cm:lockOwner': { id: 'test' } } } } as any;
+      context.profile.id = 'test1';
+      spyOn(context.permissions, 'check');
+      app.canUnlockFile(context);
+      expect(context.permissions.check).toHaveBeenCalledWith(context.selection.file.entry, ['delete']);
+    });
+  });
+
+  describe('isTrashcanItemSelected', () => {
+    const context = createTestContext();
+
+    it('should return false when user is not in trashcan', () => {
+      context.navigation.url = '/personal-files/test';
+      expect(app.isTrashcanItemSelected(context)).toBeFalse();
+    });
+
+    it('should return false when nothing is selected', () => {
+      context.navigation.url = '/trashcan/test';
+      context.selection.isEmpty = true;
+      expect(app.isTrashcanItemSelected(context)).toBeFalse();
+    });
+
+    it('should return true when user is in trashcan and node is selected', () => {
+      context.navigation.url = '/trashcan/test';
+      context.selection.isEmpty = false;
+      expect(app.isTrashcanItemSelected(context)).toBeTrue();
+    });
+  });
+
+  describe('canViewFile', () => {
+    const context = createTestContext();
+
+    it('should return false when user is in trashcan', () => {
+      context.navigation.url = '/trashcan/test';
+      expect(app.canViewFile(context)).toBeFalse();
+    });
+
+    it('should return false when nothing is selected', () => {
+      context.navigation.url = '/personal-files/test';
+      context.selection.file = null;
+      expect(app.canViewFile(context)).toBeFalse();
+    });
+
+    it('should return true when user is not in trashcan and file is selected', () => {
+      context.navigation.url = '/personal-files/test';
+      context.selection.file = {} as any;
+      expect(app.canViewFile(context)).toBeTrue();
+    });
+  });
+
+  describe('canLeaveLibrary', () => {
+    const context = createTestContext();
+
+    it('should return false when no library is selected', () => {
+      context.selection.library = null;
+      expect(app.canLeaveLibrary(context)).toBeFalse();
+    });
+
+    it('should return false when user does not have library role', () => {
+      context.selection.library = { entry: { role: null } } as any;
+      expect(app.canLeaveLibrary(context)).toBeFalse();
+    });
+
+    it('should return true when user has a library role', () => {
+      context.selection.library = { entry: { role: 'test' } } as any;
+      expect(app.canLeaveLibrary(context)).toBeTrue();
+    });
+  });
+
+  describe('canToggleSharedLink', () => {
+    const context = createTestContext();
+    context.repository.status = new StatusInfo();
+
+    it('should return false when no file is selected', () => {
+      context.selection.file = null;
+      expect(app.canToggleSharedLink(context)).toBeFalse();
+    });
+
+    it('should return false when file is not shared and user cannot share it', () => {
+      context.selection.file = { entry: { properties: {} } } as any;
+      context.repository.status.isQuickShareEnabled = false;
+      expect(app.canToggleSharedLink(context)).toBeFalse();
+    });
+
+    it('should return true when file is already shared', () => {
+      context.selection.file = { entry: { properties: { 'qshare:sharedId': 'some-id' } } } as any;
+      context.repository.status.isQuickShareEnabled = false;
+      expect(app.canToggleSharedLink(context)).toBeTrue();
+    });
+
+    it('should return true when file can be shared', () => {
+      context.selection.file = { entry: { properties: {} } } as any;
+      context.repository.status.isQuickShareEnabled = true;
+      expect(app.canToggleSharedLink(context)).toBeTrue();
+    });
+  });
+
+  describe('canShowInfoDrawer', () => {
+    const context = createTestContext();
+
+    it('should return false when nothing is selected', () => {
+      context.selection.isEmpty = true;
+      expect(app.canShowInfoDrawer(context)).toBeFalse();
+    });
+
+    it('should return false when user is in libraries or trashcan', () => {
+      context.selection.isEmpty = false;
+      context.navigation.url = '/trashcan/test';
+      expect(app.canShowInfoDrawer(context)).toBeFalse();
+
+      context.navigation.url = '/test/libraries';
+      expect(app.canShowInfoDrawer(context)).toBeFalse();
+    });
+
+    it('should return true when selection exists and user is not it trashcan or libraries', () => {
+      context.navigation.url = '/personal-files/test';
+      context.selection.isEmpty = false;
+      expect(app.canShowInfoDrawer(context)).toBeTrue();
+    });
+  });
+
+  describe('canManageFileVersions', () => {
+    const context = createTestContext();
+
+    it('should return false when no file is selected', () => {
+      context.selection.file = null;
+      expect(app.canManageFileVersions(context)).toBeFalse();
+    });
+
+    it('should return false when user is in trashcan', () => {
+      context.selection.file = {} as any;
+      context.navigation.url = '/trashcan/test';
+      expect(app.canManageFileVersions(context)).toBeFalse();
+    });
+
+    it('should return false when locked file is selected', () => {
+      context.selection.file = {} as any;
+      context.selection.nodes = [{ entry: { isFile: true, isLocked: true } } as any];
+      context.navigation.url = '/personal-files/test';
+      expect(app.canManageFileVersions(context)).toBeFalse();
+    });
+
+    it('should return true when non-locked file is selected', () => {
+      context.selection.file = {} as any;
+      context.selection.nodes = [{ entry: { isFile: true, isLocked: false } } as any];
+      context.navigation.url = '/personal-files/test';
+      expect(app.canManageFileVersions(context)).toBeTrue();
+    });
+  });
+
+  describe('canToggleEditOffline', () => {
+    const context = createTestContext();
+    context.profile = {} as any;
+
+    it('should return false when no file is selected', () => {
+      context.selection.file = null;
+      expect(app.canToggleEditOffline(context)).toBeFalse();
+    });
+
+    it('should return false when user is in trashcan', () => {
+      context.selection.file = {} as any;
+      context.navigation.url = '/trashcan/test';
+      expect(app.canToggleEditOffline(context)).toBeFalse();
+    });
+
+    it('should return false when user cannot lock or unlock files', () => {
+      context.navigation.url = '/personal-files/test';
+      context.selection.file = { entry: { properties: { 'cm:lockType': 'WRITE_LOCK', 'cm:lockOwner': { id: 'test' } } } } as any;
+      context.profile.id = 'test1';
+      context.permissions = { check: () => false };
+      expect(app.canToggleEditOffline(context)).toBeFalse();
+    });
+
+    it('should return true when user can lock file', () => {
+      context.navigation.url = '/personal-files/test';
+      context.selection.file = {} as any;
+      context.permissions = { check: () => true };
+      expect(app.canToggleEditOffline(context)).toBeTrue();
+    });
+
+    it('should return true when user can unlock file', () => {
+      context.navigation.url = '/personal-files/test';
+      context.selection.file = { entry: { properties: { 'cm:lockType': 'WRITE_LOCK', 'cm:lockOwner': { id: 'test1' } } } } as any;
+      context.profile.id = 'test1';
+      expect(app.canToggleEditOffline(context)).toBeTrue();
+    });
+  });
+
+  describe('canInfoPreview', () => {
+    const context = createTestContext();
+
+    it('should return false when user is not is search results page', () => {
+      context.navigation.url = '/trashcan/test';
+      expect(app.canInfoPreview(context)).toBeFalse();
+    });
+
+    it('should return false when multiple nodes are selected', () => {
+      context.navigation.url = '/search/test';
+      context.selection.isEmpty = false;
+      context.selection.count = 5;
+      expect(app.canInfoPreview(context)).toBeFalse();
+    });
+
+    it('should return false when folder is selected', () => {
+      context.navigation.url = '/search/test';
+      context.selection.isEmpty = false;
+      context.selection.count = 1;
+      context.selection.folder = {} as any;
+      expect(app.canInfoPreview(context)).toBeFalse();
+    });
+
+    it('should return false when user is in preview', () => {
+      context.navigation.url = '/preview/test';
+      context.selection.isEmpty = false;
+      context.selection.count = 1;
+      context.selection.folder = null;
+      expect(app.canInfoPreview(context)).toBeFalse();
+    });
+
+    it('should return true when user is in search results page and single file is selected', () => {
+      context.navigation.url = '/search/test';
+      context.selection.isEmpty = false;
+      context.selection.count = 1;
+      context.selection.folder = null;
+      context.selection.file = {} as any;
+      expect(app.canInfoPreview(context)).toBeTrue();
+    });
+  });
+
+  describe('showInfoSelectionButton', () => {
+    const context = createTestContext();
+
+    it('should return false when user is not in search results page', () => {
+      context.navigation.url = '/trashcan/test';
+      expect(app.showInfoSelectionButton(context)).toBeFalse();
+    });
+
+    it('should return false when user is in preview', () => {
+      context.navigation.url = '/search/preview/test';
+      expect(app.showInfoSelectionButton(context)).toBeFalse();
+    });
+
+    it('should return true when user is in search results page and not in preview', () => {
+      context.navigation.url = '/search/test';
+      expect(app.showInfoSelectionButton(context)).toBeTrue();
+    });
+  });
+
+  describe('isSmartFolder', () => {
+    const context = createTestContext();
+
+    it('should return false when there is no selection', () => {
+      context.selection.isEmpty = true;
+      expect(app.isSmartFolder(context)).toBeFalse();
+    });
+
+    it('should return false when selected node is not folder', () => {
+      context.selection.isEmpty = false;
+      context.selection.first = { entry: { isFolder: false } } as any;
+      expect(app.isSmartFolder(context)).toBeFalse();
+    });
+
+    it('should return false when selected folder does not have smart folder aspect', () => {
+      context.selection.isEmpty = false;
+      context.selection.first = { entry: { isFolder: true, aspectNames: ['test'] } } as any;
+      expect(app.isSmartFolder(context)).toBeFalse();
+    });
+
+    it('should return true when selected folder contains one of smart folder aspects', () => {
+      context.selection.isEmpty = false;
+      context.selection.first = { entry: { isFolder: true, aspectNames: ['smf:customConfigSmartFolder'] } } as any;
+      expect(app.isSmartFolder(context)).toBeTrue();
+
+      context.selection.first = { entry: { isFolder: true, aspectNames: ['smf:systemConfigSmartFolder'] } } as any;
+      expect(app.isSmartFolder(context)).toBeTrue();
     });
   });
 });
