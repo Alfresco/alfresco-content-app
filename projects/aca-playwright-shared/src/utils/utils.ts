@@ -164,7 +164,7 @@ export class Utils {
     });
   }
 
-  private static isFileOrFolderInEntries(entries: any, fileOrFolderName: string[]): boolean {
+  private static isFileOrFolderInEntries(entries: { [name: string]: StreamZip.ZipEntry }, fileOrFolderName: string[]): boolean {
     return fileOrFolderName.some((name) => {
       return Object.keys(entries).some((entry) => entry.includes(name));
     });
