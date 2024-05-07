@@ -171,7 +171,6 @@ export class ContentServiceExtensionModule {
       canToggleFavorite: rules.canToggleFavorite,
       isLibraryManager: rules.isLibraryManager,
       canEditAspects: rules.canEditAspects,
-      editAspects: rules.editAspects,
       canShowExpand: rules.canShowExpand,
       canInfoPreview: rules.canInfoPreview,
       showInfoSelectionButton: rules.showInfoSelectionButton,
@@ -225,7 +224,6 @@ export class ContentServiceExtensionModule {
       'app.isContentServiceEnabled': rules.isContentServiceEnabled,
       'app.isUploadSupported': rules.isUploadSupported,
       'app.canCreateLibrary': rules.canCreateLibrary,
-      'app.isSearchSupported': rules.isSearchSupported,
       'app.areTagsEnabled': rules.areTagsEnabled,
       'app.areCategoriesEnabled': rules.areCategoriesEnabled
     });
