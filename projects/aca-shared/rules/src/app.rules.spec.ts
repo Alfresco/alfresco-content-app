@@ -28,6 +28,12 @@ import { TestRuleContext } from './test-rule-context';
 import { NodeEntry, RepositoryInfo, StatusInfo } from '@alfresco/js-api';
 
 describe('app.evaluators', () => {
+  let context: TestRuleContext;
+
+  beforeEach(() => {
+    context = createTestContext();
+  });
+
   describe('getFileExtension', () => {
     it('should return no extension when input is null', () => {
       expect(getFileExtension(null)).toBe(null);
@@ -44,14 +50,12 @@ describe('app.evaluators', () => {
 
   describe('canDownloadSelection', () => {
     it('should return [false] if selection is empty', () => {
-      const context = new TestRuleContext();
+      context.selection.isEmpty = true;
 
-      expect(context.selection.isEmpty).toBe(true);
       expect(app.canDownloadSelection(context)).toBe(false);
     });
 
     it('should return [false] for the trashcan entries', () => {
-      const context = new TestRuleContext();
       context.selection.isEmpty = false;
       context.navigation = { url: '/trashcan' };
 
@@ -59,7 +63,6 @@ describe('app.evaluators', () => {
     });
 
     it('should allow downloading files', () => {
-      const context = new TestRuleContext();
       context.selection.isEmpty = false;
       context.selection.nodes = [{ entry: { isFile: true } } as NodeEntry];
 
@@ -67,7 +70,6 @@ describe('app.evaluators', () => {
     });
 
     it('should allow downloading folders', () => {
-      const context = new TestRuleContext();
       context.selection.isEmpty = false;
       context.selection.nodes = [{ entry: { isFolder: true } } as NodeEntry];
 
@@ -75,7 +77,6 @@ describe('app.evaluators', () => {
     });
 
     it('should now allow downloading unknown selection', () => {
-      const context = new TestRuleContext();
       context.selection.isEmpty = false;
       context.selection.nodes = [{ entry: {} } as NodeEntry];
 
@@ -85,37 +86,19 @@ describe('app.evaluators', () => {
 
   describe('isWriteLocked', () => {
     it('should return [true] if lock type is set', () => {
-      const context: any = {
-        selection: {
-          file: {
-            entry: {
-              properties: {
-                'cm:lockType': 'WRITE_LOCK'
-              }
-            }
-          }
-        }
-      };
+      context.selection.file = { entry: { properties: { 'cm:lockType': 'WRITE_LOCK' } } } as any;
 
       expect(app.isWriteLocked(context)).toBe(true);
     });
 
     it('should return [false] if lock type is not set', () => {
-      const context: any = {
-        selection: {
-          file: {
-            entry: {
-              properties: {}
-            }
-          }
-        }
-      };
+      context.selection.file = { entry: { properties: {} } } as any;
 
       expect(app.isWriteLocked(context)).toBe(false);
     });
 
     it('should return [false] if selection not present', () => {
-      const context: any = {};
+      context = {} as any;
 
       expect(app.isWriteLocked(context)).toBe(false);
     });
@@ -123,21 +106,13 @@ describe('app.evaluators', () => {
 
   describe('canShowExpand', () => {
     it('should return false when isLibraries returns true', () => {
-      const context: any = {
-        navigation: {
-          url: '/libraries'
-        }
-      };
+      context.navigation.url = '/libraries';
 
       expect(app.canShowExpand(context)).toBe(false);
     });
 
     it('should return false when isDetails returns true', () => {
-      const context: any = {
-        navigation: {
-          url: '/details'
-        }
-      };
+      context.navigation.url = '/details';
 
       expect(app.canShowExpand(context)).toBe(false);
     });
@@ -145,86 +120,33 @@ describe('app.evaluators', () => {
 
   describe('hasLockedFiles', () => {
     it('should return [false] if selection not present', () => {
-      const context: any = {};
+      context = {} as any;
       expect(app.hasLockedFiles(context)).toBe(false);
     });
 
     it('should return [false] if nodes not present', () => {
-      const context: any = {
-        selection: {
-          nodes: null
-        }
-      };
+      context.selection.nodes = null;
 
       expect(app.hasLockedFiles(context)).toBe(false);
     });
 
     it('should return [false] if no files selected', () => {
-      const context: any = {
-        selection: {
-          nodes: [
-            {
-              entry: {
-                isFile: false
-              }
-            },
-            {
-              entry: {
-                isFile: false
-              }
-            }
-          ]
-        }
-      };
+      context.selection.nodes = [{ entry: { isFile: false } } as any, { entry: { isFile: false } } as any];
 
       expect(app.hasLockedFiles(context)).toBe(false);
     });
 
     it('should return [true] when one of files is locked', () => {
-      const context: any = {
-        selection: {
-          nodes: [
-            {
-              entry: {
-                isFile: true,
-                isLocked: true
-              }
-            },
-            {
-              entry: {
-                isFile: true,
-                isLocked: false
-              }
-            }
-          ]
-        }
-      };
+      context.selection.nodes = [{ entry: { isFile: true, isLocked: true } } as any, { entry: { isFile: true, isLocked: false } } as any];
 
       expect(app.hasLockedFiles(context)).toBe(true);
     });
 
     it('should return [true] when one of files has readonly lock', () => {
-      const context: any = {
-        selection: {
-          nodes: [
-            {
-              entry: {
-                isFile: true,
-                isLocked: false
-              }
-            },
-            {
-              entry: {
-                isFile: true,
-                isLocked: false,
-                properties: {
-                  'cm:lockType': 'READ_ONLY_LOCK'
-                }
-              }
-            }
-          ]
-        }
-      };
+      context.selection.nodes = [
+        { entry: { isFile: true, isLocked: false } } as any,
+        { entry: { isFile: true, isLocked: false, properties: { 'cm:lockType': 'READ_ONLY_LOCK' } } } as any
+      ];
 
       expect(app.hasLockedFiles(context)).toBe(true);
     });
@@ -232,89 +154,41 @@ describe('app.evaluators', () => {
 
   describe('canUpdateSelectedNode', () => {
     it('should return [false] if selection not preset', () => {
-      const context: any = {};
+      context = {} as any;
 
       expect(app.canUpdateSelectedNode(context)).toBe(false);
     });
 
     it('should return [false] if selection is empty', () => {
-      const context: any = {
-        selection: {
-          isEmpty: true
-        }
-      };
+      context.selection.isEmpty = true;
 
       expect(app.canUpdateSelectedNode(context)).toBe(false);
     });
 
     it('should return [false] if first selection is not a file', () => {
-      const context: any = {
-        permissions: {
-          check: () => false
-        },
-        selection: {
-          isEmpty: false,
-          first: {
-            entry: {
-              isFile: false
-            }
-          }
-        }
-      };
+      context.selection.isEmpty = false;
+      context.selection.first = { entry: { isFile: false } } as any;
+      context.permissions = { check: () => false };
 
       expect(app.canUpdateSelectedNode(context)).toBe(false);
     });
 
     it('should return [false] if the file is locked', () => {
-      const context: any = {
-        permissions: {
-          check: () => true
-        },
-        selection: {
-          isEmpty: false,
-          nodes: [
-            {
-              entry: {
-                isFile: true,
-                isLocked: true
-              }
-            }
-          ],
-          first: {
-            entry: {
-              isFile: true,
-              isLocked: true
-            }
-          }
-        }
-      };
+      context.selection.isEmpty = false;
+      context.selection.nodes = [{ entry: { isFile: true, isLocked: true } } as any];
+      context.selection.first = { entry: { isFile: true, isLocked: true } } as any;
+      context.permissions = { check: () => true };
 
       expect(app.canUpdateSelectedNode(context)).toBe(false);
     });
 
     it('should evaluate allowable operation for the file', () => {
-      const context: any = {
-        permissions: {
-          check: () => true
-        },
-        selection: {
-          isEmpty: false,
-          nodes: [
-            {
-              entry: {
-                isFile: true,
-                allowableOperationsOnTarget: []
-              }
-            }
-          ],
-          first: {
-            entry: {
-              isFile: true,
-              allowableOperationsOnTarget: []
-            }
-          }
-        }
-      };
+      context.selection.isEmpty = false;
+      context.selection.nodes = [
+        { entry: { isFile: true, allowableOperationsOnTarget: [] } } as any,
+        { entry: { isFile: true, allowableOperationsOnTarget: [] } } as any
+      ];
+      context.permissions = { check: () => true };
 
       expect(app.canUpdateSelectedNode(context)).toBe(true);
     });
@@ -322,125 +196,44 @@ describe('app.evaluators', () => {
 
   describe('canUploadVersion', () => {
     it('should return [true] if user has locked it previously', () => {
-      const context: any = {
-        navigation: {
-          url: '/personal-files'
-        },
-        profile: {
-          id: 'user1'
-        },
-        selection: {
-          file: {
-            entry: {
-              properties: {
-                'cm:lockType': 'WRITE_LOCK',
-                'cm:lockOwner': {
-                  id: 'user1'
-                }
-              }
-            }
-          }
-        }
-      };
+      context.navigation.url = '/personal-files';
+      context.profile = { id: 'user1' } as any;
+      context.selection.file = { entry: { properties: { 'cm:lockType': 'WRITE_LOCK', 'cm:lockOwner': { id: 'user1' } } } } as any;
 
       expect(app.canUploadVersion(context)).toBe(true);
     });
 
     it('should return [false] if other user has locked it previously', () => {
-      const context: any = {
-        navigation: {
-          url: '/personal-files'
-        },
-        profile: {
-          id: 'user2'
-        },
-        selection: {
-          file: {
-            entry: {
-              properties: {
-                'cm:lockType': 'WRITE_LOCK',
-                'cm:lockOwner': {
-                  id: 'user1'
-                }
-              }
-            }
-          }
-        }
-      };
+      context.navigation.url = '/personal-files';
+      context.profile = { id: 'user2' } as any;
+      context.selection.file = { entry: { properties: { 'cm:lockType': 'WRITE_LOCK', 'cm:lockOwner': { id: 'user1' } } } } as any;
 
       expect(app.canUploadVersion(context)).toBe(false);
     });
 
     it('should check the [update] operation when no write lock present', () => {
       let checked = false;
-      const context: any = {
-        navigation: {
-          url: '/personal-files'
-        },
-        permissions: {
-          check: () => (checked = true)
-        },
-        selection: {
-          file: {
-            entry: {
-              isFile: true
-            }
-          },
-          isEmpty: false,
-          nodes: [
-            {
-              entry: {
-                isFile: true
-              }
-            }
-          ],
-          first: {
-            entry: {
-              isFile: true
-            }
-          }
-        }
-      };
+      context.navigation.url = '/personal-files';
+      context.selection.isEmpty = false;
+      context.selection.file = { entry: { isFile: true } } as any;
+      context.selection.nodes = [{ entry: { isFile: true } } as any];
+      context.selection.first = { entry: { isFile: true } } as any;
+      context.permissions = { check: () => (checked = true) };
 
       expect(app.canUploadVersion(context)).toBe(true);
       expect(checked).toBe(true);
     });
 
     it('should return [true] if route is `/favorites`', () => {
-      const context: any = {
-        selection: {
-          file: {}
-        },
-        navigation: {
-          url: '/favorites'
-        }
-      };
-
-      expect(app.canUploadVersion(context)).toBe(true);
-    });
-
-    it('should return [true] if route is `/favorites`', () => {
-      const context: any = {
-        selection: {
-          file: {}
-        },
-        navigation: {
-          url: '/favorites'
-        }
-      };
+      context.navigation.url = '/favorites';
+      context.selection.file = {} as any;
 
       expect(app.canUploadVersion(context)).toBe(true);
     });
 
     it('should return [true] if route is `/shared`', () => {
-      const context: any = {
-        selection: {
-          file: {}
-        },
-        navigation: {
-          url: '/shared'
-        }
-      };
+      context.navigation.url = '/shared';
+      context.selection.file = {} as any;
 
       expect(app.canUploadVersion(context)).toBe(true);
     });
@@ -448,76 +241,36 @@ describe('app.evaluators', () => {
 
   describe('isShared', () => {
     it('should return true if route is shared files and single selection', () => {
-      const context: any = {
-        selection: {
-          file: {}
-        },
-        navigation: {
-          url: '/shared'
-        }
-      };
+      context.navigation.url = '/shared';
+      context.selection.file = {} as any;
 
       expect(app.isShared(context)).toBe(true);
     });
 
     it('should return false if route is shared files and multiple selection', () => {
-      const context: any = {
-        selection: {
-          file: null
-        },
-        navigation: {
-          url: '/shared'
-        }
-      };
+      context.navigation.url = '/shared';
+      context.selection.file = null;
 
       expect(app.isShared(context)).toBe(false);
     });
 
     it('should return false if route is trashcan route', () => {
-      const context: any = {
-        selection: {
-          file: {}
-        },
-        navigation: {
-          url: '/trashcan'
-        }
-      };
+      context.navigation.url = '/trashcan';
+      context.selection.file = {} as any;
 
       expect(app.isShared(context)).toBe(false);
     });
 
     it('should return false if selection is not shared', () => {
-      const context: any = {
-        selection: {
-          file: {
-            entry: {
-              properties: {}
-            }
-          }
-        },
-        navigation: {
-          url: '/other'
-        }
-      };
+      context.navigation.url = '/other';
+      context.selection.file = { entry: { properties: {} } } as any;
 
       expect(app.isShared(context)).toBe(false);
     });
 
     it('should return true if selection is shared', () => {
-      const context: any = {
-        selection: {
-          file: {
-            entry: {
-              properties: {
-                'qshare:sharedId': 'some-id'
-              }
-            }
-          }
-        },
-        navigation: {
-          url: '/other'
-        }
-      };
+      context.navigation.url = '/other';
+      context.selection.file = { entry: { properties: { 'qshare:sharedId': 'some-id' } } } as any;
 
       expect(app.isShared(context)).toBe(true);
     });
@@ -525,17 +278,13 @@ describe('app.evaluators', () => {
 
   describe('canShowLogout', () => {
     it('should return false when `withCredentials` property is true', () => {
-      const context: any = {
-        withCredentials: true
-      };
+      context.withCredentials = true;
 
       expect(app.canShowLogout(context)).toBe(false);
     });
 
     it('should return true when `withCredentials` property is false', () => {
-      const context: any = {
-        withCredentials: false
-      };
+      context.withCredentials = false;
 
       expect(app.canShowLogout(context)).toBe(true);
     });
@@ -543,45 +292,21 @@ describe('app.evaluators', () => {
 
   describe('isLibraryManager', () => {
     it('should return true when role is SiteManager', () => {
-      const context: any = {
-        selection: {
-          library: {
-            entry: {
-              role: 'SiteManager'
-            }
-          }
-        }
-      };
+      context.selection.library = { entry: { role: 'SiteManager' } } as any;
 
       expect(app.isLibraryManager(context)).toBe(true);
     });
 
     it('should return false when role is different than SiteManager and user is not an admin', () => {
-      const context: any = {
-        selection: {
-          library: {
-            entry: {
-              role: 'SiteCollaborator'
-            }
-          }
-        },
-        profile: { isAdmin: false }
-      };
+      context.selection.library = { entry: { role: 'SiteCollaborator' } } as any;
+      context.profile = { isAdmin: false } as any;
 
       expect(app.isLibraryManager(context)).toBe(false);
     });
 
     it('should return true if user is an admin no matter what the role is', () => {
-      const context: any = {
-        selection: {
-          library: {
-            entry: {
-              role: null
-            }
-          }
-        },
-        profile: { isAdmin: true }
-      };
+      context.selection.library = { entry: { role: null } } as any;
+      context.profile = { isAdmin: true } as any;
 
       expect(app.isLibraryManager(context)).toBe(true);
     });
@@ -593,252 +318,113 @@ describe('app.evaluators', () => {
     };
 
     it('should return [false] if using SSO', () => {
-      const context: any = {
-        appConfig,
-        auth: {
-          isOauth: () => true
-        }
-      };
+      context.appConfig = appConfig as any;
+      context.auth = { isOauth: () => true };
 
       expect(app.canOpenWithOffice(context)).toBeFalsy();
     });
 
     it('should return [false] if no selection present', () => {
-      const context: any = {
-        appConfig,
-        selection: null
-      };
+      context.appConfig = appConfig as any;
+      context.selection = null;
 
       expect(app.canOpenWithOffice(context)).toBeFalsy();
     });
 
     it('should return [false] if no file selected', () => {
-      const context: any = {
-        appConfig,
-        selection: {
-          file: null
-        }
-      };
+      context.appConfig = appConfig as any;
+      context.selection.file = null;
 
       expect(app.canOpenWithOffice(context)).toBeFalsy();
     });
 
     it('should return [false] if selected file has no entry', () => {
-      const context: any = {
-        appConfig,
-        selection: {
-          file: {
-            entry: null
-          }
-        }
-      };
+      context.appConfig = appConfig as any;
+      context.selection.file = { entry: null };
 
       expect(app.canOpenWithOffice(context)).toBeFalsy();
     });
 
     it('should return [false] if selected file has no properties', () => {
-      const context: any = {
-        appConfig,
-        selection: {
-          file: {
-            entry: {
-              properties: null
-            }
-          }
-        }
-      };
+      context.appConfig = appConfig as any;
+      context.selection.file = { entry: { properties: null } } as any;
 
       expect(app.canOpenWithOffice(context)).toBeFalsy();
     });
 
     it('should return [false] if selected file is locked', () => {
-      const context: any = {
-        appConfig,
-        selection: {
-          file: {
-            entry: {
-              isLocked: true,
-              properties: {}
-            }
-          }
-        }
-      };
+      context.appConfig = appConfig as any;
+      context.selection.file = { entry: { isLocked: true, properties: {} } } as any;
 
       expect(app.canOpenWithOffice(context)).toBeFalsy();
     });
 
     it('should return [false] if selected file has no extension', () => {
-      const context: any = {
-        appConfig,
-        selection: {
-          file: {
-            entry: {
-              name: 'readme',
-              isLocked: false,
-              properties: {}
-            }
-          }
-        }
-      };
+      context.appConfig = appConfig as any;
+      context.selection.file = { entry: { name: 'readme', isLocked: false, properties: {} } } as any;
 
       expect(app.canOpenWithOffice(context)).toBeFalsy();
     });
 
     it('should return [false] if extension is not supported', () => {
-      const context: any = {
-        appConfig,
-        selection: {
-          file: {
-            entry: {
-              name: 'run.exe',
-              isLocked: false,
-              properties: {}
-            }
-          }
-        }
-      };
+      context.appConfig = appConfig as any;
+      context.selection.file = { entry: { name: 'run.exe', isLocked: false, properties: {} } } as any;
 
       expect(app.canOpenWithOffice(context)).toBeFalsy();
     });
 
     it('should return [false] if selected file has write lock', () => {
-      const context: any = {
-        appConfig,
-        selection: {
-          file: {
-            entry: {
-              name: 'document.docx',
-              isLocked: false,
-              properties: {
-                'cm:lockType': 'WRITE_LOCK'
-              }
-            }
-          }
-        }
-      };
+      context.appConfig = appConfig as any;
+      context.selection.file = { entry: { name: 'document.docx', isLocked: false, properties: { 'cm:lockType': 'WRITE_LOCK' } } } as any;
 
       expect(app.canOpenWithOffice(context)).toBeFalsy();
     });
 
     it('should return [false] if selected file has read-only lock', () => {
-      const context: any = {
-        appConfig,
-        selection: {
-          file: {
-            entry: {
-              name: 'document.docx',
-              isLocked: false,
-              properties: {
-                'cm:lockType': 'READ_ONLY_LOCK'
-              }
-            }
-          }
-        }
-      };
+      context.appConfig = appConfig as any;
+      context.selection.file = { entry: { name: 'document.docx', isLocked: false, properties: { 'cm:lockType': 'READ_ONLY_LOCK' } } } as any;
 
       expect(app.canOpenWithOffice(context)).toBeFalsy();
     });
 
     it('should return [false] if current user is not lock owner', () => {
-      const context: any = {
-        appConfig,
-        profile: {
-          id: 'user1'
-        },
-        selection: {
-          file: {
-            entry: {
-              name: 'document.docx',
-              isLocked: false,
-              properties: {
-                'cm:lockType': 'READ_ONLY_LOCK',
-                'cm:lockOwner': {
-                  id: 'user2'
-                }
-              }
-            }
-          }
-        }
-      };
+      context.appConfig = appConfig as any;
+      context.selection.file = {
+        entry: { name: 'document.docx', isLocked: false, properties: { 'cm:lockType': 'READ_ONLY_LOCK', 'cm:lockOwner': { id: 'user2' } } }
+      } as any;
+      context.profile = { id: 'user1' } as any;
 
       expect(app.canOpenWithOffice(context)).toBeFalsy();
     });
 
     it('should return [false] if current user is lock owner', () => {
-      const context: any = {
-        appConfig,
-        profile: {
-          id: 'user1'
-        },
-        selection: {
-          file: {
-            entry: {
-              name: 'document.docx',
-              isLocked: false,
-              properties: {
-                'cm:lockType': 'READ_ONLY_LOCK',
-                'cm:lockOwner': {
-                  id: 'user1'
-                }
-              }
-            }
-          }
-        }
-      };
+      context.appConfig = appConfig as any;
+      context.selection.file = {
+        entry: { name: 'document.docx', isLocked: false, properties: { 'cm:lockType': 'READ_ONLY_LOCK', 'cm:lockOwner': { id: 'user1' } } }
+      } as any;
+      context.profile = { id: 'user1' } as any;
 
       expect(app.canOpenWithOffice(context)).toBeFalsy();
     });
 
     it('should return [false] if permissions check is false', () => {
-      const context: any = {
-        appConfig,
-        selection: {
-          file: {
-            entry: {
-              name: 'document.docx',
-              isLocked: false,
-              properties: {}
-            }
-          }
-        },
-        permissions: {
-          check: () => false
-        }
-      };
+      context.appConfig = appConfig as any;
+      context.selection.file = { entry: { name: 'document.docx', isLocked: false, properties: {} } } as any;
+      context.permissions = { check: () => false };
 
       expect(app.canOpenWithOffice(context)).toBeFalsy();
     });
 
     it('should return [true] if all checks succeed', () => {
-      const context: any = {
-        appConfig: {
-          get: () => true
-        },
-        selection: {
-          file: {
-            entry: {
-              name: 'document.docx',
-              isLocked: false,
-              properties: {}
-            }
-          }
-        },
-        permissions: {
-          check: () => true
-        }
-      };
+      context.appConfig = { get: () => true } as any;
+      context.selection.file = { entry: { name: 'document.docx', isLocked: false, properties: {} } } as any;
+      context.permissions = { check: () => true };
 
       expect(app.canOpenWithOffice(context)).toBeTruthy();
     });
   });
 
   describe('canEditAspects', () => {
-    let context: TestRuleContext;
-
-    beforeEach(() => {
-      context = createTestContext();
-    });
-
     it('should return false for multiselection', () => {
       context.selection.count = 2;
 
@@ -869,12 +455,6 @@ describe('app.evaluators', () => {
   });
 
   describe('canManagePermissions', () => {
-    let context: TestRuleContext;
-
-    beforeEach(() => {
-      context = createTestContext();
-    });
-
     it('should return false if user cannot update the selected node', () => {
       context.permissions.check = spyOn(context.permissions, 'check').and.returnValue(false);
 
@@ -904,11 +484,7 @@ describe('app.evaluators', () => {
 
   describe('areTagsEnabled', () => {
     it('should call context.appConfig.get with correct parameters', () => {
-      const context: any = {
-        appConfig: {
-          get: jasmine.createSpy()
-        }
-      };
+      context.appConfig = { get: jasmine.createSpy() } as any;
 
       app.areTagsEnabled(context);
       expect(context.appConfig.get).toHaveBeenCalledWith('plugins.tagsEnabled', true);
@@ -937,11 +513,7 @@ describe('app.evaluators', () => {
 
   describe('areCategoriesEnabled', () => {
     it('should call context.appConfig.get with correct parameters', () => {
-      const context: any = {
-        appConfig: {
-          get: jasmine.createSpy()
-        }
-      };
+      context.appConfig = { get: jasmine.createSpy() } as any;
 
       app.areCategoriesEnabled(context);
       expect(context.appConfig.get).toHaveBeenCalledWith('plugins.categoriesEnabled', true);
@@ -970,11 +542,7 @@ describe('app.evaluators', () => {
 
   describe('isContentServiceEnabled', () => {
     it('should call context.appConfig.get with correct parameters', () => {
-      const context: any = {
-        appConfig: {
-          get: jasmine.createSpy()
-        }
-      };
+      context.appConfig = { get: jasmine.createSpy() } as any;
 
       app.isContentServiceEnabled(context);
       expect(context.appConfig.get).toHaveBeenCalledWith('plugins.contentService');
@@ -1009,8 +577,6 @@ describe('app.evaluators', () => {
   });
 
   describe('canCopyNode', () => {
-    const context = createTestContext();
-
     it('should return false when nothing is selected', () => {
       context.selection.isEmpty = true;
       expect(app.canCopyNode(context)).toBeFalse();
@@ -1031,7 +597,7 @@ describe('app.evaluators', () => {
       expect(app.canCopyNode(context)).toBeFalse();
     });
 
-    it('should return false when selection exists and user is outside library and trashcan', () => {
+    it('should return true when selection exists and user is outside library and trashcan', () => {
       context.selection.isEmpty = false;
       context.navigation.url = '/personal-files';
       expect(app.canCopyNode(context)).toBeTrue();
@@ -1039,8 +605,6 @@ describe('app.evaluators', () => {
   });
 
   describe('canAddFavorite', () => {
-    const context = createTestContext();
-
     it('should return false when nothing is selected', () => {
       context.selection.isEmpty = true;
       expect(app.canAddFavorite(context)).toBeFalse();
@@ -1077,8 +641,6 @@ describe('app.evaluators', () => {
   });
 
   describe('canRemoveFavorite', () => {
-    const context = createTestContext();
-
     it('should return false when nothing is selected', () => {
       context.selection.isEmpty = true;
       expect(app.canRemoveFavorite(context)).toBeFalse();
@@ -1112,9 +674,10 @@ describe('app.evaluators', () => {
   });
 
   describe('canShareFile', () => {
-    const context = createTestContext();
-    context.repository.status = new StatusInfo();
-    context.selection.isEmpty = false;
+    beforeEach(() => {
+      context.repository.status = new StatusInfo();
+      context.selection.isEmpty = false;
+    });
 
     it('should return false when nothing is selected', () => {
       context.selection.file = null;
@@ -1150,8 +713,9 @@ describe('app.evaluators', () => {
   });
 
   describe('canToggleJoinLibrary', () => {
-    const context = createTestContext();
-    context.profile = {} as any;
+    beforeEach(() => {
+      context.profile = {} as any;
+    });
 
     it('should return false when no library is selected', () => {
       context.selection.library = null;
@@ -1184,8 +748,6 @@ describe('app.evaluators', () => {
   });
 
   describe('canEditFolder', () => {
-    const context = createTestContext();
-
     it('should return false when no folder is selected', () => {
       context.selection.folder = null;
       expect(app.canEditFolder(context)).toBeFalse();
@@ -1226,8 +788,6 @@ describe('app.evaluators', () => {
   });
 
   describe('canDeleteSelection', () => {
-    const context = createTestContext();
-
     it('should return false when selection is empty', () => {
       context.selection.isEmpty = true;
       expect(app.canDeleteSelection(context)).toBeFalse();
@@ -1289,8 +849,6 @@ describe('app.evaluators', () => {
   });
 
   describe('canUnshareNodes', () => {
-    const context = createTestContext();
-
     it('should return false when selection is empty', () => {
       context.selection.isEmpty = true;
       expect(app.canUnshareNodes(context)).toBeFalse();
@@ -1320,8 +878,6 @@ describe('app.evaluators', () => {
   });
 
   describe('hasSelection', () => {
-    const context = createTestContext();
-
     it('should return false when nothing is selected', () => {
       context.selection.isEmpty = true;
       expect(app.hasSelection(context)).toBeFalse();
@@ -1334,8 +890,6 @@ describe('app.evaluators', () => {
   });
 
   describe('canCreateFolder', () => {
-    const context = createTestContext();
-
     it('should return false when content service is disabled', () => {
       context.appConfig = { get: () => false } as any;
       expect(app.canCreateFolder(context)).toBeFalse();
@@ -1354,7 +908,7 @@ describe('app.evaluators', () => {
       expect(app.canCreateFolder(context)).toBeFalse();
     });
 
-    it('should return false when permission checl fails', () => {
+    it('should return false when permission check fails', () => {
       context.appConfig = { get: () => true } as any;
       context.navigation.url = '/personal-files/test';
       context.navigation.currentFolder = {} as any;
@@ -1381,8 +935,6 @@ describe('app.evaluators', () => {
   });
 
   describe('canCreateLibrary', () => {
-    const context = createTestContext();
-
     it('should return false when content service is disabled', () => {
       context.appConfig = { get: () => false } as any;
       expect(app.canCreateLibrary(context)).toBeFalse();
@@ -1402,8 +954,6 @@ describe('app.evaluators', () => {
   });
 
   describe('canUpload', () => {
-    const context = createTestContext();
-
     it('should return false when content service is disabled', () => {
       context.appConfig = { get: () => false } as any;
       expect(app.canUpload(context)).toBeFalse();
@@ -1438,7 +988,7 @@ describe('app.evaluators', () => {
       expect(app.canUpload(context)).toBeTrue();
     });
 
-    it('should verify is user has create permission on current folder', () => {
+    it('should verify if user has create permission on current folder', () => {
       context.appConfig = { get: () => true } as any;
       context.navigation.url = '/personal-files/test';
       context.navigation.currentFolder = { allowableOperations: ['create'] } as any;
@@ -1449,8 +999,6 @@ describe('app.evaluators', () => {
   });
 
   describe('hasFileSelected', () => {
-    const context = createTestContext();
-
     it('should return false when no file is selected', () => {
       context.selection.file = null;
       expect(app.hasFileSelected(context)).toBeFalse();
@@ -1463,8 +1011,6 @@ describe('app.evaluators', () => {
   });
 
   describe('hasFolderSelected', () => {
-    const context = createTestContext();
-
     it('should return false when no folder is selected', () => {
       context.selection.folder = null;
       expect(app.hasFolderSelected(context)).toBeFalse();
@@ -1477,8 +1023,6 @@ describe('app.evaluators', () => {
   });
 
   describe('hasLibrarySelected', () => {
-    const context = createTestContext();
-
     it('should return false when no library is selected', () => {
       context.selection.library = null;
       expect(app.hasLibrarySelected(context)).toBeFalse();
@@ -1491,8 +1035,6 @@ describe('app.evaluators', () => {
   });
 
   describe('isPrivateLibrary', () => {
-    const context = createTestContext();
-
     it('should return false when library is not private', () => {
       context.selection.library = { entry: { visibility: 'PUBLIC' } } as any;
       expect(app.isPrivateLibrary(context)).toBeFalse();
@@ -1505,8 +1047,6 @@ describe('app.evaluators', () => {
   });
 
   describe('hasLibraryRole', () => {
-    const context = createTestContext();
-
     it('should return false when library has no role', () => {
       context.selection.library = { entry: { role: '' } } as any;
       expect(app.hasLibraryRole(context)).toBeFalse();
@@ -1519,8 +1059,6 @@ describe('app.evaluators', () => {
   });
 
   describe('hasNoLibraryRole', () => {
-    const context = createTestContext();
-
     it('should return false when library has a role', () => {
       context.selection.library = { entry: { role: 'test' } } as any;
       expect(app.hasNoLibraryRole(context)).toBeFalse();
@@ -1533,8 +1071,6 @@ describe('app.evaluators', () => {
   });
 
   describe('isMultiselection', () => {
-    const context = createTestContext();
-
     it('should return false when there is no or single selection', () => {
       context.selection.isEmpty = true;
       expect(app.isMultiselection(context)).toBeFalse();
@@ -1552,8 +1088,6 @@ describe('app.evaluators', () => {
   });
 
   describe('canUpdateSelectedFolder', () => {
-    const context = createTestContext();
-
     it('should return false when no folder is selected', () => {
       context.selection.folder = null;
       expect(app.canUpdateSelectedFolder(context)).toBeFalse();
@@ -1589,8 +1123,9 @@ describe('app.evaluators', () => {
   });
 
   describe('isUserWriteLockOwner', () => {
-    const context = createTestContext();
-    context.profile = {} as any;
+    beforeEach(() => {
+      context.profile = {} as any;
+    });
 
     it('should return false when there is no lock', () => {
       context.selection.file = { entry: { properties: [] } } as any;
@@ -1611,8 +1146,6 @@ describe('app.evaluators', () => {
   });
 
   describe('canLockFile', () => {
-    const context = createTestContext();
-
     it('should return false when file is already locked', () => {
       context.selection.file = { entry: { properties: { 'cm:lockType': 'WRITE_LOCK' } } } as any;
       expect(app.canLockFile(context)).toBeFalse();
@@ -1632,8 +1165,9 @@ describe('app.evaluators', () => {
   });
 
   describe('canUnlockFile', () => {
-    const context = createTestContext();
-    context.profile = {} as any;
+    beforeEach(() => {
+      context.profile = {} as any;
+    });
 
     it('should return false when file has no lock', () => {
       context.selection.file = { entry: { properties: [] } } as any;
@@ -1654,7 +1188,7 @@ describe('app.evaluators', () => {
       expect(app.canUnlockFile(context)).toBeTrue();
     });
 
-    it('should return false when file is locked and user is the owner of the lock', () => {
+    it('should return true when file is locked and user is the owner of the lock', () => {
       context.selection.file = { entry: { properties: { 'cm:lockType': 'WRITE_LOCK', 'cm:lockOwner': { id: 'test1' } } } } as any;
       context.profile.id = 'test1';
       context.permissions = { check: () => false };
@@ -1671,8 +1205,6 @@ describe('app.evaluators', () => {
   });
 
   describe('isTrashcanItemSelected', () => {
-    const context = createTestContext();
-
     it('should return false when user is not in trashcan', () => {
       context.navigation.url = '/personal-files/test';
       expect(app.isTrashcanItemSelected(context)).toBeFalse();
@@ -1692,8 +1224,6 @@ describe('app.evaluators', () => {
   });
 
   describe('canViewFile', () => {
-    const context = createTestContext();
-
     it('should return false when user is in trashcan', () => {
       context.navigation.url = '/trashcan/test';
       expect(app.canViewFile(context)).toBeFalse();
@@ -1713,8 +1243,6 @@ describe('app.evaluators', () => {
   });
 
   describe('canLeaveLibrary', () => {
-    const context = createTestContext();
-
     it('should return false when no library is selected', () => {
       context.selection.library = null;
       expect(app.canLeaveLibrary(context)).toBeFalse();
@@ -1732,8 +1260,9 @@ describe('app.evaluators', () => {
   });
 
   describe('canToggleSharedLink', () => {
-    const context = createTestContext();
-    context.repository.status = new StatusInfo();
+    beforeEach(() => {
+      context.repository.status = new StatusInfo();
+    });
 
     it('should return false when no file is selected', () => {
       context.selection.file = null;
@@ -1760,8 +1289,6 @@ describe('app.evaluators', () => {
   });
 
   describe('canShowInfoDrawer', () => {
-    const context = createTestContext();
-
     it('should return false when nothing is selected', () => {
       context.selection.isEmpty = true;
       expect(app.canShowInfoDrawer(context)).toBeFalse();
@@ -1776,7 +1303,7 @@ describe('app.evaluators', () => {
       expect(app.canShowInfoDrawer(context)).toBeFalse();
     });
 
-    it('should return true when selection exists and user is not it trashcan or libraries', () => {
+    it('should return true when selection exists and user is not in trashcan or libraries', () => {
       context.navigation.url = '/personal-files/test';
       context.selection.isEmpty = false;
       expect(app.canShowInfoDrawer(context)).toBeTrue();
@@ -1784,8 +1311,6 @@ describe('app.evaluators', () => {
   });
 
   describe('canManageFileVersions', () => {
-    const context = createTestContext();
-
     it('should return false when no file is selected', () => {
       context.selection.file = null;
       expect(app.canManageFileVersions(context)).toBeFalse();
@@ -1813,8 +1338,9 @@ describe('app.evaluators', () => {
   });
 
   describe('canToggleEditOffline', () => {
-    const context = createTestContext();
-    context.profile = {} as any;
+    beforeEach(() => {
+      context.profile = {} as any;
+    });
 
     it('should return false when no file is selected', () => {
       context.selection.file = null;
@@ -1851,8 +1377,6 @@ describe('app.evaluators', () => {
   });
 
   describe('canInfoPreview', () => {
-    const context = createTestContext();
-
     it('should return false when user is not is search results page', () => {
       context.navigation.url = '/trashcan/test';
       expect(app.canInfoPreview(context)).toBeFalse();
@@ -1892,8 +1416,6 @@ describe('app.evaluators', () => {
   });
 
   describe('showInfoSelectionButton', () => {
-    const context = createTestContext();
-
     it('should return false when user is not in search results page', () => {
       context.navigation.url = '/trashcan/test';
       expect(app.showInfoSelectionButton(context)).toBeFalse();
@@ -1911,8 +1433,6 @@ describe('app.evaluators', () => {
   });
 
   describe('isSmartFolder', () => {
-    const context = createTestContext();
-
     it('should return false when there is no selection', () => {
       context.selection.isEmpty = true;
       expect(app.isSmartFolder(context)).toBeFalse();
