@@ -27,14 +27,14 @@ import {
   ApiClientFactory,
   FavoritesPageApi,
   FileActionsApi,
-  LoginPage,
   NodesApi,
   SharedLinksApi,
   SitesApi,
   test,
   TEST_FILES,
   timeouts,
-  Utils
+  Utils,
+  TrashcanApi
 } from '@alfresco/playwright-shared';
 import { Site } from '@alfresco/js-api';
 
@@ -51,6 +51,7 @@ test.describe('viewer file', () => {
   let folderId: string;
   let fileDocxId: string;
   let nodesApi: NodesApi;
+  let trashcanApi: TrashcanApi;
 
   test.beforeAll(async () => {
     test.setTimeout(timeouts.extendedTest);
@@ -60,6 +61,7 @@ test.describe('viewer file', () => {
     await apiClientFactory.createUser({ username });
     nodesApi = await NodesApi.initialize(username, username);
     const fileActionApi = await FileActionsApi.initialize(username, username);
+    trashcanApi = await TrashcanApi.initialize(username, username);
     const shareActions = await SharedLinksApi.initialize(username, username);
     const favoritesActions = await FavoritesPageApi.initialize(username, username);
     const siteActionsUser = await SitesApi.initialize(username, username);
@@ -89,20 +91,13 @@ test.describe('viewer file', () => {
     await fileActionApi.waitForNodes(randomDocxName, { expect: 1 });
   });
 
-  test.beforeEach(async ({ personalFiles, page }) => {
-    const loginPage = new LoginPage(page);
-    await loginPage.loginUser(
-      { username, password: username },
-      {
-        withNavigation: true,
-        waitForLoading: true
-      }
-    );
+  test.beforeEach(async ({ personalFiles, loginPage }) => {
+    await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
     await personalFiles.navigate({ remoteUrl: `#/personal-files/${folderId}` });
   });
 
   test.afterAll(async () => {
-    await nodesApi.deleteCurrentUserNodes();
+    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
   });
 
   test('[C279269] Viewer opens on double clicking on a file from Personal Files', async ({ personalFiles }) => {
