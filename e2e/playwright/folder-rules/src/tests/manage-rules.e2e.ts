@@ -28,7 +28,7 @@ import { expect } from '@playwright/test';
 test.use({ storageState: getUserState('hruser') });
 test.describe('Rules - Manage Rules', () => {
   const apiClientFactory = new ApiClientFactory();
-  const randomName = `playwright-folder-${Utils.random()}`;
+  const randomName = `folder-rules-manage-rules-${Utils.random()}`;
   const randomRuleName = `playwright-rule-${Utils.random()}`;
 
   let folderId: string;

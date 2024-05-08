@@ -28,7 +28,7 @@ import { ActionType, ApiClientFactory, Comparator, Field, getUserState, test, Ut
 test.use({ storageState: getUserState('hruser') });
 test.describe('Folder Rules Conditions', () => {
   const apiClientFactory = new ApiClientFactory();
-  const randomFolderName = `playwright-folder-${Utils.random()}`;
+  const randomFolderName = `folder-rules-conditions-${Utils.random()}`;
   const randomRuleName = `playwright-rule-${Utils.random()}`;
   const specialChars = '!@£$%^&*()~#/';
 
