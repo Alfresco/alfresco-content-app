@@ -39,6 +39,8 @@ export class AcaHeader extends BaseComponent {
   public downloadButtonViewer = this.getChild('button[id="app.viewer.download"]');
   public downloadButton = this.getChild('button[id="app.toolbar.download"]');
   public sharedDownloadButton = this.getChild('button[id="app.viewer.shared.download"]');
+  public uploadButton = this.getChild('button[id="app.toolbar.upload"]');
+  public uploadFileButton = this.page.locator('button[id="app.create.uploadFile"]');
 
   constructor(page: Page) {
     super(page, AcaHeader.rootElement);
