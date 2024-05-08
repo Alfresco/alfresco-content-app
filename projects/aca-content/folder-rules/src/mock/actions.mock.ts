@@ -140,6 +140,22 @@ const actionParamLinkToCategoryTransformedMock = {
   displayLabel: 'Category value'
 };
 
+const actionParamSecurityGroup = {
+  name: 'securityGroupId',
+  type: 'd:text',
+  multiValued: false,
+  mandatory: true,
+  displayLabel: 'Security Group Id'
+};
+
+const actionParamSecurityMark = {
+  name: 'securityMarkId',
+  type: 'd:text',
+  multiValued: false,
+  mandatory: true,
+  displayLabel: 'Security Mark Id'
+};
+
 const action1TransformedMock: ActionDefinitionTransformed = {
   id: 'mock-action-1-definition',
   name: 'mock-action-1-definition',
@@ -174,6 +190,16 @@ export const actionLinkToCategoryTransformedMock: ActionDefinitionTransformed = 
   applicableTypes: [],
   trackStatus: false,
   parameterDefinitions: [actionParamLinkToCategoryTransformedMock]
+};
+
+export const securityActionTransformedMock: ActionDefinitionTransformed = {
+  id: 'mock-action-4-definition',
+  name: 'mock-action-4-definition',
+  description: '',
+  title: 'mock-action-4-definition',
+  applicableTypes: [],
+  trackStatus: false,
+  parameterDefinitions: [actionParamSecurityGroup, actionParamSecurityMark]
 };
 
 export const actionsTransformedListMock: ActionDefinitionTransformed[] = [action1TransformedMock, action2TransformedMock];

@@ -25,9 +25,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CardViewBoolItemModel, CardViewComponent, CardViewSelectItemModel, CardViewTextItemModel, CoreTestingModule } from '@alfresco/adf-core';
 import { RuleActionUiComponent } from './rule-action.ui-component';
-import { actionLinkToCategoryTransformedMock, actionsTransformedListMock } from '../../mock/actions.mock';
+import { actionLinkToCategoryTransformedMock, actionsTransformedListMock, securityActionTransformedMock } from '../../mock/actions.mock';
 import { By } from '@angular/platform-browser';
 import { dummyCategoriesConstraints, dummyConstraints, dummyTagsConstraints } from '../../mock/action-parameter-constraints.mock';
+import { securityMarksResponseMock, updateNotificationMock } from '../../mock/security-marks.mock';
 import { CategoryService, TagService } from '@alfresco/adf-content-services';
 import { MatDialog } from '@angular/material/dialog';
 import { HarnessLoader } from '@angular/cdk/testing';
@@ -217,6 +218,37 @@ describe('RuleActionUiComponent', () => {
             label: 'Label 2 [cm:notCategoryRelated]'
           }
         ]);
+      });
+    });
+  });
+
+  describe('Security mark actions', () => {
+    beforeEach(async () => {
+      component.actionDefinitions = [securityActionTransformedMock];
+      await changeMatSelectValue('mock-action-4-definition');
+    });
+
+    it('should create dropdown selector for security mark action parameter', () => {
+      expect(getPropertiesCardView().properties[1]).toBeInstanceOf(CardViewSelectItemModel);
+    });
+
+    it('should load security marks on security group select and remove them on unselect', async () => {
+      spyOn(component['securityControlsService'], 'getSecurityMark').and.returnValue(Promise.resolve(securityMarksResponseMock));
+      component['cardViewUpdateService'].itemUpdated$.next(updateNotificationMock('group-1'));
+      await fixture.whenStable();
+      fixture.detectChanges();
+      (getPropertiesCardView().properties[1] as CardViewSelectItemModel<string>).options$.subscribe((options) => {
+        expect(options).toEqual([
+          { key: 'mark-1-id', label: 'mark-1-name [mark-1-id]' },
+          { key: 'mark-2-id', label: 'mark-2-name [mark-2-id]' }
+        ]);
+      });
+
+      component['cardViewUpdateService'].itemUpdated$.next(updateNotificationMock(''));
+      await fixture.whenStable();
+      fixture.detectChanges();
+      (getPropertiesCardView().properties[1] as CardViewSelectItemModel<string>).options$.subscribe((options) => {
+        expect(options).toEqual([]);
       });
     });
   });
