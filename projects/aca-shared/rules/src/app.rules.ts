@@ -94,13 +94,6 @@ export const isContentServiceEnabled = (context: AcaRuleContext): boolean => {
 };
 
 /**
- * Checks if Search is supported for active view
- * JSON ref: `app.isSearchSupported`
- */
-export const isSearchSupported = (context: RuleContext): boolean =>
-  [navigation.isNotSearchResults(context) /* , !hasSelection(context)*/].every(Boolean);
-
-/**
  * Checks if upload action is supported for the given context
  * JSON ref: `app.isUploadSupported`
  *
@@ -122,7 +115,7 @@ export const canCopyNode = (context: RuleContext): boolean =>
  * JSON ref: `app.selection.canAddFavorite`
  */
 export function canAddFavorite(context: RuleContext): boolean {
-  if (!context.selection.isEmpty) {
+  if (hasSelection(context)) {
     if (navigation.isFavorites(context) || navigation.isLibraries(context) || navigation.isTrashcan(context)) {
       return false;
     }
@@ -136,7 +129,7 @@ export function canAddFavorite(context: RuleContext): boolean {
  * JSON ref: `app.selection.canRemoveFavorite`
  */
 export function canRemoveFavorite(context: RuleContext): boolean {
-  if (!context.selection.isEmpty && !navigation.isTrashcan(context)) {
+  if (hasSelection(context) && !navigation.isTrashcan(context)) {
     if (navigation.isFavorites(context)) {
       return true;
     }
@@ -177,7 +170,7 @@ export function isShared(context: RuleContext): boolean {
     return true;
   }
 
-  if (navigation.isNotTrashcan(context) && !context.selection.isEmpty && context.selection.file) {
+  if (navigation.isNotTrashcan(context) && hasSelection(context) && context.selection.file) {
     return !!context.selection.file.entry?.properties?.['qshare:sharedId'];
   }
 
@@ -189,12 +182,7 @@ export function isShared(context: RuleContext): boolean {
  * JSON ref: `app.selection.canDelete`
  */
 export function canDeleteSelection(context: RuleContext): boolean {
-  if (
-    navigation.isNotTrashcan(context) &&
-    navigation.isNotLibraries(context) &&
-    navigation.isNotSearchResults(context) &&
-    !context.selection.isEmpty
-  ) {
+  if (navigation.isNotTrashcan(context) && navigation.isNotLibraries(context) && navigation.isNotSearchResults(context) && hasSelection(context)) {
     if (hasLockedFiles(context)) {
       return false;
     }
@@ -225,7 +213,7 @@ export function canDeleteSelection(context: RuleContext): boolean {
  * JSON ref: `app.selection.canUnshare`
  */
 export function canUnshareNodes(context: RuleContext): boolean {
-  if (!context.selection.isEmpty) {
+  if (hasSelection(context)) {
     return context.permissions.check(context.selection.nodes, ['delete'], {
       target: 'allowableOperationsOnTarget'
     });
@@ -276,7 +264,7 @@ export function canUpload(context: AcaRuleContext): boolean {
  * JSON ref: `app.selection.canDownload`
  */
 export function canDownloadSelection(context: RuleContext): boolean {
-  if (!context.selection.isEmpty && navigation.isNotTrashcan(context)) {
+  if (hasSelection(context) && navigation.isNotTrashcan(context)) {
     return context.selection.nodes.every((node: any) => node.entry && (node.entry.isFile || node.entry.isFolder || !!node.entry.nodeId));
   }
   return false;
@@ -328,7 +316,7 @@ export const hasFileSelected = (context: RuleContext): boolean => !!context?.sel
  * JSON ref: `app.selection.first.canUpdate`
  */
 export function canUpdateSelectedNode(context: RuleContext): boolean {
-  if (context.selection && !context.selection.isEmpty) {
+  if (context.selection && hasSelection(context)) {
     const node = context.selection.first;
 
     if (node?.entry.isFile && hasLockedFiles(context)) {
@@ -342,7 +330,7 @@ export function canUpdateSelectedNode(context: RuleContext): boolean {
 
 export function isMultiselection(context: RuleContext): boolean {
   let isMultiNodeSelected = false;
-  if (context.selection && !context.selection.isEmpty) {
+  if (context.selection && hasSelection(context)) {
     isMultiNodeSelected = context.selection.count > 1;
   }
   return isMultiNodeSelected;
@@ -492,14 +480,6 @@ export const canManageFileVersions = (context: RuleContext): boolean =>
 export const canEditAspects = (context: RuleContext): boolean =>
   [
     !isMultiselection(context),
-    canUpdateSelectedNode(context),
-    !isWriteLocked(context),
-    navigation.isNotTrashcan(context),
-    repository.isMajorVersionAvailable(context, '7')
-  ].every(Boolean);
-
-export const editAspects = (context: RuleContext): boolean =>
-  [
     canUpdateSelectedNode(context),
     !isWriteLocked(context),
     navigation.isNotTrashcan(context),

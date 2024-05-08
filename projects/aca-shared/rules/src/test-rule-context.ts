@@ -22,15 +22,19 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NavigationState, NodePermissions, ProfileState, RuleContext, RuleEvaluator, SelectionState } from '@alfresco/adf-extensions';
+import { NavigationState, NodePermissions, ProfileState, RuleEvaluator, SelectionState } from '@alfresco/adf-extensions';
 import { RepositoryInfo } from '@alfresco/js-api';
+import { AcaRuleContext } from './app.rules';
+import { AppConfigService } from '@alfresco/adf-core';
 
-export class TestRuleContext implements RuleContext {
+export class TestRuleContext implements AcaRuleContext {
   auth: any;
   navigation: NavigationState = {};
   permissions: NodePermissions;
   profile: ProfileState;
   repository: RepositoryInfo;
+  withCredentials: boolean;
+  appConfig: AppConfigService;
 
   selection: SelectionState = {
     count: 0,

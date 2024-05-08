@@ -377,7 +377,7 @@
         "type": "separator",
         "order": 89,
         "rules": {
-          "visible": "app.isSearchSupported"
+          "visible": "app.navigation.isNotSearchResults"
         }
       },
       {
@@ -393,7 +393,7 @@
           "click": "SEARCH"
         },
         "rules": {
-          "visible": "app.isSearchSupported"
+          "visible": "app.navigation.isNotSearchResults"
         }
       },
       {
@@ -1252,7 +1252,7 @@
             "click": "ASPECT_LIST"
           },
           "rules": {
-            "visible": "editAspects"
+            "visible": "canEditAspects"
           }
         },
         {
