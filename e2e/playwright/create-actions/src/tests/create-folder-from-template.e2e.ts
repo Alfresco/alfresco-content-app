@@ -77,7 +77,7 @@ test.describe('Create folder from template', () => {
   const fileInRestrictedFolder = `restricted-file-${random}.txt`;
 
   const createDialogTitle = `Create new folder from '${templateFolder1}'`;
-  const commonFolderName = `playwright-folder-${Utils.random()}`;
+  const commonFolderName = `create-actions-template-${Utils.random()}`;
 
   const templates: NodeContentTree = {
     folders: [
@@ -358,7 +358,7 @@ test.describe('Create folder from template', () => {
     test.describe('Folder created from template on Personal Files', () => {
       test.beforeEach(async ({ personalFiles }) => {
         try {
-          randomFolderName = `playwright-folder-${Utils.random()}`;
+          randomFolderName = `create-actions-template-${Utils.random()}`;
           randomFolderTitle = `folder-title-${Utils.random()}`;
           randomFolderDescription = `folder-description-${Utils.random()}`;
           createFolderFromTemplateDialog = personalFiles.createFromTemplateDialogComponent;
@@ -410,7 +410,7 @@ test.describe('Create folder from template', () => {
 
     test.beforeEach(async ({ myLibrariesPage }) => {
       try {
-        randomFolderName = `playwright-folder-${Utils.random()}`;
+        randomFolderName = `create-actions-template-${Utils.random()}`;
         randomFolderTitle = `folder-title-${Utils.random()}`;
         randomFolderDescription = `folder-description-${Utils.random()}`;
         await myLibrariesPage.navigate();

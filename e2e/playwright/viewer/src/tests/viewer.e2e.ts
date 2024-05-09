@@ -55,7 +55,7 @@ test.describe('viewer file', () => {
 
   test.beforeAll(async () => {
     test.setTimeout(timeouts.extendedTest);
-    const randomFolderName = `playwright-folder-${Utils.random()}`;
+    const randomFolderName = `viewer-${Utils.random()}`;
     const apiClientFactory = new ApiClientFactory();
     await apiClientFactory.setUpAcaBackend('admin');
     await apiClientFactory.createUser({ username });

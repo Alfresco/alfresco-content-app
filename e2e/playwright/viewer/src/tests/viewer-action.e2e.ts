@@ -28,7 +28,7 @@ import { ApiClientFactory, getUserState, test, TEST_FILES, timeouts, Utils } fro
 test.use({ storageState: getUserState('hruser') });
 test.describe('viewer action file', () => {
   const apiClientFactory = new ApiClientFactory();
-  const randomFolderName = `playwright-folder-${Utils.random()}`;
+  const randomFolderName = `viewer-action-${Utils.random()}`;
   const randomDocxName = `${TEST_FILES.DOCX.name}-${Utils.random()}`;
   const randomDocxNameFavorite = `${TEST_FILES.DOCX.name}-${Utils.random()}`;
   const randomDocxNameShare = `${TEST_FILES.DOCX.name}-${Utils.random()}`;
@@ -45,7 +45,7 @@ test.describe('viewer action file', () => {
   let filePersonalFilesId: string;
   const fileForUploadNewVersion2 = `file4-${Utils.random()}.docx`;
   let fileForUploadNewVersionId2: string;
-  const destination = `destRF-${Utils.random()}`;
+  const destination = `viewer-action-destRF-${Utils.random()}`;
   let destinationId: string;
   const docxRecentFiles = `docxRF-${Utils.random()}.docx`;
 

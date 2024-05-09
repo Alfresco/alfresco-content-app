@@ -39,7 +39,7 @@ test.describe('Create folders', () => {
   });
 
   test.beforeEach(async () => {
-    randomFolderName = `playwright-folder-${Utils.random()}`;
+    randomFolderName = `authentication-general-${Utils.random()}`;
     await apiClientFactory.loginUser(sessionTestUser);
   });
 
