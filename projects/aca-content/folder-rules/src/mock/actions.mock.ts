@@ -140,7 +140,7 @@ const actionParamLinkToCategoryTransformedMock = {
   displayLabel: 'Category value'
 };
 
-const actionParamSecurityGroup = {
+const actionParamSecurityGroup: ActionParameterDefinitionTransformed = {
   name: 'securityGroupId',
   type: 'd:text',
   multiValued: false,
@@ -148,7 +148,7 @@ const actionParamSecurityGroup = {
   displayLabel: 'Security Group Id'
 };
 
-const actionParamSecurityMark = {
+const actionParamSecurityMark: ActionParameterDefinitionTransformed = {
   name: 'securityMarkId',
   type: 'd:text',
   multiValued: false,
