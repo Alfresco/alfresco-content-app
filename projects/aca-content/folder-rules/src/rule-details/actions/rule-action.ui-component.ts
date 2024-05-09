@@ -97,6 +97,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
 
   private readonly tagsRelatedPropertiesAndAspects = ['cm:tagscope', 'cm:tagScopeCache', 'cm:taggable'];
   private readonly categoriesRelatedPropertiesAndAspects = ['cm:categories', 'cm:generalclassifiable'];
+  private readonly paramsToFormatDisplayedValue = ['securityMarkId', 'securityGroupId'];
 
   isFullWidth = false;
 
@@ -137,7 +138,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
       ...action.params
     };
     this.setCardViewProperties();
-    if (!this.readOnly && this.parameters?.securityGroupId) {
+    if (this.parameters?.securityGroupId) {
       this.loadSecurityMarkOptions();
     }
   }
@@ -271,7 +272,10 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
           }
           return new CardViewTextItemModel({
             ...cardViewPropertiesModel,
-            value: this.parameters[paramDef.name] ?? ''
+            value:
+              constraintsForDropdownBox && this.readOnly && this.paramsToFormatDisplayedValue.includes(paramDef.name)
+                ? constraintsForDropdownBox.constraints.find((constraint) => constraint.key === this.parameters[paramDef.name])?.label ?? ''
+                : this.parameters[paramDef.name] ?? ''
           });
       }
     });
