@@ -50,7 +50,6 @@ test.describe('viewer action file', () => {
   const docxRecentFiles = `docxRF-${Utils.random()}.docx`;
 
   test.beforeAll(async ({ fileAction, favoritesPageAction, shareAction }) => {
-    test.setTimeout(timeouts.extendedTest);
     await apiClientFactory.setUpAcaBackend('hruser');
     const node = await apiClientFactory.nodes.createNode('-my-', { name: randomFolderName, nodeType: 'cm:folder', relativePath: '/' });
     destinationId = (await apiClientFactory.nodes.createNode('-my-', { name: destination, nodeType: 'cm:folder', relativePath: '/' })).entry.id;
