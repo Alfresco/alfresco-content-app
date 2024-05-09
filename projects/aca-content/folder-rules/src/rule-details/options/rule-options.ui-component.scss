@@ -8,8 +8,16 @@
     flex-direction: column;
   }
 
+  &__error-script-dropdown {
+    margin-top: 4px;
+  }
+
   &.aca-read-only &__checkbox > div > div:first-child {
     display: none;
+  }
+
+  &.aca-read-only &__error-script-dropdown {
+    margin-left: -13px;
   }
 
   .aca-hide-error-script-dropdown {
