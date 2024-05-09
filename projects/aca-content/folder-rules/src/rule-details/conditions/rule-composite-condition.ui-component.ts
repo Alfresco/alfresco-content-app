@@ -153,7 +153,7 @@ export class RuleCompositeConditionUiComponent implements ControlValueAccessor, 
     this.formSubscription.unsubscribe();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(changes: SimpleChanges) {
     const readOnly = changes['readOnly']?.currentValue;
 
     if (readOnly !== undefined && readOnly !== null) {

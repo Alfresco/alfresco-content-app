@@ -95,7 +95,6 @@ describe('RuleCompositeConditionUiComponent', () => {
 
   it('should have as many simple condition components as defined in the simpleConditions array', () => {
     fixture.componentInstance.writeValue(compositeConditionWithThreeConditionMock);
-    fixture.componentInstance.readOnly = true;
     fixture.detectChanges();
     const simpleConditionComponents = fixture.debugElement.queryAll(By.css(`.aca-rule-simple-condition`));
 

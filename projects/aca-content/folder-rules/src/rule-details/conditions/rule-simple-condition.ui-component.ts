@@ -89,11 +89,10 @@ export class RuleSimpleConditionUiComponent implements OnInit, ControlValueAcces
 
   showLoadingSpinner: boolean;
 
-  private onDestroy$ = new Subject<void>();
-  private autoCompleteOptionsSubscription: Subscription;
-
   @Input() readOnly = false;
 
+  private onDestroy$ = new Subject<void>();
+  private autoCompleteOptionsSubscription: Subscription;
   private readonly disabledTags = !this.tagService.areTagsEnabled();
   private readonly disabledCategories = !this.categoryService.areCategoriesEnabled();
 
