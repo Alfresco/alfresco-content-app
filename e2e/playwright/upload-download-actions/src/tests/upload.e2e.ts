@@ -23,7 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, Utils, test, TrashcanApi, NodesApi } from '@alfresco/playwright-shared';
+import { ApiClientFactory, Utils, test, TrashcanApi, NodesApi, TEST_FILES } from '@alfresco/playwright-shared';
 
 test.describe('Download from Personal Files', () => {
   let trashcanApi: TrashcanApi;
@@ -31,7 +31,6 @@ test.describe('Download from Personal Files', () => {
 
   const random = Utils.random();
   const username = `user-${random}`;
-  const fileName = `file-${random}.docx`;
   const folder1 = `folder1-${Utils.random()}`;
 
   test.beforeAll(async () => {
@@ -56,10 +55,8 @@ test.describe('Download from Personal Files', () => {
     await personalFiles.acaHeader.uploadButton.click();
     await personalFiles.acaHeader.uploadFileButton.click();
 
-    const fileInput = await personalFiles.page.$('input[type="file"]');
-    await fileInput.setInputFiles(`${__dirname}/../../../../../aca-playwright-shared/src/resources/test-files/file-jpg.jpg`);
-
-    const uploadedFiles = await personalFiles.dataTable.isItemPresent(fileName);
+    await personalFiles.acaHeader.uploadInput.setInputFiles(TEST_FILES.JPG_FILE.path);
+    const uploadedFiles = await personalFiles.dataTable.isItemPresent(TEST_FILES.JPG_FILE.name);
     expect(uploadedFiles).toBe(true);
   });
 });
