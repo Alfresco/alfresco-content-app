@@ -270,7 +270,7 @@ describe('SearchComponent', () => {
 
   it('should update the user query whenever configuration changed', () => {
     params.next({ q: '=orange' });
-    queryBuilder.configUpdated.next({ 'aca:fields': ['cm:tag'] } as any);
+    queryBuilder.configUpdated.next({ 'app:fields': ['cm:tag'] } as any);
     expect(queryBuilder.userQuery).toBe(`((=cm:tag:"orange"))`);
     expect(queryBuilder.update).toHaveBeenCalled();
   });

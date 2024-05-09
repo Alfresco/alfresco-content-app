@@ -1074,7 +1074,7 @@ describe('AppExtensionService', () => {
               name: 'default',
               default: true,
               filterWithContains: true,
-              'aca:fields': ['cm:name', 'cm:title', 'cm:description', 'TEXT', 'TAG'],
+              'app:fields': ['cm:name', 'cm:title', 'cm:description', 'TEXT', 'TAG'],
               include: ['path', 'allowableOperations', 'properties'],
               categories: [
                 {
