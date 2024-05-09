@@ -20,7 +20,7 @@ In order to configure multiple search form you have to add your search configura
 | name | `string` | "" | Display title of the form |
 | order | `string` |  | Visualization order in the dropdown  |
 | default | `boolean` |  | if the search has to be used as default search  |
-| aca:fields| `string[]`| | list of aspects property to add in the query and search in the value for the given text. The property will be concatenated in AND|
+| app:fields| `string[]`| | list of aspects property to add in the query and search in the value for the given text. The property will be concatenated in AND|
 
 ### Search configuration properties
 
