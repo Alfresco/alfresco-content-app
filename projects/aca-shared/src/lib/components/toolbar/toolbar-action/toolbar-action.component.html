@@ -1,11 +1,11 @@
 <ng-container [ngSwitch]="actionRef.type">
-  <ng-container *ngSwitchCase="'default'">
+  <div *ngSwitchCase="'default'" class="aca-toolbar-action-container">
     <app-toolbar-button [type]="type" [actionRef]="actionRef" [color]="color"> </app-toolbar-button>
-  </ng-container>
+  </div>
 
-  <ng-container *ngSwitchCase="'button'">
+  <div *ngSwitchCase="'button'" class="aca-toolbar-action-container">
     <app-toolbar-button [type]="data?.buttonType || type" [actionRef]="actionRef" [color]="color" [data]="actionRef.data"> </app-toolbar-button>
-  </ng-container>
+  </div>
 
   <div *ngSwitchCase="'separator'" [id]="actionRef.id" class="aca-toolbar-divider"></div>
 
@@ -13,7 +13,7 @@
     <app-toolbar-menu [actionRef]="actionRef" [color]="color" [data]="actionRef.data"></app-toolbar-menu>
   </ng-container>
 
-  <ng-container *ngSwitchCase="'custom'">
+  <div *ngSwitchCase="'custom'" class="aca-toolbar-action-container">
     <adf-dynamic-component [data]="actionRef.data" [id]="actionRef.component"></adf-dynamic-component>
-  </ng-container>
+  </div>
 </ng-container>
