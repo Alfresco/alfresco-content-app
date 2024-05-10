@@ -68,18 +68,17 @@ export class RuleCompositeConditionUiComponent implements ControlValueAccessor, 
   @HostBinding('class.aca-childCompositeCondition')
   @Input()
   childCondition = false;
-
-  form = new FormGroup({
-    inverted: new FormControl(),
-    booleanMode: new FormControl(),
-    compositeConditions: new FormArray([]),
-    simpleConditions: new FormArray([])
-  });
+  @Input()
+  readOnly = false;
 
   readonly isOrImplemented = false;
 
-  @Input()
-  public readOnly = false;
+  form = new FormGroup({
+    inverted: new FormControl(),
+    booleanMode: new FormControl({ value: 'and', disabled: !this.isOrImplemented || this.readOnly }),
+    compositeConditions: new FormArray([]),
+    simpleConditions: new FormArray([])
+  });
 
   private formSubscription = this.form.valueChanges.subscribe((value: any) => {
     this.onChange(value);
@@ -120,16 +119,6 @@ export class RuleCompositeConditionUiComponent implements ControlValueAccessor, 
     this.onTouch = fn;
   }
 
-  setDisabledState(isDisabled: boolean) {
-    if (isDisabled) {
-      this.readOnly = true;
-      this.form.disable();
-    } else {
-      this.readOnly = false;
-      this.form.enable();
-    }
-  }
-
   isFormControlSimpleCondition(control: FormControl): boolean {
     // eslint-disable-next-line no-prototype-builtins
     return control.value.hasOwnProperty('field');
@@ -164,11 +153,17 @@ export class RuleCompositeConditionUiComponent implements ControlValueAccessor, 
     this.formSubscription.unsubscribe();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    const readOnly = changes['readOnly'].currentValue;
+  ngOnChanges(changes: SimpleChanges) {
+    const readOnly = changes['readOnly']?.currentValue;
+
     if (readOnly !== undefined && readOnly !== null) {
-      this.readOnly = readOnly;
-      this.setDisabledState(readOnly);
+      if (this.readOnly) {
+        this.readOnly = true;
+        this.form.disable();
+      } else {
+        this.readOnly = false;
+        this.form.enable();
+      }
     }
   }
 }

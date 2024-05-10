@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, forwardRef, inject, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, forwardRef, inject, Input, OnDestroy, OnInit, ViewEncapsulation, OnChanges, SimpleChanges } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { RuleSimpleCondition } from '../../model/rule-simple-condition.model';
 import { comparatorHiddenForConditionFieldType, RuleConditionField, ruleConditionFields } from './rule-condition-fields';
@@ -75,7 +75,7 @@ const AUTOCOMPLETE_OPTIONS_DEBOUNCE_TIME = 500;
     }
   ]
 })
-export class RuleSimpleConditionUiComponent implements OnInit, ControlValueAccessor, OnDestroy {
+export class RuleSimpleConditionUiComponent implements OnInit, ControlValueAccessor, OnChanges, OnDestroy {
   private appSettings = inject(AppSettingsService);
   private categoryService = inject(CategoryService);
   private tagService = inject(TagService);
@@ -90,17 +90,11 @@ export class RuleSimpleConditionUiComponent implements OnInit, ControlValueAcces
   autoCompleteOptions: AutoCompleteOption[] = [];
   showLoadingSpinner: boolean;
 
+  @Input() readOnly = false;
+
   private onDestroy$ = new Subject<void>();
   private autoCompleteOptionsSubscription: Subscription;
   private _readOnly = false;
-
-  @Input()
-  get readOnly(): boolean {
-    return this._readOnly;
-  }
-  set readOnly(isReadOnly: boolean) {
-    this.setDisabledState(isReadOnly);
-  }
 
   private readonly disabledTags = !this.tagService.areTagsEnabled();
   private readonly disabledCategories = !this.categoryService.areCategoriesEnabled();
@@ -171,16 +165,6 @@ export class RuleSimpleConditionUiComponent implements OnInit, ControlValueAcces
     this.onTouch = fn;
   }
 
-  setDisabledState(isDisabled: boolean) {
-    if (isDisabled) {
-      this._readOnly = true;
-      this.form.disable();
-    } else {
-      this._readOnly = false;
-      this.form.enable();
-    }
-  }
-
   onChangeField() {
     if (!this.selectedFieldComparators.find((comparator) => comparator.name === this.comparatorControl.value)) {
       this.comparatorControl.setValue('equals');
@@ -219,6 +203,20 @@ export class RuleSimpleConditionUiComponent implements OnInit, ControlValueAcces
           this.autoCompleteOptionsSubscription?.unsubscribe();
         }
       });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    const readOnly = changes['readOnly']?.currentValue;
+
+    if (readOnly !== undefined && readOnly !== null) {
+      if (this.readOnly) {
+        this.readOnly = true;
+        this.form.disable();
+      } else {
+        this.readOnly = false;
+        this.form.enable();
+      }
+    }
   }
 
   private getCategories(categoryName: string) {

@@ -69,7 +69,13 @@
 
     /* stylelint-disable selector-class-pattern */
     &.aca-read-only,
-    .mat-mdc-form-field-disabled {
+    .mat-form-field-disabled {
+      .mdc-notched-outline__leading,
+      .mdc-notched-outline__trailing,
+      .mdc-notched-outline__notch {
+        border: none;
+      }
+
       .mdc-line-ripple {
         &::before,
         &::after {
