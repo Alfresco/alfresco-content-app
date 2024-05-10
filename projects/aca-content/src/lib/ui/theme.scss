@@ -212,6 +212,12 @@ mat-toolbar.mat-toolbar.mat-toolbar-single-row {
   color: var(--theme-secondary-text);
 }
 
+.aca-details-tabs {
+  .mdc-tab__text-label {
+    line-height: 19px;
+  }
+}
+
 mat-snack-bar-container {
   .mat-mdc-button.mat-unthemed {
     --mdc-text-button-label-text-color: #fff;
