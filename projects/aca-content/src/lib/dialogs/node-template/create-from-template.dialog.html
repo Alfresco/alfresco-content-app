@@ -1,7 +1,7 @@
 <h2 mat-dialog-title [innerHTML]="title" class="app-create-from-template-title"></h2>
 <div mat-dialog-content class="app-create-from-template-content">
   <form [formGroup]="form" novalidate>
-    <mat-form-field class="app-create-from-template-field" appearance="outline">
+    <mat-form-field class="app-create-from-template-field">
       <mat-label>{{ 'NODE_FROM_TEMPLATE.FORM.PLACEHOLDER.NAME' | translate }}</mat-label>
       <input
         cdkFocusInitial
@@ -15,7 +15,7 @@
       </mat-error>
     </mat-form-field>
 
-    <mat-form-field class="app-create-from-template-field" appearance="outline">
+    <mat-form-field class="app-create-from-template-field">
       <mat-label>{{ 'NODE_FROM_TEMPLATE.FORM.PLACEHOLDER.TITLE' | translate }}</mat-label>
       <input
         matInput
@@ -27,7 +27,7 @@
       </mat-error>
     </mat-form-field>
 
-    <mat-form-field class="app-create-from-template-field" appearance="outline">
+    <mat-form-field class="app-create-from-template-field">
       <mat-label>{{ 'NODE_FROM_TEMPLATE.FORM.PLACEHOLDER.DESCRIPTION' | translate }}</mat-label>
       <textarea
         matInput
