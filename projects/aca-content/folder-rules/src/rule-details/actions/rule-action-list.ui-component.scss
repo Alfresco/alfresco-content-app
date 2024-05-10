@@ -1,6 +1,6 @@
 .aca-rule-action-list {
   &__item {
-    padding: 4px 8px;
+    padding: 8px;
     border-radius: 8px;
     display: flex;
 
@@ -10,6 +10,10 @@
 
     &:nth-child(2n) {
       background-color: hsl(0deg, 0%, 95%);
+
+      &:last-of-type {
+        margin-bottom: 8px;
+      }
     }
   }
 }

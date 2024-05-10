@@ -1,4 +1,13 @@
 .aca-manage-rules {
+  /* stylelint-disable selector-class-pattern */
+  .mat-mdc-slide-toggle:is(mat-slide-toggle) .mdc-switch:enabled .mdc-switch__track::after {
+    background: var(--mdc-switch-selected-track-color);
+  }
+
+  .mat-mdc-slide-toggle .mdc-switch .mdc-switch__handle::before {
+    background: var(--mdc-switch-selected-pressed-handle-color);
+  }
+
   &__actions-bar {
     padding: 0 30px;
     display: flex;

@@ -21,6 +21,12 @@
       margin: 0.5em 0;
     }
 
+    &__actions {
+      button:not(:disabled) {
+        background-color: unset;
+      }
+    }
+
     &__row {
       display: flex;
       gap: 8px;
