@@ -49,6 +49,15 @@ export class MatMenuComponent extends BaseComponent {
     await menuElement.waitFor({ state: 'detached' });
   }
 
+  async clickMoreActionsMenuItem(
+    option: 'Edit Offline' | 'Upload New Version' | 'Favorite' | 'Move' | 'Copy' | 'Delete' | 'Manage Versions' | 'Edit Aspects' | 'Permissions'
+  ): Promise<void> {
+    const menuElement = this.getButtonByText(option);
+    await menuElement.waitFor({ state: 'attached' });
+    await menuElement.click();
+    await menuElement.waitFor({ state: 'detached' });
+  }
+
   async isMenuItemVisible(menuItem: string): Promise<boolean> {
     const menuElement = this.getButtonByText(menuItem);
     await menuElement.waitFor({ state: 'attached' });

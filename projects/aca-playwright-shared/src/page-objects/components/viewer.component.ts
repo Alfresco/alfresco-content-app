@@ -35,6 +35,7 @@ export class ViewerComponent extends BaseComponent {
   public fileTitleButtonLocator = this.getChild('.adf-viewer__file-title');
   public pdfViewerContentPages = this.getChild('.adf-pdf-viewer__content .page');
   public shareButton = this.getChild('button[id="share-action-button"]');
+  public downloadButton = this.getChild('button[id="app.viewer.download"]');
   public allButtons = this.getChild('button');
 
   toolbar = new AcaHeader(this.page);
@@ -52,6 +53,11 @@ export class ViewerComponent extends BaseComponent {
     await this.viewerLocator.waitFor({ state: 'visible', timeout: timeouts.medium });
   }
 
+  async waitForViewerContentToLoad(): Promise<void> {
+    await this.viewerLocator.waitFor({ state: 'visible', timeout: timeouts.medium });
+    await this.spinnerWaitForReload();
+  }
+
   async isViewerOpened(): Promise<boolean> {
     await this.waitForViewerToOpen();
     return await this.viewerLocator.isVisible();
@@ -65,6 +71,11 @@ export class ViewerComponent extends BaseComponent {
   async isFileTitleDisplayed(): Promise<boolean> {
     await this.fileTitleButtonLocator.waitFor({ state: 'visible', timeout: timeouts.normal });
     return await this.fileTitleButtonLocator.isVisible();
+  }
+
+  async getFileTitle(): Promise<string> {
+    await this.fileTitleButtonLocator.waitFor({ state: 'visible', timeout: timeouts.normal });
+    return this.fileTitleButtonLocator.textContent();
   }
 
   async getCloseButtonTooltip(): Promise<string> {
