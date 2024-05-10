@@ -152,16 +152,16 @@ test.describe('Version actions', () => {
       await viewFirstFileVersion(loginPage, favoritePage);
     });
 
-    test('[C586769] Should be possible to view a previous document version', async ({ favoritePage }) => {
+    test('[C586772] Should be possible to view a previous document version', async ({ favoritePage }) => {
       expect(favoritePage.page.url()).toContain('1.0');
     });
 
-    test('[C586770] Previous document version title should be the same in Preview mode as the Uploaded File', async ({ favoritePage }) => {
+    test('[C586773] Previous document version title should be the same in Preview mode as the Uploaded File', async ({ favoritePage }) => {
       await favoritePage.viewer.waitForViewerContentToLoad();
       expect(await favoritePage.viewer.getFileTitle()).toContain(filenameBeforeUpdate);
     });
 
-    test('[C586771] Should be possible to download a previous document version', async ({ favoritePage }) => {
+    test('[C586774] Should be possible to download a previous document version', async ({ favoritePage }) => {
       const [download] = await Promise.all([favoritePage.page.waitForEvent('download'), await favoritePage.viewer.downloadButton.click()]);
       expect(download.suggestedFilename()).toBe(filenameBeforeUpdate);
     });
@@ -172,16 +172,16 @@ test.describe('Version actions', () => {
       await viewFirstFileVersion(loginPage, sharedPage);
     });
 
-    test('[C586769] Should be possible to view a previous document version', async ({ sharedPage }) => {
+    test('[C586776] Should be possible to view a previous document version', async ({ sharedPage }) => {
       expect(sharedPage.page.url()).toContain('1.0');
     });
 
-    test('[C586770] Previous document version title should be the same in Preview mode as the Uploaded File', async ({ sharedPage }) => {
+    test('[C586777] Previous document version title should be the same in Preview mode as the Uploaded File', async ({ sharedPage }) => {
       await sharedPage.viewer.waitForViewerContentToLoad();
       expect(await sharedPage.viewer.getFileTitle()).toContain(filenameBeforeUpdate);
     });
 
-    test('[C586771] Should be possible to download a previous document version', async ({ sharedPage }) => {
+    test('[C586778] Should be possible to download a previous document version', async ({ sharedPage }) => {
       const [download] = await Promise.all([sharedPage.page.waitForEvent('download'), await sharedPage.viewer.downloadButton.click()]);
       expect(download.suggestedFilename()).toBe(filenameBeforeUpdate);
     });
@@ -192,16 +192,16 @@ test.describe('Version actions', () => {
       await viewFirstFileVersion(loginPage, searchPage);
     });
 
-    test.only('[C586769] Should be possible to view a previous document version', async ({ searchPage }) => {
+    test('[C586779] Should be possible to view a previous document version', async ({ searchPage }) => {
       expect(searchPage.page.url()).toContain('1.0');
     });
 
-    test('[C586770] Previous document version title should be the same in Preview mode as the Uploaded File', async ({ searchPage }) => {
+    test('[C586780] Previous document version title should be the same in Preview mode as the Uploaded File', async ({ searchPage }) => {
       await searchPage.viewer.waitForViewerContentToLoad();
       expect(await searchPage.viewer.getFileTitle()).toContain(filenameBeforeUpdate);
     });
 
-    test('[C586771] Should be possible to download a previous document version', async ({ searchPage }) => {
+    test('[C586781] Should be possible to download a previous document version', async ({ searchPage }) => {
       const [download] = await Promise.all([searchPage.page.waitForEvent('download'), await searchPage.viewer.downloadButton.click()]);
       expect(download.suggestedFilename()).toBe(filenameBeforeUpdate);
     });
