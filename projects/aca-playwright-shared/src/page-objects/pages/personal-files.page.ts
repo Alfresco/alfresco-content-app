@@ -41,7 +41,8 @@ import {
   ShareDialogComponent,
   AdfConfirmDialogComponent,
   AdfInfoDrawerComponent,
-  UploadNewVersionDialog
+  UploadNewVersionDialog,
+  UploadDialog
 } from '../components';
 
 export class PersonalFilesPage extends BasePage {
@@ -68,6 +69,7 @@ export class PersonalFilesPage extends BasePage {
   public confirmDialog = new AdfConfirmDialogComponent(this.page);
   public infoDrawer = new AdfInfoDrawerComponent(this.page);
   public uploadNewVersionDialog = new UploadNewVersionDialog(this.page);
+  public uploadDialog = new UploadDialog(this.page);
 
   async selectCreateFolder(): Promise<void> {
     await this.acaHeader.createButton.click();

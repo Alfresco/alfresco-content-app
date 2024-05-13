@@ -19,16 +19,21 @@
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './adf-folder-dialog.component';
-export * from './adf-library-dialog.component';
-export * from './password-overlay-dialog.component';
-export * from './viewer-overlay-dialog.component';
-export * from './content-node-selector-dialog';
-export * from './create-from-template-dialog-component';
-export * from './adf-confirm-dialog.component';
-export * from './share-dialog.component';
-export * from './upload-new-version-dialog.component';
-export * from './upload-dialog.component';
+import { Page } from '@playwright/test';
+import { BaseComponent } from '../base.component';
+
+export class UploadDialog extends BaseComponent {
+  private static rootElement = '.adf-upload-dialog';
+
+  public uploadDialog = this.page.locator('.adf-upload-dialog');
+  public closeButton = this.getChild('#adf-upload-dialog-close');
+  public minimizeButton = this.page.locator('[data-automation-id="adf-upload-dialog__toggle-minimize"]');
+  public uploadDialogMinimized = this.page.locator('.adf-upload-dialog--minimized');
+
+  constructor(page: Page) {
+    super(page, UploadDialog.rootElement);
+  }
+}
