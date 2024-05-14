@@ -40,6 +40,10 @@
       & > :nth-child(2) {
         flex: 1;
       }
+
+      mat-form-field {
+        min-width: unset;
+      }
     }
   }
 }
