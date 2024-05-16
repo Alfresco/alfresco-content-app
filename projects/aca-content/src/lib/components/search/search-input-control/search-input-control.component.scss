@@ -9,11 +9,6 @@
     font-size: 24px;
     cursor: pointer;
   }
-
-  .app-clear-icon {
-    font-size: 18px;
-    margin: 3px;
-  }
 }
 
 .app-search-container {
@@ -30,7 +25,6 @@
 
   .app-input-form-field {
     letter-spacing: -0.7px;
-    font-size: 16px;
     width: calc(100% - 56px);
 
     &-input {
@@ -44,21 +38,10 @@
         display: none;
       }
     }
-
-    /* stylelint-disable selector-class-pattern */
-    .mat-mdc-form-field-icon-suffix {
-      position: relative;
-      right: -14px;
-    }
   }
 
   .mat-mdc-form-field-flex {
     background: #fff;
-  }
-
-  .mat-mdc-text-field-wrapper {
-    height: 44px;
-    padding-left: 0;
   }
 
   .app-input-form-field-readonly {
@@ -74,6 +57,7 @@
     &-icon {
       font-size: 24px;
       padding-right: 0;
+      margin-top: -10px;
     }
   }
 }
