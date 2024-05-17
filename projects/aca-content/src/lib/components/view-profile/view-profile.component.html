@@ -43,7 +43,7 @@
         <div class="app-general-dropdown-details">
           <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.JOB_TITLE' | translate}}</h4>
           <p class="app-profile-general-dropdown-details" *ngIf="generalSectionButtonsToggle">{{personDetails?.jobTitle}}</p>
-          <mat-form-field *ngIf="!generalSectionButtonsToggle">
+          <mat-form-field *ngIf="!generalSectionButtonsToggle" class="app-general-dropdown-details-form-field">
             <input
               matInput
               type="text"
@@ -67,7 +67,7 @@
         <div class="app-general-dropdown-details">
           <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.TELEPHONE' | translate}}</h4>
           <p class="app-profile-general-dropdown-details" *ngIf="generalSectionButtonsToggle">{{personDetails?.telephone}}</p>
-          <mat-form-field *ngIf="!generalSectionButtonsToggle">
+          <mat-form-field *ngIf="!generalSectionButtonsToggle" class="app-general-dropdown-details-form-field">
             <input
               matInput
               type="tel"
@@ -83,7 +83,7 @@
         <div class="app-general-dropdown-details">
           <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.MOBILE' | translate}}</h4>
           <p class="app-profile-general-dropdown-details" *ngIf="generalSectionButtonsToggle">{{personDetails?.mobile}}</p>
-          <mat-form-field *ngIf="!generalSectionButtonsToggle">
+          <mat-form-field *ngIf="!generalSectionButtonsToggle" class="app-general-dropdown-details-form-field">
             <input
               matInput
               type="tel"
@@ -123,7 +123,7 @@
         <div class="app-general-dropdown-details">
           <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.NAME' | translate}}</h4>
           <p class="app-profile-general-dropdown-details" *ngIf="contactSectionButtonsToggle">{{personDetails?.company?.organization}}</p>
-          <mat-form-field *ngIf="!contactSectionButtonsToggle">
+          <mat-form-field *ngIf="!contactSectionButtonsToggle" class="app-general-dropdown-details-form-field">
             <input
               matInput
               type="text"
@@ -135,7 +135,7 @@
         <div class="app-general-dropdown-details">
           <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.ADDRESS' | translate}}</h4>
           <p class="app-profile-general-dropdown-details" *ngIf="contactSectionButtonsToggle">{{personDetails?.company?.address1}}</p>
-          <mat-form-field *ngIf="!contactSectionButtonsToggle">
+          <mat-form-field *ngIf="!contactSectionButtonsToggle" class="app-general-dropdown-details-form-field">
             <input
               matInput
               type="text"
@@ -147,7 +147,7 @@
         <div class="app-general-dropdown-details">
           <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.POSTCODE' | translate}}</h4>
           <p class="app-profile-general-dropdown-details" *ngIf="contactSectionButtonsToggle">{{personDetails?.company?.postcode}}</p>
-          <mat-form-field *ngIf="!contactSectionButtonsToggle">
+          <mat-form-field *ngIf="!contactSectionButtonsToggle" class="app-general-dropdown-details-form-field">
             <input
               matInput
               type="text"
@@ -159,7 +159,7 @@
         <div class="app-general-dropdown-details">
           <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.TELEPHONE' | translate}}</h4>
           <p class="app-profile-general-dropdown-details" *ngIf="contactSectionButtonsToggle">{{personDetails?.company?.telephone}}</p>
-          <mat-form-field *ngIf="!contactSectionButtonsToggle">
+          <mat-form-field *ngIf="!contactSectionButtonsToggle" class="app-general-dropdown-details-form-field">
             <input
               matInput
               type="tel"
@@ -171,10 +171,10 @@
           </mat-form-field>
         </div>
         <mat-divider class="app-general-dropdown-divider"></mat-divider>
-        <div class="app-general-dropdown-details">
+        <div class="app-general-dropdown-details" >
           <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.EMAIL' | translate}}</h4>
           <p class="app-profile-general-dropdown-details" *ngIf="contactSectionButtonsToggle">{{personDetails?.company?.email}}</p>
-          <mat-form-field *ngIf="!contactSectionButtonsToggle">
+          <mat-form-field *ngIf="!contactSectionButtonsToggle" class="app-general-dropdown-details-form-field">
             <input
               matInput
               type="text"
