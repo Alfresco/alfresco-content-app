@@ -40,6 +40,10 @@
       & > :nth-child(2) {
         flex: 1;
       }
+
+      .aca-rule-composite-condition-form-field {
+        min-width: unset;
+      }
     }
   }
 }

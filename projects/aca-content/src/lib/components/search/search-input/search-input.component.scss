@@ -36,12 +36,6 @@ $top-margin: 12px;
       caret-color: var(--theme-text-color);
     }
   }
-
-  &:focus-within {
-    label {
-      display: none;
-    }
-  }
 }
 
 /* stylelint-disable-next-line */
@@ -86,6 +80,7 @@ $top-margin: 12px;
   font-size: 16px;
   letter-spacing: -0.7px;
   margin-bottom: -8px;
+  margin-top: 23px;
 
   /* stylelint-disable-next-line */
  .mat-mdc-checkbox {

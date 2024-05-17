@@ -8,13 +8,13 @@
       margin-top: -15px;
 
       .adf-property-list {
-        padding: 8px;
+        padding: 15px 8px 8px;
         background: unset;
       }
 
       .adf-property-list .adf-property adf-card-view-item-dispatcher adf-card-view-textitem {
         display: inline-block;
-        width: 300px;
+        width: 100%;
 
         .adf-textitem-clickable {
           padding-top: 0;

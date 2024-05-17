@@ -106,13 +106,6 @@ app-view-profile {
     padding-right: 1px;
   }
 
-  .app-selected:focus {
-    border: 2px solid var(--theme-blue-button-color);
-    border-radius: 6px;
-    outline: none;
-    box-shadow: 0 0 2px var(--theme-blue-button-color);
-  }
-
   .app-general-edit:hover {
     background: var(--theme-grey-hover-background-color);
   }
@@ -127,6 +120,14 @@ app-view-profile {
 
   .app-general-dropdown-details {
     display: flex;
+    align-items: center;
+    min-height: 90.5px;
+
+    .app-general-dropdown-details-form-field {
+      position: relative;
+      top: 13px;
+      padding-bottom: 3px;
+    }
   }
 
   .app-profile-general-dropdown-heading {
@@ -139,14 +140,6 @@ app-view-profile {
   .app-profile-general-dropdown-details {
     margin-top: 1.3rem;
     letter-spacing: 0.5px;
-  }
-
-  .app-profile-general-dropdown-input-details {
-    width: 24%;
-    height: 25px;
-    border: none;
-    margin-top: 1.3rem;
-    background-color: var(--theme-dropdown-color);
   }
 
   .app-profile-login-row {
@@ -184,10 +177,5 @@ app-view-profile {
     width: 70%;
     border: 1px solid var(--theme-grey-background-color);
     border-radius: 1rem;
-  }
-
-  .app-error-message {
-    padding-top: 2rem;
-    padding-left: 0.5rem;
   }
 }
