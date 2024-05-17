@@ -7,7 +7,7 @@
     class="aca-rule-composite-condition__form__row"
     *ngFor="let control of conditionFormControls; let i = index">
 
-    <mat-form-field *ngIf="i === 0" appearance="outline" subscriptSizing="dynamic">
+    <mat-form-field *ngIf="i === 0" appearance="outline" subscriptSizing="dynamic" class="aca-rule-composite-condition-form-field">
       <mat-select
         [formControl]="invertedControl"
         [disabled]="readOnly">
@@ -16,7 +16,7 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field *ngIf="i > 0" appearance="outline" subscriptSizing="dynamic">
+    <mat-form-field *ngIf="i > 0" appearance="outline" subscriptSizing="dynamic" class="aca-rule-composite-condition-form-field">
       <mat-select
         [formControl]="booleanModeControl">
         <mat-option value="and">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LOGIC_OPERATORS.AND' | translate }}</mat-option>

@@ -6,6 +6,7 @@
       padding: 8px 20px;
       width: 100%;
       box-sizing: border-box;
+      overflow-x: auto;
 
       &.aca-rule-details__form__description {
         padding-top: 0;
@@ -16,7 +17,6 @@
 
     &__row {
       display: flex;
-      align-items: baseline;
       gap: 8px;
 
       & > label,
@@ -26,6 +26,10 @@
         min-width: 100px;
         max-width: 150px;
         padding: 0.75em 0;
+      }
+
+      & > label {
+        margin-top: 11px;
       }
 
       & > div {
@@ -39,6 +43,19 @@
 
         &__textarea {
           min-height: 4em;
+        }
+      }
+
+      &.aca-rule-details__form__actions {
+        .aca-label {
+          margin-top: 14px;
+        }
+      }
+
+      &.aca-rule-details__form__triggers,
+      &.aca-rule-details__form__options {
+        .aca-label {
+          padding-top: 2px;
         }
       }
     }
