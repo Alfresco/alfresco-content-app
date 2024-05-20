@@ -7,8 +7,7 @@
   <button mat-icon-button class="app-search-button" (click)="searchByOption()" [title]="'SEARCH.BUTTON.TOOLTIP' | translate">
     <mat-icon [attr.aria-label]="'SEARCH.BUTTON.ARIA-LABEL' | translate">search</mat-icon>
   </button>
-  <mat-form-field class="app-input-form-field app-input-form-field-readonly" [floatLabel]="'auto'" appearance="fill">
-    <mat-label>{{ 'SEARCH.INPUT.PLACEHOLDER' | translate }}</mat-label>
+  <mat-form-field class="app-input-form-field app-input-form-field-readonly" [floatLabel]="'auto'">
     <input
       matInput
       [attr.aria-label]="'SEARCH.INPUT.ARIA-LABEL' | translate"
@@ -16,6 +15,7 @@
       [type]="'text'"
       [readonly]="true"
       [value]="searchedWord"
+      [placeholder]="'SEARCH.INPUT.PLACEHOLDER' | translate"
     />
 
     <div matSuffix class="app-suffix-search-icon-wrapper app-icon-arrow">
