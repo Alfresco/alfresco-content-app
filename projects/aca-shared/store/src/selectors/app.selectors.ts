@@ -25,6 +25,7 @@
 import { AppStore } from '../states/app.state';
 import { createSelector } from '@ngrx/store';
 
+const HXI_CONNECTOR = 'alfresco-hxinsight-connector-prediction-applier-extension';
 export const selectApp = (state: AppStore) => state.app;
 
 export const getAppName = createSelector(selectApp, (state) => state.appName);
@@ -42,6 +43,7 @@ export const infoDrawerPreview = createSelector(selectApp, (state) => state.info
 export const showFacetFilter = createSelector(selectApp, (state) => state.showFacetFilter);
 export const getRepositoryStatus = createSelector(selectApp, (state) => state.repository);
 export const isQuickShareEnabled = createSelector(getRepositoryStatus, (info) => info.status.isQuickShareEnabled);
+export const isHXIConnectorEnabled = createSelector(getRepositoryStatus, (info) => !!info?.modules?.find((module) => module.id === HXI_CONNECTOR));
 export const isAdmin = createSelector(selectApp, (state) => state.user.isAdmin);
 export const getFileUploadingDialog = createSelector(selectApp, (state) => state.fileUploadingDialog);
 export const showLoaderSelector = createSelector(selectApp, (state) => state.showLoader);
