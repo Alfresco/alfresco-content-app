@@ -39,7 +39,7 @@ import {
 } from '@alfresco/aca-shared';
 import { SetCurrentFolderAction, isAdmin, UploadFileVersionAction, showLoaderSelector } from '@alfresco/aca-shared/store';
 import { debounceTime, takeUntil } from 'rxjs/operators';
-import { BreadcrumbModule, DocumentListModule, FileUploadEvent, FilterSearch, ShareDataRow, UploadModule } from '@alfresco/adf-content-services';
+import { FilterSearch, ShareDataRow, FileUploadEvent, BreadcrumbModule, UploadModule, DocumentListModule } from '@alfresco/adf-content-services';
 import { DocumentListPresetRef, ExtensionsModule } from '@alfresco/adf-extensions';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
@@ -74,13 +74,14 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   isAdmin = false;
   selectedNode: NodeEntry;
   queryParams = null;
+
   showLoader$ = this.store.select(showLoaderSelector);
   private nodePath: PathElement[];
 
   columns: DocumentListPresetRef[] = [];
   isFilterHeaderActive = false;
 
-  constructor(private contentApi: ContentApiService, private nodeActionsService: NodeActionsService, private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute, private contentApi: ContentApiService, private nodeActionsService: NodeActionsService) {
     super();
   }
 
@@ -102,9 +103,9 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
           this.isValidPath = true;
 
           if (node?.entry?.isFolder) {
-            void this.updateCurrentNode(node.entry);
+            this.updateCurrentNode(node.entry);
           } else {
-            void this.router.navigate(['/personal-files', node.entry.parentId], {
+            this.router.navigate(['/personal-files', node.entry.parentId], {
               replaceUrl: true
             });
           }
@@ -144,7 +145,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     const currentNodeId = this.route.snapshot.paramMap.get('folderId');
     const urlWithoutParams = decodeURIComponent(this.router.url).split('?')[0];
     const urlToNavigate: string[] = this.getUrlToNavigate(urlWithoutParams, currentNodeId, nodeId);
-    void this.router.navigate(urlToNavigate);
+    this.router.navigate(urlToNavigate);
   }
 
   private getUrlToNavigate(currentURL: string, currentNodeId: string, nextNodeId: string): string[] {
@@ -344,12 +345,13 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   }
 
   onFilterSelected(activeFilters: FilterSearch[]) {
+    console.log(activeFilters)
     if (activeFilters.length) {
       this.showHeader = ShowHeaderMode.Always;
       this.isFilterHeaderActive = true;
       this.navigateToFilter(activeFilters);
     } else {
-      void this.router.navigate(['.'], { relativeTo: this.route });
+      this.router.navigate(['.'], { relativeTo: this.route });
       this.isFilterHeaderActive = false;
       this.showHeader = ShowHeaderMode.Data;
       this.onAllFilterCleared();
@@ -368,7 +370,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
       objectFromMap[filter.key] = paramValue;
     });
 
-    void this.router.navigate([], { relativeTo: this.route, queryParams: objectFromMap });
+    this.router.navigate([], { relativeTo: this.route, queryParams: objectFromMap });
   }
 
   onError() {

@@ -23,7 +23,7 @@
           [node]="nodeResult"
           [allowDropFiles]="true"
           [navigate]="false"
-          [sorting]="['name', 'asc']"
+          [sorting]="['name', 'ASC']"
           [imageResolver]="imageResolver"
           [headerFilters]="true"
           [filterValue]="queryParams"
@@ -31,6 +31,7 @@
           [blurOnResize]="false"
           (node-dblclick)="handleNodeClick($event)"
           (name-click)="handleNodeClick($event)"
+          (sorting-changed)="onSortingChanged($event)"
           (filterSelection)="onFilterSelected($event)"
           (error)="onError()"
         >
