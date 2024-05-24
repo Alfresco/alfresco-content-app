@@ -40,7 +40,7 @@ import {
   SearchPage
 } from '@alfresco/playwright-shared';
 
-test.describe.only('Version actions', () => {
+test.describe('Version actions', () => {
   let trashcanApi: TrashcanApi;
   let nodesApi: NodesApi;
   let fileActionsApi: FileActionsApi;
