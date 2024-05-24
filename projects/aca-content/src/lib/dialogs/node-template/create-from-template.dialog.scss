@@ -1,3 +1,5 @@
+/* stylelint-disable selector-class-pattern */
+
 app-create-from-template-dialog {
   overflow: visible;
   display: block;
@@ -22,14 +24,48 @@ app-create-from-template-dialog {
     &-field {
       width: 100%;
 
-      &:not(:last-of-type) {
-        margin-bottom: 20px;
+      &:first-of-type {
+        margin-bottom: 9.5px;
+      }
+
+      &:nth-of-type(2) {
+        margin-bottom: 6.5px;
       }
     }
 
     &-content {
       margin: 0 2px;
       overflow: hidden;
+
+      .app-create-from-template-field {
+        .mdc-floating-label {
+          -webkit-font-smoothing: subpixel-antialiased;
+        }
+
+        &.mat-form-field-hide-placeholder {
+          .mdc-floating-label {
+            padding-top: 11px;
+          }
+        }
+
+        &.app-create-from-template-field-description {
+          &.mat-form-field-hide-placeholder {
+            .mdc-floating-label {
+              padding-top: 19px;
+            }
+          }
+        }
+
+        .mat-mdc-form-field-infix {
+          padding-bottom: 3.5px;
+        }
+
+        .mat-mdc-form-field-error-wrapper {
+          margin-left: -2px;
+          font-size: 10.5px;
+          -webkit-font-smoothing: subpixel-antialiased;
+        }
+      }
     }
 
     &-footer {
