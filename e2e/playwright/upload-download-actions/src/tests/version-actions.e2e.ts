@@ -34,14 +34,13 @@ import {
   SharedLinksApi,
   FavoritesPageApi,
   RecentFilesPage,
-  LoginPage,
   PersonalFilesPage,
   FavoritesPage,
   SharedPage,
   SearchPage
 } from '@alfresco/playwright-shared';
 
-test.describe('Version actions', () => {
+test.describe.only('Version actions', () => {
   let trashcanApi: TrashcanApi;
   let nodesApi: NodesApi;
   let fileActionsApi: FileActionsApi;
@@ -56,38 +55,24 @@ test.describe('Version actions', () => {
   let parentFolderId: string;
   let fileId: string;
 
-  async function viewFirstFileVersion(loginPage: LoginPage, page: PersonalFilesPage | RecentFilesPage | FavoritesPage | SharedPage | SearchPage) {
-    await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
-
-    await page.navigate();
-    if (page instanceof PersonalFilesPage) {
-      await page.dataTable.performClickFolderOrFileToOpen(parentFolder);
-      await page.dataTable.progressBarWaitForReload();
-    } else if (page instanceof SearchPage) {
-      await page.searchInput.searchButton.click();
-      await page.searchOverlay.searchFor(filenameAfterUpdate);
-    }
+  async function viewFirstFileVersion(page: PersonalFilesPage | RecentFilesPage | FavoritesPage | SharedPage | SearchPage) {
     await page.dataTable.selectItem(filenameAfterUpdate);
     await page.acaHeader.clickMoreActions();
-    await page.matMenu.clickMoreActionsMenuItem('Manage Versions');
+    await page.matMenu.clickMenuItem('Manage Versions');
     await page.manageVersionsDialog.viewFileVersion('1.0');
     await page.matMenu.clickMenuItem('View');
   }
 
   test.beforeAll(async () => {
     try {
-      try {
-        const apiClientFactory = new ApiClientFactory();
-        await apiClientFactory.setUpAcaBackend('admin');
-        await apiClientFactory.createUser({ username });
-        trashcanApi = await TrashcanApi.initialize(username, username);
-        nodesApi = await NodesApi.initialize(username, username);
-        fileActionsApi = await FileActionsApi.initialize(username, username);
-        favoritesApi = await FavoritesPageApi.initialize(username, username);
-        sharedLinksApi = await SharedLinksApi.initialize(username, username);
-      } catch (error) {
-        console.error(`beforeAll failed: ${error}`);
-      }
+      const apiClientFactory = new ApiClientFactory();
+      await apiClientFactory.setUpAcaBackend('admin');
+      await apiClientFactory.createUser({ username });
+      trashcanApi = await TrashcanApi.initialize(username, username);
+      nodesApi = await NodesApi.initialize(username, username);
+      fileActionsApi = await FileActionsApi.initialize(username, username);
+      favoritesApi = await FavoritesPageApi.initialize(username, username);
+      sharedLinksApi = await SharedLinksApi.initialize(username, username);
 
       parentFolderId = (await nodesApi.createFolder(parentFolder)).entry.id;
       fileId = (await fileActionsApi.uploadFile(filesToUpload[0].path, filenameBeforeUpdate, parentFolderId)).entry.id;
@@ -98,8 +83,8 @@ test.describe('Version actions', () => {
       await favoritesApi.waitForApi(username, { expect: 1 });
       await sharedLinksApi.shareFilesByIds([fileId]);
       await sharedLinksApi.waitForFilesToBeShared([fileId]);
-    } catch (e) {
-      console.error(`beforeAll failed: ${e}`);
+    } catch (error) {
+      console.error(`beforeAll failed: ${error}`);
     }
   });
 
@@ -109,7 +94,11 @@ test.describe('Version actions', () => {
 
   test.describe('on Personal Files', () => {
     test.beforeEach(async ({ loginPage, personalFiles }) => {
-      await viewFirstFileVersion(loginPage, personalFiles);
+      await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
+      await personalFiles.navigate();
+      await personalFiles.dataTable.performClickFolderOrFileToOpen(parentFolder);
+      await personalFiles.dataTable.progressBarWaitForReload();
+      await viewFirstFileVersion(personalFiles);
     });
 
     test('[C586766] Should be possible to view a previous document version', async ({ personalFiles }) => {
@@ -117,7 +106,7 @@ test.describe('Version actions', () => {
     });
 
     test('[C586767] Previous document version title should be the same in Preview mode as the Uploaded File', async ({ personalFiles }) => {
-      await personalFiles.viewer.waitForViewerContentToLoad();
+      await personalFiles.viewer.waitForViewerToOpen('wait for viewer content');
       expect(await personalFiles.viewer.getFileTitle()).toContain(filenameBeforeUpdate);
     });
 
@@ -129,7 +118,9 @@ test.describe('Version actions', () => {
 
   test.describe('on Recent Files', () => {
     test.beforeEach(async ({ loginPage, recentFilesPage }) => {
-      await viewFirstFileVersion(loginPage, recentFilesPage);
+      await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
+      await recentFilesPage.navigate();
+      await viewFirstFileVersion(recentFilesPage);
     });
 
     test('[C586769] Should be possible to view a previous document version', async ({ recentFilesPage }) => {
@@ -137,7 +128,7 @@ test.describe('Version actions', () => {
     });
 
     test('[C586770] Previous document version title should be the same in Preview mode as the Uploaded File', async ({ recentFilesPage }) => {
-      await recentFilesPage.viewer.waitForViewerContentToLoad();
+      await recentFilesPage.viewer.waitForViewerToOpen('wait for viewer content');
       expect(await recentFilesPage.viewer.getFileTitle()).toContain(filenameBeforeUpdate);
     });
 
@@ -149,7 +140,9 @@ test.describe('Version actions', () => {
 
   test.describe('on Favorites', () => {
     test.beforeEach(async ({ loginPage, favoritePage }) => {
-      await viewFirstFileVersion(loginPage, favoritePage);
+      await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
+      await favoritePage.navigate();
+      await viewFirstFileVersion(favoritePage);
     });
 
     test('[C586772] Should be possible to view a previous document version', async ({ favoritePage }) => {
@@ -157,7 +150,7 @@ test.describe('Version actions', () => {
     });
 
     test('[C586773] Previous document version title should be the same in Preview mode as the Uploaded File', async ({ favoritePage }) => {
-      await favoritePage.viewer.waitForViewerContentToLoad();
+      await favoritePage.viewer.waitForViewerToOpen('wait for viewer content');
       expect(await favoritePage.viewer.getFileTitle()).toContain(filenameBeforeUpdate);
     });
 
@@ -169,7 +162,9 @@ test.describe('Version actions', () => {
 
   test.describe('on Shared Files', () => {
     test.beforeEach(async ({ loginPage, sharedPage }) => {
-      await viewFirstFileVersion(loginPage, sharedPage);
+      await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
+      await sharedPage.navigate();
+      await viewFirstFileVersion(sharedPage);
     });
 
     test('[C586776] Should be possible to view a previous document version', async ({ sharedPage }) => {
@@ -177,7 +172,7 @@ test.describe('Version actions', () => {
     });
 
     test('[C586777] Previous document version title should be the same in Preview mode as the Uploaded File', async ({ sharedPage }) => {
-      await sharedPage.viewer.waitForViewerContentToLoad();
+      await sharedPage.viewer.waitForViewerToOpen('wait for viewer content');
       expect(await sharedPage.viewer.getFileTitle()).toContain(filenameBeforeUpdate);
     });
 
@@ -189,7 +184,11 @@ test.describe('Version actions', () => {
 
   test.describe('on Search', () => {
     test.beforeEach(async ({ loginPage, searchPage }) => {
-      await viewFirstFileVersion(loginPage, searchPage);
+      await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
+      await searchPage.navigate();
+      await searchPage.searchInput.searchButton.click();
+      await searchPage.searchOverlay.searchFor(filenameAfterUpdate);
+      await viewFirstFileVersion(searchPage);
     });
 
     test('[C586779] Should be possible to view a previous document version', async ({ searchPage }) => {
@@ -197,7 +196,7 @@ test.describe('Version actions', () => {
     });
 
     test('[C586780] Previous document version title should be the same in Preview mode as the Uploaded File', async ({ searchPage }) => {
-      await searchPage.viewer.waitForViewerContentToLoad();
+      await searchPage.viewer.waitForViewerToOpen('wait for viewer content');
       expect(await searchPage.viewer.getFileTitle()).toContain(filenameBeforeUpdate);
     });
 

@@ -49,13 +49,11 @@ export class ViewerComponent extends BaseComponent {
     return count > 0;
   }
 
-  async waitForViewerToOpen(): Promise<void> {
+  async waitForViewerToOpen(waitForViewerContent?: 'wait for viewer content'): Promise<void> {
     await this.viewerLocator.waitFor({ state: 'visible', timeout: timeouts.medium });
-  }
-
-  async waitForViewerContentToLoad(): Promise<void> {
-    await this.viewerLocator.waitFor({ state: 'visible', timeout: timeouts.medium });
+    if(waitForViewerContent) {
     await this.spinnerWaitForReload();
+    }
   }
 
   async isViewerOpened(): Promise<boolean> {
