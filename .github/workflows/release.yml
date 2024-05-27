@@ -94,6 +94,7 @@ jobs:
 
   publish-docker-registry:
     if: ${{ github.event.inputs.publish-to-quay }}
+    needs: [lint, unit-tests]
     name: "Publish to Quay"
     runs-on: ubuntu-latest
     steps:
@@ -126,6 +127,7 @@ jobs:
 
   publish-to-dockerhub:
     if: ${{ github.event.inputs.publish-to-docker }}
+    needs: [lint, unit-tests]
     name: "Publish to Dockerhub"
     runs-on: ubuntu-latest
     steps:
@@ -158,6 +160,7 @@ jobs:
 
   publish-git-tag:
     if: ${{ github.event.inputs.publish-git-tag }}
+    needs: [lint, unit-tests]
     name: "Publish Git Tag"
     runs-on: ubuntu-latest
     steps:
@@ -187,6 +190,7 @@ jobs:
 
   publish-libs:
     if: ${{ github.event.inputs.publish-to-npm }}
+    needs: [lint, unit-tests]
     name: "Publish libs to NPM and GitHub registry"
     runs-on: ubuntu-latest
     permissions:
