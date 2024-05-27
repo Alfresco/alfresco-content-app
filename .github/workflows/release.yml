@@ -93,7 +93,7 @@ jobs:
       - run: npm run affected:test -- --browsers=ChromeHeadless --watch=false $TEST_OPTS --base=origin/develop
 
   publish-docker-registry:
-    if: ${{ github.event.inputs.publish-to-quay == 'true' }}
+    if: ${{ inputs.publish-to-quay == 'true' }}
     needs: [lint, unit-tests]
     name: "Publish to Quay"
     runs-on: ubuntu-latest
@@ -126,7 +126,7 @@ jobs:
           dry-run: ${{ inputs.dry-run-release }}
 
   publish-to-dockerhub:
-    if: ${{ github.event.inputs.publish-to-docker == 'true' }}
+    if: ${{ inputs.publish-to-docker == 'true' }}
     needs: [lint, unit-tests]
     name: "Publish to Dockerhub"
     runs-on: ubuntu-latest
@@ -159,7 +159,7 @@ jobs:
           dry-run: ${{ inputs.dry-run-release }}
 
   publish-git-tag:
-    if: ${{ github.event.inputs.publish-git-tag == 'true' }}
+    if: ${{ inputs.publish-git-tag == 'true' }}
     needs: [lint, unit-tests]
     name: "Publish Git Tag"
     runs-on: ubuntu-latest
@@ -189,7 +189,7 @@ jobs:
           dry-run: ${{ inputs.dry-run-release }}
 
   publish-libs:
-    if: ${{ github.event.inputs.publish-to-npm == 'true' }}
+    if: ${{ inputs.publish-to-npm == 'true' }}
     needs: [lint, unit-tests]
     name: "Publish libs to NPM and GitHub registry"
     runs-on: ubuntu-latest
