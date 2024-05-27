@@ -1,9 +1,21 @@
 .aca-rule-details {
+  .aca-rule-details__form__triggers {
+    margin-top: 10px;
+  }
+
+  .aca-rule-details__name__label {
+    padding-top: 1.5em;
+  }
+
+  .aca-rule-details__form__others {
+    margin-bottom: 12px;
+  }
+
   &__form {
     position: relative;
 
     & > div {
-      padding: 8px 20px;
+      padding: 0 20px;
       width: 100%;
       box-sizing: border-box;
 
@@ -25,7 +37,7 @@
         width: 20%;
         min-width: 100px;
         max-width: 150px;
-        padding: 0.75em 0;
+        padding: 0.5em 0;
       }
 
       & > div {
@@ -49,6 +61,7 @@
 
     &__conditions {
       width: 100%;
+      margin: 14px 0 36px;
 
       & > .aca-rule-details-error {
         margin-left: 16px;
@@ -91,6 +104,16 @@
       .mat-mdc-select-arrow-wrapper {
         display: none;
       }
+    }
+
+    .aca-rule-details__form__row .mat-mdc-form-field-flex .mat-mdc-form-field-infix {
+      padding-top: 0.375em;
+      padding-bottom: 0.375em;
+    }
+
+    .aca-rule-details__form__row aca-rule-action .mat-mdc-form-field-flex .mat-mdc-form-field-infix {
+      padding-top: 0.1em;
+      padding-bottom: 0.1em;
     }
   }
 }

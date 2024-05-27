@@ -1,4 +1,16 @@
 .aca-rule-action-list {
+  .aca-rule-action-list-add-action-button {
+    margin: 4px 0 20px;
+
+    .aca-rule-action-list-add-action-button-icon {
+      width: 24px;
+      height: 24px;
+      font-size: 24px;
+      margin-right: 0;
+      margin-left: 1px;
+    }
+  }
+
   &__item {
     padding: 8px;
     border-radius: 8px;

@@ -22,8 +22,17 @@
     }
 
     &__actions {
+      padding-left: 8px;
+
       button:not(:disabled) {
         background-color: unset;
+      }
+
+      .aca-rule-composite-condition__form__actions-add {
+        width: 24px;
+        height: 24px;
+        font-size: 24px;
+        margin-right: 0;
       }
     }
 
