@@ -1,6 +1,12 @@
 name: "Variables setup"
 description: "Variables setup"
 
+inputs:
+  npm_tag:
+    description: 'NPM tag'
+    required: false
+    type: string
+
 runs:
   using: "composite"
   steps:
@@ -17,23 +23,27 @@ runs:
     - name: set TAG_NPM
       shell: bash
       run: |
-        TAG_NPM="alpha"
-        VERSION_IN_PACKAGE_JSON=$(jq -cr '.version' < package.json)
+        if [[ -n "${{ inputs.npm_tag }}" ]]; then
+          TAG_NPM=${{ inputs.npm_tag }}
+        else
+          TAG_NPM="alpha"
+          VERSION_IN_PACKAGE_JSON=$(jq -cr '.version' < package.json)
 
-        echo "version in package.json=${VERSION_IN_PACKAGE_JSON}"
+          echo "version in package.json=${VERSION_IN_PACKAGE_JSON}"
 
-        if [[ $BRANCH_NAME =~ ^master(-patch.*)?$ ]]; then
-            # Pre-release versions
-            if [[ $VERSION_IN_PACKAGE_JSON =~ ^[0-9]*\.[0-9]*\.[0-9]*-A\.[0-9]*$ ]];
-            then
-                TAG_NPM=next
-            # Stable major versions
-            else
-                TAG_NPM=latest
-            fi
-        fi
+          if [[ $BRANCH_NAME =~ ^master(-patch.*)?$ ]] || [[ $BRANCH_NAME == release/* ]]; then
+              # Pre-release versions
+              if [[ $VERSION_IN_PACKAGE_JSON =~ ^[0-9]*\.[0-9]*\.[0-9]*-A\.[0-9]*$ ]];
+              then
+                  TAG_NPM=next
+              # Stable major versions
+              else
+                  TAG_NPM=latest
+              fi
+          fi
 
-        if [[ $BRANCH_NAME =~ ^develop(-patch.*)?$ ]]; then
-            TAG_NPM=alpha
+          if [[ $BRANCH_NAME =~ ^develop(-patch.*)?$ ]]; then
+              TAG_NPM=alpha
+          fi
         fi
         echo "TAG_NPM=${TAG_NPM}" >> $GITHUB_ENV
