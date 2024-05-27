@@ -31,6 +31,7 @@
       "@alfresco/adf-content-services": ["../alfresco-ng2-components/lib/content-services"],
       "@alfresco/adf-process-services-cloud": ["../alfresco-ng2-components/lib/process-services-cloud"],
       "@alfresco/adf-process-services": ["../alfresco-ng2-components/lib/process-services"],
+      "@alfresco/js-api": ["../alfresco-ng2-components/lib/js-api/index.ts"],
       "@alfresco/aca-shared": ["projects/aca-shared/src/public-api.ts"],
       "@alfresco/aca-shared/store": ["projects/aca-shared/store/src/public-api.ts"],
       "@alfresco/aca-shared/rules": ["projects/aca-shared/rules/src/public-api.ts"],
@@ -42,7 +43,7 @@
       "@alfresco/aca-content/viewer": ["projects/aca-content/viewer/src/public-api.ts"],
       "@alfresco/aca-content/preview": ["projects/aca-content/preview/src/public-api.ts"],
       "package.json": ["package.json"],
-      "*": ["./node_modules/*"]
+      "*": ["./node_modules/*"],
     }
   },
   "exclude": ["node_modules"],
