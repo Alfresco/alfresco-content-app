@@ -1,5 +1,51 @@
+/* stylelint-disable selector-class-pattern */
+
 app-library-metadata-form {
   .app-library-metadata-form-field {
     width: 100%;
+
+    .mat-mdc-form-field-flex {
+      border-bottom: 1px solid;
+
+      .mat-mdc-form-field-infix {
+        padding-bottom: 3px;
+      }
+    }
+
+    &.mat-form-field-disabled {
+      .mat-mdc-form-field-flex {
+        border-bottom: 1px dotted rgba(0, 0, 0, 0.3);
+      }
+    }
+
+    &.mat-focused {
+      .mat-mdc-form-field-flex {
+        border-bottom: 2px solid rgb(0, 85, 184);
+      }
+    }
+  }
+
+  .mdc-text-field--disabled.mdc-text-field--filled {
+    background: transparent;
+  }
+
+  .mat-mdc-card-content:first-child {
+    padding: 8px 16px;
+  }
+
+  .app-library-metadata-form-field-label {
+    color: var(--theme-text-color, rgba(0, 0, 0, 0.54));
+  }
+
+  .mdc-text-field {
+    padding: 0;
+  }
+
+  .mdc-line-ripple {
+    display: none;
+  }
+
+  .mat-mdc-form-field-subscript-wrapper {
+    height: 10px;
   }
 }
