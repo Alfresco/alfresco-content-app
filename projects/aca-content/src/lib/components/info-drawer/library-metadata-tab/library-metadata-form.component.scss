@@ -14,13 +14,13 @@ app-library-metadata-form {
 
     &.mat-form-field-disabled {
       .mat-mdc-form-field-flex {
-        border-bottom: 1px dotted rgba(0, 0, 0, 0.3);
+        border-bottom: 1px dotted var(--theme-text-disabled-color);
       }
     }
 
     &.mat-focused {
       .mat-mdc-form-field-flex {
-        border-bottom: 2px solid rgb(0, 85, 184);
+        border-bottom: 2px solid var(--theme-blue-button-color);
       }
     }
   }
@@ -34,7 +34,7 @@ app-library-metadata-form {
   }
 
   .app-library-metadata-form-field-label {
-    color: var(--theme-text-color, rgba(0, 0, 0, 0.54));
+    color: var(--theme-text-color);
   }
 
   .mdc-text-field {
