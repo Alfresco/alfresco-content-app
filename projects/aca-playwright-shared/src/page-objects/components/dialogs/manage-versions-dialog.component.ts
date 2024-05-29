@@ -19,17 +19,21 @@
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './adf-folder-dialog.component';
-export * from './adf-library-dialog.component';
-export * from './password-overlay-dialog.component';
-export * from './viewer-overlay-dialog.component';
-export * from './content-node-selector-dialog';
-export * from './create-from-template-dialog-component';
-export * from './adf-confirm-dialog.component';
-export * from './share-dialog.component';
-export * from './upload-new-version-dialog.component';
-export * from './manage-versions-dialog.component';
-export * from './upload-dialog.component';
+import { Page } from '@playwright/test';
+import { BaseComponent } from '../base.component';
+
+export class ManageVersionsDialog extends BaseComponent {
+  private static rootElement = '.adf-new-version-uploader-dialog';
+
+  async viewFileVersion(version: string): Promise<void> {
+    const versionActionsButton = this.page.locator(`[id="adf-version-list-action-menu-button-${version}"]`);
+    await versionActionsButton.click();
+  }
+
+  constructor(page: Page) {
+    super(page, ManageVersionsDialog.rootElement);
+  }
+}
