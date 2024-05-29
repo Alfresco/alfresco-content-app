@@ -131,6 +131,14 @@ describe('Mark items as favorites', () => {
       await toolbar.closeMoreMenu();
     });
 
+    it('[C217186-1] Favorite action has empty star icon for an item not marked as favorite', async () => {
+      await dataTable.selectItem(fileNotFavUI);
+      await toolbar.openMoreMenu();
+
+      expect(await toolbar.menu.getItemIconText('Favorite')).toEqual('star_border');
+      await toolbar.closeMoreMenu();
+    });
+
     it('[C217187] Favorite action has empty star icon for multiple selection of items when some are not favorite', async () => {
       await dataTable.selectMultipleItems([fileNotFavUI, fileFavUI]);
       await toolbar.openMoreMenu();
