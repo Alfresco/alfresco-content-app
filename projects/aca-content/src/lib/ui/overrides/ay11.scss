@@ -45,6 +45,7 @@
     background-color: transparent;
   }
 
+  .mdc-menu-surface.mat-mdc-autocomplete-panel:is(div),
   .mdc-menu-surface.mat-mdc-select-panel:is(div) {
     padding: 0;
   }
