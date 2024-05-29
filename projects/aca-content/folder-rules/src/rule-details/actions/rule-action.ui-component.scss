@@ -8,8 +8,7 @@
       margin-top: -15px;
 
       .adf-property-list {
-        padding: 8px;
-        background: unset;
+        background: var(--adf-card-view-background);
       }
 
       .adf-property-list .adf-property adf-card-view-item-dispatcher adf-card-view-textitem {

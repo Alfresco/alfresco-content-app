@@ -1,4 +1,13 @@
+/* stylelint-disable selector-class-pattern */
 .aca-rule-action-list {
+  .aca-rule-action-list__item .aca-rule-action .mat-mdc-form-field-flex .mat-mdc-form-field-infix {
+    padding-top: 24px;
+  }
+
+  .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+  }
+
   .aca-rule-action-list-add-action-button {
     margin: 4px 0 20px;
 
@@ -12,7 +21,6 @@
   }
 
   &__item {
-    padding: 8px;
     border-radius: 8px;
     display: flex;
 
