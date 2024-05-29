@@ -20,7 +20,7 @@ runs:
       shell: bash
       run: |
         npm install -g webdriver-manager
-        sudo chmod +x ./scripts/update-webdriver.sh
+
         if [ "$CI" = "true" ]; then
           export chrome=$(google-chrome --product-version)
           echo "Updating wevdriver-manager with chromedriver: $chrome."
