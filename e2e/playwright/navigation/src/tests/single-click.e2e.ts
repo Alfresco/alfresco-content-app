@@ -69,12 +69,6 @@ test.describe('Single click on item name', () => {
     await expect(trashPage.dataTable.getCellLinkByName(deletedFolder1), 'Link on name is present').toBeHidden();
   });
 
-  test('[C284899-1] Hyperlink does not appear for items in the Trash', async ({ trashPage }) => {
-    await trashPage.navigate();
-    await expect(trashPage.dataTable.getCellLinkByName(deletedFile1), 'Link on name is present').toBeHidden();
-    await expect(trashPage.dataTable.getCellLinkByName(deletedFolder1), 'Link on name is present').toBeHidden();
-  });
-
   test('[C280034] Navigate inside the folder when clicking the hyperlink on Personal Files', async ({ personalFiles }) => {
     await personalFiles.navigate();
     await personalFiles.dataTable.setPaginationTo50();
