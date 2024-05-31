@@ -1,6 +1,13 @@
 name: "Before e2e"
 description: "Before e2e"
 
+inputs:
+  e2e-protractor:
+    description: 'is e2e run with protractor'
+    required: false
+    type: boolean
+    default: false
+
 runs:
   using: "composite"
   steps:
@@ -8,23 +15,16 @@ runs:
       shell: bash
       run: ./node_modules/@alfresco/adf-cli/bin/adf-cli check-cs-env --host $BASE_URL -u $ADMIN_EMAIL -p $ADMIN_PASSWORD || exit 1
 
-    - name: Install google chrome
+    - name: Install google chrome v114
       shell: bash
       run: |
-          wget -q https://mirror.cs.uchicago.edu/google-chrome/pool/main/g/google-chrome-stable/google-chrome-stable_114.0.5735.106-1_amd64.deb
-          sudo apt install -y --allow-downgrades ./google-chrome-stable_114.0.5735.106-1_amd64.deb
+          wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          sudo apt install ./google-chrome-stable_current_amd64.deb
           sudo ln -s /usr/bin/google-chrome /usr/bin/chrome
           chrome --version
 
     - name: Update webdriver-manager
+      if: ${{ inputs.e2e-protractor == 'true' }}
       shell: bash
       run: |
-        npm install -g webdriver-manager
-        if [ "$CI" = "true" ]; then
-          export chrome=$(google-chrome --product-version)
-          echo "Updating wevdriver-manager with chromedriver: $chrome."
-          webdriver-manager update --gecko=false --versions.chrome=$chrome
-        else
-          echo "Updating wedriver-manager with latest chromedriver, be sure to use evergreen Chrome."
-          webdriver-manager update --gecko=false
-        fi
+        npm run update-webdriver
