@@ -38,6 +38,7 @@ export const TEST_FILES = {
   PDF: {
     path: resolve(__dirname, 'file-pdf.pdf'),
     name: 'file-pdf',
+    extension: 'pdf',
     data: 'Lorem ipsum dolor sit amet'
   },
   FILE_UNSUPPORTED: {

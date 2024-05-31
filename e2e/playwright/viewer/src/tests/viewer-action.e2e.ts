@@ -179,7 +179,7 @@ test.describe('viewer action file', () => {
     await expect(favoritePage.viewerDialog.shareDialogTitle, 'Share dialog should be open').toBeHidden();
   });
 
-  test('[C297586] Upload new version action', async ({ personalFiles, nodesApiAction }) => {
+  test('[C297586] [C307004] Upload new version action - major', async ({ personalFiles, nodesApiAction }) => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(filePersonalFiles);
     await personalFiles.viewer.waitForViewerToOpen();
 
