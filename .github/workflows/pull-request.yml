@@ -129,7 +129,10 @@ jobs:
           path: ./dist/content-ce
           key: cache-dist-${{ github.run_id }}
 
-      - uses: ./.github/actions/before-e2e
+      - name: Before e2e
+        uses: ./.github/actions/before-e2e
+        with:
+          e2e-protractor: true
 
       - uses: ./.github/actions/run-e2e
         with:
@@ -194,7 +197,10 @@ jobs:
           path: ./dist/content-ce
           key: cache-dist-${{ github.run_id }}
 
-      - uses: ./.github/actions/before-e2e
+      - name: Before e2e
+        uses: ./.github/actions/before-e2e
+        with:
+          e2e-protractor: false
 
       - name: before playwright
         shell: bash

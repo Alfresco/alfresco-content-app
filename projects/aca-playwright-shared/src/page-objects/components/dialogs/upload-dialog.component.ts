@@ -19,31 +19,21 @@
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
 import { Page } from '@playwright/test';
-import { BasePage } from './base.page';
-import { DataTableComponent, MatMenuComponent, ViewerComponent, SidenavComponent, Breadcrumb, AdfInfoDrawerComponent } from '../components';
-import { AcaHeader } from '../components/aca-header.component';
-import { AdfFolderDialogComponent, ViewerOverlayDialogComponent, ManageVersionsDialog } from '../components/dialogs';
+import { BaseComponent } from '../base.component';
 
-export class SharedPage extends BasePage {
-  private static pageUrl = 'shared';
+export class UploadDialog extends BaseComponent {
+  private static rootElement = '.adf-upload-dialog';
+
+  public uploadDialog = this.page.locator('.adf-upload-dialog');
+  public closeButton = this.getChild('#adf-upload-dialog-close');
+  public minimizeButton = this.page.locator('[data-automation-id="adf-upload-dialog__toggle-minimize"]');
+  public uploadDialogMinimized = this.page.locator('.adf-upload-dialog--minimized');
 
   constructor(page: Page) {
-    super(page, SharedPage.pageUrl);
+    super(page, UploadDialog.rootElement);
   }
-
-  public acaHeader = new AcaHeader(this.page);
-  public matMenu = new MatMenuComponent(this.page);
-  public folderDialog = new AdfFolderDialogComponent(this.page);
-  public dataTable = new DataTableComponent(this.page);
-  public viewer = new ViewerComponent(this.page);
-  public viewerDialog = new ViewerOverlayDialogComponent(this.page);
-  public sidenav = new SidenavComponent(this.page);
-  public breadcrumb = new Breadcrumb(this.page);
-  public infoDrawer = new AdfInfoDrawerComponent(this.page);
-  public manageVersionsDialog = new ManageVersionsDialog(this.page);
-
 }

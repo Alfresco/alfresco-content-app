@@ -47,7 +47,7 @@ test.describe('Create folders', () => {
   const dialogString = 'dialog';
   const createNewFolderString = 'Create new folder';
   const spacesString = '   ';
-  const commonFolderName = `playwright-folder-${Utils.random()}`;
+  const commonFolderName = `create-folder-${Utils.random()}`;
   const username = `user-${Utils.random()}`;
 
   test.beforeAll(async () => {
@@ -63,7 +63,7 @@ test.describe('Create folders', () => {
   });
 
   test.beforeEach(async ({ personalFiles, page }) => {
-    randomFolderName = `playwright-folder-${Utils.random()}`;
+    randomFolderName = `create-folder-${Utils.random()}`;
     randomFolderTitle = `folder-title-${Utils.random()}`;
     randomFolderDescription = `folder-description-${Utils.random()}`;
     folderDialog = personalFiles.folderDialog;

@@ -22,28 +22,44 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Page } from '@playwright/test';
-import { BasePage } from './base.page';
-import { DataTableComponent, MatMenuComponent, ViewerComponent, SidenavComponent, Breadcrumb, AdfInfoDrawerComponent } from '../components';
-import { AcaHeader } from '../components/aca-header.component';
-import { AdfFolderDialogComponent, ViewerOverlayDialogComponent, ManageVersionsDialog } from '../components/dialogs';
+import { SecurityControlsMarkResponse } from '@alfresco/adf-content-services/lib/security/services/models/security-controls-mark-response.interface';
+import { UpdateNotification } from '@alfresco/adf-core';
 
-export class SharedPage extends BasePage {
-  private static pageUrl = 'shared';
+export const securityMarksResponseMock: SecurityControlsMarkResponse = {
+  pagination: {
+    count: 2,
+    hasMoreItems: false,
+    totalItems: 2,
+    skipCount: 0,
+    maxItems: 100
+  },
+  entries: [
+    {
+      id: 'mark-1-id',
+      name: 'mark-1-name',
+      groupId: 'group-1'
+    },
+    {
+      id: 'mark-2-id',
+      name: 'mark-2-name',
+      groupId: 'group-1'
+    }
+  ]
+};
 
-  constructor(page: Page) {
-    super(page, SharedPage.pageUrl);
-  }
-
-  public acaHeader = new AcaHeader(this.page);
-  public matMenu = new MatMenuComponent(this.page);
-  public folderDialog = new AdfFolderDialogComponent(this.page);
-  public dataTable = new DataTableComponent(this.page);
-  public viewer = new ViewerComponent(this.page);
-  public viewerDialog = new ViewerOverlayDialogComponent(this.page);
-  public sidenav = new SidenavComponent(this.page);
-  public breadcrumb = new Breadcrumb(this.page);
-  public infoDrawer = new AdfInfoDrawerComponent(this.page);
-  public manageVersionsDialog = new ManageVersionsDialog(this.page);
-
-}
+export const updateNotificationMock = (value: string): UpdateNotification => {
+  return {
+    changed: { securityGroupId: value },
+    target: {
+      label: 'Security Group Id *',
+      value: '',
+      key: 'securityGroupId',
+      default: undefined,
+      editable: true,
+      clickable: true,
+      isEmpty: () => true,
+      isValid: () => true,
+      getValidationErrors: () => []
+    }
+  };
+};

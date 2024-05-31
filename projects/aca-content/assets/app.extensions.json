@@ -1315,7 +1315,7 @@
         "name": "APP.BROWSE.SEARCH.DEFAULT_SEARCH",
         "default": true,
         "filterWithContains": true,
-        "aca:fields": ["cm:name", "cm:title", "cm:description", "TEXT", "TAG"],
+        "app:fields": ["cm:name", "cm:title", "cm:description", "TEXT", "TAG"],
         "include": ["path", "allowableOperations", "properties"],
         "sorting": {
           "options": [
@@ -1560,7 +1560,7 @@
         "name": "APP.BROWSE.SEARCH.DUBLIN_CORE",
         "default": false,
         "filterWithContains": true,
-        "aca:fields": ["cm:name", "cm:title", "cm:description", "cm:identifier", "cm:contributor", "cm:coverage", "cm:dcsource", "cm:publisher", "cm:rights", "cm:subject", "cm:type", "TEXT", "TAG"],
+        "app:fields": ["cm:name", "cm:title", "cm:description", "cm:identifier", "cm:contributor", "cm:coverage", "cm:dcsource", "cm:publisher", "cm:rights", "cm:subject", "cm:type", "TEXT", "TAG"],
         "include": ["path", "allowableOperations", "properties"],
         "sorting": {
           "options": [
@@ -1736,7 +1736,7 @@
         "name": "APP.BROWSE.SEARCH.EFFECTIVITY",
         "default": false,
         "filterWithContains": true,
-        "aca:fields": ["cm:name", "cm:title", "cm:description", "cm:from", "cm:contributor", "cm:to", "TEXT", "TAG"],
+        "app:fields": ["cm:name", "cm:title", "cm:description", "cm:from", "cm:contributor", "cm:to", "TEXT", "TAG"],
         "include": ["path", "allowableOperations", "properties"],
         "sorting": {
           "options": [

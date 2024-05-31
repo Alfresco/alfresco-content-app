@@ -25,7 +25,7 @@
 import { expect } from '@playwright/test';
 import { ApiClientFactory, Utils, test, TrashcanApi, NodesApi, TEST_FILES } from '@alfresco/playwright-shared';
 
-test.describe('Download from Personal Files', () => {
+test.describe('Upload files', () => {
   let trashcanApi: TrashcanApi;
   let nodesApi: NodesApi;
 
@@ -42,8 +42,12 @@ test.describe('Download from Personal Files', () => {
     await nodesApi.createFolder(folder1);
   });
 
-  test.beforeEach(async ({ loginPage }) => {
+  test.beforeEach(async ({ loginPage, personalFiles }) => {
     await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
+    await personalFiles.dataTable.performClickFolderOrFileToOpen(folder1);
+    await personalFiles.acaHeader.uploadButton.click();
+    await personalFiles.acaHeader.uploadFileButton.click();
+    await personalFiles.acaHeader.uploadInput.setInputFiles(TEST_FILES.JPG_FILE.path);
   });
 
   test.afterAll(async () => {
@@ -51,12 +55,33 @@ test.describe('Download from Personal Files', () => {
   });
 
   test('Upload a file', async ({ personalFiles }) => {
-    await personalFiles.dataTable.performClickFolderOrFileToOpen(folder1);
-    await personalFiles.acaHeader.uploadButton.click();
-    await personalFiles.acaHeader.uploadFileButton.click();
-
-    await personalFiles.acaHeader.uploadInput.setInputFiles(TEST_FILES.JPG_FILE.path);
     const uploadedFiles = await personalFiles.dataTable.isItemPresent(TEST_FILES.JPG_FILE.name);
     expect(uploadedFiles).toBe(true);
+  });
+
+  test('[T14752064] Close the upload dialog', async ({ personalFiles }) => {
+    await personalFiles.uploadDialog.closeButton.click();
+    await personalFiles.uploadDialog.uploadDialog.isHidden();
+  });
+
+  test('[T14752051] Minimize / maximize the upload dialog', async ({ personalFiles }) => {
+    await personalFiles.uploadDialog.minimizeButton.click();
+    await personalFiles.uploadDialog.uploadDialogMinimized.isVisible();
+    await personalFiles.uploadDialog.minimizeButton.click();
+    await personalFiles.uploadDialog.uploadDialog.isVisible();
+  });
+
+  test('[T14752053] Upload history is expunged on browser login/logout', async ({ personalFiles, loginPage }) => {
+    await loginPage.logoutUser();
+    await loginPage.loginUser({ username, password: username });
+    await personalFiles.uploadDialog.uploadDialog.isHidden();
+  });
+
+  test('[T14752052] Upload dialog remains fixed in the browser when user performs other actions in parallel', async ({
+    personalFiles,
+    myLibrariesPage
+  }) => {
+    await myLibrariesPage.navigate();
+    await personalFiles.uploadDialog.uploadDialog.isVisible();
   });
 });

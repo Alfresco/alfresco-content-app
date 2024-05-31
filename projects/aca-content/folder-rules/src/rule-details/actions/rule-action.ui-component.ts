@@ -35,8 +35,8 @@ import {
   CardViewUpdateService,
   UpdateNotification
 } from '@alfresco/adf-core';
-import { ActionParameterDefinition, Category, Node } from '@alfresco/js-api';
-import { of, Subject } from 'rxjs';
+import { ActionParameterDefinition, Category, Node, SecurityMark } from '@alfresco/js-api';
+import { from, of, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { ActionParameterConstraint, ConstraintValue } from '../../model/action-parameter-constraint.model';
 import {
@@ -46,7 +46,8 @@ import {
   NodeAction,
   TagService,
   CategorySelectorDialogComponent,
-  CategorySelectorDialogOptions
+  CategorySelectorDialogOptions,
+  SecurityControlsService
 } from '@alfresco/adf-content-services';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -96,6 +97,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
 
   private readonly tagsRelatedPropertiesAndAspects = ['cm:tagscope', 'cm:tagScopeCache', 'cm:taggable'];
   private readonly categoriesRelatedPropertiesAndAspects = ['cm:categories', 'cm:generalclassifiable'];
+  private readonly paramsToFormatDisplayedValue = ['securityMarkId', 'securityGroupId'];
 
   isFullWidth = false;
 
@@ -123,7 +125,8 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
     private dialog: MatDialog,
     private translate: TranslateService,
     private tagService: TagService,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private securityControlsService: SecurityControlsService
   ) {}
 
   writeValue(action: RuleAction) {
@@ -135,6 +138,9 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
       ...action.params
     };
     this.setCardViewProperties();
+    if (this.parameters?.securityGroupId) {
+      this.loadSecurityMarkOptions();
+    }
   }
 
   registerOnChange(fn: (action: RuleAction) => void) {
@@ -161,6 +167,11 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
     });
 
     this.cardViewUpdateService.itemUpdated$.pipe(takeUntil(this.onDestroy$)).subscribe((updateNotification: UpdateNotification) => {
+      const isSecurityGroupUpdated = updateNotification.target.key === 'securityGroupId';
+      if (isSecurityGroupUpdated) {
+        this.parameters.securityMarkId = null;
+      }
+
       this.parameters = this.clearEmptyParameters({
         ...this.parameters,
         ...updateNotification.changed
@@ -170,6 +181,11 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
         params: this.parameters
       });
       this.onTouch();
+
+      if (isSecurityGroupUpdated) {
+        this.setCardViewProperties();
+        this.loadSecurityMarkOptions();
+      }
     });
   }
 
@@ -186,11 +202,14 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
     this.onDestroy$.complete();
   }
 
-  setCardViewProperties() {
+  setCardViewProperties(securityMarkOptions?: CardViewSelectItemOption<string>[]) {
     const disabledTags = !this.tagService.areTagsEnabled();
     const disabledCategories = !this.categoryService.areCategoriesEnabled();
     this.cardViewItems = (this.selectedActionDefinition?.parameterDefinitions ?? []).map((paramDef) => {
-      const constraintsForDropdownBox = this._parameterConstraints.find((obj) => obj.name === paramDef.name);
+      const constraintsForDropdownBox =
+        paramDef.name === 'securityMarkId'
+          ? { name: paramDef.name, constraints: securityMarkOptions || [] }
+          : this._parameterConstraints.find((obj) => obj.name === paramDef.name);
       const cardViewPropertiesModel = {
         label: paramDef.displayLabel + (paramDef.mandatory ? ' *' : ''),
         key: paramDef.name,
@@ -253,7 +272,10 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
           }
           return new CardViewTextItemModel({
             ...cardViewPropertiesModel,
-            value: this.parameters[paramDef.name] ?? ''
+            value:
+              constraintsForDropdownBox && this.readOnly && this.paramsToFormatDisplayedValue.includes(paramDef.name)
+                ? constraintsForDropdownBox.constraints.find((constraint) => constraint.key === this.parameters[paramDef.name])?.label ?? ''
+                : this.parameters[paramDef.name] ?? ''
           });
       }
     });
@@ -367,5 +389,20 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
   private clearEmptyParameters(params: { [key: string]: unknown }): { [key: string]: unknown } {
     Object.keys(params).forEach((key) => (params[key] === null || params[key] === undefined || params[key] === '') && delete params[key]);
     return params;
+  }
+
+  loadSecurityMarkOptions(): void {
+    if (this.parameters?.securityGroupId) {
+      from(this.securityControlsService.getSecurityMark(this.parameters.securityGroupId as string))
+        .pipe(map((securityMarks) => securityMarks.entries.map((entry) => this.formatSecurityMarkConstraint(entry))))
+        .subscribe((res) => this.setCardViewProperties(this.parseConstraintsToSelectOptions(res) as CardViewSelectItemOption<string>[]));
+    }
+  }
+
+  private formatSecurityMarkConstraint(securityMark: SecurityMark): ConstraintValue {
+    return {
+      value: securityMark.id,
+      label: securityMark.name
+    };
   }
 }

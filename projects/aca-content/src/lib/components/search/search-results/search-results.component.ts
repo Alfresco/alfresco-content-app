@@ -127,7 +127,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
       .subscribe(([params, searchConfig]) => {
         // eslint-disable-next-line no-prototype-builtins
         this.searchedWord = params.hasOwnProperty(this.queryParamName) ? params[this.queryParamName] : null;
-        const query = this.formatSearchQuery(this.searchedWord, searchConfig['aca:fields']);
+        const query = this.formatSearchQuery(this.searchedWord, searchConfig['app:fields']);
         if (query) {
           this.queryBuilder.userQuery = decodeURIComponent(query);
         }

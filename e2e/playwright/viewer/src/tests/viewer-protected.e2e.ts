@@ -28,7 +28,7 @@ import { ApiClientFactory, getUserState, test, TEST_FILES, Utils } from '@alfres
 test.use({ storageState: getUserState('hruser') });
 test.describe('viewer file', () => {
   const apiClientFactory = new ApiClientFactory();
-  const randomFolderName = `playwright-folder-${Utils.random()}`;
+  const randomFolderName = `viewer-protected-${Utils.random()}`;
   const randomDocxName = `${TEST_FILES.PDF_PROTECTED.name}-${Utils.random()}`;
   let folderId: string;
   let fileDocxId: string;
