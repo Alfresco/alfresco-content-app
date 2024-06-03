@@ -71,7 +71,7 @@ describe('Upload files', () => {
   it('[T14752064] Close the upload dialog ', async () => {
     await page.uploadFilesDialog.closeUploadButton.click();
     await page.uploadFilesDialog.uploadDialog.isPresent();
-    await expect(page.uploadFilesDialog.uploadDialog).toBeHidden();
+    expect(await page.uploadFilesDialog.uploadDialog.isVisible()).toBe(false);
   });
 
   it('[T14752051] Minimize / maximize the upload dialog ', async () => {
@@ -85,9 +85,9 @@ describe('Upload files', () => {
   it('[T14752053] Upload history is expunged on browser login/logout ', async () => {
     await page.signOut();
     await loginPage.loginWith(username);
-    const isUploadDialogVisible = page.uploadFilesDialog.uploadDialog;
+    const isUploadDialogVisible = await page.uploadFilesDialog.uploadDialog.isVisible();
 
-    await expect(isUploadDialogVisible).toBeHidden();
+    expect(isUploadDialogVisible).toBe(false);
   });
 
   it('[T14752052] Upload dialog remains fixed in the browser when user performs other actions in parallel ', async () => {
