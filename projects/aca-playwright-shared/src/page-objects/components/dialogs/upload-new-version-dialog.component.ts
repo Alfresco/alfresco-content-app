@@ -30,8 +30,8 @@ export class UploadNewVersionDialog extends BaseComponent {
 
   public cancelButton = this.getChild('#adf-new-version-cancel');
   public uploadButton = this.getChild('[data-automation-id="adf-new-version-file-upload"]');
-  public majorOption = this.getChild('#adf-new-version-major-input');
-  public minorOption = this.getChild('#adf-new-version-minor-input');
+  public majorOption = this.getChild('#adf-new-version-major');
+  public minorOption = this.getChild('#adf-new-version-minor');
   public description = this.getChild('#adf-new-version-text-area');
   public title = this.getChild(' .mat-dialog-title');
 
