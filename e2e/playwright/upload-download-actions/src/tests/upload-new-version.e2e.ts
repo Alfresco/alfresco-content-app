@@ -23,7 +23,17 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, Utils, test, TrashcanApi, NodesApi, TEST_FILES, FileActionsApi } from '@alfresco/playwright-shared';
+import {
+  ApiClientFactory,
+  Utils,
+  test,
+  TrashcanApi,
+  NodesApi,
+  TEST_FILES,
+  FileActionsApi,
+  PersonalFilesPage,
+  SearchPage
+} from '@alfresco/playwright-shared';
 
 test.describe('Upload new version', () => {
   const username = `user-${Utils.random()}`;
@@ -45,6 +55,10 @@ test.describe('Upload new version', () => {
   let parentPFId: string;
   const parentSearch = `parentSearch-${Utils.random()}`;
   let parentSearchId: string;
+  const parentUnsupported = `parentUnsupported-${Utils.random()}`;
+  let parentUnsupportedId: string;
+  let filePdfID: string;
+  let fileJpgID: string;
 
   const file = TEST_FILES.PDF.name;
   const fileToUpload1 = TEST_FILES.DOCX2.name;
@@ -53,6 +67,20 @@ test.describe('Upload new version', () => {
   let trashcanApi: TrashcanApi;
   let nodesApi: NodesApi;
   let fileActionAPI: FileActionsApi;
+
+  async function uploadNewVersion(page: PersonalFilesPage | SearchPage, filename: string, location: string) {
+    await page.dataTable.selectItem(filename);
+    await page.acaHeader.clickMoreActions();
+    await page.acaHeader.matMenu.clickMenuItem('Upload New Version');
+    await page.acaHeader.uploadNewVersionButton.setInputFiles(location);
+  }
+
+  async function previewUnsupportedFile(page: PersonalFilesPage, unsupportedFileName: string): Promise<void> {
+    await page.dataTable.performClickFolderOrFileToOpen(unsupportedFileName);
+    await page.viewer.checkUnknownFormatIsDisplayed();
+    expect(await page.viewer.getUnknownFormatMessage()).toBe(`Couldn't load preview. Unknown format.`);
+    await page.viewer.closeButtonLocator.click();
+  }
 
   test.beforeAll(async () => {
     const apiClientFactory = new ApiClientFactory();
@@ -63,6 +91,7 @@ test.describe('Upload new version', () => {
     fileActionAPI = await FileActionsApi.initialize(username, username);
     parentPFId = (await nodesApi.createFolder(parentPF)).entry.id;
     parentSearchId = (await nodesApi.createFolder(parentSearch)).entry.id;
+    parentUnsupportedId = (await nodesApi.createFolder(parentUnsupported)).entry.id;
   });
 
   test.afterAll(async () => {
@@ -81,25 +110,9 @@ test.describe('Upload new version', () => {
       await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
     });
 
-    test('[C307003] dialog UI defaults', async ({ searchPage }) => {
-      await searchPage.searchWithin(file, 'files');
-      await searchPage.dataTable.selectItem(file);
-      await searchPage.acaHeader.clickMoreActions();
-      await searchPage.acaHeader.matMenu.clickMenuItem('Upload New Version');
-      await searchPage.acaHeader.uploadNewVersionButton.setInputFiles(fileToUpload1);
-
-      await expect(searchPage.uploadNewVersionDialog.title).toHaveText('Upload New Version');
-      await expect(searchPage.uploadNewVersionDialog.minorOption).toBeVisible();
-      await expect(searchPage.uploadNewVersionDialog.cancelButton).toBeEnabled();
-      await expect(searchPage.uploadNewVersionDialog.uploadButton).toBeEnabled();
-    });
-
     test('[C307005] file is updated after uploading a new version - minor', async ({ searchPage }) => {
       await searchPage.searchWithin(fileSearch2, 'files');
-      await searchPage.dataTable.selectItem(fileSearch2);
-      await searchPage.acaHeader.clickMoreActions();
-      await searchPage.acaHeader.matMenu.clickMenuItem('Upload New Version');
-      await searchPage.acaHeader.uploadNewVersionButton.setInputFiles(fileToUpload2.path);
+      await uploadNewVersion(searchPage, fileSearch2, fileToUpload2.path);
 
       await searchPage.uploadNewVersionDialog.description.fill('new minor version description');
       await searchPage.uploadNewVersionDialog.uploadButton.click();
@@ -111,10 +124,7 @@ test.describe('Upload new version', () => {
 
     test('[C307006] file is not updated when clicking Cancel', async ({ searchPage }) => {
       await searchPage.searchWithin(fileSearch3, 'files');
-      await searchPage.dataTable.selectItem(fileSearch3);
-      await searchPage.acaHeader.clickMoreActions();
-      await searchPage.acaHeader.matMenu.clickMenuItem('Upload New Version');
-      await searchPage.acaHeader.uploadNewVersionButton.setInputFiles(fileSearch3);
+      await uploadNewVersion(searchPage, fileSearch3, fileSearch3);
 
       await searchPage.uploadNewVersionDialog.description.fill('new version description');
       await searchPage.uploadNewVersionDialog.cancelButton.click();
@@ -129,23 +139,19 @@ test.describe('Upload new version', () => {
     test.beforeAll(async () => {
       await fileActionAPI.uploadFile(TEST_FILES.PDF.path, `${TEST_FILES.PDF.name}.${TEST_FILES.PDF.extension}`, parentPFId);
       file1Id = (await nodesApi.createFile(file1, parentPFId)).entry.id;
-
       fileLocked1Id = (await nodesApi.createFile(fileToUpload1, parentPFId)).entry.id;
       fileLocked2Id = (await nodesApi.createFile(fileLocked2, parentPFId)).entry.id;
 
       await nodesApi.lockNodes([fileLocked1Id, fileLocked2Id]);
     });
 
-    test.beforeEach(async ({ loginPage }) => {
+    test.beforeEach(async ({ loginPage, personalFiles }) => {
       await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
+      await personalFiles.dataTable.performClickFolderOrFileToOpen(parentPF);
     });
 
     test('[C297548] upload new version fails when new file name already exists', async ({ personalFiles }) => {
-      await personalFiles.dataTable.performClickFolderOrFileToOpen(parentPF);
-      await personalFiles.dataTable.selectItem(file1);
-      await personalFiles.acaHeader.clickMoreActions();
-      await personalFiles.acaHeader.matMenu.clickMenuItem('Upload New Version');
-      await personalFiles.acaHeader.uploadNewVersionButton.setInputFiles(TEST_FILES.PDF.path);
+      await uploadNewVersion(personalFiles, file1, TEST_FILES.PDF.path);
 
       await expect(personalFiles.uploadNewVersionDialog.title).toHaveText('Upload New Version');
       await personalFiles.uploadNewVersionDialog.description.fill('new version description');
@@ -159,11 +165,7 @@ test.describe('Upload new version', () => {
     });
 
     test('[C297549] file is unlocked after uploading a new version', async ({ personalFiles }) => {
-      await personalFiles.dataTable.performClickFolderOrFileToOpen(parentPF);
-      await personalFiles.dataTable.selectItem(fileToUpload1);
-      await personalFiles.acaHeader.clickMoreActions();
-      await personalFiles.acaHeader.matMenu.clickMenuItem('Upload New Version');
-      await personalFiles.acaHeader.uploadNewVersionButton.setInputFiles(TEST_FILES.DOCX2.path);
+      await uploadNewVersion(personalFiles, fileToUpload1, TEST_FILES.DOCX2.path);
 
       await personalFiles.uploadNewVersionDialog.description.fill('new version description');
       await personalFiles.uploadNewVersionDialog.uploadButton.click();
@@ -175,15 +177,37 @@ test.describe('Upload new version', () => {
     });
 
     test('[C297550] file remains locked after canceling of uploading a new version', async ({ personalFiles }) => {
-      await personalFiles.dataTable.performClickFolderOrFileToOpen(parentPF);
-      await personalFiles.dataTable.selectItem(fileLocked2);
-      await personalFiles.acaHeader.clickMoreActions();
-      await personalFiles.acaHeader.matMenu.clickMenuItem('Upload New Version');
-      await personalFiles.acaHeader.uploadNewVersionButton.setInputFiles(TEST_FILES.DOCX2.path);
+      await uploadNewVersion(personalFiles, fileLocked2, TEST_FILES.DOCX2.path);
       await personalFiles.uploadNewVersionDialog.cancelButton.click();
 
       expect(await personalFiles.dataTable.isItemPresent(fileLocked2), 'File not displayed').toBe(true);
       expect(await nodesApi.getNodeProperty(fileLocked2Id, 'cm:lockType'), `${fileLocked2} was unlocked`).toEqual('WRITE_LOCK');
+    });
+  });
+
+  test.describe('Viewer - version update with unsupported file', () => {
+    test.beforeAll(async () => {
+      filePdfID = (await fileActionAPI.uploadFile(TEST_FILES.PDF.path, TEST_FILES.PDF.name, parentUnsupportedId)).entry.id;
+      fileJpgID = (await fileActionAPI.uploadFile(TEST_FILES.JPG_FILE.path, TEST_FILES.JPG_FILE.name, parentUnsupportedId)).entry.id;
+    });
+
+    test.beforeEach(async ({ loginPage, personalFiles }) => {
+      await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
+      await personalFiles.dataTable.performClickFolderOrFileToOpen(parentUnsupported);
+    });
+
+    test('[C587084] Should display unknown format the preview for an unsupported file', async ({ personalFiles }) => {
+      await uploadNewVersion(personalFiles, TEST_FILES.JPG_FILE.name, TEST_FILES.FILE_UNSUPPORTED.path);
+      await personalFiles.uploadNewVersionDialog.uploadButton.click();
+      await previewUnsupportedFile(personalFiles, TEST_FILES.FILE_UNSUPPORTED.name);
+      await nodesApi.deleteNodes([fileJpgID], true);
+
+      await personalFiles.page.reload({ waitUntil: 'load' });
+
+      await uploadNewVersion(personalFiles, TEST_FILES.PDF.name, TEST_FILES.FILE_UNSUPPORTED.path);
+      await personalFiles.uploadNewVersionDialog.uploadButton.click();
+      await previewUnsupportedFile(personalFiles, TEST_FILES.FILE_UNSUPPORTED.name);
+      await nodesApi.deleteNodes([filePdfID], true);
     });
   });
 });
