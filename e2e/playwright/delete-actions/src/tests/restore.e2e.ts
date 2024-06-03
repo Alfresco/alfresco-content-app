@@ -36,9 +36,10 @@ test.describe('Restore from Trash', () => {
     try {
       await apiClientFactory.setUpAcaBackend('admin');
       await apiClientFactory.createUser({ username });
+      sitesApi = await SitesApi.initialize(username, username);
+
       nodesApi = await NodesApi.initialize(username, username);
       trashcanApi = await TrashcanApi.initialize(username, username);
-      sitesApi = await SitesApi.initialize(username, username);
     } catch (error) {
       console.error(`beforeAll failed : ${error}`);
     }

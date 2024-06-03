@@ -37,8 +37,9 @@ test.describe('Delete and undo delete', () => {
     try {
       await apiClientFactory.setUpAcaBackend('admin');
       await apiClientFactory.createUser({ username });
-      nodesApi = await NodesApi.initialize(username, username);
       trashcanApi = await TrashcanApi.initialize(username, username);
+      nodesApi = await NodesApi.initialize(username, username);
+
       sitesApi = await SitesApi.initialize(username, username);
     } catch (error) {
       console.error(`beforeAll failed : ${error}`);
@@ -80,7 +81,7 @@ test.describe('Delete and undo delete', () => {
 
     test('[C217091] delete a file', async ({ trashPage }) => {
       await trashPage.dataTable.selectItem(file1);
-      await trashPage.acaHeader.permamentlyDeleteButton.click();
+      await trashPage.acaHeader.permanentlyDeleteButton.click();
       await trashPage.deleteDialog.deleteButton.click();
 
       await trashPage.snackBar.verifySnackBarActionText(`${file1} deleted`);
@@ -89,7 +90,7 @@ test.describe('Delete and undo delete', () => {
 
     test('[C280416] delete a folder', async ({ trashPage }) => {
       await trashPage.dataTable.selectItem(folder1);
-      await trashPage.acaHeader.permamentlyDeleteButton.click();
+      await trashPage.acaHeader.permanentlyDeleteButton.click();
       await trashPage.deleteDialog.deleteButton.click();
 
       await trashPage.snackBar.verifySnackBarActionText(`${folder1} deleted`);
@@ -98,7 +99,7 @@ test.describe('Delete and undo delete', () => {
 
     test('[C290103] delete a library', async ({ trashPage }) => {
       await trashPage.dataTable.selectItem(site);
-      await trashPage.acaHeader.permamentlyDeleteButton.click();
+      await trashPage.acaHeader.permanentlyDeleteButton.click();
       await trashPage.deleteDialog.deleteButton.click();
 
       await trashPage.snackBar.verifySnackBarActionText(`${site} deleted`);
@@ -109,7 +110,7 @@ test.describe('Delete and undo delete', () => {
       await trashPage.dataTable.selectItem(file2);
       await trashPage.page.waitForTimeout(1500);
       await trashPage.dataTable.selectItem(folder2);
-      await trashPage.acaHeader.permamentlyDeleteButton.click();
+      await trashPage.acaHeader.permanentlyDeleteButton.click();
       await trashPage.deleteDialog.deleteButton.click();
 
       await trashPage.snackBar.verifySnackBarActionText(`2 items deleted`);
@@ -119,7 +120,7 @@ test.describe('Delete and undo delete', () => {
 
     test('[C269113] Confirmation dialog UI', async ({ trashPage }) => {
       await trashPage.dataTable.selectItem(file3);
-      await trashPage.acaHeader.permamentlyDeleteButton.click();
+      await trashPage.acaHeader.permanentlyDeleteButton.click();
       await trashPage.deleteDialog.waitForDialog();
 
       expect(await trashPage.deleteDialog.isDialogOpen()).toBeTruthy();
@@ -131,7 +132,7 @@ test.describe('Delete and undo delete', () => {
 
     test('[C269115] Keep action cancels the deletion', async ({ trashPage }) => {
       await trashPage.dataTable.selectItem(file3);
-      await trashPage.acaHeader.permamentlyDeleteButton.click();
+      await trashPage.acaHeader.permanentlyDeleteButton.click();
       await trashPage.deleteDialog.waitForDialog();
 
       expect(await trashPage.deleteDialog.isKeepEnabled()).toBeTruthy();
