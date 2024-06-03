@@ -24,19 +24,42 @@
 
 import { Page } from '@playwright/test';
 import { BaseComponent } from '../base.component';
+import { expect } from '@playwright/test';
 
 export class SnackBarComponent extends BaseComponent {
   private static rootElement = 'adf-snackbar-content';
 
   public message = this.getChild('[data-automation-id="adf-snackbar-message-content"]').first();
 
-  public actionButton = this.getChild('[data-automation-id="adf-snackbar-message-content-action-button"]')
+  public actionButton = this.getChild('[data-automation-id="adf-snackbar-message-content-action-button"]');
 
   public closeIcon = this.getChild('.adf-snackbar-message-content-action-icon');
-  public getByMessageLocator = (message: string) => this.getChild(`[data-automation-id='adf-snackbar-message-content']`,
-      { hasText: message }).first();
+  public getByMessageLocator = (message: string) =>
+    this.getChild(`[data-automation-id='adf-snackbar-message-content']`, { hasText: message }).first();
 
   constructor(page: Page, rootElement = SnackBarComponent.rootElement) {
     super(page, rootElement);
+  }
+
+  async getSnackBarMessage(): Promise<string> {
+    const snackBarMessage: string = await this.message.textContent();
+    return snackBarMessage;
+  }
+
+  async getSnackBarActionText(): Promise<string> {
+    if (await this.actionButton.isVisible()){
+      const snackBarMessage: string = await this.actionButton.textContent();
+      return snackBarMessage;
+    } else {
+      return '';
+    }
+  }
+
+  async verifySnackBarActionText(text: string): Promise<void> {
+    await expect(await this.message.textContent()).toContain(text);
+  }
+
+  async clickSnackBarAction(): Promise<void> {
+    await this.actionButton.click();
   }
 }

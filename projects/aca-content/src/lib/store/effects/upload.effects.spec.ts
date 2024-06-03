@@ -85,11 +85,11 @@ describe('UploadEffects', () => {
     it('should add cdk-program-focused class to upload menu button', () => {
       window.dispatchEvent(new FocusEvent('focus'));
       uploadMenuButton.dispatchEvent(new FocusEvent('focus'));
-      expect(uploadMenuButton).toHaveClass(focusedClass);
+      await expect(uploadMenuButton).toHaveClass(focusedClass);
     });
 
     it('should not add cdk-program-focused class to upload menu button if handler for focus of window is not fired', () => {
-      expect(uploadMenuButton).not.toHaveClass(focusedClass);
+      await expect(uploadMenuButton).not.toHaveClass(focusedClass);
     });
 
     afterEach(() => {
@@ -122,11 +122,11 @@ describe('UploadEffects', () => {
     it('should add cdk-program-focused class to upload menu button', () => {
       window.dispatchEvent(new FocusEvent('focus'));
       uploadMenuButton.dispatchEvent(new FocusEvent('focus'));
-      expect(uploadMenuButton).toHaveClass(focusedClass);
+      await expect(uploadMenuButton).toHaveClass(focusedClass);
     });
 
     it('should not add cdk-program-focused class to upload menu button if handler for focus of window is not fired', () => {
-      expect(uploadMenuButton).not.toHaveClass(focusedClass);
+      await expect(uploadMenuButton).not.toHaveClass(focusedClass);
     });
 
     afterEach(() => {

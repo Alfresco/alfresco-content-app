@@ -81,6 +81,15 @@ export class NodesApi {
     }
   }
 
+  async createFolders(names: string[], relativePath = '/'): Promise<NodePaging> {
+    try {
+      return await this.createContent({ folders: names }, relativePath);
+    } catch (error) {
+      console.error(`${this.constructor.name} ${this.createFolders.name}: ${error}`);
+      return null;
+    }
+  }
+
   async deleteDeletedNode(name: string): Promise<void> {
     try {
       await this.apiService.trashCan.deleteDeletedNode(name);
@@ -171,6 +180,16 @@ export class NodesApi {
       }
     } catch (error) {
       console.error(`${this.constructor.name} ${this.lockNodes.name}`, error);
+    }
+  }
+
+  async unlockNodes(nodeIds: string[]) {
+    try {
+      for (const nodeId of nodeIds) {
+        await this.apiService.nodes.unlockNode(nodeId);
+      }
+    } catch (error) {
+      console.error(`${this.constructor.name} ${this.unlockNodes.name}`, error);
     }
   }
 
