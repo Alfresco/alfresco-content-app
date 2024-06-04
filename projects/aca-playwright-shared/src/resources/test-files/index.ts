@@ -38,11 +38,12 @@ export const TEST_FILES = {
   PDF: {
     path: resolve(__dirname, 'file-pdf.pdf'),
     name: 'file-pdf',
+    extension: 'pdf',
     data: 'Lorem ipsum dolor sit amet'
   },
   FILE_UNSUPPORTED: {
     path: resolve(__dirname, 'file_unsupported.3DS'),
-    name: 'file-3DS',
+    name: 'file_unsupported.3DS',
     data: 'Lorem ipsum dolor sit amet'
   },
   PDF_PROTECTED: {
