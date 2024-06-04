@@ -79,6 +79,7 @@ test.describe('Mark items as favorites', () => {
       fileFav3Id = (await nodesApi.createFile(fileFav3, parentId)).entry.id;
       fileFav4Id = (await nodesApi.createFile(fileFav4, parentId)).entry.id;
       folderId = (await nodesApi.createFolder(folder, parentId)).entry.id;
+      await nodesApi.createFile(fileNotFavUI, parentId);
 
       const currentFavoritesTotalItems = await favoritesApi.getFavoritesTotalItems(username);
       await favoritesApi.addFavoritesByIds('file', [fileFavUIId, fileFav1Id, fileFav2Id, fileFav3Id, fileFav4Id]);
