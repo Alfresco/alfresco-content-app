@@ -23,7 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, NodesApi, Utils, test, TrashcanApi, SitesApi, APP_ROUTES } from '@alfresco/playwright-shared';
+import { ApiClientFactory, NodesApi, Utils, test, TrashcanApi, SitesApi, APP_ROUTES, TrashPage } from '@alfresco/playwright-shared';
 
 test.describe('Restore from Trash', () => {
   const apiClientFactory = new ApiClientFactory();
@@ -82,35 +82,29 @@ test.describe('Restore from Trash', () => {
       await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
     });
 
-    test('[C217177] restore file', async ({ trashPage, personalFiles }) => {
-      await trashPage.dataTable.selectItem(file1);
+    async function restoreNode(trashPage: TrashPage, nodeName: string) {
+      await trashPage.dataTable.selectItem(nodeName);
       await trashPage.acaHeader.restoreButton.click();
-      await trashPage.snackBar.verifySnackBarActionText(`${file1} restored`);
+      await trashPage.snackBar.verifySnackBarActionText(`${nodeName} restored`);
       const action = await trashPage.snackBar.getSnackBarActionText();
       expect(action).toContain('View');
-      expect(await trashPage.dataTable.isItemPresent(file1)).toBeFalsy();
+      expect(await trashPage.dataTable.isItemPresent(nodeName)).toBeFalsy();
+    }
+
+    test('[C217177] restore file', async ({ trashPage, personalFiles }) => {
+      await restoreNode(trashPage, file1);
       await personalFiles.navigate();
       expect(await personalFiles.dataTable.isItemPresent(file1)).toBeTruthy();
     });
 
     test('[C280438] restore folder', async ({ trashPage, personalFiles }) => {
-      await trashPage.dataTable.selectItem(folder1);
-      await trashPage.acaHeader.restoreButton.click();
-      await trashPage.snackBar.verifySnackBarActionText(`${folder1} restored`);
-      const action = await trashPage.snackBar.getSnackBarActionText();
-      expect(action).toContain('View');
-      expect(await trashPage.dataTable.isItemPresent(folder1)).toBeFalsy();
+      await restoreNode(trashPage, folder1);
       await personalFiles.navigate();
       expect(await personalFiles.dataTable.isItemPresent(folder1)).toBeTruthy();
     });
 
     test('[C290104] restore library', async ({ trashPage, myLibrariesPage }) => {
-      await trashPage.dataTable.selectItem(site1);
-      await trashPage.acaHeader.restoreButton.click();
-      await trashPage.snackBar.verifySnackBarActionText(`${site1} restored`);
-      const action = await trashPage.snackBar.getSnackBarActionText();
-      expect(action).toContain('View');
-      expect(await trashPage.dataTable.isItemPresent(site1)).toBeFalsy();
+      await restoreNode(trashPage, site1);
       await myLibrariesPage.navigate();
       expect(await myLibrariesPage.dataTable.isItemPresent(site1)).toBeTruthy();
     });

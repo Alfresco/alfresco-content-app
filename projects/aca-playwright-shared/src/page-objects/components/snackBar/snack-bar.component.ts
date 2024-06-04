@@ -41,21 +41,19 @@ export class SnackBarComponent extends BaseComponent {
   }
 
   async getSnackBarMessage(): Promise<string> {
-    const snackBarMessage: string = await this.message.textContent();
-    return snackBarMessage;
+    return this.message.textContent();
   }
 
   async getSnackBarActionText(): Promise<string> {
     if (await this.actionButton.isVisible()){
-      const snackBarMessage: string = await this.actionButton.textContent();
-      return snackBarMessage;
+      return this.actionButton.textContent();
     } else {
       return '';
     }
   }
 
   async verifySnackBarActionText(text: string): Promise<void> {
-    await expect(await this.message.textContent()).toContain(text);
+    expect(await this.message.textContent()).toContain(text);
   }
 
   async clickSnackBarAction(): Promise<void> {

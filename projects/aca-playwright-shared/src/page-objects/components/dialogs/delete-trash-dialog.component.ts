@@ -42,26 +42,22 @@ export class AdfDeleteTrashComponent extends BaseComponent {
   }
 
   async isDialogOpen(): Promise<boolean> {
-    return await this.dialogTitle.isVisible();
+    return this.dialogTitle.isVisible();
   }
 
   async getDialogTitle(): Promise<string> {
-    const dialogTitleText = await this.dialogTitle.textContent();
-    return dialogTitleText
+    return this.dialogTitle.textContent();
   }
 
   async getDialogDescription(): Promise<string> {
-    const dialogDescriptionText = await this.dialogDescription.textContent();
-    return dialogDescriptionText
+    return this.dialogDescription.textContent();
   }
 
   async isDeleteEnabled(): Promise<boolean> {
-    const isDeleteEnabled = await this.deleteButton.isEnabled();
-    return isDeleteEnabled;
+    return this.deleteButton.isEnabled();
   }
 
   async isKeepEnabled(): Promise<boolean> {
-    const isKeepEnabled = await this.keepButton.isEnabled();
-    return isKeepEnabled;
+    return this.keepButton.isEnabled();
   }
 }
