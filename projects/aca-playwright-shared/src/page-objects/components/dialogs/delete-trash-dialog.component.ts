@@ -19,30 +19,45 @@
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
 import { Page } from '@playwright/test';
-import { BasePage } from './base.page';
-import { DataTableComponent, MatMenuComponent, ViewerComponent, SidenavComponent, Breadcrumb, PaginationComponent } from '../components';
-import { AcaHeader } from '../components/aca-header.component';
-import { AdfFolderDialogComponent, ViewerOverlayDialogComponent, AdfDeleteTrashComponent } from '../components/dialogs';
+import { BaseComponent } from '../base.component';
 
-export class TrashPage extends BasePage {
-  private static pageUrl = 'trashcan';
+export class AdfDeleteTrashComponent extends BaseComponent {
+  private static rootElement = 'adf-confirm-dialog';
 
   constructor(page: Page) {
-    super(page, TrashPage.pageUrl);
+    super(page, AdfDeleteTrashComponent.rootElement);
   }
 
-  public acaHeader = new AcaHeader(this.page);
-  public matMenu = new MatMenuComponent(this.page);
-  public folderDialog = new AdfFolderDialogComponent(this.page);
-  public dataTable = new DataTableComponent(this.page);
-  public viewer = new ViewerComponent(this.page);
-  public viewerDialog = new ViewerOverlayDialogComponent(this.page);
-  public sidenav = new SidenavComponent(this.page);
-  public breadcrumb = new Breadcrumb(this.page);
-  public pagination = new PaginationComponent(this.page);
-  public deleteDialog = new AdfDeleteTrashComponent(this.page);
+  dialogTitle = this.getChild('[data-automation-id="adf-confirm-dialog-title"]');
+  dialogDescription = this.getChild('[data-automation-id="adf-confirm-dialog-base-message"]');
+  deleteButton = this.getChild('[id="adf-confirm-accept"]');
+  keepButton = this.getChild('[id="adf-confirm-cancel"]');
+
+  async waitForDialog(): Promise<void> {
+    await this.dialogTitle.waitFor();
+  }
+
+  async isDialogOpen(): Promise<boolean> {
+    return this.dialogTitle.isVisible();
+  }
+
+  async getDialogTitle(): Promise<string> {
+    return this.dialogTitle.textContent();
+  }
+
+  async getDialogDescription(): Promise<string> {
+    return this.dialogDescription.textContent();
+  }
+
+  async isDeleteEnabled(): Promise<boolean> {
+    return this.deleteButton.isEnabled();
+  }
+
+  async isKeepEnabled(): Promise<boolean> {
+    return this.keepButton.isEnabled();
+  }
 }

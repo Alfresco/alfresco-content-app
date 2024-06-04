@@ -171,6 +171,10 @@ export class PaginationComponent extends BaseComponent {
     return this.range.isVisible();
   }
 
+  async getMaxRange(): Promise<string> {
+    return this.range.textContent();
+  }
+
   async isMaxItemsPresent(): Promise<boolean> {
     return this.maxItems.isVisible();
   }

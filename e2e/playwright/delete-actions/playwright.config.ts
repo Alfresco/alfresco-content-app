@@ -22,15 +22,21 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './adf-folder-dialog.component';
-export * from './adf-library-dialog.component';
-export * from './password-overlay-dialog.component';
-export * from './viewer-overlay-dialog.component';
-export * from './content-node-selector-dialog';
-export * from './create-from-template-dialog-component';
-export * from './adf-confirm-dialog.component';
-export * from './share-dialog.component';
-export * from './upload-new-version-dialog.component';
-export * from './manage-versions-dialog.component';
-export * from './upload-dialog.component';
-export * from './delete-trash-dialog.component';
+import { PlaywrightTestConfig } from '@playwright/test';
+import { CustomConfig, getGlobalConfig, getExcludedTestsRegExpArray } from '@alfresco/playwright-shared';
+import EXCLUDED_JSON from './exclude.tests.json';
+
+const config: PlaywrightTestConfig<CustomConfig> = {
+  ...getGlobalConfig,
+
+  grepInvert: getExcludedTestsRegExpArray(EXCLUDED_JSON, 'Delete Actions'),
+  projects: [
+    {
+      name: 'Delete Actions',
+      testDir: './src/tests',
+      use: {}
+    }
+  ]
+};
+
+export default config;

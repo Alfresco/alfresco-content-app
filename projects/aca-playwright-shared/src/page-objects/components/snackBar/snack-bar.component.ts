@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Page } from '@playwright/test';
+import { Page, expect } from '@playwright/test';
 import { BaseComponent } from '../base.component';
 
 export class SnackBarComponent extends BaseComponent {
@@ -30,13 +30,33 @@ export class SnackBarComponent extends BaseComponent {
 
   public message = this.getChild('[data-automation-id="adf-snackbar-message-content"]').first();
 
-  public actionButton = this.getChild('[data-automation-id="adf-snackbar-message-content-action-button"]')
+  public actionButton = this.getChild('[data-automation-id="adf-snackbar-message-content-action-button"]');
 
   public closeIcon = this.getChild('.adf-snackbar-message-content-action-icon');
-  public getByMessageLocator = (message: string) => this.getChild(`[data-automation-id='adf-snackbar-message-content']`,
-      { hasText: message }).first();
+  public getByMessageLocator = (message: string) =>
+    this.getChild(`[data-automation-id='adf-snackbar-message-content']`, { hasText: message }).first();
 
   constructor(page: Page, rootElement = SnackBarComponent.rootElement) {
     super(page, rootElement);
+  }
+
+  async getSnackBarMessage(): Promise<string> {
+    return this.message.textContent();
+  }
+
+  async getSnackBarActionText(): Promise<string> {
+    if (await this.actionButton.isVisible()){
+      return this.actionButton.textContent();
+    } else {
+      return '';
+    }
+  }
+
+  async verifySnackBarActionText(text: string): Promise<void> {
+    expect(await this.message.textContent()).toContain(text);
+  }
+
+  async clickSnackBarAction(): Promise<void> {
+    await this.actionButton.click();
   }
 }

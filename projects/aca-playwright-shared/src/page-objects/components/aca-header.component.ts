@@ -43,6 +43,8 @@ export class AcaHeader extends BaseComponent {
   public uploadFileButton = this.page.locator('button[id="app.create.uploadFile"]');
   public uploadInput = this.page.locator('input[id="app-upload-files"]');
   public uploadNewVersionButton = this.page.locator('#app-upload-file-version');
+  public permanentlyDeleteButton = this.getChild('button[id="app.toolbar.purgeDeletedNodes"]');
+  public restoreButton = this.getChild('button[id="app.toolbar.restoreDeletedNodes"]');
 
   constructor(page: Page) {
     super(page, AcaHeader.rootElement);
