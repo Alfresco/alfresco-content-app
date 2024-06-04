@@ -329,7 +329,7 @@
       }
     },
     {
-      "files": ["*.e2e.ts", "*.ts"],
+      "files": ["*.e2e.ts"],
       "extends": ["plugin:playwright/playwright-test"],
       "rules": {
         "no-empty-pattern": "off",
