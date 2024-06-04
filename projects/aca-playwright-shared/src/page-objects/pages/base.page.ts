@@ -62,6 +62,7 @@ export abstract class BasePage extends PlaywrightBase {
       query: '',
       waitForRequest: true,
       remoteUrl: '',
+      waitUntil: 'load',
       ...options
     };
 
