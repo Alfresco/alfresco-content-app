@@ -106,7 +106,7 @@ export class ViewerComponent extends BaseComponent {
   }
 
   async getUnknownFormatMessage(): Promise<string> {
-    const unknownFormatLabel = this.unknownFormat.locator(`.adf-viewer__unknown-label`);
+    return this.unknownFormat.locator(`.adf-viewer__unknown-label`).innerText();
     return unknownFormatLabel.innerText();
   }
 }
