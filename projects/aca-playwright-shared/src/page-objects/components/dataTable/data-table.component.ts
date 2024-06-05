@@ -80,7 +80,7 @@ export class DataTableComponent extends BaseComponent {
 
   /**
    * Method used in cases where we want to retrieve a row from the datatable based on its numerical order within the array.
-   * 
+   *
    * @returns reference to cell element which contains text.
    */
   getNthRow = (orderNum: number): Locator => this.getRowLocator.nth(orderNum);
@@ -238,11 +238,11 @@ export class DataTableComponent extends BaseComponent {
   }
 
   async selectItem(name: string): Promise<void> {
-    const isSelected = await this.hasCheckMarkIcon(name);
+    const isSelected = await this.isRowSelected(name);
     if (!isSelected) {
       let row = this.getRowByName(name);
       await row.locator('[title="Size"]').click({ modifiers: ['Meta'] });
-      await row.locator('.adf-datatable-selected').waitFor({ state: 'attached' });
+      await row.locator('.adf-is-selected').waitFor({ state: 'attached' });
     }
   }
 
@@ -250,15 +250,15 @@ export class DataTableComponent extends BaseComponent {
     await this.page.keyboard.down('Meta');
     let row = this.getRowByName(name);
     await row.locator('[title="Size"]').click();
-    await row.locator('.adf-datatable-selected').waitFor({ state: 'attached' });
+    await row.locator('.adf-is-selected').waitFor({ state: 'attached' });
     row = this.getRowByName(name2);
     await row.locator('[title="Size"]').click();
-    await row.locator('.adf-datatable-selected').waitFor({ state: 'attached' });
+    await row.locator('.adf-is-selected').waitFor({ state: 'attached' });
   }
 
-  async hasCheckMarkIcon(itemName: string): Promise<boolean> {
+  async isRowSelected(itemName: string): Promise<boolean> {
     const row = this.getRowByName(itemName);
-    return await row.locator('.adf-datatable-selected').isVisible();
+    return await row.locator('.adf-is-selected').isVisible();
   }
 
   async getColumnHeaders(): Promise<Array<string>> {
@@ -338,9 +338,9 @@ export class DataTableComponent extends BaseComponent {
     await this.paginationOptions.getByText("50").click();
   }
 
-  /** 
+  /**
    * Method used to create objects from names and visibility of sites from datatable
-   * 
+   *
    * @returns an object with sites' names and their corresponding visibility values
   */
   async getSitesNameAndVisibility(): Promise<{ [siteName: string]: string }> {
@@ -356,9 +356,9 @@ export class DataTableComponent extends BaseComponent {
     return sitesInfo;
   }
 
-  /** 
+  /**
    * Method used to create objects from names and roles of sites from datatable
-   * 
+   *
    * @returns an object with sites' names and their corresponding role values
   */
   async getSitesNameAndRole(): Promise<{ [siteName: string]: string }> {
