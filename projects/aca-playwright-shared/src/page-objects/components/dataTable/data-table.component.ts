@@ -242,7 +242,7 @@ export class DataTableComponent extends BaseComponent {
     if (!isSelected) {
       let row = this.getRowByName(name);
       await row.locator('[title="Size"]').click({ modifiers: ['Meta'] });
-      await row.locator('.adf-is-selected').waitFor({ state: 'attached' });
+      await row.locator('.adf-datatable-checkbox .mat-checkbox-checked').waitFor({ state: 'attached' });
     }
   }
 
@@ -250,15 +250,15 @@ export class DataTableComponent extends BaseComponent {
     await this.page.keyboard.down('Meta');
     let row = this.getRowByName(name);
     await row.locator('[title="Size"]').click();
-    await row.locator('.adf-is-selected').waitFor({ state: 'attached' });
+    await row.locator('.adf-datatable-checkbox .mat-checkbox-checked').waitFor({ state: 'attached' });
     row = this.getRowByName(name2);
     await row.locator('[title="Size"]').click();
-    await row.locator('.adf-is-selected').waitFor({ state: 'attached' });
+    await row.locator('.adf-datatable-checkbox .mat-checkbox-checked').waitFor({ state: 'attached' });
   }
 
   async isRowSelected(itemName: string): Promise<boolean> {
     const row = this.getRowByName(itemName);
-    return await row.locator('.adf-is-selected').isVisible();
+    return await row.locator('.adf-datatable-checkbox .mat-checkbox-checked').isVisible();
   }
 
   async getColumnHeaders(): Promise<Array<string>> {
