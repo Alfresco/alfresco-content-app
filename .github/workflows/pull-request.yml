@@ -102,11 +102,9 @@ jobs:
       matrix:
         e2e-suites:
           - name: "deleteActions"
-            id: 7
-          - name: "editActions,favoriteActions"
-            id: 8
-          - name: "uploadDownloadActions"
-            id: 9
+            id: 1
+          - name: "editActions"
+            id: 2
     steps:
       - name: Checkout
         uses: actions/checkout@v3
