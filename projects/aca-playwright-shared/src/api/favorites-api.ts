@@ -119,7 +119,9 @@ export class FavoritesPageApi {
   async removeFavoriteById(username: string, nodeId: string): Promise<void> {
     try {
       await this.apiService.favorites.deleteFavorite(username, nodeId);
-    } catch {}
+    } catch (error) {
+      console.error('FavoritesApi: removeFavoriteById failed ', error);
+    }
   }
 
   async removeFavoritesByIds(username: string, ids: string[]): Promise<void> {
@@ -129,6 +131,8 @@ export class FavoritesPageApi {
           await this.removeFavoriteById(username, id);
         }
       }
-    } catch {}
+    } catch (error) {
+      console.error('FavoritesApi: removeFavoritesByIds failed ', error);
+    }
   }
 }
