@@ -37,7 +37,7 @@ export class DataTableComponent extends BaseComponent {
   }
 
   public pagination = new PaginationComponent(this.page);
-  body = this.getChild('.adf-datatable-body')
+  body = this.getChild('.adf-datatable-body');
   getEmptyFolderLocator = this.getChild('.adf-empty-folder');
   getEmptyContentTitleLocator = this.getChild('adf-empty-content .adf-empty-content__title');
   getEmptyContentSubTitleLocator = this.getChild('adf-empty-content .adf-empty-content__subtitle');
@@ -80,7 +80,7 @@ export class DataTableComponent extends BaseComponent {
 
   /**
    * Method used in cases where we want to retrieve a row from the datatable based on its numerical order within the array.
-   * 
+   *
    * @returns reference to cell element which contains text.
    */
   getNthRow = (orderNum: number): Locator => this.getRowLocator.nth(orderNum);
@@ -246,14 +246,15 @@ export class DataTableComponent extends BaseComponent {
     }
   }
 
-  async selectMultiItem(name: string, name2: string): Promise<void> {
+  async selectMultiItem(...names: string[]): Promise<void> {
     await this.page.keyboard.down('Meta');
-    let row = this.getRowByName(name);
-    await row.locator('[title="Size"]').click();
-    await row.locator('.adf-datatable-selected').waitFor({ state: 'attached' });
-    row = this.getRowByName(name2);
-    await row.locator('[title="Size"]').click();
-    await row.locator('.adf-datatable-selected').waitFor({ state: 'attached' });
+    for (const name of names) {
+      let row = this.getRowByName(name);
+      await this.page.waitForTimeout(750);
+      await row.locator('[title="Size"]').click();
+      await row.locator('.adf-datatable-selected').waitFor({ state: 'attached' });
+      await this.page.waitForTimeout(1500);
+    }
   }
 
   async hasCheckMarkIcon(itemName: string): Promise<boolean> {
@@ -335,41 +336,41 @@ export class DataTableComponent extends BaseComponent {
 
   async setPaginationTo50(): Promise<void> {
     await this.paginationButton.click();
-    await this.paginationOptions.getByText("50").click();
+    await this.paginationOptions.getByText('50').click();
   }
 
-  /** 
+  /**
    * Method used to create objects from names and visibility of sites from datatable
-   * 
+   *
    * @returns an object with sites' names and their corresponding visibility values
-  */
+   */
   async getSitesNameAndVisibility(): Promise<{ [siteName: string]: string }> {
     const rowsCount = await this.sitesName.count();
     let sitesInfo: { [siteName: string]: string } = {};
     for (let i = 0; i < rowsCount; i++) {
-        let siteVisibilityText = await this.sitesVisibility.nth(i).textContent();
-        let siteNameText = await this.sitesName.nth(i).textContent();
-        siteVisibilityText = siteVisibilityText.trim().toUpperCase();
-        siteNameText = siteNameText.trim();
-        sitesInfo[siteNameText] = siteVisibilityText;
+      let siteVisibilityText = await this.sitesVisibility.nth(i).textContent();
+      let siteNameText = await this.sitesName.nth(i).textContent();
+      siteVisibilityText = siteVisibilityText.trim().toUpperCase();
+      siteNameText = siteNameText.trim();
+      sitesInfo[siteNameText] = siteVisibilityText;
     }
     return sitesInfo;
   }
 
-  /** 
+  /**
    * Method used to create objects from names and roles of sites from datatable
-   * 
+   *
    * @returns an object with sites' names and their corresponding role values
-  */
+   */
   async getSitesNameAndRole(): Promise<{ [siteName: string]: string }> {
     const rowsCount = await this.sitesName.count();
     let sitesInfo: { [siteName: string]: string } = {};
     for (let i = 0; i < rowsCount; i++) {
-        let siteNameText = await this.sitesName.nth(i).textContent();
-        let siteRoleText = await this.sitesRole.nth(i).textContent();
-        siteNameText = siteNameText.trim();
-        siteRoleText = siteRoleText.trim();
-        sitesInfo[siteNameText] = siteRoleText;
+      let siteNameText = await this.sitesName.nth(i).textContent();
+      let siteRoleText = await this.sitesRole.nth(i).textContent();
+      siteNameText = siteNameText.trim();
+      siteRoleText = siteRoleText.trim();
+      sitesInfo[siteNameText] = siteRoleText;
     }
     return sitesInfo;
   }

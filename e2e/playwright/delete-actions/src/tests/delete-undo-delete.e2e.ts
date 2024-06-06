@@ -134,10 +134,9 @@ test.describe('Delete and undo delete', () => {
     });
 
     test('[C280502] delete multiple files and check notification', async ({ personalFiles, trashPage }) => {
+      await personalFiles.page.reload({ waitUntil: 'load' });
       let items = await personalFiles.dataTable.getRowsCount();
-      await personalFiles.dataTable.selectItem(file2);
-      await personalFiles.page.waitForTimeout(1500);
-      await personalFiles.dataTable.selectItem(file3);
+      await personalFiles.dataTable.selectMultiItem(file2, file3);
       await personalFiles.acaHeader.clickMoreActions();
       await personalFiles.matMenu.clickMenuItem('Delete');
       await personalFiles.snackBar.verifySnackBarActionText(`Deleted 2 items`);
@@ -178,9 +177,7 @@ test.describe('Delete and undo delete', () => {
     });
 
     test('[C217129] notification on multiple items deletion - some items fail to delete', async ({ personalFiles }) => {
-      await personalFiles.dataTable.selectItem(file4);
-      await personalFiles.page.waitForTimeout(1500);
-      await personalFiles.dataTable.selectItem(folder3);
+      await personalFiles.dataTable.selectMultiItem(file4, folder3);
       await personalFiles.acaHeader.clickMoreActions();
       await personalFiles.matMenu.clickMenuItem('Delete');
       await personalFiles.snackBar.verifySnackBarActionText(`Deleted 1 item, 1 couldn't be deleted`);
@@ -189,9 +186,7 @@ test.describe('Delete and undo delete', () => {
     });
 
     test('[C217130] notification on multiple items deletion - all items fail to delete', async ({ personalFiles }) => {
-      await personalFiles.dataTable.selectItem(folder4);
-      await personalFiles.page.waitForTimeout(1500);
-      await personalFiles.dataTable.selectItem(folder5);
+      await personalFiles.dataTable.selectMultiItem(folder4, folder5);
       await personalFiles.acaHeader.clickMoreActions();
       await personalFiles.matMenu.clickMenuItem('Delete');
       await personalFiles.snackBar.verifySnackBarActionText(`2 items couldn't be deleted`);
@@ -224,9 +219,7 @@ test.describe('Delete and undo delete', () => {
     });
 
     test('[C280504] undo delete of multiple files', async ({ personalFiles }) => {
-      await personalFiles.dataTable.selectItem(file6);
-      await personalFiles.page.waitForTimeout(1500);
-      await personalFiles.dataTable.selectItem(file7);
+      await personalFiles.dataTable.selectMultiItem(file6, file7);
       await personalFiles.acaHeader.clickMoreActions();
       await personalFiles.matMenu.clickMenuItem('Delete');
       await personalFiles.snackBar.clickSnackBarAction();

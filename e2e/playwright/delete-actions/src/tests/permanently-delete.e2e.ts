@@ -107,9 +107,7 @@ test.describe('Delete and undo delete', () => {
     });
 
     test('[C280417] delete multiple items', async ({ trashPage }) => {
-      await trashPage.dataTable.selectItem(file2);
-      await trashPage.page.waitForTimeout(1500);
-      await trashPage.dataTable.selectItem(folder2);
+      await trashPage.dataTable.selectMultiItem(file2, folder2);
       await trashPage.acaHeader.permanentlyDeleteButton.click();
       await trashPage.deleteDialog.deleteButton.click();
 
