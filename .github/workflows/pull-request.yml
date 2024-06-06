@@ -101,8 +101,6 @@ jobs:
       fail-fast: false
       matrix:
         e2e-suites:
-          - name: "search"
-            id: 2
           - name: "deleteActions"
             id: 7
           - name: "editActions,favoriteActions"

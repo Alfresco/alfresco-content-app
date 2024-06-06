@@ -238,11 +238,11 @@ export class DataTableComponent extends BaseComponent {
   }
 
   async selectItem(name: string): Promise<void> {
-    const isSelected = await this.hasCheckMarkIcon(name);
+    const isSelected = await this.isRowSelected(name);
     if (!isSelected) {
       let row = this.getRowByName(name);
       await row.locator('[title="Size"]').click({ modifiers: ['Meta'] });
-      await row.locator('.adf-datatable-selected').waitFor({ state: 'attached' });
+      await row.locator('.adf-datatable-checkbox .mat-checkbox-checked').waitFor({ state: 'attached' });
     }
   }
 
@@ -250,16 +250,15 @@ export class DataTableComponent extends BaseComponent {
     await this.page.keyboard.down('Meta');
     for (const name of names) {
       let row = this.getRowByName(name);
-      await this.page.waitForTimeout(750);
       await row.locator('[title="Size"]').click();
       await row.locator('.adf-datatable-selected').waitFor({ state: 'attached' });
       await this.page.waitForTimeout(1500);
     }
   }
 
-  async hasCheckMarkIcon(itemName: string): Promise<boolean> {
+  async isRowSelected(itemName: string): Promise<boolean> {
     const row = this.getRowByName(itemName);
-    return await row.locator('.adf-datatable-selected').isVisible();
+    return await row.locator('.adf-datatable-checkbox .mat-checkbox-checked').isVisible();
   }
 
   async getColumnHeaders(): Promise<Array<string>> {

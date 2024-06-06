@@ -37,6 +37,7 @@ export class ViewerComponent extends BaseComponent {
   public shareButton = this.getChild('button[id="share-action-button"]');
   public downloadButton = this.getChild('button[id="app.viewer.download"]');
   public allButtons = this.getChild('button');
+  public unknownFormat = this.getChild(`adf-viewer-unknown-format .adf-viewer__unknown-format-view`);
 
   toolbar = new AcaHeader(this.page);
 
@@ -51,8 +52,8 @@ export class ViewerComponent extends BaseComponent {
 
   async waitForViewerToOpen(waitForViewerContent?: 'wait for viewer content'): Promise<void> {
     await this.viewerLocator.waitFor({ state: 'visible', timeout: timeouts.medium });
-    if(waitForViewerContent) {
-    await this.spinnerWaitForReload();
+    if (waitForViewerContent) {
+      await this.spinnerWaitForReload();
     }
   }
 
@@ -98,5 +99,13 @@ export class ViewerComponent extends BaseComponent {
     for (const action of expectedToolbarPrimary) {
       expect(actualPrimaryActions.includes(action), `Expected to contain ${action}`).toBe(true);
     }
+  }
+
+  async checkUnknownFormatIsDisplayed(): Promise<void> {
+    await this.unknownFormat.waitFor({ state: 'visible', timeout: timeouts.normal });
+  }
+
+  async getUnknownFormatMessage(): Promise<string> {
+    return this.unknownFormat.locator(`.adf-viewer__unknown-label`).innerText();
   }
 }

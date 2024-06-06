@@ -115,7 +115,7 @@ test.describe('Info Drawer - Comments', () => {
     await fileActionsApi.waitForNodes(recentFile, { expect: 1 });
     await recentFilesPage.navigate();
     await expect(recentFilesPage.dataTable.getRowByName(recentFile)).toBeVisible();
-    await recentFilesPage.dataTable.getRowByName(recentFile).click();
+    await recentFilesPage.dataTable.selectItem(recentFile);
     await recentFilesPage.acaHeader.viewDetails.click();
     await recentFilesPage.infoDrawer.commentsTab.click();
     await expect(recentFilesPage.infoDrawer.commentInputField).toBeVisible();
