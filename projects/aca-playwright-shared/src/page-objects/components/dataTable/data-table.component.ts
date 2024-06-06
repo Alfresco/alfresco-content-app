@@ -241,18 +241,17 @@ export class DataTableComponent extends BaseComponent {
     const isSelected = await this.isRowSelected(name);
     if (!isSelected) {
       let row = this.getRowByName(name);
-      await row.locator('[title="Size"]').click({ modifiers: ['Meta'] });
-      await row.locator('.adf-datatable-checkbox .mat-checkbox-checked').waitFor({ state: 'attached' });
+      await row.locator('mat-checkbox').click();
+      await row.locator('.mat-checkbox-checked').waitFor({ state: 'attached' });
     }
   }
 
   async selectMultiItem(...names: string[]): Promise<void> {
-    await this.page.keyboard.down('Meta');
     for (const name of names) {
       let row = this.getRowByName(name);
-      await row.locator('[title="Size"]').click();
-      await row.locator('.adf-datatable-selected').waitFor({ state: 'attached' });
-      await this.page.waitForTimeout(1500);
+      await row.locator('mat-checkbox').click();
+      await row.locator('.mat-checkbox-checked').waitFor({ state: 'attached' });
+      await this.page.waitForTimeout(1000);
     }
   }
 
