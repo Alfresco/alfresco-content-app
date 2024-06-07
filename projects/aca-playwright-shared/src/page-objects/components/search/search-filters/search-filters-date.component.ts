@@ -100,7 +100,7 @@ export class SearchFiltersDate extends BaseComponent {
       startDay,
       endDay
     } = params;
-    
+
     await searchPage.searchWithin(searchPhrase, searchType);
     await searchPage.searchFilters.dateFilter.click();
 
@@ -138,5 +138,13 @@ export class SearchFiltersDate extends BaseComponent {
       }
       await expect(searchPage.searchFilters.dateFilter).toContainText(dateText, { ignoreCase: true });
     }
+  }
+
+  async isModifiedTabSelected(): Promise<string> {
+    return this.modifiedTab.getAttribute('aria-selected');
+  }
+
+  async isSearchTabSelected(): Promise<string> {
+    return this.createdTab.getAttribute('aria-selected');
   }
 }
