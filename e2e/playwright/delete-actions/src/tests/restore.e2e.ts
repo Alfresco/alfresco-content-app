@@ -110,9 +110,7 @@ test.describe('Restore from Trash', () => {
     });
 
     test('[C217182] restore multiple items', async ({ trashPage, personalFiles }) => {
-      await trashPage.dataTable.selectItem(file2);
-      await trashPage.page.waitForTimeout(1500);
-      await trashPage.dataTable.selectItem(folder2);
+      await trashPage.dataTable.selectMultiItem(file2, folder2);
       await trashPage.acaHeader.restoreButton.click();
       await trashPage.snackBar.verifySnackBarActionText(`Restore successful`);
       const action = await trashPage.snackBar.getSnackBarActionText();
@@ -225,19 +223,13 @@ test.describe('Restore from Trash', () => {
     });
 
     test('[C217183] one failure', async ({ trashPage }) => {
-      await trashPage.dataTable.selectItem(file1);
-      await trashPage.page.waitForTimeout(1500);
-      await trashPage.dataTable.selectItem(file2);
+      await trashPage.dataTable.selectMultiItem(file1, file2);
       await trashPage.acaHeader.restoreButton.click();
       await trashPage.snackBar.verifySnackBarActionText(`Can't restore ${file1}, the original location no longer exists`);
     });
 
     test('[C217184] multiple failures', async ({ trashPage }) => {
-      await trashPage.dataTable.selectItem(file3);
-      await trashPage.page.waitForTimeout(1500);
-      await trashPage.dataTable.selectItem(file4);
-      await trashPage.page.waitForTimeout(1500);
-      await trashPage.dataTable.selectItem(file5);
+      await trashPage.dataTable.selectMultiItem(file3, file4, file5);
       await trashPage.acaHeader.restoreButton.click();
       await trashPage.snackBar.verifySnackBarActionText('2 items not restored because of issues with the restore location');
     });

@@ -37,7 +37,7 @@ export class DataTableComponent extends BaseComponent {
   }
 
   public pagination = new PaginationComponent(this.page);
-  body = this.getChild('.adf-datatable-body')
+  body = this.getChild('.adf-datatable-body');
   getEmptyFolderLocator = this.getChild('.adf-empty-folder');
   getEmptyContentTitleLocator = this.getChild('adf-empty-content .adf-empty-content__title');
   getEmptyContentSubTitleLocator = this.getChild('adf-empty-content .adf-empty-content__subtitle');
@@ -241,19 +241,18 @@ export class DataTableComponent extends BaseComponent {
     const isSelected = await this.isRowSelected(name);
     if (!isSelected) {
       let row = this.getRowByName(name);
-      await row.locator('[title="Size"]').click({ modifiers: ['Meta'] });
-      await row.locator('.adf-datatable-checkbox .mat-checkbox-checked').waitFor({ state: 'attached' });
+      await row.locator('mat-checkbox').click();
+      await row.locator('.mat-checkbox-checked').waitFor({ state: 'attached' });
     }
   }
 
-  async selectMultiItem(name: string, name2: string): Promise<void> {
-    await this.page.keyboard.down('Meta');
-    let row = this.getRowByName(name);
-    await row.locator('[title="Size"]').click();
-    await row.locator('.adf-datatable-checkbox .mat-checkbox-checked').waitFor({ state: 'attached' });
-    row = this.getRowByName(name2);
-    await row.locator('[title="Size"]').click();
-    await row.locator('.adf-datatable-checkbox .mat-checkbox-checked').waitFor({ state: 'attached' });
+  async selectMultiItem(...names: string[]): Promise<void> {
+    for (const name of names) {
+      let row = this.getRowByName(name);
+      await row.locator('mat-checkbox').click();
+      await row.locator('.mat-checkbox-checked').waitFor({ state: 'attached' });
+      await this.page.waitForTimeout(1000);
+    }
   }
 
   async isRowSelected(itemName: string): Promise<boolean> {
@@ -335,23 +334,23 @@ export class DataTableComponent extends BaseComponent {
 
   async setPaginationTo50(): Promise<void> {
     await this.paginationButton.click();
-    await this.paginationOptions.getByText("50").click();
+    await this.paginationOptions.getByText('50').click();
   }
 
   /**
    * Method used to create objects from names and visibility of sites from datatable
    *
    * @returns an object with sites' names and their corresponding visibility values
-  */
+   */
   async getSitesNameAndVisibility(): Promise<{ [siteName: string]: string }> {
     const rowsCount = await this.sitesName.count();
     let sitesInfo: { [siteName: string]: string } = {};
     for (let i = 0; i < rowsCount; i++) {
-        let siteVisibilityText = await this.sitesVisibility.nth(i).textContent();
-        let siteNameText = await this.sitesName.nth(i).textContent();
-        siteVisibilityText = siteVisibilityText.trim().toUpperCase();
-        siteNameText = siteNameText.trim();
-        sitesInfo[siteNameText] = siteVisibilityText;
+      let siteVisibilityText = await this.sitesVisibility.nth(i).textContent();
+      let siteNameText = await this.sitesName.nth(i).textContent();
+      siteVisibilityText = siteVisibilityText.trim().toUpperCase();
+      siteNameText = siteNameText.trim();
+      sitesInfo[siteNameText] = siteVisibilityText;
     }
     return sitesInfo;
   }
@@ -360,16 +359,16 @@ export class DataTableComponent extends BaseComponent {
    * Method used to create objects from names and roles of sites from datatable
    *
    * @returns an object with sites' names and their corresponding role values
-  */
+   */
   async getSitesNameAndRole(): Promise<{ [siteName: string]: string }> {
     const rowsCount = await this.sitesName.count();
     let sitesInfo: { [siteName: string]: string } = {};
     for (let i = 0; i < rowsCount; i++) {
-        let siteNameText = await this.sitesName.nth(i).textContent();
-        let siteRoleText = await this.sitesRole.nth(i).textContent();
-        siteNameText = siteNameText.trim();
-        siteRoleText = siteRoleText.trim();
-        sitesInfo[siteNameText] = siteRoleText;
+      let siteNameText = await this.sitesName.nth(i).textContent();
+      let siteRoleText = await this.sitesRole.nth(i).textContent();
+      siteNameText = siteNameText.trim();
+      siteRoleText = siteRoleText.trim();
+      sitesInfo[siteNameText] = siteRoleText;
     }
     return sitesInfo;
   }
