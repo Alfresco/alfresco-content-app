@@ -46,7 +46,6 @@ import {
   ViewNodeVersionAction
 } from '@alfresco/aca-shared/store';
 import {
-  ConfirmDialogComponent,
   FolderDialogComponent,
   LibraryDialogComponent,
   NewVersionUploaderData,
@@ -57,7 +56,7 @@ import {
   NodesApiService,
   ShareDialogComponent
 } from '@alfresco/adf-content-services';
-import { NotificationService, TranslationService } from '@alfresco/adf-core';
+import { NotificationService, TranslationService, ConfirmDialogComponent } from '@alfresco/adf-core';
 import { DeletedNodesPaging, Node, NodeEntry, PathInfo, SiteBodyCreate, SiteEntry } from '@alfresco/js-api';
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
