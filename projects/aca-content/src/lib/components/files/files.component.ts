@@ -91,26 +91,29 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
     this.title = data.title;
 
-    this.route.queryParamMap.subscribe((queryMap: Params) => {
+    this.route.queryParamMap.pipe(takeUntil(this.onDestroy$)).subscribe((queryMap: Params) => {
       this.queryParams = queryMap.params;
     });
-    this.route.params.subscribe(({ folderId }: Params) => {
+    this.route.params.pipe(takeUntil(this.onDestroy$)).subscribe(({ folderId }: Params) => {
       const nodeId = folderId || data.defaultNodeId;
 
-      this.contentApi.getNode(nodeId).subscribe(
-        (node) => {
-          this.isValidPath = true;
+      this.contentApi
+        .getNode(nodeId)
+        .pipe(takeUntil(this.onDestroy$))
+        .subscribe(
+          (node) => {
+            this.isValidPath = true;
 
-          if (node?.entry?.isFolder) {
-            void this.updateCurrentNode(node.entry);
-          } else {
-            void this.router.navigate(['/personal-files', node.entry.parentId], {
-              replaceUrl: true
-            });
-          }
-        },
-        () => (this.isValidPath = false)
-      );
+            if (node?.entry?.isFolder) {
+              void this.updateCurrentNode(node.entry);
+            } else {
+              void this.router.navigate(['/personal-files', node.entry.parentId], {
+                replaceUrl: true
+              });
+            }
+          },
+          () => (this.isValidPath = false)
+        );
     });
 
     this.subscriptions = this.subscriptions.concat([
