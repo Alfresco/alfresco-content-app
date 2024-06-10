@@ -94,10 +94,10 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     this.route.queryParamMap.subscribe((queryMap: Params) => {
       this.queryParams = queryMap.params;
     });
-    this.route.params.subscribe(({ folderId }: Params) => {
+    this.route.params.pipe(takeUntil(this.onDestroy$)).subscribe(({ folderId }: Params) => {
       const nodeId = folderId || data.defaultNodeId;
 
-      this.contentApi.getNode(nodeId).subscribe(
+      this.contentApi.getNode(nodeId).pipe(takeUntil(this.onDestroy$)).subscribe(
         (node) => {
           this.isValidPath = true;
 
