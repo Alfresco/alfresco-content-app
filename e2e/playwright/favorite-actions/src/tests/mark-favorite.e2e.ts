@@ -142,46 +142,40 @@ test.describe('Mark items as favorites', () => {
     });
 
     test('favorite a file', async ({ personalFiles }) => {
-      await personalFiles.dataTable.selectItem(fileNotFav1);
-      await personalFiles.acaHeader.clickMoreActions();
-      await personalFiles.matMenu.clickMenuItem('Favorite');
+      await personalFiles.selectItemsAndToggleFavorite([fileNotFav1], 'Favorite');
+
       expect(await favoritesApi.isFavoriteWithRetry(username, fileNotFav1Id, { expect: true })).toBe(true);
     });
 
     test('favorite a folder', async ({ personalFiles }) => {
-      await personalFiles.dataTable.selectItem(folder);
-      await personalFiles.acaHeader.clickMoreActions();
-      await personalFiles.matMenu.clickMenuItem('Favorite');
+      await personalFiles.selectItemsAndToggleFavorite([folder], 'Favorite');
+
       expect(await favoritesApi.isFavoriteWithRetry(username, folderId, { expect: true })).toBe(true);
     });
 
     test('unfavorite an item', async ({ personalFiles }) => {
-      await personalFiles.dataTable.selectItem(fileFav1);
-      await personalFiles.acaHeader.clickMoreActions();
-      await personalFiles.matMenu.clickMenuItem('Remove Favorite');
+      await personalFiles.selectItemsAndToggleFavorite([fileFav1], 'Remove Favorite');
+
       expect(await favoritesApi.isFavoriteWithRetry(username, fileFav1Id, { expect: false })).toBe(false);
     });
 
     test('favorite multiple items - all unfavorite', async ({ personalFiles }) => {
-      await personalFiles.dataTable.selectMultiItem(fileNotFav2, fileNotFav3);
-      await personalFiles.acaHeader.clickMoreActions();
-      await personalFiles.matMenu.clickMenuItem('Favorite');
+      await personalFiles.selectItemsAndToggleFavorite([fileNotFav2, fileNotFav3], 'Favorite');
+
       expect(await favoritesApi.isFavoriteWithRetry(username, fileNotFav2Id, { expect: true })).toBe(true);
       expect(await favoritesApi.isFavoriteWithRetry(username, fileNotFav3Id, { expect: true })).toBe(true);
     });
 
     test('favorite multiple items - some favorite and some unfavorite', async ({ personalFiles }) => {
-      await personalFiles.dataTable.selectMultiItem(fileNotFav4, fileFav2);
-      await personalFiles.acaHeader.clickMoreActions();
-      await personalFiles.matMenu.clickMenuItem('Favorite');
+      await personalFiles.selectItemsAndToggleFavorite([fileNotFav4, fileFav2], 'Favorite');
+
       expect(await favoritesApi.isFavoriteWithRetry(username, fileNotFav4Id, { expect: true })).toBe(true);
       expect(await favoritesApi.isFavoriteWithRetry(username, fileFav2Id, { expect: true })).toBe(true);
     });
 
     test('unfavorite multiple items', async ({ personalFiles }) => {
-      await personalFiles.dataTable.selectMultiItem(fileFav3, fileFav4);
-      await personalFiles.acaHeader.clickMoreActions();
-      await personalFiles.matMenu.clickMenuItem('Remove Favorite');
+      await personalFiles.selectItemsAndToggleFavorite([fileFav3, fileFav4], 'Remove Favorite');
+
       expect(await favoritesApi.isFavoriteWithRetry(username, fileFav3Id, { expect: false })).toBe(false);
       expect(await favoritesApi.isFavoriteWithRetry(username, fileFav4Id, { expect: false })).toBe(false);
     });
