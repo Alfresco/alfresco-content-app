@@ -31,16 +31,16 @@ export async function waitForApi<T>(apiCall: ApiCall<T>, predicate: ApiResultPre
     if (predicate(apiCallResult)) {
       return Promise.resolve(apiCallResult);
     } else {
-      return Promise.reject(apiCallResult);
+      return Promise.reject(new Error(`API call did not satisfy predicate: ${JSON.stringify(apiCallResult)}`));
     }
   };
 
   return retryCall(apiCallWithPredicateChecking, retry, delay);
 }
 
-function retryCall(fn: () => Promise<any>, retry: number = 30, delay: number = 1000): Promise<any> {
+function retryCall(fn: () => Promise<any>, retry: number = 30, delay: number = 1000): Promise<string> {
   const pause = (duration) => new Promise((res) => setTimeout(res, duration));
-  const run = (retries) => fn().catch((err) => (retries > 1 ? pause(delay).then(() => run(retries - 1)) : Promise.reject(err)));
+  const run = (retries) => fn().catch((err) => (retries > 1 ? pause(delay).then(() => run(retries - 1)) : Promise.reject(new Error(`API call did not satisfy predicate: ${JSON.stringify(err)}`))));
 
   return run(retry);
 }

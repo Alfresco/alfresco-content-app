@@ -32,12 +32,12 @@ export const errorColor = '\x1b[31m%s\x1b[0m';
 export type LOG_LEVEL = 'TRACE' | 'DEBUG' | 'INFO' | 'WARN' | 'ERROR' | 'SILENT';
 
 export class LogLevelsEnum extends Number {
-  static TRACE: number = 5;
-  static DEBUG: number = 4;
-  static INFO: number = 3;
-  static WARN: number = 2;
-  static ERROR: number = 1;
-  static SILENT: number = 0;
+  public static readonly TRACE: number = 5;
+  public static readonly DEBUG: number = 4;
+  public static readonly INFO: number = 3;
+  public static readonly WARN: number = 2;
+  public static readonly ERROR: number = 1;
+  public static readonly SILENT: number = 0;
 }
 
 export const logLevels: { level: LogLevelsEnum; name: LOG_LEVEL }[] = [
