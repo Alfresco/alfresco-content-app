@@ -151,8 +151,6 @@ jobs:
 
       - name: Before e2e
         uses: ./.github/actions/before-e2e
-        with:
-          e2e-protractor: false
 
       - name: before playwright
         shell: bash
