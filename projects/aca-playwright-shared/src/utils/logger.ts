@@ -65,19 +65,19 @@ export class GenericLogger implements LoggerLike {
   }
 
   info(...messages: string[]): void {
-    if (this.level >= LogLevelsEnum.INFO) {
+    if (Number(this.level) >= LogLevelsEnum.INFO) {
       console.log(infoColor, messages.join(''));
     }
   }
 
   log(...messages: string[]): void {
-    if (this.level >= LogLevelsEnum.TRACE) {
+    if (Number(this.level) >= LogLevelsEnum.TRACE) {
       console.log(logColor, messages.join(''));
     }
   }
 
   warn(...messages: string[]): void {
-    if (this.level >= LogLevelsEnum.WARN) {
+    if (Number(this.level) >= LogLevelsEnum.WARN) {
       console.log(warnColor, messages.join(''));
     }
   }

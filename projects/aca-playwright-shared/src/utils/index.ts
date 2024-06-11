@@ -30,3 +30,5 @@ export * from './utils';
 export * from './library-errors';
 export * from './config';
 export * from './error-strings';
+export * from './api';
+export * from './logger';

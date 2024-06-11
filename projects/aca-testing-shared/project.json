@@ -1,7 +1,0 @@
-{
-  "name": "aca-testing-shared",
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "projects/aca-testing-shared/src",
-  "projectType": "library",
-  "prefix": "lib"
-}
