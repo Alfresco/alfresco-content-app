@@ -7,12 +7,3 @@ runs:
     - name: Check content UP
       shell: bash
       run: ./node_modules/@alfresco/adf-cli/bin/adf-cli check-cs-env --host $BASE_URL -u $ADMIN_EMAIL -p $ADMIN_PASSWORD || exit 1
-
-    - name: Install stable google chrome
-      shell: bash
-      run: |
-          wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-          sudo apt install ./google-chrome-stable_current_amd64.deb
-          sudo ln -s /usr/bin/google-chrome /usr/bin/chrome
-          chrome --version
-
