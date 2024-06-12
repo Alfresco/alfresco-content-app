@@ -123,61 +123,61 @@ test.describe('Mark items as favorites', () => {
       await personalFiles.dataTable.performClickFolderOrFileToOpen(parent);
     });
 
-    test('Favorite action has empty star icon for an item not marked as favorite', async ({ personalFiles }) => {
+    test('[XAT-5042] Favorite action has empty star icon for an item not marked as favorite', async ({ personalFiles }) => {
       await personalFiles.dataTable.selectItem(fileNotFavUI);
       await personalFiles.acaHeader.clickMoreActions();
       expect(await personalFiles.matMenu.isMenuItemVisible('Favorite')).toBe(true);
     });
 
-    test('Favorite action has empty star icon for multiple selection of items when some are not favorite', async ({ personalFiles }) => {
+    test('[XAT-5043] Favorite action has empty star icon for multiple selection of items when some are not favorite', async ({ personalFiles }) => {
       await personalFiles.dataTable.selectMultiItem(fileNotFavUI, fileFavUI);
       await personalFiles.acaHeader.clickMoreActions();
       expect(await personalFiles.matMenu.isMenuItemVisible('Favorite')).toBe(true);
     });
 
-    test('Favorite action has full star icon for items marked as favorite', async ({ personalFiles }) => {
+    test('[XAT-5044] Favorite action has full star icon for items marked as favorite', async ({ personalFiles }) => {
       await personalFiles.dataTable.selectItem(fileFavUI);
       await personalFiles.acaHeader.clickMoreActions();
       expect(await personalFiles.matMenu.isMenuItemVisible('Remove Favorite')).toBe(true);
     });
 
-    test('favorite a file', async ({ personalFiles }) => {
+    test('[XAT-5045] Favorite a file', async ({ personalFiles }) => {
       await personalFiles.selectItemsAndToggleFavorite([fileNotFav1], 'Favorite');
 
       expect(await favoritesApi.isFavoriteWithRetry(username, fileNotFav1Id, { expect: true })).toBe(true);
     });
 
-    test('favorite a folder', async ({ personalFiles }) => {
+    test('[XAT-5046] Favorite a folder', async ({ personalFiles }) => {
       await personalFiles.selectItemsAndToggleFavorite([folder], 'Favorite');
 
       expect(await favoritesApi.isFavoriteWithRetry(username, folderId, { expect: true })).toBe(true);
     });
 
-    test('unfavorite an item', async ({ personalFiles }) => {
+    test('[XAT-5047] Unfavorite an item', async ({ personalFiles }) => {
       await personalFiles.selectItemsAndToggleFavorite([fileFav1], 'Remove Favorite');
 
       expect(await favoritesApi.isFavoriteWithRetry(username, fileFav1Id, { expect: false })).toBe(false);
     });
 
-    test('favorite multiple items - all unfavorite', async ({ personalFiles }) => {
+    test('[XAT-5048] Favorite multiple items - all unfavorite', async ({ personalFiles }) => {
       await personalFiles.selectItemsAndToggleFavorite([fileNotFav2, fileNotFav3], 'Favorite');
 
       expect(await favoritesApi.isFavoriteWithRetry(username, fileNotFav2Id, { expect: true })).toBe(true);
       expect(await favoritesApi.isFavoriteWithRetry(username, fileNotFav3Id, { expect: true })).toBe(true);
     });
 
-    test('favorite multiple items - some favorite and some unfavorite', async ({ personalFiles }) => {
-      await personalFiles.selectItemsAndToggleFavorite([fileNotFav4, fileFav2], 'Favorite');
-
-      expect(await favoritesApi.isFavoriteWithRetry(username, fileNotFav4Id, { expect: true })).toBe(true);
-      expect(await favoritesApi.isFavoriteWithRetry(username, fileFav2Id, { expect: true })).toBe(true);
-    });
-
-    test('unfavorite multiple items', async ({ personalFiles }) => {
+    test('[XAT-5049] Unfavorite multiple items', async ({ personalFiles }) => {
       await personalFiles.selectItemsAndToggleFavorite([fileFav3, fileFav4], 'Remove Favorite');
 
       expect(await favoritesApi.isFavoriteWithRetry(username, fileFav3Id, { expect: false })).toBe(false);
       expect(await favoritesApi.isFavoriteWithRetry(username, fileFav4Id, { expect: false })).toBe(false);
+    });
+
+    test('[XAT-5050] Favorite multiple items - some favorite and some unfavorite', async ({ personalFiles }) => {
+      await personalFiles.selectItemsAndToggleFavorite([fileNotFav4, fileFav2], 'Favorite');
+
+      expect(await favoritesApi.isFavoriteWithRetry(username, fileNotFav4Id, { expect: true })).toBe(true);
+      expect(await favoritesApi.isFavoriteWithRetry(username, fileFav2Id, { expect: true })).toBe(true);
     });
   });
 });
