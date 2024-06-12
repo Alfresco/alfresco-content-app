@@ -20,7 +20,7 @@
       }
     }
 
-    .mdc-checkbox__native-control:not(.mdc-checkbox--selected):focus {
+    .mdc-checkbox__native-control:focus {
       & ~ .mat-mdc-checkbox-ripple {
         @include rounded-outline;
 
