@@ -9,11 +9,8 @@ runs:
       run: |
         echo "BUILD_OPTS=--configuration=production,e2e" >> $GITHUB_ENV
         echo "TEST_OPTS=" >> $GITHUB_ENV
-        echo "E2E_PROTRACTOR_OPTS=" >> $GITHUB_ENV
         echo "E2E_TSCONFIG=tsconfig.e2e.json" >> $GITHUB_ENV
         echo "GIT_HASH=$(git rev-parse HEAD)" >> $GITHUB_ENV
-        echo "SMART_RUNNER_DIRECTORY=.protractor-smartrunner" >> $GITHUB_ENV
-        echo "BASE_HASH=.protractor-smartrunner" >> $GITHUB_ENV
         echo "HEAD_HASH=HEAD" >> $GITHUB_ENV
 
     - uses: Alfresco/alfresco-build-tools/.github/actions/get-branch-name@v1.35.0

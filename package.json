@@ -11,8 +11,6 @@
     "build.release": "npm run build -- --configuration=production,release",
     "test": "nx test",
     "lint": "NODE_OPTIONS=--max_old_space_size=4096 nx run-many --all --target=lint",
-    "update-webdriver": "./scripts/webdriver-update-newest/update-to-newest-webdriver.sh",
-    "e2e": "npm run update-webdriver",
     "inspect.bundle": "nx build content-ce --configuration production --stats-json && npx webpack-bundle-analyzer dist/content-ce/stats.json",
     "prepare": "husky install",
     "stylelint": "stylelint \"{app,projects}/**/*.scss\"",
