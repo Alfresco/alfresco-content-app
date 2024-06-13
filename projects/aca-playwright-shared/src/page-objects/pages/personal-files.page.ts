@@ -103,4 +103,12 @@ export class PersonalFilesPage extends BasePage {
     await this.contentNodeSelector.selectDestination(destinationName);
     await this.contentNodeSelector.actionButton.click();
   }
+
+  async selectItemsAndToggleFavorite(item: string[], action: 'Favorite' | 'Remove Favorite') {
+    for (const itemToSelect of item) {
+      await this.dataTable.selectItem(itemToSelect);
+    }
+    await this.acaHeader.clickMoreActions();
+    await this.matMenu.clickMenuItem(action);
+  }
 }

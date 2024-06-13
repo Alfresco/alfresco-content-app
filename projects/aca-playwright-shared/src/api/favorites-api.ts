@@ -115,4 +115,16 @@ export class FavoritesPageApi {
       return await Utils.retryCall(favoriteFiles);
     } catch {}
   }
+
+  async removeFavoritesByIds(username: string, ids: string[]): Promise<void> {
+    try {
+      if (ids && ids.length > 0) {
+        for (const id of ids) {
+          await this.apiService.favorites.deleteFavorite(username, id);
+        }
+      }
+    } catch (error) {
+      console.error('FavoritesApi: removeFavoritesByIds failed ', error);
+    }
+  }
 }
