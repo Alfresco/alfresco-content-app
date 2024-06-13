@@ -283,6 +283,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
 
   private openSelectorDialog(paramDefName) {
     const data: ContentNodeSelectorComponentData = {
+      selectionMode: 'single',
       title: this.translate.instant('ACA_FOLDER_RULES.RULE_DETAILS.PLACEHOLDER.CHOOSE_FOLDER'),
       actionName: NodeAction.CHOOSE,
       currentFolderId: this.nodeId,

@@ -202,6 +202,16 @@ export const securityActionTransformedMock: ActionDefinitionTransformed = {
   parameterDefinitions: [actionParamSecurityGroup, actionParamSecurityMark]
 };
 
+export const actionNodeTransformedMock: ActionDefinitionTransformed = {
+  id: 'mock-action-5-definition',
+  name: 'mock-action-5-definition',
+  description: '',
+  title: 'mock-action-5-definition',
+  applicableTypes: [],
+  trackStatus: false,
+  parameterDefinitions: [actionParam5TransformedMock]
+};
+
 export const actionsTransformedListMock: ActionDefinitionTransformed[] = [action1TransformedMock, action2TransformedMock];
 
 export const validActionMock: RuleAction = {
