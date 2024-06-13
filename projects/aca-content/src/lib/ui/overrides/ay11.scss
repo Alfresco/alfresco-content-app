@@ -1,3 +1,5 @@
+@import '../colors';
+
 /* stylelint-disable selector-class-pattern */
 @mixin ay11-theme() {
   .mat-mdc-icon-button,
@@ -143,6 +145,10 @@
     .mdc-switch__shadow {
       background-color: var(--theme-primary-color-default-contrast);
     }
+  }
+
+  .mat-mdc-tab:focus {
+    background: map-get($aca-primary-blue, 50);
   }
 
   .mat-mdc-slide-toggle.cdk-keyboard-focused .mdc-form-field .mdc-switch .mdc-switch__track {
