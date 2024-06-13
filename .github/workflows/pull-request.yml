@@ -172,6 +172,8 @@ jobs:
             id: 14
           - name: "favorite-actions"
             id: 15
+          - name: "delete-actions"
+            id: 16
     steps:
       - name: Checkout
         uses: actions/checkout@v3
