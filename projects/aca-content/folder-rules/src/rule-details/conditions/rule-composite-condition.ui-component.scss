@@ -1,3 +1,5 @@
+@import '@alfresco/adf-core/lib/styles/mat-selectors';
+
 .aca-rule-composite-condition {
   display: block;
   border-radius: 8px;
@@ -16,6 +18,27 @@
     flex-direction: column;
     gap: 8px;
 
+    .aca-rule-composite-condition__form__row {
+      display: flex;
+      gap: 8px;
+
+      #{$mat-form-field} {
+        #{$mat-form-field-infix} {
+          padding-bottom: 4px;
+        }
+      }
+
+      & > :nth-child(1) {
+        width: 7em;
+        height: fit-content;
+        font-size: inherit;
+      }
+
+      & > :nth-child(2) {
+        flex: 1;
+      }
+    }
+
     &__no-conditions {
       color: var(--theme-disabled-text-color);
       margin: 0.5em 0;
@@ -33,21 +56,6 @@
         height: 24px;
         font-size: 24px;
         margin-right: 0;
-      }
-    }
-
-    &__row {
-      display: flex;
-      gap: 8px;
-
-      & > :nth-child(1) {
-        width: 7em;
-        height: fit-content;
-        font-size: inherit;
-      }
-
-      & > :nth-child(2) {
-        flex: 1;
       }
     }
   }
