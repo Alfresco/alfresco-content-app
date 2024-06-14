@@ -1,6 +1,7 @@
 /* stylelint-disable selector-class-pattern */
 @use '@angular/material' as mat;
 @import '@alfresco/adf-core/theming';
+@import '@alfresco/adf-core/lib/styles/mat-selectors';
 @import 'custom-theme';
 @import 'variables/variables';
 @include custom-theme($custom-theme);
@@ -112,15 +113,11 @@ mat-slide-toggle {
   color: var(--adf-theme-foreground-text-color-087);
 }
 
-.mat-mdc-button:is(button),
-.mat-mdc-icon-button:is(button),
-.mat-mdc-icon-button.mat-mdc-button-base:is(button) {
-  padding: 0;
-  height: 40px;
-  width: 40px;
+#{$mat-chip}#{$mat-evolution-chip}#{$mat-standard-chip} {
+  height: auto;
 
-  .mat-mdc-button-touch-target {
-    display: none;
+  #{$mat-evolution-chip-text-label} {
+    white-space: normal;
   }
 }
 
