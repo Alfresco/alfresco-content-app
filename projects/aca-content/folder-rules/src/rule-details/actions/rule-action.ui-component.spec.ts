@@ -25,15 +25,21 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CardViewBoolItemModel, CardViewComponent, CardViewSelectItemModel, CardViewTextItemModel, CoreTestingModule } from '@alfresco/adf-core';
 import { RuleActionUiComponent } from './rule-action.ui-component';
-import { actionLinkToCategoryTransformedMock, actionsTransformedListMock, securityActionTransformedMock } from '../../mock/actions.mock';
+import {
+  actionLinkToCategoryTransformedMock,
+  actionNodeTransformedMock,
+  actionsTransformedListMock,
+  securityActionTransformedMock
+} from '../../mock/actions.mock';
 import { By } from '@angular/platform-browser';
 import { dummyCategoriesConstraints, dummyConstraints, dummyTagsConstraints } from '../../mock/action-parameter-constraints.mock';
 import { securityMarksResponseMock, updateNotificationMock } from '../../mock/security-marks.mock';
-import { CategoryService, TagService } from '@alfresco/adf-content-services';
-import { MatDialog } from '@angular/material/dialog';
+import { CategoryService, NodeAction, TagService } from '@alfresco/adf-content-services';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { MatSelectHarness } from '@angular/material/select/testing';
+import { of, Subject } from 'rxjs';
 
 describe('RuleActionUiComponent', () => {
   let fixture: ComponentFixture<RuleActionUiComponent>;
@@ -142,6 +148,27 @@ describe('RuleActionUiComponent', () => {
 
     expect(dialog.open).toHaveBeenCalledTimes(1);
     expect(dialog.open['calls'].argsFor(0)[0].name).toBe('CategorySelectorDialogComponent');
+  });
+
+  it('should open node selector dialog with correct parameters', async () => {
+    const dialog = fixture.debugElement.injector.get(MatDialog);
+    component.actionDefinitions = [actionNodeTransformedMock];
+    const expectedData = {
+      selectionMode: 'single',
+      title: 'ACA_FOLDER_RULES.RULE_DETAILS.PLACEHOLDER.CHOOSE_FOLDER',
+      actionName: NodeAction.CHOOSE,
+      currentFolderId: component.nodeId,
+      select: jasmine.any(Subject)
+    };
+    const dialogSpy = spyOn(dialog, 'open').and.returnValue({ afterClosed: () => of({}) } as MatDialogRef<any>);
+    fixture.detectChanges();
+
+    await changeMatSelectValue('mock-action-5-definition');
+    fixture.debugElement.query(By.css('.adf-textitem-action')).nativeElement.click();
+
+    expect(dialog.open).toHaveBeenCalledTimes(1);
+    expect(dialogSpy.calls.mostRecent().args[1].data).toEqual(expectedData);
+    expect(dialog.open['calls'].argsFor(0)[0].name).toBe('ContentNodeSelectorComponent');
   });
 
   describe('Select options', () => {
