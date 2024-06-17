@@ -35,6 +35,10 @@ export class ManageRulesDialogComponent extends BaseComponent {
   public fieldDropDown = this.getChild('[data-automation-id="field-select"]');
   public comparatorDropDown = this.getChild('[data-automation-id="comparator-select"]');
   public valueField = this.getChild('[data-automation-id="value-input"]');
+  public whenCreatedCheckbox = this.page.locator(' aca-rule-triggers mat-checkbox').filter({hasText: 'created'});
+  public whenUpdatedCheckbox = this.page.locator(' aca-rule-triggers mat-checkbox').filter({hasText: 'updated'});
+  public whenDeletedCheckbox = this.page.locator(' aca-rule-triggers mat-checkbox').filter({hasText: 'deleted'});
+  public destinationFolderButton = this.page.locator('[data-automation-id="card-textitem-clickable-icon-destination-folder"]')
 
   constructor(page: Page) {
     super(page, ManageRulesDialogComponent.rootElement);
