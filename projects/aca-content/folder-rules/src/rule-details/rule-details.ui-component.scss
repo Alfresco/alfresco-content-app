@@ -1,3 +1,5 @@
+@import '@alfresco/adf-core/lib/styles/mat-selectors';
+
 .aca-rule-details {
   .aca-rule-details__form__triggers {
     margin-top: 10px;
@@ -80,16 +82,15 @@
       }
     }
 
-    /* stylelint-disable selector-class-pattern */
     &.aca-read-only,
-    .mat-form-field-disabled {
-      .mdc-notched-outline__leading,
-      .mdc-notched-outline__trailing,
-      .mdc-notched-outline__notch {
+    #{$mat-form-field-disabled} {
+      #{$mat-notched-outline-leading},
+      #{$mat-notched-outline-trailing},
+      #{$mat-notched-outline-notch} {
         border: none;
       }
 
-      .mdc-line-ripple {
+      #{$mat-line-ripple} {
         &::before,
         &::after {
           display: none;
@@ -97,21 +98,21 @@
       }
 
       *:disabled,
-      .mat-mdc-select-disabled .mat-mdc-select-value {
+      #{$mat-select-disabled} #{$mat-select-value} {
         color: inherit;
       }
 
-      .mat-mdc-select-arrow-wrapper {
+      #{$mat-select-arrow-wrapper} {
         display: none;
       }
     }
 
-    .aca-rule-details__form__row .mat-mdc-form-field-flex .mat-mdc-form-field-infix {
+    .aca-rule-details__form__row #{$mat-form-field-flex} #{$mat-form-field-infix} {
       padding-top: 0.375em;
       padding-bottom: 0.375em;
     }
 
-    .aca-rule-details__form__row aca-rule-action .mat-mdc-form-field-flex .mat-mdc-form-field-infix {
+    .aca-rule-details__form__row aca-rule-action #{$mat-form-field-flex} #{$mat-form-field-infix} {
       padding-top: 0.1em;
       padding-bottom: 0.1em;
     }

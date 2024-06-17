@@ -25,7 +25,10 @@
         "codeCoverage": true,
         "main": "projects/aca-shared/test.ts",
         "tsConfig": "projects/aca-shared/tsconfig.spec.json",
-        "karmaConfig": "projects/aca-shared/karma.conf.js"
+        "karmaConfig": "projects/aca-shared/karma.conf.js",
+        "stylePreprocessorOptions": {
+          "includePaths": ["node_modules"]
+        }
       },
       "configurations": {
         "adfprod": {

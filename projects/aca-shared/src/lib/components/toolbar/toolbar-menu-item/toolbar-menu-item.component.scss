@@ -1,0 +1,5 @@
+@import '@alfresco/adf-core/lib/styles/mat-selectors';
+
+.app-toolbar-menu-item:last-child > #{$mat-divider-horizontal} {
+  display: none;
+}
