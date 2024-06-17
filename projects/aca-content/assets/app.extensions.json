@@ -692,6 +692,23 @@
             }
           }
         ]
+      },
+      {
+        "id": "app.toolbar.ai.search",
+        "order": 95,
+        "title": "AI Search",
+        "component": "content-services.components.ai.search-icon",
+        "type": "custom",
+        "rules": {
+          "visible": "app.selection.displayAIIconForFileSelection"
+        },
+        "actions": {
+          "click": "app.action.toggle-ai-search-input.execute"
+        },
+        "data": {
+          "path": "./assets/images/ai-stars-icon.json",
+          "trigger": "TOGGLE_AI_SEARCH_INPUT"
+        }
       }
     ],
     "contextMenu": [

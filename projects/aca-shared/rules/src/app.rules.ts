@@ -27,6 +27,7 @@ import { RuleContext } from '@alfresco/adf-extensions';
 import * as navigation from './navigation.rules';
 import * as repository from './repository.rules';
 import { isAdmin } from './user.rules';
+import { isPersonalFiles } from './navigation.rules';
 
 /* cspell:disable */
 export const supportedExtensions = {
@@ -631,3 +632,5 @@ export function isSmartFolder(context: RuleContext): boolean {
 export const areTagsEnabled = (context: AcaRuleContext): boolean => context.appConfig.get('plugins.tagsEnabled', true);
 
 export const areCategoriesEnabled = (context: AcaRuleContext): boolean => context.appConfig.get('plugins.categoriesEnabled', true);
+
+export const displayAIIconForSelectedNode = (context: RuleContext): boolean => isPersonalFiles(context) && hasFileSelected(context);

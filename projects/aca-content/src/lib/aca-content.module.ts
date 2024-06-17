@@ -76,7 +76,11 @@ import { UserMenuComponent } from './components/sidenav/user-menu/user-menu.comp
 import { ContextMenuComponent } from './components/context-menu/context-menu.component';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { SearchResultsRowComponent } from './components/search/search-results-row/search-results-row.component';
-
+import { SearchIconComponent } from './components/ai/search-icon/search-icon.component';
+import { LottieModule } from 'ngx-lottie';
+export function playerFactory(): any {
+  return import('lottie-web');
+}
 @NgModule({
   imports: [
     CommonModule,
@@ -97,7 +101,8 @@ import { SearchResultsRowComponent } from './components/search/search-results-ro
     AcaFolderRulesModule,
     CreateFromTemplateDialogComponent,
     OpenInAppComponent,
-    UploadFilesDialogComponent
+    UploadFilesDialogComponent,
+    LottieModule.forRoot({ player: playerFactory })
   ],
   providers: [
     { provide: ContentVersionService, useClass: ContentUrlService },
@@ -153,7 +158,8 @@ export class ContentServiceExtensionModule {
       'app.user': UserInfoComponent,
       'app.notification-center': NotificationHistoryComponent,
       'app.user.menu': UserMenuComponent,
-      'app.search.columns.name': SearchResultsRowComponent
+      'app.search.columns.name': SearchResultsRowComponent,
+      'content-services.components.ai.search-icon': SearchIconComponent
     });
 
     extensions.setEvaluators({
@@ -196,6 +202,7 @@ export class ContentServiceExtensionModule {
       'app.selection.hasNoLibraryRole': rules.hasNoLibraryRole,
       'app.selection.folder': rules.hasFolderSelected,
       'app.selection.folder.canUpdate': rules.canUpdateSelectedFolder,
+      'app.selection.displayAIIconForFileSelection': rules.displayAIIconForSelectedNode,
 
       'app.navigation.folder.canCreate': rules.canCreateFolder,
       'app.navigation.folder.canUpload': rules.canUpload,
