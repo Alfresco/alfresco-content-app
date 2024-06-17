@@ -1,3 +1,5 @@
+@import '@alfresco/adf-core/lib/styles/mat-selectors';
+
 $search-width: 594px;
 $search-height: 32px;
 $search-background: var(--theme-search-background-color);
@@ -44,8 +46,7 @@ $top-margin: 12px;
   }
 }
 
-/* stylelint-disable-next-line */
-.app-search-options-menu.mat-mdc-menu-panel {
+.app-search-options-menu#{$mat-menu-panel} {
   position: relative;
   top: -5px;
   margin-top: 2px;
@@ -54,8 +55,7 @@ $top-margin: 12px;
   max-width: unset;
   border-radius: $search-border-radius;
 
-  /* stylelint-disable-next-line */
-  .mdc-list {
+  #{$mdc-list} {
     padding-top: 10px;
     padding-right: 10px;
   }
@@ -71,7 +71,7 @@ $top-margin: 12px;
   padding-bottom: 26px;
 
   .app-search-container {
-    margin: 10px 0 0 0;
+    margin: 10px 0 0;
   }
 }
 
@@ -87,30 +87,29 @@ $top-margin: 12px;
   letter-spacing: -0.7px;
   margin-bottom: -8px;
 
-  /* stylelint-disable-next-line */
- .mat-mdc-checkbox {
-   .mdc-form-field {
-     .mdc-checkbox {
-       .mdc-checkbox__background {
-         height: 18px;
-         width: 18px;
-       }
-     }
-   }
- }
+  #{$mat-checkbox} {
+    #{$mdc-form-field} {
+      #{$mat-checkbox-box} {
+        #{$mat-checkbox-background} {
+          height: 18px;
+          width: 18px;
+        }
+      }
+    }
+  }
 
- .app-search-options-checkbox label {
-   max-width: 155px;
-   font-size: 16px;
-   padding-left: 6px;
-   padding-top: 2px;
-   letter-spacing: -1px;
- }
+  .app-search-options-checkbox label {
+    max-width: 155px;
+    font-size: 16px;
+    padding-left: 6px;
+    padding-top: 2px;
+    letter-spacing: -1px;
+  }
 
- &-checkbox {
-   padding: 3px 36px 3px 20px;
+  &-checkbox {
+    padding: 3px 36px 3px 20px;
 
-   /* stylelint-disable-next-line no-descending-specificity */
+    /* stylelint-disable-next-line no-descending-specificity */
     label {
       padding: 0 0 0 11px;
       overflow: hidden;

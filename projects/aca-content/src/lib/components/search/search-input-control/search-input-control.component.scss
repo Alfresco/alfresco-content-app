@@ -1,3 +1,5 @@
+@import '@alfresco/adf-core/lib/styles/mat-selectors';
+
 .app-suffix-search-icon-wrapper {
   display: flex;
   align-items: center;
@@ -37,33 +39,31 @@
       letter-spacing: -0.7px;
     }
 
-    /* stylelint-disable selector-class-pattern */
-    .mdc-line-ripple {
+    #{$mat-line-ripple} {
       &::before,
       &::after {
         display: none;
       }
     }
 
-    /* stylelint-disable selector-class-pattern */
-    .mat-mdc-form-field-icon-suffix {
+    #{$mat-form-field-icon-suffix} {
       position: relative;
       right: -14px;
     }
   }
 
-  .mat-mdc-form-field-flex {
+  #{$mat-form-field-flex} {
     background: #fff;
   }
 
-  .mat-mdc-text-field-wrapper {
+  #{$mat-form-field-wrapper} {
     height: 44px;
     padding-left: 0;
   }
 
   .app-input-form-field-readonly {
-    .mat-mdc-text-field-wrapper,
-    .mat-mdc-form-field-flex {
+    #{$mat-form-field-wrapper},
+    #{$mat-form-field-flex} {
       background-color: var(--theme-search-background-color);
     }
   }

@@ -36,13 +36,7 @@ import { MatDividerModule } from '@angular/material/divider';
   imports: [CommonModule, TranslateModule, IconModule, MatMenuModule, MatDividerModule, ExtensionsModule],
   selector: 'app-toolbar-menu-item',
   templateUrl: './toolbar-menu-item.component.html',
-  styles: [
-    `
-      .app-toolbar-menu-item:last-child > .mat-divider-horizontal {
-        display: none;
-      }
-    `
-  ],
+  styleUrls: ['./toolbar-menu-item.component.scss'],
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-toolbar-menu-item' }
 })
