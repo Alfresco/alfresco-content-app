@@ -1,6 +1,21 @@
 <aca-page-layout [hasError]="!isValidPath">
   <div class="aca-page-layout-header">
-    <adf-breadcrumb [root]="title" [folderNode]="node" [maxItems]="isSmallScreen ? 1 : 0" (navigate)="onBreadcrumbNavigate($event)"> </adf-breadcrumb>
+    <div class="aca-header-container" @fadeInFromLeft *ngIf="showAISearchInput; else breadcrumbTemplate">
+      <aca-search-ai-input [hideAIToggle]="true"></aca-search-ai-input>
+      <mat-divider [vertical]="true" class="aca-files-divider"></mat-divider>
+      <button mat-icon-button>
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <ng-template #breadcrumbTemplate>
+      <div class="aca-header-container">
+        <adf-breadcrumb [root]="title"
+                        [folderNode]="node"
+                        [maxItems]="isSmallScreen ? 1 : 0"
+                        (navigate)="onBreadcrumbNavigate($event)">
+        </adf-breadcrumb>
+      </div>
+    </ng-template>
     <aca-toolbar [items]="actions"></aca-toolbar>
   </div>
 

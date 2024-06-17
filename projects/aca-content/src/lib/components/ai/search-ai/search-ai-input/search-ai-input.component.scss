@@ -1,0 +1,65 @@
+// stylelint-disable selector-class-pattern
+
+.adw-search-ai-input {
+  width: 100%;
+
+  .app-search-ai-container {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    color: var(--theme-foreground-text-color);
+    width: 100%;
+
+    adf-icon {
+      margin-right: 10px;
+    }
+
+    .app-search-button {
+      width: 32px;
+      height: 32px;
+      margin-left: 0;
+      padding-left: 0;
+      margin-top: -4px;
+    }
+
+    .app-input-ai-form-field {
+      flex: 1;
+
+      .mat-form-field-infix {
+        display: flex;
+        align-items: center;
+        line-height: 50px;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 400;
+
+        input {
+          width: 100%;
+          height: 50px;
+        }
+      }
+
+      .mat-form-field-underline {
+        display: none;
+      }
+    }
+
+    .app-search-input-example-chips {
+      flex: 2;
+
+      .mat-chip {
+        background: none;
+        border: 2px solid var(--theme-border-color);
+        border-radius: 16px;
+        opacity: 1;
+      }
+    }
+
+    .app-toolbar-item {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0 15px;
+    }
+  }
+}

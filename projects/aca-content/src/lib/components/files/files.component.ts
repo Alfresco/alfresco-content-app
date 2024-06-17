@@ -45,6 +45,11 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { DocumentListDirective } from '../../directives/document-list.directive';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { SearchAIService } from '../../services/search-ai.service';
+import { MatIconModule } from '@angular/material/icon';
+import { SearchAiInputComponent } from '../ai/search-ai/search-ai-input/search-ai-input.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   standalone: true,
@@ -64,10 +69,16 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     PaginationDirective,
     PageLayoutComponent,
     ToolbarComponent,
+    MatIconModule,
+    SearchAiInputComponent,
+    MatButtonModule,
+    MatDividerModule,
     DynamicColumnComponent
   ],
   templateUrl: './files.component.html',
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./files.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  selector: 'aca-files'
 })
 export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   isValidPath = true;
@@ -79,8 +90,14 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
   columns: DocumentListPresetRef[] = [];
   isFilterHeaderActive = false;
+  showAISearchInput = false;
 
-  constructor(private contentApi: ContentApiService, private nodeActionsService: NodeActionsService, private route: ActivatedRoute) {
+  constructor(
+    private contentApi: ContentApiService,
+    private nodeActionsService: NodeActionsService,
+    private route: ActivatedRoute,
+    private searchAIService: SearchAIService
+  ) {
     super();
   }
 
@@ -118,6 +135,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
     this.subscriptions = this.subscriptions.concat([
       this.nodeActionsService.contentCopied.subscribe((nodes) => this.onContentCopied(nodes)),
+      this.searchAIService.toggleAISearchInput$.subscribe((showAISearchInput) => (this.showAISearchInput = showAISearchInput)),
       this.uploadService.fileUploadComplete.pipe(debounceTime(300)).subscribe((file) => this.onFileUploadedEvent(file)),
       this.uploadService.fileUploadDeleted.pipe(debounceTime(300)).subscribe((file) => this.onFileUploadedEvent(file))
     ]);

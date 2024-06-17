@@ -78,9 +78,11 @@ import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { SearchResultsRowComponent } from './components/search/search-results-row/search-results-row.component';
 import { SearchIconComponent } from './components/ai/search-icon/search-icon.component';
 import { LottieModule } from 'ngx-lottie';
+
 export function playerFactory(): any {
   return import('lottie-web');
 }
+
 @NgModule({
   imports: [
     CommonModule,
@@ -142,6 +144,7 @@ export class ContentServiceExtensionModule {
       'app.toolbar.toggleFavorite': ToggleFavoriteComponent,
       'app.toolbar.toggleFavoriteLibrary': ToggleFavoriteLibraryComponent,
       'app.toolbar.toggleJoinLibrary': ToggleJoinLibraryButtonComponent,
+      'app.toolbar.ai.search-icon': SearchIconComponent,
       'app.menu.toggleJoinLibrary': ToggleJoinLibraryMenuComponent,
       'app.shared-link.toggleSharedLink': ToggleSharedComponent,
       'app.columns.name': CustomNameColumnComponent,
@@ -158,8 +161,7 @@ export class ContentServiceExtensionModule {
       'app.user': UserInfoComponent,
       'app.notification-center': NotificationHistoryComponent,
       'app.user.menu': UserMenuComponent,
-      'app.search.columns.name': SearchResultsRowComponent,
-      'content-services.components.ai.search-icon': SearchIconComponent
+      'app.search.columns.name': SearchResultsRowComponent
     });
 
     extensions.setEvaluators({

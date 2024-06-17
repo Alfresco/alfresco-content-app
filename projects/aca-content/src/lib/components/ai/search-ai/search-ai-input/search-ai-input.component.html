@@ -1,0 +1,28 @@
+<div class="app-search-ai-container">
+    <adf-icon [value]="'adf:magic_stars_ai'"></adf-icon>
+    <mat-form-field class="app-input-ai-form-field" [floatLabel]="'never'">
+    <input
+        matInput
+        [type]="'text'"
+        [(ngModel)]="searchedWord"
+        data-automation-id="ai-query-field"
+        [placeholder]="'Please ask your question with as much detail as possible...' | translate"
+        (keydown.enter)="onSearchSubmit(searchedWord)"/>
+    </mat-form-field>
+    <mat-chip-list class="app-search-input-example-chips" data-automation-id="example-chips-container" *ngIf="showExampleChips && !searchedWord" disabled>
+        <mat-chip>
+            <adf-icon [value]="'adf:magic_stars_ai'"></adf-icon>
+            Extract key takeaways
+        </mat-chip>
+        <mat-chip>
+            <adf-icon [value]="'adf:magic_stars_ai'"></adf-icon>
+            Summaries
+        </mat-chip>
+        <mat-chip>
+            <adf-icon [value]="'adf:magic_stars_ai'"></adf-icon>
+            More
+        </mat-chip>
+    </mat-chip-list>
+    <aca-toggle-search class="app-toolbar-item" *ngIf="!hideAIToggle"></aca-toggle-search>
+    <button mat-flat-button color="primary" class="app-toolbar-item" (click)="onSearchSubmit(searchedWord)" [disabled]="!searchedWord" data-automation-id="generate-ai-response-button">Ask AI</button>
+</div>

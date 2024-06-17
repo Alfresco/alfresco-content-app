@@ -697,7 +697,7 @@
         "id": "app.toolbar.ai.search",
         "order": 95,
         "title": "AI Search",
-        "component": "content-services.components.ai.search-icon",
+        "component": "app.toolbar.ai.search-icon",
         "type": "custom",
         "rules": {
           "visible": "app.selection.displayAIIconForFileSelection"

@@ -42,6 +42,7 @@ export * from './effects/dialog.effects';
 export * from './effects/router.effects';
 export * from './effects/snackbar.effects';
 
+export * from './models/ai-search-by-term-payload';
 export * from './models/delete-status.model';
 export * from './models/deleted-node-info.model';
 export * from './models/node-info.model';
