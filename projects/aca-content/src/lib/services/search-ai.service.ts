@@ -23,16 +23,35 @@
  */
 
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, from, Observable } from 'rxjs';
+import { AlfrescoApiService } from '@alfresco/adf-core';
+import { AiSearchResultModel } from './ai-search-result.model';
 
 @Injectable({ providedIn: 'root' })
 export class SearchAIService {
   toggleAISearchInput = new BehaviorSubject<boolean>(false);
   toggleAISearchInput$ = this.toggleAISearchInput.asObservable();
 
-  constructor() {}
+  constructor(private apiService: AlfrescoApiService) {}
 
   updateAISearchInputState(isAISearchActive: boolean) {
     this.toggleAISearchInput.next(isAISearchActive);
+  }
+
+  setSearchClientBasePath(basePath: string) {
+    this.apiService.getInstance().searchClient.basePath = basePath;
+  }
+
+  executeAISearch(searchTerm: string, restrictionQuery?: string): Observable<AiSearchResultModel> {
+    const body = {
+      include: ['path'],
+      query: {
+        language: 'afts',
+        userQuery: searchTerm,
+        ...(restrictionQuery && restrictionQuery !== '' && { query: `ANCESTOR:'workspace://SpacesStore/${restrictionQuery}'` })
+      }
+    };
+    const requestParams = [{}, {}, {}, {}, body, ['application/json'], ['application/json']];
+    return from(this.apiService.getInstance().searchClient.callApi('/aisearch/search', 'POST', ...requestParams));
   }
 }

@@ -395,4 +395,8 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   onError() {
     this.isValidPath = false;
   }
+
+  onAIInputSearchSubmitted() {
+    this.searchAIService.updateAISearchInputState(false);
+  }
 }

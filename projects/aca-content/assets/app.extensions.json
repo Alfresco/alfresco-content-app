@@ -136,6 +136,10 @@
       {
         "id": "adf:move_file",
         "value": "./assets/images/adf-move-file-24px.svg"
+      },
+      {
+        "id": "adf:magic_stars_ai",
+        "value": "./assets/images/magic-stars-ai.svg"
       }
     ],
     "create": [

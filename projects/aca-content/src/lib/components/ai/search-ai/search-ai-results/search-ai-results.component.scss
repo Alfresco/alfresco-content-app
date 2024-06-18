@@ -1,0 +1,208 @@
+/* stylelint-disable unit-allowed-list */
+.aca-search-ai-results {
+  adf-toolbar {
+    margin-top: 5px;
+  }
+
+  .aca-page-layout-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border: solid;
+    border-width: 3px 0 0;
+    border-image-slice: 1;
+    border-image-source: linear-gradient(to right, #2a7de1, #902ae1);
+
+    .app-main-content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      width: 100%;
+    }
+
+    .app-ai-search-results-container {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      width: 100%;
+      padding: 0 200px;
+      overflow-y: auto;
+    }
+
+    .app-ai-response-container {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      border: 1px solid var(--theme-border-color);
+      border-radius: 12px;
+      margin: 50px 0;
+
+      .app-ai-response-header-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 10px 20px;
+
+        * {
+          padding: 0 5px;
+        }
+
+        .app-ai-search-query {
+          flex: 1;
+          padding-left: 10px;
+        }
+      }
+
+      .app-ai-response-body-container {
+        padding: 20px 30px;
+        display: flex;
+        align-items: center;
+
+        .app-ai-response-body {
+          width: 100%;
+        }
+
+        .app-ai-response {
+          display: flex;
+          flex-direction: row;
+
+          span {
+            padding: 0 10px;
+            flex: 1;
+          }
+        }
+
+        .app-source-documents-header {
+          padding-left: 20px;
+          padding-right: 20px;
+          color: var(--theme-grey-font-color);
+        }
+
+        .app-ai-response-sources {
+          margin-top: 30px;
+
+          .app-ai-response-documents-container {
+            padding: 15px 20px;
+
+            .app-ai-response-document-row {
+              display: flex;
+              flex-direction: row;
+              padding-top: 7px;
+              padding-bottom: 7px;
+
+              .app-document-icon-container {
+                padding-right: 15px;
+              }
+
+              .app-document-content-container {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+
+                .app-document-path {
+                  font-size: 12px;
+                  color: var(--theme-grey-font-color);
+                  word-wrap: break-word;
+                }
+
+                .app-document-snippet {
+                  padding-top: 5px;
+                  padding-bottom: 5px;
+                  word-wrap: break-word;
+
+                  b {
+                    -webkit-font-smoothing: antialiased;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      @keyframes cursor-blink {
+        0% {
+          opacity: 0;
+        }
+      }
+
+      .app-blinking-cursor {
+        width: 10px;
+        height: 20px;
+        margin-left: 10px;
+        background: var(--theme-text-color);
+        display: inline-block;
+        animation: cursor-blink 1.5s steps(2) infinite;
+      }
+    }
+
+    .app-default-ai-screen-container {
+      display: flex;
+      flex-direction: column;
+
+      adf-icon {
+        mat-icon {
+          width: 150px;
+          height: 150px;
+        }
+      }
+
+      h1 {
+        width: 50%;
+        margin-left: 20px;
+        margin-right: 20px;
+      }
+
+      .app-examples-container {
+        display: flex;
+        flex-direction: row;
+
+        .app-examples-card {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+          padding: 10px;
+          margin: 10px;
+          border: 2px solid var(--theme-border-color);
+          border-radius: 10px;
+
+          .app-examples-title {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+
+            h4 {
+              margin: 0;
+            }
+
+            mat-icon {
+              color: var(--adf-theme-foreground-icon-color);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .adf-toolbar-divider {
+    height: 100%;
+  }
+
+  .app-toolbar-item {
+    padding: 0 15px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .app-toolbar-divider {
+    height: 24px;
+    width: 1px;
+    background: var(--adf-theme-foreground-text-color-025);
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+}

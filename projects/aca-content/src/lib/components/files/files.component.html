@@ -1,7 +1,7 @@
 <aca-page-layout [hasError]="!isValidPath">
   <div class="aca-page-layout-header">
     <div class="aca-header-container" @fadeInFromLeft *ngIf="showAISearchInput; else breadcrumbTemplate">
-      <aca-search-ai-input [hideAIToggle]="true"></aca-search-ai-input>
+      <aca-search-ai-input [hideAIToggle]="true" (searchSubmitted)="onAIInputSearchSubmitted()"></aca-search-ai-input>
       <mat-divider [vertical]="true" class="aca-files-divider"></mat-divider>
       <button mat-icon-button>
         <mat-icon>close</mat-icon>

@@ -22,19 +22,9 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Action } from '@ngrx/store';
-import { SearchOptionModel } from '../models/search-option.model';
+import { ResultSetPaging } from '@alfresco/js-api';
 
-export enum SearchActionTypes {
-  Search = 'SEARCH',
-  SearchByTerm = 'SEARCH_BY_TERM'
-}
-
-export class SearchAction implements Action {
-  readonly type = SearchActionTypes.Search;
-}
-
-export class SearchByTermAction implements Action {
-  readonly type = SearchActionTypes.SearchByTerm;
-  constructor(public payload: string, public searchOptions?: SearchOptionModel[]) {}
+export class AiSearchResultModel {
+  aiResponse: string;
+  searchResult: ResultSetPaging;
 }

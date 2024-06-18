@@ -23,18 +23,13 @@
  */
 
 import { Action } from '@ngrx/store';
-import { SearchOptionModel } from '../models/search-option.model';
+import { AiSearchByTermPayload } from '../models/ai-search-by-term-payload';
 
-export enum SearchActionTypes {
-  Search = 'SEARCH',
-  SearchByTerm = 'SEARCH_BY_TERM'
+export enum SearchAiActionTypes {
+  SearchByTermAi = 'SEARCH_BY_TERM_AI'
 }
 
-export class SearchAction implements Action {
-  readonly type = SearchActionTypes.Search;
-}
-
-export class SearchByTermAction implements Action {
-  readonly type = SearchActionTypes.SearchByTerm;
-  constructor(public payload: string, public searchOptions?: SearchOptionModel[]) {}
+export class SearchByTermAiAction implements Action {
+  readonly type = SearchAiActionTypes.SearchByTermAi;
+  constructor(public payload: AiSearchByTermPayload) {}
 }
