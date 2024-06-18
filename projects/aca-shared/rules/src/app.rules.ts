@@ -67,6 +67,7 @@ export const supportedExtensions = {
   vstx: 'ms-visio',
   vstm: 'ms-visio'
 };
+
 /* cspell:enable */
 
 export function getFileExtension(fileName: string): string | null {
@@ -182,7 +183,7 @@ export function isShared(context: RuleContext): boolean {
  * JSON ref: `app.selection.canDelete`
  */
 export function canDeleteSelection(context: RuleContext): boolean {
-  if (navigation.isNotTrashcan(context) && navigation.isNotLibraries(context) && navigation.isNotSearchResults(context) && hasSelection(context)) {
+  if (navigation.isNotTrashcan(context) && navigation.isNotLibraries(context) && hasSelection(context)) {
     if (hasLockedFiles(context)) {
       return false;
     }

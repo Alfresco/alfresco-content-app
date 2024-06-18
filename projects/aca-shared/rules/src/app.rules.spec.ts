@@ -793,18 +793,15 @@ describe('app.evaluators', () => {
       expect(app.canDeleteSelection(context)).toBeFalse();
     });
 
-    it('should return false when user is in trashcan, library or search results page', () => {
+    it('should return false when user is in trashcan or library', () => {
       context.selection.isEmpty = false;
-      context.navigation.url = '/trashcan/tets';
+      context.navigation.url = '/trashcan/test';
       expect(app.canDeleteSelection(context)).toBeFalse();
 
       context.navigation.url = '/test/libraries';
       expect(app.canDeleteSelection(context)).toBeFalse();
 
-      context.navigation.url = '/search-libraries/tets';
-      expect(app.canDeleteSelection(context)).toBeFalse();
-
-      context.navigation.url = '/search/tets';
+      context.navigation.url = '/search-libraries/test';
       expect(app.canDeleteSelection(context)).toBeFalse();
     });
 
@@ -813,6 +810,12 @@ describe('app.evaluators', () => {
       context.navigation.url = '/personal-files';
       context.selection.nodes = [{ entry: { isFile: true, isLocked: true } } as any];
       expect(app.canDeleteSelection(context)).toBeFalse();
+    });
+
+    it('should return true when user is in search result page', () => {
+      context.selection.isEmpty = false;
+      context.navigation.url = '/search/test';
+      expect(app.canDeleteSelection(context)).toBeTrue();
     });
 
     it('should return true when user is in favorites', () => {
