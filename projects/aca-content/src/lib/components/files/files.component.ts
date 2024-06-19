@@ -50,6 +50,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { SearchAiInputComponent } from '../ai/search-ai/search-ai-input/search-ai-input.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
+import { SearchInputContainerComponent } from '../ai/search-ai/search-input-container/search-input-container.component';
 
 @Component({
   standalone: true,
@@ -73,6 +74,7 @@ import { MatDividerModule } from '@angular/material/divider';
     SearchAiInputComponent,
     MatButtonModule,
     MatDividerModule,
+    SearchInputContainerComponent,
     DynamicColumnComponent
   ],
   templateUrl: './files.component.html',
@@ -394,9 +396,5 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
   onError() {
     this.isValidPath = false;
-  }
-
-  onAIInputSearchSubmitted() {
-    this.searchAIService.updateAISearchInputState(false);
   }
 }

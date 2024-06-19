@@ -39,6 +39,8 @@ import { DocumentListModule } from '@alfresco/adf-content-services';
 import { DataTableModule, EmptyContentComponent, PaginationComponent } from '@alfresco/adf-core';
 import { DocumentListDirective } from '../../directives/document-list.directive';
 import { TranslateModule } from '@ngx-translate/core';
+import { SearchInputContainerComponent } from '../ai/search-ai/search-input-container/search-input-container.component';
+import { SearchAIService } from '../../services/search-ai.service';
 
 @Component({
   standalone: true,
@@ -54,19 +56,28 @@ import { TranslateModule } from '@ngx-translate/core';
     PageLayoutComponent,
     TranslateModule,
     ToolbarComponent,
+    SearchInputContainerComponent,
     EmptyContentComponent,
     DynamicColumnComponent
   ],
   templateUrl: './recent-files.component.html',
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./recent-files.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  selector: 'aca-recent-files'
 })
 export class RecentFilesComponent extends PageComponent implements OnInit {
   columns: DocumentListPresetRef[] = [];
+  showAISearchInput = false;
+
+  constructor(private searchAIService: SearchAIService) {
+    super();
+  }
 
   ngOnInit() {
     super.ngOnInit();
 
     this.subscriptions = this.subscriptions.concat([
+      this.searchAIService.toggleAISearchInput$.subscribe((showAISearchInput) => (this.showAISearchInput = showAISearchInput)),
       this.uploadService.fileUploadComplete.pipe(debounceTime(300)).subscribe(() => this.reload()),
       this.uploadService.fileUploadDeleted.pipe(debounceTime(300)).subscribe(() => this.reload())
     ]);

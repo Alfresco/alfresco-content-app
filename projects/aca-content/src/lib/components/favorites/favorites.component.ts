@@ -40,6 +40,8 @@ import { DocumentListModule } from '@alfresco/adf-content-services';
 import { DataTableModule, EmptyContentComponent, PaginationComponent } from '@alfresco/adf-core';
 import { DocumentListDirective } from '../../directives/document-list.directive';
 import { TranslateModule } from '@ngx-translate/core';
+import { SearchInputContainerComponent } from '../ai/search-ai/search-input-container/search-input-container.component';
+import { SearchAIService } from '../../services/search-ai.service';
 
 @Component({
   standalone: true,
@@ -55,16 +57,20 @@ import { TranslateModule } from '@ngx-translate/core';
     PageLayoutComponent,
     TranslateModule,
     ToolbarComponent,
+    SearchInputContainerComponent,
     EmptyContentComponent,
     DynamicColumnComponent
   ],
   templateUrl: './favorites.component.html',
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./favorites.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  selector: 'aca-favorites'
 })
 export class FavoritesComponent extends PageComponent implements OnInit {
   columns: DocumentListPresetRef[] = [];
+  showAISearchInput = false;
 
-  constructor(private contentApi: ContentApiService) {
+  constructor(private contentApi: ContentApiService, private searchAIService: SearchAIService) {
     super();
   }
 
@@ -72,6 +78,7 @@ export class FavoritesComponent extends PageComponent implements OnInit {
     super.ngOnInit();
 
     this.subscriptions = this.subscriptions.concat([
+      this.searchAIService.toggleAISearchInput$.subscribe((showAISearchInput) => (this.showAISearchInput = showAISearchInput)),
       this.uploadService.fileUploadComplete.pipe(debounceTime(300)).subscribe(() => this.reload()),
       this.uploadService.fileUploadDeleted.pipe(debounceTime(300)).subscribe(() => this.reload())
     ]);

@@ -1,0 +1,13 @@
+aca-search-input-container {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  align-items: center;
+  width: 100%;
+
+  .aca-search-input-container-divider {
+    height: 24px;
+    margin-left: 20px;
+    background: var(--adf-theme-foreground-text-color-025);
+  }
+}

@@ -40,6 +40,8 @@ import { DocumentListModule } from '@alfresco/adf-content-services';
 import { DataTableModule, EmptyContentComponent, PaginationComponent } from '@alfresco/adf-core';
 import { DocumentListDirective } from '../../directives/document-list.directive';
 import { TranslateModule } from '@ngx-translate/core';
+import { SearchInputContainerComponent } from '../ai/search-ai/search-input-container/search-input-container.component';
+import { SearchAIService } from '../../services/search-ai.service';
 
 @Component({
   standalone: true,
@@ -55,16 +57,20 @@ import { TranslateModule } from '@ngx-translate/core';
     PageLayoutComponent,
     TranslateModule,
     ToolbarComponent,
+    SearchInputContainerComponent,
     EmptyContentComponent,
     DynamicColumnComponent
   ],
   templateUrl: './shared-files.component.html',
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./shared-files.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  selector: 'aca-shared-files'
 })
 export class SharedFilesComponent extends PageComponent implements OnInit {
   columns: DocumentListPresetRef[] = [];
+  showAISearchInput = false;
 
-  constructor(private appHookService: AppHookService) {
+  constructor(private appHookService: AppHookService, private searchAIService: SearchAIService) {
     super();
   }
 
@@ -73,6 +79,7 @@ export class SharedFilesComponent extends PageComponent implements OnInit {
 
     this.subscriptions = this.subscriptions.concat([
       this.appHookService.linksUnshared.pipe(debounceTime(300)).subscribe(() => this.reload()),
+      this.searchAIService.toggleAISearchInput$.subscribe((showAISearchInput) => (this.showAISearchInput = showAISearchInput)),
       this.uploadService.fileUploadComplete.pipe(debounceTime(300)).subscribe(() => this.reload()),
       this.uploadService.fileUploadDeleted.pipe(debounceTime(300)).subscribe(() => this.reload())
     ]);
