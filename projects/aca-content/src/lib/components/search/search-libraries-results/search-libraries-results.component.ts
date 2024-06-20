@@ -37,7 +37,7 @@ import {
   PaginationDirective,
   ToolbarComponent
 } from '@alfresco/aca-shared';
-import { DocumentListPresetRef, ExtensionsModule } from '@alfresco/adf-extensions';
+import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-extensions';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { SearchInputComponent } from '../search-input/search-input.component';
@@ -55,14 +55,14 @@ import { DocumentListDirective } from '../../../directives/document-list.directi
     MatProgressBarModule,
     DocumentListModule,
     DataTableModule,
-    ExtensionsModule,
     PaginationComponent,
     InfoDrawerComponent,
     ContextActionsDirective,
     DocumentListDirective,
     PaginationDirective,
     PageLayoutComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    DynamicColumnComponent
   ],
   selector: 'aca-search-results',
   templateUrl: './search-libraries-results.component.html',
