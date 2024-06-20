@@ -633,5 +633,18 @@ export const areTagsEnabled = (context: AcaRuleContext): boolean => context.appC
 
 export const areCategoriesEnabled = (context: AcaRuleContext): boolean => context.appConfig.get('plugins.categoriesEnabled', true);
 
-export const canDisplayAIIconForSelectedNode = (context: RuleContext): boolean =>
-  context.selection.count > 0 && (!context.selection.nodes.some((node) => !node.entry.isFile) || isSharedFiles(context));
+export const canDisplayAIIconForSelectedNode = (context: RuleContext): boolean => {
+  const textFileMimeTypes = [
+    'application/msword',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'application/vnd.oasis.opendocument.text',
+    'application/rtf',
+    'text/plain'
+  ];
+  return (
+    context.selection.count > 0 &&
+    context.selection.count <= 100 &&
+    !context.selection.nodes.some((node) => !textFileMimeTypes.includes(node.entry.content.mimeType)) &&
+    (!context.selection.nodes.some((node) => !node.entry.isFile) || isSharedFiles(context))
+  );
+};

@@ -1,13 +1,19 @@
-.aca-search-icon {
+aca-search-icon.aca-search-icon {
   height: 32px;
   display: block;
 
-  .aca-search-icon-animation {
-    height: 32px;
-    padding: 0;
-    cursor: pointer;
-    border: none;
-    background: transparent;
-    width: max-content;
+  button {
+    &.aca-search-icon-animation {
+      height: 32px;
+      padding: 0;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      width: max-content;
+
+      ng-lottie {
+        line-height: normal;
+      }
+    }
   }
 }
