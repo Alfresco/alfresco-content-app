@@ -47,10 +47,4 @@ export class CoreExtensionsModule {
       ]
     };
   }
-
-  static forChild(): ModuleWithProviders<CoreExtensionsModule> {
-    return {
-      ngModule: CoreExtensionsModule
-    };
-  }
 }

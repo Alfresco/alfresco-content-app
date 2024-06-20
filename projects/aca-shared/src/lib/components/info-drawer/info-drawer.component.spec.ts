@@ -66,7 +66,7 @@ describe('InfoDrawerComponent', () => {
       providers: [
         { provide: AppExtensionService, useValue: extensionServiceMock },
         { provide: Store, useValue: storeMock },
-        { provide: RedirectAuthService, useValue: { onLogin: EMPTY } }
+        { provide: RedirectAuthService, useValue: { onLogin: EMPTY, onTokenReceived: EMPTY } }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     });
