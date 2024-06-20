@@ -25,7 +25,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { NodeEntry, Pagination, ResultSetPaging } from '@alfresco/js-api';
 import { ActivatedRoute, Params } from '@angular/router';
-import { AlfrescoViewerModule, DocumentListModule, SearchModule, SearchQueryBuilderService, TagService } from '@alfresco/adf-content-services';
+import { AlfrescoViewerComponent, DocumentListModule, SearchModule, SearchQueryBuilderService, TagService } from '@alfresco/adf-content-services';
 import {
   infoDrawerPreview,
   NavigateToFolder,
@@ -59,7 +59,7 @@ import { SearchActionMenuComponent } from '../search-action-menu/search-action-m
 import { TagsColumnComponent } from '../../dl-custom-components/tags-column/tags-column.component';
 import { MatIconModule } from '@angular/material/icon';
 import { SearchResultsRowComponent } from '../search-results-row/search-results-row.component';
-import { DocumentListPresetRef, ExtensionsModule } from '@alfresco/adf-extensions';
+import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-extensions';
 
 @Component({
   standalone: true,
@@ -79,7 +79,6 @@ import { DocumentListPresetRef, ExtensionsModule } from '@alfresco/adf-extension
     SearchActionMenuComponent,
     TagsColumnComponent,
     PaginationComponent,
-    AlfrescoViewerModule,
     MatIconModule,
     InfoDrawerComponent,
     SearchResultsRowComponent,
@@ -87,7 +86,8 @@ import { DocumentListPresetRef, ExtensionsModule } from '@alfresco/adf-extension
     ViewerModule,
     PageLayoutComponent,
     ToolbarComponent,
-    ExtensionsModule
+    AlfrescoViewerComponent,
+    DynamicColumnComponent
   ],
   selector: 'aca-search-results',
   templateUrl: './search-results.component.html',
