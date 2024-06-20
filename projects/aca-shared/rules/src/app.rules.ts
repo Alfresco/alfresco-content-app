@@ -639,11 +639,12 @@ export const canDisplayAIIconForSelectedNode = (context: RuleContext): boolean =
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
     'application/vnd.oasis.opendocument.text',
     'application/rtf',
-    'text/plain'
+    'text/plain',
+    'application/pdf'
   ];
   return (
     context.selection.count > 0 &&
-    context.selection.count <= 100 &&
+    context.selection.count <= 1 &&
     !context.selection.nodes.some((node) => !textFileMimeTypes.includes(node.entry.content.mimeType)) &&
     (!context.selection.nodes.some((node) => !node.entry.isFile) || isSharedFiles(context))
   );

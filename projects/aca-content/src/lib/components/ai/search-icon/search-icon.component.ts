@@ -22,12 +22,16 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AnimationOptions, LottieModule } from 'ngx-lottie';
 import { AnimationItem } from 'lottie-web';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { Store } from '@ngrx/store';
+import { getAppSelection } from '@alfresco/aca-shared/store';
+import { NotificationService } from '@alfresco/adf-core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   standalone: true,
@@ -38,7 +42,7 @@ import { Store } from '@ngrx/store';
   encapsulation: ViewEncapsulation.None,
   host: { class: 'aca-search-icon' }
 })
-export class SearchIconComponent implements OnInit {
+export class SearchIconComponent implements OnInit, OnDestroy {
   @Input()
   data: { path: string; trigger: string };
 
@@ -51,11 +55,25 @@ export class SearchIconComponent implements OnInit {
   };
 
   animationItem: AnimationItem | undefined;
+  destroyed$ = new Subject<void>();
 
-  constructor(private readonly store: Store) {}
+  constructor(private readonly store: Store, private notificationService: NotificationService) {}
 
   ngOnInit(): void {
     this.options = { ...this.options, path: this.data.path };
+    this.store
+      .select(getAppSelection)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((selection) => {
+        if (selection.count > 1) {
+          this.notificationService.showInfo('Hiding Knowledge Retrieval icon. If you want to use it, please select no more than 100 files.');
+        }
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroyed$.next();
+    this.destroyed$.complete();
   }
 
   onAnimate(animationItem: AnimationItem): void {
