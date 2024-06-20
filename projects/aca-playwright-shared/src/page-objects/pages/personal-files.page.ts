@@ -44,7 +44,8 @@ import {
   UploadNewVersionDialog,
   ManageVersionsDialog,
   UploadDialog,
-  SnackBarComponent
+  SnackBarComponent,
+  EditDialog
 } from '../components';
 
 export class PersonalFilesPage extends BasePage {
@@ -74,6 +75,7 @@ export class PersonalFilesPage extends BasePage {
   public manageVersionsDialog = new ManageVersionsDialog(this.page);
   public uploadDialog = new UploadDialog(this.page);
   public snackBar = new SnackBarComponent(this.page);
+  public editDialog = new EditDialog(this.page);
 
   async selectCreateFolder(): Promise<void> {
     await this.acaHeader.createButton.click();
