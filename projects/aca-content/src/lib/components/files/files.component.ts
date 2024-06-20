@@ -40,7 +40,7 @@ import {
 import { SetCurrentFolderAction, isAdmin, UploadFileVersionAction, showLoaderSelector } from '@alfresco/aca-shared/store';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { BreadcrumbModule, DocumentListModule, FileUploadEvent, FilterSearch, ShareDataRow, UploadModule } from '@alfresco/adf-content-services';
-import { DocumentListPresetRef, ExtensionsModule } from '@alfresco/adf-extensions';
+import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-extensions';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { DocumentListDirective } from '../../directives/document-list.directive';
@@ -58,13 +58,13 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     DocumentListDirective,
     ContextActionsDirective,
     DataTableModule,
-    ExtensionsModule,
     PaginationComponent,
     MatProgressSpinnerModule,
     InfoDrawerComponent,
     PaginationDirective,
     PageLayoutComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    DynamicColumnComponent
   ],
   templateUrl: './files.component.html',
   encapsulation: ViewEncapsulation.None
