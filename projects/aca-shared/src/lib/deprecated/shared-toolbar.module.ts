@@ -23,9 +23,6 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { CoreModule } from '@alfresco/adf-core';
-import { ExtensionsModule } from '@alfresco/adf-extensions';
 import { ToolbarButtonComponent } from '../components/toolbar/toolbar-button/toolbar-button.component';
 import { ToolbarActionComponent } from '../components/toolbar/toolbar-action/toolbar-action.component';
 import { ToolbarMenuItemComponent } from '../components/toolbar/toolbar-menu-item/toolbar-menu-item.component';
@@ -33,15 +30,7 @@ import { ToolbarMenuComponent } from '../components/toolbar/toolbar-menu/toolbar
 
 // @deprecated
 @NgModule({
-  imports: [
-    CommonModule,
-    CoreModule,
-    ExtensionsModule,
-    ToolbarButtonComponent,
-    ToolbarActionComponent,
-    ToolbarMenuItemComponent,
-    ToolbarMenuComponent
-  ],
+  imports: [ToolbarButtonComponent, ToolbarActionComponent, ToolbarMenuItemComponent, ToolbarMenuComponent],
   exports: [ToolbarButtonComponent, ToolbarActionComponent, ToolbarMenuItemComponent, ToolbarMenuComponent]
 })
 export class SharedToolbarModule {}
