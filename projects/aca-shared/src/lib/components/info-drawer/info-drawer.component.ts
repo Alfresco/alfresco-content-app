@@ -24,7 +24,7 @@
 
 import { Component, HostListener, Input, OnChanges, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { NodeEntry, Node, SiteEntry } from '@alfresco/js-api';
-import { ContentActionRef, ExtensionsModule, SidebarTabRef } from '@alfresco/adf-extensions';
+import { ContentActionRef, DynamicTabComponent, SidebarTabRef } from '@alfresco/adf-extensions';
 import { Store } from '@ngrx/store';
 import { SetInfoDrawerStateAction, ToggleInfoDrawerAction, infoDrawerPreview } from '@alfresco/aca-shared/store';
 import { AppExtensionService } from '../../services/app.extension.service';
@@ -41,7 +41,7 @@ import { ContentService, NodesApiService } from '@alfresco/adf-content-services'
 
 @Component({
   standalone: true,
-  imports: [CommonModule, TranslateModule, MatProgressBarModule, InfoDrawerModule, ExtensionsModule, A11yModule, ToolbarComponent],
+  imports: [CommonModule, TranslateModule, MatProgressBarModule, InfoDrawerModule, A11yModule, ToolbarComponent, DynamicTabComponent],
   selector: 'aca-info-drawer',
   templateUrl: './info-drawer.component.html',
   encapsulation: ViewEncapsulation.None
