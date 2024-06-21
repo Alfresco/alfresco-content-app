@@ -9,48 +9,43 @@
         <div class="app-main-content">
             <div class="app-ai-search-results-container">
                 <div *ngIf="hasAiSearchTriggered; else aiSearchStartScreen" class="app-ai-response-container">
-                    <div class="app-ai-response-header-container">
-                        <h3 [@fadeIn]="animateSearchQuery ? 'changed' : 'unchanged'" (@fadeIn.done)="animateSearchQuery = false" class="app-ai-search-query">{{ searchQuery }}</h3>
-                        <button mat-icon-button (click)="onRegenerateClick()" data-automation-id="regenerate-response-button">
-                            <mat-icon>sync</mat-icon>
-                        </button>
-                        <button mat-icon-button (click)="copyResponseToClipboard()" data-automation-id="copy-response-button">
-                            <mat-icon>copy</mat-icon>
-                        </button>
-                    </div>
+                    <h3 [@fadeIn]="animateSearchQuery ? 'changed' : 'unchanged'" (@fadeIn.done)="animateSearchQuery = false" class="app-ai-search-query">{{ 'HR Agent' }}</h3>
                     <mat-divider></mat-divider>
                     <div class="app-ai-response-body-container">
-                        <div *ngIf="aiSearchResult; else aiThinkingTemplate" class="app-ai-response-body">
-                            <div class="app-ai-response" data-automation-id="ai-response-body">
-                                <adf-icon [value]="'adf:magic_stars_ai_color'"></adf-icon>
-                                <span @fadeFromTop>{{ aiSearchResult.aiResponse }}</span>
-                            </div>
-                            <div @fadeFromTopDelay *ngIf="nodeList?.length > 0" class="app-ai-response-sources">
+                        <div class="app-ai-response-body">
+                            <div class="app-ai-response" @fadeFromTop>{{ aiSearchResult?.aiResponse }}</div>
+                            <button mat-icon-button (click)="onRegenerateClick()" data-automation-id="regenerate-response-button">
+                              <mat-icon>cached</mat-icon>
+                            </button>
+                            <button mat-icon-button (click)="copyResponseToClipboard()" data-automation-id="copy-response-button">
+                              <mat-icon>copy</mat-icon>
+                            </button>
+                            <button mat-icon-button>
+                              <mat-icon>thumb_up</mat-icon>
+                            </button>
+                            <button mat-icon-button>
+                              <mat-icon>thumb_down</mat-icon>
+                            </button>
+                            <div @fadeFromTopDelayx class="app-ai-response-sources-container" *ngIf="nodeList?.length > 0">
                                 <mat-divider></mat-divider>
-                                <h4 class="app-source-documents-header">Source documents</h4>
-                                <div class="app-ai-response-documents-container">
-                                    <div class="app-ai-response-document-row" *ngFor="let node of nodeList">
-                                        <div class="app-document-icon-container" [attr.data-automation-id]="node.entry?.id + '-file-icon'">
-                                            <mat-icon mat-list-icon>
-                                                <img [alt]="getMimeType(node)" [src]="getMimeTypeIcon(node)"/>
-                                            </mat-icon>
-                                        </div>
-                                        <div class="app-document-content-container">
-                                            <div [attr.data-automation-id]="node.entry?.id + '-file-name'">{{ node.entry?.name }}</div>
-                                            <div class="app-document-path" [attr.data-automation-id]="node.entry?.id + '-file-path'">{{ node.entry?.path?.name }}</div>
-                                            <div *ngFor="let highlightSnippet of node.entry?.search?.highlight?.[0]?.snippets; let i=index"
-                                                 [attr.data-automation-id]="node.entry?.id + '-file-content-' + i"
-                                                 class="app-document-snippet"
-                                                 [innerHTML]="highlightSnippet"></div>
-                                        </div>
-                                    </div>
+                                <div class="app-ai-response-sources">
+                                  <h4 class="app-source-documents-header">Source documents</h4>
+                                  <div class="app-ai-response-documents-container">
+                                      <div class="app-ai-response-document-row" *ngFor="let node of nodeList">
+                                          <div class="app-document-icon-container" [attr.data-automation-id]="node.entry?.id + '-file-icon'">
+                                              <mat-icon mat-list-icon>
+                                                  <img [alt]="getMimeType(node)" [src]="getMimeTypeIcon(node)"/>
+                                              </mat-icon>
+                                          </div>
+                                          <div class="app-document-content-container">
+                                              <div [attr.data-automation-id]="node.entry?.id + '-file-name'">{{ node.entry?.name }}</div>
+                                              <div class="app-document-path" [attr.data-automation-id]="node.entry?.id + '-file-path'">{{ node.entry?.path?.name }}</div>
+                                          </div>
+                                      </div>
+                                  </div>
                                 </div>
                             </div>
                         </div>
-                        <ng-template #aiThinkingTemplate>
-                            <adf-icon [value]="'adf:magic_stars_ai_color'"></adf-icon>
-                            <div class="app-blinking-cursor"></div>
-                        </ng-template>
                     </div>
                 </div>
                 <ng-template #aiSearchStartScreen>

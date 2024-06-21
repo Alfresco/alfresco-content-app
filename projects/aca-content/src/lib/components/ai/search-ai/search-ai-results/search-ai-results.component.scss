@@ -34,29 +34,22 @@
     .app-ai-response-container {
       display: flex;
       flex-direction: column;
-      flex: 1;
-      border: 1px solid var(--theme-border-color);
+      border: 1px solid var(--adf-card-view-border-color);
       border-radius: 12px;
       margin: 50px 0;
+      padding-left: 28px;
+      padding-right: 29px;
+      padding-bottom: 33px;
 
-      .app-ai-response-header-container {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        padding: 10px 20px;
-
-        * {
-          padding: 0 5px;
-        }
-
-        .app-ai-search-query {
-          flex: 1;
-          padding-left: 10px;
-        }
+      .app-ai-search-query {
+        padding: 15px 5px 8px;
+        font-size: 14px;
+        font-weight: 500;
       }
 
       .app-ai-response-body-container {
-        padding: 20px 30px;
+        padding-top: 22px;
+        padding-bottom: 20px;
         display: flex;
         align-items: center;
 
@@ -65,55 +58,59 @@
         }
 
         .app-ai-response {
-          display: flex;
-          flex-direction: row;
-
-          span {
-            padding: 0 10px;
-            flex: 1;
-          }
+          margin-bottom: 14px;
+          padding-left: 5px;
+          padding-right: 5px;
         }
 
         .app-source-documents-header {
-          padding-left: 20px;
-          padding-right: 20px;
-          color: var(--theme-grey-font-color);
+          padding-top: 23px;
+          color: var(--theme-text-light-color);
+          font-weight: 400;
+          margin-bottom: 3px;
         }
 
-        .app-ai-response-sources {
-          margin-top: 30px;
+        .app-ai-response-sources-container {
+          margin-top: 23px;
 
-          .app-ai-response-documents-container {
-            padding: 15px 20px;
+          .app-ai-response-sources {
+            padding-right: 5px;
+            padding-left: 5px;
 
-            .app-ai-response-document-row {
-              display: flex;
-              flex-direction: row;
-              padding-top: 7px;
-              padding-bottom: 7px;
+            .app-ai-response-documents-container {
+              padding-left: 5px;
+              padding-right: 5px;
 
-              .app-document-icon-container {
-                padding-right: 15px;
-              }
-
-              .app-document-content-container {
+              .app-ai-response-document-row {
                 display: flex;
-                flex-direction: column;
-                width: 100%;
+                flex-direction: row;
+                padding-top: 7px;
+                padding-bottom: 7px;
 
-                .app-document-path {
-                  font-size: 12px;
-                  color: var(--theme-grey-font-color);
-                  word-wrap: break-word;
+                .app-document-icon-container {
+                  padding-right: 17px;
                 }
 
-                .app-document-snippet {
-                  padding-top: 5px;
-                  padding-bottom: 5px;
-                  word-wrap: break-word;
+                .app-document-content-container {
+                  display: flex;
+                  flex-direction: column;
+                  width: 100%;
 
-                  b {
-                    -webkit-font-smoothing: antialiased;
+                  .app-document-path {
+                    font-size: 12px;
+                    color: var(--theme-text-light-color);
+                    word-wrap: break-word;
+                    margin-top: 5px;
+                  }
+
+                  .app-document-snippet {
+                    padding-top: 5px;
+                    padding-bottom: 5px;
+                    word-wrap: break-word;
+
+                    b {
+                      -webkit-font-smoothing: antialiased;
+                    }
                   }
                 }
               }
