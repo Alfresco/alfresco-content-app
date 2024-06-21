@@ -36,6 +36,7 @@ export class ManageRules extends BaseComponent {
   public ruleDetailsEditButton = this.getChild('#edit-rule-btn');
   public ruleDetailsWhenText = this.getChild('[data-automation-id="rule-details-triggers-component"]');
   public ruleDetailsPerformActionsDiv = this.getChild('adf-card-view-textitem mat-form-field input');
+  public rulesEmptyListIcon = this.getChild('mat-icon', { hasText: 'library_books' });
 
   constructor(page: Page) {
     super(page, ManageRules.rootElement);
@@ -46,6 +47,10 @@ export class ManageRules extends BaseComponent {
         const aspectsActions = await this.ruleDetailsPerformActionsDiv.nth(i).inputValue();
         expect(aspects).toContain(aspectsActions);
     }
-}
+  }
+
+  async checkIfRuleListEmpty(): Promise<boolean> {
+    return await this.rulesEmptyListIcon.isVisible();
+  }
 
 }

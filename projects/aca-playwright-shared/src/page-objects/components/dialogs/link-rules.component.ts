@@ -25,37 +25,22 @@
 import { Locator, Page, expect } from '@playwright/test';
 import { BaseComponent } from '../base.component';
 
-export class ContentNodeSelectorDialog extends BaseComponent {
-  private static rootElement = 'adf-content-node-selector';
+export class LinkRulesDialog extends BaseComponent {
+  private static rootElement = 'aca-rule-set-picker';
 
   constructor(page: Page) {
-    super(page, ContentNodeSelectorDialog.rootElement);
+    super(page, LinkRulesDialog.rootElement);
   }
 
   public cancelButton = this.getChild('[data-automation-id="content-node-selector-actions-cancel"]');
-  public actionButton = this.getChild('[data-automation-id="content-node-selector-actions-choose"]');
-  public locationDropDown = this.getChild('[id="site-dropdown-container"]');
-  private selectedRow = this.getChild('.adf-is-selected');
+  public selectFolderButton = this.getChild('button', { hasText: ' Select folder ' });
+  public emptyLinkRules = this.getChild('.adf-empty-content__title');
   getOptionLocator = (optionName: string): Locator => this.page.locator('.mat-select-panel .mat-option-text', { hasText: optionName });
   private getRowByName = (name: string | number): Locator => this.getChild(`adf-datatable-row`, { hasText: name.toString() });
   getDialogTitle = (text: string) => this.getChild('[data-automation-id="content-node-selector-title"]', { hasText: text });
   getBreadcrumb = (text: string) => this.getChild('[data-automation-id="current-folder"]', { hasText: text });
   getFolderIcon = this.getChild('mat-icon[role="img"]', { hasText: 'folder' });
-  loadMoreButton = this.getChild('[data-automation-id="adf-infinite-pagination-button"]');
-
-  async loadMoreNodes(): Promise<void> {
-    await this.spinnerWaitForReload();
-    while (await this.loadMoreButton.isVisible()) {
-      await this.loadMoreButton.click();
-    }
-  }
-
-  async selectLocation(location: string): Promise<void> {
-    await this.locationDropDown.click();
-    const optionLocator = this.getOptionLocator(location);
-    await optionLocator.click();
-    await optionLocator.waitFor({ state: 'detached' });
-  }
+  getLibraryIcon = this.getChild('mat-icon[role="img"]', { hasText: 'library_books' });
 
   async selectDestination(folderName: string): Promise<void> {
     const row = this.getRowByName(folderName);
@@ -66,10 +51,14 @@ export class ContentNodeSelectorDialog extends BaseComponent {
     await expect(async () => {
       await row.hover({ timeout: 1000 });
       await row.click();
-      await expect(this.selectedRow).toBeVisible();
+      await expect(this.selectFolderButton).toBeEnabled();
     }).toPass({
       intervals: [2_000, 2_000, 2_000, 2_000, 2_000, 2_000, 2_000],
       timeout: 20_000
     });
+  }
+
+  async waitForLinkRules(): Promise<void> {
+    await this.getLibraryIcon.waitFor();
   }
 }

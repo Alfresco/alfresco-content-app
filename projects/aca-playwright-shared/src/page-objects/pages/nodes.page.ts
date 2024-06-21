@@ -23,9 +23,16 @@
  */
 
 import { Page } from '@playwright/test';
-import { ConditionComponent, ManageRules, ManageRulesDialogComponent, ToolbarComponent, ActionsDropdownComponent, ContentNodeSelectorDialog } from '../components';
+import {
+  ConditionComponent,
+  ManageRules,
+  ManageRulesDialogComponent,
+  ToolbarComponent,
+  ActionsDropdownComponent,
+  ContentNodeSelectorDialog,
+  LinkRulesDialog
+} from '../components';
 import { BasePage } from './base.page';
-
 
 export class NodesPage extends BasePage {
   private static pageUrl = 'nodes';
@@ -40,4 +47,5 @@ export class NodesPage extends BasePage {
   public conditionsDropdown = new ConditionComponent(this.page);
   public manageRules = new ManageRules(this.page);
   public contentNodeSelectorDialog = new ContentNodeSelectorDialog(this.page);
+  public linkRulesDialog = new LinkRulesDialog(this.page);
 }

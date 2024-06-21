@@ -28,6 +28,7 @@ import { Page } from '@playwright/test';
 export class ToolbarComponent extends BaseComponent {
   private static rootElement = 'adf-toolbar';
   private createRuleButton = this.getChild('[data-automation-id="manage-rules-create-button"]');
+  private linkRulesButton = this.getChild('[data-automation-id="manage-rules-link-button"]');
 
   constructor(page: Page) {
     super(page, ToolbarComponent.rootElement);
@@ -35,5 +36,9 @@ export class ToolbarComponent extends BaseComponent {
 
   async clickCreateRuleButton(): Promise<void> {
     await this.createRuleButton.click();
+  }
+
+  async clickLinkRulesButton(): Promise<void> {
+    await this.linkRulesButton.click();
   }
 }
