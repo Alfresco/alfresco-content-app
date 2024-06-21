@@ -24,5 +24,13 @@
         </mat-chip>
     </mat-chip-list>
     <aca-toggle-search class="app-toolbar-item" *ngIf="!hideAIToggle"></aca-toggle-search>
+    <mat-select
+      [formControl]="agentControl"
+      class="aca-search-ai-input-agent-select"
+      panelClass="aca-search-ai-input-agent-select-options"
+      [ngClass]="agentSelect.panelOpen ? 'aca-search-ai-input-agent-select-opened' : ''"
+      #agentSelect>
+      <mat-option *ngFor="let agent of mockedAgents" [value]="agent">{{ agent }}</mat-option>
+    </mat-select>
     <button mat-flat-button color="primary" class="app-toolbar-item" (click)="onSearchSubmit(searchedWord)" [disabled]="!searchedWord" data-automation-id="generate-ai-response-button">Ask AI</button>
 </div>
