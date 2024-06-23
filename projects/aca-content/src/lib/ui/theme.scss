@@ -49,6 +49,44 @@ mat-toolbar.mat-toolbar.mat-toolbar-single-row {
   }
 }
 
+.mat-checkbox-indeterminate,
+.mat-checkbox-checked {
+  &.mat-accent {
+    .mat-checkbox-background {
+      background-color: var(--theme-blue-checkbox-color);
+    }
+  }
+}
+
+.adf-datatable-list {
+  .adf-datatable-row:is(adf-datatable-row) {
+    &:focus {
+      outline: 1px solid var(--theme-blue-checkbox-color);
+    }
+
+    .adf-cell-value:focus {
+      outline: 1px solid var(--theme-blue-checkbox-color);
+    }
+
+    .adf-datatable-cell-header:focus {
+      outline: 1px solid var(--theme-blue-checkbox-color);
+    }
+
+    .adf-datatable-link:hover {
+      color: var(--theme-blue-checkbox-color);
+    }
+  }
+
+  .adf-datatable-body {
+    .adf-datatable-row:is(adf-datatable-row) {
+      &.adf-is-selected,
+      &.adf-is-selected:hover {
+        background-color: var(--theme-blue-active-table-row-color);
+      }
+    }
+  }
+}
+
 .adf-property-field {
   .adf-textitem-edit-icon.mat-icon {
     color: var(--theme-secondary-text);

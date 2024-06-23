@@ -26,15 +26,28 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { CustomResourcesService } from '@alfresco/adf-content-services';
 import { SharedFilesComponent } from './shared-files.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { Router } from '@angular/router';
 import { BehaviorSubject, of, Subject } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { SharedLinkPaging } from '@alfresco/js-api';
 import { AppService } from '@alfresco/aca-shared';
+import { getTitleElementText } from '../../testing/test-utils';
+import { ActivatedRoute, Router } from '@angular/router';
 
 describe('SharedFilesComponent', () => {
   let fixture: ComponentFixture<SharedFilesComponent>;
   let page: SharedLinkPaging;
+  let component: SharedFilesComponent;
+  const routerMock = {
+    routerState: { root: '' },
+    url: 'shared-files'
+  };
+  const route = {
+    snapshot: {
+      data: {
+        sortingPreferenceKey: ''
+      }
+    }
+  };
 
   const appServiceMock = {
     appNavNarMode$: new BehaviorSubject('collapsed'),
@@ -45,11 +58,10 @@ describe('SharedFilesComponent', () => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule, SharedFilesComponent],
       providers: [
+        { provide: ActivatedRoute, useValue: route },
         {
           provide: Router,
-          useValue: {
-            url: 'shared-files'
-          }
+          useValue: routerMock
         },
         {
           provide: AppService,
@@ -68,6 +80,16 @@ describe('SharedFilesComponent', () => {
     const customResourcesService = TestBed.inject(CustomResourcesService);
     spyOn(customResourcesService, 'loadSharedLinks').and.returnValue(of(page));
     fixture = TestBed.createComponent(SharedFilesComponent);
+    component = fixture.componentInstance;
+  });
+
+  it('should set title based on selectedRowItemsCount', () => {
+    fixture.detectChanges();
+    expect(getTitleElementText(fixture)).toBe('APP.BROWSE.SHARED.TITLE');
+
+    component.selectedRowItemsCount = 5;
+    fixture.detectChanges();
+    expect(getTitleElementText(fixture)).toBe('APP.HEADER.SELECTED');
   });
 
   // TODO: needs better testing strategy

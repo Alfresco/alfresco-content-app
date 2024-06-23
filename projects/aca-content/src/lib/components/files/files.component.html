@@ -1,6 +1,11 @@
 <aca-page-layout [hasError]="!isValidPath">
   <div class="aca-page-layout-header">
-    <adf-breadcrumb [root]="title" [folderNode]="node" [maxItems]="isSmallScreen ? 1 : 0" (navigate)="onBreadcrumbNavigate($event)"> </adf-breadcrumb>
+    <adf-breadcrumb [root]="title"
+                    [folderNode]="node"
+                    [selectedRowItemsCount]="selectedRowItemsCount"
+                    [maxItems]="isSmallScreen ? 1 : 0"
+                    (navigate)="onBreadcrumbNavigate($event)">
+    </adf-breadcrumb>
     <aca-toolbar [items]="actions"></aca-toolbar>
   </div>
 
@@ -31,6 +36,7 @@
           [blurOnResize]="false"
           (node-dblclick)="handleNodeClick($event)"
           (name-click)="handleNodeClick($event)"
+          (selectedItemsCountChanged)="onSelectedItemsCountChanged($event)"
           (filterSelection)="onFilterSelected($event)"
           (error)="onError()"
         >

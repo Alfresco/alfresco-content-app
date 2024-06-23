@@ -30,6 +30,7 @@ import { AppTestingModule } from '../../testing/app-testing.module';
 import { EffectsModule } from '@ngrx/effects';
 import { LibraryEffects } from '../../store/effects';
 import { ContentApiService } from '@alfresco/aca-shared';
+import { getTitleElementText } from '../../testing/test-utils';
 
 describe('LibrariesComponent', () => {
   let fixture: ComponentFixture<LibrariesComponent>;
@@ -65,6 +66,17 @@ describe('LibrariesComponent', () => {
 
     spyOn(sitesApi, 'listSites').and.returnValue(Promise.resolve(page));
     spyOn(sitesApi, 'listSiteMembershipsForPerson').and.returnValue(Promise.resolve({}));
+  });
+
+  describe('Initialization', () => {
+    it('should set title to MY_LIBRARIES.TITLE based on selectedRowItemsCount', () => {
+      fixture.detectChanges();
+      expect(getTitleElementText(fixture)).toBe('APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.TITLE');
+
+      component.selectedRowItemsCount = 2;
+      fixture.detectChanges();
+      expect(getTitleElementText(fixture)).toBe('APP.HEADER.SELECTED');
+    });
   });
 
   describe('Node navigation', () => {
