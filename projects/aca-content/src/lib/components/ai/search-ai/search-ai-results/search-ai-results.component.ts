@@ -27,7 +27,6 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { PageComponent, PageLayoutComponent, ToolbarActionComponent, ToolbarComponent } from '@alfresco/aca-shared';
 import { takeUntil } from 'rxjs/operators';
 import { AlfrescoApiService, ClipboardService, IconModule, MaterialModule, ThumbnailService, ToolbarModule } from '@alfresco/adf-core';
-import { SearchAiInputComponent } from '../search-ai-input/search-ai-input.component';
 import { ResultSetPaging, ResultSetRowEntry } from '@alfresco/js-api';
 import { CommonModule } from '@angular/common';
 import { ToggleSearchComponent } from '../toggle-search/toggle-search.component';
@@ -36,19 +35,20 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { SearchNavigationService } from '../search-navigation.service';
 import { SearchAIService } from '../../../../services/search-ai.service';
 import { AiSearchResultModel } from '../../../../services/ai-search-result.model';
+import { SearchInputContainerComponent } from '../search-input-container/search-input-container.component';
 
 @Component({
   standalone: true,
   imports: [
     CommonModule,
-    SearchAiInputComponent,
     PageLayoutComponent,
     ToolbarActionComponent,
     IconModule,
     ToolbarModule,
     MaterialModule,
     ToggleSearchComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    SearchInputContainerComponent
   ],
   providers: [provideAnimations()],
   selector: 'aca-search-ai-results',

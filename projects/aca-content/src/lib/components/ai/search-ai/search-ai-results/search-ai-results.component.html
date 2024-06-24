@@ -1,45 +1,38 @@
 <aca-page-layout @fadeIn>
     <div class="aca-page-layout-header">
-        <aca-search-ai-input class="app-toolbar-item"></aca-search-ai-input>
-        <div class="app-toolbar-divider"></div>
-        <aca-toolbar [items]="actions"></aca-toolbar>
+        <aca-search-input-container class="app-toolbar-item"></aca-search-input-container>
     </div>
 
     <div class="aca-page-layout-content">
         <div class="app-main-content">
             <div class="app-ai-search-results-container">
                 <div *ngIf="hasAiSearchTriggered; else aiSearchStartScreen" class="app-ai-response-container">
-                    <h3 [@fadeIn]="animateSearchQuery ? 'changed' : 'unchanged'" (@fadeIn.done)="animateSearchQuery = false" class="app-ai-search-query">{{ 'HR Agent' }}</h3>
-                    <mat-divider></mat-divider>
                     <div class="app-ai-response-body-container">
                         <div class="app-ai-response-body">
                             <div class="app-ai-response" @fadeFromTop>{{ aiSearchResult?.aiResponse }}</div>
-                            <button mat-icon-button (click)="onRegenerateClick()" data-automation-id="regenerate-response-button">
+                            <button class="app-ai-response-action app-ai-response-action-regeneration" mat-icon-button (click)="onRegenerateClick()" data-automation-id="regenerate-response-button">
                               <mat-icon>cached</mat-icon>
                             </button>
-                            <button mat-icon-button (click)="copyResponseToClipboard()" data-automation-id="copy-response-button">
+                            <button class="app-ai-response-action" mat-icon-button (click)="copyResponseToClipboard()" data-automation-id="copy-response-button">
                               <mat-icon>copy</mat-icon>
                             </button>
-                            <button mat-icon-button>
+                            <button class="app-ai-response-action" mat-icon-button>
                               <mat-icon>thumb_up</mat-icon>
                             </button>
-                            <button mat-icon-button>
+                            <button class="app-ai-response-action app-ai-response-action-thumb-down" mat-icon-button>
                               <mat-icon>thumb_down</mat-icon>
                             </button>
-                            <div @fadeFromTopDelayx class="app-ai-response-sources-container" *ngIf="nodeList?.length > 0">
+                            <div @fadeFromTopDelayx class="app-ai-response-sources-container">
                                 <mat-divider></mat-divider>
                                 <div class="app-ai-response-sources">
                                   <h4 class="app-source-documents-header">Source documents</h4>
                                   <div class="app-ai-response-documents-container">
                                       <div class="app-ai-response-document-row" *ngFor="let node of nodeList">
-                                          <div class="app-document-icon-container" [attr.data-automation-id]="node.entry?.id + '-file-icon'">
-                                              <mat-icon mat-list-icon>
-                                                  <img [alt]="getMimeType(node)" [src]="getMimeTypeIcon(node)"/>
-                                              </mat-icon>
-                                          </div>
+                                        <mat-icon mat-list-icon class="app-document-icon-container" [attr.data-automation-id]="node.entry?.id + '-file-icon'">
+                                          <img [alt]="getMimeType(node)" [src]="getMimeTypeIcon(node)"/>
+                                        </mat-icon>
                                           <div class="app-document-content-container">
-                                              <div [attr.data-automation-id]="node.entry?.id + '-file-name'">{{ node.entry?.name }}</div>
-                                              <div class="app-document-path" [attr.data-automation-id]="node.entry?.id + '-file-path'">{{ node.entry?.path?.name }}</div>
+                                            <div [attr.data-automation-id]="node.entry?.id + '-file-name'">{{ node.entry?.name }}</div>
                                           </div>
                                       </div>
                                   </div>

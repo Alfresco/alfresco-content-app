@@ -140,6 +140,10 @@
       {
         "id": "adf:magic_stars_ai",
         "value": "./assets/images/magic-stars-ai.svg"
+      },
+      {
+        "id": "adf:three-magic_stars_ai",
+        "value": "./assets/images/three-magic-stars-ai.svg"
       }
     ],
     "create": [

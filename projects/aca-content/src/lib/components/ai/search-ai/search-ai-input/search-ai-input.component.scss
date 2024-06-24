@@ -59,7 +59,15 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 0 15px;
+      padding-left: 5px;
+      padding-right: 12px;
+      height: 32px;
+      border-radius: 6px;
+
+      adf-icon {
+        margin-bottom: 3px;
+        margin-right: 4px;
+      }
     }
 
     .aca-search-ai-input-agent-select {
@@ -69,11 +77,8 @@
       border-radius: 16px;
       padding-left: 3px;
       padding-right: 10px;
-
-      &:hover,
-      &-opened {
-        background-color: var(--theme-grey-text-background-color);
-      }
+      margin-right: 19px;
+      background-color: var(--theme-grey-text-background-color);
     }
   }
 }
