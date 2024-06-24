@@ -52,7 +52,7 @@ export class SearchNavigationService {
   }
 
   navigateBack(): void {
-    if (this.router.url.includes('search-ai') && this.hasAiSearchResults) {
+    if (this.router.url.includes('knowledge-retrieval') && this.hasAiSearchResults) {
       this.openConfirmDialog().subscribe((confirm) => {
         if (confirm) {
           this.navigateToPreviousRoute();
@@ -91,9 +91,9 @@ export class SearchNavigationService {
       this.saveRoute(this.router.url);
     }
     if (queryParams) {
-      void this.router.navigate(['/search-ai'], { queryParams: queryParams });
+      void this.router.navigate(['/knowledge-retrieval'], { queryParams: queryParams });
     } else {
-      void this.router.navigate(['/search-ai']);
+      void this.router.navigate(['/knowledge-retrieval']);
     }
   }
 

@@ -509,7 +509,7 @@ export const CONTENT_LAYOUT_ROUTES: Route = {
       ]
     },
     {
-      path: 'search-ai',
+      path: 'knowledge-retrieval',
       component: SearchAiResultsComponent
     },
     {
