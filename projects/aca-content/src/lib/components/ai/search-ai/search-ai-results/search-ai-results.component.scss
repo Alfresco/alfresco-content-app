@@ -29,6 +29,12 @@
       width: 100%;
       padding: 0 200px;
       overflow-y: auto;
+
+      &-query {
+        border-radius: 12px;
+        padding: 20px 15px 19px;
+        background: var(--theme-card-background-grey-color);
+      }
     }
 
     .app-ai-response-container {
@@ -36,7 +42,7 @@
       flex-direction: column;
       border: 1px solid var(--adf-card-view-border-color);
       border-radius: 12px;
-      margin: 50px 0;
+      margin: 16px 0 50px;
       padding-left: 35px;
       padding-right: 40px;
       padding-bottom: 36px;
