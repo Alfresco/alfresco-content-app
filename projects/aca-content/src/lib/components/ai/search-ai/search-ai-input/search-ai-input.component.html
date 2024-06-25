@@ -13,7 +13,7 @@
           [type]="'text'"
           [(ngModel)]="searchedWord"
           data-automation-id="ai-query-field"
-          [placeholder]="'Please ask your question with as much detail as possible...' | translate"
+          [placeholder]="placeholder | translate"
           (keydown.enter)="onSearchSubmit(searchedWord)"/>
     </mat-form-field>
     <mat-chip-list class="app-search-input-example-chips" data-automation-id="example-chips-container" *ngIf="showExampleChips && !searchedWord" disabled>

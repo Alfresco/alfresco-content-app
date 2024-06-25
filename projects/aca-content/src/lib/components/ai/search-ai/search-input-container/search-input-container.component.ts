@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { SearchAiInputComponent } from '../search-ai-input/search-ai-input.component';
@@ -38,6 +38,9 @@ import { SearchAIService } from '../../../../services/search-ai.service';
   encapsulation: ViewEncapsulation.None
 })
 export class SearchInputContainerComponent {
+  @Input()
+  placeholder = 'Please ask your question with as much detail as possible...';
+
   constructor(private searchAIService: SearchAIService) {}
 
   onAIInputSearchSubmitted() {

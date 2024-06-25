@@ -1,6 +1,6 @@
 <aca-page-layout @fadeIn>
     <div class="aca-page-layout-header">
-        <aca-search-input-container class="app-toolbar-item"></aca-search-input-container>
+        <aca-search-input-container [placeholder]="'Would you like to ask anything else?'"></aca-search-input-container>
     </div>
 
     <div class="aca-page-layout-content">
@@ -23,7 +23,7 @@
                             <button class="app-ai-response-action app-ai-response-action-thumb-down" mat-icon-button>
                               <mat-icon>thumb_down</mat-icon>
                             </button>
-                            <div @fadeFromTopDelayx class="app-ai-response-sources-container">
+                            <div @fadeFromTopDelayx class="app-ai-response-sources-container" *ngIf="nodeList?.length > 0">
                                 <mat-divider></mat-divider>
                                 <div class="app-ai-response-sources">
                                   <h4 class="app-source-documents-header">Source documents</h4>

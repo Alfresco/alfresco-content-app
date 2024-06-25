@@ -70,9 +70,10 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
 
   @Input()
   showExampleChips = false;
-
   @Input()
   hideAIToggle = false;
+  @Input()
+  placeholder: string;
 
   @Output()
   searchSubmitted = new EventEmitter<void>();
