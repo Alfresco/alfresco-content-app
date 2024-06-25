@@ -26,9 +26,19 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, from, Observable } from 'rxjs';
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { AiSearchResultModel } from './ai-search-result.model';
+import { SelectionState } from '@alfresco/adf-extensions';
 
 @Injectable({ providedIn: 'root' })
 export class SearchAIService {
+  private readonly textFileMimeTypes = [
+    'application/msword',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'application/vnd.oasis.opendocument.text',
+    'application/rtf',
+    'text/plain',
+    'application/pdf'
+  ];
+
   toggleAISearchInput = new BehaviorSubject<boolean>(false);
   toggleAISearchInput$ = this.toggleAISearchInput.asObservable();
 
@@ -53,5 +63,22 @@ export class SearchAIService {
     };
     const requestParams = [{}, {}, {}, {}, body, ['application/json'], ['application/json']];
     return from(this.apiService.getInstance().searchClient.callApi('/aisearch/search', 'POST', ...requestParams));
+  }
+
+  checkSearchAvailability(selectedNodesState: SelectionState): string {
+    const errorMessages: string[] = [];
+    if (selectedNodesState.count === 0) {
+      errorMessages.push('Please select some file.');
+    }
+    if (selectedNodesState.count > 1) {
+      errorMessages.push('Please select no more than 100 files.');
+    }
+    if (selectedNodesState.nodes.some((node) => !node.entry.isFolder && !this.textFileMimeTypes.includes(node.entry.content.mimeType))) {
+      errorMessages.push('Only text related files are compatible with AI Agents.');
+    }
+    if (selectedNodesState.nodes.some((node) => node.entry.isFolder)) {
+      errorMessages.push('Folders are not compatible with AI Agents.');
+    }
+    return errorMessages.join(' ');
   }
 }

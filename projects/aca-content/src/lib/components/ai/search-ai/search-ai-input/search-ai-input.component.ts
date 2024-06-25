@@ -30,7 +30,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { A11yModule } from '@angular/cdk/a11y';
-import { IconModule, MaterialModule } from '@alfresco/adf-core';
+import { IconModule, MaterialModule, NotificationService } from '@alfresco/adf-core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { ActivatedRoute, NavigationEnd, Router, RouterEvent, UrlTree } from '@angular/router';
@@ -38,6 +38,8 @@ import { Store } from '@ngrx/store';
 import { AiSearchByTermPayload, AppStore, getAppSelection, SearchByTermAiAction, SnackbarErrorAction } from '@alfresco/aca-shared/store';
 import { filter, takeUntil } from 'rxjs/operators';
 import { ToggleSearchComponent } from '../toggle-search/toggle-search.component';
+import { SearchAIService } from '../../../../services/search-ai.service';
+import { SelectionState } from '@alfresco/adf-extensions';
 
 @Component({
   standalone: true,
@@ -68,6 +70,8 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
   agentControl = new FormControl('');
   mockedAgents = ['HR Agent', 'Policy Agent', 'Rules & Rates Agent'];
 
+  private selectedNodesState: SelectionState;
+
   @Input()
   showExampleChips = false;
   @Input()
@@ -78,7 +82,13 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
   @Output()
   searchSubmitted = new EventEmitter<void>();
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute, private store: Store<AppStore>) {}
+  constructor(
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private store: Store<AppStore>,
+    private searchAIService: SearchAIService,
+    private notificationService: NotificationService
+  ) {}
 
   ngOnInit() {
     this.showInputValue();
@@ -99,6 +109,7 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
         if (selection) {
           this.restrictionQuery = selection.nodes?.[0]?.entry?.id;
         }
+        this.selectedNodesState = selection;
       });
 
     this.activatedRoute.queryParams.pipe(takeUntil(this.onDestroy$)).subscribe((params) => {
@@ -121,16 +132,21 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
   }
 
   onSearchSubmit(searchTerm: string) {
-    const payload = new AiSearchByTermPayload();
-    payload.searchTerm = searchTerm;
-    payload.hideAiToggle = this.hideAIToggle;
-    payload.restrictionQuery = this.restrictionQuery ? this.restrictionQuery : '';
-    if (searchTerm) {
-      this.store.dispatch(new SearchByTermAiAction(payload));
+    const error = this.searchAIService.checkSearchAvailability(this.selectedNodesState);
+    if (error) {
+      this.notificationService.showInfo(error);
     } else {
-      this.store.dispatch(new SnackbarErrorAction('APP.BROWSE.SEARCH.EMPTY_SEARCH'));
+      const payload = new AiSearchByTermPayload();
+      payload.searchTerm = searchTerm;
+      payload.hideAiToggle = this.hideAIToggle;
+      payload.restrictionQuery = this.restrictionQuery ? this.restrictionQuery : '';
+      if (searchTerm) {
+        this.store.dispatch(new SearchByTermAiAction(payload));
+      } else {
+        this.store.dispatch(new SnackbarErrorAction('APP.BROWSE.SEARCH.EMPTY_SEARCH'));
+      }
+      this.searchSubmitted.emit();
     }
-    this.searchSubmitted.emit();
   }
 
   get onSearchResults(): boolean {

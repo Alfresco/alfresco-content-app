@@ -26,12 +26,13 @@ import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular
 import { CommonModule } from '@angular/common';
 import { AnimationOptions, LottieModule } from 'ngx-lottie';
 import { AnimationItem } from 'lottie-web';
-import { ContentActionRef } from '@alfresco/adf-extensions';
+import { ContentActionRef, SelectionState } from '@alfresco/adf-extensions';
 import { Store } from '@ngrx/store';
-import { getAppSelection } from '@alfresco/aca-shared/store';
+import { AppStore, getAppSelection } from '@alfresco/aca-shared/store';
 import { NotificationService } from '@alfresco/adf-core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { SearchAIService } from '../../../services/search-ai.service';
 
 @Component({
   standalone: true,
@@ -57,7 +58,9 @@ export class SearchIconComponent implements OnInit, OnDestroy {
   animationItem: AnimationItem | undefined;
   destroyed$ = new Subject<void>();
 
-  constructor(private readonly store: Store, private notificationService: NotificationService) {}
+  private selectedNodesState: SelectionState;
+
+  constructor(private readonly store: Store<AppStore>, private notificationService: NotificationService, private searchAIService: SearchAIService) {}
 
   ngOnInit(): void {
     this.options = { ...this.options, path: this.data.path };
@@ -65,9 +68,7 @@ export class SearchIconComponent implements OnInit, OnDestroy {
       .select(getAppSelection)
       .pipe(takeUntil(this.destroyed$))
       .subscribe((selection) => {
-        if (selection.count > 1) {
-          this.notificationService.showInfo('Hiding Knowledge Retrieval icon. If you want to use it, please select no more than 100 files.');
-        }
+        this.selectedNodesState = selection;
       });
   }
 
@@ -81,7 +82,12 @@ export class SearchIconComponent implements OnInit, OnDestroy {
   }
 
   onClick(): void {
-    this.store.dispatch({ type: this.data.trigger });
+    const error = this.searchAIService.checkSearchAvailability(this.selectedNodesState);
+    if (error) {
+      this.notificationService.showInfo(error);
+    } else {
+      this.store.dispatch({ type: this.data.trigger });
+    }
   }
 
   onMouseEnter(): void {

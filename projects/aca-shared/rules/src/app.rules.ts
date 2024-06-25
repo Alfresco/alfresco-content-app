@@ -27,7 +27,6 @@ import { RuleContext } from '@alfresco/adf-extensions';
 import * as navigation from './navigation.rules';
 import * as repository from './repository.rules';
 import { isAdmin } from './user.rules';
-import { isSharedFiles } from './navigation.rules';
 
 /* cspell:disable */
 export const supportedExtensions = {
@@ -632,20 +631,3 @@ export function isSmartFolder(context: RuleContext): boolean {
 export const areTagsEnabled = (context: AcaRuleContext): boolean => context.appConfig.get('plugins.tagsEnabled', true);
 
 export const areCategoriesEnabled = (context: AcaRuleContext): boolean => context.appConfig.get('plugins.categoriesEnabled', true);
-
-export const canDisplayAIIconForSelectedNode = (context: RuleContext): boolean => {
-  const textFileMimeTypes = [
-    'application/msword',
-    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-    'application/vnd.oasis.opendocument.text',
-    'application/rtf',
-    'text/plain',
-    'application/pdf'
-  ];
-  return (
-    context.selection.count > 0 &&
-    context.selection.count <= 1 &&
-    !context.selection.nodes.some((node) => !textFileMimeTypes.includes(node.entry.content.mimeType)) &&
-    (!context.selection.nodes.some((node) => !node.entry.isFile) || isSharedFiles(context))
-  );
-};
