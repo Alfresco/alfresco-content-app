@@ -31,11 +31,8 @@ import { first } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class SearchNavigationService {
-  private _previousRoute = '';
+  private previousRoute = '';
   private _hasAiSearchResults = false;
-  get previousRoute(): string {
-    return this._previousRoute;
-  }
 
   get hasAiSearchResults(): boolean {
     return this._hasAiSearchResults;
@@ -46,10 +43,6 @@ export class SearchNavigationService {
   }
 
   constructor(private router: Router, private dialog: MatDialog) {}
-
-  saveRoute(route: string): void {
-    this._previousRoute = route;
-  }
 
   navigateBack(): void {
     if (this.router.url.includes('knowledge-retrieval') && this.hasAiSearchResults) {
@@ -88,7 +81,7 @@ export class SearchNavigationService {
 
   navigateToSearchAi(queryParams?: any): void {
     if (!this.router.url.includes('search')) {
-      this.saveRoute(this.router.url);
+      this.previousRoute = this.router.url;
     }
     if (queryParams) {
       void this.router.navigate(['/knowledge-retrieval'], { queryParams: queryParams });
@@ -99,7 +92,7 @@ export class SearchNavigationService {
 
   navigateToSearch(): void {
     if (!this.router.url.includes('search')) {
-      this.saveRoute(this.router.url);
+      this.previousRoute = this.router.url;
     }
     void this.router.navigate(['/search']);
   }

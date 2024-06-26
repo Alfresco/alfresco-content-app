@@ -73,11 +73,15 @@ export class SearchAIService {
     if (selectedNodesState.count > 1) {
       errorMessages.push('Please select no more than 100 files.');
     }
-    if (selectedNodesState.nodes.some((node) => !node.entry.isFolder && !this.textFileMimeTypes.includes(node.entry.content.mimeType))) {
-      errorMessages.push('Only text related files are compatible with AI Agents.');
-    }
-    if (selectedNodesState.nodes.some((node) => node.entry.isFolder)) {
-      errorMessages.push('Folders are not compatible with AI Agents.');
+    if (selectedNodesState.library) {
+      errorMessages.push('Libraries are not compatible with AI Agents.');
+    } else {
+      if (selectedNodesState.nodes.some((node) => !node.entry.isFolder && !this.textFileMimeTypes.includes(node.entry.content.mimeType))) {
+        errorMessages.push('Only text related files are compatible with AI Agents.');
+      }
+      if (selectedNodesState.nodes.some((node) => node.entry.isFolder)) {
+        errorMessages.push('Folders are not compatible with AI Agents.');
+      }
     }
     return errorMessages.join(' ');
   }
