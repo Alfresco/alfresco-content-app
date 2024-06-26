@@ -25,11 +25,6 @@
 import { Locator } from '@playwright/test';
 import { ManageRulesDialogComponent } from './manageRules/manage-rules-dialog.component';
 
-export enum If {
-  if = 'if',
-  not_if = 'NOT if'
-}
-
 export enum Field {
   Name = 'Name',
   Size = 'Size',
