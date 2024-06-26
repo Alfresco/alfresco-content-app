@@ -1,7 +1,18 @@
-<button (click)="onClick()"
-        (mouseenter)="onMouseEnter()"
-        (mouseleave)="onMouseLeave()"
-        class="aca-search-icon-animation">
-  <ng-lottie (animationCreated)="onAnimate($event)" [options]="options"></ng-lottie>
-  Ask Agent
-</button>
+<mat-select
+  [formControl]="agentControl"
+  class="aca-search-ai-input-agent-select"
+  panelClass="aca-search-ai-input-agent-select-options"
+  [ngClass]="agentSelect.panelOpen ? 'aca-search-ai-input-agent-select-opened' : ''"
+  (click)="onClick()"
+  (openedChange)="disable($event)"
+  [disabled]="true"
+  #agentSelect>
+  <mat-select-trigger>
+    <span class="aca-search-icon-avatar"></span>
+    {{ agentControl.value }}
+  </mat-select-trigger>
+  <mat-option (click)="showAiSearch()" *ngFor="let agent of mockedAgents" [value]="agent" class="aca-search-icon-option">
+    <span class="aca-search-icon-avatar"></span>
+    {{ agent }}
+  </mat-option>
+</mat-select>

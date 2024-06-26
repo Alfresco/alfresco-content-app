@@ -1,12 +1,4 @@
 <div class="app-search-ai-container">
-  <mat-select
-    [formControl]="agentControl"
-    class="aca-search-ai-input-agent-select"
-    panelClass="aca-search-ai-input-agent-select-options"
-    [ngClass]="agentSelect.panelOpen ? 'aca-search-ai-input-agent-select-opened' : ''"
-    #agentSelect>
-    <mat-option *ngFor="let agent of mockedAgents" [value]="agent">{{ agent }}</mat-option>
-  </mat-select>
     <mat-form-field class="app-input-ai-form-field" [floatLabel]="'never'">
       <input
           matInput
@@ -30,8 +22,5 @@
             More
         </mat-chip>
     </mat-chip-list>
-    <button mat-flat-button color="primary" class="app-toolbar-item" (click)="onSearchSubmit(searchedWord)" [disabled]="!searchedWord" data-automation-id="generate-ai-response-button">
-      <adf-icon [value]="'adf:three-magic_stars_ai'"></adf-icon>
-      Ask Agent
-    </button>
+    <aca-search-icon [controlInputVisibility]="false"></aca-search-icon>
 </div>

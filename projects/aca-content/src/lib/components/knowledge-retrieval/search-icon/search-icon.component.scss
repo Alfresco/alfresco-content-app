@@ -1,19 +1,44 @@
-aca-search-icon.aca-search-icon {
-  height: 32px;
-  display: block;
+.aca-search-icon-avatar {
+  vertical-align: middle;
+  margin-bottom: 2px;
+}
 
-  button {
-    &.aca-search-icon-animation {
+aca-search-icon {
+  .aca-search-ai-input-agent-select {
+    width: 149px;
+    height: 35px;
+    align-content: center;
+    border-radius: 16px;
+    padding-left: 3px;
+    padding-right: 10px;
+    background-color: var(--theme-grey-text-background-color);
+    color: var(--theme-text-light-color);
+    font-size: 15.42px;
+
+    .aca-search-icon-avatar {
+      border-radius: 50%;
+      background-color: #9acd9a;
+      height: 26.43px;
+      width: 26.43px;
+      display: inline-block;
+      margin-left: 1px;
+    }
+  }
+}
+
+.aca-search-ai-input-agent-select-options {
+  margin-top: 48px;
+
+  .aca-search-icon-option {
+    padding-left: 11px;
+    padding-right: 11px;
+
+    .aca-search-icon-avatar {
+      border-radius: 50%;
+      background-color: #9acd9a;
       height: 32px;
-      padding: 0;
-      cursor: pointer;
-      border: none;
-      background: transparent;
-      width: max-content;
-
-      ng-lottie {
-        line-height: normal;
-      }
+      width: 32px;
+      display: inline-block;
     }
   }
 }

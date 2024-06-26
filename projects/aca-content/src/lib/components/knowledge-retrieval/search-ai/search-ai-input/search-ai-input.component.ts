@@ -31,7 +31,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { A11yModule } from '@angular/cdk/a11y';
 import { IconModule, MaterialModule, NotificationService } from '@alfresco/adf-core';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { ActivatedRoute, NavigationEnd, Router, RouterEvent, UrlTree } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -39,6 +39,7 @@ import { AiSearchByTermPayload, AppStore, getAppSelection, SearchByTermAiAction,
 import { filter, takeUntil } from 'rxjs/operators';
 import { SearchAIService } from '../../../../services/search-ai.service';
 import { SelectionState } from '@alfresco/adf-extensions';
+import { SearchIconComponent } from '../../search-icon/search-icon.component';
 
 @Component({
   standalone: true,
@@ -53,7 +54,8 @@ import { SelectionState } from '@alfresco/adf-extensions';
     IconModule,
     FormsModule,
     MaterialModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SearchIconComponent
   ],
   selector: 'aca-search-ai-input',
   templateUrl: './search-ai-input.component.html',
@@ -65,8 +67,6 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
   onDestroy$: Subject<boolean> = new Subject<boolean>();
   searchedWord: string = null;
   restrictionQuery = '';
-  agentControl = new FormControl('');
-  mockedAgents = ['HR Agent', 'Policy Agent', 'Rules & Rates Agent'];
 
   private selectedNodesState: SelectionState;
 
@@ -114,8 +114,6 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
         this.restrictionQuery = restrictionQuery;
       }
     });
-
-    this.agentControl.setValue(this.mockedAgents[0]);
   }
 
   showInputValue() {
