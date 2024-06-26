@@ -37,7 +37,6 @@ import { ActivatedRoute, NavigationEnd, Router, RouterEvent, UrlTree } from '@an
 import { Store } from '@ngrx/store';
 import { AiSearchByTermPayload, AppStore, getAppSelection, SearchByTermAiAction, SnackbarErrorAction } from '@alfresco/aca-shared/store';
 import { filter, takeUntil } from 'rxjs/operators';
-import { ToggleSearchComponent } from '../toggle-search/toggle-search.component';
 import { SearchAIService } from '../../../../services/search-ai.service';
 import { SelectionState } from '@alfresco/adf-extensions';
 
@@ -54,7 +53,6 @@ import { SelectionState } from '@alfresco/adf-extensions';
     IconModule,
     FormsModule,
     MaterialModule,
-    ToggleSearchComponent,
     ReactiveFormsModule
   ],
   selector: 'aca-search-ai-input',
@@ -74,8 +72,6 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
 
   @Input()
   showExampleChips = false;
-  @Input()
-  hideAIToggle = false;
   @Input()
   placeholder: string;
 
@@ -138,7 +134,6 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
     } else {
       const payload = new AiSearchByTermPayload();
       payload.searchTerm = searchTerm;
-      payload.hideAiToggle = this.hideAIToggle;
       payload.restrictionQuery = this.restrictionQuery ? this.restrictionQuery : '';
       if (searchTerm) {
         this.store.dispatch(new SearchByTermAiAction(payload));

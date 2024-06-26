@@ -26,11 +26,11 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { SearchAiActionTypes, SearchByTermAiAction } from '@alfresco/aca-shared/store';
 import { map } from 'rxjs/operators';
-import { SearchNavigationService } from '../../components/ai/search-ai/search-navigation.service';
+import { SearchAiNavigationService } from '../../components/knowledge-retrieval/search-ai/search-ai-navigation.service';
 
 @Injectable()
 export class SearchAiEffects {
-  constructor(private actions$: Actions, private searchNavigationService: SearchNavigationService) {}
+  constructor(private actions$: Actions, private searchNavigationService: SearchAiNavigationService) {}
 
   searchByTerm$ = createEffect(
     () =>

@@ -29,13 +29,12 @@ import { takeUntil } from 'rxjs/operators';
 import { AlfrescoApiService, ClipboardService, IconModule, MaterialModule, ThumbnailService, ToolbarModule } from '@alfresco/adf-core';
 import { ResultSetPaging, ResultSetRowEntry } from '@alfresco/js-api';
 import { CommonModule } from '@angular/common';
-import { ToggleSearchComponent } from '../toggle-search/toggle-search.component';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { SearchNavigationService } from '../search-navigation.service';
+import { SearchAiNavigationService } from '../search-ai-navigation.service';
 import { SearchAIService } from '../../../../services/search-ai.service';
 import { AiSearchResultModel } from '../../../../services/ai-search-result.model';
-import { SearchInputContainerComponent } from '../search-input-container/search-input-container.component';
+import { SearchAiInputContainerComponent } from '../search-ai-input-container/search-ai-input-container.component';
 
 @Component({
   standalone: true,
@@ -46,9 +45,8 @@ import { SearchInputContainerComponent } from '../search-input-container/search-
     IconModule,
     ToolbarModule,
     MaterialModule,
-    ToggleSearchComponent,
     ToolbarComponent,
-    SearchInputContainerComponent
+    SearchAiInputContainerComponent
   ],
   providers: [provideAnimations()],
   selector: 'aca-search-ai-results',
@@ -146,7 +144,7 @@ export class SearchAiResultsComponent extends PageComponent implements OnDestroy
     private searchAiService: SearchAIService,
     private clipboardService: ClipboardService,
     private thumbnailService: ThumbnailService,
-    private searchNavigationService: SearchNavigationService
+    private searchNavigationService: SearchAiNavigationService
   ) {
     super();
     route.queryParams.pipe(takeUntil(this.onDestroy$)).subscribe((params: Params) => {

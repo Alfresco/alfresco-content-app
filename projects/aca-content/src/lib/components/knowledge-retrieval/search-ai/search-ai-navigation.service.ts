@@ -30,7 +30,7 @@ import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
-export class SearchNavigationService {
+export class SearchAiNavigationService {
   private previousRoute = '';
   private _hasAiSearchResults = false;
 
@@ -88,12 +88,5 @@ export class SearchNavigationService {
     } else {
       void this.router.navigate(['/knowledge-retrieval']);
     }
-  }
-
-  navigateToSearch(): void {
-    if (!this.router.url.includes('search')) {
-      this.previousRoute = this.router.url;
-    }
-    void this.router.navigate(['/search']);
   }
 }

@@ -28,7 +28,7 @@ import { ClipboardService, CoreTestingModule, PageTitleService } from '@alfresco
 import { ActivatedRoute, Router, RouterEvent } from '@angular/router';
 import { of, ReplaySubject, Subject } from 'rxjs';
 import { By } from '@angular/platform-browser';
-import { SearchNavigationService } from '../search-navigation.service';
+import { SearchAiNavigationService } from '../search-ai-navigation.service';
 import { DocumentBasePageService } from '@alfresco/aca-shared';
 import { STORE_INITIAL_APP_DATA } from '@alfresco/aca-shared/store';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
@@ -52,7 +52,7 @@ describe('SearchAiResultsComponent', () => {
   let fixture: ComponentFixture<SearchAiResultsComponent>;
   let component: SearchAiResultsComponent;
   let searchAiService: SearchAIService;
-  let searchNavigationService: SearchNavigationService;
+  let searchNavigationService: SearchAiNavigationService;
   let clipboardService: ClipboardService;
 
   let executeAiSearchSpy: jasmine.Spy;
@@ -152,7 +152,7 @@ describe('SearchAiResultsComponent', () => {
     });
 
     searchAiService = TestBed.inject(SearchAIService);
-    searchNavigationService = TestBed.inject(SearchNavigationService);
+    searchNavigationService = TestBed.inject(SearchAiNavigationService);
     clipboardService = TestBed.inject(ClipboardService);
     executeAiSearchSpy = spyOn(searchAiService, 'executeAISearch').and.returnValue(of(null));
 

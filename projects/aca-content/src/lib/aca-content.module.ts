@@ -76,8 +76,8 @@ import { UserMenuComponent } from './components/sidenav/user-menu/user-menu.comp
 import { ContextMenuComponent } from './components/context-menu/context-menu.component';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { SearchResultsRowComponent } from './components/search/search-results-row/search-results-row.component';
-import { SearchIconComponent } from './components/ai/search-icon/search-icon.component';
 import { LottieModule } from 'ngx-lottie';
+import { SearchIconComponent } from './components/knowledge-retrieval/search-icon/search-icon.component';
 
 export function playerFactory(): any {
   return import('lottie-web');

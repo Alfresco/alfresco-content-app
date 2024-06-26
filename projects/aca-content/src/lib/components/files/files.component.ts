@@ -47,10 +47,9 @@ import { DocumentListDirective } from '../../directives/document-list.directive'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SearchAIService } from '../../services/search-ai.service';
 import { MatIconModule } from '@angular/material/icon';
-import { SearchAiInputComponent } from '../ai/search-ai/search-ai-input/search-ai-input.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
-import { SearchInputContainerComponent } from '../ai/search-ai/search-input-container/search-input-container.component';
+import { SearchAiInputContainerComponent } from '../knowledge-retrieval/search-ai/search-ai-input-container/search-ai-input-container.component';
 
 @Component({
   standalone: true,
@@ -71,10 +70,9 @@ import { SearchInputContainerComponent } from '../ai/search-ai/search-input-cont
     PageLayoutComponent,
     ToolbarComponent,
     MatIconModule,
-    SearchAiInputComponent,
     MatButtonModule,
     MatDividerModule,
-    SearchInputContainerComponent,
+    SearchAiInputContainerComponent,
     DynamicColumnComponent
   ],
   templateUrl: './files.component.html',

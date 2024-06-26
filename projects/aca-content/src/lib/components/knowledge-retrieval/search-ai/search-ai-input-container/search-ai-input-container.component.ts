@@ -28,21 +28,21 @@ import { MatIconModule } from '@angular/material/icon';
 import { SearchAiInputComponent } from '../search-ai-input/search-ai-input.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { SearchAIService } from '../../../../services/search-ai.service';
-import { SearchNavigationService } from '../search-navigation.service';
+import { SearchAiNavigationService } from '../search-ai-navigation.service';
 
 @Component({
   standalone: true,
   imports: [SearchAiInputComponent, MatIconModule, MatDividerModule, MatButtonModule],
-  selector: 'aca-search-input-container',
-  templateUrl: './search-input-container.component.html',
-  styleUrls: ['./search-input-container.component.scss'],
+  selector: 'aca-search-ai-input-container',
+  templateUrl: './search-ai-input-container.component.html',
+  styleUrls: ['./search-ai-input-container.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class SearchInputContainerComponent {
+export class SearchAiInputContainerComponent {
   @Input()
   placeholder = 'Please ask your question with as much detail as possible...';
 
-  constructor(private searchAIService: SearchAIService, private searchNavigationService: SearchNavigationService) {}
+  constructor(private searchAIService: SearchAIService, private searchNavigationService: SearchAiNavigationService) {}
 
   onAIInputSearchSubmitted(): void {
     this.searchAIService.updateAISearchInputState(false);

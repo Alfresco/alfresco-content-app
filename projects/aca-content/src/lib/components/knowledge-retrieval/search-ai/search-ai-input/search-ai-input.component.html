@@ -30,7 +30,6 @@
             More
         </mat-chip>
     </mat-chip-list>
-    <aca-toggle-search class="app-toolbar-item" *ngIf="!hideAIToggle"></aca-toggle-search>
     <button mat-flat-button color="primary" class="app-toolbar-item" (click)="onSearchSubmit(searchedWord)" [disabled]="!searchedWord" data-automation-id="generate-ai-response-button">
       <adf-icon [value]="'adf:three-magic_stars_ai'"></adf-icon>
       Ask Agent
