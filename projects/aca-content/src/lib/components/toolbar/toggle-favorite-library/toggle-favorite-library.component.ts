@@ -32,13 +32,13 @@ import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
-import { ContentDirectiveModule } from '@alfresco/adf-content-services';
+import { LibraryFavoriteDirective } from '@alfresco/adf-content-services';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, TranslateModule, ContentDirectiveModule, MatIconModule, MatMenuModule],
+  imports: [CommonModule, TranslateModule, MatIconModule, MatMenuModule, LibraryFavoriteDirective],
   selector: 'app-toggle-favorite-library',
   template: `
     <button

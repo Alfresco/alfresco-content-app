@@ -34,10 +34,10 @@ import {
 import { NodeEntry, Node, PathElement, PathInfo } from '@alfresco/js-api';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { debounceTime, map } from 'rxjs/operators';
-import { DocumentListPresetRef, ExtensionsModule } from '@alfresco/adf-extensions';
+import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-extensions';
 import { CommonModule } from '@angular/common';
 import { DocumentListModule } from '@alfresco/adf-content-services';
-import { DataTableModule, PaginationComponent, TemplateModule } from '@alfresco/adf-core';
+import { DataTableModule, EmptyContentComponent, PaginationComponent } from '@alfresco/adf-core';
 import { DocumentListDirective } from '../../directives/document-list.directive';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -48,15 +48,15 @@ import { TranslateModule } from '@ngx-translate/core';
     DocumentListModule,
     DocumentListDirective,
     ContextActionsDirective,
-    TemplateModule,
     DataTableModule,
-    ExtensionsModule,
     PaginationComponent,
     PaginationDirective,
     InfoDrawerComponent,
     PageLayoutComponent,
     TranslateModule,
-    ToolbarComponent
+    ToolbarComponent,
+    EmptyContentComponent,
+    DynamicColumnComponent
   ],
   templateUrl: './favorites.component.html',
   encapsulation: ViewEncapsulation.None

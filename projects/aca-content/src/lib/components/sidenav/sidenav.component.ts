@@ -23,7 +23,7 @@
  */
 
 import { Component, Input, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
-import { ExtensionsModule, NavBarGroupRef, NavBarLinkRef } from '@alfresco/adf-extensions';
+import { DynamicExtensionComponent, NavBarGroupRef, NavBarLinkRef } from '@alfresco/adf-extensions';
 import { Store } from '@ngrx/store';
 import { AppStore, getSideNavState } from '@alfresco/aca-shared/store';
 import { Subject } from 'rxjs';
@@ -37,7 +37,7 @@ import { ExpandMenuComponent } from './components/expand-menu.component';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, SidenavHeaderComponent, MatListModule, ExpandMenuComponent, ExtensionsModule],
+  imports: [CommonModule, SidenavHeaderComponent, MatListModule, ExpandMenuComponent, DynamicExtensionComponent],
   selector: 'app-sidenav',
   templateUrl: './sidenav.component.html',
   styleUrls: ['./sidenav.component.scss'],

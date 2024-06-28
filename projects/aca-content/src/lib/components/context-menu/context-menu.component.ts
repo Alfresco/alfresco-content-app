@@ -26,7 +26,7 @@ import { Component, ViewEncapsulation, OnInit, OnDestroy, HostListener, ViewChil
 import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { ContentActionRef, ExtensionsModule } from '@alfresco/adf-extensions';
+import { ContentActionRef, DynamicExtensionComponent } from '@alfresco/adf-extensions';
 import { ContextMenuOverlayRef } from './context-menu-overlay';
 import { CONTEXT_MENU_DIRECTION } from './direction.token';
 import { Direction } from '@angular/cdk/bidi';
@@ -34,7 +34,7 @@ import { AppExtensionService } from '@alfresco/aca-shared';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatDividerModule } from '@angular/material/divider';
-import { IconModule } from '@alfresco/adf-core';
+import { IconComponent } from '@alfresco/adf-core';
 import { ContextMenuItemComponent } from './context-menu-item.component';
 import { OutsideEventDirective } from './context-menu-outside-event.directive';
 
@@ -45,10 +45,10 @@ import { OutsideEventDirective } from './context-menu-outside-event.directive';
     TranslateModule,
     MatMenuModule,
     MatDividerModule,
-    IconModule,
     ContextMenuItemComponent,
-    ExtensionsModule,
-    OutsideEventDirective
+    OutsideEventDirective,
+    IconComponent,
+    DynamicExtensionComponent
   ],
   selector: 'aca-context-menu',
   templateUrl: './context-menu.component.html',

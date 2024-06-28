@@ -35,7 +35,7 @@ import { ProfileState, SelectionState } from '@alfresco/adf-extensions';
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { ContentDirectiveModule, LibraryMembershipErrorEvent, LibraryMembershipToggleEvent } from '@alfresco/adf-content-services';
+import { LibraryMembershipDirective, LibraryMembershipErrorEvent, LibraryMembershipToggleEvent } from '@alfresco/adf-content-services';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { TranslateModule } from '@ngx-translate/core';
@@ -43,7 +43,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, TranslateModule, MatButtonModule, ContentDirectiveModule, MatIconModule],
+  imports: [CommonModule, TranslateModule, MatButtonModule, MatIconModule, LibraryMembershipDirective],
   selector: 'app-toggle-join-library-button',
   template: `
     <button

@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ContentPipeModule, NameColumnComponent, NodesApiService } from '@alfresco/adf-content-services';
+import { NameColumnComponent, NodeNameTooltipPipe, NodesApiService } from '@alfresco/adf-content-services';
 import { ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
 import { Subject } from 'rxjs';
@@ -31,12 +31,12 @@ import { NodeActionTypes } from '@alfresco/aca-shared/store';
 import { LockedByComponent, isLocked, AppExtensionService, Badge } from '@alfresco/aca-shared';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
-import { IconModule } from '@alfresco/adf-core';
-import { ExtensionsModule } from '@alfresco/adf-extensions';
+import { IconComponent } from '@alfresco/adf-core';
+import { DynamicExtensionComponent } from '@alfresco/adf-extensions';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, TranslateModule, LockedByComponent, ContentPipeModule, IconModule, ExtensionsModule],
+  imports: [CommonModule, TranslateModule, LockedByComponent, IconComponent, NodeNameTooltipPipe, DynamicExtensionComponent],
   selector: 'aca-custom-name-column',
   templateUrl: './name-column.component.html',
   styleUrls: ['./name-column.component.scss'],
