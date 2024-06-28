@@ -1,6 +1,6 @@
 # Alfresco Content Application
 
-Please refer to the public [documentation](https://alfresco-content-app.netlify.com/) for more details
+Please refer to the public [documentation](https://alfresco-content-app.netlify.app/) for more details
 
 ## Requirements
 

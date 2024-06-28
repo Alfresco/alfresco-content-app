@@ -87,7 +87,7 @@ The documentation is divided into the following sections:
 | 1.5     | File Sharing                       | Share files, with time expiry if required, externally with uniquely generated URLs. |
 | 1.5     | Versioning                         | The version manager provides access and management of previous file versions, and the ability to upload new versions. |
 | 1.5     | Permissions                        | Granular user permission management of the folders and files throughout the repository. |
-| 1.5     | Extensibility                      | The application provides safe extension points allowing full customisation; see [Documentation](https://alfresco-content-app.netlify.com/#/extending/) for details. |
+| 1.5     | Extensibility                      | The application provides safe extension points allowing full customisation; see [Documentation](https://alfresco-content-app.netlify.app/#/extending/) for details. |
 | 1.6     | Library management                 | Join and favorite libraries. New search input to find Libraries, files and/or folders. |
 | 1.7     | Edit Offline                       | Lock and unlock for editing, download current version, upload new version. |
 | 1.7     | Edit with Microsoft Office         | Extension to edit online with Alfresco Office Services (AOS) |
