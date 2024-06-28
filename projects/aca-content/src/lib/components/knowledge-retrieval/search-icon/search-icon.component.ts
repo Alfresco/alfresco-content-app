@@ -22,9 +22,9 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LottieModule } from 'ngx-lottie';
+import { AnimationOptions, LottieModule } from 'ngx-lottie';
 import { ContentActionRef, SelectionState } from '@alfresco/adf-extensions';
 import { Store } from '@ngrx/store';
 import { AppStore, getAppSelection } from '@alfresco/aca-shared/store';
@@ -32,14 +32,11 @@ import { NotificationService } from '@alfresco/adf-core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { SearchAIService } from '../../../services/search-ai.service';
-import { MatOptionModule } from '@angular/material/core';
-import { MatSelect, MatSelectModule } from '@angular/material/select';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
+import { AnimationItem } from 'lottie-web';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, LottieModule, MatOptionModule, MatSelectModule, ReactiveFormsModule, MatCardModule],
+  imports: [CommonModule, LottieModule],
   selector: 'aca-search-icon',
   templateUrl: './search-icon.component.html',
   styleUrls: ['./search-icon.component.scss'],
@@ -49,39 +46,30 @@ import { MatCardModule } from '@angular/material/card';
 export class SearchIconComponent implements OnInit, OnDestroy {
   @Input()
   data: { path: string; trigger: string };
-  @Input()
-  controlInputVisibility = true;
 
   @Input()
   actionRef: ContentActionRef;
 
-  @ViewChild(MatSelect)
-  agentSelect: MatSelect;
+  options: AnimationOptions = {
+    loop: true,
+    autoplay: false
+  };
 
-  agentControl = new FormControl('');
-  mockedAgents = ['HR Agent', 'Policy Agent', 'Rules & Rates Agent'];
-  doubleClickTimeout: number;
-
+  animationItem: AnimationItem | undefined;
   destroyed$ = new Subject<void>();
 
   private selectedNodesState: SelectionState;
 
-  constructor(
-    private store: Store<AppStore>,
-    private notificationService: NotificationService,
-    private searchAIService: SearchAIService,
-    private changeDetector: ChangeDetectorRef
-  ) {}
+  constructor(private readonly store: Store<AppStore>, private notificationService: NotificationService, private searchAIService: SearchAIService) {}
 
   ngOnInit(): void {
+    this.options = { ...this.options, path: this.data.path };
     this.store
       .select(getAppSelection)
       .pipe(takeUntil(this.destroyed$))
       .subscribe((selection) => {
         this.selectedNodesState = selection;
       });
-
-    this.agentControl.setValue(this.mockedAgents[0]);
   }
 
   ngOnDestroy(): void {
@@ -89,39 +77,24 @@ export class SearchIconComponent implements OnInit, OnDestroy {
     this.destroyed$.complete();
   }
 
-  showAiSearch(): void {
-    if (this.controlInputVisibility) {
-      const error = this.searchAIService.checkSearchAvailability(this.selectedNodesState);
-      if (error) {
-        this.notificationService.showInfo(error);
-      } else {
-        this.store.dispatch({ type: this.data.trigger });
-      }
-    }
+  onAnimate(animationItem: AnimationItem): void {
+    this.animationItem = animationItem;
   }
 
   onClick(): void {
-    if (this.mockedAgents.length === 1 || this.doubleClickTimeout) {
-      this.clearDoubleClickTimer();
-      this.showAiSearch();
-      this.changeDetector.detectChanges();
+    const error = this.searchAIService.checkSearchAvailability(this.selectedNodesState);
+    if (error) {
+      this.notificationService.showInfo(error);
     } else {
-      this.doubleClickTimeout = setTimeout(() => {
-        this.agentSelect.disabled = false;
-        this.agentSelect.open();
-        this.clearDoubleClickTimer();
-      }, 250);
+      this.store.dispatch({ type: this.data.trigger });
     }
   }
 
-  disable(opened: boolean): void {
-    if (!opened) {
-      this.agentSelect.disabled = true;
-    }
+  onMouseEnter(): void {
+    this.animationItem.play();
   }
 
-  private clearDoubleClickTimer(): void {
-    clearTimeout(this.doubleClickTimeout);
-    this.doubleClickTimeout = null;
+  onMouseLeave(): void {
+    this.animationItem.stop();
   }
 }
