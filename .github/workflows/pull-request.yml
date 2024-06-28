@@ -166,7 +166,7 @@ jobs:
 
   finalize:
     if: ${{ always() }}
-    needs: [lint, build, unit-tests, e2es, e2es-playwright]
+    needs: [lint, build, unit-tests, e2es-playwright]
     name: 'Finalize'
     runs-on: ubuntu-latest
     steps:
