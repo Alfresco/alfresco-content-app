@@ -33,10 +33,12 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { SearchAIService } from '../../../services/search-ai.service';
 import { AnimationItem } from 'lottie-web';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatListModule } from '@angular/material/list';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, LottieModule],
+  imports: [CommonModule, LottieModule, MatMenuModule, MatListModule],
   selector: 'aca-search-icon',
   templateUrl: './search-icon.component.html',
   styleUrls: ['./search-icon.component.scss'],
@@ -57,6 +59,8 @@ export class SearchIconComponent implements OnInit, OnDestroy {
 
   animationItem: AnimationItem | undefined;
   destroyed$ = new Subject<void>();
+  mockedAgents = ['HR Agent', 'Policy Agent', 'Rules & Rates Agent'];
+  disabled = true;
 
   private selectedNodesState: SelectionState;
 
@@ -85,9 +89,8 @@ export class SearchIconComponent implements OnInit, OnDestroy {
     const error = this.searchAIService.checkSearchAvailability(this.selectedNodesState);
     if (error) {
       this.notificationService.showInfo(error);
-    } else {
-      this.store.dispatch({ type: this.data.trigger });
     }
+    this.disabled = !!error;
   }
 
   onMouseEnter(): void {
@@ -96,5 +99,9 @@ export class SearchIconComponent implements OnInit, OnDestroy {
 
   onMouseLeave(): void {
     this.animationItem.stop();
+  }
+
+  onAgentSelection(): void {
+    this.store.dispatch({ type: this.data.trigger });
   }
 }

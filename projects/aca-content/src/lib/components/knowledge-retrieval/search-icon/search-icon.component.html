@@ -1,7 +1,17 @@
-<button (click)="onClick()"
+<button [matMenuTriggerFor]="disabled ? null : agentsList"
         (mouseenter)="onMouseEnter()"
         (mouseleave)="onMouseLeave()"
-        class="aca-search-icon-animation">
+        class="aca-search-icon-animation"
+        (mouseup)="onClick()">
   <ng-lottie (animationCreated)="onAnimate($event)" [options]="options"></ng-lottie>
   Ask Agent
 </button>
+<mat-menu #agentsList="matMenu" class="aca-search-icon-agents-menu" xPosition="before">
+  <mat-selection-list (selectionChange)="onAgentSelection()" [multiple]="false" class="aca-search-icon-agents-list">
+    <mat-list-option *ngFor="let agent of mockedAgents" class="aca-search-icon-agents-list-agent">
+      <div>
+        <span class="aca-search-icon-avatar"></span>{{ agent }}
+      </div>
+    </mat-list-option>
+  </mat-selection-list>
+</mat-menu>
