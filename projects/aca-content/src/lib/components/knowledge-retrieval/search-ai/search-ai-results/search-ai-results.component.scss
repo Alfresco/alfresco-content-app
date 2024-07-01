@@ -148,48 +148,6 @@
           animation: cursor-blink 1.5s steps(2) infinite;
         }
       }
-
-      .app-default-ai-screen-container {
-        display: flex;
-        flex-direction: column;
-
-        h1 {
-          width: 50%;
-          margin-left: 20px;
-          margin-right: 20px;
-        }
-
-        .app-examples-container {
-          display: flex;
-          flex-direction: row;
-
-          .app-examples-card {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            padding: 10px;
-            margin: 10px;
-            border: 2px solid var(--theme-border-color);
-            border-radius: 10px;
-
-            .app-examples-title {
-              display: flex;
-              flex-direction: row;
-              justify-content: space-between;
-              align-items: center;
-              margin-bottom: 20px;
-
-              h4 {
-                margin: 0;
-              }
-
-              mat-icon {
-                color: var(--adf-theme-foreground-icon-color);
-              }
-            }
-          }
-        }
-      }
     }
   }
 

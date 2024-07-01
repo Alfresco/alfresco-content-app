@@ -7,7 +7,7 @@
         <div class="app-main-content">
             <div class="app-ai-search-results-container">
                 <div class="app-ai-search-results-container-query">Some query</div>
-                <div *ngIf="hasAiSearchTriggered; else aiSearchStartScreen" class="app-ai-response-container">
+                <div class="app-ai-response-container">
                     <div class="app-ai-response-body-container">
                         <div class="app-ai-response-body">
                             <div class="app-ai-response" @fadeFromTop>{{ aiSearchResult?.aiResponse }}</div>
@@ -42,27 +42,6 @@
                         </div>
                     </div>
                 </div>
-                <ng-template #aiSearchStartScreen>
-                    <div class="app-default-ai-screen-container" data-automation-id="default-ai-screen-container">
-                        <adf-icon [value]="'adf:adw-ai-logo'" ></adf-icon>
-                        <h1>Transforming Content Management: Introducing AI to Alfresco Workspace</h1>
-                        <div class="app-examples-container">
-                            <ng-container *ngFor="let card of initialCardsNew">
-                                <div class="app-examples-card">
-                                    <div class="app-examples-title">
-                                        <h4>
-                                            {{ card.title }}
-                                        </h4>
-                                        <mat-icon>north_east</mat-icon>
-                                    </div>
-                                    <div class="app-example-content">
-                                        {{ card.content }}
-                                    </div>
-                                </div>
-                            </ng-container>
-                        </div>
-                    </div>
-                </ng-template>
             </div>
         </div>
     </div>
