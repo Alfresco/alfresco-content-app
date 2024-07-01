@@ -27,8 +27,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { SearchAiInputComponent } from '../search-ai-input/search-ai-input.component';
 import { MatDividerModule } from '@angular/material/divider';
-import { SearchAIService } from '../../../../services/search-ai.service';
-import { SearchAiNavigationService } from '../search-ai-navigation.service';
+import { SearchAiService } from '../../../../services/search-ai.service';
+import { SearchAiNavigationService } from '../../../../services/search-ai-navigation.service';
 
 @Component({
   standalone: true,
@@ -42,14 +42,14 @@ export class SearchAiInputContainerComponent {
   @Input()
   placeholder = 'Please ask your question with as much detail as possible...';
 
-  constructor(private searchAIService: SearchAIService, private searchNavigationService: SearchAiNavigationService) {}
+  constructor(private searchAiService: SearchAiService, private searchNavigationService: SearchAiNavigationService) {}
 
   onAIInputSearchSubmitted(): void {
-    this.searchAIService.updateAISearchInputState(false);
+    this.searchAiService.updateAISearchInputState(false);
   }
 
   leaveSearchInput(): void {
     this.searchNavigationService.navigateToPreviousRoute();
-    this.searchAIService.updateAISearchInputState(false);
+    this.searchAiService.updateAISearchInputState(false);
   }
 }

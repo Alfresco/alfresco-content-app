@@ -45,7 +45,7 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { DocumentListDirective } from '../../directives/document-list.directive';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { SearchAIService } from '../../services/search-ai.service';
+import { SearchAiService } from '../../services/search-ai.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
@@ -96,7 +96,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     private contentApi: ContentApiService,
     private nodeActionsService: NodeActionsService,
     private route: ActivatedRoute,
-    private searchAIService: SearchAIService
+    private searchAiService: SearchAiService
   ) {
     super();
   }
@@ -135,7 +135,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
     this.subscriptions = this.subscriptions.concat([
       this.nodeActionsService.contentCopied.subscribe((nodes) => this.onContentCopied(nodes)),
-      this.searchAIService.toggleAISearchInput$.subscribe((showAISearchInput) => (this.showAISearchInput = showAISearchInput)),
+      this.searchAiService.toggleAISearchInput$.subscribe((showAISearchInput) => (this.showAISearchInput = showAISearchInput)),
       this.uploadService.fileUploadComplete.pipe(debounceTime(300)).subscribe((file) => this.onFileUploadedEvent(file)),
       this.uploadService.fileUploadDeleted.pipe(debounceTime(300)).subscribe((file) => this.onFileUploadedEvent(file))
     ]);

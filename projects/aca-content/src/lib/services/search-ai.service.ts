@@ -29,7 +29,7 @@ import { AiSearchResultModel } from './ai-search-result.model';
 import { SelectionState } from '@alfresco/adf-extensions';
 
 @Injectable({ providedIn: 'root' })
-export class SearchAIService {
+export class SearchAiService {
   private readonly textFileMimeTypes = [
     'application/msword',
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document',

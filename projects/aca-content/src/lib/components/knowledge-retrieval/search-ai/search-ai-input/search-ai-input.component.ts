@@ -37,7 +37,7 @@ import { ActivatedRoute, NavigationEnd, Router, RouterEvent, UrlTree } from '@an
 import { Store } from '@ngrx/store';
 import { AiSearchByTermPayload, AppStore, getAppSelection, SearchByTermAiAction, SnackbarErrorAction } from '@alfresco/aca-shared/store';
 import { filter, takeUntil } from 'rxjs/operators';
-import { SearchAIService } from '../../../../services/search-ai.service';
+import { SearchAiService } from '../../../../services/search-ai.service';
 import { SelectionState } from '@alfresco/adf-extensions';
 
 @Component({
@@ -82,7 +82,7 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private store: Store<AppStore>,
-    private searchAIService: SearchAIService,
+    private searchAiService: SearchAiService,
     private notificationService: NotificationService
   ) {}
 
@@ -127,7 +127,7 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
   }
 
   onSearchSubmit(searchTerm: string) {
-    const error = this.searchAIService.checkSearchAvailability(this.selectedNodesState);
+    const error = this.searchAiService.checkSearchAvailability(this.selectedNodesState);
     if (error) {
       this.notificationService.showInfo(error);
     } else {

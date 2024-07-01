@@ -31,7 +31,7 @@ import { AppStore, getAppSelection } from '@alfresco/aca-shared/store';
 import { NotificationService } from '@alfresco/adf-core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { SearchAIService } from '../../../services/search-ai.service';
+import { SearchAiService } from '../../../../services/search-ai.service';
 import { AnimationItem } from 'lottie-web';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatListModule } from '@angular/material/list';
@@ -39,13 +39,13 @@ import { MatListModule } from '@angular/material/list';
 @Component({
   standalone: true,
   imports: [CommonModule, LottieModule, MatMenuModule, MatListModule],
-  selector: 'aca-search-icon',
-  templateUrl: './search-icon.component.html',
-  styleUrls: ['./search-icon.component.scss'],
+  selector: 'aca-agents-button',
+  templateUrl: './agents-button.component.html',
+  styleUrls: ['./agents-button.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  host: { class: 'aca-search-icon' }
+  host: { class: 'aca-agents-button' }
 })
-export class SearchIconComponent implements OnInit, OnDestroy {
+export class AgentsButtonComponent implements OnInit, OnDestroy {
   @Input()
   data: { path: string; trigger: string };
 
@@ -64,7 +64,7 @@ export class SearchIconComponent implements OnInit, OnDestroy {
 
   private selectedNodesState: SelectionState;
 
-  constructor(private readonly store: Store<AppStore>, private notificationService: NotificationService, private searchAIService: SearchAIService) {}
+  constructor(private readonly store: Store<AppStore>, private notificationService: NotificationService, private searchAiService: SearchAiService) {}
 
   ngOnInit(): void {
     this.options = { ...this.options, path: this.data.path };
@@ -86,7 +86,7 @@ export class SearchIconComponent implements OnInit, OnDestroy {
   }
 
   onClick(): void {
-    const error = this.searchAIService.checkSearchAvailability(this.selectedNodesState);
+    const error = this.searchAiService.checkSearchAvailability(this.selectedNodesState);
     if (error) {
       this.notificationService.showInfo(error);
     }

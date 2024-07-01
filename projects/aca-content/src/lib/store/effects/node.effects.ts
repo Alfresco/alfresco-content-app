@@ -57,7 +57,7 @@ import {
 import { ContentManagementService } from '../../services/content-management.service';
 import { RenditionService } from '@alfresco/adf-content-services';
 import { NavigationEnd, Router } from '@angular/router';
-import { SearchAIService } from '../../services/search-ai.service';
+import { SearchAiService } from '../../services/search-ai.service';
 
 @Injectable()
 export class NodeEffects {
@@ -67,7 +67,7 @@ export class NodeEffects {
     private router: Router,
     private contentService: ContentManagementService,
     private renditionViewer: RenditionService,
-    private searchAIService: SearchAIService
+    private searchAiService: SearchAiService
   ) {}
 
   shareNode$ = createEffect(
@@ -470,7 +470,7 @@ export class NodeEffects {
     () =>
       this.actions$.pipe(
         ofType<ToggleAISearchInput>(NodeActionTypes.ToggleAiSearchInput),
-        map(() => this.searchAIService.updateAISearchInputState(true))
+        map(() => this.searchAiService.updateAISearchInputState(true))
       ),
     { dispatch: false }
   );

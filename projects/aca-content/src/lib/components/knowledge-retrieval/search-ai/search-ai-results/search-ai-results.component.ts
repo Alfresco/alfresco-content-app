@@ -31,8 +31,8 @@ import { ResultSetPaging, ResultSetRowEntry } from '@alfresco/js-api';
 import { CommonModule } from '@angular/common';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { SearchAiNavigationService } from '../search-ai-navigation.service';
-import { SearchAIService } from '../../../../services/search-ai.service';
+import { SearchAiNavigationService } from '../../../../services/search-ai-navigation.service';
+import { SearchAiService } from '../../../../services/search-ai.service';
 import { AiSearchResultModel } from '../../../../services/ai-search-result.model';
 import { SearchAiInputContainerComponent } from '../search-ai-input-container/search-ai-input-container.component';
 
@@ -141,7 +141,7 @@ export class SearchAiResultsComponent extends PageComponent implements OnDestroy
   constructor(
     route: ActivatedRoute,
     private apiService: AlfrescoApiService,
-    private searchAiService: SearchAIService,
+    private searchAiService: SearchAiService,
     private clipboardService: ClipboardService,
     private thumbnailService: ThumbnailService,
     private searchNavigationService: SearchAiNavigationService

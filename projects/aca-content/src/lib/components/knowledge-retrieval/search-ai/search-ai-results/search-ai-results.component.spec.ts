@@ -28,7 +28,7 @@ import { ClipboardService, CoreTestingModule, PageTitleService } from '@alfresco
 import { ActivatedRoute, Router, RouterEvent } from '@angular/router';
 import { of, ReplaySubject, Subject } from 'rxjs';
 import { By } from '@angular/platform-browser';
-import { SearchAiNavigationService } from '../search-ai-navigation.service';
+import { SearchAiNavigationService } from '../../../../services/search-ai-navigation.service';
 import { DocumentBasePageService } from '@alfresco/aca-shared';
 import { STORE_INITIAL_APP_DATA } from '@alfresco/aca-shared/store';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
@@ -36,7 +36,7 @@ import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { Store } from '@ngrx/store';
 import { delay } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
-import { SearchAIService } from '../../../../services/search-ai.service';
+import { SearchAiService } from '../../../../services/search-ai.service';
 import { AiSearchResultModel } from '../../../../services/ai-search-result.model';
 
 class DocumentBasePageServiceMock extends DocumentBasePageService {
@@ -51,7 +51,7 @@ class DocumentBasePageServiceMock extends DocumentBasePageService {
 describe('SearchAiResultsComponent', () => {
   let fixture: ComponentFixture<SearchAiResultsComponent>;
   let component: SearchAiResultsComponent;
-  let searchAiService: SearchAIService;
+  let searchAiService: SearchAiService;
   let searchNavigationService: SearchAiNavigationService;
   let clipboardService: ClipboardService;
 
@@ -151,7 +151,7 @@ describe('SearchAiResultsComponent', () => {
       ]
     });
 
-    searchAiService = TestBed.inject(SearchAIService);
+    searchAiService = TestBed.inject(SearchAiService);
     searchNavigationService = TestBed.inject(SearchAiNavigationService);
     clipboardService = TestBed.inject(ClipboardService);
     executeAiSearchSpy = spyOn(searchAiService, 'executeAISearch').and.returnValue(of(null));
