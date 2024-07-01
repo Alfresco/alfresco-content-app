@@ -1,48 +1,41 @@
 <aca-page-layout @fadeIn>
-    <div class="aca-page-layout-header">
-        <aca-search-ai-input-container [placeholder]="'Would you like to ask anything else?'"></aca-search-ai-input-container>
-    </div>
-
-    <div class="aca-page-layout-content">
-        <div class="app-main-content">
-            <div class="app-ai-search-results-container">
-                <div class="app-ai-search-results-container-query">Some query</div>
-                <div class="app-ai-response-container">
-                    <div class="app-ai-response-body-container">
-                        <div class="app-ai-response-body">
-                            <div class="app-ai-response" @fadeFromTop>{{ aiSearchResult?.aiResponse }}</div>
-                            <button class="app-ai-response-action app-ai-response-action-regeneration" mat-icon-button (click)="onRegenerateClick()" data-automation-id="regenerate-response-button">
-                              <mat-icon>cached</mat-icon>
-                            </button>
-                            <button class="app-ai-response-action" mat-icon-button (click)="copyResponseToClipboard()" data-automation-id="copy-response-button">
-                              <mat-icon>copy</mat-icon>
-                            </button>
-                            <button class="app-ai-response-action" mat-icon-button>
-                              <mat-icon>thumb_up</mat-icon>
-                            </button>
-                            <button class="app-ai-response-action app-ai-response-action-thumb-down" mat-icon-button>
-                              <mat-icon>thumb_down</mat-icon>
-                            </button>
-                            <div @fadeFromTopDelayx class="app-ai-response-sources-container" *ngIf="nodeList?.length > 0">
-                                <mat-divider></mat-divider>
-                                <div class="app-ai-response-sources">
-                                  <h4 class="app-source-documents-header">Source documents</h4>
-                                  <div class="app-ai-response-documents-container">
-                                      <div class="app-ai-response-document-row" *ngFor="let node of nodeList">
-                                        <mat-icon mat-list-icon class="app-document-icon-container" [attr.data-automation-id]="node.entry?.id + '-file-icon'">
-                                          <img [alt]="getMimeType(node)" [src]="getMimeTypeIcon(node)"/>
-                                        </mat-icon>
-                                          <div class="app-document-content-container">
-                                            <div [attr.data-automation-id]="node.entry?.id + '-file-name'">{{ node.entry?.name }}</div>
-                                          </div>
-                                      </div>
+    <aca-search-ai-input-container class="aca-page-layout-header" [placeholder]="'Would you like to ask anything else?'"></aca-search-ai-input-container>
+      <div class="aca-page-layout-content">
+          <div class="app-ai-search-results-container">
+              <div class="app-ai-search-results-container-query">Some query</div>
+              <div class="app-ai-response-container">
+                  <div class="app-ai-response-body">
+                      <div class="app-ai-response" @fadeFromTop>{{ aiSearchResult?.aiResponse }}</div>
+                      <button class="app-ai-response-action app-ai-response-action-regeneration" mat-icon-button (click)="onRegenerateClick()" data-automation-id="regenerate-response-button">
+                        <mat-icon>cached</mat-icon>
+                      </button>
+                      <button class="app-ai-response-action" mat-icon-button (click)="copyResponseToClipboard()" data-automation-id="copy-response-button">
+                        <mat-icon>copy</mat-icon>
+                      </button>
+                      <button class="app-ai-response-action" mat-icon-button>
+                        <mat-icon>thumb_up</mat-icon>
+                      </button>
+                      <button class="app-ai-response-action app-ai-response-action-thumb-down" mat-icon-button>
+                        <mat-icon>thumb_down</mat-icon>
+                      </button>
+                      <ng-container *ngIf="nodeList?.length > 0">
+                        <mat-divider class="app-ai-response-body-divider"></mat-divider>
+                        <div class="app-ai-response-sources">
+                          <h4 class="app-source-documents-header">Source documents</h4>
+                          <div class="app-ai-response-documents-container">
+                              <div class="app-ai-response-document-row" *ngFor="let node of nodeList">
+                                <mat-icon mat-list-icon class="app-document-icon-container"  [attr.data-automation-id]="node.entry?.id + '-file-icon'">
+                                  <img [alt]="getMimeType(node)" [src]="getMimeTypeIcon(node)"/>
+                                </mat-icon>
+                                  <div class="app-document-content-container">
+                                    <div [attr.data-automation-id]="node.entry?.id + '-file-name'">{{ node.entry?.name }}</div>
                                   </div>
-                                </div>
-                            </div>
+                              </div>
+                          </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                      </ng-container>
+                  </div>
+              </div>
+          </div>
+      </div>
 </aca-page-layout>
