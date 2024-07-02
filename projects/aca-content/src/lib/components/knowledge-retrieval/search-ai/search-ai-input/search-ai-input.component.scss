@@ -1,5 +1,3 @@
-// stylelint-disable selector-class-pattern
-
 .aca-search-ai-input-agent-select-avatar {
   vertical-align: middle;
   margin-bottom: 2px;
@@ -10,25 +8,15 @@ aca-search-ai-input {
   display: flex;
   align-items: center;
 
-  .aca-search-ai-input-form-field {
+  .aca-search-ai-input-text {
     flex: 1;
+    font-size: 20px;
+    margin-right: 167px;
 
-    .mat-form-field-infix {
-      display: flex;
-      align-items: center;
-      line-height: 50px;
-      font-size: 20px;
-      font-style: normal;
-      font-weight: 400;
-
-      input {
-        width: 100%;
-        height: 50px;
+    &:focus {
+      &::placeholder {
+        color: var(--theme-primary-color);
       }
-    }
-
-    .mat-form-field-underline {
-      display: none;
     }
   }
 

@@ -14,17 +14,14 @@
     {{ agent }}
   </mat-option>
 </mat-select>
-<mat-form-field
-  class="aca-search-ai-input-form-field"
-  [floatLabel]="'never'">
-  <input
-      matInput
-      [type]="'text'"
-      [(ngModel)]="searchedWord"
-      data-automation-id="ai-query-field"
-      [placeholder]="placeholder | translate"
-      (keydown.enter)="onSearchSubmit(searchedWord)"/>
-</mat-form-field>
+<input
+  class="aca-search-ai-input-text"
+  matInput
+  [type]="'text'"
+  [(ngModel)]="searchedWord"
+  data-automation-id="ai-query-field"
+  [placeholder]="placeholder | translate"
+  (keydown.enter)="onSearchSubmit(searchedWord)"/>
 <button
   mat-flat-button
   color="primary"
