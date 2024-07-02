@@ -1,5 +1,13 @@
-<aca-search-ai-input (searchSubmitted)="onAIInputSearchSubmitted()" [placeholder]="placeholder"></aca-search-ai-input>
-<mat-divider [vertical]="true" class="aca-search-ai-input-container-divider"></mat-divider>
-<button mat-icon-button (click)="leaveSearchInput()">
+<aca-search-ai-input
+  (searchSubmitted)="onAIInputSearchSubmitted()"
+  [placeholder]="placeholder">
+</aca-search-ai-input>
+<mat-divider
+  [vertical]="true"
+  class="aca-search-ai-input-container-divider">
+</mat-divider>
+<button
+  mat-icon-button
+  (click)="leaveSearchInput()">
   <mat-icon>close</mat-icon>
 </button>
