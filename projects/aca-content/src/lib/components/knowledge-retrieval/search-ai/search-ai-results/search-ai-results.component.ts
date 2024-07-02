@@ -35,6 +35,7 @@ import { SearchAiNavigationService } from '../../../../services/search-ai-naviga
 import { SearchAiService } from '../../../../services/search-ai.service';
 import { AiSearchResultModel } from '../../../../services/ai-search-result.model';
 import { SearchAiInputContainerComponent } from '../search-ai-input-container/search-ai-input-container.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   standalone: true,
@@ -46,7 +47,8 @@ import { SearchAiInputContainerComponent } from '../search-ai-input-container/se
     ToolbarModule,
     MaterialModule,
     ToolbarComponent,
-    SearchAiInputContainerComponent
+    SearchAiInputContainerComponent,
+    TranslateModule
   ],
   providers: [provideAnimations()],
   selector: 'aca-search-ai-results',
@@ -117,25 +119,6 @@ export class SearchAiResultsComponent extends PageComponent implements OnDestroy
 
   restrictionQuery = '';
   hideAiToggle = false;
-
-  readonly initialCardsNew = [
-    {
-      title: 'Metatdata organisation',
-      content: 'Users can ask the model to automatically tag or categorize files based on their metadata, such as date, author, or keywords'
-    },
-    {
-      title: 'Content recommendations',
-      content: 'Based on user preferences and historical data, Generative AI can provide personalised content recommendations.'
-    },
-    {
-      title: 'Content summarisation',
-      content: 'Generative AI can generate summaries or abstracts of lengthy documents within the content management software'
-    },
-    {
-      title: 'Content search & retrieval',
-      content: 'Users can interact with Generative AI to search for specific content within the management software'
-    }
-  ];
   hasAiSearchTriggered = false;
 
   constructor(
