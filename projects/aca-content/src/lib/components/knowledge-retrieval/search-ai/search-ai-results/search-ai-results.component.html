@@ -5,32 +5,43 @@
   </aca-search-ai-input-container>
   <div class="aca-page-layout-content">
     <div class="aca-search-ai-results-container">
-      <div class="aca-search-ai-results-container-query">Some query</div>
+      <div
+        class="aca-search-ai-results-container-query"
+        data-automation-id="aca-search-ai-results-query">
+        Some query
+      </div>
       <div class="aca-search-ai-response-container">
         <div class="aca-search-ai-response-container-body">
-          <div class="aca-search-ai-response-container-body-response" @fadeFromTop>{{ aiSearchResult?.aiResponse }}</div>
+          <div
+            class="aca-search-ai-response-container-body-response"
+            data-automation-id="aca-search-ai-results-response"
+            @fadeFromTop>
+            {{ aiSearchResult?.aiResponse }}
+          </div>
           <button
             class="aca-search-ai-response-container-body-response-action aca-search-ai-response-container-body-response-action-regeneration"
             mat-icon-button
             (click)="onRegenerateClick()"
-            data-automation-id="regenerate-response-button">
+            data-automation-id="aca-search-ai-results-regeneration-button">
             <mat-icon>cached</mat-icon>
           </button>
           <button
             class="aca-search-ai-response-container-body-response-action"
             mat-icon-button
             (click)="copyResponseToClipboard()"
-            data-automation-id="copy-response-button">
+            data-automation-id="aca-search-ai-results-copying-button">
             <mat-icon>copy</mat-icon>
           </button>
           <button
             class="aca-search-ai-response-container-body-response-action"
-            mat-icon-button>
+            mat-icon-button
+            data-automation-id="aca-search-ai-results-thumb-up-button">
             <mat-icon>thumb_up</mat-icon>
           </button>
           <button
             class="aca-search-ai-response-container-body-response-action aca-search-ai-response-container-body-response-action-thumb-down"
-            mat-icon-button>
+            mat-icon-button
+            data-automation-id="aca-search-ai-results-thumb-down-button">
             <mat-icon>thumb_down</mat-icon>
           </button>
           <ng-container *ngIf="nodeList?.length > 0">
@@ -42,16 +53,14 @@
               <div class="aca-search-ai-response-container-body-sources-container-documents">
                 <div
                   class="aca-search-ai-response-container-body-sources-container-documents-document"
-                  *ngFor="let node of nodeList">
+                  *ngFor="let node of nodeList"
+                  [attr.data-automation-id]="'aca-search-ai-results-' + node.entry?.id + '-document'">
                   <mat-icon
                     mat-list-icon
-                    class="aca-search-ai-response-container-body-sources-container-documents-document-icon"
-                    [attr.data-automation-id]="node.entry?.id + '-file-icon'">
+                    class="aca-search-ai-response-container-body-sources-container-documents-document-icon">
                     <img [alt]="getMimeType(node)" [src]="getMimeTypeIcon(node)"/>
                   </mat-icon>
-                  <div
-                    class="aca-search-ai-response-container-body-sources-container-documents-document-name"
-                    [attr.data-automation-id]="node.entry?.id + '-file-name'">
+                  <div class="aca-search-ai-response-container-body-sources-container-documents-document-name">
                     {{ node.entry?.name }}
                   </div>
                 </div>

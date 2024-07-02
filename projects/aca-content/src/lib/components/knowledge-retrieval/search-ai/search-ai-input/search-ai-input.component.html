@@ -1,7 +1,8 @@
 <mat-select
   [formControl]="agentControl"
   class="aca-search-ai-input-agent-select"
-  panelClass="aca-search-ai-input-agent-select-options">
+  panelClass="aca-search-ai-input-agent-select-options"
+  data-automation-id="aca-search-ai-agents-select">
   <mat-select-trigger>
     <span class="aca-search-ai-input-agent-select-avatar"></span>
     {{ agentControl.value }}
@@ -19,7 +20,7 @@
   matInput
   [type]="'text'"
   [(ngModel)]="searchedWord"
-  data-automation-id="ai-query-field"
+  data-automation-id="aca-search-ai-input"
   [placeholder]="placeholder | translate"
   (keydown.enter)="onSearchSubmit(searchedWord)"/>
 <button
@@ -28,7 +29,7 @@
   class="aca-search-ai-asking-button"
   (click)="onSearchSubmit(searchedWord)"
   [disabled]="!searchedWord"
-  data-automation-id="generate-ai-response-button">
+  data-automation-id="aca-search-ai-asking-button">
   <adf-icon [value]="'adf:three-magic_stars_ai'"></adf-icon>
   {{ 'KNOWLEDGE_RETRIEVAL.SEARCH.SEARCH_INPUT.ASK_BUTTON_LABEL' | translate }}
 </button>
