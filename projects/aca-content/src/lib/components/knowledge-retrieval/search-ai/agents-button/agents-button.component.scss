@@ -3,7 +3,7 @@ aca-agents-button.aca-agents-button {
   display: block;
 
   button {
-    &.aca-search-icon-animation {
+    &.aca-agents-button-animated {
       height: 32px;
       padding: 0;
       cursor: pointer;
@@ -18,20 +18,20 @@ aca-agents-button.aca-agents-button {
   }
 }
 
-.aca-search-icon-agents-menu {
+.aca-agents-button-menu {
   div:not(:empty) {
     padding-top: 8px;
     padding-bottom: 6px;
   }
 
-  .aca-search-icon-agents-list {
+  .aca-agents-button-menu-list {
     margin-left: -6px;
     padding-top: 0;
 
     &-agent {
       height: 40px;
 
-      .aca-search-icon-avatar {
+      &-avatar {
         vertical-align: middle;
         margin-bottom: 2px;
         margin-right: 12px;

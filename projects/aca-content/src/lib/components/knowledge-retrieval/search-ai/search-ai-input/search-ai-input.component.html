@@ -1,44 +1,26 @@
-<div class="app-search-ai-container">
-    <mat-select
-      [formControl]="agentControl"
-      class="aca-search-ai-input-agent-select"
-      panelClass="aca-search-ai-input-agent-select-options"
-      [ngClass]="agentSelect.panelOpen ? 'aca-search-ai-input-agent-select-opened' : ''"
-      #agentSelect>
-      <mat-select-trigger>
-        <span class="aca-search-ai-input-avatar"></span>
-        {{ agentControl.value }}
-      </mat-select-trigger>
-      <mat-option *ngFor="let agent of mockedAgents" [value]="agent" class="aca-search-icon-option">
-        <span class="aca-search-ai-input-avatar"></span>
-        {{ agent }}
-      </mat-option>
-    </mat-select>
-    <mat-form-field class="app-input-ai-form-field" [floatLabel]="'never'">
-      <input
-          matInput
-          [type]="'text'"
-          [(ngModel)]="searchedWord"
-          data-automation-id="ai-query-field"
-          [placeholder]="placeholder | translate"
-          (keydown.enter)="onSearchSubmit(searchedWord)"/>
-    </mat-form-field>
-    <mat-chip-list class="app-search-input-example-chips" data-automation-id="example-chips-container" *ngIf="showExampleChips && !searchedWord" disabled>
-        <mat-chip>
-            <adf-icon [value]="'adf:magic_stars_ai'"></adf-icon>
-            Extract key takeaways
-        </mat-chip>
-        <mat-chip>
-            <adf-icon [value]="'adf:magic_stars_ai'"></adf-icon>
-            Summaries
-        </mat-chip>
-        <mat-chip>
-            <adf-icon [value]="'adf:magic_stars_ai'"></adf-icon>
-            More
-        </mat-chip>
-    </mat-chip-list>
-    <button mat-flat-button color="primary" class="app-toolbar-item" (click)="onSearchSubmit(searchedWord)" [disabled]="!searchedWord" data-automation-id="generate-ai-response-button">
-      <adf-icon [value]="'adf:three-magic_stars_ai'"></adf-icon>
-      Ask
-    </button>
-</div>
+<mat-select
+  [formControl]="agentControl"
+  class="aca-search-ai-input-agent-select"
+  panelClass="aca-search-ai-input-agent-select-options">
+  <mat-select-trigger>
+    <span class="aca-search-ai-input-agent-select-avatar"></span>
+    {{ agentControl.value }}
+  </mat-select-trigger>
+  <mat-option *ngFor="let agent of mockedAgents" [value]="agent" class="aca-search-ai-input-agent-select-options-option">
+    <span class="aca-search-ai-input-agent-select-avatar"></span>
+    {{ agent }}
+  </mat-option>
+</mat-select>
+<mat-form-field class="aca-search-ai-input-form-field" [floatLabel]="'never'">
+  <input
+      matInput
+      [type]="'text'"
+      [(ngModel)]="searchedWord"
+      data-automation-id="ai-query-field"
+      [placeholder]="placeholder | translate"
+      (keydown.enter)="onSearchSubmit(searchedWord)"/>
+</mat-form-field>
+<button mat-flat-button color="primary" class="aca-search-ai-asking-button" (click)="onSearchSubmit(searchedWord)" [disabled]="!searchedWord" data-automation-id="generate-ai-response-button">
+  <adf-icon [value]="'adf:three-magic_stars_ai'"></adf-icon>
+  {{ 'KNOWLEDGE_RETRIEVAL.SEARCH.SEARCH_INPUT.ASK_BUTTON_LABEL' | translate }}
+</button>

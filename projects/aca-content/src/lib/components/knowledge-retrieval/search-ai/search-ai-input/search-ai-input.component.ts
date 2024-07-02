@@ -30,7 +30,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { A11yModule } from '@angular/cdk/a11y';
-import { IconModule, MaterialModule, NotificationService } from '@alfresco/adf-core';
+import { IconModule, NotificationService } from '@alfresco/adf-core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { ActivatedRoute, NavigationEnd, Router, RouterEvent, UrlTree } from '@angular/router';
@@ -39,6 +39,7 @@ import { AiSearchByTermPayload, AppStore, getAppSelection, SearchByTermAiAction,
 import { filter, takeUntil } from 'rxjs/operators';
 import { SearchAiService } from '../../../../services/search-ai.service';
 import { SelectionState } from '@alfresco/adf-extensions';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   standalone: true,
@@ -52,14 +53,13 @@ import { SelectionState } from '@alfresco/adf-extensions';
     A11yModule,
     IconModule,
     FormsModule,
-    MaterialModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatSelectModule
   ],
   selector: 'aca-search-ai-input',
   templateUrl: './search-ai-input.component.html',
   styleUrls: ['./search-ai-input.component.scss'],
-  encapsulation: ViewEncapsulation.None,
-  host: { class: 'adw-search-ai-input' }
+  encapsulation: ViewEncapsulation.None
 })
 export class SearchAiInputComponent implements OnInit, OnDestroy {
   onDestroy$: Subject<boolean> = new Subject<boolean>();
@@ -70,8 +70,6 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
 
   private selectedNodesState: SelectionState;
 
-  @Input()
-  showExampleChips = false;
   @Input()
   placeholder: string;
 

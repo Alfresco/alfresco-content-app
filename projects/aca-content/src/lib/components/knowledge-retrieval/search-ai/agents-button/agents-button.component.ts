@@ -35,10 +35,11 @@ import { SearchAiService } from '../../../../services/search-ai.service';
 import { AnimationItem } from 'lottie-web';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatListModule } from '@angular/material/list';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, LottieModule, MatMenuModule, MatListModule],
+  imports: [CommonModule, LottieModule, MatMenuModule, MatListModule, TranslateModule],
   selector: 'aca-agents-button',
   templateUrl: './agents-button.component.html',
   styleUrls: ['./agents-button.component.scss'],

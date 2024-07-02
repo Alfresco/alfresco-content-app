@@ -40,7 +40,7 @@ import { SearchAiNavigationService } from '../../../../services/search-ai-naviga
 })
 export class SearchAiInputContainerComponent {
   @Input()
-  placeholder = 'Please ask your question with as much detail as possible...';
+  placeholder = 'KNOWLEDGE_RETRIEVAL.SEARCH.SEARCH_INPUT.DEFAULT_PLACEHOLDER';
 
   constructor(private searchAiService: SearchAiService, private searchNavigationService: SearchAiNavigationService) {}
 

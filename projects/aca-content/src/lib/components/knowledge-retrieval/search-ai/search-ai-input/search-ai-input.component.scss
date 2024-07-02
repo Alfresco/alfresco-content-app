@@ -1,117 +1,87 @@
 // stylelint-disable selector-class-pattern
 
-.aca-search-ai-input-avatar {
+.aca-search-ai-input-agent-select-avatar {
   vertical-align: middle;
   margin-bottom: 2px;
+}
+
+aca-search-ai-input {
+  width: 100%;
+  display: flex;
+  align-items: center;
+
+  .aca-search-ai-input-form-field {
+    flex: 1;
+
+    .mat-form-field-infix {
+      display: flex;
+      align-items: center;
+      line-height: 50px;
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 400;
+
+      input {
+        width: 100%;
+        height: 50px;
+      }
+    }
+
+    .mat-form-field-underline {
+      display: none;
+    }
+  }
+
+  .aca-search-ai-asking-button {
+    display: flex;
+    align-items: center;
+    padding-left: 5px;
+    padding-right: 12px;
+    height: 32px;
+    border-radius: 6px;
+
+    adf-icon {
+      margin-bottom: 3px;
+      margin-right: 4px;
+    }
+  }
+
+  .aca-search-ai-input-agent-select {
+    width: 149px;
+    height: 35px;
+    align-content: center;
+    border-radius: 16px;
+    padding-left: 3px;
+    padding-right: 10px;
+    background-color: var(--theme-grey-text-background-color);
+    color: var(--theme-text-light-color);
+    font-size: 15.42px;
+    margin-right: 26px;
+
+    &-avatar {
+      border-radius: 50%;
+      background-color: #9acd9a;
+      height: 26.43px;
+      width: 26.43px;
+      display: inline-block;
+      margin-left: 1px;
+    }
+  }
 }
 
 .aca-search-ai-input-agent-select-options {
   margin-top: 48px;
 
-  .aca-search-icon-option {
+  .aca-search-ai-input-agent-select-options-option {
     padding-left: 11px;
     padding-right: 11px;
 
-    .aca-search-ai-input-avatar {
+    .aca-search-ai-input-agent-select-avatar {
       border-radius: 50%;
       background-color: #9acd9a;
       height: 32px;
       width: 32px;
       display: inline-block;
-    }
-  }
-}
-
-.adw-search-ai-input {
-  width: 100%;
-
-  .app-search-ai-container {
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    color: var(--theme-foreground-text-color);
-    width: 100%;
-
-    adf-icon {
-      margin-right: 10px;
-    }
-
-    .app-search-button {
-      width: 32px;
-      height: 32px;
-      margin-left: 0;
-      padding-left: 0;
-      margin-top: -4px;
-    }
-
-    .app-input-ai-form-field {
-      flex: 1;
-
-      .mat-form-field-infix {
-        display: flex;
-        align-items: center;
-        line-height: 50px;
-        font-size: 20px;
-        font-style: normal;
-        font-weight: 400;
-
-        input {
-          width: 100%;
-          height: 50px;
-        }
-      }
-
-      .mat-form-field-underline {
-        display: none;
-      }
-    }
-
-    .app-search-input-example-chips {
-      flex: 2;
-
-      .mat-chip {
-        background: none;
-        border: 2px solid var(--theme-border-color);
-        border-radius: 16px;
-        opacity: 1;
-      }
-    }
-
-    .app-toolbar-item {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding-left: 5px;
-      padding-right: 12px;
-      height: 32px;
-      border-radius: 6px;
-
-      adf-icon {
-        margin-bottom: 3px;
-        margin-right: 4px;
-      }
-    }
-
-    .aca-search-ai-input-agent-select {
-      width: 149px;
-      height: 35px;
-      align-content: center;
-      border-radius: 16px;
-      padding-left: 3px;
-      padding-right: 10px;
-      background-color: var(--theme-grey-text-background-color);
-      color: var(--theme-text-light-color);
-      font-size: 15.42px;
-      margin-right: 26px;
-
-      .aca-search-ai-input-avatar {
-        border-radius: 50%;
-        background-color: #9acd9a;
-        height: 26.43px;
-        width: 26.43px;
-        display: inline-block;
-        margin-left: 1px;
-      }
     }
   }
 }
