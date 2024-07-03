@@ -76,6 +76,14 @@ describe('SearchEffects', () => {
 
       expect(router.navigateByUrl).toHaveBeenCalledWith('/search;q=%2528test%2529');
     }));
+
+    it('should encode %', fakeAsync(() => {
+      store.dispatch(new SearchByTermAction('%test%', []));
+
+      tick();
+
+      expect(router.navigateByUrl).toHaveBeenCalledWith('/search;q=%2525test%2525');
+    }));
   });
 
   describe('search$', () => {

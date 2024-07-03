@@ -49,7 +49,7 @@ export class SearchEffects {
       this.actions$.pipe(
         ofType<SearchByTermAction>(SearchActionTypes.SearchByTerm),
         map((action) => {
-          const query = action.payload.replace(/[(]/g, '%28').replace(/[)]/g, '%29');
+          const query = action.payload.replace(/%/g, '%25').replace(/[(]/g, '%28').replace(/[)]/g, '%29');
 
           const libItem = action.searchOptions.find((item) => item.id === SearchOptionIds.Libraries);
           const librarySelected = !!libItem && libItem.value;
