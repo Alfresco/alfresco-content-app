@@ -25,7 +25,7 @@
 import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AnimationOptions, LottieModule } from 'ngx-lottie';
-import { ContentActionRef, SelectionState } from '@alfresco/adf-extensions';
+import { SelectionState } from '@alfresco/adf-extensions';
 import { Store } from '@ngrx/store';
 import { AppStore, getAppSelection } from '@alfresco/aca-shared/store';
 import { NotificationService } from '@alfresco/adf-core';
@@ -35,7 +35,9 @@ import { SearchAiService } from '../../../../services/search-ai.service';
 import { AnimationItem } from 'lottie-web';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatListModule } from '@angular/material/list';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { Agent } from '@alfresco/js-api';
+import { AgentService } from '@alfresco/adf-content-services';
 
 @Component({
   standalone: true,
@@ -50,36 +52,58 @@ export class AgentsButtonComponent implements OnInit, OnDestroy {
   @Input()
   data: { path: string; trigger: string };
 
-  @Input()
-  actionRef: ContentActionRef;
-
-  options: AnimationOptions = {
+  private selectedNodesState: SelectionState;
+  private _agents: Agent[] = [];
+  private _options: AnimationOptions = {
     loop: true,
     autoplay: false
   };
+  private animationItem?: AnimationItem;
+  private onDestroy$ = new Subject<void>();
+  private _disabled = true;
 
-  animationItem: AnimationItem | undefined;
-  destroyed$ = new Subject<void>();
-  mockedAgents = ['HR Agent', 'Policy Agent', 'Rules & Rates Agent'];
-  disabled = true;
+  get agents(): Agent[] {
+    return this._agents;
+  }
 
-  private selectedNodesState: SelectionState;
+  get options(): AnimationOptions {
+    return this._options;
+  }
 
-  constructor(private readonly store: Store<AppStore>, private notificationService: NotificationService, private searchAiService: SearchAiService) {}
+  get disabled(): boolean {
+    return this._disabled;
+  }
+
+  constructor(
+    private store: Store<AppStore>,
+    private notificationService: NotificationService,
+    private searchAiService: SearchAiService,
+    private translateService: TranslateService,
+    public agentService: AgentService
+  ) {}
 
   ngOnInit(): void {
-    this.options = { ...this.options, path: this.data.path };
+    this._options = { ...this.options, path: this.data.path };
     this.store
       .select(getAppSelection)
-      .pipe(takeUntil(this.destroyed$))
+      .pipe(takeUntil(this.onDestroy$))
       .subscribe((selection) => {
         this.selectedNodesState = selection;
       });
+    this.agentService
+      .getAgents()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(
+        (paging) => {
+          this._agents = paging.list.entries.map((agentEntry) => agentEntry.entry);
+        },
+        () => this.notificationService.showError(this.translateService.instant('KNOWLEDGE_RETRIEVAL.SEARCH.ERRORS.AGENTS_FETCHING'))
+      );
   }
 
   ngOnDestroy(): void {
-    this.destroyed$.next();
-    this.destroyed$.complete();
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 
   onAnimate(animationItem: AnimationItem): void {
@@ -91,7 +115,7 @@ export class AgentsButtonComponent implements OnInit, OnDestroy {
     if (error) {
       this.notificationService.showInfo(error);
     }
-    this.disabled = !!error;
+    this._disabled = !!error;
   }
 
   onMouseEnter(): void {

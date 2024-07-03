@@ -1,17 +1,34 @@
-<button [matMenuTriggerFor]="disabled ? null : agentsList"
-        (mouseenter)="onMouseEnter()"
-        (mouseleave)="onMouseLeave()"
-        class="aca-agents-button-animated"
-        (mouseup)="onClick()">
-  <ng-lottie (animationCreated)="onAnimate($event)" [options]="options"></ng-lottie>
-  {{ 'KNOWLEDGE_RETRIEVAL.SEARCH.AGENTS_BUTTON_LABEL' | translate}}
-</button>
-<mat-menu #agentsList="matMenu" class="aca-agents-button-menu" xPosition="before">
-  <mat-selection-list (selectionChange)="onAgentSelection()" [multiple]="false" class="aca-agents-button-menu-list">
-    <mat-list-option *ngFor="let agent of mockedAgents" class="aca-agents-button-menu-list-agent">
-      <div>
-        <span class="aca-agents-button-menu-list-agent-avatar"></span>{{ agent }}
-      </div>
-    </mat-list-option>
-  </mat-selection-list>
-</mat-menu>
+<ng-container *ngIf="agents.length">
+  <button
+    [matMenuTriggerFor]="disabled ? null : agentsList"
+    (mouseenter)="onMouseEnter()"
+    (mouseleave)="onMouseLeave()"
+    class="aca-agents-button-animated"
+    (mouseup)="onClick()"
+    data-automation-id="aca-agents-button">
+    <ng-lottie
+      (animationCreated)="onAnimate($event)"
+      [options]="options">
+    </ng-lottie>
+    {{ 'KNOWLEDGE_RETRIEVAL.SEARCH.AGENTS_BUTTON_LABEL' | translate}}
+  </button>
+  <mat-menu
+    #agentsList="matMenu"
+    class="aca-agents-button-menu"
+    xPosition="before">
+    <mat-selection-list
+      (selectionChange)="onAgentSelection()"
+      [multiple]="false"
+      class="aca-agents-button-menu-list">
+      <mat-list-option
+        *ngFor="let agent of agents"
+        class="aca-agents-button-menu-list-agent"
+        [attr.data-automation-id]="'aca-agents-button-agent-' + agent.id">
+        <div>
+          <span class="aca-agents-button-menu-list-agent-avatar"></span>
+          {{ agent.name }}
+        </div>
+      </mat-list-option>
+    </mat-selection-list>
+  </mat-menu>
+</ng-container>
