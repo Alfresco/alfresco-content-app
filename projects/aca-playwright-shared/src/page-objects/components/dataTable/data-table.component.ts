@@ -257,7 +257,7 @@ export class DataTableComponent extends BaseComponent {
 
   async isRowSelected(itemName: string): Promise<boolean> {
     const row = this.getRowByName(itemName);
-    return await row.locator('.adf-datatable-checkbox .mat-checkbox-checked').isVisible();
+    return await row.locator('.adf-datatable-checkbox-cell .mat-checkbox-checked').isVisible();
   }
 
   async getColumnHeaders(): Promise<Array<string>> {
