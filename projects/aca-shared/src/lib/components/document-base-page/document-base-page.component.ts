@@ -70,7 +70,6 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   filterSorting = 'name-asc';
   createActions: Array<ContentActionRef> = [];
   isSmallScreen = false;
-  selectedRowItemsCount = 0;
 
   protected extensions = inject(AppExtensionService);
   protected content = inject(DocumentBasePageService);
@@ -161,10 +160,6 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
         this.store.dispatch(new ViewNodeAction(id, extras));
       }
     }
-  }
-
-  onSelectedItemsCountChanged(count: number) {
-    this.selectedRowItemsCount = count;
   }
 
   getParentNodeId(): string {

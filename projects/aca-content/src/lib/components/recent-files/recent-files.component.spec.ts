@@ -29,7 +29,6 @@ import { AppTestingModule } from '../../testing/app-testing.module';
 import { Router } from '@angular/router';
 import { NodePaging, SearchApi } from '@alfresco/js-api';
 import { of } from 'rxjs';
-import { getTitleElementText } from '../../testing/test-utils';
 
 describe('RecentFilesComponent', () => {
   let fixture: ComponentFixture<RecentFilesComponent>;
@@ -99,14 +98,5 @@ describe('RecentFilesComponent', () => {
     expect(component.showPreview).toHaveBeenCalledWith(node, {
       location: 'recent-files'
     });
-  });
-
-  it('should set title based on selectedRowItemsCount', () => {
-    fixture.detectChanges();
-    expect(getTitleElementText(fixture)).toBe('APP.BROWSE.RECENT.TITLE');
-
-    component.selectedRowItemsCount = 5;
-    fixture.detectChanges();
-    expect(getTitleElementText(fixture)).toBe('APP.HEADER.SELECTED');
   });
 });
