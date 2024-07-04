@@ -150,6 +150,7 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
     } else {
       const payload = new AiSearchByTermPayload();
       payload.searchTerm = searchTerm;
+      payload.agentId = this.agentControl.value.id;
       payload.restrictionQuery = this.restrictionQuery ? this.restrictionQuery : '';
       if (searchTerm) {
         this.store.dispatch(new SearchByTermAiAction(payload));

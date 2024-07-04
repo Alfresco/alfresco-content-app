@@ -22,13 +22,15 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { SearchAiInputComponent } from '../search-ai-input/search-ai-input.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { SearchAiService } from '../../../../services/search-ai.service';
 import { SearchAiNavigationService } from '../../../../services/search-ai-navigation.service';
+import { NavigationStart, Router } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
   standalone: true,
@@ -38,13 +40,21 @@ import { SearchAiNavigationService } from '../../../../services/search-ai-naviga
   styleUrls: ['./search-ai-input-container.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class SearchAiInputContainerComponent {
+export class SearchAiInputContainerComponent implements OnInit {
   @Input()
   placeholder = 'KNOWLEDGE_RETRIEVAL.SEARCH.SEARCH_INPUT.DEFAULT_PLACEHOLDER';
   @Input()
   agentId: string;
 
-  constructor(private searchAiService: SearchAiService, private searchNavigationService: SearchAiNavigationService) {}
+  constructor(private searchAiService: SearchAiService, private searchNavigationService: SearchAiNavigationService, private router: Router) {}
+
+  ngOnInit(): void {
+    this.router.events.pipe(filter((event) => event instanceof NavigationStart)).subscribe(() => {
+      this.searchAiService.updateSearchAiInputState({
+        active: false
+      });
+    });
+  }
 
   onAIInputSearchSubmitted(): void {
     this.searchAiService.updateSearchAiInputState({

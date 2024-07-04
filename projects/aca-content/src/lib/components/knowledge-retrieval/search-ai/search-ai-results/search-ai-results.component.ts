@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { PageComponent, PageLayoutComponent, ToolbarActionComponent, ToolbarComponent } from '@alfresco/aca-shared';
 import { takeUntil } from 'rxjs/operators';
@@ -102,7 +102,7 @@ import { TranslateModule } from '@ngx-translate/core';
     ])
   ]
 })
-export class SearchAiResultsComponent extends PageComponent implements OnDestroy {
+export class SearchAiResultsComponent extends PageComponent implements OnInit, OnDestroy {
   aiSearchResult: AiSearchResultModel;
   nodeList: ResultSetRowEntry[];
 
@@ -121,8 +121,14 @@ export class SearchAiResultsComponent extends PageComponent implements OnDestroy
   hideAiToggle = false;
   hasAiSearchTriggered = false;
 
+  private _agentId: string;
+
+  get agentId(): string {
+    return this._agentId;
+  }
+
   constructor(
-    route: ActivatedRoute,
+    private route: ActivatedRoute,
     private apiService: AlfrescoApiService,
     private searchAiService: SearchAiService,
     private clipboardService: ClipboardService,
@@ -130,7 +136,11 @@ export class SearchAiResultsComponent extends PageComponent implements OnDestroy
     private searchNavigationService: SearchAiNavigationService
   ) {
     super();
-    route.queryParams.pipe(takeUntil(this.onDestroy$)).subscribe((params: Params) => {
+  }
+
+  ngOnInit(): void {
+    this.route.queryParams.pipe(takeUntil(this.onDestroy$)).subscribe((params: Params) => {
+      this._agentId = params.agentId;
       this.hideAiToggle = params['hideAiToggle'];
       this.searchQuery = params['q'] ? decodeURIComponent(params['q']) : '';
       this.restrictionQuery = params['restrictionQuery'] ? params['restrictionQuery'] : '';
@@ -139,6 +149,7 @@ export class SearchAiResultsComponent extends PageComponent implements OnDestroy
       }
     });
     this.searchNavigationService.hasAiSearchResults = false;
+    super.ngOnInit();
   }
 
   ngOnDestroy() {
