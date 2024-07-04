@@ -8,9 +8,9 @@
                         [maxItems]="isSmallScreen ? 1 : 0"
                         (navigate)="onBreadcrumbNavigate($event)">
         </adf-breadcrumb>
+        <aca-toolbar [items]="actions"></aca-toolbar>
       </div>
     </ng-template>
-    <aca-toolbar [items]="actions"></aca-toolbar>
   </div>
 
   <div class="aca-page-layout-error">
