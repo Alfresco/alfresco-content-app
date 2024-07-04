@@ -85,6 +85,14 @@ mat-icon {
     height: 24px;
     width: 24px;
   }
+
+  #{$mat-checkbox-box}:has(#{$mat-checkbox-native-control}):hover,
+  #{$mat-checkbox-box}:has(#{$mat-checkbox-native-control}) {
+    #{$mat-checkbox-native-control}:enabled ~ #{$mat-checkbox-background}:is(div) {
+      border-color: var(--theme-blue-checkbox-color);
+      background-color: var(--theme-blue-checkbox-color);
+    }
+  }
 }
 
 #{$mat-switch}:is(button)#{$mat-switch-selected}#{$mat-switch-checked} #{$mat-switch-handle-track} #{$mat-switch-handle}::after {
@@ -190,6 +198,43 @@ mat-toolbar#{$mat-toolbar}#{$mat-toolbar-single-row} {
     &-date {
       color: var(--theme-secondary-text);
       opacity: 1;
+    }
+  }
+}
+
+.adf-datatable-row {
+  .adf-datatable-checkbox {
+    #{$mat-checkbox} label {
+      display: none;
+    }
+  }
+}
+
+.adf-datatable-list {
+  .adf-datatable-row:is(adf-datatable-row) {
+    &:focus {
+      outline: 1px solid var(--theme-blue-checkbox-color);
+    }
+
+    .adf-cell-value:focus {
+      outline: 1px solid var(--theme-blue-checkbox-color);
+    }
+
+    .adf-datatable-cell-header:focus {
+      outline: 1px solid var(--theme-blue-checkbox-color);
+    }
+
+    .adf-datatable-link:hover {
+      color: var(--theme-blue-checkbox-color);
+    }
+  }
+
+  .adf-datatable-body {
+    .adf-datatable-row:is(adf-datatable-row) {
+      &.adf-is-selected,
+      &.adf-is-selected:hover {
+        background-color: var(--theme-blue-active-table-row-color);
+      }
     }
   }
 }
@@ -316,13 +361,5 @@ adf-dynamic-component {
   #{$mat-tab-label}:is(div) {
     flex-grow: unset;
     min-width: 160px;
-  }
-}
-
-.adf-datatable-row {
-  .adf-datatable-checkbox {
-    #{$mat-checkbox} label {
-      display: none;
-    }
   }
 }

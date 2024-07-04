@@ -1,6 +1,9 @@
 <aca-page-layout>
   <div class="aca-page-layout-header">
-    <h1 class="aca-page-title">{{ 'APP.BROWSE.TRASHCAN.TITLE' | translate }}</h1>
+    <h1 class="aca-page-title">
+      {{ (selectedRowItemsCount < 1 ? 'APP.BROWSE.TRASHCAN.TITLE' : 'APP.HEADER.SELECTED') | translate: { count: selectedRowItemsCount } }}
+    </h1>
+
     <aca-toolbar [items]="actions"></aca-toolbar>
   </div>
 
@@ -16,6 +19,8 @@
         [navigate]="false"
         [sortingMode]="'client'"
         [imageResolver]="imageResolver"
+        [displayCheckboxesOnHover]="true"
+        (selectedItemsCountChanged)="onSelectedItemsCountChanged($event)"
         [sorting]="['archivedAt', 'desc']"
         [isResizingEnabled]="true"
         [blurOnResize]="false"
