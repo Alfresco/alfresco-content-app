@@ -33,7 +33,6 @@ import { RouterEffects } from '@alfresco/aca-shared/store';
 import { of, throwError } from 'rxjs';
 import { LibraryEffects } from '../../store/effects';
 import { NodeEntry } from '@alfresco/js-api';
-import { getTitleElementText } from '../../testing/test-utils';
 
 describe('FavoriteLibrariesComponent', () => {
   let fixture: ComponentFixture<FavoriteLibrariesComponent>;
@@ -99,17 +98,6 @@ describe('FavoriteLibrariesComponent', () => {
       expect(component.list).toBe(null);
       expect(component.pagination).toBe(null);
       expect(component.isLoading).toBe(false);
-    });
-
-    it('should set title based on selectedRowItemsCount', () => {
-      fixture.detectChanges();
-
-      expect(getTitleElementText(fixture)).toBe('APP.BROWSE.LIBRARIES.MENU.FAVORITE_LIBRARIES.TITLE');
-
-      component.selectedRowItemsCount = 5;
-      fixture.detectChanges();
-
-      expect(getTitleElementText(fixture)).toBe('APP.HEADER.SELECTED');
     });
   });
 

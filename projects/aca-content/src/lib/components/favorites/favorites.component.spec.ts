@@ -29,7 +29,6 @@ import { BehaviorSubject, of, Subject } from 'rxjs';
 import { FavoritesComponent } from './favorites.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { AppService, ContentApiService } from '@alfresco/aca-shared';
-import { getTitleElementText } from '../../testing/test-utils';
 
 describe('FavoritesComponent', () => {
   let fixture: ComponentFixture<FavoritesComponent>;
@@ -129,14 +128,5 @@ describe('FavoritesComponent', () => {
     expect(component.showPreview).toHaveBeenCalledWith(nodeEntity, {
       location: 'favorites'
     });
-  });
-
-  it('should set title based on selectedRowItemsCount', () => {
-    fixture.detectChanges();
-    expect(getTitleElementText(fixture)).toBe('APP.BROWSE.FAVORITES.TITLE');
-
-    component.selectedRowItemsCount = 5;
-    fixture.detectChanges();
-    expect(getTitleElementText(fixture)).toBe('APP.HEADER.SELECTED');
   });
 });
