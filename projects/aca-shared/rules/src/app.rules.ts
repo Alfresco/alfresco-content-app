@@ -631,3 +631,5 @@ export function isSmartFolder(context: RuleContext): boolean {
 export const areTagsEnabled = (context: AcaRuleContext): boolean => context.appConfig.get('plugins.tagsEnabled', true);
 
 export const areCategoriesEnabled = (context: AcaRuleContext): boolean => context.appConfig.get('plugins.categoriesEnabled', true);
+
+export const canDisplayAIIconForSelectedNode = (context: AcaRuleContext): boolean => navigation.isNotLibraries(context);

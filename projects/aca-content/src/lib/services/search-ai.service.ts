@@ -28,6 +28,7 @@ import { AlfrescoApiService } from '@alfresco/adf-core';
 import { AiSearchResultModel } from './ai-search-result.model';
 import { SelectionState } from '@alfresco/adf-extensions';
 import { SearchAiInputState } from './search-ai-input-state';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({ providedIn: 'root' })
 export class SearchAiService {
@@ -45,7 +46,7 @@ export class SearchAiService {
   });
   toggleSearchAiInput$ = this.toggleSearchAiInput.asObservable();
 
-  constructor(private apiService: AlfrescoApiService) {}
+  constructor(private apiService: AlfrescoApiService, private translateService: TranslateService) {}
 
   updateSearchAiInputState(state: SearchAiInputState) {
     this.toggleSearchAiInput.next(state);
@@ -69,23 +70,19 @@ export class SearchAiService {
   }
 
   checkSearchAvailability(selectedNodesState: SelectionState): string {
-    const errorMessages: string[] = [];
+    const messages: string[] = [];
     if (selectedNodesState.count === 0) {
-      errorMessages.push('Please select some file.');
+      messages.push('KNOWLEDGE_RETRIEVAL.SEARCH.WARNINGS.NO_FILES_SELECTED');
     }
-    if (selectedNodesState.count > 1) {
-      errorMessages.push('Please select no more than 100 files.');
+    if (selectedNodesState.count > 100) {
+      messages.push('KNOWLEDGE_RETRIEVAL.SEARCH.WARNINGS.TOO_MANY_FILES_SELECTED');
     }
-    if (selectedNodesState.library) {
-      errorMessages.push('Libraries are not compatible with AI Agents.');
-    } else {
-      if (selectedNodesState.nodes.some((node) => !node.entry.isFolder && !this.textFileMimeTypes.includes(node.entry.content.mimeType))) {
-        errorMessages.push('Only text related files are compatible with AI Agents.');
-      }
-      if (selectedNodesState.nodes.some((node) => node.entry.isFolder)) {
-        errorMessages.push('Folders are not compatible with AI Agents.');
-      }
+    if (selectedNodesState.nodes.some((node) => !node.entry.isFolder && !this.textFileMimeTypes.includes(node.entry.content.mimeType))) {
+      messages.push('KNOWLEDGE_RETRIEVAL.SEARCH.WARNINGS.NON_TEXT_FILE_SELECTED');
     }
-    return errorMessages.join(' ');
+    if (selectedNodesState.nodes.some((node) => node.entry.isFolder)) {
+      messages.push('KNOWLEDGE_RETRIEVAL.SEARCH.WARNINGS.FOLDER_SELECTED');
+    }
+    return messages.map((message) => this.translateService.instant(message)).join(' ');
   }
 }

@@ -204,6 +204,7 @@ export class ContentServiceExtensionModule {
       'app.selection.hasNoLibraryRole': rules.hasNoLibraryRole,
       'app.selection.folder': rules.hasFolderSelected,
       'app.selection.folder.canUpdate': rules.canUpdateSelectedFolder,
+      'app.selection.displayAIIconForFileSelection': rules.canDisplayAIIconForSelectedNode,
 
       'app.navigation.folder.canCreate': rules.canCreateFolder,
       'app.navigation.folder.canUpload': rules.canUpload,
