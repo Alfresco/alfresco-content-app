@@ -48,8 +48,7 @@ export enum NodeActionTypes {
   RemoveFavorite = 'REMOVE_FAVORITE',
   ChangeAspects = 'ASPECT_LIST',
   ExpandInfoDrawer = 'EXPAND_INFO_DRAWER',
-  ManageRules = 'MANAGE_RULES',
-  ToggleAiSearchInput = 'TOGGLE_AI_SEARCH_INPUT'
+  ManageRules = 'MANAGE_RULES'
 }
 
 export class SetSelectedNodesAction implements Action {
@@ -180,8 +179,4 @@ export class ManageRulesAction implements Action {
   readonly type = NodeActionTypes.ManageRules;
 
   constructor(public payload: NodeEntry) {}
-}
-
-export class ToggleAISearchInput implements Action {
-  readonly type = NodeActionTypes.ToggleAiSearchInput;
 }

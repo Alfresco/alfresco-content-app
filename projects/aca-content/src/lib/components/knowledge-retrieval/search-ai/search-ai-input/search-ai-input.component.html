@@ -5,14 +5,14 @@
   data-automation-id="aca-search-ai-agents-select">
   <mat-select-trigger>
     <span class="aca-search-ai-input-agent-select-avatar"></span>
-    {{ agentControl.value }}
+    {{ agentControl.value.name }}
   </mat-select-trigger>
   <mat-option
-    *ngFor="let agent of mockedAgents"
+    *ngFor="let agent of agents"
     [value]="agent"
     class="aca-search-ai-input-agent-select-options-option">
     <span class="aca-search-ai-input-agent-select-avatar"></span>
-    {{ agent }}
+    {{ agent.name }}
   </mat-option>
 </mat-select>
 <input

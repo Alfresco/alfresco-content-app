@@ -41,6 +41,7 @@ import { DocumentListDirective } from '../../directives/document-list.directive'
 import { TranslateModule } from '@ngx-translate/core';
 import { SearchAiService } from '../../services/search-ai.service';
 import { SearchAiInputContainerComponent } from '../knowledge-retrieval/search-ai/search-ai-input-container/search-ai-input-container.component';
+import { SearchAiInputState } from '../../services/search-ai-input-state';
 
 @Component({
   standalone: true,
@@ -67,7 +68,9 @@ import { SearchAiInputContainerComponent } from '../knowledge-retrieval/search-a
 })
 export class RecentFilesComponent extends PageComponent implements OnInit {
   columns: DocumentListPresetRef[] = [];
-  showAISearchInput = false;
+  searchAiInputState: SearchAiInputState = {
+    active: false
+  };
 
   constructor(private searchAiService: SearchAiService) {
     super();
@@ -77,7 +80,7 @@ export class RecentFilesComponent extends PageComponent implements OnInit {
     super.ngOnInit();
 
     this.subscriptions = this.subscriptions.concat([
-      this.searchAiService.toggleAISearchInput$.subscribe((showAISearchInput) => (this.showAISearchInput = showAISearchInput)),
+      this.searchAiService.toggleSearchAiInput$.subscribe((searchAiInputState) => (this.searchAiInputState = searchAiInputState)),
       this.uploadService.fileUploadComplete.pipe(debounceTime(300)).subscribe(() => this.reload()),
       this.uploadService.fileUploadDeleted.pipe(debounceTime(300)).subscribe(() => this.reload())
     ]);

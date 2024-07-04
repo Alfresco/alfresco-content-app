@@ -50,6 +50,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { SearchAiInputContainerComponent } from '../knowledge-retrieval/search-ai/search-ai-input-container/search-ai-input-container.component';
+import { SearchAiInputState } from '../../services/search-ai-input-state';
 
 @Component({
   standalone: true,
@@ -90,7 +91,9 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
   columns: DocumentListPresetRef[] = [];
   isFilterHeaderActive = false;
-  showAISearchInput = false;
+  searchAiInputState: SearchAiInputState = {
+    active: false
+  };
 
   constructor(
     private contentApi: ContentApiService,
@@ -135,7 +138,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
     this.subscriptions = this.subscriptions.concat([
       this.nodeActionsService.contentCopied.subscribe((nodes) => this.onContentCopied(nodes)),
-      this.searchAiService.toggleAISearchInput$.subscribe((showAISearchInput) => (this.showAISearchInput = showAISearchInput)),
+      this.searchAiService.toggleSearchAiInput$.subscribe((searchAiInputState) => (this.searchAiInputState = searchAiInputState)),
       this.uploadService.fileUploadComplete.pipe(debounceTime(300)).subscribe((file) => this.onFileUploadedEvent(file)),
       this.uploadService.fileUploadDeleted.pipe(debounceTime(300)).subscribe((file) => this.onFileUploadedEvent(file))
     ]);

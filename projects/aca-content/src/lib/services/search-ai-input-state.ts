@@ -22,21 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Action } from '@ngrx/store';
-import { AiSearchByTermPayload } from '../models/ai-search-by-term-payload';
-
-export enum SearchAiActionTypes {
-  SearchByTermAi = 'SEARCH_BY_TERM_AI',
-  ToggleAiSearchInput = 'TOGGLE_AI_SEARCH_INPUT'
-}
-
-export class SearchByTermAiAction implements Action {
-  readonly type = SearchAiActionTypes.SearchByTermAi;
-  constructor(public payload: AiSearchByTermPayload) {}
-}
-
-export class ToggleAISearchInput implements Action {
-  readonly type = SearchAiActionTypes.ToggleAiSearchInput;
-
-  constructor(public agentId: string) {}
+export interface SearchAiInputState {
+  active: boolean;
+  selectedAgentId?: string;
 }

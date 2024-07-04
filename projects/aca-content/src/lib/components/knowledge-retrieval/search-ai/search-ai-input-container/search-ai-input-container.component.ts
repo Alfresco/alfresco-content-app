@@ -41,15 +41,21 @@ import { SearchAiNavigationService } from '../../../../services/search-ai-naviga
 export class SearchAiInputContainerComponent {
   @Input()
   placeholder = 'KNOWLEDGE_RETRIEVAL.SEARCH.SEARCH_INPUT.DEFAULT_PLACEHOLDER';
+  @Input()
+  agentId: string;
 
   constructor(private searchAiService: SearchAiService, private searchNavigationService: SearchAiNavigationService) {}
 
   onAIInputSearchSubmitted(): void {
-    this.searchAiService.updateAISearchInputState(false);
+    this.searchAiService.updateSearchAiInputState({
+      active: false
+    });
   }
 
   leaveSearchInput(): void {
     this.searchNavigationService.navigateToPreviousRoute();
-    this.searchAiService.updateAISearchInputState(false);
+    this.searchAiService.updateSearchAiInputState({
+      active: false
+    });
   }
 }

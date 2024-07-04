@@ -17,13 +17,14 @@
     class="aca-agents-button-menu"
     xPosition="before">
     <mat-selection-list
-      (selectionChange)="onAgentSelection()"
+      (selectionChange)="onAgentSelection($event)"
       [multiple]="false"
       class="aca-agents-button-menu-list">
       <mat-list-option
         *ngFor="let agent of agents"
         class="aca-agents-button-menu-list-agent"
-        [attr.data-automation-id]="'aca-agents-button-agent-' + agent.id">
+        [attr.data-automation-id]="'aca-agents-button-agent-' + agent.id"
+        [value]="agent">
         <div>
           <span class="aca-agents-button-menu-list-agent-avatar"></span>
           {{ agent.name }}

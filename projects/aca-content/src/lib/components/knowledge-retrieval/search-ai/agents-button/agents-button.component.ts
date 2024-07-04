@@ -34,7 +34,7 @@ import { takeUntil } from 'rxjs/operators';
 import { SearchAiService } from '../../../../services/search-ai.service';
 import { AnimationItem } from 'lottie-web';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatListModule } from '@angular/material/list';
+import { MatListModule, MatSelectionListChange } from '@angular/material/list';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Agent } from '@alfresco/js-api';
 import { AgentService } from '@alfresco/adf-content-services';
@@ -79,7 +79,7 @@ export class AgentsButtonComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     private searchAiService: SearchAiService,
     private translateService: TranslateService,
-    public agentService: AgentService
+    private agentService: AgentService
   ) {}
 
   ngOnInit(): void {
@@ -126,7 +126,10 @@ export class AgentsButtonComponent implements OnInit, OnDestroy {
     this.animationItem.stop();
   }
 
-  onAgentSelection(): void {
-    this.store.dispatch({ type: this.data.trigger });
+  onAgentSelection(change: MatSelectionListChange): void {
+    this.store.dispatch({
+      type: this.data.trigger,
+      agentId: change.options[0].value.id
+    });
   }
 }

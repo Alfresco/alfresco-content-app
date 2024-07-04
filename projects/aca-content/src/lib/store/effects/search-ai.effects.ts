@@ -24,13 +24,14 @@
 
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { SearchAiActionTypes, SearchByTermAiAction } from '@alfresco/aca-shared/store';
+import { SearchAiActionTypes, SearchByTermAiAction, ToggleAISearchInput } from '@alfresco/aca-shared/store';
 import { map } from 'rxjs/operators';
 import { SearchAiNavigationService } from '../../services/search-ai-navigation.service';
+import { SearchAiService } from '../../services/search-ai.service';
 
 @Injectable()
 export class SearchAiEffects {
-  constructor(private actions$: Actions, private searchNavigationService: SearchAiNavigationService) {}
+  constructor(private actions$: Actions, private searchNavigationService: SearchAiNavigationService, private searchAiService: SearchAiService) {}
 
   searchByTerm$ = createEffect(
     () =>
@@ -46,6 +47,20 @@ export class SearchAiEffects {
           // eslint-disable-next-line @typescript-eslint/no-floating-promises
           this.searchNavigationService.navigateToSearchAi(queryParams);
         })
+      ),
+    { dispatch: false }
+  );
+
+  toggleAISearchInput$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType<ToggleAISearchInput>(SearchAiActionTypes.ToggleAiSearchInput),
+        map((action) =>
+          this.searchAiService.updateSearchAiInputState({
+            active: true,
+            selectedAgentId: action.agentId
+          })
+        )
       ),
     { dispatch: false }
   );

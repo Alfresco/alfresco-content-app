@@ -1,6 +1,9 @@
 <aca-page-layout>
   <div class="aca-page-layout-header">
-    <aca-search-ai-input-container *ngIf="showAISearchInput; else breadcrumbTemplate"></aca-search-ai-input-container>
+    <aca-search-ai-input-container
+      *ngIf="searchAiInputState.active; else breadcrumbTemplate"
+      [agentId]="searchAiInputState.selectedAgentId">
+    </aca-search-ai-input-container>
     <ng-template #breadcrumbTemplate>
       <div class="aca-header-container">
         <h1 class="aca-page-title">{{ 'APP.BROWSE.SHARED.TITLE' | translate }}</h1>

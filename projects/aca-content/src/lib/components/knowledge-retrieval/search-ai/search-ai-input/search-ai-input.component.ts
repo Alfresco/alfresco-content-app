@@ -24,7 +24,7 @@
 
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -40,6 +40,8 @@ import { filter, takeUntil } from 'rxjs/operators';
 import { SearchAiService } from '../../../../services/search-ai.service';
 import { SelectionState } from '@alfresco/adf-extensions';
 import { MatSelectModule } from '@angular/material/select';
+import { Agent } from '@alfresco/js-api';
+import { AgentService } from '@alfresco/adf-content-services';
 
 @Component({
   standalone: true,
@@ -65,13 +67,19 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
   onDestroy$: Subject<boolean> = new Subject<boolean>();
   searchedWord: string = null;
   restrictionQuery = '';
-  agentControl = new FormControl('');
-  mockedAgents = ['HR Agent', 'Policy Agent', 'Rules & Rates Agent'];
+  agentControl = new FormControl<Agent>(null);
 
   private selectedNodesState: SelectionState;
+  private _agents: Agent[] = [];
+
+  get agents(): Agent[] {
+    return this._agents;
+  }
 
   @Input()
   placeholder: string;
+  @Input()
+  agentId: string;
 
   @Output()
   searchSubmitted = new EventEmitter<void>();
@@ -81,7 +89,9 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private store: Store<AppStore>,
     private searchAiService: SearchAiService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private agentService: AgentService,
+    private translateService: TranslateService
   ) {}
 
   ngOnInit() {
@@ -112,7 +122,16 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
         this.restrictionQuery = restrictionQuery;
       }
     });
-    this.agentControl.setValue(this.mockedAgents[0]);
+    this.agentService
+      .getAgents()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(
+        (paging) => {
+          this._agents = paging.list.entries.map((agentEntry) => agentEntry.entry);
+          this.agentControl.setValue(this.agents.find((agent) => agent.id === this.agentId));
+        },
+        () => this.notificationService.showError(this.translateService.instant('KNOWLEDGE_RETRIEVAL.SEARCH.ERRORS.AGENTS_FETCHING'))
+      );
   }
 
   showInputValue() {

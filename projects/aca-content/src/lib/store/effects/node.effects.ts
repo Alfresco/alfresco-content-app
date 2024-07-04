@@ -51,13 +51,11 @@ import {
   ManageRulesAction,
   ShowLoaderAction,
   SetInfoDrawerStateAction,
-  NavigateUrlAction,
-  ToggleAISearchInput
+  NavigateUrlAction
 } from '@alfresco/aca-shared/store';
 import { ContentManagementService } from '../../services/content-management.service';
 import { RenditionService } from '@alfresco/adf-content-services';
 import { NavigationEnd, Router } from '@angular/router';
-import { SearchAiService } from '../../services/search-ai.service';
 
 @Injectable()
 export class NodeEffects {
@@ -66,8 +64,7 @@ export class NodeEffects {
     private actions$: Actions,
     private router: Router,
     private contentService: ContentManagementService,
-    private renditionViewer: RenditionService,
-    private searchAiService: SearchAiService
+    private renditionViewer: RenditionService
   ) {}
 
   shareNode$ = createEffect(
@@ -462,15 +459,6 @@ export class NodeEffects {
               });
           }
         })
-      ),
-    { dispatch: false }
-  );
-
-  toggleAISearchInput$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType<ToggleAISearchInput>(NodeActionTypes.ToggleAiSearchInput),
-        map(() => this.searchAiService.updateAISearchInputState(true))
       ),
     { dispatch: false }
   );

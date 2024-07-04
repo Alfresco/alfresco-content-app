@@ -27,6 +27,7 @@ import { BehaviorSubject, from, Observable } from 'rxjs';
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { AiSearchResultModel } from './ai-search-result.model';
 import { SelectionState } from '@alfresco/adf-extensions';
+import { SearchAiInputState } from './search-ai-input-state';
 
 @Injectable({ providedIn: 'root' })
 export class SearchAiService {
@@ -39,13 +40,15 @@ export class SearchAiService {
     'application/pdf'
   ];
 
-  toggleAISearchInput = new BehaviorSubject<boolean>(false);
-  toggleAISearchInput$ = this.toggleAISearchInput.asObservable();
+  toggleSearchAiInput = new BehaviorSubject<SearchAiInputState>({
+    active: false
+  });
+  toggleSearchAiInput$ = this.toggleSearchAiInput.asObservable();
 
   constructor(private apiService: AlfrescoApiService) {}
 
-  updateAISearchInputState(isAISearchActive: boolean) {
-    this.toggleAISearchInput.next(isAISearchActive);
+  updateSearchAiInputState(state: SearchAiInputState) {
+    this.toggleSearchAiInput.next(state);
   }
 
   setSearchClientBasePath(basePath: string) {
