@@ -30,13 +30,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { A11yModule } from '@angular/cdk/a11y';
-import { IconModule, NotificationService } from '@alfresco/adf-core';
+import { IconComponent, NotificationService } from '@alfresco/adf-core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { ActivatedRoute, NavigationEnd, Router, RouterEvent, UrlTree } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AiSearchByTermPayload, AppStore, getAppSelection, SearchByTermAiAction, SnackbarErrorAction } from '@alfresco/aca-shared/store';
-import { filter, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { SearchAiService } from '../../../../services/search-ai.service';
 import { SelectionState } from '@alfresco/adf-extensions';
 import { MatSelectModule } from '@angular/material/select';
@@ -53,10 +53,10 @@ import { AgentService } from '@alfresco/adf-content-services';
     MatFormFieldModule,
     MatInputModule,
     A11yModule,
-    IconModule,
     FormsModule,
     ReactiveFormsModule,
-    MatSelectModule
+    MatSelectModule,
+    IconComponent
   ],
   selector: 'aca-search-ai-input',
   templateUrl: './search-ai-input.component.html',
@@ -64,18 +64,6 @@ import { AgentService } from '@alfresco/adf-content-services';
   encapsulation: ViewEncapsulation.None
 })
 export class SearchAiInputComponent implements OnInit, OnDestroy {
-  onDestroy$: Subject<boolean> = new Subject<boolean>();
-  searchedWord: string = null;
-  restrictionQuery = '';
-  agentControl = new FormControl<Agent>(null);
-
-  private selectedNodesState: SelectionState;
-  private _agents: Agent[] = [];
-
-  get agents(): Agent[] {
-    return this._agents;
-  }
-
   @Input()
   placeholder: string;
   @Input()
@@ -84,8 +72,26 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
   @Output()
   searchSubmitted = new EventEmitter<void>();
 
+  private _agentControl = new FormControl<Agent>(null);
+  private _agents: Agent[] = [];
+  private onDestroy$ = new Subject<void>();
+  private restrictionQuery = '';
+  private selectedNodesState: SelectionState;
+  private _queryControl = new FormControl('');
+
+  get agentControl(): FormControl<Agent> {
+    return this._agentControl;
+  }
+
+  get agents(): Agent[] {
+    return this._agents;
+  }
+
+  get queryControl(): FormControl<string> {
+    return this._queryControl;
+  }
+
   constructor(
-    private router: Router,
     private activatedRoute: ActivatedRoute,
     private store: Store<AppStore>,
     private searchAiService: SearchAiService,
@@ -94,18 +100,7 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
     private translateService: TranslateService
   ) {}
 
-  ngOnInit() {
-    this.showInputValue();
-
-    this.router.events
-      .pipe(takeUntil(this.onDestroy$))
-      .pipe(filter((e) => e instanceof RouterEvent))
-      .subscribe((event) => {
-        if (event instanceof NavigationEnd) {
-          this.showInputValue();
-        }
-      });
-
+  ngOnInit(): void {
     this.store
       .select(getAppSelection)
       .pipe(takeUntil(this.onDestroy$))
@@ -118,7 +113,7 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
 
     this.activatedRoute.queryParams.pipe(takeUntil(this.onDestroy$)).subscribe((params) => {
       const restrictionQuery = params['restrictionQuery'];
-      if (restrictionQuery && restrictionQuery !== '') {
+      if (restrictionQuery) {
         this.restrictionQuery = restrictionQuery;
       }
     });
@@ -134,43 +129,26 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
       );
   }
 
-  showInputValue() {
-    this.searchedWord = this.getUrlSearchTerm();
-  }
-
   ngOnDestroy(): void {
-    this.onDestroy$.next(true);
+    this.onDestroy$.next();
     this.onDestroy$.complete();
   }
 
-  onSearchSubmit(searchTerm: string) {
+  onSearchSubmit(): void {
     const error = this.searchAiService.checkSearchAvailability(this.selectedNodesState);
     if (error) {
       this.notificationService.showInfo(error);
     } else {
       const payload = new AiSearchByTermPayload();
-      payload.searchTerm = searchTerm;
+      payload.searchTerm = this.queryControl.value;
       payload.agentId = this.agentControl.value.id;
-      payload.restrictionQuery = this.restrictionQuery ? this.restrictionQuery : '';
-      if (searchTerm) {
+      payload.restrictionQuery = this.restrictionQuery;
+      if (payload.searchTerm) {
         this.store.dispatch(new SearchByTermAiAction(payload));
       } else {
         this.store.dispatch(new SnackbarErrorAction('APP.BROWSE.SEARCH.EMPTY_SEARCH'));
       }
       this.searchSubmitted.emit();
     }
-  }
-
-  get onSearchResults(): boolean {
-    return this.router.url.indexOf('/search-ai') === 0;
-  }
-
-  getUrlSearchTerm(): string {
-    let searchTerm = '';
-    if (this.onSearchResults) {
-      const urlTree: UrlTree = this.router.parseUrl(this.router.url);
-      searchTerm = urlTree.queryParams['q'] ? decodeURIComponent(urlTree.queryParams['q']) : '';
-    }
-    return searchTerm;
   }
 }

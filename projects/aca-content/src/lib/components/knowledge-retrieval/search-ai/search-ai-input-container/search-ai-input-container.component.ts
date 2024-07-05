@@ -49,14 +49,10 @@ export class SearchAiInputContainerComponent implements OnInit {
   constructor(private searchAiService: SearchAiService, private searchNavigationService: SearchAiNavigationService, private router: Router) {}
 
   ngOnInit(): void {
-    this.router.events.pipe(filter((event) => event instanceof NavigationStart)).subscribe(() => {
-      this.searchAiService.updateSearchAiInputState({
-        active: false
-      });
-    });
+    this.router.events.pipe(filter((event) => event instanceof NavigationStart)).subscribe(() => this.hideSearchInput());
   }
 
-  onAIInputSearchSubmitted(): void {
+  hideSearchInput(): void {
     this.searchAiService.updateSearchAiInputState({
       active: false
     });
@@ -64,8 +60,6 @@ export class SearchAiInputContainerComponent implements OnInit {
 
   leaveSearchInput(): void {
     this.searchNavigationService.navigateToPreviousRoute();
-    this.searchAiService.updateSearchAiInputState({
-      active: false
-    });
+    this.hideSearchInput();
   }
 }
