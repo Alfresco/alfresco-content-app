@@ -27,10 +27,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { SearchAiInputComponent } from '../search-ai-input/search-ai-input.component';
 import { MatDividerModule } from '@angular/material/divider';
-import { SearchAiService } from '../../../../services/search-ai.service';
 import { SearchAiNavigationService } from '../../../../services/search-ai-navigation.service';
 import { NavigationStart, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { SearchAiService } from '@alfresco/adf-content-services';
 
 @Component({
   standalone: true,

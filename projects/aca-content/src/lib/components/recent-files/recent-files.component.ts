@@ -35,13 +35,11 @@ import {
 } from '@alfresco/aca-shared';
 import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-extensions';
 import { CommonModule } from '@angular/common';
-import { DocumentListModule } from '@alfresco/adf-content-services';
+import { DocumentListModule, SearchAiInputState, SearchAiService } from '@alfresco/adf-content-services';
 import { DataTableModule, EmptyContentComponent, PaginationComponent } from '@alfresco/adf-core';
 import { DocumentListDirective } from '../../directives/document-list.directive';
 import { TranslateModule } from '@ngx-translate/core';
-import { SearchAiService } from '../../services/search-ai.service';
 import { SearchAiInputContainerComponent } from '../knowledge-retrieval/search-ai/search-ai-input-container/search-ai-input-container.component';
-import { SearchAiInputState } from '../../services/search-ai-input-state';
 
 @Component({
   standalone: true,

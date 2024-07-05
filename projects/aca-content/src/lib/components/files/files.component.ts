@@ -39,18 +39,25 @@ import {
 } from '@alfresco/aca-shared';
 import { SetCurrentFolderAction, isAdmin, UploadFileVersionAction, showLoaderSelector } from '@alfresco/aca-shared/store';
 import { debounceTime, takeUntil } from 'rxjs/operators';
-import { BreadcrumbModule, DocumentListModule, FileUploadEvent, FilterSearch, ShareDataRow, UploadModule } from '@alfresco/adf-content-services';
+import {
+  BreadcrumbModule,
+  DocumentListModule,
+  FileUploadEvent,
+  FilterSearch,
+  SearchAiInputState,
+  SearchAiService,
+  ShareDataRow,
+  UploadModule
+} from '@alfresco/adf-content-services';
 import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-extensions';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { DocumentListDirective } from '../../directives/document-list.directive';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { SearchAiService } from '../../services/search-ai.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { SearchAiInputContainerComponent } from '../knowledge-retrieval/search-ai/search-ai-input-container/search-ai-input-container.component';
-import { SearchAiInputState } from '../../services/search-ai-input-state';
 
 @Component({
   standalone: true,

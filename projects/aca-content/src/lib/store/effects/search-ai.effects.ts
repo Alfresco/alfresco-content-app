@@ -27,7 +27,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { SearchAiActionTypes, SearchByTermAiAction, ToggleAISearchInput } from '@alfresco/aca-shared/store';
 import { map } from 'rxjs/operators';
 import { SearchAiNavigationService } from '../../services/search-ai-navigation.service';
-import { SearchAiService } from '../../services/search-ai.service';
+import { SearchAiService } from '@alfresco/adf-content-services';
 
 @Injectable()
 export class SearchAiEffects {

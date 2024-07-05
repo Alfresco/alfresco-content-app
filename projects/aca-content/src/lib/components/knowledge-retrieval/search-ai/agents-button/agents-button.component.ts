@@ -31,13 +31,12 @@ import { AppStore, getAppSelection } from '@alfresco/aca-shared/store';
 import { NotificationService } from '@alfresco/adf-core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { SearchAiService } from '../../../../services/search-ai.service';
 import { AnimationItem } from 'lottie-web';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatListModule, MatSelectionListChange } from '@angular/material/list';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Agent } from '@alfresco/js-api';
-import { AgentService } from '@alfresco/adf-content-services';
+import { AgentService, SearchAiService } from '@alfresco/adf-content-services';
 
 @Component({
   standalone: true,

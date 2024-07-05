@@ -26,16 +26,16 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { PageComponent, PageLayoutComponent, ToolbarActionComponent, ToolbarComponent } from '@alfresco/aca-shared';
 import { takeUntil } from 'rxjs/operators';
-import { AlfrescoApiService, ClipboardService, IconModule, MaterialModule, ThumbnailService, ToolbarModule } from '@alfresco/adf-core';
+import { ClipboardService, IconModule, MaterialModule, ThumbnailService, ToolbarModule } from '@alfresco/adf-core';
 import { ResultSetPaging, ResultSetRowEntry } from '@alfresco/js-api';
 import { CommonModule } from '@angular/common';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { SearchAiNavigationService } from '../../../../services/search-ai-navigation.service';
-import { SearchAiService } from '../../../../services/search-ai.service';
 import { AiSearchResultModel } from '../../../../services/ai-search-result.model';
 import { SearchAiInputContainerComponent } from '../search-ai-input-container/search-ai-input-container.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { SearchAiService } from '@alfresco/adf-content-services';
 
 @Component({
   standalone: true,
@@ -129,7 +129,6 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
 
   constructor(
     private route: ActivatedRoute,
-    private apiService: AlfrescoApiService,
     private searchAiService: SearchAiService,
     private clipboardService: ClipboardService,
     private thumbnailService: ThumbnailService,
@@ -186,13 +185,13 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
   performAiSearch() {
     this.hasAiSearchTriggered = true;
     this.aiSearchResult = null;
-    const searchClient = this.apiService.getInstance().searchClient;
-    const originalBasePath = searchClient.basePath;
-    this.searchAiService.setSearchClientBasePath(`${searchClient.host}/alfresco/service/api`);
     this.searchAiService
-      .executeAISearch(this.searchQuery, this.restrictionQuery)
+      .ask({
+        question: this.searchQuery,
+        restrictionQuery: this.restrictionQuery
+      })
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe((response: AiSearchResultModel) => {
+      .subscribe((response: any) => {
         if (response) {
           this.aiSearchResult = new AiSearchResultModel();
           this.aiSearchResult.aiResponse = response.aiResponse;
@@ -202,7 +201,6 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
           this.searchNavigationService.hasAiSearchResults = true;
         }
       });
-    this.searchAiService.setSearchClientBasePath(originalBasePath);
   }
 
   private formatSearchResultHighlights(searchResults: ResultSetPaging): ResultSetPaging {

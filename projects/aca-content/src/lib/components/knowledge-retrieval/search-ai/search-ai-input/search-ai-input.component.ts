@@ -37,11 +37,10 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AiSearchByTermPayload, AppStore, getAppSelection, SearchByTermAiAction, SnackbarErrorAction } from '@alfresco/aca-shared/store';
 import { takeUntil } from 'rxjs/operators';
-import { SearchAiService } from '../../../../services/search-ai.service';
 import { SelectionState } from '@alfresco/adf-extensions';
 import { MatSelectModule } from '@angular/material/select';
 import { Agent } from '@alfresco/js-api';
-import { AgentService } from '@alfresco/adf-content-services';
+import { AgentService, SearchAiService } from '@alfresco/adf-content-services';
 
 @Component({
   standalone: true,
