@@ -40,7 +40,7 @@ export class SearchAiEffects {
         map((action) => {
           const query = action.payload.searchTerm.replace(/[(]/g, '%28').replace(/[)]/g, '%29');
           const queryParams = {
-            q: encodeURIComponent(query),
+            query: encodeURIComponent(query),
             agentId: action.payload.agentId,
             ...(action.payload.hideAiToggle && { hideAiToggle: action.payload.hideAiToggle }),
             ...(action.payload.restrictionQuery && { restrictionQuery: action.payload.restrictionQuery })

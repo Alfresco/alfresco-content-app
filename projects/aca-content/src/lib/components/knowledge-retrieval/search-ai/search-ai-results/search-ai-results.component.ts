@@ -26,7 +26,7 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { PageComponent, PageLayoutComponent, ToolbarActionComponent, ToolbarComponent } from '@alfresco/aca-shared';
 import { takeUntil } from 'rxjs/operators';
-import { ClipboardService, IconModule, MaterialModule, ThumbnailService, ToolbarModule } from '@alfresco/adf-core';
+import { ClipboardService, MaterialModule, ThumbnailService, ToolbarModule } from '@alfresco/adf-core';
 import { ResultSetPaging, ResultSetRowEntry } from '@alfresco/js-api';
 import { CommonModule } from '@angular/common';
 import { animate, style, transition, trigger } from '@angular/animations';
@@ -43,7 +43,6 @@ import { SearchAiService } from '@alfresco/adf-content-services';
     CommonModule,
     PageLayoutComponent,
     ToolbarActionComponent,
-    IconModule,
     ToolbarModule,
     MaterialModule,
     ToolbarComponent,
@@ -103,28 +102,26 @@ import { SearchAiService } from '@alfresco/adf-content-services';
   ]
 })
 export class SearchAiResultsComponent extends PageComponent implements OnInit, OnDestroy {
-  aiSearchResult: AiSearchResultModel;
-  nodeList: ResultSetRowEntry[];
-
-  private _searchQuery = '';
-  animateSearchQuery = false;
-  get searchQuery(): string {
-    return this._searchQuery;
-  }
-
-  set searchQuery(value: string) {
-    this._searchQuery = value;
-    this.animateSearchQuery = true;
-  }
-
-  restrictionQuery = '';
-  hideAiToggle = false;
-  hasAiSearchTriggered = false;
-
   private _agentId: string;
+  private _nodes: ResultSetRowEntry[];
+  private restrictionQuery = '';
+  private _searchResult: AiSearchResultModel;
+  private _searchQuery = '';
 
   get agentId(): string {
     return this._agentId;
+  }
+
+  get nodes(): ResultSetRowEntry[] {
+    return this._nodes;
+  }
+
+  get searchResult(): AiSearchResultModel {
+    return this._searchResult;
+  }
+
+  get searchQuery(): string {
+    return this._searchQuery;
   }
 
   constructor(
@@ -140,9 +137,8 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
   ngOnInit(): void {
     this.route.queryParams.pipe(takeUntil(this.onDestroy$)).subscribe((params: Params) => {
       this._agentId = params.agentId;
-      this.hideAiToggle = params['hideAiToggle'];
-      this.searchQuery = params['q'] ? decodeURIComponent(params['q']) : '';
-      this.restrictionQuery = params['restrictionQuery'] ? params['restrictionQuery'] : '';
+      this._searchQuery = params.query ? decodeURIComponent(params.query) : '';
+      this.restrictionQuery = params.restrictionQuery || '';
       if (this.searchQuery) {
         this.performAiSearch();
       }
@@ -151,21 +147,13 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
     super.ngOnInit();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.onDestroy$.next();
     this.onDestroy$.complete();
   }
 
-  copyResponseToClipboard() {
-    this.clipboardService.copyContentToClipboard(this.aiSearchResult.aiResponse, 'Copied response to clipboard');
-  }
-
-  onRegenerateClick() {
-    this.searchNavigationService.openConfirmDialog().subscribe((confirm) => {
-      if (confirm) {
-        this.performAiSearch();
-      }
-    });
+  copyResponseToClipboard(): void {
+    this.clipboardService.copyContentToClipboard(this.searchResult.aiResponse, 'Copied response to clipboard');
   }
 
   getMimeTypeIcon(node: ResultSetRowEntry): string {
@@ -182,9 +170,8 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
     return mimeType;
   }
 
-  performAiSearch() {
-    this.hasAiSearchTriggered = true;
-    this.aiSearchResult = null;
+  performAiSearch(): void {
+    this._searchResult = null;
     this.searchAiService
       .ask({
         question: this.searchQuery,
@@ -193,10 +180,10 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((response: any) => {
         if (response) {
-          this.aiSearchResult = new AiSearchResultModel();
-          this.aiSearchResult.aiResponse = response.aiResponse;
-          this.aiSearchResult.searchResult = this.formatSearchResultHighlights(response.searchResult);
-          this.nodeList = this.aiSearchResult.searchResult.list.entries;
+          this._searchResult = new AiSearchResultModel();
+          this.searchResult.aiResponse = response.aiResponse;
+          this.searchResult.searchResult = this.formatSearchResultHighlights(response.searchResult);
+          this._nodes = this.searchResult.searchResult.list.entries;
 
           this.searchNavigationService.hasAiSearchResults = true;
         }

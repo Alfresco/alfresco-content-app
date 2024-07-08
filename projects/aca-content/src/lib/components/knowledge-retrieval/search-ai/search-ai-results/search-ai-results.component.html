@@ -9,7 +9,7 @@
       <div
         class="aca-search-ai-results-container-query"
         data-automation-id="aca-search-ai-results-query">
-        Some query
+        {{ searchQuery }}
       </div>
       <div class="aca-search-ai-response-container">
         <div class="aca-search-ai-response-container-body">
@@ -17,12 +17,12 @@
             class="aca-search-ai-response-container-body-response"
             data-automation-id="aca-search-ai-results-response"
             @fadeFromTop>
-            {{ aiSearchResult?.aiResponse }}
+            {{ searchResult?.aiResponse }}
           </div>
           <button
             class="aca-search-ai-response-container-body-response-action aca-search-ai-response-container-body-response-action-regeneration"
             mat-icon-button
-            (click)="onRegenerateClick()"
+            (click)="performAiSearch()"
             data-automation-id="aca-search-ai-results-regeneration-button">
             <mat-icon>cached</mat-icon>
           </button>
@@ -45,7 +45,7 @@
             data-automation-id="aca-search-ai-results-thumb-down-button">
             <mat-icon>thumb_down</mat-icon>
           </button>
-          <ng-container *ngIf="nodeList?.length > 0">
+          <ng-container *ngIf="nodes?.length > 0">
             <mat-divider class="aca-search-ai-response-container-body-divider"></mat-divider>
             <div class="aca-search-ai-response-container-body-sources-container">
               <h4 class="aca-search-ai-response-container-body-sources-container-header">
@@ -54,7 +54,7 @@
               <div class="aca-search-ai-response-container-body-sources-container-documents">
                 <div
                   class="aca-search-ai-response-container-body-sources-container-documents-document"
-                  *ngFor="let node of nodeList"
+                  *ngFor="let node of nodes"
                   [attr.data-automation-id]="'aca-search-ai-results-' + node.entry?.id + '-document'">
                   <mat-icon
                     mat-list-icon
