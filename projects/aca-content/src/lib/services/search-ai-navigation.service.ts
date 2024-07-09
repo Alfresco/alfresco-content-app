@@ -23,55 +23,15 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from '@alfresco/adf-content-services';
-import { Observable } from 'rxjs';
-import { first } from 'rxjs/operators';
+import { Params, Router } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
 export class SearchAiNavigationService {
   private previousRoute = '';
-  private _hasAiSearchResults = false;
 
-  get hasAiSearchResults(): boolean {
-    return this._hasAiSearchResults;
-  }
+  constructor(private router: Router) {}
 
-  set hasAiSearchResults(value: boolean) {
-    this._hasAiSearchResults = value;
-  }
-
-  constructor(private router: Router, private dialog: MatDialog) {}
-
-  navigateBack(): void {
-    if (this.router.url.includes('knowledge-retrieval') && this.hasAiSearchResults) {
-      this.openConfirmDialog().subscribe((confirm) => {
-        if (confirm) {
-          this.navigateToPreviousRoute();
-        }
-      });
-    } else {
-      this.navigateToPreviousRoute();
-    }
-  }
-
-  openConfirmDialog(): Observable<boolean> {
-    return this.dialog
-      .open(ConfirmDialogComponent, {
-        data: {
-          title: 'Warning!',
-          message: 'This conversation will be discarded',
-          yesLabel: 'Okay',
-          noLabel: 'Cancel'
-        },
-        minWidth: '300px'
-      })
-      .afterClosed()
-      .pipe(first());
-  }
-
-  navigateToPreviousRoute() {
+  navigateToPreviousRoute(): void {
     if (this.previousRoute) {
       void this.router.navigate([this.previousRoute]);
     } else {
@@ -79,7 +39,7 @@ export class SearchAiNavigationService {
     }
   }
 
-  navigateToSearchAi(queryParams?: any): void {
+  navigateToSearchAi(queryParams?: Params): void {
     if (!this.router.url.includes('search')) {
       this.previousRoute = this.router.url;
     }

@@ -31,7 +31,6 @@ import { AiAnswer, Node } from '@alfresco/js-api';
 import { CommonModule } from '@angular/common';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { SearchAiNavigationService } from '../../../../services/search-ai-navigation.service';
 import { SearchAiInputContainerComponent } from '../search-ai-input-container/search-ai-input-container.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { NodesApiService, SearchAiService } from '@alfresco/adf-content-services';
@@ -134,7 +133,6 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
     private searchAiService: SearchAiService,
     private clipboardService: ClipboardService,
     private thumbnailService: ThumbnailService,
-    private searchNavigationService: SearchAiNavigationService,
     private nodesApiService: NodesApiService
   ) {
     super();
@@ -149,7 +147,6 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
         this.performAiSearch();
       }
     });
-    this.searchNavigationService.hasAiSearchResults = false;
     super.ngOnInit();
   }
 
@@ -172,7 +169,6 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
         concatMap((response) => this.searchAiService.getAnswer(response.questionId)),
         concatMap((response) => {
           this._queryAnswer = response.list.entries[0].entry;
-          this.searchNavigationService.hasAiSearchResults = true;
           return forkJoin(this.queryAnswer.references.map((reference) => this.nodesApiService.getNode(reference.referenceId)));
         }),
         takeUntil(this.onDestroy$)
