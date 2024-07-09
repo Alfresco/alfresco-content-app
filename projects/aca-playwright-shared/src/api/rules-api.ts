@@ -216,7 +216,7 @@ export class ActionTypes {
     actionDefinitionId: 'set-property-value',
     params: { property: 'dl:ganttPercentComplete', value: 'test' }
   });
-  static actions = [
+  static readonly actions = [
     ActionTypes.ADDFEATURES.value,
     ActionTypes.CHECKIN.value,
     ActionTypes.RECORDABLEVERSION.value,
@@ -271,6 +271,6 @@ export class ConditionsTypes {
       }
     ]
   });
-  static conditions = [ConditionsTypes.MIMETYPE.value, ConditionsTypes.CMNAME.value, ConditionsTypes.SIZE.value, ConditionsTypes.TAG.value];
+  static readonly conditions = [ConditionsTypes.MIMETYPE.value, ConditionsTypes.CMNAME.value, ConditionsTypes.SIZE.value, ConditionsTypes.TAG.value];
   constructor(public key: string, public value: RuleCompositeCondition) {}
 }
