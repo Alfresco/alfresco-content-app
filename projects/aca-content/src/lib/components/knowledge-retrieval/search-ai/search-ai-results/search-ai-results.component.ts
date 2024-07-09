@@ -29,7 +29,6 @@ import { concatMap, takeUntil } from 'rxjs/operators';
 import { ClipboardService, MaterialModule, ThumbnailService, ToolbarModule } from '@alfresco/adf-core';
 import { AiAnswer, Node } from '@alfresco/js-api';
 import { CommonModule } from '@angular/common';
-import { animate, style, transition, trigger } from '@angular/animations';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { SearchAiInputContainerComponent } from '../search-ai-input-container/search-ai-input-container.component';
 import { TranslateModule } from '@ngx-translate/core';
@@ -53,52 +52,7 @@ import { forkJoin } from 'rxjs';
   templateUrl: './search-ai-results.component.html',
   styleUrls: ['./search-ai-results.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  host: { class: 'aca-search-ai-results' },
-  animations: [
-    trigger('fadeIn', [
-      transition('* => changed, :enter', [
-        style({
-          opacity: 0
-        }),
-        animate(
-          '500ms ease-out',
-          style({
-            opacity: 1
-          })
-        )
-      ])
-    ]),
-    trigger('fadeFromTop', [
-      transition(':enter', [
-        style({
-          opacity: 0,
-          transform: 'translateY(-10px)'
-        }),
-        animate(
-          '500ms ease-out',
-          style({
-            opacity: 1,
-            transform: 'translateY(0)'
-          })
-        )
-      ])
-    ]),
-    trigger('fadeFromTopDelay', [
-      transition(':enter', [
-        style({
-          opacity: 0,
-          transform: 'translateY(-10px)'
-        }),
-        animate(
-          '500ms 500ms ease-out',
-          style({
-            opacity: 1,
-            transform: 'translateY(0)'
-          })
-        )
-      ])
-    ])
-  ]
+  host: { class: 'aca-search-ai-results' }
 })
 export class SearchAiResultsComponent extends PageComponent implements OnInit, OnDestroy {
   private _agentId: string;
