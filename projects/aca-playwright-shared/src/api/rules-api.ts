@@ -22,12 +22,147 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { ApiClientFactory } from './api-client-factory';
+
+export class RulesApi {
+  private apiService: ApiClientFactory;
+
+  constructor() {
+    this.apiService = new ApiClientFactory();
+  }
+
+  static async initialize(userName: string, password?: string): Promise<RulesApi> {
+    const classObj = new RulesApi();
+    await classObj.apiService.setUpAcaBackend(userName, password);
+    return classObj;
+  }
+
+  private callApi(path: string, httpMethod: string, body: object = {}): Promise<any> {
+    // APIs used by this service are still private and not yet available for public use
+    const params = [{}, {}, {}, {}, body, ['application/json'], ['application/json']];
+    return this.apiService.alfrescoApi.contentPrivateClient.callApi(path, httpMethod, ...params);
+  }
+
+  async createRule(nodeId: string, rule: Partial<Rule>, ruleSetId: string = '-default-'): Promise<Rule> {
+    const response = await this.callApi(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules`, 'POST', { ...rule });
+    return response.entry;
+  }
+
+  async createRandomRule(folderId: string, ruleName: string): Promise<Rule> {
+    const randomActionsIndex = Math.floor(Math.random() * ActionTypes.actions.length);
+    const randomAction = ActionTypes.actions[randomActionsIndex];
+    const response = await this.createRule(folderId, {
+      name: ruleName,
+      isEnabled: true,
+      actions: [randomAction]
+    });
+    return response;
+  }
+
+  async createRandomRuleWithMultipleConditions(folderId: string, ruleName: string, numOfConditions: number): Promise<Rule> {
+    if (numOfConditions > ConditionsTypes.conditions.length) {
+      numOfConditions = ConditionsTypes.conditions.length;
+    }
+    const randomActionsIndex = Math.floor(Math.random() * ActionTypes.actions.length);
+    const randomAction = ActionTypes.actions[randomActionsIndex];
+    let conditionsArray = [];
+    for (let i = 0; i < numOfConditions; i++) {
+      const randomIndex = Math.floor(Math.random() * ConditionsTypes.conditions.length);
+      const randomCondition = ConditionsTypes.conditions[randomIndex];
+      conditionsArray.push(randomCondition);
+    }
+    const response = await this.createRule(folderId, {
+      name: ruleName,
+      isEnabled: true,
+      actions: [randomAction],
+      conditions: {
+        inverted: false,
+        booleanMode: 'and',
+        compositeConditions: conditionsArray
+      }
+    });
+    return response;
+  }
+
+  async createRandomRuleWithMultipleActions(folderId: string, ruleName: string, numOfActions: number): Promise<Rule> {
+    if (numOfActions > ActionTypes.actions.length) {
+      numOfActions = ActionTypes.actions.length;
+    }
+    let actionsArray = [];
+    for (let i = 0; i < numOfActions; i++) {
+      const randomIndex = Math.floor(Math.random() * ActionTypes.actions.length);
+      const randomAction = ActionTypes.actions[randomIndex];
+      actionsArray.push(randomAction);
+    }
+    const response = await this.createRule(folderId, {
+      name: ruleName,
+      isEnabled: true,
+      actions: actionsArray
+    });
+    return response;
+  }
+
+  async createRuleWithRandomAspects(folderId: string, ruleName: string): Promise<Rule> {
+    const response = await this.createRule(folderId, {
+      name: ruleName,
+      isEnabled: true,
+      actions: [
+        {
+          actionDefinitionId: 'add-features',
+          params: {
+            'aspect-name': 'sc:controlsAreClearance'
+          }
+        },
+        {
+          actionDefinitionId: 'add-features',
+          params: {
+            'aspect-name': 'sfdc:objectModel'
+          }
+        },
+        {
+          actionDefinitionId: 'add-features',
+          params: {
+            'aspect-name': 'sfdc:folder'
+          }
+        }
+      ]
+    });
+    return response;
+  }
+
+  async createRuleWithDestinationFolder(
+    folderId: string,
+    ruleName: string,
+    actionType: 'move' | 'copy' | 'import',
+    destinationFolderId: string
+  ): Promise<Rule> {
+    const response = await this.createRule(folderId, {
+      name: ruleName,
+      isEnabled: true,
+      actions: [
+        {
+          actionDefinitionId: actionType,
+          params: {
+            'destination-folder': destinationFolderId
+          }
+        }
+      ]
+    });
+    return response;
+  }
+}
+
 type RuleTrigger = 'inbound' | 'update' | 'outbound';
+
+export interface RuleCondition {
+  inverted: boolean;
+  booleanMode: 'and' | 'or';
+  compositeConditions: RuleCompositeCondition[];
+}
 
 export interface RuleCompositeCondition {
   inverted: boolean;
   booleanMode: 'and' | 'or';
-  compositeConditions: RuleCompositeCondition[];
   simpleConditions: RuleSimpleCondition[];
 }
 
@@ -47,7 +182,7 @@ export interface Rule {
   errorScript: string;
   isShared: boolean;
   triggers: RuleTrigger[];
-  conditions: RuleCompositeCondition;
+  conditions: RuleCondition;
   actions: RuleAction[];
 }
 
@@ -68,5 +203,73 @@ export class ActionTypes {
       minorChange: true
     }
   });
+  static SPECIALISETYPE = new ActionTypes('SPECIALISETYPE', {
+    actionDefinitionId: 'specialise-type',
+    params: { 'type-name': 'sys:base' }
+  });
+  static RECORDABLEVERSION = new ActionTypes('RECORDABLEVERSION', {
+    actionDefinitionId: 'recordable-version-config',
+    params: { version: 'ALL' }
+  });
+  static SETPROPERTYVALUE = new ActionTypes('SETPROPERTYVALUE', {
+    actionDefinitionId: 'set-property-value',
+    params: { property: 'dl:ganttPercentComplete', value: 'test' }
+  });
+  static actions = [
+    ActionTypes.ADDFEATURES.value,
+    ActionTypes.CHECKIN.value,
+    ActionTypes.RECORDABLEVERSION.value,
+    ActionTypes.SPECIALISETYPE.value,
+    ActionTypes.SETPROPERTYVALUE.value
+  ];
   constructor(public key: string, public value: RuleAction) {}
+}
+
+export class ConditionsTypes {
+  static MIMETYPE = new ConditionsTypes('MIMETYPE', {
+    inverted: false,
+    booleanMode: 'and',
+    simpleConditions: [
+      {
+        field: 'mimetype',
+        comparator: 'equals',
+        parameter: 'video/3gpp'
+      }
+    ]
+  });
+  static CMNAME = new ConditionsTypes('CM:NAME', {
+    inverted: false,
+    booleanMode: 'and',
+    simpleConditions: [
+      {
+        field: 'cm:name',
+        comparator: 'equals',
+        parameter: 'testname'
+      }
+    ]
+  });
+  static SIZE = new ConditionsTypes('SIZE', {
+    inverted: false,
+    booleanMode: 'and',
+    simpleConditions: [
+      {
+        field: 'size',
+        comparator: 'equals',
+        parameter: '345'
+      }
+    ]
+  });
+  static TAG = new ConditionsTypes('TAG', {
+    inverted: false,
+    booleanMode: 'and',
+    simpleConditions: [
+      {
+        field: 'tag',
+        comparator: 'equals',
+        parameter: 'testtag'
+      }
+    ]
+  });
+  static conditions = [ConditionsTypes.MIMETYPE.value, ConditionsTypes.CMNAME.value, ConditionsTypes.SIZE.value, ConditionsTypes.TAG.value];
+  constructor(public key: string, public value: RuleCompositeCondition) {}
 }

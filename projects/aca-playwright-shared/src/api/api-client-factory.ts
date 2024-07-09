@@ -44,7 +44,6 @@ import {
   CategoriesApi,
   TagsApi
 } from '@alfresco/js-api';
-import { ActionTypes, Rule } from './rules-api';
 import { users } from '../base-config';
 import { Person, PersonModel } from './people-api-models';
 
@@ -90,7 +89,6 @@ export class ApiClientFactory {
   public queriesApi: QueriesApi;
   public categoriesApi: CategoriesApi;
   public tagsApi: TagsApi;
-
   constructor() {
     this.alfrescoApi = new AlfrescoApi(config);
   }
@@ -123,26 +121,6 @@ export class ApiClientFactory {
   async tearDown(): Promise<ApiClientFactory> {
     await this.alfrescoApi.logout();
     return this;
-  }
-
-  private callApi(path: string, httpMethod: string, body: object = {}): Promise<any> {
-    // APIs used by this service are still private and not yet available for public use
-    const params = [{}, {}, {}, {}, body, ['application/json'], ['application/json']];
-    return this.alfrescoApi.contentPrivateClient.callApi(path, httpMethod, ...params);
-  }
-
-  async createRule(nodeId: string, rule: Partial<Rule>, ruleSetId: string = '-default-'): Promise<Rule> {
-    const response = await this.callApi(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules`, 'POST', { ...rule });
-    return response.entry;
-  }
-
-  async createRandomRule(folderId: string, ruleName: string): Promise<Rule> {
-    const response = await this.createRule(folderId, {
-      name: ruleName,
-      isEnabled: true,
-      actions: [ActionTypes.ADDFEATURES.value, ActionTypes.CHECKIN.value]
-    });
-    return response;
   }
 
   async login(userName: string, password?: string) {

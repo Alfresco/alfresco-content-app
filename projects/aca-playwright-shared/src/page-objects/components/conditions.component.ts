@@ -58,7 +58,7 @@ export class ConditionComponent extends ManageRulesDialogComponent {
   }
 
   async addCondition(fields: Partial<Field>, value: string, index: number, comparators?: Partial<Comparator>): Promise<void> {
-    await this.addConditionButton.click();
+    await this.addConditionButton.first().click();
     await this.selectField(fields, index);
     if (comparators) {
       await this.selectComparator(comparators, index);

@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Locator, Page } from '@playwright/test';
+import { Locator, Page, expect } from '@playwright/test';
 import { BaseComponent } from './base.component';
 
 export enum ActionType {
@@ -52,7 +52,8 @@ export enum ActionType {
 export class ActionsDropdownComponent extends BaseComponent {
   private static rootElement = 'aca-edit-rule-dialog aca-rule-action-list';
 
-  private getOptionLocator = (optionName: string): Locator => this.page.locator('.mat-select-panel .mat-option-text', { hasText: optionName }).first();
+  private getOptionLocator = (optionName: string): Locator =>
+    this.page.locator('.mat-select-panel .mat-option-text', { hasText: optionName }).first();
   private ruleActionLocator = this.getChild('aca-rule-action');
   private addActionButtonLocator = this.getChild('[data-automation-id="rule-action-list-add-action-button"]');
   private actionDropdownLocator = this.getChild('[data-automation-id="rule-action-select"]');
@@ -74,6 +75,7 @@ export class ActionsDropdownComponent extends BaseComponent {
     if (index > 0) {
       await this.addActionButtonLocator.click();
     }
+    await this.actionDropdownLocator.nth(index).hover({ timeout: 1000 });
     await this.actionDropdownLocator.nth(index).click();
     const option = this.getOptionLocator(action);
     await option.click();

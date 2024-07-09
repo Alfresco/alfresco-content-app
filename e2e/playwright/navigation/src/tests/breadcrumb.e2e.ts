@@ -117,8 +117,8 @@ test.describe('viewer action file', () => {
   test('[C213237] Tooltip appears on hover on a step in breadcrumb', async ({ personalFiles }) => {
     await personalFiles.navigate({ remoteUrl: `#/personal-files/${subFolder2Id}` });
     const item = personalFiles.breadcrumb.items.nth(2);
-    const title = await item.getAttribute('title');
-    expect(title).toEqual(subFolder1);
+    const title = item;
+    await expect(title).toHaveAttribute('title', subFolder1);
   });
 
   test('[C213238] Breadcrumb updates correctly when folder is renamed', async ({ personalFiles, nodesApiAction }) => {

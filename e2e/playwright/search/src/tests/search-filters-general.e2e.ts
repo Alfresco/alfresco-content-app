@@ -90,7 +90,7 @@ test.describe('Search - Filters - General', () => {
     await searchPage.searchFiltersProperties.fileSizeInput.fill('1000');
     await searchPage.searchFilters.menuCardApply.click();
     await searchPage.dataTable.progressBarWaitForReload();
-    const filterTextAfter = await searchPage.searchFilters.propertiesFilter.textContent();
+    const filterTextAfter = searchPage.searchFilters.propertiesFilter;
 
     await searchPage.searchFilters.propertiesFilter.click();
     await searchPage.searchFilters.menuCardClear.click();
@@ -98,7 +98,7 @@ test.describe('Search - Filters - General', () => {
     const filterTextCleared = await searchPage.searchFilters.propertiesFilter.textContent();
 
     await expect(filterTextBefore).toHaveText(filterTextCleared);
-    expect(filterTextAfter).not.toEqual(filterTextCleared);
+    await expect(filterTextAfter).not.toHaveText(filterTextCleared);
   });
 
   test('[C699499] All filters can be reset with reset button', async ({ searchPage }) => {
@@ -109,7 +109,7 @@ test.describe('Search - Filters - General', () => {
     await searchPage.dataTable.progressBarWaitForReload();
     const propertiesFilterTextAfter = await searchPage.searchFilters.propertiesFilter.textContent();
 
-    const logicFilterTextBefore = await searchPage.searchFilters.logicFilter.textContent();
+    const logicFilterTextBefore = searchPage.searchFilters.logicFilter;
     await searchPage.searchFilters.logicFilter.click();
     await searchPage.searchFiltersLogic.matchAllInput.fill('test');
     await searchPage.searchFilters.menuCardApply.click();
@@ -117,12 +117,12 @@ test.describe('Search - Filters - General', () => {
     const logicFilterTextAfter = await searchPage.searchFilters.logicFilter.textContent();
 
     await searchPage.searchFilters.resetButton.click();
-    const propertiesFilterTextCleared = await searchPage.searchFilters.propertiesFilter.textContent();
-    const logicFilterTextCleared = await searchPage.searchFilters.logicFilter.textContent();
+    const propertiesFilterTextCleared = searchPage.searchFilters.propertiesFilter;
+    const logicFilterTextCleared = searchPage.searchFilters.logicFilter;
 
     await expect(propertiesFilterTextBefore).toHaveText(propertiesFilterTextCleared);
-    expect(logicFilterTextBefore).toEqual(logicFilterTextCleared);
-    expect(propertiesFilterTextCleared).not.toEqual(propertiesFilterTextAfter);
-    expect(logicFilterTextCleared).not.toEqual(logicFilterTextAfter);
+    await expect(logicFilterTextBefore).toHaveText(logicFilterTextCleared);
+    await expect(propertiesFilterTextCleared).not.toHaveText(propertiesFilterTextAfter);
+    await expect(logicFilterTextCleared).not.toHaveText(logicFilterTextAfter);
   });
 });
