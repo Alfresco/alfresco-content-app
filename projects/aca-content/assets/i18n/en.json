@@ -608,7 +608,7 @@
       "SEARCH": {
         "RESULTS_PAGE": {
           "QUERY_INPUT_PLACEHOLDER": "Would you like to ask anything else?",
-          "SOURCE_DOCUMENTS_HEADER": "Source documents"
+          "REFERENCED_DOCUMENTS_HEADER": "Referenced documents"
         },
         "AGENTS_BUTTON_LABEL": "Ask Agent",
         "SEARCH_INPUT": {

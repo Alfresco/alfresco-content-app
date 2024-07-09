@@ -46,21 +46,21 @@
           </button>
           <ng-container *ngIf="nodes?.length > 0">
             <mat-divider class="aca-search-ai-response-container-body-divider"></mat-divider>
-            <div class="aca-search-ai-response-container-body-sources-container">
-              <h4 class="aca-search-ai-response-container-body-sources-container-header">
-                {{ 'KNOWLEDGE_RETRIEVAL.SEARCH.RESULTS_PAGE.SOURCE_DOCUMENTS_HEADER' | translate }}
+            <div class="aca-search-ai-response-container-body-references-container">
+              <h4 class="aca-search-ai-response-container-body-references-container-header">
+                {{ 'KNOWLEDGE_RETRIEVAL.SEARCH.RESULTS_PAGE.REFERENCED_DOCUMENTS_HEADER' | translate }}
               </h4>
-              <div class="aca-search-ai-response-container-body-sources-container-documents">
+              <div class="aca-search-ai-response-container-body-references-container-documents">
                 <div
-                  class="aca-search-ai-response-container-body-sources-container-documents-document"
+                  class="aca-search-ai-response-container-body-references-container-documents-document"
                   *ngFor="let node of nodes"
                   [attr.data-automation-id]="'aca-search-ai-results-' + node.id + '-document'">
                   <mat-icon
                     mat-list-icon
-                    class="aca-search-ai-response-container-body-sources-container-documents-document-icon">
+                    class="aca-search-ai-response-container-body-references-container-documents-document-icon">
                     <img [alt]="node.content?.mimeType" [src]="mimeTypeIconsByNodeId[node.id]"/>
                   </mat-icon>
-                  <div class="aca-search-ai-response-container-body-sources-container-documents-document-name">
+                  <div class="aca-search-ai-response-container-body-references-container-documents-document-name">
                     {{ node.name }}
                   </div>
                 </div>

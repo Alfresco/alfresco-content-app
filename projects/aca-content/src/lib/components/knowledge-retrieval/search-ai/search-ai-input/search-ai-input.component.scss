@@ -12,6 +12,8 @@ aca-search-ai-input {
     flex: 1;
     font-size: 20px;
     margin-right: 167px;
+    border: none;
+    outline: none;
 
     &:focus {
       &::placeholder {
