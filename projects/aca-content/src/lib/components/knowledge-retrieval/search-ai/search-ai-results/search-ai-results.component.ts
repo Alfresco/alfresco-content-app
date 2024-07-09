@@ -25,17 +25,17 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { PageComponent, PageLayoutComponent, ToolbarActionComponent, ToolbarComponent } from '@alfresco/aca-shared';
-import { takeUntil } from 'rxjs/operators';
+import { concatMap, takeUntil } from 'rxjs/operators';
 import { ClipboardService, MaterialModule, ThumbnailService, ToolbarModule } from '@alfresco/adf-core';
-import { ResultSetPaging, ResultSetRowEntry } from '@alfresco/js-api';
+import { AiAnswer, Node } from '@alfresco/js-api';
 import { CommonModule } from '@angular/common';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { SearchAiNavigationService } from '../../../../services/search-ai-navigation.service';
-import { AiSearchResultModel } from '../../../../services/ai-search-result.model';
 import { SearchAiInputContainerComponent } from '../search-ai-input-container/search-ai-input-container.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { SearchAiService } from '@alfresco/adf-content-services';
+import { NodesApiService, SearchAiService } from '@alfresco/adf-content-services';
+import { forkJoin } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -103,21 +103,26 @@ import { SearchAiService } from '@alfresco/adf-content-services';
 })
 export class SearchAiResultsComponent extends PageComponent implements OnInit, OnDestroy {
   private _agentId: string;
-  private _nodes: ResultSetRowEntry[];
+  private _mimeTypeIconsByNodeId: { [key: string]: string } = {};
+  private _nodes: Node[];
   private restrictionQuery = '';
-  private _searchResult: AiSearchResultModel;
   private _searchQuery = '';
+  private _queryAnswer: AiAnswer;
 
   get agentId(): string {
     return this._agentId;
   }
 
-  get nodes(): ResultSetRowEntry[] {
+  get mimeTypeIconsByNodeId(): { [key: string]: string } {
+    return this._mimeTypeIconsByNodeId;
+  }
+
+  get nodes(): Node[] {
     return this._nodes;
   }
 
-  get searchResult(): AiSearchResultModel {
-    return this._searchResult;
+  get queryAnswer(): AiAnswer {
+    return this._queryAnswer;
   }
 
   get searchQuery(): string {
@@ -129,7 +134,8 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
     private searchAiService: SearchAiService,
     private clipboardService: ClipboardService,
     private thumbnailService: ThumbnailService,
-    private searchNavigationService: SearchAiNavigationService
+    private searchNavigationService: SearchAiNavigationService,
+    private nodesApiService: NodesApiService
   ) {
     super();
   }
@@ -153,51 +159,29 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
   }
 
   copyResponseToClipboard(): void {
-    this.clipboardService.copyContentToClipboard(this.searchResult.aiResponse, 'Copied response to clipboard');
-  }
-
-  getMimeTypeIcon(node: ResultSetRowEntry): string {
-    const mimeType = this.getMimeType(node);
-    return this.thumbnailService.getMimeTypeIcon(mimeType);
-  }
-
-  getMimeType(node: ResultSetRowEntry): string {
-    let mimeType: string;
-
-    if (node.entry.content?.mimeType) {
-      mimeType = node.entry.content.mimeType;
-    }
-    return mimeType;
+    this.clipboardService.copyContentToClipboard(this.queryAnswer.answer, 'Copied response to clipboard');
   }
 
   performAiSearch(): void {
-    this._searchResult = null;
     this.searchAiService
       .ask({
         question: this.searchQuery,
         restrictionQuery: this.restrictionQuery
       })
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((response: any) => {
-        if (response) {
-          this._searchResult = new AiSearchResultModel();
-          this.searchResult.aiResponse = response.aiResponse;
-          this.searchResult.searchResult = this.formatSearchResultHighlights(response.searchResult);
-          this._nodes = this.searchResult.searchResult.list.entries;
-
+      .pipe(
+        concatMap((response) => this.searchAiService.getAnswer(response.questionId)),
+        concatMap((response) => {
+          this._queryAnswer = response.list.entries[0].entry;
           this.searchNavigationService.hasAiSearchResults = true;
-        }
+          return forkJoin(this.queryAnswer.references.map((reference) => this.nodesApiService.getNode(reference.referenceId)));
+        }),
+        takeUntil(this.onDestroy$)
+      )
+      .subscribe((nodes) => {
+        nodes.forEach((node) => {
+          this._mimeTypeIconsByNodeId[node.id] = this.thumbnailService.getMimeTypeIcon(node.content?.mimeType);
+        });
+        this._nodes = nodes;
       });
-  }
-
-  private formatSearchResultHighlights(searchResults: ResultSetPaging): ResultSetPaging {
-    searchResults?.list?.entries?.forEach((result) => {
-      const highlights = result.entry?.search?.highlight;
-      if (highlights?.length > 0) {
-        highlights[0].snippets = highlights[0].snippets.map((snippet) => '...' + snippet.replace(/\[b]/g, '<b>').replace(/\[\/b]/g, '</b>') + '...');
-        result.entry.search.highlight = highlights;
-      }
-    });
-    return searchResults;
   }
 }

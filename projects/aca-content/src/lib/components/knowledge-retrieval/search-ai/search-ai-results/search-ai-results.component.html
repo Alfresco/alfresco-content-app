@@ -17,7 +17,7 @@
             class="aca-search-ai-response-container-body-response"
             data-automation-id="aca-search-ai-results-response"
             @fadeFromTop>
-            {{ searchResult?.aiResponse }}
+            {{ queryAnswer?.answer }}
           </div>
           <button
             class="aca-search-ai-response-container-body-response-action aca-search-ai-response-container-body-response-action-regeneration"
@@ -55,14 +55,14 @@
                 <div
                   class="aca-search-ai-response-container-body-sources-container-documents-document"
                   *ngFor="let node of nodes"
-                  [attr.data-automation-id]="'aca-search-ai-results-' + node.entry?.id + '-document'">
+                  [attr.data-automation-id]="'aca-search-ai-results-' + node.id + '-document'">
                   <mat-icon
                     mat-list-icon
                     class="aca-search-ai-response-container-body-sources-container-documents-document-icon">
-                    <img [alt]="getMimeType(node)" [src]="getMimeTypeIcon(node)"/>
+                    <img [alt]="node.content?.mimeType" [src]="mimeTypeIconsByNodeId[node.id]"/>
                   </mat-icon>
                   <div class="aca-search-ai-response-container-body-sources-container-documents-document-name">
-                    {{ node.entry?.name }}
+                    {{ node.name }}
                   </div>
                 </div>
               </div>
