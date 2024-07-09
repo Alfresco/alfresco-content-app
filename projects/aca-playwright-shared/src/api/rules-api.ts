@@ -193,26 +193,26 @@ export interface RuleAction {
 }
 
 export class ActionTypes {
-  static ADDFEATURES = new ActionTypes('ADDFEATURES', {
+  static readonly ADDFEATURES = new ActionTypes('ADDFEATURES', {
     actionDefinitionId: 'add-features',
     params: { 'aspect-name': 'cm:thumbnailed' }
   });
-  static CHECKIN = new ActionTypes('CHECKIN', {
+  static readonly CHECKIN = new ActionTypes('CHECKIN', {
     actionDefinitionId: 'check-in',
     params: {
       description: 'test',
       minorChange: true
     }
   });
-  static SPECIALISETYPE = new ActionTypes('SPECIALISETYPE', {
+  static readonly SPECIALISETYPE = new ActionTypes('SPECIALISETYPE', {
     actionDefinitionId: 'specialise-type',
     params: { 'type-name': 'sys:base' }
   });
-  static RECORDABLEVERSION = new ActionTypes('RECORDABLEVERSION', {
+  static readonly RECORDABLEVERSION = new ActionTypes('RECORDABLEVERSION', {
     actionDefinitionId: 'recordable-version-config',
     params: { version: 'ALL' }
   });
-  static SETPROPERTYVALUE = new ActionTypes('SETPROPERTYVALUE', {
+  static readonly SETPROPERTYVALUE = new ActionTypes('SETPROPERTYVALUE', {
     actionDefinitionId: 'set-property-value',
     params: { property: 'dl:ganttPercentComplete', value: 'test' }
   });
@@ -227,7 +227,7 @@ export class ActionTypes {
 }
 
 export class ConditionsTypes {
-  static MIMETYPE = new ConditionsTypes('MIMETYPE', {
+  static readonly MIMETYPE = new ConditionsTypes('MIMETYPE', {
     inverted: false,
     booleanMode: 'and',
     simpleConditions: [
@@ -238,7 +238,7 @@ export class ConditionsTypes {
       }
     ]
   });
-  static CMNAME = new ConditionsTypes('CM:NAME', {
+  static readonly CMNAME = new ConditionsTypes('CM:NAME', {
     inverted: false,
     booleanMode: 'and',
     simpleConditions: [
@@ -249,7 +249,7 @@ export class ConditionsTypes {
       }
     ]
   });
-  static SIZE = new ConditionsTypes('SIZE', {
+  static readonly SIZE = new ConditionsTypes('SIZE', {
     inverted: false,
     booleanMode: 'and',
     simpleConditions: [
@@ -260,7 +260,7 @@ export class ConditionsTypes {
       }
     ]
   });
-  static TAG = new ConditionsTypes('TAG', {
+  static readonly TAG = new ConditionsTypes('TAG', {
     inverted: false,
     booleanMode: 'and',
     simpleConditions: [
