@@ -23,6 +23,7 @@
  */
 
 import { ApiClientFactory } from './api-client-factory';
+import * as crypto from 'crypto';
 
 export class RulesApi {
   private apiService: ApiClientFactory;
@@ -49,7 +50,7 @@ export class RulesApi {
   }
 
   async createRandomRule(folderId: string, ruleName: string): Promise<Rule> {
-    const randomActionsIndex = Math.floor(Math.random() * ActionTypes.actions.length);
+    const randomActionsIndex = crypto.randomInt(0, ActionTypes.actions.length);
     const randomAction = ActionTypes.actions[randomActionsIndex];
     const response = await this.createRule(folderId, {
       name: ruleName,
@@ -63,11 +64,11 @@ export class RulesApi {
     if (numOfConditions > ConditionsTypes.conditions.length) {
       numOfConditions = ConditionsTypes.conditions.length;
     }
-    const randomActionsIndex = Math.floor(Math.random() * ActionTypes.actions.length);
+    const randomActionsIndex = crypto.randomInt(0, ActionTypes.actions.length);
     const randomAction = ActionTypes.actions[randomActionsIndex];
     let conditionsArray = [];
     for (let i = 0; i < numOfConditions; i++) {
-      const randomIndex = Math.floor(Math.random() * ConditionsTypes.conditions.length);
+      const randomIndex = crypto.randomInt(0, ConditionsTypes.conditions.length);
       const randomCondition = ConditionsTypes.conditions[randomIndex];
       conditionsArray.push(randomCondition);
     }
@@ -90,7 +91,7 @@ export class RulesApi {
     }
     let actionsArray = [];
     for (let i = 0; i < numOfActions; i++) {
-      const randomIndex = Math.floor(Math.random() * ActionTypes.actions.length);
+      const randomIndex = crypto.randomInt(0, ActionTypes.actions.length);
       const randomAction = ActionTypes.actions[randomIndex];
       actionsArray.push(randomAction);
     }
