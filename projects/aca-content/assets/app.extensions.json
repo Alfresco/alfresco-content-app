@@ -708,7 +708,7 @@
         "component": "app.toolbar.ai.search-icon",
         "type": "custom",
         "rules": {
-          "visible": "app.selection.displayAIIconForFileSelection"
+          "visible": "app.selection.displayedKnowledgeRetrievalButton"
         },
         "actions": {
           "click": "app.action.toggle-ai-search-input.execute"

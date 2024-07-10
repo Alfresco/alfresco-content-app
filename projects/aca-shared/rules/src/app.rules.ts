@@ -27,6 +27,7 @@ import { RuleContext } from '@alfresco/adf-extensions';
 import * as navigation from './navigation.rules';
 import * as repository from './repository.rules';
 import { isAdmin } from './user.rules';
+import { isNotTrashcan } from './navigation.rules';
 
 /* cspell:disable */
 export const supportedExtensions = {
@@ -632,4 +633,4 @@ export const areTagsEnabled = (context: AcaRuleContext): boolean => context.appC
 
 export const areCategoriesEnabled = (context: AcaRuleContext): boolean => context.appConfig.get('plugins.categoriesEnabled', true);
 
-export const canDisplayAIIconForSelectedNode = (context: AcaRuleContext): boolean => navigation.isNotLibraries(context);
+export const canDisplayKnowledgeRetrievalButton = (context: AcaRuleContext): boolean => navigation.isNotLibraries(context) && isNotTrashcan(context);
