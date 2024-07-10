@@ -8,7 +8,7 @@
       [initials]="initialsByAgentId[agentControl.value.id]"
       size="26px">
     </adf-avatar>
-    {{ agentControl.value.name }}
+    {{ agentControl.value?.name }}
   </mat-select-trigger>
   <mat-option
     *ngFor="let agent of agents"
@@ -16,7 +16,7 @@
     class="aca-search-ai-input-agent-select-options-option">
     <div class="aca-search-ai-input-agent-select-options-option-content">
       <adf-avatar [initials]="initialsByAgentId[agent.id]"></adf-avatar>
-      {{ agent.name }}
+      <span class="aca-search-ai-input-agent-select-options-option-content-text">{{ agent.name }}</span>
     </div>
   </mat-option>
 </mat-select>

@@ -26,7 +26,9 @@
         [value]="agent">
         <div class="aca-agents-button-menu-list-agent-content">
           <adf-avatar [initials]="initialsByAgentId[agent.id]"></adf-avatar>
-          {{ agent.name }}
+          <span class="aca-agents-button-menu-list-agent-content-name">
+           {{ agent.name }}
+          </span>
         </div>
       </mat-list-option>
     </mat-selection-list>

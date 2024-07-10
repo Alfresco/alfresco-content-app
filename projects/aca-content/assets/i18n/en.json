@@ -607,6 +607,7 @@
     "KNOWLEDGE_RETRIEVAL": {
       "SEARCH": {
         "RESULTS_PAGE": {
+          "AGENT": "Agent",
           "QUERY_INPUT_PLACEHOLDER": "Would you like to ask anything else?",
           "REFERENCED_DOCUMENTS_HEADER": "Referenced documents",
           "REGENERATION_BUTTON_LABEL": "Regenerate",

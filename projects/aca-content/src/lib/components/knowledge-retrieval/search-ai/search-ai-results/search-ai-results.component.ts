@@ -23,20 +23,29 @@
  */
 
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { PageComponent, PageLayoutComponent, ToolbarActionComponent, ToolbarComponent } from '@alfresco/aca-shared';
 import { finalize, switchMap, takeUntil } from 'rxjs/operators';
-import { ClipboardService, EmptyContentComponent, ThumbnailService, ToolbarModule, UserPreferencesService } from '@alfresco/adf-core';
-import { AiAnswer, Node } from '@alfresco/js-api';
+import {
+  AvatarComponent,
+  ClipboardService,
+  EmptyContentComponent,
+  ThumbnailService,
+  ToolbarModule,
+  UserPreferencesService
+} from '@alfresco/adf-core';
+import { AgentWithAvatar, AiAnswer, Node } from '@alfresco/js-api';
 import { CommonModule } from '@angular/common';
 import { SearchAiInputContainerComponent } from '../search-ai-input-container/search-ai-input-container.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { NodesApiService } from '@alfresco/adf-content-services';
-import { forkJoin } from 'rxjs';
+import { AgentService, NodesApiService, SearchAiService } from '@alfresco/adf-content-services';
+import { forkJoin, of } from 'rxjs';
 import { SelectionState } from '@alfresco/adf-extensions';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
+import { MatCardModule } from '@angular/material/card';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   standalone: true,
@@ -51,7 +60,10 @@ import { MatListModule } from '@angular/material/list';
     MatIconModule,
     MatButtonModule,
     MatListModule,
-    EmptyContentComponent
+    EmptyContentComponent,
+    MatCardModule,
+    AvatarComponent,
+    MatTooltipModule
   ],
   selector: 'aca-search-ai-results',
   templateUrl: './search-ai-results.component.html',
@@ -69,6 +81,8 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
   private selectedNodesState: SelectionState;
   private _searchQuery = '';
   private _queryAnswer: AiAnswer;
+
+  agent: AgentWithAvatar;
 
   get agentId(): string {
     return this._agentId;
@@ -108,22 +122,32 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
     private thumbnailService: ThumbnailService,
     private nodesApiService: NodesApiService,
     private userPreferencesService: UserPreferencesService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private agentService: AgentService,
+    protected searchAiService: SearchAiService
   ) {
     super();
   }
 
   ngOnInit(): void {
-    this.route.queryParams.pipe(takeUntil(this.onDestroy$)).subscribe((params: Params) => {
-      this._agentId = params.agentId;
-      this._searchQuery = params.query ? decodeURIComponent(params.query) : '';
-      this.selectedNodesState = JSON.parse(this.userPreferencesService.get('knowledgeRetrievalNodes'));
-      if (!this.searchQuery || !this.selectedNodesState?.nodes?.length || !this.agentId) {
-        this._hasError = true;
-        return;
-      }
-      this.performAiSearch();
-    });
+    this.route.queryParams
+      .pipe(
+        switchMap((params) => {
+          this._agentId = params.agentId;
+          this._searchQuery = params.query ? decodeURIComponent(params.query) : '';
+          this.selectedNodesState = JSON.parse(this.userPreferencesService.get('knowledgeRetrievalNodes'));
+          if (!this.searchQuery || !this.selectedNodesState?.nodes?.length || !this.agentId) {
+            this._hasError = true;
+            return of([]);
+          }
+          this.performAiSearch();
+          return this.agentService.agentsList$;
+        }),
+        takeUntil(this.onDestroy$)
+      )
+      .subscribe((agents: AgentWithAvatar[]) => {
+        this.agent = agents.find((agent) => agent.id === this._agentId);
+      });
     super.ngOnInit();
   }
 

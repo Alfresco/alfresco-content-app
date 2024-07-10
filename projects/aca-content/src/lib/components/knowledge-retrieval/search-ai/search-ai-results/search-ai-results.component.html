@@ -18,6 +18,26 @@
       <div
         class="aca-search-ai-response-container"
         [class.aca-search-ai-response-container-error]="hasAnsweringError">
+        <div class="aca-search-ai-response-container-body-agent">
+          <adf-avatar
+            src="{{ agent?.avatar }}"
+            size="26px">
+          </adf-avatar>
+          <span class="aca-search-ai-response-container-body-agent-name">{{ agent?.name }}</span>
+          <mat-card class="aca-search-ai-response-container-body-agent-hover-card">
+            <mat-card-title class="aca-search-ai-response-container-body-agent-hover-card-title">
+              <adf-avatar
+                src="{{ agent?.avatar }}"
+                size="26px">
+              </adf-avatar>
+              <span [matTooltipPosition]="'right'" matTooltip="{{ agent?.name }}">{{ agent?.name }}</span>
+            </mat-card-title>
+            <mat-card-content class="aca-search-ai-response-container-body-agent-hover-card-content">
+              <div>{{ agent?.description }}</div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <mat-divider class="aca-search-ai-response-container-body-divider"></mat-divider>
         <ng-container *ngIf="!loading">
           <div
             class="aca-search-ai-response-container-body"

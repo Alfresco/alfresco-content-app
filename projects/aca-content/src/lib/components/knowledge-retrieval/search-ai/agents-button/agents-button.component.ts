@@ -33,7 +33,7 @@ import { takeUntil } from 'rxjs/operators';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatListModule, MatSelectionListChange } from '@angular/material/list';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { Agent } from '@alfresco/js-api';
+import { AgentWithAvatar } from '@alfresco/js-api';
 import { AgentService, SearchAiService } from '@alfresco/adf-content-services';
 
 @Component({
@@ -50,12 +50,12 @@ export class AgentsButtonComponent implements OnInit, OnDestroy {
   data: { trigger: string };
 
   private selectedNodesState: SelectionState;
-  private _agents: Agent[] = [];
+  private _agents: AgentWithAvatar[] = [];
   private onDestroy$ = new Subject<void>();
   private _disabled = true;
   private _initialsByAgentId: { [key: string]: string } = {};
 
-  get agents(): Agent[] {
+  get agents(): AgentWithAvatar[] {
     return this._agents;
   }
 
@@ -71,8 +71,8 @@ export class AgentsButtonComponent implements OnInit, OnDestroy {
     private store: Store<AppStore>,
     private notificationService: NotificationService,
     private searchAiService: SearchAiService,
-    private translateService: TranslateService,
-    private agentService: AgentService
+    private agentService: AgentService,
+    private translateService: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -82,12 +82,13 @@ export class AgentsButtonComponent implements OnInit, OnDestroy {
       .subscribe((selection) => {
         this.selectedNodesState = selection;
       });
+
     this.agentService
       .getAgents()
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(
-        (paging) => {
-          this._agents = paging.list.entries.map((agentEntry) => agentEntry.entry);
+        (agents: AgentWithAvatar[]) => {
+          this._agents = agents;
           if (this.agents.length) {
             this._initialsByAgentId = this.agents.reduce((initials, agent) => {
               const words = agent.name.split(' ').filter((word) => !word.match(/[^a-zA-Z]+/g));

@@ -45,7 +45,14 @@ aca-agents-button.aca-agents-button {
 
       &-content {
         display: flex;
-        align-items: baseline;
+        align-items: center;
+
+        &-name {
+          width: 120px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
       }
 
       adf-avatar {
