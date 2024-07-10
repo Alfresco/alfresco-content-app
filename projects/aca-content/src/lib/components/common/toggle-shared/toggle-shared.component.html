@@ -9,16 +9,14 @@
   </ng-container>
 
   <ng-container *ngIf="data.iconButton">
-    <button
-      mat-icon-button
-      data-automation-id="share-action-button"
+    <adf-button
+      variant="icon"
+      icon="link"
+      testId="share-action-button"
       (click)="editSharedNode(selectionState, '#share-action-button')"
-      [attr.aria-label]="selectionLabel | translate"
-      [attr.title]="selectionLabel | translate"
-      id="share-action-button"
-    >
-      <mat-icon>link</mat-icon>
-    </button>
+      [tooltip]="selectionLabel | translate"
+      id="share-action-button">
+    </adf-button>
   </ng-container>
 </ng-container>
 

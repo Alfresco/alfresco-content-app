@@ -27,36 +27,25 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { ToggleInfoDrawerAction, isInfoDrawerOpened } from '@alfresco/aca-shared/store';
 import { CommonModule } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
 import { TranslateModule } from '@ngx-translate/core';
-import { MatIconModule } from '@angular/material/icon';
+import { ButtonComponent } from '@alfresco/adf-core';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, TranslateModule, MatButtonModule, MatIconModule],
+  imports: [CommonModule, TranslateModule, ButtonComponent],
   selector: 'app-toggle-info-drawer',
   template: `
-    <button
-      mat-icon-button
+    <adf-button
+      variant="icon"
+      icon="view_sidebar"
       [color]="(infoDrawerOpened$ | async) ? 'primary' : null"
       [attr.aria-label]="'APP.ACTIONS.DETAILS' | translate"
       [attr.aria-expanded]="infoDrawerOpened$ | async"
       [attr.title]="'APP.ACTIONS.DETAILS' | translate"
       (click)="onClick()"
     >
-      <mat-icon>view_sidebar</mat-icon>
-    </button>
+    </adf-button>
   `,
-  styles: [
-    `
-      .app-toggle-info-drawer button:focus {
-        border: 2px solid var(--theme-blue-button-color);
-        border-radius: 6px;
-        outline: none;
-        background-color: var(--theme-selected-background-color);
-      }
-    `
-  ],
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-toggle-info-drawer' }
 })

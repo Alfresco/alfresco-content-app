@@ -39,6 +39,7 @@ import { CommentsTabComponent } from '../info-drawer/comments-tab/comments-tab.c
 import { NodeEntry, PathElement } from '@alfresco/js-api';
 import { first, takeUntil } from 'rxjs/operators';
 import { ContentActionRef } from '@alfresco/adf-extensions';
+import { InfoDrawerModule } from '@alfresco/adf-core';
 
 @Component({
   standalone: true,
@@ -54,7 +55,8 @@ import { ContentActionRef } from '@alfresco/adf-extensions';
     MetadataTabComponent,
     CommentsTabComponent,
     PageLayoutComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    InfoDrawerModule
   ],
   selector: 'app-details-manager',
   templateUrl: './details.component.html',
