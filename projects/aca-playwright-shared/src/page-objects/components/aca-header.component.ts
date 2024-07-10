@@ -28,23 +28,23 @@ import { BaseComponent } from './base.component';
 
 export class AcaHeader extends BaseComponent {
   private static rootElement = 'aca-toolbar';
-  private moreActionsButton = this.getChild('button[id="app.viewer.toolbar.more"]');
-  private toolbarMoreActions = this.getChild('button[id="app.toolbar.more"]');
+  private moreActionsButton = this.getChild('[id="app.viewer.toolbar.more"]');
+  private toolbarMoreActions = this.getChild('[id="app.toolbar.more"]');
   public createButton = this.getChild('[id="app.toolbar.create"]');
   public viewDetails = this.getChild('[title="View Details"]');
-  public viewButton = this.getChild('button[title="View"]');
-  public searchButton = this.getChild('button[title="Search"]');
-  public fullScreenButton = this.getChild('button[id="app.viewer.fullscreen"]');
-  public shareButton = this.getChild('button[id="share-action-button"]');
-  public downloadButtonViewer = this.getChild('button[id="app.viewer.download"]');
-  public downloadButton = this.getChild('button[id="app.toolbar.download"]');
-  public sharedDownloadButton = this.getChild('button[id="app.viewer.shared.download"]');
-  public uploadButton = this.getChild('button[id="app.toolbar.upload"]');
-  public uploadFileButton = this.page.locator('button[id="app.create.uploadFile"]');
+  public viewButton = this.getChild('[title="View"]');
+  public searchButton = this.getChild('[title="Search"]');
+  public fullScreenButton = this.getChild('[id="app.viewer.fullscreen"]');
+  public shareButton = this.getChild('[id="share-action-button"]');
+  public downloadButtonViewer = this.getChild('[id="app.viewer.download"]');
+  public downloadButton = this.getChild('[id="app.toolbar.download"]');
+  public sharedDownloadButton = this.getChild('[id="app.viewer.shared.download"]');
+  public uploadButton = this.getChild('[id="app.toolbar.upload"]');
+  public uploadFileButton = this.page.locator('[id="app.create.uploadFile"]');
   public uploadInput = this.page.locator('input[id="app-upload-files"]');
   public uploadNewVersionButton = this.page.locator('#app-upload-file-version');
-  public permanentlyDeleteButton = this.getChild('button[id="app.toolbar.purgeDeletedNodes"]');
-  public restoreButton = this.getChild('button[id="app.toolbar.restoreDeletedNodes"]');
+  public permanentlyDeleteButton = this.getChild('[id="app.toolbar.purgeDeletedNodes"]');
+  public restoreButton = this.getChild('[id="app.toolbar.restoreDeletedNodes"]');
 
   constructor(page: Page) {
     super(page, AcaHeader.rootElement);

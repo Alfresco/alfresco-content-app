@@ -34,8 +34,8 @@ export class ViewerComponent extends BaseComponent {
   public closeButtonLocator = this.getChild('.adf-viewer-close-button');
   public fileTitleButtonLocator = this.getChild('.adf-viewer__file-title');
   public pdfViewerContentPages = this.getChild('.adf-pdf-viewer__content .page');
-  public shareButton = this.getChild('button[id="share-action-button"]');
-  public downloadButton = this.getChild('button[id="app.viewer.download"]');
+  public shareButton = this.getChild('[id="share-action-button"]');
+  public downloadButton = this.getChild('[id="app.viewer.download"]');
   public allButtons = this.getChild('button');
   public unknownFormat = this.getChild(`adf-viewer-unknown-format .adf-viewer__unknown-format-view`);
 
