@@ -24,7 +24,18 @@
 
 import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { DEV_MODE_TOKEN } from './dev-mode.tokens';
-import { AboutModule, AppConfigService, AuthenticationService, RepositoryInfo } from '@alfresco/adf-core';
+import {
+  AboutComponent,
+  AboutExtensionListComponent,
+  AboutPanelDirective,
+  AboutRepositoryInfoComponent,
+  AboutServerSettingsComponent,
+  AppConfigService,
+  AuthenticationService,
+  ButtonComponent,
+  PackageListComponent,
+  RepositoryInfo
+} from '@alfresco/adf-core';
 import { DiscoveryApiService } from '@alfresco/adf-content-services';
 import { PACKAGE_JSON } from './package-json.token';
 import { TranslateModule } from '@ngx-translate/core';
@@ -32,17 +43,29 @@ import { AppExtensionService, PageLayoutComponent } from '@alfresco/aca-shared';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, TranslateModule, AboutModule, RouterModule, MatIconModule, MatButtonModule, PageLayoutComponent],
+  imports: [
+    CommonModule,
+    TranslateModule,
+    RouterModule,
+    MatIconModule,
+    PageLayoutComponent,
+    ButtonComponent,
+    AboutPanelDirective,
+    AboutServerSettingsComponent,
+    AboutRepositoryInfoComponent,
+    PackageListComponent,
+    AboutExtensionListComponent,
+    AboutComponent
+  ],
   selector: 'app-about-page',
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class AboutComponent implements OnInit {
+export class AppAboutComponent implements OnInit {
   private authService = inject(AuthenticationService);
   private appExtensions = inject(AppExtensionService);
   private discovery = inject(DiscoveryApiService);

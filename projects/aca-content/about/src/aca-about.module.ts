@@ -23,17 +23,17 @@
  */
 
 import { NgModule } from '@angular/core';
-import { AboutComponent } from './about.component';
+import { AppAboutComponent } from './about.component';
 import { ExtensionService, provideExtensionConfig } from '@alfresco/adf-extensions';
 
 @NgModule({
-  imports: [AboutComponent],
+  imports: [AppAboutComponent],
   providers: [provideExtensionConfig(['about.plugin.json'])]
 })
 export class AcaAboutModule {
   constructor(extensions: ExtensionService) {
     extensions.setComponents({
-      'app.about.component': AboutComponent
+      'app.about.component': AppAboutComponent
     });
   }
 }
