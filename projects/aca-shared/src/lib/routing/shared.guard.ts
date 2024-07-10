@@ -23,7 +23,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { CanActivate } from '@angular/router';
+
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppStore, isQuickShareEnabled } from '@alfresco/aca-shared/store';
@@ -31,7 +31,7 @@ import { AppStore, isQuickShareEnabled } from '@alfresco/aca-shared/store';
 @Injectable({
   providedIn: 'root'
 })
-export class AppSharedRuleGuard implements CanActivate {
+export class AppSharedRuleGuard  {
   isQuickShareEnabled$: Observable<boolean>;
 
   constructor(store: Store<AppStore>) {

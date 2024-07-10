@@ -1,14 +1,23 @@
 {
   "extends": "../../../.eslintrc.json",
-  "ignorePatterns": ["!**/*"],
+  "ignorePatterns": [
+    "!**/*"
+  ],
   "overrides": [
     {
-      "files": ["*.ts"],
+      "files": [
+        "*.ts"
+      ],
       "parserOptions": {
-        "project": ["e2e/playwright/pagination/tsconfig.e2e.json"],
+        "project": [
+          "e2e/playwright/pagination/tsconfig.e2e.json"
+        ],
         "createDefaultProgram": true
       },
-      "plugins": ["rxjs", "unicorn"],
+      "plugins": [
+        "rxjs",
+        "unicorn"
+      ],
       "rules": {
         "@typescript-eslint/no-floating-promises": "off"
       }

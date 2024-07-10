@@ -23,14 +23,14 @@
  */
 
 import { Injectable } from '@angular/core';
-import { CanActivate } from '@angular/router';
+
 import { Observable } from 'rxjs';
 import { AuthenticationService } from '@alfresco/adf-core';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ViewProfileRuleGuard implements CanActivate {
+export class ViewProfileRuleGuard  {
   constructor(private authService: AuthenticationService) {}
 
   canActivate(): Observable<boolean> | Promise<boolean> | boolean {

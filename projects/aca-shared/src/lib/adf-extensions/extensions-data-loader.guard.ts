@@ -23,7 +23,7 @@
  */
 
 import { Injectable, InjectionToken, Inject } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot } from '@angular/router';
 import { Observable, forkJoin, of } from 'rxjs';
 import { tap, map, catchError } from 'rxjs/operators';
 
@@ -37,7 +37,7 @@ export const EXTENSION_DATA_LOADERS = new InjectionToken<ExtensionLoaderCallback
 });
 
 @Injectable({ providedIn: 'root' })
-export class ExtensionsDataLoaderGuard implements CanActivate {
+export class ExtensionsDataLoaderGuard  {
   private invoked = false;
 
   constructor(

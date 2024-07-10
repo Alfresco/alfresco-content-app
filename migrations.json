@@ -1,0 +1,11 @@
+{
+  "migrations": [
+    {
+      "version": "16.0.0-alpha.0",
+      "description": "Updates @angular-eslint to v16",
+      "factory": "./migrations/update-16-0-0/update-16-0-0",
+      "package": "@angular-eslint/schematics",
+      "name": "update-16-0-0"
+    }
+  ]
+}

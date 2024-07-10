@@ -1,23 +1,41 @@
 {
   "root": true,
-  "ignorePatterns": ["projects/**/*"],
-  "plugins": ["@nx"],
+  "ignorePatterns": [
+    "projects/**/*"
+  ],
+  "plugins": [
+    "@nx"
+  ],
   "overrides": [
     {
-      "files": ["*.ts"],
-      "plugins": ["@alfresco/eslint-angular"],
-      "extends": ["plugin:@angular-eslint/template/process-inline-templates"],
-      "excludedFiles": ["*.spec.ts"],
+      "files": [
+        "*.ts"
+      ],
+      "plugins": [
+        "@alfresco/eslint-angular"
+      ],
+      "extends": [
+        "plugin:@angular-eslint/template/process-inline-templates"
+      ],
+      "excludedFiles": [
+        "*.spec.ts"
+      ],
       "rules": {
         "@alfresco/eslint-angular/use-none-component-view-encapsulation": "error"
       }
     },
     {
-      "files": ["*.ts"],
+      "files": [
+        "*.ts"
+      ],
       "parserOptions": {
         "createDefaultProgram": true
       },
-      "extends": ["plugin:@nx/typescript", "plugin:@nx/angular", "plugin:@cspell/recommended"],
+      "extends": [
+        "plugin:@nx/typescript",
+        "plugin:@nx/angular",
+        "plugin:@cspell/recommended"
+      ],
       "plugins": [
         "rxjs",
         "unicorn",
@@ -90,7 +108,11 @@
           "error",
           {
             "type": "element",
-            "prefix": ["app", "aca", "adf"],
+            "prefix": [
+              "app",
+              "aca",
+              "adf"
+            ],
             "style": "kebab-case"
           }
         ],
@@ -152,12 +174,17 @@
             }
           }
         ],
-        "@typescript-eslint/semi": ["error", "always"],
+        "@typescript-eslint/semi": [
+          "error",
+          "always"
+        ],
         "@typescript-eslint/naming-convention": [
           "error",
           {
             "selector": "enum",
-            "format": ["PascalCase"]
+            "format": [
+              "PascalCase"
+            ]
           }
         ],
         "@typescript-eslint/no-inferrable-types": [
@@ -175,7 +202,10 @@
           }
         ],
         "@typescript-eslint/type-annotation-spacing": "error",
-        "arrow-parents": ["off", "always"],
+        "arrow-parents": [
+          "off",
+          "always"
+        ],
         "brace-style": [
           "error",
           "1tbs",
@@ -187,7 +217,10 @@
         "curly": "error",
         "dot-notation": "off",
         "eol-last": "error",
-        "eqeqeq": ["error", "smart"],
+        "eqeqeq": [
+          "error",
+          "smart"
+        ],
         "guard-for-in": "error",
         "id-blacklist": "off",
         "id-match": "off",
@@ -257,7 +290,10 @@
         "no-fallthrough": "error",
         "no-multiple-empty-lines": "error",
         "no-new-wrappers": "error",
-        "no-restricted-imports": ["error", "rxjs/Rx"],
+        "no-restricted-imports": [
+          "error",
+          "rxjs/Rx"
+        ],
         "no-self-assign": "error",
         "no-throw-literal": "error",
         "no-trailing-spaces": "error",
@@ -283,7 +319,16 @@
         "rxjs/no-unsafe-switchmap": [
           "error",
           {
-            "disallow": ["add", "create", "delete", "post", "put", "remove", "set", "update"],
+            "disallow": [
+              "add",
+              "create",
+              "delete",
+              "post",
+              "put",
+              "remove",
+              "set",
+              "update"
+            ],
             "observable": "action(s|\\$)?"
           }
         ],
@@ -293,23 +338,40 @@
           "error",
           "always",
           {
-            "markers": ["/"],
-            "exceptions": ["!", "*"]
+            "markers": [
+              "/"
+            ],
+            "exceptions": [
+              "!",
+              "*"
+            ]
           }
         ],
         "space-before-function-paren": "off",
-        "space-in-parens": ["off", "never"],
+        "space-in-parens": [
+          "off",
+          "never"
+        ],
         "unicorn/filename-case": "error"
       }
     },
     {
-      "files": ["*.js"],
-      "extends": ["plugin:@nx/javascript"],
+      "files": [
+        "*.js"
+      ],
+      "extends": [
+        "plugin:@nx/javascript"
+      ],
       "rules": {}
     },
     {
-      "files": ["*.html"],
-      "extends": ["plugin:@nx/angular-template", "plugin:@angular-eslint/template/accessibility"],
+      "files": [
+        "*.html"
+      ],
+      "extends": [
+        "plugin:@nx/angular-template",
+        "plugin:@angular-eslint/template/accessibility"
+      ],
       "parser": "@angular-eslint/template-parser",
       "rules": {
         "@angular-eslint/template/no-negated-async": "off",
@@ -319,8 +381,14 @@
       }
     },
     {
-      "files": ["*.spec.ts", "*.test.ts", "*.e2e.ts"],
-      "plugins": ["@alfresco/eslint-angular"],
+      "files": [
+        "*.spec.ts",
+        "*.test.ts",
+        "*.e2e.ts"
+      ],
+      "plugins": [
+        "@alfresco/eslint-angular"
+      ],
       "rules": {
         "@typescript-eslint/no-floating-promises": "warn",
         "@typescript-eslint/no-misused-promises": "warn",
@@ -329,8 +397,13 @@
       }
     },
     {
-      "files": ["*.e2e.ts", "*.ts"],
-      "extends": ["plugin:playwright/playwright-test"],
+      "files": [
+        "*.e2e.ts",
+        "*.ts"
+      ],
+      "extends": [
+        "plugin:playwright/playwright-test"
+      ],
       "rules": {
         "no-empty-pattern": "off",
         "playwright/expect-expect": "off",
