@@ -2,9 +2,7 @@
   <div class="aca-edit-rule-dialog__header__title" data-automation-id="edit-rule-dialog-title">
     {{ title | translate }}
   </div>
-  <button mat-icon-button mat-dialog-close class="aca-edit-rule-dialog__header__close" tabindex="-1">
-    <mat-icon class="aca-edit-rule-dialog__header__icon">close</mat-icon>
-  </button>
+  <adf-button variant="icon" icon="close" mat-dialog-close tabindex="-1" [iconSize]="'18px'"></adf-button>
 </div>
 
 <mat-dialog-content class="aca-edit-rule-dialog__content">
@@ -19,6 +17,6 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end" class="aca-edit-rule-dialog__footer">
-  <button mat-flat-button mat-dialog-close>{{ 'ACA_FOLDER_RULES.EDIT_RULE_DIALOG.CANCEL' | translate }}</button>
-  <button mat-flat-button color="primary" [disabled]="!formValid" data-automation-id="edit-rule-dialog-submit" (click)="onSubmit()">{{ submitLabel | translate }}</button>
+  <adf-button variant="flat" mat-dialog-close>{{ 'ACA_FOLDER_RULES.EDIT_RULE_DIALOG.CANCEL' | translate }}</adf-button>
+  <adf-button variant="flat" color="primary" [disabled]="!formValid" data-automation-id="edit-rule-dialog-submit" (click)="onSubmit()">{{ submitLabel | translate }}</adf-button>
 </mat-dialog-actions>
