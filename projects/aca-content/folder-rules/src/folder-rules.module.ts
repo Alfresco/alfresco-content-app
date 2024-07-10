@@ -40,11 +40,16 @@ import { RuleActionListUiComponent } from './rule-details/actions/rule-action-li
 import { RuleActionUiComponent } from './rule-details/actions/rule-action.ui-component';
 import { RuleListUiComponent } from './rule-list/rule-list/rule-list.ui-component';
 import { RuleSetPickerSmartComponent } from './rule-set-picker/rule-set-picker.smart-component';
+import { PluginEnabledGuard } from '@alfresco/aca-shared';
 
 const routes: Routes = [
   {
     path: 'rules',
-    component: ManageRulesSmartComponent
+    component: ManageRulesSmartComponent,
+    canActivate: [PluginEnabledGuard],
+    data: {
+      plugin: 'plugins.folderRules'
+    }
   }
 ];
 
