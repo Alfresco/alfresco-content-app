@@ -28,12 +28,11 @@ import { takeUntil } from 'rxjs/operators';
 import { AppService } from '../../services/app.service';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
+import { ButtonComponent } from '@alfresco/adf-core';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, TranslateModule, MatButtonModule, MatIconModule],
+  imports: [CommonModule, TranslateModule, ButtonComponent],
   selector: 'aca-page-layout',
   templateUrl: './page-layout.component.html',
   styleUrls: ['./page-layout.component.scss'],
