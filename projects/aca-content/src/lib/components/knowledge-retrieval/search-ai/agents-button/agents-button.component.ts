@@ -130,5 +130,6 @@ export class AgentsButtonComponent implements OnInit, OnDestroy {
       type: this.data.trigger,
       agentId: change.options[0].value.id
     });
+    change.source.deselectAll();
   }
 }
