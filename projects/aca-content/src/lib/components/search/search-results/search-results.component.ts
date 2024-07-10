@@ -25,7 +25,15 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { NodeEntry, Pagination, ResultSetPaging } from '@alfresco/js-api';
 import { ActivatedRoute, Params } from '@angular/router';
-import { AlfrescoViewerComponent, DocumentListModule, SearchModule, SearchQueryBuilderService, TagService } from '@alfresco/adf-content-services';
+import {
+  AlfrescoViewerComponent,
+  DocumentListModule,
+  SearchAiInputState,
+  SearchAiService,
+  SearchModule,
+  SearchQueryBuilderService,
+  TagService
+} from '@alfresco/adf-content-services';
 import {
   infoDrawerPreview,
   NavigateToFolder,
@@ -60,6 +68,7 @@ import { TagsColumnComponent } from '../../dl-custom-components/tags-column/tags
 import { MatIconModule } from '@angular/material/icon';
 import { SearchResultsRowComponent } from '../search-results-row/search-results-row.component';
 import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-extensions';
+import { SearchAiInputContainerComponent } from '../../knowledge-retrieval/search-ai/search-ai-input-container/search-ai-input-container.component';
 
 @Component({
   standalone: true,
@@ -87,7 +96,8 @@ import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-ext
     PageLayoutComponent,
     ToolbarComponent,
     AlfrescoViewerComponent,
-    DynamicColumnComponent
+    DynamicColumnComponent,
+    SearchAiInputContainerComponent
   ],
   selector: 'aca-search-results',
   templateUrl: './search-results.component.html',
@@ -106,12 +116,16 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
   totalResults: number;
   isTagsEnabled = false;
   columns: DocumentListPresetRef[] = [];
+  searchAiInputState: SearchAiInputState = {
+    active: false
+  };
 
   constructor(
     tagsService: TagService,
     private queryBuilder: SearchQueryBuilderService,
     private route: ActivatedRoute,
-    private translationService: TranslationService
+    private translationService: TranslationService,
+    private searchAiService: SearchAiService
   ) {
     super();
 
@@ -157,7 +171,9 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
 
       this.queryBuilder.error.subscribe((err: any) => {
         this.onSearchError(err);
-      })
+      }),
+
+      this.searchAiService.toggleSearchAiInput$.subscribe((searchAiInputState) => (this.searchAiInputState = searchAiInputState))
     );
 
     this.columns = this.extensions.documentListPresets.searchResults || [];

@@ -118,11 +118,11 @@ export class AgentsButtonComponent implements OnInit, OnDestroy {
   }
 
   onMouseEnter(): void {
-    this.animationItem.play();
+    this.animationItem?.play();
   }
 
   onMouseLeave(): void {
-    this.animationItem.stop();
+    this.animationItem?.stop();
   }
 
   onAgentSelection(change: MatSelectionListChange): void {

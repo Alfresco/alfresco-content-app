@@ -27,18 +27,22 @@ import { Params, Router } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
 export class SearchAiNavigationService {
+  private readonly knowledgeRetrievalRoute = '/knowledge-retrieval';
+
   private previousRoute = '';
 
   constructor(private router: Router) {}
 
   navigateToPreviousRoute(): void {
-    void this.router.navigate([this.previousRoute || '/personal-files']);
+    if (this.router.url.includes(this.knowledgeRetrievalRoute)) {
+      void this.router.navigateByUrl(this.previousRoute || '/personal-files');
+    }
   }
 
   navigateToSearchAi(queryParams: Params): void {
-    if (!this.router.url.includes('knowledge-retrieval')) {
+    if (!this.router.url.includes(this.knowledgeRetrievalRoute)) {
       this.previousRoute = this.router.url;
     }
-    void this.router.navigate(['/knowledge-retrieval'], { queryParams: queryParams });
+    void this.router.navigate([this.knowledgeRetrievalRoute], { queryParams: queryParams });
   }
 }
