@@ -41,7 +41,6 @@ import { PACKAGE_JSON } from './package-json.token';
 import { TranslateModule } from '@ngx-translate/core';
 import { AppExtensionService, PageLayoutComponent } from '@alfresco/aca-shared';
 import { RouterModule } from '@angular/router';
-import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -50,7 +49,6 @@ import { CommonModule } from '@angular/common';
     CommonModule,
     TranslateModule,
     RouterModule,
-    MatIconModule,
     PageLayoutComponent,
     ButtonComponent,
     AboutPanelDirective,
