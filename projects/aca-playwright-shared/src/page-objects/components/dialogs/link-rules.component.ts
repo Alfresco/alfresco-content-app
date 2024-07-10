@@ -32,15 +32,15 @@ export class LinkRulesDialog extends BaseComponent {
     super(page, LinkRulesDialog.rootElement);
   }
 
-  public cancelButton = this.getChild('[data-automation-id="content-node-selector-actions-cancel"]');
-  public selectFolderButton = this.getChild('button', { hasText: ' Select folder ' });
-  public emptyLinkRules = this.getChild('.adf-empty-content__title');
+  cancelButton = this.getChild('[data-automation-id="content-node-selector-actions-cancel"]');
+  selectFolderButton = this.getChild('button', { hasText: ' Select folder ' });
+  emptyLinkRules = this.getChild('.adf-empty-content__title');
   getOptionLocator = (optionName: string): Locator => this.page.locator('.mat-select-panel .mat-option-text', { hasText: optionName });
   private getRowByName = (name: string | number): Locator => this.getChild(`adf-datatable-row`, { hasText: name.toString() });
   getDialogTitle = (text: string) => this.getChild('[data-automation-id="content-node-selector-title"]', { hasText: text });
   getBreadcrumb = (text: string) => this.getChild('[data-automation-id="current-folder"]', { hasText: text });
-  getFolderIcon = this.getChild('mat-icon[role="img"]', { hasText: 'folder' });
-  getLibraryIcon = this.getChild('mat-icon[role="img"]', { hasText: 'library_books' });
+  getFolderIcon = this.getChild('.adf-dropdown-breadcrumb-icon', { hasText: 'folder' });
+  getLibraryIcon = this.getChild('.adf-empty-content__icon', { hasText: 'library_books' });
 
   async selectDestination(folderName: string): Promise<void> {
     const row = this.getRowByName(folderName);

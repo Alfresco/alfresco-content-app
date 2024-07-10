@@ -50,7 +50,7 @@ export enum ActionType {
 }
 
 export class ActionsDropdownComponent extends BaseComponent {
-  private static rootElement = 'aca-rule-action-list';
+  private static rootElement = 'aca-edit-rule-dialog aca-rule-action-list';
 
   private getOptionLocator = (optionName: string): Locator => this.page.locator('.mat-select-panel .mat-option-text', { hasText: optionName }).first();
   private ruleActionLocator = this.getChild('aca-rule-action');

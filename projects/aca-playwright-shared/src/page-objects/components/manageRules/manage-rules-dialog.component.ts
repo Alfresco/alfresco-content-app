@@ -37,13 +37,13 @@ export class ManageRulesDialogComponent extends BaseComponent {
   public fieldDropDown = this.getChild('[data-automation-id="field-select"]');
   public comparatorDropDown = this.getChild('[data-automation-id="comparator-select"]');
   public valueField = this.getChild('[data-automation-id="value-input"]');
-  public whenCreatedCheckbox = this.page.locator('aca-rule-triggers mat-checkbox').filter({ hasText: 'created' });
-  public whenUpdatedCheckbox = this.page.locator('aca-rule-triggers mat-checkbox').filter({ hasText: 'updated' });
-  public whenDeletedCheckbox = this.page.locator('aca-rule-triggers mat-checkbox').filter({ hasText: 'deleted' });
-  public destinationFolderButton = this.page.locator('[data-automation-id="card-textitem-clickable-icon-destination-folder"]');
-  public ruleInBackgroundCheckbox = this.page.locator('mat-checkbox').filter({ hasText: ' Run rule in the background ' });
-  public ruleSubfoldersCheckbox = this.page.locator('mat-checkbox').filter({ hasText: ' Rule applies to subfolders ' });
-  public ruleDisableCheckbox = this.page.locator('mat-checkbox').filter({ hasText: ' Disable rule ' });
+  public whenCreatedCheckbox = this.getChild('aca-rule-triggers mat-checkbox').filter({ hasText: 'created' });
+  public whenUpdatedCheckbox = this.getChild('aca-rule-triggers mat-checkbox').filter({ hasText: 'updated' });
+  public whenDeletedCheckbox = this.getChild('aca-rule-triggers mat-checkbox').filter({ hasText: 'deleted' });
+  public destinationFolderButton = this.getChild('[data-automation-id="card-textitem-clickable-icon-destination-folder"]');
+  public ruleInBackgroundCheckbox = this.getChild('mat-checkbox').filter({ hasText: ' Run rule in the background ' });
+  public ruleSubfoldersCheckbox = this.getChild('mat-checkbox').filter({ hasText: ' Rule applies to subfolders ' });
+  public ruleDisableCheckbox = this.getChild('mat-checkbox').filter({ hasText: ' Disable rule ' });
 
   constructor(page: Page) {
     super(page, ManageRulesDialogComponent.rootElement);
