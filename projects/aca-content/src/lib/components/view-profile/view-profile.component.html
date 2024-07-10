@@ -1,145 +1,175 @@
 <div class="app-profile-container">
   <div class="app-profile-row">
     <div class="app-profile-title">
-      <button *ngIf="(appNavNarMode$ | async) === 'collapsed'" mat-icon-button (click)="toggleClick()"
-        title="{{'APP.TOOLTIPS.EXPAND_NAVIGATION' | translate}}">
-        <mat-icon>menu</mat-icon>
-      </button>
-      <mat-icon class="app-profile-icon" (click)="navigateToPersonalFiles()" id="backButton">arrow_back</mat-icon>
+      <adf-button *ngIf="(appNavNarMode$ | async) === 'collapsed'" variant="icon" icon="menu" (click)="toggleClick()"
+        title="{{'APP.TOOLTIPS.EXPAND_NAVIGATION' | translate}}"></adf-button>
+      <adf-button variant="icon" icon="arrow_back" (click)="navigateToPersonalFiles()"></adf-button>
       <h3 class="app-profile">{{'APP.EDIT_PROFILE.MY_PROFILE' | translate}}</h3>
     </div>
   </div>
-  <div class="app-profile-general-row" [formGroup]="profileForm">
-    <div class="app-profile-general">
-      <div class="app-profile-general-section">
-        <mat-icon class="app-profile-general-icon" (click)="toggleGeneralDropdown()" id="toggle-general-dropdown">
-          {{ generalSectionDropdown ?  'expand_more' : 'chevron_right'}}</mat-icon>
-        <h4 class="app-general-title">{{'APP.EDIT_PROFILE.GENERAL' | translate}}</h4>
-      </div>
-      <div class="app-general-edit-btn" *ngIf="generalSectionButtonsToggle">
-        <button mat-raised-button (click)="toggleGeneralButtons()" id="general-edit-button"
-          class="app-general-edit">{{'APP.EDIT_PROFILE.EDIT' | translate}}</button>
-      </div>
-      <div class="app-general-edit-btn" *ngIf="!generalSectionButtonsToggle">
-        <button mat-raised-button class="app-general-cancel-btn" id="general-cancel-button"
-          (click)="toggleGeneralButtons()">{{'APP.EDIT_PROFILE.CANCEL' | translate}}</button>
-        <button mat-raised-button class="app-general-save-btn" id="general-save-button" [disabled]="profileForm.invalid"
-          (click)="onSaveGeneralData(profileForm)">{{'APP.EDIT_PROFILE.SAVE' | translate}}</button>
-      </div>
-    </div>
-    <mat-divider class="app-divider" *ngIf="generalSectionDropdown"></mat-divider>
-    <div *ngIf="generalSectionDropdown">
-      <div class="app-general-dropdown">
-        <div class="app-general-dropdown-details">
-          <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.FIRST_NAME' | translate}}</h4>
-          <p class="app-profile-general-dropdown-details">{{personDetails?.firstName}}</p>
-        </div>
-        <mat-divider class="app-general-dropdown-divider"></mat-divider>
-        <div class="app-general-dropdown-details">
-          <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.LAST_NAME' | translate}}</h4>
-          <p class="app-profile-general-dropdown-details">{{personDetails?.lastName}}</p>
-        </div>
-        <mat-divider class="app-general-dropdown-divider"></mat-divider>
-        <div class="app-general-dropdown-details">
-          <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.JOB_TITLE' | translate}}</h4>
-          <p class="app-profile-general-dropdown-details" *ngIf="generalSectionButtonsToggle">{{personDetails?.jobTitle}}</p>
-          <input type="text" value="" formControlName="jobTitle" *ngIf="!generalSectionButtonsToggle"
-            class="app-profile-general-dropdown-input-details app-selected">
-        </div>
-        <mat-divider class="app-general-dropdown-divider"></mat-divider>
-        <div class="app-general-dropdown-details">
-          <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.LOCATION' | translate}}</h4>
-          <p class="app-profile-general-dropdown-details"  *ngIf="generalSectionButtonsToggle">{{personDetails?.location}}</p>
-          <input type="text" value="" formControlName="location" *ngIf="!generalSectionButtonsToggle"
-            class="app-profile-general-dropdown-input-details app-selected">
-        </div>
-        <mat-divider class="app-general-dropdown-divider"></mat-divider>
-        <div class="app-general-dropdown-details">
-          <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.TELEPHONE' | translate}}</h4>
-          <p class="app-profile-general-dropdown-details" *ngIf="generalSectionButtonsToggle">{{personDetails?.telephone}}</p>
-          <input type="tel" name="Telephone" value="" formControlName="telephone" *ngIf="!generalSectionButtonsToggle"
-            class="app-profile-general-dropdown-input-details app-selected">
-          <mat-error class="app-error-message" *ngIf="profileForm.get('telephone').invalid">
-            {{ 'APP.EDIT_PROFILE.INVALID_INPUT' | translate }}
-          </mat-error>
-        </div>
-        <mat-divider class="app-general-dropdown-divider"></mat-divider>
-        <div class="app-general-dropdown-details">
-          <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.MOBILE' | translate}}</h4>
-          <p class="app-profile-general-dropdown-details" *ngIf="generalSectionButtonsToggle">{{personDetails?.mobile}}</p>
-        <input type="tel" value="" formControlName="mobile" *ngIf="!generalSectionButtonsToggle"
-          class="app-profile-general-dropdown-input-details app-selected">
-        <mat-error class="app-error-message" *ngIf="profileForm.get('mobile').invalid">
-          {{ 'APP.EDIT_PROFILE.INVALID_INPUT' | translate }}
-        </mat-error>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <div class="app-profile-contact-row" [formGroup]="profileForm">
-    <div class="app-profile-general profile-general-bottom-radius">
-      <div class="app-profile-general-section">
-        <mat-icon class="app-profile-general-icon" (click)="toggleContactDropdown()" id="toggle-contact-dropdown">
-          {{ contactSectionDropdown ?  'expand_more' : 'chevron_right'}}</mat-icon>
-        <h4 class="app-general-title">{{'APP.EDIT_PROFILE.COMPANY_DETAILS' | translate}}</h4>
-      </div>
+  <div class="app-profile-content">
+    <section [formGroup]="profileForm">
+      <div class="app-profile-general">
+        <div class="app-profile-general-section">
+          <adf-button
+            id="toggle-general-dropdown"
+            (click)="toggleGeneralDropdown($event)"
+            variant="icon"
+            icon="{{ generalSectionDropdown ?  'expand_more' : 'chevron_right'}}">
+          </adf-button>
+          <h4
+            tabindex="0"
+            class="app-general-title"
+            (click)="toggleGeneralDropdown($event)"
+            (keydown.enter)="toggleGeneralDropdown($event)"
+            (keydown.space)="toggleGeneralDropdown($event)">
+            {{'APP.EDIT_PROFILE.GENERAL' | translate}}
+          </h4>
+        </div>
 
-      <div class="app-general-edit-btn" *ngIf="contactSectionButtonsToggle">
-        <button mat-raised-button class="app-general-edit" id="contact-edit-button"
-          (click)="toggleContactButtons()">{{'APP.EDIT_PROFILE.EDIT' | translate}}</button>
+        <div class="flex flex-row items-center gap-x-2">
+          <ng-container *ngIf="generalSectionButtonsToggle">
+            <adf-button variant="raised" (click)="toggleGeneralButtons()" id="general-edit-button">{{'APP.EDIT_PROFILE.EDIT' | translate}}</adf-button>
+          </ng-container>
+          <ng-container *ngIf="!generalSectionButtonsToggle">
+            <adf-button
+              id="general-cancel-button"
+              variant="raised"
+              (click)="toggleGeneralButtons()">{{'APP.EDIT_PROFILE.CANCEL' | translate}}</adf-button>
+            <adf-button
+              id="general-save-button"
+              variant="raised"
+              color="primary"
+              [disabled]="profileForm.invalid"
+              (click)="onSaveGeneralData(profileForm)">{{'APP.EDIT_PROFILE.SAVE' | translate}}</adf-button>
+          </ng-container>
+        </div>
       </div>
-      <div class="app-general-edit-btn" *ngIf="!contactSectionButtonsToggle">
-        <button mat-raised-button class="app-general-cancel-btn" id="contact-cancel-button"
-          (click)="toggleContactButtons()">{{'APP.EDIT_PROFILE.CANCEL' | translate}}</button>
-        <button mat-raised-button  class="app-general-save-btn" id="contact-save-button" [disabled]="profileForm.invalid"
-          (click)="onSaveCompanyData(profileForm)">{{'APP.EDIT_PROFILE.SAVE' | translate}}</button>
-      </div>
-    </div>
-    <mat-divider class="app-divider" *ngIf="contactSectionDropdown"></mat-divider>
-    <div *ngIf="contactSectionDropdown">
-      <div class="app-general-dropdown">
-        <div class="app-general-dropdown-details">
-          <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.NAME' | translate}}</h4>
-          <p class="app-profile-general-dropdown-details" *ngIf="contactSectionButtonsToggle">{{personDetails?.company?.organization}}</p>
-          <input type="text" value="" *ngIf="!contactSectionButtonsToggle" formControlName="companyName"
+      <mat-divider class="app-divider" *ngIf="generalSectionDropdown"></mat-divider>
+      <div *ngIf="generalSectionDropdown">
+        <div class="app-general-dropdown">
+          <div class="flex">
+            <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.FIRST_NAME' | translate}}</h4>
+            <p class="app-profile-general-dropdown-details">{{personDetails?.firstName}}</p>
+          </div>
+          <mat-divider></mat-divider>
+          <div class="flex">
+            <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.LAST_NAME' | translate}}</h4>
+            <p class="app-profile-general-dropdown-details">{{personDetails?.lastName}}</p>
+          </div>
+          <mat-divider></mat-divider>
+          <div class="flex">
+            <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.JOB_TITLE' | translate}}</h4>
+            <p class="app-profile-general-dropdown-details" *ngIf="generalSectionButtonsToggle">{{personDetails?.jobTitle}}</p>
+            <input type="text" value="" formControlName="jobTitle" *ngIf="!generalSectionButtonsToggle"
+              class="app-profile-general-dropdown-input-details app-selected">
+          </div>
+          <mat-divider></mat-divider>
+          <div class="flex">
+            <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.LOCATION' | translate}}</h4>
+            <p class="app-profile-general-dropdown-details"  *ngIf="generalSectionButtonsToggle">{{personDetails?.location}}</p>
+            <input type="text" value="" formControlName="location" *ngIf="!generalSectionButtonsToggle"
+              class="app-profile-general-dropdown-input-details app-selected">
+          </div>
+          <mat-divider></mat-divider>
+          <div class="flex">
+            <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.TELEPHONE' | translate}}</h4>
+            <p class="app-profile-general-dropdown-details" *ngIf="generalSectionButtonsToggle">{{personDetails?.telephone}}</p>
+            <input type="tel" name="Telephone" value="" formControlName="telephone" *ngIf="!generalSectionButtonsToggle"
+              class="app-profile-general-dropdown-input-details app-selected">
+            <mat-error class="app-error-message" *ngIf="profileForm.get('telephone').invalid">
+              {{ 'APP.EDIT_PROFILE.INVALID_INPUT' | translate }}
+            </mat-error>
+          </div>
+          <mat-divider></mat-divider>
+          <div class="flex">
+            <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.MOBILE' | translate}}</h4>
+            <p class="app-profile-general-dropdown-details" *ngIf="generalSectionButtonsToggle">{{personDetails?.mobile}}</p>
+          <input type="tel" value="" formControlName="mobile" *ngIf="!generalSectionButtonsToggle"
             class="app-profile-general-dropdown-input-details app-selected">
-        </div>
-        <mat-divider class="app-general-dropdown-divider"></mat-divider>
-        <div class="app-general-dropdown-details">
-          <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.ADDRESS' | translate}}</h4>
-          <p class="app-profile-general-dropdown-details" *ngIf="contactSectionButtonsToggle">{{personDetails?.company?.address1}}</p>
-          <input type="text" value="" *ngIf="!contactSectionButtonsToggle" formControlName="companyAddress"
-            class="app-profile-general-dropdown-input-details app-selected">
-        </div>
-        <mat-divider class="app-general-dropdown-divider"></mat-divider>
-        <div class="app-general-dropdown-details">
-          <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.POSTCODE' | translate}}</h4>
-          <p class="app-profile-general-dropdown-details" *ngIf="contactSectionButtonsToggle">{{personDetails?.company?.postcode}}</p>
-          <input type="text" value="" *ngIf="!contactSectionButtonsToggle" formControlName="companyPostCode"
-            class="app-profile-general-dropdown-input-details app-selected">
-        </div>
-        <mat-divider class="app-general-dropdown-divider"></mat-divider>
-        <div class="app-general-dropdown-details">
-          <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.TELEPHONE' | translate}}</h4>
-          <p class="app-profile-general-dropdown-details" *ngIf="contactSectionButtonsToggle">{{personDetails?.company?.telephone}}</p>
-          <input type="tel" value="" *ngIf="!contactSectionButtonsToggle" formControlName="companyTelephone"
-            class="app-profile-general-dropdown-input-details app-selected">
-          <mat-error class="app-error-message" *ngIf="profileForm.get('companyTelephone').invalid">
+          <mat-error class="app-error-message" *ngIf="profileForm.get('mobile').invalid">
             {{ 'APP.EDIT_PROFILE.INVALID_INPUT' | translate }}
           </mat-error>
-        </div>
-        <mat-divider class="app-general-dropdown-divider"></mat-divider>
-        <div class="app-general-dropdown-details">
-          <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.EMAIL' | translate}}</h4>
-          <p class="app-profile-general-dropdown-details" *ngIf="contactSectionButtonsToggle">{{personDetails?.company?.email}}</p>
-          <input type="text" value="" *ngIf="!contactSectionButtonsToggle" formControlName="companyEmail"
-            class="app-profile-general-dropdown-input-details app-selected">
-          <mat-error class="app-error-message" *ngIf="profileForm.get('companyEmail').invalid">
-            {{ 'APP.EDIT_PROFILE.INVALID_INPUT' | translate }}
-          </mat-error>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
+
+    <section [formGroup]="profileForm">
+      <div class="app-profile-general profile-general-bottom-radius">
+        <div class="app-profile-general-section">
+          <adf-button
+            id="toggle-contact-dropdown"
+            (click)="toggleContactDropdown($event)"
+            variant="icon"
+            icon="{{ generalSectionDropdown ?  'expand_more' : 'chevron_right'}}">
+          </adf-button>
+          <h4
+            tabindex="0"
+            class="app-general-title"
+            (click)="toggleContactDropdown($event)"
+            (keydown.enter)="toggleContactDropdown($event)"
+            (keydown.space)="toggleContactDropdown($event)">
+            {{'APP.EDIT_PROFILE.COMPANY_DETAILS' | translate}}
+          </h4>
+        </div>
+
+        <div class="flex flex-row items-center gap-x-2">
+          <ng-container *ngIf="contactSectionButtonsToggle">
+            <adf-button variant="raised" (click)="toggleContactButtons()" id="contact-edit-button">{{'APP.EDIT_PROFILE.EDIT' | translate}}</adf-button>
+          </ng-container>
+          <ng-container *ngIf="!contactSectionButtonsToggle">
+            <adf-button id="contact-cancel-button" variant="raised" (click)="toggleContactButtons()">{{'APP.EDIT_PROFILE.CANCEL' | translate}}</adf-button>
+            <adf-button id="contact-save-button" variant="raised" color="primary" [disabled]="profileForm.invalid" (click)="onSaveCompanyData(profileForm)">{{'APP.EDIT_PROFILE.SAVE' | translate}}</adf-button>
+          </ng-container>
+        </div>
+      </div>
+      <mat-divider class="app-divider" *ngIf="contactSectionDropdown"></mat-divider>
+      <div *ngIf="contactSectionDropdown">
+        <div class="app-general-dropdown">
+          <div class="flex">
+            <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.NAME' | translate}}</h4>
+            <p class="app-profile-general-dropdown-details" *ngIf="contactSectionButtonsToggle">{{personDetails?.company?.organization}}</p>
+            <input type="text" value="" *ngIf="!contactSectionButtonsToggle" formControlName="companyName"
+              class="app-profile-general-dropdown-input-details app-selected">
+          </div>
+          <mat-divider></mat-divider>
+          <div class="flex">
+            <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.ADDRESS' | translate}}</h4>
+            <p class="app-profile-general-dropdown-details" *ngIf="contactSectionButtonsToggle">{{personDetails?.company?.address1}}</p>
+            <input type="text" value="" *ngIf="!contactSectionButtonsToggle" formControlName="companyAddress"
+              class="app-profile-general-dropdown-input-details app-selected">
+          </div>
+          <mat-divider></mat-divider>
+          <div class="flex">
+            <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.POSTCODE' | translate}}</h4>
+            <p class="app-profile-general-dropdown-details" *ngIf="contactSectionButtonsToggle">{{personDetails?.company?.postcode}}</p>
+            <input type="text" value="" *ngIf="!contactSectionButtonsToggle" formControlName="companyPostCode"
+              class="app-profile-general-dropdown-input-details app-selected">
+          </div>
+          <mat-divider></mat-divider>
+          <div class="flex">
+            <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.TELEPHONE' | translate}}</h4>
+            <p class="app-profile-general-dropdown-details" *ngIf="contactSectionButtonsToggle">{{personDetails?.company?.telephone}}</p>
+            <input type="tel" value="" *ngIf="!contactSectionButtonsToggle" formControlName="companyTelephone"
+              class="app-profile-general-dropdown-input-details app-selected">
+            <mat-error class="app-error-message" *ngIf="profileForm.get('companyTelephone').invalid">
+              {{ 'APP.EDIT_PROFILE.INVALID_INPUT' | translate }}
+            </mat-error>
+          </div>
+          <mat-divider></mat-divider>
+          <div class="flex">
+            <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.EMAIL' | translate}}</h4>
+            <p class="app-profile-general-dropdown-details" *ngIf="contactSectionButtonsToggle">{{personDetails?.company?.email}}</p>
+            <input type="text" value="" *ngIf="!contactSectionButtonsToggle" formControlName="companyEmail"
+              class="app-profile-general-dropdown-input-details app-selected">
+            <mat-error class="app-error-message" *ngIf="profileForm.get('companyEmail').invalid">
+              {{ 'APP.EDIT_PROFILE.INVALID_INPUT' | translate }}
+            </mat-error>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </div>

@@ -2,9 +2,7 @@
 
   <div class="aca-page-layout-header">
     <adf-toolbar class="adf-toolbar--inline">
-      <button mat-icon-button (click)="goBack()">
-        <mat-icon>arrow_back</mat-icon>
-      </button>
+      <adf-button (click)="goBack()" variant="icon" icon="arrow_back"></adf-button>
     </adf-toolbar>
     <h1 class="aca-page-title">{{ 'ACA_FOLDER_RULES.ACTIONS.MANAGE_RULES' | translate }}</h1>
   </div>

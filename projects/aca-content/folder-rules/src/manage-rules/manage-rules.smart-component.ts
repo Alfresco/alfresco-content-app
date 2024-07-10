@@ -33,7 +33,7 @@ import { delay, takeUntil } from 'rxjs/operators';
 import { EditRuleDialogUiComponent } from '../rule-details/edit-rule-dialog.ui-component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '@alfresco/adf-content-services';
-import { NotificationService, TemplateModule, ToolbarModule } from '@alfresco/adf-core';
+import { ButtonComponent, NotificationService, TemplateModule, ToolbarModule } from '@alfresco/adf-core';
 import { ActionDefinitionTransformed } from '../model/rule-action.model';
 import { ActionsService } from '../services/actions.service';
 import { FolderRuleSetsService } from '../services/folder-rule-sets.service';
@@ -67,7 +67,8 @@ import { RuleDetailsUiComponent } from '../rule-details/rule-details.ui-componen
     TemplateModule,
     GenericErrorComponent,
     RuleDetailsUiComponent,
-    MatDialogModule
+    MatDialogModule,
+    ButtonComponent
   ],
   selector: 'aca-manage-rules',
   templateUrl: 'manage-rules.smart-component.html',
