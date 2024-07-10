@@ -36,7 +36,7 @@ export class ManageRules extends BaseComponent {
   public ruleDetailsEditButton = this.getChild('#edit-rule-btn');
   public ruleDetailsWhenText = this.getChild('[data-automation-id="rule-details-triggers-component"]');
   public ruleDetailsPerformActionsDiv = this.getChild('adf-card-view-textitem mat-form-field input');
-  public rulesEmptyListIcon = this.getChild('mat-icon', { hasText: 'library_books' });
+  public rulesEmptyListTitle = this.getChild('.adf-empty-content__title');
 
   constructor(page: Page) {
     super(page, ManageRules.rootElement);
@@ -44,13 +44,16 @@ export class ManageRules extends BaseComponent {
 
   async checkAspects(aspects: string[]): Promise<void> {
     for (let i = 0; i < aspects.length; i++) {
-        const aspectsActions = await this.ruleDetailsPerformActionsDiv.nth(i).inputValue();
-        expect(aspects).toContain(aspectsActions);
+      const aspectsActions = await this.ruleDetailsPerformActionsDiv.nth(i).inputValue();
+      expect(aspects).toContain(aspectsActions);
     }
   }
 
   async checkIfRuleListEmpty(): Promise<boolean> {
-    return await this.rulesEmptyListIcon.isVisible();
+    return await this.rulesEmptyListTitle.isVisible();
   }
 
+  async checkIfRuleIsOnTheList(ruleName: string): Promise<void> {
+    await expect(this.getGroupsList(ruleName)).toBeVisible({ timeout: 5000 });
+  }
 }

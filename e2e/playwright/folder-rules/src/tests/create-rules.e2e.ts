@@ -35,7 +35,7 @@ test.describe('Folder Rules Actions', () => {
   const folderName883_2 = `folder-XAT-883-2-${Utils.random()}`;
   const folderName883_3 = `folder-XAT-883-3-${Utils.random()}`;
 
-  const randomRuleName = `rule-XAT-${Utils.random()}`;
+  let randomRuleName: string;
   const copyFileName = `copy-file-XAT-888-${Utils.random()}`;
   const specialChars = '!@£$%^&*()~#/';
   const testString = '"!@£$%^&*()_+{}|:""?&gt;&lt;,/.\';][=-`~"';
@@ -62,6 +62,7 @@ test.describe('Folder Rules Actions', () => {
 
   test.beforeEach(async ({ loginPage }) => {
     await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
+    randomRuleName = `rule-XAT-${Utils.random()}`;
   });
 
   test.afterAll(async () => {
@@ -95,7 +96,7 @@ test.describe('Folder Rules Actions', () => {
     await nodesPage.linkRulesDialog.selectDestination(folderName883);
     await nodesPage.linkRulesDialog.selectFolderButton.click();
 
-    await expect(nodesPage.manageRules.getGroupsList(randomRuleName)).toBeVisible();
+    await nodesPage.manageRules.checkIfRuleIsOnTheList(randomRuleName);
   });
 
   test('[XAT-885] Create a rule in a folder and inherit it in a subfolder (Rule applies to subfolders)', async ({ personalFiles, nodesPage }) => {
@@ -107,7 +108,7 @@ test.describe('Folder Rules Actions', () => {
     await nodesPage.manageRulesDialog.createRuleButton.click();
 
     await personalFiles.navigate({ remoteUrl: `#/nodes/${folderName883Id3}/rules` });
-    await expect(nodesPage.manageRules.getGroupsList(randomRuleName)).toBeVisible();
+    await nodesPage.manageRules.checkIfRuleIsOnTheList(randomRuleName);
   });
 
   test('[XAT-886] Create a rule and press cancel', async ({ personalFiles, nodesPage }) => {
@@ -151,7 +152,7 @@ test.describe('Folder Rules Actions', () => {
 
     await nodesPage.manageRulesDialog.createRuleButton.click();
 
-    await expect(nodesPage.manageRules.getGroupsList(randomRuleName)).toBeVisible();
+    await nodesPage.manageRules.checkIfRuleIsOnTheList(randomRuleName);
   });
 
   test('[XAT-889] Create a rule which runs when items are deleted or leave a folder', async ({ nodesPage, personalFiles }) => {
@@ -167,7 +168,7 @@ test.describe('Folder Rules Actions', () => {
     await nodesPage.contentNodeSelectorDialog.selectDestination(folderName883_2);
     await nodesPage.contentNodeSelectorDialog.actionButton.click();
     await nodesPage.manageRulesDialog.createRuleButton.click();
-    await expect(nodesPage.manageRules.getGroupsList(randomRuleName)).toBeVisible();
+    await nodesPage.manageRules.checkIfRuleIsOnTheList(randomRuleName);
 
     await personalFiles.navigate({ remoteUrl: `#/personal-files/${folderName883Id}` });
     await personalFiles.dataTable.selectItem(copyFileName);
@@ -192,6 +193,8 @@ test.describe('Folder Rules Actions', () => {
     await nodesPage.actionsDropdown.selectAction(ActionType.AddAspect, 3);
     await nodesPage.actionsDropdown.insertAddAspectActionValues('site which', 3);
     await nodesPage.manageRulesDialog.createRuleButton.click();
+    await nodesPage.manageRulesDialog.createRuleButton.waitFor({ state: 'hidden' });
+    await nodesPage.manageRules.getGroupsList(randomRuleName).click();
 
     await nodesPage.manageRules.checkAspects(['sc:controlsAreClearance', 'sfdc:objectModel', 'sfdc:folder', 'sfdc:site']);
   });
@@ -257,7 +260,7 @@ test.describe('Folder Rules Actions', () => {
     await nodesPage.actionsDropdown.selectAction(ActionType.IncrementCounter, 0);
     await nodesPage.manageRulesDialog.createRuleButton.click();
 
-    await expect(nodesPage.manageRules.getGroupsList(randomRuleName)).toBeVisible();
+    await nodesPage.manageRules.checkIfRuleIsOnTheList(randomRuleName);
   });
 
   test('[XAT-896] Create a rule with multiple groups utilising all available comparators and conditions', async ({ personalFiles, nodesPage }) => {
@@ -272,6 +275,6 @@ test.describe('Folder Rules Actions', () => {
     await nodesPage.actionsDropdown.selectAction(ActionType.IncrementCounter, 0);
     await nodesPage.manageRulesDialog.createRuleButton.click();
 
-    await expect(nodesPage.manageRules.getGroupsList(randomRuleName)).toBeVisible();
+    await nodesPage.manageRules.checkIfRuleIsOnTheList(randomRuleName);
   });
 });

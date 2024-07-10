@@ -56,7 +56,7 @@ export class ActionsDropdownComponent extends BaseComponent {
   private ruleActionLocator = this.getChild('aca-rule-action');
   private addActionButtonLocator = this.getChild('[data-automation-id="rule-action-list-add-action-button"]');
   private actionDropdownLocator = this.getChild('[data-automation-id="rule-action-select"]');
-  private actionAspectNameLocator = '[data-automation-id="header-aspect-name"] mat-select';
+  private actionAspectNameLocator = '[data-automation-id="header-aspect-name"] .adf-property-field';
   private actionCheckInInputLocator = '[data-automation-id="header-description"] input';
   private actionAutoDeclareLocator = '[data-automation-id="header-version"] mat-select';
   private actionSimpleWorkflowStepInputLocator = '[data-automation-id="header-approve-step"] input';

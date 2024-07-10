@@ -29,7 +29,7 @@ export class ManageRulesDialogComponent extends BaseComponent {
   private static rootElement = 'aca-edit-rule-dialog';
 
   public createRuleButton = this.getChild('[data-automation-id="edit-rule-dialog-submit"]');
-  public cancelRuleButton = this.getChild('mat-dialog-actions button').filter({ hasText: 'Cancel' });
+  public cancelRuleButton = this.getChild('.aca-edit-rule-dialog__footer button').filter({ hasText: 'Cancel' });
   public ruleNameInputLocator = this.getChild('[id="rule-details-name-input"]');
   public ruleDescriptionInputLocator = this.getChild('[id="rule-details-description-textarea"]');
   public addConditionButton = this.getChild('[data-automation-id="add-condition-button"]');
@@ -37,13 +37,13 @@ export class ManageRulesDialogComponent extends BaseComponent {
   public fieldDropDown = this.getChild('[data-automation-id="field-select"]');
   public comparatorDropDown = this.getChild('[data-automation-id="comparator-select"]');
   public valueField = this.getChild('[data-automation-id="value-input"]');
-  public whenCreatedCheckbox = this.getChild('aca-rule-triggers mat-checkbox').filter({ hasText: 'created' });
-  public whenUpdatedCheckbox = this.getChild('aca-rule-triggers mat-checkbox').filter({ hasText: 'updated' });
-  public whenDeletedCheckbox = this.getChild('aca-rule-triggers mat-checkbox').filter({ hasText: 'deleted' });
+  public whenCreatedCheckbox = this.getChild('[data-automation-id="rule-trigger-checkbox-inbound"]');
+  public whenUpdatedCheckbox = this.getChild('[data-automation-id="rule-trigger-checkbox-update"]');
+  public whenDeletedCheckbox = this.getChild('[data-automation-id="rule-trigger-checkbox-outbound"]');
   public destinationFolderButton = this.getChild('[data-automation-id="card-textitem-clickable-icon-destination-folder"]');
-  public ruleInBackgroundCheckbox = this.getChild('mat-checkbox').filter({ hasText: ' Run rule in the background ' });
-  public ruleSubfoldersCheckbox = this.getChild('mat-checkbox').filter({ hasText: ' Rule applies to subfolders ' });
-  public ruleDisableCheckbox = this.getChild('mat-checkbox').filter({ hasText: ' Disable rule ' });
+  public ruleInBackgroundCheckbox = this.getChild('[data-automation-id="rule-option-checkbox-asynchronous"]');
+  public ruleSubfoldersCheckbox = this.getChild('[data-automation-id="rule-option-checkbox-inheritable"]');
+  public ruleDisableCheckbox = this.getChild('[data-automation-id="rule-option-checkbox-disabled"]');
 
   constructor(page: Page) {
     super(page, ManageRulesDialogComponent.rootElement);
