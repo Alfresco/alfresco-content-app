@@ -33,7 +33,7 @@ import { delay, takeUntil } from 'rxjs/operators';
 import { EditRuleDialogUiComponent } from '../rule-details/edit-rule-dialog.ui-component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '@alfresco/adf-content-services';
-import { ButtonComponent, NotificationService, TemplateModule, ToolbarModule } from '@alfresco/adf-core';
+import { ButtonComponent, EmptyContentComponent, NotificationService, ToolbarModule } from '@alfresco/adf-core';
 import { ActionDefinitionTransformed } from '../model/rule-action.model';
 import { ActionsService } from '../services/actions.service';
 import { FolderRuleSetsService } from '../services/folder-rule-sets.service';
@@ -43,7 +43,6 @@ import { MatSlideToggleChange, MatSlideToggleModule } from '@angular/material/sl
 import { ActionParameterConstraint } from '../model/action-parameter-constraint.model';
 import { TranslateModule } from '@ngx-translate/core';
 import { GenericErrorComponent, PageLayoutComponent } from '@alfresco/aca-shared';
-import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatDividerModule } from '@angular/material/divider';
@@ -57,18 +56,17 @@ import { RuleDetailsUiComponent } from '../rule-details/rule-details.ui-componen
     TranslateModule,
     PageLayoutComponent,
     ToolbarModule,
-    MatButtonModule,
     MatIconModule,
     MatProgressBarModule,
     MatSlideToggleModule,
     MatDividerModule,
     RuleListUiComponent,
     RouterModule,
-    TemplateModule,
     GenericErrorComponent,
     RuleDetailsUiComponent,
     MatDialogModule,
-    ButtonComponent
+    ButtonComponent,
+    EmptyContentComponent
   ],
   selector: 'aca-manage-rules',
   templateUrl: 'manage-rules.smart-component.html',

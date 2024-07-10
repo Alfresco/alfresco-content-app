@@ -36,21 +36,22 @@
             <mat-divider vertical class="aca-manage-rules__actions-bar__vertical-divider"></mat-divider>
 
             <div class="aca-manage-rules__actions-bar__buttons">
-              <button
+              <adf-button
                 *ngIf="!(mainRuleSet$ | async)"
-                data-automation-id="manage-rules-link-button"
-                mat-stroked-button
+                testId="manage-rules-link-button"
+                variant="stroked"
                 (click)="openLinkRulesDialog()">
                 {{ 'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.ACTIONS.LINK_RULES' | translate }}
-              </button>
+              </adf-button>
 
-              <button
+              <adf-button
                 *ngIf="canEditMainRule"
-                data-automation-id="manage-rules-create-button"
-                mat-flat-button color="primary"
+                testId="manage-rules-create-button"
+                variant="flat"
+                color="primary"
                 (click)="openCreateUpdateRuleDialog()">
                 {{ 'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.ACTIONS.CREATE_RULE' | translate }}
-              </button>
+              </adf-button>
             </div>
 
           </adf-toolbar>
@@ -86,18 +87,18 @@
 
                 <div class="aca-manage-rules__container__rule-details__header__buttons">
                   <ng-container *ngIf="canEditSelectedRule; else goToFolderButton">
-                    <button mat-stroked-button (click)="onRuleDeleteButtonClicked(selectedRule)" id="delete-rule-btn">
+                    <adf-button variant="stroked" (click)="onRuleDeleteButtonClicked(selectedRule)" id="delete-rule-btn">
                       <mat-icon>delete_outline</mat-icon>
-                    </button>
-                    <button mat-stroked-button (click)="openCreateUpdateRuleDialog(selectedRule)" id="edit-rule-btn">
+                    </adf-button>
+                    <adf-button variant="stroked" (click)="openCreateUpdateRuleDialog(selectedRule)" id="edit-rule-btn">
                       {{ 'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.ACTIONS.EDIT_RULE' | translate }}
-                    </button>
+                    </adf-button>
                   </ng-container>
 
                   <ng-template #goToFolderButton>
-                    <button mat-stroked-button [routerLink]="['/nodes', (selectedRuleSet$ | async).owningFolder.id, 'rules']">
+                    <adf-button variant="stroked" [routerLink]="['/nodes', (selectedRuleSet$ | async).owningFolder.id, 'rules']">
                       {{ 'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.ACTIONS.SEE_IN_FOLDER' | translate }}
-                    </button>
+                    </adf-button>
                   </ng-template>
                 </div>
               </div>
