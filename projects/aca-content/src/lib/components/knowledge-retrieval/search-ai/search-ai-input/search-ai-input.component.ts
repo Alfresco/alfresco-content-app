@@ -30,12 +30,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { A11yModule } from '@angular/cdk/a11y';
-import { IconComponent, NotificationService } from '@alfresco/adf-core';
+import { IconComponent, NotificationService, UserPreferencesService } from '@alfresco/adf-core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { AiSearchByTermPayload, AppStore, getAppSelection, SearchByTermAiAction, SnackbarErrorAction } from '@alfresco/aca-shared/store';
+import { AiSearchByTermPayload, AppStore, getAppSelection, SearchByTermAiAction } from '@alfresco/aca-shared/store';
 import { takeUntil } from 'rxjs/operators';
 import { SelectionState } from '@alfresco/adf-extensions';
 import { MatSelectModule } from '@angular/material/select';
@@ -67,9 +67,13 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
   placeholder: string;
   @Input()
   agentId: string;
+  @Input()
+  useStoredNodes: boolean;
 
   @Output()
   searchSubmitted = new EventEmitter<void>();
+
+  private readonly storedNodesKey = 'knowledgeRetrievalNodes';
 
   private _agentControl = new FormControl<Agent>(null);
   private _agents: Agent[] = [];
@@ -96,24 +100,26 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
     private searchAiService: SearchAiService,
     private notificationService: NotificationService,
     private agentService: AgentService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private userPreferencesService: UserPreferencesService
   ) {}
 
   ngOnInit(): void {
-    this.store
-      .select(getAppSelection)
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((selection) => {
-        if (selection) {
-          this.restrictionQuery = selection.nodes?.[0]?.entry?.id;
-        }
-        this.selectedNodesState = selection;
-      });
+    if (!this.useStoredNodes) {
+      this.store
+        .select(getAppSelection)
+        .pipe(takeUntil(this.onDestroy$))
+        .subscribe((selection) => {
+          this.restrictionQuery = selection?.nodes?.[0]?.entry?.id;
+          this.selectedNodesState = selection;
+        });
+    } else {
+      this.selectedNodesState = JSON.parse(this.userPreferencesService.get(this.storedNodesKey));
+    }
 
     this.activatedRoute.queryParams.pipe(takeUntil(this.onDestroy$)).subscribe((params) => {
-      const restrictionQuery = params['restrictionQuery'];
-      if (restrictionQuery) {
-        this.restrictionQuery = restrictionQuery;
+      if (params.restrictionQuery) {
+        this.restrictionQuery = params.restrictionQuery;
       }
     });
     this.agentService
@@ -142,11 +148,9 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
       payload.searchTerm = this.queryControl.value;
       payload.agentId = this.agentControl.value.id;
       payload.restrictionQuery = this.restrictionQuery;
-      if (payload.searchTerm) {
-        this.store.dispatch(new SearchByTermAiAction(payload));
-      } else {
-        this.store.dispatch(new SnackbarErrorAction('APP.BROWSE.SEARCH.EMPTY_SEARCH'));
-      }
+      this.userPreferencesService.set(this.storedNodesKey, JSON.stringify(this.selectedNodesState));
+      this.store.dispatch(new SearchByTermAiAction(payload));
+      this.queryControl.reset();
       this.searchSubmitted.emit();
     }
   }

@@ -42,10 +42,8 @@ export class SearchAiEffects {
           const queryParams = {
             query: encodeURIComponent(query),
             agentId: action.payload.agentId,
-            ...(action.payload.hideAiToggle && { hideAiToggle: action.payload.hideAiToggle }),
-            ...(action.payload.restrictionQuery && { restrictionQuery: action.payload.restrictionQuery })
+            restrictionQuery: action.payload.restrictionQuery
           };
-          // eslint-disable-next-line @typescript-eslint/no-floating-promises
           this.searchNavigationService.navigateToSearchAi(queryParams);
         })
       ),

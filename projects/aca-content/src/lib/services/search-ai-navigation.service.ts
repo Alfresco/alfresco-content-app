@@ -32,21 +32,13 @@ export class SearchAiNavigationService {
   constructor(private router: Router) {}
 
   navigateToPreviousRoute(): void {
-    if (this.previousRoute) {
-      void this.router.navigate([this.previousRoute]);
-    } else {
-      void this.router.navigate(['/personal-files']);
-    }
+    void this.router.navigate([this.previousRoute || '/personal-files']);
   }
 
-  navigateToSearchAi(queryParams?: Params): void {
-    if (!this.router.url.includes('search')) {
+  navigateToSearchAi(queryParams: Params): void {
+    if (!this.router.url.includes('knowledge-retrieval')) {
       this.previousRoute = this.router.url;
     }
-    if (queryParams) {
-      void this.router.navigate(['/knowledge-retrieval'], { queryParams: queryParams });
-    } else {
-      void this.router.navigate(['/knowledge-retrieval']);
-    }
+    void this.router.navigate(['/knowledge-retrieval'], { queryParams: queryParams });
   }
 }

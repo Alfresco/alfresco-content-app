@@ -25,6 +25,5 @@
 export class AiSearchByTermPayload {
   searchTerm: string;
   agentId: string;
-  hideAiToggle?: boolean;
   restrictionQuery?: string;
 }

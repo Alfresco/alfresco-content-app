@@ -45,6 +45,8 @@ export class SearchAiInputContainerComponent implements OnInit {
   placeholder = 'KNOWLEDGE_RETRIEVAL.SEARCH.SEARCH_INPUT.DEFAULT_PLACEHOLDER';
   @Input()
   agentId: string;
+  @Input()
+  useStoredNodes: boolean;
 
   constructor(private searchAiService: SearchAiService, private searchNavigationService: SearchAiNavigationService, private router: Router) {}
 
