@@ -46,7 +46,7 @@ import {
   isAdmin
 } from '@alfresco/aca-shared/store';
 import { debounceTime, filter, mergeMap, takeUntil } from 'rxjs/operators';
-import { AlfrescoApiService } from '@alfresco/adf-core';
+import { AlfrescoApiService, ButtonComponent } from '@alfresco/adf-core';
 import { Observable, from, Subject } from 'rxjs';
 import { ErrorStateMatcher, MatOptionModule } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
@@ -56,7 +56,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { A11yModule } from '@angular/cdk/a11y';
-import { MatButtonModule } from '@angular/material/button';
 import { Actions, ofType } from '@ngrx/effects';
 
 export class InstantErrorStateMatcher implements ErrorStateMatcher {
@@ -79,7 +78,7 @@ export class InstantErrorStateMatcher implements ErrorStateMatcher {
     MatOptionModule,
     MatInputModule,
     A11yModule,
-    MatButtonModule
+    ButtonComponent
   ],
   selector: 'app-library-metadata-form',
   templateUrl: './library-metadata-form.component.html',
