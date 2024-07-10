@@ -35,21 +35,22 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ButtonComponent } from '@alfresco/adf-core';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, TranslateModule, MatButtonModule, MatIconModule, MatMenuModule, MatDialogModule],
+  imports: [CommonModule, TranslateModule, MatButtonModule, MatIconModule, MatMenuModule, MatDialogModule, ButtonComponent],
   selector: 'app-view-node',
   template: `
-    <button
+    <adf-button
       *ngIf="data.iconButton"
-      mat-icon-button
+      variant="icon"
+      icon="visibility"
       [attr.aria-label]="data.title | translate"
       [attr.title]="data.title | translate"
       (click)="onClick()"
     >
-      <mat-icon>visibility</mat-icon>
-    </button>
+    </adf-button>
 
     <button *ngIf="data.menuButton" mat-menu-item (click)="onClick()">
       <mat-icon>visibility</mat-icon>
