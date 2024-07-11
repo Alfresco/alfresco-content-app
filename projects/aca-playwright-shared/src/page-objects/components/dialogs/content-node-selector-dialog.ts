@@ -40,7 +40,7 @@ export class ContentNodeSelectorDialog extends BaseComponent {
   private getRowByName = (name: string | number): Locator => this.getChild(`adf-datatable-row`, { hasText: name.toString() });
   getDialogTitle = (text: string) => this.getChild('[data-automation-id="content-node-selector-title"]', { hasText: text });
   getBreadcrumb = (text: string) => this.getChild('[data-automation-id="current-folder"]', { hasText: text });
-  getFolderIcon = this.getChild('mat-icon[role="img"]', { hasText: 'folder' });
+  getFolderIcon = this.getChild('[data-automation-id="dropdown-breadcrumb-trigger"]');
   loadMoreButton = this.getChild('[data-automation-id="adf-infinite-pagination-button"]');
 
   async loadMoreNodes(): Promise<void> {
