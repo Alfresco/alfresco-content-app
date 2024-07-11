@@ -48,6 +48,10 @@ aca-search-ai-input {
     font-size: 15.42px;
     margin-right: 26px;
 
+    &:focus {
+      outline: -webkit-focus-ring-color auto 1px;
+    }
+
     &-avatar {
       border-radius: 50%;
       background-color: #9acd9a; // temporary to keep place for avatar, will be replaced with avatar image during synchronization with backend

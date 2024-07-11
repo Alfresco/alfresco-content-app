@@ -4,15 +4,17 @@ aca-agents-button.aca-agents-button {
 
   button {
     &.aca-agents-button-animated {
-      height: 32px;
-      padding: 0;
-      cursor: pointer;
-      border: none;
-      background: transparent;
-      width: max-content;
+      &.aca-agents-button-menu-trigger {
+        height: auto;
+        cursor: pointer;
+        border: none;
+        background: transparent;
+        width: max-content;
+        padding: 0 4px 0 0;
 
-      ng-lottie {
-        line-height: normal;
+        ng-lottie {
+          line-height: normal;
+        }
       }
     }
   }

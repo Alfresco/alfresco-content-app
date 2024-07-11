@@ -31,10 +31,11 @@ import { SearchAiNavigationService } from '../../../../services/search-ai-naviga
 import { NavigationStart, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { SearchAiService } from '@alfresco/adf-content-services';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   standalone: true,
-  imports: [SearchAiInputComponent, MatIconModule, MatDividerModule, MatButtonModule],
+  imports: [SearchAiInputComponent, MatIconModule, MatDividerModule, MatButtonModule, TranslateModule],
   selector: 'aca-search-ai-input-container',
   templateUrl: './search-ai-input-container.component.html',
   styleUrls: ['./search-ai-input-container.component.scss'],

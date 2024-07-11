@@ -28,34 +28,38 @@
               class="aca-search-ai-response-container-body-response-action aca-search-ai-response-container-body-response-action-regeneration"
               mat-icon-button
               (click)="performAiSearch()"
-              data-automation-id="aca-search-ai-results-regeneration-button">
+              data-automation-id="aca-search-ai-results-regeneration-button"
+              [title]="'KNOWLEDGE_RETRIEVAL.SEARCH.RESULTS_PAGE.REGENERATION_BUTTON_LABEL' | translate">
               <mat-icon>cached</mat-icon>
             </button>
             <button
               class="aca-search-ai-response-container-body-response-action"
               mat-icon-button
               (click)="copyResponseToClipboard()"
-              data-automation-id="aca-search-ai-results-copying-button">
+              data-automation-id="aca-search-ai-results-copying-button"
+              [title]="'KNOWLEDGE_RETRIEVAL.SEARCH.RESULTS_PAGE.COPY_BUTTON_LABEL' | translate">
               <mat-icon>copy</mat-icon>
             </button>
             <button
               class="aca-search-ai-response-container-body-response-action"
               mat-icon-button
-              data-automation-id="aca-search-ai-results-thumb-up-button">
+              data-automation-id="aca-search-ai-results-thumb-up-button"
+              [title]="'KNOWLEDGE_RETRIEVAL.SEARCH.RESULTS_PAGE.LIKE_BUTTON_LABEL' | translate">
               <mat-icon>thumb_up</mat-icon>
             </button>
             <button
               class="aca-search-ai-response-container-body-response-action aca-search-ai-response-container-body-response-action-thumb-down"
               mat-icon-button
-              data-automation-id="aca-search-ai-results-thumb-down-button">
+              data-automation-id="aca-search-ai-results-thumb-down-button"
+              [title]="'KNOWLEDGE_RETRIEVAL.SEARCH.RESULTS_PAGE.DISLIKE_BUTTON_LABEL' | translate">
               <mat-icon>thumb_down</mat-icon>
             </button>
             <ng-container *ngIf="nodes?.length">
               <mat-divider class="aca-search-ai-response-container-body-divider"></mat-divider>
               <div class="aca-search-ai-response-container-body-references-container">
-                <h4 class="aca-search-ai-response-container-body-references-container-header">
+                <p class="aca-search-ai-response-container-body-references-container-header">
                   {{ 'KNOWLEDGE_RETRIEVAL.SEARCH.RESULTS_PAGE.REFERENCED_DOCUMENTS_HEADER' | translate }}
-                </h4>
+                </p>
                 <div class="aca-search-ai-response-container-body-references-container-documents">
                   <div
                     class="aca-search-ai-response-container-body-references-container-documents-document"
@@ -81,7 +85,8 @@
             <button
               mat-flat-button
               (click)="performAiSearch()"
-              class="aca-search-ai-response-container-error-message-regeneration-button">
+              class="aca-search-ai-response-container-error-message-regeneration-button"
+              data-automation-id="aca-search-ai-results-error-regeneration-button">
               <mat-icon>cached</mat-icon>
               {{ 'KNOWLEDGE_RETRIEVAL.SEARCH.RESULTS_PAGE.REGENERATION_BUTTON_LABEL' | translate }}
             </button>

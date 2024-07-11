@@ -3,8 +3,9 @@
     [matMenuTriggerFor]="disabled ? null : agentsList"
     (mouseenter)="onMouseEnter()"
     (mouseleave)="onMouseLeave()"
-    class="aca-agents-button-animated"
+    class="aca-agents-button-animated aca-agents-button-menu-trigger"
     (mouseup)="onClick()"
+    (keydown.enter)="onClick()"
     data-automation-id="aca-agents-button">
     <ng-lottie
       (animationCreated)="onAnimate($event)"
