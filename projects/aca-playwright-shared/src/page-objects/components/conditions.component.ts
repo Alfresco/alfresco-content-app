@@ -28,7 +28,11 @@ import { ManageRulesDialogComponent } from './manageRules/manage-rules-dialog.co
 export enum Field {
   Name = 'Name',
   Size = 'Size',
-  Mimetype = 'Mimetype'
+  Mimetype = 'Mimetype',
+  Encoding = 'Encoding',
+  HasCategory = 'Has category',
+  HasTag = 'Has tag',
+  HasAspect = 'Has aspect'
 }
 
 export enum Comparator {
@@ -53,17 +57,22 @@ export class ConditionComponent extends ManageRulesDialogComponent {
     await option.click();
   }
 
-  async addCondition(fields: Partial<Field>, comparators: Partial<Comparator>, value: string, index: number): Promise<void> {
+  async addCondition(fields: Partial<Field>, value: string, index: number, comparators?: Partial<Comparator>): Promise<void> {
     await this.addConditionButton.click();
     await this.selectField(fields, index);
-    await this.selectComparator(comparators, index);
-    await this.valueField.nth(index).type(value);
+    if (comparators) {
+      await this.selectComparator(comparators, index);
+    }
+    await this.valueField.nth(index).fill(value);
   }
 
-  async addConditionGroup(fields: Partial<Field>, comparators: Partial<Comparator>, value: string, index: number): Promise<void> {
-    await this.addConditionButton.nth(0).click();
+  async addConditionGroup(fields: Partial<Field>, value: string, index: number, comparators?: Partial<Comparator>): Promise<void> {
+    await this.addConditionGroupButton.last().click();
+    await this.addConditionButton.nth(index).click();
     await this.selectField(fields, index);
-    await this.selectComparator(comparators, index);
-    await this.valueField.nth(index).type(value);
+    if (comparators) {
+      await this.selectComparator(comparators, index);
+    }
+    await this.valueField.nth(index).fill(value);
   }
 }

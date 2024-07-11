@@ -50,13 +50,13 @@ export enum ActionType {
 }
 
 export class ActionsDropdownComponent extends BaseComponent {
-  private static rootElement = 'aca-rule-action-list';
+  private static rootElement = 'aca-edit-rule-dialog aca-rule-action-list';
 
   private getOptionLocator = (optionName: string): Locator => this.page.locator('.mat-select-panel .mat-option-text', { hasText: optionName }).first();
   private ruleActionLocator = this.getChild('aca-rule-action');
   private addActionButtonLocator = this.getChild('[data-automation-id="rule-action-list-add-action-button"]');
   private actionDropdownLocator = this.getChild('[data-automation-id="rule-action-select"]');
-  private actionAspectNameLocator = '[data-automation-id="header-aspect-name"] mat-select';
+  private actionAspectNameLocator = '[data-automation-id="header-aspect-name"] .adf-property-field';
   private actionCheckInInputLocator = '[data-automation-id="header-description"] input';
   private actionAutoDeclareLocator = '[data-automation-id="header-version"] mat-select';
   private actionSimpleWorkflowStepInputLocator = '[data-automation-id="header-approve-step"] input';
@@ -85,7 +85,7 @@ export class ActionsDropdownComponent extends BaseComponent {
   }
 
   async insertCheckInActionValues(checkInValue: string, index: number): Promise<void> {
-    await this.ruleActionLocator.nth(index).locator(this.actionCheckInInputLocator).type(checkInValue, { delay: 50 });
+    await this.ruleActionLocator.nth(index).locator(this.actionCheckInInputLocator).fill(checkInValue);
   }
 
   async insertAddAspectActionValues(AspectValue: string, index: number): Promise<void> {
@@ -97,11 +97,11 @@ export class ActionsDropdownComponent extends BaseComponent {
   }
 
   async insertSimpleWorkflowActionValues(stepValue: string, index: number): Promise<void> {
-    await this.ruleActionLocator.nth(index).locator(this.actionSimpleWorkflowStepInputLocator).type(stepValue, { delay: 50 });
+    await this.ruleActionLocator.nth(index).locator(this.actionSimpleWorkflowStepInputLocator).fill(stepValue);
     await this.ruleActionLocator.nth(index).locator(this.actionSimpleWorkflowApproveFolderLocator).click();
     await this.page.locator(this.actionSimpleWorkflowActionChoiceLocator).click();
     await this.ruleActionLocator.nth(index).locator(this.actionSimpleWorkflowLabelApproveLocator).click();
-    await this.ruleActionLocator.nth(index).locator(this.actionSimpleWorkflowSRejectStepLocator).type(stepValue, { delay: 50 });
+    await this.ruleActionLocator.nth(index).locator(this.actionSimpleWorkflowSRejectStepLocator).fill(stepValue);
     await this.ruleActionLocator.nth(index).locator(this.actionSimpleWorkflowRejectFolderLocator).click();
     await this.page.locator(this.actionSimpleWorkflowActionChoiceLocator).click();
   }

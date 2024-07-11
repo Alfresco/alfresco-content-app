@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Locator, Page } from '@playwright/test';
+import { Locator, Page, expect } from '@playwright/test';
 import { BaseComponent } from '../base.component';
 
 export class ManageRules extends BaseComponent {
@@ -31,8 +31,29 @@ export class ManageRules extends BaseComponent {
   public getGroupsList = (optionName: string): Locator => this.getChild('.aca-rule-list-item__header', { hasText: optionName });
   public ruleToggle = this.getChild('.aca-manage-rules__container .mat-slide-toggle-bar').first();
   public ruleToggleFalse = this.getChild('aca-rule-list-grouping input[type="checkbox"][aria-checked="false"]').first();
+  public ruleDetailsTitle = this.getChild('.aca-manage-rules__container__rule-details__header__title__name');
+  public ruleDetailsTrashButton = this.getChild('#delete-rule-btn');
+  public ruleDetailsEditButton = this.getChild('#edit-rule-btn');
+  public ruleDetailsWhenText = this.getChild('[data-automation-id="rule-details-triggers-component"]');
+  public ruleDetailsPerformActionsDiv = this.getChild('adf-card-view-textitem mat-form-field input');
+  public rulesEmptyListTitle = this.getChild('.adf-empty-content__title');
 
   constructor(page: Page) {
     super(page, ManageRules.rootElement);
+  }
+
+  async checkAspects(aspects: string[]): Promise<void> {
+    for (let i = 0; i < aspects.length; i++) {
+      const aspectsActions = await this.ruleDetailsPerformActionsDiv.nth(i).inputValue();
+      expect(aspects).toContain(aspectsActions);
+    }
+  }
+
+  async checkIfRuleListEmpty(): Promise<boolean> {
+    return await this.rulesEmptyListTitle.isVisible();
+  }
+
+  async checkIfRuleIsOnTheList(ruleName: string): Promise<void> {
+    await expect(this.getGroupsList(ruleName)).toBeVisible({ timeout: 5000 });
   }
 }

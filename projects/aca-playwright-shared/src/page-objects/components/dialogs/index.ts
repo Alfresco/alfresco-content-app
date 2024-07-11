@@ -34,3 +34,4 @@ export * from './upload-new-version-dialog.component';
 export * from './manage-versions-dialog.component';
 export * from './upload-dialog.component';
 export * from './delete-trash-dialog.component';
+export * from './link-rules.component';
