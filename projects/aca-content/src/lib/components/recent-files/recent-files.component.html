@@ -1,10 +1,10 @@
 <aca-page-layout>
   <div class="aca-page-layout-header">
     <aca-search-ai-input-container
-      *ngIf="searchAiInputState.active; else breadcrumbTemplate"
+      *ngIf="searchAiInputState.active; else header"
       [agentId]="searchAiInputState.selectedAgentId">
     </aca-search-ai-input-container>
-    <ng-template #breadcrumbTemplate>
+    <ng-template #header>
       <div class="aca-header-container">
         <h1 class="aca-page-title">{{ 'APP.BROWSE.RECENT.TITLE' | translate }}</h1>
         <aca-toolbar [items]="actions"></aca-toolbar>
