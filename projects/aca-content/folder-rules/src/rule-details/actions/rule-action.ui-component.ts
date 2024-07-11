@@ -105,7 +105,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
 
   cardViewItems: CardViewItem[] = [];
   parameters: { [key: string]: unknown } = {};
-  private onDestroy$ = new Subject<boolean>();
+  private onDestroy$ = new Subject<void>();
 
   get selectedActionDefinitionId(): string {
     return this.form.get('actionDefinitionId').value;

@@ -64,7 +64,7 @@ import { ContentActionRef } from '@alfresco/adf-extensions';
 export class DetailsComponent extends PageComponent implements OnInit, OnDestroy {
   nodeId: string;
   isLoading: boolean;
-  onDestroy$ = new Subject<boolean>();
+  onDestroy$ = new Subject<void>();
   activeTab = 1;
   aspectActions: Array<ContentActionRef> = [];
   nodeIcon: string;

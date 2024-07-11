@@ -59,7 +59,7 @@ export class AppService implements OnDestroy {
   ready$: Observable<boolean>;
   pageHeading$: Observable<string>;
   appNavNarMode$: Subject<'collapsed' | 'expanded'> = new BehaviorSubject('expanded');
-  toggleAppNavBar$ = new Subject();
+  toggleAppNavBar$ = new Subject<void>();
 
   hideSidenavConditions = ['/preview/'];
   minimizeSidenavConditions = ['search'];

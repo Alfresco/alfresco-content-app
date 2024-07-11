@@ -548,7 +548,7 @@ export class ContentManagementService {
 
     forkJoin(...batch).subscribe(
       () => {
-        this.appHookService.nodesDeleted.next(null);
+        this.appHookService.nodesDeleted.next();
         this.store.dispatch(new ReloadDocumentListAction());
       },
       (error) => {

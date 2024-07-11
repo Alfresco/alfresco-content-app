@@ -57,7 +57,7 @@ import { MatMenuModule } from '@angular/material/menu';
 })
 export class ToggleFavoriteLibraryComponent implements OnInit, OnDestroy {
   library;
-  private onDestroy$: Subject<boolean> = new Subject<boolean>();
+  private onDestroy$: Subject<void> = new Subject<void>();
 
   constructor(private store: Store<AppStore>, private appHookService: AppHookService, private router: Router) {}
 
@@ -78,7 +78,7 @@ export class ToggleFavoriteLibraryComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.onDestroy$.next(true);
+    this.onDestroy$.next();
     this.onDestroy$.complete();
   }
 
