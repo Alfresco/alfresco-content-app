@@ -33,7 +33,7 @@ export class AppHookService {
   /**
    * Gets emitted when user delete the node
    */
-  nodesDeleted = new Subject<any>();
+  nodesDeleted = new Subject<void>();
 
   /**
    * Gets emitted when user delete the library
@@ -53,7 +53,7 @@ export class AppHookService {
   /**
    * Gets emitted when user join the library
    */
-  libraryJoined = new Subject<string>();
+  libraryJoined = new Subject<void>();
 
   /**
    * Gets emitted when user left the library
@@ -63,20 +63,20 @@ export class AppHookService {
   /**
    * Gets emitted when library throws 400 error code
    */
-  library400Error = new Subject<any>();
+  library400Error = new Subject<void>();
 
   /**
    * Gets emitted when user join the library
    */
-  joinLibraryToggle = new Subject<string>();
+  joinLibraryToggle = new Subject<void>();
 
   /**
    * Gets emitted when user unlink the node
    */
-  linksUnshared = new Subject<any>();
+  linksUnshared = new Subject<void>();
 
   /**
    * Gets emitted when user mark the favorite library
    */
-  favoriteLibraryToggle = new Subject<any>();
+  favoriteLibraryToggle = new Subject<void>();
 }

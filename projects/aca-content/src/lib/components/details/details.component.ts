@@ -67,7 +67,7 @@ import { FileSizePipe, InfoDrawerButtonsDirective } from '@alfresco/adf-core';
 export class DetailsComponent extends PageComponent implements OnInit, OnDestroy {
   nodeId: string;
   isLoading: boolean;
-  onDestroy$ = new Subject<boolean>();
+  onDestroy$ = new Subject<void>();
   activeTab = 1;
   aspectActions: Array<ContentActionRef> = [];
   nodeIcon: string;
