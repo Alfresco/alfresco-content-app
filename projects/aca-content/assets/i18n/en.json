@@ -610,7 +610,10 @@
           "QUERY_INPUT_PLACEHOLDER": "Would you like to ask anything else?",
           "REFERENCED_DOCUMENTS_HEADER": "Referenced documents"
         },
-        "AGENTS_BUTTON_LABEL": "Ask Agent",
+        "AGENTS_BUTTON": {
+          "LABEL": "Ask Agent",
+          "TITLE": "Knowledge Retrieval"
+        },
         "SEARCH_INPUT": {
           "ASK_BUTTON_LABEL": "Ask",
           "DEFAULT_PLACEHOLDER": "Please ask your question with as much detail as possible..."

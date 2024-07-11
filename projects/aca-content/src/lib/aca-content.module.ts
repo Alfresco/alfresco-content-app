@@ -79,10 +79,6 @@ import { SearchResultsRowComponent } from './components/search/search-results-ro
 import { LottieModule } from 'ngx-lottie';
 import { AgentsButtonComponent } from './components/knowledge-retrieval/search-ai/agents-button/agents-button.component';
 
-export function playerFactory(): any {
-  return import('lottie-web');
-}
-
 @NgModule({
   imports: [
     CommonModule,
@@ -104,7 +100,9 @@ export function playerFactory(): any {
     CreateFromTemplateDialogComponent,
     OpenInAppComponent,
     UploadFilesDialogComponent,
-    LottieModule.forRoot({ player: playerFactory })
+    LottieModule.forRoot({
+      player: () => import('lottie-web')
+    })
   ],
   providers: [
     { provide: ContentVersionService, useClass: ContentUrlService },
@@ -144,7 +142,7 @@ export class ContentServiceExtensionModule {
       'app.toolbar.toggleFavorite': ToggleFavoriteComponent,
       'app.toolbar.toggleFavoriteLibrary': ToggleFavoriteLibraryComponent,
       'app.toolbar.toggleJoinLibrary': ToggleJoinLibraryButtonComponent,
-      'app.toolbar.ai.search-icon': AgentsButtonComponent,
+      'app.toolbar.ai.agents-button': AgentsButtonComponent,
       'app.menu.toggleJoinLibrary': ToggleJoinLibraryMenuComponent,
       'app.shared-link.toggleSharedLink': ToggleSharedComponent,
       'app.columns.name': CustomNameColumnComponent,

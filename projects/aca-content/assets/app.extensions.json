@@ -138,11 +138,7 @@
         "value": "./assets/images/adf-move-file-24px.svg"
       },
       {
-        "id": "adf:magic_stars_ai",
-        "value": "./assets/images/magic-stars-ai.svg"
-      },
-      {
-        "id": "adf:three-magic_stars_ai",
+        "id": "adf:three_magic_stars_ai",
         "value": "./assets/images/three-magic-stars-ai.svg"
       }
     ],
@@ -704,8 +700,8 @@
       {
         "id": "app.toolbar.ai.search",
         "order": 0,
-        "title": "AI Search",
-        "component": "app.toolbar.ai.search-icon",
+        "title": "KNOWLEDGE_RETRIEVAL.SEARCH.AGENTS_BUTTON.TITLE",
+        "component": "app.toolbar.ai.agents-button",
         "type": "custom",
         "rules": {
           "visible": "app.selection.displayedKnowledgeRetrievalButton"
