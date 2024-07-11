@@ -22,14 +22,9 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { BlankPageComponent } from '@alfresco/adf-core';
 import { AppLoginComponent } from './components/login/app-login.component';
 
 export const APP_ROUTES = [
-  {
-    path: 'blank',
-    component: BlankPageComponent
-  },
   {
     path: 'login',
     component: AppLoginComponent,
