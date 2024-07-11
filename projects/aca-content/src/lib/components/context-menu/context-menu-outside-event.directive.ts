@@ -34,7 +34,7 @@ export class OutsideEventDirective implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
 
   @Output()
-  clickOutside: EventEmitter<null> = new EventEmitter();
+  clickOutside: EventEmitter<void> = new EventEmitter();
 
   ngOnInit() {
     this.subscriptions = this.subscriptions.concat([
