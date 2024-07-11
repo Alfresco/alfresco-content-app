@@ -34,6 +34,21 @@
         margin: 16px 0 75px;
         padding: 14px 40px 36px 35px;
 
+        &-error {
+          border-color: var(--adf-error-color);
+          padding: 21px 19px 27px 18px;
+
+          &-message {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            &-regeneration-button {
+              background-color: var(--adf-secondary-button-background);
+            }
+          }
+        }
+
         &-body {
           width: 100%;
 

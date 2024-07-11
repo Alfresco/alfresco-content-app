@@ -25,7 +25,7 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { PageComponent, PageLayoutComponent, ToolbarActionComponent, ToolbarComponent } from '@alfresco/aca-shared';
-import { concatMap, takeUntil } from 'rxjs/operators';
+import { concatMap, finalize, takeUntil } from 'rxjs/operators';
 import { ClipboardService, MaterialModule, ThumbnailService, ToolbarModule } from '@alfresco/adf-core';
 import { AiAnswer, Node } from '@alfresco/js-api';
 import { CommonModule } from '@angular/common';
@@ -56,14 +56,24 @@ import { forkJoin } from 'rxjs';
 })
 export class SearchAiResultsComponent extends PageComponent implements OnInit, OnDestroy {
   private _agentId: string;
+  private _error = false;
+  private _loading = true;
   private _mimeTypeIconsByNodeId: { [key: string]: string } = {};
-  private _nodes: Node[];
+  private _nodes: Node[] = [];
   private restrictionQuery = '';
   private _searchQuery = '';
   private _queryAnswer: AiAnswer;
 
   get agentId(): string {
     return this._agentId;
+  }
+
+  get error(): boolean {
+    return this._error;
+  }
+
+  get loading(): boolean {
+    return this._loading;
   }
 
   get mimeTypeIconsByNodeId(): { [key: string]: string } {
@@ -114,6 +124,7 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
   }
 
   performAiSearch(): void {
+    this._loading = true;
     this.searchAiService
       .ask({
         question: this.searchQuery,
@@ -125,13 +136,17 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
           this._queryAnswer = response.list.entries[0].entry;
           return forkJoin(this.queryAnswer.references.map((reference) => this.nodesApiService.getNode(reference.referenceId)));
         }),
+        finalize(() => (this._loading = false)),
         takeUntil(this.onDestroy$)
       )
-      .subscribe((nodes) => {
-        nodes.forEach((node) => {
-          this._mimeTypeIconsByNodeId[node.id] = this.thumbnailService.getMimeTypeIcon(node.content?.mimeType);
-        });
-        this._nodes = nodes;
-      });
+      .subscribe(
+        (nodes) => {
+          nodes.forEach((node) => {
+            this._mimeTypeIconsByNodeId[node.id] = this.thumbnailService.getMimeTypeIcon(node.content?.mimeType);
+          });
+          this._nodes = nodes;
+        },
+        () => (this._error = true)
+      );
   }
 }

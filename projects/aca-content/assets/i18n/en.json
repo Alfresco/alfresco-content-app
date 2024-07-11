@@ -608,7 +608,9 @@
       "SEARCH": {
         "RESULTS_PAGE": {
           "QUERY_INPUT_PLACEHOLDER": "Would you like to ask anything else?",
-          "REFERENCED_DOCUMENTS_HEADER": "Referenced documents"
+          "REFERENCED_DOCUMENTS_HEADER": "Referenced documents",
+          "LOADING_ERROR": "Hmm...something seems to have gone wrong.",
+          "REGENERATION_BUTTON_LABEL": "Regenerate"
         },
         "AGENTS_BUTTON": {
           "LABEL": "Ask Agent",
