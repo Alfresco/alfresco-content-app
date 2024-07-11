@@ -1,7 +1,7 @@
 <aca-page-layout>
   <div class="aca-page-layout-header">
     <aca-search-ai-input-container
-      *ngIf="searchAiInputState; else breadcrumbTemplate"
+      *ngIf="searchAiInputState.active; else breadcrumbTemplate"
       [agentId]="searchAiInputState.selectedAgentId">
     </aca-search-ai-input-container>
     <ng-template #breadcrumbTemplate>
