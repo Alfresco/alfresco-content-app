@@ -66,9 +66,14 @@ import { SearchAiInputContainerComponent } from '../knowledge-retrieval/search-a
 })
 export class RecentFilesComponent extends PageComponent implements OnInit {
   columns: DocumentListPresetRef[] = [];
-  searchAiInputState: SearchAiInputState = {
+
+  private _searchAiInputState: SearchAiInputState = {
     active: false
   };
+
+  get searchAiInputState(): SearchAiInputState {
+    return this._searchAiInputState;
+  }
 
   constructor(private searchAiService: SearchAiService) {
     super();
@@ -78,7 +83,7 @@ export class RecentFilesComponent extends PageComponent implements OnInit {
     super.ngOnInit();
 
     this.subscriptions = this.subscriptions.concat([
-      this.searchAiService.toggleSearchAiInput$.subscribe((searchAiInputState) => (this.searchAiInputState = searchAiInputState)),
+      this.searchAiService.toggleSearchAiInput$.subscribe((searchAiInputState) => (this._searchAiInputState = searchAiInputState)),
       this.uploadService.fileUploadComplete.pipe(debounceTime(300)).subscribe(() => this.reload()),
       this.uploadService.fileUploadDeleted.pipe(debounceTime(300)).subscribe(() => this.reload())
     ]);

@@ -94,13 +94,17 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   selectedNode: NodeEntry;
   queryParams = null;
   showLoader$ = this.store.select(showLoaderSelector);
-  private nodePath: PathElement[];
-
   columns: DocumentListPresetRef[] = [];
   isFilterHeaderActive = false;
-  searchAiInputState: SearchAiInputState = {
+
+  private nodePath: PathElement[];
+  private _searchAiInputState: SearchAiInputState = {
     active: false
   };
+
+  get searchAiInputState(): SearchAiInputState {
+    return this._searchAiInputState;
+  }
 
   constructor(
     private contentApi: ContentApiService,
@@ -145,7 +149,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
     this.subscriptions = this.subscriptions.concat([
       this.nodeActionsService.contentCopied.subscribe((nodes) => this.onContentCopied(nodes)),
-      this.searchAiService.toggleSearchAiInput$.subscribe((searchAiInputState) => (this.searchAiInputState = searchAiInputState)),
+      this.searchAiService.toggleSearchAiInput$.subscribe((searchAiInputState) => (this._searchAiInputState = searchAiInputState)),
       this.uploadService.fileUploadComplete.pipe(debounceTime(300)).subscribe((file) => this.onFileUploadedEvent(file)),
       this.uploadService.fileUploadDeleted.pipe(debounceTime(300)).subscribe((file) => this.onFileUploadedEvent(file))
     ]);

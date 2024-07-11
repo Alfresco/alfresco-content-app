@@ -67,9 +67,14 @@ import { SearchAiInputContainerComponent } from '../knowledge-retrieval/search-a
 })
 export class SharedFilesComponent extends PageComponent implements OnInit {
   columns: DocumentListPresetRef[] = [];
-  searchAiInputState: SearchAiInputState = {
+
+  private _searchAiInputState: SearchAiInputState = {
     active: false
   };
+
+  get searchAiInputState(): SearchAiInputState {
+    return this._searchAiInputState;
+  }
 
   constructor(private appHookService: AppHookService, private searchAiService: SearchAiService) {
     super();
@@ -80,7 +85,7 @@ export class SharedFilesComponent extends PageComponent implements OnInit {
 
     this.subscriptions = this.subscriptions.concat([
       this.appHookService.linksUnshared.pipe(debounceTime(300)).subscribe(() => this.reload()),
-      this.searchAiService.toggleSearchAiInput$.subscribe((searchAiInputState) => (this.searchAiInputState = searchAiInputState)),
+      this.searchAiService.toggleSearchAiInput$.subscribe((searchAiInputState) => (this._searchAiInputState = searchAiInputState)),
       this.uploadService.fileUploadComplete.pipe(debounceTime(300)).subscribe(() => this.reload()),
       this.uploadService.fileUploadDeleted.pipe(debounceTime(300)).subscribe(() => this.reload())
     ]);

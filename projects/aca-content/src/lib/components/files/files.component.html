@@ -6,10 +6,11 @@
     </aca-search-ai-input-container>
     <ng-template #header>
       <div class="aca-header-container">
-        <adf-breadcrumb [root]="title"
-                        [folderNode]="node"
-                        [maxItems]="isSmallScreen ? 1 : 0"
-                        (navigate)="onBreadcrumbNavigate($event)">
+        <adf-breadcrumb
+          [root]="title"
+          [folderNode]="node"
+          [maxItems]="isSmallScreen ? 1 : 0"
+          (navigate)="onBreadcrumbNavigate($event)">
         </adf-breadcrumb>
         <aca-toolbar [items]="actions"></aca-toolbar>
       </div>

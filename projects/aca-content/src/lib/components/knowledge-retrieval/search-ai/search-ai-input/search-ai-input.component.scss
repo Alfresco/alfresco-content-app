@@ -50,7 +50,7 @@ aca-search-ai-input {
 
     &-avatar {
       border-radius: 50%;
-      background-color: #9acd9a;
+      background-color: #9acd9a; // temporary to keep place for avatar, will be replaced with avatar image during synchronization with backend
       height: 26.43px;
       width: 26.43px;
       display: inline-block;
@@ -68,7 +68,7 @@ aca-search-ai-input {
 
     .aca-search-ai-input-agent-select-avatar {
       border-radius: 50%;
-      background-color: #9acd9a;
+      background-color: #9acd9a; // temporary to keep place for avatar, will be replaced with avatar image during synchronization with backend
       height: 32px;
       width: 32px;
       display: inline-block;

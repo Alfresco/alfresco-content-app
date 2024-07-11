@@ -116,9 +116,14 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
   totalResults: number;
   isTagsEnabled = false;
   columns: DocumentListPresetRef[] = [];
-  searchAiInputState: SearchAiInputState = {
+
+  private _searchAiInputState: SearchAiInputState = {
     active: false
   };
+
+  get searchAiInputState(): SearchAiInputState {
+    return this._searchAiInputState;
+  }
 
   constructor(
     tagsService: TagService,
@@ -173,7 +178,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
         this.onSearchError(err);
       }),
 
-      this.searchAiService.toggleSearchAiInput$.subscribe((searchAiInputState) => (this.searchAiInputState = searchAiInputState))
+      this.searchAiService.toggleSearchAiInput$.subscribe((searchAiInputState) => (this._searchAiInputState = searchAiInputState))
     );
 
     this.columns = this.extensions.documentListPresets.searchResults || [];
