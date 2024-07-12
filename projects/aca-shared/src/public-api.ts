@@ -39,7 +39,7 @@ export * from './lib/components/info-drawer/info-drawer.component';
 export * from './lib/components/document-base-page/document-base-page.component';
 export * from './lib/components/document-base-page/document-base-page.service';
 export * from './lib/components/open-in-app/open-in-app.component';
-
+export * from './lib/constants';
 export * from './lib/directives/contextmenu/contextmenu.directive';
 export * from './lib/directives/pagination.directive';
 

@@ -24,11 +24,11 @@
 
 import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { DEV_MODE_TOKEN } from './dev-mode.tokens';
-import { AboutModule, AppConfigService, AuthenticationService, RepositoryInfo } from '@alfresco/adf-core';
+import { AboutModule, AuthenticationService, RepositoryInfo } from '@alfresco/adf-core';
 import { DiscoveryApiService } from '@alfresco/adf-content-services';
 import { PACKAGE_JSON } from './package-json.token';
 import { TranslateModule } from '@ngx-translate/core';
-import { AppExtensionService, PageLayoutComponent } from '@alfresco/aca-shared';
+import { AppExtensionService, AppSettingsService, PageLayoutComponent } from '@alfresco/aca-shared';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
@@ -45,14 +45,14 @@ import { MatButtonModule } from '@angular/material/button';
 export class AboutComponent implements OnInit {
   private authService = inject(AuthenticationService);
   private appExtensions = inject(AppExtensionService);
+  private appSettings = inject(AppSettingsService);
   private discovery = inject(DiscoveryApiService);
-  private appConfigService = inject(AppConfigService);
   public packageJson? = inject(PACKAGE_JSON, { optional: true });
   public dev = inject(DEV_MODE_TOKEN);
 
   extensions$ = this.appExtensions.references$;
   repository: RepositoryInfo = null;
-  landingPage = this.appConfigService.get('landingPage', '/personal-files');
+  landingPage = this.appSettings.landingPage;
 
   ngOnInit(): void {
     if (this.authService.isEcmLoggedIn()) {

@@ -22,7 +22,4 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export interface MimeType {
-  label: string;
-  value: string;
-}
+export * from './mime-types';

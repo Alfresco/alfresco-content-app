@@ -24,17 +24,31 @@
 
 import { inject, Injectable } from '@angular/core';
 import { AppConfigService } from '@alfresco/adf-core';
+import { AlfrescoMimeType, DefaultMimeTypes } from '../constants/mime-types';
 
 @Injectable({ providedIn: 'root' })
 export class AppSettingsService {
   private appConfig = inject(AppConfigService);
 
   /**
-   * Returns the AOS host URL from the app settings.
-   *
-   * @returns {string} AOS host URL
-   * */
+   * Get the AOS (Alfresco Office Services) host URL from the app settings.
+   */
   get aosHost(): string {
     return this.appConfig.get<string>('aosHost', '');
+  }
+
+  /**
+   * Get the default landing page from the app settings.
+   * Default value: `/personal-files`.
+   */
+  get landingPage(): string {
+    return this.appConfig.get<string>('landingPage', '/personal-files');
+  }
+
+  /**
+   * Get the list of mime types from the app settings.
+   */
+  get mimeTypes(): AlfrescoMimeType[] {
+    return this.appConfig.get<AlfrescoMimeType[]>('mimeTypes', DefaultMimeTypes);
   }
 }
