@@ -44,7 +44,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { ExtensionService, provideExtensionConfig } from '@alfresco/adf-extensions';
-import { CoreModule, MaterialModule, TRANSLATION_PROVIDER } from '@alfresco/adf-core';
+import { CoreModule, TRANSLATION_PROVIDER } from '@alfresco/adf-core';
 
 import { MyExtensionComponent } from './my-extension.component';
 import { MyExtensionService } from './my-extension.service';
@@ -54,7 +54,7 @@ export function components() {
 }
 
 @NgModule({
-    imports: [CoreModule, BrowserModule, FormsModule, MaterialModule],
+    imports: [CoreModule, BrowserModule, FormsModule],
     providers: [
         {
             provide: TRANSLATION_PROVIDER,
