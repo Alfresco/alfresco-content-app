@@ -32,11 +32,12 @@ import { Store } from '@ngrx/store';
 import { Component } from '@angular/core';
 import { DiscoveryApiService, DocumentListComponent } from '@alfresco/adf-content-services';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { AuthModule, MaterialModule } from '@alfresco/adf-core';
+import { AuthModule } from '@alfresco/adf-core';
 import { HttpClientModule } from '@angular/common/http';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Subscription } from 'rxjs';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @Component({
   selector: 'aca-test',
@@ -61,7 +62,7 @@ describe('PageComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [LibTestingModule, MaterialModule, AuthModule.forRoot()],
+      imports: [LibTestingModule, AuthModule.forRoot(), MatDialogModule],
       declarations: [TestComponent],
       providers: [
         { provide: DocumentBasePageService, useClass: DocumentBasePageServiceMock },
@@ -211,7 +212,7 @@ describe('Info Drawer state', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, HttpClientModule, RouterTestingModule, MaterialModule, AuthModule.forRoot()],
+      imports: [NoopAnimationsModule, HttpClientModule, RouterTestingModule, AuthModule.forRoot(), MatDialogModule],
       declarations: [TestComponent],
       providers: [
         { provide: DocumentBasePageService, useClass: DocumentBasePageServiceMock },
