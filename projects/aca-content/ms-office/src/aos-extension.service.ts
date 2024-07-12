@@ -51,7 +51,7 @@ export class AosEditOnlineService implements IAosEditOnlineService {
         // );
         const checkedOut = node.properties['cm:lockType'] === 'WRITE_LOCK' || node.properties['cm:lockType'] === 'READ_ONLY_LOCK';
         const lockOwner = node.properties['cm:lockOwner'];
-        const differentLockOwner = lockOwner.id !== this.authenticationService.getUsername();
+        const differentLockOwner = lockOwner.id !== this.authenticationService.getEcmUsername();
 
         if (checkedOut && differentLockOwner) {
           this.onAlreadyLockedNotification(node.id, lockOwner.id);

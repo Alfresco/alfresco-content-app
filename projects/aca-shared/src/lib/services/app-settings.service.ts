@@ -34,7 +34,7 @@ export class AppSettingsService {
    * Get the AOS (Alfresco Office Services) host URL from the app settings.
    */
   get aosHost(): string {
-    return this.appConfig.get<string>('aosHost', '');
+    return this.appConfig.get<string>('aosHost');
   }
 
   /**
