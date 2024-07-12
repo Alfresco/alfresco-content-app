@@ -22,9 +22,9 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
-import { AppConfigService } from '@alfresco/adf-core';
+import { AppSettingsService } from '@alfresco/aca-shared';
 
 @Component({
   standalone: true,
@@ -32,12 +32,10 @@ import { AppConfigService } from '@alfresco/adf-core';
   encapsulation: ViewEncapsulation.None
 })
 export class HomeComponent implements OnInit {
-  readonly DEFAULT_LANDING_PAGE = '/personal-files';
-
-  constructor(private appConfig: AppConfigService, private router: Router) {}
+  private appSettings = inject(AppSettingsService);
+  private router = inject(Router);
 
   ngOnInit() {
-    const landingPage = this.appConfig.get('landingPage', this.DEFAULT_LANDING_PAGE);
-    this.router.navigateByUrl(landingPage);
+    this.router.navigateByUrl(this.appSettings.landingPage);
   }
 }
