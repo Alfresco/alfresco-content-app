@@ -22,7 +22,7 @@
       }
     }
 
-    .mdc-checkbox__native-control:focus {
+    .mdc-checkbox__native-control:focus-visible {
       & ~ .mat-mdc-checkbox-ripple {
         @include rounded-outline;
 
@@ -31,10 +31,6 @@
         left: calc(50% - 11px);
         top: calc(50% - 10px);
         display: block;
-      }
-
-      & ~ .mdc-checkbox__background {
-        opacity: 0.57;
       }
     }
   }
