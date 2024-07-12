@@ -24,7 +24,7 @@
     "implicitFlow": false,
     "codeFlow": true,
     "silentLogin": true,
-    "publicUrls": ["**/preview/s/*", "**/settings", "**/blank"],
+    "publicUrls": ["**/preview/s/*", "**/settings"],
     "redirectSilentIframeUri": "{protocol}//{hostname}{:port}/assets/silent-refresh.html",
     "redirectUri": "/",
     "redirectUriLogout": "/",
