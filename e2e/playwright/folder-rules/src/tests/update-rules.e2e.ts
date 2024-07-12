@@ -34,22 +34,18 @@ test.describe('Rules - Manage Rules', () => {
   const username = `user-e2e-${Utils.random()}`;
   const folderName897_1 = `folder-XAT-897-1-${Utils.random()}`;
   const folderName897_2 = `folder-XAT-897-2-${Utils.random()}`;
-  const folderName898 = `folder-XAT-898-${Utils.random()}`;
-  const folderName899 = `folder-XAT-899-${Utils.random()}`;
-  const folderName900 = `folder-XAT-900-${Utils.random()}`;
-  const folderName901 = `folder-XAT-901-${Utils.random()}`;
-  const folderName902 = `folder-XAT-902-${Utils.random()}`;
-  const folderName903 = `folder-XAT-903-${Utils.random()}`;
-  const randomRuleName = `playwright-rule-${Utils.random()}`;
+  const randomFolderName1 = `folder-name-${Utils.random()}`;
+  const randomRuleName897 = `playwright-rule-897-${Utils.random()}`;
+  const randomRuleName898 = `playwright-rule-898-${Utils.random()}`;
+  const randomRuleName899 = `playwright-rule-899-${Utils.random()}`;
+  const randomRuleName900 = `playwright-rule-900-${Utils.random()}`;
+  const randomRuleName901 = `playwright-rule-901-${Utils.random()}`;
+  const randomRuleName902 = `playwright-rule-902-${Utils.random()}`;
+  const randomRuleName903 = `playwright-rule-903-${Utils.random()}`;
 
   let folderName897Id1: string;
   let folderName897Id2: string;
-  let folderName898Id: string;
-  let folderName899Id: string;
-  let folderName900Id: string;
-  let folderName901Id: string;
-  let folderName902Id: string;
-  let folderName903Id: string;
+  let randomFolderId: string;
 
   test.beforeAll(async () => {
     try {
@@ -65,20 +61,15 @@ test.describe('Rules - Manage Rules', () => {
     await apiClientFactory.setUpAcaBackend(username, username);
     folderName897Id1 = (await nodesApi.createFolder(folderName897_1)).entry.id;
     folderName897Id2 = (await nodesApi.createFolder(folderName897_2)).entry.id;
-    folderName898Id = (await nodesApi.createFolder(folderName898)).entry.id;
-    folderName899Id = (await nodesApi.createFolder(folderName899)).entry.id;
-    folderName900Id = (await nodesApi.createFolder(folderName900)).entry.id;
-    folderName901Id = (await nodesApi.createFolder(folderName901)).entry.id;
-    folderName902Id = (await nodesApi.createFolder(folderName902)).entry.id;
-    folderName903Id = (await nodesApi.createFolder(folderName903)).entry.id;
+    randomFolderId = (await nodesApi.createFolder(randomFolderName1)).entry.id;
 
-    await rulesApi.createRuleWithDestinationFolder(folderName897Id1, randomRuleName, 'move', folderName897Id2);
-    await rulesApi.createRandomRule(folderName898Id, randomRuleName);
-    await rulesApi.createRandomRuleWithMultipleActions(folderName899Id, randomRuleName, 3);
-    await rulesApi.createRuleWithRandomAspects(folderName900Id, randomRuleName);
-    await rulesApi.createRandomRuleWithMultipleActions(folderName901Id, randomRuleName, 3);
-    await rulesApi.createRandomRule(folderName902Id, randomRuleName);
-    await rulesApi.createRandomRuleWithMultipleConditions(folderName903Id, randomRuleName, 3);
+    await rulesApi.createRuleWithDestinationFolder(folderName897Id1, randomRuleName897, 'move', folderName897Id2);
+    await rulesApi.createRandomRule(randomFolderId, randomRuleName898);
+    await rulesApi.createRandomRuleWithMultipleActions(randomFolderId, randomRuleName899, 3);
+    await rulesApi.createRuleWithRandomAspects(randomFolderId, randomRuleName900);
+    await rulesApi.createRandomRuleWithMultipleActions(randomFolderId, randomRuleName901, 3);
+    await rulesApi.createRandomRule(randomFolderId, randomRuleName902);
+    await rulesApi.createRandomRuleWithMultipleConditions(randomFolderId, randomRuleName903, 3);
 
     await nodesApi.deleteNodeById(folderName897Id2);
   });
@@ -100,38 +91,43 @@ test.describe('Rules - Manage Rules', () => {
   });
 
   test('[XAT-898] Cancel updating rule dialog', async ({ personalFiles, nodesPage }) => {
-    await personalFiles.dataTable.performActionFromExpandableMenu(folderName898, 'Manage rules');
+    await personalFiles.dataTable.performActionFromExpandableMenu(randomFolderName1, 'Manage rules');
     await nodesPage.manageRules.ruleDetailsEditButton.click();
     await nodesPage.manageRulesDialog.ruleNameInputLocator.fill('new name');
     await nodesPage.manageRulesDialog.cancelRuleButton.click();
-    await expect(nodesPage.manageRules.getGroupsList(randomRuleName)).toBeVisible();
+    await expect(nodesPage.manageRules.getGroupsList(randomRuleName898)).toBeVisible();
   });
 
   test('[XAT-899] Update rule by removing existing actions', async ({ personalFiles, nodesPage }) => {
-    await personalFiles.dataTable.performActionFromExpandableMenu(folderName899, 'Manage rules');
+    await personalFiles.dataTable.performActionFromExpandableMenu(randomFolderName1, 'Manage rules');
+    await nodesPage.manageRules.getGroupsList(randomRuleName899).click();
     await nodesPage.manageRules.ruleDetailsEditButton.click();
     await nodesPage.manageRulesDialog.deleteActions(2);
     await nodesPage.actionsDropdown.selectAction(ActionType.IncrementCounter, 1);
     await nodesPage.manageRulesDialog.createRuleButton.click();
     await nodesPage.manageRulesDialog.createRuleButton.waitFor({ state: 'hidden' });
+    await nodesPage.manageRules.getGroupsList(randomRuleName899).click();
 
     expect(await nodesPage.manageRules.ruleActions.count()).toEqual(2);
   });
 
   test('[XAT-900] Update a rule by removing existing aspects', async ({ personalFiles, nodesPage }) => {
-    await personalFiles.dataTable.performActionFromExpandableMenu(folderName900, 'Manage rules');
+    await personalFiles.dataTable.performActionFromExpandableMenu(randomFolderName1, 'Manage rules');
+    await nodesPage.manageRules.getGroupsList(randomRuleName900).click();
     await nodesPage.manageRules.ruleDetailsEditButton.click();
     await nodesPage.manageRulesDialog.deleteActions(2);
     await nodesPage.actionsDropdown.selectAction(ActionType.AddAspect, 1);
     await nodesPage.actionsDropdown.insertAddAspectActionValues('History', 1);
     await nodesPage.manageRulesDialog.createRuleButton.click();
     await nodesPage.manageRulesDialog.createRuleButton.waitFor({ state: 'hidden' });
+    await nodesPage.manageRules.getGroupsList(randomRuleName900).click();
 
     expect(await nodesPage.manageRules.ruleActions.count()).toEqual(2);
   });
 
   test('[XAT-901] Prevent rule updating after clicking on cancel during selecting destination folder', async ({ personalFiles, nodesPage }) => {
-    await personalFiles.dataTable.performActionFromExpandableMenu(folderName901, 'Manage rules');
+    await personalFiles.dataTable.performActionFromExpandableMenu(randomFolderName1, 'Manage rules');
+    await nodesPage.manageRules.getGroupsList(randomRuleName901).click();
     await nodesPage.manageRules.ruleDetailsEditButton.click();
     await nodesPage.manageRulesDialog.deleteActions(2);
     await nodesPage.actionsDropdown.selectAction(ActionType.Copy, 1);
@@ -142,19 +138,22 @@ test.describe('Rules - Manage Rules', () => {
   });
 
   test('[XAT-902] Prevent rule updating when required fields are empty', async ({ personalFiles, nodesPage }) => {
-    await personalFiles.dataTable.performActionFromExpandableMenu(folderName902, 'Manage rules');
+    await personalFiles.dataTable.performActionFromExpandableMenu(randomFolderName1, 'Manage rules');
+    await nodesPage.manageRules.getGroupsList(randomRuleName902).click();
     await nodesPage.manageRules.ruleDetailsEditButton.click();
     await nodesPage.actionsDropdown.selectAction(ActionType.AddAspect, 1);
     await expect(nodesPage.manageRulesDialog.createRuleButton).toBeDisabled();
   });
 
   test('[XAT-903] [XAT-904] Edit existing conditions', async ({ personalFiles, nodesPage }) => {
-    await personalFiles.dataTable.performActionFromExpandableMenu(folderName903, 'Manage rules');
+    await personalFiles.dataTable.performActionFromExpandableMenu(randomFolderName1, 'Manage rules');
+    await nodesPage.manageRules.getGroupsList(randomRuleName903).click();
     await nodesPage.manageRules.ruleDetailsEditButton.click();
     await nodesPage.manageRulesDialog.deleteConditions(2);
     await nodesPage.conditionsDropdown.addCondition(Field.Size, 'XAT-903', 1, Comparator.Equals);
     await nodesPage.manageRulesDialog.createRuleButton.click();
     await nodesPage.manageRulesDialog.createRuleButton.waitFor({ state: 'hidden' });
+    await nodesPage.manageRules.getGroupsList(randomRuleName903).click();
     expect(await nodesPage.manageRules.countConditionsInGroup()).toEqual(2);
   });
 });
