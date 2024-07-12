@@ -23,10 +23,11 @@
  */
 
 /* cspell:disable */
-import { AppConfigService, AuthenticationService, LogService, NotificationService } from '@alfresco/adf-core';
+import { AuthenticationService, NotificationService } from '@alfresco/adf-core';
 import { Injectable } from '@angular/core';
 import { Node } from '@alfresco/js-api';
 import { getFileExtension, supportedExtensions } from '@alfresco/aca-shared/rules';
+import { AppSettingsService } from '@alfresco/aca-shared';
 
 export interface IAosEditOnlineService {
   onActionEditOnlineAos(node: Node): void;
@@ -38,9 +39,8 @@ export interface IAosEditOnlineService {
 export class AosEditOnlineService implements IAosEditOnlineService {
   constructor(
     private authenticationService: AuthenticationService,
-    private appConfigService: AppConfigService,
-    private notificationService: NotificationService,
-    private logService: LogService
+    private appSettings: AppSettingsService,
+    private notificationService: NotificationService
   ) {}
 
   onActionEditOnlineAos(node: Node): void {
@@ -77,7 +77,6 @@ export class AosEditOnlineService implements IAosEditOnlineService {
   }
 
   private onAlreadyLockedNotification(nodeId: string, lockOwner: string) {
-    this.logService.error('Document already locked by another user');
     this.notificationService.showError(`AOS.ERRORS.ALREADY_LOCKED`, null, {
       nodeId,
       lockOwner
@@ -89,7 +88,7 @@ export class AosEditOnlineService implements IAosEditOnlineService {
   }
 
   private triggerEditOnlineAos(node: Node): void {
-    const aosHost = this.appConfigService.get('aosHost');
+    const aosHost = this.appSettings.aosHost;
     let url: string;
     const pathElements = (node.path?.elements || []).map((segment) => segment.name);
 
@@ -110,13 +109,11 @@ export class AosEditOnlineService implements IAosEditOnlineService {
     const protocolHandler = this.getProtocolForFileExtension(fileExtension);
 
     if (protocolHandler === undefined) {
-      this.logService.error('Protocol handler missing');
       this.notificationService.showError(`AOS.ERRORS.MISSING_PROTOCOL_HANDLER`, null, { nodeName: node.name });
       return;
     }
 
     if (!this.isWindows() && !this.isMacOs()) {
-      this.logService.error('Unsupported platform');
       this.notificationService.showError('AOS.ERRORS.UNSUPPORTED_PLATFORM');
     } else {
       this.openByUrl(protocolHandler, url);
