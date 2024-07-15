@@ -23,6 +23,7 @@
  */
 
 import { ApiClientFactory } from './api-client-factory';
+import { AcaFolderRulesModule } from '@alfresco/aca-content/folder-rules';
 import * as crypto from 'crypto';
 
 export class RulesApi {
@@ -150,23 +151,23 @@ export class RulesApi {
 
 type RuleTrigger = 'inbound' | 'update' | 'outbound';
 
-export interface RuleCondition {
-  inverted: boolean;
-  booleanMode: 'and' | 'or';
-  compositeConditions: RuleCompositeCondition[];
-}
+// export interface RuleCondition {
+//   inverted: boolean;
+//   booleanMode: 'and' | 'or';
+//   compositeConditions: RuleCompositeCondition[];
+// }
 
-export interface RuleCompositeCondition {
-  inverted: boolean;
-  booleanMode: 'and' | 'or';
-  simpleConditions: RuleSimpleCondition[];
-}
+// export interface RuleCompositeCondition {
+//   inverted: boolean;
+//   booleanMode: 'and' | 'or';
+//   simpleConditions: RuleSimpleCondition[];
+// }
 
-export interface RuleSimpleCondition {
-  field: string;
-  comparator: string;
-  parameter: string;
-}
+// export interface RuleSimpleCondition {
+//   field: string;
+//   comparator: string;
+//   parameter: string;
+// }
 
 export interface Rule {
   id: string;
@@ -178,7 +179,7 @@ export interface Rule {
   errorScript: string;
   isShared: boolean;
   triggers: RuleTrigger[];
-  conditions: RuleCondition;
+  conditions: AcaFolderRulesModule;
   actions: RuleAction[];
 }
 
@@ -267,5 +268,5 @@ export class ConditionsTypes {
     ]
   });
   static readonly conditions = [ConditionsTypes.MIMETYPE.value, ConditionsTypes.CMNAME.value, ConditionsTypes.SIZE.value, ConditionsTypes.TAG.value];
-  constructor(public key: string, public value: RuleCompositeCondition) {}
+  constructor(public key: string, public value: AcaFolderRulesModule) {}
 }
