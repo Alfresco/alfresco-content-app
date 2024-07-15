@@ -151,24 +151,6 @@ export class RulesApi {
 
 type RuleTrigger = 'inbound' | 'update' | 'outbound';
 
-// export interface RuleCondition {
-//   inverted: boolean;
-//   booleanMode: 'and' | 'or';
-//   compositeConditions: RuleCompositeCondition[];
-// }
-
-// export interface RuleCompositeCondition {
-//   inverted: boolean;
-//   booleanMode: 'and' | 'or';
-//   simpleConditions: RuleSimpleCondition[];
-// }
-
-// export interface RuleSimpleCondition {
-//   field: string;
-//   comparator: string;
-//   parameter: string;
-// }
-
 export interface Rule {
   id: string;
   name: string;
