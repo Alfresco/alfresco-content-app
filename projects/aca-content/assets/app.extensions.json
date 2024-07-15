@@ -688,6 +688,14 @@
         ]
       }
     ],
+    "bulk-actions-dropdown": [
+      {
+          "id": "app.bulk.actions.legalHold",
+          "component": "app.bulk-actions-dropdown",
+          "title": "GOVERNANCE.MANAGE_HOLDS.DIALOG_TITLE",
+          "type": "custom"
+        }
+  ],
     "contextMenu": [
       {
         "id": "app.context.menu.share",

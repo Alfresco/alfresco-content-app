@@ -1,6 +1,7 @@
 <aca-page-layout>
   <div class="aca-page-layout-header">
     <aca-search-input></aca-search-input>
+    <aca-bulk-actions-dropdown *ngIf="bulkActions" [items]="bulkActions"></aca-bulk-actions-dropdown>
     <div class="aca-search-toolbar-spacer"></div>
     <aca-toolbar [items]="actions"></aca-toolbar>
   </div>

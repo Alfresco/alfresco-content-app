@@ -22,22 +22,28 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export enum AppActionTypes {
-  SetCurrentFolder = 'SET_CURRENT_FOLDER',
-  SetCurrentVersion = 'SET_CURRENT_VERSION',
-  SetCurrentUrl = 'SET_CURRENT_URL',
-  SetUserProfile = 'SET_USER_PROFILE',
-  SetRepositoryInfo = 'SET_REPOSITORY_INFO',
-  ToggleInfoDrawer = 'TOGGLE_INFO_DRAWER',
-  Logout = 'LOGOUT',
-  ReloadDocumentList = 'RELOAD_DOCUMENT_LIST',
-  ResetSelection = 'RESET_SELECTION',
-  SetInfoDrawerState = 'SET_INFO_DRAWER_STATE',
-  SetInfoDrawerMetadataAspect = 'SET_INFO_DRAWER_METADATA_ASPECT',
-  CloseModalDialogs = 'CLOSE_MODAL_DIALOGS',
-  SetFileUploadingDialog = 'SET_FILE_UPLOADING_DIALOG',
-  ShowInfoDrawerPreview = 'SHOW_INFO_DRAWER_PREVIEW',
-  SetInfoDrawerPreviewState = 'SET_INFO_DRAWER_PREVIEW_STATE',
-  ShowLoaderAction = 'SHOW_LOADER',
-  SetSearchItemsTotalCount = 'SET_SEARCH_ITEMS_TOTAL_COUNT'
-}
+/* tslint:disable:no-unused-variable */
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { BulkActionsDropdownComponent } from './bulk-actions-dropdown.component';
+
+describe('BulkActionsDropdownComponent', () => {
+  let component: BulkActionsDropdownComponent;
+  let fixture: ComponentFixture<BulkActionsDropdownComponent>;
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [BulkActionsDropdownComponent]
+    }).compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(BulkActionsDropdownComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
