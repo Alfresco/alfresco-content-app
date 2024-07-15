@@ -128,24 +128,9 @@
       >
         <adf-viewer-toolbar>
           <div class="adf-search-results--preview-toolbar">
-            <div>
-              <button mat-icon-button title="{{ 'ADF_VIEWER.ACTIONS.CLOSE' | translate }}" (click)="onDrawerClosed()">
-                <mat-icon>close</mat-icon>
-              </button>
-            </div>
-            <div>
-              <button
-                mat-icon-button
-                title="{{ 'ADF_VIEWER.ACTIONS.PREVIEW' | translate }}"
-                color="accent"
-                class="adf-search-results--visibility_button"
-              >
-                <mat-icon>visibility</mat-icon>
-              </button>
-              <button mat-icon-button title="{{ 'ADF_VIEWER.ACTIONS.CLOSE' | translate }}" (click)="onPreviewClosed()">
-                <mat-icon>info_outline</mat-icon>
-              </button>
-            </div>
+            <adf-button variant="icon" icon="close" [tooltip]="'ADF_VIEWER.ACTIONS.CLOSE' | translate" (click)="onDrawerClosed()"></adf-button>
+            <adf-button variant="icon" icon="visibility" [tooltip]="'ADF_VIEWER.ACTIONS.PREVIEW' | translate" color="accent"></adf-button>
+            <adf-button variant="icon" icon="info_outline" [tooltip]="'ADF_VIEWER.ACTIONS.CLOSE' | translate" (click)="onPreviewClosed()"></adf-button>
           </div>
         </adf-viewer-toolbar>
       </adf-alfresco-viewer>

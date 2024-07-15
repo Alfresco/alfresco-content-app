@@ -33,10 +33,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
 import { takeUntil } from 'rxjs/operators';
+import { ButtonComponent } from '@alfresco/adf-core';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, MatMenuModule, MatIconModule, TranslateModule, MatButtonModule],
+  imports: [CommonModule, MatMenuModule, MatIconModule, TranslateModule, MatButtonModule, ButtonComponent],
   selector: 'app-toggle-shared',
   templateUrl: './toggle-shared.component.html',
   encapsulation: ViewEncapsulation.None

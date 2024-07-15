@@ -30,9 +30,8 @@ import { ActionDefinitionTransformed } from '../model/rule-action.model';
 import { ActionParameterConstraint } from '../model/action-parameter-constraint.model';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { RuleDetailsUiComponent } from './rule-details.ui-component';
+import { ButtonComponent } from '@alfresco/adf-core';
 
 export interface EditRuleDialogOptions {
   model?: Partial<Rule>;
@@ -43,7 +42,7 @@ export interface EditRuleDialogOptions {
 
 @Component({
   standalone: true,
-  imports: [CommonModule, TranslateModule, MatDialogModule, MatButtonModule, MatIconModule, RuleDetailsUiComponent],
+  imports: [CommonModule, TranslateModule, MatDialogModule, RuleDetailsUiComponent, ButtonComponent],
   selector: 'aca-edit-rule-dialog',
   templateUrl: './edit-rule-dialog.ui-component.html',
   styleUrls: ['./edit-rule-dialog.ui-component.scss'],

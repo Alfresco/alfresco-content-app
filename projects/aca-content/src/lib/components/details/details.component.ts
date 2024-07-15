@@ -30,15 +30,14 @@ import { merge, Subject } from 'rxjs';
 import { BreadcrumbModule, ContentService, PermissionManagerModule } from '@alfresco/adf-content-services';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
-import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatButtonModule } from '@angular/material/button';
 import { MetadataTabComponent } from '../info-drawer/metadata-tab/metadata-tab.component';
 import { CommentsTabComponent } from '../info-drawer/comments-tab/comments-tab.component';
 import { NodeEntry, PathElement } from '@alfresco/js-api';
 import { first, takeUntil } from 'rxjs/operators';
 import { ContentActionRef } from '@alfresco/adf-extensions';
+import { ButtonComponent, InfoDrawerModule } from '@alfresco/adf-core';
 
 @Component({
   standalone: true,
@@ -47,14 +46,14 @@ import { ContentActionRef } from '@alfresco/adf-extensions';
     TranslateModule,
     PermissionManagerModule,
     BreadcrumbModule,
-    MatIconModule,
     MatTabsModule,
     MatProgressBarModule,
-    MatButtonModule,
     MetadataTabComponent,
     CommentsTabComponent,
     PageLayoutComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    InfoDrawerModule,
+    ButtonComponent
   ],
   selector: 'app-details-manager',
   templateUrl: './details.component.html',

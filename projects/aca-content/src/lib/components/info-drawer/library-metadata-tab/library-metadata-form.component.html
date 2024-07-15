@@ -46,15 +46,15 @@
 
   <mat-card-actions align="end" *ngIf="canUpdateLibrary">
     <ng-container *ngIf="form.enabled">
-      <button mat-button (click)="cancel()">
+      <adf-button (click)="cancel()">
         {{ 'LIBRARY.DIALOG.CANCEL' | translate }}
-      </button>
-      <button mat-button color="primary" [disabled]="form.invalid || form.pristine" (click)="update()">
+      </adf-button>
+      <adf-button color="primary" [disabled]="form.invalid || form.pristine" (click)="update()">
         {{ 'LIBRARY.DIALOG.UPDATE' | translate }}
-      </button>
+      </adf-button>
     </ng-container>
-    <button mat-button color="primary" (click)="toggleEdit()" *ngIf="form.disabled">
+    <adf-button color="primary" (click)="toggleEdit()" *ngIf="form.disabled">
       {{ 'LIBRARY.DIALOG.EDIT' | translate }}
-    </button>
+    </adf-button>
   </mat-card-actions>
 </mat-card>

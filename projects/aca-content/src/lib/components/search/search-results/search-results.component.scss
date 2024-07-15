@@ -45,10 +45,10 @@ aca-search-results {
             color: var(--theme-search-chip-icon-color);
           }
 
-        .adf-search-filter-chip-icon {
-          color: var(--theme-search-chip-icon-color);
+          .adf-search-filter-chip-icon {
+            color: var(--theme-search-chip-icon-color);
+          }
         }
-      }
 
         .adf-search-filter-placeholder {
           color: var(--theme-selected-text-color);
@@ -82,13 +82,8 @@ aca-search-results {
     &--preview-toolbar {
       display: flex;
       align-items: flex-end;
-      justify-content: space-between;
       margin: 5px;
       padding-right: 24px;
-    }
-
-    &--visibility_button {
-      margin-right: 8px;
     }
 
     .adf-search-filter {

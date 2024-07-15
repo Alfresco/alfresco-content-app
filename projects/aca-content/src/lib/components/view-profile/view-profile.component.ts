@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AlfrescoApiService } from '@alfresco/adf-core';
+import { AlfrescoApiService, ButtonComponent } from '@alfresco/adf-core';
 import { PeopleApi, Person } from '@alfresco/js-api';
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -31,15 +31,13 @@ import { Observable, Subject, throwError } from 'rxjs';
 import { AppService } from '@alfresco/aca-shared';
 import { takeUntil } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, TranslateModule, ReactiveFormsModule, MatButtonModule, MatIconModule, MatDividerModule, MatFormFieldModule],
+  imports: [CommonModule, TranslateModule, ReactiveFormsModule, MatDividerModule, MatFormFieldModule, ButtonComponent],
   selector: 'app-view-profile',
   templateUrl: './view-profile.component.html',
   styleUrls: ['./view-profile.component.scss'],
@@ -108,7 +106,8 @@ export class ViewProfileComponent implements OnInit, OnDestroy {
     });
   }
 
-  toggleGeneralDropdown() {
+  toggleGeneralDropdown(event: Event) {
+    event.preventDefault();
     this.generalSectionDropdown = !this.generalSectionDropdown;
 
     if (!this.generalSectionDropdown) {
@@ -157,7 +156,8 @@ export class ViewProfileComponent implements OnInit, OnDestroy {
     }
   }
 
-  toggleContactDropdown() {
+  toggleContactDropdown(event: Event) {
+    event.preventDefault();
     this.contactSectionDropdown = !this.contactSectionDropdown;
 
     if (!this.contactSectionDropdown) {

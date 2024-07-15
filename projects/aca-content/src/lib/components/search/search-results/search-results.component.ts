@@ -35,7 +35,7 @@ import {
   ShowInfoDrawerPreviewAction,
   SnackbarErrorAction
 } from '@alfresco/aca-shared/store';
-import { DataTableModule, PaginationComponent, TranslationService, ViewerModule } from '@alfresco/adf-core';
+import { ButtonComponent, DataTableModule, PaginationComponent, TranslationService, ViewerModule } from '@alfresco/adf-core';
 import { combineLatest } from 'rxjs';
 import {
   ContextActionsDirective,
@@ -57,7 +57,6 @@ import { DocumentListDirective } from '../../../directives/document-list.directi
 import { ThumbnailColumnComponent } from '../../dl-custom-components/thumbnail-column/thumbnail-column.component';
 import { SearchActionMenuComponent } from '../search-action-menu/search-action-menu.component';
 import { TagsColumnComponent } from '../../dl-custom-components/tags-column/tags-column.component';
-import { MatIconModule } from '@angular/material/icon';
 import { SearchResultsRowComponent } from '../search-results-row/search-results-row.component';
 import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-extensions';
 
@@ -79,7 +78,6 @@ import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-ext
     SearchActionMenuComponent,
     TagsColumnComponent,
     PaginationComponent,
-    MatIconModule,
     InfoDrawerComponent,
     SearchResultsRowComponent,
     PaginationDirective,
@@ -87,7 +85,8 @@ import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-ext
     PageLayoutComponent,
     ToolbarComponent,
     AlfrescoViewerComponent,
-    DynamicColumnComponent
+    DynamicColumnComponent,
+    ButtonComponent
   ],
   selector: 'aca-search-results',
   templateUrl: './search-results.component.html',
