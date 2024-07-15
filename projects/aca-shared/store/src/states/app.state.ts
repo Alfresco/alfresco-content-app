@@ -45,6 +45,7 @@ export interface AppState {
   repository: RepositoryInfo;
   fileUploadingDialog: boolean;
   showLoader: boolean;
+  searchItemsTotalCount: number;
 }
 
 export interface AppStore {

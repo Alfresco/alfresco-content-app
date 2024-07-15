@@ -61,14 +61,15 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   node: Node;
   selection: SelectionState;
   sharedPreviewUrl$: Observable<string>;
-  actions: Array<ContentActionRef> = [];
-  viewerToolbarActions: Array<ContentActionRef> = [];
+  actions: ContentActionRef[] = [];
+  bulkActions: ContentActionRef[] = [];
+  viewerToolbarActions: ContentActionRef[] = [];
   canUpdateNode = false;
   canUpload = false;
   nodeResult: NodePaging;
   showHeader = ShowHeaderMode.Data;
   filterSorting = 'name-asc';
-  createActions: Array<ContentActionRef> = [];
+  createActions: ContentActionRef[] = [];
   isSmallScreen = false;
 
   protected extensions = inject(AppExtensionService);
@@ -105,6 +106,13 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((actions) => {
         this.actions = actions;
+      });
+
+    this.extensions
+      .getBulkActions()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((actions) => {
+        this.bulkActions = actions;
       });
 
     this.extensions

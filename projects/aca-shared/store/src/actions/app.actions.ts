@@ -114,3 +114,9 @@ export class ShowLoaderAction implements Action {
 
   constructor(public payload: boolean) {}
 }
+
+export class SetSearchItemsTotalCountAction implements Action {
+  readonly type = AppActionTypes.SetSearchItemsTotalCount;
+
+  constructor(public payload: number) {}
+}

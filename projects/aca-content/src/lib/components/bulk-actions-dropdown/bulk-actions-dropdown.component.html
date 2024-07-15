@@ -1,0 +1,17 @@
+<mat-form-field
+  *ngIf="items.length && selection$ | async; let selection"
+  appearance="outline"
+  class="aca-bulk-form-feild"
+>
+  <mat-select
+    [placeholder]="'SEARCH.BULK_ACTIONS_DROPDOWN' | translate: { count: selection }"
+    panelClass="aca-bulk-select"
+    disableOptionCentering
+  >
+    <ng-container *ngFor="let option of items; index">
+      <mat-option [value]="option.title">
+        {{ option.title | translate }}
+    </mat-option>
+    </ng-container>
+  </mat-select>
+</mat-form-field>

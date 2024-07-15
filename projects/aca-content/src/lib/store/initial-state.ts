@@ -56,7 +56,8 @@ export const INITIAL_APP_STATE: AppState = {
     status: {
       isQuickShareEnabled: true
     }
-  } as any
+  } as any,
+  searchItemsTotalCount: null
 };
 
 export const INITIAL_STATE: AppStore = {

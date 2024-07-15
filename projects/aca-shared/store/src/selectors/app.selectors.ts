@@ -47,6 +47,7 @@ export const isHXIConnectorEnabled = createSelector(getRepositoryStatus, (info) 
 export const isAdmin = createSelector(selectApp, (state) => state.user.isAdmin);
 export const getFileUploadingDialog = createSelector(selectApp, (state) => state.fileUploadingDialog);
 export const showLoaderSelector = createSelector(selectApp, (state) => state.showLoader);
+export const getSearchItemsTotalCount = createSelector(selectApp, (state) => state.searchItemsTotalCount);
 
 export const getSideNavState = createSelector(getAppSelection, getNavigationState, (selection, navigation) => ({
   selection,

@@ -31,6 +31,7 @@ import {
   NavigateToFolder,
   SetInfoDrawerPreviewStateAction,
   SetInfoDrawerStateAction,
+  SetSearchItemsTotalCountAction,
   showFacetFilter,
   ShowInfoDrawerPreviewAction,
   SnackbarErrorAction
@@ -60,6 +61,7 @@ import { TagsColumnComponent } from '../../dl-custom-components/tags-column/tags
 import { MatIconModule } from '@angular/material/icon';
 import { SearchResultsRowComponent } from '../search-results-row/search-results-row.component';
 import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-extensions';
+import { BulkActionsDropdownComponent } from '../../bulk-actions-dropdown/bulk-actions-dropdown.component';
 
 @Component({
   standalone: true,
@@ -87,7 +89,8 @@ import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-ext
     PageLayoutComponent,
     ToolbarComponent,
     AlfrescoViewerComponent,
-    DynamicColumnComponent
+    DynamicColumnComponent,
+    BulkActionsDropdownComponent
   ],
   selector: 'aca-search-results',
   templateUrl: './search-results.component.html',
@@ -247,6 +250,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
   onSearchResultLoaded(nodePaging: ResultSetPaging) {
     this.data = nodePaging;
     this.totalResults = this.getNumberOfResults();
+    this.store.dispatch(new SetSearchItemsTotalCountAction(this.totalResults));
   }
 
   getNumberOfResults() {
