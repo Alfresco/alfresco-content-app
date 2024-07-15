@@ -26,7 +26,7 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { PageComponent, PageLayoutComponent, ToolbarActionComponent, ToolbarComponent } from '@alfresco/aca-shared';
 import { concatMap, finalize, takeUntil } from 'rxjs/operators';
-import { ClipboardService, MaterialModule, ThumbnailService, ToolbarModule } from '@alfresco/adf-core';
+import { ClipboardService, MaterialModule, ThumbnailService, ToolbarModule, UserPreferencesService } from '@alfresco/adf-core';
 import { AiAnswer, Node } from '@alfresco/js-api';
 import { CommonModule } from '@angular/common';
 import { provideAnimations } from '@angular/platform-browser/animations';
@@ -34,6 +34,7 @@ import { SearchAiInputContainerComponent } from '../search-ai-input-container/se
 import { TranslateModule } from '@ngx-translate/core';
 import { NodesApiService, SearchAiService } from '@alfresco/adf-content-services';
 import { forkJoin } from 'rxjs';
+import { SelectionState } from '@alfresco/adf-extensions';
 
 @Component({
   standalone: true,
@@ -60,7 +61,7 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
   private _loading = true;
   private _mimeTypeIconsByNodeId: { [key: string]: string } = {};
   private _nodes: Node[] = [];
-  private restrictionQuery = '';
+  private selectedNodesState: SelectionState;
   private _searchQuery = '';
   private _queryAnswer: AiAnswer;
 
@@ -97,7 +98,8 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
     private searchAiService: SearchAiService,
     private clipboardService: ClipboardService,
     private thumbnailService: ThumbnailService,
-    private nodesApiService: NodesApiService
+    private nodesApiService: NodesApiService,
+    private userPreferencesService: UserPreferencesService
   ) {
     super();
   }
@@ -106,7 +108,7 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
     this.route.queryParams.pipe(takeUntil(this.onDestroy$)).subscribe((params: Params) => {
       this._agentId = params.agentId;
       this._searchQuery = params.query ? decodeURIComponent(params.query) : '';
-      this.restrictionQuery = params.restrictionQuery || '';
+      this.selectedNodesState = JSON.parse(this.userPreferencesService.get('knowledgeRetrievalNodes'));
       if (this.searchQuery) {
         this.performAiSearch();
       }
@@ -128,7 +130,7 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
     this.searchAiService
       .ask({
         question: this.searchQuery,
-        restrictionQuery: this.restrictionQuery
+        nodeIds: this.selectedNodesState.nodes.map((node) => node.entry.id)
       })
       .pipe(
         concatMap((response) => this.searchAiService.getAnswer(response.questionId)),

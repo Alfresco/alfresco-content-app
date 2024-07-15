@@ -33,7 +33,6 @@ import { A11yModule } from '@angular/cdk/a11y';
 import { IconComponent, NotificationService, UserPreferencesService } from '@alfresco/adf-core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AiSearchByTermPayload, AppStore, getAppSelection, SearchByTermAiAction } from '@alfresco/aca-shared/store';
 import { takeUntil } from 'rxjs/operators';
@@ -78,7 +77,6 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
   private _agentControl = new FormControl<Agent>(null);
   private _agents: Agent[] = [];
   private onDestroy$ = new Subject<void>();
-  private restrictionQuery = '';
   private selectedNodesState: SelectionState;
   private _queryControl = new FormControl('');
 
@@ -95,7 +93,6 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    private activatedRoute: ActivatedRoute,
     private store: Store<AppStore>,
     private searchAiService: SearchAiService,
     private notificationService: NotificationService,
@@ -110,18 +107,11 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
         .select(getAppSelection)
         .pipe(takeUntil(this.onDestroy$))
         .subscribe((selection) => {
-          this.restrictionQuery = selection?.nodes?.[0]?.entry?.id;
           this.selectedNodesState = selection;
         });
     } else {
       this.selectedNodesState = JSON.parse(this.userPreferencesService.get(this.storedNodesKey));
     }
-
-    this.activatedRoute.queryParams.pipe(takeUntil(this.onDestroy$)).subscribe((params) => {
-      if (params.restrictionQuery) {
-        this.restrictionQuery = params.restrictionQuery;
-      }
-    });
     this.agentService
       .getAgents()
       .pipe(takeUntil(this.onDestroy$))
@@ -147,7 +137,6 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
       const payload = new AiSearchByTermPayload();
       payload.searchTerm = this.queryControl.value;
       payload.agentId = this.agentControl.value.id;
-      payload.restrictionQuery = this.restrictionQuery;
       this.userPreferencesService.set(this.storedNodesKey, JSON.stringify(this.selectedNodesState));
       this.store.dispatch(new SearchByTermAiAction(payload));
       this.queryControl.reset();

@@ -25,5 +25,4 @@
 export class AiSearchByTermPayload {
   searchTerm: string;
   agentId: string;
-  restrictionQuery?: string;
 }

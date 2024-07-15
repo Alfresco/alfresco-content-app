@@ -41,8 +41,7 @@ export class SearchAiEffects {
           const query = action.payload.searchTerm.replace(/[(]/g, '%28').replace(/[)]/g, '%29');
           const queryParams = {
             query: encodeURIComponent(query),
-            agentId: action.payload.agentId,
-            restrictionQuery: action.payload.restrictionQuery
+            agentId: action.payload.agentId
           };
           this.searchNavigationService.navigateToSearchAi(queryParams);
         })
