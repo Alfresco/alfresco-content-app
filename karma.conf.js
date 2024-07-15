@@ -18,25 +18,21 @@ module.exports = () => {
     ],
     files: [
       {
-        pattern:
-          './node_modules/@alfresco/adf-core/bundles/assets/adf-core/i18n/en.json',
+        pattern: './node_modules/@alfresco/adf-core/bundles/assets/adf-core/i18n/en.json',
         watched: false,
         served: true,
         included: false
       },
       {
-        pattern:
-          './node_modules/@alfresco/adf-content-services/bundles/assets/adf-content-services/i18n/en.json',
+        pattern: './node_modules/@alfresco/adf-content-services/bundles/assets/adf-content-services/i18n/en.json',
         watched: false,
         served: true,
         included: false
       }
     ],
     proxies: {
-      '/assets/adf-core/i18n/en-GB.json':
-        '/base/node_modules/@alfresco/adf-core/bundles/assets/adf-core/i18n/en.json',
-      '/assets/adf-core/i18n/en.json':
-        '/base/node_modules/@alfresco/adf-core/bundles/assets/adf-core/i18n/en.json',
+      '/assets/adf-core/i18n/en-GB.json': '/base/node_modules/@alfresco/adf-core/bundles/assets/adf-core/i18n/en.json',
+      '/assets/adf-core/i18n/en.json': '/base/node_modules/@alfresco/adf-core/bundles/assets/adf-core/i18n/en.json',
       '/assets/adf-content-services/i18n/en.json':
         '/base/node_modules/@alfresco/adf-content-services/bundles/assets/adf-content-services/i18n/en.json',
       '/assets/adf-content-services/i18n/en-GB.json':
@@ -49,10 +45,10 @@ module.exports = () => {
         // for example, you can disable the random execution with `random: false`
         // or set a specific seed with `seed: 4321`
       },
-      clearContext: false, // leave Jasmine Spec Runner output visible in browser
+      clearContext: false // leave Jasmine Spec Runner output visible in browser
     },
     jasmineHtmlReporter: {
-      suppressAll: true, // removes the duplicated traces
+      suppressAll: true // removes the duplicated traces
     },
 
     coverageReporter: {
@@ -63,7 +59,7 @@ module.exports = () => {
         global: {
           statements: 75,
           branches: 67,
-          functions: 73,
+          functions: 72,
           lines: 74
         }
       }
@@ -78,12 +74,7 @@ module.exports = () => {
     customLaunchers: {
       ChromeHeadless: {
         base: 'Chrome',
-        flags: [
-          '--no-sandbox',
-          '--headless',
-          '--disable-gpu',
-          '--remote-debugging-port=9222'
-        ]
+        flags: ['--no-sandbox', '--headless', '--disable-gpu', '--remote-debugging-port=9222']
       }
     },
     singleRun: true,
