@@ -52,12 +52,11 @@ export class RulesApi {
   async createRandomRule(folderId: string, ruleName: string): Promise<Rule> {
     const randomActionsIndex = crypto.randomInt(0, ActionTypes.actions.length);
     const randomAction = ActionTypes.actions[randomActionsIndex];
-    const response = await this.createRule(folderId, {
+    return await this.createRule(folderId, {
       name: ruleName,
       isEnabled: true,
       actions: [randomAction]
     });
-    return response;
   }
 
   async createRandomRuleWithMultipleConditions(folderId: string, ruleName: string, numOfConditions: number): Promise<Rule> {
@@ -72,7 +71,7 @@ export class RulesApi {
       const randomCondition = ConditionsTypes.conditions[randomIndex];
       conditionsArray.push(randomCondition);
     }
-    const response = await this.createRule(folderId, {
+    return await this.createRule(folderId, {
       name: ruleName,
       isEnabled: true,
       actions: [randomAction],
@@ -82,7 +81,6 @@ export class RulesApi {
         compositeConditions: conditionsArray
       }
     });
-    return response;
   }
 
   async createRandomRuleWithMultipleActions(folderId: string, ruleName: string, numOfActions: number): Promise<Rule> {
@@ -95,16 +93,15 @@ export class RulesApi {
       const randomAction = ActionTypes.actions[randomIndex];
       actionsArray.push(randomAction);
     }
-    const response = await this.createRule(folderId, {
+    return await this.createRule(folderId, {
       name: ruleName,
       isEnabled: true,
       actions: actionsArray
     });
-    return response;
   }
 
   async createRuleWithRandomAspects(folderId: string, ruleName: string): Promise<Rule> {
-    const response = await this.createRule(folderId, {
+    return await this.createRule(folderId, {
       name: ruleName,
       isEnabled: true,
       actions: [
@@ -128,7 +125,6 @@ export class RulesApi {
         }
       ]
     });
-    return response;
   }
 
   async createRuleWithDestinationFolder(
@@ -137,7 +133,7 @@ export class RulesApi {
     actionType: 'move' | 'copy' | 'import',
     destinationFolderId: string
   ): Promise<Rule> {
-    const response = await this.createRule(folderId, {
+    return await this.createRule(folderId, {
       name: ruleName,
       isEnabled: true,
       actions: [
@@ -149,7 +145,6 @@ export class RulesApi {
         }
       ]
     });
-    return response;
   }
 }
 
