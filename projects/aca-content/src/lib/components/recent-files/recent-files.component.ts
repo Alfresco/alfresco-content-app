@@ -39,6 +39,7 @@ import { DocumentListModule } from '@alfresco/adf-content-services';
 import { DataTableModule, EmptyContentComponent, PaginationComponent } from '@alfresco/adf-core';
 import { DocumentListDirective } from '../../directives/document-list.directive';
 import { TranslateModule } from '@ngx-translate/core';
+import { SearchAiInputContainerComponent } from '../knowledge-retrieval/search-ai/search-ai-input-container/search-ai-input-container.component';
 
 @Component({
   standalone: true,
@@ -54,11 +55,13 @@ import { TranslateModule } from '@ngx-translate/core';
     PageLayoutComponent,
     TranslateModule,
     ToolbarComponent,
+    SearchAiInputContainerComponent,
     EmptyContentComponent,
     DynamicColumnComponent
   ],
   templateUrl: './recent-files.component.html',
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  selector: 'aca-recent-files'
 })
 export class RecentFilesComponent extends PageComponent implements OnInit {
   columns: DocumentListPresetRef[] = [];

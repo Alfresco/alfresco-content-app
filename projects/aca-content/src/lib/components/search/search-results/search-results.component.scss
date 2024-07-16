@@ -1,6 +1,13 @@
 @import '../../../ui/mixins';
 
 aca-search-results {
+  .aca-search-results-active-search-ai-input {
+    .aca-header-container,
+    .adf-search-results__content-header.aca-content {
+      display: none;
+    }
+  }
+
   .aca-search-toolbar-spacer {
     width: 100%;
   }
@@ -45,10 +52,10 @@ aca-search-results {
             color: var(--theme-search-chip-icon-color);
           }
 
-        .adf-search-filter-chip-icon {
-          color: var(--theme-search-chip-icon-color);
+          .adf-search-filter-chip-icon {
+            color: var(--theme-search-chip-icon-color);
+          }
         }
-      }
 
         .adf-search-filter-placeholder {
           color: var(--theme-selected-text-color);

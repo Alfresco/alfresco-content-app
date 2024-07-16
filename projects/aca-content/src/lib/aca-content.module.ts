@@ -76,6 +76,7 @@ import { UserMenuComponent } from './components/sidenav/user-menu/user-menu.comp
 import { ContextMenuComponent } from './components/context-menu/context-menu.component';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { SearchResultsRowComponent } from './components/search/search-results-row/search-results-row.component';
+import { AgentsButtonComponent } from './components/knowledge-retrieval/search-ai/agents-button/agents-button.component';
 
 @NgModule({
   imports: [
@@ -137,6 +138,7 @@ export class ContentServiceExtensionModule {
       'app.toolbar.toggleFavorite': ToggleFavoriteComponent,
       'app.toolbar.toggleFavoriteLibrary': ToggleFavoriteLibraryComponent,
       'app.toolbar.toggleJoinLibrary': ToggleJoinLibraryButtonComponent,
+      'app.toolbar.ai.agents-button': AgentsButtonComponent,
       'app.menu.toggleJoinLibrary': ToggleJoinLibraryMenuComponent,
       'app.shared-link.toggleSharedLink': ToggleSharedComponent,
       'app.columns.name': CustomNameColumnComponent,
@@ -196,6 +198,7 @@ export class ContentServiceExtensionModule {
       'app.selection.hasNoLibraryRole': rules.hasNoLibraryRole,
       'app.selection.folder': rules.hasFolderSelected,
       'app.selection.folder.canUpdate': rules.canUpdateSelectedFolder,
+      'app.selection.displayedKnowledgeRetrievalButton': rules.canDisplayKnowledgeRetrievalButton,
 
       'app.navigation.folder.canCreate': rules.canCreateFolder,
       'app.navigation.folder.canUpload': rules.canUpload,

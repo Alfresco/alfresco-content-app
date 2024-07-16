@@ -60,6 +60,7 @@ import { TagsColumnComponent } from '../../dl-custom-components/tags-column/tags
 import { MatIconModule } from '@angular/material/icon';
 import { SearchResultsRowComponent } from '../search-results-row/search-results-row.component';
 import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-extensions';
+import { SearchAiInputContainerComponent } from '../../knowledge-retrieval/search-ai/search-ai-input-container/search-ai-input-container.component';
 
 @Component({
   standalone: true,
@@ -87,7 +88,8 @@ import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-ext
     PageLayoutComponent,
     ToolbarComponent,
     AlfrescoViewerComponent,
-    DynamicColumnComponent
+    DynamicColumnComponent,
+    SearchAiInputContainerComponent
   ],
   selector: 'aca-search-results',
   templateUrl: './search-results.component.html',
