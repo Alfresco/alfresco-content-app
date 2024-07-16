@@ -24,7 +24,6 @@
 
 import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LottieModule } from 'ngx-lottie';
 import { SelectionState } from '@alfresco/adf-extensions';
 import { Store } from '@ngrx/store';
 import { AppStore, getAppSelection } from '@alfresco/aca-shared/store';
@@ -39,7 +38,7 @@ import { AgentService, SearchAiService } from '@alfresco/adf-content-services';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, LottieModule, MatMenuModule, MatListModule, TranslateModule, AvatarComponent, IconComponent],
+  imports: [CommonModule, MatMenuModule, MatListModule, TranslateModule, AvatarComponent, IconComponent],
   selector: 'aca-agents-button',
   templateUrl: './agents-button.component.html',
   styleUrls: ['./agents-button.component.scss'],
