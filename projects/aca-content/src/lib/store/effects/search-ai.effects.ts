@@ -38,9 +38,8 @@ export class SearchAiEffects {
       this.actions$.pipe(
         ofType<SearchByTermAiAction>(SearchAiActionTypes.SearchByTermAi),
         map((action) => {
-          const query = action.payload.searchTerm.replace(/[(]/g, '%28').replace(/[)]/g, '%29');
           const queryParams = {
-            query: encodeURIComponent(query),
+            query: encodeURIComponent(action.payload.searchTerm),
             agentId: action.payload.agentId
           };
           this.searchNavigationService.navigateToSearchAi(queryParams);

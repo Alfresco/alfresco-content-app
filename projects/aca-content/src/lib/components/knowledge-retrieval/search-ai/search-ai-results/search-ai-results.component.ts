@@ -25,16 +25,18 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { PageComponent, PageLayoutComponent, ToolbarActionComponent, ToolbarComponent } from '@alfresco/aca-shared';
-import { concatMap, finalize, takeUntil } from 'rxjs/operators';
-import { ClipboardService, MaterialModule, ThumbnailService, ToolbarModule, UserPreferencesService } from '@alfresco/adf-core';
+import { finalize, switchMap, takeUntil } from 'rxjs/operators';
+import { ClipboardService, EmptyContentComponent, ThumbnailService, ToolbarModule, UserPreferencesService } from '@alfresco/adf-core';
 import { AiAnswer, Node } from '@alfresco/js-api';
 import { CommonModule } from '@angular/common';
-import { provideAnimations } from '@angular/platform-browser/animations';
 import { SearchAiInputContainerComponent } from '../search-ai-input-container/search-ai-input-container.component';
-import { TranslateModule } from '@ngx-translate/core';
-import { NodesApiService, SearchAiService } from '@alfresco/adf-content-services';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { NodesApiService } from '@alfresco/adf-content-services';
 import { forkJoin } from 'rxjs';
 import { SelectionState } from '@alfresco/adf-extensions';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatListModule } from '@angular/material/list';
 
 @Component({
   standalone: true,
@@ -43,12 +45,14 @@ import { SelectionState } from '@alfresco/adf-extensions';
     PageLayoutComponent,
     ToolbarActionComponent,
     ToolbarModule,
-    MaterialModule,
     ToolbarComponent,
     SearchAiInputContainerComponent,
-    TranslateModule
+    TranslateModule,
+    MatIconModule,
+    MatButtonModule,
+    MatListModule,
+    EmptyContentComponent
   ],
-  providers: [provideAnimations()],
   selector: 'aca-search-ai-results',
   templateUrl: './search-ai-results.component.html',
   styleUrls: ['./search-ai-results.component.scss'],
@@ -57,7 +61,8 @@ import { SelectionState } from '@alfresco/adf-extensions';
 })
 export class SearchAiResultsComponent extends PageComponent implements OnInit, OnDestroy {
   private _agentId: string;
-  private _error = false;
+  private _hasAnsweringError = false;
+  private _hasError = false;
   private _loading = true;
   private _mimeTypeIconsByNodeId: { [key: string]: string } = {};
   private _nodes: Node[] = [];
@@ -69,8 +74,12 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
     return this._agentId;
   }
 
-  get error(): boolean {
-    return this._error;
+  get hasAnsweringError(): boolean {
+    return this._hasAnsweringError;
+  }
+
+  get hasError(): boolean {
+    return this._hasError;
   }
 
   get loading(): boolean {
@@ -95,11 +104,11 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
 
   constructor(
     private route: ActivatedRoute,
-    private searchAiService: SearchAiService,
     private clipboardService: ClipboardService,
     private thumbnailService: ThumbnailService,
     private nodesApiService: NodesApiService,
-    private userPreferencesService: UserPreferencesService
+    private userPreferencesService: UserPreferencesService,
+    private translateService: TranslateService
   ) {
     super();
   }
@@ -109,9 +118,11 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
       this._agentId = params.agentId;
       this._searchQuery = params.query ? decodeURIComponent(params.query) : '';
       this.selectedNodesState = JSON.parse(this.userPreferencesService.get('knowledgeRetrievalNodes'));
-      if (this.searchQuery) {
-        this.performAiSearch();
+      if (!this.searchQuery || !this.selectedNodesState?.nodes?.length || !this.agentId) {
+        this._hasError = true;
+        return;
       }
+      this.performAiSearch();
     });
     super.ngOnInit();
   }
@@ -122,7 +133,10 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
   }
 
   copyResponseToClipboard(): void {
-    this.clipboardService.copyContentToClipboard(this.queryAnswer.answer, 'Copied response to clipboard');
+    this.clipboardService.copyContentToClipboard(
+      this.queryAnswer.answer,
+      this.translateService.instant('KNOWLEDGE_RETRIEVAL.SEARCH.RESULTS_PAGE.COPY_MESSAGE')
+    );
   }
 
   performAiSearch(): void {
@@ -133,8 +147,8 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
         nodeIds: this.selectedNodesState.nodes.map((node) => node.entry.id)
       })
       .pipe(
-        concatMap((response) => this.searchAiService.getAnswer(response.questionId)),
-        concatMap((response) => {
+        switchMap((response) => this.searchAiService.getAnswer(response.questionId)),
+        switchMap((response) => {
           this._queryAnswer = response.list.entries[0].entry;
           return forkJoin(this.queryAnswer.references.map((reference) => this.nodesApiService.getNode(reference.referenceId)));
         }),
@@ -148,7 +162,7 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
           });
           this._nodes = nodes;
         },
-        () => (this._error = true)
+        () => (this._hasAnsweringError = true)
       );
   }
 }

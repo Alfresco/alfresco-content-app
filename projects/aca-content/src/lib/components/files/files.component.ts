@@ -39,16 +39,7 @@ import {
 } from '@alfresco/aca-shared';
 import { SetCurrentFolderAction, isAdmin, UploadFileVersionAction, showLoaderSelector } from '@alfresco/aca-shared/store';
 import { debounceTime, takeUntil } from 'rxjs/operators';
-import {
-  BreadcrumbModule,
-  DocumentListModule,
-  FileUploadEvent,
-  FilterSearch,
-  SearchAiInputState,
-  SearchAiService,
-  ShareDataRow,
-  UploadModule
-} from '@alfresco/adf-content-services';
+import { BreadcrumbModule, DocumentListModule, FileUploadEvent, FilterSearch, ShareDataRow, UploadModule } from '@alfresco/adf-content-services';
 import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-extensions';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
@@ -84,7 +75,6 @@ import { SearchAiInputContainerComponent } from '../knowledge-retrieval/search-a
     DynamicColumnComponent
   ],
   templateUrl: './files.component.html',
-  styleUrls: ['./files.component.scss'],
   encapsulation: ViewEncapsulation.None,
   selector: 'aca-files'
 })
@@ -94,24 +84,12 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   selectedNode: NodeEntry;
   queryParams = null;
   showLoader$ = this.store.select(showLoaderSelector);
+  private nodePath: PathElement[];
+
   columns: DocumentListPresetRef[] = [];
   isFilterHeaderActive = false;
 
-  private nodePath: PathElement[];
-  private _searchAiInputState: SearchAiInputState = {
-    active: false
-  };
-
-  get searchAiInputState(): SearchAiInputState {
-    return this._searchAiInputState;
-  }
-
-  constructor(
-    private contentApi: ContentApiService,
-    private nodeActionsService: NodeActionsService,
-    private route: ActivatedRoute,
-    private searchAiService: SearchAiService
-  ) {
+  constructor(private contentApi: ContentApiService, private nodeActionsService: NodeActionsService, private route: ActivatedRoute) {
     super();
   }
 
@@ -149,7 +127,6 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
     this.subscriptions = this.subscriptions.concat([
       this.nodeActionsService.contentCopied.subscribe((nodes) => this.onContentCopied(nodes)),
-      this.searchAiService.toggleSearchAiInput$.subscribe((searchAiInputState) => (this._searchAiInputState = searchAiInputState)),
       this.uploadService.fileUploadComplete.pipe(debounceTime(300)).subscribe((file) => this.onFileUploadedEvent(file)),
       this.uploadService.fileUploadDeleted.pipe(debounceTime(300)).subscribe((file) => this.onFileUploadedEvent(file))
     ]);

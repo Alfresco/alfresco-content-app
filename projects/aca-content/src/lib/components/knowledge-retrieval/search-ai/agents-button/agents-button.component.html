@@ -26,8 +26,8 @@
         class="aca-agents-button-menu-list-agent"
         [attr.data-automation-id]="'aca-agents-button-agent-' + agent.id"
         [value]="agent">
-        <div>
-          <span class="aca-agents-button-menu-list-agent-avatar"></span>
+        <div class="aca-agents-button-menu-list-agent-content">
+          <adf-avatar></adf-avatar>
           {{ agent.name }}
         </div>
       </mat-list-option>

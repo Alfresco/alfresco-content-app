@@ -25,15 +25,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { NodeEntry, Pagination, ResultSetPaging } from '@alfresco/js-api';
 import { ActivatedRoute, Params } from '@angular/router';
-import {
-  AlfrescoViewerComponent,
-  DocumentListModule,
-  SearchAiInputState,
-  SearchAiService,
-  SearchModule,
-  SearchQueryBuilderService,
-  TagService
-} from '@alfresco/adf-content-services';
+import { AlfrescoViewerComponent, DocumentListModule, SearchModule, SearchQueryBuilderService, TagService } from '@alfresco/adf-content-services';
 import {
   infoDrawerPreview,
   NavigateToFolder,
@@ -117,20 +109,11 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
   isTagsEnabled = false;
   columns: DocumentListPresetRef[] = [];
 
-  private _searchAiInputState: SearchAiInputState = {
-    active: false
-  };
-
-  get searchAiInputState(): SearchAiInputState {
-    return this._searchAiInputState;
-  }
-
   constructor(
     tagsService: TagService,
     private queryBuilder: SearchQueryBuilderService,
     private route: ActivatedRoute,
-    private translationService: TranslationService,
-    private searchAiService: SearchAiService
+    private translationService: TranslationService
   ) {
     super();
 
@@ -176,9 +159,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
 
       this.queryBuilder.error.subscribe((err: any) => {
         this.onSearchError(err);
-      }),
-
-      this.searchAiService.toggleSearchAiInput$.subscribe((searchAiInputState) => (this._searchAiInputState = searchAiInputState))
+      })
     );
 
     this.columns = this.extensions.documentListPresets.searchResults || [];

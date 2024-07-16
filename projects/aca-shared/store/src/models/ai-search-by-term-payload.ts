@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export class AiSearchByTermPayload {
+export interface AiSearchByTermPayload {
   searchTerm: string;
   agentId: string;
 }

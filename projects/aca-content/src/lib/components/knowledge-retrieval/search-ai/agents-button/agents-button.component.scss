@@ -21,10 +21,8 @@ aca-agents-button.aca-agents-button {
 }
 
 .aca-agents-button-menu {
-  div:not(:empty) {
-    padding-top: 8px;
-    padding-bottom: 6px;
-  }
+  padding-top: 2px;
+  padding-bottom: 1px;
 
   .aca-agents-button-menu-list {
     margin-left: -6px;
@@ -33,15 +31,20 @@ aca-agents-button.aca-agents-button {
     &-agent {
       height: 40px;
 
-      &-avatar {
-        vertical-align: middle;
+      &:not(:last-child) {
         margin-bottom: 2px;
+      }
+
+      &-content {
+        display: flex;
+        align-items: baseline;
+      }
+
+      adf-avatar {
         margin-right: 12px;
-        border-radius: 50%;
-        background-color: #9acd9a; // temporary to keep place for avatar, will be replaced with avatar image during synchronization with backend
-        height: 32px;
-        width: 32px;
-        display: inline-block;
+        margin-bottom: 2px;
+        padding-left: 1px;
+        padding-top: 1px;
       }
     }
   }

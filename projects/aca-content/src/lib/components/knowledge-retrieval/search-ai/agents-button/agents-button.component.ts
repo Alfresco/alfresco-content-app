@@ -28,7 +28,7 @@ import { AnimationOptions, LottieModule } from 'ngx-lottie';
 import { SelectionState } from '@alfresco/adf-extensions';
 import { Store } from '@ngrx/store';
 import { AppStore, getAppSelection } from '@alfresco/aca-shared/store';
-import { NotificationService } from '@alfresco/adf-core';
+import { AvatarComponent, NotificationService } from '@alfresco/adf-core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AnimationItem } from 'lottie-web';
@@ -40,7 +40,7 @@ import { AgentService, SearchAiService } from '@alfresco/adf-content-services';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, LottieModule, MatMenuModule, MatListModule, TranslateModule],
+  imports: [CommonModule, LottieModule, MatMenuModule, MatListModule, TranslateModule, AvatarComponent],
   selector: 'aca-agents-button',
   templateUrl: './agents-button.component.html',
   styleUrls: ['./agents-button.component.scss'],

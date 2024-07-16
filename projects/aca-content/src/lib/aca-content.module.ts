@@ -76,8 +76,9 @@ import { UserMenuComponent } from './components/sidenav/user-menu/user-menu.comp
 import { ContextMenuComponent } from './components/context-menu/context-menu.component';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { SearchResultsRowComponent } from './components/search/search-results-row/search-results-row.component';
-import { LottieModule } from 'ngx-lottie';
+import { provideLottieOptions } from 'ngx-lottie';
 import { AgentsButtonComponent } from './components/knowledge-retrieval/search-ai/agents-button/agents-button.component';
+import player from 'lottie-web';
 
 @NgModule({
   imports: [
@@ -99,10 +100,7 @@ import { AgentsButtonComponent } from './components/knowledge-retrieval/search-a
     AcaFolderRulesModule,
     CreateFromTemplateDialogComponent,
     OpenInAppComponent,
-    UploadFilesDialogComponent,
-    LottieModule.forRoot({
-      player: () => import('lottie-web')
-    })
+    UploadFilesDialogComponent
   ],
   providers: [
     { provide: ContentVersionService, useClass: ContentUrlService },
@@ -119,7 +117,8 @@ import { AgentsButtonComponent } from './components/knowledge-retrieval/search-a
     {
       provide: MAT_DIALOG_DEFAULT_OPTIONS,
       useValue: { closeOnNavigation: true, hasBackdrop: true, autoFocus: true }
-    }
+    },
+    provideLottieOptions({ player: () => player })
   ]
 })
 export class ContentServiceExtensionModule {

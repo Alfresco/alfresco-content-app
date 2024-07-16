@@ -1,14 +1,6 @@
 @import '../../../ui/mixins';
 
 aca-search-results {
-  .aca-header-container {
-    display: flex;
-    flex-direction: row;
-    flex: 1;
-    align-items: center;
-    width: 100%;
-  }
-
   .aca-search-results-active-search-ai-input {
     .aca-header-container,
     .adf-search-results__content-header.aca-content {

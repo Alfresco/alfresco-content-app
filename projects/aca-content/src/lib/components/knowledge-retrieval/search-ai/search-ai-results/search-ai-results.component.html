@@ -3,9 +3,12 @@
     class="aca-page-layout-header"
     placeholder="KNOWLEDGE_RETRIEVAL.SEARCH.RESULTS_PAGE.QUERY_INPUT_PLACEHOLDER"
     [agentId]="agentId"
-    [useStoredNodes]="true">
+    [useStoredNodes]="true"
+    *ngIf="!hasError">
   </aca-search-ai-input-container>
-  <div class="aca-page-layout-content">
+  <div
+    class="aca-page-layout-content"
+    *ngIf="!hasError">
     <div class="aca-search-ai-results-container">
       <div
         class="aca-search-ai-results-container-query"
@@ -14,11 +17,11 @@
       </div>
       <div
         class="aca-search-ai-response-container"
-        [class.aca-search-ai-response-container-error]="error">
+        [class.aca-search-ai-response-container-error]="hasAnsweringError">
         <ng-container *ngIf="!loading">
           <div
             class="aca-search-ai-response-container-body"
-            *ngIf="!error">
+            *ngIf="!hasAnsweringError">
             <div
               class="aca-search-ai-response-container-body-response"
               data-automation-id="aca-search-ai-results-response">
@@ -79,9 +82,9 @@
             </ng-container>
           </div>
           <div
-            *ngIf="error"
+            *ngIf="hasAnsweringError"
             class="aca-search-ai-response-container-error-message">
-            {{ 'KNOWLEDGE_RETRIEVAL.SEARCH.RESULTS_PAGE.LOADING_ERROR' | translate }}
+            {{ 'KNOWLEDGE_RETRIEVAL.SEARCH.ERRORS.LOADING_ERROR' | translate }}
             <button
               mat-flat-button
               (click)="performAiSearch()"
@@ -95,4 +98,10 @@
       </div>
     </div>
   </div>
+  <adf-empty-content
+    class="aca-page-layout-content"
+    icon="star"
+    title="KNOWLEDGE_RETRIEVAL.SEARCH.ERRORS.PAGE_NOT_AVAILABLE_ERROR"
+    *ngIf="hasError">
+  </adf-empty-content>
 </aca-page-layout>

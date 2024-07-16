@@ -3,16 +3,18 @@
   class="aca-search-ai-input-agent-select"
   panelClass="aca-search-ai-input-agent-select-options"
   data-automation-id="aca-search-ai-agents-select">
-  <mat-select-trigger>
-    <span class="aca-search-ai-input-agent-select-avatar"></span>
+  <mat-select-trigger class="aca-search-ai-input-agent-select-displayed-value">
+    <adf-avatar size="26.43px"></adf-avatar>
     {{ agentControl.value.name }}
   </mat-select-trigger>
   <mat-option
     *ngFor="let agent of agents"
     [value]="agent"
     class="aca-search-ai-input-agent-select-options-option">
-    <span class="aca-search-ai-input-agent-select-avatar"></span>
-    {{ agent.name }}
+    <div class="aca-search-ai-input-agent-select-options-option-content">
+      <adf-avatar></adf-avatar>
+      {{ agent.name }}
+    </div>
   </mat-option>
 </mat-select>
 <input

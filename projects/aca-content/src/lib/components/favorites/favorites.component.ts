@@ -36,7 +36,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { debounceTime, map } from 'rxjs/operators';
 import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-extensions';
 import { CommonModule } from '@angular/common';
-import { DocumentListModule, SearchAiInputState, SearchAiService } from '@alfresco/adf-content-services';
+import { DocumentListModule } from '@alfresco/adf-content-services';
 import { DataTableModule, EmptyContentComponent, PaginationComponent } from '@alfresco/adf-core';
 import { DocumentListDirective } from '../../directives/document-list.directive';
 import { TranslateModule } from '@ngx-translate/core';
@@ -61,22 +61,13 @@ import { SearchAiInputContainerComponent } from '../knowledge-retrieval/search-a
     DynamicColumnComponent
   ],
   templateUrl: './favorites.component.html',
-  styleUrls: ['./favorites.component.scss'],
   encapsulation: ViewEncapsulation.None,
   selector: 'aca-favorites'
 })
 export class FavoritesComponent extends PageComponent implements OnInit {
   columns: DocumentListPresetRef[] = [];
 
-  private _searchAiInputState: SearchAiInputState = {
-    active: false
-  };
-
-  get searchAiInputState(): SearchAiInputState {
-    return this._searchAiInputState;
-  }
-
-  constructor(private contentApi: ContentApiService, private searchAIService: SearchAiService) {
+  constructor(private contentApi: ContentApiService) {
     super();
   }
 
@@ -84,7 +75,6 @@ export class FavoritesComponent extends PageComponent implements OnInit {
     super.ngOnInit();
 
     this.subscriptions = this.subscriptions.concat([
-      this.searchAIService.toggleSearchAiInput$.subscribe((searchAiInputState) => (this._searchAiInputState = searchAiInputState)),
       this.uploadService.fileUploadComplete.pipe(debounceTime(300)).subscribe(() => this.reload()),
       this.uploadService.fileUploadDeleted.pipe(debounceTime(300)).subscribe(() => this.reload())
     ]);

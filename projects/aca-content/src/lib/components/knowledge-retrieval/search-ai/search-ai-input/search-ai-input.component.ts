@@ -30,7 +30,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { A11yModule } from '@angular/cdk/a11y';
-import { IconComponent, NotificationService, UserPreferencesService } from '@alfresco/adf-core';
+import { AvatarComponent, IconComponent, NotificationService, UserPreferencesService } from '@alfresco/adf-core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -54,7 +54,8 @@ import { AgentService, SearchAiService } from '@alfresco/adf-content-services';
     FormsModule,
     ReactiveFormsModule,
     MatSelectModule,
-    IconComponent
+    IconComponent,
+    AvatarComponent
   ],
   selector: 'aca-search-ai-input',
   templateUrl: './search-ai-input.component.html',
@@ -134,9 +135,10 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
     if (error) {
       this.notificationService.showInfo(error);
     } else {
-      const payload = new AiSearchByTermPayload();
-      payload.searchTerm = this.queryControl.value;
-      payload.agentId = this.agentControl.value.id;
+      const payload: AiSearchByTermPayload = {
+        searchTerm: this.queryControl.value,
+        agentId: this.agentControl.value.id
+      };
       this.userPreferencesService.set(this.storedNodesKey, JSON.stringify(this.selectedNodesState));
       this.store.dispatch(new SearchByTermAiAction(payload));
       this.queryControl.reset();
