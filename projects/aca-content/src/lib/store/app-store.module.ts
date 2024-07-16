@@ -41,6 +41,7 @@ import {
   ContextMenuEffects
 } from './effects';
 import { INITIAL_STATE } from './initial-state';
+import { SearchAiEffects } from './effects/search-ai.effects';
 
 @NgModule({
   imports: [
@@ -69,7 +70,8 @@ import { INITIAL_STATE } from './initial-state';
       UploadEffects,
       FavoriteEffects,
       TemplateEffects,
-      ContextMenuEffects
+      ContextMenuEffects,
+      SearchAiEffects
     ])
   ]
 })

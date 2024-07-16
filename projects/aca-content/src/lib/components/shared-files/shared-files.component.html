@@ -1,7 +1,15 @@
 <aca-page-layout>
   <div class="aca-page-layout-header">
-    <h1 class="aca-page-title">{{ 'APP.BROWSE.SHARED.TITLE' | translate }}</h1>
-    <aca-toolbar [items]="actions"></aca-toolbar>
+    <aca-search-ai-input-container
+      *ngIf="searchAiInputState.active; else header"
+      [agentId]="searchAiInputState.selectedAgentId">
+    </aca-search-ai-input-container>
+    <ng-template #header>
+      <div class="aca-header-container">
+        <h1 class="aca-page-title">{{ 'APP.BROWSE.SHARED.TITLE' | translate }}</h1>
+        <aca-toolbar [items]="actions"></aca-toolbar>
+      </div>
+    </ng-template>
   </div>
 
   <div class="aca-page-layout-content">

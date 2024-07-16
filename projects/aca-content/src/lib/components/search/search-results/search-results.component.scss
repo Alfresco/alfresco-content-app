@@ -1,6 +1,13 @@
 @import '../../../ui/mixins';
 
 aca-search-results {
+  .aca-search-results-active-search-ai-input {
+    .aca-header-container,
+    .adf-search-results__content-header.aca-content {
+      display: none;
+    }
+  }
+
   .aca-search-toolbar-spacer {
     width: 100%;
   }
