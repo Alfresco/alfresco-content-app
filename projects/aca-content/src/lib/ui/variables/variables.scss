@@ -45,6 +45,8 @@ $disabled-chip-background-color: #f5f5f5;
 $contrast-gray: mat.get-color-from-palette($foreground, 'secondary-tex');
 $search-highlight-background-color: #ffd180;
 $info-snackbar-background: #1f74db;
+$text-light-color: rgba(33, 35, 40, 0.7);
+$card-background-grey-color: rgb(248, 248, 248);
 
 // CSS Variables
 $defaults: (
@@ -94,7 +96,9 @@ $defaults: (
   --theme-search-chip-icon-color: $search-chip-icon-color,
   --theme-disabled-chip-background-color: $disabled-chip-background-color,
   --theme-secondary-text: $secondary-text,
-  --theme-search-highlight-background-color: $search-highlight-background-color
+  --theme-search-highlight-background-color: $search-highlight-background-color,
+  --theme-text-light-color: $text-light-color,
+  --theme-card-background-grey-color: $card-background-grey-color
 );
 
 // propagates SCSS variables into the CSS variables scope
