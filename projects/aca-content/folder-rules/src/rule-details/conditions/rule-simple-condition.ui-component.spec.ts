@@ -28,7 +28,6 @@ import { CoreTestingModule } from '@alfresco/adf-core';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { tagMock, mimeTypeMock, simpleConditionUnknownFieldMock, categoriesListMock } from '../../mock/conditions.mock';
-import { MimeType } from './rule-mime-types';
 import { CategoryService, TagService } from '@alfresco/adf-content-services';
 import { of } from 'rxjs';
 import { RuleSimpleCondition } from '../../model/rule-simple-condition.model';
@@ -38,6 +37,7 @@ import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { MatSelectHarness } from '@angular/material/select/testing';
 import { MatAutocompleteHarness } from '@angular/material/autocomplete/testing';
+import { AlfrescoMimeType } from '@alfresco/aca-shared';
 
 describe('RuleSimpleConditionUiComponent', () => {
   let fixture: ComponentFixture<RuleSimpleConditionUiComponent>;
@@ -100,7 +100,7 @@ describe('RuleSimpleConditionUiComponent', () => {
   });
 
   it('should hide the comparator select box if the type of the field is mimeType', async () => {
-    fixture.componentInstance.mimeTypes = [{ value: '', label: '' } as MimeType];
+    fixture.componentInstance.mimeTypes = [{ value: '', label: '' } as AlfrescoMimeType];
     fixture.detectChanges();
     const comparatorFormField = getByDataAutomationId('comparator-form-field').nativeElement;
 
@@ -152,7 +152,7 @@ describe('RuleSimpleConditionUiComponent', () => {
   });
 
   it('should provide select option when mimeType is selected and value filled', () => {
-    const mockMimeTypes: MimeType[] = [
+    const mockMimeTypes: AlfrescoMimeType[] = [
       {
         value: 'video/3gpp',
         label: '3G Video'

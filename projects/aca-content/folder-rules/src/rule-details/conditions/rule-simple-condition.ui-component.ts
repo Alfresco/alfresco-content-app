@@ -22,13 +22,11 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, forwardRef, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, forwardRef, inject, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { RuleSimpleCondition } from '../../model/rule-simple-condition.model';
 import { comparatorHiddenForConditionFieldType, RuleConditionField, ruleConditionFields } from './rule-condition-fields';
 import { RuleConditionComparator, ruleConditionComparators } from './rule-condition-comparators';
-import { AppConfigService } from '@alfresco/adf-core';
-import { MimeType } from './rule-mime-types';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -41,6 +39,7 @@ import { Subject, Subscription } from 'rxjs';
 import { MatOptionModule } from '@angular/material/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CategoryEntry } from '@alfresco/js-api';
+import { AlfrescoMimeType, AppSettingsService } from '@alfresco/aca-shared';
 
 interface AutoCompleteOption {
   displayLabel: string;
@@ -77,21 +76,24 @@ const AUTOCOMPLETE_OPTIONS_DEBOUNCE_TIME = 500;
   ]
 })
 export class RuleSimpleConditionUiComponent implements OnInit, ControlValueAccessor, OnDestroy {
+  private appSettings = inject(AppSettingsService);
+  private categoryService = inject(CategoryService);
+  private tagService = inject(TagService);
+
   form = new FormGroup({
     field: new FormControl('cm:name'),
     comparator: new FormControl('equals'),
     parameter: new FormControl()
   });
 
-  mimeTypes: MimeType[] = [];
-
+  mimeTypes: AlfrescoMimeType[] = [];
   autoCompleteOptions: AutoCompleteOption[] = [];
-
   showLoadingSpinner: boolean;
 
   private onDestroy$ = new Subject<void>();
   private autoCompleteOptionsSubscription: Subscription;
   private _readOnly = false;
+
   @Input()
   get readOnly(): boolean {
     return this._readOnly;
@@ -107,9 +109,10 @@ export class RuleSimpleConditionUiComponent implements OnInit, ControlValueAcces
     (condition) => !((this.disabledTags && condition.name === 'tag') || (this.disabledCategories && condition.name === 'category'))
   );
 
-  constructor(config: AppConfigService, private categoryService: CategoryService, private tagService: TagService) {
-    this.mimeTypes = config.get<Array<MimeType>>('mimeTypes');
+  constructor() {
+    this.mimeTypes = this.appSettings.mimeTypes;
   }
+
   get isSelectedFieldKnown(): boolean {
     const selectedFieldName = this.form.get('field').value;
     return this.fields.findIndex((field: RuleConditionField) => selectedFieldName === field.name) > -1;

@@ -22,20 +22,4 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
-import { Router } from '@angular/router';
-import { AppSettingsService } from '@alfresco/aca-shared';
-
-@Component({
-  standalone: true,
-  template: '',
-  encapsulation: ViewEncapsulation.None
-})
-export class HomeComponent implements OnInit {
-  private appSettings = inject(AppSettingsService);
-  private router = inject(Router);
-
-  ngOnInit() {
-    this.router.navigateByUrl(this.appSettings.landingPage);
-  }
-}
+export * from './mime-types';

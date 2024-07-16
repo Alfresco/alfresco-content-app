@@ -26,9 +26,8 @@ import { Component, EventEmitter, inject, OnDestroy, OnInit, Output, ViewEncapsu
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { AppStore, getAppName, getLogoPath } from '@alfresco/aca-shared/store';
-import { AppConfigService } from '@alfresco/adf-core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
-import { AppExtensionService, ToolbarComponent } from '@alfresco/aca-shared';
+import { AppExtensionService, AppSettingsService, ToolbarComponent } from '@alfresco/aca-shared';
 import { takeUntil } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
@@ -45,12 +44,12 @@ import { RouterModule } from '@angular/router';
 export class SidenavHeaderComponent implements OnInit, OnDestroy {
   private onDestroy$ = new Subject<boolean>();
   private store = inject<Store<AppStore>>(Store);
-  private appConfigService = inject(AppConfigService);
+  private appSettings = inject(AppSettingsService);
   private appExtensions = inject(AppExtensionService);
 
   appName$ = this.store.select(getAppName);
   logo$ = this.store.select(getLogoPath);
-  landingPage = this.appConfigService.get('landingPage', '/personal-files');
+  landingPage = this.appSettings.landingPage;
   actions: Array<ContentActionRef> = [];
 
   @Output()
