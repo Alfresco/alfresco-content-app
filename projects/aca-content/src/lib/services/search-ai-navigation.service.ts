@@ -22,15 +22,27 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './effects/app.effects';
-export * from './effects/download.effects';
-export * from './effects/favorite.effects';
-export * from './effects/node.effects';
-export * from './effects/viewer.effects';
-export * from './effects/search.effects';
-export * from './effects/library.effects';
-export * from './effects/upload.effects';
-export * from './effects/upload.effects';
-export * from './effects/template.effects';
-export * from './effects/contextmenu.effects';
-export * from './effects/search-ai.effects';
+import { Injectable } from '@angular/core';
+import { Params, Router } from '@angular/router';
+
+@Injectable({ providedIn: 'root' })
+export class SearchAiNavigationService {
+  private readonly knowledgeRetrievalRoute = '/knowledge-retrieval';
+
+  private previousRoute = '';
+
+  constructor(private router: Router) {}
+
+  navigateToPreviousRoute(): void {
+    if (this.router.url.includes(this.knowledgeRetrievalRoute)) {
+      void this.router.navigateByUrl(this.previousRoute || '/personal-files');
+    }
+  }
+
+  navigateToSearchAi(queryParams: Params): void {
+    if (!this.router.url.includes(this.knowledgeRetrievalRoute)) {
+      this.previousRoute = this.router.url;
+    }
+    void this.router.navigate([this.knowledgeRetrievalRoute], { queryParams: queryParams });
+  }
+}
