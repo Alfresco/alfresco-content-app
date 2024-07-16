@@ -45,9 +45,6 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { DocumentListDirective } from '../../directives/document-list.directive';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDividerModule } from '@angular/material/divider';
 import { SearchAiInputContainerComponent } from '../knowledge-retrieval/search-ai/search-ai-input-container/search-ai-input-container.component';
 
 @Component({
@@ -68,9 +65,6 @@ import { SearchAiInputContainerComponent } from '../knowledge-retrieval/search-a
     PaginationDirective,
     PageLayoutComponent,
     ToolbarComponent,
-    MatIconModule,
-    MatButtonModule,
-    MatDividerModule,
     SearchAiInputContainerComponent,
     DynamicColumnComponent
   ],
