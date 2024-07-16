@@ -31,18 +31,18 @@ test.describe('Folder Rules Actions', () => {
   let nodesApi: NodesApi;
   let trashcanApi: TrashcanApi;
   const username = `user-e2e-${Utils.random()}`;
-  const folderName883 = `folder-XAT-883-${Utils.random()}`;
-  const folderName883_2 = `folder-XAT-883-2-${Utils.random()}`;
-  const folderName883_3 = `folder-XAT-883-3-${Utils.random()}`;
+  const randomFolderName1 = `folder-name-${Utils.random()}`;
+  const randomFolderName2 = `folder-name-2-${Utils.random()}`;
+  const randomFolderName3 = `folder-name-3-${Utils.random()}`;
 
   let randomRuleName: string;
-  const copyFileName = `copy-file-XAT-888-${Utils.random()}`;
+  const copyFileName = `copy-file-${Utils.random()}`;
   const specialChars = '!@£$%^&*()~#/';
   const testString = '"!@£$%^&*()_+{}|:""?&gt;&lt;,/.\';][=-`~"';
 
-  let folderName883Id: string;
-  let folderName883Id2: string;
-  let folderName883Id3: string;
+  let randomFolderName1Id: string;
+  let randomFolderName2Id: string;
+  let randomFolderName3Id: string;
 
   test.beforeAll(async () => {
     try {
@@ -54,10 +54,10 @@ test.describe('Folder Rules Actions', () => {
       console.error(`beforeAll failed : ${error}`);
     }
 
-    folderName883Id = (await nodesApi.createFolder(folderName883)).entry.id;
-    folderName883Id2 = (await nodesApi.createFolder(folderName883_2)).entry.id;
-    folderName883Id3 = (await nodesApi.createFolder(folderName883_3, folderName883Id)).entry.id;
-    await nodesApi.createFile(copyFileName, folderName883Id);
+    randomFolderName1Id = (await nodesApi.createFolder(randomFolderName1)).entry.id;
+    randomFolderName2Id = (await nodesApi.createFolder(randomFolderName2)).entry.id;
+    randomFolderName3Id = (await nodesApi.createFolder(randomFolderName3, randomFolderName1Id)).entry.id;
+    await nodesApi.createFile(copyFileName, randomFolderName1Id);
   });
 
   test.beforeEach(async ({ loginPage }) => {
@@ -70,7 +70,7 @@ test.describe('Folder Rules Actions', () => {
   });
 
   test('[XAT-883] Create a rule with symbols in its name and description', async ({ personalFiles, nodesPage }) => {
-    await personalFiles.navigate({ remoteUrl: `#/nodes/${folderName883Id}/rules` });
+    await personalFiles.navigate({ remoteUrl: `#/nodes/${randomFolderName1Id}/rules` });
     await nodesPage.toolbar.clickCreateRuleButton();
     await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(testString);
     await nodesPage.manageRulesDialog.ruleDescriptionInputLocator.fill(testString);
@@ -82,37 +82,37 @@ test.describe('Folder Rules Actions', () => {
   });
 
   test('[XAT-884] Create a rule and link it to an existing folder', async ({ personalFiles, nodesPage }) => {
-    await personalFiles.navigate({ remoteUrl: `#/nodes/${folderName883Id}/rules` });
+    await personalFiles.navigate({ remoteUrl: `#/nodes/${randomFolderName1Id}/rules` });
     await nodesPage.toolbar.clickCreateRuleButton();
     await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(randomRuleName);
     await nodesPage.actionsDropdown.selectAction(ActionType.IncrementCounter, 0);
     await nodesPage.manageRulesDialog.createRuleButton.click();
 
-    await personalFiles.navigate({ remoteUrl: `#/nodes/${folderName883Id2}/rules` });
+    await personalFiles.navigate({ remoteUrl: `#/nodes/${randomFolderName2Id}/rules` });
     await nodesPage.toolbar.clickLinkRulesButton();
     await nodesPage.linkRulesDialog.waitForLinkRules();
     await nodesPage.linkRulesDialog.getFolderIcon.click();
     await nodesPage.linkRulesDialog.getOptionLocator(username).click();
-    await nodesPage.linkRulesDialog.selectDestination(folderName883);
+    await nodesPage.linkRulesDialog.selectDestination(randomFolderName1);
     await nodesPage.linkRulesDialog.selectFolderButton.click();
 
     await nodesPage.manageRules.checkIfRuleIsOnTheList(randomRuleName);
   });
 
   test('[XAT-885] Create a rule in a folder and inherit it in a subfolder (Rule applies to subfolders)', async ({ personalFiles, nodesPage }) => {
-    await personalFiles.navigate({ remoteUrl: `#/nodes/${folderName883Id}/rules` });
+    await personalFiles.navigate({ remoteUrl: `#/nodes/${randomFolderName1Id}/rules` });
     await nodesPage.toolbar.clickCreateRuleButton();
     await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(randomRuleName);
     await nodesPage.actionsDropdown.selectAction(ActionType.IncrementCounter, 0);
     await nodesPage.manageRulesDialog.ruleSubfoldersCheckbox.click();
     await nodesPage.manageRulesDialog.createRuleButton.click();
 
-    await personalFiles.navigate({ remoteUrl: `#/nodes/${folderName883Id3}/rules` });
+    await personalFiles.navigate({ remoteUrl: `#/nodes/${randomFolderName3Id}/rules` });
     await nodesPage.manageRules.checkIfRuleIsOnTheList(randomRuleName);
   });
 
   test('[XAT-886] Create a rule and press cancel', async ({ personalFiles, nodesPage }) => {
-    await personalFiles.navigate({ remoteUrl: `#/nodes/${folderName883Id}/rules` });
+    await personalFiles.navigate({ remoteUrl: `#/nodes/${randomFolderName1Id}/rules` });
     await nodesPage.toolbar.clickCreateRuleButton();
     await expect(nodesPage.manageRulesDialog.createRuleButton).toBeDisabled();
     await nodesPage.manageRulesDialog.cancelRuleButton.click();
@@ -120,7 +120,7 @@ test.describe('Folder Rules Actions', () => {
   });
 
   test('[XAT-887] Create a disabled rule', async ({ personalFiles, nodesPage }) => {
-    await personalFiles.navigate({ remoteUrl: `#/nodes/${folderName883Id}/rules` });
+    await personalFiles.navigate({ remoteUrl: `#/nodes/${randomFolderName1Id}/rules` });
     await nodesPage.toolbar.clickCreateRuleButton();
     await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(randomRuleName);
     await nodesPage.actionsDropdown.selectAction(ActionType.IncrementCounter, 0);
@@ -135,7 +135,7 @@ test.describe('Folder Rules Actions', () => {
     const autoDeclareOptionsValue = 'For all major and minor versions [ALL]';
     const simpleWorkFlow = 'accept reject';
 
-    await personalFiles.navigate({ remoteUrl: `#/nodes/${folderName883Id}/rules` });
+    await personalFiles.navigate({ remoteUrl: `#/nodes/${randomFolderName1Id}/rules` });
     await nodesPage.toolbar.clickCreateRuleButton();
     await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(randomRuleName);
 
@@ -156,7 +156,7 @@ test.describe('Folder Rules Actions', () => {
   });
 
   test('[XAT-889] Create a rule which runs when items are deleted or leave a folder', async ({ nodesPage, personalFiles }) => {
-    await personalFiles.navigate({ remoteUrl: `#/nodes/${folderName883Id}/rules` });
+    await personalFiles.navigate({ remoteUrl: `#/nodes/${randomFolderName1Id}/rules` });
     await nodesPage.toolbar.clickCreateRuleButton();
     await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(randomRuleName);
     await nodesPage.manageRulesDialog.whenCreatedCheckbox.click();
@@ -165,23 +165,23 @@ test.describe('Folder Rules Actions', () => {
     await nodesPage.manageRulesDialog.destinationFolderButton.click();
     await nodesPage.contentNodeSelectorDialog.getFolderIcon.click();
     await nodesPage.contentNodeSelectorDialog.getOptionLocator(username).click();
-    await nodesPage.contentNodeSelectorDialog.selectDestination(folderName883_2);
+    await nodesPage.contentNodeSelectorDialog.selectDestination(randomFolderName2);
     await nodesPage.contentNodeSelectorDialog.actionButton.click();
     await nodesPage.manageRulesDialog.createRuleButton.click();
     await nodesPage.manageRules.checkIfRuleIsOnTheList(randomRuleName);
 
-    await personalFiles.navigate({ remoteUrl: `#/personal-files/${folderName883Id}` });
+    await personalFiles.navigate({ remoteUrl: `#/personal-files/${randomFolderName1Id}` });
     await personalFiles.dataTable.selectItem(copyFileName);
     await personalFiles.acaHeader.clickMoreActions();
     await personalFiles.acaHeader.matMenu.clickMenuItem('Delete');
     await personalFiles.snackBar.message.waitFor({ state: 'visible' });
 
-    await personalFiles.navigate({ remoteUrl: `#/personal-files/${folderName883Id2}` });
+    await personalFiles.navigate({ remoteUrl: `#/personal-files/${randomFolderName2Id}` });
     await expect(personalFiles.dataTable.getRowByName(copyFileName)).toBeVisible();
   });
 
   test('[XAT-890] Create a rule which adds multiple aspects when its ran', async ({ nodesPage, personalFiles }) => {
-    await personalFiles.navigate({ remoteUrl: `#/nodes/${folderName883Id}/rules` });
+    await personalFiles.navigate({ remoteUrl: `#/nodes/${randomFolderName1Id}/rules` });
     await nodesPage.toolbar.clickCreateRuleButton();
     await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(randomRuleName);
     await nodesPage.actionsDropdown.selectAction(ActionType.AddAspect, 0);
@@ -200,7 +200,7 @@ test.describe('Folder Rules Actions', () => {
   });
 
   test('[XAT-891] Prevent rule creation after clicking on cancel during selecting destination folder', async ({ nodesPage, personalFiles }) => {
-    await personalFiles.navigate({ remoteUrl: `#/nodes/${folderName883Id}/rules` });
+    await personalFiles.navigate({ remoteUrl: `#/nodes/${randomFolderName1Id}/rules` });
     await nodesPage.toolbar.clickCreateRuleButton();
     await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(randomRuleName);
     await nodesPage.actionsDropdown.selectAction(ActionType.AddAspect, 0);
@@ -213,7 +213,7 @@ test.describe('Folder Rules Actions', () => {
   });
 
   test('[XAT-892] Prevent rule creation when missing any required field for action', async ({ nodesPage, personalFiles }) => {
-    await personalFiles.navigate({ remoteUrl: `#/nodes/${folderName883Id}/rules` });
+    await personalFiles.navigate({ remoteUrl: `#/nodes/${randomFolderName1Id}/rules` });
     await nodesPage.toolbar.clickCreateRuleButton();
     await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(randomRuleName);
     await nodesPage.actionsDropdown.selectAction(ActionType.AddAspect, 0);
@@ -224,7 +224,7 @@ test.describe('Folder Rules Actions', () => {
   });
 
   test('[XAT-893] Removing values from required fields should restore disabled state for Create button', async ({ nodesPage, personalFiles }) => {
-    await personalFiles.navigate({ remoteUrl: `#/nodes/${folderName883Id}/rules` });
+    await personalFiles.navigate({ remoteUrl: `#/nodes/${randomFolderName1Id}/rules` });
     await nodesPage.toolbar.clickCreateRuleButton();
     await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(randomRuleName);
     await nodesPage.actionsDropdown.selectAction(ActionType.AddAspect, 0);
@@ -235,7 +235,7 @@ test.describe('Folder Rules Actions', () => {
   });
 
   test('[XAT-894] Create rule with filled required fields and empty optional fields', async ({ nodesPage, personalFiles }) => {
-    await personalFiles.navigate({ remoteUrl: `#/nodes/${folderName883Id}/rules` });
+    await personalFiles.navigate({ remoteUrl: `#/nodes/${randomFolderName1Id}/rules` });
     await nodesPage.toolbar.clickCreateRuleButton();
     await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(randomRuleName);
     await nodesPage.actionsDropdown.selectAction(ActionType.AddAspect, 0);
@@ -249,7 +249,7 @@ test.describe('Folder Rules Actions', () => {
     personalFiles,
     nodesPage
   }) => {
-    await personalFiles.navigate({ remoteUrl: `#/nodes/${folderName883Id}/rules` });
+    await personalFiles.navigate({ remoteUrl: `#/nodes/${randomFolderName1Id}/rules` });
     await nodesPage.toolbar.clickCreateRuleButton();
     await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(randomRuleName);
     await nodesPage.conditionsDropdown.addCondition(Field.Size, specialChars, 0, Comparator.Equals);
@@ -264,7 +264,7 @@ test.describe('Folder Rules Actions', () => {
   });
 
   test('[XAT-896] Create a rule with multiple groups utilising all available comparators and conditions', async ({ personalFiles, nodesPage }) => {
-    await personalFiles.navigate({ remoteUrl: `#/nodes/${folderName883Id}/rules` });
+    await personalFiles.navigate({ remoteUrl: `#/nodes/${randomFolderName1Id}/rules` });
     await nodesPage.toolbar.clickCreateRuleButton();
     await nodesPage.manageRulesDialog.ruleNameInputLocator.fill(randomRuleName);
     await nodesPage.conditionsDropdown.addConditionGroup(Field.Size, specialChars, 0, Comparator.Equals);

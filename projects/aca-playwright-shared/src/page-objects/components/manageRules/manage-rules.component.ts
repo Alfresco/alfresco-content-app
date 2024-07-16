@@ -37,6 +37,8 @@ export class ManageRules extends BaseComponent {
   public ruleDetailsWhenText = this.getChild('[data-automation-id="rule-details-triggers-component"]');
   public ruleDetailsPerformActionsDiv = this.getChild('adf-card-view-textitem mat-form-field input');
   public rulesEmptyListTitle = this.getChild('.adf-empty-content__title');
+  public ruleActions = this.getChild('aca-rule-action');
+  public ruleConditionsInGroup = this.getChild('aca-rule-composite-condition aca-rule-simple-condition');
 
   constructor(page: Page) {
     super(page, ManageRules.rootElement);
@@ -55,5 +57,20 @@ export class ManageRules extends BaseComponent {
 
   async checkIfRuleIsOnTheList(ruleName: string): Promise<void> {
     await expect(this.getGroupsList(ruleName)).toBeVisible({ timeout: 5000 });
+  }
+  
+  async countConditionsInGroup(): Promise<number> {
+    return await this.ruleConditionsInGroup.count();
+  }
+
+  async turnOffRuleToggle(): Promise<void> {
+    await expect(async () => {
+      await this.ruleToggle.hover({ timeout: 1000 });
+      await this.ruleToggle.click();
+      await expect(this.ruleToggleFalse).toBeVisible();
+    }).toPass({
+      intervals: [2_000, 2_000, 2_000, 2_000, 2_000, 2_000, 2_000],
+      timeout: 20_000
+    });
   }
 }

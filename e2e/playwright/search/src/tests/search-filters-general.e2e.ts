@@ -85,7 +85,7 @@ test.describe('Search - Filters - General', () => {
   });
 
   test('[C704283] Facets filters can be cleared', async ({ searchPage }) => {
-    const filterTextBefore = searchPage.searchFilters.propertiesFilter;
+    const filterTextBefore = await searchPage.searchFilters.propertiesFilter.textContent();
     await searchPage.searchFilters.propertiesFilter.click();
     await searchPage.searchFiltersProperties.fileSizeInput.fill('1000');
     await searchPage.searchFilters.menuCardApply.click();
@@ -97,12 +97,12 @@ test.describe('Search - Filters - General', () => {
     await searchPage.searchFiltersProperties.fileSizeInput.waitFor({ state: 'hidden' });
     const filterTextCleared = await searchPage.searchFilters.propertiesFilter.textContent();
 
-    await expect(filterTextBefore).toHaveText(filterTextCleared);
+    expect(filterTextBefore).toEqual(filterTextCleared);
     expect(filterTextAfter).not.toEqual(filterTextCleared);
   });
 
   test('[C699499] All filters can be reset with reset button', async ({ searchPage }) => {
-    const propertiesFilterTextBefore = searchPage.searchFilters.propertiesFilter;
+    const propertiesFilterTextBefore = await searchPage.searchFilters.propertiesFilter.textContent();
     await searchPage.searchFilters.propertiesFilter.click();
     await searchPage.searchFiltersProperties.fileSizeInput.fill('1000');
     await searchPage.searchFilters.menuCardApply.click();
@@ -120,9 +120,9 @@ test.describe('Search - Filters - General', () => {
     const propertiesFilterTextCleared = await searchPage.searchFilters.propertiesFilter.textContent();
     const logicFilterTextCleared = await searchPage.searchFilters.logicFilter.textContent();
 
-    await expect(propertiesFilterTextBefore).toHaveText(propertiesFilterTextCleared);
-    expect(logicFilterTextBefore).toEqual(logicFilterTextCleared);
-    expect(propertiesFilterTextCleared).not.toEqual(propertiesFilterTextAfter);
-    expect(logicFilterTextCleared).not.toEqual(logicFilterTextAfter);
+    await expect(propertiesFilterTextBefore).toEqual(propertiesFilterTextCleared);
+    await expect(logicFilterTextBefore).toEqual(logicFilterTextCleared);
+    await expect(propertiesFilterTextCleared).not.toEqual(propertiesFilterTextAfter);
+    await expect(logicFilterTextCleared).not.toEqual(logicFilterTextAfter);
   });
 });

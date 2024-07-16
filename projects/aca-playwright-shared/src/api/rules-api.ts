@@ -22,20 +22,134 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { ApiClientFactory } from './api-client-factory';
+import { AcaFolderRulesModule } from '@alfresco/aca-content/folder-rules';
+import * as crypto from 'crypto';
+
+export class RulesApi {
+  private apiService: ApiClientFactory;
+
+  constructor() {
+    this.apiService = new ApiClientFactory();
+  }
+
+  static async initialize(userName: string, password?: string): Promise<RulesApi> {
+    const classObj = new RulesApi();
+    await classObj.apiService.setUpAcaBackend(userName, password);
+    return classObj;
+  }
+
+  private callApi(path: string, httpMethod: string, body: object = {}): Promise<any> {
+    // APIs used by this service are still private and not yet available for public use
+    const params = [{}, {}, {}, {}, body, ['application/json'], ['application/json']];
+    return this.apiService.alfrescoApi.contentPrivateClient.callApi(path, httpMethod, ...params);
+  }
+
+  async createRule(nodeId: string, rule: Partial<Rule>, ruleSetId: string = '-default-'): Promise<Rule> {
+    const response = await this.callApi(`/nodes/${nodeId}/rule-sets/${ruleSetId}/rules`, 'POST', { ...rule });
+    return response.entry;
+  }
+
+  async createRandomRule(folderId: string, ruleName: string): Promise<Rule> {
+    const randomActionsIndex = crypto.randomInt(0, ActionTypes.actions.length);
+    const randomAction = ActionTypes.actions[randomActionsIndex];
+    return await this.createRule(folderId, {
+      name: ruleName,
+      isEnabled: true,
+      actions: [randomAction]
+    });
+  }
+
+  async createRandomRuleWithMultipleConditions(folderId: string, ruleName: string, numOfConditions: number): Promise<Rule> {
+    if (numOfConditions > ConditionsTypes.conditions.length) {
+      numOfConditions = ConditionsTypes.conditions.length;
+    }
+    const randomActionsIndex = crypto.randomInt(0, ActionTypes.actions.length);
+    const randomAction = ActionTypes.actions[randomActionsIndex];
+    let conditionsArray = [];
+    for (let i = 0; i < numOfConditions; i++) {
+      const randomIndex = crypto.randomInt(0, ConditionsTypes.conditions.length);
+      const randomCondition = ConditionsTypes.conditions[randomIndex];
+      conditionsArray.push(randomCondition);
+    }
+    return await this.createRule(folderId, {
+      name: ruleName,
+      isEnabled: true,
+      actions: [randomAction],
+      conditions: {
+        inverted: false,
+        booleanMode: 'and',
+        compositeConditions: conditionsArray
+      }
+    });
+  }
+
+  async createRandomRuleWithMultipleActions(folderId: string, ruleName: string, numOfActions: number): Promise<Rule> {
+    if (numOfActions > ActionTypes.actions.length) {
+      numOfActions = ActionTypes.actions.length;
+    }
+    let actionsArray = [];
+    for (let i = 0; i < numOfActions; i++) {
+      const randomIndex = crypto.randomInt(0, ActionTypes.actions.length);
+      const randomAction = ActionTypes.actions[randomIndex];
+      actionsArray.push(randomAction);
+    }
+    return await this.createRule(folderId, {
+      name: ruleName,
+      isEnabled: true,
+      actions: actionsArray
+    });
+  }
+
+  async createRuleWithRandomAspects(folderId: string, ruleName: string): Promise<Rule> {
+    return await this.createRule(folderId, {
+      name: ruleName,
+      isEnabled: true,
+      actions: [
+        {
+          actionDefinitionId: 'add-features',
+          params: {
+            'aspect-name': 'sc:controlsAreClearance'
+          }
+        },
+        {
+          actionDefinitionId: 'add-features',
+          params: {
+            'aspect-name': 'sfdc:objectModel'
+          }
+        },
+        {
+          actionDefinitionId: 'add-features',
+          params: {
+            'aspect-name': 'sfdc:folder'
+          }
+        }
+      ]
+    });
+  }
+
+  async createRuleWithDestinationFolder(
+    folderId: string,
+    ruleName: string,
+    actionType: 'move' | 'copy' | 'import',
+    destinationFolderId: string
+  ): Promise<Rule> {
+    return await this.createRule(folderId, {
+      name: ruleName,
+      isEnabled: true,
+      actions: [
+        {
+          actionDefinitionId: actionType,
+          params: {
+            'destination-folder': destinationFolderId
+          }
+        }
+      ]
+    });
+  }
+}
+
 type RuleTrigger = 'inbound' | 'update' | 'outbound';
-
-export interface RuleCompositeCondition {
-  inverted: boolean;
-  booleanMode: 'and' | 'or';
-  compositeConditions: RuleCompositeCondition[];
-  simpleConditions: RuleSimpleCondition[];
-}
-
-export interface RuleSimpleCondition {
-  field: string;
-  comparator: string;
-  parameter: string;
-}
 
 export interface Rule {
   id: string;
@@ -47,7 +161,7 @@ export interface Rule {
   errorScript: string;
   isShared: boolean;
   triggers: RuleTrigger[];
-  conditions: RuleCompositeCondition;
+  conditions: AcaFolderRulesModule;
   actions: RuleAction[];
 }
 
@@ -57,16 +171,84 @@ export interface RuleAction {
 }
 
 export class ActionTypes {
-  static ADDFEATURES = new ActionTypes('ADDFEATURES', {
+  static readonly ADDFEATURES = new ActionTypes('ADDFEATURES', {
     actionDefinitionId: 'add-features',
     params: { 'aspect-name': 'cm:thumbnailed' }
   });
-  static CHECKIN = new ActionTypes('CHECKIN', {
+  static readonly CHECKIN = new ActionTypes('CHECKIN', {
     actionDefinitionId: 'check-in',
     params: {
       description: 'test',
       minorChange: true
     }
   });
+  static readonly SPECIALISETYPE = new ActionTypes('SPECIALISETYPE', {
+    actionDefinitionId: 'specialise-type',
+    params: { 'type-name': 'sys:base' }
+  });
+  static readonly RECORDABLEVERSION = new ActionTypes('RECORDABLEVERSION', {
+    actionDefinitionId: 'recordable-version-config',
+    params: { version: 'ALL' }
+  });
+  static readonly SETPROPERTYVALUE = new ActionTypes('SETPROPERTYVALUE', {
+    actionDefinitionId: 'set-property-value',
+    params: { property: 'dl:ganttPercentComplete', value: 'test' }
+  });
+  static readonly actions = [
+    ActionTypes.ADDFEATURES.value,
+    ActionTypes.CHECKIN.value,
+    ActionTypes.RECORDABLEVERSION.value,
+    ActionTypes.SPECIALISETYPE.value,
+    ActionTypes.SETPROPERTYVALUE.value
+  ];
   constructor(public key: string, public value: RuleAction) {}
+}
+
+export class ConditionsTypes {
+  static readonly MIMETYPE = new ConditionsTypes('MIMETYPE', {
+    inverted: false,
+    booleanMode: 'and',
+    simpleConditions: [
+      {
+        field: 'mimetype',
+        comparator: 'equals',
+        parameter: 'video/3gpp'
+      }
+    ]
+  });
+  static readonly CMNAME = new ConditionsTypes('CM:NAME', {
+    inverted: false,
+    booleanMode: 'and',
+    simpleConditions: [
+      {
+        field: 'cm:name',
+        comparator: 'equals',
+        parameter: 'testname'
+      }
+    ]
+  });
+  static readonly SIZE = new ConditionsTypes('SIZE', {
+    inverted: false,
+    booleanMode: 'and',
+    simpleConditions: [
+      {
+        field: 'size',
+        comparator: 'equals',
+        parameter: '345'
+      }
+    ]
+  });
+  static readonly TAG = new ConditionsTypes('TAG', {
+    inverted: false,
+    booleanMode: 'and',
+    simpleConditions: [
+      {
+        field: 'tag',
+        comparator: 'equals',
+        parameter: 'testtag'
+      }
+    ]
+  });
+  static readonly conditions = [ConditionsTypes.MIMETYPE.value, ConditionsTypes.CMNAME.value, ConditionsTypes.SIZE.value, ConditionsTypes.TAG.value];
+  constructor(public key: string, public value: AcaFolderRulesModule) {}
 }
