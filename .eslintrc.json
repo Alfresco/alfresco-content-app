@@ -354,7 +354,7 @@
         "playwright/no-useless-not": "warn",
         "playwright/no-wait-for-selector": "warn",
         "playwright/no-wait-for-timeout": "off",
-        "playwright/prefer-web-first-assertions": "warn",
+        "playwright/prefer-web-first-assertions": "off",
         "playwright/valid-describe-callback": "warn",
         "playwright/valid-expect": "warn",
         "playwright/valid-expect-in-promise": "off",
