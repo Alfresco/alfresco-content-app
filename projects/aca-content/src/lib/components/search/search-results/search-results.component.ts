@@ -77,6 +77,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { SearchResultsRowComponent } from '../search-results-row/search-results-row.component';
 import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-extensions';
 import { BulkActionsDropdownComponent } from '../../bulk-actions-dropdown/bulk-actions-dropdown.component';
+import { SearchAiInputContainerComponent } from '../../knowledge-retrieval/search-ai/search-ai-input-container/search-ai-input-container.component';
 
 @Component({
   standalone: true,
@@ -110,7 +111,8 @@ import { BulkActionsDropdownComponent } from '../../bulk-actions-dropdown/bulk-a
     DateColumnHeaderComponent,
     CustomEmptyContentTemplateDirective,
     ViewerToolbarComponent,
-    BulkActionsDropdownComponent
+    BulkActionsDropdownComponent,
+    SearchAiInputContainerComponent
   ],
   selector: 'aca-search-results',
   templateUrl: './search-results.component.html',

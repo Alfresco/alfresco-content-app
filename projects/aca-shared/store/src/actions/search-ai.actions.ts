@@ -22,15 +22,21 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './effects/app.effects';
-export * from './effects/download.effects';
-export * from './effects/favorite.effects';
-export * from './effects/node.effects';
-export * from './effects/viewer.effects';
-export * from './effects/search.effects';
-export * from './effects/library.effects';
-export * from './effects/upload.effects';
-export * from './effects/upload.effects';
-export * from './effects/template.effects';
-export * from './effects/contextmenu.effects';
-export * from './effects/search-ai.effects';
+import { Action } from '@ngrx/store';
+import { AiSearchByTermPayload } from '../models/ai-search-by-term-payload';
+
+export enum SearchAiActionTypes {
+  SearchByTermAi = 'SEARCH_BY_TERM_AI',
+  ToggleAiSearchInput = 'TOGGLE_AI_SEARCH_INPUT'
+}
+
+export class SearchByTermAiAction implements Action {
+  readonly type = SearchAiActionTypes.SearchByTermAi;
+  constructor(public payload: AiSearchByTermPayload) {}
+}
+
+export class ToggleAISearchInput implements Action {
+  readonly type = SearchAiActionTypes.ToggleAiSearchInput;
+
+  constructor(public agentId: string) {}
+}
