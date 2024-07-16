@@ -4,7 +4,10 @@
   panelClass="aca-search-ai-input-agent-select-options"
   data-automation-id="aca-search-ai-agents-select">
   <mat-select-trigger class="aca-search-ai-input-agent-select-displayed-value">
-    <adf-avatar size="26.43px"></adf-avatar>
+    <adf-avatar
+      [initials]="initialsByAgentId[agentControl.value.id]"
+      size="26.43px">
+    </adf-avatar>
     {{ agentControl.value.name }}
   </mat-select-trigger>
   <mat-option
@@ -12,7 +15,7 @@
     [value]="agent"
     class="aca-search-ai-input-agent-select-options-option">
     <div class="aca-search-ai-input-agent-select-options-option-content">
-      <adf-avatar></adf-avatar>
+      <adf-avatar [initials]="initialsByAgentId[agent.id]"></adf-avatar>
       {{ agent.name }}
     </div>
   </mat-option>

@@ -60,6 +60,7 @@ export class AgentsButtonComponent implements OnInit, OnDestroy {
   private animationItem?: AnimationItem;
   private onDestroy$ = new Subject<void>();
   private _disabled = true;
+  private _initialsByAgentId: { [key: string]: string } = {};
 
   get agents(): Agent[] {
     return this._agents;
@@ -71,6 +72,10 @@ export class AgentsButtonComponent implements OnInit, OnDestroy {
 
   get disabled(): boolean {
     return this._disabled;
+  }
+
+  get initialsByAgentId(): { [key: string]: string } {
+    return this._initialsByAgentId;
   }
 
   constructor(
@@ -95,6 +100,13 @@ export class AgentsButtonComponent implements OnInit, OnDestroy {
       .subscribe(
         (paging) => {
           this._agents = paging.list.entries.map((agentEntry) => agentEntry.entry);
+          if (this.agents.length) {
+            this._initialsByAgentId = this.agents.reduce((initials, agent) => {
+              const words = agent.name.split(' ').filter((word) => !word.match(/[^a-zA-Z]+/g));
+              initials[agent.id] = `${words[0][0]}${words[1][0] || ''}`;
+              return initials;
+            }, {});
+          }
         },
         () => this.notificationService.showError(this.translateService.instant('KNOWLEDGE_RETRIEVAL.SEARCH.ERRORS.AGENTS_FETCHING'))
       );

@@ -80,6 +80,7 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
   private onDestroy$ = new Subject<void>();
   private selectedNodesState: SelectionState;
   private _queryControl = new FormControl('');
+  private _initialsByAgentId: { [key: string]: string } = {};
 
   get agentControl(): FormControl<Agent> {
     return this._agentControl;
@@ -91,6 +92,10 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
 
   get queryControl(): FormControl<string> {
     return this._queryControl;
+  }
+
+  get initialsByAgentId(): { [key: string]: string } {
+    return this._initialsByAgentId;
   }
 
   constructor(
@@ -120,6 +125,11 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
         (paging) => {
           this._agents = paging.list.entries.map((agentEntry) => agentEntry.entry);
           this.agentControl.setValue(this.agents.find((agent) => agent.id === this.agentId));
+          this._initialsByAgentId = this.agents.reduce((initials, agent) => {
+            const words = agent.name.split(' ').filter((word) => !word.match(/[^a-zA-Z]+/g));
+            initials[agent.id] = `${words[0][0]}${words[1][0] || ''}`;
+            return initials;
+          }, {});
         },
         () => this.notificationService.showError(this.translateService.instant('KNOWLEDGE_RETRIEVAL.SEARCH.ERRORS.AGENTS_FETCHING'))
       );
