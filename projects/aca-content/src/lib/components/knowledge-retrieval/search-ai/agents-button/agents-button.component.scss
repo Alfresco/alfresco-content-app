@@ -3,7 +3,7 @@ aca-agents-button.aca-agents-button {
   display: block;
 
   button {
-    &.aca-agents-button-animated {
+    &.aca-agents-menu-button {
       &.aca-agents-button-menu-trigger {
         height: auto;
         cursor: pointer;
@@ -11,9 +11,17 @@ aca-agents-button.aca-agents-button {
         background: transparent;
         width: max-content;
         padding: 0 4px 0 0;
+      }
 
-        ng-lottie {
-          line-height: normal;
+      .aca-agents-button-icon {
+        display: flex;
+        align-self: baseline;
+
+        svg {
+          height: 32px;
+          width: 32px;
+          position: absolute;
+          margin-left: -21px;
         }
       }
     }

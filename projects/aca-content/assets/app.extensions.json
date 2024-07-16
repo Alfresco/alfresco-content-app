@@ -140,6 +140,10 @@
       {
         "id": "adf:three_magic_stars_ai",
         "value": "./assets/images/three-magic-stars-ai.svg"
+      },
+      {
+        "id": "adf:colored-stars-ai",
+        "value": "./assets/images/colored-stars-ai.svg"
       }
     ],
     "create": [
@@ -710,7 +714,6 @@
           "click": "app.action.toggle-ai-search-input.execute"
         },
         "data": {
-          "path": "./assets/images/ai-stars-icon.json",
           "trigger": "TOGGLE_AI_SEARCH_INPUT"
         }
       }

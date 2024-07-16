@@ -76,9 +76,7 @@ import { UserMenuComponent } from './components/sidenav/user-menu/user-menu.comp
 import { ContextMenuComponent } from './components/context-menu/context-menu.component';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { SearchResultsRowComponent } from './components/search/search-results-row/search-results-row.component';
-import { provideLottieOptions } from 'ngx-lottie';
 import { AgentsButtonComponent } from './components/knowledge-retrieval/search-ai/agents-button/agents-button.component';
-import player from 'lottie-web';
 
 @NgModule({
   imports: [
@@ -117,8 +115,7 @@ import player from 'lottie-web';
     {
       provide: MAT_DIALOG_DEFAULT_OPTIONS,
       useValue: { closeOnNavigation: true, hasBackdrop: true, autoFocus: true }
-    },
-    provideLottieOptions({ player: () => player })
+    }
   ]
 })
 export class ContentServiceExtensionModule {

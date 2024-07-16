@@ -1,16 +1,14 @@
 <ng-container *ngIf="agents.length">
   <button
     [matMenuTriggerFor]="disabled ? null : agentsList"
-    (mouseenter)="onMouseEnter()"
-    (mouseleave)="onMouseLeave()"
-    class="aca-agents-button-animated aca-agents-button-menu-trigger"
+    class="aca-agents-menu-button aca-agents-button-menu-trigger"
     (mouseup)="onClick()"
     (keydown.enter)="onClick()"
     data-automation-id="aca-agents-button">
-    <ng-lottie
-      (animationCreated)="onAnimate($event)"
-      [options]="options">
-    </ng-lottie>
+    <adf-icon
+      value="adf:colored-stars-ai"
+      class="aca-agents-button-icon">
+    </adf-icon>
     {{ 'KNOWLEDGE_RETRIEVAL.SEARCH.AGENTS_BUTTON.LABEL' | translate}}
   </button>
   <mat-menu
