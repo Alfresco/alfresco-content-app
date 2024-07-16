@@ -58,6 +58,7 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { DocumentListDirective } from '../../directives/document-list.directive';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { SearchAiInputContainerComponent } from '../knowledge-retrieval/search-ai/search-ai-input-container/search-ai-input-container.component';
 
 @Component({
   standalone: true,
@@ -73,6 +74,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     PaginationDirective,
     PageLayoutComponent,
     ToolbarComponent,
+    SearchAiInputContainerComponent,
     DynamicColumnComponent,
     BreadcrumbComponent,
     UploadDragAreaComponent,
@@ -82,7 +84,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     CustomEmptyContentTemplateDirective
   ],
   templateUrl: './files.component.html',
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  selector: 'aca-files'
 })
 export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   isValidPath = true;

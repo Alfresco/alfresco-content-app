@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { DocumentListComponent, DocumentListService, ShareDataRow, UploadService } from '@alfresco/adf-content-services';
+import { DocumentListComponent, DocumentListService, SearchAiInputState, SearchAiService, ShareDataRow, UploadService } from '@alfresco/adf-content-services';
 import { ShowHeaderMode } from '@alfresco/adf-core';
 import { ContentActionRef, DocumentListPresetRef, SelectionState } from '@alfresco/adf-extensions';
 import { OnDestroy, OnInit, OnChanges, ViewChild, SimpleChanges, Directive, inject, HostListener } from '@angular/core';
@@ -81,7 +81,17 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   protected router = inject(Router);
   private autoDownloadService = inject(AutoDownloadService, { optional: true });
 
+  protected searchAiService: SearchAiService = inject(SearchAiService);
   protected subscriptions: Subscription[] = [];
+
+  private fileAutoDownloadService = inject(AcaFileAutoDownloadService, { optional: true });
+  private _searchAiInputState: SearchAiInputState = {
+    active: false
+  };
+
+  get searchAiInputState(): SearchAiInputState {
+    return this._searchAiInputState;
+  }
 
   ngOnInit() {
     this.extensions
@@ -135,6 +145,10 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
       .subscribe((result) => {
         this.isSmallScreen = result.matches;
       });
+
+    this.searchAiService.toggleSearchAiInput$
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((searchAiInputState) => (this._searchAiInputState = searchAiInputState));
   }
 
   ngOnChanges(changes: SimpleChanges) {

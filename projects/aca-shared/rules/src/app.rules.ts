@@ -629,3 +629,10 @@ export function isSmartFolder(context: RuleContext): boolean {
 export const areTagsEnabled = (context: AcaRuleContext): boolean => context.appConfig.get('plugins.tagsEnabled', true);
 
 export const areCategoriesEnabled = (context: AcaRuleContext): boolean => context.appConfig.get('plugins.categoriesEnabled', true);
+
+export const canDisplayKnowledgeRetrievalButton = (context: AcaRuleContext): boolean =>
+  navigation.isPersonalFiles(context) ||
+  navigation.isSharedFiles(context) ||
+  navigation.isRecentFiles(context) ||
+  navigation.isFavorites(context) ||
+  ((navigation.isSearchResults(context) || navigation.isLibraryContent(context)) && navigation.isNotLibraries(context));

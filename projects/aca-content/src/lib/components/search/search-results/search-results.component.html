@@ -1,9 +1,15 @@
-<aca-page-layout>
+<aca-page-layout [class.aca-search-results-active-search-ai-input]="searchAiInputState.active">
   <div class="aca-page-layout-header">
-    <aca-search-input></aca-search-input>
-    <aca-bulk-actions-dropdown *ngIf="bulkActions" [items]="bulkActions"></aca-bulk-actions-dropdown>
-    <div class="aca-search-toolbar-spacer"></div>
-    <aca-toolbar [items]="actions"></aca-toolbar>
+    <aca-search-ai-input-container
+      *ngIf="searchAiInputState.active"
+      [agentId]="searchAiInputState.selectedAgentId">
+    </aca-search-ai-input-container>
+    <div class="aca-header-container">
+      <aca-search-input></aca-search-input>
+      <aca-bulk-actions-dropdown *ngIf="bulkActions" [items]="bulkActions"></aca-bulk-actions-dropdown>
+      <div class="aca-search-toolbar-spacer"></div>
+      <aca-toolbar [items]="actions"></aca-toolbar>
+    </div>
   </div>
 
   <div class="aca-page-layout-content">
