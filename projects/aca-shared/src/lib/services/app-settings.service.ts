@@ -51,4 +51,25 @@ export class AppSettingsService {
   get mimeTypes(): AlfrescoMimeType[] {
     return this.appConfig.get<AlfrescoMimeType[]>('mimeTypes', DefaultMimeTypes);
   }
+
+  /**
+   * Get the application name from the app settings.
+   */
+  get appName(): string {
+    return this.appConfig.get<string>('application.name', 'Alfresco Content Application');
+  }
+
+  /**
+   * Get the application version from the app settings.
+   */
+  get appVersion(): string {
+    return this.appConfig.get<string>('application.version', '1.0.0');
+  }
+
+  /**
+   * Get the application logo URL from the app settings.
+   */
+  get appLogoUrl(): string {
+    return this.appConfig.get<string>('application.logo', 'assets/images/app-logo.svg');
+  }
 }

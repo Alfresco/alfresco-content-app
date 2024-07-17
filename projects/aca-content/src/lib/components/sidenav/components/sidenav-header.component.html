@@ -6,7 +6,7 @@
       (click)="toggleNavBar.emit()"
       (keypress)="toggleNavBar.emit()">
       <img
-        src="{{ logo$ | async }}"
+        src="{{ logoUrl }}"
         title="{{'APP.TOOLTIPS.COLLAPSE_NAVIGATION' | translate}}"
         alt="{{ 'CORE.HEADER.LOGO_ARIA' | translate }}" />
     </div>
@@ -15,7 +15,7 @@
       class="aca-sidenav-header-title-text"
       data-automation-id="app-sidenav-header-title-text"
       [routerLink]="landingPage">
-      {{ appName$ | async | translate }}
+      {{ appName | translate }}
     </div>
 
     <aca-toolbar [items]="actions"></aca-toolbar>

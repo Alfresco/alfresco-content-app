@@ -210,8 +210,6 @@ export class AppService implements ShellAppService, OnDestroy {
 
     const state: AppState = {
       ...INITIAL_APP_STATE,
-      appName: this.config.get<string>('application.name'),
-      logoPath: this.config.get<string>('application.logo'),
       customCssPath: this.config.get<string>('customCssPath'),
       webFontPath: this.config.get<string>('webFontPath'),
       sharedUrl: baseShareUrl

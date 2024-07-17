@@ -28,8 +28,6 @@ import { createSelector } from '@ngrx/store';
 const HXI_CONNECTOR = 'alfresco-hxinsight-connector-prediction-applier-extension';
 export const selectApp = (state: AppStore) => state.app;
 
-export const getAppName = createSelector(selectApp, (state) => state.appName);
-export const getLogoPath = createSelector(selectApp, (state) => state.logoPath);
 export const getCustomCssPath = createSelector(selectApp, (state) => state.customCssPath);
 export const getCustomWebFontPath = createSelector(selectApp, (state) => state.webFontPath);
 export const getUserProfile = createSelector(selectApp, (state) => state.user);

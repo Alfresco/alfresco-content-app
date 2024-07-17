@@ -30,8 +30,6 @@ import { InjectionToken } from '@angular/core';
 export const STORE_INITIAL_APP_DATA = new InjectionToken<AppState>('STORE_INITIAL_APP_DATA');
 
 export const INITIAL_APP_STATE: AppState = {
-  appName: 'Alfresco Content Application',
-  logoPath: 'assets/images/alfresco-logo-white.svg',
   customCssPath: '',
   webFontPath: '',
   sharedUrl: '',
@@ -70,8 +68,6 @@ export const INITIAL_STATE: AppStore = {
 };
 
 export interface AppState {
-  appName: string;
-  logoPath: string;
   customCssPath: string;
   webFontPath: string;
   sharedUrl: string;
