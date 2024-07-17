@@ -30,18 +30,13 @@ import { OverlayContainer } from '@angular/cdk/overlay';
 import { ActivatedRoute, ActivationEnd, NavigationStart, Router } from '@angular/router';
 import { filter, map, tap } from 'rxjs/operators';
 import {
-  AppState,
   AppStore,
   CloseModalDialogsAction,
-  getCustomCssPath,
-  getCustomWebFontPath,
   SetCurrentUrlAction,
-  SetInitialStateAction,
   SetRepositoryInfoAction,
   SetUserProfileAction,
   SnackbarErrorAction,
-  ResetSelectionAction,
-  INITIAL_APP_STATE
+  ResetSelectionAction
 } from '@alfresco/aca-shared/store';
 import { ContentApiService } from './content-api.service';
 import { RouterExtensionService } from './router.extension.service';
@@ -49,6 +44,7 @@ import { Store } from '@ngrx/store';
 import { DiscoveryEntry, GroupEntry, Group } from '@alfresco/js-api';
 import { AcaMobileAppSwitcherService } from './aca-mobile-app-switcher.service';
 import { ShellAppService } from '@alfresco/adf-core/shell';
+import { AppSettingsService } from './app-settings.service';
 
 @Injectable({
   providedIn: 'root'
@@ -91,7 +87,8 @@ export class AppService implements ShellAppService, OnDestroy {
     private groupService: GroupService,
     private overlayContainer: OverlayContainer,
     searchQueryBuilderService: SearchQueryBuilderService,
-    private acaMobileAppSwitcherService: AcaMobileAppSwitcherService
+    private acaMobileAppSwitcherService: AcaMobileAppSwitcherService,
+    private appSettingsService: AppSettingsService
   ) {
     this.ready = new BehaviorSubject(this.authenticationService.isLoggedIn() || this.withCredentials);
     this.ready$ = this.ready.asObservable();
@@ -136,8 +133,6 @@ export class AppService implements ShellAppService, OnDestroy {
         }
       }
     });
-
-    this.loadAppSettings();
 
     this.loadCustomCss();
     this.loadCustomWebFont();
@@ -202,22 +197,6 @@ export class AppService implements ShellAppService, OnDestroy {
     });
   }
 
-  loadAppSettings() {
-    let baseShareUrl = this.config.get<string>('baseShareUrl', '');
-    if (!baseShareUrl.endsWith('/')) {
-      baseShareUrl += '/';
-    }
-
-    const state: AppState = {
-      ...INITIAL_APP_STATE,
-      customCssPath: this.config.get<string>('customCssPath'),
-      webFontPath: this.config.get<string>('webFontPath'),
-      sharedUrl: baseShareUrl
-    };
-
-    this.store.dispatch(new SetInitialStateAction(state));
-  }
-
   onFileUploadedError(error: FileUploadErrorEvent) {
     let message = 'APP.MESSAGES.UPLOAD.ERROR.GENERIC';
 
@@ -245,19 +224,17 @@ export class AppService implements ShellAppService, OnDestroy {
   }
 
   private loadCustomCss(): void {
-    this.store.select(getCustomCssPath).subscribe((cssPath) => {
-      if (cssPath) {
-        this.createLink(cssPath);
-      }
-    });
+    const customCssPath = this.appSettingsService.customCssPath;
+    if (customCssPath) {
+      this.createLink(customCssPath);
+    }
   }
 
   private loadCustomWebFont(): void {
-    this.store.select(getCustomWebFontPath).subscribe((fontUrl) => {
-      if (fontUrl) {
-        this.createLink(fontUrl);
-      }
-    });
+    const webFontPath = this.appSettingsService.webFontPath;
+    if (webFontPath) {
+      this.createLink(webFontPath);
+    }
   }
 
   private createLink(url: string): void {

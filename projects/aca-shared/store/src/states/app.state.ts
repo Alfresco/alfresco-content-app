@@ -30,9 +30,6 @@ import { InjectionToken } from '@angular/core';
 export const STORE_INITIAL_APP_DATA = new InjectionToken<AppState>('STORE_INITIAL_APP_DATA');
 
 export const INITIAL_APP_STATE: AppState = {
-  customCssPath: '',
-  webFontPath: '',
-  sharedUrl: '',
   user: {
     isAdmin: null,
     id: null,
@@ -68,9 +65,6 @@ export const INITIAL_STATE: AppStore = {
 };
 
 export interface AppState {
-  customCssPath: string;
-  webFontPath: string;
-  sharedUrl: string;
   currentNodeVersion: VersionEntry;
   selection: SelectionState;
   user: ProfileState;

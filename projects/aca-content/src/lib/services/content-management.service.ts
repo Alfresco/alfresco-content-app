@@ -22,13 +22,12 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AppHookService, ContentApiService, NodePermissionService } from '@alfresco/aca-shared';
+import { AppHookService, AppSettingsService, ContentApiService, NodePermissionService } from '@alfresco/aca-shared';
 import {
   AppStore,
   DeletedNodeInfo,
   DeleteStatus,
   getAppSelection,
-  getSharedUrl,
   NavigateRouteAction,
   NavigateToParentFolder,
   NodeInfo,
@@ -91,7 +90,8 @@ export class ContentManagementService {
     private nodeAspectService: NodeAspectService,
     private appHookService: AppHookService,
     private newVersionUploaderService: NewVersionUploaderService,
-    private router: Router
+    private router: Router,
+    private appSettingsService: AppSettingsService
   ) {}
 
   addFavorite(nodes: Array<NodeEntry>) {
@@ -189,27 +189,24 @@ export class ContentManagementService {
     }
   }
 
-  openShareLinkDialog(node, focusedElementOnCloseSelector?: string) {
-    this.store
-      .select(getSharedUrl)
-      .pipe(take(1))
-      .subscribe((baseShareUrl) => {
-        this.dialogRef
-          .open(ShareDialogComponent, {
-            restoreFocus: true,
-            width: '600px',
-            panelClass: 'adf-share-link-dialog',
-            data: {
-              node,
-              baseShareUrl
-            }
-          })
-          .afterClosed()
-          .subscribe(() => {
-            this.store.dispatch(new SetSelectedNodesAction([node]));
-            this.appHookService.linksUnshared.next();
-            this.focusAfterClose(focusedElementOnCloseSelector);
-          });
+  openShareLinkDialog(node: any, focusedElementOnCloseSelector?: string) {
+    const baseShareUrl = this.appSettingsService.baseShareUrl;
+
+    this.dialogRef
+      .open(ShareDialogComponent, {
+        restoreFocus: true,
+        width: '600px',
+        panelClass: 'adf-share-link-dialog',
+        data: {
+          node,
+          baseShareUrl
+        }
+      })
+      .afterClosed()
+      .subscribe(() => {
+        this.store.dispatch(new SetSelectedNodesAction([node]));
+        this.appHookService.linksUnshared.next();
+        this.focusAfterClose(focusedElementOnCloseSelector);
       });
   }
 
