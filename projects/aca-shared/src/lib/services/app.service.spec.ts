@@ -54,6 +54,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { Store } from '@ngrx/store';
 import { ContentApiService } from './content-api.service';
 import { SetRepositoryInfoAction, SetUserProfileAction, SnackbarErrorAction } from '@alfresco/aca-shared/store';
+import { AppSettingsService } from '@alfresco/aca-shared';
 
 describe('AppService', () => {
   let service: AppService;
@@ -66,6 +67,7 @@ describe('AppService', () => {
   let contentApi: ContentApiService;
   let groupService: GroupService;
   let preferencesService: UserPreferencesService;
+  let appSettingsService: AppSettingsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -115,6 +117,7 @@ describe('AppService', () => {
       ]
     });
 
+    appSettingsService = TestBed.inject(AppSettingsService);
     appConfig = TestBed.inject(AppConfigService);
     auth = TestBed.inject(AuthenticationService);
     searchQueryBuilderService = TestBed.inject(SearchQueryBuilderService);
@@ -166,7 +169,7 @@ describe('AppService', () => {
     await expect(resetToDefaults).toHaveBeenCalled();
   });
 
-  it('should rase notification on share link error', () => {
+  it('should raise notification on share link error', () => {
     spyOn(store, 'select').and.returnValue(of(''));
     service.init();
     const dispatch = spyOn(store, 'dispatch');
@@ -210,7 +213,7 @@ describe('AppService', () => {
 
   it('should load custom css', () => {
     const appendChild = spyOn(document.head, 'appendChild');
-    spyOn(store, 'select').and.returnValue(of('/custom.css'));
+    spyOnProperty(appSettingsService, 'customCssPath').and.returnValue('/custom.css');
     service.init();
 
     const cssLinkElement = document.createElement('link');
