@@ -30,7 +30,15 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { A11yModule } from '@angular/cdk/a11y';
-import { AvatarComponent, IconComponent, NotificationService, UserPreferencesService } from '@alfresco/adf-core';
+import {
+  AppConfigValues,
+  AvatarComponent,
+  IconComponent,
+  NotificationService,
+  StorageService,
+  UnsavedChangesDialogComponent,
+  UserPreferencesService
+} from '@alfresco/adf-core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -47,6 +55,8 @@ import {
   MatTooltipDefaultOptions,
   MatTooltipModule
 } from '@angular/material/tooltip';
+import { ActivatedRoute } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 
 const MatTooltipOptions: MatTooltipDefaultOptions = {
   ...MAT_TOOLTIP_DEFAULT_OPTIONS_FACTORY(),
@@ -80,8 +90,10 @@ const MatTooltipOptions: MatTooltipDefaultOptions = {
 export class SearchAiInputComponent implements OnInit, OnDestroy {
   @Input()
   placeholder: string;
+
   @Input()
   agentId: string;
+
   @Input()
   useStoredNodes: boolean;
 
@@ -119,7 +131,10 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     private agentService: AgentService,
     private userPreferencesService: UserPreferencesService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private route: ActivatedRoute,
+    private dialog: MatDialog,
+    private storageService: StorageService
   ) {}
 
   ngOnInit(): void {
@@ -156,7 +171,34 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
     this.onDestroy$.complete();
   }
 
-  onSearchSubmit(): void {
+  onSearchSubmit() {
+    const hasPreviousSearch = this.route.snapshot?.queryParams?.query?.length > 0;
+    const modalHidden = this.storageService.getItem(AppConfigValues.UNSAVED_CHANGES_MODAL_HIDDEN) === 'true';
+
+    if (!hasPreviousSearch || modalHidden) {
+      this.search();
+      return;
+    }
+
+    this.dialog
+      .open<UnsavedChangesDialogComponent>(UnsavedChangesDialogComponent, {
+        width: '345px',
+        data: {
+          descriptionText: 'KNOWLEDGE_RETRIEVAL.SEARCH.DISCARD_CHANGES.LOSE_RESPONSE',
+          confirmButtonText: 'KNOWLEDGE_RETRIEVAL.SEARCH.DISCARD_CHANGES.ASK_AI',
+          checkboxText: 'KNOWLEDGE_RETRIEVAL.SEARCH.DISCARD_CHANGES.DO_NOT_SHOW_MESSAGE',
+          headerText: 'KNOWLEDGE_RETRIEVAL.SEARCH.DISCARD_CHANGES.WARNING'
+        }
+      })
+      .afterClosed()
+      .subscribe((openModal: boolean) => {
+        if (openModal) {
+          this.search();
+        }
+      });
+  }
+
+  search() {
     const error = this.searchAiService.checkSearchAvailability(this.selectedNodesState);
     if (error) {
       this.notificationService.showInfo(error);
