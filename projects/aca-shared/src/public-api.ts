@@ -48,6 +48,7 @@ export * from './lib/models/viewer.rules';
 export * from './lib/models/modal-configuration';
 
 export * from './lib/routing/shared.guard';
+export * from './lib/routing/plugin-enabled.guard';
 
 export * from './lib/services/app.service';
 export * from './lib/services/content-api.service';
