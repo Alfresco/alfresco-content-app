@@ -25,24 +25,6 @@
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { Route } from '@angular/router';
 
-export interface SettingsGroupRef {
-  id: string;
-  name: string;
-  parameters: Array<SettingsParameterRef>;
-  rules?: {
-    visible?: string;
-    [key: string]: string;
-  };
-}
-
-export interface SettingsParameterRef {
-  id?: string;
-  name: string;
-  key: string;
-  type: 'string' | 'boolean';
-  value?: any;
-}
-
 export interface ExtensionRoute extends Route {
   parentRoute?: string;
 }

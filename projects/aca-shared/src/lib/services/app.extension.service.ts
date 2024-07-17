@@ -53,9 +53,9 @@ import { AppConfigService, AuthenticationService, LogService } from '@alfresco/a
 import { BehaviorSubject, Observable } from 'rxjs';
 import { NodeEntry, RepositoryInfo } from '@alfresco/js-api';
 import { ViewerRules } from '../models/viewer.rules';
-import { Badge, SettingsGroupRef } from '../models/types';
+import { Badge } from '../models/types';
 import { NodePermissionService } from '../services/node-permission.service';
-import { filter, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { SearchCategory } from '@alfresco/adf-content-services';
 
 @Injectable({
@@ -69,7 +69,6 @@ export class AppExtensionService implements RuleContext {
   contentMetadata: any;
   search: any;
   viewerRules: ViewerRules = {};
-  settingGroups: Array<SettingsGroupRef> = [];
 
   private _headerActions = new BehaviorSubject<Array<ContentActionRef>>([]);
   private _toolbarActions = new BehaviorSubject<Array<ContentActionRef>>([]);
@@ -78,7 +77,6 @@ export class AppExtensionService implements RuleContext {
   private _contextMenuActions = new BehaviorSubject<Array<ContentActionRef>>([]);
   private _openWithActions = new BehaviorSubject<Array<ContentActionRef>>([]);
   private _createActions = new BehaviorSubject<Array<ContentActionRef>>([]);
-  private _mainActions = new BehaviorSubject<ContentActionRef>(null);
   private _sidebarActions = new BehaviorSubject<Array<ContentActionRef>>([]);
   private _badges = new BehaviorSubject<Array<Badge>>([]);
   private _filesDocumentListPreset = new BehaviorSubject<Array<DocumentListPresetRef>>([]);
@@ -151,8 +149,6 @@ export class AppExtensionService implements RuleContext {
       return;
     }
 
-    this.settingGroups = this.loader.getElements<SettingsGroupRef>(config, 'settings');
-
     this._headerActions.next(this.loader.getContentActions(config, 'features.header'));
     this._sidebarActions.next(this.loader.getContentActions(config, 'features.sidebar.toolbar'));
     this._toolbarActions.next(this.loader.getContentActions(config, 'features.toolbar'));
@@ -161,7 +157,6 @@ export class AppExtensionService implements RuleContext {
     this._contextMenuActions.next(this.loader.getContentActions(config, 'features.contextMenu'));
     this._openWithActions.next(this.loader.getContentActions(config, 'features.viewer.openWith'));
     this._createActions.next(this.loader.getElements<ContentActionRef>(config, 'features.create'));
-    this._mainActions.next(this.loader.getFeatures(config).mainAction);
     this._badges.next(this.loader.getElements<Badge>(config, 'features.badges'));
     this._filesDocumentListPreset.next(this.getDocumentListPreset(config, 'files'));
     this._customMetadataPanels.next(this.loader.getElements<ContentActionRef>(config, 'features.customMetadataPanels'));
@@ -340,10 +335,6 @@ export class AppExtensionService implements RuleContext {
     }
   }
 
-  getNavigationGroups(): Array<NavBarGroupRef> {
-    return this.navbar;
-  }
-
   getSidebarTabs(): Array<SidebarTabRef> {
     return this.sidebarTabs.filter((action) => this.filterVisible(action));
   }
@@ -374,17 +365,6 @@ export class AppExtensionService implements RuleContext {
           .map((action) => this.buildMenu(action))
           .map((action) => this.setActionDisabledFromRule(action))
       )
-    );
-  }
-
-  getMainAction(): Observable<ContentActionRef> {
-    return this._mainActions.pipe(
-      filter((mainAction) => mainAction && this.filterVisible(mainAction)),
-      map((mainAction) => {
-        let actionCopy = this.copyAction(mainAction);
-        actionCopy = this.setActionDisabledFromRule(actionCopy);
-        return actionCopy;
-      })
     );
   }
 
@@ -486,10 +466,6 @@ export class AppExtensionService implements RuleContext {
     return this._contextMenuActions.pipe(map((contextMenuActions) => (!this.selection.isEmpty ? this.getAllowedActions(contextMenuActions) : [])));
   }
 
-  getSettingsGroups(): Array<SettingsGroupRef> {
-    return this.settingGroups.filter((group) => this.filterVisible(group));
-  }
-
   copyAction(action: ContentActionRef): ContentActionRef {
     return {
       ...action,
@@ -497,7 +473,7 @@ export class AppExtensionService implements RuleContext {
     };
   }
 
-  filterVisible(action: ContentActionRef | SettingsGroupRef | SidebarTabRef | DocumentListPresetRef | SearchCategory): boolean {
+  filterVisible(action: ContentActionRef | SidebarTabRef | DocumentListPresetRef | SearchCategory): boolean {
     if (action?.rules?.visible) {
       if (Array.isArray(action.rules.visible)) {
         return action.rules.visible.every((rule) => this.extensions.evaluateRule(rule, this));
