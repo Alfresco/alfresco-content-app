@@ -55,7 +55,7 @@ import { NodeEntry, RepositoryInfo } from '@alfresco/js-api';
 import { ViewerRules } from '../models/viewer.rules';
 import { Badge } from '../models/types';
 import { NodePermissionService } from '../services/node-permission.service';
-import { filter, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { SearchCategory } from '@alfresco/adf-content-services';
 
 @Injectable({
@@ -77,7 +77,6 @@ export class AppExtensionService implements RuleContext {
   private _contextMenuActions = new BehaviorSubject<Array<ContentActionRef>>([]);
   private _openWithActions = new BehaviorSubject<Array<ContentActionRef>>([]);
   private _createActions = new BehaviorSubject<Array<ContentActionRef>>([]);
-  private _mainActions = new BehaviorSubject<ContentActionRef>(null);
   private _sidebarActions = new BehaviorSubject<Array<ContentActionRef>>([]);
   private _badges = new BehaviorSubject<Array<Badge>>([]);
   private _filesDocumentListPreset = new BehaviorSubject<Array<DocumentListPresetRef>>([]);
@@ -158,7 +157,6 @@ export class AppExtensionService implements RuleContext {
     this._contextMenuActions.next(this.loader.getContentActions(config, 'features.contextMenu'));
     this._openWithActions.next(this.loader.getContentActions(config, 'features.viewer.openWith'));
     this._createActions.next(this.loader.getElements<ContentActionRef>(config, 'features.create'));
-    this._mainActions.next(this.loader.getFeatures(config).mainAction);
     this._badges.next(this.loader.getElements<Badge>(config, 'features.badges'));
     this._filesDocumentListPreset.next(this.getDocumentListPreset(config, 'files'));
     this._customMetadataPanels.next(this.loader.getElements<ContentActionRef>(config, 'features.customMetadataPanels'));
@@ -367,17 +365,6 @@ export class AppExtensionService implements RuleContext {
           .map((action) => this.buildMenu(action))
           .map((action) => this.setActionDisabledFromRule(action))
       )
-    );
-  }
-
-  getMainAction(): Observable<ContentActionRef> {
-    return this._mainActions.pipe(
-      filter((mainAction) => mainAction && this.filterVisible(mainAction)),
-      map((mainAction) => {
-        let actionCopy = this.copyAction(mainAction);
-        actionCopy = this.setActionDisabledFromRule(actionCopy);
-        return actionCopy;
-      })
     );
   }
 

@@ -1695,36 +1695,6 @@ describe('AppExtensionService', () => {
     });
   });
 
-  it('should resolve main action', (done) => {
-    extensions.setEvaluators({
-      'action.enabled': () => true
-    });
-
-    applyConfig({
-      $id: 'test',
-      $name: 'test',
-      $version: '1.0.0',
-      $license: 'MIT',
-      $vendor: 'Good company',
-      $runtime: '1.5.0',
-      features: {
-        mainAction: {
-          id: 'action-id',
-          title: 'action-title',
-          type: 'button',
-          rules: {
-            visible: 'action.enabled'
-          }
-        }
-      }
-    });
-
-    service.getMainAction().subscribe((action) => {
-      expect(action.id).toEqual('action-id');
-      done();
-    });
-  });
-
   it('should get badges from config', (done) => {
     extensions.setEvaluators({
       'action.enabled': () => true
