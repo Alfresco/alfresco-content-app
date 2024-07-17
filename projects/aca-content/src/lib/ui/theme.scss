@@ -336,9 +336,11 @@ adf-dynamic-component {
   }
 }
 
-#{$mat-menu-item} #{$mat-icon-no-color},
-#{$mat-mdc-submenu-icon} {
-  color: var(--theme-text-color);
+#{$mat-menu-item} #{$mat-icon} {
+  &#{$mat-icon-no-color},
+  &#{$mat-mdc-submenu-icon} {
+    color: var(--theme-text-color);
+  }
 }
 
 #{$mat-notched-outline-trailing},
