@@ -45,7 +45,7 @@ import { Observable } from 'rxjs';
 export class BulkActionsDropdownComponent {
   @Input() items: ContentActionRef[];
 
-  selection$: Observable<number> = this.store.select(getSearchItemsTotalCount);
+  totalItems$: Observable<number> = this.store.select(getSearchItemsTotalCount);
 
   constructor(private store: Store<AppStore>) {}
 }
