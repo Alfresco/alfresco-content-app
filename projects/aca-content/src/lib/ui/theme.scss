@@ -6,6 +6,10 @@
 @include custom-theme($custom-theme);
 @include mat.core;
 
+:root {
+  --mdc-filled-text-field-container-color: var(--adf-theme-background-dialog-color);
+}
+
 mat-toolbar {
   color: var(--adf-theme-foreground-text-color-054);
 }
@@ -14,7 +18,7 @@ mat-toolbar {
   color: var(--theme-secondary-text);
 }
 
-#{$mat-text-field-filled}:not(#{$mat-text-field-disabled}) {
+#{$mat-text-field-filled}:not(#{$mat-text-field-disabled})#{$mat-form-field-wrapper} {
   background-color: transparent;
   padding: 0;
 }
