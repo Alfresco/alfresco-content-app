@@ -18,7 +18,7 @@ mat-toolbar {
   color: var(--theme-secondary-text);
 }
 
-#{$mat-text-field-filled}:not(#{$mat-text-field-disabled})#{$mat-form-field-wrapper} {
+#{$mat-form-field} #{$mat-form-field-wrapper}#{$mat-text-field-filled}:not(#{$mat-text-field-disabled}) {
   background-color: transparent;
   padding: 0;
 }
