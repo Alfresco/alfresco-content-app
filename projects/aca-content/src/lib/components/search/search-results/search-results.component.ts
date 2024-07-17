@@ -31,7 +31,6 @@ import {
   NavigateToFolder,
   SetInfoDrawerPreviewStateAction,
   SetInfoDrawerStateAction,
-  showFacetFilter,
   ShowInfoDrawerPreviewAction,
   SnackbarErrorAction
 } from '@alfresco/aca-shared/store';
@@ -95,7 +94,6 @@ import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-ext
   styleUrls: ['./search-results.component.scss']
 })
 export class SearchResultsComponent extends PageComponent implements OnInit {
-  showFacetFilter$ = this.store.select(showFacetFilter);
   infoDrawerPreview$ = this.store.select(infoDrawerPreview);
 
   searchedWord: string;

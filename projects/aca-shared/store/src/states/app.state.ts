@@ -49,7 +49,6 @@ export const INITIAL_APP_STATE: AppState = {
   infoDrawerOpened: false,
   infoDrawerPreview: false,
   infoDrawerMetadataAspect: '',
-  showFacetFilter: true,
   fileUploadingDialog: true,
   showLoader: false,
   repository: {
@@ -72,7 +71,6 @@ export interface AppState {
   infoDrawerOpened: boolean;
   infoDrawerPreview: boolean;
   infoDrawerMetadataAspect: string;
-  showFacetFilter: boolean;
   repository: RepositoryInfo;
   fileUploadingDialog: boolean;
   showLoader: boolean;
