@@ -16,7 +16,7 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field *ngIf="i > 0" subscriptSizing="dynamic">
+    <mat-form-field *ngIf="i > 0" subscriptSizing="dynamic" class="aca-rule-composite-condition__boolean-mode-control">
       <mat-select
         [formControl]="booleanModeControl">
         <mat-option value="and">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LOGIC_OPERATORS.AND' | translate }}</mat-option>
