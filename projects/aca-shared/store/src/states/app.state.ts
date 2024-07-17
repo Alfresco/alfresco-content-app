@@ -26,7 +26,48 @@ import { SelectionState, ProfileState, NavigationState } from '@alfresco/adf-ext
 import { RepositoryInfo, VersionEntry } from '@alfresco/js-api';
 import { InjectionToken } from '@angular/core';
 
+/** @deprecated no longer used */
 export const STORE_INITIAL_APP_DATA = new InjectionToken<AppState>('STORE_INITIAL_APP_DATA');
+
+export const INITIAL_APP_STATE: AppState = {
+  appName: 'Alfresco Content Application',
+  logoPath: 'assets/images/alfresco-logo-white.svg',
+  customCssPath: '',
+  webFontPath: '',
+  sharedUrl: '',
+  user: {
+    isAdmin: null,
+    id: null,
+    firstName: '',
+    lastName: ''
+  },
+  selection: {
+    nodes: [],
+    libraries: [],
+    isEmpty: true,
+    count: 0
+  },
+  navigation: {
+    currentFolder: null
+  },
+  currentNodeVersion: null,
+  infoDrawerOpened: false,
+  infoDrawerPreview: false,
+  infoDrawerMetadataAspect: '',
+  showFacetFilter: true,
+  fileUploadingDialog: true,
+  showLoader: false,
+  repository: {
+    status: {
+      isQuickShareEnabled: true
+    }
+  } as any
+};
+
+/** @deprecated no longer used */
+export const INITIAL_STATE: AppStore = {
+  app: INITIAL_APP_STATE
+};
 
 export interface AppState {
   appName: string;

@@ -45,7 +45,6 @@ import {
   UploadService
 } from '@alfresco/adf-content-services';
 import { ActivatedRoute } from '@angular/router';
-import { STORE_INITIAL_APP_DATA } from '../../../store/src/states/app.state';
 import { provideMockStore } from '@ngrx/store/testing';
 import { CommonModule } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -53,9 +52,8 @@ import { RepositoryInfo, VersionInfo } from '@alfresco/js-api';
 import { MatDialogModule } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { Store } from '@ngrx/store';
-import { SnackbarErrorAction } from '../../../store/src/actions/snackbar.actions';
 import { ContentApiService } from './content-api.service';
-import { SetRepositoryInfoAction, SetUserProfileAction } from '../../../store/src/actions/app.actions';
+import { SetRepositoryInfoAction, SetUserProfileAction, SnackbarErrorAction } from '@alfresco/aca-shared/store';
 
 describe('AppService', () => {
   let service: AppService;
@@ -98,10 +96,6 @@ describe('AppService', () => {
           useValue: {
             snapshot: {}
           }
-        },
-        {
-          provide: STORE_INITIAL_APP_DATA,
-          useValue: {}
         },
         {
           provide: AlfrescoApiService,

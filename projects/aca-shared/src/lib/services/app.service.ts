@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Inject, Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { AuthenticationService, AppConfigService, AlfrescoApiService, PageTitleService, UserPreferencesService } from '@alfresco/adf-core';
 import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { GroupService, SearchQueryBuilderService, SharedLinksApiService, UploadService, FileUploadErrorEvent } from '@alfresco/adf-content-services';
@@ -35,25 +35,26 @@ import {
   CloseModalDialogsAction,
   getCustomCssPath,
   getCustomWebFontPath,
-  STORE_INITIAL_APP_DATA,
   SetCurrentUrlAction,
   SetInitialStateAction,
   SetRepositoryInfoAction,
   SetUserProfileAction,
   SnackbarErrorAction,
-  ResetSelectionAction
+  ResetSelectionAction,
+  INITIAL_APP_STATE
 } from '@alfresco/aca-shared/store';
 import { ContentApiService } from './content-api.service';
 import { RouterExtensionService } from './router.extension.service';
 import { Store } from '@ngrx/store';
 import { DiscoveryEntry, GroupEntry, Group } from '@alfresco/js-api';
 import { AcaMobileAppSwitcherService } from './aca-mobile-app-switcher.service';
+import { ShellAppService } from '@alfresco/adf-core/shell';
 
 @Injectable({
   providedIn: 'root'
 })
 // After moving shell to ADF to core, AppService will implement ShellAppService
-export class AppService implements OnDestroy {
+export class AppService implements ShellAppService, OnDestroy {
   private ready: BehaviorSubject<boolean>;
 
   ready$: Observable<boolean>;
@@ -89,7 +90,6 @@ export class AppService implements OnDestroy {
     private sharedLinksApiService: SharedLinksApiService,
     private groupService: GroupService,
     private overlayContainer: OverlayContainer,
-    @Inject(STORE_INITIAL_APP_DATA) private initialAppState: AppState,
     searchQueryBuilderService: SearchQueryBuilderService,
     private acaMobileAppSwitcherService: AcaMobileAppSwitcherService
   ) {
@@ -209,7 +209,7 @@ export class AppService implements OnDestroy {
     }
 
     const state: AppState = {
-      ...this.initialAppState,
+      ...INITIAL_APP_STATE,
       appName: this.config.get<string>('application.name'),
       logoPath: this.config.get<string>('application.logo'),
       customCssPath: this.config.get<string>('customCssPath'),

@@ -22,43 +22,4 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AppState, AppStore } from '@alfresco/aca-shared/store';
-
-export const INITIAL_APP_STATE: AppState = {
-  appName: 'Alfresco Content Application',
-  logoPath: 'assets/images/alfresco-logo-white.svg',
-  customCssPath: '',
-  webFontPath: '',
-  sharedUrl: '',
-  user: {
-    isAdmin: null,
-    id: null,
-    firstName: '',
-    lastName: ''
-  },
-  selection: {
-    nodes: [],
-    libraries: [],
-    isEmpty: true,
-    count: 0
-  },
-  navigation: {
-    currentFolder: null
-  },
-  currentNodeVersion: null,
-  infoDrawerOpened: false,
-  infoDrawerPreview: false,
-  infoDrawerMetadataAspect: '',
-  showFacetFilter: true,
-  fileUploadingDialog: true,
-  showLoader: false,
-  repository: {
-    status: {
-      isQuickShareEnabled: true
-    }
-  } as any
-};
-
-export const INITIAL_STATE: AppStore = {
-  app: INITIAL_APP_STATE
-};
+export { INITIAL_STATE, INITIAL_APP_STATE } from '@alfresco/aca-shared/store';

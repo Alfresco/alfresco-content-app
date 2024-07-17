@@ -38,9 +38,9 @@ import {
   SetFileUploadingDialogAction,
   SetInfoDrawerPreviewStateAction,
   AppActionTypes,
-  ShowLoaderAction
+  ShowLoaderAction,
+  INITIAL_APP_STATE
 } from '@alfresco/aca-shared/store';
-import { INITIAL_APP_STATE } from '../initial-state';
 
 export function appReducer(state: AppState = INITIAL_APP_STATE, action: Action): AppState {
   let newState: AppState;

@@ -44,7 +44,6 @@ import { INITIAL_STATE } from '../store/initial-state';
 import { BehaviorSubject, Observable, Subject, of } from 'rxjs';
 import { ContentManagementService } from '../services/content-management.service';
 import { DocumentBasePageService } from '@alfresco/aca-shared';
-import { STORE_INITIAL_APP_DATA } from '@alfresco/aca-shared/store';
 
 @NgModule({
   imports: [
@@ -99,10 +98,6 @@ import { STORE_INITIAL_APP_DATA } from '@alfresco/aca-shared/store';
     },
     {
       provide: PageTitleService,
-      useValue: {}
-    },
-    {
-      provide: STORE_INITIAL_APP_DATA,
       useValue: {}
     }
   ]
