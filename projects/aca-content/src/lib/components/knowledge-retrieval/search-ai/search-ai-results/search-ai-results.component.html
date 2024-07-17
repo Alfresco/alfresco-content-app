@@ -38,7 +38,7 @@
           </mat-card>
         </div>
         <mat-divider class="aca-search-ai-response-container-body-divider"></mat-divider>
-        <ng-container *ngIf="!loading">
+        <ng-container *ngIf="!loading else skeleton">
           <div
             class="aca-search-ai-response-container-body"
             *ngIf="!hasAnsweringError">
@@ -125,3 +125,27 @@
     *ngIf="hasError">
   </adf-empty-content>
 </aca-page-layout>
+
+<ng-template #skeleton>
+  <div class="adf-skeleton-container">
+    <div class="adf-skeleton adf-skeleton-text"></div>
+    <div class="adf-skeleton adf-skeleton-text"></div>
+    <div class="adf-skeleton adf-skeleton-text adf-skeleton-text-half"></div>
+
+    <mat-divider class="aca-search-ai-response-container-body-divider"></mat-divider>
+    <p class="aca-search-ai-response-container-body-references-container-header adf-skeleton-references-container-header">
+      {{ 'KNOWLEDGE_RETRIEVAL.SEARCH.RESULTS_PAGE.REFERENCED_DOCUMENTS_HEADER' | translate }}
+    </p>
+
+    <div class="adf-skeleton-header-container">
+      <div class="adf-skeleton-header-container-element">
+        <div class="adf-skeleton adf-skeleton-image"></div>
+        <div class="adf-skeleton adf-skeleton-text adf-skeleton-text-title"></div>
+      </div>
+      <div class="adf-skeleton-header-container-element">
+        <div class="adf-skeleton adf-skeleton-image"></div>
+        <div class="adf-skeleton adf-skeleton-text adf-skeleton-text-title"></div>
+      </div>
+    </div>
+  </div>
+</ng-template>

@@ -1,3 +1,7 @@
+$light-grey1: #d5d5d5;
+$light-grey2: #d9d9d9;
+$light-grey3: #dedede;
+
 .aca-search-ai-results {
   aca-page-layout {
     .aca-page-layout-content {
@@ -33,6 +37,80 @@
         border-radius: 12px;
         margin: 16px 0 75px;
         padding: 14px 40px 36px 35px;
+
+        .adf-skeleton {
+          position: relative;
+          background-image: linear-gradient(to left, $light-grey1 0%, $light-grey2 20%, $light-grey3 40%, $light-grey1 100%);
+          background-size: 200%;
+          display: inline-block;
+          height: 1em;
+          overflow: hidden;
+
+          &::after {
+            position: absolute;
+            inset: 0;
+            transform: translateX(-100%);
+            background-image: linear-gradient(90deg, rgba(white, 0) 0, rgba(white, 0.2) 20%, rgba(white, 0.5) 60%, rgba(white, 0));
+            animation: shimmer 2s infinite;
+            content: '';
+          }
+
+          @keyframes shimmer {
+            100% {
+              transform: translateX(100%);
+            }
+          }
+        }
+
+        .adf-skeleton-container {
+          margin-top: 16px;
+
+          .adf-skeleton-text {
+            width: 90%;
+            height: 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 0.25rem;
+            margin-left: 6px;
+
+            &-title {
+              width: 75px;
+            }
+
+            &-half {
+              width: 50%;
+              margin-bottom: 8px;
+            }
+          }
+
+          .adf-skeleton-references-container-header {
+            padding-left: 8px;
+          }
+
+          .adf-skeleton-header-container {
+            padding-left: 6px;
+            margin-top: 16px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+
+            &-element {
+              display: flex;
+              align-items: center;
+              margin-right: 16px;
+
+              .adf-skeleton-text {
+                margin-bottom: 0;
+              }
+            }
+          }
+
+          .adf-skeleton-image {
+            height: 16px;
+            width: 16px;
+            border-radius: 0.25rem;
+          }
+        }
 
         &-error {
           border-color: var(--adf-error-color);
@@ -166,7 +244,7 @@
             padding-left: 8px;
 
             &-header {
-              margin-top: 16px;
+              margin-top: 24px;
               color: var(--theme-text-light-color);
               font-weight: 400;
               margin-bottom: 3px;
