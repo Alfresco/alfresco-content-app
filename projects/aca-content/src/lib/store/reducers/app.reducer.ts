@@ -29,7 +29,6 @@ import {
   SetUserProfileAction,
   SetCurrentFolderAction,
   SetCurrentUrlAction,
-  SetInitialStateAction,
   SetSelectedNodesAction,
   SetRepositoryInfoAction,
   SetInfoDrawerStateAction,
@@ -46,9 +45,6 @@ export function appReducer(state: AppState = INITIAL_APP_STATE, action: Action):
   let newState: AppState;
 
   switch (action.type) {
-    case AppActionTypes.SetInitialState:
-      newState = { ...(action as SetInitialStateAction).payload };
-      break;
     case NodeActionTypes.SetSelection:
       newState = updateSelectedNodes(state, action as SetSelectedNodesAction);
       break;
