@@ -26,20 +26,18 @@ import { ContentActionRef } from '@alfresco/adf-extensions';
 import { AppStore, getSearchItemsTotalCount } from '@alfresco/aca-shared/store';
 import { CommonModule } from '@angular/common';
 import { Component, Input, ViewEncapsulation } from '@angular/core';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { IconComponent } from '@alfresco/adf-core';
 
 @Component({
   standalone: true,
   selector: 'aca-bulk-actions-dropdown',
   templateUrl: './bulk-actions-dropdown.component.html',
   styleUrls: ['./bulk-actions-dropdown.component.scss'],
-  imports: [CommonModule, TranslateModule, MatSelectModule, MatFormFieldModule, MatInputModule, MatIconModule],
+  imports: [CommonModule, TranslateModule, MatSelectModule, IconComponent],
   encapsulation: ViewEncapsulation.None
 })
 export class BulkActionsDropdownComponent {

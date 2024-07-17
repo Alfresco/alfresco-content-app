@@ -40,8 +40,7 @@ describe('BulkActionsDropdownComponent', () => {
 
   const totalItemsMock$: BehaviorSubject<number> = new BehaviorSubject(0);
 
-  const getElement = (selector: string): HTMLInputElement | null =>
-    fixture.debugElement.query(By.css(`[data-automation-id="${selector}"]`)).nativeElement;
+  const getElement = (selector: string): HTMLElement | null => fixture.debugElement.query(By.css(`[data-automation-id="${selector}"]`)).nativeElement;
 
   const getLabelText = (selector: string): string => getElement(selector).textContent.trim();
 
@@ -63,13 +62,13 @@ describe('BulkActionsDropdownComponent', () => {
         component: 'app.bulk-actions-dropdown',
         title: 'GOVERNANCE.MANAGE_HOLDS.TITLE',
         description: 'GOVERNANCE.MANAGE_HOLDS.TITLE',
+        icon: 'adf:manage_hold',
         type: ContentActionType.custom,
         rules: {
           visible: 'app.manage.holds.isLegalHoldPluginEnabled'
         }
       }
     ];
-
     fixture.detectChanges();
   });
 
@@ -78,7 +77,7 @@ describe('BulkActionsDropdownComponent', () => {
   });
 
   describe('when there are no search items', () => {
-    let disabledDropdown;
+    let disabledDropdown: HTMLElement;
 
     beforeEach(() => {
       totalItemsMock$.next(0);
@@ -91,17 +90,17 @@ describe('BulkActionsDropdownComponent', () => {
       expect(disabledDropdown.getAttribute('aria-disabled')).toBe('true');
     });
 
-    it('should has correct tooltip', () => {
+    it('should have correct tooltip', () => {
       expect(disabledDropdown.getAttribute('title')).toBe('GOVERNANCE.MANAGE_HOLDS.BULK_NOT_AVAILABLE_TOOLTIP');
     });
 
-    it('should has correct placeholder', () => {
+    it('should have correct placeholder', () => {
       expect(getLabelText('aca-bulk-dropdown-disabled')).toEqual('BULK_NOT_AVAILABLE');
     });
   });
 
   describe('when there are search elements', () => {
-    let dropdown;
+    let dropdown: HTMLElement;
 
     beforeEach(() => {
       totalItemsMock$.next(10);
@@ -115,11 +114,11 @@ describe('BulkActionsDropdownComponent', () => {
       expect(dropdown.getAttribute('aria-disabled')).toBe('false');
     });
 
-    it('should has correct tooltip', () => {
+    it('should have correct tooltip', () => {
       expect(dropdown.getAttribute('title')).toBe('SEARCH.BULK_ACTIONS_DROPDOWN');
     });
 
-    it('should has correct placeholder', () => {
+    it('should have correct placeholder', () => {
       expect(getLabelText('aca-bulk-dropdown')).toEqual('SEARCH.BULK_ACTIONS_DROPDOWN');
     });
 
@@ -133,6 +132,12 @@ describe('BulkActionsDropdownComponent', () => {
       const optionLabel = getLabelText('app.bulk.actions.legalHold');
 
       expect(optionLabel).toEqual('GOVERNANCE.MANAGE_HOLDS.TITLE');
+    });
+
+    it('should have correct icon in an option', () => {
+      const icon = getElement('aca-option-icon-app.bulk.actions.legalHold');
+
+      expect(icon.getAttribute('title')).toEqual('GOVERNANCE.MANAGE_HOLDS.TITLE');
     });
   });
 });
