@@ -27,4 +27,13 @@
       {{ option.title | translate }}
     </mat-option>
   </mat-select>
+
+<ng-template #disabledMode>
+  <mat-select
+    [placeholder]="'BULK_NOT_AVAILABLE' | translate"
+    [title]="'GOVERNANCE.MANAGE_HOLDS.BULK_NOT_AVAILABLE_TOOLTIP' | translate"
+    [disabled]="true"
+    data-automation-id="aca-bulk-dropdown-disabled"
+  ></mat-select>
+</ng-template>
 </mat-form-field>
