@@ -95,7 +95,7 @@ describe('BulkActionsDropdownComponent', () => {
     });
 
     it('should have correct placeholder', () => {
-      expect(getLabelText('aca-bulk-dropdown-disabled')).toEqual('BULK_NOT_AVAILABLE');
+      expect(getLabelText('aca-bulk-dropdown-disabled')).toEqual('GOVERNANCE.MANAGE_HOLDS.BULK_NOT_AVAILABLE');
     });
   });
 
