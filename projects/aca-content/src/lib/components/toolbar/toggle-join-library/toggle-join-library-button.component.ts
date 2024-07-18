@@ -22,17 +22,10 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  AppStore,
-  SetSelectedNodesAction,
-  SnackbarErrorAction,
-  SnackbarInfoAction,
-  getAppSelection,
-  getUserProfile
-} from '@alfresco/aca-shared/store';
-import { AppHookService } from '@alfresco/aca-shared';
-import { ProfileState, SelectionState } from '@alfresco/adf-extensions';
-import { Component, ViewEncapsulation } from '@angular/core';
+import { AppStore, SetSelectedNodesAction, SnackbarErrorAction, SnackbarInfoAction, getAppSelection } from '@alfresco/aca-shared/store';
+import { AppHookService, UserProfileService } from '@alfresco/aca-shared';
+import { SelectionState } from '@alfresco/adf-extensions';
+import { Component, inject, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { LibraryMembershipDirective, LibraryMembershipErrorEvent, LibraryMembershipToggleEvent } from '@alfresco/adf-content-services';
@@ -64,12 +57,13 @@ import { MatIconModule } from '@angular/material/icon';
   host: { class: 'app-toggle-join-library' }
 })
 export class ToggleJoinLibraryButtonComponent {
+  private userProfileService = inject(UserProfileService);
+
   selection$: Observable<SelectionState>;
-  profile$: Observable<ProfileState>;
+  profile$ = this.userProfileService.userProfile$;
 
   constructor(private store: Store<AppStore>, private appHookService: AppHookService) {
     this.selection$ = this.store.select(getAppSelection);
-    this.profile$ = this.store.select(getUserProfile);
   }
 
   onToggleEvent(event: LibraryMembershipToggleEvent) {

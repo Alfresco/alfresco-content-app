@@ -25,7 +25,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { AuthenticationService, AppConfigService, AlfrescoApiService, PageTitleService, UserPreferencesService } from '@alfresco/adf-core';
 import { Observable, BehaviorSubject, Subject } from 'rxjs';
-import { GroupService, SearchQueryBuilderService, SharedLinksApiService, UploadService, FileUploadErrorEvent } from '@alfresco/adf-content-services';
+import { SearchQueryBuilderService, SharedLinksApiService, UploadService, FileUploadErrorEvent } from '@alfresco/adf-content-services';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { ActivatedRoute, ActivationEnd, NavigationStart, Router } from '@angular/router';
 import { filter, map, tap } from 'rxjs/operators';
@@ -41,10 +41,11 @@ import {
 import { ContentApiService } from './content-api.service';
 import { RouterExtensionService } from './router.extension.service';
 import { Store } from '@ngrx/store';
-import { DiscoveryEntry, GroupEntry, Group } from '@alfresco/js-api';
+import { DiscoveryEntry } from '@alfresco/js-api';
 import { AcaMobileAppSwitcherService } from './aca-mobile-app-switcher.service';
 import { ShellAppService } from '@alfresco/adf-core/shell';
 import { AppSettingsService } from './app-settings.service';
+import { UserProfileService } from './user-profile.service';
 
 @Injectable({
   providedIn: 'root'
@@ -84,11 +85,11 @@ export class AppService implements ShellAppService, OnDestroy {
     private routerExtensionService: RouterExtensionService,
     private contentApi: ContentApiService,
     private sharedLinksApiService: SharedLinksApiService,
-    private groupService: GroupService,
     private overlayContainer: OverlayContainer,
     searchQueryBuilderService: SearchQueryBuilderService,
     private acaMobileAppSwitcherService: AcaMobileAppSwitcherService,
-    private appSettingsService: AppSettingsService
+    private appSettingsService: AppSettingsService,
+    private userProfileService: UserProfileService
   ) {
     this.ready = new BehaviorSubject(this.authenticationService.isLoggedIn() || this.withCredentials);
     this.ready$ = this.ready.asObservable();
@@ -184,17 +185,8 @@ export class AppService implements ShellAppService, OnDestroy {
   }
 
   private async loadUserProfile() {
-    const groupsEntries: GroupEntry[] = await this.groupService.listAllGroupMembershipsForPerson('-me-', { maxItems: 250 });
-
-    const groups: Group[] = [];
-
-    if (groupsEntries) {
-      groups.push(...groupsEntries.map((obj) => obj.entry));
-    }
-
-    this.contentApi.getPerson('-me-').subscribe((person) => {
-      this.store.dispatch(new SetUserProfileAction({ person: person.entry, groups }));
-    });
+    const profile = await this.userProfileService.loadUserProfile();
+    this.store.dispatch(new SetUserProfileAction(profile));
   }
 
   onFileUploadedError(error: FileUploadErrorEvent) {

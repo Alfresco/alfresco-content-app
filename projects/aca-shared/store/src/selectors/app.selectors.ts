@@ -28,6 +28,7 @@ import { createSelector } from '@ngrx/store';
 const HXI_CONNECTOR = 'alfresco-hxinsight-connector-prediction-applier-extension';
 export const selectApp = (state: AppStore) => state.app;
 
+/** @deprecated use `UserProfileService` instead */
 export const getUserProfile = createSelector(selectApp, (state) => state.user);
 export const getCurrentFolder = createSelector(selectApp, (state) => state.navigation.currentFolder);
 export const getCurrentVersion = createSelector(selectApp, (state) => state.currentNodeVersion);

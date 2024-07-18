@@ -22,10 +22,16 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { getUserProfile } from '@alfresco/aca-shared/store';
 import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-extensions';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { ContextActionsDirective, PageComponent, PageLayoutComponent, PaginationDirective, ToolbarComponent } from '@alfresco/aca-shared';
+import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+  ContextActionsDirective,
+  PageComponent,
+  PageLayoutComponent,
+  PaginationDirective,
+  ToolbarComponent,
+  UserProfileService
+} from '@alfresco/aca-shared';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { DocumentListModule } from '@alfresco/adf-content-services';
@@ -52,7 +58,9 @@ import { DocumentListDirective } from '../../directives/document-list.directive'
   encapsulation: ViewEncapsulation.None
 })
 export class TrashcanComponent extends PageComponent implements OnInit {
-  user$ = this.store.select(getUserProfile);
+  private userProfileService = inject(UserProfileService);
+
+  user$ = this.userProfileService.userProfile$;
   columns: DocumentListPresetRef[] = [];
 
   ngOnInit() {

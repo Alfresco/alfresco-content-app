@@ -57,6 +57,7 @@ export * from './lib/services/router.extension.service';
 export * from './lib/services/app-hook.service';
 export * from './lib/services/aca-file-auto-download.service';
 export * from './lib/services/app-settings.service';
+export * from './lib/services/user-profile.service';
 
 export * from './lib/utils/node.utils';
 export * from './lib/testing/lib-testing-module';

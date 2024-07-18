@@ -92,32 +92,7 @@ export function appReducer(state: AppState = INITIAL_APP_STATE, action: Action):
 }
 
 function updateUser(state: AppState, action: SetUserProfileAction): AppState {
-  const newState = { ...state };
-  const user = action.payload.person;
-  const groups = [...(action.payload.groups || [])];
-
-  const id = user.id;
-  const firstName = user.firstName || '';
-  const lastName = user.lastName || '';
-  const userName = `${firstName} ${lastName}`;
-  const initials = [firstName[0], lastName[0]].join('');
-  const email = user.email;
-
-  const capabilities = user.capabilities;
-  const isAdmin = capabilities ? capabilities.isAdmin : true;
-
-  newState.user = {
-    firstName,
-    lastName,
-    userName,
-    initials,
-    isAdmin,
-    id,
-    groups,
-    email
-  };
-
-  return newState;
+  return { ...state, user: { ...action.payload } };
 }
 
 function updateCurrentFolder(state: AppState, action: SetCurrentFolderAction) {
