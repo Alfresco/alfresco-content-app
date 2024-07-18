@@ -35,7 +35,7 @@ import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { SearchQueryBuilderService, SharedLinksApiService, UploadService, FileUploadErrorEvent } from '@alfresco/adf-content-services';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { ActivatedRoute, ActivationEnd, NavigationStart, Router } from '@angular/router';
-import { filter, map, tap } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import {
   AppStore,
   CloseModalDialogsAction,
@@ -62,7 +62,11 @@ export class AppService implements ShellAppService, OnDestroy {
   private ready: BehaviorSubject<boolean>;
 
   ready$: Observable<boolean>;
-  pageHeading$: Observable<string>;
+
+  private pageHeading = new BehaviorSubject('');
+  /** @deprecated page title is updated automatically */
+  pageHeading$ = this.pageHeading.asObservable();
+
   appNavNarMode$: Subject<'collapsed' | 'expanded'> = new BehaviorSubject('expanded');
   toggleAppNavBar$ = new Subject();
 
@@ -112,11 +116,15 @@ export class AppService implements ShellAppService, OnDestroy {
       acaMobileAppSwitcherService.closeDialog();
     });
 
-    this.pageHeading$ = this.router.events.pipe(
-      filter((event) => event instanceof ActivationEnd && event.snapshot.children.length === 0),
-      map((event: ActivationEnd) => event.snapshot?.data?.title ?? ''),
-      tap((title) => this.pageTitle.setTitle(title))
-    );
+    this.router.events
+      .pipe(
+        filter((event) => event instanceof ActivationEnd && event.snapshot.children.length === 0),
+        map((event: ActivationEnd) => event.snapshot?.data?.title ?? '')
+      )
+      .subscribe((title) => {
+        this.pageHeading.next(title);
+        this.pageTitle.setTitle(title);
+      });
   }
 
   ngOnDestroy(): void {
