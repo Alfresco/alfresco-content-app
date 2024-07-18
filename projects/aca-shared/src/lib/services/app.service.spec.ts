@@ -39,7 +39,6 @@ import { HttpClientModule } from '@angular/common/http';
 import {
   DiscoveryApiService,
   FileUploadErrorEvent,
-  GroupService,
   SearchQueryBuilderService,
   SharedLinksApiService,
   UploadService
@@ -53,8 +52,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { Store } from '@ngrx/store';
 import { ContentApiService } from './content-api.service';
-import { SetRepositoryInfoAction, SetUserProfileAction, SnackbarErrorAction } from '@alfresco/aca-shared/store';
-import { AppSettingsService } from '@alfresco/aca-shared';
+import { SetRepositoryInfoAction, SnackbarErrorAction } from '@alfresco/aca-shared/store';
+import { AppSettingsService, UserProfileService } from '@alfresco/aca-shared';
 
 describe('AppService', () => {
   let service: AppService;
@@ -65,9 +64,9 @@ describe('AppService', () => {
   let store: Store;
   let sharedLinksApiService: SharedLinksApiService;
   let contentApi: ContentApiService;
-  let groupService: GroupService;
   let preferencesService: UserPreferencesService;
   let appSettingsService: AppSettingsService;
+  let userProfileService: UserProfileService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -125,9 +124,9 @@ describe('AppService', () => {
     store = TestBed.inject(Store);
     sharedLinksApiService = TestBed.inject(SharedLinksApiService);
     contentApi = TestBed.inject(ContentApiService);
-    groupService = TestBed.inject(GroupService);
     service = TestBed.inject(AppService);
     preferencesService = TestBed.inject(UserPreferencesService);
+    userProfileService = TestBed.inject(UserProfileService);
   });
 
   it('should be ready if [withCredentials] mode is used', (done) => {
@@ -239,20 +238,11 @@ describe('AppService', () => {
   it('should load user profile on login', async () => {
     const person: any = { id: 'person' };
 
-    const group: any = { entry: {} };
-    const groups: any[] = [group];
-
-    spyOn(contentApi, 'getRepositoryInformation').and.returnValue(of({} as any));
-    spyOn(groupService, 'listAllGroupMembershipsForPerson').and.returnValue(Promise.resolve(groups));
-    spyOn(contentApi, 'getPerson').and.returnValue(of({ entry: person }));
-
+    spyOn(userProfileService, 'loadUserProfile').and.returnValue(Promise.resolve(person));
     spyOn(store, 'select').and.returnValue(of(''));
     service.init();
-
-    const dispatch = spyOn(store, 'dispatch');
     auth.onLogin.next(true);
 
-    await expect(groupService.listAllGroupMembershipsForPerson).toHaveBeenCalled();
-    await expect(dispatch).toHaveBeenCalledWith(new SetUserProfileAction({ person, groups: [group.entry] }));
+    expect(userProfileService.loadUserProfile).toHaveBeenCalled();
   });
 });
