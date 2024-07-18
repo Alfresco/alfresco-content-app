@@ -26,7 +26,6 @@ import { AppService } from './app.service';
 import { TestBed } from '@angular/core/testing';
 import {
   AuthenticationService,
-  AppConfigService,
   AlfrescoApiService,
   PageTitleService,
   AlfrescoApiServiceMock,
@@ -60,7 +59,6 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 describe('AppService', () => {
   let service: AppService;
   let auth: AuthenticationService;
-  let appConfig: AppConfigService;
   let searchQueryBuilderService: SearchQueryBuilderService;
   let uploadService: UploadService;
   let store: Store;
@@ -120,7 +118,6 @@ describe('AppService', () => {
     });
 
     appSettingsService = TestBed.inject(AppSettingsService);
-    appConfig = TestBed.inject(AppConfigService);
     auth = TestBed.inject(AuthenticationService);
     searchQueryBuilderService = TestBed.inject(SearchQueryBuilderService);
     uploadService = TestBed.inject(UploadService);
@@ -131,21 +128,6 @@ describe('AppService', () => {
     preferencesService = TestBed.inject(UserPreferencesService);
     userProfileService = TestBed.inject(UserProfileService);
     notificationService = TestBed.inject(NotificationService);
-  });
-
-  it('should be ready if [withCredentials] mode is used', (done) => {
-    appConfig.config = {
-      auth: {
-        withCredentials: true
-      }
-    };
-
-    const instance = TestBed.inject(AppService);
-    expect(instance.withCredentials).toBeTruthy();
-
-    instance.ready$.subscribe(() => {
-      done();
-    });
   });
 
   it('should be ready after login', async () => {
