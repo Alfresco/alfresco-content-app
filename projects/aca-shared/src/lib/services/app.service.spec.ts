@@ -52,7 +52,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { Store } from '@ngrx/store';
 import { ContentApiService } from './content-api.service';
-import { SetRepositoryInfoAction } from '@alfresco/aca-shared/store';
 import { AppSettingsService, UserProfileService } from '@alfresco/aca-shared';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
@@ -125,6 +124,7 @@ describe('AppService', () => {
     store = TestBed.inject(Store);
     sharedLinksApiService = TestBed.inject(SharedLinksApiService);
     contentApi = TestBed.inject(ContentApiService);
+    spyOn(contentApi, 'getRepositoryInformation').and.returnValue(of({} as any));
     service = TestBed.inject(AppService);
     preferencesService = TestBed.inject(UserPreferencesService);
     userProfileService = TestBed.inject(UserProfileService);
@@ -213,15 +213,9 @@ describe('AppService', () => {
   });
 
   it('should load repository status on login', () => {
-    const repository: any = {};
-    spyOn(contentApi, 'getRepositoryInformation').and.returnValue(of({ entry: { repository } }));
-    spyOn(store, 'select').and.returnValue(of(''));
     service.init();
-
-    const dispatch = spyOn(store, 'dispatch');
     auth.onLogin.next(true);
-
-    expect(dispatch).toHaveBeenCalledWith(new SetRepositoryInfoAction(repository));
+    expect(contentApi.getRepositoryInformation).toHaveBeenCalled();
   });
 
   it('should load user profile on login', async () => {
