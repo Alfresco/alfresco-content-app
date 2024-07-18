@@ -32,13 +32,14 @@ export class ManageRules extends BaseComponent {
   public ruleToggle = this.getChild('.aca-manage-rules__container .mat-slide-toggle-bar').first();
   public ruleToggleFalse = this.getChild('aca-rule-list-grouping input[type="checkbox"][aria-checked="false"]').first();
   public ruleDetailsTitle = this.getChild('.aca-manage-rules__container__rule-details__header__title__name');
-  public ruleDetailsTrashButton = this.getChild('#delete-rule-btn');
+  public ruleDetailsDeleteButton = this.getChild('#delete-rule-btn');
   public ruleDetailsEditButton = this.getChild('#edit-rule-btn');
   public ruleDetailsWhenText = this.getChild('[data-automation-id="rule-details-triggers-component"]');
   public ruleDetailsPerformActionsDiv = this.getChild('adf-card-view-textitem mat-form-field input');
   public rulesEmptyListTitle = this.getChild('.adf-empty-content__title');
   public ruleActions = this.getChild('aca-rule-action');
   public ruleConditionsInGroup = this.getChild('aca-rule-composite-condition aca-rule-simple-condition');
+  public ruleDescription = this.getChild('.aca-manage-rules__container__rule-details__header__title__description');
 
   constructor(page: Page) {
     super(page, ManageRules.rootElement);
