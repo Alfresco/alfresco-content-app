@@ -68,6 +68,7 @@ describe('AppService', () => {
   let appSettingsService: AppSettingsService;
   let userProfileService: UserProfileService;
   let notificationService: NotificationService;
+  let loadUserProfileSpy: jasmine.Spy;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -127,6 +128,7 @@ describe('AppService', () => {
     service = TestBed.inject(AppService);
     preferencesService = TestBed.inject(UserPreferencesService);
     userProfileService = TestBed.inject(UserProfileService);
+    loadUserProfileSpy = spyOn(userProfileService, 'loadUserProfile').and.returnValue(Promise.resolve({} as any));
     notificationService = TestBed.inject(NotificationService);
   });
 
@@ -225,11 +227,11 @@ describe('AppService', () => {
   it('should load user profile on login', async () => {
     const person: any = { id: 'person' };
 
-    spyOn(userProfileService, 'loadUserProfile').and.returnValue(Promise.resolve(person));
+    loadUserProfileSpy.and.returnValue(Promise.resolve(person));
     spyOn(store, 'select').and.returnValue(of(''));
     service.init();
     auth.onLogin.next(true);
 
-    expect(userProfileService.loadUserProfile).toHaveBeenCalled();
+    expect(loadUserProfileSpy).toHaveBeenCalled();
   });
 });
