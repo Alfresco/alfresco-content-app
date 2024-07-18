@@ -22,9 +22,9 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ContextMenuActionTypes, ContextMenu } from '@alfresco/aca-shared/store';
-import { Injectable } from '@angular/core';
-import { Actions, ofType, createEffect } from '@ngrx/effects';
+import { ContextMenu, ContextMenuActionTypes } from '@alfresco/aca-shared/store';
+import { inject, Injectable } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { map } from 'rxjs/operators';
 import { ContextMenuOverlayRef } from '../../components/context-menu/context-menu-overlay';
 import { ContextMenuService } from '../../components/context-menu/context-menu.service';
@@ -33,7 +33,8 @@ import { ContextMenuService } from '../../components/context-menu/context-menu.s
 export class ContextMenuEffects {
   private overlayRef: ContextMenuOverlayRef = null;
 
-  constructor(private contextMenuService: ContextMenuService, private actions$: Actions) {}
+  contextMenuService = inject(ContextMenuService);
+  actions$ = inject(Actions);
 
   contextMenu$ = createEffect(
     () =>

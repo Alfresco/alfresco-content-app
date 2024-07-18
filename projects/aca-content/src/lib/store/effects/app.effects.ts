@@ -22,8 +22,8 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Actions, ofType, createEffect } from '@ngrx/effects';
-import { Injectable } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { inject, Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { AppActionTypes, LogoutAction, ReloadDocumentListAction, ResetSelectionAction } from '@alfresco/aca-shared/store';
 import { AuthenticationService } from '@alfresco/adf-core';
@@ -32,7 +32,10 @@ import { AppHookService } from '@alfresco/aca-shared';
 
 @Injectable()
 export class AppEffects {
-  constructor(private actions$: Actions, private auth: AuthenticationService, private router: Router, private appHookService: AppHookService) {}
+  actions$ = inject(Actions);
+  auth = inject(AuthenticationService);
+  router = inject(Router);
+  appHookService = inject(AppHookService);
 
   reload = createEffect(
     () =>

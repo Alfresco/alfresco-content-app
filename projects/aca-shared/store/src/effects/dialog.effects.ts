@@ -22,8 +22,8 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Actions, ofType, createEffect } from '@ngrx/effects';
-import { Injectable } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { inject, Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { CloseModalDialogsAction } from '../actions/app.actions';
@@ -31,7 +31,8 @@ import { AppActionTypes } from '../actions/app-action-types';
 
 @Injectable()
 export class DialogEffects {
-  constructor(private actions$: Actions, private matDialog: MatDialog) {}
+  private actions$ = inject(Actions);
+  private matDialog = inject(MatDialog);
 
   closeAll$ = createEffect(
     () =>

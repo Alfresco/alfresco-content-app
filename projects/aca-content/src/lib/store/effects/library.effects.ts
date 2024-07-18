@@ -26,16 +26,16 @@ import {
   AppStore,
   CreateLibraryAction,
   DeleteLibraryAction,
+  getAppSelection,
   LeaveLibraryAction,
   LibraryActionTypes,
   NavigateLibraryAction,
   NavigateRouteAction,
   SnackbarErrorAction,
-  UpdateLibraryAction,
-  getAppSelection
+  UpdateLibraryAction
 } from '@alfresco/aca-shared/store';
-import { Injectable } from '@angular/core';
-import { Actions, ofType, createEffect } from '@ngrx/effects';
+import { inject, Injectable } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { map, mergeMap, take } from 'rxjs/operators';
 import { ContentApiService } from '@alfresco/aca-shared';
@@ -43,12 +43,10 @@ import { ContentManagementService } from '../../services/content-management.serv
 
 @Injectable()
 export class LibraryEffects {
-  constructor(
-    private store: Store<AppStore>,
-    private actions$: Actions,
-    private content: ContentManagementService,
-    private contentApi: ContentApiService
-  ) {}
+  private store = inject(Store<AppStore>);
+  private actions$ = inject(Actions);
+  private content = inject(ContentManagementService);
+  private contentApi = inject(ContentApiService);
 
   deleteLibrary$ = createEffect(
     () =>
