@@ -51,4 +51,50 @@ export class AppSettingsService {
   get mimeTypes(): AlfrescoMimeType[] {
     return this.appConfig.get<AlfrescoMimeType[]>('mimeTypes', DefaultMimeTypes);
   }
+
+  /**
+   * Get the application name from the app settings.
+   */
+  get appName(): string {
+    return this.appConfig.get<string>('application.name', 'Alfresco Content Application');
+  }
+
+  /**
+   * Get the application version from the app settings.
+   */
+  get appVersion(): string {
+    return this.appConfig.get<string>('application.version', '1.0.0');
+  }
+
+  /**
+   * Get the application logo URL from the app settings.
+   */
+  get appLogoUrl(): string {
+    return this.appConfig.get<string>('application.logo', 'assets/images/app-logo.svg');
+  }
+
+  /**
+   * Get the custom CSS stylesheet path from the app settings.
+   */
+  get customCssPath(): string {
+    return this.appConfig.get<string>('customCssPath', '');
+  }
+
+  /**
+   * Get the custom web font path from the app settings.
+   */
+  get webFontPath(): string {
+    return this.appConfig.get<string>('webFontPath', '');
+  }
+
+  /**
+   * Get the base share URL from the app settings.
+   */
+  get baseShareUrl(): string {
+    let result = this.appConfig.get<string>('baseShareUrl', '');
+    if (!result.endsWith('/')) {
+      result += '/';
+    }
+    return result;
+  }
 }

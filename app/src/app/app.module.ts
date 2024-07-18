@@ -51,15 +51,8 @@ import localeSv from '@angular/common/locales/sv';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.components';
-import {
-  ContentUrlService,
-  INITIAL_APP_STATE,
-  CONTENT_LAYOUT_ROUTES,
-  ContentServiceExtensionModule,
-  CoreExtensionsModule
-} from '@alfresco/aca-content';
+import { ContentUrlService, CONTENT_LAYOUT_ROUTES, ContentServiceExtensionModule, CoreExtensionsModule } from '@alfresco/aca-content';
 import { ContentVersionService } from '@alfresco/adf-content-services';
-import { STORE_INITIAL_APP_DATA } from '@alfresco/aca-shared/store';
 import { ShellModule, SHELL_APP_SERVICE, SHELL_AUTH_TOKEN } from '@alfresco/adf-core/shell';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { APP_ROUTES } from './app.routes';
@@ -111,10 +104,6 @@ registerLocaleData(localeSv);
     {
       provide: SHELL_AUTH_TOKEN,
       useClass: AuthGuard
-    },
-    {
-      provide: STORE_INITIAL_APP_DATA,
-      useValue: INITIAL_APP_STATE
     },
     {
       provide: TRANSLATION_PROVIDER,

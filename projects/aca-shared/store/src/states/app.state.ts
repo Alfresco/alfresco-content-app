@@ -26,14 +26,44 @@ import { SelectionState, ProfileState, NavigationState } from '@alfresco/adf-ext
 import { RepositoryInfo, VersionEntry } from '@alfresco/js-api';
 import { InjectionToken } from '@angular/core';
 
+/** @deprecated no longer used */
 export const STORE_INITIAL_APP_DATA = new InjectionToken<AppState>('STORE_INITIAL_APP_DATA');
 
+export const INITIAL_APP_STATE: AppState = {
+  user: {
+    isAdmin: null,
+    id: null,
+    firstName: '',
+    lastName: ''
+  },
+  selection: {
+    nodes: [],
+    libraries: [],
+    isEmpty: true,
+    count: 0
+  },
+  navigation: {
+    currentFolder: null
+  },
+  currentNodeVersion: null,
+  infoDrawerOpened: false,
+  infoDrawerPreview: false,
+  infoDrawerMetadataAspect: '',
+  fileUploadingDialog: true,
+  showLoader: false,
+  repository: {
+    status: {
+      isQuickShareEnabled: true
+    }
+  } as any
+};
+
+/** @deprecated no longer used */
+export const INITIAL_STATE: AppStore = {
+  app: INITIAL_APP_STATE
+};
+
 export interface AppState {
-  appName: string;
-  logoPath: string;
-  customCssPath: string;
-  webFontPath: string;
-  sharedUrl: string;
   currentNodeVersion: VersionEntry;
   selection: SelectionState;
   user: ProfileState;
@@ -41,7 +71,6 @@ export interface AppState {
   infoDrawerOpened: boolean;
   infoDrawerPreview: boolean;
   infoDrawerMetadataAspect: string;
-  showFacetFilter: boolean;
   repository: RepositoryInfo;
   fileUploadingDialog: boolean;
   showLoader: boolean;

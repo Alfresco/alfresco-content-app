@@ -23,7 +23,6 @@
  */
 
 export enum AppActionTypes {
-  SetInitialState = 'SET_INITIAL_STATE',
   SetCurrentFolder = 'SET_CURRENT_FOLDER',
   SetCurrentVersion = 'SET_CURRENT_VERSION',
   SetCurrentUrl = 'SET_CURRENT_URL',

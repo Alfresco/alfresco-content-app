@@ -30,14 +30,7 @@ import { BehaviorSubject, of, Subject } from 'rxjs';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { DefaultProjectorFn, MemoizedSelector, Store } from '@ngrx/store';
 import { ContentApiService } from '@alfresco/aca-shared';
-import {
-  AppStore,
-  isInfoDrawerOpened,
-  NavigateToFolder,
-  NavigateToPreviousPage,
-  SetSelectedNodesAction,
-  STORE_INITIAL_APP_DATA
-} from '@alfresco/aca-shared/store';
+import { AppStore, isInfoDrawerOpened, NavigateToFolder, NavigateToPreviousPage, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { NodeEntry, PathElement } from '@alfresco/js-api';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AuthenticationService, PageTitleService } from '@alfresco/adf-core';
@@ -84,10 +77,6 @@ describe('DetailsComponent', () => {
         },
         {
           provide: PageTitleService,
-          useValue: {}
-        },
-        {
-          provide: STORE_INITIAL_APP_DATA,
           useValue: {}
         },
         {

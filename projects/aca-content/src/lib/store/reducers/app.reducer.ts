@@ -29,7 +29,6 @@ import {
   SetUserProfileAction,
   SetCurrentFolderAction,
   SetCurrentUrlAction,
-  SetInitialStateAction,
   SetSelectedNodesAction,
   SetRepositoryInfoAction,
   SetInfoDrawerStateAction,
@@ -38,17 +37,14 @@ import {
   SetFileUploadingDialogAction,
   SetInfoDrawerPreviewStateAction,
   AppActionTypes,
-  ShowLoaderAction
+  ShowLoaderAction,
+  INITIAL_APP_STATE
 } from '@alfresco/aca-shared/store';
-import { INITIAL_APP_STATE } from '../initial-state';
 
 export function appReducer(state: AppState = INITIAL_APP_STATE, action: Action): AppState {
   let newState: AppState;
 
   switch (action.type) {
-    case AppActionTypes.SetInitialState:
-      newState = { ...(action as SetInitialStateAction).payload };
-      break;
     case NodeActionTypes.SetSelection:
       newState = updateSelectedNodes(state, action as SetSelectedNodesAction);
       break;

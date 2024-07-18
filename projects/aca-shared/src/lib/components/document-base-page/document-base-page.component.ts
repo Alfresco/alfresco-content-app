@@ -37,7 +37,6 @@ import {
   getCurrentFolder,
   getAppSelection,
   isInfoDrawerOpened,
-  getSharedUrl,
   ViewNodeAction,
   ViewNodeExtras,
   SetSelectedNodesAction
@@ -60,7 +59,6 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   infoDrawerOpened$: Observable<boolean>;
   node: Node;
   selection: SelectionState;
-  sharedPreviewUrl$: Observable<string>;
   actions: Array<ContentActionRef> = [];
   viewerToolbarActions: Array<ContentActionRef> = [];
   canUpdateNode = false;
@@ -89,7 +87,6 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
         this.createActions = actions;
       });
 
-    this.sharedPreviewUrl$ = this.store.select(getSharedUrl);
     this.infoDrawerOpened$ = this.store.select(isInfoDrawerOpened);
 
     this.store

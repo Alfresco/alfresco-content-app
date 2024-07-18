@@ -45,7 +45,6 @@ import {
   UploadService
 } from '@alfresco/adf-content-services';
 import { ActivatedRoute } from '@angular/router';
-import { STORE_INITIAL_APP_DATA } from '../../../store/src/states/app.state';
 import { provideMockStore } from '@ngrx/store/testing';
 import { CommonModule } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -53,9 +52,9 @@ import { RepositoryInfo, VersionInfo } from '@alfresco/js-api';
 import { MatDialogModule } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { Store } from '@ngrx/store';
-import { SnackbarErrorAction } from '../../../store/src/actions/snackbar.actions';
 import { ContentApiService } from './content-api.service';
-import { SetRepositoryInfoAction, SetUserProfileAction } from '../../../store/src/actions/app.actions';
+import { SetRepositoryInfoAction, SetUserProfileAction, SnackbarErrorAction } from '@alfresco/aca-shared/store';
+import { AppSettingsService } from '@alfresco/aca-shared';
 
 describe('AppService', () => {
   let service: AppService;
@@ -68,6 +67,7 @@ describe('AppService', () => {
   let contentApi: ContentApiService;
   let groupService: GroupService;
   let preferencesService: UserPreferencesService;
+  let appSettingsService: AppSettingsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -100,10 +100,6 @@ describe('AppService', () => {
           }
         },
         {
-          provide: STORE_INITIAL_APP_DATA,
-          useValue: {}
-        },
-        {
           provide: AlfrescoApiService,
           useClass: AlfrescoApiServiceMock
         },
@@ -121,6 +117,7 @@ describe('AppService', () => {
       ]
     });
 
+    appSettingsService = TestBed.inject(AppSettingsService);
     appConfig = TestBed.inject(AppConfigService);
     auth = TestBed.inject(AuthenticationService);
     searchQueryBuilderService = TestBed.inject(SearchQueryBuilderService);
@@ -172,7 +169,7 @@ describe('AppService', () => {
     await expect(resetToDefaults).toHaveBeenCalled();
   });
 
-  it('should rase notification on share link error', () => {
+  it('should raise notification on share link error', () => {
     spyOn(store, 'select').and.returnValue(of(''));
     service.init();
     const dispatch = spyOn(store, 'dispatch');
@@ -216,7 +213,7 @@ describe('AppService', () => {
 
   it('should load custom css', () => {
     const appendChild = spyOn(document.head, 'appendChild');
-    spyOn(store, 'select').and.returnValue(of('/custom.css'));
+    spyOnProperty(appSettingsService, 'customCssPath').and.returnValue('/custom.css');
     service.init();
 
     const cssLinkElement = document.createElement('link');

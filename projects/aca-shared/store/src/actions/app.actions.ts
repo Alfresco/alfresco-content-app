@@ -24,14 +24,7 @@
 
 import { Action } from '@ngrx/store';
 import { Node, Person, Group, RepositoryInfo, VersionEntry } from '@alfresco/js-api';
-import { AppState } from '../states/app.state';
 import { AppActionTypes } from './app-action-types';
-
-export class SetInitialStateAction implements Action {
-  readonly type = AppActionTypes.SetInitialState;
-
-  constructor(public payload: AppState) {}
-}
 
 export class SetCurrentFolderAction implements Action {
   readonly type = AppActionTypes.SetCurrentFolder;
