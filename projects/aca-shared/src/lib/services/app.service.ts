@@ -22,8 +22,15 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
-import { AuthenticationService, AppConfigService, AlfrescoApiService, PageTitleService, UserPreferencesService } from '@alfresco/adf-core';
+import { inject, Injectable, OnDestroy } from '@angular/core';
+import {
+  AuthenticationService,
+  AppConfigService,
+  AlfrescoApiService,
+  PageTitleService,
+  UserPreferencesService,
+  NotificationService
+} from '@alfresco/adf-core';
 import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { SearchQueryBuilderService, SharedLinksApiService, UploadService, FileUploadErrorEvent } from '@alfresco/adf-content-services';
 import { OverlayContainer } from '@angular/cdk/overlay';
@@ -35,7 +42,6 @@ import {
   SetCurrentUrlAction,
   SetRepositoryInfoAction,
   SetUserProfileAction,
-  SnackbarErrorAction,
   ResetSelectionAction
 } from '@alfresco/aca-shared/store';
 import { ContentApiService } from './content-api.service';
@@ -52,6 +58,7 @@ import { UserProfileService } from './user-profile.service';
 })
 // After moving shell to ADF to core, AppService will implement ShellAppService
 export class AppService implements ShellAppService, OnDestroy {
+  private notificationService = inject(NotificationService);
   private ready: BehaviorSubject<boolean>;
 
   ready$: Observable<boolean>;
@@ -154,7 +161,7 @@ export class AppService implements ShellAppService, OnDestroy {
 
     this.sharedLinksApiService.error.subscribe((err: { message: string }) => {
       if (err?.message) {
-        this.store.dispatch(new SnackbarErrorAction(err.message));
+        this.notificationService.showError(err.message);
       }
     });
 
@@ -212,7 +219,7 @@ export class AppService implements ShellAppService, OnDestroy {
       message = 'APP.MESSAGES.UPLOAD.ERROR.504';
     }
 
-    this.store.dispatch(new SnackbarErrorAction(message));
+    this.notificationService.showError(message);
   }
 
   private loadCustomCss(): void {

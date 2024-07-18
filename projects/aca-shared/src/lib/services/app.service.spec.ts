@@ -32,7 +32,8 @@ import {
   AlfrescoApiServiceMock,
   TranslationMock,
   TranslationService,
-  UserPreferencesService
+  UserPreferencesService,
+  NotificationService
 } from '@alfresco/adf-core';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { HttpClientModule } from '@angular/common/http';
@@ -52,8 +53,9 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { Store } from '@ngrx/store';
 import { ContentApiService } from './content-api.service';
-import { SetRepositoryInfoAction, SnackbarErrorAction } from '@alfresco/aca-shared/store';
+import { SetRepositoryInfoAction } from '@alfresco/aca-shared/store';
 import { AppSettingsService, UserProfileService } from '@alfresco/aca-shared';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('AppService', () => {
   let service: AppService;
@@ -67,10 +69,11 @@ describe('AppService', () => {
   let preferencesService: UserPreferencesService;
   let appSettingsService: AppSettingsService;
   let userProfileService: UserProfileService;
+  let notificationService: NotificationService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CommonModule, HttpClientModule, TranslateModule.forRoot(), RouterTestingModule.withRoutes([]), MatDialogModule],
+      imports: [CommonModule, HttpClientModule, TranslateModule.forRoot(), RouterTestingModule.withRoutes([]), MatDialogModule, MatSnackBarModule],
       providers: [
         SearchQueryBuilderService,
         provideMockStore({}),
@@ -127,6 +130,7 @@ describe('AppService', () => {
     service = TestBed.inject(AppService);
     preferencesService = TestBed.inject(UserPreferencesService);
     userProfileService = TestBed.inject(UserProfileService);
+    notificationService = TestBed.inject(NotificationService);
   });
 
   it('should be ready if [withCredentials] mode is used', (done) => {
@@ -169,45 +173,46 @@ describe('AppService', () => {
   });
 
   it('should raise notification on share link error', () => {
+    const showError = spyOn(notificationService, 'showError').and.stub();
     spyOn(store, 'select').and.returnValue(of(''));
     service.init();
-    const dispatch = spyOn(store, 'dispatch');
 
     sharedLinksApiService.error.next({ message: 'Error Message', statusCode: 1 });
-    expect(dispatch).toHaveBeenCalledWith(new SnackbarErrorAction('Error Message'));
+    expect(showError).toHaveBeenCalledWith('Error Message');
   });
 
   it('should raise notification on upload error', async () => {
     spyOn(store, 'select').and.returnValue(of(''));
     service.init();
-    const dispatch = spyOn(store, 'dispatch');
+
+    const showError = spyOn(notificationService, 'showError').and.stub();
 
     uploadService.fileUploadError.next(new FileUploadErrorEvent(null, { status: 403 }));
-    expect(dispatch).toHaveBeenCalledWith(new SnackbarErrorAction('APP.MESSAGES.UPLOAD.ERROR.403'));
-    dispatch.calls.reset();
+    expect(showError).toHaveBeenCalledWith('APP.MESSAGES.UPLOAD.ERROR.403');
+    showError.calls.reset();
 
     uploadService.fileUploadError.next(new FileUploadErrorEvent(null, { status: 404 }));
-    expect(dispatch).toHaveBeenCalledWith(new SnackbarErrorAction('APP.MESSAGES.UPLOAD.ERROR.404'));
-    dispatch.calls.reset();
+    expect(showError).toHaveBeenCalledWith('APP.MESSAGES.UPLOAD.ERROR.404');
+    showError.calls.reset();
 
     uploadService.fileUploadError.next(new FileUploadErrorEvent(null, { status: 409 }));
-    expect(dispatch).toHaveBeenCalledWith(new SnackbarErrorAction('APP.MESSAGES.UPLOAD.ERROR.CONFLICT'));
-    dispatch.calls.reset();
+    expect(showError).toHaveBeenCalledWith('APP.MESSAGES.UPLOAD.ERROR.CONFLICT');
+    showError.calls.reset();
 
     uploadService.fileUploadError.next(new FileUploadErrorEvent(null, { status: 500 }));
-    expect(dispatch).toHaveBeenCalledWith(new SnackbarErrorAction('APP.MESSAGES.UPLOAD.ERROR.500'));
-    dispatch.calls.reset();
+    expect(showError).toHaveBeenCalledWith('APP.MESSAGES.UPLOAD.ERROR.500');
+    showError.calls.reset();
 
     uploadService.fileUploadError.next(new FileUploadErrorEvent(null, { status: 504 }));
-    expect(dispatch).toHaveBeenCalledWith(new SnackbarErrorAction('APP.MESSAGES.UPLOAD.ERROR.504'));
-    dispatch.calls.reset();
+    expect(showError).toHaveBeenCalledWith('APP.MESSAGES.UPLOAD.ERROR.504');
+    showError.calls.reset();
 
     uploadService.fileUploadError.next(new FileUploadErrorEvent(null, { status: 403 }));
-    expect(dispatch).toHaveBeenCalledWith(new SnackbarErrorAction('APP.MESSAGES.UPLOAD.ERROR.403'));
-    dispatch.calls.reset();
+    expect(showError).toHaveBeenCalledWith('APP.MESSAGES.UPLOAD.ERROR.403');
+    showError.calls.reset();
 
     uploadService.fileUploadError.next(new FileUploadErrorEvent(null, {}));
-    expect(dispatch).toHaveBeenCalledWith(new SnackbarErrorAction('APP.MESSAGES.UPLOAD.ERROR.GENERIC'));
+    expect(showError).toHaveBeenCalledWith('APP.MESSAGES.UPLOAD.ERROR.GENERIC');
   });
 
   it('should load custom css', () => {
