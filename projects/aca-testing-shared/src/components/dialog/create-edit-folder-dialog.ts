@@ -27,13 +27,13 @@ import { GenericDialog } from './generic-dialog';
 import { click, getInputValue, isPresentAndDisplayed, isPresentAndEnabled, typeText, waitUntilElementIsClickable } from '../../utilities';
 
 export class CreateOrEditFolderDialog extends GenericDialog {
-  createButton = this.childElement(by.cssContainingText('.mat-dialog-actions button', 'Create'));
+  createButton = this.childElement(by.cssContainingText('.mat-mdc-dialog-actions button', 'Create'));
   cancelButton = this.childElement(by.id('adf-folder-cancel-button'));
-  updateButton = this.childElement(by.cssContainingText('.mat-dialog-actions button', 'Update'));
+  updateButton = this.childElement(by.cssContainingText('.mat-mdc-dialog-actions button', 'Update'));
 
   nameInput = this.rootElem.element(by.id('adf-folder-name-input'));
   descriptionTextArea = this.rootElem.element(by.id('adf-folder-description-input'));
-  validationMessage = this.rootElem.element(by.css('.mat-hint span'));
+  validationMessage = this.rootElem.element(by.css('.mat-mdc-form-field-hint span'));
 
   constructor() {
     super('adf-folder-dialog');
