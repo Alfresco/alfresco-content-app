@@ -318,3 +318,11 @@ adf-dynamic-component {
     min-width: 160px;
   }
 }
+
+.adf-datatable-row {
+  .adf-datatable-checkbox {
+    #{$mat-checkbox} label {
+      display: none;
+    }
+  }
+}
