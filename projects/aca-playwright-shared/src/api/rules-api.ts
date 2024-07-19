@@ -101,6 +101,38 @@ export class RulesApi {
     });
   }
 
+  async createRandomComplexRule(folderId: string, ruleName: string, numOfConditions: number, numOfActions: number, ruleDescription?: string): Promise<Rule> {
+    if (numOfConditions > ConditionsTypes.conditions.length) {
+      numOfConditions = ConditionsTypes.conditions.length;
+    }
+    let conditionsArray = [];
+    for (let i = 0; i < numOfConditions; i++) {
+      const randomIndex = crypto.randomInt(0, ConditionsTypes.conditions.length);
+      const randomCondition = ConditionsTypes.conditions[randomIndex];
+      conditionsArray.push(randomCondition);
+    }
+    if (numOfActions > ActionTypes.actions.length) {
+      numOfActions = ActionTypes.actions.length;
+    }
+    let actionsArray = [];
+    for (let i = 0; i < numOfActions; i++) {
+      const randomIndex = crypto.randomInt(0, ActionTypes.actions.length);
+      const randomAction = ActionTypes.actions[randomIndex];
+      actionsArray.push(randomAction);
+    }
+    return await this.createRule(folderId, {
+      name: ruleName,
+      description: ruleDescription,
+      isEnabled: true,
+      actions: actionsArray,
+      conditions: {
+        inverted: false,
+        booleanMode: 'and',
+        compositeConditions: conditionsArray
+      }
+    });
+  }
+
   async createRuleWithRandomAspects(folderId: string, ruleName: string): Promise<Rule> {
     return await this.createRule(folderId, {
       name: ruleName,
