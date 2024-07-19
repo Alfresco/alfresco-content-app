@@ -161,7 +161,12 @@ test.describe('Create Libraries ', () => {
       await libraryViewDetails.click();
       expect(await libraryDetails.getNameField('Name').inputValue()).toBe(randomLibraryName);
       expect(await libraryDetails.getIdField('Library ID').inputValue()).toBe(randomLibraryId);
-      await expect(libraryDetails.getVisibilityField('Visibility').locator('.mat-mdc-select-value').getByText(publicVisibility)).toBeVisible();
+      await expect(
+        libraryDetails
+          .getVisibilityField('Visibility')
+          .locator(`[data-automation-id=library-visibility-option-${publicVisibility}]`)
+          .getByText(publicVisibility.toUpperCase())
+      ).toBeVisible();
       expect(await libraryDetails.getDescriptionField.inputValue()).toBe(randomLibraryDescription);
 
       createdLibrariesIds.push(randomLibraryId);

@@ -26,7 +26,7 @@
       <mat-form-field floatLabel="auto" data-automation-id="library-visibility-properties-wrapper" class="app-library-metadata-form-field">
         <mat-label class="app-library-metadata-form-field-label">{{ 'LIBRARY.DIALOG.FORM.VISIBILITY' | translate }}</mat-label>
         <mat-select placeholder="{{ 'LIBRARY.DIALOG.FORM.VISIBILITY' | translate }}" formControlName="visibility">
-          <mat-option [value]="type.value" *ngFor="let type of libraryType">
+          <mat-option [value]="type.value" [attr.data-automation-id]="'library-visibility-option-' + type.value" *ngFor="let type of libraryType">
             {{ type.label | translate }}
           </mat-option>
         </mat-select>
