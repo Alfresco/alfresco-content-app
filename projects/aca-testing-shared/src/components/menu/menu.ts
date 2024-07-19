@@ -27,12 +27,12 @@ import { Component } from '../component';
 import { click, waitForPresence, waitForStaleness, waitUntilElementIsVisible } from '../../utilities';
 
 export class Menu extends Component {
-  items = this.allByCss('.mat-menu-item');
+  items = this.allByCss('.mat-mdc-menu-item');
   uploadFilesInput = this.byId('app-upload-files', browser);
-  cancelEditingAction = this.byCss(`.mat-menu-item[title='Cancel Editing']`);
+  cancelEditingAction = this.byCss(`.mat-mdc-menu-item[title='Cancel Editing']`);
   copyAction = this.byTitleAttr('Copy');
-  editFolderAction = this.byCss(`.mat-menu-item[id$='editFolder']`);
-  editOfflineAction = this.byCss(`.mat-menu-item[title='Edit Offline']`);
+  editFolderAction = this.byCss(`.mat-mdc-menu-item[id$='editFolder']`);
+  editOfflineAction = this.byCss(`.mat-mdc-menu-item[title='Edit Offline']`);
 
   constructor(ancestor?: string) {
     super('.mat-mdc-menu-panel', ancestor);
@@ -48,7 +48,7 @@ export class Menu extends Component {
   }
 
   private getItemByLabel(menuItem: string): ElementFinder {
-    return this.byCssText('.mat-menu-item', menuItem);
+    return this.byCssText('.mat-mdc-menu-item', menuItem);
   }
 
   async getItemIconText(menuItem: string): Promise<string> {

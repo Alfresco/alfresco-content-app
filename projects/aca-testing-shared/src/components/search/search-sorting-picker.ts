@@ -64,7 +64,7 @@ export class SearchSortingPicker extends Component {
     if (!(await this.isSortByDropdownExpanded())) {
       await this.clickSortByDropdown();
     }
-    const elem = browser.element(by.cssContainingText('.mat-menu-item', option));
+    const elem = browser.element(by.cssContainingText('.mat-mdc-menu-item', option));
     const optionId = await elem.getAttribute('id');
     await click(elem);
     const directionSortElement = browser.element(by.id(`${optionId}-${direction.toLocaleLowerCase()}`));
