@@ -33,7 +33,7 @@ export class UploadNewVersionDialog extends BaseComponent {
   public majorOption = this.getChild('#adf-new-version-major');
   public minorOption = this.getChild('#adf-new-version-minor');
   public description = this.getChild('#adf-new-version-text-area');
-  public title = this.getChild(' .mat-dialog-title');
+  public title = this.getChild(' [data-automation-id="new-version-uploader-dialog-title"]');
 
   constructor(page: Page) {
     super(page, UploadNewVersionDialog.rootElement);
