@@ -735,7 +735,7 @@ If you would like to display any additional status information for any node you 
 
 ```json
 {
-  "id": "app..my-extension.badge",
+  "id": "app.my-extension.badge",
   "icon": "adf:custom-icon",
   "tooltip": "MY_EXTENSION.BADGE_TOOLTIP",
   "actions": {
