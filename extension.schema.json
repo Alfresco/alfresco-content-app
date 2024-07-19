@@ -651,12 +651,6 @@
       "items": { "ref": "#/definitions/contentActionRef" },
       "minItems": 1
     },
-    "badges": {
-      "description": "List of badges to display in the name column",
-      "type": "array",
-      "items": { "$ref": "#/definitions/badge" },
-      "minItems": 1
-    },
     "badge": {
       "type": "object",
       "required": ["id", "icon", "tooltip"],
@@ -758,12 +752,6 @@
           "items": { "$ref": "#/definitions/iconRef" },
           "minItems": 1
         },
-        "userActions": {
-          "description": "User option menu extensions",
-          "type": "array",
-          "items": { "$ref": "#/definitions/contentActionRef" },
-          "minItems": 1
-        },
         "header": {
           "description": "Application header extensions",
           "type": "array",
@@ -775,11 +763,6 @@
           "type": "array",
           "items": { "$ref": "#/definitions/contentActionRef" },
           "minItems": 1
-        },
-        "mainAction": {
-          "description": "Main actions displayed on every page",
-          "type": "object",
-          "$ref": "#/definitions/contentActionRef"
         },
         "viewer": {
           "description": "Viewer component extensions",
@@ -932,6 +915,12 @@
               "minItems": 1
             }
           }
+        },
+        "badges": {
+          "description": "List of badges to display in the name column",
+          "type": "array",
+          "items": { "$ref": "#/definitions/badge" },
+          "minItems": 1
         },
         "search": {
           "description": "aca search extension",
