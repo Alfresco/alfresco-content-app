@@ -161,12 +161,8 @@ test.describe('Create Libraries ', () => {
       await libraryViewDetails.click();
       expect(await libraryDetails.getNameField('Name').inputValue()).toBe(randomLibraryName);
       expect(await libraryDetails.getIdField('Library ID').inputValue()).toBe(randomLibraryId);
-      await expect(
-        libraryDetails
-          .getVisibilityField('Visibility')
-          .locator(`[data-automation-id=library-visibility-option-${publicVisibility}]`)
-          .getByText(publicVisibility.toUpperCase())
-      ).toBeVisible();
+      // eslint-disable-next-line @alfresco/eslint-angular/no-angular-material-selectors
+      await expect(libraryDetails.getVisibilityField('Visibility').locator('.mat-mdc-select-min-line').getByText(publicVisibility)).toBeVisible();
       expect(await libraryDetails.getDescriptionField.inputValue()).toBe(randomLibraryDescription);
 
       createdLibrariesIds.push(randomLibraryId);
