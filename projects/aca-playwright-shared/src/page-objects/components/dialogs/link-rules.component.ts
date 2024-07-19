@@ -35,7 +35,7 @@ export class LinkRulesDialog extends BaseComponent {
   cancelButton = this.getChild('[data-automation-id="content-node-selector-actions-cancel"]');
   selectFolderButton = this.getChild('button', { hasText: ' Select folder ' });
   emptyLinkRules = this.getChild('.adf-empty-content__title');
-  getOptionLocator = (optionName: string): Locator => this.page.locator('.mat-select-panel .mat-option-text', { hasText: optionName });
+  getOptionLocator = (optionName: string): Locator => this.page.locator('.mat-mdc-select-panel .mdc-list-item__primary-text', { hasText: optionName });
   private getRowByName = (name: string | number): Locator => this.getChild(`adf-datatable-row`, { hasText: name.toString() });
   getDialogTitle = (text: string) => this.getChild('[data-automation-id="content-node-selector-title"]', { hasText: text });
   getBreadcrumb = (text: string) => this.getChild('[data-automation-id="current-folder"]', { hasText: text });

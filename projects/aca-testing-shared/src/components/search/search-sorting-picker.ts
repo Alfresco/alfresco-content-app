@@ -30,7 +30,7 @@ export type SortByType = 'Relevance' | 'Title' | 'Filename' | 'Modified date' | 
 export class SearchSortingPicker extends Component {
   actionMenu = browser.element(by.css('aca-search-action-menu > button'));
   sortOrderButton = browser.element(by.css('#aca-button-sorting-menu'));
-  sortByDropdownExpanded = browser.element.all(by.css('.mat-menu-panel')).get(1);
+  sortByDropdownExpanded = browser.element.all(by.css('.mat-mdc-menu-panel')).get(1);
   sortByList = this.sortByDropdownExpanded.all(by.css('button'));
 
   constructor(ancestor?: string) {

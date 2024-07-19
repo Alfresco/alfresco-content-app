@@ -35,16 +35,16 @@ export class Menu extends Component {
   editOfflineAction = this.byCss(`.mat-menu-item[title='Edit Offline']`);
 
   constructor(ancestor?: string) {
-    super('.mat-menu-panel', ancestor);
+    super('.mat-mdc-menu-panel', ancestor);
   }
 
   async waitForMenuToOpen(): Promise<void> {
-    await waitForPresence(browser.element(by.css('.cdk-overlay-container .mat-menu-panel')));
+    await waitForPresence(browser.element(by.css('.cdk-overlay-container .mat-mdc-menu-panel')));
     await waitUntilElementIsVisible(this.items.get(0));
   }
 
   async waitForMenuToClose(): Promise<void> {
-    await waitForStaleness(browser.element(by.css('.cdk-overlay-container .mat-menu-panel')));
+    await waitForStaleness(browser.element(by.css('.cdk-overlay-container .mat-mdc-menu-panel')));
   }
 
   private getItemByLabel(menuItem: string): ElementFinder {
