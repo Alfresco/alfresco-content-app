@@ -27,10 +27,10 @@ import { GenericFilter } from './generic-filter';
 
 export class FacetFilter extends GenericFilter {
   private readonly locators = {
-    checkbox: '.mat-menu-content .mat-mdc-checkbox',
-    checkboxChecked: '.mat-menu-content .mat-mdc-checkbox.mat-mdc-checkbox-checked',
-    categoryInput: '.mat-menu-content input[data-automation-id^="facet-result-filter"]',
-    facetsFilter: '.mat-menu-content .adf-facet-result-filter'
+    checkbox: '.mat-mdc-menu-content .mat-mdc-checkbox',
+    checkboxChecked: '.mat-mdc-menu-content .mat-mdc-checkbox.mat-mdc-checkbox-checked',
+    categoryInput: '.mat-mdc-menu-content input[data-automation-id^="facet-result-filter"]',
+    facetsFilter: '.mat-mdc-menu-content .adf-facet-result-filter'
   };
 
   get facets(): ElementArrayFinder {

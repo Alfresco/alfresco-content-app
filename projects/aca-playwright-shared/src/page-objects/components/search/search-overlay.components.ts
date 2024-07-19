@@ -42,17 +42,17 @@ export class SearchOverlayComponent extends BaseComponent {
 
   async isFoldersOptionChecked() {
     const optClass = await this.searchFoldersOption.getAttribute('class');
-    return optClass.includes('mat-mdc-checkbox-checked');
+    return optClass.includes('.mat-mdc-checkbox-checked');
   }
 
   async isFilesOptionChecked() {
     const optClass = await this.searchFilesOption.getAttribute('class');
-    return optClass.includes('mat-mdc-checkbox-checked');
+    return optClass.includes('.mat-mdc-checkbox-checked');
   }
 
   async isLibrariesOptionChecked() {
     const optClass = await this.searchLibrariesOption.getAttribute('class');
-    return optClass.includes('mat-mdc-checkbox-checked');
+    return optClass.includes('.mat-mdc-checkbox-checked');
   }
 
   async clearOptions() {

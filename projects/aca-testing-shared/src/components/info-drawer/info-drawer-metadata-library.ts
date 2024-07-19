@@ -27,26 +27,26 @@ import { Component } from '../component';
 import { waitForPresence, waitForStaleness, typeText, click } from '../../utilities';
 
 export class LibraryMetadata extends Component {
-  visibilityDropDown = this.component.element(by.css('.mat-select'));
-  visibilityPublic = this.byCssText('.mat-option .mat-option-text', 'Public', browser);
-  visibilityPrivate = this.byCssText('.mat-option .mat-option-text', 'Private', browser);
-  visibilityModerated = this.byCssText('.mat-option .mat-option-text', 'Moderated', browser);
-  visibilityValue = this.byCss('[data-automation-id="library-visibility-properties-wrapper"] .mat-select');
+  visibilityDropDown = this.component.element(by.css('.mat-mdc-select'));
+  visibilityPublic = this.byCssText('.mat-mdc-option .mdc-list-item__primary-text', 'Public', browser);
+  visibilityPrivate = this.byCssText('.mat-mdc-option .mdc-list-item__primary-text', 'Private', browser);
+  visibilityModerated = this.byCssText('.mat-mdc-option .mat-optimdc-list-item__primary-texton-text', 'Moderated', browser);
+  visibilityValue = this.byCss('[data-automation-id="library-visibility-properties-wrapper"] .mat-mdc-select');
 
-  hint = this.byCss('.mat-hint');
-  error = this.byCss('.mat-error');
+  hint = this.byCss('.mat-mdc-form-field-hint');
+  error = this.byCss('.mat-mdc-form-field-error');
 
   constructor(ancestor?: string) {
     super('app-library-metadata-form', ancestor);
   }
 
   private getLabelWrapper(label: string) {
-    return this.byCssText('.mat-form-field-label-wrapper', label);
+    return this.byCssText('.mat-mdc-floating-label', label);
   }
 
   private getFieldByName(fieldName: string) {
     const wrapper = this.getLabelWrapper(fieldName);
-    return wrapper.element(by.xpath('..')).element(by.css('.mat-input-element'));
+    return wrapper.element(by.xpath('..')).element(by.css('.mat-mdc-input-element'));
   }
 
   private async isFieldDisplayed(fieldName: string) {
@@ -67,7 +67,7 @@ export class LibraryMetadata extends Component {
   }
 
   private getButton(button: string) {
-    return this.byCssText('.mat-card-actions .mat-button', button);
+    return this.byCssText('.mat-mdc-card-actions .mat-mdc-button', button);
   }
 
   private async isButtonDisplayed(button: string) {
@@ -83,7 +83,7 @@ export class LibraryMetadata extends Component {
   }
 
   async waitForVisibilityDropDownToClose() {
-    await waitForStaleness(browser.$('.mat-option .mat-option-text'));
+    await waitForStaleness(browser.$('.mat-mdc-option .mdc-list-item__primary-text'));
   }
 
   async isMessageDisplayed() {
@@ -136,7 +136,7 @@ export class LibraryMetadata extends Component {
 
   async isVisibilityEnabled() {
     const wrapper = this.getLabelWrapper('Visibility');
-    const field = wrapper.element(by.xpath('..')).element(by.css('.mat-select'));
+    const field = wrapper.element(by.xpath('..')).element(by.css('.mat-mdc-select'));
     return field.isEnabled();
   }
 

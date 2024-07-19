@@ -45,8 +45,8 @@ export class GenericFilter {
   private readonly selectors = {
     root: 'adf-search-filter-chips',
 
-    chip: '.mat-chip',
-    chipDialog: '.mat-menu-content .adf-search-filter-menu-card'
+    chip: '.mat-mdc-chip',
+    chipDialog: '.mat-mdc-menu-content .adf-search-filter-menu-card'
   };
 
   get chip(): ElementFinder {

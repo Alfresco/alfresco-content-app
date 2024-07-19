@@ -31,8 +31,8 @@ export class ContentNodeSelectorDialog extends GenericDialog {
   copyButton = this.childElement(by.cssContainingText('[data-automation-id="content-node-selector-actions-choose"]', 'Copy'));
 
   locationDropDown = this.rootElem.element(by.id('site-dropdown-container'));
-  locationPersonalFiles = browser.element(by.cssContainingText('.mat-option .mat-option-text', 'Personal Files'));
-  locationFileLibraries = browser.element(by.cssContainingText('.mat-option .mat-option-text', 'My Libraries'));
+  locationPersonalFiles = browser.element(by.cssContainingText('.mat-mdc-option .mdc-list-item__primary-text', 'Personal Files'));
+  locationFileLibraries = browser.element(by.cssContainingText('.mat-mdc-option .mdc-list-item__primary-text', 'My Libraries'));
 
   searchInput = this.rootElem.element(by.css('#searchInput'));
 
@@ -47,7 +47,7 @@ export class ContentNodeSelectorDialog extends GenericDialog {
   }
 
   async waitForDropDownToClose(): Promise<void> {
-    await waitForStaleness(browser.$('.mat-option .mat-option-text'));
+    await waitForStaleness(browser.$('.mat-mdc-option .mdc-list-item__primary-text'));
   }
 
   async selectLocation(location: string): Promise<void> {
