@@ -30,7 +30,7 @@ export class LibraryMetadata extends Component {
   visibilityDropDown = this.component.element(by.css('.mat-mdc-select'));
   visibilityPublic = this.byCssText('.mat-mdc-option .mdc-list-item__primary-text', 'Public', browser);
   visibilityPrivate = this.byCssText('.mat-mdc-option .mdc-list-item__primary-text', 'Private', browser);
-  visibilityModerated = this.byCssText('.mat-mdc-option .mat-optimdc-list-item__primary-texton-text', 'Moderated', browser);
+  visibilityModerated = this.byCssText('.mat-mdc-option .mdc-list-item__primary-text', 'Moderated', browser);
   visibilityValue = this.byCss('[data-automation-id="library-visibility-properties-wrapper"] .mat-mdc-select');
 
   hint = this.byCss('.mat-mdc-form-field-hint');
