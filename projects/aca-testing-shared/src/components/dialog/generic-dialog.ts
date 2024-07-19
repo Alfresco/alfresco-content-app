@@ -33,11 +33,11 @@ export abstract class GenericDialog {
   }
 
   get title(): ElementFinder {
-    return this.rootElem.element(by.css('.mat-dialog-title'));
+    return this.rootElem.element(by.css('.mat-mdc-dialog-title'));
   }
 
   get content(): ElementFinder {
-    return this.rootElem.element(by.css('.mat-dialog-content'));
+    return this.rootElem.element(by.css('.mat-mdc-dialog-content'));
   }
 
   async getText(): Promise<string> {
