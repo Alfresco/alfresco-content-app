@@ -94,7 +94,6 @@ export class RuleSimpleConditionUiComponent implements OnInit, ControlValueAcces
 
   private onDestroy$ = new Subject<void>();
   private autoCompleteOptionsSubscription: Subscription;
-  private _readOnly = false;
 
   private readonly disabledTags = !this.tagService.areTagsEnabled();
   private readonly disabledCategories = !this.categoryService.areCategoriesEnabled();
