@@ -89,9 +89,10 @@ describe('ContextMenuComponent', () => {
     await fixture.whenStable();
 
     const contextMenuElements = document.body.querySelector('.aca-context-menu')?.querySelectorAll('button');
+    const actionButtonLabel: HTMLElement = contextMenuElements?.[0].querySelector('[data-automation-id="action-button-label"]');
 
     expect(contextMenuElements?.length).toBe(1);
-    expect((contextMenuElements?.[0].querySelector('[data-automation-id="action-button-label"]') as HTMLElement)?.innerText).toBe(contextItem.title);
+    expect(actionButtonLabel.innerText).toBe(contextItem.title);
   });
 
   it('should run action with provided action id and correct payload', () => {
