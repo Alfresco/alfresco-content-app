@@ -148,7 +148,8 @@
   }
 
   .mat-mdc-tab:focus {
-    background: map.get($aca-primary-blue, 50);
+    /* stylelint-disable-next-line scss/no-global-function-names */
+    background: map-get($aca-primary-blue, 50);
   }
 
   .mat-mdc-slide-toggle.cdk-keyboard-focused .mdc-form-field .mdc-switch .mdc-switch__track {
