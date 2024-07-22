@@ -27,6 +27,7 @@ import { BaseComponent } from '../base.component';
 import { MatMenuComponent } from './mat-menu.component';
 import { PaginationActionsType, PaginationComponent } from '../pagination.component';
 import { timeouts } from '../../../utils';
+import { SpinnerComponent } from '../spinner.component';
 
 export class DataTableComponent extends BaseComponent {
   private static rootElement = 'adf-datatable';
@@ -36,6 +37,7 @@ export class DataTableComponent extends BaseComponent {
     super(page, rootElement);
   }
 
+  spinner = new SpinnerComponent(this.page);
   public pagination = new PaginationComponent(this.page);
   body = this.getChild('.adf-datatable-body');
   getEmptyFolderLocator = this.getChild('.adf-empty-folder');
@@ -168,7 +170,7 @@ export class DataTableComponent extends BaseComponent {
     await this.goThroughPagesLookingForRowWithName(name);
     const actionButtonLocator = await this.getActionLocatorFromExpandableMenu(name, action);
     await actionButtonLocator.click();
-    await this.spinnerWaitForReload();
+    await this.spinner.waitForReload();
   }
 
   /**
@@ -194,7 +196,7 @@ export class DataTableComponent extends BaseComponent {
    */
   async performClickFolderOrFileToOpen(name: string): Promise<void> {
     await this.getCellLinkByName(name).click();
-    await this.spinnerWaitForReload();
+    await this.spinner.waitForReload();
   }
 
   async isItemPresent(name: string): Promise<boolean> {
@@ -213,7 +215,7 @@ export class DataTableComponent extends BaseComponent {
   }
 
   async goThroughPagesLookingForRowWithName(name: string | number): Promise<void> {
-    await this.spinnerWaitForReload();
+    await this.spinner.waitForReload();
     if (await this.getRowByName(name).isVisible()) {
       return null;
     }
@@ -232,7 +234,7 @@ export class DataTableComponent extends BaseComponent {
         if (await this.pagination.getArrowLocatorFor(PaginationActionsType.NextPageSelector).isEnabled()) {
           await this.pagination.getArrowLocatorFor(PaginationActionsType.NextPageSelector).click();
         }
-        await this.spinnerWaitForReload();
+        await this.spinner.waitForReload();
       }
     }
   }
