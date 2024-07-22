@@ -188,6 +188,7 @@ test.describe('viewer action file', () => {
     await personalFiles.uploadNewVersionDialog.majorOption.click();
     await personalFiles.uploadNewVersionDialog.description.fill('new major version description');
     await personalFiles.uploadNewVersionDialog.uploadButton.click();
+    await personalFiles.uploadNewVersionDialog.uploadButton.waitFor({ state: 'detached' });
     await expect(personalFiles.uploadNewVersionDialog.cancelButton).toHaveCount(0);
     expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not open').toBe(true);
     expect(await personalFiles.viewer.fileTitleButtonLocator.innerText()).toContain(docxFile2);
@@ -202,14 +203,15 @@ test.describe('viewer action file', () => {
     await Utils.uploadFileNewVersion(personalFiles, docxFile);
 
     await personalFiles.uploadNewVersionDialog.uploadButton.click();
+    await personalFiles.uploadNewVersionDialog.uploadButton.waitFor({ state: 'detached' });
     await expect(personalFiles.uploadNewVersionDialog.cancelButton).toHaveCount(0);
 
     await personalFiles.viewer.waitForViewerToOpen();
     expect(await personalFiles.viewer.fileTitleButtonLocator.innerText()).toContain(docxFile);
 
     await personalFiles.acaHeader.clickViewerMoreActions();
-    await expect(personalFiles.matMenu.cancelEditingAction, `'Cancel Editing' button shouldn't be shown`).toBeHidden();
-    await expect(personalFiles.matMenu.editOfflineAction, `'Edit Offline' should be shown`).toBeVisible();
+    await expect(personalFiles.matMenu.getMenuItemFromHeaderMenu('Cancel Editing'), `'Cancel Editing' button shouldn't be shown`).toBeHidden();
+    await expect(personalFiles.matMenu.getMenuItemFromHeaderMenu('Edit Offline'), `'Edit Offline' should be shown`).toBeVisible();
   });
 
   test('[C286384] Copy action from Recent Files', async ({ recentFilesPage, personalFiles }) => {
