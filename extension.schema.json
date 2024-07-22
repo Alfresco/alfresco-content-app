@@ -837,8 +837,8 @@
           "items": { "$ref": "#/definitions/contentActionRef" },
           "minItems": 1
         },
-        "bulk-actions-dropdown": {
-          "description": "bulk actions dropdown entries",
+        "bulk-actions": {
+          "description": "Bulk actions entries",
           "type": "array",
           "items": { "$ref": "#/definitions/contentActionRef" },
           "minItems": 1

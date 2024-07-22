@@ -22,9 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* tslint:disable:no-unused-variable */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { BulkActionsDropdownComponent } from './bulk-actions-dropdown.component';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../../../../aca-shared/store/src/public-api';
@@ -91,11 +89,11 @@ describe('BulkActionsDropdownComponent', () => {
     });
 
     it('should have correct tooltip', () => {
-      expect(disabledDropdown.getAttribute('title')).toBe('GOVERNANCE.MANAGE_HOLDS.BULK_NOT_AVAILABLE_TOOLTIP');
+      expect(disabledDropdown.getAttribute('title')).toBe('SEARCH.BULK_ACTIONS_DROPDOWN.BULK_NOT_AVAILABLE_TOOLTIP');
     });
 
     it('should have correct placeholder', () => {
-      expect(getLabelText('aca-bulk-dropdown-disabled')).toEqual('GOVERNANCE.MANAGE_HOLDS.BULK_NOT_AVAILABLE');
+      expect(getLabelText('aca-bulk-dropdown-disabled')).toEqual('SEARCH.BULK_ACTIONS_DROPDOWN.BULK_NOT_AVAILABLE');
     });
   });
 
@@ -115,11 +113,11 @@ describe('BulkActionsDropdownComponent', () => {
     });
 
     it('should have correct tooltip', () => {
-      expect(dropdown.getAttribute('title')).toBe('SEARCH.BULK_ACTIONS_DROPDOWN');
+      expect(dropdown.getAttribute('title')).toBe('SEARCH.BULK_ACTIONS_DROPDOWN.TITLE');
     });
 
     it('should have correct placeholder', () => {
-      expect(getLabelText('aca-bulk-dropdown')).toEqual('SEARCH.BULK_ACTIONS_DROPDOWN');
+      expect(getLabelText('aca-bulk-dropdown')).toEqual('SEARCH.BULK_ACTIONS_DROPDOWN.TITLE');
     });
 
     it('should have option with correct tooltip', () => {

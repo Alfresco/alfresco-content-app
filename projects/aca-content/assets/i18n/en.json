@@ -500,7 +500,11 @@
         }
     },
     "SEARCH": {
-        "BULK_ACTIONS_DROPDOWN": "Bulk Actions ({{ count }} Items)",
+        "BULK_ACTIONS_DROPDOWN": {
+          "TITLE": "Bulk Actions ({{ count }} Items)",
+          "BULK_NOT_AVAILABLE": "Bulk Actions (Not Available)",
+          "BULK_NOT_AVAILABLE_TOOLTIP": "Bulk Actions cannot be used without search results"
+        },
         "INPUT": {
           "PLACEHOLDER": "Search",
           "FILES": "Files",
