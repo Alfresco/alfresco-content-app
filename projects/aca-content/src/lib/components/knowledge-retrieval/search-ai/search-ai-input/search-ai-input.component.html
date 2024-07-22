@@ -1,8 +1,9 @@
 <mat-select
   [formControl]="agentControl"
   class="aca-search-ai-input-agent-select"
-  panelClass="aca-search-ai-input-agent-select-options"
-  data-automation-id="aca-search-ai-agents-select">
+  panelClass="aca-search-ai-input-agent-select-options aca-search-ai-input-agent-select-agents"
+  data-automation-id="aca-search-ai-agents-select"
+  [hideSingleSelectionIndicator]="true">
   <mat-select-trigger class="aca-search-ai-input-agent-select-displayed-value">
     <adf-avatar
       [initials]="initialsByAgentId[agentControl.value.id]"

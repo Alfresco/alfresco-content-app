@@ -1,3 +1,5 @@
+@import '@alfresco/adf-core/lib/styles/mat-selectors';
+
 .aca-search-ai-results {
   aca-page-layout {
     .aca-page-layout-content {
@@ -45,6 +47,12 @@
 
             &-regeneration-button {
               background-color: var(--adf-secondary-button-background);
+
+              &-icon {
+                font-size: 24px;
+                height: 24px;
+                width: 23px;
+              }
             }
           }
         }
@@ -60,6 +68,7 @@
 
             &-action {
               width: max-content;
+              padding: 0;
 
               mat-icon {
                 font-size: 17.25px;
@@ -72,6 +81,10 @@
 
               &-thumb-down {
                 margin-left: 4px;
+              }
+
+              #{$mat-button-touch-target} {
+                width: 24px;
               }
             }
           }
