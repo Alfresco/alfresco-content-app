@@ -23,7 +23,7 @@
  */
 
 import { Component, ViewEncapsulation } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { AppService } from '@alfresco/aca-shared';
 
 @Component({
@@ -34,10 +34,8 @@ import { AppService } from '@alfresco/aca-shared';
 })
 export class AppComponent {
   onDestroy$: Subject<boolean> = new Subject<boolean>();
-  pageHeading: Observable<string>;
 
   constructor(private appService: AppService) {
-    this.pageHeading = this.appService.pageHeading$;
     this.appService.init();
   }
 }

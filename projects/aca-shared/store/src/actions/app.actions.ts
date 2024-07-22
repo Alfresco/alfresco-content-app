@@ -23,8 +23,9 @@
  */
 
 import { Action } from '@ngrx/store';
-import { Node, Person, Group, RepositoryInfo, VersionEntry } from '@alfresco/js-api';
+import { Node, RepositoryInfo, VersionEntry } from '@alfresco/js-api';
 import { AppActionTypes } from './app-action-types';
+import { ProfileState } from '@alfresco/adf-extensions';
 
 export class SetCurrentFolderAction implements Action {
   readonly type = AppActionTypes.SetCurrentFolder;
@@ -47,7 +48,7 @@ export class SetCurrentUrlAction implements Action {
 export class SetUserProfileAction implements Action {
   readonly type = AppActionTypes.SetUserProfile;
 
-  constructor(public payload: { person: Person; groups: Group[] }) {}
+  constructor(public payload: ProfileState) {}
 }
 
 export class ToggleInfoDrawerAction implements Action {

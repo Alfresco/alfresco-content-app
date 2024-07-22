@@ -22,39 +22,51 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
-import { AuthenticationService, AppConfigService, AlfrescoApiService, PageTitleService, UserPreferencesService } from '@alfresco/adf-core';
+import { inject, Injectable, OnDestroy } from '@angular/core';
+import {
+  AuthenticationService,
+  AppConfigService,
+  AlfrescoApiService,
+  PageTitleService,
+  UserPreferencesService,
+  NotificationService
+} from '@alfresco/adf-core';
 import { Observable, BehaviorSubject, Subject } from 'rxjs';
-import { GroupService, SearchQueryBuilderService, SharedLinksApiService, UploadService, FileUploadErrorEvent } from '@alfresco/adf-content-services';
+import { SearchQueryBuilderService, SharedLinksApiService, UploadService, FileUploadErrorEvent } from '@alfresco/adf-content-services';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { ActivatedRoute, ActivationEnd, NavigationStart, Router } from '@angular/router';
-import { filter, map, tap } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import {
   AppStore,
   CloseModalDialogsAction,
   SetCurrentUrlAction,
   SetRepositoryInfoAction,
   SetUserProfileAction,
-  SnackbarErrorAction,
   ResetSelectionAction
 } from '@alfresco/aca-shared/store';
 import { ContentApiService } from './content-api.service';
 import { RouterExtensionService } from './router.extension.service';
 import { Store } from '@ngrx/store';
-import { DiscoveryEntry, GroupEntry, Group } from '@alfresco/js-api';
+import { DiscoveryEntry } from '@alfresco/js-api';
 import { AcaMobileAppSwitcherService } from './aca-mobile-app-switcher.service';
 import { ShellAppService } from '@alfresco/adf-core/shell';
 import { AppSettingsService } from './app-settings.service';
+import { UserProfileService } from './user-profile.service';
 
 @Injectable({
   providedIn: 'root'
 })
 // After moving shell to ADF to core, AppService will implement ShellAppService
 export class AppService implements ShellAppService, OnDestroy {
+  private notificationService = inject(NotificationService);
   private ready: BehaviorSubject<boolean>;
 
   ready$: Observable<boolean>;
-  pageHeading$: Observable<string>;
+
+  private pageHeading = new BehaviorSubject('');
+  /** @deprecated page title is updated automatically */
+  pageHeading$ = this.pageHeading.asObservable();
+
   appNavNarMode$: Subject<'collapsed' | 'expanded'> = new BehaviorSubject('expanded');
   toggleAppNavBar$ = new Subject();
 
@@ -84,11 +96,11 @@ export class AppService implements ShellAppService, OnDestroy {
     private routerExtensionService: RouterExtensionService,
     private contentApi: ContentApiService,
     private sharedLinksApiService: SharedLinksApiService,
-    private groupService: GroupService,
     private overlayContainer: OverlayContainer,
     searchQueryBuilderService: SearchQueryBuilderService,
     private acaMobileAppSwitcherService: AcaMobileAppSwitcherService,
-    private appSettingsService: AppSettingsService
+    private appSettingsService: AppSettingsService,
+    private userProfileService: UserProfileService
   ) {
     this.ready = new BehaviorSubject(this.authenticationService.isLoggedIn() || this.withCredentials);
     this.ready$ = this.ready.asObservable();
@@ -104,11 +116,15 @@ export class AppService implements ShellAppService, OnDestroy {
       acaMobileAppSwitcherService.closeDialog();
     });
 
-    this.pageHeading$ = this.router.events.pipe(
-      filter((event) => event instanceof ActivationEnd && event.snapshot.children.length === 0),
-      map((event: ActivationEnd) => event.snapshot?.data?.title ?? ''),
-      tap((title) => this.pageTitle.setTitle(title))
-    );
+    this.router.events
+      .pipe(
+        filter((event) => event instanceof ActivationEnd && event.snapshot.children.length === 0),
+        map((event: ActivationEnd) => event.snapshot?.data?.title ?? '')
+      )
+      .subscribe((title) => {
+        this.pageHeading.next(title);
+        this.pageTitle.setTitle(title);
+      });
   }
 
   ngOnDestroy(): void {
@@ -153,7 +169,7 @@ export class AppService implements ShellAppService, OnDestroy {
 
     this.sharedLinksApiService.error.subscribe((err: { message: string }) => {
       if (err?.message) {
-        this.store.dispatch(new SnackbarErrorAction(err.message));
+        this.notificationService.showError(err.message);
       }
     });
 
@@ -184,17 +200,8 @@ export class AppService implements ShellAppService, OnDestroy {
   }
 
   private async loadUserProfile() {
-    const groupsEntries: GroupEntry[] = await this.groupService.listAllGroupMembershipsForPerson('-me-', { maxItems: 250 });
-
-    const groups: Group[] = [];
-
-    if (groupsEntries) {
-      groups.push(...groupsEntries.map((obj) => obj.entry));
-    }
-
-    this.contentApi.getPerson('-me-').subscribe((person) => {
-      this.store.dispatch(new SetUserProfileAction({ person: person.entry, groups }));
-    });
+    const profile = await this.userProfileService.loadUserProfile();
+    this.store.dispatch(new SetUserProfileAction(profile));
   }
 
   onFileUploadedError(error: FileUploadErrorEvent) {
@@ -220,7 +227,7 @@ export class AppService implements ShellAppService, OnDestroy {
       message = 'APP.MESSAGES.UPLOAD.ERROR.504';
     }
 
-    this.store.dispatch(new SnackbarErrorAction(message));
+    this.notificationService.showError(message);
   }
 
   private loadCustomCss(): void {

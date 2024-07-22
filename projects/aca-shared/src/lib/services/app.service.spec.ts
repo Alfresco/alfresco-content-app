@@ -26,20 +26,19 @@ import { AppService } from './app.service';
 import { TestBed } from '@angular/core/testing';
 import {
   AuthenticationService,
-  AppConfigService,
   AlfrescoApiService,
   PageTitleService,
   AlfrescoApiServiceMock,
   TranslationMock,
   TranslationService,
-  UserPreferencesService
+  UserPreferencesService,
+  NotificationService
 } from '@alfresco/adf-core';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { HttpClientModule } from '@angular/common/http';
 import {
   DiscoveryApiService,
   FileUploadErrorEvent,
-  GroupService,
   SearchQueryBuilderService,
   SharedLinksApiService,
   UploadService
@@ -53,25 +52,26 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { Store } from '@ngrx/store';
 import { ContentApiService } from './content-api.service';
-import { SetRepositoryInfoAction, SetUserProfileAction, SnackbarErrorAction } from '@alfresco/aca-shared/store';
-import { AppSettingsService } from '@alfresco/aca-shared';
+import { AppSettingsService, UserProfileService } from '@alfresco/aca-shared';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('AppService', () => {
   let service: AppService;
   let auth: AuthenticationService;
-  let appConfig: AppConfigService;
   let searchQueryBuilderService: SearchQueryBuilderService;
   let uploadService: UploadService;
   let store: Store;
   let sharedLinksApiService: SharedLinksApiService;
   let contentApi: ContentApiService;
-  let groupService: GroupService;
   let preferencesService: UserPreferencesService;
   let appSettingsService: AppSettingsService;
+  let userProfileService: UserProfileService;
+  let notificationService: NotificationService;
+  let loadUserProfileSpy: jasmine.Spy;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CommonModule, HttpClientModule, TranslateModule.forRoot(), RouterTestingModule.withRoutes([]), MatDialogModule],
+      imports: [CommonModule, HttpClientModule, TranslateModule.forRoot(), RouterTestingModule.withRoutes([]), MatDialogModule, MatSnackBarModule],
       providers: [
         SearchQueryBuilderService,
         provideMockStore({}),
@@ -118,31 +118,18 @@ describe('AppService', () => {
     });
 
     appSettingsService = TestBed.inject(AppSettingsService);
-    appConfig = TestBed.inject(AppConfigService);
     auth = TestBed.inject(AuthenticationService);
     searchQueryBuilderService = TestBed.inject(SearchQueryBuilderService);
     uploadService = TestBed.inject(UploadService);
     store = TestBed.inject(Store);
     sharedLinksApiService = TestBed.inject(SharedLinksApiService);
     contentApi = TestBed.inject(ContentApiService);
-    groupService = TestBed.inject(GroupService);
+    spyOn(contentApi, 'getRepositoryInformation').and.returnValue(of({} as any));
     service = TestBed.inject(AppService);
     preferencesService = TestBed.inject(UserPreferencesService);
-  });
-
-  it('should be ready if [withCredentials] mode is used', (done) => {
-    appConfig.config = {
-      auth: {
-        withCredentials: true
-      }
-    };
-
-    const instance = TestBed.inject(AppService);
-    expect(instance.withCredentials).toBeTruthy();
-
-    instance.ready$.subscribe(() => {
-      done();
-    });
+    userProfileService = TestBed.inject(UserProfileService);
+    loadUserProfileSpy = spyOn(userProfileService, 'loadUserProfile').and.returnValue(Promise.resolve({} as any));
+    notificationService = TestBed.inject(NotificationService);
   });
 
   it('should be ready after login', async () => {
@@ -170,45 +157,46 @@ describe('AppService', () => {
   });
 
   it('should raise notification on share link error', () => {
+    const showError = spyOn(notificationService, 'showError').and.stub();
     spyOn(store, 'select').and.returnValue(of(''));
     service.init();
-    const dispatch = spyOn(store, 'dispatch');
 
     sharedLinksApiService.error.next({ message: 'Error Message', statusCode: 1 });
-    expect(dispatch).toHaveBeenCalledWith(new SnackbarErrorAction('Error Message'));
+    expect(showError).toHaveBeenCalledWith('Error Message');
   });
 
   it('should raise notification on upload error', async () => {
     spyOn(store, 'select').and.returnValue(of(''));
     service.init();
-    const dispatch = spyOn(store, 'dispatch');
+
+    const showError = spyOn(notificationService, 'showError').and.stub();
 
     uploadService.fileUploadError.next(new FileUploadErrorEvent(null, { status: 403 }));
-    expect(dispatch).toHaveBeenCalledWith(new SnackbarErrorAction('APP.MESSAGES.UPLOAD.ERROR.403'));
-    dispatch.calls.reset();
+    expect(showError).toHaveBeenCalledWith('APP.MESSAGES.UPLOAD.ERROR.403');
+    showError.calls.reset();
 
     uploadService.fileUploadError.next(new FileUploadErrorEvent(null, { status: 404 }));
-    expect(dispatch).toHaveBeenCalledWith(new SnackbarErrorAction('APP.MESSAGES.UPLOAD.ERROR.404'));
-    dispatch.calls.reset();
+    expect(showError).toHaveBeenCalledWith('APP.MESSAGES.UPLOAD.ERROR.404');
+    showError.calls.reset();
 
     uploadService.fileUploadError.next(new FileUploadErrorEvent(null, { status: 409 }));
-    expect(dispatch).toHaveBeenCalledWith(new SnackbarErrorAction('APP.MESSAGES.UPLOAD.ERROR.CONFLICT'));
-    dispatch.calls.reset();
+    expect(showError).toHaveBeenCalledWith('APP.MESSAGES.UPLOAD.ERROR.CONFLICT');
+    showError.calls.reset();
 
     uploadService.fileUploadError.next(new FileUploadErrorEvent(null, { status: 500 }));
-    expect(dispatch).toHaveBeenCalledWith(new SnackbarErrorAction('APP.MESSAGES.UPLOAD.ERROR.500'));
-    dispatch.calls.reset();
+    expect(showError).toHaveBeenCalledWith('APP.MESSAGES.UPLOAD.ERROR.500');
+    showError.calls.reset();
 
     uploadService.fileUploadError.next(new FileUploadErrorEvent(null, { status: 504 }));
-    expect(dispatch).toHaveBeenCalledWith(new SnackbarErrorAction('APP.MESSAGES.UPLOAD.ERROR.504'));
-    dispatch.calls.reset();
+    expect(showError).toHaveBeenCalledWith('APP.MESSAGES.UPLOAD.ERROR.504');
+    showError.calls.reset();
 
     uploadService.fileUploadError.next(new FileUploadErrorEvent(null, { status: 403 }));
-    expect(dispatch).toHaveBeenCalledWith(new SnackbarErrorAction('APP.MESSAGES.UPLOAD.ERROR.403'));
-    dispatch.calls.reset();
+    expect(showError).toHaveBeenCalledWith('APP.MESSAGES.UPLOAD.ERROR.403');
+    showError.calls.reset();
 
     uploadService.fileUploadError.next(new FileUploadErrorEvent(null, {}));
-    expect(dispatch).toHaveBeenCalledWith(new SnackbarErrorAction('APP.MESSAGES.UPLOAD.ERROR.GENERIC'));
+    expect(showError).toHaveBeenCalledWith('APP.MESSAGES.UPLOAD.ERROR.GENERIC');
   });
 
   it('should load custom css', () => {
@@ -225,34 +213,19 @@ describe('AppService', () => {
   });
 
   it('should load repository status on login', () => {
-    const repository: any = {};
-    spyOn(contentApi, 'getRepositoryInformation').and.returnValue(of({ entry: { repository } }));
-    spyOn(store, 'select').and.returnValue(of(''));
     service.init();
-
-    const dispatch = spyOn(store, 'dispatch');
     auth.onLogin.next(true);
-
-    expect(dispatch).toHaveBeenCalledWith(new SetRepositoryInfoAction(repository));
+    expect(contentApi.getRepositoryInformation).toHaveBeenCalled();
   });
 
   it('should load user profile on login', async () => {
     const person: any = { id: 'person' };
 
-    const group: any = { entry: {} };
-    const groups: any[] = [group];
-
-    spyOn(contentApi, 'getRepositoryInformation').and.returnValue(of({} as any));
-    spyOn(groupService, 'listAllGroupMembershipsForPerson').and.returnValue(Promise.resolve(groups));
-    spyOn(contentApi, 'getPerson').and.returnValue(of({ entry: person }));
-
+    loadUserProfileSpy.and.returnValue(Promise.resolve(person));
     spyOn(store, 'select').and.returnValue(of(''));
     service.init();
-
-    const dispatch = spyOn(store, 'dispatch');
     auth.onLogin.next(true);
 
-    await expect(groupService.listAllGroupMembershipsForPerson).toHaveBeenCalled();
-    await expect(dispatch).toHaveBeenCalledWith(new SetUserProfileAction({ person, groups: [group.entry] }));
+    expect(loadUserProfileSpy).toHaveBeenCalled();
   });
 });

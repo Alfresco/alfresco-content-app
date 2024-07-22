@@ -27,8 +27,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatMenuModule } from '@angular/material/menu';
 import { TranslateModule } from '@ngx-translate/core';
-import { AppStore, getUserProfile } from '@alfresco/aca-shared/store';
-import { Store } from '@ngrx/store';
+import { UserProfileService } from '@alfresco/aca-shared';
 
 @Component({
   standalone: true,
@@ -39,6 +38,7 @@ import { Store } from '@ngrx/store';
   encapsulation: ViewEncapsulation.None
 })
 export class UserInfoComponent {
-  private store = inject<Store<AppStore>>(Store<AppStore>);
-  user$ = this.store.select(getUserProfile);
+  private userProfileService = inject(UserProfileService);
+
+  user$ = this.userProfileService.userProfile$;
 }
