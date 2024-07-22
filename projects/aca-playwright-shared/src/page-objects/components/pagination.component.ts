@@ -59,13 +59,13 @@ export class PaginationComponent extends BaseComponent {
   async setItemsPerPage(amount: number): Promise<void> {
     await this.getArrowLocatorFor(PaginationActionsType.PageSizeSelector).click();
     await this.itemsPerPageMenu.getButtonByText(amount.toString()).click();
-    await this.spinner.spinnerWaitForReload();
+    await this.spinner.waitForReload();
   }
 
   async navigateToPage(pageNumber: number): Promise<void> {
     await this.getArrowLocatorFor(PaginationActionsType.CurrentPageSelector).click();
     await this.itemsPerPageMenu.getButtonByText(pageNumber.toString()).click();
-    await this.spinner.spinnerWaitForReload();
+    await this.spinner.waitForReload();
   }
 
   // async spinnerWaitForReload(): Promise<void> {
