@@ -7,7 +7,6 @@
     *ngIf="(totalItems$ | async) as totalItems; else disabledMode"
     [placeholder]="'SEARCH.BULK_ACTIONS_DROPDOWN.TITLE' | translate: { count: totalItems }"
     [title]="'SEARCH.BULK_ACTIONS_DROPDOWN.TITLE' | translate: { count: totalItems }"
-    [disabled]="false"
     panelClass="aca-bulk-select"
     disableOptionCentering
     data-automation-id="aca-bulk-dropdown"
@@ -32,7 +31,6 @@
   <mat-select
     [placeholder]="'SEARCH.BULK_ACTIONS_DROPDOWN.BULK_NOT_AVAILABLE' | translate"
     [title]="'SEARCH.BULK_ACTIONS_DROPDOWN.BULK_NOT_AVAILABLE_TOOLTIP' | translate"
-    [disabled]="true"
     data-automation-id="aca-bulk-dropdown-disabled"
   ></mat-select>
 </ng-template>
