@@ -18,7 +18,8 @@
     <mat-selection-list
       (selectionChange)="onAgentSelection($event)"
       [multiple]="false"
-      class="aca-agents-button-menu-list">
+      class="aca-agents-button-menu-list"
+      [hideSingleSelectionIndicator]="true">
       <mat-list-option
         *ngFor="let agent of agents"
         class="aca-agents-button-menu-list-agent"

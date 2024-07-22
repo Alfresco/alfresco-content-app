@@ -11,4 +11,8 @@ aca-search-ai-input-container {
     margin-right: 7px;
     background: var(--adf-theme-foreground-text-color-025);
   }
+
+  .aca-search-ai-input-container-close {
+    display: flex;
+  }
 }
