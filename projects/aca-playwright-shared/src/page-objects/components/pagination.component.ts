@@ -26,6 +26,7 @@ import { BaseComponent } from './base.component';
 import { Locator, Page } from '@playwright/test';
 import { MatMenuComponent } from './dataTable/mat-menu.component';
 import { timeouts } from '../../utils';
+import { SpinnerComponent } from './spinner.component';
 
 export enum PaginationActionsType {
   PageSizeSelector = 'Page size selector',
@@ -40,6 +41,7 @@ export class PaginationComponent extends BaseComponent {
     super(page, PaginationComponent.rootElement);
   }
 
+  spinner = new SpinnerComponent(this.page);
   private range = this.getChild('.adf-pagination__range');
   private maxItems = this.getChild('.adf-pagination__max-items');
   private currentPage = this.getChild('.adf-pagination__current-page');
@@ -57,23 +59,23 @@ export class PaginationComponent extends BaseComponent {
   async setItemsPerPage(amount: number): Promise<void> {
     await this.getArrowLocatorFor(PaginationActionsType.PageSizeSelector).click();
     await this.itemsPerPageMenu.getButtonByText(amount.toString()).click();
-    await this.spinnerWaitForReload();
+    await this.spinner.spinnerWaitForReload();
   }
 
   async navigateToPage(pageNumber: number): Promise<void> {
     await this.getArrowLocatorFor(PaginationActionsType.CurrentPageSelector).click();
     await this.itemsPerPageMenu.getButtonByText(pageNumber.toString()).click();
-    await this.spinnerWaitForReload();
+    await this.spinner.spinnerWaitForReload();
   }
 
-  async spinnerWaitForReload(): Promise<void> {
-    try {
-      await this.page.locator('mat-progress-spinner').waitFor({ state: 'attached', timeout: 2000 });
-      await this.page.locator('mat-progress-spinner').waitFor({ state: 'detached', timeout: 2000 });
-    } catch (e) {
-      this.logger.info('Spinner was not present');
-    }
-  }
+  // async spinnerWaitForReload(): Promise<void> {
+  //   try {
+  //     await this.page.locator('mat-progress-spinner').waitFor({ state: 'attached', timeout: 2000 });
+  //     await this.page.locator('mat-progress-spinner').waitFor({ state: 'detached', timeout: 2000 });
+  //   } catch (e) {
+  //     this.logger.info('Spinner was not present');
+  //   }
+  // }
 
   async getRange(): Promise<string> {
     return this.range.innerText();

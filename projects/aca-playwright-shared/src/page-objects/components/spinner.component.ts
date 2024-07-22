@@ -32,7 +32,7 @@ export class SpinnerComponent extends BaseComponent {
     super(page, rootElement);
   }
 
-  async waitForReload(): Promise<void> {
+  async spinnerWaitForReload(): Promise<void> {
     try {
       await this.getChild('').waitFor({ state: 'attached', timeout: 2000 });
       await this.getChild('').waitFor({ state: 'detached', timeout: 2000 });
