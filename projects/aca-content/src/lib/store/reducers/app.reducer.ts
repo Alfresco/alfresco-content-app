@@ -38,7 +38,7 @@ import {
   SetInfoDrawerPreviewStateAction,
   AppActionTypes,
   ShowLoaderAction,
-  INITIAL_APP_STATE
+  INITIAL_APP_STATE,
   SetSearchItemsTotalCountAction
 } from '@alfresco/aca-shared/store';
 
