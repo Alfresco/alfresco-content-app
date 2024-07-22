@@ -68,7 +68,6 @@ export class AppExtensionService implements RuleContext {
   sidebarTabs: Array<SidebarTabRef> = [];
   contentMetadata: any;
   search: any;
-  bulkActionsDropdown: any;
   viewerRules: ViewerRules = {};
 
   private _headerActions = new BehaviorSubject<Array<ContentActionRef>>([]);
@@ -167,7 +166,6 @@ export class AppExtensionService implements RuleContext {
     this.navbar = this.loadNavBar(config);
     this.sidebarTabs = this.loader.getElements<SidebarTabRef>(config, 'features.sidebar.tabs');
     this.contentMetadata = this.loadContentMetadata(config);
-    this.bulkActionsDropdown = this.loadBulkActionsDropdown(config);
     this.search = this.loadSearchForms(config);
     this.search?.forEach((searchSet) => {
       searchSet.categories = searchSet.categories?.filter((category) => this.filterVisible(category));
@@ -295,22 +293,6 @@ export class AppExtensionService implements RuleContext {
 
   loadContentMetadata(config: ExtensionConfig): any {
     const elements = this.loader.getElements<any>(config, 'features.content-metadata-presets');
-    if (!elements.length) {
-      return null;
-    }
-
-    let presets = {};
-    presets = this.filterDisabled(mergeObjects(presets, ...elements));
-
-    const metadata = this.appConfig.config['content-metadata'] || {};
-    metadata.presets = presets;
-
-    this.appConfig.config['content-metadata'] = metadata;
-    return { presets };
-  }
-
-  loadBulkActionsDropdown(config: ExtensionConfig): any {
-    const elements = this.loader.getElements<any>(config, 'features.bulk-actions-dropdown');
     if (!elements.length) {
       return null;
     }
