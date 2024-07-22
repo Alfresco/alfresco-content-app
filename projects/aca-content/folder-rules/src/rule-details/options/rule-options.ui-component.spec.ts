@@ -43,7 +43,7 @@ describe('RuleOptionsUiComponent', () => {
     fixture.debugElement.query(By.css(`[data-automation-id="${dataAutomationId}"]`));
 
   const toggleMatCheckbox = (dataAutomationId: string) => {
-    ((getByDataAutomationId(dataAutomationId).nativeElement as HTMLElement).children[0] as HTMLElement).click();
+    (getByDataAutomationId(dataAutomationId).nativeElement as HTMLElement).querySelector('input').click();
   };
 
   const testErrorScriptFormFieldVisibility = (isVisible: boolean) => {
@@ -62,7 +62,7 @@ describe('RuleOptionsUiComponent', () => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [FormsModule, ReactiveFormsModule, CoreTestingModule, RuleOptionsUiComponent],
-      providers: [{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { floatLabel: 'never' } }]
+      providers: [{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { floatLabel: 'auto' } }]
     });
 
     fixture = TestBed.createComponent(RuleOptionsUiComponent);
@@ -153,7 +153,7 @@ describe('RuleOptionsUiComponent', () => {
     expect((await matOptions[2].getText()).trim()).toBe('Script 2');
   });
 
-  it('should always show a label for the error script dropdown even when MAT_FORM_FIELD_DEFAULT_OPTIONS sets floatLabel to never', () => {
+  it('should always show a label for the error script dropdown', () => {
     component.writeValue({
       isEnabled: true,
       isInheritable: false,

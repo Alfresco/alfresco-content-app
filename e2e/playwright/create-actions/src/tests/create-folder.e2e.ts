@@ -79,7 +79,7 @@ test.describe('Create folders', () => {
 
   test('[C216345] Create new folder dialog check', async () => {
     await expect(folderDialog.getLabelText('Name')).toBeVisible();
-    await expect(folderDialog.getLabelText('*')).toBeVisible();
+    await expect(folderDialog.getRequiredMarker('Name')).toBeVisible();
     await expect(folderDialog.folderNameInputLocator).toBeVisible();
     await expect(folderDialog.getLabelText('Title')).toBeVisible();
     await expect(folderDialog.folderTitleInput).toBeVisible();

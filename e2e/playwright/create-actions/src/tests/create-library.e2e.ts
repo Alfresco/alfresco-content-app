@@ -49,8 +49,8 @@ test.describe('Create Libraries ', () => {
   let randomLibraryId: string;
   let randomLibraryDescription: string;
   const libraryDialogTitle = 'Create Library';
-  const libraryNameLabel = 'Name *';
-  const libraryIdLabel = 'Library ID *';
+  const libraryNameLabel = 'Name';
+  const libraryIdLabel = 'Library ID';
   const libraryDescriptionLabel = 'Description';
   const publicVisibility = 'Public';
   const moderatedVisibility = 'Moderated';
@@ -96,7 +96,9 @@ test.describe('Create Libraries ', () => {
   test('[C280024] Create Library dialog UI', async () => {
     await expect(libraryDialog.getDialogTitle(libraryDialogTitle)).toBeVisible();
     await expect(libraryDialog.getLabelText(libraryNameLabel)).toBeVisible();
+    await expect(libraryDialog.getRequiredMarker(libraryNameLabel)).toBeVisible();
     await expect(libraryDialog.getLabelText(libraryIdLabel)).toBeVisible();
+    await expect(libraryDialog.getRequiredMarker(libraryIdLabel)).toBeVisible();
     await expect(libraryDialog.getLabelText(libraryDescriptionLabel)).toBeVisible();
     await expect(libraryDialog.getLabelText(publicVisibility)).toBeVisible();
     await expect(libraryDialog.getLabelText(publicVisibility)).toBeChecked();
@@ -157,10 +159,11 @@ test.describe('Create Libraries ', () => {
       await expect(libraryTable.getCellLinkByName(randomLibraryName).and(myLibrariesPage.page.getByTitle(randomLibraryDescription))).toBeVisible();
       await libraryTable.getRowByName(randomLibraryName).click();
       await libraryViewDetails.click();
-      await expect(libraryDetails.getNameField('Name').locator('input')).toHaveValue(randomLibraryName);
-      await expect(libraryDetails.getIdField('Library ID').locator('input')).toHaveValue(randomLibraryId);
-      await expect(libraryDetails.getVisibilityField('Visibility').getByText(publicVisibility)).toBeVisible();
-      await expect(libraryDetails.getDescriptionField).toHaveValue(randomLibraryDescription);
+      expect(await libraryDetails.getNameField('Name').inputValue()).toBe(randomLibraryName);
+      expect(await libraryDetails.getIdField('Library ID').inputValue()).toBe(randomLibraryId);
+      // eslint-disable-next-line @alfresco/eslint-angular/no-angular-material-selectors
+      await expect(libraryDetails.getVisibilityField('Visibility').locator('.mat-mdc-select-min-line').getByText(publicVisibility)).toBeVisible();
+      expect(await libraryDetails.getDescriptionField.inputValue()).toBe(randomLibraryDescription);
 
       createdLibrariesIds.push(randomLibraryId);
     });

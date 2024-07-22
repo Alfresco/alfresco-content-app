@@ -34,9 +34,9 @@ export class ContentNodeSelectorDialog extends BaseComponent {
 
   public cancelButton = this.getChild('[data-automation-id="content-node-selector-actions-cancel"]');
   public actionButton = this.getChild('[data-automation-id="content-node-selector-actions-choose"]');
-  public locationDropDown = this.getChild('[id="site-dropdown-container"]');
+  public locationDropDown = this.getChild('[id="site-dropdown-container"] mat-form-field');
   private selectedRow = this.getChild('.adf-is-selected');
-  getOptionLocator = (optionName: string): Locator => this.page.locator('.mat-select-panel .mat-option-text', { hasText: optionName });
+  getOptionLocator = (optionName: string): Locator => this.page.locator('.mat-mdc-select-panel .mdc-list-item__primary-text', { hasText: optionName });
   private getRowByName = (name: string | number): Locator => this.getChild(`adf-datatable-row`, { hasText: name.toString() });
   getDialogTitle = (text: string) => this.getChild('[data-automation-id="content-node-selector-title"]', { hasText: text });
   getBreadcrumb = (text: string) => this.getChild('[data-automation-id="current-folder"]', { hasText: text });

@@ -4,13 +4,26 @@
     flex-direction: row;
     gap: 20px;
 
-    adf-card-view .adf-property-list .adf-property adf-card-view-item-dispatcher adf-card-view-textitem {
-      display: inline-block;
-      width: 300px;
+    adf-card-view {
+      margin-top: -15px;
+
+      .adf-property-list {
+        background: var(--adf-card-view-background);
+      }
+
+      .adf-property-list .adf-property adf-card-view-item-dispatcher adf-card-view-textitem {
+        display: inline-block;
+        width: 300px;
+
+        .adf-textitem-clickable {
+          padding-top: 0;
+        }
+      }
     }
   }
 
   &-full-width {
+    height: fit-content;
     flex: 1;
   }
 }

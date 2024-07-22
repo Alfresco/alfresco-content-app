@@ -1,10 +1,10 @@
 <form class="aca-rule-details__form" [ngClass]="{ 'aca-read-only': readOnly }" [formGroup]="form">
 
   <ng-container *ngIf="!preview">
-    <div class="aca-rule-details__form__row aca-rule-details__form__name">
-      <label for="rule-details-name-input">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.NAME' | translate }}</label>
+    <div class="aca-rule-details__form__row">
+      <label class="aca-rule-details__name__label" for="rule-details-name-input">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.NAME' | translate }}</label>
       <div>
-        <mat-form-field floatLabel='never' class="aca-rule-details__form__row__field">
+        <mat-form-field appearance="fill" floatLabel='auto' class="aca-rule-details__form__row__field">
           <input
             id="rule-details-name-input"
             matInput type="text" formControlName="name" data-automation-id="rule-details-name-input"
@@ -17,7 +17,7 @@
     <div class="aca-rule-details__form__row aca-rule-details__form__description">
       <label for="rule-details-description-textarea">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.DESCRIPTION' | translate }}</label>
       <div>
-        <mat-form-field floatLabel='never' class="aca-rule-details__form__row__field">
+        <mat-form-field floatLabel='auto' appearance="fill" class="aca-rule-details__form__row__field">
         <textarea
           class="aca-rule-details__form__row__field__textarea"
           id="rule-details-description-textarea"
@@ -38,7 +38,7 @@
   </div>
 
   <div class="aca-rule-details__form__conditions">
-    <aca-rule-composite-condition formControlName="conditions"></aca-rule-composite-condition>
+    <aca-rule-composite-condition [readOnly]="readOnly" formControlName="conditions"></aca-rule-composite-condition>
     <mat-error class="aca-rule-details-error" *ngIf="conditions.hasError('ruleCompositeConditionInvalid')">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.ERROR.RULE_COMPOSITE_CONDITION_INVALID' | translate }}</mat-error>
   </div>
 
@@ -53,7 +53,7 @@
     </aca-rule-action-list>
   </div>
 
-  <div class="aca-rule-details__form__row" *ngIf="showOptionsSection">
+  <div class="aca-rule-details__form__row aca-rule-details__form__others" *ngIf="showOptionsSection">
     <div class="aca-label">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.OPTIONS' | translate }}</div>
     <aca-rule-options
       formControlName="options"

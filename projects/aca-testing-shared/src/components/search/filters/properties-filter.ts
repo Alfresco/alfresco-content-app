@@ -34,12 +34,12 @@ export enum SizeOperator {
 export class PropertiesFilter extends GenericFilter {
   private readonly locators = {
     fileSizeOperatorSelect: '[data-automation-id=adf-search-properties-file-size-operator-select]',
-    fileSizeOperatorOption: '.mat-option-text',
-    selectedFileSizeOperatorOption: '.mat-select-min-line',
+    fileSizeOperatorOption: '.mdc-list-item__primary-text',
+    selectedFileSizeOperatorOption: '.mat-mdc-select-min-line',
     fileSizeInput: '[data-automation-id=adf-search-properties-file-size-input]',
     fileTypeInput: '[data-automation-id=adf-search-chip-autocomplete-input]',
-    fileTypeOption: '.mat-option-text',
-    selectedFileTypeOption: 'adf-search-chip-autocomplete-input .mat-chip span'
+    fileTypeOption: '.mdc-list-item__primary-text',
+    selectedFileTypeOption: 'adf-search-chip-autocomplete-input .mat-mdc-chip span'
   };
 
   constructor() {

@@ -30,7 +30,7 @@ export type SortByType = 'Relevance' | 'Title' | 'Filename' | 'Modified date' | 
 export class SearchSortingPicker extends Component {
   actionMenu = browser.element(by.css('aca-search-action-menu > button'));
   sortOrderButton = browser.element(by.css('#aca-button-sorting-menu'));
-  sortByDropdownExpanded = browser.element.all(by.css('.mat-menu-panel')).get(1);
+  sortByDropdownExpanded = browser.element.all(by.css('.mat-mdc-menu-panel')).get(1);
   sortByList = this.sortByDropdownExpanded.all(by.css('button'));
 
   constructor(ancestor?: string) {
@@ -64,7 +64,7 @@ export class SearchSortingPicker extends Component {
     if (!(await this.isSortByDropdownExpanded())) {
       await this.clickSortByDropdown();
     }
-    const elem = browser.element(by.cssContainingText('.mat-menu-item', option));
+    const elem = browser.element(by.cssContainingText('.mat-mdc-menu-item', option));
     const optionId = await elem.getAttribute('id');
     await click(elem);
     const directionSortElement = browser.element(by.id(`${optionId}-${direction.toLocaleLowerCase()}`));

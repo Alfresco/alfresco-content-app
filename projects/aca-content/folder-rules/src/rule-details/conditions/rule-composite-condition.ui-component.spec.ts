@@ -76,7 +76,7 @@ describe('RuleCompositeConditionUiComponent', () => {
 
   describe('Read only mode', () => {
     it('should hide the add buttons in read only mode', () => {
-      fixture.componentInstance.setDisabledState(true);
+      fixture.componentInstance.readOnly = true;
       fixture.detectChanges();
       const actionsElement = fixture.debugElement.query(By.css(`[data-automation-id="add-actions"]`));
 
@@ -85,7 +85,7 @@ describe('RuleCompositeConditionUiComponent', () => {
 
     it('should hide the more actions button on the right side of the condition', () => {
       fixture.componentInstance.writeValue(compositeConditionWithOneGroupMock);
-      fixture.componentInstance.setDisabledState(true);
+      fixture.componentInstance.readOnly = true;
       fixture.detectChanges();
       const actionsButtonElements = fixture.debugElement.queryAll(By.css(`[data-automation-id="condition-actions-button"]`));
 

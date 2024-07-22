@@ -63,15 +63,15 @@ test.describe('Search - Filters - Date', () => {
     await searchPage.searchFilters.dateFilter.click();
     await searchPage.searchFiltersDate.betweenButton.click();
     await expect(searchPage.searchFiltersDate.betweenRadioButton).toBeChecked();
-    await expect(searchPage.searchFiltersDate.modifiedTabTitle).toHaveCSS('color', 'rgba(0, 0, 0, 0.54)');
+    expect(await searchPage.searchFiltersDate.isModifiedTabSelected()).toBe('false');
     await searchPage.searchFiltersDate.openCreatedModifiedTab(searchPage, 'Modified');
 
     await expect(searchPage.searchFiltersDate.anytimeRadioButton).toBeChecked();
-    await expect(searchPage.searchFiltersDate.modifiedTabTitle).toHaveCSS('color', 'rgb(33, 33, 33)');
+    expect(await searchPage.searchFiltersDate.isModifiedTabSelected()).toBe('true');
     await searchPage.searchFiltersDate.openCreatedModifiedTab(searchPage, 'Created');
 
     await expect(searchPage.searchFiltersDate.betweenRadioButton).toBeChecked();
-    await expect(searchPage.searchFiltersDate.createdTabTitle).toHaveCSS('color', 'rgb(33, 33, 33)');
+    expect(await searchPage.searchFiltersDate.isSearchTabSelected()).toBe('true');
   });
 
   test('[C699048-2] Filter by date - Created anytime', async ({ searchPage }) => {

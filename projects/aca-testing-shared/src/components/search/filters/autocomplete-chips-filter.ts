@@ -27,8 +27,8 @@ import { GenericFilter } from './generic-filter';
 
 export class AutocompleteChipsFilter extends GenericFilter {
   private readonly locators = {
-    selectedOption: '.mat-chip span',
-    input: '.mat-menu-content input',
+    selectedOption: '.mat-mdc-chip span',
+    input: '.mat-mdc-menu-content input',
   };
 
   constructor(filterName: string) {

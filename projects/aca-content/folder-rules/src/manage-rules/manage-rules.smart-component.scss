@@ -1,4 +1,14 @@
+@import '@alfresco/adf-core/lib/styles/mat-selectors';
+
 .aca-manage-rules {
+  #{$mat-slide-toggle}:is(mat-slide-toggle) #{$mat-switch}:enabled #{$mat-switch-track}::after {
+    background: var(--mdc-switch-selected-track-color);
+  }
+
+  #{$mat-slide-toggle} #{$mat-switch} #{$mat-switch-handle}::before {
+    background: var(--mdc-switch-selected-pressed-handle-color);
+  }
+
   &__actions-bar {
     padding: 0 30px;
     display: flex;
@@ -75,7 +85,7 @@
           }
         }
 
-        &__buttons {
+        .aca-manage-rules__container__rule-details__header__buttons {
           display: flex;
           flex-direction: row;
           align-items: stretch;
@@ -86,7 +96,16 @@
 
             &#delete-rule-btn {
               padding: 0 8px;
+              margin: 0;
               min-width: unset;
+
+              mat-icon {
+                margin: 0;
+                padding: 0;
+                width: 24px;
+                height: 24px;
+                font-size: 24px;
+              }
             }
           }
         }

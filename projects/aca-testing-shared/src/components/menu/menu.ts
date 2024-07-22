@@ -27,28 +27,28 @@ import { Component } from '../component';
 import { click, waitForPresence, waitForStaleness, waitUntilElementIsVisible } from '../../utilities';
 
 export class Menu extends Component {
-  items = this.allByCss('.mat-menu-item');
+  items = this.allByCss('.mat-mdc-menu-item');
   uploadFilesInput = this.byId('app-upload-files', browser);
-  cancelEditingAction = this.byCss(`.mat-menu-item[title='Cancel Editing']`);
+  cancelEditingAction = this.byCss(`.mat-mdc-menu-item[title='Cancel Editing']`);
   copyAction = this.byTitleAttr('Copy');
-  editFolderAction = this.byCss(`.mat-menu-item[id$='editFolder']`);
-  editOfflineAction = this.byCss(`.mat-menu-item[title='Edit Offline']`);
+  editFolderAction = this.byCss(`.mat-mdc-menu-item[id$='editFolder']`);
+  editOfflineAction = this.byCss(`.mat-mdc-menu-item[title='Edit Offline']`);
 
   constructor(ancestor?: string) {
-    super('.mat-menu-panel', ancestor);
+    super('.mat-mdc-menu-panel', ancestor);
   }
 
   async waitForMenuToOpen(): Promise<void> {
-    await waitForPresence(browser.element(by.css('.cdk-overlay-container .mat-menu-panel')));
+    await waitForPresence(browser.element(by.css('.cdk-overlay-container .mat-mdc-menu-panel')));
     await waitUntilElementIsVisible(this.items.get(0));
   }
 
   async waitForMenuToClose(): Promise<void> {
-    await waitForStaleness(browser.element(by.css('.cdk-overlay-container .mat-menu-panel')));
+    await waitForStaleness(browser.element(by.css('.cdk-overlay-container .mat-mdc-menu-panel')));
   }
 
   private getItemByLabel(menuItem: string): ElementFinder {
-    return this.byCssText('.mat-menu-item', menuItem);
+    return this.byCssText('.mat-mdc-menu-item', menuItem);
   }
 
   async getItemIconText(menuItem: string): Promise<string> {

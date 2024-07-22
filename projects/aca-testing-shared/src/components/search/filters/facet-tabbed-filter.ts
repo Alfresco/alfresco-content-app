@@ -32,8 +32,8 @@ export class FacetTabbedFilter extends GenericFilter {
     chipList: '.mat-tab-body-active .adf-chip-list',
     chipListInput: '.mat-tab-body-active .adf-chip-list input',
     currentTabLabel: '.mat-tab-label-active .mat-tab-label-content',
-    chip: '.mat-chip span',
-    option: '.mat-option-text'
+    chip: '.mat-mdc-chip span',
+    option: '.mdc-list-item__primary-text'
   };
 
   chips: ElementArrayFinder = this.filterDialogOpened.all(by.css(this.locators.chip));

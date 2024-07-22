@@ -30,10 +30,26 @@ aca-search-results {
       border-bottom: 1px solid var(--theme-border-color);
 
       .aca-content__advanced-filters {
+        /* stylelint-disable-next-line */
+        .mat-mdc-chip-action {
+          padding-left: 12px;
+          padding-right: 12px;
+        }
+
+        /* stylelint-disable-next-line */
+        .mdc-evolution-chip__text-label {
+          padding-top: 4px;
+          color: var(--theme-selected-text-color);
+        }
+
         .adf-search-filter-chip,
         .adf-search-filter-chip-tabbed {
           background-color: var(--theme-dropdown-color);
           color: var(--theme-selected-text-color);
+          height: 32px;
+          margin-top: 4px;
+          margin-bottom: 4px;
+          box-sizing: border-box;
 
           &:hover,
           &:focus {
@@ -45,10 +61,10 @@ aca-search-results {
             color: var(--theme-search-chip-icon-color);
           }
 
-        .adf-search-filter-chip-icon {
-          color: var(--theme-search-chip-icon-color);
+          .adf-search-filter-chip-icon {
+            color: var(--theme-search-chip-icon-color);
+          }
         }
-      }
 
         .adf-search-filter-placeholder {
           color: var(--theme-selected-text-color);
@@ -132,6 +148,8 @@ aca-search-results {
       }
 
       &__reset-action {
+        margin-top: 5px;
+        margin-right: 2px;
         line-height: 33px;
         font-weight: lighter;
       }

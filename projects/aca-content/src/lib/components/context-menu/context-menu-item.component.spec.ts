@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { ContextMenuItemComponent } from './context-menu-item.component';
 import { AppExtensionService } from '@alfresco/aca-shared';
@@ -62,7 +62,7 @@ describe('ContextMenuComponent', () => {
     fixture.detectChanges();
 
     const buttonElement = fixture.nativeElement.querySelector('button');
-    expect(buttonElement.querySelector('span').innerText.trim()).toBe(contextItem.title);
+    expect(buttonElement.querySelector('[data-automation-id="action-button-label"]').innerText.trim()).toBe(contextItem.title);
   });
 
   it('should not run action when entry has no click attribute defined', () => {

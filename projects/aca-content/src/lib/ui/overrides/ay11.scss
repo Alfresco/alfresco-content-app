@@ -1,52 +1,76 @@
+@import '../colors';
+
 /* stylelint-disable selector-class-pattern */
 @mixin ay11-theme() {
-  .mat-icon-button,
-  .mat-button,
-  .mat-checkbox,
-  .mat-raised-button {
+  .mat-mdc-icon-button,
+  .mat-mdc-button,
+  .mat-mdc-checkbox,
+  .mat-mdc-raised-button {
     &:focus-visible {
       @include rounded-outline;
     }
 
-    .mat-ripple-element {
+    .mat-ripple,
+    .mdc-icon-button__ripple {
       display: none;
     }
 
+    // TODO check if still applies
     &.cdk-keyboard-focused {
       .mat-button-focus-overlay {
         display: none;
       }
+    }
 
-      .mat-checkbox-ripple {
+    .mdc-checkbox__native-control:focus-visible {
+      & ~ .mat-mdc-checkbox-ripple {
         @include rounded-outline;
 
         height: 22px;
         width: 22px;
         left: calc(50% - 11px);
-        top: calc(50% - 11px);
+        top: calc(50% - 10px);
+        display: block;
+      }
+
+      & ~ .mdc-checkbox__background {
+        opacity: 0.57;
       }
     }
+  }
+
+  .mdc-checkbox__ripple {
+    display: none;
+  }
+
+  .mat-mdc-form-field-focus-overlay {
+    background-color: transparent;
+  }
+
+  .mdc-menu-surface.mat-mdc-autocomplete-panel:is(div),
+  .mdc-menu-surface.mat-mdc-select-panel:is(div) {
+    padding: 0;
   }
 
   .adf-content-node-selector-content-list .adf-datatable-list .adf-datatable-selected.mat-icon > svg {
     fill: var(--theme-blue-button-color);
   }
 
-  .mat-list-base .mat-list-option {
-    .mat-list-item-content {
+  .mat-mdc-list-base .mat-mdc-list-option {
+    .mdc-list-item__content {
       @include rounded-border(transparent);
     }
 
     &:focus-visible {
       background-color: white;
 
-      .mat-list-item-content {
+      .mdc-list-item__content {
         @include rounded-border;
       }
     }
   }
 
-  .adf-search-user-button.mat-button,
+  .adf-search-user-button.mat-mdc-button,
   .app-search-button {
     line-height: 36px;
 
@@ -59,9 +83,9 @@
     }
   }
 
-  .mat-menu-content {
-    .mat-menu-item {
-      .mat-menu-ripple {
+  .mat-mdc-menu-content {
+    .mat-mdc-menu-item {
+      .mat-ripple {
         display: none;
       }
 
@@ -83,56 +107,59 @@
     padding: 2px;
   }
 
-  .mat-option {
+  .mat-mdc-option {
     &.cdk-keyboard-focused {
-      .mat-option-ripple {
+      .mat-mdc-option-ripple {
         @include rounded-outline;
       }
     }
   }
 
-  .mat-slide-toggle {
-    .mat-slide-toggle-thumb {
+  .mat-mdc-slide-toggle .mdc-form-field {
+    .mdc-switch .mdc-switch__handle {
       width: 15px;
       height: 15px;
       transform: translate(20%, 50%);
       background-color: #484a4d;
     }
 
-    .mat-slide-toggle-bar {
+    .mdc-switch .mdc-switch__track {
       border-radius: 15px;
       height: 20px;
     }
 
-    .mat-slide-toggle-thumb-container {
-      top: -5px;
+    .mdc-switch__handle-track {
+      top: -15px;
     }
 
-    .mat-slide-toggle-ripple {
+    .mdc-switch__ripple {
       display: none;
-    }
-
-    &.cdk-keyboard-focused {
-      .mat-slide-toggle-bar {
-        outline: 2px solid var(--theme-blue-button-color);
-      }
-    }
-
-    &.mat-primary.mat-checked:not(.mat-disabled) {
-      .mat-slide-toggle-bar {
-        background-color: var(--theme-blue-button-color);
-      }
-
-      .mat-slide-toggle-thumb {
-        background-color: white;
-      }
     }
   }
 
-  .mat-stroked-button,
-  .mat-flat-button {
+  .mat-mdc-slide-toggle.mat-primary.mat-mdc-slide-toggle-checked:not(.mat-disabled) .mdc-form-field .mdc-switch {
+    .mdc-switch__track::after {
+      background-color: var(--theme-blue-button-color);
+    }
+
+    .mdc-switch__shadow {
+      background-color: var(--theme-primary-color-default-contrast);
+    }
+  }
+
+  .mat-mdc-tab:focus {
+    /* stylelint-disable-next-line scss/no-global-function-names */
+    background: map-get($aca-primary-blue, 50);
+  }
+
+  .mat-mdc-slide-toggle.cdk-keyboard-focused .mdc-form-field .mdc-switch .mdc-switch__track {
+    outline: 2px solid var(--theme-blue-button-color);
+  }
+
+  .mat-mdc-outlined-button,
+  .mat-mdc-unelevated-button {
     &.cdk-keyboard-focused {
-      .mat-button-ripple.mat-ripple {
+      .mat-mdc-button-ripple.mat-ripple {
         outline: 2px solid var(--theme-blue-button-color);
         inset: -4px;
       }
@@ -160,7 +187,7 @@
     box-sizing: border-box;
     border: 2px solid transparent;
 
-    .mat-button-base.mat-button {
+    .mat-mdc-button-base.mat-mdc-button {
       outline: none;
 
       @include rounded-border(transparent);
@@ -182,22 +209,13 @@
   .adf-error-snackbar {
     background-color: #ba1b1b;
 
-    .mat-simple-snackbar,
-    .mat-simple-snackbar-action {
+    .mat-mdc-simple-snack-bar,
+    .mat-mdc-snack-bar-action {
       color: white;
     }
   }
 
-  .adf-info-snackbar {
-    background-color: var(--theme-blue-button-color);
-
-    .mat-simple-snackbar,
-    .mat-simple-snackbar-action {
-      color: white;
-    }
-  }
-
-  .mat-button-base {
+  .mat-mdc-button-base {
     &.adf-filter-button {
       margin-left: -2px;
     }
@@ -207,7 +225,7 @@
     &__perpage-block,
     &__actualinfo-block {
       /* stylelint-disable-next-line no-descending-specificity */
-      .mat-icon-button {
+      .mat-mdc-icon-button {
         left: 3px;
 
         &:focus-visible {

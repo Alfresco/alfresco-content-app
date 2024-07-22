@@ -1,33 +1,178 @@
-/* stylelint-disable selector-class-pattern */
 @use '@angular/material' as mat;
 @import '@alfresco/adf-core/theming';
+@import '@alfresco/adf-core/lib/styles/mat-selectors';
 @import 'custom-theme';
 @import 'variables/variables';
 @include custom-theme($custom-theme);
+@include mat.core;
 
 mat-toolbar {
-  color: var(--theme-text-color, rgba(0, 0, 0, 0.54));
+  color: var(--adf-theme-foreground-text-color-054);
+}
+
+mat-icon {
+  vertical-align: middle;
 }
 
 .adf-name-location-cell-location.adf-datatable-cell-value {
   color: var(--theme-secondary-text);
 }
 
-.mat-tab-list {
-  .mat-tab-labels {
-    .mat-tab-label {
-      &.mat-tab-label-active {
-        color: #212121;
+#{$mat-text-field-filled}:not(#{$mat-text-field-disabled}) {
+  background-color: transparent;
+  padding: 0;
+}
+
+#{$mat-button} > #{$mat-icon} {
+  padding: 0;
+}
+
+#{$mat-button} {
+  #{$mat-button-label} {
+    -webkit-font-smoothing: subpixel-antialiased;
+  }
+
+  &#{$mat-primary} {
+    #{$mat-button-label} {
+      -webkit-font-smoothing: initial;
+      font-weight: 500;
+    }
+  }
+}
+
+#{$mat-button}:active {
+  outline: none;
+}
+
+#{$mat-form-field-error-wrapper}:is(div) {
+  padding: 0;
+  font-size: 10px;
+
+  #{$mat-form-field-error} {
+    position: relative;
+    top: -3px;
+  }
+}
+
+#{$mat-checkbox} {
+  #{$mat-checkbox-box}:has(div) {
+    padding-right: 2px;
+  }
+
+  #{$mdc-form-field} {
+    height: auto;
+
+    #{$mat-checkbox-box} {
+      padding: 0;
+      margin-right: 2px;
+
+      input {
+        height: 24px;
+        width: 24px;
+        position: relative;
+      }
+
+      #{$mat-checkbox-background} {
+        top: 1px;
+        left: 0;
+        height: 16px;
+        width: 16px;
+      }
+    }
+  }
+
+  #{$mat-checkbox-touch-target} {
+    height: 24px;
+    width: 24px;
+  }
+}
+
+#{$mat-switch}:is(button)#{$mat-switch-selected}#{$mat-switch-checked} #{$mat-switch-handle-track} #{$mat-switch-handle}::after {
+  background-color: transparent;
+}
+
+#{$mat-slide-toggle}:is(mat-slide-toggle) #{$mat-switch}:enabled #{$mat-switch-track}::after {
+  background-color: var(--theme-blue-button-color);
+}
+
+mat-slide-toggle {
+  #{$mat-switch-icons} {
+    display: none;
+  }
+
+  #{$mat-switch-unselected}#{$mat-switch}:enabled #{$mat-switch-track}::before,
+  #{$mat-switch-unselected}#{$mat-switch}:enabled:active #{$mat-switch-track}::before,
+  #{$mat-switch-unselected}#{$mat-switch}:enabled:focus:not(:active) #{$mat-switch-track}::before,
+  #{$mat-switch-unselected}#{$mat-switch}:enabled:hover:not(:focus:active) #{$mat-switch-track}::before {
+    background: var(--adf-theme-foreground-disabled-text-color);
+  }
+}
+
+#{$mat-list-item-primary-text} {
+  color: var(--adf-theme-foreground-text-color-087);
+}
+
+#{$mat-chip}#{$mat-evolution-chip}#{$mat-standard-chip} {
+  height: auto;
+
+  #{$mat-evolution-chip-text-label} {
+    white-space: normal;
+  }
+
+  #{$mat-evolution-chip-action}#{$mat-chip-action} {
+    #{$mat-evolution-chip-graphic}#{$mat-chip-graphic} {
+      padding: 0;
+    }
+  }
+}
+
+#{$mdc-dialog} {
+  #{$mat-dialog-title} {
+    margin-bottom: 20px;
+    padding: 0;
+
+    &::before {
+      height: unset;
+    }
+  }
+
+  #{$mat-dialog-actions} {
+    padding: 8px 0;
+  }
+
+  #{$mat-slide-toggle} #{$mdc-form-field} {
+    width: 36px;
+  }
+
+  #{$mat-data-table-row}:last-child #{$mat-data-table-cell} {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  }
+
+  #{$mat-dialog-content} {
+    padding: 16px 0;
+    color: var(--adf-theme-foreground-text-color-087);
+
+    --mdc-dialog-supporting-text-color: var(--theme-primary-text);
+  }
+
+  #{$mat-dialog-surface} {
+    padding: 24px 24px 8px;
+
+    #{$mat-button} {
+      width: auto;
+
+      #{$mat-button-label} {
+        padding: 0 16px;
       }
     }
   }
 }
 
-.mat-form-field-label-wrapper .mat-form-field-label,
-.mat-tab-list .mat-tab-labels .mat-tab-label,
-.mat-checkbox-label,
-mat-toolbar.mat-toolbar.mat-toolbar-multiple-row,
-mat-toolbar.mat-toolbar.mat-toolbar-single-row {
+#{$mat-floating-label},
+#{$mat-tab-list} #{$mat-tab-labels} #{$mat-tab-label},
+#{$mat-checkbox} label,
+mat-toolbar#{$mat-toolbar}#{$mat-toolbar-multiple-row},
+mat-toolbar#{$mat-toolbar}#{$mat-toolbar-single-row} {
   color: var(--theme-secondary-text);
   opacity: 1;
 }
@@ -50,7 +195,7 @@ mat-toolbar.mat-toolbar.mat-toolbar-single-row {
 }
 
 .adf-property-field {
-  .adf-textitem-edit-icon.mat-icon {
+  .adf-textitem-edit-icon#{$mat-icon} {
     color: var(--theme-secondary-text);
   }
 }
@@ -61,4 +206,123 @@ mat-toolbar.mat-toolbar.mat-toolbar-single-row {
 
 .adf-empty-content__icon {
   color: var(--theme-secondary-text);
+}
+
+.aca-details-tabs {
+  #{$mat-tab-label-text} {
+    line-height: 19px;
+  }
+}
+
+mat-snack-bar-container {
+  #{$mat-button}#{$mat-unthemed} {
+    --mdc-text-button-label-text-color: #fff;
+  }
+}
+
+.adf-warning-snackbar,
+.adf-info-snackbar,
+.adf-error-snackbar {
+  --mat-mdc-snack-bar-button-color: #fff;
+  --mdc-snackbar-supporting-text-color: #fff;
+  --mdc-text-button-label-text-color: #fff;
+}
+
+.adf-warning-snackbar {
+  --mdc-snackbar-container-color: var(--theme-accent-color);
+}
+
+.adf-info-snackbar {
+  --mdc-snackbar-container-color: var(--theme-info-snackbar-background);
+}
+
+.adf-error-snackbar {
+  --mdc-snackbar-container-color: var(--theme-warn-color);
+}
+
+#{$mat-calendar} {
+  #{$mat-calendar-period-button}:is(button) {
+    width: unset;
+    height: unset;
+    padding: 0 16px;
+    margin: 0;
+  }
+}
+
+#{$mat-radio-button} #{$mat-radio}:is(div) {
+  padding: 0 5px 0 0;
+}
+
+#{$mdc-form-field} > label:is(label) {
+  padding-left: 3px;
+}
+
+#{$mat-tab-ripple} {
+  display: none;
+}
+
+#{$mat-form-field-infix} {
+  min-height: unset;
+}
+
+#{$mat-tab-labels} {
+  border-bottom: 1px solid var(--adf-theme-foreground-text-color-014);
+}
+
+#{$mat-tab-list} {
+  #{$mat-tab-labels} {
+    #{$mat-tab-label-active} {
+      color: var($selected-text-color);
+    }
+  }
+}
+
+#{$mat-tab-label}:not(#{$mat-tab-disabled})#{$mat-tab-label-active} #{$mat-tab-label-text} {
+  color: var(--theme-sidenav-active-text-color);
+}
+
+adf-dynamic-component {
+  mat-icon#{$mat-icon}#{$mat-submenu-icon} {
+    color: var(--theme-text-color);
+  }
+}
+
+#{$mat-menu-item} #{$mat-icon-no-color},
+#{$mat-mdc-submenu-icon} {
+  color: var(--theme-text-color);
+}
+
+#{$mat-notched-outline-trailing},
+#{$mat-notched-outline-notch},
+#{$mat-notched-outline-leading} {
+  border-color: var(--adf-theme-foreground-text-color-014);
+}
+
+#{$mat-menu-surface}#{$mat-autocomplete-panel}:is(div) {
+  padding: 0;
+
+  span {
+    font-size: 16px;
+  }
+}
+
+#{$mat-list-item}#{$mat-list-item-disabled} {
+  #{$mat-list-item-primary-text}:is(div) {
+    color: unset;
+  }
+}
+
+#{$mat-tab-group}#{$mat-tab-group-stretch} > #{$mat-tab-header} {
+  #{$mat-tab-label}:is(div) {
+    flex-grow: unset;
+    min-width: 160px;
+  }
+}
+
+.adf-datatable-row {
+  .adf-datatable-checkbox {
+    #{$mat-checkbox} label {
+      display: none;
+    }
+  }
 }

@@ -1,6 +1,26 @@
+/* stylelint-disable selector-class-pattern */
 .aca-rule-action-list {
+  .aca-rule-action-list__item .aca-rule-action .mat-mdc-form-field-flex .mat-mdc-form-field-infix {
+    padding-top: 24px;
+  }
+
+  .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+  }
+
+  .aca-rule-action-list-add-action-button {
+    margin: 4px 0 20px;
+
+    .aca-rule-action-list-add-action-button-icon {
+      width: 24px;
+      height: 24px;
+      font-size: 24px;
+      margin-right: 0;
+      margin-left: 1px;
+    }
+  }
+
   &__item {
-    padding: 4px 8px;
     border-radius: 8px;
     display: flex;
 
@@ -10,6 +30,10 @@
 
     &:nth-child(2n) {
       background-color: hsl(0deg, 0%, 95%);
+
+      &:last-of-type {
+        margin-bottom: 8px;
+      }
     }
   }
 }

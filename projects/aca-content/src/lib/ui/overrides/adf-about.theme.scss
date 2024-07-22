@@ -1,17 +1,24 @@
-/* stylelint-disable selector-class-pattern */
+@import '@alfresco/adf-core/lib/styles/mat-selectors';
+
 @mixin adf-about-theme($theme) {
   adf-about {
     /* custom ADF About Component Theme */
 
+    #{$mat-data-table-header-cell} {
+      color: var(--adf-theme-foreground-text-color-054);
+      font-size: 12px;
+      font-weight: 500;
+    }
+
     background-color: var(--theme-about-panel-background-color);
     overflow: auto;
 
-    .mat-accordion {
+    #{$mat-accordion} {
       box-shadow: none;
       border: none;
 
       &.adf-about-panel {
-        .mat-expansion-panel {
+        #{$mat-expansion-panel} {
           box-shadow: none;
           border-radius: 12px;
           margin: 24px;
@@ -21,7 +28,7 @@
       }
     }
 
-    .mat-expansion-panel-header {
+    #{$mat-expansion-panel-header} {
       height: 80px;
       line-height: 32px;
     }

@@ -7,7 +7,7 @@
     class="aca-rule-composite-condition__form__row"
     *ngFor="let control of conditionFormControls; let i = index">
 
-    <mat-form-field *ngIf="i === 0">
+    <mat-form-field *ngIf="i === 0" subscriptSizing="dynamic">
       <mat-select
         [formControl]="invertedControl"
         [disabled]="readOnly">
@@ -16,9 +16,8 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field *ngIf="i > 0">
+    <mat-form-field *ngIf="i > 0" subscriptSizing="dynamic">
       <mat-select
-        [disabled]="!isOrImplemented || i > 1 || readOnly"
         [formControl]="booleanModeControl">
         <mat-option value="and">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LOGIC_OPERATORS.AND' | translate }}</mat-option>
         <mat-option value="or">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LOGIC_OPERATORS.OR' | translate }}</mat-option>
@@ -56,12 +55,12 @@
   </div>
 
   <div class="aca-rule-composite-condition__form__actions" *ngIf="!readOnly" data-automation-id="add-actions">
-    <button mat-button (click)="addSimpleCondition()" data-automation-id="add-condition-button">
-      <mat-icon>add</mat-icon>
+    <button mat-flat-button (click)="addSimpleCondition()" data-automation-id="add-condition-button">
+      <mat-icon class="aca-rule-composite-condition__form__actions-add">add</mat-icon>
       <span>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.CONDITION_BUTTONS.ADD_CONDITION' | translate }}</span>
     </button>
-    <button mat-button (click)="addCompositeCondition()" data-automation-id="add-group-button">
-      <mat-icon>add</mat-icon>
+    <button mat-flat-button (click)="addCompositeCondition()" data-automation-id="add-group-button">
+      <mat-icon class="aca-rule-composite-condition__form__actions-add">add</mat-icon>
       <span>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.CONDITION_BUTTONS.ADD_GROUP' | translate }}</span>
     </button>
   </div>

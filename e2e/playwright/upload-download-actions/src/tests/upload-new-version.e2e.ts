@@ -124,7 +124,7 @@ test.describe('Upload new version', () => {
 
     test('[C307006] file is not updated when clicking Cancel', async ({ searchPage }) => {
       await searchPage.searchWithin(fileSearch3, 'files');
-      await uploadNewVersion(searchPage, fileSearch3, fileSearch3);
+      await uploadNewVersion(searchPage, fileSearch3, TEST_FILES.DOCX2.path);
 
       await searchPage.uploadNewVersionDialog.description.fill('new version description');
       await searchPage.uploadNewVersionDialog.cancelButton.click();

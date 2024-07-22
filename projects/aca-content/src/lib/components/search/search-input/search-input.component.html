@@ -7,18 +7,18 @@
   <button mat-icon-button class="app-search-button" (click)="searchByOption()" [title]="'SEARCH.BUTTON.TOOLTIP' | translate">
     <mat-icon [attr.aria-label]="'SEARCH.BUTTON.ARIA-LABEL' | translate">search</mat-icon>
   </button>
-  <mat-form-field class="app-input-form-field" [floatLabel]="'never'">
+  <mat-form-field class="app-input-form-field app-input-form-field-readonly" [floatLabel]="'auto'">
     <input
       matInput
       [attr.aria-label]="'SEARCH.INPUT.ARIA-LABEL' | translate"
       class="app-input-form-field-input"
       [type]="'text'"
-      [disabled]="true"
+      [readonly]="true"
       [value]="searchedWord"
       [placeholder]="'SEARCH.INPUT.PLACEHOLDER' | translate"
     />
 
-    <div matSuffix class="app-suffix-search-icon-wrapper">
+    <div matSuffix class="app-suffix-search-icon-wrapper app-icon-arrow">
       <mat-icon>arrow_drop_down</mat-icon>
     </div>
 

@@ -38,9 +38,9 @@ export class SearchInput extends Component {
   searchResult = TestElement.byCss('.search-file-name');
 
   searchOptionsArea = browser.element(by.id('search-options'));
-  searchFilesOption = this.searchOptionsArea.element(by.cssContainingText('.mat-checkbox', 'Files'));
-  searchFoldersOption = this.searchOptionsArea.element(by.cssContainingText('.mat-checkbox', 'Folders'));
-  searchLibrariesOption = this.searchOptionsArea.element(by.cssContainingText('.mat-checkbox', 'Libraries'));
+  searchFilesOption = this.searchOptionsArea.element(by.cssContainingText('.mat-mdc-checkbox', 'Files'));
+  searchFoldersOption = this.searchOptionsArea.element(by.cssContainingText('.mat-mdc-checkbox', 'Folders'));
+  searchLibrariesOption = this.searchOptionsArea.element(by.cssContainingText('.mat-mdc-checkbox', 'Libraries'));
   constructor(ancestor?: string) {
     super('aca-search-input', ancestor);
   }
@@ -81,32 +81,32 @@ export class SearchInput extends Component {
 
   async isFilesOptionEnabled() {
     const optClass = await this.searchFilesOption.getAttribute('class');
-    return !optClass.includes('mat-checkbox-disabled');
+    return !optClass.includes('.mat-mdc-checkbox-disabled');
   }
 
   async isFoldersOptionEnabled() {
     const optClass = await this.searchFoldersOption.getAttribute('class');
-    return !optClass.includes('mat-checkbox-disabled');
+    return !optClass.includes('.mat-mdc-checkbox-disabled');
   }
 
   async isLibrariesOptionEnabled() {
     const optClass = await this.searchLibrariesOption.getAttribute('class');
-    return !optClass.includes('mat-checkbox-disabled');
+    return !optClass.includes('.mat-mdc-checkbox-disabled');
   }
 
   async isFilesOptionChecked() {
     const optClass = await this.searchFilesOption.getAttribute('class');
-    return optClass.includes('mat-checkbox-checked');
+    return optClass.includes('.mat-mdc-checkbox-checked');
   }
 
   async isFoldersOptionChecked() {
     const optClass = await this.searchFoldersOption.getAttribute('class');
-    return optClass.includes('mat-checkbox-checked');
+    return optClass.includes('.mat-mdc-checkbox-checked');
   }
 
   async isLibrariesOptionChecked() {
     const optClass = await this.searchLibrariesOption.getAttribute('class');
-    return optClass.includes('mat-checkbox-checked');
+    return optClass.includes('.mat-mdc-checkbox-checked');
   }
 
   async clearOptions() {

@@ -26,7 +26,7 @@ import { Page, expect } from '@playwright/test';
 import { BaseComponent } from '../base.component';
 
 export class MatMenuComponent extends BaseComponent {
-  private static rootElement = '.mat-menu-content';
+  private static rootElement = '.mat-mdc-menu-content';
 
   constructor(page: Page) {
     super(page, MatMenuComponent.rootElement);
@@ -39,8 +39,8 @@ export class MatMenuComponent extends BaseComponent {
   public createFileFromTemplate = this.getChild('[id="app.create.fileFromTemplate"]');
   public createLibrary = this.getChild('[id="app.create.library"]');
   public getButtonByText = (text: string) => this.getChild('button', { hasText: text });
-  public cancelEditingAction = this.getChild(`.mat-menu-item[title='Cancel Editing']`);
-  public editOfflineAction = this.getChild(`.mat-menu-item[title='Edit Offline']`);
+  public cancelEditingAction = this.getChild(`.mat-mdc-menu-item[title='Cancel Editing']`);
+  public editOfflineAction = this.getChild(`.mat-mdc-menu-item[title='Edit Offline']`);
 
   async clickMenuItem(menuItem: string): Promise<void> {
     const menuElement = this.getButtonByText(menuItem);
@@ -56,11 +56,11 @@ export class MatMenuComponent extends BaseComponent {
   }
 
   async verifyActualMoreActions(expectedToolbarMore: string[]): Promise<void> {
-    await this.page.locator('.mat-menu-content').waitFor({ state: 'attached' });
-    let menus = await this.page.$$('.mat-menu-content .mat-menu-item');
+    await this.page.locator('.mat-mdc-menu-content').waitFor({ state: 'attached' });
+    let menus = await this.page.$$('.mat-mdc-menu-content .mat-mdc-menu-item');
     let actualMoreActions: string[] = await Promise.all(
       menus.map(async (button) => {
-        const title = await (await button.$('span')).innerText();
+        const title = await (await button.$('.mdc-list-item__primary-text span')).innerText();
         return title || '';
       })
     );

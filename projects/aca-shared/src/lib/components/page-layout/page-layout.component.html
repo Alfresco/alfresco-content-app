@@ -1,6 +1,7 @@
 <div class="aca-content-header">
     <button *ngIf="(appNavNarMode$ | async) === 'collapsed'"
       mat-icon-button
+      class="aca-content-header-button"
       (click)="toggleClick()"
       title="{{'APP.TOOLTIPS.EXPAND_NAVIGATION' | translate}}">
       <mat-icon>keyboard_double_arrow_right</mat-icon>

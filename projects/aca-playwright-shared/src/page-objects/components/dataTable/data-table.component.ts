@@ -135,7 +135,7 @@ export class DataTableComponent extends BaseComponent {
    *
    * @returns reference to checkbox placed in row localized by the name
    */
-  getCheckboxForElement = (item: string): Locator => this.getRowByName(item).locator('mat-checkbox');
+  getCheckboxForElement = (item: string): Locator => this.getRowByName(item).locator('.mat-mdc-checkbox');
 
   getColumnHeaderByTitleLocator = (headerTitle: string): Locator => this.getChild('[role="columnheader"]', { hasText: headerTitle });
 
@@ -241,23 +241,23 @@ export class DataTableComponent extends BaseComponent {
     const isSelected = await this.isRowSelected(name);
     if (!isSelected) {
       let row = this.getRowByName(name);
-      await row.locator('mat-checkbox').click();
-      await row.locator('.mat-checkbox-checked').waitFor({ state: 'attached' });
+      await row.locator('.mat-mdc-checkbox').click();
+      await row.locator('.mat-mdc-checkbox-checked').waitFor({ state: 'attached' });
     }
   }
 
   async selectMultiItem(...names: string[]): Promise<void> {
     for (const name of names) {
       let row = this.getRowByName(name);
-      await row.locator('mat-checkbox').click();
-      await row.locator('.mat-checkbox-checked').waitFor({ state: 'attached' });
+      await row.locator('.mat-mdc-checkbox').click();
+      await row.locator('.mat-mdc-checkbox-checked').waitFor({ state: 'attached' });
       await this.page.waitForTimeout(1000);
     }
   }
 
   async isRowSelected(itemName: string): Promise<boolean> {
     const row = this.getRowByName(itemName);
-    return await row.locator('.adf-datatable-checkbox .mat-checkbox-checked').isVisible();
+    return await row.locator('.adf-datatable-checkbox .mat-mdc-checkbox-checked').isVisible();
   }
 
   async getColumnHeaders(): Promise<Array<string>> {

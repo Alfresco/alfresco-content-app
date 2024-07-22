@@ -1,16 +1,25 @@
+@import '@alfresco/adf-core/lib/styles/mat-selectors';
+
 .aca-rule-details {
+  .aca-rule-details__form__triggers {
+    margin-top: 10px;
+  }
+
+  .aca-rule-details__name__label {
+    padding-top: 1.5em;
+  }
+
+  .aca-rule-details__form__others {
+    margin-bottom: 12px;
+  }
+
   &__form {
     position: relative;
 
     & > div {
-      padding: 8px 20px;
+      padding: 0 20px;
       width: 100%;
       box-sizing: border-box;
-      overflow-x: auto;
-
-      &.aca-rule-details__form__name {
-        padding-bottom: 0;
-      }
 
       &.aca-rule-details__form__description {
         padding-top: 0;
@@ -30,7 +39,7 @@
         width: 20%;
         min-width: 100px;
         max-width: 150px;
-        padding: 0.75em 0;
+        padding: 0.5em 0;
       }
 
       & > div {
@@ -40,7 +49,6 @@
       &__field {
         width: 100%;
         max-width: 400px;
-        margin-top: -11px;
         font-size: inherit;
 
         &__textarea {
@@ -55,6 +63,7 @@
 
     &__conditions {
       width: 100%;
+      margin: 14px 0 36px;
 
       & > .aca-rule-details-error {
         margin-left: 16px;
@@ -73,18 +82,39 @@
       }
     }
 
-    /* stylelint-disable selector-class-pattern */
     &.aca-read-only,
-    .mat-form-field-disabled {
-      .mat-form-field-underline,
-      .mat-select-arrow-wrapper {
-        display: none;
+    #{$mat-form-field-disabled} {
+      #{$mat-notched-outline-leading},
+      #{$mat-notched-outline-trailing},
+      #{$mat-notched-outline-notch} {
+        border: none;
+      }
+
+      #{$mat-line-ripple} {
+        &::before,
+        &::after {
+          display: none;
+        }
       }
 
       *:disabled,
-      .mat-select-disabled .mat-select-value {
+      #{$mat-select-disabled} #{$mat-select-value} {
         color: inherit;
       }
+
+      #{$mat-select-arrow-wrapper} {
+        display: none;
+      }
+    }
+
+    .aca-rule-details__form__row #{$mat-form-field-flex} #{$mat-form-field-infix} {
+      padding-top: 0.375em;
+      padding-bottom: 0.375em;
+    }
+
+    .aca-rule-details__form__row aca-rule-action #{$mat-form-field-flex} #{$mat-form-field-infix} {
+      padding-top: 0.1em;
+      padding-bottom: 0.1em;
     }
   }
 }

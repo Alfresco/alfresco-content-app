@@ -28,9 +28,9 @@ import { BaseComponent } from '.././base.component';
 export class SearchOverlayComponent extends BaseComponent {
   private static rootElement = '.cdk-overlay-pane';
 
-  public searchFilesOption = this.getChild('label[for="content-input"]');
-  public searchFoldersOption = this.getChild('label[for="folder-input"]');
-  public searchLibrariesOption = this.getChild('label[for="libraries-input"]');
+  public searchFilesOption = this.getChild('input#content-input');
+  public searchFoldersOption = this.getChild('input#folder-input');
+  public searchLibrariesOption = this.getChild('input#libraries-input');
   public searchInput = this.page.locator('#app-control-input');
   public searchButton = this.page.locator('#app-search-button');
   public searchInputControl = this.page.locator('.app-search-control');
@@ -42,17 +42,17 @@ export class SearchOverlayComponent extends BaseComponent {
 
   async isFoldersOptionChecked() {
     const optClass = await this.searchFoldersOption.getAttribute('class');
-    return optClass.includes('mat-checkbox-checked');
+    return optClass.includes('.mat-mdc-checkbox-checked');
   }
 
   async isFilesOptionChecked() {
     const optClass = await this.searchFilesOption.getAttribute('class');
-    return optClass.includes('mat-checkbox-checked');
+    return optClass.includes('.mat-mdc-checkbox-checked');
   }
 
   async isLibrariesOptionChecked() {
     const optClass = await this.searchLibrariesOption.getAttribute('class');
-    return optClass.includes('mat-checkbox-checked');
+    return optClass.includes('.mat-mdc-checkbox-checked');
   }
 
   async clearOptions() {
