@@ -80,17 +80,15 @@ test.describe('Edit offline - on Personal Files', () => {
 
   test('XAT-5305] Lock information is displayed', async ({ personalFiles }) => {
     expect(await personalFiles.dataTable.isItemPresent(fileLocked2)).toBe(true);
-    // await expect(personalFiles.dataTable.hasLockIcon(fileLocked2)).toBe(true);
     expect(await personalFiles.dataTable.getLockOwner(fileLocked2)).toContain(username);
   });
 
   test('[XAT-5306] Cancel Editing unlocks the file', async ({ personalFiles }) => {
     await personalFiles.dataTable.selectItem(fileLocked);
     await personalFiles.acaHeader.clickMoreActions();
-    await personalFiles.matMenu.clickMenuItem('Cancel Editing');
+    await personalFiles.matMenu.clickMenuItemFromHeaderMenu('Cancel Editing');
     await personalFiles.dataTable.selectItem(fileLocked);
 
-    expect(await nodesApi.getNodeProperty(fileLockedId, 'cm:lockType'), `${fileLocked} is still locked`).not.toEqual('WRITE_LOCK');
-    // expect(await personalFiles.dataTable.hasLockIcon(fileLocked)).toBe(false);
+    expect(await nodesApi.isFileLockedWrite(fileLockedId), `${fileLocked} is still locked`).not.toEqual('WRITE_LOCK');
   });
 });

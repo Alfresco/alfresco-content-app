@@ -73,7 +73,7 @@ test.describe('Edit folder', () => {
     test('[XAT-5089] "Edit folder" dialog UI', async ({ personalFiles }) => {
       await personalFiles.dataTable.selectItem(folderName);
       await personalFiles.acaHeader.clickMoreActions();
-      await personalFiles.matMenu.clickMenuItem('Edit');
+      await personalFiles.matMenu.clickMenuItemFromHeaderMenu('Edit');
 
       await expect(personalFiles.editDialog.editDialog).toBeVisible();
       await expect(personalFiles.editDialog.titleInput).toHaveText('Edit folder');
@@ -86,7 +86,7 @@ test.describe('Edit folder', () => {
     test('[XAT-5093] Properties are modified when clicking Update button', async ({ personalFiles }) => {
       await personalFiles.dataTable.selectItem(folderNameToEdit);
       await personalFiles.acaHeader.clickMoreActions();
-      await personalFiles.matMenu.clickMenuItem('Edit');
+      await personalFiles.matMenu.clickMenuItemFromHeaderMenu('Edit');
       await personalFiles.editDialog.descriptionInput.fill(folderDescriptionEdited);
       await personalFiles.editDialog.nameInput.fill(folderNameEdited);
       await personalFiles.editDialog.updateButton.click();
@@ -100,7 +100,7 @@ test.describe('Edit folder', () => {
     test('[XAT-5090] Empty folder name', async ({ personalFiles }) => {
       await personalFiles.dataTable.selectItem(folderName);
       await personalFiles.acaHeader.clickMoreActions();
-      await personalFiles.matMenu.clickMenuItem('Edit');
+      await personalFiles.matMenu.clickMenuItemFromHeaderMenu('Edit');
       await personalFiles.editDialog.nameInput.fill('');
 
       await expect(personalFiles.editDialog.updateButton).toBeDisabled();
@@ -112,7 +112,7 @@ test.describe('Edit folder', () => {
 
       await personalFiles.dataTable.selectItem(folderName);
       await personalFiles.acaHeader.clickMoreActions();
-      await personalFiles.matMenu.clickMenuItem('Edit');
+      await personalFiles.matMenu.clickMenuItemFromHeaderMenu('Edit');
 
       for (const name of namesWithSpecialChars) {
         await personalFiles.editDialog.nameInput.fill(name);
@@ -124,7 +124,7 @@ test.describe('Edit folder', () => {
     test('[XAT-5092] Folder name ending with a dot', async ({ personalFiles }) => {
       await personalFiles.dataTable.selectItem(folderName);
       await personalFiles.acaHeader.clickMoreActions();
-      await personalFiles.matMenu.clickMenuItem('Edit');
+      await personalFiles.matMenu.clickMenuItemFromHeaderMenu('Edit');
       await personalFiles.editDialog.nameInput.fill(`${folderName}.`);
 
       await expect(personalFiles.editDialog.updateButton).toBeDisabled();
@@ -134,7 +134,7 @@ test.describe('Edit folder', () => {
     test('[XAT-5094] Cancel editing properties', async ({ personalFiles }) => {
       await personalFiles.dataTable.selectItem(folderName);
       await personalFiles.acaHeader.clickMoreActions();
-      await personalFiles.matMenu.clickMenuItem('Edit');
+      await personalFiles.matMenu.clickMenuItemFromHeaderMenu('Edit');
       await personalFiles.editDialog.cancelButton.click();
 
       await expect(personalFiles.editDialog.editDialog).toBeHidden();
@@ -143,7 +143,7 @@ test.describe('Edit folder', () => {
     test('[XAT-5095] Duplicated folder name', async ({ personalFiles }) => {
       await personalFiles.dataTable.selectItem(folderName);
       await personalFiles.acaHeader.clickMoreActions();
-      await personalFiles.matMenu.clickMenuItem('Edit');
+      await personalFiles.matMenu.clickMenuItemFromHeaderMenu('Edit');
       await personalFiles.editDialog.nameInput.fill(duplicateFolderName);
       await personalFiles.editDialog.updateButton.click();
 
@@ -154,7 +154,7 @@ test.describe('Edit folder', () => {
     test('[XAT-5096] Trim ending spaces', async ({ personalFiles }) => {
       await personalFiles.dataTable.selectItem(folderName);
       await personalFiles.acaHeader.clickMoreActions();
-      await personalFiles.matMenu.clickMenuItem('Edit');
+      await personalFiles.matMenu.clickMenuItemFromHeaderMenu('Edit');
       await personalFiles.editDialog.nameInput.fill(`${folderName} `);
       await personalFiles.editDialog.updateButton.click();
 
