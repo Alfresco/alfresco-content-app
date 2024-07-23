@@ -267,7 +267,7 @@ test.describe('Create file from template', () => {
       });
 
       test('[C325033] File name ending with a dot', async () => {
-        await createFileFromTemplateDialog.getDialogLabel(nameLabel).type(dotString);
+        await createFileFromTemplateDialog.getDialogLabel(nameLabel).fill(dotString);
         await createFileFromTemplateDialog.page.keyboard.press(tabKeyString);
         await expect(createFileFromTemplateDialog.getDialogLabel(nameLabel)).toHaveValue(template1InRoot + dotString);
         expect
