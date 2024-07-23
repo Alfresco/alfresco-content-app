@@ -22,16 +22,18 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Actions, ofType, createEffect } from '@ngrx/effects';
-import { Injectable } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { inject, Injectable } from '@angular/core';
 import { map, take } from 'rxjs/operators';
-import { AppStore, NodeActionTypes, AddFavoriteAction, RemoveFavoriteAction, getAppSelection } from '@alfresco/aca-shared/store';
+import { AddFavoriteAction, AppStore, getAppSelection, NodeActionTypes, RemoveFavoriteAction } from '@alfresco/aca-shared/store';
 import { Store } from '@ngrx/store';
 import { ContentManagementService } from '../../services/content-management.service';
 
 @Injectable()
 export class FavoriteEffects {
-  constructor(private store: Store<AppStore>, private actions$: Actions, private content: ContentManagementService) {}
+  private store = inject(Store<AppStore>);
+  private actions$ = inject(Actions);
+  private content = inject(ContentManagementService);
 
   addFavorite$ = createEffect(
     () =>
