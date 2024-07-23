@@ -48,7 +48,7 @@ export class BulkActionsDropdownComponent implements OnInit, OnDestroy {
   placeholder: string;
   tooltip: string;
   totalItems$: Observable<number> = this.store.select(getSearchItemsTotalCount);
-  selectControl = new FormControl();
+  disableControl = new FormControl();
 
   private onDestroy$ = new Subject();
 
@@ -59,14 +59,14 @@ export class BulkActionsDropdownComponent implements OnInit, OnDestroy {
       .pipe(
         switchMap((totalItems) => {
           if (totalItems > 0) {
-            this.selectControl.enable();
+            this.disableControl.enable();
 
             return combineLatest([
               this.translationService.get('SEARCH.BULK_ACTIONS_DROPDOWN.TITLE', { count: totalItems }),
               this.translationService.get('SEARCH.BULK_ACTIONS_DROPDOWN.TITLE', { count: totalItems })
             ]);
           } else {
-            this.selectControl.disable();
+            this.disableControl.disable();
 
             return combineLatest([
               this.translationService.get('SEARCH.BULK_ACTIONS_DROPDOWN.BULK_NOT_AVAILABLE'),

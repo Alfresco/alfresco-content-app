@@ -25,7 +25,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BulkActionsDropdownComponent } from './bulk-actions-dropdown.component';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../../../../../aca-shared/store/src/public-api';
+import { AppStore } from '@alfresco/aca-shared/store';
 import { BehaviorSubject, of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { ContentActionType } from '@alfresco/adf-extensions';
