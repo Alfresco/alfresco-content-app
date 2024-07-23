@@ -1,5 +1,9 @@
 .aca-toolbar-action {
   margin: 0 5px;
+
+  button {
+    -webkit-font-smoothing: subpixel-antialiased;
+  }
 }
 
 .aca-toolbar-action-container {
