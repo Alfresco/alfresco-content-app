@@ -26,15 +26,18 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BulkActionsDropdownComponent } from './bulk-actions-dropdown.component';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../../../../aca-shared/store/src/public-api';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { ContentActionType } from '@alfresco/adf-extensions';
 import { AppTestingModule } from '../../testing/app-testing.module';
+import { TranslationService } from '@alfresco/adf-core';
 
 describe('BulkActionsDropdownComponent', () => {
   let component: BulkActionsDropdownComponent;
   let fixture: ComponentFixture<BulkActionsDropdownComponent>;
   let store: Store<AppStore>;
+  let translationService: TranslationService;
+  let bulkFormField: HTMLElement;
 
   const totalItemsMock$: BehaviorSubject<number> = new BehaviorSubject(0);
 
@@ -48,7 +51,9 @@ describe('BulkActionsDropdownComponent', () => {
     }).compileComponents();
 
     store = TestBed.inject(Store);
+    translationService = TestBed.inject(TranslationService);
     spyOn(store, 'select').and.returnValue(totalItemsMock$);
+    spyOn(translationService, 'get').and.callFake((key) => of(key));
   });
 
   beforeEach(() => {
@@ -75,35 +80,42 @@ describe('BulkActionsDropdownComponent', () => {
   });
 
   describe('when there are no search items', () => {
-    let disabledDropdown: HTMLElement;
+    let dropdown: HTMLElement;
 
     beforeEach(() => {
       totalItemsMock$.next(0);
       fixture.detectChanges();
-      disabledDropdown = getElement('aca-bulk-dropdown-disabled');
+      dropdown = getElement('aca-bulk-dropdown');
+      bulkFormField = getElement('aca-bulk-form-field');
       fixture.detectChanges();
     });
 
     it('should disable dropdown', () => {
-      expect(disabledDropdown.getAttribute('aria-disabled')).toBe('true');
+      expect(dropdown.getAttribute('aria-disabled')).toBe('true');
     });
 
     it('should have correct tooltip', () => {
-      expect(disabledDropdown.getAttribute('title')).toBe('SEARCH.BULK_ACTIONS_DROPDOWN.BULK_NOT_AVAILABLE_TOOLTIP');
+      expect(bulkFormField.getAttribute('title')).toBe('SEARCH.BULK_ACTIONS_DROPDOWN.BULK_NOT_AVAILABLE_TOOLTIP');
     });
 
     it('should have correct placeholder', () => {
-      expect(getLabelText('aca-bulk-dropdown-disabled')).toEqual('SEARCH.BULK_ACTIONS_DROPDOWN.BULK_NOT_AVAILABLE');
+      expect(getLabelText('aca-bulk-dropdown')).toEqual('SEARCH.BULK_ACTIONS_DROPDOWN.BULK_NOT_AVAILABLE');
+    });
+
+    it('should call translationService.get with correct arguments', () => {
+      expect(translationService.get).toHaveBeenCalledWith('SEARCH.BULK_ACTIONS_DROPDOWN.BULK_NOT_AVAILABLE');
+      expect(translationService.get).toHaveBeenCalledWith('SEARCH.BULK_ACTIONS_DROPDOWN.BULK_NOT_AVAILABLE_TOOLTIP');
     });
   });
 
-  describe('when there are search elements', () => {
+  describe('when there are search items', () => {
     let dropdown: HTMLElement;
 
     beforeEach(() => {
       totalItemsMock$.next(10);
       fixture.detectChanges();
       dropdown = getElement('aca-bulk-dropdown');
+      bulkFormField = getElement('aca-bulk-form-field');
       dropdown.click();
       fixture.detectChanges();
     });
@@ -113,7 +125,7 @@ describe('BulkActionsDropdownComponent', () => {
     });
 
     it('should have correct tooltip', () => {
-      expect(dropdown.getAttribute('title')).toBe('SEARCH.BULK_ACTIONS_DROPDOWN.TITLE');
+      expect(bulkFormField.getAttribute('title')).toBe('SEARCH.BULK_ACTIONS_DROPDOWN.TITLE');
     });
 
     it('should have correct placeholder', () => {
@@ -136,6 +148,10 @@ describe('BulkActionsDropdownComponent', () => {
       const icon = getElement('aca-option-icon-app.bulk.actions.legalHold');
 
       expect(icon.getAttribute('title')).toEqual('GOVERNANCE.MANAGE_HOLDS.TITLE');
+    });
+
+    it('should call translationService.get with correct arguments', () => {
+      expect(translationService.get).toHaveBeenCalledWith('SEARCH.BULK_ACTIONS_DROPDOWN.TITLE', { count: 10 });
     });
   });
 });

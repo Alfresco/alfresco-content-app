@@ -1,37 +1,30 @@
 <mat-form-field
   *ngIf="items?.length"
+  [title]="tooltip"
   appearance="outline"
   class="aca-bulk-form-field"
+  data-automation-id="aca-bulk-form-field"
 >
   <mat-select
-    *ngIf="(totalItems$ | async) as totalItems; else disabledMode"
-    [placeholder]="'SEARCH.BULK_ACTIONS_DROPDOWN.TITLE' | translate: { count: totalItems }"
-    [title]="'SEARCH.BULK_ACTIONS_DROPDOWN.TITLE' | translate: { count: totalItems }"
+    [formControl]="selectControl"
+    [placeholder]="placeholder"
     panelClass="aca-bulk-select"
     disableOptionCentering
     data-automation-id="aca-bulk-dropdown"
   >
     <mat-option
-      *ngFor="let option of items;"
+      *ngFor="let option of items"
       [value]="option.id"
       [title]="option.description | translate"
       [attr.data-automation-id]="option.id"
     >
       <adf-icon
         *ngIf="option.icon"
-        [title]="option.title| translate"
+        [title]="option.title | translate"
         [value]="option.icon"
         [attr.data-automation-id]="'aca-option-icon-' + option.id"
       ></adf-icon>
       {{ option.title | translate }}
     </mat-option>
   </mat-select>
-
-<ng-template #disabledMode>
-  <mat-select
-    [placeholder]="'SEARCH.BULK_ACTIONS_DROPDOWN.BULK_NOT_AVAILABLE' | translate"
-    [title]="'SEARCH.BULK_ACTIONS_DROPDOWN.BULK_NOT_AVAILABLE_TOOLTIP' | translate"
-    data-automation-id="aca-bulk-dropdown-disabled"
-  ></mat-select>
-</ng-template>
 </mat-form-field>
