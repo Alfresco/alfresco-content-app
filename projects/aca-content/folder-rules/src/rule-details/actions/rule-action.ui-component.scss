@@ -7,16 +7,18 @@
     adf-card-view {
       margin-top: -15px;
 
-      .adf-property-list {
-        background: var(--adf-card-view-background);
-      }
-
       .adf-property-list .adf-property adf-card-view-item-dispatcher adf-card-view-textitem {
         display: inline-block;
         width: 300px;
 
         .adf-textitem-clickable {
           padding-top: 0;
+        }
+
+        .adf-textitem-action {
+          .adf-textitem-icon {
+            margin-left: -10px;
+          }
         }
       }
     }
