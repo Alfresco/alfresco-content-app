@@ -28,7 +28,7 @@ import { BaseComponent } from '../base.component';
 export class EditDialog extends BaseComponent {
   private static rootElement = 'mat-dialog-container';
 
-  public editDialog = this.page.locator('mat-dialog-container');
+  public editDialog = this.getChild('');
   public titleInput = this.getChild('[data-automation-id="adf-folder-dialog-title"]');
   public cancelButton = this.getChild('#adf-folder-cancel-button');
   public updateButton = this.getChild('#adf-folder-create-button');

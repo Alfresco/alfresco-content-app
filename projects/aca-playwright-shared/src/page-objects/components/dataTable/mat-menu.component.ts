@@ -43,14 +43,12 @@ export class MatMenuComponent extends BaseComponent {
 
   async clickMenuItem(menuItem: string): Promise<void> {
     const menuElement = this.getButtonByText(menuItem);
-    await menuElement.waitFor({ state: 'attached' });
     await menuElement.click();
     await menuElement.waitFor({ state: 'detached' });
   }
 
   async clickMenuItemFromHeaderMenu(menuItem: string): Promise<void> {
     const menuElement = this.getMenuItemFromHeaderMenu(menuItem);
-    await menuElement.waitFor({ state: 'attached' });
     await menuElement.click();
     await menuElement.waitFor({ state: 'detached' });
   }
