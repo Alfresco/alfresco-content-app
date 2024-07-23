@@ -22,8 +22,8 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Actions, ofType, createEffect } from '@ngrx/effects';
-import { Injectable } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { inject, Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { SearchAction, SearchActionTypes, SearchByTermAction, SearchOptionIds } from '@alfresco/aca-shared/store';
 import { Router } from '@angular/router';
@@ -31,7 +31,9 @@ import { SearchNavigationService } from '../../components/search/search-navigati
 
 @Injectable()
 export class SearchEffects {
-  constructor(private actions$: Actions, private router: Router, private searchNavigationService: SearchNavigationService) {}
+  private actions$ = inject(Actions);
+  private router = inject(Router);
+  private searchNavigationService = inject(SearchNavigationService);
 
   search$ = createEffect(
     () =>
