@@ -22,12 +22,12 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AppStore, DownloadNodesAction, NodeActionTypes, NodeInfo, getAppSelection, getCurrentVersion } from '@alfresco/aca-shared/store';
+import { AppStore, DownloadNodesAction, getAppSelection, getCurrentVersion, NodeActionTypes, NodeInfo } from '@alfresco/aca-shared/store';
 import { DownloadZipDialogComponent } from '@alfresco/adf-content-services';
 import { NodeEntry, Version } from '@alfresco/js-api';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Actions, ofType, createEffect } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { map, take } from 'rxjs/operators';
 import { ContentApiService } from '@alfresco/aca-shared';
@@ -35,13 +35,11 @@ import { ContentUrlService } from '../../services/content-url.service';
 
 @Injectable()
 export class DownloadEffects {
-  constructor(
-    private store: Store<AppStore>,
-    private actions$: Actions,
-    private contentApi: ContentApiService,
-    private dialog: MatDialog,
-    private contentUrlService: ContentUrlService
-  ) {}
+  private store = inject(Store<AppStore>);
+  private actions$ = inject(Actions);
+  private contentApi = inject(ContentApiService);
+  private dialog = inject(MatDialog);
+  private contentUrlService = inject(ContentUrlService);
 
   downloadNode$ = createEffect(
     () =>

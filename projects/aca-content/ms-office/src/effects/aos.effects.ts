@@ -22,8 +22,8 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Injectable } from '@angular/core';
-import { Actions, ofType, createEffect } from '@ngrx/effects';
+import { inject, Injectable } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { map } from 'rxjs/operators';
 
 import { AOS_ACTION, AosAction } from '../actions/aos.actions';
@@ -31,7 +31,8 @@ import { AosEditOnlineService } from '../aos-extension.service';
 
 @Injectable()
 export class AosEffects {
-  constructor(private actions$: Actions, private aosEditOnlineService: AosEditOnlineService) {}
+  private actions$ = inject(Actions);
+  private aosEditOnlineService = inject(AosEditOnlineService);
 
   openOffice$ = createEffect(
     () =>
