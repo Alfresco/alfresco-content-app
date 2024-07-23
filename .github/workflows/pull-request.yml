@@ -86,47 +86,6 @@ jobs:
       - run: npm ci
       - run: npm run affected:test -- --browsers=ChromeHeadless --watch=false $TEST_OPTS --base=origin/develop
 
-  e2es:
-    needs: [lint, build, unit-tests]
-    name: 'E2E Protractor - ${{ matrix.e2e-suites.name }}'
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        e2e-suites:
-          - name: "editActions"
-            id: 1
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 2
-
-      - name: node
-        uses: actions/setup-node@v3
-        with:
-          node-version-file: '.nvmrc'
-          cache: 'npm'
-      - uses: ./.github/actions/before-install
-      - run: npm ci
-
-      - uses: actions/cache/restore@v3
-        id: cache
-        with:
-          path: ./dist/content-ce
-          key: cache-dist-${{ github.run_id }}
-
-      - name: Before e2e
-        uses: ./.github/actions/before-e2e
-        with:
-          e2e-protractor: true
-
-      - uses: ./.github/actions/run-e2e
-        with:
-          options: "--suite=${{ matrix.e2e-suites.name }}"
-          artifact-name: ${{ matrix.e2e-suites.name }}
-      - uses: ./.github/actions/after-e2e
-
   e2es-playwright:
     needs: [lint, build, unit-tests]
     name: 'E2E Playwright - ${{ matrix.e2e-suites.name }}'
@@ -167,6 +126,8 @@ jobs:
             id: 15
           - name: "delete-actions"
             id: 16
+          - name: "edit-actions"
+            id: 17
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -205,7 +166,7 @@ jobs:
 
   finalize:
     if: ${{ always() }}
-    needs: [lint, build, unit-tests, e2es, e2es-playwright]
+    needs: [lint, build, unit-tests, e2es-playwright]
     name: 'Finalize'
     runs-on: ubuntu-latest
     steps:

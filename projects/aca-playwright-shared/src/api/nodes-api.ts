@@ -446,4 +446,23 @@ export class NodesApi {
       return null;
     }
   }
+
+  private async getLockType(nodeId: string): Promise<string> {
+    try {
+      const lockType = await this.getNodeProperty(nodeId, 'cm:lockType');
+      return lockType || '';
+    } catch (error) {
+      console.error(`${this.constructor.name} ${this.getLockType.name}`, error);
+      return '';
+    }
+  }
+
+  async isFileLockedWrite(nodeId: string): Promise<boolean> {
+    try {
+      return (await this.getLockType(nodeId)) === 'WRITE_LOCK';
+    } catch (error) {
+      console.error(`${this.constructor.name} ${this.isFileLockedWrite.name}`, error);
+      return null;
+    }
+  }
 }

@@ -55,6 +55,7 @@ export class DataTableComponent extends BaseComponent {
   sitesVisibility = this.page.locator('.adf-datatable-body [data-automation-id*="datatable-row"] [aria-label="Visibility"]');
   sitesName = this.page.locator('.adf-datatable-body [data-automation-id*="datatable-row"] [aria-label="Name"]');
   sitesRole = this.page.locator('.adf-datatable-body [data-automation-id*="datatable-row"] [aria-label="My Role"]');
+  lockOwner = this.page.locator('.aca-locked-by--name');
 
   /** Locator for row (or rows) */
   getRowLocator = this.page.getByRole('rowgroup').nth(1).locator('adf-datatable-row');
@@ -371,5 +372,15 @@ export class DataTableComponent extends BaseComponent {
       sitesInfo[siteNameText] = siteRoleText;
     }
     return sitesInfo;
+  }
+
+  async hasLockIcon(itemName: string): Promise<boolean> {
+    const row = this.getRowByName(itemName);
+    return row.locator('img[src*="lock"]').isVisible();
+  }
+
+  async getLockOwner(itemName: string): Promise<string> {
+    const row = this.getRowByName(itemName);
+    return row.locator(this.lockOwner).innerText();
   }
 }

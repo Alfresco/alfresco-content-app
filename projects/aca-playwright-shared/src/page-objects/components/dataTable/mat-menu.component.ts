@@ -39,12 +39,16 @@ export class MatMenuComponent extends BaseComponent {
   public createFileFromTemplate = this.getChild('[id="app.create.fileFromTemplate"]');
   public createLibrary = this.getChild('[id="app.create.library"]');
   public getButtonByText = (text: string) => this.getChild('button', { hasText: text });
-  public cancelEditingAction = this.getChild(`.mat-mdc-menu-item[title='Cancel Editing']`);
-  public editOfflineAction = this.getChild(`.mat-mdc-menu-item[title='Edit Offline']`);
+  public getMenuItemFromHeaderMenu = (text: string) => this.page.getByRole('menuitem', { name: text, exact: true });
 
   async clickMenuItem(menuItem: string): Promise<void> {
     const menuElement = this.getButtonByText(menuItem);
-    await menuElement.waitFor({ state: 'attached' });
+    await menuElement.click();
+    await menuElement.waitFor({ state: 'detached' });
+  }
+
+  async clickMenuItemFromHeaderMenu(menuItem: string): Promise<void> {
+    const menuElement = this.getMenuItemFromHeaderMenu(menuItem);
     await menuElement.click();
     await menuElement.waitFor({ state: 'detached' });
   }

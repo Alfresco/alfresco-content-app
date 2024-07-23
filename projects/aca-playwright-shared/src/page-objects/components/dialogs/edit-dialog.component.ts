@@ -19,20 +19,24 @@
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './adf-folder-dialog.component';
-export * from './adf-library-dialog.component';
-export * from './password-overlay-dialog.component';
-export * from './viewer-overlay-dialog.component';
-export * from './content-node-selector-dialog';
-export * from './create-from-template-dialog-component';
-export * from './adf-confirm-dialog.component';
-export * from './share-dialog.component';
-export * from './upload-new-version-dialog.component';
-export * from './manage-versions-dialog.component';
-export * from './upload-dialog.component';
-export * from './delete-trash-dialog.component';
-export * from './link-rules.component';
-export * from './edit-dialog.component';
+import { Page } from '@playwright/test';
+import { BaseComponent } from '../base.component';
+
+export class EditDialog extends BaseComponent {
+  private static rootElement = 'mat-dialog-container';
+
+  public editDialog = this.getChild('');
+  public titleInput = this.getChild('[data-automation-id="adf-folder-dialog-title"]');
+  public cancelButton = this.getChild('#adf-folder-cancel-button');
+  public updateButton = this.getChild('#adf-folder-create-button');
+  public descriptionInput = this.getChild('#adf-folder-description-input');
+  public nameInput = this.getChild('#adf-folder-name-input');
+  public fieldHint = this.getChild('mat-hint');
+
+  constructor(page: Page) {
+    super(page, EditDialog.rootElement);
+  }
+}
