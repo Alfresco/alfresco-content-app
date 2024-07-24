@@ -28,7 +28,7 @@ import { Store } from '@ngrx/store';
 import { AppStore } from '@alfresco/aca-shared/store';
 import { BehaviorSubject, of } from 'rxjs';
 import { By } from '@angular/platform-browser';
-import { ContentActionType } from '@alfresco/adf-extensions';
+import { ContentActionRef, ContentActionType } from '@alfresco/adf-extensions';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { TranslationService } from '@alfresco/adf-core';
 
@@ -39,6 +39,18 @@ describe('BulkActionsDropdownComponent', () => {
   let translationService: TranslationService;
   let bulkFormField: HTMLElement;
   let dropdown: HTMLElement;
+
+  const mockItem: ContentActionRef = {
+    id: 'app.bulk.actions.legalHold',
+    component: 'app.bulk-actions-dropdown',
+    title: 'GOVERNANCE.MANAGE_HOLDS.TITLE',
+    description: 'GOVERNANCE.MANAGE_HOLDS.TITLE',
+    icon: 'adf:manage_hold',
+    type: ContentActionType.custom,
+    rules: {
+      visible: 'app.manage.holds.isLegalHoldPluginEnabled'
+    }
+  };
 
   const totalItemsMock$: BehaviorSubject<number> = new BehaviorSubject(0);
 
@@ -60,19 +72,7 @@ describe('BulkActionsDropdownComponent', () => {
     fixture = TestBed.createComponent(BulkActionsDropdownComponent);
     component = fixture.componentInstance;
 
-    component.items = [
-      {
-        id: 'app.bulk.actions.legalHold',
-        component: 'app.bulk-actions-dropdown',
-        title: 'GOVERNANCE.MANAGE_HOLDS.TITLE',
-        description: 'GOVERNANCE.MANAGE_HOLDS.TITLE',
-        icon: 'adf:manage_hold',
-        type: ContentActionType.custom,
-        rules: {
-          visible: 'app.manage.holds.isLegalHoldPluginEnabled'
-        }
-      }
-    ];
+    component.items = [mockItem];
     fixture.detectChanges();
   });
 
@@ -150,5 +150,21 @@ describe('BulkActionsDropdownComponent', () => {
     it('should call translationService.get with correct arguments', () => {
       expect(translationService.get).toHaveBeenCalledWith('SEARCH.BULK_ACTIONS_DROPDOWN.TITLE', { count: 10 });
     });
+  });
+
+  it('should use option title for tooltip if no description provided', () => {
+    component.items = [
+      {
+        ...mockItem,
+        description: null
+      }
+    ];
+    totalItemsMock$.next(1);
+    dropdown = getElement('aca-bulk-dropdown');
+    dropdown.click();
+    fixture.detectChanges();
+    const option = getElement('app.bulk.actions.legalHold');
+
+    expect(option.getAttribute('title')).toEqual('GOVERNANCE.MANAGE_HOLDS.TITLE');
   });
 });

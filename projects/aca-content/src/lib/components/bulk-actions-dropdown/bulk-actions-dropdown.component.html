@@ -15,7 +15,7 @@
     <mat-option
       *ngFor="let option of items"
       [value]="option.id"
-      [title]="option.description | translate"
+      [title]="option.description || option.title | translate"
       [attr.data-automation-id]="option.id"
     >
       <adf-icon
