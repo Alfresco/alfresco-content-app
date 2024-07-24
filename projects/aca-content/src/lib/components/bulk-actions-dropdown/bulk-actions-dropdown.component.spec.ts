@@ -38,6 +38,7 @@ describe('BulkActionsDropdownComponent', () => {
   let store: Store<AppStore>;
   let translationService: TranslationService;
   let bulkFormField: HTMLElement;
+  let dropdown: HTMLElement;
 
   const totalItemsMock$: BehaviorSubject<number> = new BehaviorSubject(0);
 
@@ -52,13 +53,13 @@ describe('BulkActionsDropdownComponent', () => {
 
     store = TestBed.inject(Store);
     translationService = TestBed.inject(TranslationService);
+
     spyOn(store, 'select').and.returnValue(totalItemsMock$);
     spyOn(translationService, 'get').and.callFake((key) => of(key));
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(BulkActionsDropdownComponent);
     component = fixture.componentInstance;
+
     component.items = [
       {
         id: 'app.bulk.actions.legalHold',
@@ -80,8 +81,6 @@ describe('BulkActionsDropdownComponent', () => {
   });
 
   describe('when there are no search items', () => {
-    let dropdown: HTMLElement;
-
     beforeEach(() => {
       totalItemsMock$.next(0);
       fixture.detectChanges();
@@ -109,8 +108,6 @@ describe('BulkActionsDropdownComponent', () => {
   });
 
   describe('when there are search items', () => {
-    let dropdown: HTMLElement;
-
     beforeEach(() => {
       totalItemsMock$.next(10);
       fixture.detectChanges();

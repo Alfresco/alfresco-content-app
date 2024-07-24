@@ -47,10 +47,10 @@ export class BulkActionsDropdownComponent implements OnInit, OnDestroy {
 
   placeholder: string;
   tooltip: string;
-  totalItems$: Observable<number> = this.store.select(getSearchItemsTotalCount);
   disableControl = new FormControl();
 
-  private onDestroy$ = new Subject();
+  private readonly totalItems$: Observable<number> = this.store.select(getSearchItemsTotalCount);
+  private readonly onDestroy$ = new Subject();
 
   constructor(private store: Store<AppStore>, private translationService: TranslationService) {}
 
