@@ -38,10 +38,6 @@ button {
     -webkit-font-smoothing: subpixel-antialiased;
   }
 
-  #{$mat-icon} {
-    margin-top: -10px;
-  }
-
   &#{$mat-primary} {
     #{$mat-button-label} {
       -webkit-font-smoothing: initial;
