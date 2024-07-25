@@ -14,6 +14,12 @@ mat-icon {
   vertical-align: middle;
 }
 
+button {
+  #{$mat-icon} {
+    margin-top: -10px;
+  }
+}
+
 .adf-name-location-cell-location.adf-datatable-cell-value {
   color: var(--theme-secondary-text);
 }
@@ -30,6 +36,10 @@ mat-icon {
 #{$mat-button} {
   #{$mat-button-label} {
     -webkit-font-smoothing: subpixel-antialiased;
+  }
+
+  #{$mat-icon} {
+    margin-top: -10px;
   }
 
   &#{$mat-primary} {
