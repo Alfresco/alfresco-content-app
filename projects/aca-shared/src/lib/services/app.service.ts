@@ -36,14 +36,7 @@ import { SearchQueryBuilderService, SharedLinksApiService, UploadService, FileUp
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { ActivatedRoute, ActivationEnd, NavigationStart, Router } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
-import {
-  AppStore,
-  CloseModalDialogsAction,
-  SetCurrentUrlAction,
-  SetRepositoryInfoAction,
-  SetUserProfileAction,
-  ResetSelectionAction
-} from '@alfresco/aca-shared/store';
+import { AppStore, SetCurrentUrlAction, SetRepositoryInfoAction, SetUserProfileAction, ResetSelectionAction } from '@alfresco/aca-shared/store';
 import { ContentApiService } from './content-api.service';
 import { RouterExtensionService } from './router.extension.service';
 import { Store } from '@ngrx/store';
@@ -52,6 +45,7 @@ import { AcaMobileAppSwitcherService } from './aca-mobile-app-switcher.service';
 import { ShellAppService } from '@alfresco/adf-core/shell';
 import { AppSettingsService } from './app-settings.service';
 import { UserProfileService } from './user-profile.service';
+import { MatDialog } from '@angular/material/dialog';
 
 @Injectable({
   providedIn: 'root'
@@ -59,6 +53,7 @@ import { UserProfileService } from './user-profile.service';
 // After moving shell to ADF to core, AppService will implement ShellAppService
 export class AppService implements ShellAppService, OnDestroy {
   private notificationService = inject(NotificationService);
+  private matDialog = inject(MatDialog);
   private ready: BehaviorSubject<boolean>;
 
   ready$: Observable<boolean>;
@@ -136,7 +131,7 @@ export class AppService implements ShellAppService, OnDestroy {
     this.alfrescoApiService.getInstance().on('error', (error: { status: number; response: any }) => {
       if (error.status === 401 && !this.alfrescoApiService.isExcludedErrorListener(error?.response?.req?.url)) {
         if (!this.authenticationService.isLoggedIn()) {
-          this.store.dispatch(new CloseModalDialogsAction());
+          this.matDialog.closeAll();
 
           let redirectUrl = this.activatedRoute.snapshot.queryParams['redirectUrl'];
           if (!redirectUrl) {

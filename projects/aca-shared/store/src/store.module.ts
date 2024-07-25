@@ -25,10 +25,9 @@
 import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { SnackbarEffects } from './effects/snackbar.effects';
-import { DialogEffects } from './effects/dialog.effects';
 import { RouterEffects } from './effects/router.effects';
 
 @NgModule({
-  imports: [EffectsModule.forFeature([SnackbarEffects, DialogEffects, RouterEffects])]
+  imports: [EffectsModule.forFeature([SnackbarEffects, RouterEffects])]
 })
 export class SharedStoreModule {}

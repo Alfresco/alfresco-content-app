@@ -77,10 +77,6 @@ export class SetInfoDrawerStateAction implements Action {
   constructor(public payload: boolean) {}
 }
 
-export class CloseModalDialogsAction implements Action {
-  readonly type = AppActionTypes.CloseModalDialogs;
-}
-
 export class SetRepositoryInfoAction implements Action {
   readonly type = AppActionTypes.SetRepositoryInfo;
 
