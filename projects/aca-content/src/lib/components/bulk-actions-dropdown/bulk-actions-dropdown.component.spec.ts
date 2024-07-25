@@ -31,6 +31,7 @@ import { By } from '@angular/platform-browser';
 import { ContentActionRef, ContentActionType } from '@alfresco/adf-extensions';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { TranslationService } from '@alfresco/adf-core';
+import { AppExtensionService } from '@alfresco/aca-shared';
 
 describe('BulkActionsDropdownComponent', () => {
   let component: BulkActionsDropdownComponent;
@@ -39,6 +40,7 @@ describe('BulkActionsDropdownComponent', () => {
   let translationService: TranslationService;
   let bulkFormField: HTMLElement;
   let dropdown: HTMLElement;
+  let extensionService: AppExtensionService;
 
   const mockItem: ContentActionRef = {
     id: 'mockId',
@@ -46,6 +48,9 @@ describe('BulkActionsDropdownComponent', () => {
     tooltip: 'some tooltip',
     icon: 'adf:mock-icon',
     type: ContentActionType.custom,
+    actions: {
+      click: 'TEST_EVENT'
+    },
     rules: {
       visible: 'isItemVisible'
     }
@@ -148,6 +153,40 @@ describe('BulkActionsDropdownComponent', () => {
 
     it('should call translationService.get with correct arguments', () => {
       expect(translationService.get).toHaveBeenCalledWith('SEARCH.BULK_ACTIONS_DROPDOWN.TITLE', { count: 10 });
+    });
+
+    describe('when extension service is used', () => {
+      beforeEach(() => {
+        extensionService = TestBed.inject(AppExtensionService);
+        spyOn(extensionService, 'getBulkActions').and.returnValue(of([mockItem]));
+        fixture.detectChanges();
+      });
+
+      it('should run action on selection', () => {
+        spyOn(component, 'runAction').and.callThrough();
+        spyOn(extensionService, 'runActionById');
+        const option = getElement('app.bulk.actions.legalHold');
+        option.click();
+        fixture.detectChanges();
+
+        expect(component.runAction).toHaveBeenCalledWith(mockItem);
+        expect(extensionService.runActionById).toHaveBeenCalledWith(mockItem.actions.click, {
+          focusedElementOnCloseSelector: '.adf-context-menu-source'
+        });
+      });
+
+      it('should reset selection on resetBulkActions', () => {
+        const option = getElement('app.bulk.actions.legalHold');
+        option.click();
+        fixture.detectChanges();
+
+        expect(component.select.value).toEqual(mockItem.id);
+
+        extensionService.resetBulkActions();
+        fixture.detectChanges();
+
+        expect(component.select.value).toBeNull();
+      });
     });
   });
 });

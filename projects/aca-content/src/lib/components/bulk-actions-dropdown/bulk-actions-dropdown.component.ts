@@ -25,14 +25,15 @@
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { AppStore, getSearchItemsTotalCount } from '@alfresco/aca-shared/store';
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { MatSelectModule } from '@angular/material/select';
+import { Component, Input, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { MatSelect, MatSelectModule } from '@angular/material/select';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { combineLatest, Observable, Subject } from 'rxjs';
 import { IconComponent, TranslationService } from '@alfresco/adf-core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { switchMap, takeUntil } from 'rxjs/operators';
+import { AppExtensionService } from '@alfresco/aca-shared';
 
 @Component({
   standalone: true,
@@ -45,6 +46,8 @@ import { switchMap, takeUntil } from 'rxjs/operators';
 export class BulkActionsDropdownComponent implements OnInit, OnDestroy {
   @Input() items: ContentActionRef[];
 
+  @ViewChild(MatSelect) select: MatSelect;
+
   placeholder: string;
   tooltip: string;
   disableControl = new FormControl();
@@ -52,7 +55,7 @@ export class BulkActionsDropdownComponent implements OnInit, OnDestroy {
   private readonly totalItems$: Observable<number> = this.store.select(getSearchItemsTotalCount);
   private readonly onDestroy$ = new Subject();
 
-  constructor(private store: Store<AppStore>, private translationService: TranslationService) {}
+  constructor(private store: Store<AppStore>, private translationService: TranslationService, private extensions: AppExtensionService) {}
 
   ngOnInit() {
     this.totalItems$
@@ -80,10 +83,20 @@ export class BulkActionsDropdownComponent implements OnInit, OnDestroy {
         this.tooltip = title;
         this.placeholder = placeholder;
       });
+
+    this.extensions.resetBulkActionsSubject$.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
+      this.select.value = null;
+    });
   }
 
   ngOnDestroy() {
     this.onDestroy$.next();
     this.onDestroy$.complete();
+  }
+
+  runAction(contentActionRef: ContentActionRef) {
+    this.extensions.runActionById(contentActionRef.actions.click, {
+      focusedElementOnCloseSelector: '.adf-context-menu-source'
+    });
   }
 }

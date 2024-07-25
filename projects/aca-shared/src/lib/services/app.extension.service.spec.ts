@@ -1675,4 +1675,14 @@ describe('AppExtensionService', () => {
     service.updateSidebarActions();
     expect(loader.getContentActions).toHaveBeenCalledWith(service.config, 'features.sidebar.toolbar');
   });
+
+  it('should emit resetBulkActions', (done) => {
+    spyOn(service, 'resetBulkActions').and.callThrough();
+    service.resetBulkActionsSubject$.subscribe(() => {
+      expect(service.resetBulkActions).toHaveBeenCalled();
+      done();
+    });
+
+    service.resetBulkActions();
+  });
 });
