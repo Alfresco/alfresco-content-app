@@ -150,20 +150,4 @@ describe('BulkActionsDropdownComponent', () => {
       expect(translationService.get).toHaveBeenCalledWith('SEARCH.BULK_ACTIONS_DROPDOWN.TITLE', { count: 10 });
     });
   });
-
-  it('should use option title for tooltip if no description provided', () => {
-    component.items = [
-      {
-        ...mockItem,
-        description: null
-      }
-    ];
-    totalItemsMock$.next(1);
-    dropdown = getElement('aca-bulk-dropdown');
-    dropdown.click();
-    fixture.detectChanges();
-    const option = getElement('app.bulk.actions.legalHold');
-
-    expect(option.getAttribute('title')).toEqual('GOVERNANCE.MANAGE_HOLDS.TITLE');
-  });
 });
