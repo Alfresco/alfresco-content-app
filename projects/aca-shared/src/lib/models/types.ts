@@ -29,6 +29,8 @@ export interface ExtensionRoute extends Route {
   parentRoute?: string;
 }
 
-export interface Badge extends ContentActionRef {
+export interface Badge extends Partial<Pick<ContentActionRef, 'component' | 'actions' | 'rules'>> {
+  id: string;
+  icon: string;
   tooltip: string;
 }
