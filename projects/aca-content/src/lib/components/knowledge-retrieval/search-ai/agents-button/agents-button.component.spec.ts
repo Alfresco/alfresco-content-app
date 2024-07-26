@@ -30,7 +30,7 @@ import { Subject } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { getAppSelection, SearchAiActionTypes, ToggleAISearchInput } from '@alfresco/aca-shared/store';
-import { NotificationService } from '@alfresco/adf-core';
+import { AvatarComponent, NotificationService } from '@alfresco/adf-core';
 import { SelectionState } from '@alfresco/adf-extensions';
 import { MatMenu, MatMenuPanel, MatMenuTrigger } from '@angular/material/menu';
 import { HarnessLoader } from '@angular/cdk/testing';
@@ -45,6 +45,7 @@ describe('AgentsButtonComponent', () => {
   let agents$: Subject<AgentPaging>;
   let agentPaging: AgentPaging;
   let checkSearchAvailabilitySpy: jasmine.Spy<(selectedNodesState: SelectionState, maxSelectedNodes?: number) => string>;
+  let selectionState: SelectionState;
   let store: MockStore;
 
   const getMenu = (): MatMenu => fixture.debugElement.query(By.directive(MatMenu)).componentInstance;
@@ -81,21 +82,17 @@ describe('AgentsButtonComponent', () => {
       }
     };
     checkSearchAvailabilitySpy = spyOn(TestBed.inject(SearchAiService), 'checkSearchAvailability');
+    selectionState = {
+      nodes: [],
+      isEmpty: true,
+      count: 0,
+      libraries: []
+    };
+    store.overrideSelector(getAppSelection, selectionState);
+    fixture.detectChanges();
   });
 
   describe('Button', () => {
-    const getMenuTrigger = (): MatMenuPanel => fixture.debugElement.query(By.directive(MatMenuTrigger)).injector.get(MatMenuTrigger).menu;
-
-    beforeEach(() => {
-      store.overrideSelector(getAppSelection, {
-        nodes: [],
-        isEmpty: true,
-        count: 0,
-        libraries: []
-      });
-      fixture.detectChanges();
-    });
-
     it('should be rendered if any agents are loaded', () => {
       agents$.next(agentPaging);
       fixture.detectChanges();
@@ -128,6 +125,8 @@ describe('AgentsButtonComponent', () => {
     ['mouseup', 'keydown'].forEach((eventName) => {
       describe(`${eventName} event`, () => {
         let event: Event;
+
+        const getMenuTrigger = (): MatMenuPanel => fixture.debugElement.query(By.directive(MatMenuTrigger)).injector.get(MatMenuTrigger).menu;
 
         beforeEach(() => {
           event =
@@ -180,6 +179,13 @@ describe('AgentsButtonComponent', () => {
           expect(menuTrigger).toBeTruthy();
           expect(menuTrigger).toBe(getMenu());
         });
+
+        it('should call checkSearchAvailability from SearchAiService with correct parameter', () => {
+          fixture.detectChanges();
+          getAgentsButton().dispatchEvent(event);
+
+          expect(checkSearchAvailabilitySpy).toHaveBeenCalledWith(selectionState);
+        });
       });
     });
   });
@@ -187,42 +193,42 @@ describe('AgentsButtonComponent', () => {
   describe('Agents menu', () => {
     let loader: HarnessLoader;
 
+    beforeEach(() => {
+      loader = TestbedHarnessEnvironment.loader(fixture);
+      agents$.next(agentPaging);
+      fixture.detectChanges();
+      checkSearchAvailabilitySpy.and.returnValue('');
+      const button = getAgentsButton();
+      button.dispatchEvent(new MouseEvent('mouseup'));
+      fixture.detectChanges();
+      button.click();
+      fixture.detectChanges();
+    });
+
     it('should have assigned before to xPosition', () => {
       expect(getMenu().xPosition).toBe('before');
     });
 
     describe('Agents list', () => {
+      const getAgentsListHarness = async (): Promise<MatSelectionListHarness> =>
+        (await loader.getHarness(MatMenuHarness)).getHarness(MatSelectionListHarness);
+
       const selectAgent = async (): Promise<void> =>
-        (await (await loader.getHarness(MatMenuHarness)).getHarness(MatSelectionListHarness)).selectItems({
+        (await getAgentsListHarness()).selectItems({
           fullText: 'PA Policy Agent'
         });
 
-      const getSelectionList = (): MatSelectionList => fixture.debugElement.query(By.directive(MatSelectionList)).componentInstance;
+      const getAgentsList = (): MatSelectionList => fixture.debugElement.query(By.directive(MatSelectionList)).componentInstance;
 
-      beforeEach(() => {
-        loader = TestbedHarnessEnvironment.loader(fixture);
-        store.overrideSelector(getAppSelection, {
-          nodes: [],
-          isEmpty: true,
-          count: 0,
-          libraries: []
-        });
-        fixture.detectChanges();
-        agents$.next(agentPaging);
-        fixture.detectChanges();
-        checkSearchAvailabilitySpy.and.returnValue('');
-        const button = getAgentsButton();
-        button.dispatchEvent(new MouseEvent('mouseup'));
-        fixture.detectChanges();
-        button.click();
-        fixture.detectChanges();
-      });
+      const getAvatar = (agentId: string): AvatarComponent =>
+        fixture.debugElement.query(By.css(`[data-automation-id=aca-agents-button-agent-${agentId}]`)).query(By.directive(AvatarComponent))
+          .componentInstance;
 
       it('should deselect selected agent after selecting other', async () => {
         component.data = {
           trigger: SearchAiActionTypes.ToggleAiSearchInput
         };
-        const selectionList = getSelectionList();
+        const selectionList = getAgentsList();
         spyOn(selectionList, 'deselectAll');
         await selectAgent();
 
@@ -243,11 +249,29 @@ describe('AgentsButtonComponent', () => {
       });
 
       it('should disallow selecting multiple agents', () => {
-        expect(getSelectionList().multiple).toBeFalse();
+        expect(getAgentsList().multiple).toBeFalse();
       });
 
       it('should have hidden single selection indicator', () => {
-        expect(getSelectionList().hideSingleSelectionIndicator).toBeTrue();
+        expect(getAgentsList().hideSingleSelectionIndicator).toBeTrue();
+      });
+
+      it('should display option for each agent', async () => {
+        const agents = await (await getAgentsListHarness()).getItems();
+
+        expect(agents.length).toBe(2);
+        expect(await agents[0].getFullText()).toBe('HA HR Agent');
+        expect(await agents[1].getFullText()).toBe('PA Policy Agent');
+      });
+
+      it('should display avatar for each agent', () => {
+        expect(getAvatar('1')).toBeTruthy();
+        expect(getAvatar('2')).toBeTruthy();
+      });
+
+      it('should assign correct initials to each avatar for each agent', () => {
+        expect(getAvatar('1').initials).toBe('HA');
+        expect(getAvatar('2').initials).toBe('PA');
       });
     });
   });
