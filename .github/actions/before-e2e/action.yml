@@ -1,30 +1,9 @@
 name: "Before e2e"
 description: "Before e2e"
 
-inputs:
-  e2e-protractor:
-    description: 'is e2e run with protractor'
-    required: false
-    type: boolean
-    default: false
-
 runs:
   using: "composite"
   steps:
     - name: Check content UP
       shell: bash
       run: ./node_modules/@alfresco/adf-cli/bin/adf-cli check-cs-env --host $BASE_URL -u $ADMIN_EMAIL -p $ADMIN_PASSWORD || exit 1
-
-    - name: Install google chrome v114
-      shell: bash
-      run: |
-          wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-          sudo apt install ./google-chrome-stable_current_amd64.deb
-          sudo ln -s /usr/bin/google-chrome /usr/bin/chrome
-          chrome --version
-
-    - name: Update webdriver-manager
-      if: ${{ inputs.e2e-protractor == 'true' }}
-      shell: bash
-      run: |
-        npm run update-webdriver

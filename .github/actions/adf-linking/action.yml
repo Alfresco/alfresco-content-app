@@ -11,7 +11,6 @@ runs:
         if [[ $COMMIT_MESSAGE == *"[link-adf:"* ]]; then
           echo "BUILD_OPTS=--configuration=adf,e2e" >> $GITHUB_ENV
           echo "TEST_OPTS=--configuration=adfprod" >> $GITHUB_ENV
-          echo "E2E_PROTRACTOR_OPTS=--with-local-adf" >> $GITHUB_ENV
           echo "E2E_TSCONFIG=tsconfig.e2e.adf.json" >> $GITHUB_ENV
 
           BRANCH=`echo $COMMIT_MESSAGE | grep -o "\[link-adf\:[^]]*\]" | sed -e 's#\[link-adf:##g' | sed -e 's#\]##g'`

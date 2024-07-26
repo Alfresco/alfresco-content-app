@@ -23,7 +23,7 @@
  */
 
 import { Page } from '@playwright/test';
-import { GenericLogger, LoggerLike } from '@alfresco/aca-testing-shared';
+import { GenericLogger, LoggerLike } from '@alfresco/playwright-shared';
 
 export abstract class PlaywrightBase {
   public page: Page;

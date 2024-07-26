@@ -22,19 +22,25 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component } from '../component';
+export type ApiResultPredicate<T> = (result: T) => boolean;
+export type ApiCall<T> = () => Promise<T>;
 
-export class Breadcrumb extends Component {
-  items = this.allByCss('.adf-breadcrumb-item');
+export async function waitForApi<T>(apiCall: ApiCall<T>, predicate: ApiResultPredicate<T>, retry: number = 30, delay: number = 1000) {
+  const apiCallWithPredicateChecking = async () => {
+    const apiCallResult = await apiCall();
+    if (predicate(apiCallResult)) {
+      return Promise.resolve(apiCallResult);
+    } else {
+      return Promise.reject(new Error(`API call did not satisfy predicate: ${JSON.stringify(apiCallResult)}`));
+    }
+  };
 
-  constructor(ancestor?: string) {
-    super('adf-breadcrumb', ancestor);
-  }
+  return retryCall(apiCallWithPredicateChecking, retry, delay);
+}
 
-  async getAllItems(): Promise<string[]> {
-    return this.items.map(async (elem) => {
-      const str = await elem.getText();
-      return str.split('\nchevron_right')[0];
-    });
-  }
+function retryCall(fn: () => Promise<any>, retry: number = 30, delay: number = 1000): Promise<string> {
+  const pause = (duration) => new Promise((res) => setTimeout(res, duration));
+  const run = (retries) => fn().catch((err) => (retries > 1 ? pause(delay).then(() => run(retries - 1)) : Promise.reject(new Error(`API call did not satisfy predicate: ${JSON.stringify(err)}`))));
+
+  return run(retry);
 }
