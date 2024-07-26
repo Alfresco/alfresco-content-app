@@ -3,8 +3,6 @@
   "version": "4.5.0",
   "license": "LGPL-3.0",
   "scripts": {
-    "postinstall": "ngcc",
-    "ng": "ng",
     "start": "nx serve content-ce",
     "start:prod": "node --max-old-space-size=8192 nx serve content-ce --configuration production",
     "build": "nx build content-ce",
@@ -87,7 +85,6 @@
     "@types/jasmine": "~3.6.0",
     "@types/jasminewd2": "^2.0.8",
     "@types/node": "^15.14.9",
-    "@types/selenium-webdriver": "^4.0.9",
     "@types/superagent": "^4.1.10",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.48.2",
@@ -117,12 +114,10 @@
     "node-stream-zip": "^1.14.0",
     "nx": "17.3.1",
     "prettier": "2.8.8",
-    "selenium-webdriver": "^4.1.1",
     "stylelint": "^15.11.0",
     "stylelint-config-standard-scss": "^7.0.1",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "4.2.0",
-    "typescript": "4.9.5",
-    "webdriver-manager": "12.1.8"
+    "typescript": "4.9.5"
   }
 }
