@@ -80,7 +80,7 @@
     "@nx/workspace": "17.0.2",
     "@playwright/test": "^1.42.1",
     "@reportportal/agent-js-playwright": "^5.1.9",
-    "@schematics/angular": "15.2.10",
+    "@schematics/angular": "18.1.2",
     "@types/event-emitter": "^0.3.3",
     "@types/jasmine": "~3.6.0",
     "@types/jasminewd2": "^2.0.8",
