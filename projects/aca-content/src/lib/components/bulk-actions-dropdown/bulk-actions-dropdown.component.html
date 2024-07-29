@@ -2,15 +2,15 @@
   *ngIf="items?.length"
   [title]="tooltip"
   appearance="outline"
-  class="aca-bulk-form-field"
-  data-automation-id="aca-bulk-form-field"
+  class="aca-bulk-actions-form-field"
+  data-automation-id="aca-bulk-actions-form-field"
 >
   <mat-select
     [formControl]="disableControl"
     [placeholder]="placeholder"
-    panelClass="aca-bulk-select"
+    panelClass="aca-bulk-actions-select"
     disableOptionCentering
-    data-automation-id="aca-bulk-dropdown"
+    data-automation-id="aca-bulk-actions-dropdown"
   >
     <mat-option
       *ngFor="let option of items"
@@ -22,7 +22,7 @@
         *ngIf="option.icon"
         [title]="option.title | translate"
         [value]="option.icon"
-        [attr.data-automation-id]="'aca-option-icon-' + option.id"
+        [attr.data-automation-id]="'aca-bulk-action-icon-' + option.id"
       ></adf-icon>
       {{ option.title | translate }}
     </mat-option>

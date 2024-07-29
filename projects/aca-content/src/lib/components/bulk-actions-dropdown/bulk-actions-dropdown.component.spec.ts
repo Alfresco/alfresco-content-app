@@ -41,14 +41,13 @@ describe('BulkActionsDropdownComponent', () => {
   let dropdown: HTMLElement;
 
   const mockItem: ContentActionRef = {
-    id: 'app.bulk.actions.legalHold',
-    component: 'app.bulk-actions-dropdown',
-    title: 'GOVERNANCE.MANAGE_HOLDS.TITLE',
-    tooltip: 'GOVERNANCE.MANAGE_HOLDS.TITLE',
-    icon: 'adf:manage_hold',
+    id: 'mockId',
+    title: 'some title',
+    tooltip: 'some tooltip',
+    icon: 'adf:mock-icon',
     type: ContentActionType.custom,
     rules: {
-      visible: 'app.manage.holds.isLegalHoldPluginEnabled'
+      visible: 'isItemVisible'
     }
   };
 
@@ -84,8 +83,8 @@ describe('BulkActionsDropdownComponent', () => {
     beforeEach(() => {
       totalItemsMock$.next(0);
       fixture.detectChanges();
-      dropdown = getElement('aca-bulk-dropdown');
-      bulkFormField = getElement('aca-bulk-form-field');
+      dropdown = getElement('aca-bulk-actions-dropdown');
+      bulkFormField = getElement('aca-bulk-actions-form-field');
       fixture.detectChanges();
     });
 
@@ -98,7 +97,7 @@ describe('BulkActionsDropdownComponent', () => {
     });
 
     it('should have correct placeholder', () => {
-      expect(getLabelText('aca-bulk-dropdown')).toEqual('SEARCH.BULK_ACTIONS_DROPDOWN.BULK_NOT_AVAILABLE');
+      expect(getLabelText('aca-bulk-actions-dropdown')).toEqual('SEARCH.BULK_ACTIONS_DROPDOWN.BULK_NOT_AVAILABLE');
     });
 
     it('should call translationService.get with correct arguments', () => {
@@ -111,8 +110,8 @@ describe('BulkActionsDropdownComponent', () => {
     beforeEach(() => {
       totalItemsMock$.next(10);
       fixture.detectChanges();
-      dropdown = getElement('aca-bulk-dropdown');
-      bulkFormField = getElement('aca-bulk-form-field');
+      dropdown = getElement('aca-bulk-actions-dropdown');
+      bulkFormField = getElement('aca-bulk-actions-form-field');
       dropdown.click();
       fixture.detectChanges();
     });
@@ -126,25 +125,25 @@ describe('BulkActionsDropdownComponent', () => {
     });
 
     it('should have correct placeholder', () => {
-      expect(getLabelText('aca-bulk-dropdown')).toEqual('SEARCH.BULK_ACTIONS_DROPDOWN.TITLE');
+      expect(getLabelText('aca-bulk-actions-dropdown')).toEqual('SEARCH.BULK_ACTIONS_DROPDOWN.TITLE');
     });
 
     it('should have option with correct tooltip', () => {
-      const option = getElement('app.bulk.actions.legalHold');
+      const option = getElement('mockId');
 
-      expect(option.getAttribute('title')).toEqual('GOVERNANCE.MANAGE_HOLDS.TITLE');
+      expect(option.getAttribute('title')).toEqual('some tooltip');
     });
 
     it('should have option with correct label', () => {
-      const optionLabel = getLabelText('app.bulk.actions.legalHold');
+      const optionLabel = getLabelText('mockId');
 
-      expect(optionLabel).toEqual('GOVERNANCE.MANAGE_HOLDS.TITLE');
+      expect(optionLabel).toEqual('some title');
     });
 
     it('should have correct icon in an option', () => {
-      const icon = getElement('aca-option-icon-app.bulk.actions.legalHold');
+      const icon = getElement('aca-bulk-action-icon-mockId');
 
-      expect(icon.getAttribute('title')).toEqual('GOVERNANCE.MANAGE_HOLDS.TITLE');
+      expect(icon.getAttribute('title')).toEqual('some title');
     });
 
     it('should call translationService.get with correct arguments', () => {
