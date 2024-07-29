@@ -4,11 +4,11 @@
     <div class="aca-rule-details__form__row">
       <label class="aca-rule-details__name__label" for="rule-details-name-input">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.NAME' | translate }}</label>
       <div>
-        <mat-form-field appearance="fill" floatLabel='auto' class="aca-rule-details__form__row__field">
+        <mat-form-field appearance="fill" floatLabel='always' class="aca-rule-details__form__row__field">
+          <mat-label *ngIf="name.value === ''">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.PLACEHOLDER.NAME' | translate }}</mat-label>
           <input
             id="rule-details-name-input"
-            matInput type="text" formControlName="name" data-automation-id="rule-details-name-input"
-            [placeholder]="'ACA_FOLDER_RULES.RULE_DETAILS.PLACEHOLDER.NAME' | translate">
+            matInput type="text" formControlName="name" data-automation-id="rule-details-name-input">
           <mat-error>{{ 'ACA_FOLDER_RULES.RULE_DETAILS.ERROR.REQUIRED' | translate }}</mat-error>
         </mat-form-field>
       </div>

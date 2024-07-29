@@ -33,6 +33,10 @@
       align-items: baseline;
       gap: 8px;
 
+      #{$mat-floating-label}#{$mat-floating-label-above} {
+        transform: translateY(-122%) scale(1);
+      }
+
       & > label,
       & > .aca-label {
         font-weight: bold;
