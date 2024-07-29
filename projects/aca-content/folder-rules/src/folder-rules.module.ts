@@ -22,10 +22,10 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { TranslationService } from '@alfresco/adf-core';
+import { provideTranslations } from '@alfresco/adf-core';
 import { ExtensionService, provideExtensionConfig } from '@alfresco/adf-extensions';
 import { NgModule } from '@angular/core';
-import * as rules from './folder-rules.rules';
+import { canManageFolderRules } from './folder-rules.rules';
 import { RouterModule, Routes } from '@angular/router';
 import { EditRuleDialogUiComponent } from './rule-details/edit-rule-dialog.ui-component';
 import { ManageRulesSmartComponent } from './manage-rules/manage-rules.smart-component';
@@ -54,7 +54,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  providers: [provideExtensionConfig(['folder-rules.plugin.json'])],
+  providers: [provideExtensionConfig(['folder-rules.plugin.json']), provideTranslations('folder-rules', 'assets/folder-rules')],
   imports: [
     RouterModule.forChild(routes),
     RuleListItemUiComponent,
@@ -73,11 +73,9 @@ const routes: Routes = [
   ]
 })
 export class AcaFolderRulesModule {
-  constructor(translation: TranslationService, extensions: ExtensionService) {
-    translation.addTranslationFolder('folder-rules', 'assets/folder-rules');
-
+  constructor(extensions: ExtensionService) {
     extensions.setEvaluators({
-      'rules.canManageFolderRules': rules.canManageFolderRules
+      'rules.canManageFolderRules': canManageFolderRules
     });
   }
 }

@@ -28,24 +28,18 @@ import { MetadataTabComponent } from './metadata-tab/metadata-tab.component';
 import { LibraryMetadataTabComponent } from './library-metadata-tab/library-metadata-tab.component';
 import { LibraryMetadataFormComponent } from './library-metadata-tab/library-metadata-form.component';
 import { VersionsTabComponent } from './versions-tab/versions-tab.component';
-import { InfoDrawerComponent } from '@alfresco/aca-shared';
 
+export const INFO_DRAWER_DIRECTIVES = [
+  CommentsTabComponent,
+  LibraryMetadataFormComponent,
+  LibraryMetadataTabComponent,
+  MetadataTabComponent,
+  VersionsTabComponent
+] as const;
+
+/** @deprecated use `...INFO_DRAWER_DIRECTIVES` or import the individual components */
 @NgModule({
-  imports: [
-    InfoDrawerComponent,
-    CommentsTabComponent,
-    LibraryMetadataFormComponent,
-    LibraryMetadataTabComponent,
-    MetadataTabComponent,
-    VersionsTabComponent
-  ],
-  exports: [
-    InfoDrawerComponent,
-    CommentsTabComponent,
-    LibraryMetadataFormComponent,
-    LibraryMetadataTabComponent,
-    MetadataTabComponent,
-    VersionsTabComponent
-  ]
+  imports: [...INFO_DRAWER_DIRECTIVES],
+  exports: [...INFO_DRAWER_DIRECTIVES]
 })
 export class AppInfoDrawerModule {}
