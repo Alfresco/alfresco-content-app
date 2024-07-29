@@ -27,7 +27,7 @@ import { ActivatedRoute, NavigationStart } from '@angular/router';
 import { ContentApiService, PageComponent, PageLayoutComponent, ToolbarComponent } from '@alfresco/aca-shared';
 import { NavigateToFolder, NavigateToPreviousPage, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { merge, Subject } from 'rxjs';
-import { BreadcrumbModule, ContentService, PermissionManagerModule } from '@alfresco/adf-content-services';
+import { ContentService, PermissionManagerModule, BreadcrumbComponent } from '@alfresco/adf-content-services';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatIconModule } from '@angular/material/icon';
@@ -46,7 +46,7 @@ import { ContentActionRef } from '@alfresco/adf-extensions';
     CommonModule,
     TranslateModule,
     PermissionManagerModule,
-    BreadcrumbModule,
+    BreadcrumbComponent,
     MatIconModule,
     MatTabsModule,
     MatProgressBarModule,
