@@ -14,7 +14,8 @@
   <mat-option
     *ngFor="let agent of agents"
     [value]="agent"
-    class="aca-search-ai-input-agent-select-options-option">
+    class="aca-search-ai-input-agent-select-options-option"
+    [attr.data-automation-id]="'aca-search-ai-input-agent-' + agent.id">
     <div class="aca-search-ai-input-agent-select-options-option-content">
       <adf-avatar [initials]="initialsByAgentId[agent.id]"></adf-avatar>
       {{ agent.name }}
@@ -24,7 +25,6 @@
 <input
   class="aca-search-ai-input-text"
   matInput
-  [type]="'text'"
   [formControl]="queryControl"
   data-automation-id="aca-search-ai-input"
   [placeholder]="placeholder | translate"
