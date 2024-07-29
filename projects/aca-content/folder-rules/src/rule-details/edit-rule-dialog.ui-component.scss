@@ -1,9 +1,17 @@
+@import '@alfresco/adf-core/lib/styles/mat-selectors';
+
 .aca-edit-rule-dialog-container {
   --edit-rule-dialog-padding: 8px 20px;
+
+  #{$mat-dialog-surface} {
+    padding: 0;
+  }
 }
 
 .aca-edit-rule-dialog {
-  margin: -24px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 
   input {
     box-sizing: border-box;
@@ -12,7 +20,7 @@
   .aca-edit-rule-dialog__header {
     display: flex;
     align-items: center;
-    margin: -43px -24px 0;
+    margin-bottom: 0;
     padding: var(--edit-rule-dialog-padding);
     box-sizing: border-box;
     border-bottom: 1px solid var(--theme-border-color);
@@ -31,7 +39,6 @@
   }
 
   .aca-edit-rule-dialog__content {
-    margin: 0 -24px;
     padding: 0;
 
     &__spinner {
@@ -43,7 +50,6 @@
   }
 
   .aca-edit-rule-dialog__footer {
-    margin: 0 -24px -27px;
     padding: var(--edit-rule-dialog-padding);
     box-sizing: border-box;
     border-top: 1px solid var(--theme-border-color);
