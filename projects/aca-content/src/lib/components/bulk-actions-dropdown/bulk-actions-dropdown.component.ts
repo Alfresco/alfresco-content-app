@@ -25,8 +25,8 @@
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { AppStore, getSearchItemsTotalCount } from '@alfresco/aca-shared/store';
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { MatSelect, MatSelectModule } from '@angular/material/select';
+import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { MatSelectModule } from '@angular/material/select';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { combineLatest, Observable, Subject } from 'rxjs';
@@ -46,11 +46,9 @@ import { AppExtensionService } from '@alfresco/aca-shared';
 export class BulkActionsDropdownComponent implements OnInit, OnDestroy {
   @Input() items: ContentActionRef[];
 
-  @ViewChild(MatSelect) select: MatSelect;
-
   placeholder: string;
   tooltip: string;
-  disableControl = new FormControl();
+  bulkSelectControl = new FormControl();
 
   private readonly totalItems$: Observable<number> = this.store.select(getSearchItemsTotalCount);
   private readonly onDestroy$ = new Subject();
@@ -62,14 +60,14 @@ export class BulkActionsDropdownComponent implements OnInit, OnDestroy {
       .pipe(
         switchMap((totalItems) => {
           if (totalItems > 0) {
-            this.disableControl.enable();
+            this.bulkSelectControl.enable();
 
             return combineLatest([
               this.translationService.get('SEARCH.BULK_ACTIONS_DROPDOWN.TITLE', { count: totalItems }),
               this.translationService.get('SEARCH.BULK_ACTIONS_DROPDOWN.TITLE', { count: totalItems })
             ]);
           } else {
-            this.disableControl.disable();
+            this.bulkSelectControl.disable();
 
             return combineLatest([
               this.translationService.get('SEARCH.BULK_ACTIONS_DROPDOWN.BULK_NOT_AVAILABLE'),
@@ -84,8 +82,8 @@ export class BulkActionsDropdownComponent implements OnInit, OnDestroy {
         this.placeholder = placeholder;
       });
 
-    this.extensions.resetBulkActionsSubject$.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
-      this.select.value = null;
+    this.extensions.resetBulkActions$.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
+      this.bulkSelectControl.setValue(null);
     });
   }
 

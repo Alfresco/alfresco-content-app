@@ -63,7 +63,7 @@ import { SearchCategory } from '@alfresco/adf-content-services';
 })
 export class AppExtensionService implements RuleContext {
   private _references = new BehaviorSubject<ExtensionRef[]>([]);
-  resetBulkActionsSubject$ = new Subject<void>();
+  resetBulkActions$ = new Subject<void>();
 
   navbar: Array<NavBarGroupRef> = [];
   sidebarTabs: Array<SidebarTabRef> = [];
@@ -574,6 +574,6 @@ export class AppExtensionService implements RuleContext {
   }
 
   resetBulkActions(): void {
-    this.resetBulkActionsSubject$.next();
+    this.resetBulkActions$.next();
   }
 }

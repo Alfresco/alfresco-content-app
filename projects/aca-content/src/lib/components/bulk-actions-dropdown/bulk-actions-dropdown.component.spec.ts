@@ -180,12 +180,12 @@ describe('BulkActionsDropdownComponent', () => {
         option.click();
         fixture.detectChanges();
 
-        expect(component.select.value).toEqual(mockItem.id);
+        expect(component.bulkSelectControl.value).toEqual(mockItem.id);
 
         extensionService.resetBulkActions();
         fixture.detectChanges();
 
-        expect(component.select.value).toBeNull();
+        expect(component.bulkSelectControl.value).toBeNull();
       });
     });
   });

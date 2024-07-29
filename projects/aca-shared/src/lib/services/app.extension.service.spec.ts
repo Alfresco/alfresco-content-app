@@ -1678,7 +1678,7 @@ describe('AppExtensionService', () => {
 
   it('should emit resetBulkActions', (done) => {
     spyOn(service, 'resetBulkActions').and.callThrough();
-    service.resetBulkActionsSubject$.subscribe(() => {
+    service.resetBulkActions$.subscribe(() => {
       expect(service.resetBulkActions).toHaveBeenCalled();
       done();
     });
