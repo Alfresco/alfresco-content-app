@@ -1,6 +1,44 @@
+@import '@alfresco/adf-core/lib/styles/mat-selectors';
+
 app-about-page {
   adf-about {
     padding: 10px;
     width: 100%;
+
+    #{$mat-data-table-header-cell} {
+      color: var(--adf-theme-foreground-text-color-054);
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    background-color: var(--theme-about-panel-background-color);
+    overflow: auto;
+
+    #{$mat-accordion} {
+      box-shadow: none;
+      border: none;
+
+      &.adf-about-panel {
+        #{$mat-expansion-panel} {
+          box-shadow: none;
+          border-radius: 12px;
+          margin: 24px;
+          width: 95%;
+          border: 1px solid var(--theme-about-panel-border-color);
+        }
+      }
+    }
+
+    #{$mat-expansion-panel-header} {
+      height: 80px;
+      line-height: 32px;
+    }
+
+    mat-panel-title {
+      font-style: normal;
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 24px;
+    }
   }
 }
