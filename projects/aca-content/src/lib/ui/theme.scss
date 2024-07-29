@@ -14,12 +14,6 @@ mat-icon {
   vertical-align: middle;
 }
 
-button {
-  #{$mat-icon} {
-    margin-top: -10px;
-  }
-}
-
 .adf-name-location-cell-location.adf-datatable-cell-value {
   color: var(--theme-secondary-text);
 }
@@ -329,6 +323,14 @@ adf-dynamic-component {
   .adf-datatable-checkbox {
     #{$mat-checkbox} label {
       display: none;
+    }
+  }
+}
+
+.adf-datatable-cell-header {
+  button {
+    #{$mat-icon} {
+      margin-top: -10px;
     }
   }
 }
