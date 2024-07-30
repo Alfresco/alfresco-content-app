@@ -165,7 +165,7 @@ describe('BulkActionsDropdownComponent', () => {
       it('should run action on selection', () => {
         spyOn(component, 'runAction').and.callThrough();
         spyOn(extensionService, 'runActionById');
-        const option = getElement('app.bulk.actions.legalHold');
+        const option = getElement(mockItem.id);
         option.click();
         fixture.detectChanges();
 
@@ -176,7 +176,7 @@ describe('BulkActionsDropdownComponent', () => {
       });
 
       it('should reset selection on resetBulkActions', () => {
-        const option = getElement('app.bulk.actions.legalHold');
+        const option = getElement(mockItem.id);
         option.click();
         fixture.detectChanges();
 
