@@ -29,15 +29,18 @@ import { By } from '@angular/platform-browser';
 import { AgentService, ContentTestingModule, SearchAiService } from '@alfresco/adf-content-services';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { getAppSelection } from '@alfresco/aca-shared/store';
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { MatDivider } from '@angular/material/divider';
 import { DebugElement } from '@angular/core';
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
+import { SearchAiNavigationService } from '../../../../services/search-ai-navigation.service';
+import { NavigationEnd, NavigationStart, Router, RouterEvent } from '@angular/router';
 
 describe('SearchAiInputContainerComponent', () => {
   let component: SearchAiInputContainerComponent;
   let fixture: ComponentFixture<SearchAiInputContainerComponent>;
+  let routingEvents$: Subject<RouterEvent>;
   let searchAiService: SearchAiService;
   let store: MockStore;
 
@@ -78,13 +81,15 @@ describe('SearchAiInputContainerComponent', () => {
       libraries: []
     });
     component.agentId = '1';
+    routingEvents$ = new Subject<RouterEvent>();
+    spyOnProperty(TestBed.inject(Router), 'events').and.returnValue(routingEvents$);
+    fixture.detectChanges();
   });
 
   describe('Search ai input', () => {
     let inputComponent: SearchAiInputComponent;
 
     beforeEach(() => {
-      fixture.detectChanges();
       inputComponent = fixture.debugElement.query(By.directive(SearchAiInputComponent)).componentInstance;
     });
 
@@ -132,7 +137,6 @@ describe('SearchAiInputContainerComponent', () => {
     let button: DebugElement;
 
     beforeEach(() => {
-      fixture.detectChanges();
       button = fixture.debugElement.query(By.directive(MatIconButton));
     });
 
@@ -151,6 +155,32 @@ describe('SearchAiInputContainerComponent', () => {
       expect(searchAiService.updateSearchAiInputState).toHaveBeenCalledWith({
         active: false
       });
+    });
+
+    it('should call navigateToPreviousRoute on SearchAiNavigationService when clicked', () => {
+      const searchNavigationService = TestBed.inject(SearchAiNavigationService);
+      spyOn(searchNavigationService, 'navigateToPreviousRoute');
+      button.nativeElement.click();
+
+      expect(searchNavigationService.navigateToPreviousRoute).toHaveBeenCalled();
+    });
+  });
+
+  describe('Navigation', () => {
+    it('should call updateSearchAiInputState on SearchAiService when navigation starts', () => {
+      spyOn(searchAiService, 'updateSearchAiInputState');
+      routingEvents$.next(new NavigationStart(1, ''));
+
+      expect(searchAiService.updateSearchAiInputState).toHaveBeenCalledWith({
+        active: false
+      });
+    });
+
+    it('should not call updateSearchAiInputState on SearchAiService when there is different event than navigation starts', () => {
+      spyOn(searchAiService, 'updateSearchAiInputState');
+      routingEvents$.next(new NavigationEnd(1, '', ''));
+
+      expect(searchAiService.updateSearchAiInputState).not.toHaveBeenCalled();
     });
   });
 });
