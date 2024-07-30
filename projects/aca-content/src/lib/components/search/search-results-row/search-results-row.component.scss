@@ -1,6 +1,15 @@
 .aca-search-results-row {
+  display: flex;
   padding: 10px 0;
   width: inherit;
+
+  .aca-search-results-text {
+    flex: 1;
+  }
+
+  .aca-name-column-badges {
+    margin: auto;
+  }
 
   .aca-highlight {
     background: var(--theme-search-highlight-background-color);
