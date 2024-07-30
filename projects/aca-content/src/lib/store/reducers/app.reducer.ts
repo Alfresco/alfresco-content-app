@@ -38,7 +38,8 @@ import {
   SetInfoDrawerPreviewStateAction,
   AppActionTypes,
   ShowLoaderAction,
-  INITIAL_APP_STATE
+  INITIAL_APP_STATE,
+  SetSearchItemsTotalCountAction
 } from '@alfresco/aca-shared/store';
 
 export function appReducer(state: AppState = INITIAL_APP_STATE, action: Action): AppState {
@@ -83,6 +84,12 @@ export function appReducer(state: AppState = INITIAL_APP_STATE, action: Action):
       break;
     case AppActionTypes.ShowLoaderAction:
       newState = showLoader(state, action as ShowLoaderAction);
+      break;
+    case AppActionTypes.SetSearchItemsTotalCount:
+      newState = {
+        ...state,
+        searchItemsTotalCount: (action as SetSearchItemsTotalCountAction).payload
+      };
       break;
     default:
       newState = { ...state };

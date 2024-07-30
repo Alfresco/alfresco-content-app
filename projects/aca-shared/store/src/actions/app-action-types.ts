@@ -38,5 +38,6 @@ export enum AppActionTypes {
   SetFileUploadingDialog = 'SET_FILE_UPLOADING_DIALOG',
   ShowInfoDrawerPreview = 'SHOW_INFO_DRAWER_PREVIEW',
   SetInfoDrawerPreviewState = 'SET_INFO_DRAWER_PREVIEW_STATE',
-  ShowLoaderAction = 'SHOW_LOADER'
+  ShowLoaderAction = 'SHOW_LOADER',
+  SetSearchItemsTotalCount = 'SET_SEARCH_ITEMS_TOTAL_COUNT'
 }

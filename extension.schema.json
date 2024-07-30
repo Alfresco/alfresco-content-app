@@ -115,6 +115,10 @@
           "description": "Element title",
           "type": "string"
         },
+        "tooltip": {
+          "description": "Element tooltip to display on hover",
+          "type": "string"
+        },
         "description": {
           "description": "Element description, used for the tooltips.",
           "type": "string"
@@ -833,6 +837,12 @@
         },
         "contextMenu": {
           "description": "Context menu entries",
+          "type": "array",
+          "items": { "$ref": "#/definitions/contentActionRef" },
+          "minItems": 1
+        },
+        "bulk-actions": {
+          "description": "Bulk actions entries",
           "type": "array",
           "items": { "$ref": "#/definitions/contentActionRef" },
           "minItems": 1
