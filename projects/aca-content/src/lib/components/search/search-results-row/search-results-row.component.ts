@@ -52,12 +52,12 @@ export class SearchResultsRowComponent implements OnInit, OnDestroy {
   private readonly highlightPrefix = '<span class="aca-highlight">';
   private readonly highlightPostfix = '</span>';
 
-  node: NodeEntry;
   private onDestroy$ = new Subject<boolean>();
 
   @Input()
   context: any;
 
+  node: NodeEntry;
   name$ = new BehaviorSubject<string>('');
   title$ = new BehaviorSubject<string>('');
   description$ = new BehaviorSubject<string>('');
@@ -67,7 +67,6 @@ export class SearchResultsRowComponent implements OnInit, OnDestroy {
   descriptionStripped = '';
   contentStripped = '';
   badges: Badge[];
-
   isFile = false;
 
   constructor(
