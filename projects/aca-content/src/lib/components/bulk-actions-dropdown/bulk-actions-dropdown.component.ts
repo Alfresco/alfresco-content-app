@@ -82,7 +82,7 @@ export class BulkActionsDropdownComponent implements OnInit, OnDestroy {
         this.placeholder = placeholder;
       });
 
-    this.extensions.resetBulkActions$.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
+    this.extensions.bulkActionExecuted$.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
       this.bulkSelectControl.setValue(null);
     });
   }

@@ -175,14 +175,14 @@ describe('BulkActionsDropdownComponent', () => {
         });
       });
 
-      it('should reset selection on resetBulkActions', () => {
+      it('should reset selection on bulkActionExecuted', () => {
         const option = getElement(mockItem.id);
         option.click();
         fixture.detectChanges();
 
         expect(component.bulkSelectControl.value).toEqual(mockItem.id);
 
-        extensionService.resetBulkActions();
+        extensionService.bulkActionExecuted();
         fixture.detectChanges();
 
         expect(component.bulkSelectControl.value).toBeNull();
