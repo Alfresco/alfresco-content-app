@@ -1,0 +1,30 @@
+<mat-form-field
+  *ngIf="items?.length"
+  [title]="tooltip"
+  appearance="outline"
+  class="aca-bulk-actions-form-field"
+  data-automation-id="aca-bulk-actions-form-field"
+>
+  <mat-select
+    [formControl]="disableControl"
+    [placeholder]="placeholder"
+    panelClass="aca-bulk-actions-select"
+    disableOptionCentering
+    data-automation-id="aca-bulk-actions-dropdown"
+  >
+    <mat-option
+      *ngFor="let option of items"
+      [value]="option.id"
+      [title]="option.tooltip | translate"
+      [attr.data-automation-id]="option.id"
+    >
+      <adf-icon
+        *ngIf="option.icon"
+        [title]="option.title | translate"
+        [value]="option.icon"
+        [attr.data-automation-id]="'aca-bulk-action-icon-' + option.id"
+      ></adf-icon>
+      {{ option.title | translate }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

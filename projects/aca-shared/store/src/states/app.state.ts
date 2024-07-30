@@ -55,7 +55,8 @@ export const INITIAL_APP_STATE: AppState = {
     status: {
       isQuickShareEnabled: true
     }
-  } as any
+  } as any,
+  searchItemsTotalCount: null
 };
 
 /** @deprecated no longer used */
@@ -74,6 +75,7 @@ export interface AppState {
   repository: RepositoryInfo;
   fileUploadingDialog: boolean;
   showLoader: boolean;
+  searchItemsTotalCount: number;
 }
 
 export interface AppStore {

@@ -88,6 +88,16 @@ describe('AppExtensionService', () => {
     }
   };
 
+  const defaultConfigMock = {
+    $id: 'test',
+    $name: 'test',
+    $version: '1.0.0',
+    $license: 'MIT',
+    $vendor: 'Good company',
+    $runtime: '1.5.0',
+    features: {}
+  } as ExtensionConfig;
+
   describe('configs', () => {
     it('should log an error during setup', async () => {
       spyOn(extensions, 'load').and.returnValue(Promise.resolve(null));
@@ -100,12 +110,7 @@ describe('AppExtensionService', () => {
 
     it('should load content metadata presets', () => {
       applyConfig({
-        $id: 'test',
-        $name: 'test',
-        $version: '1.0.0',
-        $license: 'MIT',
-        $vendor: 'Good company',
-        $runtime: '1.5.0',
+        ...defaultConfigMock,
         features: {
           'content-metadata-presets': [
             {
@@ -180,12 +185,7 @@ describe('AppExtensionService', () => {
 
     it('should support column orders', (done) => {
       applyConfig({
-        $id: 'test',
-        $name: 'test',
-        $version: '1.0.0',
-        $license: 'MIT',
-        $vendor: 'Good company',
-        $runtime: '1.5.0',
+        ...defaultConfigMock,
         features: {
           documentList: {
             files: [
@@ -250,12 +250,7 @@ describe('AppExtensionService', () => {
 
     it('should ignore column if visibility in rules is false', (done) => {
       applyConfig({
-        $id: 'test',
-        $name: 'test',
-        $version: '1.0.0',
-        $license: 'MIT',
-        $vendor: 'Good company',
-        $runtime: '1.5.0',
+        ...defaultConfigMock,
         features: {
           documentList: {
             files: [
@@ -301,12 +296,7 @@ describe('AppExtensionService', () => {
   describe('actions', () => {
     beforeEach(() => {
       applyConfig({
-        $id: 'test',
-        $name: 'test',
-        $version: '1.0.0',
-        $license: 'MIT',
-        $vendor: 'Good company',
-        $runtime: '1.5.0',
+        ...defaultConfigMock,
         actions: [
           {
             id: 'aca:actions/create-folder',
@@ -415,12 +405,7 @@ describe('AppExtensionService', () => {
   describe('content actions', () => {
     it('should load content actions from the config', (done) => {
       applyConfig({
-        $id: 'test',
-        $name: 'test',
-        $version: '1.0.0',
-        $license: 'MIT',
-        $vendor: 'Good company',
-        $runtime: '1.5.0',
+        ...defaultConfigMock,
         features: {
           toolbar: [
             {
@@ -447,12 +432,7 @@ describe('AppExtensionService', () => {
 
     it('should sort content actions by order', (done) => {
       applyConfig({
-        $id: 'test',
-        $name: 'test',
-        $version: '1.0.0',
-        $license: 'MIT',
-        $vendor: 'Good company',
-        $runtime: '1.5.0',
+        ...defaultConfigMock,
         features: {
           toolbar: [
             {
@@ -483,12 +463,7 @@ describe('AppExtensionService', () => {
   describe('open with', () => {
     it('should load [open with] actions for the viewer', (done) => {
       applyConfig({
-        $id: 'test',
-        $name: 'test',
-        $version: '1.0.0',
-        $license: 'MIT',
-        $vendor: 'Good company',
-        $runtime: '1.5.0',
+        ...defaultConfigMock,
         features: {
           viewer: {
             openWith: [
@@ -516,12 +491,7 @@ describe('AppExtensionService', () => {
 
     it('should load only enabled [open with] actions for the viewer', (done) => {
       applyConfig({
-        $id: 'test',
-        $name: 'test',
-        $version: '1.0.0',
-        $license: 'MIT',
-        $vendor: 'Good company',
-        $runtime: '1.5.0',
+        ...defaultConfigMock,
         features: {
           viewer: {
             openWith: [
@@ -560,12 +530,7 @@ describe('AppExtensionService', () => {
 
     it('should sort [open with] actions by order', (done) => {
       applyConfig({
-        $id: 'test',
-        $name: 'test',
-        $version: '1.0.0',
-        $license: 'MIT',
-        $vendor: 'Good company',
-        $runtime: '1.5.0',
+        ...defaultConfigMock,
         features: {
           viewer: {
             openWith: [
@@ -606,12 +571,7 @@ describe('AppExtensionService', () => {
   describe('create', () => {
     it('should load [create] actions from config', (done) => {
       applyConfig({
-        $id: 'test',
-        $name: 'test',
-        $version: '1.0.0',
-        $license: 'MIT',
-        $vendor: 'Good company',
-        $runtime: '1.5.0',
+        ...defaultConfigMock,
         features: {
           create: [
             {
@@ -633,12 +593,7 @@ describe('AppExtensionService', () => {
 
     it('should sort [create] actions by order', (done) => {
       applyConfig({
-        $id: 'test',
-        $name: 'test',
-        $version: '1.0.0',
-        $license: 'MIT',
-        $vendor: 'Good company',
-        $runtime: '1.5.0',
+        ...defaultConfigMock,
         features: {
           create: [
             {
@@ -876,12 +831,7 @@ describe('AppExtensionService', () => {
 
       applyConfig(
         {
-          $id: 'test',
-          $name: 'test',
-          $version: '1.0.0',
-          $license: 'MIT',
-          $vendor: 'Good company',
-          $runtime: '1.5.0',
+          ...defaultConfigMock,
           features: {
             viewer: {
               shared: {
@@ -905,14 +855,7 @@ describe('AppExtensionService', () => {
       appConfigService.config = {
         auth: { withCredentials: true }
       };
-      applyConfig({
-        $id: 'test',
-        $name: 'test',
-        $version: '1.0.0',
-        $license: 'MIT',
-        $vendor: 'Good company',
-        $runtime: '1.5.0'
-      });
+      applyConfig(defaultConfigMock);
 
       expect(service.withCredentials).toBe(true);
     });
@@ -921,28 +864,14 @@ describe('AppExtensionService', () => {
       appConfigService.config = {
         auth: { withCredentials: false }
       };
-      applyConfig({
-        $id: 'test',
-        $name: 'test',
-        $version: '1.0.0',
-        $license: 'MIT',
-        $vendor: 'Good company',
-        $runtime: '1.5.0'
-      });
+      applyConfig(defaultConfigMock);
 
       expect(service.withCredentials).toBe(false);
     });
 
     it('should set `withCredentials` to false as default value if no app configuration', () => {
       appConfigService.config = {};
-      applyConfig({
-        $id: 'test',
-        $name: 'test',
-        $version: '1.0.0',
-        $license: 'MIT',
-        $vendor: 'Good company',
-        $runtime: '1.5.0'
-      });
+      applyConfig(defaultConfigMock);
 
       expect(service.withCredentials).toBe(false);
     });
@@ -951,12 +880,7 @@ describe('AppExtensionService', () => {
   describe('getHeaderActions', () => {
     it('should load user actions from the config', (done) => {
       applyConfig({
-        $id: 'test',
-        $name: 'test',
-        $version: '1.0.0',
-        $license: 'MIT',
-        $vendor: 'Good company',
-        $runtime: '1.5.0',
+        ...defaultConfigMock,
         features: {
           header: [
             {
@@ -981,12 +905,7 @@ describe('AppExtensionService', () => {
 
     it('should sort header actions by order', (done) => {
       applyConfig({
-        $id: 'test',
-        $name: 'test',
-        $version: '1.0.0',
-        $license: 'MIT',
-        $vendor: 'Good company',
-        $runtime: '1.5.0',
+        ...defaultConfigMock,
         features: {
           header: [
             {
@@ -1013,12 +932,7 @@ describe('AppExtensionService', () => {
 
     it('should sort header menu children actions by order', (done) => {
       applyConfig({
-        $id: 'test',
-        $name: 'test',
-        $version: '1.0.0',
-        $license: 'MIT',
-        $vendor: 'Good company',
-        $runtime: '1.5.0',
+        ...defaultConfigMock,
         features: {
           header: [
             {
@@ -1060,12 +974,7 @@ describe('AppExtensionService', () => {
         notVisible: () => false
       });
       config = {
-        $id: 'test',
-        $name: 'test',
-        $version: '1.0.0',
-        $license: 'MIT',
-        $vendor: 'Good company',
-        $runtime: '1.5.0',
+        ...defaultConfigMock,
         features: {
           search: [
             {
@@ -1361,12 +1270,7 @@ describe('AppExtensionService', () => {
 
     it('should set the action disabled for create actions', (done) => {
       applyConfig({
-        $id: 'test',
-        $name: 'test',
-        $version: '1.0.0',
-        $license: 'MIT',
-        $vendor: 'Good company',
-        $runtime: '1.5.0',
+        ...defaultConfigMock,
         features: {
           create: actions
         }
@@ -1380,12 +1284,7 @@ describe('AppExtensionService', () => {
 
     it('should set the action disabled for sidebar actions', (done) => {
       applyConfig({
-        $id: 'test',
-        $name: 'test',
-        $version: '1.0.0',
-        $license: 'MIT',
-        $vendor: 'Good company',
-        $runtime: '1.5.0',
+        ...defaultConfigMock,
         features: {
           sidebar: {
             toolbar: actions
@@ -1401,12 +1300,7 @@ describe('AppExtensionService', () => {
 
     it('should set the action disabled for toolbar actions', (done) => {
       applyConfig({
-        $id: 'test',
-        $name: 'test',
-        $version: '1.0.0',
-        $license: 'MIT',
-        $vendor: 'Good company',
-        $runtime: '1.5.0',
+        ...defaultConfigMock,
         features: {
           toolbar: actions
         }
@@ -1420,12 +1314,7 @@ describe('AppExtensionService', () => {
 
     it('should set the action disabled for viewer toolbar actions', (done) => {
       applyConfig({
-        $id: 'test',
-        $name: 'test',
-        $version: '1.0.0',
-        $license: 'MIT',
-        $vendor: 'Good company',
-        $runtime: '1.5.0',
+        ...defaultConfigMock,
         features: {
           viewer: { toolbarActions: actions }
         }
@@ -1440,12 +1329,7 @@ describe('AppExtensionService', () => {
     it('should set the action disabled for shared link viewer toolbar actions', (done) => {
       applyConfig(
         {
-          $id: 'test',
-          $name: 'test',
-          $version: '1.0.0',
-          $license: 'MIT',
-          $vendor: 'Good company',
-          $runtime: '1.5.0',
+          ...defaultConfigMock,
           features: {
             viewer: {
               shared: {
@@ -1465,12 +1349,7 @@ describe('AppExtensionService', () => {
 
     it('should set the action disabled for header actions', (done) => {
       applyConfig({
-        $id: 'test',
-        $name: 'test',
-        $version: '1.0.0',
-        $license: 'MIT',
-        $vendor: 'Good company',
-        $runtime: '1.5.0',
+        ...defaultConfigMock,
         features: {
           header: actions
         }
@@ -1482,15 +1361,27 @@ describe('AppExtensionService', () => {
       });
     });
 
+    it('should set the action disabled for bulk actions dropdown actions', (done) => {
+      applyConfig(
+        {
+          ...defaultConfigMock,
+          features: {
+            'bulk-actions-dropdown': actions
+          }
+        },
+        true
+      );
+
+      service.getBulkActions().subscribe((bulkActions) => {
+        expect(bulkActions).toEqual(expectedActionsWithoutChildren);
+        done();
+      });
+    });
+
     it('should set the action disabled for context menu actions', (done) => {
       applyConfig(
         {
-          $id: 'test',
-          $name: 'test',
-          $version: '1.0.0',
-          $license: 'MIT',
-          $vendor: 'Good company',
-          $runtime: '1.5.0',
+          ...defaultConfigMock,
           features: {
             contextMenu: actions
           }
@@ -1524,12 +1415,7 @@ describe('AppExtensionService', () => {
       ];
 
       config = {
-        $id: 'test',
-        $name: 'test',
-        $version: '1.0.0',
-        $license: 'MIT',
-        $vendor: 'Good company',
-        $runtime: '1.5.0',
+        ...defaultConfigMock,
         features: {
           contextMenu: [...actions],
           toolbar: [...actions],
@@ -1629,12 +1515,7 @@ describe('AppExtensionService', () => {
       const rawUrl = './assets/images/ft_ic_ms_excel.svg';
 
       applyConfig({
-        $id: 'test',
-        $name: 'test',
-        $version: '1.0.0',
-        $license: 'MIT',
-        $vendor: 'Good company',
-        $runtime: '1.5.0',
+        ...defaultConfigMock,
         features: {
           icons: [
             {
@@ -1653,12 +1534,7 @@ describe('AppExtensionService', () => {
       const warn = spyOn(logService, 'warn').and.stub();
 
       applyConfig({
-        $id: 'test',
-        $name: 'test',
-        $version: '1.0.0',
-        $license: 'MIT',
-        $vendor: 'Good company',
-        $runtime: '1.5.0',
+        ...defaultConfigMock,
         features: {
           icons: [
             {
@@ -1675,12 +1551,7 @@ describe('AppExtensionService', () => {
       const warn = spyOn(logService, 'warn').and.stub();
 
       applyConfig({
-        $id: 'test',
-        $name: 'test',
-        $version: '1.0.0',
-        $license: 'MIT',
-        $vendor: 'Good company',
-        $runtime: '1.5.0',
+        ...defaultConfigMock,
         features: {
           icons: [
             {
@@ -1701,12 +1572,7 @@ describe('AppExtensionService', () => {
     });
 
     applyConfig({
-      $id: 'test',
-      $name: 'test',
-      $version: '1.0.0',
-      $license: 'MIT',
-      $vendor: 'Good company',
-      $runtime: '1.5.0',
+      ...defaultConfigMock,
       features: {
         badges: [
           {
@@ -1759,12 +1625,7 @@ describe('AppExtensionService', () => {
     });
 
     applyConfig({
-      $id: 'test',
-      $name: 'test',
-      $version: '1.0.0',
-      $license: 'MIT',
-      $vendor: 'Good company',
-      $runtime: '1.5.0',
+      ...defaultConfigMock,
       features: {
         customMetadataPanels: [
           {
