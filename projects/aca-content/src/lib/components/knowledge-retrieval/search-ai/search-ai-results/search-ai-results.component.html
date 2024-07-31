@@ -18,7 +18,7 @@
       <div
         class="aca-search-ai-response-container"
         [class.aca-search-ai-response-container-error]="hasAnsweringError">
-        <ng-container *ngIf="!loading">
+        <ng-container *ngIf="!loading else skeleton">
           <div
             class="aca-search-ai-response-container-body"
             *ngIf="!hasAnsweringError">
@@ -105,3 +105,9 @@
     *ngIf="hasError">
   </adf-empty-content>
 </aca-page-layout>
+
+<ng-template #skeleton>
+  <div class="adf-skeleton"></div>
+  <div class="adf-skeleton"></div>
+  <div class="adf-skeleton adf-skeleton-half"></div>
+</ng-template>

@@ -29,16 +29,58 @@
       }
 
       .aca-search-ai-response-container {
+        padding: 18px 20px;
         display: flex;
         flex-direction: column;
         border: 1px solid var(--adf-card-view-border-color);
         border-radius: 12px;
         margin: 16px 0 75px;
-        padding: 14px 40px 36px 35px;
+
+        &-references-container-header {
+          padding-left: 8px;
+        }
+
+        .adf-skeleton {
+          position: relative;
+          background-image: linear-gradient(
+            to left,
+            var(--theme-light-grey-1-color) 0%,
+            var(--theme-light-grey-2-color) 20%,
+            var(--theme-light-grey-3-color) 40%,
+            var(--theme-light-grey-1-color) 100%
+          );
+          background-size: 200%;
+          display: inline-block;
+          height: 1em;
+          overflow: hidden;
+          width: 100%;
+          margin-bottom: 0.5rem;
+          border-radius: 0.25rem;
+
+          &-half {
+            width: 50%;
+            margin-bottom: 8px;
+          }
+
+          &::after {
+            position: absolute;
+            inset: 0;
+            transform: translateX(-100%);
+            background-image: linear-gradient(90deg, rgba(white, 0) 0, rgba(white, 0.2) 20%, rgba(white, 0.5) 60%, rgba(white, 0));
+            animation: shimmer 2s infinite;
+            content: '';
+          }
+
+          @keyframes shimmer {
+            100% {
+              transform: translateX(100%);
+            }
+          }
+        }
 
         &-error {
           border-color: var(--adf-error-color);
-          padding: 21px 19px 27px 18px;
+          padding: 32px 18px;
 
           &-message {
             display: flex;
@@ -58,12 +100,8 @@
         }
 
         &-body {
-          width: 100%;
-
           &-response {
-            margin: 17px 0;
-            padding-left: 6px;
-            padding-right: 5px;
+            margin-bottom: 17px;
             overflow-wrap: break-word;
 
             &-action {
