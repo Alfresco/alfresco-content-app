@@ -49,6 +49,9 @@ $search-highlight-background-color: #ffd180;
 $info-snackbar-background: #1f74db;
 $text-light-color: rgba(33, 35, 40, 0.7);
 $card-background-grey-color: rgb(248, 248, 248);
+$light-grey-1: #d5d5d5;
+$light-grey-2: #d9d9d9;
+$light-grey-3: #dedede;
 
 // CSS Variables
 $defaults: (
@@ -102,7 +105,10 @@ $defaults: (
   --theme-secondary-text: $secondary-text,
   --theme-search-highlight-background-color: $search-highlight-background-color,
   --theme-text-light-color: $text-light-color,
-  --theme-card-background-grey-color: $card-background-grey-color
+  --theme-card-background-grey-color: $card-background-grey-color,
+  --theme-light-grey-1-color: $light-grey-1,
+  --theme-light-grey-2-color: $light-grey-2,
+  --theme-light-grey-3-color: $light-grey-3
 );
 
 // propagates SCSS variables into the CSS variables scope
