@@ -33,6 +33,7 @@ import { combineLatest, Observable, Subject } from 'rxjs';
 import { IconComponent, TranslationService } from '@alfresco/adf-core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { switchMap, takeUntil } from 'rxjs/operators';
+import { AppExtensionService } from '@alfresco/aca-shared';
 
 @Component({
   standalone: true,
@@ -47,26 +48,26 @@ export class BulkActionsDropdownComponent implements OnInit, OnDestroy {
 
   placeholder: string;
   tooltip: string;
-  disableControl = new FormControl();
+  bulkSelectControl = new FormControl();
 
   private readonly totalItems$: Observable<number> = this.store.select(getSearchItemsTotalCount);
   private readonly onDestroy$ = new Subject();
 
-  constructor(private store: Store<AppStore>, private translationService: TranslationService) {}
+  constructor(private store: Store<AppStore>, private translationService: TranslationService, private extensions: AppExtensionService) {}
 
   ngOnInit() {
     this.totalItems$
       .pipe(
         switchMap((totalItems) => {
           if (totalItems > 0) {
-            this.disableControl.enable();
+            this.bulkSelectControl.enable();
 
             return combineLatest([
               this.translationService.get('SEARCH.BULK_ACTIONS_DROPDOWN.TITLE', { count: totalItems }),
               this.translationService.get('SEARCH.BULK_ACTIONS_DROPDOWN.TITLE', { count: totalItems })
             ]);
           } else {
-            this.disableControl.disable();
+            this.bulkSelectControl.disable();
 
             return combineLatest([
               this.translationService.get('SEARCH.BULK_ACTIONS_DROPDOWN.BULK_NOT_AVAILABLE'),
@@ -80,10 +81,20 @@ export class BulkActionsDropdownComponent implements OnInit, OnDestroy {
         this.tooltip = title;
         this.placeholder = placeholder;
       });
+
+    this.extensions.bulkActionExecuted$.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
+      this.bulkSelectControl.setValue(null);
+    });
   }
 
   ngOnDestroy() {
     this.onDestroy$.next();
     this.onDestroy$.complete();
+  }
+
+  runAction(contentActionRef: ContentActionRef) {
+    this.extensions.runActionById(contentActionRef.actions.click, {
+      focusedElementOnCloseSelector: '.adf-context-menu-source'
+    });
   }
 }
