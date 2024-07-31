@@ -130,7 +130,6 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
       this._agentId = params.agentId;
       this._searchQuery = params.query ? decodeURIComponent(params.query) : '';
       this._selectedNodesState = JSON.parse(this.userPreferencesService.get('knowledgeRetrievalNodes'));
-
       if (!this.searchQuery || !this._selectedNodesState?.nodes?.length || !this.agentId) {
         this._hasError = true;
         return;

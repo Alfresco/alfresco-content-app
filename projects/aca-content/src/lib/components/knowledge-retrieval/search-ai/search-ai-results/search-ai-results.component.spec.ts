@@ -25,11 +25,13 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { SearchAiResultsComponent } from './search-ai-results.component';
 import { ActivatedRoute, Params } from '@angular/router';
-import { Subject } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { UserPreferencesService } from '@alfresco/adf-core';
-import { AppTestingModule } from '../../../../testing/app-testing.module';
 import { MatDialogModule } from '@angular/material/dialog';
+import { AppTestingModule } from '../../../../testing/app-testing.module';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
+import { SearchAiService } from '@alfresco/adf-content-services';
 
 describe('SearchAiResultsComponent', () => {
   const knowledgeRetrievalNodes = '{"isEmpty":"false","nodes":[{"entry":{"id": "someId","isFolder":"true"}}]}';
@@ -40,7 +42,7 @@ describe('SearchAiResultsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, SearchAiResultsComponent, MatSnackBarModule, MatDialogModule],
+      imports: [AppTestingModule, SearchAiResultsComponent, MatSnackBarModule, MatDialogModule, MatIconTestingModule],
       providers: [
         {
           provide: ActivatedRoute,
@@ -97,6 +99,49 @@ describe('SearchAiResultsComponent', () => {
       expect(component.searchQuery).toBe('test');
       expect(component.agentId).toBe(undefined);
       expect(component.hasError).toBeTrue();
+    });
+  });
+
+  describe('skeleton loader', () => {
+    let searchAiService: SearchAiService;
+
+    const getSkeletonElementsLength = (): number => {
+      return fixture.nativeElement.querySelectorAll('.adf-skeleton').length;
+    };
+
+    beforeEach(() => {
+      searchAiService = TestBed.inject(SearchAiService);
+      spyOn(userPreferencesService, 'get').and.returnValue(knowledgeRetrievalNodes);
+    });
+
+    it('should display skeleton when loading is true', () => {
+      mockQueryParams.next({ query: 'test', agentId: 'agentId1' });
+
+      component.performAiSearch();
+      fixture.detectChanges();
+
+      expect(component.loading).toBeTrue();
+      expect(getSkeletonElementsLength()).toBe(3);
+    });
+
+    it('should not display skeleton when loading is false', () => {
+      mockQueryParams.next({ query: 'test', agentId: 'agentId1' });
+
+      spyOn(searchAiService, 'ask').and.returnValue(of({ question: 'test', questionId: 'testId', restrictionQuery: '' }));
+      spyOn(searchAiService, 'getAnswer').and.returnValue(
+        of({
+          list: {
+            entries: [],
+            pagination: { hasMoreItems: false, maxItems: 0, totalItems: 0, skipCount: 0 }
+          }
+        })
+      );
+
+      component.performAiSearch();
+      fixture.detectChanges();
+
+      expect(component.loading).toBeFalse();
+      expect(getSkeletonElementsLength()).toBe(0);
     });
   });
 });
