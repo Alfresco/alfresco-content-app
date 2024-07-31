@@ -47,7 +47,6 @@ import {
   DocumentListService,
   FolderDialogComponent,
   LibraryDialogComponent,
-  NewVersionUploaderData,
   NewVersionUploaderDataAction,
   NewVersionUploaderDialogData,
   NewVersionUploaderService,
@@ -154,15 +153,18 @@ export class ContentManagementService {
 
   versionUpdateDialog(node, file) {
     this.contentApi.getNodeVersions(node.id).subscribe(({ list }) => {
-      const newVersionUploaderDialogData: NewVersionUploaderDialogData = {
+      const newVersionUploaderDialogData = {
         node,
         file,
         currentVersion: list.entries[0].entry,
-        title: 'VERSION.DIALOG.TITLE'
-      };
+        title: 'VERSION.DIALOG.TITLE',
+        showComments: this.appSettingsService.uploadAllowComments,
+        allowDownload: this.appSettingsService.uploadAllowDownload
+      } as NewVersionUploaderDialogData;
       const dialogConfig: MatDialogConfig = { width: '600px' };
+
       this.newVersionUploaderService.openUploadNewVersionDialog(newVersionUploaderDialogData, dialogConfig).subscribe(
-        (data: NewVersionUploaderData) => {
+        (data) => {
           if (data.action === NewVersionUploaderDataAction.upload) {
             if (data.newVersion.value.entry.properties['cm:lockType'] === 'WRITE_LOCK') {
               this.store.dispatch(new UnlockWriteAction(data.newVersion.value));
@@ -573,7 +575,7 @@ export class ContentManagementService {
       this.newVersionUploaderService
         .openUploadNewVersionDialog(newVersionUploaderDialogData, { width: '630px', role: 'dialog' }, focusedElementOnCloseSelector)
         .subscribe({
-          next: (newVersionUploaderData: NewVersionUploaderData) => {
+          next: (newVersionUploaderData) => {
             switch (newVersionUploaderData.action) {
               case NewVersionUploaderDataAction.refresh:
                 this.store.dispatch(new RefreshPreviewAction(newVersionUploaderData.node));

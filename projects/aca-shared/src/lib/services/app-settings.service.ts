@@ -113,6 +113,20 @@ export class AppSettingsService {
   }
 
   /**
+   * Enabled state of the comment feature for upload dialog
+   */
+  get uploadAllowComments(): boolean {
+    return this.appConfig.get<boolean>('adf-version-manager.allowComments', true);
+  }
+
+  /**
+   * Enabled state of the download feature for upload dialog
+   */
+  get uploadAllowDownload(): boolean {
+    return this.appConfig.get<boolean>('adf-version-manager.allowDownload', true);
+  }
+
+  /**
    * Gets the enablement of the file auto tryDownload feature from the app settings.
    */
   get autoDownloadEnabled(): boolean {

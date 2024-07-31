@@ -53,10 +53,6 @@
     "defaultDateTimeFormat": "MMM d, y, h:mm",
     "defaultLocale": "en"
   },
-  "adf-version-manager": {
-    "allowComments": true,
-    "allowDownload": true
-  },
   "sideNav": {
     "preserveState": true,
     "expandedSidenav": true
