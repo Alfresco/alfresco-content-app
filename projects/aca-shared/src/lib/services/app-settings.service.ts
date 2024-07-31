@@ -31,6 +31,13 @@ export class AppSettingsService {
   private appConfig = inject(AppConfigService);
 
   /**
+   * Get the application copyright text from the app settings.
+   */
+  get appCopyright(): string {
+    return this.appConfig.get<string>('application.copyright', '');
+  }
+
+  /**
    * Get the AOS (Alfresco Office Services) host URL from the app settings.
    */
   get aosHost(): string {

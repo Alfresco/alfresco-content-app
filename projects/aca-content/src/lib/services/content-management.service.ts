@@ -151,7 +151,7 @@ export class ContentManagementService {
     }
   }
 
-  versionUpdateDialog(node, file) {
+  versionUpdateDialog(node: Node, file: File) {
     this.contentApi.getNodeVersions(node.id).subscribe(({ list }) => {
       const newVersionUploaderDialogData = {
         node,

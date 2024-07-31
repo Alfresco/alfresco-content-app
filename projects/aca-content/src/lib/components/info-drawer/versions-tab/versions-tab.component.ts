@@ -28,12 +28,11 @@ import { CommonModule } from '@angular/common';
 import { VersionManagerModule } from '@alfresco/adf-content-services';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
-import { AppConfigPipe } from '@alfresco/adf-core';
 import { AppSettingsService } from '@alfresco/aca-shared';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, VersionManagerModule, MatIconModule, TranslateModule, AppConfigPipe],
+  imports: [CommonModule, VersionManagerModule, MatIconModule, TranslateModule],
   selector: 'app-versions-tab',
   template: `
     <ng-container *ngIf="isFileSelected; else empty">
