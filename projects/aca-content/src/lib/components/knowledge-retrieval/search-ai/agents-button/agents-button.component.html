@@ -26,8 +26,10 @@
         [attr.data-automation-id]="'aca-agents-button-agent-' + agent.id"
         [value]="agent">
         <div class="aca-agents-button-menu-list-agent-content">
-          <adf-avatar [initials]="initialsByAgentId[agent.id]"></adf-avatar>
-          {{ agent.name }}
+          <adf-avatar [src]="agent?.avatar" [initials]="initialsByAgentId[agent.id]"></adf-avatar>
+          <span class="aca-agents-button-menu-list-agent-content-name" [matTooltip]="agent.name" [matTooltipPosition]="'right'">
+           {{ agent.name }}
+          </span>
         </div>
       </mat-list-option>
     </mat-selection-list>

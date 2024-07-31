@@ -6,6 +6,7 @@ aca-search-ai-input {
   align-items: center;
 
   .aca-search-ai-input-text {
+    margin-top: 4px;
     flex: 1;
     font-size: 20px;
     margin-right: 167px;
@@ -54,13 +55,24 @@ aca-search-ai-input {
     font-size: 15px;
     margin-right: 26px;
 
+    #{$mat-select-trigger} {
+      height: auto;
+      margin-top: 4px;
+    }
+
     &:focus {
       outline: -webkit-focus-ring-color auto 1px;
     }
 
     &-displayed-value {
       display: flex;
-      align-items: baseline;
+      align-items: center;
+
+      &-text {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
     }
 
     adf-avatar {
@@ -68,6 +80,10 @@ aca-search-ai-input {
       margin-right: 6px;
       padding-top: 1px;
       padding-bottom: 3px;
+
+      .adf-avatar__image {
+        cursor: pointer;
+      }
     }
   }
 }
@@ -81,14 +97,83 @@ aca-search-ai-input {
 
     &-content {
       display: flex;
-      align-items: baseline;
+      align-items: center;
       padding-top: 1px;
       padding-bottom: 1px;
+
+      &-text {
+        width: 120px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
     }
 
     adf-avatar {
       margin-right: 12px;
       padding-left: 1px;
+
+      .adf-avatar__image {
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.aca-search-ai-input-agent-container {
+  position: relative;
+
+  .aca-search-ai-input-agent-popup-hover-card {
+    display: none;
+    position: absolute;
+    left: 0;
+    z-index: 1;
+
+    &-container {
+      width: 315px;
+      height: fit-content;
+      border-radius: 12px;
+      margin-top: 4px;
+
+      &-title {
+        display: flex;
+        align-items: center;
+        font-size: 20px;
+        font-weight: 700;
+        padding: 16px 16px 8px;
+        gap: 4px;
+
+        &-name {
+          margin: 0 12px;
+        }
+
+        img {
+          height: 50px;
+          width: 50px;
+          min-width: 50px;
+          min-height: 50px;
+        }
+
+        span {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          margin-right: 14px;
+        }
+      }
+
+      &-content {
+        display: flex;
+        color: var(--theme-content-color);
+        text-align: justify;
+        text-justify: inter-word;
+      }
+    }
+  }
+
+  &:hover {
+    .aca-search-ai-input-agent-popup-hover-card {
+      display: block;
     }
   }
 }

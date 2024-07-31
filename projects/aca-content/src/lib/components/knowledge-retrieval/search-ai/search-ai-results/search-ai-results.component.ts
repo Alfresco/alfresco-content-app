@@ -23,10 +23,17 @@
  */
 
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { PageComponent, PageLayoutComponent, ToolbarActionComponent, ToolbarComponent } from '@alfresco/aca-shared';
 import { finalize, switchMap, takeUntil } from 'rxjs/operators';
-import { ClipboardService, EmptyContentComponent, ThumbnailService, ToolbarModule, UserPreferencesService } from '@alfresco/adf-core';
+import {
+  AvatarComponent,
+  ClipboardService,
+  EmptyContentComponent,
+  ThumbnailService,
+  ToolbarModule,
+  UserPreferencesService
+} from '@alfresco/adf-core';
 import { AiAnswer, Node } from '@alfresco/js-api';
 import { CommonModule } from '@angular/common';
 import { SearchAiInputContainerComponent } from '../search-ai-input-container/search-ai-input-container.component';
@@ -37,6 +44,8 @@ import { SelectionState } from '@alfresco/adf-extensions';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
+import { MatCardModule } from '@angular/material/card';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   standalone: true,
@@ -51,7 +60,10 @@ import { MatListModule } from '@angular/material/list';
     MatIconModule,
     MatButtonModule,
     MatListModule,
-    EmptyContentComponent
+    EmptyContentComponent,
+    MatCardModule,
+    AvatarComponent,
+    MatTooltipModule
   ],
   selector: 'aca-search-ai-results',
   templateUrl: './search-ai-results.component.html',
@@ -66,7 +78,7 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
   private _loading = true;
   private _mimeTypeIconsByNodeId: { [key: string]: string } = {};
   private _nodes: Node[] = [];
-  private selectedNodesState: SelectionState;
+  private _selectedNodesState: SelectionState;
   private _searchQuery = '';
   private _queryAnswer: AiAnswer;
 
@@ -114,11 +126,12 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
   }
 
   ngOnInit(): void {
-    this.route.queryParams.pipe(takeUntil(this.onDestroy$)).subscribe((params: Params) => {
+    this.route.queryParams.pipe(takeUntil(this.onDestroy$)).subscribe((params) => {
       this._agentId = params.agentId;
       this._searchQuery = params.query ? decodeURIComponent(params.query) : '';
-      this.selectedNodesState = JSON.parse(this.userPreferencesService.get('knowledgeRetrievalNodes'));
-      if (!this.searchQuery || !this.selectedNodesState?.nodes?.length || !this.agentId) {
+      this._selectedNodesState = JSON.parse(this.userPreferencesService.get('knowledgeRetrievalNodes'));
+
+      if (!this.searchQuery || !this._selectedNodesState?.nodes?.length || !this.agentId) {
         this._hasError = true;
         return;
       }
@@ -144,7 +157,7 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
     this.searchAiService
       .ask({
         question: this.searchQuery,
-        nodeIds: this.selectedNodesState.nodes.map((node) => node.entry.id)
+        nodeIds: this._selectedNodesState.nodes.map((node) => node.entry.id)
       })
       .pipe(
         switchMap((response) => this.searchAiService.getAnswer(response.questionId)),
