@@ -29,8 +29,8 @@ import { By } from '@angular/platform-browser';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { AgentService, ContentTestingModule, SearchAiService } from '@alfresco/adf-content-services';
 import { getAppSelection, SearchByTermAiAction } from '@alfresco/aca-shared/store';
-import { of } from 'rxjs';
-import { NodeEntry } from '@alfresco/js-api';
+import { Subject } from 'rxjs';
+import { AgentWithAvatar, NodeEntry } from '@alfresco/js-api';
 import { FormControlDirective } from '@angular/forms';
 import { DebugElement } from '@angular/core';
 import { AvatarComponent, IconComponent, NotificationService, UserPreferencesService } from '@alfresco/adf-core';
@@ -42,6 +42,22 @@ import { MatInput } from '@angular/material/input';
 import { MatButton } from '@angular/material/button';
 import { MatInputHarness } from '@angular/material/input/testing';
 import { SelectionState } from '@alfresco/adf-extensions';
+import { MatSnackBarRef } from '@angular/material/snack-bar';
+
+const agentWithAvatarList: AgentWithAvatar[] = [
+  {
+    id: '1',
+    name: 'HR Agent',
+    description: 'Test 1',
+    avatar: undefined
+  },
+  {
+    id: '2',
+    name: 'Policy Agent',
+    description: 'Test 2',
+    avatar: undefined
+  }
+];
 
 describe('SearchAiInputComponent', () => {
   let component: SearchAiInputComponent;
@@ -49,6 +65,7 @@ describe('SearchAiInputComponent', () => {
   let loader: HarnessLoader;
   let selectionState: SelectionState;
   let store: MockStore;
+  let agents$: Subject<AgentWithAvatar[]>;
 
   const prepareBeforeTest = (): void => {
     selectionState = {
@@ -73,34 +90,19 @@ describe('SearchAiInputComponent', () => {
     component = fixture.componentInstance;
     store = TestBed.inject(MockStore);
     loader = TestbedHarnessEnvironment.loader(fixture);
-    spyOn(TestBed.inject(AgentService), 'getAgents').and.returnValue(
-      of({
-        list: {
-          entries: [
-            {
-              entry: {
-                id: '1',
-                name: 'HR Agent'
-              }
-            },
-            {
-              entry: {
-                id: '2',
-                name: 'Policy Agent'
-              }
-            }
-          ]
-        }
-      })
-    );
+    agents$ = new Subject<AgentWithAvatar[]>();
+    spyOn(TestBed.inject(AgentService), 'getAgents').and.returnValue(agents$);
     prepareBeforeTest();
   });
 
   describe('Agent select box', () => {
     let selectElement: DebugElement;
+    let notificationServiceSpy: jasmine.Spy<(message: string) => MatSnackBarRef<any>>;
 
     beforeEach(() => {
       selectElement = fixture.debugElement.query(By.directive(MatSelect));
+      const notificationService = TestBed.inject(NotificationService);
+      notificationServiceSpy = spyOn(notificationService, 'showError').and.callThrough();
     });
 
     it('should have assigned formControl', () => {
@@ -111,8 +113,26 @@ describe('SearchAiInputComponent', () => {
       expect(selectElement.componentInstance.hideSingleSelectionIndicator).toBeTrue();
     });
 
+    it('should get agents on init', () => {
+      agents$.next(agentWithAvatarList);
+      component.ngOnInit();
+      expect(component.agents).toEqual(agentWithAvatarList);
+      expect(component.initialsByAgentId).toEqual({ 1: 'HA', 2: 'PA' });
+      expect(notificationServiceSpy).not.toHaveBeenCalled();
+    });
+
+    it('should show notification on getAgents error', () => {
+      agents$.error('error');
+      component.ngOnInit();
+
+      expect(component.agents).toEqual([]);
+      expect(component.initialsByAgentId).toEqual({});
+      expect(notificationServiceSpy).toHaveBeenCalledWith('KNOWLEDGE_RETRIEVAL.SEARCH.ERRORS.AGENTS_FETCHING');
+    });
+
     it('should have selected correct agent', async () => {
-      expect(await (await loader.getHarness(MatSelectHarness)).getValueText()).toBe('PA Policy Agent');
+      agents$.next(agentWithAvatarList);
+      expect(await (await loader.getHarness(MatSelectHarness)).getValueText()).toBe('PAPolicy Agent');
       const avatar = selectElement.query(By.directive(AvatarComponent))?.componentInstance;
       expect(avatar.initials).toBe('PA');
       expect(avatar.size).toBe('26px');
@@ -126,6 +146,7 @@ describe('SearchAiInputComponent', () => {
           .componentInstance;
 
       beforeEach(async () => {
+        agents$.next(agentWithAvatarList);
         const selectHarness = await loader.getHarness(MatSelectHarness);
         await selectHarness.open();
         options = await selectHarness.getOptions();
@@ -136,8 +157,8 @@ describe('SearchAiInputComponent', () => {
       });
 
       it('should have correct agent names', async () => {
-        expect(await options[0].getText()).toBe('HA HR Agent');
-        expect(await options[1].getText()).toBe('PA Policy Agent');
+        expect(await options[0].getText()).toBe('HAHR Agent');
+        expect(await options[1].getText()).toBe('PAPolicy Agent');
       });
 
       it('should display avatar for each agent', () => {
@@ -157,6 +178,7 @@ describe('SearchAiInputComponent', () => {
 
     beforeEach(() => {
       queryInput = fixture.debugElement.query(By.directive(MatInput));
+      agents$.next(agentWithAvatarList);
     });
 
     it('should have assigned formControl', () => {
@@ -181,6 +203,7 @@ describe('SearchAiInputComponent', () => {
     beforeEach(async () => {
       submitButton = fixture.debugElement.query(By.directive(MatButton));
       queryInput = await loader.getHarness(MatInputHarness);
+      agents$.next(agentWithAvatarList);
     });
 
     it('should be disabled by default', () => {
@@ -324,7 +347,7 @@ describe('SearchAiInputComponent', () => {
         await (
           await loader.getHarness(MatSelectHarness)
         ).clickOptions({
-          text: 'HA HR Agent'
+          text: 'HAHR Agent'
         });
         submittingTrigger();
 

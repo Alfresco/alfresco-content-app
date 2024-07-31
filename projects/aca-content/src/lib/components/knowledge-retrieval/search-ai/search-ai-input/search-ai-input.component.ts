@@ -38,8 +38,20 @@ import { AiSearchByTermPayload, AppStore, getAppSelection, SearchByTermAiAction 
 import { takeUntil } from 'rxjs/operators';
 import { SelectionState } from '@alfresco/adf-extensions';
 import { MatSelectModule } from '@angular/material/select';
-import { Agent } from '@alfresco/js-api';
+import { AgentWithAvatar } from '@alfresco/js-api';
 import { AgentService, SearchAiService } from '@alfresco/adf-content-services';
+import { MatCardModule } from '@angular/material/card';
+import {
+  MAT_TOOLTIP_DEFAULT_OPTIONS,
+  MAT_TOOLTIP_DEFAULT_OPTIONS_FACTORY,
+  MatTooltipDefaultOptions,
+  MatTooltipModule
+} from '@angular/material/tooltip';
+
+const MatTooltipOptions: MatTooltipDefaultOptions = {
+  ...MAT_TOOLTIP_DEFAULT_OPTIONS_FACTORY(),
+  disableTooltipInteractivity: true
+};
 
 @Component({
   standalone: true,
@@ -55,12 +67,15 @@ import { AgentService, SearchAiService } from '@alfresco/adf-content-services';
     ReactiveFormsModule,
     MatSelectModule,
     IconComponent,
-    AvatarComponent
+    AvatarComponent,
+    MatCardModule,
+    MatTooltipModule
   ],
   selector: 'aca-search-ai-input',
   templateUrl: './search-ai-input.component.html',
   styleUrls: ['./search-ai-input.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  providers: [{ provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: MatTooltipOptions }]
 })
 export class SearchAiInputComponent implements OnInit, OnDestroy {
   @Input()
@@ -75,18 +90,18 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
 
   private readonly storedNodesKey = 'knowledgeRetrievalNodes';
 
-  private _agentControl = new FormControl<Agent>(null);
-  private _agents: Agent[] = [];
+  private _agentControl = new FormControl<AgentWithAvatar>(null);
+  private _agents: AgentWithAvatar[] = [];
   private onDestroy$ = new Subject<void>();
   private selectedNodesState: SelectionState;
   private _queryControl = new FormControl('');
   private _initialsByAgentId: { [key: string]: string } = {};
 
-  get agentControl(): FormControl<Agent> {
+  get agentControl(): FormControl<AgentWithAvatar> {
     return this._agentControl;
   }
 
-  get agents(): Agent[] {
+  get agents(): AgentWithAvatar[] {
     return this._agents;
   }
 
@@ -103,8 +118,8 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
     private searchAiService: SearchAiService,
     private notificationService: NotificationService,
     private agentService: AgentService,
-    private translateService: TranslateService,
-    private userPreferencesService: UserPreferencesService
+    private userPreferencesService: UserPreferencesService,
+    private translateService: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -118,13 +133,14 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
     } else {
       this.selectedNodesState = JSON.parse(this.userPreferencesService.get(this.storedNodesKey));
     }
+
     this.agentService
       .getAgents()
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(
-        (paging) => {
-          this._agents = paging.list.entries.map((agentEntry) => agentEntry.entry);
-          this.agentControl.setValue(this.agents.find((agent) => agent.id === this.agentId));
+        (agents) => {
+          this._agents = agents;
+          this.agentControl.setValue(agents.find((agent) => agent.id === this.agentId));
           this._initialsByAgentId = this.agents.reduce((initials, agent) => {
             const words = agent.name.split(' ').filter((word) => !word.match(/[^a-zA-Z]+/g));
             initials[agent.id] = `${words[0][0]}${words[1][0] || ''}`;
