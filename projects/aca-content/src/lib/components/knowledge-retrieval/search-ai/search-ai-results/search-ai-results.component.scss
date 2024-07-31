@@ -61,7 +61,7 @@
           width: 100%;
 
           &-response {
-            margin-bottom: 17px;
+            margin: 17px 0;
             padding-left: 6px;
             padding-right: 5px;
             overflow-wrap: break-word;
@@ -98,7 +98,7 @@
             padding-left: 8px;
 
             &-header {
-              margin-top: 8px;
+              margin-top: 16px;
               color: var(--theme-text-light-color);
               font-weight: 400;
               margin-bottom: 3px;
