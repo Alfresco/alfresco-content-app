@@ -1366,7 +1366,7 @@ describe('AppExtensionService', () => {
         {
           ...defaultConfigMock,
           features: {
-            'bulk-actions-dropdown': actions
+            'bulk-actions': actions
           }
         },
         true
@@ -1674,5 +1674,15 @@ describe('AppExtensionService', () => {
     spyOn(loader, 'getContentActions').and.callThrough();
     service.updateSidebarActions();
     expect(loader.getContentActions).toHaveBeenCalledWith(service.config, 'features.sidebar.toolbar');
+  });
+
+  it('should emit bulkActionExecuted', (done) => {
+    spyOn(service, 'bulkActionExecuted').and.callThrough();
+    service.bulkActionExecuted$.subscribe(() => {
+      expect(service.bulkActionExecuted).toHaveBeenCalled();
+      done();
+    });
+
+    service.bulkActionExecuted();
   });
 });

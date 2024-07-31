@@ -6,7 +6,7 @@
   data-automation-id="aca-bulk-actions-form-field"
 >
   <mat-select
-    [formControl]="disableControl"
+    [formControl]="bulkSelectControl"
     [placeholder]="placeholder"
     panelClass="aca-bulk-actions-select"
     disableOptionCentering
@@ -17,6 +17,7 @@
       [value]="option.id"
       [title]="option.tooltip | translate"
       [attr.data-automation-id]="option.id"
+      (click)="runAction(option)"
     >
       <adf-icon
         *ngIf="option.icon"

@@ -50,7 +50,7 @@ import {
   sortByOrder
 } from '@alfresco/adf-extensions';
 import { AppConfigService, AuthenticationService, LogService } from '@alfresco/adf-core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { NodeEntry, RepositoryInfo } from '@alfresco/js-api';
 import { ViewerRules } from '../models/viewer.rules';
 import { Badge } from '../models/types';
@@ -63,6 +63,7 @@ import { SearchCategory } from '@alfresco/adf-content-services';
 })
 export class AppExtensionService implements RuleContext {
   private _references = new BehaviorSubject<ExtensionRef[]>([]);
+  bulkActionExecuted$ = new Subject<void>();
 
   navbar: Array<NavBarGroupRef> = [];
   sidebarTabs: Array<SidebarTabRef> = [];
@@ -570,5 +571,9 @@ export class AppExtensionService implements RuleContext {
     }
 
     return true;
+  }
+
+  bulkActionExecuted(): void {
+    this.bulkActionExecuted$.next();
   }
 }
