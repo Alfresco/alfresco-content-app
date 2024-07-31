@@ -40,30 +40,14 @@ import { MatMenuHarness } from '@angular/material/menu/testing';
 import { MatSelectionList } from '@angular/material/list';
 import { MatSnackBarRef } from '@angular/material/snack-bar';
 
-const agentWithAvatarList: AgentWithAvatar[] = [
-  {
-    id: '1',
-    name: 'HR Agent',
-    description: 'Test 1',
-    avatar: undefined
-  },
-  {
-    id: '2',
-    name: 'Policy Agent',
-    description: 'Test 2',
-    avatar: undefined
-  }
-];
-
 describe('AgentsButtonComponent', () => {
   let component: AgentsButtonComponent;
   let fixture: ComponentFixture<AgentsButtonComponent>;
   let agents$: Subject<AgentWithAvatar[]>;
-  let agentWithAvatar: AgentWithAvatar[];
+  let agentsWithAvatar: AgentWithAvatar[];
   let checkSearchAvailabilitySpy: jasmine.Spy<(selectedNodesState: SelectionState, maxSelectedNodes?: number) => string>;
   let selectionState: SelectionState;
   let store: MockStore;
-  let notificationServiceSpy: jasmine.Spy<(message: string) => MatSnackBarRef<any>>;
 
   const getMenu = (): MatMenu => fixture.debugElement.query(By.directive(MatMenu)).componentInstance;
 
@@ -80,7 +64,20 @@ describe('AgentsButtonComponent', () => {
     store = TestBed.inject(MockStore);
     agents$ = new Subject<AgentWithAvatar[]>();
     spyOn(TestBed.inject(AgentService), 'getAgents').and.returnValue(agents$);
-    agentWithAvatar = agentWithAvatarList;
+    agentsWithAvatar = [
+      {
+        id: '1',
+        name: 'HR Agent',
+        description: 'Test 1',
+        avatar: undefined
+      },
+      {
+        id: '2',
+        name: 'Policy Agent',
+        description: 'Test 2',
+        avatar: undefined
+      }
+    ];
     checkSearchAvailabilitySpy = spyOn(TestBed.inject(SearchAiService), 'checkSearchAvailability');
     selectionState = {
       nodes: [],
@@ -93,24 +90,26 @@ describe('AgentsButtonComponent', () => {
   });
 
   describe('Button', () => {
+    let notificationServiceSpy: jasmine.Spy<(message: string) => MatSnackBarRef<any>>;
+
     beforeEach(() => {
       const notificationService = TestBed.inject(NotificationService);
       notificationServiceSpy = spyOn(notificationService, 'showError').and.callThrough();
     });
 
     it('should be rendered if any agents are loaded', () => {
-      agents$.next(agentWithAvatar);
+      agents$.next(agentsWithAvatar);
       fixture.detectChanges();
 
       expect(getAgentsButton()).toBeTruthy();
     });
 
     it('should get agents on component init', () => {
-      agents$.next(agentWithAvatar);
+      agents$.next(agentsWithAvatar);
       component.ngOnInit();
 
       expect(component.initialsByAgentId).toEqual({ 1: 'HA', 2: 'PA' });
-      expect(component.agents).toEqual(agentWithAvatarList);
+      expect(component.agents).toEqual(agentsWithAvatar);
       expect(notificationServiceSpy).not.toHaveBeenCalled();
     });
 
@@ -124,22 +123,22 @@ describe('AgentsButtonComponent', () => {
     });
 
     it('should not be rendered if none agent is loaded', () => {
-      agentWithAvatar = [];
-      agents$.next(agentWithAvatar);
+      agentsWithAvatar = [];
+      agents$.next(agentsWithAvatar);
 
       fixture.detectChanges();
       expect(getAgentsButton()).toBeFalsy();
     });
 
     it('should have correct label', () => {
-      agents$.next(agentWithAvatar);
+      agents$.next(agentsWithAvatar);
       fixture.detectChanges();
 
       expect(getAgentsButton().textContent.trim()).toBe('KNOWLEDGE_RETRIEVAL.SEARCH.AGENTS_BUTTON.LABEL');
     });
 
     it('should contain stars icon', () => {
-      agents$.next(agentWithAvatar);
+      agents$.next(agentsWithAvatar);
       fixture.detectChanges();
 
       expect(fixture.debugElement.query(By.css('.aca-agents-menu-button adf-icon')).componentInstance.value).toBe('adf:colored-stars-ai');
@@ -158,7 +157,7 @@ describe('AgentsButtonComponent', () => {
               : new KeyboardEvent(eventName, {
                   key: 'Enter'
                 });
-          agents$.next(agentWithAvatar);
+          agents$.next(agentsWithAvatar);
         });
 
         it('should display notification if checkSearchAvailability from SearchAiService returns message', () => {
@@ -218,7 +217,7 @@ describe('AgentsButtonComponent', () => {
 
     beforeEach(() => {
       loader = TestbedHarnessEnvironment.loader(fixture);
-      agents$.next(agentWithAvatar);
+      agents$.next(agentsWithAvatar);
       fixture.detectChanges();
       checkSearchAvailabilitySpy.and.returnValue('');
       const button = getAgentsButton();

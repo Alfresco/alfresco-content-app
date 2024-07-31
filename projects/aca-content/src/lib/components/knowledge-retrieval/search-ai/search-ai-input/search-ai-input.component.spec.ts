@@ -65,7 +65,6 @@ describe('SearchAiInputComponent', () => {
   let loader: HarnessLoader;
   let selectionState: SelectionState;
   let store: MockStore;
-  let notificationServiceSpy: jasmine.Spy<(message: string) => MatSnackBarRef<any>>;
   let agents$: Subject<AgentWithAvatar[]>;
 
   const prepareBeforeTest = (): void => {
@@ -98,6 +97,7 @@ describe('SearchAiInputComponent', () => {
 
   describe('Agent select box', () => {
     let selectElement: DebugElement;
+    let notificationServiceSpy: jasmine.Spy<(message: string) => MatSnackBarRef<any>>;
 
     beforeEach(() => {
       selectElement = fixture.debugElement.query(By.directive(MatSelect));
@@ -132,7 +132,7 @@ describe('SearchAiInputComponent', () => {
 
     it('should have selected correct agent', async () => {
       agents$.next(agentWithAvatarList);
-      expect(await (await loader.getHarness(MatSelectHarness)).getValueText()).toBe('Policy Agent');
+      expect(await (await loader.getHarness(MatSelectHarness)).getValueText()).toBe('PAPolicy Agent');
       const avatar = selectElement.query(By.directive(AvatarComponent))?.componentInstance;
       expect(avatar.initials).toBe('PA');
       expect(avatar.size).toBe('26px');
@@ -157,8 +157,8 @@ describe('SearchAiInputComponent', () => {
       });
 
       it('should have correct agent names', async () => {
-        expect(await options[0].getText()).toBe('HR HR Agent');
-        expect(await options[1].getText()).toBe('PA Policy Agent');
+        expect(await options[0].getText()).toBe('HAHR Agent');
+        expect(await options[1].getText()).toBe('PAPolicy Agent');
       });
 
       it('should display avatar for each agent', () => {
@@ -347,7 +347,7 @@ describe('SearchAiInputComponent', () => {
         await (
           await loader.getHarness(MatSelectHarness)
         ).clickOptions({
-          text: 'HR HR Agent'
+          text: 'HAHR Agent'
         });
         submittingTrigger();
 
