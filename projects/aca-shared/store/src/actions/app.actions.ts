@@ -55,10 +55,6 @@ export class ToggleInfoDrawerAction implements Action {
   readonly type = AppActionTypes.ToggleInfoDrawer;
 }
 
-export class LogoutAction implements Action {
-  readonly type = AppActionTypes.Logout;
-}
-
 export class ReloadDocumentListAction implements Action {
   readonly type = AppActionTypes.ReloadDocumentList;
 
