@@ -28,6 +28,7 @@ $blue-save-button-background: #1f74db;
 $blue-checkbox-background: rgb(10,96,206);
 $blue-active-table-row: rgb(10,96,206, 0.24);
 $black-heading: #4e4c4c;
+$light-grey-content: #4b5563;
 $theme-dropdown-background: darken($background-color, 5%);
 $theme-dropdown-background-hover: darken($background-color, 10%);
 $grey-divider: rgba(0, 0, 0, 0.22);
@@ -76,6 +77,7 @@ $defaults: (
   --theme-blue-checkbox-color: $blue-checkbox-background,
   --theme-blue-active-table-row-color: $blue-active-table-row,
   --theme-heading-color: $black-heading,
+  --theme-content-color: $light-grey-content,
   --theme-dropdown-color: $theme-dropdown-background,
   --theme-dropdown-background-hover: $theme-dropdown-background-hover,
   --theme-grey-divider-color: $grey-divider,

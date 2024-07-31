@@ -1,27 +1,49 @@
-<mat-select
-  [formControl]="agentControl"
-  class="aca-search-ai-input-agent-select"
-  panelClass="aca-search-ai-input-agent-select-options aca-search-ai-input-agent-select-agents"
-  data-automation-id="aca-search-ai-agents-select"
+<div class="aca-search-ai-input-agent-container">
+  <mat-select
+    [formControl]="agentControl"
+    class="aca-search-ai-input-agent-select"
+    panelClass="aca-search-ai-input-agent-select-options aca-search-ai-input-agent-select-agents"
+    data-automation-id="aca-search-ai-agents-select"
   [hideSingleSelectionIndicator]="true">
-  <mat-select-trigger class="aca-search-ai-input-agent-select-displayed-value">
-    <adf-avatar
-      [initials]="initialsByAgentId[agentControl.value.id]"
-      size="26px">
-    </adf-avatar>
-    {{ agentControl.value.name }}
-  </mat-select-trigger>
-  <mat-option
-    *ngFor="let agent of agents"
-    [value]="agent"
-    class="aca-search-ai-input-agent-select-options-option"
-    [attr.data-automation-id]="'aca-search-ai-input-agent-' + agent.id">
-    <div class="aca-search-ai-input-agent-select-options-option-content">
-      <adf-avatar [initials]="initialsByAgentId[agent.id]"></adf-avatar>
-      {{ agent.name }}
-    </div>
-  </mat-option>
-</mat-select>
+    <mat-select-trigger class="aca-search-ai-input-agent-select-displayed-value">
+      <adf-avatar
+        [src]="agentControl.value?.avatar"
+        [initials]="initialsByAgentId[agentControl.value?.id]"
+        size="26px">
+      </adf-avatar>
+      <span class="aca-search-ai-input-agent-select-displayed-value-text">{{ agentControl.value?.name }}</span>
+    </mat-select-trigger>
+    <mat-option
+      *ngFor="let agent of agents"
+      [value]="agent"
+      class="aca-search-ai-input-agent-select-options-option"
+      [attr.data-automation-id]="'aca-search-ai-input-agent-' + agent.id"><div class="aca-search-ai-input-agent-select-options-option-content">
+        <adf-avatar [src]="agent?.avatar" [initials]="initialsByAgentId[agent.id]"></adf-avatar>
+        <span class="aca-search-ai-input-agent-select-options-option-content-text" [matTooltip]="agent.name" [matTooltipPosition]="'right'">{{ agent.name }}</span>
+      </div>
+    </mat-option>
+  </mat-select>
+
+  <div class="aca-search-ai-input-agent-popup-hover-card">
+    <mat-card class="aca-search-ai-input-agent-popup-hover-card-container">
+      <mat-card-title class="aca-search-ai-input-agent-popup-hover-card-container-title">
+        <adf-avatar
+          [initials]="initialsByAgentId[agentControl.value?.id]"
+          [src]="agentControl.value?.avatar"
+          size="50px">
+        </adf-avatar>
+        <span class="aca-search-ai-input-agent-popup-hover-card-container-title-name"
+              [matTooltipPosition]="'right'"
+              [matTooltip]="agentControl.value?.name">
+            {{ agentControl.value?.name }}
+          </span>
+      </mat-card-title>
+      <mat-card-content class="aca-search-ai-input-agent-popup-hover-card-container-content">
+        {{ agentControl.value?.description }}
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
 <input
   class="aca-search-ai-input-text"
   matInput
