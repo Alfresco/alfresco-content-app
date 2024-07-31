@@ -38,7 +38,6 @@
     "logo": "assets/images/app-logo.svg",
     "copyright": "APP.COPYRIGHT"
   },
-  "viewer.maxRetries": 1,
   "pagination": {
     "size": 25,
     "supportedPageSizes": [25, 50, 100]
@@ -330,7 +329,6 @@
     "downloadPromptDelay": 50,
     "downloadPromptReminderDelay": 30,
     "enableFileAutoDownload": true,
-    "fileAutoDownloadSizeThresholdInMB": 15,
-    "closeButtonPosition": "right"
+    "fileAutoDownloadSizeThresholdInMB": 15
   }
 }

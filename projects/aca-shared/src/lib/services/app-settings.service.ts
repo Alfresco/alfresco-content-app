@@ -23,7 +23,7 @@
  */
 
 import { inject, Injectable } from '@angular/core';
-import { AppConfigService } from '@alfresco/adf-core';
+import { AppConfigService, CloseButtonPosition } from '@alfresco/adf-core';
 import { AlfrescoMimeType, DefaultMimeTypes } from '../constants/mime-types';
 
 @Injectable({ providedIn: 'root' })
@@ -96,6 +96,20 @@ export class AppSettingsService {
       result += '/';
     }
     return result;
+  }
+
+  /**
+   * Get the viewer close button position from the app settings.
+   */
+  get viewerCloseButtonPosition(): CloseButtonPosition {
+    return this.appConfig.get('viewer.closeButtonPosition', CloseButtonPosition.Right);
+  }
+
+  /**
+   * Get the viewer max retries from the app settings.
+   */
+  get viewerMaxRetries(): number {
+    return this.appConfig.get<number>('viewer.maxRetries', 1);
   }
 
   /**
