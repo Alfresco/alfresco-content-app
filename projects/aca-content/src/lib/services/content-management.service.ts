@@ -168,7 +168,7 @@ export class ContentManagementService {
             }
           }
         },
-        (error) => this.store.dispatch(new SnackbarErrorAction(error))
+        (error) => this.notificationService.showError(error)
       );
     });
   }

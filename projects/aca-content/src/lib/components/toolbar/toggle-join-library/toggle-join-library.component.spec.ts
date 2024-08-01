@@ -86,14 +86,14 @@ describe('ToggleJoinLibraryComponent', () => {
     });
   });
 
-  it('should dispatch `SnackbarErrorAction` action on error', () => {
+  it('should show error notification on error', () => {
     const event = { error: {}, i18nKey: 'ERROR_i18nKey' };
     component.onErrorEvent(event);
 
     expect(showErrorSpy).toHaveBeenCalledWith(event.i18nKey);
   });
 
-  it('should dispatch `SnackbarInfoAction` action on onToggleEvent', () => {
+  it('should show info notification on onToggleEvent', () => {
     const event = { shouldReload: true, i18nKey: 'SOME_i18nKey' };
     component.onToggleEvent(event);
 
