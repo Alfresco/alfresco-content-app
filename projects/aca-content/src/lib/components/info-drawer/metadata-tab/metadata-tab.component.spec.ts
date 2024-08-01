@@ -26,7 +26,7 @@ import { MetadataTabComponent } from './metadata-tab.component';
 import { Node } from '@alfresco/js-api';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../../../testing/app-testing.module';
-import { AppConfigService } from '@alfresco/adf-core';
+import { AppConfigService, PipeModule } from '@alfresco/adf-core';
 import { EditOfflineAction } from '@alfresco/aca-shared/store';
 import { By } from '@angular/platform-browser';
 import { AppExtensionService, NodePermissionService } from '@alfresco/aca-shared';
@@ -34,6 +34,7 @@ import { Actions } from '@ngrx/effects';
 import { of, Subject } from 'rxjs';
 import { ContentActionType } from '@alfresco/adf-extensions';
 import { CategoryService, ContentMetadataComponent, ContentMetadataService, TagService } from '@alfresco/adf-content-services';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('MetadataTabComponent', () => {
   let fixture: ComponentFixture<MetadataTabComponent>;
@@ -54,7 +55,7 @@ describe('MetadataTabComponent', () => {
   beforeEach(() => {
     actions$ = new Subject<EditOfflineAction>();
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, MetadataTabComponent],
+      imports: [AppTestingModule, MetadataTabComponent, PipeModule, MatSnackBarModule],
       providers: [
         {
           provide: Actions,
