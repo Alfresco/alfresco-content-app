@@ -363,3 +363,9 @@ adf-dynamic-component {
     min-width: 160px;
   }
 }
+
+#{$mat-icon-button} {
+  #{$mat-icon} {
+    vertical-align: unset;
+  }
+}
