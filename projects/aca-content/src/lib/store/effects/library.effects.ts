@@ -30,19 +30,21 @@ import {
   LibraryActionTypes,
   NavigateLibraryAction,
   NavigateRouteAction,
-  SnackbarErrorAction,
   UpdateLibraryAction,
   getAppSelection
 } from '@alfresco/aca-shared/store';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { map, mergeMap, take } from 'rxjs/operators';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { ContentManagementService } from '../../services/content-management.service';
+import { NotificationService } from '@alfresco/adf-core';
 
 @Injectable()
 export class LibraryEffects {
+  private notificationService = inject(NotificationService);
+
   constructor(
     private store: Store<AppStore>,
     private actions$: Actions,
@@ -120,7 +122,7 @@ export class LibraryEffects {
                   this.store.dispatch(new NavigateRouteAction([route, id]));
                 },
                 () => {
-                  this.store.dispatch(new SnackbarErrorAction('APP.MESSAGES.ERRORS.MISSING_CONTENT'));
+                  this.notificationService.showError('APP.MESSAGES.ERRORS.MISSING_CONTENT');
                 }
               );
           }
