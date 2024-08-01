@@ -28,6 +28,7 @@ import { SearchAiActionTypes, SearchByTermAiAction, ToggleAISearchInput } from '
 import { map } from 'rxjs/operators';
 import { SearchAiNavigationService } from '../../services/search-ai-navigation.service';
 import { SearchAiService } from '@alfresco/adf-content-services';
+import { Params } from '@angular/router';
 
 @Injectable()
 export class SearchAiEffects {
@@ -38,7 +39,7 @@ export class SearchAiEffects {
       this.actions$.pipe(
         ofType<SearchByTermAiAction>(SearchAiActionTypes.SearchByTermAi),
         map((action) => {
-          const queryParams = {
+          const queryParams: Params = {
             query: encodeURIComponent(action.payload.searchTerm),
             agentId: action.payload.agentId
           };
