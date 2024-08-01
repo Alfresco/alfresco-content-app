@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AppStore, SetSelectedNodesAction, SnackbarErrorAction, SnackbarInfoAction, getAppSelection } from '@alfresco/aca-shared/store';
+import { AppStore, SetSelectedNodesAction, getAppSelection } from '@alfresco/aca-shared/store';
 import { AppHookService, UserProfileService } from '@alfresco/aca-shared';
 import { SelectionState } from '@alfresco/adf-extensions';
 import { Component, inject, ViewEncapsulation } from '@angular/core';
@@ -33,6 +33,7 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatIconModule } from '@angular/material/icon';
+import { NotificationService } from '@alfresco/adf-core';
 
 @Component({
   standalone: true,
@@ -58,16 +59,19 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class ToggleJoinLibraryButtonComponent {
   private userProfileService = inject(UserProfileService);
+  private notificationService = inject(NotificationService);
+  private appHookService = inject(AppHookService);
+  private store = inject(Store<AppStore>);
 
   selection$: Observable<SelectionState>;
   profile$ = this.userProfileService.userProfile$;
 
-  constructor(private store: Store<AppStore>, private appHookService: AppHookService) {
+  constructor() {
     this.selection$ = this.store.select(getAppSelection);
   }
 
   onToggleEvent(event: LibraryMembershipToggleEvent) {
-    this.store.dispatch(new SnackbarInfoAction(event.i18nKey));
+    this.notificationService.showInfo(event.i18nKey);
 
     if (event.shouldReload) {
       this.appHookService.libraryJoined.next();
@@ -80,6 +84,6 @@ export class ToggleJoinLibraryButtonComponent {
   }
 
   onErrorEvent(event: LibraryMembershipErrorEvent) {
-    this.store.dispatch(new SnackbarErrorAction(event.i18nKey));
+    this.notificationService.showError(event.i18nKey);
   }
 }

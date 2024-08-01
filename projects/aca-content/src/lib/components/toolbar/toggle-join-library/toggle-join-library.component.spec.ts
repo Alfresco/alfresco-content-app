@@ -26,18 +26,20 @@ import { of } from 'rxjs';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { SnackbarErrorAction, SnackbarInfoAction } from '@alfresco/aca-shared/store';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { ToggleJoinLibraryButtonComponent } from './toggle-join-library-button.component';
 import { AppHookService, ContentApiService } from '@alfresco/aca-shared';
+import { NotificationService } from '@alfresco/adf-core';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('ToggleJoinLibraryComponent', () => {
   let component: ToggleJoinLibraryButtonComponent;
   let fixture: ComponentFixture<ToggleJoinLibraryButtonComponent>;
   let appHookService: AppHookService;
   let contentApiService: any;
-  let store: Store<any>;
   let entry;
+  let showErrorSpy: jasmine.Spy;
+  let showInfoSpy: jasmine.Spy;
 
   beforeEach(() => {
     entry = {
@@ -48,7 +50,7 @@ describe('ToggleJoinLibraryComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, ToggleJoinLibraryButtonComponent],
+      imports: [AppTestingModule, ToggleJoinLibraryButtonComponent, MatSnackBarModule],
       providers: [
         {
           provide: Store,
@@ -61,8 +63,11 @@ describe('ToggleJoinLibraryComponent', () => {
       schemas: [NO_ERRORS_SCHEMA]
     });
 
-    store = TestBed.inject(Store);
     appHookService = TestBed.inject(AppHookService);
+
+    const notificationService = TestBed.inject(NotificationService);
+    showErrorSpy = spyOn(notificationService, 'showError');
+    showInfoSpy = spyOn(notificationService, 'showInfo');
 
     contentApiService = TestBed.inject(ContentApiService);
     fixture = TestBed.createComponent(ToggleJoinLibraryButtonComponent);
@@ -85,14 +90,14 @@ describe('ToggleJoinLibraryComponent', () => {
     const event = { error: {}, i18nKey: 'ERROR_i18nKey' };
     component.onErrorEvent(event);
 
-    expect(store.dispatch).toHaveBeenCalledWith(new SnackbarErrorAction(event.i18nKey));
+    expect(showErrorSpy).toHaveBeenCalledWith(event.i18nKey);
   });
 
   it('should dispatch `SnackbarInfoAction` action on onToggleEvent', () => {
     const event = { shouldReload: true, i18nKey: 'SOME_i18nKey' };
     component.onToggleEvent(event);
 
-    expect(store.dispatch).toHaveBeenCalledWith(new SnackbarInfoAction(event.i18nKey));
+    expect(showInfoSpy).toHaveBeenCalledWith(event.i18nKey);
   });
 
   it('should call libraryJoined.next on contentManagementService onToggleEvent', (done) => {
