@@ -24,7 +24,6 @@
 
 import {
   AppStore,
-  SnackbarErrorAction,
   UnlockWriteAction,
   UploadActionTypes,
   UploadFilesAction,
@@ -32,8 +31,8 @@ import {
   UploadFolderAction,
   getCurrentFolder
 } from '@alfresco/aca-shared/store';
-import { FileUtils } from '@alfresco/adf-core';
-import { Injectable, NgZone, RendererFactory2 } from '@angular/core';
+import { FileUtils, NotificationService } from '@alfresco/adf-core';
+import { inject, Injectable, NgZone, RendererFactory2 } from '@angular/core';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
@@ -44,6 +43,8 @@ import { UploadService, FileModel } from '@alfresco/adf-content-services';
 
 @Injectable()
 export class UploadEffects {
+  private notificationService = inject(NotificationService);
+
   private readonly fileInput: HTMLInputElement;
   private readonly folderInput: HTMLInputElement;
   private readonly fileVersionInput: HTMLInputElement;
@@ -133,7 +134,7 @@ export class UploadEffects {
       .getNodeInfo()
       .pipe(
         catchError(() => {
-          this.store.dispatch(new SnackbarErrorAction('VERSION.ERROR.GENERIC'));
+          this.notificationService.showError('VERSION.ERROR.GENERIC');
           return of(null);
         })
       )
