@@ -24,18 +24,21 @@
 
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { EffectsModule } from '@ngrx/effects';
-import { AppStore, SnackbarErrorAction } from '@alfresco/aca-shared/store';
 import { TemplateEffects } from '../store/effects/template.effects';
 import { AppTestingModule } from '../testing/app-testing.module';
 import { Store } from '@ngrx/store';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { NodeTemplateService } from './node-template.service';
 import { ResultSetPaging } from '@alfresco/js-api';
+import { NotificationService } from '@alfresco/adf-core';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('NodeTemplateService', () => {
   let dialog: MatDialog;
-  let store: Store<AppStore>;
+  let store: Store<any>;
   let nodeTemplateService: NodeTemplateService;
+  let showErrorSpy: jasmine.Spy;
+
   const fileTemplateConfig = {
     primaryPathName: 'parent-file-templates',
     selectionType: 'file'
@@ -47,7 +50,7 @@ describe('NodeTemplateService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, EffectsModule.forRoot([TemplateEffects]), MatDialogModule],
+      imports: [AppTestingModule, EffectsModule.forRoot([TemplateEffects]), MatDialogModule, MatSnackBarModule],
       providers: [NodeTemplateService]
     });
 
@@ -55,10 +58,13 @@ describe('NodeTemplateService', () => {
     dialog = TestBed.inject(MatDialog);
     nodeTemplateService = TestBed.inject(NodeTemplateService);
     spyOn(document, 'querySelector').and.returnValue(document.createElement('button'));
+
+    const notificationService = TestBed.inject(NotificationService);
+    showErrorSpy = spyOn(notificationService, 'showError');
   });
 
   it('should open dialog with parent node `id` as data property', fakeAsync(() => {
-    spyOn(nodeTemplateService['searchApi'], 'search').and.returnValue(
+    spyOn(nodeTemplateService.searchApi, 'search').and.returnValue(
       Promise.resolve({
         list: { entries: [{ entry: { id: 'parent-node-id' } }] }
       } as ResultSetPaging)
@@ -72,7 +78,7 @@ describe('NodeTemplateService', () => {
   }));
 
   it('should remove parents path for templates breadcrumb', fakeAsync(() => {
-    spyOn(nodeTemplateService['searchApi'], 'search').and.returnValue(
+    spyOn(nodeTemplateService.searchApi, 'search').and.returnValue(
       Promise.resolve({
         list: {
           entries: [
@@ -112,7 +118,7 @@ describe('NodeTemplateService', () => {
   }));
 
   it('should set template folder path as root for breadcrumb', fakeAsync(() => {
-    spyOn(nodeTemplateService['searchApi'], 'search').and.returnValue(
+    spyOn(nodeTemplateService.searchApi, 'search').and.returnValue(
       Promise.resolve({
         list: {
           entries: [
@@ -153,17 +159,17 @@ describe('NodeTemplateService', () => {
   }));
 
   it('should raise an error when getNodeInfo fails', fakeAsync(() => {
-    spyOn(nodeTemplateService['searchApi'], 'search').and.returnValue(Promise.reject(new Error('{ "error": { "statusCode": 404 } }')));
+    spyOn(nodeTemplateService.searchApi, 'search').and.returnValue(Promise.reject(new Error('{ "error": { "statusCode": 404 } }')));
     spyOn(store, 'dispatch');
 
     nodeTemplateService.selectTemplateDialog(fileTemplateConfig);
     tick();
 
-    expect(store.dispatch).toHaveBeenCalledWith(new SnackbarErrorAction('APP.MESSAGES.ERRORS.GENERIC'));
+    expect(showErrorSpy).toHaveBeenCalledWith('APP.MESSAGES.ERRORS.GENERIC');
   }));
 
   it('should return true if row is not a `link` nodeType', fakeAsync(() => {
-    spyOn(nodeTemplateService['searchApi'], 'search').and.returnValue(
+    spyOn(nodeTemplateService.searchApi, 'search').and.returnValue(
       Promise.resolve({
         list: {
           entries: [
@@ -193,7 +199,7 @@ describe('NodeTemplateService', () => {
   }));
 
   it('should return false if row is a `filelink` nodeType', fakeAsync(() => {
-    spyOn(nodeTemplateService['searchApi'], 'search').and.returnValue(
+    spyOn(nodeTemplateService.searchApi, 'search').and.returnValue(
       Promise.resolve({
         list: {
           entries: [
@@ -223,7 +229,7 @@ describe('NodeTemplateService', () => {
   }));
 
   it('should return false if row is a `folderlink` nodeType', fakeAsync(() => {
-    spyOn(nodeTemplateService['searchApi'], 'search').and.returnValue(
+    spyOn(nodeTemplateService.searchApi, 'search').and.returnValue(
       Promise.resolve({
         list: {
           entries: [
@@ -254,7 +260,7 @@ describe('NodeTemplateService', () => {
 
   describe('File templates', () => {
     it('should return false if selected node is not a file', fakeAsync(() => {
-      spyOn(nodeTemplateService['searchApi'], 'search').and.returnValue(
+      spyOn(nodeTemplateService.searchApi, 'search').and.returnValue(
         Promise.resolve({
           list: { entries: [{ entry: { id: 'templates-folder-id' } }] }
         } as ResultSetPaging)
@@ -275,7 +281,7 @@ describe('NodeTemplateService', () => {
     }));
 
     it('should return true if selected node is a template file', fakeAsync(() => {
-      spyOn(nodeTemplateService['searchApi'], 'search').and.returnValue(
+      spyOn(nodeTemplateService.searchApi, 'search').and.returnValue(
         Promise.resolve({
           list: { entries: [{ entry: { id: 'templates-folder-id' } }] }
         } as ResultSetPaging)
@@ -296,7 +302,7 @@ describe('NodeTemplateService', () => {
     }));
 
     it('should set dialog title for file templates', fakeAsync(() => {
-      spyOn(nodeTemplateService['searchApi'], 'search').and.returnValue(
+      spyOn(nodeTemplateService.searchApi, 'search').and.returnValue(
         Promise.resolve({
           list: { entries: [{ entry: { id: 'templates-folder-id' } }] }
         } as ResultSetPaging)
@@ -314,7 +320,7 @@ describe('NodeTemplateService', () => {
 
   describe('Folder templates', () => {
     it('should return false if selected node is not a folder', fakeAsync(() => {
-      spyOn(nodeTemplateService['searchApi'], 'search').and.returnValue(
+      spyOn(nodeTemplateService.searchApi, 'search').and.returnValue(
         Promise.resolve({
           list: { entries: [{ entry: { id: 'templates-folder-id' } }] }
         } as ResultSetPaging)
@@ -335,7 +341,7 @@ describe('NodeTemplateService', () => {
     }));
 
     it('should return false if current node is the parent folder', fakeAsync(() => {
-      spyOn(nodeTemplateService['searchApi'], 'search').and.returnValue(
+      spyOn(nodeTemplateService.searchApi, 'search').and.returnValue(
         Promise.resolve({
           list: { entries: [{ entry: { id: 'templates-folder-id' } }] }
         } as ResultSetPaging)
@@ -356,7 +362,7 @@ describe('NodeTemplateService', () => {
     }));
 
     it('should return true if selected node is a folder template', fakeAsync(() => {
-      spyOn(nodeTemplateService['searchApi'], 'search').and.returnValue(
+      spyOn(nodeTemplateService.searchApi, 'search').and.returnValue(
         Promise.resolve({
           list: {
             entries: [{ entry: { id: 'templates-folder-id', path: { elements: [] } } }]
@@ -379,7 +385,7 @@ describe('NodeTemplateService', () => {
     }));
 
     it('should set dialog title for folder templates', fakeAsync(() => {
-      spyOn(nodeTemplateService['searchApi'], 'search').and.returnValue(
+      spyOn(nodeTemplateService.searchApi, 'search').and.returnValue(
         Promise.resolve({
           list: { entries: [{ entry: { id: 'templates-folder-id' } }] }
         } as ResultSetPaging)

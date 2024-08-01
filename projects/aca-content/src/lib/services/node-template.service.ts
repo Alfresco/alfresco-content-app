@@ -22,15 +22,13 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CreateFromTemplateDialogComponent } from '../dialogs/node-template/create-from-template.dialog';
 import { Subject, from, of } from 'rxjs';
 import { Node, ResultNode, PathElement, SearchApi } from '@alfresco/js-api';
-import { AlfrescoApiService, TranslationService } from '@alfresco/adf-core';
+import { AlfrescoApiService, TranslationService, NotificationService } from '@alfresco/adf-core';
 import { switchMap, catchError } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
-import { AppStore, SnackbarErrorAction } from '@alfresco/aca-shared/store';
 import { ContentNodeSelectorComponent, ContentNodeSelectorComponentData, ShareDataRow, NodeAction } from '@alfresco/adf-content-services';
 
 export interface TemplateDialogConfig {
@@ -42,6 +40,11 @@ export interface TemplateDialogConfig {
   providedIn: 'root'
 })
 export class NodeTemplateService {
+  private alfrescoApiService = inject(AlfrescoApiService);
+  private notificationService = inject(NotificationService);
+  private translation = inject(TranslationService);
+  private dialog = inject(MatDialog);
+
   private currentTemplateConfig: TemplateDialogConfig = null;
   private rootNode: ResultNode;
 
@@ -50,13 +53,6 @@ export class NodeTemplateService {
     this._searchApi = this._searchApi ?? new SearchApi(this.alfrescoApiService.getInstance());
     return this._searchApi;
   }
-
-  constructor(
-    private store: Store<AppStore>,
-    private alfrescoApiService: AlfrescoApiService,
-    private translation: TranslationService,
-    public dialog: MatDialog
-  ) {}
 
   selectTemplateDialog(config: TemplateDialogConfig): Subject<Node[]> {
     this.currentTemplateConfig = config;
@@ -105,7 +101,7 @@ export class NodeTemplateService {
             .afterClosed();
         }),
         catchError((error) => {
-          this.store.dispatch(new SnackbarErrorAction('APP.MESSAGES.ERRORS.GENERIC'));
+          this.notificationService.showError('APP.MESSAGES.ERRORS.GENERIC');
           return of(error);
         })
       )
@@ -120,7 +116,7 @@ export class NodeTemplateService {
       panelClass: 'aca-create-from-template-dialog',
       width: '630px'
     });
-    dialog.afterClosed().subscribe(() => NodeTemplateService.focusCreateMenuButton());
+    dialog.afterClosed().subscribe(() => this.focusCreateMenuButton());
     return dialog;
   }
 
@@ -145,7 +141,7 @@ export class NodeTemplateService {
 
   private close() {
     this.dialog.closeAll();
-    NodeTemplateService.focusCreateMenuButton();
+    this.focusCreateMenuButton();
   }
 
   private title(selectionType: string) {
@@ -165,7 +161,7 @@ export class NodeTemplateService {
     return node.path.elements.filter((pathElement) => !this.rootNode.path.elements.some((rootPathElement) => pathElement.id === rootPathElement.id));
   }
 
-  private static focusCreateMenuButton(): void {
+  private focusCreateMenuButton(): void {
     document.querySelector<HTMLElement>('app-toolbar-menu button[id="app.toolbar.create"]').focus();
   }
 }

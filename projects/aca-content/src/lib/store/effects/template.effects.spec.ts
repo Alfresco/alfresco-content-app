@@ -27,13 +27,15 @@ import { AppTestingModule } from '../../testing/app-testing.module';
 import { TemplateEffects } from './template.effects';
 import { EffectsModule } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { CreateFromTemplate, CreateFromTemplateSuccess, FileFromTemplate, FolderFromTemplate, SnackbarErrorAction } from '@alfresco/aca-shared/store';
+import { CreateFromTemplate, CreateFromTemplateSuccess, FileFromTemplate, FolderFromTemplate } from '@alfresco/aca-shared/store';
 import { NodeTemplateService } from '../../services/node-template.service';
 import { of, Subject } from 'rxjs';
 import { Node, NodeEntry } from '@alfresco/js-api';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CreateFromTemplateDialogComponent } from '../../dialogs/node-template/create-from-template.dialog';
 import { AppHookService } from '@alfresco/aca-shared';
+import { NotificationService } from '@alfresco/adf-core';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('TemplateEffects', () => {
   let store: Store<any>;
@@ -43,6 +45,8 @@ describe('TemplateEffects', () => {
   let copyNodeSpy;
   let updateNodeSpy;
   let matDialog: MatDialog;
+  let showErrorSpy;
+
   const node: Node = {
     name: 'node-name',
     id: 'node-id',
@@ -72,7 +76,7 @@ describe('TemplateEffects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, EffectsModule.forRoot([TemplateEffects])],
+      imports: [AppTestingModule, EffectsModule.forRoot([TemplateEffects]), MatSnackBarModule],
       providers: [
         NodeTemplateService,
         {
@@ -91,13 +95,16 @@ describe('TemplateEffects', () => {
     matDialog = TestBed.inject(MatDialog);
     subject = new Subject<Node[]>();
 
+    const notificationService = TestBed.inject(NotificationService);
+    showErrorSpy = spyOn(notificationService, 'showError');
+
     spyOn(store, 'dispatch').and.callThrough();
     spyOn(appHookService.reload, 'next');
     spyOn(store, 'select').and.returnValue(of({ id: 'parent-id' }));
     spyOn(nodeTemplateService, 'selectTemplateDialog').and.returnValue(subject);
 
-    copyNodeSpy = spyOn(templateEffects['nodesApi'], 'copyNode');
-    updateNodeSpy = spyOn(templateEffects['nodesApi'], 'updateNode');
+    copyNodeSpy = spyOn(templateEffects.nodesApi, 'copyNode');
+    updateNodeSpy = spyOn(templateEffects.nodesApi, 'updateNode');
   });
 
   afterEach(() => {
@@ -162,7 +169,7 @@ describe('TemplateEffects', () => {
     tick();
 
     expect(store.dispatch['calls'].mostRecent().args[0]).not.toEqual(new CreateFromTemplateSuccess(node));
-    expect(store.dispatch['calls'].argsFor(1)[0]).toEqual(new SnackbarErrorAction('APP.MESSAGES.ERRORS.GENERIC'));
+    expect(showErrorSpy).toHaveBeenCalledWith('APP.MESSAGES.ERRORS.GENERIC');
   }));
 
   it('should raise name conflict error when copyNode api returns 409', fakeAsync(() => {
@@ -172,7 +179,7 @@ describe('TemplateEffects', () => {
     tick();
 
     expect(store.dispatch['calls'].mostRecent().args[0]).not.toEqual(new CreateFromTemplateSuccess(node));
-    expect(store.dispatch['calls'].argsFor(1)[0]).toEqual(new SnackbarErrorAction('APP.MESSAGES.ERRORS.CONFLICT'));
+    expect(showErrorSpy).toHaveBeenCalledWith('APP.MESSAGES.ERRORS.CONFLICT');
   }));
 
   it('should resolve error with current node value when updateNode api fails', fakeAsync(() => {

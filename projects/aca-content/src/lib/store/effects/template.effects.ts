@@ -23,7 +23,7 @@
  */
 
 import { Actions, ofType, createEffect } from '@ngrx/effects';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { map, switchMap, debounceTime, take, catchError } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import {
@@ -33,11 +33,10 @@ import {
   CreateFromTemplateSuccess,
   TemplateActionTypes,
   getCurrentFolder,
-  AppStore,
-  SnackbarErrorAction
+  AppStore
 } from '@alfresco/aca-shared/store';
 import { NodeTemplateService, TemplateDialogConfig } from '../../services/node-template.service';
-import { AlfrescoApiService } from '@alfresco/adf-core';
+import { AlfrescoApiService, NotificationService } from '@alfresco/adf-core';
 import { AppHookService } from '@alfresco/aca-shared';
 import { from, Observable, of } from 'rxjs';
 import { NodeEntry, NodeBodyUpdate, Node, NodesApi } from '@alfresco/js-api';
@@ -45,6 +44,8 @@ import { MatDialog } from '@angular/material/dialog';
 
 @Injectable()
 export class TemplateEffects {
+  private notificationService = inject(NotificationService);
+
   private _nodesApi: NodesApi;
   get nodesApi(): NodesApi {
     this._nodesApi = this._nodesApi ?? new NodesApi(this.apiService.getInstance());
@@ -161,9 +162,9 @@ export class TemplateEffects {
     }
 
     if (statusCode !== 409) {
-      this.store.dispatch(new SnackbarErrorAction('APP.MESSAGES.ERRORS.GENERIC'));
+      this.notificationService.showError('APP.MESSAGES.ERRORS.GENERIC');
     } else {
-      this.store.dispatch(new SnackbarErrorAction('APP.MESSAGES.ERRORS.CONFLICT'));
+      this.notificationService.showError('APP.MESSAGES.ERRORS.CONFLICT');
     }
 
     return of(null);
