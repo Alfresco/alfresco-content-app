@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, OnInit, ViewEncapsulation, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation, ChangeDetectionStrategy, OnDestroy, inject } from '@angular/core';
 import { NodeEntry, SearchEntryHighlight } from '@alfresco/js-api';
 import { ViewNodeAction, NavigateToFolder } from '@alfresco/aca-shared/store';
 import { Store } from '@ngrx/store';
@@ -30,7 +30,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { NodesApiService } from '@alfresco/adf-content-services';
 import { takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { AcaFileAutoDownloadService } from '@alfresco/aca-shared';
+import { AutoDownloadService, AppSettingsService } from '@alfresco/aca-shared';
 import { CommonModule } from '@angular/common';
 import { LocationLinkComponent } from '../../common/location-link/location-link.component';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -46,6 +46,8 @@ import { MatDialogModule } from '@angular/material/dialog';
   host: { class: 'aca-search-results-row' }
 })
 export class SearchResultsRowComponent implements OnInit, OnDestroy {
+  private settings = inject(AppSettingsService);
+
   private readonly highlightPrefix = "<span class='aca-highlight'>";
   private readonly highlightPostfix = '</span>';
 
@@ -70,7 +72,7 @@ export class SearchResultsRowComponent implements OnInit, OnDestroy {
     private store: Store<any>,
     private nodesApiService: NodesApiService,
     private router: Router,
-    private fileAutoDownloadService: AcaFileAutoDownloadService
+    private autoDownloadService: AutoDownloadService
   ) {}
 
   ngOnInit() {
@@ -141,9 +143,8 @@ export class SearchResultsRowComponent implements OnInit, OnDestroy {
 
   showPreview(event: Event) {
     event.stopPropagation();
-    if (this.fileAutoDownloadService.shouldFileAutoDownload(this.node.entry.content.sizeInBytes)) {
-      this.fileAutoDownloadService.autoDownloadFile(this.node);
-    } else {
+
+    if (!this.settings.autoDownloadEnabled || !this.autoDownloadService.tryDownload(this.node, this.settings.authDownloadThreshold)) {
       this.store.dispatch(new ViewNodeAction(this.node.entry.id, { location: this.router.url }));
     }
   }

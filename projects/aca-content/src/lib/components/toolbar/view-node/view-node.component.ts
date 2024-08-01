@@ -22,13 +22,13 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewEncapsulation, Input } from '@angular/core';
+import { Component, ViewEncapsulation, Input, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppStore, ViewNodeAction, getAppSelection } from '@alfresco/aca-shared/store';
 import { ActivatedRoute, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { SharedLinkEntry } from '@alfresco/js-api';
-import { AcaFileAutoDownloadService } from '@alfresco/aca-shared';
+import { AutoDownloadService, AppSettingsService } from '@alfresco/aca-shared';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -60,12 +60,14 @@ import { MatDialogModule } from '@angular/material/dialog';
   host: { class: 'app-view-node' }
 })
 export class ViewNodeComponent {
+  private settings = inject(AppSettingsService);
+
   @Input() data: { title?: string; menuButton?: boolean; iconButton?: boolean };
 
   constructor(
     private store: Store<AppStore>,
     private router: Router,
-    private fileAutoDownloadService: AcaFileAutoDownloadService,
+    private autoDownloadService: AutoDownloadService,
     private activatedRoute: ActivatedRoute
   ) {}
 
@@ -74,9 +76,7 @@ export class ViewNodeComponent {
       .select(getAppSelection)
       .pipe(take(1))
       .subscribe((selection) => {
-        if (this.fileAutoDownloadService.shouldFileAutoDownload(selection.file.entry?.content?.sizeInBytes)) {
-          this.fileAutoDownloadService.autoDownloadFile(selection.file);
-        } else {
+        if (!this.settings.autoDownloadEnabled || !this.autoDownloadService.tryDownload(selection.file, this.settings.authDownloadThreshold)) {
           let id: string;
 
           if (selection.file.entry.nodeType === 'app:filelink') {
