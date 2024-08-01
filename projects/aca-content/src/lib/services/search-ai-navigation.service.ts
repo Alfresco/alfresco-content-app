@@ -43,6 +43,6 @@ export class SearchAiNavigationService {
     if (!this.router.url.includes(this.knowledgeRetrievalRoute)) {
       this.previousRoute = this.router.url;
     }
-    void this.router.navigate([this.knowledgeRetrievalRoute], { queryParams: queryParams });
+    void this.router.navigate([this.knowledgeRetrievalRoute], { queryParams });
   }
 }
