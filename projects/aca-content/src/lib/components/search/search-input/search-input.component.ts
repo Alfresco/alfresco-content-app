@@ -23,10 +23,10 @@
  */
 
 import { AppHookService, AppService } from '@alfresco/aca-shared';
-import { AppStore, SearchByTermAction, SearchOptionIds, SearchOptionModel, SnackbarErrorAction } from '@alfresco/aca-shared/store';
+import { AppStore, SearchByTermAction, SearchOptionIds, SearchOptionModel } from '@alfresco/aca-shared/store';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
-import { AppConfigService } from '@alfresco/adf-core';
-import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AppConfigService, NotificationService } from '@alfresco/adf-core';
+import { Component, inject, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { NavigationEnd, PRIMARY_OUTLET, Router, RouterEvent, UrlSegment, UrlSegmentGroup, UrlTree } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -67,6 +67,8 @@ import { FormsModule } from '@angular/forms';
   host: { class: 'aca-search-input' }
 })
 export class SearchInputComponent implements OnInit, OnDestroy {
+  private notificationService = inject(NotificationService);
+
   onDestroy$: Subject<boolean> = new Subject<boolean>();
   hasOneChange = false;
   hasNewChange = false;
@@ -174,7 +176,7 @@ export class SearchInputComponent implements OnInit, OnDestroy {
 
       this.searchByOption();
     } else {
-      this.store.dispatch(new SnackbarErrorAction('APP.BROWSE.SEARCH.EMPTY_SEARCH'));
+      this.notificationService.showError('APP.BROWSE.SEARCH.EMPTY_SEARCH');
     }
 
     if (this.trigger) {

@@ -27,12 +27,14 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { SearchInputComponent } from './search-input.component';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { Actions, ofType } from '@ngrx/effects';
-import { SearchByTermAction, SearchActionTypes, SnackbarErrorAction, SnackbarActionTypes } from '@alfresco/aca-shared/store';
+import { SearchByTermAction, SearchActionTypes } from '@alfresco/aca-shared/store';
 import { AppHookService, AppService } from '@alfresco/aca-shared';
 import { map } from 'rxjs/operators';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { SearchNavigationService } from '../search-navigation.service';
 import { BehaviorSubject, Subject } from 'rxjs';
+import { NotificationService } from '@alfresco/adf-core';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('SearchInputComponent', () => {
   let fixture: ComponentFixture<SearchInputComponent>;
@@ -40,6 +42,8 @@ describe('SearchInputComponent', () => {
   let actions$: Actions;
   let appHookService: AppHookService;
   let searchInputService: SearchNavigationService;
+  let showErrorSpy: jasmine.Spy;
+
   const appServiceMock = {
     appNavNarMode$: new BehaviorSubject('collapsed'),
     setAppNavbarMode: jasmine.createSpy('setAppNavbarMode'),
@@ -49,7 +53,7 @@ describe('SearchInputComponent', () => {
   beforeEach(() => {
     appServiceMock.setAppNavbarMode.calls.reset();
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, SearchInputComponent],
+      imports: [AppTestingModule, SearchInputComponent, MatSnackBarModule],
       providers: [
         {
           provide: AppService,
@@ -65,6 +69,9 @@ describe('SearchInputComponent', () => {
     appHookService = TestBed.inject(AppHookService);
     searchInputService = TestBed.inject(SearchNavigationService);
     component = fixture.componentInstance;
+
+    const notificationService = TestBed.inject(NotificationService);
+    showErrorSpy = spyOn(notificationService, 'showError');
   });
 
   afterEach(() => {
@@ -171,19 +178,9 @@ describe('SearchInputComponent', () => {
       component.onSearchChange(searchedTerm);
     });
 
-    it('should show snack for empty search', (done) => {
-      const searchedTerm = '';
-      actions$
-        .pipe(
-          ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
-          map((action) => {
-            expect(action.payload).toBe('APP.BROWSE.SEARCH.EMPTY_SEARCH');
-          })
-        )
-        .subscribe(() => {
-          done();
-        });
-      component.onSearchSubmit(searchedTerm);
+    it('should show snack for empty search', () => {
+      component.onSearchSubmit('');
+      expect(showErrorSpy).toHaveBeenCalled();
     });
   });
 
