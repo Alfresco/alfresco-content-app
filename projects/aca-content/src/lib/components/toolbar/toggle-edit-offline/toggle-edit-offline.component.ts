@@ -22,19 +22,12 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  AppStore,
-  DownloadNodesAction,
-  EditOfflineAction,
-  SetSelectedNodesAction,
-  SnackbarErrorAction,
-  getAppSelection
-} from '@alfresco/aca-shared/store';
+import { AppStore, DownloadNodesAction, EditOfflineAction, SetSelectedNodesAction, getAppSelection } from '@alfresco/aca-shared/store';
 import { NodeEntry, SharedLinkEntry, Node, NodesApi } from '@alfresco/js-api';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppExtensionService, isLocked } from '@alfresco/aca-shared';
-import { AlfrescoApiService } from '@alfresco/adf-core';
+import { AlfrescoApiService, NotificationService } from '@alfresco/adf-core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatMenuModule } from '@angular/material/menu';
@@ -54,6 +47,8 @@ import { MatIconModule } from '@angular/material/icon';
   host: { class: 'app-toggle-edit-offline' }
 })
 export class ToggleEditOfflineComponent implements OnInit {
+  private notificationService = inject(NotificationService);
+
   private nodesApi: NodesApi;
   selection: NodeEntry;
   nodeTitle = '';
@@ -104,19 +99,11 @@ export class ToggleEditOfflineComponent implements OnInit {
   }
 
   onLockError() {
-    this.store.dispatch(
-      new SnackbarErrorAction('APP.MESSAGES.ERRORS.LOCK_NODE', {
-        fileName: this.selection.entry.name
-      })
-    );
+    this.notificationService.showError('APP.MESSAGES.ERRORS.LOCK_NODE', null, { fileName: this.selection.entry.name });
   }
 
   onUnlockError() {
-    this.store.dispatch(
-      new SnackbarErrorAction('APP.MESSAGES.ERRORS.UNLOCK_NODE', {
-        fileName: this.selection.entry.name
-      })
-    );
+    this.notificationService.showError('APP.MESSAGES.ERRORS.UNLOCK_NODE', null, { fileName: this.selection.entry.name });
   }
 
   lockNode(nodeId: string) {

@@ -27,9 +27,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { NodeEntry } from '@alfresco/js-api';
-import { DownloadNodesAction, EditOfflineAction, SnackbarErrorAction } from '@alfresco/aca-shared/store';
+import { DownloadNodesAction, EditOfflineAction } from '@alfresco/aca-shared/store';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { AppExtensionService } from '@alfresco/aca-shared';
+import { NotificationService } from '@alfresco/adf-core';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('ToggleEditOfflineComponent', () => {
   let fixture: ComponentFixture<ToggleEditOfflineComponent>;
@@ -38,6 +40,7 @@ describe('ToggleEditOfflineComponent', () => {
   let dispatchSpy: jasmine.Spy;
   let selectSpy: jasmine.Spy;
   let selection: any;
+  let showErrorSpy: jasmine.Spy;
 
   const extensionsMock = {
     updateSidebarActions: jasmine.createSpy('updateSidebarActions')
@@ -45,7 +48,7 @@ describe('ToggleEditOfflineComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, ToggleEditOfflineComponent],
+      imports: [AppTestingModule, ToggleEditOfflineComponent, MatSnackBarModule],
       providers: [
         {
           provide: Store,
@@ -71,6 +74,9 @@ describe('ToggleEditOfflineComponent', () => {
     selectSpy = spyOn(store, 'select');
 
     selection = { file: { entry: { name: 'test', properties: {}, isLocked: false } } };
+
+    const notificationService = TestBed.inject(NotificationService);
+    showErrorSpy = spyOn(notificationService, 'showError');
   });
 
   it('should initialized with data from store', () => {
@@ -122,11 +128,7 @@ describe('ToggleEditOfflineComponent', () => {
     component.onLockError();
     fixture.detectChanges();
 
-    expect(dispatchSpy.calls.argsFor(0)).toEqual([
-      new SnackbarErrorAction('APP.MESSAGES.ERRORS.LOCK_NODE', {
-        fileName: 'test'
-      })
-    ]);
+    expect(showErrorSpy).toHaveBeenCalledWith('APP.MESSAGES.ERRORS.LOCK_NODE', null, { fileName: 'test' });
   });
 
   it('should raise notification on unlock error', () => {
@@ -136,11 +138,7 @@ describe('ToggleEditOfflineComponent', () => {
     component.onUnlockError();
     fixture.detectChanges();
 
-    expect(dispatchSpy.calls.argsFor(0)).toEqual([
-      new SnackbarErrorAction('APP.MESSAGES.ERRORS.UNLOCK_NODE', {
-        fileName: 'test'
-      })
-    ]);
+    expect(showErrorSpy).toHaveBeenCalledWith('APP.MESSAGES.ERRORS.UNLOCK_NODE', null, { fileName: 'test' });
   });
 
   it('should call updateSidebarActions on click', async () => {
