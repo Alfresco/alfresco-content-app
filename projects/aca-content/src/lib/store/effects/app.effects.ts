@@ -25,14 +25,12 @@
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { AppActionTypes, LogoutAction, ReloadDocumentListAction, ResetSelectionAction } from '@alfresco/aca-shared/store';
-import { AuthenticationService } from '@alfresco/adf-core';
-import { Router } from '@angular/router';
+import { AppActionTypes, ReloadDocumentListAction, ResetSelectionAction } from '@alfresco/aca-shared/store';
 import { AppHookService } from '@alfresco/aca-shared';
 
 @Injectable()
 export class AppEffects {
-  constructor(private actions$: Actions, private auth: AuthenticationService, private router: Router, private appHookService: AppHookService) {}
+  constructor(private actions$: Actions, private appHookService: AppHookService) {}
 
   reload = createEffect(
     () =>
@@ -55,22 +53,4 @@ export class AppEffects {
       ),
     { dispatch: false }
   );
-
-  logout$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType<LogoutAction>(AppActionTypes.Logout),
-        map(() => {
-          this.auth.logout().subscribe(
-            () => this.redirectToLogin(),
-            () => this.redirectToLogin()
-          );
-        })
-      ),
-    { dispatch: false }
-  );
-
-  private redirectToLogin(): Promise<boolean> {
-    return this.router.navigate(['login']);
-  }
 }
