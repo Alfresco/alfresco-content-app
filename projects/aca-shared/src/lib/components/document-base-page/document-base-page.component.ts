@@ -84,7 +84,6 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   protected searchAiService: SearchAiService = inject(SearchAiService);
   protected subscriptions: Subscription[] = [];
 
-  private fileAutoDownloadService = inject(AcaFileAutoDownloadService, { optional: true });
   private _searchAiInputState: SearchAiInputState = {
     active: false
   };
