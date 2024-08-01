@@ -79,6 +79,7 @@ describe('ContentManagementService', () => {
   let nodeAspectService: NodeAspectService;
   let appHookService: AppHookService;
   let newVersionUploaderService: NewVersionUploaderService;
+  let showErrorSpy: jasmine.Spy;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -90,6 +91,7 @@ describe('ContentManagementService', () => {
     store = TestBed.inject(Store);
     contentManagementService = TestBed.inject(ContentManagementService);
     notificationService = TestBed.inject(NotificationService);
+    showErrorSpy = spyOn(notificationService, 'showError');
     nodeActions = TestBed.inject(NodeActionsService);
     translationService = TestBed.inject(TranslationService);
     nodesApiService = TestBed.inject(NodesApiService);
@@ -1510,11 +1512,7 @@ describe('ContentManagementService', () => {
       tick();
       flush();
 
-      expect(store.dispatch['calls'].argsFor(1)[0]).toEqual(
-        new SnackbarErrorAction('APP.MESSAGES.ERRORS.UNLOCK_NODE', {
-          fileName: 'some-file'
-        })
-      );
+      expect(showErrorSpy).toHaveBeenCalledWith('APP.MESSAGES.ERRORS.UNLOCK_NODE', null, { fileName: 'some-file' });
     }));
   });
 
@@ -1627,7 +1625,7 @@ describe('ContentManagementService', () => {
 
     it('should show permission error is node is not a file and does not have nodeId', () => {
       contentManagementService.manageVersions(fakeNodeIsNotFile);
-      expect(spyOnDispatch).toHaveBeenCalledOnceWith(new SnackbarErrorAction('APP.MESSAGES.ERRORS.PERMISSION'));
+      expect(showErrorSpy).toHaveBeenCalledWith('APP.MESSAGES.ERRORS.PERMISSION');
     });
   });
 
@@ -1658,7 +1656,7 @@ describe('ContentManagementService', () => {
 
       mockDialogInstance.componentInstance.error.next('edit folder error');
 
-      expect(store.dispatch['calls'].argsFor(0)[0]).toEqual(new SnackbarErrorAction('edit folder error'));
+      expect(showErrorSpy).toHaveBeenCalledWith('edit folder error');
     }));
 
     it('should call nodeUpdated event with edited node data', fakeAsync(() => {

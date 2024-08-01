@@ -57,7 +57,7 @@ import {
 } from '@alfresco/adf-content-services';
 import { NotificationService, TranslationService, ConfirmDialogComponent } from '@alfresco/adf-core';
 import { DeletedNodesPaging, Node, NodeEntry, PathInfo, SiteBodyCreate, SiteEntry } from '@alfresco/js-api';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { forkJoin, Observable, of, zip } from 'rxjs';
@@ -75,6 +75,7 @@ interface RestoredNode {
   providedIn: 'root'
 })
 export class ContentManagementService {
+  private notificationService = inject(NotificationService);
   private readonly createMenuButtonSelector = 'app-toolbar-menu button[id="app.toolbar.create"]';
 
   constructor(
@@ -85,7 +86,6 @@ export class ContentManagementService {
     private dialogRef: MatDialog,
     private nodeActionsService: NodeActionsService,
     private translation: TranslationService,
-    private notificationService: NotificationService,
     private nodeAspectService: NodeAspectService,
     private appHookService: AppHookService,
     private newVersionUploaderService: NewVersionUploaderService,
@@ -221,7 +221,7 @@ export class ContentManagementService {
     });
 
     dialogInstance.componentInstance.error.subscribe((message: string) => {
-      this.store.dispatch(new SnackbarErrorAction(message));
+      this.notificationService.showError(message);
     });
 
     dialogInstance.afterClosed().subscribe((node) => {
@@ -245,7 +245,7 @@ export class ContentManagementService {
     });
 
     dialog.componentInstance.error.subscribe((message: string) => {
-      this.store.dispatch(new SnackbarErrorAction(message));
+      this.notificationService.showError(message);
     });
 
     dialog.afterClosed().subscribe((node) => {
@@ -263,7 +263,7 @@ export class ContentManagementService {
     });
 
     dialogInstance.componentInstance.error.subscribe((message: string) => {
-      this.store.dispatch(new SnackbarErrorAction(message));
+      this.notificationService.showError(message);
     });
 
     return dialogInstance.afterClosed().pipe(
@@ -290,7 +290,7 @@ export class ContentManagementService {
         this.store.dispatch(new NavigateRouteAction(['/libraries']));
       },
       () => {
-        this.store.dispatch(new SnackbarErrorAction('APP.MESSAGES.ERRORS.DELETE_LIBRARY_FAILED'));
+        this.notificationService.showError('APP.MESSAGES.ERRORS.DELETE_LIBRARY_FAILED');
       }
     );
   }
@@ -314,7 +314,7 @@ export class ContentManagementService {
             this.store.dispatch(new SnackbarInfoAction('APP.MESSAGES.INFO.LEFT_LIBRARY'));
           },
           () => {
-            this.store.dispatch(new SnackbarErrorAction('APP.MESSAGES.ERRORS.LEAVE_LIBRARY_FAILED'));
+            this.notificationService.showError('APP.MESSAGES.ERRORS.LEAVE_LIBRARY_FAILED');
           }
         );
       }
@@ -329,7 +329,7 @@ export class ContentManagementService {
         this.store.dispatch(new SnackbarInfoAction('LIBRARY.SUCCESS.LIBRARY_UPDATED'));
       },
       () => {
-        this.store.dispatch(new SnackbarErrorAction('LIBRARY.ERRORS.LIBRARY_UPDATE_ERROR'));
+        this.notificationService.showError('LIBRARY.ERRORS.LIBRARY_UPDATE_ERROR');
       }
     );
   }
@@ -480,11 +480,7 @@ export class ContentManagementService {
 
   unlockNode(node: NodeEntry): Promise<void | NodeEntry> {
     return this.contentApi.unlockNode(node.entry.id).catch(() => {
-      this.store.dispatch(
-        new SnackbarErrorAction('APP.MESSAGES.ERRORS.UNLOCK_NODE', {
-          fileName: node.entry.name
-        })
-      );
+      this.notificationService.showError('APP.MESSAGES.ERRORS.UNLOCK_NODE', null, { fileName: node.entry.name });
     });
   }
 
@@ -560,7 +556,7 @@ export class ContentManagementService {
           i18nMessageString = 'APP.MESSAGES.ERRORS.PERMISSION';
         }
 
-        this.store.dispatch(new SnackbarErrorAction(i18nMessageString));
+        this.notificationService.showError(i18nMessageString);
       }
     );
   }
@@ -594,7 +590,7 @@ export class ContentManagementService {
           }
         });
     } else {
-      this.store.dispatch(new SnackbarErrorAction('APP.MESSAGES.ERRORS.PERMISSION'));
+      this.notificationService.showError('APP.MESSAGES.ERRORS.PERMISSION');
     }
   }
 
@@ -603,7 +599,7 @@ export class ContentManagementService {
     if (node.isFile || node.id) {
       this.nodeAspectService.updateNodeAspects(node.id, focusedElementOnCloseSelector);
     } else {
-      this.store.dispatch(new SnackbarErrorAction('APP.MESSAGES.ERRORS.PERMISSION'));
+      this.notificationService.showError('APP.MESSAGES.ERRORS.PERMISSION');
     }
   }
 
@@ -650,7 +646,7 @@ export class ContentManagementService {
             message = 'APP.MESSAGES.ERRORS.PERMISSION';
           }
 
-          this.store.dispatch(new SnackbarErrorAction(message));
+          this.notificationService.showError(message);
         }
       );
   }
