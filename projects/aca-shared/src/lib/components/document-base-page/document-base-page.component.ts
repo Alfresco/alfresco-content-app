@@ -171,7 +171,7 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   imageResolver(row: ShareDataRow): string | null {
     if (row) {
       if (isLocked(row.node)) {
-        return 'assets/images/baseline-lock-24px.svg';
+        return 'material-icons://lock';
       }
 
       if (isLibrary(row.node)) {

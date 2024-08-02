@@ -290,7 +290,7 @@ describe('Info Drawer state', () => {
       }
     };
 
-    expect(component.imageResolver(row)).toBe('assets/images/baseline-lock-24px.svg');
+    expect(component.imageResolver(row)).toBe('material-icons://lock');
   });
 
   it('should resolve custom image for a library', () => {
