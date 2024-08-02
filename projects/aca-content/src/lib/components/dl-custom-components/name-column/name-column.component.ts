@@ -33,7 +33,7 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { IconComponent } from '@alfresco/adf-core';
 import { DynamicExtensionComponent } from '@alfresco/adf-extensions';
-import { NameColumnBadgesComponent } from '../name-column-badges/name-column-badges.component';
+import { DatatableCellBadgesComponent } from '../datatable-cell-badges/datatable-cell-badges.component';
 
 @Component({
   standalone: true,
@@ -44,7 +44,7 @@ import { NameColumnBadgesComponent } from '../name-column-badges/name-column-bad
     IconComponent,
     NodeNameTooltipPipe,
     DynamicExtensionComponent,
-    NameColumnBadgesComponent
+    DatatableCellBadgesComponent
   ],
   selector: 'aca-custom-name-column',
   templateUrl: './name-column.component.html',

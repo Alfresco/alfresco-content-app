@@ -34,11 +34,11 @@ import { Component, Input } from '@angular/core';
 import { NodeEntry } from '@alfresco/js-api';
 
 @Component({
-  selector: 'aca-name-column-badges',
+  selector: 'aca-datatable-cell-badges',
   standalone: true,
   template: ''
 })
-class MockNameColumnBadgesComponent {
+class MockDatatableCellBadgesComponent {
   @Input() node: NodeEntry;
 }
 
@@ -52,7 +52,7 @@ describe('CustomNameColumnComponent', () => {
         HttpClientModule,
         TranslateModule.forRoot(),
         CustomNameColumnComponent,
-        MockNameColumnBadgesComponent,
+        MockDatatableCellBadgesComponent,
         AuthModule.forRoot(),
         StoreModule.forRoot(
           { app: (state) => state },
@@ -150,7 +150,7 @@ describe('CustomNameColumnComponent', () => {
   });
 
   it('should pass node to badge component', () => {
-    const badgeElement = fixture.debugElement.query(By.css('aca-name-column-badges'));
+    const badgeElement = fixture.debugElement.query(By.css('aca-datatable-cell-badges'));
     expect(badgeElement).not.toBe(null);
     expect(badgeElement.componentInstance.node).toBe(component.node);
   });

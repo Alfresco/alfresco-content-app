@@ -33,20 +33,20 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
-  selector: 'aca-name-column-badges',
-  templateUrl: './name-column-badges.component.html',
-  styleUrls: ['./name-column-badges.component.scss'],
-  host: { class: 'aca-name-column-badges' },
+  selector: 'aca-datatable-cell-badges',
+  templateUrl: './datatable-cell-badges.component.html',
+  styleUrls: ['./datatable-cell-badges.component.scss'],
+  host: { class: 'aca-datatable-cell-badges' },
   encapsulation: ViewEncapsulation.None,
   imports: [CommonModule, TranslateModule, DynamicExtensionComponent, IconComponent],
   standalone: true
 })
-export class NameColumnBadgesComponent implements OnInit, OnDestroy {
-  private onDestroy$ = new Subject<boolean>();
-
+export class DatatableCellBadgesComponent implements OnInit, OnDestroy {
   @Input() node: NodeEntry;
 
   badges: Badge[];
+
+  private onDestroy$ = new Subject<boolean>();
 
   constructor(private appExtensionService: AppExtensionService) {}
 

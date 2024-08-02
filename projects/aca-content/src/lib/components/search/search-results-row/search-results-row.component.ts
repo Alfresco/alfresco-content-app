@@ -34,11 +34,11 @@ import { AcaFileAutoDownloadService } from '@alfresco/aca-shared';
 import { CommonModule } from '@angular/common';
 import { LocationLinkComponent } from '../../common/location-link/location-link.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { NameColumnBadgesComponent } from '../../dl-custom-components/name-column-badges/name-column-badges.component';
+import { DatatableCellBadgesComponent } from '../../dl-custom-components/datatable-cell-badges/datatable-cell-badges.component';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, LocationLinkComponent, MatDialogModule, NameColumnBadgesComponent],
+  imports: [CommonModule, LocationLinkComponent, MatDialogModule, DatatableCellBadgesComponent],
   selector: 'aca-search-results-row',
   templateUrl: './search-results-row.component.html',
   styleUrls: ['./search-results-row.component.scss'],

@@ -23,7 +23,7 @@
  */
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NameColumnBadgesComponent } from './name-column-badges.component';
+import { DatatableCellBadgesComponent } from './datatable-cell-badges.component';
 import { AppExtensionService } from '@alfresco/aca-shared';
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthModule } from '@alfresco/adf-core';
@@ -42,9 +42,9 @@ const mockNode = {
   }
 } as NodeEntry;
 
-describe('NameColumnBadgesComponent', () => {
-  let fixture: ComponentFixture<NameColumnBadgesComponent>;
-  let component: NameColumnBadgesComponent;
+describe('DatatableCellBadgesComponent', () => {
+  let fixture: ComponentFixture<DatatableCellBadgesComponent>;
+  let component: DatatableCellBadgesComponent;
   let appExtensionService: AppExtensionService;
 
   beforeEach(() => {
@@ -72,7 +72,7 @@ describe('NameColumnBadgesComponent', () => {
       providers: [Actions]
     });
 
-    fixture = TestBed.createComponent(NameColumnBadgesComponent);
+    fixture = TestBed.createComponent(DatatableCellBadgesComponent);
     component = fixture.componentInstance;
     appExtensionService = TestBed.inject(AppExtensionService);
     component.node = mockNode;
