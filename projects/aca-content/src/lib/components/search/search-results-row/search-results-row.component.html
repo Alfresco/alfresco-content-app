@@ -1,46 +1,41 @@
 <div class="aca-search-results-text">
   <div class="search-file-name">
-    <span tabindex="0"
-          role="link"
-          *ngIf="isFile"
-          (click)="showPreview($event)"
-          (keyup.enter)="showPreview($event)"
-          class="aca-link aca-crop-text"
-          [title]="nameStripped"
-          [innerHTML]="name$ | async"
+    <span 
+      tabindex="0"
+      role="link"
+      *ngIf="isFile"
+      (click)="showPreview($event)"
+      (keyup.enter)="showPreview($event)"
+      class="aca-link aca-crop-text"
+      [title]="nameStripped"
+      [innerHTML]="name$ | async"
     ></span>
-    <span tabindex="0"
-          role="link"
-          *ngIf="!isFile"
-          (click)="navigate($event)"
-          (keyup.enter)="navigate($event)"
-          class="bold aca-link aca-crop-text"
-          [title]="nameStripped"
-          [innerHTML]="name$ | async"
+    <span 
+      tabindex="0"
+      role="link"
+      *ngIf="!isFile"
+      (click)="navigate($event)"
+      (keyup.enter)="navigate($event)"
+      class="bold aca-link aca-crop-text"
+      [title]="nameStripped"
+      [innerHTML]="name$ | async"
     ></span>
-    <span data-automation-id="search-results-entry-title"
-          class="aca-crop-text"
-          [title]="titleStripped"
-          [innerHTML]="title$ | async"
+    <span 
+      data-automation-id="search-results-entry-title"
+      class="aca-crop-text"
+      [title]="titleStripped"
+      [innerHTML]="title$ | async"
     ></span>
   </div>
-  <div data-automation-id="search-results-entry-description"
-       class="aca-crop-text"
-       [title]="descriptionStripped"
-       [innerHTML]="description$ | async"
+  <div 
+    data-automation-id="search-results-entry-description"
+    class="aca-crop-text"
+    [title]="descriptionStripped"
+    [innerHTML]="description$ | async"
   ></div>
   <div class="aca-result-location">
     <aca-location-link [context]="context" [showLocation]="true"></aca-location-link>
   </div>
   <div class="aca-result-content aca-crop-text" [title]="contentStripped" [innerHTML]="content$ | async"></div>
 </div>
-<div class="aca-name-column-badges">
-  <ng-container *ngFor="let badge of badges">
-    <adf-dynamic-component *ngIf="badge.component; else iconBadge"
-                           [id]="badge.component"
-                           [data]="{ node }"></adf-dynamic-component>
-    <ng-template #iconBadge>
-      <adf-icon class="adf-datatable-cell-badge" [title]="badge.tooltip | translate" [value]="badge.icon"></adf-icon>
-    </ng-template>
-  </ng-container>
-</div>
+<aca-name-column-badges [node]="context.row.node"></aca-name-column-badges>
