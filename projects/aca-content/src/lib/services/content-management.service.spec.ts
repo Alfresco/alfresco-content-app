@@ -81,6 +81,7 @@ describe('ContentManagementService', () => {
   let newVersionUploaderService: NewVersionUploaderService;
   let showErrorSpy: jasmine.Spy;
   let showInfoSpy: jasmine.Spy;
+  let showWarningSpy: jasmine.Spy;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -94,6 +95,7 @@ describe('ContentManagementService', () => {
     notificationService = TestBed.inject(NotificationService);
     showErrorSpy = spyOn(notificationService, 'showError');
     showInfoSpy = spyOn(notificationService, 'showInfo');
+    showWarningSpy = spyOn(notificationService, 'showWarning');
     nodeActions = TestBed.inject(NodeActionsService);
     translationService = TestBed.inject(TranslationService);
     nodesApiService = TestBed.inject(NodesApiService);
@@ -927,14 +929,7 @@ describe('ContentManagementService', () => {
     });
 
     describe('notification', () => {
-      it('raises warning on multiple fail and one success', (done) => {
-        actions$
-          .pipe(
-            ofType<SnackbarWarningAction>(SnackbarActionTypes.Warning),
-            map((action) => expect(action).toBeDefined())
-          )
-          .subscribe(() => done());
-
+      it('raises warning on multiple fail and one success', () => {
         spyOn(contentApi, 'purgeDeletedNode').and.callFake((id) => {
           if (id === '1') {
             return of({});
@@ -958,16 +953,10 @@ describe('ContentManagementService', () => {
         ];
 
         store.dispatch(new PurgeDeletedNodesAction(selection));
+        expect(showWarningSpy).toHaveBeenCalled();
       });
 
-      it('raises warning on multiple success and multiple fail', (done) => {
-        actions$
-          .pipe(
-            ofType<SnackbarWarningAction>(SnackbarActionTypes.Warning),
-            map((action) => expect(action).toBeDefined())
-          )
-          .subscribe(() => done());
-
+      it('raises warning on multiple success and multiple fail', () => {
         spyOn(contentApi, 'purgeDeletedNode').and.callFake((id) => {
           if (id === '1') {
             return of({});
@@ -996,46 +985,28 @@ describe('ContentManagementService', () => {
         ];
 
         store.dispatch(new PurgeDeletedNodesAction(selection));
+        expect(showWarningSpy).toHaveBeenCalled();
       });
 
-      it('raises info on one selected node success', (done) => {
-        actions$
-          .pipe(
-            ofType<SnackbarInfoAction>(SnackbarActionTypes.Info),
-            map((action) => expect(action).toBeDefined())
-          )
-          .subscribe(() => done());
-
+      it('raises info on one selected node success', () => {
         spyOn(contentApi, 'purgeDeletedNode').and.returnValue(of({}));
 
         const selection: any[] = [{ entry: { id: '1', name: 'name1' } }];
 
         store.dispatch(new PurgeDeletedNodesAction(selection));
+        expect(showInfoSpy).toHaveBeenCalled();
       });
 
-      it('raises error on one selected node fail', (done) => {
-        actions$
-          .pipe(
-            ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
-            map((action) => expect(action).toBeDefined())
-          )
-          .subscribe(() => done());
-
+      it('raises error on one selected node fail', () => {
         spyOn(contentApi, 'purgeDeletedNode').and.returnValue(throwError({}));
 
         const selection: any[] = [{ entry: { id: '1', name: 'name1' } }];
 
         store.dispatch(new PurgeDeletedNodesAction(selection));
+        expect(showErrorSpy).toHaveBeenCalled();
       });
 
-      it('raises info on all nodes success', (done) => {
-        actions$
-          .pipe(
-            ofType<SnackbarInfoAction>(SnackbarActionTypes.Info),
-            map((action) => expect(action).toBeDefined())
-          )
-          .subscribe(() => done());
-
+      it('raises info on all nodes success', () => {
         spyOn(contentApi, 'purgeDeletedNode').and.callFake((id) => {
           if (id === '1') {
             return of({});
@@ -1051,16 +1022,10 @@ describe('ContentManagementService', () => {
         const selection: any[] = [{ entry: { id: '1', name: 'name1' } }, { entry: { id: '2', name: 'name2' } }];
 
         store.dispatch(new PurgeDeletedNodesAction(selection));
+        expect(showInfoSpy).toHaveBeenCalled();
       });
 
-      it('raises error on all nodes fail', (done) => {
-        actions$
-          .pipe(
-            ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
-            map((action) => expect(action).toBeDefined())
-          )
-          .subscribe(() => done());
-
+      it('raises error on all nodes fail', () => {
         spyOn(contentApi, 'purgeDeletedNode').and.callFake((id) => {
           if (id === '1') {
             return throwError({});
@@ -1076,6 +1041,7 @@ describe('ContentManagementService', () => {
         const selection: any[] = [{ entry: { id: '1', name: 'name1' } }, { entry: { id: '2', name: 'name2' } }];
 
         store.dispatch(new PurgeDeletedNodesAction(selection));
+        expect(showErrorSpy).toHaveBeenCalled();
       });
     });
   });

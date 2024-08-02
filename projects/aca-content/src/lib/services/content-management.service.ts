@@ -763,10 +763,8 @@ export class ContentManagementService {
       if (status.success.length) {
         this.store.dispatch(new ReloadDocumentListAction());
       }
-      const message = this.getPurgeMessage(status);
-      if (message) {
-        this.store.dispatch(message);
-      }
+
+      this.sendPurgeMessage(status);
     });
   }
 
@@ -828,38 +826,36 @@ export class ContentManagementService {
     }, status);
   }
 
-  private getPurgeMessage(status: DeleteStatus): SnackbarAction {
+  private sendPurgeMessage(status: DeleteStatus): void {
     if (status.oneSucceeded && status.someFailed && !status.oneFailed) {
-      return new SnackbarWarningAction('APP.MESSAGES.INFO.TRASH.NODES_PURGE.PARTIAL_SINGULAR', {
+      this.notificationService.showWarning('APP.MESSAGES.INFO.TRASH.NODES_PURGE.PARTIAL_SINGULAR', null, {
         name: status.success[0].name,
         failed: status.fail.length
       });
     }
 
     if (status.someSucceeded && !status.oneSucceeded && status.someFailed) {
-      return new SnackbarWarningAction('APP.MESSAGES.INFO.TRASH.NODES_PURGE.PARTIAL_PLURAL', {
+      this.notificationService.showWarning('APP.MESSAGES.INFO.TRASH.NODES_PURGE.PARTIAL_PLURAL', null, {
         number: status.success.length,
         failed: status.fail.length
       });
     }
 
     if (status.oneSucceeded) {
-      return new SnackbarInfoAction('APP.MESSAGES.INFO.TRASH.NODES_PURGE.SINGULAR', { name: status.success[0].name });
+      this.notificationService.showInfo('APP.MESSAGES.INFO.TRASH.NODES_PURGE.SINGULAR', null, { name: status.success[0].name });
     }
 
     if (status.oneFailed) {
-      return new SnackbarErrorAction('APP.MESSAGES.ERRORS.TRASH.NODES_PURGE.SINGULAR', { name: status.fail[0].name });
+      this.notificationService.showError('APP.MESSAGES.ERRORS.TRASH.NODES_PURGE.SINGULAR', null, { name: status.fail[0].name });
     }
 
     if (status.allSucceeded) {
-      return new SnackbarInfoAction('APP.MESSAGES.INFO.TRASH.NODES_PURGE.PLURAL', { number: status.success.length });
+      this.notificationService.showInfo('APP.MESSAGES.INFO.TRASH.NODES_PURGE.PLURAL', null, { number: status.success.length });
     }
 
     if (status.allFailed) {
-      return new SnackbarErrorAction('APP.MESSAGES.ERRORS.TRASH.NODES_PURGE.PLURAL', { number: status.fail.length });
+      this.notificationService.showError('APP.MESSAGES.ERRORS.TRASH.NODES_PURGE.PLURAL', null, { number: status.fail.length });
     }
-
-    return null;
   }
 
   private showRestoreNotification(status: DeleteStatus): void {
