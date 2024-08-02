@@ -1571,7 +1571,8 @@ describe('ContentManagementService', () => {
       const fakeError = 'Upload error';
       spyOnOpenUploadNewVersionDialog.and.returnValue(throwError(fakeError));
       contentManagementService.versionUpdateDialog(fakeNode, fakeFile);
-      expect(spyOnDispatch).toHaveBeenCalledOnceWith(new SnackbarErrorAction(fakeError));
+
+      expect(showErrorSpy).toHaveBeenCalledOnceWith(fakeError);
     });
   });
 
