@@ -1,5 +1,5 @@
 <div class="search-file-name">
-  <span 
+  <span
     tabindex="0"
     role="link"
     *ngIf="isFile"
@@ -9,7 +9,7 @@
     [title]="nameStripped"
     [innerHTML]="name$ | async"
   ></span>
-  <span 
+  <span
     tabindex="0"
     role="link"
     *ngIf="!isFile"
@@ -19,14 +19,14 @@
     [title]="nameStripped"
     [innerHTML]="name$ | async"
   ></span>
-  <span 
+  <span
     data-automation-id="search-results-entry-title"
     class="aca-crop-text"
     [title]="titleStripped"
     [innerHTML]="title$ | async"
   ></span>
 </div>
-<div 
+<div
   data-automation-id="search-results-entry-description"
   class="aca-crop-text"
   [title]="descriptionStripped"
