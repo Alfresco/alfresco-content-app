@@ -286,7 +286,7 @@ export class ContentManagementService {
     this.contentApi.deleteSite(id).subscribe(
       () => {
         this.appHookService.libraryDeleted.next(id);
-        this.store.dispatch(new SnackbarInfoAction('APP.MESSAGES.INFO.LIBRARY_DELETED'));
+        this.notificationService.showInfo('APP.MESSAGES.INFO.LIBRARY_DELETED');
         this.store.dispatch(new NavigateRouteAction(['/libraries']));
       },
       () => {
@@ -311,7 +311,7 @@ export class ContentManagementService {
         this.contentApi.leaveSite(siteId).subscribe(
           () => {
             this.appHookService.libraryLeft.next(siteId);
-            this.store.dispatch(new SnackbarInfoAction('APP.MESSAGES.INFO.LEFT_LIBRARY'));
+            this.notificationService.showInfo('APP.MESSAGES.INFO.LEFT_LIBRARY');
           },
           () => {
             this.notificationService.showError('APP.MESSAGES.ERRORS.LEAVE_LIBRARY_FAILED');
@@ -326,7 +326,7 @@ export class ContentManagementService {
     this.contentApi.updateLibrary(siteId, siteBody).subscribe(
       (siteEntry: SiteEntry) => {
         this.appHookService.libraryUpdated.next(siteEntry);
-        this.store.dispatch(new SnackbarInfoAction('LIBRARY.SUCCESS.LIBRARY_UPDATED'));
+        this.notificationService.showInfo('LIBRARY.SUCCESS.LIBRARY_UPDATED');
       },
       () => {
         this.notificationService.showError('LIBRARY.ERRORS.LIBRARY_UPDATE_ERROR');

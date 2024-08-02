@@ -80,6 +80,7 @@ describe('ContentManagementService', () => {
   let appHookService: AppHookService;
   let newVersionUploaderService: NewVersionUploaderService;
   let showErrorSpy: jasmine.Spy;
+  let showInfoSpy: jasmine.Spy;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -92,6 +93,7 @@ describe('ContentManagementService', () => {
     contentManagementService = TestBed.inject(ContentManagementService);
     notificationService = TestBed.inject(NotificationService);
     showErrorSpy = spyOn(notificationService, 'showError');
+    showInfoSpy = spyOn(notificationService, 'showInfo');
     nodeActions = TestBed.inject(NodeActionsService);
     translationService = TestBed.inject(TranslationService);
     nodesApiService = TestBed.inject(NodesApiService);
@@ -1782,7 +1784,7 @@ describe('ContentManagementService', () => {
       contentManagementService.deleteLibrary(libraryId);
       tick();
 
-      expect(store.dispatch).toHaveBeenCalledWith(new SnackbarInfoAction('APP.MESSAGES.INFO.LIBRARY_DELETED'));
+      expect(showInfoSpy).toHaveBeenCalledWith('APP.MESSAGES.INFO.LIBRARY_DELETED');
       expect(store.dispatch).toHaveBeenCalledWith(new NavigateRouteAction(['/libraries']));
     }));
   });
