@@ -128,12 +128,6 @@
         }
       }
     ],
-    "icons": [
-      {
-        "id": "adf:join_library",
-        "value": "./assets/images/join-library.svg"
-      }
-    ],
     "create": [
       {
         "id": "app.create.folder",

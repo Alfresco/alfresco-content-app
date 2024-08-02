@@ -51,7 +51,7 @@ import { NotificationService } from '@alfresco/adf-core';
       [attr.title]="(membership.isJoinRequested | async) ? ('APP.ACTIONS.CANCEL_JOIN' | translate) : ('APP.ACTIONS.JOIN' | translate)"
     >
       <mat-icon *ngIf="membership.isJoinRequested | async">cancel</mat-icon>
-      <mat-icon *ngIf="!(membership.isJoinRequested | async)" svgIcon="adf:join_library"></mat-icon>
+      <mat-icon *ngIf="!(membership.isJoinRequested | async)">library_add</mat-icon>
     </button>
   `,
   encapsulation: ViewEncapsulation.None,
