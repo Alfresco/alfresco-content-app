@@ -100,6 +100,7 @@ mat-slide-toggle {
 
   #{$mat-evolution-chip-text-label} {
     white-space: normal;
+    display: flex;
   }
 
   #{$mat-evolution-chip-action}#{$mat-chip-action} {
