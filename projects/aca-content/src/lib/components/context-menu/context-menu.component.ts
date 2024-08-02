@@ -52,6 +52,7 @@ import { OutsideEventDirective } from './context-menu-outside-event.directive';
   ],
   selector: 'aca-context-menu',
   templateUrl: './context-menu.component.html',
+  styleUrls: ['./context-menu.component.scss'],
   host: {
     class: 'aca-context-menu-holder'
   },
