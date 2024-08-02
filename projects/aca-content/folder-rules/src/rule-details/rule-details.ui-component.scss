@@ -51,6 +51,10 @@
         max-width: 400px;
         font-size: inherit;
 
+        label[for='rule-details-name-input'] {
+          transform: translateY(-20%) scale(1);
+        }
+
         &__textarea {
           min-height: 4em;
         }
