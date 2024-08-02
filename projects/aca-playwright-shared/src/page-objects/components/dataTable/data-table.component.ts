@@ -242,6 +242,7 @@ export class DataTableComponent extends BaseComponent {
     const isSelected = await this.isRowSelected(name);
     if (!isSelected) {
       let row = this.getRowByName(name);
+      await row.hover();
       await row.locator('.mat-mdc-checkbox').click();
       await row.locator('.mat-mdc-checkbox-checked').waitFor({ state: 'attached' });
     }
@@ -250,6 +251,7 @@ export class DataTableComponent extends BaseComponent {
   async selectMultiItem(...names: string[]): Promise<void> {
     for (const name of names) {
       let row = this.getRowByName(name);
+      await row.hover();
       await row.locator('.mat-mdc-checkbox').click();
       await row.locator('.mat-mdc-checkbox-checked').waitFor({ state: 'attached' });
       await this.page.waitForTimeout(1000);

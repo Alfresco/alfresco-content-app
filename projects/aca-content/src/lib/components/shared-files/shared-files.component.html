@@ -1,6 +1,9 @@
 <aca-page-layout>
   <div class="aca-page-layout-header">
-    <h1 class="aca-page-title">{{ 'APP.BROWSE.SHARED.TITLE' | translate }}</h1>
+    <h1 class="aca-page-title">
+      {{ (selectedRowItemsCount < 1 ? 'APP.BROWSE.SHARED.TITLE' : 'APP.HEADER.SELECTED') | translate: { count: selectedRowItemsCount } }}
+    </h1>
+
     <aca-toolbar [items]="actions"></aca-toolbar>
   </div>
 
@@ -17,6 +20,8 @@
         [imageResolver]="imageResolver"
         [sortingMode]="'client'"
         [isResizingEnabled]="true"
+        [displayCheckboxesOnHover]="true"
+        (selectedItemsCountChanged)="onSelectedItemsCountChanged($event)"
         [blurOnResize]="false"
         (node-dblclick)="handleNodeClick($event)"
         (name-click)="handleNodeClick($event)"

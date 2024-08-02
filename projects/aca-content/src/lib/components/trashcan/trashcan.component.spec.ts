@@ -26,6 +26,7 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { TrashcanComponent } from './trashcan.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
+import { getTitleElementText } from '../../testing/test-utils';
 
 describe('TrashcanComponent', () => {
   let fixture: ComponentFixture<TrashcanComponent>;
@@ -53,5 +54,14 @@ describe('TrashcanComponent', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     expect(fixture.nativeElement.querySelector('adf-document-list')).not.toBeNull();
+  });
+
+  it('should set title based on selectedRowItemsCount', () => {
+    fixture.detectChanges();
+    expect(getTitleElementText(fixture)).toBe('APP.BROWSE.TRASHCAN.TITLE');
+
+    component.selectedRowItemsCount = 5;
+    fixture.detectChanges();
+    expect(getTitleElementText(fixture)).toBe('APP.HEADER.SELECTED');
   });
 });
