@@ -302,7 +302,7 @@ describe('Info Drawer state', () => {
       }
     };
 
-    expect(component.imageResolver(row)).toBe('assets/images/baseline-library_books-24px.svg');
+    expect(component.imageResolver(row)).toBe('material-icons://library_books');
   });
 
   it('should track elements by action id ', () => {

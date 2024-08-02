@@ -175,7 +175,7 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
       }
 
       if (isLibrary(row.node)) {
-        return 'assets/images/baseline-library_books-24px.svg';
+        return 'material-icons://library_books';
       }
     }
 
