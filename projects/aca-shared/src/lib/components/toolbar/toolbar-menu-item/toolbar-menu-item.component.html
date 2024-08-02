@@ -31,7 +31,7 @@
       [attr.title]="(actionRef.disabled ? actionRef['description-disabled'] : actionRef.description || actionRef.title) | translate"
       (click)="runAction()"
     >
-      <adf-icon [value]="actionRef.icon"></adf-icon>
+      <adf-icon [value]="actionRef.icon" class="app-toolbar-menu-item--icon"></adf-icon>
       <span data-automation-id="menu-item-title">{{ actionRef.title | translate }}</span>
     </button>
   </ng-container>
