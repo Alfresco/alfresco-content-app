@@ -75,7 +75,7 @@
     "@angular/compiler-cli": "15.2.10",
     "@angular/language-service": "15.2.10",
     "@cspell/eslint-plugin": "^8.3.2",
-    "@nx/angular": "17.0.2",
+    "@nx/angular": "19.5.6",
     "@nx/eslint-plugin": "17.0.2",
     "@nx/workspace": "17.0.2",
     "@playwright/test": "^1.42.1",
