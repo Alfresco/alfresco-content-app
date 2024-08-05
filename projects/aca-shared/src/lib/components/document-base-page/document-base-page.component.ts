@@ -43,9 +43,10 @@ import {
 } from '@alfresco/aca-shared/store';
 import { AppExtensionService } from '../../services/app.extension.service';
 import { isLibrary, isLocked } from '../../utils/node.utils';
-import { AcaFileAutoDownloadService } from '../../services/aca-file-auto-download.service';
+import { AutoDownloadService } from '../../services/auto-download.service';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Router } from '@angular/router';
+import { AppSettingsService } from '../../services/app-settings.service';
 
 /* eslint-disable @angular-eslint/directive-class-suffix */
 @Directive()
@@ -70,13 +71,14 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   isSmallScreen = false;
   selectedRowItemsCount = 0;
 
+  protected settings = inject(AppSettingsService);
   protected extensions = inject(AppExtensionService);
   protected content = inject(DocumentBasePageService);
   protected store = inject<Store<AppStore>>(Store<AppStore>);
   protected breakpointObserver = inject(BreakpointObserver);
   protected uploadService = inject(UploadService);
   protected router = inject(Router);
-  private fileAutoDownloadService = inject(AcaFileAutoDownloadService, { optional: true });
+  private autoDownloadService = inject(AutoDownloadService, { optional: true });
 
   protected subscriptions: Subscription[] = [];
 
@@ -144,9 +146,7 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
 
   showPreview(node: NodeEntry, extras?: ViewNodeExtras) {
     if (node?.entry) {
-      if (this.fileAutoDownloadService?.shouldFileAutoDownload(node.entry?.content?.sizeInBytes)) {
-        this.fileAutoDownloadService.autoDownloadFile(node);
-      } else {
+      if (!this.settings.autoDownloadEnabled || !this.autoDownloadService.tryDownload(node, this.settings.authDownloadThreshold)) {
         let id: string;
 
         if (node.entry.nodeType === 'app:filelink') {

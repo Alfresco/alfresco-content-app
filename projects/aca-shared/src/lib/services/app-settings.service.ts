@@ -97,4 +97,18 @@ export class AppSettingsService {
     }
     return result;
   }
+
+  /**
+   * Gets the enablement of the file auto tryDownload feature from the app settings.
+   */
+  get autoDownloadEnabled(): boolean {
+    return this.appConfig.get<boolean>('viewer.enableFileAutoDownload', true);
+  }
+
+  /**
+   * Gets the file auto tryDownload size threshold in MB from the app settings.
+   */
+  get authDownloadThreshold(): number {
+    return this.appConfig.get<number>('viewer.fileAutoDownloadSizeThresholdInMB', 15);
+  }
 }
