@@ -633,8 +633,9 @@ export const areTagsEnabled = (context: AcaRuleContext): boolean => context.appC
 export const areCategoriesEnabled = (context: AcaRuleContext): boolean => context.appConfig.get('plugins.categoriesEnabled', true);
 
 export const canDisplayKnowledgeRetrievalButton = (context: AcaRuleContext): boolean =>
-  navigation.isPersonalFiles(context) ||
-  navigation.isSharedFiles(context) ||
-  navigation.isRecentFiles(context) ||
-  navigation.isFavorites(context) ||
-  ((navigation.isSearchResults(context) || navigation.isLibraryContent(context)) && navigation.isNotLibraries(context));
+  context.appConfig.get('plugins.knowledgeRetrievalEnabled', true) &&
+  (navigation.isPersonalFiles(context) ||
+    navigation.isSharedFiles(context) ||
+    navigation.isRecentFiles(context) ||
+    navigation.isFavorites(context) ||
+    ((navigation.isSearchResults(context) || navigation.isLibraryContent(context)) && navigation.isNotLibraries(context)));
