@@ -314,7 +314,6 @@ adf-dynamic-component {
 
 #{$mat-tab-group}#{$mat-tab-group-stretch} > #{$mat-tab-header} {
   #{$mat-tab-label}:is(div) {
-    flex-grow: unset;
     min-width: 160px;
   }
 }
