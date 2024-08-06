@@ -34,9 +34,7 @@ const config: PlaywrightTestConfig<CustomConfig> = {
     {
       name: 'Copy Move Actions',
       testDir: './src/tests',
-      use: {
-        users: ['hruser']
-      },
+      use: {},
       timeout: timeouts.extendedTest
     }
   ]

@@ -34,9 +34,7 @@ const config: PlaywrightTestConfig<CustomConfig> = {
     {
       name: 'Pagination',
       testDir: './src/tests/',
-      use: {
-        users: ['hruser']
-      }
+      use: {}
     }
   ]
 };

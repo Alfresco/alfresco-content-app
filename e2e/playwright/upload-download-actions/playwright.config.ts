@@ -34,9 +34,7 @@ const config: PlaywrightTestConfig<CustomConfig> = {
     {
       name: 'Upload Download Actions',
       testDir: './src/tests',
-      use: {
-        users: []
-      }
+      use: {}
     }
   ]
 };
