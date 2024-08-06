@@ -832,6 +832,7 @@ export class ContentManagementService {
         name: status.success[0].name,
         failed: status.fail.length
       });
+      return;
     }
 
     if (status.someSucceeded && !status.oneSucceeded && status.someFailed) {
@@ -839,22 +840,27 @@ export class ContentManagementService {
         number: status.success.length,
         failed: status.fail.length
       });
+      return;
     }
 
     if (status.oneSucceeded) {
       this.notificationService.showInfo('APP.MESSAGES.INFO.TRASH.NODES_PURGE.SINGULAR', null, { name: status.success[0].name });
+      return;
     }
 
     if (status.oneFailed) {
       this.notificationService.showError('APP.MESSAGES.ERRORS.TRASH.NODES_PURGE.SINGULAR', null, { name: status.fail[0].name });
+      return;
     }
 
     if (status.allSucceeded) {
       this.notificationService.showInfo('APP.MESSAGES.INFO.TRASH.NODES_PURGE.PLURAL', null, { number: status.success.length });
+      return;
     }
 
     if (status.allFailed) {
       this.notificationService.showError('APP.MESSAGES.ERRORS.TRASH.NODES_PURGE.PLURAL', null, { number: status.fail.length });
+      return;
     }
   }
 
