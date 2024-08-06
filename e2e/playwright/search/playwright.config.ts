@@ -34,9 +34,7 @@ const config: PlaywrightTestConfig<CustomConfig> = {
     {
       name: 'Search',
       testDir: './src/tests',
-      use: {
-        users: []
-      }
+      use: {}
     }
   ]
 };

@@ -34,9 +34,7 @@ const config: PlaywrightTestConfig<CustomConfig> = {
     {
       name: 'Share Action',
       testDir: './src/tests',
-      use: {
-        users: ['hruser']
-      }
+      use: {}
     }
   ]
 };

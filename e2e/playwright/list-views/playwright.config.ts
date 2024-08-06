@@ -35,7 +35,7 @@ const config: PlaywrightTestConfig<CustomConfig> = {
       name: 'List Views',
       testDir: './src/tests',
       use: {
-        users: ['hruser', 'admin']
+        users: ['admin']
       }
     }
   ]

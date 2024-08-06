@@ -34,9 +34,7 @@ const config: PlaywrightTestConfig<CustomConfig> = {
     {
       name: 'Favorite Actions',
       testDir: './src/tests',
-      use: {
-        users: []
-      }
+      use: {}
     }
   ]
 };
