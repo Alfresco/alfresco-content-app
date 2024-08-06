@@ -41,12 +41,13 @@ import {
   PrintFileAction,
   PurgeDeletedNodesAction,
   RestoreDeletedNodesAction,
+  RouterEffects,
   SetCurrentFolderAction,
   SetInfoDrawerStateAction,
   SetSelectedNodesAction,
-  SharedStoreModule,
   ShareNodeAction,
   ShowLoaderAction,
+  SnackbarEffects,
   UndoDeleteNodesAction,
   UnlockWriteAction,
   UnshareNodesAction
@@ -67,7 +68,12 @@ describe('NodeEffects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, SharedStoreModule, EffectsModule.forRoot([NodeEffects, ViewerEffects]), MatDialogModule, MatSnackBarModule],
+      imports: [
+        AppTestingModule,
+        EffectsModule.forRoot([NodeEffects, ViewerEffects, SnackbarEffects, RouterEffects]),
+        MatDialogModule,
+        MatSnackBarModule
+      ],
       providers: [RenditionService]
     });
 

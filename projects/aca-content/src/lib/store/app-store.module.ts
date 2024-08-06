@@ -27,7 +27,7 @@ import { StoreModule } from '@ngrx/store';
 import { appReducer } from './reducers/app.reducer';
 import { StoreRouterConnectingModule, FullRouterStateSerializer } from '@ngrx/router-store';
 import { EffectsModule } from '@ngrx/effects';
-import { SharedStoreModule } from '@alfresco/aca-shared/store';
+import { RouterEffects, SnackbarEffects } from '@alfresco/aca-shared/store';
 import {
   AppEffects,
   NodeEffects,
@@ -58,7 +58,6 @@ import { INITIAL_STATE } from './initial-state';
       serializer: FullRouterStateSerializer,
       stateKey: 'router'
     }),
-    SharedStoreModule,
     EffectsModule.forRoot([
       AppEffects,
       NodeEffects,
@@ -69,7 +68,9 @@ import { INITIAL_STATE } from './initial-state';
       UploadEffects,
       FavoriteEffects,
       TemplateEffects,
-      ContextMenuEffects
+      ContextMenuEffects,
+      SnackbarEffects,
+      RouterEffects
     ])
   ]
 })
