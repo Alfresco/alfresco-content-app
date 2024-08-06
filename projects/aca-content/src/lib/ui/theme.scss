@@ -7,7 +7,7 @@
 @include mat.core;
 
 :root {
-  --mdc-filled-text-field-container-color: var(--adf-theme-background-dialog-color);
+  --mdc-filled-text-field-container-color: transparent;
 }
 
 mat-toolbar {
@@ -18,8 +18,7 @@ mat-toolbar {
   color: var(--theme-secondary-text);
 }
 
-#{$mat-form-field} #{$mat-form-field-wrapper}#{$mat-text-field-filled}:not(#{$mat-text-field-disabled}) {
-  background-color: transparent;
+#{$mat-text-field-filled}:not(#{$mat-text-field-disabled}) {
   padding: 0;
 }
 
