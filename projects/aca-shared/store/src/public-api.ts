@@ -50,5 +50,3 @@ export * from './models/modal-configuration';
 export * from './selectors/app.selectors';
 
 export * from './states/app.state';
-
-export * from './store.module';
