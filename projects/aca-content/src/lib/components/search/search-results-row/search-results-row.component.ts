@@ -22,9 +22,9 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, OnInit, ViewEncapsulation, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { NodeEntry, SearchEntryHighlight } from '@alfresco/js-api';
-import { ViewNodeAction, NavigateToFolder } from '@alfresco/aca-shared/store';
+import { NavigateToFolder, ViewNodeAction } from '@alfresco/aca-shared/store';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { NodesApiService } from '@alfresco/adf-content-services';
@@ -34,10 +34,11 @@ import { AcaFileAutoDownloadService } from '@alfresco/aca-shared';
 import { CommonModule } from '@angular/common';
 import { LocationLinkComponent } from '../../common/location-link/location-link.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { DatatableCellBadgesComponent } from '../../dl-custom-components/datatable-cell-badges/datatable-cell-badges.component';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, LocationLinkComponent, MatDialogModule],
+  imports: [CommonModule, LocationLinkComponent, MatDialogModule, DatatableCellBadgesComponent],
   selector: 'aca-search-results-row',
   templateUrl: './search-results-row.component.html',
   styleUrls: ['./search-results-row.component.scss'],
@@ -63,7 +64,6 @@ export class SearchResultsRowComponent implements OnInit, OnDestroy {
   titleStripped = '';
   descriptionStripped = '';
   contentStripped = '';
-
   isFile = false;
 
   constructor(
