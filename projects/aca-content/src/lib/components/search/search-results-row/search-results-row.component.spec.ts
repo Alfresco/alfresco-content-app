@@ -28,6 +28,16 @@ import { By } from '@angular/platform-browser';
 import { first } from 'rxjs/operators';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { SearchResultsRowComponent } from './search-results-row.component';
+import { Component, Input } from '@angular/core';
+
+@Component({
+  selector: 'aca-datatable-cell-badges',
+  standalone: true,
+  template: ''
+})
+class MockDatatableCellBadgesComponent {
+  @Input() node: NodeEntry;
+}
 
 describe('SearchResultsRowComponent', () => {
   let component: SearchResultsRowComponent;
@@ -76,7 +86,7 @@ describe('SearchResultsRowComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, SearchResultsRowComponent]
+      imports: [AppTestingModule, SearchResultsRowComponent, MockDatatableCellBadgesComponent]
     });
 
     fixture = TestBed.createComponent(SearchResultsRowComponent);
@@ -119,5 +129,12 @@ describe('SearchResultsRowComponent', () => {
         done();
       });
     fixture.detectChanges();
+  });
+
+  it('should pass node to badge component', () => {
+    component.context = { row: { node: nodeEntry } };
+    const badgeElement = fixture.debugElement.query(By.css('aca-datatable-cell-badges'));
+    expect(badgeElement).not.toBe(null);
+    expect(badgeElement.componentInstance.node).toBe(component.context.node);
   });
 });
