@@ -69,4 +69,10 @@ export class DatatableCellBadgesComponent implements OnInit, OnDestroy {
       this.appExtensionService.runActionById(badge.actions?.click, this.node);
     }
   }
+
+  onKeyPress(event: KeyboardEvent, badge: Badge) {
+    if (event.key === 'Enter') {
+      this.onBadgeClick(badge);
+    }
+  }
 }
