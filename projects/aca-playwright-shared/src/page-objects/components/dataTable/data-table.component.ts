@@ -241,6 +241,9 @@ export class DataTableComponent extends BaseComponent {
   async selectItems(...names: string[]): Promise<void> {
     for (const name of names) {
       let row = this.getRowByName(name);
+      if(row.locator('.mat-mdc-checkbox-checked').isVisible()){
+        break;
+      }
       await row.hover();
       await row.locator('.mat-mdc-checkbox').click();
       await row.locator('.mat-mdc-checkbox-checked').waitFor({ state: 'attached' });

@@ -87,7 +87,6 @@ test.describe('Edit offline - on Personal Files', () => {
     await personalFiles.dataTable.selectItems(fileLocked);
     await personalFiles.acaHeader.clickMoreActions();
     await personalFiles.matMenu.clickMenuItemFromHeaderMenu('Cancel Editing');
-    await personalFiles.dataTable.selectItems(fileLocked);
 
     expect(await nodesApi.isFileLockedWrite(fileLockedId), `${fileLocked} is still locked`).not.toEqual('WRITE_LOCK');
   });
