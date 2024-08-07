@@ -91,18 +91,6 @@ describe('DatatableCellBadgesComponent', () => {
     expect(badges[0].attributes['title'].value).toBe('test tooltip');
   });
 
-  it('should call provided handler on click', () => {
-    spyOn(appExtensionService, 'runActionById');
-    spyOn(appExtensionService, 'getBadges').and.returnValue(
-      of([{ id: 'test', type: ContentActionType.custom, icon: 'warning', tooltip: 'test tooltip', actions: { click: 'test' } }])
-    );
-    component.ngOnInit();
-    fixture.detectChanges();
-    const badges = fixture.debugElement.queryAll(By.css('.adf-datatable-cell-badge')).map((badge) => badge.nativeElement);
-    badges[0].click();
-    expect(appExtensionService.runActionById).toHaveBeenCalledWith('test', component.node);
-  });
-
   it('should render dynamic component when badge has one provided', () => {
     spyOn(appExtensionService, 'getBadges').and.returnValue(
       of([{ id: 'test', type: ContentActionType.custom, icon: 'warning', tooltip: 'test tooltip', component: 'test-id' }])
@@ -111,5 +99,29 @@ describe('DatatableCellBadgesComponent', () => {
     fixture.detectChanges();
     const dynamicComponent = fixture.debugElement.query(By.css('adf-dynamic-component')).nativeElement;
     expect(dynamicComponent).toBeDefined();
+  });
+
+  describe('mouse and keyboard events', () => {
+    let badges: HTMLElement[];
+    let runActionSpy: jasmine.Spy;
+    beforeEach(() => {
+      spyOn(appExtensionService, 'getBadges').and.returnValue(
+        of([{ id: 'test', type: ContentActionType.custom, icon: 'warning', tooltip: 'test tooltip', actions: { click: 'test' } }])
+      );
+      component.ngOnInit();
+      fixture.detectChanges();
+      badges = fixture.debugElement.queryAll(By.css('.adf-datatable-cell-badge')).map((badge) => badge.nativeElement);
+      runActionSpy = spyOn(appExtensionService, 'runActionById');
+    });
+
+    it('should call provided handler on click', () => {
+      badges[0].click();
+      expect(runActionSpy).toHaveBeenCalledWith('test', component.node);
+    });
+
+    it('should call provided handler on keyup.enter event', () => {
+      badges[0].dispatchEvent(new KeyboardEvent('keyup', { key: 'Enter' }));
+      expect(runActionSpy).toHaveBeenCalledWith('test', component.node);
+    });
   });
 });

@@ -17,7 +17,7 @@
       [value]="option.id"
       [title]="option.tooltip | translate"
       [attr.data-automation-id]="option.id"
-      (click)="runAction(option)"
+      (onSelectionChange)="runAction({event: $event, actionOption: option})"
     >
       <adf-icon
         *ngIf="option.icon"

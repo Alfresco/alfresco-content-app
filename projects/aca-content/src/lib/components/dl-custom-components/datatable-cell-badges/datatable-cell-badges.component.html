@@ -11,6 +11,8 @@
           [title]="badge.tooltip | translate"
           [value]="badge.icon"
           (click)="onBadgeClick(badge)"
+          (keyup.enter)="onBadgeClick(badge)"
+          tabindex="0"
         ></adf-icon>
       </ng-template>
     </ng-container>
