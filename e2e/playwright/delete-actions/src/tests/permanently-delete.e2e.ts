@@ -80,7 +80,7 @@ test.describe('Delete and undo delete', () => {
     });
 
     test('[C217091] delete a file', async ({ trashPage }) => {
-      await trashPage.dataTable.selectItem(file1);
+      await trashPage.dataTable.selectItems(file1);
       await trashPage.acaHeader.permanentlyDeleteButton.click();
       await trashPage.deleteDialog.deleteButton.click();
 
@@ -89,7 +89,7 @@ test.describe('Delete and undo delete', () => {
     });
 
     test('[C280416] delete a folder', async ({ trashPage }) => {
-      await trashPage.dataTable.selectItem(folder1);
+      await trashPage.dataTable.selectItems(folder1);
       await trashPage.acaHeader.permanentlyDeleteButton.click();
       await trashPage.deleteDialog.deleteButton.click();
 
@@ -98,7 +98,7 @@ test.describe('Delete and undo delete', () => {
     });
 
     test('[C290103] delete a library', async ({ trashPage }) => {
-      await trashPage.dataTable.selectItem(site);
+      await trashPage.dataTable.selectItems(site);
       await trashPage.acaHeader.permanentlyDeleteButton.click();
       await trashPage.deleteDialog.deleteButton.click();
 
@@ -107,7 +107,7 @@ test.describe('Delete and undo delete', () => {
     });
 
     test('[C280417] delete multiple items', async ({ trashPage }) => {
-      await trashPage.dataTable.selectMultiItem(file2, folder2);
+      await trashPage.dataTable.selectItems(file2, folder2);
       await trashPage.acaHeader.permanentlyDeleteButton.click();
       await trashPage.deleteDialog.deleteButton.click();
 
@@ -117,7 +117,7 @@ test.describe('Delete and undo delete', () => {
     });
 
     test('[C269113] Confirmation dialog UI', async ({ trashPage }) => {
-      await trashPage.dataTable.selectItem(file3);
+      await trashPage.dataTable.selectItems(file3);
       await trashPage.acaHeader.permanentlyDeleteButton.click();
       await trashPage.deleteDialog.waitForDialog();
 
@@ -129,7 +129,7 @@ test.describe('Delete and undo delete', () => {
     });
 
     test('[C269115] Keep action cancels the deletion', async ({ trashPage }) => {
-      await trashPage.dataTable.selectItem(file3);
+      await trashPage.dataTable.selectItems(file3);
       await trashPage.acaHeader.permanentlyDeleteButton.click();
       await trashPage.deleteDialog.waitForDialog();
 

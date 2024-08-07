@@ -56,7 +56,7 @@ test.describe('Version actions', () => {
   let fileId: string;
 
   async function viewFirstFileVersion(page: PersonalFilesPage | RecentFilesPage | FavoritesPage | SharedPage | SearchPage) {
-    await page.dataTable.selectItem(filenameAfterUpdate);
+    await page.dataTable.selectItems(filenameAfterUpdate);
     await page.acaHeader.clickMoreActions();
     await page.matMenu.clickMenuItem('Manage Versions');
     await page.manageVersionsDialog.viewFileVersion('1.0');

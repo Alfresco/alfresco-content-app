@@ -223,7 +223,7 @@ test.describe('Share a file', () => {
         const url1 = await personalFiles.shareDialog.getLinkUrl();
         await personalFiles.shareDialog.clickClose();
 
-        await personalFiles.dataTable.selectItem(file8);
+        await personalFiles.dataTable.selectItems(file8);
         await personalFiles.acaHeader.shareButton.click();
         const url2 = await personalFiles.shareDialog.getLinkUrl();
 

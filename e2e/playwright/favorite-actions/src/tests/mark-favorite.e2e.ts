@@ -124,19 +124,19 @@ test.describe('Mark items as favorites', () => {
     });
 
     test('[XAT-5042] Favorite action has empty star icon for an item not marked as favorite', async ({ personalFiles }) => {
-      await personalFiles.dataTable.selectItem(fileNotFavUI);
+      await personalFiles.dataTable.selectItems(fileNotFavUI);
       await personalFiles.acaHeader.clickMoreActions();
       expect(await personalFiles.matMenu.isMenuItemVisible('Favorite')).toBe(true);
     });
 
     test('[XAT-5043] Favorite action has empty star icon for multiple selection of items when some are not favorite', async ({ personalFiles }) => {
-      await personalFiles.dataTable.selectMultiItem(fileNotFavUI, fileFavUI);
+      await personalFiles.dataTable.selectItems(fileNotFavUI, fileFavUI);
       await personalFiles.acaHeader.clickMoreActions();
       expect(await personalFiles.matMenu.isMenuItemVisible('Favorite')).toBe(true);
     });
 
     test('[XAT-5044] Favorite action has full star icon for items marked as favorite', async ({ personalFiles }) => {
-      await personalFiles.dataTable.selectItem(fileFavUI);
+      await personalFiles.dataTable.selectItems(fileFavUI);
       await personalFiles.acaHeader.clickMoreActions();
       expect(await personalFiles.matMenu.isMenuItemVisible('Remove Favorite')).toBe(true);
     });

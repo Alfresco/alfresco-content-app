@@ -238,17 +238,7 @@ export class DataTableComponent extends BaseComponent {
     }
   }
 
-  async selectItem(name: string): Promise<void> {
-    const isSelected = await this.isRowSelected(name);
-    if (!isSelected) {
-      let row = this.getRowByName(name);
-      await row.hover();
-      await row.locator('.mat-mdc-checkbox').click();
-      await row.locator('.mat-mdc-checkbox-checked').waitFor({ state: 'attached' });
-    }
-  }
-
-  async selectMultiItem(...names: string[]): Promise<void> {
+  async selectItems(...names: string[]): Promise<void> {
     for (const name of names) {
       let row = this.getRowByName(name);
       await row.hover();

@@ -66,13 +66,13 @@ test.describe('Info Drawer - General', () => {
     await Utils.reloadPageIfRowNotVisible(personalFiles, parentFolder);
     await expect(personalFiles.dataTable.getRowByName(parentFolder)).toBeVisible();
     await personalFiles.dataTable.performClickFolderOrFileToOpen(parentFolder);
-    await personalFiles.dataTable.selectItem(file1);
+    await personalFiles.dataTable.selectItems(file1);
     await personalFiles.acaHeader.viewDetails.click();
     await expect(personalFiles.infoDrawer.infoDrawerPanel).toBeVisible();
 
     await personalFiles.reload({ waitUntil: 'load' });
     await expect(personalFiles.infoDrawer.infoDrawerPanel).toBeHidden();
-    await personalFiles.dataTable.selectItem(file1);
+    await personalFiles.dataTable.selectItems(file1);
     await personalFiles.acaHeader.viewDetails.click();
     await expect(personalFiles.infoDrawer.infoDrawerPanel).toBeVisible();
 

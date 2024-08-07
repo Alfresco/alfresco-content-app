@@ -71,7 +71,7 @@ test.describe('Edit offline - on Personal Files', () => {
   });
 
   test('[XAT-5304] File is locked and downloaded when clicking Edit offline', async ({ personalFiles }) => {
-    await personalFiles.dataTable.selectItem(file1);
+    await personalFiles.dataTable.selectItems(file1);
     await personalFiles.acaHeader.clickMoreActions();
     await personalFiles.matMenu.clickMenuItem('Edit Offline');
     const [download] = await Promise.all([personalFiles.page.waitForEvent('download')]);
@@ -84,10 +84,10 @@ test.describe('Edit offline - on Personal Files', () => {
   });
 
   test('[XAT-5306] Cancel Editing unlocks the file', async ({ personalFiles }) => {
-    await personalFiles.dataTable.selectItem(fileLocked);
+    await personalFiles.dataTable.selectItems(fileLocked);
     await personalFiles.acaHeader.clickMoreActions();
     await personalFiles.matMenu.clickMenuItemFromHeaderMenu('Cancel Editing');
-    await personalFiles.dataTable.selectItem(fileLocked);
+    await personalFiles.dataTable.selectItems(fileLocked);
 
     expect(await nodesApi.isFileLockedWrite(fileLockedId), `${fileLocked} is still locked`).not.toEqual('WRITE_LOCK');
   });

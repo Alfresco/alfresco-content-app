@@ -116,7 +116,7 @@ test.describe('Unshare a file from Search Results', () => {
     await searchPage.searchOverlay.checkFilesAndFolders();
     await searchPage.searchOverlay.searchFor(file1);
 
-    await personalFiles.dataTable.selectItem(file1);
+    await personalFiles.dataTable.selectItems(file1);
     await personalFiles.acaHeader.shareButton.click();
     await personalFiles.viewerDialog.shareDialogTitle.waitFor({ state: 'attached', timeout: timeouts.normal });
 
@@ -137,7 +137,7 @@ test.describe('Unshare a file from Search Results', () => {
     await searchPage.searchOverlay.checkFilesAndFolders();
     await searchPage.searchOverlay.searchFor(file2);
 
-    await personalFiles.dataTable.selectItem(file2);
+    await personalFiles.dataTable.selectItems(file2);
     await personalFiles.acaHeader.shareButton.click();
     const url = await personalFiles.shareDialog.getLinkUrl();
     await personalFiles.shareDialog.shareToggle.click();
@@ -156,7 +156,7 @@ test.describe('Unshare a file from Search Results', () => {
     await searchPage.searchOverlay.checkFilesAndFolders();
     await searchPage.searchOverlay.searchFor(file3);
 
-    await personalFiles.dataTable.selectItem(file3);
+    await personalFiles.dataTable.selectItems(file3);
     await personalFiles.acaHeader.shareButton.click();
 
     const urlBefore = await personalFiles.shareDialog.getLinkUrl();
@@ -193,7 +193,7 @@ test.describe('Unshare a file from Search Results', () => {
     await searchPage.searchOverlay.checkFilesAndFolders();
     await searchPage.searchOverlay.searchFor(fileSite1);
 
-    await personalFiles.dataTable.selectItem(fileSite1);
+    await personalFiles.dataTable.selectItems(fileSite1);
     await personalFiles.acaHeader.shareButton.click();
 
     expect(await personalFiles.shareDialog.isShareToggleChecked()).toBe(true);
@@ -208,7 +208,7 @@ test.describe('Unshare a file from Search Results', () => {
     await searchPage.searchOverlay.checkFilesAndFolders();
     await searchPage.searchOverlay.searchFor(fileSite2);
 
-    await personalFiles.dataTable.selectItem(fileSite2);
+    await personalFiles.dataTable.selectItems(fileSite2);
     await personalFiles.acaHeader.shareButton.click();
     expect(await personalFiles.shareDialog.isShareToggleChecked()).toBe(true);
 
