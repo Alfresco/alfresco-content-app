@@ -24,9 +24,9 @@
 
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { SearchResultsComponent } from './search-results.component';
-import { AppConfigService, TranslationService } from '@alfresco/adf-core';
+import { AppConfigService, NotificationService, TranslationService } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
-import { NavigateToFolder, SnackbarErrorAction } from '@alfresco/aca-shared/store';
+import { NavigateToFolder } from '@alfresco/aca-shared/store';
 import { Pagination, SearchRequest } from '@alfresco/js-api';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -44,6 +44,7 @@ describe('SearchComponent', () => {
   let router: Router;
   const searchRequest = {} as SearchRequest;
   let params: BehaviorSubject<any>;
+  let showErrorSpy: jasmine.Spy;
 
   beforeEach(() => {
     params = new BehaviorSubject({ q: 'TYPE: "cm:folder" AND %28=cm: name: email OR cm: name: budget%29' });
@@ -78,6 +79,9 @@ describe('SearchComponent', () => {
     translate = TestBed.inject(TranslationService);
     router = TestBed.inject(Router);
 
+    const notificationService = TestBed.inject(NotificationService);
+    showErrorSpy = spyOn(notificationService, 'showError');
+
     config.config = {
       search: {}
     };
@@ -103,7 +107,7 @@ describe('SearchComponent', () => {
     queryBuilder.execute();
     tick();
 
-    expect(store.dispatch).toHaveBeenCalledWith(new SnackbarErrorAction('APP.BROWSE.SEARCH.ERRORS.GENERIC'));
+    expect(showErrorSpy).toHaveBeenCalledWith('APP.BROWSE.SEARCH.ERRORS.GENERIC');
   }));
 
   it('should raise a known error if search fails', fakeAsync(() => {
@@ -122,7 +126,7 @@ describe('SearchComponent', () => {
     queryBuilder.execute();
     tick();
 
-    expect(store.dispatch).toHaveBeenCalledWith(new SnackbarErrorAction('Known Error'));
+    expect(showErrorSpy).toHaveBeenCalledWith('Known Error');
   }));
 
   it('should raise a generic error if search fails', fakeAsync(() => {
@@ -141,7 +145,7 @@ describe('SearchComponent', () => {
     queryBuilder.execute();
     tick();
 
-    expect(store.dispatch).toHaveBeenCalledWith(new SnackbarErrorAction('Generic Error'));
+    expect(showErrorSpy).toHaveBeenCalledWith('Generic Error');
   }));
 
   it('should decode encoded URI', () => {

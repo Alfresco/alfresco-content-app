@@ -79,6 +79,9 @@ describe('ContentManagementService', () => {
   let nodeAspectService: NodeAspectService;
   let appHookService: AppHookService;
   let newVersionUploaderService: NewVersionUploaderService;
+  let showErrorSpy: jasmine.Spy;
+  let showInfoSpy: jasmine.Spy;
+  let showWarningSpy: jasmine.Spy;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -90,6 +93,9 @@ describe('ContentManagementService', () => {
     store = TestBed.inject(Store);
     contentManagementService = TestBed.inject(ContentManagementService);
     notificationService = TestBed.inject(NotificationService);
+    showErrorSpy = spyOn(notificationService, 'showError');
+    showInfoSpy = spyOn(notificationService, 'showInfo');
+    showWarningSpy = spyOn(notificationService, 'showWarning');
     nodeActions = TestBed.inject(NodeActionsService);
     translationService = TestBed.inject(TranslationService);
     nodesApiService = TestBed.inject(NodesApiService);
@@ -923,14 +929,7 @@ describe('ContentManagementService', () => {
     });
 
     describe('notification', () => {
-      it('raises warning on multiple fail and one success', (done) => {
-        actions$
-          .pipe(
-            ofType<SnackbarWarningAction>(SnackbarActionTypes.Warning),
-            map((action) => expect(action).toBeDefined())
-          )
-          .subscribe(() => done());
-
+      it('raises warning on multiple fail and one success', () => {
         spyOn(contentApi, 'purgeDeletedNode').and.callFake((id) => {
           if (id === '1') {
             return of({});
@@ -954,16 +953,10 @@ describe('ContentManagementService', () => {
         ];
 
         store.dispatch(new PurgeDeletedNodesAction(selection));
+        expect(showWarningSpy).toHaveBeenCalled();
       });
 
-      it('raises warning on multiple success and multiple fail', (done) => {
-        actions$
-          .pipe(
-            ofType<SnackbarWarningAction>(SnackbarActionTypes.Warning),
-            map((action) => expect(action).toBeDefined())
-          )
-          .subscribe(() => done());
-
+      it('raises warning on multiple success and multiple fail', () => {
         spyOn(contentApi, 'purgeDeletedNode').and.callFake((id) => {
           if (id === '1') {
             return of({});
@@ -992,46 +985,28 @@ describe('ContentManagementService', () => {
         ];
 
         store.dispatch(new PurgeDeletedNodesAction(selection));
+        expect(showWarningSpy).toHaveBeenCalled();
       });
 
-      it('raises info on one selected node success', (done) => {
-        actions$
-          .pipe(
-            ofType<SnackbarInfoAction>(SnackbarActionTypes.Info),
-            map((action) => expect(action).toBeDefined())
-          )
-          .subscribe(() => done());
-
+      it('raises info on one selected node success', () => {
         spyOn(contentApi, 'purgeDeletedNode').and.returnValue(of({}));
 
         const selection: any[] = [{ entry: { id: '1', name: 'name1' } }];
 
         store.dispatch(new PurgeDeletedNodesAction(selection));
+        expect(showInfoSpy).toHaveBeenCalled();
       });
 
-      it('raises error on one selected node fail', (done) => {
-        actions$
-          .pipe(
-            ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
-            map((action) => expect(action).toBeDefined())
-          )
-          .subscribe(() => done());
-
+      it('raises error on one selected node fail', () => {
         spyOn(contentApi, 'purgeDeletedNode').and.returnValue(throwError({}));
 
         const selection: any[] = [{ entry: { id: '1', name: 'name1' } }];
 
         store.dispatch(new PurgeDeletedNodesAction(selection));
+        expect(showErrorSpy).toHaveBeenCalled();
       });
 
-      it('raises info on all nodes success', (done) => {
-        actions$
-          .pipe(
-            ofType<SnackbarInfoAction>(SnackbarActionTypes.Info),
-            map((action) => expect(action).toBeDefined())
-          )
-          .subscribe(() => done());
-
+      it('raises info on all nodes success', () => {
         spyOn(contentApi, 'purgeDeletedNode').and.callFake((id) => {
           if (id === '1') {
             return of({});
@@ -1047,16 +1022,10 @@ describe('ContentManagementService', () => {
         const selection: any[] = [{ entry: { id: '1', name: 'name1' } }, { entry: { id: '2', name: 'name2' } }];
 
         store.dispatch(new PurgeDeletedNodesAction(selection));
+        expect(showInfoSpy).toHaveBeenCalled();
       });
 
-      it('raises error on all nodes fail', (done) => {
-        actions$
-          .pipe(
-            ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
-            map((action) => expect(action).toBeDefined())
-          )
-          .subscribe(() => done());
-
+      it('raises error on all nodes fail', () => {
         spyOn(contentApi, 'purgeDeletedNode').and.callFake((id) => {
           if (id === '1') {
             return throwError({});
@@ -1072,6 +1041,7 @@ describe('ContentManagementService', () => {
         const selection: any[] = [{ entry: { id: '1', name: 'name1' } }, { entry: { id: '2', name: 'name2' } }];
 
         store.dispatch(new PurgeDeletedNodesAction(selection));
+        expect(showErrorSpy).toHaveBeenCalled();
       });
     });
   });
@@ -1510,11 +1480,7 @@ describe('ContentManagementService', () => {
       tick();
       flush();
 
-      expect(store.dispatch['calls'].argsFor(1)[0]).toEqual(
-        new SnackbarErrorAction('APP.MESSAGES.ERRORS.UNLOCK_NODE', {
-          fileName: 'some-file'
-        })
-      );
+      expect(showErrorSpy).toHaveBeenCalledWith('APP.MESSAGES.ERRORS.UNLOCK_NODE', null, { fileName: 'some-file' });
     }));
   });
 
@@ -1573,7 +1539,8 @@ describe('ContentManagementService', () => {
       const fakeError = 'Upload error';
       spyOnOpenUploadNewVersionDialog.and.returnValue(throwError(fakeError));
       contentManagementService.versionUpdateDialog(fakeNode, fakeFile);
-      expect(spyOnDispatch).toHaveBeenCalledOnceWith(new SnackbarErrorAction(fakeError));
+
+      expect(showErrorSpy).toHaveBeenCalledOnceWith(fakeError);
     });
   });
 
@@ -1627,7 +1594,7 @@ describe('ContentManagementService', () => {
 
     it('should show permission error is node is not a file and does not have nodeId', () => {
       contentManagementService.manageVersions(fakeNodeIsNotFile);
-      expect(spyOnDispatch).toHaveBeenCalledOnceWith(new SnackbarErrorAction('APP.MESSAGES.ERRORS.PERMISSION'));
+      expect(showErrorSpy).toHaveBeenCalledWith('APP.MESSAGES.ERRORS.PERMISSION');
     });
   });
 
@@ -1658,7 +1625,7 @@ describe('ContentManagementService', () => {
 
       mockDialogInstance.componentInstance.error.next('edit folder error');
 
-      expect(store.dispatch['calls'].argsFor(0)[0]).toEqual(new SnackbarErrorAction('edit folder error'));
+      expect(showErrorSpy).toHaveBeenCalledWith('edit folder error');
     }));
 
     it('should call nodeUpdated event with edited node data', fakeAsync(() => {
@@ -1783,7 +1750,7 @@ describe('ContentManagementService', () => {
       contentManagementService.deleteLibrary(libraryId);
       tick();
 
-      expect(store.dispatch).toHaveBeenCalledWith(new SnackbarInfoAction('APP.MESSAGES.INFO.LIBRARY_DELETED'));
+      expect(showInfoSpy).toHaveBeenCalledWith('APP.MESSAGES.INFO.LIBRARY_DELETED');
       expect(store.dispatch).toHaveBeenCalledWith(new NavigateRouteAction(['/libraries']));
     }));
   });

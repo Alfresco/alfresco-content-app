@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { NodeEntry, Pagination, ResultSetPaging } from '@alfresco/js-api';
 import { ActivatedRoute, Params } from '@angular/router';
 import { AlfrescoViewerComponent, DocumentListModule, SearchModule, SearchQueryBuilderService, TagService } from '@alfresco/adf-content-services';
@@ -31,10 +31,9 @@ import {
   NavigateToFolder,
   SetInfoDrawerPreviewStateAction,
   SetInfoDrawerStateAction,
-  ShowInfoDrawerPreviewAction,
-  SnackbarErrorAction
+  ShowInfoDrawerPreviewAction
 } from '@alfresco/aca-shared/store';
-import { DataTableModule, PaginationComponent, TranslationService, ViewerModule } from '@alfresco/adf-core';
+import { DataTableModule, NotificationService, PaginationComponent, TranslationService, ViewerModule } from '@alfresco/adf-core';
 import { combineLatest } from 'rxjs';
 import {
   ContextActionsDirective,
@@ -94,6 +93,8 @@ import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-ext
   styleUrls: ['./search-results.component.scss']
 })
 export class SearchResultsComponent extends PageComponent implements OnInit {
+  private notificationService = inject(NotificationService);
+
   infoDrawerPreview$ = this.store.select(infoDrawerPreview);
 
   searchedWord: string;
@@ -180,13 +181,13 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
     const { statusCode } = JSON.parse(error.message).error;
 
     const messageKey = `APP.BROWSE.SEARCH.ERRORS.${statusCode}`;
-    let translated = this.translationService.instant(messageKey);
+    let message = this.translationService.instant(messageKey);
 
-    if (translated === messageKey) {
-      translated = this.translationService.instant(`APP.BROWSE.SEARCH.ERRORS.GENERIC`);
+    if (message === messageKey) {
+      message = this.translationService.instant(`APP.BROWSE.SEARCH.ERRORS.GENERIC`);
     }
 
-    this.store.dispatch(new SnackbarErrorAction(translated));
+    this.notificationService.showError(message);
   }
 
   private isOperator(input: string): boolean {
