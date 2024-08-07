@@ -119,7 +119,7 @@ describe('DatatableCellBadgesComponent', () => {
       expect(runActionSpy).toHaveBeenCalledWith('test', component.node);
     });
 
-    it('should call provided handler on keyup.enter event', () => {
+    it('should call provided handler on keypress event', () => {
       badges[0].dispatchEvent(new KeyboardEvent('keypress', { key: 'Enter' }));
       expect(runActionSpy).toHaveBeenCalledWith('test', component.node);
     });
