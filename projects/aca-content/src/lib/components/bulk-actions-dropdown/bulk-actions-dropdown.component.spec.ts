@@ -169,7 +169,7 @@ describe('BulkActionsDropdownComponent', () => {
         fixture.detectChanges();
       });
 
-      it('should run action on selection change', async () => {
+      it('should run action on selection', async () => {
         spyOn(component, 'runAction').and.callThrough();
         spyOn(extensionService, 'runActionById');
         loader = TestbedHarnessEnvironment.loader(fixture);
