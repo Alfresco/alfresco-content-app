@@ -48,6 +48,7 @@ import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { MatProgressBarHarness } from '@angular/material/progress-bar/testing';
 import { MatSlideToggleHarness } from '@angular/material/slide-toggle/testing';
+import { AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-content-services';
 
 describe('ManageRulesSmartComponent', () => {
   let fixture: ComponentFixture<ManageRulesSmartComponent>;
@@ -71,6 +72,7 @@ describe('ManageRulesSmartComponent', () => {
             toggleAppNavBar$: new Subject()
           }
         },
+        { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock },
         { provide: Store, useValue: { dispatch: () => {} } },
         { provide: ActivatedRoute, useValue: { params: of({ nodeId: owningFolderIdMock }) } }
       ]

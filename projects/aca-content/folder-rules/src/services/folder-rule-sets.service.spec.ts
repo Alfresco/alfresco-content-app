@@ -32,6 +32,7 @@ import { of } from 'rxjs';
 import { getDefaultRuleSetResponseMock, getRuleSetsResponseMock, inheritedRuleSetMock, ownedRuleSetMock } from '../mock/rule-sets.mock';
 import { take } from 'rxjs/operators';
 import { inheritedRulesMock, linkedRulesMock, ownedRulesMock, ruleMock } from '../mock/rules.mock';
+import { AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-content-services';
 
 describe('FolderRuleSetsService', () => {
   let folderRuleSetsService: FolderRuleSetsService;
@@ -45,7 +46,7 @@ describe('FolderRuleSetsService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [CoreTestingModule],
-      providers: [FolderRuleSetsService, FolderRulesService, ContentApiService]
+      providers: [FolderRuleSetsService, FolderRulesService, ContentApiService, { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock }]
     });
 
     folderRuleSetsService = TestBed.inject(FolderRuleSetsService);

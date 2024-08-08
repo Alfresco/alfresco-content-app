@@ -27,6 +27,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CoreTestingModule } from '@alfresco/adf-core';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import { AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-content-services';
 
 describe('RuleTriggerUiComponent', () => {
   let fixture: ComponentFixture<RuleTriggersUiComponent>;
@@ -41,7 +42,8 @@ describe('RuleTriggerUiComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CoreTestingModule, RuleTriggersUiComponent]
+      imports: [CoreTestingModule, RuleTriggersUiComponent],
+      providers: [{ provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock }]
     });
 
     fixture = TestBed.createComponent(RuleTriggersUiComponent);

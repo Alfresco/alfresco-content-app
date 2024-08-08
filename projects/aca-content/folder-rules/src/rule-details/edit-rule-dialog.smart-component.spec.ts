@@ -29,6 +29,7 @@ import { RuleDetailsUiComponent } from './rule-details.ui-component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CoreTestingModule } from '@alfresco/adf-core';
 import { of, timer } from 'rxjs';
+import { AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-content-services';
 
 describe('EditRuleDialogSmartComponent', () => {
   let fixture: ComponentFixture<EditRuleDialogUiComponent>;
@@ -43,7 +44,8 @@ describe('EditRuleDialogSmartComponent', () => {
       imports: [CoreTestingModule, EditRuleDialogUiComponent],
       providers: [
         { provide: MatDialogRef, useValue: dialogRef },
-        { provide: MAT_DIALOG_DATA, useValue: dialogOptions }
+        { provide: MAT_DIALOG_DATA, useValue: dialogOptions },
+        { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock }
       ]
     });
 
