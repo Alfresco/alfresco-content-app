@@ -622,7 +622,7 @@
           "COPY_MESSAGE": "Copied response to clipboard"
         },
         "AGENTS_BUTTON": {
-          "LABEL": "Ask Agent",
+          "LABEL": "Ask Discovery",
           "TITLE": "Knowledge Retrieval"
         },
         "SEARCH_INPUT": {
