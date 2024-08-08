@@ -28,8 +28,8 @@ import { timeouts } from '../../../utils';
 
 export class SearchInputComponent extends BaseComponent {
   private static rootElement = 'aca-page-layout';
-  public searchInput = this.page.locator('#app-control-input');
-  public searchButton = this.page.locator('.app-search-button');
+  public searchInput = this.getChild('#app-control-input');
+  public searchButton = this.getChild('.app-search-button');
 
   getIconByName = (name: string): Locator => this.getChild('.mat-icon', { hasText: name });
 

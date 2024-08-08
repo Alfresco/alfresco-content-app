@@ -37,13 +37,13 @@ export class SearchFiltersProperties extends BaseComponent {
   public fileSizeInput = this.getChild(`[placeholder$='Enter file size']`);
   public unitButton = this.getChild(`.adf-search-properties-file-size-unit`);
   public fileTypeInput = this.getChild(`[placeholder$='File Type']`);
-  public atLeastOption = this.page.locator(`mat-option`, { hasText: 'At Least' });
-  public atMostOption = this.page.locator(`mat-option`, { hasText: 'At Most' });
-  public exactlyOption = this.page.locator(`mat-option`, { hasText: 'Exactly' });
-  public kbUnit = this.page.locator(`mat-option`, { hasText: 'KB' });
-  public mbUnit = this.page.locator(`mat-option`, { hasText: 'MB' });
-  public gbUnit = this.page.locator(`mat-option`, { hasText: 'GB' });
-  public dropdownOptions = this.page.locator(`mat-option`);
+  public atLeastOption = this.getChild(`mat-option`, { hasText: 'At Least' });
+  public atMostOption = this.getChild(`mat-option`, { hasText: 'At Most' });
+  public exactlyOption = this.getChild(`mat-option`, { hasText: 'Exactly' });
+  public kbUnit = this.getChild(`mat-option`, { hasText: 'KB' });
+  public mbUnit = this.getChild(`mat-option`, { hasText: 'MB' });
+  public gbUnit = this.getChild(`mat-option`, { hasText: 'GB' });
+  public dropdownOptions = this.getChild(`mat-option`);
 
   async setPropertiesParameters(
     page: SearchPage,

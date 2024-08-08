@@ -60,7 +60,7 @@ export class MatMenuComponent extends BaseComponent {
   }
 
   async verifyActualMoreActions(expectedToolbarMore: string[]): Promise<void> {
-    await this.page.locator('.mat-mdc-menu-content').waitFor({ state: 'attached' });
+    await this.getChild('.mat-mdc-menu-content').waitFor({ state: 'attached' });
     let menus = await this.page.$$('.mat-mdc-menu-content .mat-mdc-menu-item');
     let actualMoreActions: string[] = await Promise.all(
       menus.map(async (button) => {

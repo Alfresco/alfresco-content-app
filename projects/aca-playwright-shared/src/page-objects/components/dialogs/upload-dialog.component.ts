@@ -28,10 +28,10 @@ import { BaseComponent } from '../base.component';
 export class UploadDialog extends BaseComponent {
   private static rootElement = '.adf-upload-dialog';
 
-  public uploadDialog = this.page.locator('.adf-upload-dialog');
+  public uploadDialog = this.getChild('.adf-upload-dialog');
   public closeButton = this.getChild('#adf-upload-dialog-close');
-  public minimizeButton = this.page.locator('[data-automation-id="adf-upload-dialog__toggle-minimize"]');
-  public uploadDialogMinimized = this.page.locator('.adf-upload-dialog--minimized');
+  public minimizeButton = this.getChild('[data-automation-id="adf-upload-dialog__toggle-minimize"]');
+  public uploadDialogMinimized = this.getChild('.adf-upload-dialog--minimized');
 
   constructor(page: Page) {
     super(page, UploadDialog.rootElement);

@@ -39,7 +39,7 @@ export class AdfLibraryDialogComponent extends BaseComponent {
   public getLabelText = (text: string) => this.getChild('label', { hasText: text });
   public getRequiredMarker = (text: string) => this.getLabelText(text).locator('.mat-mdc-form-field-required-marker');
   public getDialogTitle = (text: string) => this.getChild('.mat-mdc-dialog-title', { hasText: text });
-  public getErrorByText = (text: string): Locator => this.page.locator('mat-error', {hasText: text});
+  public getErrorByText = (text: string): Locator => this.getChild('mat-error', {hasText: text});
 
     /**
    * This method is used when we want to fill in Create Library Dialog and choose Create button

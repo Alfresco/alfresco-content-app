@@ -50,14 +50,14 @@ export class DataTableComponent extends BaseComponent {
   emptyListSubtitle = this.getChild('.adf-empty-content__subtitle');
   emptySearchText = this.getChild('.empty-search__text');
   emptyListTest = this.getChild('adf-custom-empty-content-template');
-  paginationButton = this.page.locator('.adf-pagination__block button').nth(0);
-  paginationOptions = this.page.locator('#cdk-overlay-0 button');
-  sitesVisibility = this.page.locator('.adf-datatable-body [data-automation-id*="datatable-row"] [aria-label="Visibility"]');
-  sitesName = this.page.locator('.adf-datatable-body [data-automation-id*="datatable-row"] [aria-label="Name"]');
-  sitesRole = this.page.locator('.adf-datatable-body [data-automation-id*="datatable-row"] [aria-label="My Role"]');
-  lockOwner = this.page.locator('.aca-locked-by--name');
-  uncheckedChecbox = this.page.locator('.mat-mdc-checkbox');
-  checkedChecbox = this.page.locator('.mat-mdc-checkbox-checked');
+  paginationButton = this.getChild('.adf-pagination__block button').nth(0);
+  paginationOptions = this.getChild('#cdk-overlay-0 button');
+  sitesVisibility = this.getChild('.adf-datatable-body [data-automation-id*="datatable-row"] [aria-label="Visibility"]');
+  sitesName = this.getChild('.adf-datatable-body [data-automation-id*="datatable-row"] [aria-label="Name"]');
+  sitesRole = this.getChild('.adf-datatable-body [data-automation-id*="datatable-row"] [aria-label="My Role"]');
+  lockOwner = this.getChild('.aca-locked-by--name');
+  uncheckedChecbox = this.getChild('.mat-mdc-checkbox');
+  checkedChecbox = this.getChild('.mat-mdc-checkbox-checked');
 
   /** Locator for row (or rows) */
   getRowLocator = this.page.getByRole('rowgroup').nth(1).locator('adf-datatable-row');
@@ -79,7 +79,7 @@ export class DataTableComponent extends BaseComponent {
    * @returns reference to cell element which contains text.
    */
   getRowByColumnTitleAndItsCellValue = (columnTitle: string, cellValue: string | number): Locator =>
-    this.page.locator(`//div[contains(@title, '${columnTitle}')]//span[contains(text(), '${cellValue}')]/ancestor::adf-datatable-row`);
+    this.getChild(`//div[contains(@title, '${columnTitle}')]//span[contains(text(), '${cellValue}')]/ancestor::adf-datatable-row`);
 
   /**
    * Method used in cases where we want to retrieve a row from the datatable based on its numerical order within the array.

@@ -32,17 +32,17 @@ export class SearchFilters extends BaseComponent {
     super(page, SearchFilters.rootElement);
   }
 
-  public filtersButtons = this.page.locator('adf-search-widget-chip');
-  public logicFilter = this.page.locator('adf-search-widget-chip', { hasText: 'Logic' });
-  public propertiesFilter = this.page.locator('adf-search-widget-chip', { hasText: 'Properties' });
-  public dateFilter = this.page.locator('adf-search-widget-chip', { hasText: 'Date' });
-  public locationFilter = this.page.locator('adf-search-widget-chip', { hasText: 'Location' });
-  public tagsFilter = this.page.locator('adf-search-widget-chip', { hasText: 'Tags' });
-  public categoriesFilter = this.page.locator('adf-search-widget-chip', { hasText: 'Categories' });
-  public resetButton = this.page.locator('button' , { hasText: 'Reset' });
-  public menuCardTitle = this.page.locator('.adf-search-filter-title');
-  public menuCardClose = this.page.locator('.adf-search-filter-title-action');
-  public menuCardClear = this.page.locator('#cancel-filter-button');
-  public menuCardApply = this.page.locator('#apply-filter-button');
-  public dropdownOptions = this.page.locator(`mat-option`);
+  public filtersButtons = this.getChild('adf-search-widget-chip');
+  public logicFilter = this.getChild('adf-search-widget-chip', { hasText: 'Logic' });
+  public propertiesFilter = this.getChild('adf-search-widget-chip', { hasText: 'Properties' });
+  public dateFilter = this.getChild('adf-search-widget-chip', { hasText: 'Date' });
+  public locationFilter = this.getChild('adf-search-widget-chip', { hasText: 'Location' });
+  public tagsFilter = this.getChild('adf-search-widget-chip', { hasText: 'Tags' });
+  public categoriesFilter = this.getChild('adf-search-widget-chip', { hasText: 'Categories' });
+  public resetButton = this.getChild('button' , { hasText: 'Reset' });
+  public menuCardTitle = this.getChild('.adf-search-filter-title');
+  public menuCardClose = this.getChild('.adf-search-filter-title-action');
+  public menuCardClear = this.getChild('#cancel-filter-button');
+  public menuCardApply = this.getChild('#apply-filter-button');
+  public dropdownOptions = this.getChild(`mat-option`);
 }

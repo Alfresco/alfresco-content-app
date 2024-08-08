@@ -29,7 +29,7 @@ export class ManageVersionsDialog extends BaseComponent {
   private static rootElement = '.adf-new-version-uploader-dialog';
 
   async viewFileVersion(version: string): Promise<void> {
-    const versionActionsButton = this.page.locator(`[id="adf-version-list-action-menu-button-${version}"]`);
+    const versionActionsButton = this.getChild(`[id="adf-version-list-action-menu-button-${version}"]`);
     await versionActionsButton.click();
   }
 

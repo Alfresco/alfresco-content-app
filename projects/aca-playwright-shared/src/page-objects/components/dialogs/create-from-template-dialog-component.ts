@@ -37,7 +37,7 @@ export class CreateFromTemplateDialogComponent extends BaseComponent {
   createButton = this.getChild('[data-automation-id="create-from-template-dialog-create-button"]');
   getDialogTitle = (text: string) => this.getChild('.mat-dialog-title', { hasText: text });
   getDialogLabel = (text: string) => this.getChild('label', { hasText: text });
-  getErrorByText = (text: string): Locator => this.page.locator('mat-error', {hasText: text});
+  getErrorByText = (text: string): Locator => this.getChild('mat-error', {hasText: text});
 
 
   async isErrorMessageDisplayed(errorText: string): Promise<boolean> {

@@ -31,10 +31,10 @@ export class SearchOverlayComponent extends BaseComponent {
   public searchFilesOption = this.getChild('input#content-input');
   public searchFoldersOption = this.getChild('input#folder-input');
   public searchLibrariesOption = this.getChild('input#libraries-input');
-  public searchInput = this.page.locator('#app-control-input');
-  public searchButton = this.page.locator('#app-search-button');
-  public searchInputControl = this.page.locator('.app-search-control');
-  public searchOptions = this.page.locator('#search-options');
+  public searchInput = this.getChild('#app-control-input');
+  public searchButton = this.getChild('#app-search-button');
+  public searchInputControl = this.getChild('.app-search-control');
+  public searchOptions = this.getChild('#search-options');
 
   constructor(page: Page, rootElement = SearchOverlayComponent.rootElement) {
     super(page, rootElement);

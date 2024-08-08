@@ -30,7 +30,7 @@ export class DateTimePicker extends BaseComponent {
   calendar = this.getChild('.mat-datepicker-popup');
   dayPicker = this.getChild('mat-month-view');
   nextMonthBtn = this.getChild('.mat-calendar-next-button');
-  rootElemLocator = this.page.locator('.mat-datepicker-popup');
+  rootElemLocator = this.getChild('.mat-datepicker-popup');
 
   constructor(page: Page) {
     super(page, DateTimePicker.rootElement);

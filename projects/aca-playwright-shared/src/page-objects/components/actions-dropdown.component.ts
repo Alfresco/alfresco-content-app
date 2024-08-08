@@ -52,7 +52,7 @@ export enum ActionType {
 export class ActionsDropdownComponent extends BaseComponent {
   private static rootElement = 'aca-edit-rule-dialog aca-rule-action-list';
 
-  private getOptionLocator = (optionName: string): Locator => this.page.locator('.mat-mdc-select-panel .mdc-list-item__primary-text', { hasText: optionName }).first();
+  private getOptionLocator = (optionName: string): Locator => this.getChild('.mat-mdc-select-panel .mdc-list-item__primary-text', { hasText: optionName }).first();
   private ruleActionLocator = this.getChild('aca-rule-action');
   private addActionButtonLocator = this.getChild('[data-automation-id="rule-action-list-add-action-button"]');
   private actionDropdownLocator = this.getChild('[data-automation-id="rule-action-select"]');
@@ -100,10 +100,10 @@ export class ActionsDropdownComponent extends BaseComponent {
   async insertSimpleWorkflowActionValues(stepValue: string, index: number): Promise<void> {
     await this.ruleActionLocator.nth(index).locator(this.actionSimpleWorkflowStepInputLocator).fill(stepValue);
     await this.ruleActionLocator.nth(index).locator(this.actionSimpleWorkflowApproveFolderLocator).click();
-    await this.page.locator(this.actionSimpleWorkflowActionChoiceLocator).click();
+    await this.getChild(this.actionSimpleWorkflowActionChoiceLocator).click();
     await this.ruleActionLocator.nth(index).locator(this.actionSimpleWorkflowLabelApproveLocator).click();
     await this.ruleActionLocator.nth(index).locator(this.actionSimpleWorkflowSRejectStepLocator).fill(stepValue);
     await this.ruleActionLocator.nth(index).locator(this.actionSimpleWorkflowRejectFolderLocator).click();
-    await this.page.locator(this.actionSimpleWorkflowActionChoiceLocator).click();
+    await this.getChild(this.actionSimpleWorkflowActionChoiceLocator).click();
   }
 }

@@ -48,7 +48,7 @@ export class ShareDialogComponent extends BaseComponent {
   dateTimePicker = new DateTimePicker(this.page);
 
   getDialogLabel = () => this.getChild('label').innerText();
-  getErrorByText = (text: string): Locator => this.page.locator('mat-error', { hasText: text });
+  getErrorByText = (text: string): Locator => this.getChild('mat-error', { hasText: text });
 
   async getLabels(): Promise<Array<string>> {
     return await this.page.$$eval('.adf-share-link__label', (elements) => elements.map((element) => element.textContent));

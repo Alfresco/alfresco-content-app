@@ -45,9 +45,9 @@ export class ManageRulesDialogComponent extends BaseComponent {
   public ruleSubfoldersCheckbox = this.getChild('[data-automation-id="rule-option-checkbox-inheritable"]');
   public ruleDisableCheckbox = this.getChild('[data-automation-id="rule-option-checkbox-disabled"]');
   public actionsEllipsisButtons = this.getChild('[data-automation-id="rule-action-list-action-menu"]');
-  public actionsEllipsisDelete = this.page.locator('[data-automation-id="rule-action-list-remove-action-button"]');
+  public actionsEllipsisDelete = this.getChild('[data-automation-id="rule-action-list-remove-action-button"]');
   public conditionsEllipsisButtons = this.getChild('[data-automation-id="condition-actions-button"]');
-  public conditionsEllipsisDelete = this.page.locator('button[title="Remove"]');
+  public conditionsEllipsisDelete = this.getChild('button[title="Remove"]');
 
   constructor(page: Page) {
     super(page, ManageRulesDialogComponent.rootElement);

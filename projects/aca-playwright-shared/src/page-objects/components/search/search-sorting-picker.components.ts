@@ -31,10 +31,10 @@ export type SortByDirection = 'asc' | 'desc';
 export class SearchSortingPicker extends BaseComponent {
   private static rootElement = '#aca-button-action-menu';
 
-  public actionMenu = this.page.locator('[data-automation-id="auto_header_content_id_$thumbnail"]');
-  public sortOrderButton = this.page.locator('#aca-button-sorting-menu');
-  public sortByDropdownExpanded = this.page.locator('.mat-mdc-menu-panel').first();
-  public sortByList = this.page.locator('.mat-mdc-menu-panel button');
+  public actionMenu = this.getChild('[data-automation-id="auto_header_content_id_$thumbnail"]');
+  public sortOrderButton = this.getChild('#aca-button-sorting-menu');
+  public sortByDropdownExpanded = this.getChild('.mat-mdc-menu-panel').first();
+  public sortByList = this.getChild('.mat-mdc-menu-panel button');
 
   constructor(page: Page, rootElement = SearchSortingPicker.rootElement) {
     super(page, rootElement);
@@ -78,7 +78,7 @@ export class SearchSortingPicker extends BaseComponent {
     const elem = this.sortByList.getByText(option);
     const optionId = await elem.locator("..").getAttribute('id');
     await elem.click();
-    const directionSortElement = this.page.locator(`[id="${optionId}-${direction.toLocaleLowerCase()}"]`);
+    const directionSortElement = this.getChild(`[id="${optionId}-${direction.toLocaleLowerCase()}"]`);
     await directionSortElement.click();
     await this.progressBarWaitForReload();
   }
