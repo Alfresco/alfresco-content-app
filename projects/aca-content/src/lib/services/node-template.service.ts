@@ -27,9 +27,15 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CreateFromTemplateDialogComponent } from '../dialogs/node-template/create-from-template.dialog';
 import { Subject, from, of } from 'rxjs';
 import { Node, ResultNode, PathElement, SearchApi } from '@alfresco/js-api';
-import { AlfrescoApiService, TranslationService, NotificationService } from '@alfresco/adf-core';
+import { TranslationService, NotificationService } from '@alfresco/adf-core';
 import { switchMap, catchError } from 'rxjs/operators';
-import { ContentNodeSelectorComponent, ContentNodeSelectorComponentData, ShareDataRow, NodeAction } from '@alfresco/adf-content-services';
+import {
+  AlfrescoApiService,
+  ContentNodeSelectorComponent,
+  ContentNodeSelectorComponentData,
+  ShareDataRow,
+  NodeAction
+} from '@alfresco/adf-content-services';
 
 export interface TemplateDialogConfig {
   primaryPathName: string;

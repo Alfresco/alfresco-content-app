@@ -24,7 +24,7 @@
 
 import { Injectable } from '@angular/core';
 import { ActionDefinition, ActionDefinitionEntry, ActionDefinitionList, ActionsApi } from '@alfresco/js-api';
-import { AlfrescoApiService } from '@alfresco/adf-core';
+import { AlfrescoApiService } from '@alfresco/adf-content-services';
 import { BehaviorSubject, forkJoin, from, Observable, of } from 'rxjs';
 import { finalize, map, switchMap } from 'rxjs/operators';
 import { ActionDefinitionTransformed, ActionParameterDefinitionTransformed } from '../model/rule-action.model';

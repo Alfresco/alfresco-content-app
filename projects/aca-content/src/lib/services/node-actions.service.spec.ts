@@ -25,8 +25,8 @@
 import { TestBed } from '@angular/core/testing';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { of, throwError, Subject, Observable } from 'rxjs';
-import { AlfrescoApiService, TranslationService } from '@alfresco/adf-core';
-import { DocumentListService, NodeAction } from '@alfresco/adf-content-services';
+import { TranslationService } from '@alfresco/adf-core';
+import { AlfrescoApiService, DocumentListService, NodeAction } from '@alfresco/adf-content-services';
 import { NodeActionsService } from './node-actions.service';
 import { Node, NodeChildAssociationEntry, NodeEntry } from '@alfresco/js-api';
 import { AppTestingModule } from '../testing/app-testing.module';

@@ -23,7 +23,7 @@
  */
 
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { AlfrescoApiService } from '@alfresco/adf-core';
+import { AlfrescoApiService } from '@alfresco/adf-content-services';
 import { TrashcanComponent } from './trashcan.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { getTitleElementText } from '../../testing/test-utils';

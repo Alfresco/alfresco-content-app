@@ -24,7 +24,8 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { AlfrescoApiService, UserPreferencesService } from '@alfresco/adf-core';
+import { UserPreferencesService } from '@alfresco/adf-core';
+import { AlfrescoApiService } from '@alfresco/adf-content-services';
 import { FavoriteLibrariesComponent } from './favorite-libraries.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { AppHookService, ContentApiService } from '@alfresco/aca-shared';
