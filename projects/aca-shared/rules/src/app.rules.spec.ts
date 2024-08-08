@@ -23,9 +23,9 @@
  */
 
 import * as app from './app.rules';
-import { getFileExtension } from './app.rules';
 import { TestRuleContext } from './test-rule-context';
 import { NodeEntry, RepositoryInfo, StatusInfo } from '@alfresco/js-api';
+import { getFileExtension } from './app.rules';
 
 describe('app.evaluators', () => {
   let context: TestRuleContext;
@@ -534,6 +534,47 @@ describe('app.evaluators', () => {
         app.areCategoriesEnabled({
           appConfig: {
             get: () => false
+          }
+        } as any)
+      ).toBeFalse();
+    });
+  });
+
+  describe('isKnowledgeRetrievalEnabled', () => {
+    it('should call context.appConfig.get with correct parameters', () => {
+      context.appConfig = { get: jasmine.createSpy() } as any;
+
+      app.canDisplayKnowledgeRetrievalButton(context);
+      expect(context.appConfig.get).toHaveBeenCalledWith('plugins.knowledgeRetrievalEnabled', true);
+    });
+
+    it('should return false if get from appConfig returns false', () => {
+      expect(
+        app.canDisplayKnowledgeRetrievalButton({
+          appConfig: {
+            get: () => false
+          }
+        } as any)
+      ).toBeFalse();
+    });
+
+    it('should return true if get from appConfig returns true and navigation is correct', () => {
+      expect(
+        app.canDisplayKnowledgeRetrievalButton({
+          navigation: { url: '/personal-files' },
+          appConfig: {
+            get: () => true
+          }
+        } as any)
+      ).toBeTrue();
+    });
+
+    it('should return false if get from appConfig returns true, but navigation is not correct', () => {
+      expect(
+        app.canDisplayKnowledgeRetrievalButton({
+          navigation: { url: '/my-special-files' },
+          appConfig: {
+            get: () => true
           }
         } as any)
       ).toBeFalse();
