@@ -132,7 +132,7 @@ test.describe('Share a file', () => {
       });
 
       test('[C286327] Share dialog default values', async ({ personalFiles }) => {
-        expect(await personalFiles.dataTable.performActionFromExpandableMenu(file3, 'Share'));
+        await personalFiles.dataTable.performActionFromExpandableMenu(file3, 'Share');
         const labels = await personalFiles.shareDialog.getLabels();
         expect(await personalFiles.shareDialog.getDialogTitle()).toEqual(`Share ${file3}`);
         expect(labels[0].trim()).toBe(`Share ${file3}`);
@@ -146,7 +146,7 @@ test.describe('Share a file', () => {
       });
 
       test('[C286329] Share a file', async ({ personalFiles, nodesApiAction }) => {
-        expect(await personalFiles.dataTable.performActionFromExpandableMenu(file3, 'Share'));
+        await personalFiles.dataTable.performActionFromExpandableMenu(file3, 'Share');
 
         const url = await personalFiles.shareDialog.getLinkUrl();
         await personalFiles.shareDialog.clickClose();
@@ -156,7 +156,7 @@ test.describe('Share a file', () => {
       });
 
       test('[C286330] Copy shared file URL', async ({ personalFiles, page }) => {
-        expect(await personalFiles.dataTable.performActionFromExpandableMenu(file4, 'Share'));
+        await personalFiles.dataTable.performActionFromExpandableMenu(file4, 'Share');
 
         const url = await personalFiles.shareDialog.getLinkUrl();
         expect(url).toContain(shareLinkPreUrl);
@@ -177,7 +177,7 @@ test.describe('Share a file', () => {
       });
 
       test('[C286332] Share a file with expiration date', async ({ personalFiles, nodesApiAction, page }) => {
-        expect(await personalFiles.dataTable.performActionFromExpandableMenu(file5, 'Share'));
+        await personalFiles.dataTable.performActionFromExpandableMenu(file5, 'Share');
 
         await personalFiles.shareDialog.expireToggle.click();
         expect(await personalFiles.shareDialog.isExpireToggleEnabled()).toBe(true);
@@ -195,7 +195,7 @@ test.describe('Share a file', () => {
       });
 
       test('[C286337] Expire date is displayed correctly', async ({ personalFiles, nodesApiAction }) => {
-        expect(await personalFiles.dataTable.performActionFromExpandableMenu(file6, 'Share'));
+        await personalFiles.dataTable.performActionFromExpandableMenu(file6, 'Share');
         const expireProperty = await nodesApiAction.getNodeProperty(file6Id, 'qshare:expiryDate');
 
         expect(expireProperty).toEqual(expiryDate);
@@ -204,7 +204,7 @@ test.describe('Share a file', () => {
       });
 
       test('[C286333] Disable the share link expiration', async ({ personalFiles, nodesApiAction, page }) => {
-        expect(await personalFiles.dataTable.performActionFromExpandableMenu(file7, 'Share'));
+        await personalFiles.dataTable.performActionFromExpandableMenu(file7, 'Share');
 
         expect(await personalFiles.shareDialog.isExpireToggleEnabled()).toBe(true);
         expect(await personalFiles.shareDialog.getExpireDate()).not.toBe('');
@@ -218,12 +218,12 @@ test.describe('Share a file', () => {
       });
 
       test('[C286335] Shared file URL is not changed when Share dialog is closed and opened again', async ({ personalFiles }) => {
-        expect(await personalFiles.dataTable.performActionFromExpandableMenu(file8, 'Share'));
+        await personalFiles.dataTable.performActionFromExpandableMenu(file8, 'Share');
 
         const url1 = await personalFiles.shareDialog.getLinkUrl();
         await personalFiles.shareDialog.clickClose();
 
-        await personalFiles.dataTable.selectItem(file8);
+        await personalFiles.dataTable.selectItems(file8);
         await personalFiles.acaHeader.shareButton.click();
         const url2 = await personalFiles.shareDialog.getLinkUrl();
 
@@ -231,7 +231,7 @@ test.describe('Share a file', () => {
       });
 
       test('[C286345] Share a file from the context menu', async ({ personalFiles, nodesApiAction }) => {
-        expect(await personalFiles.dataTable.performActionFromExpandableMenu(file9, 'Share'));
+        await personalFiles.dataTable.performActionFromExpandableMenu(file9, 'Share');
 
         const url = await personalFiles.shareDialog.getLinkUrl();
         await personalFiles.shareDialog.clickClose();

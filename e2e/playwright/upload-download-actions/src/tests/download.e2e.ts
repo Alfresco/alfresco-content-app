@@ -62,14 +62,14 @@ test.describe('Download from Personal Files', () => {
 
   test('Download a file', async ({ personalFiles }) => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(parent);
-    await personalFiles.dataTable.selectItem(childFile);
+    await personalFiles.dataTable.selectItems(childFile);
     const [download] = await Promise.all([personalFiles.page.waitForEvent('download'), personalFiles.acaHeader.downloadButton.click()]);
     expect(download.suggestedFilename()).toBe(childFile);
   });
 
   test('Download a folder', async ({ personalFiles }) => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(parent);
-    await personalFiles.dataTable.selectItem(childFolder);
+    await personalFiles.dataTable.selectItems(childFolder);
     const [download] = await Promise.all([personalFiles.page.waitForEvent('download'), personalFiles.acaHeader.downloadButton.click()]);
     const filePath = await download.path();
     expect(await Utils.verifyZipFileContent(filePath, [childFolder])).toBe(true);
@@ -77,7 +77,7 @@ test.describe('Download from Personal Files', () => {
 
   test('Download multiple items', async ({ personalFiles }) => {
     await personalFiles.dataTable.performClickFolderOrFileToOpen(parent);
-    await personalFiles.dataTable.selectMultiItem(childFile, childFolder);
+    await personalFiles.dataTable.selectItems(childFile, childFolder);
     const [download] = await Promise.all([personalFiles.page.waitForEvent('download'), personalFiles.acaHeader.downloadButton.click()]);
     const filePath = await download.path();
     expect(await Utils.verifyZipFileContent(filePath, [childFile, childFolder])).toBe(true);

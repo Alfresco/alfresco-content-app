@@ -56,6 +56,8 @@ export class DataTableComponent extends BaseComponent {
   sitesName = this.page.locator('.adf-datatable-body [data-automation-id*="datatable-row"] [aria-label="Name"]');
   sitesRole = this.page.locator('.adf-datatable-body [data-automation-id*="datatable-row"] [aria-label="My Role"]');
   lockOwner = this.page.locator('.aca-locked-by--name');
+  uncheckedChecbox = this.page.locator('.mat-mdc-checkbox');
+  checkedChecbox = this.page.locator('.mat-mdc-checkbox-checked');
 
   /** Locator for row (or rows) */
   getRowLocator = this.page.getByRole('rowgroup').nth(1).locator('adf-datatable-row');
@@ -238,29 +240,21 @@ export class DataTableComponent extends BaseComponent {
     }
   }
 
-  async selectItem(name: string): Promise<void> {
-    const isSelected = await this.isRowSelected(name);
-    if (!isSelected) {
-      let row = this.getRowByName(name);
-      await row.hover();
-      await row.locator('.mat-mdc-checkbox').click();
-      await row.locator('.mat-mdc-checkbox-checked').waitFor({ state: 'attached' });
-    }
-  }
-
-  async selectMultiItem(...names: string[]): Promise<void> {
+  async selectItems(...names: string[]): Promise<void> {
     for (const name of names) {
-      let row = this.getRowByName(name);
-      await row.hover();
-      await row.locator('.mat-mdc-checkbox').click();
-      await row.locator('.mat-mdc-checkbox-checked').waitFor({ state: 'attached' });
-      await this.page.waitForTimeout(1000);
+      const isSelected = await this.isRowSelected(name);
+      if (!isSelected) {
+        let row = this.getRowByName(name);
+        await row.hover();
+        await row.locator(this.uncheckedChecbox).click();
+        await row.locator(this.checkedChecbox).waitFor({ state: 'attached' });
+      }
     }
   }
 
   async isRowSelected(itemName: string): Promise<boolean> {
     const row = this.getRowByName(itemName);
-    return await row.locator('.adf-datatable-checkbox .mat-mdc-checkbox-checked').isVisible();
+    return await row.locator(this.checkedChecbox).isVisible();
   }
 
   async getColumnHeaders(): Promise<Array<string>> {

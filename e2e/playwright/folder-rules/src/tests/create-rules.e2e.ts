@@ -171,7 +171,7 @@ test.describe('Folder Rules Actions', () => {
     await nodesPage.manageRules.checkIfRuleIsOnTheList(randomRuleName);
 
     await personalFiles.navigate({ remoteUrl: `#/personal-files/${randomFolderName1Id}` });
-    await personalFiles.dataTable.selectItem(copyFileName);
+    await personalFiles.dataTable.selectItems(copyFileName);
     await personalFiles.acaHeader.clickMoreActions();
     await personalFiles.acaHeader.matMenu.clickMenuItem('Delete');
     await personalFiles.snackBar.message.waitFor({ state: 'visible' });
