@@ -92,6 +92,10 @@ aca-search-results {
       display: flex;
       justify-content: flex-start;
       flex-basis: 55%;
+
+      .adf-viewer {
+        position: relative;
+      }
     }
 
     &--preview-toolbar {

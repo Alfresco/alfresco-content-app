@@ -552,8 +552,6 @@ export const canInfoPreview = (context: RuleContext): boolean => {
   return isSearchResult && isNotMultiselect && isFileSelected && isPreview;
 };
 
-export const showInfoSelectionButton = (context: RuleContext): boolean => navigation.isSearchResults(context) && !navigation.isPreview(context);
-
 /**
  * Checks if the file can be opened with MS Office
  * JSON ref: `aos.canOpenWithOffice`

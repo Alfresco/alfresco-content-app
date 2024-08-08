@@ -1218,16 +1218,6 @@
           }
         },
         {
-          "id": "app.sidebar.infoDetails",
-          "order": 150,
-          "title": "Info Details",
-          "icon": "info_outline",
-          "color": "accent",
-          "rules": {
-            "visible": "showInfoSelectionButton"
-          }
-        },
-        {
           "id": "app.toolbar.aspects",
           "order": 160,
           "title": "APP.ACTIONS.ADD_ASPECTS",

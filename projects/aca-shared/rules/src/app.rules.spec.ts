@@ -1418,23 +1418,6 @@ describe('app.evaluators', () => {
     });
   });
 
-  describe('showInfoSelectionButton', () => {
-    it('should return false when user is not in search results page', () => {
-      context.navigation.url = '/trashcan/test';
-      expect(app.showInfoSelectionButton(context)).toBeFalse();
-    });
-
-    it('should return false when user is in preview', () => {
-      context.navigation.url = '/search/preview/test';
-      expect(app.showInfoSelectionButton(context)).toBeFalse();
-    });
-
-    it('should return true when user is in search results page and not in preview', () => {
-      context.navigation.url = '/search/test';
-      expect(app.showInfoSelectionButton(context)).toBeTrue();
-    });
-  });
-
   describe('isSmartFolder', () => {
     it('should return false when there is no selection', () => {
       context.selection.isEmpty = true;

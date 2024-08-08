@@ -173,7 +173,6 @@ export class ContentServiceExtensionModule {
       canEditAspects: rules.canEditAspects,
       canShowExpand: rules.canShowExpand,
       canInfoPreview: rules.canInfoPreview,
-      showInfoSelectionButton: rules.showInfoSelectionButton,
 
       'app.selection.canDelete': rules.canDeleteSelection,
       'app.selection.file.canUnlock': rules.canUnlockFile,
