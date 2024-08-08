@@ -128,16 +128,6 @@
         }
       }
     ],
-    "icons": [
-      {
-        "id": "adf:join_library",
-        "value": "./assets/images/join-library.svg"
-      },
-      {
-        "id": "adf:move_file",
-        "value": "./assets/images/adf-move-file-24px.svg"
-      }
-    ],
     "create": [
       {
         "id": "app.create.folder",
@@ -588,7 +578,7 @@
             "id": "app.toolbar.move",
             "order": 600,
             "title": "APP.ACTIONS.MOVE",
-            "icon": "adf:move_file",
+            "icon": "drive_file_move",
             "actions": {
               "click": "MOVE_NODES"
             },
@@ -817,7 +807,7 @@
         "id": "app.context.menu.move",
         "title": "APP.ACTIONS.MOVE",
         "order": 1000,
-        "icon": "adf:move_file",
+        "icon": "drive_file_move",
         "actions": {
           "click": "MOVE_NODES"
         },
@@ -1100,7 +1090,7 @@
               "id": "app.viewer.move",
               "order": 500,
               "title": "APP.ACTIONS.MOVE",
-              "icon": "adf:move_file",
+              "icon": "drive_file_move",
               "actions": {
                 "click": "MOVE_NODES"
               },

@@ -44,8 +44,7 @@ import { MatMenuModule } from '@angular/material/menu';
       [isAdmin]="(profile$ | async).isAdmin"
       [attr.title]="(membership.isJoinRequested | async) ? ('APP.ACTIONS.CANCEL_JOIN' | translate) : ('APP.ACTIONS.JOIN' | translate)"
     >
-      <mat-icon *ngIf="membership.isJoinRequested | async">cancel</mat-icon>
-      <mat-icon *ngIf="!(membership.isJoinRequested | async)" svgIcon="adf:join_library"></mat-icon>
+      <mat-icon>{{ membership.isJoinRequested ? 'cancel' : 'library_add' }}</mat-icon>
       <span>{{ (membership.isJoinRequested | async) ? ('APP.ACTIONS.CANCEL_JOIN' | translate) : ('APP.ACTIONS.JOIN' | translate) }}</span>
     </button>
   `,
