@@ -129,11 +129,11 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
     this.route.queryParams.pipe(takeUntil(this.onDestroy$)).subscribe((params) => {
       this._agentId = params.agentId;
       this._searchQuery = params.query ? decodeURIComponent(params.query) : '';
-      this._selectedNodesState = JSON.parse(this.userPreferencesService.get('knowledgeRetrievalNodes'));
-      if (!this.searchQuery || !this._selectedNodesState?.nodes?.length || !this.agentId) {
+      if (!this.searchQuery || !this.agentId) {
         this._hasError = true;
         return;
       }
+      this._selectedNodesState = JSON.parse(this.userPreferencesService.get('knowledgeRetrievalNodes'));
       this.performAiSearch();
     });
     super.ngOnInit();
@@ -156,7 +156,7 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
     this.searchAiService
       .ask({
         question: this.searchQuery,
-        nodeIds: this._selectedNodesState.nodes.map((node) => node.entry.id)
+        nodeIds: this._selectedNodesState?.nodes?.length ? this._selectedNodesState.nodes.map((node) => node.entry.id) : []
       })
       .pipe(
         switchMap((response) => this.searchAiService.getAnswer(response.questionId)),
