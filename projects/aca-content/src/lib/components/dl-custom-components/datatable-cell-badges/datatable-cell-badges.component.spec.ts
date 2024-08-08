@@ -42,6 +42,13 @@ const mockNode = {
   }
 } as NodeEntry;
 
+const mockGetBadgesResponse = {
+  id: 'test',
+  type: ContentActionType.custom,
+  icon: 'warning',
+  tooltip: 'test tooltip'
+};
+
 describe('DatatableCellBadgesComponent', () => {
   let fixture: ComponentFixture<DatatableCellBadgesComponent>;
   let component: DatatableCellBadgesComponent;
@@ -78,10 +85,8 @@ describe('DatatableCellBadgesComponent', () => {
     component.node = mockNode;
   });
 
-  it('should get badges when component initializes', () => {
-    spyOn(appExtensionService, 'getBadges').and.returnValue(
-      of([{ id: 'test', type: ContentActionType.custom, icon: 'warning', tooltip: 'test tooltip' }])
-    );
+  it('should get badges when component initializes', async () => {
+    spyOn(appExtensionService, 'getBadges').and.returnValue(of([mockGetBadgesResponse]));
     component.ngOnInit();
     fixture.detectChanges();
     const badges = fixture.debugElement.queryAll(By.css('.adf-datatable-cell-badge')).map((badge) => badge.nativeElement);
@@ -92,9 +97,7 @@ describe('DatatableCellBadgesComponent', () => {
   });
 
   it('should render dynamic component when badge has one provided', () => {
-    spyOn(appExtensionService, 'getBadges').and.returnValue(
-      of([{ id: 'test', type: ContentActionType.custom, icon: 'warning', tooltip: 'test tooltip', component: 'test-id' }])
-    );
+    spyOn(appExtensionService, 'getBadges').and.returnValue(of([{ ...mockGetBadgesResponse, component: 'test-id' }]));
     component.ngOnInit();
     fixture.detectChanges();
     const dynamicComponent = fixture.debugElement.query(By.css('adf-dynamic-component')).nativeElement;
@@ -105,9 +108,7 @@ describe('DatatableCellBadgesComponent', () => {
     let badges: HTMLElement[];
     let runActionSpy: jasmine.Spy;
     beforeEach(() => {
-      spyOn(appExtensionService, 'getBadges').and.returnValue(
-        of([{ id: 'test', type: ContentActionType.custom, icon: 'warning', tooltip: 'test tooltip', actions: { click: 'test' } }])
-      );
+      spyOn(appExtensionService, 'getBadges').and.returnValue(of([{ ...mockGetBadgesResponse, actions: { click: 'test' } }]));
       component.ngOnInit();
       fixture.detectChanges();
       badges = fixture.debugElement.queryAll(By.css('.adf-datatable-cell-badge')).map((badge) => badge.nativeElement);
@@ -120,7 +121,7 @@ describe('DatatableCellBadgesComponent', () => {
     });
 
     it('should call provided handler on keypress event', () => {
-      badges[0].dispatchEvent(new KeyboardEvent('keypress', { key: 'Enter' }));
+      badges[0].dispatchEvent(new KeyboardEvent('keypress.enter'));
       expect(runActionSpy).toHaveBeenCalledWith('test', component.node);
     });
   });

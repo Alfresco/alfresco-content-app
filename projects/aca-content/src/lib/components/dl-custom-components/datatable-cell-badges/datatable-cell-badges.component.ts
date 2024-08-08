@@ -70,9 +70,7 @@ export class DatatableCellBadgesComponent implements OnInit, OnDestroy {
     }
   }
 
-  onKeyPress(event: KeyboardEvent, badge: Badge) {
-    if (event.key === 'Enter') {
-      this.onBadgeClick(badge);
-    }
+  onKeyPress(badge: Badge) {
+    this.onBadgeClick(badge);
   }
 }

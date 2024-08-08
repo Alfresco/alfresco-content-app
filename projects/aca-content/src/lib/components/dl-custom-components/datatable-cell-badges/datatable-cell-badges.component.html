@@ -11,7 +11,7 @@
           [title]="badge.tooltip | translate"
           [value]="badge.icon"
           (click)="onBadgeClick(badge)"
-          (keypress)="onKeyPress($event, badge)"
+          (keypress.enter)="onKeyPress(badge)"
           tabindex="0"
         ></adf-icon>
       </ng-template>

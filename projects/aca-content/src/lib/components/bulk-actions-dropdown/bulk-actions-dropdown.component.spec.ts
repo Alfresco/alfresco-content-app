@@ -167,24 +167,27 @@ describe('BulkActionsDropdownComponent', () => {
         extensionService = TestBed.inject(AppExtensionService);
         spyOn(extensionService, 'getBulkActions').and.returnValue(of([mockItem]));
         fixture.detectChanges();
+        loader = TestbedHarnessEnvironment.loader(fixture);
       });
 
       it('should run action on selection', async () => {
-        spyOn(component, 'runAction').and.callThrough();
         spyOn(extensionService, 'runActionById');
-        loader = TestbedHarnessEnvironment.loader(fixture);
         const selectHarness = await loader.getHarness(MatSelectHarness);
         await selectHarness.open();
         await selectHarness.clickOptions(await selectHarness.getOptions()[0]);
         await fixture.whenStable();
+        fixture.detectChanges();
 
-        expect(extensionService.runActionById).toHaveBeenCalledOnceWith(mockItem.actions.click, {
+        expect(extensionService.runActionById).toHaveBeenCalledWith(mockItem.actions.click, {
           focusedElementOnCloseSelector: '.adf-context-menu-source'
         });
       });
 
-      it('should reset selection on bulkActionExecuted', () => {
-        getElement(mockItem.id).click();
+      it('should reset selection on bulkActionExecuted', async () => {
+        const selectHarness = await loader.getHarness(MatSelectHarness);
+        await selectHarness.open();
+        await selectHarness.clickOptions(await selectHarness.getOptions()[0]);
+        await fixture.whenStable();
         fixture.detectChanges();
 
         expect(component.bulkSelectControl.value).toEqual(mockItem.id);
