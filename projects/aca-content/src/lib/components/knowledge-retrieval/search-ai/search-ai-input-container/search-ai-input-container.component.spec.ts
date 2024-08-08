@@ -53,18 +53,14 @@ describe('SearchAiInputContainerComponent', () => {
           provide: AgentService,
           useValue: {
             getAgents: () =>
-              of({
-                list: {
-                  entries: [
-                    {
-                      entry: {
-                        id: '1',
-                        name: 'HR Agent'
-                      }
-                    }
-                  ]
+              of([
+                {
+                  id: '1',
+                  name: 'HR Agent',
+                  description: 'HR Agent',
+                  avatar: 'avatar1'
                 }
-              })
+              ])
           }
         }
       ]
