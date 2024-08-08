@@ -27,7 +27,7 @@ import { LibrariesComponent } from './components/libraries/libraries.component';
 import { FavoriteLibrariesComponent } from './components/favorite-libraries/favorite-libraries.component';
 import { SearchResultsComponent } from './components/search/search-results/search-results.component';
 import { SearchLibrariesResultsComponent } from './components/search/search-libraries-results/search-libraries-results.component';
-import { AppSharedRuleGuard, GenericErrorComponent, ExtensionRoute, ExtensionsDataLoaderGuard } from '@alfresco/aca-shared';
+import { AppSharedRuleGuard, GenericErrorComponent, ExtensionRoute, ExtensionsDataLoaderGuard, PluginEnabledGuard } from '@alfresco/aca-shared';
 import { AuthGuard } from '@alfresco/adf-core';
 import { FavoritesComponent } from './components/favorites/favorites.component';
 import { RecentFilesComponent } from './components/recent-files/recent-files.component';
@@ -510,7 +510,11 @@ export const CONTENT_LAYOUT_ROUTES: Route = {
     },
     {
       path: 'knowledge-retrieval',
-      component: SearchAiResultsComponent
+      component: SearchAiResultsComponent,
+      canActivate: [PluginEnabledGuard],
+      data: {
+        plugin: 'plugins.knowledgeRetrievalEnabled'
+      }
     },
     {
       path: '**',
