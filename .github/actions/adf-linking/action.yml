@@ -8,7 +8,6 @@ runs:
     - name: clone and install
       shell: bash
       run: |
-        echo $COMMIT_MESSAGE
         if [[ $COMMIT_MESSAGE == *"[link-adf:"* ]]; then
           echo "BUILD_OPTS=--configuration=adf,e2e" >> $GITHUB_ENV
           echo "TEST_OPTS=--configuration=adfprod" >> $GITHUB_ENV
