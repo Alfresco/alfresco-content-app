@@ -45,7 +45,7 @@ export abstract class BaseComponent extends PlaywrightBase {
    * @returns Locator object
    */
   getChild(cssLocator: string, options?: { hasText?: string | RegExp; has?: Locator }): Locator {
-    return this.getChild(`${this.rootElement} ${cssLocator}`, options);
+    return this.page.locator(`${this.rootElement} ${cssLocator}`, options);
   }
 
   async closeAdditionalOverlayElementIfVisible(): Promise<void> {
