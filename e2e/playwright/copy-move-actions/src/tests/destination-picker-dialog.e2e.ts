@@ -74,7 +74,7 @@ test.describe('Copy Move actions', () => {
 
   const copyContentInMyLibraries = async (myLibrariesPage: MyLibrariesPage) => {
     await myLibrariesPage.dataTable.performClickFolderOrFileToOpen(site);
-    await myLibrariesPage.dataTable.selectItem(sourceFile);
+    await myLibrariesPage.dataTable.selectItems(sourceFile);
     await myLibrariesPage.clickMoreActionsButton('Copy');
     await myLibrariesPage.contentNodeSelector.selectDestination(destinationFolder);
   };

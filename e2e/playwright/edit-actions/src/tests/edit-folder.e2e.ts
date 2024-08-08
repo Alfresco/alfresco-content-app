@@ -71,7 +71,7 @@ test.describe('Edit folder', () => {
 
   test.describe('on Personal Files', () => {
     test('[XAT-5089] "Edit folder" dialog UI', async ({ personalFiles }) => {
-      await personalFiles.dataTable.selectItem(folderName);
+      await personalFiles.dataTable.selectItems(folderName);
       await personalFiles.acaHeader.clickMoreActions();
       await personalFiles.matMenu.clickMenuItemFromHeaderMenu('Edit');
 
@@ -84,7 +84,7 @@ test.describe('Edit folder', () => {
     });
 
     test('[XAT-5093] Properties are modified when clicking Update button', async ({ personalFiles }) => {
-      await personalFiles.dataTable.selectItem(folderNameToEdit);
+      await personalFiles.dataTable.selectItems(folderNameToEdit);
       await personalFiles.acaHeader.clickMoreActions();
       await personalFiles.matMenu.clickMenuItemFromHeaderMenu('Edit');
       await personalFiles.editDialog.descriptionInput.fill(folderDescriptionEdited);
@@ -98,7 +98,7 @@ test.describe('Edit folder', () => {
     });
 
     test('[XAT-5090] Empty folder name', async ({ personalFiles }) => {
-      await personalFiles.dataTable.selectItem(folderName);
+      await personalFiles.dataTable.selectItems(folderName);
       await personalFiles.acaHeader.clickMoreActions();
       await personalFiles.matMenu.clickMenuItemFromHeaderMenu('Edit');
       await personalFiles.editDialog.nameInput.fill('');
@@ -110,7 +110,7 @@ test.describe('Edit folder', () => {
     test('[XAT-5091] Folder name with special characters', async ({ personalFiles }) => {
       const namesWithSpecialChars = ['a*a', 'a"a', 'a<a', 'a>a', `a\\a`, 'a/a', 'a?a', 'a:a', 'a|a'];
 
-      await personalFiles.dataTable.selectItem(folderName);
+      await personalFiles.dataTable.selectItems(folderName);
       await personalFiles.acaHeader.clickMoreActions();
       await personalFiles.matMenu.clickMenuItemFromHeaderMenu('Edit');
 
@@ -122,7 +122,7 @@ test.describe('Edit folder', () => {
     });
 
     test('[XAT-5092] Folder name ending with a dot', async ({ personalFiles }) => {
-      await personalFiles.dataTable.selectItem(folderName);
+      await personalFiles.dataTable.selectItems(folderName);
       await personalFiles.acaHeader.clickMoreActions();
       await personalFiles.matMenu.clickMenuItemFromHeaderMenu('Edit');
       await personalFiles.editDialog.nameInput.fill(`${folderName}.`);
@@ -132,7 +132,7 @@ test.describe('Edit folder', () => {
     });
 
     test('[XAT-5094] Cancel editing properties', async ({ personalFiles }) => {
-      await personalFiles.dataTable.selectItem(folderName);
+      await personalFiles.dataTable.selectItems(folderName);
       await personalFiles.acaHeader.clickMoreActions();
       await personalFiles.matMenu.clickMenuItemFromHeaderMenu('Edit');
       await personalFiles.editDialog.cancelButton.click();
@@ -141,7 +141,7 @@ test.describe('Edit folder', () => {
     });
 
     test('[XAT-5095] Duplicated folder name', async ({ personalFiles }) => {
-      await personalFiles.dataTable.selectItem(folderName);
+      await personalFiles.dataTable.selectItems(folderName);
       await personalFiles.acaHeader.clickMoreActions();
       await personalFiles.matMenu.clickMenuItemFromHeaderMenu('Edit');
       await personalFiles.editDialog.nameInput.fill(duplicateFolderName);
@@ -152,7 +152,7 @@ test.describe('Edit folder', () => {
     });
 
     test('[XAT-5096] Trim ending spaces', async ({ personalFiles }) => {
-      await personalFiles.dataTable.selectItem(folderName);
+      await personalFiles.dataTable.selectItems(folderName);
       await personalFiles.acaHeader.clickMoreActions();
       await personalFiles.matMenu.clickMenuItemFromHeaderMenu('Edit');
       await personalFiles.editDialog.nameInput.fill(`${folderName} `);

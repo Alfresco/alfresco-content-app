@@ -69,7 +69,7 @@ test.describe('Upload new version', () => {
   let fileActionAPI: FileActionsApi;
 
   async function uploadNewVersion(page: PersonalFilesPage | SearchPage, filename: string, location: string) {
-    await page.dataTable.selectItem(filename);
+    await page.dataTable.selectItems(filename);
     await page.acaHeader.clickMoreActions();
     await page.acaHeader.matMenu.clickMenuItem('Upload New Version');
     await page.acaHeader.uploadNewVersionButton.setInputFiles(location);

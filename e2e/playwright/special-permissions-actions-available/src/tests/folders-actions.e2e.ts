@@ -37,7 +37,7 @@ test.describe('Folders - available actions : ', () => {
     expectedToolbarPrimary: string[],
     expectedToolbarMore: string[]
   ): Promise<void> {
-    await myPersonalFiles.dataTable.selectItem(item);
+    await myPersonalFiles.dataTable.selectItems(item);
     await myPersonalFiles.acaHeader.verifyToolbarPrimaryActions(expectedToolbarPrimary);
     await myPersonalFiles.acaHeader.clickMoreActions();
     await myPersonalFiles.matMenu.verifyActualMoreActions(expectedToolbarMore);
@@ -99,15 +99,15 @@ test.describe('Folders - available actions : ', () => {
     });
 
     test('multiple folders - [C280459]', async ({ personalFiles }) => {
-      await personalFiles.dataTable.selectMultiItem(testData.folderFavFile.name, testData.folderFile.name);
+      await personalFiles.dataTable.selectItems(testData.folderFavFile.name, testData.folderFile.name);
       await personalFiles.dataTable.getRowByName(testData.folderFavFile.name).click({ button: 'right' });
       await personalFiles.page.reload({ waitUntil: 'load' });
-      await personalFiles.dataTable.selectMultiItem(testData.folderFavFile.name, testData.folderFile.name);
+      await personalFiles.dataTable.selectItems(testData.folderFavFile.name, testData.folderFile.name);
       await checkMultipleSelActionsAvailable(personalFiles, testData.multipleSelFile.toolbarPrimary, testData.multipleSelFile.toolbarMore);
     });
 
     test('both files and folders - [C280460]', async ({ personalFiles }) => {
-      await personalFiles.dataTable.selectMultiItem(testData.file.name, testData.folderFile.name);
+      await personalFiles.dataTable.selectItems(testData.file.name, testData.folderFile.name);
       await personalFiles.dataTable.getRowByName(testData.folderFile.name).click({ button: 'right' });
       await personalFiles.matMenu.verifyActualMoreActions(testData.multipleSelFile.contextMenu);
       await checkMultipleSelActionsAvailable(personalFiles, testData.multipleSelFile.toolbarPrimary, testData.multipleSelFile.toolbarMore);

@@ -83,7 +83,7 @@ test.describe('Restore from Trash', () => {
     });
 
     async function restoreNode(trashPage: TrashPage, nodeName: string) {
-      await trashPage.dataTable.selectItem(nodeName);
+      await trashPage.dataTable.selectItems(nodeName);
       await trashPage.acaHeader.restoreButton.click();
       await trashPage.snackBar.verifySnackBarActionText(`${nodeName} restored`);
       const action = await trashPage.snackBar.getSnackBarActionText();
@@ -110,7 +110,7 @@ test.describe('Restore from Trash', () => {
     });
 
     test('[C217182] restore multiple items', async ({ trashPage, personalFiles }) => {
-      await trashPage.dataTable.selectMultiItem(file2, folder2);
+      await trashPage.dataTable.selectItems(file2, folder2);
       await trashPage.acaHeader.restoreButton.click();
       await trashPage.snackBar.verifySnackBarActionText(`Restore successful`);
       const action = await trashPage.snackBar.getSnackBarActionText();
@@ -123,7 +123,7 @@ test.describe('Restore from Trash', () => {
     });
 
     test('[C217181] View from notification', async ({ trashPage, personalFiles }) => {
-      await trashPage.dataTable.selectItem(file3);
+      await trashPage.dataTable.selectItems(file3);
       await trashPage.acaHeader.restoreButton.click();
       await trashPage.snackBar.clickSnackBarAction();
       await trashPage.dataTable.spinnerWaitForReload();
@@ -163,13 +163,13 @@ test.describe('Restore from Trash', () => {
     });
 
     test('[C217178] Restore a file when another file with same name exists on the restore location', async ({ trashPage }) => {
-      await trashPage.dataTable.selectItem(file1);
+      await trashPage.dataTable.selectItems(file1);
       await trashPage.acaHeader.restoreButton.click();
       await trashPage.snackBar.verifySnackBarActionText(`Can't restore, ${file1} already exists`);
     });
 
     test('[C217179] Restore a file when original location no longer exists', async ({ trashPage }) => {
-      await trashPage.dataTable.selectItem(file2);
+      await trashPage.dataTable.selectItems(file2);
       await trashPage.acaHeader.restoreButton.click();
       await trashPage.snackBar.verifySnackBarActionText(`Can't restore ${file2}, the original location no longer exists`);
     });
@@ -223,13 +223,13 @@ test.describe('Restore from Trash', () => {
     });
 
     test('[C217183] one failure', async ({ trashPage }) => {
-      await trashPage.dataTable.selectMultiItem(file1, file2);
+      await trashPage.dataTable.selectItems(file1, file2);
       await trashPage.acaHeader.restoreButton.click();
       await trashPage.snackBar.verifySnackBarActionText(`Can't restore ${file1}, the original location no longer exists`);
     });
 
     test('[C217184] multiple failures', async ({ trashPage }) => {
-      await trashPage.dataTable.selectMultiItem(file3, file4, file5);
+      await trashPage.dataTable.selectItems(file3, file4, file5);
       await trashPage.acaHeader.restoreButton.click();
       await trashPage.snackBar.verifySnackBarActionText('2 items not restored because of issues with the restore location');
     });

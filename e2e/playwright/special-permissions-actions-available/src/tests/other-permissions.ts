@@ -32,7 +32,7 @@ async function checkActionsAvailable(
   expectedToolbarPrimary: string[],
   expectedToolbarMore: string[]
 ): Promise<void> {
-  await myLibrariesPage.dataTable.selectItem(item);
+  await myLibrariesPage.dataTable.selectItems(item);
   await myLibrariesPage.acaHeader.verifyToolbarPrimaryActions(expectedToolbarPrimary);
   await myLibrariesPage.acaHeader.clickMoreActions();
   await myLibrariesPage.matMenu.verifyActualMoreActions(expectedToolbarMore);
