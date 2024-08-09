@@ -34,6 +34,12 @@ import { IconComponent, TranslationService } from '@alfresco/adf-core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { switchMap, takeUntil } from 'rxjs/operators';
 import { AppExtensionService } from '@alfresco/aca-shared';
+import { MatOptionSelectionChange } from '@angular/material/core';
+
+export interface BulkActionsDropdownSelectionEvent {
+  event: MatOptionSelectionChange;
+  actionOption: ContentActionRef;
+}
 
 @Component({
   standalone: true,
@@ -92,9 +98,11 @@ export class BulkActionsDropdownComponent implements OnInit, OnDestroy {
     this.onDestroy$.complete();
   }
 
-  runAction(contentActionRef: ContentActionRef) {
-    this.extensions.runActionById(contentActionRef.actions.click, {
-      focusedElementOnCloseSelector: '.adf-context-menu-source'
-    });
+  runAction(actionsDropdownEvent: BulkActionsDropdownSelectionEvent) {
+    if (actionsDropdownEvent.event.source.selected) {
+      this.extensions.runActionById(actionsDropdownEvent.actionOption.actions.click, {
+        focusedElementOnCloseSelector: '.adf-context-menu-source'
+      });
+    }
   }
 }

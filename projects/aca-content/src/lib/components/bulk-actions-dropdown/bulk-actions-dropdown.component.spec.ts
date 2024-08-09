@@ -32,6 +32,11 @@ import { ContentActionRef, ContentActionType } from '@alfresco/adf-extensions';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { TranslationService } from '@alfresco/adf-core';
 import { AppExtensionService } from '@alfresco/aca-shared';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { HarnessLoader } from '@angular/cdk/testing';
+import { MatSelectHarness } from '@angular/material/select/testing';
+import { MatIconRegistry } from '@angular/material/icon';
+import { FakeMatIconRegistry } from '@angular/material/icon/testing';
 
 describe('BulkActionsDropdownComponent', () => {
   let component: BulkActionsDropdownComponent;
@@ -41,6 +46,7 @@ describe('BulkActionsDropdownComponent', () => {
   let bulkFormField: HTMLElement;
   let dropdown: HTMLElement;
   let extensionService: AppExtensionService;
+  let loader: HarnessLoader;
 
   const mockItem: ContentActionRef = {
     id: 'mockId',
@@ -62,9 +68,17 @@ describe('BulkActionsDropdownComponent', () => {
 
   const getLabelText = (selector: string): string => getElement(selector).textContent.trim();
 
+  const selectOptionFromDropdown = async (selectionIndex: number) => {
+    const selectHarness = await loader.getHarness(MatSelectHarness);
+    await selectHarness.open();
+    await selectHarness.clickOptions(await selectHarness.getOptions()[selectionIndex]);
+    await fixture.whenStable();
+  };
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BulkActionsDropdownComponent, AppTestingModule]
+      imports: [BulkActionsDropdownComponent, AppTestingModule],
+      providers: [{ provide: MatIconRegistry, useClass: FakeMatIconRegistry }]
     }).compileComponents();
 
     store = TestBed.inject(Store);
@@ -160,24 +174,21 @@ describe('BulkActionsDropdownComponent', () => {
         extensionService = TestBed.inject(AppExtensionService);
         spyOn(extensionService, 'getBulkActions').and.returnValue(of([mockItem]));
         fixture.detectChanges();
+        loader = TestbedHarnessEnvironment.loader(fixture);
       });
 
-      it('should run action on selection', () => {
-        spyOn(component, 'runAction').and.callThrough();
+      it('should run action on selection', async () => {
         spyOn(extensionService, 'runActionById');
-        const option = getElement(mockItem.id);
-        option.click();
+        await selectOptionFromDropdown(0);
         fixture.detectChanges();
 
-        expect(component.runAction).toHaveBeenCalledWith(mockItem);
         expect(extensionService.runActionById).toHaveBeenCalledWith(mockItem.actions.click, {
           focusedElementOnCloseSelector: '.adf-context-menu-source'
         });
       });
 
-      it('should reset selection on bulkActionExecuted', () => {
-        const option = getElement(mockItem.id);
-        option.click();
+      it('should reset selection on bulkActionExecuted', async () => {
+        await selectOptionFromDropdown(0);
         fixture.detectChanges();
 
         expect(component.bulkSelectControl.value).toEqual(mockItem.id);
