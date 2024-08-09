@@ -25,8 +25,8 @@
 import { Router, ActivatedRoute } from '@angular/router';
 import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
 import { AuthenticationService } from '@alfresco/adf-core';
-import { UploadService, NodesApiService, DiscoveryApiService } from '@alfresco/adf-content-services';
-import { ClosePreviewAction, RefreshPreviewAction, ReloadDocumentListAction, ViewNodeAction } from '@alfresco/aca-shared/store';
+import { UploadService, NodesApiService, DiscoveryApiService, DocumentListService } from '@alfresco/adf-content-services';
+import { ClosePreviewAction, RefreshPreviewAction, ViewNodeAction } from '@alfresco/aca-shared/store';
 import { AcaViewerComponent } from './viewer.component';
 import { of } from 'rxjs';
 import {
@@ -42,7 +42,7 @@ import { Node } from '@alfresco/js-api';
 import { AcaViewerModule } from '../../viewer.module';
 
 const apiError = `{
-"error": { 
+"error": {
   "errorKey":"EntityNotFound",
   "statusCode":404,
   "briefSummary":"The entity with id: someId was not found",
@@ -63,6 +63,7 @@ describe('AcaViewerComponent', () => {
   let uploadService: UploadService;
   let nodesApiService: NodesApiService;
   let appHookService: AppHookService;
+  let documentListService: DocumentListService;
   let store: Store<any>;
 
   beforeEach(() => {
@@ -84,6 +85,7 @@ describe('AcaViewerComponent', () => {
     uploadService = TestBed.inject(UploadService);
     nodesApiService = TestBed.inject(NodesApiService);
     appHookService = TestBed.inject(AppHookService);
+    documentListService = TestBed.inject(DocumentListService);
     store = TestBed.inject(Store);
   });
 
@@ -122,11 +124,11 @@ describe('AcaViewerComponent', () => {
     });
 
     it('should reload document list and navigate to node location upon close', async () => {
-      spyOn(store, 'dispatch');
+      spyOn(documentListService, 'reload');
 
       component.onViewerVisibilityChanged();
 
-      expect(store.dispatch).toHaveBeenCalledWith(new ReloadDocumentListAction());
+      expect(documentListService.reload).toHaveBeenCalled();
       expect(component['navigateToFileLocation']).toHaveBeenCalled();
       expect(router.navigateByUrl).toHaveBeenCalledWith(fakeLocation);
     });

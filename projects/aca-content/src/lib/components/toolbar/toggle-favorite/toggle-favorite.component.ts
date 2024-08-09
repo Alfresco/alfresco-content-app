@@ -22,14 +22,14 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewEncapsulation, OnInit, Input } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit, Input, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { SelectionState } from '@alfresco/adf-extensions';
-import { AppStore, ReloadDocumentListAction, getAppSelection } from '@alfresco/aca-shared/store';
+import { AppStore, getAppSelection } from '@alfresco/aca-shared/store';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { NodeFavoriteDirective } from '@alfresco/adf-content-services';
+import { DocumentListService, NodeFavoriteDirective } from '@alfresco/adf-content-services';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatMenuModule } from '@angular/material/menu';
@@ -49,6 +49,8 @@ import { MatMenuModule } from '@angular/material/menu';
   host: { class: 'app-toggle-favorite' }
 })
 export class ToggleFavoriteComponent implements OnInit {
+  private documentListService = inject(DocumentListService);
+
   @Input() data: any;
   selection$: Observable<SelectionState>;
   private reloadOnRoutes: string[] = [];
@@ -65,7 +67,7 @@ export class ToggleFavoriteComponent implements OnInit {
 
   onToggleEvent() {
     if (this.reloadOnRoutes.includes(this.router.url)) {
-      this.store.dispatch(new ReloadDocumentListAction());
+      this.documentListService.reload();
     }
   }
 }

@@ -32,7 +32,6 @@ import {
   NavigateToParentFolder,
   NodeInfo,
   RefreshPreviewAction,
-  ReloadDocumentListAction,
   SetSelectedNodesAction,
   ShowLoaderAction,
   SnackbarAction,
@@ -45,6 +44,7 @@ import {
   ViewNodeVersionAction
 } from '@alfresco/aca-shared/store';
 import {
+  DocumentListService,
   FolderDialogComponent,
   LibraryDialogComponent,
   NewVersionUploaderData,
@@ -90,7 +90,8 @@ export class ContentManagementService {
     private appHookService: AppHookService,
     private newVersionUploaderService: NewVersionUploaderService,
     private router: Router,
-    private appSettingsService: AppSettingsService
+    private appSettingsService: AppSettingsService,
+    private documentListService: DocumentListService
   ) {}
 
   addFavorite(nodes: Array<NodeEntry>) {
@@ -226,7 +227,7 @@ export class ContentManagementService {
 
     dialogInstance.afterClosed().subscribe((node) => {
       if (node) {
-        this.store.dispatch(new ReloadDocumentListAction());
+        this.documentListService.reload();
       }
       this.focusAfterClose(this.createMenuButtonSelector);
     });
@@ -390,7 +391,7 @@ export class ContentManagementService {
       const failedStatus = this.processStatus([]);
       failedStatus.fail.push(...selection);
       this.showRestoreNotification(failedStatus);
-      this.store.dispatch(new ReloadDocumentListAction());
+      this.documentListService.reload();
       return;
     }
 
@@ -409,7 +410,7 @@ export class ContentManagementService {
 
         if (!remainingNodes.length) {
           this.showRestoreNotification(status);
-          this.store.dispatch(new ReloadDocumentListAction());
+          this.documentListService.reload();
         } else {
           this.restoreDeletedNodes(remainingNodes);
         }
@@ -436,7 +437,7 @@ export class ContentManagementService {
         const [operationResult, moveResponse] = result;
         this.showMoveMessage(nodes, operationResult, moveResponse);
 
-        this.store.dispatch(new ReloadDocumentListAction());
+        this.documentListService.reload();
       },
       (error) => {
         this.showMoveMessage(nodes, error);
@@ -542,7 +543,7 @@ export class ContentManagementService {
     forkJoin(...batch).subscribe(
       () => {
         this.appHookService.nodesDeleted.next(null);
-        this.store.dispatch(new ReloadDocumentListAction());
+        this.documentListService.reload();
       },
       (error) => {
         let i18nMessageString = 'APP.MESSAGES.ERRORS.GENERIC';
@@ -632,7 +633,7 @@ export class ContentManagementService {
       )
       .subscribe(
         () => {
-          this.store.dispatch(new ReloadDocumentListAction());
+          this.documentListService.reload();
         },
         (error) => {
           let message = 'APP.MESSAGES.ERRORS.GENERIC';
@@ -670,7 +671,7 @@ export class ContentManagementService {
 
       if (status.someSucceeded) {
         this.appHookService.nodesDeleted.next();
-        this.store.dispatch(new ReloadDocumentListAction());
+        this.documentListService.reload();
       }
       this.store.dispatch(new ShowLoaderAction(false));
     });
@@ -692,7 +693,7 @@ export class ContentManagementService {
       }
 
       if (processedData.someSucceeded) {
-        this.store.dispatch(new ReloadDocumentListAction());
+        this.documentListService.reload();
       }
     });
   }
@@ -761,7 +762,7 @@ export class ContentManagementService {
       const status = this.processStatus(purgedNodes);
 
       if (status.success.length) {
-        this.store.dispatch(new ReloadDocumentListAction());
+        this.documentListService.reload();
       }
 
       this.sendPurgeMessage(status);

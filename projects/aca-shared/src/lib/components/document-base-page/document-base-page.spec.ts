@@ -24,13 +24,13 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PageComponent } from './document-base-page.component';
-import { AppState, ReloadDocumentListAction, SetSelectedNodesAction, ViewNodeAction } from '@alfresco/aca-shared/store';
+import { AppState, SetSelectedNodesAction, ViewNodeAction } from '@alfresco/aca-shared/store';
 import { AppExtensionService, LibTestingModule, discoveryApiServiceMockValue, DocumentBasePageServiceMock } from '@alfresco/aca-shared';
 import { NodeEntry, NodePaging } from '@alfresco/js-api';
 import { DocumentBasePageService } from './document-base-page.service';
 import { Store } from '@ngrx/store';
 import { Component } from '@angular/core';
-import { DiscoveryApiService, DocumentListComponent } from '@alfresco/adf-content-services';
+import { DiscoveryApiService, DocumentListComponent, DocumentListService } from '@alfresco/adf-content-services';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { AuthModule } from '@alfresco/adf-core';
 import { HttpClientModule } from '@angular/common/http';
@@ -59,6 +59,7 @@ describe('PageComponent', () => {
   let component: TestComponent;
   let store: Store<AppState>;
   let fixture: ComponentFixture<TestComponent>;
+  let documentListService: DocumentListService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -72,6 +73,7 @@ describe('PageComponent', () => {
     });
 
     store = TestBed.inject(Store);
+    documentListService = TestBed.inject(DocumentListService);
     fixture = TestBed.createComponent(TestComponent);
     component = fixture.componentInstance;
   });
@@ -110,10 +112,10 @@ describe('PageComponent', () => {
     });
 
     it('should reload if url does not contain viewer outlet', () => {
-      spyOn(store, 'dispatch');
+      spyOn(documentListService, 'reload');
 
       component.reload();
-      expect(store.dispatch).toHaveBeenCalledWith(new ReloadDocumentListAction());
+      expect(documentListService.reload).toHaveBeenCalledWith();
     });
 
     it('should set selection after reload if node is passed', () => {
@@ -129,6 +131,8 @@ describe('PageComponent', () => {
     });
 
     it('should clear results onAllFilterCleared event', () => {
+      spyOn(documentListService, 'reload');
+
       component.documentList = {
         node: {
           list: {
@@ -141,7 +145,7 @@ describe('PageComponent', () => {
 
       component.onAllFilterCleared();
       expect(component.documentList.node).toBe(null);
-      expect(store.dispatch['calls'].mostRecent().args[0]).toEqual(new ReloadDocumentListAction());
+      expect(documentListService.reload).toHaveBeenCalled();
     });
 
     it('should call onAllFilterCleared event if page is viewer outlet', () => {
