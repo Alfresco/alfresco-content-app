@@ -68,6 +68,13 @@ describe('BulkActionsDropdownComponent', () => {
 
   const getLabelText = (selector: string): string => getElement(selector).textContent.trim();
 
+  const selectOptionFromDropdown = async (selectionIndex: number) => {
+    const selectHarness = await loader.getHarness(MatSelectHarness);
+    await selectHarness.open();
+    await selectHarness.clickOptions(await selectHarness.getOptions()[selectionIndex]);
+    await fixture.whenStable();
+  };
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [BulkActionsDropdownComponent, AppTestingModule],
@@ -172,10 +179,7 @@ describe('BulkActionsDropdownComponent', () => {
 
       it('should run action on selection', async () => {
         spyOn(extensionService, 'runActionById');
-        const selectHarness = await loader.getHarness(MatSelectHarness);
-        await selectHarness.open();
-        await selectHarness.clickOptions(await selectHarness.getOptions()[0]);
-        await fixture.whenStable();
+        await selectOptionFromDropdown(0);
         fixture.detectChanges();
 
         expect(extensionService.runActionById).toHaveBeenCalledWith(mockItem.actions.click, {
@@ -184,10 +188,7 @@ describe('BulkActionsDropdownComponent', () => {
       });
 
       it('should reset selection on bulkActionExecuted', async () => {
-        const selectHarness = await loader.getHarness(MatSelectHarness);
-        await selectHarness.open();
-        await selectHarness.clickOptions(await selectHarness.getOptions()[0]);
-        await fixture.whenStable();
+        await selectOptionFromDropdown(0);
         fixture.detectChanges();
 
         expect(component.bulkSelectControl.value).toEqual(mockItem.id);
