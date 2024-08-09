@@ -23,12 +23,11 @@
  */
 
 import { Directive, OnDestroy, OnInit, HostListener } from '@angular/core';
-import { DocumentListComponent } from '@alfresco/adf-content-services';
+import { DocumentListComponent, DocumentListService } from '@alfresco/adf-content-services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserPreferencesService } from '@alfresco/adf-core';
 import { Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { AppHookService } from '@alfresco/aca-shared';
 import { SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { takeUntil, filter } from 'rxjs/operators';
 import { NodeEntry } from '@alfresco/js-api';
@@ -53,7 +52,7 @@ export class DocumentListDirective implements OnInit, OnDestroy {
     private preferences: UserPreferencesService,
     private route: ActivatedRoute,
     private router: Router,
-    private appHookService: AppHookService
+    private documentListService: DocumentListService
   ) {}
 
   ngOnInit() {
@@ -92,11 +91,11 @@ export class DocumentListDirective implements OnInit, OnDestroy {
       )
       .subscribe(() => this.onReady());
 
-    this.appHookService.reload.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
+    this.documentListService.reload$.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
       this.reload();
     });
 
-    this.appHookService.reset.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
+    this.documentListService.resetSelection$.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
       this.reset();
     });
   }
@@ -167,14 +166,11 @@ export class DocumentListDirective implements OnInit, OnDestroy {
   }
 
   private reload() {
-    this.documentList.resetSelection();
     this.store.dispatch(new SetSelectedNodesAction([]));
-    this.documentList.reload();
   }
 
   private reset() {
     this.selectedNode = null;
-    this.documentList.resetSelection();
     this.store.dispatch(new SetSelectedNodesAction([]));
   }
 

@@ -26,18 +26,18 @@ import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { AppActionTypes, ReloadDocumentListAction, ResetSelectionAction } from '@alfresco/aca-shared/store';
-import { AppHookService } from '@alfresco/aca-shared';
+import { DocumentListService } from '@alfresco/adf-content-services';
 
 @Injectable()
 export class AppEffects {
-  constructor(private actions$: Actions, private appHookService: AppHookService) {}
+  constructor(private actions$: Actions, private documentListService: DocumentListService) {}
 
   reload = createEffect(
     () =>
       this.actions$.pipe(
         ofType<ReloadDocumentListAction>(AppActionTypes.ReloadDocumentList),
-        map((action) => {
-          this.appHookService.reload.next(action);
+        map(() => {
+          this.documentListService.reload();
         })
       ),
     { dispatch: false }
@@ -47,8 +47,8 @@ export class AppEffects {
     () =>
       this.actions$.pipe(
         ofType<ResetSelectionAction>(AppActionTypes.ResetSelection),
-        map((action) => {
-          this.appHookService.reset.next(action);
+        map(() => {
+          this.documentListService.resetSelection();
         })
       ),
     { dispatch: false }
