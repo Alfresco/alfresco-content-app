@@ -12,9 +12,19 @@
     disableOptionCentering
     data-automation-id="aca-bulk-actions-dropdown"
   >
+    <mat-select-trigger>
+      <adf-icon
+        *ngIf="bulkSelectControl.value?.icon"
+        [title]="bulkSelectControl.value?.title | translate"
+        [value]="bulkSelectControl.value?.icon"
+        [attr.data-automation-id]="'aca-bulk-action-icon-' + bulkSelectControl.value?.id"
+      ></adf-icon>
+      {{ bulkSelectControl.value?.title | translate }}
+    </mat-select-trigger>
+
     <mat-option
       *ngFor="let option of items"
-      [value]="option.id"
+      [value]="option"
       [title]="option.tooltip | translate"
       [attr.data-automation-id]="option.id"
       (onSelectionChange)="runAction({event: $event, actionOption: option})"
