@@ -36,7 +36,7 @@ import { switchMap, takeUntil } from 'rxjs/operators';
 import { AppExtensionService } from '@alfresco/aca-shared';
 import { MatOptionSelectionChange } from '@angular/material/core';
 
-export interface ActionsDropdownSelectionEvent {
+export interface BulkActionsDropdownSelectionEvent {
   event: MatOptionSelectionChange;
   actionOption: ContentActionRef;
 }
@@ -98,7 +98,7 @@ export class BulkActionsDropdownComponent implements OnInit, OnDestroy {
     this.onDestroy$.complete();
   }
 
-  runAction(actionsDropdownEvent: ActionsDropdownSelectionEvent) {
+  runAction(actionsDropdownEvent: BulkActionsDropdownSelectionEvent) {
     if (actionsDropdownEvent.event.source.selected) {
       this.extensions.runActionById(actionsDropdownEvent.actionOption.actions.click, {
         focusedElementOnCloseSelector: '.adf-context-menu-source'
