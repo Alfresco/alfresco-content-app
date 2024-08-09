@@ -33,9 +33,6 @@ import { Component } from '@angular/core';
 import { DiscoveryApiService, DocumentListComponent, DocumentListService } from '@alfresco/adf-content-services';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { AuthModule } from '@alfresco/adf-core';
-import { HttpClientModule } from '@angular/common/http';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterTestingModule } from '@angular/router/testing';
 import { Subscription } from 'rxjs';
 import { MatDialogModule } from '@angular/material/dialog';
 
@@ -216,7 +213,7 @@ describe('Info Drawer state', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, HttpClientModule, RouterTestingModule, AuthModule.forRoot(), MatDialogModule],
+      imports: [LibTestingModule, AuthModule.forRoot(), MatDialogModule],
       declarations: [TestComponent],
       providers: [
         { provide: DocumentBasePageService, useClass: DocumentBasePageServiceMock },
