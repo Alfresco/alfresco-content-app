@@ -39,8 +39,8 @@ import {
   NavigateToFolder,
   SetInfoDrawerPreviewStateAction,
   SetInfoDrawerStateAction,
-  ShowInfoDrawerPreviewAction
-  SetSearchItemsTotalCountAction,
+  ShowInfoDrawerPreviewAction,
+  SetSearchItemsTotalCountAction
 } from '@alfresco/aca-shared/store';
 import {
   CustomEmptyContentTemplateDirective,
