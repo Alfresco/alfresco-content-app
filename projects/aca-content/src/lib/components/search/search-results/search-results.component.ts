@@ -42,12 +42,14 @@ import {
   ShowInfoDrawerPreviewAction
 } from '@alfresco/aca-shared/store';
 import {
+  CustomEmptyContentTemplateDirective,
   DataColumnComponent,
   DataColumnListComponent,
   DateColumnHeaderComponent,
   NotificationService,
   PaginationComponent,
-  TranslationService
+  TranslationService,
+  ViewerToolbarComponent
 } from '@alfresco/adf-core';
 import { combineLatest } from 'rxjs';
 import {
@@ -103,7 +105,9 @@ import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-ext
     DocumentListComponent,
     DataColumnListComponent,
     DataColumnComponent,
-    DateColumnHeaderComponent
+    DateColumnHeaderComponent,
+    CustomEmptyContentTemplateDirective,
+    ViewerToolbarComponent
   ],
   selector: 'aca-search-results',
   templateUrl: './search-results.component.html',

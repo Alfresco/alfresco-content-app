@@ -34,7 +34,14 @@ import {
   ToolbarComponent
 } from '@alfresco/aca-shared';
 import { NavigateLibraryAction } from '@alfresco/aca-shared/store';
-import { DataColumnComponent, DataColumnListComponent, EmptyContentComponent, PaginationComponent, UserPreferencesService } from '@alfresco/adf-core';
+import {
+  CustomEmptyContentTemplateDirective,
+  DataColumnComponent,
+  DataColumnListComponent,
+  EmptyContentComponent,
+  PaginationComponent,
+  UserPreferencesService
+} from '@alfresco/adf-core';
 import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-extensions';
 import { CommonModule } from '@angular/common';
 import { DocumentListDirective } from '../../directives/document-list.directive';
@@ -56,7 +63,8 @@ import { DocumentListComponent } from '@alfresco/adf-content-services';
     DynamicColumnComponent,
     DataColumnListComponent,
     DataColumnComponent,
-    DocumentListComponent
+    DocumentListComponent,
+    CustomEmptyContentTemplateDirective
   ],
   templateUrl: './favorite-libraries.component.html',
   encapsulation: ViewEncapsulation.None

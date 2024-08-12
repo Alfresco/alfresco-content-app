@@ -22,7 +22,13 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { DataColumnComponent, DataColumnListComponent, PaginationComponent, ShowHeaderMode } from '@alfresco/adf-core';
+import {
+  CustomEmptyContentTemplateDirective,
+  DataColumnComponent,
+  DataColumnListComponent,
+  PaginationComponent,
+  ShowHeaderMode
+} from '@alfresco/adf-core';
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { NodeEntry, Node, PathElement } from '@alfresco/js-api';
@@ -72,7 +78,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     UploadDragAreaComponent,
     DocumentListComponent,
     DataColumnListComponent,
-    DataColumnComponent
+    DataColumnComponent,
+    CustomEmptyContentTemplateDirective
   ],
   templateUrl: './files.component.html',
   encapsulation: ViewEncapsulation.None

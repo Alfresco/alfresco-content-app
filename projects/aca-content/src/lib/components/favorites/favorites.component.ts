@@ -36,7 +36,13 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { debounceTime, map } from 'rxjs/operators';
 import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-extensions';
 import { CommonModule } from '@angular/common';
-import { DataColumnComponent, DataColumnListComponent, EmptyContentComponent, PaginationComponent } from '@alfresco/adf-core';
+import {
+  CustomEmptyContentTemplateDirective,
+  DataColumnComponent,
+  DataColumnListComponent,
+  EmptyContentComponent,
+  PaginationComponent
+} from '@alfresco/adf-core';
 import { DocumentListDirective } from '../../directives/document-list.directive';
 import { TranslateModule } from '@ngx-translate/core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
@@ -57,7 +63,8 @@ import { DocumentListComponent } from '@alfresco/adf-content-services';
     DynamicColumnComponent,
     DocumentListComponent,
     DataColumnListComponent,
-    DataColumnComponent
+    DataColumnComponent,
+    CustomEmptyContentTemplateDirective
   ],
   templateUrl: './favorites.component.html',
   encapsulation: ViewEncapsulation.None
