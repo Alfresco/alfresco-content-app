@@ -11,6 +11,7 @@
     panelClass="aca-bulk-actions-select"
     disableOptionCentering
     data-automation-id="aca-bulk-actions-dropdown"
+    (keydown)="onKeyDown($event)"
   >
     <mat-select-trigger>
       <adf-icon
@@ -27,7 +28,7 @@
       [value]="option"
       [title]="option.tooltip | translate"
       [attr.data-automation-id]="option.id"
-      (onSelectionChange)="runAction({event: $event, actionOption: option})"
+      (click)="runAction(option)"
     >
       <adf-icon
         *ngIf="option.icon"

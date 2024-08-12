@@ -191,12 +191,30 @@ describe('BulkActionsDropdownComponent', () => {
         await selectOptionFromDropdown(0);
         fixture.detectChanges();
 
-        expect(component.bulkSelectControl.value).toEqual(mockItem.id);
+        expect(component.bulkSelectControl.value).toEqual(mockItem);
 
         extensionService.bulkActionExecuted();
         fixture.detectChanges();
 
         expect(component.bulkSelectControl.value).toBeNull();
+      });
+
+      it('should run dropdown action on Enter', () => {
+        spyOn(component, 'runAction');
+        component.bulkSelectControl.setValue(mockItem);
+        const selectElement = getElement('aca-bulk-actions-dropdown');
+        selectElement.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+
+        expect(component.runAction).toHaveBeenCalledWith(mockItem);
+      });
+
+      it('should NOT run dropdown action on Tab', () => {
+        spyOn(component, 'runAction');
+        component.bulkSelectControl.setValue(mockItem);
+        const selectElement = getElement('aca-bulk-actions-dropdown');
+        selectElement.dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab' }));
+
+        expect(component.runAction).not.toHaveBeenCalled();
       });
     });
   });
