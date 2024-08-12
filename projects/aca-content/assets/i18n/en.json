@@ -634,7 +634,14 @@
           "AGENTS_FETCHING": "Error while fetching agents.",
           "LOADING_ERROR": "Hmm... something seems to have gone wrong.",
           "PAGE_NOT_AVAILABLE_ERROR": "Page is not available for these conditions."
-
+        },
+        "DISCARD_CHANGES": {
+          "WARNING": "Warning!",
+          "ASK_AI": "Ask AI",
+          "DO_NOT_SHOW_MESSAGE": "Don't show this message again",
+          "OKAY": "Okay",
+          "CONVERSATION_DISCARDED": "This conversation will be discarded",
+          "LOSE_RESPONSE": "By asking another question you will lose your previous response"
         }
       }
     }
