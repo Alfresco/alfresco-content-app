@@ -31,16 +31,6 @@ import { SiteEntry } from '@alfresco/js-api';
 })
 export class AppHookService {
   /**
-   * Gets emitted when reloads event fired
-   */
-  reload = new Subject<any>();
-
-  /**
-   * Gets emitted when user reset the node
-   */
-  reset = new Subject<any>();
-
-  /**
    * Gets emitted when user delete the node
    */
   nodesDeleted = new Subject<any>();
@@ -86,7 +76,7 @@ export class AppHookService {
   linksUnshared = new Subject<any>();
 
   /**
-   * Gets emitted when user mark the the favorite library
+   * Gets emitted when user mark the favorite library
    */
   favoriteLibraryToggle = new Subject<any>();
 }

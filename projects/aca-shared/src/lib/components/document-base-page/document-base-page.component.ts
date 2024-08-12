@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { DocumentListComponent, ShareDataRow, UploadService } from '@alfresco/adf-content-services';
+import { DocumentListComponent, DocumentListService, ShareDataRow, UploadService } from '@alfresco/adf-content-services';
 import { ShowHeaderMode } from '@alfresco/adf-core';
 import { ContentActionRef, DocumentListPresetRef, SelectionState } from '@alfresco/adf-extensions';
 import { OnDestroy, OnInit, OnChanges, ViewChild, SimpleChanges, Directive, inject, HostListener } from '@angular/core';
@@ -33,7 +33,6 @@ import { takeUntil } from 'rxjs/operators';
 import { DocumentBasePageService } from './document-base-page.service';
 import {
   AppStore,
-  ReloadDocumentListAction,
   getCurrentFolder,
   getAppSelection,
   isInfoDrawerOpened,
@@ -71,6 +70,7 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   isSmallScreen = false;
   selectedRowItemsCount = 0;
 
+  protected documentListService = inject(DocumentListService);
   protected settings = inject(AppSettingsService);
   protected extensions = inject(AppExtensionService);
   protected content = inject(DocumentBasePageService);
@@ -187,7 +187,7 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
       return;
     }
 
-    this.store.dispatch(new ReloadDocumentListAction());
+    this.documentListService.reload();
     if (selectedNode) {
       this.store.dispatch(new SetSelectedNodesAction([selectedNode]));
     }
@@ -217,7 +217,7 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   onAllFilterCleared() {
     if (!this.isOutletPreviewUrl()) {
       this.documentList.node = null;
-      this.store.dispatch(new ReloadDocumentListAction());
+      this.documentListService.reload();
     }
   }
 }

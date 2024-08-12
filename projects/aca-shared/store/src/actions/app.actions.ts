@@ -55,6 +55,7 @@ export class ToggleInfoDrawerAction implements Action {
   readonly type = AppActionTypes.ToggleInfoDrawer;
 }
 
+/** @deprecated use @alfresco/adf-content-services/DocumentListService.reload() instead */
 export class ReloadDocumentListAction implements Action {
   readonly type = AppActionTypes.ReloadDocumentList;
 

@@ -37,14 +37,15 @@ import {
 } from '@alfresco/aca-shared/store';
 import { NodeTemplateService, TemplateDialogConfig } from '../../services/node-template.service';
 import { AlfrescoApiService, NotificationService } from '@alfresco/adf-core';
-import { AppHookService } from '@alfresco/aca-shared';
 import { from, Observable, of } from 'rxjs';
 import { NodeEntry, NodeBodyUpdate, Node, NodesApi } from '@alfresco/js-api';
 import { MatDialog } from '@angular/material/dialog';
+import { DocumentListService } from '@alfresco/adf-content-services';
 
 @Injectable()
 export class TemplateEffects {
   private notificationService = inject(NotificationService);
+  private documentListService = inject(DocumentListService);
 
   private _nodesApi: NodesApi;
   get nodesApi(): NodesApi {
@@ -54,7 +55,6 @@ export class TemplateEffects {
 
   constructor(
     private matDialog: MatDialog,
-    private appHookService: AppHookService,
     private store: Store<AppStore>,
     private apiService: AlfrescoApiService,
     private actions$: Actions,
@@ -114,9 +114,9 @@ export class TemplateEffects {
     () =>
       this.actions$.pipe(
         ofType<CreateFromTemplateSuccess>(TemplateActionTypes.CreateFromTemplateSuccess),
-        map((payload) => {
+        map(() => {
           this.matDialog.closeAll();
-          this.appHookService.reload.next(payload.node);
+          this.documentListService.reload();
         })
       ),
     { dispatch: false }

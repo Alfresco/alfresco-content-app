@@ -1582,7 +1582,7 @@ describe('ContentManagementService', () => {
       expect(spyOnDispatch).toHaveBeenCalledOnceWith(new RefreshPreviewAction(fakeNodeIsFile));
     });
 
-    it('should dispatch ReloadDocumentListAction if dialog emit view action', () => {
+    it('should dispatch ViewNodeVersionAction if dialog emit view action', () => {
       const fakeVersionId = '1';
       const fakeLocation: ViewNodeExtras = {
         location: '/'

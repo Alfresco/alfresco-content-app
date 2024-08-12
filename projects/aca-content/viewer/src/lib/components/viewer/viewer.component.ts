@@ -36,7 +36,6 @@ import {
   getAppSelection,
   isInfoDrawerOpened,
   RefreshPreviewAction,
-  ReloadDocumentListAction,
   SetCurrentNodeVersionAction,
   SetSelectedNodesAction,
   ViewerActionTypes,
@@ -44,14 +43,14 @@ import {
 } from '@alfresco/aca-shared/store';
 import { ContentActionRef, SelectionState } from '@alfresco/adf-extensions';
 import { Node, VersionEntry, VersionsApi } from '@alfresco/js-api';
-import { Component, HostListener, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, HostListener, inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, PRIMARY_OUTLET, Router } from '@angular/router';
 import { AlfrescoApiService, AppConfigPipe, ViewerModule } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
 import { from, Observable, Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { Actions, ofType } from '@ngrx/effects';
-import { AlfrescoViewerModule, NodesApiService, UploadService } from '@alfresco/adf-content-services';
+import { AlfrescoViewerModule, DocumentListService, NodesApiService, UploadService } from '@alfresco/adf-content-services';
 import { CommonModule } from '@angular/common';
 import { ViewerService } from '../../services/viewer.service';
 
@@ -65,6 +64,8 @@ import { ViewerService } from '../../services/viewer.service';
   host: { class: 'app-viewer' }
 })
 export class AcaViewerComponent implements OnInit, OnDestroy {
+  private documentListService = inject(DocumentListService);
+
   private _versionsApi: VersionsApi;
   get versionsApi(): VersionsApi {
     this._versionsApi = this._versionsApi ?? new VersionsApi(this.apiService.getInstance());
@@ -189,7 +190,7 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
   }
 
   onViewerVisibilityChanged() {
-    this.store.dispatch(new ReloadDocumentListAction());
+    this.documentListService.reload();
     this.navigateToFileLocation();
   }
 

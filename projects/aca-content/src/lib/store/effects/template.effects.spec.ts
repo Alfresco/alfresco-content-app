@@ -33,14 +33,14 @@ import { of, Subject } from 'rxjs';
 import { Node, NodeEntry } from '@alfresco/js-api';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CreateFromTemplateDialogComponent } from '../../dialogs/node-template/create-from-template.dialog';
-import { AppHookService } from '@alfresco/aca-shared';
 import { NotificationService } from '@alfresco/adf-core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { DocumentListService } from '@alfresco/adf-content-services';
 
 describe('TemplateEffects', () => {
   let store: Store<any>;
   let nodeTemplateService: NodeTemplateService;
-  let appHookService: AppHookService;
+  let documentListService: DocumentListService;
   let templateEffects: TemplateEffects;
   let copyNodeSpy;
   let updateNodeSpy;
@@ -91,7 +91,7 @@ describe('TemplateEffects', () => {
     store = TestBed.inject(Store);
     nodeTemplateService = TestBed.inject(NodeTemplateService);
     templateEffects = TestBed.inject(TemplateEffects);
-    appHookService = TestBed.inject(AppHookService);
+    documentListService = TestBed.inject(DocumentListService);
     matDialog = TestBed.inject(MatDialog);
     subject = new Subject<Node[]>();
 
@@ -99,7 +99,7 @@ describe('TemplateEffects', () => {
     showErrorSpy = spyOn(notificationService, 'showError');
 
     spyOn(store, 'dispatch').and.callThrough();
-    spyOn(appHookService.reload, 'next');
+    spyOn(documentListService, 'reload').and.stub();
     spyOn(store, 'select').and.returnValue(of({ id: 'parent-id' }));
     spyOn(nodeTemplateService, 'selectTemplateDialog').and.returnValue(subject);
 
@@ -212,6 +212,6 @@ describe('TemplateEffects', () => {
     const TEST_NODE = { id: 'test-node-id' } as Node;
     store.dispatch(new CreateFromTemplateSuccess(TEST_NODE));
     tick();
-    expect(appHookService.reload.next).toHaveBeenCalledWith(TEST_NODE);
+    expect(documentListService.reload).toHaveBeenCalled();
   }));
 });
