@@ -29,11 +29,11 @@ import { AppStore, EditOfflineAction, NodeActionTypes, infoDrawerMetadataAspect 
 import { AppConfigService, NotificationService } from '@alfresco/adf-core';
 import { Observable, Subject } from 'rxjs';
 import {
-  ContentMetadataModule,
   ContentMetadataService,
   ContentMetadataCustomPanel,
   TagService,
-  CategoryService
+  CategoryService,
+  ContentMetadataComponent
 } from '@alfresco/adf-content-services';
 import { filter, map, takeUntil } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
@@ -42,7 +42,7 @@ import { Store } from '@ngrx/store';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, ContentMetadataModule],
+  imports: [CommonModule, ContentMetadataComponent],
   selector: 'app-metadata-tab',
   template: `
     <adf-content-metadata

@@ -34,28 +34,29 @@ import {
   ToolbarComponent
 } from '@alfresco/aca-shared';
 import { NavigateLibraryAction } from '@alfresco/aca-shared/store';
-import { DataTableModule, EmptyContentComponent, PaginationComponent, UserPreferencesService } from '@alfresco/adf-core';
+import { DataColumnComponent, DataColumnListComponent, EmptyContentComponent, PaginationComponent, UserPreferencesService } from '@alfresco/adf-core';
 import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-extensions';
 import { CommonModule } from '@angular/common';
-import { DocumentListModule } from '@alfresco/adf-content-services';
 import { DocumentListDirective } from '../../directives/document-list.directive';
 import { TranslateModule } from '@ngx-translate/core';
+import { DocumentListComponent } from '@alfresco/adf-content-services';
 
 @Component({
   standalone: true,
   imports: [
     CommonModule,
-    DocumentListModule,
     DocumentListDirective,
     ContextActionsDirective,
-    DataTableModule,
     PaginationComponent,
     InfoDrawerComponent,
     PageLayoutComponent,
     TranslateModule,
     ToolbarComponent,
     EmptyContentComponent,
-    DynamicColumnComponent
+    DynamicColumnComponent,
+    DataColumnListComponent,
+    DataColumnComponent,
+    DocumentListComponent
   ],
   templateUrl: './favorite-libraries.component.html',
   encapsulation: ViewEncapsulation.None
