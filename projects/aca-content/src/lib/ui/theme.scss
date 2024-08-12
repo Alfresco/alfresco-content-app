@@ -362,3 +362,9 @@ adf-dynamic-component {
     min-width: 160px;
   }
 }
+
+.adf-unsaved-changes-dialog {
+  .adf-unsaved-changes-dialog-actions-discard-changes-button:is(button) {
+    background-color: var(--theme-blue-button-color);
+  }
+}

@@ -50,7 +50,7 @@
   [formControl]="queryControl"
   data-automation-id="aca-search-ai-input"
   [placeholder]="placeholder | translate"
-  (keydown.enter)="onSearchSubmit()"/>
+  (keyup.enter)="onSearchSubmit()"/>
 <button
   mat-flat-button
   color="primary"
