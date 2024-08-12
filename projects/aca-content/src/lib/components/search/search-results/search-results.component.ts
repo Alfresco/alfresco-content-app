@@ -25,7 +25,15 @@
 import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { NodeEntry, Pagination, ResultSetPaging } from '@alfresco/js-api';
 import { ActivatedRoute, Params } from '@angular/router';
-import { AlfrescoViewerComponent, DocumentListModule, SearchModule, SearchQueryBuilderService, TagService } from '@alfresco/adf-content-services';
+import {
+  AlfrescoViewerComponent,
+  DocumentListComponent,
+  ResetSearchDirective,
+  SearchFilterChipsComponent,
+  SearchFormComponent,
+  SearchQueryBuilderService,
+  TagService
+} from '@alfresco/adf-content-services';
 import {
   infoDrawerPreview,
   NavigateToFolder,
@@ -33,7 +41,14 @@ import {
   SetInfoDrawerStateAction,
   ShowInfoDrawerPreviewAction
 } from '@alfresco/aca-shared/store';
-import { DataTableModule, NotificationService, PaginationComponent, TranslationService, ViewerModule } from '@alfresco/adf-core';
+import {
+  DataColumnComponent,
+  DataColumnListComponent,
+  DateColumnHeaderComponent,
+  NotificationService,
+  PaginationComponent,
+  TranslationService
+} from '@alfresco/adf-core';
 import { combineLatest } from 'rxjs';
 import {
   ContextActionsDirective,
@@ -66,13 +81,10 @@ import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-ext
     TranslateModule,
     SearchInputComponent,
     MatProgressBarModule,
-    SearchModule,
     MatDividerModule,
     MatButtonModule,
-    DocumentListModule,
     DocumentListDirective,
     ContextActionsDirective,
-    DataTableModule,
     ThumbnailColumnComponent,
     SearchActionMenuComponent,
     TagsColumnComponent,
@@ -81,11 +93,17 @@ import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-ext
     InfoDrawerComponent,
     SearchResultsRowComponent,
     PaginationDirective,
-    ViewerModule,
     PageLayoutComponent,
     ToolbarComponent,
     AlfrescoViewerComponent,
-    DynamicColumnComponent
+    DynamicColumnComponent,
+    SearchFormComponent,
+    ResetSearchDirective,
+    SearchFilterChipsComponent,
+    DocumentListComponent,
+    DataColumnListComponent,
+    DataColumnComponent,
+    DateColumnHeaderComponent
   ],
   selector: 'aca-search-results',
   templateUrl: './search-results.component.html',
