@@ -32,6 +32,7 @@ import {
   EmptyContentComponent,
   ThumbnailService,
   ToolbarModule,
+  UnsavedChangesGuard,
   UserPreferencesService
 } from '@alfresco/adf-core';
 import { AiAnswer, Node } from '@alfresco/js-api';
@@ -120,7 +121,8 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
     private thumbnailService: ThumbnailService,
     private nodesApiService: NodesApiService,
     private userPreferencesService: UserPreferencesService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private unsavedChangesGuard: UnsavedChangesGuard
   ) {
     super();
   }
@@ -137,6 +139,13 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
       this.performAiSearch();
     });
     super.ngOnInit();
+
+    this.unsavedChangesGuard.unsaved = this.route.snapshot?.queryParams?.query?.length > 0;
+    this.unsavedChangesGuard.data = {
+      descriptionText: 'KNOWLEDGE_RETRIEVAL.SEARCH.DISCARD_CHANGES.CONVERSATION_DISCARDED',
+      confirmButtonText: 'KNOWLEDGE_RETRIEVAL.SEARCH.DISCARD_CHANGES.OKAY',
+      headerText: 'KNOWLEDGE_RETRIEVAL.SEARCH.DISCARD_CHANGES.WARNING'
+    };
   }
 
   ngOnDestroy(): void {
