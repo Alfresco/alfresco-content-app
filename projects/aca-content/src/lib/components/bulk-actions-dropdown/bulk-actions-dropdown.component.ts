@@ -98,11 +98,18 @@ export class BulkActionsDropdownComponent implements OnInit, OnDestroy {
     this.onDestroy$.complete();
   }
 
-  runAction(actionsDropdownEvent: BulkActionsDropdownSelectionEvent) {
-    if (actionsDropdownEvent.event.source.selected) {
-      this.extensions.runActionById(actionsDropdownEvent.actionOption.actions.click, {
-        focusedElementOnCloseSelector: '.adf-context-menu-source'
-      });
+  runAction(actionOption: ContentActionRef) {
+    this.extensions.runActionById(actionOption.actions.click, {
+      focusedElementOnCloseSelector: '.adf-context-menu-source'
+    });
+  }
+
+  onKeyDown(event: KeyboardEvent) {
+    if (event.key === 'Tab') {
+      this.bulkSelectControl.setValue(null);
+    }
+    if (event.key === 'Enter' && this.bulkSelectControl.value) {
+      this.runAction(this.bulkSelectControl.value);
     }
   }
 }
