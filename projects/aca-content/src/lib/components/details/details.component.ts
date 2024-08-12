@@ -27,7 +27,7 @@ import { ActivatedRoute, NavigationStart } from '@angular/router';
 import { ContentApiService, PageComponent, PageLayoutComponent, ToolbarComponent } from '@alfresco/aca-shared';
 import { NavigateToFolder, NavigateToPreviousPage, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { merge, Subject } from 'rxjs';
-import { BreadcrumbModule, ContentService, PermissionManagerModule } from '@alfresco/adf-content-services';
+import { BreadcrumbComponent, ContentService, PermissionListComponent } from '@alfresco/adf-content-services';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatIconModule } from '@angular/material/icon';
@@ -39,14 +39,13 @@ import { CommentsTabComponent } from '../info-drawer/comments-tab/comments-tab.c
 import { NodeEntry, PathElement } from '@alfresco/js-api';
 import { first, takeUntil } from 'rxjs/operators';
 import { ContentActionRef } from '@alfresco/adf-extensions';
+import { FileSizePipe, InfoDrawerButtonsDirective } from '@alfresco/adf-core';
 
 @Component({
   standalone: true,
   imports: [
     CommonModule,
     TranslateModule,
-    PermissionManagerModule,
-    BreadcrumbModule,
     MatIconModule,
     MatTabsModule,
     MatProgressBarModule,
@@ -54,7 +53,11 @@ import { ContentActionRef } from '@alfresco/adf-extensions';
     MetadataTabComponent,
     CommentsTabComponent,
     PageLayoutComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    InfoDrawerButtonsDirective,
+    PermissionListComponent,
+    BreadcrumbComponent,
+    FileSizePipe
   ],
   selector: 'app-details-manager',
   templateUrl: './details.component.html',

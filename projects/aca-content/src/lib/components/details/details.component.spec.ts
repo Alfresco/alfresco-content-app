@@ -33,7 +33,7 @@ import { ContentApiService } from '@alfresco/aca-shared';
 import { AppStore, isInfoDrawerOpened, NavigateToFolder, NavigateToPreviousPage, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { NodeEntry, PathElement } from '@alfresco/js-api';
 import { RouterTestingModule } from '@angular/router/testing';
-import { AuthenticationService, PageTitleService } from '@alfresco/adf-core';
+import { AuthenticationService, CORE_PIPES, PageTitleService } from '@alfresco/adf-core';
 import { BreadcrumbComponent, ContentService, SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { By } from '@angular/platform-browser';
 import { ContentActionRef } from '@alfresco/adf-extensions';
@@ -63,7 +63,7 @@ describe('DetailsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, DetailsComponent],
+      imports: [AppTestingModule, DetailsComponent, ...CORE_PIPES],
       providers: [
         RouterTestingModule,
         SearchQueryBuilderService,
@@ -86,7 +86,8 @@ describe('DetailsComponent', () => {
             onLogout: new Subject<any>(),
             isLoggedIn: () => true
           }
-        }
+        },
+        ...CORE_PIPES
       ],
       schemas: [NO_ERRORS_SCHEMA]
     });
