@@ -29,7 +29,7 @@ import { By } from '@angular/platform-browser';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { AgentService, ContentTestingModule, SearchAiService } from '@alfresco/adf-content-services';
 import { getAppSelection, SearchByTermAiAction } from '@alfresco/aca-shared/store';
-import { Subject } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { AgentWithAvatar, NodeEntry } from '@alfresco/js-api';
 import { FormControlDirective } from '@angular/forms';
 import { DebugElement } from '@angular/core';
@@ -43,6 +43,8 @@ import { MatButton } from '@angular/material/button';
 import { MatInputHarness } from '@angular/material/input/testing';
 import { SelectionState } from '@alfresco/adf-extensions';
 import { MatSnackBarRef } from '@angular/material/snack-bar';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
 
 const agentWithAvatarList: AgentWithAvatar[] = [
   {
@@ -66,6 +68,7 @@ describe('SearchAiInputComponent', () => {
   let selectionState: SelectionState;
   let store: MockStore;
   let agents$: Subject<AgentWithAvatar[]>;
+  let dialog: MatDialog;
 
   const prepareBeforeTest = (): void => {
     selectionState = {
@@ -83,7 +86,17 @@ describe('SearchAiInputComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SearchAiInputComponent, ContentTestingModule, MatSelectModule],
-      providers: [provideMockStore()]
+      providers: [
+        provideMockStore(),
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: {
+              queryParams: { query: 'some query' }
+            }
+          }
+        }
+      ]
     });
 
     fixture = TestBed.createComponent(SearchAiInputComponent);
@@ -91,6 +104,7 @@ describe('SearchAiInputComponent', () => {
     store = TestBed.inject(MockStore);
     loader = TestbedHarnessEnvironment.loader(fixture);
     agents$ = new Subject<AgentWithAvatar[]>();
+    dialog = TestBed.inject(MatDialog);
     spyOn(TestBed.inject(AgentService), 'getAgents').and.returnValue(agents$);
     prepareBeforeTest();
   });
@@ -242,11 +256,12 @@ describe('SearchAiInputComponent', () => {
       let submitButton: DebugElement;
       let queryInput: MatInputHarness;
       let submittingTrigger: () => void;
-
       const query = 'some query';
+      let dialogOpenSpy: jasmine.Spy<(component: any, config?: any) => MatDialogRef<any, any>>;
 
       beforeEach(async () => {
         prepareBeforeTest();
+
         checkSearchAvailabilitySpy = spyOn(TestBed.inject(SearchAiService), 'checkSearchAvailability');
         notificationService = TestBed.inject(NotificationService);
         userPreferencesService = TestBed.inject(UserPreferencesService);
@@ -255,11 +270,14 @@ describe('SearchAiInputComponent', () => {
         submitButton = fixture.debugElement.query(By.directive(MatButton));
         await queryInput.setValue(query);
         const inputElement = fixture.debugElement.query(By.directive(MatInput)).nativeElement;
+        dialogOpenSpy = spyOn(dialog, 'open').and.returnValue({
+          afterClosed: () => of(true)
+        } as MatDialogRef<MatDialog>);
         submittingTrigger = useButton
           ? () => submitButton.nativeElement.click()
           : () =>
               inputElement.dispatchEvent(
-                new KeyboardEvent('keydown', {
+                new KeyboardEvent('keyup', {
                   key: 'Enter'
                 })
               );
@@ -371,6 +389,12 @@ describe('SearchAiInputComponent', () => {
         submittingTrigger();
 
         expect(component.searchSubmitted.emit).toHaveBeenCalled();
+      });
+
+      it('should call open modal if there was a previous search phrase in url', () => {
+        submittingTrigger();
+
+        expect(dialogOpenSpy).toHaveBeenCalled();
       });
     });
   }

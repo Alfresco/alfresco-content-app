@@ -28,7 +28,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { of, Subject } from 'rxjs';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { UserPreferencesService } from '@alfresco/adf-core';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { AppTestingModule } from '../../../../testing/app-testing.module';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { SearchAiService } from '@alfresco/adf-content-services';
@@ -39,32 +39,57 @@ describe('SearchAiResultsComponent', () => {
   let component: SearchAiResultsComponent;
   let userPreferencesService: UserPreferencesService;
   let mockQueryParams = new Subject<Params>();
+  let dialogOpenSpy: jasmine.Spy<(component: any, config?: any) => MatDialogRef<any>>;
+  let dialog: MatDialog;
 
-  beforeEach(() => {
+  const setupBeforeEach = (query?: string) => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule, SearchAiResultsComponent, MatSnackBarModule, MatDialogModule, MatIconTestingModule],
       providers: [
         {
           provide: ActivatedRoute,
           useValue: {
-            queryParams: mockQueryParams.asObservable()
+            queryParams: mockQueryParams.asObservable(),
+            snapshot: {
+              queryParams: { query: query ?? '' }
+            }
           }
         }
       ]
     });
 
+    dialog = TestBed.inject(MatDialog);
+    dialogOpenSpy = spyOn(dialog, 'open').and.returnValue({
+      afterClosed: () => of(true)
+    } as MatDialogRef<any>);
     fixture = TestBed.createComponent(SearchAiResultsComponent);
     userPreferencesService = TestBed.inject(UserPreferencesService);
     component = fixture.componentInstance;
     component.ngOnInit();
-  });
+  };
 
   afterEach(() => {
     mockQueryParams = new Subject<Params>();
     fixture.destroy();
   });
 
+  describe('query params with snapshot', () => {
+    beforeEach(() => {
+      setupBeforeEach('test');
+    });
+
+    it('should call open modal if there was a previous search', () => {
+      component.canDeactivate();
+
+      expect(dialogOpenSpy).toHaveBeenCalled();
+    });
+  });
+
   describe('query params change', () => {
+    beforeEach(() => {
+      setupBeforeEach();
+    });
+
     it('should perform ai search and sets agents on query params change', () => {
       spyOn(userPreferencesService, 'get').and.returnValue(knowledgeRetrievalNodes);
       mockQueryParams.next({ query: 'test', agentId: 'agentId1' });
@@ -100,10 +125,20 @@ describe('SearchAiResultsComponent', () => {
       expect(component.agentId).toBe(undefined);
       expect(component.hasError).toBeTrue();
     });
+
+    it('should not call open modal if there was not a previous search', () => {
+      component.canDeactivate();
+
+      expect(dialogOpenSpy).not.toHaveBeenCalled();
+    });
   });
 
   describe('skeleton loader', () => {
     let searchAiService: SearchAiService;
+
+    beforeEach(() => {
+      setupBeforeEach();
+    });
 
     const getSkeletonElementsLength = (): number => {
       return fixture.nativeElement.querySelectorAll('.adf-skeleton').length;
