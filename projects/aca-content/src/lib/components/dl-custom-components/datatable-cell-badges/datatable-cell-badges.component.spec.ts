@@ -85,7 +85,7 @@ describe('DatatableCellBadgesComponent', () => {
     component.node = mockNode;
   });
 
-  it('should get badges when component initializes', async () => {
+  it('should get badges when component initializes', () => {
     spyOn(appExtensionService, 'getBadges').and.returnValue(of([mockGetBadgesResponse]));
     component.ngOnInit();
     fixture.detectChanges();
