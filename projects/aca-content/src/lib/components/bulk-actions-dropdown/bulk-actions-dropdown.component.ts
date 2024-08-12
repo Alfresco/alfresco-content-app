@@ -34,12 +34,6 @@ import { IconComponent, TranslationService } from '@alfresco/adf-core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { switchMap, takeUntil } from 'rxjs/operators';
 import { AppExtensionService } from '@alfresco/aca-shared';
-import { MatOptionSelectionChange } from '@angular/material/core';
-
-export interface BulkActionsDropdownSelectionEvent {
-  event: MatOptionSelectionChange;
-  actionOption: ContentActionRef;
-}
 
 @Component({
   standalone: true,
