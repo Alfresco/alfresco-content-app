@@ -30,6 +30,7 @@ import { FavoritesComponent } from './favorites.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { AppService, ContentApiService } from '@alfresco/aca-shared';
 import { getTitleElementText } from '../../testing/test-utils';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('FavoritesComponent', () => {
   let fixture: ComponentFixture<FavoritesComponent>;
@@ -40,7 +41,7 @@ describe('FavoritesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, FavoritesComponent],
+      imports: [AppTestingModule, FavoritesComponent, MatSnackBarModule],
       providers: [
         {
           provide: AppService,

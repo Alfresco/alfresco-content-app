@@ -34,6 +34,7 @@ import { Actions } from '@ngrx/effects';
 import { of, Subject } from 'rxjs';
 import { ContentActionType } from '@alfresco/adf-extensions';
 import { CategoryService, ContentMetadataComponent, ContentMetadataService, TagService } from '@alfresco/adf-content-services';
+import { MatDialogModule } from '@angular/material/dialog';
 
 describe('MetadataTabComponent', () => {
   let fixture: ComponentFixture<MetadataTabComponent>;
@@ -54,7 +55,7 @@ describe('MetadataTabComponent', () => {
   beforeEach(() => {
     actions$ = new Subject<EditOfflineAction>();
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, MetadataTabComponent, PipeModule],
+      imports: [AppTestingModule, MetadataTabComponent, PipeModule, MatDialogModule],
       providers: [
         {
           provide: Actions,

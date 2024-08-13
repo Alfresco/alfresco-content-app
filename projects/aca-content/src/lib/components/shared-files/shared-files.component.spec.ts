@@ -32,6 +32,7 @@ import { SharedLinkPaging } from '@alfresco/js-api';
 import { AppService } from '@alfresco/aca-shared';
 import { getTitleElementText } from '../../testing/test-utils';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('SharedFilesComponent', () => {
   let fixture: ComponentFixture<SharedFilesComponent>;
@@ -56,7 +57,7 @@ describe('SharedFilesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, SharedFilesComponent],
+      imports: [AppTestingModule, SharedFilesComponent, MatSnackBarModule],
       providers: [
         { provide: ActivatedRoute, useValue: route },
         {
