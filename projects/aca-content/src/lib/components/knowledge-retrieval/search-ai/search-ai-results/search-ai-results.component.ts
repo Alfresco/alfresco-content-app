@@ -47,6 +47,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { ModalAiService } from '../../../../services/modal-ai.service';
 
 @Component({
   standalone: true,
@@ -76,7 +77,7 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
   private _agentId: string;
   private _hasAnsweringError = false;
   private _hasError = false;
-  private _loading = true;
+  private _loading = false;
   private _mimeTypeIconsByNodeId: { [key: string]: string } = {};
   private _nodes: Node[] = [];
   private _selectedNodesState: SelectionState;
@@ -122,7 +123,8 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
     private nodesApiService: NodesApiService,
     private userPreferencesService: UserPreferencesService,
     private translateService: TranslateService,
-    private unsavedChangesGuard: UnsavedChangesGuard
+    private unsavedChangesGuard: UnsavedChangesGuard,
+    private modalAiService: ModalAiService
   ) {
     super();
   }
@@ -158,6 +160,10 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
       this.queryAnswer.answer,
       this.translateService.instant('KNOWLEDGE_RETRIEVAL.SEARCH.RESULTS_PAGE.COPY_MESSAGE')
     );
+  }
+
+  checkUnsavedChangesAndSearch(): void {
+    this.modalAiService.openUnsavedChangesModal(() => this.performAiSearch());
   }
 
   performAiSearch(): void {

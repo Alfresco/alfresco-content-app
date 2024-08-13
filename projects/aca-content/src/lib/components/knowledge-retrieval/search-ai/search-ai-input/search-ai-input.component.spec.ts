@@ -45,6 +45,7 @@ import { SelectionState } from '@alfresco/adf-extensions';
 import { MatSnackBarRef } from '@angular/material/snack-bar';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
+import { ModalAiService } from '../../../../services/modal-ai.service';
 
 const agentWithAvatarList: AgentWithAvatar[] = [
   {
@@ -258,10 +259,12 @@ describe('SearchAiInputComponent', () => {
       let submittingTrigger: () => void;
       const query = 'some query';
       let dialogOpenSpy: jasmine.Spy<(component: any, config?: any) => MatDialogRef<any, any>>;
+      let modalAi: ModalAiService;
 
       beforeEach(async () => {
         prepareBeforeTest();
 
+        modalAi = TestBed.inject(ModalAiService);
         checkSearchAvailabilitySpy = spyOn(TestBed.inject(SearchAiService), 'checkSearchAvailability');
         notificationService = TestBed.inject(NotificationService);
         userPreferencesService = TestBed.inject(UserPreferencesService);
@@ -395,6 +398,15 @@ describe('SearchAiInputComponent', () => {
         submittingTrigger();
 
         expect(dialogOpenSpy).toHaveBeenCalled();
+      });
+
+      it('should open Unsaved Changes Modal', () => {
+        const modalAiSpy = spyOn(modalAi, 'openUnsavedChangesModal').and.callFake((callback) => callback());
+
+        fixture.detectChanges();
+
+        submittingTrigger();
+        expect(modalAiSpy).toHaveBeenCalledWith(jasmine.any(Function));
       });
     });
   }
