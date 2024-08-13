@@ -48,6 +48,22 @@ describe('ActionDirective', () => {
     expect(routeMock.navigate).toHaveBeenCalled();
   });
 
+  it('should navigate to external url', () => {
+    const previewWindowMock = {
+      document: {
+        write() {},
+        body: {
+          setAttribute() {}
+        }
+      }
+    } as unknown as Window;
+    const windowSpy = spyOn(window, 'open').and.returnValue(previewWindowMock);
+
+    directive.action = { externalUrl: 'google.com' };
+    directive.onClick();
+    expect(windowSpy).toHaveBeenCalled();
+  });
+
   it('should dispatch store action', () => {
     directive.action = { click: {} };
     directive.onClick();

@@ -262,7 +262,8 @@
                 "description": "APP.BROWSE.TRASHCAN.SIDENAV_LINK.TOOLTIP",
                 "route": "trashcan"
               }
-            ]
+            ],
+            "icon": ""
           }
         ]
       }

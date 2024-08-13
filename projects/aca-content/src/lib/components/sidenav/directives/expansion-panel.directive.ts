@@ -46,7 +46,7 @@ export class ExpansionPanelDirective implements OnInit, OnDestroy {
       const firstChild = this.acaExpansionPanel.children[0];
       if (firstChild.url) {
         this.router.navigate(this.getNavigationCommands(firstChild.url));
-      } else {
+      } else if (firstChild.action?.payload) {
         this.store.dispatch({
           type: firstChild.action.action,
           payload: this.getNavigationCommands(firstChild.action.payload)
@@ -59,7 +59,7 @@ export class ExpansionPanelDirective implements OnInit, OnDestroy {
 
   hasActiveLinks() {
     if (this.acaExpansionPanel?.children) {
-      return this.acaExpansionPanel.children.some((child) => this.router.url.startsWith(child.url || child.action.payload));
+      return this.acaExpansionPanel.children.some((child) => this.router.url.startsWith(child.url || child.action?.payload));
     }
     return false;
   }

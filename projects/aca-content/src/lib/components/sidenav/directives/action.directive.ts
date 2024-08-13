@@ -40,7 +40,9 @@ export class ActionDirective {
   onClick() {
     if (this.action.url) {
       this.router.navigate(this.getNavigationCommands(this.action.url));
-    } else if (this.action.click) {
+    } else if (this.action.externalUrl) {
+      window.open(this.action?.externalUrl, '_blank');
+    } else if (this.action?.click) {
       this.store.dispatch({
         type: this.action.click.action,
         payload: this.getNavigationCommands(this.action.click.payload)
