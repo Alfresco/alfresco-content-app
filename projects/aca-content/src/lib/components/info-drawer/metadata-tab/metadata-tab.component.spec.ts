@@ -34,7 +34,6 @@ import { Actions } from '@ngrx/effects';
 import { of, Subject } from 'rxjs';
 import { ContentActionType } from '@alfresco/adf-extensions';
 import { CategoryService, ContentMetadataComponent, ContentMetadataService, TagService } from '@alfresco/adf-content-services';
-
 describe('MetadataTabComponent', () => {
   let fixture: ComponentFixture<MetadataTabComponent>;
   let component: MetadataTabComponent;
