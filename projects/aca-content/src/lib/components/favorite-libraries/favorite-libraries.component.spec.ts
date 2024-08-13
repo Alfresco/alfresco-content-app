@@ -34,7 +34,6 @@ import { of, throwError } from 'rxjs';
 import { LibraryEffects } from '../../store/effects';
 import { NodeEntry } from '@alfresco/js-api';
 import { getTitleElementText } from '../../testing/test-utils';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('FavoriteLibrariesComponent', () => {
   let fixture: ComponentFixture<FavoriteLibrariesComponent>;
@@ -57,7 +56,7 @@ describe('FavoriteLibrariesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, MatSnackBarModule, EffectsModule.forRoot([RouterEffects, LibraryEffects]), FavoriteLibrariesComponent]
+      imports: [AppTestingModule, EffectsModule.forRoot([RouterEffects, LibraryEffects]), FavoriteLibrariesComponent]
     });
 
     fixture = TestBed.createComponent(FavoriteLibrariesComponent);

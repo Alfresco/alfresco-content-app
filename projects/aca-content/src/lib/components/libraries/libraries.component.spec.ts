@@ -31,7 +31,6 @@ import { EffectsModule } from '@ngrx/effects';
 import { LibraryEffects } from '../../store/effects';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { getTitleElementText } from '../../testing/test-utils';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('LibrariesComponent', () => {
   let fixture: ComponentFixture<LibrariesComponent>;
@@ -52,7 +51,7 @@ describe('LibrariesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, MatSnackBarModule, EffectsModule.forRoot([LibraryEffects]), LibrariesComponent]
+      imports: [AppTestingModule, EffectsModule.forRoot([LibraryEffects]), LibrariesComponent]
     });
 
     fixture = TestBed.createComponent(LibrariesComponent);

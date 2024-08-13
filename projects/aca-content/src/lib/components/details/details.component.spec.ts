@@ -37,7 +37,6 @@ import { AuthenticationService, CORE_PIPES, PageTitleService } from '@alfresco/a
 import { BreadcrumbComponent, ContentService, SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { By } from '@angular/platform-browser';
 import { ContentActionRef } from '@alfresco/adf-extensions';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('DetailsComponent', () => {
   let component: DetailsComponent;

@@ -30,7 +30,6 @@ import { Router } from '@angular/router';
 import { NodePaging, SearchApi } from '@alfresco/js-api';
 import { of } from 'rxjs';
 import { getTitleElementText } from '../../testing/test-utils';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('RecentFilesComponent', () => {
   let fixture: ComponentFixture<RecentFilesComponent>;
@@ -40,7 +39,7 @@ describe('RecentFilesComponent', () => {
     const searchApi = jasmine.createSpyObj('SearchApi', ['search']);
 
     const testBed = TestBed.configureTestingModule({
-      imports: [AppTestingModule, MatSnackBarModule, RecentFilesComponent],
+      imports: [AppTestingModule, RecentFilesComponent],
       providers: [{ provide: SearchApi, useValue: searchApi }]
     });
 

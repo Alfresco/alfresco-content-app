@@ -27,7 +27,6 @@ import { AlfrescoApiService } from '@alfresco/adf-core';
 import { TrashcanComponent } from './trashcan.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { getTitleElementText } from '../../testing/test-utils';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('TrashcanComponent', () => {
   let fixture: ComponentFixture<TrashcanComponent>;
@@ -36,7 +35,7 @@ describe('TrashcanComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, MatSnackBarModule, TrashcanComponent]
+      imports: [AppTestingModule, TrashcanComponent]
     });
 
     fixture = TestBed.createComponent(TrashcanComponent);
