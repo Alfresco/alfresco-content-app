@@ -41,10 +41,10 @@ import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-ext
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { SearchInputComponent } from '../search-input/search-input.component';
-import { DataTableModule, PaginationComponent } from '@alfresco/adf-core';
+import { CustomEmptyContentTemplateDirective, DataColumnComponent, DataColumnListComponent, PaginationComponent } from '@alfresco/adf-core';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { DocumentListModule } from '@alfresco/adf-content-services';
 import { DocumentListDirective } from '../../../directives/document-list.directive';
+import { DocumentListComponent } from '@alfresco/adf-content-services';
 
 @Component({
   standalone: true,
@@ -53,8 +53,6 @@ import { DocumentListDirective } from '../../../directives/document-list.directi
     TranslateModule,
     SearchInputComponent,
     MatProgressBarModule,
-    DocumentListModule,
-    DataTableModule,
     PaginationComponent,
     InfoDrawerComponent,
     ContextActionsDirective,
@@ -62,7 +60,11 @@ import { DocumentListDirective } from '../../../directives/document-list.directi
     PaginationDirective,
     PageLayoutComponent,
     ToolbarComponent,
-    DynamicColumnComponent
+    DynamicColumnComponent,
+    DocumentListComponent,
+    DataColumnListComponent,
+    DataColumnComponent,
+    CustomEmptyContentTemplateDirective
   ],
   selector: 'aca-search-results',
   templateUrl: './search-libraries-results.component.html',

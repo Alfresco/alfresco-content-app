@@ -22,7 +22,13 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { DataTableModule, PaginationComponent, ShowHeaderMode } from '@alfresco/adf-core';
+import {
+  CustomEmptyContentTemplateDirective,
+  DataColumnComponent,
+  DataColumnListComponent,
+  PaginationComponent,
+  ShowHeaderMode
+} from '@alfresco/adf-core';
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { NodeEntry, Node, PathElement } from '@alfresco/js-api';
@@ -39,7 +45,14 @@ import {
 } from '@alfresco/aca-shared';
 import { SetCurrentFolderAction, isAdmin, UploadFileVersionAction, showLoaderSelector } from '@alfresco/aca-shared/store';
 import { debounceTime, takeUntil } from 'rxjs/operators';
-import { BreadcrumbModule, DocumentListModule, FileUploadEvent, FilterSearch, ShareDataRow, UploadModule } from '@alfresco/adf-content-services';
+import {
+  BreadcrumbComponent,
+  DocumentListComponent,
+  FileUploadEvent,
+  FilterSearch,
+  ShareDataRow,
+  UploadDragAreaComponent
+} from '@alfresco/adf-content-services';
 import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-extensions';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
@@ -51,20 +64,22 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   imports: [
     CommonModule,
     TranslateModule,
-    BreadcrumbModule,
     GenericErrorComponent,
-    UploadModule,
-    DocumentListModule,
     DocumentListDirective,
     ContextActionsDirective,
-    DataTableModule,
     PaginationComponent,
     MatProgressSpinnerModule,
     InfoDrawerComponent,
     PaginationDirective,
     PageLayoutComponent,
     ToolbarComponent,
-    DynamicColumnComponent
+    DynamicColumnComponent,
+    BreadcrumbComponent,
+    UploadDragAreaComponent,
+    DocumentListComponent,
+    DataColumnListComponent,
+    DataColumnComponent,
+    CustomEmptyContentTemplateDirective
   ],
   templateUrl: './files.component.html',
   encapsulation: ViewEncapsulation.None

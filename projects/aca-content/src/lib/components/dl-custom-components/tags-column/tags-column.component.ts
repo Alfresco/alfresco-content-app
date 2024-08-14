@@ -22,16 +22,14 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { TagModule } from '@alfresco/adf-content-services';
 import { ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { TagNodeListComponent } from '@alfresco/adf-content-services';
 
 @Component({
   standalone: true,
-  imports: [TagModule],
+  imports: [TagNodeListComponent],
   selector: 'aca-tags-column',
-  template: `
-    <adf-tag-node-list [showDelete]="false" [limitTagsDisplayed]="true" [nodeId]="nodeId" (results)="onTagsLoaded()"> </adf-tag-node-list>
-  `,
+  template: `<adf-tag-node-list [showDelete]="false" [limitTagsDisplayed]="true" [nodeId]="nodeId" (results)="onTagsLoaded()"></adf-tag-node-list>`,
   styleUrls: ['./tags-column.component.scss'],
   encapsulation: ViewEncapsulation.None,
   host: {

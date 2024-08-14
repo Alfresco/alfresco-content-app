@@ -44,6 +44,8 @@ import { INITIAL_STATE } from '../store/initial-state';
 import { BehaviorSubject, Observable, Subject, of } from 'rxjs';
 import { ContentManagementService } from '../services/content-management.service';
 import { DocumentBasePageService } from '@alfresco/aca-shared';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   imports: [
@@ -61,7 +63,9 @@ import { DocumentBasePageService } from '@alfresco/aca-shared';
         }
       }
     ),
-    EffectsModule.forRoot([])
+    EffectsModule.forRoot([]),
+    MatSnackBarModule,
+    MatDialogModule
   ],
   exports: [RouterTestingModule, TranslateModule],
   providers: [
