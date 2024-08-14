@@ -109,7 +109,7 @@ import { BulkActionsDropdownComponent } from '../../bulk-actions-dropdown/bulk-a
     DataColumnComponent,
     DateColumnHeaderComponent,
     CustomEmptyContentTemplateDirective,
-    ViewerToolbarComponent
+    ViewerToolbarComponent,
     BulkActionsDropdownComponent
   ],
   selector: 'aca-search-results',
