@@ -1,0 +1,42 @@
+<mat-form-field
+  *ngIf="items?.length"
+  [title]="tooltip"
+  appearance="outline"
+  class="aca-bulk-actions-form-field"
+  data-automation-id="aca-bulk-actions-form-field"
+>
+  <mat-select
+    [formControl]="bulkSelectControl"
+    [placeholder]="placeholder"
+    panelClass="aca-bulk-actions-select"
+    disableOptionCentering
+    data-automation-id="aca-bulk-actions-dropdown"
+    (keydown)="onKeyDown($event)"
+  >
+    <mat-select-trigger>
+      <adf-icon
+        *ngIf="bulkSelectControl.value?.icon"
+        [title]="bulkSelectControl.value?.title | translate"
+        [value]="bulkSelectControl.value?.icon"
+        [attr.data-automation-id]="'aca-bulk-action-icon-' + bulkSelectControl.value?.id"
+      ></adf-icon>
+      {{ bulkSelectControl.value?.title | translate }}
+    </mat-select-trigger>
+
+    <mat-option
+      *ngFor="let option of items"
+      [value]="option"
+      [title]="option.tooltip | translate"
+      [attr.data-automation-id]="option.id"
+      (click)="runAction(option)"
+    >
+      <adf-icon
+        *ngIf="option.icon"
+        [title]="option.title | translate"
+        [value]="option.icon"
+        [attr.data-automation-id]="'aca-bulk-action-icon-' + option.id"
+      ></adf-icon>
+      {{ option.title | translate }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

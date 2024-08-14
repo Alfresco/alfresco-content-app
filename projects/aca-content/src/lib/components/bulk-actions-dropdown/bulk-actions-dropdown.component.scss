@@ -1,0 +1,24 @@
+@import '@alfresco/adf-core/lib/styles/mat-selectors';
+
+.aca-bulk-actions-form-field {
+  margin-left: 24px;
+  margin-top: 1.4375em;
+  width: 295px;
+
+  #{$mat-form-field-flex},
+  #{$mat-form-text-field-infix} {
+    height: 48px;
+    line-height: 48px;
+    display: flex;
+    align-items: center;
+    border: 0;
+  }
+
+  #{$mat-form-field-appearance-outline} #{$mat-form-field-outline} {
+    top: 0;
+  }
+
+  #{$mat-select} {
+    margin-top: 0.25rem;
+  }
+}

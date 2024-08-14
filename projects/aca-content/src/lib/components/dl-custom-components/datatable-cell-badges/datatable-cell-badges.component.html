@@ -1,0 +1,19 @@
+<div class="aca-datatable-cell-badges-container">
+    <ng-container *ngFor="let badge of badges">
+      <adf-dynamic-component 
+        *ngIf="badge.component; else iconBadge" 
+        [id]="badge.component" 
+        [data]="{ node }"
+      ></adf-dynamic-component>
+      <ng-template #iconBadge>
+        <adf-icon 
+          class="adf-datatable-cell-badge"
+          [title]="badge.tooltip | translate"
+          [value]="badge.icon"
+          (click)="onBadgeClick(badge)"
+          (keypress.enter)="onKeyPress(badge)"
+          tabindex="0"
+        ></adf-icon>
+      </ng-template>
+    </ng-container>
+</div>

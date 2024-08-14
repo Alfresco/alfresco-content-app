@@ -4,14 +4,6 @@
   justify-content: space-between;
   width: 100%;
 
-  .aca-name-column-badges {
-    display: flex;
-
-    .adf-datatable-cell-badge {
-      color: var(--theme-secondary-text);
-    }
-  }
-
   .aca-name-column-container {
     white-space: nowrap;
     overflow: hidden;
@@ -36,6 +28,6 @@
   position: unset;
 }
 
-.adf-datatable-list .adf-datatable-link:hover .aca-name-column-badges {
+.adf-datatable-list .adf-datatable-link:hover .aca-datatable-cell-badges {
   color: var(--adf-theme-foreground-text-color);
 }

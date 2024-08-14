@@ -76,6 +76,7 @@ import { UserMenuComponent } from './components/sidenav/user-menu/user-menu.comp
 import { ContextMenuComponent } from './components/context-menu/context-menu.component';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { SearchResultsRowComponent } from './components/search/search-results-row/search-results-row.component';
+import { BulkActionsDropdownComponent } from './components/bulk-actions-dropdown/bulk-actions-dropdown.component';
 
 @NgModule({
   imports: [
@@ -138,6 +139,7 @@ export class ContentServiceExtensionModule {
       'app.toolbar.toggleFavoriteLibrary': ToggleFavoriteLibraryComponent,
       'app.toolbar.toggleJoinLibrary': ToggleJoinLibraryButtonComponent,
       'app.menu.toggleJoinLibrary': ToggleJoinLibraryMenuComponent,
+      'app.bulk-actions-dropdown': BulkActionsDropdownComponent,
       'app.shared-link.toggleSharedLink': ToggleSharedComponent,
       'app.columns.name': CustomNameColumnComponent,
       'app.columns.libraryName': LibraryNameColumnComponent,

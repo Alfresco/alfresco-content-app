@@ -50,7 +50,7 @@ import {
   sortByOrder
 } from '@alfresco/adf-extensions';
 import { AppConfigService, AuthenticationService, LogService } from '@alfresco/adf-core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { NodeEntry, RepositoryInfo } from '@alfresco/js-api';
 import { ViewerRules } from '../models/viewer.rules';
 import { Badge } from '../models/types';
@@ -63,6 +63,7 @@ import { SearchCategory } from '@alfresco/adf-content-services';
 })
 export class AppExtensionService implements RuleContext {
   private _references = new BehaviorSubject<ExtensionRef[]>([]);
+  bulkActionExecuted$ = new Subject<void>();
 
   navbar: Array<NavBarGroupRef> = [];
   sidebarTabs: Array<SidebarTabRef> = [];
@@ -81,6 +82,7 @@ export class AppExtensionService implements RuleContext {
   private _badges = new BehaviorSubject<Array<Badge>>([]);
   private _filesDocumentListPreset = new BehaviorSubject<Array<DocumentListPresetRef>>([]);
   private _customMetadataPanels = new BehaviorSubject<Array<ContentActionRef>>([]);
+  private _bulkActions = new BehaviorSubject<Array<ContentActionRef>>([]);
 
   documentListPresets: {
     libraries: Array<DocumentListPresetRef>;
@@ -160,6 +162,7 @@ export class AppExtensionService implements RuleContext {
     this._badges.next(this.loader.getElements<Badge>(config, 'features.badges'));
     this._filesDocumentListPreset.next(this.getDocumentListPreset(config, 'files'));
     this._customMetadataPanels.next(this.loader.getElements<ContentActionRef>(config, 'features.customMetadataPanels'));
+    this._bulkActions.next(this.loader.getElements<ContentActionRef>(config, 'features.bulk-actions'));
 
     this.navbar = this.loadNavBar(config);
     this.sidebarTabs = this.loader.getElements<SidebarTabRef>(config, 'features.sidebar.tabs');
@@ -424,6 +427,10 @@ export class AppExtensionService implements RuleContext {
     return this._viewerToolbarActions.pipe(map((viewerToolbarActions) => this.getAllowedActions(viewerToolbarActions)));
   }
 
+  getBulkActions(): Observable<Array<ContentActionRef>> {
+    return this._bulkActions.pipe(map((bulkActions) => this.getAllowedActions(bulkActions)));
+  }
+
   getOpenWithActions(): Observable<Array<ContentActionRef>> {
     return this._openWithActions.pipe(map((openWithActions) => this.getAllowedActions(openWithActions)));
   }
@@ -564,5 +571,9 @@ export class AppExtensionService implements RuleContext {
     }
 
     return true;
+  }
+
+  bulkActionExecuted(): void {
+    this.bulkActionExecuted$.next();
   }
 }
