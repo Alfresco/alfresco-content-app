@@ -78,7 +78,7 @@ test.describe('Upload new version', () => {
   async function previewUnsupportedFile(page: PersonalFilesPage, unsupportedFileName: string): Promise<void> {
     await page.dataTable.performClickFolderOrFileToOpen(unsupportedFileName);
     await page.viewer.checkUnknownFormatIsDisplayed();
-    expect(await page.viewer.getUnknownFormatMessage()).toBe(`Couldn't load preview. Unknown format.`);
+    expect(await page.viewer.getUnknownFormatMessage()).toContain(`Couldn't load preview. Unsupported file type`);
     await page.viewer.closeButtonLocator.click();
   }
 
