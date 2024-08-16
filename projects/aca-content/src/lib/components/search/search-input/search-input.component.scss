@@ -12,12 +12,6 @@ $top-margin: 12px;
   max-width: $search-width;
   height: $search-height + $top-margin;
 
-  .app-input-form-field {
-    &-input {
-      caret-color: var(--theme-text-color);
-    }
-  }
-
   &:focus-within {
     label {
       display: none;

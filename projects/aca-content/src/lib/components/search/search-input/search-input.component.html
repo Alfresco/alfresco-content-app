@@ -1,4 +1,4 @@
-<div class="app-search-container app-search-menu-trigger"
+<div class="app-search-container"
   [matMenuTriggerFor]="searchOptionsMenu"
   (menuOpened)="onMenuOpened()"
   (menuClosed)="syncInputValues()"
@@ -11,7 +11,6 @@
     <input
       matInput
       [attr.aria-label]="'SEARCH.INPUT.ARIA-LABEL' | translate"
-      class="app-input-form-field-input"
       [type]="'text'"
       [readonly]="true"
       [value]="searchedWord"
