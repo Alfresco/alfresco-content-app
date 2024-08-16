@@ -21,19 +21,6 @@ $top-margin: 12px;
   }
 
   .app-input-form-field {
-    .app-suffix-search-icon-wrapper.app-icon-arrow {
-      margin-top: 16px;
-    }
-
-    .app-suffix-search-icon-wrapper.app-close-button {
-      height: 6px;
-
-      .app-close-icon {
-        font-size: 18px;
-        line-height: 28px;
-      }
-    }
-
     &-input {
       caret-color: var(--theme-text-color);
     }

@@ -18,13 +18,13 @@
       [placeholder]="'SEARCH.INPUT.PLACEHOLDER' | translate"
     />
 
-    <div matSuffix class="app-suffix-search-icon-wrapper app-icon-arrow">
+    <div matSuffix>
       <mat-icon>arrow_drop_down</mat-icon>
-    </div>
 
-    <button mat-icon-button matSuffix class="app-suffix-search-icon-wrapper app-close-button" (click)="exitSearch()">
-      <mat-icon class="app-close-icon">close</mat-icon>
-    </button>
+      <button mat-icon-button (click)="exitSearch()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
   </mat-form-field>
 </div>
 
