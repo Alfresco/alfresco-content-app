@@ -24,7 +24,7 @@ $search-height: 64px;
     font-size: 16px;
     width: 100%;
     height: $search-height;
-    line-height: $search-height / 2;
+    line-height: calc($search-height / 2);
 
     &-input {
       letter-spacing: -0.7px;
