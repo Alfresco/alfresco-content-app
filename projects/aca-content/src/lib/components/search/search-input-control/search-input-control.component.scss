@@ -52,6 +52,11 @@ $search-height: 64px;
   }
 
   .app-search-button {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+
     &-icon {
       font-size: 24px;
     }
