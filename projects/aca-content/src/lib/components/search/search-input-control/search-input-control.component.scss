@@ -1,24 +1,17 @@
 @import '@alfresco/adf-core/lib/styles/mat-selectors';
 
-.app-suffix-search-icon-wrapper {
-  display: flex;
-  align-items: center;
-  margin: 14px 1px;
-  float: left;
-
-  .app-clear-icon {
-    width: 18px;
-    height: 18px;
-    font-size: 18px;
-  }
-}
-
 .app-search-container {
   font-size: 16px;
   padding-left: 19px;
   box-sizing: border-box;
   height: 64px;
   display: flex;
+
+  .app-suffix-icon {
+    width: 18px;
+    height: 18px;
+    font-size: 18px;
+  }
 
   .app-input-form-field {
     letter-spacing: -0.7px;
