@@ -35,20 +35,13 @@ $search-height: 64px;
     }
   }
 
-  #{$mat-form-field-flex} {
-    background: #fff;
-  }
-
   #{$mat-form-field-wrapper} {
     height: 44px;
     padding-left: 0;
   }
 
-  .app-input-form-field-readonly {
-    #{$mat-form-field-wrapper},
-    #{$mat-form-field-flex} {
-      background-color: var(--theme-search-background-color);
-    }
+  .app-input-form-field-readonly * {
+    background-color: inherit;
   }
 
   .app-search-button {
