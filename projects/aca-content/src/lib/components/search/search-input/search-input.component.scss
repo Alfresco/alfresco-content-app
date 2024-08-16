@@ -12,14 +12,6 @@ $top-margin: 12px;
   max-width: $search-width;
   height: $search-height + $top-margin;
 
-  .app-search-button:is(button) {
-    width: 32px;
-    height: 32px;
-    margin-left: 0;
-    padding-left: 0;
-    margin-top: -4px;
-  }
-
   .app-input-form-field {
     &-input {
       caret-color: var(--theme-text-color);
