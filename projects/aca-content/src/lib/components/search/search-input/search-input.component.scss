@@ -1,16 +1,15 @@
 @import '@alfresco/adf-core/lib/styles/mat-selectors';
 
 $search-width: 594px;
-$search-height: 32px;
+$search-height: 64px;
 $search-background: var(--theme-search-background-color);
 $search-border-radius: 4px;
-$top-margin: 12px;
 
 .app-search-container {
   color: var(--theme-foreground-text-color);
   width: 100%;
   max-width: $search-width;
-  height: $search-height + $top-margin;
+  height: $search-height;
 
   &:focus-within {
     label {
@@ -41,17 +40,12 @@ $top-margin: 12px;
   border-radius: $search-border-radius;
   height: $search-height;
   margin-bottom: 0;
-  padding-bottom: 26px;
 
   .app-suffix-icon {
     width: 18px;
     height: 18px;
     font-size: 18px;
   }
-}
-
-.app-search-control {
-  margin-top: -$top-margin;
 }
 
 .app-search-options {
