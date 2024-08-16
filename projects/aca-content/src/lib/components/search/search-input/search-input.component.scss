@@ -26,11 +26,6 @@ $search-border-radius: 4px;
   width: $search-width;
   max-width: unset;
   border-radius: $search-border-radius;
-
-  #{$mdc-list} {
-    padding-top: 10px;
-    padding-right: 10px;
-  }
 }
 
 .aca-search-input {
@@ -56,23 +51,9 @@ $search-border-radius: 4px;
   letter-spacing: -0.7px;
   margin-bottom: -8px;
 
-  #{$mat-checkbox} {
-    #{$mdc-form-field} {
-      #{$mat-checkbox-box} {
-        #{$mat-checkbox-background} {
-          height: 18px;
-          width: 18px;
-        }
-      }
-    }
-  }
-
   .app-search-options-checkbox label {
     max-width: 155px;
     font-size: 16px;
-    padding-left: 6px;
-    padding-top: 2px;
-    letter-spacing: -1px;
   }
 
   &-checkbox {
@@ -108,7 +89,7 @@ $search-border-radius: 4px;
     width: $search-width-small;
   }
 
-  #search-options {
+  .app-search-options {
     padding-left: 20px;
 
     label {
@@ -140,7 +121,7 @@ $search-border-radius: 4px;
     width: $search-width-xsmall;
   }
 
-  #search-options label {
+  .app-search-options label {
     max-width: 180px;
   }
 }
