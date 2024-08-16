@@ -6,23 +6,19 @@
   margin: 14px 1px;
   float: left;
 
-  .app-search-input-control-icon {
-    font-size: 24px;
-    cursor: pointer;
-  }
-
   .app-clear-icon {
+    width: 18px;
+    height: 18px;
     font-size: 18px;
-    margin: 3px;
   }
 }
 
 .app-search-container {
-  position: relative;
-  top: -5px;
   font-size: 16px;
   padding-left: 19px;
   box-sizing: border-box;
+  height: 64px;
+  display: flex;
 
   .app-input-form-field {
     letter-spacing: -0.7px;
