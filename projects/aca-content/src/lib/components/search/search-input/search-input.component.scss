@@ -1,5 +1,3 @@
-@import '@alfresco/adf-core/lib/styles/mat-selectors';
-
 $search-width: 594px;
 $search-height: 64px;
 $search-background: var(--theme-search-background-color);
@@ -18,13 +16,11 @@ $search-border-radius: 4px;
   }
 }
 
-.app-search-options-menu#{$mat-menu-panel} {
-  position: relative;
-  top: -5px;
-  margin-top: 2px;
+.app-search-options-menu {
   background-color: var(--theme-dialog-background-color);
   width: $search-width;
-  max-width: unset;
+  /* stylelint-disable-next-line declaration-no-important */
+  min-width: $search-width !important;
   border-radius: $search-border-radius;
 }
 
@@ -34,7 +30,6 @@ $search-border-radius: 4px;
   background-color: $search-background;
   border-radius: $search-border-radius;
   height: $search-height;
-  margin-bottom: 0;
 
   .app-suffix-icon {
     width: 18px;
@@ -46,26 +41,10 @@ $search-border-radius: 4px;
 .app-search-options {
   color: var(--theme-text-color);
   border-top: 1px solid var(--theme-divider-color);
-  padding: 20px 10px;
-  font-size: 16px;
-  letter-spacing: -0.7px;
-  margin-bottom: -8px;
-
-  .app-search-options-checkbox label {
-    max-width: 155px;
-    font-size: 16px;
-  }
-
-  &-checkbox {
-    padding: 3px 36px 3px 20px;
-
-    /* stylelint-disable-next-line no-descending-specificity */
-    label {
-      padding: 0 0 0 11px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-  }
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  column-gap: 24px;
 }
 
 .app-search-hint {
