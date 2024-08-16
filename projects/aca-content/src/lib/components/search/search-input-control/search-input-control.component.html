@@ -1,14 +1,17 @@
 <div class="app-search-container">
-  <button
-    mat-icon-button
-    id="app-search-button"
-    class="app-search-button"
-    (click)="searchSubmit(searchTerm)"
-    [title]="'SEARCH.BUTTON.TOOLTIP' | translate"
-  >
-    <mat-icon class="app-search-button-icon" [attr.aria-label]="'SEARCH.BUTTON.ARIA-LABEL' | translate">search</mat-icon>
-  </button>
-  <mat-form-field class="app-input-form-field" floatLabel="auto">
+  <mat-form-field class="app-input-form-field" appearance="outline">
+
+    <button
+      mat-icon-button
+      matPrefix
+      id="app-search-button"
+      class="app-search-button"
+      (click)="searchSubmit(searchTerm)"
+      [title]="'SEARCH.BUTTON.TOOLTIP' | translate"
+    >
+      <mat-icon [attr.aria-label]="'SEARCH.BUTTON.ARIA-LABEL' | translate">search</mat-icon>
+    </button>
+
     <input
       matInput
       #searchInput

@@ -1,10 +1,7 @@
-@import '@alfresco/adf-core/lib/styles/mat-selectors';
-
 $search-height: 64px;
 
 .app-search-container {
   font-size: 16px;
-  padding-left: 19px;
   box-sizing: border-box;
   height: $search-height;
   display: flex;
@@ -17,6 +14,11 @@ $search-height: 64px;
     font-size: 18px;
   }
 
+  /* stylelint-disable-next-line selector-class-pattern */
+  .mdc-notched-outline {
+    display: none;
+  }
+
   .app-input-form-field {
     letter-spacing: -0.7px;
     font-size: 16px;
@@ -26,28 +28,6 @@ $search-height: 64px;
 
     &-input {
       letter-spacing: -0.7px;
-    }
-
-    #{$mat-line-ripple} {
-      &::before,
-      &::after {
-        display: none;
-      }
-    }
-  }
-
-  .app-input-form-field-readonly * {
-    background-color: inherit;
-  }
-
-  .app-search-button {
-    padding: 0;
-    margin: 0;
-    display: flex;
-    align-items: center;
-
-    &-icon {
-      font-size: 24px;
     }
   }
 }
