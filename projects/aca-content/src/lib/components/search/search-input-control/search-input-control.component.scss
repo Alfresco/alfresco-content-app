@@ -21,6 +21,7 @@ $search-height: 64px;
     letter-spacing: -0.7px;
     font-size: 16px;
     width: 100%;
+    height: $search-height;
     line-height: $search-height / 2;
 
     &-input {
@@ -33,11 +34,6 @@ $search-height: 64px;
         display: none;
       }
     }
-  }
-
-  #{$mat-form-field-wrapper} {
-    height: 44px;
-    padding-left: 0;
   }
 
   .app-input-form-field-readonly * {
