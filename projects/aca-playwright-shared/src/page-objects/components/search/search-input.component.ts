@@ -30,8 +30,7 @@ export class SearchInputComponent extends BaseComponent {
   private static rootElement = 'aca-page-layout';
   public searchInput = this.page.locator('#app-control-input');
   public searchButton = this.page.locator('.aca-search-input--search-button');
-
-  getIconByName = (name: string): Locator => this.getChild('.mat-icon', { hasText: name });
+  public searchCloseButton = this.page.locator('.aca-search-input--close-button');
 
   /**
    * Method used in cases where user have possibility to navigate "inside" the element (it's clickable and has link attribute).

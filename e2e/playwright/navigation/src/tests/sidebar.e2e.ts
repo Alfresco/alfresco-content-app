@@ -76,7 +76,7 @@ test.describe('Sidebar', () => {
 
   test('[C277224] sidenav returns to the default state when navigating away from the Search Results page', async ({ personalFiles, searchPage }) => {
     await personalFiles.navigate({ remoteUrl: `#/search;q=test` });
-    await searchPage.searchInput.getIconByName('close').click();
+    await searchPage.searchInput.searchCloseButton.click();
     await searchPage.sidenav.expandedSidenav.waitFor({ state: 'attached' });
     expect(await personalFiles.sidenav.isSidenavExpanded(), 'Sidebar not expanded').toBe(true);
   });
