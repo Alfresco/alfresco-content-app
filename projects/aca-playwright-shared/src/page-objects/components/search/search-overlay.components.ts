@@ -32,7 +32,7 @@ export class SearchOverlayComponent extends BaseComponent {
   public searchFoldersOption = this.getChild('input#folder-input');
   public searchLibrariesOption = this.getChild('input#libraries-input');
   public searchInput = this.page.locator('#app-control-input');
-  public searchButton = this.page.locator('#app-search-button');
+  public searchButton = this.page.locator('.app-search-button');
   public searchInputControl = this.page.locator('.app-search-control');
   public searchOptions = this.page.locator('.app-search-options');
 
