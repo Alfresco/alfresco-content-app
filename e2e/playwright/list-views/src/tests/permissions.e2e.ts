@@ -112,7 +112,7 @@ test.describe('Special permissions', () => {
 
     test('[C290122] on Search Results', async ({ personalFiles, searchPage }) => {
       await personalFiles.acaHeader.searchButton.click();
-      await searchPage.searchInput.searchButton.click();
+      await searchPage.clickSearchButton();
       await searchPage.searchOverlay.checkFilesAndFolders();
       await searchPage.searchOverlay.searchFor(fileName);
       await searchPage.dataTable.spinnerWaitForReload();
@@ -185,7 +185,7 @@ test.describe('Special permissions', () => {
 
     test('[C306868] on Search results', async ({ personalFiles, searchPage }) => {
       await personalFiles.acaHeader.searchButton.click();
-      await searchPage.searchInput.searchButton.click();
+      await searchPage.clickSearchButton();
       await searchPage.searchOverlay.checkFilesAndFolders();
       await searchPage.searchOverlay.searchFor(fileName);
       await searchPage.dataTable.spinnerWaitForReload();

@@ -32,9 +32,9 @@ export class SearchOverlayComponent extends BaseComponent {
   public searchFoldersOption = this.getChild('input#folder-input');
   public searchLibrariesOption = this.getChild('input#libraries-input');
   public searchInput = this.page.locator('#app-control-input');
-  public searchButton = this.page.locator('#app-search-button');
+  public searchButton = this.page.locator('.aca-search-input--search-button');
   public searchInputControl = this.page.locator('.app-search-control');
-  public searchOptions = this.page.locator('#search-options');
+  public searchOptions = this.page.locator('.app-search-options');
 
   constructor(page: Page, rootElement = SearchOverlayComponent.rootElement) {
     super(page, rootElement);
@@ -90,6 +90,6 @@ export class SearchOverlayComponent extends BaseComponent {
 
   async searchFor(input: string): Promise<void> {
     await this.searchInput.fill(input);
-    await this.searchButton.click();
+    await this.searchButton.click({ force: true });
   }
 }

@@ -74,7 +74,7 @@ export class SearchPage extends BasePage {
 
   async searchWithin(searchText: string, searchType: SearchType): Promise<void> {
     await this.acaHeader.searchButton.click();
-    await this.searchInput.searchButton.click();
+    await this.clickSearchButton();
     switch (searchType) {
       case 'files':
         await this.searchOverlay.checkOnlyFiles();
@@ -93,5 +93,9 @@ export class SearchPage extends BasePage {
     }
     await this.searchOverlay.searchFor(searchText);
     await this.dataTable.progressBarWaitForReload();
+  }
+
+  async clickSearchButton() {
+    await this.searchInput.searchButton.click({ force: true });
   }
 }

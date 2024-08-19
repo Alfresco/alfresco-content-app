@@ -57,7 +57,7 @@ test.describe('Empty list views', () => {
 
   test('[C290123] [C290031] Empty Search results - pagination controls not displayed', async ({ personalFiles, searchPage }) => {
     await personalFiles.acaHeader.searchButton.click();
-    await searchPage.searchInput.searchButton.click();
+    await searchPage.clickSearchButton();
     await searchPage.searchOverlay.checkFilesAndFolders();
     await searchPage.searchOverlay.searchFor('InvalidText');
     await searchPage.reload({ waitUntil: 'domcontentloaded' });

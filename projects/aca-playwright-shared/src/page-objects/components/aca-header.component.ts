@@ -33,7 +33,7 @@ export class AcaHeader extends BaseComponent {
   public createButton = this.getChild('[id="app.toolbar.create"]');
   public viewDetails = this.getChild('[title="View Details"]');
   public viewButton = this.getChild('button[title="View"]');
-  public searchButton = this.getChild('button[title="Search"]');
+  public searchButton = this.getChild('button[id="app.toolbar.search"]');
   public fullScreenButton = this.getChild('button[id="app.viewer.fullscreen"]');
   public shareButton = this.getChild('button[id="share-action-button"]');
   public downloadButtonViewer = this.getChild('button[id="app.viewer.download"]');

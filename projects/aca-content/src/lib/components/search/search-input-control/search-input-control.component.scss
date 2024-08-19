@@ -1,78 +1,33 @@
-@import '@alfresco/adf-core/lib/styles/mat-selectors';
-
-.app-suffix-search-icon-wrapper {
-  display: flex;
-  align-items: center;
-  margin: 14px 1px;
-  float: left;
-
-  .app-search-input-control-icon {
-    font-size: 24px;
-    cursor: pointer;
-  }
-
-  .app-clear-icon {
-    font-size: 18px;
-    margin: 3px;
-  }
-}
+$search-height: 64px;
 
 .app-search-container {
-  position: relative;
-  top: -5px;
   font-size: 16px;
-  padding-left: 19px;
   box-sizing: border-box;
+  height: $search-height;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 
-  .app-input-form-field-input + span {
-    cursor: text;
-    pointer-events: auto;
+  .app-suffix-icon {
+    width: 18px;
+    height: 18px;
+    font-size: 18px;
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  .mdc-notched-outline {
+    display: none;
   }
 
   .app-input-form-field {
     letter-spacing: -0.7px;
     font-size: 16px;
-    width: calc(100% - 56px);
+    width: 100%;
+    height: $search-height;
+    line-height: calc($search-height / 2);
 
     &-input {
       letter-spacing: -0.7px;
-    }
-
-    #{$mat-line-ripple} {
-      &::before,
-      &::after {
-        display: none;
-      }
-    }
-
-    #{$mat-form-field-icon-suffix} {
-      position: relative;
-      right: -14px;
-    }
-  }
-
-  #{$mat-form-field-flex} {
-    background: #fff;
-  }
-
-  #{$mat-form-field-wrapper} {
-    height: 44px;
-    padding-left: 0;
-  }
-
-  .app-input-form-field-readonly {
-    #{$mat-form-field-wrapper},
-    #{$mat-form-field-flex} {
-      background-color: var(--theme-search-background-color);
-    }
-  }
-
-  .app-search-button {
-    left: -12px;
-
-    &-icon {
-      font-size: 24px;
-      padding-right: 0;
     }
   }
 }

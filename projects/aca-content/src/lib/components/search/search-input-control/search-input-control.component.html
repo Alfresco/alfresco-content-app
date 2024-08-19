@@ -1,14 +1,16 @@
 <div class="app-search-container">
-  <button
-    mat-icon-button
-    id="app-search-button"
-    class="app-search-button"
-    (click)="searchSubmit(searchTerm)"
-    [title]="'SEARCH.BUTTON.TOOLTIP' | translate"
-  >
-    <mat-icon class="app-search-input-control-icon app-search-button-icon" [attr.aria-label]="'SEARCH.BUTTON.ARIA-LABEL' | translate">search</mat-icon>
-  </button>
-  <mat-form-field class="app-input-form-field" floatLabel="auto">
+  <mat-form-field class="app-input-form-field" appearance="outline">
+
+    <button
+      mat-icon-button
+      matPrefix
+      class="app-search-button"
+      (click)="searchSubmit(searchTerm)"
+      [title]="'SEARCH.BUTTON.TOOLTIP' | translate"
+    >
+      <mat-icon [attr.aria-label]="'SEARCH.BUTTON.ARIA-LABEL' | translate">search</mat-icon>
+    </button>
+
     <input
       matInput
       #searchInput
@@ -18,12 +20,13 @@
       [(ngModel)]="searchTerm"
       (ngModelChange)="inputChange($event)"
       (keyup.enter)="searchSubmit($event)"
-      class="app-input-form-field-input"
       [placeholder]="'SEARCH.INPUT.PLACEHOLDER' | translate"
       autocomplete="off"
     />
-    <div matSuffix class="app-suffix-search-icon-wrapper">
-      <mat-icon *ngIf="searchTerm.length" (click)="clear()" class="app-search-input-control-icon app-clear-icon">clear</mat-icon>
+    <div matSuffix>
+      <button mat-icon-button (click)="clear()">
+        <mat-icon *ngIf="searchTerm.length" class="app-suffix-icon">clear</mat-icon>
+      </button>
     </div>
   </mat-form-field>
 </div>

@@ -112,7 +112,7 @@ test.describe('Unshare a file from Search Results', () => {
 
   test('[C306995] Unshare dialog UI', async ({ personalFiles, searchPage }) => {
     await personalFiles.acaHeader.searchButton.click();
-    await searchPage.searchInput.searchButton.click();
+    await searchPage.clickSearchButton();
     await searchPage.searchOverlay.checkFilesAndFolders();
     await searchPage.searchOverlay.searchFor(file1);
 
@@ -133,7 +133,7 @@ test.describe('Unshare a file from Search Results', () => {
 
   test('[C306996] Unshare a file', async ({ personalFiles, searchPage, nodesApiAction, page }) => {
     await personalFiles.acaHeader.searchButton.click();
-    await searchPage.searchInput.searchButton.click();
+    await searchPage.clickSearchButton();
     await searchPage.searchOverlay.checkFilesAndFolders();
     await searchPage.searchOverlay.searchFor(file2);
 
@@ -152,7 +152,7 @@ test.describe('Unshare a file from Search Results', () => {
 
   test('[C306997] Cancel the Unshare action', async ({ personalFiles, searchPage }) => {
     await personalFiles.acaHeader.searchButton.click();
-    await searchPage.searchInput.searchButton.click();
+    await searchPage.clickSearchButton();
     await searchPage.searchOverlay.checkFilesAndFolders();
     await searchPage.searchOverlay.searchFor(file3);
 
@@ -170,7 +170,7 @@ test.describe('Unshare a file from Search Results', () => {
 
   test('[C306999] Unshare a file from the context menu', async ({ personalFiles, searchPage, nodesApiAction, page }) => {
     await personalFiles.acaHeader.searchButton.click();
-    await searchPage.searchInput.searchButton.click();
+    await searchPage.clickSearchButton();
     await searchPage.searchOverlay.checkFilesAndFolders();
     await searchPage.searchOverlay.searchFor(file4);
 
@@ -189,7 +189,7 @@ test.describe('Unshare a file from Search Results', () => {
 
   test('[C306998] Consumer - on Search Results - file shared by other user', async ({ personalFiles, searchPage, nodesApiAction }) => {
     await personalFiles.acaHeader.searchButton.click();
-    await searchPage.searchInput.searchButton.click();
+    await searchPage.clickSearchButton();
     await searchPage.searchOverlay.checkFilesAndFolders();
     await searchPage.searchOverlay.searchFor(fileSite1);
 
@@ -204,7 +204,7 @@ test.describe('Unshare a file from Search Results', () => {
 
   test('[C307000] Consumer - on Search Results - file shared by the user', async ({ personalFiles, searchPage, nodesApiAction, page }) => {
     await personalFiles.acaHeader.searchButton.click();
-    await searchPage.searchInput.searchButton.click();
+    await searchPage.clickSearchButton();
     await searchPage.searchOverlay.checkFilesAndFolders();
     await searchPage.searchOverlay.searchFor(fileSite2);
 

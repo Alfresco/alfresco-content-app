@@ -1,43 +1,13 @@
-@import '@alfresco/adf-core/lib/styles/mat-selectors';
-
 $search-width: 594px;
-$search-height: 32px;
+$search-height: 64px;
 $search-background: var(--theme-search-background-color);
 $search-border-radius: 4px;
-$top-margin: 12px;
 
 .app-search-container {
   color: var(--theme-foreground-text-color);
   width: 100%;
   max-width: $search-width;
-  height: $search-height + $top-margin;
-
-  .app-search-button:is(button) {
-    width: 32px;
-    height: 32px;
-    margin-left: 0;
-    padding-left: 0;
-    margin-top: -4px;
-  }
-
-  .app-input-form-field {
-    .app-suffix-search-icon-wrapper.app-icon-arrow {
-      margin-top: 16px;
-    }
-
-    .app-suffix-search-icon-wrapper.app-close-button {
-      height: 6px;
-
-      .app-close-icon {
-        font-size: 18px;
-        line-height: 28px;
-      }
-    }
-
-    &-input {
-      caret-color: var(--theme-text-color);
-    }
-  }
+  height: $search-height;
 
   &:focus-within {
     label {
@@ -46,19 +16,12 @@ $top-margin: 12px;
   }
 }
 
-.app-search-options-menu#{$mat-menu-panel} {
-  position: relative;
-  top: -5px;
-  margin-top: 2px;
+.app-search-options-menu {
   background-color: var(--theme-dialog-background-color);
   width: $search-width;
-  max-width: unset;
+  /* stylelint-disable-next-line declaration-no-important */
+  min-width: $search-width !important;
   border-radius: $search-border-radius;
-
-  #{$mdc-list} {
-    padding-top: 10px;
-    padding-right: 10px;
-  }
 }
 
 .aca-search-input {
@@ -67,55 +30,21 @@ $top-margin: 12px;
   background-color: $search-background;
   border-radius: $search-border-radius;
   height: $search-height;
-  margin-bottom: 0;
-  padding-bottom: 26px;
 
-  .app-search-container {
-    margin: 10px 0 0;
+  .app-suffix-icon {
+    width: 18px;
+    height: 18px;
+    font-size: 18px;
   }
-}
-
-.app-search-control {
-  margin-top: -$top-margin;
 }
 
 .app-search-options {
   color: var(--theme-text-color);
   border-top: 1px solid var(--theme-divider-color);
-  padding: 20px 10px;
-  font-size: 16px;
-  letter-spacing: -0.7px;
-  margin-bottom: -8px;
-
-  #{$mat-checkbox} {
-    #{$mdc-form-field} {
-      #{$mat-checkbox-box} {
-        #{$mat-checkbox-background} {
-          height: 18px;
-          width: 18px;
-        }
-      }
-    }
-  }
-
-  .app-search-options-checkbox label {
-    max-width: 155px;
-    font-size: 16px;
-    padding-left: 6px;
-    padding-top: 2px;
-    letter-spacing: -1px;
-  }
-
-  &-checkbox {
-    padding: 3px 36px 3px 20px;
-
-    /* stylelint-disable-next-line no-descending-specificity */
-    label {
-      padding: 0 0 0 11px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-  }
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  column-gap: 24px;
 }
 
 .app-search-hint {
@@ -139,7 +68,7 @@ $top-margin: 12px;
     width: $search-width-small;
   }
 
-  #search-options {
+  .app-search-options {
     padding-left: 20px;
 
     label {
@@ -171,7 +100,7 @@ $top-margin: 12px;
     width: $search-width-xsmall;
   }
 
-  #search-options label {
+  .app-search-options label {
     max-width: 180px;
   }
 }

@@ -1,30 +1,29 @@
-<div class="app-search-container app-search-menu-trigger"
+<div class="app-search-container"
   [matMenuTriggerFor]="searchOptionsMenu"
   (menuOpened)="onMenuOpened()"
   (menuClosed)="syncInputValues()"
 >
+  <mat-form-field class="app-input-form-field" appearance="outline">
+    <button class="aca-search-input--search-button" mat-icon-button matPrefix (click)="searchByOption()" [title]="'SEARCH.BUTTON.TOOLTIP' | translate">
+      <mat-icon [attr.aria-label]="'SEARCH.BUTTON.ARIA-LABEL' | translate">search</mat-icon>
+    </button>
 
-  <button mat-icon-button class="app-search-button" (click)="searchByOption()" [title]="'SEARCH.BUTTON.TOOLTIP' | translate">
-    <mat-icon [attr.aria-label]="'SEARCH.BUTTON.ARIA-LABEL' | translate">search</mat-icon>
-  </button>
-  <mat-form-field class="app-input-form-field app-input-form-field-readonly" [floatLabel]="'auto'">
     <input
       matInput
       [attr.aria-label]="'SEARCH.INPUT.ARIA-LABEL' | translate"
-      class="app-input-form-field-input"
       [type]="'text'"
       [readonly]="true"
       [value]="searchedWord"
       [placeholder]="'SEARCH.INPUT.PLACEHOLDER' | translate"
     />
 
-    <div matSuffix class="app-suffix-search-icon-wrapper app-icon-arrow">
-      <mat-icon>arrow_drop_down</mat-icon>
-    </div>
+    <div matSuffix>
+      <mat-icon class="app-suffix-icon">arrow_drop_down</mat-icon>
 
-    <button mat-icon-button matSuffix class="app-suffix-search-icon-wrapper app-close-button" (click)="exitSearch()">
-      <mat-icon class="app-close-icon">close</mat-icon>
-    </button>
+      <button class="aca-search-input--close-button" mat-icon-button (click)="exitSearch()">
+        <mat-icon class="app-suffix-icon">close</mat-icon>
+      </button>
+    </div>
   </mat-form-field>
 </div>
 
@@ -41,9 +40,7 @@
       <mat-hint *ngIf="hasLibrariesConstraint" class="app-search-hint">{{ 'SEARCH.INPUT.HINT' | translate }}</mat-hint>
 
       <div id="search-options" class="app-search-options">
-        <mat-checkbox
-          class="app-search-options-checkbox"
-          *ngFor="let option of searchOptions"
+        <mat-checkbox *ngFor="let option of searchOptions"
           id="{{ option.id }}"
           [(ngModel)]="option.value"
           [disabled]="option.shouldDisable()"
