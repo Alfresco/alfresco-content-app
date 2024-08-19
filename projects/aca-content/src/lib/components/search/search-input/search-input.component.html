@@ -4,7 +4,7 @@
   (menuClosed)="syncInputValues()"
 >
   <mat-form-field class="app-input-form-field" appearance="outline">
-    <button mat-icon-button matPrefix (click)="searchByOption()" [title]="'SEARCH.BUTTON.TOOLTIP' | translate">
+    <button class="app-search-button" mat-icon-button matPrefix (click)="searchByOption()" [title]="'SEARCH.BUTTON.TOOLTIP' | translate">
       <mat-icon [attr.aria-label]="'SEARCH.BUTTON.ARIA-LABEL' | translate">search</mat-icon>
     </button>
 
