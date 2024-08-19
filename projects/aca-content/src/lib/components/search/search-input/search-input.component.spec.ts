@@ -230,7 +230,7 @@ describe('SearchInputComponent', () => {
       fixture.detectChanges();
       await fixture.whenStable();
 
-      const closeIcon = fixture.debugElement.nativeElement.querySelector('.app-close-icon');
+      const closeIcon = fixture.debugElement.nativeElement.querySelector('.aca-search-input--close-button');
       closeIcon.click();
 
       fixture.detectChanges();
