@@ -141,7 +141,7 @@ test.describe('viewer file', () => {
 
   test('[C279175] Viewer opens for a file from Search Results', async ({ personalFiles, searchPage }) => {
     await personalFiles.acaHeader.searchButton.click();
-    await searchPage.searchInput.searchButton.click();
+    await searchPage.clickSearchButton();
     await searchPage.searchOverlay.checkFilesAndFolders();
     await searchPage.searchOverlay.searchFor(randomDocxName);
     await searchPage.reload({ waitUntil: 'domcontentloaded' });

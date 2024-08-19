@@ -397,7 +397,7 @@ test.describe('Library actions ', () => {
       const libraryMenu = myLibrariesPage.matMenu;
 
       await myLibrariesHeader.searchButton.click();
-      await searchPage.searchInput.searchButton.click();
+      await searchPage.clickSearchButton();
       await searchPage.searchOverlay.searchLibrariesOption.click();
       await searchPage.searchOverlay.searchFor(adminLibrary4);
 
@@ -415,7 +415,7 @@ test.describe('Library actions ', () => {
       const libraryMenu = searchPage.matMenu;
 
       await searchHeader.searchButton.click();
-      await searchPage.searchInput.searchButton.click();
+      await searchPage.clickSearchButton();
       await searchPage.searchOverlay.searchLibrariesOption.click();
       await searchPage.searchOverlay.searchFor(user2Library4);
 
