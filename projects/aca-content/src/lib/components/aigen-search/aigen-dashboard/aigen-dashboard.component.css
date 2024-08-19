@@ -1,0 +1,35 @@
+h3, p {
+    margin: 0;
+    padding: 0;
+}
+
+/* :host {
+    box-sizing: border-box;
+    padding: 12px 36px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow: hidden;
+} */
+
+.dashboard-result-box {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px;
+    border: solid;
+    border-color: var(--theme-border-color);
+    border-radius: 4px;
+}
+
+.text-highlight {
+    background-color: gold;
+    padding: 1px;
+}
+
+.text-highlight:empty {
+    background-color: transparent;
+    padding: 0;
+}

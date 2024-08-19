@@ -24,34 +24,16 @@
 
 import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { NodeEntry, Pagination, ResultSetPaging } from '@alfresco/js-api';
-import { ActivatedRoute, Params } from '@angular/router';
-import {
-  AlfrescoViewerComponent,
-  DocumentListComponent,
-  ResetSearchDirective,
-  SearchFilterChipsComponent,
-  SearchFormComponent,
-  SearchQueryBuilderService,
-  TagService
-} from '@alfresco/adf-content-services';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { AlfrescoViewerComponent, DocumentListModule, SearchModule, SearchQueryBuilderService, TagService } from '@alfresco/adf-content-services';
 import {
   infoDrawerPreview,
   NavigateToFolder,
   SetInfoDrawerPreviewStateAction,
   SetInfoDrawerStateAction,
-  ShowInfoDrawerPreviewAction,
-  SetSearchItemsTotalCountAction
+  ShowInfoDrawerPreviewAction
 } from '@alfresco/aca-shared/store';
-import {
-  CustomEmptyContentTemplateDirective,
-  DataColumnComponent,
-  DataColumnListComponent,
-  DateColumnHeaderComponent,
-  NotificationService,
-  PaginationComponent,
-  TranslationService,
-  ViewerToolbarComponent
-} from '@alfresco/adf-core';
+import { DataTableModule, NotificationService, PaginationComponent, TranslationService, ViewerModule } from '@alfresco/adf-core';
 import { combineLatest } from 'rxjs';
 import {
   ContextActionsDirective,
@@ -76,7 +58,6 @@ import { TagsColumnComponent } from '../../dl-custom-components/tags-column/tags
 import { MatIconModule } from '@angular/material/icon';
 import { SearchResultsRowComponent } from '../search-results-row/search-results-row.component';
 import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-extensions';
-import { BulkActionsDropdownComponent } from '../../bulk-actions-dropdown/bulk-actions-dropdown.component';
 
 @Component({
   standalone: true,
@@ -85,10 +66,13 @@ import { BulkActionsDropdownComponent } from '../../bulk-actions-dropdown/bulk-a
     TranslateModule,
     SearchInputComponent,
     MatProgressBarModule,
+    SearchModule,
     MatDividerModule,
     MatButtonModule,
+    DocumentListModule,
     DocumentListDirective,
     ContextActionsDirective,
+    DataTableModule,
     ThumbnailColumnComponent,
     SearchActionMenuComponent,
     TagsColumnComponent,
@@ -97,20 +81,11 @@ import { BulkActionsDropdownComponent } from '../../bulk-actions-dropdown/bulk-a
     InfoDrawerComponent,
     SearchResultsRowComponent,
     PaginationDirective,
+    ViewerModule,
     PageLayoutComponent,
     ToolbarComponent,
     AlfrescoViewerComponent,
-    DynamicColumnComponent,
-    SearchFormComponent,
-    ResetSearchDirective,
-    SearchFilterChipsComponent,
-    DocumentListComponent,
-    DataColumnListComponent,
-    DataColumnComponent,
-    DateColumnHeaderComponent,
-    CustomEmptyContentTemplateDirective,
-    ViewerToolbarComponent,
-    BulkActionsDropdownComponent
+    DynamicColumnComponent
   ],
   selector: 'aca-search-results',
   templateUrl: './search-results.component.html',
@@ -135,7 +110,8 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
     tagsService: TagService,
     private queryBuilder: SearchQueryBuilderService,
     private route: ActivatedRoute,
-    private translationService: TranslationService
+    private translationService: TranslationService,
+    protected router: Router
   ) {
     super();
 
@@ -271,7 +247,6 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
   onSearchResultLoaded(nodePaging: ResultSetPaging) {
     this.data = nodePaging;
     this.totalResults = this.getNumberOfResults();
-    this.store.dispatch(new SetSearchItemsTotalCountAction(this.totalResults));
   }
 
   getNumberOfResults() {
@@ -326,5 +301,9 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
   onSearchSortingUpdate(option: SearchSortingDefinition) {
     this.queryBuilder.sorting = [{ ...option, ascending: option.ascending }];
     this.queryBuilder.update();
+  }
+
+  navigateToAIMode() {
+    this.router.navigate(['/search/ai-mode']);
   }
 }

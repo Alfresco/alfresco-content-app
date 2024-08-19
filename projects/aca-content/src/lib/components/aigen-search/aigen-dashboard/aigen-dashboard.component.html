@@ -1,0 +1,7 @@
+<!-- <section> -->
+        <div *ngFor="let item of data" class="dashboard-result-box">
+            <h3>Text Result: {{ item.hero }}</h3>
+            <p [innerHTML]="highlightKeyword(item.detail, item.hero)"></p>
+            <a [href]="item.source" target="_blank" rel="noopener noreferrer">{{ item.source }}</a>
+        </div>
+<!-- </section> -->

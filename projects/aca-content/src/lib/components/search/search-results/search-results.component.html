@@ -1,9 +1,9 @@
 <aca-page-layout>
   <div class="aca-page-layout-header">
     <aca-search-input></aca-search-input>
-    <aca-bulk-actions-dropdown *ngIf="bulkActions" [items]="bulkActions"></aca-bulk-actions-dropdown>
     <div class="aca-search-toolbar-spacer"></div>
     <aca-toolbar [items]="actions"></aca-toolbar>
+    <button (click)="navigateToAIMode()" class="a-btn">Go to AI mode</button>
   </div>
 
   <div class="aca-page-layout-content">

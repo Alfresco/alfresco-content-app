@@ -40,6 +40,7 @@ import { Route } from '@angular/router';
 import { SharedLinkViewComponent } from './components/shared-link-view/shared-link-view.component';
 import { TrashcanComponent } from './components/trashcan/trashcan.component';
 import { ShellLayoutComponent } from '@alfresco/adf-core/shell';
+import { SearchOutletComponent } from './components/search-outlet/search-outlet.component';
 
 export const CONTENT_ROUTES: ExtensionRoute[] = [
   {
@@ -439,6 +440,14 @@ export const CONTENT_LAYOUT_ROUTES: Route = {
         {
           path: '',
           component: SearchResultsComponent,
+          data: {
+            title: 'APP.BROWSE.SEARCH.TITLE',
+            sortingPreferenceKey: 'search'
+          }
+        },
+        {
+          path: 'ai-mode',
+          component: SearchOutletComponent,
           data: {
             title: 'APP.BROWSE.SEARCH.TITLE',
             sortingPreferenceKey: 'search'

@@ -1,0 +1,78 @@
+body { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+}
+
+.n-btn {
+    font-size: 16px;
+    border: none;
+    background-color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+}
+
+.n-btn:hover {
+    background-color: #f7f7f7;
+    cursor: pointer;
+}
+
+.f-space {
+    justify-content: space-between;
+}
+
+.display {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.loading-container {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+}
+
+.loading-indicator {
+    width: 48px;
+    height: 48px;
+    border: 5px solid var(--adf-theme-foreground-text-color);
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+} 
+
+aca-aigen-filter {
+    box-sizing: border-box;
+    display: flex;
+    width: 100%;
+    background-color: white;
+    padding: 16px 12px;
+    border-top: 1px solid var(--theme-border-color);
+    border-bottom: 1px solid var(--theme-border-color);
+}
+
+aca-aigen-dashboard {
+    box-sizing: border-box;
+    flex: 1;
+    padding: 12px 36px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow: auto;
+}
+
+

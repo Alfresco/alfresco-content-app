@@ -1,0 +1,16 @@
+<aca-page-layout>
+    <div class="aca-page-layout-header f-space">
+        <aca-my-fa-component (inputField)="handleInputChange($event)"></aca-my-fa-component>
+        <button (click)="goToNormalMode()" class="n-btn">Go to normal mode</button>
+    </div>
+    <div class="aca-page-layout-content">
+        <div class="display">
+            <aca-aigen-filter></aca-aigen-filter>
+            <div *ngIf="isLoading" class="loading-container">
+                <div class="loading-indicator">
+                </div>
+            </div>
+            <aca-aigen-dashboard [inputData]="inputData" *ngIf="!isLoading"></aca-aigen-dashboard>
+        </div>
+    </div>
+</aca-page-layout>

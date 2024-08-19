@@ -1,0 +1,25 @@
+input, input:focus {
+    border-style: none;
+    background: transparent;
+    outline: none;
+    font-size: 16px;
+    font-family: 'Open Sans';
+    letter-spacing: -1px;
+    opacity: 1;
+    font-weight: bold;  
+}
+
+.aigen-input {
+    width: 256px;
+    height: 58px;
+    border: none;
+    background-color: #f7f7f7;
+    padding: 4px;
+    border-radius: 4px;
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    gap: 0.5rem;
+    /* border-bottom: rgba(0, 0, 0, 0.07); */
+    cursor: text;
+}
