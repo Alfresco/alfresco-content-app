@@ -25,8 +25,8 @@ $grey-background: rgba(33, 33, 33, 0.12);
 $grey-text-background: rgba(33, 33, 33, 0.05);
 $grey-hover-background: rgba(33, 33, 33, 0.24);
 $blue-save-button-background: #1f74db;
-$blue-checkbox-background: rgb(10,96,206);
-$blue-active-table-row: rgb(10,96,206, 0.24);
+$blue-checkbox-background: rgb(10, 96, 206);
+$blue-active-table-row: rgb(10, 96, 206, 0.24);
 $black-heading: #4e4c4c;
 $theme-dropdown-background: darken($background-color, 5%);
 $theme-dropdown-background-hover: darken($background-color, 10%);
@@ -37,6 +37,7 @@ $datetimepicker-cell-background-color: #fff;
 $datetimepicker-cell-focus-border-color: #1f74db;
 $sidenav-background-color: $background-color;
 $selected-text-color: #212121;
+$selected-text-background: rgba($selected-text-color, 0.12);
 $selected-background-color: rgba(31, 116, 219, 0.24);
 $action-button-text-color: lighten($text-color, 35%);
 $page-layout-header-background-color: $background-card-color;
@@ -88,6 +89,7 @@ $defaults: (
   --theme-sidenav-background-color: $sidenav-background-color,
   --theme-selected-text-color: $selected-text-color,
   --theme-selected-background-color: $selected-background-color,
+  --theme-selected-text-background: $selected-text-background,
   --theme-hover-background-color: $grey-text-background,
   --theme-action-button-text-color: $action-button-text-color,
   --theme-page-layout-header-background-color: $page-layout-header-background-color,
