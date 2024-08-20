@@ -1,7 +1,16 @@
 .aca-datatable-cell-badges-container {
   display: flex;
+  align-items: center;
 
-  .adf-datatable-cell-badge {
+  .adf-datatable-cell-badge,
+  * > .adf-datatable-cell-badge {
+    display: flex;
     color: var(--theme-secondary-text);
+    border-radius: 14px;
+    padding: 8px;
+
+    &:hover {
+      background-color: var(--theme-selected-text-background);
+    }
   }
 }

@@ -144,7 +144,6 @@ test.describe('viewer file', () => {
     await searchPage.clickSearchButton();
     await searchPage.searchOverlay.checkFilesAndFolders();
     await searchPage.searchOverlay.searchFor(randomDocxName);
-    await searchPage.reload({ waitUntil: 'domcontentloaded' });
     await searchPage.dataTable.goThroughPagesLookingForRowWithName(randomDocxName);
     await searchPage.searchInput.performDoubleClickFolderOrFileToOpen(randomDocxName);
     expect(await searchPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
