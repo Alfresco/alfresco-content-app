@@ -2,6 +2,7 @@
   *ngIf="items?.length"
   [title]="tooltip"
   appearance="outline"
+  subscriptSizing="dynamic"
   class="aca-bulk-actions-form-field"
   data-automation-id="aca-bulk-actions-form-field"
 >
@@ -14,13 +15,16 @@
     (keydown)="onKeyDown($event)"
   >
     <mat-select-trigger>
-      <adf-icon
-        *ngIf="bulkSelectControl.value?.icon"
-        [title]="bulkSelectControl.value?.title | translate"
-        [value]="bulkSelectControl.value?.icon"
-        [attr.data-automation-id]="'aca-bulk-action-icon-' + bulkSelectControl.value?.id"
-      ></adf-icon>
-      {{ bulkSelectControl.value?.title | translate }}
+      <div class="aca-bulk-actions-option-content">
+        <adf-icon
+          *ngIf="bulkSelectControl.value?.icon"
+          [title]="bulkSelectControl.value?.title | translate"
+          [value]="bulkSelectControl.value?.icon"
+          class="aca-bulk-actions-icon"
+          [attr.data-automation-id]="'aca-bulk-action-icon-' + bulkSelectControl.value?.id"
+        ></adf-icon>
+        {{ bulkSelectControl.value?.title | translate }}
+      </div>
     </mat-select-trigger>
 
     <mat-option
@@ -30,13 +34,16 @@
       [attr.data-automation-id]="option.id"
       (click)="runAction(option)"
     >
-      <adf-icon
-        *ngIf="option.icon"
-        [title]="option.title | translate"
-        [value]="option.icon"
-        [attr.data-automation-id]="'aca-bulk-action-icon-' + option.id"
-      ></adf-icon>
-      {{ option.title | translate }}
+      <div class="aca-bulk-actions-option-content">
+        <adf-icon
+          *ngIf="option.icon"
+          [title]="option.title | translate"
+          [value]="option.icon"
+          class="aca-bulk-actions-icon"
+          [attr.data-automation-id]="'aca-bulk-action-icon-' + option.id"
+        ></adf-icon>
+        {{ option.title | translate }}
+      </div>
     </mat-option>
   </mat-select>
 </mat-form-field>
