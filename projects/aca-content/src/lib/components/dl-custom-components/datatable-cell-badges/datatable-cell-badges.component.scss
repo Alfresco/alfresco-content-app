@@ -4,6 +4,7 @@
 
   .adf-datatable-cell-badge,
   * > .adf-datatable-cell-badge {
+    display: flex;
     color: var(--theme-secondary-text);
     border-radius: 14px;
     padding: 8px;
