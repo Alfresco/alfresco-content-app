@@ -30,6 +30,10 @@ aca-search-ai-input {
     width: 92px;
     font-weight: 600;
 
+    &-label {
+      vertical-align: super;
+    }
+
     adf-icon {
       margin-bottom: 3px;
       margin-right: 7px;
