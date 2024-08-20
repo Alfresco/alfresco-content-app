@@ -401,7 +401,6 @@ test.describe('Library actions ', () => {
       await searchPage.searchOverlay.searchLibrariesOption.click();
       await searchPage.searchOverlay.searchFor(adminLibrary4);
 
-      await Utils.reloadPageIfRowNotVisible(searchPage, adminLibrary4);
       await expect(libraryTable.getRowByName(adminLibrary4)).toBeVisible();
       await libraryTable.getRowByName(adminLibrary4).click();
       await myLibrariesHeader.clickMoreActions();
