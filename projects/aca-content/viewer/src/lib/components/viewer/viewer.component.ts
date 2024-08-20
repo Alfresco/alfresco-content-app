@@ -46,18 +46,18 @@ import { ContentActionRef, SelectionState } from '@alfresco/adf-extensions';
 import { Node, VersionEntry, VersionsApi } from '@alfresco/js-api';
 import { Component, HostListener, inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, PRIMARY_OUTLET, Router } from '@angular/router';
-import { AlfrescoApiService, ViewerModule } from '@alfresco/adf-core';
+import { AlfrescoApiService } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
 import { from, Observable, Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { Actions, ofType } from '@ngrx/effects';
-import { AlfrescoViewerModule, DocumentListService, NodesApiService, UploadService } from '@alfresco/adf-content-services';
+import { AlfrescoViewerComponent, DocumentListService, NodesApiService, UploadService } from '@alfresco/adf-content-services';
 import { CommonModule } from '@angular/common';
 import { ViewerService } from '../../services/viewer.service';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, ViewerModule, AlfrescoViewerModule, InfoDrawerComponent, ToolbarMenuItemComponent, ToolbarComponent],
+  imports: [CommonModule, InfoDrawerComponent, ToolbarMenuItemComponent, ToolbarComponent, AlfrescoViewerComponent],
   selector: 'aca-viewer',
   templateUrl: './viewer.component.html',
   styleUrls: ['./viewer.component.scss'],
