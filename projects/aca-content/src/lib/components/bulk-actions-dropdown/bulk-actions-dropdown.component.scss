@@ -2,23 +2,24 @@
 
 .aca-bulk-actions-form-field {
   margin-left: 24px;
-  margin-top: 1.4375em;
   width: 295px;
 
   #{$mat-form-field-flex},
-  #{$mat-form-text-field-infix} {
+  #{$mat-select-value} {
     height: 48px;
-    line-height: 48px;
     display: flex;
     align-items: center;
-    border: 0;
   }
+}
 
-  #{$mat-form-field-appearance-outline} #{$mat-form-field-outline} {
-    top: 0;
-  }
+.aca-bulk-actions-option-content {
+  height: 100%;
+  display: flex;
+  column-gap: 8px;
+  align-items: center;
 
-  #{$mat-select} {
-    margin-top: 0.25rem;
+  .aca-bulk-actions-icon {
+    width: 24px;
+    height: 24px;
   }
 }
