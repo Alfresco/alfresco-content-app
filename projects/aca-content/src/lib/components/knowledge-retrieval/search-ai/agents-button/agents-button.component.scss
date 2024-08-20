@@ -4,6 +4,9 @@ aca-agents-button.aca-agents-button {
 
   button {
     &.aca-agents-menu-button {
+      display: flex;
+      align-items: end;
+
       &.aca-agents-button-menu-trigger {
         height: auto;
         cursor: pointer;
