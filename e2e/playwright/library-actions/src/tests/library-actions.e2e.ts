@@ -174,8 +174,7 @@ test.describe('Library actions ', () => {
       }
     });
 
-    test('[C290106] Leave a library from My Libraries', async ({ myLibrariesPage }) => {
-      await Utils.reloadPageIfRowNotVisible(myLibrariesPage, user1Library1);
+    test('[C290106] Leave a library from My Libraries', async () => {
       await expect(libraryTable.getCellByColumnNameAndRowItem(user1Library1, managerRole)).toBeVisible();
       await libraryTable.performActionFromExpandableMenu(user1Library1, leaveLibraryButton);
       await expect.soft(confirmDialog.getDialogTitle('Leave this library?')).toBeVisible();
@@ -187,16 +186,14 @@ test.describe('Library actions ', () => {
       await expect(libraryTable.getRowByName(user1Library1)).toBeHidden();
     });
 
-    test('[C290111] Cancel Leave Library', async ({ myLibrariesPage }) => {
-      await Utils.reloadPageIfRowNotVisible(myLibrariesPage, user1Library5);
+    test('[C290111] Cancel Leave Library', async () => {
       await expect(libraryTable.getCellByColumnNameAndRowItem(user1Library5, managerRole)).toBeVisible();
       await libraryTable.performActionFromExpandableMenu(user1Library5, leaveLibraryButton);
       await confirmDialog.cancelButton.click();
       await expect(libraryTable.getCellByColumnNameAndRowItem(user1Library5, managerRole)).toBeVisible();
     });
 
-    test('[C290107] Leave a library - failure notification', async ({ myLibrariesPage }) => {
-      await Utils.reloadPageIfRowNotVisible(myLibrariesPage, user2Library1);
+    test('[C290107] Leave a library - failure notification', async () => {
       await expect(libraryTable.getCellByColumnNameAndRowItem(user2Library1, managerRole)).toBeVisible();
       await libraryTable.performActionFromExpandableMenu(user2Library1, leaveLibraryButton);
       await confirmDialog.okButton.click();
@@ -204,8 +201,7 @@ test.describe('Library actions ', () => {
       await expect(libraryTable.getCellByColumnNameAndRowItem(user2Library1, managerRole)).toBeVisible();
     });
 
-    test('[C289974] Mark library as favorite from My Libraries', async ({ myLibrariesPage }) => {
-      await Utils.reloadPageIfRowNotVisible(myLibrariesPage, adminLibrary3);
+    test('[C289974] Mark library as favorite from My Libraries', async () => {
       await expect(libraryTable.getCellByColumnNameAndRowItem(adminLibrary3, contributorRole)).toBeVisible();
       await libraryTable.getCellByColumnNameAndRowItem(adminLibrary3, contributorRole).click();
       await myLibrariesHeader.clickMoreActions();
@@ -215,7 +211,6 @@ test.describe('Library actions ', () => {
     });
 
     test('[C289975] Remove library from favorites from My Libraries', async ({ myLibrariesPage }) => {
-      await Utils.reloadPageIfRowNotVisible(myLibrariesPage, user2Library2);
       await expect(libraryTable.getRowByName(user2Library2)).toBeVisible();
       await libraryTable.getRowByName(user2Library2).click();
       await myLibrariesPage.page.waitForTimeout(1000);
@@ -226,10 +221,8 @@ test.describe('Library actions ', () => {
       expect(await libraryMenu.isMenuItemVisible(favoriteButton)).toBe(true);
     });
 
-    test('[C289988] Delete a library from My Libraries', async ({ trashPage, myLibrariesPage }) => {
+    test('[C289988] Delete a library from My Libraries', async ({ trashPage }) => {
       const trashTable = trashPage.dataTable;
-
-      await Utils.reloadPageIfRowNotVisible(myLibrariesPage, user2Library5Delete);
       await expect(libraryTable.getRowByName(user2Library5Delete)).toBeVisible();
       await libraryTable.getRowByName(user2Library5Delete).click();
       await myLibrariesHeader.clickMoreActions();
@@ -259,7 +252,6 @@ test.describe('Library actions ', () => {
     test('[C290105] Join a public library from Favorite Libraries', async ({ favoriteLibrariesPage }) => {
       await favoritesApi.addFavoriteById(siteString, adminLibrary1);
       await favoriteLibrariesPage.navigate();
-      await Utils.reloadPageIfRowNotVisible(favoriteLibrariesPage, adminLibrary1);
       await libraryTable.performActionFromExpandableMenu(adminLibrary1, joinButton);
       await expect.soft(snackBar.getByMessageLocator(libraryJoinedMessage)).toBeVisible();
       await expect(libraryTable.getCellByColumnNameAndRowItem(adminLibrary1, consumerRole)).toBeVisible();
@@ -268,7 +260,6 @@ test.describe('Library actions ', () => {
     test('[C290109] Join a moderated library from Favorite Libraries', async ({ favoriteLibrariesPage }) => {
       await favoritesApi.addFavoriteById(siteString, adminModerateLibrary1);
       await favoriteLibrariesPage.navigate();
-      await Utils.reloadPageIfRowNotVisible(favoriteLibrariesPage, adminModerateLibrary1);
       await expect(libraryTable.getCellByColumnNameAndRowItem(adminModerateLibrary1, notMemberString)).toBeVisible();
       await libraryTable.performActionFromExpandableMenu(adminModerateLibrary1, joinButton);
       await expect.soft(snackBar.getByMessageLocator(requestToJoinMessage)).toBeVisible();
@@ -282,7 +273,6 @@ test.describe('Library actions ', () => {
       const confirmDialog = favoriteLibrariesPage.confirmDialogComponent;
       await favoritesApi.addFavoriteById(siteString, user1Library2);
       await favoriteLibrariesPage.navigate();
-      await Utils.reloadPageIfRowNotVisible(favoriteLibrariesPage, user1Library2);
       await expect(libraryTable.getCellByColumnNameAndRowItem(user1Library2, contributorRole)).toBeVisible();
       await libraryTable.performActionFromExpandableMenu(user1Library2, leaveLibraryButton);
       await confirmDialog.okButton.click();
@@ -295,7 +285,6 @@ test.describe('Library actions ', () => {
       await favoritesApi.addFavoriteById(siteString, adminModerateLibrary3);
       await favoriteLibrariesPage.navigate();
 
-      await Utils.reloadPageIfRowNotVisible(favoriteLibrariesPage, adminModerateLibrary3);
       await expect(libraryTable.getCellByColumnNameAndRowItem(adminModerateLibrary3, notMemberString)).toBeVisible();
       await libraryTable.performActionFromExpandableMenu(adminModerateLibrary3, cancelJoinRequestButton);
       await expect.soft(snackBar.getByMessageLocator(cancelJoinRequestMessage)).toBeVisible();
@@ -308,7 +297,6 @@ test.describe('Library actions ', () => {
       const libraryMenu = favoriteLibrariesPage.matMenu;
 
       await favoriteLibrariesPage.navigate({ waitUntil: domContentLoadedString });
-      await Utils.reloadPageIfRowNotVisible(favoriteLibrariesPage, user2Library3);
       await expect(libraryTable.getRowByName(user2Library3)).toBeVisible();
       await libraryTable.getRowByName(user2Library3).click();
       await myLibrariesHeader.clickMoreActions();
@@ -322,7 +310,6 @@ test.describe('Library actions ', () => {
       const trashTable = trashPage.dataTable;
 
       await favoriteLibrariesPage.navigate();
-      await Utils.reloadPageIfRowNotVisible(favoriteLibrariesPage, user2Library6Delete);
       await expect(libraryTable.getRowByName(user2Library6Delete)).toBeVisible();
       await libraryTable.getRowByName(user2Library6Delete).click();
       await myLibrariesHeader.clickMoreActions();
@@ -350,7 +337,6 @@ test.describe('Library actions ', () => {
     test('[C306959] Join a public library from Search Results', async ({ searchPage }) => {
       await searchPage.navigate({ remoteUrl: `#/search-libraries;q=${adminLibrary2}` });
       await searchPage.reload({ waitUntil: loadString });
-      await Utils.reloadPageIfRowNotVisible(searchPage, adminLibrary2);
       await expect(libraryTable.getCellByColumnNameAndRowItem(adminLibrary2, notMemberString)).toBeVisible();
       await libraryTable.performActionFromExpandableMenu(adminLibrary2, joinButton);
       await expect.soft(snackBar.getByMessageLocator(libraryJoinedMessage)).toBeVisible();
@@ -359,7 +345,6 @@ test.describe('Library actions ', () => {
 
     test('[C306960] Join a moderated library from Search Results', async ({ myLibrariesPage, searchPage }) => {
       await searchPage.navigate({ remoteUrl: `#/search-libraries;q=${adminModerateLibrary2}` });
-      await Utils.reloadPageIfRowNotVisible(searchPage, adminModerateLibrary2);
       await expect(libraryTable.getCellByColumnNameAndRowItem(adminModerateLibrary2, notMemberString)).toBeVisible();
       await libraryTable.performActionFromExpandableMenu(adminModerateLibrary2, joinButton);
       await expect.soft(snackBar.getByMessageLocator(requestToJoinMessage)).toBeVisible();
@@ -373,7 +358,6 @@ test.describe('Library actions ', () => {
       const confirmDialog = searchPage.confirmDialogComponent;
       await searchPage.navigate({ remoteUrl: `#/search-libraries;q=${user1Library3}` });
 
-      await Utils.reloadPageIfRowNotVisible(searchPage, user1Library3);
       await expect(libraryTable.getCellByColumnNameAndRowItem(user1Library3, 'Collaborator')).toBeVisible();
       await libraryTable.performActionFromExpandableMenu(user1Library3, leaveLibraryButton);
       await confirmDialog.okButton.click();
@@ -384,7 +368,6 @@ test.describe('Library actions ', () => {
     test('[C306962] Cancel join from Search Results', async ({ searchPage }) => {
       await user2SitesApi.createSiteMembershipRequestForPerson(username2, adminModerateLibrary4);
       await searchPage.navigate({ remoteUrl: `#/search-libraries;q=${adminModerateLibrary4}` });
-      await Utils.reloadPageIfRowNotVisible(searchPage, adminModerateLibrary4);
       await expect(libraryTable.getCellByColumnNameAndRowItem(adminModerateLibrary4, notMemberString)).toBeVisible();
       await libraryTable.performActionFromExpandableMenu(adminModerateLibrary4, cancelJoinRequestButton);
       await expect.soft(snackBar.getByMessageLocator(cancelJoinRequestMessage)).toBeVisible();
@@ -417,8 +400,6 @@ test.describe('Library actions ', () => {
       await searchPage.clickSearchButton();
       await searchPage.searchOverlay.searchLibrariesOption.click();
       await searchPage.searchOverlay.searchFor(user2Library4);
-
-      await Utils.reloadPageIfRowNotVisible(searchPage, user2Library4);
       await expect(libraryTable.getRowByName(user2Library4)).toBeVisible();
       await searchPage.reload({ waitUntil: domContentLoadedString });
       await libraryTable.getRowByName(user2Library4).click();
@@ -435,7 +416,6 @@ test.describe('Library actions ', () => {
       const trashTable = trashPage.dataTable;
 
       await searchPage.navigate({ remoteUrl: `#/search-libraries;q=${user2Library7Delete}` });
-      await Utils.reloadPageIfRowNotVisible(searchPage, user2Library7Delete);
       await expect(libraryTable.getRowByName(user2Library7Delete)).toBeVisible();
       await libraryTable.getRowByName(user2Library7Delete).click();
       await searchHeader.clickMoreActions();
