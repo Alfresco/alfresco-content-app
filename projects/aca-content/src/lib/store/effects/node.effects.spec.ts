@@ -38,6 +38,7 @@ import {
   ManageAspectsAction,
   ManagePermissionsAction,
   MoveNodesAction,
+  NavigateUrlAction,
   PrintFileAction,
   PurgeDeletedNodesAction,
   RestoreDeletedNodesAction,
@@ -545,6 +546,22 @@ describe('NodeEffects', () => {
           payload: true
         })
       );
+    });
+
+    it('should redirect to correct url', () => {
+      spyOn(store, 'dispatch').and.callThrough();
+      Object.defineProperties(router, {
+        events: {
+          value: of(new NavigationEnd(1, 'test/(viewer:view/node-id)', ''))
+        },
+        navigateByUrl: {
+          value: jasmine.createSpy('navigateByUrl')
+        }
+      });
+      const node: any = { entry: { isFile: true, id: 'node-id' } };
+
+      store.dispatch(new ExpandInfoDrawerAction(node));
+      expect(store.dispatch).toHaveBeenCalledWith(new NavigateUrlAction('personal-files/details/node-id'));
     });
   });
 });

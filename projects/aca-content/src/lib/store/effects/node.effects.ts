@@ -316,11 +316,7 @@ export class NodeEffects {
             .subscribe(() => this.store.dispatch(new SetInfoDrawerStateAction(true)));
           if (action?.payload) {
             const route = 'personal-files/details';
-            this.router.navigate([route, action.payload.entry.id], {
-              queryParams: {
-                location: this.router.url
-              }
-            });
+            this.store.dispatch(new NavigateUrlAction([route, action.payload.entry.id].join('/')));
           } else {
             this.store
               .select(getAppSelection)
@@ -328,11 +324,7 @@ export class NodeEffects {
               .subscribe((selection) => {
                 if (selection && !selection.isEmpty) {
                   const route = 'personal-files/details';
-                  this.router.navigate([route, selection.last.entry.id], {
-                    queryParams: {
-                      location: this.router.url
-                    }
-                  });
+                  this.store.dispatch(new NavigateUrlAction([route, selection.last.entry.id].join('/')));
                 }
               });
           }
