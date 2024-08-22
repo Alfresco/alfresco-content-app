@@ -22,14 +22,17 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AppConfigPipe, LoginComponent } from '@alfresco/adf-core';
-import { Component, ViewEncapsulation } from '@angular/core';
+import { LoginComponent } from '@alfresco/adf-core';
+import { Component, inject, ViewEncapsulation } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
+import { AppSettingsService } from '@alfresco/aca-shared';
 
 @Component({
   standalone: true,
-  imports: [LoginComponent, TranslateModule, AppConfigPipe],
+  imports: [LoginComponent, TranslateModule],
   templateUrl: './app-login.component.html',
   encapsulation: ViewEncapsulation.None
 })
-export class AppLoginComponent {}
+export class AppLoginComponent {
+  settings = inject(AppSettingsService);
+}

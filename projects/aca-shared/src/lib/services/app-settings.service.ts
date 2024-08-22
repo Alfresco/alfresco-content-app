@@ -23,12 +23,19 @@
  */
 
 import { inject, Injectable } from '@angular/core';
-import { AppConfigService } from '@alfresco/adf-core';
+import { AppConfigService, CloseButtonPosition } from '@alfresco/adf-core';
 import { AlfrescoMimeType, DefaultMimeTypes } from '../constants/mime-types';
 
 @Injectable({ providedIn: 'root' })
 export class AppSettingsService {
   private appConfig = inject(AppConfigService);
+
+  /**
+   * Get the application copyright text from the app settings.
+   */
+  get appCopyright(): string {
+    return this.appConfig.get<string>('application.copyright', '');
+  }
 
   /**
    * Get the AOS (Alfresco Office Services) host URL from the app settings.
@@ -96,6 +103,34 @@ export class AppSettingsService {
       result += '/';
     }
     return result;
+  }
+
+  /**
+   * Get the viewer close button position from the app settings.
+   */
+  get viewerCloseButtonPosition(): CloseButtonPosition {
+    return this.appConfig.get('viewer.closeButtonPosition', CloseButtonPosition.Right);
+  }
+
+  /**
+   * Get the viewer max retries from the app settings.
+   */
+  get viewerMaxRetries(): number {
+    return this.appConfig.get<number>('viewer.maxRetries', 1);
+  }
+
+  /**
+   * Enabled state of the comment feature for upload dialog
+   */
+  get uploadAllowComments(): boolean {
+    return this.appConfig.get<boolean>('adf-version-manager.allowComments', true);
+  }
+
+  /**
+   * Enabled state of the download feature for upload dialog
+   */
+  get uploadAllowDownload(): boolean {
+    return this.appConfig.get<boolean>('adf-version-manager.allowDownload', true);
   }
 
   /**

@@ -1505,7 +1505,10 @@ describe('ContentManagementService', () => {
 
     it('should open dialog with NewVersionUploaderService', () => {
       contentManagementService.versionUpdateDialog(fakeNode, fakeFile);
-      const expectedParams = [{ node: fakeNode, file: fakeFile, currentVersion: { id: '1.0' }, title: 'VERSION.DIALOG.TITLE' }, { width: '600px' }];
+      const expectedParams = [
+        { node: fakeNode, file: fakeFile, currentVersion: { id: '1.0' }, title: 'VERSION.DIALOG.TITLE', showComments: true, allowDownload: true },
+        { width: '600px' }
+      ];
       expect(spyOnOpenUploadNewVersionDialog).toHaveBeenCalledOnceWith(...expectedParams);
     });
 

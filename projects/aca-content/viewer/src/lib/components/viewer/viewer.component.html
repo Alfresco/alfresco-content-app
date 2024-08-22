@@ -3,7 +3,7 @@
     [ngClass]="{
       'aca-right_side--hide': !showRightSide
     }"
-    [maxRetries]="'viewer.maxRetries' | adfAppConfig"
+    [maxRetries]="settings.viewerMaxRetries"
     [nodeId]="nodeId"
     [versionId]="versionId"
     [allowNavigate]="navigateMultiple"
@@ -14,7 +14,7 @@
     [allowFullScreen]="false"
     [overlayMode]="true"
     [hideInfoButton]="true"
-    [closeButtonPosition]="'viewer.closeButtonPosition' | adfAppConfig: 'right'"
+    [closeButtonPosition]="settings.viewerCloseButtonPosition"
     (showViewerChange)="onViewerVisibilityChanged()"
     [canNavigateBefore]="!!previousNodeId"
     [canNavigateNext]="!!nextNodeId"

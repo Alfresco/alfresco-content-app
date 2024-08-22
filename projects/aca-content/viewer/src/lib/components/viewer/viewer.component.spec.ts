@@ -39,7 +39,6 @@ import {
 } from '@alfresco/aca-shared';
 import { Store } from '@ngrx/store';
 import { Node } from '@alfresco/js-api';
-import { AcaViewerModule } from '../../viewer.module';
 
 const apiError = `{
 "error": {
@@ -68,7 +67,7 @@ describe('AcaViewerComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [LibTestingModule, AcaViewerModule],
+      imports: [LibTestingModule, AcaViewerComponent],
       providers: [
         { provide: DocumentBasePageService, useValue: DocumentBasePageServiceMock },
         { provide: DiscoveryApiService, useValue: discoveryApiServiceMockValue },

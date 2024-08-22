@@ -235,13 +235,13 @@ describe('UploadEffects', () => {
         detail: {
           files: [
             {
-              file: new FileModel({
+              file: {
                 name: 'Fake New file',
                 type: 'image/png',
                 lastModified: 1589273450599,
                 size: 1351,
                 slice: null
-              } as File),
+              } as File,
               entry: new FileModel({
                 name: 'Fake New file',
                 type: 'image/png',
@@ -274,7 +274,7 @@ describe('UploadEffects', () => {
                 id: '1bf8a8f7-18ac-4eef-919d-61d952eaa179',
                 allowableOperations: ['delete', 'update', 'updatePermissions'],
                 isFavorite: false
-              }
+              } as any
             }
           }
         }

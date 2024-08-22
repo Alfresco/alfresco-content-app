@@ -22,25 +22,21 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, OnChanges, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, inject, Input, OnChanges, OnInit, ViewEncapsulation } from '@angular/core';
 import { Node } from '@alfresco/js-api';
 import { CommonModule } from '@angular/common';
 import { VersionManagerModule } from '@alfresco/adf-content-services';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
-import { AppConfigPipe } from '@alfresco/adf-core';
+import { AppSettingsService } from '@alfresco/aca-shared';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, VersionManagerModule, MatIconModule, TranslateModule, AppConfigPipe],
+  imports: [CommonModule, VersionManagerModule, MatIconModule, TranslateModule],
   selector: 'app-versions-tab',
   template: `
     <ng-container *ngIf="isFileSelected; else empty">
-      <adf-version-manager
-        [showComments]="'adf-version-manager.allowComments' | adfAppConfig : true"
-        [allowDownload]="'adf-version-manager.allowDownload' | adfAppConfig : true"
-        [node]="node"
-      >
+      <adf-version-manager [showComments]="settings.uploadAllowComments" [allowDownload]="settings.uploadAllowDownload" [node]="node">
       </adf-version-manager>
     </ng-container>
 
@@ -54,6 +50,8 @@ import { AppConfigPipe } from '@alfresco/adf-core';
   encapsulation: ViewEncapsulation.None
 })
 export class VersionsTabComponent implements OnInit, OnChanges {
+  settings = inject(AppSettingsService);
+
   @Input()
   node: Node;
 
