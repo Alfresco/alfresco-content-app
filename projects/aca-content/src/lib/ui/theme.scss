@@ -95,21 +95,6 @@ mat-slide-toggle {
   color: var(--adf-theme-foreground-text-color-087);
 }
 
-#{$mat-chip}#{$mat-evolution-chip}#{$mat-standard-chip} {
-  height: auto;
-
-  #{$mat-evolution-chip-text-label} {
-    white-space: normal;
-    display: flex;
-  }
-
-  #{$mat-evolution-chip-action}#{$mat-chip-action} {
-    #{$mat-evolution-chip-graphic}#{$mat-chip-graphic} {
-      padding: 0;
-    }
-  }
-}
-
 #{$mdc-dialog} {
   #{$mat-dialog-title} {
     margin-bottom: 20px;
