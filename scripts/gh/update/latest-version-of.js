@@ -15,9 +15,19 @@ module.exports = async ({github, dependencyName}) => {
       org: organization
   });
 
-  console.log(availablePackages);
+  let i = 0;
+  let latestPkgToUpdate = null;
 
-  const latestPkgToUpdate = availablePackages[0];
+  while (latestPkgToUpdate === null && i < availablePackages.length) {
+    const { data: pkg } = await github.rest.packages.getPackageVersionForOrganization({
+      package_type: 'npm',
+      package_name: dependencyName,
+      org: organization,
+      package_version_id: availablePackages[i].id
+    });
+
+    console.log(pkg);
+  }
 
   if (localVersion === latestPkgToUpdate?.name) {
       return { hasNewVersion: 'false' };
