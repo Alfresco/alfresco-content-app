@@ -117,7 +117,7 @@ describe('NodeActionsService', () => {
     it('should validate selection when allowableOperation has `create`', () => {
       spyOn(dialog, 'open').and.returnValue({
         afterClosed: of
-      } as MatDialogRef<any>);
+      } as unknown as MatDialogRef<any>);
       const contentEntities = [new TestNode(), { entry: { nodeId: '1234' } }];
       service.getContentNodeSelection(NodeAction.CHOOSE, contentEntities as NodeEntry[]);
 
@@ -135,7 +135,7 @@ describe('NodeActionsService', () => {
     it('should invalidate selection when allowableOperation does not have `create`', () => {
       spyOn(dialog, 'open').and.returnValue({
         afterClosed: of
-      } as MatDialogRef<any>);
+      } as unknown as MatDialogRef<any>);
       const contentEntities = [new TestNode(), { entry: { nodeId: '1234' } }];
       service.getContentNodeSelection(NodeAction.CHOOSE, contentEntities as NodeEntry[]);
 
@@ -153,7 +153,7 @@ describe('NodeActionsService', () => {
     it('should invalidate selection if isSite', () => {
       spyOn(dialog, 'open').and.returnValue({
         afterClosed: of
-      } as MatDialogRef<any>);
+      } as unknown as MatDialogRef<any>);
       const contentEntities = [new TestNode(), { entry: { nodeId: '1234' } }];
       service.getContentNodeSelection(NodeAction.CHOOSE, contentEntities as NodeEntry[]);
 
@@ -172,7 +172,7 @@ describe('NodeActionsService', () => {
     it('should validate selection if not a Site', () => {
       spyOn(dialog, 'open').and.returnValue({
         afterClosed: of
-      } as MatDialogRef<any>);
+      } as unknown as MatDialogRef<any>);
       const contentEntities = [new TestNode(), { entry: { nodeId: '1234' } }];
       service.getContentNodeSelection(NodeAction.CHOOSE, contentEntities as NodeEntry[]);
 
@@ -288,7 +288,7 @@ describe('NodeActionsService', () => {
 
       spyOn(dialog, 'open').and.callFake((_contentNodeSelectorComponent: any, data: any) => {
         dialogData = data;
-        return { componentInstance: {}, afterClosed: of } as MatDialogRef<any>;
+        return { componentInstance: {}, afterClosed: of } as unknown as MatDialogRef<any>;
       });
 
       service.copyNodes([fileToCopy, folderToCopy]);
@@ -354,7 +354,7 @@ describe('NodeActionsService', () => {
       let dialogData = null;
       const spyOnDialog = spyOn(dialog, 'open').and.callFake((_contentNodeSelectorComponent: any, data: any) => {
         dialogData = data;
-        return { componentInstance: {}, afterClosed: of } as MatDialogRef<any>;
+        return { componentInstance: {}, afterClosed: of } as unknown as MatDialogRef<any>;
       });
 
       service.copyNodes([fileToCopy, folderToCopy]);
@@ -396,7 +396,7 @@ describe('NodeActionsService', () => {
       let dialogData: any;
       spyOn(dialog, 'open').and.callFake((_contentNodeSelectorComponent: any, data: any) => {
         dialogData = data;
-        return { componentInstance: {}, afterClosed: of } as MatDialogRef<any>;
+        return { componentInstance: {}, afterClosed: of } as unknown as MatDialogRef<any>;
       });
 
       service.copyNodes([{ entry: { id: 'entry-id', name: 'entry-name' } }]);
@@ -418,7 +418,7 @@ describe('NodeActionsService', () => {
       let dialogData = null;
       spyOn(dialog, 'open').and.callFake((_contentNodeSelectorComponent: any, data: any) => {
         dialogData = data;
-        return { componentInstance: {}, afterClosed: of } as MatDialogRef<any>;
+        return { componentInstance: {}, afterClosed: of } as unknown as MatDialogRef<any>;
       });
 
       service.copyNodes([{ entry: { id: 'entry-id' } }]);
