@@ -178,7 +178,7 @@ describe('InfoDrawerComponent', () => {
 
   it('should show the icons from extension', () => {
     fixture.detectChanges();
-    mockStream.next();
+    mockStream.next({});
     expect(component.actions).toEqual([
       {
         id: 'app.sidebar.close',
