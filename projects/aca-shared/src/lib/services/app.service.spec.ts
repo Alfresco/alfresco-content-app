@@ -137,14 +137,14 @@ describe('AppService', () => {
     service.ready$.subscribe((value) => {
       isReady = value;
     });
-    auth.onLogin.next();
+    auth.onLogin.next({});
     await expect(isReady).toEqual(true);
   });
 
   it('should set local storage prefix after login', () => {
     spyOn(preferencesService, 'setStoragePrefix');
     spyOn(auth, 'getUsername').and.returnValue('test-username');
-    auth.onLogin.next();
+    auth.onLogin.next({});
 
     expect(preferencesService.setStoragePrefix).toHaveBeenCalledWith('test-username');
   });
