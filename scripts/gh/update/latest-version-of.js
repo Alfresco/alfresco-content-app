@@ -15,6 +15,8 @@ module.exports = async ({github, dependencyName}) => {
       org: organization
   });
 
+  console.log(availablePackages);
+
   const latestPkgToUpdate = availablePackages[0];
 
   if (localVersion === latestPkgToUpdate?.name) {
