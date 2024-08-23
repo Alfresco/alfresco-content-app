@@ -23,7 +23,7 @@ module.exports = async ({exec, github, dependencyName}) => {
           packageDistTag += data.toString()
       }
   };
-  await exec.exec(`npm dist-tag ls @alfresco/adf-core`, [], options);
+  await exec.exec(`npm dist-tag ls @alfresco/${dependencyName}`, [], options);
   const tagsType = packageDistTag.split('\n');
   console.log(tagsType);
   const latestPkgTag = tagsType.find((tag) => tag.includes(latestPkgToUpdate.name))?.split(':')[0];
