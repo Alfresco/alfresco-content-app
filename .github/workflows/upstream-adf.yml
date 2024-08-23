@@ -30,11 +30,11 @@ jobs:
           github-token: ${{ secrets.BOT_GITHUB_TOKEN }}
           script: |
             const getLatestVersionOf = require('./scripts/gh/update/latest-version-of.js');
-            const { hasNewVersion: hasNewADFVersion , remoteVersion: latestADFVersion } = await getLatestVersionOf({github, dependencyName: 'adf-core'});
+            const { hasNewVersion: hasNewADFVersion , remoteVersion: latestADFVersion } = await getLatestVersionOf({exec, github, dependencyName: 'adf-core'});
             console.log('hasNewADFVersion', hasNewADFVersion);
             console.log('latestADFVersion', latestADFVersion?.name);
 
-            const { hasNewVersion: hasNewJSVersion, remoteVersion: latestJSVersion } = await getLatestVersionOf({github, dependencyName: 'js-api'});
+            const { hasNewVersion: hasNewJSVersion, remoteVersion: latestJSVersion } = await getLatestVersionOf({exec, github, dependencyName: 'js-api'});
             console.log('hasNewJSVersion', hasNewJSVersion);
             console.log('latestJSVersion', latestJSVersion?.name);
             if (hasNewADFVersion === 'true' || hasNewJSVersion  === 'true' ) {
