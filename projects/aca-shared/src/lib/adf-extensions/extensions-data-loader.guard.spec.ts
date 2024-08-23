@@ -82,8 +82,8 @@ describe('ExtensionsDataLoaderGuard', () => {
 
       guard.canActivate(route).subscribe(emittedSpy, erroredSpy, completedSpy);
 
-      subject1.next();
-      subject2.next();
+      subject1.next(true);
+      subject2.next(true);
       subject1.complete();
       expect(emittedSpy).not.toHaveBeenCalled();
       expect(erroredSpy).not.toHaveBeenCalled();
@@ -97,8 +97,8 @@ describe('ExtensionsDataLoaderGuard', () => {
 
       guard.canActivate(route).subscribe(emittedSpy, erroredSpy, completedSpy);
 
-      subject1.next();
-      subject2.next();
+      subject1.next(true);
+      subject2.next(true);
       subject1.complete();
       subject2.complete();
       expect(emittedSpy).toHaveBeenCalledWith(true);
@@ -112,7 +112,7 @@ describe('ExtensionsDataLoaderGuard', () => {
 
       guard.canActivate(route).subscribe(emittedSpy, erroredSpy, completedSpy);
 
-      subject1.next();
+      subject1.next(true);
       expect(emittedSpy).toHaveBeenCalledWith(true);
       expect(erroredSpy).not.toHaveBeenCalled();
       expect(completedSpy).toHaveBeenCalled();
