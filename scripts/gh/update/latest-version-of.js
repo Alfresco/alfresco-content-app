@@ -2,7 +2,7 @@ function inDays(d1, d2) {
   return Math.floor((d2.getTime() - d1.getTime()) / (24 * 3600 * 1000));
 }
 
-module.exports = async ({github, dependencyName}) => {
+module.exports = async ({exec, github, dependencyName}) => {
   const organization = 'alfresco';
   const dependencyFullName = `@${organization}/${dependencyName}`;
   const pkg = require('../../../package.json');
@@ -15,22 +15,28 @@ module.exports = async ({github, dependencyName}) => {
       org: organization
   });
 
-  let i = 0;
-  let latestPkgToUpdate = null;
+  let latestPkgToUpdate  = availablePackages[0];
+  const options = {};
+  let packageDistTag = '';
+  options.listeners = {
+      stdout: (data) => {
+          packageDistTag += data.toString()
+      }
+  };
+  await exec.exec(`npm dist-tag ls @alfresco/adf-core`, [], options);
+  const tagsType = packageDistTag.split('\n');
+  console.log(tagsType);
+  const latestPkgTag = tagsType.find((tag) => tag.includes(latestPkgToUpdate.name))?.split(':')[0];
+  console.log(latestPkgTag);
 
-  while (latestPkgToUpdate === null && i < availablePackages.length) {
-    const { data: pkg } = await github.rest.packages.getPackageVersionForOrganization({
-      package_type: 'npm',
-      package_name: dependencyName,
-      org: organization,
-      package_version_id: availablePackages[i].id
-    });
-
-    console.log(pkg);
+  if (latestPkgTag !== 'alpha') {
+    const alphaPackageVersion = tagsType.find((tag) => tag.includes('alpha'))?.split(':')[1].trim();
+    latestPkgToUpdate = availablePackages.find((item) => item.name === alphaPackageVersion);
+    console.log(latestPkgToUpdate);
   }
 
   if (localVersion === latestPkgToUpdate?.name) {
-      return { hasNewVersion: 'false' };
+    return { hasNewVersion: 'false' };
   } else {
       const findLocalVersionOnRemote = availablePackages.find((item) => item.name === localVersion);
       let rangeInDays = 'N/A'
