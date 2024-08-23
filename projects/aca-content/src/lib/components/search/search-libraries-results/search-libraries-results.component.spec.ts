@@ -29,6 +29,7 @@ import { SearchLibrariesResultsComponent } from './search-libraries-results.comp
 import { SearchLibrariesQueryBuilderService } from './search-libraries-query-builder.service';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { AppService } from '@alfresco/aca-shared';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('SearchLibrariesResultsComponent', () => {
   let component: SearchLibrariesResultsComponent;
@@ -44,7 +45,7 @@ describe('SearchLibrariesResultsComponent', () => {
   beforeEach(() => {
     appServiceMock.setAppNavbarMode.calls.reset();
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, SearchLibrariesResultsComponent],
+      imports: [AppTestingModule, SearchLibrariesResultsComponent, MatSnackBarModule],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
         {
