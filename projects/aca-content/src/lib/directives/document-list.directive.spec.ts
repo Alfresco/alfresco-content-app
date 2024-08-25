@@ -141,14 +141,14 @@ describe('DocumentListDirective', () => {
 
   it('should reset store selection on `reload` event', () => {
     documentListDirective.ngOnInit();
-    documentListServiceMock.reload$.next();
+    documentListServiceMock.reload$.next({});
 
     expect(storeMock.dispatch).toHaveBeenCalledWith(new SetSelectedNodesAction([]));
   });
 
   it('should reset selection state on `reset` event', () => {
     documentListDirective.ngOnInit();
-    documentListServiceMock.resetSelection$.next();
+    documentListServiceMock.resetSelection$.next({});
 
     expect(storeMock.dispatch).toHaveBeenCalledWith(new SetSelectedNodesAction([]));
     expect(documentListDirective.selectedNode).toBeNull();
