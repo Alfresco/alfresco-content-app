@@ -88,7 +88,7 @@ export class BulkActionsDropdownComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.onDestroy$.next();
+    this.onDestroy$.next(true);
     this.onDestroy$.complete();
   }
 
