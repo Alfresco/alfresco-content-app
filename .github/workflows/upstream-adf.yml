@@ -3,6 +3,12 @@ on:
   schedule:
     - cron: '0 */3 * * *' # “At minute 0 past every 3rd hour.”
   workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Type of the tag the latest version should be fetched with'
+        required: false
+        type: string
+        default: 'alpha'
 
 env:
   GH_TOKEN: ${{ secrets.BOT_GITHUB_TOKEN }}
@@ -30,11 +36,11 @@ jobs:
           github-token: ${{ secrets.BOT_GITHUB_TOKEN }}
           script: |
             const getLatestVersionOf = require('./scripts/gh/update/latest-version-of.js');
-            const { hasNewVersion: hasNewADFVersion , remoteVersion: latestADFVersion } = await getLatestVersionOf({exec, github, dependencyName: 'adf-core'});
+            const { hasNewVersion: hasNewADFVersion , remoteVersion: latestADFVersion } = await getLatestVersionOf({exec, github, dependencyName: 'adf-core', tag: '${{ inputs.tag }}'});
             console.log('hasNewADFVersion', hasNewADFVersion);
             console.log('latestADFVersion', latestADFVersion?.name);
 
-            const { hasNewVersion: hasNewJSVersion, remoteVersion: latestJSVersion } = await getLatestVersionOf({exec, github, dependencyName: 'js-api'});
+            const { hasNewVersion: hasNewJSVersion, remoteVersion: latestJSVersion } = await getLatestVersionOf({exec, github, dependencyName: 'js-api', tag: '${{ inputs.tag }}'});
             console.log('hasNewJSVersion', hasNewJSVersion);
             console.log('latestJSVersion', latestJSVersion?.name);
             if (hasNewADFVersion === 'true' || hasNewJSVersion  === 'true' ) {

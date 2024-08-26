@@ -2,7 +2,7 @@ function inDays(d1, d2) {
   return Math.floor((d2.getTime() - d1.getTime()) / (24 * 3600 * 1000));
 }
 
-module.exports = async ({ exec, github, dependencyName }) => {
+module.exports = async ({ exec, github, dependencyName, tag }) => {
   const organization = 'alfresco';
   const dependencyFullName = `@${organization}/${dependencyName}`;
   const pkg = require('../../../package.json');
@@ -15,7 +15,6 @@ module.exports = async ({ exec, github, dependencyName }) => {
     org: organization
   });
 
-  let latestPkgToUpdate = availablePackages[0];
   const options = {};
   let packageDistTag = '';
   options.listeners = {
@@ -25,17 +24,13 @@ module.exports = async ({ exec, github, dependencyName }) => {
   };
   await exec.exec(`npm dist-tag ls @alfresco/${dependencyName}`, [], options);
   const tagsType = packageDistTag.split('\n');
-  const latestPkgTag = tagsType.find((tag) => tag.includes(latestPkgToUpdate.name))?.split(':')[0];
-
-  if (latestPkgTag !== 'alpha') {
-    const alphaPackageVersion = tagsType.find((tag) => tag.includes('alpha'))?.split(':')[1].trim();
-    latestPkgToUpdate = availablePackages.find((item) => item.name === alphaPackageVersion);
-  }
+  const matchedPkgVersion = tagsType.find((tagType) => tagType.includes(tag))?.split(':')[1].trim();
+  const latestPkgToUpdate = availablePackages.find((package) => package.name === matchedPkgVersion);
 
   if (localVersion === latestPkgToUpdate?.name) {
     return { hasNewVersion: 'false' };
   } else {
-    const findLocalVersionOnRemote = availablePackages.find((item) => item.name === localVersion);
+    const findLocalVersionOnRemote = availablePackages.find((package) => package.name === localVersion);
     let rangeInDays = 'N/A';
     if (findLocalVersionOnRemote !== undefined) {
       const creationLocal = new Date(findLocalVersionOnRemote.created_at);
