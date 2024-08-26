@@ -33,7 +33,6 @@ env:
 
 jobs:
   lint:
-    if: ${{ inputs.cron-run == 'false' }}
     name: 'lint'
     runs-on: ubuntu-latest
     steps:
