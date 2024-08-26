@@ -111,11 +111,16 @@ export class AgentsButtonComponent implements OnInit, OnDestroy {
   }
 
   onClick(): void {
-    const error = this.searchAiService.checkSearchAvailability(this.selectedNodesState);
-    if (error) {
-      this.notificationService.showInfo(error);
+    if (this.selectedNodesState.isEmpty) {
+      this._disabled = true;
+      open('https://www.w3schools.com/');
+    } else {
+      const error = this.searchAiService.checkSearchAvailability(this.selectedNodesState);
+      if (error) {
+        this.notificationService.showInfo(error);
+      }
+      this._disabled = !!error;
     }
-    this._disabled = !!error;
   }
 
   onAgentSelection(change: MatSelectionListChange): void {
