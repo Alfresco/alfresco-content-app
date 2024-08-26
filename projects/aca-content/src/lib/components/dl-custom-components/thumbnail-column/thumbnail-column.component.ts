@@ -26,11 +26,10 @@ import { Component, Input, OnChanges, SimpleChanges, ViewEncapsulation, inject }
 import { TranslationService } from '@alfresco/adf-core';
 import { NgIf } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   standalone: true,
-  imports: [NgIf, MatIconModule, MatTooltipModule],
+  imports: [NgIf, MatIconModule],
   selector: 'aca-custom-thumbnail-column',
   templateUrl: './thumbnail-column.component.html',
   encapsulation: ViewEncapsulation.None
@@ -43,9 +42,10 @@ export class ThumbnailColumnComponent implements OnChanges {
 
   public thumbnailUrl?: string;
   public tooltip?: string;
+  public isIcon = false;
 
   get isSelected(): boolean {
-    return !!this.context.row.isSelected;
+    return !!this.context?.row?.isSelected;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -53,7 +53,14 @@ export class ThumbnailColumnComponent implements OnChanges {
       const context = changes.context.currentValue;
 
       if (context) {
-        this.thumbnailUrl = this.getThumbnail(context);
+        const icon = this.getThumbnail(context);
+        if (icon?.startsWith('material-icons://')) {
+          this.isIcon = true;
+          this.thumbnailUrl = icon.replace('material-icons://', '');
+        } else {
+          this.isIcon = false;
+          this.thumbnailUrl = icon;
+        }
         this.tooltip = this.getToolTip(context);
       } else {
         this.thumbnailUrl = null;
@@ -62,11 +69,11 @@ export class ThumbnailColumnComponent implements OnChanges {
     }
   }
 
-  private getThumbnail({ data, row, col }): string {
+  getThumbnail({ data, row, col }): string {
     return data.getValue(row, col);
   }
 
-  private getToolTip({ row }): string {
+  getToolTip({ row }): string {
     const displayName = row.node?.entry?.properties?.['cm:lockOwner']?.displayName;
     return displayName ? `${this.translation.instant('APP.LOCKED_BY')} ${displayName}` : '';
   }
