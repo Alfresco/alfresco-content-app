@@ -33,7 +33,7 @@ import { of, Subject } from 'rxjs';
 import { AgentWithAvatar, NodeEntry } from '@alfresco/js-api';
 import { FormControlDirective } from '@angular/forms';
 import { DebugElement } from '@angular/core';
-import { AvatarComponent, IconComponent, NotificationService, UserPreferencesService } from '@alfresco/adf-core';
+import { AvatarComponent, IconComponent, NotificationService, UnsavedChangesDialogComponent, UserPreferencesService } from '@alfresco/adf-core';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { MatSelectHarness } from '@angular/material/select/testing';
@@ -43,7 +43,7 @@ import { MatButton } from '@angular/material/button';
 import { MatInputHarness } from '@angular/material/input/testing';
 import { SelectionState } from '@alfresco/adf-extensions';
 import { MatSnackBarRef } from '@angular/material/snack-bar';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { ModalAiService } from '../../../../services/modal-ai.service';
 
@@ -258,13 +258,13 @@ describe('SearchAiInputComponent', () => {
       let queryInput: MatInputHarness;
       let submittingTrigger: () => void;
       const query = 'some query';
-      let dialogOpenSpy: jasmine.Spy<(component: any, config?: any) => MatDialogRef<any, any>>;
-      let modalAi: ModalAiService;
+      let dialogOpenSpy: jasmine.Spy<<T, R>(component: typeof UnsavedChangesDialogComponent, config?: MatDialogConfig) => MatDialogRef<T, R>>;
+      let modalAiService: ModalAiService;
 
       beforeEach(async () => {
         prepareBeforeTest();
 
-        modalAi = TestBed.inject(ModalAiService);
+        modalAiService = TestBed.inject(ModalAiService);
         checkSearchAvailabilitySpy = spyOn(TestBed.inject(SearchAiService), 'checkSearchAvailability');
         notificationService = TestBed.inject(NotificationService);
         userPreferencesService = TestBed.inject(UserPreferencesService);
@@ -400,13 +400,15 @@ describe('SearchAiInputComponent', () => {
         expect(dialogOpenSpy).toHaveBeenCalled();
       });
 
-      it('should open Unsaved Changes Modal', () => {
-        const modalAiSpy = spyOn(modalAi, 'openUnsavedChangesModal').and.callFake((callback) => callback());
+      it('should open Unsaved Changes Modal and run callback successfully', () => {
+        const modalAiSpy = spyOn(modalAiService, 'openUnsavedChangesModal').and.callThrough();
+        spyOn(component.searchSubmitted, 'emit');
 
         fixture.detectChanges();
 
         submittingTrigger();
         expect(modalAiSpy).toHaveBeenCalledWith(jasmine.any(Function));
+        expect(component.searchSubmitted.emit).toHaveBeenCalled();
       });
     });
   }

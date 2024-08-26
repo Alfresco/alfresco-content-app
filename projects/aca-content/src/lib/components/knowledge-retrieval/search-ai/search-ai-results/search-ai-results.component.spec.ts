@@ -31,9 +31,22 @@ import { UserPreferencesService } from '@alfresco/adf-core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AppTestingModule } from '../../../../testing/app-testing.module';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
-import { SearchAiService } from '@alfresco/adf-content-services';
+import { NodesApiService, SearchAiService } from '@alfresco/adf-content-services';
 import { By } from '@angular/platform-browser';
 import { ModalAiService } from '../../../../services/modal-ai.service';
+import { delay } from 'rxjs/operators';
+import { AiAnswer, AiAnswerPaging, QuestionModel } from '@alfresco/js-api/typings';
+
+const questionMock: QuestionModel = { question: 'test', questionId: 'testId', restrictionQuery: '' };
+const aiAnswerMock: AiAnswer = { answer: 'Some answer', questionId: 'some id', references: [] };
+const getAiAnswerPaging = (withEntry: boolean): AiAnswerPaging => {
+  return {
+    list: {
+      entries: withEntry ? [{ entry: { answer: 'Some answer', questionId: 'some id', references: [] } }] : [],
+      pagination: { hasMoreItems: false, maxItems: 0, totalItems: 0, skipCount: 0 }
+    }
+  };
+};
 
 describe('SearchAiResultsComponent', () => {
   const knowledgeRetrievalNodes = '{"isEmpty":"false","nodes":[{"entry":{"id": "someId","isFolder":"true"}}]}';
@@ -41,6 +54,8 @@ describe('SearchAiResultsComponent', () => {
   let component: SearchAiResultsComponent;
   let userPreferencesService: UserPreferencesService;
   let mockQueryParams = new Subject<Params>();
+  let modalAiService: ModalAiService;
+  let searchAiService: SearchAiService;
 
   afterEach(() => {
     mockQueryParams = new Subject<Params>();
@@ -51,6 +66,12 @@ describe('SearchAiResultsComponent', () => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule, SearchAiResultsComponent, MatSnackBarModule, MatDialogModule, MatIconTestingModule],
       providers: [
+        {
+          provide: NodesApiService,
+          useValue: {
+            getNode: () => of({ entry: { id: 'someId', isFolder: true } }).pipe(delay(50))
+          }
+        },
         {
           provide: ActivatedRoute,
           useValue: {
@@ -64,6 +85,8 @@ describe('SearchAiResultsComponent', () => {
     });
 
     fixture = TestBed.createComponent(SearchAiResultsComponent);
+    modalAiService = TestBed.inject(ModalAiService);
+    searchAiService = TestBed.inject(SearchAiService);
     userPreferencesService = TestBed.inject(UserPreferencesService);
     component = fixture.componentInstance;
     component.ngOnInit();
@@ -108,14 +131,11 @@ describe('SearchAiResultsComponent', () => {
   });
 
   describe('skeleton loader', () => {
-    let searchAiService: SearchAiService;
-
     const getSkeletonElementsLength = (): number => {
       return fixture.nativeElement.querySelectorAll('.adf-skeleton').length;
     };
 
     beforeEach(() => {
-      searchAiService = TestBed.inject(SearchAiService);
       spyOn(userPreferencesService, 'get').and.returnValue(knowledgeRetrievalNodes);
     });
 
@@ -132,15 +152,8 @@ describe('SearchAiResultsComponent', () => {
     it('should not display skeleton when loading is false', () => {
       mockQueryParams.next({ query: 'test', agentId: 'agentId1' });
 
-      spyOn(searchAiService, 'ask').and.returnValue(of({ question: 'test', questionId: 'testId', restrictionQuery: '' }));
-      spyOn(searchAiService, 'getAnswer').and.returnValue(
-        of({
-          list: {
-            entries: [],
-            pagination: { hasMoreItems: false, maxItems: 0, totalItems: 0, skipCount: 0 }
-          }
-        })
-      );
+      spyOn(searchAiService, 'ask').and.returnValue(of(questionMock));
+      spyOn(searchAiService, 'getAnswer').and.returnValue(of(getAiAnswerPaging(false)));
 
       component.performAiSearch();
       fixture.detectChanges();
@@ -151,20 +164,21 @@ describe('SearchAiResultsComponent', () => {
   });
 
   describe('Unsaved Changes Modal', () => {
-    let modalAi: ModalAiService;
-
     beforeEach(() => {
-      modalAi = TestBed.inject(ModalAiService);
-      spyOn(userPreferencesService, 'get').and.returnValue(knowledgeRetrievalNodes);
+      spyOn(userPreferencesService, 'get').and.returnValue('true');
     });
 
-    it('should open Unsaved Changes Modal', () => {
-      const modalAiSpy = spyOn(modalAi, 'openUnsavedChangesModal').and.callFake((callback) => callback());
+    it('should open Unsaved Changes Modal and run callback successfully', () => {
+      const modalAiSpy = spyOn(modalAiService, 'openUnsavedChangesModal').and.callThrough();
+
+      spyOn(searchAiService, 'ask').and.returnValue(of(questionMock));
+      spyOn(searchAiService, 'getAnswer').and.returnValue(of(getAiAnswerPaging(true)));
 
       fixture.detectChanges();
 
       fixture.debugElement.query(By.css(`[data-automation-id="aca-search-ai-results-regeneration-button"]`)).nativeElement.click();
       expect(modalAiSpy).toHaveBeenCalledWith(jasmine.any(Function));
+      expect(component.queryAnswer).toEqual(aiAnswerMock);
     });
   });
 });

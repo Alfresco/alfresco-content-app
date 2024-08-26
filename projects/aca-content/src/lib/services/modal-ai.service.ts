@@ -24,18 +24,18 @@
 
 import { inject, Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AppConfigValues, StorageService, UnsavedChangesDialogComponent } from '@alfresco/adf-core';
+import { AppConfigValues, UnsavedChangesDialogComponent, UserPreferencesService } from '@alfresco/adf-core';
 import { MatDialog } from '@angular/material/dialog';
 
 @Injectable({ providedIn: 'root' })
 export class ModalAiService {
   private route = inject(ActivatedRoute);
   private dialog = inject(MatDialog);
-  private storageService = inject(StorageService);
+  private userPreferencesService = inject(UserPreferencesService);
 
   openUnsavedChangesModal(callback: () => void): void {
     const hasPreviousSearch = this.route.snapshot?.queryParams?.query?.length > 0;
-    const modalHidden = this.storageService.getItem(AppConfigValues.UNSAVED_CHANGES_MODAL_HIDDEN) === 'true';
+    const modalHidden = this.userPreferencesService.get(AppConfigValues.UNSAVED_CHANGES_MODAL_HIDDEN) === 'true';
 
     if (!hasPreviousSearch || modalHidden) {
       callback();

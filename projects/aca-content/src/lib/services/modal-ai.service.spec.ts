@@ -25,15 +25,16 @@
 import { ModalAiService } from './modal-ai.service';
 import { TestBed } from '@angular/core/testing';
 import { ContentTestingModule } from '@alfresco/adf-content-services';
-import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params } from '@angular/router';
 import { of, Subject } from 'rxjs';
 import { StorageService, UnsavedChangesDialogComponent } from '@alfresco/adf-core';
 
 describe('ModalAiService', () => {
   const mockQueryParams = new Subject<Params>();
+
   let service: ModalAiService;
-  let dialogOpenSpy: jasmine.Spy<(component: any, config?: any) => MatDialogRef<any>>;
+  let dialogOpenSpy: jasmine.Spy<<T, R>(component: typeof UnsavedChangesDialogComponent, config?: MatDialogConfig) => MatDialogRef<T, R>>;
   let dialog: MatDialog;
 
   const setupBeforeEach = (query: string, storageGetItem: string) => {
@@ -51,7 +52,7 @@ describe('ModalAiService', () => {
           useValue: {
             queryParams: mockQueryParams.asObservable(),
             snapshot: {
-              queryParams: { query: query }
+              queryParams: { query }
             }
           }
         }
@@ -65,7 +66,7 @@ describe('ModalAiService', () => {
     service = TestBed.inject(ModalAiService);
   };
 
-  describe('when there is no previous search and nothing in the storage', () => {
+  describe('when there is no previous search and no UNSAVED_CHANGES_MODAL_HIDDEN in the storage', () => {
     it('should not open unsaved changes modal when there is not previous search and no UNSAVED_CHANGES_MODAL_HIDDEN in storage', () => {
       setupBeforeEach('', '');
       service.openUnsavedChangesModal(() => {});
@@ -74,7 +75,7 @@ describe('ModalAiService', () => {
     });
   });
 
-  describe('when there is UNSAVED_CHANGES_MODAL_HIDDEN in storage', () => {
+  describe('when there is no previous search and there is UNSAVED_CHANGES_MODAL_HIDDEN in storage', () => {
     it('should open unsaved changes modal when there is previous search and no UNSAVED_CHANGES_MODAL_HIDDEN in local storage', () => {
       setupBeforeEach('test', '');
       service.openUnsavedChangesModal(() => {});
