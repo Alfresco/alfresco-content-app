@@ -1,53 +1,34 @@
 <!--
-PLEASE HELP US PROCESS GITHUB ISSUES FASTER BY PROVIDING THE FOLLOWING INFORMATION.
+PLEASE FILL OUT THE FOLLOWING INFORMATION, THIS WILL HELP US TO RESOLVE YOUR PROBLEM FASTER.
 
-ISSUES MISSING IMPORTANT INFORMATION MAY BE CLOSED WITHOUT INVESTIGATION.
+REMEMBER FOR SUPPORT REQUESTS YOU CAN ALSO ASK ON OUR GITTER CHAT:
+Please ask before on our gitter channel https://gitter.im/Alfresco/alfresco-ng2-components
 -->
 
-## I'm submitting a...
-<!-- Check one of the following options with "x" -->
-<pre><code>
-[ ] Regression (a behavior that used to work and stopped working in a new release)
-[ ] Bug report  <!-- Please search GitHub for a similar issue or PR before submitting -->
-[ ] Feature request
-[ ] Documentation issue or request
-[ ] Support request => Please do not submit support request here, instead see https://github.com/Alfresco/alfresco-content-app/blob/master/CONTRIBUTING.md#question
-</code></pre>
+**Type of issue:**  (check with "[x]")
 
-## Current behavior
-<!-- Describe how the issue manifests. -->
+> - [ ] New feature request
+> - [ ] Bug
+> - [ ] Support request
+> - [ ] Documentation
 
+**Current behaviour:**
+<!-- Describe the current behaviour. -->
 
-## Expected behavior
-<!-- Describe what the desired behavior would be. -->
+**Expected behavior:**
+<!-- Describe the expected behaviour. -->
 
+**Steps to reproduce the issue:**
+<!-- Describe the steps to reproduce the issue. -->
 
-## Minimal reproduction of the problem with instructions
-<!--
-For bug reports please provide the *STEPS TO REPRODUCE* and if possible a *MINIMAL DEMO* of the problem.
--->
+**Component name and version:**
+<!-- Example: ng2-alfresco-login. Check before if this issue is still present in the most recent version -->
 
-## What is the motivation / use case for changing the behavior?
-<!-- Describe the motivation or the concrete use case. -->
+**Browser and version:**
+<!-- [all | Chrome XX | Firefox XX | IE XX | Safari XX | Mobile Chrome XX | Android X.X Web Browser | iOS XX Safari | iOS XX UIWebView | iOS XX WKWebView ] -->
 
+**Node version (for build issues):**
+<!-- To check the version: node --version -->
 
-## Environment
-
-<pre><code>
-ACA version: X.Y.Z
-<!-- Check whether this is still an issue in the most recent ACA version -->
-
-Browser:
-- [ ] Chrome version XX
-- [ ] Firefox version XX
-- [ ] Safari version XX
-- [ ] Edge version XX
-- [ ] IE11
- 
-For Tooling issues:
-- Node version: XX  <!-- run `node --version` -->
-- Platform:  <!-- Mac, Linux, Windows -->
-
-Others:
-<!-- Anything else relevant?  Operating system version, IDE, package manager, HTTP server, ... -->
-</code></pre>
+**New feature request:**
+<!-- Describe the feature, motivation and the concrete use case (only in case of new feature request) -->
