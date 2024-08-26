@@ -31,25 +31,19 @@ describe('ThumbnailColumnComponent', () => {
   let fixture: ComponentFixture<ThumbnailColumnComponent>;
   let translationServiceMock: any;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     translationServiceMock = {
       instant: jasmine.createSpy('instant').and.returnValue('Locked by')
     };
 
-    await TestBed.configureTestingModule({
+    TestBed.configureTestingModule({
       imports: [ThumbnailColumnComponent],
       providers: [{ provide: TranslationService, useValue: translationServiceMock }]
-    }).compileComponents();
-  });
+    });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(ThumbnailColumnComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
   });
 
   it('should update thumbnailUrl and tooltip on context change', () => {
