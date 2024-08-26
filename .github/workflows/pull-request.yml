@@ -33,6 +33,7 @@ env:
 
 jobs:
   lint:
+    if: ${{ inputs.cron-run == 'false' || inputs.cron-run == '' }}
     name: 'lint'
     runs-on: ubuntu-latest
     steps:
@@ -93,7 +94,7 @@ jobs:
       - run: npm ci
 
       - name: Test
-        if: ${{ inputs.cron-run == 'false' }}
+        if: ${{ inputs.cron-run == 'false' || inputs.cron-run == '' }}
         run: npm run affected:test -- --browsers=ChromeHeadless --watch=false $TEST_OPTS --base=origin/develop
 
       - name: Test all
