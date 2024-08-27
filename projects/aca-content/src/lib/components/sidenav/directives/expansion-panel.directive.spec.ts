@@ -118,5 +118,25 @@ describe('AcaExpansionPanel', () => {
 
       expect(router.navigate).not.toHaveBeenCalled();
     });
+
+    it('should not navigate to first child if none is active route and acaExpansionPanel has canBeInactive property', () => {
+      const router: any = new RouterStub('dummy-route-2');
+      spyOn(router, 'navigate').and.callThrough();
+      const item = {
+        children: [{ url: 'dummy-route-1' }, { url: 'dummy-route-2' }],
+        data: {
+          canBeInactive: true
+        }
+      };
+
+      const directive = new ExpansionPanelDirective(mockStore, router, mockMatExpansionPanel);
+
+      directive.acaExpansionPanel = item;
+      mockMatExpansionPanel.expanded = true;
+
+      directive.onClick();
+
+      expect(router.navigate).not.toHaveBeenCalled();
+    });
   });
 });
