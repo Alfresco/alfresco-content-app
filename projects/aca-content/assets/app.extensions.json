@@ -204,6 +204,9 @@
             "order": 100,
             "title": "APP.BROWSE.FILE.SIDENAV_LINK.LABEL",
             "description": "APP.BROWSE.FILE.SIDENAV_LINK.TOOLTIP",
+            "data": {
+              "canBeInactive": true
+            },
             "children": [
               {
                 "id": "app.navbar.personalFiles",

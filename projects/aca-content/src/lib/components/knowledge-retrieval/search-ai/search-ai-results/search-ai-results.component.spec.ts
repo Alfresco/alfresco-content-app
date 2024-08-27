@@ -28,10 +28,25 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { of, Subject } from 'rxjs';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { UserPreferencesService } from '@alfresco/adf-core';
-import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { AppTestingModule } from '../../../../testing/app-testing.module';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
-import { SearchAiService } from '@alfresco/adf-content-services';
+import { NodesApiService, SearchAiService } from '@alfresco/adf-content-services';
+import { By } from '@angular/platform-browser';
+import { ModalAiService } from '../../../../services/modal-ai.service';
+import { delay } from 'rxjs/operators';
+import { AiAnswer, AiAnswerPaging, QuestionModel } from '@alfresco/js-api/typings';
+
+const questionMock: QuestionModel = { question: 'test', questionId: 'testId', restrictionQuery: '' };
+const aiAnswerMock: AiAnswer = { answer: 'Some answer', questionId: 'some id', references: [] };
+const getAiAnswerPaging = (withEntry: boolean): AiAnswerPaging => {
+  return {
+    list: {
+      entries: withEntry ? [{ entry: { answer: 'Some answer', questionId: 'some id', references: [] } }] : [],
+      pagination: { hasMoreItems: false, maxItems: 0, totalItems: 0, skipCount: 0 }
+    }
+  };
+};
 
 describe('SearchAiResultsComponent', () => {
   const knowledgeRetrievalNodes = '{"isEmpty":"false","nodes":[{"entry":{"id": "someId","isFolder":"true"}}]}';
@@ -39,57 +54,45 @@ describe('SearchAiResultsComponent', () => {
   let component: SearchAiResultsComponent;
   let userPreferencesService: UserPreferencesService;
   let mockQueryParams = new Subject<Params>();
-  let dialogOpenSpy: jasmine.Spy<(component: any, config?: any) => MatDialogRef<any>>;
-  let dialog: MatDialog;
-
-  const setupBeforeEach = (query?: string) => {
-    TestBed.configureTestingModule({
-      imports: [AppTestingModule, SearchAiResultsComponent, MatSnackBarModule, MatDialogModule, MatIconTestingModule],
-      providers: [
-        {
-          provide: ActivatedRoute,
-          useValue: {
-            queryParams: mockQueryParams.asObservable(),
-            snapshot: {
-              queryParams: { query: query ?? '' }
-            }
-          }
-        }
-      ]
-    });
-
-    dialog = TestBed.inject(MatDialog);
-    dialogOpenSpy = spyOn(dialog, 'open').and.returnValue({
-      afterClosed: () => of(true)
-    } as MatDialogRef<any>);
-    fixture = TestBed.createComponent(SearchAiResultsComponent);
-    userPreferencesService = TestBed.inject(UserPreferencesService);
-    component = fixture.componentInstance;
-    component.ngOnInit();
-  };
+  let modalAiService: ModalAiService;
+  let searchAiService: SearchAiService;
 
   afterEach(() => {
     mockQueryParams = new Subject<Params>();
     fixture.destroy();
   });
 
-  describe('query params with snapshot', () => {
-    beforeEach(() => {
-      setupBeforeEach('test');
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [AppTestingModule, SearchAiResultsComponent, MatSnackBarModule, MatDialogModule, MatIconTestingModule],
+      providers: [
+        {
+          provide: NodesApiService,
+          useValue: {
+            getNode: () => of({ entry: { id: 'someId', isFolder: true } }).pipe(delay(50))
+          }
+        },
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            queryParams: mockQueryParams.asObservable(),
+            snapshot: {
+              queryParams: { query: 'testQuery' }
+            }
+          }
+        }
+      ]
     });
 
-    it('should call open modal if there was a previous search', () => {
-      component.canDeactivate();
-
-      expect(dialogOpenSpy).toHaveBeenCalled();
-    });
+    fixture = TestBed.createComponent(SearchAiResultsComponent);
+    modalAiService = TestBed.inject(ModalAiService);
+    searchAiService = TestBed.inject(SearchAiService);
+    userPreferencesService = TestBed.inject(UserPreferencesService);
+    component = fixture.componentInstance;
+    component.ngOnInit();
   });
 
   describe('query params change', () => {
-    beforeEach(() => {
-      setupBeforeEach();
-    });
-
     it('should perform ai search and sets agents on query params change', () => {
       spyOn(userPreferencesService, 'get').and.returnValue(knowledgeRetrievalNodes);
       mockQueryParams.next({ query: 'test', agentId: 'agentId1' });
@@ -108,13 +111,13 @@ describe('SearchAiResultsComponent', () => {
       expect(component.hasError).toBeTrue();
     });
 
-    it('should throw an error if selectedNodesState nodes not available', () => {
+    it('should not throw an error if selectedNodesState nodes not available', () => {
       spyOn(userPreferencesService, 'get').and.returnValue('{}');
       mockQueryParams.next({ query: 'test', agentId: 'agentId1' });
 
       expect(component.searchQuery).toBe('test');
       expect(component.agentId).toBe('agentId1');
-      expect(component.hasError).toBeTrue();
+      expect(component.hasError).toBeFalse();
     });
 
     it('should throw an error if agentId not available', () => {
@@ -125,27 +128,14 @@ describe('SearchAiResultsComponent', () => {
       expect(component.agentId).toBe(undefined);
       expect(component.hasError).toBeTrue();
     });
-
-    it('should not call open modal if there was not a previous search', () => {
-      component.canDeactivate();
-
-      expect(dialogOpenSpy).not.toHaveBeenCalled();
-    });
   });
 
   describe('skeleton loader', () => {
-    let searchAiService: SearchAiService;
-
-    beforeEach(() => {
-      setupBeforeEach();
-    });
-
     const getSkeletonElementsLength = (): number => {
       return fixture.nativeElement.querySelectorAll('.adf-skeleton').length;
     };
 
     beforeEach(() => {
-      searchAiService = TestBed.inject(SearchAiService);
       spyOn(userPreferencesService, 'get').and.returnValue(knowledgeRetrievalNodes);
     });
 
@@ -162,21 +152,33 @@ describe('SearchAiResultsComponent', () => {
     it('should not display skeleton when loading is false', () => {
       mockQueryParams.next({ query: 'test', agentId: 'agentId1' });
 
-      spyOn(searchAiService, 'ask').and.returnValue(of({ question: 'test', questionId: 'testId', restrictionQuery: '' }));
-      spyOn(searchAiService, 'getAnswer').and.returnValue(
-        of({
-          list: {
-            entries: [],
-            pagination: { hasMoreItems: false, maxItems: 0, totalItems: 0, skipCount: 0 }
-          }
-        })
-      );
+      spyOn(searchAiService, 'ask').and.returnValue(of(questionMock));
+      spyOn(searchAiService, 'getAnswer').and.returnValue(of(getAiAnswerPaging(false)));
 
       component.performAiSearch();
       fixture.detectChanges();
 
       expect(component.loading).toBeFalse();
       expect(getSkeletonElementsLength()).toBe(0);
+    });
+  });
+
+  describe('Unsaved Changes Modal', () => {
+    beforeEach(() => {
+      spyOn(userPreferencesService, 'get').and.returnValue('true');
+    });
+
+    it('should open Unsaved Changes Modal and run callback successfully', () => {
+      const modalAiSpy = spyOn(modalAiService, 'openUnsavedChangesModal').and.callThrough();
+
+      spyOn(searchAiService, 'ask').and.returnValue(of(questionMock));
+      spyOn(searchAiService, 'getAnswer').and.returnValue(of(getAiAnswerPaging(true)));
+
+      fixture.detectChanges();
+
+      fixture.debugElement.query(By.css(`[data-automation-id="aca-search-ai-results-regeneration-button"]`)).nativeElement.click();
+      expect(modalAiSpy).toHaveBeenCalledWith(jasmine.any(Function));
+      expect(component.queryAnswer).toEqual(aiAnswerMock);
     });
   });
 });

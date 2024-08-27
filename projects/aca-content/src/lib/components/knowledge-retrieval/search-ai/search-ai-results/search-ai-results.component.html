@@ -30,7 +30,7 @@
             <button
               class="aca-search-ai-response-container-body-response-action aca-search-ai-response-container-body-response-action-regeneration"
               mat-icon-button
-              (click)="performAiSearch()"
+              (click)="checkUnsavedChangesAndSearch()"
               data-automation-id="aca-search-ai-results-regeneration-button"
               [title]="'KNOWLEDGE_RETRIEVAL.SEARCH.RESULTS_PAGE.REGENERATION_BUTTON_LABEL' | translate">
               <mat-icon>cached</mat-icon>
