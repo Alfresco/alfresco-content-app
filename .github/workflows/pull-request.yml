@@ -4,6 +4,13 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
     branches: [master, develop]
+  workflow_call:
+    inputs:
+      cron-run:
+        description: 'Disables jobs which should not run during cron execution'
+        required: false
+        type: string
+        default: 'false'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -26,6 +33,7 @@ env:
 
 jobs:
   lint:
+    if: ${{ inputs.cron-run == 'false' || inputs.cron-run == '' }}
     name: 'lint'
     runs-on: ubuntu-latest
     steps:
@@ -84,7 +92,14 @@ jobs:
           cache: 'npm'
       - uses: ./.github/actions/before-install
       - run: npm ci
-      - run: npm run affected:test -- --browsers=ChromeHeadless --watch=false $TEST_OPTS --base=origin/develop
+
+      - name: Test
+        if: ${{ inputs.cron-run == 'false' || inputs.cron-run == '' }}
+        run: npm run affected:test -- --browsers=ChromeHeadless --watch=false $TEST_OPTS --base=origin/develop
+
+      - name: Test all
+        if: ${{ inputs.cron-run == 'true' }}
+        run: npx nx run-many --target=test --browsers=ChromeHeadless --watch=false $TEST_OPTS --base=origin/develop
 
   e2es-playwright:
     needs: [lint, build, unit-tests]
