@@ -3,6 +3,7 @@ function inDays(d1, d2) {
 }
 
 module.exports = async ({ exec, github, dependencyName, tag }) => {
+  tag = tag || 'alpha';
   const organization = 'alfresco';
   const dependencyFullName = `@${organization}/${dependencyName}`;
   const pkg = require('../../../package.json');
