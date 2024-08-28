@@ -578,6 +578,7 @@ export class ContentManagementService {
           next: (newVersionUploaderData) => {
             switch (newVersionUploaderData.action) {
               case NewVersionUploaderDataAction.refresh:
+                this.documentListService.reload();
                 this.store.dispatch(new RefreshPreviewAction(newVersionUploaderData.node));
                 break;
               case NewVersionUploaderDataAction.view:
