@@ -4,6 +4,8 @@ Title: Changelog for alfresco-content-app v5.0.0
 
 # Changelog
 
+- [f4dd41bc0](git@github.com:Alfresco/alfresco-content-app/commit/f4dd41bc0) Refactor cron daily job to reuse pr workflow (#4062)
+- [d2ce87c7b](git@github.com:Alfresco/alfresco-content-app/commit/d2ce87c7b) Release 5.0.0 (#4061)
 - [26c626817](git@github.com:Alfresco/alfresco-content-app/commit/26c626817) Upstream input fix (#4059)
 - [ca3636a29](git@github.com:Alfresco/alfresco-content-app/commit/ca3636a29) [ACS-8660] Introduce daily CI cron workflow (#4055)
 - [1a0575d36](git@github.com:Alfresco/alfresco-content-app/commit/1a0575d36) align GH templates with HxP (#4057)
