@@ -632,6 +632,7 @@
         },
         "ERRORS": {
           "AGENTS_FETCHING": "Error while fetching agents.",
+          "HX_INSIGHT_URL_FETCHING": "Error while fetching HX Insight URL.",
           "LOADING_ERROR": "Hmm... something seems to have gone wrong.",
           "PAGE_NOT_AVAILABLE_ERROR": "Page is not available for these conditions."
         },

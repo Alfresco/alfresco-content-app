@@ -28,8 +28,8 @@ import { SelectionState } from '@alfresco/adf-extensions';
 import { Store } from '@ngrx/store';
 import { AppStore, getAppSelection } from '@alfresco/aca-shared/store';
 import { AvatarComponent, IconComponent, NotificationService } from '@alfresco/adf-core';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { forkJoin, Subject, throwError } from 'rxjs';
+import { catchError, finalize, takeUntil } from 'rxjs/operators';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatListModule, MatSelectionListChange } from '@angular/material/list';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -55,6 +55,7 @@ export class AgentsButtonComponent implements OnInit, OnDestroy {
   private onDestroy$ = new Subject<void>();
   private _disabled = true;
   private _initialsByAgentId: { [key: string]: string } = {};
+  private _hxInsightUrl: string;
 
   get agents(): AgentWithAvatar[] {
     return this._agents;
@@ -84,13 +85,15 @@ export class AgentsButtonComponent implements OnInit, OnDestroy {
       .subscribe((selection) => {
         this.selectedNodesState = selection;
       });
-
-    this.agentService
-      .getAgents()
+    forkJoin({
+      agents: this.agentService.getAgents().pipe(catchError(() => throwError('KNOWLEDGE_RETRIEVAL.SEARCH.ERRORS.AGENTS_FETCHING'))),
+      config: this.searchAiService.getConfig().pipe(catchError(() => throwError('KNOWLEDGE_RETRIEVAL.SEARCH.ERRORS.HX_INSIGHT_URL_FETCHING')))
+    })
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(
-        (agents) => {
-          this._agents = agents;
+        (result) => {
+          this._hxInsightUrl = result.config.entry.knowledgeRetrievalUrl;
+          this._agents = result.agents;
           this.cd.detectChanges();
 
           if (this.agents.length) {
@@ -101,7 +104,7 @@ export class AgentsButtonComponent implements OnInit, OnDestroy {
             }, {});
           }
         },
-        () => this.notificationService.showError(this.translateService.instant('KNOWLEDGE_RETRIEVAL.SEARCH.ERRORS.AGENTS_FETCHING'))
+        (error: string) => this.notificationService.showError(this.translateService.instant(error))
       );
   }
 
@@ -113,7 +116,7 @@ export class AgentsButtonComponent implements OnInit, OnDestroy {
   onClick(): void {
     if (this.selectedNodesState.isEmpty) {
       this._disabled = true;
-      open('https://www.w3schools.com/');
+      open(this._hxInsightUrl);
     } else {
       const error = this.searchAiService.checkSearchAvailability(this.selectedNodesState);
       if (error) {
