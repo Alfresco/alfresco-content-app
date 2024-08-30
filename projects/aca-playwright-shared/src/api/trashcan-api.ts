@@ -19,7 +19,7 @@
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
 import { ApiClientFactory } from './api-client-factory';
@@ -33,25 +33,24 @@ export class TrashcanApi {
     return classObj;
   }
 
-    /**
+  /**
    * Empties the trashcan. Uses multiple batches 1000 nodes each.
    */
-    async emptyTrashcan(): Promise<void> {
-      try {
-        const nodes = await this.apiService.trashCan.listDeletedNodes({
-          maxItems: 1000
-        });
+  async emptyTrashcan(): Promise<void> {
+    try {
+      const nodes = await this.apiService.trashCan.listDeletedNodes({
+        maxItems: 1000
+      });
 
-        if (nodes?.list?.entries?.length > 0) {
-          const ids = nodes.list.entries.map((entries) => entries.entry.id);
+      if (nodes?.list?.entries?.length > 0) {
+        const ids = nodes.list.entries.map((entries) => entries.entry.id);
 
-          for (const nodeId of ids) {
-            await this.apiService.trashCan.deleteDeletedNode(nodeId);
-          }
+        for (const nodeId of ids) {
+          await this.apiService.trashCan.deleteDeletedNode(nodeId);
         }
-      } catch (error) {
-        console.error('User Actions - emptyTrashcan failed : ', error);
       }
+    } catch (error) {
+      console.error('User Actions - emptyTrashcan failed : ', error);
     }
-
+  }
 }

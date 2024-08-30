@@ -19,7 +19,7 @@
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
 import { Page } from '@playwright/test';
@@ -58,15 +58,15 @@ export class SearchSortingPicker extends BaseComponent {
   }
 
   async getSortByOptionsList(): Promise<string[]> {
-    let sortOptionsCount = await this.sortByList.count();
-    let sortByOptions: string[] = [];
+    const sortOptionsCount = await this.sortByList.count();
+    const sortByOptions: string[] = [];
     for (let i = 1; i < sortOptionsCount; i++) {
-        let textContent = (await this.sortByList.nth(i).textContent()).trim();
-        sortByOptions.push(textContent);
+      const textContent = (await this.sortByList.nth(i).textContent()).trim();
+      sortByOptions.push(textContent);
     }
     sortByOptions.sort((a, b) => a.localeCompare(b));
     return sortByOptions;
-}
+  }
 
   async sortBy(option: SortByType, direction: SortByDirection): Promise<void> {
     await this.actionMenu.click();
@@ -76,7 +76,7 @@ export class SearchSortingPicker extends BaseComponent {
       await this.clickSortByDropdown();
     }
     const elem = this.sortByList.getByText(option);
-    const optionId = await elem.locator("..").getAttribute('id');
+    const optionId = await elem.locator('..').getAttribute('id');
     await elem.click();
     const directionSortElement = this.page.locator(`[id="${optionId}-${direction.toLocaleLowerCase()}"]`);
     await directionSortElement.click();

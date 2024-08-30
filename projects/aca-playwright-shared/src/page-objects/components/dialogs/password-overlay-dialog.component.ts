@@ -50,24 +50,24 @@ export class PasswordOverlayDialogComponent extends BaseComponent {
 
   async isDialogOpen(): Promise<boolean> {
     await this.waitForDialogToOpen();
-    return await this.passwordInput.isVisible();
+    return this.passwordInput.isVisible();
   }
 
   async isCloseVisible(): Promise<boolean> {
-    return await this.closeButton.isVisible();
+    return this.closeButton.isVisible();
   }
 
   async isSubmitHidden(): Promise<boolean> {
-    return await this.submitButton.isHidden();
+    return this.submitButton.isHidden();
   }
 
   async isPasswordInputDisplayed(): Promise<boolean> {
-    return await this.passwordInput.isVisible();
+    return this.passwordInput.isVisible();
   }
 
   async isErrorDisplayed(): Promise<boolean> {
     await this.errorMessage.waitFor({ state: 'visible', timeout: timeouts.short });
-    return await this.errorMessage.isVisible();
+    return this.errorMessage.isVisible();
   }
 
   async getErrorMessage(): Promise<string> {

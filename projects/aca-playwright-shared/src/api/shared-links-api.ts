@@ -19,7 +19,7 @@
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
 import { ApiClientFactory } from './api-client-factory';
@@ -44,7 +44,7 @@ export class SharedLinksApi {
         nodeId: id,
         expiresAt: expireDate
       };
-      return await this.apiService.share.createSharedLink(data);
+      return this.apiService.share.createSharedLink(data);
     } catch (error) {
       return null;
     }
@@ -70,7 +70,7 @@ export class SharedLinksApi {
       const opts = {
         maxItems
       };
-      return await this.apiService.share.listSharedLinks(opts);
+      return this.apiService.share.listSharedLinks(opts);
     } catch (error) {
       console.error(`SharedLinksApi getSharedLinks : catch : `, error);
       return new SharedLinkPaging();
@@ -89,7 +89,7 @@ export class SharedLinksApi {
         }
       };
 
-      return await Utils.retryCall(sharedFile);
+      return Utils.retryCall(sharedFile);
     } catch (error) {
       console.error(`SharedLinksApi waitForFilesToBeShared :  catch : ${error}`);
       console.error(`\tWait timeout reached waiting for files to be shared`);
@@ -110,7 +110,7 @@ export class SharedLinksApi {
   async unshareFileById(fileId: string): Promise<void> {
     try {
       const sharedId = await this.getSharedIdOfNode(fileId);
-      return await this.apiService.share.deleteSharedLink(sharedId);
+      return this.apiService.share.deleteSharedLink(sharedId);
     } catch (error) {
       console.error(`SharedLinksApi unshareFileById : catch : `, error);
     }
@@ -132,7 +132,7 @@ export class SharedLinksApi {
         }
       };
 
-      return await Utils.retryCall(sharedFile);
+      return Utils.retryCall(sharedFile);
     } catch (error) {
       console.error(`SharedLinksApi waitForFilesToNotBeShared :  catch : ${error}`);
       console.error(`\tWait timeout reached waiting for files to no longer be shared`);

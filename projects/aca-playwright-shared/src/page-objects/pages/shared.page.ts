@@ -45,5 +45,4 @@ export class SharedPage extends BasePage {
   public breadcrumb = new Breadcrumb(this.page);
   public infoDrawer = new AdfInfoDrawerComponent(this.page);
   public manageVersionsDialog = new ManageVersionsDialog(this.page);
-
 }

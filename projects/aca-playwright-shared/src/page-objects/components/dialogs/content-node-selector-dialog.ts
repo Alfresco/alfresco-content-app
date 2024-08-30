@@ -19,7 +19,7 @@
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
 import { Locator, Page, expect } from '@playwright/test';
@@ -36,7 +36,8 @@ export class ContentNodeSelectorDialog extends BaseComponent {
   public actionButton = this.getChild('[data-automation-id="content-node-selector-actions-choose"]');
   public locationDropDown = this.getChild('[id="site-dropdown-container"] mat-form-field');
   private selectedRow = this.getChild('.adf-is-selected');
-  getOptionLocator = (optionName: string): Locator => this.page.locator('.mat-mdc-select-panel .mdc-list-item__primary-text', { hasText: optionName });
+  getOptionLocator = (optionName: string): Locator =>
+    this.page.locator('.mat-mdc-select-panel .mdc-list-item__primary-text', { hasText: optionName });
   private getRowByName = (name: string | number): Locator => this.getChild(`adf-datatable-row`, { hasText: name.toString() });
   getDialogTitle = (text: string) => this.getChild('[data-automation-id="content-node-selector-title"]', { hasText: text });
   getBreadcrumb = (text: string) => this.getChild('[data-automation-id="current-folder"]', { hasText: text });

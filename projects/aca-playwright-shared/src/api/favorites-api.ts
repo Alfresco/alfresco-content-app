@@ -19,7 +19,7 @@
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
 import { ApiClientFactory } from './api-client-factory';
@@ -38,7 +38,7 @@ export class FavoritesPageApi {
     return classObj;
   }
   async addFavoriteById(nodeType: 'file' | 'folder' | 'site', id: string): Promise<FavoriteEntry> {
-    let guid = nodeType === 'site' ? (await this.apiService.sites.getSite(id)).entry.guid : id;
+    const guid = nodeType === 'site' ? (await this.apiService.sites.getSite(id)).entry.guid : id;
     const data = {
       target: {
         [nodeType]: {
@@ -46,7 +46,7 @@ export class FavoritesPageApi {
         }
       }
     };
-    return await this.apiService.favorites.createFavorite('-me-', data);
+    return this.apiService.favorites.createFavorite('-me-', data);
   }
 
   async addFavoritesByIds(nodeType: 'file' | 'folder' | 'site', ids: string[]): Promise<FavoriteEntry[]> {
@@ -64,7 +64,7 @@ export class FavoritesPageApi {
 
   private async getFavorites(username: string): Promise<FavoritePaging> {
     try {
-      return await this.apiService.favorites.listFavorites(username);
+      return this.apiService.favorites.listFavorites(username);
     } catch {
       return new FavoritePaging();
     }
@@ -89,7 +89,7 @@ export class FavoritesPageApi {
           return Promise.resolve(isFavorite);
         }
       };
-      return await Utils.retryCall(favorite);
+      return Utils.retryCall(favorite);
     } catch (error) {}
     return isFavorite;
   }
@@ -112,7 +112,7 @@ export class FavoritesPageApi {
           return Promise.resolve(totalItems);
         }
       };
-      return await Utils.retryCall(favoriteFiles);
+      return Utils.retryCall(favoriteFiles);
     } catch {}
   }
 

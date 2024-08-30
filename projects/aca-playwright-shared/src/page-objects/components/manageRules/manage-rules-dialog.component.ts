@@ -54,14 +54,16 @@ export class ManageRulesDialogComponent extends BaseComponent {
   }
 
   async deleteActions(noActions: number): Promise<void> {
-    for(let i = 0; i < noActions; i++) {
-    await this.actionsEllipsisButtons.first().click();
-    await this.actionsEllipsisDelete.click();
-  }}
+    for (let i = 0; i < noActions; i++) {
+      await this.actionsEllipsisButtons.first().click();
+      await this.actionsEllipsisDelete.click();
+    }
+  }
 
   async deleteConditions(noConditions: number): Promise<void> {
-    for(let i = 0; i < noConditions; i++) {
-    await this.conditionsEllipsisButtons.first().click();
-    await this.conditionsEllipsisDelete.click();
-  }}
+    for (let i = 0; i < noConditions; i++) {
+      await this.conditionsEllipsisButtons.first().click();
+      await this.conditionsEllipsisDelete.click();
+    }
+  }
 }

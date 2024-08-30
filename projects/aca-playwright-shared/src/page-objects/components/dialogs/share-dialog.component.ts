@@ -19,7 +19,7 @@
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
 import { ElementHandle, Locator, Page } from '@playwright/test';
@@ -51,19 +51,19 @@ export class ShareDialogComponent extends BaseComponent {
   getErrorByText = (text: string): Locator => this.page.locator('mat-error', { hasText: text });
 
   async getLabels(): Promise<Array<string>> {
-    return await this.page.$$eval('.adf-share-link__label', (elements) => elements.map((element) => element.textContent));
+    return this.page.$$eval('.adf-share-link__label', (elements) => elements.map((element) => element.textContent));
   }
 
   async getDialogTitle(): Promise<string> {
-    return await this.dialogTitle.innerText();
+    return this.dialogTitle.innerText();
   }
 
   async getInfoText(): Promise<string> {
-    return await this.infoText.innerText();
+    return this.infoText.innerText();
   }
 
   async getLinkUrl(): Promise<string> {
-    return await this.url.first().inputValue();
+    return this.url.first().inputValue();
   }
 
   async isUrlReadOnly(): Promise<boolean> {
@@ -72,7 +72,7 @@ export class ShareDialogComponent extends BaseComponent {
   }
 
   async isCloseEnabled(): Promise<boolean> {
-    return await this.closeButton.isEnabled();
+    return this.closeButton.isEnabled();
   }
 
   async clickClose(): Promise<void> {
@@ -96,6 +96,6 @@ export class ShareDialogComponent extends BaseComponent {
   }
 
   async getExpireDate(): Promise<string> {
-    return await this.expireInput.inputValue();
+    return this.expireInput.inputValue();
   }
 }

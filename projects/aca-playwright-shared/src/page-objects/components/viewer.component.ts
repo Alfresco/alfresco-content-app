@@ -59,17 +59,17 @@ export class ViewerComponent extends BaseComponent {
 
   async isViewerOpened(): Promise<boolean> {
     await this.waitForViewerToOpen();
-    return await this.viewerLocator.isVisible();
+    return this.viewerLocator.isVisible();
   }
 
   async isCloseButtonDisplayed(): Promise<boolean> {
     await this.closeButtonLocator.waitFor({ state: 'visible', timeout: timeouts.normal });
-    return await this.closeButtonLocator.isEnabled({ timeout: timeouts.normal });
+    return this.closeButtonLocator.isEnabled({ timeout: timeouts.normal });
   }
 
   async isFileTitleDisplayed(): Promise<boolean> {
     await this.fileTitleButtonLocator.waitFor({ state: 'visible', timeout: timeouts.normal });
-    return await this.fileTitleButtonLocator.isVisible();
+    return this.fileTitleButtonLocator.isVisible();
   }
 
   async getFileTitle(): Promise<string> {
@@ -79,14 +79,14 @@ export class ViewerComponent extends BaseComponent {
 
   async getCloseButtonTooltip(): Promise<string> {
     await this.closeButtonLocator.waitFor({ state: 'visible', timeout: timeouts.normal });
-    return await this.closeButtonLocator.getAttribute('title');
+    return this.closeButtonLocator.getAttribute('title');
   }
 
   async verifyViewerPrimaryActions(expectedToolbarPrimary: string[]): Promise<void> {
     const toRemove = ['Close', 'Previous File', 'Next File', 'View details'];
     const removeClosePreviousNextOldInfo = (actions: string[]): string[] => actions.filter((elem) => !toRemove.includes(elem));
 
-    let buttons = await this.page.$$('adf-viewer button');
+    const buttons = await this.page.$$('adf-viewer button');
     let actualPrimaryActions: string[] = await Promise.all(
       buttons.map(async (button) => {
         const title = await button.getAttribute('title');

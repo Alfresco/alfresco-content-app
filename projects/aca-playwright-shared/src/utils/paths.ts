@@ -25,9 +25,9 @@
 const rootFolder = 'e2e-output';
 
 export const paths = {
-    rootFolder,
-    allData: `${rootFolder}/playwright-data`,
-    files: `${rootFolder}/playwright-data/downloads`,
-    report: `${rootFolder}/playwright-data/report`,
-    userStates: `${rootFolder}/playwright-data/user-states`,
+  rootFolder,
+  allData: `${rootFolder}/playwright-data`,
+  files: `${rootFolder}/playwright-data/downloads`,
+  report: `${rootFolder}/playwright-data/report`,
+  userStates: `${rootFolder}/playwright-data/user-states`
 };

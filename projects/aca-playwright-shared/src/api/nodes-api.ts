@@ -19,7 +19,7 @@
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
 import { ApiClientFactory } from './api-client-factory';
@@ -48,7 +48,7 @@ export class NodesApi {
     aspectNames: string[] = null
   ): Promise<NodeEntry | null> {
     try {
-      return await this.createNode('cm:folder', name, parentId, title, description, null, author, null, aspectNames);
+      return this.createNode('cm:folder', name, parentId, title, description, null, author, null, aspectNames);
     } catch (error) {
       console.error(`${this.constructor.name} ${this.createFolder.name}`, error);
       return null;
@@ -65,7 +65,7 @@ export class NodesApi {
     aspectNames: string[] = null
   ): Promise<NodeEntry> {
     try {
-      return await this.createNode('cm:content', name, parentId, title, description, null, author, majorVersion, aspectNames);
+      return this.createNode('cm:content', name, parentId, title, description, null, author, majorVersion, aspectNames);
     } catch (error) {
       console.error(`${this.constructor.name} ${this.createFile.name}`, error);
       return null;
@@ -74,7 +74,7 @@ export class NodesApi {
 
   async createFiles(names: string[], relativePath = '/'): Promise<NodePaging> {
     try {
-      return await this.createContent({ files: names }, relativePath);
+      return this.createContent({ files: names }, relativePath);
     } catch (error) {
       console.error(`${this.constructor.name} ${this.createFiles.name}: ${error}`);
       return null;
@@ -83,7 +83,7 @@ export class NodesApi {
 
   async createFolders(names: string[], relativePath = '/'): Promise<NodePaging> {
     try {
-      return await this.createContent({ folders: names }, relativePath);
+      return this.createContent({ folders: names }, relativePath);
     } catch (error) {
       console.error(`${this.constructor.name} ${this.createFolders.name}: ${error}`);
       return null;
@@ -128,7 +128,7 @@ export class NodesApi {
     }
 
     try {
-      return await this.apiService.nodes.createNode(parentId, nodeBody, {
+      return this.apiService.nodes.createNode(parentId, nodeBody, {
         majorVersion
       });
     } catch (error) {
@@ -139,7 +139,7 @@ export class NodesApi {
 
   async renameNode(nodeId: string, newName: string): Promise<NodeEntry | null> {
     try {
-      return await this.apiService.nodes.updateNode(nodeId, { name: newName });
+      return this.apiService.nodes.updateNode(nodeId, { name: newName });
     } catch (error) {
       console.error(`${this.constructor.name} ${this.renameNode.name}`, error);
       return null;
@@ -195,7 +195,7 @@ export class NodesApi {
 
   async createContent(content: NodeContentTree, relativePath: string = '/'): Promise<NodePaging> {
     try {
-      return await this.apiService.nodes.createNode('-my-', flattenNodeContentTree(content, relativePath) as any);
+      return this.apiService.nodes.createNode('-my-', flattenNodeContentTree(content, relativePath) as any);
     } catch (error) {
       console.error(`${this.constructor.name} ${this.createContent.name}`, error);
       return null;
@@ -204,7 +204,7 @@ export class NodesApi {
 
   async getNodeById(id: string): Promise<NodeEntry | null> {
     try {
-      return await this.apiService.nodes.getNode(id);
+      return this.apiService.nodes.getNode(id);
     } catch (error) {
       console.error(`${this.constructor.name} ${this.getNodeById.name}`, error);
       return null;
@@ -226,7 +226,7 @@ export class NodesApi {
       const opts = {
         include: ['properties']
       };
-      return await this.apiService.nodes.listNodeChildren(nodeId, opts);
+      return this.apiService.nodes.listNodeChildren(nodeId, opts);
     } catch (error) {
       console.error(`${this.constructor.name} ${this.getNodeChildren.name}`, error);
       return null;
@@ -304,7 +304,7 @@ export class NodesApi {
     };
 
     try {
-      return await this.apiService.nodes.updateNode(nodeId, data);
+      return this.apiService.nodes.updateNode(nodeId, data);
     } catch (error) {
       console.error(`${this.constructor.name} ${this.setGranularPermission.name}`, error);
       return null;
@@ -343,7 +343,7 @@ export class NodesApi {
     };
 
     try {
-      return await this.apiService.nodes.updateNode(nodeId, data);
+      return this.apiService.nodes.updateNode(nodeId, data);
     } catch (error) {
       console.error(`${this.constructor.name} ${this.setInheritPermissions.name}`, error);
       return null;
@@ -352,7 +352,7 @@ export class NodesApi {
 
   private async addAspects(nodeId: string, aspectNames: string[]): Promise<NodeEntry> {
     try {
-      return await this.apiService.nodes.updateNode(nodeId, { aspectNames });
+      return this.apiService.nodes.updateNode(nodeId, { aspectNames });
     } catch (error) {
       console.error(`${this.constructor.name} ${this.addAspects.name}`, error);
       return null;

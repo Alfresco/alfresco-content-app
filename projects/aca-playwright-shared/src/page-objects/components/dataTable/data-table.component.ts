@@ -56,8 +56,8 @@ export class DataTableComponent extends BaseComponent {
   sitesName = this.page.locator('.adf-datatable-body [data-automation-id*="datatable-row"] [aria-label="Name"]');
   sitesRole = this.page.locator('.adf-datatable-body [data-automation-id*="datatable-row"] [aria-label="My Role"]');
   lockOwner = this.page.locator('.aca-locked-by--name');
-  uncheckedChecbox = this.page.locator('.mat-mdc-checkbox');
-  checkedChecbox = this.page.locator('.mat-mdc-checkbox-checked');
+  uncheckedCheckbox = this.page.locator('.mat-mdc-checkbox');
+  checkedCheckbox = this.page.locator('.mat-mdc-checkbox-checked');
 
   /** Locator for row (or rows) */
   getRowLocator = this.page.getByRole('rowgroup').nth(1).locator('adf-datatable-row');
@@ -244,17 +244,17 @@ export class DataTableComponent extends BaseComponent {
     for (const name of names) {
       const isSelected = await this.isRowSelected(name);
       if (!isSelected) {
-        let row = this.getRowByName(name);
+        const row = this.getRowByName(name);
         await row.hover();
-        await row.locator(this.uncheckedChecbox).click();
-        await row.locator(this.checkedChecbox).waitFor({ state: 'attached' });
+        await row.locator(this.uncheckedCheckbox).click();
+        await row.locator(this.checkedCheckbox).waitFor({ state: 'attached' });
       }
     }
   }
 
   async isRowSelected(itemName: string): Promise<boolean> {
     const row = this.getRowByName(itemName);
-    return await row.locator(this.checkedChecbox).isVisible();
+    return row.locator(this.checkedCheckbox).isVisible();
   }
 
   async getColumnHeaders(): Promise<Array<string>> {
@@ -341,7 +341,7 @@ export class DataTableComponent extends BaseComponent {
    */
   async getSitesNameAndVisibility(): Promise<{ [siteName: string]: string }> {
     const rowsCount = await this.sitesName.count();
-    let sitesInfo: { [siteName: string]: string } = {};
+    const sitesInfo: { [siteName: string]: string } = {};
     for (let i = 0; i < rowsCount; i++) {
       let siteVisibilityText = await this.sitesVisibility.nth(i).textContent();
       let siteNameText = await this.sitesName.nth(i).textContent();
@@ -359,7 +359,7 @@ export class DataTableComponent extends BaseComponent {
    */
   async getSitesNameAndRole(): Promise<{ [siteName: string]: string }> {
     const rowsCount = await this.sitesName.count();
-    let sitesInfo: { [siteName: string]: string } = {};
+    const sitesInfo: { [siteName: string]: string } = {};
     for (let i = 0; i < rowsCount; i++) {
       let siteNameText = await this.sitesName.nth(i).textContent();
       let siteRoleText = await this.sitesRole.nth(i).textContent();

@@ -45,7 +45,7 @@ export class SnackBarComponent extends BaseComponent {
   }
 
   async getSnackBarActionText(): Promise<string> {
-    if (await this.actionButton.isVisible()){
+    if (await this.actionButton.isVisible()) {
       return this.actionButton.textContent();
     } else {
       return '';

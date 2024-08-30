@@ -67,8 +67,8 @@ export class AcaHeader extends BaseComponent {
   }
 
   async verifyToolbarPrimaryActions(expectedToolbarPrimary: string[]): Promise<void> {
-    let buttons = await this.page.$$('aca-toolbar button');
-    let actualPrimaryActions: string[] = await Promise.all(
+    const buttons = await this.page.$$('aca-toolbar button');
+    const actualPrimaryActions: string[] = await Promise.all(
       buttons.map(async (button) => {
         const title = await button.getAttribute('title');
         return title || '';

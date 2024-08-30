@@ -53,7 +53,7 @@ export class RulesApi {
   async createRandomRule(folderId: string, ruleName: string): Promise<Rule> {
     const randomActionsIndex = crypto.randomInt(0, ActionTypes.actions.length);
     const randomAction = ActionTypes.actions[randomActionsIndex];
-    return await this.createRule(folderId, {
+    return this.createRule(folderId, {
       name: ruleName,
       isEnabled: true,
       actions: [randomAction]
@@ -66,13 +66,13 @@ export class RulesApi {
     }
     const randomActionsIndex = crypto.randomInt(0, ActionTypes.actions.length);
     const randomAction = ActionTypes.actions[randomActionsIndex];
-    let conditionsArray = [];
+    const conditionsArray = [];
     for (let i = 0; i < numOfConditions; i++) {
       const randomIndex = crypto.randomInt(0, ConditionsTypes.conditions.length);
       const randomCondition = ConditionsTypes.conditions[randomIndex];
       conditionsArray.push(randomCondition);
     }
-    return await this.createRule(folderId, {
+    return this.createRule(folderId, {
       name: ruleName,
       isEnabled: true,
       actions: [randomAction],
@@ -88,24 +88,30 @@ export class RulesApi {
     if (numOfActions > ActionTypes.actions.length) {
       numOfActions = ActionTypes.actions.length;
     }
-    let actionsArray = [];
+    const actionsArray = [];
     for (let i = 0; i < numOfActions; i++) {
       const randomIndex = crypto.randomInt(0, ActionTypes.actions.length);
       const randomAction = ActionTypes.actions[randomIndex];
       actionsArray.push(randomAction);
     }
-    return await this.createRule(folderId, {
+    return this.createRule(folderId, {
       name: ruleName,
       isEnabled: true,
       actions: actionsArray
     });
   }
 
-  async createRandomComplexRule(folderId: string, ruleName: string, numOfConditions: number, numOfActions: number, ruleDescription?: string): Promise<Rule> {
+  async createRandomComplexRule(
+    folderId: string,
+    ruleName: string,
+    numOfConditions: number,
+    numOfActions: number,
+    ruleDescription?: string
+  ): Promise<Rule> {
     if (numOfConditions > ConditionsTypes.conditions.length) {
       numOfConditions = ConditionsTypes.conditions.length;
     }
-    let conditionsArray = [];
+    const conditionsArray = [];
     for (let i = 0; i < numOfConditions; i++) {
       const randomIndex = crypto.randomInt(0, ConditionsTypes.conditions.length);
       const randomCondition = ConditionsTypes.conditions[randomIndex];
@@ -114,13 +120,13 @@ export class RulesApi {
     if (numOfActions > ActionTypes.actions.length) {
       numOfActions = ActionTypes.actions.length;
     }
-    let actionsArray = [];
+    const actionsArray = [];
     for (let i = 0; i < numOfActions; i++) {
       const randomIndex = crypto.randomInt(0, ActionTypes.actions.length);
       const randomAction = ActionTypes.actions[randomIndex];
       actionsArray.push(randomAction);
     }
-    return await this.createRule(folderId, {
+    return this.createRule(folderId, {
       name: ruleName,
       description: ruleDescription,
       isEnabled: true,
@@ -134,7 +140,7 @@ export class RulesApi {
   }
 
   async createRuleWithRandomAspects(folderId: string, ruleName: string): Promise<Rule> {
-    return await this.createRule(folderId, {
+    return this.createRule(folderId, {
       name: ruleName,
       isEnabled: true,
       actions: [
@@ -166,7 +172,7 @@ export class RulesApi {
     actionType: 'move' | 'copy' | 'import',
     destinationFolderId: string
   ): Promise<Rule> {
-    return await this.createRule(folderId, {
+    return this.createRule(folderId, {
       name: ruleName,
       isEnabled: true,
       actions: [

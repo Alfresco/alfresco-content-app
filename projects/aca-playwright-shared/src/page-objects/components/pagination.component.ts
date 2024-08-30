@@ -152,7 +152,7 @@ export class PaginationComponent extends BaseComponent {
   }
 
   async getItemsCount(): Promise<number> {
-    return await this.page.getByRole('menuitem').count();
+    return this.page.getByRole('menuitem').count();
   }
 
   async clickNthItem(nth: number): Promise<void> {
