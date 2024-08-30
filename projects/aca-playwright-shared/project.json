@@ -1,5 +1,5 @@
 {
-  "name": "playwright-shared",
+  "name": "aca-playwright-shared",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "projects/aca-playwright-shared/src",
   "projectType": "library",
