@@ -12,7 +12,8 @@ fi
 
 export PROJECTS=(
   'aca-content'
-  'aca-shared'
+  'aca-shared',
+  'aca-playwright-shared'
 );
 
 for PROJECT in ${PROJECTS[@]}
