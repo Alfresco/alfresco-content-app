@@ -27,7 +27,7 @@ import { RuleContext } from '@alfresco/adf-extensions';
 import * as navigation from './navigation.rules';
 import * as repository from './repository.rules';
 import { isAdmin } from './user.rules';
-import { NodeEntry } from '@alfresco/js-api/typings';
+import { NodeEntry } from '@alfresco/js-api';
 
 /* cspell:disable */
 export const supportedExtensions = {
