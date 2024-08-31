@@ -25,7 +25,7 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PageComponent, PageLayoutComponent, ToolbarActionComponent, ToolbarComponent } from '@alfresco/aca-shared';
-import { finalize, switchMap, takeUntil } from 'rxjs/operators';
+import { concatMap, delay, finalize, retryWhen, skipWhile, switchMap, takeUntil } from 'rxjs/operators';
 import {
   AvatarComponent,
   ClipboardService,
@@ -40,7 +40,7 @@ import { CommonModule } from '@angular/common';
 import { SearchAiInputContainerComponent } from '../search-ai-input-container/search-ai-input-container.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NodesApiService } from '@alfresco/adf-content-services';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Observable, of, throwError } from 'rxjs';
 import { SelectionState } from '@alfresco/adf-extensions';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -168,17 +168,24 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
 
   performAiSearch(): void {
     this._loading = true;
+
     this.searchAiService
       .ask({
         question: this.searchQuery,
-        nodeIds: this._selectedNodesState?.nodes?.length ? this._selectedNodesState.nodes.map((node) => node.entry.id) : []
+        nodeIds: this._selectedNodesState?.nodes?.length ? this._selectedNodesState.nodes.map((node) => node.entry.id) : [],
+        agentId: this._agentId
       })
       .pipe(
         switchMap((response) => this.searchAiService.getAnswer(response.questionId)),
+        retryWhen((errors) => this.aiSearchRetryWhen(errors)),
         switchMap((response) => {
+          if (!response.list.entries[0].entry?.answer) {
+            return throwError((e) => e);
+          }
           this._queryAnswer = response.list.entries[0].entry;
           return forkJoin(this.queryAnswer.references.map((reference) => this.nodesApiService.getNode(reference.referenceId)));
         }),
+        retryWhen((errors) => this.aiSearchRetryWhen(errors)),
         finalize(() => (this._loading = false)),
         takeUntil(this.onDestroy$)
       )
@@ -191,5 +198,23 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
         },
         () => (this._hasAnsweringError = true)
       );
+  }
+
+  private aiSearchRetryWhen<T>(errors: Observable<T>): Observable<T> {
+    const delayBetweenRetries = 3000;
+    const maxRetries = 9;
+
+    return errors.pipe(
+      skipWhile(() => this._hasAnsweringError),
+      delay(delayBetweenRetries),
+      concatMap((e, index) => {
+        if (index === maxRetries) {
+          this._hasAnsweringError = true;
+          this._loading = false;
+          return throwError(e);
+        }
+        return of(null);
+      })
+    );
   }
 }

@@ -147,7 +147,7 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
           this.agentControl.setValue(agents.find((agent) => agent.id === this.agentId));
           this._initialsByAgentId = this.agents.reduce((initials, agent) => {
             const words = agent.name.split(' ').filter((word) => !word.match(/[^a-zA-Z]+/g));
-            initials[agent.id] = `${words[0][0]}${words[1][0] || ''}`;
+            initials[agent.id] = words.length > 1 ? `${words[0][0]}${words[1][0]}` : `${words[0][0]}`;
             return initials;
           }, {});
         },

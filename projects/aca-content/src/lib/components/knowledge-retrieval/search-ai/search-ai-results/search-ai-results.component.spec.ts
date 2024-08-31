@@ -22,10 +22,10 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { TestBed, ComponentFixture, tick, fakeAsync } from '@angular/core/testing';
 import { SearchAiResultsComponent } from './search-ai-results.component';
 import { ActivatedRoute, Params } from '@angular/router';
-import { of, Subject } from 'rxjs';
+import { of, Subject, throwError } from 'rxjs';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { UserPreferencesService } from '@alfresco/adf-core';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -37,12 +37,12 @@ import { ModalAiService } from '../../../../services/modal-ai.service';
 import { delay } from 'rxjs/operators';
 import { AiAnswer, AiAnswerPaging, QuestionModel } from '@alfresco/js-api/typings';
 
-const questionMock: QuestionModel = { question: 'test', questionId: 'testId', restrictionQuery: '' };
+const questionMock: QuestionModel = { question: 'test', questionId: 'testId', restrictionQuery: { nodesIds: [] } };
 const aiAnswerMock: AiAnswer = { answer: 'Some answer', questionId: 'some id', references: [] };
-const getAiAnswerPaging = (withEntry: boolean): AiAnswerPaging => {
+const getAiAnswerPaging = (withEntry: boolean, noAnswer?: boolean): AiAnswerPaging => {
   return {
     list: {
-      entries: withEntry ? [{ entry: { answer: 'Some answer', questionId: 'some id', references: [] } }] : [],
+      entries: withEntry ? [{ entry: { answer: noAnswer ? '' : 'Some answer', questionId: 'some id', references: [] } }] : [],
       pagination: { hasMoreItems: false, maxItems: 0, totalItems: 0, skipCount: 0 }
     }
   };
@@ -128,6 +128,75 @@ describe('SearchAiResultsComponent', () => {
       expect(component.agentId).toBe(undefined);
       expect(component.hasError).toBeTrue();
     });
+
+    it('should not get query answer and display an error when getAnswer throws error', fakeAsync(() => {
+      spyOn(userPreferencesService, 'get').and.returnValue(knowledgeRetrievalNodes);
+      spyOn(searchAiService, 'getAnswer').and.returnValue(throwError('error').pipe(delay(100)));
+      mockQueryParams.next({ query: 'test', agentId: 'agentId1' });
+
+      tick(800000);
+
+      expect(component.queryAnswer).toEqual(undefined);
+      expect(component.hasAnsweringError).toBeTrue();
+      expect(component.loading).toBeFalse();
+    }));
+
+    it('should get query answer and not display an error when getAnswer throws one error and one successful response', fakeAsync(() => {
+      spyOn(userPreferencesService, 'get').and.returnValue(knowledgeRetrievalNodes);
+      spyOn(searchAiService, 'getAnswer').and.returnValues(throwError('error'), of(getAiAnswerPaging(true)));
+      mockQueryParams.next({ query: 'test', agentId: 'agentId1' });
+
+      tick(3000);
+
+      expect(component.queryAnswer).toEqual({ answer: 'Some answer', questionId: 'some id', references: [] });
+      expect(component.hasAnsweringError).toBeFalse();
+    }));
+
+    it('should display and answer and not display an error when getAnswer throws nine errors and one successful response', fakeAsync(() => {
+      spyOn(userPreferencesService, 'get').and.returnValue(knowledgeRetrievalNodes);
+      spyOn(searchAiService, 'getAnswer').and.returnValues(...Array(9).fill(throwError('error')), of(getAiAnswerPaging(true)));
+      mockQueryParams.next({ query: 'test', agentId: 'agentId1' });
+
+      tick(50000);
+
+      expect(component.queryAnswer).toEqual({ answer: 'Some answer', questionId: 'some id', references: [] });
+      expect(component.hasAnsweringError).toBeFalse();
+    }));
+
+    it('should not display an answer and display an error when getAnswer throws ten errors', fakeAsync(() => {
+      spyOn(userPreferencesService, 'get').and.returnValue(knowledgeRetrievalNodes);
+      spyOn(searchAiService, 'getAnswer').and.returnValues(...Array(14).fill(throwError('error')), of(getAiAnswerPaging(true)));
+      mockQueryParams.next({ query: 'test', agentId: 'agentId1' });
+
+      tick(30000);
+
+      expect(component.queryAnswer).toEqual(undefined);
+      expect(component.hasAnsweringError).toBeTrue();
+      expect(component.loading).toBeFalse();
+    }));
+
+    it('should not display answer and display an error if received AiAnswerPaging without answer ten times', fakeAsync(() => {
+      spyOn(userPreferencesService, 'get').and.returnValue(knowledgeRetrievalNodes);
+      spyOn(searchAiService, 'getAnswer').and.returnValues(...Array(10).fill(of(getAiAnswerPaging(true, true))));
+      mockQueryParams.next({ query: 'test', agentId: 'agentId1' });
+
+      tick(30000);
+
+      expect(component.queryAnswer).toEqual(undefined);
+      expect(component.hasAnsweringError).toBeTrue();
+      expect(component.loading).toBeFalse();
+    }));
+
+    it('should not display error and display and answer if received AiAnswerPaging without answer nine times and with answer one time', fakeAsync(() => {
+      spyOn(userPreferencesService, 'get').and.returnValue(knowledgeRetrievalNodes);
+      spyOn(searchAiService, 'getAnswer').and.returnValues(...Array(9).fill(of(getAiAnswerPaging(true, true))), of(getAiAnswerPaging(true)));
+      mockQueryParams.next({ query: 'test', agentId: 'agentId1' });
+
+      tick(30000);
+
+      expect(component.queryAnswer).toEqual({ answer: 'Some answer', questionId: 'some id', references: [] });
+      expect(component.hasAnsweringError).toBeFalse();
+    }));
   });
 
   describe('skeleton loader', () => {
@@ -149,18 +218,18 @@ describe('SearchAiResultsComponent', () => {
       expect(getSkeletonElementsLength()).toBe(3);
     });
 
-    it('should not display skeleton when loading is false', () => {
+    it('should not display skeleton when loading is false', fakeAsync(() => {
       mockQueryParams.next({ query: 'test', agentId: 'agentId1' });
 
       spyOn(searchAiService, 'ask').and.returnValue(of(questionMock));
       spyOn(searchAiService, 'getAnswer').and.returnValue(of(getAiAnswerPaging(false)));
 
       component.performAiSearch();
-      fixture.detectChanges();
+      tick(30000);
 
       expect(component.loading).toBeFalse();
       expect(getSkeletonElementsLength()).toBe(0);
-    });
+    }));
   });
 
   describe('Unsaved Changes Modal', () => {

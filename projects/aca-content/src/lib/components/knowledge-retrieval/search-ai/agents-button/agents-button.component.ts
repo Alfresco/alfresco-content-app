@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SelectionState } from '@alfresco/adf-extensions';
 import { Store } from '@ngrx/store';
@@ -73,7 +73,8 @@ export class AgentsButtonComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     private searchAiService: SearchAiService,
     private agentService: AgentService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -90,10 +91,11 @@ export class AgentsButtonComponent implements OnInit, OnDestroy {
       .subscribe(
         (agents) => {
           this._agents = agents;
+          this.cd.detectChanges();
           if (this.agents.length) {
             this._initialsByAgentId = this.agents.reduce((initials, agent) => {
               const words = agent.name.split(' ').filter((word) => !word.match(/[^a-zA-Z]+/g));
-              initials[agent.id] = `${words[0][0]}${words[1][0] || ''}`;
+              initials[agent.id] = words.length > 1 ? `${words[0][0]}${words[1][0]}` : `${words[0][0]}`;
               return initials;
             }, {});
           }
