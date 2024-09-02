@@ -32,9 +32,18 @@ module.exports = async ({ exec, github, dependencyName, tag }) => {
   //     matchedPkgVersion = tagSplit[1].trim();
   //   }
   // });
+  let matchedPkgVersion = '';
   const tagsType = packageDistTag.split('\n');
-  console.log(`tagsType: ${tagsType}`);
-  const matchedPkgVersion = tagsType.find((tagType) => tagType === tag)?.split(':')[1].trim();
+  for (const tagType of tagsType) {
+    const tagSplit = tagType.split(':');
+    if (tagSplit[0].trim() === tag) {
+      matchedPkgVersion = tagSplit[1].trim();
+      break;
+    }
+  }
+  // const tagsType = packageDistTag.split('\n');
+  // console.log(`tagsType: ${tagsType}`);
+  // const matchedPkgVersion = tagsType.find((tagType) => tagType === tag)?.split(':')[1].trim();
   console.log(`matchedPkgVersion: ${matchedPkgVersion}`);
   const latestPkgToUpdate = availablePackages.find((package) => package.name === matchedPkgVersion);
   console.log(`latestPkgToUpdate: ${latestPkgToUpdate}`);
