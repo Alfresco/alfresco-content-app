@@ -28,7 +28,6 @@ env:
 
 jobs:
   lint:
-    if: ${{ github.event_name == 'pull_request' }}
     name: 'lint'
     runs-on: ubuntu-latest
     steps:
@@ -43,7 +42,13 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'npm'
       - run: npm ci
-      - run: npm run affected:lint -- --base=origin/develop
+
+      - name: lint affected
+        if: ${{ github.event_name == 'pull_request' }}
+        run: npm run affected:lint -- --base=origin/develop
+      - name: lint all
+        if: ${{ github.event_name != 'pull_request' }}
+        run: npx nx run-many --target=lint
       - run: npm run stylelint
 
   build:
