@@ -71,7 +71,9 @@ test.describe('Unshare a file from Search Results', () => {
       await apiClientFactory.createUser({ username });
       nodesApi = await NodesApi.initialize(username, username);
       trashcanApi = await TrashcanApi.initialize(username, username);
-      sitesApi = await SitesApi.initialize(username, username);
+      sitesApi = await SitesApi.initialize('admin');
+      const nodesApiAdmin = await NodesApi.initialize('admin');
+      const shareApiAdmin = await SharedLinksApi.initialize('admin');
       const shareApi = await SharedLinksApi.initialize(username, username);
       const filesAction = await FileActionsApi.initialize(username, username);
       parentId = (await nodesApi.createFolder(parent)).entry.id;
@@ -84,13 +86,13 @@ test.describe('Unshare a file from Search Results', () => {
       await sitesApi.createSite(sitePrivate, Site.VisibilityEnum.PRIVATE);
       const docLibId = await sitesApi.getDocLibId(sitePrivate);
 
-      const fileSite1Id = (await nodesApi.createFile(fileSite1, docLibId)).entry.id;
-      fileSite2Id = (await nodesApi.createFile(fileSite2, docLibId)).entry.id;
+      const fileSite1Id = (await nodesApiAdmin.createFile(fileSite1, docLibId)).entry.id;
+      fileSite2Id = (await nodesApiAdmin.createFile(fileSite2, docLibId)).entry.id;
 
       await sitesApi.addSiteMember(sitePrivate, username, Site.RoleEnum.SiteConsumer);
 
-      await shareApi.shareFilesByIds([fileSite1Id]);
-      await shareApi.waitForFilesToBeShared([fileSite1Id]);
+      await shareApiAdmin.shareFilesByIds([fileSite1Id]);
+      await shareApiAdmin.waitForFilesToBeShared([fileSite1Id]);
 
       await shareApi.shareFilesByIds([file1Id, file2Id, file3Id, file4Id, fileSite2Id]);
       await shareApi.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id, fileSite2Id]);
