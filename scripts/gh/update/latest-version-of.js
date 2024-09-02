@@ -25,13 +25,17 @@ module.exports = async ({ exec, github, dependencyName, tag }) => {
   };
   await exec.exec(`npm dist-tag ls @alfresco/${dependencyName}`, [], options);
   const tagsType = packageDistTag.split('\n');
+  console.log(`tagsType: ${tagsType}`);
   const matchedPkgVersion = tagsType.find((tagType) => tagType.includes(tag))?.split(':')[1].trim();
+  console.log(`matchedPkgVersion: ${matchedPkgVersion}`);
   const latestPkgToUpdate = availablePackages.find((package) => package.name === matchedPkgVersion);
+  console.log(`latestPkgToUpdate: ${latestPkgToUpdate}`);
 
   if (localVersion === latestPkgToUpdate?.name) {
     return { hasNewVersion: 'false' };
   } else {
     const findLocalVersionOnRemote = availablePackages.find((package) => package.name === localVersion);
+    console.log(`findLocalVersionOnRemote: ${findLocalVersionOnRemote}`);
     let rangeInDays = 'N/A';
     if (findLocalVersionOnRemote !== undefined) {
       const creationLocal = new Date(findLocalVersionOnRemote.created_at);
