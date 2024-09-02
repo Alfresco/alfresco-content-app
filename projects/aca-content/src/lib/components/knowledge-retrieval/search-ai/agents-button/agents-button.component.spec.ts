@@ -26,7 +26,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AgentsButtonComponent } from './agents-button.component';
 import { AgentService, ContentTestingModule, SearchAiService } from '@alfresco/adf-content-services';
 import { AgentWithAvatar } from '@alfresco/js-api';
-import { Subject } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { getAppSelection, SearchAiActionTypes, ToggleAISearchInput } from '@alfresco/aca-shared/store';
@@ -49,6 +49,8 @@ describe('AgentsButtonComponent', () => {
   let checkSearchAvailabilitySpy: jasmine.Spy<(selectedNodesState: SelectionState, maxSelectedNodes?: number) => string>;
   let selectionState: SelectionState;
   let store: MockStore;
+
+  const knowledgeRetrievalUrl = 'some url';
 
   const getMenu = (): MatMenu => fixture.debugElement.query(By.directive(MatMenu)).componentInstance;
 
@@ -79,7 +81,15 @@ describe('AgentsButtonComponent', () => {
         avatar: undefined
       }
     ];
-    checkSearchAvailabilitySpy = spyOn(TestBed.inject(SearchAiService), 'checkSearchAvailability');
+    const searchAiService = TestBed.inject(SearchAiService);
+    checkSearchAvailabilitySpy = spyOn(searchAiService, 'checkSearchAvailability');
+    spyOn(searchAiService, 'getConfig').and.returnValue(
+      of({
+        entry: {
+          knowledgeRetrievalUrl
+        }
+      })
+    );
     selectionState = {
       nodes: [],
       isEmpty: true,
@@ -100,6 +110,7 @@ describe('AgentsButtonComponent', () => {
 
     it('should be rendered if any agents are loaded', () => {
       agents$.next(agentsWithAvatar);
+      agents$.complete();
       fixture.detectChanges();
 
       expect(getAgentsButton()).toBeTruthy();
@@ -107,6 +118,7 @@ describe('AgentsButtonComponent', () => {
 
     it('should get agents on component init', () => {
       agents$.next(agentsWithAvatar);
+      agents$.complete();
       component.ngOnInit();
 
       expect(component.initialsByAgentId).toEqual({ 1: 'HA', 2: 'PA' });
@@ -136,6 +148,7 @@ describe('AgentsButtonComponent', () => {
     it('should not be rendered if none agent is loaded', () => {
       agentsWithAvatar = [];
       agents$.next(agentsWithAvatar);
+      agents$.complete();
 
       fixture.detectChanges();
       expect(getAgentsButton()).toBeFalsy();
@@ -143,6 +156,7 @@ describe('AgentsButtonComponent', () => {
 
     it('should have correct label', () => {
       agents$.next(agentsWithAvatar);
+      agents$.complete();
       fixture.detectChanges();
 
       expect(getAgentsButton().textContent.trim()).toBe('KNOWLEDGE_RETRIEVAL.SEARCH.AGENTS_BUTTON.LABEL');
@@ -150,6 +164,7 @@ describe('AgentsButtonComponent', () => {
 
     it('should contain stars icon', () => {
       agents$.next(agentsWithAvatar);
+      agents$.complete();
       fixture.detectChanges();
 
       expect(fixture.debugElement.query(By.css('.aca-agents-menu-button adf-icon')).componentInstance.value).toBe('adf:colored-stars-ai');
@@ -169,55 +184,126 @@ describe('AgentsButtonComponent', () => {
                   key: 'Enter'
                 });
           agents$.next(agentsWithAvatar);
+          agents$.complete();
+          spyOn(window, 'open');
         });
 
-        it('should display notification if checkSearchAvailability from SearchAiService returns message', () => {
-          const message = 'Some message';
-          checkSearchAvailabilitySpy.and.returnValue(message);
-          const notificationService = TestBed.inject(NotificationService);
-          spyOn(notificationService, 'showInfo');
-          fixture.detectChanges();
+        describe('with selected nodes', () => {
+          beforeEach(() => {
+            selectionState.isEmpty = false;
+          });
 
-          getAgentsButton().dispatchEvent(event);
-          expect(notificationService.showInfo).toHaveBeenCalledWith(message);
+          it('should display notification if checkSearchAvailability from SearchAiService returns message', () => {
+            const message = 'Some message';
+            checkSearchAvailabilitySpy.and.returnValue(message);
+            const notificationService = TestBed.inject(NotificationService);
+            spyOn(notificationService, 'showInfo');
+            fixture.detectChanges();
+
+            getAgentsButton().dispatchEvent(event);
+            expect(notificationService.showInfo).toHaveBeenCalledWith(message);
+          });
+
+          it('should not display notification if checkSearchAvailability from SearchAiService returns empty message', () => {
+            const message = '';
+            checkSearchAvailabilitySpy.and.returnValue(message);
+            const notificationService = TestBed.inject(NotificationService);
+            spyOn(notificationService, 'showInfo');
+            fixture.detectChanges();
+
+            getAgentsButton().dispatchEvent(event);
+            expect(notificationService.showInfo).not.toHaveBeenCalled();
+          });
+
+          it('should disable menu triggering if checkSearchAvailability from SearchAiService returns message', () => {
+            checkSearchAvailabilitySpy.and.returnValue('Some message');
+            fixture.detectChanges();
+
+            getAgentsButton().dispatchEvent(event);
+            fixture.detectChanges();
+            expect(getMenuTrigger()).toBeNull();
+          });
+
+          it('should enable menu triggering if checkSearchAvailability from SearchAiService returns empty message', () => {
+            checkSearchAvailabilitySpy.and.returnValue('');
+            fixture.detectChanges();
+
+            getAgentsButton().dispatchEvent(event);
+            fixture.detectChanges();
+            const menuTrigger = getMenuTrigger();
+            expect(menuTrigger).toBeTruthy();
+            expect(menuTrigger).toBe(getMenu());
+          });
+
+          it('should call checkSearchAvailability from SearchAiService with correct parameter', () => {
+            fixture.detectChanges();
+            getAgentsButton().dispatchEvent(event);
+
+            expect(checkSearchAvailabilitySpy).toHaveBeenCalledWith(selectionState);
+          });
+
+          it('should not open new tab for url loaded from config', () => {
+            fixture.detectChanges();
+            getAgentsButton().dispatchEvent(event);
+
+            expect(window.open).not.toHaveBeenCalled();
+          });
         });
 
-        it('should not display notification if checkSearchAvailability from SearchAiService returns empty message', () => {
-          const message = '';
-          checkSearchAvailabilitySpy.and.returnValue(message);
-          const notificationService = TestBed.inject(NotificationService);
-          spyOn(notificationService, 'showInfo');
-          fixture.detectChanges();
+        describe('without selected nodes', () => {
+          it('should not display notification if checkSearchAvailability from SearchAiService returns message', () => {
+            const message = 'Some message';
+            checkSearchAvailabilitySpy.and.returnValue(message);
+            const notificationService = TestBed.inject(NotificationService);
+            spyOn(notificationService, 'showInfo');
+            fixture.detectChanges();
 
-          getAgentsButton().dispatchEvent(event);
-          expect(notificationService.showInfo).not.toHaveBeenCalled();
-        });
+            getAgentsButton().dispatchEvent(event);
+            expect(notificationService.showInfo).not.toHaveBeenCalled();
+          });
 
-        it('should disable menu triggering if checkSearchAvailability from SearchAiService returns message', () => {
-          checkSearchAvailabilitySpy.and.returnValue('Some message');
-          fixture.detectChanges();
+          it('should not display notification if checkSearchAvailability from SearchAiService returns empty message', () => {
+            const message = '';
+            checkSearchAvailabilitySpy.and.returnValue(message);
+            const notificationService = TestBed.inject(NotificationService);
+            spyOn(notificationService, 'showInfo');
+            fixture.detectChanges();
 
-          getAgentsButton().dispatchEvent(event);
-          fixture.detectChanges();
-          expect(getMenuTrigger()).toBeNull();
-        });
+            getAgentsButton().dispatchEvent(event);
+            expect(notificationService.showInfo).not.toHaveBeenCalled();
+          });
 
-        it('should enable menu triggering if checkSearchAvailability from SearchAiService returns empty message', () => {
-          checkSearchAvailabilitySpy.and.returnValue('');
-          fixture.detectChanges();
+          it('should disable menu triggering if checkSearchAvailability from SearchAiService returns message', () => {
+            checkSearchAvailabilitySpy.and.returnValue('Some message');
+            fixture.detectChanges();
 
-          getAgentsButton().dispatchEvent(event);
-          fixture.detectChanges();
-          const menuTrigger = getMenuTrigger();
-          expect(menuTrigger).toBeTruthy();
-          expect(menuTrigger).toBe(getMenu());
-        });
+            getAgentsButton().dispatchEvent(event);
+            fixture.detectChanges();
+            expect(getMenuTrigger()).toBeNull();
+          });
 
-        it('should call checkSearchAvailability from SearchAiService with correct parameter', () => {
-          fixture.detectChanges();
-          getAgentsButton().dispatchEvent(event);
+          it('should disable menu triggering if checkSearchAvailability from SearchAiService returns empty message', () => {
+            checkSearchAvailabilitySpy.and.returnValue('');
+            fixture.detectChanges();
 
-          expect(checkSearchAvailabilitySpy).toHaveBeenCalledWith(selectionState);
+            getAgentsButton().dispatchEvent(event);
+            fixture.detectChanges();
+            expect(getMenuTrigger()).toBeNull();
+          });
+
+          it('should not call checkSearchAvailability from SearchAiService', () => {
+            fixture.detectChanges();
+            getAgentsButton().dispatchEvent(event);
+
+            expect(checkSearchAvailabilitySpy).not.toHaveBeenCalled();
+          });
+
+          it('should open new tab for url loaded from config', () => {
+            fixture.detectChanges();
+            getAgentsButton().dispatchEvent(event);
+
+            expect(window.open).toHaveBeenCalledWith(knowledgeRetrievalUrl);
+          });
         });
       });
     });
@@ -229,6 +315,8 @@ describe('AgentsButtonComponent', () => {
     beforeEach(() => {
       loader = TestbedHarnessEnvironment.loader(fixture);
       agents$.next(agentsWithAvatar);
+      agents$.complete();
+      selectionState.isEmpty = false;
       fixture.detectChanges();
       checkSearchAvailabilitySpy.and.returnValue('');
       const button = getAgentsButton();
