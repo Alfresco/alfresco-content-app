@@ -24,9 +24,17 @@ module.exports = async ({ exec, github, dependencyName, tag }) => {
     }
   };
   await exec.exec(`npm dist-tag ls @alfresco/${dependencyName}`, [], options);
+  // const tagsType = packageDistTag.split('\n');
+  // console.log(`tagsType: ${tagsType}`);
+  // tagsType.forEach((tagType) => {
+  //   tagSplit = tagType.split(':');
+  //   if (tagSplit[0].includes(tag)) {
+  //     matchedPkgVersion = tagSplit[1].trim();
+  //   }
+  // });
   const tagsType = packageDistTag.split('\n');
   console.log(`tagsType: ${tagsType}`);
-  const matchedPkgVersion = tagsType.find((tagType) => tagType.includes(tag))?.split(':')[1].trim();
+  const matchedPkgVersion = tagsType.find((tagType) => tagType === tag)?.split(':')[1].trim();
   console.log(`matchedPkgVersion: ${matchedPkgVersion}`);
   const latestPkgToUpdate = availablePackages.find((package) => package.name === matchedPkgVersion);
   console.log(`latestPkgToUpdate: ${latestPkgToUpdate}`);
