@@ -24,14 +24,6 @@ module.exports = async ({ exec, github, dependencyName, tag }) => {
     }
   };
   await exec.exec(`npm dist-tag ls @alfresco/${dependencyName}`, [], options);
-  // const tagsType = packageDistTag.split('\n');
-  // console.log(`tagsType: ${tagsType}`);
-  // tagsType.forEach((tagType) => {
-  //   tagSplit = tagType.split(':');
-  //   if (tagSplit[0].includes(tag)) {
-  //     matchedPkgVersion = tagSplit[1].trim();
-  //   }
-  // });
   let matchedPkgVersion = '';
   const tagsType = packageDistTag.split('\n');
   for (const tagType of tagsType) {
@@ -41,18 +33,13 @@ module.exports = async ({ exec, github, dependencyName, tag }) => {
       break;
     }
   }
-  // const tagsType = packageDistTag.split('\n');
-  // console.log(`tagsType: ${tagsType}`);
-  // const matchedPkgVersion = tagsType.find((tagType) => tagType === tag)?.split(':')[1].trim();
-  console.log(`matchedPkgVersion: ${matchedPkgVersion}`);
+
   const latestPkgToUpdate = availablePackages.find((package) => package.name === matchedPkgVersion);
-  console.log(`latestPkgToUpdate: ${latestPkgToUpdate}`);
 
   if (localVersion === latestPkgToUpdate?.name) {
     return { hasNewVersion: 'false' };
   } else {
     const findLocalVersionOnRemote = availablePackages.find((package) => package.name === localVersion);
-    console.log(`findLocalVersionOnRemote: ${findLocalVersionOnRemote}`);
     let rangeInDays = 'N/A';
     if (findLocalVersionOnRemote !== undefined) {
       const creationLocal = new Date(findLocalVersionOnRemote.created_at);
