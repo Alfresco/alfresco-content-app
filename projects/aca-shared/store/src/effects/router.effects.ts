@@ -24,19 +24,20 @@
 
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Actions, ofType, createEffect } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Node, PathInfo } from '@alfresco/js-api';
 import { map } from 'rxjs/operators';
 import { Location } from '@angular/common';
-import { NavigateUrlAction, NavigateRouteAction, NavigateToFolder, NavigateToParentFolder, NavigateToPreviousPage } from '../actions/router.actions';
+import { NavigateRouteAction, NavigateToFolder, NavigateToParentFolder, NavigateToPreviousPage, NavigateUrlAction } from '../actions/router.actions';
 import { RouterActionTypes } from '../actions/router-action-types';
 import { NotificationService } from '@alfresco/adf-core';
 
 @Injectable()
 export class RouterEffects {
   private notificationService = inject(NotificationService);
-
-  constructor(private actions$: Actions, private router: Router, private location: Location) {}
+  private actions$ = inject(Actions);
+  private router = inject(Router);
+  private location = inject(Location);
 
   navigateUrl$ = createEffect(
     () =>
