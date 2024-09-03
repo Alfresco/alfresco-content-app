@@ -19,7 +19,7 @@
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
 import { ApiClientFactory } from './api-client-factory';
@@ -55,7 +55,7 @@ export class SitesApi {
     } as SiteBodyCreate;
 
     try {
-      return await this.apiService.sites.createSite(site);
+      return this.apiService.sites.createSite(site);
     } catch (error) {
       console.error(`SitesApi createSite : catch : `, error);
       return null;
@@ -94,7 +94,7 @@ export class SitesApi {
     } as SiteMembershipBodyUpdate;
 
     try {
-      return await this.apiService.sites.updateSiteMembership(siteId, userId, siteRole);
+      return this.apiService.sites.updateSiteMembership(siteId, userId, siteRole);
     } catch (error) {
       console.error(`SitesApi updateSiteMember : catch : `, error);
       return new SiteMemberEntry();
@@ -108,7 +108,7 @@ export class SitesApi {
     } as SiteMembershipBodyCreate;
 
     try {
-      return await this.apiService.sites.createSiteMembership(siteId, memberBody);
+      return this.apiService.sites.createSiteMembership(siteId, memberBody);
     } catch (error) {
       if (error.status === 409) {
         return this.updateSiteMember(siteId, userId, role);
@@ -125,7 +125,7 @@ export class SitesApi {
     } as SiteMembershipRequestBodyCreate;
 
     try {
-      return await this.apiService.sites.createSiteMembershipRequestForPerson(personId, body);
+      return this.apiService.sites.createSiteMembershipRequestForPerson(personId, body);
     } catch (error) {
       console.error(`SitesApi createSiteMembershipRequestForPerson : catch : `, error);
       return null;
@@ -134,7 +134,7 @@ export class SitesApi {
 
   async approveSiteMembershipRequest(siteId: string, inviteeId: string): Promise<SiteMemberEntry> {
     try {
-      return await this.apiService.sites.approveSiteMembershipRequest(siteId, inviteeId);
+      return this.apiService.sites.approveSiteMembershipRequest(siteId, inviteeId);
     } catch (error) {
       console.error(`SitesApi approveSiteMembershipRequest : catch : `, error);
       return null;
@@ -153,7 +153,7 @@ export class SitesApi {
 
   async deleteSiteMember(siteId: string, userId: string) {
     try {
-      return await this.apiService.sites.deleteSiteMembership(siteId, userId);
+      return this.apiService.sites.deleteSiteMembership(siteId, userId);
     } catch (error) {
       console.error(`SitesApi deleteSiteMember : catch : `, error);
     }
@@ -161,7 +161,7 @@ export class SitesApi {
 
   async getSite(siteId: string): Promise<SiteEntry> {
     try {
-      return await this.apiService.sites.getSite(siteId);
+      return this.apiService.sites.getSite(siteId);
     } catch (error) {
       console.error(`SitesApi getSite : catch : `, error);
       return null;

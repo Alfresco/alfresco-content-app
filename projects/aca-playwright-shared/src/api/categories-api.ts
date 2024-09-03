@@ -19,7 +19,7 @@
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
 import { ApiClientFactory } from './api-client-factory';
@@ -40,7 +40,7 @@ export class CategoriesApi {
 
   async createCategory(categoryId: string, categoryBodyCreate: CategoryBody[], opts?: CategoryQuery): Promise<CategoryPaging | CategoryEntry> {
     try {
-      return await this.apiService.categoriesApi.createSubcategories(categoryId, categoryBodyCreate, opts);
+      return this.apiService.categoriesApi.createSubcategories(categoryId, categoryBodyCreate, opts);
     } catch (error) {
       console.error(error);
       return null;
@@ -49,7 +49,7 @@ export class CategoriesApi {
 
   async deleteCategory(categoryId: string): Promise<void> {
     if (categoryId === null) {
-      console.log('categoryId is null, skipping deletion');
+      console.error('categoryId is null, skipping deletion');
       return;
     }
 
@@ -66,7 +66,7 @@ export class CategoriesApi {
     opts?: CategoryQuery
   ): Promise<CategoryPaging | CategoryEntry> {
     try {
-      return await this.apiService.categoriesApi.linkNodeToCategory(nodeId, categoryLinkBodyCreate, opts);
+      return this.apiService.categoriesApi.linkNodeToCategory(nodeId, categoryLinkBodyCreate, opts);
     } catch (error) {
       console.error(`${this.constructor.name} ${this.linkNodeToCategory.name}: ${error}`);
       return null;

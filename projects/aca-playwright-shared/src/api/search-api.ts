@@ -19,7 +19,7 @@
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
 import { ApiClientFactory } from './api-client-factory';
@@ -52,7 +52,7 @@ export class SearchPageApi {
     };
 
     try {
-      return await this.apiService.search.search(data);
+      return this.apiService.search.search(data);
     } catch {
       return new ResultSetPaging();
     }
@@ -73,7 +73,7 @@ export class SearchPageApi {
         }
       };
 
-      return await Utils.retryCall(searchFiles);
+      return Utils.retryCall(searchFiles);
     } catch {}
   }
 }

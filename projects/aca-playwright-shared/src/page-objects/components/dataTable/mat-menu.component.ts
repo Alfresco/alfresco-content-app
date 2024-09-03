@@ -56,13 +56,13 @@ export class MatMenuComponent extends BaseComponent {
   async isMenuItemVisible(menuItem: string): Promise<boolean> {
     const menuElement = this.getButtonByText(menuItem);
     await menuElement.waitFor({ state: 'attached' });
-    return await menuElement.isVisible();
+    return menuElement.isVisible();
   }
 
   async verifyActualMoreActions(expectedToolbarMore: string[]): Promise<void> {
     await this.page.locator('.mat-mdc-menu-content').waitFor({ state: 'attached' });
-    let menus = await this.page.$$('.mat-mdc-menu-content .mat-mdc-menu-item');
-    let actualMoreActions: string[] = await Promise.all(
+    const menus = await this.page.$$('.mat-mdc-menu-content .mat-mdc-menu-item');
+    const actualMoreActions: string[] = await Promise.all(
       menus.map(async (button) => {
         const title = await (await button.$('.mdc-list-item__primary-text span')).innerText();
         return title || '';

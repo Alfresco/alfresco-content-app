@@ -24,7 +24,15 @@
 
 import { Page } from '@playwright/test';
 import { BasePage } from './base.page';
-import { DataTableComponent, MatMenuComponent, ViewerComponent, SidenavComponent, PaginationComponent, Breadcrumb, AdfInfoDrawerComponent } from '../components';
+import {
+  DataTableComponent,
+  MatMenuComponent,
+  ViewerComponent,
+  SidenavComponent,
+  PaginationComponent,
+  Breadcrumb,
+  AdfInfoDrawerComponent
+} from '../components';
 import { AcaHeader } from '../components/aca-header.component';
 import { AdfFolderDialogComponent, ViewerOverlayDialogComponent, ManageVersionsDialog } from '../components/dialogs';
 

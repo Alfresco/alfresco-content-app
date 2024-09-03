@@ -32,7 +32,8 @@ export class AdfInfoDrawerComponent extends BaseComponent {
     super(page, AdfInfoDrawerComponent.rootElement);
   }
 
-  public getNameField = (labelText: string) => this.getChild(`[data-automation-id="library-name-properties-wrapper"] input[placeholder='${labelText}']`);
+  public getNameField = (labelText: string) =>
+    this.getChild(`[data-automation-id="library-name-properties-wrapper"] input[placeholder='${labelText}']`);
   public getIdField = (labelText: string) => this.getChild(`[data-automation-id="library-id-properties-wrapper"] input[placeholder='${labelText}']`);
   public getVisibilityField = (labelText: string) =>
     this.getChild(`[data-automation-id="library-visibility-properties-wrapper"] mat-select[ng-reflect-placeholder='${labelText}']`);
@@ -66,7 +67,7 @@ export class AdfInfoDrawerComponent extends BaseComponent {
   async checkCommentsHeaderCount(): Promise<number> {
     const commentsCountTextContent = await this.commentsHeader.textContent();
     const commentsCountString = commentsCountTextContent.match(/\d+/g)[0];
-    return parseInt(commentsCountString);
+    return parseInt(commentsCountString, 10);
   }
 
   async verifyCommentsCountFromList(expectedNumber: number): Promise<void> {
