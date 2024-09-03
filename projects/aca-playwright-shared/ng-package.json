@@ -1,0 +1,6 @@
+{
+  "dest": "../../dist/@alfresco/aca-playwright-shared",
+  "lib": {
+    "entryFile": "src/index.ts"
+  }
+}
