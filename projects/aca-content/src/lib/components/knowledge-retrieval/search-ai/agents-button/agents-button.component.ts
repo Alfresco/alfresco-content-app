@@ -92,10 +92,11 @@ export class AgentsButtonComponent implements OnInit, OnDestroy {
         (agents) => {
           this._agents = agents;
           this.cd.detectChanges();
+
           if (this.agents.length) {
             this._initialsByAgentId = this.agents.reduce((initials, agent) => {
               const words = agent.name.split(' ').filter((word) => !word.match(/[^a-zA-Z]+/g));
-              initials[agent.id] = words.length > 1 ? `${words[0][0]}${words[1][0]}` : `${words[0][0]}`;
+              initials[agent.id] = `${words[0][0]}${words[1]?.[0] || ''}`;
               return initials;
             }, {});
           }

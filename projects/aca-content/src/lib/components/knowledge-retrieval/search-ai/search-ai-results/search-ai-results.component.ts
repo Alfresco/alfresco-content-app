@@ -177,7 +177,6 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
       })
       .pipe(
         switchMap((response) => this.searchAiService.getAnswer(response.questionId)),
-        retryWhen((errors) => this.aiSearchRetryWhen(errors)),
         switchMap((response) => {
           if (!response.list.entries[0].entry?.answer) {
             return throwError((e) => e);
@@ -185,7 +184,7 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
           this._queryAnswer = response.list.entries[0].entry;
           return forkJoin(this.queryAnswer.references.map((reference) => this.nodesApiService.getNode(reference.referenceId)));
         }),
-        retryWhen((errors) => this.aiSearchRetryWhen(errors)),
+        retryWhen((errors: Observable<Error>) => this.aiSearchRetryWhen(errors)),
         finalize(() => (this._loading = false)),
         takeUntil(this.onDestroy$)
       )
@@ -200,12 +199,13 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
       );
   }
 
-  private aiSearchRetryWhen<T>(errors: Observable<T>): Observable<T> {
+  private aiSearchRetryWhen(errors: Observable<Error>): Observable<Error> {
+    this._hasAnsweringError = false;
     const delayBetweenRetries = 3000;
     const maxRetries = 9;
 
     return errors.pipe(
-      skipWhile(() => this._hasAnsweringError),
+      skipWhile(() => this.hasAnsweringError),
       delay(delayBetweenRetries),
       concatMap((e, index) => {
         if (index === maxRetries) {

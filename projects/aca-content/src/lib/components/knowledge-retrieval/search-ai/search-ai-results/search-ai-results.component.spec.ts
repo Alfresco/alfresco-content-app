@@ -134,9 +134,9 @@ describe('SearchAiResultsComponent', () => {
       spyOn(searchAiService, 'getAnswer').and.returnValue(throwError('error').pipe(delay(100)));
       mockQueryParams.next({ query: 'test', agentId: 'agentId1' });
 
-      tick(800000);
+      tick(30000);
 
-      expect(component.queryAnswer).toEqual(undefined);
+      expect(component.queryAnswer).toBeUndefined();
       expect(component.hasAnsweringError).toBeTrue();
       expect(component.loading).toBeFalse();
     }));
@@ -170,7 +170,7 @@ describe('SearchAiResultsComponent', () => {
 
       tick(30000);
 
-      expect(component.queryAnswer).toEqual(undefined);
+      expect(component.queryAnswer).toBeUndefined();
       expect(component.hasAnsweringError).toBeTrue();
       expect(component.loading).toBeFalse();
     }));
@@ -182,7 +182,7 @@ describe('SearchAiResultsComponent', () => {
 
       tick(30000);
 
-      expect(component.queryAnswer).toEqual(undefined);
+      expect(component.queryAnswer).toBeUndefined();
       expect(component.hasAnsweringError).toBeTrue();
       expect(component.loading).toBeFalse();
     }));
