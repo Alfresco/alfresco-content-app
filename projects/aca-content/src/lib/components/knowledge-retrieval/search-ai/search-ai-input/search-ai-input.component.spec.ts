@@ -185,6 +185,18 @@ describe('SearchAiInputComponent', () => {
         expect(getAvatarForAgent('1').initials).toBe('HA');
         expect(getAvatarForAgent('2').initials).toBe('PA');
       });
+
+      it('should assign correct initials to each avatar for each agent with single section name', () => {
+        const newAgentWithAvatarList = [
+          { ...agentWithAvatarList[0], name: 'Adam' },
+          { ...agentWithAvatarList[1], name: 'Bob' }
+        ];
+        agents$.next(newAgentWithAvatarList);
+        fixture.detectChanges();
+
+        expect(getAvatarForAgent('1').initials).toBe('A');
+        expect(getAvatarForAgent('2').initials).toBe('B');
+      });
     });
   });
 
