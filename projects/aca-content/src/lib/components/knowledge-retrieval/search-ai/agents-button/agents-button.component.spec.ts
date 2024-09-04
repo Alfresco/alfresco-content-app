@@ -39,6 +39,7 @@ import { MatSelectionListHarness } from '@angular/material/list/testing';
 import { MatMenuHarness } from '@angular/material/menu/testing';
 import { MatSelectionList } from '@angular/material/list';
 import { MatSnackBarRef } from '@angular/material/snack-bar';
+import { ChangeDetectorRef } from '@angular/core';
 
 describe('AgentsButtonComponent', () => {
   let component: AgentsButtonComponent;
@@ -111,6 +112,16 @@ describe('AgentsButtonComponent', () => {
       expect(component.initialsByAgentId).toEqual({ 1: 'HA', 2: 'PA' });
       expect(component.agents).toEqual(agentsWithAvatar);
       expect(notificationServiceSpy).not.toHaveBeenCalled();
+    });
+
+    it('should run detectChanges when getting the agents', () => {
+      const changeDetectorRef2 = fixture.debugElement.injector.get(ChangeDetectorRef);
+      const detectChangesSpy = spyOn(changeDetectorRef2.constructor.prototype, 'detectChanges');
+
+      component.ngOnInit();
+      agents$.next(agentsWithAvatar);
+
+      expect(detectChangesSpy).toHaveBeenCalled();
     });
 
     it('should show notification error on getAgents error', () => {
@@ -291,9 +302,21 @@ describe('AgentsButtonComponent', () => {
         expect(getAvatar('2')).toBeTruthy();
       });
 
-      it('should assign correct initials to each avatar for each agent', () => {
+      it('should assign correct initials to each avatar for each agent with double section name', () => {
         expect(getAvatar('1').initials).toBe('HA');
         expect(getAvatar('2').initials).toBe('PA');
+      });
+
+      it('should assign correct initials to each avatar for each agent with single section name', () => {
+        const newAgentWithAvatarList = [
+          { ...agentsWithAvatar[0], name: 'Adam' },
+          { ...agentsWithAvatar[1], name: 'Bob' }
+        ];
+        agents$.next(newAgentWithAvatarList);
+        fixture.detectChanges();
+
+        expect(getAvatar('1').initials).toBe('A');
+        expect(getAvatar('2').initials).toBe('B');
       });
     });
   });
