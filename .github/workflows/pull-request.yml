@@ -99,7 +99,7 @@ jobs:
 
       - name: Test all
         if: ${{ github.event_name != 'pull_request' }}
-        run: npx nx run-many --target=test --browsers=ChromeHeadless --watch=false $TEST_OPTS --base=origin/develop
+        run: npx nx run-many --target=test --browsers=ChromeHeadless --watch=false $TEST_OPTS
 
   e2es-playwright:
     needs: [lint, build, unit-tests]
