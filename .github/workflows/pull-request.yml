@@ -67,6 +67,7 @@ jobs:
           cache: 'npm'
       - uses: ./.github/actions/before-install
       - run: npm ci
+      - run: npx nx build aca-playwright-shared -- $BUILD_OPTS
       - run: npm run build -- $BUILD_OPTS
 
       - name: dist cache
