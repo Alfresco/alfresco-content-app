@@ -33,6 +33,11 @@ describe('ExtensionsDataLoaderGuard', () => {
   let completedSpy;
   let erroredSpy;
 
+  const setupTest = (extensionDataLoaders: any[]) => {
+    TestBed.overrideProvider(EXTENSION_DATA_LOADERS, { useValue: extensionDataLoaders });
+    return TestBed.runInInjectionContext(() => ExtensionsDataLoaderGuard(route, {} as RouterStateSnapshot)) as Observable<boolean>;
+  };
+
   beforeEach(() => {
     route = {} as ActivatedRouteSnapshot;
     emittedSpy = jasmine.createSpy('emitted');
@@ -42,9 +47,7 @@ describe('ExtensionsDataLoaderGuard', () => {
   });
 
   it('should emit true and complete if no callback are present', () => {
-    TestBed.overrideProvider(EXTENSION_DATA_LOADERS, { useValue: [] });
-    const guard = TestBed.runInInjectionContext(() => ExtensionsDataLoaderGuard(route, {} as RouterStateSnapshot)) as Observable<boolean>;
-
+    const guard = setupTest([]);
     guard.subscribe(emittedSpy, erroredSpy, completedSpy);
     expect(emittedSpy).toHaveBeenCalledWith(true);
     expect(erroredSpy).not.toHaveBeenCalled();
@@ -53,9 +56,7 @@ describe('ExtensionsDataLoaderGuard', () => {
 
   it('should emit true and complete in case of only one callback is present, completed', () => {
     const subject = new Subject<true>();
-    TestBed.overrideProvider(EXTENSION_DATA_LOADERS, { useValue: [() => subject.asObservable()] });
-    const guard = TestBed.runInInjectionContext(() => ExtensionsDataLoaderGuard(route, {} as RouterStateSnapshot)) as Observable<boolean>;
-
+    const guard = setupTest([() => subject.asObservable()]);
     guard.subscribe(emittedSpy, erroredSpy, completedSpy);
     subject.next(true);
     expect(emittedSpy).not.toHaveBeenCalled();
@@ -69,8 +70,7 @@ describe('ExtensionsDataLoaderGuard', () => {
   });
 
   it('should emit true and complete in case of only one callback is present, errored', () => {
-    TestBed.overrideProvider(EXTENSION_DATA_LOADERS, { useValue: [() => throwError(new Error())] });
-    const guard = TestBed.runInInjectionContext(() => ExtensionsDataLoaderGuard(route, {} as RouterStateSnapshot)) as Observable<boolean>;
+    const guard = setupTest([() => throwError(new Error())]);
     guard.subscribe(emittedSpy, erroredSpy, completedSpy);
 
     expect(emittedSpy).toHaveBeenCalledWith(true);
@@ -81,13 +81,9 @@ describe('ExtensionsDataLoaderGuard', () => {
   it('should NOT complete in case of multiple callbacks are present and not all of them have been completed', () => {
     const subject1 = new Subject<true>();
     const subject2 = new Subject<true>();
-
-    TestBed.overrideProvider(EXTENSION_DATA_LOADERS, { useValue: [() => subject1.asObservable(), () => subject2.asObservable()] });
-
-    const guard = TestBed.runInInjectionContext(() => ExtensionsDataLoaderGuard(route, {} as RouterStateSnapshot)) as Observable<boolean>;
+    const guard = setupTest([() => subject1.asObservable(), () => subject2.asObservable()]);
 
     guard.subscribe(emittedSpy, erroredSpy, completedSpy);
-
     subject1.next();
     subject2.next();
     subject1.complete();
@@ -100,11 +96,9 @@ describe('ExtensionsDataLoaderGuard', () => {
   it('should emit true and complete in case of multiple callbacks are present and all of them have been completed', () => {
     const subject1 = new Subject<true>();
     const subject2 = new Subject<true>();
-    TestBed.overrideProvider(EXTENSION_DATA_LOADERS, { useValue: [() => subject1.asObservable(), () => subject2.asObservable()] });
-    const guard = TestBed.runInInjectionContext(() => ExtensionsDataLoaderGuard(route, {} as RouterStateSnapshot)) as Observable<boolean>;
+    const guard = setupTest([() => subject1.asObservable(), () => subject2.asObservable()]);
 
     guard.subscribe(emittedSpy, erroredSpy, completedSpy);
-
     subject1.next();
     subject2.next();
     subject1.complete();
@@ -117,8 +111,7 @@ describe('ExtensionsDataLoaderGuard', () => {
 
   it('should emit true and complete even if one of the observables are errored, to not block the application loading', () => {
     const subject1 = new Subject<true>();
-    TestBed.overrideProvider(EXTENSION_DATA_LOADERS, { useValue: [() => subject1.asObservable(), () => throwError(new Error())] });
-    const guard = TestBed.runInInjectionContext(() => ExtensionsDataLoaderGuard(route, {} as RouterStateSnapshot)) as Observable<boolean>;
+    const guard = setupTest([() => subject1.asObservable(), () => throwError(new Error())]);
 
     guard.subscribe(emittedSpy, erroredSpy, completedSpy);
     subject1.next();
@@ -134,8 +127,7 @@ describe('ExtensionsDataLoaderGuard', () => {
       fct1: () => subject1.asObservable()
     };
     const extensionLoaderSpy = spyOn(extensionLoaders, 'fct1').and.callThrough();
-    TestBed.overrideProvider(EXTENSION_DATA_LOADERS, { useValue: [extensionLoaders.fct1] });
-    const guard = TestBed.runInInjectionContext(() => ExtensionsDataLoaderGuard(route, {} as RouterStateSnapshot)) as Observable<boolean>;
+    const guard = setupTest([extensionLoaders.fct1]);
 
     guard.subscribe(emittedSpy, erroredSpy, completedSpy);
     expect(extensionLoaderSpy).toHaveBeenCalled();
