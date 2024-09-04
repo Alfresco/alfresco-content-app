@@ -23,7 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { ActionType, ApiClientFactory, test, Utils, TrashcanApi, NodesApi, Comparator, Field } from '@alfresco/playwright-shared';
+import { ActionType, ApiClientFactory, test, Utils, TrashcanApi, NodesApi, Comparator, Field } from '@alfresco/aca-playwright-shared';
 
 test.use({ launchOptions: { slowMo: 300 } });
 test.describe('Folder Rules Actions', () => {

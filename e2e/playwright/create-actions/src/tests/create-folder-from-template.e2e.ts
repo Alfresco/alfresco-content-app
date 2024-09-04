@@ -36,7 +36,7 @@ import {
   errorStrings,
   test,
   TrashcanApi
-} from '@alfresco/playwright-shared';
+} from '@alfresco/aca-playwright-shared';
 
 test.describe('Create folder from template', () => {
   const apiClientFactory = new ApiClientFactory();

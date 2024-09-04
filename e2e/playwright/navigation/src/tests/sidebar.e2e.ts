@@ -23,7 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, APP_ROUTES, SIDEBAR_LABELS, test, Utils } from '@alfresco/playwright-shared';
+import { ApiClientFactory, APP_ROUTES, SIDEBAR_LABELS, test, Utils } from '@alfresco/aca-playwright-shared';
 
 test.describe('Sidebar', () => {
   const username = `user-${Utils.random()}`;

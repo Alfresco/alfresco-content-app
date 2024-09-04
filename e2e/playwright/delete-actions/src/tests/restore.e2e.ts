@@ -23,7 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, NodesApi, Utils, test, TrashcanApi, SitesApi, APP_ROUTES, TrashPage } from '@alfresco/playwright-shared';
+import { ApiClientFactory, NodesApi, Utils, test, TrashcanApi, SitesApi, APP_ROUTES, TrashPage } from '@alfresco/aca-playwright-shared';
 
 test.describe('Restore from Trash', () => {
   const apiClientFactory = new ApiClientFactory();

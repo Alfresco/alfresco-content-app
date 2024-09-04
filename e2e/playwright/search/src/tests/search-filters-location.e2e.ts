@@ -23,7 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, Utils, test, NodesApi, TrashcanApi, SitesApi, SITE_VISIBILITY, SITE_ROLES } from '@alfresco/playwright-shared';
+import { ApiClientFactory, Utils, test, NodesApi, TrashcanApi, SitesApi, SITE_VISIBILITY, SITE_ROLES } from '@alfresco/aca-playwright-shared';
 
 test.describe('Search - Filters - Location', () => {
   let nodesApi: NodesApi;

@@ -23,7 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, Utils, test, TrashcanApi, NodesApi, FavoritesPageApi, SharedLinksApi } from '@alfresco/playwright-shared';
+import { ApiClientFactory, Utils, test, TrashcanApi, NodesApi, FavoritesPageApi, SharedLinksApi } from '@alfresco/aca-playwright-shared';
 
 test.describe('Mark items as favorites', () => {
   let trashcanApi: TrashcanApi;

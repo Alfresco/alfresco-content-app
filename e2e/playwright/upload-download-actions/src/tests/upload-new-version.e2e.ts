@@ -33,7 +33,7 @@ import {
   FileActionsApi,
   PersonalFilesPage,
   SearchPage
-} from '@alfresco/playwright-shared';
+} from '@alfresco/aca-playwright-shared';
 
 test.describe('Upload new version', () => {
   const username = `user-${Utils.random()}`;

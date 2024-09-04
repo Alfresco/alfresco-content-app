@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { test } from '@alfresco/playwright-shared';
+import { test } from '@alfresco/aca-playwright-shared';
 import { expect } from '@playwright/test';
 
 export function favoritesTests(username: string) {

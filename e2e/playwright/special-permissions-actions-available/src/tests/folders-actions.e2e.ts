@@ -22,8 +22,8 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ApiClientFactory, FavoritesPageApi, PersonalFilesPage, NodesApi, TrashcanApi, Utils, test, timeouts } from '@alfresco/playwright-shared';
-import * as testData from '@alfresco/playwright-shared';
+import { ApiClientFactory, FavoritesPageApi, PersonalFilesPage, NodesApi, TrashcanApi, Utils, test, timeouts } from '@alfresco/aca-playwright-shared';
+import * as testData from '@alfresco/aca-playwright-shared';
 
 test.describe('Folders - available actions : ', () => {
   const username = `user-${Utils.random()}`;

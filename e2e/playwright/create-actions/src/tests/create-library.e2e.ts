@@ -35,7 +35,7 @@ import {
   Breadcrumb,
   TrashcanApi,
   NodesApi
-} from '@alfresco/playwright-shared';
+} from '@alfresco/aca-playwright-shared';
 
 test.describe('Create Libraries ', () => {
   const apiClientFactory = new ApiClientFactory();

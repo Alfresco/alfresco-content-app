@@ -23,7 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, Utils, test, TrashcanApi, NodesApi } from '@alfresco/playwright-shared';
+import { ApiClientFactory, Utils, test, TrashcanApi, NodesApi } from '@alfresco/aca-playwright-shared';
 
 test.describe('Search results - files and folders', () => {
   let nodesApi: NodesApi;

@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Utils } from '@alfresco/playwright-shared';
+import { Utils } from '../../utils';
 
 export const random = Utils.random();
 

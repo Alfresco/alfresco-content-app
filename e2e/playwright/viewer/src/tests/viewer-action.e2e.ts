@@ -23,7 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, getUserState, test, TEST_FILES, timeouts, Utils } from '@alfresco/playwright-shared';
+import { ApiClientFactory, getUserState, test, TEST_FILES, timeouts, Utils } from '@alfresco/aca-playwright-shared';
 
 test.use({ storageState: getUserState('hruser') });
 test.describe('viewer action file', () => {

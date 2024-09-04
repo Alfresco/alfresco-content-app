@@ -23,7 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, Utils, test, NodesApi, TrashcanApi, FileActionsApi, TEST_FILES, CategoriesApi } from '@alfresco/playwright-shared';
+import { ApiClientFactory, Utils, test, NodesApi, TrashcanApi, FileActionsApi, TEST_FILES, CategoriesApi } from '@alfresco/aca-playwright-shared';
 import { CategoryLinkBody, CategoryPaging, CategoryEntry } from '@alfresco/js-api';
 
 test.describe('Search - Filters - Categories', () => {

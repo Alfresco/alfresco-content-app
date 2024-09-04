@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import * as testData from '@alfresco/playwright-shared';
+import * as testData from '@alfresco/aca-playwright-shared';
 import { viewerTests } from './viewer';
 import { collaboratorTests, filesLockedByCurrentUser, filesLockedByOtherUser } from './other-permissions';
 import {
@@ -37,7 +37,7 @@ import {
   SearchPageApi,
   timeouts,
   Utils
-} from '@alfresco/playwright-shared';
+} from '@alfresco/aca-playwright-shared';
 import { Site } from '@alfresco/js-api';
 
 test.describe('Special permissions : ', () => {

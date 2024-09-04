@@ -23,7 +23,7 @@
  */
 
 import { PlaywrightTestConfig } from '@playwright/test';
-import { CustomConfig, getGlobalConfig, getExcludedTestsRegExpArray } from '@alfresco/playwright-shared';
+import { CustomConfig, getGlobalConfig, getExcludedTestsRegExpArray } from '@alfresco/aca-playwright-shared';
 import EXCLUDED_JSON from './exclude.tests.json';
 
 const config: PlaywrightTestConfig<CustomConfig> = {
