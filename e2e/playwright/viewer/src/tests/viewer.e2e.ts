@@ -35,7 +35,7 @@ import {
   timeouts,
   Utils,
   TrashcanApi
-} from '@alfresco/playwright-shared';
+} from '@alfresco/aca-playwright-shared';
 import { Site } from '@alfresco/js-api';
 
 test.describe('viewer file', () => {

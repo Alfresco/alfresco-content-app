@@ -23,7 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, NodesApi, Utils, test, TrashcanApi, FileActionsApi, TEST_FILES } from '@alfresco/playwright-shared';
+import { ApiClientFactory, NodesApi, Utils, test, TrashcanApi, FileActionsApi, TEST_FILES } from '@alfresco/aca-playwright-shared';
 
 test.describe('Edit offline - on Personal Files', () => {
   const apiClientFactory = new ApiClientFactory();

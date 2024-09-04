@@ -23,7 +23,7 @@
  */
 
 import { expect, Page } from '@playwright/test';
-import { ApiClientFactory, test, TrashcanApi, NodesApi, FileActionsApi, TEST_FILES, Utils } from '@alfresco/playwright-shared';
+import { ApiClientFactory, test, TrashcanApi, NodesApi, FileActionsApi, TEST_FILES, Utils } from '@alfresco/aca-playwright-shared';
 
 test.describe('File preview', () => {
   const timestamp = new Date().getTime();

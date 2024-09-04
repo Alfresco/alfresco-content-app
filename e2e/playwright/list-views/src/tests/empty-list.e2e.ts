@@ -23,7 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, Utils, test, SIDEBAR_LABELS, SearchPage, PersonalFilesPage } from '@alfresco/playwright-shared';
+import { ApiClientFactory, Utils, test, SIDEBAR_LABELS, SearchPage, PersonalFilesPage } from '@alfresco/aca-playwright-shared';
 
 test.describe('Empty list views', () => {
   const username = `user-${Utils.random()}`;

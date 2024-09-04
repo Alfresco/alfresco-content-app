@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ApiClientFactory, NodesApi, test, timeouts, Utils, SharedLinksApi } from '@alfresco/playwright-shared';
+import { ApiClientFactory, NodesApi, test, timeouts, Utils, SharedLinksApi } from '@alfresco/aca-playwright-shared';
 import { expect } from '@playwright/test';
 
 test.describe('Share a file', () => {

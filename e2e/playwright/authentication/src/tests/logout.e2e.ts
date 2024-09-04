@@ -23,7 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, Utils, test } from '@alfresco/playwright-shared';
+import { ApiClientFactory, Utils, test } from '@alfresco/aca-playwright-shared';
 
 test.describe('viewer file', () => {
   const apiClientFactory = new ApiClientFactory();

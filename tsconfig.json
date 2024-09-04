@@ -30,7 +30,7 @@
       "@alfresco/aca-shared": ["projects/aca-shared/src/public-api.ts"],
       "@alfresco/aca-shared/rules": ["projects/aca-shared/rules/src/public-api.ts"],
       "@alfresco/aca-shared/store": ["projects/aca-shared/store/src/public-api.ts"],
-      "@alfresco/playwright-shared": ["projects/aca-playwright-shared/src/index.ts"],
+      "@alfresco/aca-playwright-shared": ["projects/aca-playwright-shared/src/public-api.ts"],
       "package.json": ["package.json"]
     }
   },

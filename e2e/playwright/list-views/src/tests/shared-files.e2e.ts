@@ -23,7 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, NodesApi, Utils, test, SitesApi, timeouts, SharedLinksApi, TrashcanApi } from '@alfresco/playwright-shared';
+import { ApiClientFactory, NodesApi, Utils, test, SitesApi, timeouts, SharedLinksApi, TrashcanApi } from '@alfresco/aca-playwright-shared';
 import { Site } from '@alfresco/js-api';
 
 test.describe('Shared Files', () => {

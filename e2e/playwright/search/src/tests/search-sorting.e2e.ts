@@ -34,7 +34,7 @@ import {
   SearchPage,
   SortByDirection,
   SortByType
-} from '@alfresco/playwright-shared';
+} from '@alfresco/aca-playwright-shared';
 
 test.describe('Search sorting', () => {
   const random = Utils.random();

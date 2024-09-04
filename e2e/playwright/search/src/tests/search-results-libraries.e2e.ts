@@ -33,7 +33,7 @@ import {
   FileActionsApi,
   SITE_VISIBILITY,
   SITE_ROLES
-} from '@alfresco/playwright-shared';
+} from '@alfresco/aca-playwright-shared';
 
 test.describe('Search Results - General', () => {
   let trashcanApi: TrashcanApi;

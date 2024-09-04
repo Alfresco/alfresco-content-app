@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { SearchPage } from '@alfresco/playwright-shared';
+import { SearchPage } from '../../../pages';
 import { BaseComponent } from '../../base.component';
 import { Page } from '@playwright/test';
 

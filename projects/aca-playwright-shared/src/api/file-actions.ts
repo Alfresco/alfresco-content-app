@@ -24,9 +24,8 @@
 
 import * as fs from 'fs';
 import { ApiClientFactory } from './api-client-factory';
-import { Utils } from '../utils';
+import { Utils, waitForApi } from '../utils';
 import { NodeBodyCreate, NodeEntry, ResultSetPaging } from '@alfresco/js-api';
-import { waitForApi } from '@alfresco/playwright-shared';
 
 export class FileActionsApi {
   private apiService: ApiClientFactory;

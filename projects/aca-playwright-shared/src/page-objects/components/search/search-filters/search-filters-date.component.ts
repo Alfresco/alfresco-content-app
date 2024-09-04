@@ -24,7 +24,7 @@
 
 import { BaseComponent } from '../../base.component';
 import { Page, expect } from '@playwright/test';
-import { SearchPage, SearchType } from '@alfresco/playwright-shared';
+import { SearchPage, SearchType } from '../../../pages';
 
 type FilterTab = 'Created' | 'Modified';
 

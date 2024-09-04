@@ -33,7 +33,7 @@ import {
   test,
   timeouts,
   TrashcanApi
-} from '@alfresco/playwright-shared';
+} from '@alfresco/aca-playwright-shared';
 import { expect } from '@playwright/test';
 
 test.describe('Unshare a file from Search Results', () => {

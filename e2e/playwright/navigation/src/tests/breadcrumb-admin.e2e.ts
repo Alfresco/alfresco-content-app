@@ -23,7 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, NodesApi, test, users, Utils } from '@alfresco/playwright-shared';
+import { ApiClientFactory, NodesApi, test, users, Utils } from '@alfresco/aca-playwright-shared';
 
 test.describe('as admin', () => {
   test.describe.configure({ mode: 'serial' });

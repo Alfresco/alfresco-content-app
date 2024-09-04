@@ -36,7 +36,7 @@ import {
   errorStrings,
   test,
   TrashcanApi
-} from '@alfresco/playwright-shared';
+} from '@alfresco/aca-playwright-shared';
 
 test.describe('Create file from template', () => {
   let nodesApi: NodesApi;

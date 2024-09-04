@@ -23,7 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, NodesApi, TrashcanApi, Utils, test } from '@alfresco/playwright-shared';
+import { ApiClientFactory, NodesApi, TrashcanApi, Utils, test } from '@alfresco/aca-playwright-shared';
 
 test.describe('Generic errors', () => {
   const username = `user-${Utils.random()}`;

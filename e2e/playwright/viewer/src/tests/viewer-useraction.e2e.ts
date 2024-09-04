@@ -23,7 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, FileActionsApi, NodesApi, SitesApi, test, TEST_FILES, Utils, TrashcanApi } from '@alfresco/playwright-shared';
+import { ApiClientFactory, FileActionsApi, NodesApi, SitesApi, test, TEST_FILES, Utils, TrashcanApi } from '@alfresco/aca-playwright-shared';
 import { SiteBodyCreate } from '@alfresco/js-api';
 
 test.describe('from File Libraries', () => {
