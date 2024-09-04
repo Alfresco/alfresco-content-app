@@ -22,29 +22,44 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { of } from 'rxjs';
+import { TestBed } from '@angular/core/testing';
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Observable, of } from 'rxjs';
+import { isQuickShareEnabled } from '@alfresco/aca-shared/store';
 import { AppSharedRuleGuard } from './shared.guard';
 
 describe('AppSharedRuleGuard', () => {
-  it('should allow activation if quick share is enabled', () => {
-    const store: any = {
-      select: () => of(true)
-    };
-    const guard = new AppSharedRuleGuard(store);
-    const emittedSpy = jasmine.createSpy('emitted');
+  let state: RouterStateSnapshot;
+  const route: ActivatedRouteSnapshot = new ActivatedRouteSnapshot();
+  const storeSpy = jasmine.createSpyObj('Store', ['select']);
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [{ provide: Store, useValue: storeSpy }]
+    });
 
-    guard.canActivate().subscribe(emittedSpy);
-    expect(emittedSpy).toHaveBeenCalledWith(true);
+    state = { url: 'some-url' } as RouterStateSnapshot;
   });
 
-  it('should allow child activation if quick share is enabled', () => {
-    const store: any = {
-      select: () => of(true)
-    };
-    const guard = new AppSharedRuleGuard(store);
-    const emittedSpy = jasmine.createSpy('emitted');
+  it('should allow activation if quick share is enabled', (done) => {
+    storeSpy.select.and.returnValue(of(true));
+    const guard = TestBed.runInInjectionContext(() => AppSharedRuleGuard(route, state)) as Observable<boolean>;
 
-    guard.canActivateChild().subscribe(emittedSpy);
-    expect(emittedSpy).toHaveBeenCalledWith(true);
+    guard.subscribe((response) => {
+      expect(storeSpy.select).toHaveBeenCalledWith(isQuickShareEnabled);
+      expect(response).toBeTrue();
+      done();
+    });
+  });
+
+  it('should not allow activation if quick share is disabled', (done) => {
+    storeSpy.select.and.returnValue(of(false));
+    const guard = TestBed.runInInjectionContext(() => AppSharedRuleGuard(route, state)) as Observable<boolean>;
+
+    guard.subscribe((response) => {
+      expect(storeSpy.select).toHaveBeenCalledWith(isQuickShareEnabled);
+      expect(response).toBeFalse();
+      done();
+    });
   });
 });

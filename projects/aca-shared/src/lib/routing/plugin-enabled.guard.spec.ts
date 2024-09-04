@@ -25,11 +25,10 @@
 import { AppConfigService } from '@alfresco/adf-core';
 import { TestBed } from '@angular/core/testing';
 import { PluginEnabledGuard } from './plugin-enabled.guard';
-import { ActivatedRouteSnapshot, Router } from '@angular/router';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('PluginEnabledGuard', () => {
-  let service: PluginEnabledGuard;
   let getSpy: jasmine.Spy<(key: string, defaultValue?: boolean) => boolean>;
   let route: ActivatedRouteSnapshot;
 
@@ -37,7 +36,6 @@ describe('PluginEnabledGuard', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule]
     });
-    service = TestBed.inject(PluginEnabledGuard);
     getSpy = spyOn(TestBed.inject(AppConfigService), 'get');
     route = new ActivatedRouteSnapshot();
     route.data = {
@@ -45,41 +43,31 @@ describe('PluginEnabledGuard', () => {
     };
   });
 
-  describe('canActivate', () => {
-    it('should call appConfigService.get with correct parameters', () => {
-      service.canActivate(route);
-      expect(getSpy).toHaveBeenCalledWith(route.data.plugin, true);
-    });
-
-    it('should return true if appConfigService.get returns true', () => {
-      getSpy.and.returnValue(true);
-
-      expect(service.canActivate(route)).toBeTrue();
-    });
-
-    it('should return false if appConfigService.get returns false', () => {
-      getSpy.and.returnValue(true);
-
-      expect(service.canActivate(route)).toBeTrue();
-    });
-
-    it('should navigate to root if plugin is not enabled', () => {
-      getSpy.and.returnValue(false);
-      const routerSpy = spyOn(TestBed.inject(Router), 'navigate');
-
-      service.canActivate(route);
-
-      expect(routerSpy).toHaveBeenCalledWith(['/']);
-    });
+  it('should call appConfigService.get with correct parameters', () => {
+    TestBed.runInInjectionContext(() => PluginEnabledGuard(route, {} as RouterStateSnapshot));
+    expect(getSpy).toHaveBeenCalledWith(route.data.plugin, true);
   });
 
-  describe('canActivateChild', () => {
-    it('should call canActivate with the same route and return its result', () => {
-      spyOn(service, 'canActivate').and.callThrough();
-      const result = service.canActivateChild(route);
+  it('should return true if appConfigService.get returns true', () => {
+    getSpy.and.returnValue(true);
+    const result = TestBed.runInInjectionContext(() => PluginEnabledGuard(route, {} as RouterStateSnapshot));
 
-      expect(service.canActivate).toHaveBeenCalledWith(route);
-      expect(result).toBe(service.canActivate(route));
-    });
+    expect(result).toBeTrue();
+  });
+
+  it('should return false if appConfigService.get returns false', () => {
+    getSpy.and.returnValue(false);
+    const result = TestBed.runInInjectionContext(() => PluginEnabledGuard(route, {} as RouterStateSnapshot));
+
+    expect(result).toBeFalse();
+  });
+
+  it('should navigate to root if plugin is not enabled', () => {
+    getSpy.and.returnValue(false);
+    const routerSpy = spyOn(TestBed.inject(Router), 'navigate');
+
+    TestBed.runInInjectionContext(() => PluginEnabledGuard(route, {} as RouterStateSnapshot));
+
+    expect(routerSpy).toHaveBeenCalledWith(['/']);
   });
 });
