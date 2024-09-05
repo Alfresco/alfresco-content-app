@@ -173,6 +173,8 @@ describe('AgentsButtonComponent', () => {
     ['mouseup', 'keydown'].forEach((eventName) => {
       describe(`${eventName} event`, () => {
         let event: Event;
+        let notificationService: NotificationService;
+        let message: string;
 
         const getMenuTrigger = (): MatMenuPanel => fixture.debugElement.query(By.directive(MatMenuTrigger)).injector.get(MatMenuTrigger).menu;
 
@@ -186,6 +188,9 @@ describe('AgentsButtonComponent', () => {
           agents$.next(agentsWithAvatar);
           agents$.complete();
           spyOn(window, 'open');
+          notificationService = TestBed.inject(NotificationService);
+          spyOn(notificationService, 'showInfo');
+          message = 'Some message';
         });
 
         describe('with selected nodes', () => {
@@ -194,10 +199,7 @@ describe('AgentsButtonComponent', () => {
           });
 
           it('should display notification if checkSearchAvailability from SearchAiService returns message', () => {
-            const message = 'Some message';
             checkSearchAvailabilitySpy.and.returnValue(message);
-            const notificationService = TestBed.inject(NotificationService);
-            spyOn(notificationService, 'showInfo');
             fixture.detectChanges();
 
             getAgentsButton().dispatchEvent(event);
@@ -205,10 +207,8 @@ describe('AgentsButtonComponent', () => {
           });
 
           it('should not display notification if checkSearchAvailability from SearchAiService returns empty message', () => {
-            const message = '';
+            message = '';
             checkSearchAvailabilitySpy.and.returnValue(message);
-            const notificationService = TestBed.inject(NotificationService);
-            spyOn(notificationService, 'showInfo');
             fixture.detectChanges();
 
             getAgentsButton().dispatchEvent(event);
@@ -252,10 +252,7 @@ describe('AgentsButtonComponent', () => {
 
         describe('without selected nodes', () => {
           it('should not display notification if checkSearchAvailability from SearchAiService returns message', () => {
-            const message = 'Some message';
             checkSearchAvailabilitySpy.and.returnValue(message);
-            const notificationService = TestBed.inject(NotificationService);
-            spyOn(notificationService, 'showInfo');
             fixture.detectChanges();
 
             getAgentsButton().dispatchEvent(event);
@@ -263,10 +260,8 @@ describe('AgentsButtonComponent', () => {
           });
 
           it('should not display notification if checkSearchAvailability from SearchAiService returns empty message', () => {
-            const message = '';
+            message = '';
             checkSearchAvailabilitySpy.and.returnValue(message);
-            const notificationService = TestBed.inject(NotificationService);
-            spyOn(notificationService, 'showInfo');
             fixture.detectChanges();
 
             getAgentsButton().dispatchEvent(event);
