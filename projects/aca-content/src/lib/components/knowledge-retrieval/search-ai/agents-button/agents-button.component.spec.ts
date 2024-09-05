@@ -312,7 +312,7 @@ describe('AgentsButtonComponent', () => {
   describe('Agents menu', () => {
     let loader: HarnessLoader;
 
-    const prepareData = (agents: AgentWithAvatar[]) => {
+    const prepareData = (agents: AgentWithAvatar[]): void => {
       loader = TestbedHarnessEnvironment.loader(fixture);
       agents$.next(agents);
       selectionState.isEmpty = false;
