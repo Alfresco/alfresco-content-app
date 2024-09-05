@@ -29,7 +29,7 @@ import { Store } from '@ngrx/store';
 import { AppStore, getAppSelection } from '@alfresco/aca-shared/store';
 import { AvatarComponent, IconComponent, NotificationService } from '@alfresco/adf-core';
 import { forkJoin, Subject, throwError } from 'rxjs';
-import { catchError, finalize, takeUntil } from 'rxjs/operators';
+import { catchError, take, takeUntil } from 'rxjs/operators';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatListModule, MatSelectionListChange } from '@angular/material/list';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -86,7 +86,10 @@ export class AgentsButtonComponent implements OnInit, OnDestroy {
         this.selectedNodesState = selection;
       });
     forkJoin({
-      agents: this.agentService.getAgents().pipe(catchError(() => throwError('KNOWLEDGE_RETRIEVAL.SEARCH.ERRORS.AGENTS_FETCHING'))),
+      agents: this.agentService.getAgents().pipe(
+        take(1),
+        catchError(() => throwError('KNOWLEDGE_RETRIEVAL.SEARCH.ERRORS.AGENTS_FETCHING'))
+      ),
       config: this.searchAiService.getConfig().pipe(catchError(() => throwError('KNOWLEDGE_RETRIEVAL.SEARCH.ERRORS.HX_INSIGHT_URL_FETCHING')))
     })
       .pipe(takeUntil(this.onDestroy$))
