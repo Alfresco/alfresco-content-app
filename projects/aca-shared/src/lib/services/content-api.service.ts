@@ -23,7 +23,8 @@
  */
 
 import { Injectable } from '@angular/core';
-import { AlfrescoApiService, UserPreferencesService } from '@alfresco/adf-core';
+import { UserPreferencesService } from '@alfresco/adf-core';
+import { AlfrescoApiService } from '@alfresco/adf-content-services';
 import { Observable, from } from 'rxjs';
 import {
   NodePaging,

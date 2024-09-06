@@ -26,9 +26,7 @@ import { AppService } from './app.service';
 import { TestBed } from '@angular/core/testing';
 import {
   AuthenticationService,
-  AlfrescoApiService,
   PageTitleService,
-  AlfrescoApiServiceMock,
   TranslationMock,
   TranslationService,
   UserPreferencesService,
@@ -37,6 +35,8 @@ import {
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { HttpClientModule } from '@angular/common/http';
 import {
+  AlfrescoApiService,
+  AlfrescoApiServiceMock,
   DiscoveryApiService,
   FileUploadErrorEvent,
   SearchQueryBuilderService,

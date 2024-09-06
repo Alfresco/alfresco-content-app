@@ -29,8 +29,7 @@ import { take, map, catchError, mergeMap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { DirectAccessUrlEntry } from '@alfresco/js-api';
-import { ContentVersionService } from '@alfresco/adf-content-services';
-import { AlfrescoApiService } from '@alfresco/adf-core';
+import { AlfrescoApiService, ContentVersionService } from '@alfresco/adf-content-services';
 
 @Injectable({ providedIn: 'root' })
 export class ContentUrlService extends ContentVersionService {

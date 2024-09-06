@@ -25,7 +25,8 @@
 import { Injectable, NgModule } from '@angular/core';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { AlfrescoApiService, AlfrescoApiServiceMock, TranslateLoaderService, TranslationMock, TranslationService } from '@alfresco/adf-core';
+import { TranslateLoaderService, TranslationMock, TranslationService } from '@alfresco/adf-core';
+import { AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-content-services';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
 import { EffectsModule } from '@ngrx/effects';

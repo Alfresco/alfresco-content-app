@@ -23,16 +23,15 @@
  */
 
 import { inject, Injectable, OnDestroy } from '@angular/core';
-import {
-  AuthenticationService,
-  AppConfigService,
-  AlfrescoApiService,
-  PageTitleService,
-  UserPreferencesService,
-  NotificationService
-} from '@alfresco/adf-core';
+import { AuthenticationService, AppConfigService, PageTitleService, UserPreferencesService, NotificationService } from '@alfresco/adf-core';
 import { Observable, BehaviorSubject, Subject } from 'rxjs';
-import { SearchQueryBuilderService, SharedLinksApiService, UploadService, FileUploadErrorEvent } from '@alfresco/adf-content-services';
+import {
+  AlfrescoApiService,
+  SearchQueryBuilderService,
+  SharedLinksApiService,
+  UploadService,
+  FileUploadErrorEvent
+} from '@alfresco/adf-content-services';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { ActivatedRoute, ActivationEnd, NavigationStart, Router } from '@angular/router';
 import { filter, map } from 'rxjs/operators';

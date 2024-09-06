@@ -25,15 +25,8 @@
 import { NgModule } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import {
-  TranslationService,
-  TranslationMock,
-  AuthenticationService,
-  AlfrescoApiService,
-  AlfrescoApiServiceMock,
-  PageTitleService
-} from '@alfresco/adf-core';
-import { DiscoveryApiService, SearchQueryBuilderService } from '@alfresco/adf-content-services';
+import { TranslationService, TranslationMock, AuthenticationService, PageTitleService } from '@alfresco/adf-core';
+import { AlfrescoApiService, AlfrescoApiServiceMock, DiscoveryApiService, SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { RepositoryInfo, VersionInfo } from '@alfresco/js-api';
 import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';

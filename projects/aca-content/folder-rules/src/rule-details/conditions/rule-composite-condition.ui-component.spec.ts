@@ -33,13 +33,15 @@ import {
   compositeConditionWithThreeConditionMock
 } from '../../mock/conditions.mock';
 import { RuleSimpleConditionUiComponent } from './rule-simple-condition.ui-component';
+import { AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-content-services';
 
 describe('RuleCompositeConditionUiComponent', () => {
   let fixture: ComponentFixture<RuleCompositeConditionUiComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CoreTestingModule, RuleCompositeConditionUiComponent, RuleSimpleConditionUiComponent]
+      imports: [CoreTestingModule, RuleCompositeConditionUiComponent, RuleSimpleConditionUiComponent],
+      providers: [{ provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock }]
     });
 
     fixture = TestBed.createComponent(RuleCompositeConditionUiComponent);

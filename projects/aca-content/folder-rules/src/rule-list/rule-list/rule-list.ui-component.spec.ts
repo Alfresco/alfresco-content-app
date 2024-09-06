@@ -30,6 +30,7 @@ import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { owningFolderIdMock } from '../../mock/node.mock';
 import { of } from 'rxjs';
+import { AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-content-services';
 
 describe('RuleListUiComponent', () => {
   let fixture: ComponentFixture<RuleListUiComponent>;
@@ -38,7 +39,8 @@ describe('RuleListUiComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CoreTestingModule, RuleListUiComponent]
+      imports: [CoreTestingModule, RuleListUiComponent],
+      providers: [{ provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock }]
     });
 
     fixture = TestBed.createComponent(RuleListUiComponent);

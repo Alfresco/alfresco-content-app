@@ -24,9 +24,8 @@
 
 import { inject, Injectable } from '@angular/core';
 import { ProfileState } from '@alfresco/adf-extensions';
-import { GroupService } from '@alfresco/adf-content-services';
+import { AlfrescoApiService, GroupService } from '@alfresco/adf-content-services';
 import { BehaviorSubject } from 'rxjs';
-import { AlfrescoApiService } from '@alfresco/adf-core';
 import { PeopleApi } from '@alfresco/js-api';
 
 @Injectable({ providedIn: 'root' })

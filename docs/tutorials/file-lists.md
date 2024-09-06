@@ -106,7 +106,7 @@ As first step we can create our custom component in our extension:
 ```typescript
 import { NameColumnComponent } from '@alfresco/adf-content-services';
 import { Component, ChangeDetectionStrategy, ViewEncapsulation, ElementRef, OnInit, OnDestroy } from '@angular/core';
-import { AlfrescoApiService } from '@alfresco/adf-core';
+import { AlfrescoApiService } from '@alfresco/adf-content-services';
 
 @Component({
   selector: 'custom-template-column',
