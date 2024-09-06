@@ -35,17 +35,12 @@ import { NodesApiService, SearchAiService } from '@alfresco/adf-content-services
 import { By } from '@angular/platform-browser';
 import { ModalAiService } from '../../../../services/modal-ai.service';
 import { delay } from 'rxjs/operators';
-import { AiAnswer, AiAnswerPaging, QuestionModel } from '@alfresco/js-api/typings';
+import { AiAnswer, AiAnswerEntry, QuestionModel } from '@alfresco/js-api/typings';
 
 const questionMock: QuestionModel = { question: 'test', questionId: 'testId', restrictionQuery: { nodesIds: [] } };
 const aiAnswerMock: AiAnswer = { answer: 'Some answer', questionId: 'some id', references: [] };
-const getAiAnswerPaging = (withEntry: boolean, noAnswer?: boolean): AiAnswerPaging => {
-  return {
-    list: {
-      entries: withEntry ? [{ entry: { answer: noAnswer ? '' : 'Some answer', questionId: 'some id', references: [] } }] : [],
-      pagination: { hasMoreItems: false, maxItems: 0, totalItems: 0, skipCount: 0 }
-    }
-  };
+const getAiAnswerEntry = (noAnswer?: boolean): AiAnswerEntry => {
+  return { entry: { answer: noAnswer ? '' : 'Some answer', questionId: 'some id', references: [] } };
 };
 
 describe('SearchAiResultsComponent', () => {
@@ -143,7 +138,7 @@ describe('SearchAiResultsComponent', () => {
 
     it('should get query answer and not display an error when getAnswer throws one error and one successful response', fakeAsync(() => {
       spyOn(userPreferencesService, 'get').and.returnValue(knowledgeRetrievalNodes);
-      spyOn(searchAiService, 'getAnswer').and.returnValues(throwError('error'), of(getAiAnswerPaging(true)));
+      spyOn(searchAiService, 'getAnswer').and.returnValues(throwError('error'), of(getAiAnswerEntry(true)));
       mockQueryParams.next({ query: 'test', agentId: 'agentId1' });
 
       tick(3000);
@@ -154,7 +149,7 @@ describe('SearchAiResultsComponent', () => {
 
     it('should display and answer and not display an error when getAnswer throws nine errors and one successful response', fakeAsync(() => {
       spyOn(userPreferencesService, 'get').and.returnValue(knowledgeRetrievalNodes);
-      spyOn(searchAiService, 'getAnswer').and.returnValues(...Array(9).fill(throwError('error')), of(getAiAnswerPaging(true)));
+      spyOn(searchAiService, 'getAnswer').and.returnValues(...Array(9).fill(throwError('error')), of(getAiAnswerEntry(true)));
       mockQueryParams.next({ query: 'test', agentId: 'agentId1' });
 
       tick(50000);
@@ -165,7 +160,7 @@ describe('SearchAiResultsComponent', () => {
 
     it('should not display an answer and display an error when getAnswer throws ten errors', fakeAsync(() => {
       spyOn(userPreferencesService, 'get').and.returnValue(knowledgeRetrievalNodes);
-      spyOn(searchAiService, 'getAnswer').and.returnValues(...Array(14).fill(throwError('error')), of(getAiAnswerPaging(true)));
+      spyOn(searchAiService, 'getAnswer').and.returnValues(...Array(14).fill(throwError('error')), of(getAiAnswerEntry(true)));
       mockQueryParams.next({ query: 'test', agentId: 'agentId1' });
 
       tick(30000);
@@ -177,7 +172,7 @@ describe('SearchAiResultsComponent', () => {
 
     it('should not display answer and display an error if received AiAnswerPaging without answer ten times', fakeAsync(() => {
       spyOn(userPreferencesService, 'get').and.returnValue(knowledgeRetrievalNodes);
-      spyOn(searchAiService, 'getAnswer').and.returnValues(...Array(10).fill(of(getAiAnswerPaging(true, true))));
+      spyOn(searchAiService, 'getAnswer').and.returnValues(...Array(10).fill(of(getAiAnswerEntry(true))));
       mockQueryParams.next({ query: 'test', agentId: 'agentId1' });
 
       tick(30000);
@@ -189,7 +184,7 @@ describe('SearchAiResultsComponent', () => {
 
     it('should not display error and display and answer if received AiAnswerPaging without answer nine times and with answer one time', fakeAsync(() => {
       spyOn(userPreferencesService, 'get').and.returnValue(knowledgeRetrievalNodes);
-      spyOn(searchAiService, 'getAnswer').and.returnValues(...Array(9).fill(of(getAiAnswerPaging(true, true))), of(getAiAnswerPaging(true)));
+      spyOn(searchAiService, 'getAnswer').and.returnValues(...Array(9).fill(of(getAiAnswerEntry(true))), of(getAiAnswerEntry(true)));
       mockQueryParams.next({ query: 'test', agentId: 'agentId1' });
 
       tick(30000);
@@ -222,7 +217,7 @@ describe('SearchAiResultsComponent', () => {
       mockQueryParams.next({ query: 'test', agentId: 'agentId1' });
 
       spyOn(searchAiService, 'ask').and.returnValue(of(questionMock));
-      spyOn(searchAiService, 'getAnswer').and.returnValue(of(getAiAnswerPaging(false)));
+      spyOn(searchAiService, 'getAnswer').and.returnValue(of(getAiAnswerEntry(false)));
 
       component.performAiSearch();
       tick(30000);
@@ -241,7 +236,7 @@ describe('SearchAiResultsComponent', () => {
       const modalAiSpy = spyOn(modalAiService, 'openUnsavedChangesModal').and.callThrough();
 
       spyOn(searchAiService, 'ask').and.returnValue(of(questionMock));
-      spyOn(searchAiService, 'getAnswer').and.returnValue(of(getAiAnswerPaging(true)));
+      spyOn(searchAiService, 'getAnswer').and.returnValue(of(getAiAnswerEntry(true)));
 
       fixture.detectChanges();
 
