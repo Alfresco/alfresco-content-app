@@ -178,10 +178,10 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
       .pipe(
         switchMap((response) => this.searchAiService.getAnswer(response.questionId)),
         switchMap((response) => {
-          if (!response.list.entries[0].entry?.answer) {
+          if (!response.entry?.answer) {
             return throwError((e) => e);
           }
-          this._queryAnswer = response.list.entries[0].entry;
+          this._queryAnswer = response.entry;
           return forkJoin(this.queryAnswer.references.map((reference) => this.nodesApiService.getNode(reference.referenceId)));
         }),
         retryWhen((errors: Observable<Error>) => this.aiSearchRetryWhen(errors)),
