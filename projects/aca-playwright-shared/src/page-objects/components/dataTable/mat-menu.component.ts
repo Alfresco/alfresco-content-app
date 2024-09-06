@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Page, expect } from '@playwright/test';
+import { expect, Page } from '@playwright/test';
 import { BaseComponent } from '../base.component';
 
 export class MatMenuComponent extends BaseComponent {
@@ -64,7 +64,7 @@ export class MatMenuComponent extends BaseComponent {
     const menus = await this.page.$$('.mat-mdc-menu-content .mat-mdc-menu-item');
     const actualMoreActions: string[] = await Promise.all(
       menus.map(async (button) => {
-        const title = await (await button.$('.mdc-list-item__primary-text span')).innerText();
+        const title = await (await button.$('.mat-mdc-menu-item-text span')).innerText();
         return title || '';
       })
     );
