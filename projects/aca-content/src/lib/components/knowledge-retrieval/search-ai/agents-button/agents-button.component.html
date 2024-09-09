@@ -1,4 +1,4 @@
-<ng-container *ngIf="agents.length">
+<ng-container *ngIf="agents.length && hxInsightUrl">
   <button
     [matMenuTriggerFor]="disabled ? null : agentsList"
     class="aca-agents-menu-button aca-agents-button-menu-trigger"
