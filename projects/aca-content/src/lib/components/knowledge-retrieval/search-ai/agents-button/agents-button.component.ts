@@ -69,6 +69,10 @@ export class AgentsButtonComponent implements OnInit, OnDestroy {
     return this._initialsByAgentId;
   }
 
+  get hxInsightUrl(): string {
+    return this._hxInsightUrl;
+  }
+
   constructor(
     private store: Store<AppStore>,
     private notificationService: NotificationService,
@@ -91,24 +95,22 @@ export class AgentsButtonComponent implements OnInit, OnDestroy {
         catchError(() => throwError('KNOWLEDGE_RETRIEVAL.SEARCH.ERRORS.AGENTS_FETCHING'))
       ),
       config: this.searchAiService.getConfig().pipe(catchError(() => throwError('KNOWLEDGE_RETRIEVAL.SEARCH.ERRORS.HX_INSIGHT_URL_FETCHING')))
-    })
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe(
-        (result) => {
-          this._hxInsightUrl = result.config.entry.knowledgeRetrievalUrl;
-          this._agents = result.agents;
-          this.cd.detectChanges();
+    }).subscribe(
+      (result) => {
+        this._hxInsightUrl = result.config.entry.knowledgeRetrievalUrl;
+        this._agents = result.agents;
+        this.cd.detectChanges();
 
-          if (this.agents.length) {
-            this._initialsByAgentId = this.agents.reduce((initials, agent) => {
-              const words = agent.name.split(' ').filter((word) => !word.match(/[^a-zA-Z]+/g));
-              initials[agent.id] = `${words[0][0]}${words[1]?.[0] || ''}`;
-              return initials;
-            }, {});
-          }
-        },
-        (error: string) => this.notificationService.showError(this.translateService.instant(error))
-      );
+        if (this.agents.length) {
+          this._initialsByAgentId = this.agents.reduce((initials, agent) => {
+            const words = agent.name.split(' ').filter((word) => !word.match(/[^a-zA-Z]+/g));
+            initials[agent.id] = `${words[0][0]}${words[1]?.[0] || ''}`;
+            return initials;
+          }, {});
+        }
+      },
+      (error: string) => this.notificationService.showError(this.translateService.instant(error))
+    );
   }
 
   ngOnDestroy(): void {
@@ -117,16 +119,16 @@ export class AgentsButtonComponent implements OnInit, OnDestroy {
   }
 
   onClick(): void {
-    if (this.selectedNodesState.isEmpty) {
-      this._disabled = true;
-      open(this._hxInsightUrl);
-    } else {
+    if (!this.selectedNodesState.isEmpty) {
       const error = this.searchAiService.checkSearchAvailability(this.selectedNodesState);
       if (error) {
         this.notificationService.showInfo(error);
       }
       this._disabled = !!error;
+      return;
     }
+    this._disabled = true;
+    open(this.hxInsightUrl);
   }
 
   onAgentSelection(change: MatSelectionListChange): void {
