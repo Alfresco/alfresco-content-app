@@ -58,6 +58,121 @@ describe('AgentsButtonComponent', () => {
 
   const getAgentsButton = (): HTMLButtonElement => fixture.debugElement.query(By.css('.aca-agents-menu-button'))?.nativeElement;
 
+  const runButtonActions = (eventName: string): void => {
+    let event: Event;
+    let notificationService: NotificationService;
+    let message: string;
+
+    beforeEach(() => {
+      config$.next({
+        entry: {
+          knowledgeRetrievalUrl
+        }
+      });
+      config$.complete();
+      event =
+        eventName === 'mouseup'
+          ? new MouseEvent(eventName)
+          : new KeyboardEvent(eventName, {
+              key: 'Enter'
+            });
+      agents$.next(agentsMock);
+      agents$.complete();
+      spyOn(window, 'open');
+      notificationService = TestBed.inject(NotificationService);
+      spyOn(notificationService, 'showInfo');
+      message = 'Some message';
+    });
+
+    const getMenuTrigger = (): MatMenuPanel => fixture.debugElement.query(By.directive(MatMenuTrigger)).injector.get(MatMenuTrigger).menu;
+
+    const testButtonActions = (): void => {
+      it('should not display notification if checkSearchAvailability from SearchAiService returns empty message', () => {
+        message = '';
+        checkSearchAvailabilitySpy.and.returnValue(message);
+
+        getAgentsButton().dispatchEvent(event);
+        expect(notificationService.showInfo).not.toHaveBeenCalled();
+      });
+
+      it('should disable menu triggering if checkSearchAvailability from SearchAiService returns message', () => {
+        checkSearchAvailabilitySpy.and.returnValue('Some message');
+
+        getAgentsButton().dispatchEvent(event);
+        fixture.detectChanges();
+        expect(getMenuTrigger()).toBeNull();
+      });
+    };
+
+    describe('with selected nodes', () => {
+      beforeEach(() => {
+        selectionState.isEmpty = false;
+      });
+
+      it('should display notification if checkSearchAvailability from SearchAiService returns message', () => {
+        checkSearchAvailabilitySpy.and.returnValue(message);
+
+        getAgentsButton().dispatchEvent(event);
+        expect(notificationService.showInfo).toHaveBeenCalledWith(message);
+      });
+
+      testButtonActions();
+
+      it('should enable menu triggering if checkSearchAvailability from SearchAiService returns empty message', () => {
+        checkSearchAvailabilitySpy.and.returnValue('');
+
+        getAgentsButton().dispatchEvent(event);
+        fixture.detectChanges();
+        const menuTrigger = getMenuTrigger();
+        expect(menuTrigger).toBeTruthy();
+        expect(menuTrigger).toBe(getMenu());
+      });
+
+      it('should call checkSearchAvailability from SearchAiService with correct parameter', () => {
+        getAgentsButton().dispatchEvent(event);
+
+        expect(checkSearchAvailabilitySpy).toHaveBeenCalledWith(selectionState);
+      });
+
+      it('should not open new tab for url loaded from config', () => {
+        getAgentsButton().dispatchEvent(event);
+
+        expect(window.open).not.toHaveBeenCalled();
+      });
+    });
+
+    describe('without selected nodes', () => {
+      it('should not display notification if checkSearchAvailability from SearchAiService returns message', () => {
+        checkSearchAvailabilitySpy.and.returnValue(message);
+
+        getAgentsButton().dispatchEvent(event);
+        expect(notificationService.showInfo).not.toHaveBeenCalled();
+      });
+
+      testButtonActions();
+
+      it('should disable menu triggering if checkSearchAvailability from SearchAiService returns empty message', () => {
+        checkSearchAvailabilitySpy.and.returnValue('');
+
+        getAgentsButton().dispatchEvent(event);
+        fixture.detectChanges();
+        expect(getMenuTrigger()).toBeNull();
+      });
+
+      it('should not call checkSearchAvailability from SearchAiService', () => {
+        getAgentsButton().dispatchEvent(event);
+
+        expect(checkSearchAvailabilitySpy).not.toHaveBeenCalled();
+      });
+
+      it('should open new tab for url loaded from config', () => {
+        getAgentsButton().dispatchEvent(event);
+
+        expect(window.open).toHaveBeenCalledWith(knowledgeRetrievalUrl);
+      });
+    });
+  };
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AgentsButtonComponent, ContentTestingModule],
@@ -203,126 +318,15 @@ describe('AgentsButtonComponent', () => {
     });
   });
 
-  const buttonKeyboardActions = (eventName: string): void => {
-    describe(`Button action - ${eventName} event`, () => {
-      let event: Event;
-      let notificationService: NotificationService;
-      let message: string;
-
-      const getMenuTrigger = (): MatMenuPanel => fixture.debugElement.query(By.directive(MatMenuTrigger)).injector.get(MatMenuTrigger).menu;
-
-      const testButtonActions = (): void => {
-        it('should not display notification if checkSearchAvailability from SearchAiService returns empty message', () => {
-          message = '';
-          checkSearchAvailabilitySpy.and.returnValue(message);
-
-          getAgentsButton().dispatchEvent(event);
-          expect(notificationService.showInfo).not.toHaveBeenCalled();
-        });
-
-        it('should disable menu triggering if checkSearchAvailability from SearchAiService returns message', () => {
-          checkSearchAvailabilitySpy.and.returnValue('Some message');
-
-          getAgentsButton().dispatchEvent(event);
-          fixture.detectChanges();
-          expect(getMenuTrigger()).toBeNull();
-        });
-      };
-
-      beforeEach(() => {
-        config$.next({
-          entry: {
-            knowledgeRetrievalUrl
-          }
-        });
-        config$.complete();
-        event =
-          eventName === 'mouseup'
-            ? new MouseEvent(eventName)
-            : new KeyboardEvent(eventName, {
-                key: 'Enter'
-              });
-        agents$.next(agentsMock);
-        agents$.complete();
-        spyOn(window, 'open');
-        notificationService = TestBed.inject(NotificationService);
-        spyOn(notificationService, 'showInfo');
-        message = 'Some message';
-      });
-
-      describe('with selected nodes', () => {
-        beforeEach(() => {
-          selectionState.isEmpty = false;
-        });
-
-        it('should display notification if checkSearchAvailability from SearchAiService returns message', () => {
-          checkSearchAvailabilitySpy.and.returnValue(message);
-
-          getAgentsButton().dispatchEvent(event);
-          expect(notificationService.showInfo).toHaveBeenCalledWith(message);
-        });
-
-        testButtonActions();
-
-        it('should enable menu triggering if checkSearchAvailability from SearchAiService returns empty message', () => {
-          checkSearchAvailabilitySpy.and.returnValue('');
-
-          getAgentsButton().dispatchEvent(event);
-          fixture.detectChanges();
-          const menuTrigger = getMenuTrigger();
-          expect(menuTrigger).toBeTruthy();
-          expect(menuTrigger).toBe(getMenu());
-        });
-
-        it('should call checkSearchAvailability from SearchAiService with correct parameter', () => {
-          getAgentsButton().dispatchEvent(event);
-
-          expect(checkSearchAvailabilitySpy).toHaveBeenCalledWith(selectionState);
-        });
-
-        it('should not open new tab for url loaded from config', () => {
-          getAgentsButton().dispatchEvent(event);
-
-          expect(window.open).not.toHaveBeenCalled();
-        });
-      });
-
-      describe('without selected nodes', () => {
-        it('should not display notification if checkSearchAvailability from SearchAiService returns message', () => {
-          checkSearchAvailabilitySpy.and.returnValue(message);
-
-          getAgentsButton().dispatchEvent(event);
-          expect(notificationService.showInfo).not.toHaveBeenCalled();
-        });
-
-        testButtonActions();
-
-        it('should disable menu triggering if checkSearchAvailability from SearchAiService returns empty message', () => {
-          checkSearchAvailabilitySpy.and.returnValue('');
-
-          getAgentsButton().dispatchEvent(event);
-          fixture.detectChanges();
-          expect(getMenuTrigger()).toBeNull();
-        });
-
-        it('should not call checkSearchAvailability from SearchAiService', () => {
-          getAgentsButton().dispatchEvent(event);
-
-          expect(checkSearchAvailabilitySpy).not.toHaveBeenCalled();
-        });
-
-        it('should open new tab for url loaded from config', () => {
-          getAgentsButton().dispatchEvent(event);
-
-          expect(window.open).toHaveBeenCalledWith(knowledgeRetrievalUrl);
-        });
-      });
-    });
-  };
-
   ['mouseup', 'keydown'].forEach((eventName) => {
     buttonKeyboardActions(eventName);
   });
+
+  const buttonKeyboardActions = (eventName: string): void => {
+    describe(`Button action - ${eventName} event`, () => {
+      runButtonActions(eventName);
+    });
+  };
 
   describe('Agents menu', () => {
     let loader: HarnessLoader;
@@ -350,15 +354,9 @@ describe('AgentsButtonComponent', () => {
         .componentInstance;
 
     describe('Agents position', () => {
-      beforeEach(() => {
-        prepareData(agentsMock);
-        agents$.complete();
-      });
-
       it('should have assigned before to xPosition', () => {
         prepareData(agentsMock);
         agents$.complete();
-
         expect(getMenu().xPosition).toBe('before');
       });
     });
