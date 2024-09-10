@@ -33,7 +33,7 @@ import { catchError, take, takeUntil } from 'rxjs/operators';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatListModule, MatSelectionListChange } from '@angular/material/list';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { AgentWithAvatar } from '@alfresco/js-api';
+import { Agent } from '@alfresco/js-api';
 import { AgentService, SearchAiService } from '@alfresco/adf-content-services';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
@@ -51,13 +51,13 @@ export class AgentsButtonComponent implements OnInit, OnDestroy {
   data: { trigger: string };
 
   private selectedNodesState: SelectionState;
-  private _agents: AgentWithAvatar[] = [];
+  private _agents: Agent[] = [];
   private onDestroy$ = new Subject<void>();
   private _disabled = true;
   private _initialsByAgentId: { [key: string]: string } = {};
   private _hxInsightUrl: string;
 
-  get agents(): AgentWithAvatar[] {
+  get agents(): Agent[] {
     return this._agents;
   }
 

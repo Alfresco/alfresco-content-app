@@ -22,7 +22,14 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { DocumentListComponent, DocumentListService, SearchAiInputState, SearchAiService, ShareDataRow, UploadService } from '@alfresco/adf-content-services';
+import {
+  DocumentListComponent,
+  DocumentListService,
+  SearchAiInputState,
+  SearchAiService,
+  ShareDataRow,
+  UploadService
+} from '@alfresco/adf-content-services';
 import { ShowHeaderMode } from '@alfresco/adf-core';
 import { ContentActionRef, DocumentListPresetRef, SelectionState } from '@alfresco/adf-extensions';
 import { OnDestroy, OnInit, OnChanges, ViewChild, SimpleChanges, Directive, inject, HostListener } from '@angular/core';
