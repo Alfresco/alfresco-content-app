@@ -30,7 +30,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { AgentService, ContentTestingModule, SearchAiService } from '@alfresco/adf-content-services';
 import { getAppSelection, SearchByTermAiAction } from '@alfresco/aca-shared/store';
 import { of, Subject } from 'rxjs';
-import { AgentWithAvatar, NodeEntry } from '@alfresco/js-api';
+import { Agent, NodeEntry } from '@alfresco/js-api';
 import { FormControlDirective } from '@angular/forms';
 import { DebugElement } from '@angular/core';
 import { AvatarComponent, IconComponent, NotificationService, UnsavedChangesDialogComponent, UserPreferencesService } from '@alfresco/adf-core';
@@ -47,18 +47,18 @@ import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dial
 import { ActivatedRoute } from '@angular/router';
 import { ModalAiService } from '../../../../services/modal-ai.service';
 
-const agentWithAvatarList: AgentWithAvatar[] = [
+const agentList: Agent[] = [
   {
     id: '1',
     name: 'HR Agent',
     description: 'Test 1',
-    avatar: undefined
+    avatarUrl: undefined
   },
   {
     id: '2',
     name: 'Policy Agent',
     description: 'Test 2',
-    avatar: undefined
+    avatarUrl: undefined
   }
 ];
 
@@ -68,7 +68,7 @@ describe('SearchAiInputComponent', () => {
   let loader: HarnessLoader;
   let selectionState: SelectionState;
   let store: MockStore;
-  let agents$: Subject<AgentWithAvatar[]>;
+  let agents$: Subject<Agent[]>;
   let dialog: MatDialog;
 
   const prepareBeforeTest = (): void => {
@@ -104,7 +104,7 @@ describe('SearchAiInputComponent', () => {
     component = fixture.componentInstance;
     store = TestBed.inject(MockStore);
     loader = TestbedHarnessEnvironment.loader(fixture);
-    agents$ = new Subject<AgentWithAvatar[]>();
+    agents$ = new Subject<Agent[]>();
     dialog = TestBed.inject(MatDialog);
     spyOn(TestBed.inject(AgentService), 'getAgents').and.returnValue(agents$);
     prepareBeforeTest();
@@ -129,9 +129,9 @@ describe('SearchAiInputComponent', () => {
     });
 
     it('should get agents on init', () => {
-      agents$.next(agentWithAvatarList);
+      agents$.next(agentList);
       component.ngOnInit();
-      expect(component.agents).toEqual(agentWithAvatarList);
+      expect(component.agents).toEqual(agentList);
       expect(component.initialsByAgentId).toEqual({ 1: 'HA', 2: 'PA' });
       expect(notificationServiceSpy).not.toHaveBeenCalled();
     });
@@ -146,7 +146,7 @@ describe('SearchAiInputComponent', () => {
     });
 
     it('should have selected correct agent', async () => {
-      agents$.next(agentWithAvatarList);
+      agents$.next(agentList);
       expect(await (await loader.getHarness(MatSelectHarness)).getValueText()).toBe('PAPolicy Agent');
       const avatar = selectElement.query(By.directive(AvatarComponent))?.componentInstance;
       expect(avatar.initials).toBe('PA');
@@ -161,7 +161,7 @@ describe('SearchAiInputComponent', () => {
           .componentInstance;
 
       beforeEach(async () => {
-        agents$.next(agentWithAvatarList);
+        agents$.next(agentList);
         const selectHarness = await loader.getHarness(MatSelectHarness);
         await selectHarness.open();
         options = await selectHarness.getOptions();
@@ -187,11 +187,11 @@ describe('SearchAiInputComponent', () => {
       });
 
       it('should assign correct initials to each avatar for each agent with single section name', () => {
-        const newAgentWithAvatarList = [
-          { ...agentWithAvatarList[0], name: 'Adam' },
-          { ...agentWithAvatarList[1], name: 'Bob' }
+        const newAgentList = [
+          { ...agentList[0], name: 'Adam' },
+          { ...agentList[1], name: 'Bob' }
         ];
-        agents$.next(newAgentWithAvatarList);
+        agents$.next(newAgentList);
         fixture.detectChanges();
 
         expect(getAvatarForAgent('1').initials).toBe('A');
@@ -205,7 +205,7 @@ describe('SearchAiInputComponent', () => {
 
     beforeEach(() => {
       queryInput = fixture.debugElement.query(By.directive(MatInput));
-      agents$.next(agentWithAvatarList);
+      agents$.next(agentList);
     });
 
     it('should have assigned formControl', () => {
@@ -230,7 +230,7 @@ describe('SearchAiInputComponent', () => {
     beforeEach(async () => {
       submitButton = fixture.debugElement.query(By.directive(MatButton));
       queryInput = await loader.getHarness(MatInputHarness);
-      agents$.next(agentWithAvatarList);
+      agents$.next(agentList);
     });
 
     it('should be disabled by default', () => {

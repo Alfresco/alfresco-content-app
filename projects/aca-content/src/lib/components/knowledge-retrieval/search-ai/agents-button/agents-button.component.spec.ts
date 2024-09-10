@@ -25,7 +25,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AgentsButtonComponent } from './agents-button.component';
 import { AgentService, ContentTestingModule, SearchAiService } from '@alfresco/adf-content-services';
-import { AgentWithAvatar, KnowledgeRetrievalConfigEntry } from '@alfresco/js-api';
 import { Subject } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -40,12 +39,14 @@ import { MatMenuHarness } from '@angular/material/menu/testing';
 import { MatSelectionList } from '@angular/material/list';
 import { MatSnackBarRef } from '@angular/material/snack-bar';
 import { ChangeDetectorRef } from '@angular/core';
+import { Agent } from '@alfresco/js-api';
+import { KnowledgeRetrievalConfigEntry } from '@alfresco/js-api/typings';
 
 describe('AgentsButtonComponent', () => {
   let component: AgentsButtonComponent;
   let fixture: ComponentFixture<AgentsButtonComponent>;
-  let agents$: Subject<AgentWithAvatar[]>;
-  let agentsWithAvatar: AgentWithAvatar[];
+  let agents$: Subject<Agent[]>;
+  let agentsWithAvatar: Agent[];
   let checkSearchAvailabilitySpy: jasmine.Spy<(selectedNodesState: SelectionState, maxSelectedNodes?: number) => string>;
   let selectionState: SelectionState;
   let store: MockStore;
@@ -66,20 +67,20 @@ describe('AgentsButtonComponent', () => {
     fixture = TestBed.createComponent(AgentsButtonComponent);
     component = fixture.componentInstance;
     store = TestBed.inject(MockStore);
-    agents$ = new Subject<AgentWithAvatar[]>();
+    agents$ = new Subject<Agent[]>();
     spyOn(TestBed.inject(AgentService), 'getAgents').and.returnValue(agents$);
     agentsWithAvatar = [
       {
         id: '1',
         name: 'HR Agent',
         description: 'Test 1',
-        avatar: undefined
+        avatarUrl: undefined
       },
       {
         id: '2',
         name: 'Policy Agent',
         description: 'Test 2',
-        avatar: undefined
+        avatarUrl: undefined
       }
     ];
     const searchAiService = TestBed.inject(SearchAiService);
@@ -200,7 +201,9 @@ describe('AgentsButtonComponent', () => {
         expect(notificationServiceSpy).toHaveBeenCalledWith('KNOWLEDGE_RETRIEVAL.SEARCH.ERRORS.HX_INSIGHT_URL_FETCHING');
       });
     });
+  });
 
+  describe('Button actions', () => {
     ['mouseup', 'keydown'].forEach((eventName) => {
       describe(`${eventName} event`, () => {
         let event: Event;
@@ -322,7 +325,7 @@ describe('AgentsButtonComponent', () => {
   describe('Agents menu', () => {
     let loader: HarnessLoader;
 
-    const prepareData = (agents: AgentWithAvatar[]): void => {
+    const prepareData = (agents: Agent[]): void => {
       config$.next({
         entry: {
           knowledgeRetrievalUrl
@@ -340,14 +343,25 @@ describe('AgentsButtonComponent', () => {
       fixture.detectChanges();
     };
 
-    it('should have assigned before to xPosition', () => {
+    const getAvatar = (agentId: string): AvatarComponent =>
+      fixture.debugElement.query(By.css(`[data-automation-id=aca-agents-button-agent-${agentId}]`)).query(By.directive(AvatarComponent))
+        .componentInstance;
+
+    beforeEach(() => {
       prepareData(agentsWithAvatar);
       agents$.complete();
-
-      expect(getMenu().xPosition).toBe('before');
     });
 
-    describe('Agents list', () => {
+    describe('Agents position', () => {
+      it('should have assigned before to xPosition', () => {
+        prepareData(agentsWithAvatar);
+        agents$.complete();
+
+        expect(getMenu().xPosition).toBe('before');
+      });
+    });
+
+    describe('Agents multi words name', () => {
       const getAgentsListHarness = async (): Promise<MatSelectionListHarness> =>
         (await loader.getHarness(MatMenuHarness)).getHarness(MatSelectionListHarness);
 
@@ -358,76 +372,65 @@ describe('AgentsButtonComponent', () => {
 
       const getAgentsList = (): MatSelectionList => fixture.debugElement.query(By.directive(MatSelectionList)).componentInstance;
 
-      const getAvatar = (agentId: string): AvatarComponent =>
-        fixture.debugElement.query(By.css(`[data-automation-id=aca-agents-button-agent-${agentId}]`)).query(By.directive(AvatarComponent))
-          .componentInstance;
+      it('should deselect selected agent after selecting other', async () => {
+        component.data = {
+          trigger: SearchAiActionTypes.ToggleAiSearchInput
+        };
+        const selectionList = getAgentsList();
+        spyOn(selectionList, 'deselectAll');
+        await selectAgent();
 
-      describe('Agents multi words name', () => {
-        beforeEach(() => {
-          prepareData(agentsWithAvatar);
-          agents$.complete();
-        });
+        expect(selectionList.deselectAll).toHaveBeenCalled();
+      });
 
-        it('should deselect selected agent after selecting other', async () => {
-          component.data = {
-            trigger: SearchAiActionTypes.ToggleAiSearchInput
-          };
-          const selectionList = getAgentsList();
-          spyOn(selectionList, 'deselectAll');
-          await selectAgent();
+      it('should dispatch on store selected agent', async () => {
+        component.data = {
+          trigger: SearchAiActionTypes.ToggleAiSearchInput
+        };
+        spyOn(store, 'dispatch');
+        await selectAgent();
 
-          expect(selectionList.deselectAll).toHaveBeenCalled();
-        });
-
-        it('should dispatch on store selected agent', async () => {
-          component.data = {
-            trigger: SearchAiActionTypes.ToggleAiSearchInput
-          };
-          spyOn(store, 'dispatch');
-          await selectAgent();
-
-          expect(store.dispatch<ToggleAISearchInput>).toHaveBeenCalledWith({
-            type: SearchAiActionTypes.ToggleAiSearchInput,
-            agentId: '2'
-          });
-        });
-
-        it('should disallow selecting multiple agents', () => {
-          expect(getAgentsList().multiple).toBeFalse();
-        });
-
-        it('should have hidden single selection indicator', () => {
-          expect(getAgentsList().hideSingleSelectionIndicator).toBeTrue();
-        });
-
-        it('should display option for each agent', async () => {
-          const agents = await (await getAgentsListHarness()).getItems();
-
-          expect(agents.length).toBe(2);
-          expect(await agents[0].getFullText()).toBe('HA HR Agent');
-          expect(await agents[1].getFullText()).toBe('PA Policy Agent');
-        });
-
-        it('should display avatar for each agent', () => {
-          expect(getAvatar('1')).toBeTruthy();
-          expect(getAvatar('2')).toBeTruthy();
-        });
-
-        it('should assign correct initials to each avatar for each agent with double section name', () => {
-          expect(getAvatar('1').initials).toBe('HA');
-          expect(getAvatar('2').initials).toBe('PA');
+        expect(store.dispatch<ToggleAISearchInput>).toHaveBeenCalledWith({
+          type: SearchAiActionTypes.ToggleAiSearchInput,
+          agentId: '2'
         });
       });
 
-      describe('Agents single word name', () => {
-        it('should assign correct initials to each avatar for each agent with single section name', () => {
-          agentsWithAvatar[0].name = 'Adam';
-          agentsWithAvatar[1].name = 'Bob';
-          prepareData(agentsWithAvatar);
+      it('should disallow selecting multiple agents', () => {
+        expect(getAgentsList().multiple).toBeFalse();
+      });
 
-          expect(getAvatar('1').initials).toBe('A');
-          expect(getAvatar('2').initials).toBe('B');
-        });
+      it('should have hidden single selection indicator', () => {
+        expect(getAgentsList().hideSingleSelectionIndicator).toBeTrue();
+      });
+
+      it('should display option for each agent', async () => {
+        const agents = await (await getAgentsListHarness()).getItems();
+
+        expect(agents.length).toBe(2);
+        expect(await agents[0].getFullText()).toBe('HA HR Agent');
+        expect(await agents[1].getFullText()).toBe('PA Policy Agent');
+      });
+
+      it('should display avatar for each agent', () => {
+        expect(getAvatar('1')).toBeTruthy();
+        expect(getAvatar('2')).toBeTruthy();
+      });
+
+      it('should assign correct initials to each avatar for each agent with double section name', () => {
+        expect(getAvatar('1').initials).toBe('HA');
+        expect(getAvatar('2').initials).toBe('PA');
+      });
+    });
+
+    describe('Agents single word name', () => {
+      it('should assign correct initials to each avatar for each agent with single section name', () => {
+        agentsWithAvatar[0].name = 'Adam';
+        agentsWithAvatar[1].name = 'Bob';
+        prepareData(agentsWithAvatar);
+
+        expect(getAvatar('1').initials).toBe('A');
+        expect(getAvatar('2').initials).toBe('B');
       });
     });
   });
