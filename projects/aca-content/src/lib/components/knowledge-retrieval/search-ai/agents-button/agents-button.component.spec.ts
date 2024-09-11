@@ -39,8 +39,7 @@ import { MatMenuHarness } from '@angular/material/menu/testing';
 import { MatSelectionList } from '@angular/material/list';
 import { MatSnackBarRef } from '@angular/material/snack-bar';
 import { ChangeDetectorRef } from '@angular/core';
-import { Agent } from '@alfresco/js-api';
-import { KnowledgeRetrievalConfigEntry } from '@alfresco/js-api/typings';
+import { Agent, KnowledgeRetrievalConfigEntry } from '@alfresco/js-api';
 
 describe('AgentsButtonComponent', () => {
   let component: AgentsButtonComponent;
@@ -318,15 +317,15 @@ describe('AgentsButtonComponent', () => {
     });
   });
 
-  ['mouseup', 'keydown'].forEach((eventName) => {
-    buttonKeyboardActions(eventName);
-  });
-
   const buttonKeyboardActions = (eventName: string): void => {
     describe(`Button action - ${eventName} event`, () => {
       runButtonActions(eventName);
     });
   };
+
+  ['mouseup', 'keydown'].forEach((eventName) => {
+    buttonKeyboardActions(eventName);
+  });
 
   describe('Agents menu', () => {
     let loader: HarnessLoader;

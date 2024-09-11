@@ -47,7 +47,7 @@ import {
   MatTooltipModule
 } from '@angular/material/tooltip';
 import { ModalAiService } from '../../../../services/modal-ai.service';
-import { Agent } from '@alfresco/js-api/typings';
+import { Agent } from '@alfresco/js-api';
 
 const MatTooltipOptions: MatTooltipDefaultOptions = {
   ...MAT_TOOLTIP_DEFAULT_OPTIONS_FACTORY(),
