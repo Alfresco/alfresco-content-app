@@ -34,6 +34,8 @@ import { SearchAiService } from '@alfresco/adf-content-services';
 describe('SearchAiEffects', () => {
   let store: Store<AppStore>;
 
+  const agentId = '1';
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule, EffectsModule.forRoot([SearchAiEffects])]
@@ -47,7 +49,6 @@ describe('SearchAiEffects', () => {
       const searchAiNavigationService = TestBed.inject(SearchAiNavigationService);
       spyOn(searchAiNavigationService, 'navigateToSearchAi');
       const searchTerm = 'test';
-      const agentId = '1';
 
       store.dispatch(
         new SearchByTermAiAction({
@@ -67,7 +68,6 @@ describe('SearchAiEffects', () => {
     it('should call updateSearchAiInputState on SearchAiService', () => {
       const searchAiService = TestBed.inject(SearchAiService);
       spyOn(searchAiService, 'updateSearchAiInputState');
-      const agentId = '1';
 
       store.dispatch(new ToggleAISearchInput(agentId));
 
