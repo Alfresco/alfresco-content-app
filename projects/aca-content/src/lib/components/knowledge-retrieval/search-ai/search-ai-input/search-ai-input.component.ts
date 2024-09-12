@@ -38,7 +38,6 @@ import { AiSearchByTermPayload, AppStore, getAppSelection, SearchByTermAiAction 
 import { takeUntil } from 'rxjs/operators';
 import { SelectionState } from '@alfresco/adf-extensions';
 import { MatSelectModule } from '@angular/material/select';
-import { AgentWithAvatar } from '@alfresco/js-api';
 import { AgentService, SearchAiService } from '@alfresco/adf-content-services';
 import { MatCardModule } from '@angular/material/card';
 import {
@@ -48,6 +47,7 @@ import {
   MatTooltipModule
 } from '@angular/material/tooltip';
 import { ModalAiService } from '../../../../services/modal-ai.service';
+import { Agent } from '@alfresco/js-api';
 
 const MatTooltipOptions: MatTooltipDefaultOptions = {
   ...MAT_TOOLTIP_DEFAULT_OPTIONS_FACTORY(),
@@ -93,18 +93,18 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
 
   private readonly storedNodesKey = 'knowledgeRetrievalNodes';
 
-  private _agentControl = new FormControl<AgentWithAvatar>(null);
-  private _agents: AgentWithAvatar[] = [];
+  private _agentControl = new FormControl<Agent>(null);
+  private _agents: Agent[] = [];
   private onDestroy$ = new Subject<void>();
   private selectedNodesState: SelectionState;
   private _queryControl = new FormControl('');
   private _initialsByAgentId: { [key: string]: string } = {};
 
-  get agentControl(): FormControl<AgentWithAvatar> {
+  get agentControl(): FormControl<Agent> {
     return this._agentControl;
   }
 
-  get agents(): AgentWithAvatar[] {
+  get agents(): Agent[] {
     return this._agents;
   }
 
