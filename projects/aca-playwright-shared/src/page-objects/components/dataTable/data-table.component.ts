@@ -58,6 +58,10 @@ export class DataTableComponent extends BaseComponent {
   lockOwner = this.page.locator('.aca-locked-by--name');
   uncheckedCheckbox = this.page.locator('.mat-mdc-checkbox');
   checkedCheckbox = this.page.locator('.mat-mdc-checkbox-checked');
+  highlightedText = '.aca-highlight';
+  searchFileName = '.search-file-name';
+  searchFileDescription = '[data-automation-id="search-results-entry-description"]';
+  searchFileContent = '.aca-result-content';
 
   /** Locator for row (or rows) */
   getRowLocator = this.page.getByRole('rowgroup').nth(1).locator('adf-datatable-row');
@@ -378,5 +382,16 @@ export class DataTableComponent extends BaseComponent {
   async getLockOwner(itemName: string): Promise<string> {
     const row = this.getRowByName(itemName);
     return row.locator(this.lockOwner).innerText();
+  }
+
+  async hasHighlightedText(location: 'name' | 'description' | 'content'): Promise<boolean> {
+    switch (location) {
+      case 'name':
+        return this.page.locator(this.searchFileName).locator(this.highlightedText).isVisible();
+      case 'description':
+        return this.page.locator(this.searchFileDescription).locator(this.highlightedText).isVisible();
+      case 'content':
+        return this.page.locator(this.searchFileContent).locator(this.highlightedText).isVisible();
+    }
   }
 }
