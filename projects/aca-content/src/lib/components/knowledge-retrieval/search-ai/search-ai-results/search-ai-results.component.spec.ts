@@ -35,7 +35,7 @@ import { NodesApiService, SearchAiService } from '@alfresco/adf-content-services
 import { By } from '@angular/platform-browser';
 import { ModalAiService } from '../../../../services/modal-ai.service';
 import { delay } from 'rxjs/operators';
-import { AiAnswer, AiAnswerEntry, QuestionModel } from '@alfresco/js-api/typings';
+import { AiAnswer, AiAnswerEntry, QuestionModel, QuestionRequest } from '@alfresco/js-api/typings';
 
 const questionMock: QuestionModel = { question: 'test', questionId: 'testId', restrictionQuery: { nodesIds: [] } };
 const aiAnswerMock: AiAnswer = { answer: 'Some answer', questionId: 'some id', references: [] };
@@ -51,6 +51,7 @@ describe('SearchAiResultsComponent', () => {
   let mockQueryParams = new Subject<Params>();
   let modalAiService: ModalAiService;
   let searchAiService: SearchAiService;
+  let askSpy: jasmine.Spy<(questionRequest: QuestionRequest) => void>;
 
   afterEach(() => {
     mockQueryParams = new Subject<Params>();
@@ -83,9 +84,138 @@ describe('SearchAiResultsComponent', () => {
     modalAiService = TestBed.inject(ModalAiService);
     searchAiService = TestBed.inject(SearchAiService);
     userPreferencesService = TestBed.inject(UserPreferencesService);
-    spyOn(searchAiService, 'ask').and.returnValue(of(questionMock));
+    askSpy = spyOn(searchAiService, 'ask').and.returnValue(of(questionMock));
     component = fixture.componentInstance;
     component.ngOnInit();
+  });
+
+  describe('edit query input', () => {
+    let textArea: HTMLTextAreaElement;
+    let toggleTriggerContainer: HTMLElement;
+
+    beforeEach(() => {
+      spyOn(userPreferencesService, 'get').and.returnValue(knowledgeRetrievalNodes);
+      mockQueryParams.next({ query: 'test', agentId: 'agentId1' });
+      fixture.detectChanges();
+      toggleTriggerContainer = fixture.debugElement.query(By.css('[data-automation-id="toggle-edit-trigger-container"]')).nativeElement;
+    });
+
+    const getToggleEditInputButton = (): HTMLButtonElement | undefined => {
+      return fixture.debugElement.query(By.css('[data-automation-id="toggle-edit-input-button"]'))?.nativeElement;
+    };
+
+    const getToggleEditInputTextArea = (): HTMLTextAreaElement | undefined => {
+      return fixture.debugElement.query(By.css('[data-automation-id="toggle-edit-input-textarea"]'))?.nativeElement;
+    };
+
+    const getCancelEditInputButton = (): HTMLButtonElement => {
+      return fixture.debugElement.query(By.css('[data-automation-id="cancel-input-button"]'))?.nativeElement;
+    };
+
+    const getUpdateInputButton = (): HTMLButtonElement => {
+      return fixture.debugElement.query(By.css('[data-automation-id="update-input-button"]'))?.nativeElement;
+    };
+
+    const insertTextIntoTextArea = (text = 'new query') => {
+      toggleTriggerContainer.dispatchEvent(new MouseEvent('mouseenter'));
+      fixture.detectChanges();
+      getToggleEditInputButton().dispatchEvent(new MouseEvent('click'));
+      fixture.detectChanges();
+      textArea = getToggleEditInputTextArea();
+      textArea.value = text;
+      textArea.dispatchEvent(new Event('input'));
+      fixture.detectChanges();
+    };
+
+    const inputAreaUnchangedTest = () => {
+      expect(getToggleEditInputTextArea()).toBeUndefined();
+      expect(component.editing).toBeFalse();
+      expect(component.searchQuery).toBe('test');
+    };
+
+    it('should show toggle edit input button on mouseenter', () => {
+      toggleTriggerContainer.dispatchEvent(new MouseEvent('mouseenter'));
+      fixture.detectChanges();
+
+      expect(getToggleEditInputButton()).toBeTruthy();
+    });
+
+    it('should hide toggle edit input button on mouseleave', () => {
+      toggleTriggerContainer.dispatchEvent(new MouseEvent('mouseenter'));
+      fixture.detectChanges();
+      toggleTriggerContainer.dispatchEvent(new MouseEvent('mouseleave'));
+      fixture.detectChanges();
+
+      expect(getToggleEditInputButton()).toBeFalsy();
+    });
+
+    it('should search for a new results after typing new query and clicking update button', () => {
+      insertTextIntoTextArea();
+
+      getUpdateInputButton().dispatchEvent(new MouseEvent('click'));
+      fixture.detectChanges();
+
+      expect(getToggleEditInputTextArea()).toBeUndefined();
+      expect(component.editing).toBeFalse();
+      expect(component.searchQuery).toBe('new query');
+      expect(askSpy).toHaveBeenCalledWith({ question: 'new query', nodeIds: ['someId'], agentId: 'agentId1' });
+    });
+
+    it('should not search for a new results after typing new query and clicking update button if the query is the same', () => {
+      insertTextIntoTextArea('test');
+
+      getUpdateInputButton().dispatchEvent(new MouseEvent('click'));
+      fixture.detectChanges();
+
+      inputAreaUnchangedTest();
+      expect(askSpy).not.toHaveBeenCalledWith({ question: 'new query', nodeIds: ['someId'], agentId: 'agentId1' });
+    });
+
+    it('should reset query to initial after clicking update button if the query is empty string', () => {
+      insertTextIntoTextArea('');
+
+      getUpdateInputButton().dispatchEvent(new MouseEvent('click'));
+      fixture.detectChanges();
+
+      inputAreaUnchangedTest();
+      expect(askSpy).not.toHaveBeenCalledWith({ question: 'new query', nodeIds: ['someId'], agentId: 'agentId1' });
+    });
+
+    it('should search for a new results after typing new query and pressing enter', () => {
+      insertTextIntoTextArea();
+
+      textArea.dispatchEvent(new KeyboardEvent('keyup', { key: 'Enter' }));
+      fixture.detectChanges();
+
+      expect(askSpy).toHaveBeenCalledWith({ question: 'new query', nodeIds: ['someId'], agentId: 'agentId1' });
+    });
+
+    it('should reset query and hide text area after clicking cancel button', () => {
+      insertTextIntoTextArea();
+
+      getCancelEditInputButton().dispatchEvent(new MouseEvent('click'));
+      fixture.detectChanges();
+
+      inputAreaUnchangedTest();
+      expect(askSpy).not.toHaveBeenCalledWith({ question: 'new query', nodeIds: ['someId'], agentId: 'agentId1' });
+    });
+
+    it('should toggle the edit input button disabled state', () => {
+      toggleTriggerContainer.dispatchEvent(new MouseEvent('mouseenter'));
+      fixture.detectChanges();
+      const toggleEditButton = getToggleEditInputButton();
+      expect(toggleEditButton.disabled).toBeFalse();
+
+      toggleEditButton.dispatchEvent(new MouseEvent('click'));
+      fixture.detectChanges();
+
+      expect(getToggleEditInputButton().disabled).toBeTrue();
+
+      getCancelEditInputButton().dispatchEvent(new MouseEvent('click'));
+      fixture.detectChanges();
+
+      expect(getToggleEditInputButton()).toBeUndefined();
+    });
   });
 
   describe('query params change', () => {

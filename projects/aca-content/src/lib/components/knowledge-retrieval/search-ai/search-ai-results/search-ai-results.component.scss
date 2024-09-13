@@ -10,21 +10,92 @@
       width: 100%;
       background-color: white;
       border-top: 1px solid var(--theme-grey-background-color);
-      padding-top: 28px;
+      padding-top: 16px;
 
       .aca-search-ai-results-container {
         display: flex;
         flex-direction: column;
+        align-items: center;
         height: 100%;
         overflow-y: auto;
-        padding-right: 24%;
-        padding-left: 24%;
-        min-width: 51%;
+        min-width: 100%;
 
-        &-query {
-          border-radius: 12px;
-          padding: 20px 15px 19px;
-          background: var(--theme-card-background-grey-color);
+        &-wrapper {
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          padding: 8px 0;
+          position: relative;
+
+          &-form-field {
+            width: 52%;
+            border-radius: 12px;
+            padding: 20px 15px 50px;
+            background: var(--theme-card-background-grey-color);
+
+            div {
+              padding: 0;
+              border: 0 solid transparent;
+            }
+
+            .aca-search-ai-results-container-wrapper-form-field-input {
+              padding: 0;
+              resize: none;
+              height: 48px;
+              margin-bottom: 4px;
+              font-weight: 400;
+            }
+
+            &-cancel-button,
+            &-update-button {
+              position: absolute;
+              bottom: -40px;
+              right: 90px;
+              background: transparent;
+              padding-left: 0;
+              padding-right: 0;
+              height: 32px;
+              border-radius: 6px;
+              width: 78px;
+            }
+
+            &-update-button {
+              right: 0;
+            }
+          }
+
+          &-edit-button-disabled,
+          &-edit-button {
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            min-width: 30px;
+            min-height: 30px;
+            border-radius: 4px;
+            top: 5px;
+            right: -38px;
+
+            &-icon {
+              margin: 0;
+              width: 20px;
+              height: 20px;
+              font-size: 20px;
+            }
+          }
+
+          &-edit-button-disabled {
+            top: -15px;
+            right: -53px;
+          }
+
+          &-query {
+            position: relative;
+            width: 52%;
+            border-radius: 12px;
+            padding: 20px 15px 19px;
+            background: var(--theme-card-background-grey-color);
+          }
         }
       }
 
@@ -34,7 +105,9 @@
         flex-direction: column;
         border: 1px solid var(--adf-card-view-border-color);
         border-radius: 12px;
-        margin: 16px 0 75px;
+        margin: 4px 0 75px;
+        width: 51%;
+        justify-content: center;
 
         &-references-container-header {
           padding-left: 8px;

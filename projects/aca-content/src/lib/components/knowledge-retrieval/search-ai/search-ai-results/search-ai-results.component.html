@@ -10,10 +10,55 @@
     class="aca-page-layout-content"
     *ngIf="!hasError">
     <div class="aca-search-ai-results-container">
-      <div
-        class="aca-search-ai-results-container-query"
-        data-automation-id="aca-search-ai-results-query">
-        {{ searchQuery }}
+      <div class="aca-search-ai-results-container-wrapper"
+           *ngIf="!editing"
+           #toggleIcon="toggleIcon"
+           data-automation-id="toggle-edit-trigger-container"
+           adf-toggle-icon>
+        <div
+          class="aca-search-ai-results-container-wrapper-query"
+          data-automation-id="aca-search-ai-results-wrapper-query">
+          {{ searchQuery }}
+          <ng-container
+            *ngTemplateOutlet="editButtonTemplate;context:{toggleIcon, disabled: false}">
+          </ng-container>
+        </div>
+      </div>
+      <div class="aca-search-ai-results-container-wrapper"
+           *ngIf="editing">
+        <mat-form-field subscriptSizing="dynamic"
+                        class="aca-search-ai-results-container-wrapper-form-field"
+                        appearance="outline">
+          <textarea
+            matInput
+            class="aca-search-ai-results-container-wrapper-form-field-input"
+            data-automation-id="toggle-edit-input-textarea"
+            [attr.aria-label]="'SEARCH.INPUT.ARIA-LABEL' | translate"
+            [(ngModel)]="searchQuery"
+            (keyup.enter)="updateInput()"
+            [placeholder]="'SEARCH.INPUT.PLACEHOLDER' | translate"
+            autocomplete="off"
+          ></textarea>
+          <ng-container
+            *ngTemplateOutlet="editButtonTemplate;context:{toggleIcon: {}, disabled: true}">
+          </ng-container>
+          <button
+            (click)="cancelUpdateInput()"
+            mat-flat-button
+            [attr.aria-label]="'CORE.METADATA.ACCESSIBILITY.EDIT' | translate"
+            data-automation-id="cancel-input-button"
+            class="aca-search-ai-results-container-wrapper-form-field-cancel-button">
+            {{ 'KNOWLEDGE_RETRIEVAL.SEARCH.RESULTS_PAGE.CANCEL' | translate }}
+          </button>
+          <button
+            (click)="updateInput()"
+            mat-flat-button
+            [attr.aria-label]="'CORE.METADATA.ACCESSIBILITY.EDIT' | translate"
+            data-automation-id="update-input-button"
+            class="aca-search-ai-results-container-wrapper-form-field-update-button">
+            {{ 'KNOWLEDGE_RETRIEVAL.SEARCH.RESULTS_PAGE.UPDATE' | translate }}
+          </button>
+        </mat-form-field>
       </div>
       <div
         class="aca-search-ai-response-container"
@@ -110,4 +155,20 @@
   <div class="adf-skeleton"></div>
   <div class="adf-skeleton"></div>
   <div class="adf-skeleton adf-skeleton-half"></div>
+</ng-template>
+
+<ng-template #editButtonTemplate let-toggleIcon="toggleIcon" let-disabled="disabled">
+  <button
+    *ngIf="(toggleIcon?.isToggled && !disabled) || (!toggleIcon?.isToggled && disabled)"
+    (click)="setEditing(true)"
+    [disabled]="disabled"
+    mat-flat-button
+    [attr.aria-label]="'CORE.METADATA.ACCESSIBILITY.EDIT' | translate"
+    data-automation-id="toggle-edit-input-button"
+    class="aca-search-ai-results-container-wrapper-edit-button"
+    [class.aca-search-ai-results-container-wrapper-edit-button-disabled]="disabled">
+    <mat-icon class="aca-search-ai-results-container-wrapper-edit-button-disabled-icon">
+      mode_edit
+    </mat-icon>
+  </button>
 </ng-template>

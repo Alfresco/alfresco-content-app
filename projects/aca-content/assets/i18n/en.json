@@ -619,7 +619,9 @@
           "COPY_BUTTON_LABEL": "Copy",
           "LIKE_BUTTON_LABEL": "Like",
           "DISLIKE_BUTTON_LABEL": "Dislike",
-          "COPY_MESSAGE": "Copied response to clipboard"
+          "COPY_MESSAGE": "Copied response to clipboard",
+          "CANCEL": "Cancel",
+          "UPDATE": "Update"
         },
         "AGENTS_BUTTON": {
           "LABEL": "Ask Discovery",

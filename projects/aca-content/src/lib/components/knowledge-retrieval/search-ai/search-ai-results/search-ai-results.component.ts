@@ -29,6 +29,7 @@ import { concatMap, delay, finalize, retryWhen, skipWhile, switchMap, takeUntil 
 import {
   AvatarComponent,
   ClipboardService,
+  CoreModule,
   EmptyContentComponent,
   ThumbnailService,
   ToolbarModule,
@@ -39,8 +40,8 @@ import { AiAnswer, Node } from '@alfresco/js-api';
 import { CommonModule } from '@angular/common';
 import { SearchAiInputContainerComponent } from '../search-ai-input-container/search-ai-input-container.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { NodesApiService } from '@alfresco/adf-content-services';
-import { forkJoin, Observable, of, throwError } from 'rxjs';
+import { NodesApiService, ToggleIconDirective } from '@alfresco/adf-content-services';
+import { forkJoin, Observable, of, Subscription, throwError } from 'rxjs';
 import { SelectionState } from '@alfresco/adf-extensions';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -48,6 +49,9 @@ import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ModalAiService } from '../../../../services/modal-ai.service';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   standalone: true,
@@ -65,7 +69,12 @@ import { ModalAiService } from '../../../../services/modal-ai.service';
     EmptyContentComponent,
     MatCardModule,
     AvatarComponent,
-    MatTooltipModule
+    MatTooltipModule,
+    ToggleIconDirective,
+    CoreModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule
   ],
   selector: 'aca-search-ai-results',
   templateUrl: './search-ai-results.component.html',
@@ -81,8 +90,12 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
   private _mimeTypeIconsByNodeId: { [key: string]: string } = {};
   private _nodes: Node[] = [];
   private _selectedNodesState: SelectionState;
-  private _searchQuery = '';
+  private _initSearchQuery = '';
   private _queryAnswer: AiAnswer;
+  private _editing = false;
+  private _searchAiSubscription: Subscription;
+
+  searchQuery = '';
 
   get agentId(): string {
     return this._agentId;
@@ -112,8 +125,8 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
     return this._queryAnswer;
   }
 
-  get searchQuery(): string {
-    return this._searchQuery;
+  get editing(): boolean {
+    return this._editing;
   }
 
   constructor(
@@ -132,7 +145,7 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
   ngOnInit(): void {
     this.route.queryParams.pipe(takeUntil(this.onDestroy$)).subscribe((params) => {
       this._agentId = params.agentId;
-      this._searchQuery = params.query ? decodeURIComponent(params.query) : '';
+      this.searchQuery = params.query ? decodeURIComponent(params.query) : '';
       if (!this.searchQuery || !this.agentId) {
         this._hasError = true;
         return;
@@ -155,6 +168,28 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
     this.onDestroy$.complete();
   }
 
+  setEditing(editing: boolean) {
+    this._initSearchQuery = this.searchQuery;
+    this._editing = editing;
+  }
+
+  updateInput() {
+    if (this.searchQuery !== this._initSearchQuery && this.searchQuery.length > 0) {
+      this.performAiSearch();
+    }
+
+    if (this.searchQuery.length < 1) {
+      this.cancelUpdateInput();
+    } else {
+      this.setEditing(false);
+    }
+  }
+
+  cancelUpdateInput() {
+    this.searchQuery = this._initSearchQuery;
+    this.setEditing(false);
+  }
+
   copyResponseToClipboard(): void {
     this.clipboardService.copyContentToClipboard(
       this.queryAnswer.answer,
@@ -167,9 +202,13 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
   }
 
   performAiSearch(): void {
+    if (this._searchAiSubscription) {
+      this._searchAiSubscription.unsubscribe();
+    }
+
     this._loading = true;
 
-    this.searchAiService
+    this._searchAiSubscription = this.searchAiService
       .ask({
         question: this.searchQuery,
         nodeIds: this._selectedNodesState?.nodes?.length ? this._selectedNodesState.nodes.map((node) => node.entry.id) : [],
