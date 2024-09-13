@@ -143,6 +143,12 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(
         (agents) => {
+          // TODO remove mocked avatar images after backend is done (https://hyland.atlassian.net/browse/ACS-8769)
+          const images = ['assets/images/avatars/Blue.png', 'assets/images/avatars/Gold.png', 'assets/images/avatars/Pink.png'];
+          agents = agents.map((agent, index) => {
+            return { ...agent, avatarUrl: images[index > 2 ? 2 : index] };
+          });
+
           this._agents = agents;
           this.agentControl.setValue(agents.find((agent) => agent.id === this.agentId));
           this._initialsByAgentId = this.agents.reduce((initials, agent) => {
