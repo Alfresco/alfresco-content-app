@@ -51,7 +51,8 @@ import {
   ManageRulesAction,
   ShowLoaderAction,
   SetInfoDrawerStateAction,
-  NavigateUrlAction
+  NavigateUrlAction,
+  FolderInformationAction
 } from '@alfresco/aca-shared/store';
 import { ContentManagementService } from '../../services/content-management.service';
 import { RenditionService } from '@alfresco/adf-content-services';
@@ -447,6 +448,28 @@ export class NodeEffects {
               .subscribe((selection) => {
                 if (selection && !selection.isEmpty) {
                   this.store.dispatch(new NavigateRouteAction(['nodes', selection.first.entry.id, 'rules']));
+                }
+              });
+          }
+        })
+      ),
+    { dispatch: false }
+  );
+
+  folderInformation$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType<FolderInformationAction>(NodeActionTypes.FolderInformation),
+        map((action) => {
+          if (action?.payload) {
+            this.contentService.showFolderInformation(action.payload);
+          } else {
+            this.store
+              .select(getAppSelection)
+              .pipe(take(1))
+              .subscribe((selection) => {
+                if (selection && !selection.isEmpty && selection.folder.entry) {
+                  this.contentService.showFolderInformation(selection.folder);
                 }
               });
           }

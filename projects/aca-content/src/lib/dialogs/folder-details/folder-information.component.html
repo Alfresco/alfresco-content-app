@@ -1,0 +1,38 @@
+<div class="aca-folder-info-container">
+  <div class="aca-folder-info-header">
+    <div class="aca-folder-icon">
+      <img alt="{{ 'APP.FOLDER_INFO.ICON' | translate }}" src="{{ icon }}">
+    </div>
+    <div class="aca-folder-title">
+      {{ name }}
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <div class="aca-folder-info-body">
+    <div class="aca-folder-info-item">
+      <div class="aca-folder-info-item-label">{{ 'APP.FOLDER_INFO.SIZE' | translate }}</div>
+      <div class="aca-folder-info-item-value">{{ size }}</div>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="aca-folder-info-item">
+      <div class="aca-folder-info-item-label">{{ 'APP.FOLDER_INFO.LOCATION' | translate }}</div>
+      <div class="aca-folder-info-item-value">{{ location }}</div>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="aca-folder-info-item">
+      <div class="aca-folder-info-item-label">{{ 'APP.FOLDER_INFO.CREATED' | translate }}</div>
+      <div class="aca-folder-info-item-value"
+           [title]="created | adfLocalizedDate">
+        {{ created | adfTimeAgo }}
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="aca-folder-info-item">
+      <div class="aca-folder-info-item-label">{{ 'APP.FOLDER_INFO.MODIFIED' | translate }}</div>
+      <div class="aca-folder-info-item-value"
+           [title]="modified | adfLocalizedDate">
+        {{ modified | adfTimeAgo }}
+      </div>
+    </div>
+  </div>
+</div>
