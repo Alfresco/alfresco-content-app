@@ -299,7 +299,8 @@
             "EDIT_OFFLINE": "Edit Offline",
             "EDIT_OFFLINE_CANCEL": "Cancel Editing",
             "CHANGE_ASPECT": "Edit Aspects",
-            "ADD_ASPECTS": "Add Aspects"
+            "ADD_ASPECTS": "Add Aspects",
+            "FOLDER_INFO": "Folder Information"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -451,7 +452,17 @@
             "OPTIONS_SETTINGS": "Options and settings",
             "MY_PROFILE": "My profile",
             "EXPAND_NAVIGATION": "Expand navigation menu"
-          }
+          },
+        "FOLDER_INFO": {
+          "ICON": "Folder Icon",
+          "TITLE": "Folder Information",
+          "SIZE" : "Size",
+          "CALCULATING": "Calculating...",
+          "LOCATION": "Location",
+          "CREATED": "Created",
+          "MODIFIED": "Modified",
+          "DONE": "Done"
+        }
     },
     "NODE_SELECTOR": {
         "COPY_ITEM": "Copy '{{ name }}' to...",

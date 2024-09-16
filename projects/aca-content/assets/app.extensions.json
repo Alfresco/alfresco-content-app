@@ -878,6 +878,18 @@
         }
       },
       {
+        "id": "app.context.menu.folder-info",
+        "title": "APP.ACTIONS.FOLDER_INFO",
+        "order": 1200,
+        "icon": "info",
+        "actions": {
+          "click": "FOLDER_INFORMATION"
+        },
+        "rules": {
+          "visible": "app.selection.folder"
+        }
+      },
+      {
         "id": "app.create.separator.3",
         "type": "separator",
         "order": 1300
