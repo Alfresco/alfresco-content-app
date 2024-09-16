@@ -4,7 +4,7 @@
     placeholder="KNOWLEDGE_RETRIEVAL.SEARCH.RESULTS_PAGE.QUERY_INPUT_PLACEHOLDER"
     [agentId]="agentId"
     [useStoredNodes]="true"
-    *ngIf="!hasError">
+    *ngIf="!hasError && agentId">
   </aca-search-ai-input-container>
   <div
     class="aca-page-layout-content"
@@ -67,7 +67,10 @@
                   <div
                     class="aca-search-ai-response-container-body-references-container-documents-document"
                     *ngFor="let node of nodes"
-                    [attr.data-automation-id]="'aca-search-ai-results-' + node.id + '-document'">
+                    [attr.data-automation-id]="'aca-search-ai-results-' + node.id + '-document'"
+                    (click)="openFile(node.id)"
+                    (keyup.enter)="openFile(node.id)"
+                    tabindex="0">
                     <mat-icon
                       mat-list-icon
                       class="aca-search-ai-response-container-body-references-container-documents-document-icon">

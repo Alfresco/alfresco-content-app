@@ -510,12 +510,48 @@ export const CONTENT_LAYOUT_ROUTES: Route = {
     },
     {
       path: 'knowledge-retrieval',
-      component: SearchAiResultsComponent,
       canDeactivate: [UnsavedChangesGuard],
       canActivate: [PluginEnabledGuard],
       data: {
         plugin: 'plugins.knowledgeRetrievalEnabled'
-      }
+      },
+      children: [
+        {
+          path: '',
+          component: SearchAiResultsComponent,
+          data: {
+            sortingPreferenceKey: 'personal-files',
+            title: 'APP.BROWSE.PERSONAL.TITLE',
+            defaultNodeId: '-my-'
+          }
+        },
+        {
+          path: 'view/:nodeId/:versionId',
+          outlet: 'viewer',
+          children: [
+            {
+              path: '',
+              data: {
+                navigateSource: 'knowledge-retrieval'
+              },
+              loadChildren: () => import('@alfresco/aca-content/viewer').then((m) => m.AcaViewerModule)
+            }
+          ]
+        },
+        {
+          path: 'view/:nodeId',
+          outlet: 'viewer',
+          children: [
+            {
+              path: '',
+              data: {
+                navigateSource: 'knowledge-retrieval'
+              },
+              loadChildren: () => import('@alfresco/aca-content/viewer').then((m) => m.AcaViewerModule)
+            }
+          ]
+        }
+      ]
     },
     {
       path: '**',

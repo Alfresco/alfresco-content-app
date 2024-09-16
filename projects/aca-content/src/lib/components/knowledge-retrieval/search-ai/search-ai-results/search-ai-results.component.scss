@@ -165,6 +165,13 @@
                   width: 100%;
                   justify-content: center;
                 }
+
+                &:hover {
+                  text-decoration: underline;
+                  text-decoration-color: var(--theme-primary-color);
+                  color: var(--theme-primary-color);
+                  cursor: pointer;
+                }
               }
             }
           }

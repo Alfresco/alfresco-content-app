@@ -36,6 +36,12 @@ interface AdjacentFiles {
   providedIn: 'root'
 })
 export class ViewerService {
+  private _customNodesOrder: string[] = [];
+
+  set customNodesOrder(customNodesOrder: string[]) {
+    this._customNodesOrder = customNodesOrder;
+  }
+
   constructor(private preferences: UserPreferencesService, private contentApi: ContentApiService) {}
 
   recentFileFilters = [
@@ -165,14 +171,18 @@ export class ViewerService {
       nodes = await this.contentApi.search(query).toPromise();
     }
 
-    entries = nodes.list.entries.map((obj) => obj.entry.target?.file ?? obj.entry);
-    if (isClient) {
-      if (previousSortKey) {
-        this.sort(entries, previousSortKey, previousSortDir);
+    if (nodes) {
+      entries = nodes.list.entries.map((obj) => obj.entry.target?.file ?? obj.entry);
+      if (isClient) {
+        if (previousSortKey) {
+          this.sort(entries, previousSortKey, previousSortDir);
+        }
+        this.sort(entries, sortKey, sortDirection);
       }
-      this.sort(entries, sortKey, sortDirection);
+      return entries.map((entry) => entry.id ?? entry.nodeId);
+    } else {
+      return this._customNodesOrder;
     }
-    return entries.map((entry) => entry.id ?? entry.nodeId);
   }
 
   /**
