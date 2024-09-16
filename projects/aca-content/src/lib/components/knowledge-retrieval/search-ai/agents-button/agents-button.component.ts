@@ -99,6 +99,13 @@ export class AgentsButtonComponent implements OnInit, OnDestroy {
       (result) => {
         this._hxInsightUrl = result.config.entry.knowledgeRetrievalUrl;
         this._agents = result.agents;
+
+        // TODO remove mocked avatar images after backend is done (https://hyland.atlassian.net/browse/ACS-8769)
+        const images = ['assets/images/avatars/Blue.png', 'assets/images/avatars/Gold.png', 'assets/images/avatars/Pink.png'];
+        this._agents = this.agents.map((agent, index) => {
+          return { ...agent, avatarUrl: images[index > 2 ? 2 : index] };
+        });
+
         this.cd.detectChanges();
 
         if (this.agents.length) {
