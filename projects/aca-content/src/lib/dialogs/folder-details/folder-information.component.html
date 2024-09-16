@@ -3,36 +3,34 @@
     <div class="aca-folder-icon">
       <img alt="{{ 'APP.FOLDER_INFO.ICON' | translate }}" src="{{ icon }}">
     </div>
-    <div class="aca-folder-title">
-      {{ name }}
-    </div>
+    <div class="aca-folder-title" data-automation-id="folder-info-name">{{ name }}</div>
   </div>
   <mat-divider></mat-divider>
   <div class="aca-folder-info-body">
     <div class="aca-folder-info-item">
       <div class="aca-folder-info-item-label">{{ 'APP.FOLDER_INFO.SIZE' | translate }}</div>
-      <div class="aca-folder-info-item-value">{{ size }}</div>
+      <div class="aca-folder-info-item-value"
+           data-automation-id="folder-info-size">{{ size }}</div>
     </div>
     <mat-divider></mat-divider>
     <div class="aca-folder-info-item">
       <div class="aca-folder-info-item-label">{{ 'APP.FOLDER_INFO.LOCATION' | translate }}</div>
-      <div class="aca-folder-info-item-value">{{ location }}</div>
+      <div class="aca-folder-info-item-value"
+           data-automation-id="folder-info-location">{{ location }}</div>
     </div>
     <mat-divider></mat-divider>
     <div class="aca-folder-info-item">
       <div class="aca-folder-info-item-label">{{ 'APP.FOLDER_INFO.CREATED' | translate }}</div>
       <div class="aca-folder-info-item-value"
-           [title]="created | adfLocalizedDate">
-        {{ created | adfTimeAgo }}
-      </div>
+           data-automation-id="folder-info-creation-date"
+           [title]="created | adfLocalizedDate">{{ created | adfTimeAgo }}</div>
     </div>
     <mat-divider></mat-divider>
     <div class="aca-folder-info-item">
       <div class="aca-folder-info-item-label">{{ 'APP.FOLDER_INFO.MODIFIED' | translate }}</div>
       <div class="aca-folder-info-item-value"
-           [title]="modified | adfLocalizedDate">
-        {{ modified | adfTimeAgo }}
-      </div>
+           data-automation-id="folder-info-modify-date"
+           [title]="modified | adfLocalizedDate">{{ modified | adfTimeAgo }}</div>
     </div>
   </div>
 </div>
