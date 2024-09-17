@@ -105,16 +105,16 @@ export class SearchInputComponent implements OnInit, OnDestroy {
   @ViewChild(MatMenuTrigger, { static: true })
   trigger: MatMenuTrigger;
 
-  constructor(
-    private queryBuilder: SearchQueryBuilderService,
-    private queryLibrariesBuilder: SearchLibrariesQueryBuilderService,
-    private config: AppConfigService,
-    private router: Router,
-    private store: Store<AppStore>,
-    private appHookService: AppHookService,
-    private appService: AppService,
-    public searchInputService: SearchNavigationService
-  ) {
+  private queryBuilder = inject(SearchQueryBuilderService);
+  private queryLibrariesBuilder = inject(SearchLibrariesQueryBuilderService);
+  private config = inject(AppConfigService);
+  private router = inject(Router);
+  private store = inject(Store<AppStore>);
+  private appHookService = inject(AppHookService);
+  private appService = inject(AppService);
+  public searchInputService = inject(SearchNavigationService);
+
+  constructor() {
     this.searchOnChange = this.config.get<boolean>('search.aca:triggeredOnChange', true);
   }
 
@@ -240,7 +240,7 @@ export class SearchInputComponent implements OnInit, OnDestroy {
   }
 
   get onLibrariesSearchResults() {
-    return this.router.url.indexOf('/search-libraries') === 0;
+    return this.router?.url.indexOf('/search-libraries') === 0;
   }
 
   get onSearchResults() {
