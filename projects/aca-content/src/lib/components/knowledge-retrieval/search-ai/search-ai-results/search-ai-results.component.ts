@@ -22,14 +22,13 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PageComponent, PageLayoutComponent, ToolbarActionComponent, ToolbarComponent } from '@alfresco/aca-shared';
 import { concatMap, delay, finalize, retryWhen, skipWhile, switchMap, takeUntil } from 'rxjs/operators';
 import {
   AvatarComponent,
   ClipboardService,
-  CoreModule,
   EmptyContentComponent,
   ThumbnailService,
   ToolbarModule,
@@ -52,6 +51,7 @@ import { ModalAiService } from '../../../../services/modal-ai.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
+import { AiSearchByTermPayload, SearchByTermAiAction } from '@alfresco/aca-shared/store';
 
 @Component({
   standalone: true,
@@ -71,7 +71,6 @@ import { FormsModule } from '@angular/forms';
     AvatarComponent,
     MatTooltipModule,
     ToggleIconDirective,
-    CoreModule,
     MatFormFieldModule,
     MatInputModule,
     FormsModule
@@ -96,6 +95,9 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
   private _searchAiSubscription: Subscription;
 
   searchQuery = '';
+
+  @ViewChild('editTextArea')
+  editTextArea: ElementRef;
 
   get agentId(): string {
     return this._agentId;
@@ -137,7 +139,8 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
     private userPreferencesService: UserPreferencesService,
     private translateService: TranslateService,
     private unsavedChangesGuard: UnsavedChangesGuard,
-    private modalAiService: ModalAiService
+    private modalAiService: ModalAiService,
+    private cdr: ChangeDetectorRef
   ) {
     super();
   }
@@ -171,10 +174,19 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
   setEditing(editing: boolean) {
     this._initSearchQuery = this.searchQuery;
     this._editing = editing;
+    this.cdr.detectChanges();
+    if (this.editTextArea) {
+      this.editTextArea.nativeElement.focus();
+    }
   }
 
   updateInput() {
     if (this.searchQuery !== this._initSearchQuery && this.searchQuery.length > 0) {
+      const payload: AiSearchByTermPayload = {
+        searchTerm: this.searchQuery,
+        agentId: this._agentId
+      };
+      this.store.dispatch(new SearchByTermAiAction(payload));
       this.performAiSearch();
     }
 

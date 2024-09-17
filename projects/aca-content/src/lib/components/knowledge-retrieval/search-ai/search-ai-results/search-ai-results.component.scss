@@ -31,7 +31,8 @@
             width: 52%;
             border-radius: 12px;
             padding: 20px 15px 50px;
-            background: var(--theme-card-background-grey-color);
+            background: var(--theme-form-field-background-grey-color);
+            border: 1px var(--theme-light-grey-3-color) solid;
 
             div {
               padding: 0;
@@ -85,8 +86,9 @@
           }
 
           &-edit-button-disabled {
-            top: -15px;
+            top: -16px;
             right: -53px;
+            background: transparent;
           }
 
           &-query {

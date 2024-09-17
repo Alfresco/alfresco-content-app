@@ -33,9 +33,11 @@
             matInput
             class="aca-search-ai-results-container-wrapper-form-field-input"
             data-automation-id="toggle-edit-input-textarea"
-            [attr.aria-label]="'SEARCH.INPUT.ARIA-LABEL' | translate"
+            #editTextArea
+            [attr.aria-label]="'KNOWLEDGE_RETRIEVAL.SEARCH.RESULTS_PAGE.ACCESSIBILITY.TEXT_AREA' | translate"
             [(ngModel)]="searchQuery"
             (keyup.enter)="updateInput()"
+            (keyup.escape)="cancelUpdateInput()"
             [placeholder]="'SEARCH.INPUT.PLACEHOLDER' | translate"
             autocomplete="off"
           ></textarea>
@@ -45,7 +47,7 @@
           <button
             (click)="cancelUpdateInput()"
             mat-flat-button
-            [attr.aria-label]="'CORE.METADATA.ACCESSIBILITY.EDIT' | translate"
+            [attr.aria-label]="'KNOWLEDGE_RETRIEVAL.SEARCH.RESULTS_PAGE.ACCESSIBILITY.CANCEL_BUTTON' | translate"
             data-automation-id="cancel-input-button"
             class="aca-search-ai-results-container-wrapper-form-field-cancel-button">
             {{ 'KNOWLEDGE_RETRIEVAL.SEARCH.RESULTS_PAGE.CANCEL' | translate }}
@@ -53,7 +55,7 @@
           <button
             (click)="updateInput()"
             mat-flat-button
-            [attr.aria-label]="'CORE.METADATA.ACCESSIBILITY.EDIT' | translate"
+            [attr.aria-label]="'KNOWLEDGE_RETRIEVAL.SEARCH.RESULTS_PAGE.ACCESSIBILITY.UPDATE_BUTTON' | translate"
             data-automation-id="update-input-button"
             class="aca-search-ai-results-container-wrapper-form-field-update-button">
             {{ 'KNOWLEDGE_RETRIEVAL.SEARCH.RESULTS_PAGE.UPDATE' | translate }}
@@ -163,7 +165,7 @@
     (click)="setEditing(true)"
     [disabled]="disabled"
     mat-flat-button
-    [attr.aria-label]="'CORE.METADATA.ACCESSIBILITY.EDIT' | translate"
+    [attr.aria-label]="'KNOWLEDGE_RETRIEVAL.SEARCH.RESULTS_PAGE.ACCESSIBILITY.EDIT_BUTTON' | translate"
     data-automation-id="toggle-edit-input-button"
     class="aca-search-ai-results-container-wrapper-edit-button"
     [class.aca-search-ai-results-container-wrapper-edit-button-disabled]="disabled">

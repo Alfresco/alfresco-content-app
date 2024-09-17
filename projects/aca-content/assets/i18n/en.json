@@ -621,7 +621,13 @@
           "DISLIKE_BUTTON_LABEL": "Dislike",
           "COPY_MESSAGE": "Copied response to clipboard",
           "CANCEL": "Cancel",
-          "UPDATE": "Update"
+          "UPDATE": "Update",
+          "ACCESSIBILITY": {
+            "CANCEL_BUTTON": "Cancel editing of the query button",
+            "UPDATE_BUTTON": "Update query button",
+            "EDIT_BUTTON": "Edit query button",
+            "TEXT_AREA": "Update query text area"
+          }
         },
         "AGENTS_BUTTON": {
           "LABEL": "Ask Discovery",

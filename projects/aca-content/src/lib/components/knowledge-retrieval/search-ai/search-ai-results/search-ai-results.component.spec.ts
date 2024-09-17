@@ -24,18 +24,20 @@
 
 import { TestBed, ComponentFixture, tick, fakeAsync } from '@angular/core/testing';
 import { SearchAiResultsComponent } from './search-ai-results.component';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { of, Subject, throwError } from 'rxjs';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { UserPreferencesService } from '@alfresco/adf-core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AppTestingModule } from '../../../../testing/app-testing.module';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
-import { NodesApiService, SearchAiService } from '@alfresco/adf-content-services';
+import { AgentService, NodesApiService, SearchAiService } from '@alfresco/adf-content-services';
 import { By } from '@angular/platform-browser';
 import { ModalAiService } from '../../../../services/modal-ai.service';
 import { delay } from 'rxjs/operators';
 import { AiAnswer, AiAnswerEntry, QuestionModel, QuestionRequest } from '@alfresco/js-api/typings';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { getAppSelection, getCurrentFolder, SearchByTermAiAction } from '@alfresco/aca-shared/store';
 
 const questionMock: QuestionModel = { question: 'test', questionId: 'testId', restrictionQuery: { nodesIds: [] } };
 const aiAnswerMock: AiAnswer = { answer: 'Some answer', questionId: 'some id', references: [] };
@@ -52,6 +54,7 @@ describe('SearchAiResultsComponent', () => {
   let modalAiService: ModalAiService;
   let searchAiService: SearchAiService;
   let askSpy: jasmine.Spy<(questionRequest: QuestionRequest) => void>;
+  let store: MockStore;
 
   afterEach(() => {
     mockQueryParams = new Subject<Params>();
@@ -62,6 +65,7 @@ describe('SearchAiResultsComponent', () => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule, SearchAiResultsComponent, MatSnackBarModule, MatDialogModule, MatIconTestingModule],
       providers: [
+        provideMockStore(),
         {
           provide: NodesApiService,
           useValue: {
@@ -84,6 +88,28 @@ describe('SearchAiResultsComponent', () => {
     modalAiService = TestBed.inject(ModalAiService);
     searchAiService = TestBed.inject(SearchAiService);
     userPreferencesService = TestBed.inject(UserPreferencesService);
+    spyOn(TestBed.inject(AgentService), 'getAgents').and.returnValue(of([]));
+    TestBed.inject(Router);
+    store = TestBed.inject(MockStore);
+
+    store.overrideSelector(getCurrentFolder, {
+      isFolder: true,
+      id: 'folder1',
+      name: '',
+      nodeType: '',
+      isFile: false,
+      modifiedAt: undefined,
+      modifiedByUser: undefined,
+      createdAt: undefined,
+      createdByUser: undefined
+    });
+    store.overrideSelector(getAppSelection, {
+      nodes: [],
+      isEmpty: true,
+      count: 0,
+      libraries: []
+    });
+
     askSpy = spyOn(searchAiService, 'ask').and.returnValue(of(questionMock));
     component = fixture.componentInstance;
     component.ngOnInit();
@@ -92,13 +118,6 @@ describe('SearchAiResultsComponent', () => {
   describe('edit query input', () => {
     let textArea: HTMLTextAreaElement;
     let toggleTriggerContainer: HTMLElement;
-
-    beforeEach(() => {
-      spyOn(userPreferencesService, 'get').and.returnValue(knowledgeRetrievalNodes);
-      mockQueryParams.next({ query: 'test', agentId: 'agentId1' });
-      fixture.detectChanges();
-      toggleTriggerContainer = fixture.debugElement.query(By.css('[data-automation-id="toggle-edit-trigger-container"]')).nativeElement;
-    });
 
     const getToggleEditInputButton = (): HTMLButtonElement | undefined => {
       return fixture.debugElement.query(By.css('[data-automation-id="toggle-edit-input-button"]'))?.nativeElement;
@@ -133,6 +152,14 @@ describe('SearchAiResultsComponent', () => {
       expect(component.searchQuery).toBe('test');
     };
 
+    beforeEach(() => {
+      spyOn(userPreferencesService, 'get').and.returnValue(knowledgeRetrievalNodes);
+      spyOn(searchAiService, 'getAnswer').and.returnValue(of({ entry: { answer: 'Some answer', questionId: 'some id', references: [] } }));
+      mockQueryParams.next({ query: 'test', agentId: 'agentId1' });
+      fixture.detectChanges();
+      toggleTriggerContainer = fixture.debugElement.query(By.css('[data-automation-id="toggle-edit-trigger-container"]')).nativeElement;
+    });
+
     it('should show toggle edit input button on mouseenter', () => {
       toggleTriggerContainer.dispatchEvent(new MouseEvent('mouseenter'));
       fixture.detectChanges();
@@ -151,10 +178,12 @@ describe('SearchAiResultsComponent', () => {
 
     it('should search for a new results after typing new query and clicking update button', () => {
       insertTextIntoTextArea();
+      spyOn(store, 'dispatch');
 
       getUpdateInputButton().dispatchEvent(new MouseEvent('click'));
       fixture.detectChanges();
 
+      expect(store.dispatch<SearchByTermAiAction>).toHaveBeenCalledWith(new SearchByTermAiAction({ searchTerm: 'new query', agentId: 'agentId1' }));
       expect(getToggleEditInputTextArea()).toBeUndefined();
       expect(component.editing).toBeFalse();
       expect(component.searchQuery).toBe('new query');
