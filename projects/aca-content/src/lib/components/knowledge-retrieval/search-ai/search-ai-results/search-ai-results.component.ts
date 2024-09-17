@@ -49,7 +49,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ModalAiService } from '../../../../services/modal-ai.service';
 import { ViewNodeAction } from '@alfresco/aca-shared/store';
-import { ViewerService } from '../../../../../../viewer/src/lib/services/viewer.service';
+import { ViewerService } from '@alfresco/aca-content/viewer';
 
 @Component({
   standalone: true,
