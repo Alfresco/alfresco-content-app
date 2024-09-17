@@ -196,11 +196,7 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
             return throwError((e) => e);
           }
           this._queryAnswer = response.entry;
-          return forkJoin(
-            ['5fc7b438-3a54-4584-87b4-383a54758448', 'e214d4b4-8eed-4dc1-94d4-b48eededc17a'].map((reference) =>
-              this.nodesApiService.getNode(reference)
-            )
-          );
+          return forkJoin(this.queryAnswer.references.map((reference) => this.nodesApiService.getNode(reference.referenceId)));
         }),
         retryWhen((errors: Observable<Error>) => this.aiSearchRetryWhen(errors)),
         finalize(() => (this._loading = false)),
