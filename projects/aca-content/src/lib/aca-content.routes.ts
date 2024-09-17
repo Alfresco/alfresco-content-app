@@ -518,12 +518,7 @@ export const CONTENT_LAYOUT_ROUTES: Route = {
       children: [
         {
           path: '',
-          component: SearchAiResultsComponent,
-          data: {
-            sortingPreferenceKey: 'personal-files',
-            title: 'APP.BROWSE.PERSONAL.TITLE',
-            defaultNodeId: '-my-'
-          }
+          component: SearchAiResultsComponent
         },
         {
           path: 'view/:nodeId/:versionId',
