@@ -594,7 +594,7 @@
                 "!app.navigation.isRecentFiles",
                 "!app.navigation.isSharedFiles",
                 "!app.navigation.isSearchResults",
-                "!app.navigation.isFavorites",
+                "!app.navigation.isFavorites"
               ]
             }
           },
@@ -614,7 +614,7 @@
                 "!app.navigation.isRecentFiles",
                 "!app.navigation.isSharedFiles",
                 "!app.navigation.isSearchResults",
-                "!app.navigation.isFavorites",
+                "!app.navigation.isFavorites"
               ]
             }
           },
@@ -897,7 +897,7 @@
             "!app.navigation.isRecentFiles",
             "!app.navigation.isSharedFiles",
             "!app.navigation.isSearchResults",
-            "!app.navigation.isFavorites",
+            "!app.navigation.isFavorites"
           ]
         }
       },
@@ -917,7 +917,7 @@
             "!app.navigation.isRecentFiles",
             "!app.navigation.isSharedFiles",
             "!app.navigation.isSearchResults",
-            "!app.navigation.isFavorites",
+            "!app.navigation.isFavorites"
           ]
         }
       },
@@ -1290,7 +1290,7 @@
                   "!app.navigation.isRecentFiles",
                   "!app.navigation.isSharedFiles",
                   "!app.navigation.isSearchResults",
-                  "!app.navigation.isFavorites",
+                  "!app.navigation.isFavorites"
                 ]
               }
             },
@@ -1310,7 +1310,7 @@
                   "!app.navigation.isRecentFiles",
                   "!app.navigation.isSharedFiles",
                   "!app.navigation.isSearchResults",
-                  "!app.navigation.isFavorites",
+                  "!app.navigation.isFavorites"
                 ]
               }
             },
