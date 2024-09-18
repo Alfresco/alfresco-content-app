@@ -174,11 +174,14 @@ export class ContentServiceExtensionModule {
       canManageFileVersions: rules.canManageFileVersions,
       canManagePermissions: rules.canManagePermissions,
       canToggleEditOffline: rules.canToggleEditOffline,
+      canToggleFileLock: rules.canToggleFileLock,
       canToggleFavorite: rules.canToggleFavorite,
       isLibraryManager: rules.isLibraryManager,
       canEditAspects: rules.canEditAspects,
       canShowExpand: rules.canShowExpand,
       canInfoPreview: rules.canInfoPreview,
+      isSmartFolder: rules.isSmartFolder,
+      isMultiSelection: rules.isMultiselection,
 
       'app.selection.canDelete': rules.canDeleteSelection,
       'app.selection.file.canUnlock': rules.canUnlockFile,
@@ -223,6 +226,7 @@ export class ContentServiceExtensionModule {
       'app.navigation.isSharedPreview': rules.isSharedPreview,
       'app.navigation.isFavoritesPreview': rules.isFavoritesPreview,
       'app.navigation.isSharedFileViewer': rules.isSharedFileViewer,
+      'app.navigation.isDetails': rules.isDetails,
       'app.navigation.isNotDetails': rules.isNotDetails,
 
       'repository.isQuickShareEnabled': rules.hasQuickShareEnabled,
