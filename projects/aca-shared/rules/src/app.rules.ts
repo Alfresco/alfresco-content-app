@@ -116,13 +116,10 @@ export const canCopyNode = (context: RuleContext): boolean =>
  * JSON ref: `app.selection.canAddFavorite`
  */
 export function canAddFavorite(context: RuleContext): boolean {
-  if (hasSelection(context)) {
-    if (navigation.isFavorites(context) || navigation.isLibraries(context) || navigation.isTrashcan(context)) {
-      return false;
-    }
-    return context.selection.nodes.some((node) => !node.entry.isFavorite);
+  if (navigation.isFavorites(context) || navigation.isLibraries(context) || navigation.isTrashcan(context)) {
+    return false;
   }
-  return false;
+  return context.selection.nodes.some((node) => !node.entry.isFavorite);
 }
 
 /**
@@ -130,13 +127,10 @@ export function canAddFavorite(context: RuleContext): boolean {
  * JSON ref: `app.selection.canRemoveFavorite`
  */
 export function canRemoveFavorite(context: RuleContext): boolean {
-  if (hasSelection(context) && !navigation.isTrashcan(context)) {
-    if (navigation.isFavorites(context)) {
-      return true;
-    }
-    return context.selection.nodes.every((node) => node.entry.isFavorite);
+  if (navigation.isFavorites(context)) {
+    return true;
   }
-  return false;
+  return context.selection.nodes.every((node) => node.entry.isFavorite);
 }
 
 /**
@@ -151,8 +145,7 @@ export const canShareFile = (context: RuleContext): boolean =>
  * JSON ref: `canToggleJoinLibrary`
  */
 export const canToggleJoinLibrary = (context: RuleContext): boolean =>
-  [hasLibrarySelected(context), !isPrivateLibrary(context), hasNoLibraryRole(context)].every(Boolean) ||
-  [hasLibrarySelected(context), isPrivateLibrary(context), hasNoLibraryRole(context), isAdmin(context)].every(Boolean);
+  !isPrivateLibrary(context) || [isPrivateLibrary(context), isAdmin(context)].every(Boolean);
 
 /**
  * Checks if user can edit the selected folder.
@@ -233,7 +226,7 @@ export const hasSelection = (context: RuleContext): boolean => !context.selectio
  * JSON ref: `app.navigation.folder.canCreate`
  */
 export function canCreateFolder(context: AcaRuleContext): boolean {
-  if (isContentServiceEnabled(context) && (navigation.isPersonalFiles(context) || navigation.isLibraryContent(context))) {
+  if (navigation.isPersonalFiles(context) || navigation.isLibraryContent(context)) {
     const { currentFolder } = context.navigation;
 
     if (currentFolder) {
@@ -265,10 +258,7 @@ export function canUpload(context: AcaRuleContext): boolean {
  * JSON ref: `app.selection.canDownload`
  */
 export function canDownloadSelection(context: RuleContext): boolean {
-  if (hasSelection(context) && navigation.isNotTrashcan(context)) {
-    return context.selection.nodes.every((node: any) => node.entry && (node.entry.isFile || node.entry.isFolder || !!node.entry.nodeId));
-  }
-  return false;
+  return context.selection.nodes.every((node: any) => node.entry && (node.entry.isFile || node.entry.isFolder || !!node.entry.nodeId));
 }
 
 /**
@@ -451,8 +441,7 @@ export const canLeaveLibrary = (context: RuleContext): boolean => [hasLibrarySel
  *
  * @param context Rule execution context
  */
-export const canToggleSharedLink = (context: RuleContext): boolean =>
-  [hasFileSelected(context), [canShareFile(context), isShared(context)].some(Boolean)].every(Boolean);
+export const canToggleSharedLink = (context: RuleContext): boolean => [canShareFile(context), isShared(context)].some(Boolean);
 
 /**
  * Checks if user can show **Info Drawer** for the selected node.
@@ -507,6 +496,8 @@ export const canManagePermissions = (context: RuleContext): boolean =>
 export const canToggleEditOffline = (context: RuleContext): boolean =>
   [hasFileSelected(context), navigation.isNotTrashcan(context), canLockFile(context) || canUnlockFile(context)].every(Boolean);
 
+export const canToggleFileLock = (context: RuleContext): boolean => [canLockFile(context) || canUnlockFile(context)].some(Boolean);
+
 /**
  * @deprecated Uses workarounds for for recent files and search api issues.
  * Checks if user can toggle **Favorite** state for a node.
@@ -534,8 +525,7 @@ export const canShowLogout = (context: AcaRuleContext): boolean => !context.with
  *
  * @param context Rule execution context
  */
-export const isLibraryManager = (context: RuleContext): boolean =>
-  hasLibrarySelected(context) && (context.selection.library?.entry.role === 'SiteManager' || isAdmin(context));
+export const isLibraryManager = (context: RuleContext): boolean => context.selection.library?.entry.role === 'SiteManager' || isAdmin(context);
 
 /**
  * Checks if the preview button for search results can be showed

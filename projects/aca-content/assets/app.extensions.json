@@ -9,74 +9,6 @@
   "$description": "Core application extensions and features",
   "$references": [],
   "$ignoreReferenceList": [],
-  "rules": [
-    {
-      "id": "app.toolbar.favorite.canAdd",
-      "type": "core.every",
-      "parameters": [
-        {
-          "type": "rule",
-          "value": "app.selection.canAddFavorite"
-        },
-        {
-          "type": "rule",
-          "value": "app.navigation.isNotRecentFiles"
-        },
-        {
-          "type": "rule",
-          "value": "app.navigation.isNotSharedFiles"
-        },
-        {
-          "type": "rule",
-          "value": "app.navigation.isNotSearchResults"
-        },
-        {
-          "type": "rule",
-          "value": "app.navigation.isNotFavorites"
-        }
-      ]
-    },
-    {
-      "id": "app.toolbar.favorite.canRemove",
-      "type": "core.every",
-      "parameters": [
-        {
-          "type": "rule",
-          "value": "app.selection.canRemoveFavorite"
-        },
-        {
-          "type": "rule",
-          "value": "app.navigation.isNotRecentFiles"
-        },
-        {
-          "type": "rule",
-          "value": "app.navigation.isNotSharedFiles"
-        },
-        {
-          "type": "rule",
-          "value": "app.navigation.isNotSearchResults"
-        },
-        {
-          "type": "rule",
-          "value": "app.navigation.isNotFavorites"
-        }
-      ]
-    },
-    {
-      "id": "app.toolbar.favorite.canEditMetadata",
-      "type": "core.every",
-      "parameters": [
-        {
-          "type": "rule",
-          "value": "app.selection.library"
-        },
-        {
-          "type": "rule",
-          "value": "isLibraryManager"
-        }
-      ]
-    }
-  ],
   "features": {
     "header": [
       {
@@ -121,7 +53,9 @@
               "type": "custom",
               "component": "app.logout",
               "rules": {
-                "visible": "app.canShowLogout"
+                "visible": [
+                  "app.canShowLogout"
+                ]
               }
             }
           ]
@@ -140,7 +74,10 @@
           "click": "CREATE_FOLDER"
         },
         "rules": {
-          "visible": "app.navigation.folder.canCreate"
+          "visible": [
+            "app.isContentServiceEnabled",
+            "app.navigation.folder.canCreate"
+          ]
         }
       },
       {
@@ -153,7 +90,10 @@
           "click": "CREATE_LIBRARY"
         },
         "rules": {
-          "visible": "app.canCreateLibrary"
+          "visible": [
+            "app.isContentServiceEnabled",
+            "app.navigation.isLibraries"
+          ]
         }
       },
       {
@@ -167,7 +107,10 @@
           "click": "FILE_FROM_TEMPLATE"
         },
         "rules": {
-          "visible": "app.navigation.folder.canUpload"
+          "visible": [
+            "app.isContentServiceEnabled",
+            "app.navigation.folder.canCreate"
+          ]
         }
       },
       {
@@ -181,7 +124,10 @@
           "click": "FOLDER_FROM_TEMPLATE"
         },
         "rules": {
-          "visible": "app.navigation.folder.canUpload"
+          "visible": [
+            "app.isContentServiceEnabled",
+            "app.navigation.folder.canCreate"
+          ]
         }
       }
     ],
@@ -272,7 +218,10 @@
               "click": "CREATE_FOLDER"
             },
             "rules": {
-              "visible": "app.navigation.folder.canCreate"
+              "visible": [
+                "app.isContentServiceEnabled",
+                "app.navigation.folder.canCreate"
+              ]
             }
           },
           {
@@ -285,7 +234,10 @@
               "click": "CREATE_LIBRARY"
             },
             "rules": {
-              "visible": "app.canCreateLibrary"
+              "visible": [
+                "app.isContentServiceEnabled",
+                "app.navigation.isLibraries"
+              ]
             }
           },
           {
@@ -299,7 +251,10 @@
               "click": "FILE_FROM_TEMPLATE"
             },
             "rules": {
-              "visible": "app.navigation.folder.canUpload"
+              "visible": [
+                "app.isContentServiceEnabled",
+                "app.navigation.folder.canCreate"
+              ]
             }
           },
           {
@@ -313,7 +268,10 @@
               "click": "FOLDER_FROM_TEMPLATE"
             },
             "rules": {
-              "visible": "app.navigation.folder.canUpload"
+              "visible": [
+                "app.isContentServiceEnabled",
+                "app.navigation.folder.canCreate"
+              ]
             }
           }
         ]
@@ -338,7 +296,10 @@
               "click": "UPLOAD_FILES"
             },
             "rules": {
-              "visible": "app.isUploadSupported"
+              "visible": [
+                "app.isContentServiceEnabled",
+                "app.navigation.folder.canCreate"
+              ]
             }
           },
           {
@@ -351,7 +312,10 @@
               "click": "UPLOAD_FOLDER"
             },
             "rules": {
-              "visible": "app.isUploadSupported"
+              "visible": [
+                "app.isContentServiceEnabled",
+                "app.navigation.folder.canCreate"
+              ]
             }
           }
         ]
@@ -361,7 +325,9 @@
         "type": "separator",
         "order": 89,
         "rules": {
-          "visible": "app.navigation.isNotSearchResults"
+          "visible": [
+            "!app.navigation.isSearchResults"
+          ]
         }
       },
       {
@@ -377,7 +343,9 @@
           "click": "SEARCH"
         },
         "rules": {
-          "visible": "app.navigation.isNotSearchResults"
+          "visible": [
+            "!app.navigation.isSearchResults"
+          ]
         }
       },
       {
@@ -389,7 +357,10 @@
         },
         "component": "app.shared-link.toggleSharedLink",
         "rules": {
-          "visible": "canToggleSharedLink"
+          "visible": [
+            "app.selection.file",
+            "canToggleSharedLink"
+          ]
         }
       },
       {
@@ -402,7 +373,10 @@
         },
         "component": "app.toolbar.viewNode",
         "rules": {
-          "visible": "canViewFile"
+          "visible": [
+            "app.selection.file",
+            "!app.navigation.isTrashcan"
+            ]
         }
       },
       {
@@ -414,7 +388,11 @@
           "click": "DOWNLOAD_NODES"
         },
         "rules": {
-          "visible": "app.selection.canDownload"
+          "visible": [
+            "app.selection.isNotEmpty",
+            "!app.navigation.isTrashcan",
+            "app.selection.canDownload"
+          ]
         }
       },
       {
@@ -426,7 +404,10 @@
           "click": "PURGE_DELETED_NODES"
         },
         "rules": {
-          "visible": "isTrashcanItemSelected"
+          "visible": [
+            "app.navigation.isTrashcan",
+            "app.selection.notEmpty"
+          ]
         }
       },
       {
@@ -438,7 +419,10 @@
           "click": "RESTORE_DELETED_NODES"
         },
         "rules": {
-          "visible": "isTrashcanItemSelected"
+          "visible": [
+            "app.navigation.isTrashcan",
+            "app.selection.notEmpty"
+          ]
         }
       },
       {
@@ -447,7 +431,11 @@
         "order": 600,
         "component": "app.toolbar.toggleJoinLibrary",
         "rules": {
-          "visible": "canToggleJoinLibrary"
+          "visible": [
+            "app.selection.library",
+            "!app.selection.hasLibraryRole",
+            "canToggleJoinLibrary"
+          ]
         }
       },
       {
@@ -459,7 +447,10 @@
           "click": "LEAVE_LIBRARY"
         },
         "rules": {
-          "visible": "canLeaveLibrary"
+          "visible": [
+            "app.selection.library",
+            "app.selection.hasLibraryRole"
+          ]
         }
       },
       {
@@ -473,7 +464,11 @@
         "order": 700,
         "component": "app.toolbar.toggleInfoDrawer",
         "rules": {
-          "visible": "canShowInfoDrawer"
+          "visible": [
+            "app.selection.notEmpty",
+            "!app.navigation.isLibraries",
+            "!app.navigation.isTrashcan"
+          ]
         }
       },
       {
@@ -482,7 +477,10 @@
         "order": 800,
         "component": "app.toolbar.toggleInfoDrawer",
         "rules": {
-          "visible": "app.toolbar.favorite.canEditMetadata"
+          "visible": [
+            "app.selection.library",
+            "isLibraryManager"
+          ]
         }
       },
       {
@@ -498,7 +496,11 @@
             "type": "custom",
             "component": "app.toolbar.toggleEditOffline",
             "rules": {
-              "visible": "canToggleEditOffline"
+              "visible": [
+                "app.selection.notEmpty",
+                "!app.navigation.isTrashcan",
+                "canToggleFileLock"
+              ]
             }
           },
           {
@@ -510,7 +512,9 @@
               "click": "UPLOAD_FILE_VERSION"
             },
             "rules": {
-              "visible": "app.selection.file.canUploadVersion"
+              "visible": [
+                "app.selection.file.canUploadVersion"
+              ]
             }
           },
           {
@@ -522,7 +526,10 @@
               "click": "EDIT_FOLDER"
             },
             "rules": {
-              "visible": "canEditFolder"
+              "visible": [
+                "app.selection.folder.canUpdate",
+                "!app.navigation.isTrashcan"
+              ]
             }
           },
           {
@@ -533,7 +540,9 @@
             "data": "['/favorites', '/favorite/libraries']",
             "component": "app.toolbar.toggleFavorite",
             "rules": {
-              "visible": "canToggleFavorite"
+              "visible": [
+                "canToggleFavorite"
+              ]
             }
           },
           {
@@ -542,7 +551,9 @@
             "order": 401,
             "component": "app.toolbar.toggleFavoriteLibrary",
             "rules": {
-              "visible": "app.selection.library"
+              "visible": [
+                "app.selection.library"
+              ]
             }
           },
           {
@@ -554,7 +565,14 @@
               "click": "ADD_FAVORITE"
             },
             "rules": {
-              "visible": "app.toolbar.favorite.canAdd"
+              "visible": [
+                "app.selection.notEmpty",
+                "app.selection.canAddFavorite",
+                "!app.navigation.isRecentFiles",
+                "!app.navigation.isSharedFiles",
+                "!app.navigation.isSearchResults",
+                "!app.navigation.isFavorites",
+              ]
             }
           },
           {
@@ -566,7 +584,15 @@
               "click": "REMOVE_FAVORITE"
             },
             "rules": {
-              "visible": "app.toolbar.favorite.canRemove"
+              "visible": [
+                "app.selection.notEmpty",
+                "app.selection.canRemoveFavorite",
+                "!app.navigation.isTrashcan",
+                "!app.navigation.isRecentFiles",
+                "!app.navigation.isSharedFiles",
+                "!app.navigation.isSearchResults",
+                "!app.navigation.isFavorites",
+              ]
             }
           },
           {
@@ -583,7 +609,9 @@
               "click": "MOVE_NODES"
             },
             "rules": {
-              "visible": "app.selection.canDelete"
+              "visible": [
+                "app.selection.canDelete"
+              ]
             }
           },
           {
@@ -595,7 +623,11 @@
               "click": "COPY_NODES"
             },
             "rules": {
-              "visible": "canCopyNode"
+              "visible": [
+                "app.selection.notEmpty",
+                "!app.navigation.isTrashcan",
+                "!app.navigation.isLibraries"
+              ]
             }
           },
           {
@@ -607,7 +639,9 @@
               "click": "DELETE_NODES"
             },
             "rules": {
-              "visible": "app.selection.canDelete"
+              "visible": [
+                "app.selection.canDelete"
+              ]
             }
           },
           {
@@ -624,7 +658,11 @@
               "click": "MANAGE_VERSIONS"
             },
             "rules": {
-              "visible": "canManageFileVersions"
+              "visible": [
+                "app.selection.notEmpty",
+                "!app.navigation.isTrashcan",
+                "!app.selection.file.isLocked"
+              ]
             }
           },
           {
@@ -636,7 +674,9 @@
               "click": "ASPECT_LIST"
             },
             "rules": {
-              "visible": "canEditAspects"
+              "visible": [
+                "canEditAspects"
+              ]
             }
           },
           {
@@ -648,7 +688,13 @@
               "click": "MANAGE_PERMISSIONS"
             },
             "rules": {
-              "visible": "canManagePermissions"
+              "visible": [
+                "app.selection.first.canUpdate",
+                "!app.navigation.isTrashcan",
+                "!isSmartFolder",
+                "!isMultiSelection",
+                "canManagePermissions"
+              ]
             }
           },
           {
@@ -660,7 +706,14 @@
               "click": "MANAGE_RULES"
             },
             "rules": {
-              "visible": "rules.canManageFolderRules"
+              "visible": [
+                "rules.isFolderRulesEnabled",
+                "app.selection.folder.canUpdate",
+                "!app.navigation.isTrashcan",
+                "app.selection.folder",
+                "!app.navigation.isFavorites",
+                "!isSmartFolder"
+              ]
             }
           },
           {
@@ -672,7 +725,9 @@
               "click": "DELETE_LIBRARY"
             },
             "rules": {
-              "visible": "app.selection.library"
+              "visible": [
+                "app.selection.library"
+              ]
             }
           }
         ]
@@ -688,7 +743,10 @@
         },
         "component": "app.shared-link.toggleSharedLink",
         "rules": {
-          "visible": "canToggleSharedLink"
+          "visible": [
+            "app.selection.file",
+            "canToggleSharedLink"
+          ]
         }
       },
       {
@@ -700,7 +758,11 @@
           "click": "DOWNLOAD_NODES"
         },
         "rules": {
-          "visible": "app.selection.canDownload"
+          "visible": [
+            "app.selection.isNotEmpty",
+            "!app.navigation.isTrashcan",
+            "app.selection.canDownload"
+          ]
         }
       },
       {
@@ -713,7 +775,10 @@
         },
         "component": "app.toolbar.viewNode",
         "rules": {
-          "visible": "canViewFile"
+          "visible": [
+            "app.selection.file",
+            "!app.navigation.isTrashcan"
+          ]
         }
       },
       {
@@ -727,7 +792,11 @@
         "type": "custom",
         "component": "app.toolbar.toggleEditOffline",
         "rules": {
-          "visible": "canToggleEditOffline"
+          "visible": [
+            "app.selection.notEmpty",
+            "!app.navigation.isTrashcan",
+            "canToggleFileLock"
+          ]
         }
       },
       {
@@ -739,7 +808,10 @@
           "click": "EDIT_FOLDER"
         },
         "rules": {
-          "visible": "canEditFolder"
+          "visible": [
+            "app.selection.folder.canUpdate",
+            "!app.navigation.isTrashcan"
+          ]
         }
       },
       {
@@ -751,7 +823,9 @@
           "click": "UPLOAD_FILE_VERSION"
         },
         "rules": {
-          "visible": "app.selection.file.canUploadVersion"
+          "visible": [
+            "app.selection.file.canUploadVersion"
+          ]
         }
       },
       {
@@ -763,7 +837,14 @@
           "click": "ADD_FAVORITE"
         },
         "rules": {
-          "visible": "app.toolbar.favorite.canAdd"
+          "visible": [
+            "app.selection.notEmpty",
+            "app.selection.canAddFavorite",
+            "!app.navigation.isRecentFiles",
+            "!app.navigation.isSharedFiles",
+            "!app.navigation.isSearchResults",
+            "!app.navigation.isFavorites",
+          ]
         }
       },
       {
@@ -775,7 +856,15 @@
           "click": "REMOVE_FAVORITE"
         },
         "rules": {
-          "visible": "app.toolbar.favorite.canRemove"
+          "visible": [
+            "app.selection.notEmpty",
+            "app.selection.canRemoveFavorite",
+            "!app.navigation.isTrashcan",
+            "!app.navigation.isRecentFiles",
+            "!app.navigation.isSharedFiles",
+            "!app.navigation.isSearchResults",
+            "!app.navigation.isFavorites",
+          ]
         }
       },
       {
@@ -786,7 +875,9 @@
         "data": "['/favorites', '/favorite/libraries']",
         "component": "app.toolbar.toggleFavorite",
         "rules": {
-          "visible": "canToggleFavorite"
+          "visible": [
+            "canToggleFavorite"
+          ]
         }
       },
       {
@@ -795,7 +886,9 @@
         "order": 803,
         "component": "app.toolbar.toggleFavoriteLibrary",
         "rules": {
-          "visible": "app.selection.library"
+          "visible": [
+            "app.selection.library"
+          ]
         }
       },
       {
@@ -812,7 +905,9 @@
           "click": "MOVE_NODES"
         },
         "rules": {
-          "visible": "app.selection.canDelete"
+          "visible": [
+            "app.selection.canDelete"
+          ]
         }
       },
       {
@@ -824,7 +919,11 @@
           "click": "COPY_NODES"
         },
         "rules": {
-          "visible": "canCopyNode"
+          "visible": [
+            "app.selection.notEmpty",
+            "!app.navigation.isTrashcan",
+            "!app.navigation.isLibraries"
+          ]
         }
       },
       {
@@ -836,7 +935,9 @@
           "click": "DELETE_NODES"
         },
         "rules": {
-          "visible": "app.selection.canDelete"
+          "visible": [
+            "app.selection.canDelete"
+          ]
         }
       },
       {
@@ -853,7 +954,11 @@
           "click": "MANAGE_VERSIONS"
         },
         "rules": {
-          "visible": "canManageFileVersions"
+          "visible": [
+            "app.selection.notEmpty",
+            "!app.navigation.isTrashcan",
+            "!app.selection.file.isLocked"
+          ]
         }
       },
       {
@@ -865,7 +970,9 @@
           "click": "ASPECT_LIST"
         },
         "rules": {
-          "visible": "canEditAspects"
+          "visible": [
+            "canEditAspects"
+          ]
         }
       },
       {
@@ -877,7 +984,13 @@
           "click": "MANAGE_PERMISSIONS"
         },
         "rules": {
-          "visible": "canManagePermissions"
+          "visible": [
+            "app.selection.first.canUpdate",
+            "!app.navigation.isTrashcan",
+            "!isSmartFolder",
+            "!isMultiSelection",
+            "canManagePermissions"
+          ]
         }
       },
       {
@@ -889,7 +1002,14 @@
           "click": "MANAGE_RULES"
         },
         "rules": {
-          "visible": "rules.canManageFolderRules"
+          "visible": [
+            "rules.isFolderRulesEnabled",
+            "app.selection.folder.canUpdate",
+            "!app.navigation.isTrashcan",
+            "app.selection.folder",
+            "!app.navigation.isFavorites",
+            "!isSmartFolder"
+          ]
         }
       },
       {
@@ -898,7 +1018,11 @@
         "order": 100,
         "component": "app.menu.toggleJoinLibrary",
         "rules": {
-          "visible": "canToggleJoinLibrary"
+          "visible": [
+            "app.selection.kibrary",
+            "!app.selection.hasLibraryRole",
+            "canToggleJoinLibrary"
+          ]
         }
       },
       {
@@ -910,7 +1034,10 @@
           "click": "LEAVE_LIBRARY"
         },
         "rules": {
-          "visible": "canLeaveLibrary"
+          "visible": [
+            "app.selection.library",
+            "app.selection.hasLibraryRole"
+          ]
         }
       },
       {
@@ -922,7 +1049,9 @@
           "click": "DELETE_LIBRARY"
         },
         "rules": {
-          "visible": "app.selection.library"
+          "visible": [
+            "app.selection.library"
+          ]
         }
       },
       {
@@ -934,7 +1063,10 @@
           "click": "PURGE_DELETED_NODES"
         },
         "rules": {
-          "visible": "isTrashcanItemSelected"
+          "visible": [
+            "app.navigation.isTrashcan",
+            "app.selection.notEmpty"
+          ]
         }
       },
       {
@@ -946,7 +1078,10 @@
           "click": "RESTORE_DELETED_NODES"
         },
         "rules": {
-          "visible": "isTrashcanItemSelected"
+          "visible": [
+            "app.navigation.isTrashcan",
+            "app.selection.notEmpty"
+          ]
         }
       }
     ],
@@ -961,7 +1096,10 @@
             "click": "FULLSCREEN_VIEWER"
           },
           "rules": {
-            "visible": "canViewFile"
+            "visible": [
+              "app.selection.file",
+              "!app.navigation.isTrashcan"
+            ]
           }
         },
         {
@@ -978,7 +1116,10 @@
           },
           "component": "app.shared-link.toggleSharedLink",
           "rules": {
-            "visible": "canToggleSharedLink"
+            "visible": [
+              "app.selection.file",
+              "canToggleSharedLink"
+            ]
           }
         },
         {
@@ -990,7 +1131,11 @@
             "click": "DOWNLOAD_NODES"
           },
           "rules": {
-            "visible": "app.selection.canDownload"
+            "visible": [
+              "app.selection.isNotEmpty",
+              "!app.navigation.isTrashcan",
+              "app.selection.canDownload"
+            ]
           }
         },
         {
@@ -1002,7 +1147,10 @@
             "click": "PRINT_FILE"
           },
           "rules": {
-            "visible": "canViewFile"
+            "visible": [
+              "app.selection.file",
+              "!app.navigation.isTrashcan"
+            ]
           }
         },
         {
@@ -1016,7 +1164,11 @@
           "order": 500,
           "component": "app.toolbar.toggleInfoDrawer",
           "rules": {
-            "visible": "canShowInfoDrawer"
+            "visible": [
+              "app.selection.notEmpty",
+              "!app.navigation.isLibraries",
+              "!app.navigation.isTrashcan"
+            ]
           }
         },
         {
@@ -1032,7 +1184,11 @@
               "type": "custom",
               "component": "app.toolbar.toggleEditOffline",
               "rules": {
-                "visible": "canToggleEditOffline"
+                "visible": [
+                  "app.selection.notEmpty",
+                  "!app.navigation.isTrashcan",
+                  "canToggleFileLock"
+                ]
               }
             },
             {
@@ -1044,7 +1200,9 @@
                 "click": "UPLOAD_FILE_VERSION"
               },
               "rules": {
-                "visible": "app.selection.file.canUploadVersion"
+                "visible": [
+                  "app.selection.file.canUploadVersion"
+                ]
               }
             },
             {
@@ -1056,7 +1214,14 @@
                 "click": "ADD_FAVORITE"
               },
               "rules": {
-                "visible": "app.toolbar.favorite.canAdd"
+                "visible": [
+                  "app.selection.notEmpty",
+                  "app.selection.canAddFavorite",
+                  "!app.navigation.isRecentFiles",
+                  "!app.navigation.isSharedFiles",
+                  "!app.navigation.isSearchResults",
+                  "!app.navigation.isFavorites",
+                ]
               }
             },
             {
@@ -1068,7 +1233,15 @@
                 "click": "REMOVE_FAVORITE"
               },
               "rules": {
-                "visible": "app.toolbar.favorite.canRemove"
+                "visible": [
+                  "app.selection.notEmpty",
+                  "app.selection.canRemoveFavorite",
+                  "!app.navigation.isTrashcan",
+                  "!app.navigation.isRecentFiles",
+                  "!app.navigation.isSharedFiles",
+                  "!app.navigation.isSearchResults",
+                  "!app.navigation.isFavorites",
+                ]
               }
             },
             {
@@ -1078,7 +1251,9 @@
               "order": 302,
               "component": "app.toolbar.toggleFavorite",
               "rules": {
-                "visible": "canToggleFavorite"
+                "visible": [
+                  "canToggleFavorite"
+                ]
               }
             },
             {
@@ -1095,7 +1270,9 @@
                 "click": "MOVE_NODES"
               },
               "rules": {
-                "visible": "app.selection.canDelete"
+                "visible": [
+                  "app.selection.canDelete"
+                ]
               }
             },
             {
@@ -1107,7 +1284,11 @@
                 "click": "COPY_NODES"
               },
               "rules": {
-                "visible": "canCopyNode"
+                "visible": [
+                  "app.selection.notEmpty",
+                  "!app.navigation.isTrashcan",
+                  "!app.navigation.isLibraries"
+                ]
               }
             },
             {
@@ -1119,7 +1300,9 @@
                 "click": "DELETE_NODES"
               },
               "rules": {
-                "visible": "app.selection.canDelete"
+                "visible": [
+                  "app.selection.canDelete"
+                ]
               }
             },
             {
@@ -1136,7 +1319,11 @@
                 "click": "MANAGE_VERSIONS"
               },
               "rules": {
-                "visible": "canManageFileVersions"
+                "visible": [
+                  "app.selection.notEmpty",
+                  "!app.navigation.isTrashcan",
+                  "!app.selection.file.isLocked"
+                ]
               }
             },
             {
@@ -1148,7 +1335,9 @@
                 "click": "ASPECT_LIST"
               },
               "rules": {
-                "visible": "canEditAspects"
+                "visible": [
+                  "canEditAspects"
+                ]
               }
             },
             {
@@ -1160,7 +1349,13 @@
                 "click": "MANAGE_PERMISSIONS"
               },
               "rules": {
-                "visible": "canManagePermissions"
+                "visible": [
+                  "app.selection.first.canUpdate",
+                  "!app.navigation.isTrashcan",
+                  "!isSmartFolder",
+                  "!isMultiSelection",
+                  "canManagePermissions"
+                ]
               }
             }
           ]
@@ -1214,7 +1409,12 @@
             "click": "SHOW_INFO_DRAWER_PREVIEW"
           },
           "rules": {
-            "visible": "canInfoPreview"
+            "visible": [
+              "app.navigation.isSearchResults",
+              "!isMultiSelection",
+              "!app.selection.folder",
+              "!app.navigation.isPreview"
+            ]
           }
         },
         {
@@ -1226,7 +1426,9 @@
             "click": "ASPECT_LIST"
           },
           "rules": {
-            "visible": "canEditAspects"
+            "visible": [
+              "canEditAspects"
+            ]
           }
         },
         {
@@ -1238,7 +1440,10 @@
             "click": "EXPAND_INFO_DRAWER"
           },
           "rules": {
-            "visible": "canShowExpand"
+            "visible": [
+              "!app.navigation.isLibraries",
+              "!app.navigation.isDetails"
+            ]
           }
         }
       ],
@@ -1249,7 +1454,9 @@
           "title": "APP.INFO_DRAWER.TABS.PROPERTIES",
           "component": "app.components.tabs.metadata",
           "rules": {
-            "visible": "app.navigation.isNotLibraries"
+            "visible": [
+              "!app.navigation.isLibraries"
+            ]
           }
         },
         {
@@ -1258,7 +1465,9 @@
           "title": "APP.INFO_DRAWER.TABS.COMMENTS",
           "component": "app.components.tabs.comments",
           "rules": {
-            "visible": "app.navigation.isNotLibraries"
+            "visible": [
+              "!app.navigation.isLibraries"
+            ]
           }
         },
         {
@@ -1268,7 +1477,9 @@
           "title": "APP.INFO_DRAWER.TABS.VERSIONS",
           "component": "app.components.tabs.versions",
           "rules": {
-            "visible": "app.navigation.isNotLibraries"
+            "visible": [
+              "!app.navigation.isLibraries"
+            ]
           }
         },
         {
@@ -1277,7 +1488,10 @@
           "title": "APP.INFO_DRAWER.TABS.PROPERTIES",
           "component": "app.components.tabs.library.metadata",
           "rules": {
-            "visible": "app.toolbar.favorite.canEditMetadata"
+            "visible": [
+              "app.selection.library",
+              "isLibraryManager"
+            ]
           }
         }
       ]
@@ -1486,7 +1700,9 @@
               }
             },
             "rules": {
-              "visible": "app.areTagsEnabled"
+              "visible": [
+                "app.areTagsEnabled"
+              ]
             }
           },
           {
@@ -1503,7 +1719,9 @@
               }
             },
             "rules": {
-              "visible": "app.areCategoriesEnabled"
+              "visible": [
+                "app.areCategoriesEnabled"
+              ]
             }
           }
         ],
@@ -2229,7 +2447,9 @@
           "order": 60,
           "draggable": true,
           "rules": {
-            "visible": "app.areTagsEnabled"
+            "visible": [
+              "app.areTagsEnabled"
+            ]
           }
         }
       ],
@@ -2447,7 +2667,9 @@
           "order": 80,
           "draggable": true,
           "rules": {
-            "visible": "app.areTagsEnabled"
+            "visible": [
+              "app.areTagsEnabled"
+            ]
           }
         }
       ],
@@ -2521,7 +2743,9 @@
           "order": 60,
           "draggable": true,
           "rules": {
-            "visible": "app.areTagsEnabled"
+            "visible": [
+              "app.areTagsEnabled"
+            ]
           }
         }
       ],
@@ -2606,7 +2830,9 @@
           "order": 70,
           "draggable": true,
           "rules": {
-            "visible": "app.areTagsEnabled"
+            "visible": [
+              "app.areTagsEnabled"
+            ]
           }
         }
       ],
@@ -2788,7 +3014,9 @@
           "order": 60,
           "draggable": true,
           "rules": {
-            "visible": "app.areTagsEnabled"
+            "visible": [
+              "app.areTagsEnabled"
+            ]
           }
         }
       ]
