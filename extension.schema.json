@@ -169,11 +169,18 @@
             },
             "visible": {
               "description": "Rule to evaluate the visibility state",
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "minLength": 1
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "minLength": 1
+                }
+              ]
             }
           }
         }
