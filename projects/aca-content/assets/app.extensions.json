@@ -411,7 +411,7 @@
         },
         "rules": {
           "visible": [
-            "app.selection.isNotEmpty",
+            "app.selection.notEmpty",
             "!app.navigation.isTrashcan",
             "app.selection.canDownload"
           ]
@@ -818,7 +818,7 @@
         },
         "rules": {
           "visible": [
-            "app.selection.isNotEmpty",
+            "app.selection.notEmpty",
             "!app.navigation.isTrashcan",
             "app.selection.canDownload"
           ]
@@ -1212,7 +1212,7 @@
           },
           "rules": {
             "visible": [
-              "app.selection.isNotEmpty",
+              "app.selection.notEmpty",
               "!app.navigation.isTrashcan",
               "app.selection.canDownload"
             ]
