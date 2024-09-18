@@ -632,6 +632,9 @@
             },
             "rules": {
               "visible": [
+                "!app.navigation.isTrashcan",
+                "!app.navigation.isLibraries",
+                "app.selection.notEmpty",
                 "app.selection.canDelete"
               ]
             }
@@ -662,6 +665,9 @@
             },
             "rules": {
               "visible": [
+                "!app.navigation.isTrashcan",
+                "!app.navigation.isLibraries",
+                "app.selection.notEmpty",
                 "app.selection.canDelete"
               ]
             }
@@ -959,7 +965,10 @@
         },
         "rules": {
           "visible": [
-            "app.selection.canDelete"
+                "!app.navigation.isTrashcan",
+                "!app.navigation.isLibraries",
+                "app.selection.notEmpty",
+                "app.selection.canDelete"
           ]
         }
       },
@@ -989,7 +998,10 @@
         },
         "rules": {
           "visible": [
-            "app.selection.canDelete"
+                "!app.navigation.isTrashcan",
+                "!app.navigation.isLibraries",
+                "app.selection.notEmpty",
+                "app.selection.canDelete"
           ]
         }
       },
@@ -1339,6 +1351,9 @@
               },
               "rules": {
                 "visible": [
+                  "!app.navigation.isTrashcan",
+                  "!app.navigation.isLibraries",
+                  "app.selection.notEmpty",
                   "app.selection.canDelete"
                 ]
               }
@@ -1369,6 +1384,9 @@
               },
               "rules": {
                 "visible": [
+                  "!app.navigation.isTrashcan",
+                  "!app.navigation.isLibraries",
+                  "app.selection.notEmpty",
                   "app.selection.canDelete"
                 ]
               }
