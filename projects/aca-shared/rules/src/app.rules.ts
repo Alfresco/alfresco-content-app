@@ -176,30 +176,27 @@ export function isShared(context: RuleContext): boolean {
  * JSON ref: `app.selection.canDelete`
  */
 export function canDeleteSelection(context: RuleContext): boolean {
-  if (navigation.isNotTrashcan(context) && navigation.isNotLibraries(context) && hasSelection(context)) {
-    if (hasLockedFiles(context)) {
-      return false;
-    }
+  if (hasLockedFiles(context)) {
+    return false;
+  }
 
-    // temp workaround for Favorites api
-    if (navigation.isFavorites(context)) {
-      return true;
-    }
+  // temp workaround for Favorites api
+  if (navigation.isFavorites(context)) {
+    return true;
+  }
 
-    if (navigation.isPreview(context)) {
-      return context.permissions.check(context.selection.nodes, ['delete']);
-    }
-
-    // workaround for Shared Files
-    if (navigation.isSharedFiles(context)) {
-      return context.permissions.check(context.selection.nodes, ['delete'], {
-        target: 'allowableOperationsOnTarget'
-      });
-    }
-
+  if (navigation.isPreview(context)) {
     return context.permissions.check(context.selection.nodes, ['delete']);
   }
-  return false;
+
+  // workaround for Shared Files
+  if (navigation.isSharedFiles(context)) {
+    return context.permissions.check(context.selection.nodes, ['delete'], {
+      target: 'allowableOperationsOnTarget'
+    });
+  }
+
+  return context.permissions.check(context.selection.nodes, ['delete']);
 }
 
 /**
