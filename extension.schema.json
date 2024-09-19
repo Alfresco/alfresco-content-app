@@ -262,7 +262,18 @@
           "properties": {
             "visible": {
               "description": "Rule to evaluate the visibility state",
-              "type": "string"
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "minLength": 1
+                }
+              ]
             }
           }
         }
@@ -306,7 +317,18 @@
           "properties": {
             "visible": {
               "description": "Rule to evaluate the visibility state",
-              "type": "string"
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "minLength": 1
+                }
+              ]
             }
           }
         }
@@ -346,7 +368,18 @@
           "properties": {
             "visible": {
               "description": "Rule to evaluate the visibility state",
-              "type": "string"
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "minLength": 1
+                }
+              ]
             }
           }
         }
@@ -649,7 +682,18 @@
               "properties": {
                 "visible": {
                   "description": "Rule to evaluate the visibility state",
-                  "type": "string"
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "minLength": 1
+                    }
+                  ]
                 }
               }
             }
