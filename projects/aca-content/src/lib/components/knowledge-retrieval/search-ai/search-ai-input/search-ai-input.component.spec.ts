@@ -80,6 +80,7 @@ describe('SearchAiInputComponent', () => {
     };
     store.overrideSelector(getAppSelection, selectionState);
     component.agentId = '2';
+    component.avatarsMocked = false;
     component.ngOnInit();
     fixture.detectChanges();
   };
@@ -280,7 +281,8 @@ describe('SearchAiInputComponent', () => {
         checkSearchAvailabilitySpy = spyOn(TestBed.inject(SearchAiService), 'checkSearchAvailability');
         notificationService = TestBed.inject(NotificationService);
         userPreferencesService = TestBed.inject(UserPreferencesService);
-        spyOn(notificationService, 'showInfo');
+        spyOn(userPreferencesService, 'set');
+        spyOn(notificationService, 'showError');
         queryInput = await loader.getHarness(MatInputHarness);
         submitButton = fixture.debugElement.query(By.directive(MatButton));
         await queryInput.setValue(query);
@@ -298,19 +300,19 @@ describe('SearchAiInputComponent', () => {
               );
       });
 
-      it('should call showInfo on NotificationService if checkSearchAvailability from SearchAiService returns message', () => {
+      it('should call showError on NotificationService if checkSearchAvailability from SearchAiService returns message', () => {
         const message = 'Some message';
         checkSearchAvailabilitySpy.and.returnValue(message);
         submittingTrigger();
 
-        expect(notificationService.showInfo).toHaveBeenCalledWith(message);
+        expect(notificationService.showError).toHaveBeenCalledWith(message);
       });
 
-      it('should not call showInfo on NotificationService if checkSearchAvailability from SearchAiService returns empty message', () => {
+      it('should not call showError on NotificationService if checkSearchAvailability from SearchAiService returns empty message', () => {
         checkSearchAvailabilitySpy.and.returnValue('');
         submittingTrigger();
 
-        expect(notificationService.showInfo).not.toHaveBeenCalled();
+        expect(notificationService.showError).not.toHaveBeenCalled();
       });
 
       it('should call checkSearchAvailability on SearchAiService with parameter based on value returned by store', () => {
@@ -338,7 +340,6 @@ describe('SearchAiInputComponent', () => {
       });
 
       it('should call set on UserPreferencesService with parameter based on value returned by store', () => {
-        spyOn(userPreferencesService, 'set');
         submittingTrigger();
 
         expect(userPreferencesService.set).toHaveBeenCalledWith('knowledgeRetrievalNodes', JSON.stringify(selectionState));
@@ -355,7 +356,6 @@ describe('SearchAiInputComponent', () => {
           } as NodeEntry
         };
         spyOn(userPreferencesService, 'get').and.returnValue(JSON.stringify(newSelectionState));
-        spyOn(userPreferencesService, 'set');
         component.ngOnInit();
         submittingTrigger();
 

@@ -48,6 +48,7 @@ import {
 } from '@angular/material/tooltip';
 import { ModalAiService } from '../../../../services/modal-ai.service';
 import { Agent } from '@alfresco/js-api';
+import { getAgentsWithMockedAvatars } from '../search-ai-utils';
 
 const MatTooltipOptions: MatTooltipDefaultOptions = {
   ...MAT_TOOLTIP_DEFAULT_OPTIONS_FACTORY(),
@@ -100,6 +101,8 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
   private _queryControl = new FormControl('');
   private _initialsByAgentId: { [key: string]: string } = {};
 
+  avatarsMocked = true;
+
   get agentControl(): FormControl<Agent> {
     return this._agentControl;
   }
@@ -144,13 +147,9 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
       .subscribe(
         (agents) => {
           // TODO remove mocked avatar images after backend is done (https://hyland.atlassian.net/browse/ACS-8769)
-          const images = ['assets/images/avatars/Blue.png', 'assets/images/avatars/Gold.png', 'assets/images/avatars/Pink.png'];
-          agents = agents.map((agent, index) => {
-            return { ...agent, avatarUrl: images[index > 2 ? 2 : index] };
-          });
+          this._agents = getAgentsWithMockedAvatars(agents, this.avatarsMocked);
 
-          this._agents = agents;
-          this.agentControl.setValue(agents.find((agent) => agent.id === this.agentId));
+          this.agentControl.setValue(this._agents.find((agent) => agent.id === this.agentId));
           this._initialsByAgentId = this.agents.reduce((initials, agent) => {
             const words = agent.name.split(' ').filter((word) => !word.match(/[^a-zA-Z]+/g));
             initials[agent.id] = `${words[0][0]}${words[1]?.[0] || ''}`;
@@ -173,7 +172,7 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
   search() {
     const error = this.searchAiService.checkSearchAvailability(this.selectedNodesState);
     if (error) {
-      this.notificationService.showInfo(error);
+      this.notificationService.showError(error);
     } else {
       const payload: AiSearchByTermPayload = {
         searchTerm: this.queryControl.value,

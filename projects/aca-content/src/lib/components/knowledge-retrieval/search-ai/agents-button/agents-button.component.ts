@@ -36,6 +36,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Agent } from '@alfresco/js-api';
 import { AgentService, SearchAiService } from '@alfresco/adf-content-services';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { getAgentsWithMockedAvatars } from '../search-ai-utils';
 
 @Component({
   standalone: true,
@@ -56,6 +57,8 @@ export class AgentsButtonComponent implements OnInit, OnDestroy {
   private _disabled = true;
   private _initialsByAgentId: { [key: string]: string } = {};
   private _hxInsightUrl: string;
+
+  avatarsMocked = true;
 
   get agents(): Agent[] {
     return this._agents;
@@ -101,10 +104,7 @@ export class AgentsButtonComponent implements OnInit, OnDestroy {
         this._agents = result.agents;
 
         // TODO remove mocked avatar images after backend is done (https://hyland.atlassian.net/browse/ACS-8769)
-        const images = ['assets/images/avatars/Blue.png', 'assets/images/avatars/Gold.png', 'assets/images/avatars/Pink.png'];
-        this._agents = this.agents.map((agent, index) => {
-          return { ...agent, avatarUrl: images[index > 2 ? 2 : index] };
-        });
+        this._agents = getAgentsWithMockedAvatars(result.agents, this.avatarsMocked);
 
         this.cd.detectChanges();
 
@@ -127,11 +127,11 @@ export class AgentsButtonComponent implements OnInit, OnDestroy {
 
   onClick(): void {
     if (!this.selectedNodesState.isEmpty) {
-      const error = this.searchAiService.checkSearchAvailability(this.selectedNodesState);
-      if (error) {
-        this.notificationService.showInfo(error);
+      const message = this.searchAiService.checkSearchAvailability(this.selectedNodesState);
+      if (message) {
+        this.notificationService.showError(message);
       }
-      this._disabled = !!error;
+      this._disabled = !!message;
       return;
     }
     this._disabled = true;

@@ -79,8 +79,9 @@ describe('AgentsButtonComponent', () => {
       agents$.complete();
       spyOn(window, 'open');
       notificationService = TestBed.inject(NotificationService);
-      spyOn(notificationService, 'showInfo');
+      spyOn(notificationService, 'showError');
       message = 'Some message';
+      component.avatarsMocked = false;
     });
 
     const getMenuTrigger = (): MatMenuPanel => fixture.debugElement.query(By.directive(MatMenuTrigger)).injector.get(MatMenuTrigger).menu;
@@ -91,7 +92,7 @@ describe('AgentsButtonComponent', () => {
         checkSearchAvailabilitySpy.and.returnValue(message);
 
         getAgentsButton().dispatchEvent(event);
-        expect(notificationService.showInfo).not.toHaveBeenCalled();
+        expect(notificationService.showError).not.toHaveBeenCalled();
       });
 
       it('should disable menu triggering if checkSearchAvailability from SearchAiService returns message', () => {
@@ -112,7 +113,7 @@ describe('AgentsButtonComponent', () => {
         checkSearchAvailabilitySpy.and.returnValue(message);
 
         getAgentsButton().dispatchEvent(event);
-        expect(notificationService.showInfo).toHaveBeenCalledWith(message);
+        expect(notificationService.showError).toHaveBeenCalledWith(message);
       });
 
       testButtonActions();
@@ -145,7 +146,7 @@ describe('AgentsButtonComponent', () => {
         checkSearchAvailabilitySpy.and.returnValue(message);
 
         getAgentsButton().dispatchEvent(event);
-        expect(notificationService.showInfo).not.toHaveBeenCalled();
+        expect(notificationService.showError).not.toHaveBeenCalled();
       });
 
       testButtonActions();
@@ -221,6 +222,7 @@ describe('AgentsButtonComponent', () => {
 
     describe('loaded config', () => {
       beforeEach(() => {
+        component.avatarsMocked = false;
         config$.next({
           entry: {
             knowledgeRetrievalUrl
@@ -331,6 +333,7 @@ describe('AgentsButtonComponent', () => {
     let loader: HarnessLoader;
 
     const prepareData = (agents: Agent[]): void => {
+      component.avatarsMocked = false;
       config$.next({
         entry: {
           knowledgeRetrievalUrl

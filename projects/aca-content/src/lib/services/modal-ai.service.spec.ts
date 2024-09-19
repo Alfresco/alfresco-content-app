@@ -44,7 +44,8 @@ describe('ModalAiService', () => {
         {
           provide: StorageService,
           useValue: {
-            getItem: () => storageGetItem
+            getItem: () => storageGetItem,
+            setItem: () => storageGetItem
           }
         },
         {
