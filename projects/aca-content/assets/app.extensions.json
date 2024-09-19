@@ -1098,7 +1098,7 @@
         "component": "app.menu.toggleJoinLibrary",
         "rules": {
           "visible": [
-            "app.selection.kibrary",
+            "app.selection.library",
             "!app.selection.hasLibraryRole",
             "canToggleJoinLibrary"
           ]
