@@ -687,7 +687,7 @@
             },
             "rules": {
               "visible": [
-                "app.selection.notEmpty",
+                "app.selection.file",
                 "!app.navigation.isTrashcan",
                 "!app.selection.file.isLocked"
               ]
@@ -720,8 +720,7 @@
                 "app.selection.first.canUpdate",
                 "!app.navigation.isTrashcan",
                 "!isSmartFolder",
-                "!isMultiSelection",
-                "canManagePermissions"
+                "!isMultiSelection"
               ]
             }
           },
@@ -1038,8 +1037,7 @@
             "app.selection.first.canUpdate",
             "!app.navigation.isTrashcan",
             "!isSmartFolder",
-            "!isMultiSelection",
-            "canManagePermissions"
+            "!isMultiSelection"
           ]
         }
       },
@@ -1376,7 +1374,7 @@
               },
               "rules": {
                 "visible": [
-                  "app.selection.notEmpty",
+                  "app.selection.file",
                   "!app.navigation.isTrashcan",
                   "!app.selection.file.isLocked"
                 ]
@@ -1409,8 +1407,7 @@
                   "app.selection.first.canUpdate",
                   "!app.navigation.isTrashcan",
                   "!isSmartFolder",
-                  "!isMultiSelection",
-                  "canManagePermissions"
+                  "!isMultiSelection"
                 ]
               }
             }
