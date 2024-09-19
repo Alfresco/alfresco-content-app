@@ -967,7 +967,7 @@
         },
         "rules": {
           "visible": [
-            "app.selection.notEmpty",
+            "app.selection.file",
             "!app.navigation.isTrashcan",
             "!app.selection.file.isLocked"
           ]
