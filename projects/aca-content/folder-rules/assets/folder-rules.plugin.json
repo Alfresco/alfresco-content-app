@@ -15,7 +15,9 @@
             "id": "app.toolbar.rules.separator",
             "type": "separator",
             "rules": {
-              "visible": "app.selection.folder"
+              "visible": [
+                "app.selection.folder"
+              ]
             }
           },
           {
@@ -45,7 +47,9 @@
         "id": "app.toolbar.rules.separator",
         "type": "separator",
         "rules": {
-          "visible": "app.selection.folder"
+          "visible": [
+            "app.selection.folder"
+          ]
         }
       },
       {
