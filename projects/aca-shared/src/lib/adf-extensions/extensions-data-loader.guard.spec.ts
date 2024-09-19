@@ -22,9 +22,10 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ExtensionsDataLoaderGuard } from './extensions-data-loader.guard';
-import { ActivatedRouteSnapshot } from '@angular/router';
-import { Subject, throwError } from 'rxjs';
+import { EXTENSION_DATA_LOADERS, ExtensionsDataLoaderGuard, resetInvoked } from './extensions-data-loader.guard';
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { TestBed } from '@angular/core/testing';
+import { Observable, Subject, throwError } from 'rxjs';
 
 describe('ExtensionsDataLoaderGuard', () => {
   let route: ActivatedRouteSnapshot;
@@ -32,108 +33,110 @@ describe('ExtensionsDataLoaderGuard', () => {
   let completedSpy;
   let erroredSpy;
 
-  describe('canActivate', () => {
-    beforeEach(() => {
-      route = {} as ActivatedRouteSnapshot;
-      emittedSpy = jasmine.createSpy('emitted');
-      completedSpy = jasmine.createSpy('completed');
-      erroredSpy = jasmine.createSpy('errored');
-    });
+  const setupTest = (extensionDataLoaders: any[]) => {
+    TestBed.overrideProvider(EXTENSION_DATA_LOADERS, { useValue: extensionDataLoaders });
+    return TestBed.runInInjectionContext(() => ExtensionsDataLoaderGuard(route, {} as RouterStateSnapshot)) as Observable<boolean>;
+  };
 
-    it('should emit true and complete if no callback are present', () => {
-      const guard = new ExtensionsDataLoaderGuard([]);
+  beforeEach(() => {
+    route = {} as ActivatedRouteSnapshot;
+    emittedSpy = jasmine.createSpy('emitted');
+    completedSpy = jasmine.createSpy('completed');
+    erroredSpy = jasmine.createSpy('errored');
+    resetInvoked();
+  });
 
-      guard.canActivate(route).subscribe(emittedSpy, erroredSpy, completedSpy);
-      expect(emittedSpy).toHaveBeenCalledWith(true);
-      expect(erroredSpy).not.toHaveBeenCalled();
-      expect(completedSpy).toHaveBeenCalled();
-    });
+  it('should emit true and complete if no callback are present', () => {
+    const guard = setupTest([]);
+    guard.subscribe(emittedSpy, erroredSpy, completedSpy);
+    expect(emittedSpy).toHaveBeenCalledWith(true);
+    expect(erroredSpy).not.toHaveBeenCalled();
+    expect(completedSpy).toHaveBeenCalled();
+  });
 
-    it('should emit true and complete in case of only one callback is present, completed', () => {
-      const subject = new Subject<true>();
-      const guard = new ExtensionsDataLoaderGuard([() => subject.asObservable()]);
+  it('should emit true and complete in case of only one callback is present, completed', () => {
+    const subject = new Subject<true>();
+    const guard = setupTest([() => subject.asObservable()]);
+    guard.subscribe(emittedSpy, erroredSpy, completedSpy);
+    subject.next(true);
+    expect(emittedSpy).not.toHaveBeenCalled();
+    expect(erroredSpy).not.toHaveBeenCalled();
+    expect(completedSpy).not.toHaveBeenCalled();
 
-      guard.canActivate(route).subscribe(emittedSpy, erroredSpy, completedSpy);
+    subject.complete();
+    expect(emittedSpy).toHaveBeenCalledWith(true);
+    expect(erroredSpy).not.toHaveBeenCalled();
+    expect(completedSpy).toHaveBeenCalled();
+  });
 
-      subject.next(true);
-      expect(emittedSpy).not.toHaveBeenCalled();
-      expect(erroredSpy).not.toHaveBeenCalled();
-      expect(completedSpy).not.toHaveBeenCalled();
+  it('should emit true and complete in case of only one callback is present, errored', () => {
+    const guard = setupTest([() => throwError(new Error())]);
+    guard.subscribe(emittedSpy, erroredSpy, completedSpy);
 
-      subject.complete();
-      expect(emittedSpy).toHaveBeenCalledWith(true);
-      expect(erroredSpy).not.toHaveBeenCalled();
-      expect(completedSpy).toHaveBeenCalled();
-    });
+    expect(emittedSpy).toHaveBeenCalledWith(true);
+    expect(erroredSpy).not.toHaveBeenCalled();
+    expect(completedSpy).toHaveBeenCalled();
+  });
 
-    it('should emit true and complete in case of only one callback is present, errored', () => {
-      const guard = new ExtensionsDataLoaderGuard([() => throwError(new Error())]);
+  it('should NOT complete in case of multiple callbacks are present and not all of them have been completed', () => {
+    const subject1 = new Subject<true>();
+    const subject2 = new Subject<true>();
+    const guard = setupTest([() => subject1.asObservable(), () => subject2.asObservable()]);
 
-      guard.canActivate(route).subscribe(emittedSpy, erroredSpy, completedSpy);
-      expect(emittedSpy).toHaveBeenCalledWith(true);
-      expect(erroredSpy).not.toHaveBeenCalled();
-      expect(completedSpy).toHaveBeenCalled();
-    });
+    guard.subscribe(emittedSpy, erroredSpy, completedSpy);
+    subject1.next();
+    subject2.next();
+    subject1.complete();
 
-    it('should NOT complete in case of multiple callbacks are present and not all of them have been completed', () => {
-      const subject1 = new Subject<true>();
-      const subject2 = new Subject<true>();
-      const guard = new ExtensionsDataLoaderGuard([() => subject1.asObservable(), () => subject2.asObservable()]);
+    expect(emittedSpy).not.toHaveBeenCalled();
+    expect(erroredSpy).not.toHaveBeenCalled();
+    expect(completedSpy).not.toHaveBeenCalled();
+  });
 
-      guard.canActivate(route).subscribe(emittedSpy, erroredSpy, completedSpy);
+  it('should emit true and complete in case of multiple callbacks are present and all of them have been completed', () => {
+    const subject1 = new Subject<true>();
+    const subject2 = new Subject<true>();
+    const guard = setupTest([() => subject1.asObservable(), () => subject2.asObservable()]);
 
-      subject1.next();
-      subject2.next();
-      subject1.complete();
-      expect(emittedSpy).not.toHaveBeenCalled();
-      expect(erroredSpy).not.toHaveBeenCalled();
-      expect(completedSpy).not.toHaveBeenCalled();
-    });
+    guard.subscribe(emittedSpy, erroredSpy, completedSpy);
+    subject1.next();
+    subject2.next();
+    subject1.complete();
+    subject2.complete();
 
-    it('should emit true and complete in case of multiple callbacks are present and all of them have been completed', () => {
-      const subject1 = new Subject<true>();
-      const subject2 = new Subject<true>();
-      const guard = new ExtensionsDataLoaderGuard([() => subject1.asObservable(), () => subject2.asObservable()]);
+    expect(emittedSpy).toHaveBeenCalledWith(true);
+    expect(erroredSpy).not.toHaveBeenCalled();
+    expect(completedSpy).toHaveBeenCalled();
+  });
 
-      guard.canActivate(route).subscribe(emittedSpy, erroredSpy, completedSpy);
+  it('should emit true and complete even if one of the observables are errored, to not block the application loading', () => {
+    const subject1 = new Subject<true>();
+    const guard = setupTest([() => subject1.asObservable(), () => throwError(new Error())]);
 
-      subject1.next();
-      subject2.next();
-      subject1.complete();
-      subject2.complete();
-      expect(emittedSpy).toHaveBeenCalledWith(true);
-      expect(erroredSpy).not.toHaveBeenCalled();
-      expect(completedSpy).toHaveBeenCalled();
-    });
+    guard.subscribe(emittedSpy, erroredSpy, completedSpy);
+    subject1.next();
 
-    it('should emit true and complete even if one of the observables are errored, to not block the application loading', () => {
-      const subject1 = new Subject<true>();
-      const guard = new ExtensionsDataLoaderGuard([() => subject1.asObservable(), () => throwError(new Error())]);
+    expect(emittedSpy).toHaveBeenCalledWith(true);
+    expect(erroredSpy).not.toHaveBeenCalled();
+    expect(completedSpy).toHaveBeenCalled();
+  });
 
-      guard.canActivate(route).subscribe(emittedSpy, erroredSpy, completedSpy);
+  it('should call canActivate only once', () => {
+    const subject1 = new Subject<true>();
+    const extensionLoaders = {
+      fct1: () => subject1.asObservable()
+    };
+    const extensionLoaderSpy = spyOn(extensionLoaders, 'fct1').and.callThrough();
+    const guard = setupTest([extensionLoaders.fct1]);
 
-      subject1.next();
-      expect(emittedSpy).toHaveBeenCalledWith(true);
-      expect(erroredSpy).not.toHaveBeenCalled();
-      expect(completedSpy).toHaveBeenCalled();
-    });
+    guard.subscribe(emittedSpy, erroredSpy, completedSpy);
+    expect(extensionLoaderSpy).toHaveBeenCalled();
 
-    it('should call canActivate only once', () => {
-      const subject1 = new Subject<true>();
-      const extensionLoaders = {
-        fct1: () => subject1.asObservable()
-      };
-      const extensionLoaderSpy = spyOn(extensionLoaders, 'fct1').and.callThrough();
-      const guard = new ExtensionsDataLoaderGuard([extensionLoaders.fct1]);
+    extensionLoaderSpy.calls.reset();
+    subject1.next(true);
+    subject1.complete();
 
-      guard.canActivate(route).subscribe(emittedSpy, erroredSpy, completedSpy);
-      expect(extensionLoaderSpy).toHaveBeenCalled();
-
-      extensionLoaderSpy.calls.reset();
-      subject1.next(true);
-      subject1.complete();
-      guard.canActivate(route).subscribe(emittedSpy, erroredSpy, completedSpy);
-      expect(extensionLoaderSpy).not.toHaveBeenCalled();
-    });
+    guard.subscribe(emittedSpy, erroredSpy, completedSpy);
+    expect(extensionLoaderSpy).not.toHaveBeenCalled();
   });
 });

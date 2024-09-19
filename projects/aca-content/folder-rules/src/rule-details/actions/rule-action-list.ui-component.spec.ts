@@ -28,6 +28,7 @@ import { RuleActionListUiComponent } from './rule-action-list.ui-component';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { RuleActionUiComponent } from './rule-action.ui-component';
+import { AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-content-services';
 
 describe('RuleActionListUiComponent', () => {
   let fixture: ComponentFixture<RuleActionListUiComponent>;
@@ -38,7 +39,8 @@ describe('RuleActionListUiComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CoreTestingModule]
+      imports: [CoreTestingModule],
+      providers: [{ provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock }]
     });
 
     fixture = TestBed.createComponent(RuleActionListUiComponent);

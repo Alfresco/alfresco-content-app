@@ -19,7 +19,7 @@
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
 export type ApiResultPredicate<T> = (result: T) => boolean;
@@ -40,7 +40,12 @@ export async function waitForApi<T>(apiCall: ApiCall<T>, predicate: ApiResultPre
 
 function retryCall(fn: () => Promise<any>, retry: number = 30, delay: number = 1000): Promise<string> {
   const pause = (duration) => new Promise((res) => setTimeout(res, duration));
-  const run = (retries) => fn().catch((err) => (retries > 1 ? pause(delay).then(() => run(retries - 1)) : Promise.reject(new Error(`API call did not satisfy predicate: ${JSON.stringify(err)}`))));
+  const run = (retries) =>
+    fn().catch((err) =>
+      retries > 1
+        ? pause(delay).then(() => run(retries - 1))
+        : Promise.reject(new Error(`API call did not satisfy predicate: ${JSON.stringify(err)}`))
+    );
 
   return run(retry);
 }

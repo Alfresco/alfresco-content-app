@@ -22,27 +22,19 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router } from '@angular/router';
+import { ActivatedRouteSnapshot, Router, CanActivateFn } from '@angular/router';
+import { inject } from '@angular/core';
 import { AppConfigService } from '@alfresco/adf-core';
-import { Injectable } from '@angular/core';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class PluginEnabledGuard implements CanActivate, CanActivateChild {
-  constructor(private appConfigService: AppConfigService, private router: Router) {}
+export const PluginEnabledGuard: CanActivateFn = (route: ActivatedRouteSnapshot) => {
+  const appConfigService = inject(AppConfigService);
+  const router = inject(Router);
 
-  canActivate(route: ActivatedRouteSnapshot): boolean {
-    const isPluginEnabled = this.appConfigService.get(route.data.plugin, true);
+  const isPluginEnabled = appConfigService.get(route.data.plugin, true);
 
-    if (!isPluginEnabled) {
-      this.router.navigate(['/']);
-    }
-
-    return isPluginEnabled;
+  if (!isPluginEnabled) {
+    router.navigate(['/']);
   }
 
-  canActivateChild(route: ActivatedRouteSnapshot): boolean {
-    return this.canActivate(route);
-  }
-}
+  return isPluginEnabled;
+};

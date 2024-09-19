@@ -23,8 +23,8 @@
  */
 
 import { expect } from '@playwright/test';
-import { FavoritesPage, LoginPage, MyLibrariesPage, SearchPage, SharedPage, test } from '@alfresco/playwright-shared';
-import * as testData from '@alfresco/playwright-shared';
+import { FavoritesPage, LoginPage, MyLibrariesPage, SearchPage, SharedPage, test } from '@alfresco/aca-playwright-shared';
+import * as testData from '@alfresco/aca-playwright-shared';
 
 export function viewerTests(userConsumer: string, siteName: string) {
   test.describe('Consumer available actions : ', () => {

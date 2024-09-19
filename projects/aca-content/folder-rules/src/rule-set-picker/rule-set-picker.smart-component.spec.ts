@@ -32,6 +32,7 @@ import { of } from 'rxjs';
 import { ownedRuleSetMock, ruleSetWithLinkMock, ruleSetWithNoRulesToLinkMock, ruleSetWithOwnedRulesToLinkMock } from '../mock/rule-sets.mock';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { By } from '@angular/platform-browser';
+import { AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-content-services';
 
 describe('RuleSetPickerSmartComponent', () => {
   let fixture: ComponentFixture<RuleSetPickerSmartComponent>;
@@ -55,6 +56,7 @@ describe('RuleSetPickerSmartComponent', () => {
     TestBed.configureTestingModule({
       imports: [CoreTestingModule, RuleSetPickerSmartComponent],
       providers: [
+        { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock },
         { provide: MatDialogRef, useValue: dialogRef },
         { provide: MAT_DIALOG_DATA, useValue: dialogOptions },
         {

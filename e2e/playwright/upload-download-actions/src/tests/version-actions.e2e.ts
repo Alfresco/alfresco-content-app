@@ -38,7 +38,7 @@ import {
   FavoritesPage,
   SharedPage,
   SearchPage
-} from '@alfresco/playwright-shared';
+} from '@alfresco/aca-playwright-shared';
 
 test.describe('Version actions', () => {
   let trashcanApi: TrashcanApi;

@@ -23,7 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, TrashcanApi, NodesApi, SitesApi, test, Utils } from '@alfresco/playwright-shared';
+import { ApiClientFactory, TrashcanApi, NodesApi, SitesApi, test, Utils } from '@alfresco/aca-playwright-shared';
 
 test.describe('Single click on item name', () => {
   let nodesApi: NodesApi;

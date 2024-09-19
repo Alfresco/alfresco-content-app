@@ -102,7 +102,7 @@ registerLocaleData(localeSv);
     },
     {
       provide: SHELL_AUTH_TOKEN,
-      useClass: AuthGuard
+      useValue: AuthGuard
     },
     {
       provide: TRANSLATION_PROVIDER,

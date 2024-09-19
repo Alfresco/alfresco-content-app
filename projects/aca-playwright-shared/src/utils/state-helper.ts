@@ -22,13 +22,12 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 import { resolve } from 'path';
 import { paths } from '.';
 import { users } from '../base-config';
 
 export function getUserState(user: UserType) {
-    return resolve(process.cwd(), `${paths.userStates}/${user}UserState.json`);
+  return resolve(process.cwd(), `${paths.userStates}/${user}UserState.json`);
 }
 
 type UserType = keyof typeof users;

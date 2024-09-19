@@ -30,7 +30,6 @@ export class SidenavComponent extends BaseComponent {
   private static rootElement = 'app-sidenav';
 
   private personalFiles = this.getChild(`[data-automation-id='app.navbar.personalFiles']`);
-  private fileLibraries = this.getChild(`[data-automation-id='app.navbar.libraries.menu']`);
   private myLibraries = this.getChild(`[data-automation-id='app.navbar.libraries.files']`);
   private favoriteLibraries = this.getChild(`[data-automation-id='app.navbar.libraries.favorite']`);
   private shared = this.getChild(`[data-automation-id='app.navbar.shared']`);

@@ -58,6 +58,7 @@ import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dial
 import { MatSnackBarModule, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
 import { Node, NodeEntry, VersionPaging } from '@alfresco/js-api';
 import {
+  DocumentListService,
   FileModel,
   NewVersionUploaderDataAction,
   NewVersionUploaderService,
@@ -74,6 +75,7 @@ describe('ContentManagementService', () => {
   let contentManagementService: ContentManagementService;
   let notificationService: NotificationService;
   let nodeActions: NodeActionsService;
+  let documentListService: DocumentListService;
   let translationService: TranslationService;
   let nodesApiService: NodesApiService;
   let nodeAspectService: NodeAspectService;
@@ -97,6 +99,7 @@ describe('ContentManagementService', () => {
     showInfoSpy = spyOn(notificationService, 'showInfo');
     showWarningSpy = spyOn(notificationService, 'showWarning');
     nodeActions = TestBed.inject(NodeActionsService);
+    documentListService = TestBed.inject(DocumentListService);
     translationService = TestBed.inject(TranslationService);
     nodesApiService = TestBed.inject(NodesApiService);
     nodeAspectService = TestBed.inject(NodeAspectService);
@@ -1578,10 +1581,12 @@ describe('ContentManagementService', () => {
       expect(spyOnOpenUploadNewVersionDialog['calls'].argsFor(0)[2]).toEqual(elementToFocusSelector);
     });
 
-    it('should dispatch RefreshPreviewAction if dialog emit refresh action', () => {
+    it('should dispatch RefreshPreviewAction and reload document list if dialog emit refresh action', () => {
       spyOnOpenUploadNewVersionDialog.and.returnValue(of({ action: NewVersionUploaderDataAction.refresh, node: fakeNodeIsFile }));
+      spyOn(documentListService, 'reload');
       contentManagementService.manageVersions(fakeNodeIsFile);
 
+      expect(documentListService.reload).toHaveBeenCalled();
       expect(spyOnDispatch).toHaveBeenCalledOnceWith(new RefreshPreviewAction(fakeNodeIsFile));
     });
 

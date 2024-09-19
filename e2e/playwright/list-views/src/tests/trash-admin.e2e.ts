@@ -23,7 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, NodesApi, Utils, getUserState, test, TrashcanApi, users } from '@alfresco/playwright-shared';
+import { ApiClientFactory, NodesApi, Utils, getUserState, test, TrashcanApi, users } from '@alfresco/aca-playwright-shared';
 
 test.use({ storageState: getUserState('admin') });
 test.describe('Trash admin', () => {

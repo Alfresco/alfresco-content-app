@@ -24,13 +24,14 @@
 
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { AlfrescoApiService } from '@alfresco/adf-core';
+import { AlfrescoApiService } from '@alfresco/adf-content-services';
 import { LibrariesComponent } from './libraries.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { EffectsModule } from '@ngrx/effects';
 import { LibraryEffects } from '../../store/effects';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { getTitleElementText } from '../../testing/test-utils';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('LibrariesComponent', () => {
   let fixture: ComponentFixture<LibrariesComponent>;
@@ -51,7 +52,7 @@ describe('LibrariesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, EffectsModule.forRoot([LibraryEffects]), LibrariesComponent]
+      imports: [AppTestingModule, EffectsModule.forRoot([LibraryEffects]), LibrariesComponent, MatSnackBarModule]
     });
 
     fixture = TestBed.createComponent(LibrariesComponent);

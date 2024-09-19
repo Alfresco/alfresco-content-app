@@ -33,6 +33,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { AppService } from '@alfresco/aca-shared';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('SearchComponent', () => {
   let component: SearchResultsComponent;
@@ -49,7 +50,7 @@ describe('SearchComponent', () => {
   beforeEach(() => {
     params = new BehaviorSubject({ q: 'TYPE: "cm:folder" AND %28=cm: name: email OR cm: name: budget%29' });
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, SearchResultsComponent],
+      imports: [AppTestingModule, SearchResultsComponent, MatSnackBarModule],
       providers: [
         {
           provide: AppService,

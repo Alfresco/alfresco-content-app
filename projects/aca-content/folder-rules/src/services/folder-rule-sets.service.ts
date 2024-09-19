@@ -23,7 +23,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { AlfrescoApiService } from '@alfresco/adf-core';
+import { AlfrescoApiService } from '@alfresco/adf-content-services';
 import { BehaviorSubject, combineLatest, from, Observable, of } from 'rxjs';
 import { NodeInfo } from '@alfresco/aca-shared/store';
 import { catchError, finalize, map, switchMap, tap } from 'rxjs/operators';

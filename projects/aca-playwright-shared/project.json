@@ -1,7 +1,28 @@
 {
-  "name": "playwright-shared",
+  "name": "aca-playwright-shared",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "projects/aca-playwright-shared/src",
   "projectType": "library",
-  "prefix": "lib"
+  "prefix": "lib",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "tsConfig": "projects/aca-playwright-shared/tsconfig.lib.json",
+        "project": "projects/aca-playwright-shared/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "projects/aca-playwright-shared/tsconfig.lib.prod.json"
+        }
+      },
+      "defaultConfiguration": "production",
+      "outputs": [
+        "{workspaceRoot}/dist/@alfresco/aca-playwright-shared"
+      ]
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint"
+    }
+  }
 }

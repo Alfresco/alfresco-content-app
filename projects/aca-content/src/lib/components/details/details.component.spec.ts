@@ -37,6 +37,7 @@ import { AuthenticationService, CORE_PIPES, PageTitleService } from '@alfresco/a
 import { BreadcrumbComponent, ContentService, SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { By } from '@angular/platform-browser';
 import { ContentActionRef } from '@alfresco/adf-extensions';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('DetailsComponent', () => {
   let component: DetailsComponent;
@@ -63,7 +64,7 @@ describe('DetailsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, DetailsComponent, ...CORE_PIPES],
+      imports: [AppTestingModule, DetailsComponent, ...CORE_PIPES, MatSnackBarModule],
       providers: [
         RouterTestingModule,
         SearchQueryBuilderService,

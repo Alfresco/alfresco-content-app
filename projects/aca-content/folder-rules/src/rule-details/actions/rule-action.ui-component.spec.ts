@@ -34,7 +34,7 @@ import {
 import { By } from '@angular/platform-browser';
 import { dummyCategoriesConstraints, dummyConstraints, dummyTagsConstraints } from '../../mock/action-parameter-constraints.mock';
 import { securityMarksResponseMock, updateNotificationMock } from '../../mock/security-marks.mock';
-import { CategoryService, NodeAction, TagService } from '@alfresco/adf-content-services';
+import { AlfrescoApiService, AlfrescoApiServiceMock, CategoryService, NodeAction, TagService } from '@alfresco/adf-content-services';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
@@ -63,7 +63,8 @@ describe('RuleActionUiComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CoreTestingModule, RuleActionUiComponent]
+      imports: [CoreTestingModule, RuleActionUiComponent],
+      providers: [{ provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock }]
     });
 
     fixture = TestBed.createComponent(RuleActionUiComponent);

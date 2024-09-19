@@ -1,0 +1,16 @@
+{
+  "extends": "./tsconfig.lib.json",
+  "compilerOptions": {
+    "declarationMap": false,
+    "paths": {
+      "@alfresco/aca-content": ["dist/@alfresco/aca-content"],
+      "@alfresco/aca-content/folder-rules": ["dist/@alfresco/aca-content/folder-rules"],
+      "@alfresco/aca-shared": ["dist/@alfresco/aca-shared"],
+      "@alfresco/aca-shared/store": ["dist/@alfresco/aca-shared/store"],
+      "@alfresco/aca-shared/rules": ["dist/@alfresco/aca-shared/rules"]
+    },
+  },
+  "angularCompilerOptions": {
+    "compilationMode": "partial"
+  }
+}

@@ -30,7 +30,7 @@ import { By } from '@angular/platform-browser';
 import { RuleTriggersUiComponent } from './triggers/rule-triggers.ui-component';
 import { RuleOptionsUiComponent } from './options/rule-options.ui-component';
 import { RuleActionListUiComponent } from './actions/rule-action-list.ui-component';
-import { CategoryService } from '@alfresco/adf-content-services';
+import { AlfrescoApiService, AlfrescoApiServiceMock, CategoryService } from '@alfresco/adf-content-services';
 
 describe('RuleDetailsUiComponent', () => {
   let fixture: ComponentFixture<RuleDetailsUiComponent>;
@@ -55,7 +55,8 @@ describe('RuleDetailsUiComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CoreTestingModule, RuleDetailsUiComponent]
+      imports: [CoreTestingModule, RuleDetailsUiComponent],
+      providers: [{ provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock }]
     });
 
     fixture = TestBed.createComponent(RuleDetailsUiComponent);

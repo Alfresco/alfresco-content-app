@@ -23,7 +23,6 @@
  */
 
 export const errorStrings = {
-
   errorMessageNotPresent: 'Error message is not displayed',
   nameIsRequiredError: 'Name is required',
   nameWithSpecialCharactersError: `Name can't contain these characters * " < > \\ / ? : |`,
@@ -38,4 +37,4 @@ export const errorStrings = {
   folderNameCantContainTheseCharacters: `Folder name can't contain these characters`,
   folderNameCantContainOnlySpaces: `Folder name can't contain only spaces`,
   thereIsAlreadyAFolderWithThisName: `There's already a folder with this name. Try a different name.`
-}
+};

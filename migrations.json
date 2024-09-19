@@ -1,0 +1,11 @@
+{
+  "migrations": [
+    {
+      "description": "Update alfresco-api imports",
+      "version": "6.10.0-10366268804",
+      "factory": "./7_0_0/index#updateAlfrescoApiImports",
+      "package": "@alfresco/adf-core",
+      "name": "move-out-alfresco-api"
+    }
+  ]
+}

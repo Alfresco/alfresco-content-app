@@ -32,4 +32,4 @@ if (environment.production) {
   enableProdMode();
 }
 
-platformBrowserDynamic().bootstrapModule(AppModule);
+void platformBrowserDynamic().bootstrapModule(AppModule);

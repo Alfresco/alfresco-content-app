@@ -22,8 +22,8 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { MyLibrariesPage, test, Utils } from '@alfresco/playwright-shared';
-import * as testData from '@alfresco/playwright-shared';
+import { MyLibrariesPage, test, Utils } from '@alfresco/aca-playwright-shared';
+import * as testData from '@alfresco/aca-playwright-shared';
 import { expect } from '@playwright/test';
 
 async function checkActionsAvailable(

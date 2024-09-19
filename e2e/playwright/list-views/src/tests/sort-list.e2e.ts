@@ -33,7 +33,7 @@ import {
   Utils,
   test,
   timeouts
-} from '@alfresco/playwright-shared';
+} from '@alfresco/aca-playwright-shared';
 
 async function getSortState(myPersonalFiles: PersonalFilesPage): Promise<{ [key: string]: string }> {
   return {

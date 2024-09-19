@@ -22,8 +22,8 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Injectable, InjectionToken, Inject } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot } from '@angular/router';
+import { InjectionToken, inject } from '@angular/core';
+import { ActivatedRouteSnapshot, CanActivateFn } from '@angular/router';
 import { Observable, forkJoin, of } from 'rxjs';
 import { tap, map, catchError } from 'rxjs/operators';
 
@@ -36,44 +36,37 @@ export const EXTENSION_DATA_LOADERS = new InjectionToken<ExtensionLoaderCallback
   factory: DefaultExtensionLoaderFactory
 });
 
-@Injectable({ providedIn: 'root' })
-export class ExtensionsDataLoaderGuard implements CanActivate {
-  private invoked = false;
+let invoked = false;
 
-  constructor(
-    @Inject(EXTENSION_DATA_LOADERS)
-    private extensionDataLoaders: ExtensionLoaderCallback[]
-  ) {}
-
-  canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
-    if (!this.invoked) {
-      if (!this.extensionDataLoaders.length) {
-        this.invoked = true;
-        return of(true);
-      }
-
-      const dataLoaderCallbacks = this.extensionDataLoaders.map((callback) => callback(route));
-
-      // Undocumented forkJoin behaviour/bug:
-      // https://github.com/ReactiveX/rxjs/issues/3246
-      // So all callbacks need to emit before completion, otherwise forkJoin will short circuit
-      return forkJoin(...dataLoaderCallbacks).pipe(
-        map(() => true),
-        tap(() => (this.invoked = true)),
-        catchError((e) => {
-          // eslint-disable-next-line no-console
-          console.error('Some of the extension data loader guards has been errored.');
-          // eslint-disable-next-line no-console
-          console.error(e);
-          return of(true);
-        })
-      );
-    } else {
+export const ExtensionsDataLoaderGuard: CanActivateFn = (route: ActivatedRouteSnapshot): Observable<boolean> => {
+  const extensionDataLoaders = inject(EXTENSION_DATA_LOADERS);
+  if (!invoked) {
+    if (!extensionDataLoaders.length) {
+      invoked = true;
       return of(true);
     }
-  }
 
-  canActivateChild(): Observable<boolean> {
+    const dataLoaderCallbacks = extensionDataLoaders.map((callback) => callback(route));
+
+    // Undocumented forkJoin behaviour/bug:
+    // https://github.com/ReactiveX/rxjs/issues/3246
+    // So all callbacks need to emit before completion, otherwise forkJoin will short circuit
+    return forkJoin(...dataLoaderCallbacks).pipe(
+      map(() => true),
+      tap(() => (invoked = true)),
+      catchError((e) => {
+        // eslint-disable-next-line no-console
+        console.error('Some of the extension data loader guards has been errored.');
+        // eslint-disable-next-line no-console
+        console.error(e);
+        return of(true);
+      })
+    );
+  } else {
     return of(true);
   }
-}
+};
+
+export const resetInvoked = () => {
+  invoked = false;
+};

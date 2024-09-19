@@ -46,7 +46,7 @@ import {
   isAdmin
 } from '@alfresco/aca-shared/store';
 import { debounceTime, filter, mergeMap, takeUntil } from 'rxjs/operators';
-import { AlfrescoApiService } from '@alfresco/adf-core';
+import { AlfrescoApiService } from '@alfresco/adf-content-services';
 import { Observable, from, Subject } from 'rxjs';
 import { ErrorStateMatcher, MatOptionModule } from '@angular/material/core';
 import { CommonModule } from '@angular/common';

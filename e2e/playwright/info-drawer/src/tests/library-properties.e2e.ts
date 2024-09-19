@@ -23,7 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, Utils, test, SitesApi, QueriesApi, SITE_VISIBILITY, SITE_ROLES } from '@alfresco/playwright-shared';
+import { ApiClientFactory, Utils, test, SitesApi, QueriesApi, SITE_VISIBILITY, SITE_ROLES } from '@alfresco/aca-playwright-shared';
 
 test.describe('Library properties', () => {
   let sitesApi: SitesApi;

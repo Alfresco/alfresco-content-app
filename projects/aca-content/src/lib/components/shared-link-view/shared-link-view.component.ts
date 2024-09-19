@@ -23,7 +23,7 @@
  */
 
 import { AppStore, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
-import { AlfrescoApiService, ViewerModule } from '@alfresco/adf-core';
+import { ViewerModule } from '@alfresco/adf-core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { SharedLinkEntry, SharedlinksApi } from '@alfresco/js-api';
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
@@ -33,7 +33,7 @@ import { forkJoin, from, of, Subject } from 'rxjs';
 import { catchError, mergeMap, takeUntil } from 'rxjs/operators';
 import { AppExtensionService, AppService, ToolbarComponent } from '@alfresco/aca-shared';
 import { CommonModule } from '@angular/common';
-import { AlfrescoViewerModule } from '@alfresco/adf-content-services';
+import { AlfrescoApiService, AlfrescoViewerModule } from '@alfresco/adf-content-services';
 
 @Component({
   standalone: true,
