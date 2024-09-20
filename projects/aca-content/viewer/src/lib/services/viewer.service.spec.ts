@@ -215,4 +215,9 @@ describe('ViewerService', () => {
     const ids = await viewerService.getFileIds('libraries', null);
     expect(ids).toEqual([]);
   });
+
+  it('should return custom nodes order if did not find nodes', async () => {
+    viewerService.customNodesOrder = ['someNode1', 'someNode2'];
+    expect(await viewerService.getFileIds('', null)).toEqual(['someNode1', 'someNode2']);
+  });
 });

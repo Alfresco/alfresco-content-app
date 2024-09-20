@@ -28,6 +28,7 @@ $blue-save-button-background: #1f74db;
 $blue-checkbox-background: rgb(10, 96, 206);
 $blue-active-table-row: rgb(10, 96, 206, 0.24);
 $black-heading: #4e4c4c;
+$light-grey-content: #4b5563;
 $theme-dropdown-background: darken($background-color, 5%);
 $theme-dropdown-background-hover: darken($background-color, 10%);
 $grey-divider: rgba(0, 0, 0, 0.22);
@@ -46,6 +47,11 @@ $disabled-chip-background-color: #f5f5f5;
 $contrast-gray: mat.get-color-from-palette($foreground, 'secondary-tex');
 $search-highlight-background-color: #ffd180;
 $info-snackbar-background: #1f74db;
+$text-light-color: rgba(33, 35, 40, 0.7);
+$card-background-grey-color: rgb(248, 248, 248);
+$light-grey-1: #d5d5d5;
+$light-grey-2: #d9d9d9;
+$light-grey-3: #dedede;
 
 // CSS Variables
 $defaults: (
@@ -75,6 +81,7 @@ $defaults: (
   --theme-blue-checkbox-color: $blue-checkbox-background,
   --theme-blue-active-table-row-color: $blue-active-table-row,
   --theme-heading-color: $black-heading,
+  --theme-content-color: $light-grey-content,
   --theme-dropdown-color: $theme-dropdown-background,
   --theme-dropdown-background-hover: $theme-dropdown-background-hover,
   --theme-grey-divider-color: $grey-divider,
@@ -96,7 +103,12 @@ $defaults: (
   --theme-search-chip-icon-color: $search-chip-icon-color,
   --theme-disabled-chip-background-color: $disabled-chip-background-color,
   --theme-secondary-text: $secondary-text,
-  --theme-search-highlight-background-color: $search-highlight-background-color
+  --theme-search-highlight-background-color: $search-highlight-background-color,
+  --theme-text-light-color: $text-light-color,
+  --theme-card-background-grey-color: $card-background-grey-color,
+  --theme-light-grey-1-color: $light-grey-1,
+  --theme-light-grey-2-color: $light-grey-2,
+  --theme-light-grey-3-color: $light-grey-3
 );
 
 // propagates SCSS variables into the CSS variables scope

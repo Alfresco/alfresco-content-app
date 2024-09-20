@@ -27,8 +27,8 @@ import { LibrariesComponent } from './components/libraries/libraries.component';
 import { FavoriteLibrariesComponent } from './components/favorite-libraries/favorite-libraries.component';
 import { SearchResultsComponent } from './components/search/search-results/search-results.component';
 import { SearchLibrariesResultsComponent } from './components/search/search-libraries-results/search-libraries-results.component';
-import { AppSharedRuleGuard, GenericErrorComponent, ExtensionRoute, ExtensionsDataLoaderGuard } from '@alfresco/aca-shared';
-import { AuthGuard } from '@alfresco/adf-core';
+import { AppSharedRuleGuard, GenericErrorComponent, ExtensionRoute, ExtensionsDataLoaderGuard, PluginEnabledGuard } from '@alfresco/aca-shared';
+import { AuthGuard, UnsavedChangesGuard } from '@alfresco/adf-core';
 import { FavoritesComponent } from './components/favorites/favorites.component';
 import { RecentFilesComponent } from './components/recent-files/recent-files.component';
 import { SharedFilesComponent } from './components/shared-files/shared-files.component';
@@ -36,10 +36,11 @@ import { DetailsComponent } from './components/details/details.component';
 import { HomeComponent } from './components/home/home.component';
 import { ViewProfileComponent } from './components/view-profile/view-profile.component';
 import { ViewProfileRuleGuard } from './components/view-profile/view-profile.guard';
-import { Route } from '@angular/router';
+import { Data, Route, Routes } from '@angular/router';
 import { SharedLinkViewComponent } from './components/shared-link-view/shared-link-view.component';
 import { TrashcanComponent } from './components/trashcan/trashcan.component';
 import { ShellLayoutComponent } from '@alfresco/adf-core/shell';
+import { SearchAiResultsComponent } from './components/knowledge-retrieval/search-ai/search-ai-results/search-ai-results.component';
 
 export const CONTENT_ROUTES: ExtensionRoute[] = [
   {
@@ -67,6 +68,36 @@ export const CONTENT_ROUTES: ExtensionRoute[] = [
             loadChildren: () => import('@alfresco/aca-content/viewer').then((m) => m.AcaViewerModule)
           }
         ]
+      }
+    ]
+  }
+];
+
+const createViewRoutes = (navigateSource: string, additionalData: Data = {}): Routes => [
+  {
+    path: 'view/:nodeId',
+    outlet: 'viewer',
+    children: [
+      {
+        path: '',
+        data: {
+          navigateSource
+        },
+        loadChildren: () => import('@alfresco/aca-content/viewer').then((m) => m.AcaViewerModule)
+      }
+    ],
+    ...additionalData
+  },
+  {
+    path: 'view/:nodeId/:versionId',
+    outlet: 'viewer',
+    children: [
+      {
+        path: '',
+        data: {
+          navigateSource
+        },
+        loadChildren: () => import('@alfresco/aca-content/viewer').then((m) => m.AcaViewerModule)
       }
     ]
   }
@@ -117,32 +148,7 @@ export const CONTENT_LAYOUT_ROUTES: Route = {
             }
           ]
         },
-        {
-          path: 'view/:nodeId',
-          outlet: 'viewer',
-          children: [
-            {
-              path: '',
-              data: {
-                navigateSource: 'personal-files'
-              },
-              loadChildren: () => import('@alfresco/aca-content/viewer').then((m) => m.AcaViewerModule)
-            }
-          ]
-        },
-        {
-          path: 'view/:nodeId/:versionId',
-          outlet: 'viewer',
-          children: [
-            {
-              path: '',
-              data: {
-                navigateSource: 'personal-files'
-              },
-              loadChildren: () => import('@alfresco/aca-content/viewer').then((m) => m.AcaViewerModule)
-            }
-          ]
-        }
+        ...createViewRoutes('personal-files')
       ]
     },
     {
@@ -156,32 +162,7 @@ export const CONTENT_LAYOUT_ROUTES: Route = {
             sortingPreferenceKey: 'personal-files'
           }
         },
-        {
-          path: 'view/:nodeId/:versionId',
-          outlet: 'viewer',
-          children: [
-            {
-              path: '',
-              data: {
-                navigateSource: 'personal-files'
-              },
-              loadChildren: () => import('@alfresco/aca-content/viewer').then((m) => m.AcaViewerModule)
-            }
-          ]
-        },
-        {
-          path: 'view/:nodeId',
-          outlet: 'viewer',
-          children: [
-            {
-              path: '',
-              data: {
-                navigateSource: 'personal-files'
-              },
-              loadChildren: () => import('@alfresco/aca-content/viewer').then((m) => m.AcaViewerModule)
-            }
-          ]
-        }
+        ...createViewRoutes('personal-files')
       ]
     },
     {
@@ -208,35 +189,11 @@ export const CONTENT_LAYOUT_ROUTES: Route = {
             sortingPreferenceKey: 'libraries-files'
           }
         },
-        {
-          path: 'view/:nodeId',
-          outlet: 'viewer',
-          children: [
-            {
-              path: '',
-              data: {
-                navigateSource: 'libraries'
-              },
-              loadChildren: () => import('@alfresco/aca-content/viewer').then((m) => m.AcaViewerModule)
-            }
-          ],
+        ...createViewRoutes('libraries', {
           data: {
             navigateSource: 'libraries'
           }
-        },
-        {
-          path: 'view/:nodeId/:versionId',
-          outlet: 'viewer',
-          children: [
-            {
-              path: '',
-              data: {
-                navigateSource: 'libraries'
-              },
-              loadChildren: () => import('@alfresco/aca-content/viewer').then((m) => m.AcaViewerModule)
-            }
-          ]
-        }
+        })
       ]
     },
     {
@@ -268,32 +225,7 @@ export const CONTENT_LAYOUT_ROUTES: Route = {
             sortingPreferenceKey: 'libraries-files'
           }
         },
-        {
-          path: 'view/:nodeId',
-          outlet: 'viewer',
-          children: [
-            {
-              path: '',
-              data: {
-                navigateSource: 'libraries'
-              },
-              loadChildren: () => import('@alfresco/aca-content/viewer').then((m) => m.AcaViewerModule)
-            }
-          ]
-        },
-        {
-          path: 'view/:nodeId/:versionId',
-          outlet: 'viewer',
-          children: [
-            {
-              path: '',
-              data: {
-                navigateSource: 'libraries'
-              },
-              loadChildren: () => import('@alfresco/aca-content/viewer').then((m) => m.AcaViewerModule)
-            }
-          ]
-        }
+        ...createViewRoutes('libraries')
       ]
     },
     {
@@ -310,32 +242,7 @@ export const CONTENT_LAYOUT_ROUTES: Route = {
             sortingPreferenceKey: 'favorites'
           }
         },
-        {
-          path: 'view/:nodeId',
-          outlet: 'viewer',
-          children: [
-            {
-              path: '',
-              data: {
-                navigateSource: 'favorites'
-              },
-              loadChildren: () => import('@alfresco/aca-content/viewer').then((m) => m.AcaViewerModule)
-            }
-          ]
-        },
-        {
-          path: 'view/:nodeId/:versionId',
-          outlet: 'viewer',
-          children: [
-            {
-              path: '',
-              data: {
-                navigateSource: 'favorites'
-              },
-              loadChildren: () => import('@alfresco/aca-content/viewer').then((m) => m.AcaViewerModule)
-            }
-          ]
-        }
+        ...createViewRoutes('favorites')
       ]
     },
     {
@@ -351,32 +258,7 @@ export const CONTENT_LAYOUT_ROUTES: Route = {
             title: 'APP.BROWSE.RECENT.TITLE'
           }
         },
-        {
-          path: 'view/:nodeId',
-          outlet: 'viewer',
-          children: [
-            {
-              path: '',
-              data: {
-                navigateSource: 'recent-files'
-              },
-              loadChildren: () => import('@alfresco/aca-content/viewer').then((m) => m.AcaViewerModule)
-            }
-          ]
-        },
-        {
-          path: 'view/:nodeId/:versionId',
-          outlet: 'viewer',
-          children: [
-            {
-              path: '',
-              data: {
-                navigateSource: 'recent-files'
-              },
-              loadChildren: () => import('@alfresco/aca-content/viewer').then((m) => m.AcaViewerModule)
-            }
-          ]
-        }
+        ...createViewRoutes('recent-files')
       ]
     },
     {
@@ -390,32 +272,7 @@ export const CONTENT_LAYOUT_ROUTES: Route = {
           },
           component: SharedFilesComponent
         },
-        {
-          path: 'view/:nodeId',
-          outlet: 'viewer',
-          children: [
-            {
-              path: '',
-              data: {
-                navigateSource: 'shared'
-              },
-              loadChildren: () => import('@alfresco/aca-content/viewer').then((m) => m.AcaViewerModule)
-            }
-          ]
-        },
-        {
-          path: 'view/:nodeId/:versionId',
-          outlet: 'viewer',
-          children: [
-            {
-              path: '',
-              data: {
-                navigateSource: 'shared'
-              },
-              loadChildren: () => import('@alfresco/aca-content/viewer').then((m) => m.AcaViewerModule)
-            }
-          ]
-        }
+        ...createViewRoutes('shared')
       ],
       canActivateChild: [AppSharedRuleGuard],
       canActivate: [AppSharedRuleGuard]
@@ -444,32 +301,7 @@ export const CONTENT_LAYOUT_ROUTES: Route = {
             sortingPreferenceKey: 'search'
           }
         },
-        {
-          path: 'view/:nodeId',
-          outlet: 'viewer',
-          children: [
-            {
-              path: '',
-              data: {
-                navigateSource: 'search'
-              },
-              loadChildren: () => import('@alfresco/aca-content/viewer').then((m) => m.AcaViewerModule)
-            }
-          ]
-        },
-        {
-          path: 'view/:nodeId/:versionId',
-          outlet: 'viewer',
-          children: [
-            {
-              path: '',
-              data: {
-                navigateSource: 'search'
-              },
-              loadChildren: () => import('@alfresco/aca-content/viewer').then((m) => m.AcaViewerModule)
-            }
-          ]
-        }
+        ...createViewRoutes('search')
       ]
     },
     {
@@ -505,6 +337,21 @@ export const CONTENT_LAYOUT_ROUTES: Route = {
           path: '',
           loadChildren: () => import('@alfresco/aca-content/folder-rules').then((m) => m.AcaFolderRulesModule)
         }
+      ]
+    },
+    {
+      path: 'knowledge-retrieval',
+      canDeactivate: [UnsavedChangesGuard],
+      canActivate: [PluginEnabledGuard],
+      data: {
+        plugin: 'plugins.knowledgeRetrievalEnabled'
+      },
+      children: [
+        {
+          path: '',
+          component: SearchAiResultsComponent
+        },
+        ...createViewRoutes('knowledge-retrieval')
       ]
     },
     {
