@@ -138,7 +138,7 @@ export function canRemoveFavorite(context: RuleContext): boolean {
  * JSON ref: `app.selection.file.canShare`
  */
 export const canShareFile = (context: RuleContext): boolean =>
-  [context.selection.file, navigation.isNotTrashcan(context), repository.hasQuickShareEnabled(context), !isShared(context)].every(Boolean);
+  [context.selection.file, !navigation.isTrashcan(context), repository.hasQuickShareEnabled(context), !isShared(context)].every(Boolean);
 
 /**
  * Checks if user can perform "Join" or "Cancel Join Request" on a library.
@@ -153,7 +153,7 @@ export const canToggleJoinLibrary = (context: RuleContext): boolean =>
  *
  * @param context Rule execution context
  */
-export const canEditFolder = (context: RuleContext): boolean => [canUpdateSelectedFolder(context), navigation.isNotTrashcan(context)].every(Boolean);
+export const canEditFolder = (context: RuleContext): boolean => [canUpdateSelectedFolder(context), !navigation.isTrashcan(context)].every(Boolean);
 
 /**
  * Checks if the selected file is already shared.
@@ -164,7 +164,7 @@ export function isShared(context: RuleContext): boolean {
     return true;
   }
 
-  if (navigation.isNotTrashcan(context) && hasSelection(context) && context.selection.file) {
+  if (!navigation.isTrashcan(context) && hasSelection(context) && context.selection.file) {
     return !!context.selection.file.entry?.properties?.['qshare:sharedId'];
   }
 
@@ -403,7 +403,7 @@ export function canUploadVersion(context: RuleContext): boolean {
 
   return [
     hasFileSelected(context),
-    navigation.isNotTrashcan(context),
+    !navigation.isTrashcan(context),
     isWriteLocked(context) ? isUserWriteLockOwner(context) : canUpdateSelectedNode(context)
   ].every(Boolean);
 }
@@ -469,7 +469,7 @@ export const canEditAspects = (context: RuleContext): boolean =>
     !isMultiselection(context),
     canUpdateSelectedNode(context),
     !isWriteLocked(context),
-    navigation.isNotTrashcan(context),
+    !navigation.isTrashcan(context),
     repository.isMajorVersionAvailable(context, '7')
   ].every(Boolean);
 
