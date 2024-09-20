@@ -64,7 +64,7 @@
                   {{ 'KNOWLEDGE_RETRIEVAL.SEARCH.RESULTS_PAGE.REFERENCED_DOCUMENTS_HEADER' | translate }}
                 </p>
                 <div class="aca-search-ai-response-container-body-references-container-documents">
-                  <div
+                  <a
                     class="aca-search-ai-response-container-body-references-container-documents-document"
                     *ngFor="let node of nodes"
                     [attr.data-automation-id]="'aca-search-ai-results-' + node.id + '-document'"
@@ -79,7 +79,7 @@
                     <div class="aca-search-ai-response-container-body-references-container-documents-document-name">
                       {{ node.name }}
                     </div>
-                  </div>
+                  </a>
                 </div>
               </div>
             </ng-container>
