@@ -52,6 +52,74 @@ Rules can accept other rules as parameters:
 It is also possible to use inline references to registered evaluators without declaring rules,
 in case you do not need providing extra parameters, or chaining multiple rules together.
 
+```json
+{
+  "$schema": "../../../extension.schema.json",
+  "$version": "1.0.0",
+  "$name": "plugin1",
+
+  "features": {
+    "toolbar": [
+      {
+        "id": "app.toolbar.share",
+        "rules": {
+          "visible": "app.record.canShareRecord"
+        }
+      }
+    ]
+  } 
+}
+```
+
+**Handling Multiple Extensions**
+
+When multiple extensions rely on the same component, the visibility rules from all extensions 
+should be **passed as an array**. This way, the rules will be merged and evaluated, ensuring that all conditions
+from different extensions are considered. 
+
+For example, if the `app.toolbar.share` component is modified by both the `Extension1` and 
+`Extension2` extensions, the visibility rules will be combined:
+
+```json
+{
+  "$schema": "../../../extension.schema.json",
+  "$version": "1.0.0",
+  "$name": "Extension1",
+
+  "features": {
+    "toolbar": [
+      {
+        "id": "app.toolbar.share",
+        "rules": {
+          "visible": ["extension1.rule1"]
+        }
+      }
+    ]
+  } 
+}
+```
+
+```json
+{
+  "$schema": "../../../extension.schema.json",
+  "$version": "1.0.0",
+  "$name": "Extension2",
+
+  "features": {
+    "toolbar": [
+      {
+        "id": "app.toolbar.share",
+        "rules": {
+          "visible": ["extension2.rule2"]
+        }
+      }
+    ]
+  } 
+}
+```
+
+In this case, the component will be visible only if both extension1.rule1 and extension2.rule2 evaluate to true.
+
 ## Core Evaluators
 
 You can create new rules by chaining other rules and evaluators.

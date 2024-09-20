@@ -55,7 +55,7 @@ import {
 } from '@alfresco/aca-shared/store';
 import { RenditionService } from '@alfresco/adf-content-services';
 import { ViewerEffects } from './viewer.effects';
-import { NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router, ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -75,7 +75,7 @@ describe('NodeEffects', () => {
         MatDialogModule,
         MatSnackBarModule
       ],
-      providers: [RenditionService]
+      providers: [RenditionService, { provide: ActivatedRoute, useValue: { queryParams: of({ location: 'test-page' }) } }]
     });
 
     store = TestBed.inject(Store);
@@ -561,7 +561,7 @@ describe('NodeEffects', () => {
       const node: any = { entry: { isFile: true, id: 'node-id' } };
 
       store.dispatch(new ExpandInfoDrawerAction(node));
-      expect(store.dispatch).toHaveBeenCalledWith(new NavigateUrlAction('personal-files/details/node-id'));
+      expect(store.dispatch).toHaveBeenCalledWith(new NavigateUrlAction('personal-files/details/node-id?location=test-page'));
     });
   });
 });

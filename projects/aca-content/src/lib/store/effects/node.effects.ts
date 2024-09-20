@@ -23,7 +23,7 @@
  */
 
 import { Actions, ofType, createEffect } from '@ngrx/effects';
-import { Injectable } from '@angular/core';
+import { Injectable, SecurityContext } from '@angular/core';
 import { first, map, take } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import {
@@ -55,7 +55,8 @@ import {
 } from '@alfresco/aca-shared/store';
 import { ContentManagementService } from '../../services/content-management.service';
 import { RenditionService } from '@alfresco/adf-content-services';
-import { NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Injectable()
 export class NodeEffects {
@@ -64,7 +65,9 @@ export class NodeEffects {
     private actions$: Actions,
     private router: Router,
     private contentService: ContentManagementService,
-    private renditionViewer: RenditionService
+    private renditionViewer: RenditionService,
+    private activatedRoute: ActivatedRoute,
+    private sanitizer: DomSanitizer
   ) {}
 
   shareNode$ = createEffect(
@@ -314,20 +317,25 @@ export class NodeEffects {
           this.router.events
             .pipe(first((event) => event instanceof NavigationEnd))
             .subscribe(() => this.store.dispatch(new SetInfoDrawerStateAction(true)));
-          if (action?.payload) {
+
+          this.activatedRoute.queryParams.pipe(take(1)).subscribe((params) => {
+            const location = params.location || this.router.url;
+            const sanitizedLocation = this.sanitizer.sanitize(SecurityContext.URL, location);
             const route = 'personal-files/details';
-            this.store.dispatch(new NavigateUrlAction([route, action.payload.entry.id].join('/')));
-          } else {
-            this.store
-              .select(getAppSelection)
-              .pipe(take(1))
-              .subscribe((selection) => {
-                if (selection && !selection.isEmpty) {
-                  const route = 'personal-files/details';
-                  this.store.dispatch(new NavigateUrlAction([route, selection.last.entry.id].join('/')));
-                }
-              });
-          }
+
+            if (action?.payload) {
+              this.store.dispatch(new NavigateUrlAction([route, action.payload.entry.id].join('/') + `?location=${sanitizedLocation}`));
+            } else {
+              this.store
+                .select(getAppSelection)
+                .pipe(take(1))
+                .subscribe((selection) => {
+                  if (selection && !selection.isEmpty) {
+                    this.store.dispatch(new NavigateUrlAction([route, selection.last.entry.id].join('/') + `?location=${sanitizedLocation}`));
+                  }
+                });
+            }
+          });
         })
       ),
     { dispatch: false }

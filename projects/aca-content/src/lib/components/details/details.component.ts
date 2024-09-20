@@ -98,7 +98,7 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
     });
     this.extensions
       .getAllowedSidebarActions()
-      .pipe(takeUntil(this.onDestroy$))
+      .pipe(first())
       .subscribe((aspectActions) => {
         this.aspectActions = aspectActions;
       });
