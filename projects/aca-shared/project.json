@@ -1,7 +1,7 @@
 {
   "name": "aca-shared",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "projects/aca-shared/src",
+  "sourceRoot": "projects/aca-shared/rules/src",
   "projectType": "library",
   "prefix": "lib",
   "targets": {
