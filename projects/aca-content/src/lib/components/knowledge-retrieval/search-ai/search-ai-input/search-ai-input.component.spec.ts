@@ -111,6 +111,10 @@ describe('SearchAiInputComponent', () => {
     prepareBeforeTest();
   });
 
+  afterEach(() => {
+    store.resetSelectors();
+  });
+
   describe('Agent select box', () => {
     let selectElement: DebugElement;
     let notificationServiceSpy: jasmine.Spy<(message: string) => MatSnackBarRef<any>>;

@@ -28,7 +28,6 @@ import { SearchAiInputComponent } from '../search-ai-input/search-ai-input.compo
 import { By } from '@angular/platform-browser';
 import { AgentService, ContentTestingModule, SearchAiService } from '@alfresco/adf-content-services';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { getAppSelection } from '@alfresco/aca-shared/store';
 import { of, Subject } from 'rxjs';
 import { MatDivider } from '@angular/material/divider';
 import { DebugElement } from '@angular/core';
@@ -36,6 +35,7 @@ import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { SearchAiNavigationService } from '../../../../services/search-ai-navigation.service';
 import { NavigationEnd, NavigationStart, Router, RouterEvent } from '@angular/router';
+import { getAppSelection } from '@alfresco/aca-shared/store';
 
 describe('SearchAiInputContainerComponent', () => {
   let component: SearchAiInputContainerComponent;
@@ -80,6 +80,10 @@ describe('SearchAiInputContainerComponent', () => {
     routingEvents$ = new Subject<RouterEvent>();
     spyOnProperty(TestBed.inject(Router), 'events').and.returnValue(routingEvents$);
     fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    store.resetSelectors();
   });
 
   describe('Search ai input', () => {

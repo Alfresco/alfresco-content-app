@@ -176,7 +176,7 @@ describe('AgentsButtonComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AgentsButtonComponent, ContentTestingModule],
-      providers: [provideMockStore()]
+      providers: [provideMockStore({})]
     });
 
     fixture = TestBed.createComponent(AgentsButtonComponent);
@@ -210,6 +210,10 @@ describe('AgentsButtonComponent', () => {
     };
     store.overrideSelector(getAppSelection, selectionState);
     fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    store.resetSelectors();
   });
 
   describe('Button', () => {
