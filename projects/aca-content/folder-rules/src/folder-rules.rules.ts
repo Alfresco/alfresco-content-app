@@ -22,10 +22,6 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AcaRuleContext, canEditFolder, hasFolderSelected, isNotFavorites, isSmartFolder } from '@alfresco/aca-shared/rules';
+import { AcaRuleContext } from '@alfresco/aca-shared/rules';
 
 export const isFolderRulesEnabled = (context: AcaRuleContext) => context.appConfig.get<boolean>('plugins.folderRules', false);
-export const isFolderRulesAllowed = (context: AcaRuleContext) =>
-  isFolderRulesEnabled(context) && canEditFolder(context) && hasFolderSelected(context) && isNotFavorites(context) && !isSmartFolder(context);
-
-export const canManageFolderRules = (context: AcaRuleContext): boolean => isFolderRulesAllowed(context);
