@@ -59,6 +59,7 @@ describe('SearchAiResultsComponent', () => {
   let viewerService: ViewerService;
 
   afterEach(() => {
+    store.resetSelectors();
     mockQueryParams = new Subject<Params>();
     fixture.destroy();
   });
