@@ -24,18 +24,22 @@
 
 import { TestBed, ComponentFixture, tick, fakeAsync } from '@angular/core/testing';
 import { SearchAiResultsComponent } from './search-ai-results.component';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { of, Subject, throwError } from 'rxjs';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { UserPreferencesService } from '@alfresco/adf-core';
+import { EmptyContentComponent, UserPreferencesService } from '@alfresco/adf-core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AppTestingModule } from '../../../../testing/app-testing.module';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
-import { NodesApiService, SearchAiService } from '@alfresco/adf-content-services';
+import { AgentService, NodesApiService, SearchAiService } from '@alfresco/adf-content-services';
 import { By } from '@angular/platform-browser';
 import { ModalAiService } from '../../../../services/modal-ai.service';
 import { delay } from 'rxjs/operators';
 import { AiAnswer, AiAnswerEntry, QuestionModel } from '@alfresco/js-api/typings';
+import { SearchAiInputComponent } from '../search-ai-input/search-ai-input.component';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { getAppSelection, getCurrentFolder, ViewNodeAction } from '@alfresco/aca-shared/store';
+import { ViewerService } from '@alfresco/aca-content/viewer';
 
 const questionMock: QuestionModel = { question: 'test', questionId: 'testId', restrictionQuery: { nodesIds: [] } };
 const aiAnswerMock: AiAnswer = { answer: 'Some answer', questionId: 'some id', references: [] };
@@ -51,6 +55,8 @@ describe('SearchAiResultsComponent', () => {
   let mockQueryParams = new Subject<Params>();
   let modalAiService: ModalAiService;
   let searchAiService: SearchAiService;
+  let store: MockStore;
+  let viewerService: ViewerService;
 
   afterEach(() => {
     mockQueryParams = new Subject<Params>();
@@ -64,7 +70,7 @@ describe('SearchAiResultsComponent', () => {
         {
           provide: NodesApiService,
           useValue: {
-            getNode: () => of({ entry: { id: 'someId', isFolder: true } }).pipe(delay(50))
+            getNode: () => of({ id: 'someId', isFolder: true }).pipe(delay(50))
           }
         },
         {
@@ -75,7 +81,8 @@ describe('SearchAiResultsComponent', () => {
               queryParams: { query: 'testQuery' }
             }
           }
-        }
+        },
+        provideMockStore()
       ]
     });
 
@@ -83,7 +90,17 @@ describe('SearchAiResultsComponent', () => {
     modalAiService = TestBed.inject(ModalAiService);
     searchAiService = TestBed.inject(SearchAiService);
     userPreferencesService = TestBed.inject(UserPreferencesService);
+    viewerService = TestBed.inject(ViewerService);
+    store = TestBed.inject(MockStore);
+    store.overrideSelector(getAppSelection, {
+      nodes: [],
+      isEmpty: true,
+      count: 0,
+      libraries: []
+    });
+    store.overrideSelector(getCurrentFolder, null);
     spyOn(searchAiService, 'ask').and.returnValue(of(questionMock));
+    spyOn(TestBed.inject(AgentService), 'getAgents').and.returnValue(of([]));
     component = fixture.componentInstance;
     component.ngOnInit();
   });
@@ -193,6 +210,48 @@ describe('SearchAiResultsComponent', () => {
       expect(component.queryAnswer).toEqual({ answer: 'Some answer', questionId: 'some id', references: [] });
       expect(component.hasAnsweringError).toBeFalse();
     }));
+
+    describe('when query params contains location', () => {
+      let params: Params;
+
+      beforeEach(() => {
+        params = {
+          query: 'test',
+          agentId: 'agentId1',
+          location: 'some-location'
+        };
+      });
+
+      it('should not render search ai input container', () => {
+        mockQueryParams.next(params);
+
+        fixture.detectChanges();
+        expect(fixture.debugElement.query(By.directive(SearchAiInputComponent))).toBeNull();
+      });
+
+      it('should not render empty content', () => {
+        mockQueryParams.next({
+          location: 'some-location'
+        });
+
+        fixture.detectChanges();
+        expect(fixture.debugElement.query(By.directive(EmptyContentComponent))).toBeNull();
+      });
+
+      it('should not display search query', () => {
+        mockQueryParams.next(params);
+
+        fixture.detectChanges();
+        expect(fixture.debugElement.query(By.css(`[data-automation-id="aca-search-ai-results-query"]`)).nativeElement.textContent.trim()).toBe('');
+      });
+
+      it('should not call searchAiService.ask', () => {
+        mockQueryParams.next(params);
+
+        fixture.detectChanges();
+        expect(searchAiService.ask).not.toHaveBeenCalled();
+      });
+    });
   });
 
   describe('skeleton loader', () => {
@@ -241,6 +300,72 @@ describe('SearchAiResultsComponent', () => {
       fixture.debugElement.query(By.css(`[data-automation-id="aca-search-ai-results-regeneration-button"]`)).nativeElement.click();
       expect(modalAiSpy).toHaveBeenCalledWith(jasmine.any(Function));
       expect(component.queryAnswer).toEqual(aiAnswerMock);
+    });
+  });
+
+  describe('References', () => {
+    let documentElement: HTMLDivElement;
+    let nodesOrder: string[];
+
+    const nodeId = 'someId';
+    const url = 'some-url';
+
+    beforeEach(fakeAsync(() => {
+      spyOnProperty(viewerService, 'customNodesOrder', 'set').and.callFake((passedNodesOrder) => (nodesOrder ??= passedNodesOrder));
+      spyOn(userPreferencesService, 'set');
+      spyOn(userPreferencesService, 'get').and.returnValue(knowledgeRetrievalNodes);
+      const answer = getAiAnswerEntry();
+      answer.entry.references = [{ referenceId: nodeId, referenceText: 'some text' }];
+      spyOn(searchAiService, 'getAnswer').and.returnValues(throwError('error'), of(answer));
+      mockQueryParams.next({ query: 'test', agentId: 'agentId1' });
+
+      tick(3051);
+      fixture.detectChanges();
+      documentElement = fixture.debugElement.query(By.css(`[data-automation-id="aca-search-ai-results-someId-document"]`)).nativeElement;
+      spyOn(store, 'dispatch');
+      spyOnProperty(TestBed.inject(Router), 'url').and.returnValue(url);
+    }));
+
+    it('should dispatch ViewNodeAction on store when clicked', () => {
+      documentElement.click();
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new ViewNodeAction(nodeId, {
+          location: url
+        })
+      );
+    });
+
+    it('should dispatch ViewNodeAction on store when pressed enter', () => {
+      documentElement.dispatchEvent(
+        new KeyboardEvent('keyup', {
+          key: 'Enter'
+        })
+      );
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new ViewNodeAction(nodeId, {
+          location: url
+        })
+      );
+    });
+
+    it('should assign nodes ids to customNodesOrder for ViewerService', () => {
+      expect(nodesOrder).toEqual([nodeId]);
+    });
+
+    it('should call set on userPreferencesService with correct parameters', () => {
+      expect(userPreferencesService.set).toHaveBeenCalledWith('aiReferences', JSON.stringify([nodeId]));
+    });
+  });
+
+  describe('ngOnInit', () => {
+    it('should set customNodesOrder on ViewerService', () => {
+      spyOn(userPreferencesService, 'get').and.returnValue('["node1", "node2"]');
+      let nodesOrder: string[];
+      spyOnProperty(viewerService, 'customNodesOrder', 'set').and.callFake((passedNodesOrder) => (nodesOrder = passedNodesOrder));
+
+      component.ngOnInit();
+
+      expect(nodesOrder).toEqual(['node1', 'node2']);
     });
   });
 });

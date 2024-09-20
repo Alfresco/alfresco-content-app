@@ -25,7 +25,7 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PageComponent, PageLayoutComponent, ToolbarActionComponent, ToolbarComponent } from '@alfresco/aca-shared';
-import { concatMap, delay, finalize, retryWhen, skipWhile, switchMap, takeUntil } from 'rxjs/operators';
+import { concatMap, delay, filter, finalize, retryWhen, skipWhile, switchMap, takeUntil } from 'rxjs/operators';
 import {
   AvatarComponent,
   ClipboardService,
@@ -48,6 +48,8 @@ import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ModalAiService } from '../../../../services/modal-ai.service';
+import { ViewNodeAction } from '@alfresco/aca-shared/store';
+import { ViewerService } from '@alfresco/aca-content/viewer';
 
 @Component({
   standalone: true,
@@ -80,6 +82,7 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
   private _loading = false;
   private _mimeTypeIconsByNodeId: { [key: string]: string } = {};
   private _nodes: Node[] = [];
+  private openedViewer = false;
   private _selectedNodesState: SelectionState;
   private _searchQuery = '';
   private _queryAnswer: AiAnswer;
@@ -124,22 +127,33 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
     private userPreferencesService: UserPreferencesService,
     private translateService: TranslateService,
     private unsavedChangesGuard: UnsavedChangesGuard,
-    private modalAiService: ModalAiService
+    private modalAiService: ModalAiService,
+    private viewerService: ViewerService
   ) {
     super();
   }
 
   ngOnInit(): void {
-    this.route.queryParams.pipe(takeUntil(this.onDestroy$)).subscribe((params) => {
-      this._agentId = params.agentId;
-      this._searchQuery = params.query ? decodeURIComponent(params.query) : '';
-      if (!this.searchQuery || !this.agentId) {
-        this._hasError = true;
-        return;
-      }
-      this._selectedNodesState = JSON.parse(this.userPreferencesService.get('knowledgeRetrievalNodes'));
-      this.performAiSearch();
-    });
+    this.viewerService.customNodesOrder = JSON.parse(this.userPreferencesService.get('aiReferences', '[]'));
+    this.route.queryParams
+      .pipe(
+        filter((params) => {
+          const openedViewerPreviously = this.openedViewer;
+          this.openedViewer = !!params.location;
+          return !this.openedViewer && (!openedViewerPreviously || !this.queryAnswer);
+        }),
+        takeUntil(this.onDestroy$)
+      )
+      .subscribe((params) => {
+        this._agentId = params.agentId;
+        this._searchQuery = params.query ? decodeURIComponent(params.query) : '';
+        if (!this.searchQuery || !this.agentId) {
+          this._hasError = true;
+          return;
+        }
+        this._selectedNodesState = JSON.parse(this.userPreferencesService.get('knowledgeRetrievalNodes'));
+        this.performAiSearch();
+      });
     super.ngOnInit();
 
     this.unsavedChangesGuard.unsaved = this.route.snapshot?.queryParams?.query?.length > 0;
@@ -194,9 +208,20 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
             this._mimeTypeIconsByNodeId[node.id] = this.thumbnailService.getMimeTypeIcon(node.content?.mimeType);
           });
           this._nodes = nodes;
+          const nodesIds = nodes.map((node) => node.id);
+          this.viewerService.customNodesOrder = nodesIds;
+          this.userPreferencesService.set('aiReferences', JSON.stringify(nodesIds));
         },
         () => (this._hasAnsweringError = true)
       );
+  }
+
+  openFile(id: string): void {
+    this.store.dispatch(
+      new ViewNodeAction(id, {
+        location: this.router.url
+      })
+    );
   }
 
   private aiSearchRetryWhen(errors: Observable<Error>): Observable<Error> {
