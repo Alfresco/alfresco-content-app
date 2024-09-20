@@ -1,6 +1,6 @@
 {
   "name": "alfresco-content-app",
-  "version": "6.0.0",
+  "version": "5.1.1",
   "license": "LGPL-3.0",
   "scripts": {
     "start": "nx serve content-ce",
@@ -30,11 +30,11 @@
   },
   "private": true,
   "dependencies": {
-    "@alfresco/adf-content-services": "7.0.0-alpha.4-11348846149",
-    "@alfresco/adf-core": "7.0.0-alpha.4-11348846149",
-    "@alfresco/adf-extensions": "7.0.0-alpha.4-11348846149",
-    "@alfresco/eslint-plugin-eslint-angular": "7.0.0-alpha.4-11348846149",
-    "@alfresco/js-api": "8.0.0-alpha.4-11348846149",
+    "@alfresco/adf-content-services": "7.0.0-alpha.2-10957253574",
+    "@alfresco/adf-core": "7.0.0-alpha.2-10957253574",
+    "@alfresco/adf-extensions": "7.0.0-alpha.2-10957253574",
+    "@alfresco/eslint-plugin-eslint-angular": "7.0.0-alpha.2-10957253574",
+    "@alfresco/js-api": ">=8.0.0-alpha.2-10957253574",
     "@angular/animations": "16.2.9",
     "@angular/cdk": "16.2.9",
     "@angular/common": "16.2.9",
@@ -46,7 +46,7 @@
     "@angular/platform-browser": "16.2.9",
     "@angular/platform-browser-dynamic": "16.2.9",
     "@angular/router": "16.2.9",
-    "@fontsource/open-sans": "^5.1.0",
+    "@fontsource/open-sans": "^5.0.27",
     "@mat-datetimepicker/core": "12.0.1",
     "@ngrx/effects": "16.3.0",
     "@ngrx/router-store": "16.3.0",
@@ -58,11 +58,11 @@
     "minimatch-browser": "^1.0.0",
     "pdfjs-dist": "3.3.122",
     "rxjs": "7.5.7",
-    "tslib": "^2.7.0",
+    "tslib": "^2.5.3",
     "zone.js": "0.13.3"
   },
   "devDependencies": {
-    "@alfresco/adf-cli": "7.0.0-alpha.4-11348846149",
+    "@alfresco/adf-cli": "7.0.0-alpha.2-10957253574",
     "@angular-devkit/build-angular": "16.2.9",
     "@angular-devkit/core": "16.2.9",
     "@angular-devkit/schematics": "16.2.9",
