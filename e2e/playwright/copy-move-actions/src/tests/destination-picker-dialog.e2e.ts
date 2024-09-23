@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ApiClientFactory, MyLibrariesPage, NodesApi, SitesApi, test, Utils, TrashcanApi } from '@alfresco/playwright-shared';
+import { ApiClientFactory, MyLibrariesPage, NodesApi, SitesApi, test, Utils, TrashcanApi } from '@alfresco/aca-playwright-shared';
 import { expect } from '@playwright/test';
 import { Site } from '@alfresco/js-api';
 

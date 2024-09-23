@@ -33,6 +33,7 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { MatSelectHarness } from '@angular/material/select/testing';
+import { AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-content-services';
 
 describe('RuleOptionsUiComponent', () => {
   let fixture: ComponentFixture<RuleOptionsUiComponent>;
@@ -62,7 +63,16 @@ describe('RuleOptionsUiComponent', () => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [FormsModule, ReactiveFormsModule, CoreTestingModule, RuleOptionsUiComponent],
-      providers: [{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { floatLabel: 'auto' } }]
+      providers: [
+        {
+          provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+          useValue: { floatLabel: 'auto' }
+        },
+        {
+          provide: AlfrescoApiService,
+          useClass: AlfrescoApiServiceMock
+        }
+      ]
     });
 
     fixture = TestBed.createComponent(RuleOptionsUiComponent);

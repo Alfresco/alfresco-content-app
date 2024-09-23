@@ -23,7 +23,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { AlfrescoApiService } from '@alfresco/adf-core';
+import { AlfrescoApiService } from '@alfresco/adf-content-services';
 import { BehaviorSubject, from, Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 import { Rule, RuleForForm, RuleOptions, RuleSettings } from '../model/rule.model';

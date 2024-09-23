@@ -30,6 +30,7 @@ import { actionDefListMock, actionsTransformedListMock } from '../mock/actions.m
 import { take } from 'rxjs/operators';
 import { dummyConstraints, rawConstraints } from '../mock/action-parameter-constraints.mock';
 import { of } from 'rxjs';
+import { AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-content-services';
 
 describe('ActionsService', () => {
   let actionsService: ActionsService;
@@ -37,7 +38,7 @@ describe('ActionsService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [CoreTestingModule],
-      providers: [ActionsService]
+      providers: [ActionsService, { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock }]
     });
 
     actionsService = TestBed.inject(ActionsService);

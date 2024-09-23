@@ -23,7 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, Utils, test, NodesApi, TrashcanApi, TagsApi, FileActionsApi } from '@alfresco/playwright-shared';
+import { ApiClientFactory, Utils, test, NodesApi, TrashcanApi, TagsApi, FileActionsApi } from '@alfresco/aca-playwright-shared';
 import { TagEntry, TagPaging } from '@alfresco/js-api';
 
 test.describe('Search - Filters - Tags', () => {

@@ -24,10 +24,10 @@
 
 const crypto = require('crypto');
 import * as path from 'path';
-import { LoginPage, MyLibrariesPage, PersonalFilesPage, FavoritesLibrariesPage, SearchPage, SharedPage, TrashPage } from '../';
-import { NodesApi, TrashcanApi, SitesApi } from '@alfresco/playwright-shared';
+import { LoginPage, MyLibrariesPage, PersonalFilesPage, FavoritesLibrariesPage, SearchPage, SharedPage, TrashPage } from '../page-objects';
 import { format, subDays, subMonths, endOfMonth } from 'date-fns';
 import StreamZip from 'node-stream-zip';
+import { NodesApi, SitesApi, TrashcanApi } from '../api';
 
 export class Utils {
   static string257Long = 'x'.repeat(257);

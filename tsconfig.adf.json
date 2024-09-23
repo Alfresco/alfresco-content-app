@@ -21,7 +21,6 @@
     "typeRoots": ["node_modules/@types"],
     "lib": ["es2019", "dom"],
     "paths": {
-      "@alfresco/playwright-shared": ["projects/aca-playwright-shared/src/index.ts"],
       "@alfresco/adf-core": ["../alfresco-ng2-components/lib/core/index.ts"],
       "@alfresco/adf-core/*": ["../alfresco-ng2-components/lib/core/*/public-api.ts"],
       "@alfresco/adf-core/shell": ["../alfresco-ng2-components/lib/core/shell/src/index.ts"],
@@ -36,12 +35,12 @@
       "@alfresco/aca-shared/store": ["projects/aca-shared/store/src/public-api.ts"],
       "@alfresco/aca-shared/rules": ["projects/aca-shared/rules/src/public-api.ts"],
       "@alfresco/aca-content/ms-office": ["projects/aca-content/ms-office/src/public-api.ts"],
-      "@alfresco/aca-testing-shared": ["projects/aca-testing-shared/src/index.ts"],
       "@alfresco/aca-content/about": ["projects/aca-content/about/src/public-api.ts"],
       "@alfresco/aca-content/folder-rules": ["projects/aca-content/folder-rules/src/public-api.ts"],
       "@alfresco/aca-content": ["projects/aca-content/src/public-api.ts"],
       "@alfresco/aca-content/viewer": ["projects/aca-content/viewer/src/public-api.ts"],
       "@alfresco/aca-content/preview": ["projects/aca-content/preview/src/public-api.ts"],
+      "@alfresco/aca-playwright-shared": ["projects/aca-playwright-shared/src/public-api.ts"],
       "package.json": ["package.json"],
       "*": ["./node_modules/*"]
     }

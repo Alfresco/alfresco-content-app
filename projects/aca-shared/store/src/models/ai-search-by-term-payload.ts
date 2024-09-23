@@ -22,11 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './api';
-export * from './base-config';
-export * from './models';
-export * from './page-objects';
-export * from './fixtures/page-initialization';
-export * from './utils';
-export * from './resources/test-files';
-export * from './resources/test-data';
+export interface AiSearchByTermPayload {
+  searchTerm: string;
+  agentId: string;
+}

@@ -28,7 +28,7 @@ import { CoreTestingModule } from '@alfresco/adf-core';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { tagMock, mimeTypeMock, simpleConditionUnknownFieldMock, categoriesListMock } from '../../mock/conditions.mock';
-import { CategoryService, TagService } from '@alfresco/adf-content-services';
+import { AlfrescoApiService, AlfrescoApiServiceMock, CategoryService, TagService } from '@alfresco/adf-content-services';
 import { of } from 'rxjs';
 import { RuleSimpleCondition } from '../../model/rule-simple-condition.model';
 import { delay } from 'rxjs/operators';
@@ -83,7 +83,8 @@ describe('RuleSimpleConditionUiComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CoreTestingModule, RuleSimpleConditionUiComponent]
+      imports: [CoreTestingModule, RuleSimpleConditionUiComponent],
+      providers: [{ provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock }]
     });
 
     fixture = TestBed.createComponent(RuleSimpleConditionUiComponent);

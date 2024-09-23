@@ -23,7 +23,7 @@
  */
 
 import { expect, Locator } from '@playwright/test';
-import { ApiClientFactory, Utils, test, SearchPage } from '@alfresco/playwright-shared';
+import { ApiClientFactory, Utils, test, SearchPage } from '@alfresco/aca-playwright-shared';
 
 test.describe('Search - Filters - General', () => {
   const username = `user-${Utils.random()}`;

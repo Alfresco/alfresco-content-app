@@ -33,7 +33,7 @@ import {
   errorStrings,
   test,
   TrashcanApi
-} from '@alfresco/playwright-shared';
+} from '@alfresco/aca-playwright-shared';
 
 test.describe('Create folders', () => {
   const apiClientFactory = new ApiClientFactory();

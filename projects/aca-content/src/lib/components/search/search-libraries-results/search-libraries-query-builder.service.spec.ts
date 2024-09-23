@@ -24,7 +24,7 @@
 
 import { TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../../../testing/app-testing.module';
-import { AlfrescoApiService } from '@alfresco/adf-core';
+import { AlfrescoApiService } from '@alfresco/adf-content-services';
 import { SearchLibrariesQueryBuilderService, LibrarySearchQuery } from './search-libraries-query-builder.service';
 
 describe('SearchLibrariesQueryBuilderService', () => {

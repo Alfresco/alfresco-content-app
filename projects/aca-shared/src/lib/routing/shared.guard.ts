@@ -22,27 +22,13 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Injectable } from '@angular/core';
-import { CanActivate } from '@angular/router';
+import { CanActivateFn } from '@angular/router';
+import { inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppStore, isQuickShareEnabled } from '@alfresco/aca-shared/store';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class AppSharedRuleGuard implements CanActivate {
-  isQuickShareEnabled$: Observable<boolean>;
-
-  constructor(store: Store<AppStore>) {
-    this.isQuickShareEnabled$ = store.select(isQuickShareEnabled);
-  }
-
-  canActivate(): Observable<boolean> {
-    return this.isQuickShareEnabled$;
-  }
-
-  canActivateChild(): Observable<boolean> {
-    return this.canActivate();
-  }
-}
+export const AppSharedRuleGuard: CanActivateFn = (): Observable<boolean> => {
+  const store = inject(Store<AppStore>);
+  return store.select(isQuickShareEnabled);
+};

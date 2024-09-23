@@ -53,7 +53,7 @@ export class ManageRules extends BaseComponent {
   }
 
   async checkIfRuleListEmpty(): Promise<boolean> {
-    return await this.rulesEmptyListTitle.isVisible();
+    return this.rulesEmptyListTitle.isVisible();
   }
 
   async checkIfRuleIsOnTheList(ruleName: string): Promise<void> {
@@ -61,7 +61,7 @@ export class ManageRules extends BaseComponent {
   }
 
   async countConditionsInGroup(): Promise<number> {
-    return await this.ruleConditionsInGroup.count();
+    return this.ruleConditionsInGroup.count();
   }
 
   async turnOffRuleToggle(): Promise<void> {

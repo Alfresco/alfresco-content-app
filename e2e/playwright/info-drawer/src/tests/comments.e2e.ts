@@ -23,7 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, Utils, test, TrashcanApi, FavoritesPageApi, NodesApi, FileActionsApi } from '@alfresco/playwright-shared';
+import { ApiClientFactory, Utils, test, TrashcanApi, FavoritesPageApi, NodesApi, FileActionsApi } from '@alfresco/aca-playwright-shared';
 
 test.describe('Info Drawer - Comments', () => {
   const apiClientFactory = new ApiClientFactory();

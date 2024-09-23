@@ -19,7 +19,7 @@
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
 import { TagBody, TagEntry } from '@alfresco/js-api';
@@ -40,7 +40,7 @@ export class TagsApi {
 
   async createTags(tags: TagBody[]): Promise<TagEntry[]> {
     try {
-      return await this.apiService.tagsApi.createTags(tags);
+      return this.apiService.tagsApi.createTags(tags);
     } catch (error) {
       console.error(error);
       return null;
@@ -49,7 +49,7 @@ export class TagsApi {
 
   async assignTagToNode(nodeId: string, tag: TagBody): Promise<TagEntry> {
     try {
-      return await this.apiService.tagsApi.assignTagToNode(nodeId, tag);
+      return this.apiService.tagsApi.assignTagToNode(nodeId, tag);
     } catch (error) {
       console.error(error);
       return null;
@@ -58,7 +58,7 @@ export class TagsApi {
 
   async deleteTag(tagId: string): Promise<void> {
     try {
-      return await this.apiService.tagsApi.deleteTag(tagId);
+      return this.apiService.tagsApi.deleteTag(tagId);
     } catch (error) {
       console.error(error);
     }

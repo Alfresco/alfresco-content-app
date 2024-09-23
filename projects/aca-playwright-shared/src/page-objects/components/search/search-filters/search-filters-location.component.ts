@@ -22,9 +22,9 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { SearchPage } from '../../../pages';
 import { BaseComponent } from '../../base.component';
 import { Page } from '@playwright/test';
-import { SearchPage } from '@alfresco/playwright-shared';
 
 export class SearchFiltersLocation extends BaseComponent {
   private static rootElement = '.adf-search-filter-menu-card';

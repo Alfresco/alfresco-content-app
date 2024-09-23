@@ -614,5 +614,41 @@
             "BOOKS-24PX": "file library",
             "BASELINE-LOCK-24PX": "locked file"
         }
+    },
+    "KNOWLEDGE_RETRIEVAL": {
+      "SEARCH": {
+        "RESULTS_PAGE": {
+          "QUERY_INPUT_PLACEHOLDER": "Would you like to ask anything else?",
+          "REFERENCED_DOCUMENTS_HEADER": "Referenced documents",
+          "REGENERATION_BUTTON_LABEL": "Regenerate",
+          "COPY_BUTTON_LABEL": "Copy",
+          "LIKE_BUTTON_LABEL": "Like",
+          "DISLIKE_BUTTON_LABEL": "Dislike",
+          "COPY_MESSAGE": "Copied response to clipboard"
+        },
+        "AGENTS_BUTTON": {
+          "LABEL": "Ask Discovery",
+          "TITLE": "Knowledge Retrieval"
+        },
+        "SEARCH_INPUT": {
+          "ASK_BUTTON_LABEL": "Ask",
+          "DEFAULT_PLACEHOLDER": "Please ask your question with as much detail as possible...",
+          "HIDE_INPUT": "Hide input"
+        },
+        "ERRORS": {
+          "AGENTS_FETCHING": "Error while fetching agents.",
+          "HX_INSIGHT_URL_FETCHING": "Error while fetching HX Insight URL.",
+          "LOADING_ERROR": "Hmm... something seems to have gone wrong.",
+          "PAGE_NOT_AVAILABLE_ERROR": "Page is not available for these conditions."
+        },
+        "DISCARD_CHANGES": {
+          "WARNING": "Warning!",
+          "ASK_AI": "Ask AI",
+          "DO_NOT_SHOW_MESSAGE": "Don't show this message again",
+          "OKAY": "Okay",
+          "CONVERSATION_DISCARDED": "This conversation will be discarded",
+          "LOSE_RESPONSE": "By asking another question you will lose your previous response"
+        }
+      }
     }
 }

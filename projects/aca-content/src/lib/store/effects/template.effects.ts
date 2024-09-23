@@ -36,11 +36,11 @@ import {
   AppStore
 } from '@alfresco/aca-shared/store';
 import { NodeTemplateService, TemplateDialogConfig } from '../../services/node-template.service';
-import { AlfrescoApiService, NotificationService } from '@alfresco/adf-core';
+import { NotificationService } from '@alfresco/adf-core';
 import { from, Observable, of } from 'rxjs';
 import { NodeEntry, NodeBodyUpdate, Node, NodesApi } from '@alfresco/js-api';
 import { MatDialog } from '@angular/material/dialog';
-import { DocumentListService } from '@alfresco/adf-content-services';
+import { AlfrescoApiService, DocumentListService } from '@alfresco/adf-content-services';
 
 @Injectable()
 export class TemplateEffects {

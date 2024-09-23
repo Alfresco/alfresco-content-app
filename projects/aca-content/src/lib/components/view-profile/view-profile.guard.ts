@@ -22,22 +22,16 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Injectable } from '@angular/core';
-import { CanActivate } from '@angular/router';
-import { Observable } from 'rxjs';
+import { inject } from '@angular/core';
+import { CanActivateFn } from '@angular/router';
 import { AuthenticationService } from '@alfresco/adf-core';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class ViewProfileRuleGuard implements CanActivate {
-  constructor(private authService: AuthenticationService) {}
+export const ViewProfileRuleGuard: CanActivateFn = () => {
+  const authService = inject(AuthenticationService);
 
-  canActivate(): Observable<boolean> | Promise<boolean> | boolean {
-    return this.isEcmLoggedIn() || this.authService.isOauth();
-  }
+  const isEcmLoggedIn = (): boolean => {
+    return authService.isEcmLoggedIn() || (authService.isECMProvider() && authService.isKerberosEnabled());
+  };
 
-  private isEcmLoggedIn(): boolean {
-    return this.authService.isEcmLoggedIn() || (this.authService.isECMProvider() && this.authService.isKerberosEnabled());
-  }
-}
+  return isEcmLoggedIn() || authService.isOauth();
+};

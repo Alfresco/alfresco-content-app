@@ -24,7 +24,7 @@
 
 import { BaseComponent } from '../../base.component';
 import { Page, expect } from '@playwright/test';
-import { SearchPage, SearchType } from '@alfresco/playwright-shared';
+import { SearchPage, SearchType } from '../../../pages';
 
 type FilterTab = 'Created' | 'Modified';
 
@@ -89,17 +89,7 @@ export class SearchFiltersDate extends BaseComponent {
    * @param endDay end day for time-frame search. DD-MMMM-YY
    */
   async filterFilesByDate(params: FilterFilesByDateParams) {
-    const {
-      searchPage,
-      filterType,
-      dateFilterTab,
-      searchPhrase,
-      searchType,
-      expectSearchResults,
-      inTheLastInputValue,
-      startDay,
-      endDay
-    } = params;
+    const { searchPage, filterType, dateFilterTab, searchPhrase, searchType, expectSearchResults, inTheLastInputValue, startDay, endDay } = params;
 
     await searchPage.searchWithin(searchPhrase, searchType);
     await searchPage.searchFilters.dateFilter.click();

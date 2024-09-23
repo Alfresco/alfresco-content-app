@@ -19,7 +19,7 @@
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
 import { Locator, Page } from '@playwright/test';
@@ -37,21 +37,24 @@ export class CreateFromTemplateDialogComponent extends BaseComponent {
   createButton = this.getChild('[data-automation-id="create-from-template-dialog-create-button"]');
   getDialogTitle = (text: string) => this.getChild('.mat-dialog-title', { hasText: text });
   getDialogLabel = (text: string) => this.getChild('label', { hasText: text });
-  getErrorByText = (text: string): Locator => this.page.locator('mat-error', {hasText: text});
-
+  getErrorByText = (text: string): Locator => this.page.locator('mat-error', { hasText: text });
 
   async isErrorMessageDisplayed(errorText: string): Promise<boolean> {
     await this.getErrorByText(errorText).waitFor({ state: 'visible', timeout: timeouts.large });
-    return await this.getErrorByText(errorText).isVisible();
+    return this.getErrorByText(errorText).isVisible();
   }
 
-    /**
+  /**
    * This method is used when we want to fill in Create new folder/document/file from template dialog and choose Create button
    */
-    async createFromTemplateAction( nameInput: string, titleInput?: string, descriptionInput?: string): Promise<void> {
-      await this.getDialogLabel('Name *').fill(nameInput);
-      if (titleInput) { await this.getDialogLabel('Title').fill(titleInput); }
-      if (descriptionInput) { await this.getDialogLabel('Description').fill(descriptionInput); }
-      await this.createButton.click();
+  async createFromTemplateAction(nameInput: string, titleInput?: string, descriptionInput?: string): Promise<void> {
+    await this.getDialogLabel('Name *').fill(nameInput);
+    if (titleInput) {
+      await this.getDialogLabel('Title').fill(titleInput);
     }
+    if (descriptionInput) {
+      await this.getDialogLabel('Description').fill(descriptionInput);
+    }
+    await this.createButton.click();
+  }
 }

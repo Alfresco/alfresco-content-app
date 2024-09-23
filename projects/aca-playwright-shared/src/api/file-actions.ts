@@ -19,14 +19,13 @@
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
 import * as fs from 'fs';
 import { ApiClientFactory } from './api-client-factory';
-import { Utils } from '../utils';
+import { Utils, waitForApi } from '../utils';
 import { NodeBodyCreate, NodeEntry, ResultSetPaging } from '@alfresco/js-api';
-import { waitForApi } from '@alfresco/playwright-shared';
 
 export class FileActionsApi {
   private apiService: ApiClientFactory;
@@ -43,7 +42,7 @@ export class FileActionsApi {
 
   async uploadFile(fileLocation: string, fileName: string, parentFolderId: string): Promise<NodeEntry> {
     const file = fs.createReadStream(fileLocation);
-    return await this.apiService.upload.uploadFile(file, '', parentFolderId, null, {
+    return this.apiService.upload.uploadFile(file, '', parentFolderId, null, {
       name: fileName,
       nodeType: 'cm:content',
       renditions: 'doclib'
@@ -71,7 +70,7 @@ export class FileActionsApi {
     };
 
     try {
-      return await this.apiService.upload.uploadFile(file, '', parentId, nodeProps, opts);
+      return this.apiService.upload.uploadFile(file, '', parentId, nodeProps, opts);
     } catch (error) {
       return Promise.reject(error);
     }
@@ -87,7 +86,7 @@ export class FileActionsApi {
 
   async getNodeById(id: string): Promise<NodeEntry | null> {
     try {
-      return await this.apiService.nodes.getNode(id);
+      return this.apiService.nodes.getNode(id);
     } catch {
       return null;
     }
@@ -126,7 +125,7 @@ export class FileActionsApi {
           return Promise.resolve(isLocked);
         }
       };
-      return await Utils.retryCall(locked, data.retry);
+      return Utils.retryCall(locked, data.retry);
     } catch {}
     return isLocked;
   }
@@ -141,7 +140,7 @@ export class FileActionsApi {
     };
 
     try {
-      return await this.apiService.search.search(data);
+      return this.apiService.search.search(data);
     } catch {
       return new ResultSetPaging();
     }
@@ -172,7 +171,7 @@ export class FileActionsApi {
         comment: comment,
         name: newName
       };
-      return await this.apiService.nodes.updateNodeContent(nodeId, content, opts);
+      return this.apiService.nodes.updateNodeContent(nodeId, content, opts);
     } catch (error) {
       console.error(`${this.constructor.name} ${this.updateNodeContent.name}`, error);
       return Promise.reject(error);

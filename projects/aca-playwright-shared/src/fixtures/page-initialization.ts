@@ -24,23 +24,19 @@
 
 import { test as base } from '@playwright/test';
 import {
+  FavoritesLibrariesPage,
+  LoginPage,
   MyLibrariesPage,
-  FileActionsApi,
   NodesPage,
   PersonalFilesPage,
   RecentFilesPage,
-  SharedLinksApi,
   SharedPage,
   SearchPage,
   FavoritesPage,
-  FavoritesPageApi,
-  TrashPage,
-  LoginPage,
-  NodesApi,
-  SitesApi,
-  users,
-  FavoritesLibrariesPage
-} from '../';
+  TrashPage
+} from '../page-objects';
+import { FileActionsApi, SharedLinksApi, FavoritesPageApi, NodesApi, SitesApi } from '../api';
+import { users } from '../base-config';
 
 interface Pages {
   personalFiles: PersonalFilesPage;

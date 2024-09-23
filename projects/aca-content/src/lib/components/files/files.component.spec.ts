@@ -34,6 +34,7 @@ import { of, Subject, throwError } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { NodeEntry, NodePaging, Node, PathElement } from '@alfresco/js-api';
 import { DocumentListPresetRef } from '@alfresco/adf-extensions';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('FilesComponent', () => {
   let node;
@@ -66,7 +67,7 @@ describe('FilesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, FilesComponent],
+      imports: [AppTestingModule, FilesComponent, MatSnackBarModule],
       providers: [
         {
           provide: Router,

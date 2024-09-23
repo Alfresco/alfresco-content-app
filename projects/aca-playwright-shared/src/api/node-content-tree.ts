@@ -19,7 +19,7 @@
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
 import { NodeBodyCreate } from '@alfresco/js-api';
@@ -41,9 +41,8 @@ export function flattenNodeContentTree(content: NodeContentTree, relativePath: s
   const { name, files, folders, title, description } = content;
   const aspectNames: string[] = ['cm:versionable'];
   let data: NodeBodyCreate[] = [];
-  let properties: any;
 
-  properties = {
+  const properties = {
     [NODE_TITLE]: title,
     [NODE_DESCRIPTION]: description
   };
