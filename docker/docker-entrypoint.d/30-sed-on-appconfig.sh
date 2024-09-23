@@ -155,3 +155,8 @@ if [ -n "${APP_CONFIG_PLUGIN_CATEGORIES}" ]; then
   echo "SET APP_CONFIG_PLUGIN_CATEGORIES"
   sed -e "s/\"categoriesEnabled\": [^,]*/\"categoriesEnabled\": ${APP_CONFIG_PLUGIN_CATEGORIES}/g" -i "$APP_CONFIG_FILE"
 fi
+
+if [ -n "${APP_CONFIG_PLUGIN_KNOWLEDGE_RETRIEVAL}" ]; then
+  echo "SET APP_CONFIG_PLUGIN_KNOWLEDGE_RETRIEVAL"
+  sed -e "s/\"knowledgeRetrievalEnabled\": [^,]*/\"knowledgeRetrievalEnabled\": ${APP_CONFIG_PLUGIN_KNOWLEDGE_RETRIEVAL}/g" -i "$APP_CONFIG_FILE"
+fi
