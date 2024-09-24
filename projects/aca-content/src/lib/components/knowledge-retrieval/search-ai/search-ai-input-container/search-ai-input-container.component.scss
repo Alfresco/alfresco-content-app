@@ -1,0 +1,18 @@
+aca-search-ai-input-container {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  align-items: center;
+  width: 100%;
+
+  .aca-search-ai-input-container-divider {
+    height: 24px;
+    margin-left: 30px;
+    margin-right: 7px;
+    background: var(--adf-theme-foreground-text-color-025);
+  }
+
+  .aca-search-ai-input-container-close {
+    display: flex;
+  }
+}

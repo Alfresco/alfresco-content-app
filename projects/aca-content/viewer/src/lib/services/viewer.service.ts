@@ -36,6 +36,12 @@ interface AdjacentFiles {
   providedIn: 'root'
 })
 export class ViewerService {
+  private _customNodesOrder: string[] = [];
+
+  set customNodesOrder(customNodesOrder: string[]) {
+    this._customNodesOrder = customNodesOrder;
+  }
+
   constructor(private preferences: UserPreferencesService, private contentApi: ContentApiService) {}
 
   recentFileFilters = [
@@ -103,7 +109,6 @@ export class ViewerService {
     }
     const isClient = this.preferences.get(`${source}.sorting.mode`) === 'client';
     const [sortKey, sortDirection, previousSortKey, previousSortDir] = this.getSortKeyDir(source);
-    let entries: Node[] | SharedLink[] = [];
     let nodes: NodePaging | FavoritePaging | SharedLinkPaging | ResultSetPaging;
 
     if (source === 'personal-files' || source === 'libraries-files') {
@@ -164,15 +169,7 @@ export class ViewerService {
       };
       nodes = await this.contentApi.search(query).toPromise();
     }
-
-    entries = nodes.list.entries.map((obj) => obj.entry.target?.file ?? obj.entry);
-    if (isClient) {
-      if (previousSortKey) {
-        this.sort(entries, previousSortKey, previousSortDir);
-      }
-      this.sort(entries, sortKey, sortDirection);
-    }
-    return entries.map((entry) => entry.id ?? entry.nodeId);
+    return this.getCustomNodesOrderIfNoNodes(nodes, isClient, previousSortKey, previousSortDir, sortKey, sortDirection);
   }
 
   /**
@@ -222,6 +219,28 @@ export class ViewerService {
       return ['name', 'asc'];
     } else {
       return ['modifiedAt', 'desc'];
+    }
+  }
+
+  private getCustomNodesOrderIfNoNodes(
+    nodes: NodePaging | FavoritePaging | SharedLinkPaging | ResultSetPaging,
+    isClient: boolean,
+    previousSortKey: string,
+    previousSortDir: string,
+    sortKey: string,
+    sortDirection: string
+  ): string[] {
+    if (nodes) {
+      const entries = nodes.list.entries.map((obj) => obj.entry.target?.file ?? obj.entry);
+      if (isClient) {
+        if (previousSortKey) {
+          this.sort(entries, previousSortKey, previousSortDir);
+        }
+        this.sort(entries, sortKey, sortDirection);
+      }
+      return entries.map((entry) => entry.id ?? entry.nodeId);
+    } else {
+      return this._customNodesOrder;
     }
   }
 }

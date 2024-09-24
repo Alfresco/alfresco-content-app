@@ -1,0 +1,37 @@
+<ng-container *ngIf="agents.length && hxInsightUrl">
+  <button
+    [matMenuTriggerFor]="disabled ? null : agentsList"
+    class="aca-agents-menu-button aca-agents-button-menu-trigger"
+    (mouseup)="onClick()"
+    (keydown.enter)="onClick()"
+    data-automation-id="aca-agents-button">
+    <adf-icon
+      value="adf:colored-stars-ai"
+      class="aca-agents-button-icon">
+    </adf-icon>
+    {{ 'KNOWLEDGE_RETRIEVAL.SEARCH.AGENTS_BUTTON.LABEL' | translate}}
+  </button>
+  <mat-menu
+    #agentsList="matMenu"
+    class="aca-agents-button-menu"
+    xPosition="before">
+    <mat-selection-list
+      (selectionChange)="onAgentSelection($event)"
+      [multiple]="false"
+      class="aca-agents-button-menu-list"
+      [hideSingleSelectionIndicator]="true">
+      <mat-list-option
+        *ngFor="let agent of agents"
+        class="aca-agents-button-menu-list-agent"
+        [attr.data-automation-id]="'aca-agents-button-agent-' + agent.id"
+        [value]="agent">
+        <div class="aca-agents-button-menu-list-agent-content">
+          <adf-avatar [src]="agent?.avatarUrl" [initials]="initialsByAgentId[agent.id]"></adf-avatar>
+          <span class="aca-agents-button-menu-list-agent-content-name" [matTooltip]="agent.name" [matTooltipPosition]="'right'">
+           {{ agent.name }}
+          </span>
+        </div>
+      </mat-list-option>
+    </mat-selection-list>
+  </mat-menu>
+</ng-container>
