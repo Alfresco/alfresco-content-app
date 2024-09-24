@@ -1,0 +1,102 @@
+<aca-page-layout>
+  <aca-search-ai-input-container
+    class="aca-page-layout-header"
+    placeholder="KNOWLEDGE_RETRIEVAL.SEARCH.RESULTS_PAGE.QUERY_INPUT_PLACEHOLDER"
+    [agentId]="agentId"
+    [useStoredNodes]="true"
+    *ngIf="!hasError && agentId">
+  </aca-search-ai-input-container>
+  <div
+    class="aca-page-layout-content"
+    *ngIf="!hasError">
+    <div class="aca-search-ai-results-container">
+      <div
+        class="aca-search-ai-results-container-query"
+        data-automation-id="aca-search-ai-results-query">
+        {{ searchQuery }}
+      </div>
+      <div
+        class="aca-search-ai-response-container"
+        [class.aca-search-ai-response-container-error]="hasAnsweringError">
+        <ng-container *ngIf="!loading else skeleton">
+          <div
+            class="aca-search-ai-response-container-body"
+            *ngIf="!hasAnsweringError">
+            <div
+              class="aca-search-ai-response-container-body-response"
+              data-automation-id="aca-search-ai-results-response">
+              {{ queryAnswer?.answer }}
+            </div>
+            <button
+              class="aca-search-ai-response-container-body-response-action aca-search-ai-response-container-body-response-action-regeneration"
+              mat-icon-button
+              (click)="checkUnsavedChangesAndSearch()"
+              data-automation-id="aca-search-ai-results-regeneration-button"
+              [title]="'KNOWLEDGE_RETRIEVAL.SEARCH.RESULTS_PAGE.REGENERATION_BUTTON_LABEL' | translate">
+              <mat-icon>cached</mat-icon>
+            </button>
+            <button
+              class="aca-search-ai-response-container-body-response-action"
+              mat-icon-button
+              (click)="copyResponseToClipboard()"
+              data-automation-id="aca-search-ai-results-copying-button"
+              [title]="'KNOWLEDGE_RETRIEVAL.SEARCH.RESULTS_PAGE.COPY_BUTTON_LABEL' | translate">
+              <mat-icon>copy</mat-icon>
+            </button>
+            <ng-container *ngIf="nodes?.length">
+              <mat-divider class="aca-search-ai-response-container-body-divider"></mat-divider>
+              <div class="aca-search-ai-response-container-body-references-container">
+                <p class="aca-search-ai-response-container-body-references-container-header">
+                  {{ 'KNOWLEDGE_RETRIEVAL.SEARCH.RESULTS_PAGE.REFERENCED_DOCUMENTS_HEADER' | translate }}
+                </p>
+                <div class="aca-search-ai-response-container-body-references-container-documents">
+                  <a
+                    class="aca-search-ai-response-container-body-references-container-documents-document"
+                    *ngFor="let node of nodes"
+                    [attr.data-automation-id]="'aca-search-ai-results-' + node.id + '-document'"
+                    (click)="openFile(node.id)"
+                    (keyup.enter)="openFile(node.id)"
+                    tabindex="0">
+                    <mat-icon
+                      mat-list-icon
+                      class="aca-search-ai-response-container-body-references-container-documents-document-icon">
+                      <img [alt]="node.content?.mimeType" [src]="mimeTypeIconsByNodeId[node.id]"/>
+                    </mat-icon>
+                    <div class="aca-search-ai-response-container-body-references-container-documents-document-name">
+                      {{ node.name }}
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+          <div
+            *ngIf="hasAnsweringError"
+            class="aca-search-ai-response-container-error-message">
+            {{ 'KNOWLEDGE_RETRIEVAL.SEARCH.ERRORS.LOADING_ERROR' | translate }}
+            <button
+              mat-flat-button
+              (click)="performAiSearch()"
+              class="aca-search-ai-response-container-error-message-regeneration-button"
+              data-automation-id="aca-search-ai-results-error-regeneration-button">
+              <mat-icon class="aca-search-ai-response-container-error-message-regeneration-button-icon">cached</mat-icon>
+              {{ 'KNOWLEDGE_RETRIEVAL.SEARCH.RESULTS_PAGE.REGENERATION_BUTTON_LABEL' | translate }}
+            </button>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+  <adf-empty-content
+    class="aca-page-layout-content"
+    icon="star"
+    title="KNOWLEDGE_RETRIEVAL.SEARCH.ERRORS.PAGE_NOT_AVAILABLE_ERROR"
+    *ngIf="hasError">
+  </adf-empty-content>
+</aca-page-layout>
+
+<ng-template #skeleton>
+  <div class="adf-skeleton"></div>
+  <div class="adf-skeleton"></div>
+  <div class="adf-skeleton adf-skeleton-half"></div>
+</ng-template>

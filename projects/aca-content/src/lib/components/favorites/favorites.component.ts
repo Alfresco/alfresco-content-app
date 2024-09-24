@@ -46,6 +46,7 @@ import {
 import { DocumentListDirective } from '../../directives/document-list.directive';
 import { TranslateModule } from '@ngx-translate/core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
+import { SearchAiInputContainerComponent } from '../knowledge-retrieval/search-ai/search-ai-input-container/search-ai-input-container.component';
 
 @Component({
   standalone: true,
@@ -59,6 +60,7 @@ import { DocumentListComponent } from '@alfresco/adf-content-services';
     PageLayoutComponent,
     TranslateModule,
     ToolbarComponent,
+    SearchAiInputContainerComponent,
     EmptyContentComponent,
     DynamicColumnComponent,
     DocumentListComponent,
@@ -67,7 +69,8 @@ import { DocumentListComponent } from '@alfresco/adf-content-services';
     CustomEmptyContentTemplateDirective
   ],
   templateUrl: './favorites.component.html',
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  selector: 'aca-favorites'
 })
 export class FavoritesComponent extends PageComponent implements OnInit {
   columns: DocumentListPresetRef[] = [];

@@ -1,0 +1,74 @@
+aca-agents-button.aca-agents-button {
+  height: 32px;
+  display: block;
+
+  button {
+    &.aca-agents-menu-button {
+      display: flex;
+      align-items: end;
+
+      &.aca-agents-button-menu-trigger {
+        height: auto;
+        cursor: pointer;
+        border: none;
+        background: transparent;
+        width: max-content;
+        padding: 0 4px 0 0;
+      }
+
+      .aca-agents-button-icon {
+        display: flex;
+        align-self: baseline;
+
+        svg {
+          height: 32px;
+          width: 32px;
+          position: absolute;
+          margin-left: -21px;
+        }
+      }
+    }
+  }
+}
+
+.aca-agents-button-menu {
+  padding-top: 2px;
+  padding-bottom: 1px;
+
+  .aca-agents-button-menu-list {
+    margin-left: -6px;
+    padding-top: 0;
+    padding-bottom: 0;
+
+    &-agent {
+      height: 40px;
+
+      &:not(:last-child) {
+        margin-bottom: 2px;
+      }
+
+      &-content {
+        display: flex;
+        align-items: center;
+
+        &-name {
+          width: 120px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+
+      adf-avatar {
+        margin-right: 12px;
+        margin-bottom: 2px;
+        padding-left: 1px;
+        padding-top: 1px;
+
+        .adf-avatar__image {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
