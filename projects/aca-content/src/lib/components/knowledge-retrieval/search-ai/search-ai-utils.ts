@@ -26,7 +26,7 @@ import { Agent } from '@alfresco/js-api/typings';
 
 export const getAgentsWithMockedAvatars = (agents: Agent[], mocked: boolean) => {
   if (mocked) {
-    const images = ['assets/images/avatars/Blue.png', 'assets/images/avatars/Gold.png', 'assets/images/avatars/Pink.png'];
+    const images = ['assets/images/agent-avatar-blue.png', 'assets/images/agent-avatar-gold.png', 'assets/images/agent-avatar-pink.png'];
     return agents.map((agent, index) => {
       return { ...agent, avatarUrl: images[index > 2 ? 2 : index] };
     });
