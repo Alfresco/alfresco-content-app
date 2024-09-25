@@ -60,7 +60,7 @@ Now, the visibility of this extension unit can be controlled in more compact way
   "rules": {
     "visible": [
       "app.selection.file",
-      "!app,navigation.isTrashcan",
+      "!app.navigation.isTrashcan",
       "!app.selection.file.isLocked"
     ]
   }
