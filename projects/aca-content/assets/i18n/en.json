@@ -622,8 +622,6 @@
           "REFERENCED_DOCUMENTS_HEADER": "Referenced documents",
           "REGENERATION_BUTTON_LABEL": "Regenerate",
           "COPY_BUTTON_LABEL": "Copy",
-          "LIKE_BUTTON_LABEL": "Like",
-          "DISLIKE_BUTTON_LABEL": "Dislike",
           "COPY_MESSAGE": "Copied response to clipboard"
         },
         "AGENTS_BUTTON": {
