@@ -28,7 +28,7 @@ import { MatSelect, MatSelectModule } from '@angular/material/select';
 import { By } from '@angular/platform-browser';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { AgentService, ContentTestingModule, SearchAiService } from '@alfresco/adf-content-services';
-import { getAppSelection, SearchByTermAiAction } from '@alfresco/aca-shared/store';
+import { getAppSelection, SearchByTermAiAction, ToggleAISearchInput } from '@alfresco/aca-shared/store';
 import { of, Subject } from 'rxjs';
 import { Agent, NodeEntry } from '@alfresco/js-api';
 import { FormControlDirective } from '@angular/forms';
@@ -70,6 +70,7 @@ describe('SearchAiInputComponent', () => {
   let store: MockStore;
   let agents$: Subject<Agent[]>;
   let dialog: MatDialog;
+  let activatedRoute: ActivatedRoute;
 
   const prepareBeforeTest = (): void => {
     selectionState = {
@@ -101,6 +102,7 @@ describe('SearchAiInputComponent', () => {
       ]
     });
 
+    activatedRoute = TestBed.inject(ActivatedRoute);
     fixture = TestBed.createComponent(SearchAiInputComponent);
     component = fixture.componentInstance;
     store = TestBed.inject(MockStore);
@@ -131,6 +133,23 @@ describe('SearchAiInputComponent', () => {
 
     it('should have hidden single selection indicator', () => {
       expect(selectElement.componentInstance.hideSingleSelectionIndicator).toBeTrue();
+    });
+
+    it('should set queryControl value to searchTerm if searchTerm is defined', () => {
+      const query = 'some new query';
+      component.searchTerm = query;
+
+      component.ngOnInit();
+
+      expect(component.queryControl.value).toBe(query);
+    });
+
+    it('should set queryControl value to query param if searchTerm is not defined', () => {
+      component.searchTerm = undefined;
+
+      component.ngOnInit();
+
+      expect(component.queryControl.value).toBe('some query');
     });
 
     it('should get agents on init', () => {
@@ -239,6 +258,11 @@ describe('SearchAiInputComponent', () => {
     });
 
     it('should be disabled by default', () => {
+      activatedRoute.snapshot.queryParams = { query: '' };
+
+      component.ngOnInit();
+      fixture.detectChanges();
+
       expect(submitButton.nativeElement.disabled).toBeTrue();
     });
 
@@ -371,12 +395,13 @@ describe('SearchAiInputComponent', () => {
         spyOn(store, 'dispatch');
         submittingTrigger();
 
-        expect(store.dispatch).toHaveBeenCalledOnceWith(
+        expect(store.dispatch).toHaveBeenCalledWith(
           new SearchByTermAiAction({
             searchTerm: query,
             agentId: component.agentId
           })
         );
+        expect(store.dispatch).toHaveBeenCalledWith(new ToggleAISearchInput('2', 'some query'));
       });
 
       it('should call dispatch on store with correct parameter if selected agent was changed', async () => {
@@ -388,26 +413,13 @@ describe('SearchAiInputComponent', () => {
         });
         submittingTrigger();
 
-        expect(store.dispatch).toHaveBeenCalledOnceWith(
+        expect(store.dispatch).toHaveBeenCalledWith(
           new SearchByTermAiAction({
             searchTerm: query,
             agentId: '1'
           })
         );
-      });
-
-      it('should reset query input', () => {
-        spyOn(component.queryControl, 'reset');
-        submittingTrigger();
-
-        expect(component.queryControl.reset).toHaveBeenCalled();
-      });
-
-      it('should emit searchSubmitted event', () => {
-        spyOn(component.searchSubmitted, 'emit');
-        submittingTrigger();
-
-        expect(component.searchSubmitted.emit).toHaveBeenCalled();
+        expect(store.dispatch).toHaveBeenCalledWith(new ToggleAISearchInput('1', 'some query'));
       });
 
       it('should call open modal if there was a previous search phrase in url', () => {
@@ -418,13 +430,11 @@ describe('SearchAiInputComponent', () => {
 
       it('should open Unsaved Changes Modal and run callback successfully', () => {
         const modalAiSpy = spyOn(modalAiService, 'openUnsavedChangesModal').and.callThrough();
-        spyOn(component.searchSubmitted, 'emit');
 
         fixture.detectChanges();
 
         submittingTrigger();
         expect(modalAiSpy).toHaveBeenCalledWith(jasmine.any(Function));
-        expect(component.searchSubmitted.emit).toHaveBeenCalled();
       });
     });
   }

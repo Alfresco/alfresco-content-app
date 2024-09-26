@@ -34,21 +34,40 @@ import { DebugElement } from '@angular/core';
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { SearchAiNavigationService } from '../../../../services/search-ai-navigation.service';
-import { NavigationEnd, NavigationStart, Router, RouterEvent } from '@angular/router';
+import { NavigationEnd, Router, RouterEvent } from '@angular/router';
 import { getAppSelection } from '@alfresco/aca-shared/store';
 
 describe('SearchAiInputContainerComponent', () => {
+  const routingEvents$: Subject<RouterEvent> = new Subject();
+
   let component: SearchAiInputContainerComponent;
   let fixture: ComponentFixture<SearchAiInputContainerComponent>;
-  let routingEvents$: Subject<RouterEvent>;
   let searchAiService: SearchAiService;
   let store: MockStore;
+  let mockSearchAiService: jasmine.SpyObj<SearchAiService>;
+  let searchNavigationService: SearchAiNavigationService;
+  let mockRouter: any;
 
   beforeEach(() => {
+    mockSearchAiService = jasmine.createSpyObj('SearchAiService', ['updateSearchAiInputState'], {
+      toggleSearchAiInput$: of(true)
+    });
+
+    mockRouter = {
+      url: '/some-url',
+      events: routingEvents$.asObservable(),
+      routerState: {
+        root: {}
+      },
+      snapshot: {}
+    };
+
     TestBed.configureTestingModule({
       imports: [SearchAiInputContainerComponent, ContentTestingModule],
       providers: [
+        { provide: Router, useValue: mockRouter },
         provideMockStore(),
+        { provide: SearchAiService, useValue: mockSearchAiService },
         {
           provide: AgentService,
           useValue: {
@@ -70,6 +89,7 @@ describe('SearchAiInputContainerComponent', () => {
     component = fixture.componentInstance;
     store = TestBed.inject(MockStore);
     searchAiService = TestBed.inject(SearchAiService);
+    searchNavigationService = TestBed.inject(SearchAiNavigationService);
     store.overrideSelector(getAppSelection, {
       nodes: [],
       isEmpty: true,
@@ -77,8 +97,6 @@ describe('SearchAiInputContainerComponent', () => {
       libraries: []
     });
     component.agentId = '1';
-    routingEvents$ = new Subject<RouterEvent>();
-    spyOnProperty(TestBed.inject(Router), 'events').and.returnValue(routingEvents$);
     fixture.detectChanges();
   });
 
@@ -115,13 +133,10 @@ describe('SearchAiInputContainerComponent', () => {
       expect(inputComponent.useStoredNodes).toBeTrue();
     });
 
-    it('should call updateSearchAiInputState on SearchAiService when triggered searchSubmitted event', () => {
-      spyOn(searchAiService, 'updateSearchAiInputState');
-      inputComponent.searchSubmitted.emit();
+    it('should set inputState$ to toggleSearchAiInput$ from the service on ngOnInit', () => {
+      component.ngOnInit();
 
-      expect(searchAiService.updateSearchAiInputState).toHaveBeenCalledWith({
-        active: false
-      });
+      expect(component.inputState$).toBe(mockSearchAiService.toggleSearchAiInput$);
     });
   });
 
@@ -140,44 +155,35 @@ describe('SearchAiInputContainerComponent', () => {
       button = fixture.debugElement.query(By.directive(MatIconButton));
     });
 
-    it('should have correct title', () => {
+    it('should have correct title when page is not knowledge-retrieval', () => {
+      mockRouter.url = '/other-page';
+
+      component.ngOnInit();
+
       expect(button.nativeElement.title).toBe('KNOWLEDGE_RETRIEVAL.SEARCH.SEARCH_INPUT.HIDE_INPUT');
+    });
+
+    it('should have correct title when page is knowledge-retrieval', () => {
+      mockRouter.url = '/knowledge-retrieval/some-data';
+
+      component.ngOnInit();
+      fixture.detectChanges();
+
+      expect(button.nativeElement.title).toBe('KNOWLEDGE_RETRIEVAL.SEARCH.SEARCH_INPUT.HIDE_ANSWER');
     });
 
     it('should contain close icon', () => {
       expect(button.query(By.directive(MatIcon)).nativeElement.textContent).toBe('close');
     });
 
-    it('should call updateSearchAiInputState on SearchAiService when clicked', () => {
-      spyOn(searchAiService, 'updateSearchAiInputState');
+    it('should call navigateToPreviousRoute on SearchAiService when clicked', () => {
+      spyOn(searchNavigationService, 'navigateToPreviousRouteOrCloseInput');
       button.nativeElement.click();
 
-      expect(searchAiService.updateSearchAiInputState).toHaveBeenCalledWith({
-        active: false
-      });
-    });
-
-    it('should call navigateToPreviousRoute on SearchAiNavigationService when clicked', () => {
-      const searchNavigationService = TestBed.inject(SearchAiNavigationService);
-      spyOn(searchNavigationService, 'navigateToPreviousRoute');
-      button.nativeElement.click();
-
-      expect(searchNavigationService.navigateToPreviousRoute).toHaveBeenCalled();
-    });
-  });
-
-  describe('Navigation', () => {
-    it('should call updateSearchAiInputState on SearchAiService when navigation starts', () => {
-      spyOn(searchAiService, 'updateSearchAiInputState');
-      routingEvents$.next(new NavigationStart(1, ''));
-
-      expect(searchAiService.updateSearchAiInputState).toHaveBeenCalledWith({
-        active: false
-      });
+      expect(searchNavigationService.navigateToPreviousRouteOrCloseInput).toHaveBeenCalled();
     });
 
     it('should not call updateSearchAiInputState on SearchAiService when there is different event than navigation starts', () => {
-      spyOn(searchAiService, 'updateSearchAiInputState');
       routingEvents$.next(new NavigationEnd(1, '', ''));
 
       expect(searchAiService.updateSearchAiInputState).not.toHaveBeenCalled();

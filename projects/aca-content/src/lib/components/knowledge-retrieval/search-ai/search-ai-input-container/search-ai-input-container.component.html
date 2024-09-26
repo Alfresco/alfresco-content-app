@@ -1,5 +1,5 @@
 <aca-search-ai-input
-  (searchSubmitted)="hideSearchInput()"
+  [searchTerm]="(inputState$ | async).searchTerm"
   [placeholder]="placeholder"
   [agentId]="agentId"
   [useStoredNodes]="useStoredNodes">
@@ -12,7 +12,7 @@
   mat-icon-button
   (click)="leaveSearchInput()"
   data-automation-id="aca-search-ai-input-container-leaving-search-button"
-  [title]="'KNOWLEDGE_RETRIEVAL.SEARCH.SEARCH_INPUT.HIDE_INPUT' | translate"
+  [title]="(isKnowledgeRetrievalPage ? 'KNOWLEDGE_RETRIEVAL.SEARCH.SEARCH_INPUT.HIDE_ANSWER' : 'KNOWLEDGE_RETRIEVAL.SEARCH.SEARCH_INPUT.HIDE_INPUT') | translate"
   class="aca-search-ai-input-container-close">
   <mat-icon>close</mat-icon>
 </button>
