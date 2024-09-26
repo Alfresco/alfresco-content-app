@@ -497,7 +497,7 @@
             "component": "app.toolbar.toggleEditOffline",
             "rules": {
               "visible": [
-                "app.selection.notEmpty",
+                "app.selection.file",
                 "!app.navigation.isTrashcan",
                 "canToggleFileLock"
               ]
@@ -1195,7 +1195,7 @@
               "component": "app.toolbar.toggleEditOffline",
               "rules": {
                 "visible": [
-                  "app.selection.notEmpty",
+                  "app.selection.file",
                   "!app.navigation.isTrashcan",
                   "canToggleFileLock"
                 ]
