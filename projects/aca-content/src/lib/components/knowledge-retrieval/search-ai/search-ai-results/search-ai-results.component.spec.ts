@@ -27,7 +27,7 @@ import { SearchAiResultsComponent } from './search-ai-results.component';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { of, Subject, throwError } from 'rxjs';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { EmptyContentComponent, UserPreferencesService } from '@alfresco/adf-core';
+import { EmptyContentComponent, UnsavedChangesGuard, UserPreferencesService } from '@alfresco/adf-core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AppTestingModule } from '../../../../testing/app-testing.module';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
@@ -40,6 +40,7 @@ import { SearchAiInputComponent } from '../search-ai-input/search-ai-input.compo
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { getAppSelection, getCurrentFolder, ViewNodeAction } from '@alfresco/aca-shared/store';
 import { ViewerService } from '@alfresco/aca-content/viewer';
+import { DebugElement } from '@angular/core';
 
 const questionMock: QuestionModel = { question: 'test', questionId: 'testId', restrictionQuery: { nodesIds: [] } };
 const aiAnswerMock: AiAnswer = { answer: 'Some answer', questionId: 'some id', references: [] };
@@ -57,6 +58,7 @@ describe('SearchAiResultsComponent', () => {
   let searchAiService: SearchAiService;
   let store: MockStore;
   let viewerService: ViewerService;
+  let unsavedChangesGuard: UnsavedChangesGuard;
 
   afterEach(() => {
     store.resetSelectors();
@@ -92,6 +94,7 @@ describe('SearchAiResultsComponent', () => {
     searchAiService = TestBed.inject(SearchAiService);
     userPreferencesService = TestBed.inject(UserPreferencesService);
     viewerService = TestBed.inject(ViewerService);
+    unsavedChangesGuard = TestBed.inject(UnsavedChangesGuard);
     store = TestBed.inject(MockStore);
     store.overrideSelector(getAppSelection, {
       nodes: [],
@@ -107,6 +110,8 @@ describe('SearchAiResultsComponent', () => {
   });
 
   describe('query params change', () => {
+    const getEmptyContentElement = (): DebugElement => fixture.debugElement.query(By.directive(EmptyContentComponent));
+
     it('should perform ai search and sets agents on query params change', () => {
       spyOn(userPreferencesService, 'get').and.returnValue(knowledgeRetrievalNodes);
       mockQueryParams.next({ query: 'test', agentId: 'agentId1' });
@@ -212,6 +217,27 @@ describe('SearchAiResultsComponent', () => {
       expect(component.hasAnsweringError).toBeFalse();
     }));
 
+    it('should render empty content when there are not selected nodes', () => {
+      mockQueryParams.next({
+        query: 'test',
+        agentId: 'agentId1'
+      });
+
+      fixture.detectChanges();
+      expect(getEmptyContentElement()).not.toBeNull();
+    });
+
+    it('should not render empty content when there are selected nodes', () => {
+      spyOn(userPreferencesService, 'get').and.returnValue(knowledgeRetrievalNodes);
+      mockQueryParams.next({
+        query: 'test',
+        agentId: 'agentId1'
+      });
+
+      fixture.detectChanges();
+      expect(getEmptyContentElement()).toBeNull();
+    });
+
     describe('when query params contains location', () => {
       let params: Params;
 
@@ -236,7 +262,7 @@ describe('SearchAiResultsComponent', () => {
         });
 
         fixture.detectChanges();
-        expect(fixture.debugElement.query(By.directive(EmptyContentComponent))).toBeNull();
+        expect(getEmptyContentElement()).toBeNull();
       });
 
       it('should not display search query', () => {
@@ -367,6 +393,27 @@ describe('SearchAiResultsComponent', () => {
       component.ngOnInit();
 
       expect(nodesOrder).toEqual(['node1', 'node2']);
+    });
+
+    it('should set unsaved on UnsavedChangesGuard to false when there are no selected nodes', () => {
+      mockQueryParams.next({
+        query: 'test',
+        agentId: 'agentId1'
+      });
+
+      component.ngOnInit();
+      expect(unsavedChangesGuard.unsaved).toBeFalse();
+    });
+
+    it('should set unsaved on UnsavedChangesGuard to true when there are selected nodes', () => {
+      spyOn(userPreferencesService, 'get').and.returnValue(knowledgeRetrievalNodes);
+      mockQueryParams.next({
+        query: 'test',
+        agentId: 'agentId1'
+      });
+
+      component.ngOnInit();
+      expect(unsavedChangesGuard.unsaved).toBeTrue();
     });
   });
 });
