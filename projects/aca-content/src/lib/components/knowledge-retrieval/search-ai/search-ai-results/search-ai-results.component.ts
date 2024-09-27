@@ -147,16 +147,17 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
       .subscribe((params) => {
         this._agentId = params.agentId;
         this._searchQuery = params.query ? decodeURIComponent(params.query) : '';
-        if (!this.searchQuery || !this.agentId) {
+        const selectedNodesState = this.userPreferencesService.get('knowledgeRetrievalNodes');
+        if (!this.searchQuery || !this.agentId || !selectedNodesState) {
           this._hasError = true;
           return;
         }
-        this._selectedNodesState = JSON.parse(this.userPreferencesService.get('knowledgeRetrievalNodes'));
+        this._selectedNodesState = JSON.parse(selectedNodesState);
         this.performAiSearch();
       });
     super.ngOnInit();
 
-    this.unsavedChangesGuard.unsaved = this.route.snapshot?.queryParams?.query?.length > 0;
+    this.unsavedChangesGuard.unsaved = this.route.snapshot?.queryParams?.query?.length > 0 && !this.hasError;
     this.unsavedChangesGuard.data = {
       descriptionText: 'KNOWLEDGE_RETRIEVAL.SEARCH.DISCARD_CHANGES.CONVERSATION_DISCARDED',
       confirmButtonText: 'KNOWLEDGE_RETRIEVAL.SEARCH.DISCARD_CHANGES.OKAY',
