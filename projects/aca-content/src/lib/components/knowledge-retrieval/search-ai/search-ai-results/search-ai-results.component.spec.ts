@@ -85,6 +85,12 @@ describe('SearchAiResultsComponent', () => {
             }
           }
         },
+        {
+          provide: UnsavedChangesGuard,
+          useValue: {
+            unsaved: false
+          }
+        },
         provideMockStore()
       ]
     });
