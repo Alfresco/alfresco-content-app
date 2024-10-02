@@ -25,18 +25,19 @@
 import { expect } from '@playwright/test';
 import { ApiClientFactory, FileActionsApi, NodesApi, test, TEST_FILES, Utils, TrashcanApi, PersonalFilesPage } from '@alfresco/aca-playwright-shared';
 
+test.use({ channel: 'chrome' });
 test.describe('viewer file types', () => {
   const randomString = Utils.random();
   const username = `user-${randomString}`;
-  const randomDocxName = `${TEST_FILES.DOCX.name}-${randomString}`;
-  const randomJpgName = `${TEST_FILES.JPG_FILE.name}-${randomString}`;
-  const randomPngName = `${TEST_FILES.PNG_FILE.name}-${randomString}`;
-  const randomGifName = `${TEST_FILES.GIF_FILE.name}-${randomString}`;
-  const randomPdfName = `${TEST_FILES.PDF.name}-${randomString}`;
-  const randomPptxName = `${TEST_FILES.PPTX_FILE.name}-${randomString}`;
-  const randomMp3Name = `${TEST_FILES.MP3_FILE.name}-${randomString}`;
-  const randomMp4Name = `${TEST_FILES.MP4_FILE.name}-${randomString}`;
-  const randomWebmName = `${TEST_FILES.WEBM_FILE.name}-${randomString}`;
+  const randomDocxName = `${TEST_FILES.DOCX.name}-${randomString}.docx`;
+  const randomJpgName = `${TEST_FILES.JPG_FILE.name}-${randomString}.jpg`;
+  const randomPngName = `${TEST_FILES.PNG_FILE.name}-${randomString}.png`;
+  const randomGifName = `${TEST_FILES.GIF_FILE.name}-${randomString}.gif`;
+  const randomPdfName = `${TEST_FILES.PDF.name}-${randomString}.pdf`;
+  const randomPptxName = `${TEST_FILES.PPTX_FILE.name}-${randomString}.pptx`;
+  const randomMp3Name = `${TEST_FILES.MP3_FILE.name}-${randomString}.mp3`;
+  const randomMp4Name = `${TEST_FILES.MP4_FILE.name}-${randomString}.mp4`;
+  const randomWebmName = `${TEST_FILES.WEBM_FILE.name}-${randomString}.webm`;
   let nodesApi: NodesApi;
   let trashcanApi: TrashcanApi;
   let fileActionApi: FileActionsApi;
@@ -83,6 +84,7 @@ test.describe('viewer file types', () => {
   ) {
     await page.dataTable.performClickFolderOrFileToOpen(fileName);
     expect(await page.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
+    await page.viewer.waitForViewerLoaderToFinish();
     await expect(page.viewer.unknownFormat).toBeHidden();
 
     const viewerElements = {
@@ -140,9 +142,9 @@ test.describe('viewer file types', () => {
     expect(await personalFiles.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
     await personalFiles.viewer.documentThumbnailButton.click();
     await expect(personalFiles.viewer.thumbnailsPages.first()).toBeVisible();
-    await expect(personalFiles.viewer.viewerPage).toHaveValue('1');
-    await personalFiles.viewer.thumbnailsPages.nth(1).click();
-    await expect(personalFiles.viewer.viewerPage).toHaveValue('2');
+    await personalFiles.viewer.checkViewerActivePage(1);
+    await personalFiles.viewer.clickViewerThumbnailPage(2);
+    await personalFiles.viewer.checkViewerActivePage(2);
   });
 
   test('[XAT-5486] User can close the thumbnail pane', async ({ personalFiles }) => {
