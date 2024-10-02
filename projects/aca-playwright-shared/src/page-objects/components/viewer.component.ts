@@ -45,6 +45,7 @@ export class ViewerComponent extends BaseComponent {
   public thumbnailsCloseButton = this.getChild('[data-automation-id="adf-thumbnails-close"]');
   public viewerPage = this.getChild('[data-automation-id="adf-page-selector"]');
   public viewerMedia = this.getChild('adf-media-player');
+  public viewerSpinner = this.getChild('.adf-viewer-render__loading-screen');
 
   toolbar = new AcaHeader(this.page);
 
@@ -67,6 +68,18 @@ export class ViewerComponent extends BaseComponent {
   async isViewerOpened(): Promise<boolean> {
     await this.waitForViewerToOpen();
     return this.viewerLocator.isVisible();
+  }
+
+  async waitForViewerLoaderToFinish(): Promise<void> {
+    await this.viewerSpinner.waitFor({ state: 'hidden', timeout: timeouts.extraLarge });
+  }
+
+  async checkViewerActivePage(pageNumber: number): Promise<void> {
+    await expect(this.viewerPage).toHaveValue(pageNumber.toString());
+  }
+
+  async clickViewerThumbnailPage(pageNumber: number): Promise<void> {
+    await this.thumbnailsPages.nth(pageNumber - 1).click();
   }
 
   async isCloseButtonDisplayed(): Promise<boolean> {
