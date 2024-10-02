@@ -38,6 +38,13 @@ export class ViewerComponent extends BaseComponent {
   public downloadButton = this.getChild('button[id="app.viewer.download"]');
   public allButtons = this.getChild('button');
   public unknownFormat = this.getChild(`adf-viewer-unknown-format .adf-viewer__unknown-format-view`);
+  public viewerImage = this.viewerLocator.locator('.cropper-canvas img');
+  public viewerDocument = this.viewerLocator.locator('.adf-pdf-viewer__content [role="document"]');
+  public documentThumbnailButton = this.getChild('[data-automation-id="adf-thumbnails-button"]');
+  public thumbnailsPages = this.getChild('[data-automation-id="adf-thumbnails-content"] adf-pdf-thumb');
+  public thumbnailsCloseButton = this.getChild('[data-automation-id="adf-thumbnails-close"]');
+  public viewerPage = this.getChild('[data-automation-id="adf-page-selector"]');
+  public viewerMedia = this.getChild('adf-media-player');
 
   toolbar = new AcaHeader(this.page);
 
