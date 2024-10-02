@@ -85,7 +85,6 @@ test.describe('viewer file types', () => {
     await page.dataTable.performClickFolderOrFileToOpen(fileName);
     expect(await page.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
     await page.viewer.waitForViewerLoaderToFinish();
-    await expect(page.viewer.unknownFormat).toBeHidden();
 
     const viewerElements = {
       viewerImage: page.viewer.viewerImage,

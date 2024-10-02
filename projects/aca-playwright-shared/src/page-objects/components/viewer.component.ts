@@ -47,6 +47,7 @@ export class ViewerComponent extends BaseComponent {
   public viewerMedia = this.getChild('adf-media-player');
   public viewerSpinner = this.getChild('.adf-viewer-render__loading-screen');
 
+
   toolbar = new AcaHeader(this.page);
 
   constructor(page: Page) {
