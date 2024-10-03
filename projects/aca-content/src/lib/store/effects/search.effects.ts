@@ -23,15 +23,18 @@
  */
 
 import { Actions, ofType, createEffect } from '@ngrx/effects';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { SearchAction, SearchActionTypes, SearchByTermAction, SearchOptionIds } from '@alfresco/aca-shared/store';
-import { Router } from '@angular/router';
 import { SearchNavigationService } from '../../components/search/search-navigation.service';
+import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
+import { formatSearchTerm } from '../../utils/aca-search-utils';
 
 @Injectable()
 export class SearchEffects {
-  constructor(private actions$: Actions, private router: Router, private searchNavigationService: SearchNavigationService) {}
+  private actions$ = inject(Actions);
+  private queryBuilder = inject(SearchQueryBuilderService);
+  private searchNavigationService = inject(SearchNavigationService);
 
   search$ = createEffect(
     () =>
@@ -49,14 +52,13 @@ export class SearchEffects {
       this.actions$.pipe(
         ofType<SearchByTermAction>(SearchActionTypes.SearchByTerm),
         map((action) => {
-          const query = action.payload.replace(/%/g, '%25').replace(/[(]/g, '%28').replace(/[)]/g, '%29');
-
+          const query = formatSearchTerm(action.payload, this.queryBuilder.config['app:fields']);
           const libItem = action.searchOptions.find((item) => item.id === SearchOptionIds.Libraries);
           const librarySelected = !!libItem && libItem.value;
           if (librarySelected) {
-            this.router.navigateByUrl('/search-libraries;q=' + encodeURIComponent(query));
+            this.queryBuilder.navigateToSearch(query, '/search-libraries');
           } else {
-            this.router.navigateByUrl('/search;q=' + encodeURIComponent(query));
+            this.queryBuilder.navigateToSearch(query, '/search');
           }
         })
       ),
