@@ -45,6 +45,8 @@ import { CustomEmptyContentTemplateDirective, DataColumnComponent, DataColumnLis
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { DocumentListDirective } from '../../../directives/document-list.directive';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
+import { extractSearchedWordFromEncodedQuery } from '../../../utils/aca-search-utils';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   standalone: true,
@@ -128,14 +130,12 @@ export class SearchLibrariesResultsComponent extends PageComponent implements On
     );
 
     if (this.route) {
-      this.route.params.forEach((params: Params) => {
-        // eslint-disable-next-line no-prototype-builtins
-        this.searchedWord = params.hasOwnProperty(this.queryParamName) ? params[this.queryParamName] : null;
-        const query = this.formatSearchQuery(this.searchedWord);
-
-        if (query && query.length > 1) {
+      this.route.queryParams.pipe(takeUntil(this.onDestroy$)).subscribe((params: Params) => {
+        const encodedQuery = params[this.queryParamName] ? params[this.queryParamName] : null;
+        this.searchedWord = extractSearchedWordFromEncodedQuery(encodedQuery);
+        if (this.searchedWord?.length > 1) {
           this.librariesQueryBuilder.paging.skipCount = 0;
-          this.librariesQueryBuilder.userQuery = query;
+          this.librariesQueryBuilder.userQuery = this.searchedWord;
           this.librariesQueryBuilder.update();
         } else {
           this.librariesQueryBuilder.userQuery = null;
@@ -145,13 +145,6 @@ export class SearchLibrariesResultsComponent extends PageComponent implements On
         }
       });
     }
-  }
-
-  private formatSearchQuery(userInput: string) {
-    if (!userInput) {
-      return null;
-    }
-    return userInput.trim();
   }
 
   onSearchResultLoaded(nodePaging: NodePaging) {

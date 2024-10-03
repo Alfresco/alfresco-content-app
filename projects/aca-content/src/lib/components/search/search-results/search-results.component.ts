@@ -52,7 +52,6 @@ import {
   TranslationService,
   ViewerToolbarComponent
 } from '@alfresco/adf-core';
-import { combineLatest } from 'rxjs';
 import {
   ContextActionsDirective,
   InfoDrawerComponent,
@@ -78,6 +77,12 @@ import { SearchResultsRowComponent } from '../search-results-row/search-results-
 import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-extensions';
 import { BulkActionsDropdownComponent } from '../../bulk-actions-dropdown/bulk-actions-dropdown.component';
 import { SearchAiInputContainerComponent } from '../../knowledge-retrieval/search-ai/search-ai-input-container/search-ai-input-container.component';
+import {
+  extractFiltersFromEncodedQuery,
+  extractSearchedWordFromEncodedQuery,
+  extractUserQueryFromEncodedQuery,
+  formatSearchTerm
+} from '../../../utils/aca-search-utils';
 
 @Component({
   standalone: true,
@@ -148,14 +153,13 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
       maxItems: 25
     };
 
-    combineLatest([this.route.params, this.queryBuilder.configUpdated])
+    this.queryBuilder.configUpdated
+      .asObservable()
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe(([params, searchConfig]) => {
-        // eslint-disable-next-line no-prototype-builtins
-        this.searchedWord = params.hasOwnProperty(this.queryParamName) ? params[this.queryParamName] : null;
-        const query = this.formatSearchQuery(this.searchedWord, searchConfig['app:fields']);
-        if (query) {
-          this.queryBuilder.userQuery = decodeURIComponent(query);
+      .subscribe((searchConfig) => {
+        const updatedUserQuery = formatSearchTerm(this.searchedWord, searchConfig['app:fields']);
+        if (updatedUserQuery) {
+          this.queryBuilder.userQuery = updatedUserQuery;
         }
       });
   }
@@ -189,17 +193,26 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
     this.columns = this.extensions.documentListPresets.searchResults || [];
 
     if (this.route) {
-      this.route.params.forEach((params: Params) => {
-        // eslint-disable-next-line no-prototype-builtins
-        this.searchedWord = params.hasOwnProperty(this.queryParamName) ? params[this.queryParamName] : null;
-        if (this.searchedWord) {
-          this.queryBuilder.update();
-        } else {
-          this.queryBuilder.userQuery = null;
-          this.queryBuilder.executed.next({
-            list: { pagination: { totalItems: 0 }, entries: [] }
-          });
+      this.route.queryParams.pipe(takeUntil(this.onDestroy$)).subscribe((params: Params) => {
+        const encodedQuery = params[this.queryParamName] ? params[this.queryParamName] : null;
+        this.searchedWord = extractSearchedWordFromEncodedQuery(encodedQuery);
+        const filtersFromEncodedQuery = extractFiltersFromEncodedQuery(encodedQuery);
+        if (filtersFromEncodedQuery !== null) {
+          const filtersToLoad = Object.keys(filtersFromEncodedQuery).length;
+          let loadedFilters = this.searchedWord === '' ? 0 : 1;
+          this.queryBuilder.filterLoaded
+            .asObservable()
+            .pipe(takeUntil(this.onDestroy$))
+            .subscribe(() => {
+              loadedFilters++;
+              if (this.data === undefined && filtersToLoad === loadedFilters) {
+                this.queryBuilder.execute(false);
+              }
+            });
+          this.queryBuilder.populateFilters.next(filtersFromEncodedQuery);
         }
+
+        this.queryBuilder.userQuery = extractUserQueryFromEncodedQuery(encodedQuery);
       });
     }
   }
@@ -215,59 +228,6 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
     }
 
     this.notificationService.showError(message);
-  }
-
-  private isOperator(input: string): boolean {
-    if (input) {
-      input = input.trim().toUpperCase();
-
-      const operators = ['AND', 'OR'];
-      return operators.includes(input);
-    }
-    return false;
-  }
-
-  private formatFields(fields: string[], term: string): string {
-    let prefix = '';
-    let suffix = '*';
-
-    if (term.startsWith('=')) {
-      prefix = '=';
-      suffix = '';
-      term = term.substring(1);
-    }
-
-    if (term === '*') {
-      prefix = '';
-      suffix = '';
-    }
-
-    return '(' + fields.map((field) => `${prefix}${field}:"${term}${suffix}"`).join(' OR ') + ')';
-  }
-
-  formatSearchQuery(userInput: string, fields = ['cm:name']) {
-    if (!userInput) {
-      return null;
-    }
-
-    if (/^http[s]?:\/\//.test(userInput)) {
-      return this.formatFields(fields, userInput);
-    }
-
-    userInput = userInput.trim();
-
-    if (userInput.includes(':') || userInput.includes('"')) {
-      return userInput;
-    }
-
-    const words = userInput.split(' ');
-
-    if (words.length > 1) {
-      const separator = words.some(this.isOperator) ? ' ' : ' AND ';
-      return words.map((term) => (this.isOperator(term) ? term : this.formatFields(fields, term))).join(separator);
-    }
-
-    return this.formatFields(fields, userInput);
   }
 
   onSearchResultLoaded(nodePaging: ResultSetPaging) {
