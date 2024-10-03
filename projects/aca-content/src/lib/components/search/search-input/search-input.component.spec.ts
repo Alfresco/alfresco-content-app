@@ -32,15 +32,18 @@ import { AppHookService, AppService } from '@alfresco/aca-shared';
 import { map } from 'rxjs/operators';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { SearchNavigationService } from '../search-navigation.service';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, of, Subject } from 'rxjs';
 import { NotificationService } from '@alfresco/adf-core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { Buffer } from 'buffer';
+import { ActivatedRoute } from '@angular/router';
 
 describe('SearchInputComponent', () => {
   let fixture: ComponentFixture<SearchInputComponent>;
   let component: SearchInputComponent;
   let actions$: Actions;
   let appHookService: AppHookService;
+  let route: ActivatedRoute;
   let searchInputService: SearchNavigationService;
   let showErrorSpy: jasmine.Spy;
 
@@ -48,6 +51,10 @@ describe('SearchInputComponent', () => {
     appNavNarMode$: new BehaviorSubject('collapsed'),
     setAppNavbarMode: jasmine.createSpy('setAppNavbarMode'),
     toggleAppNavBar$: new Subject()
+  };
+
+  const encodeQuery = (query: any): string => {
+    return Buffer.from(JSON.stringify(query)).toString('base64');
   };
 
   beforeEach(() => {
@@ -68,6 +75,7 @@ describe('SearchInputComponent', () => {
     fixture = TestBed.createComponent(SearchInputComponent);
     appHookService = TestBed.inject(AppHookService);
     searchInputService = TestBed.inject(SearchNavigationService);
+    route = TestBed.inject(ActivatedRoute);
     component = fixture.componentInstance;
 
     const notificationService = TestBed.inject(NotificationService);
@@ -147,35 +155,10 @@ describe('SearchInputComponent', () => {
   });
 
   describe('onSearchChange()', () => {
-    it('should call search action with correct search options', (done) => {
+    it('should call search action with correct searched term', () => {
       const searchedTerm = 's';
-      const currentSearchOptions = [{ key: 'SEARCH.INPUT.FILES' }];
-      actions$
-        .pipe(
-          ofType<SearchByTermAction>(SearchActionTypes.SearchByTerm),
-          map((action) => {
-            expect(action.searchOptions[0].key).toBe(currentSearchOptions[0].key);
-          })
-        )
-        .subscribe(() => {
-          done();
-        });
       component.onSearchChange(searchedTerm);
-    });
-
-    it('should call search action with correct searched term', (done) => {
-      const searchedTerm = 's';
-      actions$
-        .pipe(
-          ofType<SearchByTermAction>(SearchActionTypes.SearchByTerm),
-          map((action) => {
-            expect(action.payload).toBe(searchedTerm);
-          })
-        )
-        .subscribe(() => {
-          done();
-        });
-      component.onSearchChange(searchedTerm);
+      expect(component.searchedWord).toBe(searchedTerm);
     });
 
     it('should show snack for empty search', () => {
@@ -245,5 +228,15 @@ describe('SearchInputComponent', () => {
     component.ngOnDestroy();
 
     expect(appServiceMock.setAppNavbarMode).toHaveBeenCalledWith('expanded');
+  });
+
+  it('should extract searched word from query params', (done) => {
+    route.queryParams = of({ q: encodeQuery({ userQuery: 'cm:name:"test*"' }) });
+    route.queryParams.subscribe(() => {
+      fixture.detectChanges();
+      expect(component.searchedWord).toBe('test');
+      done();
+    });
+    fixture.detectChanges();
   });
 });
