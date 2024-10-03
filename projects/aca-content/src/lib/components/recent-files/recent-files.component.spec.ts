@@ -31,6 +31,7 @@ import { NodePaging, SearchApi } from '@alfresco/js-api';
 import { of } from 'rxjs';
 import { getTitleElementText } from '../../testing/test-utils';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { testHeader } from '../../testing/document-base-page-utils';
 
 describe('RecentFilesComponent', () => {
   let fixture: ComponentFixture<RecentFilesComponent>;
@@ -110,4 +111,6 @@ describe('RecentFilesComponent', () => {
     fixture.detectChanges();
     expect(getTitleElementText(fixture)).toBe('APP.HEADER.SELECTED');
   });
+
+  testHeader(RecentFilesComponent);
 });
