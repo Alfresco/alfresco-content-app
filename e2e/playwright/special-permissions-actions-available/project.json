@@ -14,6 +14,15 @@
       "configurations": {
         "production": {
           "devServerTarget": "content-ce:serve:production"
+        },
+        "ui": {
+          "args": ["--ui"]
+        },
+        "debug": {
+          "args": ["--debug"]
+        },
+        "headed": {
+          "args": ["--headed"]
         }
       }
     },
