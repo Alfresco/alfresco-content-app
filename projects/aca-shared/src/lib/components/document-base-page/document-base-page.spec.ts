@@ -30,7 +30,7 @@ import { NodeEntry, NodePaging } from '@alfresco/js-api';
 import { DocumentBasePageService } from './document-base-page.service';
 import { Store } from '@ngrx/store';
 import { Component } from '@angular/core';
-import { DiscoveryApiService, DocumentListComponent, DocumentListService, SearchAiService } from '@alfresco/adf-content-services';
+import { DiscoveryApiService, DocumentListComponent, DocumentListService, SearchAiInputState, SearchAiService } from '@alfresco/adf-content-services';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { AuthModule, UserPreferencesService } from '@alfresco/adf-core';
 import { of, Subscription } from 'rxjs';
@@ -278,6 +278,21 @@ describe('PageComponent', () => {
       expect(searchAiService.updateSearchAiInputState).not.toHaveBeenCalled();
     });
   });
+
+  describe('SearchAiService toggleSearchAiInput$ event handler', () => {
+    it('should set searchAiInputState', () => {
+      const initialSearchAiInputState = component.searchAiInputState;
+      const searchAiInputState: SearchAiInputState = {
+        active: true
+      };
+      TestBed.inject(SearchAiService).toggleSearchAiInput$ = of(searchAiInputState);
+
+      component.ngOnInit();
+      expect(component.searchAiInputState).toBe(searchAiInputState);
+      expect(initialSearchAiInputState).toEqual({
+        active: false
+      });
+    });
 });
 
 describe('Info Drawer state', () => {
