@@ -34,6 +34,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { AppService } from '@alfresco/aca-shared';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { testHeader } from '../../../testing/document-base-page-utils';
 
 describe('SearchComponent', () => {
   let component: SearchResultsComponent;
@@ -279,4 +280,6 @@ describe('SearchComponent', () => {
     expect(queryBuilder.userQuery).toBe(`((=cm:tag:"orange"))`);
     expect(queryBuilder.update).toHaveBeenCalled();
   });
+
+  testHeader(SearchResultsComponent, false);
 });

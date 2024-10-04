@@ -23,15 +23,16 @@
  */
 
 import { Subject } from 'rxjs';
-import { SearchAiInputState, SearchAiService } from '@alfresco/adf-content-services';
+import { AgentService, SearchAiInputState, SearchAiService } from '@alfresco/adf-content-services';
 import { DebugElement, Type } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { SearchAiInputContainerComponent } from '../components/knowledge-retrieval/search-ai/search-ai-input-container/search-ai-input-container.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PageComponent } from '@alfresco/aca-shared';
+import { Agent } from '@alfresco/js-api/typings';
 
-export const testHeader = (component: Type<PageComponent>) => {
-  let fixture: ComponentFixture<PageComponent>;
+export const testHeader = <T extends PageComponent>(component: Type<T>, checkHeaderVisibility = true) => {
+  let fixture: ComponentFixture<T>;
 
   describe('Header', () => {
     let toggleSearchAiInput$: Subject<SearchAiInputState>;
@@ -44,6 +45,7 @@ export const testHeader = (component: Type<PageComponent>) => {
       fixture = TestBed.createComponent(component);
       toggleSearchAiInput$ = new Subject<SearchAiInputState>();
       TestBed.inject(SearchAiService).toggleSearchAiInput$ = toggleSearchAiInput$;
+      spyOn(TestBed.inject(AgentService), 'getAgents').and.returnValue(new Subject<Agent[]>());
       fixture.detectChanges();
     });
 
@@ -69,26 +71,28 @@ export const testHeader = (component: Type<PageComponent>) => {
       expect(getSearchAiInputElement()).toBeNull();
     });
 
-    it('should not display header if input is active', () => {
-      toggleSearchAiInput$.next({
-        active: true
+    if (checkHeaderVisibility) {
+      it('should not display header if input is active', () => {
+        toggleSearchAiInput$.next({
+          active: true
+        });
+
+        fixture.detectChanges();
+        expect(getHeaderElement()).toBeNull();
       });
 
-      fixture.detectChanges();
-      expect(getHeaderElement()).toBeNull();
-    });
+      it('should display header if input is not active', () => {
+        toggleSearchAiInput$.next({
+          active: false
+        });
 
-    it('should display header if input is not active', () => {
-      toggleSearchAiInput$.next({
-        active: false
+        fixture.detectChanges();
+        expect(getHeaderElement()).not.toBeNull();
       });
 
-      fixture.detectChanges();
-      expect(getHeaderElement()).not.toBeNull();
-    });
-
-    it('should display header by default', () => {
-      expect(getHeaderElement()).not.toBeNull();
-    });
+      it('should display header by default', () => {
+        expect(getHeaderElement()).not.toBeNull();
+      });
+    }
   });
 };
