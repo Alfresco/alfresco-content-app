@@ -552,61 +552,42 @@ describe('app.evaluators', () => {
       });
     };
 
-    testCanDisplayKnowledgeRetrievalButton(
-      'should return false if get from appConfig returns false and navigation is personal files',
-      '/personal-files',
-      false,
-      false
-    );
+    [
+      {
+        pageName: 'personal files',
+        pageUrl: '/personal-files'
+      },
+      {
+        pageName: 'shared files',
+        pageUrl: '/shared'
+      },
+      {
+        pageName: 'recent files',
+        pageUrl: '/recent-files'
+      },
+      {
+        pageName: 'favorites',
+        pageUrl: '/favorites'
+      },
+      {
+        pageName: 'library content',
+        pageUrl: '/libraries/some-id'
+      }
+    ].forEach((testCase) => {
+      testCanDisplayKnowledgeRetrievalButton(
+        `should return false if get from appConfig returns false and navigation is ${testCase.pageName}`,
+        testCase.pageUrl,
+        false,
+        false
+      );
 
-    testCanDisplayKnowledgeRetrievalButton(
-      'should return true if get from appConfig returns true and navigation is personal files',
-      '/personal-files',
-      true,
-      true
-    );
-
-    testCanDisplayKnowledgeRetrievalButton(
-      'should return false if get from appConfig returns false and navigation is shared files',
-      '/shared',
-      false,
-      false
-    );
-
-    testCanDisplayKnowledgeRetrievalButton(
-      'should return true if get from appConfig returns true and navigation is shared files',
-      '/shared',
-      true,
-      true
-    );
-
-    testCanDisplayKnowledgeRetrievalButton(
-      'should return false if get from appConfig returns false and navigation is recent files',
-      '/recent-files',
-      false,
-      false
-    );
-
-    testCanDisplayKnowledgeRetrievalButton(
-      'should return true if get from appConfig returns true and navigation is recent files',
-      '/recent-files',
-      true,
-      true
-    );
-
-    testCanDisplayKnowledgeRetrievalButton(
-      'should return false if get from appConfig returns false and navigation is favorites',
-      '/favorites',
-      false,
-      false
-    );
-
-    testCanDisplayKnowledgeRetrievalButton(
-      'should return true if get from appConfig returns true and navigation is favorites',
-      '/favorites',
-      true,
-      true
-    );
+      testCanDisplayKnowledgeRetrievalButton(
+        `should return true if get from appConfig returns true and navigation is ${testCase.pageName}`,
+        testCase.pageUrl,
+        true,
+        true
+      );
+    });
 
     testCanDisplayKnowledgeRetrievalButton(
       'should return false if get from appConfig returns false and navigation is search results but not for libraries',
@@ -634,20 +615,6 @@ describe('app.evaluators', () => {
       '/search/libraries',
       true,
       false
-    );
-
-    testCanDisplayKnowledgeRetrievalButton(
-      'should return false if get from appConfig returns false and navigation is library content',
-      '/libraries/some-id',
-      false,
-      false
-    );
-
-    testCanDisplayKnowledgeRetrievalButton(
-      'should return true if get from appConfig returns true and navigation is library content',
-      '/libraries/some-id',
-      true,
-      true
     );
 
     testCanDisplayKnowledgeRetrievalButton(
