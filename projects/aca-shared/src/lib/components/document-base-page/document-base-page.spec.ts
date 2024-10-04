@@ -293,6 +293,7 @@ describe('PageComponent', () => {
         active: false
       });
     });
+  });
 });
 
 describe('Info Drawer state', () => {
