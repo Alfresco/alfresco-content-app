@@ -623,7 +623,12 @@ describe('app.evaluators', () => {
     });
 
     it('should call get on context.appConfig with correct parameters', () => {
-      testCanDisplayKnowledgeRetrievalButton('/personal-files', false, false);
+      context.appConfig = jasmine.createSpyObj<AppConfigService>({
+        get: false
+      });
+
+      app.canDisplayKnowledgeRetrievalButton(context);
+      expect(context.appConfig.get).toHaveBeenCalledWith('plugins.knowledgeRetrievalEnabled', false);
     });
   });
 
