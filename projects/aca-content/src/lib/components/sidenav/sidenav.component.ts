@@ -28,12 +28,13 @@ import { Store } from '@ngrx/store';
 import { AppStore, getSideNavState } from '@alfresco/aca-shared/store';
 import { Subject } from 'rxjs';
 import { takeUntil, distinctUntilChanged, debounceTime } from 'rxjs/operators';
-import { AppExtensionService, AppService } from '@alfresco/aca-shared';
+import { AppExtensionService, AppService, NavigationHistoryService } from '@alfresco/aca-shared';
 import { SidenavLayoutComponent } from '@alfresco/adf-core';
 import { CommonModule } from '@angular/common';
 import { SidenavHeaderComponent } from './components/sidenav-header.component';
 import { MatListModule } from '@angular/material/list';
 import { ExpandMenuComponent } from './components/expand-menu.component';
+import { NavigationEnd } from '@angular/router';
 
 @Component({
   standalone: true,
@@ -54,7 +55,12 @@ export class SidenavComponent implements OnInit, OnDestroy {
   groups: Array<NavBarGroupRef> = [];
   private onDestroy$ = new Subject<boolean>();
 
-  constructor(private store: Store<AppStore>, private extensions: AppExtensionService, private appService: AppService) {}
+  constructor(
+    private store: Store<AppStore>,
+    private extensions: AppExtensionService,
+    private appService: AppService,
+    private navigationHistoryService: NavigationHistoryService
+  ) {}
 
   ngOnInit() {
     this.store
@@ -67,6 +73,12 @@ export class SidenavComponent implements OnInit, OnDestroy {
     this.appService.setAppNavbarMode(this.data.mode);
     this.appService.toggleAppNavBar$.pipe(takeUntil(this.onDestroy$)).subscribe(() => this.toggleNavBar());
     this.data.layout.expanded.pipe(takeUntil(this.onDestroy$)).subscribe(() => this.setNavBarMode());
+    this.navigationHistoryService
+      .listenToRouteChanges()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((event: NavigationEnd) => {
+        this.navigationHistoryService.setHistory(event, 3);
+      });
   }
 
   trackByGroupId(_: number, obj: NavBarGroupRef): string {

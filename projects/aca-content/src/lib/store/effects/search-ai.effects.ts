@@ -56,7 +56,8 @@ export class SearchAiEffects {
         map((action) =>
           this.searchAiService.updateSearchAiInputState({
             active: true,
-            selectedAgentId: action.agentId
+            selectedAgentId: action.agentId,
+            searchTerm: action.searchTerm
           })
         )
       ),

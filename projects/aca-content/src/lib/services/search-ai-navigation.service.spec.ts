@@ -25,11 +25,12 @@
 import { SearchAiNavigationService } from './search-ai-navigation.service';
 import { Params, Router } from '@angular/router';
 import { TestBed } from '@angular/core/testing';
-import { ContentTestingModule } from '@alfresco/adf-content-services';
+import { ContentTestingModule, SearchAiService } from '@alfresco/adf-content-services';
 
 describe('SearchAiNavigationService', () => {
   let service: SearchAiNavigationService;
   let router: Router;
+  let searchAiService: SearchAiService;
 
   const knowledgeRetrievalUrl = '/knowledge-retrieval';
 
@@ -39,6 +40,7 @@ describe('SearchAiNavigationService', () => {
     });
     service = TestBed.inject(SearchAiNavigationService);
     router = TestBed.inject(Router);
+    searchAiService = TestBed.inject(SearchAiService);
   });
 
   describe('navigateToPreviousRoute', () => {
@@ -55,16 +57,18 @@ describe('SearchAiNavigationService', () => {
 
     it('should navigate to personal files if there is not previous route and actual route is knowledge retrieval', () => {
       urlSpy.and.returnValue(knowledgeRetrievalUrl);
-      service.navigateToPreviousRoute();
+      service.navigateToPreviousRouteOrCloseInput();
 
       expect(navigateByUrlSpy).toHaveBeenCalledWith(personalFilesUrl);
     });
 
-    it('should not navigate if there is not previous route and actual route is not knowledge retrieval', () => {
+    it('should not navigate if there is not previous route and actual route is not knowledge retrieval but should updateSearchAiInputState', () => {
+      spyOn(searchAiService, 'updateSearchAiInputState');
       urlSpy.and.returnValue('/some-url');
-      service.navigateToPreviousRoute();
+      service.navigateToPreviousRouteOrCloseInput();
 
       expect(navigateByUrlSpy).not.toHaveBeenCalled();
+      expect(searchAiService.updateSearchAiInputState).toHaveBeenCalledWith({ active: false });
     });
 
     it('should navigate to previous route if there is some previous route and actual route is knowledge retrieval', () => {
@@ -74,7 +78,7 @@ describe('SearchAiNavigationService', () => {
       });
       urlSpy.and.returnValue(knowledgeRetrievalUrl);
       navigateByUrlSpy.calls.reset();
-      service.navigateToPreviousRoute();
+      service.navigateToPreviousRouteOrCloseInput();
 
       expect(navigateByUrlSpy).toHaveBeenCalledWith(sourceUrl);
     });
@@ -86,7 +90,7 @@ describe('SearchAiNavigationService', () => {
       });
       urlSpy.and.returnValue('/some-different-url');
       navigateByUrlSpy.calls.reset();
-      service.navigateToPreviousRoute();
+      service.navigateToPreviousRouteOrCloseInput();
 
       expect(navigateByUrlSpy).not.toHaveBeenCalled();
     });
@@ -97,7 +101,7 @@ describe('SearchAiNavigationService', () => {
         agentId: 'some agent id'
       });
       navigateByUrlSpy.calls.reset();
-      service.navigateToPreviousRoute();
+      service.navigateToPreviousRouteOrCloseInput();
 
       expect(navigateByUrlSpy).toHaveBeenCalledWith(personalFilesUrl);
     });
@@ -109,7 +113,7 @@ describe('SearchAiNavigationService', () => {
       });
       urlSpy.and.returnValue(sourceUrl);
       navigateByUrlSpy.calls.reset();
-      service.navigateToPreviousRoute();
+      service.navigateToPreviousRouteOrCloseInput();
 
       expect(navigateByUrlSpy).not.toHaveBeenCalled();
     });

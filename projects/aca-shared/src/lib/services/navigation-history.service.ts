@@ -22,21 +22,32 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Action } from '@ngrx/store';
-import { AiSearchByTermPayload } from '../models/ai-search-by-term-payload';
+import { Injectable } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter, startWith } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
-export enum SearchAiActionTypes {
-  SearchByTermAi = 'SEARCH_BY_TERM_AI',
-  ToggleAiSearchInput = 'TOGGLE_AI_SEARCH_INPUT'
-}
+@Injectable({ providedIn: 'root' })
+export class NavigationHistoryService {
+  history: string[] = [];
 
-export class SearchByTermAiAction implements Action {
-  readonly type = SearchAiActionTypes.SearchByTermAi;
-  constructor(public payload: AiSearchByTermPayload) {}
-}
+  constructor(private router: Router) {}
 
-export class ToggleAISearchInput implements Action {
-  readonly type = SearchAiActionTypes.ToggleAiSearchInput;
+  listenToRouteChanges(): Observable<NavigationEnd> {
+    return this.router.events.pipe(
+      startWith(new NavigationEnd(0, this.router.url, this.router.url)),
+      filter((event: NavigationEnd) => event instanceof NavigationEnd)
+    );
+  }
 
-  constructor(public agentId: string, public searchTerm?: string) {}
+  shouldReturnLastSelection(url: string): boolean {
+    return this.history.length > 2 && this.history[1].startsWith(url) && this.history[0] === this.history[2];
+  }
+
+  setHistory(event: NavigationEnd, maxHistoryLength: number) {
+    this.history.push(event.urlAfterRedirects);
+    if (maxHistoryLength > 0 && this.history.length > maxHistoryLength) {
+      this.history.shift();
+    }
+  }
 }
