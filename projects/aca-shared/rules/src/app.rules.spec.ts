@@ -542,85 +542,141 @@ describe('app.evaluators', () => {
   });
 
   describe('canDisplayKnowledgeRetrievalButton', () => {
-    const testCanDisplayKnowledgeRetrievalButton = (url: string, knowledgeRetrievalEnabled: boolean, expected: boolean) => {
-      context.appConfig = jasmine.createSpyObj<AppConfigService>({
-        get: knowledgeRetrievalEnabled
+    const testCanDisplayKnowledgeRetrievalButton = (testTitle: string, url: string, knowledgeRetrievalEnabled: boolean, expected: boolean) => {
+      it(testTitle, () => {
+        context.appConfig = jasmine.createSpyObj<AppConfigService>({
+          get: knowledgeRetrievalEnabled
+        });
+        context.navigation.url = url;
+        expect(app.canDisplayKnowledgeRetrievalButton(context)).toBe(expected);
       });
-      context.navigation.url = url;
-      expect(app.canDisplayKnowledgeRetrievalButton(context)).toBe(expected);
     };
 
-    it('should return false if get from appConfig returns false and navigation is personal files', () => {
-      testCanDisplayKnowledgeRetrievalButton('/personal-files', false, false);
-    });
+    testCanDisplayKnowledgeRetrievalButton(
+      'should return false if get from appConfig returns false and navigation is personal files',
+      '/personal-files',
+      false,
+      false
+    );
 
-    it('should return true if get from appConfig returns true and navigation is personal files', () => {
-      testCanDisplayKnowledgeRetrievalButton('/personal-files', true, true);
-    });
+    testCanDisplayKnowledgeRetrievalButton(
+      'should return true if get from appConfig returns true and navigation is personal files',
+      '/personal-files',
+      true,
+      true
+    );
 
-    it('should return false if get from appConfig returns false and navigation is shared files', () => {
-      testCanDisplayKnowledgeRetrievalButton('/shared', false, false);
-    });
+    testCanDisplayKnowledgeRetrievalButton(
+      'should return false if get from appConfig returns false and navigation is shared files',
+      '/shared',
+      false,
+      false
+    );
 
-    it('should return true if get from appConfig returns true and navigation is shared files', () => {
-      testCanDisplayKnowledgeRetrievalButton('/shared', true, true);
-    });
+    testCanDisplayKnowledgeRetrievalButton(
+      'should return true if get from appConfig returns true and navigation is shared files',
+      '/shared',
+      true,
+      true
+    );
 
-    it('should return false if get from appConfig returns false and navigation is recent files', () => {
-      testCanDisplayKnowledgeRetrievalButton('/recent-files', false, false);
-    });
+    testCanDisplayKnowledgeRetrievalButton(
+      'should return false if get from appConfig returns false and navigation is recent files',
+      '/recent-files',
+      false,
+      false
+    );
 
-    it('should return true if get from appConfig returns true and navigation is recent files', () => {
-      testCanDisplayKnowledgeRetrievalButton('/recent-files', true, true);
-    });
+    testCanDisplayKnowledgeRetrievalButton(
+      'should return true if get from appConfig returns true and navigation is recent files',
+      '/recent-files',
+      true,
+      true
+    );
 
-    it('should return false if get from appConfig returns false and navigation is favorites', () => {
-      testCanDisplayKnowledgeRetrievalButton('/favorites', false, false);
-    });
+    testCanDisplayKnowledgeRetrievalButton(
+      'should return false if get from appConfig returns false and navigation is favorites',
+      '/favorites',
+      false,
+      false
+    );
 
-    it('should return true if get from appConfig returns true and navigation is favorites', () => {
-      testCanDisplayKnowledgeRetrievalButton('/favorites', true, true);
-    });
+    testCanDisplayKnowledgeRetrievalButton(
+      'should return true if get from appConfig returns true and navigation is favorites',
+      '/favorites',
+      true,
+      true
+    );
 
-    it('should return false if get from appConfig returns false and navigation is search results but not for libraries', () => {
-      testCanDisplayKnowledgeRetrievalButton('/search', false, false);
-    });
+    testCanDisplayKnowledgeRetrievalButton(
+      'should return false if get from appConfig returns false and navigation is search results but not for libraries',
+      '/search',
+      false,
+      false
+    );
 
-    it('should return true if get from appConfig returns true and navigation is search results but not for libraries', () => {
-      testCanDisplayKnowledgeRetrievalButton('/search', true, true);
-    });
+    testCanDisplayKnowledgeRetrievalButton(
+      'should return true if get from appConfig returns true and navigation is search results but not for libraries',
+      '/search',
+      true,
+      true
+    );
 
-    it('should return false if get from appConfig returns false and navigation is search results for libraries', () => {
-      testCanDisplayKnowledgeRetrievalButton('/search/libraries', false, false);
-    });
+    testCanDisplayKnowledgeRetrievalButton(
+      'should return false if get from appConfig returns false and navigation is search results for libraries',
+      '/search/libraries',
+      false,
+      false
+    );
 
-    it('should return false if get from appConfig returns true and navigation is search results for libraries', () => {
-      testCanDisplayKnowledgeRetrievalButton('/search/libraries', true, false);
-    });
+    testCanDisplayKnowledgeRetrievalButton(
+      'should return false if get from appConfig returns true and navigation is search results for libraries',
+      '/search/libraries',
+      true,
+      false
+    );
 
-    it('should return false if get from appConfig returns false and navigation is library content', () => {
-      testCanDisplayKnowledgeRetrievalButton('/libraries/some-id', false, false);
-    });
+    testCanDisplayKnowledgeRetrievalButton(
+      'should return false if get from appConfig returns false and navigation is library content',
+      '/libraries/some-id',
+      false,
+      false
+    );
 
-    it('should return true if get from appConfig returns true and navigation is library content', () => {
-      testCanDisplayKnowledgeRetrievalButton('/libraries/some-id', true, true);
-    });
+    testCanDisplayKnowledgeRetrievalButton(
+      'should return true if get from appConfig returns true and navigation is library content',
+      '/libraries/some-id',
+      true,
+      true
+    );
 
-    it('should return false if get from appConfig returns false and navigation is libraries', () => {
-      testCanDisplayKnowledgeRetrievalButton('/libraries', false, false);
-    });
+    testCanDisplayKnowledgeRetrievalButton(
+      'should return false if get from appConfig returns false and navigation is libraries',
+      '/libraries',
+      false,
+      false
+    );
 
-    it('should return false if get from appConfig returns true and navigation is libraries', () => {
-      testCanDisplayKnowledgeRetrievalButton('/libraries', true, false);
-    });
+    testCanDisplayKnowledgeRetrievalButton(
+      'should return false if get from appConfig returns true and navigation is libraries',
+      '/libraries',
+      true,
+      false
+    );
 
-    it('should return false if get from appConfig returns false and navigation is incorrect', () => {
-      testCanDisplayKnowledgeRetrievalButton('/my-special-files', false, false);
-    });
+    testCanDisplayKnowledgeRetrievalButton(
+      'should return false if get from appConfig returns false and navigation is incorrect',
+      '/my-special-files',
+      false,
+      false
+    );
 
-    it('should return false if get from appConfig returns true but navigation is incorrect', () => {
-      testCanDisplayKnowledgeRetrievalButton('/my-special-files', true, false);
-    });
+    testCanDisplayKnowledgeRetrievalButton(
+      'should return false if get from appConfig returns true but navigation is incorrect',
+      '/my-special-files',
+      true,
+      false
+    );
 
     it('should call get on context.appConfig with correct parameters', () => {
       context.appConfig = jasmine.createSpyObj<AppConfigService>({
