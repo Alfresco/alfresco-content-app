@@ -542,175 +542,88 @@ describe('app.evaluators', () => {
   });
 
   describe('canDisplayKnowledgeRetrievalButton', () => {
-    it('should return false if get from appConfig returns false and navigation is personal files', () => {
+    const testCanDisplayKnowledgeRetrievalButton = (url: string, knowledgeRetrievalEnabled: boolean, expected: boolean) => {
       context.appConfig = jasmine.createSpyObj<AppConfigService>({
-        get: false
+        get: knowledgeRetrievalEnabled
       });
-      context.navigation.url = '/personal-files';
+      context.navigation.url = url;
+      expect(app.canDisplayKnowledgeRetrievalButton(context)).toBe(expected);
+    };
 
-      expect(app.canDisplayKnowledgeRetrievalButton(context)).toBeFalse();
+    it('should return false if get from appConfig returns false and navigation is personal files', () => {
+      testCanDisplayKnowledgeRetrievalButton('/personal-files', false, false);
     });
 
     it('should return true if get from appConfig returns true and navigation is personal files', () => {
-      context.appConfig = jasmine.createSpyObj<AppConfigService>({
-        get: true
-      });
-      context.navigation.url = '/personal-files';
-
-      expect(app.canDisplayKnowledgeRetrievalButton(context)).toBeTrue();
+      testCanDisplayKnowledgeRetrievalButton('/personal-files', true, true);
     });
 
     it('should return false if get from appConfig returns false and navigation is shared files', () => {
-      context.appConfig = jasmine.createSpyObj<AppConfigService>({
-        get: false
-      });
-      context.navigation.url = '/shared';
-
-      expect(app.canDisplayKnowledgeRetrievalButton(context)).toBeFalse();
+      testCanDisplayKnowledgeRetrievalButton('/shared', false, false);
     });
 
     it('should return true if get from appConfig returns true and navigation is shared files', () => {
-      context.appConfig = jasmine.createSpyObj<AppConfigService>({
-        get: true
-      });
-      context.navigation.url = '/shared';
-
-      expect(app.canDisplayKnowledgeRetrievalButton(context)).toBeTrue();
+      testCanDisplayKnowledgeRetrievalButton('/shared', true, true);
     });
 
     it('should return false if get from appConfig returns false and navigation is recent files', () => {
-      context.appConfig = jasmine.createSpyObj<AppConfigService>({
-        get: false
-      });
-      context.navigation.url = '/recent-files';
-
-      expect(app.canDisplayKnowledgeRetrievalButton(context)).toBeFalse();
+      testCanDisplayKnowledgeRetrievalButton('/recent-files', false, false);
     });
 
     it('should return true if get from appConfig returns true and navigation is recent files', () => {
-      context.appConfig = jasmine.createSpyObj<AppConfigService>({
-        get: true
-      });
-      context.navigation.url = '/recent-files';
-
-      expect(app.canDisplayKnowledgeRetrievalButton(context)).toBeTrue();
+      testCanDisplayKnowledgeRetrievalButton('/recent-files', true, true);
     });
 
     it('should return false if get from appConfig returns false and navigation is favorites', () => {
-      context.appConfig = jasmine.createSpyObj<AppConfigService>({
-        get: false
-      });
-      context.navigation.url = '/favorites';
-
-      expect(app.canDisplayKnowledgeRetrievalButton(context)).toBeFalse();
+      testCanDisplayKnowledgeRetrievalButton('/favorites', false, false);
     });
 
     it('should return true if get from appConfig returns true and navigation is favorites', () => {
-      context.appConfig = jasmine.createSpyObj<AppConfigService>({
-        get: true
-      });
-      context.navigation.url = '/favorites';
-
-      expect(app.canDisplayKnowledgeRetrievalButton(context)).toBeTrue();
+      testCanDisplayKnowledgeRetrievalButton('/favorites', true, true);
     });
 
     it('should return false if get from appConfig returns false and navigation is search results but not for libraries', () => {
-      context.appConfig = jasmine.createSpyObj<AppConfigService>({
-        get: false
-      });
-      context.navigation.url = '/search';
-
-      expect(app.canDisplayKnowledgeRetrievalButton(context)).toBeFalse();
+      testCanDisplayKnowledgeRetrievalButton('/search', false, false);
     });
 
     it('should return true if get from appConfig returns true and navigation is search results but not for libraries', () => {
-      context.appConfig = jasmine.createSpyObj<AppConfigService>({
-        get: true
-      });
-      context.navigation.url = '/search';
-
-      expect(app.canDisplayKnowledgeRetrievalButton(context)).toBeTrue();
+      testCanDisplayKnowledgeRetrievalButton('/search', true, true);
     });
 
     it('should return false if get from appConfig returns false and navigation is search results for libraries', () => {
-      context.appConfig = jasmine.createSpyObj<AppConfigService>({
-        get: false
-      });
-      context.navigation.url = '/search/libraries';
-
-      expect(app.canDisplayKnowledgeRetrievalButton(context)).toBeFalse();
+      testCanDisplayKnowledgeRetrievalButton('/search/libraries', false, false);
     });
 
     it('should return false if get from appConfig returns true and navigation is search results for libraries', () => {
-      context.appConfig = jasmine.createSpyObj<AppConfigService>({
-        get: true
-      });
-      context.navigation.url = '/search/libraries';
-
-      expect(app.canDisplayKnowledgeRetrievalButton(context)).toBeFalse();
+      testCanDisplayKnowledgeRetrievalButton('/search/libraries', true, false);
     });
 
     it('should return false if get from appConfig returns false and navigation is library content', () => {
-      context.appConfig = jasmine.createSpyObj<AppConfigService>({
-        get: false
-      });
-      context.navigation.url = '/libraries/some-id';
-
-      expect(app.canDisplayKnowledgeRetrievalButton(context)).toBeFalse();
+      testCanDisplayKnowledgeRetrievalButton('/libraries/some-id', false, false);
     });
 
     it('should return true if get from appConfig returns true and navigation is library content', () => {
-      context.appConfig = jasmine.createSpyObj<AppConfigService>({
-        get: true
-      });
-      context.navigation.url = '/libraries/some-id';
-
-      expect(app.canDisplayKnowledgeRetrievalButton(context)).toBeTrue();
+      testCanDisplayKnowledgeRetrievalButton('/libraries/some-id', true, true);
     });
 
     it('should return false if get from appConfig returns false and navigation is libraries', () => {
-      context.appConfig = jasmine.createSpyObj<AppConfigService>({
-        get: false
-      });
-      context.navigation.url = '/libraries';
-
-      expect(app.canDisplayKnowledgeRetrievalButton(context)).toBeFalse();
+      testCanDisplayKnowledgeRetrievalButton('/libraries', false, false);
     });
 
     it('should return false if get from appConfig returns true and navigation is libraries', () => {
-      context.appConfig = jasmine.createSpyObj<AppConfigService>({
-        get: true
-      });
-      context.navigation.url = '/libraries';
-
-      expect(app.canDisplayKnowledgeRetrievalButton(context)).toBeFalse();
+      testCanDisplayKnowledgeRetrievalButton('/libraries', true, false);
     });
 
     it('should return false if get from appConfig returns false and navigation is incorrect', () => {
-      context.appConfig = jasmine.createSpyObj<AppConfigService>({
-        get: false
-      });
-      context.navigation.url = '/my-special-files';
-
-      expect(app.canDisplayKnowledgeRetrievalButton(context)).toBeFalse();
+      testCanDisplayKnowledgeRetrievalButton('/my-special-files', false, false);
     });
 
     it('should return false if get from appConfig returns true but navigation is incorrect', () => {
-      context.appConfig = jasmine.createSpyObj<AppConfigService>({
-        get: true
-      });
-      context.navigation.url = '/my-special-files';
-
-      expect(app.canDisplayKnowledgeRetrievalButton(context)).toBeFalse();
+      testCanDisplayKnowledgeRetrievalButton('/my-special-files', true, false);
     });
 
     it('should call get on context.appConfig with correct parameters', () => {
-      context.appConfig = jasmine.createSpyObj<AppConfigService>({
-        get: false
-      });
-
-      app.canDisplayKnowledgeRetrievalButton(context);
-      expect(context.appConfig.get).toHaveBeenCalledWith('plugins.knowledgeRetrievalEnabled', false);
+      testCanDisplayKnowledgeRetrievalButton('/personal-files', false, false);
     });
   });
 
