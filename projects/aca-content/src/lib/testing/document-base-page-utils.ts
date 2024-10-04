@@ -32,9 +32,8 @@ import { PageComponent } from '@alfresco/aca-shared';
 import { Agent } from '@alfresco/js-api/typings';
 
 export const testHeader = <T extends PageComponent>(component: Type<T>, checkHeaderVisibility = true) => {
-  let fixture: ComponentFixture<T>;
-
   describe('Header', () => {
+    let fixture: ComponentFixture<T>;
     let toggleSearchAiInput$: Subject<SearchAiInputState>;
 
     const getSearchAiInputElement = (): DebugElement => fixture.debugElement.query(By.directive(SearchAiInputContainerComponent));
