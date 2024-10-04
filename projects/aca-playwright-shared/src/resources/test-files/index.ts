@@ -70,6 +70,30 @@ export const TEST_FILES = {
     path: resolve(__dirname, 'file-jpg-1mb.jpg'),
     name: 'file-jpg-1mb'
   },
+  PNG_FILE: {
+    path: resolve(__dirname, 'file-png.png'),
+    name: 'file-png'
+  },
+  GIF_FILE: {
+    path: resolve(__dirname, 'file-gif.gif'),
+    name: 'file-gif'
+  },
+  PPTX_FILE: {
+    path: resolve(__dirname, 'file-pptx.pptx'),
+    name: 'file-pptx'
+  },
+  MP3_FILE: {
+    path: resolve(__dirname, 'file-mp3.mp3'),
+    name: 'file-mp3'
+  },
+  MP4_FILE: {
+    path: resolve(__dirname, 'file-mp4.mp4'),
+    name: 'file-mp4'
+  },
+  WEBM_FILE: {
+    path: resolve(__dirname, 'file-webm.webm'),
+    name: 'file-webm'
+  },
   PDF_PROTECTED2: {
     path: resolve(__dirname, 'protected.pdf'),
     name: 'file-protected',
