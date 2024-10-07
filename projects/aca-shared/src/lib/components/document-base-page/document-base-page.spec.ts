@@ -285,7 +285,7 @@ describe('PageComponent', () => {
       const searchAiInputState: SearchAiInputState = {
         active: true
       };
-      TestBed.inject(SearchAiService).toggleSearchAiInput$ = of(searchAiInputState);
+      searchAiService.toggleSearchAiInput$ = of(searchAiInputState);
 
       component.ngOnInit();
       expect(component.searchAiInputState).toBe(searchAiInputState);

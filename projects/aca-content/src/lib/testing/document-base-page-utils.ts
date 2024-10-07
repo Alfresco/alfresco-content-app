@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { AgentService, SearchAiInputState, SearchAiService } from '@alfresco/adf-content-services';
 import { DebugElement, Type } from '@angular/core';
 import { By } from '@angular/platform-browser';
@@ -34,7 +34,7 @@ import { Agent } from '@alfresco/js-api/typings';
 export const testHeader = <T extends PageComponent>(component: Type<T>, checkHeaderVisibility = true) => {
   describe('Header', () => {
     let fixture: ComponentFixture<T>;
-    let toggleSearchAiInput$: Subject<SearchAiInputState>;
+    let toggleSearchAiInput$: BehaviorSubject<SearchAiInputState>;
 
     const getSearchAiInputElement = (): DebugElement => fixture.debugElement.query(By.directive(SearchAiInputContainerComponent));
 
@@ -42,7 +42,9 @@ export const testHeader = <T extends PageComponent>(component: Type<T>, checkHea
 
     beforeEach(() => {
       fixture = TestBed.createComponent(component);
-      toggleSearchAiInput$ = new Subject<SearchAiInputState>();
+      toggleSearchAiInput$ = new BehaviorSubject<SearchAiInputState>({
+        searchTerm: ''
+      } as SearchAiInputState);
       TestBed.inject(SearchAiService).toggleSearchAiInput$ = toggleSearchAiInput$;
       spyOn(TestBed.inject(AgentService), 'getAgents').and.returnValue(new Subject<Agent[]>());
       fixture.detectChanges();
@@ -50,7 +52,8 @@ export const testHeader = <T extends PageComponent>(component: Type<T>, checkHea
 
     it('should display ai input if input is active', () => {
       toggleSearchAiInput$.next({
-        active: true
+        active: true,
+        searchTerm: ''
       });
 
       fixture.detectChanges();
@@ -59,7 +62,8 @@ export const testHeader = <T extends PageComponent>(component: Type<T>, checkHea
 
     it('should not display ai input if input is not active', () => {
       toggleSearchAiInput$.next({
-        active: false
+        active: false,
+        searchTerm: ''
       });
 
       fixture.detectChanges();
@@ -73,7 +77,8 @@ export const testHeader = <T extends PageComponent>(component: Type<T>, checkHea
     if (checkHeaderVisibility) {
       it('should not display header if input is active', () => {
         toggleSearchAiInput$.next({
-          active: true
+          active: true,
+          searchTerm: ''
         });
 
         fixture.detectChanges();
@@ -82,7 +87,8 @@ export const testHeader = <T extends PageComponent>(component: Type<T>, checkHea
 
       it('should display header if input is not active', () => {
         toggleSearchAiInput$.next({
-          active: false
+          active: false,
+          searchTerm: ''
         });
 
         fixture.detectChanges();
