@@ -35,6 +35,7 @@ describe('SearchAiEffects', () => {
   let store: Store<AppStore>;
 
   const agentId = '1';
+  const searchTerm = 'test';
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -47,7 +48,6 @@ describe('SearchAiEffects', () => {
     it('should call navigateToSearchAi on SearchAiNavigationService', () => {
       const searchAiNavigationService = TestBed.inject(SearchAiNavigationService);
       spyOn(searchAiNavigationService, 'navigateToSearchAi');
-      const searchTerm = 'test';
 
       store.dispatch(
         new SearchByTermAiAction({
@@ -66,10 +66,11 @@ describe('SearchAiEffects', () => {
       const searchAiService = TestBed.inject(SearchAiService);
       spyOn(searchAiService, 'updateSearchAiInputState');
 
-      store.dispatch(new ToggleAISearchInput(agentId));
+      store.dispatch(new ToggleAISearchInput(agentId, searchTerm));
       expect(searchAiService.updateSearchAiInputState).toHaveBeenCalledWith({
         active: true,
-        selectedAgentId: agentId
+        selectedAgentId: agentId,
+        searchTerm
       });
     });
   });
