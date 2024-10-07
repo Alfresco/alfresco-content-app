@@ -657,6 +657,7 @@ export class ContentManagementService {
 
   deleteNodes(items: NodeEntry[]): void {
     const batch: Observable<DeletedNodeInfo>[] = [];
+    const isHoldInCollection = items.some((node) => node.entry.nodeType === 'rma:hold');
 
     items.forEach((node) => {
       batch.push(this.deleteNode(node));
@@ -666,7 +667,7 @@ export class ContentManagementService {
       const status = this.processStatus(data);
       const message = this.getDeleteMessage(status);
 
-      if (message && status.someSucceeded) {
+      if (!isHoldInCollection && message && status.someSucceeded) {
         message.userAction = new SnackbarUserAction('APP.ACTIONS.UNDO', new UndoDeleteNodesAction([...status.success]));
       }
 
