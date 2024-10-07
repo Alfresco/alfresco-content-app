@@ -35,6 +35,7 @@ import { By } from '@angular/platform-browser';
 import { NodeEntry, NodePaging, Node, PathElement } from '@alfresco/js-api';
 import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { testHeader } from '../../testing/document-base-page-utils';
 
 describe('FilesComponent', () => {
   let node;
@@ -473,4 +474,6 @@ describe('FilesComponent', () => {
       expect(resetNewFolderPaginationSpy).not.toHaveBeenCalled();
     });
   });
+
+  testHeader(FilesComponent);
 });

@@ -24,6 +24,7 @@
 
 import { Injectable } from '@angular/core';
 import { Params, Router } from '@angular/router';
+import { SearchAiService } from '@alfresco/adf-content-services';
 
 @Injectable({ providedIn: 'root' })
 export class SearchAiNavigationService {
@@ -31,11 +32,15 @@ export class SearchAiNavigationService {
 
   private previousRoute = '';
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private searchAiService: SearchAiService) {}
 
-  navigateToPreviousRoute(): void {
+  navigateToPreviousRouteOrCloseInput(): void {
     if (this.router.url.includes(this.knowledgeRetrievalRoute)) {
       void this.router.navigateByUrl(this.previousRoute || '/personal-files');
+    } else {
+      this.searchAiService.updateSearchAiInputState({
+        active: false
+      });
     }
   }
 

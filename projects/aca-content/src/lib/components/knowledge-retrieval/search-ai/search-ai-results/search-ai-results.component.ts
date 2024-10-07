@@ -26,15 +26,7 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PageComponent, PageLayoutComponent, ToolbarActionComponent, ToolbarComponent } from '@alfresco/aca-shared';
 import { concatMap, delay, filter, finalize, retryWhen, skipWhile, switchMap, takeUntil } from 'rxjs/operators';
-import {
-  AvatarComponent,
-  ClipboardService,
-  EmptyContentComponent,
-  ThumbnailService,
-  ToolbarModule,
-  UnsavedChangesGuard,
-  UserPreferencesService
-} from '@alfresco/adf-core';
+import { AvatarComponent, ClipboardService, EmptyContentComponent, ThumbnailService, ToolbarModule, UnsavedChangesGuard } from '@alfresco/adf-core';
 import { AiAnswer, Node } from '@alfresco/js-api';
 import { CommonModule } from '@angular/common';
 import { SearchAiInputContainerComponent } from '../search-ai-input-container/search-ai-input-container.component';
@@ -124,7 +116,6 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
     private clipboardService: ClipboardService,
     private thumbnailService: ThumbnailService,
     private nodesApiService: NodesApiService,
-    private userPreferencesService: UserPreferencesService,
     private translateService: TranslateService,
     private unsavedChangesGuard: UnsavedChangesGuard,
     private modalAiService: ModalAiService,
@@ -147,16 +138,17 @@ export class SearchAiResultsComponent extends PageComponent implements OnInit, O
       .subscribe((params) => {
         this._agentId = params.agentId;
         this._searchQuery = params.query ? decodeURIComponent(params.query) : '';
-        if (!this.searchQuery || !this.agentId) {
+        const selectedNodesState = this.userPreferencesService.get('knowledgeRetrievalNodes');
+        if (!this.searchQuery || !this.agentId || !selectedNodesState) {
           this._hasError = true;
           return;
         }
-        this._selectedNodesState = JSON.parse(this.userPreferencesService.get('knowledgeRetrievalNodes'));
+        this._selectedNodesState = JSON.parse(selectedNodesState);
         this.performAiSearch();
       });
     super.ngOnInit();
 
-    this.unsavedChangesGuard.unsaved = this.route.snapshot?.queryParams?.query?.length > 0;
+    this.unsavedChangesGuard.unsaved = this.route.snapshot?.queryParams?.query?.length > 0 && !this.hasError;
     this.unsavedChangesGuard.data = {
       descriptionText: 'KNOWLEDGE_RETRIEVAL.SEARCH.DISCARD_CHANGES.CONVERSATION_DISCARDED',
       confirmButtonText: 'KNOWLEDGE_RETRIEVAL.SEARCH.DISCARD_CHANGES.OKAY',
