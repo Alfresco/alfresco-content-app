@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { SIDEBAR_LABELS } from '../../utils';
+import { SIDEBAR_LABELS, timeouts } from '../../utils';
 import { BaseComponent } from './base.component';
 import { Locator, Page } from '@playwright/test';
 
@@ -75,6 +75,7 @@ export class SidenavComponent extends BaseComponent {
   }
 
   async isSidenavExpanded(): Promise<boolean> {
+    await this.page.waitForTimeout(timeouts.tiny);
     return this.expandedSidenav.isVisible();
   }
 
