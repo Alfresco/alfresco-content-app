@@ -23,9 +23,8 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, NodesApi, Utils, getUserState, test, users } from '@alfresco/aca-playwright-shared';
+import { ApiClientFactory, NodesApi, Utils, test, users } from '@alfresco/aca-playwright-shared';
 
-test.use({ storageState: getUserState('admin') });
 test.describe('Trash admin', () => {
   const folderAdmin = `C213217-deleteFolder-${Utils.random()}`;
   let folderAdminId: string;
