@@ -33,7 +33,9 @@ In the app.config.json file, these are the current settings for the ACA version 
 {
    "adf-version-manager": {
        "allowComments": true,
-       "allowDownload": true
+       "allowDownload": true,
+       "showComments": true,
+       "allowViewVersions": true
    }
 }
 ```

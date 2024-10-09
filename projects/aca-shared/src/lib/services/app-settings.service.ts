@@ -133,6 +133,14 @@ export class AppSettingsService {
     return this.appConfig.get<boolean>('adf-version-manager.allowDownload', true);
   }
 
+  get versionManagerShowComments(): boolean {
+    return this.appConfig.get<boolean>('adf-version-manager.showComments', true);
+  }
+
+  get versionManagerAllowViewVersions(): boolean {
+    return this.appConfig.get<boolean>('adf-version-manager.allowViewVersions', true);
+  }
+
   /**
    * Gets the enablement of the file auto tryDownload feature from the app settings.
    */
