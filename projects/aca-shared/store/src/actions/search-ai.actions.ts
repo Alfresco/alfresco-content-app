@@ -38,5 +38,5 @@ export class SearchByTermAiAction implements Action {
 export class ToggleAISearchInput implements Action {
   readonly type = SearchAiActionTypes.ToggleAiSearchInput;
 
-  constructor(public agentId: string) {}
+  constructor(public agentId: string, public searchTerm?: string) {}
 }

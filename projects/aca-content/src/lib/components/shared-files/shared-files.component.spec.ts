@@ -31,8 +31,9 @@ import { By } from '@angular/platform-browser';
 import { SharedLinkPaging } from '@alfresco/js-api';
 import { AppService } from '@alfresco/aca-shared';
 import { getTitleElementText } from '../../testing/test-utils';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { testHeader } from '../../testing/document-base-page-utils';
 
 describe('SharedFilesComponent', () => {
   let fixture: ComponentFixture<SharedFilesComponent>;
@@ -40,7 +41,8 @@ describe('SharedFilesComponent', () => {
   let component: SharedFilesComponent;
   const routerMock = {
     routerState: { root: '' },
-    url: 'shared-files'
+    url: 'shared-files',
+    events: new Subject<NavigationStart>()
   };
   const route = {
     snapshot: {
@@ -104,4 +106,6 @@ describe('SharedFilesComponent', () => {
     const pagination = fixture.debugElement.query(By.css('.adf-pagination'));
     expect(pagination).toBeNull();
   });
+
+  testHeader(SharedFilesComponent);
 });
