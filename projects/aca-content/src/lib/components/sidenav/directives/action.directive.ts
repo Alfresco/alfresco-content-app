@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Directive, Input, HostListener } from '@angular/core';
+import { Directive, HostListener, Input } from '@angular/core';
 import { PRIMARY_OUTLET, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppStore } from '@alfresco/aca-shared/store';
@@ -39,7 +39,7 @@ export class ActionDirective {
   @HostListener('click')
   onClick() {
     if (this.action.url) {
-      this.router.navigate(this.getNavigationCommands(this.action.url));
+      this.router.navigate(this.getNavigationCommands(this.action.url), { queryParams: this.getNavigationQueryParams(this.action.url) });
     } else if (this.action.click) {
       this.store.dispatch({
         type: this.action.click.action,
@@ -49,7 +49,6 @@ export class ActionDirective {
   }
 
   constructor(private router: Router, private store: Store<AppStore>) {}
-
   private getNavigationCommands(url: string): any[] {
     const urlTree = this.router.parseUrl(url);
     const urlSegmentGroup = urlTree.root.children[PRIMARY_OUTLET];
@@ -64,5 +63,9 @@ export class ActionDirective {
       acc.push(item.path, item.parameters);
       return acc;
     }, []);
+  }
+
+  private getNavigationQueryParams(url: string) {
+    return this.router.parseUrl(url).queryParams;
   }
 }

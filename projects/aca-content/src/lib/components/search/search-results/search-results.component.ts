@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { NodeEntry, Pagination, ResultSetPaging } from '@alfresco/js-api';
 import { ActivatedRoute, Params } from '@angular/router';
 import {
@@ -39,8 +39,8 @@ import {
   NavigateToFolder,
   SetInfoDrawerPreviewStateAction,
   SetInfoDrawerStateAction,
-  ShowInfoDrawerPreviewAction,
-  SetSearchItemsTotalCountAction
+  SetSearchItemsTotalCountAction,
+  ShowInfoDrawerPreviewAction
 } from '@alfresco/aca-shared/store';
 import {
   CustomEmptyContentTemplateDirective,
@@ -83,6 +83,7 @@ import {
   extractUserQueryFromEncodedQuery,
   formatSearchTerm
 } from '../../../utils/aca-search-utils';
+import { SaveSearchDirective } from '../search-save/directive/save-search.directive';
 
 @Component({
   standalone: true,
@@ -117,7 +118,8 @@ import {
     CustomEmptyContentTemplateDirective,
     ViewerToolbarComponent,
     BulkActionsDropdownComponent,
-    SearchAiInputContainerComponent
+    SearchAiInputContainerComponent,
+    SaveSearchDirective
   ],
   selector: 'aca-search-results',
   templateUrl: './search-results.component.html',
@@ -137,10 +139,12 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
   totalResults: number;
   isTagsEnabled = false;
   columns: DocumentListPresetRef[] = [];
+  encodedQuery: string;
 
   constructor(
     tagsService: TagService,
     private queryBuilder: SearchQueryBuilderService,
+    private changeDetectorRef: ChangeDetectorRef,
     private route: ActivatedRoute,
     private translationService: TranslationService
   ) {
@@ -175,6 +179,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
         if (query) {
           this.sorting = this.getSorting();
           this.isLoading = true;
+          this.changeDetectorRef.detectChanges();
         }
       }),
 
@@ -183,6 +188,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
 
         this.onSearchResultLoaded(data);
         this.isLoading = false;
+        this.changeDetectorRef.detectChanges();
       }),
 
       this.queryBuilder.error.subscribe((err: any) => {
@@ -194,9 +200,9 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
 
     if (this.route) {
       this.route.queryParams.pipe(takeUntil(this.onDestroy$)).subscribe((params: Params) => {
-        const encodedQuery = params[this.queryParamName] ? params[this.queryParamName] : null;
-        this.searchedWord = extractSearchedWordFromEncodedQuery(encodedQuery);
-        const filtersFromEncodedQuery = extractFiltersFromEncodedQuery(encodedQuery);
+        this.encodedQuery = params[this.queryParamName] ? params[this.queryParamName] : null;
+        this.searchedWord = extractSearchedWordFromEncodedQuery(this.encodedQuery);
+        const filtersFromEncodedQuery = extractFiltersFromEncodedQuery(this.encodedQuery);
         if (filtersFromEncodedQuery !== null) {
           const filtersToLoad = Object.keys(filtersFromEncodedQuery).length;
           let loadedFilters = this.searchedWord === '' ? 0 : 1;
@@ -210,9 +216,10 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
               }
             });
           this.queryBuilder.populateFilters.next(filtersFromEncodedQuery);
+        } else {
+          this.queryBuilder.populateFilters.next({});
         }
-
-        this.queryBuilder.userQuery = extractUserQueryFromEncodedQuery(encodedQuery);
+        this.queryBuilder.userQuery = extractUserQueryFromEncodedQuery(this.encodedQuery);
       });
     }
   }
