@@ -155,10 +155,15 @@ aca-search-results {
         &--header {
           display: flex;
           justify-content: space-between;
+
+          &--action-buttons {
+            display: flex;
+          }
         }
       }
 
-      &__reset-action {
+      &__reset-action,
+      &__save-search-action {
         margin-top: 5px;
         margin-right: 2px;
         line-height: 33px;
