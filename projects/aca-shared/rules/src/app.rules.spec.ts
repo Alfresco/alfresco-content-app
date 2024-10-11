@@ -23,9 +23,10 @@
  */
 
 import * as app from './app.rules';
+import { getFileExtension } from './app.rules';
 import { TestRuleContext } from './test-rule-context';
 import { NodeEntry, RepositoryInfo, StatusInfo } from '@alfresco/js-api';
-import { getFileExtension } from './app.rules';
+import { ProfileState } from '@alfresco/adf-extensions';
 import { AppConfigService } from '@alfresco/adf-core';
 
 describe('app.evaluators', () => {
@@ -1149,30 +1150,30 @@ describe('app.evaluators', () => {
 
   describe('canToggleFileLock', () => {
     beforeEach(() => {
-      context.profile = {} as any;
+      context.profile = {} as ProfileState;
     });
 
     it('should return false when permission requirements are not met, regardless of file lock', () => {
-      context.selection.file = { entry: { properties: { 'cm:lockType': 'WRITE_LOCK', 'cm:lockOwner': { id: 'test' } } } } as any;
+      context.selection.file = { entry: { properties: { 'cm:lockType': 'WRITE_LOCK', 'cm:lockOwner': { id: 'test' } } } } as NodeEntry;
       context.permissions = { check: () => false };
       expect(app.canToggleFileLock(context)).toBeFalse();
     });
 
     it('should return true when file has no lock and permission requirements are met', () => {
-      context.selection.file = { entry: { properties: {} } } as any;
+      context.selection.file = { entry: { properties: {} } } as NodeEntry;
       context.permissions = { check: () => true };
       expect(app.canToggleFileLock(context)).toBeTrue();
     });
 
     it('should return true when file is locked and permission requirements are met', () => {
-      context.selection.file = { entry: { properties: { 'cm:lockType': 'WRITE_LOCK', 'cm:lockOwner': { id: 'test' } } } } as any;
+      context.selection.file = { entry: { properties: { 'cm:lockType': 'WRITE_LOCK', 'cm:lockOwner': { id: 'test' } } } } as NodeEntry;
       context.profile.id = 'test1';
       context.permissions = { check: () => true };
       expect(app.canToggleFileLock(context)).toBeTrue();
     });
 
     it('should return true when file is locked and user is the owner of the lock', () => {
-      context.selection.file = { entry: { properties: { 'cm:lockType': 'WRITE_LOCK', 'cm:lockOwner': { id: 'test1' } } } } as any;
+      context.selection.file = { entry: { properties: { 'cm:lockType': 'WRITE_LOCK', 'cm:lockOwner': { id: 'test1' } } } } as NodeEntry;
       context.profile.id = 'test1';
       context.permissions = { check: () => false };
       expect(app.canToggleFileLock(context)).toBeTrue();
