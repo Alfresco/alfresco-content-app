@@ -141,6 +141,10 @@ export class AppSettingsService {
     return this.appConfig.get<boolean>('adf-version-manager.allowVersionDelete', true);
   }
 
+  get versionManagerShowActions(): boolean {
+    return this.appConfig.get<boolean>('adf-version-manager.showActions', true);
+  }
+
   /**
    * Gets the enablement of the file auto tryDownload feature from the app settings.
    */
