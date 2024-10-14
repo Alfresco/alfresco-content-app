@@ -133,12 +133,12 @@ export class AppSettingsService {
     return this.appConfig.get<boolean>('adf-version-manager.allowDownload', true);
   }
 
-  get versionManagerShowComments(): boolean {
-    return this.appConfig.get<boolean>('adf-version-manager.showComments', true);
-  }
-
   get versionManagerAllowViewVersions(): boolean {
     return this.appConfig.get<boolean>('adf-version-manager.allowViewVersions', true);
+  }
+
+  get versionManagerAllowVersionDelete(): boolean {
+    return this.appConfig.get<boolean>('adf-version-manager.allowVersionDelete', true);
   }
 
   /**

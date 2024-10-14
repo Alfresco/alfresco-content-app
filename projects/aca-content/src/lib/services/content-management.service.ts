@@ -572,8 +572,9 @@ export class ContentManagementService {
         showVersionsOnly: true,
         title: 'VERSION.DIALOG.TITLE',
         allowDownload: this.appSettingsService.uploadAllowDownload,
-        showComments: this.appSettingsService.versionManagerShowComments,
-        allowViewVersions: this.appSettingsService.versionManagerAllowViewVersions
+        showComments: this.appSettingsService.uploadAllowComments,
+        allowViewVersions: this.appSettingsService.versionManagerAllowViewVersions,
+        allowVersionDelete: this.appSettingsService.versionManagerAllowVersionDelete
       };
       this.newVersionUploaderService
         .openUploadNewVersionDialog(newVersionUploaderDialogData, { width: '630px', role: 'dialog' }, focusedElementOnCloseSelector)
