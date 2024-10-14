@@ -74,9 +74,8 @@ export function formatSearchTermByFields(term: string, fields: string[]): string
  */
 export function formatSearchTerm(userInput: string, fields = ['cm:name']): string {
   if (!userInput) {
-    return null;
+    return '';
   }
-
   userInput = userInput.trim();
 
   if (userInput.includes(':') || userInput.includes('"')) {
