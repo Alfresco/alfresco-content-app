@@ -29,6 +29,7 @@ import {
   AlfrescoViewerComponent,
   DocumentListComponent,
   ResetSearchDirective,
+  SearchConfiguration,
   SearchFilterChipsComponent,
   SearchFormComponent,
   SearchQueryBuilderService,
@@ -84,6 +85,7 @@ import {
   formatSearchTerm
 } from '../../../utils/aca-search-utils';
 import { SaveSearchDirective } from '../search-save/directive/save-search.directive';
+import { Subject } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -140,6 +142,8 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
   isTagsEnabled = false;
   columns: DocumentListPresetRef[] = [];
   encodedQuery: string;
+  searchConfig: SearchConfiguration;
+  private loadedFilters$ = new Subject<void>();
 
   constructor(
     tagsService: TagService,
@@ -161,10 +165,8 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
       .asObservable()
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((searchConfig) => {
-        const updatedUserQuery = formatSearchTerm(this.searchedWord, searchConfig['app:fields']);
-        if (updatedUserQuery) {
-          this.queryBuilder.userQuery = updatedUserQuery;
-        }
+        this.searchConfig = searchConfig;
+        this.updateUserQuery();
       });
   }
 
@@ -199,25 +201,28 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
     this.columns = this.extensions.documentListPresets.searchResults || [];
 
     if (this.route) {
-      this.route.queryParams.pipe(takeUntil(this.onDestroy$)).subscribe((params: Params) => {
+      this.route.queryParams.pipe(takeUntil(this.onDestroy$)).subscribe(async (params: Params) => {
         this.encodedQuery = params[this.queryParamName] ? params[this.queryParamName] : null;
         this.searchedWord = extractSearchedWordFromEncodedQuery(this.encodedQuery);
+        this.updateUserQuery();
         const filtersFromEncodedQuery = extractFiltersFromEncodedQuery(this.encodedQuery);
         if (filtersFromEncodedQuery !== null) {
-          const filtersToLoad = Object.keys(filtersFromEncodedQuery).length;
+          const filtersToLoad = this.queryBuilder.categories.length;
           let loadedFilters = this.searchedWord === '' ? 0 : 1;
           this.queryBuilder.filterLoaded
             .asObservable()
-            .pipe(takeUntil(this.onDestroy$))
-            .subscribe(() => {
+            .pipe(takeUntil(this.onDestroy$), takeUntil(this.loadedFilters$))
+            .subscribe(async () => {
               loadedFilters++;
-              if (this.data === undefined && filtersToLoad === loadedFilters) {
-                this.queryBuilder.execute(false);
+              if (filtersToLoad === loadedFilters) {
+                this.loadedFilters$.next();
+                await this.queryBuilder.execute(false);
               }
             });
           this.queryBuilder.populateFilters.next(filtersFromEncodedQuery);
         } else {
           this.queryBuilder.populateFilters.next({});
+          await this.queryBuilder.execute(false);
         }
         this.queryBuilder.userQuery = extractUserQueryFromEncodedQuery(this.encodedQuery);
       });
@@ -295,5 +300,10 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
   onSearchSortingUpdate(option: SearchSortingDefinition) {
     this.queryBuilder.sorting = [{ ...option, ascending: option.ascending }];
     this.queryBuilder.update();
+  }
+
+  private updateUserQuery(): void {
+    const updatedUserQuery = formatSearchTerm(this.searchedWord, this.searchConfig['app:fields']);
+    this.queryBuilder.userQuery = updatedUserQuery;
   }
 }

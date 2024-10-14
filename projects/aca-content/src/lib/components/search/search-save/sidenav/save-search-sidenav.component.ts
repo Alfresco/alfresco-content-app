@@ -31,6 +31,7 @@ import { DynamicExtensionComponent } from '@alfresco/adf-extensions';
 import { ExpandMenuComponent } from '../../../sidenav/components/expand-menu.component';
 import { SidenavHeaderComponent } from '../../../sidenav/components/sidenav-header.component';
 import { NavBarLinkRef } from '@alfresco/adf-extensions/lib/config/navbar.extensions';
+import { AppService } from '@alfresco/aca-shared';
 
 @Component({
   selector: 'aca-save-search-sidenav',
@@ -44,6 +45,7 @@ export class SaveSearchSidenavComponent implements OnInit, OnDestroy {
   data: any;
 
   savedSearchesService = inject(SavedSearchesService);
+  appService = inject(AppService);
   destroy$ = new Subject<void>();
 
   item: NavBarLinkRef;
@@ -60,6 +62,10 @@ export class SaveSearchSidenavComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  onActionClick(): void {
+    this.appService.appNavNarMode$.next('collapsed');
   }
 
   private createNavBarLinkRef(children: SavedSearch[]): NavBarLinkRef {
