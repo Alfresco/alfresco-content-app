@@ -330,8 +330,9 @@
   },
   "adf-version-manager": {
     "allowComments": false,
-    "allowDownload": true,
-    "allowViewVersions": true,
-    "allowVersionDelete": true
+    "allowDownload": false,
+    "allowViewVersions": false,
+    "allowVersionDelete": false,
+    "showActions": true
   }
 }

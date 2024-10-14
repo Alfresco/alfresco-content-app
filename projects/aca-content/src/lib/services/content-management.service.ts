@@ -573,6 +573,7 @@ export class ContentManagementService {
         title: 'VERSION.DIALOG.TITLE',
         allowDownload: this.appSettingsService.uploadAllowDownload,
         showComments: this.appSettingsService.uploadAllowComments,
+        showActions: this.appSettingsService.versionManagerShowActions,
         allowViewVersions: this.appSettingsService.versionManagerAllowViewVersions,
         allowVersionDelete: this.appSettingsService.versionManagerAllowVersionDelete
       };
