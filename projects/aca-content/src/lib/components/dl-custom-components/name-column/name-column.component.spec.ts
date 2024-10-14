@@ -29,7 +29,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientModule } from '@angular/common/http';
 import { TranslateModule } from '@ngx-translate/core';
 import { By } from '@angular/platform-browser';
-import { AuthModule } from '@alfresco/adf-core';
+import { AuthModule, JWT_STORAGE_SERVICE, StorageService } from '@alfresco/adf-core';
 import { Component, Input } from '@angular/core';
 import { NodeEntry } from '@alfresco/js-api';
 
@@ -70,7 +70,7 @@ describe('CustomNameColumnComponent', () => {
           }
         )
       ],
-      providers: [Actions]
+      providers: [Actions, { provide: JWT_STORAGE_SERVICE, useClass: StorageService }]
     });
 
     fixture = TestBed.createComponent(CustomNameColumnComponent);
