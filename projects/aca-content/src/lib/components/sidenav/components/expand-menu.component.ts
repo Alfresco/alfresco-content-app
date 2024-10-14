@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, Input, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { NavBarLinkRef } from '@alfresco/adf-extensions';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
@@ -53,6 +53,9 @@ import { ExpansionPanelDirective } from '../directives/expansion-panel.directive
 export class ExpandMenuComponent implements OnInit {
   @Input()
   item: NavBarLinkRef;
+
+  @Output()
+  actionClicked = new EventEmitter<void>();
 
   constructor(private cd: ChangeDetectorRef) {}
 
