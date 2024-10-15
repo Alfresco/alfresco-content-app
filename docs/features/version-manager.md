@@ -25,20 +25,31 @@ Please also check the [UploadVersionButtonComponent](https://www.alfresco.com/ab
 
 ## Actions Menu
 
-Each item in the version list has a couple of actions available: Restore, Download and Delete. These are displayed if user has permission to do that specific action. The 'Download' and 'Delete' can be also disabled from the app.config.
+Each item in the version list has a couple of actions available: Restore, Download and Delete. These are displayed if user has permission to do that specific action.
 
-In the app.config.json file, these are the current settings for the ACA version manager:
+Some of these options can be also enabled/disabled in app.config.json file. All configurable options are listed below:
+
+| Option             | Default value | Description                                                         |
+|--------------------|---------------|---------------------------------------------------------------------|
+| allowComments      | true          | Show version's comment in list of versions if true, hide otherwise. |
+| allowDownload      | true          | Allow to download versions if true, disallow otherwise.             |
+| allowViewVersions  | true          | Allow to view versions if true, disallow otherwise.                 |
+| allowVersionDelete | true          | Allow to delete versions if true, disallow otherwise.               |
+| showActions        | true          | Shows menu with actions when true, otherwise hides it.              |
+
+
+Example of settings in the app.config.json file:
 
 ```json
 {
    "adf-version-manager": {
        "allowComments": true,
        "allowDownload": true,
-       "allowViewVersions": true
+       "allowViewVersions": true,
+       "allowVersionDelete": true,
+       "showActions": true
    }
 }
 ```
-
-Set the allowComments to false if the version comments should not be displayed on the version list.
 
 Clicking to delete a version of a file triggers a confirmation dialog. Please see the [Confirm Dialog Component](https://github.com/Alfresco/alfresco-ng2-components/blob/develop/lib/content-services/dialogs/confirm.dialog.ts) for more info.
