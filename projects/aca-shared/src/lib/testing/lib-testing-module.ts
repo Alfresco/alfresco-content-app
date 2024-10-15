@@ -25,7 +25,7 @@
 import { Injectable, NgModule } from '@angular/core';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { JWT_STORAGE_SERVICE, StorageService, TranslateLoaderService, TranslationMock, TranslationService } from '@alfresco/adf-core';
+import { TranslateLoaderService, TranslationMock, TranslationService } from '@alfresco/adf-core';
 import { AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-content-services';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -122,8 +122,7 @@ export class DocumentBasePageServiceMock extends DocumentBasePageService {
   exports: [TranslateModule],
   providers: [
     { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock },
-    { provide: TranslationService, useClass: TranslationMock },
-    { provide: JWT_STORAGE_SERVICE, useClass: StorageService }
+    { provide: TranslationService, useClass: TranslationMock }
   ]
 })
 export class LibTestingModule {}
