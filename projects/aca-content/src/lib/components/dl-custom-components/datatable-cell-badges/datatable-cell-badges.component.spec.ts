@@ -26,7 +26,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DatatableCellBadgesComponent } from './datatable-cell-badges.component';
 import { AppExtensionService } from '@alfresco/aca-shared';
 import { TranslateModule } from '@ngx-translate/core';
-import { AuthModule, JWT_STORAGE_SERVICE, StorageService } from '@alfresco/adf-core';
+import { AuthModule } from '@alfresco/adf-core';
 import { Actions } from '@ngrx/effects';
 import { NodeEntry } from '@alfresco/js-api';
 import { of } from 'rxjs';
@@ -76,7 +76,7 @@ describe('DatatableCellBadgesComponent', () => {
           }
         )
       ],
-      providers: [Actions, { provide: JWT_STORAGE_SERVICE, useClass: StorageService }]
+      providers: [Actions]
     });
 
     fixture = TestBed.createComponent(DatatableCellBadgesComponent);

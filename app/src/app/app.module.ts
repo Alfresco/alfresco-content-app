@@ -25,7 +25,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { AuthGuard, AuthModule, CoreModule, JWT_STORAGE_SERVICE, StorageService, TRANSLATION_PROVIDER } from '@alfresco/adf-core';
+import { AuthGuard, AuthModule, CoreModule, TRANSLATION_PROVIDER } from '@alfresco/adf-core';
 import { AppService } from '@alfresco/aca-shared';
 
 import { AppExtensionsModule } from './extensions.module';
@@ -111,8 +111,7 @@ registerLocaleData(localeSv);
         name: 'app',
         source: 'assets'
       }
-    },
-    { provide: JWT_STORAGE_SERVICE, useClass: StorageService }
+    }
   ],
   declarations: [AppComponent],
   bootstrap: [AppComponent]
