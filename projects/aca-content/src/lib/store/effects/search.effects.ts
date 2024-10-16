@@ -32,9 +32,9 @@ import { formatSearchTerm } from '../../utils/aca-search-utils';
 
 @Injectable()
 export class SearchEffects {
-  private actions$ = inject(Actions);
-  private queryBuilder = inject(SearchQueryBuilderService);
-  private searchNavigationService = inject(SearchNavigationService);
+  private readonly actions$ = inject(Actions);
+  private readonly queryBuilder = inject(SearchQueryBuilderService);
+  private readonly searchNavigationService = inject(SearchNavigationService);
 
   search$ = createEffect(
     () =>
