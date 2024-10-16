@@ -37,8 +37,8 @@ describe('SaveSearchDialogComponent', () => {
   let component: SaveSearchDialogComponent;
   let savedSearchesService: SavedSearchesService;
   let store: Store;
-
   let submitButton: HTMLButtonElement;
+
   const dialogRef = {
     close: jasmine.createSpy('close')
   };
@@ -60,7 +60,6 @@ describe('SaveSearchDialogComponent', () => {
     store = TestBed.inject(Store);
 
     submitButton = fixture.nativeElement.querySelector('#aca-save-search-dialog-save-button');
-    component.data = { searchUrl: 'abcdef' };
   });
 
   afterEach(() => {
@@ -75,11 +74,12 @@ describe('SaveSearchDialogComponent', () => {
 
   it('should save search, show snackbar message and close modal if form is valid', fakeAsync(() => () => {
     spyOn(savedSearchesService, 'saveSearch').and.callThrough();
+    setFormValuesAndSubmit();
     expect(store.dispatch).toHaveBeenCalledWith(new SnackbarInfoAction('APP.BROWSE.SEARCH.SAVE_SEARCH.SAVE_SUCCESS'));
     expect(dialogRef.close).toHaveBeenCalled();
   }));
 
-  it('should save search, show snackbar message and close modal if form is valid', fakeAsync(() => () => {
+  it('should show snackbar error if there is save error', fakeAsync(() => () => {
     spyOn(savedSearchesService, 'saveSearch').and.throwError('');
     setFormValuesAndSubmit();
     expect(store.dispatch).toHaveBeenCalledWith(new SnackbarErrorAction('APP.BROWSE.SEARCH.SAVE_SEARCH.SAVE_ERROR'));

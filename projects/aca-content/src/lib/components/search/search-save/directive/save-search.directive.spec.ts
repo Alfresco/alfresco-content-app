@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component } from '@angular/core';
+import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
@@ -39,9 +39,8 @@ class TestComponent {
 
 describe('SaveSearchDirective', () => {
   let fixture: ComponentFixture<TestComponent>;
-  let element;
+  let element: DebugElement;
   let dialog: MatDialog;
-  let dialogRefMock;
 
   const event = {
     type: 'click',
@@ -52,17 +51,21 @@ describe('SaveSearchDirective', () => {
     TestBed.configureTestingModule({
       declarations: [TestComponent],
       imports: [SaveSearchDirective],
-      providers: [{ provide: MatDialog, useValue: { open: () => {} } }]
+      providers: [
+        {
+          provide: MatDialog,
+          useValue: {
+            open: () => ({
+              afterClosed: jasmine.createSpy('afterClosed').and.returnValue(of(null))
+            })
+          }
+        }
+      ]
     });
 
     fixture = TestBed.createComponent(TestComponent);
     element = fixture.debugElement.query(By.directive(SaveSearchDirective));
     dialog = TestBed.inject(MatDialog);
-    spyOn(dialog, 'open').and.returnValue(dialogRefMock);
-
-    dialogRefMock = {
-      afterClosed: jasmine.createSpy('afterClosed').and.returnValue(of(null))
-    };
     fixture.detectChanges();
   });
 

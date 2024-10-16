@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, inject, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { SavedSearch, SavedSearchesService } from '@alfresco/adf-content-services';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -41,9 +41,6 @@ import { AppService } from '@alfresco/aca-shared';
   encapsulation: ViewEncapsulation.None
 })
 export class SaveSearchSidenavComponent implements OnInit, OnDestroy {
-  @Input()
-  data: any;
-
   savedSearchesService = inject(SavedSearchesService);
   appService = inject(AppService);
   destroy$ = new Subject<void>();

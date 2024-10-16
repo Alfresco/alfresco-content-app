@@ -215,13 +215,10 @@
                 "NAME_LABEL": "Name",
                 "NAME_REQUIRED_ERROR": "This field is required",
                 "DESCRIPTION_LABEL": "Description",
-                "CANCEL_BUTTON": "Cancel",
-                "SAVE_BUTTON": "Save",
                 "SAVE_SUCCESS": "Search Saved",
                 "SAVE_ERROR": "Error occured. Search could not be saved.",
                 "NAVBAR": {
-                    "TITLE": "Saved Searches",
-                    "MANAGE_BUTTON": "Manage Searches"
+                    "TITLE": "Saved Searches"
                 }
               },
                 "FOUND_RESULTS": "{{ number }} results found",

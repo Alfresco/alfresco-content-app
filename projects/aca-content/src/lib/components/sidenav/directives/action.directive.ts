@@ -23,7 +23,7 @@
  */
 
 import { Directive, EventEmitter, HostListener, Input, Output } from '@angular/core';
-import { PRIMARY_OUTLET, Router } from '@angular/router';
+import { Params, PRIMARY_OUTLET, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppStore } from '@alfresco/aca-shared/store';
 
@@ -35,6 +35,7 @@ import { AppStore } from '@alfresco/aca-shared/store';
 })
 export class ActionDirective {
   @Input() action;
+
   @Output() actionClicked = new EventEmitter<void>();
 
   @HostListener('click')
@@ -67,7 +68,7 @@ export class ActionDirective {
     }, []);
   }
 
-  private getNavigationQueryParams(url: string) {
+  private getNavigationQueryParams(url: string): Params {
     return this.router.parseUrl(url).queryParams;
   }
 }
