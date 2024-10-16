@@ -25,7 +25,7 @@
 import { Component, Input, ViewEncapsulation, OnInit, OnDestroy } from '@angular/core';
 import { Node } from '@alfresco/js-api';
 import { NodePermissionService, isLocked, AppExtensionService } from '@alfresco/aca-shared';
-import { AppStore, EditOfflineAction, NodeActionTypes, infoDrawerMetadataAspect } from '@alfresco/aca-shared/store';
+import { AppStore, EditOfflineAction, NodeActionTypes, infoDrawerMetadataAspect, isHXIConnectorEnabled } from '@alfresco/aca-shared/store';
 import { AppConfigService, NotificationService } from '@alfresco/adf-core';
 import { Observable, Subject } from 'rxjs';
 import {
@@ -53,6 +53,7 @@ import { Store } from '@ngrx/store';
       [displayCategories]="displayCategories"
       [displayTags]="displayTags"
       [displayAspect]="metadataAspect"
+      [displayPredictions]="isHXIConnectorEnabled"
     >
     </adf-content-metadata>
   `,
@@ -70,6 +71,7 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
   readOnly = false;
   customPanels: Observable<ContentMetadataCustomPanel[]>;
   metadataAspect: string;
+  isHXIConnectorEnabled = false;
 
   get displayCategories(): boolean {
     return this._displayCategories;
@@ -123,6 +125,12 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
       .select(infoDrawerMetadataAspect)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((metadataAspect) => (this.metadataAspect = metadataAspect));
+    this.store
+      .select(isHXIConnectorEnabled)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((isEnabled) => {
+        this.isHXIConnectorEnabled = isEnabled;
+      });
   }
 
   ngOnDestroy() {
