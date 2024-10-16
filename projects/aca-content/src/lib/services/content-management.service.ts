@@ -54,7 +54,7 @@ import {
   NodesApiService,
   ShareDialogComponent
 } from '@alfresco/adf-content-services';
-import { NotificationService, TranslationService, ConfirmDialogComponent } from '@alfresco/adf-core';
+import { ConfirmDialogComponent, DialogComponent, DialogSize, NotificationService, TranslationService } from '@alfresco/adf-core';
 import { DeletedNodesPaging, Node, NodeEntry, PathInfo, SiteBodyCreate, SiteEntry } from '@alfresco/js-api';
 import { inject, Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -657,27 +657,58 @@ export class ContentManagementService {
 
   deleteNodes(items: NodeEntry[]): void {
     const batch: Observable<DeletedNodeInfo>[] = [];
+    const areHolds = items.some((node) => node.entry.nodeType === 'rma:hold');
+    const action = areHolds ? this.showWarningOnHoldDeleteAction(items) : of(true);
 
-    items.forEach((node) => {
-      batch.push(this.deleteNode(node));
-    });
+    action.pipe(take(1)).subscribe((removeApproval) => {
+      if (removeApproval) {
+        items.forEach((node) => {
+          batch.push(this.deleteNode(node));
+        });
 
-    forkJoin(...batch).subscribe((data: DeletedNodeInfo[]) => {
-      const status = this.processStatus(data);
-      const message = this.getDeleteMessage(status);
+        forkJoin(...batch).subscribe((data: DeletedNodeInfo[]) => {
+          const status = this.processStatus(data);
+          const message = this.getDeleteMessage(status);
 
-      if (message && status.someSucceeded) {
-        message.userAction = new SnackbarUserAction('APP.ACTIONS.UNDO', new UndoDeleteNodesAction([...status.success]));
-      }
+          if (message && status.someSucceeded) {
+            message.userAction = new SnackbarUserAction('APP.ACTIONS.UNDO', new UndoDeleteNodesAction([...status.success]));
+          }
 
-      this.store.dispatch(message);
+          this.store.dispatch(message);
 
-      if (status.someSucceeded) {
-        this.appHookService.nodesDeleted.next();
+          if (status.someSucceeded) {
+            this.appHookService.nodesDeleted.next();
+            this.documentListService.reload();
+          }
+        });
+      } else {
         this.documentListService.reload();
       }
       this.store.dispatch(new ShowLoaderAction(false));
     });
+  }
+
+  showWarningOnHoldDeleteAction(nodes: NodeEntry[]): Observable<boolean> {
+    const message =
+      nodes.length === 1
+        ? this.translation.instant('APP.DIALOGS.CONFIRM_DELETE_HOLDS.MESSAGE_SINGULAR', {
+            name: nodes[0].entry.name
+          })
+        : this.translation.instant('APP.DIALOGS.CONFIRM_DELETE_HOLDS.MESSAGE_PLURAL', {
+            count: nodes.length
+          });
+
+    const dialogRef = this.dialogRef.open(DialogComponent, {
+      data: {
+        title: 'APP.DIALOGS.CONFIRM_DELETE_HOLDS.TITLE',
+        description: message,
+        dialogSize: DialogSize.Alert,
+        confirmButtonTitle: 'APP.ACTIONS.DELETE',
+        isConfirmButtonDisabled$: of(false)
+      }
+    });
+
+    return dialogRef.afterClosed();
   }
 
   undoDeleteNodes(items: DeletedNodeInfo[]): void {
