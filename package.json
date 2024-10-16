@@ -53,7 +53,6 @@
     "@ngrx/store": "16.3.0",
     "@ngrx/store-devtools": "16.3.0",
     "@ngx-translate/core": "^14.0.0",
-    "buffer": "^6.0.3",
     "date-fns": "^2.30.0",
     "material-icons": "^1.13.12",
     "minimatch-browser": "^1.0.0",
