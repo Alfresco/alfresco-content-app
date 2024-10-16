@@ -41,7 +41,7 @@ export class SaveSearchDirective {
     this.openDialog();
   }
 
-  constructor(private dialogRef: MatDialog) {}
+  constructor(private readonly dialogRef: MatDialog) {}
 
   private openDialog(): void {
     this.dialogRef.open(SaveSearchDialogComponent, this.getDialogConfig());
