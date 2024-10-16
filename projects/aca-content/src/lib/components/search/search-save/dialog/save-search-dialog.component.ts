@@ -71,10 +71,10 @@ export class SaveSearchDialogComponent {
   });
 
   constructor(
-    private dialog: MatDialogRef<SaveSearchDialogComponent>,
-    private store: Store<AppStore>,
-    private savedSearchesService: SavedSearchesService,
-    @Inject(MAT_DIALOG_DATA) private data: { searchUrl: string }
+    private readonly dialog: MatDialogRef<SaveSearchDialogComponent>,
+    private readonly store: Store<AppStore>,
+    private readonly savedSearchesService: SavedSearchesService,
+    @Inject(MAT_DIALOG_DATA) private readonly data: { searchUrl: string }
   ) {}
 
   submit() {

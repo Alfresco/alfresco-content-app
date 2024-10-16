@@ -68,7 +68,7 @@ import { extractSearchedWordFromEncodedQuery } from '../../../utils/aca-search-u
   host: { class: 'aca-search-input' }
 })
 export class SearchInputComponent implements OnInit, OnDestroy {
-  private notificationService = inject(NotificationService);
+  private readonly notificationService = inject(NotificationService);
 
   onDestroy$: Subject<boolean> = new Subject<boolean>();
   has400LibraryError = false;
@@ -104,15 +104,15 @@ export class SearchInputComponent implements OnInit, OnDestroy {
   trigger: MatMenuTrigger;
 
   constructor(
-    private queryBuilder: SearchQueryBuilderService,
-    private queryLibrariesBuilder: SearchLibrariesQueryBuilderService,
-    private config: AppConfigService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private store: Store<AppStore>,
-    private appHookService: AppHookService,
-    private appService: AppService,
-    public searchInputService: SearchNavigationService
+    private readonly queryBuilder: SearchQueryBuilderService,
+    private readonly queryLibrariesBuilder: SearchLibrariesQueryBuilderService,
+    private readonly config: AppConfigService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly store: Store<AppStore>,
+    private readonly appHookService: AppHookService,
+    private readonly appService: AppService,
+    public readonly searchInputService: SearchNavigationService
   ) {
     this.searchOnChange = this.config.get<boolean>('search.aca:triggeredOnChange', true);
   }

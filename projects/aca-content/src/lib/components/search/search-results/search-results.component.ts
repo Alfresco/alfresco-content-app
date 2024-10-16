@@ -144,14 +144,14 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
   encodedQuery: string;
   searchConfig: SearchConfiguration;
 
-  private loadedFilters$ = new Subject<void>();
+  private readonly loadedFilters$ = new Subject<void>();
 
   constructor(
     tagsService: TagService,
-    private queryBuilder: SearchQueryBuilderService,
-    private changeDetectorRef: ChangeDetectorRef,
-    private route: ActivatedRoute,
-    private translationService: TranslationService
+    private readonly queryBuilder: SearchQueryBuilderService,
+    private readonly changeDetectorRef: ChangeDetectorRef,
+    private readonly route: ActivatedRoute,
+    private readonly translationService: TranslationService
   ) {
     super();
 
