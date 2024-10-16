@@ -1,4 +1,4 @@
-<h2 class="aca-save-search-dialog__header" mat-dialog-title>{{"APP.BROWSE.SEARCH.SAVE_SEARCH.MODAL_HEADER" | translate}}</h2>
+<h2 mat-dialog-title>{{"APP.BROWSE.SEARCH.SAVE_SEARCH.MODAL_HEADER" | translate}}</h2>
 
 <mat-dialog-content>
   <form [formGroup]="form" (submit)="submit()">
@@ -13,11 +13,14 @@
         adf-auto-focus
       />
 
-      <mat-hint *ngIf="form.controls['name'].dirty">
+      <mat-error *ngIf="form.controls['name'].dirty">
                 <span *ngIf="form.controls['name'].errors?.required">
                     {{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.NAME_REQUIRED_ERROR' | translate }}
                 </span>
-      </mat-hint>
+                <span *ngIf="form.controls['name'].errors?.message">
+                    {{ form.controls['name'].errors?.message | translate }}
+                </span>
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field class="aca-save-search-dialog__form-field">
@@ -37,7 +40,7 @@
     mat-button
     id="aca-save-search-dialog-cancel-button"
     mat-dialog-close>
-    {{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.CANCEL_BUTTON' | translate }}
+    {{ 'CANCEL' | titlecase | translate }}
   </button>
 
   <button id="aca-save-search-dialog-save-button"
@@ -45,6 +48,6 @@
           color="primary"
           (click)="submit()"
           [disabled]="!form.valid">
-    {{'APP.BROWSE.SEARCH.SAVE_SEARCH.SAVE_BUTTON' | translate}}
+    {{ 'SAVE' | titlecase | translate}}
   </button>
 </mat-dialog-actions>

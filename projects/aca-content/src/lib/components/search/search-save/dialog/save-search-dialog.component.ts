@@ -35,7 +35,7 @@ import { A11yModule } from '@angular/cdk/a11y';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormControl, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { CoreModule } from '@alfresco/adf-core';
-import { AutoFocusDirective, SavedSearchesService } from '@alfresco/adf-content-services';
+import { AutoFocusDirective, forbidOnlySpaces, SavedSearchesService } from '@alfresco/adf-content-services';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { take } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
@@ -65,8 +65,8 @@ import { AppStore, SnackbarErrorAction, SnackbarInfoAction } from '@alfresco/aca
   host: { class: 'aca-save-search-dialog' }
 })
 export class SaveSearchDialogComponent {
-  form: FormGroup = new FormGroup({
-    name: new FormControl('', [Validators.required]),
+  form = new FormGroup({
+    name: new FormControl('', [Validators.required, forbidOnlySpaces]),
     description: new FormControl('')
   });
 
@@ -74,8 +74,9 @@ export class SaveSearchDialogComponent {
     private dialog: MatDialogRef<SaveSearchDialogComponent>,
     private store: Store<AppStore>,
     private savedSearchesService: SavedSearchesService,
-    @Inject(MAT_DIALOG_DATA) public data: { searchUrl: string }
+    @Inject(MAT_DIALOG_DATA) private data: { searchUrl: string }
   ) {}
+
   submit() {
     if (this.form.invalid) {
       return;

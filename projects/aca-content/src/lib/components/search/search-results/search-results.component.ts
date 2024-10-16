@@ -143,6 +143,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
   columns: DocumentListPresetRef[] = [];
   encodedQuery: string;
   searchConfig: SearchConfiguration;
+
   private loadedFilters$ = new Subject<void>();
 
   constructor(
@@ -201,8 +202,9 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
     this.columns = this.extensions.documentListPresets.searchResults || [];
 
     if (this.route) {
-      this.route.queryParams.pipe(takeUntil(this.onDestroy$)).subscribe(async (params: Params) => {
-        this.encodedQuery = params[this.queryParamName] ? params[this.queryParamName] : null;
+      this.route.queryParams.pipe(takeUntil(this.onDestroy$)).subscribe((params: Params) => {
+        this.loadedFilters$.next();
+        this.encodedQuery = params[this.queryParamName] || null;
         this.searchedWord = extractSearchedWordFromEncodedQuery(this.encodedQuery);
         this.updateUserQuery();
         const filtersFromEncodedQuery = extractFiltersFromEncodedQuery(this.encodedQuery);
@@ -216,13 +218,13 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
               loadedFilters++;
               if (filtersToLoad === loadedFilters) {
                 this.loadedFilters$.next();
-                await this.queryBuilder.execute(false);
+                this.queryBuilder.execute(false);
               }
             });
           this.queryBuilder.populateFilters.next(filtersFromEncodedQuery);
         } else {
           this.queryBuilder.populateFilters.next({});
-          await this.queryBuilder.execute(false);
+          this.queryBuilder.execute(false);
         }
         this.queryBuilder.userQuery = extractUserQueryFromEncodedQuery(this.encodedQuery);
       });
