@@ -131,7 +131,7 @@ export class SearchLibrariesResultsComponent extends PageComponent implements On
 
     if (this.route) {
       this.route.queryParams.pipe(takeUntil(this.onDestroy$)).subscribe((params: Params) => {
-        const encodedQuery = params[this.queryParamName] ? params[this.queryParamName] : null;
+        const encodedQuery = params[this.queryParamName] || null;
         this.searchedWord = extractSearchedWordFromEncodedQuery(encodedQuery);
         if (this.searchedWord?.length > 1) {
           this.librariesQueryBuilder.paging.skipCount = 0;

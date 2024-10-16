@@ -121,8 +121,10 @@ export class SearchInputComponent implements OnInit, OnDestroy {
     this.showInputValue();
 
     this.route.queryParams.pipe(takeUntil(this.onDestroy$)).subscribe((params: Params) => {
-      const encodedQuery = params['q'] ? params['q'] : null;
-      this.searchedWord = extractSearchedWordFromEncodedQuery(encodedQuery);
+      const encodedQuery = params['q'];
+      if (encodedQuery) {
+        this.searchedWord = extractSearchedWordFromEncodedQuery(encodedQuery);
+      }
 
       if (this.searchInputControl) {
         this.searchInputControl.searchTerm = this.searchedWord;

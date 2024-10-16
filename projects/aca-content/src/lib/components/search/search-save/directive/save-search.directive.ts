@@ -36,21 +36,20 @@ export class SaveSearchDirective {
   acaSaveSearchQuery: string;
 
   @HostListener('click', ['$event'])
-  onClick(event) {
+  onClick(event: MouseEvent) {
     event.preventDefault();
     this.openDialog();
   }
 
-  constructor(public dialogRef: MatDialog) {}
+  constructor(private dialogRef: MatDialog) {}
 
-  private get dialogConfig() {
+  private openDialog(): void {
+    this.dialogRef.open(SaveSearchDialogComponent, this.getDialogConfig());
+  }
+
+  private getDialogConfig() {
     return {
       data: { searchUrl: this.acaSaveSearchQuery }
     };
-  }
-
-  private openDialog(): void {
-    const { dialogRef, dialogConfig } = this;
-    dialogRef.open(SaveSearchDialogComponent, dialogConfig);
   }
 }

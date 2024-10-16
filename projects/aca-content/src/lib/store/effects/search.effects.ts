@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Actions, ofType, createEffect } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { inject, Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { SearchAction, SearchActionTypes, SearchByTermAction, SearchOptionIds } from '@alfresco/aca-shared/store';
@@ -55,11 +55,7 @@ export class SearchEffects {
           const query = formatSearchTerm(action.payload, this.queryBuilder.config['app:fields']);
           const libItem = action.searchOptions.find((item) => item.id === SearchOptionIds.Libraries);
           const librarySelected = !!libItem && libItem.value;
-          if (librarySelected) {
-            this.queryBuilder.navigateToSearch(query, '/search-libraries');
-          } else {
-            this.queryBuilder.navigateToSearch(query, '/search');
-          }
+          this.queryBuilder.navigateToSearch(query, librarySelected ? '/search-libraries' : '/search');
         })
       ),
     { dispatch: false }
