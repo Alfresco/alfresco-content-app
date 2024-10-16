@@ -26,12 +26,12 @@ jobs:
     steps:
       - id: checkoutRepo
         name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 1
       - id: fetchLatestPkg
         name: Fetch the latest package version
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.BOT_GITHUB_TOKEN }}
           script: |
@@ -67,7 +67,7 @@ jobs:
       - id: checkPrAlreadyExist
         name: Check if PR with latest already exist
         if: ${{ steps.fetchLatestPkg.outputs.hasNewVersion == 'true' }}
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         env:
           HAS_NEW_ADF_VERSION: ${{ steps.fetchLatestPkg.outputs.hasNewADFVersion }}
           LATEST_ADF_VERSION: ${{ steps.fetchLatestPkg.outputs.latestADFVersion }}
@@ -104,12 +104,12 @@ jobs:
     needs: upstream
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           token: ${{ secrets.BOT_GITHUB_TOKEN }}
           fetch-depth: 1
       - name: setup NPM
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
@@ -150,7 +150,7 @@ jobs:
           fi
       - name: Commit Code
         if: ${{ needs.upstream.outputs.hasNewVersion == 'true'  }}
-        uses: stefanzweifel/git-auto-commit-action@v4
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "[ci:force][auto-commit] Update dependencies ADF:${{ needs.upstream.outputs.latestADFVersion }}  JS:${{ needs.upstream.outputs.latestJSVersion }}"
           branch: upstream-dependencies
@@ -158,7 +158,7 @@ jobs:
           create_branch: true
 
       - name: Create a Pull request
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         env:
           PACKAGE_VERSION_ADF: ${{ needs.upstream.outputs.latestADFVersion }}
           PACKAGE_VERSION_JS: ${{ needs.upstream.outputs.latestJSVersion }}
