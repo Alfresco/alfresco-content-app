@@ -82,7 +82,7 @@ export class SaveSearchDialogComponent {
       return;
     }
     const formValue = this.form.value;
-    const saveSearch = { name: formValue.name, description: formValue.description, encodedUrl: this.data.searchUrl };
+    const saveSearch = { name: formValue.name, description: formValue.description, encodedUrl: encodeURIComponent(this.data.searchUrl) };
     this.savedSearchesService
       .saveSearch(saveSearch)
       .pipe(take(1))

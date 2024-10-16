@@ -26,7 +26,7 @@ import { Component, inject, OnDestroy, OnInit, ViewEncapsulation } from '@angula
 import { SavedSearch, SavedSearchesService } from '@alfresco/adf-content-services';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { CoreModule } from '@alfresco/adf-core';
+import { CoreModule, TranslationService } from '@alfresco/adf-core';
 import { DynamicExtensionComponent } from '@alfresco/adf-extensions';
 import { ExpandMenuComponent } from '../../../sidenav/components/expand-menu.component';
 import { SidenavHeaderComponent } from '../../../sidenav/components/sidenav-header.component';
@@ -43,6 +43,7 @@ import { AppService } from '@alfresco/aca-shared';
 export class SaveSearchSidenavComponent implements OnInit, OnDestroy {
   savedSearchesService = inject(SavedSearchesService);
   appService = inject(AppService);
+  translationService = inject(TranslationService);
   destroy$ = new Subject<void>();
 
   item: NavBarLinkRef;
@@ -75,9 +76,10 @@ export class SaveSearchSidenavComponent implements OnInit, OnDestroy {
         url: `search?q=${child.encodedUrl}`
       }))
       .slice(0, 5);
+    const title = this.translationService.instant('APP.BROWSE.SEARCH.SAVE_SEARCH.NAVBAR.TITLE');
     return {
       icon: '',
-      title: 'APP.BROWSE.SEARCH.SAVE_SEARCH.NAVBAR.TITLE',
+      title: `${title} (${children.length})`,
       children: mappedChildren,
       route: '/',
       id: 'search-navbar'

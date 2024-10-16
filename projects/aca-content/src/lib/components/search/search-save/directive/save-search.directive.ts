@@ -26,6 +26,9 @@ import { Directive, HostListener, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { SaveSearchDialogComponent } from '../dialog/save-search-dialog.component';
 
+interface SaveSearchDirectiveDialogData {
+  searchUrl: string;
+}
 @Directive({
   selector: '[acaSaveSearch]',
   standalone: true
@@ -35,19 +38,19 @@ export class SaveSearchDirective {
   @Input()
   acaSaveSearchQuery: string;
 
+  constructor(private readonly dialogRef: MatDialog) {}
+
   @HostListener('click', ['$event'])
   onClick(event: MouseEvent) {
     event.preventDefault();
     this.openDialog();
   }
 
-  constructor(private readonly dialogRef: MatDialog) {}
-
   private openDialog(): void {
     this.dialogRef.open(SaveSearchDialogComponent, this.getDialogConfig());
   }
 
-  private getDialogConfig() {
+  private getDialogConfig(): { data: SaveSearchDirectiveDialogData } {
     return {
       data: { searchUrl: this.acaSaveSearchQuery }
     };
