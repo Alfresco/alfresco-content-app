@@ -83,9 +83,4 @@ describe('SaveSearchDirective', () => {
 
     expect(dialog.open).toHaveBeenCalledWith(SaveSearchDialogComponent, expectedConfig);
   });
-
-  it('should call dialog open when clicked', () => {
-    element.triggerEventHandler('click', event);
-    expect(dialog.open).toHaveBeenCalled();
-  });
 });
