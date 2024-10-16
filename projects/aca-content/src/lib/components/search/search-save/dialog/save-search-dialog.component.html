@@ -13,11 +13,11 @@
         adf-auto-focus
       />
 
-      <mat-error *ngIf="form.controls['name'].dirty">
+      <mat-error *ngIf="form.controls['name'].touched">
                 <span *ngIf="form.controls['name'].errors?.required">
                     {{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.NAME_REQUIRED_ERROR' | translate }}
                 </span>
-                <span *ngIf="form.controls['name'].errors?.message">
+                <span *ngIf="!form.controls['name'].errors?.required && form.controls['name'].errors?.message">
                     {{ form.controls['name'].errors?.message | translate }}
                 </span>
       </mat-error>
