@@ -46,7 +46,7 @@
     "@angular/platform-browser": "16.2.9",
     "@angular/platform-browser-dynamic": "16.2.9",
     "@angular/router": "16.2.9",
-    "@fontsource/open-sans": "^5.0.27",
+    "@fontsource/open-sans": "^5.1.0",
     "@mat-datetimepicker/core": "12.0.1",
     "@ngrx/effects": "16.3.0",
     "@ngrx/router-store": "16.3.0",
@@ -58,7 +58,7 @@
     "minimatch-browser": "^1.0.0",
     "pdfjs-dist": "3.3.122",
     "rxjs": "7.5.7",
-    "tslib": "^2.5.3",
+    "tslib": "^2.7.0",
     "zone.js": "0.13.3"
   },
   "devDependencies": {
