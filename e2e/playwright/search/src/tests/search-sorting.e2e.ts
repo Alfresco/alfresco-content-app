@@ -42,7 +42,7 @@ test.describe('Search sorting', () => {
   const user1 = `user1-${random}`;
   const user2 = `user2-${random}`;
 
-  const parent = `parent-${random}`;
+  const parent = `parent-search-${random}`;
   let parentId: string;
 
   const fileJpg = {

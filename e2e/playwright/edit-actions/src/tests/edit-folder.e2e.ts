@@ -34,7 +34,7 @@ test.describe('Edit folder', () => {
   let folderNameToEditId: string;
 
   const username = `user-${Utils.random()}`;
-  const parent = `parent-${Utils.random()}`;
+  const parent = `parent-edit-${Utils.random()}`;
   const folderName = `folder-${Utils.random()}`;
   const folderDescription = 'my folder description';
 

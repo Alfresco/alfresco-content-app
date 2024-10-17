@@ -32,11 +32,12 @@ test.describe('Search - Filters - Location', () => {
 
   const random = Utils.random();
   const username = `user1-${random}`;
-  const site = `site-${random}`;
+  const site = `site-search-${random}`;
   const fileJpg = `${random}-file.jpg`;
   const filePdf = `${random}-file.pdf`;
   const userFolder = `${random}-userFolder`;
   const siteFolder = `${random}-folderSite`;
+  let siteId: string;
 
   test.beforeEach(async ({ loginPage }) => {
     await Utils.tryLoginUser(loginPage, username, username, 'beforeEach failed');
@@ -52,7 +53,7 @@ test.describe('Search - Filters - Location', () => {
       siteAdminApi = await SitesApi.initialize('admin');
       await siteAdminApi.createSite(site, SITE_VISIBILITY.PUBLIC);
       await siteAdminApi.addSiteMember(site, username, SITE_ROLES.SITE_MANAGER.ROLE);
-      const siteId = await siteAdminApi.getDocLibId(site);
+      siteId = await siteAdminApi.getDocLibId(site);
       await nodesApi.createFile(fileJpg, siteId);
       await nodesApi.createFile(filePdf);
       await nodesApi.createFolder(siteFolder, siteId);
@@ -63,7 +64,7 @@ test.describe('Search - Filters - Location', () => {
   });
 
   test.afterAll(async () => {
-    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', siteAdminApi);
+    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', siteAdminApi, [siteId]);
   });
 
   test('[C279231] Filter by location - files', async ({ searchPage }) => {

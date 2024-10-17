@@ -45,7 +45,7 @@ test.describe('Special permissions : ', () => {
   const random = testData.random;
   let docLibId: string;
 
-  const sitePrivate = `site-private-${random}`;
+  const sitePrivate = `site-private2-${random}`;
 
   const userManager = `manager-${random}`;
   const userConsumer = `consumer-${random}`;
@@ -181,7 +181,7 @@ test.describe('Special permissions : ', () => {
   });
 
   test.afterAll(async () => {
-    await Utils.deleteNodesSitesEmptyTrashcan(undefined, undefined, 'afterAll failed', managerSiteActions, [sitePrivate]);
+    await Utils.deleteNodesSitesEmptyTrashcan(undefined, undefined, 'afterAll failed', managerSiteActions, [docLibId]);
   });
 
   test.describe('Consumer', () => {

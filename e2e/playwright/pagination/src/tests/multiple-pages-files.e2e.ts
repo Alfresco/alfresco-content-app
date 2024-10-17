@@ -33,7 +33,7 @@ test.describe('Pagination on multiple pages : ', () => {
   let trashcanApi: TrashcanApi;
   let favoritesApi: FavoritesPageApi;
 
-  const parent = `parent-${random}`;
+  const parent = `parent-multi-${random}`;
   let initialFavoritesTotalItems: number;
 
   const apiClientFactory = new ApiClientFactory();
