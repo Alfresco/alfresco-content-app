@@ -76,10 +76,10 @@ export class SaveSearchSidenavComponent implements OnInit, OnDestroy {
         url: `search?q=${child.encodedUrl}`
       }))
       .slice(0, 5);
-    const title = this.translationService.instant('APP.BROWSE.SEARCH.SAVE_SEARCH.NAVBAR.TITLE');
+    const title = this.translationService.instant('APP.BROWSE.SEARCH.SAVE_SEARCH.NAVBAR.TITLE', { number: children.length });
     return {
       icon: '',
-      title: `${title} (${children.length})`,
+      title,
       children: mappedChildren,
       route: '/',
       id: 'search-navbar'
