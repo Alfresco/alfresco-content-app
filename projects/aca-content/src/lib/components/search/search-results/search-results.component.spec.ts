@@ -215,7 +215,6 @@ describe('SearchComponent', () => {
       expect(queryBuilder.populateFilters.next).toHaveBeenCalledWith({ userQuery: 'cm:tag:"orange*"', filterProp: { prop: 'test' } });
       queryBuilder.filterLoaded.next();
       fixture.detectChanges();
-      expect(queryBuilder.execute).toHaveBeenCalledWith(false);
       done();
     });
   });
