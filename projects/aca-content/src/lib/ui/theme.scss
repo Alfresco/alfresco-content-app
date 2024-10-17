@@ -6,6 +6,10 @@
 @include custom-theme($custom-theme);
 @include mat.core;
 
+:root {
+  --mdc-filled-text-field-container-color: transparent;
+}
+
 mat-toolbar {
   color: var(--adf-theme-foreground-text-color-054);
 }
@@ -15,7 +19,6 @@ mat-toolbar {
 }
 
 #{$mat-text-field-filled}:not(#{$mat-text-field-disabled}) {
-  background-color: transparent;
   padding: 0;
 }
 
@@ -308,9 +311,11 @@ adf-dynamic-component {
   }
 }
 
-#{$mat-menu-item} #{$mat-icon-no-color},
-#{$mat-mdc-submenu-icon} {
-  color: var(--theme-text-color);
+#{$mat-menu-item} #{$mat-icon} {
+  &#{$mat-icon-no-color},
+  &#{$mat-mdc-submenu-icon} {
+    color: var(--theme-text-color);
+  }
 }
 
 #{$mat-notched-outline-trailing},

@@ -12,6 +12,7 @@
         "main": "app/src/main.ts",
         "tsConfig": "app/tsconfig.app.json",
         "polyfills": "app/src/polyfills.ts",
+        "preserveSymlinks": true,
         "allowedCommonJsDependencies": ["minimatch", "cropperjs"],
         "stylePreprocessorOptions": {
           "includePaths": ["projects/aca-content/src/lib/ui", "node_modules", "node_modules/@alfresco/adf-core/lib"]

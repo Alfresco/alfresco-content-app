@@ -175,7 +175,7 @@ describe('AcaViewerComponent', () => {
     });
 
     it('should return to parent folder on fileUploadDeleted event', async () => {
-      uploadService.fileUploadDeleted.next();
+      uploadService.fileUploadDeleted.next({} as any);
 
       expect(component['navigateToFileLocation']).toHaveBeenCalled();
     });

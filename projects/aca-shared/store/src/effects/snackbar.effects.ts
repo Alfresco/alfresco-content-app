@@ -23,22 +23,20 @@
  */
 
 import { SnackbarContentComponent, SnackBarData, TranslationService } from '@alfresco/adf-core';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Actions, ofType, createEffect } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
 import { AppStore } from '../states/app.state';
-import { SnackbarInfoAction, SnackbarActionTypes, SnackbarWarningAction, SnackbarErrorAction, SnackbarAction } from '../actions/snackbar.actions';
+import { SnackbarAction, SnackbarActionTypes, SnackbarErrorAction, SnackbarInfoAction, SnackbarWarningAction } from '../actions/snackbar.actions';
 
 @Injectable()
 export class SnackbarEffects {
-  constructor(
-    private store: Store<AppStore>,
-    private actions$: Actions,
-    private snackBar: MatSnackBar,
-    private translationService: TranslationService
-  ) {}
+  private store = inject(Store<AppStore>);
+  private actions$ = inject(Actions);
+  private snackBar = inject(MatSnackBar);
+  private translationService = inject(TranslationService);
 
   infoEffect = createEffect(
     () =>

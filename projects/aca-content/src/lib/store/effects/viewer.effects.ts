@@ -22,22 +22,22 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Actions, ofType, createEffect } from '@ngrx/effects';
-import { Injectable } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { inject, Injectable } from '@angular/core';
 import { map, take, tap } from 'rxjs/operators';
 import {
   AppStore,
+  FullscreenViewerAction,
+  getAppSelection,
+  getCurrentFolder,
+  PluginPreviewAction,
   ViewerActionTypes,
   ViewFileAction,
   ViewNodeAction,
-  getCurrentFolder,
-  getAppSelection,
-  FullscreenViewerAction,
-  ViewNodeVersionAction,
-  PluginPreviewAction
+  ViewNodeVersionAction
 } from '@alfresco/aca-shared/store';
-import { Router, UrlTree, UrlSegmentGroup, PRIMARY_OUTLET, UrlSegment } from '@angular/router';
-import { Store, createSelector } from '@ngrx/store';
+import { PRIMARY_OUTLET, Router, UrlSegment, UrlSegmentGroup, UrlTree } from '@angular/router';
+import { createSelector, Store } from '@ngrx/store';
 import { AppExtensionService } from '@alfresco/aca-shared';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -48,13 +48,11 @@ export const fileToPreview = createSelector(getAppSelection, getCurrentFolder, (
 
 @Injectable()
 export class ViewerEffects {
-  constructor(
-    private store: Store<AppStore>,
-    private actions$: Actions,
-    private router: Router,
-    private extensions: AppExtensionService,
-    private dialog: MatDialog
-  ) {}
+  private store = inject(Store<AppStore>);
+  private actions$ = inject(Actions);
+  private router = inject(Router);
+  private extensions = inject(AppExtensionService);
+  private dialog = inject(MatDialog);
 
   fullscreenViewer$ = createEffect(
     () =>

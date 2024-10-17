@@ -84,8 +84,8 @@ describe('ExtensionsDataLoaderGuard', () => {
     const guard = setupTest([() => subject1.asObservable(), () => subject2.asObservable()]);
 
     guard.subscribe(emittedSpy, erroredSpy, completedSpy);
-    subject1.next();
-    subject2.next();
+    subject1.next(true);
+    subject2.next(true);
     subject1.complete();
 
     expect(emittedSpy).not.toHaveBeenCalled();
@@ -99,8 +99,8 @@ describe('ExtensionsDataLoaderGuard', () => {
     const guard = setupTest([() => subject1.asObservable(), () => subject2.asObservable()]);
 
     guard.subscribe(emittedSpy, erroredSpy, completedSpy);
-    subject1.next();
-    subject2.next();
+    subject1.next(true);
+    subject2.next(true);
     subject1.complete();
     subject2.complete();
 
@@ -114,7 +114,7 @@ describe('ExtensionsDataLoaderGuard', () => {
     const guard = setupTest([() => subject1.asObservable(), () => throwError(new Error())]);
 
     guard.subscribe(emittedSpy, erroredSpy, completedSpy);
-    subject1.next();
+    subject1.next(true);
 
     expect(emittedSpy).toHaveBeenCalledWith(true);
     expect(erroredSpy).not.toHaveBeenCalled();

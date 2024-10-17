@@ -24,22 +24,22 @@
 
 import {
   AppStore,
+  getCurrentFolder,
   UnlockWriteAction,
   UploadActionTypes,
   UploadFilesAction,
   UploadFileVersionAction,
-  UploadFolderAction,
-  getCurrentFolder
+  UploadFolderAction
 } from '@alfresco/aca-shared/store';
 import { FileUtils, NotificationService } from '@alfresco/adf-core';
 import { inject, Injectable, NgZone, RendererFactory2 } from '@angular/core';
-import { Actions, ofType, createEffect } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { catchError, map, take } from 'rxjs/operators';
 import { ContentManagementService } from '../../services/content-management.service';
 import { Node } from '@alfresco/js-api';
-import { UploadService, FileModel } from '@alfresco/adf-content-services';
+import { FileModel, UploadService } from '@alfresco/adf-content-services';
 
 @Injectable()
 export class UploadEffects {
@@ -50,15 +50,14 @@ export class UploadEffects {
   private readonly fileVersionInput: HTMLInputElement;
   private readonly uploadMenuButtonSelector = 'app-toolbar-menu button[id="app.toolbar.upload"]';
 
-  constructor(
-    private store: Store<AppStore>,
-    private actions$: Actions,
-    private ngZone: NgZone,
-    private uploadService: UploadService,
-    rendererFactory: RendererFactory2,
-    private contentService: ContentManagementService
-  ) {
-    const renderer = rendererFactory.createRenderer(null, null);
+  store = inject(Store<AppStore>);
+  actions$ = inject(Actions);
+  ngZone = inject(NgZone);
+  uploadService = inject(UploadService);
+  contentService = inject(ContentManagementService);
+
+  constructor() {
+    const renderer = inject(RendererFactory2).createRenderer(null, null);
 
     this.fileInput = renderer.createElement('input') as HTMLInputElement;
     this.fileInput.id = 'app-upload-files';

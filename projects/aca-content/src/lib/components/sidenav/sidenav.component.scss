@@ -79,6 +79,10 @@
         width: 100%;
         user-select: none;
 
+        .aca-action-button__label {
+          color: var(--theme-action-button-text-color);
+        }
+
         &:hover .aca-action-button__label {
           color: var(--theme-sidenav-active-text-color);
         }
