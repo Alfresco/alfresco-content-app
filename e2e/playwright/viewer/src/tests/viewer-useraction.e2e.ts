@@ -29,7 +29,7 @@ import { SiteBodyCreate } from '@alfresco/js-api';
 test.describe('from File Libraries', () => {
   const apiClientFactory = new ApiClientFactory();
   const username = `user-${Utils.random()}`;
-  const siteName = `site-${Utils.random()}`;
+  const siteName = `site-from-lib-${Utils.random()}`;
   const destination = `destFL-${Utils.random()}`;
   let destinationId: string;
   const xlsxLibraries = `xlsxFL-${Utils.random()}`;

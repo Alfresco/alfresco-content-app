@@ -51,7 +51,7 @@ test.describe('Version actions', () => {
   const filenameBeforeUpdate = `${filesToUpload[0].name}-${random}`;
   const filenameAfterUpdate = `${filesToUpload[1].name}-${random}`;
   const username = `user-${random}`;
-  const parentFolder = `parent-${random}`;
+  const parentFolder = `parent-version-${random}`;
   let parentFolderId: string;
   let fileId: string;
 

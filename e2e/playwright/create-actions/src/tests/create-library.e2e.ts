@@ -58,8 +58,8 @@ test.describe('Create Libraries ', () => {
   const errorMessageNotPresent = 'Error message is not displayed';
   const tabKeyString = 'Tab';
   const username = `user-${Utils.random()}`;
-  const commonLibraryName = `playwright-library-${Utils.random()}`;
-  const commonTrashLibraryName = `playwright-library-${Utils.random()}`;
+  const commonLibraryName = `playwright-library1-${Utils.random()}`;
+  const commonTrashLibraryName = `playwright-library2-${Utils.random()}`;
   const createdLibrariesIds: string[] = [];
 
   test.beforeAll(async () => {
@@ -69,17 +69,18 @@ test.describe('Create Libraries ', () => {
       sitesApi = await SitesApi.initialize(username, username);
       nodesApi = await NodesApi.initialize(username, username);
       trashcanApi = await TrashcanApi.initialize(username, username);
-      await sitesApi.createSite(commonLibraryName);
+      const commonLibraryId = (await sitesApi.createSite(commonLibraryName)).entry.id;
       createdLibrariesIds.push(commonLibraryName);
-      await sitesApi.createSite(commonTrashLibraryName);
-      await sitesApi.deleteSites([commonTrashLibraryName], false);
+      const commonTrashLibraryId = (await sitesApi.createSite(commonLibraryId)).entry.id;
+      createdLibrariesIds.push(commonTrashLibraryId);
+      await sitesApi.deleteSites([commonTrashLibraryId], false);
     } catch (error) {
       console.error(`beforeAll failed : ${error}`);
     }
   });
 
   test.beforeEach(async ({ myLibrariesPage, page }) => {
-    randomLibraryName = `playwright-library-${Utils.random()}`;
+    randomLibraryName = `playwright-library3-${Utils.random()}`;
     randomLibraryId = `libraryId-${Utils.random()}`;
     randomLibraryDescription = `libraryDescription-${Utils.random()}`;
     libraryDialog = myLibrariesPage.libraryDialog;
