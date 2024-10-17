@@ -70,8 +70,8 @@ test.describe('Create Libraries ', () => {
       nodesApi = await NodesApi.initialize(username, username);
       trashcanApi = await TrashcanApi.initialize(username, username);
       const commonLibraryId = (await sitesApi.createSite(commonLibraryName)).entry.id;
-      createdLibrariesIds.push(commonLibraryName);
-      const commonTrashLibraryId = (await sitesApi.createSite(commonLibraryId)).entry.id;
+      createdLibrariesIds.push(commonLibraryId);
+      const commonTrashLibraryId = (await sitesApi.createSite(commonTrashLibraryName)).entry.id;
       createdLibrariesIds.push(commonTrashLibraryId);
       await sitesApi.deleteSites([commonTrashLibraryId], false);
     } catch (error) {
