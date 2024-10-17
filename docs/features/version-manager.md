@@ -35,7 +35,7 @@ Some of these options can be also enabled/disabled in app.config.json file. All 
 | allowDownload      | true          | Allow to download versions if true, disallow otherwise.             |
 | allowViewVersions  | true          | Allow to view versions if true, disallow otherwise.                 |
 | allowVersionDelete | true          | Allow to delete versions if true, disallow otherwise.               |
-| showActions        | true          | Shows menu with actions when true, otherwise hides it.              |
+| showActions        | true          | Allow to open actions menu when true, otherwise hides it.           |
 
 
 Example of settings in the app.config.json file:
