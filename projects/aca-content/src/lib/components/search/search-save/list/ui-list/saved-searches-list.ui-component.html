@@ -1,0 +1,17 @@
+<div class="aca-save-search-list-container">
+    <adf-datatable
+            [rows]="savedSearches"
+            [columns]="columns"
+            [stickyHeader]="false"
+            [showHeader]="ShowHeaderMode.Always"
+            [enableDragRows]="true"
+            [contextMenu]="true"
+            [actions]="true"
+            [isResizingEnabled]="true"
+            [blurOnResize]="false"
+            (showRowActionsMenu)="onShowRowActionsMenu($event)"
+            (dragDropped)="onSearchOrderChange($event)"
+            (executeRowAction)="executeMenuOption($event.value.action.key, $event.value.row.obj)"
+            (showRowContextMenu)="fillContextMenu($event)">
+    </adf-datatable>
+</div>

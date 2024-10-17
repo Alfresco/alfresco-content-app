@@ -1,0 +1,27 @@
+.aca-saved-searches-ui-list {
+  .aca-save-search-list-container {
+    padding: 0 20px;
+  }
+
+  .adf-datatable-list {
+    border: 0;
+
+    .adf-datatable-body {
+      .adf-datatable-row {
+        border-top: 0;
+
+        &:last-child {
+          border: 0;
+        }
+
+        &:nth-child(5) + adf-datatable-row {
+          border-top: 1px dashed var(--adf-theme-foreground-text-color-014);
+        }
+      }
+    }
+
+    .adf-datatable-header {
+      border-bottom: 1px solid var(--adf-theme-foreground-text-color-007);
+    }
+  }
+}
