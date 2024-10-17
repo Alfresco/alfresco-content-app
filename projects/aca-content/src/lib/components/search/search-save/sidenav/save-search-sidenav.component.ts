@@ -48,6 +48,7 @@ export class SaveSearchSidenavComponent implements OnInit, OnDestroy {
   item: NavBarLinkRef;
 
   ngOnInit() {
+    this.savedSearchesService.innit();
     this.savedSearchesService.savedSearches$
       .asObservable()
       .pipe(takeUntil(this.destroy$))
