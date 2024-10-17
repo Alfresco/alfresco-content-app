@@ -35,6 +35,7 @@ describe('SaveSearchSidenavComponent', () => {
 
   beforeEach(() => {
     const mockService = {
+      innit: () => {},
       getSavedSearches: () => of(),
       savedSearches$: new ReplaySubject(1)
     };
