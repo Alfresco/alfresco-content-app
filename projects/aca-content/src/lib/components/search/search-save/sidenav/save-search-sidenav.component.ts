@@ -27,10 +27,9 @@ import { SavedSearch, SavedSearchesService } from '@alfresco/adf-content-service
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { CoreModule, TranslationService } from '@alfresco/adf-core';
-import { DynamicExtensionComponent } from '@alfresco/adf-extensions';
+import { DynamicExtensionComponent, NavBarLinkRef } from '@alfresco/adf-extensions';
 import { ExpandMenuComponent } from '../../../sidenav/components/expand-menu.component';
 import { SidenavHeaderComponent } from '../../../sidenav/components/sidenav-header.component';
-import { NavBarLinkRef } from '@alfresco/adf-extensions/lib/config/navbar.extensions';
 import { AppService } from '@alfresco/aca-shared';
 
 @Component({

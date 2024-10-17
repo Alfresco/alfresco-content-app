@@ -28,7 +28,7 @@ import { SavedSearchesService } from '@alfresco/adf-content-services';
 import { AppTestingModule } from '../../../../testing/app-testing.module';
 import { of, ReplaySubject } from 'rxjs';
 
-describe('SidenavComponent', () => {
+describe('SaveSearchSidenavComponent', () => {
   let fixture: ComponentFixture<SaveSearchSidenavComponent>;
   let component: SaveSearchSidenavComponent;
   let savedSearchesService: SavedSearchesService;
