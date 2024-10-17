@@ -214,7 +214,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
           this.queryBuilder.filterLoaded
             .asObservable()
             .pipe(takeUntil(this.onDestroy$), takeUntil(this.loadedFilters$))
-            .subscribe(async () => {
+            .subscribe(() => {
               loadedFilters++;
               if (filtersToLoad === loadedFilters) {
                 this.loadedFilters$.next();
