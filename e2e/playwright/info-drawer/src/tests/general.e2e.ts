@@ -54,7 +54,7 @@ test.describe('Info Drawer - General', () => {
   });
 
   test('[C268999] Info drawer closes on page refresh', async ({ personalFiles }) => {
-    const parentFolder = `parent-${Utils.random()}`;
+    const parentFolder = `parent-general-${Utils.random()}`;
     const file1 = `file1-${Utils.random()}.txt`;
     const folder1 = `folder1-${Utils.random()}`;
     const parentId = (await nodesApi.createFolder(parentFolder)).entry.id;
