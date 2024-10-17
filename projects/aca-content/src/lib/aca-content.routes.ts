@@ -27,7 +27,7 @@ import { LibrariesComponent } from './components/libraries/libraries.component';
 import { FavoriteLibrariesComponent } from './components/favorite-libraries/favorite-libraries.component';
 import { SearchResultsComponent } from './components/search/search-results/search-results.component';
 import { SearchLibrariesResultsComponent } from './components/search/search-libraries-results/search-libraries-results.component';
-import { AppSharedRuleGuard, GenericErrorComponent, ExtensionRoute, ExtensionsDataLoaderGuard, PluginEnabledGuard } from '@alfresco/aca-shared';
+import { AppSharedRuleGuard, ExtensionRoute, ExtensionsDataLoaderGuard, GenericErrorComponent, PluginEnabledGuard } from '@alfresco/aca-shared';
 import { AuthGuard, UnsavedChangesGuard } from '@alfresco/adf-core';
 import { FavoritesComponent } from './components/favorites/favorites.component';
 import { RecentFilesComponent } from './components/recent-files/recent-files.component';
@@ -41,6 +41,7 @@ import { SharedLinkViewComponent } from './components/shared-link-view/shared-li
 import { TrashcanComponent } from './components/trashcan/trashcan.component';
 import { ShellLayoutComponent } from '@alfresco/adf-core/shell';
 import { SearchAiResultsComponent } from './components/knowledge-retrieval/search-ai/search-ai-results/search-ai-results.component';
+import { SavedSearchesListSmartComponent } from './components/search/search-save/list/smart-list/saved-searches-list.smart-component';
 
 export const CONTENT_ROUTES: ExtensionRoute[] = [
   {
@@ -350,6 +351,16 @@ export const CONTENT_LAYOUT_ROUTES: Route = {
         {
           path: '',
           component: SearchAiResultsComponent
+        },
+        ...createViewRoutes('knowledge-retrieval')
+      ]
+    },
+    {
+      path: 'saved-searches',
+      children: [
+        {
+          path: '',
+          component: SavedSearchesListSmartComponent
         },
         ...createViewRoutes('knowledge-retrieval')
       ]

@@ -55,7 +55,7 @@ export class ExpandMenuComponent implements OnInit {
   item: NavBarLinkRef;
 
   @Output()
-  actionClicked = new EventEmitter<void>();
+  actionClicked = new EventEmitter<NavBarLinkRef>();
 
   constructor(private cd: ChangeDetectorRef) {}
 

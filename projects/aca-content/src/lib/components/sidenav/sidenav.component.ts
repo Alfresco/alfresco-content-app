@@ -22,12 +22,12 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { DynamicExtensionComponent, NavBarGroupRef, NavBarLinkRef } from '@alfresco/adf-extensions';
 import { Store } from '@ngrx/store';
 import { AppStore, getSideNavState } from '@alfresco/aca-shared/store';
 import { Subject } from 'rxjs';
-import { takeUntil, distinctUntilChanged, debounceTime } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { AppExtensionService, AppService, NavigationHistoryService } from '@alfresco/aca-shared';
 import { SidenavLayoutComponent } from '@alfresco/adf-core';
 import { CommonModule } from '@angular/common';
@@ -69,7 +69,6 @@ export class SidenavComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.groups = this.extensions.getApplicationNavigation(this.extensions.navbar);
       });
-
     this.appService.setAppNavbarMode(this.data.mode);
     this.appService.toggleAppNavBar$.pipe(takeUntil(this.onDestroy$)).subscribe(() => this.toggleNavBar());
     this.data.layout.expanded.pipe(takeUntil(this.onDestroy$)).subscribe(() => this.setNavBarMode());

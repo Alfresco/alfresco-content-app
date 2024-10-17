@@ -26,6 +26,7 @@ import { Directive, EventEmitter, HostListener, Input, Output } from '@angular/c
 import { Params, PRIMARY_OUTLET, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppStore } from '@alfresco/aca-shared/store';
+import { NavBarLinkRef } from '@alfresco/adf-extensions';
 
 @Directive({
   standalone: true,
@@ -36,7 +37,7 @@ import { AppStore } from '@alfresco/aca-shared/store';
 export class ActionDirective {
   @Input() action;
 
-  @Output() actionClicked = new EventEmitter<void>();
+  @Output() actionClicked = new EventEmitter<NavBarLinkRef>();
 
   @HostListener('click')
   onClick() {
@@ -48,7 +49,7 @@ export class ActionDirective {
         payload: this.getNavigationCommands(this.action.click.payload)
       });
     }
-    this.actionClicked.next();
+    this.actionClicked.next(this.action);
   }
 
   constructor(private router: Router, private store: Store<AppStore>) {}
