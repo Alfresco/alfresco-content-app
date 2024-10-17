@@ -218,7 +218,7 @@
                 "SAVE_SUCCESS": "Search Saved",
                 "SAVE_ERROR": "Error occured. Search could not be saved.",
                 "NAVBAR": {
-                    "TITLE": "Saved Searches"
+                    "TITLE": "Saved Searches ({{ number }})"
                 }
               },
                 "FOUND_RESULTS": "{{ number }} results found",
