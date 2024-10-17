@@ -218,7 +218,29 @@
                 "SAVE_SUCCESS": "Search Saved",
                 "SAVE_ERROR": "Error occured. Search could not be saved.",
                 "NAVBAR": {
-                    "TITLE": "Saved Searches ({{ number }})"
+                  "TITLE": "Saved Searches ({{ number }})",
+                  "MANAGE_BUTTON": "Manage searches"
+                },
+                "EDIT_DIALOG": {
+                  "CONTEXT_OPTION": "Edit Search",
+                  "TITLE": "Edit Saved Search",
+                  "SUCCESS_MESSAGE": "Saved Search edited successfully",
+                  "ERROR_MESSAGE": "Error occured. Saved Search could not be edited."
+                },
+                "DELETE_DIALOG": {
+                  "CONTEXT_OPTION": "Delete Search",
+                  "TITLE": "Delete Saved Search",
+                  "CONTENT": "Are you sure you want to delete this search",
+                  "SUCCESS_MESSAGE": "Saved Search deleted successfully",
+                  "ERROR_MESSAGE": "Error occured. Saved Search could not be deleted."
+                },
+                "LIST": {
+                  "TITLE": "Saved Searches",
+                  "NAME": "Name",
+                  "DESCRIPTION": "Description",
+                  "EMPTY_LIST": "No saved searches",
+                  "§": "Copy to clipboard",
+                  "COPY_TO_CLIPBOARD_SUCCESS": "Search copied to clipboard"
                 }
               },
                 "FOUND_RESULTS": "{{ number }} results found",
