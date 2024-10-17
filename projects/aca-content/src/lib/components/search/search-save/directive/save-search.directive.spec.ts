@@ -31,7 +31,9 @@ import { SaveSearchDirective } from './save-search.directive';
 import { SaveSearchDialogComponent } from '../dialog/save-search-dialog.component';
 
 @Component({
-  template: '<div [acaSaveSearch]="searchQuery" acaSaveSearchQuery="encodedQuery"></div>'
+  template: '<div [acaSaveSearch]="searchQuery" acaSaveSearchQuery="encodedQuery"></div>',
+  standalone: true,
+  imports: [SaveSearchDirective]
 })
 class TestComponent {
   searchQuery = 'encodedQuery';
@@ -48,9 +50,8 @@ describe('SaveSearchDirective', () => {
   };
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [TestComponent],
-      imports: [SaveSearchDirective],
+    void TestBed.configureTestingModule({
+      imports: [SaveSearchDirective, TestComponent],
       providers: [
         {
           provide: MatDialog,
@@ -61,7 +62,7 @@ describe('SaveSearchDirective', () => {
           }
         }
       ]
-    });
+    }).compileComponents();
 
     fixture = TestBed.createComponent(TestComponent);
     element = fixture.debugElement.query(By.directive(SaveSearchDirective));
@@ -75,6 +76,7 @@ describe('SaveSearchDirective', () => {
   });
 
   it('should open the dialog with the correct configuration', () => {
+    spyOn(dialog, 'open');
     element.triggerEventHandler('click', event);
 
     const expectedConfig = {
