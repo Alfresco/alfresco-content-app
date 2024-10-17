@@ -29,6 +29,7 @@ import { SaveSearchDialogComponent } from '../dialog/save-search-dialog.componen
 interface SaveSearchDirectiveDialogData {
   searchUrl: string;
 }
+
 @Directive({
   selector: '[acaSaveSearch]',
   standalone: true
