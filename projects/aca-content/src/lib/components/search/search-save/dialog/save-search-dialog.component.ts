@@ -70,6 +70,8 @@ export class SaveSearchDialogComponent {
     description: new FormControl('')
   });
 
+  disableSubmitButton = false;
+
   constructor(
     private readonly dialog: MatDialogRef<SaveSearchDialogComponent>,
     private readonly store: Store<AppStore>,
@@ -78,9 +80,10 @@ export class SaveSearchDialogComponent {
   ) {}
 
   submit() {
-    if (this.form.invalid) {
+    if (this.form.invalid || this.disableSubmitButton) {
       return;
     }
+    this.disableSubmitButton = true;
     const formValue = this.form.value;
     const saveSearch = { name: formValue.name, description: formValue.description, encodedUrl: encodeURIComponent(this.data.searchUrl) };
     this.savedSearchesService
@@ -90,9 +93,11 @@ export class SaveSearchDialogComponent {
         next: () => {
           this.dialog.close();
           this.store.dispatch(new SnackbarInfoAction('APP.BROWSE.SEARCH.SAVE_SEARCH.SAVE_SUCCESS'));
+          this.disableSubmitButton = false;
         },
         error: () => {
           this.store.dispatch(new SnackbarErrorAction('APP.BROWSE.SEARCH.SAVE_SEARCH.SAVE_ERROR'));
+          this.disableSubmitButton = false;
         }
       });
   }
