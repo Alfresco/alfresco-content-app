@@ -47,7 +47,7 @@
           mat-flat-button
           color="primary"
           (click)="submit()"
-          [disabled]="!form.valid">
+          [disabled]="!form.valid || disableSubmitButton">
     {{ 'SAVE' | titlecase | translate}}
   </button>
 </mat-dialog-actions>
