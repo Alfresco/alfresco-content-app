@@ -34,11 +34,11 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 @Component({
   standalone: true,
   imports: [CoreModule, AutoFocusDirective],
-  selector: 'aca-save-search-edit-dialog',
+  selector: 'aca-saved-search-edit-dialog',
   templateUrl: './saved-search-edit-dialog.component.html',
   styleUrls: ['./saved-search-edit-dialog.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  host: { class: 'aca-edit-saved-search-dialog' }
+  host: { class: 'aca-saved-search-edit-dialog' }
 })
 export class SavedSearchEditDialogComponent {
   form = new FormGroup({
@@ -46,6 +46,7 @@ export class SavedSearchEditDialogComponent {
     description: new FormControl('')
   });
 
+  isLoading = false;
   constructor(
     private readonly dialog: MatDialogRef<SavedSearchEditDialogComponent>,
     private readonly store: Store<AppStore>,
@@ -59,9 +60,10 @@ export class SavedSearchEditDialogComponent {
   }
 
   submit() {
-    if (this.form.invalid) {
+    if (this.form.invalid || this.isLoading) {
       return;
     }
+    this.isLoading = true;
     const formValue = this.form.value;
     const savedSearch: SavedSearch = {
       name: formValue.name,
@@ -76,9 +78,13 @@ export class SavedSearchEditDialogComponent {
       .editSavedSearch(savedSearch)
       .pipe(take(1))
       .subscribe({
-        next: () => this.onEditSuccess(),
+        next: () => {
+          this.onEditSuccess();
+          this.isLoading = false;
+        },
         error: () => {
           this.store.dispatch(new SnackbarErrorAction('APP.BROWSE.SEARCH.SAVE_SEARCH.EDIT_DIALOG.ERROR_MESSAGE'));
+          this.isLoading = false;
         }
       });
   }

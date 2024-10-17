@@ -33,13 +33,14 @@ import { CoreModule } from '@alfresco/adf-core';
 @Component({
   standalone: true,
   imports: [CoreModule],
-  selector: 'aca-save-search-delete-dialog',
+  selector: 'aca-saved-search-delete-dialog',
   templateUrl: './saved-search-delete-dialog.component.html',
   styleUrls: ['./saved-search-delete-dialog.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  host: { class: 'aca-delete-saved-search-dialog' }
+  host: { class: 'aca-saved-search-delete-dialog' }
 })
 export class SavedSearchDeleteDialogComponent {
+  isLoading = false;
   constructor(
     private readonly dialog: MatDialogRef<SavedSearchDeleteDialogComponent>,
     private readonly savedSearchesService: SavedSearchesService,
@@ -48,6 +49,10 @@ export class SavedSearchDeleteDialogComponent {
   ) {}
 
   onSubmit() {
+    if (this.isLoading) {
+      return;
+    }
+    this.isLoading = true;
     this.savedSearchesService
       .deleteSavedSearch(this.data)
       .pipe(take(1))
@@ -55,9 +60,11 @@ export class SavedSearchDeleteDialogComponent {
         next: () => {
           this.dialog.close(this.data);
           this.store.dispatch(new SnackbarInfoAction('APP.BROWSE.SEARCH.SAVE_SEARCH.DELETE_DIALOG.SUCCESS_MESSAGE'));
+          this.isLoading = false;
         },
         error: () => {
           this.store.dispatch(new SnackbarErrorAction('APP.BROWSE.SEARCH.SAVE_SEARCH.DELETE_DIALOG.SUCCESS_MESSAGE'));
+          this.isLoading = false;
         }
       });
   }

@@ -41,7 +41,7 @@ import { SharedLinkViewComponent } from './components/shared-link-view/shared-li
 import { TrashcanComponent } from './components/trashcan/trashcan.component';
 import { ShellLayoutComponent } from '@alfresco/adf-core/shell';
 import { SearchAiResultsComponent } from './components/knowledge-retrieval/search-ai/search-ai-results/search-ai-results.component';
-import { SavedSearchesListSmartComponent } from './components/search/search-save/list/smart-list/saved-searches-list.smart-component';
+import { SavedSearchesSmartListComponent } from './components/search/search-save/list/smart-list/saved-searches-smart-list.component';
 
 export const CONTENT_ROUTES: ExtensionRoute[] = [
   {
@@ -360,9 +360,8 @@ export const CONTENT_LAYOUT_ROUTES: Route = {
       children: [
         {
           path: '',
-          component: SavedSearchesListSmartComponent
-        },
-        ...createViewRoutes('knowledge-retrieval')
+          component: SavedSearchesSmartListComponent
+        }
       ]
     },
     {

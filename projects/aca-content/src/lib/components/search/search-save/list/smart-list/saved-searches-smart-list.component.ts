@@ -23,39 +23,22 @@
  */
 
 import { Component, inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { EmptyContentComponent, MaterialModule, PaginationComponent } from '@alfresco/adf-core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
-import { MatButtonModule } from '@angular/material/button';
 import { SavedSearchesListUiComponent } from '../ui-list/saved-searches-list.ui-component';
-import { AppService, GenericErrorComponent, InfoDrawerComponent, PageComponent, PageLayoutComponent, ToolbarComponent } from '@alfresco/aca-shared';
-import { BreadcrumbComponent, SavedSearchesService } from '@alfresco/adf-content-services';
-import { SearchAiInputContainerComponent } from '../../../../knowledge-retrieval/search-ai/search-ai-input-container/search-ai-input-container.component';
+import { AppService, PageComponent, PageLayoutComponent } from '@alfresco/aca-shared';
+import { MaterialModule, SavedSearchesService } from '@alfresco/adf-content-services';
+import { EmptyContentComponent } from '@alfresco/adf-core';
 
 @Component({
   selector: 'aca-saved-searches-smart-list',
   standalone: true,
-  imports: [
-    CommonModule,
-    TranslateModule,
-    MatButtonModule,
-    SavedSearchesListUiComponent,
-    ToolbarComponent,
-    PaginationComponent,
-    PageLayoutComponent,
-    BreadcrumbComponent,
-    SearchAiInputContainerComponent,
-    ToolbarComponent,
-    GenericErrorComponent,
-    MaterialModule,
-    InfoDrawerComponent,
-    EmptyContentComponent
-  ],
-  templateUrl: './saved-searches-list.smart-component.html',
-  styleUrls: ['./saved-searches-list.smart-component.scss'],
+  imports: [CommonModule, TranslateModule, SavedSearchesListUiComponent, PageLayoutComponent, EmptyContentComponent, MaterialModule],
+  templateUrl: './saved-searches-smart-list.component.html',
+  styleUrls: ['./saved-searches-smart-list.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class SavedSearchesListSmartComponent extends PageComponent implements OnInit, OnDestroy {
+export class SavedSearchesSmartListComponent extends PageComponent implements OnInit, OnDestroy {
   savedSearchesService = inject(SavedSearchesService);
 
   savedSearches$ = this.savedSearchesService.savedSearches$;
