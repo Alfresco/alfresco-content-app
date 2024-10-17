@@ -75,9 +75,9 @@ describe('SearchUtils', () => {
   });
 
   describe('formatSearchTerm', () => {
-    it('should return null when input is invalid', () => {
-      expect(formatSearchTerm(null)).toBeNull();
-      expect(formatSearchTerm(undefined)).toBeNull();
+    it('should return empty string when input is invalid', () => {
+      expect(formatSearchTerm(null)).toEqual('');
+      expect(formatSearchTerm(undefined)).toEqual('');
     });
 
     it('should not transfer custom queries', () => {
