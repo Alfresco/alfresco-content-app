@@ -134,6 +134,27 @@ export class AppSettingsService {
   }
 
   /**
+   * Allow to view versions if true, disallow otherwise.
+   */
+  get versionManagerAllowViewVersions(): boolean {
+    return this.appConfig.get<boolean>('adf-version-manager.allowViewVersions', true);
+  }
+
+  /**
+   * Allow to delete versions if true, disallow otherwise.
+   */
+  get versionManagerAllowVersionDelete(): boolean {
+    return this.appConfig.get<boolean>('adf-version-manager.allowVersionDelete', true);
+  }
+
+  /**
+   * Allow to open actions menu when true, otherwise hides it.
+   */
+  get versionManagerShowActions(): boolean {
+    return this.appConfig.get<boolean>('adf-version-manager.showActions', true);
+  }
+
+  /**
    * Gets the enablement of the file auto tryDownload feature from the app settings.
    */
   get autoDownloadEnabled(): boolean {
