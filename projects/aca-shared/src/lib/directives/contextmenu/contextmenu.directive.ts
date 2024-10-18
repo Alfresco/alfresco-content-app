@@ -26,7 +26,8 @@ import { Directive, HostListener, Input, OnInit, OnDestroy } from '@angular/core
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { AppStore, ContextMenu } from '@alfresco/aca-shared/store';
+import { AppStore, ContextMenu, CustomContextMenu } from '@alfresco/aca-shared/store';
+import { ContentActionRef } from '@alfresco/adf-extensions';
 
 @Directive({
   standalone: true,
@@ -40,6 +41,10 @@ export class ContextActionsDirective implements OnInit, OnDestroy {
   // eslint-disable-next-line
   @Input('acaContextEnable')
   enabled = true;
+
+  // eslint-disable-next-line
+  @Input('customActions')
+  customActions: ContentActionRef[] = [];
 
   @HostListener('contextmenu', ['$event'])
   onContextMenuEvent(event: MouseEvent) {
@@ -59,7 +64,11 @@ export class ContextActionsDirective implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.execute$.pipe(debounceTime(300), takeUntil(this.onDestroy$)).subscribe((event: MouseEvent) => {
-      this.store.dispatch(new ContextMenu(event));
+      if (this.customActions?.length) {
+        this.store.dispatch(new CustomContextMenu(event, this.customActions));
+      } else {
+        this.store.dispatch(new ContextMenu(event));
+      }
     });
   }
 
