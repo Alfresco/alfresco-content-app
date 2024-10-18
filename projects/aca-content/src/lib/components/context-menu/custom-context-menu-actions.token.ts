@@ -22,7 +22,6 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export enum ContextMenuActionTypes {
-  ContextMenu = 'CONTEXT_MENU',
-  CustomContextMenu = 'CUSTOM_CONTEXT_MENU'
-}
+import { InjectionToken } from '@angular/core';
+
+export const CONTEXT_MENU_CUSTOM_ACTIONS = new InjectionToken('CONTEXT_MENU_CUSTOM_ACTIONS');

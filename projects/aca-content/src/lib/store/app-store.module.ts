@@ -71,7 +71,6 @@ import { SearchAiEffects } from './effects/search-ai.effects';
       TemplateEffects,
       ContextMenuEffects,
       SearchAiEffects,
-      ContextMenuEffects,
       SnackbarEffects,
       RouterEffects
     ])

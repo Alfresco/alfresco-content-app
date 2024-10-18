@@ -31,6 +31,9 @@ import { ContextmenuOverlayConfig } from './interfaces';
 import { UserPreferencesService } from '@alfresco/adf-core';
 import { Directionality } from '@angular/cdk/bidi';
 import { CONTEXT_MENU_DIRECTION } from './direction.token';
+import { CONTEXT_MENU_CUSTOM_ACTIONS } from './custom-context-menu-actions.token';
+import { ContentActionRef } from '@alfresco/adf-extensions';
+import { CustomContextMenuComponent } from './custom-context-menu.component';
 
 @Injectable({
   providedIn: 'root'
@@ -44,11 +47,14 @@ export class ContextMenuService {
     });
   }
 
-  open(config: ContextmenuOverlayConfig): ContextMenuOverlayRef {
+  open(config: ContextmenuOverlayConfig, customActions?: ContentActionRef[]): ContextMenuOverlayRef {
     const overlay = this.createOverlay(config);
     const overlayRef = new ContextMenuOverlayRef(overlay);
-
-    this.attachDialogContainer(overlay, overlayRef);
+    if (customActions?.length) {
+      this.attachCustomDialogContainer(overlay, overlayRef, customActions);
+    } else {
+      this.attachDialogContainer(overlay, overlayRef);
+    }
 
     return overlayRef;
   }
@@ -60,7 +66,6 @@ export class ContextMenuService {
 
   private attachDialogContainer(overlay: OverlayRef, contextmenuOverlayRef: ContextMenuOverlayRef): ContextMenuComponent {
     const injector = this.createInjector(contextmenuOverlayRef);
-
     const containerPortal = new ComponentPortal(ContextMenuComponent, null, injector);
     const containerRef: ComponentRef<ContextMenuComponent> = overlay.attach(containerPortal);
 
@@ -73,6 +78,29 @@ export class ContextMenuService {
       providers: [
         { provide: ContextMenuOverlayRef, useValue: contextmenuOverlayRef },
         { provide: CONTEXT_MENU_DIRECTION, useValue: this.direction }
+      ]
+    });
+  }
+
+  private attachCustomDialogContainer(
+    overlay: OverlayRef,
+    contextmenuOverlayRef: ContextMenuOverlayRef,
+    customActions: ContentActionRef[]
+  ): CustomContextMenuComponent {
+    const injector = this.createCustomInjector(contextmenuOverlayRef, customActions);
+    const containerPortal = new ComponentPortal(CustomContextMenuComponent, null, injector);
+    const containerRef: ComponentRef<CustomContextMenuComponent> = overlay.attach(containerPortal);
+
+    return containerRef.instance;
+  }
+
+  private createCustomInjector(contextmenuOverlayRef: ContextMenuOverlayRef, customActions: ContentActionRef[]): Injector {
+    return Injector.create({
+      parent: this.injector,
+      providers: [
+        { provide: ContextMenuOverlayRef, useValue: contextmenuOverlayRef },
+        { provide: CONTEXT_MENU_DIRECTION, useValue: this.direction },
+        { provide: CONTEXT_MENU_CUSTOM_ACTIONS, useValue: customActions }
       ]
     });
   }

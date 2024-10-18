@@ -24,9 +24,16 @@
 
 import { Action } from '@ngrx/store';
 import { ContextMenuActionTypes } from './context-menu-action-types';
+import { ContentActionRef } from '@alfresco/adf-extensions';
 
 export class ContextMenu implements Action {
   readonly type = ContextMenuActionTypes.ContextMenu;
 
   constructor(public event: MouseEvent) {}
+}
+
+export class CustomContextMenu implements Action {
+  readonly type = ContextMenuActionTypes.CustomContextMenu;
+
+  constructor(public event: MouseEvent, public payload: ContentActionRef[] = []) {}
 }
