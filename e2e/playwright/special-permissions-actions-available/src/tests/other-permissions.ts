@@ -132,6 +132,7 @@ export function collaboratorTests(userCollaborator: string, siteName: string) {
 
       test('file opened from Search Results - [C306992]', async ({ searchPage, myLibrariesPage }) => {
         await searchPage.navigate({ remoteUrl: `#/search;q=${testData.fileDocxSharedFav.name}` });
+        await searchPage.searchWithin(testData.fileDocxSharedFav.name, 'filesAndFolders');
         await checkActionsViewerAvailable(
           myLibrariesPage,
           testData.fileDocxSharedFav.name,
