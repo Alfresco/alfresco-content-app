@@ -29,7 +29,7 @@ test.describe('Share a file', () => {
   const random = Utils.random();
 
   const username = `user-${random}`;
-  const parent = `parent-${random}`;
+  const parent = `parent-share-${random}`;
   let parentId: string;
 
   const file3 = `file3-${random}.txt`;

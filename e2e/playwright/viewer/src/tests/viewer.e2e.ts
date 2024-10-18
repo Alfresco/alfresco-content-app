@@ -52,6 +52,8 @@ test.describe('viewer file', () => {
   let fileDocxId: string;
   let nodesApi: NodesApi;
   let trashcanApi: TrashcanApi;
+  let siteActionsAdmin: SitesApi;
+  let siteActionsUser: SitesApi;
 
   test.beforeAll(async () => {
     test.setTimeout(timeouts.extendedTest);
@@ -64,8 +66,8 @@ test.describe('viewer file', () => {
     trashcanApi = await TrashcanApi.initialize(username, username);
     const shareActions = await SharedLinksApi.initialize(username, username);
     const favoritesActions = await FavoritesPageApi.initialize(username, username);
-    const siteActionsUser = await SitesApi.initialize(username, username);
-    const siteActionsAdmin = await SitesApi.initialize('admin');
+    siteActionsUser = await SitesApi.initialize(username, username);
+    siteActionsAdmin = await SitesApi.initialize('admin');
     const fileActionApiAdmin = await FileActionsApi.initialize('admin');
     const node = await nodesApi.createFolder(randomFolderName);
     folderId = node.entry.id;
@@ -97,7 +99,8 @@ test.describe('viewer file', () => {
   });
 
   test.afterAll(async () => {
-    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
+    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', siteActionsUser, [docLibSiteUserId]);
+    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', siteActionsAdmin, [docLibId]);
   });
 
   test('[C279269] Viewer opens on double clicking on a file from Personal Files', async ({ personalFiles }) => {

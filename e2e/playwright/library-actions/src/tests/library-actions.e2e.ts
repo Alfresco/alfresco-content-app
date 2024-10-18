@@ -148,6 +148,7 @@ test.describe('Library actions ', () => {
       await adminSitesApi.deleteSites(adminModerateLibraryIds);
       await adminSitesApi.deleteSites(user1LibraryIds);
       await adminSitesApi.deleteSites(user2LibraryIds);
+      await user2SitesApi.deleteSites([user2Library5Delete, user2Library6Delete, user2Library7Delete]);
       const trashcanApi = await TrashcanApi.initialize(username2, username2);
       await trashcanApi.emptyTrashcan();
     } catch (error) {
