@@ -280,6 +280,11 @@
               "MOBILE_APP_BUTTON_LABEL": "Open in App",
               "DOWNLOAD_APP_BUTTON_LABEL": "Don't have the app? Download now.",
               "OPEN_ALFRESCO_MOBILE_APP": "Open using Alfresco Mobile application?"
+            },
+            "CONFIRM_DELETE_HOLDS": {
+              "TITLE": "Delete holds?",
+              "MESSAGE_SINGULAR": "You have selected {{ name }} hold to be removed. All the items it's holding will be released.",
+              "MESSAGE_PLURAL": "You have selected {{ count }} holds to be removed. All the items they are holding will be released."
             }
         },
         "DOCUMENT_LIST": {
