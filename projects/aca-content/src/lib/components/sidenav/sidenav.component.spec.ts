@@ -26,17 +26,22 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { SidenavComponent } from './sidenav.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { AppExtensionService, AppService } from '@alfresco/aca-shared';
+import { AppExtensionService, AppService, NavigationHistoryService } from '@alfresco/aca-shared';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { SidenavLayoutComponent } from '@alfresco/adf-core';
+import { NavigationEnd } from '@angular/router';
 
 describe('SidenavComponent', () => {
   let fixture: ComponentFixture<SidenavComponent>;
   let component: SidenavComponent;
   let extensionService: AppExtensionService;
   let sidenavLayoutComponent: SidenavLayoutComponent;
+  let navigationHistoryService: jasmine.SpyObj<NavigationHistoryService>;
+  let routerEvents$: Subject<NavigationEnd>;
 
   beforeEach(() => {
+    const navigationHistoryServiceSpy = jasmine.createSpyObj('NavigationHistoryService', ['listenToRouteChanges', 'setHistory']);
+
     TestBed.configureTestingModule({
       imports: [AppTestingModule, SidenavComponent],
       providers: [
@@ -48,6 +53,7 @@ describe('SidenavComponent', () => {
             setAppNavbarMode: jasmine.createSpy('setAppNavbarMode')
           }
         },
+        { provide: NavigationHistoryService, useValue: navigationHistoryServiceSpy },
         SidenavLayoutComponent
       ],
       schemas: [NO_ERRORS_SCHEMA]
@@ -73,6 +79,11 @@ describe('SidenavComponent', () => {
     component.data = {
       layout: sidenavLayoutComponent
     };
+
+    navigationHistoryService = TestBed.inject(NavigationHistoryService) as jasmine.SpyObj<NavigationHistoryService>;
+
+    routerEvents$ = new Subject<NavigationEnd>();
+    navigationHistoryService.listenToRouteChanges.and.returnValue(routerEvents$.asObservable());
   });
 
   it('should set the sidenav data', async () => {
@@ -88,5 +99,14 @@ describe('SidenavComponent', () => {
       route: 'route',
       title: 'item-1'
     });
+  });
+
+  it('should call setHistory when a NavigationEnd event occurs', () => {
+    const mockNavigationEnd = new NavigationEnd(1, '/path', '/redirect');
+
+    component.ngOnInit();
+    routerEvents$.next(mockNavigationEnd);
+
+    expect(navigationHistoryService.setHistory).toHaveBeenCalledWith(mockNavigationEnd, 3);
   });
 });

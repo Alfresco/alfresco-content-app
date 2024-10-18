@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -34,7 +34,7 @@ import { AvatarComponent, IconComponent, NotificationService, UserPreferencesSer
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { AiSearchByTermPayload, AppStore, getAppSelection, SearchByTermAiAction } from '@alfresco/aca-shared/store';
+import { AiSearchByTermPayload, AppStore, getAppSelection, SearchByTermAiAction, ToggleAISearchInput } from '@alfresco/aca-shared/store';
 import { takeUntil } from 'rxjs/operators';
 import { SelectionState } from '@alfresco/adf-extensions';
 import { MatSelectModule } from '@angular/material/select';
@@ -49,6 +49,7 @@ import {
 import { ModalAiService } from '../../../../services/modal-ai.service';
 import { Agent } from '@alfresco/js-api';
 import { getAgentsWithMockedAvatars } from '../search-ai-utils';
+import { ActivatedRoute } from '@angular/router';
 
 const MatTooltipOptions: MatTooltipDefaultOptions = {
   ...MAT_TOOLTIP_DEFAULT_OPTIONS_FACTORY(),
@@ -89,8 +90,8 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
   @Input()
   useStoredNodes: boolean;
 
-  @Output()
-  searchSubmitted = new EventEmitter<void>();
+  @Input()
+  searchTerm: string;
 
   private readonly storedNodesKey = 'knowledgeRetrievalNodes';
 
@@ -126,10 +127,19 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
     private agentService: AgentService,
     private userPreferencesService: UserPreferencesService,
     private translateService: TranslateService,
-    private modalAiService: ModalAiService
+    private modalAiService: ModalAiService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
+    if (this.searchTerm) {
+      this.queryControl.setValue(this.searchTerm);
+    } else if (this.route.snapshot?.queryParams?.query?.length > 0) {
+      this.queryControl.setValue(this.route.snapshot.queryParams.query);
+    } else {
+      this.queryControl.setValue(null);
+    }
+
     if (!this.useStoredNodes) {
       this.store
         .select(getAppSelection)
@@ -180,8 +190,7 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
       };
       this.userPreferencesService.set(this.storedNodesKey, JSON.stringify(this.selectedNodesState));
       this.store.dispatch(new SearchByTermAiAction(payload));
-      this.queryControl.reset();
-      this.searchSubmitted.emit();
+      this.store.dispatch(new ToggleAISearchInput(this.agentControl.value.id, this.queryControl.value));
     }
   }
 }

@@ -30,11 +30,13 @@ import { NodeEntry, NodePaging } from '@alfresco/js-api';
 import { DocumentBasePageService } from './document-base-page.service';
 import { Store } from '@ngrx/store';
 import { Component } from '@angular/core';
-import { DiscoveryApiService, DocumentListComponent, DocumentListService } from '@alfresco/adf-content-services';
+import { DiscoveryApiService, DocumentListComponent, DocumentListService, SearchAiInputState, SearchAiService } from '@alfresco/adf-content-services';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { AuthModule } from '@alfresco/adf-core';
-import { Subscription } from 'rxjs';
+import { AuthModule, UserPreferencesService } from '@alfresco/adf-core';
+import { of, Subscription } from 'rxjs';
 import { MatDialogModule } from '@angular/material/dialog';
+import { NavigationHistoryService } from '../../services/navigation-history.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'aca-test',
@@ -53,23 +55,49 @@ class TestComponent extends PageComponent {
 }
 
 describe('PageComponent', () => {
+  const mockNodes = JSON.stringify({ node: 'mockNode' });
+
   let component: TestComponent;
   let store: Store<AppState>;
   let fixture: ComponentFixture<TestComponent>;
   let documentListService: DocumentListService;
+  let userPreferencesService: jasmine.SpyObj<UserPreferencesService>;
+  let navigationHistoryService: { shouldReturnLastSelection: jasmine.Spy };
+  let searchAiService: SearchAiService;
+  let router: { url: string };
 
   beforeEach(() => {
+    userPreferencesService = jasmine.createSpyObj('UserPreferencesService', ['get', 'set']);
+    navigationHistoryService = jasmine.createSpyObj('NavigationHistoryService', ['shouldReturnLastSelection']);
+    router = { url: '/some-url' };
+    searchAiService = jasmine.createSpyObj('SearchAiService', ['updateSearchAiInputState', 'toggleSearchAiInput$']);
+    searchAiService.toggleSearchAiInput$ = of({ active: false });
+
     TestBed.configureTestingModule({
       imports: [LibTestingModule, AuthModule.forRoot(), MatDialogModule],
       declarations: [TestComponent],
       providers: [
         { provide: DocumentBasePageService, useClass: DocumentBasePageServiceMock },
         { provide: DiscoveryApiService, useValue: discoveryApiServiceMockValue },
-        AppExtensionService
+        AppExtensionService,
+        {
+          provide: UserPreferencesService,
+          useValue: userPreferencesService
+        },
+        {
+          provide: NavigationHistoryService,
+          useValue: navigationHistoryService
+        },
+        {
+          provide: Router,
+          useValue: router
+        },
+        { provide: SearchAiService, useValue: searchAiService }
       ]
     });
 
     store = TestBed.inject(Store);
+    searchAiService = TestBed.inject(SearchAiService);
     documentListService = TestBed.inject(DocumentListService);
     fixture = TestBed.createComponent(TestComponent);
     component = fixture.componentInstance;
@@ -189,6 +217,81 @@ describe('PageComponent', () => {
       component.showPreview(linkNode);
       const id = linkNode.entry.properties['cm:destination'];
       expect(store.dispatch).toHaveBeenCalledWith(new ViewNodeAction(id));
+    });
+  });
+
+  describe('setKnowledgeRetrievalState()', () => {
+    it('should set selectedNodesState when nodes exist and last selection is valid', () => {
+      userPreferencesService.get.and.returnValue(mockNodes);
+      navigationHistoryService.shouldReturnLastSelection.and.returnValue(true);
+
+      component.ngOnInit();
+
+      expect(component.selectedNodesState).toEqual(JSON.parse(mockNodes));
+    });
+
+    it('should not set selectedNodesState when nodes do not exist', () => {
+      userPreferencesService.get.and.returnValue(null);
+      navigationHistoryService.shouldReturnLastSelection.and.returnValue(true);
+
+      component.ngOnInit();
+
+      expect(component.selectedNodesState).toBeUndefined();
+    });
+
+    it('should not set selectedNodesState when shouldReturnLastSelection returns false', () => {
+      userPreferencesService.get.and.returnValue(mockNodes);
+      navigationHistoryService.shouldReturnLastSelection.and.returnValue(false);
+
+      component.ngOnInit();
+
+      expect(component.selectedNodesState).toBeUndefined();
+    });
+
+    it('should update searchAiInputState when selectedNodesState is undefined and url does not start with /knowledge-retrieval', () => {
+      userPreferencesService.get.and.returnValue(mockNodes);
+      navigationHistoryService.shouldReturnLastSelection.and.returnValue(false);
+      router.url = '/some-other-url';
+
+      component.ngOnInit();
+
+      expect(searchAiService.updateSearchAiInputState).toHaveBeenCalledWith({ active: false });
+    });
+
+    it('should not update searchAiInputState when url starts with /knowledge-retrieval', () => {
+      userPreferencesService.get.and.returnValue(undefined);
+      navigationHistoryService.shouldReturnLastSelection.and.returnValue(true);
+      router.url = '/knowledge-retrieval';
+
+      component.ngOnInit();
+
+      expect(searchAiService.updateSearchAiInputState).not.toHaveBeenCalled();
+    });
+
+    it('should not update searchAiInputState when selectedNodesState in not null', () => {
+      userPreferencesService.get.and.returnValue(mockNodes);
+      navigationHistoryService.shouldReturnLastSelection.and.returnValue(true);
+      router.url = '/other';
+
+      component.ngOnInit();
+
+      expect(searchAiService.updateSearchAiInputState).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('SearchAiService toggleSearchAiInput$ event handler', () => {
+    it('should set searchAiInputState', () => {
+      const initialSearchAiInputState = component.searchAiInputState;
+      const searchAiInputState: SearchAiInputState = {
+        active: true
+      };
+      searchAiService.toggleSearchAiInput$ = of(searchAiInputState);
+
+      component.ngOnInit();
+      expect(component.searchAiInputState).toBe(searchAiInputState);
+      expect(initialSearchAiInputState).toEqual({
+        active: false
+      });
     });
   });
 });

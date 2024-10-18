@@ -72,7 +72,7 @@ describe('RuleActionUiComponent', () => {
     loader = TestbedHarnessEnvironment.loader(fixture);
   });
 
-  it('should clear empty parameters', async () => {
+  it('should not accept empty parameters', async () => {
     component.actionDefinitions = actionsTransformedListMock;
     component.parameterConstraints = dummyConstraints;
     fixture.detectChanges();
@@ -87,7 +87,7 @@ describe('RuleActionUiComponent', () => {
     setInputValue('');
     await fixture.whenStable();
 
-    expect(component.parameters).toEqual({ 'mock-action-parameter-boolean': false });
+    expect(component.parameters).toEqual({ 'mock-action-parameter-boolean': false, 'mock-action-parameter-text': 'test' });
   });
 
   it('should populate the dropdown selector with the action definitions', async () => {

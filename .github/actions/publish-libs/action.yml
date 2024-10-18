@@ -36,7 +36,7 @@ runs:
       shell: bash
       run: npm ci && npx nx run-many --target=build
 
-    - uses: actions/setup-node@v3
+    - uses: actions/setup-node@v4
       name: setup GH registry
       with:
         node-version-file: '.nvmrc'
@@ -51,7 +51,7 @@ runs:
         TAG: ${{ inputs.npm_tag }}
         DRY_RUN: ${{ inputs.dry-run }}
 
-    - uses: actions/setup-node@v3
+    - uses: actions/setup-node@v4
       name: setup NPM registry
       with:
         node-version-file: '.nvmrc'

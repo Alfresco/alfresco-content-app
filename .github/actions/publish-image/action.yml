@@ -28,7 +28,7 @@ runs:
       uses: docker/setup-buildx-action@v3
 
     - name: Login to Docker Registry
-      uses: docker/login-action@v2
+      uses: docker/login-action@v3
       with:
         registry: ${{ inputs.registry }}
         username: ${{ inputs.username }}
@@ -41,7 +41,7 @@ runs:
         npm run build.release
 
     - name: Build and push multi-platform image
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@v6
       with:
         context: .
         platforms: linux/amd64,linux/arm64

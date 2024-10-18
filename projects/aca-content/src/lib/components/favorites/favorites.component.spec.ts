@@ -31,6 +31,7 @@ import { AppTestingModule } from '../../testing/app-testing.module';
 import { AppService, ContentApiService } from '@alfresco/aca-shared';
 import { getTitleElementText } from '../../testing/test-utils';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { testHeader } from '../../testing/document-base-page-utils';
 
 describe('FavoritesComponent', () => {
   let fixture: ComponentFixture<FavoritesComponent>;
@@ -140,4 +141,6 @@ describe('FavoritesComponent', () => {
     fixture.detectChanges();
     expect(getTitleElementText(fixture)).toBe('APP.HEADER.SELECTED');
   });
+
+  testHeader(FavoritesComponent);
 });
