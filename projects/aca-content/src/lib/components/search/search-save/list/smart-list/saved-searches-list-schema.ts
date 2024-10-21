@@ -22,13 +22,21 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * Public API Surface of aca-content
- */
-
-export * from './lib/aca-content.module';
-export * from './lib/aca-content.routes';
-export * from './lib/extensions/core.extensions.module';
-export * from './lib/store/initial-state';
-export * from './lib/services/content-url.service';
-export * from './lib/utils/aca-search-utils';
+export const savedSearchesListSchema = {
+  default: [
+    {
+      type: 'text',
+      key: 'name',
+      title: 'APP.BROWSE.SEARCH.SAVE_SEARCH.LIST.NAME',
+      sortable: false,
+      draggable: false
+    },
+    {
+      type: 'text',
+      key: 'description',
+      title: 'APP.BROWSE.SEARCH.SAVE_SEARCH.LIST.DESCRIPTION',
+      sortable: false,
+      draggable: false
+    }
+  ]
+};

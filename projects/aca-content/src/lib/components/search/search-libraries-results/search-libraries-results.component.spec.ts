@@ -27,19 +27,26 @@ import { AppTestingModule } from '../../../testing/app-testing.module';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { SearchLibrariesResultsComponent } from './search-libraries-results.component';
 import { SearchLibrariesQueryBuilderService } from './search-libraries-query-builder.service';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, of, Subject } from 'rxjs';
 import { AppService } from '@alfresco/aca-shared';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ActivatedRoute } from '@angular/router';
+import { Buffer } from 'buffer';
 
 describe('SearchLibrariesResultsComponent', () => {
   let component: SearchLibrariesResultsComponent;
   let fixture: ComponentFixture<SearchLibrariesResultsComponent>;
+  let route: ActivatedRoute;
 
   const emptyPage = { list: { pagination: { totalItems: 0 }, entries: [] } };
   const appServiceMock = {
     appNavNarMode$: new BehaviorSubject('collapsed'),
     toggleAppNavBar$: new Subject(),
     setAppNavbarMode: jasmine.createSpy('setAppNavbarMode')
+  };
+
+  const encodeQuery = (query: any): string => {
+    return Buffer.from(JSON.stringify(query)).toString('base64');
   };
 
   beforeEach(() => {
@@ -56,6 +63,7 @@ describe('SearchLibrariesResultsComponent', () => {
       ]
     });
 
+    route = TestBed.inject(ActivatedRoute);
     fixture = TestBed.createComponent(SearchLibrariesResultsComponent);
     component = fixture.componentInstance;
   });
@@ -71,5 +79,15 @@ describe('SearchLibrariesResultsComponent', () => {
     component.ngOnInit();
 
     expect(appServiceMock.setAppNavbarMode).toHaveBeenCalledWith('collapsed');
+  });
+
+  it('should extract searched word from query params', (done) => {
+    route.queryParams = of({ q: encodeQuery({ userQuery: 'cm:name:"test*"' }) });
+    route.queryParams.subscribe(() => {
+      fixture.detectChanges();
+      expect(component.searchedWord).toBe('test');
+      done();
+    });
+    fixture.detectChanges();
   });
 });

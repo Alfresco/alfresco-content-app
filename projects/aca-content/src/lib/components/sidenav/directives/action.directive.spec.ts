@@ -23,34 +23,46 @@
  */
 
 import { ActionDirective } from './action.directive';
+import { provideRouter, Router } from '@angular/router';
+import { TestBed } from '@angular/core/testing';
+import { provideMockStore } from '@ngrx/store/testing';
+import { Store } from '@ngrx/store';
+import { AppStore } from '@alfresco/aca-shared/store';
 
 describe('ActionDirective', () => {
   let directive: ActionDirective;
-  const routeMock: any = {
-    navigate: jasmine.createSpy('navigate'),
-    parseUrl: () => ({
-      root: {
-        children: []
-      }
-    })
-  };
-  const storeMock: any = {
-    dispatch: jasmine.createSpy('dispatch')
-  };
+  let router: Router;
+  let store: Store<AppStore>;
 
   beforeEach(() => {
-    directive = new ActionDirective(routeMock, storeMock);
+    TestBed.configureTestingModule({
+      imports: [ActionDirective],
+      providers: [provideRouter([]), provideMockStore()]
+    });
+
+    store = TestBed.inject(Store);
+    router = TestBed.inject(Router);
+    directive = new ActionDirective(router, store);
   });
 
   it('should navigate if action is route', () => {
+    spyOn(router, 'navigate');
     directive.action = { url: 'dummy' };
     directive.onClick();
-    expect(routeMock.navigate).toHaveBeenCalled();
+    expect(router.navigate).toHaveBeenCalledWith(['dummy', {}], { queryParams: {} });
+  });
+
+  it('should get query params correctly from URL', () => {
+    spyOn(router, 'navigate');
+    directive.action = { url: 'dummy?q=12345' };
+    directive.onClick();
+    expect(router.navigate).toHaveBeenCalledWith(['dummy', {}], { queryParams: { q: '12345' } });
   });
 
   it('should dispatch store action', () => {
+    spyOn(store, 'dispatch');
     directive.action = { click: {} };
     directive.onClick();
-    expect(storeMock.dispatch).toHaveBeenCalled();
+    expect(store.dispatch).toHaveBeenCalled();
   });
 });

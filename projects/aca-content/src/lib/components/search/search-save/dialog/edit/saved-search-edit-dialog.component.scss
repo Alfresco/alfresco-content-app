@@ -1,0 +1,18 @@
+.aca-saved-search-edit-dialog {
+  .aca-saved-search-edit-dialog__form-field {
+    width: 100%;
+  }
+
+  .aca-saved-search-edit-dialog__header {
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    justify-content: space-between;
+  }
+
+  .aca-saved-search-edit-dialog__title {
+    font-size: large;
+    font-weight: 200;
+    margin: 0;
+  }
+}

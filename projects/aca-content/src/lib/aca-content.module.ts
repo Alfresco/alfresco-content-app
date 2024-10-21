@@ -25,7 +25,7 @@
 import { HammerModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TRANSLATION_PROVIDER, AuthGuardEcm, LanguagePickerComponent, NotificationHistoryComponent } from '@alfresco/adf-core';
+import { AuthGuardEcm, LanguagePickerComponent, NotificationHistoryComponent, TRANSLATION_PROVIDER } from '@alfresco/adf-core';
 import {
   ContentModule,
   ContentVersionService,
@@ -71,13 +71,14 @@ import { TagsColumnComponent } from './components/dl-custom-components/tags-colu
 import { UserInfoComponent } from './components/common/user-info/user-info.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { ContentManagementService } from './services/content-management.service';
-import { ShellLayoutComponent, SHELL_NAVBAR_MIN_WIDTH } from '@alfresco/adf-core/shell';
+import { SHELL_NAVBAR_MIN_WIDTH, ShellLayoutComponent } from '@alfresco/adf-core/shell';
 import { UserMenuComponent } from './components/sidenav/user-menu/user-menu.component';
 import { ContextMenuComponent } from './components/context-menu/context-menu.component';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { SearchResultsRowComponent } from './components/search/search-results-row/search-results-row.component';
 import { BulkActionsDropdownComponent } from './components/bulk-actions-dropdown/bulk-actions-dropdown.component';
 import { AgentsButtonComponent } from './components/knowledge-retrieval/search-ai/agents-button/agents-button.component';
+import { SaveSearchSidenavComponent } from './components/search/search-save/sidenav/save-search-sidenav.component';
 
 @NgModule({
   imports: [
@@ -157,7 +158,8 @@ export class ContentServiceExtensionModule {
       'app.user': UserInfoComponent,
       'app.notification-center': NotificationHistoryComponent,
       'app.user.menu': UserMenuComponent,
-      'app.search.columns.name': SearchResultsRowComponent
+      'app.search.columns.name': SearchResultsRowComponent,
+      'app.search.navbar': SaveSearchSidenavComponent
     });
 
     extensions.setEvaluators({

@@ -22,13 +22,27 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * Public API Surface of aca-content
- */
+import { inject, Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { SavedSearch } from '@alfresco/adf-content-services';
+import { SavedSearchDeleteDialogComponent } from '../dialog/delete/saved-search-delete-dialog.component';
+import { SavedSearchEditDialogComponent } from '../dialog/edit/saved-search-edit-dialog.component';
 
-export * from './lib/aca-content.module';
-export * from './lib/aca-content.routes';
-export * from './lib/extensions/core.extensions.module';
-export * from './lib/store/initial-state';
-export * from './lib/services/content-url.service';
-export * from './lib/utils/aca-search-utils';
+@Injectable({ providedIn: 'root' })
+export class SavedSearchesListUiService {
+  private dialog = inject(MatDialog);
+
+  openEditSavedSearch(savedSearch: SavedSearch): void {
+    this.dialog.open(SavedSearchEditDialogComponent, {
+      data: savedSearch,
+      width: '600px'
+    });
+  }
+
+  confirmDeleteSavedSearch(savedSearch: SavedSearch): void {
+    this.dialog.open(SavedSearchDeleteDialogComponent, {
+      data: savedSearch,
+      minWidth: '500px'
+    });
+  }
+}

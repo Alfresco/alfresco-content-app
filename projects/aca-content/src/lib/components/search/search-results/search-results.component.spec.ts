@@ -30,10 +30,11 @@ import { NavigateToFolder } from '@alfresco/aca-shared/store';
 import { Pagination, SearchRequest } from '@alfresco/js-api';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, of, Subject } from 'rxjs';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { AppService } from '@alfresco/aca-shared';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { Buffer } from 'buffer';
 import { testHeader } from '../../../testing/document-base-page-utils';
 
 describe('SearchComponent', () => {
@@ -44,9 +45,14 @@ describe('SearchComponent', () => {
   let queryBuilder: SearchQueryBuilderService;
   let translate: TranslationService;
   let router: Router;
+  let route: ActivatedRoute;
   const searchRequest = {} as SearchRequest;
   let params: BehaviorSubject<any>;
   let showErrorSpy: jasmine.Spy;
+
+  const encodeQuery = (query: any): string => {
+    return Buffer.from(JSON.stringify(query)).toString('base64');
+  };
 
   beforeEach(() => {
     params = new BehaviorSubject({ q: 'TYPE: "cm:folder" AND %28=cm: name: email OR cm: name: budget%29' });
@@ -80,6 +86,8 @@ describe('SearchComponent', () => {
     queryBuilder = TestBed.inject(SearchQueryBuilderService);
     translate = TestBed.inject(TranslationService);
     router = TestBed.inject(Router);
+    route = TestBed.inject(ActivatedRoute);
+    route.queryParams = of({});
 
     const notificationService = TestBed.inject(NotificationService);
     showErrorSpy = spyOn(notificationService, 'showError');
@@ -150,79 +158,6 @@ describe('SearchComponent', () => {
     expect(showErrorSpy).toHaveBeenCalledWith('Generic Error');
   }));
 
-  it('should decode encoded URI', () => {
-    expect(queryBuilder.userQuery).toEqual('(TYPE: "cm:folder" AND (=cm: name: email OR cm: name: budget))');
-  });
-
-  it('should return null if formatting invalid query', () => {
-    expect(component.formatSearchQuery(null)).toBeNull();
-    expect(component.formatSearchQuery('')).toBeNull();
-  });
-
-  it('should use original user input if text contains colons', () => {
-    const query = 'TEXT:test OR TYPE:folder';
-    expect(component.formatSearchQuery(query)).toBe(query);
-  });
-
-  it('should be able to search if search input contains https url', () => {
-    const query = component.formatSearchQuery('https://alfresco.com');
-    expect(query).toBe(`(cm:name:"https://alfresco.com*")`);
-  });
-
-  it('should be able to search if search input contains http url', () => {
-    const query = component.formatSearchQuery('http://alfresco.com');
-    expect(query).toBe(`(cm:name:"http://alfresco.com*")`);
-  });
-
-  it('should use original user input if text contains quotes', () => {
-    const query = `"Hello World"`;
-    expect(component.formatSearchQuery(query)).toBe(query);
-  });
-
-  it('should format user input according to the configuration fields', () => {
-    const query = component.formatSearchQuery('hello', ['cm:name', 'cm:title']);
-    expect(query).toBe(`(cm:name:"hello*" OR cm:title:"hello*")`);
-  });
-
-  it('should format user input as cm:name if configuration not provided', () => {
-    const query = component.formatSearchQuery('hello');
-    expect(query).toBe(`(cm:name:"hello*")`);
-  });
-
-  it('should use AND operator when conjunction has no operators', () => {
-    const query = component.formatSearchQuery('big yellow banana', ['cm:name']);
-
-    expect(query).toBe(`(cm:name:"big*") AND (cm:name:"yellow*") AND (cm:name:"banana*")`);
-  });
-
-  it('should support conjunctions with AND operator', () => {
-    const query = component.formatSearchQuery('big AND yellow AND banana', ['cm:name', 'cm:title']);
-
-    expect(query).toBe(
-      `(cm:name:"big*" OR cm:title:"big*") AND (cm:name:"yellow*" OR cm:title:"yellow*") AND (cm:name:"banana*" OR cm:title:"banana*")`
-    );
-  });
-
-  it('should support conjunctions with OR operator', () => {
-    const query = component.formatSearchQuery('big OR yellow OR banana', ['cm:name', 'cm:title']);
-
-    expect(query).toBe(
-      `(cm:name:"big*" OR cm:title:"big*") OR (cm:name:"yellow*" OR cm:title:"yellow*") OR (cm:name:"banana*" OR cm:title:"banana*")`
-    );
-  });
-
-  it('should support exact term matching with default fields', () => {
-    const query = component.formatSearchQuery('=orange', ['cm:name', 'cm:title']);
-
-    expect(query).toBe(`(=cm:name:"orange" OR =cm:title:"orange")`);
-  });
-
-  it('should support exact term matching with operators', () => {
-    const query = component.formatSearchQuery('=test1.pdf or =test2.pdf', ['cm:name', 'cm:title']);
-
-    expect(query).toBe(`(=cm:name:"test1.pdf" OR =cm:title:"test1.pdf") or (=cm:name:"test2.pdf" OR =cm:title:"test2.pdf")`);
-  });
-
   it('should navigate to folder on double click', () => {
     const node: any = {
       entry: {
@@ -268,17 +203,26 @@ describe('SearchComponent', () => {
     expect(queryBuilder.update).toHaveBeenCalled();
   });
 
-  it('should update the user query whenever param changed', () => {
-    params.next({ q: '=orange' });
-    expect(queryBuilder.userQuery).toBe(`((=cm:name:"orange"))`);
-    expect(queryBuilder.update).toHaveBeenCalled();
+  it('should update the user query, populate filters state and execute query whenever param changed', (done) => {
+    spyOn(queryBuilder.populateFilters, 'next');
+    spyOn(queryBuilder, 'execute');
+    const query = { userQuery: 'cm:tag:"orange*"', filterProp: { prop: 'test' } };
+    route.queryParams = of({ q: encodeQuery(query) });
+    component.ngOnInit();
+    route.queryParams.subscribe(() => {
+      expect(component.searchedWord).toBe(`orange`);
+      expect(queryBuilder.userQuery).toBe(`(cm:tag:"orange*")`);
+      expect(queryBuilder.populateFilters.next).toHaveBeenCalledWith({ userQuery: 'cm:tag:"orange*"', filterProp: { prop: 'test' } });
+      queryBuilder.filterLoaded.next();
+      fixture.detectChanges();
+      done();
+    });
   });
 
   it('should update the user query whenever configuration changed', () => {
-    params.next({ q: '=orange' });
+    component.searchedWord = 'orange';
     queryBuilder.configUpdated.next({ 'app:fields': ['cm:tag'] } as any);
-    expect(queryBuilder.userQuery).toBe(`((=cm:tag:"orange"))`);
-    expect(queryBuilder.update).toHaveBeenCalled();
+    expect(queryBuilder.userQuery).toBe(`((cm:tag:"orange*"))`);
   });
 
   testHeader(SearchResultsComponent, false);
