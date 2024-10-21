@@ -1293,7 +1293,7 @@
         {
           "id": "app.sidebar.versions",
           "order": 300,
-          "disabled": false,
+          "disabled": true,
           "title": "APP.INFO_DRAWER.TABS.VERSIONS",
           "component": "app.components.tabs.versions",
           "rules": {
