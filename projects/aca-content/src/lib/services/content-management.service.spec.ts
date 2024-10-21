@@ -49,7 +49,7 @@ import {
 import { map } from 'rxjs/operators';
 import { NodeEffects } from '../store/effects/node.effects';
 import { AppTestingModule } from '../testing/app-testing.module';
-import { AppHookService, ContentApiService } from '@alfresco/aca-shared';
+import { AppHookService, AppSettingsService, ContentApiService } from '@alfresco/aca-shared';
 import { Store } from '@ngrx/store';
 import { ContentManagementService } from './content-management.service';
 import { NodeActionsService } from './node-actions.service';
@@ -61,6 +61,7 @@ import {
   DocumentListService,
   FileModel,
   NewVersionUploaderDataAction,
+  NewVersionUploaderDialogData,
   NewVersionUploaderService,
   NodeAspectService,
   NodesApiService,
@@ -81,6 +82,7 @@ describe('ContentManagementService', () => {
   let nodeAspectService: NodeAspectService;
   let appHookService: AppHookService;
   let newVersionUploaderService: NewVersionUploaderService;
+  let appSettingsService: AppSettingsService;
   let showErrorSpy: jasmine.Spy;
   let showInfoSpy: jasmine.Spy;
   let showWarningSpy: jasmine.Spy;
@@ -105,6 +107,7 @@ describe('ContentManagementService', () => {
     nodeAspectService = TestBed.inject(NodeAspectService);
     appHookService = TestBed.inject(AppHookService);
     newVersionUploaderService = TestBed.inject(NewVersionUploaderService);
+    appSettingsService = TestBed.inject(AppSettingsService);
 
     dialog = TestBed.inject(MatDialog);
   });
@@ -1555,6 +1558,12 @@ describe('ContentManagementService', () => {
     let fakeNodeIsNotFile;
     let spyOnOpenUploadNewVersionDialog: jasmine.Spy;
     let spyOnDispatch: jasmine.Spy;
+    let uploadAllowCommentsSpy: jasmine.SpyAnd<() => boolean>;
+    let uploadAllowDownloadSpy: jasmine.SpyAnd<() => boolean>;
+    let versionManagerAllowViewVersionsSpy: jasmine.SpyAnd<() => boolean>;
+    let versionManagerShowActionsSpy: jasmine.SpyAnd<() => boolean>;
+    let versionManagerAllowVersionDeleteSpy: jasmine.SpyAnd<() => boolean>;
+    let dialogData: NewVersionUploaderDialogData;
 
     beforeEach(() => {
       fakeNodeIsFile = { entry: { id: '1', name: 'name1', isFile: true } };
@@ -1562,6 +1571,21 @@ describe('ContentManagementService', () => {
       const viewVersionData: ViewVersion = { action: NewVersionUploaderDataAction.view, versionId: '1.0' };
       spyOnOpenUploadNewVersionDialog = spyOn(newVersionUploaderService, 'openUploadNewVersionDialog').and.returnValue(of(viewVersionData));
       spyOnDispatch = spyOn(store, 'dispatch');
+      dialogData = {
+        node: fakeNodeIsFile.entry,
+        showVersionsOnly: true,
+        title: 'VERSION.DIALOG.TITLE',
+        allowDownload: true,
+        showComments: true,
+        allowViewVersions: true,
+        showActions: true,
+        allowVersionDelete: true
+      };
+      uploadAllowCommentsSpy = spyOnProperty(appSettingsService, 'uploadAllowComments').and;
+      uploadAllowDownloadSpy = spyOnProperty(appSettingsService, 'uploadAllowDownload').and;
+      versionManagerAllowViewVersionsSpy = spyOnProperty(appSettingsService, 'versionManagerAllowViewVersions').and;
+      versionManagerShowActionsSpy = spyOnProperty(appSettingsService, 'versionManagerShowActions').and;
+      versionManagerAllowVersionDeleteSpy = spyOnProperty(appSettingsService, 'versionManagerAllowVersionDelete').and;
     });
 
     it('should call openUploadNewVersionDialog', () => {
@@ -1570,15 +1594,76 @@ describe('ContentManagementService', () => {
     });
 
     it('should call openUploadNewVersionDialog passing dialog data', () => {
-      const expectedArgument = {
-        node: fakeNodeIsFile.entry,
-        showVersionsOnly: true,
-        title: 'VERSION.DIALOG.TITLE'
-      };
+      uploadAllowDownloadSpy.returnValue(true);
+      versionManagerAllowViewVersionsSpy.returnValue(true);
+      versionManagerShowActionsSpy.returnValue(true);
+      versionManagerAllowVersionDeleteSpy.returnValue(true);
+      uploadAllowCommentsSpy.returnValue(true);
       const elementToFocusSelector = 'some-selector';
+
       contentManagementService.manageVersions(fakeNodeIsFile, elementToFocusSelector);
-      expect(spyOnOpenUploadNewVersionDialog['calls'].argsFor(0)[0]).toEqual(expectedArgument);
+      expect(spyOnOpenUploadNewVersionDialog['calls'].argsFor(0)[0]).toEqual(dialogData);
       expect(spyOnOpenUploadNewVersionDialog['calls'].argsFor(0)[2]).toEqual(elementToFocusSelector);
+    });
+
+    it('should call openUploadNewVersionDialog with allowDownload assigned to false in passed data', () => {
+      uploadAllowDownloadSpy.returnValue(false);
+      versionManagerAllowViewVersionsSpy.returnValue(true);
+      versionManagerShowActionsSpy.returnValue(true);
+      versionManagerAllowVersionDeleteSpy.returnValue(true);
+      uploadAllowCommentsSpy.returnValue(true);
+      dialogData.allowDownload = false;
+
+      contentManagementService.manageVersions(fakeNodeIsFile);
+      expect(spyOnOpenUploadNewVersionDialog['calls'].argsFor(0)[0]).toEqual(dialogData);
+    });
+
+    it('should call openUploadNewVersionDialog with allowViewVersions assigned to false in passed data', () => {
+      uploadAllowDownloadSpy.returnValue(true);
+      versionManagerAllowViewVersionsSpy.returnValue(false);
+      versionManagerShowActionsSpy.returnValue(true);
+      versionManagerAllowVersionDeleteSpy.returnValue(true);
+      uploadAllowCommentsSpy.returnValue(true);
+      dialogData.allowViewVersions = false;
+
+      contentManagementService.manageVersions(fakeNodeIsFile);
+      expect(spyOnOpenUploadNewVersionDialog['calls'].argsFor(0)[0]).toEqual(dialogData);
+    });
+
+    it('should call openUploadNewVersionDialog with showActions assigned to false in passed data', () => {
+      uploadAllowDownloadSpy.returnValue(true);
+      versionManagerAllowViewVersionsSpy.returnValue(true);
+      versionManagerShowActionsSpy.returnValue(false);
+      versionManagerAllowVersionDeleteSpy.returnValue(true);
+      uploadAllowCommentsSpy.returnValue(true);
+      dialogData.showActions = false;
+
+      contentManagementService.manageVersions(fakeNodeIsFile);
+      expect(spyOnOpenUploadNewVersionDialog['calls'].argsFor(0)[0]).toEqual(dialogData);
+    });
+
+    it('should call openUploadNewVersionDialog with allowVersionDelete assigned to false in passed data', () => {
+      uploadAllowDownloadSpy.returnValue(true);
+      versionManagerAllowViewVersionsSpy.returnValue(true);
+      versionManagerShowActionsSpy.returnValue(true);
+      versionManagerAllowVersionDeleteSpy.returnValue(false);
+      uploadAllowCommentsSpy.returnValue(true);
+      dialogData.allowVersionDelete = false;
+
+      contentManagementService.manageVersions(fakeNodeIsFile);
+      expect(spyOnOpenUploadNewVersionDialog['calls'].argsFor(0)[0]).toEqual(dialogData);
+    });
+
+    it('should call openUploadNewVersionDialog with showComments assigned to false in passed data', () => {
+      uploadAllowDownloadSpy.returnValue(true);
+      versionManagerAllowViewVersionsSpy.returnValue(true);
+      versionManagerShowActionsSpy.returnValue(true);
+      versionManagerAllowVersionDeleteSpy.returnValue(true);
+      uploadAllowCommentsSpy.returnValue(false);
+      dialogData.showComments = false;
+
+      contentManagementService.manageVersions(fakeNodeIsFile);
+      expect(spyOnOpenUploadNewVersionDialog['calls'].argsFor(0)[0]).toEqual(dialogData);
     });
 
     it('should dispatch RefreshPreviewAction and reload document list if dialog emit refresh action', () => {
