@@ -1558,6 +1558,7 @@ describe('ContentManagementService', () => {
     let fakeNodeIsNotFile;
     let spyOnOpenUploadNewVersionDialog: jasmine.Spy;
     let spyOnDispatch: jasmine.Spy;
+    let uploadAllowCommentsSpy: jasmine.SpyAnd<() => boolean>;
     let uploadAllowDownloadSpy: jasmine.SpyAnd<() => boolean>;
     let versionManagerAllowViewVersionsSpy: jasmine.SpyAnd<() => boolean>;
     let versionManagerShowActionsSpy: jasmine.SpyAnd<() => boolean>;
@@ -1580,6 +1581,7 @@ describe('ContentManagementService', () => {
         showActions: true,
         allowVersionDelete: true
       };
+      uploadAllowCommentsSpy = spyOnProperty(appSettingsService, 'uploadAllowComments').and;
       uploadAllowDownloadSpy = spyOnProperty(appSettingsService, 'uploadAllowDownload').and;
       versionManagerAllowViewVersionsSpy = spyOnProperty(appSettingsService, 'versionManagerAllowViewVersions').and;
       versionManagerShowActionsSpy = spyOnProperty(appSettingsService, 'versionManagerShowActions').and;
@@ -1596,6 +1598,7 @@ describe('ContentManagementService', () => {
       versionManagerAllowViewVersionsSpy.returnValue(true);
       versionManagerShowActionsSpy.returnValue(true);
       versionManagerAllowVersionDeleteSpy.returnValue(true);
+      uploadAllowCommentsSpy.returnValue(true);
       const elementToFocusSelector = 'some-selector';
 
       contentManagementService.manageVersions(fakeNodeIsFile, elementToFocusSelector);
@@ -1608,6 +1611,7 @@ describe('ContentManagementService', () => {
       versionManagerAllowViewVersionsSpy.returnValue(true);
       versionManagerShowActionsSpy.returnValue(true);
       versionManagerAllowVersionDeleteSpy.returnValue(true);
+      uploadAllowCommentsSpy.returnValue(true);
       dialogData.allowDownload = false;
 
       contentManagementService.manageVersions(fakeNodeIsFile);
@@ -1619,6 +1623,7 @@ describe('ContentManagementService', () => {
       versionManagerAllowViewVersionsSpy.returnValue(false);
       versionManagerShowActionsSpy.returnValue(true);
       versionManagerAllowVersionDeleteSpy.returnValue(true);
+      uploadAllowCommentsSpy.returnValue(true);
       dialogData.allowViewVersions = false;
 
       contentManagementService.manageVersions(fakeNodeIsFile);
@@ -1630,6 +1635,7 @@ describe('ContentManagementService', () => {
       versionManagerAllowViewVersionsSpy.returnValue(true);
       versionManagerShowActionsSpy.returnValue(false);
       versionManagerAllowVersionDeleteSpy.returnValue(true);
+      uploadAllowCommentsSpy.returnValue(true);
       dialogData.showActions = false;
 
       contentManagementService.manageVersions(fakeNodeIsFile);
@@ -1641,7 +1647,20 @@ describe('ContentManagementService', () => {
       versionManagerAllowViewVersionsSpy.returnValue(true);
       versionManagerShowActionsSpy.returnValue(true);
       versionManagerAllowVersionDeleteSpy.returnValue(false);
+      uploadAllowCommentsSpy.returnValue(true);
       dialogData.allowVersionDelete = false;
+
+      contentManagementService.manageVersions(fakeNodeIsFile);
+      expect(spyOnOpenUploadNewVersionDialog['calls'].argsFor(0)[0]).toEqual(dialogData);
+    });
+
+    it('should call openUploadNewVersionDialog with showComments assigned to false in passed data', () => {
+      uploadAllowDownloadSpy.returnValue(true);
+      versionManagerAllowViewVersionsSpy.returnValue(true);
+      versionManagerShowActionsSpy.returnValue(true);
+      versionManagerAllowVersionDeleteSpy.returnValue(true);
+      uploadAllowCommentsSpy.returnValue(false);
+      dialogData.showComments = false;
 
       contentManagementService.manageVersions(fakeNodeIsFile);
       expect(spyOnOpenUploadNewVersionDialog['calls'].argsFor(0)[0]).toEqual(dialogData);

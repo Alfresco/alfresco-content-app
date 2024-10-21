@@ -327,5 +327,12 @@
     "downloadPromptReminderDelay": 30,
     "enableFileAutoDownload": true,
     "fileAutoDownloadSizeThresholdInMB": 15
+  },
+  "adf-version-manager": {
+    "allowComments": true,
+    "allowDownload": true,
+    "allowViewVersions": true,
+    "allowVersionDelete": true,
+    "showActions": true
   }
 }
