@@ -89,7 +89,7 @@ export function collaboratorTests(userCollaborator: string, siteName: string) {
     });
 
     test('on Search Results - [C297653]', async ({ searchPage, myLibrariesPage }) => {
-      await searchPage.navigate({ remoteUrl: `#/search;q=${testData.fileSharedFav.name}` });
+      await searchPage.searchWithin(testData.fileSharedFav.name, 'filesAndFolders');
       await checkActionsAvailable(
         myLibrariesPage,
         testData.fileSharedFav.name,
@@ -131,7 +131,6 @@ export function collaboratorTests(userCollaborator: string, siteName: string) {
       });
 
       test('file opened from Search Results - [C306992]', async ({ searchPage, myLibrariesPage }) => {
-        await searchPage.navigate({ remoteUrl: `#/search;q=${testData.fileDocxSharedFav.name}` });
         await searchPage.searchWithin(testData.fileDocxSharedFav.name, 'filesAndFolders');
         await checkActionsViewerAvailable(
           myLibrariesPage,
@@ -184,7 +183,7 @@ export function filesLockedByCurrentUser(userDemoted: string, siteName?: string)
       });
 
       test('on Search Results - [C297660]', async ({ searchPage, myLibrariesPage }) => {
-        await searchPage.navigate({ remoteUrl: `#/search;q=${testData.fileLockedByUser}` });
+        await searchPage.searchWithin(testData.fileLockedByUser, 'filesAndFolders');
         await checkActionsAvailable(
           myLibrariesPage,
           testData.fileLockedByUser,
@@ -227,7 +226,7 @@ export function filesLockedByCurrentUser(userDemoted: string, siteName?: string)
       });
 
       test('file opened from Search Results - [C306993]', async ({ searchPage, myLibrariesPage }) => {
-        await searchPage.navigate({ remoteUrl: `#/search;q=${testData.fileLockedByUser}` });
+        await searchPage.searchWithin(testData.fileLockedByUser, 'filesAndFolders');
         await checkActionsViewerAvailable(
           myLibrariesPage,
           testData.fileLockedByUser,
@@ -282,7 +281,7 @@ export function filesLockedByOtherUser(userManager: string, siteName?: string) {
     });
 
     test('on Search Results - [C297667]', async ({ searchPage, myLibrariesPage }) => {
-      await searchPage.navigate({ remoteUrl: `#/search;q=${testData.fileLockedByUser}` });
+      await searchPage.searchWithin(testData.fileLockedByUser, 'filesAndFolders');
       await checkActionsAvailable(
         myLibrariesPage,
         testData.fileLockedByUser,
@@ -325,7 +324,7 @@ export function filesLockedByOtherUser(userManager: string, siteName?: string) {
 
       // TODO: add 'Move' and 'Delete' when ACA-2319 is fixed
       test('file opened from Search Results - [C306994]', async ({ searchPage, myLibrariesPage }) => {
-        await searchPage.navigate({ remoteUrl: `#/search;q=${testData.fileLockedByUser}` });
+        await searchPage.searchWithin(testData.fileLockedByUser, 'filesAndFolders');
         await checkActionsViewerAvailable(
           myLibrariesPage,
           testData.fileLockedByUser,
