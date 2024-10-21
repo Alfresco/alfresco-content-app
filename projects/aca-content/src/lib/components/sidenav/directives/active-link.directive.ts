@@ -22,8 +22,8 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Directive, OnInit, Input, ElementRef, Renderer2, ContentChildren, QueryList, AfterContentInit, Optional } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { AfterContentInit, ContentChildren, Directive, ElementRef, Input, OnInit, Optional, QueryList, Renderer2 } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { filter, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { ActionDirective } from './action.directive';
