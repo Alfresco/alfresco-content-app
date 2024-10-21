@@ -570,7 +570,12 @@ export class ContentManagementService {
       const newVersionUploaderDialogData: NewVersionUploaderDialogData = {
         node,
         showVersionsOnly: true,
-        title: 'VERSION.DIALOG.TITLE'
+        title: 'VERSION.DIALOG.TITLE',
+        allowDownload: this.appSettingsService.uploadAllowDownload,
+        showComments: this.appSettingsService.uploadAllowComments,
+        showActions: this.appSettingsService.versionManagerShowActions,
+        allowViewVersions: this.appSettingsService.versionManagerAllowViewVersions,
+        allowVersionDelete: this.appSettingsService.versionManagerAllowVersionDelete
       };
       this.newVersionUploaderService
         .openUploadNewVersionDialog(newVersionUploaderDialogData, { width: '630px', role: 'dialog' }, focusedElementOnCloseSelector)

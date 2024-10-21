@@ -21,3 +21,6 @@ For more information, please check also the [Content Metadata Component](https:/
 ## Comments tab
 
 The Comments tab displays all comments made on the selected node in the respoistory by using the [Comments Component](https://www.alfresco.com/abn/adf/core/comments.component/).  Users can post new comments that will be displayed immediately.
+
+## Versions tab
+Versions tab displays all versions of the selected node.
