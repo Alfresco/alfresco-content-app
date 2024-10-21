@@ -218,7 +218,7 @@ test.describe('Library actions ', () => {
       expect(await libraryMenu.isMenuItemVisible(removeFavoriteButton)).toBe(true);
       await libraryMenu.clickMenuItem(removeFavoriteButton);
       await myLibrariesHeader.clickMoreActions();
-      expect(await libraryMenu.isMenuItemVisible(favoriteButton)).toBe(false);
+      expect(await libraryMenu.isMenuItemVisible(favoriteButton)).toBe(true);
     });
 
     test('[C289988] Delete a library from My Libraries', async ({ trashPage }) => {
