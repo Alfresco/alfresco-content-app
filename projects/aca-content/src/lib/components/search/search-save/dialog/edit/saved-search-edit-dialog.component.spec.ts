@@ -82,14 +82,14 @@ describe('SaveSearchEditDialogComponent', () => {
   it('should save search, show snackbar message and close modal if form is valid', fakeAsync(() => () => {
     spyOn(savedSearchesService, 'editSavedSearch').and.callThrough();
     setFormValuesAndSubmit();
-    expect(store.dispatch).toHaveBeenCalledWith(new SnackbarInfoAction('APP.BROWSE.SEARCH.SAVE_SEARCH.EDIT_DIALOG.ERROR_MESSAGE'));
+    expect(store.dispatch).toHaveBeenCalledWith(new SnackbarInfoAction('APP.BROWSE.SEARCH.SAVE_SEARCH.EDIT_DIALOG.SUCCESS_MESSAGE'));
     expect(dialogRef.close).toHaveBeenCalled();
   }));
 
   it('should show snackbar error if there is save error', fakeAsync(() => () => {
     spyOn(savedSearchesService, 'editSavedSearch').and.throwError('');
     setFormValuesAndSubmit();
-    expect(store.dispatch).toHaveBeenCalledWith(new SnackbarErrorAction('APP.BROWSE.SEARCH.SAVE_SEARCH.EDIT_DIALOG.SUCCESS_MESSAGE'));
+    expect(store.dispatch).toHaveBeenCalledWith(new SnackbarErrorAction('APP.BROWSE.SEARCH.SAVE_SEARCH.EDIT_DIALOG.ERROR_MESSAGE'));
     expect(dialogRef.close).not.toHaveBeenCalled();
   }));
 

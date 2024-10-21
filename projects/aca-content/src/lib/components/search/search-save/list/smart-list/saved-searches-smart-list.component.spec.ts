@@ -69,7 +69,7 @@ describe('SavedSearchesSmartListComponent', () => {
     expect(listComponent).toBeDefined();
   });
 
-  it('should show the no content template when no users are found', async () => {
+  it('should show the no content template when no saved searches are found', async () => {
     const mockSavedSearches: SavedSearch[] = [];
     fakeSavedSearches$.next(mockSavedSearches);
     fixture.detectChanges();
@@ -78,7 +78,7 @@ describe('SavedSearchesSmartListComponent', () => {
     expect(emptyContent).toBeDefined();
   });
 
-  it('should show the spinner while user list is loading', async () => {
+  it('should show the spinner while saved searches is loading', async () => {
     fixture.detectChanges();
     const matSpinnerElement = fixture.debugElement.query(By.css(`[data-automation-id="'saved-search-list-spinner'"]`));
 

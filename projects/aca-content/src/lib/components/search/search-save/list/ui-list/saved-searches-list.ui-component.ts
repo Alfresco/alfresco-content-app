@@ -117,6 +117,7 @@ export class SavedSearchesListUiComponent extends DataTableSchema implements Aft
         break;
       case this.copyToClipboardUrlOptionKey:
         this.copyToClipboard(savedSearchData);
+        break;
     }
   }
 

@@ -3,15 +3,15 @@
   <button mat-icon-button mat-dialog-close><mat-icon>close</mat-icon></button>
 </div>
 <mat-dialog-content>
-<p>{{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.DELETE_DIALOG.CONTENT' | translate }}</p>
+  <p>{{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.DELETE_DIALOG.CONTENT' | translate }}</p>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button
           mat-dialog-close
-          id="aca-save-search-delete-dialog-cancel-button">{{ 'CANCEL' | uppercase | translate }}</button>
+          id="aca-save-search-delete-dialog-cancel-button">{{ 'CANCEL' | titlecase | translate }}</button>
   <button mat-flat-button
           id="aca-save-search-delete-dialog-submit-button"
           color="primary"
           [disabled]="isLoading"
-          (click)="onSubmit()">{{ 'DELETE' | uppercase | translate }}</button>
+          (click)="onSubmit()">{{ 'DELETE' | titlecase | translate }}</button>
 </mat-dialog-actions>
