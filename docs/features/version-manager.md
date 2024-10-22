@@ -4,9 +4,9 @@ Title: Version Manager
 
 # Version Manager
 
-The versions of a file can be viewed and managed by using the [Version Manager Component](https://www.alfresco.com/abn/adf/content-services/version-manager.component/).
+The versions of a file can be viewed and managed by using the [Version Manager Component](https://github.com/Alfresco/alfresco-ng2-components/blob/develop/docs/content-services/components/version-manager.component.md) or using dialog version of version manager [New version uploader dialog](https://github.com/Alfresco/alfresco-ng2-components/blob/develop/docs/content-services/components/new-version-uploader.dialog.md).
 
-There are 2 ways users can access the Version Manager:
+There are 3 ways users can access the Version Manager:
 
 1) From the 'Manage Versions' option of the 'More actions' menu (check [Actions and the Actions Toolbar](../features/document-list-layout#actions-and-the-actions-toolbar)):
 
@@ -16,6 +16,10 @@ There are 2 ways users can access the Version Manager:
 2) From the [Info Drawer](../features/info-drawer) (the Details right panel):
 
 ![Version Manager Inline](../images/version-manager-tab.png)
+
+3) From the context menu:
+![Version Manager Menu](../images/version-manager-context-menu.png)
+![Version Manager Dialog](../images/version-manager-dialog.png)
 
 ## Upload new version
 
