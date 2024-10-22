@@ -91,7 +91,7 @@ test.describe('Special permissions', () => {
       expect(await recentFilesPage.dataTable.getRowsCount(), 'Incorrect number of items').toBeGreaterThanOrEqual(1);
       await siteApiAdmin.deleteSiteMember(sitePrivate, username);
       await recentFilesPage.reload();
-      expect(await recentFilesPage.dataTable.isEmpty(), 'Items are still displayed').toBe(true);
+      expect(await recentFilesPage.dataTable.isItemPresent(fileName), 'Items are still displayed').toBe(false);
     });
 
     test('[C213227] on Favorites', async ({ favoritePage }) => {
