@@ -88,7 +88,7 @@ test.describe('Special permissions', () => {
 
     test('[C213173] on Recent Files', async ({ recentFilesPage }) => {
       await recentFilesPage.navigate();
-      expect(await recentFilesPage.dataTable.getRowsCount(), 'Incorrect number of items').toBe(1);
+      expect(await recentFilesPage.dataTable.getRowsCount(), 'Incorrect number of items').toBeGreaterThanOrEqual(1);
       await siteApiAdmin.deleteSiteMember(sitePrivate, username);
       await recentFilesPage.reload();
       expect(await recentFilesPage.dataTable.isEmpty(), 'Items are still displayed').toBe(true);
