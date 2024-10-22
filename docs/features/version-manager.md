@@ -17,6 +17,10 @@ There are 2 ways users can access the Version Manager:
 
 ![Version Manager Inline](../images/version-manager-tab.png)
 
+3) From the context menu:
+![Version Manager Menu](../images/version-manager-context-menu.png)
+![Version Manager Dialog](../images/version-manager-dialog.png)
+
 ## Upload new version
 
 A new version for the selected file can be added by using this button. Users can upload a new file version using a file that is does not have the same name, or mime type as the current version, whilst allowing the user to choose the type of version (minor or major) and inputting supporting comments.
