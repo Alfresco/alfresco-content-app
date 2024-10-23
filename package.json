@@ -59,7 +59,7 @@
     "pdfjs-dist": "3.3.122",
     "rxjs": "6.6.6",
     "tslib": "^2.7.0",
-    "zone.js": "0.11.8"
+    "zone.js": "0.15.0"
   },
   "devDependencies": {
     "@alfresco/adf-cli": "7.0.0-alpha.4-11462485517",
