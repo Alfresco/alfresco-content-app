@@ -275,7 +275,7 @@ describe('PreviewComponent', () => {
     spyOn(component, 'navigateToFileLocation');
     fixture.detectChanges();
     await fixture.whenStable();
-    uploadService.fileUploadDeleted.next();
+    uploadService.fileUploadDeleted.next({} as any);
 
     expect(component.navigateToFileLocation).toHaveBeenCalled();
   });

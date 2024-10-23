@@ -58,7 +58,7 @@ import { NavigationHistoryService } from '../../services/navigation-history.serv
 /* eslint-disable @angular-eslint/directive-class-suffix */
 @Directive()
 export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
-  onDestroy$: Subject<boolean> = new Subject<boolean>();
+  onDestroy$: Subject<void> = new Subject<void>();
 
   @ViewChild(DocumentListComponent)
   documentList: DocumentListComponent;
@@ -173,7 +173,7 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
     this.subscriptions = [];
 
-    this.onDestroy$.next(true);
+    this.onDestroy$.next();
     this.onDestroy$.complete();
     this.store.dispatch(new SetSelectedNodesAction([]));
   }

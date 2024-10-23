@@ -220,7 +220,7 @@ describe('ContentManagementService', () => {
       const selection: any[] = [{ entry: { id: 'node-to-copy-id', name: 'name' } }];
 
       store.dispatch(new CopyNodesAction(selection));
-      nodeActions.contentCopied.next();
+      nodeActions.contentCopied.next({} as any);
       subject.next('');
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
@@ -608,7 +608,7 @@ describe('ContentManagementService', () => {
       } as MatSnackBarRef<SimpleSnackBar>);
     });
 
-    afterEach(() => subject.next());
+    afterEach(() => subject.next({} as any));
 
     it('should move node back to initial parent, after succeeded move', () => {
       const initialParent = 'parent-id-0';

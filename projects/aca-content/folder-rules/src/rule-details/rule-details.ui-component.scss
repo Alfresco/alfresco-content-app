@@ -36,6 +36,7 @@
       & > label,
       & > .aca-label {
         font-weight: bold;
+        color: var(--adf-theme-foreground-text-color);
         width: 20%;
         min-width: 100px;
         max-width: 150px;

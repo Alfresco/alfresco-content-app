@@ -22,23 +22,23 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Actions, ofType, createEffect } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { inject, Injectable } from '@angular/core';
-import { map, switchMap, debounceTime, take, catchError } from 'rxjs/operators';
+import { catchError, debounceTime, map, switchMap, take } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import {
-  FileFromTemplate,
-  FolderFromTemplate,
+  AppStore,
   CreateFromTemplate,
   CreateFromTemplateSuccess,
-  TemplateActionTypes,
+  FileFromTemplate,
+  FolderFromTemplate,
   getCurrentFolder,
-  AppStore
+  TemplateActionTypes
 } from '@alfresco/aca-shared/store';
 import { NodeTemplateService, TemplateDialogConfig } from '../../services/node-template.service';
 import { NotificationService } from '@alfresco/adf-core';
 import { from, Observable, of } from 'rxjs';
-import { NodeEntry, NodeBodyUpdate, Node, NodesApi } from '@alfresco/js-api';
+import { Node, NodeBodyUpdate, NodeEntry, NodesApi } from '@alfresco/js-api';
 import { MatDialog } from '@angular/material/dialog';
 import { AlfrescoApiService, DocumentListService } from '@alfresco/adf-content-services';
 
@@ -53,13 +53,11 @@ export class TemplateEffects {
     return this._nodesApi;
   }
 
-  constructor(
-    private matDialog: MatDialog,
-    private store: Store<AppStore>,
-    private apiService: AlfrescoApiService,
-    private actions$: Actions,
-    private nodeTemplateService: NodeTemplateService
-  ) {}
+  matDialog = inject(MatDialog);
+  store = inject(Store<AppStore>);
+  apiService = inject(AlfrescoApiService);
+  actions$ = inject(Actions);
+  nodeTemplateService = inject(NodeTemplateService);
 
   fileFromTemplate$ = createEffect(
     () =>

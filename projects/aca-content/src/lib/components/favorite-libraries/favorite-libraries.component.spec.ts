@@ -138,12 +138,12 @@ describe('FavoriteLibrariesComponent', () => {
     });
 
     it('should reload on libraryDeleted action', () => {
-      appHookService.libraryDeleted.next();
+      appHookService.libraryDeleted.next('');
       expect(contentApiService.getFavoriteLibraries).toHaveBeenCalled();
     });
 
     it('should reload on libraryUpdated action', () => {
-      appHookService.libraryUpdated.next();
+      appHookService.libraryUpdated.next({} as any);
       expect(contentApiService.getFavoriteLibraries).toHaveBeenCalled();
     });
 
@@ -158,7 +158,7 @@ describe('FavoriteLibrariesComponent', () => {
     });
 
     it('should reload on libraryLeft action', () => {
-      appHookService.libraryLeft.next();
+      appHookService.libraryLeft.next({} as any);
       expect(contentApiService.getFavoriteLibraries).toHaveBeenCalled();
     });
   });

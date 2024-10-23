@@ -62,7 +62,7 @@ export class AppService implements ShellAppService, OnDestroy {
   pageHeading$ = this.pageHeading.asObservable();
 
   appNavNarMode$: Subject<'collapsed' | 'expanded'> = new BehaviorSubject('expanded');
-  toggleAppNavBar$ = new Subject();
+  toggleAppNavBar$ = new Subject<void>();
 
   hideSidenavConditions = ['/preview/'];
   minimizeSidenavConditions = ['search'];
