@@ -330,7 +330,7 @@ export function viewerTests(userConsumer: string, siteName: string) {
       ): Promise<void> {
         await loginPage.navigate();
         await loginPage.loginUser({ username: userConsumer, password: userConsumer });
-        await searchPage.navigate({ remoteUrl: `#/search;q=${item}` });
+        await searchPage.searchWithin(item, 'filesAndFolders');
         await searchPage.searchInput.performDoubleClickFolderOrFileToOpen(item);
         expect(await searchPage.viewer.isViewerOpened(), 'Viewer is not opened').toBe(true);
         await searchPage.viewer.verifyViewerPrimaryActions(expectedToolbarPrimary);
