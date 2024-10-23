@@ -22,13 +22,38 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * Public API Surface of aca-content
- */
+import { Directive, HostListener, Input } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { SaveSearchDialogComponent } from '../dialog/save-search-dialog.component';
 
-export * from './lib/aca-content.module';
-export * from './lib/aca-content.routes';
-export * from './lib/extensions/core.extensions.module';
-export * from './lib/store/initial-state';
-export * from './lib/services/content-url.service';
-export * from './lib/utils/aca-search-utils';
+interface SaveSearchDirectiveDialogData {
+  searchUrl: string;
+}
+
+@Directive({
+  selector: '[acaSaveSearch]',
+  standalone: true
+})
+export class SaveSearchDirective {
+  /** Encoded search query */
+  @Input()
+  acaSaveSearchQuery: string;
+
+  constructor(private readonly dialogRef: MatDialog) {}
+
+  @HostListener('click', ['$event'])
+  onClick(event: MouseEvent) {
+    event.preventDefault();
+    this.openDialog();
+  }
+
+  private openDialog(): void {
+    this.dialogRef.open(SaveSearchDialogComponent, this.getDialogConfig());
+  }
+
+  private getDialogConfig(): { data: SaveSearchDirectiveDialogData } {
+    return {
+      data: { searchUrl: this.acaSaveSearchQuery }
+    };
+  }
+}

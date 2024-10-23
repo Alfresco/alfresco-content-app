@@ -29,10 +29,12 @@ import { EffectsModule } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { SearchOptionIds, SearchByTermAction, SearchAction } from '@alfresco/aca-shared/store';
+import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 
 describe('SearchEffects', () => {
   let store: Store<any>;
   let router: Router;
+  let queryBuilder: SearchQueryBuilderService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -41,18 +43,21 @@ describe('SearchEffects', () => {
 
     store = TestBed.inject(Store);
     router = TestBed.inject(Router);
+    queryBuilder = TestBed.inject(SearchQueryBuilderService);
 
     spyOn(router, 'navigateByUrl').and.stub();
   });
 
   describe('searchByTerm$', () => {
     it('should navigate to `search` when search options has library false', fakeAsync(() => {
+      spyOn(queryBuilder, 'navigateToSearch');
       store.dispatch(new SearchByTermAction('test', []));
       tick();
-      expect(router.navigateByUrl).toHaveBeenCalledWith('/search;q=test');
+      expect(queryBuilder.navigateToSearch).toHaveBeenCalledWith('(cm:name:"test*")', '/search');
     }));
 
     it('should navigate to `search-libraries` when search options has library true', fakeAsync(() => {
+      spyOn(queryBuilder, 'navigateToSearch');
       store.dispatch(
         new SearchByTermAction('test', [
           {
@@ -66,23 +71,7 @@ describe('SearchEffects', () => {
 
       tick();
 
-      expect(router.navigateByUrl).toHaveBeenCalledWith('/search-libraries;q=test');
-    }));
-
-    it('should encode search string for parentheses', fakeAsync(() => {
-      store.dispatch(new SearchByTermAction('(test)', []));
-
-      tick();
-
-      expect(router.navigateByUrl).toHaveBeenCalledWith('/search;q=%2528test%2529');
-    }));
-
-    it('should encode %', fakeAsync(() => {
-      store.dispatch(new SearchByTermAction('%test%', []));
-
-      tick();
-
-      expect(router.navigateByUrl).toHaveBeenCalledWith('/search;q=%2525test%2525');
+      expect(queryBuilder.navigateToSearch).toHaveBeenCalledWith('(cm:name:"test*")', '/search-libraries');
     }));
   });
 
