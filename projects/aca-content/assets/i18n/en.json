@@ -239,7 +239,7 @@
                   "NAME": "Name",
                   "DESCRIPTION": "Description",
                   "EMPTY_LIST": "No saved searches",
-                  "§": "Copy to clipboard",
+                  "COPY_TO_CLIPBOARD": "Copy to clipboard",
                   "COPY_TO_CLIPBOARD_SUCCESS": "Search copied to clipboard"
                 }
               },
