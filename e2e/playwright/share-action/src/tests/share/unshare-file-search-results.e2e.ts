@@ -42,7 +42,7 @@ test.describe('Unshare a file from Search Results', () => {
   let trashcanApi: TrashcanApi;
 
   const username = `user-${random}`;
-  const parent = `parent-${random}`;
+  const parent = `parent-unshare-${random}`;
   let parentId: string;
   const searchRandom = random;
   let sitesApi: SitesApi;
@@ -56,7 +56,8 @@ test.describe('Unshare a file from Search Results', () => {
   const file3 = `search-file-${searchRandom}-3.txt`;
   const file4 = `search-file-${searchRandom}-4.txt`;
 
-  const sitePrivate = `site-private-${random}`;
+  const sitePrivate = `site-private1-${random}`;
+  let docLibId: string;
 
   let fileSite2Id: string;
   const fileSite1 = `search-file-${searchRandom}-Site1.txt`;
@@ -84,7 +85,7 @@ test.describe('Unshare a file from Search Results', () => {
       file4Id = (await nodesApi.createFile(file4, parentId)).entry.id;
 
       await sitesApi.createSite(sitePrivate, Site.VisibilityEnum.PRIVATE);
-      const docLibId = await sitesApi.getDocLibId(sitePrivate);
+      docLibId = await sitesApi.getDocLibId(sitePrivate);
 
       const fileSite1Id = (await nodesApiAdmin.createFile(fileSite1, docLibId)).entry.id;
       fileSite2Id = (await nodesApiAdmin.createFile(fileSite2, docLibId)).entry.id;
@@ -109,7 +110,7 @@ test.describe('Unshare a file from Search Results', () => {
   });
 
   test.afterAll(async () => {
-    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', sitesApi, [sitePrivate]);
+    await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed', sitesApi, [docLibId]);
   });
 
   test('[C306995] Unshare dialog UI', async ({ personalFiles, searchPage }) => {

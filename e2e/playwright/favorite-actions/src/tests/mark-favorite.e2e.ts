@@ -32,7 +32,7 @@ test.describe('Mark items as favorites', () => {
   let sharedApi: SharedLinksApi;
 
   const username = `user-${Utils.random()}`;
-  const parent = `parent-${Utils.random()}`;
+  const parent = `parent-fev-${Utils.random()}`;
 
   const fileNotFavUI = `fileNotFavUI-${Utils.random()}.txt`;
   const fileFavUI = `fileFavUI-${Utils.random()}.txt`;

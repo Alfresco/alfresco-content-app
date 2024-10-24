@@ -32,7 +32,7 @@ test.describe('Download from Personal Files', () => {
 
   const random = Utils.random();
   const username = `user-${random}`;
-  const parent = `parent-${random}`;
+  const parent = `parent-download-${random}`;
   const childFile = `childFile-${random}.txt`;
   const childFolder = `childFolder-${random}`;
 

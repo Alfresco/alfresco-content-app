@@ -56,7 +56,7 @@ test.describe('Folders - available actions : ', () => {
   test.beforeAll(async () => {
     test.setTimeout(timeouts.extendedTest);
     const apiClientFactory = new ApiClientFactory();
-    const parentName = `parent-${Utils.random()}`;
+    const parentName = `parent-folder-${Utils.random()}`;
     await apiClientFactory.setUpAcaBackend('admin');
     await apiClientFactory.createUser({ username });
     nodesApi = await NodesApi.initialize(username, username);
