@@ -56,6 +56,7 @@ import { Store } from '@ngrx/store';
     >
     </adf-content-metadata>
   `,
+  styleUrls: ['metadata-tab.component.scss'],
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-metadata-tab' }
 })
