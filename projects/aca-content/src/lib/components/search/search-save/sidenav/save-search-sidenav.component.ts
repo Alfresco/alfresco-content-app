@@ -47,6 +47,7 @@ export class SaveSearchSidenavComponent implements OnInit, OnDestroy {
 
   item: NavBarLinkRef;
 
+  private manageSearchesId = 'manage-saved-searches';
   ngOnInit() {
     this.savedSearchesService.innit();
     this.savedSearchesService.savedSearches$
@@ -62,8 +63,10 @@ export class SaveSearchSidenavComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  onActionClick(): void {
-    this.appService.appNavNarMode$.next('collapsed');
+  onActionClick(el: NavBarLinkRef): void {
+    if (el.id !== this.manageSearchesId) {
+      this.appService.appNavNarMode$.next('collapsed');
+    }
   }
 
   private createNavBarLinkRef(children: SavedSearch[]): NavBarLinkRef {
@@ -77,6 +80,15 @@ export class SaveSearchSidenavComponent implements OnInit, OnDestroy {
       }))
       .slice(0, 5);
     const title = this.translationService.instant('APP.BROWSE.SEARCH.SAVE_SEARCH.NAVBAR.TITLE', { number: children.length });
+    if (children.length) {
+      mappedChildren.push({
+        id: this.manageSearchesId,
+        icon: '',
+        title: 'APP.BROWSE.SEARCH.SAVE_SEARCH.NAVBAR.MANAGE_BUTTON',
+        route: 'saved-searches',
+        url: 'saved-searches'
+      });
+    }
     return {
       icon: '',
       title,
