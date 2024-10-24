@@ -220,11 +220,11 @@ export class SearchInputComponent implements OnInit, OnDestroy {
   }
 
   get onLibrariesSearchResults() {
-    return this.router.url.indexOf('/search-libraries') === 0;
+    return this.router?.url.indexOf('/search-libraries') === 0;
   }
 
   get onSearchResults() {
-    return !this.onLibrariesSearchResults && this.router.url.indexOf('/search') === 0;
+    return !this.onLibrariesSearchResults && this.router?.url.indexOf('/search') === 0;
   }
 
   isFilesChecked(): boolean {
