@@ -156,9 +156,9 @@ describe('SearchAiInputComponent', () => {
       expect(component.queryControl.value).toBe(query);
     });
 
-    it('should set queryControl value to "some new query" if useStoredNodes is equal to false', () => {
+    it('should set queryControl value to "some new query" if usedInAiResultsPage is equal to false', () => {
       const query = 'some new query';
-      component.useStoredNodes = false;
+      component.usedInAiResultsPage = false;
       component.searchTerm = query;
 
       component.ngOnInit();
@@ -166,9 +166,9 @@ describe('SearchAiInputComponent', () => {
       expect(component.queryControl.value).toBe('some new query');
     });
 
-    it('should set queryControl value to empty string if useStoredNodes is equal to true', () => {
+    it('should set queryControl value to empty string if usedInAiResultsPage is equal to true', () => {
       const query = 'some new query';
-      component.useStoredNodes = true;
+      component.usedInAiResultsPage = true;
       component.searchTerm = query;
 
       component.ngOnInit();
@@ -397,7 +397,7 @@ describe('SearchAiInputComponent', () => {
       });
 
       it('should call checkSearchAvailability on SearchAiService with parameter based on value returned by UserPreferencesService', () => {
-        component.useStoredNodes = true;
+        component.usedInAiResultsPage = true;
         component.ngOnInit();
         submittingTrigger();
 
@@ -412,7 +412,7 @@ describe('SearchAiInputComponent', () => {
       });
 
       it('should call set on UserPreferencesService with parameter based on value returned by UserPreferencesService', () => {
-        component.useStoredNodes = true;
+        component.usedInAiResultsPage = true;
         component.ngOnInit();
         submittingTrigger();
 
