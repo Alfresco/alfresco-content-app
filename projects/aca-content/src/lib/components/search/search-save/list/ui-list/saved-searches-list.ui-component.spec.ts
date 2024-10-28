@@ -27,7 +27,7 @@ import { CoreTestingModule, DataCellEvent, DataTableComponent } from '@alfresco/
 import { SavedSearchesListUiComponent } from './saved-searches-list.ui-component';
 import { SavedSearchesListUiService } from '../saved-searches-list-ui.service';
 import { By } from '@angular/platform-browser';
-import { SavedSearch } from '@alfresco/adf-content-services/lib/common/interfaces/saved-search.interface';
+import { SavedSearch } from '@alfresco/adf-content-services';
 import { provideMockStore } from '@ngrx/store/testing';
 import { Subject } from 'rxjs';
 import { Clipboard } from '@angular/cdk/clipboard';
