@@ -56,7 +56,17 @@ describe('SearchAiInputComponent', () => {
   let agents$: Subject<Agent[]>;
   let dialog: MatDialog;
   let activatedRoute: ActivatedRoute;
+  let userPreferencesService: UserPreferencesService;
   let agentList: Agent[];
+
+  const newSelectionState: SelectionState = {
+    ...selectionState,
+    file: {
+      entry: {
+        id: 'some-id'
+      }
+    } as NodeEntry
+  };
 
   const prepareBeforeTest = (): void => {
     selectionState = {
@@ -94,6 +104,10 @@ describe('SearchAiInputComponent', () => {
     loader = TestbedHarnessEnvironment.loader(fixture);
     agents$ = new Subject<Agent[]>();
     dialog = TestBed.inject(MatDialog);
+    userPreferencesService = TestBed.inject(UserPreferencesService);
+    spyOn(userPreferencesService, 'get').and.returnValue(JSON.stringify(newSelectionState));
+    spyOn(userPreferencesService, 'set');
+    spyOn(TestBed.inject(AgentService), 'getAgents').and.returnValue(agents$);
     agentList = [
       {
         id: '1',
@@ -108,7 +122,6 @@ describe('SearchAiInputComponent', () => {
         avatarUrl: undefined
       }
     ];
-    spyOn(TestBed.inject(AgentService), 'getAgents').and.returnValue(agents$);
     prepareBeforeTest();
   });
 
@@ -143,12 +156,24 @@ describe('SearchAiInputComponent', () => {
       expect(component.queryControl.value).toBe(query);
     });
 
-    it('should set queryControl value to query param if searchTerm is not defined', () => {
-      component.searchTerm = undefined;
+    it('should set queryControl value to "some new query" if usedInAiResultsPage is equal to false', () => {
+      const query = 'some new query';
+      component.usedInAiResultsPage = false;
+      component.searchTerm = query;
 
       component.ngOnInit();
 
-      expect(component.queryControl.value).toBe('some query');
+      expect(component.queryControl.value).toBe('some new query');
+    });
+
+    it('should set queryControl value to empty string if usedInAiResultsPage is equal to true', () => {
+      const query = 'some new query';
+      component.usedInAiResultsPage = true;
+      component.searchTerm = query;
+
+      component.ngOnInit();
+
+      expect(component.queryControl.value).toBe('');
     });
 
     it('should get agents on init', () => {
@@ -285,7 +310,6 @@ describe('SearchAiInputComponent', () => {
 
     it('should be disabled by default', () => {
       activatedRoute.snapshot.queryParams = { query: '' };
-
       component.ngOnInit();
       fixture.detectChanges();
 
@@ -320,7 +344,6 @@ describe('SearchAiInputComponent', () => {
     describe('Submitting', () => {
       let checkSearchAvailabilitySpy: jasmine.Spy<(selectedNodesState: SelectionState, maxSelectedNodes?: number) => string>;
       let notificationService: NotificationService;
-      let userPreferencesService: UserPreferencesService;
       let submitButton: DebugElement;
       let queryInput: MatInputHarness;
       let submittingTrigger: () => void;
@@ -334,8 +357,6 @@ describe('SearchAiInputComponent', () => {
         modalAiService = TestBed.inject(ModalAiService);
         checkSearchAvailabilitySpy = spyOn(TestBed.inject(SearchAiService), 'checkSearchAvailability');
         notificationService = TestBed.inject(NotificationService);
-        userPreferencesService = TestBed.inject(UserPreferencesService);
-        spyOn(userPreferencesService, 'set');
         spyOn(notificationService, 'showError');
         queryInput = await loader.getHarness(MatInputHarness);
         submitButton = fixture.debugElement.query(By.directive(MatButton));
@@ -376,16 +397,7 @@ describe('SearchAiInputComponent', () => {
       });
 
       it('should call checkSearchAvailability on SearchAiService with parameter based on value returned by UserPreferencesService', () => {
-        component.useStoredNodes = true;
-        const newSelectionState: SelectionState = {
-          ...selectionState,
-          file: {
-            entry: {
-              id: 'some-id'
-            }
-          } as NodeEntry
-        };
-        spyOn(userPreferencesService, 'get').and.returnValue(JSON.stringify(newSelectionState));
+        component.usedInAiResultsPage = true;
         component.ngOnInit();
         submittingTrigger();
 
@@ -400,16 +412,7 @@ describe('SearchAiInputComponent', () => {
       });
 
       it('should call set on UserPreferencesService with parameter based on value returned by UserPreferencesService', () => {
-        component.useStoredNodes = true;
-        const newSelectionState: SelectionState = {
-          ...selectionState,
-          file: {
-            entry: {
-              id: 'some-id'
-            }
-          } as NodeEntry
-        };
-        spyOn(userPreferencesService, 'get').and.returnValue(JSON.stringify(newSelectionState));
+        component.usedInAiResultsPage = true;
         component.ngOnInit();
         submittingTrigger();
 

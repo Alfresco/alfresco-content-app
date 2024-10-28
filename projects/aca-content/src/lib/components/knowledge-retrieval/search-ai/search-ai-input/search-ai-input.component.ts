@@ -48,7 +48,6 @@ import {
 } from '@angular/material/tooltip';
 import { ModalAiService } from '../../../../services/modal-ai.service';
 import { Agent } from '@alfresco/js-api';
-import { ActivatedRoute } from '@angular/router';
 
 const MatTooltipOptions: MatTooltipDefaultOptions = {
   ...MAT_TOOLTIP_DEFAULT_OPTIONS_FACTORY(),
@@ -87,7 +86,7 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
   agentId: string;
 
   @Input()
-  useStoredNodes: boolean;
+  usedInAiResultsPage: boolean;
 
   @Input()
   searchTerm: string;
@@ -124,20 +123,14 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
     private agentService: AgentService,
     private userPreferencesService: UserPreferencesService,
     private translateService: TranslateService,
-    private modalAiService: ModalAiService,
-    private route: ActivatedRoute
+    private modalAiService: ModalAiService
   ) {}
 
   ngOnInit(): void {
-    if (this.searchTerm) {
-      this.queryControl.setValue(this.searchTerm);
-    } else if (this.route.snapshot?.queryParams?.query?.length > 0) {
-      this.queryControl.setValue(this.route.snapshot.queryParams.query);
-    } else {
-      this.queryControl.setValue(null);
-    }
+    const queryValue = this.usedInAiResultsPage ? '' : this.searchTerm || '';
+    this.queryControl.setValue(queryValue);
 
-    if (!this.useStoredNodes) {
+    if (!this.usedInAiResultsPage) {
       this.store
         .select(getAppSelection)
         .pipe(takeUntil(this.onDestroy$))
