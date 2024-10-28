@@ -47,21 +47,6 @@ import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dial
 import { ActivatedRoute } from '@angular/router';
 import { ModalAiService } from '../../../../services/modal-ai.service';
 
-const agentList: Agent[] = [
-  {
-    id: '1',
-    name: 'HR Agent',
-    description: 'Test 1',
-    avatarUrl: undefined
-  },
-  {
-    id: '2',
-    name: 'Policy Agent',
-    description: 'Test 2',
-    avatarUrl: undefined
-  }
-];
-
 describe('SearchAiInputComponent', () => {
   let component: SearchAiInputComponent;
   let fixture: ComponentFixture<SearchAiInputComponent>;
@@ -71,6 +56,7 @@ describe('SearchAiInputComponent', () => {
   let agents$: Subject<Agent[]>;
   let dialog: MatDialog;
   let activatedRoute: ActivatedRoute;
+  let agentList: Agent[];
 
   const prepareBeforeTest = (): void => {
     selectionState = {
@@ -81,7 +67,6 @@ describe('SearchAiInputComponent', () => {
     };
     store.overrideSelector(getAppSelection, selectionState);
     component.agentId = '2';
-    component.avatarsMocked = false;
     component.ngOnInit();
     fixture.detectChanges();
   };
@@ -109,6 +94,20 @@ describe('SearchAiInputComponent', () => {
     loader = TestbedHarnessEnvironment.loader(fixture);
     agents$ = new Subject<Agent[]>();
     dialog = TestBed.inject(MatDialog);
+    agentList = [
+      {
+        id: '1',
+        name: 'HR Agent',
+        description: 'Test 1',
+        avatarUrl: undefined
+      },
+      {
+        id: '2',
+        name: 'Policy Agent',
+        description: 'Test 2',
+        avatarUrl: undefined
+      }
+    ];
     spyOn(TestBed.inject(AgentService), 'getAgents').and.returnValue(agents$);
     prepareBeforeTest();
   });
@@ -170,11 +169,15 @@ describe('SearchAiInputComponent', () => {
     });
 
     it('should have selected correct agent', async () => {
+      agentList[0].avatarUrl = 'some-url-1';
+      agentList[1].avatarUrl = 'some-url-2';
+
       agents$.next(agentList);
-      expect(await (await loader.getHarness(MatSelectHarness)).getValueText()).toBe('PAPolicy Agent');
+      expect(await (await loader.getHarness(MatSelectHarness)).getValueText()).toBe('Policy Agent');
       const avatar = selectElement.query(By.directive(AvatarComponent))?.componentInstance;
       expect(avatar.initials).toBe('PA');
       expect(avatar.size).toBe('26px');
+      expect(avatar.src).toBe('some-url-2');
     });
 
     describe('Agents options', () => {
@@ -210,6 +213,15 @@ describe('SearchAiInputComponent', () => {
         expect(getAvatarForAgent('2').initials).toBe('PA');
       });
 
+      it('should have correct initials for avatars for each of agent', () => {
+        agentList[0].avatarUrl = 'some-url-1';
+        agentList[1].avatarUrl = 'some-url-2';
+
+        fixture.detectChanges();
+        expect(getAvatarForAgent('1').src).toBe('some-url-1');
+        expect(getAvatarForAgent('2').src).toBe('some-url-2');
+      });
+
       it('should assign correct initials to each avatar for each agent with single section name', () => {
         const newAgentList = [
           { ...agentList[0], name: 'Adam' },
@@ -221,6 +233,20 @@ describe('SearchAiInputComponent', () => {
         expect(getAvatarForAgent('1').initials).toBe('A');
         expect(getAvatarForAgent('2').initials).toBe('B');
       });
+    });
+  });
+
+  describe('Agents popup', () => {
+    it('should have selected correct agent', () => {
+      agentList[0].avatarUrl = 'some-url-1';
+      agentList[1].avatarUrl = 'some-url-2';
+      agents$.next(agentList);
+
+      fixture.detectChanges();
+      fixture.debugElement.query(By.css('.aca-search-ai-input-agent-container')).nativeElement.dispatchEvent(new MouseEvent('mouseenter'));
+      expect(fixture.debugElement.query(By.css('.aca-search-ai-input-agent-popup-hover-card-container-title adf-avatar')).componentInstance.src).toBe(
+        'some-url-2'
+      );
     });
   });
 

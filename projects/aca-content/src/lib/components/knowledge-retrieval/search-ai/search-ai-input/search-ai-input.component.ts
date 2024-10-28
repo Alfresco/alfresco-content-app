@@ -48,7 +48,6 @@ import {
 } from '@angular/material/tooltip';
 import { ModalAiService } from '../../../../services/modal-ai.service';
 import { Agent } from '@alfresco/js-api';
-import { getAgentsWithMockedAvatars } from '../search-ai-utils';
 import { ActivatedRoute } from '@angular/router';
 
 const MatTooltipOptions: MatTooltipDefaultOptions = {
@@ -102,8 +101,6 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
   private _queryControl = new FormControl('');
   private _initialsByAgentId: { [key: string]: string } = {};
 
-  avatarsMocked = true;
-
   get agentControl(): FormControl<Agent> {
     return this._agentControl;
   }
@@ -156,8 +153,7 @@ export class SearchAiInputComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(
         (agents) => {
-          // TODO remove mocked avatar images after backend is done (https://hyland.atlassian.net/browse/ACS-8769)
-          this._agents = getAgentsWithMockedAvatars(agents, this.avatarsMocked);
+          this._agents = agents;
 
           this.agentControl.setValue(this._agents.find((agent) => agent.id === this.agentId));
           this._initialsByAgentId = this.agents.reduce((initials, agent) => {
