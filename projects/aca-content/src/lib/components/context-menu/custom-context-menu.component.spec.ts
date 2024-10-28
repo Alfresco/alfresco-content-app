@@ -24,27 +24,36 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { ContextMenuComponent } from './context-menu.component';
+import { CustomContextMenuComponent } from './custom-context-menu.component';
 import { ContextMenuOverlayRef } from './context-menu-overlay';
 import { ContentActionType } from '@alfresco/adf-extensions';
 
 import { of } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { AppExtensionService } from '@alfresco/aca-shared';
+import { CONTEXT_MENU_CUSTOM_ACTIONS } from './custom-context-menu-actions.token';
 
 describe('ContextMenuComponent', () => {
-  let fixture: ComponentFixture<ContextMenuComponent>;
-  let component: ContextMenuComponent;
-  let extensionsService: AppExtensionService;
+  let fixture: ComponentFixture<CustomContextMenuComponent>;
+  let component: CustomContextMenuComponent;
 
-  const contextItem = {
-    type: ContentActionType.button,
-    id: 'action-button',
-    title: 'Test Button',
-    actions: {
-      click: 'TEST_EVENT'
+  const contextMenuActionsMock = [
+    {
+      type: ContentActionType.button,
+      id: 'action1',
+      title: 'action1',
+      actions: {
+        click: 'event1'
+      }
+    },
+    {
+      type: ContentActionType.button,
+      id: 'action2',
+      title: 'action2',
+      actions: {
+        click: 'event2'
+      }
     }
-  };
+  ];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -62,31 +71,31 @@ describe('ContextMenuComponent', () => {
             dispatch: () => {},
             select: () => of({ count: 1 })
           }
+        },
+        {
+          provide: CONTEXT_MENU_CUSTOM_ACTIONS,
+          useValue: contextMenuActionsMock
         }
       ]
     });
 
-    fixture = TestBed.createComponent(ContextMenuComponent);
+    fixture = TestBed.createComponent(CustomContextMenuComponent);
     component = fixture.componentInstance;
-
-    extensionsService = TestBed.inject(AppExtensionService);
-
-    spyOn(extensionsService, 'getAllowedContextMenuActions').and.returnValue(of([contextItem]));
 
     fixture.detectChanges();
   });
 
-  it('should load context menu actions on init', () => {
-    expect(component.actions.length).toBe(1);
+  it('should set context menu actions from Injection Token', () => {
+    expect(component.actions.length).toBe(2);
   });
 
   it('should render defined context menu actions items', async () => {
     await fixture.whenStable();
 
     const contextMenuElements = document.body.querySelector('.aca-context-menu')?.querySelectorAll('button');
-    const actionButtonLabel: HTMLElement = contextMenuElements?.[0].querySelector(`[data-automation-id="${contextItem.id}-label"]`);
+    const actionButtonLabel: HTMLElement = contextMenuElements?.[0].querySelector(`[data-automation-id="${contextMenuActionsMock[0].id}-label"]`);
 
-    expect(contextMenuElements?.length).toBe(1);
-    expect(actionButtonLabel.innerText).toBe(contextItem.title);
+    expect(contextMenuElements?.length).toBe(2);
+    expect(actionButtonLabel.innerText).toBe(contextMenuActionsMock[0].title);
   });
 });

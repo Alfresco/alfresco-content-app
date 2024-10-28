@@ -22,20 +22,17 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AppTestingModule } from '../../testing/app-testing.module';
-import { ContextMenuComponent } from './context-menu.component';
 import { ContextMenuOverlayRef } from './context-menu-overlay';
 import { ContentActionType } from '@alfresco/adf-extensions';
-
-import { of } from 'rxjs';
-import { Store } from '@ngrx/store';
 import { AppExtensionService } from '@alfresco/aca-shared';
+import { BaseContextMenuDirective } from './base-context-menu.directive';
+import { TestBed } from '@angular/core/testing';
+import { AppTestingModule } from '../../testing/app-testing.module';
 
-describe('ContextMenuComponent', () => {
-  let fixture: ComponentFixture<ContextMenuComponent>;
-  let component: ContextMenuComponent;
+describe('BaseContextMenuComponent', () => {
+  let contextMenuOverlayRef: ContextMenuOverlayRef;
   let extensionsService: AppExtensionService;
+  let baseContextMenuDirective: BaseContextMenuDirective;
 
   const contextItem = {
     type: ContentActionType.button,
@@ -55,38 +52,38 @@ describe('ContextMenuComponent', () => {
           useValue: {
             close: jasmine.createSpy('close')
           }
-        },
-        {
-          provide: Store,
-          useValue: {
-            dispatch: () => {},
-            select: () => of({ count: 1 })
-          }
         }
       ]
     });
 
-    fixture = TestBed.createComponent(ContextMenuComponent);
-    component = fixture.componentInstance;
-
+    contextMenuOverlayRef = TestBed.inject(ContextMenuOverlayRef);
     extensionsService = TestBed.inject(AppExtensionService);
 
-    spyOn(extensionsService, 'getAllowedContextMenuActions').and.returnValue(of([contextItem]));
-
-    fixture.detectChanges();
+    baseContextMenuDirective = new BaseContextMenuDirective(contextMenuOverlayRef, extensionsService, null);
   });
 
-  it('should load context menu actions on init', () => {
-    expect(component.actions.length).toBe(1);
+  it('should close context menu on Escape event', () => {
+    baseContextMenuDirective.handleKeydownEscape(new KeyboardEvent('keydown', { key: 'Escape' }));
+    expect(contextMenuOverlayRef.close).toHaveBeenCalled();
   });
 
-  it('should render defined context menu actions items', async () => {
-    await fixture.whenStable();
+  it('should close context menu on click outside event', () => {
+    baseContextMenuDirective.onClickOutsideEvent();
+    expect(contextMenuOverlayRef.close).toHaveBeenCalled();
+  });
 
-    const contextMenuElements = document.body.querySelector('.aca-context-menu')?.querySelectorAll('button');
-    const actionButtonLabel: HTMLElement = contextMenuElements?.[0].querySelector(`[data-automation-id="${contextItem.id}-label"]`);
+  it('should run action with provided action id and correct payload', () => {
+    spyOn(extensionsService, 'runActionById');
 
-    expect(contextMenuElements?.length).toBe(1);
-    expect(actionButtonLabel.innerText).toBe(contextItem.title);
+    baseContextMenuDirective.runAction(contextItem);
+
+    expect(extensionsService.runActionById).toHaveBeenCalledWith(contextItem.actions.click, {
+      focusedElementOnCloseSelector: '.adf-context-menu-source'
+    });
+  });
+
+  it('should return action id on trackByActionId', () => {
+    const actionId = baseContextMenuDirective.trackByActionId(0, contextItem);
+    expect(actionId).toBe(contextItem.id);
   });
 });

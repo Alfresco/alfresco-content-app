@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewEncapsulation, OnInit, OnDestroy, AfterViewInit, Inject } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit, AfterViewInit, Inject } from '@angular/core';
 import { MatMenuModule } from '@angular/material/menu';
 import { takeUntil } from 'rxjs/operators';
 import { DynamicExtensionComponent } from '@alfresco/adf-extensions';
@@ -36,7 +36,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { IconComponent } from '@alfresco/adf-core';
 import { ContextMenuItemComponent } from './context-menu-item.component';
 import { OutsideEventDirective } from './context-menu-outside-event.directive';
-import { BaseContextMenuComponent } from './base-context-menu.component';
+import { BaseContextMenuDirective } from './base-context-menu.directive';
 
 @Component({
   standalone: true,
@@ -58,7 +58,7 @@ import { BaseContextMenuComponent } from './base-context-menu.component';
   },
   encapsulation: ViewEncapsulation.None
 })
-export class ContextMenuComponent extends BaseContextMenuComponent implements OnInit, OnDestroy, AfterViewInit {
+export class ContextMenuComponent extends BaseContextMenuDirective implements OnInit, AfterViewInit {
   constructor(contextMenuOverlayRef: ContextMenuOverlayRef, extensions: AppExtensionService, @Inject(CONTEXT_MENU_DIRECTION) direction: Direction) {
     super(contextMenuOverlayRef, extensions, direction);
   }
@@ -70,5 +70,9 @@ export class ContextMenuComponent extends BaseContextMenuComponent implements On
       .subscribe((actions) => {
         this.actions = actions;
       });
+  }
+
+  ngAfterViewInit() {
+    setTimeout(() => this.trigger.openMenu(), 0);
   }
 }

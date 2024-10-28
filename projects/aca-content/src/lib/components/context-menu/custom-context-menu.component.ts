@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Inject, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, Inject, ViewEncapsulation } from '@angular/core';
 import { Direction } from '@angular/cdk/bidi';
 import { ContextMenuOverlayRef } from './context-menu-overlay';
 import { AppExtensionService } from '@alfresco/aca-shared';
@@ -36,7 +36,7 @@ import { OutsideEventDirective } from './context-menu-outside-event.directive';
 import { MatDividerModule } from '@angular/material/divider';
 import { IconComponent } from '@alfresco/adf-core';
 import { CONTEXT_MENU_CUSTOM_ACTIONS } from './custom-context-menu-actions.token';
-import { BaseContextMenuComponent } from './base-context-menu.component';
+import { BaseContextMenuDirective } from './base-context-menu.directive';
 
 @Component({
   selector: 'aca-custom-context-menu',
@@ -58,7 +58,7 @@ import { BaseContextMenuComponent } from './base-context-menu.component';
   encapsulation: ViewEncapsulation.None,
   standalone: true
 })
-export class CustomContextMenuComponent extends BaseContextMenuComponent {
+export class CustomContextMenuComponent extends BaseContextMenuDirective implements AfterViewInit {
   constructor(
     contextMenuOverlayRef: ContextMenuOverlayRef,
     extensions: AppExtensionService,
@@ -67,5 +67,9 @@ export class CustomContextMenuComponent extends BaseContextMenuComponent {
   ) {
     super(contextMenuOverlayRef, extensions, direction);
     this.actions = customActions;
+  }
+
+  ngAfterViewInit() {
+    setTimeout(() => this.trigger.openMenu(), 0);
   }
 }
