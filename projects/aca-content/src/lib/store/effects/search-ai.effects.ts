@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { SearchAiActionTypes, SearchByTermAiAction, ToggleAISearchInput } from '@alfresco/aca-shared/store';
 import { map } from 'rxjs/operators';
@@ -32,8 +32,9 @@ import { Params } from '@angular/router';
 
 @Injectable()
 export class SearchAiEffects {
-  constructor(private actions$: Actions, private searchNavigationService: SearchAiNavigationService, private searchAiService: SearchAiService) {}
-
+  private actions$ = inject(Actions);
+  private searchNavigationService = inject(SearchAiNavigationService);
+  private searchAiService = inject(SearchAiService);
   searchByTerm$ = createEffect(
     () =>
       this.actions$.pipe(

@@ -336,7 +336,7 @@ test.describe('Library actions ', () => {
     });
 
     test('[C306959] Join a public library from Search Results', async ({ searchPage }) => {
-      await searchPage.navigate({ remoteUrl: `#/search-libraries;q=${adminLibrary2}` });
+      await searchPage.searchWithin(adminLibrary2, 'libraries');
       await searchPage.reload({ waitUntil: loadString });
       await expect(libraryTable.getCellByColumnNameAndRowItem(adminLibrary2, notMemberString)).toBeVisible();
       await libraryTable.performActionFromExpandableMenu(adminLibrary2, joinButton);
@@ -345,7 +345,7 @@ test.describe('Library actions ', () => {
     });
 
     test('[C306960] Join a moderated library from Search Results', async ({ myLibrariesPage, searchPage }) => {
-      await searchPage.navigate({ remoteUrl: `#/search-libraries;q=${adminModerateLibrary2}` });
+      await searchPage.searchWithin(adminModerateLibrary2, 'libraries');
       await expect(libraryTable.getCellByColumnNameAndRowItem(adminModerateLibrary2, notMemberString)).toBeVisible();
       await libraryTable.performActionFromExpandableMenu(adminModerateLibrary2, joinButton);
       await expect.soft(snackBar.getByMessageLocator(requestToJoinMessage)).toBeVisible();
@@ -357,7 +357,7 @@ test.describe('Library actions ', () => {
 
     test('[C306961] Leave a library from Search Results', async ({ searchPage }) => {
       const confirmDialog = searchPage.confirmDialogComponent;
-      await searchPage.navigate({ remoteUrl: `#/search-libraries;q=${user1Library3}` });
+      await searchPage.searchWithin(user1Library3, 'libraries');
 
       await expect(libraryTable.getCellByColumnNameAndRowItem(user1Library3, 'Collaborator')).toBeVisible();
       await libraryTable.performActionFromExpandableMenu(user1Library3, leaveLibraryButton);
@@ -368,7 +368,7 @@ test.describe('Library actions ', () => {
 
     test('[C306962] Cancel join from Search Results', async ({ searchPage }) => {
       await user2SitesApi.createSiteMembershipRequestForPerson(username2, adminModerateLibrary4);
-      await searchPage.navigate({ remoteUrl: `#/search-libraries;q=${adminModerateLibrary4}` });
+      await searchPage.searchWithin(adminModerateLibrary4, 'libraries');
       await expect(libraryTable.getCellByColumnNameAndRowItem(adminModerateLibrary4, notMemberString)).toBeVisible();
       await libraryTable.performActionFromExpandableMenu(adminModerateLibrary4, cancelJoinRequestButton);
       await expect.soft(snackBar.getByMessageLocator(cancelJoinRequestMessage)).toBeVisible();
@@ -416,7 +416,7 @@ test.describe('Library actions ', () => {
       const libraryMenu = searchPage.matMenu;
       const trashTable = trashPage.dataTable;
 
-      await searchPage.navigate({ remoteUrl: `#/search-libraries;q=${user2Library7Delete}` });
+      await searchPage.searchWithin(user2Library7Delete, 'libraries');
       await expect(libraryTable.getRowByName(user2Library7Delete)).toBeVisible();
       await libraryTable.getRowByName(user2Library7Delete).click();
       await searchHeader.clickMoreActions();

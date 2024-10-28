@@ -23,9 +23,158 @@
  */
 
 import { VersionsTabComponent } from './versions-tab.component';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { AppSettingsService } from '@alfresco/aca-shared';
+import { ContentTestingModule, VersionListDataSource, VersionManagerComponent } from '@alfresco/adf-content-services';
+import { By } from '@angular/platform-browser';
+import { of } from 'rxjs';
 
 describe('VersionsTabComponent', () => {
-  it('should be defined', () => {
-    expect(VersionsTabComponent).toBeDefined();
+  let component: VersionsTabComponent;
+  let fixture: ComponentFixture<VersionsTabComponent>;
+  let appSettingsService: AppSettingsService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [VersionsTabComponent, ContentTestingModule]
+    });
+
+    fixture = TestBed.createComponent(VersionsTabComponent);
+    component = fixture.componentInstance;
+    appSettingsService = TestBed.inject(AppSettingsService);
+    spyOn(VersionListDataSource.prototype, 'connect').and.returnValue(of());
+    spyOn(VersionListDataSource.prototype, 'reset');
+  });
+
+  describe('Version manager', () => {
+    let uploadAllowDownloadSpy: jasmine.SpyAnd<() => boolean>;
+    let versionManagerAllowViewVersionsSpy: jasmine.SpyAnd<() => boolean>;
+    let versionManagerShowActionsSpy: jasmine.SpyAnd<() => boolean>;
+    let versionManagerAllowVersionDeleteSpy: jasmine.SpyAnd<() => boolean>;
+    let uploadAllowCommentsSpy: jasmine.SpyAnd<() => boolean>;
+    let versionManagerComponent: VersionManagerComponent;
+
+    beforeEach(() => {
+      component.node = {
+        nodeId: 'some id'
+      } as any;
+      uploadAllowDownloadSpy = spyOnProperty(appSettingsService, 'uploadAllowDownload').and;
+      versionManagerAllowViewVersionsSpy = spyOnProperty(appSettingsService, 'versionManagerAllowViewVersions').and;
+      versionManagerShowActionsSpy = spyOnProperty(appSettingsService, 'versionManagerShowActions').and;
+      versionManagerAllowVersionDeleteSpy = spyOnProperty(appSettingsService, 'versionManagerAllowVersionDelete').and;
+      uploadAllowCommentsSpy = spyOnProperty(appSettingsService, 'uploadAllowComments').and;
+      fixture.detectChanges();
+      versionManagerComponent = fixture.debugElement.query(By.directive(VersionManagerComponent)).componentInstance;
+    });
+
+    it('should have assigned true to showComments if settings.uploadAllowComments returns true', () => {
+      uploadAllowDownloadSpy.returnValue(true);
+      versionManagerAllowViewVersionsSpy.returnValue(true);
+      versionManagerShowActionsSpy.returnValue(true);
+      versionManagerAllowVersionDeleteSpy.returnValue(true);
+      uploadAllowCommentsSpy.returnValue(true);
+
+      fixture.detectChanges();
+      expect(versionManagerComponent.showComments).toBe(true);
+    });
+
+    it('should have assigned false to showComments if settings.uploadAllowComments returns false', () => {
+      uploadAllowDownloadSpy.returnValue(true);
+      versionManagerAllowViewVersionsSpy.returnValue(true);
+      versionManagerShowActionsSpy.returnValue(true);
+      versionManagerAllowVersionDeleteSpy.returnValue(true);
+      uploadAllowCommentsSpy.returnValue(false);
+
+      fixture.detectChanges();
+      expect(versionManagerComponent.showComments).toBe(false);
+    });
+
+    it('should have assigned true to allowDownload if settings.uploadAllowDownload returns true', () => {
+      uploadAllowDownloadSpy.returnValue(true);
+      versionManagerAllowViewVersionsSpy.returnValue(true);
+      versionManagerShowActionsSpy.returnValue(true);
+      versionManagerAllowVersionDeleteSpy.returnValue(true);
+      uploadAllowCommentsSpy.returnValue(true);
+
+      fixture.detectChanges();
+      expect(versionManagerComponent.allowDownload).toBe(true);
+    });
+
+    it('should have assigned false to allowDownload if settings.uploadAllowDownload returns false', () => {
+      uploadAllowDownloadSpy.returnValue(false);
+      versionManagerAllowViewVersionsSpy.returnValue(true);
+      versionManagerShowActionsSpy.returnValue(true);
+      versionManagerAllowVersionDeleteSpy.returnValue(true);
+      uploadAllowCommentsSpy.returnValue(true);
+
+      fixture.detectChanges();
+      expect(versionManagerComponent.allowDownload).toBe(false);
+    });
+
+    it('should have assigned true to allowViewVersions if settings.versionManagerAllowViewVersions returns true', () => {
+      uploadAllowDownloadSpy.returnValue(true);
+      versionManagerAllowViewVersionsSpy.returnValue(true);
+      versionManagerShowActionsSpy.returnValue(true);
+      versionManagerAllowVersionDeleteSpy.returnValue(true);
+      uploadAllowCommentsSpy.returnValue(true);
+
+      fixture.detectChanges();
+      expect(versionManagerComponent.allowViewVersions).toBe(true);
+    });
+
+    it('should have assigned false to allowViewVersions if settings.versionManagerAllowViewVersions returns false', () => {
+      uploadAllowDownloadSpy.returnValue(true);
+      versionManagerAllowViewVersionsSpy.returnValue(false);
+      versionManagerShowActionsSpy.returnValue(true);
+      versionManagerAllowVersionDeleteSpy.returnValue(true);
+      uploadAllowCommentsSpy.returnValue(true);
+
+      fixture.detectChanges();
+      expect(versionManagerComponent.allowViewVersions).toBe(false);
+    });
+
+    it('should have assigned true to allowVersionDelete if settings.versionManagerAllowVersionDelete returns true', () => {
+      uploadAllowDownloadSpy.returnValue(true);
+      versionManagerAllowViewVersionsSpy.returnValue(true);
+      versionManagerShowActionsSpy.returnValue(true);
+      versionManagerAllowVersionDeleteSpy.returnValue(true);
+      uploadAllowCommentsSpy.returnValue(true);
+
+      fixture.detectChanges();
+      expect(versionManagerComponent.allowVersionDelete).toBe(true);
+    });
+
+    it('should have assigned false to allowVersionDelete if settings.versionManagerAllowVersionDelete returns false', () => {
+      uploadAllowDownloadSpy.returnValue(true);
+      versionManagerAllowViewVersionsSpy.returnValue(true);
+      versionManagerShowActionsSpy.returnValue(true);
+      versionManagerAllowVersionDeleteSpy.returnValue(false);
+      uploadAllowCommentsSpy.returnValue(true);
+
+      fixture.detectChanges();
+      expect(versionManagerComponent.allowVersionDelete).toBe(false);
+    });
+
+    it('should have assigned true to showActions if settings.versionManagerShowActions returns true', () => {
+      uploadAllowDownloadSpy.returnValue(true);
+      versionManagerAllowViewVersionsSpy.returnValue(true);
+      versionManagerShowActionsSpy.returnValue(true);
+      versionManagerAllowVersionDeleteSpy.returnValue(true);
+      uploadAllowCommentsSpy.returnValue(true);
+
+      fixture.detectChanges();
+      expect(versionManagerComponent.allowVersionDelete).toBe(true);
+    });
+
+    it('should have assigned false to showActions if settings.versionManagerShowActions returns false', () => {
+      uploadAllowDownloadSpy.returnValue(true);
+      versionManagerAllowViewVersionsSpy.returnValue(true);
+      versionManagerShowActionsSpy.returnValue(false);
+      versionManagerAllowVersionDeleteSpy.returnValue(true);
+      uploadAllowCommentsSpy.returnValue(true);
+
+      fixture.detectChanges();
+      expect(versionManagerComponent.showActions).toBe(false);
+    });
   });
 });

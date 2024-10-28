@@ -36,7 +36,6 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Agent } from '@alfresco/js-api';
 import { AgentService, SearchAiService } from '@alfresco/adf-content-services';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { getAgentsWithMockedAvatars } from '../search-ai-utils';
 
 @Component({
   standalone: true,
@@ -57,8 +56,6 @@ export class AgentsButtonComponent implements OnInit, OnDestroy {
   private _disabled = true;
   private _initialsByAgentId: { [key: string]: string } = {};
   private _hxInsightUrl: string;
-
-  avatarsMocked = true;
 
   get agents(): Agent[] {
     return this._agents;
@@ -102,9 +99,6 @@ export class AgentsButtonComponent implements OnInit, OnDestroy {
       (result) => {
         this._hxInsightUrl = result.config.entry.knowledgeRetrievalUrl;
         this._agents = result.agents;
-
-        // TODO remove mocked avatar images after backend is done (https://hyland.atlassian.net/browse/ACS-8769)
-        this._agents = getAgentsWithMockedAvatars(result.agents, this.avatarsMocked);
 
         this.cd.detectChanges();
 

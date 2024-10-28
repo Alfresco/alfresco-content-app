@@ -37,6 +37,14 @@
       & > :nth-child(2) {
         flex: 1;
       }
+
+      .aca-rule-composite-condition__boolean-mode-control #{$mat-form-field-wrapper} {
+        background-color: unset;
+
+        #{$mat-select-disabled} {
+          color: var(--adf-theme-foreground-text-color);
+        }
+      }
     }
 
     &__no-conditions {

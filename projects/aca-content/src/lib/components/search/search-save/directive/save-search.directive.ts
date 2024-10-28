@@ -22,14 +22,38 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Agent } from '@alfresco/js-api/typings';
+import { Directive, HostListener, Input } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { SaveSearchDialogComponent } from '../dialog/save-search-dialog.component';
 
-export const getAgentsWithMockedAvatars = (agents: Agent[], mocked: boolean) => {
-  if (mocked) {
-    const images = ['assets/images/agent-avatar-blue.png', 'assets/images/agent-avatar-gold.png', 'assets/images/agent-avatar-pink.png'];
-    return agents.map((agent, index) => {
-      return { ...agent, avatarUrl: images[index > 2 ? 2 : index] };
-    });
+interface SaveSearchDirectiveDialogData {
+  searchUrl: string;
+}
+
+@Directive({
+  selector: '[acaSaveSearch]',
+  standalone: true
+})
+export class SaveSearchDirective {
+  /** Encoded search query */
+  @Input()
+  acaSaveSearchQuery: string;
+
+  constructor(private readonly dialogRef: MatDialog) {}
+
+  @HostListener('click', ['$event'])
+  onClick(event: MouseEvent) {
+    event.preventDefault();
+    this.openDialog();
   }
-  return agents;
-};
+
+  private openDialog(): void {
+    this.dialogRef.open(SaveSearchDialogComponent, this.getDialogConfig());
+  }
+
+  private getDialogConfig(): { data: SaveSearchDirectiveDialogData } {
+    return {
+      data: { searchUrl: this.acaSaveSearchQuery }
+    };
+  }
+}

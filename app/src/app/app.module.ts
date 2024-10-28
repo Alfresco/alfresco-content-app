@@ -25,7 +25,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { TRANSLATION_PROVIDER, CoreModule, AuthGuard, AuthModule } from '@alfresco/adf-core';
+import { AuthGuard, AuthModule, CoreModule, TRANSLATION_PROVIDER } from '@alfresco/adf-core';
 import { AppService } from '@alfresco/aca-shared';
 
 import { AppExtensionsModule } from './extensions.module';
@@ -51,9 +51,9 @@ import localeSv from '@angular/common/locales/sv';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.components';
-import { ContentUrlService, CONTENT_LAYOUT_ROUTES, ContentServiceExtensionModule, CoreExtensionsModule } from '@alfresco/aca-content';
+import { CONTENT_LAYOUT_ROUTES, ContentServiceExtensionModule, ContentUrlService, CoreExtensionsModule } from '@alfresco/aca-content';
 import { ContentVersionService } from '@alfresco/adf-content-services';
-import { ShellModule, SHELL_APP_SERVICE, SHELL_AUTH_TOKEN } from '@alfresco/adf-core/shell';
+import { SHELL_APP_SERVICE, SHELL_AUTH_TOKEN, ShellModule } from '@alfresco/adf-core/shell';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { APP_ROUTES } from './app.routes';
 import { MatIconRegistry } from '@angular/material/icon';
