@@ -26,10 +26,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CORE_PIPES, CoreTestingModule } from '@alfresco/adf-core';
 import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
 import { By } from '@angular/platform-browser';
-import { SavedSearchesService } from '@alfresco/adf-content-services';
+import { SavedSearchesService, SavedSearch } from '@alfresco/adf-content-services';
 import { SavedSearchesSmartListComponent } from './saved-searches-smart-list.component';
-import { SavedSearch } from '@alfresco/adf-content-services/lib/common/interfaces/saved-search.interface';
 import { AppService, DocumentBasePageService, DocumentBasePageServiceMock } from '@alfresco/aca-shared';
+import { AppState } from '@alfresco/aca-shared/store';
 import { provideMockStore } from '@ngrx/store/testing';
 
 const appServiceMock = {
@@ -41,13 +41,26 @@ const appServiceMock = {
 describe('SavedSearchesSmartListComponent', () => {
   let fixture: ComponentFixture<SavedSearchesSmartListComponent>;
   let fakeSavedSearches$: ReplaySubject<SavedSearch[]>;
+  let appState: Partial<AppState> = {};
 
   beforeEach(() => {
     fakeSavedSearches$ = new ReplaySubject<SavedSearch[]>(1);
+    appState = {
+      selection: {
+        count: 0,
+        isEmpty: false,
+        libraries: [],
+        nodes: []
+      },
+      navigation: {},
+      infoDrawerOpened: false
+    };
     TestBed.configureTestingModule({
       imports: [CoreTestingModule, SavedSearchesSmartListComponent],
       providers: [
-        provideMockStore(),
+        provideMockStore({
+          initialState: { app: appState }
+        }),
         ...CORE_PIPES,
         { provide: DocumentBasePageService, useClass: DocumentBasePageServiceMock },
         { provide: SavedSearchesService, useValue: { savedSearches$: fakeSavedSearches$ } },

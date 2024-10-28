@@ -69,6 +69,8 @@ describe('SaveSearchDialogComponent', () => {
   it('should disable submit button if form is invalid', () => {
     spyOn(savedSearchesService, 'saveSearch').and.callThrough();
     submitButton.click();
+    fixture.detectChanges();
+    expect(component.form.valid).toBeFalse();
     expect(submitButton.disabled).toBeTrue();
     expect(savedSearchesService.saveSearch).not.toHaveBeenCalled();
   });
