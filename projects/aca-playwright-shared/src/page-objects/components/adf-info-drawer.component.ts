@@ -63,6 +63,24 @@ export class AdfInfoDrawerComponent extends BaseComponent {
   public descriptionField = this.page.locator('textarea[placeholder=Description]');
   public visibilityField = this.infoDrawerPanel.getByRole('combobox');
   public selectVisibility = (visibilityOption: string) => this.page.getByRole('listbox').getByRole('option', { name: visibilityOption }).click();
+  public tagsAccordion = this.getChild('[data-automation-id="adf-content-metadata-tags-panel"]');
+  public categoriesAccordion = this.getChild('[data-automation-id="adf-content-metadata-categories-panel"]');
+  public tagsAccordionPenButton = this.tagsAccordion.locator('[data-automation-id="showing-tag-input-button"]');
+  public categoriesAccordionPenButton = this.categoriesAccordion.locator('[data-automation-id="meta-data-categories-edit"]');
+  private tagsCreator = this.getChild('adf-tags-creator');
+  public tagsInput = this.tagsCreator.locator('input');
+  public createTagButton = this.tagsCreator.locator('[role="button"]');
+  public tagsChips = this.tagsCreator.locator('mat-chip');
+  public tagsChipsXButton = this.tagsChips.locator('button');
+  public tagsAccordionCancelButton = this.getChild('[data-automation-id="reset-tags-metadata"]');
+  public tagsAccordionConfirmButton = this.getChild('[data-automation-id="save-tags-metadata"]');
+  public categoriesAccordionCancelButton = this.getChild('[data-automation-id="reset-metadata"]');
+  public categoriesAccordionConfirmButton = this.getChild('[data-automation-id="save-categories-metadata"]');
+  private categoriesManagement = this.getChild('adf-categories-management');
+  public categoriesInput = this.categoriesManagement.locator('input');
+  public categoriesListItems = this.categoriesManagement.locator('mat-list-item');
+  public categoriesItemRemoveButton = this.categoriesManagement.locator('[data-automation-id="categories-remove-category-button"]');
+  public categoriesCreatedList = this.getChild('.adf-metadata-categories');
 
   async checkCommentsHeaderCount(): Promise<number> {
     const commentsCountTextContent = await this.commentsHeader.textContent();
