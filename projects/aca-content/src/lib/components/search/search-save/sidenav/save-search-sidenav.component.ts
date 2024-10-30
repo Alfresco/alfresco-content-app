@@ -25,7 +25,7 @@
 import { Component, inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { SavedSearch, SavedSearchesService } from '@alfresco/adf-content-services';
 import { Subject } from 'rxjs';
-import { first, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { CoreModule, TranslationService } from '@alfresco/adf-core';
 import { DynamicExtensionComponent, NavBarLinkRef } from '@alfresco/adf-extensions';
 import { ExpandMenuComponent } from '../../../sidenav/components/expand-menu.component';
@@ -61,19 +61,6 @@ export class SaveSearchSidenavComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-  }
-
-  onActionClick(el: NavBarLinkRef): void {
-    if (el.id !== this.manageSearchesId) {
-      this.appService.appNavNarMode$
-        .asObservable()
-        .pipe(first())
-        .subscribe((state) => {
-          if (state === 'expanded') {
-            this.appService.toggleAppNavBar$.next();
-          }
-        });
-    }
   }
 
   private createNavBarLinkRef(children: SavedSearch[]): NavBarLinkRef {

@@ -54,7 +54,6 @@ import {
   ViewerToolbarComponent
 } from '@alfresco/adf-core';
 import {
-  AppService,
   ContextActionsDirective,
   InfoDrawerComponent,
   PageComponent,
@@ -63,7 +62,7 @@ import {
   ToolbarComponent
 } from '@alfresco/aca-shared';
 import { SearchSortingDefinition } from '@alfresco/adf-content-services/lib/search/models/search-sorting-definition.interface';
-import { first, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { SearchInputComponent } from '../search-input/search-input.component';
@@ -152,8 +151,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
     private readonly queryBuilder: SearchQueryBuilderService,
     private readonly changeDetectorRef: ChangeDetectorRef,
     private readonly route: ActivatedRoute,
-    private readonly translationService: TranslationService,
-    private readonly appService: AppService
+    private readonly translationService: TranslationService
   ) {
     super();
 
@@ -175,15 +173,6 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
 
   ngOnInit() {
     super.ngOnInit();
-
-    this.appService.appNavNarMode$
-      .asObservable()
-      .pipe(first())
-      .subscribe((state) => {
-        if (state === 'expanded') {
-          this.appService.toggleAppNavBar$.next();
-        }
-      });
 
     this.queryBuilder.resetToDefaults();
     this.sorting = this.getSorting();
