@@ -70,8 +70,8 @@ test.describe('Info Drawer - File Folder Properties', () => {
 
   async function createTagGetId() {
     const requestTagData = await tagsApi.createTags([tagBody]);
-    if ('entry' in requestTagData) {
-      return (requestTagData as { entry: { id: string } }).entry.id;
+    if (Object.keys(requestTagData).includes('entry')) {
+      return (requestTagData as unknown as { entry: { id: string } }).entry.id;
     } else {
       console.error('Unexpected response format:', requestTagData);
       return null;
