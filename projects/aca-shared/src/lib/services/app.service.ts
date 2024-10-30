@@ -65,7 +65,7 @@ export class AppService implements ShellAppService, OnDestroy {
   toggleAppNavBar$ = new Subject<void>();
 
   hideSidenavConditions = ['/preview/'];
-  minimizeSidenavConditions = ['search'];
+  minimizeSidenavConditions = [];
 
   onDestroy$ = new Subject<boolean>();
 

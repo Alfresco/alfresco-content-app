@@ -22,11 +22,11 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, inject, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { SavedSearchesListUiComponent } from '../ui-list/saved-searches-list.ui-component';
-import { AppService, PageComponent, PageLayoutComponent } from '@alfresco/aca-shared';
+import { PageComponent, PageLayoutComponent } from '@alfresco/aca-shared';
 import { SavedSearchesService } from '@alfresco/adf-content-services';
 import { EmptyContentComponent } from '@alfresco/adf-core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -39,19 +39,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   styleUrls: ['./saved-searches-smart-list.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class SavedSearchesSmartListComponent extends PageComponent implements OnInit, OnDestroy {
+export class SavedSearchesSmartListComponent extends PageComponent {
   savedSearchesService = inject(SavedSearchesService);
 
   savedSearches$ = this.savedSearchesService.savedSearches$;
-
-  constructor(private readonly appService: AppService) {
-    super();
-  }
-
-  ngOnInit() {
-    super.ngOnInit();
-    this.appService.toggleAppNavBar$.next();
-  }
 
   onOrderChanged(event: { previousIndex: number; currentIndex: number }): void {
     this.savedSearchesService.changeOrder(event.previousIndex, event.currentIndex);
