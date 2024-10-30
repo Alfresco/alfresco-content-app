@@ -42,8 +42,9 @@ test.describe('Info Drawer - File Folder Properties', () => {
   let tagsApi: TagsApi;
   let categoriesApi: CategoriesApi;
   let responseCategoryId: string;
+  let responseTagsId: string;
   const username = `user-e2e-${Utils.random()}`;
-  const tagName = 'e2etag';
+  const manualTagName = `e2e-tag-${Utils.random()}`;
   const FolderC299162 = `C299162-e2e-${Utils.random()}`;
   const FolderC599174 = `C599174-e2e-${Utils.random()}`;
   const Folder17238 = `xat-17238-e2e-${Utils.random()}`;
@@ -67,6 +68,16 @@ test.describe('Info Drawer - File Folder Properties', () => {
     }
   }
 
+  async function createTagGetId() {
+    const requestTagData = await tagsApi.createTags([tagBody]);
+    if ('entry' in requestTagData) {
+      return (requestTagData as { entry: { id: string } }).entry.id;
+    } else {
+      console.error('Unexpected response format:', requestTagData);
+      return null;
+    }
+  }
+
   test.beforeAll(async () => {
     try {
       const apiClientFactory = new ApiClientFactory();
@@ -78,6 +89,7 @@ test.describe('Info Drawer - File Folder Properties', () => {
       tagsApi = await TagsApi.initialize('admin');
       categoriesApi = await CategoriesApi.initialize('admin');
       responseCategoryId = await createCategoryGetId();
+      responseTagsId = await createTagGetId();
     } catch (error) {
       console.error(`beforeAll failed : ${error}`);
     }
@@ -90,7 +102,7 @@ test.describe('Info Drawer - File Folder Properties', () => {
   test.afterAll(async () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
     await categoriesApi.deleteCategory(responseCategoryId);
-    await tagsApi.deleteTag(tagBody.tag);
+    await tagsApi.deleteTag(responseTagsId);
   });
 
   async function setupFolderAndNavigate(personalFiles: PersonalFilesPage, folderName: string) {
@@ -138,9 +150,9 @@ test.describe('Info Drawer - File Folder Properties', () => {
     await expect(personalFiles.infoDrawer.tagsAccordionPenButton).toBeHidden();
     await expect(personalFiles.infoDrawer.tagsAccordionCancelButton).toBeEnabled();
     await expect(personalFiles.infoDrawer.tagsAccordionConfirmButton).toBeDisabled();
-    await personalFiles.infoDrawer.tagsInput.fill(tagName);
+    await personalFiles.infoDrawer.tagsInput.fill(manualTagName);
     await personalFiles.infoDrawer.createTagButton.click();
-    await expect(personalFiles.infoDrawer.tagsChips.first()).toContainText(tagName);
+    await expect(personalFiles.infoDrawer.tagsChips.first()).toContainText(manualTagName);
     await expect(personalFiles.infoDrawer.tagsChipsXButton.first()).toBeVisible();
     await personalFiles.infoDrawer.tagsAccordionConfirmButton.click();
     await expect(personalFiles.infoDrawer.tagsChipsXButton.first()).toBeHidden();
@@ -150,7 +162,6 @@ test.describe('Info Drawer - File Folder Properties', () => {
   test('[XAT-17240] Remove a tag from a node', async ({ personalFiles }) => {
     const Folder17240Id = (await nodesApi.createFolder(Folder17240)).entry.id;
     await fileActionsApi.waitForNodes(Folder17240, { expect: 1 });
-    await tagsApi.createTags([tagBody]);
     await tagsApi.assignTagToNode(Folder17240Id, tagBody);
     await personalFiles.navigate();
     await Utils.reloadPageIfRowNotVisible(personalFiles, Folder17240);
@@ -177,7 +188,7 @@ test.describe('Info Drawer - File Folder Properties', () => {
     await personalFiles.acaHeader.viewDetails.click();
 
     await personalFiles.infoDrawer.tagsAccordionPenButton.click();
-    await personalFiles.infoDrawer.tagsInput.fill(tagName);
+    await personalFiles.infoDrawer.tagsInput.fill(manualTagName);
     await personalFiles.infoDrawer.tagsAccordionCancelButton.click();
     await expect(personalFiles.infoDrawer.tagsAccordionPenButton).toBeVisible();
     await expect(personalFiles.infoDrawer.tagsAccordion).toContainText('There are currently no tags added');
