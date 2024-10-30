@@ -37,6 +37,7 @@ describe('SavedSearchesListUiComponent ', () => {
   let component: SavedSearchesListUiComponent;
   let savedSearchesListUiService: SavedSearchesListUiService;
   let clipboard: Clipboard;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [CoreTestingModule, SavedSearchesListUiComponent],

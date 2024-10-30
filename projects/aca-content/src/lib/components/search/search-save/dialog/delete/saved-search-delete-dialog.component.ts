@@ -41,6 +41,7 @@ import { CoreModule } from '@alfresco/adf-core';
 })
 export class SavedSearchDeleteDialogComponent {
   isLoading = false;
+
   constructor(
     private readonly dialog: MatDialogRef<SavedSearchDeleteDialogComponent>,
     private readonly savedSearchesService: SavedSearchesService,
@@ -63,7 +64,7 @@ export class SavedSearchDeleteDialogComponent {
           this.isLoading = false;
         },
         error: () => {
-          this.store.dispatch(new SnackbarErrorAction('APP.BROWSE.SEARCH.SAVE_SEARCH.DELETE_DIALOG.SUCCESS_MESSAGE'));
+          this.store.dispatch(new SnackbarErrorAction('APP.BROWSE.SEARCH.SAVE_SEARCH.DELETE_DIALOG.ERROR_MESSAGE'));
           this.isLoading = false;
         }
       });

@@ -216,7 +216,7 @@
                 "NAME_REQUIRED_ERROR": "This field is required",
                 "DESCRIPTION_LABEL": "Description",
                 "SAVE_SUCCESS": "Search Saved",
-                "SAVE_ERROR": "Error occured. Search could not be saved.",
+                "SAVE_ERROR": "Error occurred. Search could not be saved.",
                 "NAVBAR": {
                   "TITLE": "Saved Searches ({{ number }})",
                   "MANAGE_BUTTON": "Manage searches"
@@ -225,14 +225,14 @@
                   "CONTEXT_OPTION": "Edit Search",
                   "TITLE": "Edit Saved Search",
                   "SUCCESS_MESSAGE": "Saved Search edited successfully",
-                  "ERROR_MESSAGE": "Error occured. Saved Search could not be edited."
+                  "ERROR_MESSAGE": "Error occurred. Saved Search could not be edited."
                 },
                 "DELETE_DIALOG": {
                   "CONTEXT_OPTION": "Delete Search",
                   "TITLE": "Delete Saved Search",
                   "CONTENT": "Are you sure you want to delete this search",
                   "SUCCESS_MESSAGE": "Saved Search deleted successfully",
-                  "ERROR_MESSAGE": "Error occured. Saved Search could not be deleted."
+                  "ERROR_MESSAGE": "Error occurred. Saved Search could not be deleted."
                 },
                 "LIST": {
                   "TITLE": "Saved Searches",

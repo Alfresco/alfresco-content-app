@@ -38,6 +38,7 @@ describe('SaveSearchDeleteDialogComponent', () => {
   let store: Store;
   let submitButton: HTMLButtonElement;
   let cancelButton: HTMLButtonElement;
+
   const savedSearchToDelete: SavedSearch = {
     name: 'test',
     encodedUrl: '1234',

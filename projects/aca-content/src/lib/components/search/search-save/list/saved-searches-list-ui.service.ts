@@ -30,7 +30,7 @@ import { SavedSearchEditDialogComponent } from '../dialog/edit/saved-search-edit
 
 @Injectable({ providedIn: 'root' })
 export class SavedSearchesListUiService {
-  private dialog = inject(MatDialog);
+  private readonly dialog = inject(MatDialog);
 
   openEditSavedSearch(savedSearch: SavedSearch): void {
     this.dialog.open(SavedSearchEditDialogComponent, {

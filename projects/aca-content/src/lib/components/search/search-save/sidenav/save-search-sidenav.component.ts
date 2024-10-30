@@ -44,10 +44,10 @@ export class SaveSearchSidenavComponent implements OnInit, OnDestroy {
   appService = inject(AppService);
   translationService = inject(TranslationService);
   destroy$ = new Subject<void>();
-
   item: NavBarLinkRef;
 
-  private manageSearchesId = 'manage-saved-searches';
+  private readonly manageSearchesId = 'manage-saved-searches';
+
   ngOnInit() {
     this.savedSearchesService.innit();
     this.savedSearchesService.savedSearches$

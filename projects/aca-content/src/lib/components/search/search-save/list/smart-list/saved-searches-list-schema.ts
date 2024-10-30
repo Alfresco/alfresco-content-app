@@ -28,6 +28,7 @@ export const savedSearchesListSchema = {
       type: 'text',
       key: 'name',
       title: 'APP.BROWSE.SEARCH.SAVE_SEARCH.LIST.NAME',
+      class: 'adf-ellipsis-cell',
       sortable: false,
       draggable: false
     },
@@ -35,6 +36,7 @@ export const savedSearchesListSchema = {
       type: 'text',
       key: 'description',
       title: 'APP.BROWSE.SEARCH.SAVE_SEARCH.LIST.DESCRIPTION',
+      class: 'adf-ellipsis-cell',
       sortable: false,
       draggable: false
     }

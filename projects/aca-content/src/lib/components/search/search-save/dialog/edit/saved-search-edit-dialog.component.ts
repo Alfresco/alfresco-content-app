@@ -47,6 +47,7 @@ export class SavedSearchEditDialogComponent {
   });
 
   isLoading = false;
+
   constructor(
     private readonly dialog: MatDialogRef<SavedSearchEditDialogComponent>,
     private readonly store: Store<AppStore>,

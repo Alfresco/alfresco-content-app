@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AfterContentInit, Component, EventEmitter, inject, Input, OnDestroy, Output, ViewEncapsulation } from '@angular/core';
+import { AfterContentInit, Component, DestroyRef, EventEmitter, inject, Input, Output, ViewEncapsulation } from '@angular/core';
 import {
   AppConfigService,
   DataCellEvent,
@@ -33,8 +33,8 @@ import {
   TEMPLATE_DIRECTIVES
 } from '@alfresco/adf-core';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SavedSearchesListUiService } from '../saved-searches-list-ui.service';
 import { savedSearchesListSchema } from '../smart-list/saved-searches-list-schema';
 import { SavedSearch } from '@alfresco/adf-content-services';
@@ -51,7 +51,7 @@ import { SnackbarInfoAction } from '@alfresco/aca-shared/store';
   encapsulation: ViewEncapsulation.None,
   host: { class: 'aca-saved-searches-ui-list' }
 })
-export class SavedSearchesListUiComponent extends DataTableSchema implements AfterContentInit, OnDestroy {
+export class SavedSearchesListUiComponent extends DataTableSchema implements AfterContentInit {
   @Input()
   savedSearches: SavedSearch[] = [];
 
@@ -60,10 +60,9 @@ export class SavedSearchesListUiComponent extends DataTableSchema implements Aft
 
   readonly ShowHeaderMode = ShowHeaderMode;
 
-  private savedSearchesListUiService = inject(SavedSearchesListUiService);
-  private onDestroy$ = new Subject<boolean>();
-  private contextMenuAction$ = new Subject<any>();
-
+  private readonly savedSearchesListUiService = inject(SavedSearchesListUiService);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly contextMenuAction$ = new Subject<any>();
   private readonly editSavedSearchOptionKey = 'edit';
   private readonly deleteSavedSearchOptionKey = 'delete';
   private readonly copyToClipboardUrlOptionKey = 'copy';
@@ -91,12 +90,7 @@ export class SavedSearchesListUiComponent extends DataTableSchema implements Aft
 
   ngAfterContentInit() {
     this.createDatatableSchema();
-    this.contextMenuAction$.pipe(takeUntil(this.onDestroy$)).subscribe((action) => this.executeMenuOption(action.key, action.data));
-  }
-
-  ngOnDestroy() {
-    this.onDestroy$.next(true);
-    this.onDestroy$.complete();
+    this.contextMenuAction$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((action) => this.executeMenuOption(action.key, action.data));
   }
 
   onShowRowActionsMenu(event: DataCellEvent): void {

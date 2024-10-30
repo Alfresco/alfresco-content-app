@@ -1,14 +1,23 @@
 .aca-saved-searches-ui-list {
-  .aca-save-search-list-container {
-    padding: 0 20px;
-  }
+  overflow-y: auto;
 
   .adf-datatable-list {
     border: 0;
 
+    .adf-datatable-header {
+      padding: 0 20px;
+
+      .adf-datatable-row {
+        margin-right: 15px;
+        padding-right: 0;
+        border-bottom: 1px solid var(--adf-theme-foreground-text-color-007);
+      }
+    }
+
     .adf-datatable-body {
       .adf-datatable-row {
         border-top: 0;
+        margin: 0 20px;
 
         &:last-child {
           border: 0;
@@ -18,10 +27,6 @@
           border-top: 1px dashed var(--adf-theme-foreground-text-color-014);
         }
       }
-    }
-
-    .adf-datatable-header {
-      border-bottom: 1px solid var(--adf-theme-foreground-text-color-007);
     }
   }
 }
