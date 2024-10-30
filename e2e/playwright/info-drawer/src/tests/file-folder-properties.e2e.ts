@@ -90,6 +90,7 @@ test.describe('Info Drawer - File Folder Properties', () => {
   test.afterAll(async () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
     await categoriesApi.deleteCategory(responseCategoryId);
+    await tagsApi.deleteTag(tagBody.tag);
   });
 
   async function setupFolderAndNavigate(personalFiles: PersonalFilesPage, folderName: string) {
