@@ -32,6 +32,7 @@ import { By } from '@angular/platform-browser';
 import { AppExtensionService, NodePermissionService } from '@alfresco/aca-shared';
 import { Actions } from '@ngrx/effects';
 import { of, Subject } from 'rxjs';
+import { Store } from '@ngrx/store';
 import { ContentActionType } from '@alfresco/adf-extensions';
 import { CategoryService, ContentMetadataComponent, ContentMetadataService, TagService } from '@alfresco/adf-content-services';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -244,6 +245,14 @@ describe('MetadataTabComponent', () => {
         expect(tagService.areTagsEnabled).toHaveBeenCalled();
         expect(getContentMetadata().displayTags).toBeFalse();
       });
+    });
+
+    it('should set displayPredictions to true if HXIConnector is enabled', () => {
+      const store = TestBed.inject(Store);
+      spyOn(store, 'select').and.returnValue(of(true));
+      fixture.detectChanges();
+      expect(component.isHXIConnectorEnabled).toBeTrue();
+      expect(getContentMetadata().displayPredictions).toBeTrue();
     });
   });
 
