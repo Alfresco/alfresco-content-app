@@ -43,7 +43,6 @@
         <button
           acaActiveLink="aca-action-button--active"
           [action]="child"
-          (actionClicked)="actionClicked.emit()"
           [attr.aria-label]="child.title | translate"
           [id]="child.id"
           [attr.data-automation-id]="child.id"

@@ -1,4 +1,8 @@
-<h2 mat-dialog-title>{{"APP.BROWSE.SEARCH.SAVE_SEARCH.MODAL_HEADER" | translate}}</h2>
+<div class="aca-save-search-dialog__header">
+    <h2 class="aca-save-search-dialog__title">{{"APP.BROWSE.SEARCH.SAVE_SEARCH.MODAL_HEADER" | translate}}</h2>
+    <button mat-icon-button mat-dialog-close><mat-icon>close</mat-icon></button>
+</div>
+
 
 <mat-dialog-content>
   <form [formGroup]="form" (submit)="submit()">

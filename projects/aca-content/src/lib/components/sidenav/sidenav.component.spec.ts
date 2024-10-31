@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { ChangeDetectorRef, NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { SidenavComponent } from './sidenav.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
@@ -54,7 +54,8 @@ describe('SidenavComponent', () => {
           }
         },
         { provide: NavigationHistoryService, useValue: navigationHistoryServiceSpy },
-        SidenavLayoutComponent
+        SidenavLayoutComponent,
+        ChangeDetectorRef
       ],
       schemas: [NO_ERRORS_SCHEMA]
     });

@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Directive, EventEmitter, HostListener, Input, Output } from '@angular/core';
+import { Directive, HostListener, Input } from '@angular/core';
 import { Params, PRIMARY_OUTLET, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppStore } from '@alfresco/aca-shared/store';
@@ -36,8 +36,6 @@ import { AppStore } from '@alfresco/aca-shared/store';
 export class ActionDirective {
   @Input() action;
 
-  @Output() actionClicked = new EventEmitter<void>();
-
   @HostListener('click')
   onClick() {
     if (this.action.url) {
@@ -48,7 +46,6 @@ export class ActionDirective {
         payload: this.getNavigationCommands(this.action.click.payload)
       });
     }
-    this.actionClicked.next();
   }
 
   constructor(private router: Router, private store: Store<AppStore>) {}

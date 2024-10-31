@@ -22,45 +22,29 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { NavBarLinkRef } from '@alfresco/adf-extensions';
+import { Component, inject, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
-import { IconModule } from '@alfresco/adf-core';
-import { MatButtonModule } from '@angular/material/button';
-import { ActiveLinkDirective } from '../directives/active-link.directive';
-import { ActionDirective } from '../directives/action.directive';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { ExpansionPanelDirective } from '../directives/expansion-panel.directive';
+import { SavedSearchesListUiComponent } from '../ui-list/saved-searches-list.ui-component';
+import { PageComponent, PageLayoutComponent } from '@alfresco/aca-shared';
+import { SavedSearchesService } from '@alfresco/adf-content-services';
+import { EmptyContentComponent } from '@alfresco/adf-core';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
+  selector: 'aca-saved-searches-smart-list',
   standalone: true,
-  imports: [
-    CommonModule,
-    TranslateModule,
-    IconModule,
-    MatButtonModule,
-    ActiveLinkDirective,
-    ActionDirective,
-    MatExpansionModule,
-    ExpansionPanelDirective
-  ],
-  selector: 'app-expand-menu',
-  encapsulation: ViewEncapsulation.None,
-  templateUrl: './expand-menu.component.html',
-  host: { class: 'app-expand-menu' }
+  imports: [CommonModule, TranslateModule, SavedSearchesListUiComponent, PageLayoutComponent, EmptyContentComponent, MatProgressSpinnerModule],
+  templateUrl: './saved-searches-smart-list.component.html',
+  styleUrls: ['./saved-searches-smart-list.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
-export class ExpandMenuComponent implements OnInit {
-  @Input()
-  item: NavBarLinkRef;
+export class SavedSearchesSmartListComponent extends PageComponent {
+  savedSearchesService = inject(SavedSearchesService);
 
-  constructor(private cd: ChangeDetectorRef) {}
+  savedSearches$ = this.savedSearchesService.savedSearches$;
 
-  ngOnInit() {
-    this.cd.detectChanges();
-  }
-
-  trackById(_index: number, obj: NavBarLinkRef) {
-    return obj.id;
+  onOrderChanged(event: { previousIndex: number; currentIndex: number }): void {
+    this.savedSearchesService.changeOrder(event.previousIndex, event.currentIndex);
   }
 }

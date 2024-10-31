@@ -25,19 +25,25 @@
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { of } from 'rxjs';
-import { SaveSearchDialogComponent } from './save-search-dialog.component';
-import { ContentTestingModule, SavedSearchesService } from '@alfresco/adf-content-services';
+import { SavedSearchEditDialogComponent } from './saved-search-edit-dialog.component';
+import { ContentTestingModule, SavedSearch, SavedSearchesService } from '@alfresco/adf-content-services';
 import { provideMockStore } from '@ngrx/store/testing';
-import { AppTestingModule } from '../../../../testing/app-testing.module';
 import { Store } from '@ngrx/store';
 import { SnackbarErrorAction, SnackbarInfoAction } from '@alfresco/aca-shared/store';
+import { AppTestingModule } from '../../../../../testing/app-testing.module';
 
-describe('SaveSearchDialogComponent', () => {
-  let fixture: ComponentFixture<SaveSearchDialogComponent>;
-  let component: SaveSearchDialogComponent;
+describe('SaveSearchEditDialogComponent', () => {
+  let fixture: ComponentFixture<SavedSearchEditDialogComponent>;
+  let component: SavedSearchEditDialogComponent;
   let savedSearchesService: SavedSearchesService;
   let store: Store;
   let submitButton: HTMLButtonElement;
+
+  const savedSearchToDelete: SavedSearch = {
+    name: 'test',
+    encodedUrl: '1234',
+    order: 0
+  };
 
   const dialogRef = {
     close: jasmine.createSpy('close')
@@ -49,43 +55,42 @@ describe('SaveSearchDialogComponent', () => {
       providers: [
         { provide: MatDialogRef, useValue: dialogRef },
         provideMockStore(),
-        { provide: SavedSearchesService, useValue: { saveSearch: () => of() } },
-        { provide: MAT_DIALOG_DATA, useValue: { searchUrl: 'abcdef' } }
+        { provide: SavedSearchesService, useValue: { editSavedSearch: () => of() } },
+        { provide: MAT_DIALOG_DATA, useValue: savedSearchToDelete }
       ]
     });
     dialogRef.close.calls.reset();
-    fixture = TestBed.createComponent(SaveSearchDialogComponent);
+    fixture = TestBed.createComponent(SavedSearchEditDialogComponent);
     component = fixture.componentInstance;
     savedSearchesService = TestBed.inject(SavedSearchesService);
     store = TestBed.inject(Store);
 
-    submitButton = fixture.nativeElement.querySelector('#aca-save-search-dialog-save-button');
+    submitButton = fixture.nativeElement.querySelector('#aca-saved-search-edit-dialog-submit-button');
   });
 
   afterEach(() => {
     fixture.destroy();
   });
 
-  it('should disable submit button if form is invalid', () => {
-    spyOn(savedSearchesService, 'saveSearch').and.callThrough();
+  it('should not save search if form is invalid', fakeAsync(() => {
+    spyOn(savedSearchesService, 'editSavedSearch').and.callThrough();
+    component.form.controls['name'].setValue('');
+    tick();
     submitButton.click();
-    fixture.detectChanges();
-    expect(component.form.valid).toBeFalse();
-    expect(submitButton.disabled).toBeTrue();
-    expect(savedSearchesService.saveSearch).not.toHaveBeenCalled();
-  });
+    expect(savedSearchesService.editSavedSearch).not.toHaveBeenCalled();
+  }));
 
   it('should save search, show snackbar message and close modal if form is valid', fakeAsync(() => () => {
-    spyOn(savedSearchesService, 'saveSearch').and.callThrough();
+    spyOn(savedSearchesService, 'editSavedSearch').and.callThrough();
     setFormValuesAndSubmit();
-    expect(store.dispatch).toHaveBeenCalledWith(new SnackbarInfoAction('APP.BROWSE.SEARCH.SAVE_SEARCH.SAVE_SUCCESS'));
+    expect(store.dispatch).toHaveBeenCalledWith(new SnackbarInfoAction('APP.BROWSE.SEARCH.SAVE_SEARCH.EDIT_DIALOG.SUCCESS_MESSAGE'));
     expect(dialogRef.close).toHaveBeenCalled();
   }));
 
   it('should show snackbar error if there is save error', fakeAsync(() => () => {
-    spyOn(savedSearchesService, 'saveSearch').and.throwError('');
+    spyOn(savedSearchesService, 'editSavedSearch').and.throwError('');
     setFormValuesAndSubmit();
-    expect(store.dispatch).toHaveBeenCalledWith(new SnackbarErrorAction('APP.BROWSE.SEARCH.SAVE_SEARCH.SAVE_ERROR'));
+    expect(store.dispatch).toHaveBeenCalledWith(new SnackbarErrorAction('APP.BROWSE.SEARCH.SAVE_SEARCH.EDIT_DIALOG.ERROR_MESSAGE'));
     expect(dialogRef.close).not.toHaveBeenCalled();
   }));
 
@@ -95,10 +100,11 @@ describe('SaveSearchDialogComponent', () => {
     component.form.controls['description'].setValue('TEST');
     submitButton.click();
     tick();
-    expect(savedSearchesService.saveSearch).toHaveBeenCalledWith({
+    expect(savedSearchesService.editSavedSearch).toHaveBeenCalledWith({
       name: 'ABCDEF',
       description: 'TEST',
-      encodedUrl: 'abcdef'
+      encodedUrl: '1234',
+      order: 0
     });
   }
 });

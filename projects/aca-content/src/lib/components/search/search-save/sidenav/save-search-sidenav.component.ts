@@ -44,8 +44,9 @@ export class SaveSearchSidenavComponent implements OnInit, OnDestroy {
   appService = inject(AppService);
   translationService = inject(TranslationService);
   destroy$ = new Subject<void>();
-
   item: NavBarLinkRef;
+
+  private readonly manageSearchesId = 'manage-saved-searches';
 
   ngOnInit() {
     this.savedSearchesService.innit();
@@ -62,10 +63,6 @@ export class SaveSearchSidenavComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  onActionClick(): void {
-    this.appService.appNavNarMode$.next('collapsed');
-  }
-
   private createNavBarLinkRef(children: SavedSearch[]): NavBarLinkRef {
     const mappedChildren = children
       .map((child) => ({
@@ -77,6 +74,15 @@ export class SaveSearchSidenavComponent implements OnInit, OnDestroy {
       }))
       .slice(0, 5);
     const title = this.translationService.instant('APP.BROWSE.SEARCH.SAVE_SEARCH.NAVBAR.TITLE', { number: children.length });
+    if (children.length) {
+      mappedChildren.push({
+        id: this.manageSearchesId,
+        icon: '',
+        title: 'APP.BROWSE.SEARCH.SAVE_SEARCH.NAVBAR.MANAGE_BUTTON',
+        route: 'saved-searches',
+        url: 'saved-searches'
+      });
+    }
     return {
       icon: '',
       title,

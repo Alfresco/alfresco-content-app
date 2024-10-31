@@ -179,9 +179,9 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
 
     this.subscriptions.push(
       this.queryBuilder.updated.subscribe((query) => {
+        this.isLoading = true;
         if (query) {
           this.sorting = this.getSorting();
-          this.isLoading = true;
           this.changeDetectorRef.detectChanges();
         }
       }),
@@ -203,6 +203,9 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
 
     if (this.route) {
       this.route.queryParams.pipe(takeUntil(this.onDestroy$)).subscribe((params: Params) => {
+        if (params[this.queryParamName]) {
+          this.isLoading = true;
+        }
         this.loadedFilters$.next();
         this.encodedQuery = params[this.queryParamName] || null;
         this.searchedWord = extractSearchedWordFromEncodedQuery(this.encodedQuery);
