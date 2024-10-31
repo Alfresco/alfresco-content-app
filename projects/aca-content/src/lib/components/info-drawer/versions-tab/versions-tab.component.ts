@@ -43,8 +43,7 @@ import { AppSettingsService } from '@alfresco/aca-shared';
         [allowViewVersions]="settings.versionManagerAllowViewVersions"
         [allowVersionDelete]="settings.versionManagerAllowVersionDelete"
         [showActions]="settings.versionManagerShowActions"
-      >
-      </adf-version-manager>
+      />
     </ng-container>
 
     <ng-template #empty>

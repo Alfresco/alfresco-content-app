@@ -22,7 +22,7 @@
           [value]="bulkSelectControl.value?.icon"
           class="aca-bulk-actions-icon"
           [attr.data-automation-id]="'aca-bulk-action-icon-' + bulkSelectControl.value?.id"
-        ></adf-icon>
+        />
         {{ bulkSelectControl.value?.title | translate }}
       </div>
     </mat-select-trigger>
@@ -41,7 +41,7 @@
           [value]="option.icon"
           class="aca-bulk-actions-icon"
           [attr.data-automation-id]="'aca-bulk-action-icon-' + option.id"
-        ></adf-icon>
+        />
         {{ option.title | translate }}
       </div>
     </mat-option>

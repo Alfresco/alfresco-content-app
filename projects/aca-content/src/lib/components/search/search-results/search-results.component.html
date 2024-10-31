@@ -2,13 +2,12 @@
   <div class="aca-page-layout-header">
     <aca-search-ai-input-container
       *ngIf="searchAiInputState.active"
-      [agentId]="searchAiInputState.selectedAgentId">
-    </aca-search-ai-input-container>
+      [agentId]="searchAiInputState.selectedAgentId" />
     <div class="aca-header-container">
-      <aca-search-input></aca-search-input>
-      <aca-bulk-actions-dropdown *ngIf="bulkActions" [items]="bulkActions"></aca-bulk-actions-dropdown>
+      <aca-search-input />
+      <aca-bulk-actions-dropdown *ngIf="bulkActions" [items]="bulkActions" />
       <div class="aca-search-toolbar-spacer"></div>
-      <aca-toolbar [items]="actions"></aca-toolbar>
+      <aca-toolbar [items]="actions" />
     </div>
   </div>
 
@@ -16,13 +15,13 @@
     <div class="aca-main-content">
       <div class="adf-search-results">
         <div class="adf-search-results__content">
-          <mat-progress-bar *ngIf="isLoading" color="primary" mode="indeterminate" aria-live="polite"> </mat-progress-bar>
+          <mat-progress-bar *ngIf="isLoading" color="primary" mode="indeterminate" aria-live="polite" />
           <div class="adf-search-results__content-header aca-content">
             <div class="aca-content__filter-set">
               <p>{{ 'APP.BROWSE.SEARCH.FILTER_SET' | translate }}</p>
-              <adf-search-form></adf-search-form>
+              <adf-search-form />
             </div>
-            <mat-divider [vertical]="true" class="aca-content__divider"></mat-divider>
+            <mat-divider [vertical]="true" class="aca-content__divider" />
             <div class="aca-content__advanced-filters">
               <div class="aca-content__advanced-filters--header">
                 <p>{{ 'APP.BROWSE.SEARCH.ADVANCED_FILTERS' | translate }}</p>
@@ -47,7 +46,7 @@
                   </button>
                 </div>
               </div>
-              <adf-search-filter-chips></adf-search-filter-chips>
+              <adf-search-filter-chips />
             </div>
           </div>
 
@@ -70,12 +69,12 @@
             <data-columns>
               <data-column id="app.search.thumbnail" key="$thumbnail" type="image" [sr-title]="'ADF-DOCUMENT-LIST.LAYOUT.THUMBNAIL'" [sortable]="false">
                 <ng-template let-context>
-                  <aca-custom-thumbnail-column [context]="context"></aca-custom-thumbnail-column>
+                  <aca-custom-thumbnail-column [context]="context" />
                 </ng-template>
 
                 <adf-data-column-header>
                   <ng-template>
-                    <aca-search-action-menu (sortingSelected)="onSearchSortingUpdate($event)"></aca-search-action-menu>
+                    <aca-search-action-menu (sortingSelected)="onSearchSortingUpdate($event)" />
                   </ng-template>
                 </adf-data-column-header>
               </data-column>
@@ -96,7 +95,7 @@
                     [resizable]="column.resizable"
                   >
                     <ng-template let-context>
-                      <adf-dynamic-column [id]="column.template" [context]="context"> </adf-dynamic-column>
+                      <adf-dynamic-column [id]="column.template" [context]="context" />
                     </ng-template>
                   </data-column>
                 </ng-container>
@@ -114,8 +113,7 @@
                     [isHidden]="column.isHidden"
                     [draggable]="column.draggable"
                     [resizable]="column.resizable"
-                  >
-                  </data-column>
+                  />
                 </ng-container>
               </ng-container>
             </data-columns>
@@ -131,8 +129,7 @@
             </adf-custom-empty-content-template>
           </adf-document-list>
 
-          <adf-pagination *ngIf="totalResults > 0" acaPagination [target]="documentList" (change)="onPaginationChanged($event)">
-          </adf-pagination>
+          <adf-pagination *ngIf="totalResults > 0" acaPagination [target]="documentList" (change)="onPaginationChanged($event)" />
         </div>
       </div>
     </div>
@@ -172,7 +169,7 @@
       </adf-alfresco-viewer>
       <ng-template #infoDrawerPanel>
         <div class="aca-sidebar">
-          <aca-info-drawer [node]="selection.last"></aca-info-drawer>
+          <aca-info-drawer [node]="selection.last" />
         </div>
       </ng-template>
     </div>

@@ -14,12 +14,11 @@
     (select)="onNodeSelect($event)"
     (folderLoaded)="setFolderLoading(false)"
     (navigationChange)="setFolderLoading(true)"
-    (siteChange)="setFolderLoading(true)">
-  </adf-content-node-selector-panel>
+    (siteChange)="setFolderLoading(true)" />
 
   <div class="aca-rule-set-picker__content__rule-list" [ngClass]="{ 'aca-justify': rulesLoading$ | async }">
     <ng-container *ngIf="rulesLoading$ | async; else rulesLoaded">
-      <mat-progress-spinner color="primary" mode="indeterminate"></mat-progress-spinner>
+      <mat-progress-spinner color="primary" mode="indeterminate" />
     </ng-container>
 
     <ng-template #rulesLoaded>
@@ -30,16 +29,14 @@
 
         <aca-rule-list-item
           *ngFor="let rule of (mainRuleSet$ | async).rules"
-          [rule]="rule">
-        </aca-rule-list-item>
+          [rule]="rule" />
       </ng-container>
 
       <ng-template #noOwnedRules>
         <adf-empty-content
           icon="library_books"
           [title]="'ACA_FOLDER_RULES.LINK_RULES_DIALOG.EMPTY_RULES_LIST.TITLE' | translate"
-          [subtitle]="'ACA_FOLDER_RULES.LINK_RULES_DIALOG.EMPTY_RULES_LIST.SUBTITLE' | translate">
-        </adf-empty-content>
+          [subtitle]="'ACA_FOLDER_RULES.LINK_RULES_DIALOG.EMPTY_RULES_LIST.SUBTITLE' | translate" />
       </ng-template>
     </ng-template>
   </div>

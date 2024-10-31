@@ -9,7 +9,7 @@
       [disabled]="actionRef.disabled"
       (click)="runAction()"
     >
-      <adf-icon [value]="actionRef.icon"></adf-icon>
+      <adf-icon [value]="actionRef.icon" />
     </button>
   </ng-container>
 
@@ -42,6 +42,6 @@
   </ng-container>
 
   <ng-container *ngSwitchCase="'menu-item'">
-    <app-toolbar-menu-item [actionRef]="actionRef"></app-toolbar-menu-item>
+    <app-toolbar-menu-item [actionRef]="actionRef" />
   </ng-container>
 </ng-container>
