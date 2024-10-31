@@ -32,6 +32,7 @@ import { SavedSearchDeleteDialogComponent } from '../dialog/delete/saved-search-
 describe('NodeTemplateService', () => {
   let dialog: MatDialog;
   let savedSearchesListUiService: SavedSearchesListUiService;
+
   const mockedSearch: SavedSearch = { name: 'test', encodedUrl: 'test', order: 1 };
 
   beforeEach(() => {
