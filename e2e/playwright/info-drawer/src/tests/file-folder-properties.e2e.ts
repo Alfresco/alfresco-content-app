@@ -63,21 +63,21 @@ test.describe('Info Drawer - File Folder Properties', () => {
   const noTagsText = 'There are currently no tags added';
 
   async function createCategoryGetId(): Promise<string> {
-    const requestData = await categoriesApi.createCategory(`-root-`, [{ name: categoryName }]);
-    if ('entry' in requestData) {
-      return requestData.entry.id;
+    const createdCategory = await categoriesApi.createCategory(`-root-`, [{ name: categoryName }]);
+    if ('entry' in createdCategory) {
+      return createdCategory.entry.id;
     } else {
-      console.error('Unexpected response format:', requestData);
+      console.error('Unexpected response format:', createdCategory);
       return null;
     }
   }
 
   async function createTagGetId(): Promise<string> {
-    const requestTagData = await tagsApi.createTags([tagBody]);
-    if ('entry' in requestTagData) {
-      return (requestTagData as { entry: { id: string } }).entry.id;
+    const createdTag = await tagsApi.createTags([tagBody]);
+    if ('entry' in createdTag) {
+      return (createdTag as { entry: { id: string } }).entry.id;
     } else {
-      console.error('Unexpected response format:', requestTagData);
+      console.error('Unexpected response format:', createdTag);
       return null;
     }
   }
@@ -94,6 +94,10 @@ test.describe('Info Drawer - File Folder Properties', () => {
       categoriesApi = await CategoriesApi.initialize('admin');
       responseCategoryId = await createCategoryGetId();
       responseTagsId = await createTagGetId();
+
+      if (responseCategoryId === null || responseTagsId === null) {
+        throw new Error('Failed to create category or tag - check API manually');
+      }
 
       await nodesApi.createFolder(FolderC299162);
       await nodesApi.createFolder(FolderC599174);
