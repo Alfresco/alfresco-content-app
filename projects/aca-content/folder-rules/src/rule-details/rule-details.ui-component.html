@@ -32,13 +32,13 @@
   <div class="aca-rule-details__form__row aca-rule-details__form__triggers">
     <div class="aca-label">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.LABEL.WHEN' | translate }}</div>
     <div>
-      <aca-rule-triggers formControlName="triggers" data-automation-id="rule-details-triggers-component"></aca-rule-triggers>
+      <aca-rule-triggers formControlName="triggers" data-automation-id="rule-details-triggers-component" />
       <mat-error class="aca-rule-details-error" *ngIf="triggers.hasError('required')">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.ERROR.INSUFFICIENT_TRIGGERS_SELECTED' | translate }}</mat-error>
     </div>
   </div>
 
   <div class="aca-rule-details__form__conditions">
-    <aca-rule-composite-condition [readOnly]="readOnly" formControlName="conditions"></aca-rule-composite-condition>
+    <aca-rule-composite-condition [readOnly]="readOnly" formControlName="conditions" />
     <mat-error class="aca-rule-details-error" *ngIf="conditions.hasError('ruleCompositeConditionInvalid')">{{ 'ACA_FOLDER_RULES.RULE_DETAILS.ERROR.RULE_COMPOSITE_CONDITION_INVALID' | translate }}</mat-error>
   </div>
 
@@ -49,8 +49,7 @@
       [actionDefinitions]="actionDefinitions"
       [parameterConstraints]="parameterConstraints"
       [readOnly]="readOnly"
-      [nodeId]="nodeId">
-    </aca-rule-action-list>
+      [nodeId]="nodeId" />
   </div>
 
   <div class="aca-rule-details__form__row aca-rule-details__form__others" *ngIf="showOptionsSection">
@@ -58,8 +57,7 @@
     <aca-rule-options
       formControlName="options"
       data-automation-id="rule-details-options-component"
-      [errorScriptConstraint]="errorScriptConstraint">
-    </aca-rule-options>
+      [errorScriptConstraint]="errorScriptConstraint" />
   </div>
 
 </form>

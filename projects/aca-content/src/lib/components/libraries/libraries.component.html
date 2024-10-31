@@ -3,7 +3,7 @@
     <h1 class="aca-page-title">
       {{ (selectedRowItemsCount < 1 ? 'APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.TITLE' : 'APP.HEADER.SELECTED') | translate: { count: selectedRowItemsCount } }}
     </h1>
-    <aca-toolbar [items]="actions"></aca-toolbar>
+    <aca-toolbar [items]="actions" />
   </div>
 
   <div class="aca-page-layout-content">
@@ -32,8 +32,7 @@
             icon="library_books"
             [title]="'APP.BROWSE.LIBRARIES.EMPTY_STATE.FILE_LIBRARIES.TITLE'"
             subtitle="APP.BROWSE.LIBRARIES.EMPTY_STATE.FILE_LIBRARIES.TEXT"
-          >
-          </adf-empty-content>
+          />
         </adf-custom-empty-content-template>
 
         <data-columns>
@@ -53,7 +52,7 @@
                 [sortingKey]="column.sortingKey || column.key"
               >
                 <ng-template let-context>
-                  <adf-dynamic-column [id]="column.template" [context]="context"> </adf-dynamic-column>
+                  <adf-dynamic-column [id]="column.template" [context]="context" />
                 </ng-template>
               </data-column>
             </ng-container>
@@ -71,18 +70,17 @@
                 [sortable]="column.sortable"
                 [isHidden]="column.isHidden"
                 [sortingKey]="column.sortingKey || column.key"
-              >
-              </data-column>
+              />
             </ng-container>
           </ng-container>
         </data-columns>
       </adf-document-list>
 
-      <adf-pagination acaPagination [target]="documentList"> </adf-pagination>
+      <adf-pagination acaPagination [target]="documentList" />
     </div>
 
     <div class="aca-sidebar" *ngIf="infoDrawerOpened$ | async">
-      <aca-info-drawer [node]="$any(selection).library"></aca-info-drawer>
+      <aca-info-drawer [node]="$any(selection).library" />
     </div>
   </div>
 </aca-page-layout>

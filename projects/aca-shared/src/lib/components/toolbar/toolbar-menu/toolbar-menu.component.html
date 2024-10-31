@@ -55,7 +55,7 @@
       [disabled]="actionRef.disabled"
       #matTrigger="matMenuTrigger"
     >
-      <adf-icon *ngIf="actionRef.icon" [value]="actionRef.icon"></adf-icon>
+      <adf-icon *ngIf="actionRef.icon" [value]="actionRef.icon" />
     </button>
   </ng-container>
 </ng-container>
@@ -64,10 +64,10 @@
   <ng-container *ngFor="let child of actionRef.children; trackBy: trackByActionId">
     <ng-container [ngSwitch]="child.type">
       <ng-container *ngSwitchCase="'custom'">
-        <adf-dynamic-component [id]="child.component" [data]="child.data"></adf-dynamic-component>
+        <adf-dynamic-component [id]="child.component" [data]="child.data" />
       </ng-container>
       <ng-container *ngSwitchDefault>
-        <app-toolbar-menu-item [actionRef]="child" [menuId]="actionRef.id"></app-toolbar-menu-item>
+        <app-toolbar-menu-item [actionRef]="child" [menuId]="actionRef.id" />
       </ng-container>
     </ng-container>
   </ng-container>

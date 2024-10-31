@@ -9,8 +9,7 @@
       <adf-avatar
         [src]="agentControl.value?.avatarUrl"
         [initials]="initialsByAgentId[agentControl.value?.id]"
-        size="26px">
-      </adf-avatar>
+        size="26px" />
       <span class="aca-search-ai-input-agent-select-displayed-value-text">{{ agentControl.value?.name }}</span>
     </mat-select-trigger>
     <mat-option
@@ -18,7 +17,7 @@
       [value]="agent"
       class="aca-search-ai-input-agent-select-options-option"
       [attr.data-automation-id]="'aca-search-ai-input-agent-' + agent.id"><div class="aca-search-ai-input-agent-select-options-option-content">
-        <adf-avatar [src]="agent?.avatarUrl" [initials]="initialsByAgentId[agent.id]"></adf-avatar>
+        <adf-avatar [src]="agent?.avatarUrl" [initials]="initialsByAgentId[agent.id]" />
         <span class="aca-search-ai-input-agent-select-options-option-content-text" [matTooltip]="agent.name" [matTooltipPosition]="'right'">{{ agent.name }}</span>
       </div>
     </mat-option>
@@ -30,8 +29,7 @@
         <adf-avatar
           [initials]="initialsByAgentId[agentControl.value?.id]"
           [src]="agentControl.value?.avatarUrl"
-          size="50px">
-        </adf-avatar>
+          size="50px" />
         <span class="aca-search-ai-input-agent-popup-hover-card-container-title-name"
               [matTooltipPosition]="'right'"
               [matTooltip]="agentControl.value?.name">
@@ -58,6 +56,6 @@
   (click)="onSearchSubmit()"
   [disabled]="!queryControl.value"
   data-automation-id="aca-search-ai-asking-button">
-  <adf-icon [value]="'adf:three_magic_stars_ai'"></adf-icon>
+  <adf-icon [value]="'adf:three_magic_stars_ai'" />
   <span class="aca-search-ai-asking-button-label">{{ 'KNOWLEDGE_RETRIEVAL.SEARCH.SEARCH_INPUT.ASK_BUTTON_LABEL' | translate }}</span>
 </button>

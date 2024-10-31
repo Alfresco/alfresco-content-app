@@ -2,23 +2,21 @@
   <div class="aca-page-layout-header">
     <aca-search-ai-input-container
       *ngIf="searchAiInputState.active; else header"
-      [agentId]="searchAiInputState.selectedAgentId">
-    </aca-search-ai-input-container>
+      [agentId]="searchAiInputState.selectedAgentId" />
     <ng-template #header>
       <div class="aca-header-container">
         <adf-breadcrumb
           [root]="title"
           [folderNode]="node"
           [selectedRowItemsCount]="selectedRowItemsCount" [maxItems]="isSmallScreen ? 1 : 0"
-          (navigate)="onBreadcrumbNavigate($event)">
-        </adf-breadcrumb>
-        <aca-toolbar [items]="actions"></aca-toolbar>
+          (navigate)="onBreadcrumbNavigate($event)" />
+        <aca-toolbar [items]="actions" />
       </div>
     </ng-template>
   </div>
 
   <div class="aca-page-layout-error">
-    <aca-generic-error></aca-generic-error>
+    <aca-generic-error />
   </div>
 
   <div class="aca-page-layout-content">
@@ -67,7 +65,7 @@
                   [resizable]="column.resizable"
                 >
                   <ng-template let-context>
-                    <adf-dynamic-column [id]="column.template" [context]="context"></adf-dynamic-column>
+                    <adf-dynamic-column [id]="column.template" [context]="context" />
                   </ng-template>
                 </data-column>
               </ng-container>
@@ -85,8 +83,7 @@
                   [isHidden]="column.isHidden"
                   [draggable]="column.draggable"
                   [resizable]="column.resizable"
-                >
-                </data-column>
+                />
               </ng-container>
             </ng-container>
           </data-columns>
@@ -102,7 +99,7 @@
           </adf-custom-empty-content-template>
         </adf-document-list>
 
-        <adf-pagination acaPagination [target]="documentList"> </adf-pagination>
+        <adf-pagination acaPagination [target]="documentList" />
       </adf-upload-drag-area>
     </div>
 
@@ -110,11 +107,10 @@
       id="adf-document-list-loading"
       class="adf-document-list-loading-margin"
       [color]="'primary'"
-      [mode]="'indeterminate'">
-    </mat-progress-spinner>
+      [mode]="'indeterminate'" />
 
     <div class="aca-sidebar" *ngIf="infoDrawerOpened$ | async">
-      <aca-info-drawer [node]="selection.last"></aca-info-drawer>
+      <aca-info-drawer [node]="selection.last" />
     </div>
   </div>
 </aca-page-layout>

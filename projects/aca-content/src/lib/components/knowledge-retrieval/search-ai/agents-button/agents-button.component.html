@@ -7,8 +7,7 @@
     data-automation-id="aca-agents-button">
     <adf-icon
       value="adf:colored-stars-ai"
-      class="aca-agents-button-icon">
-    </adf-icon>
+      class="aca-agents-button-icon" />
     {{ 'KNOWLEDGE_RETRIEVAL.SEARCH.AGENTS_BUTTON.LABEL' | translate}}
   </button>
   <mat-menu
@@ -26,7 +25,7 @@
         [attr.data-automation-id]="'aca-agents-button-agent-' + agent.id"
         [value]="agent">
         <div class="aca-agents-button-menu-list-agent-content">
-          <adf-avatar [src]="agent?.avatarUrl" [initials]="initialsByAgentId[agent.id]"></adf-avatar>
+          <adf-avatar [src]="agent?.avatarUrl" [initials]="initialsByAgentId[agent.id]" />
           <span class="aca-agents-button-menu-list-agent-content-name" [matTooltip]="agent.name" [matTooltipPosition]="'right'">
            {{ agent.name }}
           </span>

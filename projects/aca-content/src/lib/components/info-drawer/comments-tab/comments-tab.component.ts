@@ -33,8 +33,8 @@ import { NodeCommentsModule } from '@alfresco/adf-content-services';
   imports: [MatCardModule, NodeCommentsModule],
   selector: 'app-comments-tab',
   template: `<mat-card class="adf-comments-tab-container" appearance="raised"
-    ><adf-node-comments [readOnly]="!canUpdateNode" [nodeId]="node?.id"></adf-node-comments
-  ></mat-card>`,
+    ><adf-node-comments [readOnly]="!canUpdateNode" [nodeId]="node?.id"
+  /></mat-card>`,
   styles: ['app-comments-tab mat-card { padding: 16px }'],
   encapsulation: ViewEncapsulation.None,
   styleUrls: ['./comments-tab.component.scss']

@@ -27,33 +27,33 @@
           (click)="onSaveGeneralData(profileForm)">{{'APP.EDIT_PROFILE.SAVE' | translate}}</button>
       </div>
     </div>
-    <mat-divider class="app-divider" *ngIf="generalSectionDropdown"></mat-divider>
+    <mat-divider class="app-divider" *ngIf="generalSectionDropdown" />
     <div *ngIf="generalSectionDropdown">
       <div class="app-general-dropdown">
         <div class="app-general-dropdown-details">
           <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.FIRST_NAME' | translate}}</h4>
           <p class="app-profile-general-dropdown-details">{{personDetails?.firstName}}</p>
         </div>
-        <mat-divider class="app-general-dropdown-divider"></mat-divider>
+        <mat-divider class="app-general-dropdown-divider" />
         <div class="app-general-dropdown-details">
           <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.LAST_NAME' | translate}}</h4>
           <p class="app-profile-general-dropdown-details">{{personDetails?.lastName}}</p>
         </div>
-        <mat-divider class="app-general-dropdown-divider"></mat-divider>
+        <mat-divider class="app-general-dropdown-divider" />
         <div class="app-general-dropdown-details">
           <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.JOB_TITLE' | translate}}</h4>
           <p class="app-profile-general-dropdown-details" *ngIf="generalSectionButtonsToggle">{{personDetails?.jobTitle}}</p>
           <input type="text" value="" formControlName="jobTitle" *ngIf="!generalSectionButtonsToggle"
             class="app-profile-general-dropdown-input-details app-selected">
         </div>
-        <mat-divider class="app-general-dropdown-divider"></mat-divider>
+        <mat-divider class="app-general-dropdown-divider" />
         <div class="app-general-dropdown-details">
           <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.LOCATION' | translate}}</h4>
           <p class="app-profile-general-dropdown-details"  *ngIf="generalSectionButtonsToggle">{{personDetails?.location}}</p>
           <input type="text" value="" formControlName="location" *ngIf="!generalSectionButtonsToggle"
             class="app-profile-general-dropdown-input-details app-selected">
         </div>
-        <mat-divider class="app-general-dropdown-divider"></mat-divider>
+        <mat-divider class="app-general-dropdown-divider" />
         <div class="app-general-dropdown-details">
           <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.TELEPHONE' | translate}}</h4>
           <p class="app-profile-general-dropdown-details" *ngIf="generalSectionButtonsToggle">{{personDetails?.telephone}}</p>
@@ -63,7 +63,7 @@
             {{ 'APP.EDIT_PROFILE.INVALID_INPUT' | translate }}
           </mat-error>
         </div>
-        <mat-divider class="app-general-dropdown-divider"></mat-divider>
+        <mat-divider class="app-general-dropdown-divider" />
         <div class="app-general-dropdown-details">
           <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.MOBILE' | translate}}</h4>
           <p class="app-profile-general-dropdown-details" *ngIf="generalSectionButtonsToggle">{{personDetails?.mobile}}</p>
@@ -96,7 +96,7 @@
           (click)="onSaveCompanyData(profileForm)">{{'APP.EDIT_PROFILE.SAVE' | translate}}</button>
       </div>
     </div>
-    <mat-divider class="app-divider" *ngIf="contactSectionDropdown"></mat-divider>
+    <mat-divider class="app-divider" *ngIf="contactSectionDropdown" />
     <div *ngIf="contactSectionDropdown">
       <div class="app-general-dropdown">
         <div class="app-general-dropdown-details">
@@ -105,21 +105,21 @@
           <input type="text" value="" *ngIf="!contactSectionButtonsToggle" formControlName="companyName"
             class="app-profile-general-dropdown-input-details app-selected">
         </div>
-        <mat-divider class="app-general-dropdown-divider"></mat-divider>
+        <mat-divider class="app-general-dropdown-divider" />
         <div class="app-general-dropdown-details">
           <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.ADDRESS' | translate}}</h4>
           <p class="app-profile-general-dropdown-details" *ngIf="contactSectionButtonsToggle">{{personDetails?.company?.address1}}</p>
           <input type="text" value="" *ngIf="!contactSectionButtonsToggle" formControlName="companyAddress"
             class="app-profile-general-dropdown-input-details app-selected">
         </div>
-        <mat-divider class="app-general-dropdown-divider"></mat-divider>
+        <mat-divider class="app-general-dropdown-divider" />
         <div class="app-general-dropdown-details">
           <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.POSTCODE' | translate}}</h4>
           <p class="app-profile-general-dropdown-details" *ngIf="contactSectionButtonsToggle">{{personDetails?.company?.postcode}}</p>
           <input type="text" value="" *ngIf="!contactSectionButtonsToggle" formControlName="companyPostCode"
             class="app-profile-general-dropdown-input-details app-selected">
         </div>
-        <mat-divider class="app-general-dropdown-divider"></mat-divider>
+        <mat-divider class="app-general-dropdown-divider" />
         <div class="app-general-dropdown-details">
           <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.TELEPHONE' | translate}}</h4>
           <p class="app-profile-general-dropdown-details" *ngIf="contactSectionButtonsToggle">{{personDetails?.company?.telephone}}</p>
@@ -129,7 +129,7 @@
             {{ 'APP.EDIT_PROFILE.INVALID_INPUT' | translate }}
           </mat-error>
         </div>
-        <mat-divider class="app-general-dropdown-divider"></mat-divider>
+        <mat-divider class="app-general-dropdown-divider" />
         <div class="app-general-dropdown-details">
           <h4 class="app-profile-general-dropdown-heading">{{'APP.EDIT_PROFILE.EMAIL' | translate}}</h4>
           <p class="app-profile-general-dropdown-details" *ngIf="contactSectionButtonsToggle">{{personDetails?.company?.email}}</p>

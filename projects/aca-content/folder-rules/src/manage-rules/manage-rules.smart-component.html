@@ -13,7 +13,7 @@
     <div class="aca-main-content">
 
       <ng-container *ngIf="((ruleSetsLoading$ | async) && (inheritedRuleSets$ | async).length === 0) || (actionsLoading$ | async); else onLoaded">
-        <mat-progress-bar color="primary" mode="indeterminate"></mat-progress-bar>
+        <mat-progress-bar color="primary" mode="indeterminate" />
       </ng-container>
 
       <ng-template #onLoaded>
@@ -35,7 +35,7 @@
               {{ 'ACA_FOLDER_RULES.MANAGE_RULES.TOOLBAR.ACTIONS.INHERIT_RULES' | translate }}
             </mat-slide-toggle>
 
-            <mat-divider vertical class="aca-manage-rules__actions-bar__vertical-divider"></mat-divider>
+            <mat-divider vertical class="aca-manage-rules__actions-bar__vertical-divider" />
 
             <div class="aca-manage-rules__actions-bar__buttons">
               <button
@@ -56,7 +56,7 @@
             </div>
 
           </adf-toolbar>
-          <mat-divider></mat-divider>
+          <mat-divider />
 
           <div class="aca-manage-rules__container" *ngIf="isMainRuleSetNotEmpty || isInheritedRuleSetsNotEmpty; else emptyContent">
             <aca-rule-list
@@ -71,8 +71,7 @@
               (selectRule)="onSelectRule($event)"
               (ruleEnabledChanged)="onRuleEnabledToggle($event[0], $event[1])"
               (ruleSetEditLinkClicked)="openLinkRulesDialog($event)"
-              (ruleSetUnlinkClicked)="onRuleSetUnlinkClicked($event)">
-            </aca-rule-list>
+              (ruleSetUnlinkClicked)="onRuleSetUnlinkClicked($event)" />
 
             <div class="aca-manage-rules__container__rule-details">
 
@@ -111,8 +110,7 @@
                   [readOnly]="true"
                   [preview]="true"
                   [value]="selectedRule"
-                  [nodeId]="nodeId">
-                </aca-rule-details>
+                  [nodeId]="nodeId" />
               </div>
             </div>
           </div>
@@ -122,14 +120,13 @@
               icon="library_books"
               [title]="'ACA_FOLDER_RULES.MANAGE_RULES.EMPTY_RULES_LIST.TITLE' | translate"
               [subtitle]="'ACA_FOLDER_RULES.MANAGE_RULES.EMPTY_RULES_LIST.SUBTITLE' | translate"
-            >
-            </adf-empty-content>
+            />
           </ng-template>
         </ng-container>
 
         <ng-template #genericError>
           <div class="aca-page-layout-error">
-            <aca-generic-error></aca-generic-error>
+            <aca-generic-error />
           </div>
         </ng-template>
 
