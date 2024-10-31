@@ -58,7 +58,7 @@ test.describe('Info Drawer - File Folder Properties', () => {
   const categoryId2 = `-root-`;
   const categoryName = Utils.random();
 
-  async function createCategoryGetId() {
+  async function createCategoryGetId(): Promise<string> {
     const requestData = await categoriesApi.createCategory(categoryId2, [{ name: categoryName }]);
     if ('entry' in requestData) {
       return requestData.entry.id;
@@ -68,10 +68,10 @@ test.describe('Info Drawer - File Folder Properties', () => {
     }
   }
 
-  async function createTagGetId() {
+  async function createTagGetId(): Promise<string> {
     const requestTagData = await tagsApi.createTags([tagBody]);
-    if (Object.keys(requestTagData).includes('entry')) {
-      return (requestTagData as unknown as { entry: { id: string } }).entry.id;
+    if ('entry' in requestTagData) {
+      return (requestTagData as { entry: { id: string } }).entry.id;
     } else {
       console.error('Unexpected response format:', requestTagData);
       return null;
@@ -228,7 +228,7 @@ test.describe('Info Drawer - File Folder Properties', () => {
     await expect(personalFiles.infoDrawer.categoriesAccordion).toContainText('There are currently no categories added');
   });
 
-  test('[XAT-17243] Cancel adding a category to a node', async ({ personalFiles }) => {
+  test('[XAT-17244] Cancel adding a category to a node', async ({ personalFiles }) => {
     await setupFolderAndNavigate(personalFiles, Folder17244);
     await personalFiles.infoDrawer.categoriesAccordionPenButton.click();
     await personalFiles.infoDrawer.categoriesInput.fill('*');
