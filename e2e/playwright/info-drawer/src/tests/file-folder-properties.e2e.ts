@@ -43,6 +43,9 @@ test.describe('Info Drawer - File Folder Properties', () => {
   let categoriesApi: CategoriesApi;
   let responseCategoryId: string;
   let responseTagsId: string;
+  let Folder17239Id: string;
+  let Folder17240Id: string;
+  let Folder17242Id: string;
   const username = `user-e2e-${Utils.random()}`;
   const manualTagName = `e2e-tag-${Utils.random()}`;
   const FolderC299162 = `C299162-e2e-${Utils.random()}`;
@@ -91,6 +94,16 @@ test.describe('Info Drawer - File Folder Properties', () => {
       categoriesApi = await CategoriesApi.initialize('admin');
       responseCategoryId = await createCategoryGetId();
       responseTagsId = await createTagGetId();
+
+      await nodesApi.createFolder(FolderC299162);
+      await nodesApi.createFolder(FolderC599174);
+      await nodesApi.createFolder(Folder17238);
+      Folder17239Id = (await nodesApi.createFolder(Folder17239)).entry.id;
+      Folder17240Id = (await nodesApi.createFolder(Folder17240)).entry.id;
+      await nodesApi.createFolder(Folder17241);
+      Folder17242Id = (await nodesApi.createFolder(Folder17242)).entry.id;
+      await nodesApi.createFolder(Folder17243);
+      await nodesApi.createFolder(Folder17244);
     } catch (error) {
       console.error(`beforeAll failed : ${error}`);
     }
@@ -106,8 +119,7 @@ test.describe('Info Drawer - File Folder Properties', () => {
     await tagsApi.deleteTag(responseTagsId);
   });
 
-  async function setupFolderAndNavigate(personalFiles: PersonalFilesPage, folderName: string) {
-    await nodesApi.createFolder(folderName);
+  async function navigateAndOpenInfoDrawer(personalFiles: PersonalFilesPage, folderName: string) {
     await fileActionsApi.waitForNodes(folderName, { expect: 1 });
     await personalFiles.navigate();
     await Utils.reloadPageIfRowNotVisible(personalFiles, folderName);
@@ -116,8 +128,20 @@ test.describe('Info Drawer - File Folder Properties', () => {
     await personalFiles.acaHeader.viewDetails.click();
   }
 
+  async function waitForTagToBeAdded(folderId: string, personalFiles: PersonalFilesPage, maxRetries: number) {
+    let retries = 0;
+
+    while ((await tagsApi.listTagsForNode(folderId)).list.entries.length === 0) {
+      if (retries >= maxRetries) {
+        throw new Error('Tag was not added within the expected time frame.');
+      }
+      await personalFiles.page.waitForTimeout(1000);
+      retries++;
+    }
+  }
+
   test('[C299162] View properties - Default tabs', async ({ personalFiles }) => {
-    await setupFolderAndNavigate(personalFiles, FolderC299162);
+    await navigateAndOpenInfoDrawer(personalFiles, FolderC299162);
     expect(await personalFiles.infoDrawer.getHeaderTitle()).toEqual(FolderC299162);
     await expect(personalFiles.infoDrawer.propertiesTab).toBeVisible();
     await expect(personalFiles.infoDrawer.commentsTab).toBeVisible();
@@ -125,7 +149,7 @@ test.describe('Info Drawer - File Folder Properties', () => {
   });
 
   test('[C599174] View properties - Should be able to make the files/folders info drawer expandable as for Sites', async ({ personalFiles }) => {
-    await setupFolderAndNavigate(personalFiles, FolderC599174);
+    await navigateAndOpenInfoDrawer(personalFiles, FolderC599174);
     await personalFiles.infoDrawer.expandDetailsButton.click();
     await expect(personalFiles.infoDrawer.expandedDetailsPermissionsTab).toBeVisible();
 
@@ -137,7 +161,7 @@ test.describe('Info Drawer - File Folder Properties', () => {
   });
 
   test('[XAT-17238] State for no tags and categories - accordion expanded', async ({ personalFiles }) => {
-    await setupFolderAndNavigate(personalFiles, Folder17238);
+    await navigateAndOpenInfoDrawer(personalFiles, Folder17238);
     await personalFiles.infoDrawer.tagsAccordion.click();
     await expect(personalFiles.infoDrawer.tagsAccordion).toContainText(noTagsText);
 
@@ -146,7 +170,7 @@ test.describe('Info Drawer - File Folder Properties', () => {
   });
 
   test('[XAT-17239] Add a new tag to a node', async ({ personalFiles }) => {
-    await setupFolderAndNavigate(personalFiles, Folder17239);
+    await navigateAndOpenInfoDrawer(personalFiles, Folder17239);
     await personalFiles.infoDrawer.tagsAccordionPenButton.click();
     await expect(personalFiles.infoDrawer.tagsAccordionPenButton).toBeHidden();
     await expect(personalFiles.infoDrawer.tagsAccordionCancelButton).toBeEnabled();
@@ -158,10 +182,13 @@ test.describe('Info Drawer - File Folder Properties', () => {
     await personalFiles.infoDrawer.tagsAccordionConfirmButton.click();
     await expect(personalFiles.infoDrawer.tagsChipsXButton.first()).toBeHidden();
     await expect(personalFiles.infoDrawer.tagsAccordionPenButton).toBeVisible();
+
+    await waitForTagToBeAdded(Folder17239Id, personalFiles, 10);
+    const tagId = (await tagsApi.listTagsForNode(Folder17239Id)).list.entries[0].entry.id;
+    await tagsApi.deleteTag(tagId);
   });
 
   test('[XAT-17240] Remove a tag from a node', async ({ personalFiles }) => {
-    const Folder17240Id = (await nodesApi.createFolder(Folder17240)).entry.id;
     await fileActionsApi.waitForNodes(Folder17240, { expect: 1 });
     await tagsApi.assignTagToNode(Folder17240Id, tagBody);
     await personalFiles.navigate();
@@ -180,7 +207,6 @@ test.describe('Info Drawer - File Folder Properties', () => {
   });
 
   test('[XAT-17243] Cancel adding a tag to a node', async ({ personalFiles }) => {
-    await nodesApi.createFolder(Folder17243);
     await fileActionsApi.waitForNodes(Folder17243, { expect: 1 });
     await personalFiles.navigate();
     await Utils.reloadPageIfRowNotVisible(personalFiles, Folder17243);
@@ -196,7 +222,7 @@ test.describe('Info Drawer - File Folder Properties', () => {
   });
 
   test('[XAT-17241] Add a new category to a node', async ({ personalFiles }) => {
-    await setupFolderAndNavigate(personalFiles, Folder17241);
+    await navigateAndOpenInfoDrawer(personalFiles, Folder17241);
     await personalFiles.infoDrawer.categoriesAccordionPenButton.click();
     await expect(personalFiles.infoDrawer.categoriesAccordionPenButton).toBeHidden();
     await expect(personalFiles.infoDrawer.categoriesAccordionCancelButton).toBeEnabled();
@@ -212,7 +238,6 @@ test.describe('Info Drawer - File Folder Properties', () => {
   });
 
   test('[XAT-17242] Remove a category from a node', async ({ personalFiles }) => {
-    const Folder17242Id = (await nodesApi.createFolder(Folder17242)).entry.id;
     await fileActionsApi.waitForNodes(Folder17242, { expect: 1 });
     await categoriesApi.linkNodeToCategory(Folder17242Id, [{ categoryId: responseCategoryId }]);
     await personalFiles.navigate();
@@ -230,7 +255,7 @@ test.describe('Info Drawer - File Folder Properties', () => {
   });
 
   test('[XAT-17244] Cancel adding a category to a node', async ({ personalFiles }) => {
-    await setupFolderAndNavigate(personalFiles, Folder17244);
+    await navigateAndOpenInfoDrawer(personalFiles, Folder17244);
     await personalFiles.infoDrawer.categoriesAccordionPenButton.click();
     await personalFiles.infoDrawer.categoriesInput.fill('*');
     await personalFiles.infoDrawer.categoriesListItems.first().click();
