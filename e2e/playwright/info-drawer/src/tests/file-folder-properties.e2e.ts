@@ -55,11 +55,12 @@ test.describe('Info Drawer - File Folder Properties', () => {
   const Folder17243 = `xat-17243-e2e-${Utils.random()}`;
   const Folder17244 = `xat-17244-e2e-${Utils.random()}`;
   const tagBody = { tag: `tag-${Utils.random()}` };
-  const categoryId2 = `-root-`;
   const categoryName = Utils.random();
+  const noCategoriesText = 'There are currently no categories added';
+  const noTagsText = 'There are currently no tags added';
 
   async function createCategoryGetId(): Promise<string> {
-    const requestData = await categoriesApi.createCategory(categoryId2, [{ name: categoryName }]);
+    const requestData = await categoriesApi.createCategory(`-root-`, [{ name: categoryName }]);
     if ('entry' in requestData) {
       return requestData.entry.id;
     } else {
@@ -138,10 +139,10 @@ test.describe('Info Drawer - File Folder Properties', () => {
   test('[XAT-17238] State for no tags and categories - accordion expanded', async ({ personalFiles }) => {
     await setupFolderAndNavigate(personalFiles, Folder17238);
     await personalFiles.infoDrawer.tagsAccordion.click();
-    await expect(personalFiles.infoDrawer.tagsAccordion).toContainText('There are currently no tags added');
+    await expect(personalFiles.infoDrawer.tagsAccordion).toContainText(noTagsText);
 
     await personalFiles.infoDrawer.categoriesAccordion.click();
-    await expect(personalFiles.infoDrawer.categoriesAccordion).toContainText('There are currently no categories added');
+    await expect(personalFiles.infoDrawer.categoriesAccordion).toContainText(noCategoriesText);
   });
 
   test('[XAT-17239] Add a new tag to a node', async ({ personalFiles }) => {
@@ -175,7 +176,7 @@ test.describe('Info Drawer - File Folder Properties', () => {
     await personalFiles.infoDrawer.tagsChipsXButton.first().click();
     await personalFiles.infoDrawer.tagsAccordionConfirmButton.click();
     await expect(personalFiles.infoDrawer.tagsChips.first()).toBeHidden();
-    await expect(personalFiles.infoDrawer.tagsAccordion).toContainText('There are currently no tags added');
+    await expect(personalFiles.infoDrawer.tagsAccordion).toContainText(noTagsText);
   });
 
   test('[XAT-17243] Cancel adding a tag to a node', async ({ personalFiles }) => {
@@ -191,7 +192,7 @@ test.describe('Info Drawer - File Folder Properties', () => {
     await personalFiles.infoDrawer.tagsInput.fill(manualTagName);
     await personalFiles.infoDrawer.tagsAccordionCancelButton.click();
     await expect(personalFiles.infoDrawer.tagsAccordionPenButton).toBeVisible();
-    await expect(personalFiles.infoDrawer.tagsAccordion).toContainText('There are currently no tags added');
+    await expect(personalFiles.infoDrawer.tagsAccordion).toContainText(noTagsText);
   });
 
   test('[XAT-17241] Add a new category to a node', async ({ personalFiles }) => {
@@ -206,7 +207,7 @@ test.describe('Info Drawer - File Folder Properties', () => {
     await personalFiles.infoDrawer.categoriesAccordionConfirmButton.click();
     await expect(personalFiles.infoDrawer.tagsChipsXButton.first()).toBeHidden();
     await expect(personalFiles.infoDrawer.tagsAccordionPenButton).toBeVisible();
-    await expect(personalFiles.infoDrawer.categoriesAccordion).not.toContainText('There are currently no categories added');
+    await expect(personalFiles.infoDrawer.categoriesAccordion).not.toContainText(noCategoriesText);
     await expect(personalFiles.infoDrawer.categoriesCreatedList.first()).toBeVisible();
   });
 
@@ -221,11 +222,11 @@ test.describe('Info Drawer - File Folder Properties', () => {
     await personalFiles.acaHeader.viewDetails.click();
 
     await personalFiles.infoDrawer.categoriesAccordion.click();
-    await expect(personalFiles.infoDrawer.categoriesAccordion).not.toContainText('There are currently no categories added');
+    await expect(personalFiles.infoDrawer.categoriesAccordion).not.toContainText(noCategoriesText);
     await personalFiles.infoDrawer.categoriesAccordionPenButton.click();
     await personalFiles.infoDrawer.categoriesItemRemoveButton.first().click();
     await personalFiles.infoDrawer.categoriesAccordionConfirmButton.click();
-    await expect(personalFiles.infoDrawer.categoriesAccordion).toContainText('There are currently no categories added');
+    await expect(personalFiles.infoDrawer.categoriesAccordion).toContainText(noCategoriesText);
   });
 
   test('[XAT-17244] Cancel adding a category to a node', async ({ personalFiles }) => {
@@ -234,6 +235,6 @@ test.describe('Info Drawer - File Folder Properties', () => {
     await personalFiles.infoDrawer.categoriesInput.fill('*');
     await personalFiles.infoDrawer.categoriesListItems.first().click();
     await personalFiles.infoDrawer.categoriesAccordionCancelButton.click();
-    await expect(personalFiles.infoDrawer.categoriesAccordion).toContainText('There are currently no categories added');
+    await expect(personalFiles.infoDrawer.categoriesAccordion).toContainText(noCategoriesText);
   });
 });
