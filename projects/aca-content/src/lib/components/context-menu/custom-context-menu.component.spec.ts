@@ -27,10 +27,10 @@ import { AppTestingModule } from '../../testing/app-testing.module';
 import { CustomContextMenuComponent } from './custom-context-menu.component';
 import { ContextMenuOverlayRef } from './context-menu-overlay';
 import { ContentActionType } from '@alfresco/adf-extensions';
-
-import { of } from 'rxjs';
-import { Store } from '@ngrx/store';
 import { CONTEXT_MENU_CUSTOM_ACTIONS } from './custom-context-menu-actions.token';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { Store } from '@ngrx/store';
+import { initialState } from '../../../../../aca-shared/src/lib/testing/lib-testing-module';
 
 describe('ContextMenuComponent', () => {
   let fixture: ComponentFixture<CustomContextMenuComponent>;
@@ -67,11 +67,9 @@ describe('ContextMenuComponent', () => {
         },
         {
           provide: Store,
-          useValue: {
-            dispatch: () => {},
-            select: () => of({ count: 1 })
-          }
+          useValue: MockStore
         },
+        provideMockStore({ initialState }),
         {
           provide: CONTEXT_MENU_CUSTOM_ACTIONS,
           useValue: contextMenuActionsMock

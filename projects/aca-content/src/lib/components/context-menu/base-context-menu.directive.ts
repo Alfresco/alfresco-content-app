@@ -31,7 +31,10 @@ import { CONTEXT_MENU_DIRECTION } from './direction.token';
 import { Direction } from '@angular/cdk/bidi';
 import { AppExtensionService } from '@alfresco/aca-shared';
 
-@Directive()
+@Directive({
+  selector: '[acaBaseContextMenu]',
+  standalone: true
+})
 export class BaseContextMenuDirective implements OnDestroy {
   protected onDestroy$: Subject<boolean> = new Subject<boolean>();
   actions: Array<ContentActionRef> = [];
@@ -39,12 +42,10 @@ export class BaseContextMenuDirective implements OnDestroy {
   @ViewChild(MatMenuTrigger)
   trigger: MatMenuTrigger;
 
-  @HostListener('document:keydown.Escape', ['$event'])
+  @HostListener('keydown.escape', ['$event'])
   handleKeydownEscape(event: KeyboardEvent) {
-    if (event) {
-      if (this.contextMenuOverlayRef) {
-        this.contextMenuOverlayRef.close();
-      }
+    if (event && this.contextMenuOverlayRef) {
+      this.contextMenuOverlayRef.close();
     }
   }
 

@@ -42,8 +42,7 @@ export class ContextActionsDirective implements OnInit, OnDestroy {
   @Input('acaContextEnable')
   enabled = true;
 
-  // eslint-disable-next-line
-  @Input('customActions')
+  @Input()
   customActions: ContentActionRef[] = [];
 
   @HostListener('contextmenu', ['$event'])

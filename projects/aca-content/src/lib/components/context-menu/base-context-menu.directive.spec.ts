@@ -26,13 +26,27 @@ import { ContextMenuOverlayRef } from './context-menu-overlay';
 import { ContentActionType } from '@alfresco/adf-extensions';
 import { AppExtensionService } from '@alfresco/aca-shared';
 import { BaseContextMenuDirective } from './base-context-menu.directive';
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Component, DebugElement } from '@angular/core';
+import { By } from '@angular/platform-browser';
 import { AppTestingModule } from '../../testing/app-testing.module';
+import { OutsideEventDirective } from './context-menu-outside-event.directive';
+
+@Component({
+  selector: 'app-test-component',
+  template: '<div acaBaseContextMenu acaContextMenuOutsideEvent (clickOutside)="onClickOutsideEvent()"></div>',
+  standalone: true,
+  imports: [BaseContextMenuDirective, OutsideEventDirective]
+})
+class TestComponent extends BaseContextMenuDirective {}
 
 describe('BaseContextMenuComponent', () => {
   let contextMenuOverlayRef: ContextMenuOverlayRef;
   let extensionsService: AppExtensionService;
   let baseContextMenuDirective: BaseContextMenuDirective;
+  let clickOutsideEventDirective: OutsideEventDirective;
+  let fixture: ComponentFixture<TestComponent>;
+  let element: DebugElement;
 
   const contextItem = {
     type: ContentActionType.button,
@@ -44,8 +58,8 @@ describe('BaseContextMenuComponent', () => {
   };
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [AppTestingModule],
+    void TestBed.configureTestingModule({
+      imports: [AppTestingModule, TestComponent, BaseContextMenuDirective, OutsideEventDirective],
       providers: [
         {
           provide: ContextMenuOverlayRef,
@@ -54,21 +68,27 @@ describe('BaseContextMenuComponent', () => {
           }
         }
       ]
-    });
+    }).compileComponents();
 
+    fixture = TestBed.createComponent(TestComponent);
+    element = fixture.debugElement.query(By.directive(BaseContextMenuDirective));
     contextMenuOverlayRef = TestBed.inject(ContextMenuOverlayRef);
     extensionsService = TestBed.inject(AppExtensionService);
+    baseContextMenuDirective = element.injector.get(BaseContextMenuDirective);
+    clickOutsideEventDirective = element.injector.get(OutsideEventDirective);
 
-    baseContextMenuDirective = new BaseContextMenuDirective(contextMenuOverlayRef, extensionsService, null);
+    fixture.detectChanges();
   });
 
   it('should close context menu on Escape event', () => {
-    baseContextMenuDirective.handleKeydownEscape(new KeyboardEvent('keydown', { key: 'Escape' }));
+    element.nativeElement.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+
     expect(contextMenuOverlayRef.close).toHaveBeenCalled();
   });
 
   it('should close context menu on click outside event', () => {
-    baseContextMenuDirective.onClickOutsideEvent();
+    clickOutsideEventDirective.clickOutside.emit();
+
     expect(contextMenuOverlayRef.close).toHaveBeenCalled();
   });
 
