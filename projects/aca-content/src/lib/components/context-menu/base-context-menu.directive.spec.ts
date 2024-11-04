@@ -27,26 +27,24 @@ import { ContentActionType } from '@alfresco/adf-extensions';
 import { AppExtensionService } from '@alfresco/aca-shared';
 import { BaseContextMenuDirective } from './base-context-menu.directive';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Component, DebugElement } from '@angular/core';
-import { By } from '@angular/platform-browser';
+import { Component } from '@angular/core';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { OutsideEventDirective } from './context-menu-outside-event.directive';
+import { By } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-test-component',
-  template: '<div acaBaseContextMenu acaContextMenuOutsideEvent (clickOutside)="onClickOutsideEvent()"></div>',
+  template: '<div acaContextMenuOutsideEvent (clickOutside)="onClickOutsideEvent()"></div>',
   standalone: true,
-  imports: [BaseContextMenuDirective, OutsideEventDirective]
+  imports: [OutsideEventDirective]
 })
 class TestComponent extends BaseContextMenuDirective {}
 
 describe('BaseContextMenuComponent', () => {
   let contextMenuOverlayRef: ContextMenuOverlayRef;
   let extensionsService: AppExtensionService;
-  let baseContextMenuDirective: BaseContextMenuDirective;
-  let clickOutsideEventDirective: OutsideEventDirective;
   let fixture: ComponentFixture<TestComponent>;
-  let element: DebugElement;
+  let component: TestComponent;
 
   const contextItem = {
     type: ContentActionType.button,
@@ -59,35 +57,36 @@ describe('BaseContextMenuComponent', () => {
 
   beforeEach(() => {
     void TestBed.configureTestingModule({
-      imports: [AppTestingModule, TestComponent, BaseContextMenuDirective, OutsideEventDirective],
+      imports: [AppTestingModule, TestComponent],
       providers: [
         {
           provide: ContextMenuOverlayRef,
           useValue: {
             close: jasmine.createSpy('close')
           }
-        }
+        },
+        BaseContextMenuDirective,
+        OutsideEventDirective
       ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(TestComponent);
-    element = fixture.debugElement.query(By.directive(BaseContextMenuDirective));
+    component = fixture.componentInstance;
     contextMenuOverlayRef = TestBed.inject(ContextMenuOverlayRef);
     extensionsService = TestBed.inject(AppExtensionService);
-    baseContextMenuDirective = element.injector.get(BaseContextMenuDirective);
-    clickOutsideEventDirective = element.injector.get(OutsideEventDirective);
 
     fixture.detectChanges();
   });
 
   it('should close context menu on Escape event', () => {
-    element.nativeElement.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+    fixture.nativeElement.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
 
     expect(contextMenuOverlayRef.close).toHaveBeenCalled();
   });
 
   it('should close context menu on click outside event', () => {
-    clickOutsideEventDirective.clickOutside.emit();
+    fixture.debugElement.query(By.directive(OutsideEventDirective)).injector.get(OutsideEventDirective).clickOutside.emit();
+    fixture.detectChanges();
 
     expect(contextMenuOverlayRef.close).toHaveBeenCalled();
   });
@@ -95,7 +94,7 @@ describe('BaseContextMenuComponent', () => {
   it('should run action with provided action id and correct payload', () => {
     spyOn(extensionsService, 'runActionById');
 
-    baseContextMenuDirective.runAction(contextItem);
+    component.runAction(contextItem);
 
     expect(extensionsService.runActionById).toHaveBeenCalledWith(contextItem.actions.click, {
       focusedElementOnCloseSelector: '.adf-context-menu-source'
@@ -103,7 +102,7 @@ describe('BaseContextMenuComponent', () => {
   });
 
   it('should return action id on trackByActionId', () => {
-    const actionId = baseContextMenuDirective.trackByActionId(0, contextItem);
+    const actionId = component.trackByActionId(0, contextItem);
     expect(actionId).toBe(contextItem.id);
   });
 });

@@ -31,10 +31,7 @@ import { CONTEXT_MENU_DIRECTION } from './direction.token';
 import { Direction } from '@angular/cdk/bidi';
 import { AppExtensionService } from '@alfresco/aca-shared';
 
-@Directive({
-  selector: '[acaBaseContextMenu]',
-  standalone: true
-})
+@Directive()
 export class BaseContextMenuDirective implements OnDestroy {
   protected onDestroy$: Subject<boolean> = new Subject<boolean>();
   actions: Array<ContentActionRef> = [];
