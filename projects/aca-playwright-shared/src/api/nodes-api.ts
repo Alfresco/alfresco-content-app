@@ -48,7 +48,7 @@ export class NodesApi {
     aspectNames: string[] = null
   ): Promise<NodeEntry | null> {
     try {
-      return this.createNode('cm:folder', name, parentId, title, description, null, author, null, aspectNames);
+      return await this.createNode('cm:folder', name, parentId, title, description, null, author, null, aspectNames);
     } catch (error) {
       console.error(`${this.constructor.name} ${this.createFolder.name}`, error);
       return null;
@@ -65,7 +65,7 @@ export class NodesApi {
     aspectNames: string[] = null
   ): Promise<NodeEntry> {
     try {
-      return this.createNode('cm:content', name, parentId, title, description, null, author, majorVersion, aspectNames);
+      return await this.createNode('cm:content', name, parentId, title, description, null, author, majorVersion, aspectNames);
     } catch (error) {
       console.error(`${this.constructor.name} ${this.createFile.name}`, error);
       return null;
@@ -74,7 +74,7 @@ export class NodesApi {
 
   async createFiles(names: string[], relativePath = '/'): Promise<NodePaging> {
     try {
-      return this.createContent({ files: names }, relativePath);
+      return await this.createContent({ files: names }, relativePath);
     } catch (error) {
       console.error(`${this.constructor.name} ${this.createFiles.name}: ${error}`);
       return null;
@@ -83,7 +83,7 @@ export class NodesApi {
 
   async createFolders(names: string[], relativePath = '/'): Promise<NodePaging> {
     try {
-      return this.createContent({ folders: names }, relativePath);
+      return await this.createContent({ folders: names }, relativePath);
     } catch (error) {
       console.error(`${this.constructor.name} ${this.createFolders.name}: ${error}`);
       return null;

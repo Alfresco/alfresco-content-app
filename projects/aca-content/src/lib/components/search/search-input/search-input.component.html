@@ -45,6 +45,7 @@
           [(ngModel)]="option.value"
           [disabled]="option.shouldDisable()"
           (change)="searchByOption()"
+          (keyup.enter)="$event.stopPropagation()"
           (click)="$event.stopPropagation()"
         >
           {{ option.key | translate }}
