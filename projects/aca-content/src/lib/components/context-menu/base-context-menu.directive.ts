@@ -47,7 +47,7 @@ export class BaseContextMenuDirective implements OnDestroy {
   }
 
   constructor(
-    private contextMenuOverlayRef: ContextMenuOverlayRef,
+    private readonly contextMenuOverlayRef: ContextMenuOverlayRef,
     protected extensions: AppExtensionService,
     @Inject(CONTEXT_MENU_DIRECTION) public direction: Direction
   ) {}

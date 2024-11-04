@@ -56,7 +56,7 @@ describe('BaseContextMenuComponent', () => {
   };
 
   beforeEach(() => {
-    void TestBed.configureTestingModule({
+    TestBed.configureTestingModule({
       imports: [AppTestingModule, TestComponent],
       providers: [
         {
@@ -68,7 +68,7 @@ describe('BaseContextMenuComponent', () => {
         BaseContextMenuDirective,
         OutsideEventDirective
       ]
-    }).compileComponents();
+    });
 
     fixture = TestBed.createComponent(TestComponent);
     component = fixture.componentInstance;
