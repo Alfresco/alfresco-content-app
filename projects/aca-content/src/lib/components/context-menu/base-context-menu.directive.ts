@@ -22,9 +22,8 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { OnDestroy, HostListener, ViewChild, Inject, Directive } from '@angular/core';
+import { HostListener, ViewChild, Inject, Directive } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
-import { Subject } from 'rxjs';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { ContextMenuOverlayRef } from './context-menu-overlay';
 import { CONTEXT_MENU_DIRECTION } from './direction.token';
@@ -32,8 +31,7 @@ import { Direction } from '@angular/cdk/bidi';
 import { AppExtensionService } from '@alfresco/aca-shared';
 
 @Directive()
-export class BaseContextMenuDirective implements OnDestroy {
-  protected onDestroy$: Subject<boolean> = new Subject<boolean>();
+export class BaseContextMenuDirective {
   actions: Array<ContentActionRef> = [];
 
   @ViewChild(MatMenuTrigger)
@@ -62,11 +60,6 @@ export class BaseContextMenuDirective implements OnDestroy {
     this.extensions.runActionById(contentActionRef.actions.click, {
       focusedElementOnCloseSelector: '.adf-context-menu-source'
     });
-  }
-
-  ngOnDestroy() {
-    this.onDestroy$.next(true);
-    this.onDestroy$.complete();
   }
 
   trackByActionId(_: number, obj: ContentActionRef): string {

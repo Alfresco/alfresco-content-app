@@ -22,9 +22,8 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewEncapsulation, OnInit, AfterViewInit, Inject } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit, AfterViewInit, Inject, inject, DestroyRef } from '@angular/core';
 import { MatMenuModule } from '@angular/material/menu';
-import { takeUntil } from 'rxjs/operators';
 import { DynamicExtensionComponent } from '@alfresco/adf-extensions';
 import { ContextMenuOverlayRef } from './context-menu-overlay';
 import { CONTEXT_MENU_DIRECTION } from './direction.token';
@@ -37,6 +36,7 @@ import { IconComponent } from '@alfresco/adf-core';
 import { ContextMenuItemComponent } from './context-menu-item.component';
 import { OutsideEventDirective } from './context-menu-outside-event.directive';
 import { BaseContextMenuDirective } from './base-context-menu.directive';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -59,6 +59,8 @@ import { BaseContextMenuDirective } from './base-context-menu.directive';
   encapsulation: ViewEncapsulation.None
 })
 export class ContextMenuComponent extends BaseContextMenuDirective implements OnInit, AfterViewInit {
+  private destroyRef = inject(DestroyRef);
+
   constructor(contextMenuOverlayRef: ContextMenuOverlayRef, extensions: AppExtensionService, @Inject(CONTEXT_MENU_DIRECTION) direction: Direction) {
     super(contextMenuOverlayRef, extensions, direction);
   }
@@ -66,7 +68,7 @@ export class ContextMenuComponent extends BaseContextMenuDirective implements On
   ngOnInit() {
     this.extensions
       .getAllowedContextMenuActions()
-      .pipe(takeUntil(this.onDestroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((actions) => {
         this.actions = actions;
       });
