@@ -30,7 +30,7 @@ import { ContentActionType } from '@alfresco/adf-extensions';
 import { CONTEXT_MENU_CUSTOM_ACTIONS } from './custom-context-menu-actions.token';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { Store } from '@ngrx/store';
-import { initialState } from '../../../../../aca-shared/src/lib/testing/lib-testing-module';
+import { initialState } from '@alfresco/aca-shared';
 
 describe('ContextMenuComponent', () => {
   let fixture: ComponentFixture<CustomContextMenuComponent>;
