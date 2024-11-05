@@ -22,7 +22,7 @@
                     {{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.NAME_REQUIRED_ERROR' | translate }}
                 </span>
                 <span *ngIf="!form.controls['name'].errors?.required && form.controls['name'].errors?.message">
-                    {{ form.controls['name'].errors?.message | translate }}
+                    {{ form.controls['name'].errors?.message | translate : { name: form.controls.name.value } }}
                 </span>
       </mat-error>
     </mat-form-field>

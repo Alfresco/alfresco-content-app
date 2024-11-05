@@ -55,7 +55,7 @@ describe('SaveSearchEditDialogComponent', () => {
       providers: [
         { provide: MatDialogRef, useValue: dialogRef },
         provideMockStore(),
-        { provide: SavedSearchesService, useValue: { editSavedSearch: () => of() } },
+        { provide: SavedSearchesService, useValue: { editSavedSearch: () => of(), getSavedSearches: () => of([]) } },
         { provide: MAT_DIALOG_DATA, useValue: savedSearchToDelete }
       ]
     });

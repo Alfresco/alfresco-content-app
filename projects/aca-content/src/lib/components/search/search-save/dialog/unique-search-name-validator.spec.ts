@@ -1,0 +1,73 @@
+/*!
+ * Copyright © 2005-2024 Hyland Software, Inc. and its affiliates. All rights reserved.
+ *
+ * Alfresco Example Content Application
+ *
+ * This file is part of the Alfresco Example Content Application.
+ * If the software was purchased under a paid Alfresco license, the terms of
+ * the paid license agreement will prevail. Otherwise, the software is
+ * provided under the following open source license terms:
+ *
+ * The Alfresco Example Content Application is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * The Alfresco Example Content Application is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+import { TestBed } from '@angular/core/testing';
+import { UniqueSearchNameValidator } from './unique-search-name-validator';
+import { ContentTestingModule, SavedSearchesService } from '@alfresco/adf-content-services';
+import { of } from 'rxjs';
+
+describe('UniqueSearchNameValidator', () => {
+  let validator: UniqueSearchNameValidator;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [ContentTestingModule]
+    });
+  });
+
+  describe('Save searches returns results', () => {
+    beforeEach(() => {
+      TestBed.overrideProvider(SavedSearchesService, { useValue: { getSavedSearches: () => of([{ name: 'test' }]) } });
+      validator = TestBed.inject(UniqueSearchNameValidator);
+    });
+
+    it('should return null when name is unique', (done) => {
+      validator.validate({ value: 'unique' } as any).subscribe((result) => {
+        expect(result).toBe(null);
+        done();
+      });
+    });
+
+    it('should return error when name is not unique', (done) => {
+      validator.validate({ value: 'test' } as any).subscribe((result) => {
+        expect(result).toEqual({ message: 'APP.BROWSE.SEARCH.SAVE_SEARCH.SEARCH_NAME_NOT_UNIQUE_ERROR' });
+        done();
+      });
+    });
+  });
+
+  describe('Save searches returns error', () => {
+    beforeEach(() => {
+      TestBed.overrideProvider(SavedSearchesService, { useValue: { getSavedSearches: () => of(null) } });
+      validator = TestBed.inject(UniqueSearchNameValidator);
+    });
+
+    it('should return null when error occurs', (done) => {
+      validator.validate({ value: 'test' } as any).subscribe((result) => {
+        expect(result).toBe(null);
+        done();
+      });
+    });
+  });
+});

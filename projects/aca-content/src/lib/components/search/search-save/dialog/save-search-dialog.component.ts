@@ -40,6 +40,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { take } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { AppStore, SnackbarErrorAction, SnackbarInfoAction } from '@alfresco/aca-shared/store';
+import { UniqueSearchNameValidator } from './unique-search-name-validator';
 
 @Component({
   standalone: true,
@@ -66,7 +67,11 @@ import { AppStore, SnackbarErrorAction, SnackbarInfoAction } from '@alfresco/aca
 })
 export class SaveSearchDialogComponent {
   form = new FormGroup({
-    name: new FormControl('', [Validators.required, forbidOnlySpaces]),
+    name: new FormControl('', {
+      validators: [Validators.required, forbidOnlySpaces],
+      asyncValidators: [this.uniqueSearchNameValidator.validate.bind(this.uniqueSearchNameValidator)],
+      updateOn: 'blur'
+    }),
     description: new FormControl('')
   });
 
@@ -76,6 +81,7 @@ export class SaveSearchDialogComponent {
     private readonly dialog: MatDialogRef<SaveSearchDialogComponent>,
     private readonly store: Store<AppStore>,
     private readonly savedSearchesService: SavedSearchesService,
+    private uniqueSearchNameValidator: UniqueSearchNameValidator,
     @Inject(MAT_DIALOG_DATA) private readonly data: { searchUrl: string }
   ) {}
 
