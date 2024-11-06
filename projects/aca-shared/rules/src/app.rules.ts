@@ -493,4 +493,4 @@ export const canDisplayKnowledgeRetrievalButton = (context: AcaRuleContext): boo
     navigation.isSharedFiles(context) ||
     navigation.isRecentFiles(context) ||
     navigation.isFavorites(context) ||
-    ((navigation.isSearchResults(context) || navigation.isLibraryContent(context)) && navigation.isNotLibraries(context)));
+    ((navigation.isSearchResults(context) || navigation.isLibraryContent(context)) && !navigation.isLibraries(context)));
