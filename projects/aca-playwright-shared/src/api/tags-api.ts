@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { TagBody, TagEntry } from '@alfresco/js-api';
+import { TagBody, TagEntry, TagPaging } from '@alfresco/js-api';
 import { ApiClientFactory } from './api-client-factory';
 
 export class TagsApi {
@@ -61,6 +61,15 @@ export class TagsApi {
       return this.apiService.tagsApi.deleteTag(tagId);
     } catch (error) {
       console.error(error);
+    }
+  }
+
+  async listTagsForNode(nodeId: string): Promise<TagPaging> {
+    try {
+      return this.apiService.tagsApi.listTagsForNode(nodeId);
+    } catch (error) {
+      console.error(error);
+      return null;
     }
   }
 }
