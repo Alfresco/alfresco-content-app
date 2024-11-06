@@ -115,7 +115,7 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
   @Output()
   formValueChanged = new EventEmitter<Partial<Rule>>();
 
-  private onDestroy$ = new Subject();
+  private onDestroy$ = new Subject<void>();
   form: UntypedFormGroup;
 
   errorScriptConstraint: ActionParameterConstraint;

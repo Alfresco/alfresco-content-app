@@ -53,8 +53,7 @@ import { Store } from '@ngrx/store';
       [displayCategories]="displayCategories"
       [displayTags]="displayTags"
       [displayAspect]="metadataAspect"
-    >
-    </adf-content-metadata>
+    />
   `,
   styleUrls: ['metadata-tab.component.scss'],
   encapsulation: ViewEncapsulation.None,

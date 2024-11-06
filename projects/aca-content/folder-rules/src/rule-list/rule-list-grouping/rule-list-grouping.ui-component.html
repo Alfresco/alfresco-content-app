@@ -8,8 +8,7 @@
     [isSelected]="item.rule.id === this.selectedRule?.id"
     [showEnabledToggle]="showEnabledToggles"
     (click)="onRuleClicked(item.rule)"
-    (enabledChanged)="onEnabledChanged(item.rule, $event)">
-  </aca-rule-list-item>
+    (enabledChanged)="onEnabledChanged(item.rule, $event)" />
 
   <ng-template #loadMoreRules>
     <div
@@ -40,7 +39,7 @@
       tabindex="0"
       class="aca-rule-list-grouping__non-rule-item"
       matRipple matRippleColor="hsla(0,0%,0%,0.05)">
-      <mat-spinner mode="indeterminate" [diameter]="16" class="aca-spinner"></mat-spinner>
+      <mat-spinner mode="indeterminate" [diameter]="16" class="aca-spinner" />
       {{ 'ACA_FOLDER_RULES.RULE_LIST.LOADING_RULES' | translate }}
     </div>
   </ng-template>

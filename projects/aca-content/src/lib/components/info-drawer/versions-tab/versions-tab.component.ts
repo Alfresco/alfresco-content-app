@@ -36,8 +36,14 @@ import { AppSettingsService } from '@alfresco/aca-shared';
   selector: 'app-versions-tab',
   template: `
     <ng-container *ngIf="isFileSelected; else empty">
-      <adf-version-manager [showComments]="settings.uploadAllowComments" [allowDownload]="settings.uploadAllowDownload" [node]="node">
-      </adf-version-manager>
+      <adf-version-manager
+        [showComments]="settings.uploadAllowComments"
+        [allowDownload]="settings.uploadAllowDownload"
+        [node]="node"
+        [allowViewVersions]="settings.versionManagerAllowViewVersions"
+        [allowVersionDelete]="settings.versionManagerAllowVersionDelete"
+        [showActions]="settings.versionManagerShowActions"
+      />
     </ng-container>
 
     <ng-template #empty>

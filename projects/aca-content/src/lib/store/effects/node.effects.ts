@@ -22,36 +22,36 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Actions, ofType, createEffect } from '@ngrx/effects';
-import { Injectable, SecurityContext } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { inject, Injectable, SecurityContext } from '@angular/core';
 import { first, map, take } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import {
   AppStore,
-  NodeActionTypes,
-  PurgeDeletedNodesAction,
-  DeleteNodesAction,
-  UndoDeleteNodesAction,
-  CreateFolderAction,
-  EditFolderAction,
-  RestoreDeletedNodesAction,
-  ShareNodeAction,
-  ManageVersionsAction,
-  UnlockWriteAction,
-  UnshareNodesAction,
   CopyNodesAction,
-  MoveNodesAction,
-  ManagePermissionsAction,
-  PrintFileAction,
-  getCurrentFolder,
-  getAppSelection,
-  ManageAspectsAction,
-  NavigateRouteAction,
+  CreateFolderAction,
+  DeleteNodesAction,
+  EditFolderAction,
   ExpandInfoDrawerAction,
+  getAppSelection,
+  getCurrentFolder,
+  ManageAspectsAction,
+  ManagePermissionsAction,
   ManageRulesAction,
-  ShowLoaderAction,
+  ManageVersionsAction,
+  MoveNodesAction,
+  NavigateRouteAction,
+  NavigateUrlAction,
+  NodeActionTypes,
+  PrintFileAction,
+  PurgeDeletedNodesAction,
+  RestoreDeletedNodesAction,
   SetInfoDrawerStateAction,
-  NavigateUrlAction
+  ShareNodeAction,
+  ShowLoaderAction,
+  UndoDeleteNodesAction,
+  UnlockWriteAction,
+  UnshareNodesAction
 } from '@alfresco/aca-shared/store';
 import { ContentManagementService } from '../../services/content-management.service';
 import { RenditionService } from '@alfresco/adf-content-services';
@@ -60,15 +60,13 @@ import { DomSanitizer } from '@angular/platform-browser';
 
 @Injectable()
 export class NodeEffects {
-  constructor(
-    private store: Store<AppStore>,
-    private actions$: Actions,
-    private router: Router,
-    private contentService: ContentManagementService,
-    private renditionViewer: RenditionService,
-    private activatedRoute: ActivatedRoute,
-    private sanitizer: DomSanitizer
-  ) {}
+  private readonly store = inject(Store<AppStore>);
+  private readonly actions$ = inject(Actions);
+  private readonly router = inject(Router);
+  private readonly contentService = inject(ContentManagementService);
+  private readonly renditionViewer = inject(RenditionService);
+  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly sanitizer = inject(DomSanitizer);
 
   shareNode$ = createEffect(
     () =>

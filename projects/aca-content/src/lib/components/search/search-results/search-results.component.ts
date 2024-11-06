@@ -22,13 +22,14 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { NodeEntry, Pagination, ResultSetPaging } from '@alfresco/js-api';
 import { ActivatedRoute, Params } from '@angular/router';
 import {
   AlfrescoViewerComponent,
   DocumentListComponent,
   ResetSearchDirective,
+  SearchConfiguration,
   SearchFilterChipsComponent,
   SearchFormComponent,
   SearchQueryBuilderService,
@@ -39,8 +40,8 @@ import {
   NavigateToFolder,
   SetInfoDrawerPreviewStateAction,
   SetInfoDrawerStateAction,
-  ShowInfoDrawerPreviewAction,
-  SetSearchItemsTotalCountAction
+  SetSearchItemsTotalCountAction,
+  ShowInfoDrawerPreviewAction
 } from '@alfresco/aca-shared/store';
 import {
   CustomEmptyContentTemplateDirective,
@@ -52,7 +53,6 @@ import {
   TranslationService,
   ViewerToolbarComponent
 } from '@alfresco/adf-core';
-import { combineLatest } from 'rxjs';
 import {
   ContextActionsDirective,
   InfoDrawerComponent,
@@ -78,6 +78,14 @@ import { SearchResultsRowComponent } from '../search-results-row/search-results-
 import { DocumentListPresetRef, DynamicColumnComponent } from '@alfresco/adf-extensions';
 import { BulkActionsDropdownComponent } from '../../bulk-actions-dropdown/bulk-actions-dropdown.component';
 import { SearchAiInputContainerComponent } from '../../knowledge-retrieval/search-ai/search-ai-input-container/search-ai-input-container.component';
+import {
+  extractFiltersFromEncodedQuery,
+  extractSearchedWordFromEncodedQuery,
+  extractUserQueryFromEncodedQuery,
+  formatSearchTerm
+} from '../../../utils/aca-search-utils';
+import { SaveSearchDirective } from '../search-save/directive/save-search.directive';
+import { Subject } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -112,7 +120,8 @@ import { SearchAiInputContainerComponent } from '../../knowledge-retrieval/searc
     CustomEmptyContentTemplateDirective,
     ViewerToolbarComponent,
     BulkActionsDropdownComponent,
-    SearchAiInputContainerComponent
+    SearchAiInputContainerComponent,
+    SaveSearchDirective
   ],
   selector: 'aca-search-results',
   templateUrl: './search-results.component.html',
@@ -132,12 +141,17 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
   totalResults: number;
   isTagsEnabled = false;
   columns: DocumentListPresetRef[] = [];
+  encodedQuery: string;
+  searchConfig: SearchConfiguration;
+
+  private readonly loadedFilters$ = new Subject<void>();
 
   constructor(
     tagsService: TagService,
-    private queryBuilder: SearchQueryBuilderService,
-    private route: ActivatedRoute,
-    private translationService: TranslationService
+    private readonly queryBuilder: SearchQueryBuilderService,
+    private readonly changeDetectorRef: ChangeDetectorRef,
+    private readonly route: ActivatedRoute,
+    private readonly translationService: TranslationService
   ) {
     super();
 
@@ -148,15 +162,12 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
       maxItems: 25
     };
 
-    combineLatest([this.route.params, this.queryBuilder.configUpdated])
+    this.queryBuilder.configUpdated
+      .asObservable()
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe(([params, searchConfig]) => {
-        // eslint-disable-next-line no-prototype-builtins
-        this.searchedWord = params.hasOwnProperty(this.queryParamName) ? params[this.queryParamName] : null;
-        const query = this.formatSearchQuery(this.searchedWord, searchConfig['app:fields']);
-        if (query) {
-          this.queryBuilder.userQuery = decodeURIComponent(query);
-        }
+      .subscribe((searchConfig) => {
+        this.searchConfig = searchConfig;
+        this.updateUserQuery();
       });
   }
 
@@ -168,9 +179,10 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
 
     this.subscriptions.push(
       this.queryBuilder.updated.subscribe((query) => {
+        this.isLoading = true;
         if (query) {
           this.sorting = this.getSorting();
-          this.isLoading = true;
+          this.changeDetectorRef.detectChanges();
         }
       }),
 
@@ -179,6 +191,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
 
         this.onSearchResultLoaded(data);
         this.isLoading = false;
+        this.changeDetectorRef.detectChanges();
       }),
 
       this.queryBuilder.error.subscribe((err: any) => {
@@ -189,17 +202,34 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
     this.columns = this.extensions.documentListPresets.searchResults || [];
 
     if (this.route) {
-      this.route.params.forEach((params: Params) => {
-        // eslint-disable-next-line no-prototype-builtins
-        this.searchedWord = params.hasOwnProperty(this.queryParamName) ? params[this.queryParamName] : null;
-        if (this.searchedWord) {
-          this.queryBuilder.update();
-        } else {
-          this.queryBuilder.userQuery = null;
-          this.queryBuilder.executed.next({
-            list: { pagination: { totalItems: 0 }, entries: [] }
-          });
+      this.route.queryParams.pipe(takeUntil(this.onDestroy$)).subscribe((params: Params) => {
+        if (params[this.queryParamName]) {
+          this.isLoading = true;
         }
+        this.loadedFilters$.next();
+        this.encodedQuery = params[this.queryParamName] || null;
+        this.searchedWord = extractSearchedWordFromEncodedQuery(this.encodedQuery);
+        this.updateUserQuery();
+        const filtersFromEncodedQuery = extractFiltersFromEncodedQuery(this.encodedQuery);
+        if (filtersFromEncodedQuery !== null) {
+          const filtersToLoad = this.queryBuilder.categories.length;
+          let loadedFilters = this.searchedWord === '' ? 0 : 1;
+          this.queryBuilder.filterLoaded
+            .asObservable()
+            .pipe(takeUntil(this.onDestroy$), takeUntil(this.loadedFilters$))
+            .subscribe(() => {
+              loadedFilters++;
+              if (filtersToLoad === loadedFilters) {
+                this.loadedFilters$.next();
+                this.queryBuilder.execute(false);
+              }
+            });
+          this.queryBuilder.populateFilters.next(filtersFromEncodedQuery);
+        } else {
+          this.queryBuilder.populateFilters.next({});
+          this.queryBuilder.execute(false);
+        }
+        this.queryBuilder.userQuery = extractUserQueryFromEncodedQuery(this.encodedQuery);
       });
     }
   }
@@ -215,59 +245,6 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
     }
 
     this.notificationService.showError(message);
-  }
-
-  private isOperator(input: string): boolean {
-    if (input) {
-      input = input.trim().toUpperCase();
-
-      const operators = ['AND', 'OR'];
-      return operators.includes(input);
-    }
-    return false;
-  }
-
-  private formatFields(fields: string[], term: string): string {
-    let prefix = '';
-    let suffix = '*';
-
-    if (term.startsWith('=')) {
-      prefix = '=';
-      suffix = '';
-      term = term.substring(1);
-    }
-
-    if (term === '*') {
-      prefix = '';
-      suffix = '';
-    }
-
-    return '(' + fields.map((field) => `${prefix}${field}:"${term}${suffix}"`).join(' OR ') + ')';
-  }
-
-  formatSearchQuery(userInput: string, fields = ['cm:name']) {
-    if (!userInput) {
-      return null;
-    }
-
-    if (/^http[s]?:\/\//.test(userInput)) {
-      return this.formatFields(fields, userInput);
-    }
-
-    userInput = userInput.trim();
-
-    if (userInput.includes(':') || userInput.includes('"')) {
-      return userInput;
-    }
-
-    const words = userInput.split(' ');
-
-    if (words.length > 1) {
-      const separator = words.some(this.isOperator) ? ' ' : ' AND ';
-      return words.map((term) => (this.isOperator(term) ? term : this.formatFields(fields, term))).join(separator);
-    }
-
-    return this.formatFields(fields, userInput);
   }
 
   onSearchResultLoaded(nodePaging: ResultSetPaging) {
@@ -328,5 +305,10 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
   onSearchSortingUpdate(option: SearchSortingDefinition) {
     this.queryBuilder.sorting = [{ ...option, ascending: option.ascending }];
     this.queryBuilder.update();
+  }
+
+  private updateUserQuery(): void {
+    const updatedUserQuery = formatSearchTerm(this.searchedWord, this.searchConfig['app:fields']);
+    this.queryBuilder.userQuery = updatedUserQuery;
   }
 }

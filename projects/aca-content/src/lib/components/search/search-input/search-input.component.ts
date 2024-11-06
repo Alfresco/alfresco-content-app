@@ -28,10 +28,10 @@ import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { AppConfigService, NotificationService } from '@alfresco/adf-core';
 import { Component, inject, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
-import { NavigationEnd, PRIMARY_OUTLET, Router, RouterEvent, UrlSegment, UrlSegmentGroup, UrlTree } from '@angular/router';
+import { ActivatedRoute, Params, PRIMARY_OUTLET, Router, UrlSegment, UrlSegmentGroup, UrlTree } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { SearchInputControlComponent } from '../search-input-control/search-input-control.component';
 import { SearchNavigationService } from '../search-navigation.service';
 import { SearchLibrariesQueryBuilderService } from '../search-libraries-results/search-libraries-query-builder.service';
@@ -44,6 +44,7 @@ import { MatInputModule } from '@angular/material/input';
 import { A11yModule } from '@angular/cdk/a11y';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
+import { extractSearchedWordFromEncodedQuery } from '../../../utils/aca-search-utils';
 
 @Component({
   standalone: true,
@@ -67,12 +68,9 @@ import { FormsModule } from '@angular/forms';
   host: { class: 'aca-search-input' }
 })
 export class SearchInputComponent implements OnInit, OnDestroy {
-  private notificationService = inject(NotificationService);
+  private readonly notificationService = inject(NotificationService);
 
   onDestroy$: Subject<boolean> = new Subject<boolean>();
-  hasOneChange = false;
-  hasNewChange = false;
-  navigationTimer: any;
   has400LibraryError = false;
   hasLibrariesConstraint = false;
   searchOnChange: boolean;
@@ -106,14 +104,15 @@ export class SearchInputComponent implements OnInit, OnDestroy {
   trigger: MatMenuTrigger;
 
   constructor(
-    private queryBuilder: SearchQueryBuilderService,
-    private queryLibrariesBuilder: SearchLibrariesQueryBuilderService,
-    private config: AppConfigService,
-    private router: Router,
-    private store: Store<AppStore>,
-    private appHookService: AppHookService,
-    private appService: AppService,
-    public searchInputService: SearchNavigationService
+    private readonly queryBuilder: SearchQueryBuilderService,
+    private readonly queryLibrariesBuilder: SearchLibrariesQueryBuilderService,
+    private readonly config: AppConfigService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly store: Store<AppStore>,
+    private readonly appHookService: AppHookService,
+    private readonly appService: AppService,
+    public readonly searchInputService: SearchNavigationService
   ) {
     this.searchOnChange = this.config.get<boolean>('search.aca:triggeredOnChange', true);
   }
@@ -121,14 +120,13 @@ export class SearchInputComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.showInputValue();
 
-    this.router.events
-      .pipe(takeUntil(this.onDestroy$))
-      .pipe(filter((e) => e instanceof RouterEvent))
-      .subscribe((event) => {
-        if (event instanceof NavigationEnd) {
-          this.showInputValue();
-        }
-      });
+    this.route.queryParams.pipe(takeUntil(this.onDestroy$)).subscribe((params: Params) => {
+      const encodedQuery = params['q'];
+      if (encodedQuery && this.searchInputControl) {
+        this.searchedWord = extractSearchedWordFromEncodedQuery(encodedQuery);
+        this.searchInputControl.searchTerm = this.searchedWord;
+      }
+    });
 
     this.appHookService.library400Error.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
       this.has400LibraryError = true;
@@ -192,24 +190,6 @@ export class SearchInputComponent implements OnInit, OnDestroy {
     this.has400LibraryError = false;
     this.hasLibrariesConstraint = this.evaluateLibrariesConstraint();
     this.searchedWord = searchTerm;
-
-    if (this.hasOneChange) {
-      this.hasNewChange = true;
-    } else {
-      this.hasOneChange = true;
-    }
-
-    if (this.hasNewChange) {
-      clearTimeout(this.navigationTimer);
-      this.hasNewChange = false;
-    }
-
-    this.navigationTimer = setTimeout(() => {
-      if (searchTerm) {
-        this.store.dispatch(new SearchByTermAction(searchTerm, this.searchOptions));
-      }
-      this.hasOneChange = false;
-    }, 1000);
   }
 
   searchByOption() {
@@ -240,11 +220,11 @@ export class SearchInputComponent implements OnInit, OnDestroy {
   }
 
   get onLibrariesSearchResults() {
-    return this.router.url.indexOf('/search-libraries') === 0;
+    return this.router?.url.indexOf('/search-libraries') === 0;
   }
 
   get onSearchResults() {
-    return !this.onLibrariesSearchResults && this.router.url.indexOf('/search') === 0;
+    return !this.onLibrariesSearchResults && this.router?.url.indexOf('/search') === 0;
   }
 
   isFilesChecked(): boolean {
@@ -305,7 +285,7 @@ export class SearchInputComponent implements OnInit, OnDestroy {
 
       if (urlSegmentGroup) {
         const urlSegments: UrlSegment[] = urlSegmentGroup.segments;
-        searchTerm = urlSegments[0].parameters['q'] ? decodeURIComponent(urlSegments[0].parameters['q']) : '';
+        searchTerm = extractSearchedWordFromEncodedQuery(urlSegments[0].parameters['q']);
       }
     }
 

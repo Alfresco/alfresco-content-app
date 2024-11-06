@@ -47,21 +47,6 @@ import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dial
 import { ActivatedRoute } from '@angular/router';
 import { ModalAiService } from '../../../../services/modal-ai.service';
 
-const agentList: Agent[] = [
-  {
-    id: '1',
-    name: 'HR Agent',
-    description: 'Test 1',
-    avatarUrl: undefined
-  },
-  {
-    id: '2',
-    name: 'Policy Agent',
-    description: 'Test 2',
-    avatarUrl: undefined
-  }
-];
-
 describe('SearchAiInputComponent', () => {
   let component: SearchAiInputComponent;
   let fixture: ComponentFixture<SearchAiInputComponent>;
@@ -71,6 +56,17 @@ describe('SearchAiInputComponent', () => {
   let agents$: Subject<Agent[]>;
   let dialog: MatDialog;
   let activatedRoute: ActivatedRoute;
+  let userPreferencesService: UserPreferencesService;
+  let agentList: Agent[];
+
+  const newSelectionState: SelectionState = {
+    ...selectionState,
+    file: {
+      entry: {
+        id: 'some-id'
+      }
+    } as NodeEntry
+  };
 
   const prepareBeforeTest = (): void => {
     selectionState = {
@@ -81,7 +77,6 @@ describe('SearchAiInputComponent', () => {
     };
     store.overrideSelector(getAppSelection, selectionState);
     component.agentId = '2';
-    component.avatarsMocked = false;
     component.ngOnInit();
     fixture.detectChanges();
   };
@@ -109,7 +104,24 @@ describe('SearchAiInputComponent', () => {
     loader = TestbedHarnessEnvironment.loader(fixture);
     agents$ = new Subject<Agent[]>();
     dialog = TestBed.inject(MatDialog);
+    userPreferencesService = TestBed.inject(UserPreferencesService);
+    spyOn(userPreferencesService, 'get').and.returnValue(JSON.stringify(newSelectionState));
+    spyOn(userPreferencesService, 'set');
     spyOn(TestBed.inject(AgentService), 'getAgents').and.returnValue(agents$);
+    agentList = [
+      {
+        id: '1',
+        name: 'HR Agent',
+        description: 'Test 1',
+        avatarUrl: undefined
+      },
+      {
+        id: '2',
+        name: 'Policy Agent',
+        description: 'Test 2',
+        avatarUrl: undefined
+      }
+    ];
     prepareBeforeTest();
   });
 
@@ -144,12 +156,24 @@ describe('SearchAiInputComponent', () => {
       expect(component.queryControl.value).toBe(query);
     });
 
-    it('should set queryControl value to query param if searchTerm is not defined', () => {
-      component.searchTerm = undefined;
+    it('should set queryControl value to "some new query" if usedInAiResultsPage is equal to false', () => {
+      const query = 'some new query';
+      component.usedInAiResultsPage = false;
+      component.searchTerm = query;
 
       component.ngOnInit();
 
-      expect(component.queryControl.value).toBe('some query');
+      expect(component.queryControl.value).toBe('some new query');
+    });
+
+    it('should set queryControl value to empty string if usedInAiResultsPage is equal to true', () => {
+      const query = 'some new query';
+      component.usedInAiResultsPage = true;
+      component.searchTerm = query;
+
+      component.ngOnInit();
+
+      expect(component.queryControl.value).toBe('');
     });
 
     it('should get agents on init', () => {
@@ -170,11 +194,15 @@ describe('SearchAiInputComponent', () => {
     });
 
     it('should have selected correct agent', async () => {
+      agentList[0].avatarUrl = 'some-url-1';
+      agentList[1].avatarUrl = 'some-url-2';
+
       agents$.next(agentList);
-      expect(await (await loader.getHarness(MatSelectHarness)).getValueText()).toBe('PAPolicy Agent');
+      expect(await (await loader.getHarness(MatSelectHarness)).getValueText()).toBe('Policy Agent');
       const avatar = selectElement.query(By.directive(AvatarComponent))?.componentInstance;
       expect(avatar.initials).toBe('PA');
       expect(avatar.size).toBe('26px');
+      expect(avatar.src).toBe('some-url-2');
     });
 
     describe('Agents options', () => {
@@ -210,6 +238,15 @@ describe('SearchAiInputComponent', () => {
         expect(getAvatarForAgent('2').initials).toBe('PA');
       });
 
+      it('should have correct initials for avatars for each of agent', () => {
+        agentList[0].avatarUrl = 'some-url-1';
+        agentList[1].avatarUrl = 'some-url-2';
+
+        fixture.detectChanges();
+        expect(getAvatarForAgent('1').src).toBe('some-url-1');
+        expect(getAvatarForAgent('2').src).toBe('some-url-2');
+      });
+
       it('should assign correct initials to each avatar for each agent with single section name', () => {
         const newAgentList = [
           { ...agentList[0], name: 'Adam' },
@@ -221,6 +258,20 @@ describe('SearchAiInputComponent', () => {
         expect(getAvatarForAgent('1').initials).toBe('A');
         expect(getAvatarForAgent('2').initials).toBe('B');
       });
+    });
+  });
+
+  describe('Agents popup', () => {
+    it('should have selected correct agent', () => {
+      agentList[0].avatarUrl = 'some-url-1';
+      agentList[1].avatarUrl = 'some-url-2';
+      agents$.next(agentList);
+
+      fixture.detectChanges();
+      fixture.debugElement.query(By.css('.aca-search-ai-input-agent-container')).nativeElement.dispatchEvent(new MouseEvent('mouseenter'));
+      expect(fixture.debugElement.query(By.css('.aca-search-ai-input-agent-popup-hover-card-container-title adf-avatar')).componentInstance.src).toBe(
+        'some-url-2'
+      );
     });
   });
 
@@ -259,7 +310,6 @@ describe('SearchAiInputComponent', () => {
 
     it('should be disabled by default', () => {
       activatedRoute.snapshot.queryParams = { query: '' };
-
       component.ngOnInit();
       fixture.detectChanges();
 
@@ -294,7 +344,6 @@ describe('SearchAiInputComponent', () => {
     describe('Submitting', () => {
       let checkSearchAvailabilitySpy: jasmine.Spy<(selectedNodesState: SelectionState, maxSelectedNodes?: number) => string>;
       let notificationService: NotificationService;
-      let userPreferencesService: UserPreferencesService;
       let submitButton: DebugElement;
       let queryInput: MatInputHarness;
       let submittingTrigger: () => void;
@@ -308,8 +357,6 @@ describe('SearchAiInputComponent', () => {
         modalAiService = TestBed.inject(ModalAiService);
         checkSearchAvailabilitySpy = spyOn(TestBed.inject(SearchAiService), 'checkSearchAvailability');
         notificationService = TestBed.inject(NotificationService);
-        userPreferencesService = TestBed.inject(UserPreferencesService);
-        spyOn(userPreferencesService, 'set');
         spyOn(notificationService, 'showError');
         queryInput = await loader.getHarness(MatInputHarness);
         submitButton = fixture.debugElement.query(By.directive(MatButton));
@@ -350,16 +397,7 @@ describe('SearchAiInputComponent', () => {
       });
 
       it('should call checkSearchAvailability on SearchAiService with parameter based on value returned by UserPreferencesService', () => {
-        component.useStoredNodes = true;
-        const newSelectionState: SelectionState = {
-          ...selectionState,
-          file: {
-            entry: {
-              id: 'some-id'
-            }
-          } as NodeEntry
-        };
-        spyOn(userPreferencesService, 'get').and.returnValue(JSON.stringify(newSelectionState));
+        component.usedInAiResultsPage = true;
         component.ngOnInit();
         submittingTrigger();
 
@@ -374,16 +412,7 @@ describe('SearchAiInputComponent', () => {
       });
 
       it('should call set on UserPreferencesService with parameter based on value returned by UserPreferencesService', () => {
-        component.useStoredNodes = true;
-        const newSelectionState: SelectionState = {
-          ...selectionState,
-          file: {
-            entry: {
-              id: 'some-id'
-            }
-          } as NodeEntry
-        };
-        spyOn(userPreferencesService, 'get').and.returnValue(JSON.stringify(newSelectionState));
+        component.usedInAiResultsPage = true;
         component.ngOnInit();
         submittingTrigger();
 

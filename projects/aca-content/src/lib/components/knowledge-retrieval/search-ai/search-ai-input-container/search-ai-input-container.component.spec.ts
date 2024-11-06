@@ -126,11 +126,11 @@ describe('SearchAiInputContainerComponent', () => {
       expect(inputComponent.agentId).toBe(component.agentId);
     });
 
-    it('should have assigned correct useStoredNodes flag', () => {
-      component.useStoredNodes = true;
+    it('should have assigned correct usedInAiResultsPage flag', () => {
+      component.usedInAiResultsPage = true;
       fixture.detectChanges();
 
-      expect(inputComponent.useStoredNodes).toBeTrue();
+      expect(inputComponent.usedInAiResultsPage).toBeTrue();
     });
 
     it('should set inputState$ to toggleSearchAiInput$ from the service on ngOnInit', () => {

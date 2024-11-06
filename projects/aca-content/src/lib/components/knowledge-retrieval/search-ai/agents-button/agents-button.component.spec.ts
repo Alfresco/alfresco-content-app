@@ -81,7 +81,6 @@ describe('AgentsButtonComponent', () => {
       notificationService = TestBed.inject(NotificationService);
       spyOn(notificationService, 'showError');
       message = 'Some message';
-      component.avatarsMocked = false;
     });
 
     const getMenuTrigger = (): MatMenuPanel => fixture.debugElement.query(By.directive(MatMenuTrigger)).injector.get(MatMenuTrigger).menu;
@@ -226,7 +225,6 @@ describe('AgentsButtonComponent', () => {
 
     describe('loaded config', () => {
       beforeEach(() => {
-        component.avatarsMocked = false;
         config$.next({
           entry: {
             knowledgeRetrievalUrl
@@ -337,7 +335,6 @@ describe('AgentsButtonComponent', () => {
     let loader: HarnessLoader;
 
     const prepareData = (agents: Agent[]): void => {
-      component.avatarsMocked = false;
       config$.next({
         entry: {
           knowledgeRetrievalUrl
@@ -431,9 +428,18 @@ describe('AgentsButtonComponent', () => {
         expect(getAvatar('1').initials).toBe('HA');
         expect(getAvatar('2').initials).toBe('PA');
       });
+
+      it('should assign correct src to each avatar', () => {
+        agentsMock[0].avatarUrl = 'some-url-1';
+        agentsMock[1].avatarUrl = 'some-url-2';
+
+        fixture.detectChanges();
+        expect(getAvatar('1').src).toBe('some-url-1');
+        expect(getAvatar('2').src).toBe('some-url-2');
+      });
     });
 
-    describe('Agents multi words name', () => {
+    describe('Agents single word name', () => {
       it('should assign correct initials to each avatar for each agent with single section name', () => {
         agentsMock = [
           {

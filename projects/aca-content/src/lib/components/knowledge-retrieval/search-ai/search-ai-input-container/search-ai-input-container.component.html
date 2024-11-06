@@ -2,12 +2,10 @@
   [searchTerm]="(inputState$ | async).searchTerm"
   [placeholder]="placeholder"
   [agentId]="agentId"
-  [useStoredNodes]="useStoredNodes">
-</aca-search-ai-input>
+  [usedInAiResultsPage]="usedInAiResultsPage" />
 <mat-divider
   [vertical]="true"
-  class="aca-search-ai-input-container-divider">
-</mat-divider>
+  class="aca-search-ai-input-container-divider" />
 <button
   mat-icon-button
   (click)="leaveSearchInput()"

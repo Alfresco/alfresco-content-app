@@ -23,7 +23,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { ApiClientFactory, Utils, test } from '@alfresco/aca-playwright-shared';
+import { ApiClientFactory, Utils, test, timeouts } from '@alfresco/aca-playwright-shared';
 
 test.describe('Create folders', () => {
   const apiClientFactory = new ApiClientFactory();
@@ -54,8 +54,8 @@ test.describe('Create folders', () => {
     await personalFiles.page.keyboard.press('Escape');
     await personalFiles.snackBar.message.waitFor({ state: 'attached' });
     await expect(personalFiles.snackBar.message).toHaveText('The action was unsuccessful. Try again or contact your IT Team.');
+    await personalFiles.page.reload({ waitUntil: 'networkidle' });
+    await personalFiles.acaHeader.createButton.waitFor({ timeout: timeouts.medium, state: 'hidden' });
     expect(await personalFiles.page.title()).toContain('Sign in');
-    await personalFiles.snackBar.message.waitFor({ state: 'detached' });
-    await expect(personalFiles.snackBar.message, 'dialog should not be visible').toBeHidden();
   });
 });

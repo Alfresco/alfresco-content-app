@@ -10,7 +10,7 @@
       mat-button
       class="aca-action-button aca-full-width"
     >
-      <adf-icon *ngIf="item.icon" [value]="item.icon"></adf-icon>
+      <adf-icon *ngIf="item.icon" [value]="item.icon" />
       <span class="action-button__label">{{ item.title | translate }}</span>
     </button>
   </div>
@@ -20,7 +20,6 @@
   <mat-expansion-panel
     class="aca-expansion-panel"
     [expanded]="true"
-    [acaExpansionPanel]="item"
     [@.disabled]="true"
   >
     <mat-expansion-panel-header expandedHeight="32px" collapsedHeight="32px" role="group" class="aca-expansion-panel-header">
@@ -33,7 +32,7 @@
             [attr.data-automation-id]="item.id"
             class="aca-action-button aca-full-width"
           >
-            <adf-icon *ngIf="item.icon" [value]="item.icon"></adf-icon>
+            <adf-icon *ngIf="item.icon" [value]="item.icon" />
             <span class="aca-action-button__label">{{ item.title | translate }}</span>
           </span>
         </div>
@@ -51,7 +50,7 @@
           mat-button
           class="aca-action-button aca-full-width"
         >
-          <adf-icon *ngIf="child.icon" [value]="child.icon"></adf-icon>
+          <adf-icon *ngIf="child.icon" [value]="child.icon" />
           <span class="aca-action-button__label">{{ child.title | translate }}</span>
         </button>
       </div>

@@ -75,7 +75,7 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'npm'
 
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-branch-name@v7.1.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-branch-name@v8.2.0
 
       - name: publish
         uses: ./.github/actions/publish-libs

@@ -72,7 +72,7 @@ export class SearchPage extends BasePage {
   public uploadNewVersionDialog = new UploadNewVersionDialog(this.page);
   public manageVersionsDialog = new ManageVersionsDialog(this.page);
 
-  async searchWithin(searchText: string, searchType: SearchType): Promise<void> {
+  async searchWithin(searchText: string, searchType?: SearchType): Promise<void> {
     await this.acaHeader.searchButton.click();
     await this.clickSearchButton();
     switch (searchType) {

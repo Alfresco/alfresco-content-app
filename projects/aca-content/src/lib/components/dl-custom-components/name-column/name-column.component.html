@@ -16,8 +16,8 @@
     </span>
 
     <ng-container *ngIf="isFile && isFileWriteLocked">
-      <aca-locked-by [node]="context.row.node"></aca-locked-by>
+      <aca-locked-by [node]="context.row.node" />
     </ng-container>
   </div>
-  <aca-datatable-cell-badges [node]="node"></aca-datatable-cell-badges>
+  <aca-datatable-cell-badges [node]="node" />
 </div>

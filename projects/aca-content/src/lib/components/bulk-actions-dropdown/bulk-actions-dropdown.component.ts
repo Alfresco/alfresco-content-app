@@ -25,7 +25,7 @@
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { AppStore, getSearchItemsTotalCount } from '@alfresco/aca-shared/store';
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, inject, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatSelectModule } from '@angular/material/select';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
@@ -50,11 +50,12 @@ export class BulkActionsDropdownComponent implements OnInit, OnDestroy {
   tooltip: string;
   bulkSelectControl = new FormControl();
 
-  private readonly totalItems$: Observable<number> = this.store.select(getSearchItemsTotalCount);
+  private readonly store = inject<Store<AppStore>>(Store);
+  private readonly translationService = inject(TranslationService);
+  private readonly extensions = inject(AppExtensionService);
+
   private readonly onDestroy$ = new Subject();
-
-  constructor(private store: Store<AppStore>, private translationService: TranslationService, private extensions: AppExtensionService) {}
-
+  private readonly totalItems$: Observable<number> = this.store.select(getSearchItemsTotalCount);
   ngOnInit() {
     this.totalItems$
       .pipe(
@@ -88,7 +89,7 @@ export class BulkActionsDropdownComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.onDestroy$.next();
+    this.onDestroy$.next(true);
     this.onDestroy$.complete();
   }
 

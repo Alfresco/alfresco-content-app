@@ -29,9 +29,7 @@
     (selectRule)="onSelectRule($event)"
     (ruleEnabledChanged)="onRuleEnabledChanged($event)"
     (loadMoreRules)="onLoadMoreRules($event)"
-    (loadMoreRuleSets)="onLoadMoreRuleSets()">
-  </aca-rule-list-grouping>
-
+    (loadMoreRuleSets)="onLoadMoreRuleSets()" />
 </div>
 
 <div
@@ -74,8 +72,7 @@
       [showEnabledToggles]="isMainRuleSetOwned"
       (selectRule)="onSelectRule($event)"
       (ruleEnabledChanged)="onRuleEnabledChanged($event)"
-      (loadMoreRules)="onLoadMoreRules($event)">
-    </aca-rule-list-grouping>
+      (loadMoreRules)="onLoadMoreRules($event)" />
 
     <ng-template #emptyLinkedRuleSet>
       <div class="aca-rule-list__item__all-linked-rules-are-disabled">

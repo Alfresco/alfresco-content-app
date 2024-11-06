@@ -34,8 +34,8 @@
     [innerHTML]="description$ | async"
   ></div>
   <div class="aca-result-location">
-    <aca-location-link [context]="context" [showLocation]="true"></aca-location-link>
+    <aca-location-link [context]="context" [showLocation]="true" />
   </div>
   <div class="aca-result-content aca-crop-text" [title]="contentStripped" [innerHTML]="content$ | async"></div>
 </div>
-<aca-datatable-cell-badges [node]="context.row.node"></aca-datatable-cell-badges>
+<aca-datatable-cell-badges [node]="context.row.node" />

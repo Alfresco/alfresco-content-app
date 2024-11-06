@@ -22,14 +22,23 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Agent } from '@alfresco/js-api/typings';
-
-export const getAgentsWithMockedAvatars = (agents: Agent[], mocked: boolean) => {
-  if (mocked) {
-    const images = ['assets/images/agent-avatar-blue.png', 'assets/images/agent-avatar-gold.png', 'assets/images/agent-avatar-pink.png'];
-    return agents.map((agent, index) => {
-      return { ...agent, avatarUrl: images[index > 2 ? 2 : index] };
-    });
-  }
-  return agents;
+export const savedSearchesListSchema = {
+  default: [
+    {
+      type: 'text',
+      key: 'name',
+      title: 'APP.BROWSE.SEARCH.SAVE_SEARCH.LIST.NAME',
+      class: 'adf-ellipsis-cell',
+      sortable: false,
+      draggable: false
+    },
+    {
+      type: 'text',
+      key: 'description',
+      title: 'APP.BROWSE.SEARCH.SAVE_SEARCH.LIST.DESCRIPTION',
+      class: 'adf-ellipsis-cell',
+      sortable: false,
+      draggable: false
+    }
+  ]
 };

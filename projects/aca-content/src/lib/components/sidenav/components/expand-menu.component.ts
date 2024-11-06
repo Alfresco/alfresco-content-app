@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, Input, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { NavBarLinkRef } from '@alfresco/adf-extensions';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
