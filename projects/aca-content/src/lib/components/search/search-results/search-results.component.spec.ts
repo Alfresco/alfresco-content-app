@@ -79,7 +79,9 @@ describe('SearchComponent', () => {
         {
           provide: SavedSearchesService,
           useValue: {
-            getSavedSearches: jasmine.createSpy('getSavedSearches').and.returnValue(of([{ name: 'test', encodedUrl: 'test', order: 0 }])),
+            getSavedSearches: jasmine
+              .createSpy('getSavedSearches')
+              .and.returnValue(of([{ name: 'test', encodedUrl: encodeQuery({ name: 'test' }), order: 0 }])),
             editSavedSearch: editSavedSearchesSpy
           }
         },
@@ -89,9 +91,6 @@ describe('SearchComponent', () => {
             snapshot: {
               data: {
                 sortingPreferenceKey: ''
-              },
-              queryParams: {
-                q: 'test'
               }
             },
             params: params.asObservable()
@@ -246,15 +245,15 @@ describe('SearchComponent', () => {
   });
 
   it('should get initial saved search when url matches', fakeAsync(() => {
+    route.queryParams = of({ q: encodeQuery({ name: 'test' }) });
     component.ngOnInit();
     tick();
-    expect(component.initialSavedSearch).toEqual({ name: 'test', encodedUrl: 'test', order: 0 });
+    expect(component.initialSavedSearch).toEqual({ name: 'test', encodedUrl: encodeQuery({ name: 'test' }), order: 0 });
   }));
 
   it('should render a menu with 2 options when initial saved search is found', async () => {
+    route.queryParams = of({ q: encodeQuery({ name: 'test' }) });
     component.ngOnInit();
-    fixture.detectChanges();
-    component.encodedQuery = 'test';
     fixture.detectChanges();
     const saveSearchButton = getSavedSearchButton();
     expect(saveSearchButton).toBeDefined();

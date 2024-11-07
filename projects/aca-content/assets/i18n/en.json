@@ -219,7 +219,7 @@
                 "DESCRIPTION_LABEL": "Description",
                 "SAVE_SUCCESS": "Search Saved",
                 "SAVE_ERROR": "Error occurred. Search could not be saved.",
-                "SEARCH_NAME_NOT_UNIQUE_ERROR": "Saved Search with {{ name }} name already exists.",
+                "SEARCH_NAME_NOT_UNIQUE_ERROR": "Saved Search with '{{ name }}' name already exists.",
                 "NAVBAR": {
                   "TITLE": "Saved Searches ({{ number }})",
                   "MANAGE_BUTTON": "Manage searches"

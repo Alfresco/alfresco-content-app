@@ -66,7 +66,7 @@ import {
   ToolbarComponent
 } from '@alfresco/aca-shared';
 import { SearchSortingDefinition } from '@alfresco/adf-content-services/lib/search/models/search-sorting-definition.interface';
-import { first, take, takeUntil } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { SearchInputComponent } from '../search-input/search-input.component';
@@ -212,14 +212,14 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
     this.columns = this.extensions.documentListPresets.searchResults || [];
 
     if (this.route) {
-      this.savedSearchesService
-        .getSavedSearches()
-        .pipe(first())
-        .subscribe((savedSearches) => {
-          this.initialSavedSearch = savedSearches.find((savedSearch) => savedSearch.encodedUrl === this.route.snapshot.queryParams['q']);
-        });
-
       this.route.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params: Params) => {
+        this.savedSearchesService
+          .getSavedSearches()
+          .pipe(takeUntilDestroyed(this.destroyRef))
+          .subscribe((savedSearches) => {
+            const savedSearchFound = savedSearches.find((savedSearch) => savedSearch.encodedUrl === params[this.queryParamName]);
+            this.initialSavedSearch = savedSearchFound !== undefined ? savedSearchFound : this.initialSavedSearch;
+          });
         if (params[this.queryParamName]) {
           this.isLoading = true;
         }
