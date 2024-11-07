@@ -70,7 +70,11 @@ export class FolderRuleSetsService {
   isLoading$: Observable<boolean> = this.isLoadingSource.asObservable();
   selectedRuleSet$: Observable<RuleSet>;
 
-  constructor(private apiService: AlfrescoApiService, private contentApi: ContentApiService, private folderRulesService: FolderRulesService) {
+  constructor(
+    private readonly apiService: AlfrescoApiService,
+    private readonly contentApi: ContentApiService,
+    private readonly folderRulesService: FolderRulesService
+  ) {
     this.selectedRuleSet$ = this.folderRulesService.selectedRule$.pipe(
       startWith(null),
       map((rule: Rule) => {
