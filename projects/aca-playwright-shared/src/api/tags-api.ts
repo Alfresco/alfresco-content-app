@@ -56,9 +56,11 @@ export class TagsApi {
     }
   }
 
-  async deleteTag(tagId: string): Promise<void> {
+  async deleteTags(tagIds: string[]): Promise<void> {
     try {
-      return this.apiService.tagsApi.deleteTag(tagId);
+      for (const tagId of tagIds) {
+        await this.apiService.tagsApi.deleteTag(tagId);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -70,6 +72,25 @@ export class TagsApi {
     } catch (error) {
       console.error(error);
       return null;
+    }
+  }
+
+  async listTags(params?: { tag?: string; matching?: boolean }): Promise<TagPaging> {
+    try {
+      return this.apiService.tagsApi.listTags(params);
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  async deleteTagsByTagName(tagName: string): Promise<void> {
+    try {
+      const response = await this.listTags({ tag: tagName, matching: true });
+      const tagIds = response.list.entries.map((entry) => entry.entry.id);
+      await this.deleteTags(tagIds);
+    } catch (error) {
+      console.error(error);
     }
   }
 }
