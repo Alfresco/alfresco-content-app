@@ -217,7 +217,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
           .getSavedSearches()
           .pipe(takeUntilDestroyed(this.destroyRef))
           .subscribe((savedSearches) => {
-            const savedSearchFound = savedSearches.find((savedSearch) => savedSearch.encodedUrl === params[this.queryParamName]);
+            const savedSearchFound = savedSearches.find((savedSearch) => savedSearch.encodedUrl === encodeURIComponent(params[this.queryParamName]));
             this.initialSavedSearch = savedSearchFound !== undefined ? savedSearchFound : this.initialSavedSearch;
           });
         if (params[this.queryParamName]) {
