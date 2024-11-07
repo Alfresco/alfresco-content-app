@@ -74,6 +74,12 @@ describe('FolderRuleSetsService', () => {
       .and.returnValue(of(getOtherFolderEntryMock));
   });
 
+  it('should have an initial value of null for selectedRuleSet$', async () => {
+    const selectedRuleSetPromise = folderRuleSetsService.selectedRuleSet$.pipe(take(1)).toPromise();
+    const selectedRuleSet = await selectedRuleSetPromise;
+    expect(selectedRuleSet).toBeNull();
+  });
+
   it(`should load node info when loading the node's rule sets`, async () => {
     // take(2), because: 1 = init of the BehaviourSubject, 2 = in subscribe
     const folderInfoPromise = folderRuleSetsService.folderInfo$.pipe(take(2)).toPromise();
