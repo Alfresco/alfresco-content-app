@@ -147,7 +147,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
   isLoading = false;
   totalResults: number;
   isTagsEnabled = false;
-  initialSavedSearch = undefined;
+  initialSavedSearch: SavedSearch = undefined;
   columns: DocumentListPresetRef[] = [];
   encodedQuery: string;
   searchConfig: SearchConfiguration;
@@ -174,7 +174,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
 
     this.queryBuilder.configUpdated
       .asObservable()
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(takeUntilDestroyed())
       .subscribe((searchConfig) => {
         this.searchConfig = searchConfig;
         this.updateUserQuery();
