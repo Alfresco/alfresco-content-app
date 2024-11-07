@@ -43,9 +43,9 @@ test.describe('Info Drawer - File Folder Properties', () => {
   let categoriesApi: CategoriesApi;
   let responseCategoryId: string;
   let responseTagsId: string;
-  let Folder17239Id: string;
   let Folder17240Id: string;
   let Folder17242Id: string;
+  const tagsPhraseForDeletion = 'e2e';
   const username = `user-e2e-${Utils.random()}`;
   const manualTagName = `e2e-tag-${Utils.random()}`;
   const FolderC299162 = `C299162-e2e-${Utils.random()}`;
@@ -57,7 +57,7 @@ test.describe('Info Drawer - File Folder Properties', () => {
   const Folder17242 = `xat-17242-e2e-${Utils.random()}`;
   const Folder17243 = `xat-17243-e2e-${Utils.random()}`;
   const Folder17244 = `xat-17244-e2e-${Utils.random()}`;
-  const tagBody = { tag: `tag-${Utils.random()}` };
+  const tagBody = { tag: `e2e-${Utils.random()}` };
   const categoryName = Utils.random();
   const noCategoriesText = 'There are currently no categories added';
   const noTagsText = 'There are currently no tags added';
@@ -102,7 +102,7 @@ test.describe('Info Drawer - File Folder Properties', () => {
       await nodesApi.createFolder(FolderC299162);
       await nodesApi.createFolder(FolderC599174);
       await nodesApi.createFolder(Folder17238);
-      Folder17239Id = (await nodesApi.createFolder(Folder17239)).entry.id;
+      await nodesApi.createFolder(Folder17239);
       Folder17240Id = (await nodesApi.createFolder(Folder17240)).entry.id;
       await nodesApi.createFolder(Folder17241);
       Folder17242Id = (await nodesApi.createFolder(Folder17242)).entry.id;
@@ -120,7 +120,7 @@ test.describe('Info Drawer - File Folder Properties', () => {
   test.afterAll(async () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
     await categoriesApi.deleteCategory(responseCategoryId);
-    await tagsApi.deleteTag(responseTagsId);
+    await tagsApi.deleteTagsByTagName(tagsPhraseForDeletion);
   });
 
   async function navigateAndOpenInfoDrawer(personalFiles: PersonalFilesPage, folderName: string) {
@@ -130,18 +130,6 @@ test.describe('Info Drawer - File Folder Properties', () => {
     await expect(personalFiles.dataTable.getRowByName(folderName)).toBeVisible();
     await personalFiles.dataTable.getRowByName(folderName).click();
     await personalFiles.acaHeader.viewDetails.click();
-  }
-
-  async function waitForTagToBeAdded(folderId: string, personalFiles: PersonalFilesPage, maxRetries: number) {
-    let retries = 0;
-
-    while ((await tagsApi.listTagsForNode(folderId)).list.entries.length === 0) {
-      if (retries >= maxRetries) {
-        throw new Error('Tag was not added within the expected time frame.');
-      }
-      await personalFiles.page.waitForTimeout(1000);
-      retries++;
-    }
   }
 
   test('[C299162] View properties - Default tabs', async ({ personalFiles }) => {
@@ -186,10 +174,6 @@ test.describe('Info Drawer - File Folder Properties', () => {
     await personalFiles.infoDrawer.tagsAccordionConfirmButton.click();
     await expect(personalFiles.infoDrawer.tagsChipsXButton.first()).toBeHidden();
     await expect(personalFiles.infoDrawer.tagsAccordionPenButton).toBeVisible();
-
-    await waitForTagToBeAdded(Folder17239Id, personalFiles, 10);
-    const tagId = (await tagsApi.listTagsForNode(Folder17239Id)).list.entries[0].entry.id;
-    await tagsApi.deleteTag(tagId);
   });
 
   test('[XAT-17240] Remove a tag from a node', async ({ personalFiles }) => {
