@@ -57,7 +57,7 @@ describe('SearchComponent', () => {
   let loader: HarnessLoader;
 
   const editSavedSearchesSpy = jasmine.createSpy('editSavedSearch');
-  const getSavedSearchButton = () => fixture.nativeElement.querySelector('.aca-content__save-search-action');
+  const getSavedSearchButton = (): HTMLButtonElement => fixture.nativeElement.querySelector('.aca-content__save-search-action');
 
   const encodeQuery = (query: any): string => {
     return Buffer.from(JSON.stringify(query)).toString('base64');

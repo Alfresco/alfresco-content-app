@@ -63,6 +63,10 @@ export class SaveSearchSidenavComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
+  onActionClick(): void {
+    this.appService.appNavNarMode$.next('collapsed');
+  }
+
   private createNavBarLinkRef(children: SavedSearch[]): NavBarLinkRef {
     const mappedChildren = children
       .map((child) => ({

@@ -26,6 +26,7 @@ import { TestBed } from '@angular/core/testing';
 import { UniqueSearchNameValidator } from './unique-search-name-validator';
 import { ContentTestingModule, SavedSearchesService } from '@alfresco/adf-content-services';
 import { of } from 'rxjs';
+import { FormControl } from '@angular/forms';
 
 describe('UniqueSearchNameValidator', () => {
   let validator: UniqueSearchNameValidator;
@@ -43,14 +44,14 @@ describe('UniqueSearchNameValidator', () => {
     });
 
     it('should return null when name is unique', (done) => {
-      validator.validate({ value: 'unique' } as any).subscribe((result) => {
+      validator.validate(new FormControl({ value: 'unique', disabled: false })).subscribe((result) => {
         expect(result).toBe(null);
         done();
       });
     });
 
     it('should return error when name is not unique', (done) => {
-      validator.validate({ value: 'test' } as any).subscribe((result) => {
+      validator.validate(new FormControl({ value: 'test', disabled: false })).subscribe((result) => {
         expect(result).toEqual({ message: 'APP.BROWSE.SEARCH.SAVE_SEARCH.SEARCH_NAME_NOT_UNIQUE_ERROR' });
         done();
       });
@@ -64,7 +65,7 @@ describe('UniqueSearchNameValidator', () => {
     });
 
     it('should return null when error occurs', (done) => {
-      validator.validate({ value: 'test' } as any).subscribe((result) => {
+      validator.validate(new FormControl({ value: 'test', disabled: false })).subscribe((result) => {
         expect(result).toBe(null);
         done();
       });
