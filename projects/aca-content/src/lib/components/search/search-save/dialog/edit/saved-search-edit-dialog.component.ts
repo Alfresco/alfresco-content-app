@@ -57,7 +57,7 @@ export class SavedSearchEditDialogComponent {
     private readonly dialog: MatDialogRef<SavedSearchEditDialogComponent>,
     private readonly store: Store<AppStore>,
     private readonly savedSearchesService: SavedSearchesService,
-    private uniqueSearchNameValidator: UniqueSearchNameValidator,
+    private readonly uniqueSearchNameValidator: UniqueSearchNameValidator,
     @Inject(MAT_DIALOG_DATA) private readonly data: SavedSearch
   ) {
     this.form.patchValue({

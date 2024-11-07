@@ -29,7 +29,7 @@ import { catchError, map, Observable, of } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class UniqueSearchNameValidator implements AsyncValidator {
-  constructor(private savedSearchesService: SavedSearchesService) {}
+  constructor(private readonly savedSearchesService: SavedSearchesService) {}
 
   validate(control: AbstractControl): Observable<ValidationErrors | null> {
     return this.savedSearchesService.getSavedSearches().pipe(

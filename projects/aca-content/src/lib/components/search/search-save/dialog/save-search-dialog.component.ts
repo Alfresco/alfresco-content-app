@@ -81,7 +81,7 @@ export class SaveSearchDialogComponent {
     private readonly dialog: MatDialogRef<SaveSearchDialogComponent>,
     private readonly store: Store<AppStore>,
     private readonly savedSearchesService: SavedSearchesService,
-    private uniqueSearchNameValidator: UniqueSearchNameValidator,
+    private readonly uniqueSearchNameValidator: UniqueSearchNameValidator,
     @Inject(MAT_DIALOG_DATA) private readonly data: { searchUrl: string }
   ) {}
 
