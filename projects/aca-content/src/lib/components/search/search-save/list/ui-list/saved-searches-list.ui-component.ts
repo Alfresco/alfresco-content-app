@@ -41,6 +41,7 @@ import { SavedSearch } from '@alfresco/adf-content-services';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { Store } from '@ngrx/store';
 import { SnackbarInfoAction } from '@alfresco/aca-shared/store';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'aca-saved-searches-ui-list',
@@ -66,11 +67,17 @@ export class SavedSearchesListUiComponent extends DataTableSchema implements Aft
   private readonly editSavedSearchOptionKey = 'edit';
   private readonly deleteSavedSearchOptionKey = 'delete';
   private readonly copyToClipboardUrlOptionKey = 'copy';
+  private readonly executeSearchOptionKey = 'execute';
   private readonly menuOptions = [
     {
       icon: 'copy',
       title: 'APP.BROWSE.SEARCH.SAVE_SEARCH.LIST.COPY_TO_CLIPBOARD',
       key: this.copyToClipboardUrlOptionKey
+    },
+    {
+      icon: 'exit_to_app',
+      title: 'APP.BROWSE.SEARCH.SAVE_SEARCH.LIST.EXECUTE_SEARCH',
+      key: this.executeSearchOptionKey
     },
     {
       icon: 'edit',
@@ -84,7 +91,12 @@ export class SavedSearchesListUiComponent extends DataTableSchema implements Aft
     }
   ];
 
-  constructor(protected appConfig: AppConfigService, private readonly clipboard: Clipboard, private readonly store: Store) {
+  constructor(
+    protected appConfig: AppConfigService,
+    private readonly clipboard: Clipboard,
+    private readonly store: Store,
+    private readonly router: Router
+  ) {
     super(appConfig, '', savedSearchesListSchema);
   }
 
@@ -112,6 +124,9 @@ export class SavedSearchesListUiComponent extends DataTableSchema implements Aft
       case this.copyToClipboardUrlOptionKey:
         this.copyToClipboard(savedSearchData);
         break;
+      case this.executeSearchOptionKey:
+        this.executeSearch(savedSearchData);
+        break;
     }
   }
 
@@ -126,6 +141,12 @@ export class SavedSearchesListUiComponent extends DataTableSchema implements Aft
   copyToClipboard(savedSearch: SavedSearch): void {
     this.clipboard.copy(this.getFullUrl(savedSearch.encodedUrl));
     this.store.dispatch(new SnackbarInfoAction('APP.BROWSE.SEARCH.SAVE_SEARCH.LIST.COPY_TO_CLIPBOARD_SUCCESS'));
+  }
+
+  executeSearch(savedSearch: SavedSearch): void {
+    void this.router.navigate(['/search'], {
+      queryParams: { q: decodeURIComponent(savedSearch.encodedUrl) }
+    });
   }
 
   fillContextMenu(event: DataCellEvent) {
