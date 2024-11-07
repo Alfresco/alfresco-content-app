@@ -74,15 +74,13 @@ export class SaveSearchSidenavComponent implements OnInit, OnDestroy {
       }))
       .slice(0, 5);
     const title = this.translationService.instant('APP.BROWSE.SEARCH.SAVE_SEARCH.NAVBAR.TITLE', { number: children.length });
-    if (children.length) {
-      mappedChildren.push({
-        id: this.manageSearchesId,
-        icon: '',
-        title: 'APP.BROWSE.SEARCH.SAVE_SEARCH.NAVBAR.MANAGE_BUTTON',
-        route: 'saved-searches',
-        url: 'saved-searches'
-      });
-    }
+    mappedChildren.push({
+      id: this.manageSearchesId,
+      icon: '',
+      title: 'APP.BROWSE.SEARCH.SAVE_SEARCH.NAVBAR.MANAGE_BUTTON',
+      route: 'saved-searches',
+      url: 'saved-searches'
+    });
     return {
       icon: '',
       title,
