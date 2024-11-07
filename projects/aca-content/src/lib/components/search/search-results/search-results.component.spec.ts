@@ -26,16 +26,21 @@ import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testin
 import { SearchResultsComponent } from './search-results.component';
 import { AppConfigService, NotificationService, TranslationService } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
-import { NavigateToFolder } from '@alfresco/aca-shared/store';
+import { NavigateToFolder, SnackbarErrorAction, SnackbarInfoAction } from '@alfresco/aca-shared/store';
 import { Pagination, SearchRequest } from '@alfresco/js-api';
-import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
+import { SavedSearchesService, SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, of, Subject } from 'rxjs';
+import { BehaviorSubject, of, Subject, throwError } from 'rxjs';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { AppService } from '@alfresco/aca-shared';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { Buffer } from 'buffer';
 import { testHeader } from '../../../testing/document-base-page-utils';
+import { HarnessLoader } from '@angular/cdk/testing';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatMenuHarness } from '@angular/material/menu/testing';
 
 describe('SearchComponent', () => {
   let component: SearchResultsComponent;
@@ -49,6 +54,10 @@ describe('SearchComponent', () => {
   const searchRequest = {} as SearchRequest;
   let params: BehaviorSubject<any>;
   let showErrorSpy: jasmine.Spy;
+  let loader: HarnessLoader;
+
+  const editSavedSearchesSpy = jasmine.createSpy('editSavedSearch');
+  const getSavedSearchButton = () => fixture.nativeElement.querySelector('.aca-content__save-search-action');
 
   const encodeQuery = (query: any): string => {
     return Buffer.from(JSON.stringify(query)).toString('base64');
@@ -57,7 +66,7 @@ describe('SearchComponent', () => {
   beforeEach(() => {
     params = new BehaviorSubject({ q: 'TYPE: "cm:folder" AND %28=cm: name: email OR cm: name: budget%29' });
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, SearchResultsComponent, MatSnackBarModule],
+      imports: [AppTestingModule, SearchResultsComponent, MatSnackBarModule, MatMenuModule, NoopAnimationsModule],
       providers: [
         {
           provide: AppService,
@@ -68,11 +77,21 @@ describe('SearchComponent', () => {
           }
         },
         {
+          provide: SavedSearchesService,
+          useValue: {
+            getSavedSearches: jasmine.createSpy('getSavedSearches').and.returnValue(of([{ name: 'test', encodedUrl: 'test', order: 0 }])),
+            editSavedSearch: editSavedSearchesSpy
+          }
+        },
+        {
           provide: ActivatedRoute,
           useValue: {
             snapshot: {
               data: {
                 sortingPreferenceKey: ''
+              },
+              queryParams: {
+                q: 'test'
               }
             },
             params: params.asObservable()
@@ -102,6 +121,7 @@ describe('SearchComponent', () => {
     spyOn(queryBuilder, 'update').and.stub();
 
     fixture.detectChanges();
+    loader = TestbedHarnessEnvironment.loader(fixture);
   });
 
   afterEach(() => {
@@ -224,6 +244,67 @@ describe('SearchComponent', () => {
     queryBuilder.configUpdated.next({ 'app:fields': ['cm:tag'] } as any);
     expect(queryBuilder.userQuery).toBe(`((cm:tag:"orange*"))`);
   });
+
+  it('should get initial saved search when url matches', fakeAsync(() => {
+    component.ngOnInit();
+    tick();
+    expect(component.initialSavedSearch).toEqual({ name: 'test', encodedUrl: 'test', order: 0 });
+  }));
+
+  it('should render a menu with 2 options when initial saved search is found', async () => {
+    component.ngOnInit();
+    fixture.detectChanges();
+    component.encodedQuery = 'test';
+    fixture.detectChanges();
+    const saveSearchButton = getSavedSearchButton();
+    expect(saveSearchButton).toBeDefined();
+    expect(saveSearchButton.textContent.trim()).toBe('APP.BROWSE.SEARCH.SAVE_SEARCH.ACTION_BUTTON keyboard_arrow_down');
+
+    const menu = await loader.getHarness(MatMenuHarness.with({ selector: '.aca-content__save-search-action' }));
+    expect(await menu.isDisabled()).toBeFalse();
+    await menu.open();
+    expect(await menu.isOpen()).toBeTrue();
+    const menuItems = await menu.getItems();
+    expect(menuItems.length).toBe(2);
+    expect(await menuItems[0].getText()).toBe('APP.BROWSE.SEARCH.SAVE_SEARCH.SAVE_CHANGES');
+    expect(await menuItems[1].getText()).toBe('APP.BROWSE.SEARCH.SAVE_SEARCH.SAVE_AS_NEW');
+  });
+
+  it('should not get initial saved search when url does not match', fakeAsync(() => {
+    route.snapshot.queryParams = { q: 'test2' };
+    tick();
+    component.ngOnInit();
+    tick();
+    expect(component.initialSavedSearch).toBeUndefined();
+  }));
+
+  it('should render regular save search button when there is no initial saved search', fakeAsync(() => {
+    route.snapshot.queryParams = { q: 'test2' };
+    tick();
+    component.ngOnInit();
+    tick();
+    fixture.detectChanges();
+    const saveSearchButton = getSavedSearchButton();
+    expect(saveSearchButton).toBeDefined();
+    expect(saveSearchButton.textContent.trim()).toBe('APP.BROWSE.SEARCH.SAVE_SEARCH.ACTION_BUTTON');
+    expect(saveSearchButton.getAttribute('aria-label')).toBe('APP.BROWSE.SEARCH.SAVE_SEARCH.ACTION_BUTTON');
+  }));
+
+  it('should dispatch success snackbar action when editing saved search is successful', fakeAsync(() => {
+    spyOn(store, 'dispatch').and.stub();
+    editSavedSearchesSpy.and.returnValue(of({}));
+    component.editSavedSearch({ name: 'test', encodedUrl: 'test', order: 0 });
+    tick();
+    expect(store.dispatch).toHaveBeenCalledWith(new SnackbarInfoAction('APP.BROWSE.SEARCH.SAVE_SEARCH.EDIT_DIALOG.SUCCESS_MESSAGE'));
+  }));
+
+  it('should dispatch error snackbar action when editing saved search failed', fakeAsync(() => {
+    spyOn(store, 'dispatch').and.stub();
+    editSavedSearchesSpy.and.returnValue(throwError(() => new Error('')));
+    component.editSavedSearch({ name: 'test', encodedUrl: 'test', order: 0 });
+    tick();
+    expect(store.dispatch).toHaveBeenCalledWith(new SnackbarErrorAction('APP.BROWSE.SEARCH.SAVE_SEARCH.EDIT_DIALOG.ERROR_MESSAGE'));
+  }));
 
   testHeader(SearchResultsComponent, false);
 });

@@ -211,6 +211,8 @@
               "RESET_ACTION": "Reset search filters",
               "SAVE_SEARCH": {
                 "ACTION_BUTTON": "Save Search",
+                "SAVE_CHANGES": "Save changes",
+                "SAVE_AS_NEW": "Save as new",
                 "MODAL_HEADER": "Save this search",
                 "NAME_LABEL": "Name",
                 "NAME_REQUIRED_ERROR": "This field is required",
