@@ -144,7 +144,7 @@ export class SavedSearchesListUiComponent extends DataTableSchema implements Aft
   }
 
   executeSearch(savedSearch: SavedSearch): void {
-    void this.router.navigate(['/search'], {
+    this.router.navigate(['/search'], {
       queryParams: { q: decodeURIComponent(savedSearch.encodedUrl) }
     });
   }
