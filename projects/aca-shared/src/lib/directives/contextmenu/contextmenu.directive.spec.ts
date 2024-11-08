@@ -23,8 +23,20 @@
  */
 
 import { ContextActionsDirective } from './contextmenu.directive';
-import { ContextMenu } from '@alfresco/aca-shared/store';
+import { ContextMenu, CustomContextMenu } from '@alfresco/aca-shared/store';
+import { ContentActionRef, ContentActionType } from '@alfresco/adf-extensions';
 import { fakeAsync, tick } from '@angular/core/testing';
+
+const customActionsMock: ContentActionRef[] = [
+  {
+    type: ContentActionType.default,
+    id: 'action',
+    title: 'action',
+    actions: {
+      click: 'event'
+    }
+  }
+];
 
 describe('ContextActionsDirective', () => {
   let directive: ContextActionsDirective;
@@ -45,24 +57,6 @@ describe('ContextActionsDirective', () => {
     expect(directive.execute).not.toHaveBeenCalled();
   });
 
-  it('should call service to render context menu', fakeAsync(() => {
-    const el = document.createElement('div');
-    el.className = 'adf-datatable-cell adf-datatable-cell--text adf-datatable-row';
-
-    const fragment = document.createDocumentFragment();
-    fragment.appendChild(el);
-    const target = fragment.querySelector('div');
-    const mouseEventMock: any = { preventDefault: () => {}, target };
-
-    directive.ngOnInit();
-
-    directive.onContextMenuEvent(mouseEventMock);
-
-    tick(500);
-
-    expect(storeMock.dispatch).toHaveBeenCalledWith(new ContextMenu(mouseEventMock));
-  }));
-
   it('should not call service to render context menu if the datatable is empty', fakeAsync(() => {
     storeMock.dispatch.calls.reset();
     const el = document.createElement('div');
@@ -82,4 +76,34 @@ describe('ContextActionsDirective', () => {
 
     expect(storeMock.dispatch).not.toHaveBeenCalled();
   }));
+
+  describe('Context Menu rendering', () => {
+    let mouseEventMock: any;
+    beforeEach(() => {
+      const el = document.createElement('div');
+      el.className = 'adf-datatable-cell adf-datatable-cell--text adf-datatable-row';
+
+      const fragment = document.createDocumentFragment();
+      fragment.appendChild(el);
+      const target = fragment.querySelector('div');
+      mouseEventMock = { preventDefault: () => {}, target };
+    });
+
+    it('should call service to render context menu', fakeAsync(() => {
+      directive.ngOnInit();
+      directive.onContextMenuEvent(mouseEventMock);
+      tick(500);
+
+      expect(storeMock.dispatch).toHaveBeenCalledWith(new ContextMenu(mouseEventMock));
+    }));
+
+    it('should call service to render custom context menu if custom actions are provided', fakeAsync(() => {
+      directive.customActions = customActionsMock;
+      directive.ngOnInit();
+      directive.onContextMenuEvent(mouseEventMock);
+      tick(500);
+
+      expect(storeMock.dispatch).toHaveBeenCalledWith(new CustomContextMenu(mouseEventMock, customActionsMock));
+    }));
+  });
 });

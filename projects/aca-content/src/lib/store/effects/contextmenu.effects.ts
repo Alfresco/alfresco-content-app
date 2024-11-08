@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ContextMenu, ContextMenuActionTypes } from '@alfresco/aca-shared/store';
+import { ContextMenu, ContextMenuActionTypes, CustomContextMenu } from '@alfresco/aca-shared/store';
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { map } from 'rxjs/operators';
@@ -51,6 +51,30 @@ export class ContextMenuEffects {
             backdropClass: 'cdk-overlay-transparent-backdrop',
             panelClass: 'cdk-overlay-pane'
           });
+        })
+      ),
+    { dispatch: false }
+  );
+
+  customContextMenu$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType<CustomContextMenu>(ContextMenuActionTypes.CustomContextMenu),
+        map((action) => {
+          if (action.payload?.length) {
+            if (this.overlayRef) {
+              this.overlayRef.close();
+            }
+            this.overlayRef = this.contextMenuService.open(
+              {
+                source: action.event,
+                hasBackdrop: false,
+                backdropClass: 'cdk-overlay-transparent-backdrop',
+                panelClass: 'cdk-overlay-pane'
+              },
+              action.payload
+            );
+          }
         })
       ),
     { dispatch: false }
