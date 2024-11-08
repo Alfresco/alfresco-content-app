@@ -49,7 +49,7 @@ describe('SaveSearchDialogComponent', () => {
       providers: [
         { provide: MatDialogRef, useValue: dialogRef },
         provideMockStore(),
-        { provide: SavedSearchesService, useValue: { saveSearch: () => of() } },
+        { provide: SavedSearchesService, useValue: { saveSearch: () => of(), getSavedSearches: () => of([]) } },
         { provide: MAT_DIALOG_DATA, useValue: { searchUrl: 'abcdef' } }
       ]
     });

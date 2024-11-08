@@ -211,12 +211,15 @@
               "RESET_ACTION": "Reset search filters",
               "SAVE_SEARCH": {
                 "ACTION_BUTTON": "Save Search",
+                "SAVE_CHANGES": "Save changes",
+                "SAVE_AS_NEW": "Save as new",
                 "MODAL_HEADER": "Save this search",
                 "NAME_LABEL": "Name",
                 "NAME_REQUIRED_ERROR": "This field is required",
                 "DESCRIPTION_LABEL": "Description",
                 "SAVE_SUCCESS": "Search Saved",
                 "SAVE_ERROR": "Error occurred. Search could not be saved.",
+                "SEARCH_NAME_NOT_UNIQUE_ERROR": "Saved Search with '{{ name }}' name already exists.",
                 "NAVBAR": {
                   "TITLE": "Saved Searches ({{ number }})",
                   "MANAGE_BUTTON": "Manage searches"
@@ -240,7 +243,8 @@
                   "DESCRIPTION": "Description",
                   "EMPTY_LIST": "No saved searches",
                   "COPY_TO_CLIPBOARD": "Copy to clipboard",
-                  "COPY_TO_CLIPBOARD_SUCCESS": "Search copied to clipboard"
+                  "COPY_TO_CLIPBOARD_SUCCESS": "Search copied to clipboard",
+                  "EXECUTE_SEARCH": "Execute Search"
                 }
               },
                 "FOUND_RESULTS": "{{ number }} results found",
