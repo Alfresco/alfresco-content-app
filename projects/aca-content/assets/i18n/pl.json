@@ -98,7 +98,8 @@
         "CREATE_TOOLTIP": "Utwórz zawartość",
         "UPLOAD": "Prześlij",
         "UPLOAD_TOOLTIP": "Prześlij zawartość"
-      }
+      },
+      "SELECTED": "Wybrano ({{ count }})"
     },
     "BROWSE": {
       "FILE": {

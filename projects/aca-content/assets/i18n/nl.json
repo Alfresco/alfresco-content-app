@@ -98,7 +98,8 @@
         "CREATE_TOOLTIP": "Content maken",
         "UPLOAD": "Uploaden",
         "UPLOAD_TOOLTIP": "Content uploaden"
-      }
+      },
+      "SELECTED": "Geselecteerd ({{ count }})"
     },
     "BROWSE": {
       "FILE": {

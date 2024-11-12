@@ -98,7 +98,8 @@
         "CREATE_TOOLTIP": "Создать контент",
         "UPLOAD": "Загрузить",
         "UPLOAD_TOOLTIP": "Загрузить файл"
-      }
+      },
+      "SELECTED": "Выбранные ({{ count }})"
     },
     "BROWSE": {
       "FILE": {

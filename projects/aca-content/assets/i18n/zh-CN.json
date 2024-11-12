@@ -98,7 +98,8 @@
         "CREATE_TOOLTIP": "创建内容",
         "UPLOAD": "上传",
         "UPLOAD_TOOLTIP": "上传内容"
-      }
+      },
+      "SELECTED": "已选择 ({{ count }})"
     },
     "BROWSE": {
       "FILE": {

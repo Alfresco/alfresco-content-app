@@ -98,7 +98,8 @@
         "CREATE_TOOLTIP": "Créer un contenu",
         "UPLOAD": "Importer",
         "UPLOAD_TOOLTIP": "Contenu à importer"
-      }
+      },
+      "SELECTED": "Sélectionné ({{ count }})"
     },
     "BROWSE": {
       "FILE": {

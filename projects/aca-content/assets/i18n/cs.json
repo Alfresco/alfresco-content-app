@@ -98,7 +98,8 @@
         "CREATE_TOOLTIP": "Vytvořit obsah",
         "UPLOAD": "Odeslat",
         "UPLOAD_TOOLTIP": "Odeslat obsah"
-      }
+      },
+      "SELECTED": "Vybrané ({{ count }})"
     },
     "BROWSE": {
       "FILE": {

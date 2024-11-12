@@ -98,7 +98,8 @@
         "CREATE_TOOLTIP": "إنشاء المحتوى",
         "UPLOAD": "تحميل",
         "UPLOAD_TOOLTIP": "تحميل المحتوى"
-      }
+      },
+      "SELECTED": "({{ count }}) محدد"
     },
     "BROWSE": {
       "FILE": {

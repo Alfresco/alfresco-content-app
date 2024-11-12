@@ -98,7 +98,8 @@
         "CREATE_TOOLTIP": "Crea contenuto",
         "UPLOAD": "Carica",
         "UPLOAD_TOOLTIP": "Carica contenuto"
-      }
+      },
+      "SELECTED": "Selezionato ({{ count }})"
     },
     "BROWSE": {
       "FILE": {
