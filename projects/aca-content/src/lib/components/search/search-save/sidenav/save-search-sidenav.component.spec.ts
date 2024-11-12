@@ -62,7 +62,15 @@ describe('SaveSearchSidenavComponent', () => {
     expect(component.item).toEqual({
       icon: '',
       title: 'APP.BROWSE.SEARCH.SAVE_SEARCH.NAVBAR.TITLE',
-      children: [],
+      children: [
+        {
+          id: 'manage-saved-searches',
+          icon: '',
+          title: 'APP.BROWSE.SEARCH.SAVE_SEARCH.NAVBAR.MANAGE_BUTTON',
+          route: 'saved-searches',
+          url: 'saved-searches'
+        }
+      ],
       route: '/',
       id: 'search-navbar'
     });

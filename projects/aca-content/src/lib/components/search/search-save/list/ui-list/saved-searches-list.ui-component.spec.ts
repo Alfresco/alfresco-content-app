@@ -31,12 +31,14 @@ import { SavedSearch } from '@alfresco/adf-content-services';
 import { provideMockStore } from '@ngrx/store/testing';
 import { Subject } from 'rxjs';
 import { Clipboard } from '@angular/cdk/clipboard';
+import { Router } from '@angular/router';
 
 describe('SavedSearchesListUiComponent ', () => {
   let fixture: ComponentFixture<SavedSearchesListUiComponent>;
   let component: SavedSearchesListUiComponent;
   let savedSearchesListUiService: SavedSearchesListUiService;
   let clipboard: Clipboard;
+  let router: Router;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -46,6 +48,7 @@ describe('SavedSearchesListUiComponent ', () => {
 
     savedSearchesListUiService = TestBed.inject(SavedSearchesListUiService);
     clipboard = TestBed.inject(Clipboard);
+    router = TestBed.inject(Router);
 
     fixture = TestBed.createComponent(SavedSearchesListUiComponent);
     component = fixture.componentInstance;
@@ -76,6 +79,8 @@ describe('SavedSearchesListUiComponent ', () => {
           hasValue: () => true,
           getValue: () => 'Some value',
           obj: {
+            name: 'test',
+            encodedUrl: 'test',
             field: 'some value',
             id: 'some id'
           }
@@ -121,6 +126,16 @@ describe('SavedSearchesListUiComponent ', () => {
           data: dataCellEvent.value.row.obj
         },
         {
+          title: 'APP.BROWSE.SEARCH.SAVE_SEARCH.LIST.EXECUTE_SEARCH',
+          key: 'execute',
+          subject: jasmine.any(Subject),
+          model: {
+            visible: true,
+            icon: 'exit_to_app'
+          },
+          data: dataCellEvent.value.row.obj
+        },
+        {
           title: 'APP.BROWSE.SEARCH.SAVE_SEARCH.EDIT_DIALOG.CONTEXT_OPTION',
           key: 'edit',
           subject: jasmine.any(Subject),
@@ -155,7 +170,7 @@ describe('SavedSearchesListUiComponent ', () => {
         let editAction: any;
 
         beforeEach(() => {
-          editAction = dataCellEvent.value.actions[1];
+          editAction = dataCellEvent.value.actions[2];
           editAction.subject.next(editAction);
         });
 
@@ -168,7 +183,7 @@ describe('SavedSearchesListUiComponent ', () => {
         let deleteAction: any;
 
         beforeEach(() => {
-          deleteAction = dataCellEvent.value.actions[2];
+          deleteAction = dataCellEvent.value.actions[3];
           deleteAction.subject.next(deleteAction);
         });
 
@@ -187,6 +202,20 @@ describe('SavedSearchesListUiComponent ', () => {
 
         it('should call copy to clipboard when selected delete option', () => {
           expect(clipboard.copy).toHaveBeenCalled();
+        });
+      });
+
+      describe('Execute search', () => {
+        let actionData: any;
+
+        beforeEach(() => {
+          spyOn(router, 'navigate').and.stub();
+          actionData = dataCellEvent.value.actions[1];
+          actionData.subject.next(actionData);
+        });
+
+        it('should navigate to search when selected execute search option', () => {
+          expect(router.navigate).toHaveBeenCalledWith(['/search'], { queryParams: { q: 'test' } });
         });
       });
     });

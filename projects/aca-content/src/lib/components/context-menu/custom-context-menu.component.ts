@@ -22,24 +22,26 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewEncapsulation, OnInit, AfterViewInit, Inject, inject, DestroyRef } from '@angular/core';
-import { MatMenuModule } from '@angular/material/menu';
-import { DynamicExtensionComponent } from '@alfresco/adf-extensions';
-import { ContextMenuOverlayRef } from './context-menu-overlay';
-import { CONTEXT_MENU_DIRECTION } from './direction.token';
+import { AfterViewInit, Component, Inject, ViewEncapsulation } from '@angular/core';
 import { Direction } from '@angular/cdk/bidi';
+import { ContextMenuOverlayRef } from './context-menu-overlay';
 import { AppExtensionService } from '@alfresco/aca-shared';
+import { CONTEXT_MENU_DIRECTION } from './direction.token';
+import { ContentActionRef, DynamicExtensionComponent } from '@alfresco/adf-extensions';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
-import { MatDividerModule } from '@angular/material/divider';
-import { IconComponent } from '@alfresco/adf-core';
+import { MatMenuModule } from '@angular/material/menu';
 import { ContextMenuItemComponent } from './context-menu-item.component';
 import { OutsideEventDirective } from './context-menu-outside-event.directive';
+import { MatDividerModule } from '@angular/material/divider';
+import { IconComponent } from '@alfresco/adf-core';
+import { CONTEXT_MENU_CUSTOM_ACTIONS } from './custom-context-menu-actions.token';
 import { BaseContextMenuDirective } from './base-context-menu.directive';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  standalone: true,
+  selector: 'aca-custom-context-menu',
+  templateUrl: './context-menu.component.html',
+  styleUrls: ['./context-menu.component.scss'],
   imports: [
     CommonModule,
     TranslateModule,
@@ -50,28 +52,21 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     IconComponent,
     DynamicExtensionComponent
   ],
-  selector: 'aca-context-menu',
-  templateUrl: './context-menu.component.html',
-  styleUrls: ['./context-menu.component.scss'],
   host: {
     class: 'aca-context-menu-holder'
   },
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  standalone: true
 })
-export class ContextMenuComponent extends BaseContextMenuDirective implements OnInit, AfterViewInit {
-  private readonly destroyRef = inject(DestroyRef);
-
-  constructor(contextMenuOverlayRef: ContextMenuOverlayRef, extensions: AppExtensionService, @Inject(CONTEXT_MENU_DIRECTION) direction: Direction) {
+export class CustomContextMenuComponent extends BaseContextMenuDirective implements AfterViewInit {
+  constructor(
+    contextMenuOverlayRef: ContextMenuOverlayRef,
+    extensions: AppExtensionService,
+    @Inject(CONTEXT_MENU_DIRECTION) direction: Direction,
+    @Inject(CONTEXT_MENU_CUSTOM_ACTIONS) customActions: ContentActionRef[]
+  ) {
     super(contextMenuOverlayRef, extensions, direction);
-  }
-
-  ngOnInit() {
-    this.extensions
-      .getAllowedContextMenuActions()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((actions) => {
-        this.actions = actions;
-      });
+    this.actions = customActions;
   }
 
   ngAfterViewInit() {

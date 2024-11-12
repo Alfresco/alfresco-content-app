@@ -30,6 +30,7 @@ import { AppStore, SnackbarErrorAction, SnackbarInfoAction } from '@alfresco/aca
 import { Store } from '@ngrx/store';
 import { CoreModule } from '@alfresco/adf-core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UniqueSearchNameValidator } from '../unique-search-name-validator';
 
 @Component({
   standalone: true,
@@ -42,7 +43,11 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class SavedSearchEditDialogComponent {
   form = new FormGroup({
-    name: new FormControl('', [Validators.required, forbidOnlySpaces]),
+    name: new FormControl('', {
+      validators: [Validators.required, forbidOnlySpaces],
+      asyncValidators: [this.uniqueSearchNameValidator.validate.bind(this.uniqueSearchNameValidator)],
+      updateOn: 'blur'
+    }),
     description: new FormControl('')
   });
 
@@ -52,6 +57,7 @@ export class SavedSearchEditDialogComponent {
     private readonly dialog: MatDialogRef<SavedSearchEditDialogComponent>,
     private readonly store: Store<AppStore>,
     private readonly savedSearchesService: SavedSearchesService,
+    private readonly uniqueSearchNameValidator: UniqueSearchNameValidator,
     @Inject(MAT_DIALOG_DATA) private readonly data: SavedSearch
   ) {
     this.form.patchValue({

@@ -22,7 +22,21 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export enum ContextMenuActionTypes {
-  ContextMenu = 'CONTEXT_MENU',
-  CustomContextMenu = 'CUSTOM_CONTEXT_MENU'
+import { SavedSearchesService } from '@alfresco/adf-content-services';
+import { Injectable } from '@angular/core';
+import { AbstractControl, AsyncValidator, ValidationErrors } from '@angular/forms';
+import { catchError, map, Observable, of } from 'rxjs';
+
+@Injectable({ providedIn: 'root' })
+export class UniqueSearchNameValidator implements AsyncValidator {
+  constructor(private readonly savedSearchesService: SavedSearchesService) {}
+
+  validate(control: AbstractControl): Observable<ValidationErrors | null> {
+    return this.savedSearchesService.getSavedSearches().pipe(
+      map((searches) =>
+        searches.some((search) => search.name === control.value) ? { message: 'APP.BROWSE.SEARCH.SAVE_SEARCH.SEARCH_NAME_NOT_UNIQUE_ERROR' } : null
+      ),
+      catchError(() => of(null))
+    );
+  }
 }
