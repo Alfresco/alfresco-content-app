@@ -37,7 +37,7 @@ import { Rule } from '../model/rule.model';
   providedIn: 'root'
 })
 export class FolderRuleSetsService {
-  public static MAX_RULE_SETS_PER_GET = 100;
+  public static readonly MAX_RULE_SETS_PER_GET = 100;
 
   static isOwnedRuleSet(ruleSet: RuleSet, nodeId: string): boolean {
     return ruleSet?.owningFolder?.id === nodeId;

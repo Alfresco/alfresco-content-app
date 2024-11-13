@@ -83,7 +83,7 @@ export class LocationLinkComponent implements OnInit {
   ngOnInit() {
     if (this.context) {
       const node: NodeEntry = this.context.row.node;
-      if (node?.entry && node?.entry?.path) {
+      if (node?.entry?.path) {
         const path = node.entry.path;
 
         if (path?.name && path?.elements) {

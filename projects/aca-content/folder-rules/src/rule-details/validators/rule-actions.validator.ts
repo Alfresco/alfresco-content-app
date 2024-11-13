@@ -37,8 +37,7 @@ const isRuleActionValid = (value: unknown, actionDefinitions: ActionDefinitionTr
     : undefined;
   return (
     isRuleAction(value) &&
-    actionDefinition &&
-    actionDefinition.parameterDefinitions.reduce(
+    actionDefinition?.parameterDefinitions.reduce(
       (isValid: boolean, paramDef: ActionParameterDefinitionTransformed) => isValid && (!paramDef.mandatory || !!value.params[paramDef.name]),
       true
     )
