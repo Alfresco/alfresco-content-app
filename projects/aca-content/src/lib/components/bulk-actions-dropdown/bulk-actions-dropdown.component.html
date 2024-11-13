@@ -32,6 +32,7 @@
       [value]="option"
       [title]="option.tooltip | translate"
       [attr.data-automation-id]="option.id"
+      (keyup.enter)="runAction(option)"
       (click)="runAction(option)"
     >
       <div class="aca-bulk-actions-option-content">
