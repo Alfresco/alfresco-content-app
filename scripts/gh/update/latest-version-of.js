@@ -34,12 +34,12 @@ module.exports = async ({ exec, github, dependencyName, tag }) => {
     }
   }
 
-  const latestPkgToUpdate = availablePackages.find((package) => package.name === matchedPkgVersion);
+  const latestPkgToUpdate = availablePackages.find((pkg) => pkg.name === matchedPkgVersion);
 
   if (localVersion === latestPkgToUpdate?.name) {
     return { hasNewVersion: 'false' };
   } else {
-    const findLocalVersionOnRemote = availablePackages.find((package) => package.name === localVersion);
+    const findLocalVersionOnRemote = availablePackages.find((pkg) => pkg.name === localVersion);
     let rangeInDays = 'N/A';
     if (findLocalVersionOnRemote !== undefined) {
       const creationLocal = new Date(findLocalVersionOnRemote.created_at);
