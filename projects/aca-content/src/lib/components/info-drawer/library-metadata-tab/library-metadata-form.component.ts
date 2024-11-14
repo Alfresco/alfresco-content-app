@@ -22,32 +22,32 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, OnChanges, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, DestroyRef, inject, Input, OnChanges, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import {
-  UntypedFormGroup,
-  UntypedFormControl,
-  Validators,
-  FormGroupDirective,
-  NgForm,
-  FormsModule,
-  ReactiveFormsModule,
   FormControl,
-  ValidationErrors
+  FormGroupDirective,
+  FormsModule,
+  NgForm,
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+  ValidationErrors,
+  Validators
 } from '@angular/forms';
 import { QueriesApi, SiteEntry, SitePaging } from '@alfresco/js-api';
 import { Store } from '@ngrx/store';
 import {
   AppStore,
+  isAdmin,
   SnackbarAction,
   SnackbarActionTypes,
   SnackbarErrorAction,
   SnackbarInfoAction,
-  UpdateLibraryAction,
-  isAdmin
+  UpdateLibraryAction
 } from '@alfresco/aca-shared/store';
-import { debounceTime, filter, mergeMap, takeUntil } from 'rxjs/operators';
+import { debounceTime, filter, mergeMap } from 'rxjs/operators';
 import { AlfrescoApiService } from '@alfresco/adf-content-services';
-import { Observable, from, Subject } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { ErrorStateMatcher, MatOptionModule } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
@@ -58,6 +58,7 @@ import { MatInputModule } from '@angular/material/input';
 import { A11yModule } from '@angular/cdk/a11y';
 import { MatButtonModule } from '@angular/material/button';
 import { Actions, ofType } from '@ngrx/effects';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 export class InstantErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: UntypedFormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -121,7 +122,7 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
   canUpdateLibrary = false;
   isAdmin = false;
 
-  onDestroy$: Subject<boolean> = new Subject<boolean>();
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor(private alfrescoApiService: AlfrescoApiService, protected store: Store<AppStore>, private actions$: Actions) {}
 
@@ -148,7 +149,7 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
     this.toggleEdit();
     this.updateForm(this.node);
     this.form.controls.title.statusChanges
-      .pipe(takeUntil(this.onDestroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(
         () =>
           (this._titleErrorTranslationKey = this.form.controls.title.errors?.empty
@@ -159,7 +160,7 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
       .pipe(
         debounceTime(300),
         mergeMap((title) => this.findLibraryByTitle(title)),
-        takeUntil(this.onDestroy$)
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe((result) => {
         const { entries } = result.list;
@@ -176,7 +177,7 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
       });
     this.store
       .select(isAdmin)
-      .pipe(takeUntil(this.onDestroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((value) => {
         this.isAdmin = value;
       });
@@ -185,11 +186,6 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
       Object.assign(this.node.entry, this.form.value)
     );
     this.handleUpdatingEvent<SnackbarErrorAction>(SnackbarActionTypes.Error, 'LIBRARY.ERRORS.LIBRARY_UPDATE_ERROR', () => this.form.markAsDirty());
-  }
-
-  ngOnDestroy() {
-    this.onDestroy$.next(true);
-    this.onDestroy$.complete();
   }
 
   ngOnChanges() {
@@ -236,7 +232,7 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
       .pipe(
         ofType<T>(actionType),
         filter((action) => action.payload === payload),
-        takeUntil(this.onDestroy$)
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe(handle);
   }

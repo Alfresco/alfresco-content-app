@@ -23,17 +23,17 @@
  */
 
 import { NameColumnComponent, NodeNameTooltipPipe, NodesApiService } from '@alfresco/adf-content-services';
-import { ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, DestroyRef, ElementRef, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
-import { Subject } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 import { NodeActionTypes } from '@alfresco/aca-shared/store';
-import { LockedByComponent, isLocked } from '@alfresco/aca-shared';
+import { isLocked, LockedByComponent } from '@alfresco/aca-shared';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { IconComponent } from '@alfresco/adf-core';
 import { DynamicExtensionComponent } from '@alfresco/adf-extensions';
 import { DatatableCellBadgesComponent } from '../datatable-cell-badges/datatable-cell-badges.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -54,12 +54,11 @@ import { DatatableCellBadgesComponent } from '../datatable-cell-badges/datatable
     class: 'adf-datatable-content-cell adf-datatable-link adf-name-column aca-custom-name-column'
   }
 })
-export class CustomNameColumnComponent extends NameColumnComponent implements OnInit, OnDestroy {
-  private onDestroy$$ = new Subject<boolean>();
-
+export class CustomNameColumnComponent extends NameColumnComponent implements OnInit {
   isFile: boolean;
   isFileWriteLocked: boolean;
 
+  private readonly destroyRef = inject(DestroyRef);
   constructor(element: ElementRef, private cd: ChangeDetectorRef, private actions$: Actions, private nodesService: NodesApiService) {
     super(element, nodesService);
   }
@@ -69,7 +68,7 @@ export class CustomNameColumnComponent extends NameColumnComponent implements On
     this.isFile = this.node?.entry && !this.node.entry.isFolder;
     this.isFileWriteLocked = isLocked(this.node);
 
-    this.nodesService.nodeUpdated.pipe(takeUntil(this.onDestroy$$)).subscribe((node: any) => {
+    this.nodesService.nodeUpdated.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((node: any) => {
       const row = this.context.row;
       if (row) {
         const { entry } = row.node;
@@ -91,7 +90,7 @@ export class CustomNameColumnComponent extends NameColumnComponent implements On
       .pipe(
         ofType<any>(NodeActionTypes.EditOffline),
         filter((val) => this.node.entry.id === val.payload.entry.id),
-        takeUntil(this.onDestroy$$)
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe(() => {
         this.isFileWriteLocked = isLocked(this.node);
@@ -102,10 +101,5 @@ export class CustomNameColumnComponent extends NameColumnComponent implements On
   onLinkClick(event: Event) {
     event.stopPropagation();
     this.onClick();
-  }
-
-  ngOnDestroy() {
-    this.onDestroy$$.next(true);
-    this.onDestroy$$.complete();
   }
 }

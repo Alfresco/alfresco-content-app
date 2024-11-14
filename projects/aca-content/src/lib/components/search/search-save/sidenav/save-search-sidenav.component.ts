@@ -22,15 +22,14 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { SavedSearch, SavedSearchesService } from '@alfresco/adf-content-services';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { CoreModule, TranslationService } from '@alfresco/adf-core';
 import { DynamicExtensionComponent, NavBarLinkRef } from '@alfresco/adf-extensions';
 import { ExpandMenuComponent } from '../../../sidenav/components/expand-menu.component';
 import { SidenavHeaderComponent } from '../../../sidenav/components/sidenav-header.component';
 import { AppService } from '@alfresco/aca-shared';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'aca-save-search-sidenav',
@@ -39,35 +38,31 @@ import { AppService } from '@alfresco/aca-shared';
   templateUrl: './save-search-sidenav.component.html',
   encapsulation: ViewEncapsulation.None
 })
-export class SaveSearchSidenavComponent implements OnInit, OnDestroy {
+export class SaveSearchSidenavComponent implements OnInit {
   savedSearchesService = inject(SavedSearchesService);
   appService = inject(AppService);
   translationService = inject(TranslationService);
-  destroy$ = new Subject<void>();
   item: NavBarLinkRef;
 
   private readonly manageSearchesId = 'manage-saved-searches';
+  private readonly destroyRef = inject(DestroyRef);
 
   ngOnInit() {
     this.savedSearchesService.innit();
     this.savedSearchesService.savedSearches$
       .asObservable()
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((savedSearches) => {
         this.item = this.createNavBarLinkRef(savedSearches);
       });
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
-  onActionClick(el: NavBarLinkRef): void {
-    if (el.id !== this.manageSearchesId) {
-      this.appService.appNavNarMode$.next('collapsed');
+    onActionClick(el: NavBarLinkRef): void {
+        if (el.id !== this.manageSearchesId) {
+            this.appService.appNavNarMode$.next('collapsed');
+        }
     }
-  }
+
 
   private createNavBarLinkRef(children: SavedSearch[]): NavBarLinkRef {
     const mappedChildren = children

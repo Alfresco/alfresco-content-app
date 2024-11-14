@@ -44,16 +44,17 @@ import {
 } from '@alfresco/aca-shared/store';
 import { ContentActionRef, SelectionState } from '@alfresco/adf-extensions';
 import { Node, VersionEntry, VersionsApi } from '@alfresco/js-api';
-import { Component, HostListener, inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, DestroyRef, HostListener, inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, PRIMARY_OUTLET, Router } from '@angular/router';
 import { ViewerOpenWithComponent, ViewerSidebarComponent, ViewerToolbarActionsComponent } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
-import { from, Observable, Subject } from 'rxjs';
-import { debounceTime, takeUntil } from 'rxjs/operators';
+import { from, Observable } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 import { Actions, ofType } from '@ngrx/effects';
 import { AlfrescoApiService, AlfrescoViewerComponent, DocumentListService, NodesApiService, UploadService } from '@alfresco/adf-content-services';
 import { CommonModule } from '@angular/common';
 import { ViewerService } from '../../services/viewer.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -84,8 +85,6 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
     return this._versionsApi;
   }
 
-  onDestroy$ = new Subject<boolean>();
-
   fileName: string;
   folderId: string = null;
   infoDrawerOpened$: Observable<boolean>;
@@ -105,6 +104,7 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
   private navigationPath: string;
   private previewLocation: string;
   private containersSkipNavigation = ['adf-viewer__sidebar', 'cdk-overlay-container', 'adf-image-viewer'];
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor(
     private actions$: Actions,
@@ -124,28 +124,28 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
     this.infoDrawerOpened$ = this.store.select(isInfoDrawerOpened);
 
     from(this.infoDrawerOpened$)
-      .pipe(takeUntil(this.onDestroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((val) => {
         this.showRightSide = val;
       });
 
     this.store
       .select(getAppSelection)
-      .pipe(takeUntil(this.onDestroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((selection) => {
         this.selection = selection;
       });
 
     this.extensions
       .getViewerToolbarActions()
-      .pipe(takeUntil(this.onDestroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((actions) => {
         this.toolbarActions = actions;
       });
 
     this.extensions
       .getOpenWithActions()
-      .pipe(takeUntil(this.onDestroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((actions) => {
         this.openWith = actions;
       });
@@ -177,23 +177,23 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
       }
     }
 
-    this.actions$.pipe(ofType<ClosePreviewAction>(ViewerActionTypes.ClosePreview), takeUntil(this.onDestroy$)).subscribe(() => {
+    this.actions$.pipe(ofType<ClosePreviewAction>(ViewerActionTypes.ClosePreview), takeUntilDestroyed(this.destroyRef)).subscribe(() => {
       this.store.dispatch(new SetCurrentNodeVersionAction(null));
       this.navigateToFileLocation();
     });
 
     this.actions$
-      .pipe(ofType<RefreshPreviewAction>(ViewerActionTypes.RefreshPreview), takeUntil(this.onDestroy$))
+      .pipe(ofType<RefreshPreviewAction>(ViewerActionTypes.RefreshPreview), takeUntilDestroyed(this.destroyRef))
       .subscribe((action: RefreshPreviewAction) => {
         this.nodesApiService.nodeUpdated.next(action.node);
         void this.displayNode(action.node.id);
       });
 
-    this.appHookService.nodesDeleted.pipe(takeUntil(this.onDestroy$)).subscribe(() => this.navigateToFileLocation());
+    this.appHookService.nodesDeleted.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => this.navigateToFileLocation());
 
-    this.uploadService.fileUploadDeleted.pipe(takeUntil(this.onDestroy$)).subscribe(() => this.navigateToFileLocation());
+    this.uploadService.fileUploadDeleted.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => this.navigateToFileLocation());
 
-    this.uploadService.fileUploadComplete.pipe(debounceTime(300), takeUntil(this.onDestroy$)).subscribe((file) => {
+    this.uploadService.fileUploadComplete.pipe(debounceTime(300), takeUntilDestroyed(this.destroyRef)).subscribe((file) => {
       this.nodesApiService.nodeUpdated.next(file.data.entry);
       void this.displayNode(file.data.entry.id);
     });
@@ -208,8 +208,6 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.store.dispatch(new SetCurrentNodeVersionAction(null));
-    this.onDestroy$.next(true);
-    this.onDestroy$.complete();
   }
 
   trackByActionId(_: number, obj: ContentActionRef): string {

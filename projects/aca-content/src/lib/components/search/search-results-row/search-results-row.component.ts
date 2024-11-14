@@ -22,19 +22,19 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, OnInit, ViewEncapsulation, ChangeDetectionStrategy, OnDestroy, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { NodeEntry, SearchEntryHighlight } from '@alfresco/js-api';
 import { NavigateToFolder, ViewNodeAction } from '@alfresco/aca-shared/store';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { NodesApiService } from '@alfresco/adf-content-services';
-import { takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { AutoDownloadService, AppSettingsService } from '@alfresco/aca-shared';
+import { AppSettingsService, AutoDownloadService } from '@alfresco/aca-shared';
 import { CommonModule } from '@angular/common';
 import { LocationLinkComponent } from '../../common/location-link/location-link.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DatatableCellBadgesComponent } from '../../dl-custom-components/datatable-cell-badges/datatable-cell-badges.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -46,14 +46,14 @@ import { DatatableCellBadgesComponent } from '../../dl-custom-components/datatab
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'aca-search-results-row' }
 })
-export class SearchResultsRowComponent implements OnInit, OnDestroy {
+export class SearchResultsRowComponent implements OnInit {
   private settings = inject(AppSettingsService);
 
   private readonly highlightPrefix = "<span class='aca-highlight'>";
   private readonly highlightPostfix = '</span>';
 
   private node: NodeEntry;
-  private onDestroy$ = new Subject<boolean>();
+  private readonly destroyRef = inject(DestroyRef);
 
   @Input()
   context: any;
@@ -78,7 +78,7 @@ export class SearchResultsRowComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.updateValues();
 
-    this.nodesApiService.nodeUpdated.pipe(takeUntil(this.onDestroy$)).subscribe((node) => {
+    this.nodesApiService.nodeUpdated.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((node) => {
       const row = this.context.row;
       if (row) {
         const { entry } = row.node;
@@ -134,11 +134,6 @@ export class SearchResultsRowComponent implements OnInit, OnDestroy {
       this.title$.next(title ? ` ( ${title} )` : '');
       this.titleStripped = this.stripHighlighting(title);
     }
-  }
-
-  ngOnDestroy() {
-    this.onDestroy$.next(true);
-    this.onDestroy$.complete();
   }
 
   showPreview(event: Event) {

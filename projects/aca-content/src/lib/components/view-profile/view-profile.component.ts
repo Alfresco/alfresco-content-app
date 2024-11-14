@@ -24,18 +24,18 @@
 
 import { AlfrescoApiService } from '@alfresco/adf-content-services';
 import { PeopleApi, Person } from '@alfresco/js-api';
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Observable, Subject, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { AppService } from '@alfresco/aca-shared';
-import { takeUntil } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -45,7 +45,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   styleUrls: ['./view-profile.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class ViewProfileComponent implements OnInit, OnDestroy {
+export class ViewProfileComponent implements OnInit {
   peopleApi: PeopleApi;
 
   profileForm: FormGroup;
@@ -61,11 +61,10 @@ export class ViewProfileComponent implements OnInit, OnDestroy {
   contactSectionDropdown = false;
   contactSectionButtonsToggle = true;
   appNavNarMode$: Observable<'collapsed' | 'expanded'>;
-  private onDestroy$ = new Subject<boolean>();
 
   constructor(private router: Router, apiService: AlfrescoApiService, private appService: AppService) {
     this.peopleApi = new PeopleApi(apiService.getInstance());
-    this.appNavNarMode$ = appService.appNavNarMode$.pipe(takeUntil(this.onDestroy$));
+    this.appNavNarMode$ = appService.appNavNarMode$.pipe(takeUntilDestroyed());
   }
 
   ngOnInit() {
@@ -204,10 +203,5 @@ export class ViewProfileComponent implements OnInit, OnDestroy {
 
   isSaveButtonDisabled(): boolean {
     return this.profileForm.invalid;
-  }
-
-  ngOnDestroy() {
-    this.onDestroy$.next(true);
-    this.onDestroy$.complete();
   }
 }

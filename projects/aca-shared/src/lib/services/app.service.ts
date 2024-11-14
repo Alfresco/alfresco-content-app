@@ -22,20 +22,20 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { inject, Injectable, OnDestroy } from '@angular/core';
-import { AuthenticationService, AppConfigService, PageTitleService, UserPreferencesService, NotificationService } from '@alfresco/adf-core';
-import { Observable, BehaviorSubject, Subject } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { AppConfigService, AuthenticationService, NotificationService, PageTitleService, UserPreferencesService } from '@alfresco/adf-core';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import {
   AlfrescoApiService,
+  FileUploadErrorEvent,
   SearchQueryBuilderService,
   SharedLinksApiService,
-  UploadService,
-  FileUploadErrorEvent
+  UploadService
 } from '@alfresco/adf-content-services';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { ActivatedRoute, ActivationEnd, NavigationStart, Router } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
-import { AppStore, SetCurrentUrlAction, SetRepositoryInfoAction, SetUserProfileAction, ResetSelectionAction } from '@alfresco/aca-shared/store';
+import { AppStore, ResetSelectionAction, SetCurrentUrlAction, SetRepositoryInfoAction, SetUserProfileAction } from '@alfresco/aca-shared/store';
 import { ContentApiService } from './content-api.service';
 import { RouterExtensionService } from './router.extension.service';
 import { Store } from '@ngrx/store';
@@ -50,7 +50,7 @@ import { MatDialog } from '@angular/material/dialog';
   providedIn: 'root'
 })
 // After moving shell to ADF to core, AppService will implement ShellAppService
-export class AppService implements ShellAppService, OnDestroy {
+export class AppService implements ShellAppService {
   private notificationService = inject(NotificationService);
   private matDialog = inject(MatDialog);
   private ready: BehaviorSubject<boolean>;
@@ -66,8 +66,6 @@ export class AppService implements ShellAppService, OnDestroy {
 
   hideSidenavConditions = ['/preview/'];
   minimizeSidenavConditions = ['/search'];
-
-  onDestroy$ = new Subject<boolean>();
 
   /**
    * Whether `withCredentials` mode is enabled.
@@ -119,11 +117,6 @@ export class AppService implements ShellAppService, OnDestroy {
         this.pageHeading.next(title);
         this.pageTitle.setTitle(title);
       });
-  }
-
-  ngOnDestroy(): void {
-    this.onDestroy$.next(true);
-    this.onDestroy$.complete();
   }
 
   init(): void {

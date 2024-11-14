@@ -22,8 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, EventEmitter, Input, OnDestroy, Output, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -41,9 +40,7 @@ import { FormsModule } from '@angular/forms';
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-search-control' }
 })
-export class SearchInputControlComponent implements OnDestroy {
-  onDestroy$: Subject<boolean> = new Subject<boolean>();
-
+export class SearchInputControlComponent {
   /** Type of the input field to render, e.g. "search" or "text" (default). */
   @Input()
   inputType = 'text';
@@ -67,11 +64,6 @@ export class SearchInputControlComponent implements OnDestroy {
   searchInput: ElementRef;
 
   searchTerm = '';
-
-  ngOnDestroy(): void {
-    this.onDestroy$.next(true);
-    this.onDestroy$.complete();
-  }
 
   searchSubmit(event: any) {
     this.submit.emit(event);

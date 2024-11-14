@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, forwardRef, inject, Input, OnDestroy, OnInit, ViewEncapsulation, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, DestroyRef, forwardRef, inject, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { RuleSimpleCondition } from '../../model/rule-simple-condition.model';
 import { comparatorHiddenForConditionFieldType, RuleConditionField, ruleConditionFields } from './rule-condition-fields';
@@ -34,12 +34,13 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { CategoryService, TagService } from '@alfresco/adf-content-services';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { debounceTime, distinctUntilChanged, first, takeUntil } from 'rxjs/operators';
-import { Subject, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged, first } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { MatOptionModule } from '@angular/material/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CategoryEntry } from '@alfresco/js-api';
 import { AlfrescoMimeType, AppSettingsService } from '@alfresco/aca-shared';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 interface AutoCompleteOption {
   displayLabel: string;
@@ -92,7 +93,7 @@ export class RuleSimpleConditionUiComponent implements OnInit, ControlValueAcces
 
   @Input() readOnly = false;
 
-  private onDestroy$ = new Subject<void>();
+  private readonly destroyRef = inject(DestroyRef);
   private autoCompleteOptionsSubscription: Subscription;
 
   private readonly disabledTags = !this.tagService.areTagsEnabled();
@@ -175,25 +176,20 @@ export class RuleSimpleConditionUiComponent implements OnInit, ControlValueAcces
     }
   }
 
-  ngOnDestroy() {
-    this.onDestroy$.next();
-    this.onDestroy$.complete();
-  }
-
   ngOnInit() {
-    this.form.valueChanges.pipe(takeUntil(this.onDestroy$)).subscribe((value: RuleSimpleCondition) => {
+    this.form.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((value: RuleSimpleCondition) => {
       this.onChange(value);
       this.onTouch();
     });
 
     this.form
       .get('field')
-      .valueChanges.pipe(distinctUntilChanged(), takeUntil(this.onDestroy$))
+      .valueChanges.pipe(distinctUntilChanged(), takeUntilDestroyed(this.destroyRef))
       .subscribe((field: string) => {
         if (field === 'category') {
           this.autoCompleteOptionsSubscription = this.form
             .get('parameter')
-            .valueChanges.pipe(distinctUntilChanged(), debounceTime(AUTOCOMPLETE_OPTIONS_DEBOUNCE_TIME), takeUntil(this.onDestroy$))
+            .valueChanges.pipe(distinctUntilChanged(), debounceTime(AUTOCOMPLETE_OPTIONS_DEBOUNCE_TIME), takeUntilDestroyed(this.destroyRef))
             .subscribe((categoryName) => {
               this.getCategories(categoryName);
             });

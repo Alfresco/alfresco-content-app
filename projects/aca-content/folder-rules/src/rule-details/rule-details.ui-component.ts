@@ -22,10 +22,9 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewEncapsulation } from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Subject } from 'rxjs';
-import { distinctUntilChanged, map, takeUntil } from 'rxjs/operators';
+import { Component, DestroyRef, EventEmitter, inject, Input, OnDestroy, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 import { Rule, RuleForForm } from '../model/rule.model';
 import { ruleCompositeConditionValidator } from './validators/rule-composite-condition.validator';
 import { FolderRulesService } from '../services/folder-rules.service';
@@ -41,6 +40,7 @@ import { RuleCompositeConditionUiComponent } from './conditions/rule-composite-c
 import { RuleActionListUiComponent } from './actions/rule-action-list.ui-component';
 import { RuleOptionsUiComponent } from './options/rule-options.ui-component';
 import { CategoryService } from '@alfresco/adf-content-services';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -115,7 +115,8 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
   @Output()
   formValueChanged = new EventEmitter<Partial<Rule>>();
 
-  private onDestroy$ = new Subject<void>();
+  private readonly destroyRef = inject(DestroyRef);
+
   form: UntypedFormGroup;
 
   errorScriptConstraint: ActionParameterConstraint;
@@ -169,14 +170,14 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
       .pipe(
         map(() => this.form.valid),
         distinctUntilChanged(),
-        takeUntil(this.onDestroy$)
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe((value: boolean) => {
         this.formValidationChanged.emit(value);
       });
     this.formValidationChanged.emit(this.form.valid);
 
-    this.form.valueChanges.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
+    this.form.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
       this.formValueChanged.emit(this.value);
     });
 
@@ -193,10 +194,5 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
     this.errorScriptConstraint = this.parameterConstraints.find(
       (parameterConstraint: ActionParameterConstraint) => parameterConstraint.name === 'script-ref'
     );
-  }
-
-  ngOnDestroy() {
-    this.onDestroy$.next();
-    this.onDestroy$.complete();
   }
 }

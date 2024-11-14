@@ -22,17 +22,17 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Component, DestroyRef, inject, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { SelectionState } from '@alfresco/adf-extensions';
-import { AppStore, ShareNodeAction, getAppSelection } from '@alfresco/aca-shared/store';
+import { AppStore, getAppSelection, ShareNodeAction } from '@alfresco/aca-shared/store';
 import { CommonModule } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -41,7 +41,7 @@ import { takeUntil } from 'rxjs/operators';
   templateUrl: './toggle-shared.component.html',
   encapsulation: ViewEncapsulation.None
 })
-export class ToggleSharedComponent implements OnInit, OnDestroy {
+export class ToggleSharedComponent implements OnInit {
   @Input()
   data: {
     iconButton?: string;
@@ -52,13 +52,13 @@ export class ToggleSharedComponent implements OnInit, OnDestroy {
   selectionLabel = '';
   isShared = false;
 
-  onDestroy$ = new Subject<void>();
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor(private store: Store<AppStore>) {}
 
   ngOnInit() {
     this.selection$ = this.store.select(getAppSelection);
-    this.selection$.pipe(takeUntil(this.onDestroy$)).subscribe((selectionState) => {
+    this.selection$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((selectionState) => {
       this.selectionState = selectionState;
 
       this.isShared =
@@ -69,10 +69,6 @@ export class ToggleSharedComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
-    this.onDestroy$.next();
-    this.onDestroy$.complete();
-  }
   editSharedNode(selection: SelectionState, focusedElementOnCloseSelector: string) {
     this.store.dispatch(
       new ShareNodeAction(selection.first, {

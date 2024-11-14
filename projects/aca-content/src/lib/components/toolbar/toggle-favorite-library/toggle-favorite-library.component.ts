@@ -22,19 +22,19 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewEncapsulation, OnInit, OnDestroy } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppHookService } from '@alfresco/aca-shared';
 import { AppStore, getAppSelection } from '@alfresco/aca-shared/store';
 import { SelectionState } from '@alfresco/adf-extensions';
-import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { LibraryFavoriteDirective } from '@alfresco/adf-content-services';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -55,9 +55,9 @@ import { MatMenuModule } from '@angular/material/menu';
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-toggle-favorite-library' }
 })
-export class ToggleFavoriteLibraryComponent implements OnInit, OnDestroy {
+export class ToggleFavoriteLibraryComponent implements OnInit {
   library;
-  private onDestroy$: Subject<void> = new Subject<void>();
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor(private store: Store<AppStore>, private appHookService: AppHookService, private router: Router) {}
 
@@ -66,7 +66,7 @@ export class ToggleFavoriteLibraryComponent implements OnInit, OnDestroy {
 
     this.store
       .select(getAppSelection)
-      .pipe(distinctUntilChanged(), takeUntil(this.onDestroy$))
+      .pipe(distinctUntilChanged(), takeUntilDestroyed(this.destroyRef))
       .subscribe((selection: SelectionState) => {
         this.library = { ...selection.library };
 
@@ -75,11 +75,6 @@ export class ToggleFavoriteLibraryComponent implements OnInit, OnDestroy {
           this.library.isFavorite = true;
         }
       });
-  }
-
-  ngOnDestroy() {
-    this.onDestroy$.next();
-    this.onDestroy$.complete();
   }
 
   onToggleEvent() {

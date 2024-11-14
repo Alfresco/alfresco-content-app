@@ -26,12 +26,10 @@ import { AppHookService, AppService } from '@alfresco/aca-shared';
 import { AppStore, SearchByTermAction, SearchOptionIds, SearchOptionModel } from '@alfresco/aca-shared/store';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { AppConfigService, NotificationService } from '@alfresco/adf-core';
-import { Component, inject, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, DestroyRef, inject, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { ActivatedRoute, Params, PRIMARY_OUTLET, Router, UrlSegment, UrlSegmentGroup, UrlTree } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { SearchInputControlComponent } from '../search-input-control/search-input-control.component';
 import { SearchNavigationService } from '../search-navigation.service';
 import { SearchLibrariesQueryBuilderService } from '../search-libraries-results/search-libraries-query-builder.service';
@@ -45,6 +43,7 @@ import { A11yModule } from '@angular/cdk/a11y';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
 import { extractSearchedWordFromEncodedQuery } from '../../../utils/aca-search-utils';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -70,7 +69,6 @@ import { extractSearchedWordFromEncodedQuery } from '../../../utils/aca-search-u
 export class SearchInputComponent implements OnInit, OnDestroy {
   private readonly notificationService = inject(NotificationService);
 
-  onDestroy$: Subject<boolean> = new Subject<boolean>();
   has400LibraryError = false;
   hasLibrariesConstraint = false;
   searchOnChange: boolean;
@@ -103,6 +101,8 @@ export class SearchInputComponent implements OnInit, OnDestroy {
   @ViewChild(MatMenuTrigger, { static: true })
   trigger: MatMenuTrigger;
 
+  private readonly destroyRef = inject(DestroyRef);
+
   constructor(
     private readonly queryBuilder: SearchQueryBuilderService,
     private readonly queryLibrariesBuilder: SearchLibrariesQueryBuilderService,
@@ -120,7 +120,7 @@ export class SearchInputComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.showInputValue();
 
-    this.route.queryParams.pipe(takeUntil(this.onDestroy$)).subscribe((params: Params) => {
+    this.route.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params: Params) => {
       const encodedQuery = params['q'];
       if (encodedQuery && this.searchInputControl) {
         this.searchedWord = extractSearchedWordFromEncodedQuery(encodedQuery);
@@ -128,7 +128,7 @@ export class SearchInputComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.appHookService.library400Error.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
+    this.appHookService.library400Error.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
       this.has400LibraryError = true;
       this.hasLibrariesConstraint = this.evaluateLibrariesConstraint();
     });
@@ -151,8 +151,6 @@ export class SearchInputComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.appService.setAppNavbarMode('expanded');
-    this.onDestroy$.next(true);
-    this.onDestroy$.complete();
     this.removeContentFilters();
   }
 

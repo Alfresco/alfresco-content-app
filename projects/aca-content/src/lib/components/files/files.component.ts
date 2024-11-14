@@ -31,7 +31,7 @@ import {
 } from '@alfresco/adf-core';
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { NodeEntry, Node, PathElement } from '@alfresco/js-api';
+import { Node, NodeEntry, PathElement } from '@alfresco/js-api';
 import { NodeActionsService } from '../../services/node-actions.service';
 import {
   ContentApiService,
@@ -43,8 +43,8 @@ import {
   PaginationDirective,
   ToolbarComponent
 } from '@alfresco/aca-shared';
-import { SetCurrentFolderAction, isAdmin, UploadFileVersionAction, showLoaderSelector } from '@alfresco/aca-shared/store';
-import { debounceTime, takeUntil } from 'rxjs/operators';
+import { isAdmin, SetCurrentFolderAction, showLoaderSelector, UploadFileVersionAction } from '@alfresco/aca-shared/store';
+import { debounceTime } from 'rxjs/operators';
 import {
   BreadcrumbComponent,
   DocumentListComponent,
@@ -59,6 +59,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { DocumentListDirective } from '../../directives/document-list.directive';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SearchAiInputContainerComponent } from '../knowledge-retrieval/search-ai/search-ai-input-container/search-ai-input-container.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -109,15 +110,15 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
     this.title = data.title;
 
-    this.route.queryParamMap.pipe(takeUntil(this.onDestroy$)).subscribe((queryMap: Params) => {
+    this.route.queryParamMap.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((queryMap: Params) => {
       this.queryParams = queryMap.params;
     });
-    this.route.params.pipe(takeUntil(this.onDestroy$)).subscribe(({ folderId }: Params) => {
+    this.route.params.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(({ folderId }: Params) => {
       const nodeId = folderId || data.defaultNodeId;
 
       this.contentApi
         .getNode(nodeId)
-        .pipe(takeUntil(this.onDestroy$))
+        .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe(
           (node) => {
             this.isValidPath = true;
@@ -142,12 +143,12 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
     this.store
       .select(isAdmin)
-      .pipe(takeUntil(this.onDestroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((value) => {
         this.isAdmin = value;
       });
 
-    this.extensions.filesDocumentListPreset$.pipe(takeUntil(this.onDestroy$)).subscribe((preset) => {
+    this.extensions.filesDocumentListPreset$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((preset) => {
       this.columns = preset;
     });
 

@@ -22,23 +22,22 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Directive, Input, OnInit, OnDestroy, HostListener } from '@angular/core';
-import { Router, NavigationEnd, PRIMARY_OUTLET } from '@angular/router';
-import { filter, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { DestroyRef, Directive, HostListener, inject, Input, OnInit } from '@angular/core';
+import { NavigationEnd, PRIMARY_OUTLET, Router } from '@angular/router';
+import { filter } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Directive({
   standalone: true,
   selector: '[acaMenuPanel]',
   exportAs: 'acaMenuPanel'
 })
-export class MenuPanelDirective implements OnInit, OnDestroy {
+export class MenuPanelDirective implements OnInit {
   @Input() acaMenuPanel;
   hasActiveChildren = false;
 
-  private onDestroy$: Subject<boolean> = new Subject<boolean>();
-
+  private readonly destroyRef = inject(DestroyRef);
   @HostListener('menuOpened')
   menuOpened() {
     if (this.acaMenuPanel.children && !this.hasActiveLinks()) {
@@ -69,16 +68,11 @@ export class MenuPanelDirective implements OnInit, OnDestroy {
     this.router.events
       .pipe(
         filter((event) => event instanceof NavigationEnd),
-        takeUntil(this.onDestroy$)
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe(() => {
         this.hasActiveChildren = this.hasActiveLinks();
       });
-  }
-
-  ngOnDestroy() {
-    this.onDestroy$.next(true);
-    this.onDestroy$.complete();
   }
 
   private getNavigationCommands(url: string): any[] {

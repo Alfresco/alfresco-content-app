@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, forwardRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { Component, DestroyRef, forwardRef, inject, Input, OnChanges, OnInit, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActionDefinitionTransformed, RuleAction } from '../../model/rule-action.model';
 import {
@@ -37,23 +37,24 @@ import {
 } from '@alfresco/adf-core';
 import { ActionParameterDefinition, Category, Node, SecurityMark } from '@alfresco/js-api';
 import { from, of, Subject } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { ActionParameterConstraint, ConstraintValue } from '../../model/action-parameter-constraint.model';
 import {
+  CategorySelectorDialogComponent,
+  CategorySelectorDialogOptions,
   CategoryService,
   ContentNodeSelectorComponent,
   ContentNodeSelectorComponentData,
   NodeAction,
-  TagService,
-  CategorySelectorDialogComponent,
-  CategorySelectorDialogOptions,
-  SecurityControlsService
+  SecurityControlsService,
+  TagService
 } from '@alfresco/adf-content-services';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -72,7 +73,7 @@ import { MatSelectModule } from '@angular/material/select';
     CardViewUpdateService
   ]
 })
-export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnChanges, OnDestroy {
+export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnChanges {
   @Input()
   nodeId = '';
 
@@ -107,7 +108,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
 
   cardViewItems: CardViewItem[] = [];
   parameters: { [key: string]: unknown } = {};
-  private onDestroy$ = new Subject<void>();
+  private readonly destroyRef = inject(DestroyRef);
 
   get selectedActionDefinitionId(): string {
     return this.form.get('actionDefinitionId').value;
@@ -156,7 +157,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
       firstActionDefinition.title.localeCompare(secondActionDefinition.title)
     );
 
-    this.form.valueChanges.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
+    this.form.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
       this.setDefaultParameters();
       this.setCardViewProperties();
       this.onChange({
@@ -166,7 +167,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
       this.onTouch();
     });
 
-    this.cardViewUpdateService.itemUpdated$.pipe(takeUntil(this.onDestroy$)).subscribe((updateNotification: UpdateNotification) => {
+    this.cardViewUpdateService.itemUpdated$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((updateNotification: UpdateNotification) => {
       const isSecurityGroupUpdated = updateNotification.target.key === 'securityGroupId';
       if (isSecurityGroupUpdated) {
         this.parameters.securityMarkId = null;
@@ -200,11 +201,6 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
         this.form.enable();
       }
     }
-  }
-
-  ngOnDestroy() {
-    this.onDestroy$.next();
-    this.onDestroy$.complete();
   }
 
   setCardViewProperties(securityMarkOptions?: CardViewSelectItemOption<string>[]) {
@@ -338,7 +334,7 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
       width: '630px'
     });
 
-    data.select.pipe(takeUntil(this.onDestroy$)).subscribe((selections: Category[]) => {
+    data.select.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((selections: Category[]) => {
       if (selections[0].id) {
         this.writeValue({
           actionDefinitionId: this.selectedActionDefinitionId,

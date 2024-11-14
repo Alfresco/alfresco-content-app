@@ -22,21 +22,22 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Directive, HostListener, Input, OnInit, OnDestroy } from '@angular/core';
-import { debounceTime, takeUntil } from 'rxjs/operators';
+import { DestroyRef, Directive, HostListener, inject, Input, OnInit } from '@angular/core';
+import { debounceTime } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppStore, ContextMenu, CustomContextMenu } from '@alfresco/aca-shared/store';
 import { ContentActionRef } from '@alfresco/adf-extensions';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Directive({
   standalone: true,
   selector: '[acaContextActions]',
   exportAs: 'acaContextActions'
 })
-export class ContextActionsDirective implements OnInit, OnDestroy {
+export class ContextActionsDirective implements OnInit {
   private execute$: Subject<any> = new Subject();
-  onDestroy$: Subject<boolean> = new Subject<boolean>();
+  private readonly destroyRef = inject(DestroyRef);
 
   // eslint-disable-next-line
   @Input('acaContextEnable')
@@ -62,7 +63,7 @@ export class ContextActionsDirective implements OnInit, OnDestroy {
   constructor(private store: Store<AppStore>) {}
 
   ngOnInit() {
-    this.execute$.pipe(debounceTime(300), takeUntil(this.onDestroy$)).subscribe((event: MouseEvent) => {
+    this.execute$.pipe(debounceTime(300), takeUntilDestroyed(this.destroyRef)).subscribe((event: MouseEvent) => {
       if (this.customActions?.length) {
         this.store.dispatch(new CustomContextMenu(event, this.customActions));
       } else {
@@ -70,12 +71,6 @@ export class ContextActionsDirective implements OnInit, OnDestroy {
       }
     });
   }
-
-  ngOnDestroy() {
-    this.onDestroy$.next(true);
-    this.onDestroy$.complete();
-  }
-
   execute(event: MouseEvent, target: Element) {
     if (!this.isSelected(target)) {
       target.dispatchEvent(new MouseEvent('click'));
