@@ -57,6 +57,7 @@ export class BulkActionsDropdownComponent implements OnInit {
 
   private readonly destroyRef = inject(DestroyRef);
   private readonly totalItems$: Observable<number> = this.store.select(getSearchItemsTotalCount);
+
   ngOnInit() {
     this.totalItems$
       .pipe(

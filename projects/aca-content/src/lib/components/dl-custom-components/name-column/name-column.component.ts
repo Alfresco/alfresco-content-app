@@ -59,6 +59,7 @@ export class CustomNameColumnComponent extends NameColumnComponent implements On
   isFileWriteLocked: boolean;
 
   private readonly destroyRef = inject(DestroyRef);
+
   constructor(element: ElementRef, private cd: ChangeDetectorRef, private actions$: Actions, private nodesService: NodesApiService) {
     super(element, nodesService);
   }

@@ -53,6 +53,7 @@ export class SidenavComponent implements OnInit {
   } = {};
 
   groups: Array<NavBarGroupRef> = [];
+
   private readonly destroyRef = inject(DestroyRef);
 
   constructor(

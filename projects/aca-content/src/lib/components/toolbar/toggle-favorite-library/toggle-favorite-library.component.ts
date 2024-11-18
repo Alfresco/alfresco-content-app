@@ -57,6 +57,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 })
 export class ToggleFavoriteLibraryComponent implements OnInit {
   library;
+
   private readonly destroyRef = inject(DestroyRef);
 
   constructor(private store: Store<AppStore>, private appHookService: AppHookService, private router: Router) {}

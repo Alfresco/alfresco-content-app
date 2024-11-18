@@ -46,6 +46,7 @@ export class DatatableCellBadgesComponent implements OnInit {
   badges: Badge[];
 
   private readonly destroyRef = inject(DestroyRef);
+
   constructor(private appExtensionService: AppExtensionService) {}
 
   ngOnInit() {

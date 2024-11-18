@@ -97,7 +97,6 @@ export class SearchAiInputComponent implements OnInit {
   private selectedNodesState: SelectionState;
   private _queryControl = new FormControl('');
   private _initialsByAgentId: { [key: string]: string } = {};
-  private readonly destroyRef = inject(DestroyRef);
 
   get agentControl(): FormControl<Agent> {
     return this._agentControl;
@@ -114,6 +113,8 @@ export class SearchAiInputComponent implements OnInit {
   get initialsByAgentId(): { [key: string]: string } {
     return this._initialsByAgentId;
   }
+
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor(
     private store: Store<AppStore>,

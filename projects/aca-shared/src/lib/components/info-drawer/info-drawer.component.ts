@@ -59,12 +59,13 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
 
   preventFromClosing = false;
   icon: string = null;
-  private readonly destroyRef = inject(DestroyRef);
 
   @HostListener('keydown.escape')
   onEscapeKeyboardEvent(): void {
     this.close();
   }
+
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor(
     private store: Store<any>,

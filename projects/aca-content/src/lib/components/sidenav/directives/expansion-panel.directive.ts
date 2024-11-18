@@ -38,8 +38,6 @@ export class ExpansionPanelDirective implements OnInit {
   @Input() acaExpansionPanel;
   public hasActiveChildren = false;
 
-  private readonly destroyRef = inject(DestroyRef);
-
   @HostListener('click')
   onClick() {
     if (this.expansionPanel.expanded && !this.hasActiveLinks() && !this.acaExpansionPanel.data?.canBeInactive) {
@@ -54,6 +52,8 @@ export class ExpansionPanelDirective implements OnInit {
       }
     }
   }
+
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor(private store: Store<any>, private router: Router, private expansionPanel: MatExpansionPanel) {}
 

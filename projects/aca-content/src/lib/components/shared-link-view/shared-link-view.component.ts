@@ -46,11 +46,11 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   host: { class: 'app-shared-link-view' }
 })
 export class SharedLinkViewComponent implements OnInit {
-  private sharedLinksApi: SharedlinksApi;
-  private readonly destroyRef = inject(DestroyRef);
-
   sharedLinkId: string = null;
   viewerToolbarActions: Array<ContentActionRef> = [];
+
+  private sharedLinksApi: SharedlinksApi;
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor(
     private route: ActivatedRoute,

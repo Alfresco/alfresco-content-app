@@ -62,7 +62,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 export class MetadataTabComponent implements OnInit {
   private _displayCategories = true;
   private _displayTags = true;
-  private readonly destroyRef = inject(DestroyRef);
 
   @Input()
   node: Node;
@@ -77,6 +76,8 @@ export class MetadataTabComponent implements OnInit {
   get displayTags(): boolean {
     return this._displayTags;
   }
+
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor(
     private permission: NodePermissionService,

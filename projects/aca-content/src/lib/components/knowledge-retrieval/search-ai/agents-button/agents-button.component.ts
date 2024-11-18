@@ -53,7 +53,6 @@ export class AgentsButtonComponent implements OnInit {
 
   private selectedNodesState: SelectionState;
   private _agents: Agent[] = [];
-  private readonly destroyRef = inject(DestroyRef);
   private _disabled = true;
   private _initialsByAgentId: { [key: string]: string } = {};
   private _hxInsightUrl: string;
@@ -73,6 +72,8 @@ export class AgentsButtonComponent implements OnInit {
   get hxInsightUrl(): string {
     return this._hxInsightUrl;
   }
+
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor(
     private store: Store<AppStore>,

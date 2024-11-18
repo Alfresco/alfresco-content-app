@@ -108,7 +108,6 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
 
   cardViewItems: CardViewItem[] = [];
   parameters: { [key: string]: unknown } = {};
-  private readonly destroyRef = inject(DestroyRef);
 
   get selectedActionDefinitionId(): string {
     return this.form.get('actionDefinitionId').value;
@@ -120,6 +119,8 @@ export class RuleActionUiComponent implements ControlValueAccessor, OnInit, OnCh
 
   onChange: (action: RuleAction) => void = () => undefined;
   onTouch: () => void = () => undefined;
+
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor(
     private cardViewUpdateService: CardViewUpdateService,

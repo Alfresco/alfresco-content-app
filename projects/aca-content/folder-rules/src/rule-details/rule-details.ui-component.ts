@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, DestroyRef, EventEmitter, inject, Input, OnDestroy, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import { Component, DestroyRef, EventEmitter, inject, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { Rule, RuleForForm } from '../model/rule.model';
@@ -61,7 +61,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   encapsulation: ViewEncapsulation.None,
   host: { class: 'aca-rule-details' }
 })
-export class RuleDetailsUiComponent implements OnInit, OnDestroy {
+export class RuleDetailsUiComponent implements OnInit {
   @Input()
   readOnly: boolean;
 
@@ -115,8 +115,6 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
   @Output()
   formValueChanged = new EventEmitter<Partial<Rule>>();
 
-  private readonly destroyRef = inject(DestroyRef);
-
   form: UntypedFormGroup;
 
   errorScriptConstraint: ActionParameterConstraint;
@@ -137,6 +135,8 @@ export class RuleDetailsUiComponent implements OnInit, OnDestroy {
   get showOptionsSection(): boolean {
     return !this.readOnly || this.value.isAsynchronous || this.value.isInheritable;
   }
+
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor(private categoryService: CategoryService) {}
 

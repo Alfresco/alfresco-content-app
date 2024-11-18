@@ -36,9 +36,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   exportAs: 'acaContextActions'
 })
 export class ContextActionsDirective implements OnInit {
-  private execute$: Subject<any> = new Subject();
-  private readonly destroyRef = inject(DestroyRef);
-
   // eslint-disable-next-line
   @Input('acaContextEnable')
   enabled = true;
@@ -59,6 +56,9 @@ export class ContextActionsDirective implements OnInit {
       }
     }
   }
+
+  private execute$: Subject<any> = new Subject();
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor(private store: Store<AppStore>) {}
 

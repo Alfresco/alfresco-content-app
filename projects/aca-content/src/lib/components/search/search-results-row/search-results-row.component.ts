@@ -53,7 +53,6 @@ export class SearchResultsRowComponent implements OnInit {
   private readonly highlightPostfix = '</span>';
 
   private node: NodeEntry;
-  private readonly destroyRef = inject(DestroyRef);
 
   @Input()
   context: any;
@@ -67,6 +66,8 @@ export class SearchResultsRowComponent implements OnInit {
   descriptionStripped = '';
   contentStripped = '';
   isFile = false;
+
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor(
     private store: Store<any>,

@@ -37,7 +37,6 @@ export class MenuPanelDirective implements OnInit {
   @Input() acaMenuPanel;
   hasActiveChildren = false;
 
-  private readonly destroyRef = inject(DestroyRef);
   @HostListener('menuOpened')
   menuOpened() {
     if (this.acaMenuPanel.children && !this.hasActiveLinks()) {
@@ -52,6 +51,8 @@ export class MenuPanelDirective implements OnInit {
       }
     }
   }
+
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor(private store: Store<any>, private router: Router) {}
 
