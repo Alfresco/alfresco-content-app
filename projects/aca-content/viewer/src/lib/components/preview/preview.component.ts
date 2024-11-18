@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, HostListener, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, HostListener, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute, PRIMARY_OUTLET, UrlSegment, UrlSegmentGroup, UrlTree } from '@angular/router';
 import { debounceTime, map } from 'rxjs/operators';
@@ -52,7 +52,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-preview' }
 })
-export class PreviewComponent extends PageComponent implements OnInit, OnDestroy {
+export class PreviewComponent extends PageComponent implements OnInit {
   folderId: string = null;
   navigateBackAsClose = false;
   navigateMultiple = false;
@@ -136,10 +136,6 @@ export class PreviewComponent extends PageComponent implements OnInit, OnDestroy
       .subscribe((actions) => {
         this.openWith = actions;
       });
-  }
-
-  ngOnDestroy() {
-    super.ngOnDestroy();
   }
 
   /**

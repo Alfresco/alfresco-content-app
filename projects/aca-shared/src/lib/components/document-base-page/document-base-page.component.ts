@@ -59,7 +59,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 @Directive()
 export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   onDestroy$: Subject<void> = new Subject<void>();
-  destroyRef = inject(DestroyRef);
 
   @ViewChild(DocumentListComponent)
   documentList: DocumentListComponent;
@@ -91,6 +90,8 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   protected router = inject(Router);
   protected userPreferencesService = inject(UserPreferencesService);
   protected searchAiService = inject(SearchAiService);
+  protected readonly destroyRef = inject(DestroyRef);
+
   private autoDownloadService = inject(AutoDownloadService, { optional: true });
   private navigationHistoryService = inject(NavigationHistoryService);
 

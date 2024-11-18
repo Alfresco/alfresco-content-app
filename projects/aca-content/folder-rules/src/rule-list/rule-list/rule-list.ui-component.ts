@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import { Component, DestroyRef, EventEmitter, inject, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { RuleSet } from '../../model/rule-set.model';
 import { Rule } from '../../model/rule.model';
 import { RuleGroupingItem } from '../../model/rule-grouping-item.model';
@@ -35,7 +35,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { RuleListGroupingUiComponent } from '../rule-list-grouping/rule-list-grouping.ui-component';
 import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -55,7 +56,7 @@ import { Observable, Subscription } from 'rxjs';
   encapsulation: ViewEncapsulation.None,
   host: { class: 'aca-rule-list' }
 })
-export class RuleListUiComponent implements OnInit, OnDestroy {
+export class RuleListUiComponent implements OnInit {
   @Input()
   mainRuleSet$: Observable<RuleSet>;
   @Input()
@@ -90,10 +91,10 @@ export class RuleListUiComponent implements OnInit, OnDestroy {
   isMainRuleSetOwned = false;
   isMainRuleSetLinked = false;
 
-  private _mainRuleSetSub: Subscription;
+  private readonly destroyRef = inject(DestroyRef);
 
   ngOnInit() {
-    this._mainRuleSetSub = this.mainRuleSet$.subscribe((ruleSet: RuleSet) => {
+    this.mainRuleSet$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((ruleSet: RuleSet) => {
       if (ruleSet) {
         this.mainRuleSet = ruleSet;
         this.isMainRuleSetOwned = FolderRuleSetsService.isOwnedRuleSet(ruleSet, this.folderId);
@@ -112,10 +113,6 @@ export class RuleListUiComponent implements OnInit, OnDestroy {
         type: this.ruleSetsLoading ? 'loading' : 'load-more-rule-sets'
       });
     }
-  }
-
-  ngOnDestroy() {
-    this._mainRuleSetSub.unsubscribe();
   }
 
   getRuleSetGroupingItems(ruleSet: RuleSet, filterOutDisabledRules: boolean): RuleGroupingItem[] {

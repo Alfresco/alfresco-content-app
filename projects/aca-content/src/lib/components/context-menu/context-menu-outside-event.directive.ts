@@ -22,31 +22,28 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Directive, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
-import { fromEvent, Subscription } from 'rxjs';
+import { DestroyRef, Directive, EventEmitter, inject, OnInit, Output } from '@angular/core';
+import { fromEvent } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Directive({
   standalone: true,
   selector: '[acaContextMenuOutsideEvent]'
 })
-export class OutsideEventDirective implements OnInit, OnDestroy {
-  private subscriptions: Subscription[] = [];
-
+export class OutsideEventDirective implements OnInit {
   @Output()
   clickOutside: EventEmitter<void> = new EventEmitter();
 
-  ngOnInit() {
-    this.subscriptions = this.subscriptions.concat([
-      fromEvent(document.body, 'click')
-        .pipe(filter((event) => !this.findAncestor(event.target as Element)))
-        .subscribe(() => this.clickOutside.next())
-    ]);
-  }
+  private readonly destroyRef = inject(DestroyRef);
 
-  ngOnDestroy() {
-    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
-    this.subscriptions = [];
+  ngOnInit() {
+    fromEvent(document.body, 'click')
+      .pipe(
+        filter((event) => !this.findAncestor(event.target as Element)),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe(() => this.clickOutside.next());
   }
 
   private findAncestor(el: Element): boolean {

@@ -23,8 +23,8 @@
  */
 
 import { PaginationDirective } from './pagination.directive';
-import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { UserPreferencesService, AppConfigService, PaginationComponent, PaginationModel } from '@alfresco/adf-core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { AppConfigService, PaginationComponent, PaginationModel, UserPreferencesService } from '@alfresco/adf-core';
 import { initialState, LibTestingModule } from '../testing/lib-testing-module';
 import { provideMockStore } from '@ngrx/store/testing';
 
@@ -50,7 +50,6 @@ describe('PaginationDirective', () => {
 
   afterEach(() => {
     fixture.destroy();
-    directive.ngOnDestroy();
   });
 
   it('should setup supported page sizes from app config', () => {

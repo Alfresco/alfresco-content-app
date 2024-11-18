@@ -22,10 +22,10 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { FolderRulesService } from '../services/folder-rules.service';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Rule } from '../model/rule.model';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { NodeInfo } from '@alfresco/aca-shared/store';
@@ -76,7 +76,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   changeDetection: ChangeDetectionStrategy.Default,
   host: { class: 'aca-manage-rules' }
 })
-export class ManageRulesSmartComponent implements OnInit, OnDestroy {
+export class ManageRulesSmartComponent implements OnInit {
   nodeId = '';
   isInheritanceEnabled = true;
   isInheritanceToggleDisabled = false;
@@ -97,7 +97,6 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
   isMainRuleSetNotEmpty = false;
   isInheritedRuleSetsNotEmpty = false;
 
-  private _actionDefinitionsSub: Subscription;
   private readonly destroyRef = inject(DestroyRef);
 
   constructor(
@@ -138,9 +137,9 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
       }
     });
 
-    this._actionDefinitionsSub = this.actionDefinitions$.subscribe((actionDefinitions: ActionDefinitionTransformed[]) =>
-      this.actionsService.loadActionParameterConstraints(actionDefinitions)
-    );
+    this.actionDefinitions$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((actionDefinitions: ActionDefinitionTransformed[]) => this.actionsService.loadActionParameterConstraints(actionDefinitions));
 
     this.mainRuleSet$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((ruleSet) => {
       this.canEditMainRule = this.canEditRule(ruleSet);
@@ -154,10 +153,6 @@ export class ManageRulesSmartComponent implements OnInit, OnDestroy {
     this.selectedRuleSet$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((ruleSet) => {
       this.canEditSelectedRule = this.canEditRule(ruleSet);
     });
-  }
-
-  ngOnDestroy() {
-    this._actionDefinitionsSub.unsubscribe();
   }
 
   goBack(): void {

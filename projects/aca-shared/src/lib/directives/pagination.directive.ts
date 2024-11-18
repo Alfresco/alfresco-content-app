@@ -22,31 +22,23 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Directive, OnInit, OnDestroy } from '@angular/core';
-import { PaginationComponent, UserPreferencesService, PaginationModel, AppConfigService } from '@alfresco/adf-core';
-import { Subscription } from 'rxjs';
+import { DestroyRef, Directive, inject, OnInit } from '@angular/core';
+import { AppConfigService, PaginationComponent, PaginationModel, UserPreferencesService } from '@alfresco/adf-core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Directive({
   standalone: true,
   selector: '[acaPagination]'
 })
-export class PaginationDirective implements OnInit, OnDestroy {
-  private subscriptions: Subscription[] = [];
+export class PaginationDirective implements OnInit {
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor(private pagination: PaginationComponent, private preferences: UserPreferencesService, private config: AppConfigService) {}
 
   ngOnInit() {
     this.pagination.supportedPageSizes = this.config.get('pagination.supportedPageSizes');
-
-    this.subscriptions.push(
-      this.pagination.changePageSize.subscribe((event: PaginationModel) => {
-        this.preferences.paginationSize = event.maxItems;
-      })
-    );
-  }
-
-  ngOnDestroy() {
-    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
-    this.subscriptions = [];
+    this.pagination.changePageSize.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((event: PaginationModel) => {
+      this.preferences.paginationSize = event.maxItems;
+    });
   }
 }
