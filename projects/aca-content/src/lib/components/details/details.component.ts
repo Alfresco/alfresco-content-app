@@ -73,6 +73,7 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
   canManagePermissions = true;
 
   private readonly onDestroy$: Subject<void> = new Subject<void>();
+
   constructor(private route: ActivatedRoute, private contentApi: ContentApiService, private contentService: ContentService) {
     super();
   }
