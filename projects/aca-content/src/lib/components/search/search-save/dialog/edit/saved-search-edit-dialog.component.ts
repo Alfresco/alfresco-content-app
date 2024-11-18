@@ -42,15 +42,7 @@ import { UniqueSearchNameValidator } from '../unique-search-name-validator';
   host: { class: 'aca-saved-search-edit-dialog' }
 })
 export class SavedSearchEditDialogComponent {
-  form = new FormGroup({
-    name: new FormControl('', {
-      validators: [Validators.required, forbidOnlySpaces],
-      asyncValidators: [this.uniqueSearchNameValidator.validate.bind(this.uniqueSearchNameValidator)],
-      updateOn: 'blur'
-    }),
-    description: new FormControl('')
-  });
-
+  form: FormGroup;
   isLoading = false;
 
   constructor(
@@ -60,6 +52,15 @@ export class SavedSearchEditDialogComponent {
     private readonly uniqueSearchNameValidator: UniqueSearchNameValidator,
     @Inject(MAT_DIALOG_DATA) private readonly data: SavedSearch
   ) {
+    this.form = new FormGroup({
+      name: new FormControl('', {
+        validators: [Validators.required, forbidOnlySpaces],
+        asyncValidators: [this.uniqueSearchNameValidator.validate.bind(this.uniqueSearchNameValidator)],
+        updateOn: 'change'
+      }),
+      description: new FormControl('')
+    });
+
     this.form.patchValue({
       name: this.data.name,
       description: this.data.description
