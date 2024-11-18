@@ -26,7 +26,7 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, NavigationStart } from '@angular/router';
 import { ContentApiService, PageComponent, PageLayoutComponent, ToolbarComponent } from '@alfresco/aca-shared';
 import { NavigateToFolder, NavigateToPreviousPage, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
-import { merge } from 'rxjs';
+import { merge, Subject } from 'rxjs';
 import { BreadcrumbComponent, ContentService, PermissionListComponent } from '@alfresco/adf-content-services';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
@@ -72,6 +72,7 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
   nodeIcon: string;
   canManagePermissions = true;
 
+  private readonly onDestroy$: Subject<void> = new Subject<void>();
   constructor(private route: ActivatedRoute, private contentApi: ContentApiService, private contentService: ContentService) {
     super();
   }
@@ -144,7 +145,10 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
   }
 
   ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
     this.store.dispatch(new SetSelectedNodesAction([]));
+    super.ngOnDestroy();
   }
 
   private isSmartFolder(): boolean {

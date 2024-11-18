@@ -58,6 +58,7 @@ export class ContextActionsDirective implements OnInit {
   }
 
   private execute$: Subject<any> = new Subject();
+
   private readonly destroyRef = inject(DestroyRef);
 
   constructor(private store: Store<AppStore>) {}

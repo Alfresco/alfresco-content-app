@@ -104,6 +104,7 @@ export class AcaViewerComponent implements OnInit, OnDestroy {
   private navigationPath: string;
   private previewLocation: string;
   private containersSkipNavigation = ['adf-viewer__sidebar', 'cdk-overlay-container', 'adf-image-viewer'];
+
   private readonly destroyRef = inject(DestroyRef);
 
   constructor(

@@ -35,7 +35,7 @@ import { ContentActionRef, DocumentListPresetRef, SelectionState } from '@alfres
 import { DestroyRef, Directive, HostListener, inject, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Node, NodeEntry, NodePaging } from '@alfresco/js-api';
-import { Observable, Subject, Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { DocumentBasePageService } from './document-base-page.service';
 import {
   AppStore,
@@ -58,8 +58,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 /* eslint-disable @angular-eslint/directive-class-suffix */
 @Directive()
 export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
-  onDestroy$: Subject<void> = new Subject<void>();
-
   @ViewChild(DocumentListComponent)
   documentList: DocumentListComponent;
 
@@ -90,6 +88,7 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   protected router = inject(Router);
   protected userPreferencesService = inject(UserPreferencesService);
   protected searchAiService = inject(SearchAiService);
+
   protected readonly destroyRef = inject(DestroyRef);
 
   private autoDownloadService = inject(AutoDownloadService, { optional: true });
@@ -175,8 +174,6 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
     this.subscriptions = [];
 
-    this.onDestroy$.next();
-    this.onDestroy$.complete();
     this.store.dispatch(new SetSelectedNodesAction([]));
   }
 

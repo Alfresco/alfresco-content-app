@@ -54,7 +54,6 @@ export class BulkActionsDropdownComponent implements OnInit {
   private readonly store = inject<Store<AppStore>>(Store);
   private readonly translationService = inject(TranslationService);
   private readonly extensions = inject(AppExtensionService);
-
   private readonly destroyRef = inject(DestroyRef);
   private readonly totalItems$: Observable<number> = this.store.select(getSearchItemsTotalCount);
 
