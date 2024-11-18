@@ -23,8 +23,15 @@
  */
 
 import { inject, Injectable } from '@angular/core';
-import { AppConfigService, AuthenticationService, NotificationService, PageTitleService, UserPreferencesService } from '@alfresco/adf-core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import {
+  AuthenticationService,
+  AppConfigService,
+  PageTitleService,
+  UserPreferencesService,
+  NotificationService,
+  StorageService
+} from '@alfresco/adf-core';
+import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import {
   AlfrescoApiService,
   FileUploadErrorEvent,
@@ -92,7 +99,8 @@ export class AppService implements ShellAppService {
     searchQueryBuilderService: SearchQueryBuilderService,
     private acaMobileAppSwitcherService: AcaMobileAppSwitcherService,
     private appSettingsService: AppSettingsService,
-    private userProfileService: UserProfileService
+    private userProfileService: UserProfileService,
+    private storage: StorageService
   ) {
     this.ready = new BehaviorSubject(this.authenticationService.isLoggedIn() || this.withCredentials);
     this.ready$ = this.ready.asObservable();
@@ -103,6 +111,7 @@ export class AppService implements ShellAppService {
     });
 
     this.authenticationService.onLogout.subscribe(() => {
+      this.storage.removeItem(this.preferencesService.getPropertyKey('expandedSidenav'));
       searchQueryBuilderService.resetToDefaults();
       acaMobileAppSwitcherService.clearSessionExpireTime();
       acaMobileAppSwitcherService.closeDialog();

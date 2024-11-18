@@ -30,7 +30,8 @@ import {
   TranslationMock,
   TranslationService,
   UserPreferencesService,
-  NotificationService
+  NotificationService,
+  StorageService
 } from '@alfresco/adf-core';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { HttpClientModule } from '@angular/common/http';
@@ -64,6 +65,7 @@ describe('AppService', () => {
   let sharedLinksApiService: SharedLinksApiService;
   let contentApi: ContentApiService;
   let preferencesService: UserPreferencesService;
+  let storageService: StorageService;
   let appSettingsService: AppSettingsService;
   let userProfileService: UserProfileService;
   let notificationService: NotificationService;
@@ -113,7 +115,13 @@ describe('AppService', () => {
           }
         },
         { provide: TranslationService, useClass: TranslationMock },
-        { provide: UserPreferencesService, useValue: { setStoragePrefix: () => null } }
+        {
+          provide: UserPreferencesService,
+          useValue: {
+            setStoragePrefix: () => null,
+            getPropertyKey: (property: string) => `prefix__${property}`
+          }
+        }
       ]
     });
 
@@ -127,6 +135,7 @@ describe('AppService', () => {
     spyOn(contentApi, 'getRepositoryInformation').and.returnValue(of({} as any));
     service = TestBed.inject(AppService);
     preferencesService = TestBed.inject(UserPreferencesService);
+    storageService = TestBed.inject(StorageService);
     userProfileService = TestBed.inject(UserProfileService);
     loadUserProfileSpy = spyOn(userProfileService, 'loadUserProfile').and.returnValue(Promise.resolve({} as any));
     notificationService = TestBed.inject(NotificationService);
@@ -154,6 +163,14 @@ describe('AppService', () => {
     auth.onLogout.next(true);
 
     await expect(resetToDefaults).toHaveBeenCalled();
+  });
+
+  it('should remove expandedSidenav item from local storage upon logout', async () => {
+    const key = preferencesService.getPropertyKey('expandedSidenav');
+    spyOn(storageService, 'removeItem');
+    auth.onLogout.next(true);
+
+    expect(storageService.removeItem).toHaveBeenCalledWith(key);
   });
 
   it('should raise notification on share link error', () => {
