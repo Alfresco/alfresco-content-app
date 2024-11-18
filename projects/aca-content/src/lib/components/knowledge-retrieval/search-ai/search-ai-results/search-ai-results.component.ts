@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PageComponent, PageLayoutComponent, ToolbarActionComponent, ToolbarComponent } from '@alfresco/aca-shared';
 import { concatMap, delay, filter, finalize, retryWhen, skipWhile, switchMap } from 'rxjs/operators';
@@ -68,7 +68,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   encapsulation: ViewEncapsulation.None,
   host: { class: 'aca-search-ai-results' }
 })
-export class SearchAiResultsComponent extends PageComponent implements OnInit, OnDestroy {
+export class SearchAiResultsComponent extends PageComponent implements OnInit {
   private _agentId: string;
   private _hasAnsweringError = false;
   private _hasError = false;

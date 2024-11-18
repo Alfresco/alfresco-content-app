@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, DestroyRef, inject, Input, OnChanges, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, DestroyRef, inject, Input, OnChanges, OnInit, ViewEncapsulation } from '@angular/core';
 import {
   FormControl,
   FormGroupDirective,
@@ -87,7 +87,7 @@ export class InstantErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ['./library-metadata-form.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestroy {
+export class LibraryMetadataFormComponent implements OnInit, OnChanges {
   private _queriesApi: QueriesApi;
   private _titleErrorTranslationKey: string;
 
