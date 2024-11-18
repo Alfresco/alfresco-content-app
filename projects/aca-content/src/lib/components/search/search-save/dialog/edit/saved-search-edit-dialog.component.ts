@@ -31,6 +31,7 @@ import { Store } from '@ngrx/store';
 import { CoreModule } from '@alfresco/adf-core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UniqueSearchNameValidator } from '../unique-search-name-validator';
+import { SavedSearchForm } from '../saved-search-form.interface';
 
 @Component({
   standalone: true,
@@ -42,7 +43,7 @@ import { UniqueSearchNameValidator } from '../unique-search-name-validator';
   host: { class: 'aca-saved-search-edit-dialog' }
 })
 export class SavedSearchEditDialogComponent {
-  form: FormGroup;
+  form: FormGroup<SavedSearchForm>;
   isLoading = false;
 
   constructor(
