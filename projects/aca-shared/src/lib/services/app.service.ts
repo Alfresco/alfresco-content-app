@@ -101,8 +101,8 @@ export class AppService implements ShellAppService, OnDestroy {
     searchQueryBuilderService: SearchQueryBuilderService,
     private acaMobileAppSwitcherService: AcaMobileAppSwitcherService,
     private appSettingsService: AppSettingsService,
-    private userProfileService: UserProfileService,
-    private storage: StorageService
+    private readonly userProfileService: UserProfileService,
+    private readonly storage: StorageService
   ) {
     this.ready = new BehaviorSubject(this.authenticationService.isLoggedIn() || this.withCredentials);
     this.ready$ = this.ready.asObservable();
