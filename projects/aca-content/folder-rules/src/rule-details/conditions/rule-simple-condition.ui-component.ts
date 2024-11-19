@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, DestroyRef, forwardRef, inject, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { Component, DestroyRef, forwardRef, inject, Input, OnChanges, OnInit, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { RuleSimpleCondition } from '../../model/rule-simple-condition.model';
 import { comparatorHiddenForConditionFieldType, RuleConditionField, ruleConditionFields } from './rule-condition-fields';
@@ -76,7 +76,7 @@ const AUTOCOMPLETE_OPTIONS_DEBOUNCE_TIME = 500;
     }
   ]
 })
-export class RuleSimpleConditionUiComponent implements OnInit, ControlValueAccessor, OnChanges, OnDestroy {
+export class RuleSimpleConditionUiComponent implements OnInit, ControlValueAccessor, OnChanges {
   private appSettings = inject(AppSettingsService);
   private categoryService = inject(CategoryService);
   private tagService = inject(TagService);

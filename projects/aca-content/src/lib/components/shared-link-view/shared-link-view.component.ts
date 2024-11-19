@@ -50,6 +50,7 @@ export class SharedLinkViewComponent implements OnInit {
   viewerToolbarActions: Array<ContentActionRef> = [];
 
   private sharedLinksApi: SharedlinksApi;
+
   private readonly destroyRef = inject(DestroyRef);
 
   constructor(

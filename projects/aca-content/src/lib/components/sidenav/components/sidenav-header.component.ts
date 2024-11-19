@@ -41,6 +41,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 export class SidenavHeaderComponent implements OnInit {
   private appSettings = inject(AppSettingsService);
   private appExtensions = inject(AppExtensionService);
+
   private readonly destroyRef = inject(DestroyRef);
 
   appName = this.appSettings.appName;
