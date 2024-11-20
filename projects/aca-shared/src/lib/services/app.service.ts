@@ -23,7 +23,14 @@
  */
 
 import { inject, Injectable, OnDestroy } from '@angular/core';
-import { AuthenticationService, AppConfigService, PageTitleService, UserPreferencesService, NotificationService } from '@alfresco/adf-core';
+import {
+  AuthenticationService,
+  AppConfigService,
+  PageTitleService,
+  UserPreferencesService,
+  NotificationService,
+  StorageService
+} from '@alfresco/adf-core';
 import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import {
   AlfrescoApiService,
@@ -94,7 +101,8 @@ export class AppService implements ShellAppService, OnDestroy {
     searchQueryBuilderService: SearchQueryBuilderService,
     private acaMobileAppSwitcherService: AcaMobileAppSwitcherService,
     private appSettingsService: AppSettingsService,
-    private userProfileService: UserProfileService
+    private readonly userProfileService: UserProfileService,
+    private readonly storage: StorageService
   ) {
     this.ready = new BehaviorSubject(this.authenticationService.isLoggedIn() || this.withCredentials);
     this.ready$ = this.ready.asObservable();
@@ -105,6 +113,7 @@ export class AppService implements ShellAppService, OnDestroy {
     });
 
     this.authenticationService.onLogout.subscribe(() => {
+      this.storage.removeItem(this.preferencesService.getPropertyKey('expandedSidenav'));
       searchQueryBuilderService.resetToDefaults();
       acaMobileAppSwitcherService.clearSessionExpireTime();
       acaMobileAppSwitcherService.closeDialog();
