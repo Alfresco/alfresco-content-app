@@ -88,6 +88,7 @@ test.describe('Info Drawer - Comments', () => {
   });
 
   test('[C299189] from Shared Files - Comments are displayed ordered by created date in descending order', async ({ sharedPage }) => {
+    await sharedPage.navigate();
     const sharedFileName = `sharedFile-e2e-${Utils.random()}`;
     const e2eCommentFirst = `e2e-comment-${Utils.random()}`;
     const e2eCommentSecond = `e2e-comment-${Utils.random()}`;
@@ -96,8 +97,6 @@ test.describe('Info Drawer - Comments', () => {
     await apiClientFactory.commentsApi.createComment(sharedFileId, { content: e2eCommentFirst });
     await apiClientFactory.commentsApi.createComment(sharedFileId, { content: e2eCommentSecond });
     await apiClientFactory.share.createSharedLink({ nodeId: sharedFileId });
-    await fileActionsApi.waitForNodes(sharedFileName, { expect: 1 });
-    await sharedPage.navigate();
     await Utils.reloadPageIfRowNotVisible(sharedPage, sharedFileName);
     await expect(sharedPage.dataTable.getRowByName(sharedFileName)).toBeVisible();
     await sharedPage.dataTable.getRowByName(sharedFileName).click();
@@ -130,9 +129,7 @@ test.describe('Info Drawer - Comments', () => {
     const commentInfoFileName = `e2e-commentFile-${Utils.random()}`;
     const commentInfoFileId = (await nodesApi.createFile(commentInfoFileName)).entry.id;
     await favoritesActions.addFavoritesByIds('file', [commentInfoFileId]);
-    await fileActionsApi.waitForNodes(commentInfoFileName, { expect: 1 });
     await apiClientFactory.commentsApi.createComment(commentInfoFileId, { content: e2eCommentFirst });
-    await fileActionsApi.waitForNodes(commentInfoFileName, { expect: 1 });
     await favoritePage.navigate();
     await expect(favoritePage.dataTable.getRowByName(commentInfoFileName)).toBeVisible();
     await favoritePage.dataTable.getRowByName(commentInfoFileName).click();
