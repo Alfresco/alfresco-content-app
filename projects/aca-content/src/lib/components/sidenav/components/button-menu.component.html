@@ -9,7 +9,7 @@
     [attr.title]="item.description | translate"
     [attr.data-automation-id]="item.id"
   >
-    <adf-icon [value]="item.icon"></adf-icon>
+    <adf-icon [value]="item.icon" />
   </button>
 </ng-container>
 
@@ -28,7 +28,7 @@
       'action-button--active': acaMenuPanel.hasActiveChildren
     }"
   >
-    <adf-icon [value]="item.icon"></adf-icon>
+    <adf-icon [value]="item.icon" />
   </button>
 
   <mat-menu #menu="matMenu" [overlapTrigger]="false">
@@ -43,7 +43,7 @@
       mat-menu-item
       class="action-button"
     >
-      <adf-icon *ngIf="child.icon" [value]="child.icon"></adf-icon>
+      <adf-icon *ngIf="child.icon" [value]="child.icon" />
       <span class="action-button__label">{{ child.title | translate }}</span>
     </button>
   </mat-menu>

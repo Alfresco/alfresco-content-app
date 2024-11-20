@@ -2,15 +2,14 @@
   <div class="aca-page-layout-header">
     <aca-search-ai-input-container
       *ngIf="searchAiInputState.active; else header"
-      [agentId]="searchAiInputState.selectedAgentId">
-    </aca-search-ai-input-container>
+      [agentId]="searchAiInputState.selectedAgentId" />
     <ng-template #header>
       <div class="aca-header-container">
         <h1 class="aca-page-title">
       {{ (selectedRowItemsCount < 1 ? 'APP.BROWSE.SHARED.TITLE' : 'APP.HEADER.SELECTED') | translate: { count: selectedRowItemsCount } }}
     </h1>
 
-        <aca-toolbar [items]="actions"></aca-toolbar>
+        <aca-toolbar [items]="actions" />
       </div>
     </ng-template>
   </div>
@@ -36,8 +35,7 @@
         (name-click)="handleNodeClick($event)"
       >
         <adf-custom-empty-content-template>
-          <adf-empty-content icon="people" [title]="'APP.BROWSE.SHARED.EMPTY_STATE.TITLE'" subtitle="APP.BROWSE.SHARED.EMPTY_STATE.TEXT">
-          </adf-empty-content>
+          <adf-empty-content icon="people" [title]="'APP.BROWSE.SHARED.EMPTY_STATE.TITLE'" subtitle="APP.BROWSE.SHARED.EMPTY_STATE.TEXT" />
         </adf-custom-empty-content-template>
 
         <data-columns>
@@ -57,7 +55,7 @@
                 [sortingKey]="column.sortingKey || column.key"
               >
                 <ng-template let-context>
-                  <adf-dynamic-column [id]="column.template" [context]="context"> </adf-dynamic-column>
+                  <adf-dynamic-column [id]="column.template" [context]="context" />
                 </ng-template>
               </data-column>
             </ng-container>
@@ -75,18 +73,17 @@
                 [sortable]="column.sortable"
                 [isHidden]="column.isHidden"
                 [sortingKey]="column.sortingKey || column.key"
-              >
-              </data-column>
+              />
             </ng-container>
           </ng-container>
         </data-columns>
       </adf-document-list>
 
-      <adf-pagination acaPagination [target]="documentList"></adf-pagination>
+      <adf-pagination acaPagination [target]="documentList" />
     </div>
 
     <div class="aca-sidebar" *ngIf="infoDrawerOpened$ | async">
-      <aca-info-drawer [node]="selection.last"></aca-info-drawer>
+      <aca-info-drawer [node]="selection.last" />
     </div>
   </div>
 </aca-page-layout>

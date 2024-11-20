@@ -98,7 +98,8 @@
         "CREATE_TOOLTIP": "Opprett innhold",
         "UPLOAD": "Last opp",
         "UPLOAD_TOOLTIP": "Last opp innhold"
-      }
+      },
+      "SELECTED": "Valgt ({{ count }})"
     },
     "BROWSE": {
       "FILE": {

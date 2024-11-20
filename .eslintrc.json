@@ -315,7 +315,8 @@
         "@angular-eslint/template/no-negated-async": "off",
         "@angular-eslint/template/no-positive-tabindex": "error",
         "@angular-eslint/template/eqeqeq": "error",
-        "@angular-eslint/template/no-call-expression": "off"
+        "@angular-eslint/template/no-call-expression": "off",
+        "@angular-eslint/template/prefer-self-closing-tags": "error"
       }
     },
     {

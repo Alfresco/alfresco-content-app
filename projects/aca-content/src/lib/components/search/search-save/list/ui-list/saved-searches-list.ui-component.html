@@ -1,0 +1,15 @@
+<adf-datatable
+  [rows]="savedSearches"
+  [columns]="columns"
+  [stickyHeader]="true"
+  [showHeader]="ShowHeaderMode.Always"
+  [enableDragRows]="true"
+  [actionsVisibleOnHover]="true"
+  [contextMenu]="true"
+  [actions]="true"
+  [isResizingEnabled]="false"
+  [blurOnResize]="false"
+  (showRowActionsMenu)="onShowRowActionsMenu($event)"
+  (dragDropped)="onSearchOrderChange($event)"
+  (executeRowAction)="executeMenuOption($event.value.action.key, $event.value.row.obj)"
+  (showRowContextMenu)="fillContextMenu($event)" />

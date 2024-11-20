@@ -1,0 +1,30 @@
+<aca-page-layout>
+  <div class="aca-page-layout-header">
+    <h1 class="aca-page-title">
+      {{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.LIST.TITLE' | translate }}
+    </h1>
+  </div>
+  <div *ngIf="savedSearches$ | async as savedSearches else spinner"
+       class="aca-page-layout-content">
+    <div class="aca-main-content" >
+      <aca-saved-searches-ui-list *ngIf="savedSearches.length else emptyList"
+                                  [savedSearches]="savedSearches"
+                                  (savedSearchOrderChanged)="onOrderChanged($event)"/>
+    </div>
+  </div>
+  <ng-template #emptyList>
+    <adf-empty-content
+            class="aca-page-layout-content"
+            data-automation-id="'saved-search-list-empty-content'"
+            icon="library_books"
+            title="APP.BROWSE.SEARCH.SAVE_SEARCH.LIST.EMPTY_LIST" />
+  </ng-template>
+</aca-page-layout>
+
+<ng-template #spinner>
+  <mat-progress-spinner
+    class="aca-page-layout-spinner"
+    data-automation-id="'saved-search-list-spinner'"
+    [color]="'primary'"
+    [mode]="'indeterminate'" />
+</ng-template>

@@ -5,8 +5,7 @@
   <mat-slide-toggle
     *ngIf="showEnabledToggle"
     [checked]="rule.isEnabled"
-    (click)="onToggleClick(!rule.isEnabled, $event)">
-  </mat-slide-toggle>
+    (click)="onToggleClick(!rule.isEnabled, $event)" />
 
 </div>
 <div class="aca-rule-list-item__description">{{ rule.description }}</div>

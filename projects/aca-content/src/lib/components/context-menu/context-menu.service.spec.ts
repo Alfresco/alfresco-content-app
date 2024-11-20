@@ -32,12 +32,24 @@ import { ContextMenuService } from './context-menu.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { ContextMenuComponent } from './context-menu.component';
 import { ContextmenuOverlayConfig } from './interfaces';
+import { ContentActionRef, ContentActionType } from '@alfresco/adf-extensions';
 
 describe('ContextMenuService', () => {
   let contextMenuService: ContextMenuService;
   let overlay: Overlay;
   let injector: Injector;
   let userPreferencesService: UserPreferencesService;
+
+  const customActionMock: ContentActionRef[] = [
+    {
+      type: ContentActionType.default,
+      id: 'action',
+      title: 'action',
+      actions: {
+        click: 'event'
+      }
+    }
+  ];
 
   const overlayConfig: ContextmenuOverlayConfig = {
     hasBackdrop: false,
@@ -92,5 +104,21 @@ describe('ContextMenuService', () => {
     contextMenuService.open(overlayConfig);
 
     expect(document.body.querySelector('div[dir="rtl"]')).not.toBe(null);
+  });
+
+  it('should render custom context menu component', () => {
+    contextMenuService = new ContextMenuService(injector, overlay, userPreferencesService);
+
+    contextMenuService.open(overlayConfig, customActionMock);
+
+    expect(document.querySelector('aca-custom-context-menu')).not.toBe(null);
+  });
+
+  it('should not render custom context menu when no custom actions are provided', () => {
+    contextMenuService = new ContextMenuService(injector, overlay, userPreferencesService);
+
+    contextMenuService.open(overlayConfig, []);
+
+    expect(document.querySelector('aca-custom-context-menu')).toBe(null);
   });
 });

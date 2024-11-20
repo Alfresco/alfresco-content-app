@@ -22,7 +22,7 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { TagBody, TagEntry } from '@alfresco/js-api';
+import { TagBody, TagEntry, TagPaging } from '@alfresco/js-api';
 import { ApiClientFactory } from './api-client-factory';
 
 export class TagsApi {
@@ -56,9 +56,39 @@ export class TagsApi {
     }
   }
 
-  async deleteTag(tagId: string): Promise<void> {
+  async deleteTags(tagIds: string[]): Promise<void> {
     try {
-      return this.apiService.tagsApi.deleteTag(tagId);
+      for (const tagId of tagIds) {
+        await this.apiService.tagsApi.deleteTag(tagId);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async listTagsForNode(nodeId: string): Promise<TagPaging> {
+    try {
+      return this.apiService.tagsApi.listTagsForNode(nodeId);
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  async listTags(params?: { tag?: string; matching?: boolean }): Promise<TagPaging> {
+    try {
+      return this.apiService.tagsApi.listTags(params);
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  async deleteTagsByTagName(tagName: string): Promise<void> {
+    try {
+      const response = await this.listTags({ tag: tagName, matching: true });
+      const tagIds = response.list.entries.map((entry) => entry.entry.id);
+      await this.deleteTags(tagIds);
     } catch (error) {
       console.error(error);
     }

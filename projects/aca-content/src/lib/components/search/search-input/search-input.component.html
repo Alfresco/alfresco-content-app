@@ -35,8 +35,7 @@
         (click)="$event.stopPropagation()"
         (submit)="onSearchSubmit($event)"
         (searchChange)="onSearchChange($event)"
-      >
-      </app-search-input-control>
+      />
       <mat-hint *ngIf="hasLibrariesConstraint" class="app-search-hint">{{ 'SEARCH.INPUT.HINT' | translate }}</mat-hint>
 
       <div id="search-options" class="app-search-options">
@@ -45,6 +44,7 @@
           [(ngModel)]="option.value"
           [disabled]="option.shouldDisable()"
           (change)="searchByOption()"
+          (keyup.enter)="$event.stopPropagation()"
           (click)="$event.stopPropagation()"
         >
           {{ option.key | translate }}

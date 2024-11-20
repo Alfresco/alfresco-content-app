@@ -5,30 +5,30 @@
     <ng-container *ngFor="let entry of actions; trackBy: trackByActionId" [ngSwitch]="entry.type">
       <ng-container *ngSwitchDefault>
         <button mat-menu-item [id]="entry.id" (click)="runAction(entry)">
-          <adf-icon [value]="entry.icon" class="app-context-menu-item--icon"></adf-icon>
+          <adf-icon [value]="entry.icon" class="app-context-menu-item--icon" />
           <span [attr.data-automation-id]="entry.id + '-label'">{{ entry.title | translate }}</span>
         </button>
       </ng-container>
 
       <ng-container *ngSwitchCase="'separator'">
-        <mat-divider></mat-divider>
+        <mat-divider />
       </ng-container>
 
       <ng-container *ngSwitchCase="'menu'">
         <button mat-menu-item [id]="entry.id" [matMenuTriggerFor]="childMenu">
-          <adf-icon [value]="entry.icon" class="app-context-menu-item--icon"></adf-icon>
+          <adf-icon [value]="entry.icon" class="app-context-menu-item--icon" />
           <span [attr.data-automation-id]="entry.id + '-label'">{{ entry.title | translate }}</span>
         </button>
 
         <mat-menu #childMenu="matMenu">
           <ng-container *ngFor="let child of entry.children; trackBy: trackByActionId">
-            <app-context-menu-item [actionRef]="child"></app-context-menu-item>
+            <app-context-menu-item [actionRef]="child" />
           </ng-container>
         </mat-menu>
       </ng-container>
 
       <ng-container *ngSwitchCase="'custom'">
-        <adf-dynamic-component [data]="entry.data" [id]="entry.component"></adf-dynamic-component>
+        <adf-dynamic-component [data]="entry.data" [id]="entry.component" />
       </ng-container>
     </ng-container>
   </mat-menu>

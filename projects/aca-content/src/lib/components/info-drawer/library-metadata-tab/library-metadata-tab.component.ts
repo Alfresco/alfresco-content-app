@@ -30,7 +30,7 @@ import { LibraryMetadataFormComponent } from './library-metadata-form.component'
   standalone: true,
   imports: [LibraryMetadataFormComponent],
   selector: 'app-library-metadata-tab',
-  template: '<app-library-metadata-form [node]="node"></app-library-metadata-form>',
+  template: '<app-library-metadata-form [node]="node" />',
   host: { class: 'app-metadata-tab' },
   encapsulation: ViewEncapsulation.None
 })

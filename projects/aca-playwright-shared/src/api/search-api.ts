@@ -73,7 +73,7 @@ export class SearchPageApi {
         }
       };
 
-      return Utils.retryCall(searchFiles);
+      return await Utils.retryCall(searchFiles);
     } catch {}
   }
 }

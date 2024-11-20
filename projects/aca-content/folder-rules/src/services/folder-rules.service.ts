@@ -40,7 +40,7 @@ interface GetRulesResult {
   providedIn: 'root'
 })
 export class FolderRulesService {
-  public static MAX_RULES_PER_GET = 100;
+  public static readonly MAX_RULES_PER_GET = 100;
 
   public static get emptyCompositeCondition(): RuleCompositeCondition {
     return {

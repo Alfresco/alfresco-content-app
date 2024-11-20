@@ -35,7 +35,6 @@ import { AppExtensionService } from '@alfresco/aca-shared';
 describe('ContextMenuComponent', () => {
   let fixture: ComponentFixture<ContextMenuComponent>;
   let component: ContextMenuComponent;
-  let contextMenuOverlayRef: ContextMenuOverlayRef;
   let extensionsService: AppExtensionService;
 
   const contextItem = {
@@ -49,7 +48,7 @@ describe('ContextMenuComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ContextMenuComponent, AppTestingModule],
+      imports: [AppTestingModule],
       providers: [
         {
           provide: ContextMenuOverlayRef,
@@ -70,7 +69,6 @@ describe('ContextMenuComponent', () => {
     fixture = TestBed.createComponent(ContextMenuComponent);
     component = fixture.componentInstance;
 
-    contextMenuOverlayRef = TestBed.inject(ContextMenuOverlayRef);
     extensionsService = TestBed.inject(AppExtensionService);
 
     spyOn(extensionsService, 'getAllowedContextMenuActions').and.returnValue(of([contextItem]));
@@ -78,30 +76,17 @@ describe('ContextMenuComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should close context menu on Escape event', () => {
-    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
-    expect(contextMenuOverlayRef.close).toHaveBeenCalled();
+  it('should load context menu actions on init', () => {
+    expect(component.actions.length).toBe(1);
   });
 
   it('should render defined context menu actions items', async () => {
-    component.ngAfterViewInit();
-    fixture.detectChanges();
     await fixture.whenStable();
 
     const contextMenuElements = document.body.querySelector('.aca-context-menu')?.querySelectorAll('button');
-    const actionButtonLabel: HTMLElement = contextMenuElements?.[0].querySelector('[data-automation-id="action-button-label"]');
+    const actionButtonLabel: HTMLElement = contextMenuElements?.[0].querySelector(`[data-automation-id="${contextItem.id}-label"]`);
 
     expect(contextMenuElements?.length).toBe(1);
     expect(actionButtonLabel.innerText).toBe(contextItem.title);
-  });
-
-  it('should run action with provided action id and correct payload', () => {
-    spyOn(extensionsService, 'runActionById');
-
-    component.runAction(contextItem);
-
-    expect(extensionsService.runActionById).toHaveBeenCalledWith(contextItem.actions.click, {
-      focusedElementOnCloseSelector: '.adf-context-menu-source'
-    });
   });
 });

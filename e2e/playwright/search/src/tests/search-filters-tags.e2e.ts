@@ -70,8 +70,8 @@ test.describe('Search - Filters - Tags', () => {
 
   test.afterAll(async () => {
     await Utils.deleteNodesSitesEmptyTrashcan(nodesApi, trashcanApi, 'afterAll failed');
-    await tagsApiAdmin.deleteTag(`${(tagEntries as TagPaging).list.entries[0].entry.id}`);
-    await tagsApiAdmin.deleteTag(`${(tagEntries as TagPaging).list.entries[1].entry.id}`);
+    await tagsApiAdmin.deleteTags([`${(tagEntries as TagPaging).list.entries[0].entry.id}`]);
+    await tagsApiAdmin.deleteTags([`${(tagEntries as TagPaging).list.entries[1].entry.id}`]);
   });
 
   test('[C698515] Filter with Tags', async ({ searchPage }) => {

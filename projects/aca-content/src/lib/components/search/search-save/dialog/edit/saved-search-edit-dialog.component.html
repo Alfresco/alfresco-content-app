@@ -1,0 +1,55 @@
+<div class="aca-saved-search-edit-dialog__header">
+  <h2 class="aca-saved-search-edit-dialog__title">{{"APP.BROWSE.SEARCH.SAVE_SEARCH.EDIT_DIALOG.TITLE" | translate}}</h2>
+  <button
+    mat-icon-button
+    mat-dialog-close
+    [attr.aria-label]="'CLOSE' | translate"
+    [attr.title]="'CLOSE' | translate">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<mat-dialog-content>
+  <form [formGroup]="form" (submit)="submit()">
+    <mat-form-field class="aca-saved-search-edit-dialog__form-field">
+      <mat-label>{{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.NAME_LABEL' | translate }}</mat-label>
+      <input
+          [attr.aria-label]="'APP.BROWSE.SEARCH.SAVE_SEARCH.NAME_LABEL' | translate"
+          data-automation-id="saved-search-edit-name"
+          matInput
+          required
+          [formControlName]="'name'"
+          adf-auto-focus/>
+      <mat-error *ngIf="form.controls['name'].touched">
+        <span *ngIf="form.controls['name'].errors?.required">
+          {{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.NAME_REQUIRED_ERROR' | translate }}
+        </span>
+        <span *ngIf="!form.controls['name'].errors?.required && form.controls['name'].errors?.message">
+          {{ form.controls['name'].errors?.message | translate : { name: form.controls.name.value } }}
+        </span>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="aca-saved-search-edit-dialog__form-field">
+      <mat-label>{{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.DESCRIPTION_LABEL' | translate }}</mat-label>
+      <textarea
+            matInput
+            data-automation-id="saved-search-edit-description"
+            [attr.aria-label]="'APP.BROWSE.SEARCH.SAVE_SEARCH.DESCRIPTION_LABEL' | translate"
+            rows="4"
+            [formControlName]="'description'"></textarea>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button
+          id="aca-saved-search-edit-dialog-cancel-button"
+          mat-dialog-close> {{ 'CANCEL' | titlecase | translate }} </button>
+
+  <button mat-flat-button
+          color="primary"
+          id="aca-saved-search-edit-dialog-submit-button"
+          (click)="submit()"
+          [disabled]="!form.valid || isLoading">{{ 'SAVE' | titlecase | translate}}</button>
+</mat-dialog-actions>

@@ -27,10 +27,22 @@ import { AppTestingModule } from '../../testing/app-testing.module';
 import { ContextMenuEffects } from './contextmenu.effects';
 import { EffectsModule } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { ContextMenu } from '@alfresco/aca-shared/store';
+import { ContextMenu, CustomContextMenu } from '@alfresco/aca-shared/store';
 import { ContextMenuService } from '../../components/context-menu/context-menu.service';
 import { OverlayModule, OverlayRef } from '@angular/cdk/overlay';
 import { ContextMenuOverlayRef } from '../../components/context-menu/context-menu-overlay';
+import { ContentActionRef, ContentActionType } from '@alfresco/adf-extensions';
+
+const actionPayloadMock: ContentActionRef[] = [
+  {
+    type: ContentActionType.default,
+    id: 'action',
+    title: 'action',
+    actions: {
+      click: 'event'
+    }
+  }
+];
 
 describe('ContextMenuEffects', () => {
   let store: Store<any>;
@@ -60,6 +72,24 @@ describe('ContextMenuEffects', () => {
     expect(contextMenuService.open).toHaveBeenCalled();
 
     store.dispatch(new ContextMenu(new MouseEvent('click')));
+    expect(overlayRefMock.close).toHaveBeenCalled();
+  });
+
+  it('should open custom context menu on customContextMenu$ action', () => {
+    store.dispatch(new CustomContextMenu(new MouseEvent('click'), actionPayloadMock));
+    expect(contextMenuService.open).toHaveBeenCalled();
+  });
+
+  it('should not open custom context menu on customContextMenu$ action if no action provided', () => {
+    store.dispatch(new CustomContextMenu(new MouseEvent('click'), []));
+    expect(contextMenuService.open).not.toHaveBeenCalled();
+  });
+
+  it('should close custom context menu if a new one is opened', () => {
+    store.dispatch(new CustomContextMenu(new MouseEvent('click'), actionPayloadMock));
+    expect(contextMenuService.open).toHaveBeenCalled();
+
+    store.dispatch(new CustomContextMenu(new MouseEvent('click'), actionPayloadMock));
     expect(overlayRefMock.close).toHaveBeenCalled();
   });
 });

@@ -22,11 +22,9 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewEncapsulation, OnInit, OnDestroy, HostListener, ViewChild, AfterViewInit, Inject } from '@angular/core';
-import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { ContentActionRef, DynamicExtensionComponent } from '@alfresco/adf-extensions';
+import { Component, ViewEncapsulation, OnInit, AfterViewInit, Inject, inject, DestroyRef } from '@angular/core';
+import { MatMenuModule } from '@angular/material/menu';
+import { DynamicExtensionComponent } from '@alfresco/adf-extensions';
 import { ContextMenuOverlayRef } from './context-menu-overlay';
 import { CONTEXT_MENU_DIRECTION } from './direction.token';
 import { Direction } from '@angular/cdk/bidi';
@@ -37,6 +35,8 @@ import { MatDividerModule } from '@angular/material/divider';
 import { IconComponent } from '@alfresco/adf-core';
 import { ContextMenuItemComponent } from './context-menu-item.component';
 import { OutsideEventDirective } from './context-menu-outside-event.directive';
+import { BaseContextMenuDirective } from './base-context-menu.directive';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -58,57 +58,23 @@ import { OutsideEventDirective } from './context-menu-outside-event.directive';
   },
   encapsulation: ViewEncapsulation.None
 })
-export class ContextMenuComponent implements OnInit, OnDestroy, AfterViewInit {
-  private onDestroy$: Subject<boolean> = new Subject<boolean>();
-  actions: Array<ContentActionRef> = [];
+export class ContextMenuComponent extends BaseContextMenuDirective implements OnInit, AfterViewInit {
+  private readonly destroyRef = inject(DestroyRef);
 
-  @ViewChild(MatMenuTrigger)
-  trigger: MatMenuTrigger;
-
-  @HostListener('document:keydown.Escape', ['$event'])
-  handleKeydownEscape(event: KeyboardEvent) {
-    if (event) {
-      if (this.contextMenuOverlayRef) {
-        this.contextMenuOverlayRef.close();
-      }
-    }
-  }
-
-  constructor(
-    private contextMenuOverlayRef: ContextMenuOverlayRef,
-    private extensions: AppExtensionService,
-    @Inject(CONTEXT_MENU_DIRECTION) public direction: Direction
-  ) {}
-
-  onClickOutsideEvent() {
-    if (this.contextMenuOverlayRef) {
-      this.contextMenuOverlayRef.close();
-    }
-  }
-
-  runAction(contentActionRef: ContentActionRef) {
-    this.extensions.runActionById(contentActionRef.actions.click, {
-      focusedElementOnCloseSelector: '.adf-context-menu-source'
-    });
-  }
-
-  ngOnDestroy() {
-    this.onDestroy$.next(true);
-    this.onDestroy$.complete();
+  constructor(contextMenuOverlayRef: ContextMenuOverlayRef, extensions: AppExtensionService, @Inject(CONTEXT_MENU_DIRECTION) direction: Direction) {
+    super(contextMenuOverlayRef, extensions, direction);
   }
 
   ngOnInit() {
     this.extensions
       .getAllowedContextMenuActions()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((actions) => (this.actions = actions));
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((actions) => {
+        this.actions = actions;
+      });
   }
 
   ngAfterViewInit() {
     setTimeout(() => this.trigger.openMenu(), 0);
-  }
-
-  trackByActionId(_: number, obj: ContentActionRef): string {
-    return obj.id;
   }
 }

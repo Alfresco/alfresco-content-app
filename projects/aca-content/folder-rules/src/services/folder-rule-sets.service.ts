@@ -24,7 +24,7 @@
 
 import { Injectable } from '@angular/core';
 import { AlfrescoApiService } from '@alfresco/adf-content-services';
-import { BehaviorSubject, combineLatest, from, Observable, of } from 'rxjs';
+import { BehaviorSubject, combineLatest, from, Observable, of, startWith } from 'rxjs';
 import { NodeInfo } from '@alfresco/aca-shared/store';
 import { catchError, finalize, map, switchMap, tap } from 'rxjs/operators';
 import { RuleSet } from '../model/rule-set.model';
@@ -37,7 +37,7 @@ import { Rule } from '../model/rule.model';
   providedIn: 'root'
 })
 export class FolderRuleSetsService {
-  public static MAX_RULE_SETS_PER_GET = 100;
+  public static readonly MAX_RULE_SETS_PER_GET = 100;
 
   static isOwnedRuleSet(ruleSet: RuleSet, nodeId: string): boolean {
     return ruleSet?.owningFolder?.id === nodeId;
@@ -68,20 +68,26 @@ export class FolderRuleSetsService {
   hasMoreRuleSets$: Observable<boolean> = this.hasMoreRuleSetsSource.asObservable();
   folderInfo$: Observable<NodeInfo> = this.folderInfoSource.asObservable();
   isLoading$: Observable<boolean> = this.isLoadingSource.asObservable();
+  selectedRuleSet$: Observable<RuleSet>;
 
-  selectedRuleSet$ = this.folderRulesService.selectedRule$.pipe(
-    map((rule: Rule) => {
-      if (rule === null) {
-        return null;
-      }
-      if (this.mainRuleSet?.rules.findIndex((r: Rule) => r.id === rule.id) > -1) {
-        return this.mainRuleSet;
-      }
-      return this.inheritedRuleSets.find((ruleSet: RuleSet) => ruleSet.rules.findIndex((r: Rule) => r.id === rule.id) > -1) ?? null;
-    })
-  );
-
-  constructor(private apiService: AlfrescoApiService, private contentApi: ContentApiService, private folderRulesService: FolderRulesService) {}
+  constructor(
+    private readonly apiService: AlfrescoApiService,
+    private readonly contentApi: ContentApiService,
+    private readonly folderRulesService: FolderRulesService
+  ) {
+    this.selectedRuleSet$ = this.folderRulesService.selectedRule$.pipe(
+      startWith(null),
+      map((rule: Rule) => {
+        if (rule === null) {
+          return null;
+        }
+        if (this.mainRuleSet?.rules.findIndex((r: Rule) => r.id === rule.id) > -1) {
+          return this.mainRuleSet;
+        }
+        return this.inheritedRuleSets.find((ruleSet: RuleSet) => ruleSet.rules.findIndex((r: Rule) => r.id === rule.id) > -1) ?? null;
+      })
+    );
+  }
 
   private callApi(path: string, httpMethod: string, body: object = {}): Promise<any> {
     // APIs used by this service are still private and not yet available for public use

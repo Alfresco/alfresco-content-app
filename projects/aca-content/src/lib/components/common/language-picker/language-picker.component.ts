@@ -38,7 +38,7 @@ import { TranslateModule } from '@ngx-translate/core';
       {{ 'APP.LANGUAGE' | translate }}
     </button>
     <mat-menu #langMenu="matMenu">
-      <adf-language-menu></adf-language-menu>
+      <adf-language-menu />
     </mat-menu>
   `,
   encapsulation: ViewEncapsulation.None

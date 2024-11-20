@@ -98,7 +98,8 @@
         "CREATE_TOOLTIP": "Luo sisältöä",
         "UPLOAD": "Lataa",
         "UPLOAD_TOOLTIP": "Lataa sisältöä"
-      }
+      },
+      "SELECTED": "Valittu ({{ count }})"
     },
     "BROWSE": {
       "FILE": {

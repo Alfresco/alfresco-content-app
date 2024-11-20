@@ -98,7 +98,8 @@
         "CREATE_TOOLTIP": "コンテンツの作成",
         "UPLOAD": "アップロード",
         "UPLOAD_TOOLTIP": "コンテンツのアップロード"
-      }
+      },
+      "SELECTED": "選択された ({{ count }})"
     },
     "BROWSE": {
       "FILE": {

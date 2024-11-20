@@ -98,7 +98,8 @@
         "CREATE_TOOLTIP": "Skapa innehåll",
         "UPLOAD": "Ladda upp",
         "UPLOAD_TOOLTIP": "Ladda upp innehåll"
-      }
+      },
+      "SELECTED": "Vald ({{ count }})"
     },
     "BROWSE": {
       "FILE": {

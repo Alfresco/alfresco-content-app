@@ -3,9 +3,8 @@
     class="aca-page-layout-header"
     placeholder="KNOWLEDGE_RETRIEVAL.SEARCH.RESULTS_PAGE.QUERY_INPUT_PLACEHOLDER"
     [agentId]="agentId"
-    [useStoredNodes]="true"
-    *ngIf="!hasError && agentId">
-  </aca-search-ai-input-container>
+    [usedInAiResultsPage]="true"
+    *ngIf="!hasError && agentId" />
   <div
     class="aca-page-layout-content"
     *ngIf="!hasError">
@@ -44,7 +43,7 @@
               <mat-icon>copy</mat-icon>
             </button>
             <ng-container *ngIf="nodes?.length">
-              <mat-divider class="aca-search-ai-response-container-body-divider"></mat-divider>
+              <mat-divider class="aca-search-ai-response-container-body-divider" />
               <div class="aca-search-ai-response-container-body-references-container">
                 <p class="aca-search-ai-response-container-body-references-container-header">
                   {{ 'KNOWLEDGE_RETRIEVAL.SEARCH.RESULTS_PAGE.REFERENCED_DOCUMENTS_HEADER' | translate }}
@@ -91,8 +90,7 @@
     class="aca-page-layout-content"
     icon="star"
     title="KNOWLEDGE_RETRIEVAL.SEARCH.ERRORS.PAGE_NOT_AVAILABLE_ERROR"
-    *ngIf="hasError">
-  </adf-empty-content>
+    *ngIf="hasError" />
 </aca-page-layout>
 
 <ng-template #skeleton>

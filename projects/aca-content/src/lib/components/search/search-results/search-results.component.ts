@@ -22,13 +22,15 @@
  * from Hyland Software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ChangeDetectorRef, Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, DestroyRef, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { NodeEntry, Pagination, ResultSetPaging } from '@alfresco/js-api';
 import { ActivatedRoute, Params } from '@angular/router';
 import {
   AlfrescoViewerComponent,
   DocumentListComponent,
   ResetSearchDirective,
+  SavedSearch,
+  SavedSearchesService,
   SearchConfiguration,
   SearchFilterChipsComponent,
   SearchFormComponent,
@@ -41,7 +43,9 @@ import {
   SetInfoDrawerPreviewStateAction,
   SetInfoDrawerStateAction,
   SetSearchItemsTotalCountAction,
-  ShowInfoDrawerPreviewAction
+  ShowInfoDrawerPreviewAction,
+  SnackbarErrorAction,
+  SnackbarInfoAction
 } from '@alfresco/aca-shared/store';
 import {
   CustomEmptyContentTemplateDirective,
@@ -62,7 +66,7 @@ import {
   ToolbarComponent
 } from '@alfresco/aca-shared';
 import { SearchSortingDefinition } from '@alfresco/adf-content-services/lib/search/models/search-sorting-definition.interface';
-import { takeUntil } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { SearchInputComponent } from '../search-input/search-input.component';
@@ -86,6 +90,8 @@ import {
 } from '../../../utils/aca-search-utils';
 import { SaveSearchDirective } from '../search-save/directive/save-search.directive';
 import { Subject } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   standalone: true,
@@ -96,6 +102,7 @@ import { Subject } from 'rxjs';
     MatProgressBarModule,
     MatDividerModule,
     MatButtonModule,
+    MatMenuModule,
     DocumentListDirective,
     ContextActionsDirective,
     ThumbnailColumnComponent,
@@ -140,18 +147,21 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
   isLoading = false;
   totalResults: number;
   isTagsEnabled = false;
+  initialSavedSearch: SavedSearch = undefined;
   columns: DocumentListPresetRef[] = [];
   encodedQuery: string;
   searchConfig: SearchConfiguration;
 
   private readonly loadedFilters$ = new Subject<void>();
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor(
     tagsService: TagService,
     private readonly queryBuilder: SearchQueryBuilderService,
     private readonly changeDetectorRef: ChangeDetectorRef,
     private readonly route: ActivatedRoute,
-    private readonly translationService: TranslationService
+    private readonly translationService: TranslationService,
+    private readonly savedSearchesService: SavedSearchesService
   ) {
     super();
 
@@ -164,7 +174,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
 
     this.queryBuilder.configUpdated
       .asObservable()
-      .pipe(takeUntil(this.onDestroy$))
+      .pipe(takeUntilDestroyed())
       .subscribe((searchConfig) => {
         this.searchConfig = searchConfig;
         this.updateUserQuery();
@@ -179,9 +189,9 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
 
     this.subscriptions.push(
       this.queryBuilder.updated.subscribe((query) => {
+        this.isLoading = true;
         if (query) {
           this.sorting = this.getSorting();
-          this.isLoading = true;
           this.changeDetectorRef.detectChanges();
         }
       }),
@@ -202,7 +212,17 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
     this.columns = this.extensions.documentListPresets.searchResults || [];
 
     if (this.route) {
-      this.route.queryParams.pipe(takeUntil(this.onDestroy$)).subscribe((params: Params) => {
+      this.route.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params: Params) => {
+        this.savedSearchesService
+          .getSavedSearches()
+          .pipe(takeUntilDestroyed(this.destroyRef))
+          .subscribe((savedSearches) => {
+            const savedSearchFound = savedSearches.find((savedSearch) => savedSearch.encodedUrl === encodeURIComponent(params[this.queryParamName]));
+            this.initialSavedSearch = savedSearchFound !== undefined ? savedSearchFound : this.initialSavedSearch;
+          });
+        if (params[this.queryParamName]) {
+          this.isLoading = true;
+        }
         this.loadedFilters$.next();
         this.encodedQuery = params[this.queryParamName] || null;
         this.searchedWord = extractSearchedWordFromEncodedQuery(this.encodedQuery);
@@ -213,7 +233,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
           let loadedFilters = this.searchedWord === '' ? 0 : 1;
           this.queryBuilder.filterLoaded
             .asObservable()
-            .pipe(takeUntil(this.onDestroy$), takeUntil(this.loadedFilters$))
+            .pipe(takeUntilDestroyed(this.destroyRef), takeUntil(this.loadedFilters$))
             .subscribe(() => {
               loadedFilters++;
               if (filtersToLoad === loadedFilters) {
@@ -302,6 +322,21 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
   onSearchSortingUpdate(option: SearchSortingDefinition) {
     this.queryBuilder.sorting = [{ ...option, ascending: option.ascending }];
     this.queryBuilder.update();
+  }
+
+  editSavedSearch(searchToSave: SavedSearch) {
+    searchToSave.encodedUrl = this.encodedQuery;
+    this.savedSearchesService
+      .editSavedSearch(searchToSave)
+      .pipe(take(1))
+      .subscribe({
+        next: () => {
+          this.store.dispatch(new SnackbarInfoAction('APP.BROWSE.SEARCH.SAVE_SEARCH.EDIT_DIALOG.SUCCESS_MESSAGE'));
+        },
+        error: () => {
+          this.store.dispatch(new SnackbarErrorAction('APP.BROWSE.SEARCH.SAVE_SEARCH.EDIT_DIALOG.ERROR_MESSAGE'));
+        }
+      });
   }
 
   private updateUserQuery(): void {

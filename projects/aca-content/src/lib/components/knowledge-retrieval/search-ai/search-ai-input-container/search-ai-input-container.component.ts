@@ -48,7 +48,7 @@ export class SearchAiInputContainerComponent implements OnInit {
   @Input()
   agentId: string;
   @Input()
-  useStoredNodes: boolean;
+  usedInAiResultsPage: boolean;
 
   inputState$: Observable<SearchAiInputState>;
   isKnowledgeRetrievalPage = false;

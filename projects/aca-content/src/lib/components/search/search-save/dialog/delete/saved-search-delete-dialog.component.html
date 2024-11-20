@@ -1,0 +1,23 @@
+<div class="aca-saved-search-delete-dialog__header">
+  <h2 class="aca-saved-search-delete-dialog__title">{{"APP.BROWSE.SEARCH.SAVE_SEARCH.DELETE_DIALOG.TITLE" | translate}}</h2>
+  <button
+    mat-icon-button
+    mat-dialog-close
+    [attr.aria-label]="'CLOSE' | translate"
+    [attr.title]="'CLOSE' | translate">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<mat-dialog-content>
+  <p>{{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.DELETE_DIALOG.CONTENT' | translate }}</p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button
+          mat-dialog-close
+          id="aca-save-search-delete-dialog-cancel-button">{{ 'CANCEL' | titlecase | translate }}</button>
+  <button mat-flat-button
+          id="aca-save-search-delete-dialog-submit-button"
+          color="primary"
+          [disabled]="isLoading"
+          (click)="onSubmit()">{{ 'DELETE' | titlecase | translate }}</button>
+</mat-dialog-actions>

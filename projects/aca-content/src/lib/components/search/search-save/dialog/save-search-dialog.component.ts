@@ -40,6 +40,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { take } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { AppStore, SnackbarErrorAction, SnackbarInfoAction } from '@alfresco/aca-shared/store';
+import { UniqueSearchNameValidator } from './unique-search-name-validator';
+import { SavedSearchForm } from './saved-search-form.interface';
 
 @Component({
   standalone: true,
@@ -65,19 +67,25 @@ import { AppStore, SnackbarErrorAction, SnackbarInfoAction } from '@alfresco/aca
   host: { class: 'aca-save-search-dialog' }
 })
 export class SaveSearchDialogComponent {
-  form = new FormGroup({
-    name: new FormControl('', [Validators.required, forbidOnlySpaces]),
-    description: new FormControl('')
-  });
-
+  form: FormGroup<SavedSearchForm>;
   disableSubmitButton = false;
 
   constructor(
     private readonly dialog: MatDialogRef<SaveSearchDialogComponent>,
     private readonly store: Store<AppStore>,
     private readonly savedSearchesService: SavedSearchesService,
+    private readonly uniqueSearchNameValidator: UniqueSearchNameValidator,
     @Inject(MAT_DIALOG_DATA) private readonly data: { searchUrl: string }
-  ) {}
+  ) {
+    this.form = new FormGroup({
+      name: new FormControl('', {
+        validators: [Validators.required, forbidOnlySpaces],
+        asyncValidators: [this.uniqueSearchNameValidator.validate.bind(this.uniqueSearchNameValidator)],
+        updateOn: 'change'
+      }),
+      description: new FormControl('')
+    });
+  }
 
   submit() {
     if (this.form.invalid || this.disableSubmitButton) {

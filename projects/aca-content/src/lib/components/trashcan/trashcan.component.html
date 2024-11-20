@@ -4,7 +4,7 @@
       {{ (selectedRowItemsCount < 1 ? 'APP.BROWSE.TRASHCAN.TITLE' : 'APP.HEADER.SELECTED') | translate: { count: selectedRowItemsCount } }}
     </h1>
 
-    <aca-toolbar [items]="actions"></aca-toolbar>
+    <aca-toolbar [items]="actions" />
   </div>
 
   <div class="aca-page-layout-content">
@@ -54,7 +54,7 @@
                 [sortingKey]="column.sortingKey || column.key"
               >
                 <ng-template let-context>
-                  <adf-dynamic-column [id]="column.template" [context]="context"> </adf-dynamic-column>
+                  <adf-dynamic-column [id]="column.template" [context]="context" />
                 </ng-template>
               </data-column>
             </ng-container>
@@ -72,8 +72,7 @@
                 [resizable]="column.resizable"
                 [isHidden]="column.isHidden"
                 [sortingKey]="column.sortingKey || column.key"
-              >
-              </data-column>
+              />
             </ng-container>
           </ng-container>
 
@@ -82,12 +81,11 @@
             class="adf-ellipsis-cell"
             key="archivedByUser.displayName"
             title="APP.DOCUMENT_LIST.COLUMNS.DELETED_BY"
-          >
-          </data-column>
+          />
         </data-columns>
       </adf-document-list>
 
-      <adf-pagination acaPagination [target]="documentList"> </adf-pagination>
+      <adf-pagination acaPagination [target]="documentList" />
     </div>
   </div>
 </aca-page-layout>

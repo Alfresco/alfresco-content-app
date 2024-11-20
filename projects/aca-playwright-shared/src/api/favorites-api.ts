@@ -89,7 +89,7 @@ export class FavoritesPageApi {
           return Promise.resolve(isFavorite);
         }
       };
-      return Utils.retryCall(favorite);
+      return await Utils.retryCall(favorite);
     } catch (error) {}
     return isFavorite;
   }
@@ -112,7 +112,7 @@ export class FavoritesPageApi {
           return Promise.resolve(totalItems);
         }
       };
-      return Utils.retryCall(favoriteFiles);
+      return await Utils.retryCall(favoriteFiles);
     } catch {}
   }
 

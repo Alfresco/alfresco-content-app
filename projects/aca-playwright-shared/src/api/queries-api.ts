@@ -50,7 +50,7 @@ export class QueriesApi {
         }
       };
 
-      return Utils.retryCall(sites);
+      return await Utils.retryCall(sites);
     } catch (error) {
       console.error(`QueriesApi waitForSites : catch : `);
       console.error(`\tExpected: ${data.expect} items, but found ${error}`);

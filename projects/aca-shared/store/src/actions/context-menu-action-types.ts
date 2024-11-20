@@ -23,5 +23,6 @@
  */
 
 export enum ContextMenuActionTypes {
-  ContextMenu = 'CONTEXT_MENU'
+  ContextMenu = 'CONTEXT_MENU',
+  CustomContextMenu = 'CUSTOM_CONTEXT_MENU'
 }

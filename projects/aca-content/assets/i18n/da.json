@@ -98,7 +98,8 @@
         "CREATE_TOOLTIP": "Opret indhold",
         "UPLOAD": "Upload",
         "UPLOAD_TOOLTIP": "Upload indhold"
-      }
+      },
+      "SELECTED": "Valgt ({{ count }})"
     },
     "BROWSE": {
       "FILE": {

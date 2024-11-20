@@ -125,7 +125,7 @@ export class FileActionsApi {
           return Promise.resolve(isLocked);
         }
       };
-      return Utils.retryCall(locked, data.retry);
+      return await Utils.retryCall(locked, data.retry);
     } catch {}
     return isLocked;
   }

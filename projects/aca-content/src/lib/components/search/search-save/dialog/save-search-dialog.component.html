@@ -1,4 +1,8 @@
-<h2 mat-dialog-title>{{"APP.BROWSE.SEARCH.SAVE_SEARCH.MODAL_HEADER" | translate}}</h2>
+<div class="aca-save-search-dialog__header">
+    <h2 class="aca-save-search-dialog__title">{{"APP.BROWSE.SEARCH.SAVE_SEARCH.MODAL_HEADER" | translate}}</h2>
+    <button mat-icon-button mat-dialog-close><mat-icon>close</mat-icon></button>
+</div>
+
 
 <mat-dialog-content>
   <form [formGroup]="form" (submit)="submit()">
@@ -18,7 +22,7 @@
                     {{ 'APP.BROWSE.SEARCH.SAVE_SEARCH.NAME_REQUIRED_ERROR' | translate }}
                 </span>
                 <span *ngIf="!form.controls['name'].errors?.required && form.controls['name'].errors?.message">
-                    {{ form.controls['name'].errors?.message | translate }}
+                    {{ form.controls['name'].errors?.message | translate : { name: form.controls.name.value } }}
                 </span>
       </mat-error>
     </mat-form-field>

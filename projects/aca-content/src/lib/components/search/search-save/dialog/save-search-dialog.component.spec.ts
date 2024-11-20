@@ -49,7 +49,7 @@ describe('SaveSearchDialogComponent', () => {
       providers: [
         { provide: MatDialogRef, useValue: dialogRef },
         provideMockStore(),
-        { provide: SavedSearchesService, useValue: { saveSearch: () => of() } },
+        { provide: SavedSearchesService, useValue: { saveSearch: () => of(), getSavedSearches: () => of([]) } },
         { provide: MAT_DIALOG_DATA, useValue: { searchUrl: 'abcdef' } }
       ]
     });
@@ -66,9 +66,12 @@ describe('SaveSearchDialogComponent', () => {
     fixture.destroy();
   });
 
-  it('should not save search if form is invalid', () => {
+  it('should disable submit button if form is invalid', () => {
     spyOn(savedSearchesService, 'saveSearch').and.callThrough();
     submitButton.click();
+    fixture.detectChanges();
+    expect(component.form.valid).toBeFalse();
+    expect(submitButton.disabled).toBeTrue();
     expect(savedSearchesService.saveSearch).not.toHaveBeenCalled();
   });
 

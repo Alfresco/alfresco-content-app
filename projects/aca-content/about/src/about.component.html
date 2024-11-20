@@ -10,25 +10,25 @@
     <adf-about>
       <adf-about-panel *ngIf="dev" [label]="'ABOUT.SERVER_SETTINGS.TITLE' | translate">
         <ng-template>
-            <adf-about-server-settings></adf-about-server-settings>
+            <adf-about-server-settings />
         </ng-template>
       </adf-about-panel>
 
       <adf-about-panel [label]="'ABOUT.REPOSITORY' | translate" *ngIf="repository">
         <ng-template>
-            <adf-about-repository-info [data]="repository"></adf-about-repository-info>
+            <adf-about-repository-info [data]="repository" />
         </ng-template>
       </adf-about-panel>
 
       <adf-about-panel *ngIf="dev" [label]="'ABOUT.PACKAGES.TITLE' | translate">
         <ng-template>
-            <adf-about-package-list [dependencies]="packageJson?.dependencies"></adf-about-package-list>
+            <adf-about-package-list [dependencies]="packageJson?.dependencies" />
         </ng-template>
       </adf-about-panel>
 
       <adf-about-panel *ngIf="extensions$ | async as extensions" [label]="'ABOUT.PLUGINS.TITLE' | translate">
         <ng-template>
-            <adf-about-extension-list [data]="extensions"></adf-about-extension-list>
+            <adf-about-extension-list [data]="extensions" />
         </ng-template>
       </adf-about-panel>
     </adf-about>
