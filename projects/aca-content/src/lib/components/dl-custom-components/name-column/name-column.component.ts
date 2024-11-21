@@ -105,8 +105,6 @@ export class CustomNameColumnComponent extends NameColumnComponent implements On
   }
 
   ngOnDestroy() {
-    super.ngOnDestroy();
-
     this.onDestroy$$.next(true);
     this.onDestroy$$.complete();
   }
