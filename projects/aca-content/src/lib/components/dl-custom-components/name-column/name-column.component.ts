@@ -58,7 +58,7 @@ export class CustomNameColumnComponent extends NameColumnComponent implements On
   isFile: boolean;
   isFileWriteLocked: boolean;
 
-  private readonly destroyRef = inject(DestroyRef);
+  private readonly destroy = inject(DestroyRef);
 
   constructor(element: ElementRef, private cd: ChangeDetectorRef, private actions$: Actions, private nodesService: NodesApiService) {
     super(element, nodesService);
@@ -69,7 +69,7 @@ export class CustomNameColumnComponent extends NameColumnComponent implements On
     this.isFile = this.node?.entry && !this.node.entry.isFolder;
     this.isFileWriteLocked = isLocked(this.node);
 
-    this.nodesService.nodeUpdated.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((node: any) => {
+    this.nodesService.nodeUpdated.pipe(takeUntilDestroyed(this.destroy)).subscribe((node: any) => {
       const row = this.context.row;
       if (row) {
         const { entry } = row.node;
@@ -91,7 +91,7 @@ export class CustomNameColumnComponent extends NameColumnComponent implements On
       .pipe(
         ofType<any>(NodeActionTypes.EditOffline),
         filter((val) => this.node.entry.id === val.payload.entry.id),
-        takeUntilDestroyed(this.destroyRef)
+        takeUntilDestroyed(this.destroy)
       )
       .subscribe(() => {
         this.isFileWriteLocked = isLocked(this.node);
