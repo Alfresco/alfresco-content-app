@@ -27,6 +27,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppConfigService, PaginationComponent, PaginationModel, UserPreferencesService } from '@alfresco/adf-core';
 import { initialState, LibTestingModule } from '../testing/lib-testing-module';
 import { provideMockStore } from '@ngrx/store/testing';
+import { Injector, runInInjectionContext } from '@angular/core';
 
 describe('PaginationDirective', () => {
   let preferences: UserPreferencesService;
@@ -45,7 +46,9 @@ describe('PaginationDirective', () => {
     config = TestBed.inject(AppConfigService);
     fixture = TestBed.createComponent(PaginationComponent);
     pagination = fixture.componentInstance;
-    directive = new PaginationDirective(pagination, preferences, config);
+    runInInjectionContext(TestBed.inject(Injector), () => {
+      directive = new PaginationDirective(pagination, preferences, config);
+    });
   });
 
   afterEach(() => {
