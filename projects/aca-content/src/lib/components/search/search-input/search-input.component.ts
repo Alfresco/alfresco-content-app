@@ -194,26 +194,34 @@ export class SearchInputComponent implements OnInit, OnDestroy {
     this.syncInputValues();
     this.has400LibraryError = false;
     if (this.isLibrariesChecked()) {
-      this.hasLibrariesConstraint = this.evaluateLibrariesConstraint();
-      if (this.onLibrariesSearchResults && this.isSameSearchTerm()) {
-        this.queryLibrariesBuilder.update();
-      } else if (this.searchedWord) {
-        this.store.dispatch(new SearchByTermAction(this.searchedWord, this.searchOptions));
-      }
+      this.handleLibrariesSearchOptionChange();
     } else {
-      if (this.isFoldersChecked() && !this.isFilesChecked()) {
-        this.filterContent(SearchOptionIds.Folders);
-      } else if (this.isFilesChecked() && !this.isFoldersChecked()) {
-        this.filterContent(SearchOptionIds.Files);
-      } else {
-        this.removeContentFilters();
-      }
+      this.handleFolderAndFileOptionChange();
+    }
+  }
 
-      if (this.onSearchResults && this.isSameSearchTerm()) {
-        this.queryBuilder.update();
-      } else if (this.searchedWord) {
-        this.store.dispatch(new SearchByTermAction(this.searchedWord, this.searchOptions));
-      }
+  private handleLibrariesSearchOptionChange(): void {
+    this.hasLibrariesConstraint = this.evaluateLibrariesConstraint();
+    if (this.onLibrariesSearchResults && !this.isSameSearchTerm()) {
+      this.queryLibrariesBuilder.update();
+    } else if (this.searchedWord) {
+      this.store.dispatch(new SearchByTermAction(this.searchedWord, this.searchOptions));
+    }
+  }
+
+  private handleFolderAndFileOptionChange(): void {
+    if (this.isFoldersChecked() && !this.isFilesChecked()) {
+      this.filterContent(SearchOptionIds.Folders);
+    } else if (this.isFilesChecked() && !this.isFoldersChecked()) {
+      this.filterContent(SearchOptionIds.Files);
+    } else {
+      this.removeContentFilters();
+    }
+
+    if (this.onSearchResults && !this.isSameSearchTerm()) {
+      this.queryBuilder.update();
+    } else if (this.searchedWord) {
+      this.store.dispatch(new SearchByTermAction(this.searchedWord, this.searchOptions));
     }
   }
 

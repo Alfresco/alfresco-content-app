@@ -23,11 +23,11 @@
  */
 
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SearchInputComponent } from './search-input.component';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { Actions, ofType } from '@ngrx/effects';
-import { SearchByTermAction, SearchActionTypes } from '@alfresco/aca-shared/store';
+import { SearchActionTypes, SearchByTermAction, SearchOptionIds } from '@alfresco/aca-shared/store';
 import { AppHookService, AppService } from '@alfresco/aca-shared';
 import { map } from 'rxjs/operators';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
@@ -238,5 +238,206 @@ describe('SearchInputComponent', () => {
       done();
     });
     fixture.detectChanges();
+  });
+
+  describe('searchByOption()', () => {
+    let isLibrariesCheckedSpy: jasmine.Spy;
+    let isFoldersCheckedSpy: jasmine.Spy;
+    let isFilesCheckedSpy: jasmine.Spy;
+    let evaluateLibrariesConstraintSpy: jasmine.Spy;
+    let syncInputValuesSpy: jasmine.Spy;
+    let isSameSearchTermSpy: jasmine.Spy;
+    let queryBuilderUpdateSpy: jasmine.Spy;
+    let queryLibrariesBuilderUpdateSpy: jasmine.Spy;
+    let storeDispatchSpy: jasmine.Spy;
+
+    beforeEach(() => {
+      isLibrariesCheckedSpy = spyOn(component, 'isLibrariesChecked').and.returnValue(false);
+      isFoldersCheckedSpy = spyOn(component, 'isFoldersChecked').and.returnValue(false);
+      isFilesCheckedSpy = spyOn(component, 'isFilesChecked').and.returnValue(false);
+      evaluateLibrariesConstraintSpy = spyOn(component, 'evaluateLibrariesConstraint').and.returnValue(false);
+      syncInputValuesSpy = spyOn(component, 'syncInputValues').and.callThrough();
+      isSameSearchTermSpy = spyOn(component, 'isSameSearchTerm').and.returnValue(false);
+
+      queryBuilderUpdateSpy = spyOn(component['queryBuilder'], 'update');
+      queryLibrariesBuilderUpdateSpy = spyOn(component['queryLibrariesBuilder'], 'update');
+      storeDispatchSpy = spyOn(component['store'], 'dispatch');
+    });
+
+    it('should sync input values and reset has400LibraryError', () => {
+      component.has400LibraryError = true;
+
+      component.searchByOption();
+
+      expect(syncInputValuesSpy).toHaveBeenCalled();
+      expect(component.has400LibraryError).toBeFalse();
+    });
+
+    it('should evaluate libraries constraint when libraries are checked', () => {
+      isLibrariesCheckedSpy.and.returnValue(true);
+
+      component.searchByOption();
+
+      expect(evaluateLibrariesConstraintSpy).toHaveBeenCalled();
+      expect(component.hasLibrariesConstraint).toBeFalse();
+    });
+
+    it('should set hasLibrariesConstraint based on evaluateLibrariesConstraint result', () => {
+      isLibrariesCheckedSpy.and.returnValue(true);
+      evaluateLibrariesConstraintSpy.and.returnValue(true);
+
+      component.searchByOption();
+
+      expect(component.hasLibrariesConstraint).toBeTrue();
+    });
+
+    it('should update queryLibrariesBuilder when libraries are checked, onLibrariesSearchResults is true, and search term changed', () => {
+      isLibrariesCheckedSpy.and.returnValue(true);
+      spyOnProperty(component, 'onLibrariesSearchResults', 'get').and.returnValue(true);
+      isSameSearchTermSpy.and.returnValue(false);
+
+      component.searchedWord = 'test';
+
+      component.searchByOption();
+
+      expect(queryLibrariesBuilderUpdateSpy).toHaveBeenCalled();
+      expect(storeDispatchSpy).not.toHaveBeenCalled();
+    });
+
+    it('should dispatch SearchByTermAction when libraries are checked, onLibrariesSearchResults is false, and searchedWord is set', () => {
+      isLibrariesCheckedSpy.and.returnValue(true);
+      spyOnProperty(component, 'onLibrariesSearchResults', 'get').and.returnValue(false);
+
+      component.searchedWord = 'test';
+
+      component.searchByOption();
+
+      expect(storeDispatchSpy).toHaveBeenCalledWith(new SearchByTermAction('test', component.searchOptions));
+      expect(queryLibrariesBuilderUpdateSpy).not.toHaveBeenCalled();
+    });
+
+    it('should dispatch SearchByTermAction when libraries are checked, onLibrariesSearchResults is true, search term same, and searchedWord is set', () => {
+      isLibrariesCheckedSpy.and.returnValue(true);
+      spyOnProperty(component, 'onLibrariesSearchResults', 'get').and.returnValue(true);
+      isSameSearchTermSpy.and.returnValue(true);
+
+      component.searchedWord = 'test';
+
+      component.searchByOption();
+
+      expect(storeDispatchSpy).toHaveBeenCalledWith(new SearchByTermAction('test', component.searchOptions));
+      expect(queryLibrariesBuilderUpdateSpy).not.toHaveBeenCalled();
+    });
+
+    it('should add folder filter when only folders are checked', () => {
+      isLibrariesCheckedSpy.and.returnValue(false);
+      isFoldersCheckedSpy.and.returnValue(true);
+      isFilesCheckedSpy.and.returnValue(false);
+
+      spyOn(component['queryBuilder'], 'addFilterQuery').and.callThrough();
+      spyOn(component['queryBuilder'], 'removeFilterQuery').and.callThrough();
+
+      component.searchedWord = 'test';
+
+      component.searchByOption();
+
+      expect(component['queryBuilder'].addFilterQuery).toHaveBeenCalledWith(`+TYPE:'cm:${SearchOptionIds.Folders}'`);
+      expect(component['queryBuilder'].removeFilterQuery).toHaveBeenCalledWith(`+TYPE:'cm:${SearchOptionIds.Files}'`);
+    });
+
+    it('should add file filter when only files are checked', () => {
+      isLibrariesCheckedSpy.and.returnValue(false);
+      isFoldersCheckedSpy.and.returnValue(false);
+      isFilesCheckedSpy.and.returnValue(true);
+
+      spyOn(component['queryBuilder'], 'addFilterQuery').and.callThrough();
+      spyOn(component['queryBuilder'], 'removeFilterQuery').and.callThrough();
+
+      component.searchedWord = 'test';
+
+      component.searchByOption();
+
+      expect(component['queryBuilder'].addFilterQuery).toHaveBeenCalledWith(`+TYPE:'cm:${SearchOptionIds.Files}'`);
+      expect(component['queryBuilder'].removeFilterQuery).toHaveBeenCalledWith(`+TYPE:'cm:${SearchOptionIds.Folders}'`);
+    });
+
+    it('should remove content filters when both files and folders are checked', () => {
+      isLibrariesCheckedSpy.and.returnValue(false);
+      isFoldersCheckedSpy.and.returnValue(true);
+      isFilesCheckedSpy.and.returnValue(true);
+
+      spyOn(component['queryBuilder'], 'removeFilterQuery').and.callThrough();
+
+      component.searchedWord = 'test';
+
+      component.searchByOption();
+
+      expect(component['queryBuilder'].removeFilterQuery).toHaveBeenCalledWith(`+TYPE:'cm:${SearchOptionIds.Files}'`);
+      expect(component['queryBuilder'].removeFilterQuery).toHaveBeenCalledWith(`+TYPE:'cm:${SearchOptionIds.Folders}'`);
+    });
+
+    it('should remove content filters when neither files nor folders are checked', () => {
+      isLibrariesCheckedSpy.and.returnValue(false);
+      isFoldersCheckedSpy.and.returnValue(false);
+      isFilesCheckedSpy.and.returnValue(false);
+
+      spyOn(component['queryBuilder'], 'removeFilterQuery').and.callThrough();
+
+      component.searchedWord = 'test';
+
+      component.searchByOption();
+
+      expect(component['queryBuilder'].removeFilterQuery).toHaveBeenCalledWith(`+TYPE:'cm:${SearchOptionIds.Files}'`);
+      expect(component['queryBuilder'].removeFilterQuery).toHaveBeenCalledWith(`+TYPE:'cm:${SearchOptionIds.Folders}'`);
+    });
+
+    it('should update queryBuilder when onSearchResults is true and search term changed', () => {
+      isLibrariesCheckedSpy.and.returnValue(false);
+      spyOnProperty(component, 'onSearchResults', 'get').and.returnValue(true);
+      isSameSearchTermSpy.and.returnValue(false);
+
+      component.searchedWord = 'test';
+
+      component.searchByOption();
+
+      expect(queryBuilderUpdateSpy).toHaveBeenCalled();
+      expect(storeDispatchSpy).not.toHaveBeenCalled();
+    });
+
+    it('should dispatch SearchByTermAction when onSearchResults is false and searchedWord is set', () => {
+      isLibrariesCheckedSpy.and.returnValue(false);
+      spyOnProperty(component, 'onSearchResults', 'get').and.returnValue(false);
+
+      component.searchedWord = 'test';
+
+      component.searchByOption();
+
+      expect(storeDispatchSpy).toHaveBeenCalledWith(new SearchByTermAction('test', component.searchOptions));
+      expect(queryBuilderUpdateSpy).not.toHaveBeenCalled();
+    });
+
+    it('should dispatch SearchByTermAction when onSearchResults is true, search term same, and searchedWord is set', () => {
+      isLibrariesCheckedSpy.and.returnValue(false);
+      spyOnProperty(component, 'onSearchResults', 'get').and.returnValue(true);
+      isSameSearchTermSpy.and.returnValue(true);
+
+      component.searchedWord = 'test';
+
+      component.searchByOption();
+
+      expect(storeDispatchSpy).toHaveBeenCalledWith(new SearchByTermAction('test', component.searchOptions));
+      expect(queryBuilderUpdateSpy).not.toHaveBeenCalled();
+    });
+
+    it('should not dispatch or update if searchedWord is not set', () => {
+      isLibrariesCheckedSpy.and.returnValue(true);
+      component.searchedWord = '';
+
+      component.searchByOption();
+
+      expect(storeDispatchSpy).not.toHaveBeenCalled();
+      expect(queryLibrariesBuilderUpdateSpy).not.toHaveBeenCalled();
+      expect(queryBuilderUpdateSpy).not.toHaveBeenCalled();
+    });
   });
 });
